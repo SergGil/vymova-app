@@ -3282,3 +3282,204 @@ body.dark .gr-tip      { background: rgba(243,156,18,.1); }
   .gr-formula-table { font-size: .75rem; }
   .gr-fm-subj, .gr-fm-ex { display: none; }
 }
+
+/* ══════════════════════════════════════════
+   📱 RESPONSIVE — MOBILE & TABLET
+   ══════════════════════════════════════════ */
+
+/* ── Mobile ≤480px ─────────────────────────────────────────── */
+@media (max-width: 480px) {
+
+  /* App body padding */
+  body { padding: .5rem; }
+
+  /* Header: stack controls vertically */
+  .header { flex-direction: column; gap: 6px; }
+  .header-left .title { font-size: 1.3rem; }
+  .controls {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .controls select {
+    flex: 1 1 calc(50% - 3px);
+    min-width: 0;
+    font-size: 12px;
+    padding: 7px 8px;
+    min-height: 40px;
+  }
+  #sel-range { flex-basis: 100%; }
+
+  /* Touch targets: minimum 44px */
+  .btn {
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  .btn-know { min-height: 48px !important; font-size: .95rem !important; }
+  .speak-btn { padding: 6px 8px; font-size: 16px; min-width: 36px; min-height: 36px; }
+  .speak-ex-btn { width: 28px; height: 28px; font-size: 14px; }
+  .mode-speak { padding: 5px 8px; font-size: 16px; min-height: 36px; }
+
+  /* Card illustration: slightly smaller */
+  .illus-box { width: 80px; height: 80px; flex-shrink: 0; }
+
+  /* Game bar: looser spacing */
+  .gb-block { padding: 10px 10px; }
+  .gb-label  { font-size: .72rem; }
+  .gb-streak-block { min-width: 76px; padding: 10px 10px; }
+  .gb-streak-num { font-size: 1.5rem; }
+
+  /* Action bar: column on very narrow */
+  .actions-bar-center { gap: 5px; flex-wrap: wrap; justify-content: center; }
+  .actions-bar-center .btn { min-height: 40px; padding: 8px 10px; font-size: 11px; }
+
+  /* Quick Quiz button */
+  #btn-quick-quiz { font-size: .8rem; padding: 8px 0; }
+
+  /* Keyboard hint: hide on mobile */
+  .kbd-hint { display: none; }
+
+  /* Font size row: smaller */
+  #btn-font-down, #btn-font-up { padding: 5px 10px; min-height: 36px; }
+
+  /* Search bar */
+  #search-overlay { padding: 8px; }
+  #search-panel { border-radius: 14px 14px 0 0; }
+  #search-input { font-size: .9rem; }
+
+  /* Word detail: full height bottom sheet */
+  #wd-panel { max-height: 95vh; padding: 14px 14px 28px; }
+  #wd-word { font-size: 1.6rem !important; }
+
+  /* Modals: full width, less padding */
+  .quiz-panel  { padding: 14px 12px 14px; border-radius: 16px; }
+  .pairs-panel { padding: 14px 12px; }
+
+  /* Quiz options: compact */
+  .quiz-option { padding: 9px 12px; font-size: .82rem; }
+
+  /* Stats panel */
+  .stats-panel { padding: 16px 14px; }
+  .stats-title  { font-size: 1rem; }
+  .stats-summary { gap: 8px; }
+  .stat-card { padding: 10px 8px; }
+  .sv { font-size: 1.3rem; }
+
+  /* Modes grid: 2 columns on small mobile */
+  .modes-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mode-card  { padding: 14px 8px; }
+  .mode-name  { font-size: .78rem; }
+
+  /* Duel: compact layout */
+  .duel-cards { gap: 8px; }
+  .duel-card  { padding: 10px 12px; }
+  .duel-stat  { min-width: 44px; }
+  .duel-sv    { font-size: 1rem; }
+  .duel-sl    { font-size: .6rem; }
+
+  /* Profile modal */
+  .profiles-panel { padding: 16px 14px; border-radius: 18px 18px 0 0; }
+  .profiles-list  { max-height: 40vh; }
+
+  /* Page inner: compact */
+  .page-inner { padding: 14px 14px; }
+  .page-title  { font-size: 1rem; }
+
+  /* Settings: smaller */
+  .settings-section { padding: 12px 0; }
+  .backup-row       { gap: 6px; }
+  .backup-btn       { padding: 7px 10px; font-size: .75rem; min-height: 38px; }
+
+  /* Achievement cards: 2 columns */
+  .ach-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .ach-card { padding: 10px 8px; }
+  .ach-name { font-size: .68rem; }
+
+  /* Grammar page: already handled above, enhance */
+  .grammar-inner { border-radius: 0; }
+  .grammar-nav   { max-height: 140px; }
+
+  /* Heatmap: ensure scroll */
+  #heatmap-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+/* ── Large phone 481–640px ──────────────────────────────────── */
+@media (min-width: 481px) and (max-width: 640px) {
+  .controls { flex-wrap: wrap; gap: 5px; }
+  .controls select { flex: 1 1 calc(50% - 3px); min-height: 38px; font-size: 12px; }
+  #sel-range { flex-basis: 100%; }
+
+  /* Slightly compact game bar */
+  .gb-label { font-size: .72rem; }
+  .gb-streak-num { font-size: 1.6rem; }
+
+  /* Touch targets */
+  .btn { min-height: 40px; }
+  .speak-btn { min-width: 32px; min-height: 32px; }
+
+  /* Modes: 3 columns */
+  .modes-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+
+  /* Achievements: 3 columns */
+  .ach-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ── Tablet 641–900px ───────────────────────────────────────── */
+@media (min-width: 641px) and (max-width: 900px) {
+
+  /* Slightly larger touch targets */
+  .btn { min-height: 38px; }
+
+  /* Modal width consistency */
+  .profiles-panel { max-width: 480px; }
+  .import-panel   { max-width: 420px; }
+
+  /* Search dropdown */
+  #search-results { max-height: min(300px, 50vh); }
+
+  /* Page overlays: comfortable padding */
+  .page-inner { padding: 20px 18px; max-width: 600px; }
+
+  /* Modes: 3 columns */
+  .modes-grid { grid-template-columns: repeat(3, 1fr); }
+
+  /* Stats panel narrower */
+  .stats-panel { max-width: 520px; }
+}
+
+/* ── Landscape mobile (short viewport) ──────────────────────── */
+@media (max-height: 500px) and (max-width: 900px) {
+  /* Game bar: very compact */
+  .game-bar-3 { padding: 6px 10px; }
+  .gb-block   { padding: 6px 10px; }
+  .gb-label   { display: none; }
+  .gb-streak-num { font-size: 1.2rem; }
+
+  /* Card: compress */
+  .card-face { padding: 12px 14px; }
+  .illus-box { width: 60px; height: 60px; }
+  .word-text { font-size: 1.4rem; }
+
+  /* Action bar: compact */
+  .actions-bar-center .btn { padding: 7px 10px; }
+  .btn-know { padding: 10px 0 !important; }
+}
+
+/* ── Touch / pointer improvements (all mobile) ──────────────── */
+@media (hover: none) and (pointer: coarse) {
+  /* Enlarge all interactive elements for finger tap */
+  button, select, input[type="text"],
+  input[type="number"], input[type="time"] {
+    min-height: 40px;
+  }
+
+  /* Remove hover states (they get stuck on touch) */
+  .btn:hover            { background: initial; border-color: initial; }
+  .quiz-option:hover    { background: var(--card) !important; border-color: var(--border) !important; }
+  .gr-nav-btn:hover     { background: initial; color: initial; }
+  .search-row:hover     { background: initial !important; }
+
+  /* Scrollbar: thinner on touch (finger scrolling) */
+  ::-webkit-scrollbar { width: 3px; height: 3px; }
+}
