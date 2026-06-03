@@ -1280,3 +1280,30 @@ $('sb-duel')?.addEventListener('click',()=>{
   (window.openPage as ((p:string)=>void)|undefined)?.('duel');
   renderDuel();
 });
+
+// ── Smart duel close button ────────────────────────────────────
+// If game/tournament/spectator is active → return to lobby; else → close page
+$('duel-page-close')?.addEventListener('click', () => {
+  const gameVisible    = elGame().style.display !== 'none';
+  const tournVisible   = ($('duel-tournament') as HTMLElement|null)?.style.display !== 'none';
+  const spectVisible   = ($('duel-spectate') as HTMLElement|null)?.style.display !== 'none';
+  const countdownVisible = elCountdown().style.display !== 'none';
+
+  if (gameVisible || countdownVisible) {
+    // Game in progress: confirm before leaving
+    if (!confirm('Покинути поточну дуель? Це зарахується як поразка.')) return;
+    _cancelRoom();
+    _showLobby();
+    renderDuel();
+  } else if (tournVisible) {
+    _cancelTournament();
+  } else if (spectVisible) {
+    _cancelRoom();
+    ($('duel-spectate') as HTMLElement).style.display = 'none';
+    _showLobby();
+    renderDuel();
+  } else {
+    // In lobby → close page entirely
+    (window.closePage as (() => void) | undefined)?.();
+  }
+});
