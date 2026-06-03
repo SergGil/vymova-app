@@ -1,7 +1,7 @@
 // English Words App — js/features/ring.ts
 // SVG progress ring showing level completion
 import { state } from '../../src/state.ts';
-import { getLevel, getNextLevel } from '../features/game.ts';
+import { getLevel, getNextLevel } from './game.ts';
 
 export function updateRing(_cur?: number, _max?: number): void {
   const n = state.known.size;

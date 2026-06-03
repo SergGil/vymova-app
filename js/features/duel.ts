@@ -102,6 +102,7 @@ let _answered = false;
 let _mode: DuelMode = 'quiz';
 let _tempoTimer: ReturnType<typeof setInterval> | null = null;
 let _tempoLeft = 4;
+let _finished = false; // guard: prevents _showFinish from firing twice
 
 // ── Session persistence (survives page refresh) ───────────────
 const SESSION_KEY = 'ew_duel_session';
@@ -148,12 +149,15 @@ async function _tryResumeSession(): Promise<boolean> {
     document.getElementById('duel-resume-btn')?.addEventListener('click', () => {
       resumeEl.style.display='none';
       _roomId=sess.roomId; _mySlot=sess.slot; _mode=sess.mode;
-      _quizIdx=sess.idx; _myScore=sess.score;
       _quizDeck = _buildDeck(room.seed);
       const opp2 = _mySlot==='p1' ? room.p2 : room.p1;
+      // _startGame resets idx/score to 0 — override AFTER UI setup but BEFORE _renderQuestion
+      const savedIdx = sess.idx, savedScore = sess.score;
       _startGame(opp2?.name||'Суперник', opp2?.avatar||'🧑', _mode);
-      // Restore progress counters immediately
-      _quizIdx=sess.idx; _myScore=sess.score;
+      // _startGame calls _renderQuestion(0) — now re-render from saved position
+      _quizIdx=savedIdx; _myScore=savedScore;
+      elMyScore().textContent = String(savedScore);
+      _renderQuestion();
     });
     document.getElementById('duel-resume-discard')?.addEventListener('click', () => {
       _clearSession(); resumeEl.style.display='none';
@@ -290,8 +294,10 @@ function _startWaitPoll(): void {
 }
 
 function _startGame(oppName: string, oppAvatar: string, mode: DuelMode): void {
-  _mode=mode; _quizIdx=0; _myScore=0; _answered=false;
-  _saveSession();
+  // Clear any stale timers from previous game
+  if (_pollTimer)  { clearInterval(_pollTimer);  _pollTimer=null; }
+  if (_tempoTimer) { clearInterval(_tempoTimer); _tempoTimer=null; }
+  _mode=mode; _quizIdx=0; _myScore=0; _answered=false; _finished=false;
   elOppName().textContent=oppName; elOppAv().textContent=oppAvatar;
   elMyScore().textContent='0'; elOppScore().textContent='0';
   const mInfo = DUEL_MODES.find(m=>m.id===mode)||DUEL_MODES[0];
@@ -328,6 +334,9 @@ function _renderQuestion(): void {
   elProgress().textContent = `${_quizIdx+1} / ${ROOM_SIZE}`;
   elFeedback().textContent = '';
   if (_tempoTimer) { clearInterval(_tempoTimer); _tempoTimer=null; }
+  // Always hide Next button at start of new question
+  const nextBtn = document.getElementById('dm-next-btn') as HTMLButtonElement|null;
+  if (nextBtn) nextBtn.style.display='none';
 
   if (_mode === 'write') {
     _renderWriteQuestion(w);
@@ -455,6 +464,8 @@ async function _finishMyGame(): Promise<void> {
 }
 
 function _showFinish(room: RoomData): void {
+  if (_finished) return; // guard against double-call from _finishMyGame + poll
+  _finished = true;
   _clearSession();
   _showResult();
   const me  = room[_mySlot] as PlayerData;
@@ -476,7 +487,13 @@ function _cancelRoom(): void {
   _clearSession();
   if (_pollTimer)   { clearInterval(_pollTimer); _pollTimer=null; }
   if (_tempoTimer)  { clearInterval(_tempoTimer); _tempoTimer=null; }
-  if (_roomId) { fetch(`${DB_URL}/duel_rooms/${_roomId}.json`,{method:'DELETE'}).catch(()=>{}); _roomId=''; }
+  if (_roomId) {
+    // Only p1 (creator) deletes the room; p2 just leaves
+    if (_mySlot === 'p1') {
+      fetch(`${DB_URL}/duel_rooms/${_roomId}.json`, { method:'DELETE' }).catch(()=>{});
+    }
+    _roomId='';
+  }
   document.getElementById('duel-waiting')!.style.display='none';
   document.getElementById('duel-join-row')!.style.display='block';
   const btn = document.getElementById('duel-create-btn') as HTMLButtonElement;

@@ -7,10 +7,10 @@ let _audioCtx: AudioContext | null = null;
 function _getCtx(): AudioContext | null {
   if (!_audioCtx) {
     try {
-      _audioCtx = new (
-        (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
-          ?? window.AudioContext
-      )();
+      // Prefer standard AudioContext, fall back to webkit (old Safari/Chrome)
+      const Ctx = window.AudioContext
+        ?? (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (Ctx) _audioCtx = new Ctx();
     } catch (e) {}
   }
   return _audioCtx;

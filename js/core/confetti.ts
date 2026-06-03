@@ -6,9 +6,9 @@ let _done = false;
 
 export function launchConfetti(): void {
   if (_done) return;
-  _done = true;
   const canvas = document.getElementById('confetti-canvas') as HTMLCanvasElement | null;
   if (!canvas) return;
+  _done = true;
   const ctx = canvas.getContext('2d')!;
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;

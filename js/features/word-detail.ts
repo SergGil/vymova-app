@@ -3,6 +3,7 @@
 import { state } from '../../src/state.ts';
 import { decodeIpa, speakBtn, type SpeakFn } from '../core/ui-helpers.ts';
 import { getSimilarWords } from './similar-words.ts';
+import { W } from '../../data/words.js';
 import { isBookmarked, toggleBookmark } from './bookmarks.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -93,10 +94,8 @@ export function openWordDetail(w: WordEntry): void {
     ).join('');
     elSimChips.querySelectorAll<HTMLElement>('.wd-chip').forEach(chip => {
       chip.addEventListener('click', () => {
-        const { W } = window as Window & { W?: WordEntry[] };
-        if (!W) return;
-        const found = W.find(x => x[0] === chip.dataset.word);
-        if (found) openWordDetail(found as WordEntry);
+        const found = (W as unknown as WordEntry[]).find(x => x[0] === chip.dataset.word);
+        if (found) openWordDetail(found);
       });
     });
   } else {
@@ -151,9 +150,11 @@ elBtnBm.addEventListener('click', () => {
 
 elBtnGoto.addEventListener('click', () => {
   if (!_current) return;
+  // Capture before _close() nulls _current
+  const word = _current[0];
   _close();
   const sel = document.getElementById('sel-range') as HTMLSelectElement | null;
-  const di = state.deck.findIndex(d => d[0] === _current![0]);
+  const di = state.deck.findIndex(d => d[0] === word);
   if (di !== -1) {
     (window.setIdx as ((i: number) => void) | undefined)?.(di);
     (window.render as (() => void) | undefined)?.();
@@ -161,7 +162,7 @@ elBtnGoto.addEventListener('click', () => {
     sel.value = '0';
     sel.dispatchEvent(new Event('change'));
     setTimeout(() => {
-      const di2 = state.deck.findIndex(d => d[0] === _current![0]);
+      const di2 = state.deck.findIndex(d => d[0] === word);
       if (di2 !== -1) { (window.setIdx as ((i: number) => void) | undefined)?.(di2); (window.render as (() => void) | undefined)?.(); }
     }, 100);
   }

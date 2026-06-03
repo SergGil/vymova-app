@@ -21,12 +21,14 @@ const BACKUP_KEYS = [
 
 // Dynamically collect all per-profile snapshot keys (ew_p_{id}__{key})
 function _profileSnapKeys(): string[] {
-  const keys: string[] = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const k = localStorage.key(i);
-    if (k && k.startsWith('ew_p_')) keys.push(k);
-  }
-  return keys;
+  try {
+    const keys: string[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('ew_p_')) keys.push(k);
+    }
+    return keys;
+  } catch (e) { return []; }
 }
 
 // ── Key ───────────────────────────────────────────────────────
