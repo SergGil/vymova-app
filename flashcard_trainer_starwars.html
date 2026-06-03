@@ -1,0 +1,1381 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="English Words">
+  <meta name="theme-color" content="#0a1628">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a1628'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='28' fill='%2300c8ff'%3EEW%3C/text%3E%3C/svg%3E">
+  <link rel="manifest" href="data:application/json,%7B%22name%22%3A%22English%20Words%20Trainer%22%2C%22short_name%22%3A%22English%22%2C%22description%22%3A%22Flashcard%20trainer%20for%20English%20vocabulary%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f5f0eb%22%2C%22theme_color%22%3A%22%23f5f0eb%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Crect%20width%3D'100'%20height%3D'100'%20rx%3D'20'%20fill%3D'%25234a9b6f'%2F%3E%3Ctext%20y%3D'.9em'%20font-size%3D'70'%20x%3D'10'%3E%F0%9F%93%9A%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Words Trainer</title>
+<link rel="stylesheet" href="css/styles.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap">
+<script>if('serviceWorker'in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){});});</script>
+</head>
+<body>
+
+<!-- ══ HAMBURGER (mobile) ══ -->
+<button id="hamburger" class="hamburger" title="Меню">☰</button>
+<div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+<!-- ══ SIDEBAR ══ -->
+<nav id="sidebar" class="sidebar">
+  <div class="sidebar-logo" id="sb-home" title="На головну — картки" style="cursor:pointer;">
+    <span class="sidebar-logo-text">EW</span>
+  </div>
+
+  <!-- Profile section -->
+  <div class="sb-profile-section">
+    <div class="sb-profile-row">
+      <button id="sb-profile-btn" class="sidebar-profile-btn">
+        <span id="sb-profile-av" class="sb-av">🧑</span>
+        <span id="sb-profile-name" class="sb-name">Гравець</span>
+        <span id="sb-profile-arrow" class="sb-arrow">▾</span>
+      </button>
+      <button id="sb-add-btn" class="sb-add-btn" title="Новий профіль">+</button>
+    </div>
+    <div id="sb-dropdown" class="sb-dropdown"></div>
+    <div id="sb-add-form" class="sb-add-form">
+      <input id="sb-new-name" type="text" placeholder="Ім'я нового профіля..." maxlength="20"
+        style="width:100%;padding:7px 10px;border:1.5px solid var(--border);border-radius:9px;
+               font-size:.82rem;font-family:inherit;background:var(--bg);color:var(--text);
+               outline:none;box-sizing:border-box;margin-bottom:8px;">
+      <div class="prf-av-picker prf-av-mini">
+        <button class="prf-av-btn prf-av-active">🧑</button><button class="prf-av-btn">👩</button>
+        <button class="prf-av-btn">🧔</button><button class="prf-av-btn">👦</button>
+        <button class="prf-av-btn">👧</button><button class="prf-av-btn">🤖</button>
+        <button class="prf-av-btn">🦊</button><button class="prf-av-btn">🐸</button>
+        <button class="prf-av-btn">⚔️</button><button class="prf-av-btn">🌟</button>
+        <button class="prf-av-btn">🔥</button><button class="prf-av-btn">🏆</button>
+      </div>
+      <button id="sb-new-confirm" class="prf-add-confirm" style="margin-top:8px;">+ Створити</button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <button class="sb-btn sb-active" id="sb-cards"       ><span class="sb-icon">🃏</span><span class="sb-label">Картки</span></button>
+    <button class="sb-btn" id="sb-stats"        ><span class="sb-icon">📊</span><span class="sb-label">Статистика</span></button>
+    <button class="sb-btn" id="sb-achievements" ><span class="sb-icon">🏆</span><span class="sb-label">Досягнення</span></button>
+    <button class="sb-btn" id="sb-modes"        ><span class="sb-icon">🎮</span><span class="sb-label">Режими</span></button>
+    <button class="sb-btn" id="sb-duel"         ><span class="sb-icon">⚔️</span><span class="sb-label">Дуель</span></button>
+    <button class="sb-btn" id="sb-settings"     ><span class="sb-icon">⚙️</span><span class="sb-label">Налаштування</span></button>
+  </div>
+
+  <!-- Word of the day in sidebar -->
+  <div id="wotd-box" class="wotd-box sb-wotd" style="display:none" title="Слово дня — натисни щоб перейти">
+    <span class="wotd-lbl">📖 Слово дня</span>
+    <div class="wotd-body">
+      <div id="wotd-img-wrap" class="wotd-img-wrap"></div>
+      <div class="wotd-text">
+        <span class="wotd-word" id="wotd-word"></span>
+        <span class="wotd-tr" id="wotd-tr"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="sb-section-label">🎨 Теми</div>
+    <div class="sb-btn sb-toggle-row" id="sb-theme">
+      <span class="sb-icon">🌙</span>
+      <span class="sb-label">Темна тема</span>
+      <span class="sb-toggle-pill" id="sb-theme-pill"></span>
+    </div>
+    <div class="sb-btn sb-toggle-row" id="sb-sw">
+      <span class="sb-icon">⚔️</span>
+      <span class="sb-label">Star Wars</span>
+      <span class="sb-toggle-pill" id="sb-sw-pill"></span>
+    </div>
+  </div>
+</nav>
+
+<div class="app">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="title">English Words</div>
+      <div class="subtitle">Картка <span id="cidx">1</span> · Вивчено: <span id="cknown">0</span></div>
+      <button id="profile-btn" class="profile-btn" style="display:none">🧑 <span>Гравець 1</span> ▾</button>
+    </div>
+    <div class="controls">
+      <button id="btn-theme" title="Темна/світла тема" style="display:none"></button>
+      <button id="btn-sw" title="Star Wars режим" style="display:none"></button>
+      <select id="sel-mode">
+        <option value="en">EN → UA</option>
+        <option value="ua">UA → EN</option>
+        <option value="mix">Мішаний</option>
+      </select>
+      <select id="sel-tag" title="Фільтр по темі">
+        <option value="">🏷️ Всі теми</option>
+      </select>
+      <select id="sel-range">
+        <option value="0">Всі слова (5542)</option>
+        <option value="unlearned">🔴 Тільки невивчені</option>
+        <option value="srs">🔁 Spaced Repetition</option>
+        <option value="weak">⚠️ Слабкі слова</option>
+        <option value="hard">🔴 Важкі слова</option>
+        <option value="stale7">🕰️ Не бачені 7 днів</option>
+        <option value="stale30">🕰️ Не бачені 30 днів</option>
+        <option value="1">1–500</option>
+        <option value="2">501–1000</option>
+        <option value="3">1001–1500</option>
+        <option value="4">1501–2000</option>
+        <option value="5">2001–2500</option>
+        <option value="6">2501–3000</option>
+        <option value="7">3001–3500</option>
+        <option value="8">3501–4000</option>
+        <option value="9">4001–4500</option>
+        <option value="10">4501–5000</option>
+        <option value="11">5001–5542</option>
+      </select>
+    </div>
+  </div>
+
+  
+  <!-- ── 3-block game bar ── -->
+  <div class="game-bar-3" id="game-bar">
+
+    <!-- Block 1: Streak + Combo -->
+    <div class="gb-block gb-streak-block">
+      <div class="gb-streak-num">🔥 <span id="streak-num">0</span></div>
+      <div class="gb-streak-label">днів підряд</div>
+      <div id="shields-row" style="font-size:.7rem;color:var(--text3);margin-top:2px;min-height:14px;"></div>
+      <div class="combo-box" id="combo-box" style="margin-top:4px;">
+        🔥<span id="combo-num">0</span><span class="combo-x" id="combo-x"></span>
+      </div>
+    </div>
+
+    <!-- Block 2: Daily goal -->
+    <div class="gb-block gb-goal-block">
+      <div class="gb-goal-header">
+        <span class="gb-label">Ціль на сьогодні</span>
+        <span class="goal-set" id="goal-set-btn" title="Змінити ціль">⚙️</span>
+      </div>
+      <div class="gb-goal-big">
+        <span id="goal-cur">0</span><span class="gb-goal-sep">/</span><span id="goal-max">20</span>
+      </div>
+      <div class="goal-track" style="margin:5px 0 5px;">
+        <div class="goal-fill" id="goal-fill" style="width:0%"></div>
+      </div>
+      <div class="gb-goal-footer">
+        <span class="goal-done-badge" id="goal-done">🎉 Ціль досягнута!</span>
+      </div>
+    </div>
+
+    <!-- Block 3: Level XP progress -->
+    <div class="gb-block gb-level-block" id="level-box" title="Прогрес рівня">
+      <div class="gb-level-header">
+        <span class="gb-level-num" id="gb-level-num">1</span>
+        <span class="level-badge" id="level-badge">🌌 Цивільний</span>
+        <span class="gb-level-arrow">→</span>
+        <span class="gb-level-next" id="gb-level-next"></span>
+      </div>
+      <div class="gb-level-track" style="margin:5px 0 4px;">
+        <div class="gb-level-fill" id="gb-level-fill" style="width:0%"></div>
+      </div>
+      <div class="gb-level-xp" id="gb-level-xp"></div>
+    </div>
+
+  </div>
+  <div id="combo-toast" class="combo-toast"></div>
+  <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99990;display:block;"></canvas>
+
+  <div id="srs-stats" class="srs-stats-bar" style="display:none">
+    <span>📚</span>
+    <span>Сьогодні:</span>
+    <span id="srs-stat-due" class="srs-stat-num srs-stat-due">0</span><span> до повторення</span>
+    <span class="srs-stat-sep">·</span>
+    <span id="srs-stat-new" class="srs-stat-num srs-stat-new">0</span><span> нових</span>
+  </div>
+
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="search-input" placeholder="Пошук слова..." autocomplete="off" spellcheck="false">
+    <div class="search-results" id="search-results"></div>
+  </div>
+  <div style="display:none;" id="pbar-ring-wrap">
+    <div style="flex:1;">
+      <div class="progress-wrap"><div class="progress-fill" id="pbar" style="width:0%"></div></div>
+    </div>
+    <div class="ring-wrap" title="Прогрес рівня">
+      <div class="ring-container">
+        <svg width="52" height="52" viewBox="0 0 52 52">
+          <circle class="ring-bg"   cx="26" cy="26" r="22"/>
+          <circle class="ring-fill" id="ring-fill" cx="26" cy="26" r="22"
+            stroke-dasharray="138.2" stroke-dashoffset="138.2"
+            transform="rotate(-90 26 26)"/>
+        </svg>
+        <div class="ring-center" id="ring-center">0<br><span style="font-size:.55rem;font-weight:400;color:var(--text3)">слів</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-scene">
+  <div class="card" id="card">
+    <span class="swipe-hint-right" id="sh-right">✓ Знаю</span>
+    <span class="swipe-hint-left" id="sh-left">Далі →</span>
+    <span class="swipe-hint-up" id="sh-up">👁 Переклад</span>
+    <div class="card-face" id="card-front">
+    <div class="card-meta">
+      <span class="card-num" id="wnum">#1</span><span class="known-badge">✓ Знаю <button class="unmark-btn" id="btn-unmark" title="Прибрати з вивчених" onclick="event.stopPropagation()">✕</button></span>
+      <span class="card-tag" id="wlang">EN</span>
+    </div>
+    <div class="card-body">
+      <div class="illus-box" id="illus"></div>
+      <div class="word-side">
+        <div class="word-row">
+          <span class="word-text" id="wword">—</span>
+          <div class="word-actions">
+            <button class="speak-btn" id="speak-word" title="Вимовити слово">🔊</button>
+            <button class="speak-btn" id="btn-mic" title="Перевір вимову" style="display:none">🎤</button>
+            <button class="speak-btn card-note-btn" id="btn-note" title="Нотатка/мнемоніка">📝</button>
+            <button class="speak-btn card-bookmark-btn" id="btn-bookmark" title="Додати в закладки">☆</button>
+          </div>
+        </div>
+        <div id="card-note-display" class="card-note-display" style="display:none"></div>
+        <div class="transcription" id="wtrans"></div>
+        <div id="srs-next" style="display:none" class="srs-next"></div>
+        <div class="transl" id="wtransl">—</div>
+        <div class="divider"></div>
+        <div class="ex-label">Приклад</div>
+        <div class="ex-row">
+          <div class="ex-texts">
+            <span class="ex-en" id="exen">—</span><button class="speak-btn speak-ex-btn" id="speak-ex" title="Вимовити приклад">🔊</button>
+            <div class="ex-ua" id="exua">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div><!-- /.card-face -->
+    <!-- Зворотній бік картки -->
+    <div class="card-face-back" id="card-back">
+      <div class="card-back-transl" id="cb-transl">—</div>
+      <div class="card-back-ipa"    id="cb-ipa"></div>
+      <div class="card-back-ex"     id="cb-ex"></div>
+      <div class="card-back-exua"   id="cb-exua"></div>
+      <div class="similar-section" id="cb-similar" style="display:none;">
+        <div class="similar-title">Схожі слова</div>
+        <div class="similar-chips" id="cb-chips"></div>
+      </div>
+    </div>
+  
+
+  <p class="hint">Натисни на картку — побачиш переклад</p>
+
+  <!-- Actions bar -->
+  <div class="actions-bar">
+    <div class="actions-bar-center">
+      <button class="btn" id="btn-prev" title="Попередня картка">← Назад</button>
+      <button class="btn btn-auto" id="btn-auto" title="Авто-режим">▶ Авто</button>
+      <button class="btn" id="btn-shuf" title="Перемішати" style="font-size:14px;">🔀</button>
+      <button class="btn" id="btn-search" title="Пошук по словнику (Ctrl+F)" style="font-size:14px;">🔍</button>
+      <button class="btn" id="btn-stats" title="Статистика" style="display:none"></button>
+      <button class="btn btn-achievements" id="btn-achievements" title="Досягнення" style="display:none"></button>
+      <button class="btn btn-modes-open" id="btn-modes-open" title="Режими навчання" style="display:none"></button>
+      <button class="btn" id="btn-next" title="Наступна картка">→ Далі</button>
+    </div>
+  </div>
+  <div style="margin-top:8px;text-align:center;">
+    <button class="btn btn-know" id="btn-know" style="width:100%;max-width:360px;font-size:1.05rem;padding:14px 0;letter-spacing:.03em;">✓ Знаю</button>
+  </div>
+  <div style="margin-top:6px;text-align:center;">
+    <button id="btn-quick-quiz" class="btn" title="5 питань з поточної колоди (Quick Quiz)"
+      style="width:100%;max-width:360px;font-size:.88rem;padding:9px 0;color:var(--accent);border-color:var(--accent);opacity:.85;">⚡ Quick Quiz — 5 питань</button>
+  </div>
+
+  <div style="display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-bottom:4px;">
+    <button id="btn-font-down" class="btn" style="font-size:11px;padding:3px 8px;color:var(--text2);">A−</button>
+    <span id="font-pct" style="font-size:11px;color:var(--text3);min-width:32px;text-align:center;">100%</span>
+    <button id="btn-font-up"   class="btn" style="font-size:13px;padding:3px 8px;color:var(--text2);">A+</button>
+  </div>
+
+  <div class="kbd-hint">
+    <kbd>Пробіл</kbd> далі &nbsp;
+    <kbd>Enter</kbd> знаю &nbsp;
+    <kbd>←</kbd><kbd>→</kbd> навігація &nbsp;
+    <kbd>F</kbd> переклад &nbsp;
+    <kbd>Ctrl+F</kbd> пошук &nbsp;
+    <kbd>?</kbd> <span style="cursor:pointer" id="btn-keys" title="Всі клавіші">всі клавіші</span>
+  </div>
+
+
+
+  
+
+
+  <!-- Тост досягнення -->
+  <div id="achievement-toast">
+    <span class="toast-icon" id="toast-icon">🏆</span>
+    <div class="toast-title">Нове досягнення!</div>
+    <div class="toast-name" id="toast-name"></div>
+    <div class="toast-desc" id="toast-desc"></div>
+  </div>
+
+  <!-- Модал зміни цілі -->
+  <div id="goal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9500;align-items:center;justify-content:center;">
+    <div class="modal-inner" style="background:var(--modal-bg,var(--card));border-radius:16px;padding:24px 20px;max-width:300px;width:90%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.2);">
+      <div style="font-size:1rem;font-weight:600;margin-bottom:6px;color:var(--text);">🎯 Денна ціль</div>
+      <div style="font-size:.83rem;color:var(--text2);margin-bottom:14px;">Скільки слів вивчити за день?</div>
+      <input id="goal-input" type="number" min="1" max="500" value="20"
+        style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:10px;font-size:1.1rem;text-align:center;font-family:inherit;background:var(--bg);color:var(--text);outline:none;box-sizing:border-box;margin-bottom:14px;">
+      <div style="display:flex;gap:8px;">
+        <button id="goal-modal-cancel" style="flex:1;padding:9px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text2);font-size:.9rem;cursor:pointer;font-family:inherit;">Відміна</button>
+        <button id="goal-modal-ok" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;">Зберегти</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PROFILES MODAL ══ -->
+  <div id="profiles-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10000;align-items:center;justify-content:center;padding:16px;">
+    <div class="profiles-panel">
+      <div class="profiles-header">
+        <span>👤 Профілі</span>
+        <button id="profiles-close" class="profiles-close-btn">✕</button>
+      </div>
+
+      <div id="profiles-list" class="profiles-list"></div>
+
+      <div class="profiles-add">
+        <div style="font-size:.78rem;color:var(--text2);margin-bottom:8px;font-weight:600;">Новий профіль</div>
+        <input id="prf-name-input" type="text" placeholder="Ім'я (Margo, Serhii...)" maxlength="20"
+          style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:9px;
+                 font-size:.88rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;margin-bottom:10px;box-sizing:border-box;">
+        <div style="font-size:.72rem;color:var(--text3);margin-bottom:6px;">Оберіть аватар:</div>
+        <div class="prf-av-picker">
+          <button class="prf-av-btn prf-av-active">🧑</button>
+          <button class="prf-av-btn">👩</button>
+          <button class="prf-av-btn">🧔</button>
+          <button class="prf-av-btn">👦</button>
+          <button class="prf-av-btn">👧</button>
+          <button class="prf-av-btn">🤖</button>
+          <button class="prf-av-btn">🦊</button>
+          <button class="prf-av-btn">🐸</button>
+          <button class="prf-av-btn">⚔️</button>
+          <button class="prf-av-btn">🌟</button>
+          <button class="prf-av-btn">🔥</button>
+          <button class="prf-av-btn">🎭</button>
+          <button class="prf-av-btn">🏆</button>
+          <button class="prf-av-btn">🚀</button>
+          <button class="prf-av-btn">🐉</button>
+          <button class="prf-av-btn">🧙</button>
+        </div>
+        <button id="prf-add-btn" class="prf-add-confirm">+ Створити профіль</button>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+  <!-- PWA install banner -->
+  <div id="pwa-banner">
+    <div class="pwa-icon">📚</div>
+    <div class="pwa-text">
+      <strong>Встанови як додаток</strong>
+      Працює офлайн, завжди під рукою
+    </div>
+    <button class="pwa-btn" id="pwa-install">Встановити</button>
+    <button class="pwa-close" id="pwa-close">✕</button>
+  </div>
+
+  
+
+
+
+  <!-- Панель статистики -->
+  <div id="stats-overlay">
+    <div class="stats-panel">
+      <div class="stats-header">
+        <div class="stats-title">📊 Статистика</div>
+        <button class="stats-close" id="stats-close">✕</button>
+      </div>
+
+      <div class="stats-section">
+        <div class="stats-section-title">Загальний прогрес</div>
+        <div class="stats-summary">
+          <div class="stat-card"><div class="sv" id="st-known">0</div><div class="sl">Вивчено слів</div></div>
+          <div class="stat-card"><div class="sv" id="st-pct">0%</div><div class="sl">Від усіх слів</div></div>
+          <div class="stat-card"><div class="sv" id="st-streak">0</div><div class="sl">🔥 Днів підряд</div></div>
+        </div>
+      </div>
+
+      <div class="stats-section">
+        <div class="stats-section-title">Слів вивчено по днях (останні 14 днів)</div>
+        <div class="chart-wrap">
+          <div class="chart-bars" id="chart-bars"></div>
+        </div>
+      </div>
+
+      <div class="stats-section">
+        <div class="stats-section-title">🗓️ Активність за рік</div>
+        <div style="font-size:.68rem;color:var(--text3);margin-bottom:6px;">52 тижні · зелений = більше слів</div>
+        <div id="heatmap-wrap" style="overflow-x:auto;padding-bottom:4px;">
+          <div id="heatmap" style="display:flex;gap:2px;min-width:max-content;"></div>
+        </div>
+      </div>
+
+      <div class="stats-section">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div class="stats-section-title" style="margin-bottom:0;">📅 Місячний вигляд</div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <button id="cal-prev" class="btn" style="padding:3px 10px;font-size:13px;">←</button>
+            <span id="cal-month-label" style="font-size:.82rem;font-weight:600;color:var(--text);min-width:110px;text-align:center;"></span>
+            <button id="cal-next" class="btn" style="padding:3px 10px;font-size:13px;">→</button>
+          </div>
+        </div>
+        <div class="cal-header-grid" id="cal-headers"></div>
+        <div class="cal-day-grid" id="cal-grid"></div>
+        <div id="cal-summary" style="font-size:.75rem;color:var(--text2);margin-top:8px;text-align:right;"></div>
+      </div>
+
+      <div class="stats-section">
+        <div class="stats-section-title">⏰ Найкращий час навчання</div>
+        <div id="hourly-chart" style="display:flex;align-items:flex-end;gap:2px;height:48px;margin-bottom:4px;"></div>
+        <div id="best-hour" style="font-size:.75rem;color:var(--text2);"></div>
+      </div>
+
+      <div class="stats-section">
+        <div class="stats-section-title">Прогрес по блоках</div>
+        <div class="blocks-list" id="blocks-list"></div>
+      </div>
+
+
+      <div class="stats-section">
+        <div class="stats-section-title">📅 SRS — Розклад повторень (14 днів)</div>
+        <div id="srs-forecast" class="srs-forecast"></div>
+
+      </div>
+      <div class="stats-section">
+        <div class="stats-section-title">🔴 Слабкі слова (топ-10)</div>
+        <div id="weak-words-list" style="font-size:.8rem;color:var(--text2);"></div>
+      </div>
+
+      <div class="stats-section">
+        <div class="stats-section-title">🎮 Точність по режимах</div>
+        <div id="mode-accuracy-list"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ SETTINGS PAGE ══ -->
+  <div id="settings-overlay" class="page-overlay">
+    <div class="page-inner">
+      <div class="page-header">
+        <div class="page-title">⚙️ Налаштування</div>
+        <button class="page-close-btn" data-close-page>✕</button>
+      </div>
+
+      <!-- Голос -->
+      <div class="settings-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <div class="settings-section-title" style="margin-bottom:0">🔊 Голос озвучення</div>
+          <button id="voices-reload-btn" class="backup-btn" style="padding:5px 12px;font-size:.75rem;flex-shrink:0;" title="Перезавантажити список голосів">🔄 Оновити список</button>
+        </div>
+        <div class="settings-desc" style="margin-top:4px;">Безкоштовно, без API ключа, миттєво. Аудіо кешується після першого відтворення.</div>
+        <div id="fy-voices-list" style="margin-top:10px;"></div>
+      </div>
+
+      <!-- Зображення -->
+      <div class="settings-section">
+        <div class="settings-section-title">🖼️ Зображення на картках</div>
+        <div class="settings-desc">Безкоштовний ключ Pixabay дає фото для ~90% слів. Отримай на <b>pixabay.com/api/docs</b>.</div>
+        <div style="display:flex;gap:6px;align-items:center;margin-top:8px;">
+          <input id="pixabay-key-input" type="text" placeholder="Вставте Pixabay API ключ..."
+            style="flex:1;padding:8px 10px;border:1.5px solid var(--border);border-radius:9px;
+                   font-size:.82rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;">
+          <button id="pixabay-key-save" class="backup-btn primary" style="flex-shrink:0;padding:8px 16px;">Зберегти</button>
+        </div>
+        <div id="pixabay-key-status" style="font-size:.73rem;margin-top:5px;color:var(--text3);"></div>
+        <div style="margin-top:12px;">
+          <div class="settings-desc" style="margin-bottom:8px;">Завантаж URL зображень для всіх слів у фоні — після цього картинки з'являтимуться миттєво.</div>
+          <div style="height:5px;background:var(--border);border-radius:4px;margin-bottom:8px;overflow:hidden;">
+            <div id="prefetch-bar" style="height:100%;background:var(--accent);border-radius:4px;transition:width .5s;width:0%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+            <span id="prefetch-status" style="font-size:.72rem;color:var(--text3);">Готово до завантаження</span>
+            <div style="display:flex;gap:6px;">
+              <button id="prefetch-start" class="backup-btn primary" style="padding:6px 12px;font-size:.75rem;">▶ Завантажити</button>
+              <button id="prefetch-stop"  class="backup-btn" style="display:none;padding:6px 12px;font-size:.75rem;">⏸ Пауза</button>
+              <button id="prefetch-clear" class="backup-btn" style="padding:6px 12px;font-size:.75rem;">🗑 Очистити</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Збереження прогресу -->
+      <div class="settings-section">
+        <div class="settings-section-title">💾 Збереження прогресу</div>
+        <div class="settings-desc">Експортуй прогрес перед оновленням файлу — щоб не втратити вивчені слова.</div>
+        <div class="backup-row" style="margin-top:10px;">
+          <button class="backup-btn primary" id="btn-export">📤 Експорт</button>
+          <button class="backup-btn" id="btn-import-open">📥 Імпорт</button>
+        </div>
+        <div class="backup-row" style="margin-top:6px;">
+          <button class="backup-btn" id="btn-anki-export">🃏 Anki CSV</button>
+          <button class="backup-btn" id="btn-share">📤 Поділитись</button>
+        </div>
+        <div class="backup-row" style="margin-top:6px;">
+          <button class="backup-btn" id="btn-csv-export">📊 Google Sheets CSV</button>
+          <button class="backup-btn" id="btn-pdf-export">🖨️ PDF / Друк</button>
+        </div>
+        <div style="font-size:.72rem;color:var(--text3);margin-top:6px;">
+          <label for="export-filter" style="margin-right:6px;">Експортувати:</label>
+          <select id="export-filter" style="padding:3px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);font-size:.72rem;font-family:inherit;">
+            <option value="known">✓ Тільки вивчені</option>
+            <option value="unknown">🔴 Тільки невивчені</option>
+            <option value="all">📚 Всі слова</option>
+            <option value="custom">➕ Тільки власні</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Сповіщення -->
+      <div class="settings-section">
+        <div class="settings-section-title">🔔 Сповіщення</div>
+        <div class="settings-desc">Щоденне нагадування якщо ще не вчив сьогодні.</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+          <label class="notif-toggle-wrap">
+            <input type="checkbox" id="notif-toggle">
+            <span class="notif-toggle-pill-ui"></span>
+          </label>
+          <span id="notif-status" style="font-size:.78rem;color:var(--text2);">Вимкнено</span>
+          <button onclick="window.requestNotifPermission&&window.requestNotifPermission()" class="backup-btn" style="padding:5px 12px;font-size:.75rem;margin-left:auto;">Дозволити</button>
+        </div>
+        <div id="notif-time-row" style="display:none;margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span style="font-size:.8rem;color:var(--text2);">⏰ Нагадувати щодня о</span>
+          <input type="time" id="notif-time" value="20:00"
+            style="padding:5px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:inherit;font-size:.85rem;outline:none;">
+          <span style="font-size:.75rem;color:var(--text3);">якщо не вчив сьогодні</span>
+        </div>
+      </div>
+
+      <!-- Скидання прогресу -->
+      <!-- ── Cloud Sync ── -->
+      <div class="settings-section" id="cs-section">
+        <div class="settings-section-title">☁️ Хмарний бекап</div>
+
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+          <div id="cs-code" style="flex:1;font-family:monospace;font-size:.95rem;font-weight:700;color:var(--accent);background:rgba(255,255,255,.04);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;letter-spacing:.1em;text-align:center;">········</div>
+          <button id="cs-copy" style="padding:8px 12px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-size:.8rem;white-space:nowrap;">📋 Копія</button>
+        </div>
+
+        <button id="cs-save" style="width:100%;padding:10px;border-radius:12px;border:none;background:var(--accent);color:#0a1628;cursor:pointer;font-family:inherit;font-size:.88rem;font-weight:600;margin-bottom:10px;">⬆️ Зберегти в хмару</button>
+
+        <div style="border-top:1px solid var(--border);margin:8px 0;padding-top:10px;">
+          <div style="font-size:.74rem;color:var(--text3);margin-bottom:7px;">🔄 Авто-збереження:</div>
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+            <select id="cs-interval" style="flex:1;padding:9px 10px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:.85rem;cursor:pointer;outline:none;">
+              <option value="0">Вимк</option>
+              <option value="30">30 хв</option>
+              <option value="60">1 год</option>
+              <option value="360">6 год</option>
+              <option value="1440">Щодня</option>
+            </select>
+            <span id="cs-last" style="font-size:.7rem;color:var(--text3);white-space:nowrap;"></span>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid var(--border);margin:4px 0 10px;padding-top:10px;">
+          <div style="font-size:.74rem;color:var(--text3);margin-bottom:7px;">Відновити на цьому пристрої:</div>
+          <div style="display:flex;gap:8px;">
+            <input id="cs-inp" placeholder="XXXX-XXXX-XXXX" maxlength="14"
+              style="flex:1;font-family:monospace;font-size:.88rem;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);outline:none;text-transform:uppercase;">
+            <button id="cs-restore" style="padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text);cursor:pointer;font-size:.85rem;font-weight:600;white-space:nowrap;">⬇️ Відновити</button>
+          </div>
+        </div>
+
+        <div id="cs-msg" style="font-size:.75rem;min-height:16px;text-align:center;margin-top:4px;"></div>
+        <div style="font-size:.7rem;color:var(--text3);margin-top:8px;text-align:center;line-height:1.5;">Збережи ключ — він потрібен для відновлення.<br>Дані доступні лише за ключем.</div>
+      </div>
+
+      <div class="settings-section settings-section-danger">
+        <div class="settings-section-title">⚠️ Небезпечна зона</div>
+        <div class="settings-desc">Незворотна дія — всі вивчені слова, серія днів та досягнення будуть видалені.</div>
+        <button id="btn-reset" class="settings-reset-btn" style="margin-top:12px;">↺ Скинути прогрес</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Попап деталей досягнення — поза .app для коректного z-index -->
+  <div id="ach-popup-overlay">
+    <div class="ach-popup">
+      <span class="ach-popup-icon" id="ap-icon">🏆</span>
+      <div class="ach-popup-name" id="ap-name"></div>
+      <div class="ach-popup-cat"  id="ap-cat"></div>
+      <div class="ach-popup-hint" id="ap-hint"></div>
+      <div class="ach-popup-progress">
+        <div class="ach-popup-prog-row">
+          <span>Прогрес</span>
+          <span id="ap-prog-label"></span>
+        </div>
+        <div class="ach-popup-prog-track">
+          <div class="ach-popup-prog-fill" id="ap-prog-fill" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="ach-popup-status" id="ap-status"></div><br>
+      <button class="ach-popup-close" id="ap-close">Закрити</button>
+    </div>
+  </div>
+
+  <!-- ══ ACHIEVEMENTS PAGE ══ -->
+  <div id="ach-overlay" class="page-overlay">
+    <div class="page-inner">
+      <div class="page-header">
+        <div class="page-title">🏆 Досягнення</div>
+        <button class="page-close-btn" data-close-page>✕</button>
+      </div>
+
+      <!-- Рівні -->
+      <div style="margin-bottom:24px;">
+        <div class="stats-section-title" style="margin-bottom:12px;">🗺️ Шлях Джедая — всі рівні</div>
+        <div id="levels-roadmap" class="levels-roadmap"></div>
+      </div>
+
+      <!-- Досягнення -->
+      <div class="stats-section-title" style="margin-bottom:12px;">🏅 Нагороди</div>
+      <div class="achievements-grid" id="achievements-grid"></div>
+    </div>
+  </div>
+
+  <!-- ══ EXPORT / IMPORT MODALS (outside .app) ══ -->
+  <div id="export-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;align-items:center;justify-content:center;padding:20px;">
+    <div class="import-panel">
+      <div class="import-title">📤 Твій код прогресу</div>
+      <div class="import-sub">Виділи весь текст і скопіюй його. Збережи в нотатках або надішли собі.</div>
+      <textarea id="export-textarea" readonly style="width:100%;height:120px;border:1.5px solid var(--border);border-radius:10px;padding:10px;font-size:.7rem;font-family:monospace;background:var(--bg);color:var(--text);resize:none;box-sizing:border-box;margin-bottom:10px;"></textarea>
+      <div class="backup-row">
+        <button class="backup-btn" id="export-select-all">Виділити все</button>
+        <button class="backup-btn primary" id="export-modal-close">Готово</button>
+      </div>
+    </div>
+  </div>
+  <div id="import-modal" style="position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;align-items:center;justify-content:center;padding:20px;">
+    <div class="import-panel">
+      <div class="import-title">📥 Імпорт прогресу</div>
+      <div class="import-sub">Встав сюди код прогресу який ти скопіював раніше через «Експорт»</div>
+      <textarea id="import-textarea" placeholder="Встав код тут..."></textarea>
+      <div class="import-error" id="import-error"></div>
+      <div class="backup-row">
+        <button class="backup-btn" id="import-cancel">Відміна</button>
+        <button class="backup-btn primary" id="import-confirm">Імпортувати</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ RESET PROGRESS MODAL (outside .app) ══ -->
+  <div id="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;align-items:center;justify-content:center;padding:16px;">
+    <div class="prf-delete-panel">
+      <div class="prf-delete-icon">⚠️</div>
+      <div class="prf-delete-title">Скинути прогрес?</div>
+      <div class="prf-delete-warn">Вивчені слова, серія днів, денна ціль та досягнення будуть видалені безповоротно.</div>
+      <div class="prf-delete-btns">
+        <button id="modal-cancel"  class="prf-delete-btn prf-delete-btn-cancel">Відміна</button>
+        <button id="modal-confirm" class="prf-delete-btn prf-delete-btn-confirm">Скинути</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ IMAGE CACHE CLEAR CONFIRM ══ -->
+  <div id="img-clear-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;align-items:center;justify-content:center;padding:16px;">
+    <div class="prf-delete-panel">
+      <div class="prf-delete-icon">🗑️</div>
+      <div class="prf-delete-title">Очистити кеш зображень?</div>
+      <div class="prf-delete-warn">Всі завантажені фото будуть видалені з кешу. Зображення завантажуватимуться знову при перегляді карток.</div>
+      <div class="prf-delete-btns">
+        <button id="img-clear-cancel"  class="prf-delete-btn prf-delete-btn-cancel">Скасувати</button>
+        <button id="img-clear-confirm" class="prf-delete-btn prf-delete-btn-confirm">Очистити</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DAILY CHALLENGE OVERLAY ══ -->
+  <div id="dc-overlay" class="page-overlay">
+    <div class="page-inner" style="max-width:520px;">
+      <div class="dc-header">
+        <div id="dc-title" class="page-title">⚡ Місія дня</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span id="dc-timer" style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--accent);">⏱</span>
+          <button id="dc-close" class="page-close-btn">✕</button>
+        </div>
+      </div>
+      <div class="dc-pbar-wrap"><div id="dc-pbar" class="dc-pbar-fill" style="width:0%"></div></div>
+      <div class="dc-word-area">
+        <div id="dc-word" class="dc-word"></div>
+        <div id="dc-ipa"  class="dc-ipa"></div>
+        <div id="dc-result" class="dc-result"></div>
+      </div>
+      <div id="dc-options" class="dc-options"></div>
+      <div id="dc-final" class="dc-final" style="display:none;text-align:center;padding:20px 0;">
+        <div id="dc-final-emoji" style="font-size:2.5rem;margin-bottom:10px;"></div>
+        <div id="dc-final-title" style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:6px;"></div>
+        <div id="dc-final-xp"   style="font-size:.88rem;color:var(--accent);margin-bottom:16px;"></div>
+        <button id="dc-restart" class="prf-add-confirm" style="max-width:200px;margin:0 auto;">↺ Ще раз</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ READING OVERLAY ══ -->
+  <div id="reading-overlay" class="page-overlay">
+    <div class="page-inner">
+      <div class="page-header">
+        <div>
+          <div class="page-title">📖 Читання</div>
+          <div id="rd-stats" style="font-size:.72rem;color:var(--text3);margin-top:2px;"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button id="rd-prev-text" class="backup-btn" style="padding:5px 12px;">← Попередній</button>
+          <span id="rd-level" style="font-size:.7rem;padding:2px 8px;border-radius:20px;background:var(--accent);color:#fff;font-weight:700;"></span>
+          <button id="rd-next-text" class="backup-btn" style="padding:5px 12px;">Наступний →</button>
+          <button id="rd-close" class="page-close-btn">✕</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+        <h2 id="rd-title" style="font-size:1.1rem;font-weight:700;color:var(--text);flex:1;min-width:0;margin:0;"></h2>
+        <button id="rd-epub-btn" class="backup-btn primary" style="padding:6px 14px;font-size:.78rem;flex-shrink:0;">📚 Завантажити epub</button>
+        <input id="rd-epub-input" type="file" accept=".epub" style="display:none">
+      </div>
+      <div id="rd-epub-progress" style="display:none;font-size:.75rem;color:var(--accent);margin-bottom:8px;padding:6px 10px;background:rgba(0,200,255,.07);border-radius:8px;"></div>
+      <div id="rd-text" class="rd-text"></div>
+      <div id="rd-word-popup" class="rd-word-popup" style="display:none;">
+        <div id="rd-popup-word" class="rd-popup-word"></div>
+        <div id="rd-popup-ipa"  class="rd-popup-ipa"></div>
+        <div id="rd-popup-trans" class="rd-popup-trans"></div>
+        <div style="display:flex;gap:6px;margin-top:10px;">
+          <button id="rd-popup-speak" class="backup-btn" style="padding:5px 12px;">🔊</button>
+          <button id="rd-popup-know"  class="backup-btn primary" style="flex:1;padding:5px;">+ Вивчити</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DUEL OVERLAY ══ -->
+  <div id="duel-overlay" class="page-overlay">
+    <div class="page-inner" style="max-width:560px;">
+      <div class="page-header">
+        <div class="page-title">⚔️ Дуель</div>
+        <button class="page-close-btn" data-close-page>✕</button>
+      </div>
+
+      <!-- LOBBY -->
+      <div id="duel-lobby">
+        <!-- Leaderboard -->
+        <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:10px;">📊 Рейтинг профілів</div>
+        <div id="duel-leaderboard" class="duel-cards" style="margin-bottom:20px;"></div>
+
+        <!-- Live quiz section -->
+        <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:10px;">⚡ Онлайн дуель</div>
+        <div id="duel-msg" style="display:none;font-size:.82rem;padding:8px 12px;border-radius:10px;background:var(--bg);color:var(--text2);margin-bottom:10px;"></div>
+
+        <!-- Mode picker -->
+        <div style="font-size:.75rem;color:var(--text3);margin-bottom:6px;">Оберіть режим дуелі:</div>
+        <div id="duel-mode-picker" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;"></div>
+
+        <!-- Create room -->
+        <button id="duel-create-btn" style="width:100%;padding:13px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:.95rem;margin-bottom:12px;">⚔️ Створити кімнату</button>
+
+        <!-- Waiting for opponent -->
+        <div id="duel-waiting" style="display:none;text-align:center;padding:16px;background:var(--bg);border-radius:14px;margin-bottom:12px;">
+          <div style="font-size:.82rem;color:var(--text3);margin-bottom:8px;">Поділись кодом з другом:</div>
+          <div id="duel-room-code" style="font-family:monospace;font-size:1.8rem;font-weight:900;color:var(--accent);letter-spacing:.15em;margin-bottom:6px;"></div>
+          <div id="duel-waiting-mode" style="font-size:.78rem;color:var(--accent);margin-bottom:10px;"></div>
+          <div style="font-size:.75rem;color:var(--text3);margin-bottom:12px;">Чекаємо поки суперник введе код…</div>
+          <button id="duel-cancel-btn" style="padding:7px 18px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.82rem;">✕ Скасувати</button>
+        </div>
+
+        <!-- Join room -->
+        <div id="duel-join-row">
+          <div style="font-size:.78rem;color:var(--text3);margin-bottom:8px;text-align:center;">або введи код кімнати друга:</div>
+          <div style="display:flex;gap:8px;">
+            <input id="duel-join-input" type="text" placeholder="ABC-123" maxlength="7"
+              style="flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:monospace;font-size:1rem;background:var(--bg);color:var(--text);outline:none;text-transform:uppercase;text-align:center;letter-spacing:.1em;">
+            <button id="duel-join-btn" style="padding:10px 18px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;">→ Приєднатись</button>
+          </div>
+          <div style="font-size:.72rem;color:var(--text3);margin-top:6px;text-align:center;">Режим обирає той, хто створює кімнату</div>
+        </div>
+      </div>
+
+      <!-- GAME -->
+      <div id="duel-game" style="display:none;">
+        <!-- Mode badge + Scoreboard -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding:10px 14px;background:var(--bg);border-radius:12px;">
+          <div style="text-align:center;">
+            <div style="font-size:1.5rem;font-weight:800;color:var(--accent);" id="dm-my-score">0</div>
+            <div style="font-size:.72rem;color:var(--text3);">Ти</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:.72rem;font-weight:700;color:var(--accent);margin-bottom:2px;" id="dm-mode-badge">🧠 Тест</div>
+            <div style="font-size:.8rem;color:var(--text3);" id="dm-progress">1 / 10</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1rem;margin-bottom:2px;" id="dm-opp-av">🧑</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--accent2);" id="dm-opp-score">0</div>
+            <div style="font-size:.72rem;color:var(--text3);" id="dm-opp-name">Суперник</div>
+          </div>
+        </div>
+        <!-- Tempo timer bar -->
+        <div id="dm-timer-row" style="display:none;margin-bottom:8px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <span style="font-size:.72rem;color:var(--text3);">Час:</span>
+            <span id="dm-timer-num" style="font-size:.85rem;font-weight:700;color:var(--accent2);">4</span>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden;">
+            <div id="dm-timer-bar" style="height:100%;background:var(--accent2);border-radius:3px;width:100%;"></div>
+          </div>
+        </div>
+        <!-- Question -->
+        <div id="dm-question" style="background:var(--bg);border-radius:14px;padding:18px;text-align:center;margin-bottom:12px;min-height:60px;"></div>
+        <!-- Multiple choice options -->
+        <div id="dm-options" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;"></div>
+        <!-- Write mode input -->
+        <div id="dm-input-row" style="display:none;margin-bottom:10px;">
+          <input id="dm-input" type="text" placeholder="Введи переклад англійською…" autocomplete="off" spellcheck="false"
+            style="width:100%;padding:11px 14px;border:2px solid var(--border);border-radius:12px;font-size:1rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;box-sizing:border-box;margin-bottom:8px;">
+          <div style="display:flex;gap:8px;">
+            <button id="dm-submit-btn" style="flex:1;padding:10px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;">Перевірити</button>
+            <button id="dm-next-btn" style="display:none;padding:10px 18px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;">Далі →</button>
+          </div>
+        </div>
+        <!-- Feedback -->
+        <div id="dm-feedback" style="text-align:center;font-size:.9rem;font-weight:600;min-height:24px;"></div>
+      </div>
+
+      <!-- RESULT -->
+      <div id="duel-result" style="display:none;text-align:center;padding:10px 0;">
+        <div id="duel-result-inner"></div>
+        <button id="duel-again-btn" style="margin-top:20px;padding:12px 28px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:.95rem;">🔄 Нова дуель</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ PROFILE DELETE MODAL (outside .app — top z-index) ══ -->
+  <div id="prf-delete-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;align-items:center;justify-content:center;padding:16px;">
+    <div class="prf-delete-panel">
+      <div class="prf-delete-icon">🗑️</div>
+      <div class="prf-delete-title">Видалити профіль?</div>
+      <div class="prf-delete-name" id="prf-delete-name"></div>
+      <div class="prf-delete-warn">Весь прогрес буде видалено безповоротно.</div>
+      <div class="prf-delete-btns">
+        <button id="prf-delete-cancel"  class="prf-delete-btn prf-delete-btn-cancel">Скасувати</button>
+        <button id="prf-delete-confirm" class="prf-delete-btn prf-delete-btn-confirm">Видалити</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ WORD DETAIL MODAL ══ -->
+  <div id="wd-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20000;align-items:flex-end;justify-content:center;padding:0;">
+    <div id="wd-panel" style="background:var(--card);border-radius:24px 24px 0 0;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;padding:20px 20px 32px;box-shadow:0 -8px 40px rgba(0,0,0,.35);position:relative;">
+      <!-- Drag handle -->
+      <div style="width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px;"></div>
+      <!-- Header row -->
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span id="wd-word" style="font-family:'DM Serif Display',serif;font-size:2rem;color:var(--text);line-height:1.1;"></span>
+            <button id="wd-speak" class="mode-speak" title="Прослухати" style="font-size:1.1rem;">🔊</button>
+          </div>
+          <div id="wd-ipa" style="font-size:.85rem;color:var(--accent2);margin-top:2px;"></div>
+        </div>
+        <button id="wd-close" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--text3);padding:2px 6px;flex-shrink:0;">✕</button>
+      </div>
+      <!-- Translation -->
+      <div id="wd-transl" style="font-size:1.1rem;color:var(--text2);font-weight:600;margin-bottom:14px;"></div>
+      <!-- Examples -->
+      <div id="wd-examples" style="background:var(--bg);border-radius:12px;padding:12px 14px;margin-bottom:14px;display:none;">
+        <div id="wd-ex-en" style="font-size:.85rem;color:var(--text2);font-style:italic;line-height:1.5;margin-bottom:6px;"></div>
+        <div id="wd-ex-ua" style="font-size:.8rem;color:var(--text3);line-height:1.4;"></div>
+      </div>
+      <!-- SRS status -->
+      <div id="wd-srs" style="font-size:.78rem;color:var(--text3);margin-bottom:14px;display:flex;gap:12px;flex-wrap:wrap;"></div>
+      <!-- Similar words -->
+      <div id="wd-similar-wrap" style="display:none;margin-bottom:16px;">
+        <div style="font-size:.72rem;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;">Схожі слова</div>
+        <div id="wd-similar-chips" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+      </div>
+      <!-- Actions -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button id="wd-btn-know"   style="flex:1;min-width:120px;padding:11px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;font-size:.88rem;">✓ Знаю</button>
+        <button id="wd-btn-forget" style="padding:11px 16px;border-radius:12px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.88rem;display:none;">✕ Забути</button>
+        <button id="wd-btn-bm"     style="padding:11px 14px;border-radius:12px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-size:1rem;" title="Закладка">⭐</button>
+        <button id="wd-btn-goto"   style="padding:11px 16px;border-radius:12px;border:1.5px solid var(--border);background:none;color:var(--accent);font-weight:600;cursor:pointer;font-family:inherit;font-size:.88rem;">→ На картку</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MILESTONE TOAST ══ -->
+  <div id="milestone-toast" class="milestone-toast"></div>
+
+  <!-- ══ SEARCH OVERLAY ══ -->
+  <div id="search-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:19000;align-items:flex-start;justify-content:center;padding:48px 16px 16px;">
+    <div id="search-panel" style="background:var(--bg);border-radius:18px;width:100%;max-width:520px;box-shadow:0 8px 40px rgba(0,0,0,.35);overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1.5px solid var(--border);">
+        <span style="font-size:1.2rem;color:var(--text3);">🔍</span>
+        <input id="search-input" type="text" placeholder="Пошук по словнику EN або UA..." autocomplete="off" spellcheck="false"
+          style="flex:1;border:none;outline:none;background:transparent;font-size:1rem;font-family:inherit;color:var(--text);">
+        <button id="search-close" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--text3);padding:4px;">✕</button>
+      </div>
+      <div id="search-results" style="max-height:60vh;overflow-y:auto;padding:6px 0;"></div>
+      <div id="search-empty" style="display:none;padding:24px;text-align:center;color:var(--text3);font-size:.9rem;">Нічого не знайдено</div>
+    </div>
+  </div>
+
+  <!-- ══ CUSTOM WORDS MODAL ══ -->
+  <div id="custom-modal">
+    <div class="custom-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div style="font-size:1rem;font-weight:700;color:var(--text);">➕ Власні слова</div>
+        <button id="custom-modal-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);">✕</button>
+      </div>
+      <div style="font-size:.8rem;color:var(--text2);margin-bottom:12px;">Додайте будь-яке слово яке хочете вивчити</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+        <input id="cw-en" type="text" placeholder="English word *" autocomplete="off"
+          style="padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:.88rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;">
+        <input id="cw-ua" type="text" placeholder="Переклад * (обов'язково)" autocomplete="off"
+          style="padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:.88rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;">
+        <input id="cw-ex-en" type="text" placeholder="Приклад англійською (необов'язково)" autocomplete="off"
+          style="padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:.88rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;">
+        <input id="cw-ex-ua" type="text" placeholder="Переклад прикладу (необов'язково)" autocomplete="off"
+          style="padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:.88rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;">
+      </div>
+      <div id="cw-error" style="font-size:.75rem;color:#e74c3c;margin-bottom:8px;min-height:16px;"></div>
+      <button id="cw-save" style="width:100%;padding:10px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-family:inherit;font-size:.9rem;font-weight:600;cursor:pointer;margin-bottom:14px;">Додати слово</button>
+      <div id="custom-words-list" style="display:flex;flex-direction:column;"></div>
+    </div>
+  </div>
+
+  <!-- ══ MODES MODAL ══ -->
+  <div id="modes-overlay" class="modes-overlay">
+    <div class="modes-panel">
+      <div class="modes-panel-handle"></div>
+      <div class="modes-header">
+        <span>🎮 Режим навчання</span>
+        <button class="modes-close-btn" id="modes-close">✕</button>
+      </div>
+      <div class="modes-grid">
+        <button class="mode-card mc-quiz"   id="btn-quiz"    ><span class="mode-icon">🧠</span><span class="mode-name">Тест</span>    <span class="mode-desc">4 варіанти</span></button>
+        <button class="mode-card mc-tempo"  id="btn-tempo"   ><span class="mode-icon">⚡</span><span class="mode-name">Темп</span>    <span class="mode-desc">На час</span></button>
+        <button class="mode-card mc-write"  id="btn-write"   ><span class="mode-icon">✍️</span><span class="mode-name">Письмо</span>  <span class="mode-desc">UA → EN</span></button>
+        <button class="mode-card mc-lesson" id="btn-lesson"  ><span class="mode-icon">📚</span><span class="mode-name">Урок</span>    <span class="mode-desc">5×3 вправи</span></button>
+        <button class="mode-card mc-pairs"  id="btn-pairs"   ><span class="mode-icon">🔗</span><span class="mode-name">Пари</span>    <span class="mode-desc">6 пар</span></button>
+        <button class="mode-card mc-cat"    id="btn-catpairs"><span class="mode-icon">📦</span><span class="mode-name">Теми</span>    <span class="mode-desc">По темі</span></button>
+        <button class="mode-card mc-listen" id="btn-listen"  ><span class="mode-icon">🔊</span><span class="mode-name">Слухай</span>  <span class="mode-desc">Аудіо</span></button>
+        <button class="mode-card mc-fib"    id="btn-fib"     ><span class="mode-icon">✏️</span><span class="mode-name">Пропуск</span> <span class="mode-desc">Вставте слово</span></button>
+        <button class="mode-card mc-word"      id="btn-add-word">        <span class="mode-icon">➕</span><span class="mode-name">Слово</span>      <span class="mode-desc">Додати своє</span></button>
+        <button class="mode-card mc-daily"     id="btn-daily-challenge"><span class="mode-icon">⚡</span><span class="mode-name">Місія дня</span>  <span class="mode-desc">10 слів + таймер</span></button>
+        <button class="mode-card mc-reading"   id="btn-reading">        <span class="mode-icon">📖</span><span class="mode-name">Читання</span>    <span class="mode-desc">Текст зі словами</span></button>
+      </div>
+    </div>
+  </div>
+  <!-- ══ FILL IN BLANK MODAL ══ -->
+  <div id="fib-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
+    <div class="quiz-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div>
+          <div style="font-size:1.05rem;font-weight:700;color:var(--text);">✏️ Вставте слово</div>
+          <div id="fib-subtitle" style="font-size:.75rem;color:var(--text3);margin-top:2px;"></div>
+        </div>
+        <button id="fib-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);">✕</button>
+      </div>
+      <div style="height:4px;background:var(--border);border-radius:4px;margin-bottom:18px;overflow:hidden;">
+        <div id="fib-pbar" style="height:100%;background:var(--accent);border-radius:4px;transition:width .4s;width:0%"></div>
+      </div>
+      <div style="display:flex;gap:14px;justify-content:center;margin-bottom:14px;" id="fib-score-row">
+        <span style="font-size:.82rem;color:#27ae60;font-weight:600;">✓ <span id="fib-ok">0</span></span>
+        <span style="font-size:.82rem;color:#e74c3c;font-weight:600;">✗ <span id="fib-fail">0</span></span>
+      </div>
+      <div style="background:var(--bg);border-radius:14px;padding:20px 16px;text-align:center;margin-bottom:14px;">
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;">Вставте пропущене слово</div>
+        <div id="fib-sentence" class="fib-sentence"></div>
+        <div id="fib-word-hint" style="font-size:.75rem;color:var(--text3);margin-top:8px;font-style:italic;"></div>
+      </div>
+      <input id="fib-input" type="text" autocomplete="off" spellcheck="false" placeholder="Type the missing word..."
+        style="width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:12px;font-size:1rem;
+               font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);outline:none;
+               box-sizing:border-box;margin-bottom:10px;transition:border-color .2s;">
+      <div id="fib-result" style="min-height:24px;text-align:center;font-size:.9rem;font-weight:600;margin-bottom:10px;"></div>
+      <div style="display:flex;gap:8px;justify-content:center;">
+        <button id="fib-submit" style="font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:11px 28px;border-radius:10px;border:none;background:var(--accent);color:#fff;cursor:pointer;">Перевірити</button>
+        <button id="fib-next"   style="display:none;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:11px 28px;border-radius:10px;border:none;background:var(--accent);color:#fff;cursor:pointer;">Далі →</button>
+        <button id="fib-hint"   style="font-family:'DM Sans',sans-serif;font-size:.82rem;padding:11px 14px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;">💡</button>
+      </div>
+      <div id="fib-final" style="display:none;text-align:center;padding:10px 0 4px;">
+        <div style="font-size:2.5rem;margin-bottom:8px;" id="fib-final-emoji"></div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:6px;" id="fib-final-title"></div>
+        <div style="font-size:.9rem;color:var(--text2);margin-bottom:18px;" id="fib-final-desc"></div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button id="fib-restart" style="font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:10px 22px;border-radius:10px;border:1.5px solid var(--accent);background:none;color:var(--accent);cursor:pointer;">🔄 Ще раз</button>
+          <button id="fib-exit"    style="font-family:'DM Sans',sans-serif;font-size:.88rem;padding:10px 22px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;">Закрити</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ LISTENING MODAL ══ -->
+  <div id="listen-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
+    <div class="quiz-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div>
+          <div style="font-size:1.05rem;font-weight:700;color:var(--text);">🔊 Слухання</div>
+          <div id="listen-subtitle" style="font-size:.75rem;color:var(--text3);margin-top:2px;"></div>
+        </div>
+        <button id="listen-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);">✕</button>
+      </div>
+      <div style="height:4px;background:var(--border);border-radius:4px;margin-bottom:18px;overflow:hidden;">
+        <div id="listen-pbar" style="height:100%;background:var(--accent);border-radius:4px;transition:width .4s;width:0%"></div>
+      </div>
+      <div style="display:flex;gap:14px;justify-content:center;margin-bottom:18px;" id="listen-score-row">
+        <span style="font-size:.82rem;color:#27ae60;font-weight:600;">✓ <span id="listen-ok">0</span></span>
+        <span style="font-size:.82rem;color:#e74c3c;font-weight:600;">✗ <span id="listen-fail">0</span></span>
+      </div>
+      <div style="text-align:center;margin-bottom:16px;">
+        <button class="listen-play-btn" id="listen-play-btn">🔊</button>
+        <div style="font-size:.78rem;color:var(--text3);" id="listen-play-hint">Натисни щоб почути слово</div>
+        <div style="font-size:.72rem;color:var(--text3);margin-top:3px;"><kbd style="background:var(--border);border-radius:4px;padding:1px 5px;font-size:.68rem;">Space</kbd> повторити</div>
+      </div>
+      <div id="listen-options" style="display:flex;flex-direction:column;gap:9px;"></div>
+      <div id="listen-result" style="min-height:24px;text-align:center;font-size:.9rem;font-weight:600;margin-top:10px;"></div>
+      <div style="text-align:center;margin-top:12px;">
+        <button id="listen-next" style="display:none;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:11px 32px;border-radius:10px;border:none;background:var(--accent);color:#fff;cursor:pointer;">Далі →</button>
+      </div>
+      <div id="listen-final" style="display:none;text-align:center;padding:10px 0 4px;">
+        <div style="font-size:2.5rem;margin-bottom:8px;" id="listen-final-emoji"></div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:6px;" id="listen-final-title"></div>
+        <div style="font-size:.9rem;color:var(--text2);margin-bottom:18px;" id="listen-final-desc"></div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button id="listen-restart" style="font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:10px 22px;border-radius:10px;border:1.5px solid var(--accent);background:none;color:var(--accent);cursor:pointer;">🔄 Ще раз</button>
+          <button id="listen-exit"    style="font-family:'DM Sans',sans-serif;font-size:.88rem;padding:10px 22px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;">Закрити</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CATEGORY PAIRS MODAL ══ -->
+  <div id="catpairs-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
+    <div class="pairs-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div>
+          <div style="font-size:1.05rem;font-weight:700;color:var(--text);" id="catpairs-title">📦 Теми</div>
+          <div id="catpairs-best-label" style="font-size:.72rem;color:var(--text3);margin-top:2px;"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div id="catpairs-timer" style="font-size:1.4rem;font-weight:700;color:var(--accent);min-width:52px;text-align:right;display:none;">0.0с</div>
+          <button id="catpairs-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);">✕</button>
+        </div>
+      </div>
+      <!-- Category selector -->
+      <div id="cat-select-screen">
+        <div style="font-size:.8rem;color:var(--text2);margin-bottom:10px;text-align:center;">Оберіть тему для гри</div>
+        <div class="cat-select-grid" id="cat-select-grid"></div>
+      </div>
+      <!-- Game screen -->
+      <div id="cat-game-screen" style="display:none;">
+        <div id="catpairs-board" style="margin-bottom:12px;"></div>
+        <div id="catpairs-final" style="display:none;text-align:center;padding:8px 0;">
+          <div style="font-size:2.5rem;margin-bottom:8px;" id="cpf-emoji">⏱</div>
+          <div style="font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:4px;" id="cpf-time"></div>
+          <div style="font-size:.88rem;color:var(--text2);margin-bottom:18px;" id="cpf-best"></div>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+            <button id="catpairs-again"  style="font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:10px 22px;border-radius:10px;border:1.5px solid var(--accent);background:none;color:var(--accent);cursor:pointer;">🔄 Знову</button>
+            <button id="catpairs-change" style="font-family:'DM Sans',sans-serif;font-size:.88rem;padding:10px 22px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;">← Теми</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ KEYBOARD OVERLAY ══ -->
+  <div id="keys-overlay">
+    <div class="keys-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <div style="font-size:1.05rem;font-weight:700;color:var(--text);">⌨️ Клавіатурні скорочення</div>
+        <button id="keys-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);">✕</button>
+      </div>
+      <div class="keys-section">
+        <div class="keys-section-title">Головний екран</div>
+        <div class="keys-row"><span>Наступна картка</span><div class="keys-kbds"><kbd>Пробіл</kbd><kbd>→</kbd></div></div>
+        <div class="keys-row"><span>Позначити "Знаю"</span><div class="keys-kbds"><kbd>Enter</kbd></div></div>
+        <div class="keys-row"><span>Навігація</span><div class="keys-kbds"><kbd>←</kbd><kbd>→</kbd></div></div>
+        <div class="keys-row"><span>Показати переклад</span><div class="keys-kbds"><kbd>F</kbd></div></div>
+        <div class="keys-row"><span>Пошук</span><div class="keys-kbds"><kbd>Ctrl</kbd><kbd>K</kbd></div></div>
+        <div class="keys-row"><span>Ці підказки</span><div class="keys-kbds"><kbd>?</kbd></div></div>
+      </div>
+      <div class="keys-section">
+        <div class="keys-section-title">Тест / Темп-режим</div>
+        <div class="keys-row"><span>Вибір варіанту</span><div class="keys-kbds"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div></div>
+        <div class="keys-row"><span>Далі (після відповіді)</span><div class="keys-kbds"><kbd>→</kbd><kbd>Пробіл</kbd></div></div>
+        <div class="keys-row"><span>Повторити звук (Темп)</span><div class="keys-kbds"><kbd>Пробіл</kbd></div></div>
+        <div class="keys-row"><span>Закрити</span><div class="keys-kbds"><kbd>Esc</kbd></div></div>
+      </div>
+      <div class="keys-section">
+        <div class="keys-section-title">Письмо / Пропуск</div>
+        <div class="keys-row"><span>Перевірити відповідь</span><div class="keys-kbds"><kbd>Enter</kbd></div></div>
+        <div class="keys-row"><span>Далі (після перевірки)</span><div class="keys-kbds"><kbd>Enter</kbd><kbd>→</kbd></div></div>
+        <div class="keys-row"><span>Підказка</span><div class="keys-kbds"><kbd>💡 кнопка</kbd></div></div>
+        <div class="keys-row"><span>Автодоповнення (Письмо)</span><div class="keys-kbds"><kbd>↑</kbd><kbd>↓</kbd></div></div>
+        <div class="keys-row"><span>Закрити</span><div class="keys-kbds"><kbd>Esc</kbd></div></div>
+      </div>
+      <div class="keys-section">
+        <div class="keys-section-title">Слухання</div>
+        <div class="keys-row"><span>Повторити слово</span><div class="keys-kbds"><kbd>Пробіл</kbd></div></div>
+        <div class="keys-row"><span>Вибір варіанту</span><div class="keys-kbds"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div></div>
+      </div>
+      <div class="keys-section">
+        <div class="keys-section-title">Глобальні</div>
+        <div class="keys-row"><span>Закрити будь-який модал</span><div class="keys-kbds"><kbd>Esc</kbd></div></div>
+        <div class="keys-row"><span>Пошук у списку (стрілки)</span><div class="keys-kbds"><kbd>↑</kbd><kbd>↓</kbd><kbd>Enter</kbd></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ LESSON MODAL ══ -->
+  <div id="lesson-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9200;align-items:center;justify-content:center;padding:16px 12px;">
+    <div class="quiz-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div>
+          <div style="font-size:1.05rem;font-weight:700;color:var(--text);">📚 Щоденний урок</div>
+          <div id="lesson-subtitle" style="font-size:.75rem;color:var(--text3);margin-top:2px;">Крок 1 з 15</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span id="lesson-phase-tag" class="lesson-phase-tag">Флешкарти</span>
+          <button id="lesson-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);">✕</button>
+        </div>
+      </div>
+      <div style="height:6px;background:var(--border);border-radius:4px;margin-bottom:20px;overflow:hidden;">
+        <div id="lesson-mbar" style="height:100%;background:var(--accent);border-radius:4px;transition:width .35s ease;width:0%"></div>
+      </div>
+      <div style="background:var(--bg);border-radius:14px;padding:20px 16px;text-align:center;margin-bottom:14px;">
+        <div id="lesson-dir" style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;"></div>
+        <div id="lesson-word" style="font-family:'DM Serif Display',serif;font-size:2rem;color:var(--text);line-height:1.15;word-break:break-word;"></div>
+        <div id="lesson-ipa" style="font-size:.82rem;color:var(--accent2);margin-top:4px;"></div>
+        <div id="lesson-reveal" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+          <div style="font-size:1.15rem;font-weight:600;color:var(--accent);" id="lesson-transl"></div>
+          <div style="font-size:.85rem;color:var(--text2);margin-top:8px;line-height:1.5;" id="lesson-en-ex"></div>
+          <div style="font-size:.82rem;color:var(--text2);font-style:italic;margin-top:6px;line-height:1.5;" id="lesson-ua-ex"></div>
+        </div>
+      </div>
+      <div id="lesson-opts" style="display:none;flex-direction:column;gap:9px;margin-bottom:10px;"></div>
+      <input id="lesson-input" type="text" autocomplete="off" spellcheck="false" placeholder="Enter English translation..."
+        style="display:none;width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:12px;
+               font-size:1rem;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);
+               outline:none;box-sizing:border-box;margin-bottom:10px;transition:border-color .2s;">
+      <div id="lesson-result" style="min-height:24px;text-align:center;font-size:.9rem;font-weight:600;margin-bottom:12px;"></div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button id="lb-reveal" class="btn btn-know" style="padding:10px 22px;">👁 Показати</button>
+        <button id="lb-know"   class="btn btn-know" style="display:none;padding:10px 22px;">✓ Знаю</button>
+        <button id="lb-skip"   class="btn"          style="display:none;padding:10px 22px;">→ Не знаю</button>
+        <button id="lb-submit" class="btn btn-know" style="display:none;padding:10px 22px;">Перевірити</button>
+        <button id="lb-next"   class="btn btn-know" style="display:none;padding:10px 22px;">Далі →</button>
+      </div>
+      <div id="lesson-final" style="display:none;text-align:center;padding:12px 0 4px;">
+        <div style="font-size:2.2rem;margin-bottom:8px;" id="lf-stars"></div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:6px;" id="lf-title"></div>
+        <div style="font-size:.88rem;color:var(--text2);margin-bottom:4px;" id="lf-score"></div>
+        <div style="font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:18px;" id="lf-xp"></div>
+        <button id="lesson-done" style="font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:11px 28px;border-radius:10px;border:none;background:var(--accent);color:#fff;cursor:pointer;">🏠 Завершити</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ WRITE MODAL ══ -->
+  <div id="write-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
+    <div class="quiz-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div>
+          <div style="font-size:1.05rem;font-weight:700;color:var(--text);">✍️ Письмо</div>
+          <div style="font-size:.75rem;color:var(--text3);margin-top:2px;" id="write-subtitle">Питання 1 з 10</div>
+        </div>
+        <button id="write-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);">✕</button>
+      </div>
+      <div style="height:4px;background:var(--border);border-radius:4px;margin-bottom:18px;overflow:hidden;">
+        <div id="write-pbar" style="height:100%;background:var(--accent);border-radius:4px;transition:width .4s;width:0%"></div>
+      </div>
+      <div style="display:flex;gap:14px;justify-content:center;margin-bottom:16px;" id="write-score-row">
+        <span style="font-size:.82rem;color:#27ae60;font-weight:600;">✓ <span id="write-correct">0</span></span>
+        <span style="font-size:.82rem;color:#e74c3c;font-weight:600;">✗ <span id="write-wrong">0</span></span>
+      </div>
+      <div style="background:var(--bg);border-radius:14px;padding:20px 16px;text-align:center;margin-bottom:14px;">
+        <div id="write-dir" style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;"></div>
+        <div id="write-word" style="font-family:'DM Serif Display',serif;font-size:2rem;color:var(--text);line-height:1.15;"></div>
+        <div id="write-ipa" style="font-size:.82rem;color:var(--accent2);margin-top:4px;"></div>
+      </div>
+      <div style="position:relative;margin-bottom:10px;">
+        <input id="write-input" type="text" autocomplete="off" spellcheck="false"
+          style="width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:12px;
+                 font-size:1rem;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);
+                 outline:none;box-sizing:border-box;transition:border-color .2s;">
+        <div id="write-ac" class="write-ac" style="display:none;"></div>
+      </div>
+      <div id="write-hint" style="font-size:.72rem;color:var(--text3);margin-bottom:8px;text-align:center;min-height:16px;"></div>
+      <div id="write-result" style="min-height:28px;text-align:center;font-size:.9rem;font-weight:600;margin-bottom:12px;"></div>
+      <div style="display:flex;gap:8px;justify-content:center;">
+        <button id="write-submit" style="font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:11px 32px;border-radius:10px;border:none;background:var(--accent);color:#fff;cursor:pointer;">Перевірити</button>
+        <button id="write-next" style="display:none;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:11px 32px;border-radius:10px;border:none;background:var(--accent);color:#fff;cursor:pointer;">Далі →</button>
+        <button id="write-mic" title="Голосове введення" style="font-family:'DM Sans',sans-serif;font-size:.9rem;padding:11px 14px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;transition:all .2s;">🎤</button>
+        <button id="write-hint-btn" style="font-family:'DM Sans',sans-serif;font-size:.82rem;padding:11px 18px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;">💡</button>
+      </div>
+      <div id="write-final" style="display:none;text-align:center;padding:10px 0 4px;">
+        <div style="font-size:2.5rem;margin-bottom:8px;" id="wf-emoji">🎉</div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:6px;" id="wf-title"></div>
+        <div style="font-size:.9rem;color:var(--text2);margin-bottom:18px;" id="wf-desc"></div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button id="write-restart" style="font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:10px 22px;border-radius:10px;border:1.5px solid var(--accent);background:none;color:var(--accent);cursor:pointer;">🔄 Ще раз</button>
+          <button id="write-restart-wrong" style="display:none;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:10px 22px;border-radius:10px;border:1.5px solid var(--accent2);background:none;color:var(--accent2);cursor:pointer;">✗ Помилки</button>
+          <button id="write-exit" style="font-family:'DM Sans',sans-serif;font-size:.88rem;padding:10px 22px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;">Закрити</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAIRS MODAL ══ -->
+  <div id="pairs-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
+    <div class="pairs-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <div>
+          <div style="font-size:1.05rem;font-weight:700;color:var(--text);">🔗 Знайди пару</div>
+          <div id="pairs-best-label" style="font-size:.72rem;color:var(--text3);margin-top:2px;"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div id="pairs-timer" style="font-size:1.5rem;font-weight:700;color:var(--accent);min-width:56px;text-align:right;">0.0с</div>
+          <button id="pairs-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);">✕</button>
+        </div>
+      </div>
+      <div id="pairs-board" style="margin-bottom:14px;"></div>
+      <div id="pairs-final" style="display:none;text-align:center;padding:8px 0;">
+        <div style="font-size:2.5rem;margin-bottom:8px;" id="pf-emoji">⏱</div>
+        <div style="font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:4px;" id="pf-time"></div>
+        <div style="font-size:.88rem;color:var(--text2);margin-bottom:18px;" id="pf-best"></div>
+        <div style="display:flex;gap:10px;justify-content:center;">
+          <button id="pairs-again" style="font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:10px 22px;border-radius:10px;border:1.5px solid var(--accent);background:none;color:var(--accent);cursor:pointer;">🔄 Знову</button>
+          <button id="pairs-exit" style="font-family:'DM Sans',sans-serif;font-size:.88rem;padding:10px 22px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;">Закрити</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ QUIZ MODAL ══ -->
+  <div id="quiz-overlay">
+    <div class="quiz-panel" id="quiz-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-shrink:0;">
+        <div>
+          <div style="font-size:1.05rem;font-weight:700;color:var(--text);">🧠 Тест</div>
+          <div style="font-size:.75rem;color:var(--text3);margin-top:2px;" id="quiz-subtitle">Питання 1 з 10</div>
+        </div>
+        <button id="quiz-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);line-height:1;">✕</button>
+      </div>
+      <div style="height:4px;background:var(--border);border-radius:4px;margin-bottom:10px;overflow:hidden;flex-shrink:0;">
+        <div id="quiz-pbar" style="height:100%;background:var(--accent);border-radius:4px;transition:width .4s ease;width:0%"></div>
+      </div>
+      <div style="display:flex;gap:14px;justify-content:center;margin-bottom:10px;flex-shrink:0;" id="quiz-score-row">
+        <span style="font-size:.82rem;color:#27ae60;font-weight:600;">✓ <span id="quiz-correct">0</span> правильно</span>
+        <span style="font-size:.82rem;color:#e74c3c;font-weight:600;">✗ <span id="quiz-wrong">0</span> неправильно</span>
+      </div>
+      <div id="quiz-question-wrap" style="background:var(--bg);border-radius:14px;padding:14px 16px;text-align:center;margin-bottom:10px;">
+        <div id="quiz-dir-label" style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;"></div>
+        <div id="quiz-word" style="font-family:'DM Serif Display',serif;font-size:1.75rem;color:var(--text);line-height:1.15;"></div>
+        <div id="quiz-ipa" style="font-size:.8rem;color:var(--accent2);margin-top:3px;"></div>
+        <div id="quiz-example" style="font-size:.76rem;color:var(--text2);margin-top:6px;font-style:italic;line-height:1.4;display:none;"></div>
+        <div id="quiz-ua-ex" style="font-size:.72rem;color:var(--text3);margin-top:3px;font-style:italic;line-height:1.4;"></div>
+      </div>
+      <div id="quiz-options" style="display:flex;flex-direction:column;gap:7px;flex-shrink:0;"></div>
+      <div id="quiz-result-msg" style="text-align:center;font-size:.88rem;font-weight:600;min-height:22px;margin-top:8px;flex-shrink:0;"></div>
+      <div style="text-align:center;margin-top:10px;flex-shrink:0;">
+        <button id="quiz-next" style="display:none;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:10px 32px;border-radius:10px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:opacity .15s;">Наступне →</button>
+      </div>
+      <div id="quiz-final" style="display:none;text-align:center;padding:10px 0 4px;">
+        <div style="font-size:2.5rem;margin-bottom:8px;" id="quiz-final-emoji">🎉</div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:6px;" id="quiz-final-title">Тест завершено!</div>
+        <div style="font-size:.9rem;color:var(--text2);margin-bottom:18px;" id="quiz-final-desc"></div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button id="quiz-restart" style="font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:10px 22px;border-radius:10px;border:1.5px solid var(--accent);background:none;color:var(--accent);cursor:pointer;">🔄 Ще раз</button>
+          <button id="quiz-restart-wrong" style="display:none;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:10px 22px;border-radius:10px;border:1.5px solid var(--accent2);background:none;color:var(--accent2);cursor:pointer;">✗ Лише помилки</button>
+          <button id="quiz-exit" style="font-family:'DM Sans',sans-serif;font-size:.88rem;padding:10px 22px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;">Закрити</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <!-- ══ TEMPO MODAL ══ -->
+  <div id="tempo-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
+    <div id="tempo-panel" style="background:var(--card);border-radius:20px;width:100%;max-width:480px;max-height:calc(100vh - 32px);padding:24px 20px;box-shadow:0 8px 40px rgba(0,0,0,.25);overflow-y:auto;position:relative;">
+
+      <!-- START SCREEN -->
+      <div id="tempo-start">
+        <div style="text-align:center;margin-bottom:20px;">
+          <div style="font-size:2.5rem;margin-bottom:6px;">⚡</div>
+          <div style="font-size:1.2rem;font-weight:700;color:var(--text);">Темп-режим</div>
+          <div style="font-size:.85rem;color:var(--text2);margin-top:6px;">Вгадай якомога більше слів за 60 секунд</div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;margin-bottom:22px;">
+          <button class="tempo-time-btn active" data-sec="30">30 сек</button>
+          <button class="tempo-time-btn" data-sec="60">60 сек</button>
+          <button class="tempo-time-btn" data-sec="90">90 сек</button>
+        </div>
+        <div id="tempo-best" style="text-align:center;font-size:.8rem;color:var(--text3);margin-bottom:20px;min-height:18px;"></div>
+        <button id="tempo-go" style="width:100%;padding:14px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">Старт ⚡</button>
+        <button id="tempo-close-start" style="width:100%;padding:10px;border-radius:12px;border:1.5px solid var(--border);background:none;color:var(--text2);font-size:.9rem;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:8px;">Закрити</button>
+      </div>
+
+      <!-- GAME SCREEN -->
+      <div id="tempo-game" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <div style="font-size:.85rem;color:var(--text2);">✓ <span id="tempo-score">0</span> &nbsp; ✗ <span id="tempo-miss">0</span></div>
+          <div id="tempo-timer" style="font-size:1.6rem;font-weight:700;color:var(--accent);min-width:48px;text-align:center;">60</div>
+        </div>
+        <div style="height:5px;background:var(--border);border-radius:5px;margin-bottom:20px;overflow:hidden;">
+          <div id="tempo-tbar" style="height:100%;background:var(--accent);border-radius:5px;width:100%;transition:width 1s linear;"></div>
+        </div>
+        <div style="background:var(--bg);border-radius:14px;padding:22px 16px;text-align:center;margin-bottom:18px;">
+          <div id="tempo-dir" style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;"></div>
+          <div id="tempo-word" style="font-family:'DM Serif Display',serif;font-size:2.2rem;color:var(--text);line-height:1.15;"></div>
+          <div id="tempo-ipa" style="font-size:.8rem;color:var(--accent2);margin-top:4px;"></div>
+        </div>
+        <div id="tempo-opts" style="display:flex;flex-direction:column;gap:9px;"></div>
+        <div id="tempo-feedback" style="text-align:center;font-size:.9rem;font-weight:600;min-height:22px;margin-top:10px;"></div>
+      </div>
+
+      <!-- RESULT SCREEN -->
+      <div id="tempo-result" style="display:none;text-align:center;padding:10px 0;">
+        <div style="font-size:3rem;margin-bottom:8px;" id="tempo-res-emoji">🏆</div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:6px;" id="tempo-res-title"></div>
+        <div style="font-size:.9rem;color:var(--text2);margin-bottom:6px;" id="tempo-res-score"></div>
+        <div style="font-size:.8rem;color:var(--accent);font-weight:600;margin-bottom:20px;" id="tempo-res-best"></div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button id="tempo-again" style="font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:10px 22px;border-radius:10px;border:1.5px solid var(--accent);background:none;color:var(--accent);cursor:pointer;">⚡ Ще раз</button>
+          <button id="tempo-close-res" style="font-family:'DM Sans',sans-serif;font-size:.88rem;padding:10px 22px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;">Закрити</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<script>
+window.onerror = function(msg, src, line, col) {
+  var div = document.getElementById('_err_overlay') || document.createElement('div');
+  div.id = '_err_overlay';
+  div.style.cssText = 'position:fixed;top:0;left:0;right:0;background:red;color:white;padding:10px;z-index:99999;font-size:12px;word-break:break-all;cursor:pointer;';
+  div.textContent = 'ERR: ' + msg + ' | line:' + line + ' col:' + col;
+  div.onclick = function(){ div.remove(); };
+  document.body.appendChild(div);
+  return false;
+};
+</script>
+<script type="module" src="/src/main.ts"></script>
+
+
+
+</body>
+</html>
