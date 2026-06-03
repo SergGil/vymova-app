@@ -819,8 +819,19 @@
             <button id="duel-join-btn" style="padding:10px 18px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;">→ Приєднатись</button>
           </div>
           <div style="font-size:.72rem;color:var(--text3);margin-top:6px;text-align:center;">Режим обирає той, хто створює кімнату</div>
+          <!-- Spectator + Async buttons -->
+          <div style="display:flex;gap:6px;margin-top:8px;">
+            <button id="duel-spectate-btn" style="flex:1;padding:7px;border-radius:9px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:.75rem;">👀 Спостерігати</button>
+            <button id="duel-async-join-btn" style="flex:1;padding:7px;border-radius:9px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:.75rem;">📬 Відповісти на виклик</button>
+          </div>
         </div>
+
+        <!-- Async challenge create button -->
+        <button id="duel-async-btn" style="width:100%;padding:10px;border-radius:12px;border:1.5px solid var(--border);background:none;color:var(--text2);font-weight:600;cursor:pointer;font-family:inherit;font-size:.85rem;margin-top:-4px;margin-bottom:4px;">📬 Надіслати виклик (async · 24год)</button>
       </div>
+
+      <!-- SPECTATOR VIEW -->
+      <div id="duel-spectate" style="display:none;"></div>
 
       <!-- COUNTDOWN -->
       <div id="duel-countdown" style="display:none;text-align:center;padding:40px 0;">
@@ -852,6 +863,8 @@
             <div style="font-size:1.5rem;font-weight:800;color:var(--accent2);" id="dm-opp-score">0</div>
             <div style="font-size:.72rem;color:var(--text3);" id="dm-opp-name">Суперник</div>
             <div style="font-size:.65rem;color:var(--text3);margin-top:1px;" id="dm-opp-progress">0/10</div>
+            <!-- Animated dot progress bar -->
+            <div id="dm-opp-progress-bar" style="margin-top:3px;"></div>
           </div>
         </div>
         <!-- Tempo timer bar -->
@@ -883,6 +896,9 @@
         <!-- Speed indicator -->
         <div id="dm-speed" style="text-align:center;font-size:.72rem;color:var(--text3);min-height:16px;margin-top:2px;"></div>
         <!-- In-game quick reactions -->
+        <!-- Power-ups row -->
+        <div id="dm-powerups" style="display:none;gap:6px;justify-content:center;margin-top:6px;"></div>
+
         <div style="display:flex;gap:6px;justify-content:center;margin-top:8px;" id="dm-react-row">
           <button class="dm-react-btn" data-emoji="👍" title="Добре!">👍</button>
           <button class="dm-react-btn" data-emoji="😅" title="Ой!">😅</button>

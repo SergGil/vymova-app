@@ -20,6 +20,13 @@ const REACTIONS = ['👍','😅','🔥','😂','🤯','😤','🎉','👏'];
 type DuelMode       = 'quiz' | 'reverse' | 'write' | 'tempo';
 type Difficulty     = 'easy' | 'normal' | 'hard';
 type BestOf         = 1 | 3;
+type PowerupType    = 'double' | 'skip' | 'freeze';
+
+const POWERUPS: { id:PowerupType; icon:string; label:string; desc:string }[] = [
+  { id:'double', icon:'🎯', label:'×2',      desc:'Наступна правильна = 2 очки' },
+  { id:'skip',   icon:'⏩', label:'Скіп',    desc:'Пропустити питання' },
+  { id:'freeze', icon:'🧊', label:'Мороз',   desc:'Заморозити суперника на 5с' },
+];
 
 const DUEL_MODES: { id:DuelMode; icon:string; label:string; desc:string }[] = [
   { id:'quiz',    icon:'🧠', label:'Тест',    desc:'4 варіанти · EN→UA' },
@@ -33,14 +40,28 @@ const DIFFICULTIES: { id:Difficulty; label:string; desc:string }[] = [
   { id:'hard',   label:'Важкий',   desc:'Всі 5598 слів' },
 ];
 
-interface PlayerData { name:string; avatar:string; score:number; idx:number; done:boolean; reaction?:string; hintsLeft:number; }
+interface PlayerData {
+  name:string; avatar:string; score:number; idx:number; done:boolean;
+  reaction?:string; hintsLeft:number;
+  powerups:Record<PowerupType,number>; frozenUntil?:number;
+}
 interface SeriesData { p1wins:number; p2wins:number; round:number; }
+interface SpectatorData { name:string; avatar:string; }
 interface RoomData {
   seed:number; mode:DuelMode; category:string; difficulty:Difficulty;
-  bestOf:BestOf; maxHints:number;
+  bestOf:BestOf; maxHints:number; powerupsEnabled:boolean;
   p1:PlayerData; p2:PlayerData|null;
   started:boolean; finished:boolean; createdAt:number;
   series:SeriesData;
+  spectators?:Record<string, SpectatorData>;
+}
+// Async duel (challenge)
+interface AsyncDuel {
+  seed:number; mode:DuelMode; category:string; difficulty:Difficulty;
+  createdAt:number; expiresAt:number;
+  challenger:{ name:string; avatar:string; score:number; done:boolean };
+  opponent?:{ name:string; avatar:string; score:number; done:boolean };
+  finished:boolean;
 }
 
 // ── History & Rating (localStorage) ──────────────────────────
@@ -126,7 +147,16 @@ let _finished  = false;
 let _hintsLeft = 3;
 let _series:   SeriesData = { p1wins:0, p2wins:0, round:1 };
 let _bestOf:   BestOf     = 1;
-let _answerStartMs = 0; // for speed indicator
+let _answerStartMs = 0;
+// Power-ups
+let _myPowerups: Record<PowerupType,number> = { double:1, skip:1, freeze:1 };
+let _doubleActive = false;
+let _powerupsEnabled = false;
+// Spectator
+let _isSpectator = false;
+let _specId = '';
+// Freeze timer
+let _freezeTimer: ReturnType<typeof setTimeout> | null = null;
 let _oppName   = '';
 let _oppAvatar = '';
 
@@ -194,8 +224,9 @@ function _showResult()   { elLobby().style.display='none'; elCountdown().style.d
 let _selMode:       DuelMode   = 'quiz';
 let _selCategory:   string     = '';
 let _selDifficulty: Difficulty = 'normal';
-let _selBestOf:     BestOf     = 1;
-let _selMaxHints:   number     = 3;
+let _selBestOf:      BestOf     = 1;
+let _selMaxHints:    number     = 3;
+let _selPowerups:    boolean    = true;
 
 function _renderModePicker(): void {
   const el = $('duel-mode-picker'); if(!el) return;
@@ -244,10 +275,15 @@ function _renderOptionsRow(): void {
           <option value="1"${_selMaxHints===1?' selected':''}>1 підказка</option>
         </select>
       </label>
+      <label style="display:flex;align-items:center;gap:5px;cursor:pointer;">
+        <input type="checkbox" id="duel-powerups-chk"${_selPowerups?' checked':''} style="cursor:pointer;">
+        <span>🎯 Power-ups</span>
+      </label>
     </div>`;
   $('duel-diff-sel')?.addEventListener('change', e=>{ _selDifficulty=(e.target as HTMLSelectElement).value as Difficulty; });
   $('duel-bestof-sel')?.addEventListener('change', e=>{ _selBestOf=parseInt((e.target as HTMLSelectElement).value) as BestOf; });
   $('duel-hints-sel')?.addEventListener('change', e=>{ _selMaxHints=parseInt((e.target as HTMLSelectElement).value); });
+  ($('duel-powerups-chk') as HTMLInputElement)?.addEventListener('change', e=>{ _selPowerups=(e.target as HTMLInputElement).checked; });
 }
 
 // ── Countdown ─────────────────────────────────────────────────
@@ -281,10 +317,10 @@ async function createRoom(): Promise<void> {
     const seed=Date.now();
     const room: RoomData = {
       seed, mode:_selMode, category:_selCategory, difficulty:_selDifficulty,
-      bestOf:_selBestOf, maxHints:_selMaxHints,
+      bestOf:_selBestOf, maxHints:_selMaxHints, powerupsEnabled:_selPowerups,
       createdAt:Date.now(), started:false, finished:false,
       series:{p1wins:0,p2wins:0,round:1},
-      p1:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:_selMaxHints},
+      p1:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:_selMaxHints,powerups:{double:_selPowerups?1:0,skip:_selPowerups?1:0,freeze:_selPowerups?1:0}},
       p2:null,
     };
     await _fbSet(`/duel_rooms/${_roomId}`,room);
@@ -320,11 +356,11 @@ async function joinRoom(): Promise<void> {
     _quizDeck=_buildDeck(room.seed,room.category,room.difficulty);
     _bestOf=room.bestOf||1; _series={...room.series};
     await _fbPatch(`/duel_rooms/${_roomId}`,{
-      p2:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:room.maxHints},
+      p2:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:room.maxHints,powerups:{double:room.powerupsEnabled?1:0,skip:room.powerupsEnabled?1:0,freeze:room.powerupsEnabled?1:0}},
       started:true,
     });
     _oppName=room.p1.name; _oppAvatar=room.p1.avatar;
-    _initGame(room.mode,room.maxHints,room.bestOf,room.series);
+    _initGame(room.mode,room.maxHints,room.bestOf,room.series,room.powerupsEnabled);
   } catch(e){
     btn.disabled=false; btn.textContent='→ Приєднатись';
     elMsg().textContent='❌ '+(e as Error).message; elMsg().style.display='block';
@@ -339,16 +375,19 @@ function _startWaitPoll(): void {
       if(room.started&&room.p2){
         clearInterval(_pollTimer!); _pollTimer=null;
         _oppName=room.p2.name; _oppAvatar=room.p2.avatar;
-        _initGame(room.mode,room.maxHints,room.bestOf,room.series);
+        _initGame(room.mode,room.maxHints,room.bestOf,room.series,room.powerupsEnabled);
       }
     } catch(e){}
   },2000);
 }
 
-function _initGame(mode:DuelMode,maxHints:number,bestOf:BestOf,series:SeriesData): void {
+function _initGame(mode:DuelMode,maxHints:number,bestOf:BestOf,series:SeriesData,powerupsEnabled=false): void {
   _mode=mode; _bestOf=bestOf; _series={...series};
   _quizIdx=0; _myScore=0; _answered=false; _finished=false;
   _hintsLeft = maxHints === 0 ? 999 : maxHints;
+  _powerupsEnabled = powerupsEnabled;
+  _myPowerups = powerupsEnabled ? {double:1,skip:1,freeze:1} : {double:0,skip:0,freeze:0};
+  _doubleActive = false;
   _runCountdown(()=>_startGameUI());
 }
 
@@ -365,6 +404,8 @@ function _startGameUI(): void {
   const tr=$('dm-timer-row') as HTMLElement|null; if(tr) tr.style.display=_mode==='tempo'?'':'none';
   // Hint button
   _updateHintUI();
+  // Power-ups
+  _renderPowerups();
   // Series indicator
   _updateSeriesUI();
   _showGame();
@@ -381,6 +422,65 @@ function _updateHintUI(): void {
   hb.disabled = _hintsLeft<=0;
 }
 
+function _renderPowerups(): void {
+  const el=$('dm-powerups') as HTMLElement|null; if(!el) return;
+  if(!_powerupsEnabled){ el.style.display='none'; return; }
+  el.style.display='flex';
+  el.innerHTML = POWERUPS.map(p=>{
+    const left = _myPowerups[p.id];
+    const disabled = left<=0 || _answered ? 'disabled' : '';
+    return `<button class="dm-pu-btn" data-pu="${p.id}" ${disabled}
+      title="${p.desc}"
+      style="padding:5px 8px;border-radius:9px;border:1.5px solid ${left>0?'var(--accent)':'var(--border)'};background:${left>0?'rgba(0,200,100,.08)':'var(--bg2)'};cursor:${left>0&&!_answered?'pointer':'default'};font-size:.78rem;color:${left>0?'var(--accent)':'var(--text3)'};">
+      ${p.icon} ${p.label}${left>0?` ×${left}`:''}
+    </button>`;
+  }).join('');
+  el.querySelectorAll<HTMLButtonElement>('.dm-pu-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{ if(!btn.disabled) _usePowerup(btn.dataset.pu as PowerupType); });
+  });
+}
+
+async function _usePowerup(type: PowerupType): Promise<void> {
+  if(_myPowerups[type]<=0 || _answered) return;
+  _myPowerups[type]--;
+  _renderPowerups();
+  const w = _quizDeck[_quizIdx];
+  if(type==='double'){
+    _doubleActive = true;
+    _showMiniToast('🎯 Подвійні очки активовано!');
+  } else if(type==='skip'){
+    // Skip current question without penalty
+    _answered = true;
+    if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
+    elFeedback().innerHTML='<span style="color:var(--accent)">⏩ Питання пропущено</span>';
+    _quizIdx++;
+    await _pushScore();
+    setTimeout(()=>{ if(_quizIdx<ROOM_SIZE) _renderQuestion(); else _finishMyGame(); }, 700);
+  } else if(type==='freeze'){
+    // Send freeze signal to opponent via Firebase
+    try{ await _fbPatch(`/duel_rooms/${_roomId}`,{[`${_mySlot==='p1'?'p2':'p1'}_freeze`]:Date.now()+5000}); }catch(e){}
+    _showMiniToast('🧊 Суперника заморожено на 5с!');
+  }
+  // Persist powerup state
+  try{ await _fbPatch(`/duel_rooms/${_roomId}/${_mySlot}`,{powerups:_myPowerups}); }catch(e){}
+}
+
+function _showMiniToast(msg:string): void {
+  const t = document.createElement('div');
+  t.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:8px 16px;border-radius:20px;font-size:.82rem;font-weight:600;z-index:99999;pointer-events:none;';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 2200);
+}
+
+// ── Animated opponent progress bar ──────────────────────────
+function _renderOppProgressBar(idx:number): void {
+  const el=$('dm-opp-progress-bar') as HTMLElement|null; if(!el) return;
+  el.innerHTML = Array.from({length:ROOM_SIZE},(_,i)=>
+    `<span style="width:10px;height:10px;border-radius:50%;display:inline-block;background:${i<idx?'var(--accent2)':'var(--border)'};margin:1px;transition:background .3s;"></span>`
+  ).join('');
+}
+
 function _updateSeriesUI(): void {
   const el=$('dm-series-row') as HTMLElement|null; if(!el) return;
   if(_bestOf===1){ el.style.display='none'; return; }
@@ -392,16 +492,30 @@ function _updateSeriesUI(): void {
 function _startOpponentPoll(): void {
   _pollTimer=setInterval(async()=>{
     try {
-      const room=await _fbGet(`/duel_rooms/${_roomId}`) as RoomData|null;
+      const room=await _fbGet(`/duel_rooms/${_roomId}`) as (RoomData & Record<string,unknown>)|null;
       if(!room) return;
       const opp=_mySlot==='p1'?room.p2:room.p1;
       if(opp){
         elOppScore().textContent=String(opp.score);
         elOppProg().textContent=`${opp.idx}/${ROOM_SIZE}`;
-        // Show opponent reaction if new
+        _renderOppProgressBar(opp.idx);
         if(opp.reaction) _showReactionReceived(opp.reaction);
       }
-      if(room.finished){ clearInterval(_pollTimer!); _pollTimer=null; _showFinish(room); }
+      // Check if I'm frozen (opponent used freeze on me)
+      const myFreezeKey = `${_mySlot}_freeze`;
+      const freezeUntil = room[myFreezeKey] as number|undefined;
+      if(freezeUntil && freezeUntil > Date.now() && !_answered && _mode==='tempo'){
+        if(!_freezeTimer){
+          const remaining = Math.ceil((freezeUntil-Date.now())/1000);
+          elFeedback().innerHTML=`<span style="color:#5dade2">🧊 Заморожено на ${remaining}с!</span>`;
+          if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
+          _freezeTimer=setTimeout(()=>{
+            _freezeTimer=null; elFeedback().textContent='';
+            _startTempoTimer(_quizDeck[_quizIdx]);
+          },freezeUntil-Date.now());
+        }
+      }
+      if(room.finished){ clearInterval(_pollTimer!); _pollTimer=null; _showFinish(room as RoomData); }
     } catch(e){}
   },1500);
 }
@@ -457,7 +571,7 @@ function _renderChoiceQ(w:WordEntry): void {
 function _renderWriteQ(w:WordEntry): void {
   elQuestion().innerHTML=`<div style="font-size:1.25rem;font-weight:700;color:var(--text);text-align:center;">${w[1]}</div><div style="font-size:.78rem;color:var(--text3);margin-top:4px;text-align:center;">Введи англійською</div>`;
   const inp=elInput(); inp.value=''; inp.style.borderColor=''; inp.disabled=false;
-  _updateHintUI();
+  _updateHintUI(); _renderPowerups();
   setTimeout(()=>{try{inp.focus();}catch(e){}},60);
 }
 
@@ -493,10 +607,15 @@ async function _answerChoice(btn:HTMLButtonElement,chosen:string,correct:string,
   const ok=chosen===correct;
   btn.classList.add(ok?'correct':'wrong');
   if(!ok) elOpts().querySelectorAll<HTMLButtonElement>('.quiz-option').forEach(b=>{if(b.textContent?.includes(correct)) b.classList.add('reveal');});
-  if(ok) _myScore++;
+  if(ok){
+    const pts = _doubleActive ? 2 : 1;
+    _myScore += pts;
+    if(_doubleActive){ _doubleActive=false; elFeedback().innerHTML=`<span style="color:#f39c12">🎯 +2 очки!</span>`; }
+  }
   elMyScore().textContent=String(_myScore);
-  elFeedback().innerHTML=ok?'<span style="color:#27ae60">✓ Правильно!</span>':`<span style="color:#e74c3c">✗ ${correct}</span>`;
+  if(!_doubleActive) elFeedback().innerHTML=ok?'<span style="color:#27ae60">✓ Правильно!</span>':`<span style="color:#e74c3c">✗ ${correct}</span>`;
   elSpeed().textContent=ok?`⚡ ${(ms/1000).toFixed(1)}с`:'';
+  _renderPowerups();
   _quizIdx++; await _pushScore();
   setTimeout(()=>{if(_quizIdx<ROOM_SIZE)_renderQuestion();else _finishMyGame();},ok?600:1200);
 }
@@ -618,10 +737,138 @@ function _cancelRoom():void{
   _clearSession();
   if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
-  if(_roomId){ if(_mySlot==='p1') fetch(`${DB_URL}/duel_rooms/${_roomId}.json`,{method:'DELETE'}).catch(()=>{}); _roomId=''; }
+  if(_freezeTimer){clearTimeout(_freezeTimer);_freezeTimer=null;}
+  if(_roomId){
+    if(_mySlot==='p1') fetch(`${DB_URL}/duel_rooms/${_roomId}.json`,{method:'DELETE'}).catch(()=>{});
+    // Remove spectator entry if spectator
+    if(_isSpectator&&_specId) fetch(`${DB_URL}/duel_rooms/${_roomId}/spectators/${_specId}.json`,{method:'DELETE'}).catch(()=>{});
+    _roomId='';
+  }
+  _isSpectator=false;
   $('duel-waiting').style.display='none'; $('duel-join-row').style.display='block';
   const btn=$('duel-create-btn') as HTMLButtonElement; btn.disabled=false; btn.textContent='⚔️ Створити кімнату';
   elMsg().style.display='none';
+}
+
+// ── Spectator mode ────────────────────────────────────────────
+async function joinAsSpectator(): Promise<void> {
+  const inp=$('duel-join-input') as HTMLInputElement;
+  const code=inp.value.replace(/[^A-Z0-9]/gi,'').toUpperCase();
+  if(code.length<6){elMsg().textContent='❌ Введіть код кімнати';elMsg().style.display='block';return;}
+  try {
+    const room=await _fbGet(`/duel_rooms/${code}`) as RoomData|null;
+    if(!room?.seed) throw new Error('Кімнату не знайдено');
+    _isSpectator=true; _specId=_genCode(); _roomId=code;
+    // Register spectator
+    await _fbPatch(`/duel_rooms/${code}/spectators/${_specId}`,{name:_getMyName(),avatar:_getMyAvatar()});
+    // Show spectator view
+    _startSpectatorView(room);
+  } catch(e){
+    elMsg().textContent='❌ '+(e as Error).message; elMsg().style.display='block';
+  }
+}
+
+function _startSpectatorView(room:RoomData): void {
+  const el=$('duel-spectate') as HTMLElement|null; if(!el) return;
+  elLobby().style.display='none'; el.style.display='';
+  _renderSpectatorView(room);
+  _pollTimer=setInterval(async()=>{
+    try{
+      const r=await _fbGet(`/duel_rooms/${_roomId}`) as RoomData|null;
+      if(!r) return;
+      _renderSpectatorView(r);
+      if(r.finished){
+        clearInterval(_pollTimer!); _pollTimer=null;
+        setTimeout(()=>{ el.style.display='none'; _showLobby(); renderDuel(); },3000);
+      }
+    }catch(e){}
+  },1500);
+}
+
+function _renderSpectatorView(room:RoomData): void {
+  const el=$('duel-spectate') as HTMLElement|null; if(!el) return;
+  const p1=room.p1, p2=room.p2;
+  const mInfo=DUEL_MODES.find(m=>m.id===room.mode)||DUEL_MODES[0];
+  const specCount=Object.keys(room.spectators||{}).length;
+  el.innerHTML=`
+    <div style="text-align:center;padding:20px 10px;">
+      <div style="font-size:.72rem;color:var(--accent);margin-bottom:6px;">👀 Режим спостерігача${specCount>0?` · ${specCount} гляд.`:''}</div>
+      <div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:16px;">${mInfo.icon} ${mInfo.label}</div>
+      <div style="display:flex;gap:20px;justify-content:center;align-items:center;">
+        <div style="text-align:center;">
+          <div style="font-size:1.8rem;">${p1.avatar}</div>
+          <div style="font-weight:700;font-size:.9rem;color:var(--text);">${p1.name}</div>
+          <div style="font-size:1.8rem;font-weight:900;color:var(--accent);margin:4px 0;">${p1.score}</div>
+          <div style="font-size:.7rem;color:var(--text3);">${p1.idx}/${ROOM_SIZE}</div>
+          <div>${Array.from({length:ROOM_SIZE},(_,i)=>`<span style="width:8px;height:8px;border-radius:50%;display:inline-block;background:${i<p1.idx?'var(--accent)':'var(--border)'};margin:1px;"></span>`).join('')}</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--text3);">⚔️</div>
+        <div style="text-align:center;">
+          ${p2?`
+            <div style="font-size:1.8rem;">${p2.avatar}</div>
+            <div style="font-weight:700;font-size:.9rem;color:var(--text);">${p2.name}</div>
+            <div style="font-size:1.8rem;font-weight:900;color:var(--accent2);margin:4px 0;">${p2.score}</div>
+            <div style="font-size:.7rem;color:var(--text3);">${p2.idx}/${ROOM_SIZE}</div>
+            <div>${Array.from({length:ROOM_SIZE},(_,i)=>`<span style="width:8px;height:8px;border-radius:50%;display:inline-block;background:${i<p2.idx?'var(--accent2)':'var(--border)'};margin:1px;"></span>`).join('')}</div>
+          `:'<div style="color:var(--text3);font-size:.82rem;">Очікуємо P2…</div>'}
+        </div>
+      </div>
+      <button id="duel-spec-leave" style="margin-top:20px;padding:8px 18px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.82rem;">✕ Вийти</button>
+    </div>`;
+  $('duel-spec-leave')?.addEventListener('click',()=>{ _cancelRoom(); el.style.display='none'; _showLobby(); renderDuel(); });
+}
+
+// ── Async duel (challenge) ────────────────────────────────────
+async function createAsyncChallenge(): Promise<void> {
+  const btn=$('duel-async-btn') as HTMLButtonElement;
+  btn.disabled=true; btn.textContent='Створення...';
+  try {
+    const code=_genCode();
+    const seed=Date.now();
+    const challenge: AsyncDuel = {
+      seed, mode:_selMode, category:_selCategory, difficulty:_selDifficulty,
+      createdAt:Date.now(), expiresAt:Date.now()+86_400_000, // 24 hours
+      challenger:{ name:_getMyName(), avatar:_getMyAvatar(), score:0, done:false },
+      finished:false,
+    };
+    await _fbSet(`/duel_async/${code}`, challenge);
+    // Play immediately as challenger
+    _roomId=code; _mySlot='p1'; _quizDeck=_buildDeck(seed,_selCategory,_selDifficulty);
+    // Show code to share
+    const codeEl=$('duel-room-code'); if(codeEl) codeEl.textContent=_fmtCode(code);
+    const modeEl=$('duel-waiting-mode');
+    if(modeEl) modeEl.textContent=`📬 Виклик · ігровий режим: ${DUEL_MODES.find(m=>m.id===_selMode)?.label} · 24г на відповідь`;
+    $('duel-waiting').style.display='block';
+    $('duel-join-row').style.display='none';
+    // Start playing immediately
+    setTimeout(()=>{
+      $('duel-waiting').style.display='none';
+      _initGame(_selMode, _selMaxHints, 1, {p1wins:0,p2wins:0,round:1}, _selPowerups);
+    }, 2000);
+  } catch(e){
+    btn.disabled=false; btn.textContent='📬 Надіслати виклик';
+    elMsg().textContent='❌ '+(e as Error).message; elMsg().style.display='block';
+  }
+}
+
+async function joinAsyncChallenge(): Promise<void> {
+  const inp=$('duel-join-input') as HTMLInputElement;
+  const code=inp.value.replace(/[^A-Z0-9]/gi,'').toUpperCase();
+  if(code.length<6){elMsg().textContent='❌ Введіть код виклику';elMsg().style.display='block';return;}
+  try {
+    const challenge=await _fbGet(`/duel_async/${code}`) as AsyncDuel|null;
+    if(!challenge) throw new Error('Виклик не знайдено');
+    if(challenge.finished) throw new Error('Виклик вже завершено');
+    if(Date.now()>challenge.expiresAt) throw new Error('Виклик прострочений (24 год)');
+    if(challenge.opponent) throw new Error('Хтось вже відповів на цей виклик');
+    _roomId=code; _mySlot='p2'; _quizDeck=_buildDeck(challenge.seed,challenge.category,challenge.difficulty);
+    _oppName=challenge.challenger.name; _oppAvatar=challenge.challenger.avatar;
+    const msg=`📬 Виклик від ${challenge.challenger.avatar} ${challenge.challenger.name} · ${DUEL_MODES.find(m=>m.id===challenge.mode)?.label}`;
+    elMsg().textContent=msg; elMsg().style.display='block';
+    setTimeout(()=>{ elMsg().style.display='none'; _initGame(challenge.mode,3,1,{p1wins:0,p2wins:0,round:1}); }, 1500);
+  } catch(e){
+    elMsg().textContent='❌ '+(e as Error).message; elMsg().style.display='block';
+  }
 }
 
 function _doRematch():void{
@@ -681,6 +928,9 @@ $('duel-join-btn')?.addEventListener('click',joinRoom);
 $('duel-cancel-btn')?.addEventListener('click',_cancelRoom);
 $('duel-again-btn')?.addEventListener('click',()=>{ _cancelRoom(); _showLobby(); renderDuel(); });
 $('duel-rematch-btn')?.addEventListener('click',_doRematch);
+$('duel-spectate-btn')?.addEventListener('click',joinAsSpectator);
+$('duel-async-btn')?.addEventListener('click',createAsyncChallenge);
+$('duel-async-join-btn')?.addEventListener('click',joinAsyncChallenge);
 
 $('duel-join-input')?.addEventListener('keydown',(e:KeyboardEvent)=>{
   const inp=e.target as HTMLInputElement;
