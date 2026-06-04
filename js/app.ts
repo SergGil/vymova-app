@@ -28,6 +28,7 @@ import { getCefrLevel }                                 from '../data/cefr.ts';
 import { ACHIEVEMENTS }                                 from '../data/achievements.ts';
 import { WORD_FAMILIES }                                from '../data/word-families.ts';
 import { searchCollocations }                          from '../data/collocations.ts';
+import { renderLeaderboard, maybeSubmitScore }         from './features/leaderboard.ts';
 import { playSound }                                    from './core/audio.ts';
 import { launchConfetti }                               from './core/confetti.ts';
 import { updateRing }                                   from './features/ring.ts';
@@ -671,6 +672,7 @@ function onWordLearned() {
   renderGameBar();
   // Щоденна статистика
   recordDailyWord();
+  try { maybeSubmitScore(); } catch(e){}
   // Лічильник сесії + XP за слово
   var gd2 = getGameData();
   gd2.sessionWords = (gd2.sessionWords || 0) + 1;
@@ -1276,7 +1278,17 @@ function renderStats() {
   try { renderSRSForecast(); }      catch(e){ console.error('renderSRSForecast:', e); }
   try { _renderModeAccuracy(); }    catch(e){ console.error('renderModeAccuracy:', e); }
   try { _renderCefrStats(); }       catch(e){ console.error('renderCefrStats:', e); }
+  // Leaderboard — lazy load when stats opened
+  const lbEl = document.getElementById('lb-container');
+  if (lbEl && !lbEl.dataset.loaded) {
+    lbEl.dataset.loaded = '1';
+    renderLeaderboard(lbEl).catch(() => {});
+  }
 }
+document.getElementById('lb-refresh-btn')?.addEventListener('click', () => {
+  const lbEl = document.getElementById('lb-container');
+  if (lbEl) { lbEl.removeAttribute('data-loaded'); renderLeaderboard(lbEl).catch(()=>{}); }
+});
 
 // renderLevelBadge/checkAchievements вбудовано в основну onWordLearned нижче
 

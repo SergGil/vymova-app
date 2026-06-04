@@ -3795,3 +3795,14 @@ body.dark .cefr-C2, body.sw .cefr-C2 { background: rgba(142,68,173,.18); }
   .lp-focus-level { font-size: 1.5rem; }
   .lp-level-details .lp-days-est { display: none; }
 }
+
+/* ── Story Mode ─────────────────────────────────────────────── */
+.sm-word { cursor: pointer; border-bottom: 1.5px dashed var(--accent2); color: var(--accent2); transition: background .1s; border-radius: 3px; padding: 0 1px; }
+.sm-word:hover { background: rgba(196,98,45,.15); }
+.sm-word.sm-known { border-bottom-color: var(--accent); color: inherit; }
+.sm-word.sm-known:hover { background: rgba(45,90,61,.12); }
+
+/* ── Mode card colors ───────────────────────────────────────── */
+.mc-context  { --mc: #9b59b6; }
+.mc-spelling { --mc: #f39c12; }
+.mc-story    { --mc: #27ae60; }

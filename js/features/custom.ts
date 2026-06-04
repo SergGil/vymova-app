@@ -168,3 +168,63 @@ document.getElementById('btn-share')?.addEventListener('click', () => {
     } catch (e) { prompt('Скопіюй цей код:', code); }
   }
 });
+
+// ── CSV/TXT Import ─────────────────────────────────────────────
+const csvImportBtn  = document.getElementById('btn-csv-import')  as HTMLButtonElement | null;
+const csvFileInput  = document.getElementById('csv-import-file') as HTMLInputElement  | null;
+const csvImportHint = document.getElementById('csv-import-hint') as HTMLElement       | null;
+
+csvImportBtn?.addEventListener('click', () => {
+  csvFileInput?.click();
+  if (csvImportHint) csvImportHint.style.display = 'block';
+});
+
+csvFileInput?.addEventListener('change', async () => {
+  const file = csvFileInput?.files?.[0]; if (!file) return;
+  const text = await file.text();
+  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  let added = 0, skipped = 0;
+  const wi = _wi();
+  const cw = _cw();
+
+  for (const line of lines) {
+    // Support: "english,translation" or "english;translation" or "english\ttranslation"
+    const parts = line.split(/[,;\t]/).map(p => p.trim().replace(/^["']|["']$/g, ''));
+    if (parts.length < 2) { skipped++; continue; }
+    const [en, ua, exEn = '', exUa = ''] = parts;
+    if (!en || !ua || en.length < 1 || ua.length < 1) { skipped++; continue; }
+    // Skip if already exists
+    if (wi?.has(en.toLowerCase())) { skipped++; continue; }
+    // Sanitize
+    const sanitize = (s: string) => s.replace(/[<>"'&]/g, c => ({'<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','&':'&amp;'})[c] ?? c);
+    const safeExEn = sanitize(exEn), safeExUa = sanitize(exUa);
+    // Add to W
+    const { W } = window as Window & { W?: (string | undefined)[][] };
+    if (W) {
+      const entry = [en, ua, safeExEn || en + '.', safeExUa || ua + '.', ''];
+      W.push(entry);
+      wi?.set(en.toLowerCase(), W.length - 1);
+    }
+    cw.push({ en, ua, ex_en: safeExEn, ex_ua: safeExUa });
+    added++;
+  }
+
+  (window as Window & { _customWords?: typeof cw })._customWords = cw;
+  try { localStorage.setItem('ew_custom', JSON.stringify(cw)); } catch (e) {}
+  (window as Window & { invalidateSimilarCache?: () => void }).invalidateSimilarCache?.();
+  (window as Window & { invalidateCatCache?: () => void }).invalidateCatCache?.();
+
+  // Reset file input
+  if (csvFileInput) csvFileInput.value = '';
+
+  // Show result
+  const toast = document.getElementById('milestone-toast');
+  const msg = added > 0
+    ? `✅ Імпортовано ${added} слів${skipped > 0 ? ` (пропущено ${skipped})` : ''}!`
+    : `⚠️ Не знайдено нових слів (пропущено ${skipped})`;
+  if (toast) {
+    toast.textContent = msg; toast.className = 'milestone-toast';
+    void toast.offsetWidth; toast.className = 'milestone-toast show';
+    setTimeout(() => { toast.className = 'milestone-toast'; }, 3500);
+  }
+});
