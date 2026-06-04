@@ -1125,49 +1125,105 @@
 
 
   /* ── Схожі слова ── */
+  /* ── Card extra sections (families, collocations, similar) ── */
   .similar-section {
-    margin-top: 10px;
+    margin-top: 8px;
     width: 100%;
     text-align: left;
   }
   .similar-title {
-    font-size: .62rem;
-    font-weight: 700;
-    letter-spacing: .08em;
+    font-size: .6rem;
+    font-weight: 800;
+    letter-spacing: .1em;
     text-transform: uppercase;
-    color: rgba(255,255,255,.4);
+    color: var(--text3);
     margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
   .similar-chips {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
-    justify-content: flex-start;
   }
+
+  /* ── Схожі слова chips ── */
   .sim-chip {
-    background: rgba(255,255,255,.1);
-    border: 1px solid rgba(255,255,255,.2);
+    background: var(--bg2, rgba(255,255,255,.07));
+    border: 1.5px solid var(--border);
     border-radius: 20px;
     padding: 4px 10px;
-    font-size: .72rem;
+    font-size: .75rem;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    min-width: 56px;
+  }
+  .sim-chip:hover { border-color: var(--accent); background: rgba(0,200,100,.06); }
+  .sim-chip .sc-word   { font-weight: 700; color: var(--text); }
+  .sim-chip .sc-transl { font-size: .62rem; color: var(--text3); }
+  .sim-chip.known-chip { border-color: rgba(39,174,96,.4); background: rgba(39,174,96,.06); }
+  .sim-chip.known-chip .sc-word { color: var(--accent); }
+
+  /* ── Word Families chips — distinct style ── */
+  .family-chip {
+    background: rgba(var(--accent-rgb,45,90,61),.08);
+    border: 1.5px solid rgba(var(--accent-rgb,45,90,61),.25);
+    border-radius: 12px;
+    padding: 4px 10px;
+    font-size: .75rem;
     cursor: pointer;
     transition: background .15s;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1px;
-    min-width: 60px;
+    min-width: 56px;
   }
-  .sim-chip:hover { background: rgba(255,255,255,.2); }
-  .sim-chip .sc-word  { font-weight: 600; color: #fff; }
-  .sim-chip .sc-transl { font-size: .62rem; color: rgba(255,255,255,.55); }
-  .sim-chip.known-chip { border-color: rgba(78,204,163,.5); }
-  .sim-chip.known-chip .sc-word { color: #4ecca3; }
+  .family-chip:hover { background: rgba(var(--accent-rgb,45,90,61),.15); }
+  .family-chip .sc-word   { font-weight: 700; color: var(--accent); }
+  .family-chip .sc-transl { font-size: .62rem; color: var(--text3); }
+  .family-chip.known-chip .sc-word { color: var(--accent); opacity: .7; }
 
-  /* Темна тема вже підходить, але для світлої доробимо */
-  body:not(.dark) .sim-chip.known-chip { border-color: #27ae60; }
-  body:not(.dark) .sim-chip.known-chip .sc-word { color: #27ae60; }
-  body:not(.dark) .similar-title { color: var(--text3); }
+  /* ── Collocations — horizontal scrollable pills ── */
+  #cb-collocation-list {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .colloc-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(52,152,219,.08);
+    border: 1.5px solid rgba(52,152,219,.25);
+    border-radius: 20px;
+    padding: 4px 11px;
+    font-size: .75rem;
+    color: var(--text2);
+    cursor: default;
+    white-space: nowrap;
+    transition: background .12s;
+  }
+  .colloc-pill b { color: #3498db; font-weight: 700; }
+  .colloc-pill:hover { background: rgba(52,152,219,.14); }
+
+  /* Light theme overrides */
+  body:not(.dark):not(.sw) .sim-chip { background: #f5f5f5; }
+  body:not(.dark):not(.sw) .sim-chip:hover { background: #e8f8f0; border-color: var(--accent); }
+  body:not(.dark):not(.sw) .family-chip { background: rgba(45,90,61,.06); }
+
+  /* ── Compact on mobile ── */
+  @media (max-width: 480px) {
+    .sim-chip, .family-chip { min-width: 48px; padding: 3px 8px; font-size: .7rem; }
+    .colloc-pill { font-size: .7rem; padding: 3px 9px; }
+    .similar-title { font-size: .58rem; }
+  }
   /* ── Тест (Quiz) ── */
   #quiz-overlay {
     display: none;

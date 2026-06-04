@@ -1680,11 +1680,14 @@ function updateCollocations() {
   if (!colls.length) { section.style.display = 'none'; return; }
 
   section.style.display = 'block';
-  list.innerHTML = colls.slice(0, 5).map(function(c) {
-    return '<div style="font-size:.8rem;padding:4px 8px;border-radius:7px;background:var(--bg);border:1px solid var(--border);">' +
-      '<span style="color:var(--accent);font-weight:600;">' + c.phrase + '</span>' +
-      (c.note ? ' <span style="font-size:.7rem;color:var(--text3);">— ' + c.note + '</span>' : '') +
-    '</div>';
+  // Highlight the keyword in each phrase and display as pill
+  list.innerHTML = colls.slice(0, 6).map(function(c) {
+    var wordLow = cw![0].toLowerCase();
+    var highlighted = c.phrase.replace(
+      new RegExp('\\b(' + wordLow + '\\w*)\\b', 'i'),
+      '<b>$1</b>'
+    );
+    return '<span class="colloc-pill">' + highlighted + '</span>';
   }).join('');
 }
 
