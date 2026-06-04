@@ -287,19 +287,7 @@
 
   <p class="hint">Натисни на картку — побачиш переклад</p>
 
-  <!-- Word Families — always visible below card -->
-  <div class="similar-section" id="cb-families" style="display:none;margin:8px 0 0;">
-    <div class="similar-title">🌱 Сімейство слів</div>
-    <div class="similar-chips" id="cb-family-chips"></div>
-  </div>
-
-  <!-- Collocations — always visible below card -->
-  <div class="similar-section" id="cb-collocations" style="display:none;margin:6px 0 0;">
-    <div class="similar-title">🔗 Сталі словосполучення</div>
-    <div id="cb-collocation-list" style="display:flex;flex-direction:column;gap:4px;"></div>
-  </div>
-
-  <!-- Actions bar -->
+  <!-- Actions bar — immediately after hint, before extra info -->
   <div class="actions-bar">
     <div class="actions-bar-center">
       <button class="btn" id="btn-prev" title="Попередня картка">← Назад</button>
@@ -318,6 +306,18 @@
   <div style="margin-top:6px;text-align:center;">
     <button id="btn-quick-quiz" class="btn" title="5 питань з поточної колоди (Quick Quiz)"
       style="width:100%;max-width:360px;font-size:.88rem;padding:9px 0;color:var(--accent);border-color:var(--accent);opacity:.85;">⚡ Quick Quiz — 5 питань</button>
+  </div>
+
+  <!-- Word Families — below action buttons -->
+  <div class="similar-section" id="cb-families" style="display:none;margin:14px 0 0;">
+    <div class="similar-title">🌱 Сімейство слів</div>
+    <div class="similar-chips" id="cb-family-chips"></div>
+  </div>
+
+  <!-- Collocations — below Word Families -->
+  <div class="similar-section" id="cb-collocations" style="display:none;margin:8px 0 0;">
+    <div class="similar-title">🔗 Сталі словосполучення</div>
+    <div id="cb-collocation-list" style="display:flex;flex-direction:column;gap:4px;"></div>
   </div>
 
   <div style="display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-bottom:4px;">
