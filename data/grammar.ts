@@ -34,7 +34,7 @@ export const GRAMMAR: GrammarCategory[] = [
     rules: [
 
       {
-        id: 'present-simple', title: 'Present Simple', emoji: '📌',
+        id: 'present-simple', title: 'Present Simple — A1', emoji: '📌',
         sections: [
           {
             type: 'intro',
@@ -72,7 +72,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'present-continuous', title: 'Present Continuous', emoji: '▶️',
+        id: 'present-continuous', title: 'Present Continuous — A1', emoji: '▶️',
         sections: [
           {
             type: 'intro',
@@ -113,7 +113,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'past-simple', title: 'Past Simple', emoji: '⏮️',
+        id: 'past-simple', title: 'Past Simple — A1', emoji: '⏮️',
         sections: [
           {
             type: 'intro',
@@ -149,7 +149,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'past-continuous', title: 'Past Continuous', emoji: '🔁',
+        id: 'past-continuous', title: 'Past Continuous — A2', emoji: '🔁',
         sections: [
           {
             type: 'intro',
@@ -183,7 +183,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'present-perfect', title: 'Present Perfect', emoji: '✔️',
+        id: 'present-perfect', title: 'Present Perfect — B1', emoji: '✔️',
         sections: [
           {
             type: 'intro',
@@ -221,7 +221,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'future-simple', title: 'Future Simple (will)', emoji: '🔮',
+        id: 'future-simple', title: 'Future Simple (will) — A2', emoji: '🔮',
         sections: [
           {
             type: 'intro',
@@ -259,7 +259,7 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── Ще часи (merged) ──
 
       {
-        id: 'past-perfect', title: 'Past Perfect', emoji: '⏪',
+        id: 'past-perfect', title: 'Past Perfect — B1', emoji: '⏪',
         sections: [
           { type: 'intro', text: 'Минулий доконаний час. Дія відбулась ДО іншої дії в минулому. Використовується з Past Simple для показу послідовності подій.' },
           {
@@ -287,7 +287,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'present-perfect-cont', title: 'Present Perfect Continuous', emoji: '🔄✔️',
+        id: 'present-perfect-cont', title: 'Present Perfect Continuous — B1', emoji: '🔄✔️',
         sections: [
           { type: 'intro', text: 'Теперішній доконано-тривалий час. Дія почалась у минулому і продовжується зараз. Акцент на тривалості процесу.' },
           {
@@ -317,7 +317,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'future-going-to', title: 'Future: Going to', emoji: '🗓️',
+        id: 'future-going-to', title: 'Future: Going to — A2', emoji: '🗓️',
         sections: [
           { type: 'intro', text: 'Going to вживається для заздалегідь запланованих дій або для прогнозів на основі видимих ознак.' },
           {
@@ -351,7 +351,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'future-continuous', title: 'Future Continuous', emoji: '🔮▶️',
+        id: 'future-continuous', title: 'Future Continuous — B1', emoji: '🔮▶️',
         sections: [
           { type: 'intro', text: 'Майбутній тривалий час. Дія буде тривати в певний момент у майбутньому або відбуватиметься паралельно з іншою дією.' },
           {
@@ -376,7 +376,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'future-perfect', title: 'Future Perfect', emoji: '✅🔮',
+        id: 'future-perfect', title: 'Future Perfect — B2', emoji: '✅🔮',
         sections: [
           { type: 'intro', text: 'Майбутній доконаний час. Дія буде ЗАВЕРШЕНА до певного моменту в майбутньому.' },
           {
@@ -401,7 +401,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'past-perfect-cont', title: 'Past Perfect Continuous', emoji: '⏪🔄',
+        id: 'past-perfect-cont', title: 'Past Perfect Continuous — B2', emoji: '⏪🔄',
         sections: [
           { type: 'intro', text: 'Минулий доконано-тривалий час. Дія тривала протягом певного часу ДО іншої дії або моменту в минулому. Акцент на тривалості процесу.' },
           {
@@ -433,7 +433,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'future-perfect-cont', title: 'Future Perfect Continuous', emoji: '🔮🔄',
+        id: 'future-perfect-cont', title: 'Future Perfect Continuous — C1', emoji: '🔮🔄',
         sections: [
           { type: 'intro', text: 'Майбутній доконано-тривалий час. Дія буде тривати протягом певного часу до конкретного моменту в майбутньому. Акцент на тривалості процесу, а не результаті.' },
           {
@@ -474,7 +474,7 @@ export const GRAMMAR: GrammarCategory[] = [
     rules: [
 
       {
-        id: 'articles', title: 'Артиклі (a / an / the)', emoji: '🔤',
+        id: 'articles', title: 'Артиклі (a / an / the) — A2', emoji: '🔤',
         sections: [
           {
             type: 'intro',
@@ -515,7 +515,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'articles-zero', title: 'Нульовий артикль (∅)', emoji: '⭕',
+        id: 'articles-zero', title: 'Нульовий артикль (∅) — B1', emoji: '⭕',
         sections: [
           {
             type: 'intro',
@@ -566,7 +566,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'articles-geography', title: 'Артиклі з географією', emoji: '🌍',
+        id: 'articles-geography', title: 'Артиклі з географією — B1', emoji: '🌍',
         sections: [
           {
             type: 'intro',
@@ -618,7 +618,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'modal-verbs', title: 'Модальні дієслова', emoji: '🎛️',
+        id: 'modal-verbs', title: 'Модальні дієслова — A2', emoji: '🎛️',
         sections: [
           {
             type: 'intro',
@@ -651,7 +651,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'conditionals', title: 'Умовні речення', emoji: '🔀',
+        id: 'conditionals', title: 'Умовні речення — B1', emoji: '🔀',
         sections: [
           {
             type: 'intro',
@@ -682,7 +682,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'passive-voice', title: 'Пасивний стан', emoji: '🔄',
+        id: 'passive-voice', title: 'Пасивний стан — B1', emoji: '🔄',
         sections: [
           {
             type: 'intro',
@@ -717,7 +717,7 @@ export const GRAMMAR: GrammarCategory[] = [
 
       // ─── Additional grammar topics ───────────────────────────────
       {
-        id: 'reported-speech', title: 'Непряма мова', emoji: '💬→📄',
+        id: 'reported-speech', title: 'Непряма мова — B1', emoji: '💬→📄',
         sections: [
           { type: 'intro', text: 'Reported speech (непряма мова) — переказ чужих слів без прямого цитування. Час дієслова зазвичай "зсувається" назад.' },
           {
@@ -762,7 +762,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'gerunds-infinitives', title: 'Герундій і Інфінітив', emoji: '🔡',
+        id: 'gerunds-infinitives', title: 'Герундій і Інфінітив — B1', emoji: '🔡',
         sections: [
           { type: 'intro', text: 'Після різних дієслів вживається або герундій (V-ing) або інфінітив (to + V). Знання різниці — ключ до правильної мови.' },
           {
@@ -819,7 +819,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'quantifiers', title: 'Квантифікатори', emoji: '🔢',
+        id: 'quantifiers', title: 'Квантифікатори — B1', emoji: '🔢',
         sections: [
           { type: 'intro', text: 'Квантифікатори — слова, що позначають кількість. Вибір залежить від типу іменника (злічуваний / незлічуваний) та контексту (питальне, заперечне, ствердне речення).' },
           {
@@ -856,7 +856,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'comparatives', title: 'Ступені порівняння', emoji: '📊',
+        id: 'comparatives', title: 'Ступені порівняння — A2', emoji: '📊',
         sections: [
           { type: 'intro', text: 'Прикметники мають три ступені порівняння: звичайний (positive), порівняльний (comparative) та найвищий (superlative).' },
           {
@@ -906,7 +906,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'questions', title: 'Питальні речення', emoji: '❓',
+        id: 'questions', title: 'Питальні речення — A2', emoji: '❓',
         sections: [
           { type: 'intro', text: 'Порядок слів у питальних реченнях в англійській відрізняється від стверджувального. Загальне правило: допоміжне дієслово виходить на перше місце.' },
           {
@@ -954,7 +954,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'prepositions', title: 'Прийменники', emoji: '📍',
+        id: 'prepositions', title: 'Прийменники — A2', emoji: '📍',
         sections: [
           { type: 'intro', text: 'Прийменники часу та місця — одна з найпоширеніших тем для помилок. Основні: in, on, at.' },
           {
@@ -1006,59 +1006,182 @@ export const GRAMMAR: GrammarCategory[] = [
       // ─── Merged from exceptions2 ─────────────────────────────
 
       {
-        id: 'phrasal-verbs', title: 'Фразові дієслова (топ-40)', emoji: '🔗',
+        id: 'phrasal-verbs', title: 'Фразові дієслова 150 — A1–C1', emoji: '🔗',
         sections: [
-          { type: 'intro', text: 'Phrasal verbs — дієслова + прийменник/прислівник. Їх значення часто не можна передбачити. Найуживаніші варто вивчити окремо.' },
+          { type: 'intro', text: 'Phrasal verbs — дієслова + прийменник/прислівник. Їх значення часто не можна передбачити. 150 найуживаніших розподілено за рівнем.' },
           {
-            type: 'table', title: 'Список фразових дієслів',
+            type: 'table', title: 'A1–A2 — Базові (1–25)',
+            rows: [
+              ['Фразове дієслово', 'Значення', 'Приклад'],
+              ['come in', 'входити', 'Come in, please!'],
+              ['come back', 'повернутись', "She'll come back soon."],
+              ['get up', 'вставати', 'I get up at 7 every day.'],
+              ['go out', 'виходити / гаснути', "Let's go out tonight."],
+              ['go back', 'повернутись', 'We went back home.'],
+              ['give back', 'повернути', 'Give my book back!'],
+              ['look at', 'дивитись на', 'Look at this picture!'],
+              ['look for', 'шукати', "I'm looking for my keys."],
+              ['pick up', 'підняти / підібрати / навчитись', 'Pick it up from the floor.'],
+              ['put down', 'покласти / припинити', 'Put the phone down.'],
+              ['put on', 'одягнути / увімкнути', 'Put on your coat.'],
+              ['take off', 'зняти / злетіти', 'Take off your shoes. / The plane takes off.'],
+              ['turn on', 'увімкнути', 'Turn on the light.'],
+              ['turn off', 'вимкнути', 'Turn off the TV.'],
+              ['sit down', 'сісти', 'Please sit down.'],
+              ['stand up', 'встати', 'Stand up, please.'],
+              ['slow down', 'уповільнитись', 'Slow down, you drive too fast!'],
+              ['write down', 'записати', 'Write down the address.'],
+              ['grow up', 'виростати', 'Where did you grow up?'],
+              ['wake up', 'прокинутись / розбудити', 'I wake up at 6.'],
+              ['go away', 'іди геть / поїхати', "Go away! / We're going away next week."],
+              ['get on', 'сісти в транспорт / поладнати', 'Get on the bus.'],
+              ['get off', 'вийти з транспорту', 'Get off at the next stop.'],
+              ['hurry up', 'поспішати', 'Hurry up or we\'ll be late!'],
+              ['look up', 'знайти в словнику', 'Look it up in a dictionary.'],
+            ],
+          },
+          {
+            type: 'table', title: 'B1–B2 — Середній (26–110)',
             rows: [
               ['Фразове дієслово', 'Значення', 'Приклад'],
               ['break down', 'зламатись / розплакатись', 'The car broke down on the highway.'],
               ['break up', 'розлучитись / розпастись', 'They broke up last year.'],
               ['bring up', 'виховувати / порушити тему', 'She brought up an interesting point.'],
               ['call off', 'скасувати', 'They called off the meeting.'],
+              ['calm down', 'заспокоїтись', 'Calm down, everything is fine.'],
               ['carry on', 'продовжувати', 'Carry on with your work.'],
-              ['come across', 'випадково знайти', 'I came across an old photo.'],
+              ['catch up (with)', 'наздогнати / надолужити', "I need to catch up with the news."],
+              ['check in', 'зареєструватись (готель/рейс)', 'We checked in at the hotel.'],
+              ['check out', 'виїхати / перевірити', 'Check out this article!'],
+              ['cheer up', 'розвеселитись / розвеселити', "Cheer up! It's not so bad."],
+              ['come across', 'натрапити на / справити враження', 'I came across an old photo.'],
+              ['come along', 'приєднатись / просуватись', 'How is the project coming along?'],
+              ['come out', 'вийти / стати відомим', 'The truth finally came out.'],
               ['come up with', 'придумати / запропонувати', 'She came up with a great idea.'],
+              ['count on', 'розраховувати на', 'You can count on me.'],
+              ['cross out', 'закреслити', 'Cross out the wrong answer.'],
               ['cut down on', 'скоротити споживання', 'You should cut down on sugar.'],
-              ['deal with', 'справлятися з', 'How do you deal with stress?'],
-              ['drop off', 'підвезти / заснути', 'I\'ll drop you off at the station.'],
-              ['end up', 'закінчити (несподівано)', 'We ended up staying all night.'],
+              ['cut off', 'відрізати / відключити', 'We were cut off during the call.'],
+              ['deal with', 'справлятись з', 'How do you deal with stress?'],
+              ['drop in', 'зайти ненадовго', 'Drop in anytime you want.'],
+              ['drop off', 'підвезти / заснути', "I'll drop you off at the station."],
+              ['drop out', 'кинути навчання/гонку', 'He dropped out of university.'],
+              ['end up', 'опинитись / закінчити несподівано', 'We ended up staying all night.'],
               ['fall apart', 'розвалитись', 'The plan fell apart quickly.'],
-              ['figure out', 'зрозуміти / вирішити', 'I can\'t figure out this problem.'],
+              ['fall behind', 'відставати', "Don't fall behind with your studies."],
+              ['fall for', 'закохатись / піддатись обману', 'She fell for him immediately.'],
+              ['fall out (with)', 'посваритись', 'They fell out over money.'],
+              ['fall through', 'зірватись (про план)', 'The deal fell through at the last moment.'],
+              ['figure out', 'зрозуміти / вирішити', "I can't figure out this problem."],
+              ['fill in', 'заповнити бланк', 'Fill in the form, please.'],
+              ['fill up', 'наповнити повністю', 'Fill up the tank.'],
               ['find out', 'дізнатись', 'How did you find out?'],
-              ['get along (with)', 'ладнати з кимось', 'We get along well.'],
+              ['fit in', 'вписатись в компанію', 'It takes time to fit in at a new school.'],
+              ['get along (with)', 'ладнати з кимось', 'We get along really well.'],
+              ['get away', 'тікати / вирватись на відпочинок', "We need to get away for the weekend."],
+              ['get back (to)', 'повернутись / відповісти пізніше', "I'll get back to you soon."],
+              ['get by', 'якось зводити кінці з кінцями', "It's hard to get by on this salary."],
               ['get over', 'пережити / подолати', 'It takes time to get over a breakup.'],
-              ['get rid of', 'позбутися', 'I need to get rid of this junk.'],
-              ['give up', 'здатись / кинути', 'Never give up on your dreams.'],
+              ['get rid of', 'позбутись', 'I need to get rid of this junk.'],
+              ['get through', 'пережити / додзвонитись', 'How did you get through that year?'],
+              ['give away', 'роздати / видати секрет', 'She gave away the ending.'],
+              ['give in', 'здатись / поступитись', 'He finally gave in.'],
+              ['give up', 'здатись / кинути звичку', 'Never give up on your dreams.'],
+              ['go ahead', 'продовжуй / будь ласка', 'Go ahead, I\'m listening.'],
+              ['go off', 'спрацювати / зіпсуватись / вибухнути', 'The alarm went off at 6.'],
+              ['go on', 'продовжувати / відбуватись', 'Go on, tell me more.'],
               ['go through', 'пережити / переглянути', 'She went through a difficult time.'],
-              ['grow up', 'виростати', 'Where did you grow up?'],
-              ['hang on', 'зачекати / триматись', 'Hang on, I\'ll be right back.'],
-              ['keep up with', 'встигати / не відставати', 'It\'s hard to keep up with the news.'],
-              ['let down', 'підвести', 'Don\'t let me down.'],
-              ['look after', 'доглядати', 'Can you look after my cat?'],
-              ['look forward to', 'чекати з нетерпінням', 'I\'m looking forward to seeing you.'],
-              ['look up', 'знайти інформацію', 'Look it up in a dictionary.'],
-              ['make up', 'придумати / помиритися', 'They made up after the fight.'],
-              ['pick up', 'підібрати / навчитись', 'She picked up Spanish quickly.'],
+              ['hand in', 'здати роботу/завдання', 'Hand in your assignments by Friday.'],
+              ['hand out', 'роздати', 'The teacher handed out the worksheets.'],
+              ['hang on', 'зачекати / триматись', "Hang on, I'll be right back."],
+              ['join in', 'приєднатись', 'Everyone joined in the celebration.'],
+              ['keep up with', 'не відставати від', "It's hard to keep up with the news."],
+              ['let down', 'підвести', "Don't let me down."],
+              ['look after', 'доглядати за', 'Can you look after my cat?'],
+              ['look forward to', 'чекати з нетерпінням', "I'm looking forward to seeing you."],
+              ['look into', 'розслідувати / вивчити', 'The police are looking into the case.'],
+              ['look out', 'бути обережним', 'Look out! There\'s a car coming!'],
+              ['make up', 'помиритись / придумати / накласти макіяж', 'They made up after the fight.'],
+              ['move in', 'в\'їхати', 'We moved into the new house last week.'],
+              ['move on', 'рухатись далі / забути минуле', "It's time to move on."],
+              ['pass away', 'померти (евфемізм)', 'His grandfather passed away last year.'],
+              ['pass out', 'знепритомніти', 'She passed out from the heat.'],
+              ['pay back', 'повернути борг', "I'll pay you back next week."],
               ['point out', 'вказати на', 'He pointed out the mistake.'],
+              ['pull out', 'виїхати / вийти з угоди', 'They pulled out of the deal.'],
               ['put off', 'відкладати', 'Stop putting things off!'],
-              ['put up with', 'терпіти', 'I can\'t put up with this noise.'],
+              ['put up with', 'терпіти', "I can't put up with this noise."],
               ['run into', 'випадково зустріти', 'I ran into my teacher yesterday.'],
               ['run out of', 'вичерпати запаси', 'We ran out of milk.'],
               ['set up', 'налаштувати / заснувати', 'She set up her own company.'],
-              ['show off', 'хвалитися', 'He\'s just showing off.'],
-              ['take off', 'злетіти / зняти', 'The plane takes off at noon.'],
-              ['take on', 'взяти на роботу / прийняти виклик', 'She took on too much work.'],
-              ['turn down', 'відмовити / зменшити звук', 'He turned down the offer.'],
-              ['work out', 'тренуватись / вийти добре', 'It all worked out in the end.'],
+              ['show off', 'хвалитись', "He's just showing off."],
+              ['sign up (for)', 'записатись / зареєструватись', 'Sign up for the newsletter.'],
+              ['sort out', 'вирішити проблему / розібратись', "Let's sort this out together."],
+              ['speak up', 'говорити голосніше / висловитись', 'Please speak up, I can\'t hear you.'],
+              ['stand out', 'виділятись / бути помітним', 'She always stands out in a crowd.'],
+              ['stay up', 'не лягати спати до пізна', 'We stayed up talking all night.'],
+              ['stick to', 'дотримуватись / не відхилятись', 'Stick to the plan.'],
+              ['take on', 'взяти на роботу / взяти на себе', 'She took on too much work.'],
+              ['take over', 'перейняти / захопити', 'He took over the company.'],
+              ['think over', 'добре обдумати', "I'll think it over and let you know."],
+              ['throw away', 'викинути', "Don't throw away old letters."],
+              ['turn down', 'відмовити / зменшити гучність', 'He turned down the offer.'],
+              ['turn out', 'виявитись / вийти в результаті', 'It turned out to be a great idea.'],
+              ['turn up', 'з\'явитись / збільшити гучність', 'He turned up two hours late.'],
+              ['work out', 'тренуватись / вийти добре / вирахувати', 'It all worked out in the end.'],
+            ],
+          },
+          {
+            type: 'table', title: 'B2–C1 — Просунутий (111–150)',
+            rows: [
+              ['Фразове дієслово', 'Значення', 'Приклад'],
+              ['blow up', 'вибухнути / надути / збільшити фото', 'The building blew up.'],
+              ['bring about', 'спричинити / призвести до', 'What brought about this change?'],
+              ['brush up (on)', 'освіжити знання', 'I need to brush up on my French.'],
+              ['burn out', 'вигоріти фізично/емоційно', 'She burned out after years of overwork.'],
+              ['call back', 'передзвонити', "I'll call you back in 10 minutes."],
+              ['call up', 'викликати на службу / дзвонити', 'He was called up to the army.'],
+              ['clear up', 'прояснитись / прибрати безлад', 'The weather cleared up after lunch.'],
+              ['close down', 'закрити бізнес назавжди', 'The factory closed down last year.'],
+              ['come about', 'статись / виникнути', 'How did this situation come about?'],
+              ['come forward', 'вийти з ініціативою / заявити себе', 'A witness came forward with new information.'],
+              ['cut out', 'вирізати / кинути звичку', "Cut out sugar if you want to lose weight."],
+              ['draw up', 'скласти документ/план', "Let's draw up a contract."],
+              ['fix up', 'відремонтувати / організувати зустріч', "We need to fix up the apartment."],
+              ['hand over', 'передати / здатись владі', 'Hand over the documents.'],
+              ['hold back', 'стримувати / приховувати', "Don't hold back — say what you think."],
+              ['hold up', 'затримати / пограбувати / витримати', 'What held you up?'],
+              ['lay off', 'звільнити через скорочення', 'The company laid off 200 workers.'],
+              ['let in', 'впустити / посвятити в таємницю', "Don't let him in on the secret."],
+              ['let out', 'випустити / здати в оренду', "We're letting out the spare room."],
+              ['log in / log out', 'увійти / вийти з системи', 'Log in with your username.'],
+              ['make out', 'розібрати написане / розуміти', "I can't make out what he's saying."],
+              ['make up for', 'компенсувати / надолужити', "I'll make up for the lost time."],
+              ['open up', 'відкритись / розкритись', 'She finally opened up about her feelings.'],
+              ['pay off', 'окупитись / виплатити повністю', 'Hard work always pays off.'],
+              ['pull off', 'вдатись (про щось складне)', 'She pulled off an amazing performance.'],
+              ['put away', 'прибрати на місце / відкласти гроші', 'Put your toys away.'],
+              ['put out', 'загасити / видати публікацію', 'Firefighters put out the blaze.'],
+              ['put up', 'розмістити / підняти / прийняти гостя', 'Can you put me up for the night?'],
+              ['rule out', 'виключити можливість', 'The doctor ruled out pneumonia.'],
+              ['run away', 'тікати / уникати проблем', 'You can\'t run away from your problems.'],
+              ['set off', 'вирушити в дорогу / запустити (сигналізацію)', 'We set off at dawn.'],
+              ['set out', 'вирушити / викласти детально план', 'He set out his plans clearly.'],
+              ['settle down', 'осісти / заспокоїтись', 'He settled down in the countryside.'],
+              ['settle for', 'погодитись на менше', "Don't settle for second best."],
+              ['take back', 'повернути / взяти слова назад', 'I take back what I said.'],
+              ['take up', 'зайнятись чимось / займати місце', 'She took up yoga last year.'],
+              ['tidy up', 'прибрати / навести лад', 'Tidy up your room before leaving.'],
+              ['try on', 'приміряти (одяг)', 'Can I try on this jacket?'],
+              ['try out', 'випробувати / спробувати', "Let's try out the new restaurant."],
+              ['wrap up', 'загорнути / завершити / одягтись тепліше', "Let's wrap up the meeting."],
             ],
           },
         ],
       },
 
       {
-        id: 'confusing-words', title: 'Слова, які плутають', emoji: '🤔',
+        id: 'confusing-words', title: 'Слова, які плутають — B1', emoji: '🤔',
         sections: [
           { type: 'intro', text: 'Деякі англійські слова мають схоже звучання або значення, але використовуються по-різному. Це типові помилки навіть досвідчених учнів.' },
           {
@@ -1115,7 +1238,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'british-american', title: 'British vs American English', emoji: '🇬🇧🇺🇸',
+        id: 'british-american', title: 'British vs American English — B1', emoji: '🇬🇧🇺🇸',
         sections: [
           { type: 'intro', text: 'Британська та американська англійська мають відмінності у написанні, вимові та лексиці. Обидва варіанти правильні — важливо бути послідовним.' },
           {
@@ -1173,7 +1296,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'false-friends', title: "False Friends (хибні друзі)", emoji: '🚫',
+        id: 'false-friends', title: 'False Friends — B1', emoji: '🚫',
         sections: [
           { type: 'intro', text: 'False friends — слова, що схожі на українські або інші мови, але мають інше значення. Дуже поширене джерело помилок!' },
           {
@@ -1201,7 +1324,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'numbers-determiners', title: 'Числівники і Детермінери', emoji: '🔢',
+        id: 'numbers-determiners', title: 'Числівники і Детермінери — A2', emoji: '🔢',
         sections: [
           {
             type: 'intro',
@@ -1247,7 +1370,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'reported-questions', title: 'Непряме питання', emoji: '❓📄',
+        id: 'reported-questions', title: 'Непряме питання — B1', emoji: '❓📄',
         sections: [
           {
             type: 'intro',
@@ -1279,7 +1402,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'wish-would-rather', title: 'Wish / Would rather', emoji: '🌠',
+        id: 'wish-would-rather', title: 'Wish / Would rather — B2', emoji: '🌠',
         sections: [
           {
             type: 'intro',
@@ -1317,7 +1440,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'relative-clauses', title: 'Відносні речення (Relative Clauses)', emoji: '🔗',
+        id: 'relative-clauses', title: 'Відносні речення — B1', emoji: '🔗',
         sections: [
           { type: 'intro', text: 'Відносні речення уточнюють або доповнюють іменник. Є два типи: визначальні (Defining) — без ком, та невизначальні (Non-defining) — з комами.' },
           {
@@ -1358,7 +1481,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'used-to', title: 'Used to / Be used to / Get used to', emoji: '🔁',
+        id: 'used-to', title: 'Used to / Be used to — B1', emoji: '🔁',
         sections: [
           { type: 'intro', text: 'Три схожі конструкції з різними значеннями — одна з найпоширеніших точок плутанини.' },
           {
@@ -1393,7 +1516,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'linking-words', title: 'Сполучники та зв\'язки (Linking Words)', emoji: '🧩',
+        id: 'linking-words', title: 'Linking Words — B1', emoji: '🧩',
         sections: [
           { type: 'intro', text: 'Linking words з\'єднують речення та ідеї. Є різні групи залежно від логічного зв\'язку: протиставлення, додавання, причина/наслідок, приклад.' },
           {
@@ -1444,7 +1567,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'countable-uncountable', title: 'Злічувані та незлічувані іменники', emoji: '🧮',
+        id: 'countable-uncountable', title: 'Злічувані та незлічувані — A2', emoji: '🧮',
         sections: [
           { type: 'intro', text: 'Злічувані іменники (Countable) можна рахувати: a book / two books. Незлічувані (Uncountable) — не мають множини і не вживаються з a/an.' },
           {
@@ -1500,7 +1623,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'adjective-order', title: 'Порядок прикметників', emoji: '📐',
+        id: 'adjective-order', title: 'Порядок прикметників — B1', emoji: '📐',
         sections: [
           { type: 'intro', text: 'Коли перед іменником стоїть кілька прикметників, вони вживаються у суворо визначеному порядку. Порушення цього порядку звучить неприродно.' },
           {
@@ -1536,7 +1659,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'adverbs', title: 'Прислівники (Adverbs)', emoji: '💨',
+        id: 'adverbs', title: 'Прислівники — A2', emoji: '💨',
         sections: [
           { type: 'intro', text: 'Прислівники модифікують дієслова, прикметники або інші прислівники. Відповідають на питання: як? де? коли? як часто? якою мірою?' },
           {
@@ -1587,7 +1710,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'too-enough-so-such', title: 'Too / Enough / So / Such', emoji: '⚖️',
+        id: 'too-enough-so-such', title: 'Too / Enough / So / Such — B1', emoji: '⚖️',
         sections: [
           { type: 'intro', text: 'Чотири конструкції для вираження ступеня або інтенсивності. Кожна має свою структуру та значення.' },
           {
@@ -1636,7 +1759,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'mixed-conditionals', title: 'Змішані умовні (Mixed Conditionals)', emoji: '🔀🔀',
+        id: 'mixed-conditionals', title: 'Змішані умовні — B2', emoji: '🔀🔀',
         sections: [
           { type: 'intro', text: 'Mixed Conditionals поєднують умову одного типу з наслідком іншого — для вираження зв\'язку між минулим та теперішнім (або навпаки).' },
           {
@@ -1671,7 +1794,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'participle-clauses', title: 'Дієприкметникові звороти (Participle Clauses)', emoji: '📎',
+        id: 'participle-clauses', title: 'Participle Clauses — B2', emoji: '📎',
         sections: [
           { type: 'intro', text: 'Participle clauses — скорочені підрядні речення з дієприкметником замість підрядного речення. Роблять мову стислішою та формальнішою.' },
           {
@@ -1701,7 +1824,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'inversion', title: 'Інверсія (Inversion)', emoji: '🔃',
+        id: 'inversion', title: 'Інверсія — C1', emoji: '🔃',
         sections: [
           { type: 'intro', text: 'Інверсія — перестановка підмета та допоміжного дієслова для підсилення або після заперечних/обмежувальних слів. Характерна для формального стилю та C1–C2.' },
           {
@@ -1744,7 +1867,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'cleft-sentences', title: 'Розщеплені речення (Cleft Sentences)', emoji: '✂️',
+        id: 'cleft-sentences', title: 'Cleft Sentences — C1', emoji: '✂️',
         sections: [
           { type: 'intro', text: 'Cleft sentences — спосіб виділити певний елемент речення, перебудувавши його. Два основних типи: It-cleft і Wh-cleft (What-cleft).' },
           {
@@ -1792,7 +1915,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'subjunctive', title: 'Умовний спосіб (Subjunctive)', emoji: '🎭',
+        id: 'subjunctive', title: 'Subjunctive — C1', emoji: '🎭',
         sections: [
           { type: 'intro', text: 'Subjunctive (умовний спосіб) — особлива форма дієслова для вираження побажань, рекомендацій, вимог і гіпотетичних ситуацій. Найчастіше: base form (V₁) без закінчень та were для всіх осіб.' },
           {
@@ -1842,7 +1965,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'past-modals', title: 'Модальні в минулому (Modal Perfects)', emoji: '🕵️',
+        id: 'past-modals', title: 'Modal Perfects — B2', emoji: '🕵️',
         sections: [
           { type: 'intro', text: 'Modal Perfect = модальне дієслово + have + V₃. Вживається для висновків, здогадок і жалкувань про минуле.' },
           {
@@ -1883,7 +2006,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'causative-have-get', title: 'Каузатив (have/get)', emoji: '🔧',
+        id: 'causative-have-get', title: 'Каузатив — B2', emoji: '🔧',
         sections: [
           {
             type: 'intro',
@@ -1923,89 +2046,188 @@ export const GRAMMAR: GrammarCategory[] = [
     rules: [
 
       {
-        id: 'irregular-verbs', title: 'Неправильні дієслова (топ-60)', emoji: '📋',
+        id: 'irregular-verbs', title: 'Неправильні дієслова 150 — A1–B2', emoji: '📋',
         sections: [
           {
             type: 'intro',
-            text: 'Неправильні дієслова не утворюють Past Simple та Past Participle за допомогою -ed. Їх потрібно вивчити окремо.',
+            text: 'Неправильні дієслова не утворюють Past Simple та Past Participle за допомогою -ed. 150 найуживаніших — від базових A1 до просунутих B2.',
           },
           {
-            type: 'table', title: 'Неправильні дієслова',
+            type: 'table', title: 'Неправильні дієслова (A–M)',
             rows: [
               ['Base (V₁)', 'Past Simple (V₂)', 'Past Participle (V₃)', 'Переклад'],
+              ['arise', 'arose', 'arisen', 'виникати'],
+              ['awake', 'awoke', 'awoken', 'прокидатись'],
               ['be', 'was / were', 'been', 'бути'],
+              ['bear', 'bore', 'borne', 'нести / терпіти'],
               ['beat', 'beat', 'beaten', 'бити'],
               ['become', 'became', 'become', 'ставати'],
               ['begin', 'began', 'begun', 'починати'],
+              ['bend', 'bent', 'bent', 'гнути'],
+              ['bet', 'bet', 'bet', 'ставити (на гроші)'],
+              ['bind', 'bound', 'bound', 'в\'язати / зобов\'язувати'],
+              ['bite', 'bit', 'bitten', 'кусати'],
+              ['bleed', 'bled', 'bled', 'кровоточити'],
+              ['blow', 'blew', 'blown', 'дути'],
               ['break', 'broke', 'broken', 'ламати'],
+              ['breed', 'bred', 'bred', 'розводити / виводити породу'],
               ['bring', 'brought', 'brought', 'приносити'],
+              ['broadcast', 'broadcast', 'broadcast', 'транслювати'],
               ['build', 'built', 'built', 'будувати'],
+              ['burst', 'burst', 'burst', 'лопатись / вибухати'],
               ['buy', 'bought', 'bought', 'купувати'],
+              ['cast', 'cast', 'cast', 'кидати / відливати'],
               ['catch', 'caught', 'caught', 'ловити'],
               ['choose', 'chose', 'chosen', 'вибирати'],
+              ['cling', 'clung', 'clung', 'чіплятись / триматись'],
               ['come', 'came', 'come', 'приходити'],
               ['cost', 'cost', 'cost', 'коштувати'],
+              ['creep', 'crept', 'crept', 'повзати / підкрадатись'],
               ['cut', 'cut', 'cut', 'різати'],
+              ['deal', 'dealt', 'dealt', 'мати справу / роздавати'],
+              ['dig', 'dug', 'dug', 'копати'],
+              ['dive', 'dived / dove', 'dived', 'пірнати (dove — AmE)'],
               ['do', 'did', 'done', 'робити'],
               ['draw', 'drew', 'drawn', 'малювати'],
+              ['dream', 'dreamt / dreamed', 'dreamt / dreamed', 'мріяти / снити'],
               ['drink', 'drank', 'drunk', 'пити'],
               ['drive', 'drove', 'driven', 'їздити'],
               ['eat', 'ate', 'eaten', 'їсти'],
               ['fall', 'fell', 'fallen', 'падати'],
+              ['feed', 'fed', 'fed', 'годувати'],
               ['feel', 'felt', 'felt', 'відчувати'],
+              ['fight', 'fought', 'fought', 'битись / воювати'],
               ['find', 'found', 'found', 'знаходити'],
+              ['flee', 'fled', 'fled', 'тікати'],
+              ['fling', 'flung', 'flung', 'шпурляти'],
               ['fly', 'flew', 'flown', 'летіти'],
+              ['forbid', 'forbade', 'forbidden', 'забороняти'],
               ['forget', 'forgot', 'forgotten', 'забувати'],
+              ['forgive', 'forgave', 'forgiven', 'прощати'],
+              ['forsake', 'forsook', 'forsaken', 'покидати (formal)'],
+              ['freeze', 'froze', 'frozen', 'морозити / заморожуватись'],
               ['get', 'got', 'got / gotten', 'отримувати'],
               ['give', 'gave', 'given', 'давати'],
               ['go', 'went', 'gone', 'іти'],
+              ['grind', 'ground', 'ground', 'молоти / шліфувати'],
               ['grow', 'grew', 'grown', 'рости'],
+              ['hang', 'hung', 'hung', 'вішати (hanged — для страти)'],
               ['have', 'had', 'had', 'мати'],
               ['hear', 'heard', 'heard', 'чути'],
               ['hide', 'hid', 'hidden', 'ховати'],
               ['hit', 'hit', 'hit', 'вдаряти'],
               ['hold', 'held', 'held', 'тримати'],
+              ['hurt', 'hurt', 'hurt', 'боліти / ранити'],
               ['keep', 'kept', 'kept', 'тримати / зберігати'],
+              ['kneel', 'knelt', 'knelt', 'стояти на колінах'],
               ['know', 'knew', 'known', 'знати'],
+              ['lay', 'laid', 'laid', 'класти (≠ lie!)'],
               ['lead', 'led', 'led', 'вести'],
+              ['lean', 'leant / leaned', 'leant / leaned', 'спиратись'],
+              ['leap', 'leapt / leaped', 'leapt / leaped', 'стрибати'],
               ['leave', 'left', 'left', 'залишати'],
-              ['lend', 'lent', 'lent', 'позичати'],
+              ['lend', 'lent', 'lent', 'позичати (давати)'],
               ['let', 'let', 'let', 'дозволяти'],
-              ['lose', 'lost', 'lost', 'губити'],
-              ['make', 'made', 'made', 'робити'],
+              ['lie', 'lay', 'lain', 'лежати (≠ lay!)'],
+              ['light', 'lit', 'lit', 'запалювати'],
+              ['lose', 'lost', 'lost', 'губити / програвати'],
+              ['make', 'made', 'made', 'робити / виготовляти'],
               ['mean', 'meant', 'meant', 'означати'],
               ['meet', 'met', 'met', 'зустрічати'],
+              ['mow', 'mowed', 'mown / mowed', 'косити'],
+            ],
+          },
+          {
+            type: 'table', title: 'Неправильні дієслова (O–Z)',
+            rows: [
+              ['Base (V₁)', 'Past Simple (V₂)', 'Past Participle (V₃)', 'Переклад'],
+              ['overcome', 'overcame', 'overcome', 'долати / перемагати'],
+              ['overtake', 'overtook', 'overtaken', 'обганяти'],
+              ['pay', 'paid', 'paid', 'платити'],
+              ['prove', 'proved', 'proved / proven', 'доводити'],
               ['put', 'put', 'put', 'класти'],
-              ['read', 'read', 'read', 'читати'],
-              ['ride', 'rode', 'ridden', 'їхати'],
+              ['quit', 'quit', 'quit', 'кидати / звільнятись'],
+              ['read', 'read', 'read', 'читати (вимовляється "ред")'],
+              ['rid', 'rid', 'rid', 'позбуватись (rid of)'],
+              ['ride', 'rode', 'ridden', 'їхати (на велосипеді/коні)'],
+              ['ring', 'rang', 'rung', 'дзвонити'],
+              ['rise', 'rose', 'risen', 'підніматись / сходити'],
               ['run', 'ran', 'run', 'бігти'],
               ['say', 'said', 'said', 'казати'],
               ['see', 'saw', 'seen', 'бачити'],
+              ['seek', 'sought', 'sought', 'шукати (formal)'],
               ['sell', 'sold', 'sold', 'продавати'],
               ['send', 'sent', 'sent', 'надсилати'],
+              ['set', 'set', 'set', 'ставити / заходити (сонце)'],
+              ['shake', 'shook', 'shaken', 'трясти'],
+              ['shed', 'shed', 'shed', 'скидати (листя) / проливати (сльози)'],
+              ['shine', 'shone', 'shone', 'сяяти / світити'],
+              ['shoot', 'shot', 'shot', 'стріляти'],
               ['show', 'showed', 'shown', 'показувати'],
+              ['shrink', 'shrank', 'shrunk', 'зменшуватись'],
+              ['shut', 'shut', 'shut', 'зачиняти'],
+              ['sing', 'sang', 'sung', 'співати'],
+              ['sink', 'sank', 'sunk', 'тонути'],
               ['sit', 'sat', 'sat', 'сидіти'],
               ['sleep', 'slept', 'slept', 'спати'],
+              ['slide', 'slid', 'slid', 'ковзати'],
+              ['smell', 'smelt / smelled', 'smelt / smelled', 'нюхати / пахнути'],
+              ['sow', 'sowed', 'sown / sowed', 'сіяти'],
               ['speak', 'spoke', 'spoken', 'говорити'],
-              ['spend', 'spent', 'spent', 'витрачати'],
+              ['speed', 'sped', 'sped', 'мчати'],
+              ['spell', 'spelt / spelled', 'spelt / spelled', 'писати по буквах'],
+              ['spend', 'spent', 'spent', 'витрачати / проводити (час)'],
+              ['spill', 'spilt / spilled', 'spilt / spilled', 'проливати'],
+              ['spin', 'spun', 'spun', 'крутити'],
+              ['spit', 'spat', 'spat', 'плювати'],
+              ['split', 'split', 'split', 'розколоти / розділяти'],
+              ['spread', 'spread', 'spread', 'розповсюджувати'],
+              ['spring', 'sprang', 'sprung', 'стрибати (раптово)'],
               ['stand', 'stood', 'stood', 'стояти'],
+              ['steal', 'stole', 'stolen', 'красти'],
+              ['stick', 'stuck', 'stuck', 'прилипати / застрягати'],
+              ['sting', 'stung', 'stung', 'жалити'],
+              ['stink', 'stank', 'stunk', 'смердіти'],
+              ['stride', 'strode', 'stridden', 'крокувати'],
+              ['strike', 'struck', 'struck', 'вдаряти / страйкувати'],
+              ['string', 'strung', 'strung', 'нанизувати'],
+              ['strive', 'strove', 'striven', 'прагнути / намагатись'],
+              ['swear', 'swore', 'sworn', 'клястись / лаятись'],
+              ['sweep', 'swept', 'swept', 'мести'],
+              ['swell', 'swelled', 'swollen', 'набрякати'],
               ['swim', 'swam', 'swum', 'плавати'],
+              ['swing', 'swung', 'swung', 'гойдатись'],
               ['take', 'took', 'taken', 'брати'],
               ['teach', 'taught', 'taught', 'вчити'],
+              ['tear', 'tore', 'torn', 'рвати'],
               ['tell', 'told', 'told', 'розказувати'],
               ['think', 'thought', 'thought', 'думати'],
               ['throw', 'threw', 'thrown', 'кидати'],
+              ['tread', 'trod', 'trodden', 'ступати'],
+              ['undergo', 'underwent', 'undergone', 'зазнавати / піддаватись'],
               ['understand', 'understood', 'understood', 'розуміти'],
+              ['undertake', 'undertook', 'undertaken', 'братись за / зобов\'язуватись'],
+              ['upset', 'upset', 'upset', 'засмучувати'],
+              ['wake', 'woke', 'woken', 'будити / прокидатись'],
               ['wear', 'wore', 'worn', 'носити (одяг)'],
+              ['weave', 'wove', 'woven', 'ткати'],
+              ['weep', 'wept', 'wept', 'плакати (literary)'],
               ['win', 'won', 'won', 'перемагати'],
+              ['wind', 'wound', 'wound', 'мотати / вигинатись'],
+              ['withdraw', 'withdrew', 'withdrawn', 'знімати (гроші) / відступати'],
               ['write', 'wrote', 'written', 'писати'],
+              ['wring', 'wrung', 'wrung', 'вижимати'],
             ],
+          },
+          {
+            type: 'note', title: 'lie vs lay — найпоширеніша плутанина',
+            text: 'lie / lay / lain → лежати (без додатка): "She lay on the sofa."\nlay / laid / laid → класти (з додатком): "I laid the book on the table."',
           },
         ],
       },
 
       {
-        id: 'irregular-plurals', title: 'Неправильна множина іменників', emoji: '👥',
+        id: 'irregular-plurals', title: 'Неправильна множина — A2', emoji: '👥',
         sections: [
           { type: 'intro', text: 'Більшість іменників утворюють множину додаванням -s/-es. Але є група слів з нестандартними формами — їх треба вивчити окремо.' },
           {
@@ -2079,7 +2301,7 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'spelling-rules', title: 'Правила написання', emoji: '✏️',
+        id: 'spelling-rules', title: 'Правила написання — A1', emoji: '✏️',
         sections: [
           {
             type: 'intro',
