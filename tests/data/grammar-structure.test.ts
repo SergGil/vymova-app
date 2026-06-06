@@ -25,8 +25,8 @@ describe('GRAMMAR — tenses category', () => {
 
   it('exists', () => expect(tenses).toBeDefined());
 
-  it('has 11 tenses', () => {
-    expect(tenses.rules.length).toBe(11);
+  it('has 13 tenses', () => {
+    expect(tenses.rules.length).toBe(13);
   });
 
   it('contains all 6 basic tenses', () => {
