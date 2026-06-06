@@ -2554,6 +2554,434 @@ export const GRAMMAR: GrammarCategory[] = [
         ],
       },
 
+      // ── 1. There is / There are ───────────────────────────────
+      {
+        id: 'there-is-are', title: 'There is / There are — A1', emoji: '📍',
+        sections: [
+          {
+            type: 'intro',
+            text: '<b>There is / There are</b> — конструкція для позначення існування або наявності чогось. Відповідає українському "є", "існує", "знаходиться".',
+          },
+          {
+            type: 'formula', title: 'Структура',
+            rows: [
+              ['✅ Одн.', 'There is', '+ іменник (одн.)', 'There is a cat on the roof.'],
+              ['✅ Мн.', 'There are', '+ іменник (мн.)', 'There are five students here.'],
+              ['❌ Одн.', 'There is not / isn\'t', '+ іменник', 'There isn\'t any milk.'],
+              ['❌ Мн.', 'There are not / aren\'t', '+ іменник', 'There aren\'t any chairs.'],
+              ['❓ Одн.', 'Is there', '+ іменник?', 'Is there a problem?'],
+              ['❓ Мн.', 'Are there', '+ іменник?', 'Are there any questions?'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади',
+            rows: [
+              ['There is a bank near here.', 'Поруч є банк.'],
+              ['There are many people in the park.', 'У парку багато людей.'],
+              ['There isn\'t any coffee left.', 'Кави не залишилось.'],
+              ['Are there any rooms available?', 'Є вільні номери?'],
+              ['There was a great party last night.', 'Вчора була чудова вечірка.'],
+              ['There will be a meeting tomorrow.', 'Завтра буде зустріч.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'There is vs It is',
+            text: '<b>There is</b> = "є/існує" (нова інформація)\n<b>It is</b> = "це є" (про вже відомий предмет)\nThere is a dog outside. → It is very big.',
+          },
+          {
+            type: 'note',
+            title: 'Some / Any',
+            text: 'У стверджувальних реченнях використовуємо <b>some</b>: There is some bread.\nУ питальних та заперечних — <b>any</b>: Is there any bread? / There isn\'t any bread.',
+          },
+        ],
+      },
+
+      // ── 2. Possessives ────────────────────────────────────────
+      {
+        id: 'possessives', title: 'Присвійні форми — A2', emoji: '🏷️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Англійська має три способи вираження приналежності: <b>\'s</b> (Saxon genitive), <b>of</b>, та <b>присвійні займенники</b> (my, mine тощо).',
+          },
+          {
+            type: 'table', title: 'Присвійні займенники',
+            rows: [
+              ['Особа', 'Присвійний прикметник', 'Присвійний займенник'],
+              ['I', 'my (мій/моя)', 'mine (мій/моя)'],
+              ['You', 'your (твій/ваш)', 'yours (твій/ваш)'],
+              ['He', 'his (його)', 'his (його)'],
+              ['She', 'her (її)', 'hers (її)'],
+              ['We', 'our (наш)', 'ours (наш)'],
+              ['They', 'their (їхній)', 'theirs (їхній)'],
+            ],
+          },
+          {
+            type: 'formula', title: '\'s — Saxon genitive',
+            rows: [
+              ['✅ Одна особа', 'noun + \'s', '', 'John\'s car, the dog\'s tail'],
+              ['✅ Мн. на -s', 'noun + \'', '', 'the teachers\' room'],
+              ['✅ Мн. без -s', 'noun + \'s', '', 'children\'s books, men\'s shoes'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади',
+            rows: [
+              ['This is my book. That book is mine.', 'Це моя книга. Та книга — моя.'],
+              ['Is this your jacket? — No, it\'s hers.', 'Це твоя куртка? — Ні, її.'],
+              ['Tom\'s phone is broken.', 'Телефон Тома зламаний.'],
+              ['The children\'s toys are everywhere.', 'Іграшки дітей скрізь.'],
+              ['The roof of the building is flat.', 'Дах будівлі плаский.'],
+              ['Our house is bigger than theirs.', 'Наш будинок більший за їхній.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: '\'s vs of',
+            text: '\'s — для людей, тварин, часу: <i>Anna\'s idea, yesterday\'s news</i>\nof — для речей, місць, абстракцій: <i>the centre of the city, the end of the film</i>',
+          },
+        ],
+      },
+
+      // ── 3. Tag Questions ──────────────────────────────────────
+      {
+        id: 'tag-questions', title: 'Питальні хвостики — A2', emoji: '❔',
+        sections: [
+          {
+            type: 'intro',
+            text: '<b>Tag questions</b> (питальні хвостики) — короткі питання в кінці речення для підтвердження або уточнення інформації. Відповідають українському "чи не так?", "правда?", "так?".',
+          },
+          {
+            type: 'formula', title: 'Правило',
+            rows: [
+              ['✅ Стверджувальне', '→ від\'ємний хвостик', '', 'You are ready, aren\'t you?'],
+              ['❌ Від\'ємне', '→ стверджувальний хвостик', '', 'She isn\'t home, is she?'],
+              ['❓ Спеціальні', 'I am → aren\'t I?', '', 'I am late, aren\'t I?'],
+            ],
+          },
+          {
+            type: 'table', title: 'Часто вживані хвостики',
+            rows: [
+              ['Речення', 'Хвостик'],
+              ['You are a student,', 'aren\'t you?'],
+              ['He can swim,', 'can\'t he?'],
+              ['They went home,', 'didn\'t they?'],
+              ['She has never been there,', 'has she?'],
+              ['It was raining,', 'wasn\'t it?'],
+              ['We should call,', 'shouldn\'t we?'],
+              ['Nobody came,', 'did they?'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади',
+            rows: [
+              ['It\'s a beautiful day, isn\'t it?', 'Чудовий день, чи не так?'],
+              ['You don\'t like coffee, do you?', 'Ти не любиш каву, так?'],
+              ['She can speak French, can\'t she?', 'Вона вміє говорити французькою, чи не так?'],
+              ['They didn\'t tell you, did they?', 'Вони тобі не сказали, так?'],
+              ['Let\'s go for a walk, shall we?', 'Ходімо на прогулянку, добре?'],
+              ['Nothing happened, did it?', 'Нічого не сталось, правда?'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Інтонація',
+            text: 'Спадна інтонація (↘) на хвостику = справжнє питання, чекаємо відповідь.\nЗростаюча інтонація (↗) = шукаємо підтвердження того, в чому впевнені.',
+          },
+        ],
+      },
+
+      // ── 4. Future Forms Contrast ──────────────────────────────
+      {
+        id: 'future-forms', title: 'Майбутнє: контраст форм — B1', emoji: '🔮',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Англійська не має одного "майбутнього часу". Залежно від контексту використовуються <b>will, be going to</b> або <b>Present Continuous</b>.',
+          },
+          {
+            type: 'table', title: 'Порівняння форм майбутнього',
+            rows: [
+              ['Форма', 'Коли використовувати', 'Приклад'],
+              ['will + V', 'Спонтанне рішення, пропозиція, передбачення', 'I\'ll help you! / It will rain.'],
+              ['be going to', 'Заплановане рішення, очевидне майбутнє', 'I\'m going to study tonight.'],
+              ['Present Continuous', 'Конкретна домовленість у майбутньому', 'We\'re meeting at 6 pm.'],
+              ['Present Simple', 'Розклад, програма', 'The train leaves at 9.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Will — спонтанне рішення',
+            rows: [
+              ['The phone is ringing. — I\'ll get it!', 'Телефон дзвонить. — Я відповім!'],
+              ['I think it will be sunny tomorrow.', 'Думаю, завтра буде сонячно.'],
+              ['Don\'t worry, I\'ll help you.', 'Не хвилюйся, я допоможу тобі.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Be going to — план/намір',
+            rows: [
+              ['I\'m going to learn Spanish next year.', 'Наступного року я планую вивчати іспанську.'],
+              ['Look at those clouds! It\'s going to rain.', 'Подивись на ті хмари! Зараз піде дощ.'],
+              ['She\'s going to quit her job.', 'Вона збирається звільнитися.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Present Continuous — домовленість',
+            rows: [
+              ['We\'re having dinner with my parents on Friday.', 'У п\'ятницю ми вечеряємо з моїми батьками.'],
+              ['She\'s flying to Paris next Monday.', 'Наступного понеділка вона летить до Парижа.'],
+              ['They\'re getting married in June.', 'Вони одружуються у червні.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Ключова відмінність',
+            text: '<b>Will</b> — рішення прямо зараз (щойно вирішили)\n<b>Going to</b> — рішення вже прийняте раніше\n<b>Present Continuous</b> — вже запланована, конкретна зустріч/подія',
+          },
+        ],
+      },
+
+      // ── 5. Verb Patterns ──────────────────────────────────────
+      {
+        id: 'verb-patterns', title: 'Дієслівні моделі з об\'єктом — B1', emoji: '🎯',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Деякі дієслова вимагають після себе об\'єкт + певну форму дієслова: <b>make sb do, let sb do, see sb doing, ask sb to do</b>. Це фіксовані моделі — їх потрібно вивчати.',
+          },
+          {
+            type: 'table', title: 'Основні моделі',
+            rows: [
+              ['Дієслово', 'Модель', 'Приклад'],
+              ['make', 'make sb do (без to)', 'She made me apologize.'],
+              ['let', 'let sb do (без to)', 'Let me try!'],
+              ['have', 'have sb do (без to)', 'I\'ll have someone fix it.'],
+              ['see / hear / watch', 'see/hear sb do або doing', 'I saw him leave / leaving.'],
+              ['ask / tell / want / need', '+ sb + to do', 'Ask her to call back.'],
+              ['help', 'help sb (to) do', 'Can you help me (to) carry this?'],
+              ['allow / permit / enable', '+ sb + to do', 'She allowed us to leave early.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Make vs Let',
+            rows: [
+              ['My boss made me work overtime.', 'Шеф змусив мене працювати понаднормово.'],
+              ['My parents didn\'t let me go out.', 'Батьки не дозволили мені виходити.'],
+              ['She made us wait for an hour.', 'Вона змусила нас чекати годину.'],
+              ['Let him speak — don\'t interrupt.', 'Дайте йому говорити — не перебивайте.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'See / hear + object',
+            rows: [
+              ['I saw her cross the street.', 'Я бачив, як вона перейшла вулицю (вся дія).'],
+              ['I saw her crossing the street.', 'Я бачив, як вона переходила вулицю (в процесі).'],
+              ['We heard someone knock at the door.', 'Ми почули, як хтось постукав у двері.'],
+              ['I heard him playing the guitar.', 'Я чув, як він грав на гітарі.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Ask / tell / want + to',
+            rows: [
+              ['She asked me to help her.', 'Вона попросила мене допомогти.'],
+              ['The teacher told us to be quiet.', 'Вчитель сказав нам замовкнути.'],
+              ['I want you to understand this.', 'Я хочу, щоб ти це зрозумів.'],
+              ['They need someone to fix the roof.', 'Їм потрібен хтось, щоб полагодити дах.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Пасивний стан',
+            text: 'У пасивному стані після make і let з\'являється to:\nShe made him wait. → He was made <b>to</b> wait.\nPassive: be made to do, be allowed to do, be seen to do',
+          },
+        ],
+      },
+
+      // ── 6. It + to-infinitive ─────────────────────────────────
+      {
+        id: 'it-infinitive', title: 'It + to-infinitive — B1', emoji: '💡',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Конструкція <b>It + прикметник/іменник + to-infinitive</b> дозволяє уникнути важкого підмета. "It" є формальним підметом, а справжній зміст — у to-інфінітиві.',
+          },
+          {
+            type: 'formula', title: 'Структура',
+            rows: [
+              ['✅ Базова', 'It + is + adj + to do', '', 'It is important to exercise.'],
+              ['✅ З for sb', 'It + is + adj + for sb + to do', '', 'It is hard for me to decide.'],
+              ['✅ З дієсловом', 'It + takes/costs + to do', '', 'It takes time to learn.'],
+              ['✅ Worth', 'It is worth + -ing', '', 'It\'s worth trying.'],
+            ],
+          },
+          {
+            type: 'table', title: 'Поширені прикметники в цій конструкції',
+            rows: [
+              ['Категорія', 'Прикметники'],
+              ['Складність', 'easy, hard, difficult, impossible, complicated'],
+              ['Важливість', 'important, essential, vital, necessary, crucial'],
+              ['Емоції', 'great, wonderful, nice, terrible, exciting, strange'],
+              ['Час/вартість', 'takes time, costs money, worth doing'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади',
+            rows: [
+              ['It\'s important to drink enough water.', 'Важливо пити достатньо води.'],
+              ['It\'s difficult to learn a new language.', 'Важко вивчити нову мову.'],
+              ['It\'s easy for her to make friends.', 'Їй легко заводити друзів.'],
+              ['It takes courage to admit mistakes.', 'Потрібна сміливість, щоб визнавати помилки.'],
+              ['It\'s worth seeing that film.', 'Той фільм вартий перегляду.'],
+              ['It would be great to travel the world.', 'Було б чудово подорожувати світом.'],
+              ['It\'s no use crying over spilled milk.', 'Немає сенсу плакати над пролитим молоком.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'It vs Gerund як підмет',
+            text: 'Обидва варіанти правильні:\n→ <b>It is</b> fun to swim. = <b>Swimming</b> is fun.\nАле "It" — більш формальний та природний у розмовній мові.',
+          },
+        ],
+      },
+
+      // ── 7. Collocations ───────────────────────────────────────
+      {
+        id: 'collocations', title: 'Колокації — B1', emoji: '🤝',
+        sections: [
+          {
+            type: 'intro',
+            text: '<b>Колокації</b> — стійкі словосполучення, де слова природно йдуть разом. Англійці не кажуть "do a mistake" — кажуть "make a mistake". Це потрібно просто запам\'ятати.',
+          },
+          {
+            type: 'table', title: 'MAKE — творення, результат',
+            rows: [
+              ['make + noun', 'Переклад'],
+              ['make a mistake', 'зробити помилку'],
+              ['make a decision', 'прийняти рішення'],
+              ['make an effort', 'докласти зусиль'],
+              ['make progress', 'робити прогрес'],
+              ['make a phone call', 'зателефонувати'],
+              ['make a suggestion', 'зробити пропозицію'],
+              ['make money', 'заробляти гроші'],
+              ['make friends', 'заводити друзів'],
+            ],
+          },
+          {
+            type: 'table', title: 'DO — дії, робота, завдання',
+            rows: [
+              ['do + noun', 'Переклад'],
+              ['do homework', 'робити домашнє завдання'],
+              ['do the dishes', 'мити посуд'],
+              ['do exercise', 'займатися вправами'],
+              ['do research', 'проводити дослідження'],
+              ['do someone a favour', 'зробити комусь послугу'],
+              ['do your best', 'робити все можливе'],
+              ['do damage', 'завдати шкоди'],
+            ],
+          },
+          {
+            type: 'table', title: 'TAKE / HAVE / GET / GIVE',
+            rows: [
+              ['Дієслово + noun', 'Переклад'],
+              ['take a break', 'зробити перерву'],
+              ['take a photo', 'зробити фото'],
+              ['take an exam', 'скласти іспит'],
+              ['have a look', 'подивитися'],
+              ['have a shower', 'прийняти душ'],
+              ['have fun', 'весело провести час'],
+              ['get a job', 'отримати роботу'],
+              ['give advice', 'дати пораду'],
+              ['give a speech', 'виголосити промову'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади речень',
+            rows: [
+              ['I made a big mistake at work.', 'Я зробив велику помилку на роботі.'],
+              ['Can you do me a favour?', 'Можеш зробити мені послугу?'],
+              ['Let\'s take a break — I need coffee.', 'Зробімо перерву — мені потрібна кава.'],
+              ['She gave a brilliant speech at the conference.', 'Вона виголосила блискучу промову на конференції.'],
+              ['Have you had a chance to check the report?', 'Ти мав нагоду перевірити звіт?'],
+              ['He\'s making great progress with his English.', 'Він робить великий прогрес у вивченні англійської.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Як вчити колокації',
+            text: 'Вчи як цілий блок, а не окремі слова: "make a decision" — одна одиниця.\nКорисний ресурс: Oxford Collocations Dictionary.',
+          },
+        ],
+      },
+
+      // ── 8. Register ───────────────────────────────────────────
+      {
+        id: 'register', title: 'Формальний vs Неформальний стиль — C1', emoji: '🎩',
+        sections: [
+          {
+            type: 'intro',
+            text: '<b>Register</b> — це стиль мовлення, пристосований до ситуації. Вміння перемикатися між формальним та неформальним стилем є ознакою рівня C1.',
+          },
+          {
+            type: 'table', title: 'Лексичні відмінності',
+            rows: [
+              ['Неформально', 'Формально', 'Переклад'],
+              ['get', 'obtain / receive', 'отримати'],
+              ['show', 'demonstrate / indicate', 'показати'],
+              ['ask', 'request / enquire', 'запитати'],
+              ['tell', 'inform / notify', 'повідомити'],
+              ['help', 'assist / facilitate', 'допомогти'],
+              ['need', 'require / necessitate', 'потребувати'],
+              ['use', 'utilise / employ', 'використовувати'],
+              ['look at', 'examine / investigate', 'розглянути'],
+              ['think about', 'consider / contemplate', 'розглянути/обдумати'],
+              ['enough', 'sufficient', 'достатній'],
+              ['but', 'however / nevertheless', 'але/проте'],
+              ['so', 'therefore / consequently', 'тому/отже'],
+            ],
+          },
+          {
+            type: 'table', title: 'Граматичні відмінності',
+            rows: [
+              ['Особливість', 'Неформально', 'Формально'],
+              ['Скорочення', 'I\'m, don\'t, can\'t', 'I am, do not, cannot'],
+              ['Пасивний стан', 'рідко', 'часто (It was decided that...)'],
+              ['Питання', 'Got a minute?', 'Would you have a moment?'],
+              ['Речення', 'короткі, прості', 'складні, підрядні'],
+              ['Особовий займенник', 'we, you', 'one (One should consider...)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Той самий зміст — різний стиль',
+            rows: [
+              ['I need your help ASAP.', 'I would appreciate your assistance at your earliest convenience.'],
+              ['Can you check this out?', 'Would you be so kind as to examine this document?'],
+              ['Sorry for the late reply.', 'I apologise for the delay in responding.'],
+              ['We\'re looking into it.', 'The matter is currently under investigation.'],
+              ['Thanks a lot for coming!', 'We are most grateful for your attendance.'],
+              ['I think this is a good idea.', 'It would appear that this proposal has considerable merit.'],
+            ],
+          },
+          {
+            type: 'table', title: 'Де який стиль',
+            rows: [
+              ['Ситуація', 'Стиль'],
+              ['Листування з другом / SMS', 'Неформальний'],
+              ['Соціальні мережі', 'Неформальний / нейтральний'],
+              ['Діловий лист / Email', 'Формальний / нейтральний'],
+              ['Академічне есе', 'Формальний'],
+              ['Офіційна заява / скарга', 'Формальний'],
+              ['Усна презентація', 'Нейтральний / формальний'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Типові помилки',
+            text: 'Змішування стилів — найпоширеніша помилка рівня B2–C1.\nНе пишіть "I\'m writing to inform you" і відразу "BTW" — це суперечить стилю.\nНе використовуйте сленг у формальних листах і навпаки.',
+          },
+        ],
+      },
+
     ],
   },
 
