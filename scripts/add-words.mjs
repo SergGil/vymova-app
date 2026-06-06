@@ -264,6 +264,88 @@ const NEW_WORDS = [
   ["unprecedented","безпрецедентний","The pandemic caused unprecedented disruption to global economies.","Пандемія спричинила безпрецедентні збої в глобальній економіці.","/ʌnˈpresɪdentɪd/"],
   ["validate","підтверджувати, перевіряти","The experiment validated the researchers' original hypothesis.","Експеримент підтвердив початкову гіпотезу дослідників.","/ˈvælɪdeɪt/"],
 
+  // ── 💼 Робота та кар'єра ─────────────────────────────────────
+  ["resignation","звільнення, відставка","She handed in her resignation after ten years at the company.","Вона подала заяву про звільнення після десяти років у компанії.","/ˌrezɪɡˈneɪʃən/"],
+  ["pension","пенсія","He worked for forty years and now receives a good pension.","Він пропрацював сорок років і тепер отримує хорошу пенсію.","/ˈpenʃən/"],
+  ["freelance","фрілансер, на фрілансі","She works as a freelance designer for several clients.","Вона працює дизайнером-фрілансером для кількох клієнтів.","/ˈfriːlɑːns/"],
+  ["appraisal","оцінка (роботи), атестація","Her annual appraisal showed she had exceeded all her targets.","Її щорічна атестація показала, що вона перевершила всі свої цілі.","/əˈpreɪzəl/"],
+  ["presentation","презентація, доповідь","She gave an excellent presentation to the board of directors.","Вона зробила чудову презентацію перед радою директорів.","/ˌprezənˈteɪʃən/"],
+
+  // ── 💻 Технології та інтернет ─────────────────────────────────
+  ["website","вебсайт","Check the company's website for more information about the event.","Перевірте вебсайт компанії для отримання додаткової інформації про захід.","/ˈwebsaɪt/"],
+  ["scroll","прокручувати, гортати","She scrolled through her social media feed for twenty minutes.","Вона гортала стрічку соціальних мереж двадцять хвилин.","/skrəʊl/"],
+  ["bluetooth","блютус, бездротове з'єднання","Connect the headphones via bluetooth before playing music.","Підключи навушники через блютус перед відтворенням музики.","/ˈbluːtuːθ/"],
+  ["coding","кодування, програмування","She spent the evening coding a new feature for the app.","Вона провела вечір, програмуючи нову функцію для застосунку.","/ˈkəʊdɪŋ/"],
+  ["hacker","хакер","The company hired an ethical hacker to test its security.","Компанія найняла етичного хакера для перевірки своєї безпеки.","/ˈhækər/"],
+  ["virus","вірус (комп'ютерний/біологічний)","A computer virus destroyed all the files on his laptop.","Комп'ютерний вірус знищив усі файли на його ноутбуку.","/ˈvaɪrəs/"],
+  ["charger","зарядний пристрій","My phone is dead and I forgot to bring my charger.","Мій телефон розрядився, і я забув взяти зарядний пристрій.","/ˈtʃɑːrdʒər/"],
+
+  // ── 🏥 Здоров'я та медицина ──────────────────────────────────
+  ["appointment","прийом (лікаря), зустріч","I have a doctor's appointment at three o'clock tomorrow.","У мене прийом у лікаря о третій годині завтра.","/əˈpɔɪntmənt/"],
+  ["pulse","пульс","The nurse checked his pulse and said it was perfectly normal.","Медсестра перевірила його пульс і сказала, що він абсолютно нормальний.","/pʌls/"],
+  ["headache","головний біль","I have a terrible headache — I need to take some painkillers.","У мене жахливий головний біль — мені потрібно прийняти знеболювальне.","/ˈhedeɪk/"],
+  ["dose","доза","Take one dose of the medicine twice a day after meals.","Приймайте одну дозу ліків двічі на день після їжі.","/dəʊs/"],
+  ["clinic","клініка, медичний центр","She went to the clinic for a routine health check-up.","Вона пішла до клініки на плановий медичний огляд.","/ˈklɪnɪk/"],
+  ["recovery","одужання, відновлення","His recovery after the operation was faster than expected.","Його відновлення після операції відбулося швидше, ніж очікувалося.","/rɪˈkʌvəri/"],
+  ["diabetes","діабет","She was diagnosed with type 2 diabetes at the age of forty.","Їй поставили діагноз цукровий діабет 2 типу у віці сорока років.","/ˌdaɪəˈbiːtiːz/"],
+
+  // ── 🍽️ Їжа та кулінарія ──────────────────────────────────────
+  ["ingredient","інгредієнт","The recipe has only five simple ingredients you can find anywhere.","У рецепті лише п'ять простих інгредієнтів, які можна знайти будь-де.","/ɪnˈɡriːdiənt/"],
+  ["vegetarian","вегетаріанець, вегетаріанський","She has been vegetarian for three years and feels much healthier.","Вона є вегетаріанкою вже три роки і почувається набагато здоровішою.","/ˌvedʒɪˈteəriən/"],
+  ["spicy","гострий, пряний","I love spicy food, but it gives me heartburn sometimes.","Я люблю гостру їжу, але іноді вона викликає у мене печію.","/ˈspaɪsi/"],
+  ["flavour","смак, аромат","This soup has a wonderful rich flavour from the herbs.","Цей суп має чудовий насичений смак завдяки травам.","/ˈfleɪvər/"],
+  ["portion","порція","The portion sizes at that restaurant are huge.","Розмір порцій у тому ресторані величезний.","/ˈpɔːrʃən/"],
+  ["grill","гриль, смажити на грилі","She grilled the vegetables with a little olive oil and salt.","Вона посмажила овочі на грилі з невеликою кількістю оливкової олії і солі.","/ɡrɪl/"],
+  ["season","приправляти, сезон","Season the chicken with salt, pepper and garlic before roasting.","Приправ курку сіллю, перцем та часником перед запіканням.","/ˈsiːzən/"],
+  ["appetiser","закуска","We ordered a selection of appetisers to share before the main course.","Ми замовили набір закусок, щоб поділитися перед основною стравою.","/ˈæpɪtaɪzər/"],
+  ["dessert","десерт","I always save room for dessert — especially chocolate cake.","Я завжди залишаю місце для десерту — особливо для шоколадного торту.","/dɪˈzɜːrt/"],
+  ["gluten","глютен","She avoids gluten because she has a severe intolerance to it.","Вона уникає глютену, бо має серйозну непереносимість до нього.","/ˈɡluːtən/"],
+  ["organic","органічний","More people are choosing organic produce for health reasons.","Дедалі більше людей обирають органічні продукти з міркувань здоров'я.","/ɔːrˈɡænɪk/"],
+  ["protein","протеїн, білок","Eggs, meat and beans are excellent sources of protein.","Яйця, м'ясо та квасоля є чудовими джерелами білка.","/ˈprəʊtiːn/"],
+  ["vitamin","вітамін","Oranges are a great source of vitamin C for the immune system.","Апельсини є чудовим джерелом вітаміну C для імунної системи.","/ˈvɪtəmɪn/"],
+  ["calorie","калорія","This smoothie contains only 120 calories per serving.","Цей смузі містить лише 120 калорій на порцію.","/ˈkæləri/"],
+
+  // ── ✈️ Подорожі та транспорт ──────────────────────────────────
+  ["boarding","посадка (в літак/автобус)","Boarding starts one hour before the scheduled departure time.","Посадка починається за одну годину до запланованого часу відправлення.","/ˈbɔːrdɪŋ/"],
+  ["reservation","бронювання, резервація","I made a reservation at the restaurant for seven o'clock.","Я зробив бронювання в ресторані на сьому годину.","/ˌrezəˈveɪʃən/"],
+  ["accommodation","житло, проживання","The travel package includes flights and accommodation for seven nights.","Туристичний пакет включає авіаквитки та проживання на сім ночей.","/əˌkɒməˈdeɪʃən/"],
+  ["shuttle","шатл, маршрутка","There's a free shuttle bus between the hotel and the airport.","Між готелем та аеропортом курсує безкоштовний шатл-автобус.","/ˈʃʌtəl/"],
+  ["platform","платформа (залізнична), майданчик","The train to Paris departs from platform six in ten minutes.","Потяг до Парижа відправляється з шостої платформи за десять хвилин.","/ˈplætfɔːrm/"],
+  ["cancel","скасовувати","The flight was cancelled due to severe weather conditions.","Рейс скасували через несприятливі погодні умови.","/ˈkænsəl/"],
+  ["turbulence","турбулентність","Passengers were asked to fasten seatbelts due to turbulence.","Пасажирів попросили пристебнути ремені безпеки через турбулентність.","/ˈtɜːrbjuləns/"],
+  ["seasick","морська хвороба, у кого нудить на морі","She felt terribly seasick on the ferry crossing the Channel.","Їй було дуже погано від морської хвороби на поромі через Ла-Манш.","/ˈsiːsɪk/"],
+  ["insurance","страхування, страховка","Always take out travel insurance before going abroad.","Завжди оформлюй туристичну страховку перед поїздкою за кордон.","/ɪnˈʃʊərəns/"],
+
+  // ── 🌍 Природа та довкілля ────────────────────────────────────
+  ["climate","клімат","The climate in the south of the country is warm and dry.","Клімат на півдні країни теплий і сухий.","/ˈklaɪmɪt/"],
+  ["pollution","забруднення","Air pollution in big cities is a major health concern.","Забруднення повітря у великих містах є серйозною проблемою для здоров'я.","/pəˈluːʃən/"],
+  ["emissions","викиди (парникових газів)","The new law aims to reduce carbon emissions by thirty percent.","Новий закон спрямований на скорочення викидів вуглецю на тридцять відсотків.","/ɪˈmɪʃənz/"],
+  ["renewable","відновлювана (енергія)","Solar panels are an excellent source of renewable energy.","Сонячні панелі є чудовим джерелом відновлюваної енергії.","/rɪˈnjuːəbəl/"],
+  ["deforestation","вирубка лісів","Deforestation is destroying the natural habitat of many species.","Вирубка лісів руйнує природне середовище існування багатьох видів.","/ˌdiːˌfɒrɪˈsteɪʃən/"],
+  ["earthquake","землетрус","A powerful earthquake struck the coastal region last night.","Потужний землетрус вразив прибережний регіон минулої ночі.","/ˈɜːrθkweɪk/"],
+  ["tsunami","цунамі","The coastal town was destroyed by a massive tsunami.","Прибережне містечко було знищено масивним цунамі.","/tsuːˈnɑːmi/"],
+  ["coral","корал, кораловий","Rising ocean temperatures are killing coral reefs worldwide.","Підвищення температури океану вбиває коралові рифи по всьому світу.","/ˈkɒrəl/"],
+  ["sustainable","сталий, збалансований","Sustainable development meets today's needs without harming the future.","Сталий розвиток задовольняє сьогоднішні потреби, не завдаючи шкоди майбутньому.","/səˈsteɪnəbəl/"],
+  ["conservation","збереження, охорона природи","Wildlife conservation efforts have helped save several endangered species.","Зусилля з охорони дикої природи допомогли врятувати кілька видів, що перебувають під загрозою.","/ˌkɒnsəˈveɪʃən/"],
+  ["endangered","під загрозою зникнення","The giant panda was once critically endangered but numbers have grown.","Велика панда колись перебувала під критичною загрозою зникнення, але популяція зросла.","/ɪnˈdeɪndʒərd/"],
+  ["atmosphere","атмосфера","The atmosphere in the old café was warm and welcoming.","Атмосфера в старому кафе була теплою і привітною.","/ˈætməsfɪər/"],
+  ["ozone","озон, озоновий шар","The ozone layer protects Earth from harmful ultraviolet radiation.","Озоновий шар захищає Землю від шкідливого ультрафіолетового випромінювання.","/ˈəʊzəʊn/"],
+  ["pesticide","пестицид","Farmers are being encouraged to use fewer pesticides on crops.","Фермерів заохочують використовувати менше пестицидів на посівах.","/ˈpestɪsaɪd/"],
+
+  // ── 💛 Емоції та характер ─────────────────────────────────────
+  ["frustrated","розчарований, збентежений","She felt frustrated when nobody listened to her suggestions.","Вона відчувала розчарування, коли ніхто не слухав її пропозиції.","/frʌˈstreɪtɪd/"],
+  ["ambitious","амбітний, цілеспрямований","He is very ambitious and plans to become CEO within five years.","Він дуже амбітний і планує стати генеральним директором протягом п'яти років.","/æmˈbɪʃəs/"],
+  ["pessimistic","песимістичний","She tends to be pessimistic about the future when things go wrong.","Вона схильна до песимізму щодо майбутнього, коли справи йдуть не так.","/ˌpesɪˈmɪstɪk/"],
+  ["empathy","емпатія, співпереживання","Good teachers show empathy towards students who are struggling.","Хороші вчителі виявляють емпатію до учнів, які мають труднощі.","/ˈempəθi/"],
+  ["enthusiasm","ентузіазм, захоплення","Her enthusiasm for the project inspired the whole team.","Її ентузіазм до проекту надихнув усю команду.","/ɪnˈθjuːziæzəm/"],
+  ["loneliness","самотність","Loneliness is a growing problem in many modern cities.","Самотність — це зростаюча проблема в багатьох сучасних містах.","/ˈləʊnlinəs/"],
+  ["curiosity","цікавість, допитливість","His curiosity about science led him to become a researcher.","Його цікавість до науки привела його до того, що він став дослідником.","/ˌkjʊəriˈɒsɪti/"],
+  ["courage","сміливість, мужність","It takes real courage to speak up when you know something is wrong.","Потрібна справжня сміливість, щоб висловитися, коли знаєш, що щось не так.","/ˈkɜːrɪdʒ/"],
+  ["loyalty","лояльність, відданість","She showed great loyalty to her team even during difficult times.","Вона виявила велику відданість своїй команді навіть у важкі часи.","/ˈlɔɪəlti/"],
+  ["honesty","чесність","Honesty is the foundation of any strong and lasting relationship.","Чесність — основа будь-яких міцних і тривалих стосунків.","/ˈɒnɪsti/"],
+  ["tolerance","толерантність, терпимість","Cultural tolerance is essential in a diverse and multicultural society.","Культурна толерантність необхідна в різноманітному і мультикультурному суспільстві.","/ˈtɒlərəns/"],
+  ["excitement","хвилювання, збудження","The children couldn't hide their excitement on Christmas morning.","Діти не могли приховати своє хвилювання вранці на Різдво.","/ɪkˈsaɪtmənt/"],
+
   // ── A1 basics ────────────────────────────────────────────────
   ["above","вище, над","The plane flew above the clouds for hours.","Літак летів вище хмар кілька годин.","/əˈbʌv/"],
   ["after","після","Let's meet for coffee after work today.","Давай зустрінемося на каву після роботи сьогодні.","/ˈɑːftər/"],
