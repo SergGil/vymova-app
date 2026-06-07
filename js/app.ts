@@ -26,6 +26,12 @@ import { getSelectedUkVoice }                            from './features/voice.
 import { decodeIpa }                                    from './core/ui-helpers.ts';
 import { getCefrLevel }                                 from '../data/cefr.ts';
 import { ACHIEVEMENTS }                                 from '../data/achievements.ts';
+import { ACH_EN, ACH_CAT_EN }                           from '../data/achievements-i18n.ts';
+
+function _isEnLang(): boolean { return localStorage.getItem('ew_lang') === 'en'; }
+function _achName(a: Achievement): string { return _isEnLang() ? (ACH_EN[a.id]?.name ?? a.name) : a.name; }
+function _achHint(a: Achievement): string { return _isEnLang() ? (ACH_EN[a.id]?.hint ?? a.hint) : a.hint; }
+function _achCat(cat: string): string { return _isEnLang() ? (ACH_CAT_EN[cat] ?? cat) : cat; }
 import { WORD_FAMILIES }                                from '../data/word-families.ts';
 import { searchCollocations }                          from '../data/collocations.ts';
 import { renderLeaderboard, maybeSubmitScore }         from './features/leaderboard.ts';
@@ -994,8 +1000,8 @@ var _toastTimer: ReturnType<typeof setTimeout> | null = null;
 function showToast(ach: Achievement): void {
   var t = document.getElementById('achievement-toast')!
   document.getElementById('toast-icon')!.textContent = ach.icon;
-  document.getElementById('toast-name')!.textContent = ach.name;
-  document.getElementById('toast-desc')!.textContent = ach.hint;
+  document.getElementById('toast-name')!.textContent = _achName(ach);
+  document.getElementById('toast-desc')!.textContent = _achHint(ach);
   if(_toastTimer) clearTimeout(_toastTimer);
   // Спочатку скидаємо стан
   t.style.display = 'none';
@@ -1119,7 +1125,7 @@ function renderAchievements() {
   var html2 = '';
   Object.keys(cats).forEach(function(cat){
     html2 += '<div class="ach-category">';
-    html2 += '<div class="ach-cat-title">' + cat + '</div>';
+    html2 += '<div class="ach-cat-title">' + _achCat(cat) + '</div>';
     html2 += '<div class="ach-grid-inner">';
     cats[cat].forEach(function(a: Achievement){
       var isUnlocked = unlocked.has(a.id);
@@ -1127,9 +1133,9 @@ function renderAchievements() {
       var pct = Math.round(prog.cur / prog.max * 100);
       html2 += '<div class="ach-card ' + (isUnlocked ? 'unlocked' : 'locked') + '" data-id="' + a.id + '">' +
         '<span class="ach-icon">' + a.icon + '</span>' +
-        '<div class="ach-name">' + a.name + '</div>' +
+        '<div class="ach-name">' + _achName(a) + '</div>' +
         '<div class="ach-progress-track"><div class="ach-progress-fill" style="width:' + pct + '%' + (isUnlocked?';background:#27ae60':'') + '"></div></div>' +
-        '<div class="ach-progress-label">' + (isUnlocked ? '✓ Виконано' : prog.cur + ' / ' + prog.max) + '</div>' +
+        '<div class="ach-progress-label">' + (isUnlocked ? (_isEnLang() ? '✓ Done' : '✓ Виконано') : prog.cur + ' / ' + prog.max) + '</div>' +
       '</div>';
     });
     html2 += '</div></div>';
@@ -1147,9 +1153,9 @@ function renderAchievements() {
       var prog = a.progress(k, g, m, c);
       var pct = Math.min(Math.round(prog.cur / prog.max * 100), 100);
       document.getElementById('ap-icon')!.textContent = a.icon;
-      document.getElementById('ap-name')!.textContent = a.name;
-      document.getElementById('ap-cat')!.textContent = a.cat;
-      document.getElementById('ap-hint')!.textContent = a.hint;
+      document.getElementById('ap-name')!.textContent = _achName(a);
+      document.getElementById('ap-cat')!.textContent = _achCat(a.cat);
+      document.getElementById('ap-hint')!.textContent = _achHint(a);
       document.getElementById('ap-prog-label')!.textContent = prog.cur + ' / ' + prog.max;
       document.getElementById('ap-prog-fill')!.style.width = pct + '%';
       if(isUnlocked) {
@@ -1158,7 +1164,9 @@ function renderAchievements() {
         document.getElementById('ap-prog-fill')!.style.background = '';
       }
       var statusEl = document.getElementById('ap-status')!;
-      statusEl.textContent = isUnlocked ? '🏆 Досягнення розблоковано!' : '🔒 Ще не виконано';
+      statusEl.textContent = isUnlocked
+        ? (_isEnLang() ? '🏆 Achievement unlocked!' : '🏆 Досягнення розблоковано!')
+        : (_isEnLang() ? '🔒 Not yet completed'      : '🔒 Ще не виконано');
       statusEl.className = 'ach-popup-status ' + (isUnlocked ? 'done' : 'todo');
       var overlay = document.getElementById('ach-popup-overlay')!;
       overlay.className = 'open';

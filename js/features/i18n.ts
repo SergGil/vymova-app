@@ -27,6 +27,11 @@ const DICT: Record<string, Record<Lang, string>> = {
   'cards.hint':         { ua: 'Натисни на картку — побачиш переклад', en: 'Tap the card to see the translation' },
   'cards.example':      { ua: 'Приклад',                             en: 'Example' },
   'cards.quickQuiz':    { ua: '⚡ Quick Quiz — 5 питань',             en: '⚡ Quick Quiz — 5 questions' },
+
+  'ach.pageTitle':    { ua: '🏆 Досягнення',                  en: '🏆 Achievements' },
+  'ach.roadmapTitle': { ua: '🗺️ Шлях Джедая — всі рівні',     en: '🗺️ Path of the Jedi — all levels' },
+  'ach.awardsTitle':  { ua: '🏅 Нагороди',                    en: '🏅 Awards' },
+  'ach.close':        { ua: 'Закрити',                        en: 'Close' },
 };
 
 const LANG_KEY = 'ew_lang';
@@ -50,6 +55,9 @@ export function applyI18n(): void {
   document.querySelectorAll<HTMLElement>('.lang-opt').forEach(btn => {
     btn.classList.toggle('lang-active', btn.dataset.lang === lang);
   });
+  if (document.getElementById('ach-overlay')?.classList.contains('open')) {
+    (window.renderAchievements as (() => void) | undefined)?.();
+  }
 }
 
 document.querySelectorAll<HTMLElement>('.lang-opt').forEach(btn => {
