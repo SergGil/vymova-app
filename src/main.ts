@@ -42,6 +42,7 @@ await import('../js/features/search.ts');
 await import('../js/features/quick-quiz.ts');
 await import('../js/features/mode-hints.ts');
 await import('../js/features/word-detail.ts');
+await import('../js/features/i18n.ts');
 await import('../js/features/grammar.ts');
 await import('../js/features/idioms.ts');
 await import('../js/features/learning-path.ts');

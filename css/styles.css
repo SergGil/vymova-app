@@ -62,6 +62,13 @@
   }
   .title-sw-toggle:hover { opacity: 1; border-color: var(--accent); color: var(--text); }
   body.sw .title-sw-toggle { opacity: 1; border-color: #00c8ff; color: #00c8ff; background: rgba(0,200,255,.1); }
+  .lang-toggle {
+    background: none; border: 1.5px solid var(--border); border-radius: 8px;
+    font-size: .7rem; font-weight: 700; letter-spacing: .03em; line-height: 1;
+    padding: 4px 7px; cursor: pointer; color: var(--text3); opacity: .55;
+    transition: all .15s; flex-shrink: 0;
+  }
+  .lang-toggle:hover { opacity: 1; border-color: var(--accent); color: var(--text); }
   .header-left .subtitle {
     font-size: 12px;
     color: var(--text3);
