@@ -66,6 +66,7 @@
     <button class="sb-btn" id="sb-modes"        ><span class="sb-icon">🎮</span><span class="sb-label">Режими</span></button>
     <button class="sb-btn" id="sb-learning-path"><span class="sb-icon">🎯</span><span class="sb-label">Шлях навчання</span></button>
     <button class="sb-btn" id="sb-grammar"      ><span class="sb-icon">📖</span><span class="sb-label">Граматика</span></button>
+    <button class="sb-btn" id="sb-idioms"       ><span class="sb-icon">💬</span><span class="sb-label">Ідіоми</span></button>
     <button class="sb-btn" id="sb-duel"         ><span class="sb-icon">⚔️</span><span class="sb-label">Дуель</span></button>
     <button class="sb-btn" id="sb-settings"     ><span class="sb-icon">⚙️</span><span class="sb-label">Налаштування</span></button>
   </div>
@@ -82,14 +83,14 @@
     </div>
   </div>
 
-  <div class="sidebar-footer">
+  <div class="sidebar-footer sidebar-footer-compact">
     <div class="sb-section-label">🎨 Теми</div>
-    <div class="sb-btn sb-toggle-row" id="sb-theme">
+    <div class="sb-btn sb-toggle-row sb-toggle-row-compact" id="sb-theme">
       <span class="sb-icon">🌙</span>
       <span class="sb-label">Темна тема</span>
       <span class="sb-toggle-pill" id="sb-theme-pill"></span>
     </div>
-    <div class="sb-btn sb-toggle-row" id="sb-sw">
+    <div class="sb-btn sb-toggle-row sb-toggle-row-compact" id="sb-sw">
       <span class="sb-icon">⚔️</span>
       <span class="sb-label">Star Wars</span>
       <span class="sb-toggle-pill" id="sb-sw-pill"></span>
@@ -1038,6 +1039,24 @@
           <div class="gr-empty">Оберіть тему зліва 👈</div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ══ IDIOMS PAGE ══ -->
+  <div id="idioms-overlay" class="page-overlay">
+    <div class="page-inner idioms-inner">
+      <div class="page-header">
+        <div class="page-title">💬 Ідіоми</div>
+        <button class="page-close-btn" id="idioms-close">✕</button>
+      </div>
+      <div class="idioms-tabs">
+        <button class="idioms-tab idioms-tab-active" id="idioms-tab-en" data-tab="en">🇬🇧 Англійські ідіоми</button>
+        <button class="idioms-tab" id="idioms-tab-ua" data-tab="ua">🇺🇦 Українські ідіоми → англійською</button>
+      </div>
+      <div class="idioms-search-wrap">
+        <input type="text" id="idioms-search" class="idioms-search" placeholder="🔍 Пошук ідіоми...">
+      </div>
+      <div id="idioms-list" class="idioms-list"></div>
     </div>
   </div>
 
