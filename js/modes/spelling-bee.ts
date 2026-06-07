@@ -73,8 +73,7 @@ function renderQ(): void {
 
   // Show translation and IPA (the clues)
   elTransl.textContent = w[1];
-  const isFmtB = w[2]?.[0]==='/'||w[2]?.[0]==='[';
-  const ipaRaw = isFmtB ? w[2] : (w[4] ?? '');
+  const ipaRaw = w[4] ?? '';
   elIpa.textContent = _decodeIpa(ipaRaw);
 
   // Auto-speak the word

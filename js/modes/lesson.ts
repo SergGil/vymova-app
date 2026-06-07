@@ -72,8 +72,7 @@ function renderFlash(w: WordEntry): void {
   elDir.textContent = 'Що означає це слово?';
   elWord.textContent = w[0];
   elWord.appendChild(speakBtn(w[0], 'en-US'));
-  const isFmtB = w[2]?.[0] === '/' || w[2]?.[0] === '[';
-  elIpa.textContent = decodeIpa(isFmtB ? w[2] : (w[4] ?? ''));
+  elIpa.textContent = decodeIpa(w[4] ?? '');
   elTransl.textContent = w[1];
   document.getElementById('lesson-ua-ex')!.textContent = '';
   document.getElementById('lesson-en-ex')!.innerHTML = '';
@@ -84,8 +83,7 @@ btnReveal.addEventListener('click', () => {
   if (lPhase !== 0 || lFlipped) return;
   lFlipped = true;
   const w = lWords[lStep];
-  const isFmtB = w[2]?.[0] === '/' || w[2]?.[0] === '[';
-  const enExSrc = isFmtB ? (w[3] ?? '') : (w[2] ?? '');
+  const enExSrc = w[2] ?? '';
   const enExEl = document.getElementById('lesson-en-ex')!;
   if (enExSrc.includes('<b>')) {
     enExEl.innerHTML = enExSrc;
@@ -94,7 +92,7 @@ btnReveal.addEventListener('click', () => {
     const parts = ew.split(/\s+/).filter(Boolean).map(p => p + '\\w*');
     enExEl.innerHTML = enExSrc.replace(new RegExp('(' + parts.join('\\s+') + ')', 'i'), '<b>$1</b>');
   }
-  document.getElementById('lesson-ua-ex')!.textContent = isFmtB ? (w[4] ?? '') : (w[3] ?? '');
+  document.getElementById('lesson-ua-ex')!.textContent = w[3] ?? '';
   elReveal.style.display = 'block';
   btnReveal.style.display = 'none';
   btnKnow.style.display = 'inline-block'; btnSkip.style.display = 'inline-block';

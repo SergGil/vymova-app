@@ -72,13 +72,10 @@ function renderQuestion(): void {
   // Word: speak button only for EN words (inline, at end)
   elWord.textContent = question;
   if (isEnToUa) elWord.appendChild(speakBtn(question, 'en-US'));
-  // Bug fix: decode escaped IPA unicode
-  const isFmtB = w[2]?.[0] === '/' || w[2]?.[0] === '[';
-  const rawIpa = isFmtB ? w[2] : (w[4] ?? '');
+  const rawIpa = w[4] ?? '';
   elIpa.textContent = isEnToUa ? decodeIpa(rawIpa) : '';
-  // Bug fix: hide examples until answer, store both for reveal
-  const enEx = isFmtB ? (w[3] ?? '') : (w[2] ?? '');
-  const uaEx = isFmtB ? (w[4] ?? '') : (w[3] ?? '');
+  const enEx = w[2] ?? '';
+  const uaEx = w[3] ?? '';
   const uaExEl = document.getElementById('quiz-ua-ex') as (HTMLElement & { dataset: DOMStringMap }) | null;
   if (uaExEl) {
     uaExEl.textContent = '';

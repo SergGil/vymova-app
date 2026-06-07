@@ -108,10 +108,9 @@ document.getElementById('btn-anki-export')?.addEventListener('click', () => {
   src.forEach(w => {
     if (!w) return;
     const ww = w as string[];
-    const isFmtB = ww[2] && (ww[2][0]==='/'||ww[2][0]==='[');
-    const ipa  = isFmtB ? ww[2] : (ww[4] ?? '');
-    const enEx = isFmtB ? (ww[3] ?? '') : (ww[2] ?? '');
-    const uaEx = isFmtB ? (ww[4] ?? '') : (ww[3] ?? '');
+    const ipa  = ww[4] ?? '';
+    const enEx = ww[2] ?? '';
+    const uaEx = ww[3] ?? '';
     const front = `${ww[0]}${ipa ? `<br><small style="color:#888;font-style:italic">${ipa}</small>` : ''}`;
     const back  = `${ww[1]}${enEx ? `<br><hr><em style="color:#555">${enEx}</em>` : ''}${uaEx ? `<br><small style="color:#777">${uaEx}</small>` : ''}`;
     rows.push(`${front}\t${back}`);
@@ -129,10 +128,9 @@ document.getElementById('btn-pdf-export')?.addEventListener('click', () => {
   const rows = src.map((w, i) => {
     if (!w) return '';
     const ww = w as string[];
-    const isFmtB = ww[2] && (ww[2][0]==='/'||ww[2][0]==='[');
-    const ipa  = isFmtB ? ww[2] : (ww[4] ?? '');
-    const enEx = isFmtB ? (ww[3] ?? '') : (ww[2] ?? '');
-    const uaEx = isFmtB ? (ww[4] ?? '') : (ww[3] ?? '');
+    const ipa  = ww[4] ?? '';
+    const enEx = ww[2] ?? '';
+    const uaEx = ww[3] ?? '';
     return `<tr>
       <td style="padding:6px 10px;border:1px solid #ddd;color:#888;font-size:11px;">${i+1}</td>
       <td style="padding:6px 10px;border:1px solid #ddd;font-weight:600;">${ww[0]}<br><span style="font-size:11px;color:#888;font-weight:400;">${ipa}</span></td>

@@ -27,9 +27,8 @@ const elNext   = document.getElementById('ctx-next')!     as HTMLElement;
 const elFinal  = document.getElementById('ctx-final')!    as HTMLElement;
 const elScRow  = document.getElementById('ctx-score-row')! as HTMLElement;
 
-function _isFmtB(w: WordEntry): boolean { return !!w[2] && (w[2][0]==='/'||w[2][0]==='['); }
 function _getExample(w: WordEntry): string {
-  return _isFmtB(w) ? (w[3] ?? '') : (w[2] ?? '');
+  return w[2] ?? '';
 }
 
 function _hasGoodExample(w: WordEntry): boolean {
@@ -75,7 +74,7 @@ function renderQ(): void {
   elSent.innerHTML = `<div style="font-style:italic;font-size:.95rem;color:var(--text);line-height:1.6;">"${hiddenEx}"</div>`;
 
   // IPA hint (hidden initially)
-  const ipaRaw = _isFmtB(w) ? w[2] : (w[4] ?? '');
+  const ipaRaw = w[4] ?? '';
   elHint.style.display = 'none';
   elHint.textContent = ipaRaw ? `💡 Підказка: ${ipaRaw}` : `💡 Перша літера: ${w[0][0].toUpperCase()}`;
 

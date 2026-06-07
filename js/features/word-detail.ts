@@ -26,14 +26,11 @@ const elBtnGoto   = document.getElementById('wd-btn-goto')!   as HTMLButtonEleme
 
 let _current: WordEntry | null = null;
 
-function _isFmtB(w: WordEntry): boolean { return !!w[2] && (w[2][0] === '/' || w[2][0] === '['); }
-
 export function openWordDetail(w: WordEntry): void {
   _current = w;
-  const fmt = _isFmtB(w);
-  const ipa  = decodeIpa(fmt ? w[2] : (w[4] ?? ''));
-  const enEx = fmt ? (w[3] ?? '') : (w[2] ?? '');
-  const uaEx = fmt ? (w[4] ?? '') : (w[3] ?? '');
+  const ipa  = decodeIpa(w[4] ?? '');
+  const enEx = w[2] ?? '';
+  const uaEx = w[3] ?? '';
 
   // Word + IPA
   elWord.textContent = w[0];

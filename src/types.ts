@@ -4,16 +4,12 @@
  */
 
 // ── Word data ─────────────────────────────────────────────────
-/**
- * Format A: [en, ua, en_example, ua_example, ipa_escaped]
- * Format B: [en, ua, ipa_with_brackets, en_example, ua_example]
- */
 export type WordEntry = readonly [
   string,         // [0] English word
   string,         // [1] Ukrainian translation
-  string,         // [2] English example OR IPA (if starts with / or [)
-  string,         // [3] Ukrainian example OR English example (Format B)
-  string?,        // [4] IPA escaped unicode (Format A) OR Ukrainian example (Format B)
+  string,         // [2] English example sentence
+  string,         // [3] Ukrainian example sentence
+  string?,        // [4] IPA transcription (escaped unicode)
 ];
 
 // ── SRS (Spaced Repetition System) ───────────────────────────

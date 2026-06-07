@@ -2,51 +2,26 @@ import { describe, it, expect } from 'vitest';
 import { GRAMMAR } from '../../data/grammar.ts';
 
 // ── Word detail logic helpers ─────────────────────────────────
-// We test the pure logic parts (IPA detection, format detection)
-// without requiring DOM since openWordDetail uses window.*
+// We test the pure logic parts (IPA/example extraction) without
+// requiring DOM since openWordDetail uses window.*
+// All entries follow a single format: [en, ua, en_example, ua_example, ipa]
 
 type WordEntry = readonly [string, string, string?, string?, string?];
 
-function isFmtB(w: WordEntry): boolean {
-  return !!w[2] && (w[2][0] === '/' || w[2][0] === '[');
-}
-
 function getIpa(w: WordEntry): string {
-  return isFmtB(w) ? (w[2] ?? '') : (w[4] ?? '');
+  return w[4] ?? '';
 }
 
 function getEnExample(w: WordEntry): string {
-  return isFmtB(w) ? (w[3] ?? '') : (w[2] ?? '');
+  return w[2] ?? '';
 }
 
 function getUaExample(w: WordEntry): string {
-  return isFmtB(w) ? (w[4] ?? '') : (w[3] ?? '');
+  return w[3] ?? '';
 }
 
-describe('Word format detection (isFmtB)', () => {
-  it('Format B: starts with / → true', () => {
-    const w: WordEntry = ['work', 'працювати', '/wɜːrk/', 'She works hard.', 'Вона наполегливо працює.'];
-    expect(isFmtB(w)).toBe(true);
-  });
-
-  it('Format B: starts with [ → true', () => {
-    const w: WordEntry = ['abate', 'зменшуватися', '[əˈbeɪt]', 'The storm abated.', 'Буря вщухла.'];
-    expect(isFmtB(w)).toBe(true);
-  });
-
-  it('Format A: no IPA brackets → false', () => {
-    const w: WordEntry = ['abate', 'зменшуватися', 'The storm began to abate.', 'Буря почала вщухати.', '[\\u0259\\u02c8be\\u026at]'];
-    expect(isFmtB(w)).toBe(false);
-  });
-});
-
 describe('IPA extraction', () => {
-  it('Format B: IPA from index 2', () => {
-    const w: WordEntry = ['word', 'слово', '/wɜːrd/', 'Example.', 'Приклад.'];
-    expect(getIpa(w)).toBe('/wɜːrd/');
-  });
-
-  it('Format A: IPA from index 4', () => {
+  it('IPA from index 4', () => {
     const w: WordEntry = ['word', 'слово', 'Example sentence.', 'Приклад.', '[wɜːrd]'];
     expect(getIpa(w)).toBe('[wɜːrd]');
   });
@@ -58,13 +33,7 @@ describe('IPA extraction', () => {
 });
 
 describe('Example extraction', () => {
-  it('Format B: EN example from index 3', () => {
-    const w: WordEntry = ['run', 'бігти', '/rʌn/', 'She <b>runs</b> fast.', 'Вона бігає швидко.'];
-    expect(getEnExample(w)).toBe('She <b>runs</b> fast.');
-    expect(getUaExample(w)).toBe('Вона бігає швидко.');
-  });
-
-  it('Format A: EN example from index 2', () => {
+  it('EN example from index 2, UA example from index 3', () => {
     const w: WordEntry = ['run', 'бігти', 'She runs fast.', 'Вона бігає швидко.', '[rʌn]'];
     expect(getEnExample(w)).toBe('She runs fast.');
     expect(getUaExample(w)).toBe('Вона бігає швидко.');

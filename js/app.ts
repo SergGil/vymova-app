@@ -214,15 +214,10 @@ function render() {
       catEl.style.display = cats[0] ? '' : 'none';
     }
     var tr = $e('wtrans');
-    // ── Автовизначення формату даних ──
-    // Format A: [en, ua, en_example, ua_example, ipa_escaped]  (більшість слів)
-    // Format B: [en, ua, ipa_readable, en_example_bold, ua_example]  (деякі слова)
-    // Ознака Format B: cw[2] починається з / або [ (IPA нотація)
-    var _isFmtB = cw[2] && (cw[2].charAt(0) === '/' || cw[2].charAt(0) === '[');
-    var _enEx  = _isFmtB ? (cw[3] || '') : (cw[2] || '');
-    var _uaEx  = _isFmtB ? (cw[4] || '') : (cw[3] || '');
-    var _ipaRaw = _isFmtB ? (cw[2] || '') : (cw[4] || '');
-    var trans = decodeIpa(_ipaRaw);
+    // [en, ua, en_example, ua_example, ipa]
+    var _enEx  = cw[2] || '';
+    var _uaEx  = cw[3] || '';
+    var trans = decodeIpa(cw[4] || '');
     tr.textContent = (mode === 'en') ? trans : '';
     tr.style.display = (mode === 'en' && trans) ? 'block' : 'none';
     var t = $e('wtransl');
@@ -417,9 +412,8 @@ document.getElementById('speak-word')!.addEventListener('click', function(e){e.s
 document.getElementById('speak-ex')!.addEventListener('click', function(e){
   e.stopPropagation();
   if (!cw) return;
-  var isFmtB = cw[2] && (cw[2].charAt(0) === '/' || cw[2].charAt(0) === '[');
-  var exEn = isFmtB ? (cw[3] || cw[2]) : (cw[2] || '');
-  var exUa = isFmtB ? (cw[4] || cw[3] || '') : (cw[3] || '');
+  var exEn = cw[2] || '';
+  var exUa = cw[3] || '';
   var modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
   // UA→EN mode: спробувати UA голос, якщо немає — читати EN приклад
   if (modeVal === 'ua') {

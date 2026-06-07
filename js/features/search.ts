@@ -30,8 +30,7 @@ export function closeSearch(): void {
 }
 
 function _ipa(w: WordEntry): string {
-  const isFmtB = w[2]?.[0] === '/' || w[2]?.[0] === '[';
-  return decodeIpa(isFmtB ? w[2] : (w[4] ?? ''));
+  return decodeIpa(w[4] ?? '');
 }
 
 function _inDeck(word: string): boolean {

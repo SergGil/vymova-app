@@ -118,8 +118,7 @@ function openStory(story: typeof STORIES[0]): void {
 }
 
 function showPopup(w: WordEntry, anchor: HTMLElement): void {
-  const isFmtB = w[2]?.[0]==='/'||w[2]?.[0]==='[';
-  const ipa = isFmtB ? w[2] : (w[4] ?? '');
+  const ipa = w[4] ?? '';
   elPopupWord.textContent   = w[0];
   elPopupTransl.textContent = w[1];
   elPopupIpa.textContent    = ipa ? ipa.replace(/\\u([0-9a-fA-F]{4})/g, (_, c) => String.fromCharCode(parseInt(c,16))) : '';
