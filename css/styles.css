@@ -3675,9 +3675,9 @@ body.sw .idiom-meaning { color: #00c8ff; }
 }
 
 /* ── Word row layout fix — icons stay visible ────────────────── */
-/* word-text grows to fill space, pushing nothing out */
+/* word-text hugs its content so action buttons sit right next to the word */
 .word-row   { flex-wrap: nowrap; align-items: center; }
-.word-text  { flex: 1; min-width: 0; }
+.word-text  { flex: 0 1 auto; min-width: 0; }
 .word-actions { flex-shrink: 0; gap: 4px; }
 
 @media (max-width: 480px) {
