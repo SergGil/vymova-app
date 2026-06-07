@@ -7,3 +7,5 @@ W_backup.json
 data/wordlist.txt
 data/words_array.json
 data/*.json
+tmp_*.json
+tmp_*.txt
