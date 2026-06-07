@@ -968,6 +968,95 @@ const OXFORD = {
     'similar to','suspicious of','sympathetic to','tired of',
     'typical of','worried about',
   ],
+  // ── Oxford 5000 Weather & Nature vocabulary ──────────────────
+  weather_nature: [
+    'avalanche','blizzard','breeze','canyon','cave','cliff','climate',
+    'cloud','coastline','current','desert','dew','downpour','drizzle',
+    'dune','earthquake','flood','fog','forecast','frost','gale',
+    'geyser','glacier','gust','hail','heatwave','horizon','humidity',
+    'lagoon','landscape','lightning','meadow','mist','moisture',
+    'monsoon','mudslide','oasis','peak','plain','plateau','pond',
+    'rainfall','rainforest','reservoir','ridge','sandstorm','shower',
+    'sleet','slope','snowfall','storm','stream','summit','swamp',
+    'temperature','terrain','thunder','tide','tornado','tropical',
+    'tsunami','valley','volcano','waterfall','wave','wilderness',
+  ],
+
+  // ── Oxford 5000 Body & Health (extended) vocabulary ──────────
+  body_health2: [
+    'allergic','ankle','appetite','blister','bloodstream','bruise',
+    'chest','chronic illness','collarbone','concussion','cramp',
+    'digestive system','dislocate','elbow','exhaustion','fracture',
+    'gland','heartbeat','hormone','immune system','infection',
+    'inflammation','injury','intestine','jaw','joint','kidney',
+    'ligament','liver','lung','metabolism','muscle','nausea',
+    'nerve','nutrient','overdose','painkiller','paralysis',
+    'physiotherapy','pulse','rash','recovery','rehabilitation',
+    'remedy','rib','scar','shoulder blade','skull','spine',
+    'sprain','stamina','swelling','symptom','therapy','throat',
+    'tissue','tonsil','vein','wound','wrist',
+  ],
+
+  // ── Oxford 5000 Money & Shopping vocabulary ──────────────────
+  money_shopping: [
+    'allowance','bargain','bill','budget','cashier','cheque',
+    'consumer','coupon','currency','customer','debit card','deposit',
+    'discount','expense','fund','grocery','installment','inventory',
+    'invoice','loan','loyalty card','luxury','mortgage','outlet',
+    'overdraft','payment','pension','price tag','purchase',
+    'receipt','refund','retail','revenue','sale','savings account',
+    'shopping cart','spending','statement','subsidy','supermarket',
+    'surcharge','transaction','treasury','vendor','voucher','wallet',
+    'warranty','wholesale','withdrawal',
+  ],
+
+  // ── Oxford 5000 Communication & Language vocabulary ──────────
+  comm_language: [
+    'accent','ambiguous','articulate','bilingual','body language',
+    'colloquial','conversation','dialect','dialogue','eloquence',
+    'expression','fluent','gesture','grammar','idiom','interpreter',
+    'intonation','jargon','lexicon','linguistics','literal','mimic',
+    'mispronounce','mother tongue','multilingual','mumble','mutter',
+    'native speaker','nonverbal','phrase','pronunciation','proverb',
+    'pun','rhetoric','sign language','slang','stammer','stutter',
+    'subtitle','synonym','terminology','tone','translation',
+    'utterance','verbal','vernacular','vocabulary','vowel',
+  ],
+
+  // ── Oxford 5000 Time & Sequence vocabulary ───────────────────
+  time_sequence: [
+    'aftermath','aforementioned','beforehand','chronological','concurrently',
+    'consecutive','contemporary','decade','deadline','duration',
+    'epoch','era','foreseeable','impending','imminent','interim',
+    'interval','meanwhile','milestone','momentary','overdue','pending',
+    'periodic','perpetual','prior','prolonged','provisional','recurring',
+    'simultaneously','span','subsequent','temporary','timeless',
+    'timely','transient',
+  ],
+
+  // ── Oxford 5000 Quantity & Measurement vocabulary ────────────
+  quantity_measure: [
+    'aggregate','approximate','average','calculate','dimension',
+    'dozen','estimate','extent','fraction','gauge','gross',
+    'increment','magnitude','margin','maximum','measurement',
+    'minimum','numerous','percentage','proportion','quantity',
+    'quota','ratio','scale','statistic','sum','threshold','total',
+    'volume','weight','width',
+  ],
+
+  // ── Oxford 5000 common collocations (batch 2) ────────────────
+  collocations2: [
+    'ask a favour','catch the eye','do the dishes','draw attention',
+    'earn a living','fall in love','gain weight','get in touch',
+    'give way','go bankrupt','have a word','keep a promise',
+    'keep a secret','lend a hand','lose touch','lose weight',
+    'make a difference','make an effort','make friends','make progress',
+    'make sense','pay a visit','pay the price','run a business',
+    'run a risk','save time','set an example','set a record',
+    'spend time','take a break','take a chance','take a look',
+    'take action','take care','take notes','take part','take place',
+    'take risks','tell a lie','tell the truth','waste time',
+  ],
 };
 
 const gaps = {};
