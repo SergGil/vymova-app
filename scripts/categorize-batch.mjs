@@ -22,10 +22,10 @@ const endMarker = '\n};\n\n// ── Build category';
 const endIdx = src.indexOf(endMarker);
 if (endIdx === -1) throw new Error('RAW end marker not found');
 const rawBody = src.slice(0, endIdx);
-const wordRe = /'([^']+)':\s*\[/g;
+const wordRe = /'((?:[^'\\]|\\.)*)':\s*\[/g;
 const categorized = new Set();
 let m;
-while ((m = wordRe.exec(rawBody))) categorized.add(m[1].toLowerCase());
+while ((m = wordRe.exec(rawBody))) categorized.add(m[1].replace(/\\'/g, "'").toLowerCase());
 
 const mod = await import('file://' + wordsPath.replace(/\\/g, '/'));
 const allWords = mod.W.map(w => w[0]);
