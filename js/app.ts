@@ -1582,11 +1582,11 @@ document.getElementById('btn-export')!.addEventListener('click', function(){
     try {
       if(navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(code).then(function(){
-          document.getElementById('export-select-all')!.textContent = '✓ Скопійовано!';
+          document.getElementById('export-select-all')!.textContent = t('modal.copiedExcl');
         }).catch(function(){ /* тихо — користувач скопіює вручну */ });
       } else {
         document.execCommand('copy');
-        document.getElementById('export-select-all')!.textContent = '✓ Скопійовано!';
+        document.getElementById('export-select-all')!.textContent = t('modal.copiedExcl');
       }
     } catch(e) {}
   }, 100);
@@ -1598,20 +1598,20 @@ document.getElementById('export-select-all')!.addEventListener('click', function
   try {
     if(navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(ta.value).then(function(){
-        document.getElementById('export-select-all')!.textContent = '✓ Скопійовано!';
-        setTimeout(function(){ document.getElementById('export-select-all')!.textContent = 'Виділити все'; }, 2000);
+        document.getElementById('export-select-all')!.textContent = t('modal.copiedExcl');
+        setTimeout(function(){ document.getElementById('export-select-all')!.textContent = t('modal.selectAll'); }, 2000);
       });
     } else {
       document.execCommand('copy');
-      document.getElementById('export-select-all')!.textContent = '✓ Скопійовано!';
-      setTimeout(function(){ document.getElementById('export-select-all')!.textContent = 'Виділити все'; }, 2000);
+      document.getElementById('export-select-all')!.textContent = t('modal.copiedExcl');
+      setTimeout(function(){ document.getElementById('export-select-all')!.textContent = t('modal.selectAll'); }, 2000);
     }
   } catch(e) {}
 });
 
 document.getElementById('export-modal-close')!.addEventListener('click', function(){
   document.getElementById('export-modal')!.style.display = 'none';
-  document.getElementById('export-select-all')!.textContent = 'Виділити все';
+  document.getElementById('export-select-all')!.textContent = t('modal.selectAll');
 });
 document.getElementById('export-modal')!.addEventListener('click', function(e){
   if(e.target === this) { this.style.display='none'; }
@@ -1628,7 +1628,7 @@ document.getElementById('import-cancel')!.addEventListener('click', function(){
 });
 document.getElementById('import-confirm')!.addEventListener('click', function(){
   var code = (document.getElementById('import-textarea') as HTMLTextAreaElement).value.trim();
-  if(!code) { document.getElementById('import-error')!.textContent = 'Встав код прогресу'; return; }
+  if(!code) { document.getElementById('import-error')!.textContent = t('modal.importEmpty'); return; }
   if(importProgress(code)) {
     document.getElementById('import-modal')!.className = '';
     // Оновити відображення
@@ -1638,10 +1638,10 @@ document.getElementById('import-confirm')!.addEventListener('click', function(){
     try { render(); } catch(e){}
     // Показати успіх
     var btn = document.getElementById('btn-import-open')!;
-    btn.textContent = '✓ Імпортовано!';
-    setTimeout(function(){ btn.textContent = '📥 Імпорт'; }, 3000);
+    btn.textContent = t('modal.importedExcl');
+    setTimeout(function(){ btn.textContent = t('settings.import'); }, 3000);
   } else {
-    document.getElementById('import-error')!.textContent = '❌ Невірний код — перевір чи повністю скопіював';
+    document.getElementById('import-error')!.textContent = t('modal.importInvalid');
   }
 });
 document.getElementById('import-modal')!.addEventListener('click', function(e){

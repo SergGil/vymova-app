@@ -274,6 +274,28 @@ const DICT: Record<string, Record<Lang, string>> = {
   'settings.voicesFoundLabel':   { ua: 'Знайдено',                                     en: 'Found' },
   'settings.voicesLabel':        { ua: 'голосів. UA голоси:',                          en: 'voices. UA voices:' },
   'settings.notFound':           { ua: 'не знайдено',                                  en: 'none found' },
+
+  // Settings-related modals (export/import/reset/clear)
+  'modal.exportTitle':   { ua: '📤 Твій код прогресу',                                 en: '📤 Your progress code' },
+  'modal.exportSub':     { ua: 'Виділи весь текст і скопіюй його. Збережи в нотатках або надішли собі.', en: 'Select all the text and copy it. Save it in your notes or send it to yourself.' },
+  'modal.selectAll':     { ua: 'Виділити все',                                         en: 'Select all' },
+  'modal.copiedExcl':    { ua: '✓ Скопійовано!',                                       en: '✓ Copied!' },
+  'modal.done':          { ua: 'Готово',                                               en: 'Done' },
+  'modal.importTitle':   { ua: '📥 Імпорт прогресу',                                   en: '📥 Import progress' },
+  'modal.importSub':     { ua: 'Встав сюди код прогресу який ти скопіював раніше через «Експорт»', en: 'Paste the progress code you copied earlier via “Export”' },
+  'modal.importPlaceholder': { ua: 'Встав код тут...',                                 en: 'Paste your code here...' },
+  'modal.cancel':        { ua: 'Відміна',                                              en: 'Cancel' },
+  'modal.import':        { ua: 'Імпортувати',                                          en: 'Import' },
+  'modal.importEmpty':   { ua: 'Встав код прогресу',                                   en: 'Paste your progress code' },
+  'modal.importInvalid': { ua: '❌ Невірний код — перевір чи повністю скопіював',       en: '❌ Invalid code — check that you copied it in full' },
+  'modal.importedExcl':  { ua: '✓ Імпортовано!',                                       en: '✓ Imported!' },
+  'modal.resetTitle':    { ua: 'Скинути прогрес?',                                     en: 'Reset progress?' },
+  'modal.resetWarn':     { ua: 'Вивчені слова, серія днів, денна ціль та досягнення будуть видалені безповоротно.', en: 'Learned words, your streak, daily goal, and achievements will be permanently deleted.' },
+  'modal.reset':         { ua: 'Скинути',                                              en: 'Reset' },
+  'modal.imgClearTitle': { ua: 'Очистити кеш зображень?',                              en: 'Clear the image cache?' },
+  'modal.imgClearWarn':  { ua: 'Всі завантажені фото будуть видалені з кешу. Зображення завантажуватимуться знову при перегляді карток.', en: 'All downloaded photos will be removed from the cache. Images will be re-downloaded as you browse cards.' },
+  'modal.cancelAlt':     { ua: 'Скасувати',                                            en: 'Cancel' },
+  'modal.clear':         { ua: 'Очистити',                                             en: 'Clear' },
 };
 
 const LEVEL_NAMES_EN: Record<string, string> = {
