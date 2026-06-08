@@ -416,29 +416,29 @@
   <div id="stats-overlay">
     <div class="stats-panel">
       <div class="stats-header">
-        <div class="stats-title">📊 Статистика</div>
+        <div class="stats-title" data-i18n="stats.title">📊 Статистика</div>
         <button class="stats-close" id="stats-close">✕</button>
       </div>
 
       <div class="stats-section">
-        <div class="stats-section-title">Загальний прогрес</div>
+        <div class="stats-section-title" data-i18n="stats.overallProgress">Загальний прогрес</div>
         <div class="stats-summary">
-          <div class="stat-card"><div class="sv" id="st-known">0</div><div class="sl">Вивчено слів</div></div>
-          <div class="stat-card"><div class="sv" id="st-pct">0%</div><div class="sl">Від усіх слів</div></div>
-          <div class="stat-card"><div class="sv" id="st-streak">0</div><div class="sl">🔥 Днів підряд</div></div>
+          <div class="stat-card"><div class="sv" id="st-known">0</div><div class="sl" data-i18n="stats.wordsLearned">Вивчено слів</div></div>
+          <div class="stat-card"><div class="sv" id="st-pct">0%</div><div class="sl" data-i18n="stats.ofAllWords">Від усіх слів</div></div>
+          <div class="stat-card"><div class="sv" id="st-streak">0</div><div class="sl" data-i18n="stats.daysStreak">🔥 Днів підряд</div></div>
         </div>
       </div>
 
       <div class="stats-section">
-        <div class="stats-section-title">Слів вивчено по днях (останні 14 днів)</div>
+        <div class="stats-section-title" data-i18n="stats.perDayTitle">Слів вивчено по днях (останні 14 днів)</div>
         <div class="chart-wrap">
           <div class="chart-bars" id="chart-bars"></div>
         </div>
       </div>
 
       <div class="stats-section">
-        <div class="stats-section-title">🗓️ Активність за рік</div>
-        <div style="font-size:.68rem;color:var(--text3);margin-bottom:6px;">52 тижні · зелений = більше слів</div>
+        <div class="stats-section-title" data-i18n="stats.yearActivity">🗓️ Активність за рік</div>
+        <div style="font-size:.68rem;color:var(--text3);margin-bottom:6px;" data-i18n="stats.yearActivityDesc">52 тижні · зелений = більше слів</div>
         <div id="heatmap-wrap" style="overflow-x:auto;padding-bottom:4px;">
           <div id="heatmap" style="display:flex;gap:2px;min-width:max-content;"></div>
         </div>
@@ -446,7 +446,7 @@
 
       <div class="stats-section">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div class="stats-section-title" style="margin-bottom:0;">📅 Місячний вигляд</div>
+          <div class="stats-section-title" style="margin-bottom:0;" data-i18n="stats.monthlyView">📅 Місячний вигляд</div>
           <div style="display:flex;align-items:center;gap:6px;">
             <button id="cal-prev" class="btn" style="padding:3px 10px;font-size:13px;">←</button>
             <span id="cal-month-label" style="font-size:.82rem;font-weight:600;color:var(--text);min-width:110px;text-align:center;"></span>
@@ -459,41 +459,41 @@
       </div>
 
       <div class="stats-section">
-        <div class="stats-section-title">⏰ Найкращий час навчання</div>
+        <div class="stats-section-title" data-i18n="stats.bestTimeTitle">⏰ Найкращий час навчання</div>
         <div id="hourly-chart" style="display:flex;align-items:flex-end;gap:2px;height:48px;margin-bottom:4px;"></div>
         <div id="best-hour" style="font-size:.75rem;color:var(--text2);"></div>
       </div>
 
       <div class="stats-section">
-        <div class="stats-section-title">Прогрес по блоках</div>
+        <div class="stats-section-title" data-i18n="stats.blockProgress">Прогрес по блоках</div>
         <div class="blocks-list" id="blocks-list"></div>
       </div>
 
 
       <div class="stats-section">
-        <div class="stats-section-title">📅 SRS — Розклад повторень (14 днів)</div>
+        <div class="stats-section-title" data-i18n="stats.srsForecastTitle">📅 SRS — Розклад повторень (14 днів)</div>
         <div id="srs-forecast" class="srs-forecast"></div>
 
       </div>
       <div class="stats-section">
-        <div class="stats-section-title">🔴 Слабкі слова (топ-10)</div>
+        <div class="stats-section-title" data-i18n="stats.weakWordsTitle">🔴 Слабкі слова (топ-10)</div>
         <div id="weak-words-list" style="font-size:.8rem;color:var(--text2);"></div>
       </div>
 
       <div class="stats-section">
-        <div class="stats-section-title">🎮 Точність по режимах</div>
+        <div class="stats-section-title" data-i18n="stats.modeAccuracyTitle">🎮 Точність по режимах</div>
         <div id="mode-accuracy-list"></div>
       </div>
 
       <div class="stats-section">
-        <div class="stats-section-title">📊 Прогрес за CEFR рівнями</div>
+        <div class="stats-section-title" data-i18n="stats.cefrProgressTitle">📊 Прогрес за CEFR рівнями</div>
         <div id="cefr-stats-list"></div>
       </div>
 
       <div class="stats-section">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div class="stats-section-title" style="margin:0;">🏆 Глобальний лідерборд</div>
-          <button id="lb-refresh-btn" style="padding:4px 10px;border-radius:8px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:.72rem;">🔄 Оновити</button>
+          <div class="stats-section-title" style="margin:0;" data-i18n="stats.leaderboardTitle">🏆 Глобальний лідерборд</div>
+          <button id="lb-refresh-btn" style="padding:4px 10px;border-radius:8px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:.72rem;" data-i18n="stats.refresh">🔄 Оновити</button>
         </div>
         <div id="lb-container"></div>
       </div>

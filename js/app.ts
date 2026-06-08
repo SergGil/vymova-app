@@ -27,6 +27,7 @@ import { decodeIpa }                                    from './core/ui-helpers.
 import { getCefrLevel }                                 from '../data/cefr.ts';
 import { ACHIEVEMENTS }                                 from '../data/achievements.ts';
 import { ACH_EN, ACH_CAT_EN }                           from '../data/achievements-i18n.ts';
+import { t, getLang }                                   from './features/i18n.ts';
 
 function _isEnLang(): boolean { return localStorage.getItem('ew_lang') === 'en'; }
 function _achName(a: Achievement): string { return _isEnLang() ? (ACH_EN[a.id]?.name ?? a.name) : a.name; }
@@ -734,14 +735,14 @@ function _renderStatsCore() {
 
   var hasData = days.some(function(d){return d.val>0;});
   if (!hasData) {
-    chartEl!.innerHTML = '<div class="chart-empty">Ще немає даних.<br>Почни вивчати слова!</div>';
+    chartEl!.innerHTML = '<div class="chart-empty">' + t('stats.noData') + '</div>';
   } else {
     chartEl!.innerHTML = days.map(function(d) {
       var h = Math.round((d.val / maxVal) * 60);
       return '<div class="chart-col">' +
         (d.val > 0 ? '<div class="chart-val">'+ d.val +'</div>' : '<div class="chart-val" style="visibility:hidden">0</div>') +
         '<div class="chart-bar-wrap"><div class="chart-bar'+(d.isToday?' today':'')+'" style="height:'+ h +'px"></div></div>' +
-        '<div class="chart-label">'+ (d.isToday?'сьогодні':d.label) +'</div>' +
+        '<div class="chart-label">'+ (d.isToday ? t('stats.today') : d.label) +'</div>' +
       '</div>';
     }).join('');
   }
@@ -1194,16 +1195,16 @@ function renderSRSForecast() {
     var d = new Date(today); d.setDate(d.getDate() + i);
     var dateStr = d.toISOString().slice(0,10);
     var cnt = Object.values(srsData).filter(function(s: any){ return s.due === dateStr; }).length;
-    counts.push({ date: dateStr, cnt: cnt, label: i === 0 ? 'Сьогодні' : i === 1 ? 'Завтра' : d.toLocaleDateString('uk',{day:'numeric',month:'short'}) });
+    counts.push({ date: dateStr, cnt: cnt, label: i === 0 ? t('stats.todayCap') : i === 1 ? t('stats.tomorrow') : d.toLocaleDateString(getLang() === 'en' ? 'en' : 'uk',{day:'numeric',month:'short'}) });
   }
   var maxCnt = Math.max.apply(null, counts.map(function(c){ return c.cnt; })) || 1;
   var totalDue = counts.reduce(function(a,c){ return a+c.cnt; }, 0);
 
-  var html = '<div style="font-size:.72rem;color:var(--text3);margin-bottom:8px;">Всього заплановано: ' + totalDue + ' повторень</div>';
+  var html = '<div style="font-size:.72rem;color:var(--text3);margin-bottom:8px;">' + t('stats.totalScheduled') + ': ' + totalDue + ' ' + t('stats.reviews') + '</div>';
   html += '<div class="srs-fc-bars">';
   counts.forEach(function(c) {
     var pct = Math.round(c.cnt / maxCnt * 100);
-    var isToday = c.label === 'Сьогодні';
+    var isToday = c.label === t('stats.todayCap');
     html += '<div class="srs-fc-col">' +
       '<div class="srs-fc-bar-wrap"><div class="srs-fc-bar' + (isToday ? ' srs-fc-today' : '') + '" style="height:' + Math.max(pct,2) + '%"></div></div>' +
       '<div class="srs-fc-cnt">' + (c.cnt || '') + '</div>' +
@@ -1219,12 +1220,12 @@ function _renderModeAccuracy(): void {
   if (!el) return;
   const acc = getModeAccuracy();
   const modes: { key: string; label: string; icon: string }[] = [
-    { key: 'quiz',   label: 'Тест',     icon: '🧠' },
-    { key: 'write',  label: 'Письмо',   icon: '✍️' },
-    { key: 'listen', label: 'Аудіо',    icon: '🔊' },
-    { key: 'fib',    label: 'Речення',  icon: '✏️' },
-    { key: 'lesson', label: 'Урок',     icon: '📚' },
-    { key: 'tempo',  label: 'Темп',     icon: '⚡' },
+    { key: 'quiz',   label: t('mode.quiz'),   icon: '🧠' },
+    { key: 'write',  label: t('mode.write'),  icon: '✍️' },
+    { key: 'listen', label: t('mode.listen'), icon: '🔊' },
+    { key: 'fib',    label: t('mode.fib'),    icon: '✏️' },
+    { key: 'lesson', label: t('mode.lesson'), icon: '📚' },
+    { key: 'tempo',  label: t('mode.tempo'),  icon: '⚡' },
   ];
   const mStats = getModeStats();
   const rows = modes.map(m => {
@@ -1239,7 +1240,7 @@ function _renderModeAccuracy(): void {
     return `<div style="margin-bottom:10px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
         <span style="font-size:.82rem;font-weight:600;color:var(--text);">${m.icon} ${m.label}</span>
-        <span style="font-size:.75rem;color:var(--text2);">${totalText}${sessions ? ` · ${sessions} сес.` : ''}</span>
+        <span style="font-size:.75rem;color:var(--text2);">${totalText}${sessions ? ` · ${sessions} ${t('stats.sessionsAbbr')}` : ''}</span>
         <span style="font-size:.82rem;font-weight:700;color:${barColor};min-width:36px;text-align:right;">${pctText}</span>
       </div>
       <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;">
@@ -1249,14 +1250,14 @@ function _renderModeAccuracy(): void {
   }).filter(Boolean);
   el.innerHTML = rows.length
     ? rows.join('')
-    : '<div style="font-size:.8rem;color:var(--text3);text-align:center;padding:8px 0;">Ще немає даних — грай у режимах!</div>';
+    : `<div style="font-size:.8rem;color:var(--text3);text-align:center;padding:8px 0;">${t('stats.noModeData')}</div>`;
 }
 
 function _renderCefrStats(): void {
   const el = document.getElementById('cefr-stats-list'); if (!el) return;
   const levels: import('../data/cefr.ts').CefrLevel[] = ['A1','A2','B1','B2','C1','C2'];
   const colors: Record<string, string> = { A1:'#27ae60', A2:'#2ecc71', B1:'#d4ac0d', B2:'#e67e22', C1:'#e74c3c', C2:'#8e44ad' };
-  const descs:  Record<string, string> = { A1:'Початківець', A2:'Елементарний', B1:'Середній', B2:'Вище середнього', C1:'Просунутий', C2:'Майстерний' };
+  const descs:  Record<string, string> = { A1: t('cefr.A1'), A2: t('cefr.A2'), B1: t('cefr.B1'), B2: t('cefr.B2'), C1: t('cefr.C1'), C2: t('cefr.C2') };
 
   const stats: Record<string, {known:number; total:number}> = {};
   levels.forEach(l => stats[l] = {known:0, total:0});

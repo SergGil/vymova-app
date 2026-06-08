@@ -8,6 +8,7 @@ import { WORD_CATEGORIES, CATEGORY_LIST } from '../../data/categories.js';
 import { getGameData } from '../features/game.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
+import { t } from '../features/i18n.ts';
 
 const CP = 6;
 type PairItem = { text: string; id: number };
@@ -248,7 +249,7 @@ export function renderWeakWords(): void {
   });
   words.sort((a, b) => a.ef - b.ef);
   const top = words.slice(0, 10);
-  if (!top.length) { el.textContent = 'Поки немає даних SRS.'; return; }
+  if (!top.length) { el.textContent = t('stats.noSrsData'); return; }
   el.innerHTML = top.map((item, i) =>
     `<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border);">` +
     `<span>${i+1}. <b>${item.w[0]}</b> — ${item.w[1]}</span>` +

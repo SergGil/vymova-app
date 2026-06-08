@@ -1,5 +1,6 @@
 // English Words App — js/features/leaderboard.ts
 // 🏆 Global leaderboard via Firebase Realtime Database
+import { t, wordsLabel } from './i18n.ts';
 export {};
 
 const DB_URL = 'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
@@ -69,7 +70,7 @@ async function _fetchLeaderboard(): Promise<LBEntry[]> {
 }
 
 export async function renderLeaderboard(container: HTMLElement): Promise<void> {
-  container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3);">⏳ Завантаження...</div>';
+  container.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text3);">${t('lb.loading')}</div>`;
 
   // Submit own score first
   await _submitScore();
@@ -79,7 +80,7 @@ export async function renderLeaderboard(container: HTMLElement): Promise<void> {
   const myEntry = _getMyEntry();
 
   if (!entries.length) {
-    container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3);">Поки немає учасників. Ти будеш першим!</div>';
+    container.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text3);">${t('lb.empty')}</div>`;
     return;
   }
 
@@ -87,8 +88,8 @@ export async function renderLeaderboard(container: HTMLElement): Promise<void> {
 
   container.innerHTML = `
     <div style="margin-bottom:12px;font-size:.78rem;color:var(--text3);text-align:center;">
-      🌍 Топ-20 гравців · оновлюється при відкритті
-      ${myRank >= 0 ? `<br>Твоя позиція: <b style="color:var(--accent);">#${myRank+1}</b>` : ''}
+      ${t('lb.top20')}
+      ${myRank >= 0 ? `<br>${t('lb.yourRank')}: <b style="color:var(--accent);">#${myRank+1}</b>` : ''}
     </div>
     ${entries.map((e, i) => {
       const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
@@ -97,8 +98,8 @@ export async function renderLeaderboard(container: HTMLElement): Promise<void> {
         <span style="font-size:1rem;flex-shrink:0;min-width:28px;text-align:center;">${medal}</span>
         <span style="font-size:1.3rem;">${e.avatar}</span>
         <div style="flex:1;min-width:0;">
-          <div style="font-weight:${isMe?'700':'400'};font-size:.88rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.name}${isMe?' (ти)':''}</div>
-          <div style="font-size:.72rem;color:var(--text3);">🔥 ${e.streak} · 📚 ${e.known} слів</div>
+          <div style="font-weight:${isMe?'700':'400'};font-size:.88rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.name}${isMe?` (${t('lb.you')})`:''}</div>
+          <div style="font-size:.72rem;color:var(--text3);">🔥 ${e.streak} · 📚 ${e.known} ${wordsLabel(e.known)}</div>
         </div>
         <div style="text-align:right;flex-shrink:0;">
           <div style="font-weight:700;font-size:.9rem;color:var(--accent);">${e.xp} XP</div>
