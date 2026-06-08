@@ -2,12 +2,18 @@
 // Grammar reference page: renders structured rules from data/grammar.ts
 import { GRAMMAR } from '../../data/grammar.ts';
 import type { GrammarRule, GSection } from '../../data/grammar.ts';
+import { getLang } from './i18n.ts';
 
 const overlay  = document.getElementById('grammar-overlay')! as HTMLElement;
 const navEl    = document.getElementById('grammar-nav')!      as HTMLElement;
 const contentEl= document.getElementById('grammar-content')! as HTMLElement;
 
 let _activeId = '';
+
+function _localizeSection(s: GSection): GSection {
+  if (getLang() === 'en' && s.en) return { ...s, ...s.en };
+  return s;
+}
 
 // ── Level sort ────────────────────────────────────────────────
 function _levelOrder(title: string): number {
@@ -22,11 +28,11 @@ function _renderNav(): void {
     const sorted = [...cat.rules].sort((a, b) => _levelOrder(a.title) - _levelOrder(b.title));
     return `
     <div class="gr-cat">
-      <div class="gr-cat-title">${cat.emoji} ${cat.title}</div>
+      <div class="gr-cat-title">${cat.emoji} ${getLang() === 'en' && cat.titleEn ? cat.titleEn : cat.title}</div>
       <div class="gr-cat-rules">
         ${sorted.map(r => `
           <button class="gr-nav-btn${r.id === _activeId ? ' gr-nav-active' : ''}"
-            data-id="${r.id}">${r.emoji} ${r.title}</button>
+            data-id="${r.id}">${r.emoji} ${getLang() === 'en' && r.titleEn ? r.titleEn : r.title}</button>
         `).join('')}
       </div>
     </div>
@@ -50,11 +56,11 @@ function _renderRule(id: string): void {
     rule = cat.rules.find(r => r.id === id);
     if (rule) break;
   }
-  if (!rule) { contentEl.innerHTML = '<div class="gr-empty">Оберіть тему зліва</div>'; return; }
+  if (!rule) { contentEl.innerHTML = `<div class="gr-empty">${getLang() === 'en' ? 'Select a topic from the left' : 'Оберіть тему зліва'}</div>`; return; }
 
   contentEl.innerHTML = `
-    <div class="gr-rule-title">${rule.emoji} ${rule.title}</div>
-    ${rule.sections.map(_renderSection).join('')}
+    <div class="gr-rule-title">${rule.emoji} ${getLang() === 'en' && rule.titleEn ? rule.titleEn : rule.title}</div>
+    ${rule.sections.map(s => _renderSection(_localizeSection(s))).join('')}
   `;
   contentEl.scrollTop = 0;
 }

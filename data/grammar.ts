@@ -2,24 +2,32 @@
 // Grammar reference data: structured rules, tables, examples
 // Format: self-contained, easy to extend
 
-export interface GrammarRule {
-  id:       string;
-  title:    string;
-  emoji:    string;
-  sections: GSection[];
-}
-
 export interface GSection {
   type:     'intro' | 'formula' | 'table' | 'examples' | 'markers' | 'note' | 'tip' | 'subtitle';
   title?:   string;
   text?:    string;
   rows?:    string[][];        // for table/formula
   items?:   string[];          // for markers/list
+  en?: {
+    title?: string;
+    text?:  string;
+    rows?:  string[][];
+    items?: string[];
+  };
+}
+
+export interface GrammarRule {
+  id:       string;
+  title:    string;
+  titleEn?: string;
+  emoji:    string;
+  sections: GSection[];
 }
 
 export interface GrammarCategory {
   id:    string;
   title: string;
+  titleEn?: string;
   emoji: string;
   rules: GrammarRule[];
 }
@@ -30,7 +38,7 @@ export const GRAMMAR: GrammarCategory[] = [
   //   ЧАСИ ДІЄСЛІВ
   // ══════════════════════════════════════
   {
-    id: 'tenses', title: 'Часи дієслів', emoji: '🕐',
+    id: 'tenses', title: 'Часи дієслів', titleEn: 'Verb Tenses', emoji: '🕐',
     rules: [
 
       {
@@ -39,6 +47,7 @@ export const GRAMMAR: GrammarCategory[] = [
           {
             type: 'intro',
             text: 'Теперішній простий час. Використовують для постійних фактів, звичних дій, розкладів та законів природи.',
+            en: { text: 'Present Simple tense. Used for permanent facts, habitual actions, schedules and natural laws.' },
           },
           {
             type: 'formula', title: 'Структура',
@@ -50,14 +59,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❓ (?)', 'I / You / We / They', 'Do + V₁?', '→ Do you like tea?'],
               ['❓ (?)', 'He / She / It', 'Does + V₁?', '→ Does she drive?'],
             ],
+            en: { title: 'Structure' },
           },
           {
             type: 'markers', title: 'Маркери часу',
             items: ['always', 'usually', 'often', 'sometimes', 'rarely', 'never', 'every day / week / year', 'on Mondays', 'once a week'],
+            en: { title: 'Time Markers' },
           },
           {
             type: 'note', title: 'Правила написання -s',
             text: 'he plays, she watches, it goes, he studies → після -s, -sh, -ch, -x, -o додаємо -es; слова на приголосний + -y замінюють -y на -ies (study → studies)',
+            en: { title: '-s Spelling Rules', text: 'he plays, she watches, it goes, he studies → after -s, -sh, -ch, -x, -o add -es; words ending in consonant + -y replace -y with -ies (study → studies)' },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -77,6 +89,7 @@ export const GRAMMAR: GrammarCategory[] = [
           {
             type: 'intro',
             text: 'Теперішній тривалий час. Дія відбувається зараз або в цей період часу. Також — заплановане майбутнє.',
+            en: { text: 'Present Continuous tense. The action is happening right now or during this period. Also used for planned future arrangements.' },
           },
           {
             type: 'formula', title: 'Структура',
@@ -91,14 +104,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❓ (?)', 'He / She / It', 'Is + V-ing?', '→ Is she coming?'],
               ['❓ (?)', 'You / We / They', 'Are + V-ing?', '→ Are they watching?'],
             ],
+            en: { title: 'Structure' },
           },
           {
             type: 'markers', title: 'Маркери часу',
             items: ['now', 'right now', 'at the moment', 'currently', 'today', 'this week', 'Look! Listen! (+ команди уваги)'],
+            en: { title: 'Time Markers', items: ['now', 'right now', 'at the moment', 'currently', 'today', 'this week', 'Look! Listen! (+ attention commands)'] },
           },
           {
             type: 'note', title: 'Stative verbs — НЕ вживаються в Continuous!',
             text: 'know, understand, believe, love, hate, want, need, seem, belong, contain, mean — ці дієслова описують стани, а не дії.',
+            en: { title: 'Stative verbs — NOT used in Continuous!', text: 'know, understand, believe, love, hate, want, need, seem, belong, contain, mean — these verbs describe states, not actions.' },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -118,6 +134,7 @@ export const GRAMMAR: GrammarCategory[] = [
           {
             type: 'intro',
             text: 'Минулий простий час. Дія завершилась у конкретний момент у минулому.',
+            en: { text: 'Past Simple tense. The action was completed at a specific moment in the past.' },
           },
           {
             type: 'formula', title: 'Структура',
@@ -127,14 +144,22 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❌ (−)', 'Всі особи', "didn't + V₁", "→ I didn't know / She didn't go"],
               ['❓ (?)', 'Всі особи', 'Did + V₁?', '→ Did you call? / Did he come?'],
             ],
+            en: { title: 'Structure', rows: [
+              ['✅ (+)', 'Regular verbs', 'V₁ + -ed', '→ She worked / They played'],
+              ['✅ (+)', 'Irregular verbs', 'V₂ (2nd form)', '→ He went / I saw'],
+              ['❌ (−)', 'All persons', "didn't + V₁", "→ I didn't know / She didn't go"],
+              ['❓ (?)', 'All persons', 'Did + V₁?', '→ Did you call? / Did he come?'],
+            ]},
           },
           {
             type: 'markers', title: 'Маркери часу',
             items: ['yesterday', 'ago (2 days ago)', 'last (last week, last year)', 'in + рік (in 2020)', 'on + день (on Monday)', 'when + підрядне речення'],
+            en: { title: 'Time Markers', items: ['yesterday', 'ago (2 days ago)', 'last (last week, last year)', 'in + year (in 2020)', 'on + day (on Monday)', 'when + clause'] },
           },
           {
             type: 'note', title: 'Правила написання -ed',
             text: 'work → worked, play → played; stop → stopped (подвоєння кінцевої приголосної); study → studied (заміна -y → -ied)',
+            en: { title: '-ed Spelling Rules', text: 'work → worked, play → played; stop → stopped (double final consonant); study → studied (replace -y → -ied)' },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -154,6 +179,7 @@ export const GRAMMAR: GrammarCategory[] = [
           {
             type: 'intro',
             text: 'Минулий тривалий час. Дія тривала в певний момент у минулому. Часто вживається поряд із Past Simple — тривала дія переривається короткою.',
+            en: { text: 'Past Continuous tense. The action was in progress at a specific moment in the past. Often used with Past Simple — a continuous action is interrupted by a short one.' },
           },
           {
             type: 'formula', title: 'Структура',
@@ -165,10 +191,12 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❓ (?)', 'I / He / She / It', 'Was + V-ing?', '→ Was she crying?'],
               ['❓ (?)', 'You / We / They', 'Were + V-ing?', '→ Were they dancing?'],
             ],
+            en: { title: 'Structure' },
           },
           {
             type: 'tip', title: 'While vs When',
             text: 'While → тривала дія: "While I was cooking, the phone rang."\nWhen → коротка дія перериває тривалу: "When she arrived, I was sleeping."',
+            en: { title: 'While vs When', text: 'While → ongoing action: "While I was cooking, the phone rang."\nWhen → short action interrupts the ongoing one: "When she arrived, I was sleeping."' },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -188,6 +216,7 @@ export const GRAMMAR: GrammarCategory[] = [
           {
             type: 'intro',
             text: 'Теперішній доконаний час. Дія відбулась у минулому, але має зв\'язок із теперішнім — результат, досвід або незавершена дія.',
+            en: { text: 'Present Perfect tense. The action happened in the past but has a connection to the present — result, experience or unfinished action.' },
           },
           {
             type: 'formula', title: 'Структура',
@@ -199,14 +228,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❓ (?)', 'I / You / We / They', 'Have + V₃?', '→ Have you ever been to Paris?'],
               ['❓ (?)', 'He / She / It', 'Has + V₃?', '→ Has she finished?'],
             ],
+            en: { title: 'Structure' },
           },
           {
             type: 'markers', title: 'Маркери часу',
             items: ['ever / never', 'already', 'just', 'yet (питання/заперечення)', 'recently', 'since + момент (since 2020)', 'for + тривалість (for 3 years)', 'so far', 'lately'],
+            en: { title: 'Time Markers', items: ['ever / never', 'already', 'just', 'yet (questions/negatives)', 'recently', 'since + point in time (since 2020)', 'for + duration (for 3 years)', 'so far', 'lately'] },
           },
           {
             type: 'tip', title: 'Present Perfect vs Past Simple',
             text: 'I have lost my keys. → я ще не знайшов (результат є зараз)\nI lost my keys yesterday. → конкретний момент у минулому (вчора)',
+            en: { title: 'Present Perfect vs Past Simple', text: 'I have lost my keys. → I still haven\'t found them (result exists now)\nI lost my keys yesterday. → specific moment in the past (yesterday)' },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -226,6 +258,7 @@ export const GRAMMAR: GrammarCategory[] = [
           {
             type: 'intro',
             text: 'Майбутній простий час із will. Спонтанні рішення, прогнози, обіцянки, пропозиції.',
+            en: { text: 'Future Simple with will. Used for spontaneous decisions, predictions, promises and offers.' },
           },
           {
             type: 'formula', title: 'Структура',
@@ -234,14 +267,21 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❌ (−)', 'Всі особи', "won't + V₁", "→ He won't tell anyone."],
               ['❓ (?)', 'Всі особи', 'Will + V₁?', '→ Will you marry me?'],
             ],
+            en: { title: 'Structure', rows: [
+              ['✅ (+)', 'All persons', "will + V₁", "→ I will help you. / She'll come."],
+              ['❌ (−)', 'All persons', "won't + V₁", "→ He won't tell anyone."],
+              ['❓ (?)', 'All persons', 'Will + V₁?', '→ Will you marry me?'],
+            ]},
           },
           {
             type: 'tip', title: 'Will vs Going to',
             text: 'Will → спонтанне рішення: "I\'ll get the phone."\nGoing to → заздалегідь запланована дія: "I\'m going to visit Paris next month."',
+            en: { title: 'Will vs Going to', text: 'Will → spontaneous decision: "I\'ll get the phone."\nGoing to → pre-planned action: "I\'m going to visit Paris next month."' },
           },
           {
             type: 'markers', title: 'Маркери часу',
             items: ['tomorrow', 'next week / month / year', 'in the future', 'soon', 'one day', 'probably', 'I think / I believe / I\'m sure'],
+            en: { title: 'Time Markers' },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -261,7 +301,8 @@ export const GRAMMAR: GrammarCategory[] = [
       {
         id: 'past-perfect', title: 'Past Perfect — B1', emoji: '⏪',
         sections: [
-          { type: 'intro', text: 'Минулий доконаний час. Дія відбулась ДО іншої дії в минулому. Використовується з Past Simple для показу послідовності подій.' },
+          { type: 'intro', text: 'Минулий доконаний час. Дія відбулась ДО іншої дії в минулому. Використовується з Past Simple для показу послідовності подій.',
+          en: { text: 'Past Perfect tense. The action happened BEFORE another action in the past. Used with Past Simple to show the sequence of events.' } },
           {
             type: 'formula', title: 'Структура',
             rows: [
@@ -269,12 +310,19 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❌ (−)', 'Всі особи', "hadn't + V₃", "→ He hadn't eaten before."],
               ['❓ (?)', 'Всі особи', 'Had + V₃?', '→ Had they met before?'],
             ],
+            en: { title: 'Structure', rows: [
+              ['✅ (+)', 'All persons', 'had + V₃', '→ She had already left.'],
+              ['❌ (−)', 'All persons', "hadn't + V₃", "→ He hadn't eaten before."],
+              ['❓ (?)', 'All persons', 'Had + V₃?', '→ Had they met before?'],
+            ]},
           },
           { type: 'tip', title: 'Past Perfect vs Past Simple',
             text: 'When I arrived, she had already left. (спочатку пішла → потім я прийшов)\nПасивний: The cake had been eaten. (хтось з\'їв до моменту в минулому)',
+            en: { title: 'Past Perfect vs Past Simple', text: 'When I arrived, she had already left. (she left first → then I arrived)\nPassive: The cake had been eaten. (someone ate it before the moment in the past)' },
           },
           { type: 'markers', title: 'Маркери часу',
             items: ['before', 'after', 'already', 'just', 'never', 'when', 'by the time', 'as soon as'],
+            en: { title: 'Time Markers' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -289,7 +337,8 @@ export const GRAMMAR: GrammarCategory[] = [
       {
         id: 'present-perfect-cont', title: 'Present Perfect Continuous — B1', emoji: '🔄✔️',
         sections: [
-          { type: 'intro', text: 'Теперішній доконано-тривалий час. Дія почалась у минулому і продовжується зараз. Акцент на тривалості процесу.' },
+          { type: 'intro', text: 'Теперішній доконано-тривалий час. Дія почалась у минулому і продовжується зараз. Акцент на тривалості процесу.',
+            en: { text: 'Present Perfect Continuous tense. The action started in the past and is still going on now. Emphasis on the duration of the process.' } },
           {
             type: 'formula', title: 'Структура',
             rows: [
@@ -299,12 +348,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❌ (−)', 'He / She / It', "hasn't been + V-ing", "→ He hasn't been feeling well."],
               ['❓ (?)', '', 'Have/Has + been + V-ing?', '→ How long have you been waiting?'],
             ],
+            en: { title: 'Structure' },
           },
           { type: 'tip', title: 'Present Perfect vs Present Perfect Continuous',
             text: 'I have read 3 books this week. (скільки — результат, кількість)\nI have been reading all evening. (як довго — процес, тривалість)',
+            en: { title: 'Present Perfect vs Present Perfect Continuous', text: 'I have read 3 books this week. (how many — result, quantity)\nI have been reading all evening. (how long — process, duration)' },
           },
           { type: 'markers', title: 'Маркери часу',
             items: ['for + тривалість (for 2 hours)', 'since + момент (since morning)', 'how long?', 'all day / all week', 'lately', 'recently'],
+            en: { title: 'Time Markers', items: ['for + duration (for 2 hours)', 'since + point in time (since morning)', 'how long?', 'all day / all week', 'lately', 'recently'] },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -319,7 +371,8 @@ export const GRAMMAR: GrammarCategory[] = [
       {
         id: 'future-going-to', title: 'Future: Going to — A2', emoji: '🗓️',
         sections: [
-          { type: 'intro', text: 'Going to вживається для заздалегідь запланованих дій або для прогнозів на основі видимих ознак.' },
+          { type: 'intro', text: 'Going to вживається для заздалегідь запланованих дій або для прогнозів на основі видимих ознак.',
+            en: { text: 'Going to is used for pre-planned actions or for predictions based on visible signs.' } },
           {
             type: 'formula', title: 'Структура',
             rows: [
@@ -329,6 +382,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❌ (−)', '', "not going to + V₁", "→ I'm not going to apologize."],
               ['❓ (?)', '', 'Am/Is/Are + going to + V₁?', '→ Are you going to call him?'],
             ],
+            en: { title: 'Structure' },
           },
           {
             type: 'table', title: 'Will vs Going to',
@@ -339,6 +393,13 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Приклад', '"I\'ll answer the phone."', '"I\'m going to visit Paris."'],
               ['Приклад', '"I think it will rain."', '"Look at those clouds — it\'s going to rain!"'],
             ],
+            en: { title: 'Will vs Going to', rows: [
+              ['', 'WILL', 'GOING TO'],
+              ['Decision', 'Spontaneous (right now)', 'Pre-planned'],
+              ['Prediction', 'Opinion / assumption', 'Based on visible signs'],
+              ['Example', '"I\'ll answer the phone."', '"I\'m going to visit Paris."'],
+              ['Example', '"I think it will rain."', '"Look at those clouds — it\'s going to rain!"'],
+            ]},
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -353,7 +414,8 @@ export const GRAMMAR: GrammarCategory[] = [
       {
         id: 'future-continuous', title: 'Future Continuous — B1', emoji: '🔮▶️',
         sections: [
-          { type: 'intro', text: 'Майбутній тривалий час. Дія буде тривати в певний момент у майбутньому або відбуватиметься паралельно з іншою дією.' },
+          { type: 'intro', text: 'Майбутній тривалий час. Дія буде тривати в певний момент у майбутньому або відбуватиметься паралельно з іншою дією.',
+            en: { text: 'Future Continuous tense. The action will be in progress at a specific moment in the future or will occur simultaneously with another action.' } },
           {
             type: 'formula', title: 'Структура',
             rows: [
@@ -361,9 +423,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❌ (−)', 'Всі особи', "won't be + V-ing", "→ She won't be sleeping then."],
               ['❓ (?)', 'Всі особи', 'Will + be + V-ing?', '→ Will you be using the car?'],
             ],
+            en: { title: 'Structure', rows: [
+              ['✅ (+)', 'All persons', 'will be + V-ing', '→ I will be working at 8 pm.'],
+              ['❌ (−)', 'All persons', "won't be + V-ing", "→ She won't be sleeping then."],
+              ['❓ (?)', 'All persons', 'Will + be + V-ing?', '→ Will you be using the car?'],
+            ]},
           },
           { type: 'markers', title: 'Маркери часу',
             items: ['at this time tomorrow', 'at 8 pm tonight', 'this time next week', 'while', 'when'],
+            en: { title: 'Time Markers' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -378,7 +446,8 @@ export const GRAMMAR: GrammarCategory[] = [
       {
         id: 'future-perfect', title: 'Future Perfect — B2', emoji: '✅🔮',
         sections: [
-          { type: 'intro', text: 'Майбутній доконаний час. Дія буде ЗАВЕРШЕНА до певного моменту в майбутньому.' },
+          { type: 'intro', text: 'Майбутній доконаний час. Дія буде ЗАВЕРШЕНА до певного моменту в майбутньому.',
+            en: { text: 'Future Perfect tense. The action will be COMPLETED before a specific moment in the future.' } },
           {
             type: 'formula', title: 'Структура',
             rows: [
@@ -386,9 +455,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❌ (−)', 'Всі особи', "won't have + V₃", "→ He won't have arrived by then."],
               ['❓ (?)', 'Всі особи', 'Will + have + V₃?', '→ Will you have done it by Monday?'],
             ],
+            en: { title: 'Structure', rows: [
+              ['✅ (+)', 'All persons', 'will have + V₃', '→ I will have finished by 6 pm.'],
+              ['❌ (−)', 'All persons', "won't have + V₃", "→ He won't have arrived by then."],
+              ['❓ (?)', 'All persons', 'Will + have + V₃?', '→ Will you have done it by Monday?'],
+            ]},
           },
           { type: 'markers', title: 'Маркери часу',
             items: ['by + час/момент (by 5 pm)', 'by the time', 'before', 'in + тривалість (in 2 years)'],
+            en: { title: 'Time Markers', items: ['by + time/moment (by 5 pm)', 'by the time', 'before', 'in + duration (in 2 years)'] },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -403,7 +478,8 @@ export const GRAMMAR: GrammarCategory[] = [
       {
         id: 'past-perfect-cont', title: 'Past Perfect Continuous — B2', emoji: '⏪🔄',
         sections: [
-          { type: 'intro', text: 'Минулий доконано-тривалий час. Дія тривала протягом певного часу ДО іншої дії або моменту в минулому. Акцент на тривалості процесу.' },
+          { type: 'intro', text: 'Минулий доконано-тривалий час. Дія тривала протягом певного часу ДО іншої дії або моменту в минулому. Акцент на тривалості процесу.',
+            en: { text: 'Past Perfect Continuous tense. The action was in progress for a period of time BEFORE another action or moment in the past. Emphasis on the duration of the process.' } },
           {
             type: 'formula', title: 'Структура',
             rows: [
@@ -411,15 +487,23 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❌ (−)', 'Всі особи', "hadn't been + V-ing", "→ He hadn't been sleeping well."],
               ['❓ (?)', 'Всі особи', 'Had + been + V-ing?', '→ How long had they been arguing?'],
             ],
+            en: { title: 'Structure', rows: [
+              ['✅ (+)', 'All persons', 'had been + V-ing', '→ She had been waiting for an hour.'],
+              ['❌ (−)', 'All persons', "hadn't been + V-ing", "→ He hadn't been sleeping well."],
+              ['❓ (?)', 'All persons', 'Had + been + V-ing?', '→ How long had they been arguing?'],
+            ]},
           },
           { type: 'tip', title: 'Past Perfect vs Past Perfect Continuous',
             text: 'She had read 3 books. (скільки — акцент на результаті/кількості)\nShe had been reading all evening. (як довго — акцент на тривалості процесу)',
+            en: { title: 'Past Perfect vs Past Perfect Continuous', text: 'She had read 3 books. (how many — emphasis on result/quantity)\nShe had been reading all evening. (how long — emphasis on duration of the process)' },
           },
           { type: 'tip', title: 'Видимі результати в минулому',
             text: 'Her eyes were red because she had been crying. (очі були червоні — результат тривалої дії)\nHe was tired because he had been working all day. (втомився — результат)',
+            en: { title: 'Visible results in the past', text: 'Her eyes were red because she had been crying. (red eyes — result of ongoing action)\nHe was tired because he had been working all day. (tired — result)' },
           },
           { type: 'markers', title: 'Маркери часу',
             items: ['for + тривалість (for 2 hours)', 'since + момент (since morning)', 'how long?', 'all day / all week', 'before', 'when', 'by the time'],
+            en: { title: 'Time Markers', items: ['for + duration (for 2 hours)', 'since + point in time (since morning)', 'how long?', 'all day / all week', 'before', 'when', 'by the time'] },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -435,7 +519,8 @@ export const GRAMMAR: GrammarCategory[] = [
       {
         id: 'future-perfect-cont', title: 'Future Perfect Continuous — C1', emoji: '🔮🔄',
         sections: [
-          { type: 'intro', text: 'Майбутній доконано-тривалий час. Дія буде тривати протягом певного часу до конкретного моменту в майбутньому. Акцент на тривалості процесу, а не результаті.' },
+          { type: 'intro', text: 'Майбутній доконано-тривалий час. Дія буде тривати протягом певного часу до конкретного моменту в майбутньому. Акцент на тривалості процесу, а не результаті.',
+            en: { text: 'Future Perfect Continuous tense. The action will have been in progress for a period of time up to a specific moment in the future. Emphasis on duration, not result.' } },
           {
             type: 'formula', title: 'Структура',
             rows: [
@@ -443,15 +528,23 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❌ (−)', 'Всі особи', "won't have been + V-ing", "→ She won't have been sleeping long."],
               ['❓ (?)', 'Всі особи', 'Will + have been + V-ing?', '→ How long will you have been studying?'],
             ],
+            en: { title: 'Structure', rows: [
+              ['✅ (+)', 'All persons', 'will have been + V-ing', '→ I will have been working here for 10 years.'],
+              ['❌ (−)', 'All persons', "won't have been + V-ing", "→ She won't have been sleeping long."],
+              ['❓ (?)', 'All persons', 'Will + have been + V-ing?', '→ How long will you have been studying?'],
+            ]},
           },
           { type: 'tip', title: 'Future Perfect vs Future Perfect Continuous',
             text: 'By 2030, I will have written 5 books. (скільки — результат, кількість)\nBy 2030, I will have been writing for 20 years. (як довго — тривалість процесу)',
+            en: { title: 'Future Perfect vs Future Perfect Continuous', text: 'By 2030, I will have written 5 books. (how many — result, quantity)\nBy 2030, I will have been writing for 20 years. (how long — duration of the process)' },
           },
           { type: 'markers', title: 'Маркери часу',
             items: ['by + час (by next year)', 'for + тривалість (for 3 hours)', 'how long?', 'by the time'],
+            en: { title: 'Time Markers', items: ['by + time (by next year)', 'for + duration (for 3 hours)', 'how long?', 'by the time'] },
           },
           { type: 'note', title: 'Вживається рідко',
             text: 'Future Perfect Continuous — один з найрідших часів у щоденному мовленні. Найчастіше вживається для підкреслення тривалості дії до певного моменту в майбутньому.',
+            en: { title: 'Rarely used', text: 'Future Perfect Continuous is one of the rarest tenses in everyday speech. Most commonly used to emphasise the duration of an action up to a specific moment in the future.' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -470,15 +563,16 @@ export const GRAMMAR: GrammarCategory[] = [
   //   ГРАМАТИКА (усі теми разом)
   // ══════════════════════════════════════
   {
-    id: 'grammar', title: 'Граматика', emoji: '📖',
+    id: 'grammar', title: 'Граматика', titleEn: 'Grammar', emoji: '📖',
     rules: [
 
       {
-        id: 'articles', title: 'Артиклі (a / an / the) — A2', emoji: '🔤',
+        id: 'articles', title: 'Артиклі (a / an / the) — A2', titleEn: 'Articles (a / an / the) — A2', emoji: '🔤',
         sections: [
           {
             type: 'intro',
             text: 'Артиклі — це службові слова перед іменниками. В англійській є невизначений артикль (a/an) та визначений (the). Нульовий артикль означає, що артикль не потрібен.',
+            en: { text: 'Articles are function words placed before nouns. English has an indefinite article (a/an) and a definite article (the). Zero article means no article is needed.' },
           },
           {
             type: 'table', title: 'A vs AN',
@@ -486,6 +580,10 @@ export const GRAMMAR: GrammarCategory[] = [
               ['A', 'перед приголосним звуком', 'a book, a car, a university (звук /j/)'],
               ['AN', 'перед голосним звуком', 'an apple, an hour (h — мовчазна), an umbrella'],
             ],
+            en: { title: 'A vs AN', rows: [
+              ['A', 'before a consonant sound', 'a book, a car, a university (sound /j/)'],
+              ['AN', 'before a vowel sound', 'an apple, an hour (silent h), an umbrella'],
+            ]},
           },
           {
             type: 'table', title: 'Коли вживати?',
@@ -501,6 +599,18 @@ export const GRAMMAR: GrammarCategory[] = [
               ['∅ (нуль)', 'Мови та предмети', '"I study English / Math"'],
               ['∅ (нуль)', 'Їжа/напої загалом', '"I like coffee / bread"'],
             ],
+            en: { title: 'When to use?', rows: [
+              ['A / AN', 'First mention of a noun', '"I saw a dog. The dog was big."'],
+              ['A / AN', 'General (any one)', '"I need a pen." (any pen)'],
+              ['A / AN', 'Job/profession', '"She is a teacher."'],
+              ['THE', 'Specific (known)', '"Close the door." (we know which one)'],
+              ['THE', 'Unique in its kind', '"The sun / the Moon / the Earth"'],
+              ['THE', 'Second mention', '"I have a cat. The cat is black."'],
+              ['THE', 'Supranational names', '"the USA, the UK, the Nile, the Alps"'],
+              ['∅ (zero)', 'Proper nouns', '"London, Ukraine, John"'],
+              ['∅ (zero)', 'Languages and subjects', '"I study English / Math"'],
+              ['∅ (zero)', 'Food/drinks in general', '"I like coffee / bread"'],
+            ]},
           },
           {
             type: 'examples', title: 'Приклади',
@@ -515,11 +625,12 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'articles-zero', title: 'Нульовий артикль (∅) — B1', emoji: '⭕',
+        id: 'articles-zero', title: 'Нульовий артикль (∅) — B1', titleEn: 'Zero Article (∅) — B1', emoji: '⭕',
         sections: [
           {
             type: 'intro',
             text: 'Нульовий артикль (∅) — ситуації, коли артикль не вживається взагалі. Це одна з найпоширеніших помилок українських мовців.',
+            en: { text: 'Zero article (∅) — situations where no article is used at all. This is one of the most common mistakes for Ukrainian learners.' },
           },
           {
             type: 'table', title: 'Коли НЕ вживається артикль',
@@ -536,6 +647,19 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Пори року (загалом)', 'У загальному контексті (Am.E)', 'Summer is hot. / I love winter.'],
               ['Дні тижня та місяці', 'У ствердних реченнях без the', 'See you on Monday. / She was born in May.'],
             ],
+            en: { title: 'When NOT to use an article', rows: [
+              ['Category', 'Rule', 'Examples'],
+              ['Proper nouns', 'People\'s names, cities, countries (most)', 'John, Ukraine, Paris, London'],
+              ['Languages', 'Language names without article', 'She speaks English / French / German.'],
+              ['Subjects & sciences', 'Academic disciplines', 'I study math / history / biology.'],
+              ['Sports & games', 'Names of sports', 'He plays football / tennis / chess.'],
+              ['Food & drinks (in general)', 'When speaking generally, not specifically', 'I like coffee. / She eats rice. / Bread is healthy.'],
+              ['Abstract nouns', 'General concepts', 'Love is blind. / Time flies. / Knowledge is power.'],
+              ['Transport', 'by + mode of transport', 'by car / by train / by plane / on foot'],
+              ['Meals', 'breakfast, lunch, dinner without specification', 'Have breakfast. / Let\'s have lunch.'],
+              ['Seasons (in general)', 'In general context (AmE)', 'Summer is hot. / I love winter.'],
+              ['Days & months', 'In affirmative sentences without the', 'See you on Monday. / She was born in May.'],
+            ]},
           },
           {
             type: 'table', title: 'Установи: ∅ vs THE — різниця в значенні',
@@ -547,10 +671,19 @@ export const GRAMMAR: GrammarCategory[] = [
               ['go to prison (злочинець)', 'go to the prison (навідати)', 'потрапити у в\'язницю / відвідати'],
               ['go to bed', 'sit on the bed', 'лягти спати / сидіти на ліжку'],
             ],
+            en: { title: 'Institutions: ∅ vs THE — difference in meaning', rows: [
+              ['∅ (function / purpose)', 'THE (specific place/building)', 'Difference'],
+              ['go to school (as a student)', 'go to the school (visit the building)', 'to study / to visit the school'],
+              ['go to church (to pray)', 'go to the church (the building)', 'religious attendance / visit the building'],
+              ['go to hospital (to be treated, Brit)', 'go to the hospital (to visit)', 'to be admitted / to visit someone'],
+              ['go to prison (as a criminal)', 'go to the prison (to visit)', 'to be imprisoned / to visit someone'],
+              ['go to bed', 'sit on the bed', 'to sleep / sitting on the bed'],
+            ]},
           },
           {
             type: 'note', title: 'Музичні інструменти — THE',
             text: 'Артикль THE вживається з музичними інструментами:\nShe plays the piano / the guitar / the violin.\nАле: He plays drums (у рок-групі, розмовне — без артикля).',
+            en: { title: 'Musical instruments — THE', text: 'THE is used with musical instruments:\nShe plays the piano / the guitar / the violin.\nBut: He plays drums (in a rock band, informal — no article).' },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -566,11 +699,12 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'articles-geography', title: 'Артиклі з географією — B1', emoji: '🌍',
+        id: 'articles-geography', title: 'Артиклі з географією — B1', titleEn: 'Articles with Geography — B1', emoji: '🌍',
         sections: [
           {
             type: 'intro',
             text: 'Географічні назви — одне з найскладніших правил артиклів. Одні назви вживаються з THE, інші — без.',
+            en: { text: 'Geographical names are one of the most complex article rules. Some names take THE, others do not.' },
           },
           {
             type: 'table', title: 'THE — обов\'язковий',
@@ -585,6 +719,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Регіони', 'the Middle East, the North Pole, the Balkans, the Far East'],
               ['Газети та готелі', 'the Times, the Guardian, the Hilton, the Ritz'],
             ],
+            en: { title: 'THE — required', rows: [
+              ['Category', 'Examples'],
+              ['Rivers, seas, oceans', 'the Nile, the Thames, the Black Sea, the Pacific (Ocean), the Amazon'],
+              ['Mountain ranges', 'the Alps, the Himalayas, the Rocky Mountains, the Carpathians'],
+              ['Island groups & archipelagos', 'the Maldives, the Philippines, the Canary Islands, the British Isles'],
+              ['Deserts', 'the Sahara, the Gobi, the Mojave'],
+              ['Canals & straits', 'the Panama Canal, the English Channel, the Suez Canal'],
+              ['Countries with "Republic/Kingdom/States"', 'the USA, the UK, the UAE, the Czech Republic'],
+              ['Regions', 'the Middle East, the North Pole, the Balkans, the Far East'],
+              ['Newspapers & hotels', 'the Times, the Guardian, the Hilton, the Ritz'],
+            ]},
           },
           {
             type: 'table', title: '∅ — БЕЗ артикля',
@@ -599,10 +744,22 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Вулиці та площі', 'Oxford Street, Times Square, Trafalgar Square'],
               ['Аеропорти та станції', 'Heathrow Airport, Waterloo Station'],
             ],
+            en: { title: '∅ — WITHOUT article', rows: [
+              ['Category', 'Examples'],
+              ['Most countries', 'France, Ukraine, Germany, Japan, Brazil, Canada'],
+              ['Cities & towns', 'Paris, Kyiv, New York, London, Tokyo'],
+              ['Continents', 'Europe, Asia, Africa, Australia, America'],
+              ['Individual islands', 'Sicily, Cyprus, Cuba, Majorca'],
+              ['Individual mountains', 'Mount Everest, Ben Nevis, Kilimanjaro'],
+              ['Lakes', 'Lake Baikal, Lake Victoria, Lake Ontario'],
+              ['Streets & squares', 'Oxford Street, Times Square, Trafalgar Square'],
+              ['Airports & stations', 'Heathrow Airport, Waterloo Station'],
+            ]},
           },
           {
             type: 'tip', title: 'Підказка: множина та описові назви → THE',
             text: 'Якщо назва у множині або містить описове слово (Republic, Kingdom, States, Islands) — зазвичай потрібен THE:\nthe United States, the Netherlands, the Philippines, the British Isles\n\nОдинична назва без опису — зазвичай без артикля:\nFrance, Italy, Japan, Sicily, Everest.',
+            en: { title: 'Tip: plural & descriptive names → THE', text: 'If the name is plural or contains a descriptive word (Republic, Kingdom, States, Islands) — THE is usually required:\nthe United States, the Netherlands, the Philippines, the British Isles\n\nSingle name without a descriptor — usually no article:\nFrance, Italy, Japan, Sicily, Everest.' },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -618,11 +775,12 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'modal-verbs', title: 'Модальні дієслова — A2', emoji: '🎛️',
+        id: 'modal-verbs', title: 'Модальні дієслова — A2', titleEn: 'Modal Verbs — A2', emoji: '🎛️',
         sections: [
           {
             type: 'intro',
             text: 'Модальні дієслова не змінюються за особами (no -s), після них використовується інфінітив без to. Вони виражають можливість, дозвіл, обов\'язок, пораду.',
+            en: { text: 'Modal verbs do not change by person (no -s), they are followed by the bare infinitive (no to). They express ability, permission, obligation and advice.' },
           },
           {
             type: 'table', title: 'Основні модальні дієслова',
@@ -638,14 +796,28 @@ export const GRAMMAR: GrammarCategory[] = [
               ['WILL', 'будете / намір', 'I will call you tomorrow.'],
               ['WOULD', 'хотів би / умовний', 'I would like a coffee.'],
             ],
+            en: { title: 'Main modal verbs', rows: [
+              ['CAN', 'ability / can', 'I can swim. Can you help me?'],
+              ['COULD', 'could / polite request', 'Could you open the door, please?'],
+              ['MAY', 'possibility / permission (formal)', 'It may rain. May I come in?'],
+              ['MIGHT', 'possibility (less certain)', 'She might be late.'],
+              ['MUST', 'obligation / must', 'You must wear a seatbelt.'],
+              ['HAVE TO', 'obligation (external)', 'I have to work on Saturdays.'],
+              ['SHOULD', 'should / advice', 'You should see a doctor.'],
+              ['OUGHT TO', 'should (moral obligation)', 'We ought to help them.'],
+              ['WILL', 'will / intention', 'I will call you tomorrow.'],
+              ['WOULD', 'would like / conditional', 'I would like a coffee.'],
+            ]},
           },
           {
             type: 'tip', title: 'Must vs Have to',
             text: 'MUST → внутрішнє рішення: "I must go to bed early (я сам вирішив)"\nHAVE TO → зовнішній обов\'язок: "I have to wake up at 6 (правило/обставини)"',
+            en: { title: 'Must vs Have to', text: 'MUST → internal decision: "I must go to bed early (I decided myself)"\nHAVE TO → external obligation: "I have to wake up at 6 (rule/circumstances)"' },
           },
           {
             type: 'note', title: 'Заперечення — зміна значення!',
             text: 'mustn\'t ≠ don\'t have to\nmustn\'t = заборонено ("You mustn\'t smoke here.")\ndon\'t have to = не обов\'язково ("You don\'t have to come.")',
+            en: { title: 'Negatives — change of meaning!', text: 'mustn\'t ≠ don\'t have to\nmustn\'t = forbidden ("You mustn\'t smoke here.")\ndon\'t have to = not necessary ("You don\'t have to come.")' },
           },
           {
             type: 'table', title: 'Модальні для вираження можливості (шкала впевненості)',
@@ -657,6 +829,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['might / could', '~30% (слабка можливість)', 'He might not come to the party.'],
               ["can't / couldn't", '~5% (майже неможливо)', "She can't be sleeping — it's only 7 pm."],
             ],
+            en: { title: 'Modals for probability (certainty scale)', rows: [
+              ['Modal', 'Certainty', 'Example'],
+              ['must', '~95% (logical conclusion)', 'He must be home — the lights are on.'],
+              ['should / ought to', '~80% (expectation)', 'She should be here by now.'],
+              ['may', '~50% (neutral possibility)', 'It may rain this afternoon.'],
+              ['might / could', '~30% (weak possibility)', 'He might not come to the party.'],
+              ["can't / couldn't", '~5% (nearly impossible)', "She can't be sleeping — it's only 7 pm."],
+            ]},
           },
           {
             type: 'examples', title: 'Приклади',
@@ -675,11 +855,12 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'conditionals', title: 'Умовні речення — B1', emoji: '🔀',
+        id: 'conditionals', title: 'Умовні речення — B1', titleEn: 'Conditional Sentences — B1', emoji: '🔀',
         sections: [
           {
             type: 'intro',
             text: 'Conditionals (умовні речення) описують умови та їх результати. Є 4 основні типи.',
+            en: { text: 'Conditionals describe conditions and their results. There are 4 main types.' },
           },
           {
             type: 'table', title: 'Типи умовних речень',
@@ -689,10 +870,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Second', 'Нереальна/гіпотетична', 'If + Past Simple → would + V₁', 'If I had money, I would buy a car.'],
               ['Third', 'Нереальна в минулому', 'If + Past Perfect → would have + V₃', 'If I had studied, I would have passed.'],
             ],
+            en: { title: 'Types of conditional sentences', rows: [
+              ['Zero', 'Always true', 'If + Present Simple → Present Simple', 'If you heat water, it boils.'],
+              ['First', 'Real condition', 'If + Present Simple → will + V₁', 'If it rains, I will stay home.'],
+              ['Second', 'Unreal/hypothetical', 'If + Past Simple → would + V₁', 'If I had money, I would buy a car.'],
+              ['Third', 'Unreal in the past', 'If + Past Perfect → would have + V₃', 'If I had studied, I would have passed.'],
+            ]},
           },
           {
             type: 'tip', title: 'Were для всіх осіб (2nd Conditional)',
             text: 'У 2nd Conditional для "I/he/she/it" формально вживається "were":\n"If I were you, I would apologize."\n"If she were here, she would know."',
+            en: { title: 'Were for all persons (2nd Conditional)', text: 'In 2nd Conditional, "were" is formally used for "I/he/she/it":\n"If I were you, I would apologize."\n"If she were here, she would know."' },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -706,11 +894,12 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'passive-voice', title: 'Пасивний стан — B1', emoji: '🔄',
+        id: 'passive-voice', title: 'Пасивний стан — B1', titleEn: 'Passive Voice — B1', emoji: '🔄',
         sections: [
           {
             type: 'intro',
             text: 'Passive voice (пасивний стан) — дія спрямована на підмет, а не виконується ним. Структура: be + V₃ (дієприкметник минулого часу).',
+            en: { text: 'Passive voice — the action is directed at the subject, not performed by it. Structure: be + V₃ (past participle).' },
           },
           {
             type: 'table', title: 'Пасивний стан у різних часах',
@@ -722,10 +911,12 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Present Perfect', 'have/has been + V₃', 'The letter has been written.'],
               ['Past Perfect', 'had been + V₃', 'The letter had been written.'],
             ],
+            en: { title: 'Passive voice in different tenses' },
           },
           {
             type: 'tip', title: 'By — хто виконав дію',
             text: '"The book was written by Tolkien." — "by" вказує на виконавця дії (agent).',
+            en: { title: 'By — who performed the action', text: '"The book was written by Tolkien." — "by" indicates the agent (doer of the action).' },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -741,9 +932,10 @@ export const GRAMMAR: GrammarCategory[] = [
 
       // ─── Additional grammar topics ───────────────────────────────
       {
-        id: 'reported-speech', title: 'Непряма мова — B1', emoji: '💬→📄',
+        id: 'reported-speech', title: 'Непряма мова — B1', titleEn: 'Reported Speech — B1', emoji: '💬→📄',
         sections: [
-          { type: 'intro', text: 'Reported speech (непряма мова) — переказ чужих слів без прямого цитування. Час дієслова зазвичай "зсувається" назад.' },
+          { type: 'intro', text: 'Reported speech (непряма мова) — переказ чужих слів без прямого цитування. Час дієслова зазвичай "зсувається" назад.',
+            en: { text: 'Reported speech — retelling someone\'s words without direct quotation. The verb tense usually "shifts back" (backshift).' } },
           {
             type: 'table', title: 'Зсув часів',
             rows: [
@@ -756,6 +948,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['can: "I can swim."', 'could: He said he could swim.'],
               ['must: "I must go."', 'had to: She said she had to go.'],
             ],
+            en: { title: 'Tense backshift' },
           },
           {
             type: 'table', title: 'Зміна займенників та слів',
@@ -771,9 +964,22 @@ export const GRAMMAR: GrammarCategory[] = [
               ['this', 'that'],
               ['these', 'those'],
             ],
+            en: { title: 'Changes in pronouns and time expressions', rows: [
+              ['Direct', 'Reported'],
+              ['I / me', 'he / she / him / her'],
+              ['we / our', 'they / their'],
+              ['here', 'there'],
+              ['now', 'then'],
+              ['today', 'that day'],
+              ['yesterday', 'the day before'],
+              ['tomorrow', 'the next day'],
+              ['this', 'that'],
+              ['these', 'those'],
+            ]},
           },
           { type: 'note', title: 'Say vs Tell',
             text: 'say + (that): He said (that) he was tired.\ntell + object: He told me (that) he was tired.',
+            en: { title: 'Say vs Tell', text: 'say + (that): He said (that) he was tired.\ntell + object: He told me (that) he was tired.' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -786,9 +992,10 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'gerunds-infinitives', title: 'Герундій і Інфінітив — B1', emoji: '🔡',
+        id: 'gerunds-infinitives', title: 'Герундій і Інфінітив — B1', titleEn: 'Gerunds & Infinitives — B1', emoji: '🔡',
         sections: [
-          { type: 'intro', text: 'Після різних дієслів вживається або герундій (V-ing) або інфінітив (to + V). Знання різниці — ключ до правильної мови.' },
+          { type: 'intro', text: 'Після різних дієслів вживається або герундій (V-ing) або інфінітив (to + V). Знання різниці — ключ до правильної мови.',
+            en: { text: 'After different verbs, either a gerund (V-ing) or an infinitive (to + V) is used. Knowing the difference is key to speaking correctly.' } },
           {
             type: 'table', title: 'Дієслова + Герундій (V-ing)',
             rows: [
@@ -804,6 +1011,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['miss', 'I miss living in the city.'],
               ['risk', 'Don\'t risk losing everything.'],
             ],
+            en: { title: 'Verbs + Gerund (V-ing)' },
           },
           {
             type: 'table', title: 'Дієслова + Інфінітив (to + V)',
@@ -820,6 +1028,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['seem', 'She seems to be happy.'],
               ['tend', 'People tend to forget.'],
             ],
+            en: { title: 'Verbs + Infinitive (to + V)' },
           },
           {
             type: 'table', title: 'Дієслова з обома (зміна значення!)',
@@ -830,6 +1039,13 @@ export const GRAMMAR: GrammarCategory[] = [
               ['stop', 'stop doing = перестати', 'stop to do = зупинитись, щоб зробити'],
               ['try', 'try doing = спробувати (може спрацює)', 'try to do = намагатись (важко)'],
             ],
+            en: { title: 'Verbs with both (change of meaning!)', rows: [
+              ['Verb', 'Gerund (V-ing)', 'Infinitive (to V)'],
+              ['remember', 'remember doing = remember that you did', 'remember to do = not to forget to do'],
+              ['forget', 'forget doing = don\'t remember doing', 'forget to do = forgot to do'],
+              ['stop', 'stop doing = cease', 'stop to do = stop in order to do'],
+              ['try', 'try doing = try (might work)', 'try to do = attempt (difficult)'],
+            ]},
           },
           { type: 'examples', title: 'Приклади зміни значення',
             rows: [
@@ -843,9 +1059,10 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'quantifiers', title: 'Квантифікатори — B1', emoji: '🔢',
+        id: 'quantifiers', title: 'Квантифікатори — B1', titleEn: 'Quantifiers — B1', emoji: '🔢',
         sections: [
-          { type: 'intro', text: 'Квантифікатори — слова, що позначають кількість. Вибір залежить від типу іменника (злічуваний / незлічуваний) та контексту (питальне, заперечне, ствердне речення).' },
+          { type: 'intro', text: 'Квантифікатори — слова, що позначають кількість. Вибір залежить від типу іменника (злічуваний / незлічуваний) та контексту (питальне, заперечне, ствердне речення).',
+            en: { text: 'Quantifiers are words that indicate quantity. The choice depends on the type of noun (countable/uncountable) and the context (question, negative, affirmative).' } },
           {
             type: 'table', title: 'Основна таблиця',
             rows: [
@@ -863,9 +1080,25 @@ export const GRAMMAR: GrammarCategory[] = [
               ['enough', '✅', '✅', 'достатньо'],
               ['plenty of', '✅', '✅', 'більш ніж достатньо'],
             ],
+            en: { title: 'Main table', rows: [
+              ['Quantifier', 'Countable', 'Uncountable', 'Meaning'],
+              ['many', '✅ (many books)', '❌', 'a lot of (+ negatives/questions)'],
+              ['much', '❌', '✅ (much water)', 'a lot of (+ negatives/questions)'],
+              ['a lot of / lots of', '✅', '✅', 'a lot of (+ affirmatives)'],
+              ['a few', '✅ (a few friends)', '❌', 'some (positive — there are some)'],
+              ['few', '✅ (few friends)', '❌', 'little, almost none (negative)'],
+              ['a little', '❌', '✅ (a little time)', 'some (positive)'],
+              ['little', '❌', '✅ (little time)', 'little, almost none (negative)'],
+              ['some', '✅', '✅', 'some, a few (affirmative)'],
+              ['any', '✅', '✅', 'any (questions/negatives)'],
+              ['no', '✅', '✅', 'none at all'],
+              ['enough', '✅', '✅', 'enough, sufficient'],
+              ['plenty of', '✅', '✅', 'more than enough'],
+            ]},
           },
           { type: 'tip', title: 'A few vs Few',
             text: 'A few friends came. → Кілька друзів прийшло. (позитивно — хтось є)\nFew friends came. → Мало хто з друзів прийшов. (негативно — майже ніхто)',
+            en: { title: 'A few vs Few', text: 'A few friends came. → Some friends came. (positive — there are some)\nFew friends came. → Hardly any friends came. (negative — almost none)' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -880,9 +1113,10 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'comparatives', title: 'Ступені порівняння — A2', emoji: '📊',
+        id: 'comparatives', title: 'Ступені порівняння — A2', titleEn: 'Degrees of Comparison — A2', emoji: '📊',
         sections: [
-          { type: 'intro', text: 'Прикметники мають три ступені порівняння: звичайний (positive), порівняльний (comparative) та найвищий (superlative).' },
+          { type: 'intro', text: 'Прикметники мають три ступені порівняння: звичайний (positive), порівняльний (comparative) та найвищий (superlative).',
+            en: { text: 'Adjectives have three degrees of comparison: positive, comparative and superlative.' } },
           {
             type: 'table', title: 'Утворення ступенів',
             rows: [
@@ -894,6 +1128,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['2+ склади', 'beautiful', 'more beautiful', 'the most beautiful'],
               ['2+ склади', 'interesting', 'more interesting', 'the most interesting'],
             ],
+            en: { title: 'Forming degrees', rows: [
+              ['Type', 'Positive', 'Comparative', 'Superlative'],
+              ['1 syllable', 'tall', 'tall-er', 'the tall-est'],
+              ['1 syllable + CVC', 'big', 'bigg-er', 'the bigg-est'],
+              ['1 syllable ending -e', 'nice', 'nicer', 'the nicest'],
+              ['2 syllables ending -y', 'happy', 'happier', 'the happiest'],
+              ['2+ syllables', 'beautiful', 'more beautiful', 'the most beautiful'],
+              ['2+ syllables', 'interesting', 'more interesting', 'the most interesting'],
+            ]},
           },
           {
             type: 'table', title: 'Неправильні форми',
@@ -906,6 +1149,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['far', 'farther / further', 'the farthest / furthest'],
               ['old', 'older / elder', 'the oldest / eldest'],
             ],
+            en: { title: 'Irregular forms' },
           },
           {
             type: 'table', title: 'Структури порівняння',
@@ -917,6 +1161,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['the + superlative + of/in', 'найвищий ступінь', 'It\'s the best in the world.'],
               ['the + comparative, the + comparative', 'чим... тим...', 'The more you read, the smarter you get.'],
             ],
+            en: { title: 'Comparison structures', rows: [
+              ['Structure', 'Meaning', 'Example'],
+              ['as ... as', 'as ... as (equal)', 'She is as tall as me.'],
+              ['not as ... as', 'not as ... as (unequal)', 'He is not as fast as before.'],
+              ['comparative + than', 'comparison', 'This is better than that.'],
+              ['the + superlative + of/in', 'superlative degree', 'It\'s the best in the world.'],
+              ['the + comparative, the + comparative', 'the more... the more...', 'The more you read, the smarter you get.'],
+            ]},
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -930,9 +1182,10 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'questions', title: 'Питальні речення — A2', emoji: '❓',
+        id: 'questions', title: 'Питальні речення — A2', titleEn: 'Question Sentences — A2', emoji: '❓',
         sections: [
-          { type: 'intro', text: 'Порядок слів у питальних реченнях в англійській відрізняється від стверджувального. Загальне правило: допоміжне дієслово виходить на перше місце.' },
+          { type: 'intro', text: 'Порядок слів у питальних реченнях в англійській відрізняється від стверджувального. Загальне правило: допоміжне дієслово виходить на перше місце.',
+            en: { text: 'Word order in English questions differs from statements. General rule: the auxiliary verb comes first.' } },
           {
             type: 'table', title: 'Типи питань',
             rows: [
@@ -943,6 +1196,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Розділове (Tag)', 'S + V, Aux + pronoun?', 'You speak English, don\'t you?'],
               ['Непряме (Indirect)', 'I wonder if/whether...', 'Can you tell me where she is?'],
             ],
+            en: { title: 'Types of questions', rows: [
+              ['Type', 'Structure', 'Example'],
+              ['Yes/No', 'Aux + S + V?', 'Do you work here?'],
+              ['Wh- question', 'Wh- + Aux + S + V?', 'Where do you work?'],
+              ['Subject question', 'Wh- + V (no Aux)?', 'Who called you?'],
+              ['Tag question', 'S + V, Aux + pronoun?', 'You speak English, don\'t you?'],
+              ['Indirect question', 'I wonder if/whether...', 'Can you tell me where she is?'],
+            ]},
           },
           {
             type: 'table', title: 'Питальні слова (Wh-)',
@@ -962,9 +1223,26 @@ export const GRAMMAR: GrammarCategory[] = [
               ['How often', 'як часто', 'How often do you exercise?'],
               ['How old', 'скільки років', 'How old are you?'],
             ],
+            en: { title: 'Question words (Wh-)', rows: [
+              ['Word', 'Asks about', 'Example'],
+              ['What', 'what / which', 'What time is it?'],
+              ['Who', 'who (subject)', 'Who called you?'],
+              ['Whom', 'whom (object)', 'Whom did you call?'],
+              ['Which', 'which one (from a group)', 'Which colour do you prefer?'],
+              ['Where', 'where / to where', 'Where are you going?'],
+              ['When', 'when', 'When does it start?'],
+              ['Why', 'why', 'Why are you late?'],
+              ['How', 'how', 'How are you?'],
+              ['How much', 'how much (uncountable)', 'How much does it cost?'],
+              ['How many', 'how many (countable)', 'How many people came?'],
+              ['How long', 'how long', 'How long have you waited?'],
+              ['How often', 'how often', 'How often do you exercise?'],
+              ['How old', 'how old', 'How old are you?'],
+            ]},
           },
           { type: 'note', title: 'Непрямі питання — порядок слів ствердного!',
             text: 'Direct: Where does she live?\nIndirect: Could you tell me where she lives? (NO auxiliary!)\n\nDirect: Is he home?\nIndirect: I wonder if he is home.',
+            en: { title: 'Indirect questions — affirmative word order!', text: 'Direct: Where does she live?\nIndirect: Could you tell me where she lives? (NO auxiliary!)\n\nDirect: Is he home?\nIndirect: I wonder if he is home.' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -978,9 +1256,10 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'prepositions', title: 'Прийменники — A2', emoji: '📍',
+        id: 'prepositions', title: 'Прийменники — A2', titleEn: 'Prepositions — A2', emoji: '📍',
         sections: [
-          { type: 'intro', text: 'Прийменники часу та місця — одна з найпоширеніших тем для помилок. Основні: in, on, at.' },
+          { type: 'intro', text: 'Прийменники часу та місця — одна з найпоширеніших тем для помилок. Основні: in, on, at.',
+            en: { text: 'Prepositions of time and place — one of the most common areas for mistakes. The key ones: in, on, at.' } },
           {
             type: 'table', title: 'Прийменники ЧАСУ',
             rows: [
@@ -994,6 +1273,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['BY', 'до (крайній термін)', 'by Friday, by 5 pm, by next year'],
               ['UNTIL', 'до (тривалість до моменту)', 'until midnight, until next week'],
             ],
+            en: { title: 'TIME Prepositions', rows: [
+              ['Preposition', 'Usage', 'Examples'],
+              ['IN', 'months, years, seasons, parts of day', 'in January, in 2020, in summer, in the morning'],
+              ['ON', 'days of week, specific dates, holidays', 'on Monday, on 5th March, on Christmas Day'],
+              ['AT', 'specific time, holidays (AT night/noon)', 'at 3 pm, at noon, at midnight, at Christmas'],
+              ['FOR', 'duration (how long)', 'for 2 hours, for a week, for years'],
+              ['SINCE', 'from a specific point (start)', 'since Monday, since 2015, since morning'],
+              ['DURING', 'throughout (within an event)', 'during the lesson, during summer'],
+              ['BY', 'by (deadline)', 'by Friday, by 5 pm, by next year'],
+              ['UNTIL', 'until (duration up to a moment)', 'until midnight, until next week'],
+            ]},
           },
           {
             type: 'table', title: 'Прийменники МІСЦЯ',
@@ -1011,9 +1301,24 @@ export const GRAMMAR: GrammarCategory[] = [
               ['BESIDE/NEXT TO', 'поряд', 'beside the door, next to the window'],
               ['OPPOSITE', 'навпроти', 'opposite the cinema'],
             ],
+            en: { title: 'PLACE Prepositions', rows: [
+              ['Preposition', 'Usage', 'Examples'],
+              ['IN', 'inside (enclosed space)', 'in the room, in London, in a car'],
+              ['ON', 'on a surface', 'on the table, on the wall, on the floor'],
+              ['AT', 'specific point, destination', 'at the bus stop, at school, at home'],
+              ['ABOVE', 'higher (no contact)', 'above the clouds'],
+              ['BELOW', 'lower', 'below the surface'],
+              ['OVER', 'above (movement or covering)', 'fly over the city, a bridge over the river'],
+              ['UNDER', 'below', 'under the table, under the bridge'],
+              ['BETWEEN', 'between (two things)', 'between the bank and the post office'],
+              ['AMONG', 'among (three or more)', 'among the crowd'],
+              ['BESIDE/NEXT TO', 'next to', 'beside the door, next to the window'],
+              ['OPPOSITE', 'opposite, across from', 'opposite the cinema'],
+            ]},
           },
           { type: 'tip', title: 'in / at / on — транспорт',
             text: 'in a car / in a taxi / in a helicopter (закрите, особисте)\non a bus / on a train / on a plane / on a boat (громадський / великий)',
+            en: { title: 'in / at / on — transport', text: 'in a car / in a taxi / in a helicopter (enclosed, personal)\non a bus / on a train / on a plane / on a boat (public / large)' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -1030,9 +1335,10 @@ export const GRAMMAR: GrammarCategory[] = [
       // ─── Merged from exceptions2 ─────────────────────────────
 
       {
-        id: 'phrasal-verbs', title: 'Фразові дієслова 150 — A1–C1', emoji: '🔗',
+        id: 'phrasal-verbs', title: 'Фразові дієслова 150 — A1–C1', titleEn: 'Phrasal Verbs 150 — A1–C1', emoji: '🔗',
         sections: [
-          { type: 'intro', text: 'Phrasal verbs — дієслова + прийменник/прислівник. Їх значення часто не можна передбачити. 150 найуживаніших розподілено за рівнем.' },
+          { type: 'intro', text: 'Phrasal verbs — дієслова + прийменник/прислівник. Їх значення часто не можна передбачити. 150 найуживаніших розподілено за рівнем.',
+            en: { text: 'Phrasal verbs — verb + preposition/adverb. Their meaning is often unpredictable. The 150 most common ones are arranged by level.' } },
           {
             type: 'table', title: 'A1–A2 — Базові (1–25)',
             rows: [
@@ -1063,6 +1369,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['hurry up', 'поспішати', 'Hurry up or we\'ll be late!'],
               ['look up', 'знайти в словнику', 'Look it up in a dictionary.'],
             ],
+            en: { title: 'A1–A2 — Basic (1–25)' },
           },
           {
             type: 'table', title: 'B1–B2 — Середній (26–110)',
@@ -1154,6 +1461,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['turn up', 'з\'явитись / збільшити гучність', 'He turned up two hours late.'],
               ['work out', 'тренуватись / вийти добре / вирахувати', 'It all worked out in the end.'],
             ],
+            en: { title: 'B1–B2 — Intermediate (26–110)' },
           },
           {
             type: 'table', title: 'B2–C1 — Просунутий (111–150)',
@@ -1200,14 +1508,16 @@ export const GRAMMAR: GrammarCategory[] = [
               ['try out', 'випробувати / спробувати', "Let's try out the new restaurant."],
               ['wrap up', 'загорнути / завершити / одягтись тепліше', "Let's wrap up the meeting."],
             ],
+            en: { title: 'B2–C1 — Advanced (111–150)' },
           },
         ],
       },
 
       {
-        id: 'confusing-words', title: 'Слова, які плутають — B1', emoji: '🤔',
+        id: 'confusing-words', title: 'Слова, які плутають — B1', titleEn: 'Confusing Words — B1', emoji: '🤔',
         sections: [
-          { type: 'intro', text: 'Деякі англійські слова мають схоже звучання або значення, але використовуються по-різному. Це типові помилки навіть досвідчених учнів.' },
+          { type: 'intro', text: 'Деякі англійські слова мають схоже звучання або значення, але використовуються по-різному. Це типові помилки навіть досвідчених учнів.',
+            en: { text: 'Some English words have a similar sound or meaning but are used differently. These are typical mistakes even for experienced learners.' } },
           {
             type: 'table', title: 'Make vs Do',
             rows: [
@@ -1220,6 +1530,16 @@ export const GRAMMAR: GrammarCategory[] = [
               ['make an effort', 'do well / badly'],
               ['make friends', 'do research'],
             ],
+            en: { title: 'Make vs Do', rows: [
+              ['MAKE (create, produce)', 'DO (perform, carry out)'],
+              ['make a mistake', 'do homework / work'],
+              ['make a decision', 'do business'],
+              ['make money', 'do exercise / sport'],
+              ['make a plan / list', 'do the dishes / cleaning'],
+              ['make coffee / tea / food', 'do someone a favour'],
+              ['make an effort', 'do well / badly'],
+              ['make friends', 'do research'],
+            ]},
           },
           {
             type: 'table', title: 'Say vs Tell vs Speak vs Talk',
@@ -1230,6 +1550,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['SPEAK', 'speak (to sb) / speak + мова', 'Can I speak to the manager? / She speaks French.'],
               ['TALK', 'talk (to/with sb) about sth', 'We need to talk. / Let\'s talk about it.'],
             ],
+            en: { title: 'Say vs Tell vs Speak vs Talk' },
           },
           {
             type: 'table', title: 'Affect vs Effect',
@@ -1237,6 +1558,10 @@ export const GRAMMAR: GrammarCategory[] = [
               ['AFFECT (дієслово)', 'вплинути на', 'Stress affects your health.'],
               ['EFFECT (іменник)', 'ефект, результат', 'The effects of stress are serious.'],
             ],
+            en: { title: 'Affect vs Effect', rows: [
+              ['AFFECT (verb)', 'to influence', 'Stress affects your health.'],
+              ['EFFECT (noun)', 'effect, result', 'The effects of stress are serious.'],
+            ]},
           },
           {
             type: 'table', title: 'Infer vs Imply',
@@ -1244,6 +1569,10 @@ export const GRAMMAR: GrammarCategory[] = [
               ['IMPLY (мовець)', 'натякати, мати на увазі', 'Are you implying that I\'m wrong?'],
               ['INFER (слухач)', 'робити висновок', 'What can we infer from this data?'],
             ],
+            en: { title: 'Infer vs Imply', rows: [
+              ['IMPLY (speaker)', 'to hint, to suggest', 'Are you implying that I\'m wrong?'],
+              ['INFER (listener)', 'to draw a conclusion', 'What can we infer from this data?'],
+            ]},
           },
           {
             type: 'table', title: 'Other Common Confusions',
@@ -1257,6 +1586,16 @@ export const GRAMMAR: GrammarCategory[] = [
               ['who vs whom', 'who = підмет (Who called?); whom = додаток (Whom did you call?)'],
               ['practice vs practise', 'practice (noun, Brit); practise (verb, Brit); practice = обидва (Am)'],
             ],
+            en: { title: 'Other Common Confusions', rows: [
+              ['Words', 'Difference'],
+              ['lend vs borrow', 'lend = give a loan (I lend you); borrow = take a loan (I borrow from you)'],
+              ['bring vs take', 'bring = carry towards speaker; take = carry away from speaker'],
+              ['rise vs raise', 'rise = go up (intransitive); raise = lift something (transitive)'],
+              ['lie vs lay', 'lie = to recline (no object); lay = to place (needs object)'],
+              ['fewer vs less', 'fewer = countable (fewer people); less = uncountable (less water)'],
+              ['who vs whom', 'who = subject (Who called?); whom = object (Whom did you call?)'],
+              ['practice vs practise', 'practice (noun, Brit); practise (verb, Brit); practice = both (Am)'],
+            ]},
           },
           {
             type: 'examples', title: 'Приклади в контексті',
@@ -1277,7 +1616,8 @@ export const GRAMMAR: GrammarCategory[] = [
       {
         id: 'british-american', title: 'British vs American English — B1', emoji: '🇬🇧🇺🇸',
         sections: [
-          { type: 'intro', text: 'Британська та американська англійська мають відмінності у написанні, вимові та лексиці. Обидва варіанти правильні — важливо бути послідовним.' },
+          { type: 'intro', text: 'Британська та американська англійська мають відмінності у написанні, вимові та лексиці. Обидва варіанти правильні — важливо бути послідовним.',
+            en: { text: 'British and American English differ in spelling, pronunciation and vocabulary. Both variants are correct — consistency is what matters.' } },
           {
             type: 'table', title: 'Відмінності в написанні',
             rows: [
@@ -1360,6 +1700,7 @@ export const GRAMMAR: GrammarCategory[] = [
           {
             type: 'tip', title: 'Яку обирати?',
             text: 'Обидва варіанти правильні. Головне — послідовність у межах одного тексту чи іспиту. IELTS/Cambridge — зазвичай British. TOEFL — зазвичай American.',
+            en: { title: 'Which to choose?', text: 'Both variants are correct. Consistency within a text or exam is what matters. IELTS/Cambridge — usually British. TOEFL — usually American.' },
           },
         ],
       },
@@ -1367,7 +1708,8 @@ export const GRAMMAR: GrammarCategory[] = [
       {
         id: 'false-friends', title: 'False Friends — B1', emoji: '🚫',
         sections: [
-          { type: 'intro', text: 'False friends — слова, що схожі на українські або інші мови, але мають інше значення. Дуже поширене джерело помилок!' },
+          { type: 'intro', text: 'False friends — слова, що схожі на українські або інші мови, але мають інше значення. Дуже поширене джерело помилок!',
+            en: { text: 'False friends — words that look similar to Ukrainian (or other languages) but have a different meaning. A very common source of mistakes!' } },
           {
             type: 'table', title: 'Типові помилки (EN ↔ UA)',
             rows: [
@@ -1405,16 +1747,18 @@ export const GRAMMAR: GrammarCategory[] = [
           {
             type: 'tip', title: 'Як запам\'ятати',
             text: 'Асоціюй з правильним значенням, а не з українським звучанням:\n"magazine" → mag (скорочення) = журнал\n"fabric" → fabric softener (пом\'якшувач тканини) — на упаковці!\n"receipt" → receive (отримати) → те що отримуєш після оплати = чек',
+            en: { title: 'How to remember', text: 'Associate with the correct meaning, not the Ukrainian-sounding one:\n"magazine" → mag (abbreviation) = journal/periodical\n"fabric" → fabric softener — on the label of your laundry product!\n"receipt" → receive → what you get after paying = receipt (not check)' },
           },
         ],
       },
 
       {
-        id: 'numbers-determiners', title: 'Числівники і Детермінери — A2', emoji: '🔢',
+        id: 'numbers-determiners', title: 'Числівники і Детермінери — A2', titleEn: 'Numbers & Determiners — A2', emoji: '🔢',
         sections: [
           {
             type: 'intro',
             text: 'Числівники (Cardinals/Ordinals) та детермінери (a/an/the/this/that/some/any/each/every) — слова що визначають кількість та конкретність іменника.',
+            en: { text: 'Numbers (Cardinals/Ordinals) and determiners (a/an/the/this/that/some/any/each/every) — words that determine the quantity and specificity of a noun.' },
           },
           {
             type: 'table', title: 'Кількісні vs Порядкові',
@@ -1427,6 +1771,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['twenty', 'twentieth (20th)', 'двадцять / двадцятий'],
               ['hundred', 'hundredth (100th)', 'сто / сотий'],
             ],
+            en: { title: 'Cardinal vs Ordinal numbers', rows: [
+              ['Cardinal Number', 'Ordinal Number', 'Usage'],
+              ['one', 'first (1st)', 'one / first'],
+              ['two', 'second (2nd)', 'two / second'],
+              ['three', 'third (3rd)', 'three / third'],
+              ['four', 'fourth (4th)', 'four / fourth'],
+              ['twenty', 'twentieth (20th)', 'twenty / twentieth'],
+              ['hundred', 'hundredth (100th)', 'hundred / hundredth'],
+            ]},
           },
           {
             type: 'table', title: 'Детермінери',
@@ -1442,10 +1795,23 @@ export const GRAMMAR: GrammarCategory[] = [
               ['all', 'всі', 'All students passed.'],
               ['no', 'жодного', 'No time to waste.'],
             ],
+            en: { title: 'Determiners', rows: [
+              ['Determiner', 'Usage', 'Example'],
+              ['this / these', 'nearer object', 'This book / These books'],
+              ['that / those', 'farther object', 'That car / Those cars'],
+              ['each', 'each (individually)', 'Each student has a book.'],
+              ['every', 'every (as a group)', 'Every day is different.'],
+              ['both', 'both', 'Both answers are correct.'],
+              ['either', 'either of two', 'Either day works for me.'],
+              ['neither', 'neither of two', 'Neither option is perfect.'],
+              ['all', 'all', 'All students passed.'],
+              ['no', 'none at all', 'No time to waste.'],
+            ]},
           },
           {
             type: 'tip', title: 'Each vs Every — тонка різниця',
             text: 'EACH → думаємо про кожного окремо: "Each student got a different task."\nEVERY → думаємо про групу в цілому: "Every student passed the exam."\n\nTільки EVERY з частотою: "every day / every week" (не "each day" — хоча обидва можливі)\nТільки EACH з двома: "each of the two candidates" (not "every of the two")',
+            en: { title: 'Each vs Every — subtle difference', text: 'EACH → we think of each individual separately: "Each student got a different task."\nEVERY → we think of the group as a whole: "Every student passed the exam."\n\nOnly EVERY with frequency: "every day / every week"\nOnly EACH with two: "each of the two candidates" (not "every of the two")' },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -1464,11 +1830,12 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'reported-questions', title: 'Непряме питання — B1', emoji: '❓📄',
+        id: 'reported-questions', title: 'Непряме питання — B1', titleEn: 'Reported Questions — B1', emoji: '❓📄',
         sections: [
           {
             type: 'intro',
             text: 'Непрямі питання (Reported Questions) вставляються в речення без допоміжного дієслова та з прямим порядком слів.',
+            en: { text: 'Reported questions are embedded in a sentence without the auxiliary verb and use affirmative word order.' },
           },
           {
             type: 'table', title: 'Структура непрямих питань',
@@ -1479,10 +1846,18 @@ export const GRAMMAR: GrammarCategory[] = [
               ['How', 'How much does it cost?', 'I wondered how much it cost.'],
               ['What time', 'What time does it start?', 'He asked what time it started.'],
             ],
+            en: { title: 'Structure of reported questions', rows: [
+              ['Type', 'Direct question', 'Reported question'],
+              ['Yes/No', 'Is she home?', 'He asked if/whether she was home.'],
+              ['Wh-', 'Where does he live?', 'She asked where he lived.'],
+              ['How', 'How much does it cost?', 'I wondered how much it cost.'],
+              ['What time', 'What time does it start?', 'He asked what time it started.'],
+            ]},
           },
           {
             type: 'note', title: 'Зміни при непрямому питанні',
             text: '1. Немає допоміжного (do/does/did)\n2. Прямий порядок слів (Subject + Verb)\n3. Час зсувається назад (як у reported speech)\n4. Yes/No → if/whether',
+            en: { title: 'Changes in reported questions', text: '1. No auxiliary verb (do/does/did)\n2. Affirmative word order (Subject + Verb)\n3. Tense shifts back (as in reported speech)\n4. Yes/No questions → if/whether' },
           },
           {
             type: 'table', title: 'Типова помилка — зайвий do/does/did',
@@ -1493,6 +1868,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['I wondered why did he leave.', 'I wondered why he had left.'],
               ['Can you tell me where is the station?', 'Can you tell me where the station is?'],
             ],
+            en: { title: 'Common mistake — extra do/does/did' },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -1515,6 +1891,7 @@ export const GRAMMAR: GrammarCategory[] = [
           {
             type: 'intro',
             text: 'Wish та Would rather виражають бажання щодо нереальних або небажаних ситуацій.',
+            en: { text: 'Wish and Would rather express desires about unreal or unwanted situations.' },
           },
           {
             type: 'table', title: 'Структури з Wish',
@@ -1525,6 +1902,13 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Майбутнє (скарга)', 'wish + would + V', 'Хотів би щоб хтось щось зробив', 'I wish you would stop smoking.'],
               ['Постійний стан', 'wish + could', 'Жаль що не вмію', 'I wish I could fly.'],
             ],
+            en: { title: 'Wish structures', rows: [
+              ['Time', 'Structure', 'Meaning', 'Example'],
+              ['Present/future', 'wish + Past Simple', 'Regret about now', 'I wish I knew the answer.'],
+              ['Past', 'wish + Past Perfect', 'Regret about the past', 'I wish I had studied harder.'],
+              ['Future (complaint)', 'wish + would + V', 'Want someone to do something', 'I wish you would stop smoking.'],
+              ['Permanent state', 'wish + could', 'Regret about inability', 'I wish I could fly.'],
+            ]},
           },
           {
             type: 'table', title: 'Would rather',
@@ -1534,6 +1918,12 @@ export const GRAMMAR: GrammarCategory[] = [
               ["would rather + V than + V", 'Краще X ніж Y', "I'd rather walk than drive."],
               ["would rather + S + Past Simple", 'Хотів би щоб хтось зробив', "I'd rather you didn't tell anyone."],
             ],
+            en: { title: 'Would rather', rows: [
+              ['Structure', 'Meaning', 'Example'],
+              ["would rather + V₁ (than)", 'I prefer', "I'd rather stay home."],
+              ["would rather + V than + V", 'I\'d rather X than Y', "I'd rather walk than drive."],
+              ["would rather + S + Past Simple", 'I\'d prefer someone to do', "I'd rather you didn't tell anyone."],
+            ]},
           },
           {
             type: 'examples',
@@ -1548,9 +1938,10 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'relative-clauses', title: 'Відносні речення — B1', emoji: '🔗',
+        id: 'relative-clauses', title: 'Відносні речення — B1', titleEn: 'Relative Clauses — B1', emoji: '🔗',
         sections: [
-          { type: 'intro', text: 'Відносні речення уточнюють або доповнюють іменник. Є два типи: визначальні (Defining) — без ком, та невизначальні (Non-defining) — з комами.' },
+          { type: 'intro', text: 'Відносні речення уточнюють або доповнюють іменник. Є два типи: визначальні (Defining) — без ком, та невизначальні (Non-defining) — з комами.',
+            en: { text: 'Relative clauses define or add information to a noun. There are two types: defining — no commas, and non-defining — with commas.' } },
           {
             type: 'table', title: 'Відносні займенники',
             rows: [
@@ -1563,6 +1954,16 @@ export const GRAMMAR: GrammarCategory[] = [
               ['where', 'місце', 'The city where I was born is small.'],
               ['when', 'час', 'The year when we met was 2020.'],
             ],
+            en: { title: 'Relative pronouns', rows: [
+              ['Pronoun', 'Refers to', 'Example'],
+              ['who', 'person (subject/object)', 'The man who called is my boss.'],
+              ['whom', 'person (object, formal)', 'The person whom I met was kind.'],
+              ['which', 'thing or animal', 'The book which I bought is great.'],
+              ['that', 'person or thing (defining only)', 'The car that she drives is red.'],
+              ['whose', 'possession', 'The girl whose bag was stolen cried.'],
+              ['where', 'place', 'The city where I was born is small.'],
+              ['when', 'time', 'The year when we met was 2020.'],
+            ]},
           },
           {
             type: 'table', title: 'Defining vs Non-defining',
@@ -1573,9 +1974,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Коми', 'НЕ вживаються', 'Обов\'язкові коми'],
               ['Приклад', 'The woman who lives next door is a nurse.', 'My sister, who lives in Paris, is a nurse.'],
             ],
+            en: { title: 'Defining vs Non-defining', rows: [
+              ['', 'Defining (no commas)', 'Non-defining (with commas)'],
+              ['Meaning', 'Defines — without it unclear who/what is meant', 'Adds info — sentence remains clear without it'],
+              ['Pronoun', 'who / which / that / whose', 'who / which / whose (NOT that)'],
+              ['Commas', 'NOT used', 'Commas required'],
+              ['Example', 'The woman who lives next door is a nurse.', 'My sister, who lives in Paris, is a nurse.'],
+            ]},
           },
           { type: 'tip', title: 'Коли можна опустити займенник',
             text: 'Якщо відносний займенник є додатком (object), його можна опустити:\n"The book (that) I read was amazing." ✅\nЯкщо займенник є підметом (subject) — опустити не можна:\n"The man who called is here." ❌ "The man called is here."',
+            en: { title: 'When can you omit the pronoun?', text: 'If the relative pronoun is an object, it can be omitted:\n"The book (that) I read was amazing." ✅\nIf it is the subject — it cannot be omitted:\n"The man who called is here." ❌ "The man called is here."' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -1591,7 +2000,8 @@ export const GRAMMAR: GrammarCategory[] = [
       {
         id: 'used-to', title: 'Used to / Be used to — B1', emoji: '🔁',
         sections: [
-          { type: 'intro', text: 'Три схожі конструкції з різними значеннями — одна з найпоширеніших точок плутанини.' },
+          { type: 'intro', text: 'Три схожі конструкції з різними значеннями — одна з найпоширеніших точок плутанини.',
+            en: { text: 'Three similar constructions with different meanings — one of the most common points of confusion.' } },
           {
             type: 'table', title: 'Порівняльна таблиця',
             rows: [
@@ -1601,6 +2011,13 @@ export const GRAMMAR: GrammarCategory[] = [
               ['be used to + V-ing', 'am/is/are used to + герундій', 'Звик до чогось (зараз)', 'I am used to working late.'],
               ['get used to + V-ing', 'get/got used to + герундій', 'Звикати до чогось (процес)', 'She is getting used to the cold.'],
             ],
+            en: { title: 'Comparison table', rows: [
+              ['Construction', 'Structure', 'Meaning', 'Example'],
+              ['used to + V₁', 'used to + infinitive', 'Past habit/state that no longer exists', 'I used to smoke. (I don\'t now)'],
+              ['would + V₁', 'would + infinitive', 'Repeated past action (NOT for states)', 'We would go to the beach every summer.'],
+              ['be used to + V-ing', 'am/is/are used to + gerund', 'Accustomed to something (now)', 'I am used to working late.'],
+              ['get used to + V-ing', 'get/got used to + gerund', 'Becoming accustomed (process)', 'She is getting used to the cold.'],
+            ]},
           },
           { type: 'formula', title: 'Структура used to',
             rows: [
@@ -1608,9 +2025,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❌ (−)', 'Всі особи', "didn't use to + V₁", "→ She didn't use to drink coffee."],
               ['❓ (?)', 'Всі особи', 'Did + use to + V₁?', '→ Did you use to live here?'],
             ],
+            en: { title: 'used to structure', rows: [
+              ['✅ (+)', 'All persons', 'used to + V₁', '→ He used to play tennis.'],
+              ['❌ (−)', 'All persons', "didn't use to + V₁", "→ She didn't use to drink coffee."],
+              ['❓ (?)', 'All persons', 'Did + use to + V₁?', '→ Did you use to live here?'],
+            ]},
           },
           { type: 'note', title: 'would НЕ вживається зі статичними дієсловами',
             text: 'would НЕ можна вжити зі stative verbs (know, love, have, believe):\n❌ "I would know him." → ✅ "I used to know him."\n❌ "We would have a dog." → ✅ "We used to have a dog."',
+            en: { title: 'would is NOT used with stative verbs', text: 'would CANNOT be used with stative verbs (know, love, have, believe):\n❌ "I would know him." → ✅ "I used to know him."\n❌ "We would have a dog." → ✅ "We used to have a dog."' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -1626,7 +2049,8 @@ export const GRAMMAR: GrammarCategory[] = [
       {
         id: 'linking-words', title: 'Linking Words — B1', emoji: '🧩',
         sections: [
-          { type: 'intro', text: 'Linking words з\'єднують речення та ідеї. Є різні групи залежно від логічного зв\'язку: протиставлення, додавання, причина/наслідок, приклад.' },
+          { type: 'intro', text: 'Linking words з\'єднують речення та ідеї. Є різні групи залежно від логічного зв\'язку: протиставлення, додавання, причина/наслідок, приклад.',
+            en: { text: 'Linking words connect sentences and ideas. There are different groups depending on the logical relationship: contrast, addition, cause/effect, example.' } },
           {
             type: 'table', title: 'Протиставлення та контраст',
             rows: [
@@ -1638,6 +2062,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['yet / but', 'сполучник', 'He is poor yet happy.'],
               ['on the other hand', 'початок речення', 'On the other hand, prices are rising.'],
             ],
+            en: { title: 'Contrast & opposition' },
           },
           {
             type: 'table', title: 'Додавання',
@@ -1649,6 +2074,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['also / as well / too', 'також', 'She sings. She also plays guitar.'],
               ['not only... but also', 'не лише... але й', 'Not only is he smart, but he\'s also kind.'],
             ],
+            en: { title: 'Addition' },
           },
           {
             type: 'table', title: 'Причина та наслідок',
@@ -1660,6 +2086,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['as a result / consequently', 'наслідок', 'As a result, prices increased.'],
               ['so (that)', 'мета / наслідок', 'She studied so that she could pass.'],
             ],
+            en: { title: 'Cause & effect' },
           },
           {
             type: 'table', title: 'Приклад, уточнення, висновок',
@@ -1670,10 +2097,18 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Висновок', 'in conclusion / to sum up / overall', 'In conclusion, the results are positive.'],
               ['Послідовність', 'firstly / then / finally / subsequently', 'Firstly, mix the ingredients. Then bake.'],
             ],
+            en: { title: 'Example, clarification, conclusion', rows: [
+              ['Function', 'Word/phrase', 'Example'],
+              ['Example', 'for example / for instance / such as', 'For example, cats and dogs are popular pets.'],
+              ['Clarification', 'in other words / that is (to say)', 'In other words, it\'s too expensive.'],
+              ['Conclusion', 'in conclusion / to sum up / overall', 'In conclusion, the results are positive.'],
+              ['Sequence', 'firstly / then / finally / subsequently', 'Firstly, mix the ingredients. Then bake.'],
+            ]},
           },
           {
             type: 'tip', title: 'Although vs Despite — найпоширеніша помилка',
             text: 'ALTHOUGH + підрядне речення (S + V):\n✅ "Although it was raining, we went out."\n❌ "Although the rain, we went out."\n\nDESPITE / IN SPITE OF + іменник або V-ing:\n✅ "Despite the rain, we went out."\n✅ "Despite feeling tired, she finished."\n❌ "Despite it was raining, we went out."',
+            en: { title: 'Although vs Despite — most common mistake', text: 'ALTHOUGH + clause (S + V):\n✅ "Although it was raining, we went out."\n❌ "Although the rain, we went out."\n\nDESPITE / IN SPITE OF + noun or V-ing:\n✅ "Despite the rain, we went out."\n✅ "Despite feeling tired, she finished."\n❌ "Despite it was raining, we went out."' },
           },
           {
             type: 'examples', title: 'Приклади зв\'язків у дії',
@@ -1692,9 +2127,10 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'countable-uncountable', title: 'Злічувані та незлічувані — A2', emoji: '🧮',
+        id: 'countable-uncountable', title: 'Злічувані та незлічувані — A2', titleEn: 'Countable & Uncountable Nouns — A2', emoji: '🧮',
         sections: [
-          { type: 'intro', text: 'Злічувані іменники (Countable) можна рахувати: a book / two books. Незлічувані (Uncountable) — не мають множини і не вживаються з a/an.' },
+          { type: 'intro', text: 'Злічувані іменники (Countable) можна рахувати: a book / two books. Незлічувані (Uncountable) — не мають множини і не вживаються з a/an.',
+            en: { text: 'Countable nouns can be counted: a book / two books. Uncountable nouns have no plural and cannot be used with a/an.' } },
           {
             type: 'table', title: 'Порівняння',
             rows: [
@@ -1705,6 +2141,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Квантифікатори', 'many, a few, few, several', 'much, a little, little'],
               ['A lot of / some / any', 'обидва типи', 'обидва типи'],
             ],
+            en: { title: 'Comparison', rows: [
+              ['', 'Countable', 'Uncountable'],
+              ['Singular', 'a car, an apple, a chair', '— (none)'],
+              ['Plural', 'cars, apples, chairs', '— (none)'],
+              ['Article', 'a/an + singular; the + any', 'the or ∅; NOT a/an'],
+              ['Quantifiers', 'many, a few, few, several', 'much, a little, little'],
+              ['A lot of / some / any', 'both types', 'both types'],
+            ]},
           },
           {
             type: 'table', title: 'Типові незлічувані (часто плутають)',
@@ -1723,6 +2167,21 @@ export const GRAMMAR: GrammarCategory[] = [
               ['weather', 'a sunny day', ''],
               ['traffic', 'a car, a vehicle', ''],
             ],
+            en: { title: 'Common uncountable nouns (often confused)', rows: [
+              ['Noun', 'How to count', 'Note'],
+              ['advice', 'a piece of advice / some advice', ''],
+              ['information', 'a piece of information', ''],
+              ['news', '"the news is" (not "are"!)', 'a piece of news'],
+              ['furniture', 'a piece of furniture', ''],
+              ['luggage / baggage', 'a bag, a suitcase', ''],
+              ['money', 'a coin, a note, a sum of money', ''],
+              ['work', 'a job, a task, a piece of work', ''],
+              ['research', 'a study, a piece of research', ''],
+              ['progress', 'a step forward', ''],
+              ['knowledge', 'a fact, a piece of knowledge', ''],
+              ['weather', 'a sunny day', ''],
+              ['traffic', 'a car, a vehicle', ''],
+            ]},
           },
           {
             type: 'table', title: 'Іменники з двома значеннями',
@@ -1735,6 +2194,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['time', 'time — час (загально)', 'a time — раз, випадок'],
               ['room', 'room — місце, простір', 'a room — кімната'],
             ],
+            en: { title: 'Nouns with two meanings', rows: [
+              ['Noun', 'Uncountable', 'Countable'],
+              ['hair', 'hair — hair in general', 'a hair — a single strand'],
+              ['light', 'light — light (illumination)', 'a light — a lamp, light source'],
+              ['glass', 'glass — glass (material)', 'a glass — a drinking glass'],
+              ['paper', 'paper — paper (material)', 'a paper — a newspaper, document'],
+              ['time', 'time — time in general', 'a time — an occasion, instance'],
+              ['room', 'room — space, area', 'a room — a room (in a house)'],
+            ]},
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -1748,9 +2216,10 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'adjective-order', title: 'Порядок прикметників — B1', emoji: '📐',
+        id: 'adjective-order', title: 'Порядок прикметників — B1', titleEn: 'Order of Adjectives — B1', emoji: '📐',
         sections: [
-          { type: 'intro', text: 'Коли перед іменником стоїть кілька прикметників, вони вживаються у суворо визначеному порядку. Порушення цього порядку звучить неприродно.' },
+          { type: 'intro', text: 'Коли перед іменником стоїть кілька прикметників, вони вживаються у суворо визначеному порядку. Порушення цього порядку звучить неприродно.',
+            en: { text: 'When several adjectives precede a noun, they are used in a strictly defined order. Breaking this order sounds unnatural.' } },
           {
             type: 'table', title: 'Порядок (OSASCOMP)',
             rows: [
@@ -1764,12 +2233,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['8. Purpose (призначення)', 'sleeping (bag), dining (table)', ''],
               ['→ NOUN', '', ''],
             ],
+            en: { title: 'Order (OSASCOMP)' },
           },
           { type: 'tip', title: 'Мнемоніка OSASCOMP',
             text: 'Opinion – Size – Age – Shape – Colour – Origin – Material – Purpose\n"A beautiful small old round red Italian metal dining table."',
+            en: { title: 'OSASCOMP mnemonic', text: 'Opinion – Size – Age – Shape – Colour – Origin – Material – Purpose\n"A beautiful small old round red Italian metal dining table."' },
           },
           { type: 'note', title: 'На практиці — не більше 3-4 прикметників',
             text: 'У живому мовленні рідко вживають більше 2-3 прикметників поспіль. Перелік з 7+ — лише для пояснення правила.',
+            en: { title: 'In practice — no more than 3-4 adjectives', text: 'In natural speech, more than 2-3 adjectives in a row are rarely used. The list of 7+ is only for explaining the rule.' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -1784,9 +2256,10 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'adverbs', title: 'Прислівники — A2', emoji: '💨',
+        id: 'adverbs', title: 'Прислівники — A2', titleEn: 'Adverbs — A2', emoji: '💨',
         sections: [
-          { type: 'intro', text: 'Прислівники модифікують дієслова, прикметники або інші прислівники. Відповідають на питання: як? де? коли? як часто? якою мірою?' },
+          { type: 'intro', text: 'Прислівники модифікують дієслова, прикметники або інші прислівники. Відповідають на питання: як? де? коли? як часто? якою мірою?',
+            en: { text: 'Adverbs modify verbs, adjectives or other adverbs. They answer the questions: how? where? when? how often? to what degree?' } },
           {
             type: 'table', title: 'Типи прислівників',
             rows: [
@@ -1797,6 +2270,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Frequency (частоти)', 'Як часто?', 'always, usually, often, sometimes, rarely, never'],
               ['Degree (ступеня)', 'Якою мірою?', 'very, quite, rather, fairly, extremely, too, enough'],
             ],
+            en: { title: 'Types of adverbs', rows: [
+              ['Type', 'Question', 'Examples'],
+              ['Manner', 'How?', 'quickly, slowly, well, hard, fast'],
+              ['Place', 'Where? Where to?', 'here, there, inside, abroad, everywhere'],
+              ['Time', 'When?', 'now, yesterday, soon, already, still, yet'],
+              ['Frequency', 'How often?', 'always, usually, often, sometimes, rarely, never'],
+              ['Degree', 'To what degree?', 'very, quite, rather, fairly, extremely, too, enough'],
+            ]},
           },
           {
             type: 'table', title: 'Утворення (прикметник → прислівник)',
@@ -1809,6 +2290,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Неправильні', 'good, fast, hard, early', 'well, fast, hard, early'],
               ['Однакові форми', 'fast car / drive fast', 'hard work / work hard'],
             ],
+            en: { title: 'Formation (adjective → adverb)', rows: [
+              ['Rule', 'Adjective', 'Adverb'],
+              ['Simply + -ly', 'quick, slow, careful', 'quickly, slowly, carefully'],
+              ['Final -y → -ily', 'happy, easy, heavy', 'happily, easily, heavily'],
+              ['Final -le → -ly', 'gentle, simple', 'gently, simply'],
+              ['Final -ic → -ically', 'automatic, basic', 'automatically, basically'],
+              ['Irregular', 'good, fast, hard, early', 'well, fast, hard, early'],
+              ['Same form', 'fast car / drive fast', 'hard work / work hard'],
+            ]},
           },
           {
             type: 'table', title: 'Позиція в реченні',
@@ -1819,9 +2309,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Place та Time', 'Зазвичай в кінці речення', 'I saw him yesterday at school.'],
               ['Degree (ступеня)', 'Перед прикметником/прислівником', 'It\'s very cold. / She speaks quite well.'],
             ],
+            en: { title: 'Position in the sentence', rows: [
+              ['Type', 'Position', 'Example'],
+              ['Frequency', 'Before main verb, after be', 'She often reads. / He is always late.'],
+              ['Manner', 'After verb or object', 'She sings beautifully. / He drove fast.'],
+              ['Place & Time', 'Usually at end of sentence', 'I saw him yesterday at school.'],
+              ['Degree', 'Before adjective/adverb', 'It\'s very cold. / She speaks quite well.'],
+            ]},
           },
           { type: 'note', title: 'Увага: late / lately, hard / hardly',
             text: 'late = пізно: "She arrived late."\nlately = нещодавно: "I haven\'t seen her lately."\n\nhard = сильно, наполегливо: "He works hard."\nhardly = ледве, майже ні: "I can hardly hear you."',
+            en: { title: 'Note: late / lately, hard / hardly', text: 'late = late: "She arrived late."\nlately = recently: "I haven\'t seen her lately."\n\nhard = hard, intensely: "He works hard."\nhardly = barely, almost not: "I can hardly hear you."' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -1836,8 +2334,10 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'too-enough-so-such', title: 'Too / Enough / So / Such — B1', emoji: '⚖️',
+        titleEn: 'Too / Enough / So / Such — B1',
         sections: [
-          { type: 'intro', text: 'Чотири конструкції для вираження ступеня або інтенсивності. Кожна має свою структуру та значення.' },
+          { type: 'intro', text: 'Чотири конструкції для вираження ступеня або інтенсивності. Кожна має свою структуру та значення.',
+            en: { text: 'Four constructions for expressing degree or intensity. Each has its own structure and meaning.' } },
           {
             type: 'formula', title: 'TOO — "надто" (негативне значення: більше ніж потрібно)',
             rows: [
@@ -1845,6 +2345,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['✅ Структура', 'too + adj/adv + for + noun', '→ This is too difficult for beginners.'],
               ['✅ Структура', 'too + adj/adv + to + V', '→ She\'s too tired to work.'],
             ],
+            en: { title: 'TOO — "too much" (negative: more than needed)' },
           },
           {
             type: 'formula', title: 'ENOUGH — "достатньо"',
@@ -1853,6 +2354,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['✅ Структура', 'enough + noun', '→ I don\'t have enough time.'],
               ['✅ Структура', 'adj + enough + to + V', '→ She\'s old enough to drive.'],
             ],
+            en: { title: 'ENOUGH — "enough, sufficient"' },
           },
           {
             type: 'formula', title: 'SO — "так, настільки" (+ прикметник або прислівник)',
@@ -1860,6 +2362,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['✅ Структура', 'so + adj/adv', '→ It was so cold!'],
               ['✅ Структура', 'so + adj/adv + that', '→ It was so cold that we stayed home.'],
             ],
+            en: { title: 'SO — "so, such" (+ adjective or adverb)' },
           },
           {
             type: 'formula', title: 'SUCH — "такий" (+ іменникова група)',
@@ -1868,9 +2371,11 @@ export const GRAMMAR: GrammarCategory[] = [
               ['✅ Структура', 'such + adj + noun (мн.)', '→ They are such nice people.'],
               ['✅ Структура', 'such + adj + noun + that', '→ It was such a storm that trees fell.'],
             ],
+            en: { title: 'SUCH — "such a" (+ noun phrase)' },
           },
           { type: 'tip', title: 'So vs Such',
             text: 'SO + прикметник/прислівник: "so beautiful / so quickly"\nSUCH + іменникова група: "such a beautiful girl / such kind people"\n\n✅ She is so beautiful.\n✅ She is such a beautiful girl.',
+            en: { title: 'So vs Such', text: 'SO + adjective/adverb: "so beautiful / so quickly"\nSUCH + noun phrase: "such a beautiful girl / such kind people"\n\n✅ She is so beautiful.\n✅ She is such a beautiful girl.' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -1885,8 +2390,10 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'mixed-conditionals', title: 'Змішані умовні — B2', emoji: '🔀🔀',
+        titleEn: 'Mixed Conditionals — B2',
         sections: [
-          { type: 'intro', text: 'Mixed Conditionals поєднують умову одного типу з наслідком іншого — для вираження зв\'язку між минулим та теперішнім (або навпаки).' },
+          { type: 'intro', text: 'Mixed Conditionals поєднують умову одного типу з наслідком іншого — для вираження зв\'язку між минулим та теперішнім (або навпаки).',
+            en: { text: 'Mixed Conditionals combine the condition from one type with the result of another — to express the connection between past and present (or vice versa).' } },
           {
             type: 'table', title: 'Два типи змішаних умовних',
             rows: [
@@ -1894,9 +2401,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['3rd → 2nd\n(минуле → теперішнє)', 'If + Past Perfect', 'would + V₁', 'Нереальна дія в минулому → результат у теперішньому'],
               ['2nd → 3rd\n(теперішнє → минуле)', 'If + Past Simple', 'would have + V₃', 'Нереальний стан зараз → наслідок у минулому'],
             ],
+            en: { title: 'Two types of mixed conditionals',
+              rows: [
+                ['Type', 'IF-clause', 'Main clause', 'Meaning'],
+                ['3rd → 2nd\n(past → present)', 'If + Past Perfect', 'would + V₁', 'Unreal past action → present result'],
+                ['2nd → 3rd\n(present → past)', 'If + Past Simple', 'would have + V₃', 'Unreal present state → past consequence'],
+              ] },
           },
           { type: 'tip', title: 'Приклади з поясненням',
             text: '3rd → 2nd:\n"If I had studied medicine, I would be a doctor now."\n(Не навчився у минулому → зараз не є лікарем)\n\n2nd → 3rd:\n"If I were braver, I would have spoken to her."\n(Я не сміливий зараз → тому не заговорив тоді)',
+            en: { title: 'Examples with explanation',
+              text: '3rd → 2nd:\n"If I had studied medicine, I would be a doctor now."\n(Didn\'t study in the past → not a doctor now)\n\n2nd → 3rd:\n"If I were braver, I would have spoken to her."\n(I am not brave now → so I didn\'t speak to her then)' },
           },
           {
             type: 'table', title: 'Порівняння з чистими типами',
@@ -1907,6 +2422,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Mixed 3rd→2nd', 'If I had saved money, I would be rich now. (минуле → теперішнє)'],
               ['Mixed 2nd→3rd', 'If I were more careful, I wouldn\'t have made that mistake. (зараз → минуле)'],
             ],
+            en: { title: 'Comparison with pure types',
+              rows: [
+                ['Type', 'Example'],
+                ['2nd Conditional (pure)', 'If I had money, I would buy a car. (now)'],
+                ['3rd Conditional (pure)', 'If I had had money, I would have bought a car. (past)'],
+                ['Mixed 3rd→2nd', 'If I had saved money, I would be rich now. (past → present)'],
+                ['Mixed 2nd→3rd', 'If I were more careful, I wouldn\'t have made that mistake. (now → past)'],
+              ] },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -1920,8 +2443,10 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'participle-clauses', title: 'Participle Clauses — B2', emoji: '📎',
+        titleEn: 'Participle Clauses — B2',
         sections: [
-          { type: 'intro', text: 'Participle clauses — скорочені підрядні речення з дієприкметником замість підрядного речення. Роблять мову стислішою та формальнішою.' },
+          { type: 'intro', text: 'Participle clauses — скорочені підрядні речення з дієприкметником замість підрядного речення. Роблять мову стислішою та формальнішою.',
+            en: { text: 'Participle clauses — shortened subordinate clauses using a participle instead of a full clause. They make language more concise and formal.' } },
           {
             type: 'table', title: 'Три типи',
             rows: [
@@ -1933,9 +2458,13 @@ export const GRAMMAR: GrammarCategory[] = [
           },
           { type: 'note', title: 'Підмет має бути однаковим!',
             text: '✅ Seeing the sign, I stopped the car. (я побачив → я зупинив)\n❌ Seeing the sign, the car stopped. (хто побачив? Машина?)\n\nЯкщо підмети різні — підрядне речення обов\'язкове:\n"When I saw the sign, the car stopped."',
+            en: { title: 'The subject must be the same!',
+              text: '✅ Seeing the sign, I stopped the car. (I saw → I stopped)\n❌ Seeing the sign, the car stopped. (Who saw? The car?)\n\nIf the subjects differ — a full clause is required:\n"When I saw the sign, the car stopped."' },
           },
           { type: 'tip', title: 'Заміна підрядних речень',
             text: 'Because she was tired → Being tired, she went to bed.\nAfter he had eaten → Having eaten, he washed the dishes.\nWhen I arrived → Arriving at the station, I called a taxi.\nAs it was built in 1900 → Built in 1900, the bridge is historic.',
+            en: { title: 'Replacing subordinate clauses',
+              text: 'Because she was tired → Being tired, she went to bed.\nAfter he had eaten → Having eaten, he washed the dishes.\nWhen I arrived → Arriving at the station, I called a taxi.\nAs it was built in 1900 → Built in 1900, the bridge is historic.' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -1950,8 +2479,10 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'inversion', title: 'Інверсія — C1', emoji: '🔃',
+        titleEn: 'Inversion — C1',
         sections: [
-          { type: 'intro', text: 'Інверсія — перестановка підмета та допоміжного дієслова для підсилення або після заперечних/обмежувальних слів. Характерна для формального стилю та C1–C2.' },
+          { type: 'intro', text: 'Інверсія — перестановка підмета та допоміжного дієслова для підсилення або після заперечних/обмежувальних слів. Характерна для формального стилю та C1–C2.',
+            en: { text: 'Inversion — reversing the subject and auxiliary verb for emphasis or after negative/restrictive words. Typical of formal style at C1–C2 level.' } },
           {
             type: 'table', title: 'Негативна інверсія (після заперечних слів)',
             rows: [
@@ -1967,6 +2498,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Little', 'Little + aux + S + V', 'Little did she know what awaited her.'],
               ['At no time', 'At no time + aux + S + V', 'At no time was the building safe.'],
             ],
+            en: { title: 'Negative inversion (after negative words)' },
           },
           {
             type: 'table', title: 'Умовна інверсія (замість if)',
@@ -1976,9 +2508,18 @@ export const GRAMMAR: GrammarCategory[] = [
               ['If I were you...', 'Were I you...', '2nd Conditional'],
               ['If this should happen...', 'Should this happen...', '1st Conditional (малоймовірне)'],
             ],
+            en: { title: 'Conditional inversion (instead of if)',
+              rows: [
+                ['Normal conditional', 'Inversion (formal)', 'Type'],
+                ['If I had known...', 'Had I known...', '3rd Conditional'],
+                ['If I were you...', 'Were I you...', '2nd Conditional'],
+                ['If this should happen...', 'Should this happen...', '1st Conditional (unlikely)'],
+              ] },
           },
           { type: 'tip', title: 'Як будується інверсія',
             text: '1. Заперечне/обмежувальне слово виходить на перше місце\n2. Допоміжне дієслово (do/did/have/had/will/is тощо) — перед підметом\n3. Основне дієслово — після підмета\n\n"She had never seen it." → "Never had she seen it."',
+            en: { title: 'How inversion is formed',
+              text: '1. The negative/restrictive word comes first\n2. Auxiliary verb (do/did/have/had/will/is etc.) — before the subject\n3. Main verb — after the subject\n\n"She had never seen it." → "Never had she seen it."' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -1993,8 +2534,10 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'cleft-sentences', title: 'Cleft Sentences — C1', emoji: '✂️',
+        titleEn: 'Cleft Sentences — C1',
         sections: [
-          { type: 'intro', text: 'Cleft sentences — спосіб виділити певний елемент речення, перебудувавши його. Два основних типи: It-cleft і Wh-cleft (What-cleft).' },
+          { type: 'intro', text: 'Cleft sentences — спосіб виділити певний елемент речення, перебудувавши його. Два основних типи: It-cleft і Wh-cleft (What-cleft).',
+            en: { text: 'Cleft sentences — a way to emphasise a specific element of a sentence by restructuring it. Two main types: It-cleft and Wh-cleft (What-cleft).' } },
           {
             type: 'formula', title: 'IT-CLEFT: виділяє підмет, додаток або обставину',
             rows: [
@@ -2024,9 +2567,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['It-cleft', 'Конкретний факт (хто, де, коли, що саме)', 'It was X that/who...', 'It was the noise that woke me up.'],
               ['Wh-cleft', 'Дію або ситуацію в цілому', 'What S V is/was...', 'What surprised me was his reaction.'],
             ],
+            en: { title: 'Comparison of the two types',
+              rows: [
+                ['Type', 'Emphasises', 'Structure', 'Example'],
+                ['It-cleft', 'A specific fact (who, where, when, what exactly)', 'It was X that/who...', 'It was the noise that woke me up.'],
+                ['Wh-cleft', 'An action or situation as a whole', 'What S V is/was...', 'What surprised me was his reaction.'],
+              ] },
           },
           { type: 'note', title: 'All-cleft — варіант Wh-cleft',
             text: '"All I want is some peace and quiet." (все що мені потрібно — лише...)\n"All she did was cry." (все що вона робила — лише плакала)',
+            en: { title: 'All-cleft — a variant of Wh-cleft',
+              text: '"All I want is some peace and quiet." (the only thing I need is...)\n"All she did was cry." (the only thing she did was cry)' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -2041,8 +2592,10 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'subjunctive', title: 'Subjunctive — C1', emoji: '🎭',
+        titleEn: 'Subjunctive — C1',
         sections: [
-          { type: 'intro', text: 'Subjunctive (умовний спосіб) — особлива форма дієслова для вираження побажань, рекомендацій, вимог і гіпотетичних ситуацій. Найчастіше: base form (V₁) без закінчень та were для всіх осіб.' },
+          { type: 'intro', text: 'Subjunctive (умовний спосіб) — особлива форма дієслова для вираження побажань, рекомендацій, вимог і гіпотетичних ситуацій. Найчастіше: base form (V₁) без закінчень та were для всіх осіб.',
+            en: { text: 'The subjunctive — a special verb form for expressing wishes, recommendations, demands, and hypothetical situations. Most commonly: base form (V₁) without endings, and "were" for all persons.' } },
           {
             type: 'table', title: 'Present Subjunctive — після дієслів рекомендації/вимоги',
             rows: [
@@ -2053,6 +2606,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['require, ask', '', 'The law requires that everyone pay taxes.'],
               ['advise, urge', '', 'The doctor advised that she rest completely.'],
             ],
+            en: { title: 'Present Subjunctive — after verbs of recommendation/demand',
+              rows: [
+                ['Trigger verb', 'Structure', 'Example'],
+                ['suggest, recommend', 'S + V + that + S + V₁ (base form)', 'I suggest that he take the exam again.'],
+                ['insist, demand', '', 'She insisted that he be present.'],
+                ['propose, request', '', 'They requested that the meeting be postponed.'],
+                ['require, ask', '', 'The law requires that everyone pay taxes.'],
+                ['advise, urge', '', 'The doctor advised that she rest completely.'],
+              ] },
           },
           {
             type: 'table', title: 'Після прикметників важливості/необхідності',
@@ -2063,6 +2625,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['crucial, imperative', '', 'It\'s crucial that he not miss the deadline.'],
               ['advisable, recommended', '', 'It\'s advisable that you consult a doctor.'],
             ],
+            en: { title: 'After adjectives of importance/necessity',
+              rows: [
+                ['Trigger adjective', 'Structure', 'Example'],
+                ['essential, vital', 'It\'s + adj + that + S + V₁', 'It\'s essential that everyone arrive on time.'],
+                ['important, necessary', '', 'It\'s important that she be informed.'],
+                ['crucial, imperative', '', 'It\'s crucial that he not miss the deadline.'],
+                ['advisable, recommended', '', 'It\'s advisable that you consult a doctor.'],
+              ] },
           },
           {
             type: 'table', title: 'Were-subjunctive — гіпотетичні ситуації',
@@ -2074,9 +2644,20 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Після if only', 'If only he were here right now!'],
               ['Після it\'s time', 'It\'s time you were in bed. / It\'s high time she knew the truth.'],
             ],
+            en: { title: 'Were-subjunctive — hypothetical situations',
+              rows: [
+                ['Use', 'Example'],
+                ['2nd Conditional (all persons)', 'If I were you, I would apologise.'],
+                ['After wish (present)', 'I wish I were taller.'],
+                ['After as if / as though', 'She acts as if she were the boss.'],
+                ['After if only', 'If only he were here right now!'],
+                ['After it\'s time', 'It\'s time you were in bed. / It\'s high time she knew the truth.'],
+              ] },
           },
           { type: 'note', title: 'Британська vs Американська англійська',
             text: 'Subjunctive поширеніший в американській англійській.\nУ британській часто замість нього вживають should:\n\nAm.E: "I suggest that he take the job."\nBr.E: "I suggest that he should take the job." (або "I suggest he takes the job.")',
+            en: { title: 'British vs American English',
+              text: 'The subjunctive is more common in American English.\nIn British English, "should" is often used instead:\n\nAm.E: "I suggest that he take the job."\nBr.E: "I suggest that he should take the job." (or "I suggest he takes the job.")' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -2091,8 +2672,10 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'past-modals', title: 'Modal Perfects — B2', emoji: '🕵️',
+        titleEn: 'Modal Perfects — B2',
         sections: [
-          { type: 'intro', text: 'Modal Perfect = модальне дієслово + have + V₃. Вживається для висновків, здогадок і жалкувань про минуле.' },
+          { type: 'intro', text: 'Modal Perfect = модальне дієслово + have + V₃. Вживається для висновків, здогадок і жалкувань про минуле.',
+            en: { text: 'Modal Perfect = modal verb + have + V₃. Used for deductions, guesses, and regrets about the past.' } },
           {
             type: 'table', title: 'Здогадки та висновки про минуле',
             rows: [
@@ -2104,6 +2687,16 @@ export const GRAMMAR: GrammarCategory[] = [
               ['should have + V₃', 'очікування (але так не сталось)', 'мало б статись', 'They should have arrived by now.'],
               ['needn\'t have + V₃', 'зайва дія', 'зробив непотрібне', 'You needn\'t have bought so much food.'],
             ],
+            en: { title: 'Deductions and conclusions about the past',
+              rows: [
+                ['Structure', 'Degree of certainty', 'Meaning', 'Example'],
+                ['must have + V₃', '~95% certainty (+)', 'almost certainly happened', 'She must have missed the train.'],
+                ['can\'t / couldn\'t have + V₃', '~95% certainty (−)', 'almost certainly did NOT happen', 'He can\'t have seen you — he was abroad.'],
+                ['may / might have + V₃', '~50% possibility', 'possibly happened', 'She might have forgotten about it.'],
+                ['could have + V₃', 'unrealised possibility', 'could have happened, but didn\'t', 'He could have been a doctor.'],
+                ['should have + V₃', 'expectation (but didn\'t happen)', 'should have happened', 'They should have arrived by now.'],
+                ['needn\'t have + V₃', 'unnecessary action', 'did something needlessly', 'You needn\'t have bought so much food.'],
+              ] },
           },
           {
             type: 'table', title: 'Жалкування та критика',
@@ -2114,9 +2707,19 @@ export const GRAMMAR: GrammarCategory[] = [
               ['could have + V₃', 'Міг зробити, але не зробив — упущена можливість', 'We could have won the match.'],
               ['might have + V₃', 'Міг би зробити — мʼяка критика', 'You might have told me earlier!'],
             ],
+            en: { title: 'Regrets and criticism',
+              rows: [
+                ['Structure', 'Meaning', 'Example'],
+                ['should have + V₃', 'Should have done it (but didn\'t) — regret', 'I should have studied harder.'],
+                ['shouldn\'t have + V₃', 'Shouldn\'t have done it (but did) — criticism', 'You shouldn\'t have said that.'],
+                ['could have + V₃', 'Could have done it, but didn\'t — missed opportunity', 'We could have won the match.'],
+                ['might have + V₃', 'Could have done it — mild criticism', 'You might have told me earlier!'],
+              ] },
           },
           { type: 'tip', title: 'Логіка висновків',
             text: 'Впевненість 100% → звичайні дієслова: "She was tired."\nВпевненість ~95% → must have / can\'t have\nВпевненість ~50% → might have / may have\nВпевненість ~30% → could have\n\n"The lights are off — she must have gone home." (логічний висновок)\n"She can\'t have finished already — it\'s too early." (логічне заперечення)',
+            en: { title: 'Logic of deductions',
+              text: 'Certainty 100% → ordinary verbs: "She was tired."\nCertainty ~95% → must have / can\'t have\nCertainty ~50% → might have / may have\nCertainty ~30% → could have\n\n"The lights are off — she must have gone home." (logical deduction)\n"She can\'t have finished already — it\'s too early." (logical negation)' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -2132,10 +2735,12 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'causative-have-get', title: 'Каузатив — B2', emoji: '🔧',
+        titleEn: 'Causative Have/Get — B2',
         sections: [
           {
             type: 'intro',
             text: "Каузативна конструкція використовується коли суб'єкт не сам виконує дію, а організовує її виконання кимось іншим.",
+            en: { text: 'The causative construction is used when the subject does not perform the action themselves but arranges for someone else to do it.' },
           },
           {
             type: 'formula', title: 'Структура',
@@ -2144,10 +2749,18 @@ export const GRAMMAR: GrammarCategory[] = [
               ['✅ get + O + to + V', 'Переконати зробити', 'I got him to fix my car.', 'Я умовив його полагодити машину.'],
               ['✅ have + O + V₁', 'Доручити (AmE)', 'She had the assistant book tickets.', 'Вона доручила асистенту забронювати квитки.'],
             ],
+            en: { title: 'Structure',
+              rows: [
+                ['✅ have + O + V₃', 'Arrange for sth to be done', 'I had my car repaired.', 'I arranged for my car to be fixed.'],
+                ['✅ get + O + to + V', 'Persuade/cause to do', 'I got him to fix my car.', 'I persuaded him to fix my car.'],
+                ['✅ have + O + V₁', 'Instruct (AmE)', 'She had the assistant book tickets.', 'She instructed the assistant to book tickets.'],
+              ] },
           },
           {
             type: 'note', title: 'Have vs Get',
             text: 'HAVE: офіційніше, акцент на результаті: "I had my hair cut."\nGET: менш офіційне, акцент на процесі переконання: "I got him to cut my hair."',
+            en: { title: 'Have vs Get',
+              text: 'HAVE: more formal, focus on the result: "I had my hair cut."\nGET: less formal, focus on persuading: "I got him to cut my hair."' },
           },
           {
             type: 'examples',
@@ -2162,8 +2775,10 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'pronouns', title: 'Займенники — A2', emoji: '👤',
+        titleEn: 'Pronouns — A2',
         sections: [
-          { type: 'intro', text: 'Займенники замінюють іменники. Основні групи: зворотні (reflexive), взаємні (reciprocal) та неозначені (indefinite).' },
+          { type: 'intro', text: 'Займенники замінюють іменники. Основні групи: зворотні (reflexive), взаємні (reciprocal) та неозначені (indefinite).',
+            en: { text: 'Pronouns replace nouns. Main groups: reflexive, reciprocal, and indefinite pronouns.' } },
           {
             type: 'table', title: 'Зворотні займенники (Reflexive)',
             rows: [
@@ -2177,6 +2792,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['you (ви)', 'yourselves', 'Help yourselves to food.'],
               ['they', 'themselves', 'They introduced themselves.'],
             ],
+            en: { title: 'Reflexive Pronouns' },
           },
           {
             type: 'table', title: 'Два вживання зворотних займенників',
@@ -2185,6 +2801,12 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Зворотна дія (reflexive)', 'Суб\'єкт = об\'єкт', 'She cut herself while cooking.'],
               ['Підсилення (emphatic)', 'Акцент: "саме/особисто"', 'The president himself opened the event.'],
             ],
+            en: { title: 'Two uses of reflexive pronouns',
+              rows: [
+                ['Use', 'Meaning', 'Example'],
+                ['Reflexive action', 'Subject = object', 'She cut herself while cooking.'],
+                ['Emphatic', 'Stress: "personally / in person"', 'The president himself opened the event.'],
+              ] },
           },
           {
             type: 'table', title: 'Взаємні займенники (Reciprocal)',
@@ -2193,6 +2815,12 @@ export const GRAMMAR: GrammarCategory[] = [
               ['each other', '2 особи', 'They looked at each other.'],
               ['one another', '3+ особи (формально)', 'The students helped one another.'],
             ],
+            en: { title: 'Reciprocal Pronouns',
+              rows: [
+                ['Pronoun', 'Used for', 'Example'],
+                ['each other', '2 people', 'They looked at each other.'],
+                ['one another', '3+ people (formal)', 'The students helped one another.'],
+              ] },
           },
           {
             type: 'table', title: 'Неозначені займенники (Indefinite)',
@@ -2203,9 +2831,19 @@ export const GRAMMAR: GrammarCategory[] = [
               ['no- (заперечне значення)', 'no one / nobody', 'nothing', 'nowhere'],
               ['every- (всі)', 'everyone / everybody', 'everything', 'everywhere'],
             ],
+            en: { title: 'Indefinite Pronouns',
+              rows: [
+                ['Group', 'Person', 'Thing', 'Place'],
+                ['some- (affirmative)', 'someone / somebody', 'something', 'somewhere'],
+                ['any- (questions / negatives)', 'anyone / anybody', 'anything', 'anywhere'],
+                ['no- (negative meaning)', 'no one / nobody', 'nothing', 'nowhere'],
+                ['every- (all)', 'everyone / everybody', 'everything', 'everywhere'],
+              ] },
           },
           { type: 'note', title: 'Неозначені займенники — завжди однина!',
             text: 'Everyone IS here. (не "are")\nSomebody HAS called. (не "have")\nНавіть якщо значення множинне — дієслово в однині.\n\nАле займенник після може бути множинним (розмовне):\n"Everyone has their own opinion." ✅ (формально: his or her)',
+            en: { title: 'Indefinite pronouns — always singular!',
+              text: 'Everyone IS here. (not "are")\nSomebody HAS called. (not "have")\nEven when the meaning is plural — the verb is singular.\n\nBut a following pronoun can be plural (informal):\n"Everyone has their own opinion." ✅ (formally: his or her)' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -2221,8 +2859,10 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'word-formation', title: 'Утворення слів — B1', emoji: '🔨',
+        titleEn: 'Word Formation — B1',
         sections: [
-          { type: 'intro', text: 'Word formation — додавання префіксів і суфіксів для утворення нових слів. Знання цих закономірностей дозволяє здогадуватись про значення нових слів і будувати словниковий запас швидше.' },
+          { type: 'intro', text: 'Word formation — додавання префіксів і суфіксів для утворення нових слів. Знання цих закономірностей дозволяє здогадуватись про значення нових слів і будувати словниковий запас швидше.',
+            en: { text: 'Word formation — adding prefixes and suffixes to create new words. Knowing these patterns lets you guess the meaning of new words and build vocabulary faster.' } },
           {
             type: 'table', title: 'Префікси — заперечення / протилежність',
             rows: [
@@ -2232,6 +2872,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['in- / im- / il- / ir-', 'не- (залежно від звуку)', 'informal, impossible, illegal, irregular, incorrect'],
               ['non-', 'не-, без-', 'non-stop, non-fiction, non-profit, non-violent'],
             ],
+            en: { title: 'Prefixes — negation / opposite',
+              rows: [
+                ['Prefix', 'Meaning', 'Examples'],
+                ['un-', 'not, opposite', 'unhappy, unfair, unusual, undo, unclear'],
+                ['dis-', 'not, reverse', 'disagree, disappear, dishonest, disconnect, dislike'],
+                ['in- / im- / il- / ir-', 'not (depends on sound)', 'informal, impossible, illegal, irregular, incorrect'],
+                ['non-', 'not, without', 'non-stop, non-fiction, non-profit, non-violent'],
+              ] },
           },
           {
             type: 'table', title: 'Префікси — значення',
@@ -2244,6 +2892,16 @@ export const GRAMMAR: GrammarCategory[] = [
               ['pre-', 'до-, перед-', 'preview, predict, prevent, preorder, prehistory'],
               ['co-', 'спільно', 'cooperate, co-author, coexist, co-worker'],
             ],
+            en: { title: 'Prefixes — meaning',
+              rows: [
+                ['Prefix', 'Meaning', 'Examples'],
+                ['over-', 'too much, excessively', 'overdo, overestimate, overlook, overwork, overreact'],
+                ['under-', 'too little, below', 'underestimate, underpay, undercooked, underperform'],
+                ['re-', 'again, back', 'redo, rewrite, reconsider, reorganise, reuse'],
+                ['mis-', 'wrongly, incorrectly', 'misunderstand, mislead, misuse, misspell, misinterpret'],
+                ['pre-', 'before, in advance', 'preview, predict, prevent, preorder, prehistory'],
+                ['co-', 'together, jointly', 'cooperate, co-author, coexist, co-worker'],
+              ] },
           },
           {
             type: 'table', title: 'Суфікси — іменники від дієслів',
@@ -2255,6 +2913,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['-er / -or', 'teacher, writer, driver, actor, director, visitor'],
               ['-al', 'arrival, refusal, survival, approval, denial'],
             ],
+            en: { title: 'Suffixes — nouns from verbs' },
           },
           {
             type: 'table', title: 'Суфікси — іменники від прикметників',
@@ -2264,6 +2923,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['-ity / -ty', 'creativity, quality, ability, beauty, reality, popularity'],
               ['-ism', 'realism, optimism, capitalism, criticism, tourism'],
             ],
+            en: { title: 'Suffixes — nouns from adjectives' },
           },
           {
             type: 'table', title: 'Суфікси — прикметники',
@@ -2277,6 +2937,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['-ic', 'що стосується', 'romantic, realistic, systematic, historic, dramatic'],
               ['-ish', 'схожий на / приблизно', 'childish, foolish, British, reddish, tallish'],
             ],
+            en: { title: 'Suffixes — adjectives',
+              rows: [
+                ['Suffix', 'Meaning', 'Examples'],
+                ['-ful', 'having a quality', 'beautiful, careful, helpful, powerful, useful'],
+                ['-less', 'without a quality', 'careless, hopeless, homeless, worthless, useless'],
+                ['-ous / -ious', 'having, characterised by', 'dangerous, famous, serious, obvious, furious'],
+                ['-able / -ible', 'can be, suitable for', 'comfortable, reasonable, possible, responsible'],
+                ['-al', 'relating to', 'natural, cultural, traditional, original, global'],
+                ['-ic', 'relating to', 'romantic, realistic, systematic, historic, dramatic'],
+                ['-ish', 'like / approximately', 'childish, foolish, British, reddish, tallish'],
+              ] },
           },
           {
             type: 'table', title: 'Суфікси — дієслова та прислівники',
@@ -2286,17 +2957,28 @@ export const GRAMMAR: GrammarCategory[] = [
               ['-en', 'дієслово', 'strengthen, widen, shorten, darken, deepen'],
               ['-ly', 'прислівник', 'quickly, carefully, seriously, honestly, surprisingly'],
             ],
+            en: { title: 'Suffixes — verbs and adverbs',
+              rows: [
+                ['Suffix', 'Part of speech', 'Examples'],
+                ['-ise / -ize', 'verb', 'modernise, organise, realise, summarise, specialise'],
+                ['-en', 'verb', 'strengthen, widen, shorten, darken, deepen'],
+                ['-ly', 'adverb', 'quickly, carefully, seriously, honestly, surprisingly'],
+              ] },
           },
           { type: 'tip', title: 'Стратегія: розкладай слово на частини',
             text: '"Unacceptable" = un- (не) + accept (приймати) + -able (можна) = неприйнятний\n"Misunderstanding" = mis- (неправильно) + understand + -ing = непорозуміння\n"Overdevelopment" = over- (надмірно) + develop + -ment = надмірний розвиток',
+            en: { title: 'Strategy: break a word into parts',
+              text: '"Unacceptable" = un- (not) + accept + -able (can be) = not acceptable\n"Misunderstanding" = mis- (wrongly) + understand + -ing = failure to understand\n"Overdevelopment" = over- (excessively) + develop + -ment = excessive development' },
           },
         ],
       },
 
       {
         id: 'ellipsis-substitution', title: 'Еліпсис і заміна — B1', emoji: '♻️',
+        titleEn: 'Ellipsis & Substitution — B1',
         sections: [
-          { type: 'intro', text: 'Еліпсис (ellipsis) — пропуск слів, які вже зрозумілі з контексту. Заміна (substitution) — використання коротших слів замість довших фраз. Обидва роблять мову природною і уникають повторень.' },
+          { type: 'intro', text: 'Еліпсис (ellipsis) — пропуск слів, які вже зрозумілі з контексту. Заміна (substitution) — використання коротших слів замість довших фраз. Обидва роблять мову природною і уникають повторень.',
+            en: { text: 'Ellipsis — omitting words that are already clear from context. Substitution — using shorter words instead of longer phrases. Both make speech natural and avoid repetition.' } },
           {
             type: 'table', title: 'So / Not — заміна цілого речення',
             rows: [
@@ -2310,6 +2992,18 @@ export const GRAMMAR: GrammarCategory[] = [
               ['I suppose so.', 'Мабуть, так.', '"Should we wait?" — "I suppose so."'],
               ['I guess so.', 'Напевно, так. (розмовне)', '"Ready?" — "I guess so."'],
             ],
+            en: { title: 'So / Not — substituting a whole clause',
+              rows: [
+                ['Expression', 'Meaning', 'Example'],
+                ['I think so.', 'I think that is true.', '"Will it rain?" — "I think so."'],
+                ["I don't think so.", 'I think not.', '"Is he coming?" — "I don\'t think so."'],
+                ['I hope so.', 'I hope that is true.', '"Will they win?" — "I hope so."'],
+                ['I hope not.', 'I hope that is not true.', '"Is it serious?" — "I hope not."'],
+                ["I'm afraid so.", 'Unfortunately, yes.', '"Did we miss it?" — "I\'m afraid so."'],
+                ["I'm afraid not.", 'Unfortunately, no.', '"Can you help?" — "I\'m afraid not."'],
+                ['I suppose so.', 'Probably yes.', '"Should we wait?" — "I suppose so."'],
+                ['I guess so.', 'Probably yes. (informal)', '"Ready?" — "I guess so."'],
+              ] },
           },
           {
             type: 'table', title: 'So do I / Neither do I — згода з твердженням',
@@ -2321,6 +3015,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['He works hard.', 'So does she. / She does too.', "She doesn't."],
               ['I was there.', 'So was I. / I was too.', "I wasn't."],
             ],
+            en: { title: 'So do I / Neither do I — agreeing with a positive statement',
+              rows: [
+                ['Positive statement', 'Agree', 'Disagree'],
+                ['I like jazz.', 'So do I. / I do too.', "I don't."],
+                ["She's tired.", 'So am I. / I am too.', "I'm not."],
+                ["They've finished.", 'So have I. / I have too.', "I haven't."],
+                ['He works hard.', 'So does she. / She does too.', "She doesn't."],
+                ['I was there.', 'So was I. / I was too.', "I wasn't."],
+              ] },
           },
           {
             type: 'table', title: 'Neither do I / Nor do I — згода із запереченням',
@@ -2331,6 +3034,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ["She hasn't called.", "Neither has he. / He hasn't either.", 'He has.'],
               ["We can't come.", "Neither can I. / I can't either.", 'I can.'],
             ],
+            en: { title: 'Neither do I / Nor do I — agreeing with a negative statement',
+              rows: [
+                ['Negative statement', 'Agree', 'Disagree'],
+                ["I don't like it.", 'Neither do I. / I don\'t either.', 'I do.'],
+                ["He isn't ready.", "Neither am I. / I'm not either.", 'I am.'],
+                ["She hasn't called.", "Neither has he. / He hasn't either.", 'He has.'],
+                ["We can't come.", "Neither can I. / I can't either.", 'I can.'],
+              ] },
           },
           {
             type: 'table', title: 'Еліпсис — пропуск зрозумілих слів',
@@ -2342,17 +3053,30 @@ export const GRAMMAR: GrammarCategory[] = [
               ["I meant to call you.", "I meant to.", 'пропуск "call you"'],
               ['Can you help? I\'ll try to help.', "I'll try to.", 'пропуск "help"'],
             ],
+            en: { title: 'Ellipsis — omitting understood words',
+              rows: [
+                ['Full sentence', 'With ellipsis', 'Note'],
+                ['I want to go, but I don\'t want to go alone.', "I want to go, but not alone.", 'omit "want to go"'],
+                ['She can play piano and he can play piano too.', 'She can play piano and he can too.', 'omit "play piano"'],
+                ['Are you coming? I hope you are coming.', "I hope so.", 'instead of "you are coming"'],
+                ["I meant to call you.", "I meant to.", 'omit "call you"'],
+                ['Can you help? I\'ll try to help.', "I'll try to.", 'omit "help"'],
+              ] },
           },
           { type: 'tip', title: 'Do so — офіційна заміна дієслівної фрази',
             text: '"Please submit the report." — "I will do so immediately." (офіційне)\n"He signed the contract, and so did she."\n"If you need to leave early, feel free to do so."',
+            en: { title: 'Do so — formal substitution for a verb phrase',
+              text: '"Please submit the report." — "I will do so immediately." (formal)\n"He signed the contract, and so did she."\n"If you need to leave early, feel free to do so."' },
           },
         ],
       },
 
       {
         id: 'emphatic-do', title: 'Емфатичне do — B1', emoji: '💪',
+        titleEn: 'Emphatic Do — B1',
         sections: [
-          { type: 'intro', text: 'Емфатичне do/does/did + інфінітив без to — для підсилення, вираження несподіванки, суперечності або наполягання. Наголос завжди падає на do/does/did.' },
+          { type: 'intro', text: 'Емфатичне do/does/did + інфінітив без to — для підсилення, вираження несподіванки, суперечності або наполягання. Наголос завжди падає на do/does/did.',
+            en: { text: 'Emphatic do/does/did + bare infinitive — used for emphasis, expressing surprise, contradiction or insistence. Stress always falls on do/does/did.' } },
           {
             type: 'formula', title: 'Структура',
             rows: [
@@ -2361,6 +3085,13 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Past', 'Всі особи', 'DID + V₁', '→ He DID call — I heard it myself.'],
               ['Imperative', 'Запрошення / ввічливе прохання', 'DO + V₁', '→ Do sit down. / Do help yourself.'],
             ],
+            en: { title: 'Structure',
+              rows: [
+                ['Present', 'I / You / We / They', 'DO + V₁', '→ I DO understand you!'],
+                ['Present', 'He / She / It', 'DOES + V₁', '→ She DOES care about it.'],
+                ['Past', 'All persons', 'DID + V₁', '→ He DID call — I heard it myself.'],
+                ['Imperative', 'Invitation / polite request', 'DO + V₁', '→ Do sit down. / Do help yourself.'],
+              ] },
           },
           {
             type: 'table', title: 'Коли вживається',
@@ -2373,9 +3104,21 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Підсилення після прислівника', 'She rarely writes, but she did write to me.', 'Вона рідко пише, але таки написала.'],
               ['Контраст у порівнянні', 'I don\'t love opera, but I do enjoy musicals.', 'Опера — ні, але мюзикли — так.'],
             ],
+            en: { title: 'When it is used',
+              rows: [
+                ['Function', 'Example', 'Translation'],
+                ['Contradiction', '"You never listen!" — "I DO listen!"', '"I really do listen!"'],
+                ['Confirming the unexpected', 'She did pass the exam after all.', 'She actually passed the exam.'],
+                ['Insistence', 'I did tell you about it last week.', 'I really did tell you.'],
+                ['Polite command/invitation', 'Do come in. / Do try the cake.', 'Please come in. / Please try the cake.'],
+                ['Emphasis after an adverb', 'She rarely writes, but she did write to me.', 'She rarely writes but she actually wrote.'],
+                ['Contrast', 'I don\'t love opera, but I do enjoy musicals.', 'Not opera, but musicals — yes.'],
+              ] },
           },
           { type: 'note', title: 'Емфатичне do ≠ заперечення',
             text: 'Емфатичне do вживається ТІЛЬКИ у СТВЕРДЖУВАЛЬНИХ реченнях.\n✅ "I DO agree." (наголошено)\n❌ "I do not agree." (це звичайне заперечення, не емфатичне)',
+            en: { title: 'Emphatic do ≠ negation',
+              text: 'Emphatic do is used ONLY in AFFIRMATIVE sentences.\n✅ "I DO agree." (stressed)\n❌ "I do not agree." (this is an ordinary negative, not emphatic)' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -2390,8 +3133,10 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'advanced-passive', title: 'Просунутий пасив — C1', emoji: '🔄📢',
+        titleEn: 'Advanced Passive — C1',
         sections: [
-          { type: 'intro', text: 'Просунуті форми пасивного стану: пасив із дієсловами повідомлення (reporting verbs), get-пасив і подвійний пасив. Типові для академічного, журналістського та офіційного стилю.' },
+          { type: 'intro', text: 'Просунуті форми пасивного стану: пасив із дієсловами повідомлення (reporting verbs), get-пасив і подвійний пасив. Типові для академічного, журналістського та офіційного стилю.',
+            en: { text: 'Advanced passive forms: passive with reporting verbs, get-passive, and double passive. Typical of academic, journalistic, and formal styles.' } },
           {
             type: 'table', title: 'Пасив із дієсловами повідомлення (Impersonal Passive)',
             rows: [
@@ -2403,6 +3148,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['They claim the drug is safe.', 'It is claimed that the drug is safe.', 'The drug is claimed to be safe.'],
               ['Everyone knows he lied.', 'It is known that he lied.', 'He is known to have lied.'],
             ],
+            en: { title: 'Passive with reporting verbs (Impersonal Passive)' },
           },
           {
             type: 'table', title: 'Часові форми в особовому пасиві',
@@ -2412,6 +3158,13 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Минуле', 'is/are + said + to + have + V₃', 'She is believed to have left the country.'],
               ['Тривале', 'is/are + said + to + be + V-ing', 'The suspects are reported to be hiding.'],
             ],
+            en: { title: 'Tense forms in personal passive',
+              rows: [
+                ['Meaning', 'Structure', 'Example'],
+                ['Present', 'is/are + said + to + V₁', 'He is thought to live abroad.'],
+                ['Past', 'is/are + said + to + have + V₃', 'She is believed to have left the country.'],
+                ['Continuous', 'is/are + said + to + be + V-ing', 'The suspects are reported to be hiding.'],
+              ] },
           },
           {
             type: 'table', title: 'Get-пасив (розмовний)',
@@ -2422,6 +3175,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Досягнення/процес', 'The work got done eventually.', 'The work was done eventually.'],
               ['Passive з reflexive', 'Get dressed. / Get lost.', 'Be dressed. (рідше)'],
             ],
+            en: { title: 'Get-passive (informal)',
+              rows: [
+                ['Meaning', 'Example', 'Be-passive (more formal)'],
+                ['Unexpected or unwanted action', 'He got fired last week.', 'He was fired last week.'],
+                ['Accident', 'She got hurt in the accident.', 'She was hurt in the accident.'],
+                ['Achievement/process', 'The work got done eventually.', 'The work was done eventually.'],
+                ['Passive with reflexive', 'Get dressed. / Get lost.', 'Be dressed. (less common)'],
+              ] },
           },
           {
             type: 'table', title: 'Пасив + модальні в минулому',
@@ -2432,6 +3193,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['should have been + V₃', 'мало б статись (пасивно)', 'The report should have been submitted.'],
               ['might have been + V₃', 'можливо сталось (пасивно)', 'He might have been informed already.'],
             ],
+            en: { title: 'Passive + past modals',
+              rows: [
+                ['Structure', 'Meaning', 'Example'],
+                ['must have been + V₃', 'almost certainly happened (passive)', 'The file must have been deleted.'],
+                ['could have been + V₃', 'possibly happened (passive)', 'The mistake could have been avoided.'],
+                ['should have been + V₃', 'should have happened (passive)', 'The report should have been submitted.'],
+                ['might have been + V₃', 'possibly happened (passive)', 'He might have been informed already.'],
+              ] },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -2446,8 +3215,10 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'hedging', title: 'Хеджинг (Hedging) — C1', emoji: '🛡️',
+        titleEn: 'Hedging — C1',
         sections: [
-          { type: 'intro', text: 'Hedging — навмисно обережна, пом\'якшена мова для уникнення категоричних тверджень. Необхідна в академічному письмі, діловому спілкуванні та дипломатичному мовленні.' },
+          { type: 'intro', text: 'Hedging — навмисно обережна, пом\'якшена мова для уникнення категоричних тверджень. Необхідна в академічному письмі, діловому спілкуванні та дипломатичному мовленні.',
+            en: { text: 'Hedging — deliberately cautious, softened language to avoid making absolute claims. Essential in academic writing, business communication, and diplomatic speech.' } },
           {
             type: 'table', title: 'Модальні хеджі',
             rows: [
@@ -2458,6 +3229,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['tend to', 'зазвичай, як правило', '"Students tend to underestimate the workload."'],
               ['seem / appear', 'здається, схоже', '"It appears to be correct." / "She seems to understand."'],
             ],
+            en: { title: 'Modal hedges',
+              rows: [
+                ['Word/phrase', 'Degree of uncertainty', 'Example'],
+                ['would / could', 'hypothetically', '"This would suggest that..." / "This could indicate..."'],
+                ['might / may', 'possibly', '"There might be other factors involved."'],
+                ['should', 'expected, but not certain', '"This should improve the results."'],
+                ['tend to', 'generally, as a rule', '"Students tend to underestimate the workload."'],
+                ['seem / appear', 'seems, appears to be', '"It appears to be correct." / "She seems to understand."'],
+              ] },
           },
           {
             type: 'table', title: 'Дієслова-хеджі',
@@ -2469,6 +3249,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['assume / suppose', 'know for certain', '"We can assume that..."'],
               ['estimate / approximate', 'calculate exactly', '"We estimate the cost to be..."'],
             ],
+            en: { title: 'Verb hedges',
+              rows: [
+                ['Verb', 'Instead of', 'Example'],
+                ['suggest / indicate', 'prove / show', '"The data suggests a link..." (not "proves")'],
+                ['appear / seem', 'be', '"It appears to be effective."'],
+                ['believe / think', 'know', '"We believe this is the case."'],
+                ['assume / suppose', 'know for certain', '"We can assume that..."'],
+                ['estimate / approximate', 'calculate exactly', '"We estimate the cost to be..."'],
+              ] },
           },
           {
             type: 'table', title: 'Прислівники та фрази-хеджі',
@@ -2480,6 +3269,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Обмеження', 'to some extent, to a certain degree, in some ways, in many respects'],
               ['Дистанціювання', '"It could be argued that..." / "It would seem that..."'],
             ],
+            en: { title: 'Adverbs and hedging phrases',
+              rows: [
+                ['Type', 'Words/phrases'],
+                ['Frequency/typicality', 'generally, usually, typically, in most cases, as a rule'],
+                ['Uncertainty', 'arguably, apparently, seemingly, supposedly, presumably'],
+                ['Approximation', 'roughly, approximately, around, about, in the region of'],
+                ['Limitation', 'to some extent, to a certain degree, in some ways, in many respects'],
+                ['Distancing', '"It could be argued that..." / "It would seem that..."'],
+              ] },
           },
           {
             type: 'table', title: 'Академічні хеджингові фрази',
@@ -2491,9 +3289,12 @@ export const GRAMMAR: GrammarCategory[] = [
               ['All students feel...', 'Many students tend to feel... / Some students appear to...'],
               ['The results show...', 'The results would seem to indicate...'],
             ],
+            en: { title: 'Academic hedging phrases' },
           },
           { type: 'tip', title: 'Хеджинг ≠ слабкість',
             text: 'Хеджинг не означає, що ти не впевнений — він показує, що ти добросовісний і чесний у своїх твердженнях.\n\nНауковець, який пише "this may indicate" замість "this proves", виглядає БІЛЬШ авторитетно — бо не перебільшує.',
+            en: { title: 'Hedging ≠ weakness',
+              text: 'Hedging does not mean you are uncertain — it shows you are conscientious and honest in your claims.\n\nA researcher who writes "this may indicate" instead of "this proves" sounds MORE authoritative — because they do not overstate.' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -2508,8 +3309,10 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'nominalisation', title: 'Номіналізація — C1', emoji: '📝',
+        titleEn: 'Nominalisation — C1',
         sections: [
-          { type: 'intro', text: 'Номіналізація (nominalisation) — перетворення дієслів і прикметників на іменники. Робить мову офіційнішою, стислішою та характерною для академічного і ділового письма.' },
+          { type: 'intro', text: 'Номіналізація (nominalisation) — перетворення дієслів і прикметників на іменники. Робить мову офіційнішою, стислішою та характерною для академічного і ділового письма.',
+            en: { text: 'Nominalisation — converting verbs and adjectives into nouns. Makes language more formal, concise, and typical of academic and business writing.' } },
           {
             type: 'table', title: 'Схеми перетворення',
             rows: [
@@ -2523,6 +3326,18 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Прикметник → іменник', '-ity', 'creative → creativity, able → ability, similar → similarity'],
               ['Прикметник → іменник', '-th', 'strong → strength, wide → width, warm → warmth'],
             ],
+            en: { title: 'Conversion patterns',
+              rows: [
+                ['Source', 'Suffix', 'Examples'],
+                ['Verb → noun', '-tion / -sion', 'decide → decision, produce → production, discuss → discussion'],
+                ['Verb → noun', '-ment', 'develop → development, improve → improvement, manage → management'],
+                ['Verb → noun', '-al', 'arrive → arrival, refuse → refusal, propose → proposal'],
+                ['Verb → noun', '-ance / -ence', 'perform → performance, exist → existence, prefer → preference'],
+                ['Verb → noun', '-ing (process)', 'teach → teaching, manage → managing, understand → understanding'],
+                ['Adjective → noun', '-ness', 'happy → happiness, aware → awareness, weak → weakness'],
+                ['Adjective → noun', '-ity', 'creative → creativity, able → ability, similar → similarity'],
+                ['Adjective → noun', '-th', 'strong → strength, wide → width, warm → warmth'],
+              ] },
           },
           {
             type: 'table', title: 'Порівняння: розмовний vs формальний стиль',
@@ -2536,12 +3351,27 @@ export const GRAMMAR: GrammarCategory[] = [
               ['The company expanded rapidly.', 'The rapid expansion of the company led to...'],
               ['Scientists discovered a new planet.', 'The discovery of a new planet by scientists...'],
             ],
+            en: { title: 'Comparison: informal vs formal style',
+              rows: [
+                ['Informal (verbs)', 'Formal (nominalisation)'],
+                ['We discussed how to solve the problem.', 'Our discussion focused on problem-solving solutions.'],
+                ['The government decided to increase taxes.', "The government's decision to increase taxes..."],
+                ['If we improve the system, we\'ll succeed.', 'System improvement will lead to success.'],
+                ['He failed to meet the deadline.', 'His failure to meet the deadline resulted in...'],
+                ['They analysed the data carefully.', 'A careful analysis of the data revealed...'],
+                ['The company expanded rapidly.', 'The rapid expansion of the company led to...'],
+                ['Scientists discovered a new planet.', 'The discovery of a new planet by scientists...'],
+              ] },
           },
           { type: 'tip', title: 'Переваги номіналізації',
             text: '✅ Офіційний, нейтральний тон\n✅ Дозволяє будувати складніші речення\n✅ Акцент на дії, а не на діяча ("the decision was made" vs "they decided")\n✅ Стисліше у деяких контекстах\n\n⚠️ Надмірна номіналізація робить текст громіздким:\n❌ "The facilitation of the implementation of the reorganisation..." → ✅ "Helping to reorganise..."',
+            en: { title: 'Advantages of nominalisation',
+              text: '✅ Formal, neutral tone\n✅ Allows building more complex sentences\n✅ Focus on the action, not the agent ("the decision was made" vs "they decided")\n✅ More concise in some contexts\n\n⚠️ Excessive nominalisation makes text heavy:\n❌ "The facilitation of the implementation of the reorganisation..." → ✅ "Helping to reorganise..."' },
           },
           { type: 'note', title: 'Артикль + номіналізація',
             text: 'Номіналізовані іменники часто вживаються з артиклями або присвійними займенниками:\n"The announcement of the results..." (the + noun + of)\n"Their refusal to cooperate..." (possessive + noun + to)\n"A significant improvement in..." (a/an + adj + noun + in)',
+            en: { title: 'Article + nominalisation',
+              text: 'Nominalised nouns are often used with articles or possessives:\n"The announcement of the results..." (the + noun + of)\n"Their refusal to cooperate..." (possessive + noun + to)\n"A significant improvement in..." (a/an + adj + noun + in)' },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -2561,6 +3391,7 @@ export const GRAMMAR: GrammarCategory[] = [
           {
             type: 'intro',
             text: '<b>There is / There are</b> — конструкція для позначення існування або наявності чогось. Відповідає українському "є", "існує", "знаходиться".',
+            en: { text: '<b>There is / There are</b> — a construction for expressing the existence or presence of something. Equivalent to "there is/are" in terms of location or existence.' },
           },
           {
             type: 'formula', title: 'Структура',
@@ -2572,6 +3403,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❓ Одн.', 'Is there', '+ іменник?', 'Is there a problem?'],
               ['❓ Мн.', 'Are there', '+ іменник?', 'Are there any questions?'],
             ],
+            en: { title: 'Structure',
+              rows: [
+                ['✅ Sing.', 'There is', '+ noun (singular)', 'There is a cat on the roof.'],
+                ['✅ Pl.', 'There are', '+ noun (plural)', 'There are five students here.'],
+                ['❌ Sing.', 'There is not / isn\'t', '+ noun', 'There isn\'t any milk.'],
+                ['❌ Pl.', 'There are not / aren\'t', '+ noun', 'There aren\'t any chairs.'],
+                ['❓ Sing.', 'Is there', '+ noun?', 'Is there a problem?'],
+                ['❓ Pl.', 'Are there', '+ noun?', 'Are there any questions?'],
+              ] },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -2588,11 +3428,15 @@ export const GRAMMAR: GrammarCategory[] = [
             type: 'tip',
             title: 'There is vs It is',
             text: '<b>There is</b> = "є/існує" (нова інформація)\n<b>It is</b> = "це є" (про вже відомий предмет)\nThere is a dog outside. → It is very big.',
+            en: { title: 'There is vs It is',
+              text: '<b>There is</b> = existence (new information)\n<b>It is</b> = describing a known object\nThere is a dog outside. → It is very big.' },
           },
           {
             type: 'note',
             title: 'Some / Any',
             text: 'У стверджувальних реченнях використовуємо <b>some</b>: There is some bread.\nУ питальних та заперечних — <b>any</b>: Is there any bread? / There isn\'t any bread.',
+            en: { title: 'Some / Any',
+              text: 'In affirmative sentences we use <b>some</b>: There is some bread.\nIn questions and negatives — <b>any</b>: Is there any bread? / There isn\'t any bread.' },
           },
         ],
       },
@@ -2600,10 +3444,12 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── 2. Possessives ────────────────────────────────────────
       {
         id: 'possessives', title: 'Присвійні форми — A2', emoji: '🏷️',
+        titleEn: 'Possessives — A2',
         sections: [
           {
             type: 'intro',
             text: 'Англійська має три способи вираження приналежності: <b>\'s</b> (Saxon genitive), <b>of</b>, та <b>присвійні займенники</b> (my, mine тощо).',
+            en: { text: 'English has three ways to express possession: <b>\'s</b> (Saxon genitive), <b>of</b>, and <b>possessive pronouns</b> (my, mine, etc.).' },
           },
           {
             type: 'table', title: 'Присвійні займенники',
@@ -2616,6 +3462,16 @@ export const GRAMMAR: GrammarCategory[] = [
               ['We', 'our (наш)', 'ours (наш)'],
               ['They', 'their (їхній)', 'theirs (їхній)'],
             ],
+            en: { title: 'Possessive pronouns',
+              rows: [
+                ['Person', 'Possessive adjective', 'Possessive pronoun'],
+                ['I', 'my', 'mine'],
+                ['You', 'your', 'yours'],
+                ['He', 'his', 'his'],
+                ['She', 'her', 'hers'],
+                ['We', 'our', 'ours'],
+                ['They', 'their', 'theirs'],
+              ] },
           },
           {
             type: 'formula', title: '\'s — Saxon genitive',
@@ -2624,6 +3480,12 @@ export const GRAMMAR: GrammarCategory[] = [
               ['✅ Мн. на -s', 'noun + \'', '', 'the teachers\' room'],
               ['✅ Мн. без -s', 'noun + \'s', '', 'children\'s books, men\'s shoes'],
             ],
+            en: { title: '\'s — Saxon genitive',
+              rows: [
+                ['✅ Single person/thing', 'noun + \'s', '', 'John\'s car, the dog\'s tail'],
+                ['✅ Plural ending in -s', 'noun + \'', '', 'the teachers\' room'],
+                ['✅ Plural not ending in -s', 'noun + \'s', '', 'children\'s books, men\'s shoes'],
+              ] },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -2640,6 +3502,8 @@ export const GRAMMAR: GrammarCategory[] = [
             type: 'tip',
             title: '\'s vs of',
             text: '\'s — для людей, тварин, часу: <i>Anna\'s idea, yesterday\'s news</i>\nof — для речей, місць, абстракцій: <i>the centre of the city, the end of the film</i>',
+            en: { title: '\'s vs of',
+              text: '\'s — for people, animals, time: <i>Anna\'s idea, yesterday\'s news</i>\nof — for things, places, abstractions: <i>the centre of the city, the end of the film</i>' },
           },
         ],
       },
@@ -2647,10 +3511,12 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── 3. Tag Questions ──────────────────────────────────────
       {
         id: 'tag-questions', title: 'Питальні хвостики — A2', emoji: '❔',
+        titleEn: 'Tag Questions — A2',
         sections: [
           {
             type: 'intro',
             text: '<b>Tag questions</b> (питальні хвостики) — короткі питання в кінці речення для підтвердження або уточнення інформації. Відповідають українському "чи не так?", "правда?", "так?".',
+            en: { text: '<b>Tag questions</b> — short questions added at the end of a sentence to seek confirmation or clarification. Equivalent to "isn\'t it?", "right?", "don\'t you?" etc.' },
           },
           {
             type: 'formula', title: 'Правило',
@@ -2659,6 +3525,12 @@ export const GRAMMAR: GrammarCategory[] = [
               ['❌ Від\'ємне', '→ стверджувальний хвостик', '', 'She isn\'t home, is she?'],
               ['❓ Спеціальні', 'I am → aren\'t I?', '', 'I am late, aren\'t I?'],
             ],
+            en: { title: 'Rule',
+              rows: [
+                ['✅ Affirmative statement', '→ negative tag', '', 'You are ready, aren\'t you?'],
+                ['❌ Negative statement', '→ positive tag', '', 'She isn\'t home, is she?'],
+                ['❓ Special cases', 'I am → aren\'t I?', '', 'I am late, aren\'t I?'],
+              ] },
           },
           {
             type: 'table', title: 'Часто вживані хвостики',
@@ -2672,6 +3544,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['We should call,', 'shouldn\'t we?'],
               ['Nobody came,', 'did they?'],
             ],
+            en: { title: 'Common tag questions' },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -2688,6 +3561,8 @@ export const GRAMMAR: GrammarCategory[] = [
             type: 'note',
             title: 'Інтонація',
             text: 'Спадна інтонація (↘) на хвостику = справжнє питання, чекаємо відповідь.\nЗростаюча інтонація (↗) = шукаємо підтвердження того, в чому впевнені.',
+            en: { title: 'Intonation',
+              text: 'Falling intonation (↘) on the tag = genuine question, expecting an answer.\nRising intonation (↗) = seeking confirmation of something we believe to be true.' },
           },
         ],
       },
@@ -2695,10 +3570,12 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── 4. Future Forms Contrast ──────────────────────────────
       {
         id: 'future-forms', title: 'Майбутнє: контраст форм — B1', emoji: '🔮',
+        titleEn: 'Future Forms: Contrasted — B1',
         sections: [
           {
             type: 'intro',
             text: 'Англійська не має одного "майбутнього часу". Залежно від контексту використовуються <b>will, be going to</b> або <b>Present Continuous</b>.',
+            en: { text: 'English has no single "future tense". Depending on context, we use <b>will, be going to</b>, or <b>Present Continuous</b>.' },
           },
           {
             type: 'table', title: 'Порівняння форм майбутнього',
@@ -2709,6 +3586,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Present Continuous', 'Конкретна домовленість у майбутньому', 'We\'re meeting at 6 pm.'],
               ['Present Simple', 'Розклад, програма', 'The train leaves at 9.'],
             ],
+            en: { title: 'Comparison of future forms',
+              rows: [
+                ['Form', 'When to use', 'Example'],
+                ['will + V', 'Spontaneous decision, offer, prediction', 'I\'ll help you! / It will rain.'],
+                ['be going to', 'Planned decision, evident future', 'I\'m going to study tonight.'],
+                ['Present Continuous', 'Specific arrangement in the future', 'We\'re meeting at 6 pm.'],
+                ['Present Simple', 'Schedule, timetable', 'The train leaves at 9.'],
+              ] },
           },
           {
             type: 'examples', title: 'Will — спонтанне рішення',
@@ -2738,6 +3623,8 @@ export const GRAMMAR: GrammarCategory[] = [
             type: 'tip',
             title: 'Ключова відмінність',
             text: '<b>Will</b> — рішення прямо зараз (щойно вирішили)\n<b>Going to</b> — рішення вже прийняте раніше\n<b>Present Continuous</b> — вже запланована, конкретна зустріч/подія',
+            en: { title: 'Key difference',
+              text: '<b>Will</b> — decision made right now (just decided)\n<b>Going to</b> — decision already made earlier\n<b>Present Continuous</b> — already arranged, specific appointment/event' },
           },
         ],
       },
@@ -2745,10 +3632,12 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── 5. Verb Patterns ──────────────────────────────────────
       {
         id: 'verb-patterns', title: 'Дієслівні моделі з об\'єктом — B1', emoji: '🎯',
+        titleEn: 'Verb Patterns with Object — B1',
         sections: [
           {
             type: 'intro',
             text: 'Деякі дієслова вимагають після себе об\'єкт + певну форму дієслова: <b>make sb do, let sb do, see sb doing, ask sb to do</b>. Це фіксовані моделі — їх потрібно вивчати.',
+            en: { text: 'Some verbs require an object + a specific verb form after them: <b>make sb do, let sb do, see sb doing, ask sb to do</b>. These are fixed patterns that need to be learned.' },
           },
           {
             type: 'table', title: 'Основні моделі',
@@ -2762,6 +3651,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['help', 'help sb (to) do', 'Can you help me (to) carry this?'],
               ['allow / permit / enable', '+ sb + to do', 'She allowed us to leave early.'],
             ],
+            en: { title: 'Key patterns',
+              rows: [
+                ['Verb', 'Pattern', 'Example'],
+                ['make', 'make sb do (no to)', 'She made me apologize.'],
+                ['let', 'let sb do (no to)', 'Let me try!'],
+                ['have', 'have sb do (no to)', 'I\'ll have someone fix it.'],
+                ['see / hear / watch', 'see/hear sb do or doing', 'I saw him leave / leaving.'],
+                ['ask / tell / want / need', '+ sb + to do', 'Ask her to call back.'],
+                ['help', 'help sb (to) do', 'Can you help me (to) carry this?'],
+                ['allow / permit / enable', '+ sb + to do', 'She allowed us to leave early.'],
+              ] },
           },
           {
             type: 'examples', title: 'Make vs Let',
@@ -2794,6 +3694,8 @@ export const GRAMMAR: GrammarCategory[] = [
             type: 'note',
             title: 'Пасивний стан',
             text: 'У пасивному стані після make і let з\'являється to:\nShe made him wait. → He was made <b>to</b> wait.\nPassive: be made to do, be allowed to do, be seen to do',
+            en: { title: 'Passive voice',
+              text: 'In the passive, make and let require to:\nShe made him wait. → He was made <b>to</b> wait.\nPassive: be made to do, be allowed to do, be seen to do' },
           },
         ],
       },
@@ -2801,10 +3703,12 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── 6. It + to-infinitive ─────────────────────────────────
       {
         id: 'it-infinitive', title: 'It + to-infinitive — B1', emoji: '💡',
+        titleEn: 'It + to-infinitive — B1',
         sections: [
           {
             type: 'intro',
             text: 'Конструкція <b>It + прикметник/іменник + to-infinitive</b> дозволяє уникнути важкого підмета. "It" є формальним підметом, а справжній зміст — у to-інфінітиві.',
+            en: { text: 'The construction <b>It + adjective/noun + to-infinitive</b> allows avoiding a heavy subject. "It" is the formal subject; the real meaning is in the to-infinitive.' },
           },
           {
             type: 'formula', title: 'Структура',
@@ -2824,6 +3728,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Емоції', 'great, wonderful, nice, terrible, exciting, strange'],
               ['Час/вартість', 'takes time, costs money, worth doing'],
             ],
+            en: { title: 'Common adjectives in this construction',
+              rows: [
+                ['Category', 'Adjectives'],
+                ['Difficulty', 'easy, hard, difficult, impossible, complicated'],
+                ['Importance', 'important, essential, vital, necessary, crucial'],
+                ['Emotions', 'great, wonderful, nice, terrible, exciting, strange'],
+                ['Time/cost', 'takes time, costs money, worth doing'],
+              ] },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -2841,6 +3753,8 @@ export const GRAMMAR: GrammarCategory[] = [
             type: 'tip',
             title: 'It vs Gerund як підмет',
             text: 'Обидва варіанти правильні:\n→ <b>It is</b> fun to swim. = <b>Swimming</b> is fun.\nАле "It" — більш формальний та природний у розмовній мові.',
+            en: { title: 'It vs Gerund as subject',
+              text: 'Both options are correct:\n→ <b>It is</b> fun to swim. = <b>Swimming</b> is fun.\nBut "It" is more formal and natural in spoken language.' },
           },
         ],
       },
@@ -2848,10 +3762,12 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── 7. Collocations ───────────────────────────────────────
       {
         id: 'collocations', title: 'Колокації — B1', emoji: '🤝',
+        titleEn: 'Collocations — B1',
         sections: [
           {
             type: 'intro',
             text: '<b>Колокації</b> — стійкі словосполучення, де слова природно йдуть разом. Англійці не кажуть "do a mistake" — кажуть "make a mistake". Це потрібно просто запам\'ятати.',
+            en: { text: '<b>Collocations</b> — fixed word combinations that naturally go together. Native speakers don\'t say "do a mistake" — they say "make a mistake". These just have to be memorized.' },
           },
           {
             type: 'table', title: 'MAKE — творення, результат',
@@ -2866,6 +3782,18 @@ export const GRAMMAR: GrammarCategory[] = [
               ['make money', 'заробляти гроші'],
               ['make friends', 'заводити друзів'],
             ],
+            en: { title: 'MAKE — creation, result',
+              rows: [
+                ['make + noun', 'Meaning'],
+                ['make a mistake', 'to make an error'],
+                ['make a decision', 'to decide'],
+                ['make an effort', 'to try hard'],
+                ['make progress', 'to improve, advance'],
+                ['make a phone call', 'to call someone'],
+                ['make a suggestion', 'to suggest'],
+                ['make money', 'to earn money'],
+                ['make friends', 'to become friends'],
+              ] },
           },
           {
             type: 'table', title: 'DO — дії, робота, завдання',
@@ -2879,6 +3807,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['do your best', 'робити все можливе'],
               ['do damage', 'завдати шкоди'],
             ],
+            en: { title: 'DO — activities, work, tasks',
+              rows: [
+                ['do + noun', 'Meaning'],
+                ['do homework', 'to complete homework'],
+                ['do the dishes', 'to wash the dishes'],
+                ['do exercise', 'to exercise'],
+                ['do research', 'to conduct research'],
+                ['do someone a favour', 'to help someone out'],
+                ['do your best', 'to try as hard as you can'],
+                ['do damage', 'to cause harm'],
+              ] },
           },
           {
             type: 'table', title: 'TAKE / HAVE / GET / GIVE',
@@ -2894,6 +3833,19 @@ export const GRAMMAR: GrammarCategory[] = [
               ['give advice', 'дати пораду'],
               ['give a speech', 'виголосити промову'],
             ],
+            en: { title: 'TAKE / HAVE / GET / GIVE',
+              rows: [
+                ['Verb + noun', 'Meaning'],
+                ['take a break', 'to rest briefly'],
+                ['take a photo', 'to photograph'],
+                ['take an exam', 'to sit an exam'],
+                ['have a look', 'to look at something'],
+                ['have a shower', 'to shower'],
+                ['have fun', 'to enjoy oneself'],
+                ['get a job', 'to find employment'],
+                ['give advice', 'to advise'],
+                ['give a speech', 'to speak publicly'],
+              ] },
           },
           {
             type: 'examples', title: 'Приклади речень',
@@ -2910,6 +3862,8 @@ export const GRAMMAR: GrammarCategory[] = [
             type: 'tip',
             title: 'Як вчити колокації',
             text: 'Вчи як цілий блок, а не окремі слова: "make a decision" — одна одиниця.\nКорисний ресурс: Oxford Collocations Dictionary.',
+            en: { title: 'How to learn collocations',
+              text: 'Learn as a whole chunk, not separate words: "make a decision" is one unit.\nUseful resource: Oxford Collocations Dictionary.' },
           },
         ],
       },
@@ -2917,10 +3871,12 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── 8. Register ───────────────────────────────────────────
       {
         id: 'register', title: 'Формальний vs Неформальний стиль — C1', emoji: '🎩',
+        titleEn: 'Formal vs Informal Style — C1',
         sections: [
           {
             type: 'intro',
             text: '<b>Register</b> — це стиль мовлення, пристосований до ситуації. Вміння перемикатися між формальним та неформальним стилем є ознакою рівня C1.',
+            en: { text: '<b>Register</b> — the style of language adapted to a situation. The ability to switch between formal and informal style is a hallmark of C1 level.' },
           },
           {
             type: 'table', title: 'Лексичні відмінності',
@@ -2939,6 +3895,22 @@ export const GRAMMAR: GrammarCategory[] = [
               ['but', 'however / nevertheless', 'але/проте'],
               ['so', 'therefore / consequently', 'тому/отже'],
             ],
+            en: { title: 'Lexical differences',
+              rows: [
+                ['Informal', 'Formal', 'Meaning'],
+                ['get', 'obtain / receive', 'to get'],
+                ['show', 'demonstrate / indicate', 'to show'],
+                ['ask', 'request / enquire', 'to ask'],
+                ['tell', 'inform / notify', 'to tell'],
+                ['help', 'assist / facilitate', 'to help'],
+                ['need', 'require / necessitate', 'to need'],
+                ['use', 'utilise / employ', 'to use'],
+                ['look at', 'examine / investigate', 'to look at'],
+                ['think about', 'consider / contemplate', 'to think about'],
+                ['enough', 'sufficient', 'enough'],
+                ['but', 'however / nevertheless', 'but'],
+                ['so', 'therefore / consequently', 'so'],
+              ] },
           },
           {
             type: 'table', title: 'Граматичні відмінності',
@@ -2950,6 +3922,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Речення', 'короткі, прості', 'складні, підрядні'],
               ['Особовий займенник', 'we, you', 'one (One should consider...)'],
             ],
+            en: { title: 'Grammatical differences',
+              rows: [
+                ['Feature', 'Informal', 'Formal'],
+                ['Contractions', 'I\'m, don\'t, can\'t', 'I am, do not, cannot'],
+                ['Passive voice', 'rarely used', 'common (It was decided that...)'],
+                ['Questions', 'Got a minute?', 'Would you have a moment?'],
+                ['Sentences', 'short, simple', 'complex, subordinate clauses'],
+                ['Personal pronoun', 'we, you', 'one (One should consider...)'],
+              ] },
           },
           {
             type: 'examples', title: 'Той самий зміст — різний стиль',
@@ -2973,11 +3954,23 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Офіційна заява / скарга', 'Формальний'],
               ['Усна презентація', 'Нейтральний / формальний'],
             ],
+            en: { title: 'Which style for which context',
+              rows: [
+                ['Situation', 'Style'],
+                ['Message to a friend / SMS', 'Informal'],
+                ['Social media', 'Informal / neutral'],
+                ['Business letter / Email', 'Formal / neutral'],
+                ['Academic essay', 'Formal'],
+                ['Official statement / complaint', 'Formal'],
+                ['Oral presentation', 'Neutral / formal'],
+              ] },
           },
           {
             type: 'tip',
             title: 'Типові помилки',
             text: 'Змішування стилів — найпоширеніша помилка рівня B2–C1.\nНе пишіть "I\'m writing to inform you" і відразу "BTW" — це суперечить стилю.\nНе використовуйте сленг у формальних листах і навпаки.',
+            en: { title: 'Common mistakes',
+              text: 'Mixing styles is the most common mistake at B2–C1 level.\nDon\'t write "I\'m writing to inform you" and then "BTW" — it contradicts the style.\nDon\'t use slang in formal letters and vice versa.' },
           },
         ],
       },
@@ -2985,10 +3978,12 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── Вітання та знайомство ─────────────────────────────────
       {
         id: 'greetings-intro', title: 'Вітання та знайомство — A1', emoji: '👋',
+        titleEn: 'Greetings & Introductions — A1',
         sections: [
           {
             type: 'intro',
             text: 'Вміння представитися та привітатися — перший крок у вивченні англійської. Ці конструкції фіксовані: їх треба знати напам\'ять.',
+            en: { text: 'Being able to introduce yourself and greet others is the first step in learning English. These phrases are fixed — you need to know them by heart.' },
           },
           {
             type: 'table', title: 'Офіційне vs Неофіційне вітання',
@@ -2999,6 +3994,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Відповідь', 'Fine, thanks! / Not bad.', 'Very well, thank you. / I\'m doing well.'],
               ['До побачення', 'Bye! / See you later!', 'Goodbye. / It was a pleasure.'],
             ],
+            en: { title: 'Formal vs Informal greeting',
+              rows: [
+                ['Situation', 'Informal', 'Formal'],
+                ['Greeting', 'Hi! / Hey!', 'Good morning / afternoon / evening.'],
+                ['How are you?', 'How are you? / How\'s it going?', 'How do you do? / How are you?'],
+                ['Reply', 'Fine, thanks! / Not bad.', 'Very well, thank you. / I\'m doing well.'],
+                ['Goodbye', 'Bye! / See you later!', 'Goodbye. / It was a pleasure.'],
+              ] },
           },
           {
             type: 'formula', title: 'Знайомство — структура',
@@ -3010,6 +4013,7 @@ export const GRAMMAR: GrammarCategory[] = [
               ['✅ Вік', 'I\'m', '+ число + years old', 'I\'m 25 years old.'],
               ['✅ Задоволений', 'Nice to meet you! / Pleased to meet you!', '', ''],
             ],
+            en: { title: 'Introduction — structure' },
           },
           {
             type: 'examples', title: 'Типовий діалог знайомства',
@@ -3032,11 +4036,22 @@ export const GRAMMAR: GrammarCategory[] = [
               ['What do you do (for a living)?', 'I work as... / I\'m a... / I study...'],
               ['How old are you?', 'I\'m... years old.'],
             ],
+            en: { title: 'Question words for introductions',
+              rows: [
+                ['Question', 'Answer (template)'],
+                ['What\'s your name?', 'My name is... / I\'m...'],
+                ['Where are you from?', 'I\'m from... / I come from...'],
+                ['Where do you live?', 'I live in... / I\'m based in...'],
+                ['What do you do (for a living)?', 'I work as... / I\'m a... / I study...'],
+                ['How old are you?', 'I\'m... years old.'],
+              ] },
           },
           {
             type: 'tip',
             title: 'Nice to meet you vs How do you do?',
             text: '"Nice to meet you!" — природне і часте, підходить для будь-якої ситуації.\n"How do you do?" — дуже формальне (британський стиль). Відповідь на нього: "How do you do?" (повторити питання!).',
+            en: { title: 'Nice to meet you vs How do you do?',
+              text: '"Nice to meet you!" — natural and common, suitable for any situation.\n"How do you do?" — very formal (British style). The reply is: "How do you do?" (repeat the question!).' },
           },
         ],
       },
@@ -3044,10 +4059,12 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── Сім'я та тіло ─────────────────────────────────────────
       {
         id: 'family-body', title: 'Сім\'я та тіло — A1', emoji: '👨‍👩‍👧‍👦',
+        titleEn: 'Family & Body — A1',
         sections: [
           {
             type: 'intro',
             text: 'Базова лексика про родину та частини тіла — одна з перших тем для опису себе й оточення. Разом із "have got" вона дозволяє будувати прості описові речення про людей.',
+            en: { text: 'Basic vocabulary for family and body parts — one of the first topics for describing yourself and others. Together with "have got" it allows building simple descriptive sentences about people.' },
           },
           {
             type: 'table', title: 'Члени родини',
@@ -3065,6 +4082,21 @@ export const GRAMMAR: GrammarCategory[] = [
               ['niece / nephew', 'племінниця / племінник'],
               ['husband / wife', 'чоловік / дружина'],
             ],
+            en: { title: 'Family members',
+              rows: [
+                ['Word', 'Meaning'],
+                ['parents', 'parents'],
+                ['mother / mum', 'mother / mum'],
+                ['father / dad', 'father / dad'],
+                ['son / daughter', 'son / daughter'],
+                ['brother / sister', 'brother / sister'],
+                ['grandmother / grandfather', 'grandmother / grandfather'],
+                ['grandson / granddaughter', 'grandson / granddaughter'],
+                ['aunt / uncle', 'aunt / uncle'],
+                ['cousin', 'cousin (male or female)'],
+                ['niece / nephew', 'niece / nephew'],
+                ['husband / wife', 'husband / wife'],
+              ] },
           },
           {
             type: 'table', title: 'Частини тіла',
@@ -3079,6 +4111,18 @@ export const GRAMMAR: GrammarCategory[] = [
               ['shoulder / back', 'плече / спина'],
               ['stomach', 'живіт'],
             ],
+            en: { title: 'Body parts',
+              rows: [
+                ['Word', 'Meaning'],
+                ['head / face', 'head / face'],
+                ['eye(s) / ear(s)', 'eye(s) / ear(s)'],
+                ['nose / mouth', 'nose / mouth'],
+                ['hair', 'hair'],
+                ['arm / hand / finger', 'arm / hand / finger'],
+                ['leg / foot / toe', 'leg / foot / toe'],
+                ['shoulder / back', 'shoulder / back'],
+                ['stomach', 'stomach'],
+              ] },
           },
           {
             type: 'formula', title: 'Опис родини та зовнішності — структура',
@@ -3088,6 +4132,13 @@ export const GRAMMAR: GrammarCategory[] = [
               ['✅ Опис зовнішності', 'He/She has got', '+ прикметник + частина тіла', 'She has got long hair and blue eyes.'],
               ['✅ Скільки', 'How many', '+ іменник у множині + have you got?', 'How many brothers have you got?'],
             ],
+            en: { title: 'Describing family and appearance — structure',
+              rows: [
+                ['✅ Who is this', 'This is', '+ possessive + family member', 'This is my brother.'],
+                ['✅ I have', 'I\'ve got / I have', '+ noun', 'I\'ve got two sisters.'],
+                ['✅ Appearance', 'He/She has got', '+ adjective + body part', 'She has got long hair and blue eyes.'],
+                ['✅ How many', 'How many', '+ plural noun + have you got?', 'How many brothers have you got?'],
+              ] },
           },
           {
             type: 'examples', title: 'Приклади',
@@ -3103,6 +4154,8 @@ export const GRAMMAR: GrammarCategory[] = [
             type: 'tip',
             title: 'Have got vs Have',
             text: '"I\'ve got a sister." та "I have a sister." означають те саме — обидва варіанти правильні. "Have got" частіше вживається в розмовній британській англійській, а "have" — універсальний і поширений у американській.',
+            en: { title: 'Have got vs Have',
+              text: '"I\'ve got a sister." and "I have a sister." mean the same thing — both are correct. "Have got" is more common in conversational British English, while "have" is universal and common in American English.' },
           },
         ],
       },
@@ -3110,10 +4163,12 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── Поради та пропозиції ──────────────────────────────────
       {
         id: 'advice-suggestions', title: 'Поради та пропозиції — B1', emoji: '🗣️',
+        titleEn: 'Advice & Suggestions — B1',
         sections: [
           {
             type: 'intro',
             text: 'Англійська має кілька способів дати пораду або зробити пропозицію — від м\'яких ("maybe you could") до прямих ("you must"). Вибір залежить від ситуації та стосунків.',
+            en: { text: 'English has several ways to give advice or make a suggestion — from gentle ("maybe you could") to direct ("you must"). The choice depends on the situation and relationship.' },
           },
           {
             type: 'table', title: 'Структури для порад',
@@ -3128,6 +4183,18 @@ export const GRAMMAR: GrammarCategory[] = [
               ['It would be better to...', 'Нейтральна рекомендація', 'It would be better to call first.'],
               ['Have you tried + -ing?', 'Нова ідея', 'Have you tried changing the settings?'],
             ],
+            en: { title: 'Advice structures',
+              rows: [
+                ['Structure', 'Strength', 'Example'],
+                ['You should / shouldn\'t', 'Neutral advice', 'You should see a doctor.'],
+                ['You ought to', 'Mild obligation', 'You ought to apologize.'],
+                ['You had better (\'d better)', 'Warning/strong advice', 'You\'d better hurry — it\'s late.'],
+                ['Why don\'t you...?', 'Gentle suggestion', 'Why don\'t you try talking to him?'],
+                ['If I were you, I would...', 'Personal advice', 'If I were you, I\'d take the job.'],
+                ['I suggest / recommend + -ing', 'Formal advice', 'I suggest taking a break.'],
+                ['It would be better to...', 'Neutral recommendation', 'It would be better to call first.'],
+                ['Have you tried + -ing?', 'New idea', 'Have you tried changing the settings?'],
+              ] },
           },
           {
             type: 'table', title: 'Пропозиції (Suggestions)',
@@ -3139,6 +4206,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['We could + infinitive', 'Варіант', 'We could try the new restaurant.'],
               ['I suggest + -ing / that + clause', 'Формальна пропозиція', 'I suggest leaving early.'],
             ],
+            en: { title: 'Suggestions',
+              rows: [
+                ['Structure', 'Context', 'Example'],
+                ['Let\'s + infinitive', 'Together / informal', 'Let\'s take a taxi.'],
+                ['Shall we + infinitive?', 'Suggestion / request', 'Shall we meet at 6?'],
+                ['What about / How about + -ing?', 'Idea', 'What about going to the cinema?'],
+                ['We could + infinitive', 'Option', 'We could try the new restaurant.'],
+                ['I suggest + -ing / that + clause', 'Formal suggestion', 'I suggest leaving early.'],
+              ] },
           },
           {
             type: 'examples', title: 'Приклади порад',
@@ -3155,6 +4231,8 @@ export const GRAMMAR: GrammarCategory[] = [
             type: 'note',
             title: 'had better vs should',
             text: '<b>Should</b> — загальна порада: "You should exercise more."\n<b>Had better</b> — наполегливе попередження з наслідком: "You\'d better call her — she\'s worried."\nПомилково плутати: had better НЕ є минулим часом!',
+            en: { title: 'had better vs should',
+              text: '<b>Should</b> — general advice: "You should exercise more."\n<b>Had better</b> — strong warning with implied consequence: "You\'d better call her — she\'s worried."\nCommon mistake: had better is NOT a past tense!' },
           },
         ],
       },
@@ -3162,10 +4240,12 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── Ділова комунікація ────────────────────────────────────
       {
         id: 'business-english', title: 'Ділова комунікація — B2', emoji: '💼',
+        titleEn: 'Business Communication — B2',
         sections: [
           {
             type: 'intro',
             text: '<b>Business English</b> — це не інша мова, а інший регістр. Ключові відмінності: формальна лексика, пасивний стан, ввічливі запити та чіткі структури листів.',
+            en: { text: '<b>Business English</b> is not a different language — it is a different register. Key differences: formal vocabulary, passive voice, polite requests, and clear letter structures.' },
           },
           {
             type: 'table', title: 'Структура ділового листа / email',
@@ -3179,6 +4259,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Очікування відповіді', 'I look forward to hearing from you.'],
               ['Закриття', 'Yours sincerely, (ім\'я відомо) / Yours faithfully, (невідомо)'],
             ],
+            en: { title: 'Business letter / email structure',
+              rows: [
+                ['Part', 'Phrase'],
+                ['Opening', 'Dear Mr/Ms Smith, / To Whom It May Concern,'],
+                ['Purpose', 'I am writing to... / I am contacting you regarding...'],
+                ['Reference', 'With reference to your email of... / Following our conversation...'],
+                ['Request', 'Could you please... / I would be grateful if you could...'],
+                ['Attachment', 'Please find attached... / I am enclosing...'],
+                ['Closing', 'I look forward to hearing from you.'],
+                ['Sign-off', 'Yours sincerely, (name known) / Yours faithfully, (name unknown)'],
+              ] },
           },
           {
             type: 'table', title: 'Ввічливі запити (Polite Requests)',
@@ -3190,6 +4281,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['We want to meet.', 'We would like to arrange a meeting.'],
               ['Fix the problem.', 'We kindly request that this matter be resolved.'],
             ],
+            en: { title: 'Polite Requests',
+              rows: [
+                ['Direct (informal)', 'Polite (formal)'],
+                ['Send me the report.', 'Could you please send me the report?'],
+                ['I need this by Friday.', 'I would appreciate receiving this by Friday.'],
+                ['Call me back.', 'I would be grateful if you could return my call.'],
+                ['We want to meet.', 'We would like to arrange a meeting.'],
+                ['Fix the problem.', 'We kindly request that this matter be resolved.'],
+              ] },
           },
           {
             type: 'examples', title: 'Ключові ділові фрази',
@@ -3213,11 +4313,23 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Не погодитися', 'With respect, I see it differently. / I\'m not sure that\'s the case.'],
               ['Підсумувати', 'To summarise... / In conclusion...'],
             ],
+            en: { title: 'Useful language for meetings',
+              rows: [
+                ['Situation', 'Phrases'],
+                ['Start a meeting', 'Shall we get started? / Let\'s begin.'],
+                ['Hand over', 'I\'d like to hand over to... / Over to you, John.'],
+                ['Clarify', 'Could you clarify what you mean by...?'],
+                ['Agree', 'That\'s a valid point. / I\'d agree with that.'],
+                ['Disagree', 'With respect, I see it differently. / I\'m not sure that\'s the case.'],
+                ['Summarise', 'To summarise... / In conclusion...'],
+              ] },
           },
           {
             type: 'tip',
             title: 'Золоте правило ділової мови',
             text: 'Уникай: contractions (I\'m → I am), phrasal verbs (find out → ascertain), надто прямих наказів.\nВикористовуй: passive voice, hedging (tend to, may, might), nominalization (discuss → discussion).',
+            en: { title: 'Golden rule of business language',
+              text: 'Avoid: contractions (I\'m → I am), phrasal verbs (find out → ascertain), overly direct commands.\nUse: passive voice, hedging (tend to, may, might), nominalisation (discuss → discussion).' },
           },
         ],
       },
@@ -3225,10 +4337,12 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── Мова переговорів ──────────────────────────────────────
       {
         id: 'negotiation-language', title: 'Мова переговорів — C1', emoji: '🤝',
+        titleEn: 'Negotiation Language — C1',
         sections: [
           {
             type: 'intro',
             text: 'Переговори вимагають точної мови: поступки, умови, відмова без конфлікту, пом\'якшення позицій. Англійська переговорна мова спирається на conditionals, hedging та tentative language.',
+            en: { text: 'Negotiations require precise language: concessions, conditions, polite refusals, softening positions. English negotiation language relies on conditionals, hedging, and tentative language.' },
           },
           {
             type: 'table', title: 'Ключові стратегії та фрази',
@@ -3241,6 +4355,16 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Пауза / обдумування', 'I\'d need to think about that. / Could we come back to this point?'],
               ['Підсумок', 'So, if I understand correctly... / Let me recap what we\'ve agreed...'],
             ],
+            en: { title: 'Key strategies and phrases',
+              rows: [
+                ['Strategy', 'Phrases'],
+                ['Opening position', 'Our position is... / We are looking for... / What we\'re proposing is...'],
+                ['Concession', 'We\'d be willing to... / We could consider... / That might be possible if...'],
+                ['Condition', 'On condition that... / Provided that... / As long as...'],
+                ['Polite refusal', 'I\'m afraid that\'s not quite what we had in mind. / That would be difficult for us.'],
+                ['Pause / thinking', 'I\'d need to think about that. / Could we come back to this point?'],
+                ['Summary', 'So, if I understand correctly... / Let me recap what we\'ve agreed...'],
+              ] },
           },
           {
             type: 'table', title: 'Conditionals у переговорах',
@@ -3251,6 +4375,14 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Provided that... , we\'ll...', 'Чітка умова', 'Provided that the price is fixed, we\'ll sign today.'],
               ['Unless... , we can\'t...', 'Межа переговорів', 'Unless the quality improves, we can\'t renew the contract.'],
             ],
+            en: { title: 'Conditionals in negotiations',
+              rows: [
+                ['Structure', 'Use', 'Example'],
+                ['If you... , we could...', 'Real concession', 'If you order 500 units, we could offer a 10% discount.'],
+                ['If you were to... , we would...', 'Hypothetical proposal', 'If you were to extend the deadline, we would accept the terms.'],
+                ['Provided that... , we\'ll...', 'Clear condition', 'Provided that the price is fixed, we\'ll sign today.'],
+                ['Unless... , we can\'t...', 'Negotiating limit', 'Unless the quality improves, we can\'t renew the contract.'],
+              ] },
           },
           {
             type: 'examples', title: 'Переговорні фрази',
@@ -3267,6 +4399,7 @@ export const GRAMMAR: GrammarCategory[] = [
             type: 'note',
             title: 'Tentative language (пом\'якшення)',
             text: 'Замість категоричних тверджень використовуй пом\'якшувачі:\n→ "That\'s wrong" → "I\'m not entirely sure that\'s accurate."\n→ "We can\'t do that" → "That would be rather difficult for us at this stage."\n→ "The price is too high" → "The price point gives us some concern."',
+            en: { title: 'Tentative language (softening)', text: 'Instead of blunt statements, use hedged alternatives:\n→ "That\'s wrong" → "I\'m not entirely sure that\'s accurate."\n→ "We can\'t do that" → "That would be rather difficult for us at this stage."\n→ "The price is too high" → "The price point gives us some concern."' },
           },
         ],
       },
@@ -3274,10 +4407,12 @@ export const GRAMMAR: GrammarCategory[] = [
       // ── Ідіоми та усталені вирази ─────────────────────────────
       {
         id: 'idioms', title: 'Ідіоми та усталені вирази — C1', emoji: '🎨',
+        titleEn: 'Idioms & Fixed Expressions — C1',
         sections: [
           {
             type: 'intro',
             text: '<b>Ідіома</b> — вираз, значення якого не виводиться з окремих слів. "It\'s raining cats and dogs" ≠ кішки і собаки. Знання ідіом відрізняє B2 від C1.',
+            en: { text: '<b>An idiom</b> — an expression whose meaning cannot be deduced from the individual words. "It\'s raining cats and dogs" ≠ actual cats and dogs. Knowing idioms distinguishes B2 from C1.' },
           },
           {
             type: 'table', title: 'Ідіоми з частинами тіла (Body idioms)',
@@ -3291,6 +4426,17 @@ export const GRAMMAR: GrammarCategory[] = [
               ['have a gut feeling', 'мати передчуття', 'I have a gut feeling this will work.'],
               ['turn a blind eye', 'закривати очі на щось', 'The manager turned a blind eye to it.'],
             ],
+            en: { title: 'Body idioms',
+              rows: [
+                ['Idiom', 'Meaning', 'Example'],
+                ['cost an arm and a leg', 'to be very expensive', 'That jacket cost an arm and a leg!'],
+                ['keep an eye on', 'to watch over', 'Can you keep an eye on my bag?'],
+                ['pull someone\'s leg', 'to joke / to tease', 'Are you serious or pulling my leg?'],
+                ['bite the bullet', 'to do something difficult', 'Just bite the bullet and call him.'],
+                ['get cold feet', 'to lose courage at the last moment', 'She got cold feet before the speech.'],
+                ['have a gut feeling', 'to have an instinct/premonition', 'I have a gut feeling this will work.'],
+                ['turn a blind eye', 'to ignore something on purpose', 'The manager turned a blind eye to it.'],
+              ] },
           },
           {
             type: 'table', title: 'Ідіоми з часом (Time idioms)',
@@ -3303,6 +4449,16 @@ export const GRAMMAR: GrammarCategory[] = [
               ['kill time', 'вбивати час', 'We killed time at the airport.'],
               ['better late than never', 'краще пізно, ніж ніколи', 'Better late than never, I suppose.'],
             ],
+            en: { title: 'Time idioms',
+              rows: [
+                ['Idiom', 'Meaning', 'Example'],
+                ['once in a blue moon', 'very rarely', 'He calls once in a blue moon.'],
+                ['in the nick of time', 'just in time', 'We arrived in the nick of time.'],
+                ['at the drop of a hat', 'immediately / without hesitation', 'She\'d help you at the drop of a hat.'],
+                ['burning the midnight oil', 'working very late', 'I\'ve been burning the midnight oil.'],
+                ['kill time', 'to pass time', 'We killed time at the airport.'],
+                ['better late than never', 'better to do something late than not at all', 'Better late than never, I suppose.'],
+              ] },
           },
           {
             type: 'table', title: 'Ідіоми про ситуації та рішення',
@@ -3316,16 +4472,31 @@ export const GRAMMAR: GrammarCategory[] = [
               ['under the weather', 'недобре себе почувати', 'I\'m feeling a bit under the weather.'],
               ['the ball is in your court', 'тепер твій хід / рішення за тобою', 'The ball is in your court now.'],
             ],
+            en: { title: 'Idioms about situations and decisions',
+              rows: [
+                ['Idiom', 'Meaning', 'Example'],
+                ['hit the nail on the head', 'to be exactly right', 'You hit the nail on the head!'],
+                ['in hot water', 'in trouble', 'He\'s in hot water with his boss.'],
+                ['spill the beans', 'to reveal a secret', 'Who spilled the beans?'],
+                ['beat around the bush', 'to avoid the main point', 'Stop beating around the bush.'],
+                ['bite off more than you can chew', 'to take on more than you can handle', 'Don\'t bite off more than you can chew.'],
+                ['under the weather', 'to feel unwell', 'I\'m feeling a bit under the weather.'],
+                ['the ball is in your court', 'it\'s your turn / your decision', 'The ball is in your court now.'],
+              ] },
           },
           {
             type: 'tip',
             title: 'Як вчити ідіоми',
             text: 'Не вчи списком — вчи в контексті речення. Запам\'ятай одне яскраве речення з кожною ідіомою.\nГрупуй за темою (тіло, час, природа) — так легше запам\'ятати через асоціації.\nПеревір себе: чи можеш пояснити значення без словника?',
+            en: { title: 'How to learn idioms',
+              text: 'Don\'t learn in a list — learn in context. Memorize one vivid sentence with each idiom.\nGroup by theme (body, time, nature) — it\'s easier to remember through associations.\nTest yourself: can you explain the meaning without a dictionary?' },
           },
           {
             type: 'note',
             title: 'Ідіома vs Фразовий дієслово',
             text: '<b>Ідіома</b>: цілий вираз з переносним значенням — "kick the bucket" (померти).\n<b>Фразовий дієслово</b>: дієслово + прийменник/прислівник — "give up" (здатися).\nОбидва — фіксовані, обидва треба вчити як одиницю.',
+            en: { title: 'Idiom vs Phrasal verb',
+              text: '<b>Idiom</b>: a whole expression with a figurative meaning — "kick the bucket" (to die).\n<b>Phrasal verb</b>: verb + preposition/adverb — "give up" (to quit).\nBoth are fixed; both should be learned as a unit.' },
           },
         ],
       },
@@ -3338,17 +4509,21 @@ export const GRAMMAR: GrammarCategory[] = [
   // ══════════════════════════════════════
   {
     id: 'exceptions', title: 'Виключення', emoji: '⚠️',
+    titleEn: 'Exceptions',
     rules: [
 
       {
         id: 'irregular-verbs', title: 'Неправильні дієслова 150 — A1–B2', emoji: '📋',
+        titleEn: 'Irregular Verbs 150 — A1–B2',
         sections: [
           {
             type: 'intro',
             text: 'Неправильні дієслова не утворюють Past Simple та Past Participle за допомогою -ed. 150 найуживаніших — від базових A1 до просунутих B2.',
+            en: { text: 'Irregular verbs do not form the Past Simple and Past Participle with -ed. The 150 most common — from basic A1 to advanced B2.' },
           },
           {
             type: 'table', title: 'Неправильні дієслова (A–M)',
+            en: { title: 'Irregular Verbs (A–M)' },
             rows: [
               ['Base (V₁)', 'Past Simple (V₂)', 'Past Participle (V₃)', 'Переклад'],
               ['arise', 'arose', 'arisen', 'виникати'],
@@ -3434,6 +4609,7 @@ export const GRAMMAR: GrammarCategory[] = [
           },
           {
             type: 'table', title: 'Неправильні дієслова (O–Z)',
+            en: { title: 'Irregular Verbs (O–Z)' },
             rows: [
               ['Base (V₁)', 'Past Simple (V₂)', 'Past Participle (V₃)', 'Переклад'],
               ['overcome', 'overcame', 'overcome', 'долати / перемагати'],
@@ -3517,14 +4693,17 @@ export const GRAMMAR: GrammarCategory[] = [
           {
             type: 'note', title: 'lie vs lay — найпоширеніша плутанина',
             text: 'lie / lay / lain → лежати (без додатка): "She lay on the sofa."\nlay / laid / laid → класти (з додатком): "I laid the book on the table."',
+            en: { title: 'lie vs lay — the most common confusion', text: 'lie / lay / lain → to recline (no object): "She lay on the sofa."\nlay / laid / laid → to place (with object): "I laid the book on the table."' },
           },
         ],
       },
 
       {
         id: 'irregular-plurals', title: 'Неправильна множина — A2', emoji: '👥',
+        titleEn: 'Irregular Plurals — A2',
         sections: [
-          { type: 'intro', text: 'Більшість іменників утворюють множину додаванням -s/-es. Але є група слів з нестандартними формами — їх треба вивчити окремо.' },
+          { type: 'intro', text: 'Більшість іменників утворюють множину додаванням -s/-es. Але є група слів з нестандартними формами — їх треба вивчити окремо.',
+            en: { text: 'Most nouns form the plural by adding -s/-es. But some words have irregular forms — these need to be learned separately.' } },
           {
             type: 'table', title: 'Внутрішня зміна голосної (Vowel change)',
             rows: [
@@ -3539,6 +4718,19 @@ export const GRAMMAR: GrammarCategory[] = [
               ['louse', 'lice', 'воша / воші'],
               ['ox', 'oxen', 'бик / воли'],
             ],
+            en: { title: 'Internal vowel change',
+              rows: [
+                ['Singular', 'Plural', 'Meaning'],
+                ['man', 'men', 'man / men'],
+                ['woman', 'women', 'woman / women'],
+                ['child', 'children', 'child / children'],
+                ['tooth', 'teeth', 'tooth / teeth'],
+                ['foot', 'feet', 'foot / feet'],
+                ['goose', 'geese', 'goose / geese'],
+                ['mouse', 'mice', 'mouse / mice'],
+                ['louse', 'lice', 'louse / lice'],
+                ['ox', 'oxen', 'ox / oxen'],
+              ] },
           },
           {
             type: 'table', title: 'Кінцева -f / -fe → -ves',
@@ -3554,6 +4746,19 @@ export const GRAMMAR: GrammarCategory[] = [
               ['loaf', 'loaves'],
               ['⚠️ Винятки: roof → roofs, cliff → cliffs, belief → beliefs', '', ''],
             ],
+            en: { title: 'Final -f / -fe → -ves',
+              rows: [
+                ['Singular', 'Plural'],
+                ['leaf', 'leaves'],
+                ['knife', 'knives'],
+                ['wife', 'wives'],
+                ['wolf', 'wolves'],
+                ['shelf', 'shelves'],
+                ['life', 'lives'],
+                ['half', 'halves'],
+                ['loaf', 'loaves'],
+                ['⚠️ Exceptions: roof → roofs, cliff → cliffs, belief → beliefs', '', ''],
+              ] },
           },
           {
             type: 'table', title: 'Латинські та грецькі запозичення',
@@ -3571,6 +4776,21 @@ export const GRAMMAR: GrammarCategory[] = [
               ['cactus', 'cacti / cactuses', 'кактус'],
               ['index', 'indices / indexes', 'індекс'],
             ],
+            en: { title: 'Latin and Greek borrowings',
+              rows: [
+                ['Singular', 'Plural', 'Meaning'],
+                ['analysis', 'analyses', 'analysis'],
+                ['basis', 'bases', 'basis'],
+                ['crisis', 'crises', 'crisis'],
+                ['thesis', 'theses', 'thesis'],
+                ['phenomenon', 'phenomena', 'phenomenon'],
+                ['criterion', 'criteria', 'criterion'],
+                ['datum', 'data', 'data / datum'],
+                ['medium', 'media', 'medium / media'],
+                ['nucleus', 'nuclei', 'nucleus'],
+                ['cactus', 'cacti / cactuses', 'cactus'],
+                ['index', 'indices / indexes', 'index'],
+              ] },
           },
           {
             type: 'table', title: 'Незмінні форми (однина = множина)',
@@ -3583,6 +4803,16 @@ export const GRAMMAR: GrammarCategory[] = [
               ['aircraft', 'one aircraft / ten aircraft'],
               ['series', 'a series / two series'],
             ],
+            en: { title: 'Unchanging forms (singular = plural)',
+              rows: [
+                ['Word', 'Example'],
+                ['sheep', 'one sheep / three sheep'],
+                ['fish', 'one fish / many fish (or fishes)'],
+                ['deer', 'one deer / two deer'],
+                ['species', 'one species / many species'],
+                ['aircraft', 'one aircraft / ten aircraft'],
+                ['series', 'a series / two series'],
+              ] },
           },
           { type: 'examples', title: 'Приклади',
             rows: [
@@ -3597,10 +4827,12 @@ export const GRAMMAR: GrammarCategory[] = [
 
       {
         id: 'spelling-rules', title: 'Правила написання — A1', emoji: '✏️',
+        titleEn: 'Spelling Rules — A1',
         sections: [
           {
             type: 'intro',
             text: 'Основні правила написання дієслів при додаванні -ing, -ed, та -s/-es.',
+            en: { text: 'Basic spelling rules for verbs when adding -ing, -ed, and -s/-es.' },
           },
           {
             type: 'table', title: 'Правила додавання -ing',
@@ -3612,6 +4844,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Кінцева -ie → -ying', 'lie → lying, die → dying'],
               ['l → ll (British)', 'travel → travelling (Brit), traveling (Am)'],
             ],
+            en: { title: 'Rules for adding -ing',
+              rows: [
+                ['Rule', 'Example → result'],
+                ['Simply add -ing', 'work → working, play → playing'],
+                ['Final -e drops', 'make → making, drive → driving'],
+                ['1 syllable, CVC — double consonant', 'run → running, sit → sitting'],
+                ['Final -ie → -ying', 'lie → lying, die → dying'],
+                ['l → ll (British)', 'travel → travelling (Brit), traveling (Am)'],
+              ] },
           },
           {
             type: 'table', title: 'Правила додавання -ed',
@@ -3623,6 +4864,15 @@ export const GRAMMAR: GrammarCategory[] = [
               ['Приголосна + -y → -ied', 'study → studied, try → tried'],
               ['Голосна + -y → -ed', 'play → played, enjoy → enjoyed'],
             ],
+            en: { title: 'Rules for adding -ed',
+              rows: [
+                ['Rule', 'Example → result'],
+                ['Simply add -ed', 'work → worked, play → played'],
+                ['Final -e → add only -d', 'like → liked, close → closed'],
+                ['1 syllable, CVC — double consonant', 'stop → stopped, plan → planned'],
+                ['Consonant + -y → -ied', 'study → studied, try → tried'],
+                ['Vowel + -y → -ed', 'play → played, enjoy → enjoyed'],
+              ] },
           },
         ],
       },
