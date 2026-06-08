@@ -250,6 +250,13 @@ const DICT: Record<string, Record<Lang, string>> = {
   'fib.noSentences':  { ua: 'Немає підходящих речень. Спробуй інший набір слів.', en: 'No suitable sentences. Try a different word set.' },
   'fib.sentence':     { ua: 'Речення',                  en: 'Sentence' },
 
+  'ctx.title':        { ua: '🔍 Контекст',              en: '🔍 Context' },
+  'ctx.noWords':      { ua: 'Не знайдено слів з прикладами.', en: 'No words with examples found.' },
+  'ctx.contextWord':  { ua: 'Контекст',                 en: 'Context' },
+  'ctx.hintColon':    { ua: '💡 Підказка:',             en: '💡 Hint:' },
+  'ctx.firstLetterColon': { ua: '💡 Перша літера:',     en: '💡 First letter:' },
+  'ctx.hintBtn':      { ua: '💡 Підказка',              en: '💡 Hint' },
+
   'cefr.A1': { ua: 'Початківець',     en: 'Beginner' },
   'cefr.A2': { ua: 'Елементарний',    en: 'Elementary' },
   'cefr.B1': { ua: 'Середній',        en: 'Intermediate' },

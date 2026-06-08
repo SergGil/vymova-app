@@ -5,6 +5,7 @@ import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const SIZE = 8, NUM_OPTS = 4;
@@ -49,7 +50,7 @@ function build(): void {
 function open(): void {
   build();
   if (!ctxDeck.length) {
-    elSent.innerHTML = '<div style="text-align:center;color:var(--text3);padding:16px;">Не знайдено слів з прикладами.</div>';
+    elSent.innerHTML = `<div style="text-align:center;color:var(--text3);padding:16px;">${t('ctx.noWords')}</div>`;
     overlay.style.display = 'flex'; return;
   }
   elFinal.style.display = 'none'; elScRow.style.display = 'flex';
@@ -63,7 +64,7 @@ function renderQ(): void {
   const w = ctxDeck[ctxIdx];
   ctxAnswered = false;
   elResult.textContent = ''; elNext.style.display = 'none';
-  elSub.textContent = `Контекст ${ctxIdx+1} з ${ctxDeck.length}`;
+  elSub.textContent = `${t('ctx.contextWord')} ${ctxIdx+1} ${t('common.of')} ${ctxDeck.length}`;
   elPbar.style.width = (ctxIdx / ctxDeck.length * 100) + '%';
   elOk.textContent = String(ctxOk); elFail.textContent = String(ctxFail);
 
@@ -76,7 +77,7 @@ function renderQ(): void {
   // IPA hint (hidden initially)
   const ipaRaw = w[4] ?? '';
   elHint.style.display = 'none';
-  elHint.textContent = ipaRaw ? `💡 Підказка: ${ipaRaw}` : `💡 Перша літера: ${w[0][0].toUpperCase()}`;
+  elHint.textContent = ipaRaw ? `${t('ctx.hintColon')} ${ipaRaw}` : `${t('ctx.firstLetterColon')} ${w[0][0].toUpperCase()}`;
 
   // Build 4 options (1 correct + 3 wrong)
   const correct = w[1];
@@ -123,10 +124,10 @@ function checkAnswer(btn: HTMLButtonElement, chosen: string, correct: string, w:
     `<div style="font-style:italic;font-size:.9rem;color:var(--text);line-height:1.6;margin-bottom:8px;">"${revealedEx}"</div>` +
     `<div style="font-size:.82rem;font-weight:700;color:var(--text);">${w[0]}</div>` +
     `<div style="font-size:.78rem;color:var(--text2);">${w[1]}</div>`;
-  elResult.innerHTML = ok ? '<span style="color:#27ae60">✓ Правильно!</span>' : `<span style="color:#e74c3c">✗ ${correct}</span>`;
+  elResult.innerHTML = ok ? `<span style="color:#27ae60">${t('quiz.correctMsg')}</span>` : `<span style="color:#e74c3c">✗ ${correct}</span>`;
   try { ok ? addCombo() : breakCombo(); } catch (e) {}
   recordModeAnswer('context', ok);
-  elNext.textContent = ctxIdx >= ctxDeck.length-1 ? '🏆 Фініш!' : 'Наступне →';
+  elNext.textContent = ctxIdx >= ctxDeck.length-1 ? t('quiz.finish') : t('quiz.next');
   elNext.style.display = 'inline-block';
 }
 
@@ -134,9 +135,9 @@ function showFinal(): void {
   elScRow.style.display = 'none'; elFinal.style.display = 'block';
   const pct = Math.round(ctxOk / ctxDeck.length * 100);
   document.getElementById('ctx-final-emoji')!.textContent = pct===100?'🏆':pct>=80?'🎉':pct>=60?'👍':'💪';
-  document.getElementById('ctx-final-title')!.textContent = pct===100?'Ідеально!':pct>=80?'Чудово!':pct>=60?'Непогано!':'Продовжуй!';
-  document.getElementById('ctx-final-desc')!.textContent  = `${ctxOk} з ${ctxDeck.length} (${pct}%)`;
-  elPbar.style.width = '100%'; elSub.textContent = 'Завершено';
+  document.getElementById('ctx-final-title')!.textContent = pct===100?t('quiz.perfectTitle'):pct>=80?t('quiz.greatTitle'):pct>=60?t('quiz.goodTitle'):t('listen.keepGoingTitle');
+  document.getElementById('ctx-final-desc')!.textContent  = `${ctxOk} ${t('common.of')} ${ctxDeck.length} (${pct}%)`;
+  elPbar.style.width = '100%'; elSub.textContent = t('write.completed');
   recordModeComplete('context');
 }
 
