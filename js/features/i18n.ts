@@ -572,7 +572,6 @@ const CATEGORY_NAMES_EN: Record<string, string> = {
   '🗣️ Мова & Комунікація':                 '🗣️ Language & Communication',
   '🔤 Загальна лексика':                   '🔤 General vocabulary',
   '💬 Фрази, фразові дієслова & ідіоми':   '💬 Phrases, phrasal verbs & idioms',
-  '📦 Інше':                               '📦 Other',
 };
 
 export function categoryName(name: string): string {

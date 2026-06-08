@@ -36,7 +36,6 @@ export const CATEGORY_LIST = [
   '🗣️ Мова & Комунікація',
   '🔤 Загальна лексика',
   '💬 Фрази, фразові дієслова & ідіоми',
-  '📦 Інше',
 ];
 
 // ── Word → categories mapping ─────────────────────────────────
@@ -7971,5 +7970,5 @@ for (const [word, cats] of Object.entries(RAW)) {
 
 // ── Word → categories lookup ──────────────────────────────────
 export function getCategoriesForWord(word) {
-  return RAW[word.toLowerCase()] ?? ['📦 Інше'];
+  return RAW[word.toLowerCase()] ?? ['🔤 Загальна лексика'];
 }
