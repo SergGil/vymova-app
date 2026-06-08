@@ -789,19 +789,19 @@
     <div class="page-inner">
       <div class="page-header">
         <div>
-          <div class="page-title">📖 Читання</div>
+          <div class="page-title" data-i18n="reading.title">📖 Читання</div>
           <div id="rd-stats" style="font-size:.72rem;color:var(--text3);margin-top:2px;"></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
-          <button id="rd-prev-text" class="backup-btn" style="padding:5px 12px;">← Попередній</button>
+          <button id="rd-prev-text" class="backup-btn" style="padding:5px 12px;" data-i18n="reading.prevBtn">← Попередній</button>
           <span id="rd-level" style="font-size:.7rem;padding:2px 8px;border-radius:20px;background:var(--accent);color:#fff;font-weight:700;"></span>
-          <button id="rd-next-text" class="backup-btn" style="padding:5px 12px;">Наступний →</button>
+          <button id="rd-next-text" class="backup-btn" style="padding:5px 12px;" data-i18n="reading.nextBtn">Наступний →</button>
           <button id="rd-close" class="page-close-btn">✕</button>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
         <h2 id="rd-title" style="font-size:1.1rem;font-weight:700;color:var(--text);flex:1;min-width:0;margin:0;"></h2>
-        <button id="rd-epub-btn" class="backup-btn primary" style="padding:6px 14px;font-size:.78rem;flex-shrink:0;">📚 Завантажити epub</button>
+        <button id="rd-epub-btn" class="backup-btn primary" style="padding:6px 14px;font-size:.78rem;flex-shrink:0;" data-i18n="reading.epubBtn">📚 Завантажити epub</button>
         <input id="rd-epub-input" type="file" accept=".epub" style="display:none">
       </div>
       <div id="rd-epub-progress" style="display:none;font-size:.75rem;color:var(--accent);margin-bottom:8px;padding:6px 10px;background:rgba(0,200,255,.07);border-radius:8px;"></div>
@@ -812,7 +812,7 @@
         <div id="rd-popup-trans" class="rd-popup-trans"></div>
         <div style="display:flex;gap:6px;margin-top:10px;">
           <button id="rd-popup-speak" class="backup-btn" style="padding:5px 12px;">🔊</button>
-          <button id="rd-popup-know"  class="backup-btn primary" style="flex:1;padding:5px;">+ Вивчити</button>
+          <button id="rd-popup-know"  class="backup-btn primary" style="flex:1;padding:5px;" data-i18n="reading.popupLearn">+ Вивчити</button>
         </div>
       </div>
     </div>
@@ -1271,14 +1271,14 @@
           <div style="font-size:.72rem;color:var(--accent);margin-top:2px;" id="sm-level"></div>
         </div>
         <div style="display:flex;gap:8px;">
-          <button id="sm-back" style="padding:6px 12px;border-radius:9px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.8rem;">← Назад</button>
+          <button id="sm-back" style="padding:6px 12px;border-radius:9px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.8rem;" data-i18n="cards.back">← Назад</button>
           <button id="sm-close" class="page-close-btn">✕</button>
         </div>
       </div>
 
       <!-- Picker view -->
       <div id="sm-picker-view" style="padding:14px 20px;">
-        <div style="font-size:.82rem;color:var(--text2);margin-bottom:12px;">Оберіть текст для читання. Слова зі словника будуть підсвічені — натисни щоб побачити переклад.</div>
+        <div style="font-size:.82rem;color:var(--text2);margin-bottom:12px;" data-i18n="story.pickerDesc">Оберіть текст для читання. Слова зі словника будуть підсвічені — натисни щоб побачити переклад.</div>
         <div id="sm-picker"></div>
       </div>
 

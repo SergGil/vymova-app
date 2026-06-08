@@ -5,6 +5,7 @@ import { saveKnown } from '../core/storage.ts';
 import { W } from '../../data/words.js';
 import { loadEpub } from '../features/epub.ts';
 import { closePage, openPage } from '../features/sidebar.ts';
+import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 
 type TextEntry = { title: string; text: string; level: string };
@@ -95,11 +96,11 @@ if (overlay) {
   function _activeTexts(): TextEntry[] { return _epubBook ? _epubBook.chapters : TEXTS; }
 
   function _renderText(): void {
-    const texts = _activeTexts(), t = texts[_currentTextIdx];
-    if (!t) return;
-    elTitle.textContent = _epubBook ? `${_epubBook.title} — Ч.${_currentTextIdx + 1}` : t.title;
-    elLevel.textContent = _epubBook ? 'epub' : t.level;
-    const chunks = t.text.split(/(\s+|[,\.!?;:'"()\-—]+)/);
+    const texts = _activeTexts(), entry = texts[_currentTextIdx];
+    if (!entry) return;
+    elTitle.textContent = _epubBook ? `${_epubBook.title} — ${t('reading.chapterLabel').replace('{n}', String(_currentTextIdx + 1))}` : entry.title;
+    elLevel.textContent = _epubBook ? 'epub' : entry.level;
+    const chunks = entry.text.split(/(\s+|[,\.!?;:'"()\-—]+)/);
     let knownCount = 0, unknownCount = 0;
     elText.innerHTML = chunks.map(chunk => {
       if (/^\s+$/.test(chunk) || /^[,\.!?;:'"()\-—]+$/.test(chunk)) return chunk;
@@ -109,7 +110,7 @@ if (overlay) {
       if (isKnown) { knownCount++; return `<span class="rd-word rd-known" data-word="${w[0]}">${chunk}</span>`; }
       unknownCount++; return `<span class="rd-word rd-unknown" data-word="${w[0]}">${chunk}</span>`;
     }).join('');
-    if (elStats) elStats.textContent = `Знаєш: ${knownCount} | Нові: ${unknownCount} слів у тексті`;
+    if (elStats) elStats.textContent = t('reading.statsLine').replace('{k}', String(knownCount)).replace('{u}', String(unknownCount));
     elText.querySelectorAll<HTMLElement>('.rd-word').forEach(span => {
       span.addEventListener('click', (e: MouseEvent) => {
         e.stopPropagation();
@@ -130,7 +131,7 @@ if (overlay) {
     const isKnown = state.known.has(w[0]);
     const knowBtn = document.getElementById('rd-popup-know') as HTMLButtonElement | null;
     if (knowBtn) {
-      knowBtn.textContent = isKnown ? '✓ Знаю' : '+ Вивчити';
+      knowBtn.textContent = isKnown ? t('reading.popupKnow') : t('reading.popupLearn');
       knowBtn.onclick = () => {
         if (!isKnown) {
           state.known.add(w[0]);
@@ -167,17 +168,17 @@ if (overlay) {
     if (!file) return;
     (epubInput as HTMLInputElement).value = '';
     const bookTitle = file.name.replace(/\.epub$/i, '');
-    if (epubProg) { epubProg.style.display = 'block'; epubProg.textContent = 'Завантаження…'; }
+    if (epubProg) { epubProg.style.display = 'block'; epubProg.textContent = t('reading.epubLoading'); }
     loadEpub(file,
       (msg: string, pct: number) => { if (epubProg) epubProg.textContent = `${msg} (${pct}%)`; },
       (chunks: string[] | null, err: string | null) => {
         if (err || !chunks?.length) {
-          if (epubProg) { epubProg.textContent = '❌ ' + (err ?? 'Розділів не знайдено'); setTimeout(() => { epubProg!.style.display = 'none'; }, 4000); }
+          if (epubProg) { epubProg.textContent = '❌ ' + (err ?? t('reading.epubNoChapters')); setTimeout(() => { epubProg!.style.display = 'none'; }, 4000); }
           return;
         }
         _epubBook = { title: bookTitle, chapters: chunks.map(text => ({ text, title: bookTitle, level: 'epub' })) };
         _currentTextIdx = 0;
-        if (epubProg) { epubProg.textContent = `✅ Завантажено: ${chunks.length} фрагментів`; setTimeout(() => { epubProg!.style.display = 'none'; }, 2500); }
+        if (epubProg) { epubProg.textContent = t('reading.epubLoaded').replace('{n}', String(chunks.length)); setTimeout(() => { epubProg!.style.display = 'none'; }, 2500); }
         _renderText();
       }
     );
@@ -185,7 +186,7 @@ if (overlay) {
 
   overlay!.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) close(); });
   document.addEventListener('click', (e: MouseEvent) => {
-    const t = e.target as HTMLElement;
-    if (!t.closest('#rd-word-popup') && !t.closest('.rd-word')) elPopup.style.display = 'none';
+    const target = e.target as HTMLElement;
+    if (!target.closest('#rd-word-popup') && !target.closest('.rd-word')) elPopup.style.display = 'none';
   });
 }

@@ -5,6 +5,7 @@ import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { recordModeComplete } from '../features/game.ts';
 import type { SpeakFn } from '../core/ui-helpers.ts';
+import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 
 // ── Built-in short stories ────────────────────────────────────
@@ -96,7 +97,7 @@ function openStory(story: typeof STORIES[0]): void {
   elLevel.textContent = story.level;
   elText.innerHTML = _highlightText(story.text);
   const known = _totalHighlighted > 0 ? Math.round(_knownInStory / _totalHighlighted * 100) : 0;
-  elStats.textContent = `${_totalHighlighted} слів підсвічено · ${known}% вже відомі`;
+  elStats.textContent = t('story.statsLine').replace('{n}', String(_totalHighlighted)).replace('{pct}', String(known));
 
   // Word click handler
   elText.querySelectorAll<HTMLElement>('.sm-word').forEach(span => {
@@ -148,7 +149,7 @@ function renderPicker(): void {
       cursor:pointer;font-family:inherit;transition:border-color .15s;
     ">
       <div style="font-weight:700;font-size:.9rem;color:var(--text);">${s.title}</div>
-      <div style="font-size:.75rem;color:var(--text3);margin-top:2px;">Рівень ${s.level}</div>
+      <div style="font-size:.75rem;color:var(--text3);margin-top:2px;">${t('story.levelLabel').replace('{lvl}', s.level)}</div>
     </button>
   `).join('');
   picker.querySelectorAll<HTMLButtonElement>('.sm-story-btn').forEach(btn => {

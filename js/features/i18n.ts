@@ -280,6 +280,22 @@ const DICT: Record<string, Record<Lang, string>> = {
   'bee.almostMsg':      { ua: '⚠️ Майже! Правильно: {w}',       en: '⚠️ Almost! Correct: {w}' },
   'bee.wrongMsg':       { ua: '✗ Правильно: {w}',               en: '✗ Correct: {w}' },
 
+  'story.pickerDesc':   { ua: 'Оберіть текст для читання. Слова зі словника будуть підсвічені — натисни щоб побачити переклад.', en: 'Choose a text to read. Words from your dictionary are highlighted — click to see the translation.' },
+  'story.levelLabel':   { ua: 'Рівень {lvl}',                   en: 'Level {lvl}' },
+  'story.statsLine':    { ua: '{n} слів підсвічено · {pct}% вже відомі', en: '{n} words highlighted · {pct}% already known' },
+
+  'reading.title':      { ua: '📖 Читання',                     en: '📖 Reading' },
+  'reading.prevBtn':    { ua: '← Попередній',                   en: '← Previous' },
+  'reading.nextBtn':    { ua: 'Наступний →',                    en: 'Next →' },
+  'reading.epubBtn':    { ua: '📚 Завантажити epub',            en: '📚 Load epub' },
+  'reading.statsLine':  { ua: 'Знаєш: {k} | Нові: {u} слів у тексті', en: 'Known: {k} | New: {u} words in text' },
+  'reading.popupKnow':  { ua: '✓ Знаю',                         en: '✓ Known' },
+  'reading.popupLearn': { ua: '+ Вивчити',                      en: '+ Learn' },
+  'reading.chapterLabel': { ua: 'Ч.{n}',                        en: 'Ch.{n}' },
+  'reading.epubLoading':  { ua: 'Завантаження…',                en: 'Loading…' },
+  'reading.epubNoChapters': { ua: 'Розділів не знайдено',       en: 'No chapters found' },
+  'reading.epubLoaded':   { ua: '✅ Завантажено: {n} фрагментів', en: '✅ Loaded: {n} fragments' },
+
   'cefr.A1': { ua: 'Початківець',     en: 'Beginner' },
   'cefr.A2': { ua: 'Елементарний',    en: 'Elementary' },
   'cefr.B1': { ua: 'Середній',        en: 'Intermediate' },
