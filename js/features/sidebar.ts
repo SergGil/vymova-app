@@ -75,6 +75,10 @@ export function openPage(page: string): void {
   } else if (page === 'settings') {
     document.getElementById('settings-overlay')?.classList.add('open');
     (window._renderVoices as (() => void) | undefined)?.();
+    (window._refreshNotifUI as (() => void) | undefined)?.();
+    (window._refreshPrefetchUI as (() => void) | undefined)?.();
+    (window._refreshPixabayStatus as (() => void) | undefined)?.();
+    (window._refreshCloudSyncUI as (() => void) | undefined)?.();
   } else if (page === 'duel') {
     document.getElementById('duel-overlay')?.classList.add('open');
     (window.renderDuel as (() => void) | undefined)?.();
