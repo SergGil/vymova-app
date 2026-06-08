@@ -245,6 +245,11 @@ const DICT: Record<string, Record<Lang, string>> = {
   'listen.wrongPrefix': { ua: 'Це',                     en: 'This is' },
   'listen.keepGoingTitle': { ua: 'Продовжуй!',          en: 'Keep going!' },
 
+  'fib.title':        { ua: '✏️ Вставте слово',          en: '✏️ Fill in the Blank' },
+  'fib.placeholder':  { ua: 'Введіть слово, якого бракує...', en: 'Type the missing word...' },
+  'fib.noSentences':  { ua: 'Немає підходящих речень. Спробуй інший набір слів.', en: 'No suitable sentences. Try a different word set.' },
+  'fib.sentence':     { ua: 'Речення',                  en: 'Sentence' },
+
   'cefr.A1': { ua: 'Початківець',     en: 'Beginner' },
   'cefr.A2': { ua: 'Елементарний',    en: 'Elementary' },
   'cefr.B1': { ua: 'Середній',        en: 'Intermediate' },

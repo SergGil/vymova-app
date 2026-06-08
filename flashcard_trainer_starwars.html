@@ -1343,7 +1343,7 @@
     <div class="quiz-panel">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
         <div>
-          <div style="font-size:1.05rem;font-weight:700;color:var(--text);">✏️ Вставте слово</div>
+          <div style="font-size:1.05rem;font-weight:700;color:var(--text);" data-i18n="fib.title">✏️ Вставте слово</div>
           <div id="fib-subtitle" style="font-size:.75rem;color:var(--text3);margin-top:2px;"></div>
         </div>
         <button id="fib-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);">✕</button>
@@ -1360,14 +1360,14 @@
         <div id="fib-sentence" class="fib-sentence"></div>
         <div id="fib-word-hint" style="font-size:.75rem;color:var(--text3);margin-top:8px;font-style:italic;"></div>
       </div>
-      <input id="fib-input" type="text" autocomplete="off" spellcheck="false" placeholder="Type the missing word..."
+      <input id="fib-input" type="text" autocomplete="off" spellcheck="false" placeholder="Type the missing word..." data-i18n-placeholder="fib.placeholder"
         style="width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:12px;font-size:1rem;
                font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);outline:none;
                box-sizing:border-box;margin-bottom:10px;transition:border-color .2s;">
       <div id="fib-result" style="min-height:24px;text-align:center;font-size:.9rem;font-weight:600;margin-bottom:10px;"></div>
       <div style="display:flex;gap:8px;justify-content:center;">
-        <button id="fib-submit" style="font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:11px 28px;border-radius:10px;border:none;background:var(--accent);color:#fff;cursor:pointer;">Перевірити</button>
-        <button id="fib-next"   style="display:none;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:11px 28px;border-radius:10px;border:none;background:var(--accent);color:#fff;cursor:pointer;">Далі →</button>
+        <button id="fib-submit" style="font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:11px 28px;border-radius:10px;border:none;background:var(--accent);color:#fff;cursor:pointer;" data-i18n="write.checkBtn">Перевірити</button>
+        <button id="fib-next"   style="display:none;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:11px 28px;border-radius:10px;border:none;background:var(--accent);color:#fff;cursor:pointer;" data-i18n="write.next">Далі →</button>
         <button id="fib-hint"   style="font-family:'DM Sans',sans-serif;font-size:.82rem;padding:11px 14px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;">💡</button>
       </div>
       <div id="fib-final" style="display:none;text-align:center;padding:10px 0 4px;">
@@ -1375,8 +1375,8 @@
         <div style="font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:6px;" id="fib-final-title"></div>
         <div style="font-size:.9rem;color:var(--text2);margin-bottom:18px;" id="fib-final-desc"></div>
         <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-          <button id="fib-restart" style="font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:10px 22px;border-radius:10px;border:1.5px solid var(--accent);background:none;color:var(--accent);cursor:pointer;">🔄 Ще раз</button>
-          <button id="fib-exit"    style="font-family:'DM Sans',sans-serif;font-size:.88rem;padding:10px 22px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;">Закрити</button>
+          <button id="fib-restart" style="font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:10px 22px;border-radius:10px;border:1.5px solid var(--accent);background:none;color:var(--accent);cursor:pointer;" data-i18n="common.tryAgain">🔄 Ще раз</button>
+          <button id="fib-exit"    style="font-family:'DM Sans',sans-serif;font-size:.88rem;padding:10px 22px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;" data-i18n="common.close">Закрити</button>
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ import { W } from '../../data/words.js';
 import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { speakBtn } from '../core/ui-helpers.ts';
+import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const SIZE = 10;
@@ -61,7 +62,7 @@ function build(): void {
 function open(): void {
   build();
   if (!fbDeck.length) {
-    elSent.innerHTML = '<span style="color:#e74c3c;font-size:.9rem;">Немає підходящих речень. Спробуй інший набір слів.</span>';
+    elSent.innerHTML = `<span style="color:#e74c3c;font-size:.9rem;">${t('fib.noSentences')}</span>`;
     elScRow.style.display = 'none'; elFinal.style.display = 'none';
     elSubmit.style.display = 'none'; elNext.style.display = 'none';
     oOverlay.style.display = 'flex'; return;
@@ -80,7 +81,7 @@ function renderQ(): void {
   elSent.style.display = 'block';
   document.getElementById('fib-hint')!.style.display = 'inline-block';
   elSubmit.style.display = 'inline-block'; elNext.style.display = 'none';
-  elSub.textContent = `Речення ${fbIdx + 1} з ${fbDeck.length}`;
+  elSub.textContent = `${t('fib.sentence')} ${fbIdx + 1} ${t('common.of')} ${fbDeck.length}`;
   elPbar.style.width = (fbIdx / fbDeck.length * 100) + '%';
   elOk.textContent = String(fbOk); elFail.textContent = String(fbFail);
   elSent.innerHTML = item.blank.sentence;
@@ -98,12 +99,12 @@ function submit(): void {
   const hlStyle = ok ? 'background:rgba(39,174,96,.15);border-color:#27ae60;color:#27ae60' : 'background:rgba(231,76,60,.12);border-color:#e74c3c;color:#e74c3c';
   if (ok) {
     fbOk++; elInput.style.borderColor = '#27ae60';
-    elResult.innerHTML = '<span style="color:#27ae60">✓ Правильно!</span>';
+    elResult.innerHTML = `<span style="color:#27ae60">${t('quiz.correctMsg')}</span>`;
     try { addCombo(); (window.playSound as PlaySound | undefined)?.('know'); } catch (e) {}
     recordModeAnswer('fib', true);
   } else {
     fbFail++; elInput.style.borderColor = '#e74c3c';
-    elResult.innerHTML = '<span style="color:#e74c3c">✗ Неправильно</span>';
+    elResult.innerHTML = `<span style="color:#e74c3c">${t('quiz.incorrectMsg')}</span>`;
     try { breakCombo(); (window.playSound as PlaySound | undefined)?.('next'); } catch (e) {}
     recordMistake(fbCurrent.blank.base);
     recordModeAnswer('fib', false);
@@ -116,7 +117,7 @@ function submit(): void {
   // Speak button for the correct word after answering
   elResult.parentElement?.querySelector('.mode-speak')?.remove();
   elResult.insertAdjacentElement('afterend', speakBtn(correctWord));
-  elNext.textContent = (fbIdx >= fbDeck.length) ? '🏆 Фініш!' : 'Наступне →';
+  elNext.textContent = (fbIdx >= fbDeck.length) ? t('quiz.finish') : t('quiz.next');
   elSubmit.style.display = 'none'; elNext.style.display = 'inline-block'; elNext.focus();
 }
 
@@ -126,9 +127,9 @@ function showFinal(): void {
   elFinal.style.display = 'block';
   const pct = fbDeck.length > 0 ? Math.round(fbOk / fbDeck.length * 100) : 0;
   document.getElementById('fib-final-emoji')!.textContent = pct===100?'🏆':pct>=80?'🎉':pct>=60?'👍':'💪';
-  document.getElementById('fib-final-title')!.textContent = pct===100?'Ідеально!':pct>=80?'Чудово!':pct>=60?'Непогано!':'Продовжуй!';
-  document.getElementById('fib-final-desc')!.textContent  = `${fbOk} з ${fbDeck.length} (${pct}%)`;
-  elPbar.style.width = '100%'; elSub.textContent = 'Завершено';
+  document.getElementById('fib-final-title')!.textContent = pct===100?t('quiz.perfectTitle'):pct>=80?t('quiz.greatTitle'):pct>=60?t('quiz.goodTitle'):t('listen.keepGoingTitle');
+  document.getElementById('fib-final-desc')!.textContent  = `${fbOk} ${t('common.of')} ${fbDeck.length} (${pct}%)`;
+  elPbar.style.width = '100%'; elSub.textContent = t('write.completed');
   recordModeComplete('fib');
 }
 
