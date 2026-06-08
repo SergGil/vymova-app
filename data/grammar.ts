@@ -3041,6 +3041,72 @@ export const GRAMMAR: GrammarCategory[] = [
         ],
       },
 
+      // ── Сім'я та тіло ─────────────────────────────────────────
+      {
+        id: 'family-body', title: 'Сім\'я та тіло — A1', emoji: '👨‍👩‍👧‍👦',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Базова лексика про родину та частини тіла — одна з перших тем для опису себе й оточення. Разом із "have got" вона дозволяє будувати прості описові речення про людей.',
+          },
+          {
+            type: 'table', title: 'Члени родини',
+            rows: [
+              ['Слово', 'Переклад'],
+              ['parents', 'батьки'],
+              ['mother / mum', 'мати / мама'],
+              ['father / dad', 'батько / тато'],
+              ['son / daughter', 'син / дочка'],
+              ['brother / sister', 'брат / сестра'],
+              ['grandmother / grandfather', 'бабуся / дідусь'],
+              ['grandson / granddaughter', 'онук / онука'],
+              ['aunt / uncle', 'тітка / дядько'],
+              ['cousin', 'двоюрідний брат / двоюрідна сестра'],
+              ['niece / nephew', 'племінниця / племінник'],
+              ['husband / wife', 'чоловік / дружина'],
+            ],
+          },
+          {
+            type: 'table', title: 'Частини тіла',
+            rows: [
+              ['Слово', 'Переклад'],
+              ['head / face', 'голова / обличчя'],
+              ['eye(s) / ear(s)', 'око (очі) / вухо (вуха)'],
+              ['nose / mouth', 'ніс / рот'],
+              ['hair', 'волосся'],
+              ['arm / hand / finger', 'рука (від плеча) / кисть / палець'],
+              ['leg / foot / toe', 'нога / ступня / палець ноги'],
+              ['shoulder / back', 'плече / спина'],
+              ['stomach', 'живіт'],
+            ],
+          },
+          {
+            type: 'formula', title: 'Опис родини та зовнішності — структура',
+            rows: [
+              ['✅ Хто це', 'This is', '+ присвійний займенник + член родини', 'This is my brother.'],
+              ['✅ Маю (є)', 'I\'ve got / I have', '+ іменник', 'I\'ve got two sisters.'],
+              ['✅ Опис зовнішності', 'He/She has got', '+ прикметник + частина тіла', 'She has got long hair and blue eyes.'],
+              ['✅ Скільки', 'How many', '+ іменник у множині + have you got?', 'How many brothers have you got?'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади',
+            rows: [
+              ['This is my mother. Her name is Olena.', 'Це моя мама. Її звуть Олена.'],
+              ['I\'ve got an older brother and a younger sister.', 'У мене є старший брат і молодша сестра.'],
+              ['My grandfather has got grey hair and a beard.', 'У мого дідуся сиве волосся і борода.'],
+              ['She has got brown eyes and a small nose.', 'У неї карі очі та маленький ніс.'],
+              ['How many cousins have you got?', 'Скільки в тебе двоюрідних братів і сестер?'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Have got vs Have',
+            text: '"I\'ve got a sister." та "I have a sister." означають те саме — обидва варіанти правильні. "Have got" частіше вживається в розмовній британській англійській, а "have" — універсальний і поширений у американській.',
+          },
+        ],
+      },
+
       // ── Поради та пропозиції ──────────────────────────────────
       {
         id: 'advice-suggestions', title: 'Поради та пропозиції — B1', emoji: '🗣️',

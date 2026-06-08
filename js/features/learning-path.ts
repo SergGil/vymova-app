@@ -34,6 +34,7 @@ const PLANS: LevelPlan[] = [
     grammarLinks: {
       'Базове вітання':   'greetings-intro',
       'Числа і кольори':  'numbers-determiners',
+      'Сім\'я та тіло':   'family-body',
       'Повсякденні дії':  'present-simple',
     },
   },
