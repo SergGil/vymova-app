@@ -31,6 +31,10 @@ const DICT: Record<string, Record<Lang, string>> = {
   'cards.allTopics':    { ua: '🏷️ Всі теми',                         en: '🏷️ All topics',                       es: '🏷️ Todos los temas' },
   'cards.allWords':     { ua: 'Всі слова',                           en: 'All words',                           es: 'Todas las palabras' },
   'cards.searchPlaceholder': { ua: 'Пошук слова...',                 en: 'Search a word...',                    es: 'Buscar una palabra...' },
+  'gamebar.shield':      { ua: 'щит',                                en: 'shield',                              es: 'escudo' },
+  'gamebar.shields':     { ua: 'щити',                               en: 'shields',                             es: 'escudos' },
+  'gamebar.shield.desc': { ua: 'захистить стрік при пропуску дня',  en: 'protects your streak if you miss a day', es: 'protege tu racha si fallas un día' },
+  'gamebar.shield.none': { ua: 'Щитів немає. Отримай за 7 днів поспіль.', en: 'No shields. Earn one with a 7-day streak.', es: 'Sin escudos. Gana uno con una racha de 7 días.' },
   'cards.auto':         { ua: '▶ Авто',                              en: '▶ Auto',                              es: '▶ Auto' },
   'cards.stop':         { ua: '⏹ Стоп',                              en: '⏹ Stop',                              es: '⏹ Detener' },
   'cards.pronounce':    { ua: 'Вимовити слово',                      en: 'Pronounce word',                      es: 'Pronunciar palabra' },
@@ -954,6 +958,7 @@ export function applyI18n(): void {
     btn.classList.toggle('lang-active', btn.dataset.lang === lang);
   });
   (window.renderLevelBadge as (() => void) | undefined)?.();
+  (window.renderGameBar as (() => void) | undefined)?.();
   (window._refreshRangeOptions as (() => void) | undefined)?.();
   (window._refreshTagOptions as (() => void) | undefined)?.();
   if (document.getElementById('ach-overlay')?.classList.contains('open')) {
@@ -965,6 +970,9 @@ export function applyI18n(): void {
   }
   if (document.getElementById('duel-overlay')?.classList.contains('open')) {
     (window.renderDuel as (() => void) | undefined)?.();
+  }
+  if (document.getElementById('grammar-overlay')?.classList.contains('open')) {
+    (window.openGrammarContent as (() => void) | undefined)?.();
   }
   if (document.getElementById('idioms-overlay')?.classList.contains('open')) {
     (window._refreshIdiomsUI as (() => void) | undefined)?.();

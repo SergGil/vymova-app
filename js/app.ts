@@ -796,10 +796,11 @@ function renderGameBar() {
   const shieldsEl = document.getElementById('shields-row');
   if (shieldsEl) {
     const n = d.shields ?? 0;
-    shieldsEl.textContent = n > 0 ? '🛡️'.repeat(n) + ' щит' + (n > 1 ? 'и' : '') : '';
+    const shLabel = t(n > 1 ? 'gamebar.shields' : 'gamebar.shield');
+    shieldsEl.textContent = n > 0 ? '🛡️'.repeat(n) + ' ' + shLabel : '';
     shieldsEl.title = n > 0
-      ? `${n} щит${n > 1 ? 'и' : ''}: захистить стрік при пропуску дня`
-      : 'Щитів немає. Отримай за 7 днів поспіль.';
+      ? `${n} ${shLabel}: ${t('gamebar.shield.desc')}`
+      : t('gamebar.shield.none');
   }
   document.getElementById('goal-cur')!.textContent = String(d.goalCur || 0);
   document.getElementById('goal-max')!.textContent = String(d.goalMax);
