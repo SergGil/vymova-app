@@ -963,6 +963,9 @@ export function applyI18n(): void {
   if (document.getElementById('lp-overlay')?.classList.contains('open')) {
     (window.renderLearningPath as (() => void) | undefined)?.();
   }
+  if (document.getElementById('duel-overlay')?.classList.contains('open')) {
+    (window.renderDuel as (() => void) | undefined)?.();
+  }
   if (document.getElementById('idioms-overlay')?.classList.contains('open')) {
     (window._refreshIdiomsUI as (() => void) | undefined)?.();
   }
