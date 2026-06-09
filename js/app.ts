@@ -56,6 +56,7 @@ function _activeKnown(): Set<string> { return ES_MODES.has(getMode()) ? knownEs 
 let cw: WordEntry | null = null, autoTimer: ReturnType<typeof setTimeout> | null = null;
 
 // Sync reference-type locals into state (mutations propagate both ways)
+state.deck    = deck as unknown as WordEntry[];
 state.known   = known;
 state.srsData = srsData;
 
