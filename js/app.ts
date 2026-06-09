@@ -39,7 +39,6 @@ import './core/theme.ts';
 import './core/swipe.ts';
 import './core/pwa.ts';
 
-
 const savedKnown = _lzLoad('ew_known', []);
 
 let srsData: Record<string, any> = _lzLoad('ew_srs', {});
@@ -94,9 +93,8 @@ function $e(id: string): HTMLElement { return $el[id] as HTMLElement; }
 // Кеш DOM-елементів: уникаємо getElementById на кожен render()
 const $el: Record<string, HTMLElement | null> = {};
 ['wnum','wlang','wword','wtrans','wtransl','exen','exua','cidx','cknown',
- 'pbar','illus','card','srs-next','streak-num','goal-cur','goal-max','goal-fill',
- 'goal-done','level-badge','cb-similar',
- 'cb-families','cb-collocations'].forEach(function(id: string) {
+ 'pbar','illus','card','srs-next',
+ 'cb-similar','cb-families','cb-collocations'].forEach(function(id: string) {
   $el[id] = document.getElementById(id);
 });
 
@@ -119,7 +117,6 @@ function stopAuto(): void {
   const btnAuto = document.getElementById('btn-auto');
   if (btnAuto) btnAuto.textContent = t('cards.auto');
 }
-
 
 // ── Card animation ─────────────────────────────────────────────────────────
 function _animCard(dir: 'next' | 'prev' | 'fade'): void {
@@ -221,7 +218,7 @@ function renderCardImage(word: string, illusEl: HTMLElement): void {
 }
 
 function renderSrsBadge(word: string): void {
-  const srsEl = document.getElementById('srs-next');
+  const srsEl = $e('srs-next');
   if (!srsEl) return;
   const sd = (srsData as Record<string, {ef?: number; reps?: number; due?: string; interval?: number}>)[word];
   const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
@@ -307,7 +304,7 @@ function render() {
     $e('pbar').style.width = (_activeKnown().size / W.length * 100) + '%';
     _safe(() => renderCardIndicators(cw![0]));
     renderCardImage(cw[0], $e('illus'));
-    const cardEl = document.getElementById('card');
+    const cardEl = $e('card');
     if (_activeKnown().has(cw[0])) { cardEl!.classList.add('is-known'); } else { cardEl!.classList.remove('is-known'); }
     _safe(() => renderSrsBadge(cw![0]));
     _safe(() => { const gd = getGameData(); updateRing(gd.goalCur || 0, gd.goalMax || 20); });
