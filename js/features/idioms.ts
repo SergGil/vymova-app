@@ -28,7 +28,7 @@ function _speakBtn(text: string, lang: string): string {
 }
 
 // ── Card render ───────────────────────────────────────────────
-function _renderCard(idiom: Idiom): string {
+function _renderCard(idiom: Idiom, num: number): string {
   const phraseLang = _tab === 'ua' ? 'uk-UA' : _tab === 'es' ? 'es-ES' : 'en-US';
   const trLang     = _tab === 'ua' ? 'en-US' : 'uk-UA';
 
@@ -39,6 +39,7 @@ function _renderCard(idiom: Idiom): string {
   return `
     <div class="idiom-card">
       <div class="idiom-head">
+        <span class="idiom-num">${num}</span>
         <span class="idiom-phrase">${idiom.emoji ?? ''} ${idiom.phrase}</span>
         ${_speakBtn(idiom.phrase, phraseLang)}
         ${meaningLine}
@@ -65,7 +66,7 @@ function _render(): void {
     listEl.innerHTML = `<div class="idioms-empty">${t('idioms.empty')}</div>`;
     return;
   }
-  listEl.innerHTML = filtered.map(_renderCard).join('');
+  listEl.innerHTML = filtered.map((idiom, i) => _renderCard(idiom, i + 1)).join('');
 }
 
 function _setTab(tab: 'en' | 'ua' | 'es'): void {

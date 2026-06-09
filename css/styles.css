@@ -3458,6 +3458,11 @@ body.sw .idioms-tab-active { background: #00c8ff; border-color: #00c8ff; }
   display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
   margin-bottom: 6px;
 }
+.idiom-num {
+  flex-shrink: 0; font-size: .72rem; font-weight: 700;
+  color: var(--text3); min-width: 1.8em; text-align: right;
+  align-self: center; opacity: .7;
+}
 .idiom-phrase {
   font-size: 1.02rem; font-weight: 700; color: var(--text);
 }
