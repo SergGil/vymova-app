@@ -605,6 +605,15 @@
     opacity: .85;
   }
   .chart-bar.today { opacity: 1; background: var(--accent2); }
+  .chart-col-sm { max-width: 14px; gap: 1px; }
+  .chart-col-sm .chart-val { font-size: 7px; }
+  .chart-col-sm .chart-label { font-size: 7px; }
+  .chart-period-btns { display: flex; gap: 4px; }
+  .chart-period-btn {
+    font-size: .7rem; padding: 2px 8px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--card-bg); color: var(--text2); cursor: pointer; transition: background .15s, color .15s;
+  }
+  .chart-period-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
   .chart-label {
     font-size: 9px;
     color: var(--text3);

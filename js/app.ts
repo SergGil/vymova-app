@@ -48,7 +48,7 @@ function _achCat(cat: string): string {
   if (l === 'es') return ACH_CAT_ES[cat] ?? cat;
   return cat;
 }
-import { WORD_FAMILIES }                                from '../data/word-families.ts';
+import { WORD_FAMILIES, WORD_FAMILY_REVERSE }           from '../data/word-families.ts';
 import { searchCollocations }                          from '../data/collocations.ts';
 import { renderLeaderboard, maybeSubmitScore }         from './features/leaderboard.ts';
 import { playSound }                                    from './core/audio.ts';
@@ -96,11 +96,11 @@ window.W            = W;        // re-export (some files access via window.W)
 
 // buildStaleDeck: слова що не переглядались довше N днів
 function buildStaleDeck(days: number): WordEntry[] {
-  var cutoff = (function(){ var d=new Date(); d.setDate(d.getDate()-days); return d.toISOString().slice(0,10); })();
-  var result = W.filter(function(w) {
-    var d = srsData[w[0]];
+  let cutoff = (function(){ var d=new Date(); d.setDate(d.getDate()-days); return d.toISOString().slice(0,10); })();
+  let result = W.filter(function(w) {
+    let d = srsData[w[0]];
     if (!d || !d.due) return true;
-    var lastDate = (function(){ var dt=new Date(d.due); dt.setDate(dt.getDate()-(d.interval||1)); return dt.toISOString().slice(0,10); })();
+    let lastDate = (function(){ var dt=new Date(d.due); dt.setDate(dt.getDate()-(d.interval||1)); return dt.toISOString().slice(0,10); })();
     return lastDate <= cutoff;
   });
   shuffle(result);
@@ -111,7 +111,7 @@ function buildStaleDeck(days: number): WordEntry[] {
 function $e(id: string): HTMLElement { return $el[id] as HTMLElement; }
 
 // Кеш DOM-елементів: уникаємо getElementById на кожен render()
-var $el: Record<string, HTMLElement | null> = {};
+let $el: Record<string, HTMLElement | null> = {};
 ['wnum','wlang','wword','wtrans','wtransl','exen','exua','cidx','cknown',
  'pbar','illus','card','srs-next','streak-num','goal-cur','goal-max','goal-fill',
  'goal-done','ring-fill','ring-center','level-badge','cb-similar',
@@ -120,12 +120,12 @@ var $el: Record<string, HTMLElement | null> = {};
 });
 
 // O(1) індекс: word → позиція у W (замість W.findIndex на кожній картці)
-var _wordIdx = new Map();
+let _wordIdx = new Map();
 W.forEach(function(w, i) { _wordIdx.set(w[0], i); });
 
 // Категорії слів для Category Matching
 // ── Власні слова: завантажуємо і додаємо в W ──
-var _customWords: Array<{en:string;ua:string;ex_en?:string;ex_ua?:string}> = [];
+let _customWords: Array<{en:string;ua:string;ex_en?:string;ex_ua?:string}> = [];
 try { _customWords = JSON.parse(localStorage.getItem('ew_custom') || '[]'); } catch(e){ console.warn('[custom] Load failed:', (e as Error).message); }
 _customWords.forEach(function(c) {
   if (c.en && c.ua && !_wordIdx.has(c.en)) {
@@ -137,7 +137,7 @@ _customWords.forEach(function(c) {
 // ── Кеш зображень {word: url | null} ──
 // ── IndexedDB для image cache (необмежений розмір) + localStorage fallback ──
 function getVoice() {
-  var v = synth.getVoices();
+  let v = synth.getVoices();
   return v.find(function(x){return x.lang.startsWith('en-US')&&x.name.includes('Google');})||
          v.find(function(x){return x.lang.startsWith('en-US');})||
          v.find(function(x){return x.lang.startsWith('en');})||null;
@@ -157,15 +157,15 @@ window.speakWebFallback = _speakWeb;
 function _speakWithLang(text: string, lang: string, btn: HTMLElement | null): void {
   if (!hasSpeech) return;
   synth.cancel();
-  var clean = text.replace(/<[^>]+>/g,'').replace(/\s*\([^)]*\)/g,'').trim();
+  let clean = text.replace(/<[^>]+>/g,'').replace(/\s*\([^)]*\)/g,'').trim();
   if (!clean) return;
-  var u = new SpeechSynthesisUtterance(clean);
+  let u = new SpeechSynthesisUtterance(clean);
   u.lang  = lang || 'en-US';
   u.rate  = 0.88;
   u.pitch = 1;
-  var voices = synth.getVoices();
-  var langLow = u.lang.toLowerCase();
-  var match = null;
+  let voices = synth.getVoices();
+  let langLow = u.lang.toLowerCase();
+  let match = null;
 
   if (langLow.startsWith('uk')) {
     match = getSelectedUkVoice();
@@ -194,7 +194,7 @@ function _esEntry(word: string): readonly [string, string] | null {
   return (W_ES as unknown as Record<string, readonly [string, string]>)[word] ?? null;
 }
 function getMode(): string {
-  var m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? 'en';
+  let m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? 'en';
   if (m === 'mix') return Math.random() > 0.5 ? 'en' : 'ua';
   return m || 'en';
 }
@@ -222,13 +222,13 @@ function render() {
     cw = deck[idx % deck.length];
     if (!cw) { console.error('render: cw is null'); return; }
     flipped = false;
-    var mode = getMode();
+    let mode = getMode();
     // ── ES pair modes: look up the Spanish layer by the English headword ──
-    var esEntry = ES_MODES.has(mode) ? _esEntry(cw[0]) : null;
-    var _esWord = esEntry ? esEntry[0] : '';
-    var _esEx   = esEntry ? esEntry[1] : '';
-    var FRONT_LANG: 'EN' | 'UA' | 'ES';
-    var frontWord: string, backWord: string;
+    let esEntry = ES_MODES.has(mode) ? _esEntry(cw[0]) : null;
+    let _esWord = esEntry ? esEntry[0] : '';
+    let _esEx   = esEntry ? esEntry[1] : '';
+    let FRONT_LANG: 'EN' | 'UA' | 'ES';
+    let frontWord: string, backWord: string;
     switch (mode) {
       case 'ua':    FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = cw[0];   break;
       case 'en-es': FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = _esWord; break;
@@ -237,12 +237,12 @@ function render() {
       case 'ua-es': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _esWord; break;
       default:      FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = cw[1];
     }
-    var _realIdx = _wordIdx.has(cw[0]) ? _wordIdx.get(cw[0]) : -1;
+    let _realIdx = _wordIdx.has(cw[0]) ? _wordIdx.get(cw[0]) : -1;
     $e('wnum').textContent = '#' + (_realIdx >= 0 ? _realIdx + 1 : idx % deck.length + 1);
     $e('wlang').textContent = FRONT_LANG;
     $e('wword').textContent = frontWord;
     // ── CEFR badge ────────────────────────────────────────────
-    var cefrEl = document.getElementById('wcefr') as HTMLElement | null;
+    let cefrEl = document.getElementById('wcefr') as HTMLElement | null;
     if (cefrEl) {
       const level = getCefrLevel(cw[0]);
       cefrEl.textContent = level;
@@ -250,40 +250,40 @@ function render() {
       cefrEl.style.display = '';
     }
     // ── Category badge ────────────────────────────────────────
-    var catEl = document.getElementById('wcategory') as HTMLElement | null;
+    let catEl = document.getElementById('wcategory') as HTMLElement | null;
     if (catEl) {
       const cats = getCategoriesForWord(cw[0]);
       catEl.textContent = cats[0] ? categoryName(cats[0]) : '';
       catEl.title = cats.map(categoryName).join(', ');
       catEl.style.display = cats[0] ? '' : 'none';
     }
-    var tr = $e('wtrans');
+    let tr = $e('wtrans');
     // [en, ua, en_example, ua_example, ipa]
-    var _enEx  = cw[2] || '';
-    var _uaEx  = cw[3] || '';
-    var trans = decodeIpa(cw[4] || '');
+    let _enEx  = cw[2] || '';
+    let _uaEx  = cw[3] || '';
+    let trans = decodeIpa(cw[4] || '');
     tr.textContent = (FRONT_LANG === 'EN') ? trans : '';
     tr.style.display = (FRONT_LANG === 'EN' && trans) ? 'block' : 'none';
-    var t = $e('wtransl');
+    let t = $e('wtransl');
     t.textContent = backWord;
     t.className = 'transl';
     // Приклад: EN→UA показуємо English (підсвічене слово), UA→EN — Ukrainian (не розкриває відповідь)
     function _boldEn(src: string): string {
       if (!src) return '';
       if (src.indexOf('<b>') !== -1) return src;
-      var _bw = cw![0].replace(/\s*\([^)]*\)/g,'').trim();
-      var _bp = _bw.split(/\s+/).filter(Boolean).map(function(p){ return p.replace(/[.*+?^${}()|\[\]\\]/g,'\\$&')+'\\w*'; });
+      let _bw = cw![0].replace(/\s*\([^)]*\)/g,'').trim();
+      let _bp = _bw.split(/\s+/).filter(Boolean).map(function(p){ return p.replace(/[.*+?^${}()|\[\]\\]/g,'\\$&')+'\\w*'; });
       return src.replace(new RegExp('('+_bp.join('\\s+')+')', 'i'), '<b>$1</b>');
     }
     function _boldUa(src: string): string {
       if (!src) return src;
-      var _uw = cw![1].split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
+      let _uw = cw![1].split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
       return src.replace(new RegExp('('+_uw+'\\w*)', 'i'), '<b>$1</b>');
     }
     function _boldHead(src: string, word: string): string {
       if (!src) return '';
       if (!word || src.indexOf('<b>') !== -1) return src;
-      var _hw = word.replace(/\s*\([^)]*\)/g,'').split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
+      let _hw = word.replace(/\s*\([^)]*\)/g,'').split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
       if (!_hw) return src;
       return src.replace(new RegExp('('+_hw+'\\w*)', 'i'), '<b>$1</b>');
     }
@@ -297,7 +297,7 @@ function render() {
       $e('exua').innerHTML = _boldEn(_enEx);  // англійський після flip
     } else if (ES_MODES.has(mode)) {
       // ES-пари: первинний приклад мовою фронту з виділеним словом, відповідь — після flip
-      var _frontEx = '', _backEx = '';
+      let _frontEx = '', _backEx = '';
       switch (mode) {
         case 'en-es': _frontEx = _enEx; _backEx = _esEx; break;
         case 'es-en': _frontEx = _esEx; _backEx = _enEx; break;
@@ -316,17 +316,17 @@ function render() {
     $e('pbar').style.width = (_activeKnown().size/W.length*100)+'%';
     // Note + Bookmark indicators
     _safe(() => {
-      var _noteBtn = document.getElementById('btn-note');
-      var _bmBtn   = document.getElementById('btn-bookmark');
-      var _noteDisp= document.getElementById('card-note-display');
-      var _word0   = cw![0];
+      let _noteBtn = document.getElementById('btn-note');
+      let _bmBtn   = document.getElementById('btn-bookmark');
+      let _noteDisp= document.getElementById('card-note-display');
+      let _word0   = cw![0];
       if (_bmBtn) {
-        var _isBm = isBookmarked(_word0);
+        let _isBm = isBookmarked(_word0);
         _bmBtn.textContent = _isBm ? '★' : '☆';
         _bmBtn.style.color = _isBm ? '#f1c40f' : '';
       }
       if (_noteDisp) {
-        var _note = getNoteForWord(_word0);
+        let _note = getNoteForWord(_word0);
         if (_note) { _noteDisp.textContent = '📝 ' + _note; _noteDisp.style.display = ''; }
         else        { _noteDisp.style.display = 'none'; }
       }
@@ -335,27 +335,27 @@ function render() {
       }
     });
     try {
-      var illusEl = $e('illus');
-      var _w = cw[0];
-      var IMG_S = 'width:100%;height:100%;object-fit:cover;border-radius:8px;';
+      let illusEl = $e('illus');
+      let _w = cw[0];
+      let IMG_S = 'width:100%;height:100%;object-fit:cover;border-radius:8px;';
       // Пріоритет: Pixabay/Wiki (кеш) → Emoji/SVG → нічого
       if (_imgCache.hasOwnProperty(_w) && _imgCache[_w]) {
         // Є закешоване фото → показати одразу, з onerror якщо URL протух
         (function(w, el) {
-          var img = document.createElement('img');
+          let img = document.createElement('img');
           img.alt = ''; img.loading = 'lazy'; img.style.cssText = IMG_S;
-          var _clearAndRefetch = function() {
+          let _clearAndRefetch = function() {
             delete _imgCache[w];
             if (typeof _idb !== 'undefined' && _idb) {
               try { _idb.transaction('imgs','readwrite').objectStore('imgs').delete(w); } catch(e2){}
             }
-            var fb = getIllus(w);
+            let fb = getIllus(w);
             if (fb) { el.innerHTML = fb; el.style.display = ''; }
             else    { el.innerHTML = ''; el.style.display = 'none'; }
             loadWikiImage(w, function(wd, newUrl) {
               if (!cw || cw[0] !== wd) return;
               if (newUrl) {
-                var _ni = document.createElement('img');
+                let _ni = document.createElement('img');
                 _ni.alt = ''; _ni.loading = 'lazy'; _ni.style.cssText = IMG_S;
                 _ni.onload  = function(){ if (_ni.naturalWidth < 10) el.style.display='none'; };
                 _ni.onerror = function(){ el.style.display='none'; };
@@ -377,7 +377,7 @@ function render() {
         })(_w, illusEl);
       } else {
         // Поки фото не завантажилось — показати emoji/SVG як заглушку
-        var _localIllus = getIllus(_w);
+        let _localIllus = getIllus(_w);
         if (_localIllus) { illusEl.innerHTML = _localIllus; illusEl.style.display = ''; }
         else              { illusEl.innerHTML = ''; illusEl.style.display = 'none'; }
         // Якщо ще не кешовано — завантажити (Pixabay → Wikipedia)
@@ -402,14 +402,14 @@ function render() {
         }
       }
     } catch(e) { try { document.getElementById('illus')!.style.display='none'; }catch(e2){} }
-    var cardEl = document.getElementById('card');
+    let cardEl = document.getElementById('card');
     if(_activeKnown().has(cw[0])){ cardEl!.classList.add('is-known'); } else { cardEl!.classList.remove('is-known'); }
     // SRS бейдж — показуємо завжди коли є дані
     _safe(() => {
-      var srsEl = document.getElementById('srs-next');
+      let srsEl = document.getElementById('srs-next');
       if (srsEl) {
-        var sd = (srsData as Record<string, {ef?: number; reps?: number; due?: string; interval?: number}>)[cw![0]];
-        var rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
+        let sd = (srsData as Record<string, {ef?: number; reps?: number; due?: string; interval?: number}>)[cw![0]];
+        let rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
         if (!sd || !sd.due) {
           if (rangeVal === 'srs' || rangeVal === 'weak') {
             srsEl.textContent = '🆕 Нове';
@@ -419,9 +419,9 @@ function render() {
             srsEl.style.display = 'none';
           }
         } else {
-          var diffDays = Math.round((new Date(sd.due).getTime() - new Date(TODAY).getTime()) / 86400000);
+          let diffDays = Math.round((new Date(sd.due).getTime() - new Date(TODAY).getTime()) / 86400000);
           if (diffDays < 0) {
-            var overDays = Math.abs(diffDays);
+            let overDays = Math.abs(diffDays);
             srsEl.textContent = '🔴 Прострочено ' + overDays + ' ' + (overDays === 1 ? 'день' : overDays < 5 ? 'дні' : 'днів');
             srsEl.className = 'srs-next over';
           } else if (diffDays === 0) {
@@ -445,9 +445,9 @@ function render() {
   }
   // Predictive prefetch: наступні картки (без дублів для малих дек)
   _idle(function() {
-    var _seen: Record<string, number> = {}, _limit = Math.min(4, deck.length - 1);
+    let _seen: Record<string, number> = {}, _limit = Math.min(4, deck.length - 1);
     for (let _pi =1; _pi <= _limit; _pi++) {
-      var _nw = deck[(idx + _pi) % deck.length];
+      let _nw = deck[(idx + _pi) % deck.length];
       if (_nw && !_seen[_nw[0]] && !_imgCache.hasOwnProperty(_nw[0])) {
         _seen[_nw[0]] = 1;
         loadWikiImage(_nw[0], function(){});
@@ -469,9 +469,9 @@ document.getElementById('card')!.addEventListener('click', function(){
 document.getElementById('speak-word')!.addEventListener('click', function(e){
   e.stopPropagation();
   if (!cw) return;
-  var modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
+  let modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
   if (modeVal === 'es-en' || modeVal === 'es-ua') {
-    var esEntry = _esEntry(cw[0]);
+    let esEntry = _esEntry(cw[0]);
     if (esEntry && getSelectedEsVoice()) { _speakWithLang(esEntry[0], 'es-ES', this); return; }
   }
   speak(cw[0],this);
@@ -479,18 +479,18 @@ document.getElementById('speak-word')!.addEventListener('click', function(e){
 document.getElementById('speak-ex')!.addEventListener('click', function(e){
   e.stopPropagation();
   if (!cw) return;
-  var exEn = cw[2] || '';
-  var exUa = cw[3] || '';
-  var modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
+  let exEn = cw[2] || '';
+  let exUa = cw[3] || '';
+  let modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
   if (ES_MODES.has(modeVal)) {
-    var esEntry = _esEntry(cw[0]);
-    var exEs = esEntry ? esEntry[1] : '';
-    var hasEsVoice = !!getSelectedEsVoice();
+    let esEntry = _esEntry(cw[0]);
+    let exEs = esEntry ? esEntry[1] : '';
+    let hasEsVoice = !!getSelectedEsVoice();
     if (modeVal === 'es-en' || modeVal === 'es-ua') {
       if (hasEsVoice && exEs) _speakWithLang(exEs, 'es-ES', this);
       else speak(exEn, this); // fallback: читаємо англійський еквівалент
     } else if (modeVal === 'ua-es') {
-      var hasUkVoice = !!getSelectedUkVoice();
+      let hasUkVoice = !!getSelectedUkVoice();
       if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', this);
       else speak(exEn, this);
     } else { // en-es: фронт — англійський приклад
@@ -500,7 +500,7 @@ document.getElementById('speak-ex')!.addEventListener('click', function(e){
   }
   // UA→EN mode: спробувати UA голос, якщо немає — читати EN приклад
   if (modeVal === 'ua') {
-    var hasUkVoice = !!getSelectedUkVoice();
+    let hasUkVoice = !!getSelectedUkVoice();
     if (hasUkVoice && exUa) {
       _speakWithLang(exUa, 'uk-UA', this);
     } else {
@@ -518,14 +518,14 @@ document.getElementById('btn-note')!.addEventListener('click', function(e){
 document.getElementById('btn-bookmark')!.addEventListener('click', function(e){
   e.stopPropagation();
   if (!cw) return;
-  var isNow = toggleBookmark(cw[0]);
+  let isNow = toggleBookmark(cw[0]);
   this.textContent = isNow ? '★' : '☆';
   this.style.color  = isNow ? '#f1c40f' : '';
 });
 document.getElementById('btn-mic')!.addEventListener('click', function(e){
   e.stopPropagation();
   if (!cw || false) return;
-  var btn = this;
+  let btn = this;
   startPronunciationCheck(cw[0], btn, function(status, score, spoken, target){
     showPronuncResult(status, score, spoken ?? '', target ?? '');
   });
@@ -539,8 +539,8 @@ document.getElementById('btn-prev')!.addEventListener('click', function(e){e.sto
 document.getElementById('btn-know')!.addEventListener('click', function(e){
   e.stopPropagation();
   if(cw){
-    var _ak = _activeKnown();
-    var isNewlyKnown = !_ak.has(cw[0]);
+    let _ak = _activeKnown();
+    let isNewlyKnown = !_ak.has(cw[0]);
     _ak.add(cw[0]);
     if ((document.getElementById('sel-range') as HTMLSelectElement)!.value === 'srs') { sm2Update(cw[0], 4); } else { delete srsData[cw[0]]; }
     if (ES_MODES.has(getMode())) { saveKnownEs(knownEs); } else { saveKnown(known); }
@@ -560,7 +560,7 @@ document.getElementById('btn-know')!.addEventListener('click', function(e){
         }
       });
     }
-    var v = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
+    let v = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
     if (v === 'srs') { deck = buildSRSDeck(_baseWords as unknown as WordEntry[]); state.deck = deck; window.deck = deck; idx = 0; render(); return; }
     if (v === 'unlearned') {
       deck = buildUnlearnedDeck(_baseWords as unknown as WordEntry[]);
@@ -575,7 +575,7 @@ document.getElementById('btn-next')!.addEventListener('click', function(e){
   _safe(() => playSound('next'));
   _safe(() => breakCombo());
   if(cw){
-    var v = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
+    let v = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
     if (v === 'srs') {
       sm2Update(cw[0], 1);
       saveSRS(srsData);
@@ -591,9 +591,9 @@ document.getElementById('btn-auto')!.addEventListener('click', function(e){
 document.getElementById('btn-shuf')!.addEventListener('click', function(e){e.stopPropagation();stopAuto();shuffle(deck);idx=0;render();});
 document.getElementById('btn-reset')!.addEventListener('click', function(e){
   e.stopPropagation();
-  var modesOverlay = document.getElementById('modes-overlay');
+  let modesOverlay = document.getElementById('modes-overlay');
   if (modesOverlay) modesOverlay.classList.remove('open');
-  var overlayEl = document.getElementById('modal-overlay')!;
+  let overlayEl = document.getElementById('modal-overlay')!;
   overlayEl.style.display = 'flex';
 });
 document.getElementById('modal-cancel')!.addEventListener('click', function(){
@@ -611,12 +611,12 @@ document.getElementById('modal-confirm')!.addEventListener('click', function(){
   state._gameCache  = null; // скидаємо in-memory кеш щоб getGameData() перечитав з localStorage
   state._dailyCache = null;
   // Скинути візуальний стан картки
-  var cardEl = document.getElementById('card');
+  let cardEl = document.getElementById('card');
   if (cardEl) {
     cardEl!.classList.remove('is-known');
   }
   // Деку
-  var v = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
+  let v = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
   if(v==='srs'){ deck=buildSRSDeck(_baseWords as unknown as WordEntry[]); }
   else if(v==='unlearned'){ deck=buildUnlearnedDeck(_baseWords as unknown as WordEntry[]); }
   // Оновити UI
@@ -635,8 +635,8 @@ function _getEsDeck(): WordEntry[] {
 // Called by tag-filter.ts when a category is selected while in ES mode
 window._rebuildEsDeck = function(): void {
   if (!ES_MODES.has(getMode())) return;
-  var esDeck = _getEsDeck();
-  var ats = state._activeTagSet as Set<string> | null;
+  let esDeck = _getEsDeck();
+  let ats = state._activeTagSet as Set<string> | null;
   deck = ats ? esDeck.filter(function(w){ return (ats as Set<string>).has(w[0]); }) : esDeck.slice();
   if (!deck.length) deck = esDeck.slice();
   state.deck = deck; window.deck = deck; idx = 0; render();
@@ -645,15 +645,15 @@ let _preEsDeck: WordEntry[] | null = null;
 let _preEsIdx = 0;
 document.getElementById('sel-mode')!.addEventListener('change', function(){
   stopAuto();
-  var m = (this as HTMLSelectElement).value;
-  var isEs = ES_MODES.has(m);
-  var selRangeEl = document.getElementById('sel-range') as HTMLSelectElement | null;
-  var selTagEl   = document.getElementById('sel-tag')   as HTMLSelectElement | null;
+  let m = (this as HTMLSelectElement).value;
+  let isEs = ES_MODES.has(m);
+  let selRangeEl = document.getElementById('sel-range') as HTMLSelectElement | null;
+  let selTagEl   = document.getElementById('sel-tag')   as HTMLSelectElement | null;
   if (isEs && !_preEsDeck) {
     // Входимо в ES-режим — запам'ятовуємо поточну колоду й звужуємо до перекладених слів
-    var esDeck = _getEsDeck();
+    let esDeck = _getEsDeck();
     if (!esDeck.length) {
-      var _mtEs = document.getElementById('milestone-toast');
+      let _mtEs = document.getElementById('milestone-toast');
       if (_mtEs) { _mtEs.textContent = 'Іспанських перекладів ще немає для цих слів'; _mtEs.className = 'milestone-toast'; void _mtEs.offsetWidth; _mtEs.className = 'milestone-toast show'; setTimeout(function(){ _mtEs!.className = 'milestone-toast'; }, 3500); }
       (this as HTMLSelectElement).value = 'en';
       render();
@@ -661,7 +661,7 @@ document.getElementById('sel-mode')!.addEventListener('change', function(){
     }
     _preEsDeck = deck; _preEsIdx = idx;
     // Apply active tag filter to ES deck if one is already set
-    var _atsEs = state._activeTagSet as Set<string> | null;
+    let _atsEs = state._activeTagSet as Set<string> | null;
     deck = _atsEs ? esDeck.filter(function(w){ return (_atsEs as Set<string>).has(w[0]); }) : esDeck.slice();
     if (!deck.length) deck = esDeck.slice();
     state.deck = deck; window.deck = deck; idx = 0;
@@ -680,10 +680,10 @@ document.getElementById('sel-mode')!.addEventListener('change', function(){
 
 // ══ Динамічне оновлення опцій фільтра "Всі слова" / блоків по 500 ══
 function _refreshRangeOptions(): void {
-  var sel = document.getElementById('sel-range') as HTMLSelectElement | null;
+  let sel = document.getElementById('sel-range') as HTMLSelectElement | null;
   if (!sel) return;
-  var total = W.length;
-  var allOpt = sel.querySelector('option[value="0"]') as HTMLOptionElement | null;
+  let total = W.length;
+  let allOpt = sel.querySelector('option[value="0"]') as HTMLOptionElement | null;
   if (allOpt) allOpt.textContent = t('cards.allWords') + ' (' + total + ')';
   Array.prototype.slice.call(sel.querySelectorAll('option')).forEach(function(opt: HTMLOptionElement){
     if (opt.value !== '0' && /^\d+$/.test(opt.value)) sel!.removeChild(opt);
@@ -704,8 +704,8 @@ _safe(() => _refreshRangeOptions());
 // ══ Єдиний sel-range обробник — замість 3 окремих ══
 document.getElementById('sel-range')!.addEventListener('change', function(){
   stopAuto();
-  var v = (this as HTMLSelectElement).value;
-  var selTagEl = document.getElementById('sel-tag') as HTMLSelectElement | null;
+  let v = (this as HTMLSelectElement).value;
+  let selTagEl = document.getElementById('sel-tag') as HTMLSelectElement | null;
 
   // Для спеціальних режимів скидаємо тег-фільтр (він не застосовується)
   if (v === 'srs' || v === 'unlearned' || v.startsWith('stale')) {
@@ -716,27 +716,27 @@ document.getElementById('sel-range')!.addEventListener('change', function(){
 
   if (v === 'weak') {
     _baseWords = W.slice();
-    var _srsAll = srsData as Record<string, {ef?: number; reps?: number}>;
+    let _srsAll = srsData as Record<string, {ef?: number; reps?: number}>;
     // Priority 1: words with SRS data sorted by EF asc (lowest = hardest)
-    var _srsWeak = Object.entries(_srsAll)
+    let _srsWeak = Object.entries(_srsAll)
       .filter(function([, d]) { return d && typeof d.ef === 'number'; })
       .sort(function([, a], [, b]) { return (a.ef ?? 2.5) - (b.ef ?? 2.5); })
       .slice(0, 50);
     if (_srsWeak.length >= 5) {
-      var _weakSet = new Set(_srsWeak.map(function([k]) { return k; }));
+      let _weakSet = new Set(_srsWeak.map(function([k]) { return k; }));
       deck = (W as unknown as WordEntry[]).filter(function(w) { return _weakSet.has(w[0]); });
     } else if (known.size > 0) {
       // Fallback: known words in reversed order (most recently learned first) for review
-      var _knownArr = Array.from(known);
+      let _knownArr = Array.from(known);
       deck = _knownArr.slice().reverse()
         .map(function(k) { return (W as unknown as WordEntry[]).find(function(w) { return w[0] === k; }); })
         .filter(Boolean) as WordEntry[];
       if (!deck.length) deck = buildUnlearnedDeck(_baseWords as unknown as WordEntry[]);
-      var _mtWeak = document.getElementById('milestone-toast');
+      let _mtWeak = document.getElementById('milestone-toast');
       if (_mtWeak) { _mtWeak.textContent = t('range.weakFallbackKnown'); _mtWeak.className = 'milestone-toast'; void _mtWeak.offsetWidth; _mtWeak.className = 'milestone-toast show'; setTimeout(function(){ _mtWeak!.className = 'milestone-toast'; }, 3500); }
     } else {
       deck = buildUnlearnedDeck(_baseWords as unknown as WordEntry[]);
-      var _mtWeak2 = document.getElementById('milestone-toast');
+      let _mtWeak2 = document.getElementById('milestone-toast');
       if (_mtWeak2) { _mtWeak2.textContent = t('range.weakFallbackNew'); _mtWeak2.className = 'milestone-toast'; void _mtWeak2.offsetWidth; _mtWeak2.className = 'milestone-toast show'; setTimeout(function(){ _mtWeak2!.className = 'milestone-toast'; }, 3500); }
     }
     state._activeTagSet = null;
@@ -745,11 +745,11 @@ document.getElementById('sel-range')!.addEventListener('change', function(){
     idx = 0; render(); return;
   } else if (v === 'hard') {
     _baseWords = W.slice();
-    var _hardWords = getHardWords(50);
-    var _hardSet = new Set(_hardWords);
+    let _hardWords = getHardWords(50);
+    let _hardSet = new Set(_hardWords);
     deck = (W as unknown as WordEntry[]).filter(function(w) { return _hardSet.has(w[0]); });
     if (!deck.length) {
-      var _mt = document.getElementById('milestone-toast');
+      let _mt = document.getElementById('milestone-toast');
       if (_mt) { _mt.textContent = 'Важких слів ще немає — грай у режимах!'; _mt.className = 'milestone-toast'; void _mt.offsetWidth; _mt.className = 'milestone-toast show'; setTimeout(function(){ _mt!.className = 'milestone-toast'; }, 3500); }
       deck = buildUnlearnedDeck(_baseWords as unknown as WordEntry[]);
     }
@@ -760,7 +760,7 @@ document.getElementById('sel-range')!.addEventListener('change', function(){
     idx = 0; render(); return;
   } else if (v === 'bookmarks') {
     _baseWords = W.slice();
-    var _bms = getBookmarks();
+    let _bms = getBookmarks();
     deck = (W as unknown as WordEntry[]).filter(function(w){ return _bms.has(w[0]); });
     if (!deck.length) { deck = W.slice(0, 10) as unknown as WordEntry[]; alert('Закладок немає — додай ⭐ на картках'); }
     shuffle(deck);
@@ -776,7 +776,7 @@ document.getElementById('sel-range')!.addEventListener('change', function(){
     deck = (W as unknown as WordEntry[]).filter(w => getCefrLevel(w[0]) === cefrTarget);
     shuffle(deck);
     if (!deck.length) {
-      var _mt2 = document.getElementById('milestone-toast');
+      let _mt2 = document.getElementById('milestone-toast');
       if (_mt2) { _mt2.textContent = `Немає слів рівня ${cefrTarget} — додай більше слів!`; _mt2.className='milestone-toast';void _mt2.offsetWidth;_mt2.className='milestone-toast show';setTimeout(()=>{_mt2!.className='milestone-toast';},3500); }
       deck = _baseWords as unknown as WordEntry[]; shuffle(deck);
     }
@@ -788,13 +788,13 @@ document.getElementById('sel-range')!.addEventListener('change', function(){
     _baseWords = W.slice();
     deck = buildStaleDeck(v === 'stale7' ? 7 : 30);
   } else {
-    var n = parseInt(v);
-    var _lastBlk = Math.ceil(W.length / 500);
+    let n = parseInt(v);
+    let _lastBlk = Math.ceil(W.length / 500);
     _baseWords = n===0 ? W.slice() : W.slice((n-1)*500, n===_lastBlk ? W.length : n*500);
     deck = (_baseWords as unknown as WordEntry[]).slice();
     shuffle(deck);
     // Для звичайних режимів застосовуємо тег-фільтр
-    var _ats = state._activeTagSet;
+    let _ats = state._activeTagSet;
     if (_ats) {
       deck = deck.filter(function(w){ return (_ats as Set<string>).has(w[0]); });
       if (!deck.length) deck = (_baseWords as unknown as WordEntry[]).filter(function(w){ return (_ats as Set<string>).has(w[0]); });
@@ -811,8 +811,8 @@ window.TODAY = TODAY; // legacy files (catpairs.js, srs.js, etc.) use this globa
 
 
 function renderGameBar() {
-  var d = getGameData();
-  var pct = Math.min(d.goalCur / d.goalMax * 100, 100);
+  let d = getGameData();
+  let pct = Math.min(d.goalCur / d.goalMax * 100, 100);
   document.getElementById('streak-num')!.textContent = String(d.streak || 0);
   // Streak shields display
   const shieldsEl = document.getElementById('shields-row');
@@ -826,10 +826,10 @@ function renderGameBar() {
   }
   document.getElementById('goal-cur')!.textContent = String(d.goalCur || 0);
   document.getElementById('goal-max')!.textContent = String(d.goalMax);
-  var fill = document.getElementById('goal-fill');
+  let fill = document.getElementById('goal-fill');
   fill!.style.width = pct + '%';
   fill!.className = 'goal-fill' + (d.goalCur >= d.goalMax ? ' done' : '');
-  var badge = document.getElementById('goal-done');
+  let badge = document.getElementById('goal-done');
   badge!.style.display = d.goalCur >= d.goalMax ? 'inline' : 'none';
   _safe(() => updateRing(d.goalCur || 0, d.goalMax || 20));
   _safe(() => renderLevelProgress());
@@ -837,7 +837,7 @@ function renderGameBar() {
 
 // Запуск під час простою браузера (не блокує UI)
 function onWordLearned() {
-  var d = getGameData();
+  let d = getGameData();
   // Денна ціль
   d.goalCur = (d.goalCur || 0) + 1;
   // Лічильник виконаних цілей
@@ -850,9 +850,9 @@ function onWordLearned() {
   recordDailyWord();
   _safe(() => maybeSubmitScore());
   // Лічильник сесії + XP за слово
-  var gd2 = getGameData();
+  let gd2 = getGameData();
   gd2.sessionWords = (gd2.sessionWords || 0) + 1;
-  var xpGain = 10 * getComboMult(); // ×2/×3 з комбо
+  let xpGain = 10 * getComboMult(); // ×2/×3 з комбо
   gd2.xp = (gd2.xp || 0) + xpGain;
   saveGameData(gd2);
   // Рівень і досягнення — в idle щоб не блокувати UI
@@ -873,9 +873,41 @@ function getBlockColor(pct: number): string {
 }
 
 let _statsRenderKey = '';
+let _chartDays = 14;
+
+function _renderChartBars() {
+  const daily = getDailyStats();
+  const days = [];
+  for (let i = _chartDays - 1; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const ds  = d.toISOString().slice(0, 10);
+    const lbl = (d.getDate()) + '/' + (d.getMonth() + 1);
+    days.push({ date: ds, label: lbl, val: daily[ds] || 0, isToday: ds === TODAY });
+  }
+  let maxVal = Math.max.apply(null, days.map(function(d){return d.val;})) || 1;
+  let chartEl = document.getElementById('chart-bars');
+  let hasData = days.some(function(d){return d.val>0;});
+  if (!hasData) {
+    chartEl!.innerHTML = '<div class="chart-empty">' + t('stats.noData') + '</div>';
+  } else {
+    // For 30/90 days use smaller bars
+    let barH = _chartDays <= 14 ? 60 : (_chartDays <= 30 ? 40 : 24);
+    chartEl!.innerHTML = days.map(function(d) {
+      let h = Math.round((d.val / maxVal) * barH);
+      let showLabel = _chartDays <= 14 || d.isToday || d.date.endsWith('-01') || new Date(d.date).getDate() % (_chartDays <= 30 ? 5 : 15) === 0;
+      return '<div class="chart-col' + (_chartDays > 14 ? ' chart-col-sm' : '') + '">' +
+        (d.val > 0 ? '<div class="chart-val">'+ d.val +'</div>' : '<div class="chart-val" style="visibility:hidden">0</div>') +
+        '<div class="chart-bar-wrap"><div class="chart-bar'+(d.isToday?' today':'')+'" style="height:'+ h +'px"></div></div>' +
+        '<div class="chart-label">'+ (d.isToday ? t('stats.today') : (showLabel ? d.label : '')) +'</div>' +
+      '</div>';
+    }).join('');
+  }
+}
+
 function _renderStatsCore() {
-  var gd = getGameData();
-  const newKey = known.size + '|' + (gd.streak ?? 0) + '|' + (gd.goalCur ?? 0) + '|' + state.TODAY;
+  let gd = getGameData();
+  const newKey = known.size + '|' + (gd.streak ?? 0) + '|' + (gd.goalCur ?? 0) + '|' + state.TODAY + '|' + _chartDays;
   if (newKey === _statsRenderKey) return;
   _statsRenderKey = newKey;
   // Загальні цифри
@@ -883,33 +915,7 @@ function _renderStatsCore() {
   document.getElementById('st-pct')!.textContent = Math.round(known.size/W.length*100) + '%';
   document.getElementById('st-streak')!.textContent = String(gd.streak || 0);
 
-  // Графік по днях — останні 14
-  const daily = getDailyStats();
-  const days = [];
-  for (let i = 13; i >= 0; i--) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    const ds  = d.toISOString().slice(0, 10);
-    const lbl = (d.getDate()) + '/' + (d.getMonth() + 1);
-    days.push({ date: ds, label: lbl, val: daily[ds] || 0, isToday: ds === TODAY });
-  }
-
-  var maxVal = Math.max.apply(null, days.map(function(d){return d.val;})) || 1;
-  var chartEl = document.getElementById('chart-bars');
-
-  var hasData = days.some(function(d){return d.val>0;});
-  if (!hasData) {
-    chartEl!.innerHTML = '<div class="chart-empty">' + t('stats.noData') + '</div>';
-  } else {
-    chartEl!.innerHTML = days.map(function(d) {
-      var h = Math.round((d.val / maxVal) * 60);
-      return '<div class="chart-col">' +
-        (d.val > 0 ? '<div class="chart-val">'+ d.val +'</div>' : '<div class="chart-val" style="visibility:hidden">0</div>') +
-        '<div class="chart-bar-wrap"><div class="chart-bar'+(d.isToday?' today':'')+'" style="height:'+ h +'px"></div></div>' +
-        '<div class="chart-label">'+ (d.isToday ? t('stats.today') : d.label) +'</div>' +
-      '</div>';
-    }).join('');
-  }
+  _renderChartBars();
 
   // Блоки — 500 слів кожен (останній може бути більший)
   const blockSize = 500;
@@ -929,9 +935,9 @@ function _renderStatsCore() {
     if (end >= W.length) break;
   }
 
-  var blocksEl = document.getElementById('blocks-list');
+  let blocksEl = document.getElementById('blocks-list');
   blocksEl!.innerHTML = blocks.map(function(b) {
-    var color = getBlockColor(b.pct);
+    let color = getBlockColor(b.pct);
     return '<div class="block-row">' +
       '<div class="block-label">'+ b.label +'</div>' +
       '<div class="block-track"><div class="block-fill" style="width:'+ b.pct +'%;background:'+ color +';"></div></div>' +
@@ -960,10 +966,10 @@ document.getElementById('stats-overlay')!.addEventListener('click', function(e){
 
 document.getElementById('goal-set-btn')!.addEventListener('click', function(e) {
   e.stopPropagation();
-  var d = getGameData();
-  var inp = document.getElementById('goal-input') as HTMLInputElement;
+  let d = getGameData();
+  let inp = document.getElementById('goal-input') as HTMLInputElement;
   inp!.value = String(d.goalMax || 20);
-  var modal = document.getElementById('goal-modal')!;
+  let modal = document.getElementById('goal-modal')!;
   modal.style.display = 'flex';
   setTimeout(function(){ inp!.focus(); inp!.select(); }, 50);
 });
@@ -971,9 +977,9 @@ document.getElementById('goal-modal-cancel')!.addEventListener('click', function
   document.getElementById('goal-modal')!.style.display = 'none';
 });
 document.getElementById('goal-modal-ok')!.addEventListener('click', function(){
-  var val = parseInt((document.getElementById('goal-input') as HTMLInputElement)!.value);
-  if (val > 0) {
-    var d = getGameData();
+  let val = parseInt((document.getElementById('goal-input') as HTMLInputElement)!.value);
+  if (val >= 1 && val <= 500) {
+    let d = getGameData();
     d.goalMax = val;
     saveGameData(d);
     renderGameBar();
@@ -988,6 +994,17 @@ document.getElementById('goal-modal')!.addEventListener('click', function(e){
   if(e.target === this) this.style.display = 'none';
 });
 
+// ── Chart period buttons ──
+document.getElementById('chart-period-btns')?.addEventListener('click', function(e) {
+  const btn = (e.target as HTMLElement).closest('[data-days]') as HTMLElement | null;
+  if (!btn) return;
+  _chartDays = parseInt(btn.dataset.days ?? '14') || 14;
+  this.querySelectorAll('.chart-period-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  _statsRenderKey = '';
+  _renderChartBars();
+});
+
 // ── Безпечна ініціалізація ──
 
 try { renderGameBar(); } catch(e){ console.error((e as Error).message); }
@@ -995,27 +1012,27 @@ try { renderGameBar(); } catch(e){ console.error((e as Error).message); }
 
 // ── Темна тема ──
 (function(){
-  var saved = localStorage.getItem('ew_theme');
+  let saved = localStorage.getItem('ew_theme');
   if(saved === 'dark') { document.body.classList.add('dark'); document.getElementById('btn-theme')!.textContent = '☀️'; }
 })();
 document.getElementById('btn-theme')!.addEventListener('click', function(){
-  var isDark = document.body.classList.toggle('dark');
+  let isDark = document.body.classList.toggle('dark');
   this.textContent = isDark ? '☀️' : '🌙';
   localStorage.setItem('ew_theme', isDark ? 'dark' : 'light');
 });
 
 // ── Пошук ──
 (function(){
-  var inp = document.getElementById('search-input') as HTMLInputElement | null;
-  var box = document.getElementById('search-results')!;
+  let inp = document.getElementById('search-input') as HTMLInputElement | null;
+  let box = document.getElementById('search-results')!;
 
   function goToWord(word: string): void {
     // Знайти у поточній деці
-    var di = deck.findIndex(function(w){ return w[0].toLowerCase() === word.toLowerCase(); });
+    let di = deck.findIndex(function(w){ return w[0].toLowerCase() === word.toLowerCase(); });
     if(di === -1) {
       // Якщо не в деці — знайти в W і перейти
-      var wLow = word.toLowerCase();
-      var wi = -1;
+      let wLow = word.toLowerCase();
+      let wi = -1;
       _wordIdx.forEach(function(i, k){ if(k.toLowerCase() === wLow) wi = i; });
       if(wi === -1) return;
       deck = W.slice() as unknown as WordEntry[]; shuffle(deck);
@@ -1028,26 +1045,26 @@ document.getElementById('btn-theme')!.addEventListener('click', function(){
 
   // Event delegation: click + touchend for iOS Safari compatibility
   function _handleSearchSelect(e: Event): void {
-    var item = (e.target as Element).closest<HTMLElement>('.search-result-item');
+    let item = (e.target as Element).closest<HTMLElement>('.search-result-item');
     if (item?.dataset.word) { e.preventDefault(); goToWord(item.dataset.word); }
   }
   box.addEventListener('click',    _handleSearchSelect);
   box.addEventListener('touchend', _handleSearchSelect);
 
-  var _searchTimer: ReturnType<typeof setTimeout> | null = null;
+  let _searchTimer: ReturnType<typeof setTimeout> | null = null;
   inp!.addEventListener('input', function(){
-    var q = this.value.trim().toLowerCase();
+    let q = this.value.trim().toLowerCase();
     if (!q) { box.className = 'search-results'; if (_searchTimer) clearTimeout(_searchTimer); return; }
     if (_searchTimer) clearTimeout(_searchTimer);
     _searchTimer = setTimeout(function() {
-      var hits = W.filter(function(w){
+      let hits = W.filter(function(w){
         return w[0].toLowerCase().startsWith(q) || w[1].toLowerCase().includes(q);
       }).slice(0, 8);
       if (!hits.length) {
         box.innerHTML = '<div class="search-no-results">Нічого не знайдено</div>';
       } else {
         box.innerHTML = hits.map(function(w){
-          var _isKnown = _activeKnown().has(w[0]);
+          let _isKnown = _activeKnown().has(w[0]);
           return '<div class="search-result-item' + (_isKnown ? ' sr-known' : '') + '" data-word="'+w[0]+'">' +
             '<span class="sr-word">'+w[0]+'</span>' +
             '<span class="sr-transl">'+w[1]+'</span>' +
@@ -1068,16 +1085,16 @@ document.getElementById('btn-theme')!.addEventListener('click', function(){
 
   // Навігація стрілками у результатах
   inp!.addEventListener('keydown', function(e){
-    var items = box.querySelectorAll('.search-result-item');
-    var active = box.querySelector('.search-result-item.active');
+    let items = box.querySelectorAll('.search-result-item');
+    let active = box.querySelector('.search-result-item.active');
     if(e.key === 'ArrowDown'){
       e.preventDefault();
-      var next = active ? (active as HTMLElement).nextElementSibling : items[0];
+      let next = active ? (active as HTMLElement).nextElementSibling : items[0];
       if(active) (active as HTMLElement).classList.remove('active');
       if(next) (next as HTMLElement).classList.add('active');
     } else if(e.key === 'ArrowUp'){
       e.preventDefault();
-      var prev = active ? (active as HTMLElement).previousElementSibling : items[items.length-1];
+      let prev = active ? (active as HTMLElement).previousElementSibling : items[items.length-1];
       if(active) (active as HTMLElement).classList.remove('active');
       if(prev) (prev as HTMLElement).classList.add('active');
     } else if(e.key === 'Enter' && active){
@@ -1116,27 +1133,27 @@ document.addEventListener('keydown', function(e){
 
 // LEVELS, getLevel, getNextLevel — imported from ./features/game.ts
 function renderLevelBadge() {
-  var n = known.size;
-  var lv = getLevel(n);
-  var badge = document.getElementById('level-badge');
+  let n = known.size;
+  let lv = getLevel(n);
+  let badge = document.getElementById('level-badge');
   if (badge) { badge.textContent = levelName(lv.name); badge!.style.background = lv.color + '22'; badge!.style.color = lv.color; }
-  var numEl = document.getElementById('gb-level-num');
-  var lvIdx = LEVELS.indexOf(lv) + 1;
+  let numEl = document.getElementById('gb-level-num');
+  let lvIdx = LEVELS.indexOf(lv) + 1;
   if (numEl) { numEl.textContent = String(lvIdx); numEl.style.color = lv.color; }
   renderLevelProgress();
 }
 function renderLevelProgress() {
-  var n = known.size;
-  var lv   = getLevel(n);
-  var next = getNextLevel(n);
-  var fillEl = document.getElementById('gb-level-fill');
-  var xpEl   = document.getElementById('gb-level-xp');
-  var nextEl = document.getElementById('gb-level-next');
+  let n = known.size;
+  let lv   = getLevel(n);
+  let next = getNextLevel(n);
+  let fillEl = document.getElementById('gb-level-fill');
+  let xpEl   = document.getElementById('gb-level-xp');
+  let nextEl = document.getElementById('gb-level-next');
   if (!fillEl) return;
   if (next) {
-    var cur  = n - lv.min;
-    var need = next.min - lv.min;
-    var pct  = Math.round(cur / need * 100);
+    let cur  = n - lv.min;
+    let need = next.min - lv.min;
+    let pct  = Math.round(cur / need * 100);
     fillEl.style.width = pct + '%';
     fillEl.style.background = 'linear-gradient(90deg, ' + lv.color + ', ' + (next.color || lv.color) + ')';
     if (xpEl)   xpEl.textContent   = cur + ' / ' + need + ' ' + wordsLabel(need);
@@ -1150,18 +1167,7 @@ function renderLevelProgress() {
   _safe(() => updateRing(0, 0));
 }
 
-// ── Режими: трекер завершень ─────────────────────────────────
-window.recordModeComplete = function(mode: string) {
-  var m = getModeStats();
-  m[mode] = (m[mode] || 0) + 1;
-  saveModeStats(m);
-  _safe(() => checkAchievements());
-};
-
-// ── Власні слова: трекер ─────────────────────────────────────
-window.recordCustomWordAdded = function() {
-  _safe(() => checkAchievements());
-};
+// ── Режими: трекер завершень / власні слова — делеговано в game.ts ───────────
 
 // ════════════════════════════════════════
 // ДОСЯГНЕННЯ
@@ -1170,7 +1176,7 @@ window.recordCustomWordAdded = function() {
 
 let _toastTimer: ReturnType<typeof setTimeout> | null = null;
 function showToast(ach: Achievement): void {
-  var t = document.getElementById('achievement-toast')!
+  let t = document.getElementById('achievement-toast')!
   document.getElementById('toast-icon')!.textContent = ach.icon;
   document.getElementById('toast-name')!.textContent = _achName(ach);
   document.getElementById('toast-desc')!.textContent = _achHint(ach);
@@ -1194,14 +1200,14 @@ function showToast(ach: Achievement): void {
 }
 
 function checkAchievements() {
-  var unlocked = loadUnlocked();
+  let unlocked = loadUnlocked();
   if (unlocked.length >= ACHIEVEMENTS.length) return;
-  var unlockedSet = new Set(unlocked);
-  var k = known.size;
-  var g = getGameData();
-  var m = getModeStats();
-  var c = (typeof _customWords !== 'undefined') ? _customWords.length : 0;
-  var newOnes: Achievement[] = [];
+  let unlockedSet = new Set(unlocked);
+  let k = known.size;
+  let g = getGameData();
+  let m = getModeStats();
+  let c = (typeof _customWords !== 'undefined') ? _customWords.length : 0;
+  let newOnes: Achievement[] = [];
   ACHIEVEMENTS.forEach(function(a){
     if(!unlockedSet.has(a.id) && a.check(k, g, m, c)){
       newOnes.push(a);
@@ -1211,7 +1217,7 @@ function checkAchievements() {
   if(newOnes.length) {
     saveUnlocked(unlocked);
     // Показати тости послідовно
-    var i = 0;
+    let i = 0;
     function showNext(){
       if(i < newOnes.length){
         showToast(newOnes[i]);
@@ -1225,48 +1231,48 @@ function checkAchievements() {
 
 
 function renderLevelsRoadmap() {
-  var container = document.getElementById('levels-roadmap');
+  let container = document.getElementById('levels-roadmap');
   if (!container) return;
-  var n = known.size;
+  let n = known.size;
   container!.innerHTML = '';
   LEVELS.forEach(function(lv, i) {
-    var next = LEVELS[i + 1];
-    var isDone    = next ? n >= next.min : n >= lv.min;
-    var isCurrent = n >= lv.min && (!next || n < next.min);
-    var lvNum     = i + 1;
-    var pct       = next ? Math.min(100, Math.round(Math.max(0, n - lv.min) / (next.min - lv.min) * 100)) : 100;
+    let next = LEVELS[i + 1];
+    let isDone    = next ? n >= next.min : n >= lv.min;
+    let isCurrent = n >= lv.min && (!next || n < next.min);
+    let lvNum     = i + 1;
+    let pct       = next ? Math.min(100, Math.round(Math.max(0, n - lv.min) / (next.min - lv.min) * 100)) : 100;
 
-    var row = document.createElement('div');
+    let row = document.createElement('div');
     row.className = 'level-row' + (isCurrent ? ' level-current' : '') + (isDone && !isCurrent ? ' level-done' : '');
 
-    var fillBar = document.createElement('div');
+    let fillBar = document.createElement('div');
     fillBar.className = 'level-row-fill';
     fillBar.style.cssText = 'width:' + (isCurrent ? pct : isDone ? 100 : 0) + '%;background:' + lv.color + ';';
 
     // Номер рівня — кружок з кольором
-    var icon = document.createElement('div');
+    let icon = document.createElement('div');
     icon.className = 'level-row-icon';
     icon.style.cssText = 'width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;' +
       'font-size:.72rem;font-weight:800;flex-shrink:0;border:2px solid ' + lv.color + ';color:' + lv.color + ';';
     icon.textContent = String(lvNum);
 
-    var info = document.createElement('div');
+    let info = document.createElement('div');
     info.className = 'level-row-info';
 
-    var name = document.createElement('div');
+    let name = document.createElement('div');
     name.className = 'level-row-name';
     name.style.color = isCurrent ? lv.color : '';
     name.textContent = levelName(lv.name); // повна назва з емодзі
 
-    var range = document.createElement('div');
+    let range = document.createElement('div');
     range.className = 'level-row-range';
-    var wordsUnit = wordsLabel(2);
+    let wordsUnit = wordsLabel(2);
     range.textContent = lv.min + (next ? '–' + (next.min - 1) : '+') + ' ' + wordsUnit + (isCurrent ? ' · ' + n + ' ' + t('levels.learned') + ' (' + pct + '%)' : '');
 
     info.appendChild(name);
     info.appendChild(range);
 
-    var badge = document.createElement('div');
+    let badge = document.createElement('div');
     badge.className = 'level-row-badge';
     badge!.style.color = lv.color;
     badge!.style.borderColor = lv.color + '66';
@@ -1281,29 +1287,29 @@ function renderLevelsRoadmap() {
 }
 
 function renderAchievements() {
-  var unlocked = new Set(loadUnlocked());
-  var grid = document.getElementById('achievements-grid');
-  var k = known.size;
-  var g = getGameData();
-  var m = getModeStats();
-  var c = (typeof _customWords !== 'undefined') ? _customWords.length : 0;
+  let unlocked = new Set(loadUnlocked());
+  let grid = document.getElementById('achievements-grid');
+  let k = known.size;
+  let g = getGameData();
+  let m = getModeStats();
+  let c = (typeof _customWords !== 'undefined') ? _customWords.length : 0;
 
   // Групуємо по категоріях
-  var cats: Record<string, Achievement[]> = {};
+  let cats: Record<string, Achievement[]> = {};
   ACHIEVEMENTS.forEach(function(a){
     if(!(cats as Record<string, Achievement[]>)[a.cat]) (cats as Record<string, Achievement[]>)[a.cat] = [];
     (cats as Record<string, Achievement[]>)[a.cat].push(a);
   });
 
-  var html2 = '';
+  let html2 = '';
   Object.keys(cats).forEach(function(cat){
     html2 += '<div class="ach-category">';
     html2 += '<div class="ach-cat-title">' + _achCat(cat) + '</div>';
     html2 += '<div class="ach-grid-inner">';
     cats[cat].forEach(function(a: Achievement){
-      var isUnlocked = unlocked.has(a.id);
-      var prog = a.progress(k, g, m, c);
-      var pct = Math.round(prog.cur / prog.max * 100);
+      let isUnlocked = unlocked.has(a.id);
+      let prog = a.progress(k, g, m, c);
+      let pct = Math.round(prog.cur / prog.max * 100);
       html2 += '<div class="ach-card ' + (isUnlocked ? 'unlocked' : 'locked') + '" data-id="' + a.id + '">' +
         '<span class="ach-icon">' + a.icon + '</span>' +
         '<div class="ach-name">' + _achName(a) + '</div>' +
@@ -1319,12 +1325,12 @@ function renderAchievements() {
   grid!.querySelectorAll('.ach-card').forEach(function(card){
     card.addEventListener('click', function(this: HTMLElement, e: Event){
       e.stopPropagation(); // prevent ach-overlay from closing
-      var id = (this as HTMLElement).dataset.id;
-      var a = ACHIEVEMENTS.find(function(x){ return x.id === id; });
+      let id = (this as HTMLElement).dataset.id;
+      let a = ACHIEVEMENTS.find(function(x){ return x.id === id; });
       if(!a) return;
-      var isUnlocked = unlocked.has(id ?? '');
-      var prog = a.progress(k, g, m, c);
-      var pct = Math.min(Math.round(prog.cur / prog.max * 100), 100);
+      let isUnlocked = unlocked.has(id ?? '');
+      let prog = a.progress(k, g, m, c);
+      let pct = Math.min(Math.round(prog.cur / prog.max * 100), 100);
       document.getElementById('ap-icon')!.textContent = a.icon;
       document.getElementById('ap-name')!.textContent = _achName(a);
       document.getElementById('ap-cat')!.textContent = _achCat(a.cat);
@@ -1336,10 +1342,10 @@ function renderAchievements() {
       } else {
         document.getElementById('ap-prog-fill')!.style.background = '';
       }
-      var statusEl = document.getElementById('ap-status')!;
+      let statusEl = document.getElementById('ap-status')!;
       statusEl.textContent = isUnlocked ? t('ach.unlocked') : t('ach.notYet');
       statusEl.className = 'ach-popup-status ' + (isUnlocked ? 'done' : 'todo');
-      var overlay = document.getElementById('ach-popup-overlay')!;
+      let overlay = document.getElementById('ach-popup-overlay')!;
       overlay.className = 'open';
     });
   });
@@ -1368,11 +1374,11 @@ function renderSRSForecast() {
   const maxCnt = Math.max.apply(null, counts.map(function(c){ return c.cnt; })) || 1;
   const totalDue = counts.reduce(function(a,c){ return a+c.cnt; }, 0);
 
-  var html = '<div style="font-size:.72rem;color:var(--text3);margin-bottom:8px;">' + t('stats.totalScheduled') + ': ' + totalDue + ' ' + t('stats.reviews') + '</div>';
+  let html = '<div style="font-size:.72rem;color:var(--text3);margin-bottom:8px;">' + t('stats.totalScheduled') + ': ' + totalDue + ' ' + t('stats.reviews') + '</div>';
   html += '<div class="srs-fc-bars">';
   counts.forEach(function(c) {
-    var pct = Math.round(c.cnt / maxCnt * 100);
-    var isToday = c.label === t('stats.todayCap');
+    let pct = Math.round(c.cnt / maxCnt * 100);
+    let isToday = c.label === t('stats.todayCap');
     html += '<div class="srs-fc-col">' +
       '<div class="srs-fc-bar-wrap"><div class="srs-fc-bar' + (isToday ? ' srs-fc-today' : '') + '" style="height:' + Math.max(pct,2) + '%"></div></div>' +
       '<div class="srs-fc-cnt">' + (c.cnt || '') + '</div>' +
@@ -1499,9 +1505,7 @@ window.showToast           = showToast;
 window.buildStaleDeck      = buildStaleDeck;
 window.openStats           = openStats;
 window.closeStats          = closeStats;
-window._gameCache          = state._gameCache;
-window._dailyCache         = state._dailyCache;
-// _srsStatsDirty moved to state
+// _srsStatsDirty, _gameCache, _dailyCache live in state — not duplicated on window
 window.idx                 = idx;
 window.flipped             = flipped;
 Object.defineProperty(window, 'cw', { configurable: true, get: function() { return cw; } });
@@ -1516,7 +1520,7 @@ window.invalidateSimilarCache = invalidateSimilarCache;
 window.exportProgress        = exportProgress;
 window.updateRing            = updateRing;
 window.playSound             = playSound;
-// window.recordModeComplete — defined above (line ~1144) with checkAchievements() wrapper
+window.recordModeComplete    = recordModeComplete;
 window.recordCustomWordAdded = recordCustomWordAdded;
 window.renderLevelProgress   = renderLevelProgress;
 window.renderSRSForecast     = renderSRSForecast;
@@ -1530,25 +1534,26 @@ window._speakWithLang        = _speakWithLang;
 // ЕКСПОРТ / ІМПОРТ ПРОГРЕСУ
 // ════════════════════════════════════════
 function exportProgress() {
-  // v:2 — завжди plain JSON для known/srs (незалежно від LZ-стиснення)
-  var data = {
-    v: 2,
-    known: JSON.stringify([...known]),
-    srs:   JSON.stringify(srsData),
-    game:  localStorage.getItem('ew_game')  || '{}',
-    daily: localStorage.getItem('ew_daily') || '{}',
-    ach:   localStorage.getItem('ew_ach')   || '[]',
-    theme: localStorage.getItem('ew_theme') || '',
+  // v:3 — adds custom words backup (ew_custom)
+  let data = {
+    v: 3,
+    known:  JSON.stringify([...known]),
+    srs:    JSON.stringify(srsData),
+    game:   localStorage.getItem('ew_game')   || '{}',
+    daily:  localStorage.getItem('ew_daily')  || '{}',
+    ach:    localStorage.getItem('ew_ach')    || '[]',
+    theme:  localStorage.getItem('ew_theme')  || '',
+    custom: localStorage.getItem('ew_custom') || '[]',
   };
   return btoa(unescape(encodeURIComponent(JSON.stringify(data))));
 }
 
 function importProgress(code: string): boolean {
   try {
-    var data = JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
-    if (data.v !== 1 && data.v !== 2) throw new Error('Невірний формат');
+    let data = JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
+    if (data.v !== 1 && data.v !== 2 && data.v !== 3) throw new Error('Невірний формат');
 
-    var knownJson = data.known, srsJson = data.srs;
+    let knownJson = data.known, srsJson = data.srs;
 
     if (data.v === 1) {
       // v1 може містити LZ-стиснений рядок — спробуємо розпакувати
@@ -1559,10 +1564,11 @@ function importProgress(code: string): boolean {
     // Зберігаємо через _lzSave щоб прапорці LZ були виставлені коректно
     if (knownJson) { _safe(() => _lzSave('ew_known', JSON.parse(knownJson))); }
     if (srsJson)   { _safe(() => _lzSave('ew_srs',   JSON.parse(srsJson)));  }
-    if (data.game)  localStorage.setItem('ew_game',  data.game);
-    if (data.daily) localStorage.setItem('ew_daily', data.daily);
-    if (data.ach)   localStorage.setItem('ew_ach',   data.ach);
-    if (data.theme) localStorage.setItem('ew_theme', data.theme);
+    if (data.game)   localStorage.setItem('ew_game',   data.game);
+    if (data.daily)  localStorage.setItem('ew_daily',  data.daily);
+    if (data.ach)    localStorage.setItem('ew_ach',    data.ach);
+    if (data.theme)  localStorage.setItem('ew_theme',  data.theme);
+    if (data.custom) localStorage.setItem('ew_custom', data.custom);
 
     // Перезавантажуємо в пам'ять
     _safe(() => { known = new Set(JSON.parse(knownJson)); state.known = known; window.known = known; });
@@ -1583,24 +1589,24 @@ function importProgress(code: string): boolean {
 
 // ── Фоновий prefetch зображень ──
 (function(){
-  var _running = false;
-  var _timer: ReturnType<typeof setInterval> | null = null;
-  var _pos     = 0; // поточна позиція в W
+  let _running = false;
+  let _timer: ReturnType<typeof setInterval> | null = null;
+  let _pos     = 0; // поточна позиція в W
 
-  var barEl    = document.getElementById('prefetch-bar');
-  var statusEl = document.getElementById('prefetch-status');
-  var btnStart = document.getElementById('prefetch-start');
-  var btnStop  = document.getElementById('prefetch-stop');
-  var btnClear = document.getElementById('prefetch-clear');
+  let barEl    = document.getElementById('prefetch-bar');
+  let statusEl = document.getElementById('prefetch-status');
+  let btnStart = document.getElementById('prefetch-start');
+  let btnStop  = document.getElementById('prefetch-stop');
+  let btnClear = document.getElementById('prefetch-clear');
 
   function cachedCount()  { return Object.keys(_imgCache).length; }
   function withImageCount(){ return Object.keys(_imgCache).filter(function(k){ return _imgCache[k]; }).length; }
 
   function updateUI() {
-    var cached = cachedCount();
-    var withImg = withImageCount();
-    var total = W.length;
-    var pct = Math.round(cached / total * 100);
+    let cached = cachedCount();
+    let withImg = withImageCount();
+    let total = W.length;
+    let pct = Math.round(cached / total * 100);
     if (barEl) barEl.style.width = pct + '%';
     if (statusEl) {
       if (_running) {
@@ -1629,7 +1635,7 @@ function importProgress(code: string): boolean {
 
   function fetchNext() {
     if (!_running) return;
-    var word = findNext();
+    let word = findNext();
     if (!word) {
       // Всі слова оброблені
       _running = false;
@@ -1640,7 +1646,7 @@ function importProgress(code: string): boolean {
     loadWikiImage(word, function() {
       updateUI();
       // Затримка: 150мс з Pixabay, 400мс без (поважаємо Wikipedia)
-      var delay = _getPixabayKey() ? 150 : 400;
+      let delay = _getPixabayKey() ? 150 : 400;
       _timer = setTimeout(fetchNext, delay);
     });
   }
@@ -1676,12 +1682,12 @@ function importProgress(code: string): boolean {
 
 // ── Pixabay ключ ──
 (function() {
-  var inp = document.getElementById('pixabay-key-input') as HTMLInputElement | null;
-  var saveBtn = document.getElementById('pixabay-key-save')!;
-  var status = document.getElementById('pixabay-key-status')!;
+  let inp = document.getElementById('pixabay-key-input') as HTMLInputElement | null;
+  let saveBtn = document.getElementById('pixabay-key-save')!;
+  let status = document.getElementById('pixabay-key-status')!;
 
   function refreshStatus() {
-    var k = _getPixabayKey();
+    let k = _getPixabayKey();
     if (k) {
       status.textContent = t('settings.pixabayKeySaved');
       status.style.color = 'var(--accent)';
@@ -1695,7 +1701,7 @@ function importProgress(code: string): boolean {
   window._refreshPixabayStatus = refreshStatus;
 
   saveBtn.addEventListener('click', function() {
-    var val = inp!.value.trim();
+    let val = inp!.value.trim();
     // Якщо це замаскований рядок — не перезаписувати
     if (val && !val.includes('•')) {
       localStorage.setItem('ew_pixabay_key', val);
@@ -1712,8 +1718,8 @@ function importProgress(code: string): boolean {
 
 document.getElementById('btn-export')!.addEventListener('click', function(){
   closeStats();
-  var code = exportProgress();
-  var ta = (document.getElementById('export-textarea') as HTMLTextAreaElement);
+  let code = exportProgress();
+  let ta = (document.getElementById('export-textarea') as HTMLTextAreaElement);
   ta.value = code;
   document.getElementById('export-modal')!.style.display = 'flex';
   setTimeout(function(){
@@ -1734,7 +1740,7 @@ document.getElementById('btn-export')!.addEventListener('click', function(){
 });
 
 document.getElementById('export-select-all')!.addEventListener('click', function(){
-  var ta = (document.getElementById('export-textarea') as HTMLTextAreaElement);
+  let ta = (document.getElementById('export-textarea') as HTMLTextAreaElement);
   ta.focus(); ta.select();
   try {
     if(navigator.clipboard && navigator.clipboard.writeText) {
@@ -1768,7 +1774,7 @@ document.getElementById('import-cancel')!.addEventListener('click', function(){
   document.getElementById('import-modal')!.className = '';
 });
 document.getElementById('import-confirm')!.addEventListener('click', function(){
-  var code = (document.getElementById('import-textarea') as HTMLTextAreaElement).value.trim();
+  let code = (document.getElementById('import-textarea') as HTMLTextAreaElement).value.trim();
   if(!code) { document.getElementById('import-error')!.textContent = t('modal.importEmpty'); return; }
   if(importProgress(code)) {
     document.getElementById('import-modal')!.className = '';
@@ -1778,7 +1784,7 @@ document.getElementById('import-confirm')!.addEventListener('click', function(){
     _safe(() => openStats());
     _safe(() => render());
     // Показати успіх
-    var btn = document.getElementById('btn-import-open')!;
+    let btn = document.getElementById('btn-import-open')!;
     btn.textContent = t('modal.importedExcl');
     setTimeout(function(){ btn.textContent = t('settings.import'); }, 3000);
   } else {
@@ -1818,9 +1824,9 @@ const _origFlipLogic_handled = false;
 
 // Схожість перекладу — спільні слова
 function translSimilarity(ta: string, tb: string): number {
-  var wa = ta.toLowerCase().split(/[\s,/]+/).filter(Boolean);
-  var wb = tb.toLowerCase().split(/[\s,/]+/).filter(Boolean);
-  var common = wa.filter(function(w){ return wb.indexOf(w) !== -1; });
+  let wa = ta.toLowerCase().split(/[\s,/]+/).filter(Boolean);
+  let wb = tb.toLowerCase().split(/[\s,/]+/).filter(Boolean);
+  let common = wa.filter(function(w){ return wb.indexOf(w) !== -1; });
   return common.length;
 }
 
@@ -1829,18 +1835,18 @@ function translSimilarity(ta: string, tb: string): number {
 
 function updateCollocations() {
   if (!cw) return;
-  var section = document.getElementById('cb-collocations');
-  var list    = document.getElementById('cb-collocation-list');
+  let section = document.getElementById('cb-collocations');
+  let list    = document.getElementById('cb-collocation-list');
   if (!section || !list) return;
 
-  var colls = searchCollocations(cw[0]);
+  let colls = searchCollocations(cw[0]);
   if (!colls.length) { section.style.display = 'none'; return; }
 
   section.style.display = 'block';
   // Highlight the keyword in each phrase and display as pill
   list.innerHTML = colls.slice(0, 6).map(function(c) {
-    var wordLow = cw![0].toLowerCase();
-    var highlighted = c.phrase.replace(
+    let wordLow = cw![0].toLowerCase();
+    let highlighted = c.phrase.replace(
       new RegExp('\\b(' + wordLow + '\\w*)\\b', 'i'),
       '<b>$1</b>'
     );
@@ -1850,31 +1856,26 @@ function updateCollocations() {
 
 function updateWordFamilies() {
   if (!cw) return;
-  var section = document.getElementById('cb-families');
-  var chips   = document.getElementById('cb-family-chips');
+  let section = document.getElementById('cb-families');
+  let chips   = document.getElementById('cb-family-chips');
   if (!section || !chips) return;
 
-  var word = cw[0].toLowerCase();
-  // Find family: check if word IS a base, or if word is a member of a base family
-  var family: string[] | undefined = WORD_FAMILIES[word];
+  let word = cw[0].toLowerCase();
+  // Find family: check if word IS a base, or look up reverse index for members
+  let family: string[] | undefined = WORD_FAMILIES[word];
   if (!family) {
-    // Search if this word appears as a member of another family
-    for (const [base, members] of Object.entries(WORD_FAMILIES)) {
-      if (members.includes(word)) {
-        family = [base, ...members.filter(m => m !== word)];
-        break;
-      }
-    }
+    const base = WORD_FAMILY_REVERSE.get(word);
+    if (base) family = [base, ...WORD_FAMILIES[base].filter(m => m !== word)];
   }
 
   if (!family || family.length === 0) { section.style.display = 'none'; return; }
 
   section.style.display = 'block';
   chips.innerHTML = family.slice(0, 6).map(function(w) {
-    var wi = _wordIdx.get(w);
-    var entry = wi !== undefined ? W[wi] : null;
-    var transl = entry ? (entry as string[])[1] : '';
-    var isKnown = known.has(w);
+    let wi = _wordIdx.get(w);
+    let entry = wi !== undefined ? W[wi] : null;
+    let transl = entry ? (entry as string[])[1] : '';
+    let isKnown = known.has(w);
     return '<div class="sim-chip family-chip' + (isKnown ? ' known-chip' : '') + '" data-word="' + w + '">' +
       '<span class="sc-word">' + w + '</span>' +
       (transl ? '<span class="sc-transl">' + transl + '</span>' : '') +
@@ -1884,8 +1885,8 @@ function updateWordFamilies() {
   chips.querySelectorAll('.family-chip').forEach(function(chip) {
     chip.addEventListener('click', function(this: HTMLElement, e: Event) {
       e.stopPropagation();
-      var targetWord = this.dataset.word;
-      var wi2 = _wordIdx.has(targetWord) ? _wordIdx.get(targetWord) : -1;
+      let targetWord = this.dataset.word;
+      let wi2 = _wordIdx.has(targetWord) ? _wordIdx.get(targetWord) : -1;
       if (wi2 === undefined || wi2 === -1) return;
       openWordDetail(W[wi2 as number] as unknown as WordEntry);
     });
@@ -1894,15 +1895,15 @@ function updateWordFamilies() {
 
 function updateSimilarWords() {
   if (!cw) return;
-  var section = document.getElementById('cb-similar');
-  var chips   = document.getElementById('cb-chips');
+  let section = document.getElementById('cb-similar');
+  let chips   = document.getElementById('cb-chips');
   if (!section || !chips) return;
 
-  var mode = getMode();
-  var isEsMode = ES_MODES.has(mode);
-  var esEntry = isEsMode ? _esEntry(cw[0]) : null;
+  let mode = getMode();
+  let isEsMode = ES_MODES.has(mode);
+  let esEntry = isEsMode ? _esEntry(cw[0]) : null;
 
-  var similar = (isEsMode && esEntry)
+  let similar = (isEsMode && esEntry)
     ? getSimilarWordsEs(cw[0], esEntry[0], 10).filter(w => !!_esEntry(w[0]))
     : getSimilarWords(cw[0], cw[1], 5);
   if (isEsMode) similar = similar.slice(0, 5);
@@ -1910,10 +1911,10 @@ function updateSimilarWords() {
 
   section.style.display = 'block';
   chips.innerHTML = similar.map(function(w) {
-    var isKnown = _activeKnown().has(w[0]);
-    var wEsEntry = isEsMode ? _esEntry(w[0]) : null;
-    var displayWord   = wEsEntry ? wEsEntry[0] : w[0];
-    var displayTransl = w[1];
+    let isKnown = _activeKnown().has(w[0]);
+    let wEsEntry = isEsMode ? _esEntry(w[0]) : null;
+    let displayWord   = wEsEntry ? wEsEntry[0] : w[0];
+    let displayTransl = w[1];
     return '<div class="sim-chip' + (isKnown ? ' known-chip' : '') + '" data-word="' + w[0] + '">' +
       '<span class="sc-word">' + displayWord + '</span>' +
       '<span class="sc-transl">' + displayTransl + '</span>' +
@@ -1924,8 +1925,8 @@ function updateSimilarWords() {
   chips.querySelectorAll('.sim-chip').forEach(function(chip) {
     chip.addEventListener('click', function(this: HTMLElement, e: Event) {
       e.stopPropagation();
-      var targetWord = this.dataset.word;
-      var wi = _wordIdx.has(targetWord) ? _wordIdx.get(targetWord) : -1;
+      let targetWord = this.dataset.word;
+      let wi = _wordIdx.has(targetWord) ? _wordIdx.get(targetWord) : -1;
       if (wi === undefined || wi === -1) return;
       openWordDetail(W[wi as number] as unknown as WordEntry);
     });
@@ -1936,19 +1937,19 @@ function updateSimilarWords() {
 // СВАЙПИ
 // ════════════════════════════════════════
 (function(){
-  var card = document.getElementById('card')!;
-  var shRight = document.getElementById('sh-right')!;
-  var shLeft  = document.getElementById('sh-left')!;
-  var shUp    = document.getElementById('sh-up')!;
+  let card = document.getElementById('card')!;
+  let shRight = document.getElementById('sh-right')!;
+  let shLeft  = document.getElementById('sh-left')!;
+  let shUp    = document.getElementById('sh-up')!;
 
-  var startX = 0, startY = 0, startTime = 0;
-  var isDragging = false;
+  let startX = 0, startY = 0, startTime = 0;
+  let isDragging = false;
 
-  var THRESHOLD = 60;   // мін. відстань для свайпу
-  var MAX_TIME = 400;   // мс
+  let THRESHOLD = 60;   // мін. відстань для свайпу
+  let MAX_TIME = 400;   // мс
 
   card.addEventListener('touchstart', function(e){
-    var t = e.touches[0];
+    let t = e.touches[0];
     startX = t.clientX;
     startY = t.clientY;
     startTime = Date.now();
@@ -1957,11 +1958,11 @@ function updateSimilarWords() {
 
   card.addEventListener('touchmove', function(e){
     if(!isDragging) return;
-    var t = e.touches[0];
-    var dx = t.clientX - startX;
-    var dy = t.clientY - startY;
-    var absDx = Math.abs(dx);
-    var absDy = Math.abs(dy);
+    let t = e.touches[0];
+    let dx = t.clientX - startX;
+    let dy = t.clientY - startY;
+    let absDx = Math.abs(dx);
+    let absDy = Math.abs(dy);
 
     // Показати підказку напрямку
     if(absDx > 20 && absDx > absDy) {
@@ -1989,12 +1990,12 @@ function updateSimilarWords() {
     shLeft.className  = 'swipe-hint-left';
     shUp.className    = 'swipe-hint-up';
 
-    var t = e.changedTouches[0];
-    var dx = t.clientX - startX;
-    var dy = t.clientY - startY;
-    var dt = Date.now() - startTime;
-    var absDx = Math.abs(dx);
-    var absDy = Math.abs(dy);
+    let t = e.changedTouches[0];
+    let dx = t.clientX - startX;
+    let dy = t.clientY - startY;
+    let dt = Date.now() - startTime;
+    let absDx = Math.abs(dx);
+    let absDy = Math.abs(dy);
 
     // Скинути трансформацію
     card.style.transition = '';
@@ -2038,8 +2039,8 @@ function updateSimilarWords() {
 // PWA
 // ════════════════════════════════════════
 (function(){
-  var deferredPrompt: any = null;
-  var banner = document.getElementById('pwa-banner')!;
+  let deferredPrompt: any = null;
+  let banner = document.getElementById('pwa-banner')!;
 
   // Слухаємо beforeinstallprompt (Chrome/Android)
   window.addEventListener('beforeinstallprompt', function(e){
@@ -2068,8 +2069,8 @@ function updateSimilarWords() {
   });
 
   // iOS — підказка додати на головний екран
-  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  var isInStandalone = (navigator as any).standalone === true;
+  let isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  let isInStandalone = (navigator as any).standalone === true;
   if(isIOS && !isInStandalone && !localStorage.getItem('ew_pwa_dismissed')){
     setTimeout(function(){
       const _pwaText = banner.querySelector<HTMLElement>('.pwa-text');

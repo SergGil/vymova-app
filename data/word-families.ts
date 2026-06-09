@@ -332,3 +332,9 @@ export const WORD_FAMILIES: Record<string, string[]> = {
   'youth': ['youthful', 'youngster'],
   'zeal': ['zealous', 'zealously'],
 };
+
+// Reverse index: member word → base word (built once at module load)
+export const WORD_FAMILY_REVERSE: Map<string, string> = new Map();
+for (const [base, members] of Object.entries(WORD_FAMILIES)) {
+  for (const m of members) WORD_FAMILY_REVERSE.set(m, base);
+}

@@ -250,41 +250,51 @@ export const CEFR_MAP: Record<string, CefrLevel> = {
 };
 
 // ── Heuristic for unmapped words ──────────────────────────────
+const _cefrCache = new Map<string, CefrLevel>();
+
 export function getCefrLevel(word: string): CefrLevel {
   const w = word.toLowerCase();
+  const cached = _cefrCache.get(w);
+  if (cached) return cached;
+
+  let result: CefrLevel;
 
   // Check explicit mapping first
   const mapped = CEFR_MAP[w];
-  if (mapped) return mapped;
+  if (mapped) { result = mapped; }
+  else {
+    const len = w.length;
 
-  const len = w.length;
+    // Academic/specialized suffixes → advanced
+    if (w.endsWith('ification') || w.endsWith('isation') || w.endsWith('ization')) result = 'C1';
+    else if (w.endsWith('ology') || w.endsWith('ography') || w.endsWith('ometry')) result = 'C1';
+    else if (w.endsWith('itious') || w.endsWith('aneous') || w.endsWith('acious')) result = 'C1';
+    else if (w.endsWith('ulent') || w.endsWith('escent') || w.endsWith('iferous')) result = 'C2';
+    else if (w.endsWith('ous') && len > 12) result = 'C1';
+    else if (w.endsWith('ive') && len > 12) result = 'C1';
+    else if (w.endsWith('tion') && len > 13) result = 'C1';
 
-  // Academic/specialized suffixes → advanced
-  if (w.endsWith('ification') || w.endsWith('isation') || w.endsWith('ization')) return 'C1';
-  if (w.endsWith('ology') || w.endsWith('ography') || w.endsWith('ometry')) return 'C1';
-  if (w.endsWith('itious') || w.endsWith('aneous') || w.endsWith('acious')) return 'C1';
-  if (w.endsWith('ulent') || w.endsWith('escent') || w.endsWith('iferous')) return 'C2';
-  if (w.endsWith('ous') && len > 12) return 'C1';
-  if (w.endsWith('ive') && len > 12) return 'C1';
-  if (w.endsWith('tion') && len > 13) return 'C1';
+    // Prefixes suggesting advanced vocab
+    else if (w.startsWith('meta') && len > 8) result = 'C1';
+    else if (w.startsWith('pseudo') || w.startsWith('quasi')) result = 'C1';
+    else if (w.startsWith('anti') && len > 10) result = 'B2';
+    else if (w.startsWith('inter') && len > 10) result = 'B2';
+    else if (w.startsWith('over') && len > 8) result = 'B1';
+    else if (w.startsWith('under') && len > 8) result = 'B1';
+    else if (w.startsWith('re') && len > 8) result = 'B1';
+    else if (w.startsWith('un') && len > 7) result = 'A2';
 
-  // Prefixes suggesting advanced vocab
-  if (w.startsWith('meta') && len > 8) return 'C1';
-  if (w.startsWith('pseudo') || w.startsWith('quasi')) return 'C1';
-  if (w.startsWith('anti') && len > 10) return 'B2';
-  if (w.startsWith('inter') && len > 10) return 'B2';
-  if (w.startsWith('over') && len > 8) return 'B1';
-  if (w.startsWith('under') && len > 8) return 'B1';
-  if (w.startsWith('re') && len > 8) return 'B1';
-  if (w.startsWith('un') && len > 7) return 'A2';
+    // Length-based fallback (shorter words tend to be more common)
+    else if (len <= 3) result = 'A1';
+    else if (len <= 4) result = 'A2';
+    else if (len <= 6) result = 'B1';
+    else if (len <= 8) result = 'B2';
+    else if (len <= 11) result = 'C1';
+    else result = 'C2';
+  }
 
-  // Length-based fallback (shorter words tend to be more common)
-  if (len <= 3) return 'A1';
-  if (len <= 4) return 'A2';
-  if (len <= 6) return 'B1';
-  if (len <= 8) return 'B2';
-  if (len <= 11) return 'C1';
-  return 'C2';
+  _cefrCache.set(w, result);
+  return result;
 }
 
 // ── Level metadata ────────────────────────────────────────────

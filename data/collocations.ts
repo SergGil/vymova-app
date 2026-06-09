@@ -394,10 +394,21 @@ export function getAllCollocations(): Collocation[] {
   return Object.values(COLLOCATIONS).flat();
 }
 
-/** Search collocations whose phrase contains a given word (case-insensitive) */
+// Inverted index: each word in any phrase → collocations containing it
+const _collIndex = new Map<string, Collocation[]>();
+for (const colls of Object.values(COLLOCATIONS)) {
+  for (const c of colls) {
+    for (const token of c.phrase.toLowerCase().split(/\s+/)) {
+      const list = _collIndex.get(token);
+      if (list) list.push(c);
+      else _collIndex.set(token, [c]);
+    }
+  }
+}
+
+/** Search collocations whose phrase contains a given word (O(1) index lookup) */
 export function searchCollocations(word: string): Collocation[] {
-  const lower = word.toLowerCase();
-  return getAllCollocations().filter(c => c.phrase.toLowerCase().includes(lower));
+  return _collIndex.get(word.toLowerCase()) ?? [];
 }
 
 /** Return all unique category names */
