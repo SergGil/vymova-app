@@ -1,53 +1,40 @@
 ﻿// English Words App — js/app.ts
-import type { WordEntry, SRSData, GameData, ModeStats, Achievement, Level } from '../src/types.js';
-import { _lzLoad, _lzSave, saveKnown, saveSRS, saveKnownEs, loadKnownEs } from './core/storage.ts';
+import type { WordEntry } from '../src/types.js';
+import { _lzLoad, saveKnown, saveSRS, saveKnownEs, loadKnownEs } from './core/storage.ts';
 import { W }                                       from '../data/words.js';
-import { SVG, getIllus }                           from '../data/illustrations.js';
-import { WORD_CATEGORIES, getCategoriesForWord }    from '../data/categories.js';
-import { loadWikiImage, _imgCache, _idb,
-         _saveImgCache, _getPixabayKey,
-         resetImgCache }                           from './core/images.ts';
+import { getIllus }                                from '../data/illustrations.js';
+import { getCategoriesForWord }                    from '../data/categories.js';
+import { loadWikiImage, _imgCache, _idb }          from './core/images.ts';
 import { state }                                   from '../src/state.ts';
-import { shuffle, _shuf, addDays, sm2Update,
-         buildSRSDeck, buildUnlearnedDeck,
-         updateSrsUI, synth, hasSpeech }           from './core/srs.ts';
-import { addCombo, breakCombo, flashCard, getComboMult } from './features/combo.ts';
-import {
-  getGameData, saveGameData, getDailyStats, saveDailyStats, recordDailyWord,
-  getModeStats, saveModeStats, updateStreak,
-  LEVELS, getLevel, getNextLevel, recordModeComplete, recordCustomWordAdded, _idle,
-  getHardWords,
-} from './features/game.ts';
-import { isBookmarked, getBookmarks, toggleBookmark }    from './features/bookmarks.ts';
-import { getNoteForWord, hasNote, openNoteModal }        from './features/notes.ts';
-import { isPronuncSupported, showPronuncResult,
-         startPronunciationCheck, stopPronunciationCheck } from './features/pronunciation.ts';
-import { getSelectedUkVoice, getSelectedEsVoice }        from './features/voice.ts';
-import { decodeIpa }                                    from './core/ui-helpers.ts';
-import { getCefrLevel }                                 from '../data/cefr.ts';
-import { ACHIEVEMENTS }                                 from '../data/achievements.ts';
-import { t, getLang, levelName, wordsLabel, categoryName } from './features/i18n.ts';
-import { renderGameBar, renderLevelBadge, renderLevelProgress, renderLevelsRoadmap } from './features/render-game-bar.ts';
-import { checkAchievements, renderAchievements, showToast } from './features/render-achievements.ts';
-import { renderStats, openStats, closeStats, renderSRSForecast } from './features/stats.ts';
-import { renderLeaderboard, maybeSubmitScore }         from './features/leaderboard.ts';
-import { playSound }                                    from './core/audio.ts';
-import { launchConfetti }                               from './core/confetti.ts';
-import { updateRing }                                   from './features/ring.ts';
-import { invalidateSimilarCache, updateSimilarWords } from './features/similar-words.ts';
-import { openWordDetail }                               from './features/word-detail.ts';
-import { updateCollocations, updateWordFamilies }       from './features/word-context.ts';
+import { synth }                                    from './core/srs.ts';
+import { getComboMult }                             from './features/combo.ts';
+import { getGameData, saveGameData, recordDailyWord,
+         updateStreak, recordModeComplete,
+         recordCustomWordAdded, _idle }            from './features/game.ts';
+import { isBookmarked }                            from './features/bookmarks.ts';
+import { getNoteForWord, hasNote }                 from './features/notes.ts';
+import { decodeIpa }                               from './core/ui-helpers.ts';
+import { getCefrLevel }                            from '../data/cefr.ts';
+import { ACHIEVEMENTS }                            from '../data/achievements.ts';
+import { t, categoryName }                         from './features/i18n.ts';
+import { renderGameBar, renderLevelBadge }         from './features/render-game-bar.ts';
+import { checkAchievements }                       from './features/render-achievements.ts';
+import { maybeSubmitScore }                        from './features/leaderboard.ts';
+import { playSound }                               from './core/audio.ts';
+import { updateRing }                              from './features/ring.ts';
+import { invalidateSimilarCache }                  from './features/similar-words.ts';
+import { openWordDetail }                          from './features/word-detail.ts';
+import { ES_MODES, getMode, esEntry as _esEntry }  from './features/mode-utils.ts';
+import './features/speech.ts';
 import './features/image-prefetch.ts';
-import { ES_MODES, getMode, esEntry as _esEntry }      from './features/mode-utils.ts';
-import { speak, _speakWeb, _speakWithLang, getVoice }  from './features/speech.ts';
 import './features/search-inline.ts';
-import './core/keyboard.ts';
-import './core/theme.ts';
 import './features/card-actions.ts';
 import './features/goal-modal.ts';
-import { _refreshRangeOptions, buildStaleDeck } from './features/deck-filter.ts';
+import './features/deck-filter.ts';
 import './features/deck-mode.ts';
 import './features/progress-io.ts';
+import './core/keyboard.ts';
+import './core/theme.ts';
 import './core/swipe.ts';
 import './core/pwa.ts';
 
@@ -74,8 +61,7 @@ state.known   = known;    // Set — mutations propagate
 state.srsData = srsData;  // Object — mutations propagate
 
 let _baseWords = W.slice();
-state._baseWords = _baseWords as unknown as WordEntry[]; // sync initial value
-let _activeTagSet = null; // тег-фільтр: null = вимкнений, Set = активний
+state._baseWords = _baseWords as unknown as WordEntry[];
 
 // ── Single-source helpers — replace triple-sync boilerplate ────────────────
 // Call _setDeck / _setIdx / _setCw instead of writing to all 3 stores manually.
@@ -119,7 +105,6 @@ let $el: Record<string, HTMLElement | null> = {};
 let _wordIdx = new Map();
 W.forEach(function(w, i) { _wordIdx.set(w[0], i); });
 
-// Категорії слів для Category Matching
 // ── Власні слова: завантажуємо і додаємо в W ──
 let _customWords: Array<{en:string;ua:string;ex_en?:string;ex_ua?:string}> = [];
 try { _customWords = JSON.parse(localStorage.getItem('ew_custom') || '[]'); } catch(e){ console.warn('[custom] Load failed:', (e as Error).message); }
@@ -129,10 +114,6 @@ _customWords.forEach(function(c) {
     _wordIdx.set(c.en, W.length - 1);
   }
 });
-
-// ── Кеш зображень {word: url | null} ──
-// ── IndexedDB для image cache (необмежений розмір) + localStorage fallback ──
-// speak, _speakWeb, _speakWithLang, getVoice — imported from ./features/speech.ts
 
 function stopAuto(): void {
   if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
@@ -392,13 +373,6 @@ function render() {
   });
 }
 
-// Card listeners → ./features/card-actions.ts
-
-// ── ES pair modes ── (moved to ./features/deck-mode.ts)
-
-// ══ _refreshRangeOptions + sel-range listener ══ (moved to ./features/deck-filter.ts)
-
-
 // ── Геймфікація: streak + денна ціль ──
 const TODAY = new Date().toISOString().slice(0,10);
 window.TODAY = TODAY; // legacy files (catpairs.js, srs.js, etc.) use this globally
@@ -432,56 +406,19 @@ function onWordLearned() {
   });
 }
 
-// getDailyStats — imported from ./features/game.ts
-
-// ── Рендер статистики ──
-
-
-
-
-// ── Кнопки відкрити/закрити статистику ──
-
-// Goal modal → ./features/goal-modal.ts
-
-
-// ── Безпечна ініціалізація ──
 
 try { renderGameBar(); } catch(e){ console.error((e as Error).message); }
 
 
-// ── Темна тема ── (moved to ./core/theme.ts)
-
-// ── Пошук ── (moved to ./features/search-inline.ts)
-
-// ── Клавіатурні скорочення ── (moved to ./core/keyboard.ts)
-
-
-// LEVELS, getLevel, getNextLevel — imported from ./features/game.ts
-
-// ── Режими: трекер завершень / власні слова — делеговано в game.ts ───────────
-
-// ════════════════════════════════════════
-// ДОСЯГНЕННЯ
-// ════════════════════════════════════════
-// ACHIEVEMENTS imported from data/achievements.ts
 
 
 
 
 
-
-
-
-
-
-// renderLevelBadge/checkAchievements вбудовано в основну onWordLearned нижче
-
-// ── Перевіряємо досягнення і рівень при старті ──
 renderLevelBadge();
 checkAchievements();
 
-// ── Phase 2: expose all functions/vars needed by legacy mode/feature files ──
-// window.speak / window.getVoice / window._speakWeb / window.speakWebFallback / window._speakWithLang — set by speech.ts
+// ── Expose functions/vars needed by feature modules and legacy scripts ──
 window.render            = render;
 window.stopAuto          = stopAuto;
 window.getGameData       = getGameData;
@@ -492,9 +429,6 @@ window.onWordLearned     = onWordLearned;
 // window.renderStats/openStats/closeStats/renderSRSForecast — set by stats.ts
 window.ACHIEVEMENTS        = ACHIEVEMENTS;
 window.openWordDetail      = openWordDetail;
-// _srsStatsDirty, _gameCache, _dailyCache live in state — not duplicated on window
-// window.deck / window.idx / window.flipped / window.cw are live getters defined at top of file
-// ── Setters for module-scope primitives used by legacy files ──
 window.setIdx     = (i: number)              => _setIdx(i);
 window.setDeck    = (d: WordEntry[])         => _setDeck(d);
 window.setBaseWords = (w: WordEntry[]) => { _baseWords = w as unknown as string[][]; state._baseWords = w; };
@@ -515,45 +449,3 @@ window.updateRing            = updateRing;
 window.playSound             = playSound;
 window.recordModeComplete    = recordModeComplete;
 window.recordCustomWordAdded = recordCustomWordAdded;
-// window.renderLevelProgress — set by render-game-bar.ts
-// window.renderSRSForecast   — set by stats.ts
-// window._speakWeb / window.speakWebFallback / window._speakWithLang — set by speech.ts
-
-
-
-// ════════════════════════════════════════
-// ЕКСПОРТ / ІМПОРТ ПРОГРЕСУ
-// (exportProgress, importProgress + modal listeners moved to ./features/progress-io.ts)
-
-// ════════════════════════════════════════
-// ПРОГРЕС-КІЛЬЦЕ
-// ════════════════════════════════════════
-// updateRing imported from ./features/ring.ts
-
-// ════════════════════════════════════════
-// КОНФЕТІ
-// ════════════════════════════════════════
-// launchConfetti imported from ./core/confetti.ts
-
-// ════════════════════════════════════════
-// playSound imported from ./core/audio.ts
-
-// ════════════════════════════════════════
-// 3D FLIP КАРТКИ
-// ════════════════════════════════════════
-
-
-// ════════════════════════════════════════
-// СХОЖІ СЛОВА / КОЛОКАЦІЇ / СІМЕЙСТВА
-// (updateCollocations, updateWordFamilies imported from ./features/word-context.ts)
-// (updateSimilarWords imported from ./features/similar-words.ts)
-
-// ════════════════════════════════════════
-// СВАЙПИ (moved to ./core/swipe.ts)
-// ════════════════════════════════════════
-
-// ════════════════════════════════════════
-// PWA (moved to ./core/pwa.ts)
-// ════════════════════════════════════════
-
-// ════════════════════════════════════════
