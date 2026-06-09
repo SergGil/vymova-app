@@ -1614,12 +1614,13 @@ export const GRAMMAR: GrammarCategory[] = [
       },
 
       {
-        id: 'british-american', title: 'British vs American English — B1', emoji: '🇬🇧🇺🇸',
+        id: 'british-american', title: 'British vs American English — B1', emoji: '🌐',
         sections: [
           { type: 'intro', text: 'Британська та американська англійська мають відмінності у написанні, вимові та лексиці. Обидва варіанти правильні — важливо бути послідовним.',
             en: { text: 'British and American English differ in spelling, pronunciation and vocabulary. Both variants are correct — consistency is what matters.' } },
           {
             type: 'table', title: 'Відмінності в написанні',
+            en: { title: 'Spelling Differences' },
             rows: [
               ['British', 'American', 'Переклад'],
               ['colour', 'color', 'колір'],
@@ -1637,6 +1638,7 @@ export const GRAMMAR: GrammarCategory[] = [
           },
           {
             type: 'table', title: 'Відмінності у лексиці',
+            en: { title: 'Vocabulary Differences' },
             rows: [
               ['British', 'American', 'Переклад'],
               ['flat', 'apartment', 'квартира'],
@@ -1660,6 +1662,7 @@ export const GRAMMAR: GrammarCategory[] = [
           },
           {
             type: 'table', title: 'Ще відмінності у лексиці',
+            en: { title: 'More Vocabulary Differences' },
             rows: [
               ['British', 'American', 'Переклад'],
               ['queue', 'line', 'черга'],
@@ -1678,6 +1681,7 @@ export const GRAMMAR: GrammarCategory[] = [
           },
           {
             type: 'table', title: 'Відмінності в граматиці',
+            en: { title: 'Grammar Differences' },
             rows: [
               ['British', 'American'],
               ['Have you eaten yet? (Present Perfect)', 'Did you eat yet? (Past Simple — also common)'],
@@ -1689,6 +1693,7 @@ export const GRAMMAR: GrammarCategory[] = [
           },
           {
             type: 'examples', title: 'Приклади в реченнях',
+            en: { title: 'Examples in Sentences' },
             rows: [
               ['"Take the lift to the 3rd floor." (BrE) / "Take the elevator." (AmE)', 'lift = elevator = ліфт'],
               ['"There\'s a long queue outside." (BrE) / "There\'s a long line outside." (AmE)', 'queue = line = черга'],
