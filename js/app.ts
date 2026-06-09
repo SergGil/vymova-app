@@ -1,4 +1,4 @@
-﻿// English Words App — js/app.ts
+// English Words App — js/app.ts
 import type { WordEntry } from '../src/types.js';
 import { _lzLoad, saveKnown, saveSRS, saveKnownEs, loadKnownEs } from './core/storage.ts';
 import { W }                                       from '../data/words.js';
@@ -43,7 +43,6 @@ function _safe(fn: () => void): void {
   try { fn(); } catch (e) { console.warn('[safe]', (e as Error).message ?? e); }
 }
 
-// Завантажуємо збережені слова з localStorage
 const savedKnown = _lzLoad('ew_known', []);
 
 let srsData: Record<string, any> = _lzLoad('ew_srs', {});
@@ -56,15 +55,17 @@ let knownEs = loadKnownEs();
 function _activeKnown(): Set<string> { return ES_MODES.has(getMode()) ? knownEs : known; }
 let cw: WordEntry | null = null, autoTimer: ReturnType<typeof setTimeout> | null = null;
 
-// ── Sync reference-type locals into state (mutations propagate both ways) ──
-state.known   = known;    // Set — mutations propagate
-state.srsData = srsData;  // Object — mutations propagate
+// Sync reference-type locals into state (mutations propagate both ways)
+state.known   = known;
+state.srsData = srsData;
 
 let _baseWords = W.slice();
 state._baseWords = _baseWords as unknown as WordEntry[];
 
-// ── Single-source helpers — replace triple-sync boilerplate ────────────────
-// Call _setDeck / _setIdx / _setCw instead of writing to all 3 stores manually.
+const TODAY = new Date().toISOString().slice(0,10);
+window.TODAY = TODAY; // legacy files (catpairs.js, srs.js, etc.) use this globally
+
+// ── Single-source helpers — call instead of writing to all 3 stores manually ──
 function _setDeck(d: WordEntry[]): void {
   deck = d;
   state.deck = d as unknown as WordEntry[];
@@ -123,24 +124,24 @@ function stopAuto(): void {
 function _boldEn(src: string, w: WordEntry): string {
   if (!src) return '';
   if (src.indexOf('<b>') !== -1) return src;
-  let _bw = w[0].replace(/\s*\([^)]*\)/g,'').trim();
-  let _bp = _bw.split(/\s+/).filter(Boolean).map(function(p){ return p.replace(/[.*+?^${}()|\[\]\\]/g,'\\$&')+'\\w*'; });
+  const _bw = w[0].replace(/\s*\([^)]*\)/g,'').trim();
+  const _bp = _bw.split(/\s+/).filter(Boolean).map(function(p){ return p.replace(/[.*+?^${}()|\[\]\\]/g,'\\$&')+'\\w*'; });
   return src.replace(new RegExp('('+_bp.join('\\s+')+')', 'i'), '<b>$1</b>');
 }
 function _boldUa(src: string, w: WordEntry): string {
   if (!src) return src;
-  let _uw = w[1].split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
+  const _uw = w[1].split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
   return src.replace(new RegExp('('+_uw+'\\w*)', 'i'), '<b>$1</b>');
 }
 function _boldHead(src: string, word: string): string {
   if (!src) return '';
   if (!word || src.indexOf('<b>') !== -1) return src;
-  let _hw = word.replace(/\s*\([^)]*\)/g,'').split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
+  const _hw = word.replace(/\s*\([^)]*\)/g,'').split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
   if (!_hw) return src;
   return src.replace(new RegExp('('+_hw+'\\w*)', 'i'), '<b>$1</b>');
 }
 
-// ── Card animation ────────────────────────────────────────────
+// ── Card animation ─────────────────────────────────────────────────────────
 function _animCard(dir: 'next' | 'prev' | 'fade'): void {
   const face = document.querySelector<HTMLElement>('.card-face');
   if (!face || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -151,6 +152,128 @@ function _animCard(dir: 'next' | 'prev' | 'fade'): void {
   setTimeout(() => face.classList.remove(cls), 250);
 }
 
+// ── render() sub-helpers ───────────────────────────────────────────────────
+
+function renderCardIndicators(word: string): void {
+  const _noteBtn  = document.getElementById('btn-note');
+  const _bmBtn    = document.getElementById('btn-bookmark');
+  const _noteDisp = document.getElementById('card-note-display');
+  if (_bmBtn) {
+    const _isBm = isBookmarked(word);
+    _bmBtn.textContent = _isBm ? '★' : '☆';
+    _bmBtn.style.color = _isBm ? '#f1c40f' : '';
+  }
+  if (_noteDisp) {
+    const _note = getNoteForWord(word);
+    if (_note) { _noteDisp.textContent = '📝 ' + _note; _noteDisp.style.display = ''; }
+    else        { _noteDisp.style.display = 'none'; }
+  }
+  if (_noteBtn) {
+    _noteBtn.style.opacity = hasNote(word) ? '1' : '0.5';
+  }
+}
+
+const _IMG_S = 'width:100%;height:100%;object-fit:cover;border-radius:8px;';
+
+function renderCardImage(word: string, illusEl: HTMLElement): void {
+  try {
+    if (_imgCache.hasOwnProperty(word) && _imgCache[word]) {
+      // Є закешоване фото → показати одразу, з onerror якщо URL протух
+      (function(w, el) {
+        const img = document.createElement('img');
+        img.alt = ''; img.loading = 'lazy'; img.style.cssText = _IMG_S;
+        const _clearAndRefetch = function() {
+          delete _imgCache[w];
+          if (typeof _idb !== 'undefined' && _idb) {
+            try { _idb.transaction('imgs','readwrite').objectStore('imgs').delete(w); } catch(e2){}
+          }
+          const fb = getIllus(w);
+          if (fb) { el.innerHTML = fb; el.style.display = ''; }
+          else    { el.innerHTML = ''; el.style.display = 'none'; }
+          loadWikiImage(w, function(wd, newUrl) {
+            if (!cw || cw[0] !== wd) return;
+            if (newUrl) {
+              const _ni = document.createElement('img');
+              _ni.alt = ''; _ni.loading = 'lazy'; _ni.style.cssText = _IMG_S;
+              _ni.onload  = function(){ if (_ni.naturalWidth < 10) el.style.display='none'; };
+              _ni.onerror = function(){ el.style.display='none'; };
+              _ni.src = newUrl;
+              el.innerHTML = ''; el.appendChild(_ni); el.style.display = '';
+            }
+          });
+        };
+        img.onerror = _clearAndRefetch;
+        // Pixabay повертає HTTP 200 з темним placeholder коли URL закінчився —
+        // перевіряємо розмір: реальне фото завжди > 10px
+        img.onload = function() {
+          if (img.naturalWidth < 10 || img.naturalHeight < 10) _clearAndRefetch();
+        };
+        img.src = (_imgCache as Record<string, string>)[w];
+        el.innerHTML = '';
+        el.appendChild(img);
+        el.style.display = '';
+      })(word, illusEl);
+    } else {
+      // Поки фото не завантажилось — показати emoji/SVG як заглушку
+      const _localIllus = getIllus(word);
+      if (_localIllus) { illusEl.innerHTML = _localIllus; illusEl.style.display = ''; }
+      else              { illusEl.innerHTML = ''; illusEl.style.display = 'none'; }
+      if (!_imgCache.hasOwnProperty(word)) {
+        const _isOnlineCheck = (window as Window & { _isOnlineCheck?: () => boolean })._isOnlineCheck;
+        const _offlineSvg   = (window as Window & { _offlineSvg?: (w: string) => string })._offlineSvg;
+        if (_isOnlineCheck && !_isOnlineCheck() && !_localIllus) {
+          illusEl.innerHTML = _offlineSvg ? _offlineSvg(word) : '';
+          if (illusEl.innerHTML) illusEl.style.display = '';
+        } else {
+          (function(w) {
+            loadWikiImage(w, function(wd, imgUrl) {
+              if (!cw || cw[0] !== wd) return;
+              if (imgUrl) {
+                illusEl.innerHTML = '<img src="' + imgUrl + '" alt="" loading="lazy" style="' + _IMG_S + '">';
+                illusEl.style.display = '';
+              }
+            });
+          })(word);
+        }
+      }
+    }
+  } catch(e) { try { illusEl.style.display='none'; }catch(e2){} }
+}
+
+function renderSrsBadge(word: string): void {
+  const srsEl = document.getElementById('srs-next');
+  if (!srsEl) return;
+  const sd = (srsData as Record<string, {ef?: number; reps?: number; due?: string; interval?: number}>)[word];
+  const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
+  if (!sd || !sd.due) {
+    if (rangeVal === 'srs' || rangeVal === 'weak') {
+      srsEl.textContent = '🆕 Нове';
+      srsEl.className = 'srs-next new';
+      srsEl.style.display = '';
+    } else {
+      srsEl.style.display = 'none';
+    }
+  } else {
+    const diffDays = Math.round((new Date(sd.due).getTime() - new Date(TODAY).getTime()) / 86400000);
+    if (diffDays < 0) {
+      const overDays = Math.abs(diffDays);
+      srsEl.textContent = '🔴 Прострочено ' + overDays + ' ' + (overDays === 1 ? 'день' : overDays < 5 ? 'дні' : 'днів');
+      srsEl.className = 'srs-next over';
+    } else if (diffDays === 0) {
+      srsEl.textContent = '🟡 Повторити сьогодні';
+      srsEl.className = 'srs-next today';
+    } else if (diffDays <= 3) {
+      srsEl.textContent = '⏰ Через ' + diffDays + ' ' + (diffDays === 1 ? 'день' : 'дні');
+      srsEl.className = 'srs-next soon';
+    } else {
+      srsEl.textContent = '✅ Через ' + diffDays + ' ' + (diffDays < 5 ? 'дні' : 'днів');
+      srsEl.className = 'srs-next ok';
+    }
+    srsEl.style.display = '';
+  }
+}
+
+// ── Main render ────────────────────────────────────────────────────────────
 function render() {
   try {
     if (!deck || !deck.length) { console.error('render: deck empty'); return; }
@@ -158,11 +281,10 @@ function render() {
     _setCw(deck[idx % deck.length]);
     if (!cw) { console.error('render: cw is null'); return; }
     flipped = false;
-    let mode = getMode();
-    // ── ES pair modes: look up the Spanish layer by the English headword ──
-    let esEntry = ES_MODES.has(mode) ? _esEntry(cw[0]) : null;
-    let _esWord = esEntry ? esEntry[0] : '';
-    let _esEx   = esEntry ? esEntry[1] : '';
+    const mode = getMode();
+    const esEntry = ES_MODES.has(mode) ? _esEntry(cw[0]) : null;
+    const _esWord = esEntry ? esEntry[0] : '';
+    const _esEx   = esEntry ? esEntry[1] : '';
     let FRONT_LANG: 'EN' | 'UA' | 'ES';
     let frontWord: string, backWord: string;
     switch (mode) {
@@ -173,34 +295,31 @@ function render() {
       case 'ua-es': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _esWord; break;
       default:      FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = cw[1];
     }
-    let _realIdx = _wordIdx.has(cw[0]) ? _wordIdx.get(cw[0]) : -1;
+    const _realIdx = _wordIdx.has(cw[0]) ? _wordIdx.get(cw[0]) : -1;
     $e('wnum').textContent = '#' + (_realIdx >= 0 ? _realIdx + 1 : idx % deck.length + 1);
     $e('wlang').textContent = FRONT_LANG;
     $e('wword').textContent = frontWord;
-    // ── CEFR badge ────────────────────────────────────────────
-    let cefrEl = document.getElementById('wcefr') as HTMLElement | null;
+    const cefrEl = document.getElementById('wcefr') as HTMLElement | null;
     if (cefrEl) {
       const level = getCefrLevel(cw[0]);
       cefrEl.textContent = level;
       cefrEl.className = 'cefr-badge cefr-' + level;
       cefrEl.style.display = '';
     }
-    // ── Category badge ────────────────────────────────────────
-    let catEl = document.getElementById('wcategory') as HTMLElement | null;
+    const catEl = document.getElementById('wcategory') as HTMLElement | null;
     if (catEl) {
       const cats = getCategoriesForWord(cw[0]);
       catEl.textContent = cats[0] ? categoryName(cats[0]) : '';
       catEl.title = cats.map(categoryName).join(', ');
       catEl.style.display = cats[0] ? '' : 'none';
     }
-    let tr = $e('wtrans');
-    // [en, ua, en_example, ua_example, ipa]
-    let _enEx  = cw[2] || '';
-    let _uaEx  = cw[3] || '';
-    let trans = decodeIpa(cw[4] || '');
+    const tr = $e('wtrans');
+    const _enEx  = cw[2] || '';
+    const _uaEx  = cw[3] || '';
+    const trans = decodeIpa(cw[4] || '');
     tr.textContent = (FRONT_LANG === 'EN') ? trans : '';
     tr.style.display = (FRONT_LANG === 'EN' && trans) ? 'block' : 'none';
-    let translEl = $e('wtransl');
+    const translEl = $e('wtransl');
     translEl.textContent = backWord;
     translEl.className = 'transl';
     if (mode === 'en') {
@@ -221,146 +340,27 @@ function render() {
       $e('exua').innerHTML = _boldHead(_backEx, backWord) || _backEx;
     }
     $e('exua').className = 'ex-ua';
-    if ($e('cb-similar'))     $e('cb-similar').style.display     = 'none';
-    if ($e('cb-families'))   $e('cb-families').style.display   = 'none';
+    if ($e('cb-similar'))      $e('cb-similar').style.display      = 'none';
+    if ($e('cb-families'))     $e('cb-families').style.display     = 'none';
     if ($e('cb-collocations')) $e('cb-collocations').style.display = 'none';
-    $e('cidx').textContent = (idx%deck.length+1)+'/'+deck.length;
+    $e('cidx').textContent = (idx % deck.length + 1) + '/' + deck.length;
     $e('cknown').textContent = String(_activeKnown().size);
-    $e('pbar').style.width = (_activeKnown().size/W.length*100)+'%';
-    // Note + Bookmark indicators
-    _safe(() => {
-      let _noteBtn = document.getElementById('btn-note');
-      let _bmBtn   = document.getElementById('btn-bookmark');
-      let _noteDisp= document.getElementById('card-note-display');
-      let _word0   = cw![0];
-      if (_bmBtn) {
-        let _isBm = isBookmarked(_word0);
-        _bmBtn.textContent = _isBm ? '★' : '☆';
-        _bmBtn.style.color = _isBm ? '#f1c40f' : '';
-      }
-      if (_noteDisp) {
-        let _note = getNoteForWord(_word0);
-        if (_note) { _noteDisp.textContent = '📝 ' + _note; _noteDisp.style.display = ''; }
-        else        { _noteDisp.style.display = 'none'; }
-      }
-      if (_noteBtn) {
-        _noteBtn.style.opacity = (hasNote(_word0)) ? '1' : '0.5';
-      }
-    });
-    try {
-      let illusEl = $e('illus');
-      let _w = cw[0];
-      let IMG_S = 'width:100%;height:100%;object-fit:cover;border-radius:8px;';
-      // Пріоритет: Pixabay/Wiki (кеш) → Emoji/SVG → нічого
-      if (_imgCache.hasOwnProperty(_w) && _imgCache[_w]) {
-        // Є закешоване фото → показати одразу, з onerror якщо URL протух
-        (function(w, el) {
-          let img = document.createElement('img');
-          img.alt = ''; img.loading = 'lazy'; img.style.cssText = IMG_S;
-          let _clearAndRefetch = function() {
-            delete _imgCache[w];
-            if (typeof _idb !== 'undefined' && _idb) {
-              try { _idb.transaction('imgs','readwrite').objectStore('imgs').delete(w); } catch(e2){}
-            }
-            let fb = getIllus(w);
-            if (fb) { el.innerHTML = fb; el.style.display = ''; }
-            else    { el.innerHTML = ''; el.style.display = 'none'; }
-            loadWikiImage(w, function(wd, newUrl) {
-              if (!cw || cw[0] !== wd) return;
-              if (newUrl) {
-                let _ni = document.createElement('img');
-                _ni.alt = ''; _ni.loading = 'lazy'; _ni.style.cssText = IMG_S;
-                _ni.onload  = function(){ if (_ni.naturalWidth < 10) el.style.display='none'; };
-                _ni.onerror = function(){ el.style.display='none'; };
-                _ni.src = newUrl;
-                el.innerHTML = ''; el.appendChild(_ni); el.style.display = '';
-              }
-            });
-          };
-          img.onerror = _clearAndRefetch;
-          // Pixabay повертає HTTP 200 з темним placeholder коли URL закінчився —
-          // перевіряємо розмір: реальне фото завжди > 10px
-          img.onload = function() {
-            if (img.naturalWidth < 10 || img.naturalHeight < 10) _clearAndRefetch();
-          };
-          img.src = (_imgCache as Record<string, string>)[w];
-          el.innerHTML = '';
-          el.appendChild(img);
-          el.style.display = '';
-        })(_w, illusEl);
-      } else {
-        // Поки фото не завантажилось — показати emoji/SVG як заглушку
-        let _localIllus = getIllus(_w);
-        if (_localIllus) { illusEl.innerHTML = _localIllus; illusEl.style.display = ''; }
-        else              { illusEl.innerHTML = ''; illusEl.style.display = 'none'; }
-        // Якщо ще не кешовано — завантажити (Pixabay → Wikipedia)
-        if (!_imgCache.hasOwnProperty(_w)) {
-          // Офлайн: показуємо красивий градієнтний placeholder замість нічого
-          const _isOnlineCheck = (window as Window & { _isOnlineCheck?: () => boolean })._isOnlineCheck;
-          const _offlineSvg   = (window as Window & { _offlineSvg?: (w: string) => string })._offlineSvg;
-          if (_isOnlineCheck && !_isOnlineCheck() && !_localIllus) {
-            illusEl.innerHTML = _offlineSvg ? _offlineSvg(_w) : '';
-            if (illusEl.innerHTML) illusEl.style.display = '';
-          } else {
-            (function(w) {
-              loadWikiImage(w, function(wd, imgUrl) {
-                if (!cw || cw[0] !== wd) return;
-                if (imgUrl) {
-                  illusEl.innerHTML = '<img src="' + imgUrl + '" alt="" loading="lazy" style="' + IMG_S + '">';
-                  illusEl.style.display = '';
-                }
-              });
-            })(_w);
-          }
-        }
-      }
-    } catch(e) { try { document.getElementById('illus')!.style.display='none'; }catch(e2){} }
-    let cardEl = document.getElementById('card');
-    if(_activeKnown().has(cw[0])){ cardEl!.classList.add('is-known'); } else { cardEl!.classList.remove('is-known'); }
-    // SRS бейдж — показуємо завжди коли є дані
-    _safe(() => {
-      let srsEl = document.getElementById('srs-next');
-      if (srsEl) {
-        let sd = (srsData as Record<string, {ef?: number; reps?: number; due?: string; interval?: number}>)[cw![0]];
-        let rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
-        if (!sd || !sd.due) {
-          if (rangeVal === 'srs' || rangeVal === 'weak') {
-            srsEl.textContent = '🆕 Нове';
-            srsEl.className = 'srs-next new';
-            srsEl.style.display = '';
-          } else {
-            srsEl.style.display = 'none';
-          }
-        } else {
-          let diffDays = Math.round((new Date(sd.due).getTime() - new Date(TODAY).getTime()) / 86400000);
-          if (diffDays < 0) {
-            let overDays = Math.abs(diffDays);
-            srsEl.textContent = '🔴 Прострочено ' + overDays + ' ' + (overDays === 1 ? 'день' : overDays < 5 ? 'дні' : 'днів');
-            srsEl.className = 'srs-next over';
-          } else if (diffDays === 0) {
-            srsEl.textContent = '🟡 Повторити сьогодні';
-            srsEl.className = 'srs-next today';
-          } else if (diffDays <= 3) {
-            srsEl.textContent = '⏰ Через ' + diffDays + ' ' + (diffDays === 1 ? 'день' : 'дні');
-            srsEl.className = 'srs-next soon';
-          } else {
-            srsEl.textContent = '✅ Через ' + diffDays + ' ' + (diffDays < 5 ? 'дні' : 'днів');
-            srsEl.className = 'srs-next ok';
-          }
-          srsEl.style.display = '';
-        }
-      }
-    });
-    // Оновити кільце
+    $e('pbar').style.width = (_activeKnown().size / W.length * 100) + '%';
+    _safe(() => renderCardIndicators(cw![0]));
+    renderCardImage(cw[0], $e('illus'));
+    const cardEl = document.getElementById('card');
+    if (_activeKnown().has(cw[0])) { cardEl!.classList.add('is-known'); } else { cardEl!.classList.remove('is-known'); }
+    _safe(() => renderSrsBadge(cw![0]));
     _safe(() => { const gd = getGameData(); updateRing(gd.goalCur || 0, gd.goalMax || 20); });
   } catch(e) {
     console.error('render FAILED:', (e as Error).message);
   }
   // Predictive prefetch: наступні картки (без дублів для малих дек)
   _idle(function() {
-    let _seen: Record<string, number> = {}, _limit = Math.min(4, deck.length - 1);
-    for (let _pi =1; _pi <= _limit; _pi++) {
-      let _nw = deck[(idx + _pi) % deck.length];
+    const _seen: Record<string, number> = {};
+    const _limit = Math.min(4, deck.length - 1);
+    for (let _pi = 1; _pi <= _limit; _pi++) {
+      const _nw = deck[(idx + _pi) % deck.length];
       if (_nw && !_seen[_nw[0]] && !_imgCache.hasOwnProperty(_nw[0])) {
         _seen[_nw[0]] = 1;
         loadWikiImage(_nw[0], function(){});
@@ -369,31 +369,19 @@ function render() {
   });
 }
 
-// ── Геймфікація: streak + денна ціль ──
-const TODAY = new Date().toISOString().slice(0,10);
-window.TODAY = TODAY; // legacy files (catpairs.js, srs.js, etc.) use this globally
-
-// Запуск під час простою браузера (не блокує UI)
 function onWordLearned() {
   let d = getGameData();
-  // Денна ціль
   d.goalCur = (d.goalCur || 0) + 1;
-  // Лічильник виконаних цілей
   if (d.goalCur === d.goalMax) { d.goalDays = (d.goalDays || 0) + 1; }
-  // Стрік
   d = updateStreak(d);
   saveGameData(d);
   renderGameBar();
-  // Щоденна статистика
   recordDailyWord();
   _safe(() => maybeSubmitScore());
-  // Лічильник сесії + XP за слово
   let gd2 = getGameData();
   gd2.sessionWords = (gd2.sessionWords || 0) + 1;
-  let xpGain = 10 * getComboMult(); // ×2/×3 з комбо
-  gd2.xp = (gd2.xp || 0) + xpGain;
+  gd2.xp = (gd2.xp || 0) + 10 * getComboMult(); // ×2/×3 з комбо
   saveGameData(gd2);
-  // Рівень і досягнення — в idle щоб не блокувати UI
   _idle(function() {
     _safe(() => renderLevelBadge());
     _safe(() => checkAchievements());
@@ -401,9 +389,6 @@ function onWordLearned() {
 }
 
 try { renderGameBar(); } catch(e){ console.error((e as Error).message); }
-
-
-
 renderLevelBadge();
 checkAchievements();
 
