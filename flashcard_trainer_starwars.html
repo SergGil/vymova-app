@@ -827,18 +827,18 @@
   <div id="duel-overlay" class="page-overlay">
     <div class="page-inner" style="max-width:560px;">
       <div class="page-header">
-        <div class="page-title">⚔️ Дуель</div>
+        <div class="page-title">⚔️ <span data-i18n="nav.duel">Дуель</span></div>
         <button class="page-close-btn" id="duel-page-close">✕</button>
       </div>
 
       <!-- LOBBY -->
       <div id="duel-lobby">
         <!-- Leaderboard -->
-        <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:10px;">📊 Рейтинг профілів</div>
+        <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:10px;" data-i18n="duel.leaderboard">📊 Рейтинг профілів</div>
         <div id="duel-leaderboard" class="duel-cards" style="margin-bottom:20px;"></div>
 
         <!-- Live quiz section -->
-        <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:10px;">⚡ Онлайн дуель</div>
+        <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:10px;" data-i18n="duel.online">⚡ Онлайн дуель</div>
         <div id="duel-msg" style="display:none;font-size:.82rem;padding:8px 12px;border-radius:10px;background:var(--bg);color:var(--text2);margin-bottom:10px;"></div>
 
         <!-- Resume banner (shown if active session found) -->
@@ -848,45 +848,45 @@
         <div id="duel-rating-row" style="font-size:.75rem;color:var(--accent);margin-bottom:12px;text-align:center;font-weight:600;"></div>
 
         <!-- Mode picker -->
-        <div style="font-size:.75rem;color:var(--text3);margin-bottom:6px;">Режим:</div>
+        <div style="font-size:.75rem;color:var(--text3);margin-bottom:6px;" data-i18n="duel.mode">Режим:</div>
         <div id="duel-mode-picker" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"></div>
 
         <!-- Category picker -->
-        <div style="font-size:.75rem;color:var(--text3);margin-bottom:5px;">Категорія слів:</div>
+        <div style="font-size:.75rem;color:var(--text3);margin-bottom:5px;" data-i18n="duel.category">Категорія слів:</div>
         <div id="duel-cat-picker" style="margin-bottom:10px;"></div>
 
         <!-- Difficulty / Best of / Hints -->
         <div id="duel-options-row" style="margin-bottom:12px;"></div>
 
         <!-- History -->
-        <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:6px;">📋 Останні дуелі</div>
+        <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:6px;" data-i18n="duel.history">📋 Останні дуелі</div>
         <div id="duel-history-list" style="margin-bottom:14px;"></div>
 
         <!-- Create room -->
-        <button id="duel-create-btn" style="width:100%;padding:13px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:.95rem;margin-bottom:12px;">⚔️ Створити кімнату</button>
+        <button id="duel-create-btn" data-i18n="duel.create" style="width:100%;padding:13px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:.95rem;margin-bottom:12px;">⚔️ Створити кімнату</button>
 
         <!-- Waiting for opponent -->
         <div id="duel-waiting" style="display:none;text-align:center;padding:16px;background:var(--bg);border-radius:14px;margin-bottom:12px;">
-          <div style="font-size:.82rem;color:var(--text3);margin-bottom:8px;">Поділись кодом з другом:</div>
+          <div style="font-size:.82rem;color:var(--text3);margin-bottom:8px;" data-i18n="duel.shareCode">Поділись кодом з другом:</div>
           <div id="duel-room-code" style="font-family:monospace;font-size:1.8rem;font-weight:900;color:var(--accent);letter-spacing:.15em;margin-bottom:6px;"></div>
           <div id="duel-waiting-mode" style="font-size:.78rem;color:var(--accent);margin-bottom:10px;"></div>
-          <div style="font-size:.75rem;color:var(--text3);margin-bottom:12px;">Чекаємо поки суперник введе код…</div>
-          <button id="duel-cancel-btn" style="padding:7px 18px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.82rem;">✕ Скасувати</button>
+          <div style="font-size:.75rem;color:var(--text3);margin-bottom:12px;" data-i18n="duel.waitingOpp">Чекаємо поки суперник введе код…</div>
+          <button id="duel-cancel-btn" data-i18n="duel.cancel" style="padding:7px 18px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.82rem;">✕ Скасувати</button>
         </div>
 
         <!-- Join room -->
         <div id="duel-join-row">
-          <div style="font-size:.78rem;color:var(--text3);margin-bottom:8px;text-align:center;">або введи код кімнати друга:</div>
+          <div style="font-size:.78rem;color:var(--text3);margin-bottom:8px;text-align:center;" data-i18n="duel.orEnterCode">або введи код кімнати друга:</div>
           <div style="display:flex;gap:8px;">
             <input id="duel-join-input" type="text" placeholder="ABC-123" maxlength="7"
               style="flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:monospace;font-size:1rem;background:var(--bg);color:var(--text);outline:none;text-transform:uppercase;text-align:center;letter-spacing:.1em;">
-            <button id="duel-join-btn" style="padding:10px 18px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;">→ Приєднатись</button>
+            <button id="duel-join-btn" data-i18n="duel.join" style="padding:10px 18px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;">→ Приєднатись</button>
           </div>
-          <div style="font-size:.72rem;color:var(--text3);margin-top:6px;text-align:center;">Режим обирає той, хто створює кімнату</div>
+          <div style="font-size:.72rem;color:var(--text3);margin-top:6px;text-align:center;" data-i18n="duel.modeNote">Режим обирає той, хто створює кімнату</div>
           <!-- Secondary actions: Spectate + Reply to challenge -->
           <div style="display:flex;gap:6px;margin-top:8px;">
-            <button id="duel-spectate-btn" style="flex:1;padding:7px 4px;border-radius:9px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:.72rem;white-space:nowrap;">👀 Спостерігати</button>
-            <button id="duel-async-join-btn" style="flex:1;padding:7px 4px;border-radius:9px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:.72rem;white-space:nowrap;">📬 Відповісти</button>
+            <button id="duel-spectate-btn" data-i18n="duel.spectate" style="flex:1;padding:7px 4px;border-radius:9px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:.72rem;white-space:nowrap;">👀 Спостерігати</button>
+            <button id="duel-async-join-btn" data-i18n="duel.reply" style="flex:1;padding:7px 4px;border-radius:9px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:.72rem;white-space:nowrap;">📬 Відповісти</button>
           </div>
         </div>
 
@@ -894,14 +894,14 @@
         <div style="height:1px;background:var(--border);margin:10px 0;opacity:.5;"></div>
 
         <!-- Async challenge -->
-        <button id="duel-async-btn" style="width:100%;padding:9px;border-radius:11px;border:1.5px solid var(--border);background:none;color:var(--text2);font-weight:600;cursor:pointer;font-family:inherit;font-size:.82rem;margin-bottom:8px;">📬 Надіслати виклик (async · 24год)</button>
+        <button id="duel-async-btn" data-i18n="duel.sendChallenge" style="width:100%;padding:9px;border-radius:11px;border:1.5px solid var(--border);background:none;color:var(--text2);font-weight:600;cursor:pointer;font-family:inherit;font-size:.82rem;margin-bottom:8px;">📬 Надіслати виклик (async · 24год)</button>
 
         <!-- Tournament -->
-        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:5px;">🏟️ Турнір</div>
+        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:5px;" data-i18n="duel.tournament">🏟️ Турнір</div>
         <div style="display:flex;gap:6px;">
-          <button id="tourn-create-4" style="flex:1;padding:9px 6px;border-radius:11px;border:1.5px solid #f39c12;background:rgba(243,156,18,.08);color:#f39c12;font-weight:600;cursor:pointer;font-family:inherit;font-size:.8rem;">4 гравці</button>
-          <button id="tourn-create-8" style="flex:1;padding:9px 6px;border-radius:11px;border:1.5px solid #e74c3c;background:rgba(231,76,60,.07);color:#e74c3c;font-weight:600;cursor:pointer;font-family:inherit;font-size:.8rem;">8 гравців</button>
-          <button id="tourn-join-btn" style="flex:1;padding:9px 6px;border-radius:11px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.8rem;">➡️ Вступити</button>
+          <button id="tourn-create-4" data-i18n="duel.tourn4" style="flex:1;padding:9px 6px;border-radius:11px;border:1.5px solid #f39c12;background:rgba(243,156,18,.08);color:#f39c12;font-weight:600;cursor:pointer;font-family:inherit;font-size:.8rem;">4 гравці</button>
+          <button id="tourn-create-8" data-i18n="duel.tourn8" style="flex:1;padding:9px 6px;border-radius:11px;border:1.5px solid #e74c3c;background:rgba(231,76,60,.07);color:#e74c3c;font-weight:600;cursor:pointer;font-family:inherit;font-size:.8rem;">8 гравців</button>
+          <button id="tourn-join-btn" data-i18n="duel.tournJoin" style="flex:1;padding:9px 6px;border-radius:11px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.8rem;">➡️ Вступити</button>
         </div>
       </div>
 
@@ -913,13 +913,13 @@
         <!-- Waiting room -->
         <div id="tourn-waiting" style="display:none;">
           <div style="text-align:center;margin-bottom:14px;">
-            <div style="font-size:.72rem;color:var(--text3);margin-bottom:6px;">Код турніру:</div>
+            <div style="font-size:.72rem;color:var(--text3);margin-bottom:6px;" data-i18n="duel.tournCode">Код турніру:</div>
             <div id="tourn-code" style="font-family:monospace;font-size:1.8rem;font-weight:900;color:var(--accent);letter-spacing:.15em;"></div>
             <div id="tourn-mode-label" style="font-size:.75rem;color:var(--accent);margin-top:4px;"></div>
           </div>
           <div id="tourn-slots" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;"></div>
           <button id="tourn-start-btn" style="display:none;width:100%;padding:12px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:.9rem;">⚔️ Почати турнір</button>
-          <button id="tourn-cancel-btn" style="width:100%;padding:8px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:.78rem;margin-top:6px;">✕ Скасувати</button>
+          <button id="tourn-cancel-btn" data-i18n="duel.tourn.cancel" style="width:100%;padding:8px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:.78rem;margin-top:6px;">✕ Скасувати</button>
         </div>
         <!-- Bracket view -->
         <div id="tourn-bracket" style="display:none;">
@@ -933,7 +933,7 @@
       <div id="duel-countdown" style="display:none;text-align:center;padding:40px 0;">
         <div style="font-size:.85rem;color:var(--text3);margin-bottom:8px;" id="dc-opp-row"></div>
         <div id="dc-number" style="font-size:6rem;font-weight:900;color:var(--accent);line-height:1;font-family:'Orbitron',monospace;transition:transform .1s;">3</div>
-        <div style="font-size:.9rem;color:var(--text2);margin-top:12px;">Готуйся!</div>
+        <div style="font-size:.9rem;color:var(--text2);margin-top:12px;" data-i18n="duel.getReady">Готуйся!</div>
       </div>
 
       <!-- GAME -->
@@ -942,7 +942,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding:10px 14px;background:var(--bg);border-radius:12px;">
           <div style="text-align:center;">
             <div style="font-size:1.5rem;font-weight:800;color:var(--accent);" id="dm-my-score">0</div>
-            <div style="font-size:.72rem;color:var(--text3);">Ти</div>
+            <div style="font-size:.72rem;color:var(--text3);" data-i18n="duel.you">Ти</div>
           </div>
           <div style="text-align:center;">
             <div style="font-size:.72rem;font-weight:700;color:var(--accent);margin-bottom:2px;" id="dm-mode-badge">🧠 Тест</div>
@@ -957,7 +957,7 @@
           <div style="text-align:center;">
             <div style="font-size:1rem;margin-bottom:2px;" id="dm-opp-av">🧑</div>
             <div style="font-size:1.5rem;font-weight:800;color:var(--accent2);" id="dm-opp-score">0</div>
-            <div style="font-size:.72rem;color:var(--text3);" id="dm-opp-name">Суперник</div>
+            <div style="font-size:.72rem;color:var(--text3);" id="dm-opp-name" data-i18n="duel.opp">Суперник</div>
             <div style="font-size:.65rem;color:var(--text3);margin-top:1px;" id="dm-opp-progress">0/10</div>
             <!-- Animated dot progress bar -->
             <div id="dm-opp-progress-bar" style="margin-top:3px;"></div>
@@ -966,7 +966,7 @@
         <!-- Tempo timer bar -->
         <div id="dm-timer-row" style="display:none;margin-bottom:8px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-            <span style="font-size:.72rem;color:var(--text3);">Час:</span>
+            <span style="font-size:.72rem;color:var(--text3);" data-i18n="duel.time">Час:</span>
             <span id="dm-timer-num" style="font-size:.85rem;font-weight:700;color:var(--accent2);">4</span>
           </div>
           <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden;">
@@ -979,12 +979,12 @@
         <div id="dm-options" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;"></div>
         <!-- Write mode input -->
         <div id="dm-input-row" style="display:none;margin-bottom:10px;">
-          <input id="dm-input" type="text" placeholder="Введи переклад англійською…" autocomplete="off" spellcheck="false"
+          <input id="dm-input" type="text" data-i18n-placeholder="duel.writePrompt" placeholder="Введи переклад англійською…" autocomplete="off" spellcheck="false"
             style="width:100%;padding:11px 14px;border:2px solid var(--border);border-radius:12px;font-size:1rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;box-sizing:border-box;margin-bottom:8px;">
           <div style="display:flex;gap:8px;">
-            <button id="dm-submit-btn" style="flex:1;padding:10px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;">Перевірити</button>
+            <button id="dm-submit-btn" data-i18n="duel.check" style="flex:1;padding:10px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;">Перевірити</button>
             <button id="dm-hint-btn" style="padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.82rem;">💡</button>
-            <button id="dm-next-btn" style="display:none;padding:10px 18px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;">Далі →</button>
+            <button id="dm-next-btn" data-i18n="duel.next" style="display:none;padding:10px 18px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;">Далі →</button>
           </div>
         </div>
         <!-- Feedback -->
@@ -996,11 +996,11 @@
         <div id="dm-powerups" style="display:none;gap:6px;justify-content:center;margin-top:6px;"></div>
 
         <div style="display:flex;gap:6px;justify-content:center;margin-top:8px;" id="dm-react-row">
-          <button class="dm-react-btn" data-emoji="👍" title="Добре!">👍</button>
-          <button class="dm-react-btn" data-emoji="😅" title="Ой!">😅</button>
-          <button class="dm-react-btn" data-emoji="🔥" title="Вогонь!">🔥</button>
-          <button class="dm-react-btn" data-emoji="😂" title="Ха!">😂</button>
-          <button class="dm-react-btn" data-emoji="🤯" title="Неймовірно!">🤯</button>
+          <button class="dm-react-btn" data-emoji="👍" data-i18n-title="duel.react.good" title="Добре!">👍</button>
+          <button class="dm-react-btn" data-emoji="😅" data-i18n-title="duel.react.oops" title="Ой!">😅</button>
+          <button class="dm-react-btn" data-emoji="🔥" data-i18n-title="duel.react.fire" title="Вогонь!">🔥</button>
+          <button class="dm-react-btn" data-emoji="😂" data-i18n-title="duel.react.lol" title="Ха!">😂</button>
+          <button class="dm-react-btn" data-emoji="🤯" data-i18n-title="duel.react.wow" title="Неймовірно!">🤯</button>
         </div>
         <!-- Received reaction popup -->
         <div id="dm-reaction-received" style="display:none;text-align:center;font-size:2.5rem;margin-top:4px;"></div>
@@ -1013,12 +1013,12 @@
         <div id="duel-history-entry" style="font-size:.75rem;color:var(--text3);margin:10px 0 0;"></div>
         <!-- Rematch + New game buttons -->
         <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
-          <button id="duel-rematch-btn" style="display:none;padding:12px 24px;border-radius:12px;border:1.5px solid var(--accent);background:none;color:var(--accent);font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem;">⚔️ Реванш</button>
-          <button id="duel-again-btn" style="padding:12px 24px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem;">🔄 Нова дуель</button>
+          <button id="duel-rematch-btn" data-i18n="duel.rematch" style="display:none;padding:12px 24px;border-radius:12px;border:1.5px solid var(--accent);background:none;color:var(--accent);font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem;">⚔️ Реванш</button>
+          <button id="duel-again-btn" data-i18n="duel.newDuel" style="padding:12px 24px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem;">🔄 Нова дуель</button>
         </div>
         <!-- Emoji reactions -->
         <div style="margin-top:14px;">
-          <div style="font-size:.7rem;color:var(--text3);margin-bottom:6px;">Надіслати реакцію суперникам:</div>
+          <div style="font-size:.7rem;color:var(--text3);margin-bottom:6px;" data-i18n="duel.sendReaction">Надіслати реакцію суперникам:</div>
           <div id="duel-reactions" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;"></div>
         </div>
         <!-- Received reaction display -->
