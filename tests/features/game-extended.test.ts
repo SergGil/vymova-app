@@ -3,6 +3,7 @@ import {
   getLevel, getNextLevel, LEVELS,
   updateStreak, getDailyStats, saveDailyStats, recordDailyWord,
   getModeStats, saveModeStats, recordModeComplete,
+  getGameData, saveGameData, loadUnlocked, saveUnlocked,
 } from '../../js/features/game.ts';
 import { state } from '../../src/state.ts';
 import type { GameData } from '../../src/types.js';
@@ -37,6 +38,7 @@ function makeGame(overrides: Partial<GameData> = {}): GameData {
 beforeEach(() => {
   lsMock.clear();
   state._dailyCache = null; // reset cache so recordDailyWord starts fresh
+  state._gameCache  = null; // reset so getGameData re-reads from localStorage
   vi.useFakeTimers();
   vi.stubGlobal('localStorage', lsMock);
   setFakeDate('2024-06-15');
@@ -233,5 +235,89 @@ describe('recordModeComplete()', () => {
     recordModeComplete('quiz');
     expect(getModeStats().quiz).toBe(2);
     expect(getModeStats().write).toBe(1);
+  });
+});
+
+// ── getGameData / saveGameData ────────────────────────────────
+describe('getGameData() + saveGameData()', () => {
+  it('returns goalMax=20 default when nothing stored', () => {
+    const d = getGameData();
+    expect(d.goalMax).toBe(20);
+  });
+
+  it('round-trips xp, maxCombo, goalDays, sessionWords', () => {
+    // Use streakDate = yesterday so getGameData() does not reset streak to 0
+    const data = makeGame({ streak: 5, xp: 300, maxCombo: 12, goalDays: 8,
+      sessionWords: 42, streakDate: '2024-06-14' });
+    saveGameData(data);
+    state._gameCache = null; // force re-read from localStorage
+    const loaded = getGameData();
+    expect(loaded.xp).toBe(300);
+    expect(loaded.maxCombo).toBe(12);
+    expect(loaded.goalDays).toBe(8);
+    expect(loaded.sessionWords).toBe(42);
+  });
+
+  it('streak is preserved when streakDate is set', () => {
+    saveGameData(makeGame({ streak: 7, streakDate: '2024-06-14' }));
+    state._gameCache = null;
+    expect(getGameData().streak).toBe(7);
+  });
+
+  it('overwrites previous save (xp)', () => {
+    saveGameData(makeGame({ xp: 100 }));
+    state._gameCache = null;
+    saveGameData(makeGame({ xp: 999 }));
+    state._gameCache = null;
+    expect(getGameData().xp).toBe(999);
+  });
+
+  it('missing fields fall back to defaults (maxCombo=0, goalMax=20)', () => {
+    lsMock.setItem('ew_game', JSON.stringify({ xp: 50 }));
+    const d = getGameData();
+    expect(d.xp).toBe(50);
+    expect(d.maxCombo ?? 0).toBe(0);
+    expect(d.goalMax).toBe(20);
+  });
+
+  it('returns empty-equivalent on corrupt JSON', () => {
+    lsMock.setItem('ew_game', 'not-json!!!');
+    const d = getGameData();
+    expect(d.goalMax).toBe(20); // default applied after corrupt read
+  });
+});
+
+// ── loadUnlocked / saveUnlocked ───────────────────────────────
+describe('loadUnlocked() + saveUnlocked()', () => {
+  it('returns empty array when nothing stored', () => {
+    expect(loadUnlocked()).toEqual([]);
+  });
+
+  it('round-trips unlocked achievement IDs', () => {
+    saveUnlocked(['first1', 'words10', 'streak3']);
+    const loaded = loadUnlocked();
+    expect(loaded).toContain('first1');
+    expect(loaded).toContain('words10');
+    expect(loaded).toContain('streak3');
+    expect(loaded.length).toBe(3);
+  });
+
+  it('round-trips empty array', () => {
+    saveUnlocked([]);
+    expect(loadUnlocked()).toEqual([]);
+  });
+
+  it('overwrites previous unlocked list', () => {
+    saveUnlocked(['first1']);
+    saveUnlocked(['words10', 'streak7']);
+    const loaded = loadUnlocked();
+    expect(loaded).not.toContain('first1');
+    expect(loaded).toContain('words10');
+    expect(loaded).toContain('streak7');
+  });
+
+  it('returns empty array on corrupted JSON', () => {
+    lsMock.setItem('ew_ach', 'not-valid-json!!!');
+    expect(loadUnlocked()).toEqual([]);
   });
 });
