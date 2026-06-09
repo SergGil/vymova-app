@@ -25,6 +25,7 @@ import { updateRing }                              from './features/ring.ts';
 import { invalidateSimilarCache }                  from './features/similar-words.ts';
 import { openWordDetail }                          from './features/word-detail.ts';
 import { ES_MODES, getMode, esEntry as _esEntry }  from './features/mode-utils.ts';
+import { safe as _safe, boldEn as _boldEn, boldUa as _boldUa, boldHead as _boldHead, srsStatusInfo } from './core/card-helpers.ts';
 import './features/speech.ts';
 import './features/image-prefetch.ts';
 import './features/search-inline.ts';
@@ -38,10 +39,6 @@ import './core/theme.ts';
 import './core/swipe.ts';
 import './core/pwa.ts';
 
-// Runs fn and warns on error instead of silently swallowing it
-function _safe(fn: () => void): void {
-  try { fn(); } catch (e) { console.warn('[safe]', (e as Error).message ?? e); }
-}
 
 const savedKnown = _lzLoad('ew_known', []);
 
@@ -123,25 +120,6 @@ function stopAuto(): void {
   if (btnAuto) btnAuto.textContent = t('cards.auto');
 }
 
-function _boldEn(src: string, w: WordEntry): string {
-  if (!src) return '';
-  if (src.indexOf('<b>') !== -1) return src;
-  const _bw = w[0].replace(/\s*\([^)]*\)/g,'').trim();
-  const _bp = _bw.split(/\s+/).filter(Boolean).map(function(p){ return p.replace(/[.*+?^${}()|\[\]\\]/g,'\\$&')+'\\w*'; });
-  return src.replace(new RegExp('('+_bp.join('\\s+')+')', 'i'), '<b>$1</b>');
-}
-function _boldUa(src: string, w: WordEntry): string {
-  if (!src) return src;
-  const _uw = w[1].split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
-  return src.replace(new RegExp('('+_uw+'\\w*)', 'i'), '<b>$1</b>');
-}
-function _boldHead(src: string, word: string): string {
-  if (!src) return '';
-  if (!word || src.indexOf('<b>') !== -1) return src;
-  const _hw = word.replace(/\s*\([^)]*\)/g,'').split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
-  if (!_hw) return src;
-  return src.replace(new RegExp('('+_hw+'\\w*)', 'i'), '<b>$1</b>');
-}
 
 // ── Card animation ─────────────────────────────────────────────────────────
 function _animCard(dir: 'next' | 'prev' | 'fade'): void {
@@ -247,32 +225,11 @@ function renderSrsBadge(word: string): void {
   if (!srsEl) return;
   const sd = (srsData as Record<string, {ef?: number; reps?: number; due?: string; interval?: number}>)[word];
   const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
-  if (!sd || !sd.due) {
-    if (rangeVal === 'srs' || rangeVal === 'weak') {
-      srsEl.textContent = '🆕 Нове';
-      srsEl.className = 'srs-next new';
-      srsEl.style.display = '';
-    } else {
-      srsEl.style.display = 'none';
-    }
-  } else {
-    const diffDays = Math.round((new Date(sd.due).getTime() - new Date(TODAY).getTime()) / 86400000);
-    if (diffDays < 0) {
-      const overDays = Math.abs(diffDays);
-      srsEl.textContent = '🔴 Прострочено ' + overDays + ' ' + (overDays === 1 ? 'день' : overDays < 5 ? 'дні' : 'днів');
-      srsEl.className = 'srs-next over';
-    } else if (diffDays === 0) {
-      srsEl.textContent = '🟡 Повторити сьогодні';
-      srsEl.className = 'srs-next today';
-    } else if (diffDays <= 3) {
-      srsEl.textContent = '⏰ Через ' + diffDays + ' ' + (diffDays === 1 ? 'день' : 'дні');
-      srsEl.className = 'srs-next soon';
-    } else {
-      srsEl.textContent = '✅ Через ' + diffDays + ' ' + (diffDays < 5 ? 'дні' : 'днів');
-      srsEl.className = 'srs-next ok';
-    }
-    srsEl.style.display = '';
-  }
+  const info = srsStatusInfo(sd, TODAY, rangeVal);
+  if (!info) { srsEl.style.display = 'none'; return; }
+  srsEl.textContent = info.text;
+  srsEl.className   = info.className;
+  srsEl.style.display = '';
 }
 
 // ── Main render ────────────────────────────────────────────────────────────
