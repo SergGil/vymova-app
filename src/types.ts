@@ -86,6 +86,7 @@ export interface AppState {
   deck:           WordEntry[];
   idx:            number;
   flipped:        boolean;
+  cw:             WordEntry | null;
   _baseWords:     WordEntry[];
   _activeTagSet:  Set<string> | null;
   autoTimer:      ReturnType<typeof setInterval> | null;

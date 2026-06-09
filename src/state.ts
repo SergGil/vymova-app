@@ -9,6 +9,7 @@ export const state: AppState = {
   deck:           [],
   idx:            0,
   flipped:        false,
+  cw:             null,
   _baseWords:     [],
   _activeTagSet:  null,
   autoTimer:      null,

@@ -76,22 +76,37 @@ let knownEs = loadKnownEs();
 function _activeKnown(): Set<string> { return ES_MODES.has(getMode()) ? knownEs : known; }
 let cw: WordEntry | null = null, autoTimer: ReturnType<typeof setTimeout> | null = null;
 
-// ── Sync local vars with state so srs.js and other ES modules
-//    read the SAME objects (mutation propagates both ways) ──────
+// ── Sync reference-type locals into state (mutations propagate both ways) ──
 state.known   = known;    // Set — mutations propagate
 state.srsData = srsData;  // Object — mutations propagate
-state.deck    = deck as unknown as WordEntry[];  // Array — reassigned, needs explicit sync
-window.deck   = deck; // keep in sync for legacy files
 
 let _baseWords = W.slice();
 let _activeTagSet = null; // тег-фільтр: null = вимкнений, Set = активний
 
-// ── Expose module-scope vars as globals for legacy mode/feature files ──
-// (Phase 3 will remove these once all files use imports)
-window.known        = known;
-window.srsData      = srsData;
-window.deck         = deck;
-window.W            = W;        // re-export (some files access via window.W)
+// ── Single-source helpers — replace triple-sync boilerplate ────────────────
+// Call _setDeck / _setIdx / _setCw instead of writing to all 3 stores manually.
+function _setDeck(d: WordEntry[]): void {
+  deck = d;
+  state.deck = d as unknown as WordEntry[];
+  window.deck = d;
+}
+function _setIdx(i: number): void {
+  idx = i;
+  state.idx = i;
+}
+function _setCw(w: WordEntry | null): void {
+  cw = w;
+  state.cw = w;
+}
+
+// ── window live-getters for deck / idx / flipped (always reflect module vars) ──
+window.W = W;  // static — never reassigned
+window.known   = known;   // Set mutations propagate without reassignment
+window.srsData = srsData; // Object mutations propagate without reassignment
+Object.defineProperty(window, 'deck',    { configurable: true, get: () => deck,    set: (v) => _setDeck(v) });
+Object.defineProperty(window, 'idx',     { configurable: true, get: () => idx,     set: (v) => _setIdx(v) });
+Object.defineProperty(window, 'flipped', { configurable: true, get: () => flipped, set: (v) => { flipped = v; state.flipped = v; } });
+Object.defineProperty(window, 'cw',      { configurable: true, get: () => cw });
 // window.TODAY is set further below when TODAY is defined
 
 // buildStaleDeck: слова що не переглядались довше N днів
@@ -219,7 +234,7 @@ function render() {
   try {
     if (!deck || !deck.length) { console.error('render: deck empty'); return; }
     if (synth) { _safe(() => synth.cancel()); }
-    cw = deck[idx % deck.length];
+    _setCw(deck[idx % deck.length]);
     if (!cw) { console.error('render: cw is null'); return; }
     flipped = false;
     let mode = getMode();
@@ -561,10 +576,9 @@ document.getElementById('btn-know')!.addEventListener('click', function(e){
       });
     }
     let v = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
-    if (v === 'srs') { deck = buildSRSDeck(_baseWords as unknown as WordEntry[]); state.deck = deck; window.deck = deck; idx = 0; render(); return; }
+    if (v === 'srs') { _setDeck(buildSRSDeck(_baseWords as unknown as WordEntry[])); idx = 0; render(); return; }
     if (v === 'unlearned') {
-      deck = buildUnlearnedDeck(_baseWords as unknown as WordEntry[]);
-      state.deck = deck; window.deck = deck; if (!deck.length) { render(); return; }
+      _setDeck(buildUnlearnedDeck(_baseWords as unknown as WordEntry[])); if (!deck.length) { render(); return; }
       idx = idx % deck.length; _animCard('fade'); render(); return;
     }
   }
@@ -638,8 +652,7 @@ window._rebuildEsDeck = function(): void {
   let esDeck = _getEsDeck();
   let ats = state._activeTagSet as Set<string> | null;
   deck = ats ? esDeck.filter(function(w){ return (ats as Set<string>).has(w[0]); }) : esDeck.slice();
-  if (!deck.length) deck = esDeck.slice();
-  state.deck = deck; window.deck = deck; idx = 0; render();
+  if (!deck.length) _setDeck(esDeck.slice()); idx = 0; render();
 };
 let _preEsDeck: WordEntry[] | null = null;
 let _preEsIdx = 0;
@@ -663,13 +676,12 @@ document.getElementById('sel-mode')!.addEventListener('change', function(){
     // Apply active tag filter to ES deck if one is already set
     let _atsEs = state._activeTagSet as Set<string> | null;
     deck = _atsEs ? esDeck.filter(function(w){ return (_atsEs as Set<string>).has(w[0]); }) : esDeck.slice();
-    if (!deck.length) deck = esDeck.slice();
-    state.deck = deck; window.deck = deck; idx = 0;
+    if (!deck.length) _setDeck(esDeck.slice()); idx = 0;
     if (selRangeEl) selRangeEl.disabled = true;
     // sel-tag stays enabled — user can filter ES words by category
   } else if (!isEs && _preEsDeck) {
     // Виходимо з ES-режиму — повертаємо попередню колоду
-    deck = _preEsDeck; state.deck = deck; window.deck = deck;
+    _setDeck(_preEsDeck);
     idx = deck.length ? _preEsIdx % deck.length : 0;
     _preEsDeck = null;
     if (selRangeEl) selRangeEl.disabled = false;
@@ -741,7 +753,7 @@ document.getElementById('sel-range')!.addEventListener('change', function(){
     }
     state._activeTagSet = null;
     if (selTagEl) selTagEl.value = '';
-    state.deck = deck; window.deck = deck;
+    _setDeck(deck);
     idx = 0; render(); return;
   } else if (v === 'hard') {
     _baseWords = W.slice();
@@ -756,7 +768,7 @@ document.getElementById('sel-range')!.addEventListener('change', function(){
     else { deck.sort(function(a, b) { return (_hardWords.indexOf(b[0]) < _hardWords.indexOf(a[0]) ? 1 : -1); }); }
     state._activeTagSet = null;
     if (selTagEl) selTagEl.value = '';
-    state.deck = deck; window.deck = deck;
+    _setDeck(deck);
     idx = 0; render(); return;
   } else if (v === 'bookmarks') {
     _baseWords = W.slice();
@@ -782,7 +794,7 @@ document.getElementById('sel-range')!.addEventListener('change', function(){
     }
     state._activeTagSet = null;
     if (selTagEl) selTagEl.value = '';
-    state.deck = deck; window.deck = deck;
+    _setDeck(deck);
     idx = 0; render(); return;
   } else if (v.startsWith('stale')) {
     _baseWords = W.slice();
@@ -801,7 +813,7 @@ document.getElementById('sel-range')!.addEventListener('change', function(){
       shuffle(deck);
     }
   }
-  state.deck = deck; window.deck = deck; idx=0; render();
+  _setDeck(deck); idx=0; render();
 });
 
 
@@ -1036,7 +1048,7 @@ document.getElementById('btn-theme')!.addEventListener('click', function(){
       _wordIdx.forEach(function(i, k){ if(k.toLowerCase() === wLow) wi = i; });
       if(wi === -1) return;
       deck = W.slice() as unknown as WordEntry[]; shuffle(deck);
-      state.deck = deck; window.deck = deck; di = deck.findIndex(function(w){ return w[0].toLowerCase() === wLow; });
+      _setDeck(deck); di = deck.findIndex(function(w){ return w[0].toLowerCase() === wLow; });
       (document.getElementById('sel-range') as HTMLSelectElement)!.value = '0';
     }
     idx = di; stopAuto(); render();
@@ -1506,14 +1518,12 @@ window.buildStaleDeck      = buildStaleDeck;
 window.openStats           = openStats;
 window.closeStats          = closeStats;
 // _srsStatsDirty, _gameCache, _dailyCache live in state — not duplicated on window
-window.idx                 = idx;
-window.flipped             = flipped;
-Object.defineProperty(window, 'cw', { configurable: true, get: function() { return cw; } });
+// window.deck / window.idx / window.flipped / window.cw are live getters defined at top of file
 // ── Setters for module-scope primitives used by legacy files ──
-window.setIdx = function(i: number) { idx = i; };
-window.setDeck = function(d: WordEntry[]) { deck = d; window.deck = deck; };
-window.setFlipped = function(v: boolean) { flipped = v; };
-window.setCw      = function(v: WordEntry | null) { cw = v; };
+window.setIdx     = (i: number)              => _setIdx(i);
+window.setDeck    = (d: WordEntry[])         => _setDeck(d);
+window.setFlipped = (v: boolean)             => { flipped = v; state.flipped = v; };
+window.setCw      = (v: WordEntry | null)    => _setCw(v);
 window._wordIdx              = _wordIdx;
 window._customWords          = _customWords;
 window.invalidateSimilarCache = invalidateSimilarCache;
