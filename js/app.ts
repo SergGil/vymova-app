@@ -601,7 +601,7 @@ document.getElementById('modal-cancel')!.addEventListener('click', function(){
 document.getElementById('modal-confirm')!.addEventListener('click', function(){
   // Скидаємо все повністю
   known.clear(); knownEs.clear(); srsData = {};
-  state.known = known; state.srsData = srsData;
+  state.known = known; state.srsData = srsData; window.srsData = srsData;
   state._srsStatsDirty = true;
   saveKnown(known); saveKnownEs(knownEs); saveSRS(srsData);
   try { localStorage.removeItem('ew_game'); } catch(e){}
@@ -731,8 +731,12 @@ document.getElementById('sel-range')!.addEventListener('change', function(){
         .map(function(k) { return (W as unknown as WordEntry[]).find(function(w) { return w[0] === k; }); })
         .filter(Boolean) as WordEntry[];
       if (!deck.length) deck = buildUnlearnedDeck(_baseWords as unknown as WordEntry[]);
+      var _mtWeak = document.getElementById('milestone-toast');
+      if (_mtWeak) { _mtWeak.textContent = t('range.weakFallbackKnown'); _mtWeak.className = 'milestone-toast'; void _mtWeak.offsetWidth; _mtWeak.className = 'milestone-toast show'; setTimeout(function(){ _mtWeak!.className = 'milestone-toast'; }, 3500); }
     } else {
       deck = buildUnlearnedDeck(_baseWords as unknown as WordEntry[]);
+      var _mtWeak2 = document.getElementById('milestone-toast');
+      if (_mtWeak2) { _mtWeak2.textContent = t('range.weakFallbackNew'); _mtWeak2.className = 'milestone-toast'; void _mtWeak2.offsetWidth; _mtWeak2.className = 'milestone-toast show'; setTimeout(function(){ _mtWeak2!.className = 'milestone-toast'; }, 3500); }
     }
     state._activeTagSet = null;
     if (selTagEl) selTagEl.value = '';
@@ -1042,7 +1046,12 @@ document.getElementById('btn-theme')!.addEventListener('click', function(){
         box.innerHTML = '<div class="search-no-results">Нічого не знайдено</div>';
       } else {
         box.innerHTML = hits.map(function(w){
-          return '<div class="search-result-item" data-word="'+w[0]+'"><span class="sr-word">'+w[0]+'</span><span class="sr-transl">'+w[1]+'</span></div>';
+          var _isKnown = _activeKnown().has(w[0]);
+          return '<div class="search-result-item' + (_isKnown ? ' sr-known' : '') + '" data-word="'+w[0]+'">' +
+            '<span class="sr-word">'+w[0]+'</span>' +
+            '<span class="sr-transl">'+w[1]+'</span>' +
+            (_isKnown ? '<span class="sr-known-badge">✓</span>' : '') +
+          '</div>';
         }).join('');
       }
       box.className = 'search-results open';
@@ -1506,7 +1515,7 @@ window.invalidateSimilarCache = invalidateSimilarCache;
 window.exportProgress        = exportProgress;
 window.updateRing            = updateRing;
 window.playSound             = playSound;
-window.recordModeComplete    = recordModeComplete;
+// window.recordModeComplete — defined above (line ~1144) with checkAchievements() wrapper
 window.recordCustomWordAdded = recordCustomWordAdded;
 window.renderLevelProgress   = renderLevelProgress;
 window.renderSRSForecast     = renderSRSForecast;
@@ -1555,11 +1564,11 @@ function importProgress(code: string): boolean {
     if (data.theme) localStorage.setItem('ew_theme', data.theme);
 
     // Перезавантажуємо в пам'ять
-    try { known = new Set(JSON.parse(knownJson)); state.known = known; } catch(e){}
+    try { known = new Set(JSON.parse(knownJson)); state.known = known; window.known = known; } catch(e){}
     try {
       srsData = JSON.parse(srsJson);
       Object.keys(srsData).forEach(function(k){ if(typeof srsData[k]==='number') delete srsData[k]; });
-      state.srsData = srsData;
+      state.srsData = srsData; window.srsData = srsData;
     } catch(e){}
     state._srsStatsDirty = true;
     state._gameCache = null; // скинути кеш гри
@@ -1702,7 +1711,6 @@ function importProgress(code: string): boolean {
 
 document.getElementById('btn-export')!.addEventListener('click', function(){
   closeStats();
-  closeStats();
   var code = exportProgress();
   var ta = (document.getElementById('export-textarea') as HTMLTextAreaElement);
   ta.value = code;
@@ -1807,33 +1815,10 @@ var _origFlipLogic_handled = false;
 // СХОЖІ СЛОВА
 // ════════════════════════════════════════
 
-// Відстань Левенштейна (для схожості написання)
-function levenshtein(a: string, b: string): number {
-  var m = a.length, n = b.length;
-  var dp = [];
-  for (var i = 0; i <= m; i++) {
-    dp[i] = [i];
-    for (var j = 1; j <= n; j++) {
-      if (i === 0) { dp[i][j] = j; continue; }
-      dp[i][j] = a[i-1] === b[j-1]
-        ? dp[i-1][j-1]
-        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
-    }
-  }
-  return dp[m][n];
-}
-
-// Спільний префікс
-function commonPrefix(a: string, b: string): number {
-  var i = 0;
-  while (i < a.length && i < b.length && a[i] === b[i]) i++;
-  return i;
-}
-
 // Схожість перекладу — спільні слова
 function translSimilarity(ta: string, tb: string): number {
-  var wa = ta.toLowerCase().split(/[s,/]+/).filter(Boolean);
-  var wb = tb.toLowerCase().split(/[s,/]+/).filter(Boolean);
+  var wa = ta.toLowerCase().split(/[\s,/]+/).filter(Boolean);
+  var wb = tb.toLowerCase().split(/[\s,/]+/).filter(Boolean);
   var common = wa.filter(function(w){ return wb.indexOf(w) !== -1; });
   return common.length;
 }
@@ -2086,8 +2071,8 @@ function updateSimilarWords() {
   var isInStandalone = (navigator as any).standalone === true;
   if(isIOS && !isInStandalone && !localStorage.getItem('ew_pwa_dismissed')){
     setTimeout(function(){
-      (banner.querySelector('.pwa-text') as HTMLElement|null)?.setAttribute('innerHTML',
-        '<strong>Додай на головний екран</strong> · Натисни <strong>⬜ Поділитися</strong> → <strong>На екран «Додому»</strong>');
+      const _pwaText = banner.querySelector<HTMLElement>('.pwa-text');
+      if (_pwaText) _pwaText.innerHTML = '<strong>Додай на головний екран</strong> · Натисни <strong>⬜ Поділитися</strong> → <strong>На екран «Додому»</strong>';
       // Hide install button on iOS (no install prompt)
       const installBtn = banner.querySelector<HTMLElement>('.pwa-install-btn');
       if (installBtn) installBtn.style.display = 'none';

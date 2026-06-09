@@ -33,12 +33,11 @@ export function updateStreak(d: GameData): GameData {
   const yStr = yesterday.toISOString().slice(0, 10);
   if (!d.shields) d.shields = 0;
   if (d.streakDate === state.TODAY) {
-    // already counted today — check if we need to award a shield (every 7-day milestone)
-    if ((d.streak ?? 0) > 0 && (d.streak % 7 === 0) && d.shields < 3) d.shields = Math.min(3, d.shields + 1);
+    // already counted today — nothing to do (shield awarded only on first increment)
   } else if (d.streakDate === yStr) {
     d.streak = (d.streak ?? 0) + 1;
     d.streakDate = state.TODAY;
-    // Award shield at every 7-day streak milestone
+    // Award shield once per 7-day streak milestone (only on the day streak increments)
     if (d.streak % 7 === 0 && d.shields < 3) d.shields = Math.min(3, d.shields + 1);
   } else if (d.streakDate) {
     // Missed a day — use shield if available
@@ -74,20 +73,29 @@ export function saveDailyStats(d: Record<string, number>): void {
 export function recordDailyWord(): void {
   const d = getDailyStats();
   d[state.TODAY] = (d[state.TODAY] ?? 0) + 1;
-  const hKey = 'h' + new Date().getHours();
+  // Hourly key includes date so stats don't bleed across days
+  const hKey = state.TODAY + '_h' + new Date().getHours();
   d[hKey] = (d[hKey] ?? 0) + 1;
   saveDailyStats(d);
 }
 
 // ── Mode stats ─────────────────────────────────────────────────
+let _modeStatsCache: ModeStats | null = null;
+
 export function getModeStats(): ModeStats {
-  try { return JSON.parse(localStorage.getItem('ew_modes') ?? '{}') as ModeStats; }
-  catch (e) { return {}; }
+  if (_modeStatsCache) return Object.assign({}, _modeStatsCache);
+  try {
+    _modeStatsCache = JSON.parse(localStorage.getItem('ew_modes') ?? '{}') as ModeStats;
+    return Object.assign({}, _modeStatsCache);
+  } catch (e) { return {}; }
 }
 
 export function saveModeStats(m: ModeStats): void {
+  _modeStatsCache = Object.assign({}, m);
   try { localStorage.setItem('ew_modes', JSON.stringify(m)); } catch (e) {}
 }
+
+export function invalidateModeStatsCache(): void { _modeStatsCache = null; }
 
 // ── Achievements unlocked list ─────────────────────────────────
 export function loadUnlocked(): string[] {

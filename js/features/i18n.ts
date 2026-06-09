@@ -86,6 +86,8 @@ const DICT: Record<string, Record<Lang, string>> = {
   'range.cefrC2':    { ua: '🟣 C2 — Майстерний',       en: '🟣 C2 — Proficient',         es: '🟣 C2 — Maestría' },
   'range.stale7':    { ua: '🕰️ Не бачені 7 днів',     en: '🕰️ Not seen for 7 days',     es: '🕰️ No vistas hace 7 días' },
   'range.stale30':   { ua: '🕰️ Не бачені 30 днів',    en: '🕰️ Not seen for 30 days',    es: '🕰️ No vistas hace 30 días' },
+  'range.weakFallbackKnown': { ua: 'Мало даних SRS — показуємо нещодавно вивчені слова', en: 'Not enough SRS data — showing recently learned words', es: 'Pocos datos SRS — mostrando palabras aprendidas' },
+  'range.weakFallbackNew':   { ua: 'Мало даних SRS — показуємо нові слова для вивчення',  en: 'Not enough SRS data — showing new words to learn',   es: 'Pocos datos SRS — mostrando palabras nuevas' },
 
   'kbd.space':       { ua: 'Пробіл',     en: 'Space',      es: 'Espacio' },
   'kbd.next':        { ua: 'далі',       en: 'next',       es: 'siguiente' },
