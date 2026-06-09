@@ -87,7 +87,6 @@ Object.defineProperty(window, 'deck',    { configurable: true, get: () => deck, 
 Object.defineProperty(window, 'idx',     { configurable: true, get: () => idx,     set: (v) => _setIdx(v) });
 Object.defineProperty(window, 'flipped', { configurable: true, get: () => flipped, set: (v) => { flipped = v; state.flipped = v; } });
 Object.defineProperty(window, 'cw',      { configurable: true, get: () => cw });
-// window.TODAY is set further below when TODAY is defined
 
 // Helper: get cached element with null safety
 function $e(id: string): HTMLElement { return $el[id] as HTMLElement; }
@@ -119,6 +118,26 @@ function stopAuto(): void {
   if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
   const btnAuto = document.getElementById('btn-auto');
   if (btnAuto) btnAuto.textContent = t('cards.auto');
+}
+
+function _boldEn(src: string, w: WordEntry): string {
+  if (!src) return '';
+  if (src.indexOf('<b>') !== -1) return src;
+  let _bw = w[0].replace(/\s*\([^)]*\)/g,'').trim();
+  let _bp = _bw.split(/\s+/).filter(Boolean).map(function(p){ return p.replace(/[.*+?^${}()|\[\]\\]/g,'\\$&')+'\\w*'; });
+  return src.replace(new RegExp('('+_bp.join('\\s+')+')', 'i'), '<b>$1</b>');
+}
+function _boldUa(src: string, w: WordEntry): string {
+  if (!src) return src;
+  let _uw = w[1].split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
+  return src.replace(new RegExp('('+_uw+'\\w*)', 'i'), '<b>$1</b>');
+}
+function _boldHead(src: string, word: string): string {
+  if (!src) return '';
+  if (!word || src.indexOf('<b>') !== -1) return src;
+  let _hw = word.replace(/\s*\([^)]*\)/g,'').split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
+  if (!_hw) return src;
+  return src.replace(new RegExp('('+_hw+'\\w*)', 'i'), '<b>$1</b>');
 }
 
 // ── Card animation ────────────────────────────────────────────
@@ -181,39 +200,16 @@ function render() {
     let trans = decodeIpa(cw[4] || '');
     tr.textContent = (FRONT_LANG === 'EN') ? trans : '';
     tr.style.display = (FRONT_LANG === 'EN' && trans) ? 'block' : 'none';
-    let t = $e('wtransl');
-    t.textContent = backWord;
-    t.className = 'transl';
-    // Приклад: EN→UA показуємо English (підсвічене слово), UA→EN — Ukrainian (не розкриває відповідь)
-    function _boldEn(src: string): string {
-      if (!src) return '';
-      if (src.indexOf('<b>') !== -1) return src;
-      let _bw = cw![0].replace(/\s*\([^)]*\)/g,'').trim();
-      let _bp = _bw.split(/\s+/).filter(Boolean).map(function(p){ return p.replace(/[.*+?^${}()|\[\]\\]/g,'\\$&')+'\\w*'; });
-      return src.replace(new RegExp('('+_bp.join('\\s+')+')', 'i'), '<b>$1</b>');
-    }
-    function _boldUa(src: string): string {
-      if (!src) return src;
-      let _uw = cw![1].split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
-      return src.replace(new RegExp('('+_uw+'\\w*)', 'i'), '<b>$1</b>');
-    }
-    function _boldHead(src: string, word: string): string {
-      if (!src) return '';
-      if (!word || src.indexOf('<b>') !== -1) return src;
-      let _hw = word.replace(/\s*\([^)]*\)/g,'').split(/[;,\/]/)[0].trim().replace(/[.*+?^${}()|\[\]\\]/g,'\\$&');
-      if (!_hw) return src;
-      return src.replace(new RegExp('('+_hw+'\\w*)', 'i'), '<b>$1</b>');
-    }
+    let translEl = $e('wtransl');
+    translEl.textContent = backWord;
+    translEl.className = 'transl';
     if (mode === 'en') {
-      // EN→UA: первинний приклад — англійський з bold словом
-      $e('exen').innerHTML = _boldEn(_enEx);
-      $e('exua').textContent = _uaEx;  // після flip
+      $e('exen').innerHTML = _boldEn(_enEx, cw);
+      $e('exua').textContent = _uaEx;
     } else if (mode === 'ua') {
-      // UA→EN: первинний приклад — UKRAINIAN (не розкриває англійської відповіді)
-      $e('exen').innerHTML = _boldUa(_uaEx) || _uaEx;
-      $e('exua').innerHTML = _boldEn(_enEx);  // англійський після flip
+      $e('exen').innerHTML = _boldUa(_uaEx, cw) || _uaEx;
+      $e('exua').innerHTML = _boldEn(_enEx, cw);
     } else if (ES_MODES.has(mode)) {
-      // ES-пари: первинний приклад мовою фронту з виділеним словом, відповідь — після flip
       let _frontEx = '', _backEx = '';
       switch (mode) {
         case 'en-es': _frontEx = _enEx; _backEx = _esEx; break;
@@ -377,8 +373,6 @@ function render() {
 const TODAY = new Date().toISOString().slice(0,10);
 window.TODAY = TODAY; // legacy files (catpairs.js, srs.js, etc.) use this globally
 
-
-
 // Запуск під час простою браузера (не блокує UI)
 function onWordLearned() {
   let d = getGameData();
@@ -406,12 +400,7 @@ function onWordLearned() {
   });
 }
 
-
 try { renderGameBar(); } catch(e){ console.error((e as Error).message); }
-
-
-
-
 
 
 
