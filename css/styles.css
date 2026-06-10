@@ -585,7 +585,7 @@
     align-items: flex-end;
     gap: 4px;
     height: 80px;
-    justify-content: flex-end;
+    justify-content: stretch;
   }
   .chart-col {
     flex: 1;
@@ -593,7 +593,7 @@
     flex-direction: column;
     align-items: center;
     gap: 3px;
-    max-width: 32px;
+    min-width: 0;
   }
   .chart-bar-wrap { width: 100%; display: flex; align-items: flex-end; height: 64px; }
   .chart-bar {
@@ -605,7 +605,7 @@
     opacity: .85;
   }
   .chart-bar.today { opacity: 1; background: var(--accent2); }
-  .chart-col-sm { max-width: 14px; gap: 1px; }
+  .chart-col-sm { gap: 1px; }
   .chart-col-sm .chart-val { font-size: 7px; }
   .chart-col-sm .chart-label { font-size: 7px; }
   .chart-period-btns { display: flex; gap: 6px; width: 100%; margin: 8px 0 10px; }
@@ -2800,7 +2800,7 @@ body.sw .sb-toggle-pill.on { background: #00c8ff; }
 
 /* ── Word of the day in sidebar ── */
 .sb-wotd {
-  margin: 4px 10px 6px;
+  margin: 4px 10px 10px;
   padding: 10px 12px;
   border: 1.5px solid var(--border);
   border-radius: 12px;
@@ -2809,6 +2809,7 @@ body.sw .sb-toggle-pill.on { background: #00c8ff; }
   transition: border-color .15s;
   display: flex !important;
   flex-direction: column;
+  flex-shrink: 0;
   gap: 6px;
   max-width: 100%;
   overflow: hidden;
@@ -2821,7 +2822,7 @@ body.sw .sb-wotd:hover { border-color: #00c8ff; }
 
 .wotd-body { display: flex; align-items: center; gap: 9px; min-width: 0; }
 .wotd-img-wrap {
-  width: 44px; height: 44px; flex-shrink: 0;
+  width: 36px; height: 36px; flex-shrink: 0;
   border-radius: 8px; overflow: hidden;
   background: var(--border);
   display: flex; align-items: center; justify-content: center;
@@ -2831,7 +2832,11 @@ body.sw .sb-wotd:hover { border-color: #00c8ff; }
 .wotd-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; overflow: hidden; }
 .sb-wotd .wotd-word { font-size: .9rem; font-weight: 700; color: var(--accent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 body.sw .sb-wotd .wotd-word { color: #00c8ff; }
-.sb-wotd .wotd-tr { font-size: .73rem; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.sb-wotd .wotd-tr {
+  font-size: .73rem; color: var(--text2); max-width: 100%;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; white-space: normal; line-height: 1.25;
+}
 
 /* ── Profile delete modal ── */
 #prf-delete-overlay { display: none; }

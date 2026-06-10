@@ -161,6 +161,8 @@ export function _renderChartBars(): void {
     days.push({ date: ds, label: lbl, val: daily[ds] || 0, isToday: ds === today });
   }
   const maxVal = Math.max(...days.map(d => d.val)) || 1;
+  const labelEl = document.getElementById('chart-period-label');
+  if (labelEl) labelEl.textContent = t('stats.perDayCount').replace('{n}', String(_chartDays));
   const chartEl = document.getElementById('chart-bars');
   const hasData = days.some(d => d.val > 0);
   if (!hasData) {
