@@ -1,7 +1,7 @@
 // English Words App — js/features/card-actions.ts
 // All flashcard interaction event listeners
 import { state } from '../../src/state.ts';
-import { sm2Update, buildSRSDeck, buildUnlearnedDeck, shuffle } from '../core/srs.ts';
+import { sm2Update, buildSRSDeck, buildUnlearnedDeck, shuffle, updateSrsUI } from '../core/srs.ts';
 import { saveKnown, saveKnownEs, saveSRS } from '../core/storage.ts';
 import { getGameData, saveGameData } from './game.ts';
 import { addCombo, breakCombo, flashCard } from './combo.ts';
@@ -134,6 +134,8 @@ document.getElementById('btn-know')!.addEventListener('click', function(e) {
     if (rangeVal === 'srs') { sm2Update(cw[0], 4); } else { delete (state.srsData as any)[cw[0]]; }
     if (ES_MODES.has(getMode())) { saveKnownEs((window as any).knownEs); } else { saveKnown(state.known); }
     saveSRS(state.srsData);
+    state._srsStatsDirty = true;
+    _safe(() => updateSrsUI(state._baseWords as unknown as WordEntry[]));
     _safe(() => playSound('know'));
     _safe(() => { addCombo(); flashCard(true); });
     if (isNewlyKnown) {
@@ -186,6 +188,8 @@ document.getElementById('btn-dontknow')!.addEventListener('click', function(e) {
   if (cw) {
     sm2Update(cw[0], 1);
     saveSRS(state.srsData);
+    state._srsStatsDirty = true;
+    _safe(() => updateSrsUI(state._baseWords as unknown as WordEntry[]));
     _safe(() => playSound('next'));
     _safe(() => breakCombo());
     (window as any).setDeck(buildSRSDeck(state._baseWords as unknown as WordEntry[]));
