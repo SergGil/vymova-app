@@ -10,7 +10,7 @@ import LZString from '../../lib/lzstring.js';
 import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
 import type { WordEntry } from '../../src/types.js';
-import { t, categoryName } from './i18n.ts';
+import { t, categoryName, getLang } from './i18n.ts';
 import { DICT } from '../modes/word-letters.ts';
 
 const DICT_SET = new Set(DICT);
@@ -51,19 +51,19 @@ type Difficulty     = CefrLevel | 'mixed'; // CEFR-based difficulty
 type BestOf         = 1 | 3;
 type PowerupType    = 'double' | 'skip' | 'freeze';
 
-const POWERUPS: { id:PowerupType; icon:string; label:string; desc:string }[] = [
-  { id:'double', icon:'🎯', label:'×2',    desc:'Наступна правильна відповідь = 2 очки' },
-  { id:'skip',   icon:'⏩', label:'Скіп',  desc:'Пропустити питання без штрафу' },
-  { id:'freeze', icon:'🧊', label:'Мороз', desc:'[Тільки Темп] Заморозити таймер суперника на 5с' },
+const POWERUPS: { id:PowerupType; icon:string }[] = [
+  { id:'double', icon:'🎯' },
+  { id:'skip',   icon:'⏩' },
+  { id:'freeze', icon:'🧊' },
 ];
 
-const DUEL_MODES: { id:DuelMode; icon:string; label:string; desc:string }[] = [
-  { id:'quiz',    icon:'🧠', label:'Тест',    desc:'4 варіанти · EN→UA' },
-  { id:'reverse', icon:'🔄', label:'Навпаки', desc:'4 варіанти · UA→EN' },
-  { id:'write',   icon:'✍️', label:'Письмо',  desc:'Введи переклад' },
-  { id:'tempo',   icon:'⚡', label:'Темп',    desc:`4 варіанти · ${TEMPO_SEC}с/питання` },
-  { id:'anagram', icon:'🔀', label:'Анаграма', desc:'Розплутай літери' },
-  { id:'letters', icon:'🔤', label:'Букви',    desc:'Склади слово з літер' },
+const DUEL_MODES: { id:DuelMode; icon:string }[] = [
+  { id:'quiz',    icon:'🧠' },
+  { id:'reverse', icon:'🔄' },
+  { id:'write',   icon:'✍️' },
+  { id:'tempo',   icon:'⚡' },
+  { id:'anagram', icon:'🔀' },
+  { id:'letters', icon:'🔤' },
 ];
 const DIFFICULTIES: { id:Difficulty; label:string; desc:string; color:string }[] = [
   { id:'mixed', label:'Мікс',    desc:'Усі рівні разом',     color:'var(--text3)' },
@@ -206,6 +206,7 @@ function _loadSession():{roomId:string;slot:'p1'|'p2';mode:DuelMode;idx:number;s
 }
 
 // ── Deck building ─────────────────────────────────────────────
+function _dateLocale(): string { return getLang()==='en'?'en':getLang()==='es'?'es':'uk'; }
 function _genCode(): string { return Array.from(crypto.getRandomValues(new Uint8Array(6)),v=>CHARS[v%CHARS.length]).join(''); }
 function _fmtCode(c:string): string { return c.slice(0,3)+'-'+c.slice(3); }
 function _rng(seed:number):()=>number{ let s=seed; return()=>{s=(s*1664525+1013904223)&0x7FFFFFFF;return s/0x7FFFFFFF;}; }
@@ -885,7 +886,7 @@ function _showFinish(room:RoomData):void{
   const mInfo=DUEL_MODES.find(m=>m.id===room.mode)||DUEL_MODES[0];
 
   // Save history + rating
-  _addHistory({date:new Date().toLocaleDateString('uk'),mode:room.mode,myScore:me.score,oppScore:opp?.score??0,oppName:opp?.name||t('duel.opp'),won,category:room.category});
+  _addHistory({date:new Date().toLocaleDateString(_dateLocale()),mode:room.mode,myScore:me.score,oppScore:opp?.score??0,oppName:opp?.name||t('duel.opp'),won,category:room.category});
   _updateRating(won,tie);
   _clearSession();
 
@@ -910,10 +911,10 @@ function _showFinish(room:RoomData):void{
   }
 
   const catLabel=room.category?` · ${room.category.split(' ')[0]}`:'';
-  const histEl=$('duel-history-entry'); if(histEl) histEl.textContent=`${mInfo.icon} ${mInfo.label}${catLabel} · ${new Date().toLocaleDateString('uk')}`;
+  const histEl=$('duel-history-entry'); if(histEl) histEl.textContent=`${mInfo.icon} ${t('duel.mode.'+mInfo.id)}${catLabel} · ${new Date().toLocaleDateString(_dateLocale())}`;
 
   $('duel-result-inner').innerHTML=
-    `<div style="font-size:.72rem;color:var(--text3);margin-bottom:6px;">${mInfo.icon} ${mInfo.label}${catLabel}</div>`+
+    `<div style="font-size:.72rem;color:var(--text3);margin-bottom:6px;">${mInfo.icon} ${t('duel.mode.'+mInfo.id)}${catLabel}</div>`+
     `<div style="font-size:3rem;margin-bottom:8px;">${won?'🏆':tie?'🤝':'😔'}</div>`+
     `<div style="font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:6px;">${won?t('duel.result.won'):tie?t('duel.result.tie'):t('duel.result.lost')}</div>`+
     `<div style="display:flex;gap:20px;justify-content:center;margin:14px 0;">`+
