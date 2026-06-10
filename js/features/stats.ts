@@ -179,7 +179,7 @@ export function _renderChartBars(): void {
       (d.val > 0 ? '<div class="chart-val">' + d.val + '</div>'
                  : '<div class="chart-val" style="visibility:hidden">0</div>') +
       '<div class="chart-bar-wrap"><div class="chart-bar' + (d.isToday ? ' today' : '') + '" style="height:' + h + 'px"></div></div>' +
-      '<div class="chart-label">' + (d.isToday ? t('stats.today') : showLabel ? d.label : '') + '</div>' +
+      '<div class="chart-label">' + (d.isToday && !sm ? t('stats.today') : showLabel ? d.label : '') + '</div>' +
     '</div>';
   }).join('');
 }
