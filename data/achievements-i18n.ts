@@ -37,7 +37,7 @@ export const ACH_EN: Record<string, AchTranslation> = {
   words2000: { name: '2,000 Words',   hint: '2000 words — you speak fluently. Worthy of the Council!' },
   words3000: { name: '3,000 Words',   hint: '3000 words — C1 level, almost a Sith Lord of vocabulary!' },
   words4000: { name: '4,000 Words',   hint: '4000 words — you are the Chosen One. You read without a dictionary!' },
-  words5542: { name: 'Master Yoda',   hint: 'All 5598 words learned. Do or do not — there is no try!' },
+  words5542: { name: 'Master Yoda',   hint: 'All 8327 words learned. Do or do not — there is no try!' },
 
   // ── Streak ──
   streak3:   { name: '3 Days in a Row',  hint: 'Practice 3 days in a row — a habit begins!' },
@@ -104,7 +104,7 @@ export const ACH_ES: Record<string, AchTranslation> = {
   words2000: { name: '2.000 palabras',      hint: '2000 palabras — hablas con fluidez. ¡Digno del Consejo!' },
   words3000: { name: '3.000 palabras',      hint: '3000 palabras — nivel C1, ¡casi un Lord Sith del vocabulario!' },
   words4000: { name: '4.000 palabras',      hint: '4000 palabras — eres el Elegido. ¡Lees sin diccionario!' },
-  words5542: { name: 'Maestro Yoda',        hint: 'Todas las 5598 palabras aprendidas. ¡Hazlo o no lo hagas, no lo intentes!' },
+  words5542: { name: 'Maestro Yoda',        hint: 'Todas las 8327 palabras aprendidas. ¡Hazlo o no lo hagas, no lo intentes!' },
 
   // ── Streak ──
   streak3:   { name: '3 días seguidos',     hint: '3 días seguidos — ¡un hábito comienza!' },

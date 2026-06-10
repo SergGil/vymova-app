@@ -6,24 +6,24 @@ function g(o: Partial<GameData> = {}): GameData {
   return { streak:0, streakDate:null, shields:0, goalMax:20, goalCur:0, goalDate:'', goalDays:0, confettiShown:null, sessionWords:0, xp:0, maxCombo:0, ...o };
 }
 
-// ── Word count milestones — updated for 5598 words ────────────
+// ── Word count milestones — updated for 8327 words ────────────
 describe('Achievement word milestones — updated word count', () => {
-  it('words5542 achievement now targets 5598 words', () => {
+  it('words5542 achievement now targets 8327 words', () => {
     const a = ACHIEVEMENTS.find(x => x.id === 'words5542')!;
     expect(a).toBeDefined();
-    expect(a.progress(5598, g()).max).toBe(5598);
-    expect(a.check(5597, g())).toBe(false);
-    expect(a.check(5598, g())).toBe(true);
+    expect(a.progress(8327, g()).max).toBe(8327);
+    expect(a.check(8326, g())).toBe(false);
+    expect(a.check(8327, g())).toBe(true);
   });
 
-  it('words5542 progress bar caps at 5598', () => {
+  it('words5542 progress bar caps at 8327', () => {
     const a = ACHIEVEMENTS.find(x => x.id === 'words5542')!;
-    expect(a.progress(6000, g()).cur).toBe(5598);
+    expect(a.progress(9000, g()).cur).toBe(8327);
   });
 
-  it('hint text mentions 5598', () => {
+  it('hint text mentions 8327', () => {
     const a = ACHIEVEMENTS.find(x => x.id === 'words5542')!;
-    expect(a.hint).toContain('5598');
+    expect(a.hint).toContain('8327');
   });
 });
 
