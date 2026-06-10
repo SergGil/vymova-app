@@ -1,5 +1,7 @@
 // English Words App — js/features/onboarding.ts
 // First-launch onboarding for new profiles
+import { t } from './i18n.ts';
+import { W } from '../../data/words.js';
 export {};
 
 const FLAG_KEY = 'ew_onboarding_needed';
@@ -79,47 +81,49 @@ function _showOnboarding(): void {
     document.head.appendChild(style);
   }
 
+  const wordCount = String(W.length);
+
   const SLIDES = [
     {
       emoji: '👋',
-      title: 'Ласкаво просимо!',
-      html: `Це твій персональний тренажер для вивчення <b>англійської лексики</b>. Тут <b>5 542 слова</b> з прикладами, вимовою та перекладом.<br><br>Вчи по трохи щодня — і прогрес не змусить чекати!`,
+      title: t('ob.slide1.title'),
+      html: t('ob.slide1.html').replace(/\{n\}/g, wordCount),
     },
     {
       emoji: '🃏',
-      title: 'Як вчити слова',
-      html: `Картка показує слово. Подумай, натисни щоб побачити переклад.`,
+      title: t('ob.slide2.title'),
+      html: t('ob.slide2.html'),
       tips: [
-        { icon: '✓', text: '<b>Знаю</b> — слово потрапить у систему повторень' },
-        { icon: '→', text: '<b>Далі</b> — пропустити, побачиш знову' },
-        { icon: '↑', text: '<b>Свайп вгору</b> — показати переклад одразу' },
-        { icon: '🔁', text: '<b>SRS</b> — розумна система інтервалів' },
+        { icon: '✓', text: t('ob.slide2.tip1') },
+        { icon: '→', text: t('ob.slide2.tip2') },
+        { icon: '↑', text: t('ob.slide2.tip3') },
+        { icon: '🔁', text: t('ob.slide2.tip4') },
       ],
     },
     {
       emoji: '🎮',
-      title: '10 режимів навчання',
-      html: `Окрім карток є багато способів практикуватись:`,
+      title: t('ob.slide3.title'),
+      html: t('ob.slide3.html'),
       tips: [
-        { icon: '🧠', text: '<b>Тест</b> — обери з 4 варіантів' },
-        { icon: '✍️', text: '<b>Письмо</b> — введи переклад' },
-        { icon: '🔊', text: '<b>Слухай</b> — розпізнай слово на слух' },
-        { icon: '⚡', text: '<b>Темп</b> — гонка з таймером' },
+        { icon: '🧠', text: t('ob.slide3.tip1') },
+        { icon: '✍️', text: t('ob.slide3.tip2') },
+        { icon: '🔊', text: t('ob.slide3.tip3') },
+        { icon: '⚡', text: t('ob.slide3.tip4') },
       ],
     },
     {
       emoji: '🎯',
-      title: 'З чого почнемо?',
-      html: `Як хочеш починати? Обери підхід — завжди можна змінити у фільтрі.`,
+      title: t('ob.slide4.title'),
+      html: t('ob.slide4.html'),
       isLevelPicker: true,
     },
   ] as const;
 
   const LEVELS = [
-    { emoji: '🔁', name: 'SRS режим',          words: 'система сама підбирає слова', range: 'srs', hint: '★ Рекомендовано' },
-    { emoji: '🔴', name: 'Тільки невивчені',    words: 'слова без позначки «Знаю»',  range: 'unlearned', hint: 'Фокус на нових словах' },
-    { emoji: '🏆', name: 'Всі 5 542 слів',      words: 'повний словник одразу',       range: '0',   hint: 'Максимальне занурення' },
-    { emoji: '📅', name: 'Місія дня',            words: '10 слів + таймер',            range: 'daily', hint: 'Щоденний челендж' },
+    { emoji: '🔁', name: t('ob.level.srs.name'),       words: t('ob.level.srs.words'),       range: 'srs', hint: t('ob.level.srs.hint') },
+    { emoji: '🔴', name: t('ob.level.unlearned.name'), words: t('ob.level.unlearned.words'), range: 'unlearned', hint: t('ob.level.unlearned.hint') },
+    { emoji: '🏆', name: t('ob.level.all.name').replace('{n}', wordCount), words: t('ob.level.all.words'), range: '0', hint: t('ob.level.all.hint') },
+    { emoji: '📅', name: t('ob.level.daily.name'),     words: t('ob.level.daily.words'),     range: 'daily', hint: t('ob.level.daily.hint') },
   ];
 
   let currentSlide = 0;
@@ -189,10 +193,10 @@ function _showOnboarding(): void {
   actions.className = 'ob-actions';
   const skipBtn = document.createElement('button');
   skipBtn.className = 'ob-btn-skip';
-  skipBtn.textContent = 'Пропустити';
+  skipBtn.textContent = t('ob.skip');
   const nextBtn = document.createElement('button');
   nextBtn.className = 'ob-btn-next';
-  nextBtn.textContent = 'Далі →';
+  nextBtn.textContent = t('ob.next');
   actions.append(skipBtn, nextBtn);
   card.appendChild(actions);
 
@@ -203,7 +207,7 @@ function _showOnboarding(): void {
     slideEls.forEach((el, i) => el.classList.toggle('ob-active', i === currentSlide));
     dotsEl.querySelectorAll('.ob-dot').forEach((d, i) => d.classList.toggle('ob-dot-active', i === currentSlide));
     const isLast = currentSlide === SLIDES.length - 1;
-    nextBtn.textContent = isLast ? '🚀 Почати навчання!' : 'Далі →';
+    nextBtn.textContent = isLast ? t('ob.start') : t('ob.next');
     skipBtn.style.display = isLast ? 'none' : '';
   }
 
