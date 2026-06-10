@@ -58,6 +58,7 @@ const elPopupSpeak = document.getElementById('sm-popup-speak')! as HTMLButtonEle
 function _highlightText(text: string): string {
   const wi = _getWordIdx();
   _knownInStory = 0; _totalHighlighted = 0;
+  const lowerText = text.toLowerCase();
   // Sort words by length desc to match longer phrases first
   const words = Array.from(wi.keys()).sort((a, b) => b.length - a.length);
   let result = text;
@@ -65,6 +66,8 @@ function _highlightText(text: string): string {
 
   for (const word of words) {
     if (word.length < 3) continue;
+    // Cheap substring check before paying for a regex compile + exec
+    if (!lowerText.includes(word)) continue;
     const regex = new RegExp(`\\b(${word.replace(/[.*+?^${}()|\[\]\\]/g, '\\$&')}(?:s|ed|ing|er|est|ly)?)\\b`, 'gi');
     let m: RegExpExecArray | null;
     while ((m = regex.exec(text)) !== null) {
@@ -166,7 +169,10 @@ function open(): void {
   document.getElementById('sm-picker-view')!.style.display = 'block';
   renderPicker();
 }
-function close(): void { overlay.style.display = 'none'; }
+function close(): void {
+  if (_currentStory && !_storyCompleted) { _storyCompleted = true; recordModeComplete('story'); }
+  overlay.style.display = 'none';
+}
 
 // Close popup on outside click
 elText.addEventListener('click', () => { elPopup.style.display = 'none'; });
