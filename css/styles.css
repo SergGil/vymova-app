@@ -3815,7 +3815,7 @@ body.sw .idiom-meaning { color: #00c8ff; }
 /* word-text hugs its content so action buttons sit right next to the word */
 .word-row   { flex-wrap: nowrap; align-items: center; }
 .word-text  { flex: 0 1 auto; min-width: 0; }
-.word-actions { flex-shrink: 0; gap: 4px; }
+.word-actions { flex-shrink: 0; }
 
 @media (max-width: 480px) {
   /* Compact icon buttons on mobile */
@@ -4080,7 +4080,7 @@ body.dark .cefr-C2, body.sw .cefr-C2 { background: rgba(142,68,173,.18); }
 .lp-stat-num { font-weight: 700; font-size: .82rem; }
 .lp-stat-pct { font-size: .7rem; color: var(--text3); }
 
-.lp-progress-bar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+.lp-progress-bar { position: relative; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
 .lp-progress-fill { height: 100%; border-radius: 3px; transition: width .6s; }
 
 .lp-level-details { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
@@ -4108,8 +4108,6 @@ body.dark .cefr-C2, body.sw .cefr-C2 { background: rgba(142,68,173,.18); }
 .lp-learn-btn:hover { background: rgba(0,200,100,.1); }
 
 /* Progress bar milestones */
-.lp-progress-bar { position: relative; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
-.lp-progress-fill { height: 100%; border-radius: 3px; transition: width .6s; }
 .lp-milestone {
   position: absolute; top: 0; width: 1px; height: 100%;
   background: rgba(255,255,255,.35);
