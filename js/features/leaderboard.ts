@@ -4,6 +4,12 @@ import { t, wordsLabel } from './i18n.ts';
 export {};
 
 const DB_URL = 'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
+
+function _esc(s: string): string {
+  return String(s ?? '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
 const LB_KEY = 'ew_lb_registered'; // whether we've registered this user
 
 interface LBEntry {
@@ -96,9 +102,9 @@ export async function renderLeaderboard(container: HTMLElement): Promise<void> {
       const isMe  = e.name === myEntry?.name && e.known === myEntry?.known;
       return `<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;background:${isMe?'rgba(0,200,100,.08)':'var(--bg)'};border:1.5px solid ${isMe?'var(--accent)':'var(--border)'};margin-bottom:6px;">
         <span style="font-size:1rem;flex-shrink:0;min-width:28px;text-align:center;">${medal}</span>
-        <span style="font-size:1.3rem;">${e.avatar}</span>
+        <span style="font-size:1.3rem;">${_esc(e.avatar)}</span>
         <div style="flex:1;min-width:0;">
-          <div style="font-weight:${isMe?'700':'400'};font-size:.88rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.name}${isMe?` (${t('lb.you')})`:''}</div>
+          <div style="font-weight:${isMe?'700':'400'};font-size:.88rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${_esc(e.name)}${isMe?` (${t('lb.you')})`:''}</div>
           <div style="font-size:.72rem;color:var(--text3);">🔥 ${e.streak} · 📚 ${e.known} ${wordsLabel(e.known)}</div>
         </div>
         <div style="text-align:right;flex-shrink:0;">
