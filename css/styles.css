@@ -341,39 +341,6 @@
   .card.is-known .known-badge { display: inline; color: #0e6632; }
 
   /* ── Геймфікація ── */
-  .game-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 16px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 1px 6px rgba(0,0,0,.07);
-    margin-bottom: 14px;
-    flex-wrap: wrap;
-  }
-  .streak-box {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: .85rem;
-    font-weight: 600;
-    color: #e67e22;
-    white-space: nowrap;
-  }
-  .streak-box .streak-num { font-size: 1.15rem; }
-  .goal-box {
-    flex: 1;
-    min-width: 140px;
-  }
-  .goal-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: .75rem;
-    color: var(--text2);
-    margin-bottom: 4px;
-  }
-  .goal-label span:last-child { font-weight: 600; color: var(--text); }
   .goal-track {
     height: 7px;
     background: var(--border);
@@ -753,7 +720,6 @@
   .ach-card.locked { opacity: .45; filter: grayscale(.6); }
   .ach-icon { font-size: 1.8rem; margin-bottom: 4px; display: block; }
   .ach-name { font-size: .75rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
-  .ach-desc { font-size: .67rem; color: var(--text2); line-height: 1.3; }
   .ach-card.unlocked::after {
     content: '✓';
     position: absolute;
@@ -763,37 +729,6 @@
     color: var(--accent);
   }
 
-  /* ── Рівень у статистиці ── */
-  .level-progress-wrap {
-    background: var(--bg);
-    border-radius: 12px;
-    padding: 16px;
-  }
-  .level-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-  .level-name-big { font-size: 1rem; font-weight: 700; }
-  .level-next { font-size: .75rem; color: var(--text2); }
-  .level-xp-track {
-    height: 10px;
-    background: var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 6px;
-  }
-  .level-xp-fill {
-    height: 100%;
-    border-radius: 10px;
-    transition: width .5s ease;
-  }
-  .level-xp-label {
-    font-size: .7rem;
-    color: var(--text3);
-    text-align: right;
-  }
   body.dark .card.is-known .card-face { background: linear-gradient(135deg, #0d2e1c 0%, #0a2318 100%) !important; border-color: #2d8a52 !important; }
   body.dark .card.is-known .word-text { color: #b8f0cc; }
   body.dark .card.is-known .transl    { color: #b8f0cc; }
@@ -804,7 +739,6 @@
   body.dark .card.is-known .wtrans    { color: #6abf8a; }
   body.dark .card.is-known .known-badge { color: #4ecca3; }
   body.dark .ach-card { background: rgba(255,255,255,.04); }
-  body.dark .level-progress-wrap { background: rgba(255,255,255,.04); }
 
 
   /* ── Свайп анімація ── */
@@ -1128,7 +1062,6 @@
     padding: 0 !important;
     border-radius: 0 !important;
   }
-  .card.is-flipped { transform: rotateY(180deg); }
   /* .card-face — лицьовий бік картки */
   .card-face {
     position: relative;
@@ -1158,12 +1091,6 @@
     transition: stroke-dashoffset .5s ease;
   }
   .ring-fill.done { stroke: #e67e22; }
-  .ring-label {
-    font-size: .6rem;
-    color: var(--text2);
-    text-align: center;
-    line-height: 1.2;
-  }
   .ring-center {
     position: absolute;
     top: 50%; left: 50%;
@@ -1349,7 +1276,6 @@
   @media (max-height: 600px) {
     .quiz-panel { padding: 12px 14px 10px; }
     #quiz-question-wrap { padding: 12px 12px !important; }
-    #quiz-question-wrap .quiz-word-text { font-size: 1.5rem !important; }
   }
 
   /* ── Scramble: letter tiles ── */
@@ -1453,7 +1379,6 @@
   }
   .mode-speak:hover { background: rgba(255,255,255,.15); color: var(--accent); }
   .mode-speak.on    { color: var(--accent); background: rgba(78,204,163,.15); }
-  .mode-speak-row   { display: flex; align-items: center; justify-content: center; gap: 8px; }
 
   /* ── Quiz: кнопки варіантів ── */
   .btn-quiz { border-color: #7B5EA7; color: #7B5EA7; }
@@ -1613,9 +1538,6 @@
   .keys-row { display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid var(--border); font-size:.85rem; color:var(--text); }
   .keys-row:last-child { border-bottom:none; }
   .keys-kbds { display:flex; gap:4px; flex-shrink:0; margin-left:12px; }
-
-  /* ── Offline placeholder ── */
-  .illus-offline { width:100%; height:100%; border-radius:8px; }
 
   /* ── Write autocomplete ── */
   .write-ac {
@@ -1846,19 +1768,8 @@ body.sw .goal-fill.done {
   box-shadow: 0 0 8px #ffd700, 0 0 20px rgba(255,215,0,0.4) !important;
 }
 
-/* ── Level XP fill ── */
-body.sw .level-xp-fill { background: linear-gradient(90deg, #00c8ff, #7df9ff); box-shadow: 0 0 8px #00c8ff; }
-
 /* ── Achievements progress ── */
 body.sw .ach-progress-fill { background: linear-gradient(90deg, #00c8ff, #7df9ff); }
-
-/* ── Game bar ── */
-body.sw .game-bar {
-  background: rgba(12,24,48,0.95);
-  border: 1px solid rgba(0,200,255,0.15);
-  box-shadow: 0 0 20px rgba(0,200,255,0.05);
-}
-body.sw .streak-box { color: #00c8ff; }
 
 /* ── Кнопки ── */
 body.sw .btn {
@@ -2079,16 +1990,6 @@ body.dark .btn-modes-open:hover { background: rgba(155,89,182,.1); }
 .mc-fib:hover    { border-color: #2980b9; } .mc-fib    { --mi: #2980b9; }
 .mc-word:hover   { border-color: #27ae60; } .mc-word   { --mi: #27ae60; }
 
-/* ── Utility row under grid ── */
-.modes-util {
-  display: flex;
-  gap: 8px;
-  padding: 0 14px 14px;
-  justify-content: center;
-  border-top: 1px solid var(--border);
-  padding-top: 10px;
-}
-
 /* ── Star Wars mode enhancements for modes panel ── */
 body.sw .modes-panel {
   background: rgba(10,22,44,0.98);
@@ -2284,7 +2185,6 @@ body.sw .gb-streak-num { color: #00c8ff; }
   box-shadow: 0 0 12px rgba(0,200,255,0.06), inset 0 0 20px rgba(0,0,0,0.3);
 }
 .gb-label { color: #5fa8c8; font-size: .7rem; letter-spacing: .04em; text-transform: uppercase; }
-.gb-goal-count { color: #c8e6f5; font-family: 'Orbitron', monospace; font-weight: 700; font-size: .85rem; }
 
 /* Goal progress bar: lightsaber */
 .gb-goal-block .goal-track {
@@ -2361,7 +2261,6 @@ body:not(.dark):not(.sw) .gb-block {
 }
 body:not(.dark):not(.sw) .gb-block::after { display: none; }
 body:not(.dark):not(.sw) .gb-label { color: var(--text3); text-transform: none; font-size: .72rem; }
-body:not(.dark):not(.sw) .gb-goal-count { color: var(--text); font-family: inherit; }
 body:not(.dark):not(.sw) .gb-streak-block .gb-streak-num { color: #e67e22; text-shadow: none; }
 body:not(.dark):not(.sw) .gb-goal-block .goal-track { background: var(--border); }
 body:not(.dark):not(.sw) .gb-goal-block .goal-fill { background: linear-gradient(90deg, #27ae60, #2ecc71); box-shadow: none; }
@@ -2463,33 +2362,7 @@ body.sw .profile-btn:hover { border-color: #00c8ff; color: #fff; }
 /* Profile list */
 .profiles-list { padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
 
-.prf-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border: 1.5px solid var(--border);
-  border-radius: 13px;
-  background: var(--bg);
-  transition: all .15s;
-}
-.prf-item:not(.prf-active):hover { border-color: var(--accent); background: var(--card); }
-.prf-active {
-  border-color: var(--accent);
-  background: var(--card);
-  box-shadow: 0 0 0 3px rgba(45,90,61,0.12);
-}
-body.sw .prf-active { border-color: #00c8ff; box-shadow: 0 0 12px rgba(0,200,255,0.15); }
-
-.prf-av { font-size: 1.5rem; line-height: 1; flex-shrink: 0; }
-.prf-info { flex: 1; min-width: 0; }
 .prf-name { font-size: .92rem; font-weight: 700; color: var(--text); display: block; }
-.prf-badge {
-  font-size: .68rem; font-weight: 600;
-  color: var(--accent); margin-top: 1px; display: block;
-}
-.prf-item:not(.prf-active) .prf-badge { color: var(--text3); }
-body.sw .prf-active .prf-badge { color: #00c8ff; }
 
 .prf-del {
   background: none; border: none; font-size: 1.1rem; cursor: pointer;
@@ -2571,7 +2444,6 @@ body.dark .sidebar-logo, body.sw .sidebar-logo { border-color: rgba(255,255,255,
 body.sw .sidebar-logo-text { color: #00c8ff; }
 
 /* Profile button in sidebar */
-.sidebar-profile-wrap { padding: 12px 14px 6px; }
 .sidebar-profile-btn {
   display: flex; align-items: center; gap: 8px;
   width: 100%;
@@ -2608,7 +2480,6 @@ body.sw .sidebar-profile-btn:hover { border-color: #00c8ff; }
 body.dark .sb-btn:hover  { background: rgba(255,255,255,.06); }
 body.sw   .sb-btn:hover  { background: rgba(0,200,255,.08); color: #aad4e8; }
 body.sw   .sb-btn.sb-active { background: rgba(0,200,255,.12); color: #00c8ff; }
-.sb-btn-sm { padding: 8px 12px; font-size: .8rem; }
 .sb-icon { font-size: 1rem; flex-shrink: 0; width: 22px; text-align: center; }
 .sb-label { flex: 1; }
 
@@ -3248,17 +3119,6 @@ body.sw .rd-known   { background:rgba(0,200,255,.1);  border-color:rgba(0,200,25
 body.sw .rd-popup-word { color:#00c8ff; }
 
 /* ── Profile Duel ── */
-.duel-empty { text-align:center; padding:40px 20px; font-size:.9rem; color:var(--text3); line-height:1.6; }
-.duel-leader-banner {
-  display:flex; align-items:center; gap:12px;
-  padding:14px 18px; margin-bottom:16px;
-  background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,215,0,.04));
-  border:1.5px solid rgba(255,215,0,.25); border-radius:14px;
-}
-.duel-crown { font-size:1.5rem; }
-.duel-leader-av { font-size:1.6rem; }
-.duel-leader-name { font-size:1rem; font-weight:700; color:var(--text); }
-.duel-leader-sub  { font-size:.72rem; color:#f1c40f; }
 .duel-cards { display:flex; flex-direction:column; gap:10px; }
 .duel-card {
   padding:14px 16px; border:1.5px solid var(--border); border-radius:14px;
@@ -3273,8 +3133,6 @@ body.sw .rd-popup-word { color:#00c8ff; }
 .duel-sv { font-size:.9rem; font-weight:700; color:var(--text); }
 .duel-sl { font-size:.6rem; color:var(--text3); margin-top:1px; }
 body.sw .duel-card-active { border-color:#00c8ff; }
-body.sw .duel-leader-banner { border-color:rgba(0,200,255,.25); background:rgba(0,200,255,.05); }
-body.sw .duel-leader-sub { color:#00c8ff; }
 
 /* ── Notifications toggle ── */
 .notif-toggle-wrap { position:relative; display:inline-block; width:40px; height:22px; }
@@ -3798,7 +3656,6 @@ body.sw .idiom-meaning { color: #00c8ff; }
   .word-text { font-size: 1.5rem !important; }
 
   /* If still not fitting, shrink image further */
-  .card-face-front { gap: 10px; }
   .illus-box { width: 72px !important; height: 72px !important; }
   .illus-box svg { width: 72px !important; height: 72px !important; }
   .illus-box img { width: 72px !important; height: 72px !important; }
@@ -4029,7 +3886,6 @@ body.dark .cefr-C2, body.sw .cefr-C2 { background: rgba(142,68,173,.18); }
 .lp-word-chip { display: flex; flex-direction: column; padding: 6px 10px; border-radius: 10px; background: var(--bg); border: 1.5px solid var(--border); cursor: default; min-width: 80px; }
 .lp-word    { font-weight: 700; font-size: .82rem; color: var(--text); }
 .lp-transl  { font-size: .7rem; color: var(--text3); margin-top: 1px; }
-.lp-more    { align-items: center; justify-content: center; color: var(--text3); font-size: .78rem; }
 
 .lp-start-btn {
   width: 100%;
