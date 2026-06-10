@@ -20,11 +20,3 @@ export const state: AppState = {
   _srsStatsDirty: true,
   TODAY:          new Date().toISOString().slice(0, 10),
 };
-
-export function resetKnown(): void {
-  state.known = new Set<string>();
-}
-
-export function setSrsData(data: SRSData): void {
-  state.srsData = data;
-}

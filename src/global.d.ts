@@ -21,7 +21,6 @@ declare global {
   interface SpeechRecognitionEvent extends Event {
     results: SpeechRecognitionResultList;
   }
-  declare var SpeechRecognition: { new(): SpeechRecognition } | undefined;
 }
 
 export {};

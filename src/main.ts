@@ -7,10 +7,6 @@
 
 export {};  // make this a module
 
-declare global {
-  interface Window { [key: string]: unknown; }
-}
-
 // ── 8. App + modes + features ─────────────────────────────────
 await import('../js/app.ts');
 await import('../js/modes/quiz.ts');
