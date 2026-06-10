@@ -27,6 +27,7 @@ let wlTileOrder: number[] = [];
 let wlHintsLeft = 3;
 let wlTimer: ReturnType<typeof setInterval> | null = null;
 let wlTimeLeft = 0;
+let wlHintsShown: Set<string> = new Set();
 
 // ── DOM ───────────────────────────────────────────────────────
 const overlay    = document.getElementById('wl-overlay')!  as HTMLElement;
@@ -46,6 +47,8 @@ const elDone     = document.getElementById('wl-done')!     as HTMLElement;
 const elFinal    = document.getElementById('wl-final')!    as HTMLElement;
 const elScoreRow = document.getElementById('wl-score-row')! as HTMLElement;
 const elTimer    = document.getElementById('wl-timer')!    as HTMLElement;
+const elBaseBox  = document.getElementById('wl-base-box')!   as HTMLElement;
+const elActionsRow = document.getElementById('wl-actions-row')! as HTMLElement;
 
 function letterCounts(word: string): Record<string, number> {
   const c: Record<string, number> = {};
@@ -136,6 +139,7 @@ function renderRound(): void {
   wlFound = new Set();
   wlGuess = [];
   wlHintsLeft = 3;
+  wlHintsShown = new Set();
   wlTiles = r.base.split('').map(ch => ({ ch, used: false }));
   wlTileOrder = _shuf(wlTiles.map((_, i) => i));
 
@@ -151,6 +155,7 @@ function renderRound(): void {
   elHintBtn.textContent = t('letters.hintBtn').replace('{n}', String(wlHintsLeft));
   elSubmit.disabled = false; elClearBtn.disabled = false;
   elLetters.style.display = ''; elGuess.style.display = ''; elFoundList.style.display = '';
+  elBaseBox.style.display = ''; elActionsRow.style.display = '';
 
   renderTiles();
   renderFound();
@@ -213,6 +218,11 @@ function clearGuess(): void {
   renderTiles();
 }
 
+function removeLastLetter(): void {
+  if (!wlGuess.length) return;
+  deselect(wlGuess.length - 1);
+}
+
 function submitGuess(): void {
   if (wlIdx >= wlRounds.length) return;
   const r = wlRounds[wlIdx];
@@ -244,10 +254,11 @@ function submitGuess(): void {
 function hint(): void {
   if (wlIdx >= wlRounds.length || wlHintsLeft <= 0) return;
   const r = wlRounds[wlIdx];
-  const remaining = r.possible.filter(w => !wlFound.has(w)).sort((a, b) => a.length - b.length);
+  const remaining = r.possible.filter(w => !wlFound.has(w) && !wlHintsShown.has(w)).sort((a, b) => a.length - b.length);
   if (!remaining.length) return;
   wlHintsLeft--;
-  elHintText.textContent = `💡 ${remaining[0].toUpperCase()}`;
+  wlHintsShown.add(remaining[0]);
+  elHintText.textContent = `💡 ${Array.from(wlHintsShown).map(w => w.toUpperCase()).join('  ')}`;
   elHintText.style.display = 'block';
   elHintBtn.textContent = wlHintsLeft > 0 ? t('letters.hintBtn').replace('{n}', String(wlHintsLeft)) : t('letters.hintNone');
   elHintBtn.disabled = wlHintsLeft <= 0;
@@ -257,6 +268,7 @@ function showFinal(): void {
   stopTimer();
   elScoreRow.style.display = 'none'; elFinal.style.display = 'block';
   elLetters.style.display = 'none'; elGuess.style.display = 'none'; elFoundList.style.display = 'none';
+  elBaseBox.style.display = 'none'; elActionsRow.style.display = 'none';
   elHintText.style.display = 'none'; elResult.textContent = '';
   elHintBtn.disabled = true; elClearBtn.disabled = true; elSubmit.disabled = true; elDone.style.display = 'none';
   const pct = wlPossibleTotal > 0 ? Math.round(wlFoundTotal / wlPossibleTotal * 100) : 0;
@@ -268,14 +280,17 @@ function showFinal(): void {
 }
 
 elHintBtn.addEventListener('click', hint);
-elClearBtn.addEventListener('click', clearGuess);
+elClearBtn.addEventListener('click', removeLastLetter);
 elSubmit.addEventListener('click', submitGuess);
 elDone.addEventListener('click', () => { stopTimer(); wlIdx++; renderRound(); });
 document.getElementById('btn-letters')?.addEventListener('click', open);
 document.getElementById('wl-close')?.addEventListener('click', close);
 document.getElementById('wl-exit')?.addEventListener('click', close);
 overlay.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) close(); });
-document.getElementById('wl-restart')?.addEventListener('click', () => { build(); renderRound(); });
+document.getElementById('wl-restart')?.addEventListener('click', () => {
+  elFinal.style.display = 'none'; elScoreRow.style.display = 'flex';
+  build(); renderRound();
+});
 document.addEventListener('keydown', (e: KeyboardEvent) => {
   if (overlay.style.display !== 'flex') return;
   if (e.key === 'Escape') close();

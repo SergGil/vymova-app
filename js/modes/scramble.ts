@@ -35,6 +35,8 @@ const elResult  = document.getElementById('scr-result')!;
 const elNext    = document.getElementById('scr-next')!     as HTMLElement;
 const elFinal   = document.getElementById('scr-final')!    as HTMLElement;
 const elScRow   = document.getElementById('scr-score-row')! as HTMLElement;
+const elClueBox = document.getElementById('scr-clue-box')!  as HTMLElement;
+const elActionsRow = document.getElementById('scr-actions-row')! as HTMLElement;
 const elHintText = document.getElementById('scr-hint-text')!;
 const elHintBtn   = document.getElementById('scr-hint-btn')! as HTMLButtonElement;
 const elShuffleBtn = document.getElementById('scr-shuffle-btn')! as HTMLButtonElement;
@@ -81,6 +83,8 @@ function shuffleWord(word: string): string[] {
 
 function renderQ(): void {
   if (scrIdx >= scrDeck.length) { showFinal(); return; }
+  elClueBox.style.display = ''; elActionsRow.style.display = '';
+  elAnswer.style.display = ''; elLetters.style.display = '';
   const w = scrDeck[scrIdx];
   scrAnswered = false; scrHintsLeft = 3; scrFailedThis = false;
   elResult.textContent = ''; elNext.style.display = 'none';
@@ -158,6 +162,11 @@ function clearAnswer(): void {
   renderTiles();
 }
 
+function removeLastLetter(): void {
+  if (scrAnswered || !scrAnswer.length) return;
+  deselect(scrAnswer.length - 1);
+}
+
 function shuffleTiles(): void {
   if (scrAnswered) return;
   scrTileOrder = _shuf(scrTileOrder);
@@ -200,6 +209,8 @@ function check(): void {
 
 function showFinal(): void {
   elScRow.style.display = 'none'; elFinal.style.display = 'block';
+  elClueBox.style.display = 'none'; elActionsRow.style.display = 'none';
+  elAnswer.style.display = 'none'; elLetters.style.display = 'none';
   const pct = Math.round(scrOk / SIZE * 100);
   document.getElementById('scr-final-emoji')!.textContent = pct===100?'🏆':pct>=80?'🎉':pct>=60?'👍':'💪';
   document.getElementById('scr-final-title')!.textContent = pct===100?t('quiz.perfectTitle'):pct>=80?t('quiz.greatTitle'):pct>=60?t('quiz.goodTitle'):t('tempo.practiceTitle');
@@ -223,13 +234,16 @@ elHintBtn.addEventListener('click', () => {
 });
 
 elShuffleBtn.addEventListener('click', shuffleTiles);
-elClearBtn.addEventListener('click', clearAnswer);
+elClearBtn.addEventListener('click', removeLastLetter);
 elNext.addEventListener('click', () => { scrIdx++; renderQ(); });
 document.getElementById('btn-scramble')?.addEventListener('click', open);
 document.getElementById('scr-close')?.addEventListener('click', close);
 document.getElementById('scr-exit')?.addEventListener('click', close);
 overlay.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) close(); });
-document.getElementById('scr-restart')?.addEventListener('click', () => { build(); renderQ(); });
+document.getElementById('scr-restart')?.addEventListener('click', () => {
+  elFinal.style.display = 'none'; elScRow.style.display = 'flex';
+  build(); renderQ();
+});
 document.addEventListener('keydown', (e: KeyboardEvent) => {
   if (overlay.style.display !== 'flex') return;
   if (e.key === 'Escape') close();
