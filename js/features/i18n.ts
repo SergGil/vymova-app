@@ -162,6 +162,7 @@ const DICT: Record<string, Record<Lang, string>> = {
   'mode.lesson': { ua: 'Урок',    en: 'Lesson',    es: 'Lección' },
   'mode.tempo':  { ua: 'Темп',    en: 'Tempo',     es: 'Ritmo' },
   'mode.scramble': { ua: 'Анаграма', en: 'Scramble', es: 'Anagrama' },
+  'mode.letters':  { ua: 'Букви',    en: 'Letters',   es: 'Letras' },
 
   // Modes picker overlay — header & cards
   'modesPg.header':       { ua: '🎮 Режим навчання',         en: '🎮 Learning mode',          es: '🎮 Modo de aprendizaje' },
@@ -195,6 +196,8 @@ const DICT: Record<string, Record<Lang, string>> = {
   'modesPg.storyDesc':    { ua: 'Текст зі словами',          en: 'Text with words',           es: 'Texto con palabras' },
   'modesPg.scrambleName': { ua: 'Анаграма',                  en: 'Scramble',                  es: 'Anagrama' },
   'modesPg.scrambleDesc': { ua: 'Збери слово',               en: 'Build the word',            es: 'Forma la palabra' },
+  'modesPg.lettersName':  { ua: 'Букви',                     en: 'Letters',                   es: 'Letras' },
+  'modesPg.lettersDesc':  { ua: 'Знайди слова',              en: 'Find words',                es: 'Encuentra palabras' },
 
   // Quiz mode
   'quiz.title':       { ua: '🧠 Тест',                  en: '🧠 Quiz',                            es: '🧠 Test' },
@@ -315,6 +318,17 @@ const DICT: Record<string, Record<Lang, string>> = {
   'scramble.hintBtn':    { ua: '💡 Підказка ({n})',             en: '💡 Hint ({n})',                 es: '💡 Pista ({n})' },
   'scramble.hintNone':   { ua: '💡 Більше немає',               en: '💡 No more hints',              es: '💡 No hay más pistas' },
   'scramble.wrongMsg':   { ua: '✗ Спробуй ще раз',              en: '✗ Try again',                   es: '✗ Inténtalo de nuevo' },
+
+  'letters.round':       { ua: 'Раунд',                          en: 'Round',                          es: 'Ronda' },
+  'letters.prompt':      { ua: 'Складіть слова з цих літер:',    en: 'Build words from these letters:', es: 'Forma palabras con estas letras:' },
+  'letters.foundLabel':  { ua: 'Знайдено',                       en: 'Found',                          es: 'Encontrado' },
+  'letters.doneBtn':     { ua: 'Готово →',                       en: 'Done →',                         es: 'Listo →' },
+  'letters.hintBtn':     { ua: '💡 Підказка ({n})',              en: '💡 Hint ({n})',                  es: '💡 Pista ({n})' },
+  'letters.hintNone':    { ua: '💡 Більше немає',                en: '💡 No more hints',               es: '💡 No hay más pistas' },
+  'letters.foundMsg':    { ua: '✓ Є таке слово!',                en: '✓ Found it!',                    es: '✓ ¡Encontrado!' },
+  'letters.alreadyMsg':  { ua: '⚠️ Вже знайдено',                en: '⚠️ Already found',               es: '⚠️ Ya encontrado' },
+  'letters.wrongMsg':    { ua: '✗ Такого слова немає',           en: '✗ Not a word',                   es: '✗ No es una palabra' },
+  'letters.tooShort':    { ua: 'Мінімум 3 літери',               en: 'At least 3 letters',             es: 'Mínimo 3 letras' },
 
   'story.pickerDesc':   { ua: 'Оберіть текст для читання. Слова зі словника будуть підсвічені — натисни щоб побачити переклад.', en: 'Choose a text to read. Words from your dictionary are highlighted — click to see the translation.', es: 'Elige un texto para leer. Las palabras de tu diccionario se resaltan — toca para ver la traducción.' },
   'story.levelLabel':   { ua: 'Рівень {lvl}',                   en: 'Level {lvl}',                                  es: 'Nivel {lvl}' },

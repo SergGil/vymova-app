@@ -1256,6 +1256,7 @@
         <button class="mode-card mc-spelling"  id="btn-spelling-bee">   <span class="mode-icon">🐝</span><span class="mode-name" data-i18n="modesPg.beeName">Spelling Bee</span><span class="mode-desc" data-i18n="modesPg.beeDesc">Почуй і напиши</span></button>
         <button class="mode-card mc-story"     id="btn-story">          <span class="mode-icon">📖</span><span class="mode-name" data-i18n="modesPg.storyName">Читання+</span>   <span class="mode-desc" data-i18n="modesPg.storyDesc">Текст зі словами</span></button>
         <button class="mode-card mc-scramble"  id="btn-scramble">       <span class="mode-icon">🔀</span><span class="mode-name" data-i18n="modesPg.scrambleName">Анаграма</span><span class="mode-desc" data-i18n="modesPg.scrambleDesc">Збери слово</span></button>
+        <button class="mode-card mc-letters"   id="btn-letters">        <span class="mode-icon">🔤</span><span class="mode-name" data-i18n="modesPg.lettersName">Букви</span>  <span class="mode-desc" data-i18n="modesPg.lettersDesc">Знайди слова</span></button>
       </div>
     </div>
   </div>
@@ -1342,6 +1343,48 @@
         <div style="display:flex;gap:8px;justify-content:center;">
           <button id="scr-restart" style="padding:9px 20px;border-radius:10px;border:1.5px solid var(--accent);background:none;color:var(--accent);font-weight:600;cursor:pointer;font-family:inherit;font-size:.85rem;" data-i18n="common.tryAgain">🔄 Ще раз</button>
           <button id="scr-exit" style="padding:9px 20px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.85rem;" data-i18n="common.close">Закрити</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ══ LETTERS MODAL (anagram word search) ══ -->
+  <div id="wl-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
+    <div class="quiz-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div><div style="font-size:1.05rem;font-weight:700;color:var(--text);">🔤 Letters</div>
+        <div style="font-size:.75rem;color:var(--text3);margin-top:2px;" id="wl-subtitle">Раунд 1 з 5</div></div>
+        <button id="wl-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);">✕</button>
+      </div>
+      <div style="height:4px;background:var(--border);border-radius:4px;margin-bottom:12px;overflow:hidden;"><div id="wl-pbar" style="height:100%;background:var(--accent);border-radius:4px;width:0%;transition:width .4s;"></div></div>
+      <div style="display:flex;gap:14px;justify-content:center;margin-bottom:12px;" id="wl-score-row">
+        <span style="font-size:.82rem;color:var(--text2);font-weight:600;" data-i18n="letters.foundLabel">Знайдено</span>
+        <span style="font-size:.82rem;color:#27ae60;font-weight:700;"><span id="wl-found-count">0</span> / <span id="wl-total">0</span></span>
+      </div>
+      <!-- Base letters -->
+      <div style="background:var(--bg);border-radius:12px;padding:14px 16px;text-align:center;margin-bottom:10px;">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:8px;" data-i18n="letters.prompt">Складіть слова з цих літер:</div>
+        <div id="wl-letters" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;"></div>
+      </div>
+      <!-- Current guess -->
+      <div id="wl-guess" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:48px;margin-bottom:8px;border-bottom:2px dashed var(--border);padding-bottom:10px;"></div>
+      <div id="wl-result" style="text-align:center;font-size:.9rem;font-weight:600;min-height:24px;margin-bottom:6px;"></div>
+      <!-- Found words -->
+      <div id="wl-found-list" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:28px;margin-bottom:8px;"></div>
+      <div id="wl-hint-text" style="display:none;text-align:center;font-size:.85rem;color:var(--accent);letter-spacing:.05em;font-family:monospace;margin-bottom:8px;font-weight:700;"></div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button id="wl-hint-btn" style="padding:9px 14px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.8rem;">💡 Підказка (3)</button>
+        <button id="wl-clear-btn" style="padding:9px 14px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.8rem;" data-i18n="scramble.clearBtn">⌫ Очистити</button>
+        <button id="wl-submit" style="padding:9px 24px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;font-size:.88rem;" data-i18n="bee.checkBtn">Перевірити</button>
+        <button id="wl-done" style="padding:9px 24px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;font-size:.88rem;" data-i18n="letters.doneBtn">Готово →</button>
+      </div>
+      <!-- Final -->
+      <div id="wl-final" style="display:none;text-align:center;padding:10px 0 4px;">
+        <div style="font-size:2.5rem;margin-bottom:8px;" id="wl-final-emoji">🎉</div>
+        <div style="font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:6px;" id="wl-final-title"></div>
+        <div style="font-size:.9rem;color:var(--text2);margin-bottom:16px;" id="wl-final-desc"></div>
+        <div style="display:flex;gap:8px;justify-content:center;">
+          <button id="wl-restart" style="padding:9px 20px;border-radius:10px;border:1.5px solid var(--accent);background:none;color:var(--accent);font-weight:600;cursor:pointer;font-family:inherit;font-size:.85rem;" data-i18n="common.tryAgain">🔄 Ще раз</button>
+          <button id="wl-exit" style="padding:9px 20px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.85rem;" data-i18n="common.close">Закрити</button>
         </div>
       </div>
     </div>

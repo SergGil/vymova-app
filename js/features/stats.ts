@@ -268,6 +268,7 @@ function _renderModeAccuracy(): void {
     { key: 'lesson', label: t('mode.lesson'), icon: '📚' },
     { key: 'tempo',  label: t('mode.tempo'),  icon: '⚡' },
     { key: 'scramble', label: t('mode.scramble'), icon: '🔀' },
+    { key: 'letters', label: t('mode.letters'), icon: '🔤' },
   ];
   const rows = modes.map(m => {
     const a        = acc[m.key];
