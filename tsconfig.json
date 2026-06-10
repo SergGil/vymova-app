@@ -17,11 +17,7 @@
     "allowJs": true,           // legacy .js files allowed (phases 1-2)
     "checkJs": false,          // don't type-check .js files yet
     "outDir": "./dist",
-    "rootDir": ".",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "rootDir": "."
   },
   "include": [
     "src/**/*.ts",

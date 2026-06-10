@@ -23,7 +23,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
-      include: ['js/core/**', 'js/features/game.ts', 'js/features/similar-words.ts', 'data/grammar.ts'],
+      include: ['js/core/**', 'js/features/**', 'data/**'],
     },
   },
 });

@@ -2,7 +2,7 @@
   "name": "english_words_app",
   "version": "1.0.0",
   "type": "module",
-  "main": "sw.js",
+  "main": "public/sw.js",
   "directories": {
     "lib": "lib"
   },
