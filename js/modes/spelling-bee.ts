@@ -6,6 +6,7 @@ import { W } from '../../data/words.js';
 import { lev } from '../core/distance.ts';
 import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+import { decodeIpa } from '../core/ui-helpers.ts';
 import type { SpeakFn } from '../core/ui-helpers.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -35,12 +36,6 @@ const elSpeakBtn = document.getElementById('bee-speak-btn')! as HTMLButtonElemen
 
 function _speak(word: string): void {
   (window.speak as SpeakFn | undefined)?.(word, elSpeakBtn);
-}
-
-function _decodeIpa(raw: string): string {
-  if (!raw) return '';
-  const s = raw.replace(/\\u([0-9a-fA-F]{4})/g, (_, c) => String.fromCharCode(parseInt(c, 16)));
-  return (s[0]==='['||s[0]==='/') ? s : `[${s}]`;
 }
 
 function build(): void {
@@ -75,7 +70,7 @@ function renderQ(): void {
   // Show translation and IPA (the clues)
   elTransl.textContent = w[1];
   const ipaRaw = w[4] ?? '';
-  elIpa.textContent = _decodeIpa(ipaRaw);
+  elIpa.textContent = decodeIpa(ipaRaw);
 
   // Auto-speak the word
   setTimeout(() => _speak(w[0]), 300);
@@ -160,7 +155,7 @@ document.getElementById('btn-spelling-bee')?.addEventListener('click', open);
 document.getElementById('bee-close')?.addEventListener('click', close);
 document.getElementById('bee-exit')?.addEventListener('click', close);
 overlay.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) close(); });
-document.getElementById('bee-restart')?.addEventListener('click', () => { build(); renderQ(); });
+document.getElementById('bee-restart')?.addEventListener('click', () => { elFinal.style.display = 'none'; elScRow.style.display = 'flex'; build(); renderQ(); });
 document.addEventListener('keydown', (e: KeyboardEvent) => {
   if (overlay.style.display !== 'flex') return;
   if (e.key === 'Escape') close();
