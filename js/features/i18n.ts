@@ -617,6 +617,12 @@ const DICT: Record<string, Record<Lang, string>> = {
   'duel.mode.write':      { ua: 'Письмо',  en: 'Write',   es: 'Escribir' },
   'duel.mode.write.desc': { ua: 'Введи переклад', en: 'Type the translation', es: 'Escribe la traducción' },
   'duel.mode.tempo':      { ua: 'Темп',    en: 'Tempo',   es: 'Tempo' },
+  'duel.mode.anagram':      { ua: 'Анаграма',     en: 'Anagram',     es: 'Anagrama' },
+  'duel.mode.anagram.desc': { ua: 'Розплутай літери', en: 'Unscramble the letters', es: 'Desordena las letras' },
+  'duel.mode.letters':      { ua: 'Букви',        en: 'Letters',     es: 'Letras' },
+  'duel.mode.letters.desc': { ua: 'Склади слово з літер', en: 'Form a word from the letters', es: 'Forma una palabra con las letras' },
+  'duel.anagramHint':       { ua: 'Введи слово англійською', en: 'Type the unscrambled word', es: 'Escribe la palabra desordenada' },
+  'duel.lettersHint':       { ua: 'Введи будь-яке слово з цих літер (англ.)', en: 'Type any word using these letters', es: 'Escribe cualquier palabra con estas letras' },
   // Difficulty descs
   'duel.diff.mixed.desc': { ua: 'Усі рівні разом',      en: 'All levels together',  es: 'Todos los niveles' },
   'duel.diff.A1.desc':    { ua: 'Початківець',           en: 'Beginner',             es: 'Principiante' },

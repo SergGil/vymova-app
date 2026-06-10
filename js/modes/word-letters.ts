@@ -10,7 +10,7 @@ import type { WordEntry } from '../../src/types.js';
 const ROUNDS = 5;
 
 // Dictionary of single-word entries usable for the letters game
-const DICT: string[] = (W as unknown as WordEntry[])
+export const DICT: string[] = (W as unknown as WordEntry[])
   .filter(w => /^[a-z]+$/i.test(w[0]) && w[0].length >= 3 && w[0].length <= 9)
   .map(w => w[0].toLowerCase());
 

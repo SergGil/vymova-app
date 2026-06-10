@@ -11,6 +11,32 @@ import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
 import type { WordEntry } from '../../src/types.js';
 import { t, categoryName } from './i18n.ts';
+import { DICT } from '../modes/word-letters.ts';
+
+const DICT_SET = new Set(DICT);
+
+function _letterCounts(word: string): Record<string, number> {
+  const c: Record<string, number> = {};
+  for (const ch of word) c[ch] = (c[ch] ?? 0) + 1;
+  return c;
+}
+
+function _canForm(word: string, base: Record<string, number>): boolean {
+  const c: Record<string, number> = {};
+  for (const ch of word) {
+    c[ch] = (c[ch] ?? 0) + 1;
+    if (c[ch] > (base[ch] ?? 0)) return false;
+  }
+  return true;
+}
+
+function _shuffleLetters(word: string): string {
+  const orig = word.toUpperCase().split('');
+  let shuffled = orig;
+  let tries = 0;
+  do { shuffled = _shuf(orig.slice()); tries++; } while (shuffled.join('') === orig.join('') && orig.length > 1 && tries < 10);
+  return shuffled.join(' ');
+}
 
 // ── Constants ─────────────────────────────────────────────────
 const DB_URL    = 'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
@@ -20,7 +46,7 @@ const TEMPO_SEC = 4;
 const REACTIONS = ['👍','😅','🔥','😂','🤯','😤','🎉','👏'];
 
 // ── Types ─────────────────────────────────────────────────────
-type DuelMode       = 'quiz' | 'reverse' | 'write' | 'tempo';
+type DuelMode       = 'quiz' | 'reverse' | 'write' | 'tempo' | 'anagram' | 'letters';
 type Difficulty     = CefrLevel | 'mixed'; // CEFR-based difficulty
 type BestOf         = 1 | 3;
 type PowerupType    = 'double' | 'skip' | 'freeze';
@@ -36,6 +62,8 @@ const DUEL_MODES: { id:DuelMode; icon:string; label:string; desc:string }[] = [
   { id:'reverse', icon:'🔄', label:'Навпаки', desc:'4 варіанти · UA→EN' },
   { id:'write',   icon:'✍️', label:'Письмо',  desc:'Введи переклад' },
   { id:'tempo',   icon:'⚡', label:'Темп',    desc:`4 варіанти · ${TEMPO_SEC}с/питання` },
+  { id:'anagram', icon:'🔀', label:'Анаграма', desc:'Розплутай літери' },
+  { id:'letters', icon:'🔤', label:'Букви',    desc:'Склади слово з літер' },
 ];
 const DIFFICULTIES: { id:Difficulty; label:string; desc:string; color:string }[] = [
   { id:'mixed', label:'Мікс',    desc:'Усі рівні разом',     color:'var(--text3)' },
@@ -182,9 +210,14 @@ function _genCode(): string { return Array.from(crypto.getRandomValues(new Uint8
 function _fmtCode(c:string): string { return c.slice(0,3)+'-'+c.slice(3); }
 function _rng(seed:number):()=>number{ let s=seed; return()=>{s=(s*1664525+1013904223)&0x7FFFFFFF;return s/0x7FFFFFFF;}; }
 
-function _buildDeck(seed:number, category:string, difficulty:Difficulty): WordEntry[] {
+// Words usable as a letter source for anagram/letters modes: plain a-z, 4-9 letters
+const _SCRAMBLE_POOL: WordEntry[] = (W as unknown as WordEntry[])
+  .filter(w => /^[a-z]+$/i.test(w[0]) && w[0].length >= 4 && w[0].length <= 9);
+
+function _buildDeck(seed:number, category:string, difficulty:Difficulty, mode?:DuelMode): WordEntry[] {
   const rnd = _rng(seed);
-  let pool = W as unknown as WordEntry[];
+  const scramble = mode==='anagram'||mode==='letters';
+  let pool = scramble ? _SCRAMBLE_POOL : (W as unknown as WordEntry[]);
   // Category filter
   if (category) {
     const allowed = new Set((WORD_CATEGORIES[category]??[]).map((w:string)=>w.toLowerCase()));
@@ -197,7 +230,7 @@ function _buildDeck(seed:number, category:string, difficulty:Difficulty): WordEn
     // fallback: include adjacent levels if not enough words
     else if (cefrPool.length > 0) pool = cefrPool;
   }
-  if (pool.length < ROOM_SIZE) pool = W as unknown as WordEntry[]; // final fallback
+  if (pool.length < ROOM_SIZE) pool = scramble ? _SCRAMBLE_POOL : (W as unknown as WordEntry[]); // final fallback
   return Array.from({length:pool.length},(_,i)=>i).sort(()=>rnd()-0.5).slice(0,ROOM_SIZE).map(i=>pool[i]);
 }
 
@@ -424,7 +457,7 @@ async function createRoom(): Promise<void> {
       p2:null,
     };
     await _fbSet(`/duel_rooms/${_roomId}`,room);
-    _quizDeck=_buildDeck(seed,_selCategory,_selDifficulty);
+    _quizDeck=_buildDeck(seed,_selCategory,_selDifficulty,_selMode);
     const codeEl=$('duel-room-code'); if(codeEl) codeEl.textContent=_fmtCode(_roomId);
     const modeEl=$('duel-waiting-mode');
     const mInfo=DUEL_MODES.find(m=>m.id===_selMode)!;
@@ -453,7 +486,7 @@ async function joinRoom(): Promise<void> {
     if(room.p2)      throw new Error(t('duel.err.taken'));
     if(room.finished) throw new Error(t('duel.err.finished'));
     _roomId=code; _mySlot='p2';
-    _quizDeck=_buildDeck(room.seed,room.category,room.difficulty);
+    _quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode);
     _bestOf=room.bestOf||1; _series={...room.series};
     await _fbPatch(`/duel_rooms/${_roomId}`,{
       p2:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:room.maxHints,powerups:{double:room.powerupsEnabled?1:0,skip:room.powerupsEnabled?1:0,freeze:room.powerupsEnabled?1:0}},
@@ -499,8 +532,9 @@ function _startGameUI(): void {
   elOppProg().textContent='0/10';
   const mInfo=DUEL_MODES.find(m=>m.id===_mode)||DUEL_MODES[0];
   elModeBadge().textContent=`${mInfo.icon} ${t('duel.mode.'+_mode)}`;
-  elOpts().style.display=_mode==='write'?'none':'';
-  const ir=$('dm-input-row') as HTMLElement|null; if(ir) ir.style.display=_mode==='write'?'':'none';
+  const isInputMode=_mode==='write'||_mode==='anagram'||_mode==='letters';
+  elOpts().style.display=isInputMode?'none':'';
+  const ir=$('dm-input-row') as HTMLElement|null; if(ir) ir.style.display=isInputMode?'':'none';
   const tr=$('dm-timer-row') as HTMLElement|null; if(tr) tr.style.display=_mode==='tempo'?'':'none';
   // Hint button
   _updateHintUI();
@@ -667,7 +701,10 @@ function _renderQuestion(): void {
   elFeedback().textContent=''; elSpeed().textContent='';
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
   const nb=$('dm-next-btn') as HTMLButtonElement|null; if(nb) nb.style.display='none';
-  if(_mode==='write') _renderWriteQ(w); else _renderChoiceQ(w);
+  if(_mode==='write') _renderWriteQ(w);
+  else if(_mode==='anagram') _renderAnagramQ(w);
+  else if(_mode==='letters') _renderLettersQ(w);
+  else _renderChoiceQ(w);
   if(_mode==='tempo') _startTempoTimer(w);
 }
 
@@ -690,6 +727,22 @@ function _renderChoiceQ(w:WordEntry): void {
 
 function _renderWriteQ(w:WordEntry): void {
   elQuestion().innerHTML=`<div style="font-size:1.25rem;font-weight:700;color:var(--text);text-align:center;">${w[1]}</div><div style="font-size:.78rem;color:var(--text3);margin-top:4px;text-align:center;">${t('duel.writeHint')}</div>`;
+  const inp=elInput(); inp.value=''; inp.style.borderColor=''; inp.disabled=false;
+  _updateHintUI(); _renderPowerups();
+  setTimeout(()=>{try{inp.focus();}catch(e){}},60);
+}
+
+function _renderAnagramQ(w:WordEntry): void {
+  const scrambled=_shuffleLetters(w[0]);
+  elQuestion().innerHTML=`<div style="font-size:1.6rem;font-weight:700;letter-spacing:.3em;color:var(--text);text-align:center;">${scrambled}</div><div style="font-size:.95rem;color:var(--text2);margin-top:8px;text-align:center;">${w[1]}</div><div style="font-size:.78rem;color:var(--text3);margin-top:4px;text-align:center;">${t('duel.anagramHint')}</div>`;
+  const inp=elInput(); inp.value=''; inp.style.borderColor=''; inp.disabled=false;
+  _updateHintUI(); _renderPowerups();
+  setTimeout(()=>{try{inp.focus();}catch(e){}},60);
+}
+
+function _renderLettersQ(w:WordEntry): void {
+  const scrambled=_shuffleLetters(w[0]);
+  elQuestion().innerHTML=`<div style="font-size:1.6rem;font-weight:700;letter-spacing:.3em;color:var(--text);text-align:center;">${scrambled}</div><div style="font-size:.78rem;color:var(--text3);margin-top:6px;text-align:center;">${t('duel.lettersHint')}</div>`;
   const inp=elInput(); inp.value=''; inp.style.borderColor=''; inp.disabled=false;
   _updateHintUI(); _renderPowerups();
   setTimeout(()=>{try{inp.focus();}catch(e){}},60);
@@ -749,14 +802,28 @@ function _submitWrite(): void {
   if(_answered) return;
   const w=_quizDeck[_quizIdx], inp=elInput();
   const val=inp.value.trim().toLowerCase(), ans=w[0].toLowerCase();
-  const ok=val===ans||(ans.length>3&&lev(val,ans)<=1);
+  let ok:boolean;
+  if(_mode==='letters'){
+    ok = val.length>=3 && _canForm(val,_letterCounts(ans)) && DICT_SET.has(val);
+  } else {
+    ok = val===ans||(ans.length>3&&lev(val,ans)<=1);
+  }
   const ms=Date.now()-_answerStartMs;
   _answered=true; inp.disabled=true;
   inp.style.borderColor=ok?'#27ae60':'#e74c3c';
-  if(ok) _myScore++;
+  let feedbackHtml='';
+  if(ok){
+    const wasDouble=_doubleActive;
+    _myScore += wasDouble?2:1;
+    if(wasDouble){ _doubleActive=false; feedbackHtml=`<span style="color:#f39c12">${t('duel.doublePts')}</span>`; }
+    else feedbackHtml=`<span style="color:#27ae60">${t('duel.correct')}</span>`;
+  } else {
+    feedbackHtml=`<span style="color:#e74c3c">✗ ${w[0]}</span>`;
+  }
   elMyScore().textContent=String(_myScore);
-  elFeedback().innerHTML=ok?`<span style="color:#27ae60">${t('duel.correct')}</span>`:`<span style="color:#e74c3c">✗ ${w[0]}</span>`;
+  elFeedback().innerHTML=feedbackHtml;
   elSpeed().textContent=ok?`⚡ ${(ms/1000).toFixed(1)}с`:'';
+  _renderPowerups();
   _quizIdx++; _pushScore();
   const nb=$('dm-next-btn') as HTMLButtonElement|null;
   if(nb){nb.style.display='inline-block';nb.focus();}
@@ -1013,7 +1080,7 @@ async function createAsyncChallenge(): Promise<void> {
     };
     await _fbSet(`/duel_async/${code}`, challenge);
     // Play immediately as challenger
-    _roomId=code; _mySlot='p1'; _quizDeck=_buildDeck(seed,_selCategory,_selDifficulty);
+    _roomId=code; _mySlot='p1'; _quizDeck=_buildDeck(seed,_selCategory,_selDifficulty,_selMode);
     // Show code to share
     const codeEl=$('duel-room-code'); if(codeEl) codeEl.textContent=_fmtCode(code);
     const modeEl=$('duel-waiting-mode');
@@ -1040,7 +1107,7 @@ async function joinAsyncChallenge(): Promise<void> {
     if(challenge.finished) throw new Error(t('duel.err.chal.finished'));
     if(Date.now()>challenge.expiresAt) throw new Error(t('duel.err.chal.expired'));
     if(challenge.opponent) throw new Error(t('duel.err.chal.taken'));
-    _roomId=code; _mySlot='p2'; _quizDeck=_buildDeck(challenge.seed,challenge.category,challenge.difficulty);
+    _roomId=code; _mySlot='p2'; _quizDeck=_buildDeck(challenge.seed,challenge.category,challenge.difficulty,challenge.mode);
     _oppName=challenge.challenger.name; _oppAvatar=challenge.challenger.avatar;
     const mInfo=DUEL_MODES.find(m=>m.id===challenge.mode);
     elMsg().innerHTML=`<span style="color:var(--accent)">📬 ${challenge.challenger.avatar} <b>${challenge.challenger.name}</b> · ${mInfo?.icon} ${mInfo?t('duel.mode.'+mInfo.id):''}</span>`;
@@ -1082,7 +1149,7 @@ async function _tryResumeSession():Promise<void>{
     $('duel-resume-btn')?.addEventListener('click',()=>{
       resumeEl.style.display='none';
       _roomId=sess.roomId; _mySlot=sess.slot; _mode=sess.mode;
-      _quizDeck=_buildDeck(room.seed,room.category,room.difficulty);
+      _quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode);
       _oppName=room[sess.slot==='p1'?'p2':'p1']?.name||t('duel.opp');
       _oppAvatar=room[sess.slot==='p1'?'p2':'p1']?.avatar||'🧑';
       const savedIdx=sess.idx,savedScore=sess.score;
@@ -1318,7 +1385,7 @@ async function _startTournMatch(tourn:Tournament, round:number, matchIdx:number)
   await _fbPatch(matchPath,{roomId:_roomId});
   _oppName=tourn.players[match.p1===_tournSlot?match.p2:match.p1].name;
   _oppAvatar=tourn.players[match.p1===_tournSlot?match.p2:match.p1].avatar;
-  _quizDeck=_buildDeck(seed,tourn.category,tourn.difficulty);
+  _quizDeck=_buildDeck(seed,tourn.category,tourn.difficulty,tourn.mode);
   _hideTournament();
   _initGame(tourn.mode,3,1,{p1wins:0,p2wins:0,round:1},false);
   // After game finishes, save result to tournament
@@ -1346,7 +1413,7 @@ async function _joinTournMatch(roomId:string): Promise<void> {
       p2:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:3,powerups:{double:0,skip:0,freeze:0}},
       started:true,
     });
-    _quizDeck=_buildDeck(room.seed,room.category,room.difficulty);
+    _quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode);
     _oppName=room.p1.name; _oppAvatar=room.p1.avatar;
     _hideTournament();
     _initGame(room.mode,3,1,{p1wins:0,p2wins:0,round:1},false);
