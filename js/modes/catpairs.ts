@@ -243,7 +243,7 @@ export function renderWeakWords(): void {
   const words: { w: WordEntry; ef: number; reps: number }[] = [];
   Object.keys(state.srsData).forEach(key => {
     const d = (state.srsData as Record<string, { ef?: number; reps?: number }>)[key];
-    if (d?.ef !== undefined && d.ef < 2.5 && (d.reps ?? 0) > 0) {
+    if (d?.ef !== undefined && d.ef < 2.5) {
       const wi = wordIdx.get(key);
       if (wi !== undefined) words.push({ w: (W as unknown as WordEntry[])[wi], ef: d.ef, reps: d.reps! });
     }
