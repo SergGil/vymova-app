@@ -321,7 +321,7 @@ function render() {
         dontKnowEl.style.display = rangeVal === 'srs' ? '' : 'none';
       }
     });
-    _safe(() => { const gd = getGameData(); updateRing(gd.goalCur || 0, gd.goalMax || 20); });
+    _safe(() => { updateRing(); });
   } catch(e) {
     console.error('render FAILED:', (e as Error).message);
   }

@@ -3,7 +3,7 @@
 import { state } from '../../src/state.ts';
 import { getLevel, getNextLevel } from './game.ts';
 
-export function updateRing(_cur?: number, _max?: number): void {
+export function updateRing(): void {
   const n = state.known.size;
   const lv   = getLevel(n);
   const next = getNextLevel(n);

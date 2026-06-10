@@ -26,7 +26,7 @@ export function renderLevelProgress(): void {
     if (xpEl)   xpEl.textContent   = t('levels.maxReached');
     if (nextEl) nextEl.textContent = '';
   }
-  try { updateRing(0, 0); } catch (_e) {}
+  try { updateRing(); } catch (_e) {}
 }
 
 export function renderLevelBadge(): void {
@@ -64,7 +64,7 @@ export function renderGameBar(): void {
   fill!.className     = 'goal-fill' + (d.goalCur >= d.goalMax ? ' done' : '');
   const bdg = document.getElementById('goal-done');
   bdg!.style.display  = d.goalCur >= d.goalMax ? 'inline' : 'none';
-  try { updateRing(d.goalCur || 0, d.goalMax || 20); } catch (_e) {}
+  try { updateRing(); } catch (_e) {}
   try { renderLevelProgress(); }                      catch (_e) {}
 }
 
