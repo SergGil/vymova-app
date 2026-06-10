@@ -58,7 +58,7 @@ function _init(): void {
   let profiles = _getProfiles();
   if (!profiles.length) {
     const id = 'p' + Date.now();
-    profiles = [{ id, name: 'Гравець', avatar: '🧑' }];
+    profiles = [{ id, name: t('duel.player'), avatar: '🧑' }];
     _setProfiles(profiles); _setActiveId(id); _saveSnapshot(id);
     localStorage.setItem('ew_onboarding_needed', '1'); // first ever launch
   } else {
