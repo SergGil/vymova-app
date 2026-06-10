@@ -61,9 +61,10 @@ function _tryShow(overlayId: string): void {
   const isVisible = overlay.classList.contains('open') || overlay.style.display === 'flex';
   if (!isVisible) return;
 
-  _markSeen(overlayId);
   const panel = overlay.querySelector<HTMLElement>(cfg.panel);
-  if (panel) setTimeout(() => _showHint(panel, t(cfg.key)), 250);
+  if (!panel) return;
+  _markSeen(overlayId);
+  setTimeout(() => _showHint(panel, t(cfg.key)), 250);
 }
 
 function _watch(overlayId: string): void {
