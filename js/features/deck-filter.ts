@@ -101,7 +101,7 @@ document.getElementById('sel-range')!.addEventListener('change', function() {
     const _hardSet   = new Set(_hardWords);
     deck = (W as unknown as WordEntry[]).filter(w => _hardSet.has(w[0]));
     if (!deck.length) {
-      _showToast('Важких слів ще немає — грай у режимах!');
+      _showToast(t('range.noHardWords'));
       deck = buildUnlearnedDeck(W as unknown as WordEntry[]);
     } else {
       deck.sort((a, b) => _hardWords.indexOf(a[0]) - _hardWords.indexOf(b[0]));
@@ -140,7 +140,7 @@ document.getElementById('sel-range')!.addEventListener('change', function() {
     deck = (W as unknown as WordEntry[]).filter(w => getCefrLevel(w[0]) === cefrTarget);
     shuffle(deck);
     if (!deck.length) {
-      _showToast(`Немає слів рівня ${cefrTarget} — додай більше слів!`);
+      _showToast(t('range.noCefrWords').replace('{l}', cefrTarget));
       deck = (W as unknown as WordEntry[]).slice();
       shuffle(deck);
     }

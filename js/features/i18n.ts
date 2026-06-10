@@ -48,6 +48,8 @@ const DICT: Record<string, Record<Lang, string>> = {
   'gamebar.shield.desc': { ua: 'захистить стрік при пропуску дня',  en: 'protects your streak if you miss a day', es: 'protege tu racha si fallas un día' },
   'gamebar.shield.none': { ua: 'Щитів немає. Отримай за 7 днів поспіль.', en: 'No shields. Earn one with a 7-day streak.', es: 'Sin escudos. Gana uno con una racha de 7 días.' },
   'search.noResults':   { ua: 'Нічого не знайдено',            en: 'Nothing found',                    es: 'No se encontró nada' },
+  'range.noHardWords': { ua: 'Важких слів ще немає — грай у режимах!', en: 'No hard words yet — play game modes!', es: 'Aún no hay palabras difíciles — ¡juega los modos!' },
+  'range.noCefrWords': { ua: 'Немає слів рівня {l} — додай більше слів!', en: 'No words at level {l} — add more words!', es: 'No hay palabras de nivel {l} — ¡añade más palabras!' },
   'search.detailCard': { ua: 'Детальна картка',  en: 'Detail card',  es: 'Tarjeta detallada' },
   'search.inDeck':     { ua: '✓ у колоді',       en: '✓ in deck',    es: '✓ en el mazo' },
   'search.goToCard':   { ua: '→ до картки',      en: '→ go to card', es: '→ ir a la tarjeta' },
