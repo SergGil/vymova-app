@@ -1,6 +1,7 @@
 // English Words App — js/modes/daily-challenge.ts
 // ⚡ Daily Challenge: 10 seeded words + timer + bonus XP
 import { state } from '../../src/state.ts';
+import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words.js';
 import { getGameData, saveGameData, recordModeComplete } from '../features/game.ts';
 import { closePage, openPage } from '../features/sidebar.ts';
@@ -60,7 +61,7 @@ if (overlay) {
     dcStarted = true; dcTimeLeft = DC_SIZE * 12; elTimer.style.color = '';
     dcTimer = setInterval(() => {
       dcTimeLeft--;
-      elTimer.textContent = dcTimeLeft + 's';
+      elTimer.textContent = dcTimeLeft + t('common.secSuffix');
       if (dcTimeLeft <= 15) elTimer.style.color = '#e74c3c';
       if (dcTimeLeft <= 0) { clearInterval(dcTimer!); dcTimer = null; _showFinal(); }
     }, 1000);
@@ -76,14 +77,11 @@ if (overlay) {
     elWord.insertAdjacentElement('afterend', speakBtn(w[0]));
     elPbar.style.width = (dcIdx / dcDeck.length * 100) + '%';
     elResult.textContent = '';
-    elTimer.textContent = dcStarted ? dcTimeLeft + 's' : '⏱';
+    elTimer.textContent = dcStarted ? dcTimeLeft + t('common.secSuffix') : '⏱';
     elTitle.textContent = `${t('daily.missionTitle')} — ${dcIdx + 1} / ${dcDeck.length}`;
     const correct = w[1];
-    let pool = (W as unknown as WordEntry[]).filter(x => x[1] !== correct);
-    for (let i = pool.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]];
-    }
-    const opts = [correct, ...pool.slice(0, 3).map(x => x[1])].sort(() => Math.random() - .5);
+    const pool = (W as unknown as WordEntry[]).filter(x => x[1] !== correct);
+    const opts = _shuf([correct, ..._shuf(pool).slice(0, 3).map(x => x[1])]);
     elOpts.innerHTML = '';
     opts.forEach(opt => {
       const btn = document.createElement('button');
