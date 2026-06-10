@@ -64,8 +64,7 @@ export function renderGameBar(): void {
   fill!.className     = 'goal-fill' + (d.goalCur >= d.goalMax ? ' done' : '');
   const bdg = document.getElementById('goal-done');
   bdg!.style.display  = d.goalCur >= d.goalMax ? 'inline' : 'none';
-  try { updateRing(); } catch (_e) {}
-  try { renderLevelProgress(); }                      catch (_e) {}
+  try { renderLevelProgress(); } catch (_e) {}
 }
 
 export function renderLevelsRoadmap(): void {
