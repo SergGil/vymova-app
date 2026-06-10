@@ -38,7 +38,7 @@ const win = window as unknown as {
   onWordLearned?: () => void;
   renderGameBar?: () => void;
   renderLevelBadge?: () => void;
-  updateRing?: (cur: number, max: number) => void;
+  updateRing?: () => void;
 };
 
 function _safe(fn: () => void): void {
@@ -289,7 +289,7 @@ document.getElementById('modal-confirm')!.addEventListener('click', function() {
   }
   _safe(() => win.renderGameBar?.());
   _safe(() => win.renderLevelBadge?.());
-  _safe(() => win.updateRing?.(0, getGameData().goalMax || 20));
+  _safe(() => win.updateRing?.());
   _safe(() => win.render?.());
   document.getElementById('modal-overlay')!.style.display = 'none';
 });
