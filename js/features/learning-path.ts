@@ -115,7 +115,8 @@ function _saveCompletionDates(dates: Record<string, string>): void {
 
 function _formatDate(iso: string): string {
   const d = new Date(iso);
-  return d.toLocaleDateString(getLang() === 'en' ? 'en-US' : 'uk-UA', { day: 'numeric', month: 'short', year: 'numeric' });
+  const locale = getLang() === 'en' ? 'en-US' : getLang() === 'es' ? 'es-ES' : 'uk-UA';
+  return d.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 // ── Navigate to CEFR level ────────────────────────────────────
