@@ -627,8 +627,11 @@
         </div>
         <div id="notif-time-row" style="display:none;margin-top:10px;align-items:center;gap:10px;flex-wrap:wrap;">
           <span style="font-size:.8rem;color:var(--text2);" data-i18n="settings.notifTimeLabel">⏰ Нагадувати щодня о</span>
-          <input type="time" id="notif-time" value="20:00"
-            style="padding:5px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:inherit;font-size:.85rem;outline:none;">
+          <div class="time-picker">
+            <select id="notif-time-h" class="time-select"></select>
+            <span class="time-sep">:</span>
+            <select id="notif-time-m" class="time-select"></select>
+          </div>
           <span style="font-size:.75rem;color:var(--text3);" data-i18n="settings.notifTimeSuffix">якщо не вчив сьогодні</span>
         </div>
       </div>

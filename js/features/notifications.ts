@@ -17,7 +17,8 @@ function _updateUI(): void {
   const status   = document.getElementById('notif-status')   as HTMLElement | null;
   const permBtn  = document.querySelector<HTMLButtonElement>('[onclick*="requestNotifPermission"]');
   const timeRow  = document.getElementById('notif-time-row') as HTMLElement | null;
-  const timeInp  = document.getElementById('notif-time')     as HTMLInputElement | null;
+  const timeH    = document.getElementById('notif-time-h')   as HTMLSelectElement | null;
+  const timeM    = document.getElementById('notif-time-m')   as HTMLSelectElement | null;
 
   const granted = typeof Notification !== 'undefined' && Notification.permission === 'granted';
   const denied  = typeof Notification !== 'undefined' && Notification.permission === 'denied';
@@ -25,7 +26,9 @@ function _updateUI(): void {
 
   if (tog) tog.checked = on;
   if (timeRow) timeRow.style.display = on ? 'flex' : 'none';
-  if (timeInp) timeInp.value = getTime();
+  const [hh, mm] = getTime().split(':');
+  if (timeH) timeH.value = hh;
+  if (timeM) timeM.value = mm;
 
   if (permBtn) {
     if (granted)     { permBtn.style.display = 'none'; }
@@ -123,12 +126,25 @@ if (toggle) {
   });
 }
 
-const timeInput = document.getElementById('notif-time') as HTMLInputElement | null;
-if (timeInput) {
-  timeInput.addEventListener('change', () => {
-    setTime(timeInput.value);
+const timeH = document.getElementById('notif-time-h') as HTMLSelectElement | null;
+const timeM = document.getElementById('notif-time-m') as HTMLSelectElement | null;
+if (timeH && timeM) {
+  for (let h = 0; h < 24; h++) {
+    const opt = document.createElement('option');
+    opt.value = opt.textContent = String(h).padStart(2, '0');
+    timeH.appendChild(opt);
+  }
+  for (let m = 0; m < 60; m++) {
+    const opt = document.createElement('option');
+    opt.value = opt.textContent = String(m).padStart(2, '0');
+    timeM.appendChild(opt);
+  }
+  const onChange = (): void => {
+    setTime(`${timeH.value}:${timeM.value}`);
     _updateUI();
-  });
+  };
+  timeH.addEventListener('change', onChange);
+  timeM.addEventListener('change', onChange);
 }
 
 _updateUI();

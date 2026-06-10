@@ -3232,6 +3232,26 @@ body.sw .duel-leader-sub { color:#00c8ff; }
 .notif-toggle-wrap input:checked + .notif-toggle-pill-ui::before { transform:translateX(18px); }
 body.sw .notif-toggle-wrap input:checked + .notif-toggle-pill-ui { background:#00c8ff; }
 
+/* Time picker for daily reminder */
+.time-picker {
+  display: flex; align-items: center; gap: 4px;
+  padding: 5px 10px; border: 1.5px solid var(--border); border-radius: 8px;
+  background: var(--bg);
+}
+.time-select {
+  appearance: none; -webkit-appearance: none;
+  border: none; outline: none; cursor: pointer;
+  background: transparent; color: var(--text);
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  padding: 2px 4px; border-radius: 6px;
+  transition: background .15s;
+}
+.time-select:hover, .time-select:focus { background: var(--card); }
+.time-select option { background: var(--card); color: var(--text); }
+.time-sep { color: var(--text2); font-weight: 700; }
+body.sw .time-picker { border-color: rgba(0,200,255,.2); }
+body.sw .time-select:hover, body.sw .time-select:focus { background: rgba(0,200,255,.1); }
+
 /* ── Mode cards: new types ── */
 .mc-daily  { --mc: #f39c12; }
 .mc-reading{ --mc: #27ae60; }
