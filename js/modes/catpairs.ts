@@ -32,7 +32,7 @@ type PlaySound = (s: string) => void;
 
 function fmt(ms: number): string { return (ms / 1000).toFixed(1) + t('common.secSuffix'); }
 function getBest(k: string): number { return parseFloat(localStorage.getItem('ew_cp_' + k) ?? '0'); }
-function setBest(k: string, t: number): void { const b = getBest(k); if (!b || t < b) localStorage.setItem('ew_cp_' + k, t.toFixed(1)); }
+function setBest(k: string, secs: number): void { const b = getBest(k); if (!b || secs < b) localStorage.setItem('ew_cp_' + k, secs.toFixed(1)); }
 
 let _catCache: Record<string, WordEntry[]> = {};
 export function invalidateCatCache(): void { _catCache = {}; }
@@ -194,13 +194,13 @@ let _shownMilestones: Record<string, number> = {};
 try { _shownMilestones = JSON.parse(localStorage.getItem('ew_milestones') ?? '{}'); } catch (e) {}
 
 const MILESTONES = [
-  { id: 'w100',  check: () => state.known.size >= 100,           msg: '🎯 100 слів вивчено!' },
-  { id: 'w500',  check: () => state.known.size >= 500,           msg: '⭐ 500 слів — ти неймовірний!' },
-  { id: 'w1000', check: () => state.known.size >= 1000,          msg: '🚀 1000 слів — рівень B1!' },
-  { id: 'w2000', check: () => state.known.size >= 2000,          msg: '🔥 2000 слів — вільне спілкування!' },
-  { id: 's7',    check: () => (getGameData().streak ?? 0) >= 7,  msg: '🗓️ 7 днів підряд — справжня звичка!' },
-  { id: 's30',   check: () => (getGameData().streak ?? 0) >= 30, msg: '💎 30 днів підряд — Джедай!' },
-  { id: 's100',  check: () => (getGameData().streak ?? 0) >= 100,msg: '🌌 100 днів — Майстер Йода!' },
+  { id: 'w100',  check: () => state.known.size >= 100,           key: 'milestone.w100' },
+  { id: 'w500',  check: () => state.known.size >= 500,           key: 'milestone.w500' },
+  { id: 'w1000', check: () => state.known.size >= 1000,          key: 'milestone.w1000' },
+  { id: 'w2000', check: () => state.known.size >= 2000,          key: 'milestone.w2000' },
+  { id: 's7',    check: () => (getGameData().streak ?? 0) >= 7,  key: 'milestone.s7' },
+  { id: 's30',   check: () => (getGameData().streak ?? 0) >= 30, key: 'milestone.s30' },
+  { id: 's100',  check: () => (getGameData().streak ?? 0) >= 100,key: 'milestone.s100' },
 ];
 
 function checkMilestones(): void {
@@ -208,7 +208,7 @@ function checkMilestones(): void {
     if (!_shownMilestones[m.id] && m.check()) {
       _shownMilestones[m.id] = 1;
       try { localStorage.setItem('ew_milestones', JSON.stringify(_shownMilestones)); } catch (e) {}
-      showMilestone(m.msg);
+      showMilestone(t(m.key));
     }
   });
 }

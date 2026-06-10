@@ -356,6 +356,13 @@ const DICT: Record<string, Record<Lang, string>> = {
   'catpairs.backToThemes': { ua: '← Теми',                 en: '← Topics',                          es: '← Temas' },
   'catpairs.random':       { ua: '🎲 Випадково',           en: '🎲 Random',                         es: '🎲 Aleatorio' },
   'catpairs.randomDesc':   { ua: '6 пар з усіх тем',       en: '6 pairs from all topics',           es: '6 parejas de todos los temas' },
+  'milestone.w100':  { ua: '🎯 100 слів вивчено!',                   en: '🎯 100 words learned!',                  es: '🎯 ¡100 palabras aprendidas!' },
+  'milestone.w500':  { ua: '⭐ 500 слів — ти неймовірний!',          en: '⭐ 500 words — you\'re amazing!',         es: '⭐ ¡500 palabras — eres increíble!' },
+  'milestone.w1000': { ua: '🚀 1000 слів — рівень B1!',              en: '🚀 1000 words — B1 level!',              es: '🚀 ¡1000 palabras — nivel B1!' },
+  'milestone.w2000': { ua: '🔥 2000 слів — вільне спілкування!',     en: '🔥 2000 words — fluent communication!', es: '🔥 ¡2000 palabras — comunicación fluida!' },
+  'milestone.s7':    { ua: '🗓️ 7 днів підряд — справжня звичка!',    en: '🗓️ 7-day streak — a real habit!',       es: '🗓️ ¡7 días seguidos — un hábito real!' },
+  'milestone.s30':   { ua: '💎 30 днів підряд — Джедай!',            en: '💎 30-day streak — Jedi level!',        es: '💎 ¡30 días seguidos — nivel Jedi!' },
+  'milestone.s100':  { ua: '🌌 100 днів — Майстер Йода!',            en: '🌌 100-day streak — Master Yoda!',      es: '🌌 ¡100 días — Maestro Yoda!' },
 
   'bee.word':           { ua: 'Слово',                          en: 'Word',                         es: 'Palabra' },
   'bee.listenPrompt':   { ua: 'Прослухай та напиши слово:',     en: 'Listen and spell the word:',   es: 'Escucha y escribe la palabra:' },
