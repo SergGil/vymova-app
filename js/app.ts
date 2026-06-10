@@ -275,6 +275,12 @@ function render() {
     const trans = decodeIpa(cw[4] || '');
     tr.textContent = (FRONT_LANG === 'EN') ? trans : '';
     tr.style.display = (FRONT_LANG === 'EN' && trans) ? 'block' : 'none';
+    const posEl = document.getElementById('wpos') as HTMLElement | null;
+    if (posEl) {
+      const posCode = cw[5] || '';
+      posEl.textContent = (FRONT_LANG === 'EN' && posCode) ? t('pos.' + posCode) : '';
+      posEl.style.display = (FRONT_LANG === 'EN' && posCode) ? 'block' : 'none';
+    }
     const translEl = $e('wtransl');
     translEl.textContent = backWord;
     translEl.className = 'transl';

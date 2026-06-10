@@ -10,6 +10,7 @@ export type WordEntry = readonly [
   string,         // [2] English example sentence
   string,         // [3] Ukrainian example sentence
   string?,        // [4] IPA transcription (escaped unicode)
+  string?,        // [5] Part of speech code: 'n'|'v'|'adj'|'adv'|'pron'|'prep'|'conj'|'interj'|'det'|'num'|'phrase'|''
 ];
 
 // ── SRS (Spaced Repetition System) ───────────────────────────
