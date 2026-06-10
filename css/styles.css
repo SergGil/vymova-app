@@ -608,9 +608,9 @@
   .chart-col-sm { max-width: 14px; gap: 1px; }
   .chart-col-sm .chart-val { font-size: 7px; }
   .chart-col-sm .chart-label { font-size: 7px; }
-  .chart-period-btns { display: flex; gap: 4px; }
+  .chart-period-btns { display: flex; gap: 6px; width: 100%; margin: 8px 0 10px; }
   .chart-period-btn {
-    font-size: .7rem; padding: 2px 8px; border-radius: 10px; border: 1px solid var(--border);
+    flex: 1; font-size: .8rem; padding: 6px 8px; border-radius: 10px; border: 1px solid var(--border);
     background: var(--card-bg); color: var(--text2); cursor: pointer; transition: background .15s, color .15s;
   }
   .chart-period-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -2810,13 +2810,16 @@ body.sw .sb-toggle-pill.on { background: #00c8ff; }
   display: flex !important;
   flex-direction: column;
   gap: 6px;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 .sb-wotd:hover { border-color: var(--accent); }
 body.sw .sb-wotd { border-color: rgba(0,200,255,.2); }
 body.sw .sb-wotd:hover { border-color: #00c8ff; }
 .sb-wotd .wotd-lbl { font-size: .62rem; color: var(--text3); letter-spacing: .05em; text-transform: uppercase; }
 
-.wotd-body { display: flex; align-items: center; gap: 9px; }
+.wotd-body { display: flex; align-items: center; gap: 9px; min-width: 0; }
 .wotd-img-wrap {
   width: 44px; height: 44px; flex-shrink: 0;
   border-radius: 8px; overflow: hidden;
@@ -2825,10 +2828,10 @@ body.sw .sb-wotd:hover { border-color: #00c8ff; }
 }
 .wotd-img-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
 .wotd-img-wrap.wotd-no-img { display: none; }
-.wotd-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.wotd-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; overflow: hidden; }
 .sb-wotd .wotd-word { font-size: .9rem; font-weight: 700; color: var(--accent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 body.sw .sb-wotd .wotd-word { color: #00c8ff; }
-.sb-wotd .wotd-tr { font-size: .73rem; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sb-wotd .wotd-tr { font-size: .73rem; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
 /* ── Profile delete modal ── */
 #prf-delete-overlay { display: none; }
