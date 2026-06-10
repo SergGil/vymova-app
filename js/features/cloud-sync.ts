@@ -154,7 +154,7 @@ function _initUI(): void {
         btn.textContent = t('settings.cloudCopied');
         setTimeout(() => { btn.textContent = orig ?? t('settings.cloudCopy'); }, 2000);
       })
-      .catch(() => prompt('Твій ключ:', _fmt(_getKey())));
+      .catch(() => prompt(t('settings.cloudYourKey'), _fmt(_getKey())));
   });
 
   // Save button

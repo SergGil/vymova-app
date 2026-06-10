@@ -525,6 +525,7 @@ const DICT: Record<string, Record<Lang, string>> = {
   'settings.notifTimeSuffix':  { ua: 'якщо не вчив сьогодні',                                        en: 'if you haven’t studied today',                                 es: 'si no has estudiado hoy' },
   'settings.cloudTitle':       { ua: '☁️ Хмарний бекап',                                             en: '☁️ Cloud backup',                                              es: '☁️ Copia en la nube' },
   'settings.cloudCopy':        { ua: '📋 Копія',                                                     en: '📋 Copy',                                                      es: '📋 Copiar' },
+  'settings.cloudYourKey':     { ua: 'Твій ключ:',                                                   en: 'Your key:',                                                    es: 'Tu clave:' },
   'settings.cloudSave':        { ua: '⬆️ Зберегти в хмару',                                          en: '⬆️ Save to cloud',                                            es: '⬆️ Guardar en la nube' },
   'settings.cloudAutoLabel':   { ua: '🔄 Авто-збереження:',                                          en: '🔄 Auto-save:',                                                es: '🔄 Guardado automático:' },
   'settings.intervalOff':      { ua: 'Вимк',                                                         en: 'Off',                                                          es: 'Desact.' },
