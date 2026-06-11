@@ -175,11 +175,19 @@ new MutationObserver(_updateTogglePills).observe(document.body, { attributes: tr
 // modules finish wiring up only after the whole import chain settles.
 // Calling openPage() synchronously here can throw mid-render, leaving
 // the overlay open but its content area empty.
+// A second restore pass shortly after the first works around a race where
+// the first openPage() call's render hooks run before some module-level
+// state (e.g. profile data) has settled, leaving the overlay open but its
+// dynamic content empty. The render hooks are idempotent, so re-running
+// them is harmless.
 try {
   const savedPage = localStorage.getItem(ACTIVE_PAGE_KEY);
   if (savedPage) {
     setTimeout(() => {
       try { openPage(savedPage); } catch(e){ console.error('[sidebar] failed to restore page', savedPage, e); }
     }, 0);
+    setTimeout(() => {
+      try { openPage(savedPage); } catch(e){ console.error('[sidebar] failed to restore page (retry)', savedPage, e); }
+    }, 250);
   }
 } catch(e){}
