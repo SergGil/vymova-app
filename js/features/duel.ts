@@ -605,6 +605,7 @@ function _setupGameUI(): void {
 function _startGameUI(): void {
   elMyScore().textContent='0'; elOppScore().textContent='0';
   elOppProg().textContent='0/10';
+  _renderMyProgressBar(); _renderOppProgressBar(0);
   _setupGameUI();
   _showGame();
   _renderQuestion();
@@ -676,6 +677,7 @@ async function _usePowerup(type: PowerupType): Promise<void> {
     _extendDeckOnSkip();
     _myFlags.push(false);
     _quizIdx++;
+    _renderMyProgressBar();
     await _pushScore();
     if(_advanceTimer) clearTimeout(_advanceTimer);
     _advanceTimer=setTimeout(()=>{ _advanceTimer=null; if(_quizIdx<_quizDeck.length) _renderQuestion(); else _finishMyGame(); }, 700);
@@ -696,16 +698,18 @@ function _showMiniToast(msg:string): void {
   setTimeout(()=>t.remove(), 2200);
 }
 
-// ── Animated opponent progress bar ──────────────────────────
-function _renderOppProgressBar(idx:number, flags?:boolean[]): void {
-  const el=$('dm-opp-progress-bar') as HTMLElement|null; if(!el) return;
+// ── Animated dot progress bar (mine + opponent's) ────────────
+function _renderProgressBar(elId:string, idx:number, flags?:boolean[], fallbackColor='var(--accent2)'): void {
+  const el=$(elId) as HTMLElement|null; if(!el) return;
   el.innerHTML = Array.from({length:ROOM_SIZE},(_,i)=>{
     let bg='var(--border)';
     if(flags && i<flags.length) bg=flags[i]?'#27ae60':'#e74c3c';
-    else if(i<idx) bg='var(--accent2)';
+    else if(i<idx) bg=fallbackColor;
     return `<span style="width:10px;height:10px;border-radius:50%;display:inline-block;background:${bg};margin:1px;transition:background .3s;"></span>`;
   }).join('');
 }
+function _renderOppProgressBar(idx:number, flags?:boolean[]): void { _renderProgressBar('dm-opp-progress-bar', idx, flags, 'var(--accent2)'); }
+function _renderMyProgressBar(): void { _renderProgressBar('dm-my-progress-bar', _quizIdx, _myFlags, 'var(--accent)'); }
 
 function _updateSeriesUI(): void {
   const el=$('dm-series-row') as HTMLElement|null; if(!el) return;
@@ -846,7 +850,7 @@ function _startTempoTimer(w:WordEntry): void {
         elOpts().querySelectorAll<HTMLButtonElement>('.quiz-option').forEach(b=>b.disabled=true);
         elFeedback().innerHTML=`<span style="color:#e74c3c">${t('duel.timeout')}</span>`;
         _myWrong++; _myFlags.push(false);
-        _quizIdx++; _pushScore();
+        _quizIdx++; _renderMyProgressBar(); _pushScore();
         if(_advanceTimer) clearTimeout(_advanceTimer);
         _advanceTimer=setTimeout(()=>{ _advanceTimer=null; _renderQuestion(); },1000);
       }
@@ -880,7 +884,7 @@ async function _answerChoice(btn:HTMLButtonElement,chosen:string,correct:string,
   elFeedback().innerHTML=feedbackHtml;
   elSpeed().textContent=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
   _renderPowerups();
-  _quizIdx++; await _pushScore();
+  _quizIdx++; _renderMyProgressBar(); await _pushScore();
   if(_advanceTimer) clearTimeout(_advanceTimer);
   _advanceTimer=setTimeout(()=>{ _advanceTimer=null; if(_quizIdx<_quizDeck.length)_renderQuestion();else _finishMyGame();},ok?600:1200);
 }
@@ -913,7 +917,7 @@ function _submitWrite(): void {
   elFeedback().innerHTML=feedbackHtml;
   elSpeed().textContent=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
   _renderPowerups();
-  _quizIdx++; _pushScore();
+  _quizIdx++; _renderMyProgressBar(); _pushScore();
   const nb=$('dm-next-btn') as HTMLButtonElement|null;
   if(nb){nb.style.display='inline-block';nb.focus();}
 }
@@ -1267,7 +1271,7 @@ async function _tryResumeSession():Promise<void>{
     const mInfo=DUEL_MODES.find(m=>m.id===sess.mode)||DUEL_MODES[0];
     return `<div style="background:rgba(0,200,100,.1);border:1.5px solid var(--accent);border-radius:14px;padding:12px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">`+
       `<div><div style="font-size:.82rem;font-weight:700;color:var(--accent);">${t('duel.resume.title')}</div>`+
-      `<div style="font-size:.75rem;color:var(--text3);margin-top:2px;">${mInfo.icon} ${t('duel.mode.'+mInfo.id)} · ${sess.score}/${ROOM_SIZE} ${t('duel.resume.pts')}${opp?` · ${t('duel.resume.opp')} ${opp.name}`:''}</div>`+
+      `<div style="font-size:.75rem;color:var(--text3);margin-top:2px;">${mInfo.icon} ${t('duel.mode.'+mInfo.id)} · ${sess.score}/${ROOM_SIZE} ${t('duel.resume.pts')}${opp?.name?` · ${t('duel.resume.opp')} ${opp.name}`:''}</div>`+
       `<div id="duel-resume-expiry-${sess.roomId}" style="font-size:.7rem;color:var(--text3);margin-top:4px;"></div></div>`+
       `<div style="display:flex;gap:6px;">`+
         `<button id="duel-resume-btn-${sess.roomId}" style="padding:7px 14px;border-radius:9px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;font-size:.82rem;">${t('duel.resume.continue')}</button>`+
@@ -1323,6 +1327,7 @@ async function _tryResumeSession():Promise<void>{
       while(_quizDeck.length<savedDeckLen) _extendDeckOnSkip();
       _setupGameUI();
       elMyScore().textContent=String(savedScore);
+      _renderMyProgressBar();
       _showGame(false);
       const chatLog=$('duel-chat-log') as HTMLElement|null; if(chatLog) chatLog.innerHTML='';
       (sess.chat??[]).forEach(m=>_appendChatMsg(m.text,m.isMe,false));
