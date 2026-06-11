@@ -575,7 +575,6 @@ function _renderPowerups(): void {
     const freezeUnavailable = p.id === 'freeze' && _mode !== 'tempo';
     const unavailable = freezeUnavailable;
     const canUse = left > 0 && !_answered && !unavailable;
-    const disabled = !canUse ? 'disabled' : '';
     const titleText = unavailable
       ? t('duel.pu.freeze.unavail')
       : `${t('duel.pu.'+p.id+'.desc')}${left > 0 ? ` (×${left} ${t('duel.pu.left')})` : ` (${t('duel.pu.used')})` }`;
@@ -583,15 +582,18 @@ function _renderPowerups(): void {
     const bgColor     = unavailable ? 'transparent' : left>0 ? 'rgba(0,200,100,.08)' : 'var(--bg2)';
     const textColor   = unavailable ? 'var(--text3)' : left>0 ? 'var(--accent)' : 'var(--text3)';
     const opacity     = unavailable ? '0.4' : '1';
-    return `<button class="dm-pu-btn" data-pu="${p.id}" ${disabled}
+    // Use pointer-events instead of the `disabled` attribute: on iOS Safari a
+    // disabled button still swallows touches that land on it, which can block
+    // taps on a neighboring enabled button when they wrap onto the same row.
+    return `<button class="dm-pu-btn" data-pu="${p.id}" data-can-use="${canUse}"
       title="${titleText}"
-      style="padding:5px 8px;border-radius:9px;border:1.5px solid ${borderColor};background:${bgColor};cursor:${canUse?'pointer':'default'};font-size:.78rem;color:${textColor};opacity:${opacity};transition:opacity .2s;">
+      style="padding:5px 8px;border-radius:9px;border:1.5px solid ${borderColor};background:${bgColor};cursor:${canUse?'pointer':'default'};font-size:.78rem;color:${textColor};opacity:${opacity};pointer-events:${canUse?'auto':'none'};transition:opacity .2s;">
       ${p.icon} ${p.id==='double'?'×2':t('duel.pu.'+p.id+'.label')}${!unavailable&&left>0?` ×${left}`:''}${unavailable?' 🚫':''}
     </button>`;
   }).join('');
   el.querySelectorAll<HTMLButtonElement>('.dm-pu-btn').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      if(btn.disabled) return;
+      if(btn.dataset.canUse!=='true') return;
       const type = btn.dataset.pu as PowerupType;
       // Extra guard: prevent freeze outside tempo (belt-and-suspenders)
       if(type==='freeze' && _mode!=='tempo'){
