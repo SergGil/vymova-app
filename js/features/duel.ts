@@ -197,20 +197,42 @@ let _isSpectator = false;
 let _specId = '';
 // Freeze timer
 let _freezeTimer: ReturnType<typeof setTimeout> | null = null;
-let _resumeCountdownTimer: ReturnType<typeof setInterval> | null = null;
+const _resumeCountdownTimers = new Map<string, ReturnType<typeof setInterval>>();
 let _oppName   = '';
 let _oppAvatar = '';
 let _roomCreatedAt = 0;
 
 // ── Session persistence ───────────────────────────────────────
-const SESSION_KEY = 'ew_duel_session';
+const SESSION_KEY = 'ew_duel_sessions';
+const SESSION_KEY_OLD = 'ew_duel_session';
 let _chatHistory: {text:string;isMe:boolean}[] = [];
-function _saveSession(): void {
-  try { localStorage.setItem(SESSION_KEY, JSON.stringify({roomId:_roomId,slot:_mySlot,mode:_mode,idx:_quizIdx,score:_myScore,correct:_myCorrect,wrong:_myWrong,flags:_myFlags,chat:_chatHistory,deckLen:_quizDeck.length,createdAt:_roomCreatedAt})); } catch(e){}
+interface DuelSession {roomId:string;slot:'p1'|'p2';mode:DuelMode;idx:number;score:number;correct?:number;wrong?:number;flags?:boolean[];chat?:{text:string;isMe:boolean}[];deckLen?:number;createdAt?:number}
+function _loadSessions(): DuelSession[] {
+  try {
+    const r=localStorage.getItem(SESSION_KEY);
+    if(r){ const arr=JSON.parse(r); return Array.isArray(arr)?arr:[]; }
+    // Migrate from the old single-session format
+    const old=localStorage.getItem(SESSION_KEY_OLD);
+    if(old){
+      const sess=JSON.parse(old);
+      localStorage.removeItem(SESSION_KEY_OLD);
+      if(sess?.roomId){ const list=[sess]; _saveSessions(list); return list; }
+    }
+    return [];
+  } catch(e){ return []; }
 }
-function _clearSession(): void { try { localStorage.removeItem(SESSION_KEY); } catch(e){} }
-function _loadSession():{roomId:string;slot:'p1'|'p2';mode:DuelMode;idx:number;score:number;correct?:number;wrong?:number;flags?:boolean[];chat?:{text:string;isMe:boolean}[];deckLen?:number;createdAt?:number}|null {
-  try { const r=localStorage.getItem(SESSION_KEY); return r?JSON.parse(r):null; } catch(e){ return null; }
+function _saveSessions(list: DuelSession[]): void {
+  try { localStorage.setItem(SESSION_KEY, JSON.stringify(list)); } catch(e){}
+}
+function _saveSession(): void {
+  if(!_roomId) return;
+  const list=_loadSessions().filter(s=>s.roomId!==_roomId);
+  list.push({roomId:_roomId,slot:_mySlot,mode:_mode,idx:_quizIdx,score:_myScore,correct:_myCorrect,wrong:_myWrong,flags:_myFlags,chat:_chatHistory,deckLen:_quizDeck.length,createdAt:_roomCreatedAt});
+  _saveSessions(list);
+}
+function _clearSession(roomId?: string): void {
+  const id=roomId||_roomId; if(!id) return;
+  _saveSessions(_loadSessions().filter(s=>s.roomId!==id));
 }
 
 // ── Deck building ─────────────────────────────────────────────
@@ -1200,32 +1222,48 @@ function _doRematch():void{
 
 // ── Session resume ────────────────────────────────────────────
 async function _tryResumeSession():Promise<void>{
-  const sess=_loadSession(); if(!sess?.roomId) return;
-  try{
-    const room=await _fbGet(`/duel_rooms/${sess.roomId}`) as RoomData|null;
-    if(!room||room.finished){_clearSession();return;}
-    const resumeEl=$('duel-resume') as HTMLElement|null; if(!resumeEl) return;
+  const resumeEl=$('duel-resume') as HTMLElement|null; if(!resumeEl) return;
+  _resumeCountdownTimers.forEach(id=>clearInterval(id));
+  _resumeCountdownTimers.clear();
+  const sessions=_loadSessions();
+  if(!sessions.length){ resumeEl.innerHTML=''; resumeEl.style.display='none'; return; }
+
+  const valid: {sess:DuelSession; room:RoomData}[] = [];
+  for(const sess of sessions){
+    try{
+      const room=await _fbGet(`/duel_rooms/${sess.roomId}`) as RoomData|null;
+      if(!room||room.finished){_clearSession(sess.roomId);continue;}
+      const expiresAt=(sess.createdAt||room.createdAt||Date.now())+86_400_000;
+      if(Date.now()>=expiresAt){_clearSession(sess.roomId);continue;}
+      valid.push({sess,room});
+    }catch(e){_clearSession(sess.roomId);}
+  }
+  if(!valid.length){ resumeEl.innerHTML=''; resumeEl.style.display='none'; return; }
+
+  resumeEl.innerHTML=valid.map(({sess,room})=>{
     const opp=sess.slot==='p1'?room.p2:room.p1;
     const mInfo=DUEL_MODES.find(m=>m.id===sess.mode)||DUEL_MODES[0];
-    resumeEl.innerHTML=`<div style="background:rgba(0,200,100,.1);border:1.5px solid var(--accent);border-radius:14px;padding:12px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">`+
+    return `<div style="background:rgba(0,200,100,.1);border:1.5px solid var(--accent);border-radius:14px;padding:12px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">`+
       `<div><div style="font-size:.82rem;font-weight:700;color:var(--accent);">${t('duel.resume.title')}</div>`+
       `<div style="font-size:.75rem;color:var(--text3);margin-top:2px;">${mInfo.icon} ${t('duel.mode.'+mInfo.id)} · ${sess.score}/${ROOM_SIZE} ${t('duel.resume.pts')}${opp?` · ${t('duel.resume.opp')} ${opp.name}`:''}</div>`+
-      `<div id="duel-resume-expiry" style="font-size:.7rem;color:var(--text3);margin-top:4px;"></div></div>`+
+      `<div id="duel-resume-expiry-${sess.roomId}" style="font-size:.7rem;color:var(--text3);margin-top:4px;"></div></div>`+
       `<div style="display:flex;gap:6px;">`+
-        `<button id="duel-resume-btn" style="padding:7px 14px;border-radius:9px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;font-size:.82rem;">${t('duel.resume.continue')}</button>`+
-        `<button id="duel-resume-discard" style="padding:7px 12px;border-radius:9px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:.78rem;">✕</button>`+
+        `<button id="duel-resume-btn-${sess.roomId}" style="padding:7px 14px;border-radius:9px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;font-size:.82rem;">${t('duel.resume.continue')}</button>`+
+        `<button id="duel-resume-discard-${sess.roomId}" style="padding:7px 12px;border-radius:9px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:.78rem;">✕</button>`+
       `</div></div>`;
-    resumeEl.style.display='block';
+  }).join('');
+  resumeEl.style.display='block';
+
+  valid.forEach(({sess,room})=>{
     // 24h-from-creation countdown until the room is considered expired
-    if(_resumeCountdownTimer){clearInterval(_resumeCountdownTimer);_resumeCountdownTimer=null;}
     const expiresAt=(sess.createdAt||room.createdAt||Date.now())+86_400_000;
     const updateExpiry=()=>{
-      const expEl=$('duel-resume-expiry') as HTMLElement|null;
-      if(!expEl){ if(_resumeCountdownTimer){clearInterval(_resumeCountdownTimer);_resumeCountdownTimer=null;} return; }
+      const expEl=$(`duel-resume-expiry-${sess.roomId}`) as HTMLElement|null;
+      if(!expEl){ const tm=_resumeCountdownTimers.get(sess.roomId); if(tm){clearInterval(tm);_resumeCountdownTimers.delete(sess.roomId);} return; }
       const remaining=expiresAt-Date.now();
       if(remaining<=0){
         expEl.textContent=t('duel.resume.expired');
-        if(_resumeCountdownTimer){clearInterval(_resumeCountdownTimer);_resumeCountdownTimer=null;}
+        const tm=_resumeCountdownTimers.get(sess.roomId); if(tm){clearInterval(tm);_resumeCountdownTimers.delete(sess.roomId);}
       } else {
         const h=Math.floor(remaining/3600000), m=Math.floor((remaining%3600000)/60000), s=Math.floor((remaining%60000)/1000);
         const time=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
@@ -1233,10 +1271,12 @@ async function _tryResumeSession():Promise<void>{
       }
     };
     updateExpiry();
-    _resumeCountdownTimer=setInterval(updateExpiry,1000);
-    $('duel-resume-btn')?.addEventListener('click',()=>{
-      resumeEl.style.display='none';
-      if(_resumeCountdownTimer){clearInterval(_resumeCountdownTimer);_resumeCountdownTimer=null;}
+    _resumeCountdownTimers.set(sess.roomId, setInterval(updateExpiry,1000));
+
+    $(`duel-resume-btn-${sess.roomId}`)?.addEventListener('click',()=>{
+      _resumeCountdownTimers.forEach(id=>clearInterval(id));
+      _resumeCountdownTimers.clear();
+      resumeEl.style.display='none'; resumeEl.innerHTML='';
       _roomId=sess.roomId; _mySlot=sess.slot; _mode=sess.mode;
       _roomCreatedAt=sess.createdAt||room.createdAt||Date.now();
       _quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode);
@@ -1267,12 +1307,11 @@ async function _tryResumeSession():Promise<void>{
       _renderQuestion();
       _startOpponentPoll();
     });
-    $('duel-resume-discard')?.addEventListener('click',()=>{
-      _clearSession();
-      resumeEl.style.display='none';
-      if(_resumeCountdownTimer){clearInterval(_resumeCountdownTimer);_resumeCountdownTimer=null;}
+    $(`duel-resume-discard-${sess.roomId}`)?.addEventListener('click',()=>{
+      _clearSession(sess.roomId);
+      _tryResumeSession();
     });
-  }catch(e){_clearSession();}
+  });
 }
 
 // ── Tournament ────────────────────────────────────────────────
