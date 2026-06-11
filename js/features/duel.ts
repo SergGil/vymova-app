@@ -179,6 +179,7 @@ let _myWrong   = 0;
 let _answered  = false;
 let _mode:     DuelMode   = 'quiz';
 let _tempoTimer: ReturnType<typeof setInterval> | null = null;
+let _advanceTimer: ReturnType<typeof setTimeout> | null = null;
 let _tempoLeft = TEMPO_SEC;
 let _finished  = false;
 let _hintsLeft = 3;
@@ -531,6 +532,7 @@ function _startWaitPoll(): void {
 
 function _initGame(mode:DuelMode,maxHints:number,bestOf:BestOf,series:SeriesData,powerupsEnabled=false): void {
   _mode=mode; _bestOf=bestOf; _series={...series};
+  if(_advanceTimer){clearTimeout(_advanceTimer);_advanceTimer=null;}
   _quizIdx=0; _myScore=0; _myCorrect=0; _myWrong=0; _chatHistory=[]; _answered=false; _finished=false;
   _hintsLeft = maxHints === 0 ? 999 : maxHints;
   _powerupsEnabled = powerupsEnabled;
@@ -539,12 +541,10 @@ function _initGame(mode:DuelMode,maxHints:number,bestOf:BestOf,series:SeriesData
   _runCountdown(()=>_startGameUI());
 }
 
-function _startGameUI(): void {
+function _setupGameUI(): void {
   if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
   elOppName().textContent=_oppName; elOppAv().textContent=_oppAvatar;
-  elMyScore().textContent='0'; elOppScore().textContent='0';
-  elOppProg().textContent='0/10';
   const mInfo=DUEL_MODES.find(m=>m.id===_mode)||DUEL_MODES[0];
   elModeBadge().textContent=`${mInfo.icon} ${t('duel.mode.'+_mode)}`;
   // Persistent room code hint for the host of a private room
@@ -564,6 +564,12 @@ function _startGameUI(): void {
   _renderPowerups();
   // Series indicator
   _updateSeriesUI();
+}
+
+function _startGameUI(): void {
+  elMyScore().textContent='0'; elOppScore().textContent='0';
+  elOppProg().textContent='0/10';
+  _setupGameUI();
   _showGame();
   _renderQuestion();
   _startOpponentPoll();
@@ -634,7 +640,8 @@ async function _usePowerup(type: PowerupType): Promise<void> {
     _extendDeckOnSkip();
     _quizIdx++;
     await _pushScore();
-    setTimeout(()=>{ if(_quizIdx<_quizDeck.length) _renderQuestion(); else _finishMyGame(); }, 700);
+    if(_advanceTimer) clearTimeout(_advanceTimer);
+    _advanceTimer=setTimeout(()=>{ _advanceTimer=null; if(_quizIdx<_quizDeck.length) _renderQuestion(); else _finishMyGame(); }, 700);
   } else if(type==='freeze'){
     // Send freeze signal to opponent via Firebase
     try{ await _fbPatch(`/duel_rooms/${_roomId}`,{[`${_mySlot==='p1'?'p2':'p1'}_freeze`]:Date.now()+5000}); }catch(e){}
@@ -800,7 +807,8 @@ function _startTempoTimer(w:WordEntry): void {
         elFeedback().innerHTML=`<span style="color:#e74c3c">${t('duel.timeout')}</span>`;
         _myWrong++;
         _quizIdx++; _pushScore();
-        setTimeout(()=>_renderQuestion(),1000);
+        if(_advanceTimer) clearTimeout(_advanceTimer);
+        _advanceTimer=setTimeout(()=>{ _advanceTimer=null; _renderQuestion(); },1000);
       }
     }
   },1000);
@@ -832,7 +840,8 @@ async function _answerChoice(btn:HTMLButtonElement,chosen:string,correct:string,
   elSpeed().textContent=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
   _renderPowerups();
   _quizIdx++; await _pushScore();
-  setTimeout(()=>{if(_quizIdx<_quizDeck.length)_renderQuestion();else _finishMyGame();},ok?600:1200);
+  if(_advanceTimer) clearTimeout(_advanceTimer);
+  _advanceTimer=setTimeout(()=>{ _advanceTimer=null; if(_quizIdx<_quizDeck.length)_renderQuestion();else _finishMyGame();},ok?600:1200);
 }
 
 function _submitWrite(): void {
@@ -1195,14 +1204,24 @@ async function _tryResumeSession():Promise<void>{
       _oppName=room[sess.slot==='p1'?'p2':'p1']?.name||t('duel.opp');
       _oppAvatar=room[sess.slot==='p1'?'p2':'p1']?.avatar||'🧑';
       const savedIdx=sess.idx,savedScore=sess.score;
-      _initGame(sess.mode,room.maxHints,room.bestOf||1,room.series||{p1wins:0,p2wins:0,round:1});
+      // Restore saved state directly, bypassing _initGame's reset+countdown
+      // (which would re-zero score/progress and wipe chat a few seconds later).
+      const series=room.series||{p1wins:0,p2wins:0,round:1};
+      _bestOf=room.bestOf||1; _series={...series};
+      if(_advanceTimer){clearTimeout(_advanceTimer);_advanceTimer=null;}
       _quizIdx=savedIdx; _myScore=savedScore;
       _myCorrect=sess.correct??0; _myWrong=sess.wrong??0;
+      _chatHistory=sess.chat??[];
+      _answered=false; _finished=false;
+      _hintsLeft = room.maxHints===0 ? 999 : room.maxHints;
+      _powerupsEnabled = !!room.powerupsEnabled;
+      _myPowerups = _powerupsEnabled ? {double:1,skip:1,freeze:1} : {double:0,skip:0,freeze:0};
+      _doubleActive = false;
       while(_quizIdx>=_quizDeck.length) _extendDeckOnSkip();
+      _setupGameUI();
       elMyScore().textContent=String(savedScore);
       _showGame(false);
       (sess.chat??[]).forEach(m=>_appendChatMsg(m.text,m.isMe,false));
-      _chatHistory=sess.chat??[];
       _renderQuestion();
       _startOpponentPoll();
     });
