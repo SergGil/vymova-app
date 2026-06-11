@@ -1205,7 +1205,7 @@ async function createAsyncChallenge(): Promise<void> {
     };
     await _fbSet(`/duel_async/${code}`, challenge);
     // Play immediately as challenger
-    _roomId=code; _mySlot='p1'; _isAsyncChallenge=true;
+    _roomId=code; _mySlot='p1'; _isAsyncChallenge=true; _roomCreatedAt=challenge.createdAt;
     _roomSeed=seed; _roomCategory=_selCategory; _roomDifficulty=_selDifficulty; _roomMaxHints=_selMaxHints;
     _quizDeck=_buildDeck(seed,_selCategory,_selDifficulty,_selMode);
     // Show code to share

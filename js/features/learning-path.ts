@@ -293,8 +293,15 @@ export function renderLearningPath(): void {
 }
 
 // ── Page open/close ───────────────────────────────────────────
-export function openLearningPath(): void {
-  renderLearningPath();
+export function openLearningPath(retriesLeft = 2): void {
+  try {
+    renderLearningPath();
+  } catch (e) {
+    console.error('[learning-path] render failed', e);
+    // App state (e.g. state.known) may not be wired up yet right after a
+    // page reload — retry shortly instead of leaving the overlay empty.
+    if (retriesLeft > 0) setTimeout(() => openLearningPath(retriesLeft - 1), 200);
+  }
 }
 window.openLearningPath = openLearningPath;
 window.renderLearningPath = renderLearningPath;
