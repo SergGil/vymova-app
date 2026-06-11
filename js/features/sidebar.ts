@@ -38,6 +38,7 @@ _sbOvl.addEventListener('click', closeSidebar);
 
 // ── Page view system ──────────────────────────────────────────
 let _activePage: string | null = null;
+const ACTIVE_PAGE_KEY = 'ew_active_page';
 
 const PAGE_TO_SIDEBAR: Record<string, string> = {
   stats: 'sb-stats', ach: 'sb-achievements',
@@ -58,6 +59,7 @@ function _setSidebarActive(page: string | null): void {
 export function openPage(page: string): void {
   closePage();
   _activePage = page;
+  try { localStorage.setItem(ACTIVE_PAGE_KEY, page); } catch(e){}
   _setSidebarActive(page);
   // Prevent body scroll when a page overlay is open
   document.body.style.overflow = 'hidden';
@@ -107,6 +109,7 @@ const MODE_OVERLAY_IDS = [
 
 export function closePage(): void {
   _activePage = null;
+  try { localStorage.removeItem(ACTIVE_PAGE_KEY); } catch(e){}
   _setSidebarActive(null);
   // Restore body scroll when page is closed
   document.body.style.overflow = '';
@@ -165,3 +168,9 @@ document.getElementById('title-sw-toggle')?.addEventListener('click', () => {
 });
 _updateTogglePills();
 new MutationObserver(_updateTogglePills).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+// ── Restore last open page after a reload ───────────────────────
+try {
+  const savedPage = localStorage.getItem(ACTIVE_PAGE_KEY);
+  if (savedPage) openPage(savedPage);
+} catch(e){}

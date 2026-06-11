@@ -1255,6 +1255,13 @@ async function _tryResumeSession():Promise<void>{
   }
   if(!valid.length){ resumeEl.innerHTML=''; resumeEl.style.display='none'; return; }
 
+  // Show the duel with the least time left to finish first.
+  valid.sort((a,b)=>{
+    const expA=(a.sess.createdAt||a.room.createdAt||Date.now())+86_400_000;
+    const expB=(b.sess.createdAt||b.room.createdAt||Date.now())+86_400_000;
+    return expA-expB;
+  });
+
   resumeEl.innerHTML=valid.map(({sess,room})=>{
     const opp=sess.slot==='p1'?room.p2:room.p1;
     const mInfo=DUEL_MODES.find(m=>m.id===sess.mode)||DUEL_MODES[0];
