@@ -613,6 +613,8 @@
   "duel.doublePts": "🎯 ¡+2 puntos!",
   "duel.waiting": "⏳ Esperando al oponente…",
   "duel.chat": "💬 Chat",
+  "duel.chatPlaceholder": "Mensaje…",
+  "duel.send": "Enviar",
   "duel.result.won": "¡Ganaste!",
   "duel.result.tie": "¡Empate!",
   "duel.result.lost": "El oponente ganó",

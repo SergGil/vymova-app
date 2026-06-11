@@ -948,6 +948,7 @@
               <span id="dm-series-opp" style="font-weight:700;color:var(--accent2);">0</span>
             </div>
             <div style="font-size:.8rem;color:var(--text3);" id="dm-progress">1 / 10</div>
+            <div id="dm-room-code-hint" style="display:none;font-size:.62rem;color:var(--text3);margin-top:2px;">🔑 <span id="dm-room-code-val" style="font-family:monospace;font-weight:700;color:var(--accent);letter-spacing:.1em;"></span></div>
           </div>
           <div style="text-align:center;">
             <div style="font-size:1rem;margin-bottom:2px;" id="dm-opp-av">🧑</div>
@@ -988,12 +989,16 @@
         <div id="dm-speed" style="text-align:center;font-size:.72rem;color:var(--text3);min-height:16px;margin-top:2px;"></div>
         <!-- In-game quick reactions -->
         <!-- Power-ups row -->
-        <div id="dm-powerups" style="display:none;gap:6px;justify-content:center;margin-top:6px;"></div>
+        <div id="dm-powerups" style="display:none;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:6px;"></div>
 
         <!-- Chat / reactions panel -->
         <div id="duel-chat-panel" class="duel-chat-panel">
           <div class="duel-chat-title" data-i18n="duel.chat">💬 Чат</div>
           <div id="duel-chat-log" class="duel-chat-log"></div>
+          <div class="duel-chat-input-row">
+            <input id="duel-chat-input" type="text" data-i18n-placeholder="duel.chatPlaceholder" placeholder="Повідомлення…" autocomplete="off" spellcheck="false" maxlength="80">
+            <button id="duel-chat-send" data-i18n-title="duel.send" title="Надіслати">➤</button>
+          </div>
           <div class="duel-chat-react-row" id="dm-react-row">
             <button class="dm-react-btn" data-emoji="👍" data-i18n-title="duel.react.good" title="Добре!">👍</button>
             <button class="dm-react-btn" data-emoji="😅" data-i18n-title="duel.react.oops" title="Ой!">😅</button>

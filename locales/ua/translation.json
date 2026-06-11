@@ -613,6 +613,8 @@
   "duel.doublePts": "🎯 +2 очки!",
   "duel.waiting": "⏳ Чекаємо суперника…",
   "duel.chat": "💬 Чат",
+  "duel.chatPlaceholder": "Повідомлення…",
+  "duel.send": "Надіслати",
   "duel.result.won": "Ти переміг!",
   "duel.result.tie": "Нічия!",
   "duel.result.lost": "Суперник переміг",

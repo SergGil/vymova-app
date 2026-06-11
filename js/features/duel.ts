@@ -77,7 +77,7 @@ const DIFFICULTIES: { id:Difficulty; label:string; color:string }[] = [
 
 interface PlayerData {
   name:string; avatar:string; score:number; idx:number; done:boolean;
-  reaction?:string; hintsLeft:number;
+  reaction?:string; reactionTs?:number; hintsLeft:number;
   powerups:Record<PowerupType,number>; frozenUntil?:number;
 }
 interface SeriesData { p1wins:number; p2wins:number; round:number; }
@@ -269,7 +269,7 @@ function _showLobby()    {
   const btn=$('duel-create-btn') as HTMLButtonElement|null; if(btn){ btn.disabled=false; btn.textContent=t('duel.create'); }
 }
 function _showCountdown(){ elLobby().style.display='none'; elCountdown().style.display=''; elGame().style.display='none'; elResult().style.display='none'; }
-function _showGame()     { elLobby().style.display='none'; elCountdown().style.display='none'; elGame().style.display=''; elResult().style.display='none'; const log=$('duel-chat-log'); if(log) log.innerHTML=''; _lastReaction=''; }
+function _showGame()     { elLobby().style.display='none'; elCountdown().style.display='none'; elGame().style.display=''; elResult().style.display='none'; const log=$('duel-chat-log'); if(log) log.innerHTML=''; _lastReactionTs=0; }
 function _showResult()   { elLobby().style.display='none'; elCountdown().style.display='none'; elGame().style.display='none'; elResult().style.display=''; }
 
 // ── Lobby pickers ─────────────────────────────────────────────
@@ -534,6 +534,13 @@ function _startGameUI(): void {
   elOppProg().textContent='0/10';
   const mInfo=DUEL_MODES.find(m=>m.id===_mode)||DUEL_MODES[0];
   elModeBadge().textContent=`${mInfo.icon} ${t('duel.mode.'+_mode)}`;
+  // Persistent room code hint for the host of a private room
+  const codeHint=$('dm-room-code-hint') as HTMLElement|null;
+  const codeVal=$('dm-room-code-val') as HTMLElement|null;
+  if(codeHint && codeVal){
+    if(_roomId && _mySlot==='p1'){ codeVal.textContent=_roomId; codeHint.style.display=''; }
+    else { codeHint.style.display='none'; }
+  }
   const isInputMode=_mode==='write'||_mode==='anagram'||_mode==='letters';
   elOpts().style.display=isInputMode?'none':'';
   const ir=$('dm-input-row') as HTMLElement|null; if(ir) ir.style.display=isInputMode?'':'none';
@@ -655,7 +662,7 @@ function _startOpponentPoll(): void {
         elOppScore().textContent=String(opp.score);
         elOppProg().textContent=`${opp.idx}/${ROOM_SIZE}`;
         _renderOppProgressBar(opp.idx);
-        if(opp.reaction) _showReactionReceived(opp.reaction);
+        if(opp.reaction) _showReactionReceived(opp.reaction,opp.reactionTs);
       }
       // Check if I'm frozen (opponent used freeze on me)
       const myFreezeKey = `${_mySlot}_freeze`;
@@ -676,25 +683,30 @@ function _startOpponentPoll(): void {
   },1500);
 }
 
-// ── Reactions ─────────────────────────────────────────────────
-let _lastReaction = '';
-function _appendChatMsg(emoji:string, isMe:boolean): void {
+// ── Reactions / chat ──────────────────────────────────────────
+let _lastReactionTs = 0;
+function _appendChatMsg(text:string, isMe:boolean): void {
   const log=$('duel-chat-log') as HTMLElement|null; if(!log) return;
   const msg=document.createElement('div');
   msg.className='duel-chat-msg'+(isMe?' me':'');
-  msg.textContent=emoji;
+  msg.textContent=text;
   log.appendChild(msg);
   log.scrollTop=log.scrollHeight;
 }
-function _showReactionReceived(emoji:string): void {
-  if(emoji===_lastReaction) return;
-  _lastReaction=emoji;
-  _appendChatMsg(emoji,false);
+function _showReactionReceived(text:string, ts?:number): void {
+  if(ts!==undefined){
+    if(ts<=_lastReactionTs) return;
+    _lastReactionTs=ts;
+  }
+  _appendChatMsg(text,false);
 }
 
-async function _sendReaction(emoji:string): Promise<void> {
-  try { await _fbPatch(`/duel_rooms/${_roomId}/${_mySlot}`,{reaction:emoji}); } catch(e){}
-  _appendChatMsg(emoji,true);
+async function _sendChatMsg(text:string): Promise<void> {
+  if(!text.trim()) return;
+  const ts=Date.now();
+  try { await _fbPatch(`/duel_rooms/${_roomId}/${_mySlot}`,{reaction:text,reactionTs:ts}); } catch(e){}
+  _lastReactionTs=ts;
+  _appendChatMsg(text,true);
 }
 
 // ── Questions ─────────────────────────────────────────────────
@@ -932,7 +944,7 @@ function _showFinish(room:RoomData):void{
   const reactEl=$('duel-reactions'); if(reactEl){
     reactEl.innerHTML=REACTIONS.map(e=>`<button class="duel-react-end-btn" data-emoji="${e}" style="font-size:1.5rem;background:none;border:none;cursor:pointer;padding:4px;">${e}</button>`).join('');
     reactEl.querySelectorAll<HTMLButtonElement>('.duel-react-end-btn').forEach(b=>{
-      b.addEventListener('click',()=>_sendReaction(b.dataset.emoji!));
+      b.addEventListener('click',()=>_sendChatMsg(b.dataset.emoji!));
     });
   }
   _showResult();
@@ -1504,8 +1516,21 @@ $('dm-hint-btn')?.addEventListener('click',_useHint);
 
 // In-game reactions
 $('dm-react-row')?.querySelectorAll<HTMLButtonElement>('.dm-react-btn').forEach(b=>{
-  b.addEventListener('click',()=>_sendReaction(b.dataset.emoji!));
+  b.addEventListener('click',()=>_sendChatMsg(b.dataset.emoji!));
 });
+
+// Chat text input
+const _chatInput=$('duel-chat-input') as HTMLInputElement|null;
+const _chatSendBtn=$('duel-chat-send') as HTMLButtonElement|null;
+function _sendChatInput(): void {
+  if(!_chatInput) return;
+  const text=_chatInput.value.trim();
+  if(!text) return;
+  _sendChatMsg(text);
+  _chatInput.value='';
+}
+_chatSendBtn?.addEventListener('click',_sendChatInput);
+_chatInput?.addEventListener('keydown',(e:KeyboardEvent)=>{ if(e.key==='Enter') _sendChatInput(); });
 
 document.addEventListener('keydown',(e:KeyboardEvent)=>{
   const game=$('duel-game'); if(!game||game.style.display==='none') return;
