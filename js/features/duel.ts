@@ -202,10 +202,10 @@ let _oppAvatar = '';
 const SESSION_KEY = 'ew_duel_session';
 let _chatHistory: {text:string;isMe:boolean}[] = [];
 function _saveSession(): void {
-  try { localStorage.setItem(SESSION_KEY, JSON.stringify({roomId:_roomId,slot:_mySlot,mode:_mode,idx:_quizIdx,score:_myScore,correct:_myCorrect,wrong:_myWrong,chat:_chatHistory})); } catch(e){}
+  try { localStorage.setItem(SESSION_KEY, JSON.stringify({roomId:_roomId,slot:_mySlot,mode:_mode,idx:_quizIdx,score:_myScore,correct:_myCorrect,wrong:_myWrong,chat:_chatHistory,deckLen:_quizDeck.length})); } catch(e){}
 }
 function _clearSession(): void { try { localStorage.removeItem(SESSION_KEY); } catch(e){} }
-function _loadSession():{roomId:string;slot:'p1'|'p2';mode:DuelMode;idx:number;score:number;correct?:number;wrong?:number;chat?:{text:string;isMe:boolean}[]}|null {
+function _loadSession():{roomId:string;slot:'p1'|'p2';mode:DuelMode;idx:number;score:number;correct?:number;wrong?:number;chat?:{text:string;isMe:boolean}[];deckLen?:number}|null {
   try { const r=localStorage.getItem(SESSION_KEY); return r?JSON.parse(r):null; } catch(e){ return null; }
 }
 
@@ -1217,7 +1217,8 @@ async function _tryResumeSession():Promise<void>{
       _powerupsEnabled = !!room.powerupsEnabled;
       _myPowerups = _powerupsEnabled ? {double:1,skip:1,freeze:1} : {double:0,skip:0,freeze:0};
       _doubleActive = false;
-      while(_quizIdx>=_quizDeck.length) _extendDeckOnSkip();
+      const savedDeckLen=sess.deckLen??ROOM_SIZE;
+      while(_quizDeck.length<savedDeckLen) _extendDeckOnSkip();
       _setupGameUI();
       elMyScore().textContent=String(savedScore);
       _showGame(false);
