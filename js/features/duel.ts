@@ -79,7 +79,7 @@ interface PlayerData {
   name:string; avatar:string; score:number; idx:number; done:boolean;
   reaction?:string; reactionTs?:number; hintsLeft:number;
   powerups:Record<PowerupType,number>; frozenUntil?:number;
-  flags?:(boolean|'skip')[];
+  flags?:(boolean|'skip'|'double')[];
 }
 interface SeriesData { p1wins:number; p2wins:number; round:number; }
 interface SpectatorData { name:string; avatar:string; }
@@ -179,7 +179,7 @@ let _quizIdx   = 0;
 let _myScore   = 0;
 let _myCorrect = 0;
 let _myWrong   = 0;
-let _myFlags: (boolean|'skip')[] = [];
+let _myFlags: (boolean|'skip'|'double')[] = [];
 let _answered  = false;
 let _mode:     DuelMode   = 'quiz';
 let _tempoTimer: ReturnType<typeof setInterval> | null = null;
@@ -217,7 +217,7 @@ let _roomMaxHints = 3;
 const SESSION_KEY = 'ew_duel_sessions';
 const SESSION_KEY_OLD = 'ew_duel_session';
 let _chatHistory: {text:string;isMe:boolean}[] = [];
-interface DuelSession {roomId:string;slot:'p1'|'p2';mode:DuelMode;idx:number;score:number;correct?:number;wrong?:number;flags?:(boolean|'skip')[];chat?:{text:string;isMe:boolean}[];deckLen?:number;createdAt?:number;
+interface DuelSession {roomId:string;slot:'p1'|'p2';mode:DuelMode;idx:number;score:number;correct?:number;wrong?:number;flags?:(boolean|'skip'|'double')[];chat?:{text:string;isMe:boolean}[];deckLen?:number;createdAt?:number;
   seed?:number;category?:string;difficulty?:Difficulty;maxHints?:number;bestOf?:BestOf;
   powerupsEnabled?:boolean;myPowerups?:Record<PowerupType,number>;oppName?:string;oppAvatar?:string;}
 function _loadSessions(): DuelSession[] {
@@ -717,19 +717,22 @@ function _showMiniToast(msg:string): void {
 }
 
 // ── Animated dot progress bar (mine + opponent's) ────────────
-function _renderProgressBar(elId:string, idx:number, flags?:(boolean|'skip')[], fallbackColor='var(--accent2)'): void {
+function _renderProgressBar(elId:string, idx:number, flags?:(boolean|'skip'|'double')[], fallbackColor='var(--accent2)', total=ROOM_SIZE): void {
   const el=$(elId) as HTMLElement|null; if(!el) return;
-  el.innerHTML = Array.from({length:ROOM_SIZE},(_,i)=>{
+  el.innerHTML = Array.from({length:Math.max(total,flags?.length??0)},(_,i)=>{
     let bg='var(--border)';
-    if(flags && i<flags.length) bg=flags[i]==='skip'?fallbackColor:(flags[i]?'#27ae60':'#e74c3c');
+    if(flags && i<flags.length){
+      const f=flags[i];
+      bg = f==='skip' ? '#7f8c8d' : f==='double' ? '#1e7e44' : f ? '#27ae60' : '#e74c3c';
+    }
     else if(i<idx) bg=fallbackColor;
     return `<span style="width:10px;height:10px;border-radius:50%;display:inline-block;background:${bg};margin:1px;transition:background .3s;"></span>`;
   }).join('');
 }
-function _renderOppProgressBar(idx:number, flags?:(boolean|'skip')[]): void { _renderProgressBar('dm-opp-progress-bar', idx, flags, 'var(--accent2)'); }
+function _renderOppProgressBar(idx:number, flags?:(boolean|'skip'|'double')[]): void { _renderProgressBar('dm-opp-progress-bar', idx, flags, 'var(--accent2)'); }
 function _renderMyProgressBar(): void {
-  _renderProgressBar('dm-my-progress-bar', _quizIdx, _myFlags, 'var(--accent)');
-  elMyProg().textContent=`${_quizIdx}/${ROOM_SIZE}`;
+  _renderProgressBar('dm-my-progress-bar', _quizIdx, _myFlags, 'var(--accent)', _quizDeck.length);
+  elMyProg().textContent=`${_quizIdx}/${_quizDeck.length}`;
 }
 
 function _updateSeriesUI(): void {
@@ -902,7 +905,6 @@ async function _answerChoice(btn:HTMLButtonElement,chosen:string,correct:string,
   const ms=Date.now()-_answerStartMs;
   elOpts().querySelectorAll<HTMLButtonElement>('.quiz-option').forEach(b=>b.disabled=true);
   const ok=chosen===correct;
-  _myFlags.push(ok);
   btn.classList.add(ok?'correct':'wrong');
   if(!ok) elOpts().querySelectorAll<HTMLButtonElement>('.quiz-option').forEach(b=>{if(b.textContent?.includes(correct)) b.classList.add('reveal');});
   let feedbackHtml = '';
@@ -910,10 +912,12 @@ async function _answerChoice(btn:HTMLButtonElement,chosen:string,correct:string,
     const wasDouble = _doubleActive;
     const pts = wasDouble ? 2 : 1;
     _myScore += pts; _myCorrect++;
+    _myFlags.push(wasDouble?'double':true);
     if(wasDouble){ _doubleActive=false; feedbackHtml=`<span style="color:#f39c12">${t('duel.doublePts')}</span>`; }
     else { feedbackHtml=`<span style="color:#27ae60">${t('duel.correct')}</span>`; }
   } else {
     _myWrong++;
+    _myFlags.push(false);
     feedbackHtml=`<span style="color:#e74c3c">✗ ${correct}</span>`;
   }
   elMyScore().textContent=String(_myScore);
@@ -937,16 +941,17 @@ function _submitWrite(): void {
   }
   const ms=Date.now()-_answerStartMs;
   _answered=true; inp.disabled=true;
-  _myFlags.push(ok);
   inp.style.borderColor=ok?'#27ae60':'#e74c3c';
   let feedbackHtml='';
   if(ok){
     const wasDouble=_doubleActive;
     _myScore += wasDouble?2:1; _myCorrect++;
+    _myFlags.push(wasDouble?'double':true);
     if(wasDouble){ _doubleActive=false; feedbackHtml=`<span style="color:#f39c12">${t('duel.doublePts')}</span>`; }
     else feedbackHtml=`<span style="color:#27ae60">${t('duel.correct')}</span>`;
   } else {
     _myWrong++;
+    _myFlags.push(false);
     feedbackHtml=`<span style="color:#e74c3c">✗ ${w[0]}</span>`;
   }
   elMyScore().textContent=String(_myScore);
