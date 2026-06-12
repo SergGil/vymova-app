@@ -65,7 +65,10 @@
     overlay-div (`#listen-overlay`) і `.quiz-panel` лишились статичним HTML
     (потрібні mode-hints.ts для баннера підказки), React монтується у
     `#listen-page-mount` всередині — рендерить увесь вміст панелі.
-12. `fib.ts` (159)
+12. [x] `fib.ts` (159) → `fib.tsx` — заповнення пропуску в реченні (генерація
+    бланку, перевірка через `lev`, підказка, фінальний екран) на `useState`.
+    Той самий паттерн статичного overlay/`.quiz-panel` + `#fib-page-mount`,
+    що й у `listening.tsx`.
 13. `tempo.ts` (164)
 14. `spelling-bee.ts` (162)
 15. `context.ts` (163)

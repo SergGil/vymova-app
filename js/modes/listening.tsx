@@ -248,4 +248,6 @@ export function mountListeningPage(): void {
   createRoot(el).render(<ListeningPage />);
 
   document.getElementById('btn-listen')?.addEventListener('click', openListening);
+  const overlay = document.getElementById('listen-overlay');
+  overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeListening(); });
 }
