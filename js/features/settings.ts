@@ -28,18 +28,6 @@ function haptic(type: string): void {
 document.getElementById('btn-know')?.addEventListener('click', () => haptic('correct'), true);
 document.getElementById('btn-next')?.addEventListener('click', () => haptic('wrong'), true);
 
-// ── Font Size A-/A+ ────────────────────────────────────────────
-let _sz = parseInt(localStorage.getItem('ew_fontsize') ?? '100');
-function applySize(sz: number): void {
-  document.documentElement.style.fontSize = sz + '%';
-  localStorage.setItem('ew_fontsize', String(sz));
-  const el = document.getElementById('font-pct');
-  if (el) el.textContent = sz + '%';
-}
-applySize(_sz);
-document.getElementById('btn-font-down')?.addEventListener('click', () => applySize(Math.max(70, _sz -= 10)));
-document.getElementById('btn-font-up')?.addEventListener('click',   () => applySize(Math.min(140, _sz += 10)));
-
 // ── Visibilitychange: auto-prefetch ────────────────────────────
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState !== 'visible') return;

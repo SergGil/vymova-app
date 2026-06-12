@@ -75,3 +75,6 @@ mountSearchOverlay();
 
 const { mountTagFilterSelect } = await import('../js/features/tag-filter-select.tsx');
 mountTagFilterSelect();
+
+const { mountFontSizeControl } = await import('../js/features/font-size-control.tsx');
+mountFontSizeControl();
