@@ -662,7 +662,7 @@ function _renderPowerups(): void {
     return `<button class="dm-pu-btn" data-pu="${p.id}" data-can-use="${canUse}"
       title="${titleText}"
       style="padding:5px 8px;border-radius:9px;border:1.5px solid ${borderColor};background:${bgColor};cursor:${canUse?'pointer':'default'};font-size:.78rem;color:${textColor};opacity:${opacity};pointer-events:${canUse?'auto':'none'};transition:opacity .2s;">
-      ${p.icon} ${p.id==='double'?'×2':t('duel.pu.'+p.id+'.label')}${!unavailable&&left>0?` ×${left}`:''}${unavailable?' 🚫':''}
+      ${p.icon} ${p.id==='double'?'×2':t('duel.pu.'+p.id+'.label')}${!unavailable&&left>0?` (${left})`:''}${unavailable?' 🚫':''}
     </button>`;
   }).join('');
   el.querySelectorAll<HTMLButtonElement>('.dm-pu-btn').forEach(btn=>{
@@ -723,7 +723,7 @@ function _renderProgressBar(elId:string, idx:number, flags?:(boolean|'skip'|'dou
     let bg='var(--border)';
     if(flags && i<flags.length){
       const f=flags[i];
-      bg = f==='skip' ? '#7f8c8d' : f==='double' ? '#1e7e44' : f ? '#27ae60' : '#e74c3c';
+      bg = f==='skip' ? '#7f8c8d' : f==='double' ? '#f1c40f' : f ? '#27ae60' : '#e74c3c';
     }
     else if(i<idx) bg=fallbackColor;
     return `<span style="width:10px;height:10px;border-radius:50%;display:inline-block;background:${bg};margin:1px;transition:background .3s;"></span>`;
