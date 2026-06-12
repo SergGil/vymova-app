@@ -18,6 +18,9 @@ function setupDom(selModeValue = 'en'): void {
       <option value="fr-en">FR → EN</option>
       <option value="fr-ua">FR → UA</option>
       <option value="ua-fr">UA → FR</option>
+      <option value="es-fr">ES → FR</option>
+      <option value="fr-es">FR → ES</option>
+      <option value="mix">Mixed</option>
     </select>`;
   (document.getElementById('sel-mode') as HTMLSelectElement).value = selModeValue;
 }
@@ -28,12 +31,13 @@ describe('lang-pair-select', () => {
     setupDom('en');
   });
 
-  it('renders two selects with options', () => {
+  it('renders three selects with options', () => {
     act(() => { mountLangPairSelect(); });
     const selects = document.querySelectorAll('#lang-pair-select select');
-    expect(selects.length).toBe(2);
+    expect(selects.length).toBe(3);
     expect((selects[0] as HTMLSelectElement).options.length).toBe(4); // know: ua/en/es/fr
     expect((selects[1] as HTMLSelectElement).options.length).toBe(3); // learn options for know=ua
+    expect((selects[2] as HTMLSelectElement).options.length).toBe(3); // direction: fwd/rev/mix
   });
 
   it('restores pair from existing #sel-mode value', () => {

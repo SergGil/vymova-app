@@ -30,12 +30,27 @@ function _getFrDeck(): WordEntry[] {
   return _frWords;
 }
 
+let _esFrWords: WordEntry[] | null = null;
+
+// Words usable for ES⇄FR mode: need both an ES and an FR translation (bridged via EN).
+function _getEsFrDeck(): WordEntry[] {
+  if (!_esFrWords) {
+    _esFrWords = (W as unknown as WordEntry[]).filter(
+      w => Object.prototype.hasOwnProperty.call(W_ES, w[0]) && Object.prototype.hasOwnProperty.call(W_FR, w[0])
+    );
+  }
+  return _esFrWords;
+}
+
 let _preSpecialDeck: WordEntry[] | null = null;
 let _preSpecialIdx = 0;
 
+const ES_FR_MODES = new Set(['es-fr', 'fr-es']);
+
 window._rebuildEsDeck = function(): void {
-  if (!ES_MODES.has(getMode())) return;
-  const esDeck = _getEsDeck();
+  const m = getMode();
+  if (!ES_MODES.has(m)) return;
+  const esDeck = ES_FR_MODES.has(m) ? _getEsFrDeck() : _getEsDeck();
   const ats    = state._activeTagSet as Set<string> | null;
   let deck     = ats ? esDeck.filter(w => (ats as Set<string>).has(w[0])) : esDeck.slice();
   if (!deck.length) deck = esDeck.slice();
@@ -58,6 +73,7 @@ window._rebuildFrDeck = function(): void {
 document.getElementById('sel-mode')!.addEventListener('change', function() {
   (window as any).stopAuto?.();
   const m          = (this as HTMLSelectElement).value;
+  const isEsFr     = ES_FR_MODES.has(m);
   const isEs       = ES_MODES.has(m);
   const isFr       = FR_MODES.has(m);
   const isSpecial  = isEs || isFr;
@@ -65,11 +81,11 @@ document.getElementById('sel-mode')!.addEventListener('change', function() {
   const selTagEl   = document.getElementById('sel-tag')   as HTMLSelectElement | null;
 
   if (isSpecial) {
-    const specialDeck = isEs ? _getEsDeck() : _getFrDeck();
+    const specialDeck = isEsFr ? _getEsFrDeck() : isEs ? _getEsDeck() : _getFrDeck();
     if (!specialDeck.length) {
       const _mt = document.getElementById('milestone-toast');
       if (_mt) {
-        _mt.textContent = t(isEs ? 'deck.noEsTranslations' : 'deck.noFrTranslations');
+        _mt.textContent = t(isEsFr ? 'deck.noEsFrTranslations' : isEs ? 'deck.noEsTranslations' : 'deck.noFrTranslations');
         _mt.className = 'milestone-toast'; void _mt.offsetWidth;
         _mt.className = 'milestone-toast show';
         setTimeout(() => { _mt.className = 'milestone-toast'; }, 3500);

@@ -3,12 +3,17 @@
 import { W_ES } from '../../data/words_es.js';
 import { W_FR } from '../../data/words_fr.js';
 
-export const ES_MODES = new Set(['en-es', 'es-en', 'es-ua', 'ua-es']);
-export const FR_MODES = new Set(['en-fr', 'fr-en', 'fr-ua', 'ua-fr']);
+export const ES_MODES = new Set(['en-es', 'es-en', 'es-ua', 'ua-es', 'es-fr', 'fr-es']);
+export const FR_MODES = new Set(['en-fr', 'fr-en', 'fr-ua', 'ua-fr', 'es-fr', 'fr-es']);
 
 export function getMode(): string {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? 'en';
-  if (m === 'mix') return Math.random() > 0.5 ? 'en' : 'ua';
+  const sel = document.getElementById('sel-mode') as HTMLSelectElement | null;
+  const m = sel?.value ?? 'en';
+  if (m === 'mix') {
+    const a = sel?.dataset.mixA || 'en';
+    const b = sel?.dataset.mixB || 'ua';
+    return Math.random() > 0.5 ? a : b;
+  }
   return m || 'en';
 }
 

@@ -262,6 +262,8 @@ function render() {
       case 'fr-en': FRONT_LANG = 'FR'; frontWord = _frWord; backWord = cw[0];   break;
       case 'fr-ua': FRONT_LANG = 'FR'; frontWord = _frWord; backWord = cw[1];   break;
       case 'ua-fr': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _frWord; break;
+      case 'es-fr': FRONT_LANG = 'ES'; frontWord = _esWord; backWord = _frWord; break;
+      case 'fr-es': FRONT_LANG = 'FR'; frontWord = _frWord; backWord = _esWord; break;
       default:      FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = cw[1];
     }
     const _realIdx = _wordIdx.has(cw[0]) ? _wordIdx.get(cw[0]) : -1;
@@ -311,6 +313,8 @@ function render() {
         case 'es-en': _frontEx = _esEx; _backEx = _enEx; break;
         case 'es-ua': _frontEx = _esEx; _backEx = _uaEx; break;
         case 'ua-es': _frontEx = _uaEx; _backEx = _esEx; break;
+        case 'es-fr': _frontEx = _esEx; _backEx = _frEx; break;
+        case 'fr-es': _frontEx = _frEx; _backEx = _esEx; break;
       }
       $e('exen').innerHTML = _boldHead(_frontEx, frontWord) || _frontEx;
       $e('exua').innerHTML = _boldHead(_backEx, backWord) || _backEx;
