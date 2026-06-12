@@ -3564,8 +3564,6 @@ body.sw .idiom-meaning { color: #00c8ff; }
   #btn-font-down, #btn-font-up { padding: 5px 10px; min-height: 36px; }
 
   /* Search bar */
-  #search-overlay { padding: 8px; }
-  #search-panel { border-radius: 14px 14px 0 0; }
   #search-input { font-size: .9rem; }
 
   /* Word detail: full height bottom sheet */
@@ -3746,9 +3744,6 @@ body.sw .idiom-meaning { color: #00c8ff; }
   .word-actions { flex: 0 0 auto; }
 }
 
-/* ── Search overlay input — dark/SW theming ─────────────────── */
-body.dark #ov-search-input { color: var(--text); }
-body.sw   #ov-search-input { color: var(--text); }
 
 /* ── Level block — mobile redesign ──────────────────────────── */
 @media (max-width: 480px) {

@@ -137,6 +137,8 @@ export function applyI18n(): void {
   });
   (window as unknown as { _refreshLangPairSelect?: () => void })._refreshLangPairSelect?.();
   (window as unknown as { _refreshWordOfDay?: () => void })._refreshWordOfDay?.();
+  (window as unknown as { _refreshSearchInline?: () => void })._refreshSearchInline?.();
+  (window as unknown as { _refreshSearchOverlay?: () => void })._refreshSearchOverlay?.();
   (window.renderLevelBadge as (() => void) | undefined)?.();
   (window.renderGameBar as (() => void) | undefined)?.();
   (window._refreshRangeOptions as (() => void) | undefined)?.();

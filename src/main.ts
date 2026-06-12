@@ -34,7 +34,6 @@ await import('../js/features/profiles.ts');
 await import('../js/features/settings.ts');
 await import('../js/features/onboarding.ts');
 await import('../js/features/cloud-sync.ts');
-await import('../js/features/search.ts');
 await import('../js/features/quick-quiz.ts');
 await import('../js/features/mode-hints.ts');
 await import('../js/features/word-detail.ts');
@@ -68,3 +67,9 @@ mountGameBarLevel();
 
 const { mountAchievementsPage } = await import('../js/features/achievements-page.tsx');
 mountAchievementsPage();
+
+const { mountSearchInline } = await import('../js/features/search-inline.tsx');
+mountSearchInline();
+
+const { mountSearchOverlay } = await import('../js/features/search-overlay.tsx');
+mountSearchOverlay();

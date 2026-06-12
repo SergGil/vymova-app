@@ -29,7 +29,6 @@ import { ES_MODES, FR_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry }
 import { safe as _safe, boldEn as _boldEn, boldUa as _boldUa, boldHead as _boldHead, srsStatusInfo } from './core/card-helpers.ts';
 import './features/speech.ts';
 import './features/image-prefetch.ts';
-import './features/search-inline.ts';
 import './features/card-actions.ts';
 import './features/deck-filter.ts';
 import './features/deck-mode.ts';

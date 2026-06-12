@@ -22,7 +22,8 @@
 3. [x] `render-achievements.ts` (137) — бейджі досягнень → `achievements-page.tsx`
    (грід досягнень, попап деталей, шлях рівнів `#levels-roadmap`).
    `showToast`/`checkAchievements` лишились легасі-функціями.
-4. `search.ts` + `search-inline.ts` (176+102) — пошук слова
+4. [x] `search.ts` + `search-inline.ts` (176+102) — пошук слова →
+   `search-overlay.tsx` (модалка Ctrl+F) + `search-inline.tsx` (поле в хедері)
 
 ## Фаза 2 — Самостійні панелі/сторінки
 Власний локальний стан (useState), взаємодія з рештою через існуючі функції
