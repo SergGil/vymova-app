@@ -1,48 +1,10 @@
 // English Words App — js/features/render-game-bar.ts
-// Game bar, level badge, level progress, levels roadmap
+// Game bar (streak/goal) and levels roadmap.
+// Level badge + progress (Block 3) live in game-bar-level.tsx (React).
 import { state } from '../../src/state.ts';
-import { getGameData, getLevel, getNextLevel, LEVELS } from './game.ts';
-import { updateRing } from './ring.ts';
+import { getGameData, LEVELS } from './game.ts';
 import { t, levelName, wordsLabel } from './i18n.ts';
-
-export function renderLevelProgress(): void {
-  const n    = state.known.size;
-  const lv   = getLevel(n);
-  const next = getNextLevel(n);
-  const fillEl = document.getElementById('gb-level-fill');
-  const xpEl   = document.getElementById('gb-level-xp');
-  const nextEl = document.getElementById('gb-level-next');
-  if (!fillEl) return;
-  if (next) {
-    const cur  = n - lv.min;
-    const need = next.min - lv.min;
-    const pct  = Math.round(cur / need * 100);
-    fillEl.style.width = pct + '%';
-    fillEl.style.background = 'linear-gradient(90deg,' + lv.color + ',' + (next.color || lv.color) + ')';
-    if (xpEl)   xpEl.textContent   = cur + ' / ' + need + ' ' + wordsLabel(need);
-    if (nextEl) nextEl.textContent = levelName(next.name);
-  } else {
-    fillEl.style.width = '100%';
-    if (xpEl)   xpEl.textContent   = t('levels.maxReached');
-    if (nextEl) nextEl.textContent = '';
-  }
-  try { updateRing(); } catch (_e) {}
-}
-
-export function renderLevelBadge(): void {
-  const n     = state.known.size;
-  const lv    = getLevel(n);
-  const badge = document.getElementById('level-badge');
-  if (badge) {
-    badge.textContent        = levelName(lv.name);
-    badge.style.background   = lv.color + '22';
-    badge.style.color        = lv.color;
-  }
-  const numEl = document.getElementById('gb-level-num');
-  const lvIdx = LEVELS.indexOf(lv) + 1;
-  if (numEl) { numEl.textContent = String(lvIdx); numEl.style.color = lv.color; }
-  renderLevelProgress();
-}
+import { refreshGameBarLevel } from './game-bar-level.tsx';
 
 export function renderGameBar(): void {
   const d   = getGameData();
@@ -64,7 +26,7 @@ export function renderGameBar(): void {
   fill!.className     = 'goal-fill' + (d.goalCur >= d.goalMax ? ' done' : '');
   const bdg = document.getElementById('goal-done');
   bdg!.style.display  = d.goalCur >= d.goalMax ? 'inline' : 'none';
-  try { renderLevelProgress(); } catch (_e) {}
+  try { refreshGameBarLevel(); } catch (_e) {}
 }
 
 export function renderLevelsRoadmap(): void {
@@ -128,6 +90,6 @@ export function renderLevelsRoadmap(): void {
 }
 
 window.renderGameBar       = renderGameBar;
-window.renderLevelBadge    = renderLevelBadge;
-window.renderLevelProgress = renderLevelProgress;
+window.renderLevelBadge    = refreshGameBarLevel;
+window.renderLevelProgress = refreshGameBarLevel;
 window.renderLevelsRoadmap = renderLevelsRoadmap;

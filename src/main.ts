@@ -62,3 +62,6 @@ mountWordOfDay();
 
 const { mountGoalModal } = await import('../js/features/goal-modal.tsx');
 mountGoalModal();
+
+const { mountGameBarLevel } = await import('../js/features/game-bar-level.tsx');
+mountGameBarLevel();
