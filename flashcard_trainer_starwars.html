@@ -1173,39 +1173,7 @@
   <!-- ══ CONTEXT MODE MODAL ══ -->
   <div id="ctx-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
     <div class="quiz-panel">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <div>
-          <div style="font-size:1.05rem;font-weight:700;color:var(--text);" data-i18n="ctx.title">🔍 Контекст</div>
-          <div style="font-size:.75rem;color:var(--text3);margin-top:2px;" id="ctx-subtitle">Питання 1 з 8</div>
-        </div>
-        <button id="ctx-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);">✕</button>
-      </div>
-      <div style="height:4px;background:var(--border);border-radius:4px;margin-bottom:14px;overflow:hidden;"><div id="ctx-pbar" style="height:100%;background:var(--accent);border-radius:4px;transition:width .4s;width:0%"></div></div>
-      <div style="display:flex;gap:14px;justify-content:center;margin-bottom:12px;flex-shrink:0;" id="ctx-score-row">
-        <span style="font-size:.82rem;color:#27ae60;font-weight:600;">✓ <span id="ctx-ok">0</span></span>
-        <span style="font-size:.82rem;color:#e74c3c;font-weight:600;">✗ <span id="ctx-fail">0</span></span>
-      </div>
-      <!-- Sentence with hidden word -->
-      <div id="ctx-sentence" style="background:var(--bg);border-radius:12px;padding:16px;margin-bottom:10px;min-height:70px;"></div>
-      <!-- Hint -->
-      <div id="ctx-hint" style="display:none;font-size:.78rem;color:var(--accent);margin-bottom:8px;text-align:center;"></div>
-      <!-- Options -->
-      <div id="ctx-options" style="display:flex;flex-direction:column;gap:7px;"></div>
-      <div id="ctx-result" style="text-align:center;font-size:.88rem;font-weight:600;min-height:22px;margin-top:8px;"></div>
-      <div style="display:flex;gap:8px;justify-content:center;margin-top:10px;">
-        <button id="ctx-hint-btn" style="padding:8px 14px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:.8rem;" data-i18n="ctx.hintBtn">💡 Підказка</button>
-        <button id="ctx-next" style="display:none;padding:10px 28px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;font-size:.88rem;" data-i18n="quiz.next">Наступне →</button>
-      </div>
-      <!-- Final -->
-      <div id="ctx-final" style="display:none;text-align:center;padding:10px 0 4px;">
-        <div style="font-size:2.5rem;margin-bottom:8px;" id="ctx-final-emoji">🎉</div>
-        <div style="font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:6px;" id="ctx-final-title"></div>
-        <div style="font-size:.9rem;color:var(--text2);margin-bottom:16px;" id="ctx-final-desc"></div>
-        <div style="display:flex;gap:8px;justify-content:center;">
-          <button id="ctx-restart" style="padding:9px 20px;border-radius:10px;border:1.5px solid var(--accent);background:none;color:var(--accent);font-weight:600;cursor:pointer;font-family:inherit;font-size:.85rem;" data-i18n="common.tryAgain">🔄 Ще раз</button>
-          <button id="ctx-exit" style="padding:9px 20px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.85rem;" data-i18n="common.close">Закрити</button>
-        </div>
-      </div>
+      <div id="ctx-page-mount"></div>
     </div>
   </div>
 

@@ -40,7 +40,6 @@ await import('../js/features/mode-hints.ts');
 await import('../js/features/word-detail.ts');
 await import('../js/features/i18n.ts');
 await import('../js/features/learning-path.ts');
-await import('../js/modes/context.ts');
 await import('../js/features/leaderboard.ts');
 await import('../js/modes/story.ts');
 await import('../js/modes/scramble.ts');
@@ -98,3 +97,6 @@ mountTempoPage();
 
 const { mountSpellingBeePage } = await import('../js/modes/spelling-bee.tsx');
 mountSpellingBeePage();
+
+const { mountContextPage } = await import('../js/modes/context.tsx');
+mountContextPage();

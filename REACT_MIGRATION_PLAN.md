@@ -78,7 +78,9 @@
 14. [x] `spelling-bee.ts` (162) → `spelling-bee.tsx` — гра "почуй і напиши"
     (TTS, підказки, перевірка через `lev`, фінал) на `useState`. Той самий
     паттерн статичного overlay + `#bee-page-mount`.
-15. `context.ts` (163)
+15. [x] `context.ts` (163) → `context.tsx` — режим "вгадай слово з контексту"
+    (приховане слово в реченні, 4 варіанти, підказка по IPA, фінал) на
+    `useState`. Той самий паттерн статичного overlay + `#ctx-page-mount`.
 16. `reading.ts` (191)
 17. `story.ts` (189)
 18. `lesson.ts` (226)
