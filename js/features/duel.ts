@@ -150,11 +150,18 @@ function _renderLeaderboard(): void {
   }).join('');
 }
 
+const HIST_PAGE_SIZE = 5;
+let _histPage = 0;
+
 function _renderHistory(): void {
   const el = document.getElementById('duel-history-list'); if(!el) return;
   const h = _getHistory();
   if(!h.length){ el.innerHTML=`<div style="color:var(--text3);font-size:.8rem;text-align:center;padding:8px;">${t('duel.noHistory')}</div>`; return; }
-  el.innerHTML = h.slice(0,5).map(e=>{
+  const pages = Math.ceil(h.length/HIST_PAGE_SIZE);
+  if(_histPage>=pages) _histPage=pages-1;
+  if(_histPage<0) _histPage=0;
+  const start = _histPage*HIST_PAGE_SIZE;
+  const rows = h.slice(start, start+HIST_PAGE_SIZE).map(e=>{
     const icon = e.won?'🏆':e.myScore===e.oppScore?'🤝':'💀';
     const cat  = e.category ? ` · ${e.category.split(' ')[0]}` : '';
     return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:.78rem;">
@@ -162,6 +169,16 @@ function _renderHistory(): void {
       <span style="font-weight:700;color:${e.won?'#27ae60':e.myScore===e.oppScore?'var(--text3)':'#e74c3c'}">${e.myScore}:${e.oppScore}</span>
     </div>`;
   }).join('');
+  const pager = pages>1 ? `<div style="display:flex;justify-content:center;align-items:center;gap:10px;padding-top:8px;font-size:.78rem;color:var(--text2);">
+      <button type="button" id="duel-hist-prev" ${_histPage===0?'disabled':''} style="background:none;border:1px solid var(--border);border-radius:4px;color:inherit;padding:2px 8px;cursor:pointer;">‹</button>
+      <span>${_histPage+1} / ${pages}</span>
+      <button type="button" id="duel-hist-next" ${_histPage>=pages-1?'disabled':''} style="background:none;border:1px solid var(--border);border-radius:4px;color:inherit;padding:2px 8px;cursor:pointer;">›</button>
+    </div>` : '';
+  el.innerHTML = rows + pager;
+  const prevBtn = document.getElementById('duel-hist-prev');
+  const nextBtn = document.getElementById('duel-hist-next');
+  if(prevBtn) prevBtn.addEventListener('click', ()=>{ _histPage--; _renderHistory(); });
+  if(nextBtn) nextBtn.addEventListener('click', ()=>{ _histPage++; _renderHistory(); });
 }
 
 // ── Firebase ──────────────────────────────────────────────────
@@ -1031,7 +1048,7 @@ function _showFinish(room:RoomData):void{
   const mInfo=DUEL_MODES.find(m=>m.id===room.mode)||DUEL_MODES[0];
 
   // Save history + rating
-  _addHistory({date:new Date().toLocaleDateString(_dateLocale()),mode:room.mode,myScore:me.score,oppScore:opp?.score??0,oppName:opp?.name||_oppName||t('duel.opp'),won,category:room.category});
+  _addHistory({date:`${new Date().toLocaleDateString(_dateLocale())} ${new Date().toLocaleTimeString(_dateLocale(),{hour:'2-digit',minute:'2-digit'})}`,mode:room.mode,myScore:me.score,oppScore:opp?.score??0,oppName:opp?.name||_oppName||t('duel.opp'),won,category:room.category});
   _updateRating(won,tie);
   _clearSession();
 
