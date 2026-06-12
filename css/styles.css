@@ -2799,7 +2799,6 @@ body.sw .sb-toggle-pill.on { background: #00c8ff; }
   flex-direction: column;
   flex-shrink: 0;
   gap: 6px;
-  width: 100%;
   max-width: 100%;
   overflow: hidden;
   box-sizing: border-box;
