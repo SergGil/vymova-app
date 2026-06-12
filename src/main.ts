@@ -59,3 +59,6 @@ mountLangPairSelect();
 
 const { mountWordOfDay } = await import('../js/features/word-of-day.tsx');
 mountWordOfDay();
+
+const { mountGoalModal } = await import('../js/features/goal-modal.tsx');
+mountGoalModal();

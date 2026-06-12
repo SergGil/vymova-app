@@ -30,7 +30,6 @@ import './features/speech.ts';
 import './features/image-prefetch.ts';
 import './features/search-inline.ts';
 import './features/card-actions.ts';
-import './features/goal-modal.ts';
 import './features/deck-filter.ts';
 import './features/deck-mode.ts';
 import './features/progress-io.ts';

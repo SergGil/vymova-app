@@ -351,17 +351,7 @@
   </div>
 
   <!-- Модал зміни цілі -->
-  <div id="goal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9500;align-items:center;justify-content:center;">
-    <div class="modal-inner" style="background:var(--modal-bg,var(--card));border-radius:16px;padding:24px 20px;max-width:300px;width:90%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.2);">
-      <div data-i18n="goal.modal.title" style="font-size:1rem;font-weight:600;margin-bottom:6px;color:var(--text);">🎯 Денна ціль</div>
-      <div data-i18n="goal.modal.desc" style="font-size:.83rem;color:var(--text2);margin-bottom:14px;">Скільки слів вивчити за день?</div>
-      <input id="goal-input" type="number" min="1" max="500" value="20"
-        style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:10px;font-size:1.1rem;text-align:center;font-family:inherit;background:var(--bg);color:var(--text);outline:none;box-sizing:border-box;margin-bottom:14px;">
-      <div style="display:flex;gap:8px;">
-        <button id="goal-modal-cancel" data-i18n="goal.modal.cancel" style="flex:1;padding:9px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text2);font-size:.9rem;cursor:pointer;font-family:inherit;">Відміна</button>
-        <button id="goal-modal-ok" data-i18n="goal.modal.save" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;">Зберегти</button>
-      </div>
-    </div>
+  <div id="goal-modal-mount">
   </div>
 
 
