@@ -10,7 +10,6 @@ export {};  // make this a module
 // ── 8. App + modes + features ─────────────────────────────────
 await import('../js/app.ts');
 await import('../js/modes/quiz.ts');
-await import('../js/modes/write.ts');
 await import('../js/modes/pairs.ts');
 await import('../js/modes/catpairs.ts');
 await import('../js/modes/daily-challenge.ts');
@@ -106,3 +105,6 @@ mountStoryPage();
 
 const { mountLessonPage } = await import('../js/modes/lesson.tsx');
 mountLessonPage();
+
+const { mountWritePage } = await import('../js/modes/write.tsx');
+mountWritePage();
