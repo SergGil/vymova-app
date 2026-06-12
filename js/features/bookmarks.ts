@@ -19,6 +19,8 @@ export function toggleBookmark(w: string): boolean {
   return _bm.has(w);
 }
 
+// #sel-range itself is legacy (Phase 4 of REACT_MIGRATION_PLAN.md), so this
+// option is inserted imperatively until that select becomes a component.
 const sel = document.getElementById('sel-range') as HTMLSelectElement | null;
 if (sel && !sel.querySelector('option[value="bookmarks"]')) {
   const opt = document.createElement('option');

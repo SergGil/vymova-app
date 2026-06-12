@@ -29,7 +29,11 @@
 Власний локальний стан (useState), взаємодія з рештою через існуючі функції
 `window.*` (без переписування їхньої логіки).
 
-5. `bookmarks.ts` (28), `tag-filter.ts` (60) — прості фільтри
+5. [x] `tag-filter.ts` (60) → `tag-filter-select.tsx` — `<option>`-и `#sel-tag`
+   рендеряться React'ом, обробники зміни лишились імперативними.
+   `bookmarks.ts` (28) — це чистий data-layer (Set + localStorage), View-частини
+   нема (крім вставки `<option value="bookmarks">` в легасі `#sel-range`,
+   яка переїде разом із Фазою 4) — переносити нічого.
 6. `settings.ts` (101) — налаштування
 7. `onboarding.ts` (237) — онбординг
 8. `profiles.ts` (338) — перемикач профілів

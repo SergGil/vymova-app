@@ -24,7 +24,6 @@ await import('../js/modes/reading.ts');
 await import('../js/features/custom.ts');
 await import('../js/features/stats.ts');
 await import('../js/features/swipe.ts');
-await import('../js/features/tag-filter.ts');
 await import('../js/features/keyboard.ts');
 await import('../js/features/offline.ts');
 await import('../js/features/export.ts');
@@ -73,3 +72,6 @@ mountSearchInline();
 
 const { mountSearchOverlay } = await import('../js/features/search-overlay.tsx');
 mountSearchOverlay();
+
+const { mountTagFilterSelect } = await import('../js/features/tag-filter-select.tsx');
+mountTagFilterSelect();
