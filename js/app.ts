@@ -6,6 +6,7 @@ import { getIllus }                                from '../data/illustrations.j
 import { getCategoriesForWord }                    from '../data/categories.js';
 import { loadWikiImage, _imgCache, _idb }          from './core/images.ts';
 import { state }                                   from '../src/state.ts';
+import { notifyStateChange }                       from '../src/store.ts';
 import { synth }                                    from './core/srs.ts';
 import { getComboMult }                             from './features/combo.ts';
 import { getGameData, saveGameData, recordDailyWord,
@@ -351,6 +352,7 @@ function render() {
   } catch(e) {
     console.error('render FAILED:', (e as Error).message);
   }
+  notifyStateChange();
   // Predictive prefetch: наступні картки (без дублів для малих дек)
   _idle(function() {
     const _seen: Record<string, number> = {};

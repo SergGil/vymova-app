@@ -135,7 +135,12 @@
 `word-detail.ts` (198), `similar-words.ts` (238) у компоненти, що читають
 зі стора. Сама картка (`render()` у app.ts) переноситься останньою в цій фазі.
 
-24. Створити `src/store.ts` — обгортка над `state` через `useSyncExternalStore`
+24. [x] Створити `src/store.ts` — обгортка над `state` через `useSyncExternalStore`
+    (`notifyStateChange`/`useStateVersion`/`useAppState`, версійний лічильник +
+    `Set` слухачів). `render()` у `app.ts` викликає `notifyStateChange()` у
+    кінці кожного оновлення картки — це міст для майбутніх React-компонентів
+    Фази 4 (25-28), які підпишуться через `useAppState()`/`useStateVersion()`
+    і перерендеряться синхронно з легасі-мутаціями `state`.
 25. `word-detail.ts` → компонент, читає зі стора
 26. `similar-words.ts` → компонент
 27. `card-actions.ts` (кнопки "Знаю"/"Quick Quiz" тощо) → компонент
