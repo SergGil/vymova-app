@@ -135,6 +135,7 @@ export function applyI18n(): void {
   document.querySelectorAll<HTMLElement>('.lang-opt').forEach(btn => {
     btn.classList.toggle('lang-active', btn.dataset.lang === lang);
   });
+  (window as unknown as { _refreshLangPairSelect?: () => void })._refreshLangPairSelect?.();
   (window.renderLevelBadge as (() => void) | undefined)?.();
   (window.renderGameBar as (() => void) | undefined)?.();
   (window._refreshRangeOptions as (() => void) | undefined)?.();

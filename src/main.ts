@@ -53,3 +53,6 @@ await import('../lib/jszip.min.js');
 await import('../js/features/epub.ts');
 await import('../js/features/bug-report.ts');
 await import('../js/features/sidebar.ts');
+
+const { mountLangPairSelect } = await import('../js/features/lang-pair-select.tsx');
+mountLangPairSelect();

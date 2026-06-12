@@ -1,9 +1,11 @@
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   root: '.',
   publicDir: 'public',
   base: './',
+  plugins: [react()],
   build: {
     outDir: 'dist',
     target: 'esnext',
@@ -19,7 +21,7 @@ export default defineConfig({
     environment: 'happy-dom',
     globals: true,
     pool: 'vmThreads',
-    include: ['tests/**/*.test.ts'],
+    include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
