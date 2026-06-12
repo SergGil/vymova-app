@@ -79,7 +79,7 @@ interface PlayerData {
   name:string; avatar:string; score:number; idx:number; done:boolean;
   reaction?:string; reactionTs?:number; hintsLeft:number;
   powerups:Record<PowerupType,number>; frozenUntil?:number;
-  flags?:boolean[];
+  flags?:(boolean|'skip')[];
 }
 interface SeriesData { p1wins:number; p2wins:number; round:number; }
 interface SpectatorData { name:string; avatar:string; }
@@ -179,7 +179,7 @@ let _quizIdx   = 0;
 let _myScore   = 0;
 let _myCorrect = 0;
 let _myWrong   = 0;
-let _myFlags: boolean[] = [];
+let _myFlags: (boolean|'skip')[] = [];
 let _answered  = false;
 let _mode:     DuelMode   = 'quiz';
 let _tempoTimer: ReturnType<typeof setInterval> | null = null;
@@ -217,7 +217,7 @@ let _roomMaxHints = 3;
 const SESSION_KEY = 'ew_duel_sessions';
 const SESSION_KEY_OLD = 'ew_duel_session';
 let _chatHistory: {text:string;isMe:boolean}[] = [];
-interface DuelSession {roomId:string;slot:'p1'|'p2';mode:DuelMode;idx:number;score:number;correct?:number;wrong?:number;flags?:boolean[];chat?:{text:string;isMe:boolean}[];deckLen?:number;createdAt?:number;
+interface DuelSession {roomId:string;slot:'p1'|'p2';mode:DuelMode;idx:number;score:number;correct?:number;wrong?:number;flags?:(boolean|'skip')[];chat?:{text:string;isMe:boolean}[];deckLen?:number;createdAt?:number;
   seed?:number;category?:string;difficulty?:Difficulty;maxHints?:number;bestOf?:BestOf;
   powerupsEnabled?:boolean;myPowerups?:Record<PowerupType,number>;oppName?:string;oppAvatar?:string;}
 function _loadSessions(): DuelSession[] {
@@ -693,7 +693,7 @@ async function _usePowerup(type: PowerupType): Promise<void> {
     if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
     elFeedback().innerHTML=`<span style="color:var(--accent)">${t('duel.toast.skip')}</span>`;
     _extendDeckOnSkip();
-    _myFlags.push(false);
+    _myFlags.push('skip');
     _quizIdx++;
     _renderMyProgressBar();
     await _pushScore();
@@ -717,16 +717,16 @@ function _showMiniToast(msg:string): void {
 }
 
 // ── Animated dot progress bar (mine + opponent's) ────────────
-function _renderProgressBar(elId:string, idx:number, flags?:boolean[], fallbackColor='var(--accent2)'): void {
+function _renderProgressBar(elId:string, idx:number, flags?:(boolean|'skip')[], fallbackColor='var(--accent2)'): void {
   const el=$(elId) as HTMLElement|null; if(!el) return;
   el.innerHTML = Array.from({length:ROOM_SIZE},(_,i)=>{
     let bg='var(--border)';
-    if(flags && i<flags.length) bg=flags[i]?'#27ae60':'#e74c3c';
+    if(flags && i<flags.length) bg=flags[i]==='skip'?fallbackColor:(flags[i]?'#27ae60':'#e74c3c');
     else if(i<idx) bg=fallbackColor;
     return `<span style="width:10px;height:10px;border-radius:50%;display:inline-block;background:${bg};margin:1px;transition:background .3s;"></span>`;
   }).join('');
 }
-function _renderOppProgressBar(idx:number, flags?:boolean[]): void { _renderProgressBar('dm-opp-progress-bar', idx, flags, 'var(--accent2)'); }
+function _renderOppProgressBar(idx:number, flags?:(boolean|'skip')[]): void { _renderProgressBar('dm-opp-progress-bar', idx, flags, 'var(--accent2)'); }
 function _renderMyProgressBar(): void {
   _renderProgressBar('dm-my-progress-bar', _quizIdx, _myFlags, 'var(--accent)');
   elMyProg().textContent=`${_quizIdx}/${ROOM_SIZE}`;

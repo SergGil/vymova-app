@@ -50,11 +50,13 @@ function _showOnline(): void {
 }
 
 window.addEventListener('online', () => {
+  if (_online) return; // ignore spurious repeats — avoids retriggering/extending the banner forever
   _online = true;
   _showOnline();
 });
 
 window.addEventListener('offline', () => {
+  if (!_online) return;
   _online = false;
   _showOffline();
 });
