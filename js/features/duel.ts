@@ -232,8 +232,7 @@ let _roomMaxHints = 3;
 // ── Session persistence ───────────────────────────────────────
 const SESSION_KEY = 'ew_duel_sessions';
 const SESSION_KEY_OLD = 'ew_duel_session';
-let _chatHistory: {text:string;isMe:boolean}[] = [];
-export function _getChatHistory(): {text:string;isMe:boolean}[] { return _chatHistory; }
+export function _getChatHistory(): {text:string;isMe:boolean}[] { return state.duelChatHistory; }
 interface DuelSession {roomId:string;slot:'p1'|'p2';mode:DuelMode;idx:number;score:number;correct?:number;wrong?:number;flags?:(boolean|'skip'|'double')[];chat?:{text:string;isMe:boolean}[];deckLen?:number;createdAt?:number;
   seed?:number;category?:string;difficulty?:Difficulty;maxHints?:number;bestOf?:BestOf;
   powerupsEnabled?:boolean;myPowerups?:Record<PowerupType,number>;oppName?:string;oppAvatar?:string;}
@@ -257,7 +256,7 @@ function _saveSessions(list: DuelSession[]): void {
 function _saveSession(): void {
   if(!_roomId) return;
   const list=_loadSessions().filter(s=>s.roomId!==_roomId);
-  list.push({roomId:_roomId,slot:_mySlot,mode:_mode,idx:_quizIdx,score:_myScore,correct:_myCorrect,wrong:_myWrong,flags:_myFlags,chat:_chatHistory,deckLen:_quizDeck.length,createdAt:_roomCreatedAt,
+  list.push({roomId:_roomId,slot:_mySlot,mode:_mode,idx:_quizIdx,score:_myScore,correct:_myCorrect,wrong:_myWrong,flags:_myFlags,chat:state.duelChatHistory,deckLen:_quizDeck.length,createdAt:_roomCreatedAt,
     seed:_roomSeed,category:_roomCategory,difficulty:_roomDifficulty,maxHints:_roomMaxHints,bestOf:_bestOf,
     powerupsEnabled:_powerupsEnabled,myPowerups:{..._myPowerups},oppName:_oppName,oppAvatar:_oppAvatar});
   _saveSessions(list);
@@ -364,7 +363,7 @@ function _showLobby()    {
   const asyncBtn=$('duel-async-btn') as HTMLButtonElement|null; if(asyncBtn){ asyncBtn.disabled=false; asyncBtn.textContent=t('duel.sendChallenge'); }
 }
 function _showCountdown(){ elLobby().style.display='none'; elCountdown().style.display=''; elGame().style.display='none'; elResult().style.display='none'; elChatPanel().style.display='none'; }
-function _showGame(clearChat=true) { elLobby().style.display='none'; elCountdown().style.display='none'; elGame().style.display=''; elResult().style.display='none'; elChatPanel().style.display=''; if(clearChat){ _chatHistory=[]; refreshDuelChatLog(); _lastReactionTs=0; } }
+function _showGame(clearChat=true) { elLobby().style.display='none'; elCountdown().style.display='none'; elGame().style.display=''; elResult().style.display='none'; elChatPanel().style.display=''; if(clearChat){ state.duelChatHistory=[]; notifyStateChange(); refreshDuelChatLog(); _lastReactionTs=0; } }
 // Keep the chat panel visible/usable on the finish screen so players can keep chatting.
 function _showResult()   { elLobby().style.display='none'; elCountdown().style.display='none'; elGame().style.display='none'; elResult().style.display=''; elChatPanel().style.display=''; }
 
@@ -548,7 +547,7 @@ function _startWaitPoll(): void {
 function _initGame(mode:DuelMode,maxHints:number,bestOf:BestOf,series:SeriesData,powerupsEnabled=false): void {
   _mode=mode; _bestOf=bestOf; _series={...series};
   if(_advanceTimer){clearTimeout(_advanceTimer);_advanceTimer=null;}
-  _quizIdx=0; _myScore=0; _myCorrect=0; _myWrong=0; _myFlags=[]; _chatHistory=[]; _answered=false; _finished=false; _myDone=false;
+  _quizIdx=0; _myScore=0; _myCorrect=0; _myWrong=0; _myFlags=[]; state.duelChatHistory=[]; notifyStateChange(); _answered=false; _finished=false; _myDone=false;
   _hintsLeft = maxHints === 0 ? 999 : maxHints;
   _powerupsEnabled = powerupsEnabled;
   _myPowerups = powerupsEnabled ? {double:1,skip:1,freeze:1} : {double:0,skip:0,freeze:0};
@@ -680,7 +679,7 @@ function _startOpponentPoll(): void {
 // ── Reactions / chat ──────────────────────────────────────────
 let _lastReactionTs = 0;
 function _appendChatMsg(text:string, isMe:boolean, record=true): void {
-  if(record){ _chatHistory.push({text,isMe}); _saveSession(); }
+  if(record){ state.duelChatHistory.push({text,isMe}); notifyStateChange(); _saveSession(); }
   refreshDuelChatLog();
 }
 function _showReactionReceived(text:string, ts?:number): void {
@@ -1277,7 +1276,7 @@ export function _onResumeContinue(roomId:string): void {
   if(_advanceTimer){clearTimeout(_advanceTimer);_advanceTimer=null;}
   _quizIdx=savedIdx; _myScore=savedScore;
   _myCorrect=sess.correct??0; _myWrong=sess.wrong??0; _myFlags=sess.flags??[];
-  _chatHistory=sess.chat??[];
+  state.duelChatHistory=sess.chat??[]; notifyStateChange();
   _answered=false; _finished=false;
   _hintsLeft = maxHints===0 ? 999 : maxHints;
   _powerupsEnabled = sess.powerupsEnabled ?? !!room.powerupsEnabled;

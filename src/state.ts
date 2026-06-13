@@ -34,4 +34,5 @@ export const state: AppState = {
     powerupsEnabled: true,
   },
   duelResumeSessions: [],
+  duelChatHistory: [],
 };

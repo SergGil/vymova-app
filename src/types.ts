@@ -106,6 +106,7 @@ export interface AppState {
   _customWords:   Array<{ en: string; ua: string; ex_en?: string; ex_ua?: string }>;
   duelSel:        DuelSelState;
   duelResumeSessions: import('../js/features/duel.ts').ResumeSessionVM[];
+  duelChatHistory: { text: string; isMe: boolean }[];
 }
 
 // Дуель: вибір режиму/категорії/складності в лобі (item 36, Фаза 7.4-B,
