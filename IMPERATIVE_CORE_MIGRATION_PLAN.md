@@ -163,6 +163,17 @@
 
 ### Фаза 7.4-B — duel.ts: imperative → `AppState`/React (окремий під-проєкт)
 
+**Постійні Playwright e2e-тести**: замість одноразових `tmp_*.cjs`-скриптів
+для браузерних smoke-тестів додано `@playwright/test`
+(`playwright.config.ts`, `tests-e2e/`, `npm run test:e2e`). Конфіг сам
+піднімає `vite --port 5183` (`webServer`). `tests-e2e/helpers.ts` —
+`openApp()` відкриває апку й видаляє onboarding-оверлей. Перший набір —
+`tests-e2e/duel-lobby.spec.ts` (3 тести: лобі відкривається без помилок,
+вибір режиму/складності зберігається після reopen, перевірка
+resume-сесій не кидає помилок на порожньому списку) — покриває
+браузерну верифікацію під-фаз 1-2. Для кожної наступної під-фази додавати
+тести сюди ж.
+
 Розбито на 9 під-фаз за зростанням ризику (lobby selection → resume →
 chat → spectator → tournament → question/UI → room/game core → таймери
 (не переносяться) → DOM-show/hide екранів). Кожна під-фаза — окремий
