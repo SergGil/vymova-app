@@ -109,6 +109,25 @@ export interface AppState {
   duelChatHistory: { text: string; isMe: boolean }[];
   duelSpecRoom: import('../js/features/duel.ts').RoomData | null;
   duelTournView: import('../js/features/duel.ts').TournamentData | null;
+  duelQuestion: DuelQuestionState;
+}
+
+// Дуель: стан поточного питання/відповіді/фідбеку (item 36, Фаза 7.4-B,
+// під-фаза 6) — джерело правди для `duel-question.tsx`/`duel-feedback.tsx`.
+export interface DuelQuestionState {
+  feedbackHtml:     string;
+  speedText:        string;
+  qPrimary:         string;
+  qSecondary:       string;
+  qTertiary:        string;
+  choiceOptions:    string[];
+  choiceAnswer:     string;
+  chosenOption:     string | null;
+  hintNote:         string | null;
+  writeInputValue:  string;
+  inputBorderColor: string;
+  waitingFinish:    boolean;
+  showNextBtn:      boolean;
 }
 
 // Дуель: вибір режиму/категорії/складності в лобі (item 36, Фаза 7.4-B,

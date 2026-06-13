@@ -205,21 +205,7 @@ let _oppScore  = 0;
 let _oppIdx    = 0;
 let _oppFlags: (boolean|'skip'|'double')[] = [];
 // Feedback / speed indicator under the question (item 32, Фаза 5)
-let _feedbackHtml = '';
-let _speedText    = '';
-export function _getFeedbackData(): { html:string; speed:string } { return { html:_feedbackHtml, speed:_speedText }; }
-// Question/answer/timer core (item 32, Фаза 5) — стан для duel-question.tsx
-let _qPrimary = '';
-let _qSecondary = '';
-let _qTertiary = '';
-let _choiceOptions: string[] = [];
-let _choiceAnswer = '';
-let _chosenOption: string|null = null;
-let _hintNote: string|null = null;
-let _writeInputValue = '';
-let _inputBorderColor = '';
-let _waitingFinish = false;
-let _showNextBtn = false;
+export function _getFeedbackData(): { html:string; speed:string } { return { html:state.duelQuestion.feedbackHtml, speed:state.duelQuestion.speedText }; }
 let _roomCreatedAt = 0;
 // Room/deck params kept for session persistence & resume (esp. async duels,
 // whose /duel_rooms/ doc may only contain partial data pushed by _pushScore)
@@ -606,7 +592,7 @@ async function _usePowerup(type: PowerupType): Promise<void> {
     // Skip current question without penalty
     _answered = true;
     if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
-    _feedbackHtml=`<span style="color:var(--accent)">${t('duel.toast.skip')}</span>`; refreshDuelFeedback();
+    state.duelQuestion.feedbackHtml=`<span style="color:var(--accent)">${t('duel.toast.skip')}</span>`; notifyStateChange(); refreshDuelFeedback();
     _extendDeckOnSkip();
     _myFlags.push('skip');
     _quizIdx++;
@@ -656,10 +642,10 @@ function _startOpponentPoll(): void {
       if(freezeUntil && freezeUntil > Date.now() && !_answered && _mode==='tempo'){
         if(!_freezeTimer){
           const remaining = Math.ceil((freezeUntil-Date.now())/1000);
-          _feedbackHtml=`<span style="color:#5dade2">${t('duel.frozen')} ${remaining}${_secUnit()}!</span>`; refreshDuelFeedback();
+          state.duelQuestion.feedbackHtml=`<span style="color:#5dade2">${t('duel.frozen')} ${remaining}${_secUnit()}!</span>`; notifyStateChange(); refreshDuelFeedback();
           if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
           _freezeTimer=setTimeout(()=>{
-            _freezeTimer=null; _feedbackHtml=''; refreshDuelFeedback();
+            _freezeTimer=null; state.duelQuestion.feedbackHtml=''; notifyStateChange(); refreshDuelFeedback();
             _startTempoTimer(_quizDeck[_quizIdx]);
           },freezeUntil-Date.now());
         }
@@ -717,14 +703,15 @@ function _renderQuestion(): void {
   if(_quizIdx>=_quizDeck.length){_finishMyGame();return;}
   const w=_quizDeck[_quizIdx];
   _answered=false; _answerStartMs=Date.now();
-  _feedbackHtml=''; _speedText=''; refreshDuelFeedback();
+  state.duelQuestion.feedbackHtml=''; state.duelQuestion.speedText=''; notifyStateChange(); refreshDuelFeedback();
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
-  _chosenOption=null; _hintNote=null; _writeInputValue=''; _inputBorderColor=''; _showNextBtn=false; _waitingFinish=false;
+  state.duelQuestion.chosenOption=null; state.duelQuestion.hintNote=null; state.duelQuestion.writeInputValue=''; state.duelQuestion.inputBorderColor=''; state.duelQuestion.showNextBtn=false; state.duelQuestion.waitingFinish=false;
   if(_mode==='write') _renderWriteQ(w);
   else if(_mode==='anagram') _renderAnagramQ(w);
   else if(_mode==='letters') _renderLettersQ(w);
   else _renderChoiceQ(w);
   _renderPowerups();
+  notifyStateChange();
   refreshDuelQuestion();
   if(_mode==='tempo') _startTempoTimer(w);
 }
@@ -732,27 +719,27 @@ function _renderQuestion(): void {
 function _renderChoiceQ(w:WordEntry): void {
   const isRev=_mode==='reverse';
   const q=isRev?w[1]:w[0], ans=isRev?w[0]:w[1];
-  _qPrimary=q; _qSecondary=''; _qTertiary='';
+  state.duelQuestion.qPrimary=q; state.duelQuestion.qSecondary=''; state.duelQuestion.qTertiary='';
   const wrongs:string[]=[]; const used=new Set([w[0].toLowerCase()]);
   const pool=_shuf(W.slice() as unknown as WordEntry[]);
   for(const pw of pool){if(wrongs.length>=NUM_OPTS-1)break;if(used.has(pw[0].toLowerCase()))continue;used.add(pw[0].toLowerCase());wrongs.push(isRev?pw[0]:pw[1]);}
-  _choiceOptions=_shuf([ans,...wrongs]);
-  _choiceAnswer=ans;
+  state.duelQuestion.choiceOptions=_shuf([ans,...wrongs]);
+  state.duelQuestion.choiceAnswer=ans;
 }
 
 function _renderWriteQ(w:WordEntry): void {
-  _qPrimary=w[1]; _qSecondary=t('duel.writeHint'); _qTertiary='';
-  _choiceOptions=[]; _choiceAnswer='';
+  state.duelQuestion.qPrimary=w[1]; state.duelQuestion.qSecondary=t('duel.writeHint'); state.duelQuestion.qTertiary='';
+  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer='';
 }
 
 function _renderAnagramQ(w:WordEntry): void {
-  _qPrimary=_shuffleLetters(w[0]); _qSecondary=w[1]; _qTertiary=t('duel.anagramHint');
-  _choiceOptions=[]; _choiceAnswer='';
+  state.duelQuestion.qPrimary=_shuffleLetters(w[0]); state.duelQuestion.qSecondary=w[1]; state.duelQuestion.qTertiary=t('duel.anagramHint');
+  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer='';
 }
 
 function _renderLettersQ(w:WordEntry): void {
-  _qPrimary=_shuffleLetters(w[0]); _qSecondary=t('duel.lettersHint'); _qTertiary='';
-  _choiceOptions=[]; _choiceAnswer='';
+  state.duelQuestion.qPrimary=_shuffleLetters(w[0]); state.duelQuestion.qSecondary=t('duel.lettersHint'); state.duelQuestion.qTertiary='';
+  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer='';
 }
 
 function _startTempoTimer(w:WordEntry): void {
@@ -768,7 +755,7 @@ function _startTempoTimer(w:WordEntry): void {
       clearInterval(_tempoTimer!); _tempoTimer=null;
       if(!_answered){
         _answered=true;
-        _feedbackHtml=`<span style="color:#e74c3c">${t('duel.timeout')}</span>`; refreshDuelFeedback();
+        state.duelQuestion.feedbackHtml=`<span style="color:#e74c3c">${t('duel.timeout')}</span>`; notifyStateChange(); refreshDuelFeedback();
         _myWrong++; _myFlags.push(false);
         _quizIdx++; _renderMyProgressBar(); _pushScore();
         refreshDuelQuestion();
@@ -783,10 +770,10 @@ function _startTempoTimer(w:WordEntry): void {
 export async function _onOptionClick(chosen:string):Promise<void>{
   if(_answered) return;
   _answered=true;
-  _chosenOption=chosen;
+  state.duelQuestion.chosenOption=chosen;
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
   const ms=Date.now()-_answerStartMs;
-  const correct=_choiceAnswer;
+  const correct=state.duelQuestion.choiceAnswer;
   const ok=chosen===correct;
   let feedbackHtml = '';
   if(ok){
@@ -801,8 +788,9 @@ export async function _onOptionClick(chosen:string):Promise<void>{
     _myFlags.push(false);
     feedbackHtml=`<span style="color:#e74c3c">✗ ${correct}</span>`;
   }
-  _feedbackHtml=feedbackHtml;
-  _speedText=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
+  state.duelQuestion.feedbackHtml=feedbackHtml;
+  state.duelQuestion.speedText=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
+  notifyStateChange();
   refreshDuelFeedback();
   _renderPowerups();
   refreshDuelQuestion();
@@ -811,16 +799,16 @@ export async function _onOptionClick(chosen:string):Promise<void>{
   _advanceTimer=setTimeout(()=>{ _advanceTimer=null; if(_quizIdx<_quizDeck.length)_renderQuestion();else _finishMyGame();},ok?600:1200);
 }
 
-export function _onInputChange(val:string): void { _writeInputValue=val; }
+export function _onInputChange(val:string): void { state.duelQuestion.writeInputValue=val; notifyStateChange(); }
 
 export function _submitWrite(): void {
   if(_answered) return;
   const w=_quizDeck[_quizIdx];
-  const val=_writeInputValue.trim().toLowerCase(), ans=w[0].toLowerCase();
+  const val=state.duelQuestion.writeInputValue.trim().toLowerCase(), ans=w[0].toLowerCase();
   const ok = _checkWriteAnswer(_mode, val, ans);
   const ms=Date.now()-_answerStartMs;
   _answered=true;
-  _inputBorderColor=ok?'#27ae60':'#e74c3c';
+  state.duelQuestion.inputBorderColor=ok?'#27ae60':'#e74c3c';
   let feedbackHtml='';
   if(ok){
     const wasDouble=_doubleActive;
@@ -833,17 +821,19 @@ export function _submitWrite(): void {
     _myFlags.push(false);
     feedbackHtml=`<span style="color:#e74c3c">✗ ${w[0]}</span>`;
   }
-  _feedbackHtml=feedbackHtml;
-  _speedText=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
+  state.duelQuestion.feedbackHtml=feedbackHtml;
+  state.duelQuestion.speedText=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
+  state.duelQuestion.showNextBtn=true;
+  notifyStateChange();
   refreshDuelFeedback();
   _renderPowerups();
-  _showNextBtn=true;
   refreshDuelQuestion();
   _quizIdx++; _renderMyProgressBar(); _pushScore();
 }
 
 export function _onNextClick(): void {
-  _showNextBtn=false;
+  state.duelQuestion.showNextBtn=false;
+  notifyStateChange();
   if(_quizIdx<_quizDeck.length) _renderQuestion(); else _finishMyGame();
 }
 
@@ -852,7 +842,8 @@ export function _useHint(): void {
   const w=_quizDeck[_quizIdx]; if(!w) return;
   if(_hintsLeft<999) _hintsLeft--;
   const h=w[0];
-  _hintNote=`💡 ${h.slice(0,Math.ceil(h.length/3))}...`;
+  state.duelQuestion.hintNote=`💡 ${h.slice(0,Math.ceil(h.length/3))}...`;
+  notifyStateChange();
   refreshDuelQuestion();
 }
 
@@ -883,29 +874,29 @@ export function _getQuestionData(): QuestionData {
   return {
     mode:_mode,
     quizIdx:_quizIdx,
-    waiting:_waitingFinish,
+    waiting:state.duelQuestion.waitingFinish,
     myCorrect:_myCorrect,
     myWrong:_myWrong,
-    qPrimary:_qPrimary,
-    qSecondary:_qSecondary,
-    qTertiary:_qTertiary,
-    hintNote:_hintNote,
-    options:_choiceOptions.map((opt,i)=>{
+    qPrimary:state.duelQuestion.qPrimary,
+    qSecondary:state.duelQuestion.qSecondary,
+    qTertiary:state.duelQuestion.qTertiary,
+    hintNote:state.duelQuestion.hintNote,
+    options:state.duelQuestion.choiceOptions.map((opt,i)=>{
       let cls='quiz-option';
       if(_answered){
-        if(opt===_chosenOption) cls += (_chosenOption===_choiceAnswer?' correct':' wrong');
-        else if(_chosenOption!==_choiceAnswer && opt===_choiceAnswer) cls+=' reveal';
+        if(opt===state.duelQuestion.chosenOption) cls += (state.duelQuestion.chosenOption===state.duelQuestion.choiceAnswer?' correct':' wrong');
+        else if(state.duelQuestion.chosenOption!==state.duelQuestion.choiceAnswer && opt===state.duelQuestion.choiceAnswer) cls+=' reveal';
       }
       return {text:opt,num:i+1,cls};
     }),
     answered:_answered,
-    showOptions: !isInput && !_waitingFinish,
-    showInputRow: isInput && !_waitingFinish,
-    inputBorderColor:_inputBorderColor,
+    showOptions: !isInput && !state.duelQuestion.waitingFinish,
+    showInputRow: isInput && !state.duelQuestion.waitingFinish,
+    inputBorderColor:state.duelQuestion.inputBorderColor,
     showHintBtn:_mode==='write',
     hintBtnText:_hintsLeft>=999?t('duel.hint.btn'):`💡 ×${_hintsLeft}`,
     hintBtnDisabled:_hintsLeft<=0,
-    showNextBtn:_showNextBtn,
+    showNextBtn:state.duelQuestion.showNextBtn,
   };
 }
 
@@ -925,8 +916,10 @@ async function _finishMyGame():Promise<void>{
       clearInterval(_pollTimer!); _pollTimer=null;
       _showFinish({...room,[_mySlot]:{...room[_mySlot],score:_myScore,done:true}} as RoomData);
     } else {
-      _waitingFinish=true;
-      _feedbackHtml=t('duel.waiting'); refreshDuelFeedback();
+      state.duelQuestion.waitingFinish=true;
+      state.duelQuestion.feedbackHtml=t('duel.waiting');
+      notifyStateChange();
+      refreshDuelFeedback();
       refreshDuelQuestion();
     }
   }catch(e){console.warn('[duel]',e);}
@@ -1685,7 +1678,7 @@ document.addEventListener('keydown',(e:KeyboardEvent)=>{
   const game=$('duel-game'); if(!game||game.style.display==='none') return;
   if(_mode!=='write'&&!_answered&&['1','2','3','4'].includes(e.key)){
     e.preventDefault();
-    const opt=_choiceOptions[parseInt(e.key)-1];
+    const opt=state.duelQuestion.choiceOptions[parseInt(e.key)-1];
     if(opt) _onOptionClick(opt);
   }
 });
