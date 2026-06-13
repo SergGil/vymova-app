@@ -1,6 +1,5 @@
 // English Words App — js/features/idioms-page.tsx
 // Idioms reference page: EN/UA/ES tabs, search, speak buttons
-import { createRoot } from 'react-dom/client';
 import { useEffect, useState, type ReactElement, type MouseEventHandler } from 'react';
 import { ENGLISH_IDIOMS, UKRAINIAN_IDIOMS, SPANISH_IDIOMS, type Idiom } from '../../data/idioms.ts';
 import { t } from './i18n.ts';
@@ -101,27 +100,23 @@ export function openIdioms(): void {
 window.openIdiomsContent = openIdiomsContent;
 window.openIdioms = openIdioms;
 
-export function mountIdiomsPage(): void {
-  const el = document.getElementById('idioms-page-mount');
-  if (!el) return;
+export function IdiomsPageRoot(): ReactElement {
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    _bumpTick = () => setTick(x => x + 1);
+    return () => { _bumpTick = null; };
+  }, []);
+  return <IdiomsPage />;
+}
 
-  function Root(): ReactElement {
-    const [, setTick] = useState(0);
-    useEffect(() => {
-      _bumpTick = () => setTick(x => x + 1);
-      return () => { _bumpTick = null; };
-    }, []);
-    return <IdiomsPage />;
-  }
-
-  createRoot(el).render(<Root />);
-
+{
   const overlay = document.getElementById('idioms-overlay') as HTMLElement | null;
-  if (!overlay) return;
-  const closeIdioms = (): void => { (window.closePage as (() => void) | undefined)?.(); };
-  document.getElementById('idioms-close')?.addEventListener('click', closeIdioms);
-  overlay.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeIdioms(); });
-  document.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && overlay.classList.contains('open')) closeIdioms();
-  });
+  if (overlay) {
+    const closeIdioms = (): void => { (window.closePage as (() => void) | undefined)?.(); };
+    document.getElementById('idioms-close')?.addEventListener('click', closeIdioms);
+    overlay.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeIdioms(); });
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeIdioms();
+    });
+  }
 }

@@ -1,7 +1,6 @@
 // English Words App — js/features/onboarding.tsx
 // First-launch onboarding for new profiles
-import { createRoot } from 'react-dom/client';
-import { useState, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { W } from '../../data/words.js';
 
@@ -160,20 +159,24 @@ function Onboarding({ onClose }: { onClose: () => void }): ReactElement {
   );
 }
 
-export function mountOnboarding(): void {
-  if (localStorage.getItem(FLAG_KEY) !== '1') return;
+export function OnboardingPage(): ReactElement | null {
+  const [show, setShow] = useState(false);
 
-  function show(): void {
-    localStorage.removeItem(FLAG_KEY);
-    const el = document.getElementById('onboarding-mount');
-    if (!el) return;
-    const root = createRoot(el);
-    root.render(<Onboarding onClose={() => root.unmount()} />);
-  }
+  useEffect(() => {
+    if (localStorage.getItem(FLAG_KEY) !== '1') return;
+    function reveal(): void {
+      localStorage.removeItem(FLAG_KEY);
+      setShow(true);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', reveal);
+      return () => document.removeEventListener('DOMContentLoaded', reveal);
+    } else {
+      const id = setTimeout(reveal, 300);
+      return () => clearTimeout(id);
+    }
+  }, []);
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', show);
-  } else {
-    setTimeout(show, 300);
-  }
+  if (!show) return null;
+  return <Onboarding onClose={() => setShow(false)} />;
 }

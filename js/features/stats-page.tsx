@@ -1,7 +1,6 @@
 // English Words App — js/features/stats-page.tsx
 // Statistics overlay: progress, daily chart, heatmap, calendar, SRS forecast,
 // mode accuracy, CEFR progress, leaderboard.
-import { createRoot } from 'react-dom/client';
 import { useEffect, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { getDailyStats, getGameData, getModeStats, getModeAccuracy } from './game.ts';
@@ -226,7 +225,7 @@ export function closeStats(): void {
   if (overlay) overlay.style.display = 'none';
 }
 
-function StatsPage(): ReactElement {
+export function StatsPage(): ReactElement {
   const [chartDays, setChartDays] = useState(14);
   const [calYear, setCalYear] = useState(() => new Date().getFullYear());
   const [calMonth, setCalMonth] = useState(() => new Date().getMonth());
@@ -459,10 +458,4 @@ function StatsPage(): ReactElement {
       </div>
     </div>
   );
-}
-
-export function mountStatsPage(): void {
-  const el = document.getElementById('stats-overlay');
-  if (!el) return;
-  createRoot(el).render(<StatsPage />);
 }

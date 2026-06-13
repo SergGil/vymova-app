@@ -1,10 +1,10 @@
 // English Words App — js/features/achievements-page.tsx
 // Achievements page: levels roadmap, achievements grid, achievement detail popup.
 // Re-rendered on demand via window.renderAchievements/renderLevelsRoadmap.
-import { createRoot, type Root } from 'react-dom/client';
 import { createPortal } from 'react-dom';
 import { useEffect, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
+import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
 import { getGameData, getModeStats, loadUnlocked, LEVELS } from './game.ts';
 import { t, achName, achHint, achCatName, levelName, wordsLabel } from './i18n.ts';
@@ -138,7 +138,8 @@ function AchievementPopup({ ach, onClose }: { ach: Achievement | null; onClose: 
   );
 }
 
-function AchievementsPage(): ReactElement {
+export function AchievementsPage(): ReactElement {
+  useStateVersion();
   const [selected, setSelected] = useState<Achievement | null>(null);
   return (
     <>
@@ -149,16 +150,6 @@ function AchievementsPage(): ReactElement {
   );
 }
 
-let _root: Root | null = null;
-
-export function mountAchievementsPage(): void {
-  const el = document.getElementById('achievements-grid');
-  if (!el) return;
-  _root = createRoot(el);
-  _root.render(<AchievementsPage />);
-}
-
 export function refreshAchievementsPage(): void {
-  if (!_root) return;
-  _root.render(<AchievementsPage />);
+  notifyStateChange();
 }

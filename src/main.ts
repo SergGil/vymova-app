@@ -22,9 +22,6 @@ await import('../js/features/export.ts');
 await import('../js/features/notifications.ts');
 await import('../js/features/duel.ts');
 
-const { mountStatsPage } = await import('../js/features/stats-page.tsx');
-mountStatsPage();
-
 await import('../js/features/settings.ts');
 await import('../js/features/cloud-sync.ts');
 await import('../js/features/quick-quiz.ts');
@@ -37,18 +34,6 @@ await import('../lib/jszip.min.js');
 await import('../js/features/epub.ts');
 await import('../js/features/bug-report.ts');
 await import('../js/features/sidebar.ts');
-
-const { mountAchievementsPage } = await import('../js/features/achievements-page.tsx');
-mountAchievementsPage();
-
-const { mountOnboarding } = await import('../js/features/onboarding.tsx');
-mountOnboarding();
-
-const { mountGrammarPage } = await import('../js/features/grammar-page.tsx');
-mountGrammarPage();
-
-const { mountIdiomsPage } = await import('../js/features/idioms-page.tsx');
-mountIdiomsPage();
 
 const { mountDuelLeaderboard } = await import('../js/features/duel-leaderboard.tsx');
 mountDuelLeaderboard();

@@ -1,6 +1,5 @@
 // English Words App — js/features/grammar-page.tsx
 // Grammar reference page: renders structured rules from data/grammar.ts
-import { createRoot } from 'react-dom/client';
 import { useEffect, useState, type ReactElement } from 'react';
 import { GRAMMAR } from '../../data/grammar.ts';
 import type { GrammarRule, GSection } from '../../data/grammar.ts';
@@ -113,7 +112,7 @@ window.openGrammarContent = openGrammarContent;
 window.openGrammar = openGrammar;
 window.jumpToGrammarRule = jumpToGrammarRule;
 
-function GrammarPage(): ReactElement {
+export function GrammarPage(): ReactElement {
   const [activeId, setActiveId] = useState('');
   const [, setTick] = useState(0);
 
@@ -169,17 +168,14 @@ function GrammarPage(): ReactElement {
   );
 }
 
-export function mountGrammarPage(): void {
-  const el = document.getElementById('grammar-layout-mount');
-  if (!el) return;
-  createRoot(el).render(<GrammarPage />);
-
+{
   const overlay = document.getElementById('grammar-overlay') as HTMLElement | null;
-  if (!overlay) return;
-  const closeGrammar = (): void => { (window.closePage as (() => void) | undefined)?.(); };
-  document.getElementById('grammar-close')?.addEventListener('click', closeGrammar);
-  overlay.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeGrammar(); });
-  document.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && overlay.classList.contains('open')) closeGrammar();
-  });
+  if (overlay) {
+    const closeGrammar = (): void => { (window.closePage as (() => void) | undefined)?.(); };
+    document.getElementById('grammar-close')?.addEventListener('click', closeGrammar);
+    overlay.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeGrammar(); });
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeGrammar();
+    });
+  }
 }

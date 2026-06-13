@@ -34,6 +34,11 @@ import { CatPairsPage } from '../js/modes/catpairs.tsx';
 import { QuizPage } from '../js/modes/quiz.tsx';
 import { ScramblePage } from '../js/modes/scramble.tsx';
 import { WordLettersPage } from '../js/modes/word-letters.tsx';
+import { StatsPage } from '../js/features/stats-page.tsx';
+import { AchievementsPage } from '../js/features/achievements-page.tsx';
+import { GrammarPage } from '../js/features/grammar-page.tsx';
+import { IdiomsPageRoot } from '../js/features/idioms-page.tsx';
+import { OnboardingPage } from '../js/features/onboarding.tsx';
 
 function Portal({ id, children }: { id: string; children: ReactNode }): ReactElement | null {
   const el = document.getElementById(id);
@@ -80,6 +85,11 @@ function AppRoot(): ReactElement {
     <Portal id="quiz-page-mount"><QuizPage/></Portal>
     <Portal id="scr-page-mount"><ScramblePage/></Portal>
     <Portal id="wl-page-mount"><WordLettersPage/></Portal>
+    <Portal id="stats-overlay"><StatsPage/></Portal>
+    <Portal id="achievements-grid"><AchievementsPage/></Portal>
+    <Portal id="grammar-layout-mount"><GrammarPage/></Portal>
+    <Portal id="idioms-page-mount"><IdiomsPageRoot/></Portal>
+    <Portal id="onboarding-mount"><OnboardingPage/></Portal>
   </>;
 }
 
