@@ -17,6 +17,23 @@ export function getMode(): string {
   return m || 'en';
 }
 
+// FRONT_LANG залежить лише від обраного режиму (не від конкретного слова) —
+// чисто обчислюється з `mode`, тому винесено окремо для CardMeta (item 28a).
+export function getFrontLang(mode: string): 'EN' | 'UA' | 'ES' | 'FR' {
+  switch (mode) {
+    case 'ua':    return 'UA';
+    case 'es-en': return 'ES';
+    case 'es-ua': return 'ES';
+    case 'ua-es': return 'UA';
+    case 'fr-en': return 'FR';
+    case 'fr-ua': return 'FR';
+    case 'ua-fr': return 'UA';
+    case 'es-fr': return 'ES';
+    case 'fr-es': return 'FR';
+    default:      return 'EN'; // 'en', 'en-es', 'en-fr'
+  }
+}
+
 export function esEntry(word: string): readonly [string, string] | null {
   return (W_ES as unknown as Record<string, readonly [string, string]>)[word] ?? null;
 }

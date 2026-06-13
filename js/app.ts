@@ -3,7 +3,6 @@ import type { WordEntry } from '../src/types.js';
 import { _lzLoad, loadKnownEs, loadKnownFr } from './core/storage.ts';
 import { W }                                       from '../data/words.js';
 import { getIllus }                                from '../data/illustrations.js';
-import { getCategoriesForWord }                    from '../data/categories.js';
 import { loadWikiImage, _imgCache, _idb }          from './core/images.ts';
 import { state }                                   from '../src/state.ts';
 import { notifyStateChange }                       from '../src/store.ts';
@@ -15,9 +14,8 @@ import { getGameData, saveGameData, recordDailyWord,
 import { isBookmarked }                            from './features/bookmarks.ts';
 import { getNoteForWord, hasNote }                 from './features/notes.ts';
 import { decodeIpa }                               from './core/ui-helpers.ts';
-import { getCefrLevel }                            from '../data/cefr.ts';
 import { ACHIEVEMENTS }                            from '../data/achievements.ts';
-import { t, tLang, categoryName, type Lang }       from './features/i18n.ts';
+import { t, tLang, type Lang }                     from './features/i18n.ts';
 import { renderGameBar }                           from './features/render-game-bar.ts';
 import { refreshGameBarLevel as renderLevelBadge } from './features/game-bar-level.tsx';
 import { checkAchievements }                       from './features/render-achievements.ts';
@@ -98,7 +96,7 @@ function $e(id: string): HTMLElement { return $el[id] as HTMLElement; }
 
 // Кеш DOM-елементів: уникаємо getElementById на кожен render()
 const $el: Record<string, HTMLElement | null> = {};
-['wnum','wlang','wword','wtrans','wtransl','exen','exua','cidx','cknown',
+['wword','wtrans','wtransl','exen','exua','cidx','cknown',
  'pbar','illus','card','srs-next',
  'cb-similar','cb-families','cb-collocations'].forEach(function(id: string) {
   $el[id] = document.getElementById(id);
@@ -266,24 +264,7 @@ function render() {
       case 'fr-es': FRONT_LANG = 'FR'; frontWord = _frWord; backWord = _esWord; break;
       default:      FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = cw[1];
     }
-    const _realIdx = _wordIdx.has(cw[0]) ? _wordIdx.get(cw[0]) : -1;
-    $e('wnum').textContent = '#' + (_realIdx >= 0 ? _realIdx + 1 : idx % deck.length + 1);
-    $e('wlang').textContent = FRONT_LANG;
     $e('wword').textContent = frontWord;
-    const cefrEl = document.getElementById('wcefr') as HTMLElement | null;
-    if (cefrEl) {
-      const level = getCefrLevel(cw[0]);
-      cefrEl.textContent = level;
-      cefrEl.className = 'cefr-badge cefr-' + level;
-      cefrEl.style.display = '';
-    }
-    const catEl = document.getElementById('wcategory') as HTMLElement | null;
-    if (catEl) {
-      const cats = getCategoriesForWord(cw[0]);
-      catEl.textContent = cats[0] ? categoryName(cats[0]) : '';
-      catEl.title = cats.map(categoryName).join(', ');
-      catEl.style.display = cats[0] ? '' : 'none';
-    }
     const tr = $e('wtrans');
     const _enEx  = cw[2] || '';
     const _uaEx  = cw[3] || '';

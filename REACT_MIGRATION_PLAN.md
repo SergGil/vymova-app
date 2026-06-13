@@ -170,7 +170,26 @@
     Той самий принцип, що й для `settings.ts` (Фаза 2, item 6) — лишається
     як є; обробники переїдуть у `<Card />` разом з відповідними кнопками
     в item 28.
-28. `app.ts` `render()` → головний `<Card />` компонент
+28. `app.ts` `render()` → головний `<Card />` компонент. Найризикованіший
+    крок — ділимо на під-кроки (кожен зі своїм tsc+vitest+commit+push):
+    - 28a. [x] `#card-meta` (бейджі `#wnum`/`#wlang`/`#wcefr`/`#wcategory`/
+      known-badge+`#btn-unmark`) → `CardMeta` компонент (`card-meta.tsx`,
+      `#card-meta-mount`). `getFrontLang(mode)` винесено в `mode-utils.ts`
+      як чисту функцію (FRONT_LANG залежить лише від режиму, не від слова).
+      `render()` більше не пише в `#wnum`/`#wlang`/`#wcefr`/`#wcategory`
+      (відповідні рядки й кеш `$el` прибрано). `#btn-unmark` і раніше не мав
+      обробника — залишився декоративною кнопкою, лише `stopPropagation`.
+    - 28b. Текстовий вміст лицьової сторони (`#wword`/`#wtrans`/`#wpos`/
+      `#srs-next`/`#wtransl`/`#exen`/`#exua`) → компонент, що читає
+      обчислення FRONT_LANG/frontWord/backWord.
+    - 28c. Зворотній бік картки (`#cb-transl`/`#cb-ipa`/`#cb-ex`/`#cb-exua`).
+    - 28d. `#illus` (зображення) — ймовірно лишається імперативним
+      (складне кешування через IndexedDB/мережу), документується окремо.
+    - 28e. Кнопки дій (`actions-bar`, know/dontknow, quick-quiz,
+      `#cidx`/`#cknown`/`#pbar`, `.is-known`) — обробники з `card-actions.ts`
+      переїжджають у JSX `onClick`.
+    - 28f. Прибирання решток `render()`/`card-actions.ts`, фінальні
+      `window.*`-експорти.
 
 ## Фаза 5 — Дуель (1862 рядків, найскладніше)
 Realtime Firebase-синхронізація, багато режимів дуелі, асинхронні челенджі,
