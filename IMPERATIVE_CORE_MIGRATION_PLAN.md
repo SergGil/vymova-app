@@ -122,15 +122,30 @@
   оверлею клавіатурних скорочень переведено на `bindOverlayOpenClose`
   (item 35 helper) замість ручного `addEventListener`. `swipe.ts` вже
   ізольований і не використовує `window.*` — без змін.
-- **Залишок (card-actions.ts) — не зроблено**: 30+ звернень до `win.cw`/
-  `win.deck`/`win.idx`/`win.flipped`/`win.setIdx`/`win.setDeck`/
-  `win.setCw`/`win.render`/`win.animCard` — справжнє "ядро картки".
-  Перенесення цього стейту в `src/state.ts` зачіпає одночасно `app.ts`
-  (джерело істини зараз) і всі читачі — це окремий **великий і
-  ризикований** під-проєкт, що вимагає власного детального плану (мапа всіх
-  читачів/писачів `deck`/`idx`/`flipped`/`cw`, послідовність конверсії,
-  стратегія сумісності під час переходу). Не виконувався в межах цього
-  проходу.
+- **[x] card-actions.ts — читання `cw`/`deck`/`idx`/`flipped`/`TODAY`**:
+  `app.ts` вже синхронізує ці значення у `state` на кожній мутації
+  (`_setDeck`/`_setIdx`/`_setCw`, `window.flipped`-сеттер, `render()`),
+  тож усі ~14 read-сайтів `win.cw`/`win.deck`/`win.idx`/`win.flipped`/
+  `win.TODAY` у `card-actions.ts` замінено на прямі читання `state.cw`/
+  `state.deck`/`state.idx`/`state.flipped`/`state.TODAY` — без жодної
+  зміни поведінки (значення завжди ідентичні). Запис прапорця flip
+  (`win.flipped = true`) переведено на існуючий сеттер `win.setFlipped()`
+  (вже був у `app.ts`, просто не використовувався). Тип `win` звужено до
+  лише setter/action-функцій (`setIdx`/`setDeck`/`setFlipped`/`setSrsData`/
+  `render`/`animCard`/`stopAuto`/`startAuto`/`isAutoRunning`/
+  `onWordLearned`/`updateRing`/`knownEs`/`knownFr`). Тест
+  `card-actions.test.ts` оновлено: мокає `state.cw`/`state.deck`/
+  `state.idx`/`state.flipped` замість `win.*`. 529/529 тестів, tsc чистий.
+- **Залишок (card-actions.ts) — не зроблено**: записи через `win.setIdx`/
+  `win.setDeck`/`win.setFlipped`/`win.setSrsData`/`win.render`/
+  `win.animCard`/`win.stopAuto`/`win.startAuto`/`win.isAutoRunning`/
+  `win.onWordLearned`/`win.updateRing`/`win.knownEs`/`win.knownFr` —
+  справжнє "ядро картки" (мутації `deck`/`idx`/`flipped`/`cw`,
+  auto-play timer, рендер-цикл). Перенесення володіння цим станом у
+  `src/state.ts` (замість дзеркалювання з `app.ts`) зачіпає одночасно
+  `app.ts` і всі читачі/писачі — окремий **великий і ризикований**
+  під-проєкт, що вимагає власного детального плану. Не виконувався в межах
+  цього проходу.
 
 ### Фаза 7.4 — duel.ts (1763 рядки)
 - Найбільший файл, Firebase realtime polling + game loop. React-компоненти

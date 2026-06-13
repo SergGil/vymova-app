@@ -20,18 +20,16 @@ import { renderGameBar } from './render-game-bar.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
 import type { WordEntry } from '../../src/types.js';
 
-// Typed view of the globals exposed by app.ts (deck/idx/cw live-getters,
-// helper functions, etc.) — avoids scattering `(window as any)` casts below.
+// Typed view of the globals exposed by app.ts (setter/action functions —
+// avoids scattering `(window as any)` casts below). Read-only values
+// (cw/deck/idx/flipped/TODAY) are mirrored into state by app.ts on every
+// mutation, so they're read directly from `state` instead.
 const win = window as unknown as {
-  cw: WordEntry | null;
-  flipped: boolean;
-  deck: WordEntry[];
-  idx: number;
   knownEs: Set<string> | undefined;
   knownFr: Set<string> | undefined;
-  TODAY: string;
   setIdx(i: number): void;
   setDeck(d: WordEntry[]): void;
+  setFlipped(v: boolean): void;
   setSrsData(d: Record<string, unknown>): void;
   render?: () => void;
   animCard?: (dir: string) => void;
@@ -55,8 +53,8 @@ function _activeKnown(): Set<string> {
 
 // ── Card flip ─────────────────────────────────────────────────
 document.getElementById('card')!.addEventListener('click', function() {
-  if (!win.flipped) {
-    win.flipped = true;
+  if (!state.flipped) {
+    win.setFlipped(true);
     document.getElementById('wtransl')!.className = 'transl show';
     document.getElementById('exua')!.className    = 'ex-ua show';
     _safe(() => updateSimilarWords());
@@ -68,7 +66,7 @@ document.getElementById('card')!.addEventListener('click', function() {
 // ── Speak buttons ─────────────────────────────────────────────
 document.getElementById('speak-word')!.addEventListener('click', function(e) {
   e.stopPropagation();
-  const cw = win.cw;
+  const cw = state.cw;
   if (!cw) return;
   const modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
   if (modeVal === 'es-en' || modeVal === 'es-ua') {
@@ -84,7 +82,7 @@ document.getElementById('speak-word')!.addEventListener('click', function(e) {
 
 document.getElementById('speak-ex')!.addEventListener('click', function(e) {
   e.stopPropagation();
-  const cw = win.cw;
+  const cw = state.cw;
   if (!cw) return;
   const exEn    = cw[2] || '';
   const exUa    = cw[3] || '';
@@ -133,13 +131,13 @@ document.getElementById('speak-ex')!.addEventListener('click', function(e) {
 // ── Utility buttons ───────────────────────────────────────────
 document.getElementById('btn-note')!.addEventListener('click', function(e) {
   e.stopPropagation();
-  const cw = win.cw;
+  const cw = state.cw;
   if (cw) openNoteModal(cw[0]);
 });
 
 document.getElementById('btn-bookmark')!.addEventListener('click', function(e) {
   e.stopPropagation();
-  const cw = win.cw;
+  const cw = state.cw;
   if (!cw) return;
   const isNow = toggleBookmark(cw[0]);
   this.textContent  = isNow ? '★' : '☆';
@@ -148,7 +146,7 @@ document.getElementById('btn-bookmark')!.addEventListener('click', function(e) {
 
 document.getElementById('btn-mic')!.addEventListener('click', function(e) {
   e.stopPropagation();
-  const cw = win.cw;
+  const cw = state.cw;
   if (!cw) return;
   startPronunciationCheck(cw[0], this, (status, score, spoken, target) => {
     showPronuncResult(status, score, spoken ?? '', target ?? '');
@@ -162,16 +160,16 @@ if (isPronuncSupported()) {
 document.getElementById('btn-prev')!.addEventListener('click', function(e) {
   e.stopPropagation();
   win.stopAuto?.();
-  const deckLen = win.deck.length;
+  const deckLen = state.deck.length;
   if (!deckLen) { win.render?.(); return; }
-  win.setIdx((win.idx - 1 + deckLen) % deckLen);
+  win.setIdx((state.idx - 1 + deckLen) % deckLen);
   win.animCard?.('prev');
   win.render?.();
 });
 
 document.getElementById('btn-know')!.addEventListener('click', function(e) {
   e.stopPropagation();
-  const cw = win.cw;
+  const cw = state.cw;
   if (cw) {
     const _ak         = _activeKnown();
     const isNewlyKnown = !_ak.has(cw[0]);
@@ -199,7 +197,7 @@ document.getElementById('btn-know')!.addEventListener('click', function(e) {
       _safe(() => {
         const gd = getGameData();
         if (gd.goalCur >= gd.goalMax && !gd.confettiShown) {
-          gd.confettiShown = win.TODAY;
+          gd.confettiShown = state.TODAY;
           saveGameData(gd);
           launchConfetti();
           _safe(() => playSound('goal'));
@@ -215,18 +213,18 @@ document.getElementById('btn-know')!.addEventListener('click', function(e) {
     if (rangeVal === 'unlearned') {
       const newDeck = buildUnlearnedDeck(state._baseWords as unknown as WordEntry[]);
       win.setDeck(newDeck);
-      const dl = win.deck.length;
+      const dl = state.deck.length;
       if (!dl) { win.render?.(); return; }
-      win.setIdx(win.idx % dl);
+      win.setIdx(state.idx % dl);
       win.animCard?.('fade');
       win.render?.();
       return;
     }
   }
-  const deckLen = win.deck.length;
+  const deckLen = state.deck.length;
   if (!deckLen) { win.render?.(); return; }
   win.animCard?.('next');
-  win.setIdx((win.idx + 1) % deckLen);
+  win.setIdx((state.idx + 1) % deckLen);
   win.render?.();
 });
 
@@ -234,15 +232,15 @@ document.getElementById('btn-next')!.addEventListener('click', function(e) {
   e.stopPropagation();
   _safe(() => playSound('next'));
   _safe(() => breakCombo());
-  const deckLen = win.deck.length;
+  const deckLen = state.deck.length;
   if (!deckLen) { win.render?.(); return; }
-  win.setIdx((win.idx + 1) % deckLen);
+  win.setIdx((state.idx + 1) % deckLen);
   win.render?.();
 });
 
 document.getElementById('btn-dontknow')!.addEventListener('click', function(e) {
   e.stopPropagation();
-  const cw = win.cw;
+  const cw = state.cw;
   if (cw) {
     sm2Update(cw[0], 1);
     saveSRS(state.srsData);
@@ -258,9 +256,9 @@ document.getElementById('btn-dontknow')!.addEventListener('click', function(e) {
       return;
     }
   }
-  const deckLen = win.deck.length;
+  const deckLen = state.deck.length;
   if (!deckLen) { win.render?.(); return; }
-  win.setIdx((win.idx + 1) % deckLen);
+  win.setIdx((state.idx + 1) % deckLen);
   win.render?.();
 });
 
@@ -277,7 +275,7 @@ document.getElementById('btn-auto')!.addEventListener('click', function(e) {
 document.getElementById('btn-shuf')!.addEventListener('click', function(e) {
   e.stopPropagation();
   win.stopAuto?.();
-  shuffle(win.deck);
+  shuffle(state.deck as WordEntry[]);
   win.setIdx(0);
   win.render?.();
 });

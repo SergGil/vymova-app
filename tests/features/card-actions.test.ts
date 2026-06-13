@@ -111,14 +111,14 @@ beforeEach(() => {
   state.TODAY = '2024-06-01';
   localStorage.clear();
 
-  win.cw = W[0];
-  win.flipped = false;
-  win.deck = W.slice();
-  win.idx = 0;
+  state.cw = W[0];
+  state.flipped = false;
+  state.deck = W.slice() as unknown as WordEntry[];
+  state.idx = 0;
   win.knownEs = undefined;
-  win.TODAY = '2024-06-01';
-  win.setIdx = vi.fn((i: number) => { win.idx = i; });
-  win.setDeck = vi.fn((d: WordEntry[]) => { win.deck = d; });
+  win.setIdx = vi.fn((i: number) => { state.idx = i; });
+  win.setDeck = vi.fn((d: WordEntry[]) => { state.deck = d as unknown as WordEntry[]; });
+  win.setFlipped = vi.fn((v: boolean) => { state.flipped = v; });
   win.setSrsData = vi.fn((d: Record<string, unknown>) => { state.srsData = d as any; });
   win.render = vi.fn();
   win.animCard = vi.fn();
@@ -177,7 +177,7 @@ describe('btn-know', () => {
 
   it('advances to the next card when range = all', () => {
     setRange('all');
-    win.idx = 0;
+    state.idx = 0;
 
     document.getElementById('btn-know')!.click();
 
@@ -190,7 +190,7 @@ describe('btn-know', () => {
     document.getElementById('btn-know')!.click();
     expect(win.onWordLearned).toHaveBeenCalledTimes(1);
 
-    win.cw = W[0]; // already known now
+    state.cw = W[0]; // already known now
     document.getElementById('btn-know')!.click();
     expect(win.onWordLearned).toHaveBeenCalledTimes(1);
   });
@@ -209,8 +209,8 @@ describe('btn-know', () => {
   });
 
   it('does nothing when there is no current word', () => {
-    win.cw = null;
-    win.deck = [];
+    state.cw = null;
+    state.deck = [] as unknown as WordEntry[];
 
     document.getElementById('btn-know')!.click();
 
@@ -242,7 +242,7 @@ describe('btn-dontknow', () => {
 
   it('advances to the next card without rebuilding the deck when range != srs', () => {
     setRange('all');
-    win.idx = 0;
+    state.idx = 0;
 
     document.getElementById('btn-dontknow')!.click();
 
@@ -316,7 +316,7 @@ describe('navigation buttons', () => {
   });
 
   it('btn-prev wraps around to the last card', () => {
-    win.idx = 0;
+    state.idx = 0;
     document.getElementById('btn-prev')!.click();
 
     expect(win.setIdx).toHaveBeenCalledWith(W.length - 1);
@@ -325,7 +325,7 @@ describe('navigation buttons', () => {
 
   it('btn-next advances the index and breaks the combo', async () => {
     const { breakCombo } = await import('../../js/features/combo.ts');
-    win.idx = 0;
+    state.idx = 0;
     document.getElementById('btn-next')!.click();
 
     expect(win.setIdx).toHaveBeenCalledWith(1);
