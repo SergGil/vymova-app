@@ -154,3 +154,6 @@ mountDuelPowerups();
 
 const { mountDuelFeedback } = await import('../js/features/duel-feedback.tsx');
 mountDuelFeedback();
+
+const { mountDuelChatLog } = await import('../js/features/duel-chat-log.tsx');
+mountDuelChatLog();

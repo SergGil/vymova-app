@@ -1,0 +1,33 @@
+// English Words App — js/features/duel-chat-log.tsx
+// Лог чату/реакцій дуелі (item 32, Фаза 5). Чисте відображення
+// `_getChatHistory()`; duel.ts викликає refreshDuelChatLog() при
+// кожному новому повідомленні/реакції (_appendChatMsg, _showGame,
+// відновлення сесії).
+import { createRoot, type Root } from 'react-dom/client';
+import type { ReactElement } from 'react';
+import { useEffect, useRef } from 'react';
+import { _getChatHistory } from './duel.ts';
+
+function DuelChatLog(): ReactElement {
+  const msgs = _getChatHistory();
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
+  }, [msgs.length]);
+  return (
+    <div ref={ref} id="duel-chat-log" className="duel-chat-log">
+      {msgs.map((m, i) => (
+        <div key={i} className={'duel-chat-msg' + (m.isMe ? ' me' : '')}>{m.text}</div>
+      ))}
+    </div>
+  );
+}
+
+let _chatLogRoot: Root | null = null;
+
+export function mountDuelChatLog(): void {
+  const el = document.getElementById('duel-chat-log-mount');
+  if (el) { _chatLogRoot = createRoot(el); _chatLogRoot.render(<DuelChatLog />); }
+}
+
+export function refreshDuelChatLog(): void { _chatLogRoot?.render(<DuelChatLog />); }

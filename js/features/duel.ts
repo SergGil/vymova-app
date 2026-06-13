@@ -17,6 +17,7 @@ import { refreshDuelGameHeader } from './duel-game-header.tsx';
 import { refreshDuelSpectator } from './duel-spectator.tsx';
 import { refreshDuelPowerups } from './duel-powerups.tsx';
 import { refreshDuelFeedback } from './duel-feedback.tsx';
+import { refreshDuelChatLog } from './duel-chat-log.tsx';
 
 const DICT_SET = new Set(DICT);
 
@@ -207,6 +208,7 @@ let _roomMaxHints = 3;
 const SESSION_KEY = 'ew_duel_sessions';
 const SESSION_KEY_OLD = 'ew_duel_session';
 let _chatHistory: {text:string;isMe:boolean}[] = [];
+export function _getChatHistory(): {text:string;isMe:boolean}[] { return _chatHistory; }
 interface DuelSession {roomId:string;slot:'p1'|'p2';mode:DuelMode;idx:number;score:number;correct?:number;wrong?:number;flags?:(boolean|'skip'|'double')[];chat?:{text:string;isMe:boolean}[];deckLen?:number;createdAt?:number;
   seed?:number;category?:string;difficulty?:Difficulty;maxHints?:number;bestOf?:BestOf;
   powerupsEnabled?:boolean;myPowerups?:Record<PowerupType,number>;oppName?:string;oppAvatar?:string;}
@@ -340,7 +342,7 @@ function _showLobby()    {
   const asyncBtn=$('duel-async-btn') as HTMLButtonElement|null; if(asyncBtn){ asyncBtn.disabled=false; asyncBtn.textContent=t('duel.sendChallenge'); }
 }
 function _showCountdown(){ elLobby().style.display='none'; elCountdown().style.display=''; elGame().style.display='none'; elResult().style.display='none'; elChatPanel().style.display='none'; }
-function _showGame(clearChat=true) { elLobby().style.display='none'; elCountdown().style.display='none'; elGame().style.display=''; elResult().style.display='none'; elChatPanel().style.display=''; if(clearChat){ const log=$('duel-chat-log'); if(log) log.innerHTML=''; _lastReactionTs=0; } }
+function _showGame(clearChat=true) { elLobby().style.display='none'; elCountdown().style.display='none'; elGame().style.display=''; elResult().style.display='none'; elChatPanel().style.display=''; if(clearChat){ _chatHistory=[]; refreshDuelChatLog(); _lastReactionTs=0; } }
 // Keep the chat panel visible/usable on the finish screen so players can keep chatting.
 function _showResult()   { elLobby().style.display='none'; elCountdown().style.display='none'; elGame().style.display='none'; elResult().style.display=''; elChatPanel().style.display=''; }
 
@@ -676,13 +678,8 @@ function _startOpponentPoll(): void {
 // ── Reactions / chat ──────────────────────────────────────────
 let _lastReactionTs = 0;
 function _appendChatMsg(text:string, isMe:boolean, record=true): void {
-  const log=$('duel-chat-log') as HTMLElement|null; if(!log) return;
-  const msg=document.createElement('div');
-  msg.className='duel-chat-msg'+(isMe?' me':'');
-  msg.textContent=text;
-  log.appendChild(msg);
-  log.scrollTop=log.scrollHeight;
   if(record){ _chatHistory.push({text,isMe}); _saveSession(); }
+  refreshDuelChatLog();
 }
 function _showReactionReceived(text:string, ts?:number): void {
   if(ts!==undefined){
@@ -1258,8 +1255,7 @@ async function _tryResumeSession():Promise<void>{
       _setupGameUI();
       _renderMyProgressBar();
       _showGame(false);
-      const chatLog=$('duel-chat-log') as HTMLElement|null; if(chatLog) chatLog.innerHTML='';
-      (sess.chat??[]).forEach(m=>_appendChatMsg(m.text,m.isMe,false));
+      refreshDuelChatLog();
       _renderQuestion();
       _startOpponentPoll();
     });

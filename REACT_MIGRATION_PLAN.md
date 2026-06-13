@@ -274,9 +274,18 @@ Realtime Firebase-синхронізація, багато режимів дуе
     точках, де раніше писав у `elFeedback()`/`elSpeed()` напряму
     (правильно/невірно/таймаут/double/skip/заморозка/очікування
     суперника).
+    Лог чату/реакцій (`duel-chat-log`) також мігровано в
+    `duel-chat-log.tsx` (`DuelChatLog`, `mountDuelChatLog()`/
+    `refreshDuelChatLog()`) — рендерить `_getChatHistory()` (`_chatHistory`),
+    автоскрол через `useEffect`+`ref`. `_appendChatMsg` тепер лише пушить
+    у `_chatHistory` (+`_saveSession()`) і викликає `refreshDuelChatLog()`;
+    `_showGame`/відновлення сесії теж викликають його замість прямого
+    `innerHTML`-маніпулювання. Інпут, кнопка відправки та emoji-реакції
+    лишаються imperative DOM-listeners (виклики `_sendChatMsg`/
+    `_appendChatMsg`).
     Решта екрану (`_renderQuestion`/`_renderChoiceQ`/`_renderWriteQ`/
     `_renderAnagramQ`/`_renderLettersQ`/`_startTempoTimer`/`_answerChoice`/
-    `_submitWrite`, питання/опції/інпут/чат) **залишається
+    `_submitWrite`, питання/опції/інпут/таймер) **залишається
     imperative** — тісно зчеплено з живим Firebase-полінгом
     (`_pollTimer`, `_pushScore`, `_advanceTimer`, `_tempoTimer`), переписувати
     без live-тестування проти прод-БД ризиковано. Чисту логіку вже покрито
