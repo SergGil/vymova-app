@@ -9,6 +9,7 @@ import { W } from '../../data/words.js';
 import { getCefrLevel } from '../../data/cefr.ts';
 import { renderLeaderboard } from './leaderboard.ts';
 import { refreshAchievementsPage as renderAchievements } from './achievements-page.tsx';
+import { closePage } from './sidebar.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const _p2 = (n: number): string => n < 10 ? '0' + n : '' + n;
@@ -222,6 +223,10 @@ export function openStats(): void {
 
 export function closeStats(): void {
   const overlay = document.getElementById('stats-overlay');
+  if (overlay && overlay.classList.contains('as-page')) {
+    closePage();
+    return;
+  }
   if (overlay) overlay.style.display = 'none';
 }
 
