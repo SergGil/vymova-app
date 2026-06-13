@@ -2,13 +2,14 @@
 // "Block 1" (стрік + щити + combo) і "Block 2" (ціль дня) ігрового бару.
 // Re-rendered on demand via refreshGameBarStreak/refreshComboBox/refreshGameBarGoal,
 // called from render-game-bar.ts / combo.ts after game data changes.
-import { createRoot, type Root } from 'react-dom/client';
 import type { ReactElement } from 'react';
 import { getGameData } from './game.ts';
 import { _getSessionCombo, getComboMult } from './combo.ts';
 import { t } from './i18n.ts';
+import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 
-function GameBarStreak(): ReactElement {
+export function GameBarStreak(): ReactElement {
+  useStateVersion();
   const d = getGameData();
   const n = d.shields ?? 0;
   const shLabel = t(n > 1 ? 'gamebar.shields' : 'gamebar.shield');
@@ -23,7 +24,8 @@ function GameBarStreak(): ReactElement {
   );
 }
 
-function ComboBox(): ReactElement {
+export function ComboBox(): ReactElement {
+  useStateVersion();
   const combo = _getSessionCombo();
   if (combo < 2) return <div className="combo-box" id="combo-box" style={{ display: 'none' }} />;
   const m = getComboMult();
@@ -34,7 +36,8 @@ function ComboBox(): ReactElement {
   );
 }
 
-function GameBarGoal(): ReactElement {
+export function GameBarGoal(): ReactElement {
+  useStateVersion();
   const d = getGameData();
   const pct = Math.min(d.goalCur / d.goalMax * 100, 100);
   const done = d.goalCur >= d.goalMax;
@@ -53,19 +56,6 @@ function GameBarGoal(): ReactElement {
   );
 }
 
-let _streakRoot: Root | null = null;
-let _comboRoot:  Root | null = null;
-let _goalRoot:   Root | null = null;
-
-export function mountGameBarStreak(): void {
-  const streakEl = document.getElementById('streak-block-mount');
-  if (streakEl) { _streakRoot = createRoot(streakEl); _streakRoot.render(<GameBarStreak />); }
-  const comboEl = document.getElementById('combo-box-mount');
-  if (comboEl) { _comboRoot = createRoot(comboEl); _comboRoot.render(<ComboBox />); }
-  const goalEl = document.getElementById('goal-block-mount');
-  if (goalEl) { _goalRoot = createRoot(goalEl); _goalRoot.render(<GameBarGoal />); }
-}
-
-export function refreshGameBarStreak(): void { _streakRoot?.render(<GameBarStreak />); }
-export function refreshComboBox(): void { _comboRoot?.render(<ComboBox />); }
-export function refreshGameBarGoal(): void { _goalRoot?.render(<GameBarGoal />); }
+export function refreshGameBarStreak(): void { notifyStateChange(); }
+export function refreshComboBox(): void { notifyStateChange(); }
+export function refreshGameBarGoal(): void { notifyStateChange(); }

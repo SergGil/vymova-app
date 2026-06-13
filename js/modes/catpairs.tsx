@@ -1,6 +1,5 @@
 // English Words App — js/modes/catpairs.tsx
 // 📦 CATEGORY PAIRS MODE + WOTD + MILESTONES + WEAK WORDS
-import { createRoot } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { _shuf } from '../core/srs.ts';
@@ -53,7 +52,7 @@ export function closeCatpairs(): void { _close?.(); }
 
 type Selection = { id: number; side: string } | null;
 
-function CatPairsPage(): ReactElement {
+export function CatPairsPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [screen, setScreen] = useState<'select' | 'game'>('select');
   const [catKey, setCatKey] = useState('');
@@ -264,12 +263,8 @@ function CatPairsPage(): ReactElement {
   );
 }
 
-export function mountCatpairsPage(): void {
-  const el = document.getElementById('catpairs-page-mount');
-  if (!el) return;
-  createRoot(el).render(<CatPairsPage />);
-
-  document.getElementById('btn-catpairs')?.addEventListener('click', openCatpairs);
+document.getElementById('btn-catpairs')?.addEventListener('click', openCatpairs);
+{
   const overlay = document.getElementById('catpairs-overlay');
   overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeCatpairs(); });
 }

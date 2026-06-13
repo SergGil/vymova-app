@@ -1,6 +1,5 @@
 // English Words App — js/modes/reading.tsx
 // 📖 Reading mode: text with highlighted unknown words
-import { createRoot } from 'react-dom/client';
 import { useEffect, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { saveKnown } from '../core/storage.ts';
@@ -103,7 +102,7 @@ export function closeReading(): void { _close?.(); }
 
 type PopupWord = { word: string; trans: string; ipa: string; known: boolean };
 
-function ReadingPage(): ReactElement {
+export function ReadingPage(): ReactElement {
   const [currentTextIdx, setCurrentTextIdx] = useState(0);
   const [epubBook, setEpubBook] = useState<EpubBook | null>(null);
   const [popup, setPopup] = useState<PopupWord | null>(null);
@@ -242,12 +241,8 @@ function ReadingPage(): ReactElement {
   );
 }
 
-export function mountReadingPage(): void {
-  const el = document.getElementById('reading-page-mount');
-  if (!el) return;
-  createRoot(el).render(<ReadingPage />);
-
-  document.getElementById('btn-reading')?.addEventListener('click', openReading);
+document.getElementById('btn-reading')?.addEventListener('click', openReading);
+{
   const overlay = document.getElementById('reading-overlay');
   overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeReading(); });
 }

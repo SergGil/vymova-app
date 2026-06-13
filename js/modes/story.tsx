@@ -1,7 +1,6 @@
 // English Words App — js/modes/story.tsx
 // 📖 Story Mode: read short texts with vocabulary highlighted
 // Words from deck appear highlighted → click to see translation
-import { createRoot } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
@@ -86,7 +85,7 @@ export function closeStoryMode(): void { _close?.(); }
 
 type Popup = { word: string; trans: string; ipa: string; top: number; left: number };
 
-function StoryPage(): ReactElement {
+export function StoryPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [story, setStory] = useState<Story | null>(null);
   const [popup, setPopup] = useState<Popup | null>(null);
@@ -235,12 +234,8 @@ function StoryPage(): ReactElement {
   );
 }
 
-export function mountStoryPage(): void {
-  const el = document.getElementById('story-page-mount');
-  if (!el) return;
-  createRoot(el).render(<StoryPage />);
-
-  document.getElementById('btn-story')?.addEventListener('click', openStoryMode);
+document.getElementById('btn-story')?.addEventListener('click', openStoryMode);
+{
   const overlay = document.getElementById('story-mode-overlay');
   overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeStoryMode(); });
 }

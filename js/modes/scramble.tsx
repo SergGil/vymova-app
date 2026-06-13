@@ -1,6 +1,5 @@
 // English Words App — js/modes/scramble.tsx
 // 🔀 Scramble: rearrange shuffled letter tiles to build the word
-import { createRoot } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { state } from '../../src/state.ts';
@@ -42,7 +41,7 @@ let _close: (() => void) | null = null;
 export function openScramble(): void { _open?.(); }
 export function closeScramble(): void { _close?.(); }
 
-function ScramblePage(): ReactElement {
+export function ScramblePage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
@@ -305,12 +304,8 @@ function ScramblePage(): ReactElement {
   );
 }
 
-export function mountScramblePage(): void {
-  const el = document.getElementById('scr-page-mount');
-  if (!el) return;
-  createRoot(el).render(<ScramblePage />);
-
-  document.getElementById('btn-scramble')?.addEventListener('click', openScramble);
+document.getElementById('btn-scramble')?.addEventListener('click', openScramble);
+{
   const overlay = document.getElementById('scr-overlay');
   overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeScramble(); });
 }

@@ -1,6 +1,5 @@
 // English Words App — js/modes/spelling-bee.tsx
 // 🐝 Spelling Bee: hear the word via TTS → type its spelling
-import { createRoot } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { state } from '../../src/state.ts';
@@ -30,7 +29,7 @@ let _close: (() => void) | null = null;
 export function openSpellingBee(): void { _open?.(); }
 export function closeSpellingBee(): void { _close?.(); }
 
-function SpellingBeePage(): ReactElement {
+export function SpellingBeePage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
@@ -273,12 +272,8 @@ function SpellingBeePage(): ReactElement {
   );
 }
 
-export function mountSpellingBeePage(): void {
-  const el = document.getElementById('bee-page-mount');
-  if (!el) return;
-  createRoot(el).render(<SpellingBeePage />);
-
-  document.getElementById('btn-spelling-bee')?.addEventListener('click', openSpellingBee);
+document.getElementById('btn-spelling-bee')?.addEventListener('click', openSpellingBee);
+{
   const overlay = document.getElementById('bee-overlay');
   overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeSpellingBee(); });
 }

@@ -1,6 +1,5 @@
 // English Words App — js/modes/quiz.tsx
 // 🧠 QUIZ MODE
-import { createRoot } from 'react-dom/client';
 import { useEffect, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { state } from '../../src/state.ts';
@@ -82,7 +81,7 @@ export function openQuiz(src?: WordEntry[] | null, maxSize?: number): void { _op
 export function closeQuiz(): void { _close?.(); }
 export function openQuickQuiz(): void { openQuiz(null, QUICK_SIZE); }
 
-function QuizPage(): ReactElement {
+export function QuizPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
@@ -316,12 +315,8 @@ function QuizPage(): ReactElement {
   );
 }
 
-export function mountQuizPage(): void {
-  const el = document.getElementById('quiz-page-mount');
-  if (!el) return;
-  createRoot(el).render(<QuizPage />);
-
-  document.getElementById('btn-quiz')?.addEventListener('click', () => openQuiz(null));
+document.getElementById('btn-quiz')?.addEventListener('click', () => openQuiz(null));
+{
   const overlay = document.getElementById('quiz-overlay');
   overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeQuiz(); });
 }

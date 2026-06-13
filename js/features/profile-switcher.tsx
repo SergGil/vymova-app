@@ -1,6 +1,5 @@
 // English Words App — js/features/profile-switcher.tsx
 // Multi-profile: sidebar dropdown + inline add form + edit/delete modals
-import { createRoot } from 'react-dom/client';
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
@@ -77,7 +76,7 @@ function _ensureInit(): void {
 
 function _onBeforeUnload(): void { const aid = _getActiveId(); if (aid) _saveSnapshot(aid); }
 
-function ProfileSwitcher(): ReactElement {
+export function ProfileSwitcher(): ReactElement {
   const [profiles, setProfiles] = useState<Profile[]>(() => _getProfiles());
   const [activeId, setActiveId] = useState<string>(() => _getActiveId());
   const [dropOpen, setDropOpen] = useState(false);
@@ -297,9 +296,4 @@ function ProfileSwitcher(): ReactElement {
   );
 }
 
-export function mountProfileSwitcher(): void {
-  const el = document.getElementById('profile-switcher-mount');
-  if (!el) return;
-  _ensureInit();
-  createRoot(el).render(<ProfileSwitcher />);
-}
+_ensureInit();

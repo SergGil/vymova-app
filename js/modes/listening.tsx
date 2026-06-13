@@ -1,6 +1,5 @@
 // English Words App — js/modes/listening.tsx
 // 🔊 LISTENING MODE
-import { createRoot } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { state } from '../../src/state.ts';
@@ -42,7 +41,7 @@ let _close: (() => void) | null = null;
 export function openListening(): void { _open?.(); }
 export function closeListening(): void { _close?.(); }
 
-function ListeningPage(): ReactElement {
+export function ListeningPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
@@ -242,12 +241,8 @@ function ListeningPage(): ReactElement {
   );
 }
 
-export function mountListeningPage(): void {
-  const el = document.getElementById('listen-page-mount');
-  if (!el) return;
-  createRoot(el).render(<ListeningPage />);
-
-  document.getElementById('btn-listen')?.addEventListener('click', openListening);
+document.getElementById('btn-listen')?.addEventListener('click', openListening);
+{
   const overlay = document.getElementById('listen-overlay');
   overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeListening(); });
 }

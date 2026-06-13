@@ -1,6 +1,5 @@
 // English Words App — js/modes/word-letters.tsx
 // 🔤 Letters: from a set of letters, find as many valid words as possible
-import { createRoot } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words.js';
@@ -68,7 +67,7 @@ let _close: (() => void) | null = null;
 export function openWordLetters(): void { _open?.(); }
 export function closeWordLetters(): void { _close?.(); }
 
-function WordLettersPage(): ReactElement {
+export function WordLettersPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [rounds, setRounds] = useState<RoundData[]>([]);
   const [idx, setIdx] = useState(0);
@@ -347,12 +346,8 @@ function WordLettersPage(): ReactElement {
   );
 }
 
-export function mountWordLettersPage(): void {
-  const el = document.getElementById('wl-page-mount');
-  if (!el) return;
-  createRoot(el).render(<WordLettersPage />);
-
-  document.getElementById('btn-letters')?.addEventListener('click', openWordLetters);
+document.getElementById('btn-letters')?.addEventListener('click', openWordLetters);
+{
   const overlay = document.getElementById('wl-overlay');
   overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeWordLetters(); });
 }

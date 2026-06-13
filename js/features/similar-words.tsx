@@ -1,6 +1,5 @@
 // English Words App — js/features/similar-words.tsx
 // Similar word suggestions: translation-token matching + prefix similarity
-import { createRoot } from 'react-dom/client';
 import type { ReactElement } from 'react';
 import { W } from '../../data/words.js';
 import { W_ES } from '../../data/words_es.js';
@@ -193,7 +192,7 @@ export function getSimilarWordsFr(word: string, frTransl: string, maxCount = 5):
   return out;
 }
 
-function SimilarWordsChips(): ReactElement | null {
+export function SimilarWordsChips(): ReactElement | null {
   useStateVersion();
   const cw = state.cw as WordEntry | null;
   if (!cw || !state.flipped) return null;
@@ -239,10 +238,3 @@ export function updateSimilarWords(): void {
   notifyStateChange();
 }
 window.updateSimilarWords = updateSimilarWords;
-
-export function mountSimilarWordsChips(): void {
-  const el = document.getElementById('similar-words-mount');
-  if (!el) return;
-  createRoot(el).render(<SimilarWordsChips />);
-}
-

@@ -1,9 +1,9 @@
 // English Words App — js/features/word-of-day.tsx
 // "Слово дня" sidebar widget. Picks a word matching the currently selected
 // language pair, shows an illustrative image, and jumps to it on click.
-import { createRoot, type Root } from 'react-dom/client';
 import { useEffect, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
+import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { t } from './i18n.ts';
@@ -55,7 +55,8 @@ function goToWord(word: WordEntry): void {
   (window.render as (() => void) | undefined)?.();
 }
 
-function WordOfDay(): ReactElement {
+export function WordOfDay(): ReactElement {
+  useStateVersion();
   const [mode, setMode] = useState(getMode);
   const [imgUrl, setImgUrl] = useState<string | null>(null);
   const [imgFailed, setImgFailed] = useState(false);
@@ -93,18 +94,8 @@ function WordOfDay(): ReactElement {
   );
 }
 
-let _root: Root | null = null;
-
-export function mountWordOfDay(): void {
-  const el = document.getElementById('wotd-mount');
-  if (!el) return;
-  _root = createRoot(el);
-  _root.render(<WordOfDay />);
-}
-
 export function refreshWordOfDay(): void {
-  if (!_root) return;
-  _root.render(<WordOfDay />);
+  notifyStateChange();
 }
 
 (window as unknown as { _refreshWordOfDay?: () => void })._refreshWordOfDay = refreshWordOfDay;

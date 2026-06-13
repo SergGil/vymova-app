@@ -1,6 +1,5 @@
 // English Words App — js/modes/fib.tsx
 // ✏️ FILL IN BLANK MODE
-import { createRoot } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
@@ -60,7 +59,7 @@ let _close: (() => void) | null = null;
 export function openFib(): void { _open?.(); }
 export function closeFib(): void { _close?.(); }
 
-function FibPage(): ReactElement {
+export function FibPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<FibEntry[]>([]);
   const [idx, setIdx] = useState(0);
@@ -291,12 +290,8 @@ function FibPage(): ReactElement {
   );
 }
 
-export function mountFibPage(): void {
-  const el = document.getElementById('fib-page-mount');
-  if (!el) return;
-  createRoot(el).render(<FibPage />);
-
-  document.getElementById('btn-fib')?.addEventListener('click', openFib);
+document.getElementById('btn-fib')?.addEventListener('click', openFib);
+{
   const overlay = document.getElementById('fib-overlay');
   overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeFib(); });
 }

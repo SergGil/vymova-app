@@ -1,6 +1,5 @@
 // English Words App — js/modes/tempo.tsx
 // ⚡ TEMPO MODE
-import { createRoot } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words.js';
@@ -64,7 +63,7 @@ let _close: (() => void) | null = null;
 export function openTempo(): void { _open?.(); }
 export function closeTempo(): void { _close?.(); }
 
-function TempoPage(): ReactElement {
+export function TempoPage(): ReactElement {
   const [screen, setScreen] = useState<'start' | 'game' | 'result'>('start');
   const [selectedSec, setSelectedSec] = useState(30);
   const [score, setScore] = useState(0);
@@ -284,12 +283,8 @@ function TempoPage(): ReactElement {
   );
 }
 
-export function mountTempoPage(): void {
-  const el = document.getElementById('tempo-page-mount');
-  if (!el) return;
-  createRoot(el).render(<TempoPage />);
-
-  document.getElementById('btn-tempo')?.addEventListener('click', openTempo);
+document.getElementById('btn-tempo')?.addEventListener('click', openTempo);
+{
   const overlay = document.getElementById('tempo-overlay');
   overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeTempo(); });
 }

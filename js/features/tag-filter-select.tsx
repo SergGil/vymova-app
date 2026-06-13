@@ -2,9 +2,9 @@
 // Topic/category filter dropdown (#sel-tag). Renders <option>s into the
 // existing <select> element; selection handling stays imperative since
 // #sel-tag is read/written directly by deck-filter.ts and deck-mode.ts.
-import { createRoot, type Root } from 'react-dom/client';
 import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
+import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { WORD_CATEGORIES, CATEGORY_LIST } from '../../data/categories.js';
 import { categoryName, t } from './i18n.ts';
 import { ES_MODES } from './mode-utils.ts';
@@ -39,7 +39,9 @@ function applyTagFilter(selTag: HTMLSelectElement): void {
   }
 }
 
-function TagFilterSelect(): ReactElement {
+export function TagFilterSelect(): ReactElement {
+  useStateVersion();
+
   useEffect(() => {
     const selTag = document.getElementById('sel-tag') as HTMLSelectElement | null;
     if (!selTag) return;
@@ -52,6 +54,11 @@ function TagFilterSelect(): ReactElement {
     return () => selTag.removeEventListener('change', onChange);
   }, []);
 
+  useEffect(() => {
+    const selTag = document.getElementById('sel-tag') as HTMLSelectElement | null;
+    if (selTag) fitSelTag(selTag);
+  });
+
   return (
     <>
       <option value="">{t('cards.allTopics')}</option>
@@ -62,20 +69,8 @@ function TagFilterSelect(): ReactElement {
   );
 }
 
-let _root: Root | null = null;
-
-export function mountTagFilterSelect(): void {
-  const el = document.getElementById('sel-tag') as HTMLSelectElement | null;
-  if (!el) return;
-  _root = createRoot(el);
-  _root.render(<TagFilterSelect />);
-}
-
 export function refreshTagFilterSelect(): void {
-  if (!_root) return;
-  _root.render(<TagFilterSelect />);
-  const selTag = document.getElementById('sel-tag') as HTMLSelectElement | null;
-  if (selTag) fitSelTag(selTag);
+  notifyStateChange();
 }
 
 (window as unknown as { _refreshTagOptions?: () => void })._refreshTagOptions = refreshTagFilterSelect;

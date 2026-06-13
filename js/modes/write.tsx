@@ -1,6 +1,5 @@
 // English Words App — js/modes/write.tsx
 // ✍️ WRITE MODE
-import { createRoot } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
@@ -51,7 +50,7 @@ let _close: (() => void) | null = null;
 export function openWrite(src?: WordEntry[] | null): void { _open?.(src); }
 export function closeWrite(): void { _close?.(); }
 
-function WritePage(): ReactElement {
+export function WritePage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
@@ -354,12 +353,8 @@ function WritePage(): ReactElement {
   );
 }
 
-export function mountWritePage(): void {
-  const el = document.getElementById('write-page-mount');
-  if (!el) return;
-  createRoot(el).render(<WritePage />);
-
-  document.getElementById('btn-write')?.addEventListener('click', () => openWrite(null));
+document.getElementById('btn-write')?.addEventListener('click', () => openWrite(null));
+{
   const overlay = document.getElementById('write-overlay');
   overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeWrite(); });
 }

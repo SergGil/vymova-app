@@ -1,6 +1,5 @@
 // English Words App — js/modes/lesson.tsx
 // 📚 LESSON MODE
-import { createRoot } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
@@ -48,7 +47,7 @@ export function closeLesson(): void { _close?.(); }
 
 type Result = { text: string; color: string } | null;
 
-function LessonPage(): ReactElement {
+export function LessonPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [words, setWords] = useState<WordEntry[]>([]);
   const [phase, setPhase] = useState(0);
@@ -325,12 +324,8 @@ function LessonPage(): ReactElement {
   );
 }
 
-export function mountLessonPage(): void {
-  const el = document.getElementById('lesson-page-mount');
-  if (!el) return;
-  createRoot(el).render(<LessonPage />);
-
-  document.getElementById('btn-lesson')?.addEventListener('click', openLesson);
+document.getElementById('btn-lesson')?.addEventListener('click', openLesson);
+{
   const overlay = document.getElementById('lesson-overlay');
   overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeLesson(); });
 }

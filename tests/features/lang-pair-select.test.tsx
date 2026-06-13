@@ -1,6 +1,12 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { act } from 'react';
-import { mountLangPairSelect } from '../../js/features/lang-pair-select.tsx';
+import { createRoot } from 'react-dom/client';
+import { LangPairSelect } from '../../js/features/lang-pair-select.tsx';
+
+function mountLangPairSelect(): void {
+  const el = document.getElementById('lang-pair-select')!;
+  act(() => { createRoot(el).render(<LangPairSelect />); });
+}
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

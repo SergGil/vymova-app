@@ -1,10 +1,10 @@
 // English Words App — js/features/search-overlay.tsx
 // 🔍 Dictionary search overlay: find any EN or UA word, jump to card or open detail.
 // Opened via #btn-search or Ctrl/Cmd+F.
-import { createRoot, type Root } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
 import { state } from '../../src/state.ts';
+import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { openWordDetail } from './word-detail.tsx';
 import { t } from './i18n.ts';
@@ -56,7 +56,8 @@ function jumpTo(w: WordEntry, close: () => void): void {
   }
 }
 
-function SearchOverlay(): ReactElement | null {
+export function SearchOverlay(): ReactElement | null {
+  useStateVersion();
   const [open, setOpen]   = useState(false);
   const [query, setQuery] = useState('');
   const [hits, setHits]   = useState<WordEntry[]>([]);
@@ -198,18 +199,8 @@ function SearchOverlay(): ReactElement | null {
   );
 }
 
-let _root: Root | null = null;
-
-export function mountSearchOverlay(): void {
-  const el = document.getElementById('search-overlay-mount');
-  if (!el) return;
-  _root = createRoot(el);
-  _root.render(<SearchOverlay />);
-}
-
 export function refreshSearchOverlay(): void {
-  if (!_root) return;
-  _root.render(<SearchOverlay />);
+  notifyStateChange();
 }
 
 (window as unknown as { _refreshSearchOverlay?: () => void })._refreshSearchOverlay = refreshSearchOverlay;

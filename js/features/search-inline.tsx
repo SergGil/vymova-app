@@ -1,9 +1,9 @@
 // English Words App — js/features/search-inline.tsx
 // Inline search box (header) with debounce + keyboard navigation.
-import { createRoot, type Root } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
 import { state } from '../../src/state.ts';
+import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { shuffle } from '../core/srs.ts';
 import { ES_MODES, getMode } from './mode-utils.ts';
 import { t } from './i18n.ts';
@@ -36,7 +36,8 @@ function goToWord(word: string, after: () => void): void {
   after();
 }
 
-function SearchInline(): ReactElement {
+export function SearchInline(): ReactElement {
+  useStateVersion();
   const [query, setQuery]       = useState('');
   const [hits, setHits]         = useState<WordEntry[]>([]);
   const [activeIdx, setActiveIdx] = useState(-1);
@@ -124,18 +125,8 @@ function SearchInline(): ReactElement {
   );
 }
 
-let _root: Root | null = null;
-
-export function mountSearchInline(): void {
-  const el = document.getElementById('search-inline-mount');
-  if (!el) return;
-  _root = createRoot(el);
-  _root.render(<SearchInline />);
-}
-
 export function refreshSearchInline(): void {
-  if (!_root) return;
-  _root.render(<SearchInline />);
+  notifyStateChange();
 }
 
 (window as unknown as { _refreshSearchInline?: () => void })._refreshSearchInline = refreshSearchInline;

@@ -1,11 +1,10 @@
 // English Words App — js/features/goal-modal.tsx
 // "Daily goal" modal, opened via the gear icon (#goal-set-btn) in the game bar.
-import { createRoot, type Root } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { getGameData, saveGameData } from './game.ts';
 import { t } from './i18n.ts';
 
-function GoalModal(): ReactElement | null {
+export function GoalModal(): ReactElement | null {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('20');
   const [shake, setShake] = useState(false);
@@ -78,11 +77,3 @@ function GoalModal(): ReactElement | null {
   );
 }
 
-let _root: Root | null = null;
-
-export function mountGoalModal(): void {
-  const el = document.getElementById('goal-modal-mount');
-  if (!el) return;
-  _root = createRoot(el);
-  _root.render(<GoalModal />);
-}

@@ -1,6 +1,5 @@
 // English Words App — js/modes/context.tsx
 // 🔍 Context Mode: guess word meaning from context sentence
-import { createRoot } from 'react-dom/client';
 import { useEffect, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { state } from '../../src/state.ts';
@@ -65,7 +64,7 @@ let _close: (() => void) | null = null;
 export function openContext(): void { _open?.(); }
 export function closeContext(): void { _close?.(); }
 
-function ContextPage(): ReactElement {
+export function ContextPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
@@ -270,12 +269,8 @@ function ContextPage(): ReactElement {
   );
 }
 
-export function mountContextPage(): void {
-  const el = document.getElementById('ctx-page-mount');
-  if (!el) return;
-  createRoot(el).render(<ContextPage />);
-
-  document.getElementById('btn-context')?.addEventListener('click', openContext);
+document.getElementById('btn-context')?.addEventListener('click', openContext);
+{
   const overlay = document.getElementById('ctx-overlay');
   overlay?.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) closeContext(); });
 }

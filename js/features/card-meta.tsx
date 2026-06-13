@@ -1,14 +1,13 @@
 // English Words App — js/features/card-meta.tsx
 // Бейджі картки: #wnum, known-badge/#btn-unmark, #wcefr, #wcategory, #wlang.
 // Частина item 28a (Фаза 4) — заміна статичного блоку .card-meta з render().
-import { createRoot } from 'react-dom/client';
 import { useAppState } from '../../src/store.ts';
 import { getCefrLevel } from '../../data/cefr.ts';
 import { getCategoriesForWord } from '../../data/categories.js';
 import { categoryName } from './i18n.ts';
 import { getFrontLang, getResolvedMode } from './mode-utils.ts';
 
-function CardMeta() {
+export function CardMeta() {
   const state = useAppState();
   const { deck, idx, cw } = state;
   if (!cw) return null;
@@ -43,8 +42,3 @@ function CardMeta() {
   );
 }
 
-export function mountCardMeta(): void {
-  const mountEl = document.getElementById('card-meta-mount');
-  if (!mountEl) return;
-  createRoot(mountEl).render(<CardMeta />);
-}

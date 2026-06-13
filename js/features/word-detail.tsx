@@ -1,6 +1,5 @@
 // English Words App — js/features/word-detail.tsx
 // Word Detail bottom-sheet modal: full word profile
-import { createRoot } from 'react-dom/client';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
@@ -44,7 +43,7 @@ export function openWordDetail(w: WordEntry): void {
   _open?.(w);
 }
 
-function WordDetailPage(): ReactElement | null {
+export function WordDetailPage(): ReactElement | null {
   const [cw, setCw] = useState<WordEntry | null>(null);
   const [open, setOpen] = useState(false);
   const [known, setKnown] = useState(false);
@@ -241,8 +240,3 @@ function WordDetailPage(): ReactElement | null {
   );
 }
 
-export function mountWordDetailPage(): void {
-  const el = document.getElementById('wd-page-mount');
-  if (!el) return;
-  createRoot(el).render(<WordDetailPage />);
-}

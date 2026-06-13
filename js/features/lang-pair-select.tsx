@@ -2,9 +2,9 @@
 // "Я знаю" / "Хочу вчити" / "Напрямок" language pair picker (first React component).
 // Drives the legacy #sel-mode <select> so all existing listeners
 // (deck-mode, tag-filter, word-detail, mode-utils, ...) keep working untouched.
-import { createRoot, type Root } from 'react-dom/client';
 import { useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
+import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 
 export type LangCode = 'ua' | 'en' | 'es' | 'fr';
 export type Direction = 'fwd' | 'rev' | 'mix';
@@ -98,7 +98,8 @@ function applyMode(learn: LangCode, know: LangCode, direction: Direction): void 
   sel.dispatchEvent(new Event('change'));
 }
 
-function LangPairSelect(): ReactElement {
+export function LangPairSelect(): ReactElement {
+  useStateVersion();
   const [{ learnLang, knowLang, direction }, setState] = useState(initialState);
 
   function persist(next: { learnLang: LangCode; knowLang: LangCode; direction: Direction }): void {
@@ -143,21 +144,14 @@ function LangPairSelect(): ReactElement {
   );
 }
 
-let _root: Root | null = null;
-
-export function mountLangPairSelect(): void {
-  const el = document.getElementById('lang-pair-select');
-  if (!el) return;
-  _root = createRoot(el);
-  _root.render(<LangPairSelect />);
-  // Apply the restored state to #sel-mode on load (in case it differs from the default).
+// Apply the restored state to #sel-mode on load (in case it differs from the default).
+{
   const { learnLang, knowLang, direction } = initialState();
   applyMode(learnLang, knowLang, direction);
 }
 
 export function refreshLangPairSelect(): void {
-  if (!_root) return;
-  _root.render(<LangPairSelect />);
+  notifyStateChange();
 }
 
 (window as unknown as { _refreshLangPairSelect?: () => void })._refreshLangPairSelect = refreshLangPairSelect;

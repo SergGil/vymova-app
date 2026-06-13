@@ -1,8 +1,6 @@
 // English Words App — js/features/card-front-text.tsx
 // Текстові поля лицьової сторони картки: #wword, #wtrans, #wpos, #srs-next,
 // #wtransl, #exen, #exua. Частина item 28b (Фаза 4).
-import type { ReactElement } from 'react';
-import { createRoot } from 'react-dom/client';
 import { useAppState } from '../../src/store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { tLang, type Lang } from './i18n.ts';
@@ -13,14 +11,14 @@ function getRangeVal(): string {
   return (document.getElementById('sel-range') as HTMLSelectElement | null)?.value ?? '';
 }
 
-function WordText() {
+export function WordText() {
   const { cw } = useAppState();
   if (!cw) return null;
   const { frontWord } = computeCardView(cw, getResolvedMode());
   return <span className="word-text" id="wword">{frontWord}</span>;
 }
 
-function Transcription() {
+export function Transcription() {
   const { cw } = useAppState();
   if (!cw) return null;
   const { FRONT_LANG } = computeCardView(cw, getResolvedMode());
@@ -29,7 +27,7 @@ function Transcription() {
   return <div className="transcription" id="wtrans" style={{ display: show ? 'block' : 'none' }}>{show ? trans : ''}</div>;
 }
 
-function PosTag() {
+export function PosTag() {
   const { cw } = useAppState();
   if (!cw) return null;
   const { FRONT_LANG } = computeCardView(cw, getResolvedMode());
@@ -39,7 +37,7 @@ function PosTag() {
   return <div className="pos-tag" id="wpos" style={{ display: posCode ? 'block' : 'none' }}>{posText}</div>;
 }
 
-function SrsBadge() {
+export function SrsBadge() {
   useAppState();
   const win = window as unknown as { srsData?: Record<string, SrsEntry>; TODAY?: string; cw?: import('../../src/types.js').WordEntry | null };
   const cw = win.cw;
@@ -50,39 +48,24 @@ function SrsBadge() {
   return <div id="srs-next" className={info.className}>{info.text}</div>;
 }
 
-function Translation() {
+export function Translation() {
   const { cw, flipped } = useAppState();
   if (!cw) return null;
   const { backWord } = computeCardView(cw, getResolvedMode());
   return <div className={'transl' + (flipped ? ' show' : '')} id="wtransl">{backWord}</div>;
 }
 
-function ExEn() {
+export function ExEn() {
   const { cw } = useAppState();
   if (!cw) return null;
   const { exenHtml } = computeCardView(cw, getResolvedMode());
   return <span className="ex-en" id="exen" dangerouslySetInnerHTML={{ __html: exenHtml }} />;
 }
 
-function ExUa() {
+export function ExUa() {
   const { cw, flipped } = useAppState();
   if (!cw) return null;
   const { exuaHtml } = computeCardView(cw, getResolvedMode());
   return <div className={'ex-ua' + (flipped ? ' show' : '')} id="exua" dangerouslySetInnerHTML={{ __html: exuaHtml }} />;
 }
 
-export function mountCardFrontText(): void {
-  const mounts: Array<[string, () => ReactElement]> = [
-    ['wword-mount', () => <WordText />],
-    ['wtrans-mount', () => <Transcription />],
-    ['wpos-mount', () => <PosTag />],
-    ['srs-next-mount', () => <SrsBadge />],
-    ['wtransl-mount', () => <Translation />],
-    ['exen-mount', () => <ExEn />],
-    ['exua-mount', () => <ExUa />],
-  ];
-  for (const [id, render] of mounts) {
-    const el = document.getElementById(id);
-    if (el) createRoot(el).render(render());
-  }
-}

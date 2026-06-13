@@ -1,6 +1,5 @@
 // English Words App — js/features/font-size-control.tsx
 // A−/A+ font size control (#font-size-control), persisted to localStorage.
-import { createRoot } from 'react-dom/client';
 import { useEffect, useState, type ReactElement } from 'react';
 
 const MIN = 70;
@@ -11,7 +10,7 @@ function applySize(sz: number): void {
   localStorage.setItem('ew_fontsize', String(sz));
 }
 
-function FontSizeControl(): ReactElement {
+export function FontSizeControl(): ReactElement {
   const [sz, setSz] = useState(() => parseInt(localStorage.getItem('ew_fontsize') ?? '100', 10));
 
   useEffect(() => { applySize(sz); }, [sz]);
@@ -29,8 +28,3 @@ function FontSizeControl(): ReactElement {
   );
 }
 
-export function mountFontSizeControl(): void {
-  const el = document.getElementById('font-size-control');
-  if (!el) return;
-  createRoot(el).render(<FontSizeControl />);
-}
