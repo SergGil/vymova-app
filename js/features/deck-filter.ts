@@ -91,7 +91,7 @@ document.getElementById('sel-range')!.addEventListener('change', function() {
     }
     state._activeTagSet = null;
     if (selTagEl) selTagEl.value = '';
-    (window as any).setBaseWords(W.slice());
+    (state._baseWords = W.slice() as unknown as WordEntry[]);
     (window as any).setDeck(deck);
     (window as any).setIdx(0);
     (window as any).render?.();
@@ -108,7 +108,7 @@ document.getElementById('sel-range')!.addEventListener('change', function() {
     }
     state._activeTagSet = null;
     if (selTagEl) selTagEl.value = '';
-    (window as any).setBaseWords(W.slice());
+    (state._baseWords = W.slice() as unknown as WordEntry[]);
     (window as any).setDeck(deck);
     (window as any).setIdx(0);
     (window as any).render?.();
@@ -119,7 +119,7 @@ document.getElementById('sel-range')!.addEventListener('change', function() {
     if (!deck.length) {
       _showToast(t('range.noBookmarks'));
       (this as HTMLSelectElement).value = '0';
-      (window as any).setBaseWords(W.slice());
+      (state._baseWords = W.slice() as unknown as WordEntry[]);
       deck = (W as unknown as WordEntry[]).slice();
       shuffle(deck);
       (window as any).setDeck(deck);
@@ -128,12 +128,12 @@ document.getElementById('sel-range')!.addEventListener('change', function() {
       return;
     }
     shuffle(deck);
-    (window as any).setBaseWords(W.slice());
+    (state._baseWords = W.slice() as unknown as WordEntry[]);
   } else if (v === 'unlearned') {
-    (window as any).setBaseWords(W.slice());
+    (state._baseWords = W.slice() as unknown as WordEntry[]);
     deck = buildUnlearnedDeck(W as unknown as WordEntry[]);
   } else if (v === 'srs') {
-    (window as any).setBaseWords(W.slice());
+    (state._baseWords = W.slice() as unknown as WordEntry[]);
     deck = buildSRSDeck(W as unknown as WordEntry[]);
   } else if (v.startsWith('cefr-')) {
     const cefrTarget = v.replace('cefr-', '') as import('../../data/cefr.ts').CefrLevel;
@@ -146,19 +146,19 @@ document.getElementById('sel-range')!.addEventListener('change', function() {
     }
     state._activeTagSet = null;
     if (selTagEl) selTagEl.value = '';
-    (window as any).setBaseWords(W.slice());
+    (state._baseWords = W.slice() as unknown as WordEntry[]);
     (window as any).setDeck(deck);
     (window as any).setIdx(0);
     (window as any).render?.();
     return;
   } else if (v.startsWith('stale')) {
-    (window as any).setBaseWords(W.slice());
+    (state._baseWords = W.slice() as unknown as WordEntry[]);
     deck = buildStaleDeck(v === 'stale7' ? 7 : 30);
   } else {
     const n        = parseInt(v);
     const _lastBlk = Math.ceil(W.length / 500);
     const base     = n === 0 ? W.slice() : W.slice((n - 1) * 500, n === _lastBlk ? W.length : n * 500);
-    (window as any).setBaseWords(base as unknown as WordEntry[]);
+    (state._baseWords = base as unknown as WordEntry[]);
     deck = (base as unknown as WordEntry[]).slice();
     shuffle(deck);
     const _ats = state._activeTagSet as Set<string> | null;

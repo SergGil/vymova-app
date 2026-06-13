@@ -213,6 +213,31 @@
   `_customWords`/`onWordLearned`/`setFlipped`/`setKnown`/`setSrsData`/
   `TODAY`/`Object.defineProperty(deck/idx/flipped/cw)`) — план продовжує
   Під-фазами C/D (`C:\Users\Serhii\.claude\plans\temporal-roaming-quiche.md`).
+- **[x] Під-фаза C — `knownEs`/`knownFr`/`_wordIdx`/`_customWords`/
+  `setKnown`/`setSrsData`/`setBaseWords` → `src/state.ts`**: додано поля
+  `knownEs`/`knownFr: Set<string>`, `_wordIdx: Map<string, number>`,
+  `_customWords: Array<{en,ua,ex_en?,ex_ua?}>` у `AppState`
+  (`src/types.ts`/`src/state.ts`). `app.ts`: локальні `known`/`srsData`/
+  `_baseWords`/`knownEs`/`knownFr`/`_wordIdx`/`_customWords` прибрано —
+  `_activeKnown()` і вся ініціалізація пишуть напряму у
+  `state.known`/`state.knownEs`/`state.knownFr`/`state.srsData`/
+  `state._baseWords`/`state._wordIdx`/`state._customWords`. Видалено
+  `window.setBaseWords`/`window.setKnown`/`window.setSrsData`/
+  `window.knownEs`/`window.knownFr`/`window._wordIdx`/
+  `window._customWords`. Усі ~12 споживачів (`deck-filter.ts` ×9,
+  `progress-io.ts` ×2, `card-actions.ts` (тип `win` звужено), `custom.ts`,
+  `mode-utils.ts`, `achievements-page.tsx` ×2, `render-achievements.ts`,
+  `search-inline.tsx` ×2, `similar-words.tsx` ×2, `tag-filter-select.tsx`,
+  `word-context.ts`, `card-meta.tsx`, `catpairs.tsx` ×3) переведено на
+  пряме читання/запис `state.*` (`card-meta.tsx` додатково отримав
+  `_wordIdx` через `useAppState()`). `card-actions.test.ts`: видалено
+  мертвий `win.knownEs = undefined`/`win.setSrsData` мок. 529/529, tsc
+  чистий. Залишок `window.*` (10 присвоєнь:
+  `render`/`setIdx`/`setDeck`/`animCard`/`startAuto`/`stopAuto`/
+  `isAutoRunning`/`onWordLearned`/`setFlipped`/`TODAY` +
+  `Object.defineProperty(deck/idx/flipped/cw)`) — Під-фаза D (найризикованіша:
+  екстракція `js/core/card-engine.ts`) лишається в
+  `C:\Users\Serhii\.claude\plans\temporal-roaming-quiche.md`.
 
 ## Верифікація
 

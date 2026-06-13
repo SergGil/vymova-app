@@ -11,7 +11,7 @@ import type { WordEntry } from '../../src/types.js';
 
 function activeKnown(): Set<string> {
   return ES_MODES.has(getMode())
-    ? ((window as any).knownEs as Set<string>) ?? state.known
+    ? state.knownEs
     : state.known;
 }
 
@@ -21,7 +21,7 @@ function goToWord(word: string, after: () => void): void {
   if (di === -1) {
     const wLow = word.toLowerCase();
     let wi = -1;
-    const wordIdx = (window as any)._wordIdx as Map<string, number>;
+    const wordIdx = state._wordIdx;
     wordIdx.forEach((i: number, k: string) => { if (k.toLowerCase() === wLow) wi = i; });
     if (wi === -1) return;
     const newDeck = W.slice() as unknown as WordEntry[];

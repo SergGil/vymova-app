@@ -12,8 +12,8 @@ import { ES_MODES, FR_MODES, getMode as _getMode, esEntry as _esEntry, frEntry a
 
 function _getActiveKnown(): Set<string> {
   const mode = _getMode();
-  if (ES_MODES.has(mode)) return ((window as any).knownEs as Set<string>) ?? state.known;
-  if (FR_MODES.has(mode)) return ((window as any).knownFr as Set<string>) ?? state.known;
+  if (ES_MODES.has(mode)) return state.knownEs;
+  if (FR_MODES.has(mode)) return state.knownFr;
   return state.known;
 }
 

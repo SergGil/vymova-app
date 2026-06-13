@@ -26,7 +26,7 @@ window.invalidateCatCache = invalidateCatCache;
 
 function getCatWords(catName: string, catWords: string[]): WordEntry[] {
   if (_catCache[catName]) return _catCache[catName];
-  const wordIdx = (window as Window & { _wordIdx?: Map<string, number> })._wordIdx;
+  const wordIdx = state._wordIdx;
   if (!wordIdx) return [];
   const result = catWords.filter(w => wordIdx.has(w)).map(w => (W as unknown as WordEntry[])[wordIdx.get(w)!]).filter(Boolean);
   _catCache[catName] = result;
@@ -34,7 +34,7 @@ function getCatWords(catName: string, catWords: string[]): WordEntry[] {
 }
 
 function getRandomWords(): WordEntry[] {
-  const wordIdx = (window as Window & { _wordIdx?: Map<string, number> })._wordIdx;
+  const wordIdx = state._wordIdx;
   const all: WordEntry[] = [], seen = new Set<string>();
   if (wordIdx) {
     Object.values(WORD_CATEGORIES).flat().forEach(w => {
@@ -315,7 +315,7 @@ document.getElementById('btn-unmark')?.addEventListener('click', (e: MouseEvent)
 export function renderWeakWords(): void {
   const el = document.getElementById('weak-words-list');
   if (!el) return;
-  const wordIdx = (window as Window & { _wordIdx?: Map<string, number> })._wordIdx;
+  const wordIdx = state._wordIdx;
   if (!wordIdx) return;
   const words: { w: WordEntry; ef: number; reps: number; lapses: number }[] = [];
   Object.keys(state.srsData).forEach(key => {

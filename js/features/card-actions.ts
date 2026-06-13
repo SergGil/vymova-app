@@ -26,12 +26,9 @@ import type { WordEntry } from '../../src/types.js';
 // (cw/deck/idx/flipped/TODAY) are mirrored into state by app.ts on every
 // mutation, so they're read directly from `state` instead.
 const win = window as unknown as {
-  knownEs: Set<string> | undefined;
-  knownFr: Set<string> | undefined;
   setIdx(i: number): void;
   setDeck(d: WordEntry[]): void;
   setFlipped(v: boolean): void;
-  setSrsData(d: Record<string, unknown>): void;
   render?: () => void;
   animCard?: (dir: string) => void;
   stopAuto?: () => void;
@@ -46,8 +43,8 @@ function _safe(fn: () => void): void {
 
 function _activeKnown(): Set<string> {
   const mode = getMode();
-  if (ES_MODES.has(mode)) return win.knownEs ?? state.known;
-  if (FR_MODES.has(mode)) return win.knownFr ?? state.known;
+  if (ES_MODES.has(mode)) return state.knownEs ?? state.known;
+  if (FR_MODES.has(mode)) return state.knownFr ?? state.known;
   return state.known;
 }
 
@@ -184,8 +181,8 @@ document.getElementById('btn-know')!.addEventListener('click', function(e) {
       delete (state.srsData as any)[cw[0]];
     }
     const _modeNow = getMode();
-    if (ES_MODES.has(_modeNow)) { if (win.knownEs) saveKnownEs(win.knownEs); }
-    else if (FR_MODES.has(_modeNow)) { if (win.knownFr) saveKnownFr(win.knownFr); }
+    if (ES_MODES.has(_modeNow)) { if (state.knownEs) saveKnownEs(state.knownEs); }
+    else if (FR_MODES.has(_modeNow)) { if (state.knownFr) saveKnownFr(state.knownFr); }
     else { saveKnown(state.known); }
     saveSRS(state.srsData);
     state._srsStatsDirty = true;
@@ -293,13 +290,13 @@ document.getElementById('modal-cancel')!.addEventListener('click', function() {
 
 document.getElementById('modal-confirm')!.addEventListener('click', function() {
   state.known.clear();
-  win.knownEs?.clear();
-  win.knownFr?.clear();
-  win.setSrsData({});
+  state.knownEs?.clear();
+  state.knownFr?.clear();
+  state.srsData = {};
   state._srsStatsDirty = true;
   saveKnown(state.known);
-  if (win.knownEs) saveKnownEs(win.knownEs);
-  if (win.knownFr) saveKnownFr(win.knownFr);
+  if (state.knownEs) saveKnownEs(state.knownEs);
+  if (state.knownFr) saveKnownFr(state.knownFr);
   saveSRS(state.srsData);
   _safe(() => localStorage.removeItem('ew_game'));
   _safe(() => localStorage.removeItem('ew_daily'));

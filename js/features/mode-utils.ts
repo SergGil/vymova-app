@@ -49,9 +49,8 @@ export function getResolvedMode(): string {
 // в app.ts/card-actions.ts — за поточним резолвленим режимом.
 export function getActiveKnown(known: Set<string>): Set<string> {
   const mode = getResolvedMode();
-  const win = window as unknown as { knownEs?: Set<string>; knownFr?: Set<string> };
-  if (ES_MODES.has(mode)) return win.knownEs ?? known;
-  if (FR_MODES.has(mode)) return win.knownFr ?? known;
+  if (ES_MODES.has(mode)) return state.knownEs ?? known;
+  if (FR_MODES.has(mode)) return state.knownFr ?? known;
   return known;
 }
 

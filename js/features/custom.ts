@@ -19,10 +19,10 @@ const errEl   = document.getElementById('cw-error')!;
 const listEl  = document.getElementById('custom-words-list');
 
 function _cw(): CustomWord[] {
-  return (window as Window & { _customWords?: CustomWord[] })._customWords ?? [];
+  return state._customWords;
 }
 function _wi(): WordIdx | undefined {
-  return (window as Window & { _wordIdx?: WordIdx })._wordIdx;
+  return state._wordIdx;
 }
 
 // Sanitize HTML to prevent XSS when example sentences are inserted via innerHTML
@@ -49,7 +49,6 @@ function renderList(): void {
     btn.addEventListener('click', () => {
       const i = parseInt(btn.dataset.i ?? '0');
       const cw2 = _cw(); cw2.splice(i, 1);
-      (window as Window & { _customWords?: CustomWord[] })._customWords = cw2;
       localStorage.setItem('ew_custom', JSON.stringify(cw2));
       renderList();
       const key = btn.closest('.custom-word-row')?.querySelector('.cw-en')?.textContent ?? '';
@@ -74,7 +73,6 @@ document.getElementById('cw-save')?.addEventListener('click', () => {
   (W as unknown as typeof entry[]).push(entry);
   _wi()?.set(en, W.length - 1);
   const cw = _cw(); cw.push({ en, ua, ex_en: safeExEn, ex_ua: safeExUa });
-  (window as Window & { _customWords?: CustomWord[] })._customWords = cw;
   localStorage.setItem('ew_custom', JSON.stringify(cw));
   state.deck.push(entry as unknown as (typeof state.deck)[0]);
   errEl.textContent = '';
@@ -213,7 +211,6 @@ csvFileInput?.addEventListener('change', async () => {
     added++;
   }
 
-  (window as Window & { _customWords?: typeof cw })._customWords = cw;
   try { localStorage.setItem('ew_custom', JSON.stringify(cw)); } catch (e) {}
   (window as Window & { invalidateSimilarCache?: () => void }).invalidateSimilarCache?.();
   (window as Window & { invalidateCatCache?: () => void }).invalidateCatCache?.();

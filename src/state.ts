@@ -21,4 +21,8 @@ export const state: AppState = {
   TODAY:          new Date().toISOString().slice(0, 10),
   _mode:          'en',
   activePage:     null,
+  knownEs:        new Set<string>(),
+  knownFr:        new Set<string>(),
+  _wordIdx:       new Map<string, number>(),
+  _customWords:   [],
 };

@@ -50,12 +50,12 @@ function importProgress(code: string): boolean {
 
     _safe(() => {
       const newKnown = new Set<string>(JSON.parse(knownJson));
-      ((window as any).setKnown as (s: Set<string>) => void)(newKnown);
+      state.known = newKnown;
     });
     _safe(() => {
       const newSrs: Record<string, any> = JSON.parse(srsJson);
       Object.keys(newSrs).forEach(function(k){ if(typeof newSrs[k]==='number') delete newSrs[k]; });
-      ((window as any).setSrsData as (d: Record<string, any>) => void)(newSrs);
+      state.srsData = newSrs;
     });
     state._srsStatsDirty = true;
     state._gameCache = null;

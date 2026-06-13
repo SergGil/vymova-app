@@ -9,10 +9,9 @@ import { getFrontLang, getResolvedMode } from './mode-utils.ts';
 
 export function CardMeta() {
   const state = useAppState();
-  const { deck, idx, cw } = state;
+  const { deck, idx, cw, _wordIdx: wordIdx } = state;
   if (!cw) return null;
 
-  const wordIdx = (window as unknown as { _wordIdx?: Map<string, number> })._wordIdx;
   const realIdx = wordIdx?.has(cw[0]) ? wordIdx.get(cw[0])! : -1;
   const num = realIdx >= 0 ? realIdx + 1 : (deck.length ? (idx % deck.length) + 1 : 1);
   const frontLang = getFrontLang(getResolvedMode());

@@ -34,29 +34,27 @@ import './core/pwa.ts';
 
 const savedKnown = _lzLoad('ew_known', []);
 
-let srsData: Record<string, any> = _lzLoad('ew_srs', {});
+state.srsData = _lzLoad('ew_srs', {});
 // Міграція: старий формат (числа) → видаляємо
-Object.keys(srsData).forEach(function(k: string){ if(typeof srsData[k]==='number') delete srsData[k]; });
+Object.keys(state.srsData).forEach(function(k: string){ if(typeof (state.srsData as any)[k]==='number') delete (state.srsData as any)[k]; });
 
 let deck: WordEntry[] = W.slice() as unknown as WordEntry[];
-let idx = 0, known = new Set<string>(savedKnown as string[]), flipped = false;
-let knownEs = loadKnownEs();
-let knownFr = loadKnownFr();
+let idx = 0, flipped = false;
+state.known   = new Set<string>(savedKnown as string[]);
+state.knownEs = loadKnownEs();
+state.knownFr = loadKnownFr();
 function _activeKnown(): Set<string> {
   const mode = getMode();
-  if (ES_MODES.has(mode)) return knownEs;
-  if (FR_MODES.has(mode)) return knownFr;
-  return known;
+  if (ES_MODES.has(mode)) return state.knownEs;
+  if (FR_MODES.has(mode)) return state.knownFr;
+  return state.known;
 }
 let cw: WordEntry | null = null, autoTimer: ReturnType<typeof setTimeout> | null = null;
 
 // Sync reference-type locals into state (mutations propagate both ways)
 state.deck    = deck as unknown as WordEntry[];
-state.known   = known;
-state.srsData = srsData;
 
-let _baseWords = W.slice();
-state._baseWords = _baseWords as unknown as WordEntry[];
+state._baseWords = W.slice() as unknown as WordEntry[];
 
 const TODAY = new Date().toISOString().slice(0,10);
 window.TODAY = TODAY; // legacy files (catpairs.js, srs.js, etc.) use this globally
@@ -94,7 +92,7 @@ const $el: Record<string, HTMLElement | null> = {};
 });
 
 // O(1) індекс: word → позиція у W (замість W.findIndex на кожній картці)
-const _wordIdx = new Map();
+const _wordIdx = state._wordIdx;
 W.forEach(function(w, i) { _wordIdx.set(w[0], i); });
 
 // ── Власні слова: завантажуємо і додаємо в W ──
@@ -106,6 +104,7 @@ _customWords.forEach(function(c) {
     _wordIdx.set(c.en, W.length - 1);
   }
 });
+state._customWords = _customWords;
 
 function stopAuto(): void {
   if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
@@ -286,14 +285,7 @@ window.onWordLearned     = onWordLearned;
 // window.renderStats/openStats/closeStats/renderSRSForecast — set by stats.ts
 window.setIdx     = (i: number)              => _setIdx(i);
 window.setDeck    = (d: WordEntry[])         => _setDeck(d);
-window.setBaseWords = (w: WordEntry[]) => { _baseWords = w as unknown as string[][]; state._baseWords = w; };
 window.setFlipped = (v: boolean)             => { flipped = v; state.flipped = v; };
-window._wordIdx              = _wordIdx;
-window._customWords          = _customWords;
-window.knownEs                = knownEs;
-window.knownFr                = knownFr;
-window.setKnown    = (s: Set<string>)          => { known = s; state.known = s; };
-window.setSrsData  = (d: Record<string, any>)  => { srsData = d; state.srsData = d; };
 window.animCard      = _animCard;
 window.isAutoRunning = () => !!autoTimer;
 window.startAuto     = () => {

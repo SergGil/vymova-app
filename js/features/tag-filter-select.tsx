@@ -25,7 +25,7 @@ function applyTagFilter(selTag: HTMLSelectElement): void {
   if (!tag) {
     state._activeTagSet = null;
   } else {
-    const wordIdx = (window as Window & { _wordIdx?: Map<string, number> })._wordIdx;
+    const wordIdx = state._wordIdx;
     const words = (WORD_CATEGORIES[tag] ?? [])
       .map(w => w.toLowerCase())
       .filter(w => wordIdx ? wordIdx.has(w) : true);

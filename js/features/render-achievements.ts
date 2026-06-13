@@ -41,7 +41,7 @@ export function checkAchievements(): void {
   const k = state.known.size;
   const g = getGameData();
   const m = getModeStats();
-  const c = ((window as any)._customWords?.length ?? 0) as number;
+  const c = (state._customWords.length) as number;
   const newOnes: Achievement[] = [];
   ACHIEVEMENTS.forEach(function(a) {
     if (!unlockedSet.has(a.id) && a.check(k, g, m, c)) {

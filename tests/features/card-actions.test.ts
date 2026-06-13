@@ -117,11 +117,9 @@ beforeEach(() => {
   state.flipped = false;
   state.deck = W.slice() as unknown as WordEntry[];
   state.idx = 0;
-  win.knownEs = undefined;
   win.setIdx = vi.fn((i: number) => { state.idx = i; });
   win.setDeck = vi.fn((d: WordEntry[]) => { state.deck = d as unknown as WordEntry[]; });
   win.setFlipped = vi.fn((v: boolean) => { state.flipped = v; });
-  win.setSrsData = vi.fn((d: Record<string, unknown>) => { state.srsData = d as any; });
   win.render = vi.fn();
   win.animCard = vi.fn();
   win.stopAuto = vi.fn();

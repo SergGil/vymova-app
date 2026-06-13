@@ -44,7 +44,7 @@ export function updateWordFamilies(): void {
 
   if (!family || family.length === 0) { section.style.display = 'none'; return; }
 
-  const wordIdx = (window as any)._wordIdx as Map<string, number> | undefined;
+  const wordIdx = state._wordIdx;
   section.style.display = 'block';
   chips.innerHTML = family.slice(0, 6).map(function(w) {
     const wi = wordIdx?.get(w);

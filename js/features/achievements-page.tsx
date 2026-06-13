@@ -51,7 +51,7 @@ function AchievementsGrid({ onSelect }: { onSelect: (a: Achievement) => void }):
   const k = state.known.size;
   const g = getGameData();
   const m = getModeStats();
-  const c = ((window as any)._customWords?.length ?? 0) as number;
+  const c = (state._customWords.length) as number;
 
   const cats: Record<string, Achievement[]> = {};
   ACHIEVEMENTS.forEach(function(a) {
@@ -111,7 +111,7 @@ function AchievementPopup({ ach, onClose }: { ach: Achievement | null; onClose: 
   const k = state.known.size;
   const g = getGameData();
   const m = getModeStats();
-  const c = ((window as any)._customWords?.length ?? 0) as number;
+  const c = (state._customWords.length) as number;
   const prog = ach.progress(k, g, m, c);
   const pct  = Math.min(Math.round(prog.cur / prog.max * 100), 100);
 
