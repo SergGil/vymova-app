@@ -170,6 +170,22 @@
   імпорт `ACHIEVEMENTS`/`recordCustomWordAdded` в `app.ts`). `_setCw()` —
   внутрішня функція `app.ts`, далі використовується `render()`, не
   видалена. 529/529 тестів, tsc чистий.
+- **[x] Другий прохід — ще 5 мертвих присвоєнь**: `window.openWordDetail`
+  (єдиний читач — `word-context.ts` через `(window as any)`, замінено на
+  прямий імпорт `openWordDetail` з `word-detail.tsx`, цикл відсутній) і
+  `window.W`/`window.known`/`window.srsData` (без жодного читача — скрізь
+  використовується `state.known`/`state.srsData`/прямий імпорт `W`)
+  видалено. `card-front-text.tsx`'s `SrsBadge` (останній читач
+  `win.srsData`/`win.cw`/`win.TODAY`) переведено на `useAppState()` →
+  `{ cw, srsData, TODAY }` зі `state`. `setKnown`/`setSrsData` більше не
+  пишуть зворотньо у `window.known`/`window.srsData` (нема кому читати).
+  529/529 тестів, tsc чистий. Залишок `window.*` (23 присвоєння:
+  `render`/`setIdx`/`setDeck`/`animCard`/`startAuto`/`stopAuto`/
+  `isAutoRunning`/`updateRing`/`playSound`/`knownEs`/`knownFr`/
+  `setBaseWords`/`_wordIdx`/`_customWords`/`getGameData`/`saveGameData`/
+  `onWordLearned`/`recordModeComplete`/`invalidateSimilarCache`/`setFlipped`/
+  `TODAY`/`Object.defineProperty(deck/idx/flipped/cw)`) — усі мають
+  активних читачів і є частиною "ядра картки" (Фаза 7.3 remainder).
 
 ## Верифікація
 

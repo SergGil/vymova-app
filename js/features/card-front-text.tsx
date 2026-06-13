@@ -38,12 +38,10 @@ export function PosTag() {
 }
 
 export function SrsBadge() {
-  useAppState();
-  const win = window as unknown as { srsData?: Record<string, SrsEntry>; TODAY?: string; cw?: import('../../src/types.js').WordEntry | null };
-  const cw = win.cw;
+  const { cw, srsData, TODAY } = useAppState();
   if (!cw) return null;
-  const sd = win.srsData?.[cw[0]];
-  const info = srsStatusInfo(sd, win.TODAY ?? '', getRangeVal());
+  const sd = (srsData as Record<string, SrsEntry>)[cw[0]];
+  const info = srsStatusInfo(sd, TODAY, getRangeVal());
   if (!info) return <div id="srs-next" className="srs-next" style={{ display: 'none' }} />;
   return <div id="srs-next" className={info.className}>{info.text}</div>;
 }

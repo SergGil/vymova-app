@@ -21,7 +21,6 @@ import { maybeSubmitScore }                        from './features/leaderboard.
 import { playSound }                               from './core/audio.ts';
 import { updateRing }                              from './features/ring.ts';
 import { invalidateSimilarCache }                  from './features/similar-words.tsx';
-import { openWordDetail }                          from './features/word-detail.tsx';
 import { ES_MODES, FR_MODES, getMode }             from './features/mode-utils.ts';
 import { safe as _safe }                           from './core/card-helpers.ts';
 import './features/speech.ts';
@@ -81,9 +80,6 @@ function _setCw(w: WordEntry | null): void {
 }
 
 // ── window live-getters for deck / idx / flipped (always reflect module vars) ──
-window.W = W;  // static — never reassigned
-window.known   = known;   // Set mutations propagate without reassignment
-window.srsData = srsData; // Object mutations propagate without reassignment
 Object.defineProperty(window, 'deck',    { configurable: true, get: () => deck,    set: (v) => _setDeck(v) });
 Object.defineProperty(window, 'idx',     { configurable: true, get: () => idx,     set: (v) => _setIdx(v) });
 Object.defineProperty(window, 'flipped', { configurable: true, get: () => flipped, set: (v) => { flipped = v; state.flipped = v; } });
@@ -292,7 +288,6 @@ window.saveGameData      = saveGameData;
 window.onWordLearned     = onWordLearned;
 // window.checkAchievements/showToast — set by render-achievements.ts
 // window.renderStats/openStats/closeStats/renderSRSForecast — set by stats.ts
-window.openWordDetail      = openWordDetail;
 window.setIdx     = (i: number)              => _setIdx(i);
 window.setDeck    = (d: WordEntry[])         => _setDeck(d);
 window.setBaseWords = (w: WordEntry[]) => { _baseWords = w as unknown as string[][]; state._baseWords = w; };
@@ -302,8 +297,8 @@ window._customWords          = _customWords;
 window.invalidateSimilarCache = invalidateSimilarCache;
 window.knownEs                = knownEs;
 window.knownFr                = knownFr;
-window.setKnown    = (s: Set<string>)          => { known = s; state.known = s; window.known = s; };
-window.setSrsData  = (d: Record<string, any>)  => { srsData = d; state.srsData = d; window.srsData = d; };
+window.setKnown    = (s: Set<string>)          => { known = s; state.known = s; };
+window.setSrsData  = (d: Record<string, any>)  => { srsData = d; state.srsData = d; };
 window.animCard      = _animCard;
 window.isAutoRunning = () => !!autoTimer;
 window.startAuto     = () => {

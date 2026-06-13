@@ -5,6 +5,7 @@ import { searchCollocations } from '../../data/collocations.ts';
 import { WORD_FAMILIES, WORD_FAMILY_REVERSE } from '../../data/word-families.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
+import { openWordDetail } from './word-detail.tsx';
 
 export function updateCollocations(): void {
   const cw = state.cw as WordEntry | null;
@@ -62,7 +63,7 @@ export function updateWordFamilies(): void {
       const targetWord = this.dataset.word ?? '';
       const wi2 = wordIdx?.has(targetWord) ? wordIdx.get(targetWord) : -1;
       if (wi2 === undefined || wi2 === -1) return;
-      (window as any).openWordDetail?.(W[wi2 as number] as unknown as WordEntry);
+      openWordDetail(W[wi2 as number] as unknown as WordEntry);
     });
   });
 }
