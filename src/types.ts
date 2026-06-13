@@ -96,4 +96,6 @@ export interface AppState {
   _dailyCache:    Record<string, unknown> | null;
   _srsStatsDirty: boolean;
   TODAY:          string;
+  _mode:          string; // resolved card mode for current render (item 28b — avoids
+                           // re-resolving 'mix' randomly per React component)
 }

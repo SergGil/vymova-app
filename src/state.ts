@@ -19,4 +19,5 @@ export const state: AppState = {
   _dailyCache:    null,
   _srsStatsDirty: true,
   TODAY:          new Date().toISOString().slice(0, 10),
+  _mode:          'en',
 };

@@ -6,7 +6,7 @@ import { useAppState } from '../../src/store.ts';
 import { getCefrLevel } from '../../data/cefr.ts';
 import { getCategoriesForWord } from '../../data/categories.js';
 import { categoryName } from './i18n.ts';
-import { getMode, getFrontLang } from './mode-utils.ts';
+import { getFrontLang, getResolvedMode } from './mode-utils.ts';
 
 function CardMeta() {
   const state = useAppState();
@@ -16,7 +16,7 @@ function CardMeta() {
   const wordIdx = (window as unknown as { _wordIdx?: Map<string, number> })._wordIdx;
   const realIdx = wordIdx?.has(cw[0]) ? wordIdx.get(cw[0])! : -1;
   const num = realIdx >= 0 ? realIdx + 1 : (deck.length ? (idx % deck.length) + 1 : 1);
-  const frontLang = getFrontLang(getMode());
+  const frontLang = getFrontLang(getResolvedMode());
   const level = getCefrLevel(cw[0]);
   const cats = getCategoriesForWord(cw[0]);
 

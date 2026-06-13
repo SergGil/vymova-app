@@ -13,9 +13,8 @@ import { getGameData, saveGameData, recordDailyWord,
          recordCustomWordAdded, _idle }            from './features/game.ts';
 import { isBookmarked }                            from './features/bookmarks.ts';
 import { getNoteForWord, hasNote }                 from './features/notes.ts';
-import { decodeIpa }                               from './core/ui-helpers.ts';
 import { ACHIEVEMENTS }                            from '../data/achievements.ts';
-import { t, tLang, type Lang }                     from './features/i18n.ts';
+import { t }                                       from './features/i18n.ts';
 import { renderGameBar }                           from './features/render-game-bar.ts';
 import { refreshGameBarLevel as renderLevelBadge } from './features/game-bar-level.tsx';
 import { checkAchievements }                       from './features/render-achievements.ts';
@@ -24,8 +23,8 @@ import { playSound }                               from './core/audio.ts';
 import { updateRing }                              from './features/ring.ts';
 import { invalidateSimilarCache }                  from './features/similar-words.tsx';
 import { openWordDetail }                          from './features/word-detail.tsx';
-import { ES_MODES, FR_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry }  from './features/mode-utils.ts';
-import { safe as _safe, boldEn as _boldEn, boldUa as _boldUa, boldHead as _boldHead, srsStatusInfo } from './core/card-helpers.ts';
+import { ES_MODES, FR_MODES, getMode }             from './features/mode-utils.ts';
+import { safe as _safe }                           from './core/card-helpers.ts';
 import './features/speech.ts';
 import './features/image-prefetch.ts';
 import './features/card-actions.ts';
@@ -96,8 +95,8 @@ function $e(id: string): HTMLElement { return $el[id] as HTMLElement; }
 
 // Кеш DOM-елементів: уникаємо getElementById на кожен render()
 const $el: Record<string, HTMLElement | null> = {};
-['wword','wtrans','wtransl','exen','exua','cidx','cknown',
- 'pbar','illus','card','srs-next',
+['cidx','cknown',
+ 'pbar','illus','card',
  'cb-similar','cb-families','cb-collocations'].forEach(function(id: string) {
   $el[id] = document.getElementById(id);
 });
@@ -221,18 +220,6 @@ function renderCardImage(word: string, illusEl: HTMLElement): void {
   } catch(e) { try { illusEl.style.display='none'; }catch(e2){} }
 }
 
-function renderSrsBadge(word: string): void {
-  const srsEl = $e('srs-next');
-  if (!srsEl) return;
-  const sd = (srsData as Record<string, {ef?: number; reps?: number; due?: string; interval?: number}>)[word];
-  const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
-  const info = srsStatusInfo(sd, TODAY, rangeVal);
-  if (!info) { srsEl.style.display = 'none'; return; }
-  srsEl.textContent = info.text;
-  srsEl.className   = info.className;
-  srsEl.style.display = '';
-}
-
 // ── Main render ────────────────────────────────────────────────────────────
 function render() {
   try {
@@ -241,76 +228,9 @@ function render() {
     _setCw(deck[idx % deck.length]);
     if (!cw) { console.error('render: cw is null'); return; }
     flipped = false;
+    state.flipped = false;
     const mode = getMode();
-    const esEntry = ES_MODES.has(mode) ? _esEntry(cw[0]) : null;
-    const _esWord = esEntry ? esEntry[0] : '';
-    const _esEx   = esEntry ? esEntry[1] : '';
-    const frEntry = FR_MODES.has(mode) ? _frEntry(cw[0]) : null;
-    const _frWord = frEntry ? frEntry[0] : '';
-    const _frEx   = frEntry ? frEntry[1] : '';
-    let FRONT_LANG: 'EN' | 'UA' | 'ES' | 'FR';
-    let frontWord: string, backWord: string;
-    switch (mode) {
-      case 'ua':    FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = cw[0];   break;
-      case 'en-es': FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = _esWord; break;
-      case 'es-en': FRONT_LANG = 'ES'; frontWord = _esWord; backWord = cw[0];   break;
-      case 'es-ua': FRONT_LANG = 'ES'; frontWord = _esWord; backWord = cw[1];   break;
-      case 'ua-es': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _esWord; break;
-      case 'en-fr': FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = _frWord; break;
-      case 'fr-en': FRONT_LANG = 'FR'; frontWord = _frWord; backWord = cw[0];   break;
-      case 'fr-ua': FRONT_LANG = 'FR'; frontWord = _frWord; backWord = cw[1];   break;
-      case 'ua-fr': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _frWord; break;
-      case 'es-fr': FRONT_LANG = 'ES'; frontWord = _esWord; backWord = _frWord; break;
-      case 'fr-es': FRONT_LANG = 'FR'; frontWord = _frWord; backWord = _esWord; break;
-      default:      FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = cw[1];
-    }
-    $e('wword').textContent = frontWord;
-    const tr = $e('wtrans');
-    const _enEx  = cw[2] || '';
-    const _uaEx  = cw[3] || '';
-    const trans = decodeIpa(cw[4] || '');
-    tr.textContent = (FRONT_LANG === 'EN') ? trans : '';
-    tr.style.display = (FRONT_LANG === 'EN' && trans) ? 'block' : 'none';
-    const posEl = document.getElementById('wpos') as HTMLElement | null;
-    if (posEl) {
-      const posCode = cw[5] || '';
-      const posLang: Lang = FRONT_LANG === 'EN' ? 'en' : FRONT_LANG === 'UA' ? 'ua' : FRONT_LANG === 'FR' ? 'fr' : 'es';
-      posEl.textContent = posCode ? tLang('pos.' + posCode, posLang) : '';
-      posEl.style.display = posCode ? 'block' : 'none';
-    }
-    const translEl = $e('wtransl');
-    translEl.textContent = backWord;
-    translEl.className = 'transl';
-    if (mode === 'en') {
-      $e('exen').innerHTML = _boldEn(_enEx, cw);
-      $e('exua').textContent = _uaEx;
-    } else if (mode === 'ua') {
-      $e('exen').innerHTML = _boldUa(_uaEx, cw) || _uaEx;
-      $e('exua').innerHTML = _boldEn(_enEx, cw);
-    } else if (ES_MODES.has(mode)) {
-      let _frontEx = '', _backEx = '';
-      switch (mode) {
-        case 'en-es': _frontEx = _enEx; _backEx = _esEx; break;
-        case 'es-en': _frontEx = _esEx; _backEx = _enEx; break;
-        case 'es-ua': _frontEx = _esEx; _backEx = _uaEx; break;
-        case 'ua-es': _frontEx = _uaEx; _backEx = _esEx; break;
-        case 'es-fr': _frontEx = _esEx; _backEx = _frEx; break;
-        case 'fr-es': _frontEx = _frEx; _backEx = _esEx; break;
-      }
-      $e('exen').innerHTML = _boldHead(_frontEx, frontWord) || _frontEx;
-      $e('exua').innerHTML = _boldHead(_backEx, backWord) || _backEx;
-    } else if (FR_MODES.has(mode)) {
-      let _frontEx = '', _backEx = '';
-      switch (mode) {
-        case 'en-fr': _frontEx = _enEx; _backEx = _frEx; break;
-        case 'fr-en': _frontEx = _frEx; _backEx = _enEx; break;
-        case 'fr-ua': _frontEx = _frEx; _backEx = _uaEx; break;
-        case 'ua-fr': _frontEx = _uaEx; _backEx = _frEx; break;
-      }
-      $e('exen').innerHTML = _boldHead(_frontEx, frontWord) || _frontEx;
-      $e('exua').innerHTML = _boldHead(_backEx, backWord) || _backEx;
-    }
-    $e('exua').className = 'ex-ua';
+    state._mode = mode;
     if ($e('cb-families'))     $e('cb-families').style.display     = 'none';
     if ($e('cb-collocations')) $e('cb-collocations').style.display = 'none';
     $e('cidx').textContent = (idx % deck.length + 1) + '/' + deck.length;
@@ -320,7 +240,6 @@ function render() {
     renderCardImage(cw[0], $e('illus'));
     const cardEl = $e('card');
     if (_activeKnown().has(cw[0])) { cardEl!.classList.add('is-known'); } else { cardEl!.classList.remove('is-known'); }
-    _safe(() => renderSrsBadge(cw![0]));
     _safe(() => {
       const dontKnowEl = document.getElementById('btn-dontknow') as HTMLElement | null;
       if (dontKnowEl) {

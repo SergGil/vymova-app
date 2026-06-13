@@ -2,6 +2,9 @@
 // Shared ES mode detection + helpers used by app.ts and similar-words.ts
 import { W_ES } from '../../data/words_es.js';
 import { W_FR } from '../../data/words_fr.js';
+import { boldEn, boldUa, boldHead } from '../core/card-helpers.ts';
+import { state } from '../../src/state.ts';
+import type { WordEntry } from '../../src/types.js';
 
 export const ES_MODES = new Set(['en-es', 'es-en', 'es-ua', 'ua-es', 'es-fr', 'fr-es']);
 export const FR_MODES = new Set(['en-fr', 'fr-en', 'fr-ua', 'ua-fr', 'es-fr', 'fr-es']);
@@ -32,6 +35,86 @@ export function getFrontLang(mode: string): 'EN' | 'UA' | 'ES' | 'FR' {
     case 'fr-es': return 'FR';
     default:      return 'EN'; // 'en', 'en-es', 'en-fr'
   }
+}
+
+// Для 'mix'-режиму getMode() обирає випадкове значення (a чи b) при кожному
+// викликові. render() резолвить його раз на оновлення картки і кладе в
+// `state._mode`, щоб усі React-компоненти картки (item 28a/28b) бачили той
+// самий резолвлений режим, а не кожен своє випадкове значення.
+export function getResolvedMode(): string {
+  return state._mode || getMode();
+}
+
+export interface CardView {
+  FRONT_LANG: 'EN' | 'UA' | 'ES' | 'FR';
+  frontWord: string;
+  backWord: string;
+  exenHtml: string;
+  exuaHtml: string;
+}
+
+// Чисте обчислення FRONT_LANG/frontWord/backWord/прикладів для item 28b.
+// Дублює (без зміни) логіку, яка раніше була в render(); сама render() ще
+// лишається — буде прибрана в фінальних під-кроках 28.
+export function computeCardView(cw: WordEntry, mode: string): CardView {
+  const esE = ES_MODES.has(mode) ? esEntry(cw[0]) : null;
+  const _esWord = esE ? esE[0] : '';
+  const _esEx   = esE ? esE[1] : '';
+  const frE = FR_MODES.has(mode) ? frEntry(cw[0]) : null;
+  const _frWord = frE ? frE[0] : '';
+  const _frEx   = frE ? frE[1] : '';
+
+  let FRONT_LANG: 'EN' | 'UA' | 'ES' | 'FR';
+  let frontWord: string, backWord: string;
+  switch (mode) {
+    case 'ua':    FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = cw[0];   break;
+    case 'en-es': FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = _esWord; break;
+    case 'es-en': FRONT_LANG = 'ES'; frontWord = _esWord; backWord = cw[0];   break;
+    case 'es-ua': FRONT_LANG = 'ES'; frontWord = _esWord; backWord = cw[1];   break;
+    case 'ua-es': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _esWord; break;
+    case 'en-fr': FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = _frWord; break;
+    case 'fr-en': FRONT_LANG = 'FR'; frontWord = _frWord; backWord = cw[0];   break;
+    case 'fr-ua': FRONT_LANG = 'FR'; frontWord = _frWord; backWord = cw[1];   break;
+    case 'ua-fr': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _frWord; break;
+    case 'es-fr': FRONT_LANG = 'ES'; frontWord = _esWord; backWord = _frWord; break;
+    case 'fr-es': FRONT_LANG = 'FR'; frontWord = _frWord; backWord = _esWord; break;
+    default:      FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = cw[1];
+  }
+
+  const _enEx = cw[2] || '';
+  const _uaEx = cw[3] || '';
+  let exenHtml = '', exuaHtml = '';
+  if (mode === 'en') {
+    exenHtml = boldEn(_enEx, cw);
+    exuaHtml = _uaEx;
+  } else if (mode === 'ua') {
+    exenHtml = boldUa(_uaEx, cw) || _uaEx;
+    exuaHtml = boldEn(_enEx, cw);
+  } else if (ES_MODES.has(mode)) {
+    let _frontEx = '', _backEx = '';
+    switch (mode) {
+      case 'en-es': _frontEx = _enEx; _backEx = _esEx; break;
+      case 'es-en': _frontEx = _esEx; _backEx = _enEx; break;
+      case 'es-ua': _frontEx = _esEx; _backEx = _uaEx; break;
+      case 'ua-es': _frontEx = _uaEx; _backEx = _esEx; break;
+      case 'es-fr': _frontEx = _esEx; _backEx = _frEx; break;
+      case 'fr-es': _frontEx = _frEx; _backEx = _esEx; break;
+    }
+    exenHtml = boldHead(_frontEx, frontWord) || _frontEx;
+    exuaHtml = boldHead(_backEx, backWord) || _backEx;
+  } else if (FR_MODES.has(mode)) {
+    let _frontEx = '', _backEx = '';
+    switch (mode) {
+      case 'en-fr': _frontEx = _enEx; _backEx = _frEx; break;
+      case 'fr-en': _frontEx = _frEx; _backEx = _enEx; break;
+      case 'fr-ua': _frontEx = _frEx; _backEx = _uaEx; break;
+      case 'ua-fr': _frontEx = _uaEx; _backEx = _frEx; break;
+    }
+    exenHtml = boldHead(_frontEx, frontWord) || _frontEx;
+    exuaHtml = boldHead(_backEx, backWord) || _backEx;
+  }
+
+  return { FRONT_LANG, frontWord, backWord, exenHtml, exuaHtml };
 }
 
 export function esEntry(word: string): readonly [string, string] | null {

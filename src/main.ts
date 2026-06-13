@@ -124,3 +124,6 @@ mountSimilarWordsChips();
 
 const { mountCardMeta } = await import('../js/features/card-meta.tsx');
 mountCardMeta();
+
+const { mountCardFrontText } = await import('../js/features/card-front-text.tsx');
+mountCardFrontText();

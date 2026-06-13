@@ -179,9 +179,18 @@
       `render()` більше не пише в `#wnum`/`#wlang`/`#wcefr`/`#wcategory`
       (відповідні рядки й кеш `$el` прибрано). `#btn-unmark` і раніше не мав
       обробника — залишився декоративною кнопкою, лише `stopPropagation`.
-    - 28b. Текстовий вміст лицьової сторони (`#wword`/`#wtrans`/`#wpos`/
-      `#srs-next`/`#wtransl`/`#exen`/`#exua`) → компонент, що читає
-      обчислення FRONT_LANG/frontWord/backWord.
+    - 28b. [x] Текстовий вміст лицьової сторони (`#wword`/`#wtrans`/`#wpos`/
+      `#srs-next`/`#wtransl`/`#exen`/`#exua`) → 7 малих React-компонентів
+      у `card-front-text.tsx`, кожен зі своїм `#xxx-mount`. Чисте обчислення
+      FRONT_LANG/frontWord/backWord/прикладів винесено в `computeCardView()`
+      (`mode-utils.ts`). Для 'mix'-режиму додано `state._mode` (резолвиться
+      раз у `render()`) і `getResolvedMode()`, щоб усі компоненти картки
+      бачили той самий режим, а не кожен своє випадкове a/b (виправлено й
+      для `CardMeta` з 28a). Також виявлено й виправлено баг: `render()`
+      скидав лише локальну `flipped`, але не `state.flipped` — через це
+      `SimilarWordsChips` (item 26) міг лишатись видимим на новій картці;
+      тепер `render()` синхронізує `state.flipped = false`.
+      `renderSrsBadge()`/`renderSrsBadge`-кеш прибрано з `app.ts`.
     - 28c. Зворотній бік картки (`#cb-transl`/`#cb-ipa`/`#cb-ex`/`#cb-exua`).
     - 28d. `#illus` (зображення) — ймовірно лишається імперативним
       (складне кешування через IndexedDB/мережу), документується окремо.
