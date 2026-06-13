@@ -13,6 +13,7 @@ import type { WordEntry } from '../../src/types.js';
 import { t, getLang } from './i18n.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { DICT } from '../modes/word-letters.tsx';
+import { refreshDuelGameHeader } from './duel-game-header.tsx';
 
 const DICT_SET = new Set(DICT);
 
@@ -182,6 +183,9 @@ let _freezeTimer: ReturnType<typeof setTimeout> | null = null;
 const _resumeCountdownTimers = new Map<string, ReturnType<typeof setInterval>>();
 let _oppName   = '';
 let _oppAvatar = '';
+let _oppScore  = 0;
+let _oppIdx    = 0;
+let _oppFlags: (boolean|'skip'|'double')[] = [];
 let _roomCreatedAt = 0;
 // Room/deck params kept for session persistence & resume (esp. async duels,
 // whose /duel_rooms/ doc may only contain partial data pushed by _pushScore)
@@ -271,6 +275,37 @@ function _extendDeckOnSkip(): void {
 function _getMyName():string{ try{const prfs=_getProfiles();const id=_getActiveId();return prfs.find((x:any)=>x.id===id)?.name||t('duel.player');}catch(e){return t('duel.player');} }
 function _getMyAvatar():string{ try{const prfs=_getProfiles();const id=_getActiveId();return prfs.find((x:any)=>x.id===id)?.avatar||'🧑';}catch(e){return '🧑';} }
 
+// Знімок даних для duel-game-header.tsx (item 32, Фаза 5): React читає
+// поточний стан гри, polling/state-machine логіка лишається тут.
+export interface GameHeaderData {
+  myAvatar:string; myScore:number; myIdx:number; myTotal:number; myFlags:(boolean|'skip'|'double')[];
+  oppAvatar:string; oppName:string; oppScore:number; oppIdx:number; oppFlags:(boolean|'skip'|'double')[]; oppTotal:number;
+  mode:DuelMode; progressText:string;
+  bestOf:BestOf; seriesMe:number; seriesOpp:number;
+  roomCode:string|null;
+}
+export function _getGameHeaderData(): GameHeaderData {
+  return {
+    myAvatar: _getMyAvatar(),
+    myScore: _myScore,
+    myIdx: _quizIdx,
+    myTotal: _quizDeck.length,
+    myFlags: _myFlags,
+    oppAvatar: _oppAvatar||'🧑',
+    oppName: _oppName||t('duel.opp'),
+    oppScore: _oppScore,
+    oppIdx: _oppIdx,
+    oppFlags: _oppFlags,
+    oppTotal: ROOM_SIZE,
+    mode: _mode,
+    progressText: `${_quizIdx+1} / ${_quizDeck.length}`,
+    bestOf: _bestOf,
+    seriesMe: _mySlot==='p1'?_series.p1wins:_series.p2wins,
+    seriesOpp: _mySlot==='p1'?_series.p2wins:_series.p1wins,
+    roomCode: (_roomId && _mySlot==='p1') ? _roomId : null,
+  };
+}
+
 // ── UI refs ───────────────────────────────────────────────────
 const $ = (id:string) => document.getElementById(id)!;
 const elLobby     = () => $('duel-lobby')     as HTMLElement;
@@ -278,16 +313,7 @@ const elCountdown = () => $('duel-countdown') as HTMLElement;
 const elGame      = () => $('duel-game')      as HTMLElement;
 const elResult    = () => $('duel-result')    as HTMLElement;
 const elMsg       = () => $('duel-msg');
-const elMyScore   = () => $('dm-my-score');
-const elOppScore  = () => $('dm-opp-score');
-const elOppName   = () => $('dm-opp-name');
-const elOppAv     = () => $('dm-opp-av');
-const elOppProg   = () => $('dm-opp-progress');
-const elMyAv      = () => $('dm-my-av');
-const elMyProg    = () => $('dm-my-progress');
-const elModeBadge = () => $('dm-mode-badge');
 const elQuestion  = () => $('dm-question');
-const elProgress  = () => $('dm-progress');
 const elOpts      = () => $('dm-options')  as HTMLElement;
 const elInput     = () => $('dm-input')    as HTMLInputElement;
 const elFeedback  = () => $('dm-feedback');
@@ -509,17 +535,7 @@ function _setupGameUI(): void {
   _stopResultPoll();
   if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
-  elOppName().textContent=_oppName||t('duel.opp'); elOppAv().textContent=_oppAvatar;
-  elMyAv().textContent=_getMyAvatar();
-  const mInfo=DUEL_MODES.find(m=>m.id===_mode)||DUEL_MODES[0];
-  elModeBadge().textContent=`${mInfo.icon} ${t('duel.mode.'+_mode)}`;
-  // Persistent room code hint for the host of a private room
-  const codeHint=$('dm-room-code-hint') as HTMLElement|null;
-  const codeVal=$('dm-room-code-val') as HTMLElement|null;
-  if(codeHint && codeVal){
-    if(_roomId && _mySlot==='p1'){ codeVal.textContent=_roomId; codeHint.style.display=''; }
-    else { codeHint.style.display='none'; }
-  }
+  refreshDuelGameHeader();
   const isInputMode=_mode==='write'||_mode==='anagram'||_mode==='letters';
   elOpts().style.display=isInputMode?'none':'';
   const ir=$('dm-input-row') as HTMLElement|null; if(ir) ir.style.display=isInputMode?'':'none';
@@ -528,14 +544,10 @@ function _setupGameUI(): void {
   _updateHintUI();
   // Power-ups
   _renderPowerups();
-  // Series indicator
-  _updateSeriesUI();
 }
 
 function _startGameUI(): void {
-  elMyScore().textContent='0'; elOppScore().textContent='0';
-  elOppProg().textContent='0/10';
-  _renderMyProgressBar(); _renderOppProgressBar(0);
+  _oppScore=0; _oppIdx=0; _oppFlags=[];
   _setupGameUI();
   _showGame();
   _renderQuestion();
@@ -628,32 +640,13 @@ function _showMiniToast(msg:string): void {
   setTimeout(()=>t.remove(), 2200);
 }
 
-// ── Animated dot progress bar (mine + opponent's) ────────────
-function _renderProgressBar(elId:string, idx:number, flags?:(boolean|'skip'|'double')[], fallbackColor='var(--accent2)', total=ROOM_SIZE): void {
-  const el=$(elId) as HTMLElement|null; if(!el) return;
-  el.innerHTML = Array.from({length:Math.max(total,flags?.length??0)},(_,i)=>{
-    let bg='var(--border)';
-    if(flags && i<flags.length){
-      const f=flags[i];
-      bg = f==='skip' ? '#7f8c8d' : f==='double' ? '#f1c40f' : f ? '#27ae60' : '#e74c3c';
-    }
-    else if(i<idx) bg=fallbackColor;
-    return `<span style="width:10px;height:10px;border-radius:50%;display:inline-block;background:${bg};margin:1px;transition:background .3s;"></span>`;
-  }).join('');
+// ── Animated dot progress bar (mine + opponent's) — rendered by
+// duel-game-header.tsx via refreshDuelGameHeader() ────────────────
+function _renderOppProgressBar(idx:number, flags?:(boolean|'skip'|'double')[]): void {
+  _oppIdx=idx; _oppFlags=flags||[];
+  refreshDuelGameHeader();
 }
-function _renderOppProgressBar(idx:number, flags?:(boolean|'skip'|'double')[]): void { _renderProgressBar('dm-opp-progress-bar', idx, flags, 'var(--accent2)'); }
-function _renderMyProgressBar(): void {
-  _renderProgressBar('dm-my-progress-bar', _quizIdx, _myFlags, 'var(--accent)', _quizDeck.length);
-  elMyProg().textContent=`${_quizIdx}/${_quizDeck.length}`;
-}
-
-function _updateSeriesUI(): void {
-  const el=$('dm-series-row') as HTMLElement|null; if(!el) return;
-  if(_bestOf===1){ el.style.display='none'; return; }
-  el.style.display='flex';
-  $('dm-series-me').textContent=String(_mySlot==='p1'?_series.p1wins:_series.p2wins);
-  $('dm-series-opp').textContent=String(_mySlot==='p1'?_series.p2wins:_series.p1wins);
-}
+function _renderMyProgressBar(): void { refreshDuelGameHeader(); }
 
 function _startOpponentPoll(): void {
   _pollTimer=setInterval(async()=>{
@@ -662,8 +655,7 @@ function _startOpponentPoll(): void {
       if(!room) return;
       const opp=_mySlot==='p1'?room.p2:room.p1;
       if(opp){
-        elOppScore().textContent=String(opp.score);
-        elOppProg().textContent=`${opp.idx}/${ROOM_SIZE}`;
+        _oppScore=opp.score;
         _renderOppProgressBar(opp.idx, opp.flags);
         if(opp.reaction) _showReactionReceived(opp.reaction,opp.reactionTs);
       }
@@ -739,7 +731,6 @@ function _renderQuestion(): void {
   if(_quizIdx>=_quizDeck.length){_finishMyGame();return;}
   const w=_quizDeck[_quizIdx];
   _answered=false; _answerStartMs=Date.now();
-  elProgress().textContent=`${_quizIdx+1} / ${_quizDeck.length}`;
   elFeedback().textContent=''; elSpeed().textContent='';
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
   const nb=$('dm-next-btn') as HTMLButtonElement|null; if(nb) nb.style.display='none';
@@ -838,7 +829,6 @@ async function _answerChoice(btn:HTMLButtonElement,chosen:string,correct:string,
     _myFlags.push(false);
     feedbackHtml=`<span style="color:#e74c3c">✗ ${correct}</span>`;
   }
-  elMyScore().textContent=String(_myScore);
   elFeedback().innerHTML=feedbackHtml;
   elSpeed().textContent=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
   _renderPowerups();
@@ -867,7 +857,6 @@ function _submitWrite(): void {
     _myFlags.push(false);
     feedbackHtml=`<span style="color:#e74c3c">✗ ${w[0]}</span>`;
   }
-  elMyScore().textContent=String(_myScore);
   elFeedback().innerHTML=feedbackHtml;
   elSpeed().textContent=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
   _renderPowerups();
@@ -1295,7 +1284,6 @@ async function _tryResumeSession():Promise<void>{
       const savedDeckLen=sess.deckLen??ROOM_SIZE;
       while(_quizDeck.length<savedDeckLen) _extendDeckOnSkip();
       _setupGameUI();
-      elMyScore().textContent=String(savedScore);
       _renderMyProgressBar();
       _showGame(false);
       const chatLog=$('duel-chat-log') as HTMLElement|null; if(chatLog) chatLog.innerHTML='';

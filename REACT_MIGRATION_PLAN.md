@@ -252,17 +252,23 @@ Realtime Firebase-синхронізація, багато режимів дуе
     `_parseGame`/`_weekWords`/`_getRating` експортовані з `duel.ts`
     (залишаються там, бо `_getMyName`/`_getMyAvatar`/`_addHistory`/
     `_updateRating` теж їх використовують).
-32. [skip] Сам ігровий екран дуелі (питання/відповіді/таймер) —
-    **залишається imperative**. `_renderQuestion`/`_renderChoiceQ`/
-    `_renderWriteQ`/`_renderAnagramQ`/`_renderLettersQ`/`_startTempoTimer`/
-    `_answerChoice`/`_submitWrite` тісно зчеплені з живим Firebase-полінгом
-    (`_pollTimer`, `_pushScore`, `_advanceTimer`, `_tempoTimer`) і десятками
-    модульних змінних стану одного раунду (`_quizIdx`, `_myScore`, `_answered`,
-    `_doubleActive`, `_hintsLeft`, …). React не дав би UX-переваги, а ризик
-    зламати живу мультиплеєрну гру без можливості протестувати проти
-    реального Firebase — занадто високий. Чисту логіку (перевірку відповіді,
-    побудову колоди, генерацію анаграм/кодів) вже винесено й покрито тестами
-    в item "test: duel-logic" (29 → 22 нових тести, 529/529).
+32. [x] Сам ігровий екран дуелі (питання/відповіді/таймер) —
+    **частково мігровано**. Шапку (аватари, рахунок, прогрес-бари,
+    бейдж режиму, серія Best-of-3, код кімнати) винесено в
+    `duel-game-header.tsx` (`DuelGameHeader`, `mountDuelGameHeader()`/
+    `refreshDuelGameHeader()`, refresh-trigger pattern). `duel.ts`
+    тримає весь стан (`_oppScore`/`_oppIdx`/`_oppFlags` додані як модульні
+    змінні поряд з `_myScore`/`_quizIdx`/`_myFlags`) і експортує знімок
+    через `_getGameHeaderData()`; React лише рендерить, виклики
+    `refreshDuelGameHeader()` додані в `_setupGameUI`/`_startGameUI`/
+    `_renderMyProgressBar`/`_renderOppProgressBar`/опонентський полінг.
+    Решта екрану (`_renderQuestion`/`_renderChoiceQ`/`_renderWriteQ`/
+    `_renderAnagramQ`/`_renderLettersQ`/`_startTempoTimer`/`_answerChoice`/
+    `_submitWrite`, питання/опції/інпут/паверапи/чат) **залишається
+    imperative** — тісно зчеплено з живим Firebase-полінгом
+    (`_pollTimer`, `_pushScore`, `_advanceTimer`, `_tempoTimer`), переписувати
+    без live-тестування проти прод-БД ризиковано. Чисту логіку вже покрито
+    тестами в item "test: duel-logic" (29 → 22 тести, 529/529).
 33. [skip] Спостерігач, асинхронні челенджі, турнірна сітка —
     **залишається imperative** з тієї ж причини: `_startOpponentPoll`,
     `_startResultPoll`, `_startWaitPoll`, `_startTournWaitPoll`,
