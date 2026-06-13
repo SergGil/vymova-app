@@ -262,9 +262,14 @@ Realtime Firebase-синхронізація, багато режимів дуе
     через `_getGameHeaderData()`; React лише рендерить, виклики
     `refreshDuelGameHeader()` додані в `_setupGameUI`/`_startGameUI`/
     `_renderMyProgressBar`/`_renderOppProgressBar`/опонентський полінг.
+    Рядок паверапів (`dm-powerups`) також мігровано в `duel-powerups.tsx`
+    (`DuelPowerups`, `mountDuelPowerups()`/`refreshDuelPowerups()`) —
+    знімок через `_getPowerupsData()`, клік делегується в
+    `_onPowerupClick()` (зберігає попередній freeze-guard і викликає
+    `_usePowerup`).
     Решта екрану (`_renderQuestion`/`_renderChoiceQ`/`_renderWriteQ`/
     `_renderAnagramQ`/`_renderLettersQ`/`_startTempoTimer`/`_answerChoice`/
-    `_submitWrite`, питання/опції/інпут/паверапи/чат) **залишається
+    `_submitWrite`, питання/опції/інпут/чат) **залишається
     imperative** — тісно зчеплено з живим Firebase-полінгом
     (`_pollTimer`, `_pushScore`, `_advanceTimer`, `_tempoTimer`), переписувати
     без live-тестування проти прод-БД ризиковано. Чисту логіку вже покрито

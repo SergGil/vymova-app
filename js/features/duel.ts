@@ -15,6 +15,7 @@ import { notifyStateChange } from '../../src/store.ts';
 import { DICT } from '../modes/word-letters.tsx';
 import { refreshDuelGameHeader } from './duel-game-header.tsx';
 import { refreshDuelSpectator } from './duel-spectator.tsx';
+import { refreshDuelPowerups } from './duel-powerups.tsx';
 
 const DICT_SET = new Set(DICT);
 
@@ -60,9 +61,9 @@ const REACTIONS = ['👍','😅','🔥','😂','🤯','😤','🎉','👏'];
 export type DuelMode = 'quiz' | 'reverse' | 'write' | 'tempo' | 'anagram' | 'letters';
 export type Difficulty = CefrLevel | 'mixed'; // CEFR-based difficulty
 export type BestOf   = 1 | 3;
-type PowerupType    = 'double' | 'skip' | 'freeze';
+export type PowerupType    = 'double' | 'skip' | 'freeze';
 
-const POWERUPS: { id:PowerupType; icon:string }[] = [
+export const POWERUPS: { id:PowerupType; icon:string }[] = [
   { id:'double', icon:'🎯' },
   { id:'skip',   icon:'⏩' },
   { id:'freeze', icon:'🧊' },
@@ -566,44 +567,26 @@ function _updateHintUI(): void {
   hb.disabled = _hintsLeft<=0;
 }
 
+// Знімок даних для duel-powerups.tsx (item 32, Фаза 5).
+export interface PowerupsData {
+  enabled:boolean; mode:DuelMode; myPowerups:Record<PowerupType,number>; answered:boolean;
+}
+export function _getPowerupsData(): PowerupsData {
+  return { enabled:_powerupsEnabled, mode:_mode, myPowerups:{..._myPowerups}, answered:_answered };
+}
+
+// Клік по паверапу з duel-powerups.tsx — той самий guard, що раніше був
+// у addEventListener (запобігає freeze поза tempo-режимом).
+export function _onPowerupClick(type:PowerupType): void {
+  if(type==='freeze' && _mode!=='tempo'){
+    _showMiniToast(t('duel.pu.freeze.unavail'));
+    return;
+  }
+  _usePowerup(type);
+}
+
 function _renderPowerups(): void {
-  const el=$('dm-powerups') as HTMLElement|null; if(!el) return;
-  if(!_powerupsEnabled){ el.style.display='none'; return; }
-  el.style.display='flex';
-  el.innerHTML = POWERUPS.map(p=>{
-    const left = _myPowerups[p.id];
-    // 🧊 Freeze — only in Tempo mode; show grayed with explanation in other modes
-    const freezeUnavailable = p.id === 'freeze' && _mode !== 'tempo';
-    const unavailable = freezeUnavailable;
-    const canUse = left > 0 && !_answered && !unavailable;
-    const titleText = unavailable
-      ? t('duel.pu.freeze.unavail')
-      : `${t('duel.pu.'+p.id+'.desc')}${left > 0 ? ` (×${left} ${t('duel.pu.left')})` : ` (${t('duel.pu.used')})` }`;
-    const borderColor = unavailable ? 'var(--border)' : left>0 ? 'var(--accent)' : 'var(--border)';
-    const bgColor     = unavailable ? 'transparent' : left>0 ? 'rgba(0,200,100,.08)' : 'var(--bg2)';
-    const textColor   = unavailable ? 'var(--text3)' : left>0 ? 'var(--accent)' : 'var(--text3)';
-    const opacity     = unavailable ? '0.4' : '1';
-    // Use pointer-events instead of the `disabled` attribute: on iOS Safari a
-    // disabled button still swallows touches that land on it, which can block
-    // taps on a neighboring enabled button when they wrap onto the same row.
-    return `<button class="dm-pu-btn" data-pu="${p.id}" data-can-use="${canUse}"
-      title="${titleText}"
-      style="padding:5px 8px;border-radius:9px;border:1.5px solid ${borderColor};background:${bgColor};cursor:${canUse?'pointer':'default'};font-size:.78rem;color:${textColor};opacity:${opacity};pointer-events:${canUse?'auto':'none'};transition:opacity .2s;">
-      ${p.icon} ${p.id==='double'?'×2':t('duel.pu.'+p.id+'.label')}${!unavailable&&left>0?` (${left})`:''}${unavailable?' 🚫':''}
-    </button>`;
-  }).join('');
-  el.querySelectorAll<HTMLButtonElement>('.dm-pu-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      if(btn.dataset.canUse!=='true') return;
-      const type = btn.dataset.pu as PowerupType;
-      // Extra guard: prevent freeze outside tempo (belt-and-suspenders)
-      if(type==='freeze' && _mode!=='tempo'){
-        _showMiniToast(t('duel.pu.freeze.unavail'));
-        return;
-      }
-      _usePowerup(type);
-    });
-  });
+  refreshDuelPowerups();
 }
 
 async function _usePowerup(type: PowerupType): Promise<void> {

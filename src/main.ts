@@ -148,3 +148,6 @@ mountDuelGameHeader();
 
 const { mountDuelSpectator } = await import('../js/features/duel-spectator.tsx');
 mountDuelSpectator();
+
+const { mountDuelPowerups } = await import('../js/features/duel-powerups.tsx');
+mountDuelPowerups();
