@@ -191,7 +191,12 @@
       `SimilarWordsChips` (item 26) міг лишатись видимим на новій картці;
       тепер `render()` синхронізує `state.flipped = false`.
       `renderSrsBadge()`/`renderSrsBadge`-кеш прибрано з `app.ts`.
-    - 28c. Зворотній бік картки (`#cb-transl`/`#cb-ipa`/`#cb-ex`/`#cb-exua`).
+    - 28c. [x] Зворотній бік картки (`#cb-transl`/`#cb-ipa`/`#cb-ex`/`#cb-exua`,
+      `.card-face-back#card-back`) — виявлено, що це повністю мертва розмітка:
+      без жодного CSS-правила і без жодного JS, який пише в ці елементи
+      (реальний "флип" реалізовано через `.show`-класи на `#wtransl`/`#exua`
+      у `#card-front`, item 28b). Блок видалено повністю; `#similar-words-mount`
+      (item 26) переміщено напряму в `.card` як сестру `#card-front`.
     - 28d. `#illus` (зображення) — ймовірно лишається імперативним
       (складне кешування через IndexedDB/мережу), документується окремо.
     - 28e. Кнопки дій (`actions-bar`, know/dontknow, quick-quiz,
