@@ -157,3 +157,6 @@ mountDuelFeedback();
 
 const { mountDuelChatLog } = await import('../js/features/duel-chat-log.tsx');
 mountDuelChatLog();
+
+const { mountDuelQuestion } = await import('../js/features/duel-question.tsx');
+mountDuelQuestion();

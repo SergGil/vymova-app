@@ -719,20 +719,8 @@
             <div id="dm-timer-bar" style="height:100%;background:var(--accent2);border-radius:3px;width:100%;"></div>
           </div>
         </div>
-        <!-- Question -->
-        <div id="dm-question" style="background:var(--bg);border-radius:14px;padding:18px;text-align:center;margin-bottom:12px;min-height:60px;"></div>
-        <!-- Multiple choice options -->
-        <div id="dm-options" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;"></div>
-        <!-- Write mode input -->
-        <div id="dm-input-row" style="display:none;margin-bottom:10px;">
-          <input id="dm-input" type="text" data-i18n-placeholder="duel.writePrompt" placeholder="Введи переклад англійською…" autocomplete="off" spellcheck="false"
-            style="width:100%;padding:11px 14px;border:2px solid var(--border);border-radius:12px;font-size:1rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;box-sizing:border-box;margin-bottom:8px;">
-          <div style="display:flex;gap:8px;">
-            <button id="dm-submit-btn" data-i18n="duel.check" style="flex:1;padding:10px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;">Перевірити</button>
-            <button id="dm-hint-btn" style="padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.82rem;">💡</button>
-            <button id="dm-next-btn" data-i18n="duel.next" style="display:none;padding:10px 18px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-family:inherit;">Далі →</button>
-          </div>
-        </div>
+        <!-- Question / options / write input (React, duel-question.tsx) -->
+        <div id="duel-question-mount"></div>
         <!-- Feedback + speed indicator (React, duel-feedback.tsx) -->
         <div id="dm-feedback-mount"></div>
         <!-- In-game quick reactions -->

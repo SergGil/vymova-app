@@ -18,6 +18,7 @@ import { refreshDuelSpectator } from './duel-spectator.tsx';
 import { refreshDuelPowerups } from './duel-powerups.tsx';
 import { refreshDuelFeedback } from './duel-feedback.tsx';
 import { refreshDuelChatLog } from './duel-chat-log.tsx';
+import { refreshDuelQuestion } from './duel-question.tsx';
 
 const DICT_SET = new Set(DICT);
 
@@ -196,6 +197,18 @@ let _oppFlags: (boolean|'skip'|'double')[] = [];
 let _feedbackHtml = '';
 let _speedText    = '';
 export function _getFeedbackData(): { html:string; speed:string } { return { html:_feedbackHtml, speed:_speedText }; }
+// Question/answer/timer core (item 32, Фаза 5) — стан для duel-question.tsx
+let _qPrimary = '';
+let _qSecondary = '';
+let _qTertiary = '';
+let _choiceOptions: string[] = [];
+let _choiceAnswer = '';
+let _chosenOption: string|null = null;
+let _hintNote: string|null = null;
+let _writeInputValue = '';
+let _inputBorderColor = '';
+let _waitingFinish = false;
+let _showNextBtn = false;
 let _roomCreatedAt = 0;
 // Room/deck params kept for session persistence & resume (esp. async duels,
 // whose /duel_rooms/ doc may only contain partial data pushed by _pushScore)
@@ -324,9 +337,6 @@ const elCountdown = () => $('duel-countdown') as HTMLElement;
 const elGame      = () => $('duel-game')      as HTMLElement;
 const elResult    = () => $('duel-result')    as HTMLElement;
 const elMsg       = () => $('duel-msg');
-const elQuestion  = () => $('dm-question');
-const elOpts      = () => $('dm-options')  as HTMLElement;
-const elInput     = () => $('dm-input')    as HTMLInputElement;
 const elTimerBar  = () => $('dm-timer-bar') as HTMLElement;
 const elTimerNum  = () => $('dm-timer-num');
 
@@ -545,12 +555,7 @@ function _setupGameUI(): void {
   if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
   refreshDuelGameHeader();
-  const isInputMode=_mode==='write'||_mode==='anagram'||_mode==='letters';
-  elOpts().style.display=isInputMode?'none':'';
-  const ir=$('dm-input-row') as HTMLElement|null; if(ir) ir.style.display=isInputMode?'':'none';
   const tr=$('dm-timer-row') as HTMLElement|null; if(tr) tr.style.display=_mode==='tempo'?'':'none';
-  // Hint button
-  _updateHintUI();
   // Power-ups
   _renderPowerups();
 }
@@ -561,15 +566,6 @@ function _startGameUI(): void {
   _showGame();
   _renderQuestion();
   _startOpponentPoll();
-}
-
-function _updateHintUI(): void {
-  const hb=$('dm-hint-btn') as HTMLButtonElement|null;
-  if(!hb) return;
-  if(_mode!=='write'){ hb.style.display='none'; return; }
-  hb.style.display='';
-  hb.textContent=_hintsLeft>=999?t('duel.hint.btn'):`💡 ×${_hintsLeft}`;
-  hb.disabled = _hintsLeft<=0;
 }
 
 // Знімок даних для duel-powerups.tsx (item 32, Фаза 5).
@@ -719,53 +715,40 @@ function _renderQuestion(): void {
   _answered=false; _answerStartMs=Date.now();
   _feedbackHtml=''; _speedText=''; refreshDuelFeedback();
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
-  const nb=$('dm-next-btn') as HTMLButtonElement|null; if(nb) nb.style.display='none';
+  _chosenOption=null; _hintNote=null; _writeInputValue=''; _inputBorderColor=''; _showNextBtn=false; _waitingFinish=false;
   if(_mode==='write') _renderWriteQ(w);
   else if(_mode==='anagram') _renderAnagramQ(w);
   else if(_mode==='letters') _renderLettersQ(w);
   else _renderChoiceQ(w);
   _renderPowerups();
+  refreshDuelQuestion();
   if(_mode==='tempo') _startTempoTimer(w);
 }
 
 function _renderChoiceQ(w:WordEntry): void {
   const isRev=_mode==='reverse';
   const q=isRev?w[1]:w[0], ans=isRev?w[0]:w[1];
-  elQuestion().innerHTML=`<div style="font-size:1.25rem;font-weight:700;color:var(--text);text-align:center;">${q}</div>`;
-  elOpts().innerHTML='';
+  _qPrimary=q; _qSecondary=''; _qTertiary='';
   const wrongs:string[]=[]; const used=new Set([w[0].toLowerCase()]);
   const pool=_shuf(W.slice() as unknown as WordEntry[]);
   for(const pw of pool){if(wrongs.length>=NUM_OPTS-1)break;if(used.has(pw[0].toLowerCase()))continue;used.add(pw[0].toLowerCase());wrongs.push(isRev?pw[0]:pw[1]);}
-  _shuf([ans,...wrongs]).forEach((opt,i)=>{
-    const btn=document.createElement('button');
-    btn.className='quiz-option';
-    btn.innerHTML=`<span class="opt-num">${i+1}</span> ${opt}`;
-    btn.addEventListener('click',()=>_answerChoice(btn,opt,ans,w));
-    elOpts().appendChild(btn);
-  });
+  _choiceOptions=_shuf([ans,...wrongs]);
+  _choiceAnswer=ans;
 }
 
 function _renderWriteQ(w:WordEntry): void {
-  elQuestion().innerHTML=`<div style="font-size:1.25rem;font-weight:700;color:var(--text);text-align:center;">${w[1]}</div><div style="font-size:.78rem;color:var(--text3);margin-top:4px;text-align:center;">${t('duel.writeHint')}</div>`;
-  const inp=elInput(); inp.value=''; inp.style.borderColor=''; inp.disabled=false;
-  _updateHintUI(); _renderPowerups();
-  setTimeout(()=>{try{inp.focus();}catch(e){}},60);
+  _qPrimary=w[1]; _qSecondary=t('duel.writeHint'); _qTertiary='';
+  _choiceOptions=[]; _choiceAnswer='';
 }
 
 function _renderAnagramQ(w:WordEntry): void {
-  const scrambled=_shuffleLetters(w[0]);
-  elQuestion().innerHTML=`<div style="font-size:1.6rem;font-weight:700;letter-spacing:.3em;color:var(--text);text-align:center;">${scrambled}</div><div style="font-size:.95rem;color:var(--text2);margin-top:8px;text-align:center;">${w[1]}</div><div style="font-size:.78rem;color:var(--text3);margin-top:4px;text-align:center;">${t('duel.anagramHint')}</div>`;
-  const inp=elInput(); inp.value=''; inp.style.borderColor=''; inp.disabled=false;
-  _updateHintUI(); _renderPowerups();
-  setTimeout(()=>{try{inp.focus();}catch(e){}},60);
+  _qPrimary=_shuffleLetters(w[0]); _qSecondary=w[1]; _qTertiary=t('duel.anagramHint');
+  _choiceOptions=[]; _choiceAnswer='';
 }
 
 function _renderLettersQ(w:WordEntry): void {
-  const scrambled=_shuffleLetters(w[0]);
-  elQuestion().innerHTML=`<div style="font-size:1.6rem;font-weight:700;letter-spacing:.3em;color:var(--text);text-align:center;">${scrambled}</div><div style="font-size:.78rem;color:var(--text3);margin-top:6px;text-align:center;">${t('duel.lettersHint')}</div>`;
-  const inp=elInput(); inp.value=''; inp.style.borderColor=''; inp.disabled=false;
-  _updateHintUI(); _renderPowerups();
-  setTimeout(()=>{try{inp.focus();}catch(e){}},60);
+  _qPrimary=_shuffleLetters(w[0]); _qSecondary=t('duel.lettersHint'); _qTertiary='';
+  _choiceOptions=[]; _choiceAnswer='';
 }
 
 function _startTempoTimer(w:WordEntry): void {
@@ -781,10 +764,10 @@ function _startTempoTimer(w:WordEntry): void {
       clearInterval(_tempoTimer!); _tempoTimer=null;
       if(!_answered){
         _answered=true;
-        elOpts().querySelectorAll<HTMLButtonElement>('.quiz-option').forEach(b=>b.disabled=true);
         _feedbackHtml=`<span style="color:#e74c3c">${t('duel.timeout')}</span>`; refreshDuelFeedback();
         _myWrong++; _myFlags.push(false);
         _quizIdx++; _renderMyProgressBar(); _pushScore();
+        refreshDuelQuestion();
         if(_advanceTimer) clearTimeout(_advanceTimer);
         _advanceTimer=setTimeout(()=>{ _advanceTimer=null; _renderQuestion(); },1000);
       }
@@ -793,15 +776,14 @@ function _startTempoTimer(w:WordEntry): void {
 }
 
 // ── Answers ───────────────────────────────────────────────────
-async function _answerChoice(btn:HTMLButtonElement,chosen:string,correct:string,_w:WordEntry):Promise<void>{
+export async function _onOptionClick(chosen:string):Promise<void>{
   if(_answered) return;
   _answered=true;
+  _chosenOption=chosen;
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
   const ms=Date.now()-_answerStartMs;
-  elOpts().querySelectorAll<HTMLButtonElement>('.quiz-option').forEach(b=>b.disabled=true);
+  const correct=_choiceAnswer;
   const ok=chosen===correct;
-  btn.classList.add(ok?'correct':'wrong');
-  if(!ok) elOpts().querySelectorAll<HTMLButtonElement>('.quiz-option').forEach(b=>{if(b.textContent?.includes(correct)) b.classList.add('reveal');});
   let feedbackHtml = '';
   if(ok){
     const wasDouble = _doubleActive;
@@ -819,19 +801,22 @@ async function _answerChoice(btn:HTMLButtonElement,chosen:string,correct:string,
   _speedText=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
   refreshDuelFeedback();
   _renderPowerups();
+  refreshDuelQuestion();
   _quizIdx++; _renderMyProgressBar(); await _pushScore();
   if(_advanceTimer) clearTimeout(_advanceTimer);
   _advanceTimer=setTimeout(()=>{ _advanceTimer=null; if(_quizIdx<_quizDeck.length)_renderQuestion();else _finishMyGame();},ok?600:1200);
 }
 
-function _submitWrite(): void {
+export function _onInputChange(val:string): void { _writeInputValue=val; }
+
+export function _submitWrite(): void {
   if(_answered) return;
-  const w=_quizDeck[_quizIdx], inp=elInput();
-  const val=inp.value.trim().toLowerCase(), ans=w[0].toLowerCase();
+  const w=_quizDeck[_quizIdx];
+  const val=_writeInputValue.trim().toLowerCase(), ans=w[0].toLowerCase();
   const ok = _checkWriteAnswer(_mode, val, ans);
   const ms=Date.now()-_answerStartMs;
-  _answered=true; inp.disabled=true;
-  inp.style.borderColor=ok?'#27ae60':'#e74c3c';
+  _answered=true;
+  _inputBorderColor=ok?'#27ae60':'#e74c3c';
   let feedbackHtml='';
   if(ok){
     const wasDouble=_doubleActive;
@@ -848,26 +833,76 @@ function _submitWrite(): void {
   _speedText=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
   refreshDuelFeedback();
   _renderPowerups();
+  _showNextBtn=true;
+  refreshDuelQuestion();
   _quizIdx++; _renderMyProgressBar(); _pushScore();
-  const nb=$('dm-next-btn') as HTMLButtonElement|null;
-  if(nb){nb.style.display='inline-block';nb.focus();}
 }
 
-function _useHint(): void {
+export function _onNextClick(): void {
+  _showNextBtn=false;
+  if(_quizIdx<_quizDeck.length) _renderQuestion(); else _finishMyGame();
+}
+
+export function _useHint(): void {
   if(_hintsLeft<=0||_answered) return; // only before answering
   const w=_quizDeck[_quizIdx]; if(!w) return;
   if(_hintsLeft<999) _hintsLeft--;
-  _updateHintUI();
-  const h=w[0]; const hEl=elQuestion().querySelector('.dm-hint-text') as HTMLElement|null;
-  const hint=`💡 ${h.slice(0,Math.ceil(h.length/3))}...`;
-  if(hEl){ hEl.textContent=hint; }
-  else {
-    const d=document.createElement('div');
-    d.className='dm-hint-text';
-    d.style.cssText='font-size:.78rem;color:var(--accent);margin-top:6px;text-align:center;';
-    d.textContent=hint;
-    elQuestion().appendChild(d);
-  }
+  const h=w[0];
+  _hintNote=`💡 ${h.slice(0,Math.ceil(h.length/3))}...`;
+  refreshDuelQuestion();
+}
+
+// Знімок даних для duel-question.tsx (item 32, Фаза 5).
+export interface QuestionOptionVM { text:string; num:number; cls:string; }
+export interface QuestionData {
+  mode: DuelMode;
+  quizIdx: number;
+  waiting: boolean;
+  myCorrect: number;
+  myWrong: number;
+  qPrimary: string;
+  qSecondary: string;
+  qTertiary: string;
+  hintNote: string|null;
+  options: QuestionOptionVM[];
+  answered: boolean;
+  showOptions: boolean;
+  showInputRow: boolean;
+  inputBorderColor: string;
+  showHintBtn: boolean;
+  hintBtnText: string;
+  hintBtnDisabled: boolean;
+  showNextBtn: boolean;
+}
+export function _getQuestionData(): QuestionData {
+  const isInput=_mode==='write'||_mode==='anagram'||_mode==='letters';
+  return {
+    mode:_mode,
+    quizIdx:_quizIdx,
+    waiting:_waitingFinish,
+    myCorrect:_myCorrect,
+    myWrong:_myWrong,
+    qPrimary:_qPrimary,
+    qSecondary:_qSecondary,
+    qTertiary:_qTertiary,
+    hintNote:_hintNote,
+    options:_choiceOptions.map((opt,i)=>{
+      let cls='quiz-option';
+      if(_answered){
+        if(opt===_chosenOption) cls += (_chosenOption===_choiceAnswer?' correct':' wrong');
+        else if(_chosenOption!==_choiceAnswer && opt===_choiceAnswer) cls+=' reveal';
+      }
+      return {text:opt,num:i+1,cls};
+    }),
+    answered:_answered,
+    showOptions: !isInput && !_waitingFinish,
+    showInputRow: isInput && !_waitingFinish,
+    inputBorderColor:_inputBorderColor,
+    showHintBtn:_mode==='write',
+    hintBtnText:_hintsLeft>=999?t('duel.hint.btn'):`💡 ×${_hintsLeft}`,
+    hintBtnDisabled:_hintsLeft<=0,
+    showNextBtn:_showNextBtn,
+  };
 }
 
 async function _pushScore():Promise<void>{
@@ -886,13 +921,9 @@ async function _finishMyGame():Promise<void>{
       clearInterval(_pollTimer!); _pollTimer=null;
       _showFinish({...room,[_mySlot]:{...room[_mySlot],score:_myScore,done:true}} as RoomData);
     } else {
-      elQuestion().innerHTML=`<div style="display:flex;gap:24px;justify-content:center;align-items:center;">`+
-        `<div style="text-align:center;"><div style="font-size:1.6rem;font-weight:700;color:#27ae60;">${_myCorrect}</div><div style="font-size:.78rem;color:var(--text3);">${t('duel.correctCount')}</div></div>`+
-        `<div style="text-align:center;"><div style="font-size:1.6rem;font-weight:700;color:#e74c3c;">${_myWrong}</div><div style="font-size:.78rem;color:var(--text3);">${t('duel.wrongCount')}</div></div>`+
-      `</div>`;
+      _waitingFinish=true;
       _feedbackHtml=t('duel.waiting'); refreshDuelFeedback();
-      elOpts().innerHTML=''; elOpts().style.display='none';
-      const ir=$('dm-input-row') as HTMLElement|null; if(ir) ir.style.display='none';
+      refreshDuelQuestion();
     }
   }catch(e){console.warn('[duel]',e);}
 }
@@ -1596,11 +1627,6 @@ $('duel-join-input')?.addEventListener('keydown',(e:KeyboardEvent)=>{
   if(e.key==='Enter') joinRoom();
 });
 
-$('dm-input')?.addEventListener('keydown',(e:KeyboardEvent)=>{if(e.key==='Enter'&&!_answered)_submitWrite();});
-$('dm-submit-btn')?.addEventListener('click',()=>{if(!_answered)_submitWrite();});
-$('dm-next-btn')?.addEventListener('click',()=>{const nb=$('dm-next-btn') as HTMLButtonElement|null;if(nb)nb.style.display='none';if(_quizIdx<_quizDeck.length)_renderQuestion();else _finishMyGame();});
-$('dm-hint-btn')?.addEventListener('click',_useHint);
-
 // In-game reactions
 $('dm-react-row')?.querySelectorAll<HTMLButtonElement>('.dm-react-btn').forEach(b=>{
   b.addEventListener('click',()=>_sendChatMsg(b.dataset.emoji!));
@@ -1621,9 +1647,10 @@ _chatInput?.addEventListener('keydown',(e:KeyboardEvent)=>{ if(e.key==='Enter') 
 
 document.addEventListener('keydown',(e:KeyboardEvent)=>{
   const game=$('duel-game'); if(!game||game.style.display==='none') return;
-  if(_mode!=='write'&&['1','2','3','4'].includes(e.key)){
+  if(_mode!=='write'&&!_answered&&['1','2','3','4'].includes(e.key)){
     e.preventDefault();
-    elOpts().querySelectorAll<HTMLButtonElement>('.quiz-option:not(:disabled)')[parseInt(e.key)-1]?.click();
+    const opt=_choiceOptions[parseInt(e.key)-1];
+    if(opt) _onOptionClick(opt);
   }
 });
 

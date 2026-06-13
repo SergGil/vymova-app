@@ -283,13 +283,30 @@ Realtime Firebase-синхронізація, багато режимів дуе
     `innerHTML`-маніпулювання. Інпут, кнопка відправки та emoji-реакції
     лишаються imperative DOM-listeners (виклики `_sendChatMsg`/
     `_appendChatMsg`).
-    Решта екрану (`_renderQuestion`/`_renderChoiceQ`/`_renderWriteQ`/
-    `_renderAnagramQ`/`_renderLettersQ`/`_startTempoTimer`/`_answerChoice`/
-    `_submitWrite`, питання/опції/інпут/таймер) **залишається
-    imperative** — тісно зчеплено з живим Firebase-полінгом
-    (`_pollTimer`, `_pushScore`, `_advanceTimer`, `_tempoTimer`), переписувати
-    без live-тестування проти прод-БД ризиковано. Чисту логіку вже покрито
-    тестами в item "test: duel-logic" (29 → 22 тести, 529/529).
+    Ядро питання/відповіді/таймера (`_renderQuestion`/`_renderChoiceQ`/
+    `_renderWriteQ`/`_renderAnagramQ`/`_renderLettersQ`/`_startTempoTimer`/
+    `_answerChoice`→`_onOptionClick`/`_submitWrite`/`_useHint`) теж
+    мігровано в `duel-question.tsx` (`DuelQuestion`, `mountDuelQuestion()`/
+    `refreshDuelQuestion()`), замінивши `dm-question`/`dm-options`/
+    `dm-input-row` єдиним `#duel-question-mount`. `duel.ts` зберігає весь
+    стан питання як модульні змінні (`_qPrimary`/`_qSecondary`/`_qTertiary`/
+    `_choiceOptions`/`_choiceAnswer`/`_chosenOption`/`_hintNote`/
+    `_writeInputValue`/`_inputBorderColor`/`_waitingFinish`/`_showNextBtn`)
+    і експортує знімок через `_getQuestionData()`; рендер-функції лише
+    заповнюють ці змінні й кличуть `refreshDuelQuestion()`. Клік по
+    варіанту відповіді — `_onOptionClick(chosen)` (раніше `_answerChoice`
+    з `btn`-параметром; correct/wrong/reveal-стилі тепер обчислюються з
+    `_chosenOption`/`_choiceAnswer`, а не через `classList`). Інпут
+    write/anagram/letters — uncontrolled `<input key={quizIdx}>` з
+    `onChange→_onInputChange`, фокус через `useEffect`. Tempo-таймер
+    (`dm-timer-row`/`dm-timer-bar`/`dm-timer-num`) лишився imperative DOM
+    (CSS-transition трюк для плавної анімації), лише дисейбл опцій при
+    тайм-ауті тепер через `_answered`→`refreshDuelQuestion()`. "Очікування
+    суперника" після фінішу гравця (`_finishMyGame`) — окремий `waiting`-стан
+    у `_getQuestionData()`. Усе живе Firebase-полінг (`_pollTimer`,
+    `_pushScore`, `_advanceTimer`, `_tempoTimer`) лишилось без змін у
+    `duel.ts`. Чисту логіку вже покрито тестами в item "test: duel-logic"
+    (529/529).
 33. [x] Спостерігач, асинхронні челенджі, турнірна сітка —
     **спостерігач мігровано**. `_renderSpectatorView(room)` тепер лише
     зберігає знімок кімнати (`_specRoom`, `_getSpecRoom()`) і викликає
@@ -332,15 +349,15 @@ Realtime Firebase-синхронізація, багато режимів дуе
 
 ---
 **Підсумок Фази 5/6**: items 29-31 (лобі, лідерборд, історія), item 32
-(шапка ігрового екрану дуелі) і item 33 (спостерігач) мігровані на
-React, разом із текстовою/реактивною частиною картки (items 24-28) —
-усе покрите тестами (529/529). Решта item 32-33 (питання/відповіді/
-таймер, async-челенджі, турнірна сітка) і items 34-36 свідомо залишені
-imperative — це живі мультиплеєрні Firebase polling-машини без
-можливості безпечного переписування без live-тестування проти прод-БД,
-або інфраструктурні зміни, що вимагали б одночасного переписування
-десятків ще-imperative модулів. React-міграція цієї картки й дуелі
-вважається завершеною в межах безпечного обсягу.
+(шапка ігрового екрану дуелі, паверапи, фідбек, чат-лог, ядро питання/
+відповіді/таймера) і item 33 (спостерігач) мігровані на React, разом із
+текстовою/реактивною частиною картки (items 24-28) — усе покрите тестами
+(529/529). Решта item 33 (async-челенджі, турнірна сітка) і items 34-36
+свідомо залишені imperative — це живі мультиплеєрні Firebase
+polling-машини без можливості безпечного переписування без
+live-тестування проти прод-БД, або інфраструктурні зміни, що вимагали б
+одночасного переписування десятків ще-imperative модулів. React-міграція
+цієї картки й дуелі вважається завершеною в межах безпечного обсягу.
 
 ---
 **Правило**: жодна фаза не починається, поки попередній крок не пройшов
