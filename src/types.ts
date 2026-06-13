@@ -98,4 +98,6 @@ export interface AppState {
   TODAY:          string;
   _mode:          string; // resolved card mode for current render (item 28b — avoids
                            // re-resolving 'mix' randomly per React component)
+  activePage:     string | null; // currently open sidebar page ('stats'/'ach'/'duel'/…),
+                                  // mirrors sidebar.ts's openPage/closePage (item 36 Phase 7.2)
 }

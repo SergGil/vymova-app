@@ -5,7 +5,7 @@ import { CEFR_META } from '../../data/cefr.ts';
 import type { CefrLevel } from '../../data/cefr.ts';
 import { W } from '../../data/words.js';
 import { getLevel } from '../features/game.ts';
-import { openPage } from '../features/sidebar.ts';
+import { openPage, closePage } from '../features/sidebar.ts';
 import type { WordEntry } from '../../src/types.js';
 import type { PaceSnapshot } from './learning-path-logic.ts';
 import {
@@ -128,7 +128,7 @@ function _navigateToLevel(level: CefrLevel): void {
     sel.dispatchEvent(new Event('change'));
   }
   openPage('cards' as Parameters<typeof openPage>[0]);
-  (window.closePage as (() => void) | undefined)?.();
+  closePage();
 }
 
 // ── Render ────────────────────────────────────────────────────

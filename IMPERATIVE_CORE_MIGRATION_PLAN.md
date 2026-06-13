@@ -84,11 +84,35 @@
   `duel.ts`/`grammar-page.tsx` ⇒ цикл з `sidebar.ts` неможливий, але цикл з
   `i18n.ts` (бо `duel.ts`/`grammar-page.tsx` самі імпортують `i18n.ts` для
   `t()`) — лишається.
-- **Залишок — не зроблено**: повне переписування `openPage`/`closePage`
-  системи (роутинг сторінок, `_activePage`, `MODE_OVERLAY_IDS`,
-  localStorage-restore) на React-стан у `src/store.ts` — окремий великий
-  під-проєкт; `daily-challenge.ts` не переглядався окремо (вже без
-  `window.*` після Фази 7.1).
+- **[x] Другий прохід — `state.activePage`**: додано поле `activePage:
+  string | null` у `AppState`/`src/state.ts` — єдине джерело істини для
+  "яка сторінка відкрита", синхронізоване з `openPage()`/`closePage()` у
+  `sidebar.ts` через `notifyStateChange()`. Локальна `_activePage`-змінна
+  (write-only дублікат) видалена. Це не змінює існуючу DOM-логіку
+  (`classList`/`style.display`/`MODE_OVERLAY_IDS`/localStorage-restore
+  залишились як були — їх ризиковано чіпати без браузерного тестування), але
+  дає React-компонентам реактивний доступ до поточної сторінки через
+  `useStateVersion()` для майбутніх `useEffect`-рефрешів.
+- **[x] Третій прохід — `window.closePage` у листових файлах**:
+  `word-of-day.tsx` (немає циклу з `sidebar.ts`) і `learning-path.ts` (вже
+  імпортував `openPage`, додано `closePage` до того ж імпорту) переведені
+  на прямий імпорт.
+- **Залишок — архітектурний бар'єр**: `duel.ts`, `grammar-page.tsx`,
+  `idioms-page.tsx` досі викликають `window.openPage`/`window.closePage`,
+  і **не можуть** імпортувати `sidebar.ts` напряму — `sidebar.ts` сам
+  імпортує `renderDuel`/`openGrammarContent`/`openIdiomsContent` з цих
+  файлів (Фаза 7.2, прохід 1), тож зворотний імпорт = цикл. Справжнє
+  вирішення — прибрати цей взаємний виклик: або (а) router-модуль без
+  page-специфічних імпортів + registry, куди сторінки самі реєструються
+  при завантаженні, або (б) кожна сторінка сама підписується на
+  `state.activePage` через `useStateVersion()`/`useEffect` і
+  рефрешиться, коли стає активною — тоді `sidebar.ts` лише виставляє
+  `state.activePage`/`classList`, без жодних page-специфічних викликів.
+  Варіант (б) органічніший для React і усуває обидва напрямки
+  `window.*`, але вимагає змін у кожному з ~9 page-компонентів і
+  браузерного smoke-тесту — окремий під-проєкт. `MODE_OVERLAY_IDS`/
+  `daily-challenge.ts` не потребували змін (вже без `window.*` після
+  Фази 7.1).
 
 ### Фаза 7.3 — card-actions / swipe / keyboard (ядро картки)
 - `js/features/card-actions.ts` (324 рядки), `swipe.ts` (20), `keyboard.ts`

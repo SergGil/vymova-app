@@ -9,6 +9,7 @@ import type { WordEntry } from '../../src/types.ts';
 import { t } from './i18n.ts';
 import { ES_MODES, FR_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry } from './mode-utils.ts';
 import { loadWikiImage } from '../core/images.ts';
+import { closePage } from './sidebar.ts';
 
 const todayNum = state.TODAY.split('').reduce((a, c) => a * 31 + c.charCodeAt(0), 0);
 const wotdBaseIdx = Math.abs(todayNum) % W.length;
@@ -51,7 +52,7 @@ function goToWord(word: WordEntry): void {
   let di = deck.findIndex(w => w[0] === word[0]);
   if (di === -1) { deck.push(word); di = deck.length - 1; }
   (window.setIdx as ((i: number) => void) | undefined)?.(di);
-  (window.closePage as (() => void) | undefined)?.();
+  closePage();
   (window.render as (() => void) | undefined)?.();
 }
 

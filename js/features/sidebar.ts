@@ -4,6 +4,8 @@ import { refreshAchievementsPage } from './achievements-page.tsx';
 import { renderDuel } from './duel.ts';
 import { openGrammarContent } from './grammar-page.tsx';
 import { openIdiomsContent } from './idioms-page.tsx';
+import { state } from '../../src/state.ts';
+import { notifyStateChange } from '../../src/store.ts';
 
 // ── Image cache clear confirm ──────────────────────────────────
 let _imgClearCb: (() => void) | null = null;
@@ -41,7 +43,6 @@ _ham?.addEventListener('click', () => {
 _sbOvl.addEventListener('click', closeSidebar);
 
 // ── Page view system ──────────────────────────────────────────
-let _activePage: string | null = null;
 const ACTIVE_PAGE_KEY = 'ew_active_page';
 
 const PAGE_TO_SIDEBAR: Record<string, string> = {
@@ -62,7 +63,8 @@ function _setSidebarActive(page: string | null): void {
 
 export function openPage(page: string): void {
   closePage();
-  _activePage = page;
+  state.activePage = page;
+  notifyStateChange();
   try { localStorage.setItem(ACTIVE_PAGE_KEY, page); } catch(e){}
   _setSidebarActive(page);
   // Prevent body scroll when a page overlay is open
@@ -111,7 +113,7 @@ const MODE_OVERLAY_IDS = [
 ];
 
 export function closePage(): void {
-  _activePage = null;
+  if (state.activePage !== null) { state.activePage = null; notifyStateChange(); }
   try { localStorage.removeItem(ACTIVE_PAGE_KEY); } catch(e){}
   _setSidebarActive(null);
   // Restore body scroll when page is closed

@@ -20,4 +20,5 @@ export const state: AppState = {
   _srsStatsDirty: true,
   TODAY:          new Date().toISOString().slice(0, 10),
   _mode:          'en',
+  activePage:     null,
 };
