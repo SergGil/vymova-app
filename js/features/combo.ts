@@ -1,6 +1,7 @@
 // English Words App — js/features/combo.ts
 import { refreshComboBox } from './game-bar-streak.tsx';
 import { getGameData, saveGameData } from './game.ts';
+import { playSound } from '../core/audio.ts';
 
 let sessionCombo = 0;
 
@@ -13,8 +14,8 @@ export function getComboMult(): number {
 export function addCombo(): void {
   sessionCombo++;
   _renderCombo();
-  if (sessionCombo === 5)  { try { (window.playSound as (t:string)=>void)?.('combo'); } catch(e){} _showComboToast('🔥 ×2 COMBO!'); }
-  if (sessionCombo === 10) { try { (window.playSound as (t:string)=>void)?.('combo'); } catch(e){} _showComboToast('⚡ ×3 MEGA!'); }
+  if (sessionCombo === 5)  { try { playSound('combo'); } catch(e){} _showComboToast('🔥 ×2 COMBO!'); }
+  if (sessionCombo === 10) { try { playSound('combo'); } catch(e){} _showComboToast('⚡ ×3 MEGA!'); }
   if (sessionCombo === 25) { _showComboToast('🌌 JEDI FLOW!'); }
   try {
     const d = getGameData();

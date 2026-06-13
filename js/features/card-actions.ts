@@ -18,6 +18,7 @@ import { launchConfetti } from '../core/confetti.ts';
 import { t } from './i18n.ts';
 import { renderGameBar } from './render-game-bar.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
+import { updateRing } from './ring.ts';
 import type { WordEntry } from '../../src/types.js';
 
 // Typed view of the globals exposed by app.ts (setter/action functions —
@@ -37,7 +38,6 @@ const win = window as unknown as {
   startAuto?: () => void;
   isAutoRunning?: () => boolean;
   onWordLearned?: () => void;
-  updateRing?: () => void;
 };
 
 function _safe(fn: () => void): void {
@@ -316,7 +316,7 @@ document.getElementById('modal-confirm')!.addEventListener('click', function() {
   }
   _safe(() => renderGameBar());
   _safe(() => refreshGameBarLevel());
-  _safe(() => win.updateRing?.());
+  _safe(() => updateRing());
   _safe(() => win.render?.());
   document.getElementById('modal-overlay')!.style.display = 'none';
 });

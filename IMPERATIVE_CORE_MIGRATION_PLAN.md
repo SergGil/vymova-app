@@ -190,12 +190,29 @@
   `saveGameData` залишились в імпортах `app.ts` (використовуються в
   `onWordLearned()`), `invalidateSimilarCache`/`recordModeComplete`
   видалені з імпортів `app.ts` як невикористані. 529/529 тестів, tsc
-  чистий. Залишок `window.*` (19 присвоєнь:
+  чистий.
+- **[x] Під-фаза A — `window.playSound`**: чиста функція з
+  `js/core/audio.ts`, без залежності від `app.ts`. ~18 викликів
+  `(window.playSound as ...)?.('x')` у 8 файлах (`combo.ts`, `custom.ts`,
+  `pairs.ts`, `catpairs.tsx`, `fib.tsx`, `lesson.tsx`, `listening.tsx`,
+  `write.tsx`) переведено на прямий `import { playSound } from
+  '.../core/audio.ts'` + `playSound('x')`; локальні `type PlaySound = ...`
+  видалені. `window.playSound = playSound;` і відповідний імпорт у
+  `app.ts` видалені. 529/529, tsc чистий.
+- **[x] Під-фаза B — `window.updateRing`**: єдиний читач —
+  `card-actions.ts` (`win.updateRing?.()`), `updateRing` вже
+  експортується з `ring.ts`. Переведено на прямий
+  `import { updateRing } from './ring.ts'`. `window.updateRing =
+  updateRing;` видалено з `app.ts`, тип `win` у `card-actions.ts`
+  звужено. `card-actions.test.ts`: видалено мертвий `win.updateRing =
+  vi.fn()`, додано `getLevel`/`getNextLevel` у мок `game.ts` (потрібні
+  для реального `updateRing()`, який тепер викликається напряму). 529/529,
+  tsc чистий. Залишок `window.*` (17 присвоєнь:
   `render`/`setIdx`/`setDeck`/`animCard`/`startAuto`/`stopAuto`/
-  `isAutoRunning`/`updateRing`/`playSound`/`knownEs`/`knownFr`/
-  `setBaseWords`/`_wordIdx`/`_customWords`/`onWordLearned`/`setFlipped`/
-  `TODAY`/`Object.defineProperty(deck/idx/flipped/cw)`) — усі мають
-  активних читачів і є частиною "ядра картки" (Фаза 7.3 remainder).
+  `isAutoRunning`/`knownEs`/`knownFr`/`setBaseWords`/`_wordIdx`/
+  `_customWords`/`onWordLearned`/`setFlipped`/`setKnown`/`setSrsData`/
+  `TODAY`/`Object.defineProperty(deck/idx/flipped/cw)`) — план продовжує
+  Під-фазами C/D (`C:\Users\Serhii\.claude\plans\temporal-roaming-quiche.md`).
 
 ## Верифікація
 

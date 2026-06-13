@@ -17,6 +17,8 @@ const saveGameData = vi.fn();
 vi.mock('../../js/features/game.ts', () => ({
   getGameData: () => gameData,
   saveGameData,
+  getLevel: () => ({ name: '⭐ Test', min: 0, color: '#000', bg: '#fff' }),
+  getNextLevel: () => null,
 }));
 vi.mock('../../js/features/combo.ts', () => ({
   addCombo: vi.fn(), breakCombo: vi.fn(), flashCard: vi.fn(),
@@ -128,7 +130,6 @@ beforeEach(() => {
   win.onWordLearned = vi.fn();
   win.renderGameBar = vi.fn();
   win.renderLevelBadge = vi.fn();
-  win.updateRing = vi.fn();
 
   gameData.goalCur = 0;
   gameData.goalMax = 20;

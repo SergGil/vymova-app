@@ -7,12 +7,12 @@ import { W } from '../../data/words.js';
 import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
+import { playSound } from '../core/audio.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const SIZE = 10;
 
 type Speak = (text: string, btn: HTMLElement) => void;
-type PlaySound = (sound: string) => void;
 
 function build(): WordEntry[] {
   const pool = _shuf((state.deck.length ? state.deck.slice() : W.slice()) as WordEntry[]);
@@ -133,12 +133,12 @@ export function ListeningPage(): ReactElement {
     if (opt === correct) {
       setOk(o => o + 1);
       setResult({ correct: true, chosen: opt, correctAnswer: correct });
-      try { addCombo(); (window.playSound as PlaySound | undefined)?.('know'); } catch (e) {}
+      try { addCombo(); playSound('know'); } catch (e) {}
       recordModeAnswer('listen', true);
     } else {
       setFail(f => f + 1);
       setResult({ correct: false, chosen: opt, correctAnswer: correct });
-      try { breakCombo(); (window.playSound as PlaySound | undefined)?.('next'); } catch (e) {}
+      try { breakCombo(); playSound('next'); } catch (e) {}
       recordMistake(word[0]);
       recordModeAnswer('listen', false);
     }

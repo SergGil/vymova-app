@@ -5,6 +5,7 @@ import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { t } from '../features/i18n.ts';
 import { recordModeComplete } from '../features/game.ts';
+import { playSound } from '../core/audio.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const N = 6;
@@ -86,14 +87,14 @@ function onClick(btn: HTMLElement, item: { text: string; id: number }, side: str
     pSel.el.classList.add('matched');
     btn.classList.add('matched');
     pSel = null; pMatched++;
-    try { (window.playSound as ((s: string) => void) | undefined)?.('know'); } catch (e) {}
+    try { playSound('know'); } catch (e) {}
     if (pMatched === N) setTimeout(finish, 350);
   } else {
     const wrongA = pSel.el;
     wrongA.classList.remove('selected');
     wrongA.classList.add('wrong'); btn.classList.add('wrong');
     pSel = null;
-    try { (window.playSound as ((s: string) => void) | undefined)?.('next'); } catch (e) {}
+    try { playSound('next'); } catch (e) {}
     setTimeout(() => { wrongA.classList.remove('wrong'); btn.classList.remove('wrong'); }, 420);
   }
 }

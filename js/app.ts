@@ -18,7 +18,6 @@ import { renderGameBar }                           from './features/render-game-
 import { refreshGameBarLevel as renderLevelBadge } from './features/game-bar-level.tsx';
 import { checkAchievements }                       from './features/render-achievements.ts';
 import { maybeSubmitScore }                        from './features/leaderboard.ts';
-import { playSound }                               from './core/audio.ts';
 import { updateRing }                              from './features/ring.ts';
 import { ES_MODES, FR_MODES, getMode }             from './features/mode-utils.ts';
 import { safe as _safe }                           from './core/card-helpers.ts';
@@ -300,5 +299,3 @@ window.isAutoRunning = () => !!autoTimer;
 window.startAuto     = () => {
   autoTimer = setInterval(() => { _animCard('next'); idx = (idx + 1) % deck.length; render(); }, 4500);
 };
-window.updateRing            = updateRing;
-window.playSound             = playSound;

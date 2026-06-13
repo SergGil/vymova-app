@@ -5,10 +5,10 @@ import { W } from '../../data/words.js';
 import { recordCustomWordAdded } from './game.ts';
 import { t } from './i18n.ts';
 import { invalidateSimilarCache } from './similar-words.tsx';
+import { playSound } from '../core/audio.ts';
 
 type CustomWord = { en: string; ua: string; ex_en?: string; ex_ua?: string };
 type WordIdx = Map<string, number>;
-type PlaySound = (s: string) => void;
 
 const modal   = document.getElementById('custom-modal')! as HTMLElement;
 const enInp   = document.getElementById('cw-en')!    as HTMLInputElement;
@@ -84,7 +84,7 @@ document.getElementById('cw-save')?.addEventListener('click', () => {
   invalidateSimilarCache();
   enInp.value = ''; uaInp.value = ''; exEnInp.value = ''; exUaInp.value = '';
   renderList();
-  try { (window.playSound as PlaySound | undefined)?.('know'); } catch (e) {}
+  try { playSound('know'); } catch (e) {}
 });
 
 [enInp, uaInp, exEnInp, exUaInp].forEach(inp => {

@@ -10,12 +10,11 @@ import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { t, wordsLabel, categoryName } from '../features/i18n.ts';
 import { renderGameBar } from '../features/render-game-bar.ts';
+import { playSound } from '../core/audio.ts';
 
 const CP = 6;
 const RANDOM_KEY = '🎲 Випадково';
 type PairItem = { text: string; id: number };
-
-type PlaySound = (s: string) => void;
 
 function fmt(ms: number): string { return (ms / 1000).toFixed(1) + t('common.secSuffix'); }
 function getBest(k: string): number { return parseFloat(localStorage.getItem('ew_cp_' + k) ?? '0'); }
@@ -142,13 +141,13 @@ export function CatPairsPage(): ReactElement {
       const newMatched = new Set(matched); newMatched.add(item.id);
       setMatched(newMatched);
       setSel(null);
-      try { (window.playSound as PlaySound | undefined)?.('know'); } catch (e) {}
+      try { playSound('know'); } catch (e) {}
       if (newMatched.size === deck.length) setTimeout(() => finish(deck.length), 350);
     } else {
       const a = sel;
       setWrongIds([a, { id: item.id, side }]);
       setSel(null);
-      try { (window.playSound as PlaySound | undefined)?.('next'); } catch (e) {}
+      try { playSound('next'); } catch (e) {}
       setTimeout(() => setWrongIds([]), 420);
     }
   };

@@ -8,11 +8,10 @@ import { W } from '../../data/words.js';
 import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
+import { playSound } from '../core/audio.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const SIZE = 10;
-
-type PlaySound = (s: string) => void;
 
 type SpeechRecognitionCtor = new () => SpeechRecognitionInstance;
 interface SpeechRecognitionInstance extends EventTarget {
@@ -130,7 +129,7 @@ export function WritePage(): ReactElement {
       setOk(o => o + 1);
       setBorderColor('#27ae60');
       setResult({ text: t('quiz.correctMsg'), color: '#27ae60' });
-      try { (window.playSound as PlaySound | undefined)?.('know'); addCombo(); } catch (e) {}
+      try { playSound('know'); addCombo(); } catch (e) {}
       recordModeAnswer('write', true);
     } else {
       setFail(f => f + 1);
@@ -138,7 +137,7 @@ export function WritePage(): ReactElement {
       setBorderColor('#e74c3c');
       const shown = ans.split(/[;,\/]/)[0].trim();
       setResult({ text: `✗ ${t('write.correctAnswerPrefix')} <b>${shown}</b>`, color: '#e74c3c' });
-      try { breakCombo(); (window.playSound as PlaySound | undefined)?.('next'); } catch (e) {}
+      try { breakCombo(); playSound('next'); } catch (e) {}
       recordMistake(ans);
       recordModeAnswer('write', false);
     }

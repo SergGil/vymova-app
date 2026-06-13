@@ -10,13 +10,12 @@ import { recordModeComplete, recordMistake, recordModeAnswer } from '../features
 import type { SpeakFn } from '../core/ui-helpers.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { t } from '../features/i18n.ts';
+import { playSound } from '../core/audio.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const N = 5;
 const PHASE_COUNT = 3;
 function phaseLabels(): string[] { return [t('lesson.phaseFlash'), t('lesson.phaseQuiz'), t('lesson.phaseWrite')]; }
-
-type PlaySound = (s: string) => void;
 
 function buildQuizOptions(w: WordEntry): string[] {
   const correct = w[0];
@@ -109,7 +108,7 @@ export function LessonPage(): ReactElement {
     recordModeComplete('lesson');
     const total = scores[0] + scores[1] + scores[2];
     const pct = Math.round(total / (N * PHASE_COUNT) * 100);
-    if (pct >= 80) try { (window.playSound as PlaySound | undefined)?.('goal'); } catch (e) {}
+    if (pct >= 80) try { playSound('goal'); } catch (e) {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showFinal]);
 
@@ -132,13 +131,13 @@ export function LessonPage(): ReactElement {
   const know = (): void => {
     if (phase !== 0) return;
     setScores(s => { const ns = [...s]; ns[0]++; return ns; });
-    try { addCombo(); flashCard(true); (window.playSound as PlaySound | undefined)?.('know'); } catch (e) {}
+    try { addCombo(); flashCard(true); playSound('know'); } catch (e) {}
     advance();
   };
 
   const skip = (): void => {
     if (phase !== 0) return;
-    try { breakCombo(); (window.playSound as PlaySound | undefined)?.('next'); } catch (e) {}
+    try { breakCombo(); playSound('next'); } catch (e) {}
     advance();
   };
 
@@ -149,11 +148,11 @@ export function LessonPage(): ReactElement {
     if (opt === correct) {
       setScores(s => { const ns = [...s]; ns[1]++; return ns; });
       setResult({ text: t('quiz.correctMsg'), color: '#27ae60' });
-      try { addCombo(); (window.playSound as PlaySound | undefined)?.('know'); } catch (e) {}
+      try { addCombo(); playSound('know'); } catch (e) {}
       recordModeAnswer('lesson', true);
     } else {
       setResult({ text: `✗ ${t('write.correctAnswerPrefix')} <b>${correct}</b>`, color: '#e74c3c' });
-      try { breakCombo(); (window.playSound as PlaySound | undefined)?.('next'); } catch (e) {}
+      try { breakCombo(); playSound('next'); } catch (e) {}
       recordMistake(w[0]);
       recordModeAnswer('lesson', false);
     }
@@ -168,11 +167,11 @@ export function LessonPage(): ReactElement {
     if (ok) {
       setScores(s => { const ns = [...s]; ns[2]++; return ns; });
       setResult({ text: t('quiz.correctMsg'), color: '#27ae60' });
-      try { addCombo(); (window.playSound as PlaySound | undefined)?.('know'); } catch (e) {}
+      try { addCombo(); playSound('know'); } catch (e) {}
       recordModeAnswer('lesson', true);
     } else {
       setResult({ text: `✗ ${t('write.correctAnswerPrefix')} <b>${w[0]}</b>`, color: '#e74c3c' });
-      try { breakCombo(); (window.playSound as PlaySound | undefined)?.('next'); } catch (e) {}
+      try { breakCombo(); playSound('next'); } catch (e) {}
       recordMistake(w[0]);
       recordModeAnswer('lesson', false);
     }

@@ -8,13 +8,13 @@ import { W } from '../../data/words.js';
 import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
+import { playSound } from '../core/audio.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const SIZE = 10;
 type BlankItem = { sentence: string; answer: string; base: string };
 type FibEntry  = { w: WordEntry; blank: BlankItem };
 
-type PlaySound = (s: string) => void;
 type Speak = (text: string, btn: HTMLElement) => void;
 
 function makeBlank(w: WordEntry): BlankItem | null {
@@ -138,11 +138,11 @@ export function FibPage(): ReactElement {
     setResult(okAnswer);
     if (okAnswer) {
       setOk(o => o + 1);
-      try { addCombo(); (window.playSound as PlaySound | undefined)?.('know'); } catch (e) {}
+      try { addCombo(); playSound('know'); } catch (e) {}
       recordModeAnswer('fib', true);
     } else {
       setFail(f => f + 1);
-      try { breakCombo(); (window.playSound as PlaySound | undefined)?.('next'); } catch (e) {}
+      try { breakCombo(); playSound('next'); } catch (e) {}
       recordMistake(item.blank.base);
       recordModeAnswer('fib', false);
     }
