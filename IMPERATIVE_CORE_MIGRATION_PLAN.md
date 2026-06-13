@@ -159,6 +159,17 @@
   і сам глобальний інтерфейс. Це закриває item 36 і залишки item 35
   (overlay-listeners, що читали `window.closePage` тощо, вже централізовані
   в `overlay-utils.ts` і автоматично підхоплять новий API).
+- **[x] Перший прохід — мертві `window.*`-присвоєння**: аудит усіх 28
+  присвоєнь з `app.ts` показав, що `window.ACHIEVEMENTS`,
+  `window.setCw` і `window.recordCustomWordAdded` не мають жодного
+  читача в `js/`/`src/` — `achievements-page.tsx`/`render-achievements.ts`
+  імпортують `ACHIEVEMENTS` напряму з `data/achievements.ts`, `custom.ts`
+  імпортує `recordCustomWordAdded` напряму з `game.ts`, а `setCw` у
+  `card-actions.ts` був видалений у попередньому проході (7.3) разом з
+  іншими `win.*`-читаннями. Видалено всі три присвоєння (+ невикористаний
+  імпорт `ACHIEVEMENTS`/`recordCustomWordAdded` в `app.ts`). `_setCw()` —
+  внутрішня функція `app.ts`, далі використовується `render()`, не
+  видалена. 529/529 тестів, tsc чистий.
 
 ## Верифікація
 

@@ -10,10 +10,9 @@ import { synth }                                    from './core/srs.ts';
 import { getComboMult }                             from './features/combo.ts';
 import { getGameData, saveGameData, recordDailyWord,
          updateStreak, recordModeComplete,
-         recordCustomWordAdded, _idle }            from './features/game.ts';
+         _idle }                                    from './features/game.ts';
 import { isBookmarked }                            from './features/bookmarks.ts';
 import { getNoteForWord, hasNote }                 from './features/notes.ts';
-import { ACHIEVEMENTS }                            from '../data/achievements.ts';
 import { t }                                       from './features/i18n.ts';
 import { renderGameBar }                           from './features/render-game-bar.ts';
 import { refreshGameBarLevel as renderLevelBadge } from './features/game-bar-level.tsx';
@@ -293,13 +292,11 @@ window.saveGameData      = saveGameData;
 window.onWordLearned     = onWordLearned;
 // window.checkAchievements/showToast — set by render-achievements.ts
 // window.renderStats/openStats/closeStats/renderSRSForecast — set by stats.ts
-window.ACHIEVEMENTS        = ACHIEVEMENTS;
 window.openWordDetail      = openWordDetail;
 window.setIdx     = (i: number)              => _setIdx(i);
 window.setDeck    = (d: WordEntry[])         => _setDeck(d);
 window.setBaseWords = (w: WordEntry[]) => { _baseWords = w as unknown as string[][]; state._baseWords = w; };
 window.setFlipped = (v: boolean)             => { flipped = v; state.flipped = v; };
-window.setCw      = (v: WordEntry | null)    => _setCw(v);
 window._wordIdx              = _wordIdx;
 window._customWords          = _customWords;
 window.invalidateSimilarCache = invalidateSimilarCache;
@@ -315,4 +312,3 @@ window.startAuto     = () => {
 window.updateRing            = updateRing;
 window.playSound             = playSound;
 window.recordModeComplete    = recordModeComplete;
-window.recordCustomWordAdded = recordCustomWordAdded;
