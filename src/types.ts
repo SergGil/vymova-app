@@ -104,4 +104,16 @@ export interface AppState {
   knownFr:        Set<string>;
   _wordIdx:       Map<string, number>;
   _customWords:   Array<{ en: string; ua: string; ex_en?: string; ex_ua?: string }>;
+  duelSel:        DuelSelState;
+}
+
+// Дуель: вибір режиму/категорії/складності в лобі (item 36, Фаза 7.4-B,
+// під-фаза 1) — джерело правди для геттерів/сеттерів `duel.ts`.
+export interface DuelSelState {
+  mode:            import('../js/features/duel.ts').DuelMode;
+  category:        string;
+  difficulty:      import('../js/features/duel.ts').Difficulty;
+  bestOf:          import('../js/features/duel.ts').BestOf;
+  maxHints:        number;
+  powerupsEnabled: boolean;
 }

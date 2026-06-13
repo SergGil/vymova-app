@@ -369,28 +369,22 @@ function _showGame(clearChat=true) { elLobby().style.display='none'; elCountdown
 function _showResult()   { elLobby().style.display='none'; elCountdown().style.display='none'; elGame().style.display='none'; elResult().style.display=''; elChatPanel().style.display=''; }
 
 // ── Lobby pickers ─────────────────────────────────────────────
-let _selMode:       DuelMode   = 'quiz';
-let _selCategory:   string     = '';
-let _selDifficulty: Difficulty = 'mixed'; // default: всі рівні
-let _selBestOf:      BestOf     = 1;
-let _selMaxHints:    number     = 3;
-let _selPowerups:    boolean    = true;
-
-// Геттери/сеттери для React-пікерів (item 29, Фаза 5) — createRoom/joinRoom/
-// тощо й далі читають ці модульні змінні напряму, тому React-компоненти
-// синхронізують свій локальний useState через ці функції.
-export function _getSelMode(): DuelMode { return _selMode; }
-export function _setSelMode(m: DuelMode): void { _selMode = m; }
-export function _getSelCategory(): string { return _selCategory; }
-export function _setSelCategory(c: string): void { _selCategory = c; }
-export function _getSelDifficulty(): Difficulty { return _selDifficulty; }
-export function _setSelDifficulty(d: Difficulty): void { _selDifficulty = d; }
-export function _getSelBestOf(): BestOf { return _selBestOf; }
-export function _setSelBestOf(b: BestOf): void { _selBestOf = b; }
-export function _getSelMaxHints(): number { return _selMaxHints; }
-export function _setSelMaxHints(h: number): void { _selMaxHints = h; }
-export function _getSelPowerups(): boolean { return _selPowerups; }
-export function _setSelPowerups(p: boolean): void { _selPowerups = p; }
+// Geттери/сеттери для React-пікерів (item 29, Фаза 5) — createRoom/joinRoom/
+// тощо й далі читають ці значення напряму через `state.duelSel` (item 36,
+// Фаза 7.4-B/1), React-компоненти синхронізують свій локальний useState
+// через ці функції.
+export function _getSelMode(): DuelMode { return state.duelSel.mode; }
+export function _setSelMode(m: DuelMode): void { state.duelSel.mode = m; notifyStateChange(); }
+export function _getSelCategory(): string { return state.duelSel.category; }
+export function _setSelCategory(c: string): void { state.duelSel.category = c; notifyStateChange(); }
+export function _getSelDifficulty(): Difficulty { return state.duelSel.difficulty; }
+export function _setSelDifficulty(d: Difficulty): void { state.duelSel.difficulty = d; notifyStateChange(); }
+export function _getSelBestOf(): BestOf { return state.duelSel.bestOf; }
+export function _setSelBestOf(b: BestOf): void { state.duelSel.bestOf = b; notifyStateChange(); }
+export function _getSelMaxHints(): number { return state.duelSel.maxHints; }
+export function _setSelMaxHints(h: number): void { state.duelSel.maxHints = h; notifyStateChange(); }
+export function _getSelPowerups(): boolean { return state.duelSel.powerupsEnabled; }
+export function _setSelPowerups(p: boolean): void { state.duelSel.powerupsEnabled = p; notifyStateChange(); }
 
 export function _showInfoTooltip(anchor: HTMLElement, type: 'hints' | 'powerups'): void {
   const existing = document.getElementById('duel-tooltip');
@@ -482,23 +476,23 @@ async function createRoom(): Promise<void> {
     _roomId=_genCode(); _mySlot='p1'; _isAsyncChallenge=false;
     const seed=Date.now();
     const room: RoomData = {
-      seed, mode:_selMode, category:_selCategory, difficulty:_selDifficulty,
-      bestOf:_selBestOf, maxHints:_selMaxHints, powerupsEnabled:_selPowerups,
+      seed, mode:state.duelSel.mode, category:state.duelSel.category, difficulty:state.duelSel.difficulty,
+      bestOf:state.duelSel.bestOf, maxHints:state.duelSel.maxHints, powerupsEnabled:state.duelSel.powerupsEnabled,
       createdAt:Date.now(), started:false, finished:false,
       series:{p1wins:0,p2wins:0,round:1},
-      p1:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:_selMaxHints,powerups:{double:_selPowerups?1:0,skip:_selPowerups?1:0,freeze:_selPowerups?1:0}},
+      p1:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:state.duelSel.maxHints,powerups:{double:state.duelSel.powerupsEnabled?1:0,skip:state.duelSel.powerupsEnabled?1:0,freeze:state.duelSel.powerupsEnabled?1:0}},
       p2:null,
     };
     await _fbSet(`/duel_rooms/${_roomId}`,room);
     _roomCreatedAt=room.createdAt;
-    _roomSeed=seed; _roomCategory=_selCategory; _roomDifficulty=_selDifficulty; _roomMaxHints=_selMaxHints;
-    _quizDeck=_buildDeck(seed,_selCategory,_selDifficulty,_selMode);
+    _roomSeed=seed; _roomCategory=state.duelSel.category; _roomDifficulty=state.duelSel.difficulty; _roomMaxHints=state.duelSel.maxHints;
+    _quizDeck=_buildDeck(seed,state.duelSel.category,state.duelSel.difficulty,state.duelSel.mode);
     const codeEl=$('duel-room-code'); if(codeEl) codeEl.textContent=_fmtCode(_roomId);
     const modeEl=$('duel-waiting-mode');
-    const mInfo=DUEL_MODES.find(m=>m.id===_selMode)!;
-    const catLabel=_selCategory?` · ${_selCategory.split(' ')[0]}`:'';
-    const diff=DIFFICULTIES.find(d=>d.id===_selDifficulty); const diffLabel=diff?(diff.id==='mixed'?t('duel.diff.mixed'):diff.label):'';
-    if(modeEl) modeEl.textContent=`${mInfo.icon} ${t('duel.mode.'+mInfo.id)}${catLabel} · ${diffLabel}${_selBestOf===3?' · '+t('duel.bestOf3'):''}`;
+    const mInfo=DUEL_MODES.find(m=>m.id===state.duelSel.mode)!;
+    const catLabel=state.duelSel.category?` · ${state.duelSel.category.split(' ')[0]}`:'';
+    const diff=DIFFICULTIES.find(d=>d.id===state.duelSel.difficulty); const diffLabel=diff?(diff.id==='mixed'?t('duel.diff.mixed'):diff.label):'';
+    if(modeEl) modeEl.textContent=`${mInfo.icon} ${t('duel.mode.'+mInfo.id)}${catLabel} · ${diffLabel}${state.duelSel.bestOf===3?' · '+t('duel.bestOf3'):''}`;
     elMsg().style.display='none';
     $('duel-waiting').style.display='block';
     $('duel-join-row').style.display='none';
@@ -1136,21 +1130,21 @@ async function createAsyncChallenge(): Promise<void> {
     const code=_genCode();
     const seed=Date.now();
     const challenge: AsyncDuel = {
-      seed, mode:_selMode, category:_selCategory, difficulty:_selDifficulty,
+      seed, mode:state.duelSel.mode, category:state.duelSel.category, difficulty:state.duelSel.difficulty,
       createdAt:Date.now(), expiresAt:Date.now()+86_400_000, // 24 hours
-      powerupsEnabled:_selPowerups, maxHints:_selMaxHints, bestOf:_selBestOf,
+      powerupsEnabled:state.duelSel.powerupsEnabled, maxHints:state.duelSel.maxHints, bestOf:state.duelSel.bestOf,
       challenger:{ name:_getMyName(), avatar:_getMyAvatar(), score:0, done:false },
       finished:false,
     };
     await _fbSet(`/duel_async/${code}`, challenge);
     // Play immediately as challenger
     _roomId=code; _mySlot='p1'; _isAsyncChallenge=true; _roomCreatedAt=challenge.createdAt;
-    _roomSeed=seed; _roomCategory=_selCategory; _roomDifficulty=_selDifficulty; _roomMaxHints=_selMaxHints;
-    _quizDeck=_buildDeck(seed,_selCategory,_selDifficulty,_selMode);
+    _roomSeed=seed; _roomCategory=state.duelSel.category; _roomDifficulty=state.duelSel.difficulty; _roomMaxHints=state.duelSel.maxHints;
+    _quizDeck=_buildDeck(seed,state.duelSel.category,state.duelSel.difficulty,state.duelSel.mode);
     // Show code to share
     const codeEl=$('duel-room-code'); if(codeEl) codeEl.textContent=_fmtCode(code);
     const modeEl=$('duel-waiting-mode');
-    if(modeEl) modeEl.textContent=`📬 ${t('duel.mode.'+_selMode)} · ${t('duel.async.24h')}`;
+    if(modeEl) modeEl.textContent=`📬 ${t('duel.mode.'+state.duelSel.mode)} · ${t('duel.async.24h')}`;
     $('duel-waiting').style.display='block';
     $('duel-join-row').style.display='none';
     // Start playing immediately
@@ -1158,7 +1152,7 @@ async function createAsyncChallenge(): Promise<void> {
     _asyncStartTimer=setTimeout(()=>{
       _asyncStartTimer=null;
       $('duel-waiting').style.display='none';
-      _initGame(_selMode, _selMaxHints, 1, {p1wins:0,p2wins:0,round:1}, _selPowerups);
+      _initGame(state.duelSel.mode, state.duelSel.maxHints, 1, {p1wins:0,p2wins:0,round:1}, state.duelSel.powerupsEnabled);
     }, 2000);
   } catch(e){
     btn.disabled=false; btn.textContent=t('duel.async.send');
@@ -1391,7 +1385,7 @@ async function createTournament(size:4|8): Promise<void> {
   try {
     _tournId=_genCode();
     const tourn: Tournament = {
-      code:_tournId, size, mode:_selMode, category:_selCategory, difficulty:_selDifficulty,
+      code:_tournId, size, mode:state.duelSel.mode, category:state.duelSel.category, difficulty:state.duelSel.difficulty,
       players:{0:{name:_getMyName(),avatar:_getMyAvatar()}},
       bracket:_buildBracket(size), currentRound:0, currentMatch:0,
       started:false, finished:false, champion:'', createdAt:Date.now(),

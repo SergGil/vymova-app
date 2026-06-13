@@ -161,6 +161,23 @@
   чистий. Повне переписування 43 module-level змінних `duel.ts` у
   `AppState` лишається окремим майбутнім під-проєктом (Фаза 7.4-B).
 
+### Фаза 7.4-B — duel.ts: imperative → `AppState`/React (окремий під-проєкт)
+
+Розбито на 9 під-фаз за зростанням ризику (lobby selection → resume →
+chat → spectator → tournament → question/UI → room/game core → таймери
+(не переносяться) → DOM-show/hide екранів). Кожна під-фаза — окремий
+коміт із tsc+vitest+браузерним smoke-тестом дуелі.
+
+- **[x] Під-фаза 1 — Lobby selection state**: `_selMode`/`_selCategory`/
+  `_selDifficulty`/`_selBestOf`/`_selMaxHints`/`_selPowerups` (6
+  module-level `let`) перенесено в `state.duelSel` (нове поле `AppState`
+  у `src/types.ts`/`src/state.ts`, тип `DuelSelState`). Геттери/сеттери
+  `_getSelXxx`/`_setSelXxx` тепер читають/пишуть `state.duelSel.*` +
+  `notifyStateChange()` у сеттерах; усі внутрішні використання в
+  `duel.ts` (createRoom/joinAsync/тощо) переведено на `state.duelSel.*`.
+  Сигнатури геттерів/сеттерів незмінні — `duel-lobby-options.tsx` та інші
+  React-пікери не зачеплені. 529/529, tsc чистий.
+
 ### Фаза 7.5 — app.ts: прибрати `window.*`, перенести стан у `src/state.ts`
 - Фінальний крок: коли всі читачі (фази 7.1-7.4) переведені на
   `src/store.ts`/`src/state.ts`, видалити `window.*`-присвоєння з `app.ts`

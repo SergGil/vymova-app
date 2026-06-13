@@ -25,4 +25,12 @@ export const state: AppState = {
   knownFr:        new Set<string>(),
   _wordIdx:       new Map<string, number>(),
   _customWords:   [],
+  duelSel: {
+    mode:            'quiz',
+    category:        '',
+    difficulty:      'mixed',
+    bestOf:          1,
+    maxHints:        3,
+    powerupsEnabled: true,
+  },
 };
