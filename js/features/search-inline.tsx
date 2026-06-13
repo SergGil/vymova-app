@@ -7,6 +7,7 @@ import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { shuffle } from '../core/srs.ts';
 import { ES_MODES, getMode } from './mode-utils.ts';
 import { t } from './i18n.ts';
+import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';
 
 function activeKnown(): Set<string> {
@@ -26,13 +27,13 @@ function goToWord(word: string, after: () => void): void {
     if (wi === -1) return;
     const newDeck = W.slice() as unknown as WordEntry[];
     shuffle(newDeck);
-    (window as any).setDeck(newDeck);
+    setDeck(newDeck);
     di = (newDeck as WordEntry[]).findIndex(w => w[0].toLowerCase() === wLow);
     (document.getElementById('sel-range') as HTMLSelectElement).value = '0';
   }
-  (window as any).setIdx(di);
-  (window as any).stopAuto?.();
-  (window as any).render?.();
+  setIdx(di);
+  stopAuto();
+  render();
   after();
 }
 

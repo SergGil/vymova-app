@@ -9,6 +9,7 @@ import type { WordEntry } from '../../src/types.js';
 import { t } from './i18n.ts';
 import { renderGameBar } from './render-game-bar.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
+import { render } from '../core/card-engine.ts';
 
 function exportProgress(): string {
   const data = {
@@ -133,7 +134,7 @@ document.getElementById('import-confirm')!.addEventListener('click', function() 
     _safe(() => renderGameBar());
     _safe(() => refreshGameBarLevel());
     _safe(() => (window as any).openStats?.());
-    _safe(() => (window as any).render?.());
+    _safe(() => render());
     const btn = document.getElementById('btn-import-open')!;
     btn.textContent = t('modal.importedExcl');
     setTimeout(function(){ btn.textContent = t('settings.import'); }, 3000);
