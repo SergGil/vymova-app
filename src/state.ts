@@ -87,4 +87,5 @@ export const state: AppState = {
   duelScreen: 'lobby',
   duelCountdownNum: 3,
   duelResult: null,
+  duelTempo: { visible: false, num: 4 },
 };

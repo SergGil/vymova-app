@@ -114,6 +114,7 @@ export interface AppState {
   duelScreen: DuelScreen;
   duelCountdownNum: number; // Фаза 9/1: поточне число countdown-екрану (3,2,1,0='⚡'), читає duel-countdown.tsx
   duelResult: import('../js/features/duel.ts').DuelResultData; // Фаза 9/2: знімок result-екрану, читає duel-result.tsx
+  duelTempo: { visible: boolean; num: number }; // Фаза 9/3: tempo-таймер game-екрану, читає duel-tempo-timer.tsx
 }
 
 // Дуель: який екран наразі активний (item 36, Фаза 7.4-B, під-фаза 9) —

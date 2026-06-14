@@ -48,6 +48,7 @@ import { DuelPowerups } from '../js/features/duel-powerups.tsx';
 import { DuelFeedback } from '../js/features/duel-feedback.tsx';
 import { DuelChatLog } from '../js/features/duel-chat-log.tsx';
 import { DuelChatPanel } from '../js/features/duel-chat-panel.tsx';
+import { DuelTempoTimer } from '../js/features/duel-tempo-timer.tsx';
 import { DuelQuestion } from '../js/features/duel-question.tsx';
 import { DuelResume } from '../js/features/duel-resume.tsx';
 import { DuelTournament } from '../js/features/duel-tournament.tsx';
@@ -116,6 +117,7 @@ function AppRoot(): ReactElement {
     <Portal id="dm-feedback-mount"><DuelFeedback/></Portal>
     <Portal id="duel-chat-log-mount"><DuelChatLog/></Portal>
     <Portal id="duel-chat-panel-mount"><DuelChatPanel/></Portal>
+    <Portal id="duel-tempo-mount"><DuelTempoTimer/></Portal>
     <Portal id="duel-question-mount"><DuelQuestion/></Portal>
     <Portal id="duel-resume-mount"><DuelResume/></Portal>
     <Portal id="duel-tournament-mount"><DuelTournament/></Portal>

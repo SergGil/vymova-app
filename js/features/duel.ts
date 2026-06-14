@@ -78,7 +78,7 @@ const DB_URL    = 'https://english-words-trainer-557e8-default-rtdb.europe-west1
 export const CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 export const ROOM_SIZE = 10;
 const NUM_OPTS = 4;
-const TEMPO_SEC = 4;
+export const TEMPO_SEC = 4;
 const REACTIONS = ['👍','😅','🔥','😂','🤯','😤','🎉','👏'];
 
 // ── Types ─────────────────────────────────────────────────────
@@ -318,8 +318,6 @@ const elCountdown = () => $('duel-countdown') as HTMLElement;
 const elGame      = () => $('duel-game')      as HTMLElement;
 const elResult    = () => $('duel-result')    as HTMLElement;
 const elMsg       = () => $('duel-msg');
-const elTimerBar  = () => $('dm-timer-bar') as HTMLElement;
-const elTimerNum  = () => $('dm-timer-num');
 
 const elChatPanel = () => $('duel-chat-panel') as HTMLElement;
 
@@ -425,6 +423,10 @@ export function _getCountdownData(): CountdownData {
     roomCode:  (state.duelRoom.roomId && state.duelRoom.mySlot === 'p1') ? state.duelRoom.roomId : null,
     num:       state.duelCountdownNum,
   };
+}
+
+export function _getTempoData(): { visible: boolean; num: number } {
+  return state.duelTempo;
 }
 
 function _runCountdown(cb: ()=>void): void {
@@ -535,7 +537,8 @@ function _setupGameUI(): void {
   if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
   refreshDuelGameHeader();
-  const tr=$('dm-timer-row') as HTMLElement|null; if(tr) tr.style.display=state.duelRoom.mode==='tempo'?'':'none';
+  state.duelTempo.visible=state.duelRoom.mode==='tempo';
+  notifyStateChange();
   // Power-ups
   _renderPowerups();
 }
@@ -742,13 +745,12 @@ function _renderLettersQ(w:WordEntry): void {
 
 function _startTempoTimer(w:WordEntry): void {
   _tempoLeft=TEMPO_SEC;
-  const bar=elTimerBar(),num=elTimerNum();
-  if(bar){bar.style.transition='none';bar.style.width='100%';}
-  if(num) num.textContent=String(TEMPO_SEC);
-  setTimeout(()=>{if(bar){bar.style.transition=`width ${TEMPO_SEC}s linear`;bar.style.width='0%';}},50);
+  state.duelTempo.num=TEMPO_SEC;
+  notifyStateChange();
   _tempoTimer=setInterval(()=>{
     _tempoLeft--;
-    if(num) num.textContent=String(_tempoLeft);
+    state.duelTempo.num=_tempoLeft;
+    notifyStateChange();
     if(_tempoLeft<=0){
       clearInterval(_tempoTimer!); _tempoTimer=null;
       if(!state.duelRoom.answered){

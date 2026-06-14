@@ -690,16 +690,8 @@
       <div id="duel-game" style="display:none;">
         <!-- Mode badge + Scoreboard (React, duel-game-header.tsx) -->
         <div id="duel-game-header-mount"></div>
-        <!-- Tempo timer bar -->
-        <div id="dm-timer-row" style="display:none;margin-bottom:8px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-            <span style="font-size:.72rem;color:var(--text3);" data-i18n="duel.time">Час:</span>
-            <span id="dm-timer-num" style="font-size:.85rem;font-weight:700;color:var(--accent2);">4</span>
-          </div>
-          <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden;">
-            <div id="dm-timer-bar" style="height:100%;background:var(--accent2);border-radius:3px;width:100%;"></div>
-          </div>
-        </div>
+        <!-- Tempo timer bar (React, duel-tempo-timer.tsx) -->
+        <div id="duel-tempo-mount"></div>
         <!-- Question / options / write input (React, duel-question.tsx) -->
         <div id="duel-question-mount"></div>
         <!-- Feedback + speed indicator (React, duel-feedback.tsx) -->
