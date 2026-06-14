@@ -13,7 +13,6 @@ await import('../js/app.ts');
 // combo/bookmarks/notes/pronunciation/voice статично імпортовані в app.ts
 await import('../js/features/stats.ts');
 await import('../js/features/offline.ts');
-await import('../js/features/duel.ts');
 
 await import('../js/features/i18n.ts');
 await import('../js/features/learning-path.ts');

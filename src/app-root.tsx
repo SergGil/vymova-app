@@ -69,6 +69,7 @@ import { NoteModal } from '../js/features/note-modal.tsx';
 import { PronunciationToast } from '../js/features/pronunciation-toast.tsx';
 import { ConfettiCanvas } from '../js/core/confetti.tsx';
 import { DuelOverlay } from '../js/features/duel-overlay.tsx';
+import { DuelInit } from '../js/features/duel.ts';
 
 function Portal({ id, children }: { id: string; children: ReactNode }): ReactElement | null {
   const el = document.getElementById(id);
@@ -151,6 +152,7 @@ function AppRoot(): ReactElement {
     <PronunciationToast/>
     <Portal id="confetti-canvas-mount"><ConfettiCanvas/></Portal>
     <Portal id="duel-overlay-mount"><DuelOverlay/></Portal>
+    <DuelInit/>
   </>;
 }
 

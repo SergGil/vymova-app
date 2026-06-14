@@ -1,6 +1,7 @@
 // English Words App — js/features/duel.ts
 // ⚔️ Full-featured Duel: leaderboard + live multiplayer quiz
 
+import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { WORD_CATEGORIES } from '../../data/categories.js';
@@ -312,8 +313,6 @@ export function _getDuelScreen(): DuelScreen {
 }
 
 // ── UI refs ───────────────────────────────────────────────────
-const $ = (id:string) => document.getElementById(id)!;
-
 function _showLobby()    {
   // Always reset waiting state so the create button is never stuck
   state.duelLobbyUI.waiting.visible=false;
@@ -1647,21 +1646,6 @@ export function renderDuel():void{
   _tryResumeSession();
 }
 
-// ── Event bindings ────────────────────────────────────────────
-document.addEventListener('keydown',(e:KeyboardEvent)=>{
-  if(state.duelScreen!=='game') return;
-  if(state.duelRoom.mode!=='write'&&!state.duelRoom.answered&&['1','2','3','4'].includes(e.key)){
-    e.preventDefault();
-    const opt=state.duelQuestion.choiceOptions[parseInt(e.key)-1];
-    if(opt) _onOptionClick(opt);
-  }
-});
-
-$('sb-duel')?.addEventListener('click',()=>{
-  _openPage('duel');
-  renderDuel();
-});
-
 // ── Styled confirm dialog (replaces browser confirm()) ────────
 function _showConfirm(title: string, message: string, okLabel: string): Promise<boolean> {
   return new Promise(resolve => {
@@ -1696,39 +1680,69 @@ function _showConfirm(title: string, message: string, okLabel: string): Promise<
   });
 }
 
-// ── Smart duel close button ────────────────────────────────────
-// If game/tournament/spectator is active → return to lobby; else → close page
-$('duel-page-close')?.addEventListener('click', async () => {
-  const gameVisible      = state.duelScreen === 'game';
-  const tournVisible     = state.duelScreen === 'tournament';
-  const spectVisible     = state.duelScreen === 'spectate';
-  const countdownVisible = state.duelScreen === 'countdown';
-  const waitingVisible   = state.duelLobbyUI.waiting.visible;
+// ── Module-level side effects (keyboard shortcuts, sidebar nav,
+// smart close button) — wired up via useEffect in app-root.tsx ──
+export function DuelInit(): ReactElement | null {
+  useEffect(() => {
+    const onKeydown = (e: KeyboardEvent) => {
+      if(state.duelScreen!=='game') return;
+      if(state.duelRoom.mode!=='write'&&!state.duelRoom.answered&&['1','2','3','4'].includes(e.key)){
+        e.preventDefault();
+        const opt=state.duelQuestion.choiceOptions[parseInt(e.key)-1];
+        if(opt) _onOptionClick(opt);
+      }
+    };
+    document.addEventListener('keydown', onKeydown);
 
-  // 24h async duel: leaving mid-question (or during the pre-game countdown)
-  // never forfeits — the room stays alive, the session is saved, and the
-  // player can resume the same question later from the lobby's resume banner.
-  if ((gameVisible && !state.duelRoom.finished) || countdownVisible) {
-    if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}
-    if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
-    if(_freezeTimer){clearTimeout(_freezeTimer);_freezeTimer=null;}
-    if(_advanceTimer){clearTimeout(_advanceTimer);_advanceTimer=null;}
-    _saveSession();
-    _showLobby();
-    renderDuel();
-    _tryResumeSession();
-  } else if (waitingVisible) {
-    // Waiting for opponent — cancel room, reset lobby state, then close
-    _cancelRoom();
-    _showLobby();
-    _closePage();
-  } else if (tournVisible) {
-    _cancelTournament();
-  } else if (spectVisible) {
-    _leaveSpectator();
-  } else {
-    // Result screen or plain lobby → reset state, then close
-    _showLobby();
-    _closePage();
-  }
-});
+    const sbDuel = document.getElementById('sb-duel');
+    const onSbDuelClick = () => { _openPage('duel'); renderDuel(); };
+    sbDuel?.addEventListener('click', onSbDuelClick);
+
+    // ── Smart duel close button ────────────────────────────────
+    // If game/tournament/spectator is active → return to lobby; else → close page
+    const closeBtn = document.getElementById('duel-page-close');
+    const onCloseClick = async () => {
+      const gameVisible      = state.duelScreen === 'game';
+      const tournVisible     = state.duelScreen === 'tournament';
+      const spectVisible     = state.duelScreen === 'spectate';
+      const countdownVisible = state.duelScreen === 'countdown';
+      const waitingVisible   = state.duelLobbyUI.waiting.visible;
+
+      // 24h async duel: leaving mid-question (or during the pre-game countdown)
+      // never forfeits — the room stays alive, the session is saved, and the
+      // player can resume the same question later from the lobby's resume banner.
+      if ((gameVisible && !state.duelRoom.finished) || countdownVisible) {
+        if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}
+        if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
+        if(_freezeTimer){clearTimeout(_freezeTimer);_freezeTimer=null;}
+        if(_advanceTimer){clearTimeout(_advanceTimer);_advanceTimer=null;}
+        _saveSession();
+        _showLobby();
+        renderDuel();
+        _tryResumeSession();
+      } else if (waitingVisible) {
+        // Waiting for opponent — cancel room, reset lobby state, then close
+        _cancelRoom();
+        _showLobby();
+        _closePage();
+      } else if (tournVisible) {
+        _cancelTournament();
+      } else if (spectVisible) {
+        _leaveSpectator();
+      } else {
+        // Result screen or plain lobby → reset state, then close
+        _showLobby();
+        _closePage();
+      }
+    };
+    closeBtn?.addEventListener('click', onCloseClick);
+
+    return () => {
+      document.removeEventListener('keydown', onKeydown);
+      sbDuel?.removeEventListener('click', onSbDuelClick);
+      closeBtn?.removeEventListener('click', onCloseClick);
+    };
+  }, []);
+
+  return null;
+}
