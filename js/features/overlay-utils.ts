@@ -25,10 +25,10 @@ export function bindModalDismiss(overlayId: string, closeBtnId: string | undefin
 export function bindOverlayDismiss(overlayId: string, closeBtnId?: string): void {
   const overlay = document.getElementById(overlayId) as HTMLElement | null;
   if (!overlay) return;
-  // Динамічний імпорт: sidebar.ts має DOM-side-effects на рівні модуля
+  // Динамічний імпорт: sidebar.tsx має DOM-side-effects на рівні модуля
   // (querySelector сайдбару тощо), тож статичний імпорт сюди тягнув би їх
   // у кожен файл, що використовує bindOverlayDismiss (включно з тестами).
-  const close = (): void => { import('./sidebar.ts').then(m => m.closePage()); };
+  const close = (): void => { import('./sidebar.tsx').then(m => m.closePage()); };
   if (closeBtnId) document.getElementById(closeBtnId)?.addEventListener('click', close);
   overlay.addEventListener('click', (e: MouseEvent) => { if (e.target === overlay) close(); });
   document.addEventListener('keydown', (e: KeyboardEvent) => {

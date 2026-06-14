@@ -9,7 +9,7 @@ import type { WordEntry } from '../../src/types.ts';
 import { t } from './i18n.ts';
 import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry } from './mode-utils.ts';
 import { loadWikiImage } from '../core/images.ts';
-import { closePage } from './sidebar.ts';
+import { closePage } from './sidebar.tsx';
 import { render, setIdx } from '../core/card-engine.ts';
 
 const todayNum = state.TODAY.split('').reduce((a, c) => a * 31 + c.charCodeAt(0), 0);

@@ -20,7 +20,6 @@ await import('../js/features/learning-path.ts');
 
 await import('../lib/jszip.min.js');
 await import('../js/features/epub.ts');
-await import('../js/features/sidebar.ts');
 
 const { mountAppRoot } = await import('./app-root.tsx');
 mountAppRoot();

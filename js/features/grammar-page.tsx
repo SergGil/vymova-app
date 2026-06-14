@@ -100,9 +100,9 @@ export function openGrammarContent(): void {
 }
 
 export function openGrammar(): void {
-  // Динамічний імпорт: sidebar.ts статично імпортує цей файл
+  // Динамічний імпорт: sidebar.tsx статично імпортує цей файл
   // (openGrammarContent) — зворотний статичний імпорт створив би цикл.
-  import('./sidebar.ts').then(m => m.openPage('grammar'));
+  import('./sidebar.tsx').then(m => m.openPage('grammar'));
 }
 
 export function jumpToGrammarRule(id: string): void {

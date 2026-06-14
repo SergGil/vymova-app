@@ -14,15 +14,15 @@ import { t, getLang } from './i18n.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { DICT } from '../modes/word-letters.tsx';
 
-// Динамічний імпорт: sidebar.ts має DOM-side-effects на рівні модуля,
-// а sidebar.ts сам статично імпортує цей файл (renderDuel) — статичний
-// імпорт тут створив би цикл і тягнув би sidebar.ts у кожен тест, що
+// Динамічний імпорт: sidebar.tsx має DOM-side-effects на рівні модуля,
+// а sidebar.tsx сам статично імпортує цей файл (renderDuel) — статичний
+// імпорт тут створив би цикл і тягнув би sidebar.tsx у кожен тест, що
 // імпортує duel.ts.
 async function _openPage(page: string): Promise<void> {
-  (await import('./sidebar.ts')).openPage(page);
+  (await import('./sidebar.tsx')).openPage(page);
 }
 async function _closePage(): Promise<void> {
-  (await import('./sidebar.ts')).closePage();
+  (await import('./sidebar.tsx')).closePage();
 }
 import { refreshDuelGameHeader } from './duel-game-header.tsx';
 import { refreshDuelSpectator } from './duel-spectator.tsx';

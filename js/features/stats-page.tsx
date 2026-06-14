@@ -9,7 +9,7 @@ import { W } from '../../data/words.js';
 import { getCefrLevel } from '../../data/cefr.ts';
 import { Leaderboard } from './leaderboard.tsx';
 import { refreshAchievementsPage as renderAchievements } from './achievements-page.tsx';
-import { closePage } from './sidebar.ts';
+import { closePage } from './sidebar.tsx';
 import type { WordEntry } from '../../src/types.js';
 
 const _p2 = (n: number): string => n < 10 ? '0' + n : '' + n;

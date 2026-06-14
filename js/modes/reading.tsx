@@ -6,7 +6,7 @@ import { saveKnown } from '../core/storage.ts';
 import { W } from '../../data/words.js';
 import { loadEpub } from '../features/epub.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import { closePage, openPage } from '../features/sidebar.ts';
+import { closePage, openPage } from '../features/sidebar.tsx';
 import { t, pluralLabel } from '../features/i18n.ts';
 import { onWordLearned } from '../core/card-engine.ts';
 import { speak } from '../features/speech.ts';

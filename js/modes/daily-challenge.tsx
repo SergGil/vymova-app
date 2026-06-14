@@ -5,7 +5,7 @@ import { state } from '../../src/state.ts';
 import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words.js';
 import { getGameData, saveGameData, recordModeComplete } from '../features/game.ts';
-import { closePage, openPage } from '../features/sidebar.ts';
+import { closePage, openPage } from '../features/sidebar.tsx';
 import { speakBtn, decodeIpa } from '../core/ui-helpers.ts';
 import { t } from '../features/i18n.ts';
 import { refreshGameBarLevel } from '../features/game-bar-level.tsx';

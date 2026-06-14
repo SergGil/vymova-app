@@ -3,7 +3,7 @@ import { useEffect, type ReactElement } from 'react';
 import { updateSrsUI } from '../core/srs.ts';
 import { _imgCache, loadWikiImage } from '../core/images.ts';
 import { W } from '../../data/words.js';
-import { openPage } from './sidebar.ts';
+import { openPage } from './sidebar.tsx';
 import { t } from './i18n.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
 import { bindModalDismiss } from './overlay-utils.ts';

@@ -5,7 +5,7 @@ import { CEFR_META } from '../../data/cefr.ts';
 import type { CefrLevel } from '../../data/cefr.ts';
 import { W } from '../../data/words.js';
 import { getLevel } from '../features/game.ts';
-import { openPage, closePage } from '../features/sidebar.ts';
+import { openPage, closePage } from '../features/sidebar.tsx';
 import { jumpToGrammarRule } from '../features/grammar-page.tsx';
 import type { WordEntry } from '../../src/types.js';
 import type { PaceSnapshot } from './learning-path-logic.ts';
