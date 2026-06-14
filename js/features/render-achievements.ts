@@ -1,5 +1,6 @@
 // English Words App — js/features/render-achievements.ts
-// Achievement toast, checkAchievements.
+// checkAchievements: unlocks achievements and triggers the toast.
+// Achievement toast UI lives in achievement-toast.tsx (React).
 // Achievements grid/popup live in achievements-page.tsx (React).
 import { state } from '../../src/state.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
@@ -7,31 +8,8 @@ import {
   getGameData, getModeStats, loadUnlocked, saveUnlocked,
   registerCheckAchievements,
 } from './game.ts';
-import { achName as _achName, achHint as _achHint } from './i18n.ts';
+import { showToast } from './achievement-toast.tsx';
 import type { Achievement } from '../../src/types.js';
-
-// ── Toast ─────────────────────────────────────────────────────
-let _toastTimer: ReturnType<typeof setTimeout> | null = null;
-
-export function showToast(ach: Achievement): void {
-  const toast = document.getElementById('achievement-toast')!;
-  document.getElementById('toast-icon')!.textContent = ach.icon;
-  document.getElementById('toast-name')!.textContent = _achName(ach);
-  document.getElementById('toast-desc')!.textContent = _achHint(ach);
-  if (_toastTimer) clearTimeout(_toastTimer);
-  toast.style.display = 'none';
-  toast.classList.remove('show');
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      toast.style.display = 'block';
-      requestAnimationFrame(() => toast.classList.add('show'));
-    });
-  });
-  _toastTimer = setTimeout(() => {
-    toast.classList.remove('show');
-    setTimeout(() => { toast.style.display = 'none'; }, 350);
-  }, 3500);
-}
 
 // ── checkAchievements ────────────────────────────────────────
 export function checkAchievements(): void {

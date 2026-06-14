@@ -18,7 +18,6 @@ await import('../js/features/stats.ts');
 await import('../js/features/swipe.ts');
 await import('../js/features/keyboard.ts');
 await import('../js/features/offline.ts');
-await import('../js/features/export.ts');
 await import('../js/features/notifications.ts');
 await import('../js/features/duel.ts');
 

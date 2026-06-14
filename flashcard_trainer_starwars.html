@@ -269,12 +269,7 @@
 
 
   <!-- Тост досягнення -->
-  <div id="achievement-toast">
-    <span class="toast-icon" id="toast-icon">🏆</span>
-    <div class="toast-title">Нове досягнення!</div>
-    <div class="toast-name" id="toast-name"></div>
-    <div class="toast-desc" id="toast-desc"></div>
-  </div>
+  <div id="achievement-toast-mount"></div>
 
   <!-- Модал зміни цілі -->
   <div id="goal-modal-mount">
@@ -376,7 +371,7 @@
           <button class="backup-btn" id="btn-share" data-i18n="settings.share">📤 Поділитись</button>
         </div>
         <div class="backup-row" style="margin-top:6px;">
-          <button class="backup-btn" id="btn-csv-export" data-i18n="settings.sheetsCsv">📊 Google Sheets CSV</button>
+          <span id="csv-export-mount" style="display:contents"></span>
           <button class="backup-btn" id="btn-pdf-export" data-i18n="settings.pdfExport">🖨️ PDF / Друк</button>
         </div>
         <div class="backup-row" style="margin-top:6px;">

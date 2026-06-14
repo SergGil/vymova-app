@@ -40,6 +40,8 @@ import { GrammarPage } from '../js/features/grammar-page.tsx';
 import { IdiomsPageRoot } from '../js/features/idioms-page.tsx';
 import { OnboardingPage } from '../js/features/onboarding.tsx';
 import { BugReportForm } from '../js/features/bug-report.tsx';
+import { AchievementToast } from '../js/features/achievement-toast.tsx';
+import { CsvExportButton } from '../js/features/csv-export-button.tsx';
 import { DuelOverlay } from '../js/features/duel-overlay.tsx';
 
 function Portal({ id, children }: { id: string; children: ReactNode }): ReactElement | null {
@@ -93,6 +95,8 @@ function AppRoot(): ReactElement {
     <Portal id="idioms-page-mount"><IdiomsPageRoot/></Portal>
     <Portal id="onboarding-mount"><OnboardingPage/></Portal>
     <Portal id="bug-report-mount"><BugReportForm/></Portal>
+    <Portal id="achievement-toast-mount"><AchievementToast/></Portal>
+    <Portal id="csv-export-mount"><CsvExportButton/></Portal>
     <Portal id="duel-overlay-mount"><DuelOverlay/></Portal>
   </>;
 }
