@@ -13,9 +13,7 @@ import './features/card-actions.ts';
 import './features/deck-filter.ts';
 import './features/deck-mode.ts';
 import './features/progress-io.ts';
-import './core/keyboard.ts';
 import './core/swipe.ts';
-import './core/pwa.ts';
 
 const savedKnown = _lzLoad('ew_known', []);
 

@@ -24,6 +24,8 @@ import { WordFamiliesChips, CollocationsSection } from '../js/features/word-cont
 import { ModeHints } from '../js/features/mode-hints.tsx';
 import { LevelRing } from '../js/features/ring.tsx';
 import { ThemeToggle } from '../js/core/theme.tsx';
+import { PwaBanner } from '../js/core/pwa.tsx';
+import { KeyboardShortcuts } from '../js/core/keyboard.tsx';
 import { WordDetailPage } from '../js/features/word-detail.tsx';
 import { ListeningPage } from '../js/modes/listening.tsx';
 import { FibPage } from '../js/modes/fib.tsx';
@@ -88,6 +90,8 @@ function AppRoot(): ReactElement {
     <ModeHints/>
     <Portal id="level-ring-mount"><LevelRing/></Portal>
     <Portal id="theme-toggle-mount"><ThemeToggle/></Portal>
+    <Portal id="pwa-banner-mount"><PwaBanner/></Portal>
+    <KeyboardShortcuts/>
     <Portal id="wd-page-mount"><WordDetailPage/></Portal>
     <Portal id="listen-page-mount"><ListeningPage/></Portal>
     <Portal id="fib-page-mount"><FibPage/></Portal>
