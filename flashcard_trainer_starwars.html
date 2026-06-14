@@ -758,48 +758,7 @@
   </div>
 
   <!-- ══ KEYBOARD OVERLAY ══ -->
-  <div id="keys-overlay">
-    <div class="keys-panel">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-        <div style="font-size:1.05rem;font-weight:700;color:var(--text);" data-i18n="keys.title">⌨️ Клавіатурні скорочення</div>
-        <button id="keys-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);">✕</button>
-      </div>
-      <div class="keys-section">
-        <div class="keys-section-title" data-i18n="keys.mainScreen">Головний екран</div>
-        <div class="keys-row"><span data-i18n="keys.nextCard">Наступна картка</span><div class="keys-kbds"><kbd data-i18n="keys.space">Пробіл</kbd><kbd>→</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.markKnown">Позначити "Знаю"</span><div class="keys-kbds"><kbd>Enter</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.navigation">Навігація</span><div class="keys-kbds"><kbd>←</kbd><kbd>→</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.showTranslation">Показати переклад</span><div class="keys-kbds"><kbd>F</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.search">Пошук</span><div class="keys-kbds"><kbd>Ctrl</kbd><kbd>K</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.theseHints">Ці підказки</span><div class="keys-kbds"><kbd>?</kbd></div></div>
-      </div>
-      <div class="keys-section">
-        <div class="keys-section-title" data-i18n="keys.quizTempo">Тест / Темп-режим</div>
-        <div class="keys-row"><span data-i18n="keys.selectOption">Вибір варіанту</span><div class="keys-kbds"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.nextAfterAnswer">Далі (після відповіді)</span><div class="keys-kbds"><kbd>→</kbd><kbd data-i18n="keys.space">Пробіл</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.repeatSound">Повторити звук (Темп)</span><div class="keys-kbds"><kbd data-i18n="keys.space">Пробіл</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.close">Закрити</span><div class="keys-kbds"><kbd>Esc</kbd></div></div>
-      </div>
-      <div class="keys-section">
-        <div class="keys-section-title" data-i18n="keys.writeFib">Письмо / Пропуск</div>
-        <div class="keys-row"><span data-i18n="keys.checkAnswer">Перевірити відповідь</span><div class="keys-kbds"><kbd>Enter</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.nextAfterCheck">Далі (після перевірки)</span><div class="keys-kbds"><kbd>Enter</kbd><kbd>→</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.hint">Підказка</span><div class="keys-kbds"><kbd data-i18n="keys.hintBtnKbd">💡 кнопка</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.autocomplete">Автодоповнення (Письмо)</span><div class="keys-kbds"><kbd>↑</kbd><kbd>↓</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.close">Закрити</span><div class="keys-kbds"><kbd>Esc</kbd></div></div>
-      </div>
-      <div class="keys-section">
-        <div class="keys-section-title" data-i18n="keys.listening">Слухання</div>
-        <div class="keys-row"><span data-i18n="keys.repeatWord">Повторити слово</span><div class="keys-kbds"><kbd data-i18n="keys.space">Пробіл</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.selectOption">Вибір варіанту</span><div class="keys-kbds"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div></div>
-      </div>
-      <div class="keys-section">
-        <div class="keys-section-title" data-i18n="keys.global">Глобальні</div>
-        <div class="keys-row"><span data-i18n="keys.closeAnyModal">Закрити будь-який модал</span><div class="keys-kbds"><kbd>Esc</kbd></div></div>
-        <div class="keys-row"><span data-i18n="keys.searchInList">Пошук у списку (стрілки)</span><div class="keys-kbds"><kbd>↑</kbd><kbd>↓</kbd><kbd>Enter</kbd></div></div>
-      </div>
-    </div>
-  </div>
+  <div id="keys-overlay-mount"></div>
 
   <!-- ══ LESSON MODAL ══ -->
   <div id="lesson-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9200;align-items:center;justify-content:center;padding:16px 12px;">
