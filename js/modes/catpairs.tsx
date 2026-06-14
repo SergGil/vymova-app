@@ -297,18 +297,6 @@ function showMilestone(text: string): void {
   setTimeout(() => { el.className = 'milestone-toast'; }, 3500);
 }
 
-// ════ UNMARK ══════════════════════════════════════════════════
-document.getElementById('btn-unmark')?.addEventListener('click', (e: MouseEvent) => {
-  e.stopPropagation();
-  const cw = (window as Window & { cw?: WordEntry | null }).cw;
-  if (!cw) return;
-  state.known.delete(cw[0]); delete (state.srsData as Record<string, unknown>)[cw[0]];
-  saveKnown(state.known); saveSRS(state.srsData);
-  document.getElementById('card')?.classList.remove('is-known');
-  try { renderGameBar(); } catch (e) {}
-  checkMilestones();
-});
-
 // ════ WEAK WORDS ══════════════════════════════════════════════
 export function renderWeakWords(): void {
   const el = document.getElementById('weak-words-list');
@@ -332,5 +320,36 @@ export function renderWeakWords(): void {
     `<span style="font-size:.72rem;color:#e74c3c;white-space:nowrap;margin-left:8px;">EF ${item.ef.toFixed(2)} · ✗${item.lapses}</span></div>`
   ).join('');
 }
-document.getElementById('stats-overlay')?.addEventListener('click', () => { try { renderWeakWords(); } catch (e) {} });
-document.getElementById('btn-stats')?.addEventListener('click', () => { setTimeout(() => { try { renderWeakWords(); } catch (e) {} }, 50); });
+
+export function CatPairsWiringInit(): ReactElement | null {
+  useEffect(() => {
+    const unmarkBtn = document.getElementById('btn-unmark');
+    const onUnmarkClick = (e: MouseEvent) => {
+      e.stopPropagation();
+      const cw = (window as Window & { cw?: WordEntry | null }).cw;
+      if (!cw) return;
+      state.known.delete(cw[0]); delete (state.srsData as Record<string, unknown>)[cw[0]];
+      saveKnown(state.known); saveSRS(state.srsData);
+      document.getElementById('card')?.classList.remove('is-known');
+      try { renderGameBar(); } catch (e) {}
+      checkMilestones();
+    };
+    unmarkBtn?.addEventListener('click', onUnmarkClick);
+
+    const statsOverlay = document.getElementById('stats-overlay');
+    const onStatsOverlayClick = () => { try { renderWeakWords(); } catch (e) {} };
+    statsOverlay?.addEventListener('click', onStatsOverlayClick);
+
+    const statsBtn = document.getElementById('btn-stats');
+    const onStatsBtnClick = () => { setTimeout(() => { try { renderWeakWords(); } catch (e) {} }, 50); };
+    statsBtn?.addEventListener('click', onStatsBtnClick);
+
+    return () => {
+      unmarkBtn?.removeEventListener('click', onUnmarkClick);
+      statsOverlay?.removeEventListener('click', onStatsOverlayClick);
+      statsBtn?.removeEventListener('click', onStatsBtnClick);
+    };
+  }, []);
+
+  return null;
+}

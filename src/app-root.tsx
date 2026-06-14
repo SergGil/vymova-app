@@ -52,7 +52,7 @@ import { ReadingPage } from '../js/modes/reading.tsx';
 import { StoryPage } from '../js/modes/story.tsx';
 import { LessonPage } from '../js/modes/lesson.tsx';
 import { WritePage } from '../js/modes/write.tsx';
-import { CatPairsPage } from '../js/modes/catpairs.tsx';
+import { CatPairsPage, CatPairsWiringInit } from '../js/modes/catpairs.tsx';
 import { QuizPage } from '../js/modes/quiz.tsx';
 import { ScramblePage } from '../js/modes/scramble.tsx';
 import { WordLettersPage } from '../js/modes/word-letters.tsx';
@@ -140,6 +140,7 @@ function AppRoot(): ReactElement {
     <Portal id="lesson-page-mount"><LessonPage/></Portal>
     <Portal id="write-page-mount"><WritePage/></Portal>
     <Portal id="catpairs-page-mount"><CatPairsPage/></Portal>
+    <CatPairsWiringInit/>
     <Portal id="quiz-page-mount"><QuizPage/></Portal>
     <Portal id="scr-page-mount"><ScramblePage/></Portal>
     <Portal id="wl-page-mount"><WordLettersPage/></Portal>
