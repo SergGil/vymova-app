@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { recordModeComplete } from '../features/game.ts';
-import type { SpeakFn } from '../core/ui-helpers.ts';
+import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -158,7 +158,7 @@ export function StoryPage(): ReactElement {
 
   const speakPopup = (): void => {
     if (!popup) return;
-    try { (window.speak as SpeakFn | undefined)?.(popup.word, document.getElementById('sm-popup-speak')); } catch (e) {}
+    try { speak(popup.word, document.getElementById('sm-popup-speak')); } catch (e) {}
   };
 
   if (!isOpen) return <></>;

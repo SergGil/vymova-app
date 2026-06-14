@@ -5,10 +5,9 @@ import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words.js';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
+import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
-
-type Speak = (text: string, btn: HTMLElement) => void;
 
 type Question = {
   dir: string;
@@ -144,7 +143,7 @@ export function TempoPage(): ReactElement {
 
   const speakWord = (): void => {
     if (!question) return;
-    try { (window.speak as Speak | undefined)?.(question.word, wordRef.current as unknown as HTMLElement); } catch (e) {}
+    try { speak(question.word, wordRef.current as unknown as HTMLElement); } catch (e) {}
   };
 
   useEffect(() => {

@@ -9,6 +9,7 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { closePage, openPage } from '../features/sidebar.ts';
 import { t, pluralLabel } from '../features/i18n.ts';
 import { onWordLearned } from '../core/card-engine.ts';
+import { speak } from '../features/speech.ts';
 import type { WordEntry } from '../../src/types.js';
 
 type TextEntry = { title: string; text: string; level: string };
@@ -163,7 +164,7 @@ export function ReadingPage(): ReactElement {
 
   const speakPopup = (): void => {
     if (!popup) return;
-    (window.speak as ((t: string, b: null) => void) | undefined)?.(popup.word, null);
+    speak(popup.word, null);
   };
 
   const handleEpubChange = (e: { target: HTMLInputElement }): void => {

@@ -7,7 +7,7 @@ import { W } from '../../data/words.js';
 import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import type { SpeakFn, SpeakLangFn } from '../core/ui-helpers.ts';
+import { speak, _speakWithLang } from '../features/speech.ts';
 import { t, getLang } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -67,8 +67,8 @@ function SpeakBtn({ text, lang = 'en-US' }: { text: string; lang?: string }): Re
       onClick={(e) => {
         e.stopPropagation();
         const btn = e.currentTarget;
-        if (lang.startsWith('uk')) (window as Window & { _speakWithLang?: SpeakLangFn })._speakWithLang?.(text, lang, btn);
-        else (window.speak as SpeakFn | undefined)?.(text, btn);
+        if (lang.startsWith('uk')) _speakWithLang(text, lang, btn);
+        else speak(text, btn);
       }}
     >🔊</button>
   );

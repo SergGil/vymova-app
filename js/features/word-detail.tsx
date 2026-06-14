@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import type { SpeakFn, SpeakLangFn } from '../core/ui-helpers.ts';
+import { speak, _speakWithLang } from './speech.ts';
 import { getSimilarWords, getSimilarWordsEs, getSimilarWordsFr } from './similar-words.tsx';
 import { W } from '../../data/words.js';
 import { W_ES } from '../../data/words_es.js';
@@ -31,8 +31,8 @@ function SpeakBtn({ text, lang = 'en-US', style }: { text: string; lang?: string
       onClick={(e) => {
         e.stopPropagation();
         const btn = e.currentTarget;
-        if (lang.startsWith('uk')) (window as Window & { _speakWithLang?: SpeakLangFn })._speakWithLang?.(text, lang, btn);
-        else (window.speak as SpeakFn | undefined)?.(text, btn);
+        if (lang.startsWith('uk')) _speakWithLang(text, lang, btn);
+        else speak(text, btn);
       }}
     >🔊</button>
   );

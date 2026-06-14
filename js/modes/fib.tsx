@@ -9,13 +9,12 @@ import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
+import { speak } from '../features/speech.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const SIZE = 10;
 type BlankItem = { sentence: string; answer: string; base: string };
 type FibEntry  = { w: WordEntry; blank: BlankItem };
-
-type Speak = (text: string, btn: HTMLElement) => void;
 
 function makeBlank(w: WordEntry): BlankItem | null {
   let sentence = w[2] ?? '';
@@ -156,7 +155,7 @@ export function FibPage(): ReactElement {
 
   const speakCorrectWord = (): void => {
     if (!item) return;
-    try { (window.speak as Speak | undefined)?.(item.blank.answer, inputRef.current as unknown as HTMLElement); } catch (e) {}
+    try { speak(item.blank.answer, inputRef.current as unknown as HTMLElement); } catch (e) {}
   };
 
   // Keyboard shortcuts

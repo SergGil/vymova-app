@@ -3,11 +3,12 @@
 import { useEffect, useState, type ReactElement, type MouseEventHandler } from 'react';
 import { ENGLISH_IDIOMS, UKRAINIAN_IDIOMS, SPANISH_IDIOMS, type Idiom } from '../../data/idioms.ts';
 import { t } from './i18n.ts';
+import { _speakWithLang } from './speech.ts';
 
 type Tab = 'en' | 'ua' | 'es';
 
 function _speak(text: string, lang: string, btn: HTMLElement | null): void {
-  (window._speakWithLang as ((text: string, lang: string, btn: HTMLElement | null) => void) | undefined)?.(text, lang, btn);
+  _speakWithLang(text, lang, btn);
 }
 
 const LANG_BY_TAB: Record<Tab, string> = { en: 'en-US', ua: 'uk-UA', es: 'es-ES' };

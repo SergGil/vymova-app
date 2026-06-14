@@ -65,6 +65,3 @@ export function checkAchievements(): void {
 
 // Register so game.ts can call checkAchievements without importing app.ts
 registerCheckAchievements(checkAchievements);
-
-window.checkAchievements  = checkAchievements;
-window.showToast          = showToast;

@@ -8,7 +8,7 @@ import { lev } from '../core/distance.ts';
 import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import type { SpeakFn } from '../core/ui-helpers.ts';
+import { speak as _speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -49,7 +49,7 @@ export function SpellingBeePage(): ReactElement {
   const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
 
   const speak = (word: string): void => {
-    try { (window.speak as SpeakFn | undefined)?.(word, speakBtnRef.current); } catch (e) {}
+    try { _speak(word, speakBtnRef.current); } catch (e) {}
   };
 
   const startGame = (): void => {

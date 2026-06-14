@@ -8,6 +8,7 @@ import { closePage, openPage } from '../features/sidebar.ts';
 import { speakBtn, decodeIpa } from '../core/ui-helpers.ts';
 import { t } from '../features/i18n.ts';
 import { refreshGameBarLevel } from '../features/game-bar-level.tsx';
+import { checkAchievements } from '../features/render-achievements.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const DC_SIZE = 10, DC_XP = 3;
@@ -109,7 +110,7 @@ if (overlay) {
     elFinal.style.display = 'block'; elOpts.innerHTML = '';
     try { const d = getGameData(); d.xp = (d.xp ?? 0) + xp; saveGameData(d); refreshGameBarLevel(); } catch (e) {}
     recordModeComplete('daily');
-    try { (window.checkAchievements as (() => void) | undefined)?.(); } catch (e) {}
+    try { checkAchievements(); } catch (e) {}
   }
 
   document.getElementById('btn-daily-challenge')?.addEventListener('click', open);

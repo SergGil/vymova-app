@@ -54,6 +54,3 @@ export function speak(text: string, btn: HTMLElement | null): void {
   if (speakFakeYou(text, btn)) return;
   _speakWeb(text, btn);
 }
-
-window.speak           = speak;
-window._speakWithLang  = _speakWithLang;

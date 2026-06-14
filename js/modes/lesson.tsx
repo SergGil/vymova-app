@@ -7,8 +7,8 @@ import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, flashCard, getComboMult } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
-import type { SpeakFn } from '../core/ui-helpers.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
+import { speak as _speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -113,7 +113,7 @@ export function LessonPage(): ReactElement {
   }, [showFinal]);
 
   const speak = (word: string): void => {
-    try { (window.speak as SpeakFn | undefined)?.(word, null); } catch (e) {}
+    try { _speak(word, null); } catch (e) {}
   };
 
   const advance = (): void => {

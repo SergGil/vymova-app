@@ -7,7 +7,7 @@ import { W } from '../../data/words.js';
 import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import type { SpeakFn } from '../core/ui-helpers.ts';
+import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -224,7 +224,7 @@ export function ScramblePage(): ReactElement {
             <div style={{ fontSize: '.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color: 'var(--text3)', marginBottom: 8 }} data-i18n="scramble.prompt">{t('scramble.prompt')}</div>
             <button
               ref={speakBtnRef}
-              onClick={() => { try { (window.speak as SpeakFn | undefined)?.(w[0], speakBtnRef.current); } catch (e) {} }}
+              onClick={() => { try { speak(w[0], speakBtnRef.current); } catch (e) {} }}
               style={{ fontSize: '2rem', background: 'var(--accent)', border: 'none', borderRadius: '50%', width: 56, height: 56, cursor: 'pointer', marginBottom: 10, transition: 'transform .1s', boxShadow: '0 4px 14px rgba(0,200,100,.3)' }}
               title={t('bee.speakTitle')}
               data-i18n-title="bee.speakTitle"

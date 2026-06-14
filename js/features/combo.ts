@@ -2,6 +2,7 @@
 import { refreshComboBox } from './game-bar-streak.tsx';
 import { getGameData, saveGameData } from './game.ts';
 import { playSound } from '../core/audio.ts';
+import { checkAchievements } from './render-achievements.ts';
 
 let sessionCombo = 0;
 
@@ -24,7 +25,7 @@ export function addCombo(): void {
       saveGameData(d);
     }
   } catch(e){}
-  try { (window.checkAchievements as ()=>void)?.(); } catch(e){}
+  try { checkAchievements(); } catch(e){}
 }
 export function breakCombo(): void {
   if (sessionCombo === 0) return;

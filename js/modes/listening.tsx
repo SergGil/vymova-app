@@ -8,11 +8,10 @@ import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
+import { speak } from '../features/speech.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const SIZE = 10;
-
-type Speak = (text: string, btn: HTMLElement) => void;
 
 function build(): WordEntry[] {
   const pool = _shuf((state.deck.length ? state.deck.slice() : W.slice()) as WordEntry[]);
@@ -60,7 +59,7 @@ export function ListeningPage(): ReactElement {
 
   const playWord = (): void => {
     if (!word) return;
-    try { (window.speak as Speak | undefined)?.(word[0], playBtnRef.current as HTMLElement); }
+    try { speak(word[0], playBtnRef.current as HTMLElement); }
     catch (e) { playBtnRef.current?.classList.remove('on'); }
   };
 
