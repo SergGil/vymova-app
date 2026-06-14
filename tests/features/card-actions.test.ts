@@ -54,7 +54,7 @@ vi.mock('../../js/features/word-context.ts', () => ({
 vi.mock('../../js/core/audio.ts', () => ({
   playSound: vi.fn(),
 }));
-vi.mock('../../js/core/confetti.ts', () => ({
+vi.mock('../../js/core/confetti.tsx', () => ({
   launchConfetti: vi.fn(),
 }));
 vi.mock('../../js/features/i18n.ts', () => ({
@@ -215,7 +215,7 @@ describe('btn-know', () => {
   });
 
   it('launches confetti once the daily goal is reached for the first time', async () => {
-    const { launchConfetti } = await import('../../js/core/confetti.ts');
+    const { launchConfetti } = await import('../../js/core/confetti.tsx');
     setRange('all');
     gameData.goalCur = 20;
     gameData.goalMax = 20;

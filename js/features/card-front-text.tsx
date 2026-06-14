@@ -4,7 +4,7 @@
 import { useAppState } from '../../src/store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { tLang, type Lang } from './i18n.ts';
-import { srsStatusInfo, type SrsEntry } from '../core/card-helpers.ts';
+import { srsStatusInfo, forgettingCurveTooltip, type SrsEntry } from '../core/card-helpers.ts';
 import { getResolvedMode, computeCardView } from './mode-utils.ts';
 
 function getRangeVal(): string {
@@ -44,7 +44,7 @@ export function SrsBadge() {
   const sd = (srsData as Record<string, SrsEntry>)[cw[0]];
   const info = srsStatusInfo(sd, TODAY, getRangeVal());
   if (!info) return <div id="srs-next" className="srs-next" style={{ display: 'none' }} />;
-  return <div id="srs-next" className={info.className}>{info.text}</div>;
+  return <div id="srs-next" className={info.className} title={forgettingCurveTooltip(sd)}>{info.text}</div>;
 }
 
 export function Translation() {

@@ -16,7 +16,7 @@ import { updateSimilarWords } from './similar-words.tsx';
 import { updateCollocations, updateWordFamilies } from './word-context.ts';
 import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry } from './mode-utils.ts';
 import { playSound } from '../core/audio.ts';
-import { launchConfetti } from '../core/confetti.ts';
+import { launchConfetti } from '../core/confetti.tsx';
 import { t } from './i18n.ts';
 import { renderGameBar } from './render-game-bar.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';

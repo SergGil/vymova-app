@@ -1,7 +1,7 @@
 // English Words App — js/core/card-helpers.ts
 // Pure helpers extracted from app.ts so they can be unit-tested without DOM.
 import type { WordEntry } from '../../src/types.js';
-import { t, pluralLabel } from '../features/i18n.ts';
+import { t, pluralLabel, getLang } from '../features/i18n.ts';
 
 // ── Error-safe wrapper ─────────────────────────────────────────
 export function safe(fn: () => void): void {
@@ -80,4 +80,14 @@ export function srsStatusInfo(
     return { text: t('srs.badgeSoon', { n: diffDays, unit: pluralLabel('common_day', diffDays) }), className: 'srs-next soon', show: true };
   }
   return { text: t('srs.badgeFuture', { n: diffDays, unit: pluralLabel('common_day', diffDays) }), className: 'srs-next ok', show: true };
+}
+
+/** Forgetting-curve tooltip text shown on the SRS badge: next 5 review intervals. */
+export function forgettingCurveTooltip(sd: SrsEntry | undefined): string {
+  if (!sd?.due || !sd.ef) return '';
+  let ef = sd.ef, interval = sd.interval ?? 1;
+  const future = [interval];
+  for (let i = 0; i < 4; i++) { interval = Math.round(interval * ef); future.push(interval); }
+  const dayUnit = getLang() === 'ua' ? 'д' : 'd';
+  return t('stats.intervals') + ': ' + future.map(v => v + dayUnit).join(' → ');
 }

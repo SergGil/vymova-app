@@ -1,12 +1,19 @@
-// English Words App — js/core/confetti.ts
+// English Words App — js/core/confetti.tsx
 // Canvas confetti animation for goal completion
-export {};
+import { useEffect, useRef, type ReactElement } from 'react';
 
+let _canvas: HTMLCanvasElement | null = null;
 let _done = false;
+
+export function ConfettiCanvas(): ReactElement {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => { _canvas = ref.current; return () => { _canvas = null; }; }, []);
+  return <canvas ref={ref} id="confetti-canvas" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99990, display: 'block' }} />;
+}
 
 export function launchConfetti(): void {
   if (_done) return;
-  const canvas = document.getElementById('confetti-canvas') as HTMLCanvasElement | null;
+  const canvas = _canvas;
   if (!canvas) return;
   _done = true;
   const ctx = canvas.getContext('2d')!;
