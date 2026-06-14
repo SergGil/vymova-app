@@ -32,7 +32,6 @@ await import('../js/features/leaderboard.ts');
 
 await import('../lib/jszip.min.js');
 await import('../js/features/epub.ts');
-await import('../js/features/bug-report.ts');
 await import('../js/features/sidebar.ts');
 
 const { mountAppRoot } = await import('./app-root.tsx');

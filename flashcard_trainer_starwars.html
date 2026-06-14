@@ -462,20 +462,7 @@
       <div class="settings-section">
         <div class="settings-section-title" data-i18n="settings.bugTitle">🐛 Повідомити про помилку</div>
         <div class="settings-desc" data-i18n="settings.bugDesc">Знайшли помилку або є пропозиція?</div>
-        <div class="bug-form" id="bug-form">
-          <select id="bug-subject" class="bug-select">
-            <option value="" data-i18n="settings.bugSubjectDefault">— Оберіть тему —</option>
-            <option value="Помилка в даних" data-i18n="settings.bugSubjectData">📊 Помилка в даних</option>
-            <option value="Технічна проблема" data-i18n="settings.bugSubjectTech">🐛 Технічна проблема</option>
-            <option value="Пропозиція / ідея" data-i18n="settings.bugSubjectIdea">💡 Пропозиція / ідея</option>
-            <option value="Інше" data-i18n="settings.bugSubjectOther">❓ Інше</option>
-          </select>
-          <textarea id="bug-message" class="bug-textarea" data-i18n-placeholder="settings.bugPlaceholder" rows="4"></textarea>
-          <div class="bug-row">
-            <button id="bug-send-btn" class="bug-send-btn" data-i18n="settings.bugSendBtn">📨 Надіслати</button>
-            <span id="bug-sent-note" class="bug-sent-note" style="display:none;" data-i18n="settings.bugSentNote">Відкриваємо поштовий клієнт…</span>
-          </div>
-        </div>
+        <div id="bug-report-mount"></div>
       </div>
 
       <div class="settings-section settings-section-danger">
