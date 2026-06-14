@@ -13,7 +13,6 @@ import './features/card-actions.ts';
 import './features/deck-filter.ts';
 import './features/deck-mode.ts';
 import './features/progress-io.ts';
-import './core/swipe.ts';
 
 const savedKnown = _lzLoad('ew_known', []);
 

@@ -28,6 +28,8 @@ import { PwaBanner } from '../js/core/pwa.tsx';
 import { KeyboardShortcuts } from '../js/core/keyboard.tsx';
 import { KeysOverlay } from '../js/features/keyboard.tsx';
 import { QuizSwipe } from '../js/features/swipe.tsx';
+import { QuickQuizButton } from '../js/features/quick-quiz.tsx';
+import { CardSwipe } from '../js/core/swipe.tsx';
 import { WordDetailPage } from '../js/features/word-detail.tsx';
 import { ListeningPage } from '../js/modes/listening.tsx';
 import { FibPage } from '../js/modes/fib.tsx';
@@ -96,6 +98,8 @@ function AppRoot(): ReactElement {
     <KeyboardShortcuts/>
     <Portal id="keys-overlay-mount"><KeysOverlay/></Portal>
     <QuizSwipe/>
+    <Portal id="quick-quiz-mount"><QuickQuizButton/></Portal>
+    <CardSwipe/>
     <Portal id="wd-page-mount"><WordDetailPage/></Portal>
     <Portal id="listen-page-mount"><ListeningPage/></Portal>
     <Portal id="fib-page-mount"><FibPage/></Portal>
