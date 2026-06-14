@@ -32,6 +32,7 @@ import { QuickQuizButton } from '../js/features/quick-quiz.tsx';
 import { CardSwipe } from '../js/core/swipe.tsx';
 import { ImagePrefetchSettings } from '../js/features/image-prefetch.tsx';
 import { SettingsInit } from '../js/features/settings.tsx';
+import { ProgressIO } from '../js/features/progress-io.tsx';
 import { WordDetailPage } from '../js/features/word-detail.tsx';
 import { ListeningPage } from '../js/modes/listening.tsx';
 import { FibPage } from '../js/modes/fib.tsx';
@@ -104,6 +105,7 @@ function AppRoot(): ReactElement {
     <CardSwipe/>
     <Portal id="image-prefetch-mount"><ImagePrefetchSettings/></Portal>
     <SettingsInit/>
+    <ProgressIO/>
     <Portal id="wd-page-mount"><WordDetailPage/></Portal>
     <Portal id="listen-page-mount"><ListeningPage/></Portal>
     <Portal id="fib-page-mount"><FibPage/></Portal>

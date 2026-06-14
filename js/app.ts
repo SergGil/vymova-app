@@ -11,7 +11,6 @@ import './features/speech.ts';
 import './features/card-actions.ts';
 import './features/deck-filter.ts';
 import './features/deck-mode.ts';
-import './features/progress-io.ts';
 
 const savedKnown = _lzLoad('ew_known', []);
 
