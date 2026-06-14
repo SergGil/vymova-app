@@ -3,7 +3,12 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
 
 describe('bookmarks.ts', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
+    // Flush any pending dynamic imports (e.g. i18n.ts's async deck-filter
+    // _refreshRangeOptions() call) triggered by the previous test, so they
+    // don't mutate #sel-range mid-test.
+    await vi.dynamicImportSettled();
+    await new Promise(resolve => setTimeout(resolve, 0));
     localStorage.clear();
     document.body.innerHTML = '';
     vi.resetModules();
@@ -50,6 +55,10 @@ describe('bookmarks.ts', () => {
       </select>
     `;
     await import('../../js/features/bookmarks.ts');
+    await vi.dynamicImportSettled();
+    // Let the .then() chains of those dynamic imports (e.g. i18n.ts's
+    // deck-filter._refreshRangeOptions() call) finish running too.
+    await new Promise(resolve => setTimeout(resolve, 0));
     const sel = document.getElementById('sel-range') as HTMLSelectElement;
     const opt = sel.querySelector('option[value="bookmarks"]') as HTMLOptionElement;
     expect(opt).not.toBeNull();
@@ -62,7 +71,10 @@ describe('bookmarks.ts', () => {
     await import('../../js/features/bookmarks.ts');
     const sel = document.getElementById('sel-range') as HTMLSelectElement;
     const values = Array.from(sel.options).map(o => o.value);
-    expect(values).toEqual(['all', 'bookmarks']);
+    // i18n.ts may asynchronously trigger deck-filter's _refreshRangeOptions(),
+    // which appends its own numeric range options later — only assert on the
+    // "all"/"bookmarks" pair that bookmarks.ts itself is responsible for.
+    expect(values.slice(0, 2)).toEqual(['all', 'bookmarks']);
   });
 
   it('does not insert a duplicate "bookmarks" option', async () => {

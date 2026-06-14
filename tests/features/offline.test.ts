@@ -33,6 +33,7 @@ describe('offline.ts', () => {
     // Let i18n.ts's module-level dynamic import of card-engine settle before
     // continuing, so vi.resetModules() in the next test doesn't tear down a
     // module mid-load (which manifests as TDZ errors on later imports).
+    await vi.dynamicImportSettled();
     await vi.waitFor(() => {});
     root = createRoot(container);
     act(() => { root.render(createElement(mod.OfflineInit)); });

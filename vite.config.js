@@ -20,7 +20,7 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
     globals: true,
-    pool: 'vmThreads',
+    pool: 'forks',
     include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx'],
     coverage: {
       provider: 'v8',
