@@ -1579,11 +1579,6 @@
   .btn-write { border-color: #16a085; color: #16a085; }
   .btn-write:hover { background: #e8f8f5; }
   body.dark .btn-write { border-color: #1abc9c; color: #1abc9c; }
-  #write-input:focus { border-color: var(--accent); }
-  body.dark #write-input { background: var(--card); color: var(--text); border-color: var(--border); }
-  #write-input.ok   { border-color: #27ae60 !important; }
-  #write-input.fail { border-color: #e74c3c !important; }
-
   /* ── Pairs mode ── */
   .btn-pairs { border-color: #d35400; color: #d35400; }
   .btn-pairs:hover { background: #fef5ec; }
@@ -2287,29 +2282,6 @@ body.sw .gb-level-block  { border-color: rgba(0,200,255,0.3); }
 body.dark .btn-achievements { border-color: #ffd700; color: #ffd700; }
 body.sw   .btn-achievements { border-color: #ffd700; color: #ffd700; box-shadow: 0 0 8px rgba(255,215,0,.25); }
 
-/* ── ElevenLabs voice buttons ── */
-.el-voice-btn {
-  background: var(--bg);
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  padding: 8px 10px;
-  cursor: pointer;
-  text-align: left;
-  font-family: inherit;
-  font-size: .78rem;
-  font-weight: 600;
-  color: var(--text);
-  transition: all .15s;
-  line-height: 1.4;
-}
-.el-voice-btn:hover { border-color: var(--accent); background: var(--card); }
-.el-voice-btn.el-active {
-  border-color: var(--accent);
-  background: var(--card);
-  box-shadow: 0 0 10px rgba(0,200,255,0.15);
-}
-body.sw .el-voice-btn.el-active { box-shadow: 0 0 12px rgba(0,200,255,0.3); border-color: #00c8ff; }
-
 /* ══ Profile System ══════════════════════════════════════════════ */
 .profile-btn {
   display: inline-flex;
@@ -2750,11 +2722,6 @@ body.sw .sb-dd-check { color: #00c8ff; }
 .prf-av-mini .prf-av-btn { width: 30px; height: 30px; font-size: .95rem; border-radius: 8px; }
 
 /* ══ Sidebar Themes section ═════════════════════════════════════ */
-.sb-section-label {
-  font-size: .68rem; font-weight: 700; color: var(--text3);
-  letter-spacing: .06em; text-transform: uppercase;
-  padding: 8px 12px 4px;
-}
 .sb-toggle-row {
   display: flex; align-items: center; gap: 10px;
   padding: 9px 12px;
@@ -2824,11 +2791,6 @@ body.sw .sb-wotd:hover { border-color: #00c8ff; }
   overflow: hidden; white-space: normal; word-break: break-word; line-height: 1.25;
 }
 body.sw .sb-wotd .wotd-word { color: #00c8ff; }
-.sb-wotd .wotd-tr {
-  font-size: .73rem; color: var(--text2); max-width: 100%;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-  overflow: hidden; white-space: normal; line-height: 1.25;
-}
 
 /* ── Profile delete modal ── */
 #prf-delete-overlay { display: none; }
