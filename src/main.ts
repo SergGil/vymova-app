@@ -27,7 +27,6 @@ await import('../js/features/quick-quiz.ts');
 await import('../js/features/mode-hints.ts');
 await import('../js/features/i18n.ts');
 await import('../js/features/learning-path.ts');
-await import('../js/features/leaderboard.ts');
 
 await import('../lib/jszip.min.js');
 await import('../js/features/epub.ts');

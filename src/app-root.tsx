@@ -44,6 +44,7 @@ import { AchievementToast } from '../js/features/achievement-toast.tsx';
 import { CsvExportButton } from '../js/features/csv-export-button.tsx';
 import { ComboToast } from '../js/features/combo-toast.tsx';
 import { NoteModal } from '../js/features/note-modal.tsx';
+import { PronunciationToast } from '../js/features/pronunciation-toast.tsx';
 import { DuelOverlay } from '../js/features/duel-overlay.tsx';
 
 function Portal({ id, children }: { id: string; children: ReactNode }): ReactElement | null {
@@ -101,6 +102,7 @@ function AppRoot(): ReactElement {
     <Portal id="csv-export-mount"><CsvExportButton/></Portal>
     <Portal id="combo-toast-mount"><ComboToast/></Portal>
     <NoteModal/>
+    <PronunciationToast/>
     <Portal id="duel-overlay-mount"><DuelOverlay/></Portal>
   </>;
 }

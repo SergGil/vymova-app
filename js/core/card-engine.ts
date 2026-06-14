@@ -18,7 +18,7 @@ import { t }                                       from '../features/i18n.ts';
 import { renderGameBar }                           from '../features/render-game-bar.ts';
 import { refreshGameBarLevel as renderLevelBadge } from '../features/game-bar-level.tsx';
 import { checkAchievements }                       from '../features/render-achievements.ts';
-import { maybeSubmitScore }                        from '../features/leaderboard.ts';
+import { maybeSubmitScore }                        from '../features/leaderboard.tsx';
 import { updateRing }                              from '../features/ring.ts';
 import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode } from '../features/mode-utils.ts';
 import { _isOnlineCheck, _offlineSvg }             from '../features/offline.ts';

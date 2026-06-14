@@ -7,7 +7,7 @@ import { getDailyStats, getGameData, getModeStats, getModeAccuracy } from './gam
 import { t, getLang, wordsLabel, pluralLabel, monthNames, dowNames } from './i18n.ts';
 import { W } from '../../data/words.js';
 import { getCefrLevel } from '../../data/cefr.ts';
-import { renderLeaderboard } from './leaderboard.ts';
+import { Leaderboard } from './leaderboard.tsx';
 import { refreshAchievementsPage as renderAchievements } from './achievements-page.tsx';
 import { closePage } from './sidebar.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -244,13 +244,7 @@ export function StatsPage(): ReactElement {
     return () => { _bumpTick = null; };
   }, []);
 
-  useEffect(() => {
-    const lbEl = document.getElementById('lb-container');
-    if (lbEl && !lbEl.dataset.loaded) {
-      lbEl.dataset.loaded = '1';
-      renderLeaderboard(lbEl).catch(() => {});
-    }
-  }, []);
+  const [lbKey, setLbKey] = useState(0);
 
   const gd = getGameData();
   const knownCount = state.known.size;
@@ -277,8 +271,7 @@ export function StatsPage(): ReactElement {
   }
 
   function refreshLeaderboard(): void {
-    const lbEl = document.getElementById('lb-container');
-    if (lbEl) { delete lbEl.dataset.loaded; renderLeaderboard(lbEl).catch(() => {}); }
+    setLbKey(k => k + 1);
   }
 
   return (
@@ -459,7 +452,7 @@ export function StatsPage(): ReactElement {
           <div className="stats-section-title" style={{ margin: 0 }} data-i18n="stats.leaderboardTitle">{t('stats.leaderboardTitle')}</div>
           <button id="lb-refresh-btn" style={{ padding: '4px 10px', borderRadius: 8, border: '1.5px solid var(--border)', background: 'none', color: 'var(--text3)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '.72rem' }} onClick={refreshLeaderboard}>{t('stats.refresh')}</button>
         </div>
-        <div id="lb-container" />
+        <div id="lb-container"><Leaderboard refreshKey={lbKey}/></div>
       </div>
     </div>
   );

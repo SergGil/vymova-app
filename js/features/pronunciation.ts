@@ -1,5 +1,6 @@
 // English Words App — js/features/pronunciation.ts
-import { t } from './i18n.ts';
+// Speech-recognition based pronunciation check.
+// Result toast lives in pronunciation-toast.tsx (React).
 
 type SpeechRecognitionCtor = new () => SpeechRecognition;
 const _w = window as Window & { SpeechRecognition?: SpeechRecognitionCtor; webkitSpeechRecognition?: SpeechRecognitionCtor };
@@ -64,57 +65,3 @@ export function startPronunciationCheck(
 }
 
 export function stopPronunciationCheck(): void { _stop(null); }
-
-let _pronToast: HTMLElement | null = null;
-let _pronTimer: ReturnType<typeof setTimeout> | null = null;
-
-function _getPronToast(): HTMLElement {
-  if (!_pronToast) {
-    _pronToast = document.createElement('div');
-    _pronToast.id = '_pron-toast';
-    _pronToast.style.cssText = [
-      'position:fixed', 'top:50%', 'left:50%', 'transform:translate(-50%,-50%)',
-      'z-index:99998', 'display:none', 'flex-direction:column', 'align-items:center',
-      'gap:3px', 'padding:10px 18px', 'border-radius:14px',
-      'box-shadow:0 4px 18px rgba(0,0,0,.25)',
-      'font-family:var(--font,sans-serif)',
-      'pointer-events:none', 'transition:opacity .3s',
-      'min-width:160px', 'max-width:280px', 'text-align:center',
-    ].join(';');
-    document.body.appendChild(_pronToast);
-  }
-  return _pronToast;
-}
-
-export function showPronuncResult(
-  status: string, score: number, spoken: string, target: string
-): void {
-  const msgs: Record<string, [string, string, string, string]> = {
-    perfect:     ['🏆', t('pron.perfect.title'),     t('pron.perfect.sub'),         '#27ae60'],
-    good:        ['✅', t('pron.good.title'),        t('pron.good.sub'),            '#2980b9'],
-    okay:        ['👍', t('pron.okay.title'),        t('pron.okay.sub', { s: spoken }), '#e67e22'],
-    try_again:   ['🔁', t('pron.tryAgain.title'),    `"${spoken ?? '?'}" → "${target}"`, '#e74c3c'],
-    unsupported: ['🎤', t('pron.unsupported.title'), t('pron.unsupported.sub'),     '#888'],
-    error:       ['⚠️', t('pron.error.title'),       t('pron.error.sub'),           '#e74c3c'],
-  };
-  const [emoji, title, subtitle, color] = msgs[status] ?? msgs.error;
-  const pct = Math.round(score * 100);
-
-  const toast = _getPronToast();
-  toast.style.background = color;
-  toast.style.color = '#fff';
-  toast.innerHTML = `
-    <div style="font-size:1.5rem;line-height:1">${emoji}</div>
-    <div style="font-size:.88rem;font-weight:700;margin-top:2px">${title}</div>
-    <div style="font-size:.72rem;opacity:.88">${subtitle}</div>
-    ${score > 0 ? `<div style="margin-top:6px;width:100%;background:rgba(255,255,255,.25);border-radius:4px;height:4px"><div style="width:${pct}%;height:100%;background:#fff;border-radius:4px"></div></div>` : ''}
-  `;
-  toast.style.display = 'flex';
-  toast.style.opacity = '1';
-
-  if (_pronTimer) clearTimeout(_pronTimer);
-  _pronTimer = setTimeout(() => {
-    toast.style.opacity = '0';
-    setTimeout(() => { toast.style.display = 'none'; }, 350);
-  }, 3000);
-}
