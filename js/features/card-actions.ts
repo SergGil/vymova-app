@@ -10,7 +10,7 @@ import { openNoteModal } from './note-modal.tsx';
 import { toggleBookmark } from './bookmarks.ts';
 import { isPronuncSupported, startPronunciationCheck } from './pronunciation.ts';
 import { showPronuncResult } from './pronunciation-toast.tsx';
-import { getSelectedUkVoice, getSelectedEsVoice, getSelectedFrVoice, getSelectedItVoice, getSelectedPtVoice, getSelectedDeVoice } from './voice.ts';
+import { getSelectedUkVoice, getSelectedEsVoice, getSelectedFrVoice, getSelectedItVoice, getSelectedPtVoice, getSelectedDeVoice } from './voice.tsx';
 import { speak, _speakWithLang } from './speech.ts';
 import { updateSimilarWords } from './similar-words.tsx';
 import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry } from './mode-utils.ts';

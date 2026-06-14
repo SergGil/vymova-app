@@ -6,9 +6,9 @@ import { openGrammarContent } from './grammar-page.tsx';
 import { openIdiomsContent } from './idioms-page.tsx';
 import { state } from '../../src/state.ts';
 import { notifyStateChange } from '../../src/store.ts';
-import { _renderVoices } from './voice.ts';
-import { _updateUI as _refreshNotifUI } from './notifications.ts';
-import { _refreshCloudSyncUI } from './cloud-sync.ts';
+import { _renderVoices } from './voice.tsx';
+import { _updateUI as _refreshNotifUI } from './notifications.tsx';
+import { _refreshCloudSyncUI } from './cloud-sync.tsx';
 
 // ── Image cache clear confirm ──────────────────────────────────
 let _imgClearCb: (() => void) | null = null;

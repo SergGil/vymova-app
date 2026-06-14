@@ -178,9 +178,9 @@ export function applyI18n(): void {
     import('./idioms-page.tsx').then(({ openIdiomsContent }) => openIdiomsContent()).catch(() => {});
   }
   if (document.getElementById('settings-overlay')?.classList.contains('open')) {
-    import('./notifications.ts').then(({ _updateUI }) => _updateUI()).catch(() => {});
-    import('./cloud-sync.ts').then(({ _refreshCloudSyncUI }) => _refreshCloudSyncUI()).catch(() => {});
-    import('./voice.ts').then(({ _renderVoices }) => _renderVoices()).catch(() => {});
+    import('./notifications.tsx').then(({ _updateUI }) => _updateUI()).catch(() => {});
+    import('./cloud-sync.tsx').then(({ _refreshCloudSyncUI }) => _refreshCloudSyncUI()).catch(() => {});
+    import('./voice.tsx').then(({ _renderVoices }) => _renderVoices()).catch(() => {});
   }
   const statsOverlay = document.getElementById('stats-overlay') as HTMLElement | null;
   if (statsOverlay && statsOverlay.style.display === 'flex') {

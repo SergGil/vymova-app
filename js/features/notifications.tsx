@@ -1,4 +1,5 @@
-// English Words App — js/features/notifications.ts
+// English Words App — js/features/notifications.tsx
+import { useEffect, type ReactElement } from 'react';
 import { t, pluralLabel } from './i18n.ts';
 
 const KEY_ENABLED = 'ew_notif_enabled';
@@ -173,45 +174,60 @@ function _checkAndNotify(): void {
   if (shown) { localStorage.setItem(KEY_SHOWN, today); void _syncNotifSnapshot(); }
 }
 
-// Check on startup (with small delay to let state initialize)
-setTimeout(_checkAndNotify, 3000);
+export function NotificationsInit(): ReactElement | null {
+  useEffect(() => {
+    // Check on startup (with small delay to let state initialize)
+    const startupTimer = setTimeout(_checkAndNotify, 3000);
+    // Also schedule a check every 15 min while app is open
+    const interval = setInterval(_checkAndNotify, 15 * 60 * 1000);
 
-// Also schedule a check every 15 min while app is open
-setInterval(_checkAndNotify, 15 * 60 * 1000);
+    // UI bindings
+    const toggle = document.getElementById('notif-toggle') as HTMLInputElement | null;
+    const onToggleChange = () => {
+      if (toggle!.checked) requestNotifPermission();
+      else setEnabled(false);
+    };
+    if (toggle) toggle.addEventListener('change', onToggleChange);
 
-// UI bindings
-const toggle = document.getElementById('notif-toggle') as HTMLInputElement | null;
-if (toggle) {
-  toggle.addEventListener('change', () => {
-    if (toggle.checked) requestNotifPermission();
-    else setEnabled(false);
-  });
-}
+    const timeH = document.getElementById('notif-time-h') as HTMLSelectElement | null;
+    const timeM = document.getElementById('notif-time-m') as HTMLSelectElement | null;
+    let onTimeChange: (() => void) | null = null;
+    if (timeH && timeM) {
+      for (let h = 0; h < 24; h++) {
+        const opt = document.createElement('option');
+        opt.value = opt.textContent = String(h).padStart(2, '0');
+        timeH.appendChild(opt);
+      }
+      for (let m = 0; m < 60; m++) {
+        const opt = document.createElement('option');
+        opt.value = opt.textContent = String(m).padStart(2, '0');
+        timeM.appendChild(opt);
+      }
+      onTimeChange = (): void => {
+        setTime(`${timeH.value}:${timeM.value}`);
+        _updateUI();
+        void _syncNotifSnapshot();
+      };
+      timeH.addEventListener('change', onTimeChange);
+      timeM.addEventListener('change', onTimeChange);
+    }
 
-const timeH = document.getElementById('notif-time-h') as HTMLSelectElement | null;
-const timeM = document.getElementById('notif-time-m') as HTMLSelectElement | null;
-if (timeH && timeM) {
-  for (let h = 0; h < 24; h++) {
-    const opt = document.createElement('option');
-    opt.value = opt.textContent = String(h).padStart(2, '0');
-    timeH.appendChild(opt);
-  }
-  for (let m = 0; m < 60; m++) {
-    const opt = document.createElement('option');
-    opt.value = opt.textContent = String(m).padStart(2, '0');
-    timeM.appendChild(opt);
-  }
-  const onChange = (): void => {
-    setTime(`${timeH.value}:${timeM.value}`);
     _updateUI();
     void _syncNotifSnapshot();
-  };
-  timeH.addEventListener('change', onChange);
-  timeM.addEventListener('change', onChange);
-}
+    if (isEnabled() && typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+      void _registerPeriodicSync();
+    }
 
-_updateUI();
-void _syncNotifSnapshot();
-if (isEnabled() && typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-  void _registerPeriodicSync();
+    return () => {
+      clearTimeout(startupTimer);
+      clearInterval(interval);
+      if (toggle) toggle.removeEventListener('change', onToggleChange);
+      if (timeH && timeM && onTimeChange) {
+        timeH.removeEventListener('change', onTimeChange);
+        timeM.removeEventListener('change', onTimeChange);
+      }
+    };
+  }, []);
+
+  return null;
 }

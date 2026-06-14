@@ -1,7 +1,7 @@
 // English Words App — js/features/speech.ts
 // TTS: getVoice, speak, _speakWeb, _speakWithLang
 import { synth, hasSpeech } from '../core/srs.ts';
-import { getSelectedUkVoice, getSelectedEsVoice, speakFakeYou } from './voice.ts';
+import { getSelectedUkVoice, getSelectedEsVoice, speakFakeYou } from './voice.tsx';
 
 export function getVoice(): SpeechSynthesisVoice | null {
   const v = synth.getVoices();

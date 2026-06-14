@@ -36,6 +36,11 @@ import { ProgressIO } from '../js/features/progress-io.tsx';
 import { DeckModeInit } from '../js/features/deck-mode.tsx';
 import { DeckFilterInit } from '../js/features/deck-filter.tsx';
 import { DailyChallenge } from '../js/modes/daily-challenge.tsx';
+import { PairsMode } from '../js/modes/pairs.tsx';
+import { NotificationsInit } from '../js/features/notifications.tsx';
+import { CloudSyncInit } from '../js/features/cloud-sync.tsx';
+import { CustomWordsInit } from '../js/features/custom.tsx';
+import { VoiceInit } from '../js/features/voice.tsx';
 import { WordDetailPage } from '../js/features/word-detail.tsx';
 import { ListeningPage } from '../js/modes/listening.tsx';
 import { FibPage } from '../js/modes/fib.tsx';
@@ -112,6 +117,11 @@ function AppRoot(): ReactElement {
     <DeckModeInit/>
     <DeckFilterInit/>
     <DailyChallenge/>
+    <PairsMode/>
+    <NotificationsInit/>
+    <CloudSyncInit/>
+    <CustomWordsInit/>
+    <VoiceInit/>
     <Portal id="wd-page-mount"><WordDetailPage/></Portal>
     <Portal id="listen-page-mount"><ListeningPage/></Portal>
     <Portal id="fib-page-mount"><FibPage/></Portal>

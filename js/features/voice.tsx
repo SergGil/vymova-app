@@ -1,5 +1,6 @@
-// English Words App — js/features/voice.ts
+// English Words App — js/features/voice.tsx
 // Web Speech API voice picker: EN + UA
+import { useEffect, type ReactElement } from 'react';
 import { synth } from '../core/srs.ts';
 import { t } from './i18n.ts';
 
@@ -323,24 +324,41 @@ function _forceReload(): void {
   }
 }
 
-if (window.speechSynthesis) {
-  _tryLoad();
-  window.speechSynthesis.addEventListener('voiceschanged', () => { _loaded = false; _tryLoad(); });
-}
+export function VoiceInit(): ReactElement | null {
+  useEffect(() => {
+    const onVoicesChanged = () => { _loaded = false; _tryLoad(); };
+    if (window.speechSynthesis) {
+      _tryLoad();
+      window.speechSynthesis.addEventListener('voiceschanged', onVoicesChanged);
+    }
 
-document.getElementById('settings-overlay')?.addEventListener('click', _renderVoices);
-document.getElementById('voices-reload-btn')?.addEventListener('click', () => {
-  const all = _allVoices();
-  console.group(`[Voice debug] Всі доступні голоси (${all.length})`);
-  all.forEach(v => console.log(`${v.lang} | ${v.name} | local:${v.localService}`));
-  console.groupEnd();
-  const dbg = document.getElementById('fy-voices-list');
-  if (dbg && !_ukVoices().length) {
-    const msg = document.createElement('div');
-    msg.className = 'voice-debug-msg'; msg.style.cssText = 'font-size:.72rem;color:var(--text3);margin-top:8px;padding:8px;background:rgba(255,255,255,.05);border-radius:8px;word-break:break-all;';
-    const ukFound = all.filter(v => (v.lang ?? '').toLowerCase().includes('uk') || (v.name ?? '').toLowerCase().includes('ukra'));
-    msg.textContent = `${t('settings.voicesFoundLabel')} ${all.length} ${t('settings.voicesLabel')} ${ukFound.map(v => `${v.name} (${v.lang})`).join(', ') || t('settings.notFound')}`;
-    dbg.querySelector('.voice-debug-msg')?.remove(); dbg.appendChild(msg);
-  }
-  _forceReload();
-});
+    const settingsOverlay = document.getElementById('settings-overlay');
+    settingsOverlay?.addEventListener('click', _renderVoices);
+
+    const onReloadClick = () => {
+      const all = _allVoices();
+      console.group(`[Voice debug] Всі доступні голоси (${all.length})`);
+      all.forEach(v => console.log(`${v.lang} | ${v.name} | local:${v.localService}`));
+      console.groupEnd();
+      const dbg = document.getElementById('fy-voices-list');
+      if (dbg && !_ukVoices().length) {
+        const msg = document.createElement('div');
+        msg.className = 'voice-debug-msg'; msg.style.cssText = 'font-size:.72rem;color:var(--text3);margin-top:8px;padding:8px;background:rgba(255,255,255,.05);border-radius:8px;word-break:break-all;';
+        const ukFound = all.filter(v => (v.lang ?? '').toLowerCase().includes('uk') || (v.name ?? '').toLowerCase().includes('ukra'));
+        msg.textContent = `${t('settings.voicesFoundLabel')} ${all.length} ${t('settings.voicesLabel')} ${ukFound.map(v => `${v.name} (${v.lang})`).join(', ') || t('settings.notFound')}`;
+        dbg.querySelector('.voice-debug-msg')?.remove(); dbg.appendChild(msg);
+      }
+      _forceReload();
+    };
+    const reloadBtn = document.getElementById('voices-reload-btn');
+    reloadBtn?.addEventListener('click', onReloadClick);
+
+    return () => {
+      if (window.speechSynthesis) window.speechSynthesis.removeEventListener('voiceschanged', onVoicesChanged);
+      settingsOverlay?.removeEventListener('click', _renderVoices);
+      reloadBtn?.removeEventListener('click', onReloadClick);
+    };
+  }, []);
+
+  return null;
+}
