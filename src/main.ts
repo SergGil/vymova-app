@@ -19,7 +19,6 @@ await import('../js/features/offline.ts');
 await import('../js/features/notifications.ts');
 await import('../js/features/duel.ts');
 
-await import('../js/features/settings.ts');
 await import('../js/features/cloud-sync.ts');
 await import('../js/features/i18n.ts');
 await import('../js/features/learning-path.ts');
