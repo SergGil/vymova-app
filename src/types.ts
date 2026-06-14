@@ -74,13 +74,6 @@ export interface ModeStats {
 export interface ModeAccEntry { ok: number; err: number; }
 export type ModeAccuracy = Record<string, ModeAccEntry | undefined>;
 
-// ── Profile ───────────────────────────────────────────────────
-export interface Profile {
-  id:     string;
-  name:   string;
-  avatar: string;
-}
-
 // ── App State ─────────────────────────────────────────────────
 export interface AppState {
   known:          Set<string>;

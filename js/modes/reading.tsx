@@ -98,8 +98,8 @@ function _renderTextHtml(entry: TextEntry, epubBook: EpubBook | null): { html: s
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-export function openReading(): void { _open?.(); }
-export function closeReading(): void { _close?.(); }
+function openReading(): void { _open?.(); }
+function closeReading(): void { _close?.(); }
 
 type PopupWord = { word: string; trans: string; ipa: string; known: boolean };
 

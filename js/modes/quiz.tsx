@@ -77,8 +77,8 @@ function SpeakBtn({ text, lang = 'en-US' }: { text: string; lang?: string }): Re
 let _open: ((src?: WordEntry[] | null, maxSize?: number) => void) | null = null;
 let _close: (() => void) | null = null;
 
-export function openQuiz(src?: WordEntry[] | null, maxSize?: number): void { _open?.(src, maxSize); }
-export function closeQuiz(): void { _close?.(); }
+function openQuiz(src?: WordEntry[] | null, maxSize?: number): void { _open?.(src, maxSize); }
+function closeQuiz(): void { _close?.(); }
 export function openQuickQuiz(): void { openQuiz(null, QUICK_SIZE); }
 
 export function QuizPage(): ReactElement {

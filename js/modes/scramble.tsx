@@ -38,8 +38,8 @@ function shuffleWord(word: string): string[] {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-export function openScramble(): void { _open?.(); }
-export function closeScramble(): void { _close?.(); }
+function openScramble(): void { _open?.(); }
+function closeScramble(): void { _close?.(); }
 
 export function ScramblePage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);

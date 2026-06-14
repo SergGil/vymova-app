@@ -3,7 +3,7 @@
 import { synth, hasSpeech } from '../core/srs.ts';
 import { getSelectedUkVoice, getSelectedEsVoice, speakFakeYou } from './voice.tsx';
 
-export function getVoice(): SpeechSynthesisVoice | null {
+function getVoice(): SpeechSynthesisVoice | null {
   const v = synth.getVoices();
   return v.find(x => x.lang.startsWith('en-US') && x.name.includes('Google'))
       || v.find(x => x.lang.startsWith('en-US'))
@@ -46,7 +46,7 @@ export function _speakWithLang(text: string, lang: string, btn: HTMLElement | nu
   synth.speak(u);
 }
 
-export function _speakWeb(text: string, btn: HTMLElement | null): void {
+function _speakWeb(text: string, btn: HTMLElement | null): void {
   _speakWithLang(text, 'en-US', btn);
 }
 

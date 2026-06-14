@@ -37,8 +37,8 @@ type Result = { correct: boolean; chosen: string; correctAnswer: string } | null
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-export function openListening(): void { _open?.(); }
-export function closeListening(): void { _close?.(); }
+function openListening(): void { _open?.(); }
+function closeListening(): void { _close?.(); }
 
 export function ListeningPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);

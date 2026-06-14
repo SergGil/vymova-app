@@ -46,8 +46,8 @@ function getRandomWords(): WordEntry[] {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-export function openCatpairs(): void { _open?.(); }
-export function closeCatpairs(): void { _close?.(); }
+function openCatpairs(): void { _open?.(); }
+function closeCatpairs(): void { _close?.(); }
 
 type Selection = { id: number; side: string } | null;
 

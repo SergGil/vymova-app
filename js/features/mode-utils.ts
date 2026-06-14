@@ -72,7 +72,7 @@ export function getActiveKnown(known: Set<string>): Set<string> {
   return known;
 }
 
-export interface CardView {
+interface CardView {
   FRONT_LANG: 'EN' | 'UA' | 'ES' | 'FR' | 'IT' | 'PT' | 'DE';
   frontWord: string;
   backWord: string;

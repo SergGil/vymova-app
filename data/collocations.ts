@@ -2,14 +2,14 @@
 // Fixed word combinations that native English speakers always use together.
 // Especially useful for Ukrainian learners who frequently confuse make/do and other patterns.
 
-export interface Collocation {
+interface Collocation {
   phrase: string;    // the full collocation: "make a decision"
   category: string;  // "make/do", "take", "have", "adjective+noun", etc.
   note?: string;     // brief explanation if needed
 }
 
 // Map: keyword → list of collocations using that word
-export const COLLOCATIONS: Record<string, Collocation[]> = {
+const COLLOCATIONS: Record<string, Collocation[]> = {
 
   // ─── MAKE (NOT "do") ───────────────────────────────────────────────────────
   'make': [
@@ -389,11 +389,6 @@ export const COLLOCATIONS: Record<string, Collocation[]> = {
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
-/** Return all collocations flattened into a single array */
-export function getAllCollocations(): Collocation[] {
-  return Object.values(COLLOCATIONS).flat();
-}
-
 // Inverted index: each word in any phrase → collocations containing it
 const _collIndex = new Map<string, Collocation[]>();
 for (const colls of Object.values(COLLOCATIONS)) {
@@ -411,12 +406,3 @@ export function searchCollocations(word: string): Collocation[] {
   return _collIndex.get(word.toLowerCase()) ?? [];
 }
 
-/** Return all unique category names */
-export function getCategories(): string[] {
-  return [...new Set(getAllCollocations().map(c => c.category))];
-}
-
-/** Return all collocations belonging to a given category */
-export function getByCategory(category: string): Collocation[] {
-  return getAllCollocations().filter(c => c.category === category);
-}

@@ -44,7 +44,7 @@ export function boldHead(src: string, word: string): string {
 
 export interface SrsEntry { ef?: number; reps?: number; due?: string; interval?: number; }
 
-export interface SrsBadgeInfo {
+interface SrsBadgeInfo {
   text: string;
   className: string; // e.g. 'srs-next new'
   show: boolean;

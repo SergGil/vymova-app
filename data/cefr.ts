@@ -6,7 +6,7 @@
 export type CefrLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
 
 // ── Explicit word → level mapping ────────────────────────────
-export const CEFR_MAP: Record<string, CefrLevel> = {
+const CEFR_MAP: Record<string, CefrLevel> = {
   // ── A1: Most basic vocabulary ─────────────────────────────
   'able':'A1','about':'A1','above':'A1','after':'A1','again':'A1','age':'A1',
   'ago':'A1','agree':'A1','all':'A1','also':'A1','always':'A1','and':'A1',

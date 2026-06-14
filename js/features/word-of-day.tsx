@@ -3,7 +3,7 @@
 // language pair, shows an illustrative image, and jumps to it on click.
 import { useEffect, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { useStateVersion } from '../../src/store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { t } from './i18n.ts';
@@ -114,8 +114,3 @@ export function WordOfDay(): ReactElement {
   );
 }
 
-export function refreshWordOfDay(): void {
-  notifyStateChange();
-}
-
-(window as unknown as { _refreshWordOfDay?: () => void })._refreshWordOfDay = refreshWordOfDay;

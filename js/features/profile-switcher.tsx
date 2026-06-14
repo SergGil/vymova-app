@@ -17,11 +17,7 @@ const BASE_SNAP_KEYS = [
   // Pattern: all ew_* keys not already listed above are captured dynamically in _snapKeys()
 ];
 
-// Registry for new feature keys — call registerProfileKey('ew_new_feature') from any module
 const _extraSnapKeys: string[] = [];
-export function registerProfileKey(key: string): void {
-  if (!BASE_SNAP_KEYS.includes(key) && !_extraSnapKeys.includes(key)) _extraSnapKeys.push(key);
-}
 
 const AVATARS = ['🧑', '👩', '🧔', '👦', '👧', '🤖', '🦊', '🐸', '⚔️', '🌟', '🔥', '🏆'];
 

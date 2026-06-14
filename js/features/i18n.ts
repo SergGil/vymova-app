@@ -137,7 +137,7 @@ export function achCatName(cat: string): string {
   return i18next.t(cat, { ns: 'achievements', defaultValue: cat });
 }
 
-export function applyI18n(): void {
+function applyI18n(): void {
   const lang = getLang();
   document.querySelectorAll<HTMLElement>('[data-i18n]').forEach(el => {
     const key = el.dataset.i18n;

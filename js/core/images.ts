@@ -57,7 +57,7 @@ function _idbSet(word: string, url: string | null): void {
   catch (e) {}
 }
 
-export function _saveImgCache(): void {
+function _saveImgCache(): void {
   if (_idb) return;
   const keys = Object.keys(_imgCache);
   if (keys.length > 800) keys.slice(0, keys.length - 800).forEach(k => delete _imgCache[k]);

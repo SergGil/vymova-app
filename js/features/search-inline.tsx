@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
 import { state } from '../../src/state.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { useStateVersion } from '../../src/store.ts';
 import { shuffle } from '../core/srs.ts';
 import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode } from './mode-utils.ts';
 import { t } from './i18n.ts';
@@ -130,8 +130,3 @@ export function SearchInline(): ReactElement {
   );
 }
 
-export function refreshSearchInline(): void {
-  notifyStateChange();
-}
-
-(window as unknown as { _refreshSearchInline?: () => void })._refreshSearchInline = refreshSearchInline;

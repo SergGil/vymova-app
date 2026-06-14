@@ -118,9 +118,9 @@ interface PlayerData {
   powerups:Record<PowerupType,number>; frozenUntil?:number;
   flags?:(boolean|'skip'|'double')[];
 }
-export interface SeriesData { p1wins:number; p2wins:number; round:number; }
+interface SeriesData { p1wins:number; p2wins:number; round:number; }
 interface SpectatorData { name:string; avatar:string; }
-export interface RoomData {
+interface RoomData {
   seed:number; mode:DuelMode; category:string; difficulty:Difficulty;
   bestOf:BestOf; maxHints:number; powerupsEnabled:boolean;
   p1:PlayerData; p2:PlayerData|null;
@@ -276,7 +276,7 @@ function _getMyAvatar():string{ try{const prfs=_getProfiles();const id=_getActiv
 
 // Знімок даних для duel-game-header.tsx (item 32, Фаза 5): React читає
 // поточний стан гри, polling/state-machine логіка лишається тут.
-export interface GameHeaderData {
+interface GameHeaderData {
   myAvatar:string; myScore:number; myIdx:number; myTotal:number; myFlags:(boolean|'skip'|'double')[];
   oppAvatar:string; oppName:string; oppScore:number; oppIdx:number; oppFlags:(boolean|'skip'|'double')[]; oppTotal:number;
   mode:DuelMode; progressText:string;
@@ -402,7 +402,7 @@ export function _showInfoTooltip(anchor: HTMLElement, type: 'hints' | 'powerups'
 
 // ── Countdown ─────────────────────────────────────────────────
 // Знімок даних для duel-countdown.tsx (Фаза 9/1).
-export interface CountdownData {
+interface CountdownData {
   oppAvatar:string; oppName:string; myAvatar:string; myName:string;
   roomCode:string|null; num:number;
 }
@@ -549,7 +549,7 @@ function _startGameUI(): void {
 }
 
 // Знімок даних для duel-powerups.tsx (item 32, Фаза 5).
-export interface PowerupsData {
+interface PowerupsData {
   enabled:boolean; mode:DuelMode; myPowerups:Record<PowerupType,number>; answered:boolean;
 }
 export function _getPowerupsData(): PowerupsData {
@@ -849,8 +849,8 @@ export function _useHint(): void {
 }
 
 // Знімок даних для duel-question.tsx (item 32, Фаза 5).
-export interface QuestionOptionVM { text:string; num:number; cls:string; }
-export interface QuestionData {
+interface QuestionOptionVM { text:string; num:number; cls:string; }
+interface QuestionData {
   mode: DuelMode;
   quizIdx: number;
   waiting: boolean;
@@ -928,8 +928,8 @@ async function _finishMyGame():Promise<void>{
 }
 
 // Знімок даних для duel-result.tsx (Фаза 9/2).
-export type DuelResultOutcome = 'win' | 'tie' | 'loss';
-export type DuelResultData =
+type DuelResultOutcome = 'win' | 'tie' | 'loss';
+type DuelResultData =
   | { kind: 'round'; outcome: DuelResultOutcome; round: number; myWins: number; oppWins: number; myName: string; oppName: string }
   | { kind: 'final'; outcome: DuelResultOutcome; modeIcon: string; modeLabel: string; catLabel: string;
       myAvatar: string; myScore: number; oppAvatar: string; oppScore: number; oppName: string;
@@ -1324,17 +1324,17 @@ let _tournFinishHook: ((r:RoomData)=>void) | null = null;
 function _showTournament() { state.duelScreen='tournament'; notifyStateChange(); }
 
 // Знімок даних для duel-tournament.tsx (item 33, Фаза 5).
-export interface TournSlotVM { filled:boolean; avatar:string; name:string; label:string; }
-export interface TournPlayerVM { name:string; avatar:string; won:boolean; }
+interface TournSlotVM { filled:boolean; avatar:string; name:string; label:string; }
+interface TournPlayerVM { name:string; avatar:string; won:boolean; }
 export interface TournMatchVM { p1:TournPlayerVM; p2:TournPlayerVM; done:boolean; active:boolean; scoreText:string|null; }
 export interface TournRoundVM { name:string; matches:TournMatchVM[]; }
-export type TournMatchArea =
+type TournMatchArea =
   | { kind:'none' }
   | { kind:'champion' }
   | { kind:'play' }
   | { kind:'rejoin' }
   | { kind:'waiting'; oppName:string };
-export interface TournamentData {
+interface TournamentData {
   phase: 'waiting'|'bracket';
   code: string;
   modeLabel: string;

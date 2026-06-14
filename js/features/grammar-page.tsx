@@ -99,7 +99,7 @@ export function openGrammarContent(): void {
   _bumpTick?.();
 }
 
-export function openGrammar(): void {
+function openGrammar(): void {
   // Динамічний імпорт: sidebar.tsx статично імпортує цей файл
   // (openGrammarContent) — зворотний статичний імпорт створив би цикл.
   import('./sidebar.tsx').then(m => m.openPage('grammar'));

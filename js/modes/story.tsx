@@ -80,8 +80,8 @@ function _highlightText(text: string): { html: string; total: number; known: num
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-export function openStoryMode(): void { _open?.(); }
-export function closeStoryMode(): void { _close?.(); }
+function openStoryMode(): void { _open?.(); }
+function closeStoryMode(): void { _close?.(); }
 
 type Popup = { word: string; trans: string; ipa: string; top: number; left: number };
 

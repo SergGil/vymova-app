@@ -59,8 +59,8 @@ function buildQuestion(deck: WordEntry[], idx: number): Question {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-export function openTempo(): void { _open?.(); }
-export function closeTempo(): void { _close?.(); }
+function openTempo(): void { _open?.(); }
+function closeTempo(): void { _close?.(); }
 
 export function TempoPage(): ReactElement {
   const [screen, setScreen] = useState<'start' | 'game' | 'result'>('start');

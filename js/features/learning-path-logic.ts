@@ -4,8 +4,8 @@ import { getCefrLevel } from '../../data/cefr.ts';
 import type { CefrLevel } from '../../data/cefr.ts';
 import type { WordEntry } from '../../src/types.js';
 
-export interface CefrStat { total: number; known: number; pct: number; }
-export type CefrStats = Record<CefrLevel, CefrStat>;
+interface CefrStat { total: number; known: number; pct: number; }
+type CefrStats = Record<CefrLevel, CefrStat>;
 export interface PaceSnapshot { date: string; count: number; } // date: 'YYYY-MM-DD'
 
 const LEVELS: CefrLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];

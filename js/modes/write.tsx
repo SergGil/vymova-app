@@ -46,8 +46,8 @@ function build(src?: WordEntry[] | null): WordEntry[] {
 let _open: ((src?: WordEntry[] | null) => void) | null = null;
 let _close: (() => void) | null = null;
 
-export function openWrite(src?: WordEntry[] | null): void { _open?.(src); }
-export function closeWrite(): void { _close?.(); }
+function openWrite(src?: WordEntry[] | null): void { _open?.(src); }
+function closeWrite(): void { _close?.(); }
 
 export function WritePage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);

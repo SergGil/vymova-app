@@ -64,8 +64,8 @@ function roundDuration(r: RoundData): number {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-export function openWordLetters(): void { _open?.(); }
-export function closeWordLetters(): void { _close?.(); }
+function openWordLetters(): void { _open?.(); }
+function closeWordLetters(): void { _close?.(); }
 
 export function WordLettersPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);

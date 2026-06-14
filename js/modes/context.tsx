@@ -61,8 +61,8 @@ function buildQuestion(w: WordEntry): Question {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-export function openContext(): void { _open?.(); }
-export function closeContext(): void { _close?.(); }
+function openContext(): void { _open?.(); }
+function closeContext(): void { _close?.(); }
 
 export function ContextPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);

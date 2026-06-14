@@ -14,11 +14,6 @@ import {
   computePersonalPace, estimateDays, updateCompletionDates,
 } from './learning-path-logic.ts';
 import { t, getLang, skillName, levelName } from './i18n.ts';
-export type { CefrStats, CefrStat, PaceSnapshot } from './learning-path-logic.ts';
-export {
-  computeCefrStats, findCurrentLevel, filterDailyWords,
-  computePersonalPace, estimateDays, updateCompletionDates,
-} from './learning-path-logic.ts';
 
 // ── Plan definition ───────────────────────────────────────────
 interface LevelPlan {

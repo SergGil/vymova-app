@@ -11,7 +11,7 @@ import { t } from './i18n.ts';
 import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';
 
-export function buildStaleDeck(days: number): WordEntry[] {
+function buildStaleDeck(days: number): WordEntry[] {
   const d = new Date();
   d.setDate(d.getDate() - days);
   const cutoff = d.toISOString().slice(0, 10);

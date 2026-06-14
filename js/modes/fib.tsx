@@ -55,8 +55,8 @@ function renderSentence(item: FibEntry, correct: boolean | null): string {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-export function openFib(): void { _open?.(); }
-export function closeFib(): void { _close?.(); }
+function openFib(): void { _open?.(); }
+function closeFib(): void { _close?.(); }
 
 export function FibPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);

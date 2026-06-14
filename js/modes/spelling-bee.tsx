@@ -26,8 +26,8 @@ function build(): WordEntry[] {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-export function openSpellingBee(): void { _open?.(); }
-export function closeSpellingBee(): void { _close?.(); }
+function openSpellingBee(): void { _open?.(); }
+function closeSpellingBee(): void { _close?.(); }
 
 export function SpellingBeePage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);

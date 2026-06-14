@@ -64,4 +64,4 @@ export function startPronunciationCheck(
   _rec.start();
 }
 
-export function stopPronunciationCheck(): void { _stop(null); }
+function stopPronunciationCheck(): void { _stop(null); }

@@ -4,10 +4,10 @@
 // (deck-mode, tag-filter, word-detail, mode-utils, ...) keep working untouched.
 import { useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { useStateVersion } from '../../src/store.ts';
 
-export type LangCode = 'ua' | 'en' | 'es' | 'fr' | 'it' | 'pt' | 'de';
-export type Direction = 'fwd' | 'rev' | 'mix';
+type LangCode = 'ua' | 'en' | 'es' | 'fr' | 'it' | 'pt' | 'de';
+type Direction = 'fwd' | 'rev' | 'mix';
 
 const ALL_LANGS: LangCode[] = ['ua', 'en', 'es', 'fr', 'it', 'pt', 'de'];
 
@@ -177,8 +177,3 @@ export function LangPairSelect(): ReactElement {
   applyMode(learnLang, knowLang, direction);
 }
 
-export function refreshLangPairSelect(): void {
-  notifyStateChange();
-}
-
-(window as unknown as { _refreshLangPairSelect?: () => void })._refreshLangPairSelect = refreshLangPairSelect;

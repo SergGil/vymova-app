@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
 import { state } from '../../src/state.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { useStateVersion } from '../../src/store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { openWordDetail } from './word-detail.tsx';
 import { t } from './i18n.ts';
@@ -200,8 +200,3 @@ export function SearchOverlay(): ReactElement | null {
   );
 }
 
-export function refreshSearchOverlay(): void {
-  notifyStateChange();
-}
-
-(window as unknown as { _refreshSearchOverlay?: () => void })._refreshSearchOverlay = refreshSearchOverlay;

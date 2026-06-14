@@ -41,8 +41,8 @@ function buildEnExHtml(w: WordEntry): string {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-export function openLesson(): void { _open?.(); }
-export function closeLesson(): void { _close?.(); }
+function openLesson(): void { _open?.(); }
+function closeLesson(): void { _close?.(); }
 
 type Result = { text: string; color: string } | null;
 
