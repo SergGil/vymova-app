@@ -19,7 +19,7 @@ import { renderGameBar }                           from '../features/render-game
 import { refreshGameBarLevel as renderLevelBadge } from '../features/game-bar-level.tsx';
 import { checkAchievements }                       from '../features/render-achievements.ts';
 import { maybeSubmitScore }                        from '../features/leaderboard.tsx';
-import { updateRing }                              from '../features/ring.ts';
+import { updateRing }                              from '../features/ring.tsx';
 import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode } from '../features/mode-utils.ts';
 import { _isOnlineCheck, _offlineSvg }             from '../features/offline.ts';
 import { safe as _safe }                           from './card-helpers.ts';

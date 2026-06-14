@@ -2,10 +2,9 @@
 // "Block 3" of the game bar: level badge + XP progress toward the next level.
 // Re-rendered on demand via refreshGameBarLevel() (called throughout the
 // app after known-words count changes).
-import { useEffect, type ReactElement } from 'react';
+import type { ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { getLevel, getNextLevel, LEVELS } from './game.ts';
-import { updateRing } from './ring.ts';
 import { t, levelName, wordsLabel } from './i18n.ts';
 import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 
@@ -15,8 +14,6 @@ export function GameBarLevel(): ReactElement {
   const lv   = getLevel(n);
   const next = getNextLevel(n);
   const lvIdx = LEVELS.indexOf(lv) + 1;
-
-  useEffect(() => { try { updateRing(); } catch (_e) {} });
 
   let fillPct = 100;
   let fillBg: string | undefined;

@@ -19,7 +19,7 @@ import { launchConfetti } from '../core/confetti.tsx';
 import { t } from './i18n.ts';
 import { renderGameBar } from './render-game-bar.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
-import { updateRing } from './ring.ts';
+import { updateRing } from './ring.tsx';
 import { render, setIdx, setDeck, setFlipped, animCard, stopAuto, startAuto,
          isAutoRunning, onWordLearned } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';

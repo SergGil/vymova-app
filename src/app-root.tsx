@@ -22,6 +22,8 @@ import { CardIdx, CardKnownCount, ProgressBar } from '../js/features/card-progre
 import { SimilarWordsChips } from '../js/features/similar-words.tsx';
 import { WordFamiliesChips, CollocationsSection } from '../js/features/word-context.tsx';
 import { ModeHints } from '../js/features/mode-hints.tsx';
+import { LevelRing } from '../js/features/ring.tsx';
+import { ThemeToggle } from '../js/core/theme.tsx';
 import { WordDetailPage } from '../js/features/word-detail.tsx';
 import { ListeningPage } from '../js/modes/listening.tsx';
 import { FibPage } from '../js/modes/fib.tsx';
@@ -84,6 +86,8 @@ function AppRoot(): ReactElement {
     <Portal id="word-families-mount"><WordFamiliesChips/></Portal>
     <Portal id="collocations-mount"><CollocationsSection/></Portal>
     <ModeHints/>
+    <Portal id="level-ring-mount"><LevelRing/></Portal>
+    <Portal id="theme-toggle-mount"><ThemeToggle/></Portal>
     <Portal id="wd-page-mount"><WordDetailPage/></Portal>
     <Portal id="listen-page-mount"><ListeningPage/></Portal>
     <Portal id="fib-page-mount"><FibPage/></Portal>
