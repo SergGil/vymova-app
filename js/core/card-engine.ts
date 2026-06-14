@@ -63,8 +63,7 @@ function $e(id: string): HTMLElement { return $el[id] as HTMLElement; }
 
 // Кеш DOM-елементів: уникаємо getElementById на кожен render()
 const $el: Record<string, HTMLElement | null> = {};
-['illus','card',
- 'cb-similar','cb-families','cb-collocations'].forEach(function(id: string) {
+['illus','card'].forEach(function(id: string) {
   $el[id] = document.getElementById(id);
 });
 
@@ -188,8 +187,6 @@ export function render(): void {
     state.flipped = false;
     const mode = getMode();
     state._mode = mode;
-    if ($e('cb-families'))     $e('cb-families').style.display     = 'none';
-    if ($e('cb-collocations')) $e('cb-collocations').style.display = 'none';
     _safe(() => renderCardIndicators(cw![0]));
     renderCardImage(cw[0], $e('illus'));
     const cardEl = $e('card');

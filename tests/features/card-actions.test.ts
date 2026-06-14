@@ -48,9 +48,6 @@ vi.mock('../../js/features/speech.ts', () => ({
 vi.mock('../../js/features/similar-words.tsx', () => ({
   updateSimilarWords: vi.fn(),
 }));
-vi.mock('../../js/features/word-context.ts', () => ({
-  updateCollocations: vi.fn(), updateWordFamilies: vi.fn(),
-}));
 vi.mock('../../js/core/audio.ts', () => ({
   playSound: vi.fn(),
 }));

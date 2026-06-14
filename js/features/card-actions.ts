@@ -13,7 +13,6 @@ import { showPronuncResult } from './pronunciation-toast.tsx';
 import { getSelectedUkVoice, getSelectedEsVoice, getSelectedFrVoice, getSelectedItVoice, getSelectedPtVoice, getSelectedDeVoice } from './voice.ts';
 import { speak, _speakWithLang } from './speech.ts';
 import { updateSimilarWords } from './similar-words.tsx';
-import { updateCollocations, updateWordFamilies } from './word-context.ts';
 import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry } from './mode-utils.ts';
 import { playSound } from '../core/audio.ts';
 import { launchConfetti } from '../core/confetti.tsx';
@@ -46,8 +45,6 @@ document.getElementById('card')!.addEventListener('click', function() {
     document.getElementById('wtransl')!.className = 'transl show';
     document.getElementById('exua')!.className    = 'ex-ua show';
     _safe(() => updateSimilarWords());
-    _safe(() => updateWordFamilies());
-    _safe(() => updateCollocations());
   }
 });
 

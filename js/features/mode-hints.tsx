@@ -1,5 +1,6 @@
-// English Words App — js/features/mode-hints.ts
+// English Words App — js/features/mode-hints.tsx
 // Per-mode first-launch hint banner (shows once per mode)
+import { useEffect } from 'react';
 import { t } from './i18n.ts';
 
 const SEEN_KEY = 'ew_mode_hints_seen';
@@ -67,11 +68,18 @@ function _tryShow(overlayId: string): void {
   setTimeout(() => _showHint(panel, t(cfg.key)), 250);
 }
 
-function _watch(overlayId: string): void {
+function _watch(overlayId: string): MutationObserver | null {
   const overlay = document.getElementById(overlayId);
-  if (!overlay) return;
-  new MutationObserver(() => _tryShow(overlayId))
-    .observe(overlay, { attributes: true, attributeFilter: ['style', 'class'] });
+  if (!overlay) return null;
+  const observer = new MutationObserver(() => _tryShow(overlayId));
+  observer.observe(overlay, { attributes: true, attributeFilter: ['style', 'class'] });
+  return observer;
 }
 
-Object.keys(HINTS).forEach(_watch);
+export function ModeHints(): null {
+  useEffect(() => {
+    const observers = Object.keys(HINTS).map(_watch).filter((o): o is MutationObserver => !!o);
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
+  return null;
+}
