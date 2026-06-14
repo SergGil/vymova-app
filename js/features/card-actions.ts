@@ -5,7 +5,8 @@ import { sm2Update, buildSRSDeck, buildUnlearnedDeck, shuffle, updateSrsUI } fro
 import { saveKnown, saveKnownEs, saveKnownFr, saveKnownIt, saveKnownPt, saveKnownDe, saveSRS } from '../core/storage.ts';
 import { getGameData, saveGameData } from './game.ts';
 import { addCombo, breakCombo, flashCard } from './combo.ts';
-import { openNoteModal, hasNote } from './notes.ts';
+import { hasNote } from './notes.ts';
+import { openNoteModal } from './note-modal.tsx';
 import { toggleBookmark } from './bookmarks.ts';
 import { isPronuncSupported, showPronuncResult, startPronunciationCheck } from './pronunciation.ts';
 import { getSelectedUkVoice, getSelectedEsVoice, getSelectedFrVoice, getSelectedItVoice, getSelectedPtVoice, getSelectedDeVoice } from './voice.ts';

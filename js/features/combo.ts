@@ -3,6 +3,7 @@ import { refreshComboBox } from './game-bar-streak.tsx';
 import { getGameData, saveGameData } from './game.ts';
 import { playSound } from '../core/audio.ts';
 import { checkAchievements } from './render-achievements.ts';
+import { showComboToast } from './combo-toast.tsx';
 
 let sessionCombo = 0;
 
@@ -15,9 +16,9 @@ export function getComboMult(): number {
 export function addCombo(): void {
   sessionCombo++;
   _renderCombo();
-  if (sessionCombo === 5)  { try { playSound('combo'); } catch(e){} _showComboToast('🔥 ×2 COMBO!'); }
-  if (sessionCombo === 10) { try { playSound('combo'); } catch(e){} _showComboToast('⚡ ×3 MEGA!'); }
-  if (sessionCombo === 25) { _showComboToast('🌌 JEDI FLOW!'); }
+  if (sessionCombo === 5)  { try { playSound('combo'); } catch(e){} showComboToast('🔥 ×2 COMBO!'); }
+  if (sessionCombo === 10) { try { playSound('combo'); } catch(e){} showComboToast('⚡ ×3 MEGA!'); }
+  if (sessionCombo === 25) { showComboToast('🌌 JEDI FLOW!'); }
   try {
     const d = getGameData();
     if (sessionCombo > (d.maxCombo || 0)) {
@@ -33,13 +34,6 @@ export function breakCombo(): void {
 }
 function _renderCombo(): void {
   refreshComboBox();
-}
-function _showComboToast(text: string): void {
-  const t = document.getElementById('combo-toast') as HTMLElement | null;
-  if (!t) return;
-  t.textContent = text; t.className = 'combo-toast';
-  void t.offsetWidth; t.className = 'combo-toast show';
-  setTimeout(() => { t.className = 'combo-toast'; }, 1700);
 }
 export function flashCard(ok: boolean): void {
   const face = document.getElementById('card-front') as HTMLElement | null;

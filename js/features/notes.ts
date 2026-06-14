@@ -1,6 +1,6 @@
 // English Words App — js/features/notes.ts
 // Personal notes / mnemonics per word
-import { t } from './i18n.ts';
+// Modal UI lives in note-modal.tsx (React).
 
 const _notes: Record<string, string> = {};
 try { Object.assign(_notes, JSON.parse(localStorage.getItem('ew_notes') ?? '{}')); } catch (e) {}
@@ -15,100 +15,4 @@ export function setNoteForWord(w: string, text: string): void {
   if (text?.trim()) _notes[w] = text.trim();
   else delete _notes[w];
   _save();
-}
-
-// ── Modal UI ──────────────────────────────────────────────────
-let _overlay: HTMLElement | null = null;
-let _textarea: HTMLTextAreaElement | null = null;
-let _currentWord: string | null = null;
-let _hintEl: HTMLElement | null = null;
-let _titleEl: HTMLElement | null = null;
-let _delBtn: HTMLButtonElement | null = null;
-let _saveBtn: HTMLButtonElement | null = null;
-
-function _ensureModal(): void {
-  if (_overlay) return;
-  _overlay = document.createElement('div');
-  _overlay.id = 'note-overlay';
-  _overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999;display:none;align-items:center;justify-content:center;padding:16px;';
-
-  const panel = document.createElement('div');
-  panel.className = 'note-panel';
-
-  const header = document.createElement('div');
-  header.className = 'note-header';
-
-  _titleEl = Object.assign(document.createElement('div'), {
-    className: 'note-title', id: 'note-word-title',
-  });
-  const closeBtn = Object.assign(document.createElement('button'), {
-    className: 'page-close-btn', textContent: '✕',
-  });
-  closeBtn.addEventListener('click', _close);
-  header.append(_titleEl, closeBtn);
-
-  _hintEl = document.createElement('div');
-  _hintEl.style.cssText = 'font-size:.75rem;color:var(--text3);margin-bottom:8px;';
-
-  _textarea = document.createElement('textarea');
-  _textarea.className = 'note-textarea';
-  _textarea.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === 'Escape') _close();
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { _save2(); _close(); }
-  });
-
-  const footer = document.createElement('div');
-  footer.style.cssText = 'display:flex;gap:8px;margin-top:10px;';
-
-  _delBtn = Object.assign(document.createElement('button'), {
-    className: 'prf-delete-btn prf-delete-btn-cancel',
-  });
-  _delBtn.style.flex = '0 0 auto';
-  _delBtn.addEventListener('click', () => {
-    if (_currentWord) setNoteForWord(_currentWord, '');
-    _close(); _refreshCard();
-  });
-
-  _saveBtn = Object.assign(document.createElement('button'), {
-    className: 'prf-delete-btn prf-delete-btn-confirm',
-  });
-  _saveBtn.style.background = 'var(--accent)';
-  _saveBtn.addEventListener('click', () => { _save2(); _close(); });
-
-  footer.append(_delBtn, _saveBtn);
-  panel.append(header, _hintEl, _textarea, footer);
-  _overlay.appendChild(panel);
-  _overlay.addEventListener('click', (e: MouseEvent) => {
-    if (e.target === _overlay) { _save2(); _close(); }
-  });
-  document.body.appendChild(_overlay);
-}
-
-function _updateTexts(): void {
-  if (_hintEl)  _hintEl.textContent  = '📝 ' + t('note.hint');
-  if (_delBtn)  _delBtn.textContent  = t('note.delete');
-  if (_saveBtn) _saveBtn.textContent = t('note.save');
-  if (_textarea) _textarea.placeholder = t('note.placeholder');
-}
-
-function _save2(): void {
-  if (_currentWord && _textarea) setNoteForWord(_currentWord, _textarea.value);
-  _refreshCard();
-}
-function _refreshCard(): void {
-  import('../core/card-engine.ts').then(({ render }) => render()).catch(() => {});
-}
-function _close(): void {
-  if (_overlay) _overlay.style.display = 'none';
-  _currentWord = null;
-}
-
-export function openNoteModal(word: string): void {
-  _ensureModal();
-  _updateTexts(); // re-apply translations on every open (language may have changed)
-  _currentWord = word;
-  if (_titleEl) _titleEl.textContent = t('note.title') + ': ' + word;
-  if (_textarea) _textarea.value = getNoteForWord(word);
-  if (_overlay) _overlay.style.display = 'flex';
-  setTimeout(() => _textarea?.focus(), 50);
 }
