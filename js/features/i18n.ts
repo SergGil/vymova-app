@@ -1,6 +1,7 @@
 // English Words App — js/features/i18n.ts
 // Minimal i18n: translates sidebar menu labels (UA ⇄ EN), persisted via localStorage
 
+import { useEffect, type ReactElement } from 'react';
 import i18next from 'i18next';
 import { notifyStateChange } from '../../src/store.ts';
 import ua from '../../locales/ua/translation.json';
@@ -189,12 +190,27 @@ export function applyI18n(): void {
   }
 }
 
-document.querySelectorAll<HTMLElement>('.lang-opt').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const dl = btn.dataset.lang;
-    const lang: Lang = dl === 'en' ? 'en' : dl === 'es' ? 'es' : dl === 'fr' ? 'fr' : dl === 'it' ? 'it' : dl === 'pt' ? 'pt' : dl === 'de' ? 'de' : 'ua';
-    setLang(lang);
-  });
-});
-
 applyI18n();
+
+export function I18nInit(): ReactElement | null {
+  useEffect(() => {
+    const btns = document.querySelectorAll<HTMLElement>('.lang-opt');
+    const onLangClick = (btn: HTMLElement) => () => {
+      const dl = btn.dataset.lang;
+      const lang: Lang = dl === 'en' ? 'en' : dl === 'es' ? 'es' : dl === 'fr' ? 'fr' : dl === 'it' ? 'it' : dl === 'pt' ? 'pt' : dl === 'de' ? 'de' : 'ua';
+      setLang(lang);
+    };
+    const handlers = new Map<HTMLElement, () => void>();
+    btns.forEach(btn => {
+      const handler = onLangClick(btn);
+      handlers.set(btn, handler);
+      btn.addEventListener('click', handler);
+    });
+
+    return () => {
+      handlers.forEach((handler, btn) => btn.removeEventListener('click', handler));
+    };
+  }, []);
+
+  return null;
+}

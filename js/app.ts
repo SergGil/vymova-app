@@ -8,7 +8,6 @@ import { refreshGameBarLevel as renderLevelBadge } from './features/game-bar-lev
 import { checkAchievements }                       from './features/render-achievements.ts';
 import { render } from './core/card-engine.ts';
 import './features/speech.ts';
-import './features/card-actions.ts';
 
 const savedKnown = _lzLoad('ew_known', []);
 

@@ -1,4 +1,6 @@
 import { describe, it, expect, beforeAll, beforeEach, vi } from 'vitest';
+import { createElement, act } from 'react';
+import { createRoot } from 'react-dom/client';
 import { state } from '../../src/state.ts';
 import { loadKnown, loadSRS } from '../../js/core/storage.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -116,7 +118,12 @@ beforeAll(async () => {
     </select>
   `;
 
-  await import('../../js/features/card-actions.ts');
+  (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
+
+  const { CardActionsInit } = await import('../../js/features/card-actions.ts');
+  const mountEl = document.createElement('div');
+  document.body.appendChild(mountEl);
+  act(() => { createRoot(mountEl).render(createElement(CardActionsInit)); });
 });
 
 function setRange(v: string): void {

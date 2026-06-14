@@ -70,6 +70,10 @@ import { PronunciationToast } from '../js/features/pronunciation-toast.tsx';
 import { ConfettiCanvas } from '../js/core/confetti.tsx';
 import { DuelOverlay } from '../js/features/duel-overlay.tsx';
 import { DuelInit } from '../js/features/duel.ts';
+import { CardActionsInit } from '../js/features/card-actions.ts';
+import { StatsInit } from '../js/features/stats.ts';
+import { OfflineInit } from '../js/features/offline.ts';
+import { I18nInit } from '../js/features/i18n.ts';
 
 function Portal({ id, children }: { id: string; children: ReactNode }): ReactElement | null {
   const el = document.getElementById(id);
@@ -153,6 +157,10 @@ function AppRoot(): ReactElement {
     <Portal id="confetti-canvas-mount"><ConfettiCanvas/></Portal>
     <Portal id="duel-overlay-mount"><DuelOverlay/></Portal>
     <DuelInit/>
+    <CardActionsInit/>
+    <StatsInit/>
+    <OfflineInit/>
+    <I18nInit/>
   </>;
 }
 

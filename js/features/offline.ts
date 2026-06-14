@@ -1,5 +1,6 @@
 // English Words App — js/features/offline.ts
 // Online/offline detection + beautiful status banner + graceful degradation
+import { useEffect, type ReactElement } from 'react';
 import { t } from './i18n.ts';
 
 let _online = navigator.onLine;
@@ -49,21 +50,35 @@ function _showOnline(): void {
   }, 2500);
 }
 
-window.addEventListener('online', () => {
-  if (_online) return; // ignore spurious repeats — avoids retriggering/extending the banner forever
-  _online = true;
-  _showOnline();
-});
+export function OfflineInit(): ReactElement | null {
+  useEffect(() => {
+    const onOnline = () => {
+      if (_online) return; // ignore spurious repeats — avoids retriggering/extending the banner forever
+      _online = true;
+      _showOnline();
+    };
+    const onOffline = () => {
+      if (!_online) return;
+      _online = false;
+      _showOffline();
+    };
+    window.addEventListener('online', onOnline);
+    window.addEventListener('offline', onOffline);
 
-window.addEventListener('offline', () => {
-  if (!_online) return;
-  _online = false;
-  _showOffline();
-});
+    // Show on initial load if already offline
+    let initialTimer: ReturnType<typeof setTimeout> | null = null;
+    if (!_online) {
+      initialTimer = setTimeout(_showOffline, 1000);
+    }
 
-// Show on initial load if already offline
-if (!_online) {
-  setTimeout(_showOffline, 1000);
+    return () => {
+      window.removeEventListener('online', onOnline);
+      window.removeEventListener('offline', onOffline);
+      if (initialTimer) clearTimeout(initialTimer);
+    };
+  }, []);
+
+  return null;
 }
 
 // ── Exports ───────────────────────────────────────────────────
