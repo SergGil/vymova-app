@@ -7,7 +7,7 @@ import { W } from '../../data/words.js';
 import { WORD_CATEGORIES } from '../../data/categories.js';
 import { getCefrLevel, CEFR_META } from '../../data/cefr.ts';
 import type { CefrLevel } from '../../data/cefr.ts';
-import LZString from '../../lib/lzstring.js';
+import * as LZString from 'lz-string';
 import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
 import type { WordEntry, DuelScreen, DuelLobbyUIState } from '../../src/types.js';

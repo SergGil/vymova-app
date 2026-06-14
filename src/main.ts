@@ -13,7 +13,6 @@ await import('../js/app.ts');
 // combo/bookmarks/notes/pronunciation/voice статично імпортовані в app.ts
 await import('../js/features/learning-path.ts');
 
-await import('../lib/jszip.min.js');
 await import('../js/features/epub.ts');
 
 const { mountAppRoot } = await import('./app-root.tsx');

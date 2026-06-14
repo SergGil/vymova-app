@@ -1,17 +1,15 @@
 // English Words App — js/features/epub.ts
 // EPUB import for Reading mode
+import JSZip from 'jszip';
 import { t, pluralLabel } from './i18n.ts';
 
 type ProgressFn = (msg: string, pct: number) => void;
 type DoneFn = (chapters: string[] | null, err: string | null) => void;
-type JSZipType = any;
 
 export function loadEpub(file: File, onProgress: ProgressFn, onDone: DoneFn): void {
-  const JSZip = (window as Window & { JSZip?: JSZipType }).JSZip;
-  if (!JSZip) { onDone(null, t('epub.noJsZip')); return; }
-  if (!file)  { onDone(null, t('epub.noFile')); return; }
+  if (!file) { onDone(null, t('epub.noFile')); return; }
   onProgress(t('epub.opening'), 5);
-  (JSZip.loadAsync(file) as Promise<JSZipType>).then((zip: JSZipType) => {
+  JSZip.loadAsync(file).then((zip: JSZip) => {
     onProgress(t('epub.readingStruct'), 15);
     return _parseEpub(zip, onProgress);
   }).then((chapters: string[]) => {
@@ -21,7 +19,7 @@ export function loadEpub(file: File, onProgress: ProgressFn, onDone: DoneFn): vo
   });
 }
 
-function _parseEpub(zip: JSZipType, onProgress: ProgressFn): Promise<string[]> {
+function _parseEpub(zip: JSZip, onProgress: ProgressFn): Promise<string[]> {
   const containerFile = zip.file('META-INF/container.xml');
   if (!containerFile) return Promise.reject(new Error(t('epub.noContainer')));
   return containerFile.async('text').then((containerXml: string) => {
@@ -36,7 +34,7 @@ function _parseEpub(zip: JSZipType, onProgress: ProgressFn): Promise<string[]> {
   });
 }
 
-function _processOpf(zip: JSZipType, opfDir: string, opfXml: string, onProgress: ProgressFn): Promise<string[]> {
+function _processOpf(zip: JSZip, opfDir: string, opfXml: string, onProgress: ProgressFn): Promise<string[]> {
   const opfDoc = new DOMParser().parseFromString(opfXml, 'application/xml');
   const manifest: Record<string, { href: string; mt: string }> = {};
   opfDoc.querySelectorAll('manifest item, item').forEach(item => {

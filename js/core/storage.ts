@@ -1,7 +1,7 @@
 // English Words App — js/core/storage.ts
 // Pure storage helpers with TypeScript types
 
-import LZString from '../../lib/lzstring.js';
+import * as LZString from 'lz-string';
 import type { SRSData } from '../../src/types.js';
 
 // ── LZ compress / decompress ──────────────────────────────────

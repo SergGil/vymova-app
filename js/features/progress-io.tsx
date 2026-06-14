@@ -5,7 +5,7 @@ import { _lzSave } from '../core/storage.ts';
 import { state } from '../../src/state.ts';
 import { updateSrsUI } from '../core/srs.ts';
 import { W } from '../../data/words.js';
-import LZString from '../../lib/lzstring.js';
+import * as LZString from 'lz-string';
 import type { WordEntry } from '../../src/types.js';
 import { t } from './i18n.ts';
 import { renderGameBar } from './render-game-bar.ts';
