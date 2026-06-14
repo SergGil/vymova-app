@@ -179,7 +179,6 @@ export function applyI18n(): void {
   }
   if (document.getElementById('settings-overlay')?.classList.contains('open')) {
     import('./notifications.ts').then(({ _updateUI }) => _updateUI()).catch(() => {});
-    import('./image-prefetch.ts').then(({ _refreshPrefetchUI, _refreshPixabayStatus }) => { _refreshPrefetchUI(); _refreshPixabayStatus(); }).catch(() => {});
     import('./cloud-sync.ts').then(({ _refreshCloudSyncUI }) => _refreshCloudSyncUI()).catch(() => {});
     import('./voice.ts').then(({ _renderVoices }) => _renderVoices()).catch(() => {});
   }

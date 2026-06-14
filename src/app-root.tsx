@@ -30,6 +30,7 @@ import { KeysOverlay } from '../js/features/keyboard.tsx';
 import { QuizSwipe } from '../js/features/swipe.tsx';
 import { QuickQuizButton } from '../js/features/quick-quiz.tsx';
 import { CardSwipe } from '../js/core/swipe.tsx';
+import { ImagePrefetchSettings } from '../js/features/image-prefetch.tsx';
 import { WordDetailPage } from '../js/features/word-detail.tsx';
 import { ListeningPage } from '../js/modes/listening.tsx';
 import { FibPage } from '../js/modes/fib.tsx';
@@ -100,6 +101,7 @@ function AppRoot(): ReactElement {
     <QuizSwipe/>
     <Portal id="quick-quiz-mount"><QuickQuizButton/></Portal>
     <CardSwipe/>
+    <Portal id="image-prefetch-mount"><ImagePrefetchSettings/></Portal>
     <Portal id="wd-page-mount"><WordDetailPage/></Portal>
     <Portal id="listen-page-mount"><ListeningPage/></Portal>
     <Portal id="fib-page-mount"><FibPage/></Portal>

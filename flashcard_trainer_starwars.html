@@ -310,27 +310,7 @@
       <div class="settings-section">
         <div class="settings-section-title" data-i18n="settings.imagesTitle">🖼️ Зображення на картках</div>
         <div class="settings-desc"><span data-i18n="settings.imagesDesc1">Безкоштовний ключ Pixabay дає фото для ~90% слів.</span> <span data-i18n="settings.imagesDesc2">Отримай на</span> <b>pixabay.com/api/docs</b>.</div>
-        <div style="display:flex;gap:6px;align-items:center;margin-top:8px;">
-          <input id="pixabay-key-input" type="text" placeholder="Вставте Pixabay API ключ..." data-i18n-placeholder="settings.pixabayPlaceholder"
-            style="flex:1;padding:8px 10px;border:1.5px solid var(--border);border-radius:9px;
-                   font-size:.82rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;">
-          <button id="pixabay-key-save" class="backup-btn primary" style="flex-shrink:0;padding:8px 16px;" data-i18n="settings.save">Зберегти</button>
-        </div>
-        <div id="pixabay-key-status" style="font-size:.73rem;margin-top:5px;color:var(--text3);"></div>
-        <div style="margin-top:12px;">
-          <div class="settings-desc" style="margin-bottom:8px;" data-i18n="settings.prefetchDesc">Завантаж URL зображень для всіх слів у фоні — після цього картинки з'являтимуться миттєво.</div>
-          <div style="height:5px;background:var(--border);border-radius:4px;margin-bottom:8px;overflow:hidden;">
-            <div id="prefetch-bar" style="height:100%;background:var(--accent);border-radius:4px;transition:width .5s;width:0%"></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-            <span id="prefetch-status" style="font-size:.72rem;color:var(--text3);" data-i18n="settings.prefetchReady">Готово до завантаження</span>
-            <div style="display:flex;gap:6px;">
-              <button id="prefetch-start" class="backup-btn primary" style="padding:6px 12px;font-size:.75rem;" data-i18n="settings.prefetchStart">▶ Завантажити</button>
-              <button id="prefetch-stop"  class="backup-btn" style="display:none;padding:6px 12px;font-size:.75rem;" data-i18n="settings.prefetchPause">⏸ Пауза</button>
-              <button id="prefetch-clear" class="backup-btn" style="padding:6px 12px;font-size:.75rem;" data-i18n="settings.prefetchClear">🗑 Очистити</button>
-            </div>
-          </div>
-        </div>
+        <div id="image-prefetch-mount"></div>
       </div>
 
       <!-- Збереження прогресу -->

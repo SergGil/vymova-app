@@ -85,7 +85,7 @@ export function openPage(page: string): void {
     document.getElementById('settings-overlay')?.classList.add('open');
     _renderVoices();
     _refreshNotifUI();
-    import('./image-prefetch.ts').then(({ _refreshPrefetchUI, _refreshPixabayStatus }) => { _refreshPrefetchUI(); _refreshPixabayStatus(); }).catch(() => {});
+    notifyStateChange();
     _refreshCloudSyncUI();
   } else if (page === 'duel') {
     document.getElementById('duel-overlay')?.classList.add('open');
