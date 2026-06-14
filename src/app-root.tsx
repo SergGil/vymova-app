@@ -39,18 +39,7 @@ import { AchievementsPage } from '../js/features/achievements-page.tsx';
 import { GrammarPage } from '../js/features/grammar-page.tsx';
 import { IdiomsPageRoot } from '../js/features/idioms-page.tsx';
 import { OnboardingPage } from '../js/features/onboarding.tsx';
-import { DuelGameHeader } from '../js/features/duel-game-header.tsx';
-import { DuelSpectatorView } from '../js/features/duel-spectator.tsx';
-import { DuelPowerups } from '../js/features/duel-powerups.tsx';
-import { DuelFeedback } from '../js/features/duel-feedback.tsx';
-import { DuelChatLog } from '../js/features/duel-chat-log.tsx';
-import { DuelChatPanel } from '../js/features/duel-chat-panel.tsx';
-import { DuelTempoTimer } from '../js/features/duel-tempo-timer.tsx';
-import { DuelQuestion } from '../js/features/duel-question.tsx';
-import { DuelTournament } from '../js/features/duel-tournament.tsx';
-import { DuelCountdown } from '../js/features/duel-countdown.tsx';
-import { DuelResult } from '../js/features/duel-result.tsx';
-import { DuelLobby } from '../js/features/duel-lobby.tsx';
+import { DuelOverlay } from '../js/features/duel-overlay.tsx';
 
 function Portal({ id, children }: { id: string; children: ReactNode }): ReactElement | null {
   const el = document.getElementById(id);
@@ -102,18 +91,7 @@ function AppRoot(): ReactElement {
     <Portal id="grammar-layout-mount"><GrammarPage/></Portal>
     <Portal id="idioms-page-mount"><IdiomsPageRoot/></Portal>
     <Portal id="onboarding-mount"><OnboardingPage/></Portal>
-    <Portal id="duel-game-header-mount"><DuelGameHeader/></Portal>
-    <Portal id="duel-spectate-mount"><DuelSpectatorView/></Portal>
-    <Portal id="dm-powerups-mount"><DuelPowerups/></Portal>
-    <Portal id="dm-feedback-mount"><DuelFeedback/></Portal>
-    <Portal id="duel-chat-log-mount"><DuelChatLog/></Portal>
-    <Portal id="duel-chat-panel-mount"><DuelChatPanel/></Portal>
-    <Portal id="duel-tempo-mount"><DuelTempoTimer/></Portal>
-    <Portal id="duel-question-mount"><DuelQuestion/></Portal>
-    <Portal id="duel-lobby-mount"><DuelLobby/></Portal>
-    <Portal id="duel-tournament-mount"><DuelTournament/></Portal>
-    <Portal id="duel-countdown-mount"><DuelCountdown/></Portal>
-    <Portal id="duel-result-mount"><DuelResult/></Portal>
+    <Portal id="duel-overlay-mount"><DuelOverlay/></Portal>
   </>;
 }
 

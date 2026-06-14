@@ -313,16 +313,8 @@ export function _getDuelScreen(): DuelScreen {
 
 // ── UI refs ───────────────────────────────────────────────────
 const $ = (id:string) => document.getElementById(id)!;
-const elLobby     = () => $('duel-lobby')     as HTMLElement;
-const elCountdown = () => $('duel-countdown') as HTMLElement;
-const elGame      = () => $('duel-game')      as HTMLElement;
-const elResult    = () => $('duel-result')    as HTMLElement;
-
-const elChatPanel = () => $('duel-chat-panel') as HTMLElement;
 
 function _showLobby()    {
-  elLobby().style.display=''; elCountdown().style.display='none'; elGame().style.display='none'; elResult().style.display='none';
-  elChatPanel().style.display='none';
   // Always reset waiting state so the create button is never stuck
   state.duelLobbyUI.waiting.visible=false;
   state.duelLobbyUI.joinRowVisible=true;
@@ -333,10 +325,10 @@ function _showLobby()    {
   state.duelLobbyUI.tournBtn8={disabled:false,errorLabel:null};
   state.duelScreen='lobby'; notifyStateChange();
 }
-function _showCountdown(){ elLobby().style.display='none'; elCountdown().style.display=''; elGame().style.display='none'; elResult().style.display='none'; elChatPanel().style.display='none'; state.duelScreen='countdown'; notifyStateChange(); }
-function _showGame(clearChat=true) { elLobby().style.display='none'; elCountdown().style.display='none'; elGame().style.display=''; elResult().style.display='none'; elChatPanel().style.display=''; state.duelScreen='game'; if(clearChat){ state.duelChatHistory=[]; refreshDuelChatLog(); _lastReactionTs=0; } notifyStateChange(); }
+function _showCountdown(){ state.duelScreen='countdown'; notifyStateChange(); }
+function _showGame(clearChat=true) { state.duelScreen='game'; if(clearChat){ state.duelChatHistory=[]; refreshDuelChatLog(); _lastReactionTs=0; } notifyStateChange(); }
 // Keep the chat panel visible/usable on the finish screen so players can keep chatting.
-function _showResult()   { elLobby().style.display='none'; elCountdown().style.display='none'; elGame().style.display='none'; elResult().style.display=''; elChatPanel().style.display=''; state.duelScreen='result'; notifyStateChange(); }
+function _showResult()   { state.duelScreen='result'; notifyStateChange(); }
 
 // ── Lobby pickers ─────────────────────────────────────────────
 // Geттери/сеттери для React-пікерів (item 29, Фаза 5) — createRoom/joinRoom/
@@ -1096,8 +1088,6 @@ export async function joinAsSpectator(): Promise<void> {
 }
 
 function _startSpectatorView(room:RoomData): void {
-  elLobby().style.display='none';
-  elChatPanel().style.display='none';
   state.duelScreen='spectate'; notifyStateChange();
   _renderSpectatorView(room);
   _pollTimer=setInterval(async()=>{
@@ -1332,7 +1322,7 @@ let _tournData: Tournament | null = null;
 let _tournPoll: ReturnType<typeof setInterval> | null = null;
 let _tournFinishHook: ((r:RoomData)=>void) | null = null;
 
-function _showTournament() { elLobby().style.display='none'; elChatPanel().style.display='none'; state.duelScreen='tournament'; notifyStateChange(); }
+function _showTournament() { state.duelScreen='tournament'; notifyStateChange(); }
 
 // Знімок даних для duel-tournament.tsx (item 33, Фаза 5).
 export interface TournSlotVM { filled:boolean; avatar:string; name:string; label:string; }
@@ -1659,7 +1649,7 @@ export function renderDuel():void{
 
 // ── Event bindings ────────────────────────────────────────────
 document.addEventListener('keydown',(e:KeyboardEvent)=>{
-  const game=$('duel-game'); if(!game||game.style.display==='none') return;
+  if(state.duelScreen!=='game') return;
   if(state.duelRoom.mode!=='write'&&!state.duelRoom.answered&&['1','2','3','4'].includes(e.key)){
     e.preventDefault();
     const opt=state.duelQuestion.choiceOptions[parseInt(e.key)-1];
@@ -1709,10 +1699,10 @@ function _showConfirm(title: string, message: string, okLabel: string): Promise<
 // ── Smart duel close button ────────────────────────────────────
 // If game/tournament/spectator is active → return to lobby; else → close page
 $('duel-page-close')?.addEventListener('click', async () => {
-  const gameVisible      = elGame().style.display !== 'none';
+  const gameVisible      = state.duelScreen === 'game';
   const tournVisible     = state.duelScreen === 'tournament';
   const spectVisible     = state.duelScreen === 'spectate';
-  const countdownVisible = elCountdown().style.display !== 'none';
+  const countdownVisible = state.duelScreen === 'countdown';
   const waitingVisible   = state.duelLobbyUI.waiting.visible;
 
   // 24h async duel: leaving mid-question (or during the pre-game countdown)
