@@ -163,7 +163,7 @@ export function applyI18n(): void {
   // ~10 окремих window._refreshXxx/renderXxx викликів (усі — тонкі
   // notifyStateChange()-обгортки).
   notifyStateChange();
-  import('./deck-filter.ts').then(({ _refreshRangeOptions }) => _refreshRangeOptions()).catch(() => {});
+  import('./deck-filter.tsx').then(({ _refreshRangeOptions }) => _refreshRangeOptions()).catch(() => {});
   import('../core/card-engine.ts').then(({ render }) => render()).catch(() => {});
   if (document.getElementById('lp-overlay')?.classList.contains('open')) {
     import('./learning-path.ts').then(({ renderLearningPath }) => renderLearningPath()).catch(() => {});

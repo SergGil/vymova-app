@@ -10,7 +10,6 @@ export {};  // make this a module
 // ── 8. App + modes + features ─────────────────────────────────
 await import('../js/app.ts');
 await import('../js/modes/pairs.ts');
-await import('../js/modes/daily-challenge.ts');
 
 // combo/bookmarks/notes/pronunciation/voice статично імпортовані в app.ts
 await import('../js/features/custom.ts');

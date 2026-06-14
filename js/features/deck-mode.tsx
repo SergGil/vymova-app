@@ -1,5 +1,6 @@
-// English Words App — js/features/deck-mode.ts
+// English Words App — js/features/deck-mode.tsx
 // ES/FR mode deck management: sel-mode listener + _rebuildEsDeck / _rebuildFrDeck
+import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { W_ES } from '../../data/words_es.js';
@@ -119,44 +120,53 @@ export function _rebuildEsDeck(): void {
   render();
 }
 
-document.getElementById('sel-mode')!.addEventListener('change', function() {
-  stopAuto();
-  const m          = (this as HTMLSelectElement).value;
-  const isSpecial  = _isSpecialMode(m);
-  const selRangeEl = document.getElementById('sel-range') as HTMLSelectElement | null;
-  const selTagEl   = document.getElementById('sel-tag')   as HTMLSelectElement | null;
+export function DeckModeInit(): ReactElement | null {
+  useEffect(() => {
+    const selMode = document.getElementById('sel-mode');
+    const onChange = function(this: HTMLSelectElement) {
+      stopAuto();
+      const m          = this.value;
+      const isSpecial  = _isSpecialMode(m);
+      const selRangeEl = document.getElementById('sel-range') as HTMLSelectElement | null;
+      const selTagEl   = document.getElementById('sel-tag')   as HTMLSelectElement | null;
 
-  if (isSpecial) {
-    const specialDeck = _getSpecialDeck(m);
-    if (!specialDeck.length) {
-      const _mt = document.getElementById('milestone-toast');
-      if (_mt) {
-        _mt.textContent = t(_noTransKey(m));
-        _mt.className = 'milestone-toast'; void _mt.offsetWidth;
-        _mt.className = 'milestone-toast show';
-        setTimeout(() => { _mt.className = 'milestone-toast'; }, 3500);
+      if (isSpecial) {
+        const specialDeck = _getSpecialDeck(m);
+        if (!specialDeck.length) {
+          const _mt = document.getElementById('milestone-toast');
+          if (_mt) {
+            _mt.textContent = t(_noTransKey(m));
+            _mt.className = 'milestone-toast'; void _mt.offsetWidth;
+            _mt.className = 'milestone-toast show';
+            setTimeout(() => { _mt.className = 'milestone-toast'; }, 3500);
+          }
+          this.value = 'en';
+          render();
+          return;
+        }
+        if (!_preSpecialDeck) {
+          _preSpecialDeck = state.deck;
+          _preSpecialIdx  = state.idx;
+          if (selRangeEl) selRangeEl.disabled = true;
+        }
+        const ats = state._activeTagSet as Set<string> | null;
+        let deck = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
+        if (!deck.length) deck = specialDeck.slice();
+        setDeck(deck);
+        setIdx(0);
+      } else if (!isSpecial && _preSpecialDeck) {
+        setDeck(_preSpecialDeck);
+        const deckLen = (state.deck).length;
+        setIdx(deckLen ? _preSpecialIdx % deckLen : 0);
+        _preSpecialDeck = null;
+        if (selRangeEl) selRangeEl.disabled = false;
+        if (selTagEl)   selTagEl.disabled   = false;
       }
-      (this as HTMLSelectElement).value = 'en';
       render();
-      return;
-    }
-    if (!_preSpecialDeck) {
-      _preSpecialDeck = state.deck;
-      _preSpecialIdx  = state.idx;
-      if (selRangeEl) selRangeEl.disabled = true;
-    }
-    const ats = state._activeTagSet as Set<string> | null;
-    let deck = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
-    if (!deck.length) deck = specialDeck.slice();
-    setDeck(deck);
-    setIdx(0);
-  } else if (!isSpecial && _preSpecialDeck) {
-    setDeck(_preSpecialDeck);
-    const deckLen = (state.deck).length;
-    setIdx(deckLen ? _preSpecialIdx % deckLen : 0);
-    _preSpecialDeck = null;
-    if (selRangeEl) selRangeEl.disabled = false;
-    if (selTagEl)   selTagEl.disabled   = false;
-  }
-  render();
-});
+    };
+    selMode?.addEventListener('change', onChange as EventListener);
+    return () => selMode?.removeEventListener('change', onChange as EventListener);
+  }, []);
+
+  return null;
+}

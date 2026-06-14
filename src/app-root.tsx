@@ -33,6 +33,9 @@ import { CardSwipe } from '../js/core/swipe.tsx';
 import { ImagePrefetchSettings } from '../js/features/image-prefetch.tsx';
 import { SettingsInit } from '../js/features/settings.tsx';
 import { ProgressIO } from '../js/features/progress-io.tsx';
+import { DeckModeInit } from '../js/features/deck-mode.tsx';
+import { DeckFilterInit } from '../js/features/deck-filter.tsx';
+import { DailyChallenge } from '../js/modes/daily-challenge.tsx';
 import { WordDetailPage } from '../js/features/word-detail.tsx';
 import { ListeningPage } from '../js/modes/listening.tsx';
 import { FibPage } from '../js/modes/fib.tsx';
@@ -106,6 +109,9 @@ function AppRoot(): ReactElement {
     <Portal id="image-prefetch-mount"><ImagePrefetchSettings/></Portal>
     <SettingsInit/>
     <ProgressIO/>
+    <DeckModeInit/>
+    <DeckFilterInit/>
+    <DailyChallenge/>
     <Portal id="wd-page-mount"><WordDetailPage/></Portal>
     <Portal id="listen-page-mount"><ListeningPage/></Portal>
     <Portal id="fib-page-mount"><FibPage/></Portal>

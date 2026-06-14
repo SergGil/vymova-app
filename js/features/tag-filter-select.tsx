@@ -7,7 +7,7 @@ import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
 import { WORD_CATEGORIES, CATEGORY_LIST } from '../../data/categories.js';
 import { categoryName, t } from './i18n.ts';
-import { _rebuildEsDeck, _isSpecialMode } from './deck-mode.ts';
+import { _rebuildEsDeck, _isSpecialMode } from './deck-mode.tsx';
 
 function fitSelTag(selTag: HTMLSelectElement): void {
   const tmp = document.createElement('select');
