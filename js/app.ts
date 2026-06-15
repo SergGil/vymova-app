@@ -6,7 +6,8 @@ import { state }                                   from '../src/state.ts';
 import { renderGameBar }                           from './features/render-game-bar.ts';
 import { refreshGameBarLevel as renderLevelBadge } from './features/game-bar-level.tsx';
 import { checkAchievements }                       from './features/render-achievements.ts';
-import { render } from './core/card-engine.ts';
+import { render, setDeck } from './core/card-engine.ts';
+import { shuffle } from './core/srs.ts';
 import './features/speech.ts';
 
 const savedKnown = _lzLoad('ew_known', []);
@@ -38,6 +39,9 @@ _customWords.forEach(function(c) {
   }
 });
 state._customWords = _customWords;
+
+// Random card order on each load, so the deck doesn't always start at #1.
+setDeck(shuffle((W as unknown as WordEntry[]).slice()));
 
 try { renderGameBar(); } catch(e){ console.error((e as Error).message); }
 renderLevelBadge();
