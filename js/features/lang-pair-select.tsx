@@ -4,9 +4,9 @@
 // (deck-mode, tag-filter, word-detail, mode-utils, ...) keep working untouched.
 import { useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
-import { useStateVersion } from '../../src/store.ts';
+import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 
-type LangCode = 'ua' | 'en' | 'es' | 'fr' | 'it' | 'pt' | 'de';
+export type LangCode = 'ua' | 'en' | 'es' | 'fr' | 'it' | 'pt' | 'de';
 type Direction = 'fwd' | 'rev' | 'mix';
 
 const ALL_LANGS: LangCode[] = ['ua', 'en', 'es', 'fr', 'it', 'pt', 'de'];
@@ -87,6 +87,12 @@ function isLangCode(v: string | null): v is LangCode {
   return v === 'ua' || v === 'en' || v === 'es' || v === 'fr' || v === 'it' || v === 'pt' || v === 'de';
 }
 
+/** The language the user is currently learning (e.g. for language-specific content like grammar). */
+export function getLearnLang(): LangCode {
+  const stored = localStorage.getItem(LEARN_KEY);
+  return isLangCode(stored) ? stored : 'en';
+}
+
 function isDirection(v: string | null): v is Direction {
   return v === 'fwd' || v === 'rev' || v === 'mix';
 }
@@ -135,6 +141,7 @@ export function LangPairSelect(): ReactElement {
     localStorage.setItem(DIR_KEY, next.direction);
     setState(next);
     applyMode(next.learnLang, next.knowLang, next.direction);
+    notifyStateChange();
   }
 
   function onKnowChange(next: LangCode): void {

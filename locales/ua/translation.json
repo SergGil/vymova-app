@@ -894,6 +894,7 @@
   "common_fragment_many": "фрагментів",
   "common_fragment_other": "фрагментів",
   "grammar.selectTopic": "Оберіть тему зліва",
+  "grammar.notAvailable": "Граматика для цієї мови ще не додана",
   "deck.noEsTranslations": "Іспанських перекладів ще немає для цих слів",
   "deck.noFrTranslations": "Французьких перекладів ще немає для цих слів",
   "deck.noItTranslations": "Італійських перекладів ще немає для цих слів",

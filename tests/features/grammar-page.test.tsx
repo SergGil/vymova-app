@@ -21,6 +21,7 @@ describe('grammar-page.tsx GrammarPage', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
     openPage.mockClear();
+    localStorage.removeItem('ew_learn_lang');
   });
 
   it('renders a navigation button for every grammar rule', () => {
@@ -62,5 +63,18 @@ describe('grammar-page.tsx GrammarPage', () => {
   it('does not throw when openGrammarContent is called', () => {
     mount();
     expect(() => openGrammarContent()).not.toThrow();
+  });
+
+  it('shows English grammar by default (learn language = en)', () => {
+    const { container } = mount();
+    expect(container.querySelectorAll('.gr-nav-btn').length).toBeGreaterThan(0);
+    expect(container.querySelector('.gr-empty')).toBeNull();
+  });
+
+  it('shows a "not available" placeholder when learning a language without grammar data', () => {
+    localStorage.setItem('ew_learn_lang', 'es');
+    const { container } = mount();
+    expect(container.querySelectorAll('.gr-nav-btn').length).toBe(0);
+    expect(container.querySelector('.gr-empty')).not.toBeNull();
   });
 });

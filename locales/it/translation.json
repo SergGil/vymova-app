@@ -878,6 +878,7 @@
   "common_fragment_one": "frammento",
   "common_fragment_other": "frammenti",
   "grammar.selectTopic": "Seleziona un argomento a sinistra",
+  "grammar.notAvailable": "La grammatica per questa lingua non è ancora disponibile",
   "deck.noEsTranslations": "Le traduzioni spagnole non sono ancora disponibili per queste parole",
   "deck.noFrTranslations": "Le traduzioni francesi non sono ancora disponibili per queste parole",
   "deck.noItTranslations": "Le traduzioni italiane non sono ancora disponibili per queste parole",

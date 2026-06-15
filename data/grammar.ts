@@ -1,6 +1,7 @@
 // English Words App — data/grammar.ts
 // Grammar reference data: structured rules, tables, examples
 // Format: self-contained, easy to extend
+import type { Lang } from '../js/features/i18n.ts';
 
 export interface GSection {
   type:     'intro' | 'formula' | 'table' | 'examples' | 'markers' | 'note' | 'tip' | 'subtitle';
@@ -4887,3 +4888,11 @@ export const GRAMMAR: GrammarCategory[] = [
 
 
 ];
+
+// ── Grammar content per language being learned ─────────────────
+// Only English grammar exists today; other languages fall back to an
+// "not available yet" message in the grammar page until their content
+// is added here (e.g. GRAMMAR_ES, GRAMMAR_FR, ...).
+export const GRAMMAR_BY_LANG: Partial<Record<Lang, GrammarCategory[]>> = {
+  en: GRAMMAR,
+};

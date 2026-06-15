@@ -1,9 +1,11 @@
 // English Words App — js/features/grammar-page.tsx
 // Grammar reference page: renders structured rules from data/grammar.ts
 import { useEffect, useState, type ReactElement } from 'react';
-import { GRAMMAR } from '../../data/grammar.ts';
+import { GRAMMAR_BY_LANG } from '../../data/grammar.ts';
 import type { GrammarRule, GSection } from '../../data/grammar.ts';
 import { getLang, t } from './i18n.ts';
+import { getLearnLang } from './lang-pair-select.tsx';
+import { useStateVersion } from '../../src/store.ts';
 
 function _localizeSection(s: GSection): GSection {
   if (getLang() === 'en' && s.en) return { ...s, ...s.en };
@@ -111,6 +113,7 @@ export function jumpToGrammarRule(id: string): void {
 }
 
 export function GrammarPage(): ReactElement {
+  useStateVersion();
   const [activeId, setActiveId] = useState('');
   const [, setTick] = useState(0);
 
@@ -120,10 +123,20 @@ export function GrammarPage(): ReactElement {
     return () => { _setActiveId = null; _bumpTick = null; };
   }, []);
 
-  const effectiveId = activeId || GRAMMAR[0]?.rules[0]?.id || '';
+  const grammar = GRAMMAR_BY_LANG[getLearnLang()] ?? [];
+
+  if (!grammar.length) {
+    return (
+      <div id="grammar-content" className="grammar-content">
+        <div className="gr-empty">{t('grammar.notAvailable')}</div>
+      </div>
+    );
+  }
+
+  const effectiveId = activeId || grammar[0]?.rules[0]?.id || '';
 
   let activeRule: GrammarRule | undefined;
-  for (const cat of GRAMMAR) {
+  for (const cat of grammar) {
     activeRule = cat.rules.find(r => r.id === effectiveId);
     if (activeRule) break;
   }
@@ -131,7 +144,7 @@ export function GrammarPage(): ReactElement {
   return (
     <>
       <div id="grammar-nav" className="grammar-nav">
-        {GRAMMAR.map(cat => {
+        {grammar.map(cat => {
           const sorted = [...cat.rules].sort((a, b) => _levelOrder(a.title) - _levelOrder(b.title));
           return (
             <div className="gr-cat" key={cat.title}>
