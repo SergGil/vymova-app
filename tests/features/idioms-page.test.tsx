@@ -56,12 +56,13 @@ describe('idioms-page.tsx IdiomsPageRoot', () => {
     expect(container.querySelectorAll('.idioms-tab').length).toBe(2);
   });
 
-  it('shows a "not available" placeholder when neither language has idiom data', () => {
+  it('shows idiom tabs for a language pair outside en/ua/es', () => {
     localStorage.setItem('ew_learn_lang', 'fr');
     localStorage.setItem('ew_know_lang', 'it');
     const { container } = mount();
-    expect(container.querySelectorAll('.idioms-tab').length).toBe(0);
-    expect(container.querySelector('.idioms-empty')).not.toBeNull();
+    const tabs = container.querySelectorAll('.idioms-tab');
+    expect(tabs.length).toBe(2);
+    expect(container.querySelector('.idioms-tab-active')!.textContent).toContain('Французькі');
   });
 
   it('filters idioms by search query', () => {

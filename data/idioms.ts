@@ -559,12 +559,109 @@ export const SPANISH_IDIOMS: Idiom[] = [
     exampleTr:  'Проєкт просувається як черепаха — ми вже місяцями не можемо закінчити.' },
 ];
 
+// ── French idioms → Ukrainian + English meaning ────────────────
+export const FRENCH_IDIOMS: Idiom[] = [
+  { emoji: '🪲', phrase: 'Avoir le cafard',
+    meaning: 'Бути в депресії, сумувати', meaningEn: 'Feel down / feel blue',
+    exampleSrc: 'Depuis qu\'il a perdu son travail, il a le cafard.',
+    exampleTr:  'Відколи він втратив роботу, він почуває себе пригніченим.' },
+  { emoji: '🧂', phrase: 'Mettre son grain de sel',
+    meaning: 'Влізти зі своєю думкою, втрутитися', meaningEn: 'Put in one\'s two cents',
+    exampleSrc: 'Il met toujours son grain de sel dans nos conversations.',
+    exampleTr:  'Він завжди влізає зі своєю думкою в наші розмови.' },
+  { emoji: '👁️', phrase: 'Coûter les yeux de la tête',
+    meaning: 'Коштувати шалених грошей', meaningEn: 'Cost an arm and a leg',
+    exampleSrc: 'Ce sac à main coûte les yeux de la tête.',
+    exampleTr:  'Ця сумка коштує шалених грошей.' },
+  { emoji: '🐱', phrase: 'Avoir un chat dans la gorge',
+    meaning: 'Мати ком у горлі', meaningEn: 'Have a frog in one\'s throat',
+    exampleSrc: 'Excusez-moi, j\'ai un chat dans la gorge.',
+    exampleTr:  'Вибачте, у мене ком у горлі.' },
+  { emoji: '🦶', phrase: 'Casser les pieds à quelqu\'un',
+    meaning: 'Дратувати когось, діставати когось', meaningEn: 'Get on someone\'s nerves',
+    exampleSrc: 'Arrête de me casser les pieds avec tes questions !',
+    exampleTr:  'Перестань дратувати мене своїми питаннями!' },
+];
+
+// ── Italian idioms → Ukrainian + English meaning ───────────────
+export const ITALIAN_IDIOMS: Idiom[] = [
+  { emoji: '🐺', phrase: 'In bocca al lupo',
+    meaning: 'Ні пуху ні пера', meaningEn: 'Break a leg / good luck',
+    exampleSrc: 'Domani ho un esame importante. — In bocca al lupo!',
+    exampleTr:  'Завтра у мене важливий екзамен. — Ні пуху ні пера!' },
+  { emoji: '👁️', phrase: 'Costare un occhio della testa',
+    meaning: 'Коштувати шалених грошей', meaningEn: 'Cost an arm and a leg',
+    exampleSrc: 'Quella macchina costa un occhio della testa.',
+    exampleTr:  'Та машина коштує шалених грошей.' },
+  { emoji: '🍝', phrase: 'Avere le mani in pasta',
+    meaning: 'Бути причетним до чогось', meaningEn: 'Have a finger in the pie',
+    exampleSrc: 'Anche lui ha le mani in pasta in questo progetto.',
+    exampleTr:  'Він теж причетний до цього проєкту.' },
+  { emoji: '⏳', phrase: 'Non vedere l\'ora',
+    meaning: 'Не могти дочекатися', meaningEn: 'Can\'t wait',
+    exampleSrc: 'Non vedo l\'ora di andare in vacanza.',
+    exampleTr:  'Я не можу дочекатися відпустки.' },
+  { emoji: '🌧️', phrase: 'Piove a catinelle',
+    meaning: 'Ллє як з відра', meaningEn: 'It\'s raining cats and dogs',
+    exampleSrc: 'Resta a casa, fuori piove a catinelle.',
+    exampleTr:  'Залишайся вдома, на вулиці ллє як з відра.' },
+];
+
+// ── Portuguese idioms → Ukrainian + English meaning ────────────
+export const PORTUGUESE_IDIOMS: Idiom[] = [
+  { emoji: '👁️', phrase: 'Custar os olhos da cara',
+    meaning: 'Коштувати шалених грошей', meaningEn: 'Cost an arm and a leg',
+    exampleSrc: 'Esse carro custou os olhos da cara.',
+    exampleTr:  'Та машина коштувала шалених грошей.' },
+  { emoji: '🌿', phrase: 'Quebrar o galho',
+    meaning: 'Якось викрутитися, вийти зі скрутного становища', meaningEn: 'Make do / get by',
+    exampleSrc: 'Não temos tudo o que precisamos, mas vamos quebrar o galho.',
+    exampleTr:  'У нас немає всього необхідного, але ми якось викрутимось.' },
+  { emoji: '🐸', phrase: 'Engolir sapos',
+    meaning: 'Терпіти неприємності мовчки', meaningEn: 'Swallow one\'s pride',
+    exampleSrc: 'Ele teve que engolir sapos para manter o emprego.',
+    exampleTr:  'Йому довелося терпіти неприємності, щоб зберегти роботу.' },
+  { emoji: '🦆', phrase: 'Pagar o pato',
+    meaning: 'Відповідати за чужі помилки', meaningEn: 'Take the blame for someone else',
+    exampleSrc: 'Sempre sou eu que pago o pato pelos erros dele.',
+    exampleTr:  'Завжди я відповідаю за його помилки.' },
+  { emoji: '🌧️', phrase: 'Chover a cântaros',
+    meaning: 'Лити як з відра', meaningEn: 'Rain cats and dogs',
+    exampleSrc: 'Não saia sem guarda-chuva, está chovendo a cântaros.',
+    exampleTr:  'Не виходь без парасольки, ллє як з відра.' },
+];
+
+// ── German idioms → Ukrainian + English meaning ────────────────
+export const GERMAN_IDIOMS: Idiom[] = [
+  { emoji: '🤞', phrase: 'Die Daumen drücken',
+    meaning: 'Тримати кулаки за когось', meaningEn: 'Keep one\'s fingers crossed',
+    exampleSrc: 'Ich drücke dir die Daumen für die Prüfung!',
+    exampleTr:  'Тримаю за тебе кулаки на іспиті!' },
+  { emoji: '🌱', phrase: 'Ins Gras beißen',
+    meaning: 'Померти, загнутися (евфемізм)', meaningEn: 'Bite the dust',
+    exampleSrc: 'Die alte Pflanze hat endlich ins Gras gebissen.',
+    exampleTr:  'Стара рослина нарешті загнулася.' },
+  { emoji: '🐻', phrase: 'Da steppt der Bär',
+    meaning: 'Там кипить життя, там весело', meaningEn: 'That\'s where the party\'s at',
+    exampleSrc: 'Auf der Party gestern Abend steppte der Bär.',
+    exampleTr:  'На вчорашній вечірці кипіло життя.' },
+  { emoji: '🍅', phrase: 'Tomaten auf den Augen haben',
+    meaning: 'Не помічати очевидного', meaningEn: 'Have a blind spot',
+    exampleSrc: 'Hast du Tomaten auf den Augen? Das Schild ist direkt vor dir!',
+    exampleTr:  'Ти не бачиш очевидного? Вивіска прямо перед тобою!' },
+  { emoji: '🐱', phrase: 'Die Katze im Sack kaufen',
+    meaning: 'Купити кота в мішку', meaningEn: 'Buy a pig in a poke',
+    exampleSrc: 'Kauf das Auto nicht ungesehen — du könntest die Katze im Sack kaufen.',
+    exampleTr:  'Не купуй машину не дивлячись — можеш купити кота в мішку.' },
+];
+
 // ── Idioms per language ─────────────────────────────────────────
-// Only en/ua/es have idiom collections today. Other languages
-// (fr/it/pt/de) fall back to a "not available yet" message on the
-// idioms page until their content is added here.
 export const IDIOMS_BY_LANG: Partial<Record<Lang, Idiom[]>> = {
   en: ENGLISH_IDIOMS,
   ua: UKRAINIAN_IDIOMS,
   es: SPANISH_IDIOMS,
+  fr: FRENCH_IDIOMS,
+  it: ITALIAN_IDIOMS,
+  pt: PORTUGUESE_IDIOMS,
+  de: GERMAN_IDIOMS,
 };

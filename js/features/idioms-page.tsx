@@ -6,21 +6,25 @@ import { t } from './i18n.ts';
 import { _speakWithLang } from './speech.ts';
 import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
 
-type Tab = 'en' | 'ua' | 'es';
+type Tab = 'en' | 'ua' | 'es' | 'fr' | 'it' | 'pt' | 'de';
 
 function _speak(text: string, lang: string, btn: HTMLElement | null): void {
   _speakWithLang(text, lang, btn);
 }
 
-const LANG_BY_TAB: Record<Tab, string> = { en: 'en-US', ua: 'uk-UA', es: 'es-ES' };
-const TAB_I18N_KEY: Record<Tab, string> = { en: 'idioms.tabEn', ua: 'idioms.tabUa', es: 'idioms.tabEs' };
+const LANG_BY_TAB: Record<Tab, string> = { en: 'en-US', ua: 'uk-UA', es: 'es-ES', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT', de: 'de-DE' };
+const TAB_I18N_KEY: Record<Tab, string> = { en: 'idioms.tabEn', ua: 'idioms.tabUa', es: 'idioms.tabEs', fr: 'idioms.tabFr', it: 'idioms.tabIt', pt: 'idioms.tabPt', de: 'idioms.tabDe' };
+
+function _isTab(l: string): l is Tab {
+  return l === 'en' || l === 'ua' || l === 'es' || l === 'fr' || l === 'it' || l === 'pt' || l === 'de';
+}
 
 /** Tabs relevant to the current language pair (know/learn) that have idiom data. */
 function _relevantTabs(): Tab[] {
   const langs = [getLearnLang(), getKnowLang()];
   const tabs: Tab[] = [];
   for (const l of langs) {
-    if ((l === 'en' || l === 'ua' || l === 'es') && IDIOMS_BY_LANG[l] && !tabs.includes(l)) tabs.push(l);
+    if (_isTab(l) && IDIOMS_BY_LANG[l] && !tabs.includes(l)) tabs.push(l);
   }
   return tabs;
 }
