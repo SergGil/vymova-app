@@ -72,7 +72,7 @@ describe('grammar-page.tsx GrammarPage', () => {
   });
 
   it('shows a "not available" placeholder when learning a language without grammar data', () => {
-    localStorage.setItem('ew_learn_lang', 'es');
+    localStorage.setItem('ew_learn_lang', 'fr');
     const { container } = mount();
     expect(container.querySelectorAll('.gr-nav-btn').length).toBe(0);
     expect(container.querySelector('.gr-empty')).not.toBeNull();
