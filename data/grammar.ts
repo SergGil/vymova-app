@@ -4889,10 +4889,111 @@ export const GRAMMAR: GrammarCategory[] = [
 
 ];
 
+// ══════════════════════════════════════════════════════════════
+//   ІСПАНСЬКА ГРАМАТИКА
+// ══════════════════════════════════════════════════════════════
+export const GRAMMAR_ES: GrammarCategory[] = [
+
+  {
+    id: 'basics', title: 'Основи', titleEn: 'Basics', emoji: '🧩',
+    rules: [
+
+      {
+        id: 'ser-estar', title: 'Ser vs Estar — A1', emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'В іспанській є два дієслова "бути" — ser та estar. Ser використовують для постійних характеристик, estar — для тимчасових станів і місцезнаходження.',
+            en: { text: 'Spanish has two verbs for "to be" — ser and estar. Ser is for permanent characteristics, estar is for temporary states and location.' },
+          },
+          {
+            type: 'formula', title: 'Дієвідмінювання (теперішній час)',
+            rows: [
+              ['yo', 'soy', 'estoy'],
+              ['tú', 'eres', 'estás'],
+              ['él/ella/usted', 'es', 'está'],
+              ['nosotros/as', 'somos', 'estamos'],
+              ['vosotros/as', 'sois', 'estáis'],
+              ['ellos/ellas/ustedes', 'son', 'están'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади',
+            items: [
+              'Soy profesor. — Я (є) вчитель. (постійна риса)',
+              'Estoy cansado. — Я втомлений. (тимчасовий стан)',
+              'Madrid está en España. — Мадрид у Іспанії. (місце)',
+              'Ella es alta. — Вона висока. (характеристика)',
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'gender-nouns', title: 'Рід іменників — A1', emoji: '⚥',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Усі іменники в іспанській мають рід — чоловічий або жіночий. Артикль і прикметник узгоджуються з родом і числом іменника.',
+            en: { text: 'All Spanish nouns have a gender — masculine or feminine. Articles and adjectives agree with the noun in gender and number.' },
+          },
+          {
+            type: 'table', title: 'Типові закінчення',
+            rows: [
+              ['-o → чоловічий', 'el libro (книга)', 'el chico (хлопець)'],
+              ['-a → жіночий', 'la mesa (стіл)', 'la chica (дівчина)'],
+              ['-ción/-sión → жіночий', 'la canción (пісня)', 'la decisión (рішення)'],
+              ['-ema/-oma → чоловічий', 'el problema (проблема)', 'el idioma (мова)'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'Артиклі: el / la (однина), los / las (множина). Перед іменниками жіночого роду, що починаються на наголошене "a"/"ha", вживають el: el agua.',
+            en: { text: 'Articles: el / la (singular), los / las (plural). Before feminine nouns starting with stressed "a"/"ha", use el: el agua.' },
+          },
+        ],
+      },
+
+      {
+        id: 'present-regular', title: 'Теперішній час правильних дієслів — A1', emoji: '📌',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Правильні дієслова поділяють на три групи за закінченням інфінітива: -ar, -er, -ir. Кожна група має свій набір закінчень у теперішньому часі.',
+            en: { text: 'Regular verbs fall into three groups by infinitive ending: -ar, -er, -ir. Each group has its own set of present-tense endings.' },
+          },
+          {
+            type: 'formula', title: 'hablar (-ar), comer (-er), vivir (-ir)',
+            rows: [
+              ['yo', 'habl-o', 'com-o', 'viv-o'],
+              ['tú', 'habl-as', 'com-es', 'viv-es'],
+              ['él/ella/usted', 'habl-a', 'com-e', 'viv-e'],
+              ['nosotros/as', 'habl-amos', 'com-emos', 'viv-imos'],
+              ['vosotros/as', 'habl-áis', 'com-éis', 'viv-ís'],
+              ['ellos/ellas/ustedes', 'habl-an', 'com-en', 'viv-en'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади',
+            items: [
+              'Hablo español. — Я говорю іспанською.',
+              'Comemos a las dos. — Ми їмо о другій.',
+              '¿Vives en Madrid? — Ти живеш у Мадриді?',
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+];
+
 // ── Grammar content per language being learned ─────────────────
-// Only English grammar exists today; other languages fall back to an
+// English and Spanish grammar exist today; other languages fall back to an
 // "not available yet" message in the grammar page until their content
-// is added here (e.g. GRAMMAR_ES, GRAMMAR_FR, ...).
+// is added here (e.g. GRAMMAR_FR, GRAMMAR_IT, ...).
 export const GRAMMAR_BY_LANG: Partial<Record<Lang, GrammarCategory[]>> = {
   en: GRAMMAR,
+  es: GRAMMAR_ES,
 };
