@@ -32,18 +32,6 @@ export function _refreshRangeOptions(): void {
   const total  = W.length;
   const allOpt = sel.querySelector('option[value="0"]') as HTMLOptionElement | null;
   if (allOpt) allOpt.textContent = t('cards.allWords') + ' (' + total + ')';
-  Array.prototype.slice.call(sel.querySelectorAll('option')).forEach(function(opt: HTMLOptionElement) {
-    if (opt.value !== '0' && /^\d+$/.test(opt.value)) sel!.removeChild(opt);
-  });
-  const blocks = Math.ceil(total / 500);
-  for (let i = 1; i <= blocks; i++) {
-    const start = (i - 1) * 500 + 1;
-    const end   = i === blocks ? total : i * 500;
-    const opt   = document.createElement('option');
-    opt.value       = String(i);
-    opt.textContent = start + '–' + end;
-    sel.appendChild(opt);
-  }
 }
 
 function _showToast(msg: string): void {
@@ -156,9 +144,7 @@ export function DeckFilterInit(): ReactElement | null {
         (state._baseWords = W.slice() as unknown as WordEntry[]);
         deck = buildStaleDeck(v === 'stale7' ? 7 : 30);
       } else {
-        const n        = parseInt(v);
-        const _lastBlk = Math.ceil(W.length / 500);
-        const base     = n === 0 ? W.slice() : W.slice((n - 1) * 500, n === _lastBlk ? W.length : n * 500);
+        const base = W.slice();
         (state._baseWords = base as unknown as WordEntry[]);
         deck = (base as unknown as WordEntry[]).slice();
         shuffle(deck);

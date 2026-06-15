@@ -150,7 +150,7 @@ describe('deck-filter.tsx DeckFilterInit', () => {
     expect(deck.length).toBeGreaterThan(0);
   });
 
-  it('builds a numeric block deck for the default (block) selection', () => {
+  it('builds a full shuffled deck for the "all words" selection', () => {
     mount();
     change('0');
     expect(setDeck).toHaveBeenCalled();
@@ -178,10 +178,16 @@ describe('deck-filter.tsx _refreshRangeOptions', () => {
     expect(() => _refreshRangeOptions()).not.toThrow();
   });
 
-  it('rebuilds numeric block options based on the word count', () => {
+  it('updates the "all words" option label with the total word count', () => {
     _refreshRangeOptions();
     const sel = document.getElementById('sel-range') as HTMLSelectElement;
-    const numericOptions = Array.from(sel.options).filter(o => /^\d+$/.test(o.value) && o.value !== '0');
-    expect(numericOptions.length).toBe(Math.ceil(W.length / 500));
+    const allOpt = sel.querySelector('option[value="0"]') as HTMLOptionElement;
+    expect(allOpt.textContent).toContain(String(W.length));
+  });
+
+  it('does not remove other options', () => {
+    _refreshRangeOptions();
+    const sel = document.getElementById('sel-range') as HTMLSelectElement;
+    expect(sel.querySelector('option[value="3"]')).not.toBeNull();
   });
 });
