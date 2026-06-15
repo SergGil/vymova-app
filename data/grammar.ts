@@ -5307,11 +5307,314 @@ export const GRAMMAR_ES: GrammarCategory[] = [
 
 ];
 
+// ── French grammar ───────────────────────────────────────────
+export const GRAMMAR_FR: GrammarCategory[] = [
+
+  {
+    id: 'basics', title: 'Основи', titleEn: 'Basics', emoji: '🧩',
+    rules: [
+
+      {
+        id: 'etre-avoir', title: 'Être vs Avoir — A1', emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Être (бути) та avoir (мати) — два найважливіші дієслова у французькій. Вони використовуються самостійно і як допоміжні дієслова для утворення інших часів.',
+            en: { text: 'Être (to be) and avoir (to have) are the two most important French verbs. They are used on their own and as auxiliary verbs for other tenses.' },
+          },
+          {
+            type: 'formula', title: 'Дієвідмінювання (теперішній час)',
+            rows: [
+              ['je', 'suis', 'ai'],
+              ['tu', 'es', 'as'],
+              ['il / elle', 'est', 'a'],
+              ['nous', 'sommes', 'avons'],
+              ['vous', 'êtes', 'avez'],
+              ['ils / elles', 'sont', 'ont'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'Avoir вживають там, де в українській кажуть "є" про вік чи наявність: "il a vingt ans" — буквально "він має двадцять років".',
+            en: { text: 'Avoir is used where Ukrainian/English say "to be" about age: "il a vingt ans" literally means "he has twenty years".' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je suis étudiant.', 'Я студент.'],
+              ['Il a vingt ans.', 'Йому двадцять років.'],
+              ['Nous sommes en France.', 'Ми у Франції.'],
+              ['Elle a une voiture.', 'У неї є машина.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'gender-nouns', title: 'Рід іменників — A1', emoji: '⚥',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Усі іменники у французькій мають рід — чоловічий або жіночий. Артикль узгоджується з родом і числом іменника.',
+            en: { text: 'All French nouns have a gender — masculine or feminine. The article agrees with the noun in gender and number.' },
+          },
+          {
+            type: 'table', title: 'Артиклі',
+            rows: [
+              ['', 'однина', 'множина'],
+              ['чоловічий', 'le / un', 'les / des'],
+              ['жіночий', 'la / une', 'les / des'],
+              ['перед голосною', "l'", 'les / des'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'Типові закінчення жіночого роду: -e, -tion, -sion, -té. Типові закінчення чоловічого роду: -age, -ment, -isme (з винятками).',
+            en: { text: 'Typical feminine endings: -e, -tion, -sion, -té. Typical masculine endings: -age, -ment, -isme (with exceptions).' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Le livre est intéressant.', 'Книга цікава.'],
+              ['La maison est grande.', 'Дім великий.'],
+              ['Les enfants jouent.', 'Діти грають.'],
+              ["J'ai une pomme.", 'У мене є яблуко.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+];
+
+// ── Italian grammar ──────────────────────────────────────────
+export const GRAMMAR_IT: GrammarCategory[] = [
+
+  {
+    id: 'basics', title: 'Основи', titleEn: 'Basics', emoji: '🧩',
+    rules: [
+
+      {
+        id: 'essere-avere', title: 'Essere vs Avere — A1', emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Essere (бути) та avere (мати) — два найважливіші дієслова в італійській. Вони використовуються самостійно і як допоміжні дієслова для утворення складених часів.',
+            en: { text: 'Essere (to be) and avere (to have) are the two most important Italian verbs. They are used on their own and as auxiliary verbs for compound tenses.' },
+          },
+          {
+            type: 'formula', title: 'Дієвідмінювання (теперішній час)',
+            rows: [
+              ['io', 'sono', 'ho'],
+              ['tu', 'sei', 'hai'],
+              ['lui / lei', 'è', 'ha'],
+              ['noi', 'siamo', 'abbiamo'],
+              ['voi', 'siete', 'avete'],
+              ['loro', 'sono', 'hanno'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'Avere вживають там, де українською кажуть "є" про вік чи наявність: "ho vent\'anni" — буквально "я маю двадцять років".',
+            en: { text: 'Avere is used where Ukrainian/English say "to be" about age: "ho vent\'anni" literally means "I have twenty years".' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Sono insegnante.', 'Я вчитель.'],
+              ["Ho vent'anni.", 'Мені двадцять років.'],
+              ['Siamo a Roma.', 'Ми в Римі.'],
+              ['Lei ha un gatto.', 'У неї є кіт.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'gender-nouns', title: 'Рід іменників — A1', emoji: '⚥',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Усі іменники в італійській мають рід — чоловічий або жіночий. Артикль узгоджується з родом і числом іменника.',
+            en: { text: 'All Italian nouns have a gender — masculine or feminine. The article agrees with the noun in gender and number.' },
+          },
+          {
+            type: 'table', title: 'Типові закінчення та артиклі',
+            rows: [
+              ['-o → чоловічий', 'il libro (книга)', 'i libri (книги)'],
+              ['-a → жіночий', 'la casa (дім)', 'le case (дома)'],
+              ['голосна на початку слова', "l'amico (друг)", "l'amica (подруга)"],
+              ['-e → чол. або жін.', 'il padre / la madre', 'i padri / le madri'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Il libro è interessante.', 'Книга цікава.'],
+              ['La casa è grande.', 'Дім великий.'],
+              ['I bambini giocano.', 'Діти грають.'],
+              ['Ho una mela.', 'У мене є яблуко.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+];
+
+// ── Portuguese grammar ───────────────────────────────────────
+export const GRAMMAR_PT: GrammarCategory[] = [
+
+  {
+    id: 'basics', title: 'Основи', titleEn: 'Basics', emoji: '🧩',
+    rules: [
+
+      {
+        id: 'ser-estar', title: 'Ser vs Estar — A1', emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У португальській є два дієслова "бути" — ser та estar. Ser використовують для постійних характеристик, estar — для тимчасових станів і місцезнаходження.',
+            en: { text: 'Portuguese has two verbs for "to be" — ser and estar. Ser is for permanent characteristics, estar is for temporary states and location.' },
+          },
+          {
+            type: 'formula', title: 'Дієвідмінювання (теперішній час)',
+            rows: [
+              ['eu', 'sou', 'estou'],
+              ['tu', 'és', 'estás'],
+              ['ele / ela', 'é', 'está'],
+              ['nós', 'somos', 'estamos'],
+              ['vós', 'sois', 'estais'],
+              ['eles / elas', 'são', 'estão'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Sou professor.', 'Я (є) вчитель. (постійна риса)'],
+              ['Estou cansado.', 'Я втомлений. (тимчасовий стан)'],
+              ['Lisboa está em Portugal.', 'Лісабон у Португалії. (місце)'],
+              ['Ela é alta.', 'Вона висока. (характеристика)'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'gender-nouns', title: 'Рід іменників — A1', emoji: '⚥',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Усі іменники в португальській мають рід — чоловічий або жіночий. Артикль узгоджується з родом і числом іменника.',
+            en: { text: 'All Portuguese nouns have a gender — masculine or feminine. The article agrees with the noun in gender and number.' },
+          },
+          {
+            type: 'table', title: 'Типові закінчення та артиклі',
+            rows: [
+              ['-o → чоловічий', 'o livro (книга)', 'os livros (книги)'],
+              ['-a → жіночий', 'a casa (дім)', 'as casas (дома)'],
+              ['неозначений артикль', 'um / uns', 'uma / umas'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['O livro é interessante.', 'Книга цікава.'],
+              ['A casa é grande.', 'Дім великий.'],
+              ['Os livros são novos.', 'Книги нові.'],
+              ['Tenho uma maçã.', 'У мене є яблуко.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+];
+
+// ── German grammar ───────────────────────────────────────────
+export const GRAMMAR_DE: GrammarCategory[] = [
+
+  {
+    id: 'basics', title: 'Основи', titleEn: 'Basics', emoji: '🧩',
+    rules: [
+
+      {
+        id: 'sein-haben', title: 'Sein vs Haben — A1', emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Sein (бути) та haben (мати) — два найважливіші дієслова в німецькій. Вони використовуються самостійно і як допоміжні дієслова для утворення інших часів.',
+            en: { text: 'Sein (to be) and haben (to have) are the two most important German verbs. They are used on their own and as auxiliary verbs for other tenses.' },
+          },
+          {
+            type: 'formula', title: 'Дієвідмінювання (теперішній час)',
+            rows: [
+              ['ich', 'bin', 'habe'],
+              ['du', 'bist', 'hast'],
+              ['er / sie / es', 'ist', 'hat'],
+              ['wir', 'sind', 'haben'],
+              ['ihr', 'seid', 'habt'],
+              ['sie / Sie', 'sind', 'haben'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ich bin Lehrer.', 'Я вчитель.'],
+              ['Er hat ein Auto.', 'У нього є машина.'],
+              ['Wir sind in Berlin.', 'Ми в Берліні.'],
+              ['Sie ist groß.', 'Вона висока.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'articles', title: 'Артиклі der / die / das — A1', emoji: '🔖',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У німецькій кожен іменник має рід — чоловічий (der), жіночий (die) або середній (das). Рід потрібно запам\'ятовувати разом зі словом.',
+            en: { text: 'Every German noun has a gender — masculine (der), feminine (die) or neuter (das). The gender must be memorised together with the word.' },
+          },
+          {
+            type: 'table', title: 'Означений і неозначений артиклі (Nominativ)',
+            rows: [
+              ['чоловічий', 'der Tisch', 'ein Tisch'],
+              ['жіночий', 'die Frau', 'eine Frau'],
+              ['середній', 'das Kind', 'ein Kind'],
+              ['множина', 'die Bücher', '— (без артикля)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Der Tisch ist groß.', 'Стіл великий.'],
+              ['Die Frau ist nett.', 'Жінка приємна.'],
+              ['Das Kind spielt.', 'Дитина грає.'],
+              ['Ich habe ein Buch.', 'У мене є книга.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+];
+
 // ── Grammar content per language being learned ─────────────────
-// English and Spanish grammar exist today; other languages fall back to an
-// "not available yet" message in the grammar page until their content
-// is added here (e.g. GRAMMAR_FR, GRAMMAR_IT, ...).
 export const GRAMMAR_BY_LANG: Partial<Record<Lang, GrammarCategory[]>> = {
   en: GRAMMAR,
   es: GRAMMAR_ES,
+  fr: GRAMMAR_FR,
+  it: GRAMMAR_IT,
+  pt: GRAMMAR_PT,
+  de: GRAMMAR_DE,
 };

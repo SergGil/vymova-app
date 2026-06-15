@@ -72,9 +72,16 @@ describe('grammar-page.tsx GrammarPage', () => {
   });
 
   it('shows a "not available" placeholder when learning a language without grammar data', () => {
-    localStorage.setItem('ew_learn_lang', 'fr');
+    localStorage.setItem('ew_learn_lang', 'ua');
     const { container } = mount();
     expect(container.querySelectorAll('.gr-nav-btn').length).toBe(0);
     expect(container.querySelector('.gr-empty')).not.toBeNull();
+  });
+
+  it('shows French grammar when learning French', () => {
+    localStorage.setItem('ew_learn_lang', 'fr');
+    const { container } = mount();
+    expect(container.querySelectorAll('.gr-nav-btn').length).toBeGreaterThan(0);
+    expect(container.querySelector('.gr-empty')).toBeNull();
   });
 });
