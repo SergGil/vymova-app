@@ -1,16 +1,21 @@
 // English Words App — js/features/grammar-page.tsx
 // Grammar reference page: renders structured rules from data/grammar.ts
-import { useEffect, useState, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement, type MouseEvent } from 'react';
 import { GRAMMAR_BY_LANG } from '../../data/grammar.ts';
 import type { GrammarRule, GSection } from '../../data/grammar.ts';
 import { getLang, t } from './i18n.ts';
-import { getLearnLang } from './lang-pair-select.tsx';
+import { getLearnLang, type LangCode } from './lang-pair-select.tsx';
+import { _speakWithLang } from './speech.ts';
 import { useStateVersion } from '../../src/store.ts';
 
 function _localizeSection(s: GSection): GSection {
   if (getLang() === 'en' && s.en) return { ...s, ...s.en };
   return s;
 }
+
+const SPEECH_LANG: Record<LangCode, string> = {
+  en: 'en-US', ua: 'uk-UA', es: 'es-ES', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT', de: 'de-DE',
+};
 
 // ── Level sort ────────────────────────────────────────────────
 function _levelOrder(title: string): number {
@@ -57,7 +62,7 @@ function _renderSection(s: GSection): string {
     case 'examples': {
       const title = s.title ? `<div class="gr-section-title">💬 ${s.title}</div>` : '';
       const rows  = (s.rows ?? []).map(r =>
-        `<tr><td class="gr-ex-en">${r[0]}</td><td class="gr-ex-ua">${r[1]}</td></tr>`
+        `<tr><td class="gr-ex-en"><span class="gr-ex-text">${r[0]}</span><button class="speak-btn gr-ex-speak" title="🔊">🔊</button></td><td class="gr-ex-ua">${r[1]}</td></tr>`
       ).join('');
       return `${title}<div class="gr-table-wrap"><table class="gr-ex-table"><tbody>${rows}</tbody></table></div>`;
     }
@@ -90,6 +95,14 @@ function _renderRuleHtml(rule: GrammarRule): string {
     <div class="gr-rule-title">${rule.emoji} ${getLang() === 'en' && rule.titleEn ? rule.titleEn : rule.title}</div>
     ${rule.sections.map(s => _renderSection(_localizeSection(s))).join('')}
   `;
+}
+
+// ── Speak button (event delegation over the dangerouslySetInnerHTML content) ──
+function _onContentClick(e: MouseEvent<HTMLDivElement>): void {
+  const btn = (e.target as HTMLElement).closest('.gr-ex-speak') as HTMLElement | null;
+  if (!btn) return;
+  const text = btn.previousElementSibling?.textContent ?? '';
+  _speakWithLang(text, SPEECH_LANG[getLearnLang()] ?? 'en-US', btn);
 }
 
 // ── External hooks (sidebar openPage, learning-path jump, i18n refresh) ──
@@ -170,7 +183,7 @@ export function GrammarPage(): ReactElement {
           );
         })}
       </div>
-      <div id="grammar-content" className="grammar-content">
+      <div id="grammar-content" className="grammar-content" onClick={_onContentClick}>
         {activeRule
           ? <div dangerouslySetInnerHTML={{ __html: _renderRuleHtml(activeRule) }} />
           : <div className="gr-empty">{t('grammar.selectTopic')}</div>}

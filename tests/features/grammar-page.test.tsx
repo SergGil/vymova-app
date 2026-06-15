@@ -9,6 +9,9 @@ import { GrammarPage, jumpToGrammarRule, openGrammarContent } from '../../js/fea
 const { openPage } = vi.hoisted(() => ({ openPage: vi.fn() }));
 vi.mock('../../js/features/sidebar.tsx', () => ({ openPage }));
 
+const { speakWithLang } = vi.hoisted(() => ({ speakWithLang: vi.fn() }));
+vi.mock('../../js/features/speech.ts', () => ({ _speakWithLang: speakWithLang }));
+
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
@@ -21,6 +24,7 @@ describe('grammar-page.tsx GrammarPage', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
     openPage.mockClear();
+    speakWithLang.mockClear();
     localStorage.removeItem('ew_learn_lang');
   });
 
@@ -83,5 +87,13 @@ describe('grammar-page.tsx GrammarPage', () => {
     const { container } = mount();
     expect(container.querySelectorAll('.gr-nav-btn').length).toBeGreaterThan(0);
     expect(container.querySelector('.gr-empty')).toBeNull();
+  });
+
+  it('speaks the example sentence when the speak button is clicked', () => {
+    const { container } = mount();
+    const btn = container.querySelector('.gr-ex-speak') as HTMLButtonElement;
+    const text = (container.querySelector('.gr-ex-text') as HTMLElement).textContent;
+    act(() => { btn.click(); });
+    expect(speakWithLang).toHaveBeenCalledWith(text, 'en-US', btn);
   });
 });

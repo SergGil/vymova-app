@@ -3343,6 +3343,7 @@ body.sw .time-select:hover, body.sw .time-select:focus { background: rgba(0,200,
 /* Example table */
 .gr-ex-en { font-weight: 600; color: var(--text); }
 .gr-ex-ua { color: var(--text2); }
+.gr-ex-en .gr-ex-speak { margin-left: 4px; font-size: 14px; vertical-align: middle; }
 
 /* Time markers */
 .gr-chips    { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
