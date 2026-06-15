@@ -792,6 +792,7 @@
   "idioms.tabEs": "Spanische Redewendungen",
   "idioms.searchPlaceholder": "🔍 Redewendung suchen...",
   "idioms.empty": "Nichts gefunden 🤷",
+  "idioms.notAvailable": "Redewendungen für dieses Sprachpaar wurden noch nicht hinzugefügt",
   "custom.title": "➕ Eigene Wörter",
   "custom.desc": "Füge jedes Wort hinzu, das du lernen möchtest",
   "custom.enPlaceholder": "Englisches Wort *",

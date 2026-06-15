@@ -792,6 +792,7 @@
   "idioms.tabEs": "Modismos en español",
   "idioms.searchPlaceholder": "🔍 Buscar un modismo...",
   "idioms.empty": "No se encontró nada 🤷",
+  "idioms.notAvailable": "Los modismos para este par de idiomas aún no están disponibles",
   "custom.title": "➕ Palabras propias",
   "custom.desc": "Añade cualquier palabra que quieras aprender",
   "custom.enPlaceholder": "Palabra en inglés *",

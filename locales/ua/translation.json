@@ -798,6 +798,7 @@
   "idioms.tabEs": "Іспанські ідіоми",
   "idioms.searchPlaceholder": "🔍 Пошук ідіоми...",
   "idioms.empty": "Нічого не знайдено 🤷",
+  "idioms.notAvailable": "Ідіоми для цієї пари мов ще не додані",
   "custom.title": "➕ Власні слова",
   "custom.desc": "Додайте будь-яке слово яке хочете вивчити",
   "custom.enPlaceholder": "English word *",

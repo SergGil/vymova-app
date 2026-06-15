@@ -792,6 +792,7 @@
   "idioms.tabEs": "Spanish idioms",
   "idioms.searchPlaceholder": "🔍 Search an idiom...",
   "idioms.empty": "Nothing found 🤷",
+  "idioms.notAvailable": "Idioms for this language pair are not available yet",
   "custom.title": "➕ Custom words",
   "custom.desc": "Add any word you want to learn",
   "custom.enPlaceholder": "English word *",

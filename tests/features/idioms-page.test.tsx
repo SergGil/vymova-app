@@ -20,6 +20,7 @@ function mount(): { container: HTMLElement; root: Root } {
 describe('idioms-page.tsx IdiomsPageRoot', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
+    localStorage.clear();
     speakWithLang.mockClear();
   });
 
@@ -38,12 +39,29 @@ describe('idioms-page.tsx IdiomsPageRoot', () => {
   });
 
   it('switches to the Spanish idioms tab and shows the English meaning', () => {
+    localStorage.setItem('ew_learn_lang', 'ua');
+    localStorage.setItem('ew_know_lang', 'es');
     const { container } = mount();
     const tabs = container.querySelectorAll('.idioms-tab');
-    act(() => { (tabs[2] as HTMLButtonElement).click(); });
+    act(() => { (tabs[1] as HTMLButtonElement).click(); });
     expect(container.querySelector('.idioms-tab-active')!.textContent).toContain('Іспанські');
     expect(container.querySelectorAll('.idiom-card').length).toBe(SPANISH_IDIOMS.length);
     expect(container.querySelector('.idiom-meaning-en')).not.toBeNull();
+  });
+
+  it('only shows tabs relevant to the current know/learn language pair', () => {
+    localStorage.setItem('ew_learn_lang', 'en');
+    localStorage.setItem('ew_know_lang', 'ua');
+    const { container } = mount();
+    expect(container.querySelectorAll('.idioms-tab').length).toBe(2);
+  });
+
+  it('shows a "not available" placeholder when neither language has idiom data', () => {
+    localStorage.setItem('ew_learn_lang', 'fr');
+    localStorage.setItem('ew_know_lang', 'it');
+    const { container } = mount();
+    expect(container.querySelectorAll('.idioms-tab').length).toBe(0);
+    expect(container.querySelector('.idioms-empty')).not.toBeNull();
   });
 
   it('filters idioms by search query', () => {

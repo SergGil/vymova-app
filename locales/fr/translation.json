@@ -792,6 +792,7 @@
   "idioms.tabEs": "Idiomes espagnols",
   "idioms.searchPlaceholder": "🔍 Rechercher un idiome...",
   "idioms.empty": "Rien trouvé 🤷",
+  "idioms.notAvailable": "Les idiomes pour cette paire de langues n'ont pas encore été ajoutés",
   "custom.title": "➕ Mots personnalisés",
   "custom.desc": "Ajoute n'importe quel mot que tu veux apprendre",
   "custom.enPlaceholder": "Mot anglais *",

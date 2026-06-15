@@ -93,6 +93,12 @@ export function getLearnLang(): LangCode {
   return isLangCode(stored) ? stored : 'en';
 }
 
+/** The language the user already knows (e.g. for language-specific content like idioms). */
+export function getKnowLang(): LangCode {
+  const stored = localStorage.getItem(KNOW_KEY);
+  return isLangCode(stored) ? stored : 'ua';
+}
+
 function isDirection(v: string | null): v is Direction {
   return v === 'fwd' || v === 'rev' || v === 'mix';
 }

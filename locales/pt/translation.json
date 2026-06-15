@@ -792,6 +792,7 @@
   "idioms.tabEs": "Expressões em espanhol",
   "idioms.searchPlaceholder": "🔍 Pesquisar uma expressão...",
   "idioms.empty": "Nada encontrado 🤷",
+  "idioms.notAvailable": "Expressões idiomáticas para este par de idiomas ainda não foram adicionadas",
   "custom.title": "➕ Palavras personalizadas",
   "custom.desc": "Adicione qualquer palavra que você queira aprender",
   "custom.enPlaceholder": "Palavra em inglês *",

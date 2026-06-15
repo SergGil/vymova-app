@@ -1,9 +1,10 @@
 // English Words App — js/features/idioms-page.tsx
 // Idioms reference page: EN/UA/ES tabs, search, speak buttons
 import { useEffect, useState, type ReactElement, type MouseEventHandler } from 'react';
-import { ENGLISH_IDIOMS, UKRAINIAN_IDIOMS, SPANISH_IDIOMS, type Idiom } from '../../data/idioms.ts';
+import { IDIOMS_BY_LANG, type Idiom } from '../../data/idioms.ts';
 import { t } from './i18n.ts';
 import { _speakWithLang } from './speech.ts';
+import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
 
 type Tab = 'en' | 'ua' | 'es';
 
@@ -12,6 +13,17 @@ function _speak(text: string, lang: string, btn: HTMLElement | null): void {
 }
 
 const LANG_BY_TAB: Record<Tab, string> = { en: 'en-US', ua: 'uk-UA', es: 'es-ES' };
+const TAB_I18N_KEY: Record<Tab, string> = { en: 'idioms.tabEn', ua: 'idioms.tabUa', es: 'idioms.tabEs' };
+
+/** Tabs relevant to the current language pair (know/learn) that have idiom data. */
+function _relevantTabs(): Tab[] {
+  const langs = [getLearnLang(), getKnowLang()];
+  const tabs: Tab[] = [];
+  for (const l of langs) {
+    if ((l === 'en' || l === 'ua' || l === 'es') && IDIOMS_BY_LANG[l] && !tabs.includes(l)) tabs.push(l);
+  }
+  return tabs;
+}
 
 function IdiomCard({ idiom, num, tab }: { idiom: Idiom; num: number; tab: Tab }): ReactElement {
   const lang = LANG_BY_TAB[tab];
@@ -48,10 +60,21 @@ function IdiomCard({ idiom, num, tab }: { idiom: Idiom; num: number; tab: Tab })
 }
 
 function IdiomsPage(): ReactElement {
-  const [tab, setTab] = useState<Tab>('en');
+  const tabs = _relevantTabs();
+  const [tab, setTab] = useState<Tab | undefined>(tabs[0]);
   const [query, setQuery] = useState('');
 
-  const source = tab === 'en' ? ENGLISH_IDIOMS : tab === 'ua' ? UKRAINIAN_IDIOMS : SPANISH_IDIOMS;
+  const activeTab = tabs.includes(tab as Tab) ? (tab as Tab) : tabs[0];
+
+  if (!activeTab) {
+    return (
+      <div id="idioms-list" className="idioms-list">
+        <div className="idioms-empty">{t('idioms.notAvailable')}</div>
+      </div>
+    );
+  }
+
+  const source = IDIOMS_BY_LANG[activeTab] ?? [];
   const q = query.trim().toLowerCase();
   const filtered = q
     ? source.filter(i =>
@@ -63,9 +86,9 @@ function IdiomsPage(): ReactElement {
   return (
     <>
       <div className="idioms-tabs">
-        <button className={'idioms-tab' + (tab === 'en' ? ' idioms-tab-active' : '')} onClick={() => setTab('en')} data-i18n="idioms.tabEn">{t('idioms.tabEn')}</button>
-        <button className={'idioms-tab' + (tab === 'ua' ? ' idioms-tab-active' : '')} onClick={() => setTab('ua')} data-i18n="idioms.tabUa">{t('idioms.tabUa')}</button>
-        <button className={'idioms-tab' + (tab === 'es' ? ' idioms-tab-active' : '')} onClick={() => setTab('es')} data-i18n="idioms.tabEs">{t('idioms.tabEs')}</button>
+        {tabs.map(tb => (
+          <button key={tb} className={'idioms-tab' + (tb === activeTab ? ' idioms-tab-active' : '')} onClick={() => setTab(tb)} data-i18n={TAB_I18N_KEY[tb]}>{t(TAB_I18N_KEY[tb])}</button>
+        ))}
       </div>
       <div className="idioms-search-wrap">
         <input
@@ -80,7 +103,7 @@ function IdiomsPage(): ReactElement {
       <div id="idioms-list" className="idioms-list">
         {filtered.length === 0
           ? <div className="idioms-empty">{t('idioms.empty')}</div>
-          : filtered.map((idiom, i) => <IdiomCard key={idiom.phrase} idiom={idiom} num={i + 1} tab={tab} />)}
+          : filtered.map((idiom, i) => <IdiomCard key={idiom.phrase} idiom={idiom} num={i + 1} tab={activeTab} />)}
       </div>
     </>
   );

@@ -2,6 +2,7 @@
 // Idioms reference data: English idioms (with Ukrainian meaning),
 // Ukrainian idioms (with their closest English equivalent),
 // and Spanish idioms (with Ukrainian + English meanings).
+import type { Lang } from '../js/features/i18n.ts';
 
 export interface Idiom {
   phrase:      string;   // the idiom itself
@@ -557,3 +558,13 @@ export const SPANISH_IDIOMS: Idiom[] = [
     exampleSrc: 'El proyecto avanza a paso de tortuga — llevamos meses y no terminamos.',
     exampleTr:  'Проєкт просувається як черепаха — ми вже місяцями не можемо закінчити.' },
 ];
+
+// ── Idioms per language ─────────────────────────────────────────
+// Only en/ua/es have idiom collections today. Other languages
+// (fr/it/pt/de) fall back to a "not available yet" message on the
+// idioms page until their content is added here.
+export const IDIOMS_BY_LANG: Partial<Record<Lang, Idiom[]>> = {
+  en: ENGLISH_IDIOMS,
+  ua: UKRAINIAN_IDIOMS,
+  es: SPANISH_IDIOMS,
+};
