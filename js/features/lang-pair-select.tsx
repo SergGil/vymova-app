@@ -83,6 +83,15 @@ const KNOW_KEY = 'ew_know_lang';
 const LEARN_KEY = 'ew_learn_lang';
 const DIR_KEY = 'ew_direction';
 
+// Accusative form of the language name (e.g. "Українську" instead of
+// "Українська"), used after "Я знаю" / "Хочу вчити". Falls back to the
+// nominative form for languages without a dedicated translation.
+function langAcc(l: LangCode): string {
+  const key = `lang.acc.${l}`;
+  const val = t(key);
+  return val === key ? t(`lang.${l}`) : val;
+}
+
 function isLangCode(v: string | null): v is LangCode {
   return v === 'ua' || v === 'en' || v === 'es' || v === 'fr' || v === 'it' || v === 'pt' || v === 'de';
 }
@@ -170,10 +179,10 @@ export function LangPairSelect(): ReactElement {
   return (
     <div style={{ display: 'flex', gap: '8px', marginRight: '4px' }}>
       <select aria-label={t('langpair.know')} value={knowLang} onChange={e => onKnowChange(e.target.value as LangCode)}>
-        {ALL_LANGS.map(l => <option key={l} value={l}>{t('langpair.know')}: {t(`lang.${l}`)}</option>)}
+        {ALL_LANGS.map(l => <option key={l} value={l}>{t('langpair.know')}: {langAcc(l)}</option>)}
       </select>
       <select aria-label={t('langpair.learn')} value={learnLang} onChange={e => onLearnChange(e.target.value as LangCode)}>
-        {LEARN_OPTIONS[knowLang].map(l => <option key={l} value={l}>{t('langpair.learn')}: {t(`lang.${l}`)}</option>)}
+        {LEARN_OPTIONS[knowLang].map(l => <option key={l} value={l}>{t('langpair.learn')}: {langAcc(l)}</option>)}
       </select>
       <select aria-label={t('langpair.direction')} value={direction} onChange={e => onDirectionChange(e.target.value as Direction)}>
         <option value="fwd">{fwdLabel}</option>
