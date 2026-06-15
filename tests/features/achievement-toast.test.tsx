@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { AchievementToast, showToast } from '../../js/features/achievement-toast.tsx';
@@ -8,11 +8,14 @@ import type { Achievement } from '../../src/types.js';
 
 const ach: Achievement = { id: 'first_word', icon: '🥇' } as Achievement;
 
+let activeRoot: Root | null = null;
+
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
   act(() => { root.render(<AchievementToast />); });
+  activeRoot = root;
   return { container, root };
 }
 
@@ -23,6 +26,10 @@ function rafTick(): Promise<void> {
 describe('achievement-toast.tsx', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
+  });
+
+  afterEach(() => {
+    if (activeRoot) { act(() => { activeRoot!.unmount(); }); activeRoot = null; }
   });
 
   it('renders a hidden empty toast initially', () => {
@@ -72,6 +79,7 @@ describe('achievement-toast.tsx', () => {
   it('does not throw when showToast is called after unmount', () => {
     const { root } = mount();
     act(() => { root.unmount(); });
+    activeRoot = null;
     expect(() => showToast(ach)).not.toThrow();
   });
 });
