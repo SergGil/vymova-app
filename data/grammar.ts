@@ -4918,12 +4918,12 @@ export const GRAMMAR_ES: GrammarCategory[] = [
             ],
           },
           {
-            type: 'examples', title: 'Приклади',
-            items: [
-              'Soy profesor. — Я (є) вчитель. (постійна риса)',
-              'Estoy cansado. — Я втомлений. (тимчасовий стан)',
-              'Madrid está en España. — Мадрид у Іспанії. (місце)',
-              'Ella es alta. — Вона висока. (характеристика)',
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Soy profesor.', 'Я (є) вчитель. (постійна риса)'],
+              ['Estoy cansado.', 'Я втомлений. (тимчасовий стан)'],
+              ['Madrid está en España.', 'Мадрид у Іспанії. (місце)'],
+              ['Ella es alta.', 'Вона висока. (характеристика)'],
             ],
           },
         ],
@@ -4951,6 +4951,323 @@ export const GRAMMAR_ES: GrammarCategory[] = [
             text: 'Артиклі: el / la (однина), los / las (множина). Перед іменниками жіночого роду, що починаються на наголошене "a"/"ha", вживають el: el agua.',
             en: { text: 'Articles: el / la (singular), los / las (plural). Before feminine nouns starting with stressed "a"/"ha", use el: el agua.' },
           },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['El libro es interesante.', 'Книга цікава.'],
+              ['La chica habla español.', 'Дівчина говорить іспанською.'],
+              ['Los problemas son grandes.', 'Проблеми великі.'],
+              ['El agua está fría.', 'Вода холодна.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'articles', title: 'Артиклі — A1', emoji: '🔖',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Означений артикль (el, la, los, las) вживають для конкретних, відомих предметів. Неозначений (un, una, unos, unas) — для нових, невизначених.',
+            en: { text: 'The definite article (el, la, los, las) is used for specific, known things. The indefinite article (un, una, unos, unas) is used for new, unspecified things.' },
+          },
+          {
+            type: 'table', title: 'Форми артиклів',
+            rows: [
+              ['', 'однина', 'множина'],
+              ['чоловічий', 'el / un', 'los / unos'],
+              ['жіночий', 'la / una', 'las / unas'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Tengo un coche.', 'У мене є машина. (якась)'],
+              ['El coche es rojo.', 'Машина червона. (та сама, відома)'],
+              ['Hay unas manzanas en la mesa.', 'На столі є кілька яблук.'],
+              ['Las manzanas son verdes.', 'Ці яблука зелені.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'plural-nouns', title: 'Множина іменників — A1', emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Множина іменників та прикметників утворюється за простими правилами залежно від закінчення слова.',
+            en: { text: 'The plural of nouns and adjectives is formed with simple rules depending on the word ending.' },
+          },
+          {
+            type: 'table', title: 'Правила утворення множини',
+            rows: [
+              ['голосна → +s', 'libro → libros', 'casa → casas'],
+              ['згодна/-í/-ú → +es', 'profesor → profesores', 'país → países'],
+              ['-z → -ces', 'lápiz → lápices', 'voz → voces'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Tengo dos libros nuevos.', 'У мене дві нові книги.'],
+              ['Los profesores son simpáticos.', 'Викладачі приємні.'],
+              ['Compré tres lápices.', 'Я купив три карандаші.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'adjectives', title: 'Прикметники — A1', emoji: '🎨',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Прикметники узгоджуються з іменником у роді та числі і зазвичай стоять після іменника.',
+            en: { text: 'Adjectives agree with the noun in gender and number and usually come after the noun.' },
+          },
+          {
+            type: 'table', title: 'Узгодження',
+            rows: [
+              ['чол. одн.', 'un coche rojo', 'червона машина (ч.р.)'],
+              ['жін. одн.', 'una casa roja', 'червоний будинок (ж.р.)'],
+              ['чол. мн.', 'unos coches rojos', 'червоні машини (мн.)'],
+              ['жін. мн.', 'unas casas rojas', 'червоні будинки (мн.)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Tengo un perro pequeño.', 'У мене маленький пес.'],
+              ['Mis amigas son inteligentes.', 'Мої подруги розумні.'],
+              ['Es una ciudad muy bonita.', 'Це дуже гарне місто.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'possessives', title: 'Присвійні прикметники — A1', emoji: '👪',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Присвійні прикметники вказують на належність і узгоджуються з іменником у числі (а nuestro/vuestro — і в роді).',
+            en: { text: 'Possessive adjectives show ownership and agree with the noun in number (and nuestro/vuestro also in gender).' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['mi / mis', 'мій, моя, моє, мої'],
+              ['tu / tus', 'твій, твоя, твоє, твої'],
+              ['su / sus', 'його, її, їхній'],
+              ['nuestro/a(s)', 'наш, наша, наше, наші'],
+              ['vuestro/a(s)', 'ваш, ваша, ваше, ваші'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Mi hermano vive en Lima.', 'Мій брат живе в Лімі.'],
+              ['¿Dónde están tus llaves?', 'Де твої ключі?'],
+              ['Nuestra casa es pequeña.', 'Наш будинок маленький.'],
+              ['Sus padres son muy amables.', 'Його/її батьки дуже приємні.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'demonstratives', title: 'Вказівні займенники — A1', emoji: '👉',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Вказівні займенники показують, наскільки далеко предмет від мовця: este (тут), ese (там, недалеко), aquel (там, далеко).',
+            en: { text: 'Demonstratives show how far an object is from the speaker: este (here), ese (there, nearby), aquel (over there, far away).' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['тут', 'este / esta', 'estos / estas'],
+              ['там (поруч)', 'ese / esa', 'esos / esas'],
+              ['там (далеко)', 'aquel / aquella', 'aquellos / aquellas'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Este libro es mío.', 'Ця книга моя.'],
+              ['Esa chica es mi hermana.', 'Та дівчина — моя сестра.'],
+              ['Aquellas montañas son muy altas.', 'Ті (далекі) гори дуже високі.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'question-words', title: 'Питальні слова — A1', emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питальні слова завжди пишуться з наголосом (тильда) і обрамлюються знаками ¿ ... ?',
+            en: { text: 'Question words always carry a written accent and the sentence is framed with ¿ ... ?' },
+          },
+          {
+            type: 'table', title: 'Основні питальні слова',
+            rows: [
+              ['¿Qué?', 'Що?'],
+              ['¿Quién?', 'Хто?'],
+              ['¿Dónde?', 'Де?'],
+              ['¿Cuándo?', 'Коли?'],
+              ['¿Por qué?', 'Чому?'],
+              ['¿Cómo?', 'Як?'],
+              ['¿Cuánto/a?', 'Скільки?'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['¿Qué hora es?', 'Котра година?'],
+              ['¿Dónde vives?', 'Де ти живеш?'],
+              ['¿Por qué estudias español?', 'Чому ти вивчаєш іспанську?'],
+              ['¿Cuánto cuesta esto?', 'Скільки це коштує?'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'negation', title: 'Заперечення — A1', emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечення утворюється словом "no" перед дієсловом. Інші заперечні слова (nada, nadie, nunca, tampoco) можна поєднувати з "no".',
+            en: { text: 'Negation is formed with "no" before the verb. Other negative words (nada, nadie, nunca, tampoco) can combine with "no".' },
+          },
+          {
+            type: 'formula', title: 'Структура',
+            rows: [
+              ['❌ (−)', 'no + verbo', '→ No hablo francés.'],
+              ['❌ (−−)', 'no + verbo + nada/nadie/nunca', '→ No tengo nada.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['No hablo francés.', 'Я не говорю французькою.'],
+              ['No hay nadie en casa.', 'Удома нікого немає.'],
+              ['Nunca como carne.', 'Я ніколи не їм м\'ясо.'],
+              ['Yo tampoco quiero ir.', 'Я також не хочу йти.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'reflexive-verbs', title: 'Зворотні дієслова — A2', emoji: '🔁',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Зворотні дієслова (закінчуються на -se в інфінітиві) описують дії, які людина виконує над собою. Зворотний займенник узгоджується з підметом і зазвичай стоїть перед дієсловом.',
+            en: { text: 'Reflexive verbs (ending in -se in the infinitive) describe actions the subject does to themselves. The reflexive pronoun agrees with the subject and usually comes before the verb.' },
+          },
+          {
+            type: 'formula', title: 'levantarse (вставати)',
+            rows: [
+              ['yo', 'me levanto', '→ Me levanto a las siete.'],
+              ['tú', 'te levantas', '→ ¿A qué hora te levantas?'],
+              ['él/ella/usted', 'se levanta', '→ Ella se levanta tarde.'],
+              ['nosotros/as', 'nos levantamos', '→ Nos levantamos pronto.'],
+              ['vosotros/as', 'os levantáis', '→ Os levantáis tarde.'],
+              ['ellos/ellas/ustedes', 'se levantan', '→ Se levantan a las ocho.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Me ducho por la mañana.', 'Я приймаю душ зранку.'],
+              ['¿Cómo te llamas?', 'Як тебе звати?'],
+              ['Nos acostamos a las once.', 'Ми лягаємо спати об одинадцятій.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+  // ══════════════════════════════════════
+  //   ЧАСИ ДІЄСЛІВ
+  // ══════════════════════════════════════
+  {
+    id: 'tenses', title: 'Часи дієслів', titleEn: 'Verb Tenses', emoji: '🕐',
+    rules: [
+
+      {
+        id: 'preterite', title: 'Pretérito Indefinido — A2', emoji: '📅',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Простий минулий час використовують для завершених дій у конкретний момент у минулому.',
+            en: { text: 'The simple past tense is used for completed actions at a specific point in the past.' },
+          },
+          {
+            type: 'formula', title: 'hablar (-ar), comer (-er), vivir (-ir)',
+            rows: [
+              ['yo', 'hablé', 'comí', 'viví'],
+              ['tú', 'hablaste', 'comiste', 'viviste'],
+              ['él/ella/usted', 'habló', 'comió', 'vivió'],
+              ['nosotros/as', 'hablamos', 'comimos', 'vivimos'],
+              ['vosotros/as', 'hablasteis', 'comisteis', 'vivisteis'],
+              ['ellos/ellas/ustedes', 'hablaron', 'comieron', 'vivieron'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ayer hablé con mi madre.', 'Вчора я говорив з мамою.'],
+              ['Comimos en un restaurante.', 'Ми їли в ресторані.'],
+              ['Ella vivió en Madrid dos años.', 'Вона жила в Мадриді два роки.'],
+            ],
+          },
+          {
+            type: 'markers', title: 'Маркери часу',
+            items: ['ayer', 'anteayer', 'la semana pasada', 'el año pasado', 'hace dos días'],
+          },
+        ],
+      },
+
+      {
+        id: 'future-simple', title: 'Futuro Simple — A2', emoji: '🔮',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Простий майбутній час утворюють додаванням закінчень до повного інфінітива (однаково для -ar, -er, -ir дієслів).',
+            en: { text: 'The simple future is formed by adding endings to the full infinitive (the same for -ar, -er and -ir verbs).' },
+          },
+          {
+            type: 'formula', title: 'hablar / comer / vivir + закінчення',
+            rows: [
+              ['yo', 'hablar-é', '→ Hablaré con ella mañana.'],
+              ['tú', 'hablar-ás', '→ ¿Hablarás con él?'],
+              ['él/ella/usted', 'hablar-á', '→ Vivirá en Roma.'],
+              ['nosotros/as', 'hablar-emos', '→ Comeremos juntos.'],
+              ['vosotros/as', 'hablar-éis', '→ Viviréis aquí.'],
+              ['ellos/ellas/ustedes', 'hablar-án', '→ Comerán a las dos.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Mañana iré al médico.', 'Завтра я піду до лікаря.'],
+              ['El año que viene viviremos en España.', 'Наступного року ми житимемо в Іспанії.'],
+              ['¿Qué harás este fin de semana?', 'Що ти робитимеш цими вихідними?'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'Деякі дієслова мають неправильну основу майбутнього часу: tener → tendr-, hacer → har-, decir → dir-, poder → podr-, venir → vendr-.',
+            en: { text: 'Some verbs have an irregular future stem: tener → tendr-, hacer → har-, decir → dir-, poder → podr-, venir → vendr-.' },
+          },
         ],
       },
 
@@ -4974,11 +5291,12 @@ export const GRAMMAR_ES: GrammarCategory[] = [
             ],
           },
           {
-            type: 'examples', title: 'Приклади',
-            items: [
-              'Hablo español. — Я говорю іспанською.',
-              'Comemos a las dos. — Ми їмо о другій.',
-              '¿Vives en Madrid? — Ти живеш у Мадриді?',
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Hablo español.', 'Я говорю іспанською.'],
+              ['Comemos a las dos.', 'Ми їмо о другій.'],
+              ['¿Vives en Madrid?', 'Ти живеш у Мадриді?'],
+              ['No trabajamos los domingos.', 'Ми не працюємо по неділях.'],
             ],
           },
         ],
