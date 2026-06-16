@@ -12,6 +12,7 @@ import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode } from './mod
 import { t } from './i18n.ts';
 import { _refreshRangeOptions } from './deck-filter.tsx';
 import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';
+import { shuffle } from '../core/srs.ts';
 import type { WordEntry } from '../../src/types.js';
 
 let _esWords: WordEntry[] | null = null;
@@ -116,7 +117,7 @@ export function _rebuildEsDeck(): void {
   const ats    = state._activeTagSet as Set<string> | null;
   let deck     = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
   if (!deck.length) deck = specialDeck.slice();
-  setDeck(deck);
+  setDeck(shuffle(deck));
   setIdx(0);
   render();
 }
@@ -140,7 +141,7 @@ export function DeckModeInit(): ReactElement | null {
         const ats = state._activeTagSet as Set<string> | null;
         let deck = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
         if (!deck.length) deck = specialDeck.slice();
-        setDeck(deck);
+        setDeck(shuffle(deck));
         setIdx(0);
         _refreshRangeOptions();
         render();
@@ -176,7 +177,7 @@ export function DeckModeInit(): ReactElement | null {
         const ats = state._activeTagSet as Set<string> | null;
         let deck = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
         if (!deck.length) deck = specialDeck.slice();
-        setDeck(deck);
+        setDeck(shuffle(deck));
         setIdx(0);
         _refreshRangeOptions();
       } else if (!isSpecial && _preSpecialDeck) {
