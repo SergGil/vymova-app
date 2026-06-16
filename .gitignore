@@ -11,3 +11,7 @@ tmp_*.json
 tmp_*.txt
 test-results/
 playwright-report/
+.agents/
+skills-lock.json
+.claude/
+scripts/
