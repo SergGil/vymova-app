@@ -6,10 +6,20 @@ import { renderDuel } from './duel.ts';
 import { openGrammarContent } from './grammar-page.tsx';
 import { openIdiomsContent } from './idioms-page.tsx';
 import { state } from '../../src/state.ts';
-import { notifyStateChange } from '../../src/store.ts';
+import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
 import { _renderVoices } from './voice.tsx';
 import { _updateUI as _refreshNotifUI } from './notifications.tsx';
 import { _refreshCloudSyncUI } from './cloud-sync.tsx';
+
+// ── Modes page dynamic descriptions ───────────────────────────
+export function updateModesPageDesc(): void {
+  const el = document.getElementById('write-mode-desc');
+  if (!el) return;
+  const know = getKnowLang().toUpperCase();
+  const learn = getLearnLang().toUpperCase();
+  el.textContent = `${know} → ${learn}`;
+}
 
 // ── Image cache clear confirm ──────────────────────────────────
 let _imgClearCb: (() => void) | null = null;
@@ -61,6 +71,7 @@ export function openPage(page: string): void {
   } else if (page === 'modes') {
     const mo = document.getElementById('modes-overlay');
     mo?.classList.add('as-page', 'open');
+    updateModesPageDesc();
   } else if (page === 'settings') {
     document.getElementById('settings-overlay')?.classList.add('open');
     _renderVoices();
@@ -123,6 +134,11 @@ function _updateTogglePills(): void {
 }
 
 export function SidebarInit(): ReactElement | null {
+  const stateVer = useStateVersion();
+  useEffect(() => {
+    if (state.activePage === 'modes') updateModesPageDesc();
+  }, [stateVer]);
+
   useEffect(() => {
     const imgClearOvl = document.getElementById('img-clear-overlay');
     const imgClearCancel = document.getElementById('img-clear-cancel');
