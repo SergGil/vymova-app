@@ -7,6 +7,7 @@ import { W_PT } from '../../data/words_pt.js';
 import { W_DE } from '../../data/words_de.js';
 import { boldEn, boldUa, boldHead } from '../core/card-helpers.ts';
 import { state } from '../../src/state.ts';
+import { getLearnLang } from './lang-pair-select.tsx';
 import type { WordEntry } from '../../src/types.js';
 
 export const ES_MODES = new Set(['en-es', 'es-en', 'es-ua', 'ua-es', 'es-fr', 'fr-es']);
@@ -213,4 +214,17 @@ export function ptEntry(word: string): readonly [string, string] | null {
 
 export function deEntry(word: string): readonly [string, string] | null {
   return (W_DE as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+}
+
+/** Count of "known" words in the currently selected learn language. */
+export function getKnownInLang(): number {
+  const lang = getLearnLang();
+  switch (lang) {
+    case 'es': return state.knownEs.size;
+    case 'fr': return state.knownFr.size;
+    case 'it': return state.knownIt.size;
+    case 'pt': return state.knownPt.size;
+    case 'de': return state.knownDe.size;
+    default:   return state.known.size;
+  }
 }

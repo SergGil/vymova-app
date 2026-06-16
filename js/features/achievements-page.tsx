@@ -8,12 +8,13 @@ import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
 import { getGameData, getModeStats, loadUnlocked, LEVELS } from './game.ts';
 import { t, achName, achHint, achCatName, levelName, wordsLabel } from './i18n.ts';
+import { getKnownInLang } from './mode-utils.ts';
 import type { Achievement } from '../../src/types.js';
 
 function LevelsRoadmap(): ReactElement | null {
   const target = document.getElementById('levels-roadmap');
   if (!target) return null;
-  const n = state.known.size;
+  const n = getKnownInLang();
   const wu = wordsLabel(2);
 
   return createPortal(
@@ -48,7 +49,7 @@ function LevelsRoadmap(): ReactElement | null {
 
 function AchievementsGrid({ onSelect }: { onSelect: (a: Achievement) => void }): ReactElement {
   const unlocked = new Set(loadUnlocked());
-  const k = state.known.size;
+  const k = getKnownInLang();
   const g = getGameData();
   const m = getModeStats();
   const c = (state._customWords.length) as number;
@@ -108,7 +109,7 @@ function AchievementPopup({ ach, onClose }: { ach: Achievement | null; onClose: 
 
   const unlocked   = new Set(loadUnlocked());
   const isUnlocked = unlocked.has(ach.id);
-  const k = state.known.size;
+  const k = getKnownInLang();
   const g = getGameData();
   const m = getModeStats();
   const c = (state._customWords.length) as number;

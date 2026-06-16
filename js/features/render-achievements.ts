@@ -9,6 +9,7 @@ import {
   registerCheckAchievements,
 } from './game.ts';
 import { showToast } from './achievement-toast.tsx';
+import { getKnownInLang } from './mode-utils.ts';
 import type { Achievement } from '../../src/types.js';
 
 // ── checkAchievements ────────────────────────────────────────
@@ -16,7 +17,7 @@ export function checkAchievements(): void {
   const unlocked = loadUnlocked();
   if (unlocked.length >= ACHIEVEMENTS.length) return;
   const unlockedSet = new Set(unlocked);
-  const k = state.known.size;
+  const k = getKnownInLang();
   const g = getGameData();
   const m = getModeStats();
   const c = (state._customWords.length) as number;

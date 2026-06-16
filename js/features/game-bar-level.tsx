@@ -3,14 +3,14 @@
 // Re-rendered on demand via refreshGameBarLevel() (called throughout the
 // app after known-words count changes).
 import type { ReactElement } from 'react';
-import { state } from '../../src/state.ts';
 import { getLevel, getNextLevel, LEVELS } from './game.ts';
 import { t, levelName, wordsLabel } from './i18n.ts';
 import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { getKnownInLang } from './mode-utils.ts';
 
 export function GameBarLevel(): ReactElement {
   useStateVersion();
-  const n    = state.known.size;
+  const n    = getKnownInLang();
   const lv   = getLevel(n);
   const next = getNextLevel(n);
   const lvIdx = LEVELS.indexOf(lv) + 1;
