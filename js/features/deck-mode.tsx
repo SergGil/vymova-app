@@ -124,6 +124,29 @@ export function _rebuildEsDeck(): void {
 export function DeckModeInit(): ReactElement | null {
   useEffect(() => {
     const selMode = document.getElementById('sel-mode');
+
+    // On mount: if a special mode was already set (restored from localStorage
+    // before this listener registered), apply the filtered deck immediately.
+    const initMode = (selMode as HTMLSelectElement | null)?.value ?? '';
+    if (_isSpecialMode(initMode)) {
+      const selRangeEl = document.getElementById('sel-range') as HTMLSelectElement | null;
+      const specialDeck = _getSpecialDeck(initMode);
+      if (specialDeck.length) {
+        if (!_preSpecialDeck) {
+          _preSpecialDeck = state.deck;
+          _preSpecialIdx  = state.idx;
+          if (selRangeEl) selRangeEl.disabled = true;
+        }
+        const ats = state._activeTagSet as Set<string> | null;
+        let deck = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
+        if (!deck.length) deck = specialDeck.slice();
+        setDeck(deck);
+        setIdx(0);
+        _refreshRangeOptions();
+        render();
+      }
+    }
+
     const onChange = function(this: HTMLSelectElement) {
       stopAuto();
       const m          = this.value;
