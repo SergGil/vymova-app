@@ -8708,7 +8708,7 @@ export const W_ES = {
   "capitalize on": ["sacar partido de, aprovechar","Aprovecharon el error del competidor."],
   "capitalism": ["capitalismo","El capitalismo se basa en la propiedad privada y los mercados libres."],
   "capitalist": ["capitalista","El capitalista argumentó que los mercados libres benefician a todos."],
-  "catalogize": ["categorizar","Los datos se clasificaron por región y edad."],
+  "categorize": ["categorizar","Los datos se clasificaron por región y edad."],
   "causation": ["causalidad","La correlación no implica causalidad."],
   "categorical": ["categórico, tajante","Negó categóricamente las acusaciones."],
   "catastrophic": ["catastrófico","La inundación tuvo efectos catastróficos en la región."],
