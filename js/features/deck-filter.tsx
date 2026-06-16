@@ -3,6 +3,12 @@
 import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
+import { W_ES } from '../../data/words_es.js';
+import { W_FR } from '../../data/words_fr.js';
+import { W_IT } from '../../data/words_it.js';
+import { W_PT } from '../../data/words_pt.js';
+import { W_DE } from '../../data/words_de.js';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES } from './mode-utils.ts';
 import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck } from '../core/srs.ts';
 import { getHardWords } from './game.ts';
 import { getBookmarks } from './bookmarks.ts';
@@ -29,7 +35,21 @@ function buildStaleDeck(days: number): WordEntry[] {
 export function _refreshRangeOptions(): void {
   const sel = document.getElementById('sel-range') as HTMLSelectElement | null;
   if (!sel) return;
-  const total  = W.length;
+  const mode = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
+  let total: number;
+  if (ES_MODES.has(mode) && !new Set(['es-fr','fr-es']).has(mode)) {
+    total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_ES, w[0])).length;
+  } else if (FR_MODES.has(mode) && !new Set(['es-fr','fr-es']).has(mode)) {
+    total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_FR, w[0])).length;
+  } else if (IT_MODES.has(mode)) {
+    total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_IT, w[0])).length;
+  } else if (PT_MODES.has(mode)) {
+    total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_PT, w[0])).length;
+  } else if (DE_MODES.has(mode)) {
+    total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_DE, w[0])).length;
+  } else {
+    total = W.length;
+  }
   const allOpt = sel.querySelector('option[value="0"]') as HTMLOptionElement | null;
   if (allOpt) allOpt.textContent = t('cards.allWords') + ' (' + total + ')';
 }

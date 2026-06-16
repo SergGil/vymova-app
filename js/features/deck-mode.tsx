@@ -10,6 +10,7 @@ import { W_PT } from '../../data/words_pt.js';
 import { W_DE } from '../../data/words_de.js';
 import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode } from './mode-utils.ts';
 import { t } from './i18n.ts';
+import { _refreshRangeOptions } from './deck-filter.tsx';
 import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -154,6 +155,7 @@ export function DeckModeInit(): ReactElement | null {
         if (!deck.length) deck = specialDeck.slice();
         setDeck(deck);
         setIdx(0);
+        _refreshRangeOptions();
       } else if (!isSpecial && _preSpecialDeck) {
         setDeck(_preSpecialDeck);
         const deckLen = (state.deck).length;
@@ -161,6 +163,7 @@ export function DeckModeInit(): ReactElement | null {
         _preSpecialDeck = null;
         if (selRangeEl) selRangeEl.disabled = false;
         if (selTagEl)   selTagEl.disabled   = false;
+        _refreshRangeOptions();
       }
       render();
     };
