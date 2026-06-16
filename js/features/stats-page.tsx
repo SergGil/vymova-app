@@ -10,6 +10,7 @@ import { getCefrLevel } from '../../data/cefr.ts';
 import { Leaderboard } from './leaderboard.tsx';
 import { refreshAchievementsPage as renderAchievements } from './achievements-page.tsx';
 import { closePage } from './sidebar.tsx';
+import { getKnownInLang, getActiveKnownByLang, getWordsForLang } from './mode-utils.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const _p2 = (n: number): string => n < 10 ? '0' + n : '' + n;
@@ -175,12 +176,14 @@ function computeCefrStats(): CefrRow[] {
   const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
   const colors = { A1: '#27ae60', A2: '#2ecc71', B1: '#d4ac0d', B2: '#e67e22', C1: '#e74c3c', C2: '#8e44ad' };
   const descs  = { A1: t('cefr.A1'), A2: t('cefr.A2'), B1: t('cefr.B1'), B2: t('cefr.B2'), C1: t('cefr.C1'), C2: t('cefr.C2') };
+  const knownSet = getActiveKnownByLang();
+  const words    = getWordsForLang(W as unknown as WordEntry[]);
   const stats: Record<string, { known: number; total: number }> = {};
   levels.forEach(l => { stats[l] = { known: 0, total: 0 }; });
-  (W as unknown as WordEntry[]).forEach(w => {
+  words.forEach(w => {
     const lvl = getCefrLevel(w[0]);
     stats[lvl].total++;
-    if (state.known.has(w[0])) stats[lvl].known++;
+    if (knownSet.has(w[0])) stats[lvl].known++;
   });
   return levels.map(l => {
     const s = stats[l];
@@ -194,13 +197,14 @@ type BlockRow = { label: string; pct: number; color: string };
 
 function computeBlocks(): BlockRow[] {
   const blockSize = 500;
-  const wArr = W as unknown as WordEntry[];
+  const wArr     = getWordsForLang(W as unknown as WordEntry[]);
+  const knownSet = getActiveKnownByLang();
   const blocks: BlockRow[] = [];
   for (let s = 0; s < wArr.length; s += blockSize) {
     let end = s + blockSize;
     if (end < wArr.length && wArr.length - end < blockSize) end = wArr.length;
     const slice = wArr.slice(s, end);
-    const knownInBlock = slice.filter(w => state.known.has(w[0])).length;
+    const knownInBlock = slice.filter(w => knownSet.has(w[0])).length;
     const pct = Math.round(knownInBlock / slice.length * 100);
     blocks.push({ label: (s + 1) + '–' + Math.min(end, wArr.length), pct, color: getBlockColor(pct) });
     if (end >= wArr.length) break;
@@ -247,8 +251,9 @@ export function StatsPage(): ReactElement {
   const [lbKey, setLbKey] = useState(0);
 
   const gd = getGameData();
-  const knownCount = state.known.size;
-  const pctKnown   = Math.round(knownCount / (W as unknown as WordEntry[]).length * 100);
+  const knownCount  = getKnownInLang();
+  const totalWords  = getWordsForLang(W as unknown as WordEntry[]).length;
+  const pctKnown    = Math.round(knownCount / totalWords * 100);
 
   const chartData = computeChartDays(chartDays);
   const maxVal    = Math.max(...chartData.map(d => d.val)) || 1;

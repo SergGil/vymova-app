@@ -227,3 +227,29 @@ export function getKnownInLang(): number {
     default:   return state.known.size;
   }
 }
+
+/** The active known Set for the currently selected learn language. */
+export function getActiveKnownByLang(): Set<string> {
+  const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
+  switch (lang) {
+    case 'es': return state.knownEs;
+    case 'fr': return state.knownFr;
+    case 'it': return state.knownIt;
+    case 'pt': return state.knownPt;
+    case 'de': return state.knownDe;
+    default:   return state.known;
+  }
+}
+
+/** Filter word list to only those that have a translation in the current learn language. */
+export function getWordsForLang(words: WordEntry[]): WordEntry[] {
+  const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
+  switch (lang) {
+    case 'es': return words.filter(w => esEntry(w[0]) !== null);
+    case 'fr': return words.filter(w => frEntry(w[0]) !== null);
+    case 'it': return words.filter(w => itEntry(w[0]) !== null);
+    case 'pt': return words.filter(w => ptEntry(w[0]) !== null);
+    case 'de': return words.filter(w => deEntry(w[0]) !== null);
+    default:   return words;
+  }
+}
