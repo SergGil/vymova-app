@@ -8686,7 +8686,7 @@ export const W_ES = {
   "bewitch": ["hechizar, cautivar","Cautivó a todos con su sonrisa."],
   "big picture": ["panorama general","Intenta centrarte en el panorama general, no solo en los detalles."],
   "bigoted": ["fanático, intolerante","Sus opiniones fanáticas ofendieron a muchos colegas."],
-  "bland in": ["integrarse, pasar desapercibido","Intentó integrarse con los lugareños durante su viaje."],
+  "blend in": ["integrarse, pasar desapercibido","Intentó integrarse con los lugareños durante su viaje."],
   "blind spot": ["punto ciego; área de desconocimiento","Todo líder tiene puntos ciegos en los que debe trabajar."],
   "blur the lines": ["difuminar los límites","Las redes sociales han difuminado los límites entre la vida pública y privada."],
   "bog down": ["atascarse, quedar empantanado","Quedamos atascados en procedimientos burocráticos."],
