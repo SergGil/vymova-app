@@ -9,7 +9,8 @@ import { recordModeComplete, recordMistake, recordModeAnswer } from '../features
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak, _speakWithLang } from '../features/speech.ts';
 import { t, getLang } from '../features/i18n.ts';
-import { computeCardView, getResolvedMode, esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import type { WordEntry } from '../../src/types.js';
 
 const QUIZ_SIZE = 10, QUICK_SIZE = 5, NUM_OPTIONS = 4;
@@ -19,10 +20,16 @@ function buildDeck(sourceWords?: WordEntry[] | null, maxSize = QUIZ_SIZE): WordE
   return _shuf(src.slice()).slice(0, Math.min(maxSize, src.length));
 }
 
-function getBackLang(mode: string): string {
-  const parts = mode.split('-');
-  if (parts.length === 2) return parts[1].toUpperCase();
-  return mode === 'ua' ? 'EN' : 'UA';
+function getWordInLang(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
 }
 
 function getWrongOptions(correctWord: WordEntry, answer: string, backLang: string): string[] {
@@ -67,11 +74,14 @@ function _mistakeCount(n: number): string {
 type QData = { w: WordEntry; frontLang: string; backLang: string; question: string; answer: string; opts: string[] };
 
 function buildQuestion(w: WordEntry): QData {
-  const mode = getResolvedMode();
-  const { FRONT_LANG, frontWord, backWord } = computeCardView(w, mode);
-  const backLang = getBackLang(mode);
-  const opts = _shuf([backWord, ...getWrongOptions(w, backWord, backLang)]);
-  return { w, frontLang: FRONT_LANG, backLang, question: frontWord, answer: backWord, opts };
+  const knowLang = getKnowLang();
+  const learnLang = getLearnLang();
+  const frontLang = Math.random() < 0.5 ? learnLang : knowLang;
+  const backLang  = frontLang === learnLang ? knowLang : learnLang;
+  const frontWord = getWordInLang(w, frontLang);
+  const backWord  = getWordInLang(w, backLang);
+  const opts = _shuf([backWord, ...getWrongOptions(w, backWord, backLang.toUpperCase())]);
+  return { w, frontLang: frontLang.toUpperCase(), backLang: backLang.toUpperCase(), question: frontWord, answer: backWord, opts };
 }
 
 function SpeakBtn({ text, lang = 'en-US' }: { text: string; lang?: string }): ReactElement {

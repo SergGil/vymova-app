@@ -9,7 +9,8 @@ import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
-import { computeCardView, getResolvedMode } from '../features/mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import type { WordEntry } from '../../src/types.js';
 
 const SIZE = 10;
@@ -29,6 +30,18 @@ interface SpeechRecognitionEvent extends Event {
 const SpeechRec: SpeechRecognitionCtor | undefined =
   ((window as Window & { SpeechRecognition?: SpeechRecognitionCtor; webkitSpeechRecognition?: SpeechRecognitionCtor })
     .SpeechRecognition ?? (window as Window & { webkitSpeechRecognition?: SpeechRecognitionCtor }).webkitSpeechRecognition);
+
+function getWordInLang(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
+}
 
 function isCorrect(inp: string, raw: string): boolean {
   const a = inp.trim().toLowerCase();
@@ -73,12 +86,12 @@ export function WritePage(): ReactElement {
   const recogRef = useRef<SpeechRecognitionInstance | null>(null);
 
   const w: WordEntry | null = deck[idx] ?? null;
-  const _mode = w ? getResolvedMode() : 'en';
-  const _cv = w ? computeCardView(w, _mode) : null;
-  const frontWord = _cv?.frontWord ?? '';
-  const backWord  = _cv?.backWord  ?? '';
-  const frontLang = _cv?.FRONT_LANG ?? 'UA';
-  const backLang  = _mode.includes('-') ? _mode.split('-')[1].toUpperCase() : (_mode === 'ua' ? 'EN' : 'UA');
+  const knowLang  = getKnowLang();
+  const learnLang = getLearnLang();
+  const frontWord = w ? getWordInLang(w, knowLang)  : '';
+  const backWord  = w ? getWordInLang(w, learnLang) : '';
+  const frontLang = knowLang;
+  const backLang  = learnLang;
   const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
 
   const acHide = (): void => { setAcItems([]); setAcIdx(-1); };
@@ -262,7 +275,7 @@ export function WritePage(): ReactElement {
           </div>
 
           <div style={{ background: 'var(--bg)', borderRadius: 14, padding: '20px 16px', textAlign: 'center', marginBottom: 14 }}>
-            <div style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--text3)', marginBottom: 8 }}>{t(`lang.${frontLang.toLowerCase()}` as any)} → {t(`lang.${backLang.toLowerCase()}` as any)}</div>
+            <div style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--text3)', marginBottom: 8 }}>{t(`lang.${frontLang}` as any)} → {t(`lang.${backLang}` as any)}</div>
             <div style={{ fontFamily: "'DM Serif Display',serif", fontSize: '2rem', color: 'var(--text)', lineHeight: 1.15 }}>{frontWord}</div>
             <div style={{ fontSize: '.82rem', color: 'var(--accent2)', marginTop: 4 }}></div>
           </div>

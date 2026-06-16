@@ -7,7 +7,8 @@ import { recordModeComplete, recordMistake, recordModeAnswer } from '../features
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
-import { computeCardView, getResolvedMode, esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { state } from '../../src/state.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -29,10 +30,16 @@ function setBest(sec: number, val: number): void {
   if (val > getBest(sec)) localStorage.setItem(`tempo_best_${sec}`, String(val));
 }
 
-function getBackLang(mode: string): string {
-  const parts = mode.split('-');
-  if (parts.length === 2) return parts[1].toUpperCase();
-  return mode === 'ua' ? 'EN' : 'UA';
+function getWordInLang(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
 }
 
 function getWrongOption(pw: WordEntry, backLang: string): string | null {
@@ -47,9 +54,13 @@ function getWrongOption(pw: WordEntry, backLang: string): string | null {
 
 function buildQuestion(deck: WordEntry[], idx: number): Question {
   const w = deck[idx];
-  const mode = getResolvedMode();
-  const { FRONT_LANG, frontWord, backWord } = computeCardView(w, mode);
-  const backLang = getBackLang(mode);
+  const knowLang  = getKnowLang();
+  const learnLang = getLearnLang();
+  const frontLang = Math.random() < 0.5 ? learnLang : knowLang;
+  const backLang  = frontLang === learnLang ? knowLang : learnLang;
+  const frontWord = getWordInLang(w, frontLang);
+  const backWord  = getWordInLang(w, backLang);
+  const backLangUp = backLang.toUpperCase();
 
   const pool = _shuf(W.slice() as unknown as WordEntry[]);
   const wrongs: string[] = [];
@@ -58,15 +69,15 @@ function buildQuestion(deck: WordEntry[], idx: number): Question {
     if (wrongs.length >= 3) break;
     if (used.has(pw[0].toLowerCase())) continue;
     used.add(pw[0].toLowerCase());
-    const opt = getWrongOption(pw, backLang);
+    const opt = getWrongOption(pw, backLangUp);
     if (!opt || opt === backWord) continue;
     wrongs.push(opt);
   }
   return {
-    dir: `${t(`lang.${FRONT_LANG.toLowerCase()}` as any)} → ${t(`lang.${backLang.toLowerCase()}` as any)}`,
+    dir: `${t(`lang.${frontLang}` as any)} → ${t(`lang.${backLang}` as any)}`,
     word: frontWord,
-    ipa: FRONT_LANG === 'EN' ? decodeIpa(w[4] ?? '') : '',
-    frontLang: FRONT_LANG,
+    ipa: frontLang === 'en' ? decodeIpa(w[4] ?? '') : '',
+    frontLang,
     options: _shuf([backWord, ...wrongs]),
     answer: backWord,
     base: w[0],
@@ -251,7 +262,7 @@ export function TempoPage(): ReactElement {
             <div style={{ fontSize: '.62rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--text3)', marginBottom: 8 }}>{question.dir}</div>
             <div ref={wordRef} style={{ fontFamily: "'DM Serif Display',serif", fontSize: '2.2rem', color: 'var(--text)', lineHeight: 1.15 }}>
               {question.word}
-              {question.frontLang === 'EN' && <button className="mode-speak" title={t('common.listen')} onClick={speakWord}>🔊</button>}
+              {question.frontLang === 'en' && <button className="mode-speak" title={t('common.listen')} onClick={speakWord}>🔊</button>}
             </div>
             <div style={{ fontSize: '.8rem', color: 'var(--accent2)', marginTop: 4 }}>{question.ipa}</div>
           </div>
