@@ -9893,7 +9893,6 @@ export const W_ES = {
   "quorum needed": ["quórum necesario","No se alcanzó el quórum necesario para la votación."],
   "yawn-inducing": ["soporífero, que da sueño","La conferencia fue soporífera y los estudiantes se iban quedando dormidos."],
   "zestful": ["lleno de entusiasmo y brío","Su actitud llena de brío ante la vida era contagiosa."],
-  "jovially": ["jovialmente","Saludó jovialmente a sus invitados en la puerta."],
   "blend in": ["integrarse, pasar desapercibido","Intentó integrarse en el nuevo entorno lo antes posible."],
   "branch out": ["diversificarse, ampliarse","La empresa decidió diversificarse hacia nuevos mercados."],
   "broadband": ["banda ancha","La conexión de banda ancha es imprescindible para trabajar desde casa."],
