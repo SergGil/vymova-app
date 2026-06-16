@@ -9,6 +9,7 @@ import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
+import { computeCardView, getResolvedMode } from '../features/mode-utils.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const SIZE = 10;
@@ -72,6 +73,12 @@ export function WritePage(): ReactElement {
   const recogRef = useRef<SpeechRecognitionInstance | null>(null);
 
   const w: WordEntry | null = deck[idx] ?? null;
+  const _mode = w ? getResolvedMode() : 'en';
+  const _cv = w ? computeCardView(w, _mode) : null;
+  const frontWord = _cv?.frontWord ?? '';
+  const backWord  = _cv?.backWord  ?? '';
+  const frontLang = _cv?.FRONT_LANG ?? 'UA';
+  const backLang  = _mode.includes('-') ? _mode.split('-')[1].toUpperCase() : (_mode === 'ua' ? 'EN' : 'UA');
   const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
 
   const acHide = (): void => { setAcItems([]); setAcIdx(-1); };
@@ -122,7 +129,7 @@ export function WritePage(): ReactElement {
   const submit = (): void => {
     if (answered || !w) return;
     acHide();
-    const ans = w[0];
+    const ans = backWord;
     const correct = isCorrect(input, ans);
     setAnswered(true);
     if (correct) {
@@ -155,7 +162,11 @@ export function WritePage(): ReactElement {
     const q = val.trim().toLowerCase();
     if (!q || q.length < 2 || answered) { acHide(); return; }
     acTimerRef.current = setTimeout(() => {
-      setAcItems((W as unknown as WordEntry[]).filter(ww => ww[0].toLowerCase().startsWith(q)).slice(0, 6));
+      if (backLang === 'EN') {
+        setAcItems((W as unknown as WordEntry[]).filter(ww => ww[0].toLowerCase().startsWith(q)).slice(0, 6));
+      } else {
+        setAcItems([]);
+      }
       setAcIdx(-1);
     }, 120);
   };
@@ -182,7 +193,7 @@ export function WritePage(): ReactElement {
 
   const showHint = (): void => {
     if (answered || !w) return;
-    const first = w[0];
+    const first = backWord.split(/[;,\/]/)[0].trim();
     setHint('💡 ' + first.slice(0, Math.ceil(first.length / 3)) + '...');
   };
 
@@ -251,8 +262,8 @@ export function WritePage(): ReactElement {
           </div>
 
           <div style={{ background: 'var(--bg)', borderRadius: 14, padding: '20px 16px', textAlign: 'center', marginBottom: 14 }}>
-            <div style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--text3)', marginBottom: 8 }}>{t('quiz.uaToEn')}</div>
-            <div style={{ fontFamily: "'DM Serif Display',serif", fontSize: '2rem', color: 'var(--text)', lineHeight: 1.15 }}>{w[1]}</div>
+            <div style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--text3)', marginBottom: 8 }}>{t(`lang.${frontLang.toLowerCase()}` as any)} → {t(`lang.${backLang.toLowerCase()}` as any)}</div>
+            <div style={{ fontFamily: "'DM Serif Display',serif", fontSize: '2rem', color: 'var(--text)', lineHeight: 1.15 }}>{frontWord}</div>
             <div style={{ fontSize: '.82rem', color: 'var(--accent2)', marginTop: 4 }}></div>
           </div>
 

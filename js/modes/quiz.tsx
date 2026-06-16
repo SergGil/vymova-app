@@ -9,6 +9,7 @@ import { recordModeComplete, recordMistake, recordModeAnswer } from '../features
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak, _speakWithLang } from '../features/speech.ts';
 import { t, getLang } from '../features/i18n.ts';
+import { computeCardView, getResolvedMode, esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const QUIZ_SIZE = 10, QUICK_SIZE = 5, NUM_OPTIONS = 4;
@@ -18,7 +19,13 @@ function buildDeck(sourceWords?: WordEntry[] | null, maxSize = QUIZ_SIZE): WordE
   return _shuf(src.slice()).slice(0, Math.min(maxSize, src.length));
 }
 
-function getWrongOptions(correctWord: WordEntry, answer: string, isEnToUa: boolean): string[] {
+function getBackLang(mode: string): string {
+  const parts = mode.split('-');
+  if (parts.length === 2) return parts[1].toUpperCase();
+  return mode === 'ua' ? 'EN' : 'UA';
+}
+
+function getWrongOptions(correctWord: WordEntry, answer: string, backLang: string): string[] {
   const shuffled = _shuf(W.slice() as unknown as WordEntry[]);
   const options: string[] = [];
   const used = new Set([correctWord[0].toLowerCase()]);
@@ -26,7 +33,14 @@ function getWrongOptions(correctWord: WordEntry, answer: string, isEnToUa: boole
     if (options.length >= NUM_OPTIONS - 1) break;
     if (used.has(w[0].toLowerCase())) continue;
     used.add(w[0].toLowerCase());
-    const opt = isEnToUa ? w[1] : w[0];
+    let opt: string;
+    if (backLang === 'UA') { opt = w[1]; }
+    else if (backLang === 'ES') { const e = esEntry(w[0]); if (!e) continue; opt = e[0]; }
+    else if (backLang === 'FR') { const e = frEntry(w[0]); if (!e) continue; opt = e[0]; }
+    else if (backLang === 'IT') { const e = itEntry(w[0]); if (!e) continue; opt = e[0]; }
+    else if (backLang === 'PT') { const e = ptEntry(w[0]); if (!e) continue; opt = e[0]; }
+    else if (backLang === 'DE') { const e = deEntry(w[0]); if (!e) continue; opt = e[0]; }
+    else { opt = w[0]; }
     if (opt === answer) continue;
     options.push(opt);
   }
@@ -50,14 +64,14 @@ function _mistakeCount(n: number): string {
   return _countLabel(n, t('quiz.mistake'), t('quiz.mistakes'), t('quiz.mistakesGen'));
 }
 
-type QData = { w: WordEntry; isEnToUa: boolean; question: string; answer: string; opts: string[] };
+type QData = { w: WordEntry; frontLang: string; backLang: string; question: string; answer: string; opts: string[] };
 
 function buildQuestion(w: WordEntry): QData {
-  const isEnToUa = Math.random() < 0.5;
-  const question = isEnToUa ? w[0] : w[1];
-  const answer = isEnToUa ? w[1] : w[0];
-  const opts = _shuf([answer, ...getWrongOptions(w, answer, isEnToUa)]);
-  return { w, isEnToUa, question, answer, opts };
+  const mode = getResolvedMode();
+  const { FRONT_LANG, frontWord, backWord } = computeCardView(w, mode);
+  const backLang = getBackLang(mode);
+  const opts = _shuf([backWord, ...getWrongOptions(w, backWord, backLang)]);
+  return { w, frontLang: FRONT_LANG, backLang, question: frontWord, answer: backWord, opts };
 }
 
 function SpeakBtn({ text, lang = 'en-US' }: { text: string; lang?: string }): ReactElement {
@@ -231,12 +245,12 @@ export function QuizPage(): ReactElement {
 
           <div style={{ background: 'var(--bg)', borderRadius: 14, padding: '14px 16px', textAlign: 'center', marginBottom: 10 }}>
             <div style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--text3)', marginBottom: 6 }}>
-              {qData.isEnToUa ? t('quiz.enToUa') : t('quiz.uaToEn')}
+              {t(`lang.${qData.frontLang.toLowerCase()}` as any)} → {t(`lang.${qData.backLang.toLowerCase()}` as any)}
             </div>
             <div style={{ fontFamily: "'DM Serif Display',serif", fontSize: '1.75rem', color: 'var(--text)', lineHeight: 1.15 }}>
-              {qData.question}{qData.isEnToUa && <SpeakBtn text={qData.question} lang="en-US" />}
+              {qData.question}{qData.frontLang === 'EN' && <SpeakBtn text={qData.question} lang="en-US" />}
             </div>
-            <div style={{ fontSize: '.8rem', color: 'var(--accent2)', marginTop: 3 }}>{qData.isEnToUa ? decodeIpa(qData.w[4] ?? '') : ''}</div>
+            <div style={{ fontSize: '.8rem', color: 'var(--accent2)', marginTop: 3 }}>{qData.frontLang === 'EN' ? decodeIpa(qData.w[4] ?? '') : ''}</div>
             {answered && (
               <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginTop: 3, fontStyle: 'italic', lineHeight: 1.4 }}>
                 {(qData.w[2] ?? '') && (

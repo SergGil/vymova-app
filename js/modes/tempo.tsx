@@ -7,13 +7,15 @@ import { recordModeComplete, recordMistake, recordModeAnswer } from '../features
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
+import { computeCardView, getResolvedMode, esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { state } from '../../src/state.ts';
 import type { WordEntry } from '../../src/types.js';
 
 type Question = {
   dir: string;
   word: string;
   ipa: string;
-  isEnToUa: boolean;
+  frontLang: string;
   options: string[];
   answer: string;
   base: string;
@@ -27,11 +29,27 @@ function setBest(sec: number, val: number): void {
   if (val > getBest(sec)) localStorage.setItem(`tempo_best_${sec}`, String(val));
 }
 
+function getBackLang(mode: string): string {
+  const parts = mode.split('-');
+  if (parts.length === 2) return parts[1].toUpperCase();
+  return mode === 'ua' ? 'EN' : 'UA';
+}
+
+function getWrongOption(pw: WordEntry, backLang: string): string | null {
+  if (backLang === 'UA') return pw[1];
+  if (backLang === 'ES') { const e = esEntry(pw[0]); return e ? e[0] : null; }
+  if (backLang === 'FR') { const e = frEntry(pw[0]); return e ? e[0] : null; }
+  if (backLang === 'IT') { const e = itEntry(pw[0]); return e ? e[0] : null; }
+  if (backLang === 'PT') { const e = ptEntry(pw[0]); return e ? e[0] : null; }
+  if (backLang === 'DE') { const e = deEntry(pw[0]); return e ? e[0] : null; }
+  return pw[0];
+}
+
 function buildQuestion(deck: WordEntry[], idx: number): Question {
   const w = deck[idx];
-  const isEnToUa = Math.random() < 0.5;
-  const question = isEnToUa ? w[0] : w[1];
-  const answer   = isEnToUa ? w[1] : w[0];
+  const mode = getResolvedMode();
+  const { FRONT_LANG, frontWord, backWord } = computeCardView(w, mode);
+  const backLang = getBackLang(mode);
 
   const pool = _shuf(W.slice() as unknown as WordEntry[]);
   const wrongs: string[] = [];
@@ -40,17 +58,17 @@ function buildQuestion(deck: WordEntry[], idx: number): Question {
     if (wrongs.length >= 3) break;
     if (used.has(pw[0].toLowerCase())) continue;
     used.add(pw[0].toLowerCase());
-    const opt = isEnToUa ? pw[1] : pw[0];
-    if (opt === answer) continue;
+    const opt = getWrongOption(pw, backLang);
+    if (!opt || opt === backWord) continue;
     wrongs.push(opt);
   }
   return {
-    dir: isEnToUa ? t('quiz.enToUa') : t('quiz.uaToEn'),
-    word: question,
-    ipa: isEnToUa ? decodeIpa(w[2] ?? '') : '',
-    isEnToUa,
-    options: _shuf([answer, ...wrongs]),
-    answer,
+    dir: `${t(`lang.${FRONT_LANG.toLowerCase()}` as any)} → ${t(`lang.${backLang.toLowerCase()}` as any)}`,
+    word: frontWord,
+    ipa: FRONT_LANG === 'EN' ? decodeIpa(w[4] ?? '') : '',
+    frontLang: FRONT_LANG,
+    options: _shuf([backWord, ...wrongs]),
+    answer: backWord,
     base: w[0],
     selected: null,
   };
@@ -76,9 +94,12 @@ export function TempoPage(): ReactElement {
   const run = useRef({ isRunning: false, deck: [] as WordEntry[], idx: 0, score: 0, miss: 0, sec: 30, tLeft: 30 });
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const getBaseDeck = (): WordEntry[] =>
+    state.deck.length ? _shuf(state.deck.slice()) : _shuf(W.slice() as unknown as WordEntry[]);
+
   const showQuestion = (): void => {
     const r = run.current;
-    if (r.idx >= r.deck.length) { r.deck = _shuf(W.slice() as unknown as WordEntry[]); r.idx = 0; }
+    if (r.idx >= r.deck.length) { r.deck = getBaseDeck(); r.idx = 0; }
     setQuestion(buildQuestion(r.deck, r.idx));
   };
 
@@ -103,7 +124,7 @@ export function TempoPage(): ReactElement {
   const startTempo = (): void => {
     const r = run.current;
     r.score = 0; r.miss = 0; r.idx = 0; r.sec = selectedSec; r.isRunning = true;
-    r.deck = _shuf(W.slice() as unknown as WordEntry[]);
+    r.deck = getBaseDeck();
     setScore(0); setMiss(0); setTimeLeft(selectedSec);
     setScreen('game');
     showQuestion();
@@ -230,7 +251,7 @@ export function TempoPage(): ReactElement {
             <div style={{ fontSize: '.62rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--text3)', marginBottom: 8 }}>{question.dir}</div>
             <div ref={wordRef} style={{ fontFamily: "'DM Serif Display',serif", fontSize: '2.2rem', color: 'var(--text)', lineHeight: 1.15 }}>
               {question.word}
-              {question.isEnToUa && <button className="mode-speak" title={t('common.listen')} onClick={speakWord}>🔊</button>}
+              {question.frontLang === 'EN' && <button className="mode-speak" title={t('common.listen')} onClick={speakWord}>🔊</button>}
             </div>
             <div style={{ fontSize: '.8rem', color: 'var(--accent2)', marginTop: 4 }}>{question.ipa}</div>
           </div>
