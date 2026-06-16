@@ -11,6 +11,20 @@ import { t, pluralLabel } from '../features/i18n.ts';
 import { onWordLearned } from '../core/card-engine.ts';
 import { speak } from '../features/speech.ts';
 import type { WordEntry } from '../../src/types.js';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getKnowLang } from '../features/lang-pair-select.tsx';
+
+function getWordTrans(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
+}
 
 type TextEntry = { title: string; text: string; level: string };
 type EpubBook  = { title: string; chapters: TextEntry[] };
@@ -139,7 +153,9 @@ export function ReadingPage(): ReactElement {
   }, []);
 
   const showPopup = (w: WordEntry): void => {
-    setPopup({ word: w[0], trans: w[1], ipa: decodeIpa(w[4] ?? ''), known: state.known.has(w[0]) });
+    const knowLang = getKnowLang();
+    const trans = getWordTrans(w, knowLang) || w[1];
+    setPopup({ word: w[0], trans, ipa: decodeIpa(w[4] ?? ''), known: state.known.has(w[0]) });
   };
 
   const onTextClick = (e: { target: EventTarget | null; stopPropagation: () => void }): void => {

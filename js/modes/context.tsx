@@ -8,6 +8,20 @@ import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getKnowLang } from '../features/lang-pair-select.tsx';
+
+function getWordInLang(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
+}
 
 const SIZE = 8, NUM_OPTS = 4;
 
@@ -45,14 +59,18 @@ function buildQuestion(w: WordEntry): Question {
   const ipaRaw = w[4] ?? '';
   const hint = ipaRaw ? `${t('ctx.hintColon')} ${ipaRaw}` : `${t('ctx.firstLetterColon')} ${w[0][0].toUpperCase()}`;
 
-  const correct = w[1];
+  const knowLang = getKnowLang();
+  const correct = getWordInLang(w, knowLang) || w[1];
   const wrongs: string[] = [];
   const used = new Set([w[0].toLowerCase()]);
   const pool = _shuf(W.slice() as unknown as WordEntry[]);
   for (const pw of pool) {
     if (wrongs.length >= NUM_OPTS - 1) break;
     if (used.has(pw[0].toLowerCase())) continue;
-    used.add(pw[0].toLowerCase()); wrongs.push(pw[1]);
+    used.add(pw[0].toLowerCase());
+    const opt = getWordInLang(pw, knowLang);
+    if (!opt || opt === correct) continue;
+    wrongs.push(opt);
   }
   const options = _shuf([correct, ...wrongs]);
   return { w, hiddenHtml, hint, options, correct };
@@ -198,7 +216,7 @@ export function ContextPage(): ReactElement {
             <div style={{ background: 'var(--bg)', borderRadius: 12, padding: 16, marginBottom: 10, minHeight: 70 }}>
               <div style={{ fontStyle: 'italic', fontSize: '.9rem', color: 'var(--text)', lineHeight: 1.6, marginBottom: 8 }} dangerouslySetInnerHTML={{ __html: `"${revealedHtml}"` }} />
               <div style={{ fontSize: '.82rem', fontWeight: 700, color: 'var(--text)' }}>{w[0]}</div>
-              <div style={{ fontSize: '.78rem', color: 'var(--text2)' }}>{w[1]}</div>
+              <div style={{ fontSize: '.78rem', color: 'var(--text2)' }}>{getWordInLang(w, getKnowLang()) || w[1]}</div>
             </div>
           )}
 

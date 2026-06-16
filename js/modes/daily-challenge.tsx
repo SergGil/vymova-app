@@ -11,6 +11,20 @@ import { t } from '../features/i18n.ts';
 import { refreshGameBarLevel } from '../features/game-bar-level.tsx';
 import { checkAchievements } from '../features/render-achievements.ts';
 import type { WordEntry } from '../../src/types.js';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+
+function getWordInLang(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
+}
 
 const DC_SIZE = 10, DC_XP = 3;
 
@@ -76,18 +90,23 @@ export function DailyChallenge(): ReactElement | null {
     function _renderQ(): void {
       if (dcIdx >= dcDeck.length) { _showFinal(); return; }
       const w = dcDeck[dcIdx];
+      const learnLang = getLearnLang();
+      const knowLang  = getKnowLang();
+      const learnWord = getWordInLang(w, learnLang);
+      const correct   = getWordInLang(w, knowLang);
+      if (!learnWord || !correct) { dcIdx++; _renderQ(); return; }
       const isFmt = w[2]?.[0] === '/' || w[2]?.[0] === '[';
       const rawIpa = isFmt ? w[2] : (w[4] ?? '');
-      elWord.textContent = w[0]; elIpa.textContent = decodeIpa(rawIpa);
+      elWord.textContent = learnWord;
+      elIpa.textContent = learnLang === 'en' ? decodeIpa(rawIpa) : '';
       elWord.parentElement?.querySelector('.mode-speak')?.remove();
-      elWord.insertAdjacentElement('afterend', speakBtn(w[0]));
+      if (learnLang === 'en') elWord.insertAdjacentElement('afterend', speakBtn(w[0]));
       elPbar.style.width = (dcIdx / dcDeck.length * 100) + '%';
       elResult.textContent = '';
       elTimer.textContent = dcStarted ? dcTimeLeft + t('common.secSuffix') : '⏱';
       elTitle.textContent = `${t('daily.missionTitle')} — ${dcIdx + 1} / ${dcDeck.length}`;
-      const correct = w[1];
-      const pool = (W as unknown as WordEntry[]).filter(x => x[1] !== correct);
-      const opts = _shuf([correct, ..._shuf(pool).slice(0, 3).map(x => x[1])]);
+      const pool = (W as unknown as WordEntry[]).filter(x => { const o = getWordInLang(x, knowLang); return o && o !== correct; });
+      const opts = _shuf([correct, ..._shuf(pool).slice(0, 3).map(x => getWordInLang(x, knowLang))]);
       elOpts.innerHTML = '';
       opts.forEach(opt => {
         const btn = document.createElement('button');
