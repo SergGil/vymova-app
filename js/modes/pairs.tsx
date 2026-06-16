@@ -8,6 +8,20 @@ import { t } from '../features/i18n.ts';
 import { recordModeComplete } from '../features/game.ts';
 import { playSound } from '../core/audio.ts';
 import type { WordEntry } from '../../src/types.js';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+
+function getWordInLang(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
+}
 
 const N = 6;
 
@@ -54,8 +68,10 @@ export function PairsMode(): ReactElement | null {
     }
 
     function renderBoard(): void {
-      const en = _shuf(pDeck.map((w, i) => ({ text: w[0], id: i })));
-      const ua = _shuf(pDeck.map((w, i) => ({ text: w[1], id: i })));
+      const learnLang = getLearnLang();
+      const knowLang  = getKnowLang();
+      const en = _shuf(pDeck.map((w, i) => ({ text: getWordInLang(w, learnLang), id: i })));
+      const ua = _shuf(pDeck.map((w, i) => ({ text: getWordInLang(w, knowLang), id: i })));
       pBoard!.innerHTML = '<div id="pairs-col-en" style="display:flex;flex-direction:column;gap:8px;"></div>' +
                          '<div id="pairs-col-ua" style="display:flex;flex-direction:column;gap:8px;"></div>';
       Object.assign(pBoard!.style, { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' });

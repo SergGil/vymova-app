@@ -11,6 +11,20 @@ import type { WordEntry } from '../../src/types.js';
 import { t, wordsLabel, categoryName } from '../features/i18n.ts';
 import { renderGameBar } from '../features/render-game-bar.ts';
 import { playSound } from '../core/audio.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+
+function getWordInLang(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
+}
 
 const CP = 6;
 const RANDOM_KEY = '🎲 Випадково';
@@ -108,8 +122,10 @@ export function CatPairsPage(): ReactElement {
     setWrongIds([]);
     setElapsed(0);
     setFinished(null);
-    setEnItems(_shuf(d.map((w, i) => ({ text: w[0], id: i }))));
-    setUaItems(_shuf(d.map((w, i) => ({ text: w[1], id: i }))));
+    const learnLang = getLearnLang();
+    const knowLang  = getKnowLang();
+    setEnItems(_shuf(d.map((w, i) => ({ text: getWordInLang(w, learnLang), id: i }))));
+    setUaItems(_shuf(d.map((w, i) => ({ text: getWordInLang(w, knowLang), id: i }))));
     setScreen('game');
   };
 

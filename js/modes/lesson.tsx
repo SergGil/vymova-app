@@ -12,20 +12,37 @@ import { speak as _speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
 import type { WordEntry } from '../../src/types.js';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 
 const N = 5;
 const PHASE_COUNT = 3;
 function phaseLabels(): string[] { return [t('lesson.phaseFlash'), t('lesson.phaseQuiz'), t('lesson.phaseWrite')]; }
 
-function buildQuizOptions(w: WordEntry): string[] {
-  const correct = w[0];
+function getWordInLang(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
+}
+
+function buildQuizOptions(w: WordEntry, learnLang: string): string[] {
+  const correct = getWordInLang(w, learnLang);
   const pool = _shuf(W.slice() as unknown as WordEntry[]);
   const wrongs: string[] = [];
   const used: Record<string, boolean> = { [w[0].toLowerCase()]: true };
   for (const pw of pool) {
     if (wrongs.length >= 3) break;
     const k = pw[0].toLowerCase();
-    if (used[k]) continue; used[k] = true; wrongs.push(pw[0]);
+    if (used[k]) continue; used[k] = true;
+    const opt = getWordInLang(pw, learnLang);
+    if (!opt || opt === correct) continue;
+    wrongs.push(opt);
   }
   return _shuf([correct, ...wrongs]);
 }
@@ -92,7 +109,7 @@ export function LessonPage(): ReactElement {
     if (!isOpen || !w || phase >= PHASE_COUNT) return;
     setFlipped(false); setAnswered(false); setSelected(null); setInput(''); setResult(null);
     if (phase === 1) {
-      setOptions(buildQuizOptions(w));
+      setOptions(buildQuizOptions(w, getLearnLang()));
     } else if (phase === 2) {
       setOptions([]);
       setTimeout(() => { try { inputRef.current?.focus(); } catch (e) {} }, 60);
@@ -144,7 +161,7 @@ export function LessonPage(): ReactElement {
   const chooseOption = (opt: string): void => {
     if (answered || !w) return;
     setAnswered(true); setSelected(opt);
-    const correct = w[0];
+    const correct = getWordInLang(w, getLearnLang());
     if (opt === correct) {
       setScores(s => { const ns = [...s]; ns[1]++; return ns; });
       setResult({ text: t('quiz.correctMsg'), color: '#27ae60' });
@@ -160,8 +177,10 @@ export function LessonPage(): ReactElement {
 
   const submitWrite = (): void => {
     if (phase !== 2 || answered || !w) return;
+    const learnLang = getLearnLang();
     const inp = input.trim().toLowerCase();
-    const correct = w[0].toLowerCase();
+    const correctWord = getWordInLang(w, learnLang);
+    const correct = correctWord.toLowerCase();
     const ok = inp === correct || (correct.length > 3 && lev(inp, correct) <= 1);
     setAnswered(true);
     if (ok) {
@@ -170,7 +189,7 @@ export function LessonPage(): ReactElement {
       try { addCombo(); playSound('know'); } catch (e) {}
       recordModeAnswer('lesson', true);
     } else {
-      setResult({ text: `✗ ${t('write.correctAnswerPrefix')} <b>${w[0]}</b>`, color: '#e74c3c' });
+      setResult({ text: `✗ ${t('write.correctAnswerPrefix')} <b>${correctWord}</b>`, color: '#e74c3c' });
       try { breakCombo(); playSound('next'); } catch (e) {}
       recordMistake(w[0]);
       recordModeAnswer('lesson', false);
@@ -193,6 +212,11 @@ export function LessonPage(): ReactElement {
   }, [answered, phase, step]);
 
   if (!isOpen) return <></>;
+
+  const knowLang  = getKnowLang();
+  const learnLang = getLearnLang();
+  const dirLabel  = (from: string, to: string): string =>
+    `${t(`lang.${from}` as any)} → ${t(`lang.${to}` as any)}`;
 
   const total = phase * N + step;
   const mbarPct = showFinal ? 100 : (total / (PHASE_COUNT * N) * 100);
@@ -230,16 +254,16 @@ export function LessonPage(): ReactElement {
         <>
           <div style={{ background: 'var(--bg)', borderRadius: 14, padding: '20px 16px', textAlign: 'center', marginBottom: 14 }}>
             <div style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--text3)', marginBottom: 8 }}>
-              {phase === 0 ? t('lesson.dirFlash') : phase === 1 ? t('lesson.dirQuiz') : t('lesson.dirWrite')}
+              {phase === 0 ? dirLabel(learnLang, knowLang) : dirLabel(knowLang, learnLang)}
             </div>
             <div style={{ fontFamily: "'DM Serif Display',serif", fontSize: '2rem', color: 'var(--text)', lineHeight: 1.15, wordBreak: 'break-word' }}>
-              {phase === 0 ? w[0] : w[1]}
-              {phase === 0 && <button className="mode-speak" title={t('common.listen')} onClick={(e) => { e.stopPropagation(); speak(w[0]); }}>🔊</button>}
+              {phase === 0 ? getWordInLang(w, learnLang) : getWordInLang(w, knowLang)}
+              {phase === 0 && learnLang === 'en' && <button className="mode-speak" title={t('common.listen')} onClick={(e) => { e.stopPropagation(); speak(w[0]); }}>🔊</button>}
             </div>
-            <div style={{ fontSize: '.82rem', color: 'var(--accent2)', marginTop: 4 }}>{phase === 0 ? decodeIpa(w[4] ?? '') : ''}</div>
+            <div style={{ fontSize: '.82rem', color: 'var(--accent2)', marginTop: 4 }}>{phase === 0 && learnLang === 'en' ? decodeIpa(w[4] ?? '') : ''}</div>
             {phase === 0 && flipped && (
               <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid var(--border)' }}>
-                <div style={{ fontSize: '1.15rem', fontWeight: 600, color: 'var(--accent)' }}>{w[1]}</div>
+                <div style={{ fontSize: '1.15rem', fontWeight: 600, color: 'var(--accent)' }}>{getWordInLang(w, knowLang)}</div>
                 <div style={{ fontSize: '.85rem', color: 'var(--text2)', marginTop: 8, lineHeight: 1.5 }} dangerouslySetInnerHTML={{ __html: buildEnExHtml(w) }} />
                 <div style={{ fontSize: '.82rem', color: 'var(--text2)', fontStyle: 'italic', marginTop: 6, lineHeight: 1.5 }}>{w[3] ?? ''}</div>
               </div>
@@ -249,10 +273,11 @@ export function LessonPage(): ReactElement {
           {phase === 1 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 10 }}>
               {options.map((opt, i) => {
+                const correctOpt = w ? getWordInLang(w, learnLang) : '';
                 let cls = 'quiz-option';
                 if (selected) {
-                  if (opt === selected) cls += opt === w[0] ? ' correct' : ' wrong';
-                  else if (opt === w[0]) cls += ' reveal';
+                  if (opt === selected) cls += opt === correctOpt ? ' correct' : ' wrong';
+                  else if (opt === correctOpt) cls += ' reveal';
                 }
                 return (
                   <button key={opt} className={cls} disabled={answered} onClick={() => chooseOption(opt)}>
