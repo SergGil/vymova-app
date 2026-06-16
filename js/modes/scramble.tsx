@@ -10,17 +10,36 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 
 const SIZE = 10;
 const HINTS = 3;
 
 interface Tile { ch: string; used: boolean; }
 
+function getWordInLang(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
+}
+
 function build(): WordEntry[] {
+  const learnLang = getLearnLang();
   const pool = _shuf((state.deck.length ? state.deck.slice() : W.slice()) as unknown as WordEntry[]);
-  const filtered = pool.filter(w => /^[A-Za-z]+$/.test(w[0]) && w[0].length >= 4 && w[0].length <= 9);
-  const fallback = pool.filter(w => /^[A-Za-z]+$/.test(w[0]));
-  return (filtered.length >= SIZE ? filtered : fallback.length >= SIZE ? fallback : pool).slice(0, SIZE);
+  if (learnLang === 'en') {
+    const filtered = pool.filter(w => /^[A-Za-z]+$/.test(w[0]) && w[0].length >= 4 && w[0].length <= 9);
+    const fallback = pool.filter(w => /^[A-Za-z]+$/.test(w[0]));
+    return (filtered.length >= SIZE ? filtered : fallback.length >= SIZE ? fallback : pool).slice(0, SIZE);
+  }
+  const filtered = pool.filter(w => { const lw = getWordInLang(w, learnLang); return lw.length >= 3 && lw.length <= 12; });
+  return (filtered.length >= SIZE ? filtered : pool).slice(0, SIZE);
 }
 
 function shuffleWord(word: string): string[] {
@@ -63,7 +82,8 @@ export function ScramblePage(): ReactElement {
 
   const setupQuestion = (d: WordEntry[], i: number): void => {
     const word = d[i];
-    const chars = shuffleWord(word[0]);
+    const learnWord = getWordInLang(word, getLearnLang()) || word[0];
+    const chars = shuffleWord(learnWord);
     const lett = chars.map(ch => ({ ch, used: false }));
     setLetters(lett);
     setAnswer([]);
@@ -113,7 +133,7 @@ export function ScramblePage(): ReactElement {
   const check = (lett: Tile[], ans: number[]): void => {
     if (!w) return;
     const a = ans.map(i => lett[i].ch).join('');
-    const target = w[0].toLowerCase();
+    const target = (getWordInLang(w, getLearnLang()) || w[0]).toLowerCase();
     if (a === target) {
       setAnswered(true);
       if (failedThis) {
@@ -177,7 +197,7 @@ export function ScramblePage(): ReactElement {
 
   const useHint = (): void => {
     if (answered || hintsLeft <= 0 || !w) return;
-    const target = w[0].toLowerCase();
+    const target = (getWordInLang(w, getLearnLang()) || w[0]).toLowerCase();
     const nextCh = target[answer.length];
     const li = letters.findIndex(tile => !tile.used && tile.ch === nextCh);
     if (li === -1) return;
@@ -224,13 +244,13 @@ export function ScramblePage(): ReactElement {
             <div style={{ fontSize: '.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color: 'var(--text3)', marginBottom: 8 }} data-i18n="scramble.prompt">{t('scramble.prompt')}</div>
             <button
               ref={speakBtnRef}
-              onClick={() => { try { speak(w[0], speakBtnRef.current); } catch (e) {} }}
+              onClick={() => { try { speak(getWordInLang(w, getLearnLang()) || w[0], speakBtnRef.current); } catch (e) {} }}
               style={{ fontSize: '2rem', background: 'var(--accent)', border: 'none', borderRadius: '50%', width: 56, height: 56, cursor: 'pointer', marginBottom: 10, transition: 'transform .1s', boxShadow: '0 4px 14px rgba(0,200,100,.3)' }}
               title={t('bee.speakTitle')}
               data-i18n-title="bee.speakTitle"
             >🔊</button>
-            <div style={{ fontSize: '.95rem', fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>{w[1]}</div>
-            <div style={{ fontSize: '.8rem', color: 'var(--accent2)' }}>{decodeIpa(w[4] ?? '')}</div>
+            <div style={{ fontSize: '.95rem', fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>{getWordInLang(w, getKnowLang()) || w[1]}</div>
+            {getLearnLang() === 'en' && <div style={{ fontSize: '.8rem', color: 'var(--accent2)' }}>{decodeIpa(w[4] ?? '')}</div>}
           </div>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center', minHeight: 48, marginBottom: 14, borderBottom: '2px dashed var(--border)', paddingBottom: 14 }}>

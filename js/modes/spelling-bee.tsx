@@ -11,15 +11,32 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak as _speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 
 const SIZE = 10;
 const HINTS = 3;
 
 type Result = 'ok' | 'almost' | 'wrong' | null;
 
+function getWordInLang(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
+}
+
 function build(): WordEntry[] {
+  const learnLang = getLearnLang();
   const pool = _shuf((state.deck.length ? state.deck.slice() : W.slice()) as unknown as WordEntry[]);
-  const filtered = pool.filter(w => w[0].length >= 4);
+  const filtered = learnLang === 'en'
+    ? pool.filter(w => w[0].length >= 4)
+    : pool.filter(w => { const lw = getWordInLang(w, learnLang); return lw.length >= 3; });
   return (filtered.length >= SIZE ? filtered : pool).slice(0, SIZE);
 }
 
@@ -83,7 +100,8 @@ export function SpellingBeePage(): ReactElement {
   // Auto-speak + focus on new question
   useEffect(() => {
     if (!isOpen || !w) return;
-    const t1 = setTimeout(() => speak(w[0]), 300);
+    const learnWord = getWordInLang(w, getLearnLang()) || w[0];
+    const t1 = setTimeout(() => speak(learnWord), 300);
     const t2 = setTimeout(() => { try { inputRef.current?.focus(); } catch (e) {} }, 400);
     return () => { clearTimeout(t1); clearTimeout(t2); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -118,7 +136,8 @@ export function SpellingBeePage(): ReactElement {
 
   const submit = (): void => {
     if (!w || result) return;
-    const answer = w[0].toLowerCase().trim();
+    const learnWord = getWordInLang(w, getLearnLang()) || w[0];
+    const answer = learnWord.toLowerCase().trim();
     const inp = input.toLowerCase().trim();
     if (!inp) {
       setEmptyWarn(true);
@@ -141,17 +160,18 @@ export function SpellingBeePage(): ReactElement {
       setResult('wrong');
       recordMistake(w[0]);
       try { breakCombo(); } catch (e) {}
-      setTimeout(() => speak(w[0]), 600);
+      setTimeout(() => speak(learnWord), 600);
     }
     recordModeAnswer('spelling', isOk || isClose);
   };
 
   const showHint = (): void => {
     if (result || hintsLeft <= 0 || !w) return;
+    const learnWord = getWordInLang(w, getLearnLang()) || w[0];
     const left = hintsLeft - 1;
     setHintsLeft(left);
-    const revealCount = Math.ceil(w[0].length * (HINTS - left) / HINTS);
-    const h = w[0].slice(0, revealCount) + '_'.repeat(Math.max(0, w[0].length - revealCount));
+    const revealCount = Math.ceil(learnWord.length * (HINTS - left) / HINTS);
+    const h = learnWord.slice(0, revealCount) + '_'.repeat(Math.max(0, learnWord.length - revealCount));
     setHint(`💡 ${h}`);
   };
 
@@ -186,13 +206,13 @@ export function SpellingBeePage(): ReactElement {
             <div style={{ fontSize: '.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color: 'var(--text3)', marginBottom: 8 }} data-i18n="bee.listenPrompt">{t('bee.listenPrompt')}</div>
             <button
               ref={speakBtnRef}
-              onClick={() => speak(w[0])}
+              onClick={() => speak(getWordInLang(w, getLearnLang()) || w[0])}
               title={t('bee.speakTitle')}
               data-i18n-title="bee.speakTitle"
               style={{ fontSize: '2rem', background: 'var(--accent)', border: 'none', borderRadius: '50%', width: 56, height: 56, cursor: 'pointer', marginBottom: 10, transition: 'transform .1s', boxShadow: '0 4px 14px rgba(0,200,100,.3)' }}
             >🔊</button>
-            <div style={{ fontSize: '.95rem', fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>{w[1]}</div>
-            <div style={{ fontSize: '.8rem', color: 'var(--accent2)' }}>{decodeIpa(w[4] ?? '')}</div>
+            <div style={{ fontSize: '.95rem', fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>{getWordInLang(w, getKnowLang()) || w[1]}</div>
+            {getLearnLang() === 'en' && <div style={{ fontSize: '.8rem', color: 'var(--accent2)' }}>{decodeIpa(w[4] ?? '')}</div>}
           </div>
 
           {hint && (
@@ -222,8 +242,8 @@ export function SpellingBeePage(): ReactElement {
 
           <div style={{ textAlign: 'center', fontSize: '.9rem', fontWeight: 600, minHeight: 24, marginBottom: 8 }}>
             {result === 'ok' && <span style={{ color: '#27ae60' }}>{t('quiz.correctMsg')}</span>}
-            {result === 'almost' && <span style={{ color: '#f39c12' }} dangerouslySetInnerHTML={{ __html: t('bee.almostMsg', { w: `<b>${w[0]}</b>` }) }} />}
-            {result === 'wrong' && <span style={{ color: '#e74c3c' }} dangerouslySetInnerHTML={{ __html: t('bee.wrongMsg', { w: `<b>${w[0]}</b>` }) }} />}
+            {result === 'almost' && <span style={{ color: '#f39c12' }} dangerouslySetInnerHTML={{ __html: t('bee.almostMsg', { w: `<b>${getWordInLang(w, getLearnLang()) || w[0]}</b>` }) }} />}
+            {result === 'wrong' && <span style={{ color: '#e74c3c' }} dangerouslySetInnerHTML={{ __html: t('bee.wrongMsg', { w: `<b>${getWordInLang(w, getLearnLang()) || w[0]}</b>` }) }} />}
           </div>
 
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>

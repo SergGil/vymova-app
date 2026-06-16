@@ -8,6 +8,8 @@ import { recordModeComplete } from '../features/game.ts';
 import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getKnowLang } from '../features/lang-pair-select.tsx';
 
 // ── Built-in short stories ────────────────────────────────────
 const STORIES = [
@@ -32,6 +34,18 @@ const STORIES = [
 ];
 
 type Story = typeof STORIES[0];
+
+function getWordInLang(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
+}
 
 // ── Word index from W ─────────────────────────────────────────
 let _wordIdx: Map<string, number>;
@@ -153,7 +167,7 @@ export function StoryPage(): ReactElement {
     let left = rect.left - pr.left + (parent?.scrollLeft ?? 0);
     if (left + 200 > pr.width) left = pr.width - 210;
     if (left < 0) left = 0;
-    setPopup({ word: w[0], trans: w[1], ipa, top, left });
+    setPopup({ word: w[0], trans: getWordInLang(w, getKnowLang()) || w[1], ipa, top, left });
   };
 
   const speakPopup = (): void => {
