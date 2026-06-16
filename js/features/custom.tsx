@@ -11,6 +11,7 @@ import { setDeck } from '../core/card-engine.ts';
 import { invalidateReadingIndex } from '../modes/reading.tsx';
 import { invalidateCatCache } from '../modes/catpairs.tsx';
 import { bindModalDismiss } from './overlay-utils.ts';
+import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
 
 type CustomWord = { en: string; ua: string; ex_en?: string; ex_ua?: string };
 type WordIdx = Map<string, number>;
@@ -40,6 +41,14 @@ export function CustomWordsInit(): ReactElement | null {
 
     function openModal(): void {
       enInp!.value = ''; uaInp!.value = ''; exEnInp!.value = ''; exUaInp!.value = ''; errEl!.textContent = '';
+      const learnLang = getLearnLang();
+      const knowLang  = getKnowLang();
+      const learnLabel = t(`lang.${learnLang}` as any);
+      const knowLabel  = t(`lang.${knowLang}` as any);
+      enInp!.placeholder  = `${learnLabel} *`;
+      uaInp!.placeholder  = `${knowLabel} *`;
+      exEnInp!.placeholder = t('custom.exEnPlaceholder').replace(/англійськ\w+/i, learnLabel).replace(/english/i, learnLabel);
+      exUaInp!.placeholder = t('custom.exUaPlaceholder').replace(/переклад/i, knowLabel).replace(/translation/i, knowLabel);
       renderList(); modal!.className = 'open';
       setTimeout(() => { try { enInp!.focus(); } catch (e) {} }, 60);
     }

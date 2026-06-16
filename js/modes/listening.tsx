@@ -10,16 +10,30 @@ import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
 import { speak } from '../features/speech.ts';
 import type { WordEntry } from '../../src/types.js';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 
 const SIZE = 10;
+
+function getWordInLang(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
+}
 
 function build(): WordEntry[] {
   const pool = _shuf((state.deck.length ? state.deck.slice() : W.slice()) as WordEntry[]);
   return pool.slice(0, SIZE);
 }
 
-function buildOptions(word: WordEntry): string[] {
-  const correct = word[1];
+function buildOptions(word: WordEntry, knowLang: string): string[] {
+  const correct = getWordInLang(word, knowLang);
   const pool = _shuf(W.slice() as unknown as WordEntry[]);
   const wrongs: string[] = [];
   const used: Record<string, boolean> = { [word[0].toLowerCase()]: true };
@@ -27,7 +41,9 @@ function buildOptions(word: WordEntry): string[] {
     const k = pool[i][0].toLowerCase();
     if (used[k]) continue;
     used[k] = true;
-    wrongs.push(pool[i][1]);
+    const opt = getWordInLang(pool[i], knowLang);
+    if (!opt || opt === correct) continue;
+    wrongs.push(opt);
   }
   return _shuf([correct, ...wrongs]);
 }
@@ -59,7 +75,8 @@ export function ListeningPage(): ReactElement {
 
   const playWord = (): void => {
     if (!word) return;
-    try { speak(word[0], playBtnRef.current as HTMLElement); }
+    const learnWord = getWordInLang(word, getLearnLang());
+    try { speak(learnWord || word[0], playBtnRef.current as HTMLElement); }
     catch (e) { playBtnRef.current?.classList.remove('on'); }
   };
 
@@ -92,7 +109,7 @@ export function ListeningPage(): ReactElement {
   // Regenerate options + speak word when moving to a new question
   useEffect(() => {
     if (!isOpen || !word) return;
-    setOptions(buildOptions(word));
+    setOptions(buildOptions(word, getKnowLang()));
     setResult(null);
     const tmr = setTimeout(playWord, 400);
     return () => clearTimeout(tmr);
@@ -128,7 +145,7 @@ export function ListeningPage(): ReactElement {
 
   const selectOption = (opt: string): void => {
     if (!word || result) return;
-    const correct = word[1];
+    const correct = getWordInLang(word, getKnowLang());
     if (opt === correct) {
       setOk(o => o + 1);
       setResult({ correct: true, chosen: opt, correctAnswer: correct });
@@ -201,8 +218,8 @@ export function ListeningPage(): ReactElement {
             <div style={{ minHeight: 24, textAlign: 'center', fontSize: '.9rem', fontWeight: 600, marginTop: 10 }}>
               {result && word && (
                 result.correct
-                  ? <span style={{ color: '#27ae60' }}>{t('quiz.correctMsg')} — <b>{word[0]}</b></span>
-                  : <span style={{ color: '#e74c3c' }}>✗ {t('listen.wrongPrefix')} <b>{word[0]}</b> — «{result.correctAnswer}»</span>
+                  ? <span style={{ color: '#27ae60' }}>{t('quiz.correctMsg')} — <b>{getWordInLang(word, getLearnLang()) || word[0]}</b></span>
+                  : <span style={{ color: '#e74c3c' }}>✗ {t('listen.wrongPrefix')} <b>{getWordInLang(word, getLearnLang()) || word[0]}</b> — «{result.correctAnswer}»</span>
               )}
             </div>
 

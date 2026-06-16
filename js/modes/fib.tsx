@@ -11,17 +11,54 @@ import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
 import { speak } from '../features/speech.ts';
 import type { WordEntry } from '../../src/types.js';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { getLearnLang } from '../features/lang-pair-select.tsx';
 
 const SIZE = 10;
 type BlankItem = { sentence: string; answer: string; base: string };
 type FibEntry  = { w: WordEntry; blank: BlankItem };
 
-function makeBlank(w: WordEntry): BlankItem | null {
-  let sentence = w[2] ?? '';
-  if (!sentence || sentence.length < 5) return null;
+function getLangWord(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[1];
+    case 'es': return esEntry(w[0])?.[0] ?? '';
+    case 'fr': return frEntry(w[0])?.[0] ?? '';
+    case 'it': return itEntry(w[0])?.[0] ?? '';
+    case 'pt': return ptEntry(w[0])?.[0] ?? '';
+    case 'de': return deEntry(w[0])?.[0] ?? '';
+    default:   return w[0];
+  }
+}
+
+function getLangSentence(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua': return w[3] ?? '';
+    case 'es': return esEntry(w[0])?.[1] ?? '';
+    case 'fr': return frEntry(w[0])?.[1] ?? '';
+    case 'it': return itEntry(w[0])?.[1] ?? '';
+    case 'pt': return ptEntry(w[0])?.[1] ?? '';
+    case 'de': return deEntry(w[0])?.[1] ?? '';
+    default:   return w[2] ?? '';
+  }
+}
+
+function makeBlank(w: WordEntry, learnLang: string = 'en'): BlankItem | null {
+  const learnWord = getLangWord(w, learnLang);
+  if (!learnWord) return null;
+  let sentence = getLangSentence(w, learnLang);
+  if (!sentence || sentence.length < 5) {
+    // fallback to EN sentence if current lang has no sentence
+    if (learnLang !== 'en') sentence = w[2] ?? '';
+    if (!sentence || sentence.length < 5) return null;
+  }
   if (!sentence.includes('<b>')) {
-    const esc = w[0].replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
+    const esc = learnWord.replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
     sentence = sentence.replace(new RegExp('(' + esc + ')', 'i'), '<b>$1</b>');
+    // if still no match and learnLang is not EN, also try EN word
+    if (!sentence.includes('<b>') && learnLang !== 'en') {
+      const escEn = w[0].replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
+      sentence = sentence.replace(new RegExp('(' + escEn + ')', 'i'), '<b>$1</b>');
+    }
   }
   const m = sentence.match(/<b>(.*?)<\/b>/i);
   if (!m) return null;
@@ -32,10 +69,11 @@ function makeBlank(w: WordEntry): BlankItem | null {
 }
 
 function build(): FibEntry[] {
+  const learnLang = getLearnLang();
   const pool = _shuf((state.deck.length ? state.deck.slice() : W.slice()) as unknown as WordEntry[]);
   const deck: FibEntry[] = [];
   for (let i = 0; i < pool.length && deck.length < SIZE; i++) {
-    const b = makeBlank(pool[i]);
+    const b = makeBlank(pool[i], learnLang);
     if (b) deck.push({ w: pool[i], blank: b });
   }
   return deck;
@@ -155,7 +193,8 @@ export function FibPage(): ReactElement {
 
   const speakCorrectWord = (): void => {
     if (!item) return;
-    try { speak(item.blank.answer, inputRef.current as unknown as HTMLElement); } catch (e) {}
+    const speakWord = getLearnLang() === 'en' ? item.blank.answer : (getLangWord(item.w, getLearnLang()) || item.blank.answer);
+    try { speak(speakWord, inputRef.current as unknown as HTMLElement); } catch (e) {}
   };
 
   // Keyboard shortcuts
