@@ -284,8 +284,11 @@ export function WritePage(): ReactElement {
             <input
               ref={inputRef}
               type="text" autoComplete="off" spellCheck={false}
-              placeholder={t('write.placeholder')}
-              data-i18n-placeholder="write.placeholder"
+              placeholder={
+                backLang === 'en'
+                  ? t('write.placeholder')
+                  : t('write.placeholder').replace(/англійськ\S+/gi, t(`lang.${backLang}` as any)).replace(/english\S*/gi, t(`lang.${backLang}` as any))
+              }
               value={input}
               onChange={(e) => onInputChange(e.target.value)}
               onKeyDown={onInputKeydown}

@@ -47,8 +47,9 @@ export function CustomWordsInit(): ReactElement | null {
       const knowLabel  = t(`lang.${knowLang}` as any);
       enInp!.placeholder  = `${learnLabel} *`;
       uaInp!.placeholder  = `${knowLabel} *`;
-      exEnInp!.placeholder = t('custom.exEnPlaceholder').replace(/англійськ\w+/i, learnLabel).replace(/english/i, learnLabel);
-      exUaInp!.placeholder = t('custom.exUaPlaceholder').replace(/переклад/i, knowLabel).replace(/translation/i, knowLabel);
+      const exTemplate = t('custom.exEnPlaceholder');
+      exEnInp!.placeholder = exTemplate.replace(/англійськ\S+/gi, learnLabel).replace(/english\S*/gi, learnLabel);
+      exUaInp!.placeholder = exTemplate.replace(/англійськ\S+/gi, knowLabel).replace(/english\S*/gi, knowLabel);
       renderList(); modal!.className = 'open';
       setTimeout(() => { try { enInp!.focus(); } catch (e) {} }, 60);
     }
