@@ -14,6 +14,47 @@ import {
   computePersonalPace, estimateDays, updateCompletionDates,
 } from './learning-path-logic.ts';
 import { t, getLang, skillName, levelName } from './i18n.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from './mode-utils.ts';
+
+// ── Language helpers ──────────────────────────────────────────
+
+function _learnLang(): string {
+  return localStorage.getItem('ew_learn_lang') ?? 'en';
+}
+
+function _activeKnownSet(): Set<string> {
+  const lang = _learnLang();
+  switch (lang) {
+    case 'es': return state.knownEs;
+    case 'fr': return state.knownFr;
+    case 'it': return state.knownIt;
+    case 'pt': return state.knownPt;
+    case 'de': return state.knownDe;
+    default:   return state.known;
+  }
+}
+
+function _getTranslation(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'es': return esEntry(w[0])?.[0] ?? w[1];
+    case 'fr': return frEntry(w[0])?.[0] ?? w[1];
+    case 'it': return itEntry(w[0])?.[0] ?? w[1];
+    case 'pt': return ptEntry(w[0])?.[0] ?? w[1];
+    case 'de': return deEntry(w[0])?.[0] ?? w[1];
+    default:   return w[1];
+  }
+}
+
+function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
+  switch (lang) {
+    case 'es': return words.filter(w => esEntry(w[0]) !== null);
+    case 'fr': return words.filter(w => frEntry(w[0]) !== null);
+    case 'it': return words.filter(w => itEntry(w[0]) !== null);
+    case 'pt': return words.filter(w => ptEntry(w[0]) !== null);
+    case 'de': return words.filter(w => deEntry(w[0]) !== null);
+    default:   return words;
+  }
+}
 
 // ── Plan definition ───────────────────────────────────────────
 interface LevelPlan {
@@ -86,11 +127,13 @@ const PLANS: LevelPlan[] = [
 
 // ── LocalStorage helpers ──────────────────────────────────────
 
-const LS_PACE = 'lp_pace_snapshots';
-const LS_COMP = 'lp_completion_dates';
+function _lsKey(base: string): string {
+  const lang = _learnLang();
+  return lang === 'en' || lang === 'ua' ? base : `${base}_${lang}`;
+}
 
 function _loadSnapshots(): PaceSnapshot[] {
-  try { return JSON.parse(localStorage.getItem(LS_PACE) ?? '[]'); } catch { return []; }
+  try { return JSON.parse(localStorage.getItem(_lsKey('lp_pace_snapshots')) ?? '[]'); } catch { return []; }
 }
 
 function _saveSnapshot(knownCount: number): void {
@@ -98,15 +141,15 @@ function _saveSnapshot(knownCount: number): void {
   const snaps = _loadSnapshots().filter(s => s.date !== today);
   snaps.push({ date: today, count: knownCount });
   const kept = snaps.sort((a, b) => a.date.localeCompare(b.date)).slice(-14);
-  try { localStorage.setItem(LS_PACE, JSON.stringify(kept)); } catch { /* quota */ }
+  try { localStorage.setItem(_lsKey('lp_pace_snapshots'), JSON.stringify(kept)); } catch { /* quota */ }
 }
 
 function _loadCompletionDates(): Record<string, string> {
-  try { return JSON.parse(localStorage.getItem(LS_COMP) ?? '{}'); } catch { return {}; }
+  try { return JSON.parse(localStorage.getItem(_lsKey('lp_completion_dates')) ?? '{}'); } catch { return {}; }
 }
 
 function _saveCompletionDates(dates: Record<string, string>): void {
-  try { localStorage.setItem(LS_COMP, JSON.stringify(dates)); } catch { /* quota */ }
+  try { localStorage.setItem(_lsKey('lp_completion_dates'), JSON.stringify(dates)); } catch { /* quota */ }
 }
 
 function _formatDate(iso: string): string {
@@ -133,18 +176,21 @@ export function renderLearningPath(): void {
   const el = document.getElementById('lp-content') as HTMLElement | null;
   if (!el) return;
 
-  const words = W as unknown as WordEntry[];
+  const lang         = _learnLang();
+  const knownSet     = _activeKnownSet();
+  const allWords     = W as unknown as WordEntry[];
+  const words        = _filterWordsForLang(allWords, lang);
 
   // Track daily pace snapshot
-  _saveSnapshot(state.known.size);
+  _saveSnapshot(knownSet.size);
 
-  const stats        = computeCefrStats(state.known, words);
+  const stats        = computeCefrStats(knownSet, words);
   const currentLevel = findCurrentLevel(stats);
   const snapshots    = _loadSnapshots();
   const pace         = computePersonalPace(snapshots);
   const todayStr     = new Date().toISOString().slice(0, 10);
-  const lv           = getLevel(state.known.size);
-  const todayWords   = filterDailyWords(currentLevel, state.known, words);
+  const lv           = getLevel(knownSet.size);
+  const todayWords   = filterDailyWords(currentLevel, knownSet, words);
 
   // Save completion dates for newly-completed levels
   const prevDates = _loadCompletionDates();
@@ -159,7 +205,7 @@ export function renderLearningPath(): void {
         ${todayWords.map(w => `
           <div class="lp-word-chip">
             <span class="lp-word">${w[0]}</span>
-            <span class="lp-transl">${w[1]}</span>
+            <span class="lp-transl">${_getTranslation(w, lang)}</span>
           </div>
         `).join('')}
       </div>
