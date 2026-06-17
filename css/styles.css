@@ -2486,15 +2486,16 @@ body.sw .hamburger { border-color: rgba(0,200,255,.3); }
 
 .modal-overlay {
   position: fixed;
-  left: var(--sb-width); right: 0; top: 0; bottom: 0;
+  inset: 0;
   background: rgba(0,0,0,.5);
   z-index: 9500;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-left: var(--sb-width);
 }
 @media (max-width: 900px) {
-  .modal-overlay { left: 0; }
+  .modal-overlay { padding-left: 0; }
 }
 
 /* Stats overlay acts as page when open */
