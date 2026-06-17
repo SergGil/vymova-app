@@ -893,5 +893,6 @@
   "pwa.iosInstallHint": "<strong>Zum Startbildschirm hinzufügen</strong> · Tippe auf <strong>⬜ Teilen</strong> → <strong>Zum Startbildschirm hinzufügen</strong>",
   "pwa.installTitle": "Als App installieren",
   "pwa.installDesc": "Funktioniert offline, immer griffbereit",
-  "pwa.installBtn": "Installieren"
+  "pwa.installBtn": "Installieren",
+  "duel.lang": "Übersetzungssprache:"
 }

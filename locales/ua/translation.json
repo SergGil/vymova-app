@@ -916,5 +916,6 @@
   "pwa.iosInstallHint": "<strong>Додай на головний екран</strong> · Натисни <strong>⬜ Поділитися</strong> → <strong>На екран «Додому»</strong>",
   "pwa.installTitle": "Встанови як додаток",
   "pwa.installDesc": "Працює офлайн, завжди під рукою",
-  "pwa.installBtn": "Встановити"
+  "pwa.installBtn": "Встановити",
+  "duel.lang": "Мова перекладу:"
 }

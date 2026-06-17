@@ -893,5 +893,6 @@
   "pwa.iosInstallHint": "<strong>Ajouter à l'écran d'accueil</strong> · Touche <strong>⬜ Partager</strong> → <strong>Ajouter à l'écran d'accueil</strong>",
   "pwa.installTitle": "Installer comme application",
   "pwa.installDesc": "Fonctionne hors ligne, toujours à portée de main",
-  "pwa.installBtn": "Installer"
+  "pwa.installBtn": "Installer",
+  "duel.lang": "Langue de traduction :"
 }

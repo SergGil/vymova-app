@@ -12,6 +12,7 @@ import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
 import type { WordEntry, DuelScreen, DuelLobbyUIState } from '../../src/types.js';
 import { t, getLang } from './i18n.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry } from './mode-utils.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { DICT } from '../modes/word-letters.tsx';
 
@@ -123,6 +124,7 @@ interface SpectatorData { name:string; avatar:string; }
 interface RoomData {
   seed:number; mode:DuelMode; category:string; difficulty:Difficulty;
   bestOf:BestOf; maxHints:number; powerupsEnabled:boolean;
+  lang?:string;
   p1:PlayerData; p2:PlayerData|null;
   started:boolean; finished:boolean; createdAt:number;
   series:SeriesData;
@@ -133,6 +135,7 @@ interface AsyncDuel {
   seed:number; mode:DuelMode; category:string; difficulty:Difficulty;
   createdAt:number; expiresAt:number;
   powerupsEnabled?:boolean; maxHints?:number; bestOf?:BestOf;
+  lang?:string;
   challenger:{ name:string; avatar:string; score:number; done:boolean };
   opponent?:{ name:string; avatar:string; score:number; done:boolean };
   finished:boolean;
@@ -229,6 +232,18 @@ function _clearSession(roomId?: string): void {
   _saveSessions(_loadSessions().filter(s=>s.roomId!==id));
 }
 
+// ── Language helpers ──────────────────────────────────────────
+function _wordInLang(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'es': return esEntry(w[0])?.[0] ?? w[1];
+    case 'fr': return frEntry(w[0])?.[0] ?? w[1];
+    case 'it': return itEntry(w[0])?.[0] ?? w[1];
+    case 'pt': return ptEntry(w[0])?.[0] ?? w[1];
+    case 'de': return deEntry(w[0])?.[0] ?? w[1];
+    default:   return w[1]; // 'ua' or 'en' → Ukrainian translation
+  }
+}
+
 // ── Deck building ─────────────────────────────────────────────
 function _dateLocale(): string { return getLang()==='en'?'en':getLang()==='es'?'es':'uk'; }
 function _secUnit(): string { return getLang()==='ua'?'с':'s'; }
@@ -240,10 +255,22 @@ export function _rng(seed:number):()=>number{ let s=seed; return()=>{s=(s*166452
 const _SCRAMBLE_POOL: WordEntry[] = (W as unknown as WordEntry[])
   .filter(w => /^[a-z]+$/i.test(w[0]) && w[0].length >= 4 && w[0].length <= 9);
 
-export function _buildDeck(seed:number, category:string, difficulty:Difficulty, mode?:DuelMode): WordEntry[] {
+export function _buildDeck(seed:number, category:string, difficulty:Difficulty, mode?:DuelMode, lang?:string): WordEntry[] {
   const rnd = _rng(seed);
   const scramble = mode==='anagram'||mode==='letters';
   let pool = scramble ? _SCRAMBLE_POOL : (W as unknown as WordEntry[]);
+  // Language filter: keep only words that have a translation in selected language
+  if (!scramble && lang && lang !== 'en' && lang !== 'ua') {
+    const hasTranslation: (w: WordEntry) => boolean = {
+      es: (w) => esEntry(w[0]) !== null,
+      fr: (w) => frEntry(w[0]) !== null,
+      it: (w) => itEntry(w[0]) !== null,
+      pt: (w) => ptEntry(w[0]) !== null,
+      de: (w) => deEntry(w[0]) !== null,
+    }[lang] ?? (() => true);
+    const langPool = pool.filter(hasTranslation);
+    if (langPool.length >= ROOM_SIZE) pool = langPool;
+  }
   // Category filter
   if (category) {
     const allowed = new Set((WORD_CATEGORIES[category]??[]).map((w:string)=>w.toLowerCase()));
@@ -346,6 +373,8 @@ export function _getSelMaxHints(): number { return state.duelSel.maxHints; }
 export function _setSelMaxHints(h: number): void { state.duelSel.maxHints = h; notifyStateChange(); }
 export function _getSelPowerups(): boolean { return state.duelSel.powerupsEnabled; }
 export function _setSelPowerups(p: boolean): void { state.duelSel.powerupsEnabled = p; notifyStateChange(); }
+export function _getSelLang(): string { return state.duelSel.lang; }
+export function _setSelLang(l: string): void { state.duelSel.lang = l; notifyStateChange(); }
 
 export function _showInfoTooltip(anchor: HTMLElement, type: 'hints' | 'powerups'): void {
   const existing = document.getElementById('duel-tooltip');
@@ -447,6 +476,7 @@ export async function createRoom(): Promise<void> {
     const room: RoomData = {
       seed, mode:state.duelSel.mode, category:state.duelSel.category, difficulty:state.duelSel.difficulty,
       bestOf:state.duelSel.bestOf, maxHints:state.duelSel.maxHints, powerupsEnabled:state.duelSel.powerupsEnabled,
+      lang:state.duelSel.lang,
       createdAt:Date.now(), started:false, finished:false,
       series:{p1wins:0,p2wins:0,round:1},
       p1:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:state.duelSel.maxHints,powerups:{double:state.duelSel.powerupsEnabled?1:0,skip:state.duelSel.powerupsEnabled?1:0,freeze:state.duelSel.powerupsEnabled?1:0}},
@@ -455,7 +485,8 @@ export async function createRoom(): Promise<void> {
     await _fbSet(`/duel_rooms/${state.duelRoom.roomId}`,room);
     state.duelRoom.roomCreatedAt=room.createdAt;
     state.duelRoom.roomSeed=seed; state.duelRoom.roomCategory=state.duelSel.category; state.duelRoom.roomDifficulty=state.duelSel.difficulty; state.duelRoom.roomMaxHints=state.duelSel.maxHints;
-    state.duelRoom.quizDeck=_buildDeck(seed,state.duelSel.category,state.duelSel.difficulty,state.duelSel.mode);
+    state.duelRoom.roomLang=state.duelSel.lang;
+    state.duelRoom.quizDeck=_buildDeck(seed,state.duelSel.category,state.duelSel.difficulty,state.duelSel.mode,state.duelSel.lang);
     notifyStateChange();
     const mInfo=DUEL_MODES.find(m=>m.id===state.duelSel.mode)!;
     const catLabel=state.duelSel.category?` · ${state.duelSel.category.split(' ')[0]}`:'';
@@ -485,7 +516,8 @@ export async function joinRoom(rawCode: string): Promise<void> {
     state.duelRoom.roomId=code; state.duelRoom.mySlot='p2'; state.duelRoom.isAsyncChallenge=false;
     state.duelRoom.roomCreatedAt=room.createdAt||Date.now();
     state.duelRoom.roomSeed=room.seed; state.duelRoom.roomCategory=room.category; state.duelRoom.roomDifficulty=room.difficulty; state.duelRoom.roomMaxHints=room.maxHints;
-    state.duelRoom.quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode);
+    state.duelRoom.roomLang=room.lang||'ua';
+    state.duelRoom.quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode,room.lang);
     state.duelRoom.bestOf=room.bestOf||1; state.duelRoom.series={...room.series};
     await _fbPatch(`/duel_rooms/${state.duelRoom.roomId}`,{
       p2:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:room.maxHints,powerups:{double:room.powerupsEnabled?1:0,skip:room.powerupsEnabled?1:0,freeze:room.powerupsEnabled?1:0}},
@@ -714,23 +746,33 @@ function _renderQuestion(): void {
 }
 
 function _renderChoiceQ(w:WordEntry): void {
+  const lang = state.duelRoom.roomLang || 'ua';
   const isRev=state.duelRoom.mode==='reverse';
-  const q=isRev?w[1]:w[0], ans=isRev?w[0]:w[1];
+  const q=isRev?_wordInLang(w,lang):w[0];
+  const ans=isRev?w[0]:_wordInLang(w,lang);
   state.duelQuestion.qPrimary=q; state.duelQuestion.qSecondary=''; state.duelQuestion.qTertiary='';
   const wrongs:string[]=[]; const used=new Set([w[0].toLowerCase()]);
   const pool=_shuf(W.slice() as unknown as WordEntry[]);
-  for(const pw of pool){if(wrongs.length>=NUM_OPTS-1)break;if(used.has(pw[0].toLowerCase()))continue;used.add(pw[0].toLowerCase());wrongs.push(isRev?pw[0]:pw[1]);}
+  for(const pw of pool){
+    if(wrongs.length>=NUM_OPTS-1) break;
+    if(used.has(pw[0].toLowerCase())) continue;
+    used.add(pw[0].toLowerCase());
+    const distractor = isRev ? pw[0] : _wordInLang(pw, lang);
+    if (distractor) wrongs.push(distractor);
+  }
   state.duelQuestion.choiceOptions=_shuf([ans,...wrongs]);
   state.duelQuestion.choiceAnswer=ans;
 }
 
 function _renderWriteQ(w:WordEntry): void {
-  state.duelQuestion.qPrimary=w[1]; state.duelQuestion.qSecondary=t('duel.writeHint'); state.duelQuestion.qTertiary='';
-  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer='';
+  const lang = state.duelRoom.roomLang || 'ua';
+  state.duelQuestion.qPrimary=_wordInLang(w,lang); state.duelQuestion.qSecondary=t('duel.writeHint'); state.duelQuestion.qTertiary='';
+  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer=w[0];
 }
 
 function _renderAnagramQ(w:WordEntry): void {
-  state.duelQuestion.qPrimary=_shuffleLetters(w[0]); state.duelQuestion.qSecondary=w[1]; state.duelQuestion.qTertiary=t('duel.anagramHint');
+  const lang = state.duelRoom.roomLang || 'ua';
+  state.duelQuestion.qPrimary=_shuffleLetters(w[0]); state.duelQuestion.qSecondary=_wordInLang(w,lang); state.duelQuestion.qTertiary=t('duel.anagramHint');
   state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer='';
 }
 
@@ -1132,6 +1174,7 @@ export async function createAsyncChallenge(): Promise<void> {
       seed, mode:state.duelSel.mode, category:state.duelSel.category, difficulty:state.duelSel.difficulty,
       createdAt:Date.now(), expiresAt:Date.now()+86_400_000, // 24 hours
       powerupsEnabled:state.duelSel.powerupsEnabled, maxHints:state.duelSel.maxHints, bestOf:state.duelSel.bestOf,
+      lang:state.duelSel.lang,
       challenger:{ name:_getMyName(), avatar:_getMyAvatar(), score:0, done:false },
       finished:false,
     };
@@ -1139,7 +1182,8 @@ export async function createAsyncChallenge(): Promise<void> {
     // Play immediately as challenger
     state.duelRoom.roomId=code; state.duelRoom.mySlot='p1'; state.duelRoom.isAsyncChallenge=true; state.duelRoom.roomCreatedAt=challenge.createdAt;
     state.duelRoom.roomSeed=seed; state.duelRoom.roomCategory=state.duelSel.category; state.duelRoom.roomDifficulty=state.duelSel.difficulty; state.duelRoom.roomMaxHints=state.duelSel.maxHints;
-    state.duelRoom.quizDeck=_buildDeck(seed,state.duelSel.category,state.duelSel.difficulty,state.duelSel.mode);
+    state.duelRoom.roomLang=state.duelSel.lang;
+    state.duelRoom.quizDeck=_buildDeck(seed,state.duelSel.category,state.duelSel.difficulty,state.duelSel.mode,state.duelSel.lang);
     // Show code to share
     state.duelLobbyUI.waiting={visible:true,roomCode:_fmtCode(code),modeLabel:`📬 ${t('duel.mode.'+state.duelSel.mode)} · ${t('duel.async.24h')}`};
     state.duelLobbyUI.joinRowVisible=false;
@@ -1170,7 +1214,8 @@ export async function joinAsyncChallenge(): Promise<void> {
     if(challenge.opponent) throw new Error(t('duel.err.chal.taken'));
     state.duelRoom.roomId=code; state.duelRoom.mySlot='p2'; state.duelRoom.isAsyncChallenge=true; state.duelRoom.roomCreatedAt=challenge.createdAt||Date.now();
     state.duelRoom.roomSeed=challenge.seed; state.duelRoom.roomCategory=challenge.category; state.duelRoom.roomDifficulty=challenge.difficulty; state.duelRoom.roomMaxHints=challenge.maxHints??3;
-    state.duelRoom.quizDeck=_buildDeck(challenge.seed,challenge.category,challenge.difficulty,challenge.mode);
+    state.duelRoom.roomLang=challenge.lang||'ua';
+    state.duelRoom.quizDeck=_buildDeck(challenge.seed,challenge.category,challenge.difficulty,challenge.mode,challenge.lang);
     state.duelRoom.oppName=challenge.challenger.name; state.duelRoom.oppAvatar=challenge.challenger.avatar;
     notifyStateChange();
     const mInfo=DUEL_MODES.find(m=>m.id===challenge.mode);
@@ -1267,7 +1312,8 @@ export function _onResumeContinue(roomId:string): void {
   const seed=sess.seed??room.seed, category=sess.category??room.category, difficulty=sess.difficulty??room.difficulty;
   const maxHints=sess.maxHints??room.maxHints, bestOf=sess.bestOf??room.bestOf;
   state.duelRoom.roomSeed=seed; state.duelRoom.roomCategory=category; state.duelRoom.roomDifficulty=difficulty; state.duelRoom.roomMaxHints=maxHints;
-  state.duelRoom.quizDeck=_buildDeck(seed,category,difficulty,sess.mode);
+  state.duelRoom.roomLang=room.lang||'ua';
+  state.duelRoom.quizDeck=_buildDeck(seed,category,difficulty,sess.mode,room.lang);
   const oppRoom=room[sess.slot==='p1'?'p2':'p1'];
   state.duelRoom.oppName=oppRoom?.name||sess.oppName||t('duel.opp');
   state.duelRoom.oppAvatar=oppRoom?.avatar||sess.oppAvatar||'🧑';
@@ -1308,6 +1354,7 @@ export function _onResumeDiscard(roomId:string): void {
 interface TournMatch { p1:number; p2:number; p1score:number; p2score:number; winner:number; done:boolean; roomId:string; }
 interface Tournament {
   code:string; size:4|8; mode:DuelMode; category:string; difficulty:Difficulty;
+  lang?:string;
   players:Record<string,{name:string;avatar:string}>; // slot→player
   bracket:TournMatch[][]; // rounds[matches]
   currentRound:number; currentMatch:number;
@@ -1563,7 +1610,8 @@ async function _startTournMatch(tourn:Tournament, round:number, matchIdx:number)
   await _fbPatch(matchPath,{roomId:state.duelRoom.roomId});
   state.duelRoom.oppName=tourn.players[match.p1===_tournSlot?match.p2:match.p1].name;
   state.duelRoom.oppAvatar=tourn.players[match.p1===_tournSlot?match.p2:match.p1].avatar;
-  state.duelRoom.quizDeck=_buildDeck(seed,tourn.category,tourn.difficulty,tourn.mode);
+  state.duelRoom.roomLang=tourn.lang||'ua';
+  state.duelRoom.quizDeck=_buildDeck(seed,tourn.category,tourn.difficulty,tourn.mode,tourn.lang);
   notifyStateChange();
   _initGame(tourn.mode,3,1,{p1wins:0,p2wins:0,round:1},false);
   // After game finishes, save result to tournament
@@ -1591,7 +1639,8 @@ async function _joinTournMatch(roomId:string): Promise<void> {
       p2:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:3,powerups:{double:0,skip:0,freeze:0}},
       started:true,
     });
-    state.duelRoom.quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode);
+    state.duelRoom.roomLang=room.lang||'ua';
+    state.duelRoom.quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode,room.lang);
     state.duelRoom.oppName=room.p1.name; state.duelRoom.oppAvatar=room.p1.avatar;
     notifyStateChange();
     _initGame(room.mode,3,1,{p1wins:0,p2wins:0,round:1},false);

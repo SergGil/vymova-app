@@ -13,7 +13,42 @@ import {
   _getSelBestOf, _setSelBestOf,
   _getSelMaxHints, _setSelMaxHints,
   _getSelPowerups, _setSelPowerups,
+  _getSelLang, _setSelLang,
 } from './duel.ts';
+
+const DUEL_LANGS: { id: string; flag: string; label: string }[] = [
+  { id: 'ua', flag: '🇺🇦', label: 'UA' },
+  { id: 'es', flag: '🇪🇸', label: 'ES' },
+  { id: 'fr', flag: '🇫🇷', label: 'FR' },
+  { id: 'it', flag: '🇮🇹', label: 'IT' },
+  { id: 'pt', flag: '🇵🇹', label: 'PT' },
+  { id: 'de', flag: '🇩🇪', label: 'DE' },
+];
+
+export function DuelLangPicker() {
+  const [selLang, setSelLang] = useState(_getSelLang());
+  return (
+    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+      {DUEL_LANGS.map(l => {
+        const active = l.id === selLang;
+        return (
+          <button key={l.id} type="button"
+            onClick={() => { _setSelLang(l.id); setSelLang(l.id); }}
+            style={{
+              padding: '5px 11px', borderRadius: 8,
+              border: `1.5px solid ${active ? 'var(--accent)' : 'var(--border)'}`,
+              background: active ? 'rgba(0,200,100,.1)' : 'transparent',
+              color: active ? 'var(--accent)' : 'var(--text2)',
+              cursor: 'pointer', fontFamily: 'inherit', fontSize: '.82rem',
+              fontWeight: active ? 700 : 400, transition: 'all .12s',
+            }}>
+            {l.flag} {l.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 
 export function DuelModePicker() {
   const [selMode, setSelMode] = useState(_getSelMode());

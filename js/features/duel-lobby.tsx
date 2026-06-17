@@ -8,7 +8,7 @@ import { t } from './i18n.ts';
 import { useStateVersion } from '../../src/store.ts';
 import { DuelLeaderboard, DuelRating } from './duel-leaderboard.tsx';
 import { DuelHistory } from './duel-history.tsx';
-import { DuelModePicker, DuelCategoryPicker, DuelOptionsRow } from './duel-lobby-options.tsx';
+import { DuelModePicker, DuelCategoryPicker, DuelOptionsRow, DuelLangPicker } from './duel-lobby-options.tsx';
 import { DuelResume } from './duel-resume.tsx';
 import {
   _getLobbyUIData, createRoom, joinRoom, _cancelRoom,
@@ -48,6 +48,10 @@ export function DuelLobby(): ReactElement {
 
       {/* W/L Rating */}
       <div id="duel-rating-row" style={{ fontSize: '.75rem', color: 'var(--accent)', marginBottom: 12, textAlign: 'center', fontWeight: 600 }}><DuelRating/></div>
+
+      {/* Language picker */}
+      <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginBottom: 6 }}>🌐 {t('duel.lang')}</div>
+      <div style={{ marginBottom: 10 }}><DuelLangPicker/></div>
 
       {/* Mode picker */}
       <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginBottom: 6 }}>{t('duel.mode')}</div>

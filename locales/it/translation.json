@@ -893,5 +893,6 @@
   "pwa.iosInstallHint": "<strong>Aggiungi alla schermata Home</strong> · Tocca <strong>⬜ Condividi</strong> → <strong>Aggiungi alla schermata Home</strong>",
   "pwa.installTitle": "Installa come app",
   "pwa.installDesc": "Funziona offline, sempre a portata di mano",
-  "pwa.installBtn": "Installa"
+  "pwa.installBtn": "Installa",
+  "duel.lang": "Lingua di traduzione:"
 }

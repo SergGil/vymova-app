@@ -893,5 +893,6 @@
   "pwa.iosInstallHint": "<strong>Añadir a pantalla de inicio</strong> · Toca <strong>⬜ Compartir</strong> → <strong>Añadir a pantalla de inicio</strong>",
   "pwa.installTitle": "Instalar como app",
   "pwa.installDesc": "Funciona sin conexión, siempre a mano",
-  "pwa.installBtn": "Instalar"
+  "pwa.installBtn": "Instalar",
+  "duel.lang": "Idioma de traducción:"
 }
