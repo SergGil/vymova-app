@@ -180,36 +180,46 @@ export function SidebarInit(): ReactElement | null {
     modesClose?.addEventListener('click', closePage);
 
     // ── Sidebar nav ──────────────────────────────────────────────
-    const onCardsClick = () => { closePage(); if (window.innerWidth <= 900) closeSidebar(); };
-    const sbCards = document.getElementById('sb-cards');
-    const sbHome  = document.getElementById('sb-home');
-    sbCards?.addEventListener('click', onCardsClick);
-    sbHome?.addEventListener('click', onCardsClick);
+    // Base path for hrefs ('' locally, '/english-words-app' on GitHub Pages).
+    const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-    const sbStats = document.getElementById('sb-stats');
-    const sbAch = document.getElementById('sb-achievements');
-    const sbModes = document.getElementById('sb-modes');
-    const sbSettings = document.getElementById('sb-settings');
-    const sbDuel = document.getElementById('sb-duel');
-    const sbGrammar = document.getElementById('sb-grammar');
-    const sbIdioms = document.getElementById('sb-idioms');
-    const sbLearningPath = document.getElementById('sb-learning-path');
-    const onStatsClick = () => openPage('stats');
-    const onAchClick = () => openPage('ach');
-    const onModesClick = () => openPage('modes');
-    const onSettingsClick = () => openPage('settings');
-    const onDuelClick = () => openPage('duel');
-    const onGrammarClick = () => openPage('grammar');
-    const onIdiomsClick = () => openPage('idioms');
-    const onLearningPathClick = () => openPage('learning-path');
-    sbStats?.addEventListener('click', onStatsClick);
-    sbAch?.addEventListener('click', onAchClick);
-    sbModes?.addEventListener('click', onModesClick);
-    sbSettings?.addEventListener('click', onSettingsClick);
-    sbDuel?.addEventListener('click', onDuelClick);
-    sbGrammar?.addEventListener('click', onGrammarClick);
-    sbIdioms?.addEventListener('click', onIdiomsClick);
-    sbLearningPath?.addEventListener('click', onLearningPathClick);
+    // Returns a click handler that prevents default navigation for plain
+    // left-clicks (React Router handles it) but allows Ctrl/Cmd/middle-click
+    // so the user can open pages in a new tab.
+    function _navHandler(action: () => void) {
+      return (e: MouseEvent) => {
+        if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
+        e.preventDefault();
+        action();
+      };
+    }
+
+    const sbCards = document.getElementById('sb-cards') as HTMLAnchorElement | null;
+    const sbHome  = document.getElementById('sb-home');
+    if (sbCards) sbCards.href = base + '/';
+    const onCardsClick = _navHandler(() => { closePage(); if (window.innerWidth <= 900) closeSidebar(); });
+    sbCards?.addEventListener('click', onCardsClick);
+    sbHome?.addEventListener('click', () => { closePage(); if (window.innerWidth <= 900) closeSidebar(); });
+
+    const NAV_LINKS: [string, string, string][] = [
+      ['sb-stats',         '/stats',          'stats'],
+      ['sb-achievements',  '/achievements',   'ach'],
+      ['sb-modes',         '/modes',          'modes'],
+      ['sb-settings',      '/settings',       'settings'],
+      ['sb-duel',          '/duel',           'duel'],
+      ['sb-grammar',       '/grammar',        'grammar'],
+      ['sb-idioms',        '/idioms',         'idioms'],
+      ['sb-learning-path', '/learning-path',  'learning-path'],
+    ];
+    const _navListeners: [HTMLElement, string, EventListener][] = [];
+    for (const [id, route, page] of NAV_LINKS) {
+      const el = document.getElementById(id) as HTMLAnchorElement | null;
+      if (!el) continue;
+      el.href = base + route;
+      const handler = _navHandler(() => openPage(page)) as EventListener;
+      el.addEventListener('click', handler);
+      _navListeners.push([el, 'click', handler]);
+    }
 
     // ── Theme toggles ──────────────────────────────────────────
     const setTheme = document.getElementById('set-theme');
@@ -260,15 +270,7 @@ export function SidebarInit(): ReactElement | null {
       statsClose?.removeEventListener('click', closePage);
       modesClose?.removeEventListener('click', closePage);
       sbCards?.removeEventListener('click', onCardsClick);
-      sbHome?.removeEventListener('click', onCardsClick);
-      sbStats?.removeEventListener('click', onStatsClick);
-      sbAch?.removeEventListener('click', onAchClick);
-      sbModes?.removeEventListener('click', onModesClick);
-      sbSettings?.removeEventListener('click', onSettingsClick);
-      sbDuel?.removeEventListener('click', onDuelClick);
-      sbGrammar?.removeEventListener('click', onGrammarClick);
-      sbIdioms?.removeEventListener('click', onIdiomsClick);
-      sbLearningPath?.removeEventListener('click', onLearningPathClick);
+      for (const [el, evt, fn] of _navListeners) el.removeEventListener(evt, fn);
       setTheme?.removeEventListener('click', onSetThemeClick);
       setSw?.removeEventListener('click', onSetSwClick);
       titleSwToggle?.removeEventListener('click', onTitleSwClick);

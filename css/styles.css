@@ -2402,7 +2402,7 @@ body.sw .sidebar-profile-btn:hover { border-color: #00c8ff; }
   border: none; border-radius: 10px;
   background: transparent; color: var(--text2);
   font-family: inherit; font-size: .85rem; font-weight: 500;
-  cursor: pointer; text-align: left;
+  cursor: pointer; text-align: left; text-decoration: none;
   transition: all .15s;
 }
 .sb-btn:hover { background: var(--bg); color: var(--text); }
