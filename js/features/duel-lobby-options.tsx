@@ -16,13 +16,13 @@ import {
   _getSelLang, _setSelLang,
 } from './duel.ts';
 
-const DUEL_LANGS: { id: string; flag: string; label: string }[] = [
-  { id: 'ua', flag: '🇺🇦', label: 'UA' },
-  { id: 'es', flag: '🇪🇸', label: 'ES' },
-  { id: 'fr', flag: '🇫🇷', label: 'FR' },
-  { id: 'it', flag: '🇮🇹', label: 'IT' },
-  { id: 'pt', flag: '🇵🇹', label: 'PT' },
-  { id: 'de', flag: '🇩🇪', label: 'DE' },
+const DUEL_LANGS: { id: string; label: string }[] = [
+  { id: 'ua', label: 'UA' },
+  { id: 'es', label: 'ES' },
+  { id: 'fr', label: 'FR' },
+  { id: 'it', label: 'IT' },
+  { id: 'pt', label: 'PT' },
+  { id: 'de', label: 'DE' },
 ];
 
 export function DuelLangPicker() {
@@ -42,7 +42,7 @@ export function DuelLangPicker() {
               cursor: 'pointer', fontFamily: 'inherit', fontSize: '.82rem',
               fontWeight: active ? 700 : 400, transition: 'all .12s',
             }}>
-            {l.flag} {l.label}
+            {l.label}
           </button>
         );
       })}
