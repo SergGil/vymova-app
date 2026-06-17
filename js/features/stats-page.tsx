@@ -308,7 +308,7 @@ export function StatsPage(): ReactElement {
         <div className="chart-wrap">
           <div className="chart-bars" id="chart-bars">
             {!hasChartData ? (
-              <div className="chart-empty">{t('stats.noData')}</div>
+              <div className="chart-empty" dangerouslySetInnerHTML={{ __html: t('stats.noData') }} />
             ) : chartData.map(d => {
               const h = Math.round((d.val / maxVal) * barH);
               const showLabel = !sm || d.isToday || d.date.endsWith('-01')

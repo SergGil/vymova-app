@@ -8,7 +8,7 @@ import type { GameData, Level, Achievement, ModeStats, ModeAccuracy, ModeAccEntr
 
 function _langKey(base: string): string {
   const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
-  return lang === 'en' || lang === 'ua' ? base : `${base}_${lang}`;
+  return lang === 'en' ? base : `${base}_${lang}`;
 }
 
 let _gameCachedLang: string | null = null;
