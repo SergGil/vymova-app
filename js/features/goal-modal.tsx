@@ -49,8 +49,8 @@ export function GoalModal(): ReactElement | null {
       onClick={e => { if (e.target === e.currentTarget) setOpen(false); }}
     >
       <div className="modal-inner" style={{ background: 'var(--modal-bg,var(--card))', borderRadius: 16, padding: '24px 20px', maxWidth: 300, width: '90%', textAlign: 'center', boxShadow: '0 8px 32px rgba(0,0,0,.2)' }}>
-        <div style={{ fontSize: '1rem', fontWeight: 600, marginBottom: 6, color: 'var(--text)' }}>{t('goal.modal.title')}</div>
-        <div style={{ fontSize: '.83rem', color: 'var(--text2)', marginBottom: 14 }}>{t('goal.modal.desc')}</div>
+        <div style={{ fontSize: '1rem', fontWeight: 600, marginBottom: 6, color: 'var(--text)', textAlign: 'center' }}>{t('goal.modal.title')}</div>
+        <div style={{ fontSize: '.83rem', color: 'var(--text2)', marginBottom: 14, textAlign: 'center' }}>{t('goal.modal.desc')}</div>
         <input
           ref={inputRef}
           type="number"
