@@ -30,11 +30,11 @@ export function DuelLobby(): ReactElement {
   return (
     <div id="duel-lobby">
       {/* Leaderboard */}
-      <div style={{ fontSize: '.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.07em', color: 'var(--text3)', marginBottom: 10 }}>📊 {t('duel.leaderboard')}</div>
+      <div style={{ fontSize: '.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.07em', color: 'var(--text3)', marginBottom: 10 }}>{t('duel.leaderboard')}</div>
       <div id="duel-leaderboard" className="duel-cards" style={{ marginBottom: 20 }}><DuelLeaderboard/></div>
 
       {/* Live quiz section */}
-      <div style={{ fontSize: '.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.07em', color: 'var(--text3)', marginBottom: 10 }}>⚡ {t('duel.online')}</div>
+      <div style={{ fontSize: '.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.07em', color: 'var(--text3)', marginBottom: 10 }}>{t('duel.online')}</div>
       {d.msg.visible && (
         <div id="duel-msg" style={{ fontSize: '.82rem', padding: '8px 12px', borderRadius: 10, background: 'var(--bg)', color: 'var(--text2)', marginBottom: 10 }}>
           {d.msg.challenge
@@ -65,7 +65,7 @@ export function DuelLobby(): ReactElement {
       <div id="duel-options-row" style={{ marginBottom: 12 }}><DuelOptionsRow/></div>
 
       {/* History */}
-      <div style={{ fontSize: '.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.06em', color: 'var(--text3)', marginBottom: 6 }}>📋 {t('duel.history')}</div>
+      <div style={{ fontSize: '.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.06em', color: 'var(--text3)', marginBottom: 6 }}>{t('duel.history')}</div>
       <div id="duel-history-list" style={{ marginBottom: 14 }}><DuelHistory/></div>
 
       {/* Create room */}
@@ -75,7 +75,7 @@ export function DuelLobby(): ReactElement {
         onClick={() => createRoom()}
         style={{ width: '100%', padding: 13, borderRadius: 12, border: 'none', background: 'var(--accent)', color: '#fff', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', fontSize: '.95rem', marginBottom: 12 }}
       >
-        ⚔️ {d.createBtn.disabled ? t('duel.creating') : t('duel.create')}
+        {d.createBtn.disabled ? t('duel.creating') : t('duel.create')}
       </button>
 
       {/* Waiting for opponent */}
@@ -116,7 +116,7 @@ export function DuelLobby(): ReactElement {
               onClick={() => joinRoom(joinCode)}
               style={{ padding: '10px 18px', borderRadius: 10, border: 'none', background: 'var(--accent)', color: '#fff', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
             >
-              → {t('duel.join')}
+              {t('duel.join')}
             </button>
           </div>
           <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginTop: 6, textAlign: 'center' }}>{t('duel.modeNote')}</div>
@@ -126,13 +126,13 @@ export function DuelLobby(): ReactElement {
               onClick={() => joinAsSpectator()}
               style={{ flex: 1, padding: '7px 4px', borderRadius: 9, border: '1.5px solid var(--border)', background: 'none', color: 'var(--text3)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '.72rem', whiteSpace: 'nowrap' }}
             >
-              👀 {t('duel.spectate')}
+              {t('duel.spectate')}
             </button>
             <button
               onClick={() => joinAsyncChallenge()}
               style={{ flex: 1, padding: '7px 4px', borderRadius: 9, border: '1.5px solid var(--border)', background: 'none', color: 'var(--text3)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '.72rem', whiteSpace: 'nowrap' }}
             >
-              📬 {t('duel.reply')}
+              {t('duel.reply')}
             </button>
           </div>
         </div>
@@ -147,11 +147,11 @@ export function DuelLobby(): ReactElement {
         onClick={() => createAsyncChallenge()}
         style={{ width: '100%', padding: 9, borderRadius: 11, border: '1.5px solid var(--border)', background: 'none', color: 'var(--text2)', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', fontSize: '.82rem', marginBottom: 8 }}
       >
-        📬 {d.asyncBtn.disabled ? t('duel.creating') : t('duel.sendChallenge')}
+        {d.asyncBtn.disabled ? t('duel.creating') : t('duel.sendChallenge')}
       </button>
 
       {/* Tournament */}
-      <div style={{ fontSize: '.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.06em', color: 'var(--text3)', marginBottom: 5 }}>🏟️ {t('duel.tournament')}</div>
+      <div style={{ fontSize: '.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.06em', color: 'var(--text3)', marginBottom: 5 }}>{t('duel.tournament')}</div>
       <div style={{ display: 'flex', gap: 6 }}>
         <button
           disabled={d.tournBtn4.disabled}
@@ -171,7 +171,7 @@ export function DuelLobby(): ReactElement {
           onClick={() => joinTournament()}
           style={{ flex: 1, padding: '9px 6px', borderRadius: 11, border: '1.5px solid var(--border)', background: 'none', color: 'var(--text2)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '.8rem' }}
         >
-          ➡️ {t('duel.tournJoin')}
+          {t('duel.tournJoin')}
         </button>
       </div>
     </div>
