@@ -100,13 +100,18 @@ export function saveModeStats(m: ModeStats): void {
 export function invalidateModeStatsCache(): void { _modeStatsCache = null; }
 
 // ── Achievements unlocked list ─────────────────────────────────
+function _achKey(): string {
+  const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
+  return lang === 'en' || lang === 'ua' ? 'ew_ach' : `ew_ach_${lang}`;
+}
+
 export function loadUnlocked(): string[] {
-  try { return JSON.parse(localStorage.getItem('ew_ach') ?? '[]') as string[]; }
+  try { return JSON.parse(localStorage.getItem(_achKey()) ?? '[]') as string[]; }
   catch (e) { return []; }
 }
 
 export function saveUnlocked(arr: string[]): void {
-  try { localStorage.setItem('ew_ach', JSON.stringify(arr)); } catch (e) {}
+  try { localStorage.setItem(_achKey(), JSON.stringify(arr)); } catch (e) {}
 }
 
 // ── Idle scheduler ─────────────────────────────────────────────
