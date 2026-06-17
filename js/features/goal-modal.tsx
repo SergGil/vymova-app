@@ -45,7 +45,7 @@ export function GoalModal(): ReactElement | null {
 
   return (
     <div
-      style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.5)', zIndex: 9500, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      className="modal-overlay"
       onClick={e => { if (e.target === e.currentTarget) setOpen(false); }}
     >
       <div className="modal-inner" style={{ background: 'var(--modal-bg,var(--card))', borderRadius: 16, padding: '24px 20px', maxWidth: 300, width: '90%', textAlign: 'center', boxShadow: '0 8px 32px rgba(0,0,0,.2)' }}>
