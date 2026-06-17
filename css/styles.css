@@ -2492,10 +2492,6 @@ body.sw .hamburger { border-color: rgba(0,200,255,.3); }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-left: var(--sb-width);
-}
-@media (max-width: 900px) {
-  .modal-overlay { padding-left: 0; }
 }
 
 /* Stats overlay acts as page when open */
