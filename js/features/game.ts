@@ -70,17 +70,22 @@ export function updateStreak(d: GameData): GameData {
 }
 
 // ── Daily stats ────────────────────────────────────────────────
+let _dailyCachedLang: string | null = null;
+
 export function getDailyStats(): Record<string, number> {
-  if (!state._dailyCache) {
-    try { state._dailyCache = JSON.parse(localStorage.getItem('ew_daily') ?? '{}'); }
+  const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
+  if (!state._dailyCache || _dailyCachedLang !== lang) {
+    try { state._dailyCache = JSON.parse(localStorage.getItem(_langKey('ew_daily')) ?? '{}'); }
     catch (e) { state._dailyCache = {}; }
+    _dailyCachedLang = lang;
   }
   return Object.assign({}, state._dailyCache as Record<string, number>);
 }
 
 export function saveDailyStats(d: Record<string, number>): void {
   state._dailyCache = Object.assign({}, d);
-  try { localStorage.setItem('ew_daily', JSON.stringify(d)); } catch (e) {}
+  _dailyCachedLang = localStorage.getItem('ew_learn_lang') ?? 'en';
+  try { localStorage.setItem(_langKey('ew_daily'), JSON.stringify(d)); } catch (e) {}
 }
 
 export function recordDailyWord(): void {
@@ -182,10 +187,8 @@ export function recordCustomWordAdded(): void {
 }
 
 // ── Mode accuracy tracking ─────────────────────────────────────
-const ACC_LS = 'ew_mode_acc';
-
 export function getModeAccuracy(): ModeAccuracy {
-  try { return JSON.parse(localStorage.getItem(ACC_LS) ?? '{}') as ModeAccuracy; }
+  try { return JSON.parse(localStorage.getItem(_langKey('ew_mode_acc')) ?? '{}') as ModeAccuracy; }
   catch (e) { return {}; }
 }
 
@@ -194,27 +197,25 @@ export function recordModeAnswer(mode: string, ok: boolean): void {
   const entry: ModeAccEntry = acc[mode] ?? { ok: 0, err: 0 };
   if (ok) entry.ok++; else entry.err++;
   acc[mode] = entry;
-  try { localStorage.setItem(ACC_LS, JSON.stringify(acc)); } catch (e) {}
+  try { localStorage.setItem(_langKey('ew_mode_acc'), JSON.stringify(acc)); } catch (e) {}
 }
 
 // ── Mistake tracking (cross-mode "hard words") ─────────────────
-const MISTAKES_LS = 'ew_mistakes';
-
 export function getMistakes(): Record<string, number> {
-  try { return JSON.parse(localStorage.getItem(MISTAKES_LS) ?? '{}') as Record<string, number>; }
+  try { return JSON.parse(localStorage.getItem(_langKey('ew_mistakes')) ?? '{}') as Record<string, number>; }
   catch (e) { return {}; }
 }
 
 export function recordMistake(word: string): void {
   const m = getMistakes();
   m[word] = (m[word] ?? 0) + 1;
-  try { localStorage.setItem(MISTAKES_LS, JSON.stringify(m)); } catch (e) {}
+  try { localStorage.setItem(_langKey('ew_mistakes'), JSON.stringify(m)); } catch (e) {}
 }
 
 export function clearMistake(word: string): void {
   const m = getMistakes();
   delete m[word];
-  try { localStorage.setItem(MISTAKES_LS, JSON.stringify(m)); } catch (e) {}
+  try { localStorage.setItem(_langKey('ew_mistakes'), JSON.stringify(m)); } catch (e) {}
 }
 
 export function getHardWords(limit = 50): string[] {
