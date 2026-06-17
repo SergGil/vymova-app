@@ -4,7 +4,10 @@
 // точку в DOM (вёрстка та CSS не змінюються).
 import { createRoot } from 'react-dom/client';
 import { createPortal } from 'react-dom';
-import type { ReactElement, ReactNode } from 'react';
+import { useEffect, type ReactElement, type ReactNode } from 'react';
+import { BrowserRouter, useLocation, useNavigate } from 'react-router-dom';
+import { setRouterNavigate, ROUTE_TO_PAGE } from './router.ts';
+import { state } from './state.ts';
 
 import { ProfileSwitcher } from '../js/features/profile-switcher.tsx';
 import { WordOfDay } from '../js/features/word-of-day.tsx';
@@ -74,6 +77,28 @@ import { CardActionsInit } from '../js/features/card-actions.ts';
 import { StatsInit } from '../js/features/stats.ts';
 import { OfflineInit } from '../js/features/offline.ts';
 import { I18nInit } from '../js/features/i18n.ts';
+
+// Gives non-React code (sidebar.tsx openPage/closePage) access to navigate().
+function NavigateBridge(): null {
+  const navigate = useNavigate();
+  useEffect(() => { setRouterNavigate(navigate); }, [navigate]);
+  return null;
+}
+
+// Syncs browser back/forward navigation → openPage / closePage.
+// Uses lazy imports to avoid a circular dependency with sidebar.tsx.
+function RouterSync(): null {
+  const location = useLocation();
+  useEffect(() => {
+    const page = ROUTE_TO_PAGE[location.pathname] ?? null;
+    if (page && state.activePage !== page) {
+      import('../js/features/sidebar.tsx').then(({ openPage }) => openPage(page));
+    } else if (!page && location.pathname === '/' && state.activePage !== null) {
+      import('../js/features/sidebar.tsx').then(({ closePage }) => closePage());
+    }
+  }, [location.pathname]);
+  return null;
+}
 
 function Portal({ id, children }: { id: string; children: ReactNode }): ReactElement | null {
   const el = document.getElementById(id);
@@ -165,6 +190,15 @@ function AppRoot(): ReactElement {
   </>;
 }
 
+// BASE_URL is '/' in dev and '/english-words-app/' in production (GitHub Actions).
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 export function mountAppRoot(): void {
-  createRoot(document.getElementById('app-root')!).render(<AppRoot/>);
+  createRoot(document.getElementById('app-root')!).render(
+    <BrowserRouter basename={basename}>
+      <NavigateBridge/>
+      <RouterSync/>
+      <AppRoot/>
+    </BrowserRouter>
+  );
 }

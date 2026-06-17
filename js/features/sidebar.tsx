@@ -29,6 +29,8 @@ export function showImgClearConfirm(cb: () => void): void {
   document.getElementById('img-clear-overlay')?.classList.add('open');
 }
 
+import { routerNavigate, PAGE_TO_ROUTE } from '../../src/router.ts';
+
 // ── Page view system ──────────────────────────────────────────
 const ACTIVE_PAGE_KEY = 'ew_active_page';
 
@@ -59,6 +61,9 @@ export function openPage(page: string): void {
   notifyStateChange();
   try { localStorage.setItem(ACTIVE_PAGE_KEY, page); } catch(e){}
   _setSidebarActive(page);
+  // Sync URL — skip if already at this route (e.g. called from RouterSync)
+  const route = PAGE_TO_ROUTE[page];
+  if (route && !window.location.pathname.endsWith(route)) routerNavigate(route);
   // Prevent body scroll when a page overlay is open
   document.body.style.overflow = 'hidden';
   if (page === 'stats') {
@@ -106,6 +111,10 @@ const MODE_OVERLAY_IDS = [
 export function closePage(): void {
   if (state.activePage !== null) { state.activePage = null; notifyStateChange(); }
   try { localStorage.removeItem(ACTIVE_PAGE_KEY); } catch(e){}
+  // Navigate to root only if we're currently on a page route
+  if (window.location.pathname !== '/' && !window.location.pathname.endsWith('/english-words-app/')) {
+    routerNavigate('/');
+  }
   _setSidebarActive(null);
   // Restore body scroll when page is closed
   document.body.style.overflow = '';
