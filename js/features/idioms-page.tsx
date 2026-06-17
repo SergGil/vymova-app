@@ -29,11 +29,15 @@ function _relevantTabs(): Tab[] {
   return tabs;
 }
 
-function IdiomCard({ idiom, num, tab }: { idiom: Idiom; num: number; tab: Tab }): ReactElement {
+function IdiomCard({ idiom, num, tab, learnLang }: { idiom: Idiom; num: number; tab: Tab; learnLang: string }): ReactElement {
   const lang = LANG_BY_TAB[tab];
+  const tr = tab === 'ua' ? idiom.translations?.[learnLang] : undefined;
+  const meaning = tr?.meaning ?? idiom.meaning;
+  const exampleTr = tr?.exampleTr ?? idiom.exampleTr;
+  const trLang = tr ? LANG_BY_TAB[learnLang as Tab] ?? lang : lang;
 
-  const speak = (text: string): MouseEventHandler<HTMLButtonElement> => (e) => {
-    _speak(text, lang, e.currentTarget);
+  const speak = (text: string, speakLang: string): MouseEventHandler<HTMLButtonElement> => (e) => {
+    _speak(text, speakLang, e.currentTarget);
   };
 
   return (
@@ -42,21 +46,21 @@ function IdiomCard({ idiom, num, tab }: { idiom: Idiom; num: number; tab: Tab })
         <div className="idiom-num">{num}</div>
         <div className="idiom-phrase">
           {idiom.emoji ? `${idiom.emoji} ` : ''}{idiom.phrase}
-          <button className="speak-btn idiom-speak" title="🔊" onClick={speak(idiom.phrase)}>🔊</button>
+          <button className="speak-btn idiom-speak" title="🔊" onClick={speak(idiom.phrase, lang)}>🔊</button>
         </div>
         <div className="idiom-meaning">
-          {idiom.meaning}
-          {idiom.meaningEn ? <span className="idiom-meaning-en"> ({idiom.meaningEn})</span> : null}
+          {meaning}
+          {idiom.meaningEn && !tr ? <span className="idiom-meaning-en"> ({idiom.meaningEn})</span> : null}
         </div>
       </div>
       <div className="idiom-example">
         <div className="idiom-ex-src">
           {idiom.exampleSrc}
-          <button className="speak-btn idiom-speak" title="🔊" onClick={speak(idiom.exampleSrc)}>🔊</button>
+          <button className="speak-btn idiom-speak" title="🔊" onClick={speak(idiom.exampleSrc, lang)}>🔊</button>
         </div>
         <div className="idiom-ex-tr">
-          {idiom.exampleTr}
-          <button className="speak-btn idiom-speak" title="🔊" onClick={speak(idiom.exampleTr)}>🔊</button>
+          {exampleTr}
+          <button className="speak-btn idiom-speak" title="🔊" onClick={speak(exampleTr, trLang)}>🔊</button>
         </div>
       </div>
     </div>
@@ -67,6 +71,7 @@ function IdiomsPage(): ReactElement {
   const tabs = _relevantTabs();
   const [tab, setTab] = useState<Tab | undefined>(tabs[0]);
   const [query, setQuery] = useState('');
+  const learnLang = getLearnLang();
 
   const activeTab = tabs.includes(tab as Tab) ? (tab as Tab) : tabs[0];
 
@@ -107,7 +112,7 @@ function IdiomsPage(): ReactElement {
       <div id="idioms-list" className="idioms-list">
         {filtered.length === 0
           ? <div className="idioms-empty">{t('idioms.empty')}</div>
-          : filtered.map((idiom, i) => <IdiomCard key={idiom.phrase} idiom={idiom} num={i + 1} tab={activeTab} />)}
+          : filtered.map((idiom, i) => <IdiomCard key={idiom.phrase} idiom={idiom} num={i + 1} tab={activeTab} learnLang={learnLang} />)}
       </div>
     </>
   );
