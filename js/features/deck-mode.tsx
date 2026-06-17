@@ -130,13 +130,11 @@ export function DeckModeInit(): ReactElement | null {
     // before this listener registered), apply the filtered deck immediately.
     const initMode = (selMode as HTMLSelectElement | null)?.value ?? '';
     if (_isSpecialMode(initMode)) {
-      const selRangeEl = document.getElementById('sel-range') as HTMLSelectElement | null;
       const specialDeck = _getSpecialDeck(initMode);
       if (specialDeck.length) {
         if (!_preSpecialDeck) {
           _preSpecialDeck = state.deck;
           _preSpecialIdx  = state.idx;
-          if (selRangeEl) selRangeEl.disabled = true;
         }
         const ats = state._activeTagSet as Set<string> | null;
         let deck = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
@@ -152,8 +150,6 @@ export function DeckModeInit(): ReactElement | null {
       stopAuto();
       const m          = this.value;
       const isSpecial  = _isSpecialMode(m);
-      const selRangeEl = document.getElementById('sel-range') as HTMLSelectElement | null;
-      const selTagEl   = document.getElementById('sel-tag')   as HTMLSelectElement | null;
 
       if (isSpecial) {
         const specialDeck = _getSpecialDeck(m);
@@ -172,7 +168,6 @@ export function DeckModeInit(): ReactElement | null {
         if (!_preSpecialDeck) {
           _preSpecialDeck = state.deck;
           _preSpecialIdx  = state.idx;
-          if (selRangeEl) selRangeEl.disabled = true;
         }
         const ats = state._activeTagSet as Set<string> | null;
         let deck = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
@@ -185,8 +180,6 @@ export function DeckModeInit(): ReactElement | null {
         const deckLen = (state.deck).length;
         setIdx(deckLen ? _preSpecialIdx % deckLen : 0);
         _preSpecialDeck = null;
-        if (selRangeEl) selRangeEl.disabled = false;
-        if (selTagEl)   selTagEl.disabled   = false;
         _refreshRangeOptions();
       }
       render();

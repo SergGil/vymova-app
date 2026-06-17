@@ -71,7 +71,7 @@ describe('deck-mode.tsx DeckModeInit', () => {
     expect(deck.length).toBe(1);
     expect(deck[0][0]).toBe(esWord);
     expect(setIdx).toHaveBeenCalledWith(0);
-    expect((document.getElementById('sel-range') as HTMLSelectElement).disabled).toBe(true);
+    expect((document.getElementById('sel-range') as HTMLSelectElement).disabled).toBe(false);
     expect(stopAuto).toHaveBeenCalled();
     expect(render).toHaveBeenCalled();
   });

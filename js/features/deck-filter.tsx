@@ -8,7 +8,7 @@ import { W_FR } from '../../data/words_fr.js';
 import { W_IT } from '../../data/words_it.js';
 import { W_PT } from '../../data/words_pt.js';
 import { W_DE } from '../../data/words_de.js';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES } from './mode-utils.ts';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode } from './mode-utils.ts';
 import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck } from '../core/srs.ts';
 import { getHardWords } from './game.ts';
 import { getBookmarks } from './bookmarks.ts';
@@ -17,11 +17,35 @@ import { t } from './i18n.ts';
 import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';
 
-function buildStaleDeck(days: number): WordEntry[] {
+// Returns the filtered word list for the currently active language mode, or
+// null when in English mode (no language restriction).
+function _getLangDeck(): WordEntry[] | null {
+  const m = getMode();
+  let lookup: Record<string, unknown> | null = null;
+  if      (ES_MODES.has(m)) lookup = W_ES as Record<string, unknown>;
+  else if (FR_MODES.has(m)) lookup = W_FR as Record<string, unknown>;
+  else if (IT_MODES.has(m)) lookup = W_IT as Record<string, unknown>;
+  else if (PT_MODES.has(m)) lookup = W_PT as Record<string, unknown>;
+  else if (DE_MODES.has(m)) lookup = W_DE as Record<string, unknown>;
+  if (!lookup) return null;
+  return (W as unknown as WordEntry[]).filter(w => Object.prototype.hasOwnProperty.call(lookup!, w[0]));
+}
+
+// Intersects deck with the current language word set when in a special mode.
+// Falls back to all language words if the intersection would be empty.
+function _applyLangFilter(deck: WordEntry[]): WordEntry[] {
+  const langDeck = _getLangDeck();
+  if (!langDeck) return deck;
+  const ids = new Set(langDeck.map(w => w[0]));
+  const filtered = deck.filter(w => ids.has(w[0]));
+  return filtered.length ? filtered : langDeck.slice();
+}
+
+function buildStaleDeck(days: number, base: WordEntry[] = W as unknown as WordEntry[]): WordEntry[] {
   const d = new Date();
   d.setDate(d.getDate() - days);
   const cutoff = d.toISOString().slice(0, 10);
-  const result = (W as unknown as WordEntry[]).filter(function(w) {
+  const result = base.filter(function(w) {
     const srs = (state.srsData as any)[w[0]];
     if (!srs || !srs.due) return true;
     const dt = new Date(srs.due);
@@ -29,7 +53,7 @@ function buildStaleDeck(days: number): WordEntry[] {
     return dt.toISOString().slice(0, 10) <= cutoff;
   });
   shuffle(result);
-  return result.length ? result : _shuf(W as unknown as WordEntry[]).slice(0, 50);
+  return result.length ? result : _shuf(base).slice(0, 50);
 }
 
 export function _refreshRangeOptions(): void {
@@ -77,6 +101,10 @@ export function DeckFilterInit(): ReactElement | null {
         if (selTagEl) selTagEl.value = '';
       }
 
+      // Base deck for the current language (null = English, use full W)
+      const langDeck = _getLangDeck();
+      const langBase: WordEntry[] = langDeck ?? W as unknown as WordEntry[];
+
       let deck: WordEntry[];
 
       if (v === 'weak') {
@@ -87,20 +115,21 @@ export function DeckFilterInit(): ReactElement | null {
           .slice(0, 50);
         if (_srsWeak.length >= 5) {
           const _weakSet = new Set(_srsWeak.map(([k]) => k));
-          deck = (W as unknown as WordEntry[]).filter(w => _weakSet.has(w[0]));
+          deck = langBase.filter(w => _weakSet.has(w[0]));
+          if (!deck.length) deck = langBase.slice();
         } else if (state.known.size > 0) {
           deck = Array.from(state.known).slice().reverse()
-            .map(k => (W as unknown as WordEntry[]).find(w => w[0] === k))
+            .map(k => langBase.find(w => w[0] === k))
             .filter(Boolean) as WordEntry[];
-          if (!deck.length) deck = buildUnlearnedDeck(W as unknown as WordEntry[]);
+          if (!deck.length) deck = buildUnlearnedDeck(langBase);
           _showToast(t('range.weakFallbackKnown'));
         } else {
-          deck = buildUnlearnedDeck(W as unknown as WordEntry[]);
+          deck = buildUnlearnedDeck(langBase);
           _showToast(t('range.weakFallbackNew'));
         }
         state._activeTagSet = null;
         if (selTagEl) selTagEl.value = '';
-        (state._baseWords = W.slice() as unknown as WordEntry[]);
+        (state._baseWords = langBase.slice());
         setDeck(deck);
         setIdx(0);
         render();
@@ -108,28 +137,28 @@ export function DeckFilterInit(): ReactElement | null {
       } else if (v === 'hard') {
         const _hardWords = getHardWords(50);
         const _hardSet   = new Set(_hardWords);
-        deck = (W as unknown as WordEntry[]).filter(w => _hardSet.has(w[0]));
+        deck = langBase.filter(w => _hardSet.has(w[0]));
         if (!deck.length) {
           _showToast(t('range.noHardWords'));
-          deck = buildUnlearnedDeck(W as unknown as WordEntry[]);
+          deck = buildUnlearnedDeck(langBase);
         } else {
           deck.sort((a, b) => _hardWords.indexOf(a[0]) - _hardWords.indexOf(b[0]));
         }
         state._activeTagSet = null;
         if (selTagEl) selTagEl.value = '';
-        (state._baseWords = W.slice() as unknown as WordEntry[]);
+        (state._baseWords = langBase.slice());
         setDeck(deck);
         setIdx(0);
         render();
         return;
       } else if (v === 'bookmarks') {
         const _bms = getBookmarks();
-        deck = (W as unknown as WordEntry[]).filter(w => _bms.has(w[0]));
+        deck = langBase.filter(w => _bms.has(w[0]));
         if (!deck.length) {
           _showToast(t('range.noBookmarks'));
           this.value = '0';
-          (state._baseWords = W.slice() as unknown as WordEntry[]);
-          deck = (W as unknown as WordEntry[]).slice();
+          (state._baseWords = langBase.slice());
+          deck = langBase.slice();
           shuffle(deck);
           setDeck(deck);
           setIdx(0);
@@ -137,41 +166,41 @@ export function DeckFilterInit(): ReactElement | null {
           return;
         }
         shuffle(deck);
-        (state._baseWords = W.slice() as unknown as WordEntry[]);
+        (state._baseWords = langBase.slice());
       } else if (v === 'unlearned') {
-        (state._baseWords = W.slice() as unknown as WordEntry[]);
-        deck = buildUnlearnedDeck(W as unknown as WordEntry[]);
+        (state._baseWords = langBase.slice());
+        deck = buildUnlearnedDeck(langBase);
       } else if (v === 'srs') {
-        (state._baseWords = W.slice() as unknown as WordEntry[]);
-        deck = buildSRSDeck(W as unknown as WordEntry[]);
+        (state._baseWords = langBase.slice());
+        deck = buildSRSDeck(langBase);
       } else if (v.startsWith('cefr-')) {
         const cefrTarget = v.replace('cefr-', '') as import('../../data/cefr.ts').CefrLevel;
-        deck = (W as unknown as WordEntry[]).filter(w => getCefrLevel(w[0]) === cefrTarget);
+        deck = langBase.filter(w => getCefrLevel(w[0]) === cefrTarget);
         shuffle(deck);
         if (!deck.length) {
           _showToast(t('range.noCefrWords', { l: cefrTarget }));
-          deck = (W as unknown as WordEntry[]).slice();
+          deck = langBase.slice();
           shuffle(deck);
         }
         state._activeTagSet = null;
         if (selTagEl) selTagEl.value = '';
-        (state._baseWords = W.slice() as unknown as WordEntry[]);
+        (state._baseWords = langBase.slice());
         setDeck(deck);
         setIdx(0);
         render();
         return;
       } else if (v.startsWith('stale')) {
-        (state._baseWords = W.slice() as unknown as WordEntry[]);
-        deck = buildStaleDeck(v === 'stale7' ? 7 : 30);
+        (state._baseWords = langBase.slice());
+        deck = buildStaleDeck(v === 'stale7' ? 7 : 30, langBase);
       } else {
-        const base = W.slice();
-        (state._baseWords = base as unknown as WordEntry[]);
-        deck = (base as unknown as WordEntry[]).slice();
+        // Default: all words in current language
+        (state._baseWords = langBase.slice());
+        deck = langBase.slice();
         shuffle(deck);
         const _ats = state._activeTagSet as Set<string> | null;
         if (_ats) {
           deck = deck.filter(w => (_ats as Set<string>).has(w[0]));
-          if (!deck.length) deck = (base as unknown as WordEntry[]).filter(w => (_ats as Set<string>).has(w[0]));
+          if (!deck.length) deck = langBase.filter(w => (_ats as Set<string>).has(w[0]));
           shuffle(deck);
         }
       }
