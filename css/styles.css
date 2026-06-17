@@ -611,6 +611,8 @@
     font-weight: 600;
   }
   .chart-empty {
+    width: 100%;
+    align-self: center;
     text-align: center;
     color: var(--text3);
     font-size: .82rem;
