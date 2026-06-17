@@ -2,6 +2,7 @@
 // Лобі дуелі: вибір режиму (#duel-mode-picker), категорії (#duel-cat-picker)
 // і опцій (#duel-options-row). Частина item 29 (Фаза 5).
 import { useState } from 'react';
+import { useStateVersion } from '../../src/store.ts';
 import { CATEGORY_LIST } from '../../data/categories.js';
 import { t, categoryName } from './i18n.ts';
 import type { Difficulty, BestOf, DuelMode } from './duel.ts';
@@ -50,8 +51,15 @@ export function DuelLangPicker() {
   );
 }
 
+function _modeDesc(modeId: DuelMode, lang: string): string {
+  const L = lang.toUpperCase();
+  return t('duel.mode.' + modeId + '.desc').replace('UA', L);
+}
+
 export function DuelModePicker() {
+  useStateVersion();
   const [selMode, setSelMode] = useState(_getSelMode());
+  const selLang = _getSelLang();
   return <>{DUEL_MODES.map(m => {
     const active = m.id === selMode;
     return (
@@ -65,7 +73,7 @@ export function DuelModePicker() {
         }}>
         <div style={{ fontSize: '1.2rem' }}>{m.icon}</div>
         <div style={{ fontSize: '.75rem', fontWeight: 700, color: 'var(--text)', marginTop: 2 }}>{t('duel.mode.' + m.id)}</div>
-        <div style={{ fontSize: '.62rem', color: 'var(--text3)' }}>{t('duel.mode.' + m.id + '.desc')}</div>
+        <div style={{ fontSize: '.62rem', color: 'var(--text3)' }}>{_modeDesc(m.id, selLang)}</div>
       </button>
     );
   })}</>;
