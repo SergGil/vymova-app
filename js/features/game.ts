@@ -6,20 +6,31 @@ import type { GameData, Level, Achievement, ModeStats, ModeAccuracy, ModeAccEntr
 // ── Session caches ─────────────────────────────────────────────
 // Backed by state so modules share the same cache instance
 
+function _langKey(base: string): string {
+  const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
+  return lang === 'en' || lang === 'ua' ? base : `${base}_${lang}`;
+}
+
+let _gameCachedLang: string | null = null;
+
 function loadGameDataRaw(): GameData {
-  try { return JSON.parse(localStorage.getItem('ew_game') ?? '{}') as GameData; }
+  try { return JSON.parse(localStorage.getItem(_langKey('ew_game')) ?? '{}') as GameData; }
   catch (e) { return {} as GameData; }
 }
 
 export function saveGameData(d: GameData): void {
   state._gameCache = d;
-  try { localStorage.setItem('ew_game', JSON.stringify(d)); } catch (e) {}
+  try { localStorage.setItem(_langKey('ew_game'), JSON.stringify(d)); } catch (e) {}
 }
 
 export function getGameData(): GameData {
   // Refresh TODAY on every call — handles sessions running past midnight
   state.TODAY = new Date().toISOString().slice(0, 10);
-  if (!state._gameCache) state._gameCache = loadGameDataRaw();
+  const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
+  if (!state._gameCache || _gameCachedLang !== lang) {
+    state._gameCache = loadGameDataRaw();
+    _gameCachedLang = lang;
+  }
   const d = state._gameCache as GameData;
   if (!d.goalMax) d.goalMax = 20;
   if (d.goalDate !== state.TODAY) { d.goalDate = state.TODAY; d.goalCur = 0; d.confettiShown = null; }
@@ -83,21 +94,28 @@ export function recordDailyWord(): void {
 
 // ── Mode stats ─────────────────────────────────────────────────
 let _modeStatsCache: ModeStats | null = null;
+let _modeStatsCachedLang: string | null = null;
 
 export function getModeStats(): ModeStats {
-  if (_modeStatsCache) return Object.assign({}, _modeStatsCache);
+  const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
+  if (_modeStatsCache && _modeStatsCachedLang === lang) return Object.assign({}, _modeStatsCache);
   try {
-    _modeStatsCache = JSON.parse(localStorage.getItem('ew_modes') ?? '{}') as ModeStats;
+    _modeStatsCache = JSON.parse(localStorage.getItem(_langKey('ew_modes')) ?? '{}') as ModeStats;
+    _modeStatsCachedLang = lang;
     return Object.assign({}, _modeStatsCache);
   } catch (e) { return {}; }
 }
 
 export function saveModeStats(m: ModeStats): void {
   _modeStatsCache = Object.assign({}, m);
-  try { localStorage.setItem('ew_modes', JSON.stringify(m)); } catch (e) {}
+  _modeStatsCachedLang = localStorage.getItem('ew_learn_lang') ?? 'en';
+  try { localStorage.setItem(_langKey('ew_modes'), JSON.stringify(m)); } catch (e) {}
 }
 
-export function invalidateModeStatsCache(): void { _modeStatsCache = null; }
+export function invalidateModeStatsCache(): void {
+  _modeStatsCache = null;
+  _modeStatsCachedLang = null;
+}
 
 // ── Achievements unlocked list ─────────────────────────────────
 function _achKey(): string {
