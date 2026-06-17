@@ -107,10 +107,15 @@ export function loadKnownDe(): Set<string> {
   return new Set(arr);
 }
 
+function _srsLangKey(): string {
+  const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
+  return lang === 'en' ? 'ew_srs' : `ew_srs_${lang}`;
+}
+
 export function saveSRS(srsData: SRSData): void {
-  _lzSave('ew_srs', srsData);
+  _lzSave(_srsLangKey(), srsData);
 }
 
 export function loadSRS(): SRSData {
-  return _lzLoad<SRSData>('ew_srs', {});
+  return _lzLoad<SRSData>(_srsLangKey(), {});
 }

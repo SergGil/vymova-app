@@ -4,6 +4,7 @@
 import { useEffect, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { getDailyStats, getGameData, getModeStats, getModeAccuracy } from './game.ts';
+import { loadSRS } from '../core/storage.ts';
 import { t, getLang, wordsLabel, pluralLabel, monthNames, dowNames } from './i18n.ts';
 import { W } from '../../data/words.js';
 import { getCefrLevel } from '../../data/cefr.ts';
@@ -117,11 +118,12 @@ type SrsBar = { date: string; cnt: number; label: string; pct: number; isToday: 
 
 function computeSrsForecast(): { totalDue: number; bars: SrsBar[] } {
   const today = new Date(); today.setHours(0, 0, 0, 0);
+  const srsData = loadSRS();
   const counts: { date: string; cnt: number; label: string }[] = [];
   for (let i = 0; i < 14; i++) {
     const d = new Date(today); d.setDate(d.getDate() + i);
     const dateStr = d.toISOString().slice(0, 10);
-    const cnt = Object.values(state.srsData).filter((s: any) => s.due === dateStr).length;
+    const cnt = Object.values(srsData).filter((s: any) => s.due === dateStr).length;
     counts.push({
       date: dateStr, cnt,
       label: i === 0 ? t('stats.todayCap')

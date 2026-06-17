@@ -151,9 +151,13 @@ export function LangPairSelect(): ReactElement {
   const [{ learnLang, knowLang, direction }, setState] = useState(initialState);
 
   function persist(next: { learnLang: LangCode; knowLang: LangCode; direction: Direction }): void {
+    const prevLearn = localStorage.getItem(LEARN_KEY);
     localStorage.setItem(KNOW_KEY, next.knowLang);
     localStorage.setItem(LEARN_KEY, next.learnLang);
     localStorage.setItem(DIR_KEY, next.direction);
+    if (prevLearn !== next.learnLang) {
+      window.dispatchEvent(new CustomEvent('ew-learn-lang-changed', { detail: next.learnLang }));
+    }
     setState(next);
     applyMode(next.learnLang, next.knowLang, next.direction);
     notifyStateChange();

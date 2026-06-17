@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { _shuf } from '../core/srs.ts';
-import { saveKnown, saveSRS } from '../core/storage.ts';
+import { saveKnown, saveSRS, loadSRS } from '../core/storage.ts';
 import { WORD_CATEGORIES, CATEGORY_LIST } from '../../data/categories.js';
 import { getGameData } from '../features/game.ts';
 import { W } from '../../data/words.js';
@@ -319,9 +319,10 @@ export function renderWeakWords(): void {
   if (!el) return;
   const wordIdx = state._wordIdx;
   if (!wordIdx) return;
+  const srsData = loadSRS();
   const words: { w: WordEntry; ef: number; reps: number; lapses: number }[] = [];
-  Object.keys(state.srsData).forEach(key => {
-    const d = (state.srsData as Record<string, { ef?: number; reps?: number; lapses?: number }>)[key];
+  Object.keys(srsData).forEach(key => {
+    const d = (srsData as Record<string, { ef?: number; reps?: number; lapses?: number }>)[key];
     if (d?.ef !== undefined && d.ef < 2.5) {
       const wi = wordIdx.get(key);
       if (wi !== undefined) words.push({ w: (W as unknown as WordEntry[])[wi], ef: d.ef, reps: d.reps!, lapses: d.lapses ?? 0 });
