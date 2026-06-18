@@ -34,6 +34,7 @@ vi.mock('../../js/features/duel-leaderboard.tsx', () => ({
 vi.mock('../../js/features/duel-history.tsx', () => ({ DuelHistory: () => <div data-testid="history" /> }));
 vi.mock('../../js/features/duel-lobby-options.tsx', () => ({
   DuelLangPicker: () => <div data-testid="lang-picker" />,
+  DuelKnowLangPicker: () => <div data-testid="know-lang-picker" />,
   DuelModePicker: () => <div data-testid="mode-picker" />,
   DuelCategoryPicker: () => <div data-testid="cat-picker" />,
   DuelOptionsRow: () => <div data-testid="options-row" />,

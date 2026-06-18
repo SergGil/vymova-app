@@ -171,7 +171,8 @@ export interface DuelRoomState {
   roomCategory:     string;
   roomDifficulty:   import('../js/features/duel.ts').Difficulty;
   roomMaxHints:     number;
-  roomLang:         string;
+  roomLang:         string; // "learn" language (target being practiced)
+  roomKnowLang:     string; // "know" language (the other side of the pair)
 }
 
 // Дуель: стан поточного питання/відповіді/фідбеку (item 36, Фаза 7.4-B,
@@ -201,5 +202,6 @@ export interface DuelSelState {
   bestOf:          import('../js/features/duel.ts').BestOf;
   maxHints:        number;
   powerupsEnabled: boolean;
-  lang:            string;
+  lang:            string; // "learn" language (target being practiced)
+  knowLang:        string; // "know" language (the other side of the pair)
 }

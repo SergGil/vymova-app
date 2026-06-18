@@ -124,7 +124,7 @@ interface SpectatorData { name:string; avatar:string; }
 interface RoomData {
   seed:number; mode:DuelMode; category:string; difficulty:Difficulty;
   bestOf:BestOf; maxHints:number; powerupsEnabled:boolean;
-  lang?:string;
+  lang?:string; knowLang?:string;
   p1:PlayerData; p2:PlayerData|null;
   started:boolean; finished:boolean; createdAt:number;
   series:SeriesData;
@@ -135,7 +135,7 @@ interface AsyncDuel {
   seed:number; mode:DuelMode; category:string; difficulty:Difficulty;
   createdAt:number; expiresAt:number;
   powerupsEnabled?:boolean; maxHints?:number; bestOf?:BestOf;
-  lang?:string;
+  lang?:string; knowLang?:string;
   challenger:{ name:string; avatar:string; score:number; done:boolean };
   opponent?:{ name:string; avatar:string; score:number; done:boolean };
   finished:boolean;
@@ -233,14 +233,30 @@ function _clearSession(roomId?: string): void {
 }
 
 // ── Language helpers ──────────────────────────────────────────
+export const DUEL_LANG_CODES = ['en', 'ua', 'es', 'fr', 'it', 'pt', 'de'];
+
 function _wordInLang(w: WordEntry, lang: string): string {
   switch (lang) {
+    case 'en': return w[0];
     case 'es': return esEntry(w[0])?.[0] ?? w[1];
     case 'fr': return frEntry(w[0])?.[0] ?? w[1];
     case 'it': return itEntry(w[0])?.[0] ?? w[1];
     case 'pt': return ptEntry(w[0])?.[0] ?? w[1];
     case 'de': return deEntry(w[0])?.[0] ?? w[1];
-    default:   return w[1]; // 'ua' or 'en' → Ukrainian translation
+    default:   return w[1]; // 'ua'
+  }
+}
+
+// Whether `w` has a usable translation for `lang` (en/ua are always present).
+function _hasLangWord(w: WordEntry, lang: string): boolean {
+  switch (lang) {
+    case 'en': case 'ua': return true;
+    case 'es': return esEntry(w[0]) !== null;
+    case 'fr': return frEntry(w[0]) !== null;
+    case 'it': return itEntry(w[0]) !== null;
+    case 'pt': return ptEntry(w[0]) !== null;
+    case 'de': return deEntry(w[0]) !== null;
+    default:   return true;
   }
 }
 
@@ -255,20 +271,13 @@ export function _rng(seed:number):()=>number{ let s=seed; return()=>{s=(s*166452
 const _SCRAMBLE_POOL: WordEntry[] = (W as unknown as WordEntry[])
   .filter(w => /^[a-z]+$/i.test(w[0]) && w[0].length >= 4 && w[0].length <= 9);
 
-export function _buildDeck(seed:number, category:string, difficulty:Difficulty, mode?:DuelMode, lang?:string): WordEntry[] {
+export function _buildDeck(seed:number, category:string, difficulty:Difficulty, mode?:DuelMode, lang?:string, knowLang?:string): WordEntry[] {
   const rnd = _rng(seed);
   const scramble = mode==='anagram'||mode==='letters';
   let pool = scramble ? _SCRAMBLE_POOL : (W as unknown as WordEntry[]);
-  // Language filter: keep only words that have a translation in selected language
-  if (!scramble && lang && lang !== 'en' && lang !== 'ua') {
-    const hasTranslation: (w: WordEntry) => boolean = {
-      es: (w) => esEntry(w[0]) !== null,
-      fr: (w) => frEntry(w[0]) !== null,
-      it: (w) => itEntry(w[0]) !== null,
-      pt: (w) => ptEntry(w[0]) !== null,
-      de: (w) => deEntry(w[0]) !== null,
-    }[lang] ?? (() => true);
-    const langPool = pool.filter(hasTranslation);
+  // Language filter: keep only words that have translations in both selected languages
+  if (!scramble) {
+    const langPool = pool.filter(w => _hasLangWord(w, lang||'en') && _hasLangWord(w, knowLang||'ua'));
     if (langPool.length >= ROOM_SIZE) pool = langPool;
   }
   // Category filter
@@ -374,7 +383,21 @@ export function _setSelMaxHints(h: number): void { state.duelSel.maxHints = h; n
 export function _getSelPowerups(): boolean { return state.duelSel.powerupsEnabled; }
 export function _setSelPowerups(p: boolean): void { state.duelSel.powerupsEnabled = p; notifyStateChange(); }
 export function _getSelLang(): string { return state.duelSel.lang; }
-export function _setSelLang(l: string): void { state.duelSel.lang = l; notifyStateChange(); }
+export function _setSelLang(l: string): void {
+  state.duelSel.lang = l;
+  if (state.duelSel.knowLang === l) {
+    state.duelSel.knowLang = DUEL_LANG_CODES.find(x => x !== l) ?? 'ua';
+  }
+  notifyStateChange();
+}
+export function _getSelKnowLang(): string { return state.duelSel.knowLang; }
+export function _setSelKnowLang(l: string): void {
+  state.duelSel.knowLang = l;
+  if (state.duelSel.lang === l) {
+    state.duelSel.lang = DUEL_LANG_CODES.find(x => x !== l) ?? 'en';
+  }
+  notifyStateChange();
+}
 
 export function _showInfoTooltip(anchor: HTMLElement, type: 'hints' | 'powerups'): void {
   const existing = document.getElementById('duel-tooltip');
@@ -476,7 +499,7 @@ export async function createRoom(): Promise<void> {
     const room: RoomData = {
       seed, mode:state.duelSel.mode, category:state.duelSel.category, difficulty:state.duelSel.difficulty,
       bestOf:state.duelSel.bestOf, maxHints:state.duelSel.maxHints, powerupsEnabled:state.duelSel.powerupsEnabled,
-      lang:state.duelSel.lang,
+      lang:state.duelSel.lang, knowLang:state.duelSel.knowLang,
       createdAt:Date.now(), started:false, finished:false,
       series:{p1wins:0,p2wins:0,round:1},
       p1:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:state.duelSel.maxHints,powerups:{double:state.duelSel.powerupsEnabled?1:0,skip:state.duelSel.powerupsEnabled?1:0,freeze:state.duelSel.powerupsEnabled?1:0}},
@@ -485,8 +508,8 @@ export async function createRoom(): Promise<void> {
     await _fbSet(`/duel_rooms/${state.duelRoom.roomId}`,room);
     state.duelRoom.roomCreatedAt=room.createdAt;
     state.duelRoom.roomSeed=seed; state.duelRoom.roomCategory=state.duelSel.category; state.duelRoom.roomDifficulty=state.duelSel.difficulty; state.duelRoom.roomMaxHints=state.duelSel.maxHints;
-    state.duelRoom.roomLang=state.duelSel.lang;
-    state.duelRoom.quizDeck=_buildDeck(seed,state.duelSel.category,state.duelSel.difficulty,state.duelSel.mode,state.duelSel.lang);
+    state.duelRoom.roomLang=state.duelSel.lang; state.duelRoom.roomKnowLang=state.duelSel.knowLang;
+    state.duelRoom.quizDeck=_buildDeck(seed,state.duelSel.category,state.duelSel.difficulty,state.duelSel.mode,state.duelSel.lang,state.duelSel.knowLang);
     notifyStateChange();
     const mInfo=DUEL_MODES.find(m=>m.id===state.duelSel.mode)!;
     const catLabel=state.duelSel.category?` · ${state.duelSel.category.split(' ')[0]}`:'';
@@ -516,8 +539,8 @@ export async function joinRoom(rawCode: string): Promise<void> {
     state.duelRoom.roomId=code; state.duelRoom.mySlot='p2'; state.duelRoom.isAsyncChallenge=false;
     state.duelRoom.roomCreatedAt=room.createdAt||Date.now();
     state.duelRoom.roomSeed=room.seed; state.duelRoom.roomCategory=room.category; state.duelRoom.roomDifficulty=room.difficulty; state.duelRoom.roomMaxHints=room.maxHints;
-    state.duelRoom.roomLang=room.lang||'ua';
-    state.duelRoom.quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode,room.lang);
+    state.duelRoom.roomLang=room.lang||'ua'; state.duelRoom.roomKnowLang=room.knowLang||'en';
+    state.duelRoom.quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode,room.lang,room.knowLang);
     state.duelRoom.bestOf=room.bestOf||1; state.duelRoom.series={...room.series};
     await _fbPatch(`/duel_rooms/${state.duelRoom.roomId}`,{
       p2:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:room.maxHints,powerups:{double:room.powerupsEnabled?1:0,skip:room.powerupsEnabled?1:0,freeze:room.powerupsEnabled?1:0}},
@@ -747,9 +770,10 @@ function _renderQuestion(): void {
 
 function _renderChoiceQ(w:WordEntry): void {
   const lang = state.duelRoom.roomLang || 'ua';
+  const knowLang = state.duelRoom.roomKnowLang || 'en';
   const isRev=state.duelRoom.mode==='reverse';
-  const q=isRev?_wordInLang(w,lang):w[0];
-  const ans=isRev?w[0]:_wordInLang(w,lang);
+  const q=isRev?_wordInLang(w,lang):_wordInLang(w,knowLang);
+  const ans=isRev?_wordInLang(w,knowLang):_wordInLang(w,lang);
   state.duelQuestion.qPrimary=q; state.duelQuestion.qSecondary=''; state.duelQuestion.qTertiary='';
   const wrongs:string[]=[]; const used=new Set([w[0].toLowerCase()]);
   const pool=_shuf(W.slice() as unknown as WordEntry[]);
@@ -757,7 +781,7 @@ function _renderChoiceQ(w:WordEntry): void {
     if(wrongs.length>=NUM_OPTS-1) break;
     if(used.has(pw[0].toLowerCase())) continue;
     used.add(pw[0].toLowerCase());
-    const distractor = isRev ? pw[0] : _wordInLang(pw, lang);
+    const distractor = isRev ? _wordInLang(pw,knowLang) : _wordInLang(pw, lang);
     if (distractor) wrongs.push(distractor);
   }
   state.duelQuestion.choiceOptions=_shuf([ans,...wrongs]);
@@ -766,19 +790,22 @@ function _renderChoiceQ(w:WordEntry): void {
 
 function _renderWriteQ(w:WordEntry): void {
   const lang = state.duelRoom.roomLang || 'ua';
+  const knowLang = state.duelRoom.roomKnowLang || 'en';
   state.duelQuestion.qPrimary=_wordInLang(w,lang); state.duelQuestion.qSecondary=t('duel.writeHint'); state.duelQuestion.qTertiary='';
-  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer=w[0];
+  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer=_wordInLang(w,knowLang);
 }
 
 function _renderAnagramQ(w:WordEntry): void {
   const lang = state.duelRoom.roomLang || 'ua';
-  state.duelQuestion.qPrimary=_shuffleLetters(w[0]); state.duelQuestion.qSecondary=_wordInLang(w,lang); state.duelQuestion.qTertiary=t('duel.anagramHint');
-  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer='';
+  const knowLang = state.duelRoom.roomKnowLang || 'en';
+  const ans=_wordInLang(w,knowLang);
+  state.duelQuestion.qPrimary=_shuffleLetters(ans); state.duelQuestion.qSecondary=_wordInLang(w,lang); state.duelQuestion.qTertiary=t('duel.anagramHint');
+  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer=ans;
 }
 
 function _renderLettersQ(w:WordEntry): void {
   state.duelQuestion.qPrimary=_shuffleLetters(w[0]); state.duelQuestion.qSecondary=t('duel.lettersHint'); state.duelQuestion.qTertiary='';
-  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer='';
+  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer=w[0];
 }
 
 function _startTempoTimer(w:WordEntry): void {
@@ -846,7 +873,9 @@ export function _onInputChange(val:string): void { state.duelQuestion.writeInput
 export function _submitWrite(): void {
   if(state.duelRoom.answered) return;
   const w=state.duelRoom.quizDeck[state.duelRoom.quizIdx];
-  const val=state.duelQuestion.writeInputValue.trim().toLowerCase(), ans=w[0].toLowerCase();
+  const knowLang = state.duelRoom.roomKnowLang || 'en';
+  const val=state.duelQuestion.writeInputValue.trim().toLowerCase();
+  const ans=(state.duelRoom.mode==='letters' ? w[0] : _wordInLang(w,knowLang)).toLowerCase();
   const ok = _checkWriteAnswer(state.duelRoom.mode, val, ans);
   const ms=Date.now()-state.duelRoom.answerStartMs;
   state.duelRoom.answered=true;
@@ -861,7 +890,8 @@ export function _submitWrite(): void {
   } else {
     state.duelRoom.myWrong++;
     state.duelRoom.myFlags.push(false);
-    feedbackHtml=`<span style="color:#e74c3c">✗ ${w[0]}</span>`;
+    const correctDisplay = state.duelRoom.mode==='letters' ? w[0] : _wordInLang(w,knowLang);
+    feedbackHtml=`<span style="color:#e74c3c">✗ ${correctDisplay}</span>`;
   }
   state.duelQuestion.feedbackHtml=feedbackHtml;
   state.duelQuestion.speedText=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
@@ -884,7 +914,7 @@ export function _useHint(): void {
   if(state.duelRoom.hintsLeft<=0||state.duelRoom.answered) return; // only before answering
   const w=state.duelRoom.quizDeck[state.duelRoom.quizIdx]; if(!w) return;
   if(state.duelRoom.hintsLeft<999) state.duelRoom.hintsLeft--;
-  const h=w[0];
+  const h=state.duelQuestion.choiceAnswer || w[0];
   state.duelQuestion.hintNote=`💡 ${h.slice(0,Math.ceil(h.length/3))}...`;
   notifyStateChange();
   refreshDuelQuestion();
@@ -1174,7 +1204,7 @@ export async function createAsyncChallenge(): Promise<void> {
       seed, mode:state.duelSel.mode, category:state.duelSel.category, difficulty:state.duelSel.difficulty,
       createdAt:Date.now(), expiresAt:Date.now()+86_400_000, // 24 hours
       powerupsEnabled:state.duelSel.powerupsEnabled, maxHints:state.duelSel.maxHints, bestOf:state.duelSel.bestOf,
-      lang:state.duelSel.lang,
+      lang:state.duelSel.lang, knowLang:state.duelSel.knowLang,
       challenger:{ name:_getMyName(), avatar:_getMyAvatar(), score:0, done:false },
       finished:false,
     };
@@ -1182,8 +1212,8 @@ export async function createAsyncChallenge(): Promise<void> {
     // Play immediately as challenger
     state.duelRoom.roomId=code; state.duelRoom.mySlot='p1'; state.duelRoom.isAsyncChallenge=true; state.duelRoom.roomCreatedAt=challenge.createdAt;
     state.duelRoom.roomSeed=seed; state.duelRoom.roomCategory=state.duelSel.category; state.duelRoom.roomDifficulty=state.duelSel.difficulty; state.duelRoom.roomMaxHints=state.duelSel.maxHints;
-    state.duelRoom.roomLang=state.duelSel.lang;
-    state.duelRoom.quizDeck=_buildDeck(seed,state.duelSel.category,state.duelSel.difficulty,state.duelSel.mode,state.duelSel.lang);
+    state.duelRoom.roomLang=state.duelSel.lang; state.duelRoom.roomKnowLang=state.duelSel.knowLang;
+    state.duelRoom.quizDeck=_buildDeck(seed,state.duelSel.category,state.duelSel.difficulty,state.duelSel.mode,state.duelSel.lang,state.duelSel.knowLang);
     // Show code to share
     state.duelLobbyUI.waiting={visible:true,roomCode:_fmtCode(code),modeLabel:`📬 ${t('duel.mode.'+state.duelSel.mode)} · ${t('duel.async.24h')}`};
     state.duelLobbyUI.joinRowVisible=false;
@@ -1214,8 +1244,8 @@ export async function joinAsyncChallenge(): Promise<void> {
     if(challenge.opponent) throw new Error(t('duel.err.chal.taken'));
     state.duelRoom.roomId=code; state.duelRoom.mySlot='p2'; state.duelRoom.isAsyncChallenge=true; state.duelRoom.roomCreatedAt=challenge.createdAt||Date.now();
     state.duelRoom.roomSeed=challenge.seed; state.duelRoom.roomCategory=challenge.category; state.duelRoom.roomDifficulty=challenge.difficulty; state.duelRoom.roomMaxHints=challenge.maxHints??3;
-    state.duelRoom.roomLang=challenge.lang||'ua';
-    state.duelRoom.quizDeck=_buildDeck(challenge.seed,challenge.category,challenge.difficulty,challenge.mode,challenge.lang);
+    state.duelRoom.roomLang=challenge.lang||'ua'; state.duelRoom.roomKnowLang=challenge.knowLang||'en';
+    state.duelRoom.quizDeck=_buildDeck(challenge.seed,challenge.category,challenge.difficulty,challenge.mode,challenge.lang,challenge.knowLang);
     state.duelRoom.oppName=challenge.challenger.name; state.duelRoom.oppAvatar=challenge.challenger.avatar;
     notifyStateChange();
     const mInfo=DUEL_MODES.find(m=>m.id===challenge.mode);
@@ -1312,8 +1342,8 @@ export function _onResumeContinue(roomId:string): void {
   const seed=sess.seed??room.seed, category=sess.category??room.category, difficulty=sess.difficulty??room.difficulty;
   const maxHints=sess.maxHints??room.maxHints, bestOf=sess.bestOf??room.bestOf;
   state.duelRoom.roomSeed=seed; state.duelRoom.roomCategory=category; state.duelRoom.roomDifficulty=difficulty; state.duelRoom.roomMaxHints=maxHints;
-  state.duelRoom.roomLang=room.lang||'ua';
-  state.duelRoom.quizDeck=_buildDeck(seed,category,difficulty,sess.mode,room.lang);
+  state.duelRoom.roomLang=room.lang||'ua'; state.duelRoom.roomKnowLang=room.knowLang||'en';
+  state.duelRoom.quizDeck=_buildDeck(seed,category,difficulty,sess.mode,room.lang,room.knowLang);
   const oppRoom=room[sess.slot==='p1'?'p2':'p1'];
   state.duelRoom.oppName=oppRoom?.name||sess.oppName||t('duel.opp');
   state.duelRoom.oppAvatar=oppRoom?.avatar||sess.oppAvatar||'🧑';
@@ -1354,7 +1384,7 @@ export function _onResumeDiscard(roomId:string): void {
 interface TournMatch { p1:number; p2:number; p1score:number; p2score:number; winner:number; done:boolean; roomId:string; }
 interface Tournament {
   code:string; size:4|8; mode:DuelMode; category:string; difficulty:Difficulty;
-  lang?:string;
+  lang?:string; knowLang?:string;
   players:Record<string,{name:string;avatar:string}>; // slot→player
   bracket:TournMatch[][]; // rounds[matches]
   currentRound:number; currentMatch:number;
@@ -1435,6 +1465,7 @@ export async function createTournament(size:4|8): Promise<void> {
     _tournId=_genCode();
     const tourn: Tournament = {
       code:_tournId, size, mode:state.duelSel.mode, category:state.duelSel.category, difficulty:state.duelSel.difficulty,
+      lang:state.duelSel.lang, knowLang:state.duelSel.knowLang,
       players:{0:{name:_getMyName(),avatar:_getMyAvatar()}},
       bracket:_buildBracket(size), currentRound:0, currentMatch:0,
       started:false, finished:false, champion:'', createdAt:Date.now(),
@@ -1599,6 +1630,7 @@ async function _startTournMatch(tourn:Tournament, round:number, matchIdx:number)
   const room:RoomData={
     seed, mode:tourn.mode, category:tourn.category, difficulty:tourn.difficulty,
     bestOf:1, maxHints:3, powerupsEnabled:false,
+    lang:tourn.lang, knowLang:tourn.knowLang,
     createdAt:Date.now(), started:false, finished:false,
     series:{p1wins:0,p2wins:0,round:1},
     p1:{name:tourn.players[match.p1].name,avatar:tourn.players[match.p1].avatar,score:0,idx:0,done:false,hintsLeft:3,powerups:{double:0,skip:0,freeze:0}},
@@ -1610,8 +1642,8 @@ async function _startTournMatch(tourn:Tournament, round:number, matchIdx:number)
   await _fbPatch(matchPath,{roomId:state.duelRoom.roomId});
   state.duelRoom.oppName=tourn.players[match.p1===_tournSlot?match.p2:match.p1].name;
   state.duelRoom.oppAvatar=tourn.players[match.p1===_tournSlot?match.p2:match.p1].avatar;
-  state.duelRoom.roomLang=tourn.lang||'ua';
-  state.duelRoom.quizDeck=_buildDeck(seed,tourn.category,tourn.difficulty,tourn.mode,tourn.lang);
+  state.duelRoom.roomLang=tourn.lang||'ua'; state.duelRoom.roomKnowLang=tourn.knowLang||'en';
+  state.duelRoom.quizDeck=_buildDeck(seed,tourn.category,tourn.difficulty,tourn.mode,tourn.lang,tourn.knowLang);
   notifyStateChange();
   _initGame(tourn.mode,3,1,{p1wins:0,p2wins:0,round:1},false);
   // After game finishes, save result to tournament
@@ -1639,8 +1671,8 @@ async function _joinTournMatch(roomId:string): Promise<void> {
       p2:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:3,powerups:{double:0,skip:0,freeze:0}},
       started:true,
     });
-    state.duelRoom.roomLang=room.lang||'ua';
-    state.duelRoom.quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode,room.lang);
+    state.duelRoom.roomLang=room.lang||'ua'; state.duelRoom.roomKnowLang=room.knowLang||'en';
+    state.duelRoom.quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode,room.lang,room.knowLang);
     state.duelRoom.oppName=room.p1.name; state.duelRoom.oppAvatar=room.p1.avatar;
     notifyStateChange();
     _initGame(room.mode,3,1,{p1wins:0,p2wins:0,round:1},false);
