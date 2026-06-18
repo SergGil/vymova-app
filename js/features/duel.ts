@@ -145,7 +145,7 @@ interface AsyncDuel {
 const HIST_KEY   = 'ew_duel_history';
 const RATING_KEY = 'ew_duel_rating';
 
-interface HistEntry { date:string; mode:DuelMode; myScore:number; oppScore:number; oppName:string; won:boolean; category:string; }
+interface HistEntry { date:string; mode:DuelMode; myScore:number; oppScore:number; oppName:string; won:boolean; category:string; lang?:string; knowLang?:string; }
 interface Rating    { wins:number; losses:number; ties:number; }
 
 export function _getHistory(): HistEntry[] { try { return JSON.parse(localStorage.getItem(HIST_KEY)||'[]'); } catch(e){ return []; } }
@@ -795,12 +795,12 @@ function _renderWriteQ(w:WordEntry): void {
   state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer=_wordInLang(w,knowLang);
 }
 
+// Anagram always scrambles the English spelling — translations can be multi-word
+// phrases or contain diacritics, which would break letter-scrambling/matching.
 function _renderAnagramQ(w:WordEntry): void {
   const lang = state.duelRoom.roomLang || 'ua';
-  const knowLang = state.duelRoom.roomKnowLang || 'en';
-  const ans=_wordInLang(w,knowLang);
-  state.duelQuestion.qPrimary=_shuffleLetters(ans); state.duelQuestion.qSecondary=_wordInLang(w,lang); state.duelQuestion.qTertiary=t('duel.anagramHint');
-  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer=ans;
+  state.duelQuestion.qPrimary=_shuffleLetters(w[0]); state.duelQuestion.qSecondary=_wordInLang(w,lang); state.duelQuestion.qTertiary=t('duel.anagramHint');
+  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer=w[0];
 }
 
 function _renderLettersQ(w:WordEntry): void {
@@ -875,7 +875,8 @@ export function _submitWrite(): void {
   const w=state.duelRoom.quizDeck[state.duelRoom.quizIdx];
   const knowLang = state.duelRoom.roomKnowLang || 'en';
   const val=state.duelQuestion.writeInputValue.trim().toLowerCase();
-  const ans=(state.duelRoom.mode==='letters' ? w[0] : _wordInLang(w,knowLang)).toLowerCase();
+  const isEnglishOnly = state.duelRoom.mode==='letters' || state.duelRoom.mode==='anagram';
+  const ans=(isEnglishOnly ? w[0] : _wordInLang(w,knowLang)).toLowerCase();
   const ok = _checkWriteAnswer(state.duelRoom.mode, val, ans);
   const ms=Date.now()-state.duelRoom.answerStartMs;
   state.duelRoom.answered=true;
@@ -890,7 +891,7 @@ export function _submitWrite(): void {
   } else {
     state.duelRoom.myWrong++;
     state.duelRoom.myFlags.push(false);
-    const correctDisplay = state.duelRoom.mode==='letters' ? w[0] : _wordInLang(w,knowLang);
+    const correctDisplay = isEnglishOnly ? w[0] : _wordInLang(w,knowLang);
     feedbackHtml=`<span style="color:#e74c3c">✗ ${correctDisplay}</span>`;
   }
   state.duelQuestion.feedbackHtml=feedbackHtml;
@@ -1028,7 +1029,7 @@ function _showFinish(room:RoomData):void{
   const mInfo=DUEL_MODES.find(m=>m.id===room.mode)||DUEL_MODES[0];
 
   // Save history + rating
-  _addHistory({date:`${new Date().toLocaleDateString(_dateLocale())} ${new Date().toLocaleTimeString(_dateLocale(),{hour:'2-digit',minute:'2-digit'})}`,mode:room.mode,myScore:me.score,oppScore:opp?.score??0,oppName:opp?.name||state.duelRoom.oppName||t('duel.opp'),won,category:room.category});
+  _addHistory({date:`${new Date().toLocaleDateString(_dateLocale())} ${new Date().toLocaleTimeString(_dateLocale(),{hour:'2-digit',minute:'2-digit'})}`,mode:room.mode,myScore:me.score,oppScore:opp?.score??0,oppName:opp?.name||state.duelRoom.oppName||t('duel.opp'),won,category:room.category,lang:state.duelRoom.roomLang,knowLang:state.duelRoom.roomKnowLang});
   _updateRating(won,tie);
   _clearSession();
 

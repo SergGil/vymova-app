@@ -31,14 +31,14 @@ function TournWaiting(): ReactElement | null {
           style={{ width: '100%', padding: 12, borderRadius: 12, border: 'none', background: 'var(--accent)', color: '#fff', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', fontSize: '.9rem' }}
           onClick={_onTournStart}
         >
-          ⚔️ {d.startBtnLabel}
+          {d.startBtnLabel}
         </button>
       )}
       <button
         style={{ width: '100%', padding: 8, borderRadius: 10, border: '1.5px solid var(--border)', background: 'none', color: 'var(--text3)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '.78rem', marginTop: 6 }}
         onClick={_onTournCancel}
       >
-        ✕ {t('duel.tourn.cancel')}
+        {t('duel.tourn.cancel')}
       </button>
     </>
   );

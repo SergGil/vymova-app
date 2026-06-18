@@ -23,12 +23,13 @@ export function DuelHistory() {
     {rows.map((e, i) => {
       const icon = e.won ? '🏆' : e.myScore === e.oppScore ? '🤝' : '💀';
       const cat = e.category ? ` · ${e.category.split(' ')[0]}` : '';
+      const langTag = e.knowLang && e.lang ? ` · ${e.knowLang.toUpperCase()}↔${e.lang.toUpperCase()}` : '';
       const color = e.won ? '#27ae60' : e.myScore === e.oppScore ? 'var(--text3)' : '#e74c3c';
       return (
         <div key={start + i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: '1px solid var(--border)', fontSize: '.78rem' }}>
           <span style={{ color: 'var(--text2)' }}>
             {icon} vs <b>{e.oppName}</b>{cat}
-            <span style={{ color: 'var(--text3)' }}> · {e.date}</span>
+            <span style={{ color: 'var(--text3)' }}>{langTag} · {e.date}</span>
           </span>
           <span style={{ fontWeight: 700, color }}>{e.myScore}:{e.oppScore}</span>
         </div>

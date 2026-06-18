@@ -52,7 +52,7 @@ export function DuelLobby(): ReactElement {
       {/* Language picker */}
       <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginBottom: 6 }}>{t('langpair.know')}:</div>
       <div style={{ marginBottom: 8 }}><DuelKnowLangPicker/></div>
-      <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginBottom: 6 }}>{t('langpair.learn')}:</div>
+      <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginBottom: 6 }}>{t('duel.lang')}</div>
       <div style={{ marginBottom: 10 }}><DuelLangPicker/></div>
 
       {/* Mode picker */}
@@ -92,7 +92,7 @@ export function DuelLobby(): ReactElement {
             onClick={() => _cancelRoom()}
             style={{ padding: '7px 18px', borderRadius: 10, border: '1.5px solid var(--border)', background: 'none', color: 'var(--text2)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '.82rem' }}
           >
-            ✕ {t('duel.cancel')}
+            {t('duel.cancel')}
           </button>
         </div>
       )}
