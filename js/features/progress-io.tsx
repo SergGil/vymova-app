@@ -22,7 +22,6 @@ function exportProgress(): string {
     daily:  localStorage.getItem('ew_daily')  || '{}',
     ach:    localStorage.getItem('ew_ach')    || '[]',
     theme:  localStorage.getItem('ew_theme')  || '',
-    custom: localStorage.getItem('ew_custom') || '[]',
   };
   return btoa(unescape(encodeURIComponent(JSON.stringify(data))));
 }
@@ -49,7 +48,6 @@ function importProgress(code: string): boolean {
     if (data.daily)  localStorage.setItem('ew_daily',  data.daily);
     if (data.ach)    localStorage.setItem('ew_ach',    data.ach);
     if (data.theme)  localStorage.setItem('ew_theme',  data.theme);
-    if (data.custom) localStorage.setItem('ew_custom', data.custom);
 
     _safe(() => {
       const newKnown = new Set<string>(JSON.parse(knownJson));

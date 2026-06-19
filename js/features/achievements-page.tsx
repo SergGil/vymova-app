@@ -3,7 +3,6 @@
 // Re-rendered on demand via refreshAchievementsPage() / notifyStateChange().
 import { createPortal } from 'react-dom';
 import { useEffect, useState, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
 import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
 import { getGameData, getModeStats, loadUnlocked, LEVELS } from './game.ts';
@@ -52,7 +51,6 @@ function AchievementsGrid({ onSelect }: { onSelect: (a: Achievement) => void }):
   const k = getKnownInLang();
   const g = getGameData();
   const m = getModeStats();
-  const c = (state._customWords.length) as number;
 
   const cats: Record<string, Achievement[]> = {};
   ACHIEVEMENTS.forEach(function(a) {
@@ -68,7 +66,7 @@ function AchievementsGrid({ onSelect }: { onSelect: (a: Achievement) => void }):
           <div className="ach-grid-inner">
             {cats[cat].map(a => {
               const isUnlocked = unlocked.has(a.id);
-              const prog = a.progress(k, g, m, c);
+              const prog = a.progress(k, g, m);
               const pct  = Math.round(prog.cur / prog.max * 100);
               return (
                 <div
@@ -112,8 +110,7 @@ function AchievementPopup({ ach, onClose }: { ach: Achievement | null; onClose: 
   const k = getKnownInLang();
   const g = getGameData();
   const m = getModeStats();
-  const c = (state._customWords.length) as number;
-  const prog = ach.progress(k, g, m, c);
+  const prog = ach.progress(k, g, m);
   const pct  = Math.min(Math.round(prog.cur / prog.max * 100), 100);
 
   return createPortal(

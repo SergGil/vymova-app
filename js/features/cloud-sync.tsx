@@ -15,7 +15,7 @@ const BACKUP_KEYS = [
   'ew_fontsize', 'ew_theme', 'ew_sw',
   'ew_ws_voice', 'ew_ws_uk_voice',
   'ew_notif_enabled', 'ew_notes', 'ew_bookmarks',
-  'ew_custom', 'ew_milestones', 'ew_mode_acc', 'ew_mistakes',
+  'ew_milestones', 'ew_mode_acc', 'ew_mistakes',
   // Profile metadata — names & avatars
   'ew_profiles', 'ew_active_profile',
 ];

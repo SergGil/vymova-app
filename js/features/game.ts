@@ -154,7 +154,7 @@ export const LEVELS: Level[] = [
   { name: '🔴 Ситх-лорд',           min: 1500, color: '#c0392b', bg: '#fdedec' },
   { name: '⚡ Обраний',             min: 2500, color: '#d4ac0d', bg: '#fefde7' },
   { name: '🌠 Балансувальник Сили', min: 4000, color: '#1a1a2e', bg: '#eaf0fb' },
-  { name: '🏆 Магістр Йода',        min: 8327, color: '#2d6a3d', bg: '#e0f7e9' },
+  { name: '🏆 Магістр Йода',        min: 10002, color: '#2d6a3d', bg: '#e0f7e9' },
 ];
 
 export function getLevel(n: number): Level {
@@ -174,15 +174,11 @@ let _checkAchievementsFn: (() => void) | null = null;
 export function registerCheckAchievements(fn: () => void): void { _checkAchievementsFn = fn; }
 function _runCheckAchievements(): void { try { _checkAchievementsFn?.(); } catch (e) {} }
 
-// ── recordModeComplete / recordCustomWordAdded ─────────────────
+// ── recordModeComplete ─────────────────────────────────────────
 export function recordModeComplete(mode: string): void {
   const m = getModeStats();
   m[mode] = (m[mode] ?? 0) + 1;
   saveModeStats(m);
-  _runCheckAchievements();
-}
-
-export function recordCustomWordAdded(): void {
   _runCheckAchievements();
 }
 

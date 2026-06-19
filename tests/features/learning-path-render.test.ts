@@ -19,7 +19,6 @@ describe('learning-path.ts renderLearningPath/openLearningPath', () => {
     document.body.innerHTML = '';
     localStorage.clear();
     state.known = new Set();
-    state._customWords = [];
     openPage.mockClear();
     closePage.mockClear();
     jumpToGrammarRule.mockClear();

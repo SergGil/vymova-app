@@ -93,16 +93,11 @@
   "lvl8_hint": "Atteins le niveau L'Élu (2500 mots)",
   "lvl9_name": "Équilibreur de la Force",
   "lvl9_hint": "Atteins le niveau Équilibreur de la Force (4000 mots)",
-  "custom1_name": "Ton propre mot",
-  "custom1_hint": "Ajoute ton premier mot personnalisé dans le trainer",
-  "custom10_name": "10 mots personnalisés",
-  "custom10_hint": "10 mots personnalisés. Ton dictionnaire personnel !",
   "📖 Слова": "📖 Mots",
   "📅 Серія": "📅 Série",
   "🎯 Цілі": "🎯 Objectifs",
   "⚡ Швидкість": "⚡ Vitesse",
   "🎮 Режими": "🎮 Modes",
   "🔥 Комбо": "🔥 Combo",
-  "🌟 Рівні": "🌟 Niveaux",
-  "✍️ Власні": "✍️ Personnalisés"
+  "🌟 Рівні": "🌟 Niveaux"
 }

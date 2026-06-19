@@ -35,17 +35,6 @@ state._baseWords = W.slice() as unknown as WordEntry[];
 const _wordIdx = state._wordIdx;
 W.forEach(function(w, i) { _wordIdx.set(w[0], i); });
 
-// ── Власні слова: завантажуємо і додаємо в W ──
-let _customWords: Array<{en:string;ua:string;ex_en?:string;ex_ua?:string}> = [];
-try { _customWords = JSON.parse(localStorage.getItem('ew_custom') || '[]'); } catch(e){ console.warn('[custom] Load failed:', (e as Error).message); }
-_customWords.forEach(function(c) {
-  if (c.en && c.ua && !_wordIdx.has(c.en)) {
-    W.push([c.en, c.ua, c.ex_en || c.en + '.', c.ex_ua || c.ua + '.', '']);
-    _wordIdx.set(c.en, W.length - 1);
-  }
-});
-state._customWords = _customWords;
-
 // Random card order on each load, so the deck doesn't always start at #1.
 setDeck(shuffle((W as unknown as WordEntry[]).slice()));
 

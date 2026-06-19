@@ -60,7 +60,7 @@ describe('Backup keys completeness', () => {
     'ew_fontsize', 'ew_theme', 'ew_sw',
     'ew_ws_voice', 'ew_ws_uk_voice',
     'ew_notif_enabled', 'ew_notes', 'ew_bookmarks',
-    'ew_custom', 'ew_milestones', 'ew_mode_acc', 'ew_mistakes',
+    'ew_milestones', 'ew_mode_acc', 'ew_mistakes',
     'ew_profiles', 'ew_active_profile',
   ];
 
@@ -79,7 +79,6 @@ describe('Backup keys completeness', () => {
   it('backup includes new feature keys', () => {
     expect(BACKUP_KEYS).toContain('ew_mode_acc');
     expect(BACKUP_KEYS).toContain('ew_mistakes');
-    expect(BACKUP_KEYS).toContain('ew_custom');
   });
 
   it('all keys are unique', () => {

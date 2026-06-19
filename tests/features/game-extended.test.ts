@@ -88,7 +88,7 @@ describe('getNextLevel()', () => {
   });
 
   it('returns null at max level', () => {
-    expect(getNextLevel(8327)).toBeNull();   // LEVELS top min is 8327
+    expect(getNextLevel(10002)).toBeNull();   // LEVELS top min is 10002
     expect(getNextLevel(99999)).toBeNull();
   });
 

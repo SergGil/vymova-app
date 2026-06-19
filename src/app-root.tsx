@@ -42,7 +42,7 @@ import { DailyChallenge } from '../js/modes/daily-challenge.tsx';
 import { PairsMode } from '../js/modes/pairs.tsx';
 import { NotificationsInit } from '../js/features/notifications.tsx';
 import { CloudSyncInit } from '../js/features/cloud-sync.tsx';
-import { CustomWordsInit } from '../js/features/custom.tsx';
+import { ExportInit } from '../js/features/export.tsx';
 import { VoiceInit } from '../js/features/voice.tsx';
 import { SidebarInit } from '../js/features/sidebar.tsx';
 import { WordDetailPage } from '../js/features/word-detail.tsx';
@@ -156,7 +156,7 @@ function AppRoot(): ReactElement {
     <PairsMode/>
     <NotificationsInit/>
     <CloudSyncInit/>
-    <CustomWordsInit/>
+    <ExportInit/>
     <VoiceInit/>
     <SidebarInit/>
     <Portal id="wd-page-mount"><WordDetailPage/></Portal>

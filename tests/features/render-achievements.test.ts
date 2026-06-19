@@ -37,7 +37,6 @@ describe('checkAchievements', () => {
     showToast.mockReset();
     vi.useFakeTimers();
     state.known = new Set();
-    state._customWords = [];
   });
 
   it('registers itself with game.ts on module load', () => {

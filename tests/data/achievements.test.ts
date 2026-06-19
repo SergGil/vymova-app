@@ -44,7 +44,7 @@ describe('ACHIEVEMENTS structure', () => {
   it('progress() returns { cur, max } with numbers', () => {
     const g = makeGame();
     for (const a of ACHIEVEMENTS) {
-      const p = a.progress(0, g, emptyModes, 0);
+      const p = a.progress(0, g, emptyModes);
       expect(typeof p.cur, `${a.id} progress.cur must be number`).toBe('number');
       expect(typeof p.max, `${a.id} progress.max must be number`).toBe('number');
       expect(p.max, `${a.id} progress.max must be > 0`).toBeGreaterThan(0);
@@ -54,7 +54,7 @@ describe('ACHIEVEMENTS structure', () => {
   it('check() returns boolean', () => {
     const g = makeGame();
     for (const a of ACHIEVEMENTS) {
-      const result = a.check(0, g, emptyModes, 0);
+      const result = a.check(0, g, emptyModes);
       expect(typeof result, `${a.id} check must return boolean`).toBe('boolean');
     }
   });
@@ -115,18 +115,5 @@ describe('Achievement logic — combo', () => {
     const a = ACHIEVEMENTS.find(x => x.id === 'combo5')!;
     expect(a.check(0, makeGame({ maxCombo: 4 }))).toBe(false);
     expect(a.check(0, makeGame({ maxCombo: 5 }))).toBe(true);
-  });
-});
-
-describe('Achievement logic — custom words', () => {
-  it('custom1: passes when c ≥ 1', () => {
-    const a = ACHIEVEMENTS.find(x => x.id === 'custom1')!;
-    expect(a.check(0, makeGame(), emptyModes, 0)).toBe(false);
-    expect(a.check(0, makeGame(), emptyModes, 1)).toBe(true);
-  });
-
-  it('custom10: progress is capped at 10', () => {
-    const a = ACHIEVEMENTS.find(x => x.id === 'custom10')!;
-    expect(a.progress(0, makeGame(), emptyModes, 15).cur).toBe(10);
   });
 });

@@ -34,7 +34,6 @@ describe('achievements-page.tsx AchievementsPage', () => {
       <div id="ach-popup-overlay"></div>
     `;
     state.known = new Set();
-    state._customWords = [];
     getGameData.mockClear().mockReturnValue({ streak: 0, xp: 0 });
     getModeStats.mockClear().mockReturnValue({});
     loadUnlocked.mockClear().mockReturnValue([]);

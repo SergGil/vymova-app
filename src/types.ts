@@ -54,8 +54,8 @@ export interface Achievement {
   name:     string;
   cat:      string;
   hint:     string;
-  progress: (k: number, g: GameData, m?: ModeStats, c?: number) => { cur: number; max: number };
-  check:    (k: number, g: GameData, m?: ModeStats, c?: number) => boolean;
+  progress: (k: number, g: GameData, m?: ModeStats) => { cur: number; max: number };
+  check:    (k: number, g: GameData, m?: ModeStats) => boolean;
 }
 
 // ── Mode stats ────────────────────────────────────────────────
@@ -101,7 +101,6 @@ export interface AppState {
   knownHe:        Set<string>;
   knownAr:        Set<string>;
   _wordIdx:       Map<string, number>;
-  _customWords:   Array<{ en: string; ua: string; ex_en?: string; ex_ua?: string }>;
   duelSel:        DuelSelState;
   duelResumeSessions: import('../js/features/duel.ts').ResumeSessionVM[];
   duelChatHistory: { text: string; isMe: boolean }[];
