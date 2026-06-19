@@ -29,8 +29,8 @@ export function Transcription() {
   return (
     <div className="transcription" id="wtrans" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
       {trans && <span>{trans}</span>}
-      <button type="button" className="accent-btn" title="British" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'GB', e.currentTarget); }}>🇬🇧</button>
-      <button type="button" className="accent-btn" title="American" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'US', e.currentTarget); }}>🇺🇸</button>
+      <button type="button" className="accent-btn" title="British" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'GB', e.currentTarget); }}>GB</button>
+      <button type="button" className="accent-btn" title="American" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'US', e.currentTarget); }}>US</button>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import {
-  VoiceInit, _renderVoices, speakFakeYou,
+  VoiceInit, _renderVoices, speakFakeYou, speakEnAccent,
   getSelectedUkVoice, getSelectedEsVoice, getSelectedFrVoice, getSelectedItVoice, getSelectedPtVoice, getSelectedDeVoice,
 } from '../../js/features/voice.tsx';
 
@@ -195,6 +195,48 @@ describe('voice.tsx', () => {
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Google US English'));
     expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(1);
     logSpy.mockRestore();
+  });
+
+  it('speakEnAccent picks the voice matching the requested accent', () => {
+    const gbVoice = makeVoice('Microsoft Sonia', 'en-GB');
+    const usVoice = makeVoice('Microsoft Aria', 'en-US');
+    vi.stubGlobal('speechSynthesis', makeFakeSynth([usVoice, gbVoice]));
+
+    speakEnAccent('hello', 'GB', null);
+    expect(synth.cancel).toHaveBeenCalled();
+    const utterance = synth.speak.mock.calls[0][0] as FakeUtterance;
+    expect(utterance.voice?.name).toBe('Microsoft Sonia');
+    expect(utterance.lang).toBe('en-GB');
+  });
+
+  it('speakEnAccent falls back to a lang-based match when no labelled voice fits the accent', () => {
+    const gbVoice = makeVoice('Some Unlabelled Voice', 'en-GB');
+    vi.stubGlobal('speechSynthesis', makeFakeSynth([gbVoice]));
+
+    speakEnAccent('hello', 'GB', null);
+    const utterance = synth.speak.mock.calls[0][0] as FakeUtterance;
+    expect(utterance.voice?.name).toBe('Some Unlabelled Voice');
+  });
+
+  it('speakEnAccent falls back to en-US/en-GB lang string when there are no EN voices at all', () => {
+    vi.stubGlobal('speechSynthesis', makeFakeSynth([]));
+
+    speakEnAccent('hello', 'US', null);
+    const utterance = synth.speak.mock.calls[0][0] as FakeUtterance;
+    expect(utterance.voice).toBeNull();
+    expect(utterance.lang).toBe('en-US');
+  });
+
+  it('speakEnAccent toggles the "on" class on the button while speaking', () => {
+    vi.stubGlobal('speechSynthesis', makeFakeSynth([makeVoice('Microsoft Aria', 'en-US')]));
+    const btn = document.createElement('button');
+
+    speakEnAccent('hello', 'US', btn);
+    expect(btn.classList.contains('on')).toBe(true);
+
+    const utterance = synth.speak.mock.calls[0][0] as FakeUtterance;
+    act(() => { utterance.onend?.(); });
+    expect(btn.classList.contains('on')).toBe(false);
   });
 
   it('removes listeners on unmount', () => {

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
@@ -9,6 +9,9 @@ import {
 } from '../../js/features/card-front-text.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
+
+const { speakEnAccent } = vi.hoisted(() => ({ speakEnAccent: vi.fn() }));
+vi.mock('../../js/features/voice.tsx', () => ({ speakEnAccent }));
 
 const cw: WordEntry = ['abandon', 'покинути', 'He will <b>abandon</b> it.', 'Він <b>покине</b> його.', 'ˈæ', 'v'];
 
@@ -28,6 +31,7 @@ describe('card-front-text.tsx', () => {
     state.flipped = false;
     state.srsData = {};
     state.TODAY = '2026-01-01';
+    speakEnAccent.mockClear();
   });
 
   it('WordText renders nothing when there is no current word', () => {
@@ -51,7 +55,22 @@ describe('card-front-text.tsx', () => {
   it('Transcription renders UK/US accent buttons for English-front modes', () => {
     const { container } = mount(Transcription);
     const el = container.querySelector('#wtrans') as HTMLElement;
-    expect(el.querySelectorAll('button.accent-btn').length).toBe(2);
+    const btns = el.querySelectorAll<HTMLButtonElement>('button.accent-btn');
+    expect(btns.length).toBe(2);
+    expect(btns[0].textContent).toBe('GB');
+    expect(btns[1].textContent).toBe('US');
+  });
+
+  it('clicking the GB/US buttons speaks the front word with that accent', () => {
+    const { container } = mount(Transcription);
+    const el = container.querySelector('#wtrans') as HTMLElement;
+    const [gbBtn, usBtn] = el.querySelectorAll<HTMLButtonElement>('button.accent-btn');
+
+    act(() => { gbBtn.click(); });
+    expect(speakEnAccent).toHaveBeenCalledWith('abandon', 'GB', gbBtn);
+
+    act(() => { usBtn.click(); });
+    expect(speakEnAccent).toHaveBeenCalledWith('abandon', 'US', usBtn);
   });
 
   it('Transcription hides itself for non-English-front modes', () => {

@@ -4,7 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
-import { CollocationsSection, WordFamiliesChips } from '../../js/features/word-context.tsx';
+import { CollocationsSection, WordFamiliesChips, SynonymsChips, EtymologyNote, UsageNoteBox } from '../../js/features/word-context.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -13,6 +13,10 @@ vi.mock('../../js/features/word-detail.tsx', () => ({ openWordDetail }));
 
 const makeEntry: WordEntry = ['make', 'робити', '', '', '', 'v'];
 const sustainEntry: WordEntry = ['sustain', 'підтримувати', '', '', '', 'v'];
+const happyEntry: WordEntry = ['happy', 'щасливий', '', '', '', 'adj'];
+const gladEntry: WordEntry = ['glad', 'радий', '', '', '', 'adj'];
+const dataEntry: WordEntry = ['data', 'дані', '', '', '', 'n'];
+const salaryEntry: WordEntry = ['salary', 'зарплата', '', '', '', 'n'];
 
 function mount(Component: () => JSX.Element | null): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
@@ -104,6 +108,94 @@ describe('word-context.tsx', () => {
       expect(openWordDetail).toHaveBeenCalled();
       const arg = openWordDetail.mock.calls[0][0] as WordEntry;
       expect(arg[0]).toBe('sustainable');
+    });
+  });
+
+  describe('SynonymsChips', () => {
+    it('renders nothing when the card is not flipped', () => {
+      state.flipped = false;
+      state.cw = happyEntry;
+      const { container } = mount(SynonymsChips);
+      expect(container.innerHTML).toBe('');
+    });
+
+    it('renders nothing when the word has no synonym group', () => {
+      state.cw = sustainEntry;
+      const { container } = mount(SynonymsChips);
+      expect(container.innerHTML).toBe('');
+    });
+
+    it('renders the headword + other members when the current word is a synonym (not the headword)', () => {
+      state.cw = gladEntry;
+      const { container } = mount(SynonymsChips);
+      const chips = container.querySelectorAll('.syn-chip');
+      const words = Array.from(chips).map(c => c.querySelector('.sc-word')!.textContent);
+      expect(words).toContain('happy');
+      expect(words).not.toContain('glad');
+      expect(words).toContain('joyful');
+    });
+
+    it('shows the nuance note instead of the translation for a synonym entry', () => {
+      state.cw = happyEntry;
+      const { container } = mount(SynonymsChips);
+      const chip = Array.from(container.querySelectorAll('.syn-chip'))
+        .find(c => c.querySelector('.sc-word')!.textContent === 'joyful')!;
+      expect(chip.querySelector('.sc-transl')!.textContent).toBe('сильніша радість');
+    });
+
+    it('opens the word detail when a chip is clicked', () => {
+      state.cw = happyEntry;
+      const { container } = mount(SynonymsChips);
+      const chip = Array.from(container.querySelectorAll('.syn-chip'))
+        .find(c => c.querySelector('.sc-word')!.textContent === 'glad')! as HTMLElement;
+      act(() => { chip.click(); });
+      expect(openWordDetail).toHaveBeenCalled();
+      const arg = openWordDetail.mock.calls[0][0] as WordEntry;
+      expect(arg[0]).toBe('glad');
+    });
+  });
+
+  describe('EtymologyNote', () => {
+    it('renders nothing when the card is not flipped', () => {
+      state.flipped = false;
+      state.cw = salaryEntry;
+      const { container } = mount(EtymologyNote);
+      expect(container.innerHTML).toBe('');
+    });
+
+    it('renders nothing when the word has no etymology fact', () => {
+      state.cw = makeEntry;
+      const { container } = mount(EtymologyNote);
+      expect(container.innerHTML).toBe('');
+    });
+
+    it('renders the origin fact when flipped and present', () => {
+      state.cw = salaryEntry;
+      const { container } = mount(EtymologyNote);
+      const el = container.querySelector('#cb-etymology')!;
+      expect(el.textContent).toContain('salarium');
+    });
+  });
+
+  describe('UsageNoteBox', () => {
+    it('renders nothing when there is no current word', () => {
+      state.cw = null;
+      const { container } = mount(UsageNoteBox);
+      expect(container.innerHTML).toBe('');
+    });
+
+    it('renders nothing when the word has no usage note', () => {
+      state.cw = makeEntry;
+      const { container } = mount(UsageNoteBox);
+      expect(container.innerHTML).toBe('');
+    });
+
+    it('renders the warning even when the card is not flipped', () => {
+      state.flipped = false;
+      state.cw = dataEntry;
+      const { container } = mount(UsageNoteBox);
+      const el = container.querySelector('#cb-usage-note')!;
+      expect(el.textContent).toContain('дата');
     });
   });
 });
