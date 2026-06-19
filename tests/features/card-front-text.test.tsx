@@ -44,8 +44,14 @@ describe('card-front-text.tsx', () => {
   it('Transcription shows the decoded IPA for English-front modes', () => {
     const { container } = mount(Transcription);
     const el = container.querySelector('#wtrans') as HTMLElement;
-    expect(el.style.display).toBe('block');
-    expect(el.textContent).toBe('[ˈæ]');
+    expect(el.style.display).toBe('flex');
+    expect(el.querySelector('span')!.textContent).toBe('[ˈæ]');
+  });
+
+  it('Transcription renders UK/US accent buttons for English-front modes', () => {
+    const { container } = mount(Transcription);
+    const el = container.querySelector('#wtrans') as HTMLElement;
+    expect(el.querySelectorAll('button.accent-btn').length).toBe(2);
   });
 
   it('Transcription hides itself for non-English-front modes', () => {
