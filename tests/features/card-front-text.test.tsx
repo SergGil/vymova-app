@@ -13,6 +13,9 @@ import {
 const { speakEnAccent } = vi.hoisted(() => ({ speakEnAccent: vi.fn() }));
 vi.mock('../../js/features/voice.tsx', () => ({ speakEnAccent }));
 
+const { speak } = vi.hoisted(() => ({ speak: vi.fn() }));
+vi.mock('../../js/features/speech.ts', () => ({ speak }));
+
 const cw: WordEntry = ['abandon', 'покинути', 'He will <b>abandon</b> it.', 'Він <b>покине</b> його.', 'ˈæ', 'v'];
 
 function mount(Component: () => JSX.Element | null): { container: HTMLElement; root: Root } {
@@ -32,6 +35,7 @@ describe('card-front-text.tsx', () => {
     state.srsData = {};
     state.TODAY = '2026-01-01';
     speakEnAccent.mockClear();
+    speak.mockClear();
   });
 
   it('WordText renders nothing when there is no current word', () => {
@@ -159,6 +163,28 @@ describe('card-front-text.tsx', () => {
       expect(items[0].querySelector('.sense-translation')!.textContent).toBe('світло');
       expect(items[0].querySelector('.sense-example')!.textContent).toContain('turn on the light');
       expect(items[1].querySelector('.sense-translation')!.textContent).toBe('легкий (за вагою)');
+    });
+
+    it('shows the "All meanings" title', () => {
+      state.flipped = true;
+      state.cw = ['light', 'світло', '', '', '', 'n'] as unknown as WordEntry;
+      const { container } = mount(OtherMeanings);
+      expect(container.querySelector('.similar-title')!.textContent).toContain('Усі значення');
+    });
+
+    it('each sense has its own speak button that speaks that sense\'s example', () => {
+      state.flipped = true;
+      state.cw = ['light', 'світло', '', '', '', 'n'] as unknown as WordEntry;
+      const { container } = mount(OtherMeanings);
+      const items = container.querySelectorAll('#cb-senses-list li');
+      const btns = Array.from(items).map(li => li.querySelector<HTMLButtonElement>('.sense-speak-btn')!);
+      expect(btns.length).toBe(2);
+
+      act(() => { btns[0].click(); });
+      expect(speak).toHaveBeenCalledWith('Please turn on the light in the hallway.', btns[0]);
+
+      act(() => { btns[1].click(); });
+      expect(speak).toHaveBeenCalledWith('This suitcase is surprisingly light for its size.', btns[1]);
     });
   });
 });

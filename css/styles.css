@@ -3125,6 +3125,7 @@ body.dark .usage-note-box.etymology-note { background: rgba(255,255,255,.04); }
 .sense-translation { font-weight: 700; color: var(--text); }
 .sense-example { font-size: .74rem; color: var(--text3); margin-top: 1px; line-height: 1.4; }
 .sense-example i { font-style: italic; }
+.sense-speak-btn { font-size: 12px; padding: 1px 3px; vertical-align: middle; }
 
 /* ── Note modal ── */
 .note-panel {

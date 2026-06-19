@@ -7,6 +7,7 @@ import { t, tLang, type Lang } from './i18n.ts';
 import { srsStatusInfo, forgettingCurveTooltip, type SrsEntry } from '../core/card-helpers.ts';
 import { getResolvedMode, computeCardView } from './mode-utils.ts';
 import { speakEnAccent } from './voice.tsx';
+import { speak } from './speech.ts';
 import { SENSES } from '../../data/senses.ts';
 
 function getRangeVal(): string {
@@ -91,13 +92,16 @@ export function OtherMeanings() {
 
   return (
     <div className="similar-section" id="cb-senses" style={{ margin: '8px 0' }}>
-      <div className="similar-title" data-i18n="cards.sensesTitle">📖 Інші значення</div>
+      <div className="similar-title" data-i18n="cards.sensesTitle">📖 Усі значення</div>
       <ol className="senses-list" id="cb-senses-list">
         {senses.map((s, i) => (
           <li key={i}>
             <span className="sense-pos">{s.pos}</span>{' '}
             <span className="sense-translation">{s.translation}</span>
-            <div className="sense-example">{s.exEn} <i>— {s.exUa}</i></div>
+            <div className="sense-example">
+              {s.exEn} <i>— {s.exUa}</i>
+              <button type="button" className="speak-btn sense-speak-btn" title="Вимовити приклад" onClick={e => { e.stopPropagation(); speak(s.exEn, e.currentTarget); }}>🔊</button>
+            </div>
           </li>
         ))}
       </ol>
