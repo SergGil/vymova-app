@@ -6,6 +6,8 @@ import { useStateVersion } from '../../src/store.ts';
 import { searchCollocations } from '../../data/collocations.ts';
 import { WORD_FAMILIES, WORD_FAMILY_REVERSE } from '../../data/word-families.ts';
 import { SYNONYMS, SYNONYM_REVERSE } from '../../data/synonyms.ts';
+import { ETYMOLOGY } from '../../data/etymology.ts';
+import { USAGE_NOTES } from '../../data/usage-notes.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { openWordDetail } from './word-detail.tsx';
@@ -124,6 +126,38 @@ export function SynonymsChips(): ReactElement | null {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+export function EtymologyNote(): ReactElement | null {
+  useStateVersion();
+  const cw = state.cw as WordEntry | null;
+  if (!cw || !state.flipped) return null;
+
+  const fact = ETYMOLOGY[cw[0].toLowerCase()];
+  if (!fact) return null;
+
+  return (
+    <div className="usage-note-box etymology-note" id="cb-etymology">
+      <span className="usage-note-icon">📜</span>
+      <span>{fact}</span>
+    </div>
+  );
+}
+
+export function UsageNoteBox(): ReactElement | null {
+  useStateVersion();
+  const cw = state.cw as WordEntry | null;
+  if (!cw) return null;
+
+  const note = USAGE_NOTES[cw[0].toLowerCase()];
+  if (!note) return null;
+
+  return (
+    <div className="usage-note-box" id="cb-usage-note">
+      <span className="usage-note-icon">⚠️</span>
+      <span>{note}</span>
     </div>
   );
 }

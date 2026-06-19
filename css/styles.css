@@ -3103,6 +3103,17 @@ body.sw .level-row-name { font-family: 'Orbitron', monospace; font-size: .75rem 
 }
 body.dark .card-note-display { background:rgba(255,255,255,.04); }
 
+.usage-note-box {
+  display: flex; align-items: flex-start; gap: 6px;
+  font-size: .75rem; color: var(--text2);
+  margin: 4px 0 6px; padding: 5px 9px;
+  background: rgba(230,126,34,.08); border-radius: 8px; border-left: 3px solid #e67e22;
+  line-height: 1.4; word-break: break-word;
+}
+.usage-note-box.etymology-note { background: rgba(0,0,0,.04); border-left-color: var(--accent); margin-top: 14px; }
+body.dark .usage-note-box.etymology-note { background: rgba(255,255,255,.04); }
+.usage-note-icon { flex-shrink: 0; }
+
 /* ── Note modal ── */
 .note-panel {
   background:var(--card); border-radius:16px; padding:24px 20px;
