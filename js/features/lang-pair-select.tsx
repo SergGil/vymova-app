@@ -6,16 +6,16 @@ import { useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 
-export type LangCode = 'ua' | 'en' | 'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar';
+export type LangCode = 'ua' | 'en' | 'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar' | 'pl' | 'zh' | 'el' | 'ja' | 'tr' | 'nl';
 type Direction = 'fwd' | 'rev' | 'mix';
 
-const ALL_LANGS: LangCode[] = ['ua', 'en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar'];
+const ALL_LANGS: LangCode[] = ['ua', 'en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl'];
 
 // Which "learn" languages are available for a given "know" language —
-// limited by the EN/UA/ES/FR/IT/PT/DE/HE/AR word-pair data we actually have.
+// limited by the EN/UA/ES/FR/IT/PT/DE/HE/AR/PL/ZH/EL/JA/TR/NL word-pair data we actually have.
 const LEARN_OPTIONS: Record<LangCode, LangCode[]> = {
-  ua: ['en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar'],
-  en: ['ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar'],
+  ua: ['en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl'],
+  en: ['ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl'],
   es: ['en', 'ua', 'fr'],
   fr: ['en', 'ua', 'es'],
   it: ['en', 'ua'],
@@ -23,6 +23,12 @@ const LEARN_OPTIONS: Record<LangCode, LangCode[]> = {
   de: ['en', 'ua'],
   he: ['en', 'ua'],
   ar: ['en', 'ua'],
+  pl: ['en', 'ua'],
+  zh: ['en', 'ua'],
+  el: ['en', 'ua'],
+  ja: ['en', 'ua'],
+  tr: ['en', 'ua'],
+  nl: ['en', 'ua'],
 };
 
 // (frontLang, backLang) -> #sel-mode value
@@ -59,6 +65,30 @@ const MODE_MAP: Record<string, string> = {
   'en|ar': 'en-ar',
   'ar|ua': 'ar-ua',
   'ua|ar': 'ua-ar',
+  'pl|en': 'pl-en',
+  'en|pl': 'en-pl',
+  'pl|ua': 'pl-ua',
+  'ua|pl': 'ua-pl',
+  'zh|en': 'zh-en',
+  'en|zh': 'en-zh',
+  'zh|ua': 'zh-ua',
+  'ua|zh': 'ua-zh',
+  'el|en': 'el-en',
+  'en|el': 'en-el',
+  'el|ua': 'el-ua',
+  'ua|el': 'ua-el',
+  'ja|en': 'ja-en',
+  'en|ja': 'en-ja',
+  'ja|ua': 'ja-ua',
+  'ua|ja': 'ua-ja',
+  'tr|en': 'tr-en',
+  'en|tr': 'en-tr',
+  'tr|ua': 'tr-ua',
+  'ua|tr': 'ua-tr',
+  'nl|en': 'nl-en',
+  'en|nl': 'en-nl',
+  'nl|ua': 'nl-ua',
+  'ua|nl': 'ua-nl',
 };
 
 // #sel-mode value -> (learnLang, knowLang) — i.e. (front, back) — for restoring state on load
@@ -95,6 +125,30 @@ const MODE_TO_PAIR: Record<string, [LangCode, LangCode]> = {
   'en-ar': ['en', 'ar'],
   'ar-ua': ['ar', 'ua'],
   'ua-ar': ['ua', 'ar'],
+  'pl-en': ['pl', 'en'],
+  'en-pl': ['en', 'pl'],
+  'pl-ua': ['pl', 'ua'],
+  'ua-pl': ['ua', 'pl'],
+  'zh-en': ['zh', 'en'],
+  'en-zh': ['en', 'zh'],
+  'zh-ua': ['zh', 'ua'],
+  'ua-zh': ['ua', 'zh'],
+  'el-en': ['el', 'en'],
+  'en-el': ['en', 'el'],
+  'el-ua': ['el', 'ua'],
+  'ua-el': ['ua', 'el'],
+  'ja-en': ['ja', 'en'],
+  'en-ja': ['en', 'ja'],
+  'ja-ua': ['ja', 'ua'],
+  'ua-ja': ['ua', 'ja'],
+  'tr-en': ['tr', 'en'],
+  'en-tr': ['en', 'tr'],
+  'tr-ua': ['tr', 'ua'],
+  'ua-tr': ['ua', 'tr'],
+  'nl-en': ['nl', 'en'],
+  'en-nl': ['en', 'nl'],
+  'nl-ua': ['nl', 'ua'],
+  'ua-nl': ['ua', 'nl'],
 };
 
 const KNOW_KEY = 'ew_know_lang';
@@ -111,7 +165,8 @@ function langAcc(l: LangCode): string {
 }
 
 function isLangCode(v: string | null): v is LangCode {
-  return v === 'ua' || v === 'en' || v === 'es' || v === 'fr' || v === 'it' || v === 'pt' || v === 'de' || v === 'he' || v === 'ar';
+  return v === 'ua' || v === 'en' || v === 'es' || v === 'fr' || v === 'it' || v === 'pt' || v === 'de' || v === 'he' || v === 'ar' ||
+    v === 'pl' || v === 'zh' || v === 'el' || v === 'ja' || v === 'tr' || v === 'nl';
 }
 
 /** The language the user is currently learning (e.g. for language-specific content like grammar). */

@@ -5907,8 +5907,821 @@ export const GRAMMAR_AR: GrammarCategory[] = [
 
 ];
 
+export const GRAMMAR_PL: GrammarCategory[] = [
+
+  {
+    id: 'basics', title: 'Основи', titleEn: 'Basics', emoji: '🧩',
+    rules: [
+
+      {
+        id: 'gender', title: 'Rodzaj rzeczowników — A1', emoji: '👫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Польські іменники мають один із трьох родів: чоловічий, жіночий або середній. Рід впливає на форму прикметників і дієслів.',
+            en: { text: 'Polish nouns have one of three genders: masculine, feminine or neuter. The gender affects the form of adjectives and verbs.' },
+          },
+          {
+            type: 'table', title: 'Приклади за родом',
+            rows: [
+              ['чоловічий', 'stół (стіл)', 'duży stół (великий стіл)'],
+              ['жіночий', 'kobieta (жінка)', 'miła kobieta (приємна жінка)'],
+              ['середній', 'dziecko (дитина)', 'małe dziecko (маленька дитина)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['To jest duży stół.', 'Це великий стіл.'],
+              ['Ona jest miłą kobietą.', 'Вона приємна жінка.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'verb-byc', title: 'Czasownik "być" — A1', emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Czasownik "być" (бути) — один з найважливіших дієслів польської мови, що відмінюється за особами.',
+            en: { text: 'The verb "być" (to be) is one of the most important Polish verbs and conjugates by person.' },
+          },
+          {
+            type: 'formula', title: '"być" — теперішній час',
+            rows: [
+              ['ja', 'jestem', 'я є'],
+              ['ty', 'jesteś', 'ти є'],
+              ['on / ona / ono', 'jest', 'він/вона/воно є'],
+              ['my', 'jesteśmy', 'ми є'],
+              ['wy', 'jesteście', 'ви є'],
+              ['oni / one', 'są', 'вони є'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Jestem nauczycielem.', 'Я вчитель.'],
+              ['Ona jest szczęśliwa.', 'Вона щаслива.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'plural', title: 'Liczba mnoga — A1', emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Множина в польській утворюється зміною закінчення іменника, залежно від роду і типу слова.',
+            en: { text: 'The plural in Polish is formed by changing the noun ending, depending on gender and word type.' },
+          },
+          {
+            type: 'table', title: 'Однина → множина',
+            rows: [
+              ['stół (стіл)', 'stoły (столи)'],
+              ['kobieta (жінка)', 'kobiety (жінки)'],
+              ['dziecko (дитина)', 'dzieci (діти)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Mam dwa stoły.', 'У мене два столи.'],
+              ['Dzieci grają w parku.', 'Діти грають у парку.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pronouns', title: 'Zaimki osobowe — A1', emoji: '🙋',
+        sections: [
+          {
+            type: 'table', title: 'Особові займенники',
+            rows: [
+              ['ja', 'я'],
+              ['ty', 'ти'],
+              ['on / ona / ono', 'він / вона / воно'],
+              ['my', 'ми'],
+              ['wy', 'ви'],
+              ['oni / one', 'вони'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ja jestem studentem.', 'Я студент.'],
+              ['My jesteśmy w domu.', 'Ми вдома.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'cases-intro', title: 'Przypadki — wprowadzenie — A2', emoji: '📐',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Польська має 7 відмінків. Найважливіші для початку — це nominativ (хто/що) та akuzativ (кого/що, об\'єкт дії).',
+            en: { text: 'Polish has 7 grammatical cases. The most important ones to start with are nominative (who/what) and accusative (whom/what — the object of an action).' },
+          },
+          {
+            type: 'table', title: 'Nominativ → Akuzativ',
+            rows: [
+              ['kot (кіт)', 'Widzę kota. (Я бачу кота.)'],
+              ['książka (книга)', 'Czytam książkę. (Я читаю книгу.)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Mam psa.', 'У мене є пес.'],
+              ['Lubię kawę.', 'Мені подобається кава.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+];
+
+export const GRAMMAR_ZH: GrammarCategory[] = [
+
+  {
+    id: 'basics', title: 'Основи', titleEn: 'Basics', emoji: '🧩',
+    rules: [
+
+      {
+        id: 'verb-shi', title: '是 (shì) — "бути" — A1', emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: '是 (shì) використовується, щоб сполучити підмет з іменником, означаючи "є/бути". Дієслово не змінюється за особами чи часом.',
+            en: { text: '是 (shì) is used to link a subject with a noun, meaning "to be". It does not change for person or tense.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['我是老师。(Wǒ shì lǎoshī.)', 'Я вчитель.'],
+              ['她是学生。(Tā shì xuéshēng.)', 'Вона студентка.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'particle-de', title: '的 (de) — присвійна частка — A1', emoji: '🔗',
+        sections: [
+          {
+            type: 'intro',
+            text: '的 (de) ставиться між власником і предметом, що позначає належність, подібно до апострофа "-\'s" в англійській.',
+            en: { text: '的 (de) is placed between an owner and an object to mark possession, similar to "-\'s" in English.' },
+          },
+          {
+            type: 'table', title: 'Приклади з 的',
+            rows: [
+              ['我的书 (wǒ de shū)', 'моя книга'],
+              ['他的车 (tā de chē)', 'його машина'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['这是我的书。', 'Це моя книга.'],
+              ['他的车很新。', 'Його машина дуже нова.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'particle-le', title: '了 (le) — завершена дія — A2', emoji: '✅',
+        sections: [
+          {
+            type: 'intro',
+            text: '了 (le) ставиться після дієслова, щоб показати, що дія вже відбулася або завершилася.',
+            en: { text: '了 (le) is placed after a verb to show that an action has already happened or been completed.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['我吃了。(Wǒ chī le.)', 'Я вже з\'їв.'],
+              ['他去了北京。', 'Він поїхав до Пекіна.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'measure-words', title: 'Рахункові слова (量词) — A1', emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Перед іменником при підрахунку потрібно вставити відповідне рахункове слово, що залежить від типу предмета. Найпоширеніше — 个 (gè).',
+            en: { text: 'When counting a noun, a measure word matching the type of object must be inserted before it. The most common is 个 (gè).' },
+          },
+          {
+            type: 'table', title: 'Рахункові слова',
+            rows: [
+              ['一个人 (yí gè rén)', 'одна людина'],
+              ['两本书 (liǎng běn shū)', 'дві книги'],
+              ['三杯水 (sān bēi shuǐ)', 'три чашки води'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['我有两个朋友。', 'У мене двоє друзів.'],
+              ['她买了三本书。', 'Вона купила три книги.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pronouns-plural', title: 'Займенники і множина 们 (men) — A1', emoji: '🙋',
+        sections: [
+          {
+            type: 'table', title: 'Особові займенники',
+            rows: [
+              ['我 (wǒ)', 'я'],
+              ['你 (nǐ)', 'ти'],
+              ['他 / 她 (tā)', 'він / вона'],
+              ['我们 (wǒmen)', 'ми'],
+              ['你们 (nǐmen)', 'ви'],
+              ['他们 / 她们 (tāmen)', 'вони'],
+            ],
+          },
+          {
+            type: 'tip', title: 'Суфікс 们',
+            text: '们 (men) додається до займенників і деяких слів, що позначають людей, щоб утворити множину: 朋友们 (друзі).',
+            en: { title: 'The suffix 们', text: '们 (men) is added to pronouns and some words for people to form the plural: 朋友们 (friends).' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['我们是朋友。', 'Ми друзі.'],
+              ['你们好！', 'Привіт усім вам!'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+];
+
+export const GRAMMAR_EL: GrammarCategory[] = [
+
+  {
+    id: 'basics', title: 'Основи', titleEn: 'Basics', emoji: '🧩',
+    rules: [
+
+      {
+        id: 'articles', title: 'Άρθρα ο / η / το — A1', emoji: '🔖',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У грецькій мові є три роди: чоловічий (ο), жіночий (η) і середній (το). Артикль ставиться перед іменником.',
+            en: { text: 'Greek has three genders: masculine (ο), feminine (η) and neuter (το). The article is placed before the noun.' },
+          },
+          {
+            type: 'table', title: 'Артиклі за родом',
+            rows: [
+              ['ο άντρας (чоловік)', 'чоловічий'],
+              ['η γυναίκα (жінка)', 'жіночий'],
+              ['το παιδί (дитина)', 'середній'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ο άντρας είναι ψηλός.', 'Чоловік високий.'],
+              ['Το παιδί παίζει.', 'Дитина грає.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'verb-eimai', title: 'Ρήμα είμαι — A1', emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Είμαι (бути) — одне з найважливіших дієслів грецької, що відмінюється за особами.',
+            en: { text: 'Είμαι (to be) is one of the most important Greek verbs and conjugates by person.' },
+          },
+          {
+            type: 'formula', title: 'είμαι — теперішній час',
+            rows: [
+              ['εγώ', 'είμαι', 'я є'],
+              ['εσύ', 'είσαι', 'ти є'],
+              ['αυτός / αυτή / αυτό', 'είναι', 'він/вона/воно є'],
+              ['εμείς', 'είμαστε', 'ми є'],
+              ['εσείς', 'είστε', 'ви є'],
+              ['αυτοί / αυτές', 'είναι', 'вони є'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Είμαι δάσκαλος.', 'Я вчитель.'],
+              ['Είναι χαρούμενη.', 'Вона щаслива.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'plural', title: 'Πληθυντικός — A1', emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Множина утворюється зміною закінчення іменника та артикля залежно від роду.',
+            en: { text: 'The plural is formed by changing the noun ending and the article depending on gender.' },
+          },
+          {
+            type: 'table', title: 'Однина → множина',
+            rows: [
+              ['ο άντρας → οι άντρες', 'чоловік → чоловіки'],
+              ['η γυναίκα → οι γυναίκες', 'жінка → жінки'],
+              ['το παιδί → τα παιδιά', 'дитина → діти'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Τα παιδιά παίζουν.', 'Діти грають.'],
+              ['Οι γυναίκες μιλούν.', 'Жінки розмовляють.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pronouns', title: 'Προσωπικές αντωνυμίες — A1', emoji: '🙋',
+        sections: [
+          {
+            type: 'table', title: 'Особові займенники',
+            rows: [
+              ['εγώ', 'я'],
+              ['εσύ', 'ти'],
+              ['αυτός / αυτή / αυτό', 'він / вона / воно'],
+              ['εμείς', 'ми'],
+              ['εσείς', 'ви'],
+              ['αυτοί / αυτές', 'вони'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Εγώ είμαι φοιτητής.', 'Я студент.'],
+              ['Εμείς είμαστε στο σπίτι.', 'Ми вдома.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'verb-echo', title: 'Ρήμα έχω — A1', emoji: '✋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Έχω (мати) — друге найважливіше дієслово грецької для вираження володіння.',
+            en: { text: 'Έχω (to have) is the second most important Greek verb, used to express possession.' },
+          },
+          {
+            type: 'formula', title: 'έχω — теперішній час',
+            rows: [
+              ['εγώ', 'έχω', 'я маю'],
+              ['εσύ', 'έχεις', 'ти маєш'],
+              ['αυτός / αυτή / αυτό', 'έχει', 'він/вона/воно має'],
+              ['εμείς', 'έχουμε', 'ми маємо'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Έχω ένα αυτοκίνητο.', 'У мене є машина.'],
+              ['Έχει δύο παιδιά.', 'У нього/неї двоє дітей.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+];
+
+export const GRAMMAR_JA: GrammarCategory[] = [
+
+  {
+    id: 'basics', title: 'Основи', titleEn: 'Basics', emoji: '🧩',
+    rules: [
+
+      {
+        id: 'copula-desu', title: 'です — зв\'язка "бути" — A1', emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'です (desu) ставиться в кінці речення й означає "є/бути". Не змінюється за родом чи числом підмета.',
+            en: { text: 'です (desu) is placed at the end of a sentence and means "to be". It does not change for the subject\'s gender or number.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['私は先生です。(Watashi wa sensei desu.)', 'Я вчитель.'],
+              ['彼女は学生です。', 'Вона студентка.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'particle-wa', title: 'は — частка теми — A1', emoji: '🏷️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'は (wa) позначає тему речення — те, про що йде мова, подібно до підмета.',
+            en: { text: 'は (wa) marks the topic of the sentence — what the sentence is about, similar to a subject.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['猫は可愛いです。(Neko wa kawaii desu.)', 'Кіт милий.'],
+              ['今日は暑いです。', 'Сьогодні спекотно.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'particle-o', title: 'を — частка об\'єкта — A1', emoji: '🎯',
+        sections: [
+          {
+            type: 'intro',
+            text: 'を (o) ставиться після прямого додатка, позначаючи об\'єкт дії.',
+            en: { text: 'を (o) is placed after the direct object, marking the object of an action.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['本を読みます。(Hon o yomimasu.)', 'Я читаю книгу.'],
+              ['水を飲みます。', 'Я п\'ю воду.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pronouns', title: 'Особові займенники — A1', emoji: '🙋',
+        sections: [
+          {
+            type: 'table', title: 'Особові займенники',
+            rows: [
+              ['私 (watashi)', 'я'],
+              ['あなた (anata)', 'ти / ви'],
+              ['彼 (kare)', 'він'],
+              ['彼女 (kanojo)', 'вона'],
+              ['私たち (watashitachi)', 'ми'],
+            ],
+          },
+          {
+            type: 'tip', title: 'Суфікс たち',
+            text: 'たち (tachi) додається до займенників і слів, що позначають людей, для утворення множини: 友達たち (друзі).',
+            en: { title: 'The suffix たち', text: 'たち (tachi) is added to pronouns and words for people to form the plural: 友達たち (friends).' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['彼は医者です。', 'Він лікар.'],
+              ['私たちは友達です。', 'Ми друзі.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'adjectives', title: 'い- та な-прикметники — A1', emoji: '🎨',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Японські прикметники бувають двох типів: い-прикметники (закінчуються на い) і な-прикметники (потребують な перед іменником).',
+            en: { text: 'Japanese adjectives are of two types: い-adjectives (ending in い) and な-adjectives (requiring な before a noun).' },
+          },
+          {
+            type: 'table', title: 'い- vs な-прикметники',
+            rows: [
+              ['大きい家 (ōkii ie)', 'великий дім (い-тип)'],
+              ['静かな町 (shizukana machi)', 'тихе місто (な-тип)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['この家は大きいです。', 'Цей дім великий.'],
+              ['この町は静かです。', 'Це місто тихе.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+];
+
+export const GRAMMAR_TR: GrammarCategory[] = [
+
+  {
+    id: 'basics', title: 'Основи', titleEn: 'Basics', emoji: '🧩',
+    rules: [
+
+      {
+        id: 'pronouns', title: 'Kişi zamirleri — A1', emoji: '🙋',
+        sections: [
+          {
+            type: 'table', title: 'Особові займенники',
+            rows: [
+              ['ben', 'я'],
+              ['sen', 'ти'],
+              ['o', 'він / вона / воно'],
+              ['biz', 'ми'],
+              ['siz', 'ви'],
+              ['onlar', 'вони'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ben öğrenciyim.', 'Я студент.'],
+              ['Biz evdeyiz.', 'Ми вдома.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'to-be', title: '-dır / еквівалент "бути" — A1', emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У турецькій немає окремого дієслова "бути" в теперішньому часі — замість нього використовуються особові закінчення, що додаються прямо до слова.',
+            en: { text: 'Turkish has no separate verb "to be" in the present tense — instead, personal endings are attached directly to the word.' },
+          },
+          {
+            type: 'formula', title: 'Особові закінчення (приклад: öğrenci - студент)',
+            rows: [
+              ['ben', 'öğrenciyim', 'я студент'],
+              ['sen', 'öğrencisin', 'ти студент'],
+              ['o', 'öğrenci(dir)', 'він/вона студент'],
+              ['biz', 'öğrenciyiz', 'ми студенти'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Mutluyum.', 'Я щасливий.'],
+              ['O öğretmendir.', 'Він/вона вчитель.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'plural', title: 'Çoğul eki -lar / -ler — A1', emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Множина утворюється додаванням суфікса -lar або -ler залежно від голосних у слові (правило гармонії голосних).',
+            en: { text: 'The plural is formed by adding the suffix -lar or -ler depending on the vowels in the word (vowel harmony rule).' },
+          },
+          {
+            type: 'table', title: 'Однина → множина',
+            rows: [
+              ['kitap (книга)', 'kitaplar (книги)'],
+              ['ev (дім)', 'evler (дома)'],
+              ['çocuk (дитина)', 'çocuklar (діти)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['İki kitabım var.', 'У мене є дві книги.'],
+              ['Çocuklar oynuyor.', 'Діти грають.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'possessive', title: 'İyelik ekleri — A2', emoji: '🔗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Належність позначається додаванням присвійних суфіксів безпосередньо до іменника, а не окремим словом.',
+            en: { text: 'Possession is marked by adding possessive suffixes directly to the noun, rather than a separate word.' },
+          },
+          {
+            type: 'table', title: 'Присвійні суфікси (ev — дім)',
+            rows: [
+              ['evim', 'мій дім'],
+              ['evin', 'твій дім'],
+              ['evi', 'його/її дім'],
+              ['evimiz', 'наш дім'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Evim büyük.', 'Мій дім великий.'],
+              ['Arabası kırmızı.', 'Його/її машина червона.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'present-tense', title: 'Şimdiki zaman — A1', emoji: '⏳',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Теперішній тривалий час утворюється додаванням суфікса -yor до основи дієслова та особового закінчення.',
+            en: { text: 'The present continuous tense is formed by adding the suffix -yor to the verb stem plus a personal ending.' },
+          },
+          {
+            type: 'formula', title: 'gelmek (приходити) — теперішній час',
+            rows: [
+              ['ben', 'geliyorum', 'я приходжу'],
+              ['sen', 'geliyorsun', 'ти приходиш'],
+              ['o', 'geliyor', 'він/вона приходить'],
+              ['biz', 'geliyoruz', 'ми приходимо'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Eve gidiyorum.', 'Я йду додому.'],
+              ['O Türkçe öğreniyor.', 'Він/вона вчить турецьку.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+];
+
+export const GRAMMAR_NL: GrammarCategory[] = [
+
+  {
+    id: 'basics', title: 'Основи', titleEn: 'Basics', emoji: '🧩',
+    rules: [
+
+      {
+        id: 'articles', title: 'Lidwoorden de / het — A1', emoji: '🔖',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У нідерландській є два артиклі: "de" (для більшості іменників) і "het" (для деяких іменників середнього роду). Неозначений артикль для обох — "een".',
+            en: { text: 'Dutch has two articles: "de" (for most nouns) and "het" (for some neuter nouns). The indefinite article for both is "een".' },
+          },
+          {
+            type: 'table', title: 'Приклади з артиклями',
+            rows: [
+              ['de man (чоловік)', 'een man (чоловік, неозн.)'],
+              ['het huis (дім)', 'een huis (дім, неозн.)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['De man is groot.', 'Чоловік великий.'],
+              ['Het huis is mooi.', 'Дім гарний.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'verb-zijn', title: 'Werkwoord "zijn" — A1', emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: '"Zijn" (бути) — одне з найважливіших дієслів нідерландської, що відмінюється за особами.',
+            en: { text: '"Zijn" (to be) is one of the most important Dutch verbs and conjugates by person.' },
+          },
+          {
+            type: 'formula', title: '"zijn" — теперішній час',
+            rows: [
+              ['ik', 'ben', 'я є'],
+              ['jij / je', 'bent', 'ти є'],
+              ['hij / zij / het', 'is', 'він/вона/воно є'],
+              ['wij / we', 'zijn', 'ми є'],
+              ['jullie', 'zijn', 'ви є'],
+              ['zij', 'zijn', 'вони є'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ik ben leraar.', 'Я вчитель.'],
+              ['Zij is blij.', 'Вона щаслива.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'plural', title: 'Meervoud — A1', emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Множина в нідерландській зазвичай утворюється закінченням -en, рідше -s.',
+            en: { text: 'The plural in Dutch is usually formed with the ending -en, less often -s.' },
+          },
+          {
+            type: 'table', title: 'Однина → множина',
+            rows: [
+              ['huis (дім)', 'huizen (дома)'],
+              ['boek (книга)', 'boeken (книги)'],
+              ['tafel (стіл)', 'tafels (столи)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ik heb twee boeken.', 'У мене є дві книги.'],
+              ['De kinderen spelen buiten.', 'Діти грають на вулиці.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pronouns', title: 'Persoonlijke voornaamwoorden — A1', emoji: '🙋',
+        sections: [
+          {
+            type: 'table', title: 'Особові займенники',
+            rows: [
+              ['ik', 'я'],
+              ['jij / je', 'ти'],
+              ['hij / zij / het', 'він / вона / воно'],
+              ['wij / we', 'ми'],
+              ['jullie', 'ви'],
+              ['zij', 'вони'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ik ben student.', 'Я студент.'],
+              ['Wij zijn thuis.', 'Ми вдома.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'present-tense', title: 'Tegenwoordige tijd — A1', emoji: '⏳',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Теперішній час правильних дієслів утворюється відніманням -en від інфінітива (основа) і додаванням особового закінчення.',
+            en: { text: 'The present tense of regular verbs is formed by removing -en from the infinitive (stem) and adding a personal ending.' },
+          },
+          {
+            type: 'formula', title: 'werken (працювати) — теперішній час',
+            rows: [
+              ['ik', 'werk', 'я працюю'],
+              ['jij / je', 'werkt', 'ти працюєш'],
+              ['hij / zij / het', 'werkt', 'він/вона працює'],
+              ['wij / we', 'werken', 'ми працюємо'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ik werk in Amsterdam.', 'Я працюю в Амстердамі.'],
+              ['Zij woont in Utrecht.', 'Вона живе в Утрехті.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+];
+
 // ── Grammar content per language being learned ─────────────────
-export const GRAMMAR_BY_LANG: Partial<Record<Lang | 'he' | 'ar', GrammarCategory[]>> = {
+export const GRAMMAR_BY_LANG: Partial<Record<Lang | 'he' | 'ar' | 'pl' | 'zh' | 'el' | 'ja' | 'tr' | 'nl', GrammarCategory[]>> = {
   en: GRAMMAR,
   es: GRAMMAR_ES,
   fr: GRAMMAR_FR,
@@ -5917,4 +6730,10 @@ export const GRAMMAR_BY_LANG: Partial<Record<Lang | 'he' | 'ar', GrammarCategory
   de: GRAMMAR_DE,
   he: GRAMMAR_HE,
   ar: GRAMMAR_AR,
+  pl: GRAMMAR_PL,
+  zh: GRAMMAR_ZH,
+  el: GRAMMAR_EL,
+  ja: GRAMMAR_JA,
+  tr: GRAMMAR_TR,
+  nl: GRAMMAR_NL,
 };

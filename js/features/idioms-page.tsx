@@ -6,18 +6,19 @@ import { t } from './i18n.ts';
 import { _speakWithLang } from './speech.ts';
 import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
 
-type Tab = 'en' | 'ua' | 'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar';
+type Tab = 'en' | 'ua' | 'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar' | 'pl' | 'zh' | 'el' | 'ja' | 'tr' | 'nl';
 
 function _speak(text: string, lang: string, btn: HTMLElement | null): void {
   _speakWithLang(text, lang, btn);
 }
 
-const LANG_BY_TAB: Record<Tab, string> = { en: 'en-US', ua: 'uk-UA', es: 'es-ES', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT', de: 'de-DE', he: 'he-IL', ar: 'ar-SA' };
-const TAB_I18N_KEY: Record<Tab, string> = { en: 'idioms.tabEn', ua: 'idioms.tabUa', es: 'idioms.tabEs', fr: 'idioms.tabFr', it: 'idioms.tabIt', pt: 'idioms.tabPt', de: 'idioms.tabDe', he: 'idioms.tabHe', ar: 'idioms.tabAr' };
+const LANG_BY_TAB: Record<Tab, string> = { en: 'en-US', ua: 'uk-UA', es: 'es-ES', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT', de: 'de-DE', he: 'he-IL', ar: 'ar-SA', pl: 'pl-PL', zh: 'zh-CN', el: 'el-GR', ja: 'ja-JP', tr: 'tr-TR', nl: 'nl-NL' };
+const TAB_I18N_KEY: Record<Tab, string> = { en: 'idioms.tabEn', ua: 'idioms.tabUa', es: 'idioms.tabEs', fr: 'idioms.tabFr', it: 'idioms.tabIt', pt: 'idioms.tabPt', de: 'idioms.tabDe', he: 'idioms.tabHe', ar: 'idioms.tabAr', pl: 'idioms.tabPl', zh: 'idioms.tabZh', el: 'idioms.tabEl', ja: 'idioms.tabJa', tr: 'idioms.tabTr', nl: 'idioms.tabNl' };
 const RTL_TABS = new Set<Tab>(['he', 'ar']);
 
 function _isTab(l: string): l is Tab {
-  return l === 'en' || l === 'ua' || l === 'es' || l === 'fr' || l === 'it' || l === 'pt' || l === 'de' || l === 'he' || l === 'ar';
+  return l === 'en' || l === 'ua' || l === 'es' || l === 'fr' || l === 'it' || l === 'pt' || l === 'de' || l === 'he' || l === 'ar' ||
+    l === 'pl' || l === 'zh' || l === 'el' || l === 'ja' || l === 'tr' || l === 'nl';
 }
 
 /** Tabs relevant to the current language pair (know/learn) that have idiom data. */

@@ -9,7 +9,7 @@ import { W } from '../../data/words.js';
 import { W_ES } from '../../data/words_es.js';
 import { W_FR } from '../../data/words_fr.js';
 import { isBookmarked, toggleBookmark } from './bookmarks.ts';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry, heEntry as _heEntry, arEntry as _arEntry } from './mode-utils.ts';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry, heEntry as _heEntry, arEntry as _arEntry, plEntry as _plEntry, zhEntry as _zhEntry, elEntry as _elEntry, jaEntry as _jaEntry, trEntry as _trEntry, nlEntry as _nlEntry } from './mode-utils.ts';
 import { t, pluralLabel } from './i18n.ts';
 import { render, setIdx, onWordLearned as _onWordLearned } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -47,6 +47,36 @@ function _isHeMode(): boolean {
 function _isArMode(): boolean {
   const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
   return AR_MODES.has(m);
+}
+
+function _isPlMode(): boolean {
+  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
+  return PL_MODES.has(m);
+}
+
+function _isZhMode(): boolean {
+  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
+  return ZH_MODES.has(m);
+}
+
+function _isElMode(): boolean {
+  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
+  return EL_MODES.has(m);
+}
+
+function _isJaMode(): boolean {
+  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
+  return JA_MODES.has(m);
+}
+
+function _isTrMode(): boolean {
+  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
+  return TR_MODES.has(m);
+}
+
+function _isNlMode(): boolean {
+  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
+  return NL_MODES.has(m);
 }
 
 function SpeakBtn({ text, lang = 'en-US', style }: { text: string; lang?: string; style?: React.CSSProperties }): ReactElement {
@@ -126,6 +156,12 @@ export function WordDetailPage(): ReactElement | null {
   const isDe = _isDeMode();
   const isHe = _isHeMode();
   const isAr = _isArMode();
+  const isPl = _isPlMode();
+  const isZh = _isZhMode();
+  const isEl = _isElMode();
+  const isJa = _isJaMode();
+  const isTr = _isTrMode();
+  const isNl = _isNlMode();
   const esEntry = isEs ? _esEntry(w[0]) : null;
   const frEntry = isFr ? _frEntry(w[0]) : null;
   const itEntry = isIt ? _itEntry(w[0]) : null;
@@ -133,7 +169,13 @@ export function WordDetailPage(): ReactElement | null {
   const deEntry = isDe ? _deEntry(w[0]) : null;
   const heEntry = isHe ? _heEntry(w[0]) : null;
   const arEntry = isAr ? _arEntry(w[0]) : null;
-  const transl = esEntry ? esEntry[0] : frEntry ? frEntry[0] : itEntry ? itEntry[0] : ptEntry ? ptEntry[0] : deEntry ? deEntry[0] : heEntry ? heEntry[0] : arEntry ? arEntry[0] : w[1];
+  const plEntry = isPl ? _plEntry(w[0]) : null;
+  const zhEntry = isZh ? _zhEntry(w[0]) : null;
+  const elEntry = isEl ? _elEntry(w[0]) : null;
+  const jaEntry = isJa ? _jaEntry(w[0]) : null;
+  const trEntry = isTr ? _trEntry(w[0]) : null;
+  const nlEntry = isNl ? _nlEntry(w[0]) : null;
+  const transl = esEntry ? esEntry[0] : frEntry ? frEntry[0] : itEntry ? itEntry[0] : ptEntry ? ptEntry[0] : deEntry ? deEntry[0] : heEntry ? heEntry[0] : arEntry ? arEntry[0] : plEntry ? plEntry[0] : zhEntry ? zhEntry[0] : elEntry ? elEntry[0] : jaEntry ? jaEntry[0] : trEntry ? trEntry[0] : nlEntry ? nlEntry[0] : w[1];
 
   const similar = isEs
     ? getSimilarWordsEs(w[0], esEntry?.[0] ?? w[1], 5)

@@ -7,7 +7,7 @@ import { recordModeComplete, recordMistake, recordModeAnswer } from '../features
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry } from '../features/mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { state } from '../../src/state.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -40,6 +40,12 @@ function getWordInLang(w: WordEntry, lang: string): string {
     case 'de': return deEntry(w[0])?.[0] ?? '';
     case 'he': return heEntry(w[0])?.[0] ?? '';
     case 'ar': return arEntry(w[0])?.[0] ?? '';
+    case 'pl': return plEntry(w[0])?.[0] ?? '';
+    case 'zh': return zhEntry(w[0])?.[0] ?? '';
+    case 'el': return elEntry(w[0])?.[0] ?? '';
+    case 'ja': return jaEntry(w[0])?.[0] ?? '';
+    case 'tr': return trEntry(w[0])?.[0] ?? '';
+    case 'nl': return nlEntry(w[0])?.[0] ?? '';
     default:   return w[0];
   }
 }
@@ -53,6 +59,18 @@ function getWrongOption(pw: WordEntry, backLang: string): string | null {
   if (backLang === 'DE') { const e = deEntry(pw[0]); return e ? e[0] : null; }
   if (backLang === 'HE') { const e = heEntry(pw[0]); return e ? e[0] : null; }
   if (backLang === 'AR') { const e = arEntry(pw[0]); return e ? e[0] : null; }
+
+  if (backLang === 'PL') { const e = plEntry(pw[0]); return e ? e[0] : null; }
+
+  if (backLang === 'ZH') { const e = zhEntry(pw[0]); return e ? e[0] : null; }
+
+  if (backLang === 'EL') { const e = elEntry(pw[0]); return e ? e[0] : null; }
+
+  if (backLang === 'JA') { const e = jaEntry(pw[0]); return e ? e[0] : null; }
+
+  if (backLang === 'TR') { const e = trEntry(pw[0]); return e ? e[0] : null; }
+
+  if (backLang === 'NL') { const e = nlEntry(pw[0]); return e ? e[0] : null; }
   return pw[0];
 }
 

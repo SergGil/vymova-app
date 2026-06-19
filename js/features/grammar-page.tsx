@@ -15,6 +15,7 @@ function _localizeSection(s: GSection): GSection {
 
 const SPEECH_LANG: Record<LangCode, string> = {
   en: 'en-US', ua: 'uk-UA', es: 'es-ES', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT', de: 'de-DE', he: 'he-IL', ar: 'ar-SA',
+  pl: 'pl-PL', zh: 'zh-CN', el: 'el-GR', ja: 'ja-JP', tr: 'tr-TR', nl: 'nl-NL',
 };
 
 // ── Level sort ────────────────────────────────────────────────

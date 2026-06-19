@@ -125,6 +125,60 @@ export function loadKnownAr(): Set<string> {
   return new Set(arr);
 }
 
+export function saveKnownPl(known: Set<string>): void {
+  _lzSave('ew_known_pl', [...known]);
+}
+
+export function loadKnownPl(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_pl', []);
+  return new Set(arr);
+}
+
+export function saveKnownZh(known: Set<string>): void {
+  _lzSave('ew_known_zh', [...known]);
+}
+
+export function loadKnownZh(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_zh', []);
+  return new Set(arr);
+}
+
+export function saveKnownEl(known: Set<string>): void {
+  _lzSave('ew_known_el', [...known]);
+}
+
+export function loadKnownEl(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_el', []);
+  return new Set(arr);
+}
+
+export function saveKnownJa(known: Set<string>): void {
+  _lzSave('ew_known_ja', [...known]);
+}
+
+export function loadKnownJa(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_ja', []);
+  return new Set(arr);
+}
+
+export function saveKnownTr(known: Set<string>): void {
+  _lzSave('ew_known_tr', [...known]);
+}
+
+export function loadKnownTr(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_tr', []);
+  return new Set(arr);
+}
+
+export function saveKnownNl(known: Set<string>): void {
+  _lzSave('ew_known_nl', [...known]);
+}
+
+export function loadKnownNl(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_nl', []);
+  return new Set(arr);
+}
+
 function _srsLangKey(): string {
   const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
   return lang === 'en' ? 'ew_srs' : `ew_srs_${lang}`;

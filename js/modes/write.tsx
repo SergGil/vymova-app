@@ -9,7 +9,7 @@ import { addCombo, breakCombo } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry } from '../features/mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import type { WordEntry } from '../../src/types.js';
 
@@ -41,6 +41,12 @@ function getWordInLang(w: WordEntry, lang: string): string {
     case 'de': return deEntry(w[0])?.[0] ?? '';
     case 'he': return heEntry(w[0])?.[0] ?? '';
     case 'ar': return arEntry(w[0])?.[0] ?? '';
+    case 'pl': return plEntry(w[0])?.[0] ?? '';
+    case 'zh': return zhEntry(w[0])?.[0] ?? '';
+    case 'el': return elEntry(w[0])?.[0] ?? '';
+    case 'ja': return jaEntry(w[0])?.[0] ?? '';
+    case 'tr': return trEntry(w[0])?.[0] ?? '';
+    case 'nl': return nlEntry(w[0])?.[0] ?? '';
     default:   return w[0];
   }
 }

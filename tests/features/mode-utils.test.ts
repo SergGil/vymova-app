@@ -3,8 +3,8 @@ import { state } from '../../src/state.ts';
 import type { WordEntry } from '../../src/types.ts';
 import {
   getMode, getFrontLang, getResolvedMode, getActiveKnown, computeCardView,
-  esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry,
-  ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES,
+  esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry,
+  ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES,
 } from '../../js/features/mode-utils.ts';
 
 const abandon: WordEntry = ['abandon', 'покинути', 'They had to <b>abandon</b> the ship.', 'Вони мусили <b>покинути</b> корабель.'];
@@ -50,6 +50,7 @@ describe('mode-utils.ts', () => {
       expect(getFrontLang('de-en')).toBe('DE');
       expect(getFrontLang('he-en')).toBe('HE');
       expect(getFrontLang('ar-ua')).toBe('AR');
+      expect(getFrontLang('pl-en')).toBe('PL');
       expect(getFrontLang('unknown-mode')).toBe('EN');
     });
   });
@@ -98,6 +99,11 @@ describe('mode-utils.ts', () => {
       state._mode = 'en-ar';
       expect(getActiveKnown(fallback)).toBe(state.knownAr);
     });
+
+    it('returns state.knownPl for PL modes', () => {
+      state._mode = 'pl-ua';
+      expect(getActiveKnown(fallback)).toBe(state.knownPl);
+    });
   });
 
   describe('mode sets', () => {
@@ -109,6 +115,7 @@ describe('mode-utils.ts', () => {
       expect(DE_MODES.has('de-en')).toBe(true);
       expect(HE_MODES.has('en-he')).toBe(true);
       expect(AR_MODES.has('ar-ua')).toBe(true);
+      expect(PL_MODES.has('en-pl')).toBe(true);
     });
   });
 
@@ -118,6 +125,7 @@ describe('mode-utils.ts', () => {
       expect(frEntry('abandon')).toEqual(['abandonner', expect.any(String)]);
       expect(heEntry('abandon')).toEqual([expect.any(String), expect.any(String)]);
       expect(arEntry('abandon')).toEqual([expect.any(String), expect.any(String)]);
+      expect(plEntry('abandon')).toEqual([expect.any(String), expect.any(String)]);
     });
 
     it('returns null for unknown words', () => {
@@ -128,6 +136,7 @@ describe('mode-utils.ts', () => {
       expect(deEntry('___nope___')).toBeNull();
       expect(heEntry('___nope___')).toBeNull();
       expect(arEntry('___nope___')).toBeNull();
+      expect(plEntry('___nope___')).toBeNull();
     });
   });
 
@@ -201,6 +210,24 @@ describe('mode-utils.ts', () => {
       expect(view.FRONT_LANG).toBe('AR');
       expect(view.frontWord).toBe(arEntry('abandon')?.[0]);
       expect(view.frontRtl).toBe(true);
+      expect(view.backRtl).toBe(false);
+    });
+
+    it('"en-pl" mode resolves the Polish translation as the back word (no RTL)', () => {
+      const view = computeCardView(abandon, 'en-pl');
+      expect(view.FRONT_LANG).toBe('EN');
+      expect(view.frontWord).toBe('abandon');
+      expect(view.backWord).toBe(plEntry('abandon')?.[0]);
+      expect(view.frontRtl).toBe(false);
+      expect(view.backRtl).toBe(false);
+    });
+
+    it('"pl-en" mode shows Polish front (no RTL)', () => {
+      const view = computeCardView(abandon, 'pl-en');
+      expect(view.FRONT_LANG).toBe('PL');
+      expect(view.frontWord).toBe(plEntry('abandon')?.[0]);
+      expect(view.backWord).toBe('abandon');
+      expect(view.frontRtl).toBe(false);
       expect(view.backRtl).toBe(false);
     });
   });

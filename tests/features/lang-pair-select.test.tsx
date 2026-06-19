@@ -41,8 +41,8 @@ describe('lang-pair-select', () => {
     act(() => { mountLangPairSelect(); });
     const selects = document.querySelectorAll('#lang-pair-select select');
     expect(selects.length).toBe(3);
-    expect((selects[0] as HTMLSelectElement).options.length).toBe(9); // know: ua/en/es/fr/it/pt/de/he/ar
-    expect((selects[1] as HTMLSelectElement).options.length).toBe(8); // learn options for know=ua
+    expect((selects[0] as HTMLSelectElement).options.length).toBe(15); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl
+    expect((selects[1] as HTMLSelectElement).options.length).toBe(14); // learn options for know=ua
     expect((selects[2] as HTMLSelectElement).options.length).toBe(3); // direction: fwd/rev/mix
   });
 

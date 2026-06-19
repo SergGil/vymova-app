@@ -36,6 +36,30 @@ declare module './words_ar.js' {
   export const W_AR: Record<string, readonly [string, string]>;
 }
 
+declare module './words_pl.js' {
+  export const W_PL: Record<string, readonly [string, string]>;
+}
+
+declare module './words_zh.js' {
+  export const W_ZH: Record<string, readonly [string, string]>;
+}
+
+declare module './words_el.js' {
+  export const W_EL: Record<string, readonly [string, string]>;
+}
+
+declare module './words_ja.js' {
+  export const W_JA: Record<string, readonly [string, string]>;
+}
+
+declare module './words_tr.js' {
+  export const W_TR: Record<string, readonly [string, string]>;
+}
+
+declare module './words_nl.js' {
+  export const W_NL: Record<string, readonly [string, string]>;
+}
+
 declare module './categories.js' {
   export const CATEGORY_LIST: string[];
   export const WORD_CATEGORIES: Record<string, string[]>;

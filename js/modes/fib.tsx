@@ -11,7 +11,7 @@ import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
 import { speak } from '../features/speech.ts';
 import type { WordEntry } from '../../src/types.js';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry } from '../features/mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 
 const SIZE = 10;
@@ -28,6 +28,12 @@ function getLangWord(w: WordEntry, lang: string): string {
     case 'de': return deEntry(w[0])?.[0] ?? '';
     case 'he': return heEntry(w[0])?.[0] ?? '';
     case 'ar': return arEntry(w[0])?.[0] ?? '';
+    case 'pl': return plEntry(w[0])?.[0] ?? '';
+    case 'zh': return zhEntry(w[0])?.[0] ?? '';
+    case 'el': return elEntry(w[0])?.[0] ?? '';
+    case 'ja': return jaEntry(w[0])?.[0] ?? '';
+    case 'tr': return trEntry(w[0])?.[0] ?? '';
+    case 'nl': return nlEntry(w[0])?.[0] ?? '';
     default:   return w[0];
   }
 }
@@ -42,6 +48,12 @@ function getLangSentence(w: WordEntry, lang: string): string {
     case 'de': return deEntry(w[0])?.[1] ?? '';
     case 'he': return heEntry(w[0])?.[1] ?? '';
     case 'ar': return arEntry(w[0])?.[1] ?? '';
+    case 'pl': return plEntry(w[0])?.[1] ?? '';
+    case 'zh': return zhEntry(w[0])?.[1] ?? '';
+    case 'el': return elEntry(w[0])?.[1] ?? '';
+    case 'ja': return jaEntry(w[0])?.[1] ?? '';
+    case 'tr': return trEntry(w[0])?.[1] ?? '';
+    case 'nl': return nlEntry(w[0])?.[1] ?? '';
     default:   return w[2] ?? '';
   }
 }

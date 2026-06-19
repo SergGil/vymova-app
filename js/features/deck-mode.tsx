@@ -10,7 +10,13 @@ import { W_PT } from '../../data/words_pt.js';
 import { W_DE } from '../../data/words_de.js';
 import { W_HE } from '../../data/words_he.js';
 import { W_AR } from '../../data/words_ar.js';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, getMode } from './mode-utils.ts';
+import { W_PL } from '../../data/words_pl.js';
+import { W_ZH } from '../../data/words_zh.js';
+import { W_EL } from '../../data/words_el.js';
+import { W_JA } from '../../data/words_ja.js';
+import { W_TR } from '../../data/words_tr.js';
+import { W_NL } from '../../data/words_nl.js';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, getMode } from './mode-utils.ts';
 import { t } from './i18n.ts';
 import { _refreshRangeOptions } from './deck-filter.tsx';
 import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';
@@ -94,6 +100,72 @@ function _getArDeck(): WordEntry[] {
   return _arWords;
 }
 
+let _plWords: WordEntry[] | null = null;
+
+function _getPlDeck(): WordEntry[] {
+  if (!_plWords) {
+    _plWords = (W as unknown as WordEntry[]).filter(
+      w => Object.prototype.hasOwnProperty.call(W_PL, w[0])
+    );
+  }
+  return _plWords;
+}
+
+let _zhWords: WordEntry[] | null = null;
+
+function _getZhDeck(): WordEntry[] {
+  if (!_zhWords) {
+    _zhWords = (W as unknown as WordEntry[]).filter(
+      w => Object.prototype.hasOwnProperty.call(W_ZH, w[0])
+    );
+  }
+  return _zhWords;
+}
+
+let _elWords: WordEntry[] | null = null;
+
+function _getElDeck(): WordEntry[] {
+  if (!_elWords) {
+    _elWords = (W as unknown as WordEntry[]).filter(
+      w => Object.prototype.hasOwnProperty.call(W_EL, w[0])
+    );
+  }
+  return _elWords;
+}
+
+let _jaWords: WordEntry[] | null = null;
+
+function _getJaDeck(): WordEntry[] {
+  if (!_jaWords) {
+    _jaWords = (W as unknown as WordEntry[]).filter(
+      w => Object.prototype.hasOwnProperty.call(W_JA, w[0])
+    );
+  }
+  return _jaWords;
+}
+
+let _trWords: WordEntry[] | null = null;
+
+function _getTrDeck(): WordEntry[] {
+  if (!_trWords) {
+    _trWords = (W as unknown as WordEntry[]).filter(
+      w => Object.prototype.hasOwnProperty.call(W_TR, w[0])
+    );
+  }
+  return _trWords;
+}
+
+let _nlWords: WordEntry[] | null = null;
+
+function _getNlDeck(): WordEntry[] {
+  if (!_nlWords) {
+    _nlWords = (W as unknown as WordEntry[]).filter(
+      w => Object.prototype.hasOwnProperty.call(W_NL, w[0])
+    );
+  }
+  return _nlWords;
+}
+
 let _esFrWords: WordEntry[] | null = null;
 
 // Words usable for ES⇄FR mode: need both an ES and an FR translation (bridged via EN).
@@ -120,6 +192,12 @@ function _getSpecialDeck(m: string): WordEntry[] {
   if (DE_MODES.has(m))    return _getDeDeck();
   if (HE_MODES.has(m))    return _getHeDeck();
   if (AR_MODES.has(m))    return _getArDeck();
+  if (PL_MODES.has(m))    return _getPlDeck();
+  if (ZH_MODES.has(m))    return _getZhDeck();
+  if (EL_MODES.has(m))    return _getElDeck();
+  if (JA_MODES.has(m))    return _getJaDeck();
+  if (TR_MODES.has(m))    return _getTrDeck();
+  if (NL_MODES.has(m))    return _getNlDeck();
   return [];
 }
 
@@ -131,11 +209,18 @@ function _noTransKey(m: string): string {
   if (PT_MODES.has(m))    return 'deck.noPtTranslations';
   if (HE_MODES.has(m))    return 'deck.noHeTranslations';
   if (AR_MODES.has(m))    return 'deck.noArTranslations';
+  if (PL_MODES.has(m))    return 'deck.noPlTranslations';
+  if (ZH_MODES.has(m))    return 'deck.noZhTranslations';
+  if (EL_MODES.has(m))    return 'deck.noElTranslations';
+  if (JA_MODES.has(m))    return 'deck.noJaTranslations';
+  if (TR_MODES.has(m))    return 'deck.noTrTranslations';
+  if (NL_MODES.has(m))    return 'deck.noNlTranslations';
   return 'deck.noDeTranslations';
 }
 
 export function _isSpecialMode(m: string): boolean {
-  return ES_MODES.has(m) || FR_MODES.has(m) || IT_MODES.has(m) || PT_MODES.has(m) || DE_MODES.has(m) || HE_MODES.has(m) || AR_MODES.has(m);
+  return ES_MODES.has(m) || FR_MODES.has(m) || IT_MODES.has(m) || PT_MODES.has(m) || DE_MODES.has(m) || HE_MODES.has(m) || AR_MODES.has(m) ||
+    PL_MODES.has(m) || ZH_MODES.has(m) || EL_MODES.has(m) || JA_MODES.has(m) || TR_MODES.has(m) || NL_MODES.has(m);
 }
 
 export function _rebuildEsDeck(): void {

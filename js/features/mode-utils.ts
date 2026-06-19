@@ -7,6 +7,12 @@ import { W_PT } from '../../data/words_pt.js';
 import { W_DE } from '../../data/words_de.js';
 import { W_HE } from '../../data/words_he.js';
 import { W_AR } from '../../data/words_ar.js';
+import { W_PL } from '../../data/words_pl.js';
+import { W_ZH } from '../../data/words_zh.js';
+import { W_EL } from '../../data/words_el.js';
+import { W_JA } from '../../data/words_ja.js';
+import { W_TR } from '../../data/words_tr.js';
+import { W_NL } from '../../data/words_nl.js';
 import { boldEn, boldUa, boldHead } from '../core/card-helpers.ts';
 import { state } from '../../src/state.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -18,6 +24,12 @@ export const PT_MODES = new Set(['en-pt', 'pt-en', 'pt-ua', 'ua-pt']);
 export const DE_MODES = new Set(['en-de', 'de-en', 'de-ua', 'ua-de']);
 export const HE_MODES = new Set(['en-he', 'he-en', 'he-ua', 'ua-he']);
 export const AR_MODES = new Set(['en-ar', 'ar-en', 'ar-ua', 'ua-ar']);
+export const PL_MODES = new Set(['en-pl', 'pl-en', 'pl-ua', 'ua-pl']);
+export const ZH_MODES = new Set(['en-zh', 'zh-en', 'zh-ua', 'ua-zh']);
+export const EL_MODES = new Set(['en-el', 'el-en', 'el-ua', 'ua-el']);
+export const JA_MODES = new Set(['en-ja', 'ja-en', 'ja-ua', 'ua-ja']);
+export const TR_MODES = new Set(['en-tr', 'tr-en', 'tr-ua', 'ua-tr']);
+export const NL_MODES = new Set(['en-nl', 'nl-en', 'nl-ua', 'ua-nl']);
 // RTL learn-language modes — front (or back) text needs dir="rtl".
 export const RTL_MODES = new Set(['en-he', 'he-en', 'he-ua', 'ua-he', 'en-ar', 'ar-en', 'ar-ua', 'ua-ar']);
 
@@ -32,9 +44,11 @@ export function getMode(): string {
   return m || 'en';
 }
 
+export type FrontLang = 'EN' | 'UA' | 'ES' | 'FR' | 'IT' | 'PT' | 'DE' | 'HE' | 'AR' | 'PL' | 'ZH' | 'EL' | 'JA' | 'TR' | 'NL';
+
 // FRONT_LANG залежить лише від обраного режиму (не від конкретного слова) —
 // чисто обчислюється з `mode`, тому винесено окремо для CardMeta (item 28a).
-export function getFrontLang(mode: string): 'EN' | 'UA' | 'ES' | 'FR' | 'IT' | 'PT' | 'DE' | 'HE' | 'AR' {
+export function getFrontLang(mode: string): FrontLang {
   switch (mode) {
     case 'ua':    return 'UA';
     case 'es-en': return 'ES';
@@ -60,7 +74,25 @@ export function getFrontLang(mode: string): 'EN' | 'UA' | 'ES' | 'FR' | 'IT' | '
     case 'ar-en': return 'AR';
     case 'ar-ua': return 'AR';
     case 'ua-ar': return 'UA';
-    default:      return 'EN'; // 'en', 'en-es', 'en-fr', 'en-it', 'en-pt', 'en-de', 'en-he', 'en-ar'
+    case 'pl-en': return 'PL';
+    case 'pl-ua': return 'PL';
+    case 'ua-pl': return 'UA';
+    case 'zh-en': return 'ZH';
+    case 'zh-ua': return 'ZH';
+    case 'ua-zh': return 'UA';
+    case 'el-en': return 'EL';
+    case 'el-ua': return 'EL';
+    case 'ua-el': return 'UA';
+    case 'ja-en': return 'JA';
+    case 'ja-ua': return 'JA';
+    case 'ua-ja': return 'UA';
+    case 'tr-en': return 'TR';
+    case 'tr-ua': return 'TR';
+    case 'ua-tr': return 'UA';
+    case 'nl-en': return 'NL';
+    case 'nl-ua': return 'NL';
+    case 'ua-nl': return 'UA';
+    default:      return 'EN'; // 'en', 'en-es', 'en-fr', 'en-it', 'en-pt', 'en-de', 'en-he', 'en-ar', 'en-pl', 'en-zh', 'en-el', 'en-ja', 'en-tr', 'en-nl'
   }
 }
 
@@ -83,11 +115,17 @@ export function getActiveKnown(known: Set<string>): Set<string> {
   if (DE_MODES.has(mode)) return state.knownDe ?? known;
   if (HE_MODES.has(mode)) return state.knownHe ?? known;
   if (AR_MODES.has(mode)) return state.knownAr ?? known;
+  if (PL_MODES.has(mode)) return state.knownPl ?? known;
+  if (ZH_MODES.has(mode)) return state.knownZh ?? known;
+  if (EL_MODES.has(mode)) return state.knownEl ?? known;
+  if (JA_MODES.has(mode)) return state.knownJa ?? known;
+  if (TR_MODES.has(mode)) return state.knownTr ?? known;
+  if (NL_MODES.has(mode)) return state.knownNl ?? known;
   return known;
 }
 
 interface CardView {
-  FRONT_LANG: 'EN' | 'UA' | 'ES' | 'FR' | 'IT' | 'PT' | 'DE' | 'HE' | 'AR';
+  FRONT_LANG: FrontLang;
   frontWord: string;
   backWord: string;
   exenHtml: string;
@@ -121,8 +159,26 @@ export function computeCardView(cw: WordEntry, mode: string): CardView {
   const arE = AR_MODES.has(mode) ? arEntry(cw[0]) : null;
   const _arWord = arE ? arE[0] : '';
   const _arEx   = arE ? arE[1] : '';
+  const plE = PL_MODES.has(mode) ? plEntry(cw[0]) : null;
+  const _plWord = plE ? plE[0] : '';
+  const _plEx   = plE ? plE[1] : '';
+  const zhE = ZH_MODES.has(mode) ? zhEntry(cw[0]) : null;
+  const _zhWord = zhE ? zhE[0] : '';
+  const _zhEx   = zhE ? zhE[1] : '';
+  const elE = EL_MODES.has(mode) ? elEntry(cw[0]) : null;
+  const _elWord = elE ? elE[0] : '';
+  const _elEx   = elE ? elE[1] : '';
+  const jaE = JA_MODES.has(mode) ? jaEntry(cw[0]) : null;
+  const _jaWord = jaE ? jaE[0] : '';
+  const _jaEx   = jaE ? jaE[1] : '';
+  const trE = TR_MODES.has(mode) ? trEntry(cw[0]) : null;
+  const _trWord = trE ? trE[0] : '';
+  const _trEx   = trE ? trE[1] : '';
+  const nlE = NL_MODES.has(mode) ? nlEntry(cw[0]) : null;
+  const _nlWord = nlE ? nlE[0] : '';
+  const _nlEx   = nlE ? nlE[1] : '';
 
-  let FRONT_LANG: 'EN' | 'UA' | 'ES' | 'FR' | 'IT' | 'PT' | 'DE' | 'HE' | 'AR';
+  let FRONT_LANG: FrontLang;
   let frontWord: string, backWord: string;
   switch (mode) {
     case 'ua':    FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = cw[0];   break;
@@ -156,6 +212,30 @@ export function computeCardView(cw: WordEntry, mode: string): CardView {
     case 'ar-en': FRONT_LANG = 'AR'; frontWord = _arWord; backWord = cw[0];   break;
     case 'ar-ua': FRONT_LANG = 'AR'; frontWord = _arWord; backWord = cw[1];   break;
     case 'ua-ar': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _arWord; break;
+    case 'en-pl': FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = _plWord; break;
+    case 'pl-en': FRONT_LANG = 'PL'; frontWord = _plWord; backWord = cw[0];   break;
+    case 'pl-ua': FRONT_LANG = 'PL'; frontWord = _plWord; backWord = cw[1];   break;
+    case 'ua-pl': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _plWord; break;
+    case 'en-zh': FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = _zhWord; break;
+    case 'zh-en': FRONT_LANG = 'ZH'; frontWord = _zhWord; backWord = cw[0];   break;
+    case 'zh-ua': FRONT_LANG = 'ZH'; frontWord = _zhWord; backWord = cw[1];   break;
+    case 'ua-zh': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _zhWord; break;
+    case 'en-el': FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = _elWord; break;
+    case 'el-en': FRONT_LANG = 'EL'; frontWord = _elWord; backWord = cw[0];   break;
+    case 'el-ua': FRONT_LANG = 'EL'; frontWord = _elWord; backWord = cw[1];   break;
+    case 'ua-el': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _elWord; break;
+    case 'en-ja': FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = _jaWord; break;
+    case 'ja-en': FRONT_LANG = 'JA'; frontWord = _jaWord; backWord = cw[0];   break;
+    case 'ja-ua': FRONT_LANG = 'JA'; frontWord = _jaWord; backWord = cw[1];   break;
+    case 'ua-ja': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _jaWord; break;
+    case 'en-tr': FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = _trWord; break;
+    case 'tr-en': FRONT_LANG = 'TR'; frontWord = _trWord; backWord = cw[0];   break;
+    case 'tr-ua': FRONT_LANG = 'TR'; frontWord = _trWord; backWord = cw[1];   break;
+    case 'ua-tr': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _trWord; break;
+    case 'en-nl': FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = _nlWord; break;
+    case 'nl-en': FRONT_LANG = 'NL'; frontWord = _nlWord; backWord = cw[0];   break;
+    case 'nl-ua': FRONT_LANG = 'NL'; frontWord = _nlWord; backWord = cw[1];   break;
+    case 'ua-nl': FRONT_LANG = 'UA'; frontWord = cw[1];   backWord = _nlWord; break;
     default:      FRONT_LANG = 'EN'; frontWord = cw[0];   backWord = cw[1];
   }
   const frontRtl = FRONT_LANG === 'HE' || FRONT_LANG === 'AR';
@@ -242,6 +322,66 @@ export function computeCardView(cw: WordEntry, mode: string): CardView {
     }
     exenHtml = boldHead(_frontEx, frontWord) || _frontEx;
     exuaHtml = boldHead(_backEx, backWord) || _backEx;
+  } else if (PL_MODES.has(mode)) {
+    let _frontEx = '', _backEx = '';
+    switch (mode) {
+      case 'en-pl': _frontEx = _enEx; _backEx = _plEx; break;
+      case 'pl-en': _frontEx = _plEx; _backEx = _enEx; break;
+      case 'pl-ua': _frontEx = _plEx; _backEx = _uaEx; break;
+      case 'ua-pl': _frontEx = _uaEx; _backEx = _plEx; break;
+    }
+    exenHtml = boldHead(_frontEx, frontWord) || _frontEx;
+    exuaHtml = boldHead(_backEx, backWord) || _backEx;
+  } else if (ZH_MODES.has(mode)) {
+    let _frontEx = '', _backEx = '';
+    switch (mode) {
+      case 'en-zh': _frontEx = _enEx; _backEx = _zhEx; break;
+      case 'zh-en': _frontEx = _zhEx; _backEx = _enEx; break;
+      case 'zh-ua': _frontEx = _zhEx; _backEx = _uaEx; break;
+      case 'ua-zh': _frontEx = _uaEx; _backEx = _zhEx; break;
+    }
+    exenHtml = boldHead(_frontEx, frontWord) || _frontEx;
+    exuaHtml = boldHead(_backEx, backWord) || _backEx;
+  } else if (EL_MODES.has(mode)) {
+    let _frontEx = '', _backEx = '';
+    switch (mode) {
+      case 'en-el': _frontEx = _enEx; _backEx = _elEx; break;
+      case 'el-en': _frontEx = _elEx; _backEx = _enEx; break;
+      case 'el-ua': _frontEx = _elEx; _backEx = _uaEx; break;
+      case 'ua-el': _frontEx = _uaEx; _backEx = _elEx; break;
+    }
+    exenHtml = boldHead(_frontEx, frontWord) || _frontEx;
+    exuaHtml = boldHead(_backEx, backWord) || _backEx;
+  } else if (JA_MODES.has(mode)) {
+    let _frontEx = '', _backEx = '';
+    switch (mode) {
+      case 'en-ja': _frontEx = _enEx; _backEx = _jaEx; break;
+      case 'ja-en': _frontEx = _jaEx; _backEx = _enEx; break;
+      case 'ja-ua': _frontEx = _jaEx; _backEx = _uaEx; break;
+      case 'ua-ja': _frontEx = _uaEx; _backEx = _jaEx; break;
+    }
+    exenHtml = boldHead(_frontEx, frontWord) || _frontEx;
+    exuaHtml = boldHead(_backEx, backWord) || _backEx;
+  } else if (TR_MODES.has(mode)) {
+    let _frontEx = '', _backEx = '';
+    switch (mode) {
+      case 'en-tr': _frontEx = _enEx; _backEx = _trEx; break;
+      case 'tr-en': _frontEx = _trEx; _backEx = _enEx; break;
+      case 'tr-ua': _frontEx = _trEx; _backEx = _uaEx; break;
+      case 'ua-tr': _frontEx = _uaEx; _backEx = _trEx; break;
+    }
+    exenHtml = boldHead(_frontEx, frontWord) || _frontEx;
+    exuaHtml = boldHead(_backEx, backWord) || _backEx;
+  } else if (NL_MODES.has(mode)) {
+    let _frontEx = '', _backEx = '';
+    switch (mode) {
+      case 'en-nl': _frontEx = _enEx; _backEx = _nlEx; break;
+      case 'nl-en': _frontEx = _nlEx; _backEx = _enEx; break;
+      case 'nl-ua': _frontEx = _nlEx; _backEx = _uaEx; break;
+      case 'ua-nl': _frontEx = _uaEx; _backEx = _nlEx; break;
+    }
+    exenHtml = boldHead(_frontEx, frontWord) || _frontEx;
+    exuaHtml = boldHead(_backEx, backWord) || _backEx;
   }
 
   return { FRONT_LANG, frontWord, backWord, exenHtml, exuaHtml, frontRtl, backRtl };
@@ -275,6 +415,30 @@ export function arEntry(word: string): readonly [string, string] | null {
   return (W_AR as unknown as Record<string, readonly [string, string]>)[word] ?? null;
 }
 
+export function plEntry(word: string): readonly [string, string] | null {
+  return (W_PL as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+}
+
+export function zhEntry(word: string): readonly [string, string] | null {
+  return (W_ZH as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+}
+
+export function elEntry(word: string): readonly [string, string] | null {
+  return (W_EL as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+}
+
+export function jaEntry(word: string): readonly [string, string] | null {
+  return (W_JA as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+}
+
+export function trEntry(word: string): readonly [string, string] | null {
+  return (W_TR as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+}
+
+export function nlEntry(word: string): readonly [string, string] | null {
+  return (W_NL as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+}
+
 /** Count of "known" words in the currently selected learn language. */
 export function getKnownInLang(): number {
   const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
@@ -286,6 +450,12 @@ export function getKnownInLang(): number {
     case 'de': return state.knownDe.size;
     case 'he': return state.knownHe.size;
     case 'ar': return state.knownAr.size;
+    case 'pl': return state.knownPl.size;
+    case 'zh': return state.knownZh.size;
+    case 'el': return state.knownEl.size;
+    case 'ja': return state.knownJa.size;
+    case 'tr': return state.knownTr.size;
+    case 'nl': return state.knownNl.size;
     default:   return state.known.size;
   }
 }
@@ -301,6 +471,12 @@ export function getActiveKnownByLang(): Set<string> {
     case 'de': return state.knownDe;
     case 'he': return state.knownHe;
     case 'ar': return state.knownAr;
+    case 'pl': return state.knownPl;
+    case 'zh': return state.knownZh;
+    case 'el': return state.knownEl;
+    case 'ja': return state.knownJa;
+    case 'tr': return state.knownTr;
+    case 'nl': return state.knownNl;
     default:   return state.known;
   }
 }
@@ -316,6 +492,12 @@ export function getWordsForLang(words: WordEntry[]): WordEntry[] {
     case 'de': return words.filter(w => deEntry(w[0]) !== null);
     case 'he': return words.filter(w => heEntry(w[0]) !== null);
     case 'ar': return words.filter(w => arEntry(w[0]) !== null);
+    case 'pl': return words.filter(w => plEntry(w[0]) !== null);
+    case 'zh': return words.filter(w => zhEntry(w[0]) !== null);
+    case 'el': return words.filter(w => elEntry(w[0]) !== null);
+    case 'ja': return words.filter(w => jaEntry(w[0]) !== null);
+    case 'tr': return words.filter(w => trEntry(w[0]) !== null);
+    case 'nl': return words.filter(w => nlEntry(w[0]) !== null);
     default:   return words;
   }
 }

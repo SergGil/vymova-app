@@ -100,6 +100,12 @@ export interface AppState {
   knownDe:        Set<string>;
   knownHe:        Set<string>;
   knownAr:        Set<string>;
+  knownPl:        Set<string>;
+  knownZh:        Set<string>;
+  knownEl:        Set<string>;
+  knownJa:        Set<string>;
+  knownTr:        Set<string>;
+  knownNl:        Set<string>;
   _wordIdx:       Map<string, number>;
   duelSel:        DuelSelState;
   duelResumeSessions: import('../js/features/duel.ts').ResumeSessionVM[];

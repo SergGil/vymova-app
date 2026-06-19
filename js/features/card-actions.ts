@@ -3,7 +3,7 @@
 import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { sm2Update, buildSRSDeck, buildUnlearnedDeck, shuffle, updateSrsUI } from '../core/srs.ts';
-import { saveKnown, saveKnownEs, saveKnownFr, saveKnownIt, saveKnownPt, saveKnownDe, saveKnownHe, saveKnownAr, saveSRS } from '../core/storage.ts';
+import { saveKnown, saveKnownEs, saveKnownFr, saveKnownIt, saveKnownPt, saveKnownDe, saveKnownHe, saveKnownAr, saveKnownPl, saveKnownZh, saveKnownEl, saveKnownJa, saveKnownTr, saveKnownNl, saveSRS } from '../core/storage.ts';
 import { getGameData, saveGameData } from './game.ts';
 import { addCombo, breakCombo, flashCard } from './combo.ts';
 import { hasNote } from './notes.ts';
@@ -11,10 +11,10 @@ import { openNoteModal } from './note-modal.tsx';
 import { toggleBookmark } from './bookmarks.ts';
 import { isPronuncSupported, startPronunciationCheck } from './pronunciation.ts';
 import { showPronuncResult } from './pronunciation-toast.tsx';
-import { getSelectedUkVoice, getSelectedEsVoice, getSelectedFrVoice, getSelectedItVoice, getSelectedPtVoice, getSelectedDeVoice, getSelectedHeVoice, getSelectedArVoice } from './voice.tsx';
+import { getSelectedUkVoice, getSelectedEsVoice, getSelectedFrVoice, getSelectedItVoice, getSelectedPtVoice, getSelectedDeVoice, getSelectedHeVoice, getSelectedArVoice, getSelectedPlVoice, getSelectedZhVoice, getSelectedElVoice, getSelectedJaVoice, getSelectedTrVoice, getSelectedNlVoice } from './voice.tsx';
 import { speak, _speakWithLang } from './speech.ts';
 import { updateSimilarWords } from './similar-words.tsx';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry, heEntry as _heEntry, arEntry as _arEntry } from './mode-utils.ts';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry, heEntry as _heEntry, arEntry as _arEntry, plEntry as _plEntry, zhEntry as _zhEntry, elEntry as _elEntry, jaEntry as _jaEntry, trEntry as _trEntry, nlEntry as _nlEntry } from './mode-utils.ts';
 import { playSound } from '../core/audio.ts';
 import { launchConfetti } from '../core/confetti.tsx';
 import { t } from './i18n.ts';
@@ -38,6 +38,12 @@ function _activeKnown(): Set<string> {
   if (DE_MODES.has(mode)) return state.knownDe ?? state.known;
   if (HE_MODES.has(mode)) return state.knownHe ?? state.known;
   if (AR_MODES.has(mode)) return state.knownAr ?? state.known;
+  if (PL_MODES.has(mode)) return state.knownPl ?? state.known;
+  if (ZH_MODES.has(mode)) return state.knownZh ?? state.known;
+  if (EL_MODES.has(mode)) return state.knownEl ?? state.known;
+  if (JA_MODES.has(mode)) return state.knownJa ?? state.known;
+  if (TR_MODES.has(mode)) return state.knownTr ?? state.known;
+  if (NL_MODES.has(mode)) return state.knownNl ?? state.known;
   return state.known;
 }
 
@@ -89,6 +95,30 @@ export function CardActionsInit(): ReactElement | null {
       if (modeVal === 'ar-en' || modeVal === 'ar-ua') {
         const ar = _arEntry(cw[0]);
         if (ar && getSelectedArVoice()) { _speakWithLang(ar[0], 'ar-SA', speakWordBtn); return; }
+      }
+      if (modeVal === 'pl-en' || modeVal === 'pl-ua') {
+        const pl = _plEntry(cw[0]);
+        if (pl && getSelectedPlVoice()) { _speakWithLang(pl[0], 'pl-PL', speakWordBtn); return; }
+      }
+      if (modeVal === 'zh-en' || modeVal === 'zh-ua') {
+        const zh = _zhEntry(cw[0]);
+        if (zh && getSelectedZhVoice()) { _speakWithLang(zh[0], 'zh-CN', speakWordBtn); return; }
+      }
+      if (modeVal === 'el-en' || modeVal === 'el-ua') {
+        const el = _elEntry(cw[0]);
+        if (el && getSelectedElVoice()) { _speakWithLang(el[0], 'el-GR', speakWordBtn); return; }
+      }
+      if (modeVal === 'ja-en' || modeVal === 'ja-ua') {
+        const ja = _jaEntry(cw[0]);
+        if (ja && getSelectedJaVoice()) { _speakWithLang(ja[0], 'ja-JP', speakWordBtn); return; }
+      }
+      if (modeVal === 'tr-en' || modeVal === 'tr-ua') {
+        const tr = _trEntry(cw[0]);
+        if (tr && getSelectedTrVoice()) { _speakWithLang(tr[0], 'tr-TR', speakWordBtn); return; }
+      }
+      if (modeVal === 'nl-en' || modeVal === 'nl-ua') {
+        const nl = _nlEntry(cw[0]);
+        if (nl && getSelectedNlVoice()) { _speakWithLang(nl[0], 'nl-NL', speakWordBtn); return; }
       }
       speak(cw[0], speakWordBtn);
     };
@@ -214,6 +244,102 @@ export function CardActionsInit(): ReactElement | null {
         }
         return;
       }
+      if (PL_MODES.has(modeVal)) {
+        const pl        = _plEntry(cw[0]);
+        const exPl      = pl ? pl[1] : '';
+        const hasPlVoice = !!getSelectedPlVoice();
+        if (modeVal === 'pl-en' || modeVal === 'pl-ua') {
+          if (hasPlVoice && exPl) _speakWithLang(exPl, 'pl-PL', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else if (modeVal === 'ua-pl') {
+          const hasUkVoice = !!getSelectedUkVoice();
+          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else {
+          speak(exEn, speakExBtn);
+        }
+        return;
+      }
+      if (ZH_MODES.has(modeVal)) {
+        const zh        = _zhEntry(cw[0]);
+        const exZh      = zh ? zh[1] : '';
+        const hasZhVoice = !!getSelectedZhVoice();
+        if (modeVal === 'zh-en' || modeVal === 'zh-ua') {
+          if (hasZhVoice && exZh) _speakWithLang(exZh, 'zh-CN', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else if (modeVal === 'ua-zh') {
+          const hasUkVoice = !!getSelectedUkVoice();
+          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else {
+          speak(exEn, speakExBtn);
+        }
+        return;
+      }
+      if (EL_MODES.has(modeVal)) {
+        const el        = _elEntry(cw[0]);
+        const exEl      = el ? el[1] : '';
+        const hasElVoice = !!getSelectedElVoice();
+        if (modeVal === 'el-en' || modeVal === 'el-ua') {
+          if (hasElVoice && exEl) _speakWithLang(exEl, 'el-GR', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else if (modeVal === 'ua-el') {
+          const hasUkVoice = !!getSelectedUkVoice();
+          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else {
+          speak(exEn, speakExBtn);
+        }
+        return;
+      }
+      if (JA_MODES.has(modeVal)) {
+        const ja        = _jaEntry(cw[0]);
+        const exJa      = ja ? ja[1] : '';
+        const hasJaVoice = !!getSelectedJaVoice();
+        if (modeVal === 'ja-en' || modeVal === 'ja-ua') {
+          if (hasJaVoice && exJa) _speakWithLang(exJa, 'ja-JP', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else if (modeVal === 'ua-ja') {
+          const hasUkVoice = !!getSelectedUkVoice();
+          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else {
+          speak(exEn, speakExBtn);
+        }
+        return;
+      }
+      if (TR_MODES.has(modeVal)) {
+        const tr        = _trEntry(cw[0]);
+        const exTr      = tr ? tr[1] : '';
+        const hasTrVoice = !!getSelectedTrVoice();
+        if (modeVal === 'tr-en' || modeVal === 'tr-ua') {
+          if (hasTrVoice && exTr) _speakWithLang(exTr, 'tr-TR', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else if (modeVal === 'ua-tr') {
+          const hasUkVoice = !!getSelectedUkVoice();
+          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else {
+          speak(exEn, speakExBtn);
+        }
+        return;
+      }
+      if (NL_MODES.has(modeVal)) {
+        const nl        = _nlEntry(cw[0]);
+        const exNl      = nl ? nl[1] : '';
+        const hasNlVoice = !!getSelectedNlVoice();
+        if (modeVal === 'nl-en' || modeVal === 'nl-ua') {
+          if (hasNlVoice && exNl) _speakWithLang(exNl, 'nl-NL', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else if (modeVal === 'ua-nl') {
+          const hasUkVoice = !!getSelectedUkVoice();
+          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else {
+          speak(exEn, speakExBtn);
+        }
+        return;
+      }
       if (modeVal === 'ua') {
         const hasUkVoice = !!getSelectedUkVoice();
         if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
@@ -296,6 +422,12 @@ export function CardActionsInit(): ReactElement | null {
         else if (DE_MODES.has(_modeNow)) { if (state.knownDe) saveKnownDe(state.knownDe); }
         else if (HE_MODES.has(_modeNow)) { if (state.knownHe) saveKnownHe(state.knownHe); }
         else if (AR_MODES.has(_modeNow)) { if (state.knownAr) saveKnownAr(state.knownAr); }
+        else if (PL_MODES.has(_modeNow)) { if (state.knownPl) saveKnownPl(state.knownPl); }
+        else if (ZH_MODES.has(_modeNow)) { if (state.knownZh) saveKnownZh(state.knownZh); }
+        else if (EL_MODES.has(_modeNow)) { if (state.knownEl) saveKnownEl(state.knownEl); }
+        else if (JA_MODES.has(_modeNow)) { if (state.knownJa) saveKnownJa(state.knownJa); }
+        else if (TR_MODES.has(_modeNow)) { if (state.knownTr) saveKnownTr(state.knownTr); }
+        else if (NL_MODES.has(_modeNow)) { if (state.knownNl) saveKnownNl(state.knownNl); }
         else { saveKnown(state.known); }
         saveSRS(state.srsData);
         state._srsStatsDirty = true;
@@ -424,6 +556,12 @@ export function CardActionsInit(): ReactElement | null {
       state.knownDe?.clear();
       state.knownHe?.clear();
       state.knownAr?.clear();
+      state.knownPl?.clear();
+      state.knownZh?.clear();
+      state.knownEl?.clear();
+      state.knownJa?.clear();
+      state.knownTr?.clear();
+      state.knownNl?.clear();
       state.srsData = {};
       state._srsStatsDirty = true;
       saveKnown(state.known);
@@ -434,6 +572,12 @@ export function CardActionsInit(): ReactElement | null {
       if (state.knownDe) saveKnownDe(state.knownDe);
       if (state.knownHe) saveKnownHe(state.knownHe);
       if (state.knownAr) saveKnownAr(state.knownAr);
+      if (state.knownPl) saveKnownPl(state.knownPl);
+      if (state.knownZh) saveKnownZh(state.knownZh);
+      if (state.knownEl) saveKnownEl(state.knownEl);
+      if (state.knownJa) saveKnownJa(state.knownJa);
+      if (state.knownTr) saveKnownTr(state.knownTr);
+      if (state.knownNl) saveKnownNl(state.knownNl);
       saveSRS(state.srsData);
       _safe(() => localStorage.removeItem('ew_game'));
       _safe(() => localStorage.removeItem('ew_daily'));

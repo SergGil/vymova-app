@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { ENGLISH_IDIOMS, UKRAINIAN_IDIOMS, SPANISH_IDIOMS, HEBREW_IDIOMS, ARABIC_IDIOMS } from '../../data/idioms.ts';
+import { ENGLISH_IDIOMS, UKRAINIAN_IDIOMS, SPANISH_IDIOMS, HEBREW_IDIOMS, ARABIC_IDIOMS, POLISH_IDIOMS } from '../../data/idioms.ts';
 import { IdiomsPageRoot, openIdiomsContent } from '../../js/features/idioms-page.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -82,6 +82,14 @@ describe('idioms-page.tsx IdiomsPageRoot', () => {
     expect(container.querySelector('.idioms-tab-active')!.textContent).toContain('Арабські');
     expect(container.querySelectorAll('.idiom-card').length).toBe(ARABIC_IDIOMS.length);
     expect(container.querySelector('.idiom-phrase')!.getAttribute('dir')).toBe('rtl');
+  });
+
+  it('shows Polish idioms for an en/pl pair', () => {
+    localStorage.setItem('ew_learn_lang', 'pl');
+    localStorage.setItem('ew_know_lang', 'en');
+    const { container } = mount();
+    expect(container.querySelector('.idioms-tab-active')!.textContent).toContain('Польські');
+    expect(container.querySelectorAll('.idiom-card').length).toBe(POLISH_IDIOMS.length);
   });
 
   it('filters idioms by search query', () => {

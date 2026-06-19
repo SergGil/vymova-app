@@ -8,7 +8,7 @@ import { state } from '../../src/state.ts';
 import { useStateVersion, notifyStateChange } from '../../src/store.ts';
 import { openWordDetail } from './word-detail.tsx';
 import type { WordEntry } from '../../src/types.js';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, getMode as _getMode, esEntry as _esEntry, frEntry as _frEntry } from './mode-utils.ts';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, getMode as _getMode, esEntry as _esEntry, frEntry as _frEntry } from './mode-utils.ts';
 
 function _getActiveKnown(): Set<string> {
   const mode = _getMode();
@@ -19,6 +19,12 @@ function _getActiveKnown(): Set<string> {
   if (DE_MODES.has(mode)) return state.knownDe;
   if (HE_MODES.has(mode)) return state.knownHe;
   if (AR_MODES.has(mode)) return state.knownAr;
+  if (PL_MODES.has(mode)) return state.knownPl;
+  if (ZH_MODES.has(mode)) return state.knownZh;
+  if (EL_MODES.has(mode)) return state.knownEl;
+  if (JA_MODES.has(mode)) return state.knownJa;
+  if (TR_MODES.has(mode)) return state.knownTr;
+  if (NL_MODES.has(mode)) return state.knownNl;
   return state.known;
 }
 

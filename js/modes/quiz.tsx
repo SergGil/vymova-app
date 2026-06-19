@@ -9,7 +9,7 @@ import { recordModeComplete, recordMistake, recordModeAnswer } from '../features
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak, _speakWithLang } from '../features/speech.ts';
 import { t, getLang } from '../features/i18n.ts';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry } from '../features/mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import type { WordEntry } from '../../src/types.js';
 
@@ -30,6 +30,12 @@ function getWordInLang(w: WordEntry, lang: string): string {
     case 'de': return deEntry(w[0])?.[0] ?? '';
     case 'he': return heEntry(w[0])?.[0] ?? '';
     case 'ar': return arEntry(w[0])?.[0] ?? '';
+    case 'pl': return plEntry(w[0])?.[0] ?? '';
+    case 'zh': return zhEntry(w[0])?.[0] ?? '';
+    case 'el': return elEntry(w[0])?.[0] ?? '';
+    case 'ja': return jaEntry(w[0])?.[0] ?? '';
+    case 'tr': return trEntry(w[0])?.[0] ?? '';
+    case 'nl': return nlEntry(w[0])?.[0] ?? '';
     default:   return w[0];
   }
 }
@@ -51,6 +57,12 @@ function getWrongOptions(correctWord: WordEntry, answer: string, backLang: strin
     else if (backLang === 'DE') { const e = deEntry(w[0]); if (!e) continue; opt = e[0]; }
     else if (backLang === 'HE') { const e = heEntry(w[0]); if (!e) continue; opt = e[0]; }
     else if (backLang === 'AR') { const e = arEntry(w[0]); if (!e) continue; opt = e[0]; }
+    else if (backLang === 'PL') { const e = plEntry(w[0]); if (!e) continue; opt = e[0]; }
+    else if (backLang === 'ZH') { const e = zhEntry(w[0]); if (!e) continue; opt = e[0]; }
+    else if (backLang === 'EL') { const e = elEntry(w[0]); if (!e) continue; opt = e[0]; }
+    else if (backLang === 'JA') { const e = jaEntry(w[0]); if (!e) continue; opt = e[0]; }
+    else if (backLang === 'TR') { const e = trEntry(w[0]); if (!e) continue; opt = e[0]; }
+    else if (backLang === 'NL') { const e = nlEntry(w[0]); if (!e) continue; opt = e[0]; }
     else { opt = w[0]; }
     if (opt === answer) continue;
     options.push(opt);

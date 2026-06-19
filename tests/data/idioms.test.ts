@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ENGLISH_IDIOMS, UKRAINIAN_IDIOMS, SPANISH_IDIOMS, HEBREW_IDIOMS, ARABIC_IDIOMS, IDIOMS_BY_LANG } from '../../data/idioms.ts';
+import { ENGLISH_IDIOMS, UKRAINIAN_IDIOMS, SPANISH_IDIOMS, HEBREW_IDIOMS, ARABIC_IDIOMS, POLISH_IDIOMS, CHINESE_IDIOMS, GREEK_IDIOMS, JAPANESE_IDIOMS, TURKISH_IDIOMS, DUTCH_IDIOMS, IDIOMS_BY_LANG } from '../../data/idioms.ts';
 import type { Idiom } from '../../data/idioms.ts';
 
 function checkIdiomShape(list: Idiom[], name: string) {
@@ -78,9 +78,102 @@ describe('ARABIC_IDIOMS', () => {
   });
 });
 
+describe('POLISH_IDIOMS', () => {
+  checkIdiomShape(POLISH_IDIOMS, 'POLISH_IDIOMS');
+
+  it('has exactly 5 idioms', () => {
+    expect(POLISH_IDIOMS.length).toBe(5);
+  });
+
+  it('every Polish idiom has an English meaning as well', () => {
+    for (const idiom of POLISH_IDIOMS) {
+      expect((idiom.meaningEn ?? '').length).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe('CHINESE_IDIOMS', () => {
+  checkIdiomShape(CHINESE_IDIOMS, 'CHINESE_IDIOMS');
+
+  it('has exactly 5 idioms', () => {
+    expect(CHINESE_IDIOMS.length).toBe(5);
+  });
+
+  it('every Chinese idiom has an English meaning as well', () => {
+    for (const idiom of CHINESE_IDIOMS) {
+      expect((idiom.meaningEn ?? '').length).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe('GREEK_IDIOMS', () => {
+  checkIdiomShape(GREEK_IDIOMS, 'GREEK_IDIOMS');
+
+  it('has exactly 5 idioms', () => {
+    expect(GREEK_IDIOMS.length).toBe(5);
+  });
+
+  it('every Greek idiom has an English meaning as well', () => {
+    for (const idiom of GREEK_IDIOMS) {
+      expect((idiom.meaningEn ?? '').length).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe('JAPANESE_IDIOMS', () => {
+  checkIdiomShape(JAPANESE_IDIOMS, 'JAPANESE_IDIOMS');
+
+  it('has exactly 5 idioms', () => {
+    expect(JAPANESE_IDIOMS.length).toBe(5);
+  });
+
+  it('every Japanese idiom has an English meaning as well', () => {
+    for (const idiom of JAPANESE_IDIOMS) {
+      expect((idiom.meaningEn ?? '').length).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe('TURKISH_IDIOMS', () => {
+  checkIdiomShape(TURKISH_IDIOMS, 'TURKISH_IDIOMS');
+
+  it('has exactly 5 idioms', () => {
+    expect(TURKISH_IDIOMS.length).toBe(5);
+  });
+
+  it('every Turkish idiom has an English meaning as well', () => {
+    for (const idiom of TURKISH_IDIOMS) {
+      expect((idiom.meaningEn ?? '').length).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe('DUTCH_IDIOMS', () => {
+  checkIdiomShape(DUTCH_IDIOMS, 'DUTCH_IDIOMS');
+
+  it('has exactly 5 idioms', () => {
+    expect(DUTCH_IDIOMS.length).toBe(5);
+  });
+
+  it('every Dutch idiom has an English meaning as well', () => {
+    for (const idiom of DUTCH_IDIOMS) {
+      expect((idiom.meaningEn ?? '').length).toBeGreaterThan(0);
+    }
+  });
+});
+
 describe('IDIOMS_BY_LANG', () => {
   it('includes Hebrew and Arabic entries', () => {
     expect(IDIOMS_BY_LANG.he).toBe(HEBREW_IDIOMS);
     expect(IDIOMS_BY_LANG.ar).toBe(ARABIC_IDIOMS);
+  });
+
+  it('includes Polish, Chinese, Greek, Japanese, Turkish, and Dutch entries', () => {
+    expect(IDIOMS_BY_LANG.pl).toBe(POLISH_IDIOMS);
+    expect(IDIOMS_BY_LANG.zh).toBe(CHINESE_IDIOMS);
+    expect(IDIOMS_BY_LANG.el).toBe(GREEK_IDIOMS);
+    expect(IDIOMS_BY_LANG.ja).toBe(JAPANESE_IDIOMS);
+    expect(IDIOMS_BY_LANG.tr).toBe(TURKISH_IDIOMS);
+    expect(IDIOMS_BY_LANG.nl).toBe(DUTCH_IDIOMS);
   });
 });

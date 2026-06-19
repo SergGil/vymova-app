@@ -14,7 +14,7 @@ import {
   computePersonalPace, estimateDays, updateCompletionDates,
 } from './learning-path-logic.ts';
 import { t, getLang, skillName, levelName } from './i18n.ts';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry } from './mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from './mode-utils.ts';
 
 // ── Language helpers ──────────────────────────────────────────
 
@@ -32,6 +32,12 @@ function _activeKnownSet(): Set<string> {
     case 'de': return state.knownDe;
     case 'he': return state.knownHe;
     case 'ar': return state.knownAr;
+    case 'pl': return state.knownPl;
+    case 'zh': return state.knownZh;
+    case 'el': return state.knownEl;
+    case 'ja': return state.knownJa;
+    case 'tr': return state.knownTr;
+    case 'nl': return state.knownNl;
     default:   return state.known;
   }
 }
@@ -45,6 +51,12 @@ function _getTranslation(w: WordEntry, lang: string): string {
     case 'de': return deEntry(w[0])?.[0] ?? w[1];
     case 'he': return heEntry(w[0])?.[0] ?? w[1];
     case 'ar': return arEntry(w[0])?.[0] ?? w[1];
+    case 'pl': return plEntry(w[0])?.[0] ?? w[1];
+    case 'zh': return zhEntry(w[0])?.[0] ?? w[1];
+    case 'el': return elEntry(w[0])?.[0] ?? w[1];
+    case 'ja': return jaEntry(w[0])?.[0] ?? w[1];
+    case 'tr': return trEntry(w[0])?.[0] ?? w[1];
+    case 'nl': return nlEntry(w[0])?.[0] ?? w[1];
     default:   return w[1];
   }
 }
@@ -58,6 +70,12 @@ function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
     case 'de': return words.filter(w => deEntry(w[0]) !== null);
     case 'he': return words.filter(w => heEntry(w[0]) !== null);
     case 'ar': return words.filter(w => arEntry(w[0]) !== null);
+    case 'pl': return words.filter(w => plEntry(w[0]) !== null);
+    case 'zh': return words.filter(w => zhEntry(w[0]) !== null);
+    case 'el': return words.filter(w => elEntry(w[0]) !== null);
+    case 'ja': return words.filter(w => jaEntry(w[0]) !== null);
+    case 'tr': return words.filter(w => trEntry(w[0]) !== null);
+    case 'nl': return words.filter(w => nlEntry(w[0]) !== null);
     default:   return words;
   }
 }

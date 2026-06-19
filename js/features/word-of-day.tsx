@@ -7,7 +7,7 @@ import { useStateVersion } from '../../src/store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { t } from './i18n.ts';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry, heEntry as _heEntry, arEntry as _arEntry } from './mode-utils.ts';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry, heEntry as _heEntry, arEntry as _arEntry, plEntry as _plEntry, zhEntry as _zhEntry, elEntry as _elEntry, jaEntry as _jaEntry, trEntry as _trEntry, nlEntry as _nlEntry } from './mode-utils.ts';
 import { loadWikiImage } from '../core/images.ts';
 import { closePage } from './sidebar.tsx';
 import { render, setIdx } from '../core/card-engine.ts';
@@ -26,7 +26,13 @@ function pickWord(mode: string): WordEntry {
   const needsDe = DE_MODES.has(mode);
   const needsHe = HE_MODES.has(mode);
   const needsAr = AR_MODES.has(mode);
-  if (!needsEs && !needsFr && !needsIt && !needsPt && !needsDe && !needsHe && !needsAr) return words[wotdBaseIdx];
+  const needsPl = PL_MODES.has(mode);
+  const needsZh = ZH_MODES.has(mode);
+  const needsEl = EL_MODES.has(mode);
+  const needsJa = JA_MODES.has(mode);
+  const needsTr = TR_MODES.has(mode);
+  const needsNl = NL_MODES.has(mode);
+  if (!needsEs && !needsFr && !needsIt && !needsPt && !needsDe && !needsHe && !needsAr && !needsPl && !needsZh && !needsEl && !needsJa && !needsTr && !needsNl) return words[wotdBaseIdx];
   for (let i = 0; i < words.length; i++) {
     const cand = words[(wotdBaseIdx + i) % words.length];
     if (needsEs && !_esEntry(cand[0])) continue;
@@ -36,6 +42,12 @@ function pickWord(mode: string): WordEntry {
     if (needsDe && !_deEntry(cand[0])) continue;
     if (needsHe && !_heEntry(cand[0])) continue;
     if (needsAr && !_arEntry(cand[0])) continue;
+    if (needsPl && !_plEntry(cand[0])) continue;
+    if (needsZh && !_zhEntry(cand[0])) continue;
+    if (needsEl && !_elEntry(cand[0])) continue;
+    if (needsJa && !_jaEntry(cand[0])) continue;
+    if (needsTr && !_trEntry(cand[0])) continue;
+    if (needsNl && !_nlEntry(cand[0])) continue;
     return cand;
   }
   return words[wotdBaseIdx];
@@ -49,6 +61,12 @@ function frontWord(cw: WordEntry, mode: string): string {
   const de = DE_MODES.has(mode) ? _deEntry(cw[0]) : null;
   const he = HE_MODES.has(mode) ? _heEntry(cw[0]) : null;
   const ar = AR_MODES.has(mode) ? _arEntry(cw[0]) : null;
+  const pl = PL_MODES.has(mode) ? _plEntry(cw[0]) : null;
+  const zh = ZH_MODES.has(mode) ? _zhEntry(cw[0]) : null;
+  const el = EL_MODES.has(mode) ? _elEntry(cw[0]) : null;
+  const ja = JA_MODES.has(mode) ? _jaEntry(cw[0]) : null;
+  const tr = TR_MODES.has(mode) ? _trEntry(cw[0]) : null;
+  const nl = NL_MODES.has(mode) ? _nlEntry(cw[0]) : null;
   switch (mode) {
     case 'ua':    return cw[1];
     case 'es-en':
@@ -74,6 +92,24 @@ function frontWord(cw: WordEntry, mode: string): string {
     case 'ar-en':
     case 'ar-ua': return ar ? ar[0] : '';
     case 'ua-ar': return cw[1];
+    case 'pl-en':
+    case 'pl-ua': return pl ? pl[0] : '';
+    case 'ua-pl': return cw[1];
+    case 'zh-en':
+    case 'zh-ua': return zh ? zh[0] : '';
+    case 'ua-zh': return cw[1];
+    case 'el-en':
+    case 'el-ua': return el ? el[0] : '';
+    case 'ua-el': return cw[1];
+    case 'ja-en':
+    case 'ja-ua': return ja ? ja[0] : '';
+    case 'ua-ja': return cw[1];
+    case 'tr-en':
+    case 'tr-ua': return tr ? tr[0] : '';
+    case 'ua-tr': return cw[1];
+    case 'nl-en':
+    case 'nl-ua': return nl ? nl[0] : '';
+    case 'ua-nl': return cw[1];
     default:      return cw[0];
   }
 }

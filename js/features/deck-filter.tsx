@@ -10,7 +10,13 @@ import { W_PT } from '../../data/words_pt.js';
 import { W_DE } from '../../data/words_de.js';
 import { W_HE } from '../../data/words_he.js';
 import { W_AR } from '../../data/words_ar.js';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, getMode } from './mode-utils.ts';
+import { W_PL } from '../../data/words_pl.js';
+import { W_ZH } from '../../data/words_zh.js';
+import { W_EL } from '../../data/words_el.js';
+import { W_JA } from '../../data/words_ja.js';
+import { W_TR } from '../../data/words_tr.js';
+import { W_NL } from '../../data/words_nl.js';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, getMode } from './mode-utils.ts';
 import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck } from '../core/srs.ts';
 import { getHardWords } from './game.ts';
 import { getBookmarks } from './bookmarks.ts';
@@ -31,6 +37,12 @@ function _getLangDeck(): WordEntry[] | null {
   else if (DE_MODES.has(m)) lookup = W_DE as Record<string, unknown>;
   else if (HE_MODES.has(m)) lookup = W_HE as Record<string, unknown>;
   else if (AR_MODES.has(m)) lookup = W_AR as Record<string, unknown>;
+  else if (PL_MODES.has(m)) lookup = W_PL as Record<string, unknown>;
+  else if (ZH_MODES.has(m)) lookup = W_ZH as Record<string, unknown>;
+  else if (EL_MODES.has(m)) lookup = W_EL as Record<string, unknown>;
+  else if (JA_MODES.has(m)) lookup = W_JA as Record<string, unknown>;
+  else if (TR_MODES.has(m)) lookup = W_TR as Record<string, unknown>;
+  else if (NL_MODES.has(m)) lookup = W_NL as Record<string, unknown>;
   if (!lookup) return null;
   return (W as unknown as WordEntry[]).filter(w => Object.prototype.hasOwnProperty.call(lookup!, w[0]));
 }
@@ -79,6 +91,18 @@ export function _refreshRangeOptions(): void {
     total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_HE, w[0])).length;
   } else if (AR_MODES.has(mode)) {
     total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_AR, w[0])).length;
+  } else if (PL_MODES.has(mode)) {
+    total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_PL, w[0])).length;
+  } else if (ZH_MODES.has(mode)) {
+    total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_ZH, w[0])).length;
+  } else if (EL_MODES.has(mode)) {
+    total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_EL, w[0])).length;
+  } else if (JA_MODES.has(mode)) {
+    total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_JA, w[0])).length;
+  } else if (TR_MODES.has(mode)) {
+    total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_TR, w[0])).length;
+  } else if (NL_MODES.has(mode)) {
+    total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_NL, w[0])).length;
   } else {
     total = W.length;
   }

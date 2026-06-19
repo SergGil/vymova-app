@@ -13,6 +13,12 @@ let _ptURI = localStorage.getItem('ew_ws_pt_voice') ?? '';
 let _deURI = localStorage.getItem('ew_ws_de_voice') ?? '';
 let _heURI = localStorage.getItem('ew_ws_he_voice') ?? '';
 let _arURI = localStorage.getItem('ew_ws_ar_voice') ?? '';
+let _plURI = localStorage.getItem('ew_ws_pl_voice') ?? '';
+let _zhURI = localStorage.getItem('ew_ws_zh_voice') ?? '';
+let _elURI = localStorage.getItem('ew_ws_el_voice') ?? '';
+let _jaURI = localStorage.getItem('ew_ws_ja_voice') ?? '';
+let _trURI = localStorage.getItem('ew_ws_tr_voice') ?? '';
+let _nlURI = localStorage.getItem('ew_ws_nl_voice') ?? '';
 
 type VoiceMapEntry = { match: string; label: string; gender: string; accent: string };
 
@@ -121,6 +127,50 @@ const VOICE_MAP: VoiceMapEntry[] = [
   { match: 'Microsoft Salma',          label: 'Microsoft Salma',     gender: '👩', accent: 'SA' },
   { match: 'Maged',                    label: 'Apple Maged',         gender: '👨', accent: 'SA' },
   { match: 'Arabic',                   label: 'العربية',             gender: '👩', accent: 'SA' },
+  { match: 'Google polski',            label: 'Google Polski',       gender: '👩', accent: 'PL' },
+  { match: 'Google Polish',            label: 'Google Polish',       gender: '👩', accent: 'PL' },
+  { match: 'Microsoft Marek',          label: 'Microsoft Marek',     gender: '👨', accent: 'PL' },
+  { match: 'Microsoft Zofia',          label: 'Microsoft Zofia',     gender: '👩', accent: 'PL' },
+  { match: 'Microsoft Agnieszka',      label: 'Microsoft Agnieszka', gender: '👩', accent: 'PL' },
+  { match: 'Ewa',                      label: 'Apple Ewa',           gender: '👩', accent: 'PL' },
+  { match: 'Zosia',                    label: 'Apple Zosia',         gender: '👩', accent: 'PL' },
+  { match: 'Polish',                   label: 'Polski',              gender: '👩', accent: 'PL' },
+  { match: 'polski',                   label: 'Polski',              gender: '👩', accent: 'PL' },
+  { match: 'Google 中文',              label: 'Google 中文',          gender: '👩', accent: 'CN' },
+  { match: 'Google Mandarin',          label: 'Google Mandarin',     gender: '👩', accent: 'CN' },
+  { match: 'Google Chinese',           label: 'Google Chinese',      gender: '👩', accent: 'CN' },
+  { match: 'Microsoft Yunxi',          label: 'Microsoft Yunxi',     gender: '👨', accent: 'CN' },
+  { match: 'Microsoft Xiaoxiao',       label: 'Microsoft Xiaoxiao',  gender: '👩', accent: 'CN' },
+  { match: 'Microsoft Yunjian',        label: 'Microsoft Yunjian',   gender: '👨', accent: 'CN' },
+  { match: 'Tingting',                 label: 'Apple Tingting',      gender: '👩', accent: 'CN' },
+  { match: 'Chinese',                  label: '中文',                gender: '👩', accent: 'CN' },
+  { match: 'Mandarin',                 label: '中文',                gender: '👩', accent: 'CN' },
+  { match: 'Google ελληνικά',          label: 'Google Ελληνικά',     gender: '👩', accent: 'GR' },
+  { match: 'Google Greek',             label: 'Google Greek',        gender: '👩', accent: 'GR' },
+  { match: 'Microsoft Nestoras',       label: 'Microsoft Nestoras',  gender: '👨', accent: 'GR' },
+  { match: 'Microsoft Athina',         label: 'Microsoft Athina',    gender: '👩', accent: 'GR' },
+  { match: 'Melina',                   label: 'Apple Melina',        gender: '👩', accent: 'GR' },
+  { match: 'Greek',                    label: 'Ελληνικά',            gender: '👩', accent: 'GR' },
+  { match: 'Google 日本語',            label: 'Google 日本語',        gender: '👩', accent: 'JP' },
+  { match: 'Google Japanese',          label: 'Google Japanese',     gender: '👩', accent: 'JP' },
+  { match: 'Microsoft Keita',          label: 'Microsoft Keita',     gender: '👨', accent: 'JP' },
+  { match: 'Microsoft Nanami',         label: 'Microsoft Nanami',    gender: '👩', accent: 'JP' },
+  { match: 'Kyoko',                    label: 'Apple Kyoko',         gender: '👩', accent: 'JP' },
+  { match: 'Japanese',                 label: '日本語',              gender: '👩', accent: 'JP' },
+  { match: 'Google Türkçe',            label: 'Google Türkçe',       gender: '👩', accent: 'TR' },
+  { match: 'Google Turkish',           label: 'Google Turkish',      gender: '👩', accent: 'TR' },
+  { match: 'Microsoft Ahmet',          label: 'Microsoft Ahmet',     gender: '👨', accent: 'TR' },
+  { match: 'Microsoft Emel',           label: 'Microsoft Emel',      gender: '👩', accent: 'TR' },
+  { match: 'Yelda',                    label: 'Apple Yelda',         gender: '👩', accent: 'TR' },
+  { match: 'Turkish',                  label: 'Türkçe',              gender: '👩', accent: 'TR' },
+  { match: 'Google Nederlands',        label: 'Google Nederlands',   gender: '👩', accent: 'NL' },
+  { match: 'Google Dutch',             label: 'Google Dutch',        gender: '👩', accent: 'NL' },
+  { match: 'Microsoft Maarten',        label: 'Microsoft Maarten',   gender: '👨', accent: 'NL' },
+  { match: 'Microsoft Fenna',          label: 'Microsoft Fenna',     gender: '👩', accent: 'NL' },
+  { match: 'Microsoft Colette',        label: 'Microsoft Colette',   gender: '👩', accent: 'NL' },
+  { match: 'Xander',                   label: 'Apple Xander',        gender: '👨', accent: 'NL' },
+  { match: 'Claire',                   label: 'Apple Claire',        gender: '👩', accent: 'NL' },
+  { match: 'Dutch',                    label: 'Nederlands',          gender: '👩', accent: 'NL' },
 ];
 
 function _getLabel(voice: SpeechSynthesisVoice): VoiceMapEntry {
@@ -148,6 +198,12 @@ function _langFlag(lang: string): string {
   if (l.startsWith('de')) return 'DE';
   if (l.startsWith('he') || l.startsWith('iw')) return 'IL';
   if (l.startsWith('ar')) return 'SA';
+  if (l.startsWith('pl')) return 'PL';
+  if (l.startsWith('zh') || l.startsWith('cmn')) return 'CN';
+  if (l.startsWith('el')) return 'GR';
+  if (l.startsWith('ja')) return 'JP';
+  if (l.startsWith('tr')) return 'TR';
+  if (l.startsWith('nl')) return 'NL';
   return '🌐';
 }
 
@@ -201,6 +257,42 @@ function _arVoices(): SpeechSynthesisVoice[] {
     return l.startsWith('ar') || n.includes('arabic') || n.includes('العربية');
   });
 }
+function _plVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter(v => {
+    const l = (v.lang ?? '').toLowerCase(), n = (v.name ?? '').toLowerCase();
+    return l.startsWith('pl') || n.includes('polish') || n.includes('polski');
+  });
+}
+function _zhVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter(v => {
+    const l = (v.lang ?? '').toLowerCase(), n = (v.name ?? '').toLowerCase();
+    return l.startsWith('zh') || l.startsWith('cmn') || n.includes('chinese') || n.includes('mandarin') || n.includes('中文');
+  });
+}
+function _elVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter(v => {
+    const l = (v.lang ?? '').toLowerCase(), n = (v.name ?? '').toLowerCase();
+    return l.startsWith('el') || n.includes('greek') || n.includes('ελληνικά');
+  });
+}
+function _jaVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter(v => {
+    const l = (v.lang ?? '').toLowerCase(), n = (v.name ?? '').toLowerCase();
+    return l.startsWith('ja') || n.includes('japanese') || n.includes('日本語');
+  });
+}
+function _trVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter(v => {
+    const l = (v.lang ?? '').toLowerCase(), n = (v.name ?? '').toLowerCase();
+    return l.startsWith('tr') || n.includes('turkish') || n.includes('türkçe');
+  });
+}
+function _nlVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter(v => {
+    const l = (v.lang ?? '').toLowerCase(), n = (v.name ?? '').toLowerCase();
+    return l.startsWith('nl') || n.includes('dutch') || n.includes('nederlands');
+  });
+}
 function _findByURI(uri: string, voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
   return voices.find(v => v.voiceURI === uri) ?? null;
 }
@@ -228,6 +320,24 @@ export function getSelectedHeVoice(): SpeechSynthesisVoice | null {
 }
 export function getSelectedArVoice(): SpeechSynthesisVoice | null {
   return _findByURI(_arURI, _arVoices()) ?? _arVoices()[0] ?? null;
+}
+export function getSelectedPlVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_plURI, _plVoices()) ?? _plVoices()[0] ?? null;
+}
+export function getSelectedZhVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_zhURI, _zhVoices()) ?? _zhVoices()[0] ?? null;
+}
+export function getSelectedElVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_elURI, _elVoices()) ?? _elVoices()[0] ?? null;
+}
+export function getSelectedJaVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_jaURI, _jaVoices()) ?? _jaVoices()[0] ?? null;
+}
+export function getSelectedTrVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_trURI, _trVoices()) ?? _trVoices()[0] ?? null;
+}
+export function getSelectedNlVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_nlURI, _nlVoices()) ?? _nlVoices()[0] ?? null;
 }
 
 // Speaks English text with a specific accent (GB/US), bypassing the user's globally selected voice.
@@ -304,8 +414,11 @@ export function _renderVoices(): void {
   container.innerHTML = '';
   const enVoices = _sortVoices(_enVoices()), ukVoices = _sortVoices(_ukVoices()), esVoices = _sortVoices(_esVoices()), frVoices = _sortVoices(_frVoices()),
         itVoices = _sortVoices(_itVoices()), ptVoices = _sortVoices(_ptVoices()), deVoices = _sortVoices(_deVoices()),
-        heVoices = _sortVoices(_heVoices()), arVoices = _sortVoices(_arVoices());
-  if (!enVoices.length && !ukVoices.length && !esVoices.length && !frVoices.length && !itVoices.length && !ptVoices.length && !deVoices.length && !heVoices.length && !arVoices.length) {
+        heVoices = _sortVoices(_heVoices()), arVoices = _sortVoices(_arVoices()),
+        plVoices = _sortVoices(_plVoices()), zhVoices = _sortVoices(_zhVoices()), elVoices = _sortVoices(_elVoices()),
+        jaVoices = _sortVoices(_jaVoices()), trVoices = _sortVoices(_trVoices()), nlVoices = _sortVoices(_nlVoices());
+  if (!enVoices.length && !ukVoices.length && !esVoices.length && !frVoices.length && !itVoices.length && !ptVoices.length && !deVoices.length && !heVoices.length && !arVoices.length
+      && !plVoices.length && !zhVoices.length && !elVoices.length && !jaVoices.length && !trVoices.length && !nlVoices.length) {
     container.innerHTML = '<span style="font-size:.78rem;color:var(--text3);">' + t('settings.voicesNotFound') + '</span>'; return;
   }
   const addSection = (title: string, voices: SpeechSynthesisVoice[], activeURI: string, storageKey: string, testText: string): void => {
@@ -324,6 +437,12 @@ export function _renderVoices(): void {
       else if (storageKey === 'ew_ws_de_voice') _deURI = uri;
       else if (storageKey === 'ew_ws_he_voice') _heURI = uri;
       else if (storageKey === 'ew_ws_ar_voice') _arURI = uri;
+      else if (storageKey === 'ew_ws_pl_voice') _plURI = uri;
+      else if (storageKey === 'ew_ws_zh_voice') _zhURI = uri;
+      else if (storageKey === 'ew_ws_el_voice') _elURI = uri;
+      else if (storageKey === 'ew_ws_ja_voice') _jaURI = uri;
+      else if (storageKey === 'ew_ws_tr_voice') _trURI = uri;
+      else if (storageKey === 'ew_ws_nl_voice') _nlURI = uri;
       else _ukURI = uri;
       localStorage.setItem(storageKey, uri); _renderVoices();
       synth?.cancel(); const u = new SpeechSynthesisUtterance(testText);
@@ -354,6 +473,18 @@ export function _renderVoices(): void {
   else addMissing('settings.noHeVoicesTitle', 'settings.noHeVoicesDesc');
   if (arVoices.length) addSection(t('settings.arVoicesTitle'), arVoices, _arURI, 'ew_ws_ar_voice', 'مرحبا، كيف حالك؟');
   else addMissing('settings.noArVoicesTitle', 'settings.noArVoicesDesc');
+  if (plVoices.length) addSection(t('settings.plVoicesTitle'), plVoices, _plURI, 'ew_ws_pl_voice', 'Cześć, jak się masz?');
+  else addMissing('settings.noPlVoicesTitle', 'settings.noPlVoicesDesc');
+  if (zhVoices.length) addSection(t('settings.zhVoicesTitle'), zhVoices, _zhURI, 'ew_ws_zh_voice', '你好，你怎么样？');
+  else addMissing('settings.noZhVoicesTitle', 'settings.noZhVoicesDesc');
+  if (elVoices.length) addSection(t('settings.elVoicesTitle'), elVoices, _elURI, 'ew_ws_el_voice', 'Γεια σου, τι κάνεις;');
+  else addMissing('settings.noElVoicesTitle', 'settings.noElVoicesDesc');
+  if (jaVoices.length) addSection(t('settings.jaVoicesTitle'), jaVoices, _jaURI, 'ew_ws_ja_voice', 'こんにちは、お元気ですか？');
+  else addMissing('settings.noJaVoicesTitle', 'settings.noJaVoicesDesc');
+  if (trVoices.length) addSection(t('settings.trVoicesTitle'), trVoices, _trURI, 'ew_ws_tr_voice', 'Merhaba, nasılsın?');
+  else addMissing('settings.noTrVoicesTitle', 'settings.noTrVoicesDesc');
+  if (nlVoices.length) addSection(t('settings.nlVoicesTitle'), nlVoices, _nlURI, 'ew_ws_nl_voice', 'Hallo, hoe gaat het?');
+  else addMissing('settings.noNlVoicesTitle', 'settings.noNlVoicesDesc');
   if (!_enURI && enVoices.length) { _enURI = (enVoices.find(v => v.name.toLowerCase().includes('google')) ?? enVoices[0]).voiceURI; localStorage.setItem('ew_ws_voice', _enURI); }
   if (!_ukURI && ukVoices.length) { _ukURI = ukVoices[0].voiceURI; localStorage.setItem('ew_ws_uk_voice', _ukURI); }
   if (!_esURI && esVoices.length) { _esURI = (esVoices.find(v => v.name.toLowerCase().includes('google')) ?? esVoices[0]).voiceURI; localStorage.setItem('ew_ws_es_voice', _esURI); }
@@ -363,6 +494,12 @@ export function _renderVoices(): void {
   if (!_deURI && deVoices.length) { _deURI = (deVoices.find(v => v.name.toLowerCase().includes('google')) ?? deVoices[0]).voiceURI; localStorage.setItem('ew_ws_de_voice', _deURI); }
   if (!_heURI && heVoices.length) { _heURI = (heVoices.find(v => v.name.toLowerCase().includes('google')) ?? heVoices[0]).voiceURI; localStorage.setItem('ew_ws_he_voice', _heURI); }
   if (!_arURI && arVoices.length) { _arURI = (arVoices.find(v => v.name.toLowerCase().includes('google')) ?? arVoices[0]).voiceURI; localStorage.setItem('ew_ws_ar_voice', _arURI); }
+  if (!_plURI && plVoices.length) { _plURI = (plVoices.find(v => v.name.toLowerCase().includes('google')) ?? plVoices[0]).voiceURI; localStorage.setItem('ew_ws_pl_voice', _plURI); }
+  if (!_zhURI && zhVoices.length) { _zhURI = (zhVoices.find(v => v.name.toLowerCase().includes('google')) ?? zhVoices[0]).voiceURI; localStorage.setItem('ew_ws_zh_voice', _zhURI); }
+  if (!_elURI && elVoices.length) { _elURI = (elVoices.find(v => v.name.toLowerCase().includes('google')) ?? elVoices[0]).voiceURI; localStorage.setItem('ew_ws_el_voice', _elURI); }
+  if (!_jaURI && jaVoices.length) { _jaURI = (jaVoices.find(v => v.name.toLowerCase().includes('google')) ?? jaVoices[0]).voiceURI; localStorage.setItem('ew_ws_ja_voice', _jaURI); }
+  if (!_trURI && trVoices.length) { _trURI = (trVoices.find(v => v.name.toLowerCase().includes('google')) ?? trVoices[0]).voiceURI; localStorage.setItem('ew_ws_tr_voice', _trURI); }
+  if (!_nlURI && nlVoices.length) { _nlURI = (nlVoices.find(v => v.name.toLowerCase().includes('google')) ?? nlVoices[0]).voiceURI; localStorage.setItem('ew_ws_nl_voice', _nlURI); }
 }
 
 let _loaded = false;

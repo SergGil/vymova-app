@@ -12,7 +12,7 @@ import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
 import type { WordEntry, DuelScreen, DuelLobbyUIState } from '../../src/types.js';
 import { t, getLang } from './i18n.ts';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry } from './mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from './mode-utils.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { DICT } from '../modes/word-letters.tsx';
 
@@ -233,7 +233,7 @@ function _clearSession(roomId?: string): void {
 }
 
 // ── Language helpers ──────────────────────────────────────────
-export const DUEL_LANG_CODES = ['en', 'ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar'];
+export const DUEL_LANG_CODES = ['en', 'ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl'];
 
 function _wordInLang(w: WordEntry, lang: string): string {
   switch (lang) {
@@ -245,6 +245,12 @@ function _wordInLang(w: WordEntry, lang: string): string {
     case 'de': return deEntry(w[0])?.[0] ?? w[1];
     case 'he': return heEntry(w[0])?.[0] ?? w[1];
     case 'ar': return arEntry(w[0])?.[0] ?? w[1];
+    case 'pl': return plEntry(w[0])?.[0] ?? w[1];
+    case 'zh': return zhEntry(w[0])?.[0] ?? w[1];
+    case 'el': return elEntry(w[0])?.[0] ?? w[1];
+    case 'ja': return jaEntry(w[0])?.[0] ?? w[1];
+    case 'tr': return trEntry(w[0])?.[0] ?? w[1];
+    case 'nl': return nlEntry(w[0])?.[0] ?? w[1];
     default:   return w[1]; // 'ua'
   }
 }
@@ -260,6 +266,12 @@ function _hasLangWord(w: WordEntry, lang: string): boolean {
     case 'de': return deEntry(w[0]) !== null;
     case 'he': return heEntry(w[0]) !== null;
     case 'ar': return arEntry(w[0]) !== null;
+    case 'pl': return plEntry(w[0]) !== null;
+    case 'zh': return zhEntry(w[0]) !== null;
+    case 'el': return elEntry(w[0]) !== null;
+    case 'ja': return jaEntry(w[0]) !== null;
+    case 'tr': return trEntry(w[0]) !== null;
+    case 'nl': return nlEntry(w[0]) !== null;
     default:   return true;
   }
 }
