@@ -221,6 +221,19 @@
     font-family: 'DM Sans', sans-serif;
     min-height: 1.2em;
   }
+  .accent-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 1px 3px;
+    border-radius: 5px;
+    line-height: 1;
+    opacity: .75;
+    transition: opacity .15s, background .15s;
+  }
+  .accent-btn:hover { opacity: 1; background: #EBF3EE; }
+  .accent-btn.on { opacity: 1; animation: pulse .7s ease-in-out infinite alternate; }
   .pos-tag {
     display: block;
     font-size: .72rem;

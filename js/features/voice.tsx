@@ -196,6 +196,22 @@ export function getSelectedDeVoice(): SpeechSynthesisVoice | null {
   return _findByURI(_deURI, _deVoices()) ?? _deVoices()[0] ?? null;
 }
 
+// Speaks English text with a specific accent (GB/US), bypassing the user's globally selected voice.
+export function speakEnAccent(text: string, accent: 'GB' | 'US', btn: HTMLElement | null): void {
+  const clean = text.replace(/<[^>]+>/g, '').replace(/\s*\([^)]*\)/g, '').trim();
+  if (!clean || !synth) return;
+  const enVoices = _enVoices();
+  const voice = enVoices.find(v => _getLabel(v).accent === accent)
+    ?? enVoices.find(v => v.lang?.toLowerCase().startsWith(accent === 'GB' ? 'en-gb' : 'en-us'))
+    ?? enVoices[0] ?? null;
+  synth.cancel();
+  const u = new SpeechSynthesisUtterance(clean);
+  if (voice) { u.voice = voice; u.lang = voice.lang; } else { u.lang = accent === 'GB' ? 'en-GB' : 'en-US'; }
+  u.rate = 0.88; u.pitch = 1;
+  if (btn) { btn.classList.add('on'); u.onend = u.onerror = () => btn.classList.remove('on'); }
+  synth.speak(u);
+}
+
 export const speakFakeYou = (text: string, btn: HTMLElement | null): boolean => {
   const enVoices = _enVoices();
   if (!enVoices.length) return false;

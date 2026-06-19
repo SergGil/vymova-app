@@ -6,6 +6,7 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { t, tLang, type Lang } from './i18n.ts';
 import { srsStatusInfo, forgettingCurveTooltip, type SrsEntry } from '../core/card-helpers.ts';
 import { getResolvedMode, computeCardView } from './mode-utils.ts';
+import { speakEnAccent } from './voice.tsx';
 
 function getRangeVal(): string {
   return (document.getElementById('sel-range') as HTMLSelectElement | null)?.value ?? '';
@@ -21,10 +22,17 @@ export function WordText() {
 export function Transcription() {
   const { cw } = useAppState();
   if (!cw) return null;
-  const { FRONT_LANG } = computeCardView(cw, getResolvedMode());
+  const { FRONT_LANG, frontWord } = computeCardView(cw, getResolvedMode());
   const trans = decodeIpa(cw[4] || '');
-  const show = FRONT_LANG === 'EN' && !!trans;
-  return <div className="transcription" id="wtrans" style={{ display: show ? 'block' : 'none' }}>{show ? trans : ''}</div>;
+  const isEn = FRONT_LANG === 'EN';
+  if (!isEn) return <div className="transcription" id="wtrans" style={{ display: 'none' }} />;
+  return (
+    <div className="transcription" id="wtrans" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+      {trans && <span>{trans}</span>}
+      <button type="button" className="accent-btn" title="British" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'GB', e.currentTarget); }}>🇬🇧</button>
+      <button type="button" className="accent-btn" title="American" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'US', e.currentTarget); }}>🇺🇸</button>
+    </div>
+  );
 }
 
 export function PosTag() {
