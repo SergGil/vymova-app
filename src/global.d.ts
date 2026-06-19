@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 // Global Window augmentation — allows window.anyProperty without TS errors
 // for legacy @ts-nocheck migration period
 declare global {

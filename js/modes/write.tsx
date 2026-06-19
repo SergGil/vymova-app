@@ -175,7 +175,7 @@ export function WritePage(): ReactElement {
     const q = val.trim().toLowerCase();
     if (!q || q.length < 2 || answered) { acHide(); return; }
     acTimerRef.current = setTimeout(() => {
-      if (backLang === 'EN') {
+      if (backLang === 'en') {
         setAcItems((W as unknown as WordEntry[]).filter(ww => ww[0].toLowerCase().startsWith(q)).slice(0, 6));
       } else {
         setAcItems([]);

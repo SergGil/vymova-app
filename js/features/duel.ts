@@ -119,9 +119,9 @@ interface PlayerData {
   powerups:Record<PowerupType,number>; frozenUntil?:number;
   flags?:(boolean|'skip'|'double')[];
 }
-interface SeriesData { p1wins:number; p2wins:number; round:number; }
+export interface SeriesData { p1wins:number; p2wins:number; round:number; }
 interface SpectatorData { name:string; avatar:string; }
-interface RoomData {
+export interface RoomData {
   seed:number; mode:DuelMode; category:string; difficulty:Difficulty;
   bestOf:BestOf; maxHints:number; powerupsEnabled:boolean;
   lang?:string; knowLang?:string;
@@ -1002,7 +1002,7 @@ async function _finishMyGame():Promise<void>{
 
 // Знімок даних для duel-result.tsx (Фаза 9/2).
 type DuelResultOutcome = 'win' | 'tie' | 'loss';
-type DuelResultData =
+export type DuelResultData =
   | { kind: 'round'; outcome: DuelResultOutcome; round: number; myWins: number; oppWins: number; myName: string; oppName: string }
   | { kind: 'final'; outcome: DuelResultOutcome; modeIcon: string; modeLabel: string; catLabel: string;
       myAvatar: string; myScore: number; oppAvatar: string; oppScore: number; oppName: string;
@@ -1412,7 +1412,7 @@ type TournMatchArea =
   | { kind:'play' }
   | { kind:'rejoin' }
   | { kind:'waiting'; oppName:string };
-interface TournamentData {
+export interface TournamentData {
   phase: 'waiting'|'bracket';
   code: string;
   modeLabel: string;

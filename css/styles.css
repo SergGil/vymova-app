@@ -1878,6 +1878,7 @@ body.sw .wotd-word { color: var(--accent); text-shadow: 0 0 8px rgba(0,200,255,0
   align-items: center;
   justify-content: center;
   gap: 8px;
+  margin-top: 10px;
   margin-bottom: 6px;
 }
 .actions-bar .btn { flex-shrink: 0; }
