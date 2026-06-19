@@ -23,7 +23,7 @@ import { CardMeta } from '../js/features/card-meta.tsx';
 import { WordText, Transcription, PosTag, SrsBadge, Translation, ExEn, ExUa, CardHint } from '../js/features/card-front-text.tsx';
 import { CardIdx, CardKnownCount, ProgressBar } from '../js/features/card-progress.tsx';
 import { SimilarWordsChips } from '../js/features/similar-words.tsx';
-import { WordFamiliesChips, CollocationsSection } from '../js/features/word-context.tsx';
+import { WordFamiliesChips, CollocationsSection, SynonymsChips } from '../js/features/word-context.tsx';
 import { ModeHints } from '../js/features/mode-hints.tsx';
 import { LevelRing } from '../js/features/ring.tsx';
 import { ThemeToggle } from '../js/core/theme.tsx';
@@ -134,6 +134,7 @@ function AppRoot(): ReactElement {
     <Portal id="similar-words-mount"><SimilarWordsChips/></Portal>
     <Portal id="word-families-mount"><WordFamiliesChips/></Portal>
     <Portal id="collocations-mount"><CollocationsSection/></Portal>
+    <Portal id="synonyms-mount"><SynonymsChips/></Portal>
     <ModeHints/>
     <Portal id="level-ring-mount"><LevelRing/></Portal>
     <Portal id="theme-toggle-mount"><ThemeToggle/></Portal>

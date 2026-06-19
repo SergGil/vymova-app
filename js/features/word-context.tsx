@@ -5,6 +5,7 @@ import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
 import { searchCollocations } from '../../data/collocations.ts';
 import { WORD_FAMILIES, WORD_FAMILY_REVERSE } from '../../data/word-families.ts';
+import { SYNONYMS, SYNONYM_REVERSE } from '../../data/synonyms.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { openWordDetail } from './word-detail.tsx';
@@ -72,6 +73,53 @@ export function WordFamiliesChips(): ReactElement | null {
             >
               <span className="sc-word">{w}</span>
               {transl ? <span className="sc-transl">{transl}</span> : null}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export function SynonymsChips(): ReactElement | null {
+  useStateVersion();
+  const cw = state.cw as WordEntry | null;
+  if (!cw || !state.flipped) return null;
+
+  const word = cw[0].toLowerCase();
+  let members = SYNONYMS[word];
+  let head = word;
+  if (!members) {
+    const base = SYNONYM_REVERSE.get(word);
+    if (base) { members = SYNONYMS[base]; head = base; }
+  }
+  if (!members) return null;
+
+  const chips = [{ word: head, note: undefined as string | undefined }, ...members].filter(c => c.word !== word);
+  if (!chips.length) return null;
+
+  const wordIdx = state._wordIdx;
+
+  return (
+    <div className="similar-section" id="cb-synonyms" style={{ margin: '14px 0 0' }}>
+      <div className="similar-title" data-i18n="cards.synonymsTitle">🔄 Синоніми</div>
+      <div className="similar-chips" id="cb-synonym-chips">
+        {chips.slice(0, 6).map(c => {
+          const wi = wordIdx?.get(c.word);
+          const entry = wi !== undefined ? W[wi] : null;
+          const transl = entry ? (entry as unknown as WordEntry)[1] : '';
+          const isKnown = state.known.has(c.word);
+          return (
+            <div key={c.word} className={'sim-chip syn-chip' + (isKnown ? ' known-chip' : '')}
+              onClick={(e) => {
+                e.stopPropagation();
+                const wi2 = wordIdx?.get(c.word);
+                if (wi2 === undefined) return;
+                openWordDetail(W[wi2] as unknown as WordEntry);
+              }}
+            >
+              <span className="sc-word">{c.word}</span>
+              {c.note ? <span className="sc-transl">{c.note}</span> : transl ? <span className="sc-transl">{transl}</span> : null}
             </div>
           );
         })}
