@@ -5,7 +5,7 @@ import { state } from '../../src/state.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import type { WordEntry } from '../../src/types.ts';
 import {
-  WordText, Transcription, PosTag, SrsBadge, Translation, ExEn, ExUa,
+  WordText, Transcription, PosTag, SrsBadge, Translation, ExEn, ExUa, OtherMeanings,
 } from '../../js/features/card-front-text.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -134,5 +134,31 @@ describe('card-front-text.tsx', () => {
 
     act(() => { state.flipped = true; notifyStateChange(); });
     expect(container.querySelector('#exua')!.className).toBe('ex-ua show');
+  });
+
+  describe('OtherMeanings', () => {
+    it('renders nothing when the card is not flipped', () => {
+      state.flipped = false;
+      state.cw = ['light', 'світло', '', '', '', 'n'] as unknown as WordEntry;
+      const { container } = mount(OtherMeanings);
+      expect(container.innerHTML).toBe('');
+    });
+
+    it('renders nothing when the word has no sense list', () => {
+      state.flipped = true;
+      const { container } = mount(OtherMeanings);
+      expect(container.innerHTML).toBe('');
+    });
+
+    it('renders each numbered sense with its own translation and example when flipped', () => {
+      state.flipped = true;
+      state.cw = ['light', 'світло', '', '', '', 'n'] as unknown as WordEntry;
+      const { container } = mount(OtherMeanings);
+      const items = container.querySelectorAll('#cb-senses-list li');
+      expect(items.length).toBe(2);
+      expect(items[0].querySelector('.sense-translation')!.textContent).toBe('світло');
+      expect(items[0].querySelector('.sense-example')!.textContent).toContain('turn on the light');
+      expect(items[1].querySelector('.sense-translation')!.textContent).toBe('легкий (за вагою)');
+    });
   });
 });

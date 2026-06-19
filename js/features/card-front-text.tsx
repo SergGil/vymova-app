@@ -7,6 +7,7 @@ import { t, tLang, type Lang } from './i18n.ts';
 import { srsStatusInfo, forgettingCurveTooltip, type SrsEntry } from '../core/card-helpers.ts';
 import { getResolvedMode, computeCardView } from './mode-utils.ts';
 import { speakEnAccent } from './voice.tsx';
+import { SENSES } from '../../data/senses.ts';
 
 function getRangeVal(): string {
   return (document.getElementById('sel-range') as HTMLSelectElement | null)?.value ?? '';
@@ -80,5 +81,27 @@ export function CardHint() {
   const { flipped } = useAppState();
   if (flipped) return null;
   return <p className="hint">{t('cards.hint')}</p>;
+}
+
+export function OtherMeanings() {
+  const { cw, flipped } = useAppState();
+  if (!cw || !flipped) return null;
+  const senses = SENSES[cw[0].toLowerCase()];
+  if (!senses || senses.length < 2) return null;
+
+  return (
+    <div className="similar-section" id="cb-senses" style={{ margin: '8px 0' }}>
+      <div className="similar-title" data-i18n="cards.sensesTitle">📖 Інші значення</div>
+      <ol className="senses-list" id="cb-senses-list">
+        {senses.map((s, i) => (
+          <li key={i}>
+            <span className="sense-pos">{s.pos}</span>{' '}
+            <span className="sense-translation">{s.translation}</span>
+            <div className="sense-example">{s.exEn} <i>— {s.exUa}</i></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
 }
 

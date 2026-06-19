@@ -20,7 +20,7 @@ import { GameBarLevel } from '../js/features/game-bar-level.tsx';
 import { GameBarStreak, ComboBox, GameBarGoal } from '../js/features/game-bar-streak.tsx';
 import { GoalModal } from '../js/features/goal-modal.tsx';
 import { CardMeta } from '../js/features/card-meta.tsx';
-import { WordText, Transcription, PosTag, SrsBadge, Translation, ExEn, ExUa, CardHint } from '../js/features/card-front-text.tsx';
+import { WordText, Transcription, PosTag, SrsBadge, Translation, ExEn, ExUa, CardHint, OtherMeanings } from '../js/features/card-front-text.tsx';
 import { CardIdx, CardKnownCount, ProgressBar } from '../js/features/card-progress.tsx';
 import { SimilarWordsChips } from '../js/features/similar-words.tsx';
 import { WordFamiliesChips, CollocationsSection, SynonymsChips, EtymologyNote, UsageNoteBox } from '../js/features/word-context.tsx';
@@ -125,6 +125,7 @@ function AppRoot(): ReactElement {
     <Portal id="wpos-mount"><PosTag/></Portal>
     <Portal id="srs-next-mount"><SrsBadge/></Portal>
     <Portal id="wtransl-mount"><Translation/></Portal>
+    <Portal id="senses-mount"><OtherMeanings/></Portal>
     <Portal id="exen-mount"><ExEn/></Portal>
     <Portal id="exua-mount"><ExUa/></Portal>
     <Portal id="cidx-mount"><CardIdx/></Portal>
