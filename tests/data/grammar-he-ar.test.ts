@@ -43,6 +43,19 @@ function checkGrammarShape(categories: GrammarCategory[], name: string) {
     const ids = categories.flatMap(c => c.rules.map(r => r.id));
     expect(new Set(ids).size).toBe(ids.length);
   });
+
+  it(`${name} formula rows have at least 3 columns (renderer has no fallback for the 3rd column, so a short row literally renders "undefined")`, () => {
+    for (const cat of categories) {
+      for (const rule of cat.rules) {
+        for (const s of rule.sections) {
+          if (s.type !== 'formula') continue;
+          for (const row of s.rows ?? []) {
+            expect(row.length, `${name}: rule ${rule.id} formula row too short: ${JSON.stringify(row)}`).toBeGreaterThanOrEqual(3);
+          }
+        }
+      }
+    }
+  });
 }
 
 describe('GRAMMAR_HE', () => {

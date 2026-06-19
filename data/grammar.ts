@@ -5678,11 +5678,11 @@ export const GRAMMAR_HE: GrammarCategory[] = [
           {
             type: 'formula', title: '<span dir="rtl">לכתוב</span> (писати) — теперішній час',
             rows: [
-              ['<span dir="rtl">אני</span> (я, ч.р.)', '<span dir="rtl">כותב</span>'],
-              ['<span dir="rtl">אני</span> (я, ж.р.)', '<span dir="rtl">כותבת</span>'],
-              ['<span dir="rtl">אתה</span> (ти, ч.р.)', '<span dir="rtl">כותב</span>'],
-              ['<span dir="rtl">את</span> (ти, ж.р.)', '<span dir="rtl">כותבת</span>'],
-              ['<span dir="rtl">אנחנו</span> (ми)', '<span dir="rtl">כותבים / כותבות</span>'],
+              ['<span dir="rtl">אני</span> (я, ч.р.)', '<span dir="rtl">כותב</span>', ''],
+              ['<span dir="rtl">אני</span> (я, ж.р.)', '<span dir="rtl">כותבת</span>', ''],
+              ['<span dir="rtl">אתה</span> (ти, ч.р.)', '<span dir="rtl">כותב</span>', ''],
+              ['<span dir="rtl">את</span> (ти, ж.р.)', '<span dir="rtl">כותבת</span>', ''],
+              ['<span dir="rtl">אנחנו</span> (ми)', '<span dir="rtl">כותבים / כותבות</span>', ''],
             ],
           },
           {
@@ -5829,12 +5829,12 @@ export const GRAMMAR_AR: GrammarCategory[] = [
           {
             type: 'formula', title: '<span dir="rtl">يكتب</span> (писати) — теперішній час',
             rows: [
-              ['<span dir="rtl">أنا</span> (я)', '<span dir="rtl">أكتب</span>'],
-              ['<span dir="rtl">أنتَ</span> (ти, ч.р.)', '<span dir="rtl">تكتب</span>'],
-              ['<span dir="rtl">أنتِ</span> (ти, ж.р.)', '<span dir="rtl">تكتبين</span>'],
-              ['<span dir="rtl">هو</span> (він)', '<span dir="rtl">يكتب</span>'],
-              ['<span dir="rtl">هي</span> (вона)', '<span dir="rtl">تكتب</span>'],
-              ['<span dir="rtl">نحن</span> (ми)', '<span dir="rtl">نكتب</span>'],
+              ['<span dir="rtl">أنا</span> (я)', '<span dir="rtl">أكتب</span>', ''],
+              ['<span dir="rtl">أنتَ</span> (ти, ч.р.)', '<span dir="rtl">تكتب</span>', ''],
+              ['<span dir="rtl">أنتِ</span> (ти, ж.р.)', '<span dir="rtl">تكتبين</span>', ''],
+              ['<span dir="rtl">هو</span> (він)', '<span dir="rtl">يكتب</span>', ''],
+              ['<span dir="rtl">هي</span> (вона)', '<span dir="rtl">تكتب</span>', ''],
+              ['<span dir="rtl">نحن</span> (ми)', '<span dir="rtl">نكتب</span>', ''],
             ],
           },
           {
