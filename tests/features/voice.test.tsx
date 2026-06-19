@@ -4,6 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import {
   VoiceInit, _renderVoices, speakFakeYou, speakEnAccent,
   getSelectedUkVoice, getSelectedEsVoice, getSelectedFrVoice, getSelectedItVoice, getSelectedPtVoice, getSelectedDeVoice,
+  getSelectedHeVoice, getSelectedArVoice,
 } from '../../js/features/voice.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -149,7 +150,7 @@ describe('voice.tsx', () => {
   });
 
   it('getSelected*Voice falls back to the first matching voice when nothing saved', () => {
-    const voices = [makeVoice('Microsoft Ostap', 'uk-UA'), makeVoice('Microsoft Helena', 'es-ES'), makeVoice('Microsoft Henri', 'fr-FR'), makeVoice('Microsoft Elsa', 'it-IT'), makeVoice('Microsoft Raquel', 'pt-PT'), makeVoice('Microsoft Katja', 'de-DE')];
+    const voices = [makeVoice('Microsoft Ostap', 'uk-UA'), makeVoice('Microsoft Helena', 'es-ES'), makeVoice('Microsoft Henri', 'fr-FR'), makeVoice('Microsoft Elsa', 'it-IT'), makeVoice('Microsoft Raquel', 'pt-PT'), makeVoice('Microsoft Katja', 'de-DE'), makeVoice('Microsoft Asaf', 'he-IL'), makeVoice('Microsoft Hamed', 'ar-SA')];
     vi.stubGlobal('speechSynthesis', makeFakeSynth(voices));
 
     expect(getSelectedUkVoice()?.name).toBe('Microsoft Ostap');
@@ -158,6 +159,29 @@ describe('voice.tsx', () => {
     expect(getSelectedItVoice()?.name).toBe('Microsoft Elsa');
     expect(getSelectedPtVoice()?.name).toBe('Microsoft Raquel');
     expect(getSelectedDeVoice()?.name).toBe('Microsoft Katja');
+    expect(getSelectedHeVoice()?.name).toBe('Microsoft Asaf');
+    expect(getSelectedArVoice()?.name).toBe('Microsoft Hamed');
+  });
+
+  it('renders Hebrew/Arabic voice sections and "missing" notices when absent', () => {
+    const voices = [makeVoice('Google US English', 'en-US')];
+    vi.stubGlobal('speechSynthesis', makeFakeSynth(voices));
+    _renderVoices();
+
+    const list = document.getElementById('fy-voices-list')!;
+    expect(list.textContent).toContain('Голосів івриту не знайдено');
+    expect(list.textContent).toContain('Арабських голосів не знайдено');
+  });
+
+  it('renders Hebrew and Arabic voices when present', () => {
+    const voices = [makeVoice('Google US English', 'en-US'), makeVoice('Microsoft Asaf', 'he-IL'), makeVoice('Microsoft Hamed', 'ar-SA')];
+    vi.stubGlobal('speechSynthesis', makeFakeSynth(voices));
+    _renderVoices();
+
+    const list = document.getElementById('fy-voices-list')!;
+    expect(list.textContent).not.toContain('Голосів івриту не знайдено');
+    expect(list.textContent).not.toContain('Арабських голосів не знайдено');
+    expect(list.querySelectorAll('.voice-card').length).toBe(3);
   });
 
   it('VoiceInit mounts and renders voices when speechSynthesis already has voices', () => {

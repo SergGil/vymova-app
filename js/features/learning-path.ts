@@ -14,7 +14,7 @@ import {
   computePersonalPace, estimateDays, updateCompletionDates,
 } from './learning-path-logic.ts';
 import { t, getLang, skillName, levelName } from './i18n.ts';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry } from './mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry } from './mode-utils.ts';
 
 // ── Language helpers ──────────────────────────────────────────
 
@@ -30,6 +30,8 @@ function _activeKnownSet(): Set<string> {
     case 'it': return state.knownIt;
     case 'pt': return state.knownPt;
     case 'de': return state.knownDe;
+    case 'he': return state.knownHe;
+    case 'ar': return state.knownAr;
     default:   return state.known;
   }
 }
@@ -41,6 +43,8 @@ function _getTranslation(w: WordEntry, lang: string): string {
     case 'it': return itEntry(w[0])?.[0] ?? w[1];
     case 'pt': return ptEntry(w[0])?.[0] ?? w[1];
     case 'de': return deEntry(w[0])?.[0] ?? w[1];
+    case 'he': return heEntry(w[0])?.[0] ?? w[1];
+    case 'ar': return arEntry(w[0])?.[0] ?? w[1];
     default:   return w[1];
   }
 }
@@ -52,6 +56,8 @@ function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
     case 'it': return words.filter(w => itEntry(w[0]) !== null);
     case 'pt': return words.filter(w => ptEntry(w[0]) !== null);
     case 'de': return words.filter(w => deEntry(w[0]) !== null);
+    case 'he': return words.filter(w => heEntry(w[0]) !== null);
+    case 'ar': return words.filter(w => arEntry(w[0]) !== null);
     default:   return words;
   }
 }

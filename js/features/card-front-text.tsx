@@ -17,8 +17,8 @@ function getRangeVal(): string {
 export function WordText() {
   const { cw } = useAppState();
   if (!cw) return null;
-  const { frontWord } = computeCardView(cw, getResolvedMode());
-  return <span className="word-text" id="wword">{frontWord}</span>;
+  const { frontWord, frontRtl } = computeCardView(cw, getResolvedMode());
+  return <span className="word-text" id="wword" dir={frontRtl ? 'rtl' : undefined}>{frontWord}</span>;
 }
 
 export function Transcription() {
@@ -43,7 +43,8 @@ export function PosTag() {
   const { FRONT_LANG } = computeCardView(cw, getResolvedMode());
   const posCode = cw[5] || '';
   const posLang: Lang = FRONT_LANG === 'EN' ? 'en' : FRONT_LANG === 'UA' ? 'ua' : FRONT_LANG === 'FR' ? 'fr'
-    : FRONT_LANG === 'IT' ? 'it' : FRONT_LANG === 'PT' ? 'pt' : FRONT_LANG === 'DE' ? 'de' : 'es';
+    : FRONT_LANG === 'IT' ? 'it' : FRONT_LANG === 'PT' ? 'pt' : FRONT_LANG === 'DE' ? 'de'
+    : FRONT_LANG === 'ES' ? 'es' : 'en'; // HE/AR have no dedicated UI locale yet — fall back to English pos labels
   const posText = posCode ? tLang('pos.' + posCode, posLang) : '';
   return <div className="pos-tag" id="wpos" style={{ display: posCode ? 'block' : 'none' }}>{posText}</div>;
 }
@@ -60,22 +61,22 @@ export function SrsBadge() {
 export function Translation() {
   const { cw, flipped } = useAppState();
   if (!cw) return null;
-  const { backWord } = computeCardView(cw, getResolvedMode());
-  return <div className={'transl' + (flipped ? ' show' : '')} id="wtransl">{backWord}</div>;
+  const { backWord, backRtl } = computeCardView(cw, getResolvedMode());
+  return <div className={'transl' + (flipped ? ' show' : '')} id="wtransl" dir={backRtl ? 'rtl' : undefined}>{backWord}</div>;
 }
 
 export function ExEn() {
   const { cw } = useAppState();
   if (!cw) return null;
-  const { exenHtml } = computeCardView(cw, getResolvedMode());
-  return <span className="ex-en" id="exen" dangerouslySetInnerHTML={{ __html: exenHtml }} />;
+  const { exenHtml, frontRtl } = computeCardView(cw, getResolvedMode());
+  return <span className="ex-en" id="exen" dir={frontRtl ? 'rtl' : undefined} dangerouslySetInnerHTML={{ __html: exenHtml }} />;
 }
 
 export function ExUa() {
   const { cw, flipped } = useAppState();
   if (!cw) return null;
-  const { exuaHtml } = computeCardView(cw, getResolvedMode());
-  return <div className={'ex-ua' + (flipped ? ' show' : '')} id="exua" dangerouslySetInnerHTML={{ __html: exuaHtml }} />;
+  const { exuaHtml, backRtl } = computeCardView(cw, getResolvedMode());
+  return <div className={'ex-ua' + (flipped ? ' show' : '')} id="exua" dir={backRtl ? 'rtl' : undefined} dangerouslySetInnerHTML={{ __html: exuaHtml }} />;
 }
 
 export function CardHint() {

@@ -6,21 +6,23 @@ import { useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 
-export type LangCode = 'ua' | 'en' | 'es' | 'fr' | 'it' | 'pt' | 'de';
+export type LangCode = 'ua' | 'en' | 'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar';
 type Direction = 'fwd' | 'rev' | 'mix';
 
-const ALL_LANGS: LangCode[] = ['ua', 'en', 'es', 'fr', 'it', 'pt', 'de'];
+const ALL_LANGS: LangCode[] = ['ua', 'en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar'];
 
 // Which "learn" languages are available for a given "know" language —
-// limited by the EN/UA/ES/FR/IT/PT/DE word-pair data we actually have.
+// limited by the EN/UA/ES/FR/IT/PT/DE/HE/AR word-pair data we actually have.
 const LEARN_OPTIONS: Record<LangCode, LangCode[]> = {
-  ua: ['en', 'es', 'fr', 'it', 'pt', 'de'],
-  en: ['ua', 'es', 'fr', 'it', 'pt', 'de'],
+  ua: ['en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar'],
+  en: ['ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar'],
   es: ['en', 'ua', 'fr'],
   fr: ['en', 'ua', 'es'],
   it: ['en', 'ua'],
   pt: ['en', 'ua'],
   de: ['en', 'ua'],
+  he: ['en', 'ua'],
+  ar: ['en', 'ua'],
 };
 
 // (frontLang, backLang) -> #sel-mode value
@@ -49,6 +51,14 @@ const MODE_MAP: Record<string, string> = {
   'en|de': 'en-de',
   'de|ua': 'de-ua',
   'ua|de': 'ua-de',
+  'he|en': 'he-en',
+  'en|he': 'en-he',
+  'he|ua': 'he-ua',
+  'ua|he': 'ua-he',
+  'ar|en': 'ar-en',
+  'en|ar': 'en-ar',
+  'ar|ua': 'ar-ua',
+  'ua|ar': 'ua-ar',
 };
 
 // #sel-mode value -> (learnLang, knowLang) — i.e. (front, back) — for restoring state on load
@@ -77,6 +87,14 @@ const MODE_TO_PAIR: Record<string, [LangCode, LangCode]> = {
   'en-de': ['en', 'de'],
   'de-ua': ['de', 'ua'],
   'ua-de': ['ua', 'de'],
+  'he-en': ['he', 'en'],
+  'en-he': ['en', 'he'],
+  'he-ua': ['he', 'ua'],
+  'ua-he': ['ua', 'he'],
+  'ar-en': ['ar', 'en'],
+  'en-ar': ['en', 'ar'],
+  'ar-ua': ['ar', 'ua'],
+  'ua-ar': ['ua', 'ar'],
 };
 
 const KNOW_KEY = 'ew_know_lang';
@@ -93,7 +111,7 @@ function langAcc(l: LangCode): string {
 }
 
 function isLangCode(v: string | null): v is LangCode {
-  return v === 'ua' || v === 'en' || v === 'es' || v === 'fr' || v === 'it' || v === 'pt' || v === 'de';
+  return v === 'ua' || v === 'en' || v === 'es' || v === 'fr' || v === 'it' || v === 'pt' || v === 'de' || v === 'he' || v === 'ar';
 }
 
 /** The language the user is currently learning (e.g. for language-specific content like grammar). */

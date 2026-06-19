@@ -5,7 +5,7 @@ import { W } from '../../data/words.js';
 import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
 import { shuffle } from '../core/srs.ts';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode } from './mode-utils.ts';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, getMode } from './mode-utils.ts';
 import { t } from './i18n.ts';
 import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -17,6 +17,8 @@ function activeKnown(): Set<string> {
   if (IT_MODES.has(mode)) return state.knownIt;
   if (PT_MODES.has(mode)) return state.knownPt;
   if (DE_MODES.has(mode)) return state.knownDe;
+  if (HE_MODES.has(mode)) return state.knownHe;
+  if (AR_MODES.has(mode)) return state.knownAr;
   return state.known;
 }
 

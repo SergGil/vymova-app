@@ -11,7 +11,7 @@ import { t } from '../features/i18n.ts';
 import { refreshGameBarLevel } from '../features/game-bar-level.tsx';
 import { checkAchievements } from '../features/render-achievements.ts';
 import type { WordEntry } from '../../src/types.js';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 
 function getWordInLang(w: WordEntry, lang: string): string {
@@ -22,6 +22,8 @@ function getWordInLang(w: WordEntry, lang: string): string {
     case 'it': return itEntry(w[0])?.[0] ?? '';
     case 'pt': return ptEntry(w[0])?.[0] ?? '';
     case 'de': return deEntry(w[0])?.[0] ?? '';
+    case 'he': return heEntry(w[0])?.[0] ?? '';
+    case 'ar': return arEntry(w[0])?.[0] ?? '';
     default:   return w[0];
   }
 }

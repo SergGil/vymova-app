@@ -98,6 +98,8 @@ export interface AppState {
   knownIt:        Set<string>;
   knownPt:        Set<string>;
   knownDe:        Set<string>;
+  knownHe:        Set<string>;
+  knownAr:        Set<string>;
   _wordIdx:       Map<string, number>;
   _customWords:   Array<{ en: string; ua: string; ex_en?: string; ex_ua?: string }>;
   duelSel:        DuelSelState;

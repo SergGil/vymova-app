@@ -7,7 +7,7 @@ import { recordModeComplete, recordMistake, recordModeAnswer } from '../features
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry } from '../features/mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { state } from '../../src/state.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -38,6 +38,8 @@ function getWordInLang(w: WordEntry, lang: string): string {
     case 'it': return itEntry(w[0])?.[0] ?? '';
     case 'pt': return ptEntry(w[0])?.[0] ?? '';
     case 'de': return deEntry(w[0])?.[0] ?? '';
+    case 'he': return heEntry(w[0])?.[0] ?? '';
+    case 'ar': return arEntry(w[0])?.[0] ?? '';
     default:   return w[0];
   }
 }
@@ -49,6 +51,8 @@ function getWrongOption(pw: WordEntry, backLang: string): string | null {
   if (backLang === 'IT') { const e = itEntry(pw[0]); return e ? e[0] : null; }
   if (backLang === 'PT') { const e = ptEntry(pw[0]); return e ? e[0] : null; }
   if (backLang === 'DE') { const e = deEntry(pw[0]); return e ? e[0] : null; }
+  if (backLang === 'HE') { const e = heEntry(pw[0]); return e ? e[0] : null; }
+  if (backLang === 'AR') { const e = arEntry(pw[0]); return e ? e[0] : null; }
   return pw[0];
 }
 

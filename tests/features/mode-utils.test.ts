@@ -3,8 +3,8 @@ import { state } from '../../src/state.ts';
 import type { WordEntry } from '../../src/types.ts';
 import {
   getMode, getFrontLang, getResolvedMode, getActiveKnown, computeCardView,
-  esEntry, frEntry, itEntry, ptEntry, deEntry,
-  ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES,
+  esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry,
+  ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES,
 } from '../../js/features/mode-utils.ts';
 
 const abandon: WordEntry = ['abandon', 'покинути', 'They had to <b>abandon</b> the ship.', 'Вони мусили <b>покинути</b> корабель.'];
@@ -48,6 +48,8 @@ describe('mode-utils.ts', () => {
       expect(getFrontLang('it-en')).toBe('IT');
       expect(getFrontLang('pt-ua')).toBe('PT');
       expect(getFrontLang('de-en')).toBe('DE');
+      expect(getFrontLang('he-en')).toBe('HE');
+      expect(getFrontLang('ar-ua')).toBe('AR');
       expect(getFrontLang('unknown-mode')).toBe('EN');
     });
   });
@@ -86,6 +88,16 @@ describe('mode-utils.ts', () => {
       state._mode = 'de-ua';
       expect(getActiveKnown(fallback)).toBe(state.knownDe);
     });
+
+    it('returns state.knownHe for HE modes', () => {
+      state._mode = 'he-ua';
+      expect(getActiveKnown(fallback)).toBe(state.knownHe);
+    });
+
+    it('returns state.knownAr for AR modes', () => {
+      state._mode = 'en-ar';
+      expect(getActiveKnown(fallback)).toBe(state.knownAr);
+    });
   });
 
   describe('mode sets', () => {
@@ -95,6 +107,8 @@ describe('mode-utils.ts', () => {
       expect(IT_MODES.has('it-en')).toBe(true);
       expect(PT_MODES.has('pt-ua')).toBe(true);
       expect(DE_MODES.has('de-en')).toBe(true);
+      expect(HE_MODES.has('en-he')).toBe(true);
+      expect(AR_MODES.has('ar-ua')).toBe(true);
     });
   });
 
@@ -102,6 +116,8 @@ describe('mode-utils.ts', () => {
     it('returns a translation entry for a known word', () => {
       expect(esEntry('abandon')).toEqual(['abandonar', expect.any(String)]);
       expect(frEntry('abandon')).toEqual(['abandonner', expect.any(String)]);
+      expect(heEntry('abandon')).toEqual([expect.any(String), expect.any(String)]);
+      expect(arEntry('abandon')).toEqual([expect.any(String), expect.any(String)]);
     });
 
     it('returns null for unknown words', () => {
@@ -110,6 +126,8 @@ describe('mode-utils.ts', () => {
       expect(itEntry('___nope___')).toBeNull();
       expect(ptEntry('___nope___')).toBeNull();
       expect(deEntry('___nope___')).toBeNull();
+      expect(heEntry('___nope___')).toBeNull();
+      expect(arEntry('___nope___')).toBeNull();
     });
   });
 
@@ -150,6 +168,40 @@ describe('mode-utils.ts', () => {
       expect(view.backWord).toBe('покинути');
       expect(view.exenHtml).toBe('');
       expect(view.exuaHtml).toBe('');
+    });
+
+    it('"en-he" mode resolves the Hebrew translation as the back word and flags it RTL', () => {
+      const view = computeCardView(abandon, 'en-he');
+      expect(view.FRONT_LANG).toBe('EN');
+      expect(view.frontWord).toBe('abandon');
+      expect(view.backWord).toBe(heEntry('abandon')?.[0]);
+      expect(view.frontRtl).toBe(false);
+      expect(view.backRtl).toBe(true);
+    });
+
+    it('"he-en" mode shows Hebrew front and flags it RTL', () => {
+      const view = computeCardView(abandon, 'he-en');
+      expect(view.FRONT_LANG).toBe('HE');
+      expect(view.frontWord).toBe(heEntry('abandon')?.[0]);
+      expect(view.backWord).toBe('abandon');
+      expect(view.frontRtl).toBe(true);
+      expect(view.backRtl).toBe(false);
+    });
+
+    it('"en-ar" mode resolves the Arabic translation as the back word and flags it RTL', () => {
+      const view = computeCardView(abandon, 'en-ar');
+      expect(view.FRONT_LANG).toBe('EN');
+      expect(view.backWord).toBe(arEntry('abandon')?.[0]);
+      expect(view.frontRtl).toBe(false);
+      expect(view.backRtl).toBe(true);
+    });
+
+    it('"ar-en" mode shows Arabic front and flags it RTL', () => {
+      const view = computeCardView(abandon, 'ar-en');
+      expect(view.FRONT_LANG).toBe('AR');
+      expect(view.frontWord).toBe(arEntry('abandon')?.[0]);
+      expect(view.frontRtl).toBe(true);
+      expect(view.backRtl).toBe(false);
     });
   });
 });

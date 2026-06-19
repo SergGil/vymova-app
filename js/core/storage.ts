@@ -107,6 +107,24 @@ export function loadKnownDe(): Set<string> {
   return new Set(arr);
 }
 
+export function saveKnownHe(known: Set<string>): void {
+  _lzSave('ew_known_he', [...known]);
+}
+
+export function loadKnownHe(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_he', []);
+  return new Set(arr);
+}
+
+export function saveKnownAr(known: Set<string>): void {
+  _lzSave('ew_known_ar', [...known]);
+}
+
+export function loadKnownAr(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_ar', []);
+  return new Set(arr);
+}
+
 function _srsLangKey(): string {
   const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
   return lang === 'en' ? 'ew_srs' : `ew_srs_${lang}`;

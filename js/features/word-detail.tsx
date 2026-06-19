@@ -9,7 +9,7 @@ import { W } from '../../data/words.js';
 import { W_ES } from '../../data/words_es.js';
 import { W_FR } from '../../data/words_fr.js';
 import { isBookmarked, toggleBookmark } from './bookmarks.ts';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry } from './mode-utils.ts';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry, heEntry as _heEntry, arEntry as _arEntry } from './mode-utils.ts';
 import { t, pluralLabel } from './i18n.ts';
 import { render, setIdx, onWordLearned as _onWordLearned } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -37,6 +37,16 @@ function _isPtMode(): boolean {
 function _isDeMode(): boolean {
   const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
   return DE_MODES.has(m);
+}
+
+function _isHeMode(): boolean {
+  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
+  return HE_MODES.has(m);
+}
+
+function _isArMode(): boolean {
+  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
+  return AR_MODES.has(m);
 }
 
 function SpeakBtn({ text, lang = 'en-US', style }: { text: string; lang?: string; style?: React.CSSProperties }): ReactElement {
@@ -114,12 +124,16 @@ export function WordDetailPage(): ReactElement | null {
   const isIt = _isItMode();
   const isPt = _isPtMode();
   const isDe = _isDeMode();
+  const isHe = _isHeMode();
+  const isAr = _isArMode();
   const esEntry = isEs ? _esEntry(w[0]) : null;
   const frEntry = isFr ? _frEntry(w[0]) : null;
   const itEntry = isIt ? _itEntry(w[0]) : null;
   const ptEntry = isPt ? _ptEntry(w[0]) : null;
   const deEntry = isDe ? _deEntry(w[0]) : null;
-  const transl = esEntry ? esEntry[0] : frEntry ? frEntry[0] : itEntry ? itEntry[0] : ptEntry ? ptEntry[0] : deEntry ? deEntry[0] : w[1];
+  const heEntry = isHe ? _heEntry(w[0]) : null;
+  const arEntry = isAr ? _arEntry(w[0]) : null;
+  const transl = esEntry ? esEntry[0] : frEntry ? frEntry[0] : itEntry ? itEntry[0] : ptEntry ? ptEntry[0] : deEntry ? deEntry[0] : heEntry ? heEntry[0] : arEntry ? arEntry[0] : w[1];
 
   const similar = isEs
     ? getSimilarWordsEs(w[0], esEntry?.[0] ?? w[1], 5)

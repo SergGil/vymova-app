@@ -28,6 +28,14 @@ declare module './words_de.js' {
   export const W_DE: Record<string, readonly [string, string]>;
 }
 
+declare module './words_he.js' {
+  export const W_HE: Record<string, readonly [string, string]>;
+}
+
+declare module './words_ar.js' {
+  export const W_AR: Record<string, readonly [string, string]>;
+}
+
 declare module './categories.js' {
   export const CATEGORY_LIST: string[];
   export const WORD_CATEGORIES: Record<string, string[]>;

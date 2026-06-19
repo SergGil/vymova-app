@@ -12,7 +12,7 @@ import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
 import type { WordEntry, DuelScreen, DuelLobbyUIState } from '../../src/types.js';
 import { t, getLang } from './i18n.ts';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry } from './mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry } from './mode-utils.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { DICT } from '../modes/word-letters.tsx';
 
@@ -233,7 +233,7 @@ function _clearSession(roomId?: string): void {
 }
 
 // ── Language helpers ──────────────────────────────────────────
-export const DUEL_LANG_CODES = ['en', 'ua', 'es', 'fr', 'it', 'pt', 'de'];
+export const DUEL_LANG_CODES = ['en', 'ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar'];
 
 function _wordInLang(w: WordEntry, lang: string): string {
   switch (lang) {
@@ -243,6 +243,8 @@ function _wordInLang(w: WordEntry, lang: string): string {
     case 'it': return itEntry(w[0])?.[0] ?? w[1];
     case 'pt': return ptEntry(w[0])?.[0] ?? w[1];
     case 'de': return deEntry(w[0])?.[0] ?? w[1];
+    case 'he': return heEntry(w[0])?.[0] ?? w[1];
+    case 'ar': return arEntry(w[0])?.[0] ?? w[1];
     default:   return w[1]; // 'ua'
   }
 }
@@ -256,6 +258,8 @@ function _hasLangWord(w: WordEntry, lang: string): boolean {
     case 'it': return itEntry(w[0]) !== null;
     case 'pt': return ptEntry(w[0]) !== null;
     case 'de': return deEntry(w[0]) !== null;
+    case 'he': return heEntry(w[0]) !== null;
+    case 'ar': return arEntry(w[0]) !== null;
     default:   return true;
   }
 }

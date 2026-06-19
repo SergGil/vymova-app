@@ -8,7 +8,9 @@ import { W_FR } from '../../data/words_fr.js';
 import { W_IT } from '../../data/words_it.js';
 import { W_PT } from '../../data/words_pt.js';
 import { W_DE } from '../../data/words_de.js';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode } from './mode-utils.ts';
+import { W_HE } from '../../data/words_he.js';
+import { W_AR } from '../../data/words_ar.js';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, getMode } from './mode-utils.ts';
 import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck } from '../core/srs.ts';
 import { getHardWords } from './game.ts';
 import { getBookmarks } from './bookmarks.ts';
@@ -27,6 +29,8 @@ function _getLangDeck(): WordEntry[] | null {
   else if (IT_MODES.has(m)) lookup = W_IT as Record<string, unknown>;
   else if (PT_MODES.has(m)) lookup = W_PT as Record<string, unknown>;
   else if (DE_MODES.has(m)) lookup = W_DE as Record<string, unknown>;
+  else if (HE_MODES.has(m)) lookup = W_HE as Record<string, unknown>;
+  else if (AR_MODES.has(m)) lookup = W_AR as Record<string, unknown>;
   if (!lookup) return null;
   return (W as unknown as WordEntry[]).filter(w => Object.prototype.hasOwnProperty.call(lookup!, w[0]));
 }
@@ -71,6 +75,10 @@ export function _refreshRangeOptions(): void {
     total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_PT, w[0])).length;
   } else if (DE_MODES.has(mode)) {
     total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_DE, w[0])).length;
+  } else if (HE_MODES.has(mode)) {
+    total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_HE, w[0])).length;
+  } else if (AR_MODES.has(mode)) {
+    total = (W as unknown as {0:string}[]).filter(w => Object.prototype.hasOwnProperty.call(W_AR, w[0])).length;
   } else {
     total = W.length;
   }

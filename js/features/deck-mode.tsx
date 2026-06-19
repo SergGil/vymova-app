@@ -8,7 +8,9 @@ import { W_FR } from '../../data/words_fr.js';
 import { W_IT } from '../../data/words_it.js';
 import { W_PT } from '../../data/words_pt.js';
 import { W_DE } from '../../data/words_de.js';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode } from './mode-utils.ts';
+import { W_HE } from '../../data/words_he.js';
+import { W_AR } from '../../data/words_ar.js';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, getMode } from './mode-utils.ts';
 import { t } from './i18n.ts';
 import { _refreshRangeOptions } from './deck-filter.tsx';
 import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';
@@ -70,6 +72,28 @@ function _getDeDeck(): WordEntry[] {
   return _deWords;
 }
 
+let _heWords: WordEntry[] | null = null;
+
+function _getHeDeck(): WordEntry[] {
+  if (!_heWords) {
+    _heWords = (W as unknown as WordEntry[]).filter(
+      w => Object.prototype.hasOwnProperty.call(W_HE, w[0])
+    );
+  }
+  return _heWords;
+}
+
+let _arWords: WordEntry[] | null = null;
+
+function _getArDeck(): WordEntry[] {
+  if (!_arWords) {
+    _arWords = (W as unknown as WordEntry[]).filter(
+      w => Object.prototype.hasOwnProperty.call(W_AR, w[0])
+    );
+  }
+  return _arWords;
+}
+
 let _esFrWords: WordEntry[] | null = null;
 
 // Words usable for ES⇄FR mode: need both an ES and an FR translation (bridged via EN).
@@ -94,6 +118,8 @@ function _getSpecialDeck(m: string): WordEntry[] {
   if (IT_MODES.has(m))    return _getItDeck();
   if (PT_MODES.has(m))    return _getPtDeck();
   if (DE_MODES.has(m))    return _getDeDeck();
+  if (HE_MODES.has(m))    return _getHeDeck();
+  if (AR_MODES.has(m))    return _getArDeck();
   return [];
 }
 
@@ -103,11 +129,13 @@ function _noTransKey(m: string): string {
   if (FR_MODES.has(m))    return 'deck.noFrTranslations';
   if (IT_MODES.has(m))    return 'deck.noItTranslations';
   if (PT_MODES.has(m))    return 'deck.noPtTranslations';
+  if (HE_MODES.has(m))    return 'deck.noHeTranslations';
+  if (AR_MODES.has(m))    return 'deck.noArTranslations';
   return 'deck.noDeTranslations';
 }
 
 export function _isSpecialMode(m: string): boolean {
-  return ES_MODES.has(m) || FR_MODES.has(m) || IT_MODES.has(m) || PT_MODES.has(m) || DE_MODES.has(m);
+  return ES_MODES.has(m) || FR_MODES.has(m) || IT_MODES.has(m) || PT_MODES.has(m) || DE_MODES.has(m) || HE_MODES.has(m) || AR_MODES.has(m);
 }
 
 export function _rebuildEsDeck(): void {

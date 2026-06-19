@@ -7,7 +7,7 @@ import { useStateVersion } from '../../src/store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { t } from './i18n.ts';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry } from './mode-utils.ts';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry, heEntry as _heEntry, arEntry as _arEntry } from './mode-utils.ts';
 import { loadWikiImage } from '../core/images.ts';
 import { closePage } from './sidebar.tsx';
 import { render, setIdx } from '../core/card-engine.ts';
@@ -24,7 +24,9 @@ function pickWord(mode: string): WordEntry {
   const needsIt = IT_MODES.has(mode);
   const needsPt = PT_MODES.has(mode);
   const needsDe = DE_MODES.has(mode);
-  if (!needsEs && !needsFr && !needsIt && !needsPt && !needsDe) return words[wotdBaseIdx];
+  const needsHe = HE_MODES.has(mode);
+  const needsAr = AR_MODES.has(mode);
+  if (!needsEs && !needsFr && !needsIt && !needsPt && !needsDe && !needsHe && !needsAr) return words[wotdBaseIdx];
   for (let i = 0; i < words.length; i++) {
     const cand = words[(wotdBaseIdx + i) % words.length];
     if (needsEs && !_esEntry(cand[0])) continue;
@@ -32,6 +34,8 @@ function pickWord(mode: string): WordEntry {
     if (needsIt && !_itEntry(cand[0])) continue;
     if (needsPt && !_ptEntry(cand[0])) continue;
     if (needsDe && !_deEntry(cand[0])) continue;
+    if (needsHe && !_heEntry(cand[0])) continue;
+    if (needsAr && !_arEntry(cand[0])) continue;
     return cand;
   }
   return words[wotdBaseIdx];
@@ -43,6 +47,8 @@ function frontWord(cw: WordEntry, mode: string): string {
   const it = IT_MODES.has(mode) ? _itEntry(cw[0]) : null;
   const pt = PT_MODES.has(mode) ? _ptEntry(cw[0]) : null;
   const de = DE_MODES.has(mode) ? _deEntry(cw[0]) : null;
+  const he = HE_MODES.has(mode) ? _heEntry(cw[0]) : null;
+  const ar = AR_MODES.has(mode) ? _arEntry(cw[0]) : null;
   switch (mode) {
     case 'ua':    return cw[1];
     case 'es-en':
@@ -62,6 +68,12 @@ function frontWord(cw: WordEntry, mode: string): string {
     case 'de-en':
     case 'de-ua': return de ? de[0] : '';
     case 'ua-de': return cw[1];
+    case 'he-en':
+    case 'he-ua': return he ? he[0] : '';
+    case 'ua-he': return cw[1];
+    case 'ar-en':
+    case 'ar-ua': return ar ? ar[0] : '';
+    case 'ua-ar': return cw[1];
     default:      return cw[0];
   }
 }

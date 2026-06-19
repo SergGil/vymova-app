@@ -3,7 +3,7 @@
 import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { sm2Update, buildSRSDeck, buildUnlearnedDeck, shuffle, updateSrsUI } from '../core/srs.ts';
-import { saveKnown, saveKnownEs, saveKnownFr, saveKnownIt, saveKnownPt, saveKnownDe, saveSRS } from '../core/storage.ts';
+import { saveKnown, saveKnownEs, saveKnownFr, saveKnownIt, saveKnownPt, saveKnownDe, saveKnownHe, saveKnownAr, saveSRS } from '../core/storage.ts';
 import { getGameData, saveGameData } from './game.ts';
 import { addCombo, breakCombo, flashCard } from './combo.ts';
 import { hasNote } from './notes.ts';
@@ -11,10 +11,10 @@ import { openNoteModal } from './note-modal.tsx';
 import { toggleBookmark } from './bookmarks.ts';
 import { isPronuncSupported, startPronunciationCheck } from './pronunciation.ts';
 import { showPronuncResult } from './pronunciation-toast.tsx';
-import { getSelectedUkVoice, getSelectedEsVoice, getSelectedFrVoice, getSelectedItVoice, getSelectedPtVoice, getSelectedDeVoice } from './voice.tsx';
+import { getSelectedUkVoice, getSelectedEsVoice, getSelectedFrVoice, getSelectedItVoice, getSelectedPtVoice, getSelectedDeVoice, getSelectedHeVoice, getSelectedArVoice } from './voice.tsx';
 import { speak, _speakWithLang } from './speech.ts';
 import { updateSimilarWords } from './similar-words.tsx';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry } from './mode-utils.ts';
+import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry, heEntry as _heEntry, arEntry as _arEntry } from './mode-utils.ts';
 import { playSound } from '../core/audio.ts';
 import { launchConfetti } from '../core/confetti.tsx';
 import { t } from './i18n.ts';
@@ -36,6 +36,8 @@ function _activeKnown(): Set<string> {
   if (IT_MODES.has(mode)) return state.knownIt ?? state.known;
   if (PT_MODES.has(mode)) return state.knownPt ?? state.known;
   if (DE_MODES.has(mode)) return state.knownDe ?? state.known;
+  if (HE_MODES.has(mode)) return state.knownHe ?? state.known;
+  if (AR_MODES.has(mode)) return state.knownAr ?? state.known;
   return state.known;
 }
 
@@ -79,6 +81,14 @@ export function CardActionsInit(): ReactElement | null {
       if (modeVal === 'de-en' || modeVal === 'de-ua') {
         const de = _deEntry(cw[0]);
         if (de && getSelectedDeVoice()) { _speakWithLang(de[0], 'de-DE', speakWordBtn); return; }
+      }
+      if (modeVal === 'he-en' || modeVal === 'he-ua') {
+        const he = _heEntry(cw[0]);
+        if (he && getSelectedHeVoice()) { _speakWithLang(he[0], 'he-IL', speakWordBtn); return; }
+      }
+      if (modeVal === 'ar-en' || modeVal === 'ar-ua') {
+        const ar = _arEntry(cw[0]);
+        if (ar && getSelectedArVoice()) { _speakWithLang(ar[0], 'ar-SA', speakWordBtn); return; }
       }
       speak(cw[0], speakWordBtn);
     };
@@ -172,6 +182,38 @@ export function CardActionsInit(): ReactElement | null {
         }
         return;
       }
+      if (HE_MODES.has(modeVal)) {
+        const he        = _heEntry(cw[0]);
+        const exHe      = he ? he[1] : '';
+        const hasHeVoice = !!getSelectedHeVoice();
+        if (modeVal === 'he-en' || modeVal === 'he-ua') {
+          if (hasHeVoice && exHe) _speakWithLang(exHe, 'he-IL', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else if (modeVal === 'ua-he') {
+          const hasUkVoice = !!getSelectedUkVoice();
+          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else {
+          speak(exEn, speakExBtn);
+        }
+        return;
+      }
+      if (AR_MODES.has(modeVal)) {
+        const ar        = _arEntry(cw[0]);
+        const exAr      = ar ? ar[1] : '';
+        const hasArVoice = !!getSelectedArVoice();
+        if (modeVal === 'ar-en' || modeVal === 'ar-ua') {
+          if (hasArVoice && exAr) _speakWithLang(exAr, 'ar-SA', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else if (modeVal === 'ua-ar') {
+          const hasUkVoice = !!getSelectedUkVoice();
+          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
+          else speak(exEn, speakExBtn);
+        } else {
+          speak(exEn, speakExBtn);
+        }
+        return;
+      }
       if (modeVal === 'ua') {
         const hasUkVoice = !!getSelectedUkVoice();
         if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
@@ -252,6 +294,8 @@ export function CardActionsInit(): ReactElement | null {
         else if (IT_MODES.has(_modeNow)) { if (state.knownIt) saveKnownIt(state.knownIt); }
         else if (PT_MODES.has(_modeNow)) { if (state.knownPt) saveKnownPt(state.knownPt); }
         else if (DE_MODES.has(_modeNow)) { if (state.knownDe) saveKnownDe(state.knownDe); }
+        else if (HE_MODES.has(_modeNow)) { if (state.knownHe) saveKnownHe(state.knownHe); }
+        else if (AR_MODES.has(_modeNow)) { if (state.knownAr) saveKnownAr(state.knownAr); }
         else { saveKnown(state.known); }
         saveSRS(state.srsData);
         state._srsStatsDirty = true;
@@ -378,6 +422,8 @@ export function CardActionsInit(): ReactElement | null {
       state.knownIt?.clear();
       state.knownPt?.clear();
       state.knownDe?.clear();
+      state.knownHe?.clear();
+      state.knownAr?.clear();
       state.srsData = {};
       state._srsStatsDirty = true;
       saveKnown(state.known);
@@ -386,6 +432,8 @@ export function CardActionsInit(): ReactElement | null {
       if (state.knownIt) saveKnownIt(state.knownIt);
       if (state.knownPt) saveKnownPt(state.knownPt);
       if (state.knownDe) saveKnownDe(state.knownDe);
+      if (state.knownHe) saveKnownHe(state.knownHe);
+      if (state.knownAr) saveKnownAr(state.knownAr);
       saveSRS(state.srsData);
       _safe(() => localStorage.removeItem('ew_game'));
       _safe(() => localStorage.removeItem('ew_daily'));

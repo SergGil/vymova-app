@@ -77,6 +77,30 @@ describe('card-front-text.tsx', () => {
     expect(speakEnAccent).toHaveBeenCalledWith('abandon', 'US', usBtn);
   });
 
+  it('WordText has no dir attribute for LTR-front modes', () => {
+    const { container } = mount(WordText);
+    expect(container.querySelector('#wword')!.hasAttribute('dir')).toBe(false);
+  });
+
+  it('WordText sets dir="rtl" when the front language is Hebrew', () => {
+    state._mode = 'he-en';
+    const { container } = mount(WordText);
+    expect(container.querySelector('#wword')!.getAttribute('dir')).toBe('rtl');
+  });
+
+  it('Translation sets dir="rtl" when the back language is Arabic', () => {
+    state._mode = 'en-ar';
+    const { container } = mount(Translation);
+    expect(container.querySelector('#wtransl')!.getAttribute('dir')).toBe('rtl');
+  });
+
+  it('ExEn/ExUa have no dir attribute for the default en/ua mode', () => {
+    const { container: c1 } = mount(ExEn);
+    expect(c1.querySelector('#exen')!.hasAttribute('dir')).toBe(false);
+    const { container: c2 } = mount(ExUa);
+    expect(c2.querySelector('#exua')!.hasAttribute('dir')).toBe(false);
+  });
+
   it('Transcription hides itself for non-English-front modes', () => {
     state._mode = 'ua';
     const { container } = mount(Transcription);

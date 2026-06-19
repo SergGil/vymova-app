@@ -2,7 +2,7 @@
 // Grammar reference page: renders structured rules from data/grammar.ts
 import { useEffect, useState, type ReactElement, type MouseEvent } from 'react';
 import { GRAMMAR_BY_LANG } from '../../data/grammar.ts';
-import type { GrammarRule, GSection } from '../../data/grammar.ts';
+import type { GrammarRule, GSection, GrammarCategory } from '../../data/grammar.ts';
 import { getLang, t } from './i18n.ts';
 import { getLearnLang, type LangCode } from './lang-pair-select.tsx';
 import { _speakWithLang } from './speech.ts';
@@ -14,7 +14,7 @@ function _localizeSection(s: GSection): GSection {
 }
 
 const SPEECH_LANG: Record<LangCode, string> = {
-  en: 'en-US', ua: 'uk-UA', es: 'es-ES', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT', de: 'de-DE',
+  en: 'en-US', ua: 'uk-UA', es: 'es-ES', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT', de: 'de-DE', he: 'he-IL', ar: 'ar-SA',
 };
 
 // ── Level sort ────────────────────────────────────────────────
@@ -136,7 +136,7 @@ export function GrammarPage(): ReactElement {
     return () => { _setActiveId = null; _bumpTick = null; };
   }, []);
 
-  const grammar = GRAMMAR_BY_LANG[getLearnLang()] ?? [];
+  const grammar = (GRAMMAR_BY_LANG as Record<string, GrammarCategory[]>)[getLearnLang()] ?? [];
 
   if (!grammar.length) {
     return (

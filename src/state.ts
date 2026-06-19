@@ -26,6 +26,8 @@ export const state: AppState = {
   knownIt:        new Set<string>(),
   knownPt:        new Set<string>(),
   knownDe:        new Set<string>(),
+  knownHe:        new Set<string>(),
+  knownAr:        new Set<string>(),
   _wordIdx:       new Map<string, number>(),
   _customWords:   [],
   duelSel: {
