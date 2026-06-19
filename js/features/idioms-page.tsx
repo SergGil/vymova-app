@@ -6,17 +6,18 @@ import { t } from './i18n.ts';
 import { _speakWithLang } from './speech.ts';
 import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
 
-type Tab = 'en' | 'ua' | 'es' | 'fr' | 'it' | 'pt' | 'de';
+type Tab = 'en' | 'ua' | 'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar';
 
 function _speak(text: string, lang: string, btn: HTMLElement | null): void {
   _speakWithLang(text, lang, btn);
 }
 
-const LANG_BY_TAB: Record<Tab, string> = { en: 'en-US', ua: 'uk-UA', es: 'es-ES', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT', de: 'de-DE' };
-const TAB_I18N_KEY: Record<Tab, string> = { en: 'idioms.tabEn', ua: 'idioms.tabUa', es: 'idioms.tabEs', fr: 'idioms.tabFr', it: 'idioms.tabIt', pt: 'idioms.tabPt', de: 'idioms.tabDe' };
+const LANG_BY_TAB: Record<Tab, string> = { en: 'en-US', ua: 'uk-UA', es: 'es-ES', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT', de: 'de-DE', he: 'he-IL', ar: 'ar-SA' };
+const TAB_I18N_KEY: Record<Tab, string> = { en: 'idioms.tabEn', ua: 'idioms.tabUa', es: 'idioms.tabEs', fr: 'idioms.tabFr', it: 'idioms.tabIt', pt: 'idioms.tabPt', de: 'idioms.tabDe', he: 'idioms.tabHe', ar: 'idioms.tabAr' };
+const RTL_TABS = new Set<Tab>(['he', 'ar']);
 
 function _isTab(l: string): l is Tab {
-  return l === 'en' || l === 'ua' || l === 'es' || l === 'fr' || l === 'it' || l === 'pt' || l === 'de';
+  return l === 'en' || l === 'ua' || l === 'es' || l === 'fr' || l === 'it' || l === 'pt' || l === 'de' || l === 'he' || l === 'ar';
 }
 
 /** Tabs relevant to the current language pair (know/learn) that have idiom data. */
@@ -35,6 +36,7 @@ function IdiomCard({ idiom, num, tab, learnLang }: { idiom: Idiom; num: number; 
   const meaning = tr?.meaning ?? idiom.meaning;
   const exampleTr = tr?.exampleTr ?? idiom.exampleTr;
   const trLang = tr ? LANG_BY_TAB[learnLang as Tab] ?? lang : lang;
+  const rtl = RTL_TABS.has(tab) ? 'rtl' : undefined;
 
   const speak = (text: string, speakLang: string): MouseEventHandler<HTMLButtonElement> => (e) => {
     _speak(text, speakLang, e.currentTarget);
@@ -44,7 +46,7 @@ function IdiomCard({ idiom, num, tab, learnLang }: { idiom: Idiom; num: number; 
     <div className="idiom-card">
       <div className="idiom-head">
         <div className="idiom-num">{num}</div>
-        <div className="idiom-phrase">
+        <div className="idiom-phrase" dir={rtl}>
           {idiom.emoji ? `${idiom.emoji} ` : ''}{idiom.phrase}
           <button className="speak-btn idiom-speak" title="🔊" onClick={speak(idiom.phrase, lang)}>🔊</button>
         </div>
@@ -54,7 +56,7 @@ function IdiomCard({ idiom, num, tab, learnLang }: { idiom: Idiom; num: number; 
         </div>
       </div>
       <div className="idiom-example">
-        <div className="idiom-ex-src">
+        <div className="idiom-ex-src" dir={rtl}>
           {idiom.exampleSrc}
           <button className="speak-btn idiom-speak" title="🔊" onClick={speak(idiom.exampleSrc, lang)}>🔊</button>
         </div>

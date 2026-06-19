@@ -1000,8 +1000,56 @@ export const GERMAN_IDIOMS: Idiom[] = [
     exampleTr:  'Не купуй машину не дивлячись — можеш купити кота в мішку.' },
 ];
 
+// ── Hebrew idioms → Ukrainian + English meaning ────────────────
+export const HEBREW_IDIOMS: Idiom[] = [
+  { emoji: '🐻', phrase: 'לא דובים ולא יער',
+    meaning: 'Цілковита нісенітниця, вигадка', meaningEn: 'A cock-and-bull story',
+    exampleSrc: 'הסיפור שהוא סיפר היה לא דובים ולא יער.',
+    exampleTr:  'Історія, яку він розповів, була повною нісенітницею.' },
+  { emoji: '🤰', phrase: 'לקפוץ מעל הפופיק',
+    meaning: 'Замахнутися на більше, ніж можеш осягнути', meaningEn: 'Bite off more than one can chew',
+    exampleSrc: 'הוא ניסה לקפוץ מעל הפופיק וקנה עסק שהוא לא הבין בו.',
+    exampleTr:  'Він спробував вхопити більше, ніж міг проковтнути, і купив бізнес, у якому нічого не розумів.' },
+  { emoji: '🤕', phrase: 'לשבור את הראש',
+    meaning: 'Старанно думати, сушити голову', meaningEn: 'Rack one\'s brain',
+    exampleSrc: 'אני שובר את הראש על התרגיל הזה כבר שעה.',
+    exampleTr:  'Я вже годину сушу голову над цією задачею.' },
+  { emoji: '🌊', phrase: 'לזרום עם הזרם',
+    meaning: 'Пливти за течією, не противитися обставинам', meaningEn: 'Go with the flow',
+    exampleSrc: 'במקום להתעקש, הוא העדיף לזרום עם הזרם.',
+    exampleTr:  'Замість того, щоб наполягати, він вирішив пливти за течією.' },
+  { emoji: '🎉', phrase: 'סוף הדרך',
+    meaning: 'Щось дуже хороше, найкраще (сленг)', meaningEn: 'The best thing ever',
+    exampleSrc: 'המסיבה הזאת הייתה סוף הדרך!',
+    exampleTr:  'Ця вечірка була просто найкращою!' },
+];
+
+// ── Arabic idioms → Ukrainian + English meaning ────────────────
+export const ARABIC_IDIOMS: Idiom[] = [
+  { emoji: '🐦', phrase: 'ضرب عصفورين بحجر واحد',
+    meaning: 'Досягти двох цілей одночасно', meaningEn: 'Kill two birds with one stone',
+    exampleSrc: 'بهذه الخطة، ضربتُ عصفورين بحجر واحد.',
+    exampleTr:  'Цим планом я вбив двох зайців одним ударом.' },
+  { emoji: '👀', phrase: 'العين بصيرة واليد قصيرة',
+    meaning: 'Бачити, чого хочеш, але не могти цього отримати', meaningEn: 'So near and yet so far',
+    exampleSrc: 'أحب هذه السيارة، لكن العين بصيرة واليد قصيرة.',
+    exampleTr:  'Мені дуже подобається ця машина, але оком бачу, а руками не дістану.' },
+  { emoji: '🔨', phrase: 'يضرب في حديد بارد',
+    meaning: 'Марна, безрезультатна спроба', meaningEn: 'Flog a dead horse',
+    exampleSrc: 'محاولاته لإصلاح العلاقة كانت كمن يضرب في حديد بارد.',
+    exampleTr:  'Його спроби налагодити стосунки були марними, як биття холодного заліза.' },
+  { emoji: '😊', phrase: 'حفظ ماء الوجه',
+    meaning: 'Зберегти репутацію, не втратити обличчя', meaningEn: 'Save face',
+    exampleSrc: 'وافق على العرض فقط ليحفظ ماء وجهه.',
+    exampleTr:  'Він погодився на пропозицію лише щоб зберегти обличчя.' },
+  { emoji: '🕰️', phrase: 'أكل عليه الدهر وشرب',
+    meaning: 'Дуже старе, віджиле', meaningEn: 'As old as the hills',
+    exampleSrc: 'هذا الكمبيوتر قديم جدًا، أكل عليه الدهر وشرب.',
+    exampleTr:  'Цей комп\'ютер дуже старий, йому вже минули всі терміни.' },
+];
+
 // ── Idioms per language ─────────────────────────────────────────
-export const IDIOMS_BY_LANG: Partial<Record<Lang, Idiom[]>> = {
+export const IDIOMS_BY_LANG: Partial<Record<Lang | 'he' | 'ar', Idiom[]>> = {
   en: ENGLISH_IDIOMS,
   ua: UKRAINIAN_IDIOMS,
   es: SPANISH_IDIOMS,
@@ -1009,4 +1057,6 @@ export const IDIOMS_BY_LANG: Partial<Record<Lang, Idiom[]>> = {
   it: ITALIAN_IDIOMS,
   pt: PORTUGUESE_IDIOMS,
   de: GERMAN_IDIOMS,
+  he: HEBREW_IDIOMS,
+  ar: ARABIC_IDIOMS,
 };

@@ -89,6 +89,20 @@ describe('grammar-page.tsx GrammarPage', () => {
     expect(container.querySelector('.gr-empty')).toBeNull();
   });
 
+  it('shows Hebrew grammar (5 rules) when learning Hebrew', () => {
+    localStorage.setItem('ew_learn_lang', 'he');
+    const { container } = mount();
+    expect(container.querySelectorAll('.gr-nav-btn').length).toBe(5);
+    expect(container.querySelector('.gr-empty')).toBeNull();
+  });
+
+  it('shows Arabic grammar (5 rules) when learning Arabic', () => {
+    localStorage.setItem('ew_learn_lang', 'ar');
+    const { container } = mount();
+    expect(container.querySelectorAll('.gr-nav-btn').length).toBe(5);
+    expect(container.querySelector('.gr-empty')).toBeNull();
+  });
+
   it('speaks the example sentence when the speak button is clicked', () => {
     const { container } = mount();
     const btn = container.querySelector('.gr-ex-speak') as HTMLButtonElement;

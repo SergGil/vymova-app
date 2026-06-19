@@ -5609,12 +5609,312 @@ export const GRAMMAR_DE: GrammarCategory[] = [
 
 ];
 
+export const GRAMMAR_HE: GrammarCategory[] = [
+
+  {
+    id: 'basics', title: 'Основи', titleEn: 'Basics', emoji: '🧩',
+    rules: [
+
+      {
+        id: 'definite-article', title: 'ה\' הידיעה — A1', emoji: '🔖',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У івриті означеність позначається префіксом <span dir="rtl">ה-</span>, який додається перед іменником і означає "цей/ця/ці" (the).',
+            en: { text: 'In Hebrew, definiteness is marked by the prefix ה- attached before a noun, meaning "the".' },
+          },
+          {
+            type: 'table', title: 'Без артикля → з артиклем',
+            rows: [
+              ['<span dir="rtl">ספר</span> (книга)', '<span dir="rtl">הספר</span> (ця книга)'],
+              ['<span dir="rtl">בית</span> (дім)', '<span dir="rtl">הבית</span> (цей дім)'],
+              ['<span dir="rtl">אישה</span> (жінка)', '<span dir="rtl">האישה</span> (ця жінка)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">הספר על השולחן.</span>', 'Книга на столі.'],
+              ['<span dir="rtl">האישה יושבת בבית.</span>', 'Жінка сидить вдома.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'gender', title: 'זכר ונקבה — A1', emoji: '👫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Іменники та прикметники в івриті мають рід — чоловічий або жіночий. Жіночий рід часто утворюється додаванням <span dir="rtl">ה-</span> або <span dir="rtl">ת-</span> в кінці слова.',
+            en: { text: 'Hebrew nouns and adjectives have gender — masculine or feminine. The feminine form is often created by adding ה- or ת- at the end of the word.' },
+          },
+          {
+            type: 'table', title: 'Чоловічий і жіночий рід',
+            rows: [
+              ['<span dir="rtl">טוב</span> (хороший)', '<span dir="rtl">טובה</span> (хороша)'],
+              ['<span dir="rtl">גדול</span> (великий)', '<span dir="rtl">גדולה</span> (велика)'],
+              ['<span dir="rtl">ילד</span> (хлопчик)', '<span dir="rtl">ילדה</span> (дівчинка)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">הוא ילד טוב.</span>', 'Він хороший хлопчик.'],
+              ['<span dir="rtl">היא ילדה טובה.</span>', 'Вона хороша дівчинка.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'present-tense', title: 'הווה — הטיית פעלים — A1', emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У теперішньому часі дієслово змінюється за родом і числом підмета. Дієслово <span dir="rtl">לכתוב</span> (писати) у формі теперішнього часу <span dir="rtl">כותב</span>.',
+            en: { text: 'In the present tense, the verb changes according to the gender and number of the subject. The verb לכתוב (to write) has the present-tense form כותב.' },
+          },
+          {
+            type: 'formula', title: '<span dir="rtl">לכתוב</span> (писати) — теперішній час',
+            rows: [
+              ['<span dir="rtl">אני</span> (я, ч.р.)', '<span dir="rtl">כותב</span>'],
+              ['<span dir="rtl">אני</span> (я, ж.р.)', '<span dir="rtl">כותבת</span>'],
+              ['<span dir="rtl">אתה</span> (ти, ч.р.)', '<span dir="rtl">כותב</span>'],
+              ['<span dir="rtl">את</span> (ти, ж.р.)', '<span dir="rtl">כותבת</span>'],
+              ['<span dir="rtl">אנחנו</span> (ми)', '<span dir="rtl">כותבים / כותבות</span>'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני כותב מכתב.</span>', 'Я пишу листа. (чоловік)'],
+              ['<span dir="rtl">היא כותבת ספר.</span>', 'Вона пише книгу.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pronouns-to-be', title: 'כינויי גוף — A1', emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'На відміну від української, у теперішньому часі іврит не використовує окреме дієслово "бути" — займенник одразу поєднується з прикметником або іменником.',
+            en: { text: 'Unlike English, in the present tense Hebrew has no separate verb "to be" — the pronoun connects directly with an adjective or noun.' },
+          },
+          {
+            type: 'table', title: 'Особові займенники',
+            rows: [
+              ['<span dir="rtl">אני</span>', 'я'],
+              ['<span dir="rtl">אתה / את</span>', 'ти (ч./ж.)'],
+              ['<span dir="rtl">הוא / היא</span>', 'він / вона'],
+              ['<span dir="rtl">אנחנו</span>', 'ми'],
+              ['<span dir="rtl">הם / הן</span>', 'вони (ч./ж.)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני מורה.</span>', 'Я (є) вчитель.'],
+              ['<span dir="rtl">היא רעבה.</span>', 'Вона (є) голодна.'],
+            ],
+          },
+          {
+            type: 'tip', title: 'Без "є"',
+            text: 'אני מורה буквально "я вчитель" — слово "є" не потрібне і не має окремого еквівалента в теперішньому часі.',
+            en: { title: 'No "is/am/are"', text: 'אני מורה literally means "I teacher" — no equivalent of "am/is/are" is needed in the present tense.' },
+          },
+        ],
+      },
+
+      {
+        id: 'plural', title: 'רבים — A1', emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Множина чоловічого роду зазвичай утворюється закінченням <span dir="rtl">ים-</span>, жіночого — <span dir="rtl">ות-</span>, але є й винятки.',
+            en: { text: 'The masculine plural is usually formed with the ending ים-, the feminine with ות-, though there are exceptions.' },
+          },
+          {
+            type: 'table', title: 'Однина → множина',
+            rows: [
+              ['<span dir="rtl">ספר</span> (книга)', '<span dir="rtl">ספרים</span> (книги)'],
+              ['<span dir="rtl">מורה</span> (учитель)', '<span dir="rtl">מורים</span> (учителі)'],
+              ['<span dir="rtl">אישה</span> (жінка)', '<span dir="rtl">נשים</span> (жінки, виняток)'],
+              ['<span dir="rtl">ילדה</span> (дівчинка)', '<span dir="rtl">ילדות</span> (дівчинки)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">יש לי שני ספרים.</span>', 'У мене є дві книги.'],
+              ['<span dir="rtl">הילדות משחקות בחוץ.</span>', 'Дівчатка грають на вулиці.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+];
+
+export const GRAMMAR_AR: GrammarCategory[] = [
+
+  {
+    id: 'basics', title: 'Основи', titleEn: 'Basics', emoji: '🧩',
+    rules: [
+
+      {
+        id: 'definite-article', title: 'أل التعريف — A1', emoji: '🔖',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Означеність в арабській позначається префіксом <span dir="rtl">ال</span>, який додається перед іменником незалежно від роду і числа.',
+            en: { text: 'Definiteness in Arabic is marked by the prefix ال, attached before a noun regardless of gender or number.' },
+          },
+          {
+            type: 'table', title: 'Без артикля → з артиклем',
+            rows: [
+              ['<span dir="rtl">كتاب</span> (книга)', '<span dir="rtl">الكتاب</span> (ця книга)'],
+              ['<span dir="rtl">بيت</span> (дім)', '<span dir="rtl">البيت</span> (цей дім)'],
+              ['<span dir="rtl">مدينة</span> (місто)', '<span dir="rtl">المدينة</span> (це місто)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">الكتاب على الطاولة.</span>', 'Книга на столі.'],
+              ['<span dir="rtl">البيت كبير.</span>', 'Дім великий.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'gender', title: 'المذكر والمؤنث — A1', emoji: '👫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Іменники та прикметники в арабській мають рід — чоловічий або жіночий. Жіночий рід зазвичай утворюється додаванням <span dir="rtl">ة</span> (та марбута) в кінці слова.',
+            en: { text: 'Arabic nouns and adjectives have gender — masculine or feminine. The feminine form is usually created by adding ة (ta marbuta) at the end of the word.' },
+          },
+          {
+            type: 'table', title: 'Чоловічий і жіночий рід',
+            rows: [
+              ['<span dir="rtl">كبير</span> (великий)', '<span dir="rtl">كبيرة</span> (велика)'],
+              ['<span dir="rtl">طالب</span> (студент)', '<span dir="rtl">طالبة</span> (студентка)'],
+              ['<span dir="rtl">جميل</span> (гарний)', '<span dir="rtl">جميلة</span> (гарна)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">هو طالب جيد.</span>', 'Він хороший студент.'],
+              ['<span dir="rtl">هي طالبة جيدة.</span>', 'Вона хороша студентка.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'present-tense', title: 'الفعل في المضارع — A1', emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У теперішньому часі дієслово отримує префікси й суфікси залежно від особи. Дієслово <span dir="rtl">كتب</span> (писати) у теперішньому часі — <span dir="rtl">يكتب</span>.',
+            en: { text: 'In the present tense, the verb takes prefixes and suffixes depending on the person. The verb كتب (to write) becomes يكتب in the present tense.' },
+          },
+          {
+            type: 'formula', title: '<span dir="rtl">يكتب</span> (писати) — теперішній час',
+            rows: [
+              ['<span dir="rtl">أنا</span> (я)', '<span dir="rtl">أكتب</span>'],
+              ['<span dir="rtl">أنتَ</span> (ти, ч.р.)', '<span dir="rtl">تكتب</span>'],
+              ['<span dir="rtl">أنتِ</span> (ти, ж.р.)', '<span dir="rtl">تكتبين</span>'],
+              ['<span dir="rtl">هو</span> (він)', '<span dir="rtl">يكتب</span>'],
+              ['<span dir="rtl">هي</span> (вона)', '<span dir="rtl">تكتب</span>'],
+              ['<span dir="rtl">نحن</span> (ми)', '<span dir="rtl">نكتب</span>'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">أنا أكتب رسالة.</span>', 'Я пишу листа.'],
+              ['<span dir="rtl">هي تكتب كتابًا.</span>', 'Вона пише книгу.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pronouns', title: 'الضمائر الشخصية — A1', emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Особові займенники в арабській розрізняють рід уже в другій особі однини (ти — чоловік/жінка) та у множині.',
+            en: { text: 'Arabic personal pronouns distinguish gender already in the second person singular ("you" — masculine/feminine) and in the plural.' },
+          },
+          {
+            type: 'table', title: 'Особові займенники',
+            rows: [
+              ['<span dir="rtl">أنا</span>', 'я'],
+              ['<span dir="rtl">أنتَ / أنتِ</span>', 'ти (ч./ж.)'],
+              ['<span dir="rtl">هو / هي</span>', 'він / вона'],
+              ['<span dir="rtl">نحن</span>', 'ми'],
+              ['<span dir="rtl">هم / هن</span>', 'вони (ч./ж.)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">أنا مدرّس.</span>', 'Я (є) вчитель.'],
+              ['<span dir="rtl">هي جائعة.</span>', 'Вона (є) голодна.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'plural', title: 'الجمع — A1', emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'В арабській є "правильна" множина (додавання закінчення) та "зламана" множина (зміна внутрішньої структури слова, яку потрібно запам\'ятовувати окремо).',
+            en: { text: 'Arabic has a "sound" plural (formed by adding an ending) and a "broken" plural (formed by changing the word\'s internal structure, which must be memorised separately).' },
+          },
+          {
+            type: 'table', title: 'Однина → множина',
+            rows: [
+              ['<span dir="rtl">معلم</span> → <span dir="rtl">معلمون</span>', 'учитель → учителі (правильна)'],
+              ['<span dir="rtl">طالبة</span> → <span dir="rtl">طالبات</span>', 'студентка → студентки (правильна)'],
+              ['<span dir="rtl">كتاب</span> → <span dir="rtl">كتب</span>', 'книга → книги (зламана)'],
+              ['<span dir="rtl">بيت</span> → <span dir="rtl">بيوت</span>', 'дім → будинки (зламана)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">لدي كتب كثيرة.</span>', 'У мене багато книг.'],
+              ['<span dir="rtl">البيوت قديمة.</span>', 'Будинки старі.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+];
+
 // ── Grammar content per language being learned ─────────────────
-export const GRAMMAR_BY_LANG: Partial<Record<Lang, GrammarCategory[]>> = {
+export const GRAMMAR_BY_LANG: Partial<Record<Lang | 'he' | 'ar', GrammarCategory[]>> = {
   en: GRAMMAR,
   es: GRAMMAR_ES,
   fr: GRAMMAR_FR,
   it: GRAMMAR_IT,
   pt: GRAMMAR_PT,
   de: GRAMMAR_DE,
+  he: GRAMMAR_HE,
+  ar: GRAMMAR_AR,
 };
