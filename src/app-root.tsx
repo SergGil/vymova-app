@@ -20,7 +20,7 @@ import { GameBarLevel } from '../js/features/game-bar-level.tsx';
 import { GameBarStreak, ComboBox, GameBarGoal } from '../js/features/game-bar-streak.tsx';
 import { GoalModal } from '../js/features/goal-modal.tsx';
 import { CardMeta } from '../js/features/card-meta.tsx';
-import { WordText, Transcription, PosTag, SrsBadge, Translation, ExEn, ExUa } from '../js/features/card-front-text.tsx';
+import { WordText, Transcription, PosTag, SrsBadge, Translation, ExEn, ExUa, CardHint } from '../js/features/card-front-text.tsx';
 import { CardIdx, CardKnownCount, ProgressBar } from '../js/features/card-progress.tsx';
 import { SimilarWordsChips } from '../js/features/similar-words.tsx';
 import { WordFamiliesChips, CollocationsSection } from '../js/features/word-context.tsx';
@@ -130,6 +130,7 @@ function AppRoot(): ReactElement {
     <Portal id="cidx-mount"><CardIdx/></Portal>
     <Portal id="cknown-mount"><CardKnownCount/></Portal>
     <Portal id="pbar-mount"><ProgressBar/></Portal>
+    <Portal id="card-hint-mount"><CardHint/></Portal>
     <Portal id="similar-words-mount"><SimilarWordsChips/></Portal>
     <Portal id="word-families-mount"><WordFamiliesChips/></Portal>
     <Portal id="collocations-mount"><CollocationsSection/></Portal>

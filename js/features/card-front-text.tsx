@@ -3,7 +3,7 @@
 // #wtransl, #exen, #exua. Частина item 28b (Фаза 4).
 import { useAppState } from '../../src/store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import { tLang, type Lang } from './i18n.ts';
+import { t, tLang, type Lang } from './i18n.ts';
 import { srsStatusInfo, forgettingCurveTooltip, type SrsEntry } from '../core/card-helpers.ts';
 import { getResolvedMode, computeCardView } from './mode-utils.ts';
 
@@ -66,5 +66,11 @@ export function ExUa() {
   if (!cw) return null;
   const { exuaHtml } = computeCardView(cw, getResolvedMode());
   return <div className={'ex-ua' + (flipped ? ' show' : '')} id="exua" dangerouslySetInnerHTML={{ __html: exuaHtml }} />;
+}
+
+export function CardHint() {
+  const { flipped } = useAppState();
+  if (flipped) return null;
+  return <p className="hint">{t('cards.hint')}</p>;
 }
 

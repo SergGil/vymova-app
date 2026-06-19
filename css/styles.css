@@ -1073,6 +1073,8 @@
     border: 1px solid var(--border);
     padding: 18px;
     min-height: 200px;
+    user-select: text;
+    -webkit-user-select: text;
   }
   body.dark .card.is-known .card-face { background: linear-gradient(135deg,#0d2e1c,#0a2318) !important; border-color:#2d8a52 !important; }
 
