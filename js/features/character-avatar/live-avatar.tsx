@@ -18,6 +18,9 @@ export interface LiveAvatarProps {
 const BREATHE_PERIOD_MS = 3400;
 const BLINK_PERIOD_MS = 4800;
 const BLINK_DURATION_MS = 180;
+const SWAY_PERIOD_MS = 5200;
+const WAVE_PERIOD_MS = 9000;
+const WAVE_DURATION_MS = 1400;
 
 export function LiveAvatar({ appearance, size, variant }: LiveAvatarProps): ReactElement {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -70,6 +73,7 @@ export function LiveAvatar({ appearance, size, variant }: LiveAvatarProps): Reac
     controls.addEventListener('end', scheduleResume);
 
     const torsoBaseY = built.torso.position.y;
+    const { spine, shoulderR, forearmR } = built.rig.bones;
     const startTime = performance.now();
     let rafId = 0;
 
@@ -84,6 +88,21 @@ export function LiveAvatar({ appearance, size, variant }: LiveAvatarProps): Reac
           ? Math.max(0.06, Math.abs(Math.cos((phase / BLINK_DURATION_MS) * Math.PI)))
           : 1;
         built.eyelids.forEach(eye => { eye.scale.y = scaleY; });
+
+        // Subtle continuous weight-shift sway through the spine.
+        spine.rotation.z = Math.sin((t / SWAY_PERIOD_MS) * Math.PI * 2) * 0.025;
+
+        // Periodic short "wave" gesture: lift the shoulder/elbow, wiggle, return to rest.
+        const wavePhase = t % WAVE_PERIOD_MS;
+        if (wavePhase < WAVE_DURATION_MS) {
+          const wave = Math.sin((wavePhase / WAVE_DURATION_MS) * Math.PI);
+          const wiggle = Math.sin((wavePhase / WAVE_DURATION_MS) * Math.PI * 6) * 0.12;
+          shoulderR.rotation.z = -wave * 1.9;
+          forearmR.rotation.x = -wave * 0.5 + wiggle * wave;
+        } else {
+          shoulderR.rotation.z = 0;
+          forearmR.rotation.x = 0;
+        }
       }
 
       controls.update();

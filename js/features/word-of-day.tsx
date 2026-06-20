@@ -1,5 +1,5 @@
 // Vymova — js/features/word-of-day.tsx
-// "Слово дня" sidebar widget. Picks a word matching the currently selected
+// "Слово дня" header widget. Picks a word matching the currently selected
 // language pair, shows an illustrative image, and jumps to it on click.
 import { useEffect, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
@@ -148,7 +148,7 @@ export function WordOfDay(): ReactElement {
   }, [word[0]]);
 
   return (
-    <div className="wotd-box sb-wotd" title={t('cards.wotdTitle')} onClick={() => goToWord(word)}>
+    <div className="wotd-box header-wotd" title={t('cards.wotdTitle')} onClick={() => goToWord(word)}>
       <span className="wotd-lbl">{t('cards.wotdLabel')}</span>
       <div className="wotd-body">
         <div className={`wotd-img-wrap${imgFailed ? ' wotd-no-img' : ''}`}>

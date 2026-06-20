@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { Group } from 'three';
+import { Group, SkinnedMesh } from 'three';
 import {
   buildCharacterGroup, buildHair, clampIdx, cacheKeyFor,
 } from '../../../js/features/character-avatar/scene-builder.ts';
+import { buildSkeletonRig } from '../../../js/features/character-avatar/skeleton-builder.ts';
 import { HAIR_STYLES } from '../../../js/features/character-avatar/appearance-options.ts';
 import type { CharacterAppearance } from '../../../src/types.ts';
 
@@ -40,15 +41,56 @@ describe('character-avatar/scene-builder.ts buildHair', () => {
   });
 });
 
+describe('character-avatar/scene-builder.ts buildSkeletonRig', () => {
+  it('builds the expected 17-bone hierarchy', () => {
+    const rig = buildSkeletonRig();
+    expect(rig.skeleton.bones).toHaveLength(17);
+    ['hips', 'spine', 'chest', 'neck', 'head', 'shoulderL', 'forearmL', 'handL',
+      'shoulderR', 'forearmR', 'handR', 'upperLegL', 'lowerLegL', 'footL',
+      'upperLegR', 'lowerLegR', 'footR'].forEach(name => {
+      expect(rig.skeleton.getBoneByName(name)).toBeDefined();
+    });
+  });
+});
+
 describe('character-avatar/scene-builder.ts buildCharacterGroup', () => {
   const valid: CharacterAppearance = {
     skinTone: 0, hairStyle: 0, hairColor: 0, eyeColor: 0, outfitStyle: 0, outfitColor: 0,
   };
 
-  it('returns a BuiltCharacter wrapping a THREE.Group', () => {
+  it('returns a BuiltCharacter wrapping a THREE.Group, with torso/headAnchor as bones', () => {
     const built = buildCharacterGroup(valid);
     expect(built.group).toBeInstanceOf(Group);
+    expect(built.torso.name).toBe('chest');
+    expect(built.headAnchor.name).toBe('head');
     expect(built.eyelids).toHaveLength(2);
+    built.dispose();
+  });
+
+  it('skins the torso and all 4 limbs (5 SkinnedMesh) for a non-dress outfit', () => {
+    const built = buildCharacterGroup(valid); // outfitStyle 0 = 'tshirt'
+    let skinnedCount = 0;
+    built.group.traverse(obj => { if (obj instanceof SkinnedMesh) skinnedCount++; });
+    expect(skinnedCount).toBe(5);
+    built.dispose();
+  });
+
+  it('skins only torso + arms (3 SkinnedMesh) for the dress outfit, replacing legs with a rigid skirt', () => {
+    const dress: CharacterAppearance = { ...valid, outfitStyle: 3 }; // 'dress'
+    const built = buildCharacterGroup(dress);
+    let skinnedCount = 0;
+    built.group.traverse(obj => { if (obj instanceof SkinnedMesh) skinnedCount++; });
+    expect(skinnedCount).toBe(3);
+    built.dispose();
+  });
+
+  it('binds skinned meshes with a valid (non-zero) bind matrix', () => {
+    const built = buildCharacterGroup(valid);
+    built.group.traverse(obj => {
+      if (obj instanceof SkinnedMesh) {
+        expect(obj.bindMatrix.determinant()).not.toBe(0);
+      }
+    });
     built.dispose();
   });
 

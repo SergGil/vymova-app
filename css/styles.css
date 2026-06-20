@@ -2845,44 +2845,34 @@ body.sw .sb-dd-check { color: #00c8ff; }
 .sb-toggle-pill.on::after { transform: translateX(16px); }
 body.sw .sb-toggle-pill.on { background: #00c8ff; }
 
-/* ── Word of the day in sidebar ── */
-.sb-wotd {
-  margin: 4px 10px 10px;
-  padding: 10px 12px;
-  border: 1.5px solid var(--border);
-  border-radius: 12px;
-  background: var(--bg);
-  cursor: pointer;
-  transition: border-color .15s;
-  display: flex !important;
-  flex-direction: column;
+/* ── Word of the day in header ── */
+.header-wotd {
+  margin: 0;
+  padding: 6px 12px;
+  flex-direction: row;
   flex-shrink: 0;
-  gap: 6px;
-  max-width: 100%;
+  max-width: 240px;
   overflow: hidden;
   box-sizing: border-box;
 }
-.sb-wotd:hover { border-color: var(--accent); }
-body.sw .sb-wotd { border-color: rgba(0,200,255,.2); }
-body.sw .sb-wotd:hover { border-color: #00c8ff; }
-.sb-wotd .wotd-lbl { font-size: .62rem; color: var(--text3); letter-spacing: .05em; text-transform: uppercase; }
+.header-wotd .wotd-lbl { font-size: .6rem; color: var(--text3); letter-spacing: .05em; text-transform: uppercase; }
 
 .wotd-body { display: flex; align-items: center; gap: 9px; min-width: 0; width: 100%; }
 .wotd-img-wrap {
-  width: 36px; height: 36px; flex-shrink: 0;
-  border-radius: 8px; overflow: hidden;
+  width: 28px; height: 28px; flex-shrink: 0;
+  border-radius: 7px; overflow: hidden;
   background: var(--border);
   display: flex; align-items: center; justify-content: center;
 }
-.wotd-img-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+.wotd-img-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 7px; }
 .wotd-img-wrap.wotd-no-img { display: none; }
 .wotd-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; overflow: hidden; }
-.sb-wotd .wotd-word {
-  font-size: .9rem; font-weight: 700; color: var(--accent); max-width: 100%;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-  overflow: hidden; white-space: normal; word-break: break-word; line-height: 1.25;
+.header-wotd .wotd-word {
+  font-size: .85rem; font-weight: 700; color: var(--accent); max-width: 100%;
+  display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  line-height: 1.25;
 }
-body.sw .sb-wotd .wotd-word { color: #00c8ff; }
+body.sw .header-wotd .wotd-word { color: #00c8ff; }
 
 /* ── Profile delete modal ── */
 #prf-delete-overlay { display: none; }
@@ -3606,6 +3596,7 @@ body.sw .idiom-meaning { color: #00c8ff; }
     min-height: 40px;
   }
   #sel-range { flex-basis: 100%; }
+  #wotd-mount, .header-wotd { flex-basis: 100%; max-width: 100%; }
 
   /* Touch targets: minimum 44px */
   .btn {
@@ -3700,6 +3691,7 @@ body.sw .idiom-meaning { color: #00c8ff; }
   .controls { flex-wrap: wrap; gap: 5px; }
   .controls select { flex: 1 1 calc(50% - 3px); min-height: 38px; font-size: 12px; }
   #sel-range { flex-basis: 100%; }
+  #wotd-mount, .header-wotd { flex-basis: 100%; max-width: 100%; }
 
   /* Slightly compact game bar */
   .gb-label { font-size: .72rem; }
