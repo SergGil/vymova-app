@@ -1,4 +1,4 @@
-// English Words App — js/features/word-detail.tsx
+// Vymova — js/features/word-detail.tsx
 // Word Detail bottom-sheet modal: full word profile
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';

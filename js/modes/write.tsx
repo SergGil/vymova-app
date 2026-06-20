@@ -1,4 +1,4 @@
-// English Words App — js/modes/write.tsx
+// Vymova — js/modes/write.tsx
 // ✍️ WRITE MODE
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';

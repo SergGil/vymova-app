@@ -1,4 +1,4 @@
-// English Words App — Turkish translations (subset)
+// Vymova — Turkish translations (subset)
 // Format: "english_word": ["turkish_translation","turkish_example_sentence"]
 export const W_TR = {
   "a blessing in disguise": ["gizli bir nimet", "O işi kaybetmek gizli bir nimetti — daha iyi bir şeye yol açtı."],

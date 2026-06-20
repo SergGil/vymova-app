@@ -1,5 +1,5 @@
 /**
- * English Words App — src/state.ts
+ * Vymova — src/state.ts
  * Centralized mutable app state (Phase 3: TypeScript).
  */
 

@@ -1,4 +1,4 @@
-// English Words App — js/core/srs.ts
+// Vymova — js/core/srs.ts
 // SRS / SM-2 + deck builders (TypeScript)
 
 import type { WordEntry, SRSEntry } from '../../src/types.js';

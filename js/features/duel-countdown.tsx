@@ -1,4 +1,4 @@
-// English Words App — js/features/duel-countdown.tsx
+// Vymova — js/features/duel-countdown.tsx
 // Countdown-екран дуелі (Фаза 9/1). Чисте відображення
 // `_getCountdownData()`; `_runCountdown()` у duel.ts оновлює
 // `state.duelCountdownNum` кожну секунду через notifyStateChange().

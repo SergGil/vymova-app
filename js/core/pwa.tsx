@@ -1,4 +1,4 @@
-// English Words App — js/core/pwa.tsx
+// Vymova — js/core/pwa.tsx
 // PWA install banner (Chrome + iOS)
 import { useState, useEffect, useRef, type ReactElement } from 'react';
 import { useStateVersion } from '../../src/store.ts';

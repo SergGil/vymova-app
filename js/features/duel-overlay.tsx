@@ -1,4 +1,4 @@
-// English Words App — js/features/duel-overlay.tsx
+// Vymova — js/features/duel-overlay.tsx
 // DuelOverlay parent (Фаза 9/7): умовно рендерить екран дуелі за
 // `_getDuelScreen()` (lobby/countdown/game/result/tournament/spectate),
 // замінюючи всі попередні `*-mount` Portal'и з app-root.tsx одним

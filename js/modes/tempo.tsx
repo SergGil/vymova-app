@@ -1,4 +1,4 @@
-// English Words App — js/modes/tempo.tsx
+// Vymova — js/modes/tempo.tsx
 // ⚡ TEMPO MODE
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';

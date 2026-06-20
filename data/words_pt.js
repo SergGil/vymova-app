@@ -1,4 +1,4 @@
-// English Words App — Portuguese translations (subset)
+// Vymova — Portuguese translations (subset)
 // Format: "english_word": ["portuguese_translation","portuguese_example_sentence"]
 export const W_PT = {
   "a blessing in disguise": ["uma bênção disfarçada", "Perder aquele emprego foi uma bênção disfarçada — a levou a algo melhor."],

@@ -1,4 +1,4 @@
-// English Words App — js/features/profile-page.tsx
+// Vymova — js/features/profile-page.tsx
 // Profile page: full-body character avatar + customization + key stats.
 import { createPortal } from 'react-dom';
 import { useState, type ReactElement } from 'react';

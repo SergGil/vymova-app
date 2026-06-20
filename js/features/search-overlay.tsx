@@ -1,4 +1,4 @@
-// English Words App — js/features/search-overlay.tsx
+// Vymova — js/features/search-overlay.tsx
 // 🔍 Dictionary search overlay: find any EN or UA word, jump to card or open detail.
 // Opened via #btn-search or Ctrl/Cmd+F.
 import { useEffect, useRef, useState, type ReactElement } from 'react';

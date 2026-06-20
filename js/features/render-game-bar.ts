@@ -1,4 +1,4 @@
-// English Words App — js/features/render-game-bar.ts
+// Vymova — js/features/render-game-bar.ts
 // Game bar (streak/goal). All 3 blocks live in React:
 // Block 1 (streak/shields/combo) + Block 2 (goal) — game-bar-streak.tsx,
 // Block 3 (level XP) — game-bar-level.tsx.

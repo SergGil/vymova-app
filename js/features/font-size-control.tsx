@@ -1,4 +1,4 @@
-// English Words App — js/features/font-size-control.tsx
+// Vymova — js/features/font-size-control.tsx
 // A−/A+ font size control (#font-size-control), persisted to localStorage.
 import { useEffect, useState, type ReactElement } from 'react';
 

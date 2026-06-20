@@ -1,4 +1,4 @@
-// English Words App — js/modes/story.tsx
+// Vymova — js/modes/story.tsx
 // 📖 Story Mode: read short texts with vocabulary highlighted
 // Words from deck appear highlighted → click to see translation
 import { useEffect, useRef, useState, type ReactElement } from 'react';

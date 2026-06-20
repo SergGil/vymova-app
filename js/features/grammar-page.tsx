@@ -1,4 +1,4 @@
-// English Words App — js/features/grammar-page.tsx
+// Vymova — js/features/grammar-page.tsx
 // Grammar reference page: renders structured rules from data/grammar.ts
 import { useEffect, useState, type ReactElement, type MouseEvent } from 'react';
 import { GRAMMAR_BY_LANG } from '../../data/grammar.ts';

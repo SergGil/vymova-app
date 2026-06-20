@@ -1,4 +1,4 @@
-// English Words App — Japanese translations (subset)
+// Vymova — Japanese translations (subset)
 // Format: "english_word": ["japanese_translation","japanese_example_sentence"]
 export const W_JA = {
   "a blessing in disguise": ["災い転じて福となる", "あの仕事を失ったことは災い転じて福となった。もっと良いことにつながったのだ。"],

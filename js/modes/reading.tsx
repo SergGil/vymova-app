@@ -1,4 +1,4 @@
-// English Words App — js/modes/reading.tsx
+// Vymova — js/modes/reading.tsx
 // 📖 Reading mode: text with highlighted unknown words
 import { useEffect, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';

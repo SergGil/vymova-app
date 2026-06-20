@@ -1,4 +1,4 @@
-// English Words App — js/modes/pairs.tsx
+// Vymova — js/modes/pairs.tsx
 // 🔗 PAIRS MODE
 import { useEffect, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';

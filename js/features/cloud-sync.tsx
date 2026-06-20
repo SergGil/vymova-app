@@ -1,4 +1,4 @@
-// English Words App — js/features/cloud-sync.tsx
+// Vymova — js/features/cloud-sync.tsx
 // Firebase Realtime Database sync via REST API (no SDK)
 import { useEffect, type ReactElement } from 'react';
 import { t } from './i18n.ts';

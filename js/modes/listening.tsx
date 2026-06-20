@@ -1,4 +1,4 @@
-// English Words App — js/modes/listening.tsx
+// Vymova — js/modes/listening.tsx
 // 🔊 LISTENING MODE
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';

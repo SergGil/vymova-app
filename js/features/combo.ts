@@ -1,4 +1,4 @@
-// English Words App — js/features/combo.ts
+// Vymova — js/features/combo.ts
 import { refreshComboBox } from './game-bar-streak.tsx';
 import { getGameData, saveGameData } from './game.ts';
 import { playSound } from '../core/audio.ts';

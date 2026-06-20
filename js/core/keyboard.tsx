@@ -1,4 +1,4 @@
-// English Words App — js/core/keyboard.tsx
+// Vymova — js/core/keyboard.tsx
 // Keyboard shortcuts for flashcard navigation
 import { useEffect } from 'react';
 import { state } from '../../src/state.ts';

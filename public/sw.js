@@ -101,7 +101,7 @@ self.addEventListener('periodicsync', function(e) {
     var hh = parseInt(parts[0], 10), mm = parseInt(parts[1], 10);
     if (now.getHours() < hh || (now.getHours() === hh && now.getMinutes() < mm)) return;
 
-    return self.registration.showNotification(snap.titleDaily || 'English Words', {
+    return self.registration.showNotification(snap.titleDaily || 'Vymova', {
       body: snap.bodyDaily || '',
       icon: snap.icon
     }).then(function() { notifIdbSetLastShown(res.db, today); });

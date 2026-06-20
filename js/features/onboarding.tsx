@@ -1,4 +1,4 @@
-// English Words App — js/features/onboarding.tsx
+// Vymova — js/features/onboarding.tsx
 // First-launch onboarding for new profiles
 import { useEffect, useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';

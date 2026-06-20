@@ -1,4 +1,4 @@
-// English Words App — data/usage-notes.ts
+// Vymova — data/usage-notes.ts
 // Common-mistake warnings for Ukrainian learners: false friends and confusable pairs.
 // Key: lowercase English headword. Value: short Ukrainian warning shown on the card.
 

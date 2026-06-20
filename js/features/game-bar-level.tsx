@@ -1,4 +1,4 @@
-// English Words App — js/features/game-bar-level.tsx
+// Vymova — js/features/game-bar-level.tsx
 // "Block 3" of the game bar: level badge + XP progress toward the next level.
 // Re-rendered on demand via refreshGameBarLevel() (called throughout the
 // app after known-words count changes).

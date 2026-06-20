@@ -1,4 +1,4 @@
-// English Words App — js/features/idioms-page.tsx
+// Vymova — js/features/idioms-page.tsx
 // Idioms reference page: EN/UA/ES tabs, search, speak buttons
 import { useEffect, useState, type ReactElement, type MouseEventHandler } from 'react';
 import { IDIOMS_BY_LANG, type Idiom } from '../../data/idioms.ts';

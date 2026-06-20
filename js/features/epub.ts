@@ -1,4 +1,4 @@
-// English Words App — js/features/epub.ts
+// Vymova — js/features/epub.ts
 // EPUB import for Reading mode
 import JSZip from 'jszip';
 import { t, pluralLabel } from './i18n.ts';

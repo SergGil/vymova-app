@@ -1,4 +1,4 @@
-// English Words App — js/features/speech.ts
+// Vymova — js/features/speech.ts
 // TTS: getVoice, speak, _speakWeb, _speakWithLang
 import { synth, hasSpeech } from '../core/srs.ts';
 import { getSelectedUkVoice, getSelectedEsVoice, speakFakeYou } from './voice.tsx';

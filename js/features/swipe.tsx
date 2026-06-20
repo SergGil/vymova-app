@@ -1,4 +1,4 @@
-// English Words App — js/features/swipe.tsx
+// Vymova — js/features/swipe.tsx
 // ════════ SWIPE IN QUIZ ════════
 import { useEffect } from 'react';
 

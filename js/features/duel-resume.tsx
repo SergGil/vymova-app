@@ -1,4 +1,4 @@
-// English Words App — js/features/duel-resume.tsx
+// Vymova — js/features/duel-resume.tsx
 // Картки "продовжити дуель" у лобі (item 33, Фаза 5). Чисте
 // відображення `_getResumeSessions()`; duel.ts викликає
 // refreshDuelResume() при кожній зміні (нова перевірка сесій,

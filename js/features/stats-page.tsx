@@ -1,4 +1,4 @@
-// English Words App — js/features/stats-page.tsx
+// Vymova — js/features/stats-page.tsx
 // Statistics overlay: progress, daily chart, heatmap, calendar, SRS forecast,
 // mode accuracy, CEFR progress, leaderboard.
 import { useEffect, useState, type ReactElement } from 'react';

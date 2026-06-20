@@ -1,4 +1,4 @@
-// English Words App — js/modes/word-letters.tsx
+// Vymova — js/modes/word-letters.tsx
 // 🔤 Letters: from a set of letters, find as many valid words as possible
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';

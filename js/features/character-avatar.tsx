@@ -1,4 +1,4 @@
-// English Words App — js/features/character-avatar.tsx
+// Vymova — js/features/character-avatar.tsx
 // Full-body SVG character avatar with swappable skin/hair/eyes/outfit layers
 // and a subtle idle animation (breathing + blinking).
 import type { ReactElement } from 'react';

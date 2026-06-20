@@ -1,4 +1,4 @@
-// English Words App — js/features/quick-quiz.tsx
+// Vymova — js/features/quick-quiz.tsx
 // ⚡ Quick Quiz button — launches 5-question quiz from current deck
 import type { ReactElement } from 'react';
 import { openQuickQuiz } from '../modes/quiz.tsx';

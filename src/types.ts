@@ -1,5 +1,5 @@
 /**
- * English Words App — src/types.ts
+ * Vymova — src/types.ts
  * Shared TypeScript interfaces and types.
  */
 

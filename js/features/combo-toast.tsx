@@ -1,4 +1,4 @@
-// English Words App — js/features/combo-toast.tsx
+// Vymova — js/features/combo-toast.tsx
 // Combo streak toast (×2 COMBO! / ×3 MEGA! / JEDI FLOW!), triggered
 // imperatively from combo.ts via showComboToast().
 import { useEffect, useState, type ReactElement } from 'react';

@@ -1,4 +1,4 @@
-// English Words App — js/features/achievements-page.tsx
+// Vymova — js/features/achievements-page.tsx
 // Achievements page: levels roadmap, achievements grid, achievement detail popup.
 // Re-rendered on demand via refreshAchievementsPage() / notifyStateChange().
 import { createPortal } from 'react-dom';

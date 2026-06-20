@@ -1,4 +1,4 @@
-// English Words App — js/features/render-achievements.ts
+// Vymova — js/features/render-achievements.ts
 // checkAchievements: unlocks achievements and triggers the toast.
 // Achievement toast UI lives in achievement-toast.tsx (React).
 // Achievements grid/popup live in achievements-page.tsx (React).

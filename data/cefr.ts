@@ -1,4 +1,4 @@
-// English Words App — data/cefr.ts
+// Vymova — data/cefr.ts
 // CEFR level mapping for vocabulary words
 // A1 (beginner) → A2 (elementary) → B1 (intermediate) →
 // B2 (upper-intermediate) → C1 (advanced) → C2 (mastery)

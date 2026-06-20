@@ -1,4 +1,4 @@
-// English Words App — js/features/achievement-toast.tsx
+// Vymova — js/features/achievement-toast.tsx
 // Toast popup shown when a new achievement unlocks. Triggered imperatively
 // from render-achievements.ts via showToast(), since checkAchievements()
 // runs outside React (app init, game logic).

@@ -1,4 +1,4 @@
-// English Words App — js/features/sidebar.tsx
+// Vymova — js/features/sidebar.tsx
 // Sidebar wiring, page-view system, theme toggles, img-clear confirm
 import { useEffect, type ReactElement } from 'react';
 import { refreshAchievementsPage } from './achievements-page.tsx';

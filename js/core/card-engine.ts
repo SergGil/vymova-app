@@ -1,4 +1,4 @@
-// English Words App — js/core/card-engine.ts
+// Vymova — js/core/card-engine.ts
 // Ядро картки: deck/idx/flipped/cw/autoTimer + render()/анімації/auto-play/onWordLearned.
 // Перенесено з js/app.ts (Фаза 7.5, Під-фаза D).
 import type { WordEntry } from '../../src/types.js';

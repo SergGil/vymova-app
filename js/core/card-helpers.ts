@@ -1,4 +1,4 @@
-// English Words App — js/core/card-helpers.ts
+// Vymova — js/core/card-helpers.ts
 // Pure helpers extracted from app.ts so they can be unit-tested without DOM.
 import type { WordEntry } from '../../src/types.js';
 import { t, pluralLabel, getLang } from '../features/i18n.ts';

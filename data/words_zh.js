@@ -1,4 +1,4 @@
-// English Words App — Mandarin Chinese translations (subset)
+// Vymova — Mandarin Chinese translations (subset)
 // Format: "english_word": ["chinese_translation","chinese_example_sentence"]
 export const W_ZH = {
   "a blessing in disguise": ["因祸得福", "丢掉那份工作其实是因祸得福，后来带来了更好的机会。"],

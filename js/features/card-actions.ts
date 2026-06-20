@@ -1,4 +1,4 @@
-// English Words App — js/features/card-actions.ts
+// Vymova — js/features/card-actions.ts
 // All flashcard interaction event listeners
 import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';

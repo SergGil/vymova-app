@@ -1,4 +1,4 @@
-// English Words App — js/features/csv-export-button.tsx
+// Vymova — js/features/csv-export-button.tsx
 // "Google Sheets CSV" export button (settings → backup section).
 import { type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
@@ -31,7 +31,7 @@ function exportCsv(): void {
 
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
   const url = URL.createObjectURL(blob);
-  const a = Object.assign(document.createElement('a'), { href: url, download: 'english_words.csv' });
+  const a = Object.assign(document.createElement('a'), { href: url, download: 'vymova.csv' });
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

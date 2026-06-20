@@ -1,4 +1,4 @@
-// English Words App — js/features/card-progress.tsx
+// Vymova — js/features/card-progress.tsx
 // #cidx/#cknown (підзаголовок) і #pbar (progress bar) — частина item 28e (Фаза 4).
 import { useAppState } from '../../src/store.ts';
 import { W } from '../../data/words.js';

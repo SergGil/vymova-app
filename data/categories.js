@@ -1,5 +1,5 @@
 /**
- * English Words App — data/categories.js
+ * Vymova — data/categories.js
  * Word-to-category mapping. Each word can belong to multiple categories.
  * Category names are emoji + Ukrainian label.
  */

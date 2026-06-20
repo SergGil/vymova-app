@@ -1,4 +1,4 @@
-// English Words App — js/features/tag-filter-select.tsx
+// Vymova — js/features/tag-filter-select.tsx
 // Topic/category filter dropdown (#sel-tag). Renders <option>s into the
 // existing <select> element; selection handling stays imperative since
 // #sel-tag is read/written directly by deck-filter.ts and deck-mode.ts.

@@ -1,4 +1,4 @@
-// English Words App — js/features/image-prefetch.tsx
+// Vymova — js/features/image-prefetch.tsx
 // Background image prefetch + Pixabay key management (Settings panel)
 import { useState, useRef, useEffect, type ReactElement } from 'react';
 import { loadWikiImage, _imgCache, _getPixabayKey, resetImgCache } from '../core/images.ts';

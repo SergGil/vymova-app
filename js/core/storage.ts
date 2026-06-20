@@ -1,4 +1,4 @@
-// English Words App — js/core/storage.ts
+// Vymova — js/core/storage.ts
 // Pure storage helpers with TypeScript types
 
 import * as LZString from 'lz-string';

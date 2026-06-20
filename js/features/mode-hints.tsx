@@ -1,4 +1,4 @@
-// English Words App — js/features/mode-hints.tsx
+// Vymova — js/features/mode-hints.tsx
 // Per-mode first-launch hint banner (shows once per mode)
 import { useEffect } from 'react';
 import { t } from './i18n.ts';

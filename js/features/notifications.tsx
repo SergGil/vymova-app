@@ -1,4 +1,4 @@
-// English Words App — js/features/notifications.tsx
+// Vymova — js/features/notifications.tsx
 import { useEffect, type ReactElement } from 'react';
 import { t, pluralLabel } from './i18n.ts';
 

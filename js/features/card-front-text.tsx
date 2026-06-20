@@ -1,4 +1,4 @@
-// English Words App — js/features/card-front-text.tsx
+// Vymova — js/features/card-front-text.tsx
 // Текстові поля лицьової сторони картки: #wword, #wtrans, #wpos, #srs-next,
 // #wtransl, #exen, #exua. Частина item 28b (Фаза 4).
 import { useAppState } from '../../src/store.ts';

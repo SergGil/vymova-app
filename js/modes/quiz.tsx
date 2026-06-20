@@ -1,4 +1,4 @@
-// English Words App — js/modes/quiz.tsx
+// Vymova — js/modes/quiz.tsx
 // 🧠 QUIZ MODE
 import { useEffect, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';

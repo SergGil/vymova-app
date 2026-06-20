@@ -1,4 +1,4 @@
-// English Words App — js/features/keyboard.tsx
+// Vymova — js/features/keyboard.tsx
 // ════════ KEYBOARD OVERLAY ════════
 import { useState, useEffect, type ReactElement } from 'react';
 

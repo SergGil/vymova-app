@@ -1,4 +1,4 @@
-// English Words App — js/features/deck-filter.tsx
+// Vymova — js/features/deck-filter.tsx
 // Range selector: _refreshRangeOptions + sel-range change handler
 import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';

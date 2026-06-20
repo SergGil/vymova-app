@@ -1,4 +1,4 @@
-// English Words App — Greek translations (subset)
+// Vymova — Greek translations (subset)
 // Format: "english_word": ["greek_translation","greek_example_sentence"]
 export const W_EL = {
   "a blessing in disguise": ["ευτυχής συγκυρία", "Η απώλεια αυτής της δουλειάς ήταν ευτυχής συγκυρία — οδήγησε σε κάτι καλύτερο."],

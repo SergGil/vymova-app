@@ -1,4 +1,4 @@
-// English Words App — Dutch translations (subset)
+// Vymova — Dutch translations (subset)
 // Format: "english_word": ["dutch_translation","dutch_example_sentence"]
 export const W_NL = {
   "a blessing in disguise": ["een geluk bij een ongeluk", "Het verlies van die baan was een geluk bij een ongeluk — het leidde tot iets beters."],

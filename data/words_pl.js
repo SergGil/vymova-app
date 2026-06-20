@@ -1,4 +1,4 @@
-// English Words App — Polish translations (subset)
+// Vymova — Polish translations (subset)
 // Format: "english_word": ["polish_translation","polish_example_sentence"]
 export const W_PL = {
   "a blessing in disguise": ["szczęście w nieszczęściu", "Utrata tej pracy była szczęściem w nieszczęściu — doprowadziła do czegoś lepszego."],

@@ -1,4 +1,4 @@
-// English Words App — Hebrew translations (subset)
+// Vymova — Hebrew translations (subset)
 // Format: "english_word": ["hebrew_translation","hebrew_example_sentence"]
 export const W_HE = {
   "a blessing in disguise": ["ברכה מוסווית", "אובדן העבודה הזו היה ברכה מוסווית — היא הובילה למשהו טוב יותר."],

@@ -1,4 +1,4 @@
-// English Words App — js/features/pronunciation-toast.tsx
+// Vymova — js/features/pronunciation-toast.tsx
 // Pronunciation-check result toast, triggered imperatively from
 // card-actions.ts via showPronuncResult().
 import { useEffect, useState, type ReactElement } from 'react';

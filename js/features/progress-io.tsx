@@ -1,4 +1,4 @@
-// English Words App — js/features/progress-io.tsx
+// Vymova — js/features/progress-io.tsx
 // Export / import progress + modal event listeners
 import { useEffect, type ReactElement } from 'react';
 import { _lzSave } from '../core/storage.ts';

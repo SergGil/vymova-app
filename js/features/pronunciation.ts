@@ -1,4 +1,4 @@
-// English Words App — js/features/pronunciation.ts
+// Vymova — js/features/pronunciation.ts
 // Speech-recognition based pronunciation check.
 // Result toast lives in pronunciation-toast.tsx (React).
 

@@ -1,4 +1,4 @@
-// English Words App — js/features/duel-question.tsx
+// Vymova — js/features/duel-question.tsx
 // Ядро питання/відповіді/таймера дуелі (item 32, Фаза 5). Чисте
 // відображення `_getQuestionData()`; duel.ts викликає
 // refreshDuelQuestion() при кожній зміні (нове питання, вибір

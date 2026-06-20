@@ -1,4 +1,4 @@
-// English Words App — js/modes/scramble.tsx
+// Vymova — js/modes/scramble.tsx
 // 🔀 Scramble: rearrange shuffled letter tiles to build the word
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';

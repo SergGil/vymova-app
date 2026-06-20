@@ -1,4 +1,4 @@
-// English Words App — js/core/distance.ts
+// Vymova — js/core/distance.ts
 // Shared string distance utilities
 
 /** Levenshtein edit distance between two strings */

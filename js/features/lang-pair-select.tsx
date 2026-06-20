@@ -1,4 +1,4 @@
-// English Words App — js/features/lang-pair-select.tsx
+// Vymova — js/features/lang-pair-select.tsx
 // "Я знаю" / "Хочу вчити" / "Напрямок" language pair picker (first React component).
 // Drives the legacy #sel-mode <select> so all existing listeners
 // (deck-mode, tag-filter, word-detail, mode-utils, ...) keep working untouched.

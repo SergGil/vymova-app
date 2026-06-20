@@ -1,4 +1,4 @@
-// English Words App — data/etymology.ts
+// Vymova — data/etymology.ts
 // Short, memorable etymology facts used as a memorization hook on the card back.
 // Key: lowercase English headword. Value: short Ukrainian explanation of word origin.
 

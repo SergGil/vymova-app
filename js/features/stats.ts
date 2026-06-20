@@ -1,4 +1,4 @@
-// English Words App — js/features/stats.ts
+// Vymova — js/features/stats.ts
 // Stats overlay open/close wiring. The forgetting-curve tooltip moved to
 // SrsBadge (card-front-text.tsx). The stats overlay itself lives in
 // stats-page.tsx (React).

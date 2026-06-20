@@ -1,4 +1,4 @@
-// English Words App — js/core/confetti.tsx
+// Vymova — js/core/confetti.tsx
 // Canvas confetti animation for goal completion
 import { useEffect, useRef, type ReactElement } from 'react';
 

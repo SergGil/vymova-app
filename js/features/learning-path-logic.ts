@@ -1,4 +1,4 @@
-// English Words App — js/features/learning-path-logic.ts
+// Vymova — js/features/learning-path-logic.ts
 // Pure, DOM-free logic for the Learning Path feature (importable in tests)
 import { getCefrLevel } from '../../data/cefr.ts';
 import type { CefrLevel } from '../../data/cefr.ts';

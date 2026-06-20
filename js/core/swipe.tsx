@@ -1,4 +1,4 @@
-// English Words App — js/core/swipe.tsx
+// Vymova — js/core/swipe.tsx
 // Touch swipe gestures on the flashcard
 import { useEffect } from 'react';
 import { state } from '../../src/state.ts';

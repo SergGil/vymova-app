@@ -1,4 +1,4 @@
-// English Words App — js/features/profile-switcher.tsx
+// Vymova — js/features/profile-switcher.tsx
 // Multi-profile: sidebar dropdown + inline add form + edit/delete modals
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState, type ReactElement } from 'react';

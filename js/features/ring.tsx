@@ -1,4 +1,4 @@
-// English Words App — js/features/ring.tsx
+// Vymova — js/features/ring.tsx
 // SVG progress ring showing level completion
 import type { ReactElement } from 'react';
 import { state } from '../../src/state.ts';

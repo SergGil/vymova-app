@@ -1,4 +1,4 @@
-// English Words App — js/features/word-context.tsx
+// Vymova — js/features/word-context.tsx
 // Word families + collocations shown on card back
 import type { ReactElement } from 'react';
 import { state } from '../../src/state.ts';

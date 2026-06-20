@@ -1,4 +1,4 @@
-// English Words App — data/achievements.ts
+// Vymova — data/achievements.ts
 // Static achievements definition (pure data, no side effects)
 import type { Achievement, GameData, ModeStats } from '../src/types.js';
 

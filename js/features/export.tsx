@@ -1,4 +1,4 @@
-// English Words App — js/features/export.tsx
+// Vymova — js/features/export.tsx
 // 🃏 ANKI/PDF EXPORT + SHARE
 import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
@@ -24,7 +24,7 @@ export function ExportInit(): ReactElement | null {
 
     // ── Anki Export (improved: IPA + both examples) ────────────────
     const onAnkiExport = () => {
-      const rows = ['#separator:tab', '#html:true', '#deck:English Words App', '#notetype:Basic (and reversed)', ''];
+      const rows = ['#separator:tab', '#html:true', '#deck:Vymova', '#notetype:Basic (and reversed)', ''];
       const src = _exportSrc();
       src.forEach(w => {
         if (!w) return;
@@ -38,7 +38,7 @@ export function ExportInit(): ReactElement | null {
       });
       const blob = new Blob([rows.join('\n')], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
-      const a = Object.assign(document.createElement('a'), { href: url, download: `english_words_anki_${src.length}.txt` });
+      const a = Object.assign(document.createElement('a'), { href: url, download: `vymova_anki_${src.length}.txt` });
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
     };
     const btnAnkiExport = document.getElementById('btn-anki-export');
@@ -66,10 +66,10 @@ export function ExportInit(): ReactElement | null {
         known: t('export.filter.known'), unknown: t('export.filter.unknown'),
         all: t('export.filter.all'),
       };
-      const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>English Words — ${filterLabel[filter]||''}</title>
+      const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Vymova — ${filterLabel[filter]||''}</title>
       <style>body{font-family:Arial,sans-serif;font-size:13px;margin:20px;}h1{font-size:16px;margin-bottom:16px;}table{border-collapse:collapse;width:100%;}th{background:#f0f0f0;padding:6px 10px;border:1px solid #ddd;text-align:left;}td{vertical-align:top;}@media print{@page{margin:1.5cm;size:A4;}}</style>
       </head><body>
-      <h1>📚 English Words — ${filterLabel[filter]||''} (${src.length} ${t('export.pdf.wordsSuffix')})</h1>
+      <h1>📚 Vymova — ${filterLabel[filter]||''} (${src.length} ${t('export.pdf.wordsSuffix')})</h1>
       <table><thead><tr><th>#</th><th>${t('export.pdf.wordCol')}</th><th>${t('export.pdf.translCol')}</th><th>${t('export.pdf.exampleCol')}</th></tr></thead><tbody>${rows}</tbody></table>
       <script>window.onload=()=>window.print();<\/script></body></html>`;
       const w = window.open('', '_blank');

@@ -1,4 +1,4 @@
-// English Words App — data/idioms.ts
+// Vymova — data/idioms.ts
 // Idioms reference data: English idioms (with Ukrainian meaning),
 // Ukrainian idioms (with their closest English equivalent),
 // and Spanish idioms (with Ukrainian + English meanings).

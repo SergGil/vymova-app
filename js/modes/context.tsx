@@ -1,4 +1,4 @@
-// English Words App — js/modes/context.tsx
+// Vymova — js/modes/context.tsx
 // 🔍 Context Mode: guess word meaning from context sentence
 import { useEffect, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';

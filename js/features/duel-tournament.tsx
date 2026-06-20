@@ -1,4 +1,4 @@
-// English Words App — js/features/duel-tournament.tsx
+// Vymova — js/features/duel-tournament.tsx
 // Турнірна сітка (item 33, Фаза 5). Чисте відображення
 // `_getTournamentData()`; duel.ts викликає refreshDuelTournament()
 // при кожній зміні (полінг кімнати очікування / турнірного браунзера).

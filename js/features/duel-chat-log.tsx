@@ -1,4 +1,4 @@
-// English Words App — js/features/duel-chat-log.tsx
+// Vymova — js/features/duel-chat-log.tsx
 // Лог чату/реакцій дуелі (item 32, Фаза 5). Чисте відображення
 // `_getChatHistory()`; duel.ts викликає refreshDuelChatLog() при
 // кожному новому повідомленні/реакції (_appendChatMsg, _showGame,

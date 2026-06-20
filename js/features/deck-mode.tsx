@@ -1,4 +1,4 @@
-// English Words App — js/features/deck-mode.tsx
+// Vymova — js/features/deck-mode.tsx
 // ES/FR mode deck management: sel-mode listener + _rebuildEsDeck / _rebuildFrDeck
 import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';

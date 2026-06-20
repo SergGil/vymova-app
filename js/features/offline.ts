@@ -1,4 +1,4 @@
-// English Words App — js/features/offline.ts
+// Vymova — js/features/offline.ts
 // Online/offline detection + beautiful status banner + graceful degradation
 import { useEffect, type ReactElement } from 'react';
 import { t } from './i18n.ts';

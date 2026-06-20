@@ -1,4 +1,4 @@
-// English Words App — js/features/note-modal.tsx
+// Vymova — js/features/note-modal.tsx
 // Personal note / mnemonic editor modal, triggered imperatively from
 // card-actions.ts via openNoteModal().
 import { useEffect, useState, type ReactElement } from 'react';

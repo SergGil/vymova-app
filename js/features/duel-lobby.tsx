@@ -1,4 +1,4 @@
-// English Words App — js/features/duel-lobby.tsx
+// Vymova — js/features/duel-lobby.tsx
 // Лобі дуелі (Фаза 9/6). Обгортка над уже-існуючими React-пікерами
 // (leaderboard/rating/history/mode/category/options/resume) плюс
 // create/join/cancel/spectate/async/tournament-кнопки.

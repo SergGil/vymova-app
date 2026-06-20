@@ -1,5 +1,5 @@
 ﻿/**
- * English Words App — src/main.ts
+ * Vymova — src/main.ts
  * Vite entry point (Phase 4: TypeScript throughout).
  */
 

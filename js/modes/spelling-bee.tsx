@@ -1,4 +1,4 @@
-// English Words App — js/modes/spelling-bee.tsx
+// Vymova — js/modes/spelling-bee.tsx
 // 🐝 Spelling Bee: hear the word via TTS → type its spelling
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';

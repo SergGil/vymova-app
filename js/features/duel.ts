@@ -1,4 +1,4 @@
-// English Words App — js/features/duel.ts
+// Vymova — js/features/duel.ts
 // ⚔️ Full-featured Duel: leaderboard + live multiplayer quiz
 
 import { useEffect, type ReactElement } from 'react';

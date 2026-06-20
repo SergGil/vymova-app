@@ -1,4 +1,4 @@
-// English Words App — data/words_es.js
+// Vymova — data/words_es.js
 // Spanish layer for the word list. Keyed by the English headword (matches W[i][0] in words.js)
 // so it can be translated incrementally without depending on array order.
 // Value: [translation_es, example_es]

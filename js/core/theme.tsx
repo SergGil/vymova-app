@@ -1,4 +1,4 @@
-// English Words App — js/core/theme.tsx
+// Vymova — js/core/theme.tsx
 // Dark/light theme toggle
 import { useState, useEffect, type ReactElement } from 'react';
 

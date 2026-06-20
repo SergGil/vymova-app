@@ -1,4 +1,4 @@
-// English Words App — data/grammar.ts
+// Vymova — data/grammar.ts
 // Grammar reference data: structured rules, tables, examples
 // Format: self-contained, easy to extend
 import type { Lang } from '../js/features/i18n.ts';

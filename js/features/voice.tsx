@@ -1,4 +1,4 @@
-// English Words App — js/features/voice.tsx
+// Vymova — js/features/voice.tsx
 // Web Speech API voice picker: EN + UA
 import { useEffect, type ReactElement } from 'react';
 import { synth } from '../core/srs.ts';

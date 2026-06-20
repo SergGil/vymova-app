@@ -1,4 +1,4 @@
-// English Words App — js/app.ts
+// Vymova — js/app.ts
 import type { WordEntry } from '../src/types.js';
 import { _lzLoad, loadKnownEs, loadKnownFr, loadKnownIt, loadKnownPt, loadKnownDe, loadKnownHe, loadKnownAr, loadKnownPl, loadKnownZh, loadKnownEl, loadKnownJa, loadKnownTr, loadKnownNl, loadSRS } from './core/storage.ts';
 import { W }                                       from '../data/words.js';

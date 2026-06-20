@@ -1,4 +1,4 @@
-// English Words App — js/features/bug-report.tsx
+// Vymova — js/features/bug-report.tsx
 // Bug / feedback report form — opens mailto: with pre-filled subject + body
 import { useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
@@ -27,7 +27,7 @@ export function BugReportForm(): ReactElement {
     setError(false);
 
     const subjectVal = subject || t('settings.bugSubjectDefault');
-    const body = msg + '\n\n---\nEnglish Words App';
+    const body = msg + '\n\n---\nVymova';
 
     window.location.href =
       `mailto:${RECIPIENT}` +

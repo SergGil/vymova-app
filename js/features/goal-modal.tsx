@@ -1,4 +1,4 @@
-// English Words App — js/features/goal-modal.tsx
+// Vymova — js/features/goal-modal.tsx
 // "Daily goal" modal, opened via the gear icon (#goal-set-btn) in the game bar.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { getGameData, saveGameData } from './game.ts';

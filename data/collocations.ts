@@ -1,4 +1,4 @@
-// English Words App — data/collocations.ts
+// Vymova — data/collocations.ts
 // Fixed word combinations that native English speakers always use together.
 // Especially useful for Ukrainian learners who frequently confuse make/do and other patterns.
 

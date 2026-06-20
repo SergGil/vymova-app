@@ -1,4 +1,4 @@
-// English Words App — js/modes/daily-challenge.tsx
+// Vymova — js/modes/daily-challenge.tsx
 // ⚡ Daily Challenge: 10 seeded words + timer + bonus XP
 import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';

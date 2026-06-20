@@ -1,4 +1,4 @@
-﻿// English Words App — js/features/bookmarks.ts
+﻿// Vymova — js/features/bookmarks.ts
 import { t } from './i18n.ts';
 
 let _bm = new Set<string>();

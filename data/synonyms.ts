@@ -1,4 +1,4 @@
-// English Words App — data/synonyms.ts
+// Vymova — data/synonyms.ts
 // Curated near-synonym groups with short nuance notes (register/intensity/formality).
 // Headword → list of close synonyms. Notes explain how a synonym differs from the headword.
 

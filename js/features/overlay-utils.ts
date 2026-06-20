@@ -1,4 +1,4 @@
-// English Words App — js/features/overlay-utils.ts
+// Vymova — js/features/overlay-utils.ts
 // Спільні хелпери для відкриття/закриття оверлеїв режимів та сторінок.
 // Item 35: централізує повторюваний DOM-listener boilerplate, який
 // раніше дублювався в кожному модулі окремо.

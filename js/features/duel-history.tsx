@@ -1,4 +1,4 @@
-// English Words App — js/features/duel-history.tsx
+// Vymova — js/features/duel-history.tsx
 // Історія останніх дуелей з пагінацією (#duel-history-list).
 // Частина item 30 (Фаза 5).
 import { useState } from 'react';

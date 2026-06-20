@@ -1,4 +1,4 @@
-// English Words App — js/modes/fib.tsx
+// Vymova — js/modes/fib.tsx
 // ✏️ FILL IN BLANK MODE
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';

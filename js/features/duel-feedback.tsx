@@ -1,4 +1,4 @@
-// English Words App — js/features/duel-feedback.tsx
+// Vymova — js/features/duel-feedback.tsx
 // Текст фідбеку + швидкість відповіді під питанням дуелі (item 32, Фаза 5).
 // Чисте відображення `_getFeedbackData()`; duel.ts викликає
 // refreshDuelFeedback() при кожній зміні (правильно/невірно/таймаут/

@@ -1,4 +1,4 @@
-// English Words App — js/core/images.ts
+// Vymova — js/core/images.ts
 // Image loading with TypeScript types
 
 // ── In-memory cache ───────────────────────────────────────────

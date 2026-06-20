@@ -1,4 +1,4 @@
-// English Words App — js/core/ui-helpers.ts
+// Vymova — js/core/ui-helpers.ts
 // Shared UI utilities used across modes
 import { t } from '../features/i18n.ts';
 import { speak, _speakWithLang } from '../features/speech.ts';

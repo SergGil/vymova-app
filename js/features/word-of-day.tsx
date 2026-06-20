@@ -1,4 +1,4 @@
-// English Words App — js/features/word-of-day.tsx
+// Vymova — js/features/word-of-day.tsx
 // "Слово дня" sidebar widget. Picks a word matching the currently selected
 // language pair, shows an illustrative image, and jumps to it on click.
 import { useEffect, useState, type ReactElement } from 'react';

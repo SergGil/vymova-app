@@ -1,4 +1,4 @@
-// English Words App — js/features/settings.tsx
+// Vymova — js/features/settings.tsx
 import { useEffect, type ReactElement } from 'react';
 import { updateSrsUI } from '../core/srs.ts';
 import { _imgCache, loadWikiImage } from '../core/images.ts';

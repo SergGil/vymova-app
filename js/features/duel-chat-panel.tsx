@@ -1,4 +1,4 @@
-// English Words App — js/features/duel-chat-panel.tsx
+// Vymova — js/features/duel-chat-panel.tsx
 // Чат-панель дуелі (Фаза 9/3): input-row + emoji-реакції.
 // `#duel-chat-log-mount` лишається окремим сиблінгом (DuelChatLog, Фаза 5).
 import type { ReactElement } from 'react';

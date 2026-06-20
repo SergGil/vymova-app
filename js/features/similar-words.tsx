@@ -1,4 +1,4 @@
-// English Words App — js/features/similar-words.tsx
+// Vymova — js/features/similar-words.tsx
 // Similar word suggestions: translation-token matching + prefix similarity
 import type { ReactElement } from 'react';
 import { W } from '../../data/words.js';

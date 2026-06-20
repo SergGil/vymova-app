@@ -1,4 +1,4 @@
-// English Words App — js/modes/catpairs.tsx
+// Vymova — js/modes/catpairs.tsx
 // 📦 CATEGORY PAIRS MODE + WOTD + MILESTONES + WEAK WORDS
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';

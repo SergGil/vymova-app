@@ -1,4 +1,4 @@
-// English Words App — js/core/audio.ts
+// Vymova — js/core/audio.ts
 // Web Audio API sound effects
 export {};
 

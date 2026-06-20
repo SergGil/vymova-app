@@ -1,4 +1,4 @@
-// English Words App — js/features/search-inline.tsx
+// Vymova — js/features/search-inline.tsx
 // Inline search box (header) with debounce + keyboard navigation.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';

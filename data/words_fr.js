@@ -1,4 +1,4 @@
-// English Words App — French translations (subset)
+// Vymova — French translations (subset)
 // Format: "english_word": ["french_translation","french_example_sentence"]
 export const W_FR = {
   "a blessing in disguise": ["un mal pour un bien", "Perdre cet emploi a été un mal pour un bien — cela l'a menée vers quelque chose de mieux."],

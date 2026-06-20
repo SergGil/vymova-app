@@ -1,4 +1,4 @@
-// English Words App — js/features/leaderboard.tsx
+// Vymova — js/features/leaderboard.tsx
 // 🏆 Global leaderboard via Firebase Realtime Database
 import { useEffect, useState, type ReactElement } from 'react';
 import { t, wordsLabel } from './i18n.ts';

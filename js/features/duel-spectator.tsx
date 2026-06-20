@@ -1,4 +1,4 @@
-// English Words App — js/features/duel-spectator.tsx
+// Vymova — js/features/duel-spectator.tsx
 // Екран спостерігача за дуеллю (item 33, Фаза 5). Чисте відображення
 // знімку кімнати `_getSpecRoom()`; polling/Firebase-логіка лишається в
 // duel.ts (_startSpectatorView/_renderSpectatorView), яка викликає

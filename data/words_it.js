@@ -1,4 +1,4 @@
-// English Words App — Italian translations (subset)
+// Vymova — Italian translations (subset)
 // Format: "english_word": ["italian_translation","italian_example_sentence"]
 export const W_IT = {
   "a blessing in disguise": ["una fortuna in maschera", "Perdere quel lavoro è stata una fortuna in maschera — l'ha portata verso qualcosa di meglio."],

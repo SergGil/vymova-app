@@ -1,4 +1,4 @@
-// English Words App — js/features/notes.ts
+// Vymova — js/features/notes.ts
 // Personal notes / mnemonics per word
 // Modal UI lives in note-modal.tsx (React).
 

@@ -1,4 +1,4 @@
-// English Words App — src/app-root.tsx
+// Vymova — src/app-root.tsx
 // Item 34: єдиний React-рут (createRoot на #app-root). Кожен фічевий
 // компонент рендериться через createPortal у свою існуючу #xxx-mount
 // точку в DOM (вёрстка та CSS не змінюються).

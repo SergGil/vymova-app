@@ -1,4 +1,4 @@
-// English Words App — js/features/duel-powerups.tsx
+// Vymova — js/features/duel-powerups.tsx
 // Рядок паверапів ігрового екрану дуелі (item 32, Фаза 5). Чисте
 // відображення знімку `_getPowerupsData()`; клік делегується в
 // `_onPowerupClick()` (duel.ts), яка зберігає весь guard/state-machine.

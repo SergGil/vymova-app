@@ -1,4 +1,4 @@
-// English Words App — js/features/i18n.ts
+// Vymova — js/features/i18n.ts
 // Minimal i18n: translates sidebar menu labels (UA ⇄ EN), persisted via localStorage
 
 import { useEffect, type ReactElement } from 'react';

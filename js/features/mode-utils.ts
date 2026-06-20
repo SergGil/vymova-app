@@ -1,4 +1,4 @@
-// English Words App — js/features/mode-utils.ts
+// Vymova — js/features/mode-utils.ts
 // Shared ES mode detection + helpers used by app.ts and similar-words.ts
 import { W_ES } from '../../data/words_es.js';
 import { W_FR } from '../../data/words_fr.js';

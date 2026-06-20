@@ -1,4 +1,4 @@
-// English Words App — Arabic translations (subset)
+// Vymova — Arabic translations (subset)
 // Format: "english_word": ["arabic_translation","arabic_example_sentence"]
 export const W_AR = {
   "a blessing in disguise": ["نعمة في ثوب نقمة", "كانت خسارة تلك الوظيفة نعمة في ثوب نقمة — أدت إلى شيء أفضل."],

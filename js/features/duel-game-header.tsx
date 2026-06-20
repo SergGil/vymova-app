@@ -1,4 +1,4 @@
-// English Words App — js/features/duel-game-header.tsx
+// Vymova — js/features/duel-game-header.tsx
 // Шапка екрану дуелі (item 32, Фаза 5): аватари, рахунок, прогрес-бари,
 // бейдж режиму, серія Best-of-3, код кімнати. Re-rendered on demand via
 // refreshDuelGameHeader(), яку викликає duel.ts після зміни стану гри

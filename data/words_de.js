@@ -1,4 +1,4 @@
-// English Words App — German translations (subset)
+// Vymova — German translations (subset)
 // Format: "english_word": ["german_translation","german_example_sentence"]
 export const W_DE = {
   "a blessing in disguise": ["ein Segen im Verborgenen", "Den Job zu verlieren war ein Segen im Verborgenen — er führte sie zu etwas Besserem."],

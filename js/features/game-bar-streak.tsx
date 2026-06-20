@@ -1,4 +1,4 @@
-// English Words App — js/features/game-bar-streak.tsx
+// Vymova — js/features/game-bar-streak.tsx
 // "Block 1" (стрік + щити + combo) і "Block 2" (ціль дня) ігрового бару.
 // Re-rendered on demand via refreshGameBarStreak/refreshComboBox/refreshGameBarGoal,
 // called from render-game-bar.ts / combo.ts after game data changes.

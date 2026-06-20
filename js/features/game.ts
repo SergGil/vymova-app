@@ -1,4 +1,4 @@
-// English Words App — js/features/game.ts
+// Vymova — js/features/game.ts
 // Game data, progress tracking, levels & achievements data
 import { state } from '../../src/state.ts';
 import type { GameData, Level, Achievement, ModeStats, ModeAccuracy, ModeAccEntry } from '../../src/types.js';

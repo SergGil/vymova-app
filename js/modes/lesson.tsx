@@ -1,4 +1,4 @@
-// English Words App — js/modes/lesson.tsx
+// Vymova — js/modes/lesson.tsx
 // 📚 LESSON MODE
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';

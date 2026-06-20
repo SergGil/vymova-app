@@ -1,4 +1,4 @@
-// English Words App — js/features/card-meta.tsx
+// Vymova — js/features/card-meta.tsx
 // Бейджі картки: #wnum, known-badge/#btn-unmark, #wcefr, #wcategory, #wlang.
 // Частина item 28a (Фаза 4) — заміна статичного блоку .card-meta з render().
 import { useAppState } from '../../src/store.ts';

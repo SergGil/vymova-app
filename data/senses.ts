@@ -1,4 +1,4 @@
-// English Words App — data/senses.ts
+// Vymova — data/senses.ts
 // Numbered meanings for highly polysemous English words, each with its own
 // example sentence (Cambridge-style "multiple senses" view).
 // Key: lowercase English headword.
