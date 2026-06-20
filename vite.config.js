@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // In GitHub Actions the base is the repo subpath; locally assets load from root.
-const base = process.env.GITHUB_ACTIONS ? '/english-words-app/' : '/';
+const base = process.env.GITHUB_ACTIONS ? '/vymova-app/' : '/';
 
 export default defineConfig({
   root: '.',

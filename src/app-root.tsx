@@ -197,7 +197,7 @@ function AppRoot(): ReactElement {
   </>;
 }
 
-// BASE_URL is '/' in dev and '/english-words-app/' in production (GitHub Actions).
+// BASE_URL is '/' in dev and '/vymova-app/' in production (GitHub Actions).
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 export function mountAppRoot(): void {

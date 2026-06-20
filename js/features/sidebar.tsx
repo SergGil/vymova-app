@@ -115,7 +115,7 @@ export function closePage(): void {
   if (state.activePage !== null) { state.activePage = null; notifyStateChange(); }
   try { localStorage.removeItem(ACTIVE_PAGE_KEY); } catch(e){}
   // Navigate to root only if we're currently on a page route
-  if (window.location.pathname !== '/' && !window.location.pathname.endsWith('/english-words-app/')) {
+  if (window.location.pathname !== '/' && !window.location.pathname.endsWith('/vymova-app/')) {
     routerNavigate('/');
   }
   _setSidebarActive(null);
@@ -184,7 +184,7 @@ export function SidebarInit(): ReactElement | null {
     modesClose?.addEventListener('click', closePage);
 
     // ── Sidebar nav ──────────────────────────────────────────────
-    // Base path for hrefs ('' locally, '/english-words-app' on GitHub Pages).
+    // Base path for hrefs ('' locally, '/vymova-app' on GitHub Pages).
     const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
     // Returns a click handler that prevents default navigation for plain
