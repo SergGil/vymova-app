@@ -57,7 +57,7 @@ export function getSnapshot(appearance: CharacterAppearance, variant: 'full' | '
 
   const built = buildCharacterGroup(appearance);
   sharedScene.add(built.group);
-  const camera = createCamera(variant, built, width / height || aspect);
+  const camera = createCamera(variant, width / height || aspect);
 
   try {
     r.render(sharedScene, camera);

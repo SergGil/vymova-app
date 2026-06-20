@@ -241,6 +241,14 @@ export function buildCharacterGroup(appearance: CharacterAppearance): BuiltChara
     eyelids.push(eyeGroup);
   });
 
+  // Mouth — a small flattened bar, parented onto the head bone.
+  const mouth = new Mesh(
+    new BoxGeometry(0.16, 0.03, 0.02),
+    new MeshStandardMaterial({ color: '#7a4a3a', roughness: 0.6 }),
+  );
+  mouth.position.set(0, -0.16, 0.41);
+  headAnchor.add(mouth);
+
   // Hair
   const hairMeshes = buildHair(hairStyle, hairColor);
   hairMeshes.forEach(m => headAnchor.add(m));

@@ -1,12 +1,17 @@
 // Vymova — js/features/character-avatar/live-avatar.tsx
 // The one live, animated, drag-to-rotate 3D avatar view (profile page hero).
-// Owns its own WebGLRenderer + render loop; disposed fully on unmount.
+// Owns its own WebGLRenderer + render loop, created ONCE per (size, variant)
+// — changing appearance only swaps the character mesh inside the existing
+// scene/context, it never recreates the WebGL context. (Recreating the
+// context on every customization click could exhaust the browser's WebGL
+// context limit and get permanently stuck on the fallback placeholder.)
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { WebGLRenderer } from 'three';
+import { Scene, WebGLRenderer } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import type { CharacterAppearance } from '../../../src/types.ts';
-import { buildCharacterGroup } from './scene-builder.ts';
+import { buildCharacterGroup, type BuiltCharacter } from './scene-builder.ts';
 import { createLitScene, createCamera } from './scene-lighting.ts';
+import { BONE_WORLD } from './skeleton-builder.ts';
 import { FallbackAvatar } from './fallback-avatar.tsx';
 
 export interface LiveAvatarProps {
@@ -24,10 +29,15 @@ const WAVE_DURATION_MS = 1400;
 
 export function LiveAvatar({ appearance, size, variant }: LiveAvatarProps): ReactElement {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const sceneRef = useRef<Scene | null>(null);
+  const builtRef = useRef<BuiltCharacter | null>(null);
+  const torsoBaseYRef = useRef(0);
   const [unavailable, setUnavailable] = useState(false);
   const aspect = variant === 'head' ? 1 : 320 / 200;
   const height = Math.round(size * aspect);
 
+  // Renderer/scene/camera/controls + the render loop: created once per
+  // (size, variant) and kept alive across appearance changes.
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -40,15 +50,15 @@ export function LiveAvatar({ appearance, size, variant }: LiveAvatarProps): Reac
       setUnavailable(true);
       return;
     }
+    setUnavailable(false);
 
     const pixelRatio = Math.min(Math.max(window.devicePixelRatio || 1, 1), 2);
     renderer.setPixelRatio(pixelRatio);
     renderer.setSize(size, height, false);
 
     const scene = createLitScene();
-    const built = buildCharacterGroup(appearance);
-    scene.add(built.group);
-    const camera = createCamera(variant, built, size / height);
+    sceneRef.current = scene;
+    const camera = createCamera(variant, size / height);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enablePan = false;
@@ -57,7 +67,7 @@ export function LiveAvatar({ appearance, size, variant }: LiveAvatarProps): Reac
     controls.dampingFactor = 0.08;
     controls.autoRotate = !reducedMotion;
     controls.autoRotateSpeed = 1.2;
-    controls.target.set(0, variant === 'head' ? built.headAnchor.position.y : 0.85, 0);
+    controls.target.set(0, variant === 'head' ? BONE_WORLD.head[1] : 0.85, 0);
 
     let resumeTimer: number | undefined;
     const pauseAutoRotate = (): void => {
@@ -72,16 +82,15 @@ export function LiveAvatar({ appearance, size, variant }: LiveAvatarProps): Reac
     controls.addEventListener('start', pauseAutoRotate);
     controls.addEventListener('end', scheduleResume);
 
-    const torsoBaseY = built.torso.position.y;
-    const { spine, shoulderR, forearmR } = built.rig.bones;
     const startTime = performance.now();
     let rafId = 0;
 
     const tick = (): void => {
+      const built = builtRef.current;
       const t = performance.now() - startTime;
 
-      if (!reducedMotion) {
-        built.torso.position.y = torsoBaseY + Math.sin((t / BREATHE_PERIOD_MS) * Math.PI * 2) * 0.025;
+      if (built && !reducedMotion) {
+        built.torso.position.y = torsoBaseYRef.current + Math.sin((t / BREATHE_PERIOD_MS) * Math.PI * 2) * 0.025;
 
         const phase = t % BLINK_PERIOD_MS;
         const scaleY = phase < BLINK_DURATION_MS
@@ -90,10 +99,11 @@ export function LiveAvatar({ appearance, size, variant }: LiveAvatarProps): Reac
         built.eyelids.forEach(eye => { eye.scale.y = scaleY; });
 
         // Subtle continuous weight-shift sway through the spine.
-        spine.rotation.z = Math.sin((t / SWAY_PERIOD_MS) * Math.PI * 2) * 0.025;
+        built.rig.bones.spine.rotation.z = Math.sin((t / SWAY_PERIOD_MS) * Math.PI * 2) * 0.025;
 
         // Periodic short "wave" gesture: lift the shoulder/elbow, wiggle, return to rest.
         const wavePhase = t % WAVE_PERIOD_MS;
+        const { shoulderR, forearmR } = built.rig.bones;
         if (wavePhase < WAVE_DURATION_MS) {
           const wave = Math.sin((wavePhase / WAVE_DURATION_MS) * Math.PI);
           const wiggle = Math.sin((wavePhase / WAVE_DURATION_MS) * Math.PI * 6) * 0.12;
@@ -117,12 +127,31 @@ export function LiveAvatar({ appearance, size, variant }: LiveAvatarProps): Reac
       controls.removeEventListener('start', pauseAutoRotate);
       controls.removeEventListener('end', scheduleResume);
       controls.dispose();
-      built.dispose();
+      builtRef.current?.dispose();
+      builtRef.current = null;
+      sceneRef.current = null;
       renderer.dispose();
       renderer.forceContextLoss?.();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- appearance changes are rare (profile edits); a full remount-on-change is acceptable and simpler than diffing the built scene.
-  }, [appearance, size, variant, height]);
+  }, [size, variant, height]);
+
+  // Swaps the character mesh in place whenever appearance changes — no
+  // renderer/context churn.
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!scene) return;
+
+    const previous = builtRef.current;
+    const next = buildCharacterGroup(appearance);
+    scene.add(next.group);
+    builtRef.current = next;
+    torsoBaseYRef.current = next.torso.position.y;
+
+    if (previous) {
+      scene.remove(previous.group);
+      previous.dispose();
+    }
+  }, [appearance]);
 
   if (unavailable) return <FallbackAvatar appearance={appearance} size={size} />;
 

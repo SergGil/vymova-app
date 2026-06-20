@@ -2,8 +2,8 @@
 // Shared lighting rig + camera framing. 'full' vs 'head' variants are
 // implemented purely via camera framing (analogous to the old SVG viewBox),
 // not via different geometry.
-import { Scene, AmbientLight, DirectionalLight, PerspectiveCamera, Vector3 } from 'three';
-import type { BuiltCharacter } from './scene-builder.ts';
+import { Scene, AmbientLight, DirectionalLight, PerspectiveCamera } from 'three';
+import { BONE_WORLD } from './skeleton-builder.ts';
 
 export function createLitScene(): Scene {
   const scene = new Scene();
@@ -17,17 +17,14 @@ export function createLitScene(): Scene {
   return scene;
 }
 
-export function createCamera(
-  variant: 'full' | 'head',
-  built: BuiltCharacter,
-  aspect: number,
-): PerspectiveCamera {
+// The head bone's rest-pose position is a fixed rig constant (independent of
+// appearance), so the camera can be framed without needing a built character.
+export function createCamera(variant: 'full' | 'head', aspect: number): PerspectiveCamera {
   const camera = new PerspectiveCamera(variant === 'head' ? 28 : 32, aspect, 0.1, 20);
   if (variant === 'head') {
-    const headPos = new Vector3();
-    built.headAnchor.getWorldPosition(headPos);
-    camera.position.set(headPos.x, headPos.y + 0.05, headPos.z + 1.25);
-    camera.lookAt(headPos.x, headPos.y, headPos.z);
+    const [hx, hy, hz] = BONE_WORLD.head;
+    camera.position.set(hx, hy + 0.05, hz + 1.25);
+    camera.lookAt(hx, hy, hz);
   } else {
     camera.position.set(0, 1.0, 3.4);
     camera.lookAt(0, 0.85, 0);

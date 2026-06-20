@@ -90,7 +90,7 @@ export interface LimbTubeOptions {
 export function buildLimbTube(opts: LimbTubeOptions): BufferGeometry {
   const {
     boneAIndex, boneBIndex, radiusStart, radiusBend, radiusEnd,
-    radialSegments = 8, lengthSegments = 7,
+    radialSegments = 14, lengthSegments = 8,
   } = opts;
   const start = new Vector3(...opts.start);
   const end = new Vector3(...opts.end);
@@ -141,6 +141,32 @@ export function buildLimbTube(opts: LimbTubeOptions): BufferGeometry {
       indices.push(a, c, b, b, c, d);
     }
   }
+
+  // Cap both open ends with a center vertex + triangle fan. Without this the
+  // tube is a hollow single-walled shell, and at grazing silhouette angles
+  // (combined with DoubleSide materials) the front rim and the visible inner
+  // wall behind it create a jagged moiré seam — capping removes the hollow
+  // interior entirely.
+  const capRing = (ringIndex: number, weightA: number, weightB: number, outward: number): void => {
+    const centerIdx = positions.length / 3;
+    let avgX = 0, avgY = 0, avgZ = 0;
+    for (let j = 0; j < radialSegments; j++) {
+      const idx = (ringIndex * radialSegments + j) * 3;
+      avgX += positions[idx]; avgY += positions[idx + 1]; avgZ += positions[idx + 2];
+    }
+    positions.push(avgX / radialSegments, avgY / radialSegments, avgZ / radialSegments);
+    normals.push(dir.x * outward, dir.y * outward, dir.z * outward);
+    skinIndices.push(boneAIndex, boneBIndex, 0, 0);
+    skinWeights.push(weightA, weightB, 0, 0);
+    for (let j = 0; j < radialSegments; j++) {
+      const a = ringIndex * radialSegments + j;
+      const b = ringIndex * radialSegments + ((j + 1) % radialSegments);
+      if (outward < 0) indices.push(centerIdx, b, a);
+      else indices.push(centerIdx, a, b);
+    }
+  };
+  capRing(0, 1, 0, -1);
+  capRing(ringCount - 1, 0, 1, 1);
 
   const geometry = new BufferGeometry();
   geometry.setAttribute('position', new BufferAttribute(new Float32Array(positions), 3));
