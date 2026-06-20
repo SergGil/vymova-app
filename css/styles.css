@@ -2629,23 +2629,6 @@ body.sw .hamburger { border-color: rgba(0,200,255,.3); }
   max-width: 420px;
 }
 
-/* Idle character animation: gentle breathing bob + periodic blink. */
-@keyframes char-breathe {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-3px); }
-}
-.char-breathe { animation: char-breathe 3.4s ease-in-out infinite; }
-
-@keyframes char-blink {
-  0%, 90%, 100% { transform: scaleY(1); }
-  95%           { transform: scaleY(.06); }
-}
-.char-blink { animation: char-blink 4.8s ease-in-out infinite; }
-
-@media (prefers-reduced-motion: reduce) {
-  .char-breathe, .char-blink { animation: none; }
-}
-
 /* ══ Duel chat / reactions panel ════════════════════════════════ */
 .duel-chat-panel {
   margin-top: 14px;

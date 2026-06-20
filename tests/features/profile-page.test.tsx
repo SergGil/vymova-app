@@ -33,9 +33,9 @@ describe('profile-page.tsx ProfilePage', () => {
     getKnownInLang.mockClear().mockReturnValue(20);
   });
 
-  it('renders the avatar svg and a picker row for every customization category', () => {
+  it('renders the avatar and a picker row for every customization category', () => {
     const { container } = mount();
-    expect(container.querySelector('svg')).not.toBeNull();
+    expect(container.querySelector('[aria-label="character avatar"]')).not.toBeNull();
     expect(container.querySelectorAll('.profile-picker-row').length).toBe(6);
   });
 
