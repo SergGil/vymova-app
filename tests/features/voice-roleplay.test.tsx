@@ -65,7 +65,7 @@ describe('voice-roleplay.tsx VoiceRoleplayPage', () => {
   it('shows a scenario picker first', async () => {
     await mount();
     const target = document.getElementById('voice-roleplay-content')!;
-    expect(target.querySelectorAll('.roleplay-scenario-card').length).toBe(2);
+    expect(target.querySelectorAll('.roleplay-scenario-card').length).toBe(30);
   });
 
   it('falls back to a text input when SpeechRecognition is unsupported, and sends + shows feedback', async () => {

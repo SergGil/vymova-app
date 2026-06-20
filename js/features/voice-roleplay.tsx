@@ -11,11 +11,45 @@ import { _speakWithLang } from './speech.ts';
 import { t } from './i18n.ts';
 import { bindOverlayDismiss } from './overlay-utils.ts';
 
-export type ScenarioId = 'job-interview' | 'ordering-coffee';
+export type ScenarioId =
+  | 'job-interview' | 'ordering-coffee' | 'restaurant' | 'hotel-checkin' | 'airport-security'
+  | 'doctor-appointment' | 'asking-directions' | 'shopping-clothes' | 'returning-item' | 'bank-account'
+  | 'renting-apartment' | 'performance-review' | 'small-talk-party' | 'taxi-ride' | 'car-rental'
+  | 'gym-membership' | 'hairdresser' | 'noise-complaint' | 'tech-support' | 'ordering-pizza'
+  | 'lost-luggage' | 'museum-tour' | 'ordering-takeout' | 'booking-flight' | 'negotiating-price'
+  | 'emergency-call' | 'parent-teacher' | 'first-date' | 'customer-complaint' | 'networking-event';
 
 export const SCENARIOS: { id: ScenarioId; emoji: string; labelKey: string }[] = [
   { id: 'job-interview', emoji: '💼', labelKey: 'roleplay.scenarioInterview' },
   { id: 'ordering-coffee', emoji: '☕', labelKey: 'roleplay.scenarioCoffee' },
+  { id: 'restaurant', emoji: '🍽️', labelKey: 'roleplay.scenarioRestaurant' },
+  { id: 'hotel-checkin', emoji: '🏨', labelKey: 'roleplay.scenarioHotel' },
+  { id: 'airport-security', emoji: '✈️', labelKey: 'roleplay.scenarioAirport' },
+  { id: 'doctor-appointment', emoji: '🩺', labelKey: 'roleplay.scenarioDoctor' },
+  { id: 'asking-directions', emoji: '🗺️', labelKey: 'roleplay.scenarioDirections' },
+  { id: 'shopping-clothes', emoji: '👕', labelKey: 'roleplay.scenarioShopping' },
+  { id: 'returning-item', emoji: '🔄', labelKey: 'roleplay.scenarioReturn' },
+  { id: 'bank-account', emoji: '🏦', labelKey: 'roleplay.scenarioBank' },
+  { id: 'renting-apartment', emoji: '🏠', labelKey: 'roleplay.scenarioRenting' },
+  { id: 'performance-review', emoji: '📈', labelKey: 'roleplay.scenarioReview' },
+  { id: 'small-talk-party', emoji: '🎉', labelKey: 'roleplay.scenarioParty' },
+  { id: 'taxi-ride', emoji: '🚕', labelKey: 'roleplay.scenarioTaxi' },
+  { id: 'car-rental', emoji: '🚗', labelKey: 'roleplay.scenarioCarRental' },
+  { id: 'gym-membership', emoji: '🏋️', labelKey: 'roleplay.scenarioGym' },
+  { id: 'hairdresser', emoji: '💇', labelKey: 'roleplay.scenarioHairdresser' },
+  { id: 'noise-complaint', emoji: '🔇', labelKey: 'roleplay.scenarioNoiseComplaint' },
+  { id: 'tech-support', emoji: '💻', labelKey: 'roleplay.scenarioTechSupport' },
+  { id: 'ordering-pizza', emoji: '🍕', labelKey: 'roleplay.scenarioPizza' },
+  { id: 'lost-luggage', emoji: '🧳', labelKey: 'roleplay.scenarioLuggage' },
+  { id: 'museum-tour', emoji: '🖼️', labelKey: 'roleplay.scenarioMuseum' },
+  { id: 'ordering-takeout', emoji: '🥡', labelKey: 'roleplay.scenarioTakeout' },
+  { id: 'booking-flight', emoji: '🎫', labelKey: 'roleplay.scenarioFlight' },
+  { id: 'negotiating-price', emoji: '🤝', labelKey: 'roleplay.scenarioNegotiate' },
+  { id: 'emergency-call', emoji: '🚨', labelKey: 'roleplay.scenarioEmergency' },
+  { id: 'parent-teacher', emoji: '🍎', labelKey: 'roleplay.scenarioParentTeacher' },
+  { id: 'first-date', emoji: '❤️', labelKey: 'roleplay.scenarioFirstDate' },
+  { id: 'customer-complaint', emoji: '📞', labelKey: 'roleplay.scenarioComplaint' },
+  { id: 'networking-event', emoji: '🧑‍💼', labelKey: 'roleplay.scenarioNetworking' },
 ];
 
 const SPEECH_LANG: Record<string, string> = {

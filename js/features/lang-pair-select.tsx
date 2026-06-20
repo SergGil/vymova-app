@@ -3,7 +3,7 @@
 // Drives the legacy #sel-mode <select> so all existing listeners
 // (deck-mode, tag-filter, word-detail, mode-utils, ...) keep working untouched.
 import { useState, type ReactElement } from 'react';
-import { t } from './i18n.ts';
+import { t, getLang } from './i18n.ts';
 import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 
 export type LangCode = 'ua' | 'en' | 'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar' | 'pl' | 'zh' | 'el' | 'ja' | 'tr' | 'nl';
@@ -156,9 +156,11 @@ const LEARN_KEY = 'ew_learn_lang';
 const DIR_KEY = 'ew_direction';
 
 // Accusative form of the language name (e.g. "Українську" instead of
-// "Українська"), used after "Я знаю" / "Хочу вчити". Falls back to the
-// nominative form for languages without a dedicated translation.
+// "Українська"), used after "Я знаю" / "Хочу вчити" — only meaningful when
+// the UI itself is in Ukrainian; lang.acc.* only has Ukrainian translations,
+// so other UI languages would otherwise fall back to it via fallbackLng.
 function langAcc(l: LangCode): string {
+  if (getLang() !== 'ua') return t(`lang.${l}`);
   const key = `lang.acc.${l}`;
   const val = t(key);
   return val === key ? t(`lang.${l}`) : val;
