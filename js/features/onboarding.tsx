@@ -15,7 +15,7 @@ function getSlides(wordCount: string): Slide[] {
     {
       emoji: '👋',
       title: t('ob.slide1.title'),
-      html: t('ob.slide1.html').replace(/\{n\}/g, wordCount),
+      html: t('ob.slide1.html', { n: wordCount }),
     },
     {
       emoji: '🃏',

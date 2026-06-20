@@ -50,6 +50,18 @@ describe('onboarding.tsx OnboardingPage', () => {
     expect(localStorage.getItem(FLAG_KEY)).toBeNull();
   });
 
+  it('interpolates the word count into slide 1 instead of leaving a literal placeholder', async () => {
+    localStorage.setItem(FLAG_KEY, '1');
+    const { container, root } = mount();
+    roots.push(root);
+    await wait(350);
+
+    const slide1 = container.querySelectorAll('.ob-slide')[0];
+    expect(slide1.innerHTML).toContain(String(W.length));
+    expect(slide1.innerHTML).not.toContain('{n}');
+    expect(slide1.innerHTML).not.toContain('{{n}}');
+  });
+
   it('navigates through slides via the "next" button, updating dots', async () => {
     localStorage.setItem(FLAG_KEY, '1');
     const { container, root } = mount();
