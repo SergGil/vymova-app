@@ -1,9 +1,10 @@
 name = "vymova-ai-proxy"
 main = "src/index.ts"
 compatibility_date = "2026-01-01"
+workers_dev = true
 
 [vars]
-ALLOWED_ORIGIN = "https://your-username.github.io"
+ALLOWED_ORIGIN = "https://serggil.github.io"
 
 # Optional: enables the per-IP rate limit. Create with:
 #   wrangler kv namespace create RATE_LIMIT

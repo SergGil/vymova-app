@@ -32,7 +32,8 @@
     "happy-dom": "^20.9.0",
     "typescript": "^6.0.3",
     "vite": "^6.4.3",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.8",
+    "wrangler": "^4.86.0"
   },
   "dependencies": {
     "i18next": "^26.3.1",

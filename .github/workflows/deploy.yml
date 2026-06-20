@@ -37,6 +37,8 @@ jobs:
         run: npm test
 
       - name: Build
+        env:
+          VITE_AI_PROXY_URL: ${{ vars.VITE_AI_PROXY_URL }}
         run: npm run build
 
       - name: Create index.html (GitHub Pages requires root index.html)
