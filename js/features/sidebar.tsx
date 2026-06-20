@@ -40,10 +40,11 @@ const PAGE_TO_SIDEBAR: Record<string, string> = {
   duel: 'sb-duel',   grammar: 'sb-grammar',
   idioms: 'sb-idioms',
   'learning-path': 'sb-learning-path',
+  profile: 'sb-profile',
 };
 
 function _setSidebarActive(page: string | null): void {
-  ['sb-cards','sb-stats','sb-achievements','sb-modes','sb-settings','sb-duel','sb-grammar','sb-idioms','sb-learning-path'].forEach(id => {
+  ['sb-cards','sb-stats','sb-achievements','sb-modes','sb-settings','sb-duel','sb-grammar','sb-idioms','sb-learning-path','sb-profile'].forEach(id => {
     document.getElementById(id)?.classList.remove('sb-active');
   });
   const activeId = page ? (PAGE_TO_SIDEBAR[page] ?? 'sb-cards') : 'sb-cards';
@@ -95,6 +96,8 @@ export function openPage(page: string): void {
   } else if (page === 'learning-path') {
     document.getElementById('lp-overlay')?.classList.add('open');
     import('./learning-path.ts').then(({ openLearningPath }) => openLearningPath()).catch(() => {});
+  } else if (page === 'profile') {
+    document.getElementById('profile-overlay')?.classList.add('open');
   }
   if (window.innerWidth <= 900) closeSidebar();
 }
@@ -128,6 +131,7 @@ export function closePage(): void {
   document.getElementById('grammar-overlay')?.classList.remove('open');
   document.getElementById('idioms-overlay')?.classList.remove('open');
   document.getElementById('lp-overlay')?.classList.remove('open');
+  document.getElementById('profile-overlay')?.classList.remove('open');
   for (const id of MODE_OVERLAY_IDS) {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
@@ -210,6 +214,7 @@ export function SidebarInit(): ReactElement | null {
       ['sb-grammar',       '/grammar',        'grammar'],
       ['sb-idioms',        '/idioms',         'idioms'],
       ['sb-learning-path', '/learning-path',  'learning-path'],
+      ['sb-profile',       '/profile',        'profile'],
     ];
     const _navListeners: [HTMLElement, string, EventListener][] = [];
     for (const [id, route, page] of NAV_LINKS) {

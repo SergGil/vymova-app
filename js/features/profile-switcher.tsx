@@ -12,7 +12,7 @@ const BASE_SNAP_KEYS = [
   'ew_known', 'ew_known_lz', 'ew_srs', 'ew_srs_lz',
   'ew_game', 'ew_daily', 'ew_ach', 'ew_milestones',
   'ew_pairs_best', 'ew_ws_voice', 'ew_ws_uk_voice', 'ew_ws_es_voice',
-  'ew_notes', 'ew_bookmarks',
+  'ew_notes', 'ew_bookmarks', 'ew_character',
   'tempo_best_30', 'tempo_best_60', 'tempo_best_120',
   // Pattern: all ew_* keys not already listed above are captured dynamically in _snapKeys()
 ];

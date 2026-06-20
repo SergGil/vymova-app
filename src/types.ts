@@ -39,6 +39,15 @@ export interface GameData {
   maxCombo:       number;
 }
 
+// ── Character avatar (profile page) ─────────────────────────────
+export interface CharacterAppearance {
+  skinTone:  number; // index into SKIN_TONES
+  hairStyle: number; // index into HAIR_STYLES
+  hairColor: number; // index into HAIR_COLORS
+  eyeColor:  number; // index into EYE_COLORS
+  outfit:    number; // index into OUTFITS
+}
+
 // ── Level ─────────────────────────────────────────────────────
 export interface Level {
   name:  string;

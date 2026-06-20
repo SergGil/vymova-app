@@ -24,6 +24,7 @@ export const PAGE_TO_ROUTE: Record<string, string> = {
   grammar:          '/grammar',
   idioms:           '/idioms',
   'learning-path':  '/learning-path',
+  profile:          '/profile',
 };
 
 // URL path → page id

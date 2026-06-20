@@ -2,7 +2,7 @@
 // Pure storage helpers with TypeScript types
 
 import * as LZString from 'lz-string';
-import type { SRSData } from '../../src/types.js';
+import type { SRSData, CharacterAppearance } from '../../src/types.js';
 
 // ── LZ compress / decompress ──────────────────────────────────
 
@@ -190,4 +190,24 @@ export function saveSRS(srsData: SRSData): void {
 
 export function loadSRS(): SRSData {
   return _lzLoad<SRSData>(_srsLangKey(), {});
+}
+
+// ── Character avatar (profile page) ─────────────────────────────
+
+const DEFAULT_APPEARANCE: CharacterAppearance = {
+  skinTone: 0, hairStyle: 1, hairColor: 0, eyeColor: 0, outfit: 0,
+};
+
+export function saveCharacter(appearance: CharacterAppearance): void {
+  localStorage.setItem('ew_character', JSON.stringify(appearance));
+}
+
+export function loadCharacter(): CharacterAppearance {
+  try {
+    const raw = localStorage.getItem('ew_character');
+    if (!raw) return { ...DEFAULT_APPEARANCE };
+    return { ...DEFAULT_APPEARANCE, ...JSON.parse(raw) as Partial<CharacterAppearance> };
+  } catch (e) {
+    return { ...DEFAULT_APPEARANCE };
+  }
 }

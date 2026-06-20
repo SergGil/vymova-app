@@ -61,6 +61,7 @@ import { ScramblePage } from '../js/modes/scramble.tsx';
 import { WordLettersPage } from '../js/modes/word-letters.tsx';
 import { StatsPage } from '../js/features/stats-page.tsx';
 import { AchievementsPage } from '../js/features/achievements-page.tsx';
+import { ProfilePage } from '../js/features/profile-page.tsx';
 import { GrammarPage } from '../js/features/grammar-page.tsx';
 import { IdiomsPageRoot } from '../js/features/idioms-page.tsx';
 import { OnboardingPage } from '../js/features/onboarding.tsx';
@@ -176,6 +177,7 @@ function AppRoot(): ReactElement {
     <Portal id="wl-page-mount"><WordLettersPage/></Portal>
     <Portal id="stats-overlay"><StatsPage/></Portal>
     <Portal id="achievements-grid"><AchievementsPage/></Portal>
+    <ProfilePage/>
     <Portal id="grammar-layout-mount"><GrammarPage/></Portal>
     <Portal id="idioms-page-mount"><IdiomsPageRoot/></Portal>
     <Portal id="onboarding-mount"><OnboardingPage/></Portal>

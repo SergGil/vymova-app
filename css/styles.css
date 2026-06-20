@@ -2558,6 +2558,65 @@ body.sw .hamburger { border-color: rgba(0,200,255,.3); }
   margin: 0 auto;
 }
 
+/* ══ Profile page (character avatar + customization) ═══════════ */
+.profile-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.profile-avatar-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+}
+.profile-customize {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+.profile-picker-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.profile-picker-row:last-child { border-bottom: none; }
+.profile-picker-label {
+  font-size: .82rem;
+  color: var(--text2);
+}
+.profile-picker-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.profile-picker-arrow {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 28px; height: 28px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: .8rem;
+  line-height: 1;
+}
+.profile-picker-arrow:hover { background: var(--accent); color: #fff; }
+.profile-picker-val {
+  font-size: .78rem;
+  color: var(--text3);
+  min-width: 38px;
+  text-align: center;
+}
+.profile-stats {
+  width: 100%;
+  max-width: 420px;
+}
+
 /* ══ Duel chat / reactions panel ════════════════════════════════ */
 .duel-chat-panel {
   margin-top: 14px;
