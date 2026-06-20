@@ -23,6 +23,8 @@ export const PAGE_TO_ROUTE: Record<string, string> = {
   duel:             '/duel',
   grammar:          '/grammar',
   idioms:           '/idioms',
+  'ai-tutor':       '/ai-tutor',
+  'voice-roleplay': '/voice-roleplay',
   'learning-path':  '/learning-path',
   profile:          '/profile',
 };

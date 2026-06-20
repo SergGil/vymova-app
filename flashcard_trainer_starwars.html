@@ -44,6 +44,8 @@
     <a class="sb-btn" id="sb-learning-path" href="#"><span class="sb-icon">🎯</span><span class="sb-label" data-i18n="nav.learningPath">Шлях навчання</span></a>
     <a class="sb-btn" id="sb-grammar"       href="#"><span class="sb-icon">📖</span><span class="sb-label" data-i18n="nav.grammar">Граматика</span></a>
     <a class="sb-btn" id="sb-idioms"        href="#"><span class="sb-icon">💬</span><span class="sb-label" data-i18n="nav.idioms">Ідіоми</span></a>
+    <a class="sb-btn" id="sb-ai-tutor"      href="#" style="display:none;"><span class="sb-icon">🤖</span><span class="sb-label" data-i18n="nav.aiTutor">ШІ-репетитор</span></a>
+    <a class="sb-btn" id="sb-voice-roleplay" href="#" style="display:none;"><span class="sb-icon">🎤</span><span class="sb-label" data-i18n="nav.voiceRoleplay">Голосовий ролеплей</span></a>
     <a class="sb-btn" id="sb-duel"          href="#"><span class="sb-icon">⚔️</span><span class="sb-label" data-i18n="nav.duel">Дуель</span></a>
     <a class="sb-btn" id="sb-profile"       href="#"><span class="sb-icon">👤</span><span class="sb-label" data-i18n="nav.profile">Профіль</span></a>
     <a class="sb-btn" id="sb-settings"      href="#"><span class="sb-icon">⚙️</span><span class="sb-label" data-i18n="nav.settings">Налаштування</span></a>
@@ -625,6 +627,28 @@
     </div>
   </div>
 
+  <!-- ══ AI TUTOR PAGE ══ -->
+  <div id="ai-tutor-overlay" class="page-overlay">
+    <div class="page-inner">
+      <div class="page-header">
+        <div class="page-title">🤖 <span data-i18n="nav.aiTutor">ШІ-репетитор</span></div>
+        <button class="page-close-btn" id="ai-tutor-close">✕</button>
+      </div>
+      <div id="ai-tutor-content"></div>
+    </div>
+  </div>
+
+  <!-- ══ VOICE ROLEPLAY PAGE ══ -->
+  <div id="voice-roleplay-overlay" class="page-overlay">
+    <div class="page-inner">
+      <div class="page-header">
+        <div class="page-title">🎤 <span data-i18n="nav.voiceRoleplay">Голосовий ролеплей</span></div>
+        <button class="page-close-btn" id="voice-roleplay-close">✕</button>
+      </div>
+      <div id="voice-roleplay-content"></div>
+    </div>
+  </div>
+
   <!-- ══ PROFILE DELETE MODAL (outside .app — top z-index) ══ -->
   <div id="prf-delete-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;align-items:center;justify-content:center;padding:16px;"></div>
 
@@ -685,6 +709,7 @@
         <button class="mode-card mc-listen" id="btn-listen"  ><span class="mode-icon">🔊</span><span class="mode-name" data-i18n="modesPg.listenName">Слухай</span>  <span class="mode-desc" data-i18n="modesPg.listenDesc">Аудіо</span></button>
         <button class="mode-card mc-fib"    id="btn-fib"     ><span class="mode-icon">✏️</span><span class="mode-name" data-i18n="modesPg.fibName">Пропуск</span> <span class="mode-desc" data-i18n="modesPg.fibDesc">Вставте слово</span></button>
         <button class="mode-card mc-daily"     id="btn-daily-challenge"><span class="mode-icon">⚡</span><span class="mode-name" data-i18n="modesPg.dailyName">Місія дня</span>  <span class="mode-desc" data-i18n="modesPg.dailyDesc">10 слів + таймер</span></button>
+        <button class="mode-card mc-quiz"      id="btn-adaptive-quiz"><span class="mode-icon">🎯</span><span class="mode-name" data-i18n="modesPg.adaptiveName">Адаптивний тест</span>  <span class="mode-desc" data-i18n="modesPg.adaptiveDesc">Складність підлаштовується</span></button>
         <button class="mode-card mc-reading"   id="btn-reading">        <span class="mode-icon">📖</span><span class="mode-name" data-i18n="modesPg.readingName">Читання</span>    <span class="mode-desc" data-i18n="modesPg.readingDesc">Текст зі словами</span></button>
         <button class="mode-card mc-context"   id="btn-context">        <span class="mode-icon">🔍</span><span class="mode-name" data-i18n="modesPg.contextName">Контекст</span>   <span class="mode-desc" data-i18n="modesPg.contextDesc">Вгадай з речення</span></button>
         <button class="mode-card mc-spelling"  id="btn-spelling-bee">   <span class="mode-icon">🐝</span><span class="mode-name" data-i18n="modesPg.beeName">Spelling Bee</span><span class="mode-desc" data-i18n="modesPg.beeDesc">Почуй і напиши</span></button>
@@ -795,6 +820,13 @@
   <div id="quiz-overlay">
     <div class="quiz-panel" id="quiz-panel">
       <div id="quiz-page-mount"></div>
+    </div>
+  </div>
+
+  <!-- ══ ADAPTIVE QUIZ MODAL ══ -->
+  <div id="aq-overlay">
+    <div class="quiz-panel" id="aq-panel">
+      <div id="aq-page-mount"></div>
     </div>
   </div>
 

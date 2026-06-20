@@ -57,6 +57,7 @@ import { LessonPage } from '../js/modes/lesson.tsx';
 import { WritePage } from '../js/modes/write.tsx';
 import { CatPairsPage, CatPairsWiringInit } from '../js/modes/catpairs.tsx';
 import { QuizPage } from '../js/modes/quiz.tsx';
+import { AdaptiveQuizPage } from '../js/modes/adaptive-quiz.tsx';
 import { ScramblePage } from '../js/modes/scramble.tsx';
 import { WordLettersPage } from '../js/modes/word-letters.tsx';
 import { StatsPage } from '../js/features/stats-page.tsx';
@@ -64,6 +65,8 @@ import { AchievementsPage } from '../js/features/achievements-page.tsx';
 import { ProfilePage } from '../js/features/profile-page.tsx';
 import { GrammarPage } from '../js/features/grammar-page.tsx';
 import { IdiomsPageRoot } from '../js/features/idioms-page.tsx';
+import { AiTutorPage } from '../js/features/ai-tutor.tsx';
+import { VoiceRoleplayPage } from '../js/features/voice-roleplay.tsx';
 import { OnboardingPage } from '../js/features/onboarding.tsx';
 import { BugReportForm } from '../js/features/bug-report.tsx';
 import { AchievementToast } from '../js/features/achievement-toast.tsx';
@@ -173,6 +176,7 @@ function AppRoot(): ReactElement {
     <Portal id="catpairs-page-mount"><CatPairsPage/></Portal>
     <CatPairsWiringInit/>
     <Portal id="quiz-page-mount"><QuizPage/></Portal>
+    <Portal id="aq-page-mount"><AdaptiveQuizPage/></Portal>
     <Portal id="scr-page-mount"><ScramblePage/></Portal>
     <Portal id="wl-page-mount"><WordLettersPage/></Portal>
     <Portal id="stats-overlay"><StatsPage/></Portal>
@@ -180,6 +184,8 @@ function AppRoot(): ReactElement {
     <ProfilePage/>
     <Portal id="grammar-layout-mount"><GrammarPage/></Portal>
     <Portal id="idioms-page-mount"><IdiomsPageRoot/></Portal>
+    <AiTutorPage/>
+    <VoiceRoleplayPage/>
     <Portal id="onboarding-mount"><OnboardingPage/></Portal>
     <Portal id="bug-report-mount"><BugReportForm/></Portal>
     <Portal id="achievement-toast-mount"><AchievementToast/></Portal>

@@ -5,6 +5,7 @@ import { refreshAchievementsPage } from './achievements-page.tsx';
 import { renderDuel } from './duel.ts';
 import { openGrammarContent } from './grammar-page.tsx';
 import { openIdiomsContent } from './idioms-page.tsx';
+import { AI_TUTOR_ENABLED } from '../config.ts';
 import { state } from '../../src/state.ts';
 import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
@@ -41,10 +42,12 @@ const PAGE_TO_SIDEBAR: Record<string, string> = {
   idioms: 'sb-idioms',
   'learning-path': 'sb-learning-path',
   profile: 'sb-profile',
+  'ai-tutor': 'sb-ai-tutor',
+  'voice-roleplay': 'sb-voice-roleplay',
 };
 
 function _setSidebarActive(page: string | null): void {
-  ['sb-cards','sb-stats','sb-achievements','sb-modes','sb-settings','sb-duel','sb-grammar','sb-idioms','sb-learning-path','sb-profile'].forEach(id => {
+  ['sb-cards','sb-stats','sb-achievements','sb-modes','sb-settings','sb-duel','sb-grammar','sb-idioms','sb-learning-path','sb-profile','sb-ai-tutor','sb-voice-roleplay'].forEach(id => {
     document.getElementById(id)?.classList.remove('sb-active');
   });
   const activeId = page ? (PAGE_TO_SIDEBAR[page] ?? 'sb-cards') : 'sb-cards';
@@ -98,6 +101,10 @@ export function openPage(page: string): void {
     import('./learning-path.ts').then(({ openLearningPath }) => openLearningPath()).catch(() => {});
   } else if (page === 'profile') {
     document.getElementById('profile-overlay')?.classList.add('open');
+  } else if (page === 'ai-tutor') {
+    document.getElementById('ai-tutor-overlay')?.classList.add('open');
+  } else if (page === 'voice-roleplay') {
+    document.getElementById('voice-roleplay-overlay')?.classList.add('open');
   }
   if (window.innerWidth <= 900) closeSidebar();
 }
@@ -132,6 +139,8 @@ export function closePage(): void {
   document.getElementById('idioms-overlay')?.classList.remove('open');
   document.getElementById('lp-overlay')?.classList.remove('open');
   document.getElementById('profile-overlay')?.classList.remove('open');
+  document.getElementById('ai-tutor-overlay')?.classList.remove('open');
+  document.getElementById('voice-roleplay-overlay')?.classList.remove('open');
   for (const id of MODE_OVERLAY_IDS) {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
@@ -164,6 +173,15 @@ export function SidebarInit(): ReactElement | null {
     imgClearCancel?.addEventListener('click', onImgClearCancel);
     imgClearConfirm?.addEventListener('click', onImgClearConfirm);
     imgClearOvl?.addEventListener('click', onImgClearOvlClick);
+
+    // AI tutor nav link is hidden by default (no backend configured) —
+    // reveal it once the build-time proxy URL is set.
+    if (AI_TUTOR_ENABLED) {
+      const aiTutorLink = document.getElementById('sb-ai-tutor') as HTMLElement | null;
+      if (aiTutorLink) aiTutorLink.style.display = '';
+      const roleplayLink = document.getElementById('sb-voice-roleplay') as HTMLElement | null;
+      if (roleplayLink) roleplayLink.style.display = '';
+    }
 
     // ── Sidebar wiring ─────────────────────────────────────────
     const ham = document.getElementById('hamburger');
@@ -215,6 +233,8 @@ export function SidebarInit(): ReactElement | null {
       ['sb-idioms',        '/idioms',         'idioms'],
       ['sb-learning-path', '/learning-path',  'learning-path'],
       ['sb-profile',       '/profile',        'profile'],
+      ['sb-ai-tutor',      '/ai-tutor',       'ai-tutor'],
+      ['sb-voice-roleplay','/voice-roleplay', 'voice-roleplay'],
     ];
     const _navListeners: [HTMLElement, string, EventListener][] = [];
     for (const [id, route, page] of NAV_LINKS) {
