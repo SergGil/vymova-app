@@ -67,6 +67,7 @@ import { GrammarPage } from '../js/features/grammar-page.tsx';
 import { IdiomsPageRoot } from '../js/features/idioms-page.tsx';
 import { AiTutorPage } from '../js/features/ai-tutor.tsx';
 import { VoiceRoleplayPage } from '../js/features/voice-roleplay.tsx';
+import { YoutubePlayerPage } from '../js/features/youtube-player.tsx';
 import { OnboardingPage } from '../js/features/onboarding.tsx';
 import { BugReportForm } from '../js/features/bug-report.tsx';
 import { AchievementToast } from '../js/features/achievement-toast.tsx';
@@ -186,6 +187,7 @@ function AppRoot(): ReactElement {
     <Portal id="idioms-page-mount"><IdiomsPageRoot/></Portal>
     <AiTutorPage/>
     <VoiceRoleplayPage/>
+    <YoutubePlayerPage/>
     <Portal id="onboarding-mount"><OnboardingPage/></Portal>
     <Portal id="bug-report-mount"><BugReportForm/></Portal>
     <Portal id="achievement-toast-mount"><AchievementToast/></Portal>

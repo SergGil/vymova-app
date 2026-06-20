@@ -44,10 +44,11 @@ const PAGE_TO_SIDEBAR: Record<string, string> = {
   profile: 'sb-profile',
   'ai-tutor': 'sb-ai-tutor',
   'voice-roleplay': 'sb-voice-roleplay',
+  'youtube-player': 'sb-youtube-player',
 };
 
 function _setSidebarActive(page: string | null): void {
-  ['sb-cards','sb-stats','sb-achievements','sb-modes','sb-settings','sb-duel','sb-grammar','sb-idioms','sb-learning-path','sb-profile','sb-ai-tutor','sb-voice-roleplay'].forEach(id => {
+  ['sb-cards','sb-stats','sb-achievements','sb-modes','sb-settings','sb-duel','sb-grammar','sb-idioms','sb-learning-path','sb-profile','sb-ai-tutor','sb-voice-roleplay','sb-youtube-player'].forEach(id => {
     document.getElementById(id)?.classList.remove('sb-active');
   });
   const activeId = page ? (PAGE_TO_SIDEBAR[page] ?? 'sb-cards') : 'sb-cards';
@@ -105,6 +106,8 @@ export function openPage(page: string): void {
     document.getElementById('ai-tutor-overlay')?.classList.add('open');
   } else if (page === 'voice-roleplay') {
     document.getElementById('voice-roleplay-overlay')?.classList.add('open');
+  } else if (page === 'youtube-player') {
+    document.getElementById('youtube-player-overlay')?.classList.add('open');
   }
   if (window.innerWidth <= 900) closeSidebar();
 }
@@ -141,6 +144,7 @@ export function closePage(): void {
   document.getElementById('profile-overlay')?.classList.remove('open');
   document.getElementById('ai-tutor-overlay')?.classList.remove('open');
   document.getElementById('voice-roleplay-overlay')?.classList.remove('open');
+  document.getElementById('youtube-player-overlay')?.classList.remove('open');
   for (const id of MODE_OVERLAY_IDS) {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
@@ -235,6 +239,7 @@ export function SidebarInit(): ReactElement | null {
       ['sb-profile',       '/profile',        'profile'],
       ['sb-ai-tutor',      '/ai-tutor',       'ai-tutor'],
       ['sb-voice-roleplay','/voice-roleplay', 'voice-roleplay'],
+      ['sb-youtube-player','/youtube',        'youtube-player'],
     ];
     const _navListeners: [HTMLElement, string, EventListener][] = [];
     for (const [id, route, page] of NAV_LINKS) {

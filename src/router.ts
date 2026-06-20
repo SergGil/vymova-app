@@ -25,6 +25,7 @@ export const PAGE_TO_ROUTE: Record<string, string> = {
   idioms:           '/idioms',
   'ai-tutor':       '/ai-tutor',
   'voice-roleplay': '/voice-roleplay',
+  'youtube-player': '/youtube',
   'learning-path':  '/learning-path',
   profile:          '/profile',
 };
