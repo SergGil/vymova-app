@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { _shuf } from '../core/srs.ts';
-import { saveKnown, saveSRS, loadSRS } from '../core/storage.ts';
+import { loadSRS } from '../core/storage.ts';
 import { WORD_CATEGORIES, CATEGORY_LIST } from '../../data/categories.js';
 import { getGameData } from '../features/game.ts';
 import { W } from '../../data/words.js';
@@ -348,19 +348,6 @@ export function renderWeakWords(): void {
 
 export function CatPairsWiringInit(): ReactElement | null {
   useEffect(() => {
-    const unmarkBtn = document.getElementById('btn-unmark');
-    const onUnmarkClick = (e: MouseEvent) => {
-      e.stopPropagation();
-      const cw = (window as Window & { cw?: WordEntry | null }).cw;
-      if (!cw) return;
-      state.known.delete(cw[0]); delete (state.srsData as Record<string, unknown>)[cw[0]];
-      saveKnown(state.known); saveSRS(state.srsData);
-      document.getElementById('card')?.classList.remove('is-known');
-      try { renderGameBar(); } catch (e) {}
-      checkMilestones();
-    };
-    unmarkBtn?.addEventListener('click', onUnmarkClick);
-
     const statsOverlay = document.getElementById('stats-overlay');
     const onStatsOverlayClick = () => { try { renderWeakWords(); } catch (e) {} };
     statsOverlay?.addEventListener('click', onStatsOverlayClick);
@@ -370,7 +357,6 @@ export function CatPairsWiringInit(): ReactElement | null {
     statsBtn?.addEventListener('click', onStatsBtnClick);
 
     return () => {
-      unmarkBtn?.removeEventListener('click', onUnmarkClick);
       statsOverlay?.removeEventListener('click', onStatsOverlayClick);
       statsBtn?.removeEventListener('click', onStatsBtnClick);
     };
