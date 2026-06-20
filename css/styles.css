@@ -91,7 +91,7 @@
     color: var(--text3);
     margin-top: 2px;
   }
-  .controls { display: flex; gap: 6px; flex-wrap: wrap; }
+  .controls { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
   select {
     font-family: 'DM Sans', sans-serif;
     font-size: 12px;
@@ -3668,6 +3668,12 @@ body.sw .idiom-meaning { color: #00c8ff; }
     padding: 7px 8px;
     min-height: 40px;
   }
+  .lang-pair-row {
+    width: 100%;
+    flex-wrap: wrap;
+    margin-right: 0 !important;
+  }
+  .lang-pair-row select { flex: 1 1 calc(50% - 4px); }
   #sel-range { flex-basis: 100%; }
   #wotd-mount, .header-wotd { flex-basis: 100%; max-width: 100%; }
 
@@ -3763,6 +3769,8 @@ body.sw .idiom-meaning { color: #00c8ff; }
 @media (min-width: 481px) and (max-width: 640px) {
   .controls { flex-wrap: wrap; gap: 5px; }
   .controls select { flex: 1 1 calc(50% - 3px); min-height: 38px; font-size: 12px; }
+  .lang-pair-row { width: 100%; flex-wrap: wrap; margin-right: 0 !important; }
+  .lang-pair-row select { flex: 1 1 calc(50% - 4px); }
   #sel-range { flex-basis: 100%; }
   #wotd-mount, .header-wotd { flex-basis: 100%; max-width: 100%; }
 

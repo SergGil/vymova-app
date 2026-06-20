@@ -256,7 +256,7 @@ export function LangPairSelect(): ReactElement {
   const revLabel = `${knowLang.toUpperCase()} → ${learnLang.toUpperCase()}`;
 
   return (
-    <div style={{ display: 'flex', gap: '8px', marginRight: '4px' }}>
+    <div className="lang-pair-row" style={{ display: 'flex', gap: '8px', marginRight: '4px' }}>
       <select aria-label={t('langpair.know')} value={knowLang} onChange={e => onKnowChange(e.target.value as LangCode)}>
         {ALL_LANGS.map(l => <option key={l} value={l}>{t('langpair.know')}: {langAcc(l)}</option>)}
       </select>
