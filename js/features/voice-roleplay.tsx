@@ -17,7 +17,21 @@ export type ScenarioId =
   | 'renting-apartment' | 'performance-review' | 'small-talk-party' | 'taxi-ride' | 'car-rental'
   | 'gym-membership' | 'hairdresser' | 'noise-complaint' | 'tech-support' | 'ordering-pizza'
   | 'lost-luggage' | 'museum-tour' | 'ordering-takeout' | 'booking-flight' | 'negotiating-price'
-  | 'emergency-call' | 'parent-teacher' | 'first-date' | 'customer-complaint' | 'networking-event';
+  | 'emergency-call' | 'parent-teacher' | 'first-date' | 'customer-complaint' | 'networking-event'
+  | 'lost-passport' | 'train-station' | 'bus-information' | 'hostel-checkin' | 'car-breakdown'
+  | 'parking-ticket' | 'lost-and-found' | 'customs-declaration' | 'car-accident' | 'weather-smalltalk'
+  | 'job-offer-negotiation' | 'coworker-conflict' | 'client-meeting' | 'business-trip-planning' | 'resignation'
+  | 'asking-for-raise' | 'onboarding-new-job' | 'conference-networking' | 'team-standup' | 'freelance-pitch'
+  | 'ordering-fastfood' | 'wine-tasting' | 'grocery-shopping' | 'food-allergy' | 'cooking-class'
+  | 'farmers-market' | 'birthday-party' | 'baking-recipe' | 'food-delivery-issue' | 'dinner-party-host'
+  | 'dentist-visit' | 'pharmacy-visit' | 'vet-appointment' | 'fitness-trainer' | 'mental-health-checkin'
+  | 'eye-exam' | 'yoga-class' | 'hospital-checkin' | 'nutrition-consult' | 'physical-therapy'
+  | 'real-estate-viewing' | 'utility-setup' | 'moving-day' | 'neighbor-introduction' | 'home-repair'
+  | 'internet-installation' | 'insurance-claim' | 'furniture-shopping' | 'pet-adoption' | 'garden-center'
+  | 'wedding-planning' | 'blind-date' | 'meeting-in-laws' | 'breakup-conversation' | 'catching-up-friend'
+  | 'roommate-agreement' | 'family-reunion' | 'apologizing-friend' | 'giving-advice' | 'volunteer-orientation'
+  | 'university-application' | 'classroom-discussion' | 'library-help-desk' | 'study-group' | 'exam-stress'
+  | 'police-report' | 'dmv-appointment' | 'voting-registration' | 'jury-duty' | 'tax-office-visit';
 
 export const SCENARIOS: { id: ScenarioId; emoji: string; labelKey: string }[] = [
   { id: 'job-interview', emoji: '💼', labelKey: 'roleplay.scenarioInterview' },
@@ -50,6 +64,76 @@ export const SCENARIOS: { id: ScenarioId; emoji: string; labelKey: string }[] = 
   { id: 'first-date', emoji: '❤️', labelKey: 'roleplay.scenarioFirstDate' },
   { id: 'customer-complaint', emoji: '📞', labelKey: 'roleplay.scenarioComplaint' },
   { id: 'networking-event', emoji: '🧑‍💼', labelKey: 'roleplay.scenarioNetworking' },
+  { id: 'lost-passport', emoji: '🛂', labelKey: 'roleplay.scenarioLostPassport' },
+  { id: 'train-station', emoji: '🚆', labelKey: 'roleplay.scenarioTrainStation' },
+  { id: 'bus-information', emoji: '🚌', labelKey: 'roleplay.scenarioBusInfo' },
+  { id: 'hostel-checkin', emoji: '🎒', labelKey: 'roleplay.scenarioHostel' },
+  { id: 'car-breakdown', emoji: '🔧', labelKey: 'roleplay.scenarioCarBreakdown' },
+  { id: 'parking-ticket', emoji: '🎫', labelKey: 'roleplay.scenarioParkingTicket' },
+  { id: 'lost-and-found', emoji: '🔍', labelKey: 'roleplay.scenarioLostFound' },
+  { id: 'customs-declaration', emoji: '🛃', labelKey: 'roleplay.scenarioCustoms' },
+  { id: 'car-accident', emoji: '🚗', labelKey: 'roleplay.scenarioCarAccident' },
+  { id: 'weather-smalltalk', emoji: '☀️', labelKey: 'roleplay.scenarioWeather' },
+  { id: 'job-offer-negotiation', emoji: '💰', labelKey: 'roleplay.scenarioJobOffer' },
+  { id: 'coworker-conflict', emoji: '😤', labelKey: 'roleplay.scenarioCoworkerConflict' },
+  { id: 'client-meeting', emoji: '🤵', labelKey: 'roleplay.scenarioClientMeeting' },
+  { id: 'business-trip-planning', emoji: '🧳', labelKey: 'roleplay.scenarioBusinessTrip' },
+  { id: 'resignation', emoji: '📝', labelKey: 'roleplay.scenarioResignation' },
+  { id: 'asking-for-raise', emoji: '💵', labelKey: 'roleplay.scenarioRaise' },
+  { id: 'onboarding-new-job', emoji: '👋', labelKey: 'roleplay.scenarioOnboarding' },
+  { id: 'conference-networking', emoji: '🎤', labelKey: 'roleplay.scenarioConference' },
+  { id: 'team-standup', emoji: '📋', labelKey: 'roleplay.scenarioStandup' },
+  { id: 'freelance-pitch', emoji: '📊', labelKey: 'roleplay.scenarioFreelancePitch' },
+  { id: 'ordering-fastfood', emoji: '🍔', labelKey: 'roleplay.scenarioFastFood' },
+  { id: 'wine-tasting', emoji: '🍷', labelKey: 'roleplay.scenarioWineTasting' },
+  { id: 'grocery-shopping', emoji: '🛒', labelKey: 'roleplay.scenarioGrocery' },
+  { id: 'food-allergy', emoji: '⚠️', labelKey: 'roleplay.scenarioFoodAllergy' },
+  { id: 'cooking-class', emoji: '👨‍🍳', labelKey: 'roleplay.scenarioCookingClass' },
+  { id: 'farmers-market', emoji: '🥕', labelKey: 'roleplay.scenarioFarmersMarket' },
+  { id: 'birthday-party', emoji: '🎂', labelKey: 'roleplay.scenarioBirthdayParty' },
+  { id: 'baking-recipe', emoji: '🍰', labelKey: 'roleplay.scenarioRecipe' },
+  { id: 'food-delivery-issue', emoji: '🍱', labelKey: 'roleplay.scenarioDeliveryIssue' },
+  { id: 'dinner-party-host', emoji: '🍽️', labelKey: 'roleplay.scenarioDinnerHost' },
+  { id: 'dentist-visit', emoji: '🦷', labelKey: 'roleplay.scenarioDentist' },
+  { id: 'pharmacy-visit', emoji: '💊', labelKey: 'roleplay.scenarioPharmacy' },
+  { id: 'vet-appointment', emoji: '🐾', labelKey: 'roleplay.scenarioVet' },
+  { id: 'fitness-trainer', emoji: '🏃', labelKey: 'roleplay.scenarioTrainer' },
+  { id: 'mental-health-checkin', emoji: '🧠', labelKey: 'roleplay.scenarioTherapy' },
+  { id: 'eye-exam', emoji: '👓', labelKey: 'roleplay.scenarioEyeExam' },
+  { id: 'yoga-class', emoji: '🧘', labelKey: 'roleplay.scenarioYoga' },
+  { id: 'hospital-checkin', emoji: '🏥', labelKey: 'roleplay.scenarioHospital' },
+  { id: 'nutrition-consult', emoji: '🥗', labelKey: 'roleplay.scenarioNutrition' },
+  { id: 'physical-therapy', emoji: '🦵', labelKey: 'roleplay.scenarioPhysicalTherapy' },
+  { id: 'real-estate-viewing', emoji: '🏡', labelKey: 'roleplay.scenarioRealEstate' },
+  { id: 'utility-setup', emoji: '💡', labelKey: 'roleplay.scenarioUtilities' },
+  { id: 'moving-day', emoji: '📦', labelKey: 'roleplay.scenarioMovingDay' },
+  { id: 'neighbor-introduction', emoji: '👋', labelKey: 'roleplay.scenarioNeighbor' },
+  { id: 'home-repair', emoji: '🔨', labelKey: 'roleplay.scenarioHomeRepair' },
+  { id: 'internet-installation', emoji: '📡', labelKey: 'roleplay.scenarioInternetInstall' },
+  { id: 'insurance-claim', emoji: '📄', labelKey: 'roleplay.scenarioInsuranceClaim' },
+  { id: 'furniture-shopping', emoji: '🛋️', labelKey: 'roleplay.scenarioFurniture' },
+  { id: 'pet-adoption', emoji: '🐶', labelKey: 'roleplay.scenarioPetAdoption' },
+  { id: 'garden-center', emoji: '🌱', labelKey: 'roleplay.scenarioGardenCenter' },
+  { id: 'wedding-planning', emoji: '💍', labelKey: 'roleplay.scenarioWeddingPlanning' },
+  { id: 'blind-date', emoji: '🌹', labelKey: 'roleplay.scenarioBlindDate' },
+  { id: 'meeting-in-laws', emoji: '👫', labelKey: 'roleplay.scenarioInLaws' },
+  { id: 'breakup-conversation', emoji: '💔', labelKey: 'roleplay.scenarioBreakup' },
+  { id: 'catching-up-friend', emoji: '☕', labelKey: 'roleplay.scenarioCatchUp' },
+  { id: 'roommate-agreement', emoji: '🏠', labelKey: 'roleplay.scenarioRoommate' },
+  { id: 'family-reunion', emoji: '👨‍👩‍👧', labelKey: 'roleplay.scenarioFamilyReunion' },
+  { id: 'apologizing-friend', emoji: '🙏', labelKey: 'roleplay.scenarioApology' },
+  { id: 'giving-advice', emoji: '💬', labelKey: 'roleplay.scenarioAdvice' },
+  { id: 'volunteer-orientation', emoji: '🤲', labelKey: 'roleplay.scenarioVolunteer' },
+  { id: 'university-application', emoji: '🎓', labelKey: 'roleplay.scenarioUniversityApp' },
+  { id: 'classroom-discussion', emoji: '🏫', labelKey: 'roleplay.scenarioClassroom' },
+  { id: 'library-help-desk', emoji: '📚', labelKey: 'roleplay.scenarioLibrary' },
+  { id: 'study-group', emoji: '📖', labelKey: 'roleplay.scenarioStudyGroup' },
+  { id: 'exam-stress', emoji: '😰', labelKey: 'roleplay.scenarioExamStress' },
+  { id: 'police-report', emoji: '👮', labelKey: 'roleplay.scenarioPoliceReport' },
+  { id: 'dmv-appointment', emoji: '🪪', labelKey: 'roleplay.scenarioDmv' },
+  { id: 'voting-registration', emoji: '🗳️', labelKey: 'roleplay.scenarioVoting' },
+  { id: 'jury-duty', emoji: '⚖️', labelKey: 'roleplay.scenarioJuryDuty' },
+  { id: 'tax-office-visit', emoji: '🧾', labelKey: 'roleplay.scenarioTaxOffice' },
 ];
 
 const SPEECH_LANG: Record<string, string> = {
@@ -183,14 +267,17 @@ export function VoiceRoleplayPage(): ReactElement | null {
       {!scenario ? (
         <div className="roleplay-scenarios">
           <div className="ai-tutor-hint">{t('roleplay.pickScenario')}</div>
-          <div className="roleplay-scenario-grid">
-            {SCENARIOS.map(s => (
-              <button key={s.id} className="roleplay-scenario-card" onClick={() => pickScenario(s.id)}>
-                <span style={{ fontSize: '1.6rem' }}>{s.emoji}</span>
-                <span>{t(s.labelKey as any)}</span>
-              </button>
+          <ol className="roleplay-scenario-list">
+            {SCENARIOS.map((s, i) => (
+              <li key={s.id}>
+                <button className="roleplay-scenario-row" onClick={() => pickScenario(s.id)}>
+                  <span className="roleplay-scenario-num">{i + 1}</span>
+                  <span className="roleplay-scenario-emoji">{s.emoji}</span>
+                  <span className="roleplay-scenario-label">{t(s.labelKey as any)}</span>
+                </button>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       ) : (
         <>

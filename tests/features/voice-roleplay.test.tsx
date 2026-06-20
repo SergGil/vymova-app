@@ -58,14 +58,14 @@ describe('voice-roleplay.tsx VoiceRoleplayPage', () => {
     configMock.AI_TUTOR_ENABLED = false;
     await mount();
     const target = document.getElementById('voice-roleplay-content')!;
-    expect(target.querySelectorAll('.roleplay-scenario-card').length).toBe(0);
+    expect(target.querySelectorAll('.roleplay-scenario-row').length).toBe(0);
     expect(target.textContent?.length).toBeGreaterThan(0);
   });
 
   it('shows a scenario picker first', async () => {
     await mount();
     const target = document.getElementById('voice-roleplay-content')!;
-    expect(target.querySelectorAll('.roleplay-scenario-card').length).toBe(30);
+    expect(target.querySelectorAll('.roleplay-scenario-row').length).toBe(100);
   });
 
   it('falls back to a text input when SpeechRecognition is unsupported, and sends + shows feedback', async () => {
@@ -75,7 +75,7 @@ describe('voice-roleplay.tsx VoiceRoleplayPage', () => {
     });
     await mount();
     const target = document.getElementById('voice-roleplay-content')!;
-    const firstCard = target.querySelectorAll('.roleplay-scenario-card')[1] as HTMLButtonElement; // ordering-coffee
+    const firstCard = target.querySelectorAll('.roleplay-scenario-row')[1] as HTMLButtonElement; // ordering-coffee
     act(() => { firstCard.click(); });
 
     const input = target.querySelector('.ai-tutor-input') as HTMLInputElement;
