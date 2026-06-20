@@ -1,9 +1,14 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
 import type { WordEntry } from '../../src/types.ts';
-import { CardMeta } from '../../js/features/card-meta.tsx';
+
+vi.mock('../../js/core/card-engine.ts', () => ({
+  render: vi.fn(),
+}));
+
+const { CardMeta } = await import('../../js/features/card-meta.tsx');
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -71,5 +76,23 @@ describe('card-meta.tsx CardMeta', () => {
     const btn = container.querySelector('#btn-unmark') as HTMLButtonElement;
     act(() => { btn.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
     expect(outerClicked).toBe(false);
+  });
+
+  it('the unmark button removes the word from the known set and persists it', () => {
+    state.known = new Set(['abandon']);
+    const { container } = mount();
+    const btn = container.querySelector('#btn-unmark') as HTMLButtonElement;
+    act(() => { btn.click(); });
+    expect(state.known.has('abandon')).toBe(false);
+  });
+
+  it('the unmark button removes the word from the active language-specific known set', () => {
+    document.body.innerHTML = '<select id="sel-mode"><option value="he-ua" selected>x</option></select>';
+    (document.getElementById('sel-mode') as HTMLSelectElement).value = 'he-ua';
+    state.knownHe = new Set(['abandon']);
+    const { container } = mount();
+    const btn = container.querySelector('#btn-unmark') as HTMLButtonElement;
+    act(() => { btn.click(); });
+    expect(state.knownHe.has('abandon')).toBe(false);
   });
 });
