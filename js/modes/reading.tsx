@@ -14,7 +14,7 @@ import type { WordEntry } from '../../src/types.js';
 import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
 import { getKnowLang } from '../features/lang-pair-select.tsx';
 
-function getWordTrans(w: WordEntry, lang: string): string {
+export function getWordTrans(w: WordEntry, lang: string): string {
   switch (lang) {
     case 'ua': return w[1];
     case 'es': return esEntry(w[0])?.[0] ?? '';
@@ -88,7 +88,10 @@ function _stems(w: string): string[] {
   return s.filter(x => x.length >= 3);
 }
 
-function _lookupWord(raw: string): WordEntry | null {
+// English-keyed dictionary lookup with light stemming. Exported for reuse by
+// any feature that needs to match arbitrary English text against the app's
+// vocab (currently: reading mode itself, and video-player.tsx's subtitles).
+export function lookupEnglishWord(raw: string): WordEntry | null {
   const clean = raw.toLowerCase().replace(/[^a-z]/g, '');
   if (!clean || clean.length < 2) return null;
   if (_stemCache[clean] !== undefined) return (_stemCache[clean] as WordEntry | false) || null;
@@ -101,6 +104,7 @@ function _lookupWord(raw: string): WordEntry | null {
   }
   _stemCache[clean] = false; return null;
 }
+const _lookupWord = lookupEnglishWord;
 
 function _renderTextHtml(entry: TextEntry, epubBook: EpubBook | null): { html: string; known: number; unknown: number } {
   const chunks = entry.text.split(/(\s+|[,\.!?;:'"()\-—]+)/);
