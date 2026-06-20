@@ -3,6 +3,7 @@
 
 import * as LZString from 'lz-string';
 import type { SRSData, CharacterAppearance } from '../../src/types.js';
+import { DEFAULT_APPEARANCE } from '../features/character-avatar.tsx';
 
 // ── LZ compress / decompress ──────────────────────────────────
 
@@ -193,21 +194,32 @@ export function loadSRS(): SRSData {
 }
 
 // ── Character avatar (profile page) ─────────────────────────────
+// Appearance lives directly on the active profile object inside
+// 'ew_profiles' (alongside its legacy `avatar` emoji), so every
+// profile keeps its own look without needing a separate snapshot key.
 
-const DEFAULT_APPEARANCE: CharacterAppearance = {
-  skinTone: 0, hairStyle: 1, hairColor: 0, eyeColor: 0, outfit: 0,
-};
+interface ProfileLike { id: string; appearance?: Partial<CharacterAppearance>; }
 
-export function saveCharacter(appearance: CharacterAppearance): void {
-  localStorage.setItem('ew_character', JSON.stringify(appearance));
+export function appearanceOf(p: ProfileLike): CharacterAppearance {
+  return { ...DEFAULT_APPEARANCE, ...(p.appearance ?? {}) };
 }
 
 export function loadCharacter(): CharacterAppearance {
   try {
-    const raw = localStorage.getItem('ew_character');
-    if (!raw) return { ...DEFAULT_APPEARANCE };
-    return { ...DEFAULT_APPEARANCE, ...JSON.parse(raw) as Partial<CharacterAppearance> };
+    const profiles = JSON.parse(localStorage.getItem('ew_profiles') ?? '[]') as ProfileLike[];
+    const activeId = localStorage.getItem('ew_active_profile') ?? '';
+    const p = profiles.find(p => p.id === activeId);
+    return p ? appearanceOf(p) : { ...DEFAULT_APPEARANCE };
   } catch (e) {
     return { ...DEFAULT_APPEARANCE };
   }
+}
+
+export function saveCharacter(appearance: CharacterAppearance): void {
+  try {
+    const profiles = JSON.parse(localStorage.getItem('ew_profiles') ?? '[]') as ProfileLike[];
+    const activeId = localStorage.getItem('ew_active_profile') ?? '';
+    const next = profiles.map(p => p.id === activeId ? { ...p, appearance } : p);
+    localStorage.setItem('ew_profiles', JSON.stringify(next));
+  } catch (e) {}
 }

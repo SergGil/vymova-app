@@ -26,6 +26,8 @@ function mount(): { container: HTMLElement; root: Root } {
 describe('profile-page.tsx ProfilePage', () => {
   beforeEach(() => {
     localStorage.clear();
+    localStorage.setItem('ew_profiles', JSON.stringify([{ id: 'p1', name: 'Alice', avatar: '🧑' }]));
+    localStorage.setItem('ew_active_profile', 'p1');
     getGameData.mockClear().mockReturnValue({ streak: 3, xp: 100 });
     loadUnlocked.mockClear().mockReturnValue(['first1']);
     getKnownInLang.mockClear().mockReturnValue(20);
@@ -34,7 +36,7 @@ describe('profile-page.tsx ProfilePage', () => {
   it('renders the avatar svg and a picker row for every customization category', () => {
     const { container } = mount();
     expect(container.querySelector('svg')).not.toBeNull();
-    expect(container.querySelectorAll('.profile-picker-row').length).toBe(5);
+    expect(container.querySelectorAll('.profile-picker-row').length).toBe(6);
   });
 
   it('shows streak, total XP (xp + known*5), words learned and achievement count', () => {
@@ -53,6 +55,7 @@ describe('profile-page.tsx ProfilePage', () => {
     act(() => { nextBtn.click(); });
     const valAfter = firstRow.querySelector('.profile-picker-val')!.textContent;
     expect(valAfter).not.toBe(valBefore);
-    expect(localStorage.getItem('ew_character')).not.toBeNull();
+    const profiles = JSON.parse(localStorage.getItem('ew_profiles')!);
+    expect(profiles[0].appearance).toBeDefined();
   });
 });

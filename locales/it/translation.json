@@ -196,6 +196,8 @@
   "profile.hairColor": "Colore dei capelli",
   "profile.eyeColor": "Colore degli occhi",
   "profile.outfit": "Abbigliamento",
+  "profile.outfitColor": "Colore dell'abbigliamento",
+  "profile.customizeHint": "🎨 Personalizza pelle, capelli, occhi e abbigliamento nella pagina Profilo.",
   "profile.totalXp": "XP totali",
   "profile.achievements": "Obiettivi",
   "stats.title": "📊 Statistiche",

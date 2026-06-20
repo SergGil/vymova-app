@@ -2,7 +2,7 @@
 // Profile page: full-body character avatar + customization + key stats.
 import { createPortal } from 'react-dom';
 import { useState, type ReactElement } from 'react';
-import { CharacterAvatar, SKIN_TONES, HAIR_STYLES, HAIR_COLORS, EYE_COLORS, OUTFITS } from './character-avatar.tsx';
+import { CharacterAvatar, SKIN_TONES, HAIR_STYLES, HAIR_COLORS, EYE_COLORS, OUTFIT_STYLES, OUTFIT_COLORS } from './character-avatar.tsx';
 import { loadCharacter, saveCharacter } from '../core/storage.ts';
 import { getGameData, loadUnlocked } from './game.ts';
 import { getKnownInLang } from './mode-utils.ts';
@@ -13,11 +13,12 @@ import type { CharacterAppearance } from '../../src/types.js';
 type PickerKey = keyof CharacterAppearance;
 
 const PICKERS: { key: PickerKey; labelKey: string; len: number }[] = [
-  { key: 'skinTone',  labelKey: 'profile.skinTone',  len: SKIN_TONES.length },
-  { key: 'hairStyle', labelKey: 'profile.hairStyle', len: HAIR_STYLES.length },
-  { key: 'hairColor', labelKey: 'profile.hairColor', len: HAIR_COLORS.length },
-  { key: 'eyeColor',  labelKey: 'profile.eyeColor',  len: EYE_COLORS.length },
-  { key: 'outfit',    labelKey: 'profile.outfit',    len: OUTFITS.length },
+  { key: 'skinTone',    labelKey: 'profile.skinTone',    len: SKIN_TONES.length },
+  { key: 'hairStyle',   labelKey: 'profile.hairStyle',   len: HAIR_STYLES.length },
+  { key: 'hairColor',   labelKey: 'profile.hairColor',   len: HAIR_COLORS.length },
+  { key: 'eyeColor',    labelKey: 'profile.eyeColor',    len: EYE_COLORS.length },
+  { key: 'outfitStyle', labelKey: 'profile.outfit',      len: OUTFIT_STYLES.length },
+  { key: 'outfitColor', labelKey: 'profile.outfitColor', len: OUTFIT_COLORS.length },
 ];
 
 export function ProfilePage(): ReactElement | null {

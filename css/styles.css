@@ -2398,9 +2398,21 @@ body.sw .sidebar-logo-text { color: #00c8ff; }
 .sidebar-profile-btn:hover { border-color: var(--accent); background: var(--card); }
 body.sw .sidebar-profile-btn { border-color: rgba(0,200,255,.25); }
 body.sw .sidebar-profile-btn:hover { border-color: #00c8ff; }
-.sb-av   { font-size: 1.2rem; line-height: 1; }
+.sb-av   { font-size: 1.2rem; line-height: 1; display: inline-flex; }
 .sb-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sb-arrow{ font-size: .7rem; color: var(--text3); }
+.sb-dd-av{ display: inline-flex; vertical-align: middle; }
+.prf-char-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.prf-char-hint {
+  font-size: .72rem;
+  color: var(--text3);
+  line-height: 1.3;
+}
 
 /* Nav buttons */
 .sidebar-nav { flex: 1; padding: 10px 10px 6px; display: flex; flex-direction: column; gap: 3px; }
@@ -2615,6 +2627,23 @@ body.sw .hamburger { border-color: rgba(0,200,255,.3); }
 .profile-stats {
   width: 100%;
   max-width: 420px;
+}
+
+/* Idle character animation: gentle breathing bob + periodic blink. */
+@keyframes char-breathe {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+.char-breathe { animation: char-breathe 3.4s ease-in-out infinite; }
+
+@keyframes char-blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95%           { transform: scaleY(.06); }
+}
+.char-blink { animation: char-blink 4.8s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .char-breathe, .char-blink { animation: none; }
 }
 
 /* ══ Duel chat / reactions panel ════════════════════════════════ */

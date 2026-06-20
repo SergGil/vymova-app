@@ -49,7 +49,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     const { container, root } = mount();
     roots.push(root);
     expect(container.querySelector('#sb-profile-name')!.textContent).toBe('Alice');
-    expect(container.querySelector('#sb-profile-av')!.textContent).toBe('🧑');
+    expect(container.querySelector('#sb-profile-av svg')).not.toBeNull();
     expect(document.getElementById('profile-btn')!.innerHTML).toContain('Alice');
   });
 

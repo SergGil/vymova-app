@@ -41,11 +41,12 @@ export interface GameData {
 
 // ── Character avatar (profile page) ─────────────────────────────
 export interface CharacterAppearance {
-  skinTone:  number; // index into SKIN_TONES
-  hairStyle: number; // index into HAIR_STYLES
-  hairColor: number; // index into HAIR_COLORS
-  eyeColor:  number; // index into EYE_COLORS
-  outfit:    number; // index into OUTFITS
+  skinTone:    number; // index into SKIN_TONES
+  hairStyle:   number; // index into HAIR_STYLES
+  hairColor:   number; // index into HAIR_COLORS
+  eyeColor:    number; // index into EYE_COLORS
+  outfitStyle: number; // index into OUTFIT_STYLES
+  outfitColor: number; // index into OUTFIT_COLORS
 }
 
 // ── Level ─────────────────────────────────────────────────────

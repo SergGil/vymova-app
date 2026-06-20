@@ -4,6 +4,9 @@ import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { renderDuel } from './duel.ts';
+import { CharacterAvatar, DEFAULT_APPEARANCE } from './character-avatar.tsx';
+import { appearanceOf } from '../core/storage.ts';
+import type { CharacterAppearance } from '../../src/types.js';
 
 const LIST_KEY   = 'ew_profiles';
 const ACTIVE_KEY = 'ew_active_profile';
@@ -12,7 +15,7 @@ const BASE_SNAP_KEYS = [
   'ew_known', 'ew_known_lz', 'ew_srs', 'ew_srs_lz',
   'ew_game', 'ew_daily', 'ew_ach', 'ew_milestones',
   'ew_pairs_best', 'ew_ws_voice', 'ew_ws_uk_voice', 'ew_ws_es_voice',
-  'ew_notes', 'ew_bookmarks', 'ew_character',
+  'ew_notes', 'ew_bookmarks',
   'tempo_best_30', 'tempo_best_60', 'tempo_best_120',
   // Pattern: all ew_* keys not already listed above are captured dynamically in _snapKeys()
 ];
@@ -21,7 +24,7 @@ const _extraSnapKeys: string[] = [];
 
 const AVATARS = ['🧑', '👩', '🧔', '👦', '👧', '🤖', '🦊', '🐸', '⚔️', '🌟', '🔥', '🏆'];
 
-type Profile = { id: string; name: string; avatar: string };
+type Profile = { id: string; name: string; avatar: string; appearance?: CharacterAppearance };
 
 function _getProfiles(): Profile[] {
   try { return JSON.parse(localStorage.getItem(LIST_KEY) ?? '[]') as Profile[]; }
@@ -60,7 +63,7 @@ function _ensureInit(): void {
   let profiles = _getProfiles();
   if (!profiles.length) {
     const id = 'p' + Date.now();
-    profiles = [{ id, name: t('duel.player'), avatar: '🧑' }];
+    profiles = [{ id, name: t('duel.player'), avatar: '🧑', appearance: { ...DEFAULT_APPEARANCE } }];
     _setProfiles(profiles); _setActiveId(id); _saveSnapshot(id);
     localStorage.setItem('ew_onboarding_needed', '1'); // first ever launch
   } else {
@@ -140,7 +143,7 @@ export function ProfileSwitcher(): ReactElement {
     if (!name) { setNewNameError(true); setTimeout(() => setNewNameError(false), 1200); return; }
     _saveSnapshot(activeId);
     const id = 'p' + Date.now();
-    const next = [...profiles, { id, name, avatar: newAvatar }];
+    const next = [...profiles, { id, name, avatar: newAvatar, appearance: { ...DEFAULT_APPEARANCE } }];
     _setProfiles(next); _setActiveId(id); _clearActiveKeys();
     localStorage.setItem('ew_onboarding_needed', '1'); // trigger onboarding on next load
     window.removeEventListener('beforeunload', _onBeforeUnload);
@@ -198,7 +201,7 @@ export function ProfileSwitcher(): ReactElement {
     <div ref={rootRef}>
       <div className="sb-profile-row">
         <button id="sb-profile-btn" className="sidebar-profile-btn" onClick={toggleDropdown}>
-          <span id="sb-profile-av" className="sb-av">{active.avatar}</span>
+          <span id="sb-profile-av" className="sb-av"><CharacterAvatar appearance={appearanceOf(active)} size={26} variant="head" animated={false} /></span>
           <span id="sb-profile-name" className="sb-name">{active.name}</span>
           <span id="sb-profile-arrow" className="sb-arrow">{dropOpen ? '▴' : '▾'}</span>
         </button>
@@ -213,7 +216,7 @@ export function ProfileSwitcher(): ReactElement {
               style={{ flex: 1, minWidth: 0 }}
               onClick={() => switchProfile(p.id)}
             >
-              <span style={{ fontSize: '1.1rem' }}>{p.avatar}</span>{' '}
+              <span className="sb-dd-av"><CharacterAvatar appearance={appearanceOf(p)} size={22} variant="head" animated={false} /></span>{' '}
               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</span>
               {p.id === activeId && <span className="sb-dd-check">✓</span>}
             </button>
@@ -237,6 +240,10 @@ export function ProfileSwitcher(): ReactElement {
             border: `1.5px solid ${newNameError ? '#e74c3c' : 'var(--border)'}`,
           }}
         />
+        <div className="prf-char-preview">
+          <CharacterAvatar appearance={DEFAULT_APPEARANCE} size={48} variant="head" animated={false} />
+          <span className="prf-char-hint">{t('profile.customizeHint')}</span>
+        </div>
         <div className="prf-av-picker prf-av-mini">
           {AVATARS.map(a => (
             <button key={a} className={'prf-av-btn' + (a === newAvatar ? ' prf-av-active' : '')} onClick={() => setNewAvatar(a)}>{a}</button>
@@ -261,6 +268,10 @@ export function ProfileSwitcher(): ReactElement {
                 border: `1.5px solid ${editNameError ? '#e74c3c' : 'var(--border)'}`,
               }}
             />
+            <div className="prf-char-preview" style={{ marginBottom: 14 }}>
+              <CharacterAvatar appearance={appearanceOf(editTarget)} size={56} variant="head" animated={false} />
+              <span className="prf-char-hint">{t('profile.customizeHint')}</span>
+            </div>
             <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginBottom: 6 }}>{t('profile.avatarLabel')}</div>
             <div className="prf-av-picker" style={{ marginBottom: 14 }}>
               {AVATARS.map(a => (
@@ -280,7 +291,9 @@ export function ProfileSwitcher(): ReactElement {
         <div className="prf-delete-panel">
           <div className="prf-delete-icon">🗑️</div>
           <div className="prf-delete-title">Видалити профіль?</div>
-          <div className="prf-delete-name" id="prf-delete-name">{deleteTarget.avatar} {deleteTarget.name}</div>
+          <div className="prf-delete-name" id="prf-delete-name">
+            <CharacterAvatar appearance={appearanceOf(deleteTarget)} size={20} variant="head" animated={false} /> {deleteTarget.name}
+          </div>
           <div className="prf-delete-warn">Весь прогрес буде видалено безповоротно.</div>
           <div className="prf-delete-btns">
             <button className="prf-delete-btn prf-delete-btn-cancel" onClick={() => setDeleteTarget(null)}>{t('modal.cancelAlt')}</button>

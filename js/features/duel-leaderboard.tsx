@@ -7,9 +7,12 @@ import {
   _getProfiles, _getActiveId, _currentSnap, _readSnap,
   _parseKnown, _parseGame, _weekWords, _getRating,
 } from './duel.ts';
+import { CharacterAvatar } from './character-avatar.tsx';
+import { appearanceOf } from '../core/storage.ts';
+import type { CharacterAppearance } from '../../src/types.js';
 
 interface ProfileStat {
-  name: string; avatar: string; known: number; streak: number;
+  name: string; appearance: CharacterAppearance; known: number; streak: number;
   weekWords: number; xp: number; isActive: boolean;
 }
 
@@ -21,7 +24,7 @@ function _computeStats(): ProfileStat[] {
       const snap = p.id === aid ? _currentSnap() : _readSnap(p.id as string);
       const known = _parseKnown(snap), game = _parseGame(snap);
       return {
-        name: p.name as string, avatar: p.avatar as string,
+        name: p.name as string, appearance: appearanceOf(p as { id: string; appearance?: Partial<CharacterAppearance> }),
         known: known.length, streak: game.streak || 0,
         weekWords: _weekWords(snap), xp: (game.xp || 0) + known.length * 5,
         isActive: p.id === aid,
@@ -42,7 +45,7 @@ export function DuelLeaderboard() {
       <div className={'duel-card' + (s.isActive ? ' duel-card-active' : '')} key={s.name + i}>
         <div className="duel-card-header">
           <span className="duel-rank">{rank}</span>
-          <span className="duel-av">{s.avatar}</span>
+          <span className="duel-av"><CharacterAvatar appearance={s.appearance} size={24} variant="head" animated={false} /></span>
           <span className="duel-name">{s.name}{s.isActive ? ` (${t('duel.you')})` : ''}</span>
         </div>
         <div className="duel-stats">

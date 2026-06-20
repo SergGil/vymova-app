@@ -211,6 +211,8 @@
   "profile.hairColor": "Колір волосся",
   "profile.eyeColor": "Колір очей",
   "profile.outfit": "Одяг",
+  "profile.outfitColor": "Колір одягу",
+  "profile.customizeHint": "🎨 Налаштуй шкіру, волосся, очі й одяг на сторінці Профіль.",
   "profile.totalXp": "Всього XP",
   "profile.achievements": "Досягнення",
   "stats.title": "📊 Статистика",
