@@ -25,6 +25,8 @@ vi.mock('../../js/features/game.ts', () => ({
   recordDailyWord: vi.fn(),
   updateStreak: (d: unknown) => d,
   _idle: (fn: () => void) => fn(),
+  getSrsNewRemaining: () => 10,
+  recordSrsNewCard: vi.fn(),
 }));
 vi.mock('../../js/features/combo.ts', () => ({
   addCombo: vi.fn(), breakCombo: vi.fn(), flashCard: vi.fn(),

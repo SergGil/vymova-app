@@ -4,6 +4,7 @@
 import type { WordEntry, SRSEntry } from '../../src/types.js';
 import { state } from '../../src/state.js';
 import { t } from '../features/i18n.ts';
+import { getSrsNewRemaining, recordSrsNewCard } from '../features/game.ts';
 
 // ── Shuffle ───────────────────────────────────────────────────
 export function shuffle<T>(a: T[]): T[] {
@@ -26,6 +27,7 @@ export function addDays(dateStr: string, n: number): string {
 /** quality: 4 = correct, 1 = wrong */
 export function sm2Update(word: string, quality: number): void {
   const { srsData, TODAY } = state;
+  const wasNew   = !srsData[word]; // first-ever SRS exposure → counts against today's new-card quota
   const d        = srsData[word] ?? { ef: 2.5, reps: 0, interval: 0 };
   let ef       = d.ef       ?? 2.5;
   let reps     = d.reps     ?? 0;
@@ -47,6 +49,7 @@ export function sm2Update(word: string, quality: number): void {
     due:      addDays(TODAY, interval),
     lapses,
   } satisfies SRSEntry;
+  if (wasNew) recordSrsNewCard();
 }
 
 // ── SRS stats cache ───────────────────────────────────────────
@@ -89,7 +92,7 @@ function _renderSrsUI({ due, newCards, total }: typeof _srsStatsCache): void {
     _srsDueEl.className = 'srs-stat-num srs-stat-due' + (due === 0 ? ' zero' : '');
   }
   if (_srsNewEl) {
-    _srsNewEl.textContent = String(Math.min(newCards, 10));
+    _srsNewEl.textContent = String(Math.min(newCards, getSrsNewRemaining()));
     _srsNewEl.className = 'srs-stat-num srs-stat-new';
   }
 }
@@ -114,9 +117,11 @@ export function buildSRSDeck(words: WordEntry[]): WordEntry[] {
     }
   });
   shuffle(dueCards); shuffle(newCards);
-  let result = dueCards.concat(newCards.slice(0, 10));
+  let result = dueCards.concat(newCards.slice(0, getSrsNewRemaining()));
   if (!result.length) {
-    result = filteredWords.filter(w => !known.has(w[0]));
+    // Quota exhausted with nothing due (or genuinely nothing to study) — never
+    // show a blank deck: fall back to the full new-card pool, then any unlearned word.
+    result = newCards.length ? newCards.slice() : filteredWords.filter(w => !known.has(w[0]));
     if (!result.length) result = filteredWords.slice();
     shuffle(result);
   }

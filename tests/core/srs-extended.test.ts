@@ -1,5 +1,6 @@
-import { describe, it, expect, beforeEach, beforeAll } from 'vitest';
-import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck, updateSrsUI } from '../../js/core/srs.ts';
+import { describe, it, expect, beforeEach, beforeAll, afterEach, vi } from 'vitest';
+import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck, updateSrsUI, sm2Update } from '../../js/core/srs.ts';
+import { getSrsNewRemaining, SRS_NEW_DAILY_CAP } from '../../js/features/game.ts';
 import { state } from '../../src/state.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -205,5 +206,53 @@ describe('updateSrsUI()', () => {
     state._srsStatsDirty = true; // app.ts now sets this on language switch
     updateSrsUI(W);
     expect(document.getElementById('srs-stat-due')!.textContent).toBe('1');
+  });
+});
+
+// ── SRS daily new-card quota ────────────────────────────────────
+// Regression coverage: "10 нових" must reflect a real per-day budget that
+// decreases as new cards are studied and resets the next day — not a flat
+// per-deck-snapshot cap that looks frozen within a session.
+describe('SRS daily new-card quota', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    state._gameCache = null;
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('starts each day with the full quota available', () => {
+    expect(getSrsNewRemaining()).toBe(SRS_NEW_DAILY_CAP);
+  });
+
+  it('sm2Update on a brand-new word consumes one slot of the quota', () => {
+    sm2Update('apple', 4);
+    expect(getSrsNewRemaining()).toBe(SRS_NEW_DAILY_CAP - 1);
+  });
+
+  it('reviewing an already-seen word does not consume the quota again', () => {
+    sm2Update('apple', 4);
+    sm2Update('apple', 4); // same word, already has an SRS entry
+    expect(getSrsNewRemaining()).toBe(SRS_NEW_DAILY_CAP - 1);
+  });
+
+  it('buildSRSDeck never hands out more new cards than the remaining quota', () => {
+    state.known = new Set();
+    for (let i = 0; i < SRS_NEW_DAILY_CAP - 1; i++) sm2Update(`seen${i}`, 4);
+    expect(getSrsNewRemaining()).toBe(1);
+    const deck = buildSRSDeck(W);
+    const newInDeck = deck.filter(w => !state.srsData[w[0]]?.due);
+    expect(newInDeck.length).toBeLessThanOrEqual(1);
+  });
+
+  it('resets to the full quota on a new day', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2024-06-01T10:00:00Z'));
+    sm2Update('apple', 4);
+    expect(getSrsNewRemaining()).toBe(SRS_NEW_DAILY_CAP - 1);
+
+    vi.setSystemTime(new Date('2024-06-02T10:00:00Z'));
+    expect(getSrsNewRemaining()).toBe(SRS_NEW_DAILY_CAP);
   });
 });

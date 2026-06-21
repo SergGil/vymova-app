@@ -35,9 +35,27 @@ export function getGameData(): GameData {
   if (!d.goalMax) d.goalMax = 20;
   if (d.goalDate !== state.TODAY) { d.goalDate = state.TODAY; d.goalCur = 0; d.confettiShown = null; }
   if (!d.streakDate) { d.streakDate = null; d.streak = 0; }
+  if (d.srsNewDate !== state.TODAY) { d.srsNewDate = state.TODAY; d.srsNewToday = 0; }
   // Return a shallow copy so callers can't accidentally mutate the cache
   // without going through saveGameData(). Cache mutations above (date reset) are intentional.
   return { ...d };
+}
+
+// ── SRS daily new-card quota ────────────────────────────────────
+// How many never-before-seen cards the SRS deck introduces per day —
+// matches the classic Anki-style "new cards/day" limit, tracked across
+// the whole day rather than just within one deck snapshot.
+export const SRS_NEW_DAILY_CAP = 10;
+
+export function getSrsNewRemaining(): number {
+  const d = getGameData();
+  return Math.max(0, SRS_NEW_DAILY_CAP - (d.srsNewToday || 0));
+}
+
+export function recordSrsNewCard(): void {
+  const d = getGameData();
+  d.srsNewToday = (d.srsNewToday || 0) + 1;
+  saveGameData(d);
 }
 
 export function updateStreak(d: GameData): GameData {
