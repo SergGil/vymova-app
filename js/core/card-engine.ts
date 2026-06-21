@@ -198,7 +198,9 @@ export function render(): void {
     _safe(() => renderCardIndicators(cw![0]));
     renderCardImage(cw[0], $e('illus'));
     const cardEl = $e('card');
-    if (_activeKnown().has(cw[0])) { cardEl!.classList.add('is-known'); } else { cardEl!.classList.remove('is-known'); }
+    if (cardEl) {
+      if (_activeKnown().has(cw[0])) { cardEl.classList.add('is-known'); } else { cardEl.classList.remove('is-known'); }
+    }
     _safe(() => {
       const dontKnowEl = document.getElementById('btn-dontknow') as HTMLElement | null;
       if (dontKnowEl) {
