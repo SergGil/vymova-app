@@ -29,7 +29,7 @@ const CEFR_MAP: Record<string, CefrLevel> = {
   'if':'A1','in':'A1','it':'A1','job':'A1','jump':'A1','just':'A1',
   'keep':'A1','kid':'A1','know':'A1','large':'A1','last':'A1','learn':'A1',
   'leave':'A1','left':'A1','leg':'A1','let':'A1','like':'A1','little':'A1',
-  'live':'A1','long':'A1','look':'A1','love':'A1','low':'A1','make':'A1',
+  'live':'A1','living room':'A1','long':'A1','look':'A1','love':'A1','low':'A1','make':'A1',
   'man':'A1','many':'A1','me':'A1','meet':'A1','milk':'A1','miss':'A1',
   'mom':'A1','money':'A1','more':'A1','morning':'A1','mother':'A1','mouth':'A1',
   'move':'A1','much':'A1','name':'A1','need':'A1','new':'A1','next':'A1',
