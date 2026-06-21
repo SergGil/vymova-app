@@ -47,6 +47,17 @@ function _getLangDeck(): WordEntry[] | null {
   return (W as unknown as WordEntry[]).filter(w => Object.prototype.hasOwnProperty.call(lookup!, w[0]));
 }
 
+// Word entries carry a compound POS tag for the rare dual-class words
+// ('n/v', 'adj/n', ...) — match against any constituent part. 'other'
+// buckets the low-frequency tags that don't get their own dropdown entry.
+const POS_OTHER_TAGS = new Set(['prep', 'conj', 'det', 'num', 'interj']);
+
+function _matchesPos(w: WordEntry, target: string): boolean {
+  const pos = w[5] ?? '';
+  if (target === 'other') return POS_OTHER_TAGS.has(pos);
+  return pos.split('/').includes(target);
+}
+
 // Intersects deck with the current language word set when in a special mode.
 // Falls back to all language words if the intersection would be empty.
 function _applyLangFilter(deck: WordEntry[]): WordEntry[] {
@@ -211,6 +222,22 @@ export function DeckFilterInit(): ReactElement | null {
         shuffle(deck);
         if (!deck.length) {
           _showToast(t('range.noCefrWords', { l: cefrTarget }));
+          deck = langBase.slice();
+          shuffle(deck);
+        }
+        state._activeTagSet = null;
+        if (selTagEl) selTagEl.value = '';
+        (state._baseWords = langBase.slice());
+        setDeck(deck);
+        setIdx(0);
+        render();
+        return;
+      } else if (v.startsWith('pos-')) {
+        const posTarget = v.replace('pos-', '');
+        deck = langBase.filter(w => _matchesPos(w, posTarget));
+        shuffle(deck);
+        if (!deck.length) {
+          _showToast(t('range.noPosWords'));
           deck = langBase.slice();
           shuffle(deck);
         }

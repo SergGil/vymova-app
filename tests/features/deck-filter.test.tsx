@@ -50,6 +50,8 @@ describe('deck-filter.tsx DeckFilterInit', () => {
         <option value="hard">Hard</option>
         <option value="bookmarks">Bookmarks</option>
         <option value="cefr-A1">A1</option>
+        <option value="pos-n">Nouns</option>
+        <option value="pos-other">Other POS</option>
         <option value="stale7">Stale</option>
       </select>
       <select id="sel-tag"><option value="">All tags</option></select>
@@ -133,6 +135,35 @@ describe('deck-filter.tsx DeckFilterInit', () => {
     expect(setDeck).toHaveBeenCalled();
     expect(setIdx).toHaveBeenCalledWith(0);
     expect(render).toHaveBeenCalled();
+  });
+
+  it('builds a part-of-speech deck on "pos-n" selection', () => {
+    mount();
+    change('pos-n');
+    const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
+    expect(deck.length).toBeGreaterThan(0);
+    expect(deck.every(w => (w[5] ?? '').split('/').includes('n'))).toBe(true);
+  });
+
+  it('"pos-other" matches the low-frequency tags (prep/conj/det/num/interj)', () => {
+    mount();
+    change('pos-other');
+    const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
+    const about = (W as unknown as WordEntry[]).find(w => w[0] === 'about')!;
+    expect(deck.some(w => w[0] === about[0])).toBe(true);
+    expect(deck.every(w => ['prep', 'conj', 'det', 'num', 'interj'].includes(w[5] ?? ''))).toBe(true);
+  });
+
+  it('falls back to a shuffled full deck when no words match the POS filter', () => {
+    const sel = document.getElementById('sel-range') as HTMLSelectElement;
+    const opt = document.createElement('option');
+    opt.value = 'pos-zzz';
+    sel.appendChild(opt);
+    mount();
+    sel.value = 'pos-zzz';
+    act(() => { sel.dispatchEvent(new Event('change')); });
+    const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
+    expect(deck.length).toBe(W.length);
   });
 
   it('builds a stale-words deck on "stale7" selection', () => {
