@@ -2498,6 +2498,39 @@ body.sw   .sb-btn.sb-active { background: rgba(0,200,255,.12); color: #00c8ff; }
 .sb-icon { font-size: 1rem; flex-shrink: 0; width: 22px; text-align: center; }
 .sb-label { flex: 1; }
 
+/* Nav groups with hover flyout submenus */
+.sb-group { position: relative; }
+.sb-group-trigger { width: 100%; }
+.sb-caret { font-size: .75rem; color: var(--text3); flex-shrink: 0; }
+
+.sb-flyout {
+  position: fixed;
+  min-width: 210px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 3px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.28);
+  z-index: 400;
+}
+.sb-flyout.open { display: flex; }
+body.dark .sb-flyout { background: #0e1c2e; border-color: rgba(255,255,255,.08); }
+body.sw   .sb-flyout { background: #080f1c; border-color: rgba(0,200,255,.14); }
+
+@media (max-width: 900px) {
+  .sb-flyout {
+    position: static;
+    box-shadow: none;
+    border: none;
+    padding: 0 0 0 26px;
+  }
+  .sb-caret { transition: transform .15s; }
+  .sb-group.open .sb-caret { transform: rotate(90deg); }
+}
+
 /* ── Main content ────────────────────────────────────────────── */
 .app {
   margin-left: var(--sb-width);

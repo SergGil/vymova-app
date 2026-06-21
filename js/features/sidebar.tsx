@@ -182,13 +182,11 @@ export function SidebarInit(): ReactElement | null {
     imgClearConfirm?.addEventListener('click', onImgClearConfirm);
     imgClearOvl?.addEventListener('click', onImgClearOvlClick);
 
-    // AI tutor nav link is hidden by default (no backend configured) —
+    // AI nav group is hidden by default (no backend configured) —
     // reveal it once the build-time proxy URL is set.
     if (AI_TUTOR_ENABLED) {
-      const aiTutorLink = document.getElementById('sb-ai-tutor') as HTMLElement | null;
-      if (aiTutorLink) aiTutorLink.style.display = '';
-      const roleplayLink = document.getElementById('sb-voice-roleplay') as HTMLElement | null;
-      if (roleplayLink) roleplayLink.style.display = '';
+      const aiGroup = document.getElementById('sb-group-ai') as HTMLElement | null;
+      if (aiGroup) aiGroup.style.display = '';
     }
 
     // ── Sidebar wiring ─────────────────────────────────────────
@@ -256,6 +254,75 @@ export function SidebarInit(): ReactElement | null {
       _navListeners.push([el, 'click', handler]);
     }
 
+    // ── Nav groups (hover flyout submenus) ───────────────────────
+    const groupCleanups: Array<() => void> = [];
+    document.querySelectorAll<HTMLElement>('.sb-group').forEach(group => {
+      const trigger = group.querySelector<HTMLElement>('.sb-group-trigger');
+      const flyout = group.querySelector<HTMLElement>('.sb-flyout');
+      if (!trigger || !flyout) return;
+      let closeTimer: ReturnType<typeof setTimeout> | null = null;
+      const isMobile = () => window.innerWidth <= 900;
+      const positionFlyout = () => {
+        const r = trigger.getBoundingClientRect();
+        flyout.style.left = `${r.right + 4}px`;
+        flyout.style.top = `${r.top}px`;
+      };
+      const openFlyout = () => {
+        if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+        if (isMobile()) return;
+        positionFlyout();
+        flyout.classList.add('open');
+      };
+      const scheduleClose = () => {
+        closeTimer = setTimeout(() => flyout.classList.remove('open'), 150);
+      };
+      const onTriggerEnter = () => openFlyout();
+      const onTriggerLeave = () => { if (!isMobile()) scheduleClose(); };
+      const onFlyoutEnter = () => { if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; } };
+      const onFlyoutLeave = () => scheduleClose();
+      const onTriggerClick = (e: MouseEvent) => {
+        e.preventDefault();
+        if (isMobile()) {
+          group.classList.toggle('open');
+          flyout.classList.toggle('open', group.classList.contains('open'));
+        } else {
+          const willOpen = !flyout.classList.contains('open');
+          if (willOpen) positionFlyout();
+          flyout.classList.toggle('open', willOpen);
+        }
+      };
+      const onFlyoutItemClick = (e: MouseEvent) => {
+        if ((e.target as HTMLElement).closest('a.sb-btn')) {
+          flyout.classList.remove('open');
+          group.classList.remove('open');
+        }
+      };
+      trigger.addEventListener('mouseenter', onTriggerEnter);
+      trigger.addEventListener('mouseleave', onTriggerLeave);
+      flyout.addEventListener('mouseenter', onFlyoutEnter);
+      flyout.addEventListener('mouseleave', onFlyoutLeave);
+      trigger.addEventListener('click', onTriggerClick);
+      flyout.addEventListener('click', onFlyoutItemClick);
+      groupCleanups.push(() => {
+        trigger.removeEventListener('mouseenter', onTriggerEnter);
+        trigger.removeEventListener('mouseleave', onTriggerLeave);
+        flyout.removeEventListener('mouseenter', onFlyoutEnter);
+        flyout.removeEventListener('mouseleave', onFlyoutLeave);
+        trigger.removeEventListener('click', onTriggerClick);
+        flyout.removeEventListener('click', onFlyoutItemClick);
+        if (closeTimer) clearTimeout(closeTimer);
+      });
+    });
+    const onDocClickCloseGroups = (e: MouseEvent) => {
+      document.querySelectorAll<HTMLElement>('.sb-group').forEach(group => {
+        if (!group.contains(e.target as Node)) {
+          group.classList.remove('open');
+          group.querySelector('.sb-flyout')?.classList.remove('open');
+        }
+      });
+    };
+    document.addEventListener('click', onDocClickCloseGroups);
+
     // ── Theme toggles ──────────────────────────────────────────
     const setTheme = document.getElementById('set-theme');
     const setSw = document.getElementById('set-sw');
@@ -306,6 +373,8 @@ export function SidebarInit(): ReactElement | null {
       modesClose?.removeEventListener('click', closePage);
       sbCards?.removeEventListener('click', onCardsClick);
       for (const [el, evt, fn] of _navListeners) el.removeEventListener(evt, fn);
+      groupCleanups.forEach(fn => fn());
+      document.removeEventListener('click', onDocClickCloseGroups);
       setTheme?.removeEventListener('click', onSetThemeClick);
       setSw?.removeEventListener('click', onSetSwClick);
       titleSwToggle?.removeEventListener('click', onTitleSwClick);
