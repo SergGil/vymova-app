@@ -121,11 +121,11 @@ describe('mode-utils.ts', () => {
 
   describe('entry lookups', () => {
     it('returns a translation entry for a known word', () => {
-      expect(esEntry('abandon')).toEqual(['abandonar', expect.any(String)]);
-      expect(frEntry('abandon')).toEqual(['abandonner', expect.any(String)]);
-      expect(heEntry('abandon')).toEqual([expect.any(String), expect.any(String)]);
-      expect(arEntry('abandon')).toEqual([expect.any(String), expect.any(String)]);
-      expect(plEntry('abandon')).toEqual([expect.any(String), expect.any(String)]);
+      expect(esEntry('abandon')?.slice(0, 2)).toEqual(['abandonar', expect.any(String)]);
+      expect(frEntry('abandon')?.slice(0, 2)).toEqual(['abandonner', expect.any(String)]);
+      expect(heEntry('abandon')?.slice(0, 2)).toEqual([expect.any(String), expect.any(String)]);
+      expect(arEntry('abandon')?.slice(0, 2)).toEqual([expect.any(String), expect.any(String)]);
+      expect(plEntry('abandon')?.slice(0, 2)).toEqual([expect.any(String), expect.any(String)]);
     });
 
     it('returns null for unknown words', () => {

@@ -145,7 +145,6 @@ export function WordDetailPage(): ReactElement | null {
   }
 
   const w = cw;
-  const ipa = decodeIpa(w[4] ?? '');
   const enEx = w[2] ?? '';
   const uaEx = w[3] ?? '';
 
@@ -176,6 +175,10 @@ export function WordDetailPage(): ReactElement | null {
   const trEntry = isTr ? _trEntry(w[0]) : null;
   const nlEntry = isNl ? _nlEntry(w[0]) : null;
   const transl = esEntry ? esEntry[0] : frEntry ? frEntry[0] : itEntry ? itEntry[0] : ptEntry ? ptEntry[0] : deEntry ? deEntry[0] : heEntry ? heEntry[0] : arEntry ? arEntry[0] : plEntry ? plEntry[0] : zhEntry ? zhEntry[0] : elEntry ? elEntry[0] : jaEntry ? jaEntry[0] : trEntry ? trEntry[0] : nlEntry ? nlEntry[0] : w[1];
+  // Local transcription (pinyin/romaji/transliteration/IPA) for the active learn language, if available.
+  const localTranscription = esEntry?.[2] ?? frEntry?.[2] ?? itEntry?.[2] ?? ptEntry?.[2] ?? deEntry?.[2] ?? heEntry?.[2] ?? arEntry?.[2] ?? plEntry?.[2] ?? zhEntry?.[2] ?? elEntry?.[2] ?? jaEntry?.[2] ?? trEntry?.[2] ?? nlEntry?.[2];
+  const isAnyLangMode = isEs || isFr || isIt || isPt || isDe || isHe || isAr || isPl || isZh || isEl || isJa || isTr || isNl;
+  const ipa = localTranscription ? decodeIpa(localTranscription) : (isAnyLangMode ? '' : decodeIpa(w[4] ?? ''));
 
   const similar = isEs
     ? getSimilarWordsEs(w[0], esEntry?.[0] ?? w[1], 5)

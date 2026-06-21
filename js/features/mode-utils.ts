@@ -387,56 +387,56 @@ export function computeCardView(cw: WordEntry, mode: string): CardView {
   return { FRONT_LANG, frontWord, backWord, exenHtml, exuaHtml, frontRtl, backRtl };
 }
 
-export function esEntry(word: string): readonly [string, string] | null {
-  return (W_ES as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+export function esEntry(word: string): readonly [string, string, string?] | null {
+  return (W_ES as unknown as Record<string, readonly [string, string, string?]>)[word] ?? null;
 }
 
-export function frEntry(word: string): readonly [string, string] | null {
-  return (W_FR as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+export function frEntry(word: string): readonly [string, string, string?] | null {
+  return (W_FR as unknown as Record<string, readonly [string, string, string?]>)[word] ?? null;
 }
 
-export function itEntry(word: string): readonly [string, string] | null {
-  return (W_IT as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+export function itEntry(word: string): readonly [string, string, string?] | null {
+  return (W_IT as unknown as Record<string, readonly [string, string, string?]>)[word] ?? null;
 }
 
-export function ptEntry(word: string): readonly [string, string] | null {
-  return (W_PT as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+export function ptEntry(word: string): readonly [string, string, string?] | null {
+  return (W_PT as unknown as Record<string, readonly [string, string, string?]>)[word] ?? null;
 }
 
-export function deEntry(word: string): readonly [string, string] | null {
-  return (W_DE as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+export function deEntry(word: string): readonly [string, string, string?] | null {
+  return (W_DE as unknown as Record<string, readonly [string, string, string?]>)[word] ?? null;
 }
 
-export function heEntry(word: string): readonly [string, string] | null {
-  return (W_HE as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+export function heEntry(word: string): readonly [string, string, string?] | null {
+  return (W_HE as unknown as Record<string, readonly [string, string, string?]>)[word] ?? null;
 }
 
-export function arEntry(word: string): readonly [string, string] | null {
-  return (W_AR as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+export function arEntry(word: string): readonly [string, string, string?] | null {
+  return (W_AR as unknown as Record<string, readonly [string, string, string?]>)[word] ?? null;
 }
 
-export function plEntry(word: string): readonly [string, string] | null {
-  return (W_PL as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+export function plEntry(word: string): readonly [string, string, string?] | null {
+  return (W_PL as unknown as Record<string, readonly [string, string, string?]>)[word] ?? null;
 }
 
-export function zhEntry(word: string): readonly [string, string] | null {
-  return (W_ZH as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+export function zhEntry(word: string): readonly [string, string, string?] | null {
+  return (W_ZH as unknown as Record<string, readonly [string, string, string?]>)[word] ?? null;
 }
 
-export function elEntry(word: string): readonly [string, string] | null {
-  return (W_EL as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+export function elEntry(word: string): readonly [string, string, string?] | null {
+  return (W_EL as unknown as Record<string, readonly [string, string, string?]>)[word] ?? null;
 }
 
-export function jaEntry(word: string): readonly [string, string] | null {
-  return (W_JA as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+export function jaEntry(word: string): readonly [string, string, string?] | null {
+  return (W_JA as unknown as Record<string, readonly [string, string, string?]>)[word] ?? null;
 }
 
-export function trEntry(word: string): readonly [string, string] | null {
-  return (W_TR as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+export function trEntry(word: string): readonly [string, string, string?] | null {
+  return (W_TR as unknown as Record<string, readonly [string, string, string?]>)[word] ?? null;
 }
 
-export function nlEntry(word: string): readonly [string, string] | null {
-  return (W_NL as unknown as Record<string, readonly [string, string]>)[word] ?? null;
+export function nlEntry(word: string): readonly [string, string, string?] | null {
+  return (W_NL as unknown as Record<string, readonly [string, string, string?]>)[word] ?? null;
 }
 
 /** Count of "known" words in the currently selected learn language. */
