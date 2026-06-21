@@ -28,52 +28,160 @@ function shade(hex: string, amount: number): string {
   return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 }
 
-function Hair({ style, color }: { style: string; color: string }): ReactElement | null {
-  const cap = <path d="M58 58 A42 42 0 0 1 142 58 L142 38 Q100 16 58 38 Z" fill={color} />;
+// Shared dome covering the top of the head down to ear height — the base
+// every style sits on, so face-framing pieces (bob panels, curl cascades,
+// ponytail) only have to add what sticks out past it.
+const HAIR_CAP_D = 'M58 58 A42 42 0 0 1 142 58 L142 38 Q100 16 58 38 Z';
+
+// One spike as a standalone wide-based triangle (rounded shoulders, pointed
+// tip) rather than a zigzag outline — overlapping several of these hides the
+// gaps between them, so the silhouette doesn't read as a uniform comb/crown.
+function spikePath(cx: number, peakY: number, lean: number, baseHalf: number): string {
+  const baseY = 50;
+  const midY = (baseY + peakY) / 2;
+  return `M${cx - baseHalf} ${baseY} Q${cx - baseHalf * 0.4} ${midY} ${cx + lean} ${peakY} Q${cx + baseHalf * 0.4} ${midY} ${cx + baseHalf} ${baseY} Z`;
+}
+
+// Deliberately irregular heights/widths/spacing (not an even comb) so the
+// silhouette reads as tousled spiky hair, not a symmetric crown.
+const MASC_SPIKES = [
+  { cx: 64, peakY: 32, lean: -5, baseHalf: 9 },
+  { cx: 75, peakY: 14, lean: 5, baseHalf: 10 },
+  { cx: 91, peakY: 23, lean: -7, baseHalf: 8 },
+  { cx: 103, peakY: 6, lean: 4, baseHalf: 12 },
+  { cx: 118, peakY: 19, lean: -4, baseHalf: 9 },
+  { cx: 130, peakY: 29, lean: 6, baseHalf: 10 },
+  { cx: 139, peakY: 35, lean: -3, baseHalf: 8 },
+];
+
+const FEM_SPIKES = [
+  { cx: 64, peakY: 40, lean: -3, baseHalf: 7 },
+  { cx: 76, peakY: 27, lean: 3, baseHalf: 9 },
+  { cx: 90, peakY: 37, lean: -4, baseHalf: 7 },
+  { cx: 103, peakY: 22, lean: 3, baseHalf: 9 },
+  { cx: 117, peakY: 35, lean: -2, baseHalf: 7 },
+  { cx: 132, peakY: 31, lean: 4, baseHalf: 8 },
+];
+
+function Hair({ style, color, bodyType }: { style: string; color: string; bodyType: number }): ReactElement | null {
+  const fem = bodyType === 1;
+  const cap = <path d={HAIR_CAP_D} fill={color} />;
+
   if (style === 'bald') return null;
-  if (style === 'short') return cap;
+
+  if (style === 'short') {
+    if (!fem) return cap; // clean crew cut
+    // Chin-length bob: cap plus two side panels that flare out at the jaw.
+    return (
+      <>
+        {cap}
+        <path d="M58 56 Q50 78 53 96 Q56 104 66 100 Q60 80 62 56 Z" fill={color} />
+        <path d="M142 56 Q150 78 147 96 Q144 104 134 100 Q140 80 138 56 Z" fill={color} />
+      </>
+    );
+  }
+
   if (style === 'long') {
     return (
       <>
         {cap}
-        {/* Single flowing lock per side — narrow at the temple, bellies out,
-            tapers to a point past the shoulder. Not a blunt rectangle. */}
-        <path d="M56 54 Q34 70 38 110 Q40 132 54 136 Q46 100 58 58 Z" fill={color} />
-        <path d="M144 54 Q166 70 162 110 Q160 132 146 136 Q154 100 142 58 Z" fill={color} />
+        {fem ? (
+          // Single flowing lock per side — narrow at the temple, bellies
+          // out, tapers to a point past the shoulder.
+          <>
+            <path d="M56 54 Q34 70 38 110 Q40 132 54 136 Q46 100 58 58 Z" fill={color} />
+            <path d="M144 54 Q166 70 162 110 Q160 132 146 136 Q154 100 142 58 Z" fill={color} />
+          </>
+        ) : (
+          // Straighter, slimmer shoulder-length hair — less volume than the fem cut.
+          <>
+            <path d="M58 54 Q50 64 52 100 Q53 118 60 116 Q56 90 60 56 Z" fill={color} />
+            <path d="M142 54 Q150 64 148 100 Q147 118 140 116 Q144 90 140 56 Z" fill={color} />
+          </>
+        )}
       </>
     );
   }
+
   if (style === 'curly') {
+    const topBumps = [62, 78, 100, 122, 138].map(cx => <circle key={cx} cx={cx} cy="36" r={fem ? 9 : 6.5} fill={color} />);
+    if (!fem) return <>{cap}{topBumps}</>;
+    // Fuller curls cascading down both sides to the jaw, framing the face.
     return (
       <>
         {cap}
-        {[62, 78, 100, 122, 138].map(cx => <circle key={cx} cx={cx} cy="38" r="9" fill={color} />)}
+        {topBumps}
+        <circle cx="52" cy="62" r="8" fill={color} />
+        <circle cx="50" cy="82" r="8" fill={color} />
+        <circle cx="55" cy="100" r="7" fill={color} />
+        <circle cx="148" cy="62" r="8" fill={color} />
+        <circle cx="150" cy="82" r="8" fill={color} />
+        <circle cx="145" cy="100" r="7" fill={color} />
       </>
     );
   }
-  if (style === 'mohawk') return <rect x="90" y="14" width="20" height="48" rx="8" fill={color} />;
+
+  if (style === 'mohawk') {
+    // A tapered crest rather than a plain rectangle; shorter (fauxhawk) for fem.
+    return fem
+      ? <path d="M90 22 Q87 38 90 48 L110 48 Q113 38 110 22 Z" fill={color} />
+      : <path d="M90 14 Q86 38 90 60 L110 60 Q114 38 110 14 Z" fill={color} />;
+  }
+
   if (style === 'ponytail') {
+    if (fem) {
+      // High side ponytail sweeping out and down.
+      return (
+        <>
+          {cap}
+          <path d="M138 44 Q160 60 152 110 Q148 118 140 112 Q146 70 130 46 Z" fill={color} />
+        </>
+      );
+    }
+    // Short tied-back stub poking out from behind the ear — a low ponytail
+    // reads mostly hidden from the front, unlike the fem side-swoop.
     return (
       <>
         {cap}
-        <path d="M138 44 Q160 60 152 110 Q148 118 140 112 Q146 70 130 46 Z" fill={color} />
+        <path d="M136 64 Q150 66 148 80 Q145 88 136 82 Q138 72 136 64 Z" fill={color} />
       </>
     );
   }
+
   if (style === 'bun') {
     return (
       <>
         {cap}
-        <circle cx="138" cy="34" r="14" fill={color} />
+        {fem ? (
+          <>
+            <circle cx="132" cy="30" r="14" fill={color} />
+            <path d="M122 36 Q115 30 119 23" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" />
+            <path d="M144 40 Q151 34 148 27" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" />
+          </>
+        ) : (
+          <circle cx="100" cy="20" r="9" fill={color} />
+        )}
       </>
     );
   }
-  // spiky
+
+  // spiky — overlapping individual spikes on a short-hair base, not one
+  // continuous zigzag outline (that reads as a crown, not hair).
+  if (fem) {
+    return (
+      <>
+        {cap}
+        {FEM_SPIKES.map((s, i) => <path key={i} d={spikePath(s.cx, s.peakY, s.lean, s.baseHalf)} fill={color} />)}
+        {/* one longer side-swept piece over the brow for asymmetry */}
+        <path d="M72 42 Q58 32 48 40 Q60 48 73 52 Z" fill={color} />
+      </>
+    );
+  }
   return (
-    <path
-      d="M58 58 L62 30 L74 50 L80 22 L92 48 L100 18 L108 48 L120 22 L126 50 L138 30 L142 58 Q100 38 58 58 Z"
-      fill={color}
-    />
+    <>
+      {cap}
+      {MASC_SPIKES.map((s, i) => <path key={i} d={spikePath(s.cx, s.peakY, s.lean, s.baseHalf)} fill={color} />)}
+    </>
   );
 }
 
@@ -183,7 +291,7 @@ export function CharacterAvatar({ appearance, size = 220, variant = 'full', anim
           <circle cx="142" cy="72" r="8" fill={skinFill} />
           {/* head */}
           <circle cx="100" cy="68" r="42" fill={skinFill} />
-          <Hair style={hairStyl} color={hairCol} />
+          <Hair style={hairStyl} color={hairCol} bodyType={bodyType} />
         </g>
         {/* eyebrows — thinner and a touch higher-arched for the feminine body type */}
         {bodyType === 1 ? (
