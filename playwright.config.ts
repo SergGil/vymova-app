@@ -10,7 +10,7 @@ export default defineConfig({
   },
   webServer: {
     command: 'npx vite --port 5183 --strictPort',
-    url: 'http://localhost:5183/flashcard_trainer_starwars.html',
+    url: 'http://localhost:5183/index.html',
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,
   },

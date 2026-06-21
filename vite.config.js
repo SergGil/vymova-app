@@ -18,7 +18,7 @@ export default defineConfig({
         server.middlewares.use((req, _res, next) => {
           const url = req.url ?? '/';
           if (!url.includes('.') && !url.startsWith('/@') && !url.startsWith('/node_modules')) {
-            req.url = '/flashcard_trainer_starwars.html';
+            req.url = '/index.html';
           }
           next();
         });
@@ -28,12 +28,8 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     target: 'esnext',
-    rollupOptions: {
-      input: { index: 'flashcard_trainer_starwars.html' },
-    },
   },
   server: {
-    open: '/flashcard_trainer_starwars.html',
     port: 5173,
   },
   test: {

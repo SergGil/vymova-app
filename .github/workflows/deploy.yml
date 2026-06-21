@@ -41,9 +41,6 @@ jobs:
           VITE_AI_PROXY_URL: ${{ vars.VITE_AI_PROXY_URL }}
         run: npm run build
 
-      - name: Create index.html (GitHub Pages requires root index.html)
-        run: cp dist/flashcard_trainer_starwars.html dist/index.html
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
