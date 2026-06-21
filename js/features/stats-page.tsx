@@ -156,6 +156,7 @@ function computeModeAccuracy(): ModeRow[] {
     { key: 'tempo',    label: t('mode.tempo'),    icon: '⚡' },
     { key: 'scramble', label: t('mode.scramble'), icon: '🔀' },
     { key: 'letters',  label: t('mode.letters'),  icon: '🔤' },
+    { key: 'adaptive-quiz', label: t('mode.adaptiveQuiz'), icon: '🎯' },
   ];
   const rows: ModeRow[] = [];
   modes.forEach(m => {

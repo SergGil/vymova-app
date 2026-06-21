@@ -2521,12 +2521,6 @@ body.dark .sb-flyout { background: #0e1c2e; border-color: rgba(255,255,255,.08);
 body.sw   .sb-flyout { background: #080f1c; border-color: rgba(0,200,255,.14); }
 
 @media (max-width: 900px) {
-  .sb-flyout {
-    position: static;
-    box-shadow: none;
-    border: none;
-    padding: 0 0 0 26px;
-  }
   .sb-caret { transition: transform .15s; }
   .sb-group.open .sb-caret { transform: rotate(90deg); }
 }
@@ -2725,6 +2719,16 @@ body.sw .hamburger { border-color: rgba(0,200,255,.3); }
   width: 100%;
   max-width: 420px;
 }
+.profile-save-btn {
+  width: 100%; padding: 10px; margin-top: 14px;
+  border: none; border-radius: 10px;
+  background: var(--accent); color: #fff;
+  font-family: inherit; font-size: .9rem; font-weight: 600;
+  cursor: pointer; transition: opacity .15s;
+}
+.profile-save-btn:hover { opacity: .88; }
+.profile-save-btn:disabled { opacity: .4; cursor: default; }
+body.sw .profile-save-btn { background: linear-gradient(90deg,#005580,#00c8ff); }
 
 /* Idle character animation: gentle breathing bob + periodic blink. */
 @keyframes char-breathe {

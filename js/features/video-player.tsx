@@ -6,6 +6,7 @@
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
+import { useStateVersion } from '../../src/store.ts';
 import { saveKnown } from '../core/storage.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { onWordLearned } from '../core/card-engine.ts';
@@ -31,6 +32,7 @@ function renderCueHtml(text: string): string {
 }
 
 export function VideoPlayerPage(): ReactElement | null {
+  useStateVersion();
   const target = document.getElementById('video-player-content');
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [cues, setCues] = useState<Cue[]>([]);

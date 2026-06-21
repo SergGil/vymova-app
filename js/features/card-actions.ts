@@ -407,7 +407,11 @@ export function CardActionsInit(): ReactElement | null {
         _ak.add(cw[0]);
         const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
         if (rangeVal === 'srs') {
-          sm2Update(cw[0], 4);
+          // Quality 5 ("perfect recall") — the binary Know/Don't-know UI has no
+          // hesitation signal, and quality 4 nets a zero EF delta under SM-2,
+          // so EF could drop on a miss but never recover on repeated correct
+          // answers. Know should actually grow the interval over time.
+          sm2Update(cw[0], 5);
         } else {
           // Marking "know" outside the SRS deck means the user already masters this
           // word — drop any prior SRS progress (ef/reps/lapses) so it doesn't

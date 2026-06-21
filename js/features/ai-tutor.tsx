@@ -7,6 +7,7 @@ import { useRef, useState, type FormEvent, type ReactElement } from 'react';
 import { AI_PROXY_URL, AI_TUTOR_ENABLED } from '../config.ts';
 import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
 import { t } from './i18n.ts';
+import { useStateVersion } from '../../src/store.ts';
 import { bindOverlayDismiss } from './overlay-utils.ts';
 
 export interface ChatMessage { role: 'user' | 'assistant'; text: string; }
@@ -28,6 +29,7 @@ export async function sendTutorMessage(messages: ChatMessage[]): Promise<string>
 }
 
 export function AiTutorPage(): ReactElement | null {
+  useStateVersion();
   const target = document.getElementById('ai-tutor-content');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');

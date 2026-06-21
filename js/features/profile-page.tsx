@@ -24,15 +24,18 @@ const PICKERS: { key: PickerKey; labelKey: string; len: number }[] = [
 export function ProfilePage(): ReactElement | null {
   const target = document.getElementById('profile-content');
   const [appearance, setAppearance] = useState<CharacterAppearance>(() => loadCharacter());
+  const [dirty, setDirty] = useState(false);
 
   if (!target) return null;
 
   function cycle(key: PickerKey, len: number, dir: 1 | -1): void {
-    setAppearance(prev => {
-      const next = { ...prev, [key]: ((prev[key] + dir) % len + len) % len };
-      saveCharacter(next);
-      return next;
-    });
+    setAppearance(prev => ({ ...prev, [key]: ((prev[key] + dir) % len + len) % len }));
+    setDirty(true);
+  }
+
+  function saveChanges(): void {
+    saveCharacter(appearance);
+    setDirty(false);
   }
 
   const gd = getGameData();
@@ -58,6 +61,7 @@ export function ProfilePage(): ReactElement | null {
             </div>
           </div>
         ))}
+        <button className="profile-save-btn" disabled={!dirty} onClick={saveChanges}>{t('profile.saveChanges')}</button>
       </div>
 
       <div className="stats-summary profile-stats">

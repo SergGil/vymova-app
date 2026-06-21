@@ -5,6 +5,7 @@
 import { createPortal } from 'react-dom';
 import { useState, type FormEvent, type ReactElement } from 'react';
 import { t } from './i18n.ts';
+import { useStateVersion } from '../../src/store.ts';
 import { bindOverlayDismiss } from './overlay-utils.ts';
 
 const HISTORY_KEY = 'ew_yt_history';
@@ -43,6 +44,7 @@ function pushHistory(id: string): string[] {
 }
 
 export function YoutubePlayerPage(): ReactElement | null {
+  useStateVersion();
   const target = document.getElementById('youtube-player-content');
   const [input, setInput] = useState('');
   const [videoId, setVideoId] = useState<string | null>(null);

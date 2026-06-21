@@ -198,7 +198,7 @@ export function loadSRS(): SRSData {
 // 'ew_profiles' (alongside its legacy `avatar` emoji), so every
 // profile keeps its own look without needing a separate snapshot key.
 
-interface ProfileLike { id: string; appearance?: Partial<CharacterAppearance>; }
+interface ProfileLike { id: string; appearance?: Partial<CharacterAppearance>; avatarMode?: 'preset' | 'character'; }
 
 export function appearanceOf(p: ProfileLike): CharacterAppearance {
   return { ...DEFAULT_APPEARANCE, ...(p.appearance ?? {}) };
@@ -215,11 +215,14 @@ export function loadCharacter(): CharacterAppearance {
   }
 }
 
+// Saving a custom appearance makes it the displayed avatar again, overriding
+// whatever preset emoji might have been picked in the profile editor.
 export function saveCharacter(appearance: CharacterAppearance): void {
   try {
     const profiles = JSON.parse(localStorage.getItem('ew_profiles') ?? '[]') as ProfileLike[];
     const activeId = localStorage.getItem('ew_active_profile') ?? '';
-    const next = profiles.map(p => p.id === activeId ? { ...p, appearance } : p);
+    const next = profiles.map(p => p.id === activeId ? { ...p, appearance, avatarMode: 'character' as const } : p);
     localStorage.setItem('ew_profiles', JSON.stringify(next));
+    window.dispatchEvent(new Event('ew:profiles-changed'));
   } catch (e) {}
 }

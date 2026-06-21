@@ -47,7 +47,7 @@ describe('profile-page.tsx ProfilePage', () => {
     expect(values).toContain('20');    // known
   });
 
-  it('cycles an option forward and persists it to localStorage on arrow click', () => {
+  it('cycles an option forward locally without persisting until Save Changes is clicked', () => {
     const { container } = mount();
     const firstRow = container.querySelectorAll('.profile-picker-row')[0];
     const nextBtn = firstRow.querySelectorAll('.profile-picker-arrow')[1] as HTMLButtonElement;
@@ -55,7 +55,12 @@ describe('profile-page.tsx ProfilePage', () => {
     act(() => { nextBtn.click(); });
     const valAfter = firstRow.querySelector('.profile-picker-val')!.textContent;
     expect(valAfter).not.toBe(valBefore);
+    expect(JSON.parse(localStorage.getItem('ew_profiles')!)[0].appearance).toBeUndefined();
+
+    const saveBtn = container.querySelector('.profile-save-btn') as HTMLButtonElement;
+    act(() => { saveBtn.click(); });
     const profiles = JSON.parse(localStorage.getItem('ew_profiles')!);
     expect(profiles[0].appearance).toBeDefined();
+    expect(profiles[0].avatarMode).toBe('character');
   });
 });

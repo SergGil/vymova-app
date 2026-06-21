@@ -14,6 +14,7 @@ const ACTIVE_KEY = 'ew_active_profile';
 const BASE_SNAP_KEYS = [
   'ew_known', 'ew_known_lz', 'ew_srs', 'ew_srs_lz',
   'ew_game', 'ew_daily', 'ew_ach', 'ew_milestones',
+  'ew_modes', 'ew_mode_acc', 'ew_mistakes',
   'ew_pairs_best', 'ew_ws_voice', 'ew_ws_uk_voice', 'ew_ws_es_voice',
   'ew_notes', 'ew_bookmarks',
   'tempo_best_30', 'tempo_best_60', 'tempo_best_120',
@@ -24,7 +25,7 @@ const _extraSnapKeys: string[] = [];
 
 const AVATARS = ['🧑', '👩', '🧔', '👦', '👧', '🤖', '🦊', '🐸', '⚔️', '🌟', '🔥', '🏆'];
 
-type Profile = { id: string; name: string; avatar: string; appearance?: CharacterAppearance };
+type Profile = { id: string; name: string; avatar: string; avatarMode?: 'preset' | 'character'; appearance?: CharacterAppearance };
 
 function _getProfiles(): Profile[] {
   try { return JSON.parse(localStorage.getItem(LIST_KEY) ?? '[]') as Profile[]; }
@@ -34,11 +35,15 @@ function _setProfiles(p: Profile[]): void { localStorage.setItem(LIST_KEY, JSON.
 function _getActiveId(): string { return localStorage.getItem(ACTIVE_KEY) ?? ''; }
 function _setActiveId(id: string): void { localStorage.setItem(ACTIVE_KEY, id); }
 
-// Per-learn-language progress (known words, SRS, achievements) is stored
-// under language-suffixed keys (e.g. 'ew_known_es', 'ew_srs_fr', 'ew_ach_de')
-// that aren't enumerable up front — captured dynamically below so every
-// profile keeps its own progress per language instead of sharing one.
-const DYNAMIC_KEY_PREFIXES = ['ew_cp_', 'ew_known_', 'ew_srs_', 'ew_ach_'];
+// Per-learn-language progress (known words, SRS, achievements, mode stats,
+// mistakes, voice picks) is stored under language-suffixed keys (e.g.
+// 'ew_known_es', 'ew_srs_fr', 'ew_ach_de', 'ew_modes_pt') that aren't
+// enumerable up front — captured dynamically below so every profile keeps
+// its own progress per language instead of sharing one.
+const DYNAMIC_KEY_PREFIXES = [
+  'ew_cp_', 'ew_known_', 'ew_srs_', 'ew_ach_',
+  'ew_game_', 'ew_daily_', 'ew_modes_', 'ew_mode_acc_', 'ew_mistakes_', 'ew_ws_',
+];
 
 function _snapKeys(): string[] {
   const keys = [...BASE_SNAP_KEYS, ..._extraSnapKeys];
@@ -82,6 +87,21 @@ function _ensureInit(): void {
 
 function _onBeforeUnload(): void { const aid = _getActiveId(); if (aid) _saveSnapshot(aid); }
 
+// Whichever avatar style was saved most recently (preset emoji vs. the
+// custom SVG character) is what's shown everywhere — sidebar, dropdown,
+// edit modal. Defaults to the SVG character for backward compatibility
+// with profiles that predate this field.
+function ProfileAvatarView({ profile, size }: { profile: Profile; size: number }): ReactElement {
+  if (profile.avatarMode === 'preset') {
+    return (
+      <span style={{ fontSize: size * 0.78, lineHeight: 1, width: size, height: size, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+        {profile.avatar}
+      </span>
+    );
+  }
+  return <CharacterAvatar appearance={appearanceOf(profile)} size={size} variant="head" animated={false} />;
+}
+
 export function ProfileSwitcher(): ReactElement {
   const [profiles, setProfiles] = useState<Profile[]>(() => _getProfiles());
   const [activeId, setActiveId] = useState<string>(() => _getActiveId());
@@ -89,10 +109,12 @@ export function ProfileSwitcher(): ReactElement {
   const [addOpen, setAddOpen] = useState(false);
   const [newName, setNewName] = useState('');
   const [newAvatar, setNewAvatar] = useState('🧑');
+  const [newAvatarTouched, setNewAvatarTouched] = useState(false);
   const [newNameError, setNewNameError] = useState(false);
   const [editTarget, setEditTarget] = useState<Profile | null>(null);
   const [editName, setEditName] = useState('');
   const [editAvatar, setEditAvatar] = useState('');
+  const [editAvatarTouched, setEditAvatarTouched] = useState(false);
   const [editNameError, setEditNameError] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Profile | null>(null);
 
@@ -102,6 +124,15 @@ export function ProfileSwitcher(): ReactElement {
   useEffect(() => {
     window.addEventListener('beforeunload', _onBeforeUnload);
     return () => window.removeEventListener('beforeunload', _onBeforeUnload);
+  }, []);
+
+  // Profile-page character customization writes 'ew_profiles' directly
+  // (via saveCharacter), bypassing this component's state — resync here so
+  // the sidebar avatar reflects it without a full reload.
+  useEffect(() => {
+    const onProfilesChanged = () => setProfiles(_getProfiles());
+    window.addEventListener('ew:profiles-changed', onProfilesChanged);
+    return () => window.removeEventListener('ew:profiles-changed', onProfilesChanged);
   }, []);
 
   // Keep the (hidden, legacy) header profile button in sync.
@@ -132,7 +163,7 @@ export function ProfileSwitcher(): ReactElement {
   function toggleAddForm(): void {
     setDropOpen(false);
     setAddOpen(o => {
-      if (!o) { setNewName(''); setNewAvatar('🧑'); setNewNameError(false); }
+      if (!o) { setNewName(''); setNewAvatar('🧑'); setNewAvatarTouched(false); setNewNameError(false); }
       return !o;
     });
   }
@@ -149,7 +180,8 @@ export function ProfileSwitcher(): ReactElement {
     if (!name) { setNewNameError(true); setTimeout(() => setNewNameError(false), 1200); return; }
     _saveSnapshot(activeId);
     const id = 'p' + Date.now();
-    const next = [...profiles, { id, name, avatar: newAvatar, appearance: { ...DEFAULT_APPEARANCE } }];
+    const avatarMode: 'preset' | 'character' = newAvatarTouched ? 'preset' : 'character';
+    const next = [...profiles, { id, name, avatar: newAvatar, avatarMode, appearance: { ...DEFAULT_APPEARANCE } }];
     _setProfiles(next); _setActiveId(id); _clearActiveKeys();
     localStorage.setItem('ew_onboarding_needed', '1'); // trigger onboarding on next load
     window.removeEventListener('beforeunload', _onBeforeUnload);
@@ -158,13 +190,15 @@ export function ProfileSwitcher(): ReactElement {
 
   function openEdit(p: Profile): void {
     setDropOpen(false);
-    setEditTarget(p); setEditName(p.name); setEditAvatar(p.avatar); setEditNameError(false);
+    setEditTarget(p); setEditName(p.name); setEditAvatar(p.avatar); setEditAvatarTouched(false); setEditNameError(false);
   }
   function saveEdit(): void {
     const name = editName.trim();
     if (!name) { setEditNameError(true); setTimeout(() => setEditNameError(false), 1200); return; }
     if (!editTarget) return;
-    const next = profiles.map(p => p.id === editTarget.id ? { ...p, name, avatar: editAvatar } : p);
+    const next = profiles.map(p => p.id === editTarget.id
+      ? { ...p, name, avatar: editAvatar, ...(editAvatarTouched ? { avatarMode: 'preset' as const } : {}) }
+      : p);
     setProfiles(next); _setProfiles(next);
     setEditTarget(null);
     renderDuel();
@@ -207,7 +241,7 @@ export function ProfileSwitcher(): ReactElement {
     <div ref={rootRef}>
       <div className="sb-profile-row">
         <button id="sb-profile-btn" className="sidebar-profile-btn" onClick={toggleDropdown}>
-          <span id="sb-profile-av" className="sb-av"><CharacterAvatar appearance={appearanceOf(active)} size={26} variant="head" animated={false} /></span>
+          <span id="sb-profile-av" className="sb-av"><ProfileAvatarView profile={active} size={26} /></span>
           <span id="sb-profile-name" className="sb-name">{active.name}</span>
           <span id="sb-profile-arrow" className="sb-arrow">{dropOpen ? '▴' : '▾'}</span>
         </button>
@@ -222,7 +256,7 @@ export function ProfileSwitcher(): ReactElement {
               style={{ flex: 1, minWidth: 0 }}
               onClick={() => switchProfile(p.id)}
             >
-              <span className="sb-dd-av"><CharacterAvatar appearance={appearanceOf(p)} size={22} variant="head" animated={false} /></span>{' '}
+              <span className="sb-dd-av"><ProfileAvatarView profile={p} size={22} /></span>{' '}
               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</span>
               {p.id === activeId && <span className="sb-dd-check">✓</span>}
             </button>
@@ -247,13 +281,13 @@ export function ProfileSwitcher(): ReactElement {
           }}
         />
         <div className="prf-char-preview">
-          <CharacterAvatar appearance={DEFAULT_APPEARANCE} size={48} variant="head" animated={false} />
+          <ProfileAvatarView profile={{ id: '', name: '', avatar: newAvatar, avatarMode: newAvatarTouched ? 'preset' : 'character', appearance: DEFAULT_APPEARANCE }} size={48} />
           <span className="prf-char-hint">{t('profile.customizeHint')}</span>
         </div>
-        <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginBottom: 6 }}>{t('profile.avatarLabel')} <span style={{ fontSize: '1.1rem', verticalAlign: 'middle' }}>{newAvatar}</span></div>
+        <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginBottom: 6 }}>{t('profile.avatarLabel')}</div>
         <div className="prf-av-picker prf-av-mini">
           {AVATARS.map(a => (
-            <button key={a} className={'prf-av-btn' + (a === newAvatar ? ' prf-av-active' : '')} onClick={() => setNewAvatar(a)}>{a}</button>
+            <button key={a} className={'prf-av-btn' + (a === newAvatar && newAvatarTouched ? ' prf-av-active' : '')} onClick={() => { setNewAvatar(a); setNewAvatarTouched(true); }}>{a}</button>
           ))}
         </div>
         <button id="sb-new-confirm" className="prf-add-confirm" style={{ marginTop: 8 }} onClick={confirmAdd}>{t('profile.create')}</button>
@@ -276,13 +310,13 @@ export function ProfileSwitcher(): ReactElement {
               }}
             />
             <div className="prf-char-preview" style={{ marginBottom: 14 }}>
-              <CharacterAvatar appearance={appearanceOf(editTarget)} size={56} variant="head" animated={false} />
+              <ProfileAvatarView profile={{ ...editTarget, avatar: editAvatar, avatarMode: editAvatarTouched ? 'preset' : editTarget.avatarMode }} size={56} />
               <span className="prf-char-hint">{t('profile.customizeHint')}</span>
             </div>
-            <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginBottom: 6 }}>{t('profile.avatarLabel')} <span style={{ fontSize: '1.1rem', verticalAlign: 'middle' }}>{editAvatar}</span></div>
+            <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginBottom: 6 }}>{t('profile.avatarLabel')}</div>
             <div className="prf-av-picker" style={{ marginBottom: 14 }}>
               {AVATARS.map(a => (
-                <button key={a} className={'prf-av-btn' + (a === editAvatar ? ' prf-av-active' : '')} onClick={() => setEditAvatar(a)}>{a}</button>
+                <button key={a} className={'prf-av-btn' + (a === editAvatar && (editAvatarTouched || editTarget.avatarMode === 'preset') ? ' prf-av-active' : '')} onClick={() => { setEditAvatar(a); setEditAvatarTouched(true); }}>{a}</button>
               ))}
             </div>
             <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>

@@ -256,20 +256,42 @@ export function SidebarInit(): ReactElement | null {
 
     // ── Nav groups (hover flyout submenus) ───────────────────────
     const groupCleanups: Array<() => void> = [];
+    const allFlyoutGroups: Array<{ group: HTMLElement; flyout: HTMLElement }> = [];
+    const closeOtherFlyouts = (except: HTMLElement) => {
+      allFlyoutGroups.forEach(({ group: g, flyout: f }) => {
+        if (f !== except) { f.classList.remove('open'); g.classList.remove('open'); }
+      });
+    };
     document.querySelectorAll<HTMLElement>('.sb-group').forEach(group => {
       const trigger = group.querySelector<HTMLElement>('.sb-group-trigger');
       const flyout = group.querySelector<HTMLElement>('.sb-flyout');
       if (!trigger || !flyout) return;
+      // .sidebar has its own z-index, which makes it a stacking context —
+      // any z-index on a fixed-position descendant only ranks against that
+      // context's siblings, so the flyout would stay pinned behind page
+      // overlays no matter how high its z-index goes. Move it to <body> so
+      // it competes in the top-level stacking order instead.
+      const flyoutPlaceholder = document.createComment('sb-flyout-slot');
+      flyout.before(flyoutPlaceholder);
+      document.body.appendChild(flyout);
       let closeTimer: ReturnType<typeof setTimeout> | null = null;
       const isMobile = () => window.innerWidth <= 900;
       const positionFlyout = () => {
         const r = trigger.getBoundingClientRect();
-        flyout.style.left = `${r.right + 4}px`;
-        flyout.style.top = `${r.top}px`;
+        if (isMobile()) {
+          flyout.style.left = `${r.left}px`;
+          flyout.style.top = `${r.bottom + 2}px`;
+          flyout.style.width = `${r.width}px`;
+        } else {
+          flyout.style.left = `${r.right + 4}px`;
+          flyout.style.top = `${r.top}px`;
+          flyout.style.width = '';
+        }
       };
       const openFlyout = () => {
         if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
         if (isMobile()) return;
+        closeOtherFlyouts(flyout);
         positionFlyout();
         flyout.classList.add('open');
       };
@@ -282,14 +304,10 @@ export function SidebarInit(): ReactElement | null {
       const onFlyoutLeave = () => scheduleClose();
       const onTriggerClick = (e: MouseEvent) => {
         e.preventDefault();
-        if (isMobile()) {
-          group.classList.toggle('open');
-          flyout.classList.toggle('open', group.classList.contains('open'));
-        } else {
-          const willOpen = !flyout.classList.contains('open');
-          if (willOpen) positionFlyout();
-          flyout.classList.toggle('open', willOpen);
-        }
+        const willOpen = !flyout.classList.contains('open');
+        if (willOpen) { closeOtherFlyouts(flyout); positionFlyout(); }
+        flyout.classList.toggle('open', willOpen);
+        group.classList.toggle('open', willOpen);
       };
       const onFlyoutItemClick = (e: MouseEvent) => {
         if ((e.target as HTMLElement).closest('a.sb-btn')) {
@@ -303,6 +321,7 @@ export function SidebarInit(): ReactElement | null {
       flyout.addEventListener('mouseleave', onFlyoutLeave);
       trigger.addEventListener('click', onTriggerClick);
       flyout.addEventListener('click', onFlyoutItemClick);
+      allFlyoutGroups.push({ group, flyout });
       groupCleanups.push(() => {
         trigger.removeEventListener('mouseenter', onTriggerEnter);
         trigger.removeEventListener('mouseleave', onTriggerLeave);
@@ -311,13 +330,21 @@ export function SidebarInit(): ReactElement | null {
         trigger.removeEventListener('click', onTriggerClick);
         flyout.removeEventListener('click', onFlyoutItemClick);
         if (closeTimer) clearTimeout(closeTimer);
+        const idx = allFlyoutGroups.findIndex(x => x.flyout === flyout);
+        if (idx !== -1) allFlyoutGroups.splice(idx, 1);
+        flyoutPlaceholder.replaceWith(flyout);
       });
     });
     const onDocClickCloseGroups = (e: MouseEvent) => {
       document.querySelectorAll<HTMLElement>('.sb-group').forEach(group => {
-        if (!group.contains(e.target as Node)) {
+        // The flyout itself lives under <body> now (see the reparenting
+        // above), so it's no longer a descendant of .sb-group — look it up
+        // by id instead of group.querySelector.
+        const flyoutEl = document.getElementById(`${group.id}-flyout`);
+        const target = e.target as Node;
+        if (!group.contains(target) && !flyoutEl?.contains(target)) {
           group.classList.remove('open');
-          group.querySelector('.sb-flyout')?.classList.remove('open');
+          flyoutEl?.classList.remove('open');
         }
       });
     };
