@@ -36,8 +36,10 @@ function Hair({ style, color }: { style: string; color: string }): ReactElement 
     return (
       <>
         {cap}
-        <rect x="50" y="50" width="14" height="70" rx="6" fill={color} />
-        <rect x="136" y="50" width="14" height="70" rx="6" fill={color} />
+        {/* Single flowing lock per side — narrow at the temple, bellies out,
+            tapers to a point past the shoulder. Not a blunt rectangle. */}
+        <path d="M56 54 Q34 70 38 110 Q40 132 54 136 Q46 100 58 58 Z" fill={color} />
+        <path d="M144 54 Q166 70 162 110 Q160 132 146 136 Q154 100 142 58 Z" fill={color} />
       </>
     );
   }
@@ -183,22 +185,47 @@ export function CharacterAvatar({ appearance, size = 220, variant = 'full', anim
           <circle cx="100" cy="68" r="42" fill={skinFill} />
           <Hair style={hairStyl} color={hairCol} />
         </g>
-        {/* eyebrows */}
-        <path d="M74 57 Q84 52 94 56" fill="none" stroke={eyebrowColor} strokeWidth="3" strokeLinecap="round" />
-        <path d="M106 56 Q116 52 126 57" fill="none" stroke={eyebrowColor} strokeWidth="3" strokeLinecap="round" />
+        {/* eyebrows — thinner and a touch higher-arched for the feminine body type */}
+        {bodyType === 1 ? (
+          <>
+            <path d="M73 56 Q84 49 95 55" fill="none" stroke={eyebrowColor} strokeWidth="2" strokeLinecap="round" />
+            <path d="M105 55 Q116 49 127 56" fill="none" stroke={eyebrowColor} strokeWidth="2" strokeLinecap="round" />
+          </>
+        ) : (
+          <>
+            <path d="M74 57 Q84 52 94 56" fill="none" stroke={eyebrowColor} strokeWidth="3" strokeLinecap="round" />
+            <path d="M106 56 Q116 52 126 57" fill="none" stroke={eyebrowColor} strokeWidth="3" strokeLinecap="round" />
+          </>
+        )}
         {/* eyes */}
         <g className={blink} style={{ transformOrigin: '84px 64px' }}>
           <circle cx="84" cy="64" r="6" fill="#fff" stroke="#1a1626" strokeWidth="1.2" />
           <circle cx="84" cy="65" r="3.2" fill={eyeCol} />
           <circle cx="82.3" cy="63.2" r="1.1" fill="#fff" opacity="0.9" />
+          {bodyType === 1 && (
+            <g stroke="#1a1626" strokeWidth="1.3" strokeLinecap="round">
+              <path d="M79 59 L74 55" />
+              <path d="M78 62 L72 60" />
+            </g>
+          )}
         </g>
         <g className={blink} style={{ transformOrigin: '116px 64px' }}>
           <circle cx="116" cy="64" r="6" fill="#fff" stroke="#1a1626" strokeWidth="1.2" />
           <circle cx="116" cy="65" r="3.2" fill={eyeCol} />
           <circle cx="114.3" cy="63.2" r="1.1" fill="#fff" opacity="0.9" />
+          {bodyType === 1 && (
+            <g stroke="#1a1626" strokeWidth="1.3" strokeLinecap="round">
+              <path d="M121 59 L126 55" />
+              <path d="M122 62 L128 60" />
+            </g>
+          )}
         </g>
-        {/* mouth */}
-        <path d="M86 84 Q100 94 114 84" fill="none" stroke="#1a1626" strokeWidth="3" strokeLinecap="round" />
+        {/* mouth — fuller, tinted lips for the feminine body type; a simple smile line otherwise */}
+        {bodyType === 1 ? (
+          <path d="M84 85 Q100 96 116 85 Q108 91.5 100 91.5 Q92 91.5 84 85 Z" fill="#c0667a" stroke="#1a1626" strokeWidth="1.5" strokeLinejoin="round" />
+        ) : (
+          <path d="M86 84 Q100 94 114 84" fill="none" stroke="#1a1626" strokeWidth="3" strokeLinecap="round" />
+        )}
       </g>
     </svg>
   );
