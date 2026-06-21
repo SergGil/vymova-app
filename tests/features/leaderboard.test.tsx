@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { Leaderboard } from '../../js/features/leaderboard.tsx';
+import { state } from '../../src/state.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -25,6 +26,26 @@ describe('leaderboard.tsx Leaderboard', () => {
 
   afterEach(() => {
     vi.unstubAllGlobals();
+    state.known = new Set();
+  });
+
+  it('submits the real known-word count on mount (regression: reading ew_known with a raw JSON.parse threw because it is LZ-compressed, so scores never got submitted)', async () => {
+    localStorage.setItem('ew_profiles', JSON.stringify([{ id: 'p1', name: 'Sergii', avatar: '🧑' }]));
+    localStorage.setItem('ew_active_profile', 'p1');
+    state.known = new Set(Array.from({ length: 100 }, (_, i) => `word${i}`));
+    fetchMock.mockResolvedValue({ ok: true, json: async () => null });
+
+    await act(async () => {
+      mount(10);
+      await new Promise(r => setTimeout(r, 0));
+    });
+
+    const putCall = fetchMock.mock.calls.find(([, opts]) => (opts as RequestInit | undefined)?.method === 'PUT');
+    expect(putCall).toBeDefined();
+    const body = JSON.parse((putCall![1] as RequestInit).body as string);
+    expect(body.known).toBe(100);
+    expect(body.name).toBe('Sergii');
+    expect(body.xp).toBe(500);
   });
 
   it('shows a loading state initially', () => {

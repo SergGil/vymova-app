@@ -2,6 +2,8 @@
 // 🏆 Global leaderboard via Firebase Realtime Database
 import { useEffect, useState, type ReactElement } from 'react';
 import { t, wordsLabel } from './i18n.ts';
+import { getGameData } from './game.ts';
+import { getKnownInLang } from './mode-utils.ts';
 
 const DB_URL = 'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
 
@@ -22,14 +24,18 @@ function _getMyEntry(): LBEntry | null {
     const activeId = localStorage.getItem('ew_active_profile') ?? '';
     const profile  = profiles.find(p => p.id === activeId);
     if (!profile) return null;
-    const game  = JSON.parse(localStorage.getItem('ew_game') || '{}') as {streak?:number;xp?:number};
-    const known = JSON.parse(localStorage.getItem('ew_known') || '[]') as string[];
+    // 'ew_known'/'ew_game' are stored compressed (LZ) and/or under a
+    // per-learn-language key — reading them with a raw JSON.parse here threw
+    // on every real save and silently returned null, so nobody's score ever
+    // got submitted. getGameData()/getKnownInLang() already handle both.
+    const game  = getGameData();
+    const known = getKnownInLang();
     return {
       name:    profile.name,
       avatar:  profile.avatar,
-      known:   known.length,
+      known,
       streak:  game.streak ?? 0,
-      xp:      (game.xp ?? 0) + known.length * 5,
+      xp:      (game.xp ?? 0) + known * 5,
       updatedAt: Date.now(),
     };
   } catch (e) { return null; }
