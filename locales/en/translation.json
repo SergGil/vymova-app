@@ -1005,7 +1005,7 @@
   "profile.deleteTooltip": "Delete",
   "profile.namePlaceholder": "Profile name...",
   "profile.newNamePlaceholder": "New profile name...",
-  "profile.avatarLabel": "Avatar:",
+  "profile.avatarLabel": "Avatar (for Duel):",
   "profile.cancel": "Cancel",
   "profile.save": "Save",
   "profile.create": "+ Create",

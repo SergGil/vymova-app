@@ -34,11 +34,17 @@ function _setProfiles(p: Profile[]): void { localStorage.setItem(LIST_KEY, JSON.
 function _getActiveId(): string { return localStorage.getItem(ACTIVE_KEY) ?? ''; }
 function _setActiveId(id: string): void { localStorage.setItem(ACTIVE_KEY, id); }
 
+// Per-learn-language progress (known words, SRS, achievements) is stored
+// under language-suffixed keys (e.g. 'ew_known_es', 'ew_srs_fr', 'ew_ach_de')
+// that aren't enumerable up front — captured dynamically below so every
+// profile keeps its own progress per language instead of sharing one.
+const DYNAMIC_KEY_PREFIXES = ['ew_cp_', 'ew_known_', 'ew_srs_', 'ew_ach_'];
+
 function _snapKeys(): string[] {
   const keys = [...BASE_SNAP_KEYS, ..._extraSnapKeys];
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i);
-    if (k?.startsWith('ew_cp_') && !keys.includes(k)) keys.push(k);
+    if (k && !keys.includes(k) && DYNAMIC_KEY_PREFIXES.some(p => k.startsWith(p))) keys.push(k);
   }
   return keys;
 }
@@ -56,7 +62,7 @@ function _loadSnapshot(id: string): void {
     else            localStorage.removeItem(k);
   });
 }
-function _clearActiveKeys(): void { BASE_SNAP_KEYS.forEach(k => localStorage.removeItem(k)); }
+function _clearActiveKeys(): void { _snapKeys().forEach(k => localStorage.removeItem(k)); }
 
 // Ensure at least one profile exists before the component reads initial state.
 function _ensureInit(): void {
@@ -244,6 +250,7 @@ export function ProfileSwitcher(): ReactElement {
           <CharacterAvatar appearance={DEFAULT_APPEARANCE} size={48} variant="head" animated={false} />
           <span className="prf-char-hint">{t('profile.customizeHint')}</span>
         </div>
+        <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginBottom: 6 }}>{t('profile.avatarLabel')} <span style={{ fontSize: '1.1rem', verticalAlign: 'middle' }}>{newAvatar}</span></div>
         <div className="prf-av-picker prf-av-mini">
           {AVATARS.map(a => (
             <button key={a} className={'prf-av-btn' + (a === newAvatar ? ' prf-av-active' : '')} onClick={() => setNewAvatar(a)}>{a}</button>
@@ -272,7 +279,7 @@ export function ProfileSwitcher(): ReactElement {
               <CharacterAvatar appearance={appearanceOf(editTarget)} size={56} variant="head" animated={false} />
               <span className="prf-char-hint">{t('profile.customizeHint')}</span>
             </div>
-            <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginBottom: 6 }}>{t('profile.avatarLabel')}</div>
+            <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginBottom: 6 }}>{t('profile.avatarLabel')} <span style={{ fontSize: '1.1rem', verticalAlign: 'middle' }}>{editAvatar}</span></div>
             <div className="prf-av-picker" style={{ marginBottom: 14 }}>
               {AVATARS.map(a => (
                 <button key={a} className={'prf-av-btn' + (a === editAvatar ? ' prf-av-active' : '')} onClick={() => setEditAvatar(a)}>{a}</button>

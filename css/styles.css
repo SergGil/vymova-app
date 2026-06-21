@@ -2514,7 +2514,7 @@ body.sw   .sb-btn.sb-active { background: rgba(0,200,255,.12); color: #00c8ff; }
   flex-direction: column;
   gap: 3px;
   box-shadow: 0 10px 30px rgba(0,0,0,.28);
-  z-index: 400;
+  z-index: 700;
 }
 .sb-flyout.open { display: flex; }
 body.dark .sb-flyout { background: #0e1c2e; border-color: rgba(255,255,255,.08); }

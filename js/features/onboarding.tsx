@@ -117,7 +117,7 @@ function Onboarding({ onClose }: { onClose: () => void }): ReactElement {
                 {s.tips.map((tip, ti) => (
                   <div className="ob-tip" key={ti}>
                     <span className="ob-tip-icon">{tip.icon}</span>
-                    <span>{tip.text}</span>
+                    <span dangerouslySetInnerHTML={{ __html: tip.text }} />
                   </div>
                 ))}
               </div>
@@ -132,9 +132,9 @@ function Onboarding({ onClose }: { onClose: () => void }): ReactElement {
                     onClick={() => setSelectedRange(lv.range)}
                   >
                     <span className="ob-lv-emoji">{lv.emoji}</span>
-                    <div className="ob-lv-name">{lv.name}</div>
-                    <div className="ob-lv-words">{lv.words}</div>
-                    <div className="ob-lv-hint">{lv.hint}</div>
+                    <div className="ob-lv-name" dangerouslySetInnerHTML={{ __html: lv.name }} />
+                    <div className="ob-lv-words" dangerouslySetInnerHTML={{ __html: lv.words }} />
+                    <div className="ob-lv-hint" dangerouslySetInnerHTML={{ __html: lv.hint }} />
                   </button>
                 ))}
               </div>
