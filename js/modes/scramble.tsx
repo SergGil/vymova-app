@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
-import { addCombo, breakCombo } from '../features/combo.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak } from '../features/speech.ts';
@@ -150,7 +150,7 @@ export function ScramblePage(): ReactElement {
       } else {
         setOk(o => o + 1);
         setResult({ text: t('quiz.correctMsg'), ok: true });
-        try { addCombo(); } catch (e) {}
+        try { addCombo(); awardXP(5); } catch (e) {}
       }
       if (failedThis) {
         try { breakCombo(); } catch (e) {}

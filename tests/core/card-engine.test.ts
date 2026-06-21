@@ -2,8 +2,8 @@ import { describe, it, expect, vi, beforeAll, beforeEach, afterEach } from 'vite
 import { state } from '../../src/state.ts';
 import type { WordEntry } from '../../src/types.js';
 
-const { getComboMult } = vi.hoisted(() => ({ getComboMult: vi.fn(() => 1) }));
-vi.mock('../../js/features/combo.ts', () => ({ getComboMult }));
+const { getComboMult, awardXP } = vi.hoisted(() => ({ getComboMult: vi.fn(() => 1), awardXP: vi.fn(() => 10) }));
+vi.mock('../../js/features/combo.ts', () => ({ getComboMult, awardXP }));
 
 const {
   getGameData, saveGameData, recordDailyWord, updateStreak, idleFn,
@@ -219,10 +219,9 @@ describe('card-engine.ts', () => {
       expect(updateStreak).toHaveBeenCalled();
       expect(refreshGameBarLevel).toHaveBeenCalled();
       expect(checkAchievements).toHaveBeenCalled();
+      expect(awardXP).toHaveBeenCalledWith(10);
 
-      // xp += 10 * comboMult on the second saveGameData call
       const secondCallArg = saveGameData.mock.calls[1][0];
-      expect(secondCallArg.xp).toBe(10);
       expect(secondCallArg.sessionWords).toBe(1);
     });
 

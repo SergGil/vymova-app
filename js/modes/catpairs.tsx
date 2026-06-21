@@ -11,6 +11,7 @@ import type { WordEntry } from '../../src/types.js';
 import { t, wordsLabel, categoryName } from '../features/i18n.ts';
 import { renderGameBar } from '../features/render-game-bar.ts';
 import { playSound } from '../core/audio.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 
@@ -164,13 +165,13 @@ export function CatPairsPage(): ReactElement {
       const newMatched = new Set(matched); newMatched.add(item.id);
       setMatched(newMatched);
       setSel(null);
-      try { playSound('know'); } catch (e) {}
+      try { playSound('know'); addCombo(); awardXP(5); } catch (e) {}
       if (newMatched.size === deck.length) setTimeout(() => finish(deck.length), 350);
     } else {
       const a = sel;
       setWrongIds([a, { id: item.id, side }]);
       setSel(null);
-      try { playSound('next'); } catch (e) {}
+      try { playSound('next'); breakCombo(); } catch (e) {}
       setTimeout(() => setWrongIds([]), 420);
     }
   };

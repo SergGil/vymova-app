@@ -4,7 +4,7 @@ import { useEffect, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
-import { addCombo, breakCombo } from '../features/combo.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak, _speakWithLang } from '../features/speech.ts';
@@ -177,7 +177,7 @@ export function QuizPage(): ReactElement {
     setAnswered(true); setChosen(opt);
     if (opt === qData.answer) {
       setCorrect(c => c + 1);
-      try { addCombo(); } catch (e) {}
+      try { addCombo(); awardXP(5); } catch (e) {}
       recordModeAnswer('quiz', true);
     } else {
       setWrong(w => w + 1);

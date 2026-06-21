@@ -6,6 +6,7 @@ import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { t } from '../features/i18n.ts';
 import { recordModeComplete } from '../features/game.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { playSound } from '../core/audio.ts';
 import type { WordEntry } from '../../src/types.js';
 import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
@@ -116,14 +117,14 @@ export function PairsMode(): ReactElement | null {
         pSel.el.classList.add('matched');
         btn.classList.add('matched');
         pSel = null; pMatched++;
-        try { playSound('know'); } catch (e) {}
+        try { playSound('know'); addCombo(); awardXP(5); } catch (e) {}
         if (pMatched === N) setTimeout(finish, 350);
       } else {
         const wrongA = pSel.el;
         wrongA.classList.remove('selected');
         wrongA.classList.add('wrong'); btn.classList.add('wrong');
         pSel = null;
-        try { playSound('next'); } catch (e) {}
+        try { playSound('next'); breakCombo(); } catch (e) {}
         setTimeout(() => { wrongA.classList.remove('wrong'); btn.classList.remove('wrong'); }, 420);
       }
     }

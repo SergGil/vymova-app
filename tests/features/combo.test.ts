@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { getComboMult, addCombo, breakCombo } from '../../js/features/combo.ts';
+import { getComboMult, addCombo, breakCombo, awardXP } from '../../js/features/combo.ts';
 
 // combo.ts uses document.getElementById (safely — returns early if null)
 // and window.getGameData / window.saveGameData / window.checkAchievements (all optional-chained)
@@ -108,5 +108,24 @@ describe('getComboMult() — boundary precision', () => {
     expect(getComboMult()).toBe(2);
     addCombo(); // 10th
     expect(getComboMult()).toBe(3);
+  });
+});
+
+// ── awardXP() ──────────────────────────────────────────────────
+describe('awardXP()', () => {
+  it('awards base XP unmultiplied with no combo streak', () => {
+    expect(awardXP(5)).toBe(5);
+  });
+
+  it('applies the current combo multiplier', () => {
+    for (let i = 0; i < 5; i++) addCombo(); // mult = 2
+    expect(awardXP(5)).toBe(10);
+  });
+
+  it('persists the awarded XP into game data', () => {
+    const before = JSON.parse(localStorage.getItem('ew_game') ?? '{}').xp ?? 0;
+    awardXP(7);
+    const after = JSON.parse(localStorage.getItem('ew_game') ?? '{}').xp;
+    expect(after).toBe(before + 7);
   });
 });

@@ -5,7 +5,7 @@ import { _shuf } from '../core/srs.ts';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { lev } from '../core/distance.ts';
-import { addCombo, breakCombo } from '../features/combo.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak as _speak } from '../features/speech.ts';
@@ -158,11 +158,11 @@ export function SpellingBeePage(): ReactElement {
     if (isOk) {
       setOk(o => o + 1);
       setResult('ok');
-      try { addCombo(); } catch (e) {}
+      try { addCombo(); awardXP(5); } catch (e) {}
     } else if (isClose) {
       setOk(o => o + 1);
       setResult('almost');
-      try { addCombo(); } catch (e) {}
+      try { addCombo(); awardXP(5); } catch (e) {}
     } else {
       setFail(f => f + 1);
       setResult('wrong');

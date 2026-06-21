@@ -4,7 +4,7 @@ import { useEffect, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
-import { addCombo, breakCombo } from '../features/combo.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -145,7 +145,7 @@ export function ContextPage(): ReactElement {
     setRevealed(true);
     const isOk = opt === question.correct;
     if (isOk) setOk(o => o + 1); else { setFail(f => f + 1); recordMistake(question.w[0]); }
-    try { isOk ? addCombo() : breakCombo(); } catch (e) {}
+    try { isOk ? (addCombo(), awardXP(5)) : breakCombo(); } catch (e) {}
     recordModeAnswer('context', isOk);
   };
 

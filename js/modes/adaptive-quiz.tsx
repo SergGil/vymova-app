@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
-import { addCombo, breakCombo } from '../features/combo.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak, _speakWithLang } from '../features/speech.ts';
@@ -146,7 +146,7 @@ export function AdaptiveQuizPage(): ReactElement {
     const isCorrect = opt !== null && opt === qData.answer;
     if (isCorrect) {
       setCorrect(c => c + 1);
-      try { addCombo(); } catch (e) {}
+      try { addCombo(); awardXP(5); } catch (e) {}
       recordModeAnswer('adaptive-quiz', true);
       const fast = elapsedMs < limitMs * 0.5;
       if (fast) setDifficulty(d => Math.min(MAX_DIFF, d + 1));

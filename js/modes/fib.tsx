@@ -5,7 +5,7 @@ import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
-import { addCombo, breakCombo } from '../features/combo.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
@@ -191,7 +191,7 @@ export function FibPage(): ReactElement {
     setResult(okAnswer);
     if (okAnswer) {
       setOk(o => o + 1);
-      try { addCombo(); playSound('know'); } catch (e) {}
+      try { addCombo(); awardXP(5); playSound('know'); } catch (e) {}
       recordModeAnswer('fib', true);
     } else {
       setFail(f => f + 1);

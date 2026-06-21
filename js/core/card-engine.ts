@@ -8,7 +8,8 @@ import { loadWikiImage, _imgCache, _idb }          from './images.ts';
 import { state }                                   from '../../src/state.ts';
 import { notifyStateChange }                       from '../../src/store.ts';
 import { synth }                                    from './srs.ts';
-import { getComboMult }                             from '../features/combo.ts';
+import { awardXP }                                  from '../features/combo.ts';
+import { showComboToast }                           from '../features/combo-toast.tsx';
 import { getGameData, saveGameData, recordDailyWord,
          updateStreak,
          _idle }                                    from '../features/game.ts';
@@ -238,8 +239,9 @@ export function onWordLearned(): void {
   _safe(() => maybeSubmitScore());
   let gd2 = getGameData();
   gd2.sessionWords = (gd2.sessionWords || 0) + 1;
-  gd2.xp = (gd2.xp || 0) + 10 * getComboMult(); // ×2/×3 з комбо
   saveGameData(gd2);
+  const xp = awardXP(10); // ×2/×3 з комбо
+  _safe(() => showComboToast(`+${xp} XP`));
   _idle(function() {
     _safe(() => renderLevelBadge());
     _safe(() => checkAchievements());

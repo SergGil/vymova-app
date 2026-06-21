@@ -5,7 +5,7 @@ import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
-import { addCombo, breakCombo, flashCard, getComboMult } from '../features/combo.ts';
+import { addCombo, breakCombo, flashCard, getComboMult, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak as _speak } from '../features/speech.ts';
@@ -84,6 +84,8 @@ export function LessonPage(): ReactElement {
   const [input, setInput] = useState('');
   const [result, setResult] = useState<Result>(null);
   const [showFinal, setShowFinal] = useState(false);
+  const [earnedXP, setEarnedXP] = useState(0);
+  const [earnedMult, setEarnedMult] = useState(1);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -134,6 +136,8 @@ export function LessonPage(): ReactElement {
     const total = scores[0] + scores[1] + scores[2];
     const pct = Math.round(total / (N * PHASE_COUNT) * 100);
     if (pct >= 80) try { playSound('goal'); } catch (e) {}
+    setEarnedMult(getComboMult());
+    setEarnedXP(awardXP(total * 5));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showFinal]);
 
@@ -237,7 +241,7 @@ export function LessonPage(): ReactElement {
   const stars = pct >= 95 ? '⭐⭐⭐' : pct >= 65 ? '⭐⭐' : '⭐';
   const finalEmoji = pct === 100 ? '🏆' : pct >= 65 ? '🎉' : '💪';
   const finalTitleText = pct === 100 ? t('quiz.perfectTitle') : pct >= 65 ? t('quiz.greatTitle') : t('quiz.keepTitle');
-  const mult = getComboMult(), xp = finalTotal * 5 * mult;
+  const mult = earnedMult, xp = earnedXP;
 
   const nextLabel = (phase === PHASE_COUNT - 1 && step === N - 1) ? t('quiz.finish') : t('write.next');
 

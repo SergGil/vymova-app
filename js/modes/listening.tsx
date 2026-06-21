@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
-import { addCombo, breakCombo } from '../features/combo.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
@@ -157,7 +157,7 @@ export function ListeningPage(): ReactElement {
     if (opt === correct) {
       setOk(o => o + 1);
       setResult({ correct: true, chosen: opt, correctAnswer: correct });
-      try { addCombo(); playSound('know'); } catch (e) {}
+      try { addCombo(); awardXP(5); playSound('know'); } catch (e) {}
       recordModeAnswer('listen', true);
     } else {
       setFail(f => f + 1);

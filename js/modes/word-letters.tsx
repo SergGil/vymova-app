@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words.js';
-import { addCombo, breakCombo } from '../features/combo.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -216,7 +216,7 @@ export function WordLettersPage(): ReactElement {
       setFound(f => new Set(f).add(word));
       setFoundTotal(n => n + 1);
       setResult({ text: t('letters.foundMsg'), color: '#27ae60' });
-      try { addCombo(); } catch (e) {}
+      try { addCombo(); awardXP(5); } catch (e) {}
       recordModeAnswer('letters', true);
     } else {
       setResult({ text: t('letters.wrongMsg'), color: '#e74c3c' });

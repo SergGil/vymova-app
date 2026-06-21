@@ -5,7 +5,7 @@ import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
-import { addCombo, breakCombo } from '../features/combo.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
@@ -157,7 +157,7 @@ export function WritePage(): ReactElement {
       setOk(o => o + 1);
       setBorderColor('#27ae60');
       setResult({ text: t('quiz.correctMsg'), color: '#27ae60' });
-      try { playSound('know'); addCombo(); } catch (e) {}
+      try { playSound('know'); addCombo(); awardXP(5); } catch (e) {}
       recordModeAnswer('write', true);
     } else {
       setFail(f => f + 1);

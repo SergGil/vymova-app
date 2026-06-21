@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words.js';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
@@ -185,9 +186,11 @@ export function TempoPage(): ReactElement {
     setQuestion(q => q ? { ...q, selected: opt } : q);
     if (opt === question.answer) {
       r.score++; setScore(r.score);
+      try { addCombo(); awardXP(5); } catch (e) {}
       recordModeAnswer('tempo', true);
     } else {
       r.miss++; setMiss(r.miss);
+      try { breakCombo(); } catch (e) {}
       recordMistake(question.base);
       recordModeAnswer('tempo', false);
     }
