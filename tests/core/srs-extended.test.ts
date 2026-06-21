@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck } from '../../js/core/srs.ts';
+import { describe, it, expect, beforeEach, beforeAll } from 'vitest';
+import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck, updateSrsUI } from '../../js/core/srs.ts';
 import { state } from '../../src/state.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -153,5 +153,57 @@ describe('buildSRSDeck()', () => {
     state.known = new Set(W.map(w => w[0]));
     const deck = buildSRSDeck(W);
     expect(deck.length).toBe(W.length);
+  });
+});
+
+// ── updateSrsUI() — dirty-flag cache contract ──────────────────
+// Regression coverage for a bug where switching the learn language left the
+// "X до повторення / Y нових" badge showing the *previous* language's stale
+// numbers, because nothing marked the stats cache dirty after the switch.
+describe('updateSrsUI()', () => {
+  // updateSrsUI caches its DOM element refs on first lookup (module-level,
+  // not per-call), so the markup must exist before any test in this block
+  // runs and must not be replaced wholesale between tests.
+  beforeAll(() => {
+    document.body.innerHTML = `
+      <select id="sel-range"><option value="srs"></option></select>
+      <div id="srs-stats" style="display:none">
+        <span id="srs-stat-due">0</span>
+        <span id="srs-stat-new">0</span>
+      </div>
+    `;
+  });
+
+  it('recomputes due/new counts when the stats cache is dirty', () => {
+    state.srsData['apple'] = { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' }; // overdue
+    state._srsStatsDirty = true;
+    updateSrsUI(W);
+    expect(document.getElementById('srs-stat-due')!.textContent).toBe('1');
+  });
+
+  it('serves stale cached counts when not marked dirty (the bug this guards)', () => {
+    state.srsData['apple'] = { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' };
+    state._srsStatsDirty = true;
+    updateSrsUI(W); // caches due=1
+
+    // Simulate switching to a language with completely different SRS data,
+    // without flagging the cache dirty.
+    state.srsData = { banana: { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' } };
+    state._srsStatsDirty = false;
+    updateSrsUI(W);
+    expect(document.getElementById('srs-stat-due')!.textContent).toBe('1'); // stale, still old value
+  });
+
+  it('reflects the new language data once dirty is set again', () => {
+    state.srsData['apple'] = { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' };
+    state._srsStatsDirty = true;
+    updateSrsUI(W);
+    expect(document.getElementById('srs-stats')!.style.display).not.toBe('none');
+
+    // Fresh language with one due card, different from the previous language's data
+    state.srsData = { car: { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' } };
+    state._srsStatsDirty = true; // app.ts now sets this on language switch
+    updateSrsUI(W);
+    expect(document.getElementById('srs-stat-due')!.textContent).toBe('1');
   });
 });

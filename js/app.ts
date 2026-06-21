@@ -7,7 +7,7 @@ import { renderGameBar }                           from './features/render-game-
 import { refreshGameBarLevel as renderLevelBadge } from './features/game-bar-level.tsx';
 import { checkAchievements }                       from './features/render-achievements.ts';
 import { render, setDeck } from './core/card-engine.ts';
-import { shuffle } from './core/srs.ts';
+import { shuffle, updateSrsUI } from './core/srs.ts';
 import './features/speech.ts';
 
 const savedKnown = _lzLoad('ew_known', []);
@@ -18,6 +18,13 @@ Object.keys(state.srsData).forEach(function(k: string){ if(typeof (state.srsData
 // Перезавантажуємо SRS при зміні мови вчення (mid-session)
 window.addEventListener('ew-learn-lang-changed', function() {
   state.srsData = loadSRS();
+  state._srsStatsDirty = true;
+  // Deferred: lang-pair-select.tsx dispatches this event *before* it rebuilds
+  // state._baseWords for the new language (via the legacy sel-mode 'change'
+  // chain), so updateSrsUI must run after that synchronous chain finishes.
+  setTimeout(function() {
+    try { updateSrsUI((state._baseWords ?? W) as unknown as WordEntry[]); } catch (e) {}
+  }, 0);
 });
 
 state.known   = new Set<string>(savedKnown as string[]);
