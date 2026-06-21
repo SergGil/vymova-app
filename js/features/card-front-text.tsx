@@ -5,7 +5,10 @@ import { useAppState } from '../../src/store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { t, tLang, type Lang } from './i18n.ts';
 import { srsStatusInfo, forgettingCurveTooltip, type SrsEntry } from '../core/card-helpers.ts';
-import { getResolvedMode, computeCardView } from './mode-utils.ts';
+import {
+  getResolvedMode, computeCardView,
+  esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry,
+} from './mode-utils.ts';
 import { speakEnAccent } from './voice.tsx';
 import { speak } from './speech.ts';
 import { SENSES } from '../../data/senses.ts';
@@ -21,18 +24,30 @@ export function WordText() {
   return <span className="word-text" id="wword" dir={frontRtl ? 'rtl' : undefined}>{frontWord}</span>;
 }
 
+const LOCAL_ENTRY_LOOKUP: Partial<Record<string, (word: string) => readonly [string, string, string?] | null>> = {
+  ES: esEntry, FR: frEntry, IT: itEntry, PT: ptEntry, DE: deEntry, HE: heEntry,
+  AR: arEntry, PL: plEntry, ZH: zhEntry, EL: elEntry, JA: jaEntry, TR: trEntry, NL: nlEntry,
+};
+
 export function Transcription() {
   const { cw } = useAppState();
   if (!cw) return null;
   const { FRONT_LANG, frontWord } = computeCardView(cw, getResolvedMode());
-  const trans = decodeIpa(cw[4] || '');
-  const isEn = FRONT_LANG === 'EN';
-  if (!isEn) return <div className="transcription" id="wtrans" style={{ display: 'none' }} />;
+  const lookup = LOCAL_ENTRY_LOOKUP[FRONT_LANG];
+  const localTranscription = lookup ? lookup(cw[0])?.[2] : undefined;
+  const trans = FRONT_LANG === 'EN'
+    ? decodeIpa(cw[4] || '')
+    : (localTranscription ? decodeIpa(localTranscription) : '');
+  if (FRONT_LANG !== 'EN' && !trans) return <div className="transcription" id="wtrans" style={{ display: 'none' }} />;
   return (
     <div className="transcription" id="wtrans" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
       {trans && <span>{trans}</span>}
-      <button type="button" className="accent-btn" title="British" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'GB', e.currentTarget); }}>GB</button>
-      <button type="button" className="accent-btn" title="American" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'US', e.currentTarget); }}>US</button>
+      {FRONT_LANG === 'EN' && (
+        <>
+          <button type="button" className="accent-btn" title="British" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'GB', e.currentTarget); }}>GB</button>
+          <button type="button" className="accent-btn" title="American" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'US', e.currentTarget); }}>US</button>
+        </>
+      )}
     </div>
   );
 }
