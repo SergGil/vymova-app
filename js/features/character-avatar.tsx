@@ -5,6 +5,7 @@
 import { useId, type ReactElement } from 'react';
 import type { CharacterAppearance } from '../../src/types.ts';
 
+export const BODY_TYPES  = ['masc', 'fem'] as const;
 export const SKIN_TONES  = ['#FFE0BD', '#FFDBAC', '#F1C27D', '#E0AC69', '#C68642', '#8D5524', '#5C3A21', '#3B2219'];
 export const HAIR_COLORS = ['#2C2C2C', '#5A3825', '#A0522D', '#D4A017', '#E8B4B8', '#9B9B9B', '#1F4E79', '#27AE60'];
 export const EYE_COLORS  = ['#3B2412', '#2E5E8C', '#3F6B35', '#555555', '#6B3FA0', '#8B5E3C'];
@@ -13,7 +14,7 @@ export const OUTFIT_STYLES = ['tshirt', 'hoodie', 'jacket', 'dress', 'overalls']
 export const OUTFIT_COLORS = ['#e74c3c', '#2980b9', '#27ae60', '#9b59b6', '#f1c40f', '#2c3e50', '#e67e22', '#1abc9c'];
 
 export const DEFAULT_APPEARANCE: CharacterAppearance = {
-  skinTone: 1, hairStyle: 1, hairColor: 0, eyeColor: 0, outfitStyle: 0, outfitColor: 0,
+  bodyType: 0, skinTone: 1, hairStyle: 1, hairColor: 0, eyeColor: 0, outfitStyle: 0, outfitColor: 0,
 };
 
 function clampIdx(i: number, len: number): number { return ((i % len) + len) % len; }
@@ -76,7 +77,7 @@ function Hair({ style, color }: { style: string; color: string }): ReactElement 
 
 interface OutfitSpec { style: string; color: string; }
 
-function Outfit({ outfit, skinFill, outfitFill }: { outfit: OutfitSpec; skinFill: string; outfitFill: string }): ReactElement {
+function Outfit({ outfit, skinFill, outfitFill, bodyType }: { outfit: OutfitSpec; skinFill: string; outfitFill: string; bodyType: number }): ReactElement {
   const legs = outfit.style === 'dress'
     ? <path d="M70 200 L130 200 L142 300 L58 300 Z" fill={outfitFill} />
     : (
@@ -87,6 +88,11 @@ function Outfit({ outfit, skinFill, outfitFill }: { outfit: OutfitSpec; skinFill
         <rect x="106" y="295" width="36" height="16" rx="7" fill="#1c2833" />
       </>
     );
+  // Same 80×88 bounding box as the masc torso, just tapered at the waist —
+  // keeps arm/leg/collar coordinates valid for either body type.
+  const torso = bodyType === 1
+    ? <path d="M60 122 L140 122 Q140 145 128 166 Q140 185 136 210 L64 210 Q60 185 72 166 Q60 145 60 122 Z" fill={outfitFill} />
+    : <rect x="60" y="122" width="80" height="88" rx="22" fill={outfitFill} />;
   return (
     <>
       {/* arms */}
@@ -95,7 +101,7 @@ function Outfit({ outfit, skinFill, outfitFill }: { outfit: OutfitSpec; skinFill
       <circle cx="50" cy="210" r="11" fill={skinFill} />
       <circle cx="150" cy="210" r="11" fill={skinFill} />
       {/* torso */}
-      <rect x="60" y="122" width="80" height="88" rx="22" fill={outfitFill} />
+      {torso}
       {outfit.style === 'hoodie' && <path d="M78 122 Q100 138 122 122" fill="none" stroke="#00000022" strokeWidth="4" />}
       {outfit.style === 'jacket' && <path d="M100 122 L92 200 M100 122 L108 200" stroke="#00000033" strokeWidth="3" fill="none" />}
       {outfit.style === 'overalls' && (
@@ -121,6 +127,7 @@ export interface CharacterAvatarProps {
 
 export function CharacterAvatar({ appearance, size = 220, variant = 'full', animated = true }: CharacterAvatarProps): ReactElement {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
+  const bodyType = clampIdx(appearance.bodyType ?? 0, BODY_TYPES.length);
   const skin     = SKIN_TONES[clampIdx(appearance.skinTone, SKIN_TONES.length)];
   const hairCol  = HAIR_COLORS[clampIdx(appearance.hairColor, HAIR_COLORS.length)];
   const hairStyl = HAIR_STYLES[clampIdx(appearance.hairStyle, HAIR_STYLES.length)];
@@ -166,7 +173,7 @@ export function CharacterAvatar({ appearance, size = 220, variant = 'full', anim
         {/* Bold outline around the body silhouette + hair, like the chunky
             black ink lines on flat-shaded game-art characters. */}
         <g stroke="#1a1626" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round">
-          <Outfit outfit={outfit} skinFill={skinFill} outfitFill={outfitFill} />
+          <Outfit outfit={outfit} skinFill={skinFill} outfitFill={outfitFill} bodyType={bodyType} />
           {/* neck */}
           <rect x="88" y="100" width="24" height="22" fill={skinFill} />
           {/* ears */}

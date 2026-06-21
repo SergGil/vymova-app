@@ -41,6 +41,7 @@ export interface GameData {
 
 // ── Character avatar (profile page) ─────────────────────────────
 export interface CharacterAppearance {
+  bodyType?:   number; // index into BODY_TYPES — optional: absent on profiles saved before this field existed
   skinTone:    number; // index into SKIN_TONES
   hairStyle:   number; // index into HAIR_STYLES
   hairColor:   number; // index into HAIR_COLORS

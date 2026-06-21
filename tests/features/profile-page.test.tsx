@@ -36,7 +36,7 @@ describe('profile-page.tsx ProfilePage', () => {
   it('renders the avatar and a picker row for every customization category', () => {
     const { container } = mount();
     expect(container.querySelector('[aria-label="character avatar"]')).not.toBeNull();
-    expect(container.querySelectorAll('.profile-picker-row').length).toBe(6);
+    expect(container.querySelectorAll('.profile-picker-row').length).toBe(7);
   });
 
   it('shows streak, total XP (xp + known*5), words learned and achievement count', () => {
@@ -62,5 +62,21 @@ describe('profile-page.tsx ProfilePage', () => {
     const profiles = JSON.parse(localStorage.getItem('ew_profiles')!);
     expect(profiles[0].appearance).toBeDefined();
     expect(profiles[0].avatarMode).toBe('character');
+  });
+
+  it('disables Save Changes again once a cycled option is reverted back to its saved value', () => {
+    const { container } = mount();
+    const saveBtn = container.querySelector('.profile-save-btn') as HTMLButtonElement;
+    expect(saveBtn.disabled).toBe(true);
+
+    const firstRow = container.querySelectorAll('.profile-picker-row')[0];
+    const nextBtn = firstRow.querySelectorAll('.profile-picker-arrow')[1] as HTMLButtonElement;
+    const prevBtn = firstRow.querySelectorAll('.profile-picker-arrow')[0] as HTMLButtonElement;
+
+    act(() => { nextBtn.click(); });
+    expect(saveBtn.disabled).toBe(false);
+
+    act(() => { prevBtn.click(); }); // back to the original value
+    expect(saveBtn.disabled).toBe(true);
   });
 });
