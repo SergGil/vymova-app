@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { getGameData, saveGameData } from '../../js/features/game.ts';
@@ -31,9 +31,20 @@ function setInputValue(input: HTMLInputElement, value: string): void {
 
 describe('goal-modal.tsx GoalModal', () => {
   beforeEach(() => {
+    // GoalModal schedules a bare setTimeout() for input-focus (and another
+    // for the shake reset) that isn't cleared on unmount. With real timers
+    // it can fire after this test file's happy-dom environment is torn
+    // down, crashing a later file with "window is not defined". Fake
+    // timers keep it scoped to this test and discard it when we switch
+    // back at teardown.
+    vi.useFakeTimers();
     document.body.innerHTML = '<button id="goal-set-btn"></button>';
     localStorage.clear();
     renderGameBar.mockClear();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('renders nothing until #goal-set-btn is clicked', () => {
