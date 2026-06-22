@@ -222,6 +222,13 @@ function targetLangFromStorageKey(key: string): TargetLang | null {
   return isTargetLang(key) ? key : null;
 }
 
+/** The headword for `code` (en/ua/target language) from a WordEntry — '' if no translation exists for that language. */
+export function headwordFor(code: Code, w: WordEntry): string {
+  if (code === 'en') return w[0];
+  if (code === 'ua') return w[1];
+  return LANG_REGISTRY[code].entry(w[0])?.[0] ?? '';
+}
+
 /** Count of "known" words in the currently selected learn language. */
 export function getKnownInLang(): number {
   return getActiveKnownByLang().size;

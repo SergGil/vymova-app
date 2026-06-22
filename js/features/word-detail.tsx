@@ -4,12 +4,10 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak, _speakWithLang } from './speech.ts';
-import { getSimilarWords, getSimilarWordsEs, getSimilarWordsFr } from './similar-words.tsx';
+import { getSimilarWordsFor } from './similar-words.tsx';
 import { W } from '../../data/words.js';
-import { W_ES } from '../../data/words_es.js';
-import { W_FR } from '../../data/words_fr.js';
 import { isBookmarked, toggleBookmark } from './bookmarks.ts';
-import { getFrontLang, isTargetLang, langConfig } from './mode-utils.ts';
+import { getFrontLang, isTargetLang, langConfig, parsePair, headwordFor } from './mode-utils.ts';
 import { t, pluralLabel } from './i18n.ts';
 import { render, setIdx, onWordLearned as _onWordLearned } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -92,19 +90,14 @@ export function WordDetailPage(): ReactElement | null {
   // itself instead of an ambiguous "is any of the 13 languages active" check).
   const front = getFrontLang(_modeVal());
   const frontCode = front.toLowerCase();
+  const { front: frontPair, back: backPair } = parsePair(_modeVal());
   const localEntry = isTargetLang(frontCode) ? langConfig(frontCode).entry(w[0]) : null;
   const transl = localEntry ? localEntry[0] : w[1];
   // Local transcription (pinyin/romaji/transliteration/IPA) for the active learn language, if available.
   const localTranscription = localEntry?.[2];
   const ipa = localTranscription ? decodeIpa(localTranscription) : (localEntry || isTargetLang(frontCode) ? '' : decodeIpa(w[4] ?? ''));
 
-  const similar = front === 'ES'
-    ? getSimilarWordsEs(w[0], localEntry?.[0] ?? w[1], 5)
-    : front === 'FR'
-    ? getSimilarWordsFr(w[0], localEntry?.[0] ?? w[1], 5)
-    : getSimilarWords(w[0], w[1], 5);
-  const esMap = W_ES as unknown as Record<string, [string, string]>;
-  const frMap = W_FR as unknown as Record<string, [string, string]>;
+  const similar = getSimilarWordsFor(frontPair, w[0], transl, 5);
 
   const escWord = w[0].replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
   const enExHtml = enEx ? enEx.replace(new RegExp(`(${escWord}\\w*)`, 'gi'), '<b>$1</b>') : '';
@@ -199,7 +192,8 @@ export function WordDetailPage(): ReactElement | null {
             <div data-i18n="cards.similarTitle" style={{ fontSize: '.72rem', fontWeight: 700, color: 'var(--text3)', letterSpacing: '.06em', textTransform: 'uppercase', marginBottom: 8 }}>Схожі слова</div>
             <div id="wd-similar-chips" style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {similar.map(s => {
-                const label = front === 'ES' ? (esMap[s[0]]?.[0] ?? s[1]) : front === 'FR' ? (frMap[s[0]]?.[0] ?? s[1]) : s[1];
+                const sWord = headwordFor(frontPair, s) || s[0];
+                const sTransl = headwordFor(backPair, s) || s[1];
                 return (
                   <div key={s[0]} className="wd-chip" style={{ cursor: 'pointer', padding: '5px 10px', borderRadius: 20, border: '1.5px solid var(--border)', fontSize: '.78rem', background: 'var(--bg)' }}
                     onClick={() => {
@@ -207,8 +201,8 @@ export function WordDetailPage(): ReactElement | null {
                       if (found) openWordDetail(found);
                     }}
                   >
-                    <span style={{ fontWeight: 600, color: 'var(--text)' }}>{s[0]}</span>
-                    <span style={{ color: 'var(--text3)', marginLeft: 5 }}>{label}</span>
+                    <span style={{ fontWeight: 600, color: 'var(--text)' }}>{sWord}</span>
+                    <span style={{ color: 'var(--text3)', marginLeft: 5 }}>{sTransl}</span>
                   </div>
                 );
               })}
