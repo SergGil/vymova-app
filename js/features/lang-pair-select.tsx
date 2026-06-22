@@ -87,12 +87,37 @@ function initialState(): { learnLang: LangCode; knowLang: LangCode; direction: D
   return { learnLang, knowLang, direction: 'fwd' };
 }
 
+// #sel-mode (index.html) only ships hardcoded <option>s for the historical
+// EN/UA-hub pairs (~62 of the 210 possible). Setting .value to a mode string
+// with no matching <option> silently resets it to '' (per the <select>
+// spec), so any pair without a pre-existing <option> would otherwise revert
+// to the 'en' fallback. Lazily create the missing ones — the element is
+// display:none, used purely as shared state, so the generated label text
+// is never seen.
+let _optionsEnsured = false;
+function _ensureModeOptions(sel: HTMLSelectElement): void {
+  if (_optionsEnsured) return;
+  _optionsEnsured = true;
+  for (const front of ALL_LANGS) {
+    for (const back of ALL_LANGS) {
+      if (front === back) continue;
+      const mode = modeForPair(front, back);
+      if (sel.querySelector(`option[value="${mode}"]`)) continue;
+      const opt = document.createElement('option');
+      opt.value = mode;
+      opt.textContent = `${front.toUpperCase()} → ${back.toUpperCase()}`;
+      sel.appendChild(opt);
+    }
+  }
+}
+
 // Applies the chosen pair + direction to the legacy #sel-mode select.
 function applyMode(learn: LangCode, know: LangCode, direction: Direction): void {
   const fwdMode = modeForPair(learn, know);
   const revMode = modeForPair(know, learn);
   const sel = document.getElementById('sel-mode') as HTMLSelectElement | null;
   if (!sel) return;
+  _ensureModeOptions(sel);
   let mode: string;
   if (direction === 'rev' && revMode) mode = revMode;
   else if (direction === 'mix' && fwdMode && revMode) mode = 'mix';
