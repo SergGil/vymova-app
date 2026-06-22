@@ -8,24 +8,10 @@ import { state } from '../../src/state.ts';
 import { useStateVersion, notifyStateChange } from '../../src/store.ts';
 import { openWordDetail } from './word-detail.tsx';
 import type { WordEntry } from '../../src/types.js';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, getMode as _getMode, esEntry as _esEntry, frEntry as _frEntry } from './mode-utils.ts';
+import { getMode as _getMode, getFrontLang, getActiveKnownSet, esEntry as _esEntry, frEntry as _frEntry } from './mode-utils.ts';
 
 function _getActiveKnown(): Set<string> {
-  const mode = _getMode();
-  if (ES_MODES.has(mode)) return state.knownEs;
-  if (FR_MODES.has(mode)) return state.knownFr;
-  if (IT_MODES.has(mode)) return state.knownIt;
-  if (PT_MODES.has(mode)) return state.knownPt;
-  if (DE_MODES.has(mode)) return state.knownDe;
-  if (HE_MODES.has(mode)) return state.knownHe;
-  if (AR_MODES.has(mode)) return state.knownAr;
-  if (PL_MODES.has(mode)) return state.knownPl;
-  if (ZH_MODES.has(mode)) return state.knownZh;
-  if (EL_MODES.has(mode)) return state.knownEl;
-  if (JA_MODES.has(mode)) return state.knownJa;
-  if (TR_MODES.has(mode)) return state.knownTr;
-  if (NL_MODES.has(mode)) return state.knownNl;
-  return state.known;
+  return getActiveKnownSet(_getMode(), state.known);
 }
 
 const STOP = new Set(['бути','мати','стати','який','яка','яке','свій','своя','цей','ця','той','та','такий','одна','також','дуже','більш','менш','людина','великий','малий','новий','старий','добрий','поганий','перший','другий','інший','різний','можна','треба','або','чи','але','його','її','їх','він','вона','вони','цього','того','собою']);
@@ -209,8 +195,9 @@ export function SimilarWordsChips(): ReactElement | null {
   if (!cw || !state.flipped) return null;
 
   const mode = _getMode();
-  const isEsMode = ES_MODES.has(mode);
-  const isFrMode = FR_MODES.has(mode);
+  const front = getFrontLang(mode);
+  const isEsMode = front === 'ES';
+  const isFrMode = front === 'FR';
   const esEntry = isEsMode ? _esEntry(cw[0]) : null;
   const frEntry = isFrMode ? _frEntry(cw[0]) : null;
 

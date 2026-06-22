@@ -21,7 +21,7 @@ import { refreshGameBarLevel as renderLevelBadge } from '../features/game-bar-le
 import { checkAchievements }                       from '../features/render-achievements.ts';
 import { maybeSubmitScore }                        from '../features/leaderboard.tsx';
 import { updateRing }                              from '../features/ring.tsx';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, getMode } from '../features/mode-utils.ts';
+import { getMode, getActiveKnownSet } from '../features/mode-utils.ts';
 import { _isOnlineCheck, _offlineSvg }             from '../features/offline.ts';
 import { safe as _safe }                           from './card-helpers.ts';
 
@@ -32,21 +32,7 @@ let cw: WordEntry | null = null, autoTimer: ReturnType<typeof setTimeout> | null
 state.deck = deck as unknown as WordEntry[];
 
 function _activeKnown(): Set<string> {
-  const mode = getMode();
-  if (ES_MODES.has(mode)) return state.knownEs;
-  if (FR_MODES.has(mode)) return state.knownFr;
-  if (IT_MODES.has(mode)) return state.knownIt;
-  if (PT_MODES.has(mode)) return state.knownPt;
-  if (DE_MODES.has(mode)) return state.knownDe;
-  if (HE_MODES.has(mode)) return state.knownHe;
-  if (AR_MODES.has(mode)) return state.knownAr;
-  if (PL_MODES.has(mode)) return state.knownPl;
-  if (ZH_MODES.has(mode)) return state.knownZh;
-  if (EL_MODES.has(mode)) return state.knownEl;
-  if (JA_MODES.has(mode)) return state.knownJa;
-  if (TR_MODES.has(mode)) return state.knownTr;
-  if (NL_MODES.has(mode)) return state.knownNl;
-  return state.known;
+  return getActiveKnownSet(getMode(), state.known);
 }
 
 // ── Single-source helpers — call instead of writing to all 3 stores manually ──

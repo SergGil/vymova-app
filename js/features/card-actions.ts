@@ -14,7 +14,7 @@ import { showPronuncResult } from './pronunciation-toast.tsx';
 import { getSelectedUkVoice, getSelectedEsVoice, getSelectedFrVoice, getSelectedItVoice, getSelectedPtVoice, getSelectedDeVoice, getSelectedHeVoice, getSelectedArVoice, getSelectedPlVoice, getSelectedZhVoice, getSelectedElVoice, getSelectedJaVoice, getSelectedTrVoice, getSelectedNlVoice } from './voice.tsx';
 import { speak, _speakWithLang } from './speech.ts';
 import { updateSimilarWords } from './similar-words.tsx';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry, heEntry as _heEntry, arEntry as _arEntry, plEntry as _plEntry, zhEntry as _zhEntry, elEntry as _elEntry, jaEntry as _jaEntry, trEntry as _trEntry, nlEntry as _nlEntry } from './mode-utils.ts';
+import { getMode, getActiveKnownSet, getActiveTargetLang, isTargetLang, langConfig, parsePair, type TargetLang } from './mode-utils.ts';
 import { playSound } from '../core/audio.ts';
 import { launchConfetti } from '../core/confetti.tsx';
 import { t } from './i18n.ts';
@@ -29,22 +29,14 @@ function _safe(fn: () => void): void {
   try { fn(); } catch (e) { console.warn('[safe]', (e as Error).message ?? e); }
 }
 
+const VOICE_GETTERS: Record<TargetLang, () => SpeechSynthesisVoice | null> = {
+  es: getSelectedEsVoice, fr: getSelectedFrVoice, it: getSelectedItVoice, pt: getSelectedPtVoice,
+  de: getSelectedDeVoice, he: getSelectedHeVoice, ar: getSelectedArVoice, pl: getSelectedPlVoice,
+  zh: getSelectedZhVoice, el: getSelectedElVoice, ja: getSelectedJaVoice, tr: getSelectedTrVoice, nl: getSelectedNlVoice,
+};
+
 function _activeKnown(): Set<string> {
-  const mode = getMode();
-  if (ES_MODES.has(mode)) return state.knownEs ?? state.known;
-  if (FR_MODES.has(mode)) return state.knownFr ?? state.known;
-  if (IT_MODES.has(mode)) return state.knownIt ?? state.known;
-  if (PT_MODES.has(mode)) return state.knownPt ?? state.known;
-  if (DE_MODES.has(mode)) return state.knownDe ?? state.known;
-  if (HE_MODES.has(mode)) return state.knownHe ?? state.known;
-  if (AR_MODES.has(mode)) return state.knownAr ?? state.known;
-  if (PL_MODES.has(mode)) return state.knownPl ?? state.known;
-  if (ZH_MODES.has(mode)) return state.knownZh ?? state.known;
-  if (EL_MODES.has(mode)) return state.knownEl ?? state.known;
-  if (JA_MODES.has(mode)) return state.knownJa ?? state.known;
-  if (TR_MODES.has(mode)) return state.knownTr ?? state.known;
-  if (NL_MODES.has(mode)) return state.knownNl ?? state.known;
-  return state.known;
+  return getActiveKnownSet(getMode(), state.known);
 }
 
 export function CardActionsInit(): ReactElement | null {
@@ -68,57 +60,11 @@ export function CardActionsInit(): ReactElement | null {
       const cw = state.cw;
       if (!cw) return;
       const modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
-      if (modeVal === 'es-en' || modeVal === 'es-ua') {
-        const es = _esEntry(cw[0]);
-        if (es && getSelectedEsVoice()) { _speakWithLang(es[0], 'es-ES', speakWordBtn); return; }
-      }
-      if (modeVal === 'fr-en' || modeVal === 'fr-ua') {
-        const fr = _frEntry(cw[0]);
-        if (fr && getSelectedFrVoice()) { _speakWithLang(fr[0], 'fr-FR', speakWordBtn); return; }
-      }
-      if (modeVal === 'it-en' || modeVal === 'it-ua') {
-        const it = _itEntry(cw[0]);
-        if (it && getSelectedItVoice()) { _speakWithLang(it[0], 'it-IT', speakWordBtn); return; }
-      }
-      if (modeVal === 'pt-en' || modeVal === 'pt-ua') {
-        const pt = _ptEntry(cw[0]);
-        if (pt && getSelectedPtVoice()) { _speakWithLang(pt[0], 'pt-PT', speakWordBtn); return; }
-      }
-      if (modeVal === 'de-en' || modeVal === 'de-ua') {
-        const de = _deEntry(cw[0]);
-        if (de && getSelectedDeVoice()) { _speakWithLang(de[0], 'de-DE', speakWordBtn); return; }
-      }
-      if (modeVal === 'he-en' || modeVal === 'he-ua') {
-        const he = _heEntry(cw[0]);
-        if (he && getSelectedHeVoice()) { _speakWithLang(he[0], 'he-IL', speakWordBtn); return; }
-      }
-      if (modeVal === 'ar-en' || modeVal === 'ar-ua') {
-        const ar = _arEntry(cw[0]);
-        if (ar && getSelectedArVoice()) { _speakWithLang(ar[0], 'ar-SA', speakWordBtn); return; }
-      }
-      if (modeVal === 'pl-en' || modeVal === 'pl-ua') {
-        const pl = _plEntry(cw[0]);
-        if (pl && getSelectedPlVoice()) { _speakWithLang(pl[0], 'pl-PL', speakWordBtn); return; }
-      }
-      if (modeVal === 'zh-en' || modeVal === 'zh-ua') {
-        const zh = _zhEntry(cw[0]);
-        if (zh && getSelectedZhVoice()) { _speakWithLang(zh[0], 'zh-CN', speakWordBtn); return; }
-      }
-      if (modeVal === 'el-en' || modeVal === 'el-ua') {
-        const el = _elEntry(cw[0]);
-        if (el && getSelectedElVoice()) { _speakWithLang(el[0], 'el-GR', speakWordBtn); return; }
-      }
-      if (modeVal === 'ja-en' || modeVal === 'ja-ua') {
-        const ja = _jaEntry(cw[0]);
-        if (ja && getSelectedJaVoice()) { _speakWithLang(ja[0], 'ja-JP', speakWordBtn); return; }
-      }
-      if (modeVal === 'tr-en' || modeVal === 'tr-ua') {
-        const tr = _trEntry(cw[0]);
-        if (tr && getSelectedTrVoice()) { _speakWithLang(tr[0], 'tr-TR', speakWordBtn); return; }
-      }
-      if (modeVal === 'nl-en' || modeVal === 'nl-ua') {
-        const nl = _nlEntry(cw[0]);
-        if (nl && getSelectedNlVoice()) { _speakWithLang(nl[0], 'nl-NL', speakWordBtn); return; }
+      const front = parsePair(modeVal).front;
+      if (isTargetLang(front)) {
+        const cfg = langConfig(front);
+        const entry = cfg.entry(cw[0]);
+        if (entry && VOICE_GETTERS[front]()) { _speakWithLang(entry[0], cfg.voiceLocale, speakWordBtn); return; }
       }
       speak(cw[0], speakWordBtn);
     };
@@ -132,221 +78,24 @@ export function CardActionsInit(): ReactElement | null {
       const exEn    = cw[2] || '';
       const exUa    = cw[3] || '';
       const modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
-      if (ES_MODES.has(modeVal)) {
-        const es        = _esEntry(cw[0]);
-        const exEs      = es ? es[1] : '';
-        const hasEsVoice = !!getSelectedEsVoice();
-        if (modeVal === 'es-en' || modeVal === 'es-ua') {
-          if (hasEsVoice && exEs) _speakWithLang(exEs, 'es-ES', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else if (modeVal === 'ua-es') {
-          const hasUkVoice = !!getSelectedUkVoice();
-          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else {
-          speak(exEn, speakExBtn);
-        }
-        return;
-      }
-      if (FR_MODES.has(modeVal)) {
-        const fr        = _frEntry(cw[0]);
-        const exFr      = fr ? fr[1] : '';
-        const hasFrVoice = !!getSelectedFrVoice();
-        if (modeVal === 'fr-en' || modeVal === 'fr-ua') {
-          if (hasFrVoice && exFr) _speakWithLang(exFr, 'fr-FR', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else if (modeVal === 'ua-fr') {
-          const hasUkVoice = !!getSelectedUkVoice();
-          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else {
-          speak(exEn, speakExBtn);
-        }
-        return;
-      }
-      if (IT_MODES.has(modeVal)) {
-        const it        = _itEntry(cw[0]);
-        const exIt      = it ? it[1] : '';
-        const hasItVoice = !!getSelectedItVoice();
-        if (modeVal === 'it-en' || modeVal === 'it-ua') {
-          if (hasItVoice && exIt) _speakWithLang(exIt, 'it-IT', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else if (modeVal === 'ua-it') {
-          const hasUkVoice = !!getSelectedUkVoice();
-          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else {
-          speak(exEn, speakExBtn);
-        }
-        return;
-      }
-      if (PT_MODES.has(modeVal)) {
-        const pt        = _ptEntry(cw[0]);
-        const exPt      = pt ? pt[1] : '';
-        const hasPtVoice = !!getSelectedPtVoice();
-        if (modeVal === 'pt-en' || modeVal === 'pt-ua') {
-          if (hasPtVoice && exPt) _speakWithLang(exPt, 'pt-PT', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else if (modeVal === 'ua-pt') {
-          const hasUkVoice = !!getSelectedUkVoice();
-          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else {
-          speak(exEn, speakExBtn);
-        }
-        return;
-      }
-      if (DE_MODES.has(modeVal)) {
-        const de        = _deEntry(cw[0]);
-        const exDe      = de ? de[1] : '';
-        const hasDeVoice = !!getSelectedDeVoice();
-        if (modeVal === 'de-en' || modeVal === 'de-ua') {
-          if (hasDeVoice && exDe) _speakWithLang(exDe, 'de-DE', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else if (modeVal === 'ua-de') {
-          const hasUkVoice = !!getSelectedUkVoice();
-          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else {
-          speak(exEn, speakExBtn);
-        }
-        return;
-      }
-      if (HE_MODES.has(modeVal)) {
-        const he        = _heEntry(cw[0]);
-        const exHe      = he ? he[1] : '';
-        const hasHeVoice = !!getSelectedHeVoice();
-        if (modeVal === 'he-en' || modeVal === 'he-ua') {
-          if (hasHeVoice && exHe) _speakWithLang(exHe, 'he-IL', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else if (modeVal === 'ua-he') {
-          const hasUkVoice = !!getSelectedUkVoice();
-          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else {
-          speak(exEn, speakExBtn);
-        }
-        return;
-      }
-      if (AR_MODES.has(modeVal)) {
-        const ar        = _arEntry(cw[0]);
-        const exAr      = ar ? ar[1] : '';
-        const hasArVoice = !!getSelectedArVoice();
-        if (modeVal === 'ar-en' || modeVal === 'ar-ua') {
-          if (hasArVoice && exAr) _speakWithLang(exAr, 'ar-SA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else if (modeVal === 'ua-ar') {
-          const hasUkVoice = !!getSelectedUkVoice();
-          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else {
-          speak(exEn, speakExBtn);
-        }
-        return;
-      }
-      if (PL_MODES.has(modeVal)) {
-        const pl        = _plEntry(cw[0]);
-        const exPl      = pl ? pl[1] : '';
-        const hasPlVoice = !!getSelectedPlVoice();
-        if (modeVal === 'pl-en' || modeVal === 'pl-ua') {
-          if (hasPlVoice && exPl) _speakWithLang(exPl, 'pl-PL', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else if (modeVal === 'ua-pl') {
-          const hasUkVoice = !!getSelectedUkVoice();
-          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else {
-          speak(exEn, speakExBtn);
-        }
-        return;
-      }
-      if (ZH_MODES.has(modeVal)) {
-        const zh        = _zhEntry(cw[0]);
-        const exZh      = zh ? zh[1] : '';
-        const hasZhVoice = !!getSelectedZhVoice();
-        if (modeVal === 'zh-en' || modeVal === 'zh-ua') {
-          if (hasZhVoice && exZh) _speakWithLang(exZh, 'zh-CN', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else if (modeVal === 'ua-zh') {
-          const hasUkVoice = !!getSelectedUkVoice();
-          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else {
-          speak(exEn, speakExBtn);
-        }
-        return;
-      }
-      if (EL_MODES.has(modeVal)) {
-        const el        = _elEntry(cw[0]);
-        const exEl      = el ? el[1] : '';
-        const hasElVoice = !!getSelectedElVoice();
-        if (modeVal === 'el-en' || modeVal === 'el-ua') {
-          if (hasElVoice && exEl) _speakWithLang(exEl, 'el-GR', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else if (modeVal === 'ua-el') {
-          const hasUkVoice = !!getSelectedUkVoice();
-          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else {
-          speak(exEn, speakExBtn);
-        }
-        return;
-      }
-      if (JA_MODES.has(modeVal)) {
-        const ja        = _jaEntry(cw[0]);
-        const exJa      = ja ? ja[1] : '';
-        const hasJaVoice = !!getSelectedJaVoice();
-        if (modeVal === 'ja-en' || modeVal === 'ja-ua') {
-          if (hasJaVoice && exJa) _speakWithLang(exJa, 'ja-JP', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else if (modeVal === 'ua-ja') {
-          const hasUkVoice = !!getSelectedUkVoice();
-          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else {
-          speak(exEn, speakExBtn);
-        }
-        return;
-      }
-      if (TR_MODES.has(modeVal)) {
-        const tr        = _trEntry(cw[0]);
-        const exTr      = tr ? tr[1] : '';
-        const hasTrVoice = !!getSelectedTrVoice();
-        if (modeVal === 'tr-en' || modeVal === 'tr-ua') {
-          if (hasTrVoice && exTr) _speakWithLang(exTr, 'tr-TR', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else if (modeVal === 'ua-tr') {
-          const hasUkVoice = !!getSelectedUkVoice();
-          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else {
-          speak(exEn, speakExBtn);
-        }
-        return;
-      }
-      if (NL_MODES.has(modeVal)) {
-        const nl        = _nlEntry(cw[0]);
-        const exNl      = nl ? nl[1] : '';
-        const hasNlVoice = !!getSelectedNlVoice();
-        if (modeVal === 'nl-en' || modeVal === 'nl-ua') {
-          if (hasNlVoice && exNl) _speakWithLang(exNl, 'nl-NL', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else if (modeVal === 'ua-nl') {
-          const hasUkVoice = !!getSelectedUkVoice();
-          if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-          else speak(exEn, speakExBtn);
-        } else {
-          speak(exEn, speakExBtn);
-        }
-        return;
-      }
-      if (modeVal === 'ua') {
-        const hasUkVoice = !!getSelectedUkVoice();
-        if (hasUkVoice && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
+      const front   = parsePair(modeVal).front;
+      // Speak the example in whichever language is on the card front: a
+      // target language's example (if a voice is available), the Ukrainian
+      // example (front === 'ua'), or fall back to the English example.
+      if (isTargetLang(front)) {
+        const cfg = langConfig(front);
+        const entry = cfg.entry(cw[0]);
+        const ex = entry ? entry[1] : '';
+        if (VOICE_GETTERS[front]() && ex) _speakWithLang(ex, cfg.voiceLocale, speakExBtn);
         else speak(exEn, speakExBtn);
-      } else {
-        speak(exEn, speakExBtn);
+        return;
       }
+      if (front === 'ua') {
+        if (getSelectedUkVoice() && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
+        else speak(exEn, speakExBtn);
+        return;
+      }
+      speak(exEn, speakExBtn);
     };
     speakExBtn.addEventListener('click', onSpeakExClick);
 
@@ -418,20 +167,8 @@ export function CardActionsInit(): ReactElement | null {
           // re-enter the SRS queue with stale data.
           delete (state.srsData as any)[cw[0]];
         }
-        const _modeNow = getMode();
-        if (ES_MODES.has(_modeNow)) { if (state.knownEs) saveKnownEs(state.knownEs); }
-        else if (FR_MODES.has(_modeNow)) { if (state.knownFr) saveKnownFr(state.knownFr); }
-        else if (IT_MODES.has(_modeNow)) { if (state.knownIt) saveKnownIt(state.knownIt); }
-        else if (PT_MODES.has(_modeNow)) { if (state.knownPt) saveKnownPt(state.knownPt); }
-        else if (DE_MODES.has(_modeNow)) { if (state.knownDe) saveKnownDe(state.knownDe); }
-        else if (HE_MODES.has(_modeNow)) { if (state.knownHe) saveKnownHe(state.knownHe); }
-        else if (AR_MODES.has(_modeNow)) { if (state.knownAr) saveKnownAr(state.knownAr); }
-        else if (PL_MODES.has(_modeNow)) { if (state.knownPl) saveKnownPl(state.knownPl); }
-        else if (ZH_MODES.has(_modeNow)) { if (state.knownZh) saveKnownZh(state.knownZh); }
-        else if (EL_MODES.has(_modeNow)) { if (state.knownEl) saveKnownEl(state.knownEl); }
-        else if (JA_MODES.has(_modeNow)) { if (state.knownJa) saveKnownJa(state.knownJa); }
-        else if (TR_MODES.has(_modeNow)) { if (state.knownTr) saveKnownTr(state.knownTr); }
-        else if (NL_MODES.has(_modeNow)) { if (state.knownNl) saveKnownNl(state.knownNl); }
+        const _activeLang = getActiveTargetLang(getMode());
+        if (_activeLang) { const cfg = langConfig(_activeLang); if (cfg.known()) cfg.saveKnown(cfg.known()); }
         else { saveKnown(state.known); }
         saveSRS(state.srsData);
         state._srsStatsDirty = true;

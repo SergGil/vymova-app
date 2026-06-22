@@ -9,74 +9,13 @@ import { W } from '../../data/words.js';
 import { W_ES } from '../../data/words_es.js';
 import { W_FR } from '../../data/words_fr.js';
 import { isBookmarked, toggleBookmark } from './bookmarks.ts';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry, heEntry as _heEntry, arEntry as _arEntry, plEntry as _plEntry, zhEntry as _zhEntry, elEntry as _elEntry, jaEntry as _jaEntry, trEntry as _trEntry, nlEntry as _nlEntry } from './mode-utils.ts';
+import { getFrontLang, isTargetLang, langConfig } from './mode-utils.ts';
 import { t, pluralLabel } from './i18n.ts';
 import { render, setIdx, onWordLearned as _onWordLearned } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';
 
-function _isEsMode(): boolean {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-  return ES_MODES.has(m);
-}
-
-function _isFrMode(): boolean {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-  return FR_MODES.has(m);
-}
-
-function _isItMode(): boolean {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-  return IT_MODES.has(m);
-}
-
-function _isPtMode(): boolean {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-  return PT_MODES.has(m);
-}
-
-function _isDeMode(): boolean {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-  return DE_MODES.has(m);
-}
-
-function _isHeMode(): boolean {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-  return HE_MODES.has(m);
-}
-
-function _isArMode(): boolean {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-  return AR_MODES.has(m);
-}
-
-function _isPlMode(): boolean {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-  return PL_MODES.has(m);
-}
-
-function _isZhMode(): boolean {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-  return ZH_MODES.has(m);
-}
-
-function _isElMode(): boolean {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-  return EL_MODES.has(m);
-}
-
-function _isJaMode(): boolean {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-  return JA_MODES.has(m);
-}
-
-function _isTrMode(): boolean {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-  return TR_MODES.has(m);
-}
-
-function _isNlMode(): boolean {
-  const m = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-  return NL_MODES.has(m);
+function _modeVal(): string {
+  return (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
 }
 
 function SpeakBtn({ text, lang = 'en-US', style }: { text: string; lang?: string; style?: React.CSSProperties }): ReactElement {
@@ -148,42 +87,21 @@ export function WordDetailPage(): ReactElement | null {
   const enEx = w[2] ?? '';
   const uaEx = w[3] ?? '';
 
-  const isEs = _isEsMode();
-  const isFr = _isFrMode();
-  const isIt = _isItMode();
-  const isPt = _isPtMode();
-  const isDe = _isDeMode();
-  const isHe = _isHeMode();
-  const isAr = _isArMode();
-  const isPl = _isPlMode();
-  const isZh = _isZhMode();
-  const isEl = _isElMode();
-  const isJa = _isJaMode();
-  const isTr = _isTrMode();
-  const isNl = _isNlMode();
-  const esEntry = isEs ? _esEntry(w[0]) : null;
-  const frEntry = isFr ? _frEntry(w[0]) : null;
-  const itEntry = isIt ? _itEntry(w[0]) : null;
-  const ptEntry = isPt ? _ptEntry(w[0]) : null;
-  const deEntry = isDe ? _deEntry(w[0]) : null;
-  const heEntry = isHe ? _heEntry(w[0]) : null;
-  const arEntry = isAr ? _arEntry(w[0]) : null;
-  const plEntry = isPl ? _plEntry(w[0]) : null;
-  const zhEntry = isZh ? _zhEntry(w[0]) : null;
-  const elEntry = isEl ? _elEntry(w[0]) : null;
-  const jaEntry = isJa ? _jaEntry(w[0]) : null;
-  const trEntry = isTr ? _trEntry(w[0]) : null;
-  const nlEntry = isNl ? _nlEntry(w[0]) : null;
-  const transl = esEntry ? esEntry[0] : frEntry ? frEntry[0] : itEntry ? itEntry[0] : ptEntry ? ptEntry[0] : deEntry ? deEntry[0] : heEntry ? heEntry[0] : arEntry ? arEntry[0] : plEntry ? plEntry[0] : zhEntry ? zhEntry[0] : elEntry ? elEntry[0] : jaEntry ? jaEntry[0] : trEntry ? trEntry[0] : nlEntry ? nlEntry[0] : w[1];
+  // Which language is shown on the front of the card right now — drives
+  // which translation/transcription this panel shows (mirrors the card
+  // itself instead of an ambiguous "is any of the 13 languages active" check).
+  const front = getFrontLang(_modeVal());
+  const frontCode = front.toLowerCase();
+  const localEntry = isTargetLang(frontCode) ? langConfig(frontCode).entry(w[0]) : null;
+  const transl = localEntry ? localEntry[0] : w[1];
   // Local transcription (pinyin/romaji/transliteration/IPA) for the active learn language, if available.
-  const localTranscription = esEntry?.[2] ?? frEntry?.[2] ?? itEntry?.[2] ?? ptEntry?.[2] ?? deEntry?.[2] ?? heEntry?.[2] ?? arEntry?.[2] ?? plEntry?.[2] ?? zhEntry?.[2] ?? elEntry?.[2] ?? jaEntry?.[2] ?? trEntry?.[2] ?? nlEntry?.[2];
-  const isAnyLangMode = isEs || isFr || isIt || isPt || isDe || isHe || isAr || isPl || isZh || isEl || isJa || isTr || isNl;
-  const ipa = localTranscription ? decodeIpa(localTranscription) : (isAnyLangMode ? '' : decodeIpa(w[4] ?? ''));
+  const localTranscription = localEntry?.[2];
+  const ipa = localTranscription ? decodeIpa(localTranscription) : (localEntry || isTargetLang(frontCode) ? '' : decodeIpa(w[4] ?? ''));
 
-  const similar = isEs
-    ? getSimilarWordsEs(w[0], esEntry?.[0] ?? w[1], 5)
-    : isFr
-    ? getSimilarWordsFr(w[0], frEntry?.[0] ?? w[1], 5)
+  const similar = front === 'ES'
+    ? getSimilarWordsEs(w[0], localEntry?.[0] ?? w[1], 5)
+    : front === 'FR'
+    ? getSimilarWordsFr(w[0], localEntry?.[0] ?? w[1], 5)
     : getSimilarWords(w[0], w[1], 5);
   const esMap = W_ES as unknown as Record<string, [string, string]>;
   const frMap = W_FR as unknown as Record<string, [string, string]>;
@@ -281,7 +199,7 @@ export function WordDetailPage(): ReactElement | null {
             <div data-i18n="cards.similarTitle" style={{ fontSize: '.72rem', fontWeight: 700, color: 'var(--text3)', letterSpacing: '.06em', textTransform: 'uppercase', marginBottom: 8 }}>Схожі слова</div>
             <div id="wd-similar-chips" style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {similar.map(s => {
-                const label = isEs ? (esMap[s[0]]?.[0] ?? s[1]) : isFr ? (frMap[s[0]]?.[0] ?? s[1]) : s[1];
+                const label = front === 'ES' ? (esMap[s[0]]?.[0] ?? s[1]) : front === 'FR' ? (frMap[s[0]]?.[0] ?? s[1]) : s[1];
                 return (
                   <div key={s[0]} className="wd-chip" style={{ cursor: 'pointer', padding: '5px 10px', borderRadius: 20, border: '1.5px solid var(--border)', fontSize: '.78rem', background: 'var(--bg)' }}
                     onClick={() => {

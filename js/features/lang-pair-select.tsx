@@ -11,145 +11,33 @@ type Direction = 'fwd' | 'rev' | 'mix';
 
 const ALL_LANGS: LangCode[] = ['ua', 'en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl'];
 
-// Which "learn" languages are available for a given "know" language —
-// limited by the EN/UA/ES/FR/IT/PT/DE/HE/AR/PL/ZH/EL/JA/TR/NL word-pair data we actually have.
-const LEARN_OPTIONS: Record<LangCode, LangCode[]> = {
-  ua: ['en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl'],
-  en: ['ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl'],
-  es: ['en', 'ua', 'fr'],
-  fr: ['en', 'ua', 'es'],
-  it: ['en', 'ua'],
-  pt: ['en', 'ua'],
-  de: ['en', 'ua'],
-  he: ['en', 'ua'],
-  ar: ['en', 'ua'],
-  pl: ['en', 'ua'],
-  zh: ['en', 'ua'],
-  el: ['en', 'ua'],
-  ja: ['en', 'ua'],
-  tr: ['en', 'ua'],
-  nl: ['en', 'ua'],
-};
+// Every language can pair with every other — all `data/words_XX.js` files
+// share the same English-headword keys (the 13 target-language files share
+// an identical 2000-word key set; ES additionally covers the full 10002),
+// so any pair yields a real, non-empty deck.
+const LEARN_OPTIONS: Record<LangCode, LangCode[]> = Object.fromEntries(
+  ALL_LANGS.map(l => [l, ALL_LANGS.filter(x => x !== l)])
+) as Record<LangCode, LangCode[]>;
 
-// (frontLang, backLang) -> #sel-mode value
-const MODE_MAP: Record<string, string> = {
-  'en|ua': 'en',
-  'ua|en': 'ua',
-  'es|en': 'es-en',
-  'en|es': 'en-es',
-  'es|ua': 'es-ua',
-  'ua|es': 'ua-es',
-  'fr|en': 'fr-en',
-  'en|fr': 'en-fr',
-  'fr|ua': 'fr-ua',
-  'ua|fr': 'ua-fr',
-  'es|fr': 'es-fr',
-  'fr|es': 'fr-es',
-  'it|en': 'it-en',
-  'en|it': 'en-it',
-  'it|ua': 'it-ua',
-  'ua|it': 'ua-it',
-  'pt|en': 'pt-en',
-  'en|pt': 'en-pt',
-  'pt|ua': 'pt-ua',
-  'ua|pt': 'ua-pt',
-  'de|en': 'de-en',
-  'en|de': 'en-de',
-  'de|ua': 'de-ua',
-  'ua|de': 'ua-de',
-  'he|en': 'he-en',
-  'en|he': 'en-he',
-  'he|ua': 'he-ua',
-  'ua|he': 'ua-he',
-  'ar|en': 'ar-en',
-  'en|ar': 'en-ar',
-  'ar|ua': 'ar-ua',
-  'ua|ar': 'ua-ar',
-  'pl|en': 'pl-en',
-  'en|pl': 'en-pl',
-  'pl|ua': 'pl-ua',
-  'ua|pl': 'ua-pl',
-  'zh|en': 'zh-en',
-  'en|zh': 'en-zh',
-  'zh|ua': 'zh-ua',
-  'ua|zh': 'ua-zh',
-  'el|en': 'el-en',
-  'en|el': 'en-el',
-  'el|ua': 'el-ua',
-  'ua|el': 'ua-el',
-  'ja|en': 'ja-en',
-  'en|ja': 'en-ja',
-  'ja|ua': 'ja-ua',
-  'ua|ja': 'ua-ja',
-  'tr|en': 'tr-en',
-  'en|tr': 'en-tr',
-  'tr|ua': 'tr-ua',
-  'ua|tr': 'ua-tr',
-  'nl|en': 'nl-en',
-  'en|nl': 'en-nl',
-  'nl|ua': 'nl-ua',
-  'ua|nl': 'ua-nl',
-};
+// (front, back) -> #sel-mode value. Mechanical: `${front}-${back}`, except
+// the EN↔UA pair which keeps its historical bare 'en'/'ua' mode strings.
+function modeForPair(front: LangCode, back: LangCode): string {
+  if (front === 'en' && back === 'ua') return 'en';
+  if (front === 'ua' && back === 'en') return 'ua';
+  return `${front}-${back}`;
+}
 
-// #sel-mode value -> (learnLang, knowLang) — i.e. (front, back) — for restoring state on load
-const MODE_TO_PAIR: Record<string, [LangCode, LangCode]> = {
-  en: ['en', 'ua'],
-  ua: ['ua', 'en'],
-  'en-es': ['en', 'es'],
-  'es-en': ['es', 'en'],
-  'es-ua': ['es', 'ua'],
-  'ua-es': ['ua', 'es'],
-  'en-fr': ['en', 'fr'],
-  'fr-en': ['fr', 'en'],
-  'fr-ua': ['fr', 'ua'],
-  'ua-fr': ['ua', 'fr'],
-  'es-fr': ['es', 'fr'],
-  'fr-es': ['fr', 'es'],
-  'it-en': ['it', 'en'],
-  'en-it': ['en', 'it'],
-  'it-ua': ['it', 'ua'],
-  'ua-it': ['ua', 'it'],
-  'pt-en': ['pt', 'en'],
-  'en-pt': ['en', 'pt'],
-  'pt-ua': ['pt', 'ua'],
-  'ua-pt': ['ua', 'pt'],
-  'de-en': ['de', 'en'],
-  'en-de': ['en', 'de'],
-  'de-ua': ['de', 'ua'],
-  'ua-de': ['ua', 'de'],
-  'he-en': ['he', 'en'],
-  'en-he': ['en', 'he'],
-  'he-ua': ['he', 'ua'],
-  'ua-he': ['ua', 'he'],
-  'ar-en': ['ar', 'en'],
-  'en-ar': ['en', 'ar'],
-  'ar-ua': ['ar', 'ua'],
-  'ua-ar': ['ua', 'ar'],
-  'pl-en': ['pl', 'en'],
-  'en-pl': ['en', 'pl'],
-  'pl-ua': ['pl', 'ua'],
-  'ua-pl': ['ua', 'pl'],
-  'zh-en': ['zh', 'en'],
-  'en-zh': ['en', 'zh'],
-  'zh-ua': ['zh', 'ua'],
-  'ua-zh': ['ua', 'zh'],
-  'el-en': ['el', 'en'],
-  'en-el': ['en', 'el'],
-  'el-ua': ['el', 'ua'],
-  'ua-el': ['ua', 'el'],
-  'ja-en': ['ja', 'en'],
-  'en-ja': ['en', 'ja'],
-  'ja-ua': ['ja', 'ua'],
-  'ua-ja': ['ua', 'ja'],
-  'tr-en': ['tr', 'en'],
-  'en-tr': ['en', 'tr'],
-  'tr-ua': ['tr', 'ua'],
-  'ua-tr': ['ua', 'tr'],
-  'nl-en': ['nl', 'en'],
-  'en-nl': ['en', 'nl'],
-  'nl-ua': ['nl', 'ua'],
-  'ua-nl': ['ua', 'nl'],
-};
+// #sel-mode value -> (learnLang, knowLang) i.e. (front, back) — inverse of modeForPair.
+function pairForMode(mode: string): [LangCode, LangCode] {
+  if (mode === 'en') return ['en', 'ua'];
+  if (mode === 'ua') return ['ua', 'en'];
+  const i = mode.indexOf('-');
+  if (i > 0) {
+    const f = mode.slice(0, i), b = mode.slice(i + 1);
+    if (isLangCode(f) && isLangCode(b)) return [f, b];
+  }
+  return ['en', 'ua'];
+}
 
 const KNOW_KEY = 'ew_know_lang';
 const LEARN_KEY = 'ew_learn_lang';
@@ -195,14 +83,14 @@ function initialState(): { learnLang: LangCode; knowLang: LangCode; direction: D
     return { learnLang: storedLearn, knowLang: storedKnow, direction: isDirection(storedDir) ? storedDir : 'fwd' };
   }
   const current = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? 'en';
-  const [learnLang, knowLang] = MODE_TO_PAIR[current] ?? ['en', 'ua'];
+  const [learnLang, knowLang] = pairForMode(current);
   return { learnLang, knowLang, direction: 'fwd' };
 }
 
 // Applies the chosen pair + direction to the legacy #sel-mode select.
 function applyMode(learn: LangCode, know: LangCode, direction: Direction): void {
-  const fwdMode = MODE_MAP[`${learn}|${know}`];
-  const revMode = MODE_MAP[`${know}|${learn}`];
+  const fwdMode = modeForPair(learn, know);
+  const revMode = modeForPair(know, learn);
   const sel = document.getElementById('sel-mode') as HTMLSelectElement | null;
   if (!sel) return;
   let mode: string;
