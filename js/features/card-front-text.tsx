@@ -1,6 +1,7 @@
 // Vymova — js/features/card-front-text.tsx
 // Текстові поля лицьової сторони картки: #wword, #wtrans, #wpos, #srs-next,
 // #wtransl, #exen, #exua. Частина item 28b (Фаза 4).
+import { useEffect, useState } from 'react';
 import { useAppState } from '../../src/store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { t, tLang, type Lang } from './i18n.ts';
@@ -12,6 +13,8 @@ import {
 import { speakEnAccent } from './voice.tsx';
 import { speak } from './speech.ts';
 import { SENSES } from '../../data/senses.ts';
+import { InfoIcon, InfoNote } from './info-icon.tsx';
+import { TRANSCRIPTION_LEGEND } from './transcription-legend.ts';
 
 function getRangeVal(): string {
   return (document.getElementById('sel-range') as HTMLSelectElement | null)?.value ?? '';
@@ -31,6 +34,8 @@ const LOCAL_ENTRY_LOOKUP: Partial<Record<string, (word: string) => readonly [str
 
 export function Transcription() {
   const { cw } = useAppState();
+  const [legendOpen, setLegendOpen] = useState(false);
+  useEffect(() => { setLegendOpen(false); }, [cw?.[0]]);
   if (!cw) return null;
   const { FRONT_LANG, frontWord } = computeCardView(cw, getResolvedMode());
   const lookup = LOCAL_ENTRY_LOOKUP[FRONT_LANG];
@@ -39,14 +44,26 @@ export function Transcription() {
     ? decodeIpa(cw[4] || '')
     : (localTranscription ? decodeIpa(localTranscription) : '');
   if (FRONT_LANG !== 'EN' && !trans) return <div className="transcription" id="wtrans" style={{ display: 'none' }} />;
+  const legend = TRANSCRIPTION_LEGEND[FRONT_LANG];
   return (
-    <div className="transcription" id="wtrans" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-      {trans && <span>{trans}</span>}
-      {FRONT_LANG === 'EN' && (
-        <>
-          <button type="button" className="accent-btn" title="British" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'GB', e.currentTarget); }}>GB</button>
-          <button type="button" className="accent-btn" title="American" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'US', e.currentTarget); }}>US</button>
-        </>
+    <div className="transcription-wrap">
+      <div className="transcription" id="wtrans" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        {trans && <span>{trans}</span>}
+        {FRONT_LANG === 'EN' && (
+          <>
+            <button type="button" className="accent-btn" title="British" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'GB', e.currentTarget); }}>GB</button>
+            <button type="button" className="accent-btn" title="American" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'US', e.currentTarget); }}>US</button>
+          </>
+        )}
+        {legend && <InfoIcon open={legendOpen} onToggle={() => setLegendOpen(o => !o)} label={t('cards.transcriptionInfo')} />}
+      </div>
+      {legend && legendOpen && (
+        <InfoNote>
+          <div className="info-note-title">{t('cards.transcriptionInfo')}</div>
+          <ul className="info-note-list">
+            {legend.map((row, i) => <li key={i}><b>{row.symbol}</b> — {row.desc}</li>)}
+          </ul>
+        </InfoNote>
       )}
     </div>
   );

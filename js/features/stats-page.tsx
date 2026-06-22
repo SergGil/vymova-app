@@ -13,6 +13,7 @@ import { refreshAchievementsPage as renderAchievements } from './achievements-pa
 import { closePage } from './sidebar.tsx';
 import { getKnownInLang, getActiveKnownByLang, getWordsForLang } from './mode-utils.ts';
 import type { WordEntry } from '../../src/types.js';
+import { InfoIcon, InfoNote } from './info-icon.tsx';
 
 const _p2 = (n: number): string => n < 10 ? '0' + n : '' + n;
 
@@ -242,6 +243,7 @@ export function StatsPage(): ReactElement {
   const [calYear, setCalYear] = useState(() => new Date().getFullYear());
   const [calMonth, setCalMonth] = useState(() => new Date().getMonth());
   const [, setTick] = useState(0);
+  const [weakWordsInfoOpen, setWeakWordsInfoOpen] = useState(false);
 
   useEffect(() => {
     _bumpTick = () => {
@@ -411,8 +413,12 @@ export function StatsPage(): ReactElement {
       </div>
 
       <div className="stats-section">
-        <div className="stats-section-title" data-i18n="stats.weakWordsTitle">{t('stats.weakWordsTitle')}</div>
-        <div id="weak-words-list" style={{ fontSize: '.8rem', color: 'var(--text2)' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          <div className="stats-section-title" style={{ marginBottom: 0 }} data-i18n="stats.weakWordsTitle">{t('stats.weakWordsTitle')}</div>
+          <InfoIcon open={weakWordsInfoOpen} onToggle={() => setWeakWordsInfoOpen(o => !o)} label={t('stats.weakWordsInfo')} />
+        </div>
+        {weakWordsInfoOpen && <InfoNote>{t('stats.weakWordsInfoText')}</InfoNote>}
+        <div id="weak-words-list" style={{ fontSize: '.8rem', color: 'var(--text2)', marginTop: 8 }} />
       </div>
 
       <div className="stats-section">
