@@ -246,6 +246,10 @@
     padding: 0 2px;
     opacity: .55;
     transition: opacity .15s, transform .15s;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    top: 2px;
   }
   .info-icon-btn:hover, .info-icon-btn.active { opacity: 1; }
   .info-icon-btn.active { transform: scale(1.1); }

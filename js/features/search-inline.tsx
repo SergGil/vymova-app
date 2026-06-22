@@ -5,7 +5,10 @@ import { W } from '../../data/words.js';
 import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
 import { shuffle } from '../core/srs.ts';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, getMode } from './mode-utils.ts';
+import {
+  ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, getMode,
+  getResolvedMode, computeCardView, getWordsForLang,
+} from './mode-utils.ts';
 import { t } from './i18n.ts';
 import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -49,10 +52,12 @@ function goToWord(word: string, after: () => void): void {
   after();
 }
 
+type Hit = { key: string; front: string; back: string; frontRtl: boolean };
+
 export function SearchInline(): ReactElement {
   useStateVersion();
   const [query, setQuery]       = useState('');
-  const [hits, setHits]         = useState<WordEntry[]>([]);
+  const [hits, setHits]         = useState<Hit[]>([]);
   const [activeIdx, setActiveIdx] = useState(-1);
   const [isOpen, setIsOpen]     = useState(false);
   const wrapRef  = useRef<HTMLDivElement>(null);
@@ -69,9 +74,19 @@ export function SearchInline(): ReactElement {
     const q = query.trim().toLowerCase();
     if (!q) { setHits([]); setIsOpen(false); return; }
     timerRef.current = setTimeout(() => {
-      const h = (W as unknown as WordEntry[]).filter(w =>
-        w[0].toLowerCase().startsWith(q) || w[1].toLowerCase().includes(q)
-      ).slice(0, 8);
+      // Шукаємо по словах поточної мови вивчення, а не завжди по англійському
+      // масиву — frontWord/backWord обчислюються так само, як на самій картці
+      // (computeCardView), щоб результати відповідали обраній парі мов.
+      const mode = getResolvedMode();
+      const pool = getWordsForLang(W as unknown as WordEntry[]);
+      const h: Hit[] = [];
+      for (const w of pool) {
+        const { frontWord, backWord, frontRtl } = computeCardView(w, mode);
+        if (frontWord.toLowerCase().startsWith(q) || backWord.toLowerCase().includes(q)) {
+          h.push({ key: w[0], front: frontWord, back: backWord, frontRtl });
+          if (h.length >= 8) break;
+        }
+      }
       setHits(h);
       setActiveIdx(-1);
       setIsOpen(true);
@@ -108,7 +123,7 @@ export function SearchInline(): ReactElement {
             setActiveIdx(i => (i === -1 ? hits.length - 1 : i > 0 ? i - 1 : -1));
           } else if (e.key === 'Enter' && activeIdx !== -1 && hits[activeIdx]) {
             e.preventDefault();
-            goToWord(hits[activeIdx][0], reset);
+            goToWord(hits[activeIdx].key, reset);
           } else if (e.key === 'Escape') {
             setIsOpen(false);
             inputRef.current?.blur();
@@ -118,17 +133,17 @@ export function SearchInline(): ReactElement {
       <div className={'search-results' + (isOpen ? ' open' : '')} id="search-results">
         {hits.length === 0
           ? (query.trim() ? <div className="search-no-results">{t('search.noResults')}</div> : null)
-          : hits.map((w, i) => {
-              const isKnown = activeKnown().has(w[0]);
+          : hits.map((h, i) => {
+              const isKnown = activeKnown().has(h.key);
               return (
                 <div
-                  key={w[0]}
+                  key={h.key}
                   className={'search-result-item' + (isKnown ? ' sr-known' : '') + (i === activeIdx ? ' active' : '')}
-                  onClick={() => goToWord(w[0], reset)}
-                  onTouchEnd={() => goToWord(w[0], reset)}
+                  onClick={() => goToWord(h.key, reset)}
+                  onTouchEnd={() => goToWord(h.key, reset)}
                 >
-                  <span className="sr-word">{w[0]}</span>
-                  <span className="sr-transl">{w[1]}</span>
+                  <span className="sr-word" dir={h.frontRtl ? 'rtl' : undefined}>{h.front}</span>
+                  <span className="sr-transl">{h.back}</span>
                   {isKnown && <span className="sr-known-badge">✓</span>}
                 </div>
               );
