@@ -233,7 +233,7 @@
   "stats.srsForecastTitle": "📅 SRS — Wiederholungskalender (14 Tage)",
   "stats.weakWordsTitle": "🔴 Schwache Wörter (Top 10)",
   "stats.weakWordsInfo": "Wie die \"Schwäche\" berechnet wird",
-  "stats.weakWordsInfoText": "Die Liste wird nach Anzahl der Fehler (✗) sortiert — Wörter, die du am häufigsten vergessen hast, stehen oben. Bei Gleichstand entscheidet der EF (Ease Factor) — er startet bei 2,50 und sinkt bei jeder falschen Antwort (Minimum 1,30). Je niedriger der EF, desto schwerer fällt dir das Wort, und desto länger bleibt es in deiner Wiederholungswarteschlange.",
+  "stats.weakWordsInfoText": "Die Liste wird nach Anzahl der Fehler (✗) sortiert — Wörter, die du am häufigsten vergessen hast, stehen an erster Stelle. Bei Gleichstand entscheidet der EF (Ease Factor) — er startet bei 2,50 und sinkt bei jeder falschen Antwort (Minimum 1,30). Je niedriger der EF, desto schwerer fällt dir das Wort, und desto länger bleibt es in deiner Wiederholungswarteschlange.",
   "stats.modeAccuracyTitle": "🎮 Genauigkeit pro Modus",
   "stats.cefrProgressTitle": "📊 Fortschritt nach GER-Niveau",
   "stats.leaderboardTitle": "🏆 Weltweite Rangliste",
