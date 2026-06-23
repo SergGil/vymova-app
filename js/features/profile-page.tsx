@@ -8,6 +8,7 @@ import { getGameData, loadUnlocked } from './game.ts';
 import { getKnownInLang } from './mode-utils.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
 import { t } from './i18n.ts';
+import { useStateVersion } from '../../src/store.ts';
 import type { CharacterAppearance } from '../../src/types.js';
 
 type PickerKey = keyof CharacterAppearance;
@@ -23,6 +24,7 @@ const PICKERS: { key: PickerKey; labelKey: string; len: number; names?: () => st
 ];
 
 export function ProfilePage(): ReactElement | null {
+  useStateVersion();
   const target = document.getElementById('profile-content');
   const [savedAppearance, setSavedAppearance] = useState<CharacterAppearance>(() => loadCharacter());
   const [appearance, setAppearance] = useState<CharacterAppearance>(savedAppearance);
