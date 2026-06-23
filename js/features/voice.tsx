@@ -373,6 +373,22 @@ export function speakPtAccent(text: string, accent: 'PT' | 'BR', btn: HTMLElemen
   _speakAccent(_ptVoices(), text, accent, accent === 'PT' ? 'pt-PT' : 'pt-BR', btn);
 }
 
+// Whether a voice actually tagged for `accent` is installed — unlike
+// _speakAccent (which always falls back to *some* voice for the language so
+// playback never silently fails), this only matches the specific accent, so
+// callers can hide the toggle button entirely when that accent isn't available.
+function _hasAccent(voices: SpeechSynthesisVoice[], accent: string, langPrefix: string): boolean {
+  return voices.some(v => _getLabel(v).accent === accent || v.lang?.toLowerCase().startsWith(langPrefix.toLowerCase()));
+}
+
+export function hasEsAccent(accent: 'ES' | 'MX'): boolean {
+  return _hasAccent(_esVoices(), accent, accent === 'ES' ? 'es-ES' : 'es-MX');
+}
+
+export function hasPtAccent(accent: 'PT' | 'BR'): boolean {
+  return _hasAccent(_ptVoices(), accent, accent === 'PT' ? 'pt-PT' : 'pt-BR');
+}
+
 export const speakFakeYou = (text: string, btn: HTMLElement | null): boolean => {
   const enVoices = _enVoices();
   if (!enVoices.length) return false;
