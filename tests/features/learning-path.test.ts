@@ -13,7 +13,7 @@ import type { CefrLevel } from '../../data/cefr.ts';
 
 // ── Mock word list ────────────────────────────────────────────
 // A1 words from CEFR_MAP: 'cat', 'dog', 'go', 'big', 'run'
-// B1 word: 'achieve', 'improve', 'debate'
+// B1 word: 'achieve', 'improve', 'develop'
 const MOCK_WORDS: WordEntry[] = [
   ['cat',     'кіт',         'The cat is on the mat.',    'Кіт на килимку.',    '/kæt/'],
   ['dog',     'пес',         'I have a dog.',             'У мене є пес.',      '/dɒɡ/'],
@@ -22,10 +22,10 @@ const MOCK_WORDS: WordEntry[] = [
   ['run',     'бігти',       'I run every day.',          'Я бігаю щодня.',     '/rʌn/'],
   ['achieve', 'досягати',    'We can achieve our goals.', 'Ми можемо досягти наших цілей.', '/əˈtʃiːv/'],
   ['improve', 'покращувати', 'Practice will improve it.', 'Практика покращить це.', '/ɪmˈpruːv/'],
-  ['debate',  'дебатувати',  'They will debate the issue.','Вони будуть дебатувати питання.', '/dɪˈbeɪt/'],
+  ['develop', 'розвивати',   'We will develop a plan.',   'Ми розробимо план.', '/dɪˈveləp/'],
 ];
 // cat, dog, go, big, run → A1 (all in CEFR_MAP)
-// achieve, improve, debate → B1 (in CEFR_MAP)
+// achieve, improve, develop → B1 (in CEFR_MAP)
 
 // ── computeCefrStats ─────────────────────────────────────────
 describe('computeCefrStats', () => {
