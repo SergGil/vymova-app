@@ -6,12 +6,13 @@ import { useStateVersion } from '../../src/store.ts';
 import { searchCollocations } from '../../data/collocations.ts';
 import { WORD_FAMILIES, WORD_FAMILY_REVERSE } from '../../data/word-families.ts';
 import { SYNONYMS, SYNONYM_REVERSE } from '../../data/synonyms.ts';
-import { ETYMOLOGY } from '../../data/etymology.ts';
+import { getEtymologyFact } from '../../data/etymology.ts';
 import { USAGE_NOTES } from '../../data/usage-notes.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { openWordDetail } from './word-detail.tsx';
 import { getMode, parsePair } from './mode-utils.ts';
+import { getLang } from './i18n.ts';
 
 // Collocations are English-specific idiomatic patterns (e.g. "make a
 // decision" NOT "do a decision") — only meaningful when English is one of
@@ -146,7 +147,7 @@ export function EtymologyNote(): ReactElement | null {
   const cw = state.cw as WordEntry | null;
   if (!cw || !state.flipped) return null;
 
-  const fact = ETYMOLOGY[cw[0].toLowerCase()];
+  const fact = getEtymologyFact(cw[0].toLowerCase(), getLang());
   if (!fact) return null;
 
   return (

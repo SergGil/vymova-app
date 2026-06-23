@@ -2,6 +2,7 @@
 // Personal note / mnemonic editor modal, triggered imperatively from
 // card-actions.ts via openNoteModal().
 import { useEffect, useState, type ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 import { t } from './i18n.ts';
 import { getNoteForWord, setNoteForWord } from './notes.ts';
 
@@ -45,7 +46,7 @@ export function NoteModal(): ReactElement | null {
     setWord(null);
   }
 
-  return (
+  return createPortal(
     <div
       id="note-overlay"
       style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.6)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}
@@ -73,6 +74,7 @@ export function NoteModal(): ReactElement | null {
           <button className="prf-delete-btn prf-delete-btn-confirm" style={{ background: 'var(--accent)' }} onClick={close}>{t('note.save')}</button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
