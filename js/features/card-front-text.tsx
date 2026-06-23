@@ -164,6 +164,22 @@ export function ExUa() {
   );
 }
 
+// #speak-word / #speak-ex (index.html) are the front-side pronunciation
+// buttons, always present in the static markup — hide them when the front
+// language is Ukrainian, mirroring the back-side BackSpeakBtn's rule.
+export function FrontSpeakBtnsToggle() {
+  const { cw } = useAppState();
+  const front = cw ? parsePair(getResolvedMode()).front : null;
+  const hide = front === 'ua';
+  useEffect(() => {
+    const wordBtn = document.getElementById('speak-word');
+    const exBtn = document.getElementById('speak-ex');
+    wordBtn?.classList.toggle('lang-hide', hide);
+    exBtn?.classList.toggle('lang-hide', hide);
+  }, [hide]);
+  return null;
+}
+
 export function CardHint() {
   const { flipped } = useAppState();
   if (flipped) return null;

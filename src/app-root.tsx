@@ -20,7 +20,7 @@ import { GameBarLevel } from '../js/features/game-bar-level.tsx';
 import { GameBarStreak, ComboBox, GameBarGoal } from '../js/features/game-bar-streak.tsx';
 import { GoalModal } from '../js/features/goal-modal.tsx';
 import { CardMeta } from '../js/features/card-meta.tsx';
-import { WordText, Transcription, PosTag, SrsBadge, Translation, ExEn, ExUa, CardHint, OtherMeanings } from '../js/features/card-front-text.tsx';
+import { WordText, Transcription, PosTag, SrsBadge, Translation, ExEn, ExUa, CardHint, OtherMeanings, FrontSpeakBtnsToggle } from '../js/features/card-front-text.tsx';
 import { CardIdx, CardKnownCount, ProgressBar } from '../js/features/card-progress.tsx';
 import { SimilarWordsChips } from '../js/features/similar-words.tsx';
 import { WordFamiliesChips, CollocationsSection, SynonymsChips, EtymologyNote, UsageNoteBox } from '../js/features/word-context.tsx';
@@ -154,6 +154,7 @@ function AppRoot(): ReactElement {
     <Portal id="quick-quiz-mount"><QuickQuizButton/></Portal>
     <CardSwipe/>
     <Portal id="image-prefetch-mount"><ImagePrefetchSettings/></Portal>
+    <FrontSpeakBtnsToggle/>
     <SettingsInit/>
     <ProgressIO/>
     <DeckModeInit/>

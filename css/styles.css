@@ -318,6 +318,9 @@
     vertical-align: middle;
     flex-shrink: 0;
   }
+  .lang-hide, .speak-ex-btn.lang-hide {
+    display: none !important;
+  }
   .ex-en b { color: var(--accent2); font-weight: 600; }
   .ex-ua {
     font-size: 11.5px;
