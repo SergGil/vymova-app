@@ -10,7 +10,7 @@ import {
   getResolvedMode, computeCardView,
   esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry,
 } from './mode-utils.ts';
-import { speakEnAccent } from './voice.tsx';
+import { speakEnAccent, speakEsAccent, speakPtAccent } from './voice.tsx';
 import { speak } from './speech.ts';
 import { SENSES } from '../../data/senses.ts';
 import { InfoIcon, InfoNote } from './info-icon.tsx';
@@ -53,6 +53,18 @@ export function Transcription() {
           <>
             <button type="button" className="accent-btn" title="British" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'GB', e.currentTarget); }}>GB</button>
             <button type="button" className="accent-btn" title="American" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'US', e.currentTarget); }}>US</button>
+          </>
+        )}
+        {FRONT_LANG === 'ES' && (
+          <>
+            <button type="button" className="accent-btn" title="España" onClick={e => { e.stopPropagation(); speakEsAccent(frontWord, 'ES', e.currentTarget); }}>ES</button>
+            <button type="button" className="accent-btn" title="Latinoamérica" onClick={e => { e.stopPropagation(); speakEsAccent(frontWord, 'MX', e.currentTarget); }}>MX</button>
+          </>
+        )}
+        {FRONT_LANG === 'PT' && (
+          <>
+            <button type="button" className="accent-btn" title="Portugal" onClick={e => { e.stopPropagation(); speakPtAccent(frontWord, 'PT', e.currentTarget); }}>PT</button>
+            <button type="button" className="accent-btn" title="Brasil" onClick={e => { e.stopPropagation(); speakPtAccent(frontWord, 'BR', e.currentTarget); }}>BR</button>
           </>
         )}
         {legend && <InfoIcon open={legendOpen} onToggle={() => setLegendOpen(o => !o)} label={t('cards.transcriptionInfo')} />}

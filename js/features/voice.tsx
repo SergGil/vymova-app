@@ -340,20 +340,37 @@ export function getSelectedNlVoice(): SpeechSynthesisVoice | null {
   return _findByURI(_nlURI, _nlVoices()) ?? _nlVoices()[0] ?? null;
 }
 
-// Speaks English text with a specific accent (GB/US), bypassing the user's globally selected voice.
-export function speakEnAccent(text: string, accent: 'GB' | 'US', btn: HTMLElement | null): void {
+// Speaks `text` with a voice tagged for `accent` (matched via VOICE_MAP first,
+// falling back to a lang-prefix match, then any voice for the language),
+// bypassing the user's globally selected voice — used for one-off accent
+// toggle buttons (GB/US, ES/MX, PT/BR, ...) next to the transcription.
+function _speakAccent(voices: SpeechSynthesisVoice[], text: string, accent: string, fallbackLang: string, btn: HTMLElement | null): void {
   const clean = text.replace(/<[^>]+>/g, '').replace(/\s*\([^)]*\)/g, '').trim();
   if (!clean || !synth) return;
-  const enVoices = _enVoices();
-  const voice = enVoices.find(v => _getLabel(v).accent === accent)
-    ?? enVoices.find(v => v.lang?.toLowerCase().startsWith(accent === 'GB' ? 'en-gb' : 'en-us'))
-    ?? enVoices[0] ?? null;
+  const voice = voices.find(v => _getLabel(v).accent === accent)
+    ?? voices.find(v => v.lang?.toLowerCase().startsWith(fallbackLang.toLowerCase()))
+    ?? voices[0] ?? null;
   synth.cancel();
   const u = new SpeechSynthesisUtterance(clean);
-  if (voice) { u.voice = voice; u.lang = voice.lang; } else { u.lang = accent === 'GB' ? 'en-GB' : 'en-US'; }
+  if (voice) { u.voice = voice; u.lang = voice.lang; } else { u.lang = fallbackLang; }
   u.rate = 0.88; u.pitch = 1;
   if (btn) { btn.classList.add('on'); u.onend = u.onerror = () => btn.classList.remove('on'); }
   synth.speak(u);
+}
+
+// Speaks English text with a specific accent (GB/US), bypassing the user's globally selected voice.
+export function speakEnAccent(text: string, accent: 'GB' | 'US', btn: HTMLElement | null): void {
+  _speakAccent(_enVoices(), text, accent, accent === 'GB' ? 'en-GB' : 'en-US', btn);
+}
+
+// Speaks Spanish text with a specific accent (ES/MX), bypassing the user's globally selected voice.
+export function speakEsAccent(text: string, accent: 'ES' | 'MX', btn: HTMLElement | null): void {
+  _speakAccent(_esVoices(), text, accent, accent === 'ES' ? 'es-ES' : 'es-MX', btn);
+}
+
+// Speaks Portuguese text with a specific accent (PT/BR), bypassing the user's globally selected voice.
+export function speakPtAccent(text: string, accent: 'PT' | 'BR', btn: HTMLElement | null): void {
+  _speakAccent(_ptVoices(), text, accent, accent === 'PT' ? 'pt-PT' : 'pt-BR', btn);
 }
 
 export const speakFakeYou = (text: string, btn: HTMLElement | null): boolean => {
