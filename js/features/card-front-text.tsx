@@ -194,7 +194,7 @@ export function OtherMeanings() {
 
   return (
     <div className="similar-section" id="cb-senses" style={{ margin: '8px 0' }}>
-      <div className="similar-title" data-i18n="cards.sensesTitle">📖 Усі значення</div>
+      <div className="similar-title">{t('cards.sensesTitle')}</div>
       <ol className="senses-list" id="cb-senses-list">
         {senses.map((s, i) => (
           <li key={i}>

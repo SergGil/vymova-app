@@ -12,7 +12,7 @@ import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { openWordDetail } from './word-detail.tsx';
 import { getMode, parsePair } from './mode-utils.ts';
-import { getLang } from './i18n.ts';
+import { getLang, t } from './i18n.ts';
 
 // Collocations are English-specific idiomatic patterns (e.g. "make a
 // decision" NOT "do a decision") — only meaningful when English is one of
@@ -37,7 +37,7 @@ export function CollocationsSection(): ReactElement | null {
 
   return (
     <div className="similar-section" id="cb-collocations" style={{ margin: '8px 0 0' }}>
-      <div className="similar-title" data-i18n="cards.collocationsTitle">🔗 Сталі словосполучення</div>
+      <div className="similar-title">{t('cards.collocationsTitle')}</div>
       <div id="cb-collocation-list" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         {colls.slice(0, 6).map((c, i) => {
           const parts = c.phrase.split(re);
@@ -69,7 +69,7 @@ export function WordFamiliesChips(): ReactElement | null {
 
   return (
     <div className="similar-section" id="cb-families" style={{ margin: '14px 0 0' }}>
-      <div className="similar-title" data-i18n="cards.familyTitle">🌱 Сімейство слів</div>
+      <div className="similar-title">{t('cards.familyTitle')}</div>
       <div className="similar-chips" id="cb-family-chips">
         {family.slice(0, 6).map(w => {
           const wi = wordIdx?.get(w);
@@ -116,7 +116,7 @@ export function SynonymsChips(): ReactElement | null {
 
   return (
     <div className="similar-section" id="cb-synonyms" style={{ margin: '14px 0 0' }}>
-      <div className="similar-title" data-i18n="cards.synonymsTitle">🔄 Синоніми</div>
+      <div className="similar-title">{t('cards.synonymsTitle')}</div>
       <div className="similar-chips" id="cb-synonym-chips">
         {chips.slice(0, 6).map(c => {
           const wi = wordIdx?.get(c.word);

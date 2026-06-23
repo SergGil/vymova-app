@@ -189,7 +189,7 @@ export function WordDetailPage(): ReactElement | null {
         {/* Similar words */}
         {similar.length > 0 && (
           <div id="wd-similar-wrap" style={{ marginBottom: 16 }}>
-            <div data-i18n="cards.similarTitle" style={{ fontSize: '.72rem', fontWeight: 700, color: 'var(--text3)', letterSpacing: '.06em', textTransform: 'uppercase', marginBottom: 8 }}>Схожі слова</div>
+            <div style={{ fontSize: '.72rem', fontWeight: 700, color: 'var(--text3)', letterSpacing: '.06em', textTransform: 'uppercase', marginBottom: 8 }}>{t('cards.similarTitle')}</div>
             <div id="wd-similar-chips" style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {similar.map(s => {
                 const sWord = headwordFor(frontPair, s) || s[0];
@@ -213,19 +213,19 @@ export function WordDetailPage(): ReactElement | null {
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {!known && (
             <button id="wd-btn-know" onClick={onKnow} style={{ flex: 1, minWidth: 120, padding: 11, borderRadius: 12, border: 'none', background: 'var(--accent)', color: '#fff', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', fontSize: '.88rem' }}>
-              <span data-i18n="cards.know">✓ Знаю</span>
+              <span>{t('cards.know')}</span>
             </button>
           )}
           {known && (
             <button id="wd-btn-forget" onClick={onForget} style={{ padding: '11px 16px', borderRadius: 12, border: '1.5px solid var(--border)', background: 'none', color: 'var(--text2)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '.88rem' }}>
-              <span data-i18n="cards.forget">✕ Забути</span>
+              <span>{t('cards.forget')}</span>
             </button>
           )}
-          <button id="wd-btn-bm" onClick={onBookmark} title="Закладка" data-i18n-title="cards.bookmarkTitle" style={{ padding: '11px 14px', borderRadius: 12, border: '1.5px solid var(--border)', background: 'none', color: bm ? '#f39c12' : 'var(--text2)', cursor: 'pointer', fontSize: '1rem' }}>
+          <button id="wd-btn-bm" onClick={onBookmark} title={t('cards.bookmarkTitle')} style={{ padding: '11px 14px', borderRadius: 12, border: '1.5px solid var(--border)', background: 'none', color: bm ? '#f39c12' : 'var(--text2)', cursor: 'pointer', fontSize: '1rem' }}>
             {bm ? '⭐' : '☆'}
           </button>
           <button id="wd-btn-goto" onClick={onGoto} style={{ padding: '11px 16px', borderRadius: 12, border: '1.5px solid var(--border)', background: 'none', color: 'var(--accent)', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', fontSize: '.88rem' }}>
-            <span data-i18n="cards.gotoCard">→ На картку</span>
+            <span>{t('cards.gotoCard')}</span>
           </button>
         </div>
       </div>

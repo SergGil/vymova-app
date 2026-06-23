@@ -10,6 +10,7 @@ import { useStateVersion, notifyStateChange } from '../../src/store.ts';
 import { openWordDetail } from './word-detail.tsx';
 import type { WordEntry } from '../../src/types.js';
 import { getMode as _getMode, parsePair, getActiveKnownSet, headwordFor, type Code } from './mode-utils.ts';
+import { t } from './i18n.ts';
 
 function _getActiveKnown(): Set<string> {
   return getActiveKnownSet(_getMode(), state.known);
@@ -126,7 +127,7 @@ export function SimilarWordsChips(): ReactElement | null {
 
   return (
     <div className="similar-section" id="cb-similar">
-      <div className="similar-title" data-i18n="cards.similarTitle">Схожі слова</div>
+      <div className="similar-title">{t('cards.similarTitle')}</div>
       <div className="similar-chips" id="cb-chips">
         {similar.map(w => {
           const isKnown = _getActiveKnown().has(w[0]);

@@ -1,8 +1,11 @@
 // Vymova — js/features/keyboard.tsx
 // ════════ KEYBOARD OVERLAY ════════
 import { useState, useEffect, type ReactElement } from 'react';
+import { t } from './i18n.ts';
+import { useStateVersion } from '../../src/store.ts';
 
 export function KeysOverlay(): ReactElement {
+  useStateVersion();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -38,42 +41,42 @@ export function KeysOverlay(): ReactElement {
     <div id="keys-overlay" className={open ? 'open' : ''}>
       <div className="keys-panel">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
-          <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text)' }} data-i18n="keys.title">⌨️ Клавіатурні скорочення</div>
+          <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text)' }}>{t('keys.title')}</div>
           <button id="keys-close" style={{ background: 'none', border: 'none', fontSize: '1.3rem', cursor: 'pointer', color: 'var(--text3)' }} onClick={() => setOpen(false)}>✕</button>
         </div>
         <div className="keys-section">
-          <div className="keys-section-title" data-i18n="keys.mainScreen">Головний екран</div>
-          <div className="keys-row"><span data-i18n="keys.nextCard">Наступна картка</span><div className="keys-kbds"><kbd data-i18n="keys.space">Пробіл</kbd><kbd>→</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.markKnown">Позначити "Знаю"</span><div className="keys-kbds"><kbd>Enter</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.navigation">Навігація</span><div className="keys-kbds"><kbd>←</kbd><kbd>→</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.showTranslation">Показати переклад</span><div className="keys-kbds"><kbd>F</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.search">Пошук</span><div className="keys-kbds"><kbd>Ctrl</kbd><kbd>K</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.theseHints">Ці підказки</span><div className="keys-kbds"><kbd>?</kbd></div></div>
+          <div className="keys-section-title">{t('keys.mainScreen')}</div>
+          <div className="keys-row"><span>{t('keys.nextCard')}</span><div className="keys-kbds"><kbd>{t('keys.space')}</kbd><kbd>→</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.markKnown')}</span><div className="keys-kbds"><kbd>Enter</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.navigation')}</span><div className="keys-kbds"><kbd>←</kbd><kbd>→</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.showTranslation')}</span><div className="keys-kbds"><kbd>F</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.search')}</span><div className="keys-kbds"><kbd>Ctrl</kbd><kbd>K</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.theseHints')}</span><div className="keys-kbds"><kbd>?</kbd></div></div>
         </div>
         <div className="keys-section">
-          <div className="keys-section-title" data-i18n="keys.quizTempo">Тест / Темп-режим</div>
-          <div className="keys-row"><span data-i18n="keys.selectOption">Вибір варіанту</span><div className="keys-kbds"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.nextAfterAnswer">Далі (після відповіді)</span><div className="keys-kbds"><kbd>→</kbd><kbd data-i18n="keys.space">Пробіл</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.repeatSound">Повторити звук (Темп)</span><div className="keys-kbds"><kbd data-i18n="keys.space">Пробіл</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.close">Закрити</span><div className="keys-kbds"><kbd>Esc</kbd></div></div>
+          <div className="keys-section-title">{t('keys.quizTempo')}</div>
+          <div className="keys-row"><span>{t('keys.selectOption')}</span><div className="keys-kbds"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.nextAfterAnswer')}</span><div className="keys-kbds"><kbd>→</kbd><kbd>{t('keys.space')}</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.repeatSound')}</span><div className="keys-kbds"><kbd>{t('keys.space')}</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.close')}</span><div className="keys-kbds"><kbd>Esc</kbd></div></div>
         </div>
         <div className="keys-section">
-          <div className="keys-section-title" data-i18n="keys.writeFib">Письмо / Пропуск</div>
-          <div className="keys-row"><span data-i18n="keys.checkAnswer">Перевірити відповідь</span><div className="keys-kbds"><kbd>Enter</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.nextAfterCheck">Далі (після перевірки)</span><div className="keys-kbds"><kbd>Enter</kbd><kbd>→</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.hint">Підказка</span><div className="keys-kbds"><kbd data-i18n="keys.hintBtnKbd">💡 кнопка</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.autocomplete">Автодоповнення (Письмо)</span><div className="keys-kbds"><kbd>↑</kbd><kbd>↓</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.close">Закрити</span><div className="keys-kbds"><kbd>Esc</kbd></div></div>
+          <div className="keys-section-title">{t('keys.writeFib')}</div>
+          <div className="keys-row"><span>{t('keys.checkAnswer')}</span><div className="keys-kbds"><kbd>Enter</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.nextAfterCheck')}</span><div className="keys-kbds"><kbd>Enter</kbd><kbd>→</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.hint')}</span><div className="keys-kbds"><kbd>{t('keys.hintBtnKbd')}</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.autocomplete')}</span><div className="keys-kbds"><kbd>↑</kbd><kbd>↓</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.close')}</span><div className="keys-kbds"><kbd>Esc</kbd></div></div>
         </div>
         <div className="keys-section">
-          <div className="keys-section-title" data-i18n="keys.listening">Слухання</div>
-          <div className="keys-row"><span data-i18n="keys.repeatWord">Повторити слово</span><div className="keys-kbds"><kbd data-i18n="keys.space">Пробіл</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.selectOption">Вибір варіанту</span><div className="keys-kbds"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div></div>
+          <div className="keys-section-title">{t('keys.listening')}</div>
+          <div className="keys-row"><span>{t('keys.repeatWord')}</span><div className="keys-kbds"><kbd>{t('keys.space')}</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.selectOption')}</span><div className="keys-kbds"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div></div>
         </div>
         <div className="keys-section">
-          <div className="keys-section-title" data-i18n="keys.global">Глобальні</div>
-          <div className="keys-row"><span data-i18n="keys.closeAnyModal">Закрити будь-який модал</span><div className="keys-kbds"><kbd>Esc</kbd></div></div>
-          <div className="keys-row"><span data-i18n="keys.searchInList">Пошук у списку (стрілки)</span><div className="keys-kbds"><kbd>↑</kbd><kbd>↓</kbd><kbd>Enter</kbd></div></div>
+          <div className="keys-section-title">{t('keys.global')}</div>
+          <div className="keys-row"><span>{t('keys.closeAnyModal')}</span><div className="keys-kbds"><kbd>Esc</kbd></div></div>
+          <div className="keys-row"><span>{t('keys.searchInList')}</span><div className="keys-kbds"><kbd>↑</kbd><kbd>↓</kbd><kbd>Enter</kbd></div></div>
         </div>
       </div>
     </div>
