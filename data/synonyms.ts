@@ -151,12 +151,12 @@ export function buildSynonymReverse(dict: Record<string, SynonymEntry[]>): Map<s
 }
 
 export const SYNONYMS_ES: Record<string, SynonymEntry[]> = {
-  'feliz': [{ word: 'contento' }, { word: 'alegre' }, { word: 'encantado', note: 'muy feliz' }],
-  'triste': [{ word: 'infeliz' }, { word: 'apenado' }, { word: 'deprimido', note: 'estado psicológico' }],
-  'asustado': [{ word: 'temeroso' }, { word: 'nervioso' }, { word: 'aterrorizado', note: 'mucho miedo' }],
-  'enfadado': [{ word: 'furioso', note: 'muy enfadado' }, { word: 'molesto' }],
+  'feliz': [{ word: 'contento' }, { word: 'alegre' }, { word: 'encantado' }],
+  'triste': [{ word: 'infeliz' }, { word: 'apenado' }, { word: 'deprimido' }],
+  'asustado': [{ word: 'temeroso' }, { word: 'nervioso' }, { word: 'aterrorizado' }],
+  'enfadado': [{ word: 'furioso' }, { word: 'molesto' }],
   'sorprendido': [{ word: 'asombrado' }, { word: 'atónito' }],
-  'cansado': [{ word: 'agotado', note: 'muy cansado' }, { word: 'exhausto' }],
+  'cansado': [{ word: 'agotado' }, { word: 'exhausto' }],
   'grande': [{ word: 'enorme' }, { word: 'gigantesco' }],
   'pequeño': [{ word: 'chico' }, { word: 'diminuto' }],
   'hermoso': [{ word: 'precioso' }, { word: 'guapo' }],
@@ -259,7 +259,7 @@ export const SYNONYMS_ES: Record<string, SynonymEntry[]> = {
 export const SYNONYM_REVERSE_ES = buildSynonymReverse(SYNONYMS_ES);
 
 export const SYNONYMS_FR: Record<string, SynonymEntry[]> = {
-  'heureux': [{ word: 'content' }, { word: 'joyeux', note: 'plus intense' }, { word: 'ravi', note: 'très heureux' }],
+  'heureux': [{ word: 'content' }, { word: 'joyeux' }, { word: 'ravi' }],
   'triste': [{ word: 'malheureux' }, { word: 'déçu' }, { word: 'abattu' }],
   'effrayé': [{ word: 'apeuré' }, { word: 'nerveux' }, { word: 'terrifié' }],
   'en colère': [{ word: 'furieux' }, { word: 'irrité' }, { word: 'fâché' }],
