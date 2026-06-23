@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
 import { searchCollocations } from '../../data/collocations.ts';
-import { WORD_FAMILIES, WORD_FAMILY_REVERSE } from '../../data/word-families.ts';
+import { WORD_FAMILIES_BY_LANG, WORD_FAMILY_REVERSE_BY_LANG } from '../../data/word-families.ts';
 import { SYNONYMS_BY_LANG, SYNONYM_REVERSE_BY_LANG } from '../../data/synonyms.ts';
 import { getEtymologyFact } from '../../data/etymology.ts';
 import { USAGE_NOTES } from '../../data/usage-notes.ts';
@@ -52,49 +52,6 @@ export function CollocationsSection(): ReactElement | null {
   );
 }
 
-export function WordFamiliesChips(): ReactElement | null {
-  useStateVersion();
-  const cw = state.cw as WordEntry | null;
-  if (!cw || !state.flipped) return null;
-
-  const word = cw[0].toLowerCase();
-  let family: string[] | undefined = WORD_FAMILIES[word];
-  if (!family) {
-    const base = WORD_FAMILY_REVERSE.get(word);
-    if (base) family = [base, ...WORD_FAMILIES[base].filter(m => m !== word)];
-  }
-  if (!family || family.length === 0) return null;
-
-  const wordIdx = state._wordIdx;
-
-  return (
-    <div className="similar-section" id="cb-families" style={{ margin: '14px 0 0' }}>
-      <div className="similar-title">{t('cards.familyTitle')}</div>
-      <div className="similar-chips" id="cb-family-chips">
-        {family.slice(0, 6).map(w => {
-          const wi = wordIdx?.get(w);
-          const entry = wi !== undefined ? W[wi] : null;
-          const transl = entry ? (entry as unknown as WordEntry)[1] : '';
-          const isKnown = state.known.has(w);
-          return (
-            <div key={w} className={'sim-chip family-chip' + (isKnown ? ' known-chip' : '')}
-              onClick={(e) => {
-                e.stopPropagation();
-                const wi2 = wordIdx?.get(w);
-                if (wi2 === undefined) return;
-                openWordDetail(W[wi2] as unknown as WordEntry);
-              }}
-            >
-              <span className="sc-word">{w}</span>
-              {transl ? <span className="sc-transl">{transl}</span> : null}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
 // Ukrainian word → English headword, built once from the full word list
 // (every entry has a Ukrainian translation, so this has near-total coverage
 // unlike the smaller per-target-language tables).
@@ -110,14 +67,69 @@ function uaHeadwordFor(word: string): string | null {
   return _uaReverse.get(word.toLowerCase()) ?? null;
 }
 
-// Best-effort: find the English headword a foreign-language synonym chip
-// corresponds to (if any), so it can be clicked through to its real card —
-// mirrors the lookup already used for the front word's own translation.
+// Best-effort: find the English headword a foreign-language synonym/family
+// chip corresponds to (if any), so it can be clicked through to its real
+// card — mirrors the lookup already used for the front word's own
+// translation.
 function _headEnFor(front: Code, word: string): string | null {
   if (front === 'en') return word;
   if (front === 'ua') return uaHeadwordFor(word);
   if (isTargetLang(front)) return reverseHeadwordFor(front, word);
   return null;
+}
+
+export function WordFamiliesChips(): ReactElement | null {
+  useStateVersion();
+  const cw = state.cw as WordEntry | null;
+  if (!cw || !state.flipped) return null;
+
+  const { front, back } = parsePair(getMode());
+  const dict = WORD_FAMILIES_BY_LANG[front];
+  if (!dict) return null;
+  const frontWord = headwordFor(front, cw);
+  if (!frontWord) return null;
+  const word = frontWord.toLowerCase();
+
+  let family: string[] | undefined = dict[word];
+  let head = word;
+  if (!family) {
+    const base = WORD_FAMILY_REVERSE_BY_LANG[front]?.get(word);
+    if (base) { family = dict[base]; head = base; }
+  }
+  if (!family || family.length === 0) return null;
+
+  const chips = [head, ...family].filter(w => w !== word);
+  if (!chips.length) return null;
+
+  const wordIdx = state._wordIdx;
+
+  return (
+    <div className="similar-section" id="cb-families" style={{ margin: '14px 0 0' }}>
+      <div className="similar-title">{t('cards.familyTitle')}</div>
+      <div className="similar-chips" id="cb-family-chips">
+        {chips.slice(0, 6).map(w => {
+          const headEn = _headEnFor(front, w);
+          const wi = headEn !== undefined && headEn !== null ? wordIdx?.get(headEn) : undefined;
+          const entry = wi !== undefined ? (W[wi] as unknown as WordEntry) : null;
+          const clickable = !!entry;
+          const transl = entry ? headwordFor(back, entry) : '';
+          const isKnown = headEn ? state.known.has(headEn) : false;
+          return (
+            <div key={w} className={'sim-chip family-chip' + (isKnown ? ' known-chip' : '')}
+              style={clickable ? undefined : { cursor: 'default' }}
+              onClick={clickable ? (e) => {
+                e.stopPropagation();
+                if (entry) openWordDetail(entry);
+              } : undefined}
+            >
+              <span className="sc-word">{w}</span>
+              {transl ? <span className="sc-transl">{transl}</span> : null}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 export function SynonymsChips(): ReactElement | null {
