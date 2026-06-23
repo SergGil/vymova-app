@@ -5,13 +5,13 @@ import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
 import { searchCollocations } from '../../data/collocations.ts';
 import { WORD_FAMILIES, WORD_FAMILY_REVERSE } from '../../data/word-families.ts';
-import { SYNONYMS, SYNONYM_REVERSE } from '../../data/synonyms.ts';
+import { SYNONYMS_BY_LANG, SYNONYM_REVERSE_BY_LANG } from '../../data/synonyms.ts';
 import { getEtymologyFact } from '../../data/etymology.ts';
 import { USAGE_NOTES } from '../../data/usage-notes.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { openWordDetail } from './word-detail.tsx';
-import { getMode, parsePair } from './mode-utils.ts';
+import { getMode, parsePair, headwordFor } from './mode-utils.ts';
 import { getLang, t } from './i18n.ts';
 
 // Collocations are English-specific idiomatic patterns (e.g. "make a
@@ -100,18 +100,28 @@ export function SynonymsChips(): ReactElement | null {
   const cw = state.cw as WordEntry | null;
   if (!cw || !state.flipped) return null;
 
-  const word = cw[0].toLowerCase();
-  let members = SYNONYMS[word];
+  const front = parsePair(getMode()).front;
+  const dict = SYNONYMS_BY_LANG[front];
+  if (!dict) return null;
+  const frontWord = headwordFor(front, cw);
+  if (!frontWord) return null;
+  const word = frontWord.toLowerCase();
+
+  let members = dict[word];
   let head = word;
   if (!members) {
-    const base = SYNONYM_REVERSE.get(word);
-    if (base) { members = SYNONYMS[base]; head = base; }
+    const base = SYNONYM_REVERSE_BY_LANG[front]?.get(word);
+    if (base) { members = dict[base]; head = base; }
   }
   if (!members) return null;
 
   const chips = [{ word: head, note: undefined as string | undefined }, ...members].filter(c => c.word !== word);
   if (!chips.length) return null;
 
+  // Only the original English dataset's members are guaranteed to also be
+  // real W-indexed headwords (clickable → openWordDetail); the per-language
+  // groups are genuine native synonyms, not navigable card entries.
+  const clickable = front === 'en';
   const wordIdx = state._wordIdx;
 
   return (
@@ -119,18 +129,23 @@ export function SynonymsChips(): ReactElement | null {
       <div className="similar-title">{t('cards.synonymsTitle')}</div>
       <div className="similar-chips" id="cb-synonym-chips">
         {chips.slice(0, 6).map(c => {
-          const wi = wordIdx?.get(c.word);
-          const entry = wi !== undefined ? W[wi] : null;
-          const transl = entry ? (entry as unknown as WordEntry)[1] : '';
-          const isKnown = state.known.has(c.word);
+          let transl = '';
+          let isKnown = false;
+          if (clickable) {
+            const wi = wordIdx?.get(c.word);
+            const entry = wi !== undefined ? W[wi] : null;
+            transl = entry ? (entry as unknown as WordEntry)[1] : '';
+            isKnown = state.known.has(c.word);
+          }
           return (
             <div key={c.word} className={'sim-chip syn-chip' + (isKnown ? ' known-chip' : '')}
-              onClick={(e) => {
+              style={clickable ? undefined : { cursor: 'default' }}
+              onClick={clickable ? (e) => {
                 e.stopPropagation();
                 const wi2 = wordIdx?.get(c.word);
                 if (wi2 === undefined) return;
                 openWordDetail(W[wi2] as unknown as WordEntry);
-              }}
+              } : undefined}
             >
               <span className="sc-word">{c.word}</span>
               {c.note ? <span className="sc-transl">{c.note}</span> : transl ? <span className="sc-transl">{transl}</span> : null}
