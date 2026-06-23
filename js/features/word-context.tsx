@@ -11,7 +11,7 @@ import { USAGE_NOTES } from '../../data/usage-notes.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { openWordDetail } from './word-detail.tsx';
-import { getMode, parsePair, headwordFor } from './mode-utils.ts';
+import { getMode, parsePair, headwordFor, isTargetLang, reverseHeadwordFor, type Code } from './mode-utils.ts';
 import { getLang, t } from './i18n.ts';
 
 // Collocations are English-specific idiomatic patterns (e.g. "make a
@@ -95,12 +95,37 @@ export function WordFamiliesChips(): ReactElement | null {
   );
 }
 
+// Ukrainian word → English headword, built once from the full word list
+// (every entry has a Ukrainian translation, so this has near-total coverage
+// unlike the smaller per-target-language tables).
+let _uaReverse: Map<string, string> | null = null;
+function uaHeadwordFor(word: string): string | null {
+  if (!_uaReverse) {
+    _uaReverse = new Map();
+    for (const w of W as unknown as WordEntry[]) {
+      const ua = w[1];
+      if (ua && !_uaReverse.has(ua.toLowerCase())) _uaReverse.set(ua.toLowerCase(), w[0]);
+    }
+  }
+  return _uaReverse.get(word.toLowerCase()) ?? null;
+}
+
+// Best-effort: find the English headword a foreign-language synonym chip
+// corresponds to (if any), so it can be clicked through to its real card —
+// mirrors the lookup already used for the front word's own translation.
+function _headEnFor(front: Code, word: string): string | null {
+  if (front === 'en') return word;
+  if (front === 'ua') return uaHeadwordFor(word);
+  if (isTargetLang(front)) return reverseHeadwordFor(front, word);
+  return null;
+}
+
 export function SynonymsChips(): ReactElement | null {
   useStateVersion();
   const cw = state.cw as WordEntry | null;
   if (!cw || !state.flipped) return null;
 
-  const front = parsePair(getMode()).front;
+  const { front, back } = parsePair(getMode());
   const dict = SYNONYMS_BY_LANG[front];
   if (!dict) return null;
   const frontWord = headwordFor(front, cw);
@@ -118,10 +143,6 @@ export function SynonymsChips(): ReactElement | null {
   const chips = [{ word: head, note: undefined as string | undefined }, ...members].filter(c => c.word !== word);
   if (!chips.length) return null;
 
-  // Only the original English dataset's members are guaranteed to also be
-  // real W-indexed headwords (clickable → openWordDetail); the per-language
-  // groups are genuine native synonyms, not navigable card entries.
-  const clickable = front === 'en';
   const wordIdx = state._wordIdx;
 
   return (
@@ -129,22 +150,18 @@ export function SynonymsChips(): ReactElement | null {
       <div className="similar-title">{t('cards.synonymsTitle')}</div>
       <div className="similar-chips" id="cb-synonym-chips">
         {chips.slice(0, 6).map(c => {
-          let transl = '';
-          let isKnown = false;
-          if (clickable) {
-            const wi = wordIdx?.get(c.word);
-            const entry = wi !== undefined ? W[wi] : null;
-            transl = entry ? (entry as unknown as WordEntry)[1] : '';
-            isKnown = state.known.has(c.word);
-          }
+          const headEn = _headEnFor(front, c.word);
+          const wi = headEn !== undefined && headEn !== null ? wordIdx?.get(headEn) : undefined;
+          const entry = wi !== undefined ? (W[wi] as unknown as WordEntry) : null;
+          const clickable = !!entry;
+          const transl = entry ? headwordFor(back, entry) : '';
+          const isKnown = headEn ? state.known.has(headEn) : false;
           return (
             <div key={c.word} className={'sim-chip syn-chip' + (isKnown ? ' known-chip' : '')}
               style={clickable ? undefined : { cursor: 'default' }}
               onClick={clickable ? (e) => {
                 e.stopPropagation();
-                const wi2 = wordIdx?.get(c.word);
-                if (wi2 === undefined) return;
-                openWordDetail(W[wi2] as unknown as WordEntry);
+                if (entry) openWordDetail(entry);
               } : undefined}
             >
               <span className="sc-word">{c.word}</span>

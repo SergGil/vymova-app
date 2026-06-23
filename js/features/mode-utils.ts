@@ -69,6 +69,30 @@ export function isTargetLang(v: string): v is TargetLang {
   return Object.prototype.hasOwnProperty.call(LANG_REGISTRY, v);
 }
 
+const RAW_TABLES: Record<TargetLang, Record<string, unknown>> = {
+  es: W_ES, fr: W_FR, it: W_IT, pt: W_PT, de: W_DE, he: W_HE, ar: W_AR,
+  pl: W_PL, zh: W_ZH, el: W_EL, ja: W_JA, tr: W_TR, nl: W_NL,
+};
+
+// word (in `code`'s own language) → English headword — built lazily, once
+// per language, by inverting that language's translation table. Lets UI
+// that only has a foreign-language word string (e.g. a hand-curated
+// synonym) find the flashcard it belongs to, if any.
+const REVERSE_HEADWORD_CACHE: Partial<Record<TargetLang, Map<string, string>>> = {};
+
+export function reverseHeadwordFor(code: TargetLang, word: string): string | null {
+  let map = REVERSE_HEADWORD_CACHE[code];
+  if (!map) {
+    map = new Map();
+    for (const [en, entry] of Object.entries(RAW_TABLES[code])) {
+      const translated = (entry as Entry)?.[0];
+      if (translated && !map.has(translated.toLowerCase())) map.set(translated.toLowerCase(), en);
+    }
+    REVERSE_HEADWORD_CACHE[code] = map;
+  }
+  return map.get(word.toLowerCase()) ?? null;
+}
+
 function isCode(v: string): v is Code {
   return v === 'en' || v === 'ua' || isTargetLang(v);
 }
