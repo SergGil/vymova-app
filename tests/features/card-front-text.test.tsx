@@ -11,7 +11,16 @@ import {
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const { speakEnAccent } = vi.hoisted(() => ({ speakEnAccent: vi.fn() }));
-vi.mock('../../js/features/voice.tsx', () => ({ speakEnAccent }));
+vi.mock('../../js/features/voice.tsx', () => ({
+  speakEnAccent,
+  speakEsAccent: vi.fn(), speakPtAccent: vi.fn(), hasEsAccent: vi.fn(() => false), hasPtAccent: vi.fn(() => false),
+  getSelectedUkVoice: vi.fn(() => null),
+  getSelectedEsVoice: vi.fn(() => null), getSelectedFrVoice: vi.fn(() => null), getSelectedItVoice: vi.fn(() => null),
+  getSelectedPtVoice: vi.fn(() => null), getSelectedDeVoice: vi.fn(() => null), getSelectedHeVoice: vi.fn(() => null),
+  getSelectedArVoice: vi.fn(() => null), getSelectedPlVoice: vi.fn(() => null), getSelectedZhVoice: vi.fn(() => null),
+  getSelectedElVoice: vi.fn(() => null), getSelectedJaVoice: vi.fn(() => null), getSelectedTrVoice: vi.fn(() => null),
+  getSelectedNlVoice: vi.fn(() => null),
+}));
 
 const { speak } = vi.hoisted(() => ({ speak: vi.fn() }));
 vi.mock('../../js/features/speech.ts', () => ({ speak }));

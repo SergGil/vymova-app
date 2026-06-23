@@ -7,14 +7,16 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { t, tLang, type Lang } from './i18n.ts';
 import { srsStatusInfo, forgettingCurveTooltip, type SrsEntry } from '../core/card-helpers.ts';
 import {
-  getResolvedMode, computeCardView,
+  getResolvedMode, computeCardView, parsePair, type Code,
   esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry,
 } from './mode-utils.ts';
 import { speakEnAccent, speakEsAccent, speakPtAccent, hasEsAccent, hasPtAccent } from './voice.tsx';
 import { speak } from './speech.ts';
+import { speakForCode } from './speak-lang.ts';
 import { SENSES } from '../../data/senses.ts';
 import { InfoIcon, InfoNote } from './info-icon.tsx';
 import { TRANSCRIPTION_LEGEND } from './transcription-legend.ts';
+import type { WordEntry } from '../../src/types.js';
 
 function getRangeVal(): string {
   return (document.getElementById('sel-range') as HTMLSelectElement | null)?.value ?? '';
@@ -102,11 +104,42 @@ export function SrsBadge() {
   return <div id="srs-next" className={info.className} title={forgettingCurveTooltip(sd)}>{info.text}</div>;
 }
 
+// Raw (non-highlighted) example text for `code`'s language — used to feed
+// the back-side speak buttons, mirroring entryFor()'s logic in mode-utils.ts.
+function exampleTextFor(code: Code, cw: WordEntry): string {
+  if (code === 'en') return cw[2] || '';
+  if (code === 'ua') return cw[3] || '';
+  const lookup = LOCAL_ENTRY_LOOKUP[code.toUpperCase()];
+  return lookup ? (lookup(cw[0])?.[1] ?? '') : '';
+}
+
+function BackSpeakBtn({ code, text, fallbackEnText, className, style }: {
+  code: Code; text: string; fallbackEnText: string; className: string; style?: React.CSSProperties;
+}) {
+  if (code === 'ua' || !text) return null;
+  return (
+    <button
+      type="button"
+      className={className}
+      style={style}
+      title={t('cards.pronounce')}
+      onClick={(e) => { e.stopPropagation(); speakForCode(code, text, fallbackEnText, e.currentTarget); }}
+    >🔊</button>
+  );
+}
+
 export function Translation() {
   const { cw, flipped } = useAppState();
   if (!cw) return null;
   const { backWord, backRtl } = computeCardView(cw, getResolvedMode());
-  return <div className={'transl' + (flipped ? ' show' : '')} id="wtransl" dir={backRtl ? 'rtl' : undefined}>{backWord}</div>;
+  const back = parsePair(getResolvedMode()).back;
+  return (
+    <div className={'transl' + (flipped ? ' show' : '')} id="wtransl" dir={backRtl ? 'rtl' : undefined}>
+      {backWord}
+      {flipped && <BackSpeakBtn code={back} text={backWord} fallbackEnText={cw[0]}
+        className="speak-btn" style={{ marginLeft: 6, width: 20, height: 20, fontSize: 11, verticalAlign: 'middle' }} />}
+    </div>
+  );
 }
 
 export function ExEn() {
@@ -120,7 +153,15 @@ export function ExUa() {
   const { cw, flipped } = useAppState();
   if (!cw) return null;
   const { exuaHtml, backRtl } = computeCardView(cw, getResolvedMode());
-  return <div className={'ex-ua' + (flipped ? ' show' : '')} id="exua" dir={backRtl ? 'rtl' : undefined} dangerouslySetInnerHTML={{ __html: exuaHtml }} />;
+  const back = parsePair(getResolvedMode()).back;
+  const backExText = exampleTextFor(back, cw);
+  return (
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 5 }}>
+      <div className={'ex-ua' + (flipped ? ' show' : '')} id="exua" dir={backRtl ? 'rtl' : undefined} dangerouslySetInnerHTML={{ __html: exuaHtml }} />
+      {flipped && <BackSpeakBtn code={back} text={backExText} fallbackEnText={cw[2] || ''}
+        className="speak-btn speak-ex-btn" style={{ marginTop: 2, flexShrink: 0 }} />}
+    </div>
+  );
 }
 
 export function CardHint() {

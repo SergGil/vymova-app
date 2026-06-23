@@ -11,10 +11,11 @@ import { openNoteModal } from './note-modal.tsx';
 import { toggleBookmark } from './bookmarks.ts';
 import { isPronuncSupported, startPronunciationCheck } from './pronunciation.ts';
 import { showPronuncResult } from './pronunciation-toast.tsx';
-import { getSelectedUkVoice, getSelectedEsVoice, getSelectedFrVoice, getSelectedItVoice, getSelectedPtVoice, getSelectedDeVoice, getSelectedHeVoice, getSelectedArVoice, getSelectedPlVoice, getSelectedZhVoice, getSelectedElVoice, getSelectedJaVoice, getSelectedTrVoice, getSelectedNlVoice } from './voice.tsx';
+import { getSelectedUkVoice } from './voice.tsx';
 import { speak, _speakWithLang } from './speech.ts';
 import { updateSimilarWords } from './similar-words.tsx';
-import { getMode, getActiveKnownSet, getActiveTargetLang, isTargetLang, langConfig, parsePair, type TargetLang } from './mode-utils.ts';
+import { getMode, getActiveKnownSet, getActiveTargetLang, isTargetLang, langConfig, parsePair } from './mode-utils.ts';
+import { VOICE_GETTERS } from './speak-lang.ts';
 import { playSound } from '../core/audio.ts';
 import { launchConfetti } from '../core/confetti.tsx';
 import { t } from './i18n.ts';
@@ -28,12 +29,6 @@ import type { WordEntry } from '../../src/types.js';
 function _safe(fn: () => void): void {
   try { fn(); } catch (e) { console.warn('[safe]', (e as Error).message ?? e); }
 }
-
-const VOICE_GETTERS: Record<TargetLang, () => SpeechSynthesisVoice | null> = {
-  es: getSelectedEsVoice, fr: getSelectedFrVoice, it: getSelectedItVoice, pt: getSelectedPtVoice,
-  de: getSelectedDeVoice, he: getSelectedHeVoice, ar: getSelectedArVoice, pl: getSelectedPlVoice,
-  zh: getSelectedZhVoice, el: getSelectedElVoice, ja: getSelectedJaVoice, tr: getSelectedTrVoice, nl: getSelectedNlVoice,
-};
 
 function _activeKnown(): Set<string> {
   return getActiveKnownSet(getMode(), state.known);
