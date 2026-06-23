@@ -11,11 +11,22 @@ import { USAGE_NOTES } from '../../data/usage-notes.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { openWordDetail } from './word-detail.tsx';
+import { getMode, parsePair } from './mode-utils.ts';
+
+// Collocations are English-specific idiomatic patterns (e.g. "make a
+// decision" NOT "do a decision") — only meaningful when English is one of
+// the two selected languages ("Я знаю" / "Хочу вчити"); irrelevant noise
+// otherwise (e.g. a pure FR↔IT pair).
+function _englishInPair(): boolean {
+  const { front, back } = parsePair(getMode());
+  return front === 'en' || back === 'en';
+}
 
 export function CollocationsSection(): ReactElement | null {
   useStateVersion();
   const cw = state.cw as WordEntry | null;
   if (!cw || !state.flipped) return null;
+  if (!_englishInPair()) return null;
 
   const colls = searchCollocations(cw[0]);
   if (!colls.length) return null;
