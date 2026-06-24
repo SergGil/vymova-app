@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
-import { notifyStateChange } from '../../src/store.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { CardIdx, CardKnownCount, ProgressBar } from '../../js/features/card-progress.tsx';
@@ -21,11 +21,11 @@ describe('card-progress.tsx', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
     state._mode = 'en';
-    state.knownEs = new Set();
-    state.knownFr = new Set();
-    state.knownIt = new Set();
-    state.knownPt = new Set();
-    state.knownDe = new Set();
+    setKnownWords('es', new Set());
+    setKnownWords('fr', new Set());
+    setKnownWords('it', new Set());
+    setKnownWords('pt', new Set());
+    setKnownWords('de', new Set());
   });
 
   describe('CardIdx', () => {
@@ -45,7 +45,7 @@ describe('card-progress.tsx', () => {
 
   describe('CardKnownCount', () => {
     it('shows the size of the active "known" set for the current mode', () => {
-      state.known = new Set(['a', 'b', 'c']);
+      setKnownWords('en', new Set(['a', 'b', 'c']));
       const { container } = mount(CardKnownCount);
       expect(container.querySelector('#cknown')!.textContent).toBe('3');
     });
@@ -53,14 +53,13 @@ describe('card-progress.tsx', () => {
 
   describe('ProgressBar', () => {
     it('renders a width percentage based on known/total words', () => {
-      state.known = new Set();
+      setKnownWords('en', new Set());
       const { container } = mount(ProgressBar);
       const bar = container.querySelector('#pbar') as HTMLElement;
       expect(bar.style.width).toBe('0%');
 
       act(() => {
-        state.known = new Set((W as unknown as WordEntry[]).map(w => w[0]));
-        notifyStateChange();
+        setKnownWords('en', new Set((W as unknown as WordEntry[]).map(w => w[0])));
       });
       const bar2 = container.querySelector('#pbar') as HTMLElement;
       expect(bar2.style.width).toBe('100%');

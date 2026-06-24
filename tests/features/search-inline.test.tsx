@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
+import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { SearchInline } from '../../js/features/search-inline.tsx';
@@ -34,7 +35,7 @@ describe('search-inline.tsx SearchInline', () => {
   beforeEach(() => {
     document.body.innerHTML = '<select id="sel-mode"><option value="en" selected>en</option></select><select id="sel-range"><option value="0">All</option></select>';
     state.deck = (W as unknown as WordEntry[]).slice(0, 5);
-    state.known = new Set();
+    setKnownWords('en', new Set());
     state._wordIdx = new Map();
     (W as unknown as WordEntry[]).forEach((w, i) => state._wordIdx.set(w[0], i));
     render.mockClear();
@@ -76,7 +77,7 @@ describe('search-inline.tsx SearchInline', () => {
 
   it('marks already-known words with the known badge', async () => {
     const target = (W as unknown as WordEntry[])[0];
-    state.known = new Set([target[0]]);
+    setKnownWords('en', new Set([target[0]]));
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
     act(() => { setInputValue(input, target[0]); });

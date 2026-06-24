@@ -5,9 +5,9 @@
 // just synced to video playback instead of a static paragraph.
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
 import { saveKnown } from '../core/storage.ts';
+import { getKnownSnapshot, markKnown as _markKnown } from '../../src/known-words-store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { onWordLearned } from '../core/card-engine.ts';
 import { speak } from './speech.ts';
@@ -26,7 +26,7 @@ function renderCueHtml(text: string): string {
     if (/^\s+$/.test(chunk) || /^[,\.!?;:'"()\-—]+$/.test(chunk)) return chunk;
     const w = lookupEnglishWord(chunk);
     if (!w) return chunk;
-    const isKnown = state.known.has(w[0]);
+    const isKnown = getKnownSnapshot('en').has(w[0]);
     return `<span class="rd-word ${isKnown ? 'rd-known' : 'rd-unknown'}" data-word="${w[0]}">${chunk}</span>`;
   }).join('');
 }
@@ -77,7 +77,7 @@ export function VideoPlayerPage(): ReactElement | null {
   const showPopup = (w: WordEntry): void => {
     const knowLang = getKnowLang();
     const trans = getWordTrans(w, knowLang) || w[1];
-    setPopup({ word: w[0], trans, ipa: decodeIpa(w[4] ?? ''), known: state.known.has(w[0]) });
+    setPopup({ word: w[0], trans, ipa: decodeIpa(w[4] ?? ''), known: getKnownSnapshot('en').has(w[0]) });
   };
 
   const onCueClick = (e: { target: EventTarget | null; stopPropagation: () => void }): void => {
@@ -90,7 +90,7 @@ export function VideoPlayerPage(): ReactElement | null {
 
   const markKnown = (): void => {
     if (!popup) return;
-    if (!popup.known) { state.known.add(popup.word); saveKnown(state.known); onWordLearned(); }
+    if (!popup.known) { _markKnown('en', popup.word); saveKnown(getKnownSnapshot('en')); onWordLearned(); }
     setPopup(null);
   };
 

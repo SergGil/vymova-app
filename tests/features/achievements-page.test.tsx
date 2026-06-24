@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
 import { AchievementsPage, refreshAchievementsPage } from '../../js/features/achievements-page.tsx';
 
@@ -33,7 +34,7 @@ describe('achievements-page.tsx AchievementsPage', () => {
       <div id="levels-roadmap"></div>
       <div id="ach-popup-overlay"></div>
     `;
-    state.known = new Set();
+    setKnownWords('en', new Set());
     getGameData.mockClear().mockReturnValue({ streak: 0, xp: 0 });
     getModeStats.mockClear().mockReturnValue({});
     loadUnlocked.mockClear().mockReturnValue([]);
@@ -69,7 +70,7 @@ describe('achievements-page.tsx AchievementsPage', () => {
   });
 
   it('marks a higher level as current when known word count increases', () => {
-    state.known = new Set(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'aa', 'bb', 'cc', 'dd', 'ee']);
+    setKnownWords('en', new Set(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'aa', 'bb', 'cc', 'dd', 'ee']));
     mount();
     const roadmap = document.getElementById('levels-roadmap') as HTMLElement;
     const rows = roadmap.querySelectorAll('.level-row');

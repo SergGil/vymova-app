@@ -22,6 +22,7 @@ import { checkAchievements }                       from '../features/render-achi
 import { maybeSubmitScore }                        from '../features/leaderboard.tsx';
 import { updateRing }                              from '../features/ring.tsx';
 import { getMode, getActiveKnownSet } from '../features/mode-utils.ts';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { _isOnlineCheck, _offlineSvg }             from '../features/offline.ts';
 import { safe as _safe }                           from './card-helpers.ts';
 
@@ -32,7 +33,7 @@ let cw: WordEntry | null = null, autoTimer: ReturnType<typeof setTimeout> | null
 state.deck = deck as unknown as WordEntry[];
 
 function _activeKnown(): Set<string> {
-  return getActiveKnownSet(getMode(), state.known);
+  return getActiveKnownSet(getMode(), getKnownSnapshot('en'));
 }
 
 // ── Single-source helpers — call instead of writing to all 3 stores manually ──

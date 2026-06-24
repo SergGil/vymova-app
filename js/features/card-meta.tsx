@@ -7,13 +7,14 @@ import { getCategoriesForWord } from '../../data/categories.js';
 import { categoryName } from './i18n.ts';
 import { getFrontLang, getResolvedMode, getMode, getActiveTargetLang, langConfig } from './mode-utils.ts';
 import { saveKnown } from '../core/storage.ts';
-import { state as appState } from '../../src/state.ts';
+import { unmarkKnown, getKnownSnapshot, type KnownLang } from '../../src/known-words-store.ts';
 import { render } from '../core/card-engine.ts';
 
-function _activeKnownAndSave(): { known: Set<string>; save: () => void } {
-  const lang = getActiveTargetLang(getMode());
-  if (lang) { const cfg = langConfig(lang); return { known: cfg.known(), save: () => cfg.saveKnown(cfg.known()) }; }
-  return { known: appState.known, save: () => saveKnown(appState.known) };
+function _unmarkActiveKnownAndSave(word: string): void {
+  const lang: KnownLang = getActiveTargetLang(getMode()) ?? 'en';
+  unmarkKnown(lang, word);
+  if (lang === 'en') saveKnown(getKnownSnapshot('en'));
+  else langConfig(lang).saveKnown(getKnownSnapshot(lang));
 }
 
 export function CardMeta() {
@@ -38,9 +39,7 @@ export function CardMeta() {
           title="Прибрати з вивчених"
           onClick={(e) => {
             e.stopPropagation();
-            const { known, save } = _activeKnownAndSave();
-            known.delete(cw[0]);
-            save();
+            _unmarkActiveKnownAndSave(cw[0]);
             render();
           }}
         >✕</button>

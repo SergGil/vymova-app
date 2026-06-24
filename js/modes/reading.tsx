@@ -1,8 +1,8 @@
 // Vymova — js/modes/reading.tsx
 // 📖 Reading mode: text with highlighted unknown words
 import { useEffect, useState, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
 import { saveKnown } from '../core/storage.ts';
+import { getKnownSnapshot, markKnown as _markKnown } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import { loadEpub } from '../features/epub.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
@@ -113,7 +113,7 @@ function _renderTextHtml(entry: TextEntry, epubBook: EpubBook | null): { html: s
     if (/^\s+$/.test(chunk) || /^[,\.!?;:'"()\-—]+$/.test(chunk)) return chunk;
     const w = _lookupWord(chunk);
     if (!w) return chunk;
-    const isKnown = state.known.has(w[0]);
+    const isKnown = getKnownSnapshot('en').has(w[0]);
     if (isKnown) { knownCount++; return `<span class="rd-word rd-known" data-word="${w[0]}">${chunk}</span>`; }
     unknownCount++; return `<span class="rd-word rd-unknown" data-word="${w[0]}">${chunk}</span>`;
   }).join('');
@@ -167,7 +167,7 @@ export function ReadingPage(): ReactElement {
   const showPopup = (w: WordEntry): void => {
     const knowLang = getKnowLang();
     const trans = getWordTrans(w, knowLang) || w[1];
-    setPopup({ word: w[0], trans, ipa: decodeIpa(w[4] ?? ''), known: state.known.has(w[0]) });
+    setPopup({ word: w[0], trans, ipa: decodeIpa(w[4] ?? ''), known: getKnownSnapshot('en').has(w[0]) });
   };
 
   const onTextClick = (e: { target: EventTarget | null; stopPropagation: () => void }): void => {
@@ -181,8 +181,8 @@ export function ReadingPage(): ReactElement {
   const markKnown = (): void => {
     if (!popup) return;
     if (!popup.known) {
-      state.known.add(popup.word);
-      saveKnown(state.known);
+      _markKnown('en', popup.word);
+      saveKnown(getKnownSnapshot('en'));
       onWordLearned();
     }
     setPopup(null);

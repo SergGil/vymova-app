@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import { ExportInit } from '../../js/features/export.tsx';
 
@@ -26,7 +27,7 @@ describe('export.tsx ExportInit', () => {
       <button id="btn-share"></button>
     `;
     state.deck = [];
-    state.known = new Set();
+    setKnownWords('en', new Set());
     state._wordIdx = new Map();
     localStorage.clear();
     roots = [];
@@ -43,7 +44,7 @@ describe('export.tsx ExportInit', () => {
   });
 
   it('exports to Anki via a downloadable blob', () => {
-    state.known = new Set([(W as unknown as string[][])[0][0]]);
+    setKnownWords('en', new Set([(W as unknown as string[][])[0][0]]));
     const { root } = mount();
     roots.push(root);
     const createObjectURL = vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:mock-url');
@@ -58,7 +59,7 @@ describe('export.tsx ExportInit', () => {
   });
 
   it('exports to PDF via window.open and writes a table of words', () => {
-    state.known = new Set([(W as unknown as string[][])[0][0]]);
+    setKnownWords('en', new Set([(W as unknown as string[][])[0][0]]));
     state._wordIdx.set((W as unknown as string[][])[0][0], 0);
     const { root } = mount();
     roots.push(root);
@@ -80,7 +81,7 @@ describe('export.tsx ExportInit', () => {
   });
 
   it('alerts when there are no words to export to PDF', () => {
-    state.known = new Set();
+    setKnownWords('en', new Set());
     const { root } = mount();
     roots.push(root);
     (document.getElementById('export-filter') as HTMLSelectElement).value = 'known';

@@ -5,6 +5,7 @@ import { t } from './i18n.ts';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { getWordsForPair } from './mode-utils.ts';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck } from '../core/srs.ts';
 import { getHardWords } from './game.ts';
 import { getBookmarks } from './bookmarks.ts';
@@ -103,8 +104,8 @@ export function DeckFilterInit(): ReactElement | null {
           const _weakSet = new Set(_srsWeak.map(([k]) => k));
           deck = langBase.filter(w => _weakSet.has(w[0]));
           if (!deck.length) deck = langBase.slice();
-        } else if (state.known.size > 0) {
-          deck = Array.from(state.known).slice().reverse()
+        } else if (getKnownSnapshot('en').size > 0) {
+          deck = Array.from(getKnownSnapshot('en')).slice().reverse()
             .map(k => langBase.find(w => w[0] === k))
             .filter(Boolean) as WordEntry[];
           if (!deck.length) deck = buildUnlearnedDeck(langBase);

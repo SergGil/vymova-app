@@ -7,7 +7,8 @@ import { createPortal } from 'react-dom';
 import { useEffect, type ReactElement, type ReactNode } from 'react';
 import { BrowserRouter, useLocation, useNavigate } from 'react-router-dom';
 import { setRouterNavigate, ROUTE_TO_PAGE } from './router.ts';
-import { state } from './state.ts';
+import { NavProvider, getActivePage } from './nav-store.tsx';
+import { KnownWordsProvider } from './known-words-store.ts';
 
 import { ProfileSwitcher } from '../js/features/profile-switcher.tsx';
 import { WordOfDay } from '../js/features/word-of-day.tsx';
@@ -97,9 +98,9 @@ function RouterSync(): null {
   const location = useLocation();
   useEffect(() => {
     const page = ROUTE_TO_PAGE[location.pathname] ?? null;
-    if (page && state.activePage !== page) {
+    if (page && getActivePage() !== page) {
       import('../js/features/sidebar.tsx').then(({ openPage }) => openPage(page));
-    } else if (!page && location.pathname === '/' && state.activePage !== null) {
+    } else if (!page && location.pathname === '/' && getActivePage() !== null) {
       import('../js/features/sidebar.tsx').then(({ closePage }) => closePage());
     }
   }, [location.pathname]);
@@ -214,9 +215,13 @@ const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
 export function mountAppRoot(): void {
   createRoot(document.getElementById('app-root')!).render(
     <BrowserRouter basename={basename}>
-      <NavigateBridge/>
-      <RouterSync/>
-      <AppRoot/>
+      <NavProvider>
+        <KnownWordsProvider>
+          <NavigateBridge/>
+          <RouterSync/>
+          <AppRoot/>
+        </KnownWordsProvider>
+      </NavProvider>
     </BrowserRouter>
   );
 }

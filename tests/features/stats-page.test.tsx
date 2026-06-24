@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
+import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import { StatsPage, refreshStatsPage, openStats, closeStats } from '../../js/features/stats-page.tsx';
 
@@ -35,7 +36,7 @@ describe('stats-page.tsx StatsPage', () => {
 
   beforeEach(() => {
     document.body.innerHTML = '<div id="stats-overlay"></div>';
-    state.known = new Set();
+    setKnownWords('en', new Set());
     state.srsData = {};
     state.TODAY = new Date().toISOString().slice(0, 10);
     roots = [];
@@ -52,7 +53,7 @@ describe('stats-page.tsx StatsPage', () => {
   });
 
   it('renders the overall progress summary', () => {
-    state.known = new Set([(W as unknown as string[][])[0][0], (W as unknown as string[][])[1][0]]);
+    setKnownWords('en', new Set([(W as unknown as string[][])[0][0], (W as unknown as string[][])[1][0]]));
     getGameData.mockReturnValue({ streak: 5, xp: 100 });
     const { container, root } = mount();
     roots.push(root);

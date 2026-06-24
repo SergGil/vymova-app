@@ -12,11 +12,12 @@ import { renderGameBar } from './render-game-bar.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
 import { render } from '../core/card-engine.ts';
 import { openStats, closeStats } from './stats-page.tsx';
+import { getKnownSnapshot, setKnownWords } from '../../src/known-words-store.ts';
 
 function exportProgress(): string {
   const data = {
     v: 3,
-    known:  JSON.stringify([...(state.known)]),
+    known:  JSON.stringify([...getKnownSnapshot('en')]),
     srs:    JSON.stringify(state.srsData),
     game:   localStorage.getItem('ew_game')   || '{}',
     daily:  localStorage.getItem('ew_daily')  || '{}',
@@ -51,7 +52,7 @@ function importProgress(code: string): boolean {
 
     _safe(() => {
       const newKnown = new Set<string>(JSON.parse(knownJson));
-      state.known = newKnown;
+      setKnownWords('en', newKnown);
     });
     _safe(() => {
       const newSrs: Record<string, any> = JSON.parse(srsJson);

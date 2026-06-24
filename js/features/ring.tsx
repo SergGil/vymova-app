@@ -1,13 +1,12 @@
 // Vymova — js/features/ring.tsx
 // SVG progress ring showing level completion
 import type { ReactElement } from 'react';
-import { state } from '../../src/state.ts';
-import { useStateVersion, notifyStateChange } from '../../src/store.ts';
+import { notifyStateChange } from '../../src/store.ts';
+import { useKnownWords } from '../../src/known-words-store.ts';
 import { getLevel, getNextLevel } from './game.ts';
 
 export function LevelRing(): ReactElement {
-  useStateVersion();
-  const n = state.known.size;
+  const n = useKnownWords('en').size;
   const lv   = getLevel(n);
   const next = getNextLevel(n);
   const pct  = next ? Math.min((n - lv.min) / (next.min - lv.min), 1) : 1;

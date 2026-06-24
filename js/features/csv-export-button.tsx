@@ -5,11 +5,13 @@ import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { t } from './i18n.ts';
 import { useStateVersion } from '../../src/store.ts';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 
 function exportCsv(): void {
   const BOM = '﻿';
   const rows: string[][] = [[t('csv.colEnglish'), t('csv.colTranslation'), t('csv.colIpa'), t('csv.colExampleEn'), t('csv.colExampleUa'), t('csv.colStatus')]];
-  const { known, deck } = state;
+  const known = getKnownSnapshot('en');
+  const { deck } = state;
   const src = known.size > 0 ? W.filter(w => known.has(w[0])) : deck.slice(0, 500);
 
   src.forEach(w => {

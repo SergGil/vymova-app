@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { state } from '../../src/state.ts';
+import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
 
 const { getGameData, getModeStats, registerCheckAchievements, showToast } = vi.hoisted(() => ({
   getGameData: vi.fn(),
@@ -36,7 +37,7 @@ describe('checkAchievements', () => {
     getModeStats.mockReset().mockReturnValue({});
     showToast.mockReset();
     vi.useFakeTimers();
-    state.known = new Set();
+    setKnownWords('en', new Set());
   });
 
   it('registers itself with game.ts on module load', () => {
@@ -44,7 +45,7 @@ describe('checkAchievements', () => {
   });
 
   it('unlocks a newly satisfied achievement and shows a toast', () => {
-    state.known = new Set(['a']);
+    setKnownWords('en', new Set(['a']));
     checkAchievements();
     expect(showToast).toHaveBeenCalledTimes(1);
     expect(showToast).toHaveBeenCalledWith(expect.objectContaining({ id: 'first1' }));
@@ -53,20 +54,20 @@ describe('checkAchievements', () => {
 
   it('does not re-unlock already-unlocked achievements', () => {
     localStorage.setItem('ew_ach', JSON.stringify(['first1']));
-    state.known = new Set(['a']);
+    setKnownWords('en', new Set(['a']));
     checkAchievements();
     expect(showToast).not.toHaveBeenCalled();
   });
 
   it('does nothing when all achievements are already unlocked', () => {
     localStorage.setItem('ew_ach', JSON.stringify(['first1', 'ten']));
-    state.known = new Set(Array.from({ length: 10 }, (_, i) => `w${i}`));
+    setKnownWords('en', new Set(Array.from({ length: 10 }, (_, i) => `w${i}`)));
     checkAchievements();
     expect(showToast).not.toHaveBeenCalled();
   });
 
   it('shows multiple newly unlocked achievements with a delay between each', () => {
-    state.known = new Set(Array.from({ length: 10 }, (_, i) => `w${i}`));
+    setKnownWords('en', new Set(Array.from({ length: 10 }, (_, i) => `w${i}`)));
     checkAchievements();
     expect(showToast).toHaveBeenCalledTimes(1);
 

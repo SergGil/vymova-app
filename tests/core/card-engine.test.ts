@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeAll, beforeEach, afterEach } from 'vitest';
 import { state } from '../../src/state.ts';
+import { setKnownWords, markKnown, unmarkKnown } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const { getComboMult, awardXP } = vi.hoisted(() => ({ getComboMult: vi.fn(() => 1), awardXP: vi.fn(() => 10) }));
@@ -87,8 +88,8 @@ beforeAll(async () => {
 describe('card-engine.ts', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    state.known = new Set();
-    state.knownEs = new Set();
+    setKnownWords('en', new Set());
+    setKnownWords('es', new Set());
   });
 
   afterEach(() => {
@@ -170,11 +171,11 @@ describe('card-engine.ts', () => {
     });
 
     it('marks the card as known when the word is in the active known set', () => {
-      state.known.add(word1[0]);
+      markKnown('en', word1[0]);
       engine.render();
       expect(document.getElementById('card')!.classList.contains('is-known')).toBe(true);
 
-      state.known.delete(word1[0]);
+      unmarkKnown('en', word1[0]);
       engine.render();
       expect(document.getElementById('card')!.classList.contains('is-known')).toBe(false);
     });

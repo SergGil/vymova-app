@@ -2,7 +2,6 @@
 // 📖 Story Mode: read short texts with vocabulary highlighted
 // Words from deck appear highlighted → click to see translation
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { recordModeComplete } from '../features/game.ts';
 import { speak } from '../features/speech.ts';
@@ -10,6 +9,7 @@ import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
 import { getKnowLang } from '../features/lang-pair-select.tsx';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 
 // ── Built-in short stories ────────────────────────────────────
 const STORIES = [
@@ -82,14 +82,14 @@ function _highlightText(text: string): { html: string; total: number; known: num
       if (!overlap) {
         markers.push({ from: m.index, to: m.index + m[0].length, word });
         totalHighlighted++;
-        if (state.known.has(word)) knownInStory++;
+        if (getKnownSnapshot('en').has(word)) knownInStory++;
       }
     }
   }
 
   markers.sort((a, b) => b.from - a.from);
   for (const mk of markers) {
-    const isKnown = state.known.has(mk.word);
+    const isKnown = getKnownSnapshot('en').has(mk.word);
     const matched = text.slice(mk.from, mk.to);
     const cls = `sm-word${isKnown ? ' sm-known' : ''}`;
     result = result.slice(0, mk.from) +

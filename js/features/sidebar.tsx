@@ -6,8 +6,8 @@ import { renderDuel } from './duel.ts';
 import { openGrammarContent } from './grammar-page.tsx';
 import { openIdiomsContent } from './idioms-page.tsx';
 import { AI_TUTOR_ENABLED } from '../config.ts';
-import { state } from '../../src/state.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { notifyStateChange } from '../../src/store.ts';
+import { getActivePage, dispatchOpenPage, dispatchClosePage, useActivePage } from '../../src/nav-store.tsx';
 import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
 import { _renderVoices } from './voice.tsx';
 import { _updateUI as _refreshNotifUI } from './notifications.tsx';
@@ -63,8 +63,7 @@ function closeSidebar(): void {
 
 export function openPage(page: string): void {
   closePage();
-  state.activePage = page;
-  notifyStateChange();
+  dispatchOpenPage(page);
   try { localStorage.setItem(ACTIVE_PAGE_KEY, page); } catch(e){}
   _setSidebarActive(page);
   // Sync URL — skip if already at this route (e.g. called from RouterSync)
@@ -125,7 +124,7 @@ const MODE_OVERLAY_IDS = [
 ];
 
 export function closePage(): void {
-  if (state.activePage !== null) { state.activePage = null; notifyStateChange(); }
+  if (getActivePage() !== null) dispatchClosePage();
   try { localStorage.removeItem(ACTIVE_PAGE_KEY); } catch(e){}
   // Navigate to root only if we're currently on a page route
   if (window.location.pathname !== '/' && !window.location.pathname.endsWith('/vymova-app/')) {
@@ -164,10 +163,10 @@ function _updateTogglePills(): void {
 }
 
 export function SidebarInit(): ReactElement | null {
-  const stateVer = useStateVersion();
+  const activePage = useActivePage();
   useEffect(() => {
-    if (state.activePage === 'modes') updateModesPageDesc();
-  }, [stateVer]);
+    if (activePage === 'modes') updateModesPageDesc();
+  }, [activePage]);
 
   useEffect(() => {
     const imgClearOvl = document.getElementById('img-clear-overlay');

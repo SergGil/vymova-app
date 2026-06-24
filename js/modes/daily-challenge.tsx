@@ -13,6 +13,7 @@ import { checkAchievements } from '../features/render-achievements.ts';
 import type { WordEntry } from '../../src/types.js';
 import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 
 function getWordInLang(w: WordEntry, lang: string): string {
   switch (lang) {
@@ -39,7 +40,7 @@ const DC_SIZE = 10, DC_XP = 3;
 function _todayWords(): WordEntry[] {
   const today = new Date().toISOString().slice(0, 10);
   let seed = today.split('').reduce((a, c) => a * 31 + c.charCodeAt(0), 0);
-  let pool = (W as unknown as WordEntry[]).filter(w => !state.known.has(w[0]));
+  let pool = (W as unknown as WordEntry[]).filter(w => !getKnownSnapshot('en').has(w[0]));
   if (pool.length < DC_SIZE) pool = W.slice(0) as unknown as WordEntry[];
   const arr = pool.slice();
   for (let i = arr.length - 1; i > 0; i--) {

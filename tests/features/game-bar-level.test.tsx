@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
 import { notifyStateChange } from '../../src/store.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 import { GameBarLevel } from '../../js/features/game-bar-level.tsx';
 import { getMaxWordsForLearnLang } from '../../js/features/mode-utils.ts';
 
@@ -22,7 +22,7 @@ describe('game-bar-level.tsx GameBarLevel', () => {
   });
 
   it('shows the first level and progress toward the next when known is empty', () => {
-    state.known = new Set();
+    setKnownWords('en', new Set());
     const { container } = mount();
     expect(container.querySelector('.gb-level-num')!.textContent).toBe('1');
     const fill = container.querySelector('.gb-level-fill') as HTMLElement;
@@ -31,7 +31,7 @@ describe('game-bar-level.tsx GameBarLevel', () => {
   });
 
   it('shows partial progress toward the next level', () => {
-    state.known = new Set(Array.from({ length: 65 }, (_, i) => `w${i}`));
+    setKnownWords('en', new Set(Array.from({ length: 65 }, (_, i) => `w${i}`)));
     const { container } = mount();
     const fill = container.querySelector('.gb-level-fill') as HTMLElement;
     expect(fill.style.width).toBe('50%');
@@ -39,7 +39,7 @@ describe('game-bar-level.tsx GameBarLevel', () => {
   });
 
   it('shows the max-reached message at the final level', () => {
-    state.known = new Set(Array.from({ length: getMaxWordsForLearnLang() }, (_, i) => `w${i}`));
+    setKnownWords('en', new Set(Array.from({ length: getMaxWordsForLearnLang() }, (_, i) => `w${i}`)));
     const { container } = mount();
     expect(container.querySelector('.gb-level-num')!.textContent).toBe('10');
     const fill = container.querySelector('.gb-level-fill') as HTMLElement;
@@ -49,12 +49,12 @@ describe('game-bar-level.tsx GameBarLevel', () => {
   });
 
   it('re-renders when notifyStateChange fires', () => {
-    state.known = new Set();
+    setKnownWords('en', new Set());
     const { container } = mount();
     expect(container.querySelector('.gb-level-num')!.textContent).toBe('1');
 
     act(() => {
-      state.known = new Set(Array.from({ length: 65 }, (_, i) => `w${i}`));
+      setKnownWords('en', new Set(Array.from({ length: 65 }, (_, i) => `w${i}`)));
       notifyStateChange();
     });
     expect((container.querySelector('.gb-level-fill') as HTMLElement).style.width).toBe('50%');

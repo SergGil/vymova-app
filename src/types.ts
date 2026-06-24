@@ -3,6 +3,14 @@
  * Shared TypeScript interfaces and types.
  */
 
+// ── Language codes ────────────────────────────────────────────
+// Moved from js/features/mode-utils.ts (re-exported there for backward
+// compatibility) so src/known-words-store.ts can use them without a runtime
+// import cycle back into mode-utils.ts.
+export type TargetLang = 'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar' | 'pl' | 'zh' | 'el' | 'ja' | 'tr' | 'nl';
+export type Code = TargetLang | 'en' | 'ua';
+export const ALL_TARGET_LANGS: TargetLang[] = ['es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl'];
+
 // ── Word data ─────────────────────────────────────────────────
 export type WordEntry = readonly [
   string,         // [0] English word
@@ -89,7 +97,6 @@ export type ModeAccuracy = Record<string, ModeAccEntry | undefined>;
 
 // ── App State ─────────────────────────────────────────────────
 export interface AppState {
-  known:          Set<string>;
   srsData:        SRSData;
   deck:           WordEntry[];
   idx:            number;
@@ -104,21 +111,6 @@ export interface AppState {
   TODAY:          string;
   _mode:          string; // resolved card mode for current render (item 28b — avoids
                            // re-resolving 'mix' randomly per React component)
-  activePage:     string | null; // currently open sidebar page ('stats'/'ach'/'duel'/…),
-                                  // mirrors sidebar.ts's openPage/closePage (item 36 Phase 7.2)
-  knownEs:        Set<string>;
-  knownFr:        Set<string>;
-  knownIt:        Set<string>;
-  knownPt:        Set<string>;
-  knownDe:        Set<string>;
-  knownHe:        Set<string>;
-  knownAr:        Set<string>;
-  knownPl:        Set<string>;
-  knownZh:        Set<string>;
-  knownEl:        Set<string>;
-  knownJa:        Set<string>;
-  knownTr:        Set<string>;
-  knownNl:        Set<string>;
   _wordIdx:       Map<string, number>;
   duelSel:        DuelSelState;
   duelResumeSessions: import('../js/features/duel.ts').ResumeSessionVM[];

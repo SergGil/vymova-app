@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { state } from '../../src/state.ts';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 import {
   getMode, getFrontLang, getResolvedMode, getActiveKnown, computeCardView,
@@ -75,34 +76,34 @@ describe('mode-utils.ts', () => {
       expect(getActiveKnown(fallback)).toBe(fallback);
     });
 
-    it('returns state.knownEs for ES modes', () => {
+    it('returns the ES known set for ES modes', () => {
       state._mode = 'en-es';
-      expect(getActiveKnown(fallback)).toBe(state.knownEs);
+      expect(getActiveKnown(fallback)).toBe(getKnownSnapshot('es'));
     });
 
-    it('returns state.knownFr for FR modes', () => {
+    it('returns the FR known set for FR modes', () => {
       state._mode = 'fr-en';
-      expect(getActiveKnown(fallback)).toBe(state.knownFr);
+      expect(getActiveKnown(fallback)).toBe(getKnownSnapshot('fr'));
     });
 
-    it('returns state.knownDe for DE modes', () => {
+    it('returns the DE known set for DE modes', () => {
       state._mode = 'de-ua';
-      expect(getActiveKnown(fallback)).toBe(state.knownDe);
+      expect(getActiveKnown(fallback)).toBe(getKnownSnapshot('de'));
     });
 
-    it('returns state.knownHe for HE modes', () => {
+    it('returns the HE known set for HE modes', () => {
       state._mode = 'he-ua';
-      expect(getActiveKnown(fallback)).toBe(state.knownHe);
+      expect(getActiveKnown(fallback)).toBe(getKnownSnapshot('he'));
     });
 
-    it('returns state.knownAr for AR modes', () => {
+    it('returns the AR known set for AR modes', () => {
       state._mode = 'en-ar';
-      expect(getActiveKnown(fallback)).toBe(state.knownAr);
+      expect(getActiveKnown(fallback)).toBe(getKnownSnapshot('ar'));
     });
 
-    it('returns state.knownPl for PL modes', () => {
+    it('returns the PL known set for PL modes', () => {
       state._mode = 'pl-ua';
-      expect(getActiveKnown(fallback)).toBe(state.knownPl);
+      expect(getActiveKnown(fallback)).toBe(getKnownSnapshot('pl'));
     });
   });
 

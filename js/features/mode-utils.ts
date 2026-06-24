@@ -26,9 +26,11 @@ import {
 } from '../core/storage.ts';
 import { state } from '../../src/state.ts';
 import type { WordEntry } from '../../src/types.js';
+import { ALL_TARGET_LANGS, type TargetLang, type Code } from '../../src/types.js';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 
-export type TargetLang = 'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar' | 'pl' | 'zh' | 'el' | 'ja' | 'tr' | 'nl';
-export type Code = TargetLang | 'en' | 'ua';
+export type { TargetLang, Code };
+export { ALL_TARGET_LANGS };
 
 type Entry = readonly [string, string, string?] | null;
 
@@ -45,22 +47,20 @@ interface LangConfig {
 }
 
 const LANG_REGISTRY: Record<TargetLang, LangConfig> = {
-  es: { entry: w => lookup(W_ES, w), known: () => state.knownEs, saveKnown: saveKnownEs, voiceLocale: 'es-ES', rtl: false },
-  fr: { entry: w => lookup(W_FR, w), known: () => state.knownFr, saveKnown: saveKnownFr, voiceLocale: 'fr-FR', rtl: false },
-  it: { entry: w => lookup(W_IT, w), known: () => state.knownIt, saveKnown: saveKnownIt, voiceLocale: 'it-IT', rtl: false },
-  pt: { entry: w => lookup(W_PT, w), known: () => state.knownPt, saveKnown: saveKnownPt, voiceLocale: 'pt-PT', rtl: false },
-  de: { entry: w => lookup(W_DE, w), known: () => state.knownDe, saveKnown: saveKnownDe, voiceLocale: 'de-DE', rtl: false },
-  he: { entry: w => lookup(W_HE, w), known: () => state.knownHe, saveKnown: saveKnownHe, voiceLocale: 'he-IL', rtl: true },
-  ar: { entry: w => lookup(W_AR, w), known: () => state.knownAr, saveKnown: saveKnownAr, voiceLocale: 'ar-SA', rtl: true },
-  pl: { entry: w => lookup(W_PL, w), known: () => state.knownPl, saveKnown: saveKnownPl, voiceLocale: 'pl-PL', rtl: false },
-  zh: { entry: w => lookup(W_ZH, w), known: () => state.knownZh, saveKnown: saveKnownZh, voiceLocale: 'zh-CN', rtl: false },
-  el: { entry: w => lookup(W_EL, w), known: () => state.knownEl, saveKnown: saveKnownEl, voiceLocale: 'el-GR', rtl: false },
-  ja: { entry: w => lookup(W_JA, w), known: () => state.knownJa, saveKnown: saveKnownJa, voiceLocale: 'ja-JP', rtl: false },
-  tr: { entry: w => lookup(W_TR, w), known: () => state.knownTr, saveKnown: saveKnownTr, voiceLocale: 'tr-TR', rtl: false },
-  nl: { entry: w => lookup(W_NL, w), known: () => state.knownNl, saveKnown: saveKnownNl, voiceLocale: 'nl-NL', rtl: false },
+  es: { entry: w => lookup(W_ES, w), known: () => getKnownSnapshot('es'), saveKnown: saveKnownEs, voiceLocale: 'es-ES', rtl: false },
+  fr: { entry: w => lookup(W_FR, w), known: () => getKnownSnapshot('fr'), saveKnown: saveKnownFr, voiceLocale: 'fr-FR', rtl: false },
+  it: { entry: w => lookup(W_IT, w), known: () => getKnownSnapshot('it'), saveKnown: saveKnownIt, voiceLocale: 'it-IT', rtl: false },
+  pt: { entry: w => lookup(W_PT, w), known: () => getKnownSnapshot('pt'), saveKnown: saveKnownPt, voiceLocale: 'pt-PT', rtl: false },
+  de: { entry: w => lookup(W_DE, w), known: () => getKnownSnapshot('de'), saveKnown: saveKnownDe, voiceLocale: 'de-DE', rtl: false },
+  he: { entry: w => lookup(W_HE, w), known: () => getKnownSnapshot('he'), saveKnown: saveKnownHe, voiceLocale: 'he-IL', rtl: true },
+  ar: { entry: w => lookup(W_AR, w), known: () => getKnownSnapshot('ar'), saveKnown: saveKnownAr, voiceLocale: 'ar-SA', rtl: true },
+  pl: { entry: w => lookup(W_PL, w), known: () => getKnownSnapshot('pl'), saveKnown: saveKnownPl, voiceLocale: 'pl-PL', rtl: false },
+  zh: { entry: w => lookup(W_ZH, w), known: () => getKnownSnapshot('zh'), saveKnown: saveKnownZh, voiceLocale: 'zh-CN', rtl: false },
+  el: { entry: w => lookup(W_EL, w), known: () => getKnownSnapshot('el'), saveKnown: saveKnownEl, voiceLocale: 'el-GR', rtl: false },
+  ja: { entry: w => lookup(W_JA, w), known: () => getKnownSnapshot('ja'), saveKnown: saveKnownJa, voiceLocale: 'ja-JP', rtl: false },
+  tr: { entry: w => lookup(W_TR, w), known: () => getKnownSnapshot('tr'), saveKnown: saveKnownTr, voiceLocale: 'tr-TR', rtl: false },
+  nl: { entry: w => lookup(W_NL, w), known: () => getKnownSnapshot('nl'), saveKnown: saveKnownNl, voiceLocale: 'nl-NL', rtl: false },
 };
-
-export const ALL_TARGET_LANGS: TargetLang[] = ['es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl'];
 
 export function langConfig(code: TargetLang): LangConfig {
   return LANG_REGISTRY[code];
@@ -274,7 +274,7 @@ export function getMaxWordsForLearnLang(): number {
 /** The active known Set for the currently selected learn language. */
 export function getActiveKnownByLang(): Set<string> {
   const lang = targetLangFromStorageKey(localStorage.getItem('ew_learn_lang') ?? 'en');
-  return lang ? LANG_REGISTRY[lang].known() : state.known;
+  return lang ? LANG_REGISTRY[lang].known() : getKnownSnapshot('en');
 }
 
 /**

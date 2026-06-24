@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { state } from '../../src/state.ts';
+import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 
 vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
@@ -23,7 +24,7 @@ describe('CatPairsWiringInit no longer steals the unmark-button click', () => {
     state.idx = 0;
     state.cw = cw;
     state._wordIdx = new Map();
-    state.known = new Set(['abandon']);
+    setKnownWords('en', new Set(['abandon']));
 
     const container = document.createElement('div');
     document.body.appendChild(container);
@@ -36,6 +37,6 @@ describe('CatPairsWiringInit no longer steals the unmark-button click', () => {
     expect(btn).not.toBeNull();
     act(() => { btn.click(); });
 
-    expect(state.known.has('abandon')).toBe(false);
+    expect(getKnownSnapshot('en').has('abandon')).toBe(false);
   });
 });

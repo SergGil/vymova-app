@@ -1,6 +1,7 @@
 // Vymova — js/features/learning-path.ts
 // 🎯 Learning Path: structured CEFR-based curriculum with daily goals
 import { state } from '../../src/state.ts';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { CEFR_META } from '../../data/cefr.ts';
 import type { CefrLevel } from '../../data/cefr.ts';
 import { W } from '../../data/words.js';
@@ -14,7 +15,7 @@ import {
   computePersonalPace, estimateDays, updateCompletionDates,
 } from './learning-path-logic.ts';
 import { t, getLang, skillName, levelName } from './i18n.ts';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from './mode-utils.ts';
+import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry, isTargetLang } from './mode-utils.ts';
 
 // ── Language helpers ──────────────────────────────────────────
 
@@ -24,22 +25,7 @@ function _learnLang(): string {
 
 function _activeKnownSet(): Set<string> {
   const lang = _learnLang();
-  switch (lang) {
-    case 'es': return state.knownEs;
-    case 'fr': return state.knownFr;
-    case 'it': return state.knownIt;
-    case 'pt': return state.knownPt;
-    case 'de': return state.knownDe;
-    case 'he': return state.knownHe;
-    case 'ar': return state.knownAr;
-    case 'pl': return state.knownPl;
-    case 'zh': return state.knownZh;
-    case 'el': return state.knownEl;
-    case 'ja': return state.knownJa;
-    case 'tr': return state.knownTr;
-    case 'nl': return state.knownNl;
-    default:   return state.known;
-  }
+  return getKnownSnapshot(isTargetLang(lang) ? lang : 'en');
 }
 
 function _getTranslation(w: WordEntry, lang: string): string {

@@ -8,6 +8,7 @@ import { getSimilarWordsFor } from './similar-words.tsx';
 import { W } from '../../data/words.js';
 import { isBookmarked, toggleBookmark } from './bookmarks.ts';
 import { getFrontLang, isTargetLang, langConfig, parsePair, headwordFor } from './mode-utils.ts';
+import { getKnownSnapshot, markKnown, unmarkKnown } from '../../src/known-words-store.ts';
 import { t, pluralLabel } from './i18n.ts';
 import { render, setIdx, onWordLearned as _onWordLearned } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -47,7 +48,7 @@ export function WordDetailPage(): ReactElement | null {
   useEffect(() => {
     _open = (w: WordEntry) => {
       setCw(w);
-      setKnown(state.known.has(w[0]));
+      setKnown(getKnownSnapshot('en').has(w[0]));
       setBm(isBookmarked(w[0]));
       setSrsEntry((state.srsData as Record<string, { due?: string; ef?: number; reps?: number }>)[w[0]]);
       setOpen(true);
@@ -104,16 +105,16 @@ export function WordDetailPage(): ReactElement | null {
 
   function onKnow(): void {
     _onWordLearned();
-    state.known.add(w[0]);
+    markKnown('en', w[0]);
     setKnown(true);
   }
 
   function onForget(): void {
-    state.known.delete(w[0]);
+    unmarkKnown('en', w[0]);
     delete (state.srsData as Record<string, unknown>)[w[0]];
     try {
       const { saveKnown, saveSRS } = window as Window & { saveKnown?: (s: Set<string>) => void; saveSRS?: (d: unknown) => void };
-      saveKnown?.(state.known); saveSRS?.(state.srsData);
+      saveKnown?.(getKnownSnapshot('en')); saveSRS?.(state.srsData);
     } catch (e) {}
     setKnown(false);
     setSrsEntry(undefined);

@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { state } from '../../src/state.ts';
+import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 
 vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
@@ -18,7 +19,7 @@ describe('learning-path.ts renderLearningPath/openLearningPath', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
     localStorage.clear();
-    state.known = new Set();
+    setKnownWords('en', new Set());
     openPage.mockClear();
     closePage.mockClear();
     jumpToGrammarRule.mockClear();
@@ -43,7 +44,7 @@ describe('learning-path.ts renderLearningPath/openLearningPath', () => {
 
   it('shows the "level complete" message when a level is ~done', () => {
     document.body.innerHTML = '<div id="lp-content"></div>';
-    state.known = new Set((W as unknown as [string, ...unknown[]][]).map(w => w[0]));
+    setKnownWords('en', new Set((W as unknown as [string, ...unknown[]][]).map(w => w[0])));
     renderLearningPath();
     const el = document.getElementById('lp-content')!;
     expect(el.innerHTML).toContain('lp-complete');
@@ -51,7 +52,7 @@ describe('learning-path.ts renderLearningPath/openLearningPath', () => {
 
   it('saves a pace snapshot for today to localStorage', () => {
     document.body.innerHTML = '<div id="lp-content"></div>';
-    state.known = new Set(['abandon']);
+    setKnownWords('en', new Set(['abandon']));
     renderLearningPath();
     const snaps = JSON.parse(localStorage.getItem('lp_pace_snapshots')!);
     const today = new Date().toISOString().slice(0, 10);

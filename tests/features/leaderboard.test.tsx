@@ -3,6 +3,7 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { Leaderboard } from '../../js/features/leaderboard.tsx';
 import { state } from '../../src/state.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -26,13 +27,13 @@ describe('leaderboard.tsx Leaderboard', () => {
 
   afterEach(() => {
     vi.unstubAllGlobals();
-    state.known = new Set();
+    setKnownWords('en', new Set());
   });
 
   it('submits the real known-word count on mount (regression: reading ew_known with a raw JSON.parse threw because it is LZ-compressed, so scores never got submitted)', async () => {
     localStorage.setItem('ew_profiles', JSON.stringify([{ id: 'p1', name: 'Sergii', avatar: '🧑' }]));
     localStorage.setItem('ew_active_profile', 'p1');
-    state.known = new Set(Array.from({ length: 100 }, (_, i) => `word${i}`));
+    setKnownWords('en', new Set(Array.from({ length: 100 }, (_, i) => `word${i}`)));
     fetchMock.mockResolvedValue({ ok: true, json: async () => null });
 
     await act(async () => {

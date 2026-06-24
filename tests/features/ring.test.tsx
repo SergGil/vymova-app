@@ -1,8 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
-import { notifyStateChange } from '../../src/store.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 import { LevelRing } from '../../js/features/ring.tsx';
 import { getMaxWordsForLearnLang } from '../../js/features/mode-utils.ts';
 
@@ -22,7 +21,7 @@ describe('ring.tsx LevelRing', () => {
   });
 
   it('shows 0% progress and the level-1 emoji when nothing is known', () => {
-    state.known = new Set();
+    setKnownWords('en', new Set());
     const { container } = mount();
     expect(container.querySelector('#ring-center')!.textContent).toContain('0%');
     expect(container.querySelector('#ring-center')!.textContent).toContain('🌌');
@@ -31,26 +30,25 @@ describe('ring.tsx LevelRing', () => {
 
   it('shows progress toward the next level', () => {
     // Level 1 starts at 30, level 2 at 100 → 65 known = 50% toward level 2
-    state.known = new Set(Array.from({ length: 65 }, (_, i) => `w${i}`));
+    setKnownWords('en', new Set(Array.from({ length: 65 }, (_, i) => `w${i}`)));
     const { container } = mount();
     expect(container.querySelector('#ring-center')!.textContent).toContain('50%');
   });
 
   it('shows 100% and the "done" class for the final level', () => {
-    state.known = new Set(Array.from({ length: getMaxWordsForLearnLang() }, (_, i) => `w${i}`));
+    setKnownWords('en', new Set(Array.from({ length: getMaxWordsForLearnLang() }, (_, i) => `w${i}`)));
     const { container } = mount();
     expect(container.querySelector('#ring-center')!.textContent).toContain('100%');
     expect(container.querySelector('#ring-fill')!.getAttribute('class')).toContain('done');
   });
 
   it('re-renders when notifyStateChange fires', () => {
-    state.known = new Set();
+    setKnownWords('en', new Set());
     const { container } = mount();
     expect(container.querySelector('#ring-center')!.textContent).toContain('0%');
 
     act(() => {
-      state.known = new Set(Array.from({ length: 65 }, (_, i) => `w${i}`));
-      notifyStateChange();
+      setKnownWords('en', new Set(Array.from({ length: 65 }, (_, i) => `w${i}`)));
     });
     expect(container.querySelector('#ring-center')!.textContent).toContain('50%');
   });

@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { createElement, act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
+import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -48,7 +49,7 @@ describe('progress-io.tsx ProgressIO', () => {
       clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
     });
 
-    state.known = new Set(['abandon']);
+    setKnownWords('en', new Set(['abandon']));
     state.srsData = {};
     localStorage.clear();
 
@@ -105,17 +106,17 @@ describe('progress-io.tsx ProgressIO', () => {
   });
 
   it('round-trips export → import, restoring known words and refreshing the UI', async () => {
-    state.known = new Set(['abandon', 'idiom']);
+    setKnownWords('en', new Set(['abandon', 'idiom']));
     act(() => { document.getElementById('btn-export')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
     const code = (document.getElementById('export-textarea') as HTMLTextAreaElement).value;
 
-    state.known = new Set();
+    setKnownWords('en', new Set());
 
     (document.getElementById('import-textarea') as HTMLTextAreaElement).value = code;
     act(() => { document.getElementById('import-confirm')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
 
     expect(document.getElementById('import-modal')!.className).toBe('');
-    expect(state.known).toEqual(new Set(['abandon', 'idiom']));
+    expect(getKnownSnapshot('en')).toEqual(new Set(['abandon', 'idiom']));
     expect(renderGameBar).toHaveBeenCalled();
     expect(refreshGameBarLevel).toHaveBeenCalled();
     expect(openStats).toHaveBeenCalled();

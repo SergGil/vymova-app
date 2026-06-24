@@ -10,10 +10,11 @@ import { useStateVersion, notifyStateChange } from '../../src/store.ts';
 import { openWordDetail } from './word-detail.tsx';
 import type { WordEntry } from '../../src/types.js';
 import { getMode as _getMode, parsePair, getActiveKnownSet, headwordFor, type Code } from './mode-utils.ts';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { t } from './i18n.ts';
 
 function _getActiveKnown(): Set<string> {
-  return getActiveKnownSet(_getMode(), state.known);
+  return getActiveKnownSet(_getMode(), getKnownSnapshot('en'));
 }
 
 const STOP_UA = new Set(['бути','мати','стати','який','яка','яке','свій','своя','цей','ця','той','та','такий','одна','також','дуже','більш','менш','людина','великий','малий','новий','старий','добрий','поганий','перший','другий','інший','різний','можна','треба','або','чи','але','його','її','їх','він','вона','вони','цього','того','собою']);

@@ -3,6 +3,7 @@ import type { WordEntry } from '../src/types.js';
 import { _lzLoad, loadKnownEs, loadKnownFr, loadKnownIt, loadKnownPt, loadKnownDe, loadKnownHe, loadKnownAr, loadKnownPl, loadKnownZh, loadKnownEl, loadKnownJa, loadKnownTr, loadKnownNl, loadSRS } from './core/storage.ts';
 import { W }                                       from '../data/words.js';
 import { state }                                   from '../src/state.ts';
+import { setKnownWords } from '../src/known-words-store.ts';
 import { renderGameBar }                           from './features/render-game-bar.ts';
 import { refreshGameBarLevel as renderLevelBadge } from './features/game-bar-level.tsx';
 import { checkAchievements }                       from './features/render-achievements.ts';
@@ -27,20 +28,20 @@ window.addEventListener('ew-learn-lang-changed', function() {
   }, 0);
 });
 
-state.known   = new Set<string>(savedKnown as string[]);
-state.knownEs = loadKnownEs();
-state.knownFr = loadKnownFr();
-state.knownIt = loadKnownIt();
-state.knownPt = loadKnownPt();
-state.knownDe = loadKnownDe();
-state.knownHe = loadKnownHe();
-state.knownAr = loadKnownAr();
-state.knownPl = loadKnownPl();
-state.knownZh = loadKnownZh();
-state.knownEl = loadKnownEl();
-state.knownJa = loadKnownJa();
-state.knownTr = loadKnownTr();
-state.knownNl = loadKnownNl();
+setKnownWords('en', new Set<string>(savedKnown as string[]));
+setKnownWords('es', loadKnownEs());
+setKnownWords('fr', loadKnownFr());
+setKnownWords('it', loadKnownIt());
+setKnownWords('pt', loadKnownPt());
+setKnownWords('de', loadKnownDe());
+setKnownWords('he', loadKnownHe());
+setKnownWords('ar', loadKnownAr());
+setKnownWords('pl', loadKnownPl());
+setKnownWords('zh', loadKnownZh());
+setKnownWords('el', loadKnownEl());
+setKnownWords('ja', loadKnownJa());
+setKnownWords('tr', loadKnownTr());
+setKnownWords('nl', loadKnownNl());
 
 state._baseWords = W.slice() as unknown as WordEntry[];
 

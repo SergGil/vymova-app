@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { CsvExportButton } from '../../js/features/csv-export-button.tsx';
@@ -19,7 +20,7 @@ function mount(): { container: HTMLElement; root: Root } {
 describe('csv-export-button.tsx CsvExportButton', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
-    state.known = new Set();
+    setKnownWords('en', new Set());
     state.deck = (W as unknown as WordEntry[]).slice(0, 5);
   });
 
@@ -49,7 +50,7 @@ describe('csv-export-button.tsx CsvExportButton', () => {
   });
 
   it('includes known/unknown status rows derived from state.known', async () => {
-    state.known = new Set([W[0][0]]);
+    setKnownWords('en', new Set([W[0][0]]));
     let capturedBlob: Blob | null = null;
     const createObjectURL = vi.spyOn(URL, 'createObjectURL').mockImplementation((b: Blob | MediaSource) => { capturedBlob = b as Blob; return 'blob:fake-url'; });
     const revokeObjectURL = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});

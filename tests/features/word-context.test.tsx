@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
+import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { CollocationsSection, WordFamiliesChips, SynonymsChips, EtymologyNote, UsageNoteBox } from '../../js/features/word-context.tsx';
@@ -36,7 +37,7 @@ describe('word-context.tsx', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
     state.flipped = true;
-    state.known = new Set();
+    setKnownWords('en', new Set());
     state._wordIdx = buildWordIdx();
     openWordDetail.mockClear();
   });
@@ -92,7 +93,7 @@ describe('word-context.tsx', () => {
 
     it('marks a chip as known when its word is in state.known', () => {
       state.cw = sustainEntry;
-      state.known = new Set(['sustainable']);
+      setKnownWords('en', new Set(['sustainable']));
       const { container } = mount(WordFamiliesChips);
       const chip = Array.from(container.querySelectorAll('.family-chip'))
         .find(c => c.querySelector('.sc-word')!.textContent === 'sustainable')!;

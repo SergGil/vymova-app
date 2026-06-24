@@ -2,6 +2,7 @@ import { describe, it, expect, beforeAll, beforeEach, vi } from 'vitest';
 import { createElement, act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { state } from '../../src/state.ts';
+import { setKnownWords, getKnownSnapshot, markKnown } from '../../src/known-words-store.ts';
 import { loadKnown, loadSRS } from '../../js/core/storage.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -133,7 +134,7 @@ function setRange(v: string): void {
 }
 
 beforeEach(() => {
-  state.known = new Set<string>();
+  setKnownWords('en', new Set<string>());
   state.srsData = {};
   state._baseWords = W as unknown as WordEntry[];
   state._activeTagSet = null;
@@ -168,7 +169,7 @@ describe('btn-know', () => {
   it('marks the current word as known and applies a correct SM-2 update (srs range)', () => {
     document.getElementById('btn-know')!.click();
 
-    expect(state.known.has('apple')).toBe(true);
+    expect(getKnownSnapshot('en').has('apple')).toBe(true);
     expect(state.srsData['apple']).toBeDefined();
     expect(state.srsData['apple'].reps).toBe(1);
     expect(state.srsData['apple'].interval).toBe(1);
@@ -196,7 +197,7 @@ describe('btn-know', () => {
 
     document.getElementById('btn-know')!.click();
 
-    expect(state.known.has('apple')).toBe(true);
+    expect(getKnownSnapshot('en').has('apple')).toBe(true);
     expect(state.srsData['apple']).toBeUndefined();
   });
 
@@ -239,7 +240,7 @@ describe('btn-know', () => {
 
     document.getElementById('btn-know')!.click();
 
-    expect(state.known.size).toBe(0);
+    expect(getKnownSnapshot('en').size).toBe(0);
     expect(engineRender).toHaveBeenCalled();
   });
 });
@@ -279,14 +280,14 @@ describe('btn-dontknow', () => {
 // ── modal-confirm (reset progress) ─────────────────────────────
 describe('modal-confirm (reset progress)', () => {
   it('clears known words and SRS data, both in memory and storage', () => {
-    state.known.add('apple');
+    markKnown('en', 'apple');
     state.srsData['apple'] = { ef: 2.5, reps: 1, interval: 1, due: '2024-06-02' };
     state._gameCache = { ...gameData };
     state._dailyCache = { foo: 1 };
 
     document.getElementById('modal-confirm')!.click();
 
-    expect(state.known.size).toBe(0);
+    expect(getKnownSnapshot('en').size).toBe(0);
     expect(state.srsData).toEqual({});
     expect(loadKnown().size).toBe(0);
     expect(loadSRS()).toEqual({});
@@ -321,12 +322,12 @@ describe('modal-cancel', () => {
   it('hides the reset confirmation modal without clearing progress', () => {
     const overlay = document.getElementById('modal-overlay')!;
     overlay.style.display = 'flex';
-    state.known.add('apple');
+    markKnown('en', 'apple');
 
     document.getElementById('modal-cancel')!.click();
 
     expect(overlay.style.display).toBe('none');
-    expect(state.known.has('apple')).toBe(true);
+    expect(getKnownSnapshot('en').has('apple')).toBe(true);
   });
 });
 

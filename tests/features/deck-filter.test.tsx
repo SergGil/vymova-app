@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { DeckFilterInit, _refreshRangeOptions } from '../../js/features/deck-filter.tsx';
@@ -59,7 +60,7 @@ describe('deck-filter.tsx DeckFilterInit', () => {
     `;
     state._activeTagSet = null;
     state.srsData = {};
-    state.known = new Set();
+    setKnownWords('en', new Set());
     render.mockClear();
     setDeck.mockClear();
     setIdx.mockClear();
@@ -174,7 +175,7 @@ describe('deck-filter.tsx DeckFilterInit', () => {
   });
 
   it('builds a known-words deck on "weak" selection when no SRS-weak words exist', () => {
-    state.known = new Set([(W as unknown as WordEntry[])[0][0]]);
+    setKnownWords('en', new Set([(W as unknown as WordEntry[])[0][0]]));
     mount();
     change('weak');
     const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
+import { getActivePage, dispatchClosePage } from '../../src/nav-store.tsx';
 import { SidebarInit, openPage, closePage, showImgClearConfirm } from '../../js/features/sidebar.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -76,7 +76,7 @@ describe('sidebar.tsx', () => {
       <button id="img-clear-confirm"></button>
     `;
     document.body.classList.remove('dark', 'sw');
-    state.activePage = null;
+    dispatchClosePage();
     localStorage.clear();
     roots = [];
     refreshAchievementsPage.mockClear();
@@ -122,7 +122,7 @@ describe('sidebar.tsx', () => {
 
     act(() => { openPage('stats'); });
 
-    expect(state.activePage).toBe('stats');
+    expect(getActivePage()).toBe('stats');
     expect(document.getElementById('sb-stats')!.classList.contains('sb-active')).toBe(true);
     expect(document.body.style.overflow).toBe('hidden');
     expect(document.getElementById('stats-overlay')!.classList.contains('as-page')).toBe(true);
@@ -171,10 +171,10 @@ describe('sidebar.tsx', () => {
     const { root } = mount();
     roots.push(root);
     act(() => { openPage('ach'); });
-    expect(state.activePage).toBe('ach');
+    expect(getActivePage()).toBe('ach');
 
     act(() => { closePage(); });
-    expect(state.activePage).toBeNull();
+    expect(getActivePage()).toBeNull();
     expect(document.getElementById('ach-overlay')!.classList.contains('open')).toBe(false);
     expect(document.body.style.overflow).toBe('');
     expect(localStorage.getItem('ew_active_page')).toBeNull();
@@ -184,10 +184,10 @@ describe('sidebar.tsx', () => {
     const { root } = mount();
     roots.push(root);
     act(() => { document.getElementById('sb-achievements')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
-    expect(state.activePage).toBe('ach');
+    expect(getActivePage()).toBe('ach');
 
     act(() => { document.getElementById('sb-cards')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
-    expect(state.activePage).toBeNull();
+    expect(getActivePage()).toBeNull();
   });
 
   it('shows and resolves the image-clear confirm dialog', () => {

@@ -3,7 +3,7 @@
 import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { sm2Update, buildSRSDeck, buildUnlearnedDeck, shuffle, updateSrsUI } from '../core/srs.ts';
-import { saveKnown, saveKnownEs, saveKnownFr, saveKnownIt, saveKnownPt, saveKnownDe, saveKnownHe, saveKnownAr, saveKnownPl, saveKnownZh, saveKnownEl, saveKnownJa, saveKnownTr, saveKnownNl, saveSRS } from '../core/storage.ts';
+import { saveKnown, saveSRS } from '../core/storage.ts';
 import { getGameData, saveGameData } from './game.ts';
 import { addCombo, breakCombo, flashCard } from './combo.ts';
 import { hasNote } from './notes.ts';
@@ -14,7 +14,8 @@ import { showPronuncResult } from './pronunciation-toast.tsx';
 import { getSelectedUkVoice } from './voice.tsx';
 import { speak, _speakWithLang } from './speech.ts';
 import { updateSimilarWords } from './similar-words.tsx';
-import { getMode, getActiveKnownSet, getActiveTargetLang, isTargetLang, langConfig, parsePair } from './mode-utils.ts';
+import { getMode, getActiveTargetLang, isTargetLang, langConfig, parsePair, ALL_TARGET_LANGS } from './mode-utils.ts';
+import { getKnownSnapshot, markKnown, clearAllKnown, type KnownLang } from '../../src/known-words-store.ts';
 import { VOICE_GETTERS } from './speak-lang.ts';
 import { playSound } from '../core/audio.ts';
 import { launchConfetti } from '../core/confetti.tsx';
@@ -30,8 +31,8 @@ function _safe(fn: () => void): void {
   try { fn(); } catch (e) { console.warn('[safe]', (e as Error).message ?? e); }
 }
 
-function _activeKnown(): Set<string> {
-  return getActiveKnownSet(getMode(), state.known);
+function _activeKnownLang(): KnownLang {
+  return getActiveTargetLang(getMode()) ?? 'en';
 }
 
 export function CardActionsInit(): ReactElement | null {
@@ -146,9 +147,9 @@ export function CardActionsInit(): ReactElement | null {
       e.stopPropagation();
       const cw = state.cw;
       if (cw) {
-        const _ak         = _activeKnown();
-        const isNewlyKnown = !_ak.has(cw[0]);
-        _ak.add(cw[0]);
+        const _lang         = _activeKnownLang();
+        const isNewlyKnown = !getKnownSnapshot(_lang).has(cw[0]);
+        markKnown(_lang, cw[0]);
         const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
         if (rangeVal === 'srs') {
           // Quality 5 ("perfect recall") — the binary Know/Don't-know UI has no
@@ -162,9 +163,8 @@ export function CardActionsInit(): ReactElement | null {
           // re-enter the SRS queue with stale data.
           delete (state.srsData as any)[cw[0]];
         }
-        const _activeLang = getActiveTargetLang(getMode());
-        if (_activeLang) { const cfg = langConfig(_activeLang); if (cfg.known()) cfg.saveKnown(cfg.known()); }
-        else { saveKnown(state.known); }
+        if (isTargetLang(_lang)) { const cfg = langConfig(_lang); cfg.saveKnown(cfg.known()); }
+        else { saveKnown(getKnownSnapshot('en')); }
         saveSRS(state.srsData);
         state._srsStatsDirty = true;
         _safe(() => updateSrsUI(state._baseWords as unknown as WordEntry[]));
@@ -284,36 +284,11 @@ export function CardActionsInit(): ReactElement | null {
 
     const modalConfirm = document.getElementById('modal-confirm')!;
     const onModalConfirmClick = () => {
-      state.known.clear();
-      state.knownEs?.clear();
-      state.knownFr?.clear();
-      state.knownIt?.clear();
-      state.knownPt?.clear();
-      state.knownDe?.clear();
-      state.knownHe?.clear();
-      state.knownAr?.clear();
-      state.knownPl?.clear();
-      state.knownZh?.clear();
-      state.knownEl?.clear();
-      state.knownJa?.clear();
-      state.knownTr?.clear();
-      state.knownNl?.clear();
+      clearAllKnown();
       state.srsData = {};
       state._srsStatsDirty = true;
-      saveKnown(state.known);
-      if (state.knownEs) saveKnownEs(state.knownEs);
-      if (state.knownFr) saveKnownFr(state.knownFr);
-      if (state.knownIt) saveKnownIt(state.knownIt);
-      if (state.knownPt) saveKnownPt(state.knownPt);
-      if (state.knownDe) saveKnownDe(state.knownDe);
-      if (state.knownHe) saveKnownHe(state.knownHe);
-      if (state.knownAr) saveKnownAr(state.knownAr);
-      if (state.knownPl) saveKnownPl(state.knownPl);
-      if (state.knownZh) saveKnownZh(state.knownZh);
-      if (state.knownEl) saveKnownEl(state.knownEl);
-      if (state.knownJa) saveKnownJa(state.knownJa);
-      if (state.knownTr) saveKnownTr(state.knownTr);
-      if (state.knownNl) saveKnownNl(state.knownNl);
+      saveKnown(getKnownSnapshot('en'));
+      for (const lang of ALL_TARGET_LANGS) langConfig(lang).saveKnown(getKnownSnapshot(lang));
       saveSRS(state.srsData);
       _safe(() => localStorage.removeItem('ew_game'));
       _safe(() => localStorage.removeItem('ew_daily'));

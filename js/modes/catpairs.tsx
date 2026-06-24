@@ -14,6 +14,7 @@ import { playSound } from '../core/audio.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 
 function getWordInLang(w: WordEntry, lang: string): string {
   switch (lang) {
@@ -295,10 +296,10 @@ let _shownMilestones: Record<string, number> = {};
 try { _shownMilestones = JSON.parse(localStorage.getItem('ew_milestones') ?? '{}'); } catch (e) {}
 
 const MILESTONES = [
-  { id: 'w100',  check: () => state.known.size >= 100,           key: 'milestone.w100' },
-  { id: 'w500',  check: () => state.known.size >= 500,           key: 'milestone.w500' },
-  { id: 'w1000', check: () => state.known.size >= 1000,          key: 'milestone.w1000' },
-  { id: 'w2000', check: () => state.known.size >= 2000,          key: 'milestone.w2000' },
+  { id: 'w100',  check: () => getKnownSnapshot('en').size >= 100,           key: 'milestone.w100' },
+  { id: 'w500',  check: () => getKnownSnapshot('en').size >= 500,           key: 'milestone.w500' },
+  { id: 'w1000', check: () => getKnownSnapshot('en').size >= 1000,          key: 'milestone.w1000' },
+  { id: 'w2000', check: () => getKnownSnapshot('en').size >= 2000,          key: 'milestone.w2000' },
   { id: 's7',    check: () => (getGameData().streak ?? 0) >= 7,  key: 'milestone.s7' },
   { id: 's30',   check: () => (getGameData().streak ?? 0) >= 30, key: 'milestone.s30' },
   { id: 's100',  check: () => (getGameData().streak ?? 0) >= 100,key: 'milestone.s100' },

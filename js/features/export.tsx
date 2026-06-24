@@ -4,6 +4,7 @@ import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { t } from './i18n.ts';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 
 type WordIdx = Map<string, number>;
 
@@ -17,8 +18,8 @@ export function ExportInit(): ReactElement | null {
     function _exportSrc(): (typeof W[number])[] {
       const filter = (document.getElementById('export-filter') as HTMLSelectElement)?.value ?? 'known';
       const wi = _wi();
-      if (filter === 'known') return [...state.known].map(k => wi ? (W as any)[wi.get(k)!] : null).filter(Boolean);
-      if (filter === 'unknown') return (W as any[]).filter((w: string[]) => !state.known.has(w[0]));
+      if (filter === 'known') return [...getKnownSnapshot('en')].map(k => wi ? (W as any)[wi.get(k)!] : null).filter(Boolean);
+      if (filter === 'unknown') return (W as any[]).filter((w: string[]) => !getKnownSnapshot('en').has(w[0]));
       return (W as any[]).slice(); // all
     }
 

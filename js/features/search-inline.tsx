@@ -6,29 +6,16 @@ import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
 import { shuffle } from '../core/srs.ts';
 import {
-  ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, getMode,
+  getMode, getActiveTargetLang,
   getResolvedMode, computeCardView, getWordsForLang,
 } from './mode-utils.ts';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { t } from './i18n.ts';
 import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';
 
 function activeKnown(): Set<string> {
-  const mode = getMode();
-  if (ES_MODES.has(mode)) return state.knownEs;
-  if (FR_MODES.has(mode)) return state.knownFr;
-  if (IT_MODES.has(mode)) return state.knownIt;
-  if (PT_MODES.has(mode)) return state.knownPt;
-  if (DE_MODES.has(mode)) return state.knownDe;
-  if (HE_MODES.has(mode)) return state.knownHe;
-  if (AR_MODES.has(mode)) return state.knownAr;
-  if (PL_MODES.has(mode)) return state.knownPl;
-  if (ZH_MODES.has(mode)) return state.knownZh;
-  if (EL_MODES.has(mode)) return state.knownEl;
-  if (JA_MODES.has(mode)) return state.knownJa;
-  if (TR_MODES.has(mode)) return state.knownTr;
-  if (NL_MODES.has(mode)) return state.knownNl;
-  return state.known;
+  return getKnownSnapshot(getActiveTargetLang(getMode()) ?? 'en');
 }
 
 function goToWord(word: string, after: () => void): void {

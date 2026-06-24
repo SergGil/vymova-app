@@ -14,7 +14,7 @@ export function routerNavigate(to: string, replace = false): void {
   _nav(to, { replace });
 }
 
-// Page id (used in state.activePage) → URL path
+// Page id (used in nav-store's activePage) → URL path
 export const PAGE_TO_ROUTE: Record<string, string> = {
   stats:            '/stats',
   ach:              '/achievements',

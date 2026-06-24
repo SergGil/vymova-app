@@ -12,6 +12,7 @@ import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { openWordDetail } from './word-detail.tsx';
 import { getMode, parsePair, headwordFor, isTargetLang, reverseHeadwordFor, type Code } from './mode-utils.ts';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { getLang, t } from './i18n.ts';
 
 // Collocations are English-specific idiomatic patterns (e.g. "make a
@@ -113,7 +114,7 @@ export function WordFamiliesChips(): ReactElement | null {
           const entry = wi !== undefined ? (W[wi] as unknown as WordEntry) : null;
           const clickable = !!entry;
           const transl = entry ? headwordFor(back, entry) : '';
-          const isKnown = headEn ? state.known.has(headEn) : false;
+          const isKnown = headEn ? getKnownSnapshot('en').has(headEn) : false;
           return (
             <div key={w} className={'sim-chip family-chip' + (isKnown ? ' known-chip' : '')}
               style={clickable ? undefined : { cursor: 'default' }}
@@ -167,7 +168,7 @@ export function SynonymsChips(): ReactElement | null {
           const entry = wi !== undefined ? (W[wi] as unknown as WordEntry) : null;
           const clickable = !!entry;
           const transl = entry ? headwordFor(back, entry) : '';
-          const isKnown = headEn ? state.known.has(headEn) : false;
+          const isKnown = headEn ? getKnownSnapshot('en').has(headEn) : false;
           return (
             <div key={c.word} className={'sim-chip syn-chip' + (isKnown ? ' known-chip' : '')}
               style={clickable ? undefined : { cursor: 'default' }}

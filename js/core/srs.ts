@@ -3,6 +3,7 @@
 
 import type { WordEntry, SRSEntry } from '../../src/types.js';
 import { state } from '../../src/state.js';
+import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { t } from '../features/i18n.ts';
 import { getSrsNewRemaining, recordSrsNewCard } from '../features/game.ts';
 
@@ -60,7 +61,8 @@ let _srsStatsEl:  HTMLElement | null        = null;
 let _srsStatsCache = { due: 0, newCards: 0, total: 0 };
 
 export function updateSrsUI(W: readonly WordEntry[]): void {
-  const { srsData, known, TODAY } = state;
+  const { srsData, TODAY } = state;
+  const known = getKnownSnapshot('en');
   if (!state._srsStatsDirty) { _renderSrsUI(_srsStatsCache); return; }
 
   let due = 0, newCards = 0, total = 0;
@@ -105,7 +107,8 @@ function _applyTagFilter(words: WordEntry[]): WordEntry[] {
 
 export function buildSRSDeck(words: WordEntry[]): WordEntry[] {
   const filteredWords = _applyTagFilter(words);
-  const { srsData, known, TODAY } = state;
+  const { srsData, TODAY } = state;
+  const known = getKnownSnapshot('en');
   const dueCards: WordEntry[] = [];
   const newCards:  WordEntry[] = [];
   filteredWords.forEach(w => {
@@ -130,7 +133,7 @@ export function buildSRSDeck(words: WordEntry[]): WordEntry[] {
 
 export function buildUnlearnedDeck(words: WordEntry[]): WordEntry[] {
   const filtered = _applyTagFilter(words);
-  const { known } = state;
+  const known = getKnownSnapshot('en');
   let result = filtered.filter(w => !known.has(w[0]));
   if (!result.length) result = filtered.slice();
   return shuffle(result);

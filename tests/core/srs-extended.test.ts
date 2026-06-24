@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, beforeAll, afterEach, vi } from 'vite
 import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck, updateSrsUI, sm2Update } from '../../js/core/srs.ts';
 import { getSrsNewRemaining, SRS_NEW_DAILY_CAP } from '../../js/features/game.ts';
 import { state } from '../../src/state.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.js';
 
 // ── Mini word list for deck tests ─────────────────────────────
@@ -18,7 +19,7 @@ const W: WordEntry[] = [
 
 beforeEach(() => {
   state.srsData = {};
-  state.known = new Set();
+  setKnownWords('en', new Set());
   state._activeTagSet = null;
   state.TODAY = '2024-06-01';
 });
@@ -92,7 +93,7 @@ describe('buildUnlearnedDeck()', () => {
   });
 
   it('excludes known words', () => {
-    state.known = new Set(['apple', 'banana']);
+    setKnownWords('en', new Set(['apple', 'banana']));
     const deck = buildUnlearnedDeck(W);
     expect(deck.length).toBe(W.length - 2);
     expect(deck.some(w => w[0] === 'apple')).toBe(false);
@@ -100,7 +101,7 @@ describe('buildUnlearnedDeck()', () => {
   });
 
   it('returns all words (as fallback) when everything is known', () => {
-    state.known = new Set(W.map(w => w[0]));
+    setKnownWords('en', new Set(W.map(w => w[0])));
     const deck = buildUnlearnedDeck(W);
     expect(deck.length).toBe(W.length);
   });
@@ -137,7 +138,7 @@ describe('buildSRSDeck()', () => {
 
   it('adds up to 10 new (unseen) cards', () => {
     // Mark all but 3 as known so only 3 new candidates exist
-    state.known = new Set(['cat', 'dog', 'fish', 'book', 'house']);
+    setKnownWords('en', new Set(['cat', 'dog', 'fish', 'book', 'house']));
     const deck = buildSRSDeck(W);
     // new cards: apple, banana, car (3 total)
     const newWords = deck.filter(w => !state.srsData[w[0]]?.due);
@@ -151,7 +152,7 @@ describe('buildSRSDeck()', () => {
   });
 
   it('falls back to all words when everything is known and no SRS', () => {
-    state.known = new Set(W.map(w => w[0]));
+    setKnownWords('en', new Set(W.map(w => w[0])));
     const deck = buildSRSDeck(W);
     expect(deck.length).toBe(W.length);
   });
@@ -238,7 +239,7 @@ describe('SRS daily new-card quota', () => {
   });
 
   it('buildSRSDeck never hands out more new cards than the remaining quota', () => {
-    state.known = new Set();
+    setKnownWords('en', new Set());
     for (let i = 0; i < SRS_NEW_DAILY_CAP - 1; i++) sm2Update(`seen${i}`, 4);
     expect(getSrsNewRemaining()).toBe(1);
     const deck = buildSRSDeck(W);
