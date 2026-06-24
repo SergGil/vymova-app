@@ -95,6 +95,133 @@ export const SENSES: Record<string, SenseEntry[]> = {
     { pos: 'noun', translation: 'книга', exEn: 'She is reading a fascinating book about ancient history.', exUa: 'Вона читає захопливу книгу про стародавню історію.' },
     { pos: 'v',    translation: 'бронювати', exEn: 'They booked a table at their favourite restaurant.', exUa: 'Вони забронювали столик у своєму улюбленому ресторані.' },
   ],
+  'bear': [
+    { pos: 'noun', translation: 'медвідь', exEn: 'A brown bear wandered through the forest looking for food.', exUa: 'Бурий медвідь бродив лісом, шукаючи їжу.' },
+    { pos: 'v',    translation: 'терпіти, нести', exEn: 'She could hardly bear the pain after the long hike.', exUa: 'Вона ледве могла терпіти біль після довгого походу.' },
+  ],
+  'bat': [
+    { pos: 'noun', translation: 'кажан', exEn: 'A bat flew silently through the dark cave.', exUa: 'Кажан безшумно пролетів темною печерою.' },
+    { pos: 'noun', translation: 'бейсбольна біта', exEn: 'He gripped the bat tightly before the pitch.', exUa: 'Він міцно стиснув бейсбольну біту перед подачею.' },
+  ],
+  'spring': [
+    { pos: 'noun', translation: 'весна', exEn: 'Flowers begin to bloom in early spring.', exUa: 'Квіти починають цвісти на початку весни.' },
+    { pos: 'noun', translation: 'пружина', exEn: 'The old mattress had a broken spring poking through.', exUa: 'У старому матраці випинала зламана пружина.' },
+    { pos: 'v',    translation: 'стрибати', exEn: 'The cat sprang onto the windowsill in one swift move.', exUa: 'Кіт стрибнув на підвіконня одним швидким рухом.' },
+  ],
+  'crane': [
+    { pos: 'noun', translation: 'журавель', exEn: 'A graceful crane stood at the edge of the lake.', exUa: 'Граційний журавель стояв на краю озера.' },
+    { pos: 'noun', translation: 'будівельний кран', exEn: 'A tall crane lifted steel beams to the top floor.', exUa: 'Високий кран піднімав сталеві балки на верхній етаж.' },
+  ],
+  'pitch': [
+    { pos: 'v',    translation: 'кидати, подавати', exEn: 'He pitched the ball straight over the plate.', exUa: 'Він кинув мʼяч прямо над базою.' },
+    { pos: 'noun', translation: 'висота звуку', exEn: 'The singer struggled to hit the highest pitch.', exUa: 'Співачка намагалася взяти найвищу ноту.' },
+    { pos: 'noun', translation: 'спортивне поле', exEn: 'The players ran onto the pitch to warm up.', exUa: 'Гравці вибігли на поле, щоб розігрітися.' },
+  ],
+  'fair': [
+    { pos: 'adj',  translation: 'справедливий', exEn: 'The judge made sure the trial was fair to both sides.', exUa: 'Суддя простежив, щоб суд був справедливим до обох сторін.' },
+    { pos: 'noun', translation: 'ярмарок', exEn: 'They rode the Ferris wheel at the county fair.', exUa: 'Вони покаталися на колесі огляду на ярмарку.' },
+  ],
+  'pole': [
+    { pos: 'noun', translation: 'стовп, жердина', exEn: 'He used a long pole to fish the ball out of the pond.', exUa: 'Він використав довгу палицю, щоб виловити мʼяч зі ставка.' },
+    { pos: 'noun', translation: 'полюс (географічний)', exEn: 'Explorers finally reached the South Pole after months of travel.', exUa: 'Дослідники нарешті досягли Південного полюса після місяців подорожі.' },
+  ],
+  'seal': [
+    { pos: 'noun', translation: 'тюлень', exEn: 'A seal basked lazily on the rocky shore.', exUa: 'Тюлень ліниво вигрівався на скелястому березі.' },
+    { pos: 'v',    translation: 'запечатувати', exEn: 'She sealed the envelope before mailing it.', exUa: 'Вона запечатала конверт перед тим, як відправити його.' },
+  ],
+  'nail': [
+    { pos: 'noun', translation: 'ніготь', exEn: 'She painted her nails a bright shade of red.', exUa: 'Вона пофарбувала нігті в яскраво-червоний колір.' },
+    { pos: 'noun', translation: 'цвях', exEn: 'He hammered a nail into the wooden board.', exUa: 'Він забив цвях у деревʼяну дошку.' },
+  ],
+  'club': [
+    { pos: 'noun', translation: 'клуб (товариство)', exEn: 'She joined a book club to meet other readers.', exUa: 'Вона приєдналася до книжкового клубу, щоб познайомитися з іншими читачами.' },
+    { pos: 'noun', translation: 'ключка (для гольфу)', exEn: 'He swung the golf club and missed the ball completely.', exUa: 'Він змахнув ключкою для гольфу і повністю пропустив мʼяч.' },
+  ],
+  'bill': [
+    { pos: 'noun', translation: 'рахунок', exEn: 'She paid the electricity bill online.', exUa: 'Вона оплатила рахунок за електроенергію онлайн.' },
+    { pos: 'noun', translation: 'дзьоб (птаха)', exEn: 'The duck used its flat bill to search for food in the mud.', exUa: 'Качка використовувала свій плоский дзьоб, щоб шукати їжу в багнюці.' },
+  ],
+  'trunk': [
+    { pos: 'noun', translation: 'стовбур (дерева)', exEn: 'The old oak had a thick, gnarled trunk.', exUa: 'У старого дуба був товстий, вузлуватий стовбур.' },
+    { pos: 'noun', translation: 'хобот (слона)', exEn: 'The elephant used its trunk to spray water over its back.', exUa: 'Слон використав свій хобот, щоб обприскати водою спину.' },
+    { pos: 'noun', translation: 'багажник (авто)', exEn: 'He put the suitcases in the trunk before leaving.', exUa: 'Він поклав валізи в багажник перед виїздом.' },
+  ],
+  'sole': [
+    { pos: 'adj',  translation: 'єдиний', exEn: 'She was the sole survivor of the shipwreck.', exUa: 'Вона була єдиною, хто вижив після корабельної аварії.' },
+    { pos: 'noun', translation: 'підошва (взуття)', exEn: 'The sole of his shoe came loose after the long hike.', exUa: 'Підошва його туфлі відклеїлась після довгого походу.' },
+  ],
+  'mole': [
+    { pos: 'noun', translation: 'кріт', exEn: 'A mole dug tunnels under the garden overnight.', exUa: 'Кріт прорив тунелі під садом за ніч.' },
+    { pos: 'noun', translation: 'родимка', exEn: 'The doctor checked the dark mole on her shoulder.', exUa: 'Лікар перевірив темну родимку на її плечі.' },
+  ],
+  'cell': [
+    { pos: 'noun', translation: 'клітина (біологічна)', exEn: 'Every living organism is made up of tiny cells.', exUa: 'Кожен живий організм складається з крихітних клітин.' },
+    { pos: 'noun', translation: 'камера (тюремна)', exEn: 'The prisoner spent ten years in a small cell.', exUa: 'Ув\'язнений провів десять років у маленькій камері.' },
+  ],
+  'key': [
+    { pos: 'noun', translation: 'ключ (від замка)', exEn: 'She lost the key to the front door.', exUa: 'Вона загубила ключ від вхідних дверей.' },
+    { pos: 'adj',  translation: 'ключовий, важливий', exEn: 'Communication is a key factor in any relationship.', exUa: 'Спілкування — ключовий фактор у будь-яких стосунках.' },
+    { pos: 'noun', translation: 'тональність (музична)', exEn: 'The song was written in the key of C major.', exUa: 'Пісня була написана в тональності до-мажор.' },
+  ],
+  'pen': [
+    { pos: 'noun', translation: 'ручка (для писання)', exEn: 'She signed the document with a black pen.', exUa: 'Вона підписала документ чорною ручкою.' },
+    { pos: 'noun', translation: 'загорожа (для тварин)', exEn: 'The farmer led the sheep into the pen for the night.', exUa: 'Фермер завів овець у загорожу на ніч.' },
+  ],
+  'jam': [
+    { pos: 'noun', translation: 'джем, варення', exEn: 'She spread strawberry jam on her toast.', exUa: 'Вона намастила полуничний джем на тост.' },
+    { pos: 'noun', translation: 'затор (дорожній)', exEn: 'They were stuck in a jam for over an hour.', exUa: 'Вони застрягли в заторі більш ніж на годину.' },
+  ],
+  'fan': [
+    { pos: 'noun', translation: 'фанат, вболівальник', exEn: 'He is a huge fan of classic rock music.', exUa: 'Він великий фанат класичної рок-музики.' },
+    { pos: 'noun', translation: 'вентилятор', exEn: 'She turned on the fan to cool the stuffy room.', exUa: 'Вона увімкнула вентилятор, щоб охолодити задушливу кімнату.' },
+  ],
+  'tank': [
+    { pos: 'noun', translation: 'танк (військовий)', exEn: 'The army tank rolled slowly across the field.', exUa: 'Армійський танк повільно проїхав через поле.' },
+    { pos: 'noun', translation: 'резервуар, акваріум', exEn: 'The fish swam peacefully inside the glass tank.', exUa: 'Рибки мирно плавали в скляному акваріумі.' },
+  ],
+  'charge': [
+    { pos: 'noun', translation: 'плата, ціна', exEn: 'The hotel added a small charge for breakfast.', exUa: 'Готель додав невелику плату за сніданок.' },
+    { pos: 'v',    translation: 'кидатися в атаку', exEn: 'The soldiers charged forward despite the danger.', exUa: 'Солдати рвонули вперед, незважаючи на небезпеку.' },
+    { pos: 'v',    translation: 'заряджати', exEn: 'Please charge your phone before the trip.', exUa: 'Будь ласка, заряди свій телефон перед поїздкою.' },
+  ],
+  'file': [
+    { pos: 'noun', translation: 'папка, справа', exEn: 'He kept all the receipts in a yellow file.', exUa: 'Він тримав усі квитанції в жовтій папці.' },
+    { pos: 'v',    translation: 'подавати (заяву, скаргу)', exEn: 'She decided to file a formal complaint against the company.', exUa: 'Вона вирішила подати офіційну скаргу на компанію.' },
+    { pos: 'noun', translation: 'ряд, шеренга', exEn: 'The students walked in a single file to the exit.', exUa: 'Студенти йшли одним рядком до виходу.' },
+  ],
+  'record': [
+    { pos: 'noun', translation: 'платівка (вінілова)', exEn: 'He collects old jazz records from the 1960s.', exUa: 'Він колекціонує старі джазові вінілові платівки 1960-х.' },
+    { pos: 'v',    translation: 'записувати', exEn: 'She recorded the lecture on her phone.', exUa: 'Вона записала лекцію на свій телефон.' },
+    { pos: 'noun', translation: 'рекорд (спортивний)', exEn: 'He broke the world record in the marathon.', exUa: 'Він побив світовий рекорд у марафоні.' },
+  ],
+  'stick': [
+    { pos: 'noun', translation: 'паличка, гілка', exEn: 'The dog ran to fetch the stick.', exUa: 'Пес побіг приносити паличку.' },
+    { pos: 'v',    translation: 'прилипати', exEn: "The label wouldn't stick to the wet bottle.", exUa: 'Етикетка не хотіла прилипати до вологої бутельки.' },
+  ],
+  'spot': [
+    { pos: 'noun', translation: 'пляма', exEn: 'There was a small spot of grease on his shirt.', exUa: 'На його сорочці була маленька масляна пляма.' },
+    { pos: 'v',    translation: 'помічати', exEn: 'She spotted her friend in the crowded station.', exUa: 'Вона помітила свого друга в переповненому вокзалі.' },
+  ],
+  'bolt': [
+    { pos: 'noun', translation: 'болт', exEn: 'He tightened the bolt with a wrench.', exUa: 'Він закрутив болт гайковим ключем.' },
+    { pos: 'v',    translation: 'кидатися навтьоки', exEn: 'The horse bolted at the sound of thunder.', exUa: 'Кінь рвонув навтьоки від звуку грому.' },
+  ],
+  'patient': [
+    { pos: 'adj',  translation: 'терплячий', exEn: 'She remained patient even after the long delay.', exUa: 'Вона залишалася терплячою навіть після довгої затримки.' },
+    { pos: 'noun', translation: 'пацієнт', exEn: 'The patient waited quietly in the hospital corridor.', exUa: 'Пацієнт спокійно чекав у лікарняному коридорі.' },
+  ],
+  'desert': [
+    { pos: 'noun', translation: 'пустеля', exEn: 'Few plants can survive in the dry desert.', exUa: 'Мало рослин можуть вижити в сухій пустелі.' },
+    { pos: 'v',    translation: 'покидати, дезертирувати', exEn: 'He refused to desert his friends in their time of need.', exUa: 'Він відмовився покинути своїх друзів у важку хвилину.' },
+  ],
+  'content': [
+    { pos: 'adj',  translation: 'задоволений', exEn: 'She felt content after a quiet evening at home.', exUa: 'Вона почувалася задоволеною після тихого вечора вдома.' },
+    { pos: 'noun', translation: 'зміст, вміст', exEn: 'The content of the speech surprised everyone in the room.', exUa: 'Зміст промови здивував усіх присутніх.' },
+  ],
+  'object': [
+    { pos: 'noun', translation: 'предмет', exEn: 'There was a strange object lying on the table.', exUa: 'На столі лежав дивний предмет.' },
+    { pos: 'v',    translation: 'заперечувати', exEn: 'Her lawyer objected to the question immediately.', exUa: 'Її адвокат негайно заперечив проти запитання.' },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
