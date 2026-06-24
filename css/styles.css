@@ -529,6 +529,8 @@
   .search-result-item .sr-transl { color: var(--text2); flex: 1; }
   .search-result-item.sr-known { background: #f0fdf4; }
   body.dark .search-result-item.sr-known { background: #1a2e1f; }
+  body.sw .search-result-item.sr-known { background: #103024; }
+  body.hp .search-result-item.sr-known { background: #2a1f0a; }
   .search-result-item .sr-known-badge { font-size: .72rem; color: #27ae60; font-weight: 700; flex-shrink: 0; }
   .search-no-results {
     padding: 10px 12px;
