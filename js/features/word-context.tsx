@@ -7,7 +7,7 @@ import { searchCollocations } from '../../data/collocations.ts';
 import { WORD_FAMILIES_BY_LANG, WORD_FAMILY_REVERSE_BY_LANG } from '../../data/word-families.ts';
 import { SYNONYMS_BY_LANG, SYNONYM_REVERSE_BY_LANG } from '../../data/synonyms.ts';
 import { getEtymologyFact } from '../../data/etymology.ts';
-import { USAGE_NOTES } from '../../data/usage-notes.ts';
+import { USAGE_NOTES_BY_LANG } from '../../data/usage-notes.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { openWordDetail } from './word-detail.tsx';
@@ -207,7 +207,12 @@ export function UsageNoteBox(): ReactElement | null {
   const cw = state.cw as WordEntry | null;
   if (!cw) return null;
 
-  const note = USAGE_NOTES[cw[0].toLowerCase()];
+  const { front } = parsePair(getMode());
+  const dict = USAGE_NOTES_BY_LANG[front];
+  if (!dict) return null;
+  const frontWord = headwordFor(front, cw);
+  if (!frontWord) return null;
+  const note = dict[frontWord.toLowerCase()];
   if (!note) return null;
 
   return (
