@@ -1,29 +1,29 @@
 import { describe, it, expect } from 'vitest';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
+import { getMaxWordsForLearnLang } from '../../js/features/mode-utils.ts';
 import type { GameData, ModeStats } from '../../src/types.js';
 
 function g(o: Partial<GameData> = {}): GameData {
   return { streak:0, streakDate:null, shields:0, goalMax:20, goalCur:0, goalDate:'', goalDays:0, confettiShown:null, sessionWords:0, xp:0, maxCombo:0, ...o };
 }
 
-// ── Word count milestones — updated for 10002 words ────────────
-describe('Achievement word milestones — updated word count', () => {
-  it('words10002 achievement now targets all 10002 words', () => {
+// ── Word count milestones — scales with the current learn language's
+// full vocabulary size (10014 for en/ua/es, 2000 for the other target
+// languages), not a fixed number ────────────────────────────────────
+describe('Achievement word milestones — dynamic word count', () => {
+  it('words10002 achievement targets the full vocabulary for the current learn language', () => {
+    const max = getMaxWordsForLearnLang();
     const a = ACHIEVEMENTS.find(x => x.id === 'words10002')!;
     expect(a).toBeDefined();
-    expect(a.progress(10002, g()).max).toBe(10002);
-    expect(a.check(10001, g())).toBe(false);
-    expect(a.check(10002, g())).toBe(true);
+    expect(a.progress(max, g()).max).toBe(max);
+    expect(a.check(max - 1, g())).toBe(false);
+    expect(a.check(max, g())).toBe(true);
   });
 
-  it('words10002 progress bar caps at 10002', () => {
+  it('words10002 progress bar caps at the max', () => {
+    const max = getMaxWordsForLearnLang();
     const a = ACHIEVEMENTS.find(x => x.id === 'words10002')!;
-    expect(a.progress(11000, g()).cur).toBe(10002);
-  });
-
-  it('hint text mentions 10002', () => {
-    const a = ACHIEVEMENTS.find(x => x.id === 'words10002')!;
-    expect(a.hint).toContain('10002');
+    expect(a.progress(max + 1000, g()).cur).toBe(max);
   });
 });
 
@@ -121,7 +121,7 @@ describe('Achievement logic — speed (sessionWords)', () => {
 describe('Achievement logic — levels (lvl2–lvl10)', () => {
   const cases: Array<[string, number]> = [
     ['lvl2', 30], ['lvl3', 100], ['lvl4', 250], ['lvl5', 500],
-    ['lvl6', 900], ['lvl7', 1500], ['lvl8', 2500], ['lvl9', 4000], ['lvl10', 10002],
+    ['lvl6', 900], ['lvl7', 1500], ['lvl8', 2500], ['lvl9', 4000], ['lvl10', getMaxWordsForLearnLang()],
   ];
 
   it.each(cases)('%s: passes at k=%i, fails at k=%i-1', (id, threshold) => {

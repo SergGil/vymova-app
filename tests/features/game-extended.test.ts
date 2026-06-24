@@ -88,7 +88,8 @@ describe('getNextLevel()', () => {
   });
 
   it('returns null at max level', () => {
-    expect(getNextLevel(10002)).toBeNull();   // LEVELS top min is 10002
+    const topMin = LEVELS[LEVELS.length - 1].min;
+    expect(getNextLevel(topMin)).toBeNull();
     expect(getNextLevel(99999)).toBeNull();
   });
 

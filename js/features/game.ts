@@ -1,6 +1,7 @@
 // Vymova — js/features/game.ts
 // Game data, progress tracking, levels & achievements data
 import { state } from '../../src/state.ts';
+import { getMaxWordsForLearnLang } from './mode-utils.ts';
 import type { GameData, Level, Achievement, ModeStats, ModeAccuracy, ModeAccEntry } from '../../src/types.js';
 
 // ── Session caches ─────────────────────────────────────────────
@@ -172,7 +173,7 @@ export const LEVELS: Level[] = [
   { name: '🔴 Ситх-лорд',           min: 1500, color: '#c0392b', bg: '#fdedec' },
   { name: '⚡ Обраний',             min: 2500, color: '#d4ac0d', bg: '#fefde7' },
   { name: '🌠 Балансувальник Сили', min: 4000, color: '#1a1a2e', bg: '#eaf0fb' },
-  { name: '🏆 Магістр Йода',        min: 10002, color: '#2d6a3d', bg: '#e0f7e9' },
+  { name: '🏆 Магістр Йода',        get min() { return getMaxWordsForLearnLang(); }, color: '#2d6a3d', bg: '#e0f7e9' },
 ];
 
 export function getLevel(n: number): Level {

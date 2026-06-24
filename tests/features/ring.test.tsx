@@ -4,6 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { LevelRing } from '../../js/features/ring.tsx';
+import { getMaxWordsForLearnLang } from '../../js/features/mode-utils.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -36,7 +37,7 @@ describe('ring.tsx LevelRing', () => {
   });
 
   it('shows 100% and the "done" class for the final level', () => {
-    state.known = new Set(Array.from({ length: 10002 }, (_, i) => `w${i}`));
+    state.known = new Set(Array.from({ length: getMaxWordsForLearnLang() }, (_, i) => `w${i}`));
     const { container } = mount();
     expect(container.querySelector('#ring-center')!.textContent).toContain('100%');
     expect(container.querySelector('#ring-fill')!.getAttribute('class')).toContain('done');

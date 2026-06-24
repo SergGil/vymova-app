@@ -4,6 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { GameBarLevel } from '../../js/features/game-bar-level.tsx';
+import { getMaxWordsForLearnLang } from '../../js/features/mode-utils.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -38,7 +39,7 @@ describe('game-bar-level.tsx GameBarLevel', () => {
   });
 
   it('shows the max-reached message at the final level', () => {
-    state.known = new Set(Array.from({ length: 10002 }, (_, i) => `w${i}`));
+    state.known = new Set(Array.from({ length: getMaxWordsForLearnLang() }, (_, i) => `w${i}`));
     const { container } = mount();
     expect(container.querySelector('.gb-level-num')!.textContent).toBe('10');
     const fill = container.querySelector('.gb-level-fill') as HTMLElement;

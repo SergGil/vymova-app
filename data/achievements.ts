@@ -1,6 +1,7 @@
 // Vymova — data/achievements.ts
 // Static achievements definition (pure data, no side effects)
 import type { Achievement, GameData, ModeStats } from '../src/types.js';
+import { getMaxWordsForLearnLang } from '../js/features/mode-utils.ts';
 
 export const ACHIEVEMENTS: Achievement[] = [
   // ── 📖 Слова ──
@@ -16,7 +17,7 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id:'words4000', icon:'🌠', name:'4 000 слів',       cat:'📖 Слова',     hint:'4000 слів — ти вже Обраний. Читаєш без словника!',                       progress: function(k: number, g: GameData){ return {cur:Math.min(k,4000),  max:4000}; }, check: function(k: number, g: GameData){ return k>=4000; } },
   { id:'words6000', icon:'💠', name:'6 000 слів',       cat:'📖 Слова',     hint:'6000 слів — рівень Члена Ради. Майже половина словника!',               progress: function(k: number, g: GameData){ return {cur:Math.min(k,6000),  max:6000}; }, check: function(k: number, g: GameData){ return k>=6000; } },
   { id:'words8000', icon:'🌀', name:'8 000 слів',       cat:'📖 Слова',     hint:'8000 слів — рівень Ситх-лорда лексики. Майже все вивчено!',             progress: function(k: number, g: GameData){ return {cur:Math.min(k,8000),  max:8000}; }, check: function(k: number, g: GameData){ return k>=8000; } },
-  { id:'words10002',icon:'🏆', name:'Магістр Йода',     cat:'📖 Слова',     hint:'Всі 10002 слова вивчено. Do or do not — there is no try!',              progress: function(k: number, g: GameData){ return {cur:Math.min(k,10002), max:10002}; }, check: function(k: number, g: GameData){ return k>=10002; } },
+  { id:'words10002',icon:'🏆', name:'Магістр Йода',     cat:'📖 Слова',     hint:'Всі слова вивчено. Do or do not — there is no try!',              progress: function(k: number, g: GameData){ const max = getMaxWordsForLearnLang(); return {cur:Math.min(k,max), max}; }, check: function(k: number, g: GameData){ return k>=getMaxWordsForLearnLang(); } },
 
   // ── 📅 Серія ──
   { id:'streak3',   icon:'🔥', name:'3 дні підряд',    cat:'📅 Серія',     hint:'Займайся 3 дні поспіль — звичка починається!',                          progress: function(k: number, g: GameData){ return {cur:Math.min(g.streak||0,3),   max:3}; },   check: function(k: number, g: GameData){ return (g.streak||0)>=3; } },
@@ -65,7 +66,7 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id:'lvl7',  icon:'🔴', name:'Ситх-лорд',          cat:'🌟 Рівні', hint:'Досягни рівня Ситх-лорд (1500 слів)',           progress: function(k: number){ return {cur:Math.min(k,1500), max:1500}; }, check: function(k: number){ return k>=1500; } },
   { id:'lvl8',  icon:'⚡', name:'Обраний',             cat:'🌟 Рівні', hint:'Досягни рівня Обраний (2500 слів)',              progress: function(k: number){ return {cur:Math.min(k,2500), max:2500}; }, check: function(k: number){ return k>=2500; } },
   { id:'lvl9',  icon:'🌠', name:'Балансувальник Сили', cat:'🌟 Рівні', hint:'Досягни рівня Балансувальник (4000 слів)',       progress: function(k: number){ return {cur:Math.min(k,4000), max:4000}; }, check: function(k: number){ return k>=4000; } },
-  { id:'lvl10', icon:'🏆', name:'Магістр Йода',       cat:'🌟 Рівні', hint:'Досягни рівня Магістр Йода (10002 слова — весь словник)', progress: function(k: number){ return {cur:Math.min(k,10002), max:10002}; }, check: function(k: number){ return k>=10002; } },
+  { id:'lvl10', icon:'🏆', name:'Магістр Йода',       cat:'🌟 Рівні', hint:'Досягни рівня Магістр Йода (весь словник)', progress: function(k: number){ const max = getMaxWordsForLearnLang(); return {cur:Math.min(k,max), max}; }, check: function(k: number){ return k>=getMaxWordsForLearnLang(); } },
 
   // ── 🎮 Режими (додатково) ──
   { id:'mode_context1',  icon:'🔍', name:'Перший Контекст',  cat:'🎮 Режими', hint:'Заверши перший раунд режиму Контекст — вгадай слово з речення', progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.context||0,1),  max:1}; }, check: function(k: number, g: GameData, m?: ModeStats){ return (m?.context||0)>=1; } },

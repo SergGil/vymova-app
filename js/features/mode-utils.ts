@@ -17,6 +17,7 @@ import { W_EL } from '../../data/words_el.js';
 import { W_JA } from '../../data/words_ja.js';
 import { W_TR } from '../../data/words_tr.js';
 import { W_NL } from '../../data/words_nl.js';
+import { W } from '../../data/words.js';
 import { boldEn, boldUa, boldHead } from '../core/card-helpers.ts';
 import {
   saveKnown, saveKnownEs, saveKnownFr, saveKnownIt, saveKnownPt, saveKnownDe,
@@ -256,6 +257,18 @@ export function headwordFor(code: Code, w: WordEntry): string {
 /** Count of "known" words in the currently selected learn language. */
 export function getKnownInLang(): number {
   return getActiveKnownByLang().size;
+}
+
+// Target-language vocabulary sizes, precomputed once — the 12 "small"
+// languages cover 2000 words each, while ES (and EN/UA) cover the full list.
+const TARGET_LANG_SIZE: Record<TargetLang, number> = Object.fromEntries(
+  ALL_TARGET_LANGS.map(l => [l, Object.keys(RAW_TABLES[l]).length])
+) as Record<TargetLang, number>;
+
+/** Total vocabulary size available for the currently selected learn language (full dictionary for en/ua, that language's own table otherwise). */
+export function getMaxWordsForLearnLang(): number {
+  const lang = targetLangFromStorageKey(localStorage.getItem('ew_learn_lang') ?? 'en');
+  return lang ? TARGET_LANG_SIZE[lang] : W.length;
 }
 
 /** The active known Set for the currently selected learn language. */
