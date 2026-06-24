@@ -6,6 +6,7 @@ import { W } from '../../data/words.js';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
+import { playSound } from '../core/audio.ts';
 import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
@@ -176,6 +177,7 @@ export function TempoPage(): ReactElement {
       r.tLeft = (r.tLeft ?? selectedSec) - 1;
       setTimeLeft(r.tLeft);
       if (r.tLeft <= 0) endTempo();
+      else if (r.tLeft <= 10) { try { playSound('tick'); } catch (e) {} }
     }, 1000);
     run.current.tLeft = selectedSec;
   };

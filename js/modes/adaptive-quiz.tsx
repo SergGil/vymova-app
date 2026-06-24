@@ -9,6 +9,7 @@ import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
+import { playSound } from '../core/audio.ts';
 import { speak, _speakWithLang } from '../features/speech.ts';
 import { t, getLang } from '../features/i18n.ts';
 import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
@@ -189,7 +190,9 @@ export function AdaptiveQuizPage(): ReactElement {
     timerRef.current = setInterval(() => {
       setTimeLeft(tl => {
         if (tl <= 1) { checkAnswer(null); return 0; }
-        return tl - 1;
+        const next = tl - 1;
+        if (next <= 3) { try { playSound('tick'); } catch (e) {} }
+        return next;
       });
     }, 1000);
     return stopTimer;

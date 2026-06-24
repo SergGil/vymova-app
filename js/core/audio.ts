@@ -51,6 +51,13 @@ export function playSound(type: string): void {
         o.start(ctx.currentTime + i * 0.06);
         o.stop(ctx.currentTime + i * 0.06 + 0.18);
       });
+    } else if (type === 'tick') {
+      osc.frequency.setValueAtTime(880, ctx.currentTime);
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+      osc.type = 'square';
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.08);
     } else if (type === 'goal') {
       [523, 659, 784, 1047].forEach((freq, i) => {
         const o = ctx.createOscillator(), g = ctx.createGain();

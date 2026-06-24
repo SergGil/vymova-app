@@ -7,6 +7,7 @@ import { W } from '../../data/words.js';
 import { getGameData, saveGameData, recordModeComplete } from '../features/game.ts';
 import { closePage, openPage } from '../features/sidebar.tsx';
 import { speakBtn, decodeIpa } from '../core/ui-helpers.ts';
+import { playSound } from '../core/audio.ts';
 import { t } from '../features/i18n.ts';
 import { refreshGameBarLevel } from '../features/game-bar-level.tsx';
 import { checkAchievements } from '../features/render-achievements.ts';
@@ -92,6 +93,7 @@ export function DailyChallenge(): ReactElement | null {
         dcTimeLeft--;
         elTimer.textContent = dcTimeLeft + t('common.secSuffix');
         if (dcTimeLeft <= 15) elTimer.style.color = '#e74c3c';
+        if (dcTimeLeft > 0 && dcTimeLeft <= 15) { try { playSound('tick'); } catch (e) {} }
         if (dcTimeLeft <= 0) { clearInterval(dcTimer!); dcTimer = null; _showFinal(); }
       }, 1000);
     }

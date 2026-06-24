@@ -5,6 +5,7 @@ import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer } from '../features/game.ts';
+import { playSound } from '../core/audio.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -113,7 +114,9 @@ export function WordLettersPage(): ReactElement {
     timerRef.current = setInterval(() => {
       setTimeLeft(tl2 => {
         if (tl2 <= 1) { stopTimer(); return 0; }
-        return tl2 - 1;
+        const next = tl2 - 1;
+        if (next <= 10) { try { playSound('tick'); } catch (e) {} }
+        return next;
       });
     }, 1000);
   };
