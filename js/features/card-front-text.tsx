@@ -7,13 +7,12 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { t, tLang, type Lang } from './i18n.ts';
 import { srsStatusInfo, forgettingCurveTooltip, type SrsEntry } from '../core/card-helpers.ts';
 import {
-  getResolvedMode, computeCardView, parsePair, type Code,
+  getResolvedMode, computeCardView, parsePair, headwordFor, type Code,
   esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry,
 } from './mode-utils.ts';
 import { speakEnAccent, speakEsAccent, speakPtAccent, hasEsAccent, hasPtAccent } from './voice.tsx';
-import { speak } from './speech.ts';
 import { speakForCode } from './speak-lang.ts';
-import { SENSES } from '../../data/senses.ts';
+import { SENSES_BY_LANG, type SenseEntry } from '../../data/senses.ts';
 import { InfoIcon, InfoNote } from './info-icon.tsx';
 import { TRANSCRIPTION_LEGEND } from './transcription-legend.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -186,10 +185,27 @@ export function CardHint() {
   return <p className="hint">{t('cards.hint')}</p>;
 }
 
+// Translation fields often list several variants ("orilla; banco", "vela
+// (будівля)") — a homonym key like "banco" only ever matches one variant
+// of one headword's display, so look it up by trying each comma/
+// semicolon-separated, parenthetical-stripped token rather than the whole string.
+function findSenses(dict: Record<string, SenseEntry[]>, frontWord: string): SenseEntry[] | undefined {
+  const tokens = frontWord.toLowerCase().split(/[,;]/).map(s => s.replace(/\s*\([^)]*\)\s*$/, '').trim());
+  for (const tok of tokens) {
+    if (tok && dict[tok]) return dict[tok];
+  }
+  return undefined;
+}
+
 export function OtherMeanings() {
   const { cw, flipped } = useAppState();
   if (!cw || !flipped) return null;
-  const senses = SENSES[cw[0].toLowerCase()];
+  const { front } = parsePair(getResolvedMode());
+  const dict = SENSES_BY_LANG[front];
+  if (!dict) return null;
+  const frontWord = headwordFor(front, cw);
+  if (!frontWord) return null;
+  const senses = findSenses(dict, frontWord);
   if (!senses || senses.length < 2) return null;
 
   return (
@@ -201,8 +217,8 @@ export function OtherMeanings() {
             <span className="sense-pos">{s.pos}</span>{' '}
             <span className="sense-translation">{s.translation}</span>
             <div className="sense-example">
-              {s.exEn} <i>— {s.exUa}</i>
-              <button type="button" className="speak-btn sense-speak-btn" title="Вимовити приклад" onClick={e => { e.stopPropagation(); speak(s.exEn, e.currentTarget); }}>🔊</button>
+              {s.exEn} {s.exUa ? <i>— {s.exUa}</i> : null}
+              <button type="button" className="speak-btn sense-speak-btn" title="Вимовити приклад" onClick={e => { e.stopPropagation(); speakForCode(front, s.exEn, '', e.currentTarget); }}>🔊</button>
             </div>
           </li>
         ))}
