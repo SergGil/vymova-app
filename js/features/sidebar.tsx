@@ -158,8 +158,10 @@ function _updateTogglePills(): void {
   // Dark theme pill reflects user preference (ew_theme), not SW-induced body.dark
   const isDark = localStorage.getItem('ew_theme') === 'dark';
   const isSW   = document.body.classList.contains('sw');
+  const isHP   = document.body.classList.contains('hp');
   document.getElementById('set-theme-pill')?.classList.toggle('on', isDark);
   document.getElementById('set-sw-pill')?.classList.toggle('on', isSW);
+  document.getElementById('set-hp-pill')?.classList.toggle('on', isHP);
 }
 
 export function SidebarInit(): ReactElement | null {
@@ -352,13 +354,19 @@ export function SidebarInit(): ReactElement | null {
     // ── Theme toggles ──────────────────────────────────────────
     const setTheme = document.getElementById('set-theme');
     const setSw = document.getElementById('set-sw');
+    const setHp = document.getElementById('set-hp');
     const titleSwToggle = document.getElementById('title-sw-toggle');
+    const titleHpToggle = document.getElementById('title-hp-toggle');
     const onSetThemeClick = () => { document.getElementById('btn-theme')?.click(); setTimeout(_updateTogglePills, 50); };
     const onSetSwClick = () => { document.getElementById('btn-sw')?.click(); setTimeout(_updateTogglePills, 50); };
     const onTitleSwClick = () => { document.getElementById('btn-sw')?.click(); setTimeout(_updateTogglePills, 50); };
+    const onSetHpClick = () => { document.getElementById('btn-hp')?.click(); setTimeout(_updateTogglePills, 50); };
+    const onTitleHpClick = () => { document.getElementById('btn-hp')?.click(); setTimeout(_updateTogglePills, 50); };
     setTheme?.addEventListener('click', onSetThemeClick);
     setSw?.addEventListener('click', onSetSwClick);
     titleSwToggle?.addEventListener('click', onTitleSwClick);
+    setHp?.addEventListener('click', onSetHpClick);
+    titleHpToggle?.addEventListener('click', onTitleHpClick);
     _updateTogglePills();
     const mo = new MutationObserver(_updateTogglePills);
     mo.observe(document.body, { attributes: true, attributeFilter: ['class'] });
@@ -404,6 +412,8 @@ export function SidebarInit(): ReactElement | null {
       setTheme?.removeEventListener('click', onSetThemeClick);
       setSw?.removeEventListener('click', onSetSwClick);
       titleSwToggle?.removeEventListener('click', onTitleSwClick);
+      setHp?.removeEventListener('click', onSetHpClick);
+      titleHpToggle?.removeEventListener('click', onTitleHpClick);
       mo.disconnect();
       if (t1) clearTimeout(t1);
       if (t2) clearTimeout(t2);

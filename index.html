@@ -16,7 +16,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Cinzel+Decorative:wght@400;700;900&display=swap">
 <script>if('serviceWorker'in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){});});</script>
 <!-- Restore path after GitHub Pages 404.html redirect -->
 <script>(function(){var r=sessionStorage.getItem('spa-redirect');if(r){sessionStorage.removeItem('spa-redirect');window.history.replaceState(null,null,r.replace(window.location.origin,''));}})();</script>
@@ -90,6 +90,7 @@
       <div class="title-row">
         <div class="title">Vymova</div>
         <button id="title-sw-toggle" class="title-sw-toggle" title="Зоряні Війни — швидке перемикання теми">⚔️</button>
+        <button id="title-hp-toggle" class="title-hp-toggle" title="Гаррі Поттер — швидке перемикання теми">🦁</button>
       </div>
       <div class="subtitle"><span data-i18n="cards.cardLabel">Картка</span> <span id="cidx-mount"></span> · <span data-i18n="cards.learnedLabel">Вивчено</span>: <span id="cknown-mount"></span></div>
       <button id="profile-btn" class="profile-btn" style="display:none">🧑 <span>Гравець 1</span> ▾</button>
@@ -98,6 +99,7 @@
       <div id="wotd-mount"></div>
       <div id="theme-toggle-mount"></div>
       <button id="btn-sw" title="Star Wars режим" style="display:none"></button>
+      <button id="btn-hp" title="Гаррі Поттер режим" style="display:none"></button>
       <div id="lang-pair-select"></div>
       <select id="sel-mode" style="display:none">
         <option value="en">EN → UA</option>
@@ -360,6 +362,11 @@
             <span class="sb-icon">⚔️</span>
             <span class="sb-label" data-i18n="settings.starWars">Star Wars</span>
             <span class="sb-toggle-pill" id="set-sw-pill"></span>
+          </div>
+          <div class="sb-toggle-row" id="set-hp" style="background:var(--bg);border-radius:10px;">
+            <span class="sb-icon">🦁</span>
+            <span class="sb-label" data-i18n="settings.harryPotter">Гаррі Поттер</span>
+            <span class="sb-toggle-pill" id="set-hp-pill"></span>
           </div>
         </div>
       </div>
