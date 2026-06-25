@@ -203,15 +203,17 @@ export function render(): void {
   notifyStateChange();
   // Predictive prefetch: наступні картки (без дублів для малих дек)
   _idle(function() {
-    const _seen: Record<string, number> = {};
-    const _limit = Math.min(4, deck.length - 1);
-    for (let _pi = 1; _pi <= _limit; _pi++) {
-      const _nw = deck[(idx + _pi) % deck.length];
-      if (_nw && !_seen[_nw[0]] && !_imgCache.hasOwnProperty(_nw[0])) {
-        _seen[_nw[0]] = 1;
-        loadWikiImage(_nw[0], function(){});
+    _safe(() => {
+      const _seen: Record<string, number> = {};
+      const _limit = Math.min(4, deck.length - 1);
+      for (let _pi = 1; _pi <= _limit; _pi++) {
+        const _nw = deck[(idx + _pi) % deck.length];
+        if (_nw && !_seen[_nw[0]] && !_imgCache.hasOwnProperty(_nw[0])) {
+          _seen[_nw[0]] = 1;
+          loadWikiImage(_nw[0], function(){});
+        }
       }
-    }
+    });
   });
 }
 

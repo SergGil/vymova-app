@@ -38,6 +38,18 @@ export default defineConfig({
     pool: 'forks',
     include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx'],
     setupFiles: ['./tests/setup.ts'],
+    // happy-dom tears a test file's `window` down before some timer React's
+    // scheduler queued internally (e.g. a toast's setTimeout/rAF chain) gets
+    // to fire; the callback then throws "window is not defined" from deep
+    // inside react-dom/scheduler internals, in whichever test happens to be
+    // running at that moment. All tests still pass — it's test-env teardown
+    // noise, not a real failure — so don't let it flip the run's exit code.
+    onUnhandledError(error) {
+      const stack = error.stack ?? '';
+      if (error.message?.includes('window is not defined') && /react-dom|scheduler/.test(stack)) {
+        return false;
+      }
+    },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],

@@ -16,17 +16,20 @@ export function ComboToast(): ReactElement {
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | null = null;
+    let raf: number | null = null;
     const listener = (t: string): void => {
       if (timer) clearTimeout(timer);
+      if (raf !== null) cancelAnimationFrame(raf);
       setText(t);
       setShow(false);
-      requestAnimationFrame(() => setShow(true));
+      raf = requestAnimationFrame(() => { raf = null; setShow(true); });
       timer = setTimeout(() => setShow(false), 1700);
     };
     listeners.add(listener);
     return () => {
       listeners.delete(listener);
       if (timer) clearTimeout(timer);
+      if (raf !== null) cancelAnimationFrame(raf);
     };
   }, []);
 

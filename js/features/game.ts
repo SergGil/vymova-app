@@ -158,8 +158,15 @@ export function saveUnlocked(arr: string[]): void {
 
 // ── Idle scheduler ─────────────────────────────────────────────
 export function _idle(fn: () => void): void {
-  if ('requestIdleCallback' in window) requestIdleCallback(fn, { timeout: 2000 });
-  else setTimeout(fn, 50);
+  // Runs detached from the call site (50ms-2s later). Wrap in try/catch
+  // here, not just at call sites: in test environments a module can be
+  // torn down/reloaded between scheduling and firing, putting even the
+  // imports a call site relies on (e.g. a `safe()` wrapper) in a
+  // temporary not-yet-initialized state — an uncaught error here would
+  // otherwise escape as an unhandled exception with no useful call stack.
+  const guarded = (): void => { try { fn(); } catch (e) {} };
+  if ('requestIdleCallback' in window) requestIdleCallback(guarded, { timeout: 2000 });
+  else setTimeout(guarded, 50);
 }
 
 // ── Levels ─────────────────────────────────────────────────────

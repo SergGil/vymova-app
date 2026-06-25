@@ -21,16 +21,20 @@ export function AchievementToast(): ReactElement {
   useEffect(() => {
     let hideTimer: ReturnType<typeof setTimeout> | null = null;
     let unmountTimer: ReturnType<typeof setTimeout> | null = null;
+    const rafs: number[] = [];
+    const raf = (fn: () => void): void => { rafs.push(requestAnimationFrame(fn)); };
+    const clearRafs = (): void => { rafs.forEach(cancelAnimationFrame); rafs.length = 0; };
     const listener = (a: Achievement): void => {
       if (hideTimer) clearTimeout(hideTimer);
       if (unmountTimer) clearTimeout(unmountTimer);
+      clearRafs();
       setAch(a);
       setAnimate(false);
       setVisible(false);
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
+      raf(() => {
+        raf(() => {
           setVisible(true);
-          requestAnimationFrame(() => setAnimate(true));
+          raf(() => setAnimate(true));
         });
       });
       hideTimer = setTimeout(() => {
@@ -43,6 +47,7 @@ export function AchievementToast(): ReactElement {
       listeners.delete(listener);
       if (hideTimer) clearTimeout(hideTimer);
       if (unmountTimer) clearTimeout(unmountTimer);
+      clearRafs();
     };
   }, []);
 
