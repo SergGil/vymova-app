@@ -2,6 +2,7 @@
 // "?" help modal explaining every icon/section on the flashcard
 // (badges, action buttons, similar/family words, etymology, collocations...).
 import { useEffect, useState, type ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 import { t } from './i18n.ts';
 
 const ITEMS: { icon: string; key: string }[] = [
@@ -28,18 +29,23 @@ export function CardLegendModal(): ReactElement | null {
   useEffect(() => {
     // Delegated on document: #btn-card-legend is rendered by CardMeta only
     // once the active word loads, so it may not exist yet on mount.
+    // Capture phase (not bubble): the card's own flip-on-click handler is
+    // bound directly on #card, so a bubble-phase document listener fires
+    // only *after* the flip already ran — stopPropagation() there is too
+    // late. Capture fires top-down, before #card's handler, so it can
+    // actually intercept the click.
     const onOpen = (e: Event) => {
       if (!(e.target as HTMLElement).closest('#btn-card-legend')) return;
       e.stopPropagation();
       setOpen(true);
     };
-    document.addEventListener('click', onOpen);
-    return () => document.removeEventListener('click', onOpen);
+    document.addEventListener('click', onOpen, true);
+    return () => document.removeEventListener('click', onOpen, true);
   }, []);
 
   if (!open) return null;
 
-  return (
+  return createPortal(
     <div className="modal-overlay" onClick={e => { if (e.target === e.currentTarget) setOpen(false); }}>
       <div
         className="modal-inner"
@@ -60,6 +66,7 @@ export function CardLegendModal(): ReactElement | null {
           style={{ marginTop: 18, width: '100%', padding: 9, border: 'none', borderRadius: 8, background: 'var(--accent)', color: '#fff', fontSize: '.9rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
         >{t('common.close')}</button>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
