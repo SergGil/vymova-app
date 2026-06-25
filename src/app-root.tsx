@@ -76,6 +76,7 @@ import { AchievementToast } from '../js/features/achievement-toast.tsx';
 import { CsvExportButton } from '../js/features/csv-export-button.tsx';
 import { ComboToast } from '../js/features/combo-toast.tsx';
 import { NoteModal } from '../js/features/note-modal.tsx';
+import { CardLegendModal } from '../js/features/card-legend.tsx';
 import { PronunciationToast } from '../js/features/pronunciation-toast.tsx';
 import { ConfettiCanvas } from '../js/core/confetti.tsx';
 import { DuelOverlay } from '../js/features/duel-overlay.tsx';
@@ -198,6 +199,7 @@ function AppRoot(): ReactElement {
     <Portal id="csv-export-mount"><CsvExportButton/></Portal>
     <Portal id="combo-toast-mount"><ComboToast/></Portal>
     <NoteModal/>
+    <CardLegendModal/>
     <PronunciationToast/>
     <Portal id="confetti-canvas-mount"><ConfettiCanvas/></Portal>
     <Portal id="duel-overlay-mount"><DuelOverlay/></Portal>

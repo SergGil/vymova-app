@@ -9,6 +9,7 @@ import { getFrontLang, getResolvedMode, getMode, getActiveTargetLang, langConfig
 import { saveKnown } from '../core/storage.ts';
 import { unmarkKnown, getKnownSnapshot, type KnownLang } from '../../src/known-words-store.ts';
 import { render } from '../core/card-engine.ts';
+import { t } from './i18n.ts';
 
 function _unmarkActiveKnownAndSave(word: string): void {
   const lang: KnownLang = getActiveTargetLang(getMode()) ?? 'en';
@@ -51,6 +52,7 @@ export function CardMeta() {
         </span>
       )}
       <span className="card-tag" id="wlang">{frontLang}</span>
+      <button className="card-legend-btn" id="btn-card-legend" title={t('cardLegend.btnTitle')}>?</button>
     </div>
   );
 }
