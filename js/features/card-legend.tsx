@@ -26,10 +26,15 @@ export function CardLegendModal(): ReactElement | null {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const btn = document.getElementById('btn-card-legend');
-    const onOpen = (e: Event) => { e.stopPropagation(); setOpen(true); };
-    btn?.addEventListener('click', onOpen);
-    return () => btn?.removeEventListener('click', onOpen);
+    // Delegated on document: #btn-card-legend is rendered by CardMeta only
+    // once the active word loads, so it may not exist yet on mount.
+    const onOpen = (e: Event) => {
+      if (!(e.target as HTMLElement).closest('#btn-card-legend')) return;
+      e.stopPropagation();
+      setOpen(true);
+    };
+    document.addEventListener('click', onOpen);
+    return () => document.removeEventListener('click', onOpen);
   }, []);
 
   if (!open) return null;
