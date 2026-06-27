@@ -2,6 +2,7 @@
 // Pronunciation-check result toast, triggered imperatively from
 // card-actions.ts via showPronuncResult().
 import { useEffect, useState, type ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 import { t } from './i18n.ts';
 
 interface ToastData {
@@ -58,7 +59,7 @@ export function PronunciationToast(): ReactElement {
 
   if (!data) return <></>;
 
-  return (
+  return createPortal(
     <div
       id="_pron-toast"
       style={{
@@ -81,6 +82,7 @@ export function PronunciationToast(): ReactElement {
           <div style={{ width: `${data.pct}%`, height: '100%', background: '#fff', borderRadius: 4 }} />
         </div>
       )}
-    </div>
+    </div>,
+    document.body
   );
 }

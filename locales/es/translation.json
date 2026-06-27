@@ -698,6 +698,7 @@
   "settings.pwaDesc": "Acceso rápido desde la pantalla de inicio, funciona sin conexión.",
   "settings.pwaInstalled": "✓ Ya instalada",
   "settings.pwaUnavailable": "No disponible en este navegador",
+  "settings.pwaAddressBarHint": "Usa el icono de instalación (⊕) en la barra de direcciones, o el menú ⋮ → «Instalar Vymova».",
   "settings.cloudTitle": "☁️ Copia en la nube",
   "settings.cloudCopy": "📋 Copiar",
   "settings.cloudYourKey": "Tu clave:",

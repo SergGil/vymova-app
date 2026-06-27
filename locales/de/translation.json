@@ -698,6 +698,7 @@
   "settings.pwaDesc": "Schneller Zugriff vom Startbildschirm, funktioniert offline.",
   "settings.pwaInstalled": "✓ Bereits installiert",
   "settings.pwaUnavailable": "In diesem Browser nicht verfügbar",
+  "settings.pwaAddressBarHint": "Verwende das Installationssymbol (⊕) in der Adressleiste oder das Menü ⋮ → „Vymova installieren“.",
   "settings.cloudTitle": "☁️ Cloud-Backup",
   "settings.cloudCopy": "📋 Kopieren",
   "settings.cloudYourKey": "Dein Schlüssel:",

@@ -7,7 +7,7 @@ import { openPage } from './sidebar.tsx';
 import { t } from './i18n.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
 import { bindModalDismiss } from './overlay-utils.ts';
-import { isPwaInstalled, canTriggerPwaInstall, needsPwaIosHint, triggerPwaInstall } from '../core/pwa.tsx';
+import { isPwaInstalled, canTriggerPwaInstall, needsPwaIosHint, needsBrowserUiHint, triggerPwaInstall } from '../core/pwa.tsx';
 import type { WordEntry } from '../../src/types.js';
 
 type VoidFn = () => void;
@@ -143,6 +143,10 @@ export function SettingsInit(): ReactElement | null {
       } else if (needsPwaIosHint()) {
         btnPwaInstall.style.display = 'none';
         if (pwaHint) { pwaHint.style.display = ''; pwaHint.innerHTML = t('pwa.iosInstallHint'); }
+        pwaStatus.style.display = 'none';
+      } else if (needsBrowserUiHint()) {
+        btnPwaInstall.style.display = 'none';
+        if (pwaHint) { pwaHint.style.display = ''; pwaHint.textContent = t('settings.pwaAddressBarHint'); }
         pwaStatus.style.display = 'none';
       } else {
         btnPwaInstall.style.display = 'none';

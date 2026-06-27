@@ -20,12 +20,22 @@ window.addEventListener('appinstalled', () => { _deferredPrompt = null; });
 const _isIOS = (): boolean => /iphone|ipad|ipod/i.test(navigator.userAgent);
 const _isStandalone = (): boolean =>
   (navigator as any).standalone === true || window.matchMedia?.('(display-mode: standalone)').matches;
+// Chrome only fires beforeinstallprompt to a page once per cooldown period —
+// once it's been dismissed/missed, it won't refire on demand for a while,
+// even though the browser's own address-bar/menu install icon stays
+// available the whole time (it's a separate, independent affordance).
+const _isChromium = (): boolean => /Chrome|Chromium|Edg\//.test(navigator.userAgent) && !_isIOS();
 
 export const isPwaInstalled = (): boolean => _isStandalone();
 /** Chrome/Android: a native install prompt is ready. */
 export const canTriggerPwaInstall = (): boolean => !!_deferredPrompt;
 /** iOS Safari has no native prompt — show the "Add to Home Screen" hint instead. */
 export const needsPwaIosHint = (): boolean => _isIOS() && !_isStandalone();
+/** Chromium browser that supports installs, but no prompt is captured right
+ *  now — point the user at the browser's own install icon instead of
+ *  claiming installing is unavailable. */
+export const needsBrowserUiHint = (): boolean =>
+  !_isStandalone() && !canTriggerPwaInstall() && !needsPwaIosHint() && _isChromium();
 
 export async function triggerPwaInstall(): Promise<boolean> {
   if (!_deferredPrompt) return false;

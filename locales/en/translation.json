@@ -698,6 +698,7 @@
   "settings.pwaDesc": "Quick access from your home screen, works offline.",
   "settings.pwaInstalled": "✓ Already installed",
   "settings.pwaUnavailable": "Not available in this browser",
+  "settings.pwaAddressBarHint": "Use the install icon (⊕) in your browser’s address bar, or the ⋮ menu → “Install Vymova…”.",
   "settings.cloudTitle": "☁️ Cloud backup",
   "settings.cloudCopy": "📋 Copy",
   "settings.cloudYourKey": "Your key:",
