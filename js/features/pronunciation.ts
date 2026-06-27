@@ -66,7 +66,15 @@ export function startPronunciationCheck(
   // detected within the recognizer's own timeout) — without this, the
   // button just silently reverts to 🎤 with no feedback at all.
   _rec.onend = () => { if (!_gotResult) onResult('no_speech', 0); _stop(btn); };
-  _rec.start();
+  try {
+    _rec.start();
+  } catch (e) {
+    // .start() can throw synchronously (e.g. mic permission blocked at the
+    // browser/OS level) instead of firing onerror — without this, the
+    // button is left stuck on 🔴 forever with no feedback at all.
+    onResult('error', 0);
+    _stop(btn);
+  }
 }
 
 function stopPronunciationCheck(): void { _stop(null); }

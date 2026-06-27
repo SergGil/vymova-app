@@ -7,7 +7,10 @@ import { t } from '../features/i18n.ts';
 // Module-level so the Settings page can trigger install independently of
 // whether the auto-shown banner is currently visible (or was dismissed —
 // dismissing the banner shouldn't permanently hide the *option* to install).
-let _deferredPrompt: any = null;
+// beforeinstallprompt can fire before this module even loads, so a tiny
+// inline script in index.html's <head> captures it into a global first —
+// pick that up here too, not just future fires.
+let _deferredPrompt: any = (window as any).__pwaDeferredPrompt ?? null;
 window.addEventListener('beforeinstallprompt', (e: Event) => {
   e.preventDefault();
   _deferredPrompt = e;
