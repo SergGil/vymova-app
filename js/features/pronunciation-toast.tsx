@@ -36,6 +36,7 @@ export function PronunciationToast(): ReactElement {
         okay:        ['👍', t('pron.okay.title'),        t('pron.okay.sub', { s: spoken }), '#e67e22'],
         try_again:   ['🔁', t('pron.tryAgain.title'),    `"${spoken ?? '?'}" → "${target}"`, '#e74c3c'],
         unsupported: ['🎤', t('pron.unsupported.title'), t('pron.unsupported.sub'),     '#888'],
+        no_speech:   ['🔇', t('pron.noSpeech.title'),    t('pron.noSpeech.sub'),         '#888'],
         error:       ['⚠️', t('pron.error.title'),       t('pron.error.sub'),           '#e74c3c'],
       };
       const [emoji, title, subtitle, color] = msgs[status] ?? msgs.error;

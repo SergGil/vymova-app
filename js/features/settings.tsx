@@ -7,6 +7,7 @@ import { openPage } from './sidebar.tsx';
 import { t } from './i18n.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
 import { bindModalDismiss } from './overlay-utils.ts';
+import { isPwaInstalled, canTriggerPwaInstall, needsPwaIosHint, triggerPwaInstall } from '../core/pwa.tsx';
 import type { WordEntry } from '../../src/types.js';
 
 type VoidFn = () => void;
@@ -123,6 +124,43 @@ export function SettingsInit(): ReactElement | null {
     const btnAch = document.getElementById('btn-achievements');
     btnAch?.addEventListener('click', onAchClick);
 
+    // ── PWA install (manual re-trigger from Settings) ───────────────
+    const btnPwaInstall = document.getElementById('btn-pwa-install') as HTMLButtonElement | null;
+    const pwaStatus = document.getElementById('pwa-install-status');
+    const pwaHint = document.getElementById('pwa-install-hint');
+    let onPwaInstallClick: (() => void) | null = null;
+    function refreshPwaSection(): void {
+      if (!btnPwaInstall || !pwaStatus) return;
+      if (isPwaInstalled()) {
+        btnPwaInstall.style.display = 'none';
+        if (pwaHint) pwaHint.style.display = 'none';
+        pwaStatus.textContent = t('settings.pwaInstalled');
+        pwaStatus.style.display = '';
+      } else if (canTriggerPwaInstall()) {
+        btnPwaInstall.style.display = '';
+        if (pwaHint) pwaHint.style.display = 'none';
+        pwaStatus.style.display = 'none';
+      } else if (needsPwaIosHint()) {
+        btnPwaInstall.style.display = 'none';
+        if (pwaHint) { pwaHint.style.display = ''; pwaHint.innerHTML = t('pwa.iosInstallHint'); }
+        pwaStatus.style.display = 'none';
+      } else {
+        btnPwaInstall.style.display = 'none';
+        if (pwaHint) pwaHint.style.display = 'none';
+        pwaStatus.textContent = t('settings.pwaUnavailable');
+        pwaStatus.style.display = '';
+      }
+    }
+    if (btnPwaInstall) {
+      refreshPwaSection();
+      onPwaInstallClick = () => { triggerPwaInstall().then(refreshPwaSection); };
+      btnPwaInstall.addEventListener('click', onPwaInstallClick);
+      // beforeinstallprompt can arrive after this page already rendered;
+      // appinstalled confirms the install actually completed
+      window.addEventListener('beforeinstallprompt', refreshPwaSection);
+      window.addEventListener('appinstalled', refreshPwaSection);
+    }
+
     return () => {
       darkMq?.removeEventListener('change', onDarkChange);
       btnKnow?.removeEventListener('click', onKnow, true);
@@ -133,6 +171,9 @@ export function SettingsInit(): ReactElement | null {
       if (btnHP && onHpClick) btnHP.removeEventListener('click', onHpClick);
       if (_openBtn && openModes) _openBtn.removeEventListener('click', openModes);
       btnAch?.removeEventListener('click', onAchClick);
+      if (btnPwaInstall && onPwaInstallClick) btnPwaInstall.removeEventListener('click', onPwaInstallClick);
+      window.removeEventListener('beforeinstallprompt', refreshPwaSection);
+      window.removeEventListener('appinstalled', refreshPwaSection);
     };
   }, []);
 

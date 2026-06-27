@@ -53,14 +53,19 @@ export function startPronunciationCheck(
   _rec.lang = 'en-US'; _rec.interimResults = false; _rec.maxAlternatives = 3;
   if (btn) { btn.classList.add('on'); btn.textContent = '🔴'; }
   _isListening = true;
+  let _gotResult = false;
   _rec.onresult = (e: SpeechRecognitionEvent) => {
+    _gotResult = true;
     const spoken = Array.from(e.results[0]).map(r => r.transcript)[0] ?? '';
     const score  = _similarity(targetWord, spoken);
     const status = score >= 0.85 ? 'perfect' : score >= 0.6 ? 'good' : score >= 0.4 ? 'okay' : 'try_again';
     onResult(status, score, spoken, targetWord);
   };
-  _rec.onerror = () => { onResult('error', 0); _stop(btn); };
-  _rec.onend   = () => _stop(btn);
+  _rec.onerror = () => { _gotResult = true; onResult('error', 0); _stop(btn); };
+  // onend can fire with no prior onresult/onerror (silence, no speech
+  // detected within the recognizer's own timeout) — without this, the
+  // button just silently reverts to 🎤 with no feedback at all.
+  _rec.onend = () => { if (!_gotResult) onResult('no_speech', 0); _stop(btn); };
   _rec.start();
 }
 

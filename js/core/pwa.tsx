@@ -4,6 +4,35 @@ import { useState, useEffect, useRef, type ReactElement } from 'react';
 import { useStateVersion } from '../../src/store.ts';
 import { t } from '../features/i18n.ts';
 
+// Module-level so the Settings page can trigger install independently of
+// whether the auto-shown banner is currently visible (or was dismissed —
+// dismissing the banner shouldn't permanently hide the *option* to install).
+let _deferredPrompt: any = null;
+window.addEventListener('beforeinstallprompt', (e: Event) => {
+  e.preventDefault();
+  _deferredPrompt = e;
+});
+window.addEventListener('appinstalled', () => { _deferredPrompt = null; });
+
+const _isIOS = (): boolean => /iphone|ipad|ipod/i.test(navigator.userAgent);
+const _isStandalone = (): boolean =>
+  (navigator as any).standalone === true || window.matchMedia?.('(display-mode: standalone)').matches;
+
+export const isPwaInstalled = (): boolean => _isStandalone();
+/** Chrome/Android: a native install prompt is ready. */
+export const canTriggerPwaInstall = (): boolean => !!_deferredPrompt;
+/** iOS Safari has no native prompt — show the "Add to Home Screen" hint instead. */
+export const needsPwaIosHint = (): boolean => _isIOS() && !_isStandalone();
+
+export async function triggerPwaInstall(): Promise<boolean> {
+  if (!_deferredPrompt) return false;
+  _deferredPrompt.prompt();
+  const r = await _deferredPrompt.userChoice;
+  if (r.outcome === 'accepted') localStorage.setItem('ew_pwa_dismissed', '1');
+  _deferredPrompt = null;
+  return r.outcome === 'accepted';
+}
+
 export function PwaBanner(): ReactElement {
   useStateVersion();
   const [visible, setVisible] = useState(false);
