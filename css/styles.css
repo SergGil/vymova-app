@@ -2240,9 +2240,13 @@ body.dark .btn-modes-open:hover { background: rgba(155,89,182,.1); }
   border-radius: 20px 20px 16px 16px;
   width: 100%;
   max-width: 500px;
+  max-height: 100%;
   box-shadow: 0 -4px 40px rgba(0,0,0,.25);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   animation: slideUpPanel .25s cubic-bezier(.175,.885,.32,1.275);
+  display: flex;
+  flex-direction: column;
 }
 @keyframes slideUpPanel {
   from { transform: translateY(40px); opacity: 0; }
@@ -2868,6 +2872,10 @@ body.hp .hamburger { border-color: rgba(211,166,37,.3); }
     margin-left: 0;
     padding: 1rem 1rem 1rem 60px; /* space for hamburger */
   }
+  /* The hamburger sits fixed top-left above the sidebar (so it stays
+     clickable to close), which otherwise overlaps the logo text in the
+     same corner once the sidebar is open. */
+  .sidebar-logo { padding-left: 60px; }
 }
 @media (min-width: 901px) {
   .hamburger { display: none !important; }
@@ -2889,7 +2897,15 @@ body.hp .hamburger { border-color: rgba(211,166,37,.3); }
 .page-overlay.open { display: block; }
 
 @media (max-width: 900px) {
-  .page-overlay { left: 0; }
+  .page-overlay {
+    left: 0;
+    /* iOS Safari recomputes top:0/bottom:0 height against the resizing
+       viewport on every frame while its address bar shows/hides, making
+       fixed-position content visibly drift mid-transition. 100dvh tracks
+       the actual visible viewport instead — unsupported browsers simply
+       ignore this line and keep the top/bottom-based height above. */
+    height: 100dvh;
+  }
 }
 
 .modal-overlay {
