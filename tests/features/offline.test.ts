@@ -64,7 +64,9 @@ describe('offline.ts', () => {
     setOnline(true);
     await mount();
 
+    setOnline(false);
     act(() => { window.dispatchEvent(new Event('offline')); });
+    act(() => { vi.advanceTimersByTime(600); });
 
     const banner = document.getElementById('offline-banner');
     expect(banner).not.toBeNull();
@@ -74,9 +76,13 @@ describe('offline.ts', () => {
   it('shows a green "restored" banner that auto-hides when the "online" event fires', async () => {
     setOnline(true);
     await mount();
+    setOnline(false);
     act(() => { window.dispatchEvent(new Event('offline')); });
+    act(() => { vi.advanceTimersByTime(600); });
 
+    setOnline(true);
     act(() => { window.dispatchEvent(new Event('online')); });
+    act(() => { vi.advanceTimersByTime(600); });
 
     const banner = document.getElementById('offline-banner');
     expect(banner!.style.background).toBe('#27ae60');
@@ -87,15 +93,26 @@ describe('offline.ts', () => {
     expect(banner!.style.opacity).toBe('0');
   });
 
-  it('ignores repeated "offline" events while already offline', async () => {
+  it('debounces rapid repeated "offline" events into a single update', async () => {
     setOnline(true);
     const { _isOnlineCheck } = await mount();
+    setOnline(false);
     act(() => { window.dispatchEvent(new Event('offline')); });
+    act(() => { vi.advanceTimersByTime(100); });
+    // a second event within the debounce window should restart the timer,
+    // not produce a second independent update
+    act(() => { window.dispatchEvent(new Event('offline')); });
+    act(() => { vi.advanceTimersByTime(600); });
+    // let the requestAnimationFrame from _showOffline() flush before the
+    // test manipulates the banner directly, so it isn't clobbered later
+    act(() => { vi.advanceTimersByTime(50); });
     expect(_isOnlineCheck()).toBe(false);
 
     const banner = document.getElementById('offline-banner')!;
     banner.style.opacity = '0.5';
     act(() => { window.dispatchEvent(new Event('offline')); });
+    act(() => { vi.advanceTimersByTime(600); });
+    // already offline — no-op, banner untouched
     expect(banner.style.opacity).toBe('0.5');
   });
 

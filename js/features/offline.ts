@@ -24,6 +24,7 @@ function _getOrCreateBanner(): HTMLElement {
 }
 
 function _showOffline(): void {
+  if (_hideTimer) { clearTimeout(_hideTimer); _hideTimer = null; }
   const b = _getOrCreateBanner();
   b.style.background = '#c0392b';
   b.style.color = '#fff';
@@ -52,18 +53,23 @@ function _showOnline(): void {
 
 export function OfflineInit(): ReactElement | null {
   useEffect(() => {
-    const onOnline = () => {
-      if (_online) return; // ignore spurious repeats — avoids retriggering/extending the banner forever
-      _online = true;
-      _showOnline();
+    // Debounce: flaky wifi can fire several online/offline events in quick
+    // succession. Reacting to each one immediately re-triggers the banner
+    // and keeps extending its hide timer, so it never gets a quiet moment
+    // to actually hide. Instead, wait for a short quiet period and then act
+    // on the real navigator.onLine state, not on whichever event fired last.
+    let settleTimer: ReturnType<typeof setTimeout> | null = null;
+    const onChange = () => {
+      if (settleTimer) clearTimeout(settleTimer);
+      settleTimer = setTimeout(() => {
+        const isOnline = navigator.onLine;
+        if (isOnline === _online) return;
+        _online = isOnline;
+        if (isOnline) _showOnline(); else _showOffline();
+      }, 600);
     };
-    const onOffline = () => {
-      if (!_online) return;
-      _online = false;
-      _showOffline();
-    };
-    window.addEventListener('online', onOnline);
-    window.addEventListener('offline', onOffline);
+    window.addEventListener('online', onChange);
+    window.addEventListener('offline', onChange);
 
     // Show on initial load if already offline
     let initialTimer: ReturnType<typeof setTimeout> | null = null;
@@ -72,9 +78,10 @@ export function OfflineInit(): ReactElement | null {
     }
 
     return () => {
-      window.removeEventListener('online', onOnline);
-      window.removeEventListener('offline', onOffline);
+      window.removeEventListener('online', onChange);
+      window.removeEventListener('offline', onChange);
       if (initialTimer) clearTimeout(initialTimer);
+      if (settleTimer) clearTimeout(settleTimer);
     };
   }, []);
 

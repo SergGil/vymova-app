@@ -408,6 +408,11 @@
   .card.is-known .ex-en b    { color: #0e6632; }
   .card.is-known .ex-label   { color: #2e7a4a; }
   .card.is-known .speak-btn  { color: #2e7a4a; }
+  .card.is-known .card-num         { color: #2e7a4a; }
+  .card.is-known .sense-pos        { color: #2e7a4a; }
+  .card.is-known .sense-translation{ color: #133524; }
+  .card.is-known .sense-example,
+  .card.is-known .sense-example i  { color: #1f5233; }
   .known-badge {
     display: none;
     font-size: 11px;
@@ -820,6 +825,11 @@
   body.dark .card.is-known .speak-btn { color: #4ecca3; }
   body.dark .card.is-known .wtrans    { color: #6abf8a; }
   body.dark .card.is-known .known-badge { color: #4ecca3; }
+  body.dark .card.is-known .card-num         { color: #4ecca3; }
+  body.dark .card.is-known .sense-pos        { color: #4ecca3; }
+  body.dark .card.is-known .sense-translation{ color: #b8f0cc; }
+  body.dark .card.is-known .sense-example,
+  body.dark .card.is-known .sense-example i  { color: #8fd4a8; }
   body.dark .ach-card { background: rgba(255,255,255,.04); }
 
 
