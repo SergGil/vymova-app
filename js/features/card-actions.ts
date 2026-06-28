@@ -45,8 +45,6 @@ export function CardActionsInit(): ReactElement | null {
     const onCardClick = () => {
       if (!state.flipped) {
         setFlipped(true);
-        document.getElementById('wtransl')!.className = 'transl show';
-        document.getElementById('exua')!.className    = 'ex-ua show';
         _safe(() => updateSimilarWords());
       }
     };

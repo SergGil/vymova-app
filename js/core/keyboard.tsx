@@ -11,11 +11,7 @@ export function KeyboardShortcuts(): null {
       if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
       if ((e.target as Element).closest('#modal-overlay')) return;
 
-      const showTransl = () => {
-        setFlipped(true);
-        document.getElementById('wtransl')!.className = 'transl show';
-        document.getElementById('exua')!.className    = 'ex-ua show';
-      };
+      const showTransl = () => setFlipped(true);
 
       if (e.code === 'Space') {
         e.preventDefault();

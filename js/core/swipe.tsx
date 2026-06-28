@@ -89,8 +89,6 @@ export function CardSwipe(): null {
           setTimeout(function() {
             card!.classList.remove('swipe-up');
             setFlipped(true);
-            document.getElementById('wtransl')!.className = 'transl show';
-            document.getElementById('exua')!.className    = 'ex-ua show';
           }, 200);
         }
       }

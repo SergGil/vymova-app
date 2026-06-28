@@ -52,6 +52,7 @@ function _setCw(w: WordEntry | null): void {
 export function setFlipped(v: boolean): void {
   flipped = v;
   state.flipped = v;
+  notifyStateChange();
 }
 
 // Helper: get cached element with null safety
