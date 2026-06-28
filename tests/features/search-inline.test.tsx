@@ -36,8 +36,6 @@ describe('search-inline.tsx SearchInline', () => {
     document.body.innerHTML = '<select id="sel-mode"><option value="en" selected>en</option></select><select id="sel-range"><option value="0">All</option></select>';
     state.deck = (W as unknown as WordEntry[]).slice(0, 5);
     setKnownWords('en', new Set());
-    state._wordIdx = new Map();
-    (W as unknown as WordEntry[]).forEach((w, i) => state._wordIdx.set(w[0], i));
     render.mockClear();
     setDeck.mockClear();
     setIdx.mockClear();

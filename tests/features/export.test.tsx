@@ -4,7 +4,13 @@ import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
-import { ExportInit } from '../../js/features/export.tsx';
+
+let _mockWordIdx = new Map<string, number>();
+vi.mock('../../js/core/word-index.ts', () => ({
+  getWordIndex: () => _mockWordIdx,
+}));
+
+const { ExportInit } = await import('../../js/features/export.tsx');
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -28,7 +34,7 @@ describe('export.tsx ExportInit', () => {
     `;
     state.deck = [];
     setKnownWords('en', new Set());
-    state._wordIdx = new Map();
+    _mockWordIdx = new Map();
     localStorage.clear();
     roots = [];
   });
@@ -60,7 +66,7 @@ describe('export.tsx ExportInit', () => {
 
   it('exports to PDF via window.open and writes a table of words', () => {
     setKnownWords('en', new Set([(W as unknown as string[][])[0][0]]));
-    state._wordIdx.set((W as unknown as string[][])[0][0], 0);
+    _mockWordIdx.set((W as unknown as string[][])[0][0], 0);
     const { root } = mount();
     roots.push(root);
     const writeMock = vi.fn();

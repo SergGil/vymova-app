@@ -3,6 +3,7 @@
 import type { ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
+import { getWordIndex } from '../core/word-index.ts';
 import { searchCollocations } from '../../data/collocations.ts';
 import { WORD_FAMILIES_BY_LANG, WORD_FAMILY_REVERSE_BY_LANG } from '../../data/word-families.ts';
 import { SYNONYMS_BY_LANG, SYNONYM_REVERSE_BY_LANG } from '../../data/synonyms.ts';
@@ -102,7 +103,7 @@ export function WordFamiliesChips(): ReactElement | null {
   const chips = [head, ...family].filter(w => w !== word);
   if (!chips.length) return null;
 
-  const wordIdx = state._wordIdx;
+  const wordIdx = getWordIndex();
 
   return (
     <div className="similar-section" id="cb-families" style={{ margin: '14px 0 0' }}>
@@ -156,7 +157,7 @@ export function SynonymsChips(): ReactElement | null {
   const chips = [{ word: head, note: undefined as string | undefined }, ...members].filter(c => c.word !== word);
   if (!chips.length) return null;
 
-  const wordIdx = state._wordIdx;
+  const wordIdx = getWordIndex();
 
   return (
     <div className="similar-section" id="cb-synonyms" style={{ margin: '14px 0 0' }}>

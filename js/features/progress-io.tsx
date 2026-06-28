@@ -2,8 +2,9 @@
 // Export / import progress + modal event listeners
 import { useEffect, type ReactElement } from 'react';
 import { _lzSave } from '../core/storage.ts';
-import { state } from '../../src/state.ts';
 import { updateSrsUI } from '../core/srs.ts';
+import { getSrsDataSnapshot, loadSrsData } from '../../src/srs-store.ts';
+import { invalidateGameCaches } from './game.ts';
 import { W } from '../../data/words.js';
 import * as LZString from 'lz-string';
 import type { WordEntry } from '../../src/types.js';
@@ -18,7 +19,7 @@ function exportProgress(): string {
   const data = {
     v: 3,
     known:  JSON.stringify([...getKnownSnapshot('en')]),
-    srs:    JSON.stringify(state.srsData),
+    srs:    JSON.stringify(getSrsDataSnapshot()),
     game:   localStorage.getItem('ew_game')   || '{}',
     daily:  localStorage.getItem('ew_daily')  || '{}',
     ach:    localStorage.getItem('ew_ach')    || '[]',
@@ -57,10 +58,9 @@ function importProgress(code: string): boolean {
     _safe(() => {
       const newSrs: Record<string, any> = JSON.parse(srsJson);
       Object.keys(newSrs).forEach(function(k){ if(typeof newSrs[k]==='number') delete newSrs[k]; });
-      state.srsData = newSrs;
+      loadSrsData(newSrs);
     });
-    state._srsStatsDirty = true;
-    state._gameCache = null;
+    invalidateGameCaches();
     _safe(() => updateSrsUI(W as unknown as WordEntry[]));
     return true;
   } catch(e) {

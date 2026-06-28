@@ -9,6 +9,11 @@ vi.mock('../../js/core/card-engine.ts', () => ({
   render: vi.fn(),
 }));
 
+let _mockWordIdx = new Map<string, number>();
+vi.mock('../../js/core/word-index.ts', () => ({
+  getWordIndex: () => _mockWordIdx,
+}));
+
 const { CardMeta } = await import('../../js/features/card-meta.tsx');
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -30,7 +35,7 @@ describe('card-meta.tsx CardMeta', () => {
     state.deck = [cw, cw, cw];
     state.idx = 0;
     state.cw = cw;
-    state._wordIdx = new Map();
+    _mockWordIdx = new Map();
   });
 
   it('renders nothing without a current word', () => {
@@ -40,7 +45,7 @@ describe('card-meta.tsx CardMeta', () => {
   });
 
   it('shows the word number from _wordIdx when available', () => {
-    state._wordIdx = new Map([['abandon', 4]]);
+    _mockWordIdx = new Map([['abandon', 4]]);
     const { container } = mount();
     expect(container.querySelector('#wnum')!.textContent).toBe('#5');
   });

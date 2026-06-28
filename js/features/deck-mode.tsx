@@ -3,6 +3,7 @@
 // target language(s) the current pair involves (see mode-utils.ts getWordsForMode).
 import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
+import { getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
 import { W } from '../../data/words.js';
 import { getMode, getWordsForMode, isSpecialMode, noTranslationsKey } from './mode-utils.ts';
 import { t } from './i18n.ts';
@@ -24,7 +25,7 @@ export function _rebuildEsDeck(): void {
   const m = getMode();
   if (!_isSpecialMode(m)) return;
   const specialDeck = _getSpecialDeck(m);
-  const ats    = state._activeTagSet as Set<string> | null;
+  const ats    = getActiveTagSetSnapshot();
   let deck     = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
   if (!deck.length) deck = specialDeck.slice();
   setDeck(shuffle(deck));
@@ -46,7 +47,7 @@ export function DeckModeInit(): ReactElement | null {
           _preSpecialDeck = state.deck;
           _preSpecialIdx  = state.idx;
         }
-        const ats = state._activeTagSet as Set<string> | null;
+        const ats = getActiveTagSetSnapshot();
         let deck = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
         if (!deck.length) deck = specialDeck.slice();
         setDeck(shuffle(deck));
@@ -79,7 +80,7 @@ export function DeckModeInit(): ReactElement | null {
           _preSpecialDeck = state.deck;
           _preSpecialIdx  = state.idx;
         }
-        const ats = state._activeTagSet as Set<string> | null;
+        const ats = getActiveTagSetSnapshot();
         let deck = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
         if (!deck.length) deck = specialDeck.slice();
         setDeck(shuffle(deck));

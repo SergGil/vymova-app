@@ -9,6 +9,8 @@ import { BrowserRouter, useLocation, useNavigate } from 'react-router-dom';
 import { setRouterNavigate, ROUTE_TO_PAGE } from './router.ts';
 import { NavProvider, getActivePage } from './nav-store.tsx';
 import { KnownWordsProvider } from './known-words-store.ts';
+import { SrsProvider } from './srs-store.ts';
+import { DeckFilterProvider } from './deck-filter-store.ts';
 
 import { ProfileSwitcher } from '../js/features/profile-switcher.tsx';
 import { WordOfDay } from '../js/features/word-of-day.tsx';
@@ -219,9 +221,13 @@ export function mountAppRoot(): void {
     <BrowserRouter basename={basename}>
       <NavProvider>
         <KnownWordsProvider>
-          <NavigateBridge/>
-          <RouterSync/>
-          <AppRoot/>
+          <SrsProvider>
+            <DeckFilterProvider>
+              <NavigateBridge/>
+              <RouterSync/>
+              <AppRoot/>
+            </DeckFilterProvider>
+          </SrsProvider>
         </KnownWordsProvider>
       </NavProvider>
     </BrowserRouter>

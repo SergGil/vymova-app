@@ -3,6 +3,7 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
 import { notifyStateChange } from '../../src/store.ts';
+import { clearSrsData } from '../../src/srs-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 import {
   WordText, Transcription, PosTag, SrsBadge, Translation, ExEn, ExUa, OtherMeanings,
@@ -41,8 +42,7 @@ describe('card-front-text.tsx', () => {
     state._mode = 'en';
     state.cw = cw;
     state.flipped = false;
-    state.srsData = {};
-    state.TODAY = '2026-01-01';
+    clearSrsData();
     speakEnAccent.mockClear();
     speak.mockClear();
   });

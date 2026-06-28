@@ -3,9 +3,8 @@ import {
   getLevel, getNextLevel, LEVELS,
   updateStreak, getDailyStats, saveDailyStats, recordDailyWord,
   getModeStats, saveModeStats, recordModeComplete, invalidateModeStatsCache,
-  getGameData, saveGameData, loadUnlocked, saveUnlocked,
+  getGameData, saveGameData, loadUnlocked, saveUnlocked, invalidateGameCaches,
 } from '../../js/features/game.ts';
-import { state } from '../../src/state.ts';
 import type { GameData } from '../../src/types.js';
 
 // ── localStorage + date mock ──────────────────────────────────
@@ -19,9 +18,8 @@ const lsMock = {
   key: (i: number) => Object.keys(_store)[i] ?? null,
 };
 
-/** Set fake "today" for both state.TODAY and new Date() */
+/** Set fake "today" for new Date() (today() in js/core/today.ts reads it live) */
 function setFakeDate(isoDate: string): void {
-  state.TODAY = isoDate;
   vi.setSystemTime(new Date(isoDate + 'T12:00:00.000Z'));
 }
 
@@ -37,8 +35,8 @@ function makeGame(overrides: Partial<GameData> = {}): GameData {
 
 beforeEach(() => {
   lsMock.clear();
-  state._dailyCache = null; // reset cache so recordDailyWord starts fresh
-  state._gameCache  = null; // reset so getGameData re-reads from localStorage
+  invalidateGameCaches(); // reset cache so recordDailyWord starts fresh
+  invalidateGameCaches(); // reset so getGameData re-reads from localStorage
   invalidateModeStatsCache(); // reset mode stats cache so getModeStats re-reads from localStorage
   vi.useFakeTimers();
   vi.stubGlobal('localStorage', lsMock);
@@ -162,7 +160,7 @@ describe('getDailyStats() + saveDailyStats()', () => {
 
   it('saves and loads correctly', () => {
     saveDailyStats({ '2024-06-15': 5, '2024-06-14': 3 });
-    state._dailyCache = null;
+    invalidateGameCaches();
     const loaded = getDailyStats();
     expect(loaded['2024-06-15']).toBe(5);
     expect(loaded['2024-06-14']).toBe(3);
@@ -170,7 +168,7 @@ describe('getDailyStats() + saveDailyStats()', () => {
 
   it('returns a copy (not the same reference)', () => {
     saveDailyStats({ '2024-06-15': 10 });
-    state._dailyCache = null;
+    invalidateGameCaches();
     const a = getDailyStats();
     const b = getDailyStats();
     expect(a).not.toBe(b);
@@ -182,7 +180,7 @@ describe('getDailyStats() + saveDailyStats()', () => {
 describe('recordDailyWord()', () => {
   it('increments today\'s counter', () => {
     recordDailyWord();
-    state._dailyCache = null;
+    invalidateGameCaches();
     expect(getDailyStats()['2024-06-15']).toBe(1);
   });
 
@@ -190,13 +188,13 @@ describe('recordDailyWord()', () => {
     recordDailyWord();
     recordDailyWord();
     recordDailyWord();
-    state._dailyCache = null;
+    invalidateGameCaches();
     expect(getDailyStats()['2024-06-15']).toBe(3);
   });
 
   it('tracks hourly bucket (some h{0-23} key is set)', () => {
     recordDailyWord();
-    state._dailyCache = null;
+    invalidateGameCaches();
     const stats = getDailyStats();
     // recordDailyWord uses TODAY + '_h' + getHours() format to prevent cross-day bleed
     const hourKeys = Object.keys(stats).filter(k => /^\d{4}-\d{2}-\d{2}_h\d+$/.test(k));
@@ -252,7 +250,7 @@ describe('getGameData() + saveGameData()', () => {
     const data = makeGame({ streak: 5, xp: 300, maxCombo: 12, goalDays: 8,
       sessionWords: 42, streakDate: '2024-06-14' });
     saveGameData(data);
-    state._gameCache = null; // force re-read from localStorage
+    invalidateGameCaches(); // force re-read from localStorage
     const loaded = getGameData();
     expect(loaded.xp).toBe(300);
     expect(loaded.maxCombo).toBe(12);
@@ -262,15 +260,15 @@ describe('getGameData() + saveGameData()', () => {
 
   it('streak is preserved when streakDate is set', () => {
     saveGameData(makeGame({ streak: 7, streakDate: '2024-06-14' }));
-    state._gameCache = null;
+    invalidateGameCaches();
     expect(getGameData().streak).toBe(7);
   });
 
   it('overwrites previous save (xp)', () => {
     saveGameData(makeGame({ xp: 100 }));
-    state._gameCache = null;
+    invalidateGameCaches();
     saveGameData(makeGame({ xp: 999 }));
-    state._gameCache = null;
+    invalidateGameCaches();
     expect(getGameData().xp).toBe(999);
   });
 

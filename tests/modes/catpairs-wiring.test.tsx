@@ -23,7 +23,6 @@ describe('CatPairsWiringInit no longer steals the unmark-button click', () => {
     state.deck = [cw, cw, cw];
     state.idx = 0;
     state.cw = cw;
-    state._wordIdx = new Map();
     setKnownWords('en', new Set(['abandon']));
 
     const container = document.createElement('div');

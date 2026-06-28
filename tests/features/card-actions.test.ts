@@ -1,8 +1,10 @@
-import { describe, it, expect, beforeAll, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeAll, beforeEach, afterEach, vi } from 'vitest';
 import { createElement, act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { state } from '../../src/state.ts';
 import { setKnownWords, getKnownSnapshot, markKnown } from '../../src/known-words-store.ts';
+import { clearSrsData, getSrsDataSnapshot, setSrsEntry } from '../../src/srs-store.ts';
+import { setBaseWords, setActiveTagSet } from '../../src/deck-filter-store.ts';
 import { loadKnown, loadSRS } from '../../js/core/storage.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -16,10 +18,12 @@ const gameData = {
   sessionWords: 0, xp: 0, maxCombo: 0,
 };
 const saveGameData = vi.fn();
+const invalidateGameCaches = vi.fn();
 
 vi.mock('../../js/features/game.ts', () => ({
   getGameData: () => gameData,
   saveGameData,
+  invalidateGameCaches,
   getLevel: () => ({ name: '⭐ Test', min: 0, color: '#000', bg: '#fff' }),
   getNextLevel: () => null,
   registerCheckAchievements: vi.fn(),
@@ -135,11 +139,11 @@ function setRange(v: string): void {
 
 beforeEach(() => {
   setKnownWords('en', new Set<string>());
-  state.srsData = {};
-  state._baseWords = W as unknown as WordEntry[];
-  state._activeTagSet = null;
-  state._srsStatsDirty = false;
-  state.TODAY = '2024-06-01';
+  clearSrsData();
+  setBaseWords(W as unknown as WordEntry[]);
+  setActiveTagSet(null);
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date('2024-06-01T12:00:00.000Z'));
   localStorage.clear();
 
   state.cw = W[0];
@@ -160,8 +164,13 @@ beforeEach(() => {
   gameData.goalMax = 20;
   gameData.confettiShown = null;
   saveGameData.mockClear();
+  invalidateGameCaches.mockClear();
 
   setRange('srs');
+});
+
+afterEach(() => {
+  vi.useRealTimers();
 });
 
 // ── btn-know ──────────────────────────────────────────────────
@@ -170,10 +179,10 @@ describe('btn-know', () => {
     document.getElementById('btn-know')!.click();
 
     expect(getKnownSnapshot('en').has('apple')).toBe(true);
-    expect(state.srsData['apple']).toBeDefined();
-    expect(state.srsData['apple'].reps).toBe(1);
-    expect(state.srsData['apple'].interval).toBe(1);
-    expect(state.srsData['apple'].due).toBe('2024-06-02');
+    expect(getSrsDataSnapshot()['apple']).toBeDefined();
+    expect(getSrsDataSnapshot()['apple'].reps).toBe(1);
+    expect(getSrsDataSnapshot()['apple'].interval).toBe(1);
+    expect(getSrsDataSnapshot()['apple'].due).toBe('2024-06-02');
   });
 
   it('persists known + SRS state to localStorage', () => {
@@ -192,13 +201,13 @@ describe('btn-know', () => {
   });
 
   it('drops stale SRS progress when marking known outside the SRS range', () => {
-    state.srsData['apple'] = { ef: 2.0, reps: 3, interval: 10, due: '2024-05-01', lapses: 1 };
+    setSrsEntry('apple', { ef: 2.0, reps: 3, interval: 10, due: '2024-05-01', lapses: 1 });
     setRange('all');
 
     document.getElementById('btn-know')!.click();
 
     expect(getKnownSnapshot('en').has('apple')).toBe(true);
-    expect(state.srsData['apple']).toBeUndefined();
+    expect(getSrsDataSnapshot()['apple']).toBeUndefined();
   });
 
   it('advances to the next card when range = all', () => {
@@ -248,14 +257,14 @@ describe('btn-know', () => {
 // ── btn-dontknow ──────────────────────────────────────────────
 describe('btn-dontknow', () => {
   it('applies a "wrong" SM-2 update and resets the interval/reps', () => {
-    state.srsData['apple'] = { ef: 2.5, reps: 3, interval: 10, due: '2024-05-01', lapses: 0 };
+    setSrsEntry('apple', { ef: 2.5, reps: 3, interval: 10, due: '2024-05-01', lapses: 0 });
 
     document.getElementById('btn-dontknow')!.click();
 
-    expect(state.srsData['apple'].reps).toBe(0);
-    expect(state.srsData['apple'].interval).toBe(1);
-    expect(state.srsData['apple'].lapses).toBe(1);
-    expect(state.srsData['apple'].due).toBe('2024-06-02');
+    expect(getSrsDataSnapshot()['apple'].reps).toBe(0);
+    expect(getSrsDataSnapshot()['apple'].interval).toBe(1);
+    expect(getSrsDataSnapshot()['apple'].lapses).toBe(1);
+    expect(getSrsDataSnapshot()['apple'].due).toBe('2024-06-02');
   });
 
   it('persists SRS state and rebuilds the deck when range = srs', () => {
@@ -281,18 +290,15 @@ describe('btn-dontknow', () => {
 describe('modal-confirm (reset progress)', () => {
   it('clears known words and SRS data, both in memory and storage', () => {
     markKnown('en', 'apple');
-    state.srsData['apple'] = { ef: 2.5, reps: 1, interval: 1, due: '2024-06-02' };
-    state._gameCache = { ...gameData };
-    state._dailyCache = { foo: 1 };
+    setSrsEntry('apple', { ef: 2.5, reps: 1, interval: 1, due: '2024-06-02' });
 
     document.getElementById('modal-confirm')!.click();
 
     expect(getKnownSnapshot('en').size).toBe(0);
-    expect(state.srsData).toEqual({});
+    expect(getSrsDataSnapshot()).toEqual({});
     expect(loadKnown().size).toBe(0);
     expect(loadSRS()).toEqual({});
-    expect(state._gameCache).toBeNull();
-    expect(state._dailyCache).toBeNull();
+    expect(invalidateGameCaches).toHaveBeenCalled();
   });
 
   it('removes cached gamification keys from localStorage', () => {

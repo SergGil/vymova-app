@@ -2,10 +2,11 @@
 // Range selector: _refreshRangeOptions + sel-range change handler
 import { useEffect, type ReactElement } from 'react';
 import { t } from './i18n.ts';
-import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { getWordsForPair } from './mode-utils.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
+import { getSrsDataSnapshot } from '../../src/srs-store.ts';
+import { setBaseWords, setActiveTagSet, setDeckFilter, getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
 import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck } from '../core/srs.ts';
 import { getHardWords } from './game.ts';
 import { getBookmarks } from './bookmarks.ts';
@@ -46,8 +47,9 @@ function buildStaleDeck(days: number, base: WordEntry[] = W as unknown as WordEn
   const d = new Date();
   d.setDate(d.getDate() - days);
   const cutoff = d.toISOString().slice(0, 10);
+  const srsData = getSrsDataSnapshot();
   const result = base.filter(function(w) {
-    const srs = (state.srsData as any)[w[0]];
+    const srs = (srsData as any)[w[0]];
     if (!srs || !srs.due) return true;
     const dt = new Date(srs.due);
     dt.setDate(dt.getDate() - (srs.interval || 1));
@@ -84,7 +86,7 @@ export function DeckFilterInit(): ReactElement | null {
       const selTagEl = document.getElementById('sel-tag') as HTMLSelectElement | null;
 
       if (v === 'srs' || v === 'unlearned' || v.startsWith('stale')) {
-        state._activeTagSet = null;
+        setActiveTagSet(null);
         if (selTagEl) selTagEl.value = '';
       }
 
@@ -95,7 +97,7 @@ export function DeckFilterInit(): ReactElement | null {
       let deck: WordEntry[];
 
       if (v === 'weak') {
-        const _srsAll  = state.srsData as Record<string, { ef?: number; reps?: number; lapses?: number }>;
+        const _srsAll  = getSrsDataSnapshot() as Record<string, { ef?: number; reps?: number; lapses?: number }>;
         const _srsWeak = Object.entries(_srsAll)
           .filter(([, d]) => d && typeof d.ef === 'number' && d.ef < 2.5)
           .sort(([, a], [, b]) => (b.lapses ?? 0) - (a.lapses ?? 0) || (a.ef ?? 2.5) - (b.ef ?? 2.5))
@@ -114,9 +116,8 @@ export function DeckFilterInit(): ReactElement | null {
           deck = buildUnlearnedDeck(langBase);
           _showToast(t('range.weakFallbackNew'));
         }
-        state._activeTagSet = null;
+        setDeckFilter(langBase.slice(), null);
         if (selTagEl) selTagEl.value = '';
-        (state._baseWords = langBase.slice());
         setDeck(deck);
         setIdx(0);
         render();
@@ -131,9 +132,8 @@ export function DeckFilterInit(): ReactElement | null {
         } else {
           deck.sort((a, b) => _hardWords.indexOf(a[0]) - _hardWords.indexOf(b[0]));
         }
-        state._activeTagSet = null;
+        setDeckFilter(langBase.slice(), null);
         if (selTagEl) selTagEl.value = '';
-        (state._baseWords = langBase.slice());
         setDeck(deck);
         setIdx(0);
         render();
@@ -144,7 +144,7 @@ export function DeckFilterInit(): ReactElement | null {
         if (!deck.length) {
           _showToast(t('range.noBookmarks'));
           this.value = '0';
-          (state._baseWords = langBase.slice());
+          setBaseWords(langBase.slice());
           deck = langBase.slice();
           shuffle(deck);
           setDeck(deck);
@@ -153,12 +153,12 @@ export function DeckFilterInit(): ReactElement | null {
           return;
         }
         shuffle(deck);
-        (state._baseWords = langBase.slice());
+        setBaseWords(langBase.slice());
       } else if (v === 'unlearned') {
-        (state._baseWords = langBase.slice());
+        setBaseWords(langBase.slice());
         deck = buildUnlearnedDeck(langBase);
       } else if (v === 'srs') {
-        (state._baseWords = langBase.slice());
+        setBaseWords(langBase.slice());
         deck = buildSRSDeck(langBase);
       } else if (v.startsWith('cefr-')) {
         const cefrTarget = v.replace('cefr-', '') as import('../../data/cefr.ts').CefrLevel;
@@ -169,9 +169,8 @@ export function DeckFilterInit(): ReactElement | null {
           deck = langBase.slice();
           shuffle(deck);
         }
-        state._activeTagSet = null;
+        setDeckFilter(langBase.slice(), null);
         if (selTagEl) selTagEl.value = '';
-        (state._baseWords = langBase.slice());
         setDeck(deck);
         setIdx(0);
         render();
@@ -185,22 +184,21 @@ export function DeckFilterInit(): ReactElement | null {
           deck = langBase.slice();
           shuffle(deck);
         }
-        state._activeTagSet = null;
+        setDeckFilter(langBase.slice(), null);
         if (selTagEl) selTagEl.value = '';
-        (state._baseWords = langBase.slice());
         setDeck(deck);
         setIdx(0);
         render();
         return;
       } else if (v.startsWith('stale')) {
-        (state._baseWords = langBase.slice());
+        setBaseWords(langBase.slice());
         deck = buildStaleDeck(v === 'stale7' ? 7 : 30, langBase);
       } else {
         // Default: all words in current language
-        (state._baseWords = langBase.slice());
+        setBaseWords(langBase.slice());
         deck = langBase.slice();
         shuffle(deck);
-        const _ats = state._activeTagSet as Set<string> | null;
+        const _ats = getActiveTagSetSnapshot();
         if (_ats) {
           deck = deck.filter(w => (_ats as Set<string>).has(w[0]));
           if (!deck.length) deck = langBase.filter(w => (_ats as Set<string>).has(w[0]));

@@ -1,7 +1,7 @@
 // Vymova — js/features/export.tsx
 // 🃏 ANKI/PDF EXPORT + SHARE
 import { useEffect, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
+import { getWordIndex } from '../core/word-index.ts';
 import { W } from '../../data/words.js';
 import { t } from './i18n.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
@@ -9,7 +9,7 @@ import { getKnownSnapshot } from '../../src/known-words-store.ts';
 type WordIdx = Map<string, number>;
 
 function _wi(): WordIdx | undefined {
-  return state._wordIdx;
+  return getWordIndex();
 }
 
 export function ExportInit(): ReactElement | null {

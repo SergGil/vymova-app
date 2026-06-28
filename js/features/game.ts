@@ -1,18 +1,28 @@
 // Vymova — js/features/game.ts
 // Game data, progress tracking, levels & achievements data
-import { state } from '../../src/state.ts';
+import { today } from '../core/today.ts';
 import { getMaxWordsForLearnLang } from './mode-utils.ts';
 import type { GameData, Level, Achievement, ModeStats, ModeAccuracy, ModeAccEntry } from '../../src/types.js';
 
 // ── Session caches ─────────────────────────────────────────────
-// Backed by state so modules share the same cache instance
+// Module-private caches (same pattern as _modeStatsCache below) — nothing
+// outside this file reads them; card-actions.ts only needs to invalidate
+// them on reset/import, via invalidateGameCaches().
 
 function _langKey(base: string): string {
   const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
   return lang === 'en' ? base : `${base}_${lang}`;
 }
 
+let _gameCache: GameData | null = null;
 let _gameCachedLang: string | null = null;
+let _dailyCache: Record<string, unknown> | null = null;
+let _dailyCachedLang: string | null = null;
+
+export function invalidateGameCaches(): void {
+  _gameCache = null;
+  _dailyCache = null;
+}
 
 function loadGameDataRaw(): GameData {
   try { return JSON.parse(localStorage.getItem(_langKey('ew_game')) ?? '{}') as GameData; }
@@ -20,23 +30,22 @@ function loadGameDataRaw(): GameData {
 }
 
 export function saveGameData(d: GameData): void {
-  state._gameCache = d;
+  _gameCache = d;
   try { localStorage.setItem(_langKey('ew_game'), JSON.stringify(d)); } catch (e) {}
 }
 
 export function getGameData(): GameData {
-  // Refresh TODAY on every call — handles sessions running past midnight
-  state.TODAY = new Date().toISOString().slice(0, 10);
+  const TODAY = today();
   const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
-  if (!state._gameCache || _gameCachedLang !== lang) {
-    state._gameCache = loadGameDataRaw();
+  if (!_gameCache || _gameCachedLang !== lang) {
+    _gameCache = loadGameDataRaw();
     _gameCachedLang = lang;
   }
-  const d = state._gameCache as GameData;
+  const d = _gameCache;
   if (!d.goalMax) d.goalMax = 20;
-  if (d.goalDate !== state.TODAY) { d.goalDate = state.TODAY; d.goalCur = 0; d.confettiShown = null; }
+  if (d.goalDate !== TODAY) { d.goalDate = TODAY; d.goalCur = 0; d.confettiShown = null; }
   if (!d.streakDate) { d.streakDate = null; d.streak = 0; }
-  if (d.srsNewDate !== state.TODAY) { d.srsNewDate = state.TODAY; d.srsNewToday = 0; }
+  if (d.srsNewDate !== TODAY) { d.srsNewDate = TODAY; d.srsNewToday = 0; }
   // Return a shallow copy so callers can't accidentally mutate the cache
   // without going through saveGameData(). Cache mutations above (date reset) are intentional.
   return { ...d };
@@ -60,15 +69,16 @@ export function recordSrsNewCard(): void {
 }
 
 export function updateStreak(d: GameData): GameData {
+  const TODAY = today();
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   const yStr = yesterday.toISOString().slice(0, 10);
   if (!d.shields) d.shields = 0;
-  if (d.streakDate === state.TODAY) {
+  if (d.streakDate === TODAY) {
     // already counted today — nothing to do (shield awarded only on first increment)
   } else if (d.streakDate === yStr) {
     d.streak = (d.streak ?? 0) + 1;
-    d.streakDate = state.TODAY;
+    d.streakDate = TODAY;
     // Award shield once per 7-day streak milestone (only on the day streak increments)
     if (d.streak % 7 === 0 && d.shields < 3) d.shields = Math.min(3, d.shields + 1);
   } else if (d.streakDate) {
@@ -76,42 +86,42 @@ export function updateStreak(d: GameData): GameData {
     if (d.shields > 0) {
       d.shields--;
       d.streak = (d.streak ?? 0) + 1;
-      d.streakDate = state.TODAY;
+      d.streakDate = TODAY;
     } else {
       d.streak = 1;
-      d.streakDate = state.TODAY;
+      d.streakDate = TODAY;
     }
   } else {
     d.streak = 1;
-    d.streakDate = state.TODAY;
+    d.streakDate = TODAY;
   }
   return d;
 }
 
 // ── Daily stats ────────────────────────────────────────────────
-let _dailyCachedLang: string | null = null;
 
 export function getDailyStats(): Record<string, number> {
   const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
-  if (!state._dailyCache || _dailyCachedLang !== lang) {
-    try { state._dailyCache = JSON.parse(localStorage.getItem(_langKey('ew_daily')) ?? '{}'); }
-    catch (e) { state._dailyCache = {}; }
+  if (!_dailyCache || _dailyCachedLang !== lang) {
+    try { _dailyCache = JSON.parse(localStorage.getItem(_langKey('ew_daily')) ?? '{}'); }
+    catch (e) { _dailyCache = {}; }
     _dailyCachedLang = lang;
   }
-  return Object.assign({}, state._dailyCache as Record<string, number>);
+  return Object.assign({}, _dailyCache as Record<string, number>);
 }
 
 export function saveDailyStats(d: Record<string, number>): void {
-  state._dailyCache = Object.assign({}, d);
+  _dailyCache = Object.assign({}, d);
   _dailyCachedLang = localStorage.getItem('ew_learn_lang') ?? 'en';
   try { localStorage.setItem(_langKey('ew_daily'), JSON.stringify(d)); } catch (e) {}
 }
 
 export function recordDailyWord(): void {
   const d = getDailyStats();
-  d[state.TODAY] = (d[state.TODAY] ?? 0) + 1;
+  const TODAY = today();
+  d[TODAY] = (d[TODAY] ?? 0) + 1;
   // Hourly key includes date so stats don't bleed across days
-  const hKey = state.TODAY + '_h' + new Date().getHours();
+  const hKey = TODAY + '_h' + new Date().getHours();
   d[hKey] = (d[hKey] ?? 0) + 1;
   saveDailyStats(d);
 }

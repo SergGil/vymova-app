@@ -97,21 +97,13 @@ export type ModeAccuracy = Record<string, ModeAccEntry | undefined>;
 
 // ── App State ─────────────────────────────────────────────────
 export interface AppState {
-  srsData:        SRSData;
   deck:           WordEntry[];
   idx:            number;
   flipped:        boolean;
   cw:             WordEntry | null;
-  _baseWords:     WordEntry[];
-  _activeTagSet:  Set<string> | null;
   autoTimer:      ReturnType<typeof setInterval> | null;
-  _gameCache:     GameData | null;
-  _dailyCache:    Record<string, unknown> | null;
-  _srsStatsDirty: boolean;
-  TODAY:          string;
   _mode:          string; // resolved card mode for current render (item 28b — avoids
                            // re-resolving 'mix' randomly per React component)
-  _wordIdx:       Map<string, number>;
   duelSel:        DuelSelState;
   duelResumeSessions: import('../js/features/duel.ts').ResumeSessionVM[];
   duelChatHistory: { text: string; isMe: boolean }[];

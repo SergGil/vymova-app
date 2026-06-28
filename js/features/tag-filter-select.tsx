@@ -3,8 +3,9 @@
 // existing <select> element; selection handling stays imperative since
 // #sel-tag is read/written directly by deck-filter.ts and deck-mode.ts.
 import { useEffect, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
+import { setActiveTagSet } from '../../src/deck-filter-store.ts';
+import { getWordIndex } from '../core/word-index.ts';
 import { WORD_CATEGORIES, CATEGORY_LIST } from '../../data/categories.js';
 import { categoryName, t } from './i18n.ts';
 import { _rebuildEsDeck, _isSpecialMode } from './deck-mode.tsx';
@@ -23,13 +24,13 @@ function fitSelTag(selTag: HTMLSelectElement): void {
 function applyTagFilter(selTag: HTMLSelectElement): void {
   const tag = selTag.value;
   if (!tag) {
-    state._activeTagSet = null;
+    setActiveTagSet(null);
   } else {
-    const wordIdx = state._wordIdx;
+    const wordIdx = getWordIndex();
     const words = (WORD_CATEGORIES[tag] ?? [])
       .map(w => w.toLowerCase())
       .filter(w => wordIdx ? wordIdx.has(w) : true);
-    state._activeTagSet = new Set(words);
+    setActiveTagSet(new Set(words));
   }
   const selMode = document.getElementById('sel-mode') as HTMLSelectElement | null;
   if (selMode && _isSpecialMode(selMode.value)) {

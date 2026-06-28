@@ -3,23 +3,15 @@
  * Centralized mutable app state (Phase 3: TypeScript).
  */
 
-import type { AppState, SRSData } from './types.js';
+import type { AppState } from './types.js';
 
 export const state: AppState = {
   deck:           [],
   idx:            0,
   flipped:        false,
   cw:             null,
-  _baseWords:     [],
-  _activeTagSet:  null,
   autoTimer:      null,
-  srsData:        {} as SRSData,
-  _gameCache:     null,
-  _dailyCache:    null,
-  _srsStatsDirty: true,
-  TODAY:          new Date().toISOString().slice(0, 10),
   _mode:          'en',
-  _wordIdx:       new Map<string, number>(),
   duelSel: {
     mode:            'quiz',
     category:        '',

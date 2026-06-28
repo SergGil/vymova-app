@@ -2,8 +2,10 @@
 // SRS / SM-2 + deck builders (TypeScript)
 
 import type { WordEntry, SRSEntry } from '../../src/types.js';
-import { state } from '../../src/state.js';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
+import { getSrsDataSnapshot, getSrsDirtySnapshot, setSrsEntry, markSrsStatsClean } from '../../src/srs-store.ts';
+import { getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
+import { today } from './today.ts';
 import { t } from '../features/i18n.ts';
 import { getSrsNewRemaining, recordSrsNewCard } from '../features/game.ts';
 
@@ -27,7 +29,7 @@ export function addDays(dateStr: string, n: number): string {
 // ── SM-2 update ───────────────────────────────────────────────
 /** quality: 4 = correct, 1 = wrong */
 export function sm2Update(word: string, quality: number): void {
-  const { srsData, TODAY } = state;
+  const srsData = getSrsDataSnapshot();
   const wasNew   = !srsData[word]; // first-ever SRS exposure → counts against today's new-card quota
   const d        = srsData[word] ?? { ef: 2.5, reps: 0, interval: 0 };
   let ef       = d.ef       ?? 2.5;
@@ -43,13 +45,13 @@ export function sm2Update(word: string, quality: number): void {
   }
   ef = Math.max(1.3, ef + 0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
 
-  srsData[word] = {
+  setSrsEntry(word, {
     ef:       Math.round(ef * 1000) / 1000,
     reps,
     interval,
-    due:      addDays(TODAY, interval),
+    due:      addDays(today(), interval),
     lapses,
-  } satisfies SRSEntry;
+  } satisfies SRSEntry);
   if (wasNew) recordSrsNewCard();
 }
 
@@ -61,9 +63,10 @@ let _srsStatsEl:  HTMLElement | null        = null;
 let _srsStatsCache = { due: 0, newCards: 0, total: 0 };
 
 export function updateSrsUI(W: readonly WordEntry[]): void {
-  const { srsData, TODAY } = state;
+  const srsData = getSrsDataSnapshot();
+  const TODAY = today();
   const known = getKnownSnapshot('en');
-  if (!state._srsStatsDirty) { _renderSrsUI(_srsStatsCache); return; }
+  if (!getSrsDirtySnapshot()) { _renderSrsUI(_srsStatsCache); return; }
 
   let due = 0, newCards = 0, total = 0;
   W.forEach(w => {
@@ -72,7 +75,7 @@ export function updateSrsUI(W: readonly WordEntry[]): void {
     else if (!known.has(w[0])) newCards++;
   });
   _srsStatsCache = { due, newCards, total };
-  state._srsStatsDirty = false;
+  markSrsStatsClean();
   _renderSrsUI(_srsStatsCache);
 }
 
@@ -101,13 +104,14 @@ function _renderSrsUI({ due, newCards, total }: typeof _srsStatsCache): void {
 
 // ── Deck builders ─────────────────────────────────────────────
 function _applyTagFilter(words: WordEntry[]): WordEntry[] {
-  const ts = state._activeTagSet as Set<string> | null;
+  const ts = getActiveTagSetSnapshot();
   return ts ? words.filter(w => ts.has(w[0].toLowerCase())) : words;
 }
 
 export function buildSRSDeck(words: WordEntry[]): WordEntry[] {
   const filteredWords = _applyTagFilter(words);
-  const { srsData, TODAY } = state;
+  const srsData = getSrsDataSnapshot();
+  const TODAY = today();
   const known = getKnownSnapshot('en');
   const dueCards: WordEntry[] = [];
   const newCards:  WordEntry[] = [];

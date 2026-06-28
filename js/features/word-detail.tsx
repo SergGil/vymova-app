@@ -2,6 +2,7 @@
 // Word Detail bottom-sheet modal: full word profile
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
+import { getSrsDataSnapshot, deleteSrsEntry } from '../../src/srs-store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak, _speakWithLang } from './speech.ts';
 import { getSimilarWordsFor } from './similar-words.tsx';
@@ -50,7 +51,7 @@ export function WordDetailPage(): ReactElement | null {
       setCw(w);
       setKnown(getKnownSnapshot('en').has(w[0]));
       setBm(isBookmarked(w[0]));
-      setSrsEntry((state.srsData as Record<string, { due?: string; ef?: number; reps?: number }>)[w[0]]);
+      setSrsEntry((getSrsDataSnapshot() as Record<string, { due?: string; ef?: number; reps?: number }>)[w[0]]);
       setOpen(true);
     };
     return () => { _open = null; };
@@ -111,10 +112,10 @@ export function WordDetailPage(): ReactElement | null {
 
   function onForget(): void {
     unmarkKnown('en', w[0]);
-    delete (state.srsData as Record<string, unknown>)[w[0]];
+    deleteSrsEntry(w[0]);
     try {
       const { saveKnown, saveSRS } = window as Window & { saveKnown?: (s: Set<string>) => void; saveSRS?: (d: unknown) => void };
-      saveKnown?.(getKnownSnapshot('en')); saveSRS?.(state.srsData);
+      saveKnown?.(getKnownSnapshot('en')); saveSRS?.(getSrsDataSnapshot());
     } catch (e) {}
     setKnown(false);
     setSrsEntry(undefined);

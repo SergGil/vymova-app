@@ -2,6 +2,7 @@
 // Бейджі картки: #wnum, known-badge/#btn-unmark, #wcefr, #wcategory, #wlang.
 // Частина item 28a (Фаза 4) — заміна статичного блоку .card-meta з render().
 import { useAppState } from '../../src/store.ts';
+import { getWordIndex } from '../core/word-index.ts';
 import { getCefrLevel } from '../../data/cefr.ts';
 import { getCategoriesForWord } from '../../data/categories.js';
 import { categoryName } from './i18n.ts';
@@ -20,7 +21,8 @@ function _unmarkActiveKnownAndSave(word: string): void {
 
 export function CardMeta() {
   const state = useAppState();
-  const { deck, idx, cw, _wordIdx: wordIdx } = state;
+  const { deck, idx, cw } = state;
+  const wordIdx = getWordIndex();
   if (!cw) return null;
 
   const realIdx = wordIdx?.has(cw[0]) ? wordIdx.get(cw[0])! : -1;

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
 import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
+import { getWordIndex } from '../core/word-index.ts';
 import { shuffle } from '../core/srs.ts';
 import {
   getMode, getActiveTargetLang,
@@ -24,7 +25,7 @@ function goToWord(word: string, after: () => void): void {
   if (di === -1) {
     const wLow = word.toLowerCase();
     let wi = -1;
-    const wordIdx = state._wordIdx;
+    const wordIdx = getWordIndex();
     wordIdx.forEach((i: number, k: string) => { if (k.toLowerCase() === wLow) wi = i; });
     if (wi === -1) return;
     const newDeck = W.slice() as unknown as WordEntry[];

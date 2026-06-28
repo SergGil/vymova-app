@@ -27,18 +27,11 @@ function mount(Component: () => JSX.Element | null): { container: HTMLElement; r
   return { container, root };
 }
 
-function buildWordIdx(): Map<string, number> {
-  const idx = new Map<string, number>();
-  (W as unknown as WordEntry[]).forEach((w, i) => idx.set(w[0].toLowerCase(), i));
-  return idx;
-}
-
 describe('word-context.tsx', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
     state.flipped = true;
     setKnownWords('en', new Set());
-    state._wordIdx = buildWordIdx();
     openWordDetail.mockClear();
   });
 

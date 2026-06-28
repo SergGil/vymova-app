@@ -1,13 +1,18 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
+import { setActiveTagSet, getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
 import { CATEGORY_LIST, WORD_CATEGORIES } from '../../data/categories.js';
 import { TagFilterSelect } from '../../js/features/tag-filter-select.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
+
+let _mockWordIdx = new Map<string, number>();
+vi.mock('../../js/core/word-index.ts', () => ({
+  getWordIndex: () => _mockWordIdx,
+}));
 
 const { _rebuildEsDeck, _isSpecialMode } = vi.hoisted(() => ({
   _rebuildEsDeck: vi.fn(),
@@ -26,8 +31,8 @@ function mount(): { selTag: HTMLSelectElement; root: Root } {
 describe('tag-filter-select.tsx TagFilterSelect', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
-    state._activeTagSet = null;
-    state._wordIdx = new Map();
+    setActiveTagSet(null);
+    _mockWordIdx = new Map();
     _rebuildEsDeck.mockClear();
     _isSpecialMode.mockClear();
     _isSpecialMode.mockReturnValue(false);
@@ -50,7 +55,7 @@ describe('tag-filter-select.tsx TagFilterSelect', () => {
     const { selTag } = mount();
     const cat = CATEGORY_LIST[0];
     const word = (WORD_CATEGORIES[cat] ?? [])[0];
-    state._wordIdx = new Map([[word.toLowerCase(), 0]]);
+    _mockWordIdx = new Map([[word.toLowerCase(), 0]]);
 
     selTag.value = cat;
     let changeFired = false;
@@ -58,17 +63,17 @@ describe('tag-filter-select.tsx TagFilterSelect', () => {
 
     act(() => { selTag.dispatchEvent(new Event('change')); });
 
-    expect(state._activeTagSet).toEqual(new Set([word.toLowerCase()]));
+    expect(getActiveTagSetSnapshot()).toEqual(new Set([word.toLowerCase()]));
     expect(changeFired).toBe(true);
     expect(_rebuildEsDeck).not.toHaveBeenCalled();
   });
 
   it('selecting the empty option clears state._activeTagSet', () => {
     const { selTag } = mount();
-    state._activeTagSet = new Set(['abandon']);
+    setActiveTagSet(new Set(['abandon']));
     selTag.value = '';
     act(() => { selTag.dispatchEvent(new Event('change')); });
-    expect(state._activeTagSet).toBeNull();
+    expect(getActiveTagSetSnapshot()).toBeNull();
   });
 
   it('calls _rebuildEsDeck instead of dispatching change when in a special mode', () => {

@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
+import { setActiveTagSet } from '../../src/deck-filter-store.ts';
+import { clearSrsData } from '../../src/srs-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
@@ -58,8 +59,8 @@ describe('deck-filter.tsx DeckFilterInit', () => {
       <select id="sel-tag"><option value="">All tags</option></select>
       <div id="milestone-toast"></div>
     `;
-    state._activeTagSet = null;
-    state.srsData = {};
+    setActiveTagSet(null);
+    clearSrsData();
     setKnownWords('en', new Set());
     render.mockClear();
     setDeck.mockClear();

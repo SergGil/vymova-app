@@ -3,6 +3,8 @@
 // #wtransl, #exen, #exua. Частина item 28b (Фаза 4).
 import { useEffect, useState } from 'react';
 import { useAppState } from '../../src/store.ts';
+import { useSrsData } from '../../src/srs-store.ts';
+import { today } from '../core/today.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { t, tLang, type Lang } from './i18n.ts';
 import { srsStatusInfo, forgettingCurveTooltip, type SrsEntry } from '../core/card-helpers.ts';
@@ -95,10 +97,11 @@ export function PosTag() {
 }
 
 export function SrsBadge() {
-  const { cw, srsData, TODAY } = useAppState();
+  const { cw } = useAppState();
+  const srsData = useSrsData();
   if (!cw) return null;
   const sd = (srsData as Record<string, SrsEntry>)[cw[0]];
-  const info = srsStatusInfo(sd, TODAY, getRangeVal());
+  const info = srsStatusInfo(sd, today(), getRangeVal());
   if (!info) return <div id="srs-next" className="srs-next" style={{ display: 'none' }} />;
   return <div id="srs-next" className={info.className} title={forgettingCurveTooltip(sd)}>{info.text}</div>;
 }

@@ -2,6 +2,7 @@
 // 📦 CATEGORY PAIRS MODE + WOTD + MILESTONES + WEAK WORDS
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
+import { getWordIndex } from '../core/word-index.ts';
 import { _shuf } from '../core/srs.ts';
 import { loadSRS } from '../core/storage.ts';
 import { WORD_CATEGORIES, CATEGORY_LIST } from '../../data/categories.js';
@@ -49,7 +50,7 @@ export function invalidateCatCache(): void { _catCache = {}; }
 
 function getCatWords(catName: string, catWords: string[]): WordEntry[] {
   if (_catCache[catName]) return _catCache[catName];
-  const wordIdx = state._wordIdx;
+  const wordIdx = getWordIndex();
   if (!wordIdx) return [];
   const result = catWords.filter(w => wordIdx.has(w)).map(w => (W as unknown as WordEntry[])[wordIdx.get(w)!]).filter(Boolean);
   _catCache[catName] = result;
@@ -57,7 +58,7 @@ function getCatWords(catName: string, catWords: string[]): WordEntry[] {
 }
 
 function getRandomWords(): WordEntry[] {
-  const wordIdx = state._wordIdx;
+  const wordIdx = getWordIndex();
   const all: WordEntry[] = [], seen = new Set<string>();
   if (wordIdx) {
     Object.values(WORD_CATEGORIES).flat().forEach(w => {
@@ -327,7 +328,7 @@ function showMilestone(text: string): void {
 export function renderWeakWords(): void {
   const el = document.getElementById('weak-words-list');
   if (!el) return;
-  const wordIdx = state._wordIdx;
+  const wordIdx = getWordIndex();
   if (!wordIdx) return;
   const srsData = loadSRS();
   const words: { w: WordEntry; ef: number; reps: number; lapses: number }[] = [];

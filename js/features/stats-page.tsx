@@ -2,7 +2,7 @@
 // Statistics overlay: progress, daily chart, heatmap, calendar, SRS forecast,
 // mode accuracy, CEFR progress, leaderboard.
 import { useEffect, useState, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
+import { today as todayDateStr } from '../core/today.ts';
 import { getDailyStats, getGameData, getModeStats, getModeAccuracy } from './game.ts';
 import { loadSRS } from '../core/storage.ts';
 import { t, getLang, wordsLabel, pluralLabel, monthNames, dowNames } from './i18n.ts';
@@ -77,7 +77,7 @@ type CalCell = { d: number; ds: string; n: number; lvl: number; isToday: boolean
 
 function computeMonthCal(year: number, month: number): { cells: CalCell[]; summary: string } {
   const daily = getDailyStats();
-  const todayStr = state.TODAY;
+  const todayStr = todayDateStr();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const startDow = (new Date(year, month, 1).getDay() + 6) % 7;
   const cells: CalCell[] = Array(startDow).fill(null);
@@ -102,7 +102,7 @@ type ChartDay = { date: string; label: string; val: number; isToday: boolean };
 
 function computeChartDays(chartDays: number): ChartDay[] {
   const daily = getDailyStats();
-  const today = state.TODAY;
+  const today = todayDateStr();
   const days: ChartDay[] = [];
   for (let i = chartDays - 1; i >= 0; i--) {
     const d = new Date();

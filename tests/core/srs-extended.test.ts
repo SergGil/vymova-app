@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach, beforeAll, afterEach, vi } from 'vitest';
 import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck, updateSrsUI, sm2Update } from '../../js/core/srs.ts';
-import { getSrsNewRemaining, SRS_NEW_DAILY_CAP } from '../../js/features/game.ts';
-import { state } from '../../src/state.ts';
+import { getSrsNewRemaining, SRS_NEW_DAILY_CAP, invalidateGameCaches } from '../../js/features/game.ts';
+import { clearSrsData, getSrsDataSnapshot, setSrsEntry, loadSrsData, markSrsStatsClean } from '../../src/srs-store.ts';
+import { setActiveTagSet } from '../../src/deck-filter-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -18,10 +19,15 @@ const W: WordEntry[] = [
 ];
 
 beforeEach(() => {
-  state.srsData = {};
+  clearSrsData();
   setKnownWords('en', new Set());
-  state._activeTagSet = null;
-  state.TODAY = '2024-06-01';
+  setActiveTagSet(null);
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date('2024-06-01T12:00:00.000Z'));
+});
+
+afterEach(() => {
+  vi.useRealTimers();
 });
 
 // ── shuffle() ─────────────────────────────────────────────────
@@ -107,7 +113,7 @@ describe('buildUnlearnedDeck()', () => {
   });
 
   it('applies tag filter when activeTagSet is set', () => {
-    state._activeTagSet = new Set(['apple', 'banana']);
+    setActiveTagSet(new Set(['apple', 'banana']));
     const deck = buildUnlearnedDeck(W);
     expect(deck.length).toBe(2);
     expect(deck.every(w => ['apple', 'banana'].includes(w[0]))).toBe(true);
@@ -117,14 +123,14 @@ describe('buildUnlearnedDeck()', () => {
 // ── buildSRSDeck() ────────────────────────────────────────────
 describe('buildSRSDeck()', () => {
   it('returns due SRS cards', () => {
-    state.srsData['apple'] = { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' }; // overdue
-    state.srsData['banana'] = { ef: 2.5, reps: 1, interval: 1, due: '2024-07-01' }; // not yet
+    setSrsEntry('apple', { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' }); // overdue
+    setSrsEntry('banana', { ef: 2.5, reps: 1, interval: 1, due: '2024-07-01' }); // not yet
     const deck = buildSRSDeck(W);
     expect(deck.some(w => w[0] === 'apple')).toBe(true);
   });
 
   it('excludes cards not yet due', () => {
-    state.srsData['apple'] = { ef: 2.5, reps: 1, interval: 5, due: '2024-07-01' }; // future
+    setSrsEntry('apple', { ef: 2.5, reps: 1, interval: 5, due: '2024-07-01' }); // future
     const deck = buildSRSDeck(W);
     // apple should not be in due cards — may appear as new card if room
     const appleEntry = deck.find(w => w[0] === 'apple');
@@ -141,7 +147,7 @@ describe('buildSRSDeck()', () => {
     setKnownWords('en', new Set(['cat', 'dog', 'fish', 'book', 'house']));
     const deck = buildSRSDeck(W);
     // new cards: apple, banana, car (3 total)
-    const newWords = deck.filter(w => !state.srsData[w[0]]?.due);
+    const newWords = deck.filter(w => !getSrsDataSnapshot()[w[0]]?.due);
     expect(newWords.length).toBeLessThanOrEqual(10);
   });
 
@@ -177,34 +183,32 @@ describe('updateSrsUI()', () => {
   });
 
   it('recomputes due/new counts when the stats cache is dirty', () => {
-    state.srsData['apple'] = { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' }; // overdue
-    state._srsStatsDirty = true;
+    setSrsEntry('apple', { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' }); // overdue
     updateSrsUI(W);
     expect(document.getElementById('srs-stat-due')!.textContent).toBe('1');
   });
 
-  it('serves stale cached counts when not marked dirty (the bug this guards)', () => {
-    state.srsData['apple'] = { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' };
-    state._srsStatsDirty = true;
-    updateSrsUI(W); // caches due=1
+  it('serves cached counts when not marked dirty (cache-hit path)', () => {
+    setSrsEntry('apple', { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' });
+    updateSrsUI(W); // recomputes due=1, then marks clean
+    expect(document.getElementById('srs-stat-due')!.textContent).toBe('1');
 
-    // Simulate switching to a language with completely different SRS data,
-    // without flagging the cache dirty.
-    state.srsData = { banana: { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' } };
-    state._srsStatsDirty = false;
+    // Add a second overdue card but force dirty back to false — the cache
+    // unit itself must skip recomputing and keep serving the old count.
+    setSrsEntry('banana', { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' });
+    markSrsStatsClean();
     updateSrsUI(W);
-    expect(document.getElementById('srs-stat-due')!.textContent).toBe('1'); // stale, still old value
+    expect(document.getElementById('srs-stat-due')!.textContent).toBe('1');
   });
 
-  it('reflects the new language data once dirty is set again', () => {
-    state.srsData['apple'] = { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' };
-    state._srsStatsDirty = true;
+  it('automatically reflects new data without a manual dirty flag (the old footgun this store eliminates)', () => {
+    setSrsEntry('apple', { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' });
     updateSrsUI(W);
     expect(document.getElementById('srs-stats')!.style.display).not.toBe('none');
 
-    // Fresh language with one due card, different from the previous language's data
-    state.srsData = { car: { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' } };
-    state._srsStatsDirty = true; // app.ts now sets this on language switch
+    // Loading fresh data — the store marks dirty automatically, so this no
+    // longer requires the caller to remember a separate manual flag.
+    loadSrsData({ car: { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' } });
     updateSrsUI(W);
     expect(document.getElementById('srs-stat-due')!.textContent).toBe('1');
   });
@@ -217,10 +221,7 @@ describe('updateSrsUI()', () => {
 describe('SRS daily new-card quota', () => {
   beforeEach(() => {
     localStorage.clear();
-    state._gameCache = null;
-  });
-  afterEach(() => {
-    vi.useRealTimers();
+    invalidateGameCaches();
   });
 
   it('starts each day with the full quota available', () => {
@@ -243,7 +244,7 @@ describe('SRS daily new-card quota', () => {
     for (let i = 0; i < SRS_NEW_DAILY_CAP - 1; i++) sm2Update(`seen${i}`, 4);
     expect(getSrsNewRemaining()).toBe(1);
     const deck = buildSRSDeck(W);
-    const newInDeck = deck.filter(w => !state.srsData[w[0]]?.due);
+    const newInDeck = deck.filter(w => !getSrsDataSnapshot()[w[0]]?.due);
     expect(newInDeck.length).toBeLessThanOrEqual(1);
   });
 

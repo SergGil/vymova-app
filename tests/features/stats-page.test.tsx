@@ -1,8 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
 import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
+import { clearSrsData } from '../../src/srs-store.ts';
+import { today } from '../../js/core/today.ts';
 import { W } from '../../data/words.js';
 import { StatsPage, refreshStatsPage, openStats, closeStats } from '../../js/features/stats-page.tsx';
 
@@ -37,8 +38,7 @@ describe('stats-page.tsx StatsPage', () => {
   beforeEach(() => {
     document.body.innerHTML = '<div id="stats-overlay"></div>';
     setKnownWords('en', new Set());
-    state.srsData = {};
-    state.TODAY = new Date().toISOString().slice(0, 10);
+    clearSrsData();
     roots = [];
     getDailyStats.mockClear().mockReturnValue({});
     getGameData.mockClear().mockReturnValue({ streak: 0, xp: 0 });
@@ -71,8 +71,8 @@ describe('stats-page.tsx StatsPage', () => {
   });
 
   it('renders chart bars when daily activity exists and switches the period', () => {
-    const today = state.TODAY;
-    getDailyStats.mockReturnValue({ [today]: 5 });
+    const todayStr = today();
+    getDailyStats.mockReturnValue({ [todayStr]: 5 });
     const { container, root } = mount();
     roots.push(root);
 

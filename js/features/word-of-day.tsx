@@ -4,6 +4,7 @@
 import { useEffect, useState, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
+import { today } from '../core/today.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { t } from './i18n.ts';
@@ -12,7 +13,7 @@ import { loadWikiImage } from '../core/images.ts';
 import { closePage } from './sidebar.tsx';
 import { render, setIdx } from '../core/card-engine.ts';
 
-const todayNum = state.TODAY.split('').reduce((a, c) => a * 31 + c.charCodeAt(0), 0);
+const todayNum = today().split('').reduce((a, c) => a * 31 + c.charCodeAt(0), 0);
 const wotdBaseIdx = Math.abs(todayNum) % W.length;
 
 // Pick the word-of-the-day word matching the currently selected language pair:

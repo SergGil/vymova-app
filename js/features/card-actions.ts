@@ -4,7 +4,10 @@ import { useEffect, type ReactElement } from 'react';
 import { state } from '../../src/state.ts';
 import { sm2Update, buildSRSDeck, buildUnlearnedDeck, shuffle, updateSrsUI } from '../core/srs.ts';
 import { saveKnown, saveSRS } from '../core/storage.ts';
-import { getGameData, saveGameData } from './game.ts';
+import { getGameData, saveGameData, invalidateGameCaches } from './game.ts';
+import { getSrsDataSnapshot, deleteSrsEntry, clearSrsData } from '../../src/srs-store.ts';
+import { getBaseWordsSnapshot } from '../../src/deck-filter-store.ts';
+import { today } from '../core/today.ts';
 import { addCombo, breakCombo, flashCard } from './combo.ts';
 import { hasNote } from './notes.ts';
 import { openNoteModal } from './note-modal.tsx';
@@ -161,13 +164,12 @@ export function CardActionsInit(): ReactElement | null {
           // Marking "know" outside the SRS deck means the user already masters this
           // word — drop any prior SRS progress (ef/reps/lapses) so it doesn't
           // re-enter the SRS queue with stale data.
-          delete (state.srsData as any)[cw[0]];
+          deleteSrsEntry(cw[0]);
         }
         if (isTargetLang(_lang)) { const cfg = langConfig(_lang); cfg.saveKnown(cfg.known()); }
         else { saveKnown(getKnownSnapshot('en')); }
-        saveSRS(state.srsData);
-        state._srsStatsDirty = true;
-        _safe(() => updateSrsUI(state._baseWords as unknown as WordEntry[]));
+        saveSRS(getSrsDataSnapshot());
+        _safe(() => updateSrsUI(getBaseWordsSnapshot() as unknown as WordEntry[]));
         _safe(() => playSound('know'));
         _safe(() => { addCombo(); flashCard(true); });
         if (isNewlyKnown) {
@@ -175,7 +177,7 @@ export function CardActionsInit(): ReactElement | null {
           _safe(() => {
             const gd = getGameData();
             if (gd.goalCur >= gd.goalMax && !gd.confettiShown) {
-              gd.confettiShown = state.TODAY;
+              gd.confettiShown = today();
               saveGameData(gd);
               launchConfetti();
               _safe(() => playSound('goal'));
@@ -183,13 +185,13 @@ export function CardActionsInit(): ReactElement | null {
           });
         }
         if (rangeVal === 'srs') {
-          setDeck(buildSRSDeck(state._baseWords as unknown as WordEntry[]));
+          setDeck(buildSRSDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));
           setIdx(0);
           render();
           return;
         }
         if (rangeVal === 'unlearned') {
-          const newDeck = buildUnlearnedDeck(state._baseWords as unknown as WordEntry[]);
+          const newDeck = buildUnlearnedDeck(getBaseWordsSnapshot() as unknown as WordEntry[]);
           setDeck(newDeck);
           const dl = state.deck.length;
           if (!dl) { render(); return; }
@@ -225,14 +227,13 @@ export function CardActionsInit(): ReactElement | null {
       const cw = state.cw;
       if (cw) {
         sm2Update(cw[0], 1);
-        saveSRS(state.srsData);
-        state._srsStatsDirty = true;
-        _safe(() => updateSrsUI(state._baseWords as unknown as WordEntry[]));
+        saveSRS(getSrsDataSnapshot());
+        _safe(() => updateSrsUI(getBaseWordsSnapshot() as unknown as WordEntry[]));
         _safe(() => playSound('next'));
         _safe(() => breakCombo());
         const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
         if (rangeVal === 'srs') {
-          setDeck(buildSRSDeck(state._baseWords as unknown as WordEntry[]));
+          setDeck(buildSRSDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));
           setIdx(0);
           render();
           return;
@@ -285,23 +286,21 @@ export function CardActionsInit(): ReactElement | null {
     const modalConfirm = document.getElementById('modal-confirm')!;
     const onModalConfirmClick = () => {
       clearAllKnown();
-      state.srsData = {};
-      state._srsStatsDirty = true;
+      clearSrsData();
       saveKnown(getKnownSnapshot('en'));
       for (const lang of ALL_TARGET_LANGS) langConfig(lang).saveKnown(getKnownSnapshot(lang));
-      saveSRS(state.srsData);
+      saveSRS(getSrsDataSnapshot());
       _safe(() => localStorage.removeItem('ew_game'));
       _safe(() => localStorage.removeItem('ew_daily'));
       _safe(() => localStorage.removeItem('ew_ach'));
-      state._gameCache  = null;
-      state._dailyCache = null;
+      invalidateGameCaches();
       const cardEl2 = document.getElementById('card');
       if (cardEl2) cardEl2.classList.remove('is-known');
       const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
       if (rangeVal === 'srs') {
-        setDeck(buildSRSDeck(state._baseWords as unknown as WordEntry[]));
+        setDeck(buildSRSDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));
       } else if (rangeVal === 'unlearned') {
-        setDeck(buildUnlearnedDeck(state._baseWords as unknown as WordEntry[]));
+        setDeck(buildUnlearnedDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));
       }
       _safe(() => renderGameBar());
       _safe(() => refreshGameBarLevel());

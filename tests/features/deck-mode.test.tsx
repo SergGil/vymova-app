@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { state } from '../../src/state.ts';
+import { setActiveTagSet } from '../../src/deck-filter-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 
@@ -41,7 +42,7 @@ describe('deck-mode.tsx DeckModeInit', () => {
       <select id="sel-tag"><option value="">All tags</option></select>
       <div id="milestone-toast"></div>
     `;
-    state._activeTagSet = null;
+    setActiveTagSet(null);
     state.deck = (W as unknown as WordEntry[]).slice(0, 5);
     state.idx = 0;
     render.mockClear();
@@ -115,7 +116,7 @@ describe('deck-mode.tsx DeckModeInit', () => {
     const root = createRoot(container);
     act(() => { root.render(<DeckModeInit />); });
 
-    state._activeTagSet = new Set([esWord]);
+    setActiveTagSet(new Set([esWord]));
     changeMode('es-en');
 
     const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];

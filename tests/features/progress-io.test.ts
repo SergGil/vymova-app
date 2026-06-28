@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { createElement, act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
 import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
+import { clearSrsData } from '../../src/srs-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -50,7 +50,7 @@ describe('progress-io.tsx ProgressIO', () => {
     });
 
     setKnownWords('en', new Set(['abandon']));
-    state.srsData = {};
+    clearSrsData();
     localStorage.clear();
 
     root = createRoot(container);
