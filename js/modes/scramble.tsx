@@ -2,7 +2,7 @@
 // 🔀 Scramble: rearrange shuffled letter tiles to build the word
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
@@ -40,7 +40,7 @@ function getWordInLang(w: WordEntry, lang: string): string {
 
 function build(): WordEntry[] {
   const learnLang = getLearnLang();
-  const pool = _shuf((state.deck.length ? state.deck.slice() : W.slice()) as unknown as WordEntry[]);
+  const pool = _shuf((getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[]);
   if (learnLang === 'en') {
     const filtered = pool.filter(w => /^[A-Za-z]+$/.test(w[0]) && w[0].length >= 4 && w[0].length <= 9);
     const fallback = pool.filter(w => /^[A-Za-z]+$/.test(w[0]));

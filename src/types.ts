@@ -97,13 +97,6 @@ export type ModeAccuracy = Record<string, ModeAccEntry | undefined>;
 
 // ── App State ─────────────────────────────────────────────────
 export interface AppState {
-  deck:           WordEntry[];
-  idx:            number;
-  flipped:        boolean;
-  cw:             WordEntry | null;
-  autoTimer:      ReturnType<typeof setInterval> | null;
-  _mode:          string; // resolved card mode for current render (item 28b — avoids
-                           // re-resolving 'mix' randomly per React component)
   duelSel:        DuelSelState;
   duelResumeSessions: import('../js/features/duel.ts').ResumeSessionVM[];
   duelChatHistory: { text: string; isMe: boolean }[];

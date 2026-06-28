@@ -1,8 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
-import { notifyStateChange } from '../../src/store.ts';
+import { setCwState, setFlippedState, setModeState } from '../../src/deck-store.ts';
 import { clearSrsData } from '../../src/srs-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 import {
@@ -39,16 +38,16 @@ function mount(Component: () => JSX.Element | null): { container: HTMLElement; r
 describe('card-front-text.tsx', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
-    state._mode = 'en';
-    state.cw = cw;
-    state.flipped = false;
+    setModeState('en');
+    setCwState(cw);
+    setFlippedState(false);
     clearSrsData();
     speakEnAccent.mockClear();
     speak.mockClear();
   });
 
   it('WordText renders nothing when there is no current word', () => {
-    state.cw = null;
+    setCwState(null);
     const { container } = mount(WordText);
     expect(container.innerHTML).toBe('');
   });
@@ -92,13 +91,13 @@ describe('card-front-text.tsx', () => {
   });
 
   it('WordText sets dir="rtl" when the front language is Hebrew', () => {
-    state._mode = 'he-en';
+    setModeState('he-en');
     const { container } = mount(WordText);
     expect(container.querySelector('#wword')!.getAttribute('dir')).toBe('rtl');
   });
 
   it('Translation sets dir="rtl" when the back language is Arabic', () => {
-    state._mode = 'en-ar';
+    setModeState('en-ar');
     const { container } = mount(Translation);
     expect(container.querySelector('#wtransl')!.getAttribute('dir')).toBe('rtl');
   });
@@ -111,7 +110,7 @@ describe('card-front-text.tsx', () => {
   });
 
   it('Transcription hides itself for non-English-front modes', () => {
-    state._mode = 'ua';
+    setModeState('ua');
     const { container } = mount(Transcription);
     const el = container.querySelector('#wtrans') as HTMLElement;
     expect(el.style.display).toBe('none');
@@ -125,7 +124,7 @@ describe('card-front-text.tsx', () => {
   });
 
   it('PosTag hides itself when the word has no part-of-speech code', () => {
-    state.cw = ['abandon', 'покинути', '', '', '', ''] as unknown as WordEntry;
+    setCwState(['abandon', 'покинути', '', '', '', ''] as unknown as WordEntry);
     const { container } = mount(PosTag);
     const el = container.querySelector('#wpos') as HTMLElement;
     expect(el.style.display).toBe('none');
@@ -153,7 +152,7 @@ describe('card-front-text.tsx', () => {
     expect(el.textContent).toBe('покинути');
     expect(el.className).toBe('transl');
 
-    act(() => { state.flipped = true; notifyStateChange(); });
+    act(() => { setFlippedState(true); });
     expect(container.querySelector('#wtransl')!.className).toBe('transl show');
   });
 
@@ -169,27 +168,27 @@ describe('card-front-text.tsx', () => {
     expect(el.innerHTML).toContain('<b>покине</b>');
     expect(el.className).toBe('ex-ua');
 
-    act(() => { state.flipped = true; notifyStateChange(); });
+    act(() => { setFlippedState(true); });
     expect(container.querySelector('#exua')!.className).toBe('ex-ua show');
   });
 
   describe('OtherMeanings', () => {
     it('renders nothing when the card is not flipped', () => {
-      state.flipped = false;
-      state.cw = ['light', 'світло', '', '', '', 'n'] as unknown as WordEntry;
+      setFlippedState(false);
+      setCwState(['light', 'світло', '', '', '', 'n'] as unknown as WordEntry);
       const { container } = mount(OtherMeanings);
       expect(container.innerHTML).toBe('');
     });
 
     it('renders nothing when the word has no sense list', () => {
-      state.flipped = true;
+      setFlippedState(true);
       const { container } = mount(OtherMeanings);
       expect(container.innerHTML).toBe('');
     });
 
     it('renders each numbered sense with its own translation and example when flipped', () => {
-      state.flipped = true;
-      state.cw = ['light', 'світло', '', '', '', 'n'] as unknown as WordEntry;
+      setFlippedState(true);
+      setCwState(['light', 'світло', '', '', '', 'n'] as unknown as WordEntry);
       const { container } = mount(OtherMeanings);
       const items = container.querySelectorAll('#cb-senses-list li');
       expect(items.length).toBe(2);
@@ -199,15 +198,15 @@ describe('card-front-text.tsx', () => {
     });
 
     it('shows the "All meanings" title', () => {
-      state.flipped = true;
-      state.cw = ['light', 'світло', '', '', '', 'n'] as unknown as WordEntry;
+      setFlippedState(true);
+      setCwState(['light', 'світло', '', '', '', 'n'] as unknown as WordEntry);
       const { container } = mount(OtherMeanings);
       expect(container.querySelector('.similar-title')!.textContent).toContain('Усі значення');
     });
 
     it('each sense has its own speak button that speaks that sense\'s example', () => {
-      state.flipped = true;
-      state.cw = ['light', 'світло', '', '', '', 'n'] as unknown as WordEntry;
+      setFlippedState(true);
+      setCwState(['light', 'світло', '', '', '', 'n'] as unknown as WordEntry);
       const { container } = mount(OtherMeanings);
       const items = container.querySelectorAll('#cb-senses-list li');
       const btns = Array.from(items).map(li => li.querySelector<HTMLButtonElement>('.sense-speak-btn')!);

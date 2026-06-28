@@ -2,7 +2,7 @@
 // Текстові поля лицьової сторони картки: #wword, #wtrans, #wpos, #srs-next,
 // #wtransl, #exen, #exua. Частина item 28b (Фаза 4).
 import { useEffect, useState } from 'react';
-import { useAppState } from '../../src/store.ts';
+import { useDeckState } from '../../src/deck-store.ts';
 import { useSrsData } from '../../src/srs-store.ts';
 import { today } from '../core/today.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
@@ -24,7 +24,7 @@ function getRangeVal(): string {
 }
 
 export function WordText() {
-  const { cw } = useAppState();
+  const { cw } = useDeckState();
   if (!cw) return null;
   const { frontWord, frontRtl } = computeCardView(cw, getResolvedMode());
   return <span className="word-text" id="wword" dir={frontRtl ? 'rtl' : undefined}>{frontWord}</span>;
@@ -36,7 +36,7 @@ const LOCAL_ENTRY_LOOKUP: Partial<Record<string, (word: string) => readonly [str
 };
 
 export function Transcription() {
-  const { cw } = useAppState();
+  const { cw } = useDeckState();
   const [legendOpen, setLegendOpen] = useState(false);
   useEffect(() => { setLegendOpen(false); }, [cw?.[0]]);
   if (!cw) return null;
@@ -85,7 +85,7 @@ export function Transcription() {
 }
 
 export function PosTag() {
-  const { cw } = useAppState();
+  const { cw } = useDeckState();
   if (!cw) return null;
   const { FRONT_LANG } = computeCardView(cw, getResolvedMode());
   const posCode = cw[5] || '';
@@ -97,7 +97,7 @@ export function PosTag() {
 }
 
 export function SrsBadge() {
-  const { cw } = useAppState();
+  const { cw } = useDeckState();
   const srsData = useSrsData();
   if (!cw) return null;
   const sd = (srsData as Record<string, SrsEntry>)[cw[0]];
@@ -131,7 +131,7 @@ function BackSpeakBtn({ code, text, fallbackEnText, className, style }: {
 }
 
 export function Translation() {
-  const { cw, flipped } = useAppState();
+  const { cw, flipped } = useDeckState();
   if (!cw) return null;
   const { backWord, backRtl } = computeCardView(cw, getResolvedMode());
   const back = parsePair(getResolvedMode()).back;
@@ -145,14 +145,14 @@ export function Translation() {
 }
 
 export function ExEn() {
-  const { cw } = useAppState();
+  const { cw } = useDeckState();
   if (!cw) return null;
   const { exenHtml, frontRtl } = computeCardView(cw, getResolvedMode());
   return <span className="ex-en" id="exen" dir={frontRtl ? 'rtl' : undefined} dangerouslySetInnerHTML={{ __html: exenHtml }} />;
 }
 
 export function ExUa() {
-  const { cw, flipped } = useAppState();
+  const { cw, flipped } = useDeckState();
   if (!cw) return null;
   const { exuaHtml, backRtl } = computeCardView(cw, getResolvedMode());
   const back = parsePair(getResolvedMode()).back;
@@ -170,7 +170,7 @@ export function ExUa() {
 // buttons, always present in the static markup — hide them when the front
 // language is Ukrainian, mirroring the back-side BackSpeakBtn's rule.
 export function FrontSpeakBtnsToggle() {
-  const { cw } = useAppState();
+  const { cw } = useDeckState();
   const front = cw ? parsePair(getResolvedMode()).front : null;
   const hide = front === 'ua';
   useEffect(() => {
@@ -183,7 +183,7 @@ export function FrontSpeakBtnsToggle() {
 }
 
 export function CardHint() {
-  const { flipped } = useAppState();
+  const { flipped } = useDeckState();
   if (flipped) return null;
   return <p className="hint">{t('cards.hint')}</p>;
 }
@@ -201,7 +201,7 @@ function findSenses(dict: Record<string, SenseEntry[]>, frontWord: string): Sens
 }
 
 export function OtherMeanings() {
-  const { cw, flipped } = useAppState();
+  const { cw, flipped } = useDeckState();
   if (!cw || !flipped) return null;
   const { front } = parsePair(getResolvedMode());
   const dict = SENSES_BY_LANG[front];

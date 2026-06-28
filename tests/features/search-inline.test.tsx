@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
+import { setDeckState } from '../../src/deck-store.ts';
 import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
@@ -34,7 +34,7 @@ function setInputValue(input: HTMLInputElement, value: string): void {
 describe('search-inline.tsx SearchInline', () => {
   beforeEach(() => {
     document.body.innerHTML = '<select id="sel-mode"><option value="en" selected>en</option></select><select id="sel-range"><option value="0">All</option></select>';
-    state.deck = (W as unknown as WordEntry[]).slice(0, 5);
+    setDeckState((W as unknown as WordEntry[]).slice(0, 5));
     setKnownWords('en', new Set());
     render.mockClear();
     setDeck.mockClear();
@@ -89,7 +89,7 @@ describe('search-inline.tsx SearchInline', () => {
 
   it('navigates to a word and resets the input when a result is clicked', async () => {
     const target = (W as unknown as WordEntry[])[0];
-    state.deck = [target];
+    setDeckState([target]);
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
     act(() => { setInputValue(input, target[0]); });
@@ -107,7 +107,7 @@ describe('search-inline.tsx SearchInline', () => {
 
   it('navigates results with ArrowDown/ArrowUp and selects with Enter', async () => {
     const target = (W as unknown as WordEntry[])[0];
-    state.deck = [target];
+    setDeckState([target]);
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
     act(() => { setInputValue(input, target[0]); });

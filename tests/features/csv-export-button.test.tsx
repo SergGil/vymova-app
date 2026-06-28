@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
+import { setDeckState } from '../../src/deck-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
@@ -21,7 +21,7 @@ describe('csv-export-button.tsx CsvExportButton', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
     setKnownWords('en', new Set());
-    state.deck = (W as unknown as WordEntry[]).slice(0, 5);
+    setDeckState((W as unknown as WordEntry[]).slice(0, 5));
   });
 
   it('renders the export button with the translated label', () => {

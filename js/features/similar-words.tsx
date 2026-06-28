@@ -5,8 +5,8 @@
 // any of the 13 target languages, plus EN/UA) — see getSimilarWordsFor.
 import type { ReactElement } from 'react';
 import { W } from '../../data/words.js';
-import { state } from '../../src/state.ts';
 import { useStateVersion, notifyStateChange } from '../../src/store.ts';
+import { getCwSnapshot, getFlippedSnapshot } from '../../src/deck-store.ts';
 import { openWordDetail } from './word-detail.tsx';
 import type { WordEntry } from '../../src/types.js';
 import { getMode as _getMode, parsePair, getActiveKnownSet, headwordFor, type Code } from './mode-utils.ts';
@@ -116,8 +116,8 @@ export function getSimilarWordsFr(word: string, frTransl: string, maxCount = 5):
 
 export function SimilarWordsChips(): ReactElement | null {
   useStateVersion();
-  const cw = state.cw as WordEntry | null;
-  if (!cw || !state.flipped) return null;
+  const cw = getCwSnapshot() as WordEntry | null;
+  if (!cw || !getFlippedSnapshot()) return null;
 
   const { front, back } = parsePair(_getMode());
   const frontWord = headwordFor(front, cw);

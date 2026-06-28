@@ -2,7 +2,7 @@
 // 🧠 QUIZ MODE
 import { useEffect, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
@@ -16,7 +16,7 @@ import type { WordEntry } from '../../src/types.js';
 const QUIZ_SIZE = 10, QUICK_SIZE = 5, NUM_OPTIONS = 4;
 
 function buildDeck(sourceWords?: WordEntry[] | null, maxSize = QUIZ_SIZE): WordEntry[] {
-  const src = sourceWords?.length ? sourceWords : (state.deck.length ? state.deck : W as unknown as WordEntry[]);
+  const src = sourceWords?.length ? sourceWords : (getDeckSnapshot().length ? getDeckSnapshot() : W as unknown as WordEntry[]);
   return _shuf(src.slice()).slice(0, Math.min(maxSize, src.length));
 }
 

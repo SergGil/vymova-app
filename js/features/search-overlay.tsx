@@ -3,8 +3,8 @@
 // Opened via #btn-search or Ctrl/Cmd+F.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
-import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
+import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { openWordDetail } from './word-detail.tsx';
 import { t } from './i18n.ts';
@@ -18,7 +18,7 @@ function ipa(w: WordEntry): string {
 }
 
 function inDeck(word: string): boolean {
-  return state.deck.some(w => w[0] === word);
+  return getDeckSnapshot().some(w => w[0] === word);
 }
 
 function search(q: string): WordEntry[] {
@@ -36,7 +36,7 @@ function search(q: string): WordEntry[] {
 function jumpTo(w: WordEntry, close: () => void): void {
   close();
   // If word is in current deck — navigate to it
-  const di = state.deck.findIndex(d => d[0] === w[0]);
+  const di = getDeckSnapshot().findIndex(d => d[0] === w[0]);
   if (di !== -1) {
     setIdx(di);
     render();
@@ -48,7 +48,7 @@ function jumpTo(w: WordEntry, close: () => void): void {
     selRange.value = '0';
     selRange.dispatchEvent(new Event('change'));
     setTimeout(() => {
-      const di2 = state.deck.findIndex(d => d[0] === w[0]);
+      const di2 = getDeckSnapshot().findIndex(d => d[0] === w[0]);
       if (di2 !== -1) {
         setIdx(di2);
         render();

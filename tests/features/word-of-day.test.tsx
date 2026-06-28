@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot, setDeckState, setModeState } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 import { WordOfDay } from '../../js/features/word-of-day.tsx';
 
@@ -28,8 +28,8 @@ function mount(): { container: HTMLElement; root: Root } {
 describe('word-of-day.tsx WordOfDay', () => {
   beforeEach(() => {
     document.body.innerHTML = '<select id="sel-mode"><option value="en" selected>en</option></select>';
-    state._mode = 'en';
-    state.deck = [];
+    setModeState('en');
+    setDeckState([]);
     closePage.mockClear();
     render.mockClear();
     setIdx.mockClear();
@@ -72,7 +72,7 @@ describe('word-of-day.tsx WordOfDay', () => {
     const box = container.querySelector('.wotd-box') as HTMLElement;
     act(() => { box.click(); });
 
-    expect(state.deck.length).toBe(1);
+    expect(getDeckSnapshot().length).toBe(1);
     expect(setIdx).toHaveBeenCalledWith(0);
     expect(closePage).toHaveBeenCalled();
     expect(render).toHaveBeenCalled();
@@ -83,10 +83,10 @@ describe('word-of-day.tsx WordOfDay', () => {
     const word = container.querySelector('.wotd-word')!.textContent!;
     const box = container.querySelector('.wotd-box') as HTMLElement;
     act(() => { box.click(); });
-    const lenAfterFirst = state.deck.length;
+    const lenAfterFirst = getDeckSnapshot().length;
 
     act(() => { box.click(); });
-    expect(state.deck.length).toBe(lenAfterFirst);
+    expect(getDeckSnapshot().length).toBe(lenAfterFirst);
     void word;
   });
 

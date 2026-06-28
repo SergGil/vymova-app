@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeAll, beforeEach, afterEach } from 'vitest';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot, getIdxSnapshot, getFlippedSnapshot, getCwSnapshot } from '../../src/deck-store.ts';
 import { setKnownWords, markKnown, unmarkKnown } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -19,15 +19,6 @@ vi.mock('../../js/features/game.ts', () => ({
   getGameData, saveGameData, recordDailyWord, updateStreak, _idle: idleFn,
 }));
 
-const { isBookmarked } = vi.hoisted(() => ({ isBookmarked: vi.fn(() => false) }));
-vi.mock('../../js/features/bookmarks.ts', () => ({ isBookmarked }));
-
-const { getNoteForWord, hasNote } = vi.hoisted(() => ({
-  getNoteForWord: vi.fn(() => ''),
-  hasNote: vi.fn(() => false),
-}));
-vi.mock('../../js/features/notes.ts', () => ({ getNoteForWord, hasNote }));
-
 vi.mock('../../js/features/i18n.ts', () => ({ t: (k: string) => k }));
 
 const { renderGameBar } = vi.hoisted(() => ({ renderGameBar: vi.fn() }));
@@ -45,21 +36,12 @@ vi.mock('../../js/features/leaderboard.tsx', () => ({ maybeSubmitScore }));
 const { updateRing } = vi.hoisted(() => ({ updateRing: vi.fn() }));
 vi.mock('../../js/features/ring.tsx', () => ({ updateRing }));
 
-const { isOnlineCheck, offlineSvg } = vi.hoisted(() => ({
-  isOnlineCheck: vi.fn(() => true),
-  offlineSvg: vi.fn(() => ''),
-}));
-vi.mock('../../js/features/offline.ts', () => ({ _isOnlineCheck: isOnlineCheck, _offlineSvg: offlineSvg }));
-
 const { loadWikiImage } = vi.hoisted(() => ({ loadWikiImage: vi.fn() }));
 vi.mock('../../js/core/images.ts', () => ({
   loadWikiImage,
   _imgCache: {} as Record<string, string | null>,
   _idb: null,
 }));
-
-const { getIllus } = vi.hoisted(() => ({ getIllus: vi.fn(() => '') }));
-vi.mock('../../data/illustrations.js', () => ({ getIllus }));
 
 const { notifyStateChange } = vi.hoisted(() => ({ notifyStateChange: vi.fn() }));
 vi.mock('../../src/store.ts', () => ({ notifyStateChange }));
@@ -71,11 +53,7 @@ let engine: typeof import('../../js/core/card-engine.ts');
 
 beforeAll(async () => {
   document.body.innerHTML = `
-    <div id="illus"></div>
     <div id="card"><div class="card-face"></div></div>
-    <button id="btn-note"></button>
-    <button id="btn-bookmark"></button>
-    <div id="card-note-display"></div>
     <button id="btn-dontknow"></button>
     <select id="sel-range"><option value="srs" selected>srs</option></select>
     <select id="sel-mode"><option value="en-ua" selected>en-ua</option></select>
@@ -97,15 +75,15 @@ describe('card-engine.ts', () => {
   });
 
   describe('setDeck / setIdx / setFlipped', () => {
-    it('updates module + shared state', () => {
+    it('updates the deck store', () => {
       engine.setDeck([word1, word2]);
-      expect(state.deck).toEqual([word1, word2]);
+      expect(getDeckSnapshot()).toEqual([word1, word2]);
 
       engine.setIdx(1);
-      expect(state.idx).toBe(1);
+      expect(getIdxSnapshot()).toBe(1);
 
       engine.setFlipped(true);
-      expect(state.flipped).toBe(true);
+      expect(getFlippedSnapshot()).toBe(true);
     });
   });
 
@@ -149,23 +127,12 @@ describe('card-engine.ts', () => {
       engine.setIdx(0);
     });
 
-    it('renders the current word and refreshes indicators', () => {
-      isBookmarked.mockReturnValue(true);
-      hasNote.mockReturnValue(true);
-      getNoteForWord.mockReturnValue('my note');
-
+    it('resets flipped and picks the current word from the deck', () => {
+      engine.setFlipped(true);
       engine.render();
 
-      expect(state.flipped).toBe(false);
-      expect(state.cw).toEqual(word1);
-
-      const bmBtn = document.getElementById('btn-bookmark')!;
-      expect(bmBtn.textContent).toBe('★');
-
-      const noteDisp = document.getElementById('card-note-display')!;
-      expect(noteDisp.textContent).toBe('📝 my note');
-      expect(noteDisp.style.display).toBe('');
-
+      expect(getFlippedSnapshot()).toBe(false);
+      expect(getCwSnapshot()).toEqual(word1);
       expect(notifyStateChange).toHaveBeenCalled();
       expect(updateRing).toHaveBeenCalled();
     });
@@ -178,23 +145,6 @@ describe('card-engine.ts', () => {
       unmarkKnown('en', word1[0]);
       engine.render();
       expect(document.getElementById('card')!.classList.contains('is-known')).toBe(false);
-    });
-
-    it('shows the local illustration fallback when no cached image exists', () => {
-      getIllus.mockReturnValue('<svg>icon</svg>');
-      engine.render();
-      const illus = document.getElementById('illus')!;
-      expect(illus.innerHTML).toBe('<svg>icon</svg>');
-      expect(illus.style.display).toBe('');
-    });
-
-    it('shows the offline placeholder when offline and no illustration exists', () => {
-      getIllus.mockReturnValue('');
-      isOnlineCheck.mockReturnValue(false);
-      offlineSvg.mockReturnValue('<svg>offline</svg>');
-      engine.render();
-      const illus = document.getElementById('illus')!;
-      expect(illus.innerHTML).toBe('<svg>offline</svg>');
     });
 
     it('toggles the don\'t-know button based on sel-range value', () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { state } from '../../src/state.ts';
+import { setModeState } from '../../src/deck-store.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 import {
@@ -13,7 +13,7 @@ const abandon: WordEntry = ['abandon', 'покинути', 'They had to <b>aband
 describe('mode-utils.ts', () => {
   afterEach(() => {
     document.body.innerHTML = '';
-    state._mode = 'en';
+    setModeState('en');
   });
 
   describe('getMode', () => {
@@ -58,12 +58,12 @@ describe('mode-utils.ts', () => {
 
   describe('getResolvedMode', () => {
     it('returns state._mode when set', () => {
-      state._mode = 'en-es';
+      setModeState('en-es');
       expect(getResolvedMode()).toBe('en-es');
     });
 
     it('falls back to getMode() when state._mode is empty', () => {
-      state._mode = '';
+      setModeState('');
       expect(getResolvedMode()).toBe('en');
     });
   });
@@ -72,37 +72,37 @@ describe('mode-utils.ts', () => {
     const fallback = new Set(['fallback']);
 
     it('returns the given set for "en"/"ua" modes', () => {
-      state._mode = 'en';
+      setModeState('en');
       expect(getActiveKnown(fallback)).toBe(fallback);
     });
 
     it('returns the ES known set for ES modes', () => {
-      state._mode = 'en-es';
+      setModeState('en-es');
       expect(getActiveKnown(fallback)).toBe(getKnownSnapshot('es'));
     });
 
     it('returns the FR known set for FR modes', () => {
-      state._mode = 'fr-en';
+      setModeState('fr-en');
       expect(getActiveKnown(fallback)).toBe(getKnownSnapshot('fr'));
     });
 
     it('returns the DE known set for DE modes', () => {
-      state._mode = 'de-ua';
+      setModeState('de-ua');
       expect(getActiveKnown(fallback)).toBe(getKnownSnapshot('de'));
     });
 
     it('returns the HE known set for HE modes', () => {
-      state._mode = 'he-ua';
+      setModeState('he-ua');
       expect(getActiveKnown(fallback)).toBe(getKnownSnapshot('he'));
     });
 
     it('returns the AR known set for AR modes', () => {
-      state._mode = 'en-ar';
+      setModeState('en-ar');
       expect(getActiveKnown(fallback)).toBe(getKnownSnapshot('ar'));
     });
 
     it('returns the PL known set for PL modes', () => {
-      state._mode = 'pl-ua';
+      setModeState('pl-ua');
       expect(getActiveKnown(fallback)).toBe(getKnownSnapshot('pl'));
     });
   });

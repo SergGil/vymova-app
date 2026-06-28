@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
@@ -86,7 +86,7 @@ function makeBlank(w: WordEntry, learnLang: string = 'en'): BlankItem | null {
 
 function build(): FibEntry[] {
   const learnLang = getLearnLang();
-  const pool = _shuf((state.deck.length ? state.deck.slice() : W.slice()) as unknown as WordEntry[]);
+  const pool = _shuf((getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[]);
   const deck: FibEntry[] = [];
   for (let i = 0; i < pool.length && deck.length < SIZE; i++) {
     const b = makeBlank(pool[i], learnLang);

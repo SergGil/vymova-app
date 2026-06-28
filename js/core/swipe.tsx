@@ -1,7 +1,7 @@
 // Vymova — js/core/swipe.tsx
 // Touch swipe gestures on the flashcard
 import { useEffect } from 'react';
-import { state } from '../../src/state.ts';
+import { getFlippedSnapshot } from '../../src/deck-store.ts';
 import { setFlipped } from './card-engine.ts';
 
 export function CardSwipe(): null {
@@ -84,7 +84,7 @@ export function CardSwipe(): null {
           }, 220);
         }
       } else if (absDy > 40 && dy < 0 && absDy > absDx * 1.2) {
-        if (!state.flipped) {
+        if (!getFlippedSnapshot()) {
           card!.classList.add('swipe-up');
           setTimeout(function() {
             card!.classList.remove('swipe-up');

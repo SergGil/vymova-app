@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
+import { renderCardState, setDeckState, setIdxState, setCwState } from '../../src/deck-store.ts';
 import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 
@@ -31,15 +31,14 @@ function mount(): { container: HTMLElement; root: Root } {
 describe('card-meta.tsx CardMeta', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
-    state._mode = 'en';
-    state.deck = [cw, cw, cw];
-    state.idx = 0;
-    state.cw = cw;
+    setDeckState([cw, cw, cw]);
+    setIdxState(0);
+    renderCardState(cw, 'en');
     _mockWordIdx = new Map();
   });
 
   it('renders nothing without a current word', () => {
-    state.cw = null;
+    setCwState(null);
     const { container } = mount();
     expect(container.innerHTML).toBe('');
   });
@@ -51,7 +50,7 @@ describe('card-meta.tsx CardMeta', () => {
   });
 
   it('falls back to deck position + 1 when the word is not in _wordIdx', () => {
-    state.idx = 2;
+    setIdxState(2);
     const { container } = mount();
     expect(container.querySelector('#wnum')!.textContent).toBe('#3');
   });

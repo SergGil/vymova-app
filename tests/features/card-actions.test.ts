@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, beforeEach, afterEach, vi } from 'vitest';
 import { createElement, act } from 'react';
 import { createRoot } from 'react-dom/client';
-import { state } from '../../src/state.ts';
+import { setDeckState, setIdxState, setFlippedState, setCwState } from '../../src/deck-store.ts';
 import { setKnownWords, getKnownSnapshot, markKnown } from '../../src/known-words-store.ts';
 import { clearSrsData, getSrsDataSnapshot, setSrsEntry } from '../../src/srs-store.ts';
 import { setBaseWords, setActiveTagSet } from '../../src/deck-filter-store.ts';
@@ -67,9 +67,9 @@ vi.mock('../../js/features/i18n.ts', () => ({
   t: (k: string) => k,
 }));
 
-const engineSetIdx = vi.fn((i: number) => { state.idx = i; });
-const engineSetDeck = vi.fn((d: WordEntry[]) => { state.deck = d; });
-const engineSetFlipped = vi.fn((v: boolean) => { state.flipped = v; });
+const engineSetIdx = vi.fn((i: number) => { setIdxState(i); });
+const engineSetDeck = vi.fn((d: WordEntry[]) => { setDeckState(d); });
+const engineSetFlipped = vi.fn((v: boolean) => { setFlippedState(v); });
 const engineRender = vi.fn();
 const engineAnimCard = vi.fn();
 const engineStopAuto = vi.fn();
@@ -146,10 +146,10 @@ beforeEach(() => {
   vi.setSystemTime(new Date('2024-06-01T12:00:00.000Z'));
   localStorage.clear();
 
-  state.cw = W[0];
-  state.flipped = false;
-  state.deck = W.slice() as unknown as WordEntry[];
-  state.idx = 0;
+  setCwState(W[0]);
+  setFlippedState(false);
+  setDeckState(W.slice() as unknown as WordEntry[]);
+  setIdxState(0);
   engineSetIdx.mockClear();
   engineSetDeck.mockClear();
   engineSetFlipped.mockClear();
@@ -212,7 +212,7 @@ describe('btn-know', () => {
 
   it('advances to the next card when range = all', () => {
     setRange('all');
-    state.idx = 0;
+    setIdxState(0);
 
     document.getElementById('btn-know')!.click();
 
@@ -225,7 +225,7 @@ describe('btn-know', () => {
     document.getElementById('btn-know')!.click();
     expect(engineOnWordLearned).toHaveBeenCalledTimes(1);
 
-    state.cw = W[0]; // already known now
+    setCwState(W[0]); // already known now
     document.getElementById('btn-know')!.click();
     expect(engineOnWordLearned).toHaveBeenCalledTimes(1);
   });
@@ -244,8 +244,8 @@ describe('btn-know', () => {
   });
 
   it('does nothing when there is no current word', () => {
-    state.cw = null;
-    state.deck = [] as unknown as WordEntry[];
+    setCwState(null);
+    setDeckState([] as unknown as WordEntry[]);
 
     document.getElementById('btn-know')!.click();
 
@@ -277,7 +277,7 @@ describe('btn-dontknow', () => {
 
   it('advances to the next card without rebuilding the deck when range != srs', () => {
     setRange('all');
-    state.idx = 0;
+    setIdxState(0);
 
     document.getElementById('btn-dontknow')!.click();
 
@@ -348,7 +348,7 @@ describe('navigation buttons', () => {
   });
 
   it('btn-prev wraps around to the last card', () => {
-    state.idx = 0;
+    setIdxState(0);
     document.getElementById('btn-prev')!.click();
 
     expect(engineSetIdx).toHaveBeenCalledWith(W.length - 1);
@@ -357,7 +357,7 @@ describe('navigation buttons', () => {
 
   it('btn-next advances the index and breaks the combo', async () => {
     const { breakCombo } = await import('../../js/features/combo.ts');
-    state.idx = 0;
+    setIdxState(0);
     document.getElementById('btn-next')!.click();
 
     expect(engineSetIdx).toHaveBeenCalledWith(1);

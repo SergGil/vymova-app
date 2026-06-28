@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { _shuf } from '../../js/core/srs.ts';
 import { lev } from '../../js/core/distance.ts';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot, setDeckState } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 
@@ -17,7 +17,7 @@ function isCorrect(inp: string, raw: string): boolean {
 
 function build(src?: WordEntry[] | null): WordEntry[] {
   const pool = _shuf(
-    (src?.length ? src : (state.deck.length ? state.deck.slice() : W.slice())) as unknown as WordEntry[]
+    (src?.length ? src : (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice())) as unknown as WordEntry[]
   );
   return pool.slice(0, Math.min(SIZE, pool.length));
 }
@@ -54,8 +54,8 @@ describe('write-logic', () => {
   });
 
   describe('build()', () => {
-    it('returns up to SIZE words from W when state.deck is empty', () => {
-      state.deck = [];
+    it('returns up to SIZE words from W when getDeckSnapshot() is empty', () => {
+      setDeckState([]);
       const deck = build();
       expect(deck.length).toBe(SIZE);
     });
@@ -70,8 +70,8 @@ describe('write-logic', () => {
       deck.forEach(w => expect(src.some(s => s[0] === w[0])).toBe(true));
     });
 
-    it('falls back to state.deck/W when src is empty', () => {
-      state.deck = [];
+    it('falls back to getDeckSnapshot()/W when src is empty', () => {
+      setDeckState([]);
       const deck = build([]);
       expect(deck.length).toBe(SIZE);
     });

@@ -2,8 +2,8 @@
 // "Слово дня" header widget. Picks a word matching the currently selected
 // language pair, shows an illustrative image, and jumps to it on click.
 import { useEffect, useState, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
+import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { today } from '../core/today.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
@@ -116,7 +116,7 @@ function frontWord(cw: WordEntry, mode: string): string {
 }
 
 function goToWord(word: WordEntry): void {
-  const deck = state.deck as WordEntry[];
+  const deck = getDeckSnapshot();
   let di = deck.findIndex(w => w[0] === word[0]);
   if (di === -1) { deck.push(word); di = deck.length - 1; }
   setIdx(di);

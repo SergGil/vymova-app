@@ -6,12 +6,6 @@
 import type { AppState } from './types.js';
 
 export const state: AppState = {
-  deck:           [],
-  idx:            0,
-  flipped:        false,
-  cw:             null,
-  autoTimer:      null,
-  _mode:          'en',
   duelSel: {
     mode:            'quiz',
     category:        '',

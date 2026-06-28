@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { _shuf } from '../../js/core/srs.ts';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot, setDeckState } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 
@@ -8,7 +8,7 @@ const SIZE = 10;
 
 // ── Re-declared pure helpers from js/modes/scramble.tsx ──
 function build(): WordEntry[] {
-  const pool = _shuf((state.deck.length ? state.deck.slice() : W.slice()) as unknown as WordEntry[]);
+  const pool = _shuf((getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[]);
   const filtered = pool.filter(w => /^[A-Za-z]+$/.test(w[0]) && w[0].length >= 4 && w[0].length <= 9);
   const fallback = pool.filter(w => /^[A-Za-z]+$/.test(w[0]));
   return (filtered.length >= SIZE ? filtered : fallback.length >= SIZE ? fallback : pool).slice(0, SIZE);
@@ -33,7 +33,7 @@ function check(answerLetters: string, target: string): boolean {
 describe('scramble-logic', () => {
   describe('build()', () => {
     it('returns SIZE words, each 4-9 letters and alphabetic only', () => {
-      state.deck = [];
+      setDeckState([]);
       const deck = build();
       expect(deck.length).toBe(SIZE);
       deck.forEach(w => {
@@ -43,15 +43,15 @@ describe('scramble-logic', () => {
       });
     });
 
-    it('uses state.deck when populated', () => {
+    it('uses getDeckSnapshot() when populated', () => {
       const custom: WordEntry[] = [
         ['table', 'стіл', '', '', '', ''] as unknown as WordEntry,
         ['chair', 'стілець', '', '', '', ''] as unknown as WordEntry,
       ];
-      state.deck = custom as unknown as typeof state.deck;
+      setDeckState(custom);
       const deck = build();
       deck.forEach(w => expect(custom.some(c => c[0] === w[0])).toBe(true));
-      state.deck = [];
+      setDeckState([]);
     });
   });
 

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
+import { setDeckState } from '../../src/deck-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 
@@ -32,7 +32,7 @@ describe('export.tsx ExportInit', () => {
       <button id="btn-pdf-export"></button>
       <button id="btn-share"></button>
     `;
-    state.deck = [];
+    setDeckState([]);
     setKnownWords('en', new Set());
     _mockWordIdx = new Map();
     localStorage.clear();

@@ -1,8 +1,8 @@
 // Vymova — js/features/word-context.tsx
 // Word families + collocations shown on card back
 import type { ReactElement } from 'react';
-import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
+import { getCwSnapshot, getFlippedSnapshot } from '../../src/deck-store.ts';
 import { getWordIndex } from '../core/word-index.ts';
 import { searchCollocations } from '../../data/collocations.ts';
 import { WORD_FAMILIES_BY_LANG, WORD_FAMILY_REVERSE_BY_LANG } from '../../data/word-families.ts';
@@ -27,8 +27,8 @@ function _englishInPair(): boolean {
 
 export function CollocationsSection(): ReactElement | null {
   useStateVersion();
-  const cw = state.cw as WordEntry | null;
-  if (!cw || !state.flipped) return null;
+  const cw = getCwSnapshot() as WordEntry | null;
+  if (!cw || !getFlippedSnapshot()) return null;
   if (!_englishInPair()) return null;
 
   const colls = searchCollocations(cw[0]);
@@ -82,8 +82,8 @@ function _headEnFor(front: Code, word: string): string | null {
 
 export function WordFamiliesChips(): ReactElement | null {
   useStateVersion();
-  const cw = state.cw as WordEntry | null;
-  if (!cw || !state.flipped) return null;
+  const cw = getCwSnapshot() as WordEntry | null;
+  if (!cw || !getFlippedSnapshot()) return null;
 
   const { front, back } = parsePair(getMode());
   const dict = WORD_FAMILIES_BY_LANG[front];
@@ -136,8 +136,8 @@ export function WordFamiliesChips(): ReactElement | null {
 
 export function SynonymsChips(): ReactElement | null {
   useStateVersion();
-  const cw = state.cw as WordEntry | null;
-  if (!cw || !state.flipped) return null;
+  const cw = getCwSnapshot() as WordEntry | null;
+  if (!cw || !getFlippedSnapshot()) return null;
 
   const { front, back } = parsePair(getMode());
   const dict = SYNONYMS_BY_LANG[front];
@@ -190,8 +190,8 @@ export function SynonymsChips(): ReactElement | null {
 
 export function EtymologyNote(): ReactElement | null {
   useStateVersion();
-  const cw = state.cw as WordEntry | null;
-  if (!cw || !state.flipped) return null;
+  const cw = getCwSnapshot() as WordEntry | null;
+  if (!cw || !getFlippedSnapshot()) return null;
 
   const fact = getEtymologyFact(cw[0].toLowerCase(), getLang());
   if (!fact) return null;
@@ -206,7 +206,7 @@ export function EtymologyNote(): ReactElement | null {
 
 export function UsageNoteBox(): ReactElement | null {
   useStateVersion();
-  const cw = state.cw as WordEntry | null;
+  const cw = getCwSnapshot() as WordEntry | null;
   if (!cw) return null;
 
   const { front } = parsePair(getMode());

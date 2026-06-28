@@ -1,7 +1,6 @@
 // Vymova — js/features/card-actions.ts
 // All flashcard interaction event listeners
 import { useEffect, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
 import { sm2Update, buildSRSDeck, buildUnlearnedDeck, shuffle, updateSrsUI } from '../core/srs.ts';
 import { saveKnown, saveSRS } from '../core/storage.ts';
 import { getGameData, saveGameData, invalidateGameCaches } from './game.ts';
@@ -28,6 +27,7 @@ import { refreshGameBarLevel } from './game-bar-level.tsx';
 import { updateRing } from './ring.tsx';
 import { render, setIdx, setDeck, setFlipped, animCard, stopAuto, startAuto,
          isAutoRunning, onWordLearned } from '../core/card-engine.ts';
+import { getDeckSnapshot, getIdxSnapshot, getCwSnapshot, getFlippedSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
 
 function _safe(fn: () => void): void {
@@ -43,7 +43,7 @@ export function CardActionsInit(): ReactElement | null {
     // ── Card flip ─────────────────────────────────────────────────
     const cardEl = document.getElementById('card')!;
     const onCardClick = () => {
-      if (!state.flipped) {
+      if (!getFlippedSnapshot()) {
         setFlipped(true);
         _safe(() => updateSimilarWords());
       }
@@ -54,7 +54,7 @@ export function CardActionsInit(): ReactElement | null {
     const speakWordBtn = document.getElementById('speak-word')!;
     const onSpeakWordClick = (e: MouseEvent) => {
       e.stopPropagation();
-      const cw = state.cw;
+      const cw = getCwSnapshot();
       if (!cw) return;
       const modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
       const front = parsePair(modeVal).front;
@@ -70,7 +70,7 @@ export function CardActionsInit(): ReactElement | null {
     const speakExBtn = document.getElementById('speak-ex')!;
     const onSpeakExClick = (e: MouseEvent) => {
       e.stopPropagation();
-      const cw = state.cw;
+      const cw = getCwSnapshot();
       if (!cw) return;
       const exEn    = cw[2] || '';
       const exUa    = cw[3] || '';
@@ -100,7 +100,7 @@ export function CardActionsInit(): ReactElement | null {
     const noteBtn = document.getElementById('btn-note')!;
     const onNoteClick = (e: MouseEvent) => {
       e.stopPropagation();
-      const cw = state.cw;
+      const cw = getCwSnapshot();
       if (cw) openNoteModal(cw[0]);
     };
     noteBtn.addEventListener('click', onNoteClick);
@@ -108,7 +108,7 @@ export function CardActionsInit(): ReactElement | null {
     const bookmarkBtn = document.getElementById('btn-bookmark')!;
     const onBookmarkClick = (e: MouseEvent) => {
       e.stopPropagation();
-      const cw = state.cw;
+      const cw = getCwSnapshot();
       if (!cw) return;
       const isNow = toggleBookmark(cw[0]);
       bookmarkBtn.textContent = isNow ? '★' : '☆';
@@ -119,7 +119,7 @@ export function CardActionsInit(): ReactElement | null {
     const micBtn = document.getElementById('btn-mic')!;
     const onMicClick = (e: MouseEvent) => {
       e.stopPropagation();
-      const cw = state.cw;
+      const cw = getCwSnapshot();
       if (!cw) return;
       startPronunciationCheck(cw[0], micBtn, (status, score, spoken, target) => {
         showPronuncResult(status, score, spoken ?? '', target ?? '');
@@ -135,9 +135,9 @@ export function CardActionsInit(): ReactElement | null {
     const onPrevClick = (e: MouseEvent) => {
       e.stopPropagation();
       stopAuto();
-      const deckLen = state.deck.length;
+      const deckLen = getDeckSnapshot().length;
       if (!deckLen) { render(); return; }
-      setIdx((state.idx - 1 + deckLen) % deckLen);
+      setIdx((getIdxSnapshot() - 1 + deckLen) % deckLen);
       animCard('prev');
       render();
     };
@@ -146,7 +146,7 @@ export function CardActionsInit(): ReactElement | null {
     const knowBtn = document.getElementById('btn-know')!;
     const onKnowClick = (e: MouseEvent) => {
       e.stopPropagation();
-      const cw = state.cw;
+      const cw = getCwSnapshot();
       if (cw) {
         const _lang         = _activeKnownLang();
         const isNewlyKnown = !getKnownSnapshot(_lang).has(cw[0]);
@@ -191,18 +191,18 @@ export function CardActionsInit(): ReactElement | null {
         if (rangeVal === 'unlearned') {
           const newDeck = buildUnlearnedDeck(getBaseWordsSnapshot() as unknown as WordEntry[]);
           setDeck(newDeck);
-          const dl = state.deck.length;
+          const dl = getDeckSnapshot().length;
           if (!dl) { render(); return; }
-          setIdx(state.idx % dl);
+          setIdx(getIdxSnapshot() % dl);
           animCard('fade');
           render();
           return;
         }
       }
-      const deckLen = state.deck.length;
+      const deckLen = getDeckSnapshot().length;
       if (!deckLen) { render(); return; }
       animCard('next');
-      setIdx((state.idx + 1) % deckLen);
+      setIdx((getIdxSnapshot() + 1) % deckLen);
       render();
     };
     knowBtn.addEventListener('click', onKnowClick);
@@ -212,9 +212,9 @@ export function CardActionsInit(): ReactElement | null {
       e.stopPropagation();
       _safe(() => playSound('next'));
       _safe(() => breakCombo());
-      const deckLen = state.deck.length;
+      const deckLen = getDeckSnapshot().length;
       if (!deckLen) { render(); return; }
-      setIdx((state.idx + 1) % deckLen);
+      setIdx((getIdxSnapshot() + 1) % deckLen);
       render();
     };
     nextBtn.addEventListener('click', onNextClick);
@@ -222,7 +222,7 @@ export function CardActionsInit(): ReactElement | null {
     const dontknowBtn = document.getElementById('btn-dontknow')!;
     const onDontknowClick = (e: MouseEvent) => {
       e.stopPropagation();
-      const cw = state.cw;
+      const cw = getCwSnapshot();
       if (cw) {
         sm2Update(cw[0], 1);
         saveSRS(getSrsDataSnapshot());
@@ -237,9 +237,9 @@ export function CardActionsInit(): ReactElement | null {
           return;
         }
       }
-      const deckLen = state.deck.length;
+      const deckLen = getDeckSnapshot().length;
       if (!deckLen) { render(); return; }
-      setIdx((state.idx + 1) % deckLen);
+      setIdx((getIdxSnapshot() + 1) % deckLen);
       render();
     };
     dontknowBtn.addEventListener('click', onDontknowClick);
@@ -260,7 +260,7 @@ export function CardActionsInit(): ReactElement | null {
     const onShufClick = (e: MouseEvent) => {
       e.stopPropagation();
       stopAuto();
-      shuffle(state.deck as WordEntry[]);
+      shuffle(getDeckSnapshot() as WordEntry[]);
       setIdx(0);
       render();
     };

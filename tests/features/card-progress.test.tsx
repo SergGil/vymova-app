@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
+import { setModeState, setDeckState, setIdxState } from '../../src/deck-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
@@ -20,7 +20,7 @@ function mount(Component: () => JSX.Element): { container: HTMLElement; root: Ro
 describe('card-progress.tsx', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
-    state._mode = 'en';
+    setModeState('en');
     setKnownWords('es', new Set());
     setKnownWords('fr', new Set());
     setKnownWords('it', new Set());
@@ -30,14 +30,14 @@ describe('card-progress.tsx', () => {
 
   describe('CardIdx', () => {
     it('shows "0/0" for an empty deck', () => {
-      state.deck = [];
+      setDeckState([]);
       const { container } = mount(CardIdx);
       expect(container.querySelector('#cidx')!.textContent).toBe('0/0');
     });
 
     it('shows the 1-based position within the deck', () => {
-      state.deck = [['a'], ['b'], ['c']] as unknown as WordEntry[];
-      state.idx = 1;
+      setDeckState([['a'], ['b'], ['c']] as unknown as WordEntry[]);
+      setIdxState(1);
       const { container } = mount(CardIdx);
       expect(container.querySelector('#cidx')!.textContent).toBe('2/3');
     });

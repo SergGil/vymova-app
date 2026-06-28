@@ -11,7 +11,7 @@ import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
 
 type Question = {
@@ -130,7 +130,7 @@ export function TempoPage(): ReactElement {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const getBaseDeck = (): WordEntry[] =>
-    state.deck.length ? _shuf(state.deck.slice()) : _shuf(W.slice() as unknown as WordEntry[]);
+    getDeckSnapshot().length ? _shuf(getDeckSnapshot().slice()) : _shuf(W.slice() as unknown as WordEntry[]);
 
   const showQuestion = (): void => {
     const r = run.current;

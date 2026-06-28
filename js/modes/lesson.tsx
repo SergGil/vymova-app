@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, flashCard, getComboMult, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
@@ -92,7 +92,7 @@ export function LessonPage(): ReactElement {
   const w: WordEntry | null = words[step] ?? null;
 
   const startLesson = (): void => {
-    const pool = _shuf((state.deck.length >= N ? state.deck.slice() : W.slice()) as unknown as WordEntry[]);
+    const pool = _shuf((getDeckSnapshot().length >= N ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[]);
     setWords(pool.slice(0, N));
     setPhase(0); setStep(0); setScores([0, 0, 0]);
     setFlipped(false); setAnswered(false); setOptions([]); setSelected(null);

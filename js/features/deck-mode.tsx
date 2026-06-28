@@ -2,8 +2,8 @@
 // Special-mode deck management: sel-mode listener filters the deck to whatever
 // target language(s) the current pair involves (see mode-utils.ts getWordsForMode).
 import { useEffect, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
 import { getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
+import { getDeckSnapshot, getIdxSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { getMode, getWordsForMode, isSpecialMode, noTranslationsKey } from './mode-utils.ts';
 import { t } from './i18n.ts';
@@ -44,8 +44,8 @@ export function DeckModeInit(): ReactElement | null {
       const specialDeck = _getSpecialDeck(initMode);
       if (specialDeck.length) {
         if (!_preSpecialDeck) {
-          _preSpecialDeck = state.deck;
-          _preSpecialIdx  = state.idx;
+          _preSpecialDeck = getDeckSnapshot();
+          _preSpecialIdx  = getIdxSnapshot();
         }
         const ats = getActiveTagSetSnapshot();
         let deck = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
@@ -77,8 +77,8 @@ export function DeckModeInit(): ReactElement | null {
           return;
         }
         if (!_preSpecialDeck) {
-          _preSpecialDeck = state.deck;
-          _preSpecialIdx  = state.idx;
+          _preSpecialDeck = getDeckSnapshot();
+          _preSpecialIdx  = getIdxSnapshot();
         }
         const ats = getActiveTagSetSnapshot();
         let deck = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
@@ -88,7 +88,7 @@ export function DeckModeInit(): ReactElement | null {
         _refreshRangeOptions();
       } else if (!isSpecial && _preSpecialDeck) {
         setDeck(_preSpecialDeck);
-        const deckLen = (state.deck).length;
+        const deckLen = (getDeckSnapshot()).length;
         setIdx(deckLen ? _preSpecialIdx % deckLen : 0);
         _preSpecialDeck = null;
         _refreshRangeOptions();

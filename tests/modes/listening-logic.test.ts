@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { _shuf } from '../../js/core/srs.ts';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot, setDeckState } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 
@@ -8,7 +8,7 @@ const SIZE = 10;
 
 // ── Re-declared pure helpers from js/modes/listening.tsx ──
 function build(): WordEntry[] {
-  const pool = _shuf((state.deck.length ? state.deck.slice() : W.slice()) as unknown as WordEntry[]);
+  const pool = _shuf((getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[]);
   return pool.slice(0, SIZE);
 }
 
@@ -28,18 +28,18 @@ function buildOptions(word: WordEntry): string[] {
 
 describe('listening-logic', () => {
   describe('build()', () => {
-    it('returns SIZE words from W when state.deck is empty', () => {
-      state.deck = [];
+    it('returns SIZE words from W when getDeckSnapshot() is empty', () => {
+      setDeckState([]);
       const deck = build();
       expect(deck.length).toBe(SIZE);
     });
 
-    it('uses state.deck when populated', () => {
+    it('uses getDeckSnapshot() when populated', () => {
       const custom: WordEntry[] = W.slice(0, 3) as unknown as WordEntry[];
-      state.deck = custom as unknown as typeof state.deck;
+      setDeckState(custom);
       const deck = build();
       expect(deck.length).toBe(3);
-      state.deck = [];
+      setDeckState([]);
     });
   });
 

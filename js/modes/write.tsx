@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
@@ -60,7 +60,7 @@ function isCorrect(inp: string, raw: string): boolean {
 
 function build(src?: WordEntry[] | null): WordEntry[] {
   const pool = _shuf(
-    (src?.length ? src : (state.deck.length ? state.deck.slice() : W.slice())) as unknown as WordEntry[]
+    (src?.length ? src : (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice())) as unknown as WordEntry[]
   );
   return pool.slice(0, Math.min(SIZE, pool.length));
 }

@@ -24,7 +24,7 @@ import {
   saveKnownHe, saveKnownAr, saveKnownPl, saveKnownZh, saveKnownEl, saveKnownJa,
   saveKnownTr, saveKnownNl,
 } from '../core/storage.ts';
-import { state } from '../../src/state.ts';
+import { getModeSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
 import { ALL_TARGET_LANGS, type TargetLang, type Code } from '../../src/types.js';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
@@ -162,10 +162,10 @@ export function getFrontLang(mode: string): FrontLang {
 
 // Для 'mix'-режиму getMode() обирає випадкове значення (a чи b) при кожному
 // викликові. render() резолвить його раз на оновлення картки і кладе в
-// `state._mode`, щоб усі React-компоненти картки (item 28a/28b) бачили той
+// deck-store, щоб усі React-компоненти картки (item 28a/28b) бачили той
 // самий резолвлений режим, а не кожен своє випадкове значення.
 export function getResolvedMode(): string {
-  return state._mode || getMode();
+  return getModeSnapshot() || getMode();
 }
 
 /**

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { _shuf } from '../../js/core/srs.ts';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot, setDeckState } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { t } from '../../js/features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -18,7 +18,7 @@ function hasGoodExample(w: WordEntry): boolean {
 }
 
 function build(): WordEntry[] {
-  const pool = _shuf((state.deck.length ? state.deck.slice() : W.slice()) as unknown as WordEntry[]);
+  const pool = _shuf((getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[]);
   let deck = pool.filter(hasGoodExample).slice(0, SIZE);
   if (deck.length < 4) {
     deck = _shuf((W as unknown as WordEntry[]).filter(w => getExample(w).length >= 15)).slice(0, SIZE);
@@ -87,7 +87,7 @@ describe('context-logic', () => {
 
   describe('build()', () => {
     it('returns at most SIZE words, all with good examples when available', () => {
-      state.deck = [];
+      setDeckState([]);
       const deck = build();
       expect(deck.length).toBeGreaterThan(0);
       expect(deck.length).toBeLessThanOrEqual(SIZE);

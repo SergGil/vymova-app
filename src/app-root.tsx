@@ -11,6 +11,7 @@ import { NavProvider, getActivePage } from './nav-store.tsx';
 import { KnownWordsProvider } from './known-words-store.ts';
 import { SrsProvider } from './srs-store.ts';
 import { DeckFilterProvider } from './deck-filter-store.ts';
+import { DeckProvider } from './deck-store.ts';
 
 import { ProfileSwitcher } from '../js/features/profile-switcher.tsx';
 import { WordOfDay } from '../js/features/word-of-day.tsx';
@@ -23,6 +24,8 @@ import { GameBarLevel } from '../js/features/game-bar-level.tsx';
 import { GameBarStreak, ComboBox, GameBarGoal } from '../js/features/game-bar-streak.tsx';
 import { GoalModal } from '../js/features/goal-modal.tsx';
 import { CardMeta } from '../js/features/card-meta.tsx';
+import { CardImage } from '../js/features/card-image.tsx';
+import { CardNoteDisplay, CardBookmarkNoteVisuals } from '../js/features/card-indicators.tsx';
 import { WordText, Transcription, PosTag, SrsBadge, Translation, ExEn, ExUa, CardHint, OtherMeanings, FrontSpeakBtnsToggle } from '../js/features/card-front-text.tsx';
 import { CardIdx, CardKnownCount, ProgressBar } from '../js/features/card-progress.tsx';
 import { SimilarWordsChips } from '../js/features/similar-words.tsx';
@@ -130,6 +133,9 @@ function AppRoot(): ReactElement {
     <Portal id="goal-block-mount"><GameBarGoal/></Portal>
     <Portal id="goal-modal-mount"><GoalModal/></Portal>
     <Portal id="card-meta-mount"><CardMeta/></Portal>
+    <Portal id="illus-mount"><CardImage/></Portal>
+    <Portal id="card-note-mount"><CardNoteDisplay/></Portal>
+    <CardBookmarkNoteVisuals/>
     <Portal id="wword-mount"><WordText/></Portal>
     <Portal id="wtrans-mount"><Transcription/></Portal>
     <Portal id="wpos-mount"><PosTag/></Portal>
@@ -223,9 +229,11 @@ export function mountAppRoot(): void {
         <KnownWordsProvider>
           <SrsProvider>
             <DeckFilterProvider>
-              <NavigateBridge/>
-              <RouterSync/>
-              <AppRoot/>
+              <DeckProvider>
+                <NavigateBridge/>
+                <RouterSync/>
+                <AppRoot/>
+              </DeckProvider>
             </DeckFilterProvider>
           </SrsProvider>
         </KnownWordsProvider>

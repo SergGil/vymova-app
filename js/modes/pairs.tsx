@@ -2,7 +2,7 @@
 // 🔗 PAIRS MODE
 import { useEffect, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { t } from '../features/i18n.ts';
 import { recordModeComplete } from '../features/game.ts';
@@ -54,7 +54,7 @@ export function PairsMode(): ReactElement | null {
     let pTick: ReturnType<typeof setInterval> | null = null;
 
     function open(): void {
-      const pool = _shuf((state.deck?.length >= N ? state.deck : W).slice() as WordEntry[]);
+      const pool = _shuf((getDeckSnapshot()?.length >= N ? getDeckSnapshot() : W).slice() as WordEntry[]);
       pDeck = pool.slice(0, N);
       pSel = null; pMatched = 0; pStart = null;
       if (pTick) clearInterval(pTick);

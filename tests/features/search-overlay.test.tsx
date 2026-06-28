@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
+import { setDeckState } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { SearchOverlay } from '../../js/features/search-overlay.tsx';
@@ -31,7 +31,7 @@ async function wait(ms = 150): Promise<void> {
 describe('search-overlay.tsx SearchOverlay', () => {
   beforeEach(() => {
     document.body.innerHTML = '<button id="btn-search"></button><select id="sel-range"><option value="0">All</option><option value="srs">SRS</option></select>';
-    state.deck = [];
+    setDeckState([]);
     render.mockClear();
     setIdx.mockClear();
     openWordDetail.mockClear();
@@ -116,7 +116,7 @@ describe('search-overlay.tsx SearchOverlay', () => {
 
   it('navigates to the card when the "in deck" badge is clicked for a word already in the deck', async () => {
     const target = (W as unknown as WordEntry[])[0];
-    state.deck = [target];
+    setDeckState([target]);
     const { container } = mount();
     act(() => { document.getElementById('btn-search')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
 

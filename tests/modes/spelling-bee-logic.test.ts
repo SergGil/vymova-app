@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { _shuf } from '../../js/core/srs.ts';
 import { lev } from '../../js/core/distance.ts';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot, setDeckState } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 
@@ -10,7 +10,7 @@ const HINTS = 3;
 
 // ── Re-declared pure helpers from js/modes/spelling-bee.tsx ──
 function build(): WordEntry[] {
-  const pool = _shuf((state.deck.length ? state.deck.slice() : W.slice()) as unknown as WordEntry[]);
+  const pool = _shuf((getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[]);
   const filtered = pool.filter(w => w[0].length >= 4);
   return (filtered.length >= SIZE ? filtered : pool).slice(0, SIZE);
 }
@@ -34,7 +34,7 @@ function hintReveal(word: string, hintsLeft: number): string {
 describe('spelling-bee-logic', () => {
   describe('build()', () => {
     it('returns SIZE words, all at least 4 letters when possible', () => {
-      state.deck = [];
+      setDeckState([]);
       const deck = build();
       expect(deck.length).toBe(SIZE);
       deck.forEach(w => expect(w[0].length).toBeGreaterThanOrEqual(4));

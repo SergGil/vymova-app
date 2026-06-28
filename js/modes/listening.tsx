@@ -2,7 +2,7 @@
 // 🔊 LISTENING MODE
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
@@ -36,7 +36,7 @@ function getWordInLang(w: WordEntry, lang: string): string {
 }
 
 function build(): WordEntry[] {
-  const pool = _shuf((state.deck.length ? state.deck.slice() : W.slice()) as WordEntry[]);
+  const pool = _shuf((getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as WordEntry[]);
   return pool.slice(0, SIZE);
 }
 

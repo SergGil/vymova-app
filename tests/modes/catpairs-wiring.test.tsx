@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
-import { state } from '../../src/state.ts';
+import { renderCardState, setDeckState, setIdxState } from '../../src/deck-store.ts';
 import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 
@@ -19,10 +19,9 @@ const cw: WordEntry = ['abandon', 'покинути', 'He will abandon it.', 'В
 describe('CatPairsWiringInit no longer steals the unmark-button click', () => {
   it('lets a real click on #btn-unmark reach card-meta.tsx and remove the word from the known set', () => {
     document.body.innerHTML = '';
-    state._mode = 'en';
-    state.deck = [cw, cw, cw];
-    state.idx = 0;
-    state.cw = cw;
+    setDeckState([cw, cw, cw]);
+    setIdxState(0);
+    renderCardState(cw, 'en');
     setKnownWords('en', new Set(['abandon']));
 
     const container = document.createElement('div');

@@ -1,7 +1,7 @@
 // Vymova — js/features/card-meta.tsx
 // Бейджі картки: #wnum, known-badge/#btn-unmark, #wcefr, #wcategory, #wlang.
 // Частина item 28a (Фаза 4) — заміна статичного блоку .card-meta з render().
-import { useAppState } from '../../src/store.ts';
+import { useDeckState } from '../../src/deck-store.ts';
 import { getWordIndex } from '../core/word-index.ts';
 import { getCefrLevel } from '../../data/cefr.ts';
 import { getCategoriesForWord } from '../../data/categories.js';
@@ -20,8 +20,7 @@ function _unmarkActiveKnownAndSave(word: string): void {
 }
 
 export function CardMeta() {
-  const state = useAppState();
-  const { deck, idx, cw } = state;
+  const { deck, idx, cw } = useDeckState();
   const wordIdx = getWordIndex();
   if (!cw) return null;
 

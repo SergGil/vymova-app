@@ -3,9 +3,7 @@
 // Перенесено з js/app.ts (Фаза 7.5, Під-фаза D).
 import type { WordEntry } from '../../src/types.js';
 import { W }                                       from '../../data/words.js';
-import { getIllus }                                from '../../data/illustrations.js';
-import { loadWikiImage, _imgCache, _idb }          from './images.ts';
-import { state }                                   from '../../src/state.ts';
+import { loadWikiImage, _imgCache }                from './images.ts';
 import { notifyStateChange }                       from '../../src/store.ts';
 import { synth }                                    from './srs.ts';
 import { awardXP }                                  from '../features/combo.ts';
@@ -13,8 +11,6 @@ import { showComboToast }                           from '../features/combo-toas
 import { getGameData, saveGameData, recordDailyWord,
          updateStreak,
          _idle }                                    from '../features/game.ts';
-import { isBookmarked }                            from '../features/bookmarks.ts';
-import { getNoteForWord, hasNote }                 from '../features/notes.ts';
 import { t }                                       from '../features/i18n.ts';
 import { renderGameBar }                           from '../features/render-game-bar.ts';
 import { refreshGameBarLevel as renderLevelBadge } from '../features/game-bar-level.tsx';
@@ -23,36 +19,27 @@ import { maybeSubmitScore }                        from '../features/leaderboard
 import { updateRing }                              from '../features/ring.tsx';
 import { getMode, getActiveKnownSet } from '../features/mode-utils.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
-import { _isOnlineCheck, _offlineSvg }             from '../features/offline.ts';
 import { safe as _safe }                           from './card-helpers.ts';
+import { setDeckState, setIdxState, setFlippedState, renderCardState,
+         getDeckSnapshot, getIdxSnapshot }          from '../../src/deck-store.ts';
 
-let deck: WordEntry[] = W.slice() as unknown as WordEntry[];
-let idx = 0, flipped = false;
-let cw: WordEntry | null = null, autoTimer: ReturnType<typeof setTimeout> | null = null;
+let autoTimer: ReturnType<typeof setTimeout> | null = null;
 
-state.deck = deck as unknown as WordEntry[];
+setDeckState(W.slice() as unknown as WordEntry[]);
 
 function _activeKnown(): Set<string> {
   return getActiveKnownSet(getMode(), getKnownSnapshot('en'));
 }
 
-// ── Single-source helpers — call instead of writing to all 3 stores manually ──
+// ── Single-source helpers — call instead of dispatching to the store manually ──
 export function setDeck(d: WordEntry[]): void {
-  deck = d;
-  state.deck = d as unknown as WordEntry[];
+  setDeckState(d);
 }
 export function setIdx(i: number): void {
-  idx = i;
-  state.idx = i;
-}
-function _setCw(w: WordEntry | null): void {
-  cw = w;
-  state.cw = w;
+  setIdxState(i);
 }
 export function setFlipped(v: boolean): void {
-  flipped = v;
-  state.flipped = v;
-  notifyStateChange();
+  setFlippedState(v);
 }
 
 // Helper: get cached element with null safety
@@ -60,7 +47,7 @@ function $e(id: string): HTMLElement { return $el[id] as HTMLElement; }
 
 // Кеш DOM-елементів: уникаємо getElementById на кожен render()
 const $el: Record<string, HTMLElement | null> = {};
-['illus','card'].forEach(function(id: string) {
+['card'].forEach(function(id: string) {
   $el[id] = document.getElementById(id);
 });
 
@@ -73,7 +60,12 @@ export function stopAuto(): void {
 export function isAutoRunning(): boolean { return !!autoTimer; }
 
 export function startAuto(): void {
-  autoTimer = setInterval(() => { animCard('next'); idx = (idx + 1) % deck.length; render(); }, 4500);
+  autoTimer = setInterval(() => {
+    animCard('next');
+    const deck = getDeckSnapshot();
+    setIdxState((getIdxSnapshot() + 1) % deck.length);
+    render();
+  }, 4500);
 }
 
 // ── Card animation ─────────────────────────────────────────────────────────
@@ -87,105 +79,21 @@ export function animCard(dir: 'next' | 'prev' | 'fade'): void {
   setTimeout(() => face.classList.remove(cls), 250);
 }
 
-// ── render() sub-helpers ───────────────────────────────────────────────────
-
-function renderCardIndicators(word: string): void {
-  const _noteBtn  = document.getElementById('btn-note');
-  const _bmBtn    = document.getElementById('btn-bookmark');
-  const _noteDisp = document.getElementById('card-note-display');
-  if (_bmBtn) {
-    const _isBm = isBookmarked(word);
-    _bmBtn.textContent = _isBm ? '★' : '☆';
-    _bmBtn.style.color = _isBm ? '#f1c40f' : '';
-  }
-  if (_noteDisp) {
-    const _note = getNoteForWord(word);
-    if (_note) { _noteDisp.textContent = '📝 ' + _note; _noteDisp.style.display = ''; }
-    else        { _noteDisp.style.display = 'none'; }
-  }
-  if (_noteBtn) {
-    _noteBtn.style.opacity = hasNote(word) ? '1' : '0.5';
-  }
-}
-
-const _IMG_S = 'width:100%;height:100%;object-fit:cover;border-radius:8px;';
-
-function renderCardImage(word: string, illusEl: HTMLElement): void {
-  try {
-    if (_imgCache.hasOwnProperty(word) && _imgCache[word]) {
-      // Є закешоване фото → показати одразу, з onerror якщо URL протух
-      (function(w, el) {
-        const img = document.createElement('img');
-        img.alt = ''; img.loading = 'lazy'; img.style.cssText = _IMG_S;
-        const _clearAndRefetch = function() {
-          delete _imgCache[w];
-          if (typeof _idb !== 'undefined' && _idb) {
-            try { _idb.transaction('imgs','readwrite').objectStore('imgs').delete(w); } catch(e2){}
-          }
-          const fb = getIllus(w);
-          if (fb) { el.innerHTML = fb; el.style.display = ''; }
-          else    { el.innerHTML = ''; el.style.display = 'none'; }
-          loadWikiImage(w, function(wd, newUrl) {
-            if (!cw || cw[0] !== wd) return;
-            if (newUrl) {
-              const _ni = document.createElement('img');
-              _ni.alt = ''; _ni.loading = 'lazy'; _ni.style.cssText = _IMG_S;
-              _ni.onload  = function(){ if (_ni.naturalWidth < 10) el.style.display='none'; };
-              _ni.onerror = function(){ el.style.display='none'; };
-              _ni.src = newUrl;
-              el.innerHTML = ''; el.appendChild(_ni); el.style.display = '';
-            }
-          });
-        };
-        img.onerror = _clearAndRefetch;
-        // Pixabay повертає HTTP 200 з темним placeholder коли URL закінчився —
-        // перевіряємо розмір: реальне фото завжди > 10px
-        img.onload = function() {
-          if (img.naturalWidth < 10 || img.naturalHeight < 10) _clearAndRefetch();
-        };
-        img.src = (_imgCache as Record<string, string>)[w];
-        el.innerHTML = '';
-        el.appendChild(img);
-        el.style.display = '';
-      })(word, illusEl);
-    } else {
-      // Поки фото не завантажилось — показати emoji/SVG як заглушку
-      const _localIllus = getIllus(word);
-      if (_localIllus) { illusEl.innerHTML = _localIllus; illusEl.style.display = ''; }
-      else              { illusEl.innerHTML = ''; illusEl.style.display = 'none'; }
-      if (!_imgCache.hasOwnProperty(word)) {
-        if (!_isOnlineCheck() && !_localIllus) {
-          illusEl.innerHTML = _offlineSvg(word);
-          if (illusEl.innerHTML) illusEl.style.display = '';
-        } else {
-          (function(w) {
-            loadWikiImage(w, function(wd, imgUrl) {
-              if (!cw || cw[0] !== wd) return;
-              if (imgUrl) {
-                illusEl.innerHTML = '<img src="' + imgUrl + '" alt="" loading="lazy" style="' + _IMG_S + '">';
-                illusEl.style.display = '';
-              }
-            });
-          })(word);
-        }
-      }
-    }
-  } catch(e) { try { illusEl.style.display='none'; }catch(e2){} }
-}
-
 // ── Main render ────────────────────────────────────────────────────────────
+// Картинка картки (#illus) та індикатори закладки/нотатки рендеряться
+// реактивно через CardImage/CardNoteDisplay/CardBookmarkNoteVisuals
+// (js/features/card-image.tsx, card-indicators.tsx) — підписані на
+// deck-store, оновлюються самі при зміні cw.
 export function render(): void {
   try {
+    const deck = getDeckSnapshot();
     if (!deck || !deck.length) { console.error('render: deck empty'); return; }
     if (synth) { _safe(() => synth.cancel()); }
-    _setCw(deck[idx % deck.length]);
+    const idx = getIdxSnapshot();
+    const cw = deck[idx % deck.length];
     if (!cw) { console.error('render: cw is null'); return; }
-    flipped = false;
-    state.flipped = false;
     const mode = getMode();
-    state._mode = mode;
-    _safe(() => renderCardIndicators(cw![0]));
-    renderCardImage(cw[0], $e('illus'));
+    renderCardState(cw, mode);
     const cardEl = $e('card');
     if (cardEl) {
       if (_activeKnown().has(cw[0])) { cardEl.classList.add('is-known'); } else { cardEl.classList.remove('is-known'); }
@@ -198,24 +106,24 @@ export function render(): void {
       }
     });
     _safe(() => { updateRing(); });
+    notifyStateChange();
+    // Predictive prefetch: наступні картки (без дублів для малих дек)
+    _idle(function() {
+      _safe(() => {
+        const _seen: Record<string, number> = {};
+        const _limit = Math.min(4, deck.length - 1);
+        for (let _pi = 1; _pi <= _limit; _pi++) {
+          const _nw = deck[(idx + _pi) % deck.length];
+          if (_nw && !_seen[_nw[0]] && !_imgCache.hasOwnProperty(_nw[0])) {
+            _seen[_nw[0]] = 1;
+            loadWikiImage(_nw[0], function(){});
+          }
+        }
+      });
+    });
   } catch(e) {
     console.error('render FAILED:', (e as Error).message);
   }
-  notifyStateChange();
-  // Predictive prefetch: наступні картки (без дублів для малих дек)
-  _idle(function() {
-    _safe(() => {
-      const _seen: Record<string, number> = {};
-      const _limit = Math.min(4, deck.length - 1);
-      for (let _pi = 1; _pi <= _limit; _pi++) {
-        const _nw = deck[(idx + _pi) % deck.length];
-        if (_nw && !_seen[_nw[0]] && !_imgCache.hasOwnProperty(_nw[0])) {
-          _seen[_nw[0]] = 1;
-          loadWikiImage(_nw[0], function(){});
-        }
-      }
-    });
-  });
 }
 
 export function onWordLearned(): void {

@@ -1,7 +1,7 @@
 // Vymova — js/features/word-detail.tsx
 // Word Detail bottom-sheet modal: full word profile
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
+import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { getSrsDataSnapshot, deleteSrsEntry } from '../../src/srs-store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak, _speakWithLang } from './speech.ts';
@@ -130,7 +130,7 @@ export function WordDetailPage(): ReactElement | null {
     const word = w[0];
     close();
     const sel = document.getElementById('sel-range') as HTMLSelectElement | null;
-    const di = state.deck.findIndex(d => d[0] === word);
+    const di = getDeckSnapshot().findIndex(d => d[0] === word);
     if (di !== -1) {
       setIdx(di);
       render();
@@ -138,7 +138,7 @@ export function WordDetailPage(): ReactElement | null {
       sel.value = '0';
       sel.dispatchEvent(new Event('change'));
       setTimeout(() => {
-        const di2 = state.deck.findIndex(d => d[0] === word);
+        const di2 = getDeckSnapshot().findIndex(d => d[0] === word);
         if (di2 !== -1) { setIdx(di2); render(); }
       }, 100);
     }

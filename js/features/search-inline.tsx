@@ -2,8 +2,8 @@
 // Inline search box (header) with debounce + keyboard navigation.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
-import { state } from '../../src/state.ts';
 import { useStateVersion } from '../../src/store.ts';
+import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { getWordIndex } from '../core/word-index.ts';
 import { shuffle } from '../core/srs.ts';
 import {
@@ -20,7 +20,7 @@ function activeKnown(): Set<string> {
 }
 
 function goToWord(word: string, after: () => void): void {
-  const deckNow = state.deck as unknown as WordEntry[];
+  const deckNow = getDeckSnapshot();
   let di = deckNow.findIndex(w => w[0].toLowerCase() === word.toLowerCase());
   if (di === -1) {
     const wLow = word.toLowerCase();
