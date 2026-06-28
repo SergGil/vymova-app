@@ -3396,6 +3396,12 @@ body.hp .settings-section-danger { border-color: rgba(255,100,80,.25); }
   background: rgba(231,76,60,.1);
   border-color: #e74c3c;
 }
+.settings-footer {
+  text-align: center;
+  font-size: .72rem;
+  color: var(--text3);
+  margin: 4px 0 8px;
+}
 .bug-form { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
 .bug-select, .bug-textarea {
   width: 100%; box-sizing: border-box;
@@ -4201,7 +4207,7 @@ body.hp .idiom-meaning { color: #d3a625; }
   .page-title  { font-size: 1rem; }
 
   /* Settings: smaller */
-  .settings-section { padding: 12px 0; }
+  .settings-section { padding: 14px 16px; }
   .backup-row       { gap: 6px; }
   .backup-btn       { padding: 7px 10px; font-size: .75rem; min-height: 38px; }
 
