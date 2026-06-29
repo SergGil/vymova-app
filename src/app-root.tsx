@@ -5,7 +5,7 @@
 import { createRoot } from 'react-dom/client';
 import { createPortal } from 'react-dom';
 import { useEffect, type ReactElement, type ReactNode } from 'react';
-import { BrowserRouter, useLocation, useNavigate } from 'react-router-dom';
+import { HashRouter, useLocation, useNavigate } from 'react-router-dom';
 import { setRouterNavigate, ROUTE_TO_PAGE } from './router.ts';
 import { NavProvider, getActivePage } from './nav-store.tsx';
 import { KnownWordsProvider } from './known-words-store.ts';
@@ -223,12 +223,13 @@ function AppRoot(): ReactElement {
   </>;
 }
 
-// BASE_URL is '/' in dev and '/vymova-app/' in production (GitHub Actions).
-const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
-
 export function mountAppRoot(): void {
   createRoot(document.getElementById('app-root')!).render(
-    <BrowserRouter basename={basename}>
+    // Hash-based routing: an installed PWA window's address bar can get
+    // stuck visible after a history.pushState route change even when the
+    // new path is in-scope (a known Chromium quirk) — hash changes never
+    // touch the actual resource path, so this avoids the check entirely.
+    <HashRouter>
       <NavProvider>
         <KnownWordsProvider>
           <SrsProvider>
@@ -258,6 +259,6 @@ export function mountAppRoot(): void {
           </SrsProvider>
         </KnownWordsProvider>
       </NavProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }

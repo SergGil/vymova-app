@@ -14,6 +14,13 @@ import { _updateUI as _refreshNotifUI } from './notifications.tsx';
 import { _refreshCloudSyncUI } from './cloud-sync.tsx';
 import { t } from './i18n.ts';
 
+// The app uses HashRouter (see src/app-root.tsx) — the route lives in
+// location.hash, not window.location.pathname, which always reflects the
+// real served path (e.g. '/' or '/vymova-app/') regardless of in-app route.
+function _currentHashRoute(): string {
+  return window.location.hash.replace(/^#/, '') || '/';
+}
+
 // ── Modes page dynamic descriptions ───────────────────────────
 export function updateModesPageDesc(): void {
   const el = document.getElementById('write-mode-desc');
@@ -69,7 +76,7 @@ export function openPage(page: string): void {
   _setSidebarActive(page);
   // Sync URL — skip if already at this route (e.g. called from RouterSync)
   const route = PAGE_TO_ROUTE[page];
-  if (route && !window.location.pathname.endsWith(route)) routerNavigate(route);
+  if (route && !_currentHashRoute().endsWith(route)) routerNavigate(route);
   // Prevent body scroll when a page overlay is open
   document.body.style.overflow = 'hidden';
   if (page === 'stats') {
@@ -128,9 +135,7 @@ export function closePage(): void {
   if (getActivePage() !== null) dispatchClosePage();
   try { localStorage.removeItem(ACTIVE_PAGE_KEY); } catch(e){}
   // Navigate to root only if we're currently on a page route
-  if (window.location.pathname !== '/' && !window.location.pathname.endsWith('/vymova-app/')) {
-    routerNavigate('/');
-  }
+  if (_currentHashRoute() !== '/') routerNavigate('/');
   _setSidebarActive(null);
   // Restore body scroll when page is closed
   document.body.style.overflow = '';
