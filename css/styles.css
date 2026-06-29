@@ -9924,3 +9924,523 @@ body.hg .time-select:hover, body.hg .time-select:focus { background: rgba(133,0,
 body.hg .idioms-tab-active { background: #8500ff; border-color: #8500ff; }
 
 body.hg .idiom-meaning { color: #8500ff; }
+
+
+/* ═══════════════════════════════════════════════════
+   🌿  AVATAR THEME  —  body.avt
+   ═══════════════════════════════════════════════════ */
+
+  body.avt .title-sw-toggle { opacity: 1; border-color: #00fff4; color: #00fff4; background: rgba(0,255,244,.1); }
+
+  body.avt .lang-opt.lang-active { color: #00fff4; background: rgba(0,255,244,.12); }
+
+  body.avt .search-result-item.sr-known { background: #10302f; }
+
+  body.avt .scr-tile-placed { background: var(--accent); border-color: var(--accent); color: #000; }
+
+
+
+
+/* ═══════════════════════════════════════════════════
+   ⚔️  STAR WARS THEME  —  body.avt
+   ═══════════════════════════════════════════════════ */
+
+/* ── Змінні ── */
+body.avt {
+  --bg:        #071a19;
+  --card:      #0c302e;
+  --text:      #d4f8f6;
+  --text2:     #6ab8b5;
+  --text3:     #2d7875;
+  --accent:    #00fff4;
+  --accent2:   #ff338a;
+  --border:    #1a6b67;
+  --shadow:    0 0 18px rgba(0,255,244,0.12), 0 4px 24px rgba(0,0,0,0.6);
+  /* Modal backgrounds — dark neon panels instead of white */
+  --modal-bg:     #0e3836;
+  --modal-av-bg:  rgba(0,255,244,.08);
+}
+
+
+/* ── Star Wars neon scrollbars ── */
+body.avt ::-webkit-scrollbar             { width: 5px; height: 5px; }
+
+body.avt ::-webkit-scrollbar-track       { background: rgba(0,20,19,.7); }
+
+body.avt ::-webkit-scrollbar-thumb       {
+  background: linear-gradient(180deg, #00fff4 0%, #00aaa2 100%);
+  border-radius: 10px;
+  box-shadow: 0 0 6px rgba(0,255,244,.6), 0 0 12px rgba(0,255,244,.25);
+}
+
+body.avt ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #40fff6 0%, #00ddd3 100%);
+  box-shadow: 0 0 10px rgba(0,255,244,.9), 0 0 20px rgba(0,255,244,.4);
+}
+
+body.avt ::-webkit-scrollbar-corner { background: rgba(0,20,19,.7); }
+
+body.avt * { scrollbar-color: #00fff4 rgba(0,20,19,.7); }
+
+
+/* ── Зіркове небо ── */
+body.avt::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1px 1px at 10% 15%,  rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 40%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 8%,   rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 28%,  rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 5%,   rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 18%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 35%,  rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 60%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 75%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 55%,  rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 70%,  rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 85%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 62%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 20% 90%,  rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 45% 80%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 75% 45%,  rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5%  50%,  rgba(100,255,248,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38% 22%,  rgba(100,255,248,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 88%,  rgba(173,150,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 50%,  rgba(100,255,248,0.5) 0%, transparent 100%);
+  background-color: #071a19;
+  pointer-events: none;
+}
+
+
+/* ── Orbitron для заголовку ── */
+body.avt .title {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(0,255,244,0.5);
+}
+
+
+/* ── HUD куточки на картці ── */
+body.avt .card-face {
+  position: relative;
+}
+
+body.avt .card-face::before,
+body.avt .card-face::after {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  border-color: rgba(0,255,244,0.6);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 3;
+}
+
+body.avt .card-face::before {
+  top: 8px; left: 8px;
+  border-width: 2px 0 0 2px;
+  border-radius: 2px 0 0 0;
+}
+
+body.avt .card-face::after {
+  bottom: 8px; right: 8px;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 2px 0;
+}
+
+
+/* ── Scanlines (голограмний ефект) ── */
+body.avt .card-face {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,255,244,0.015) 3px,
+    rgba(0,255,244,0.015) 4px
+  );
+}
+
+
+/* ── Glow на картці ── */
+body.avt .card-face {
+  border-color: rgba(0,255,244,0.25);
+  box-shadow: 0 0 20px rgba(0,255,244,0.1), 0 4px 30px rgba(0,0,0,0.7),
+    inset 0 0 40px rgba(0,255,244,0.03);
+}
+
+
+/* ── Відома картка — Jedi Green Lightsaber ── */
+body.avt .card.is-known .card-face {
+  border-color: rgba(57,211,83,0.4) !important;
+  box-shadow: 0 0 25px rgba(57,211,83,0.2), 0 4px 30px rgba(0,0,0,0.7) !important;
+}
+
+
+/* ── Прогрес-бар — Lightsaber ── */
+body.avt .progress-fill {
+  background: linear-gradient(90deg, #00fff4, #00fff4);
+  box-shadow: 0 0 8px #00fff4, 0 0 16px rgba(0,255,244,0.5);
+}
+
+body.avt .goal-fill {
+  background: linear-gradient(90deg, #00fff4, #7dfff9) !important;
+  box-shadow: 0 0 8px #00fff4, 0 0 20px rgba(0,255,244,0.4) !important;
+}
+
+body.avt .goal-fill.done {
+  background: linear-gradient(90deg, #ff6600, #ffd700) !important;
+  box-shadow: 0 0 8px #ffd700, 0 0 20px rgba(255,215,0,0.4) !important;
+}
+
+
+/* ── Achievements progress ── */
+body.avt .ach-progress-fill { background: linear-gradient(90deg, #00fff4, #7dfff9); }
+
+
+/* ── Кнопки ── */
+body.avt .btn {
+  background: rgba(10,44,42,0.9);
+  border-color: rgba(0,255,244,0.25);
+  color: var(--text2);
+  transition: all .2s;
+}
+
+body.avt .btn:hover {
+  border-color: rgba(0,255,244,0.6);
+  color: var(--accent);
+  box-shadow: 0 0 12px rgba(0,255,244,0.2);
+}
+
+body.avt .btn-know {
+  border-color: rgba(57,211,83,0.5) !important;
+  color: #39d353 !important;
+}
+
+body.avt .btn-know:hover {
+  background: rgba(57,211,83,0.1) !important;
+  box-shadow: 0 0 15px rgba(57,211,83,0.3) !important;
+}
+
+body.avt .btn-dontknow {
+  border-color: rgba(255,69,58,0.5) !important;
+  color: #ff453a !important;
+}
+
+body.avt .btn-dontknow:hover {
+  background: rgba(255,69,58,0.1) !important;
+  box-shadow: 0 0 15px rgba(255,69,58,0.3) !important;
+}
+
+
+/* ── Пошук ── */
+body.avt #search-input {
+  background: rgba(10,44,42,0.9);
+  border-color: rgba(0,255,244,0.2);
+  color: var(--text);
+}
+
+body.avt #search-input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(0,255,244,0.2); }
+
+
+/* ── Слово ── */
+body.avt .word-text { color: #e8fcfb; text-shadow: 0 0 20px rgba(0,255,244,0.1); }
+
+body.avt .transcription { color: var(--accent2); }
+
+
+/* ── Модальні вікна ── */
+body.avt .quiz-panel,
+body.avt .pairs-panel {
+  background: rgba(10,44,42,0.97);
+  border: 1px solid rgba(0,255,244,0.2);
+  box-shadow: 0 0 40px rgba(0,255,244,0.15), 0 20px 60px rgba(0,0,0,0.8);
+}
+
+
+/* ── Теги/бейджі ── */
+body.avt .card-tag { background: rgba(0,255,244,0.12); color: var(--accent); border: 1px solid rgba(0,255,244,0.3); }
+
+body.avt .level-badge { box-shadow: 0 0 10px rgba(0,255,244,0.2); }
+
+
+/* ── SRS stats bar ── */
+body.avt .srs-stats-bar {
+  background: rgba(10,44,42,0.9);
+  border-color: rgba(0,255,244,0.15);
+}
+
+
+/* ── Ring ── */
+body.avt .ring-fill { stroke: #00fff4; filter: drop-shadow(0 0 4px #00fff4); }
+
+body.avt #btn-avt {
+  border-color: #00fff4;
+  color: #00fff4;
+  box-shadow: 0 0 8px rgba(0,255,244,0.3);
+  text-shadow: 0 0 6px rgba(0,255,244,0.6);
+}
+
+body.avt .progress-fill,
+body.avt .goal-fill { animation: saberPulse 2.5s ease-in-out infinite; }
+
+
+/* ── Word of the day ── */
+body.avt .wotd-box {
+  background: rgba(10,44,42,0.9);
+  border-color: rgba(0,255,244,0.2);
+}
+
+body.avt .wotd-word { color: var(--accent); text-shadow: 0 0 8px rgba(0,255,244,0.3); }
+
+
+/* ── Star Wars mode enhancements for modes panel ── */
+body.avt .modes-panel {
+  background: rgba(10,44,42,0.98);
+  border: 1px solid rgba(0,255,244,0.2);
+  box-shadow: 0 0 40px rgba(0,255,244,0.15), 0 -8px 40px rgba(0,0,0,.8);
+}
+
+body.avt .mode-card {
+  background: rgba(7,26,25,0.8);
+  border-color: rgba(0,255,244,0.15);
+}
+
+body.avt .mode-card:hover {
+  border-color: #00fff4;
+  background: rgba(0,255,244,0.05);
+  box-shadow: 0 0 12px rgba(0,255,244,0.15);
+}
+
+body.avt .mode-name { color: #d4f8f6; }
+
+
+/* SW theme enhancements */
+body.avt .gb-block {
+  background: rgba(10,44,42,0.9);
+  border-color: rgba(0,255,244,0.15);
+}
+
+body.avt .gb-level-fill {
+  background: linear-gradient(90deg, #00fff4, #7dfff9);
+  box-shadow: 0 0 6px rgba(0,255,244,0.4);
+}
+
+body.avt .gb-streak-num { color: #00fff4; }
+
+
+/* ── SW theme: extra glow ── */
+body.avt .gb-streak-block { border-color: rgba(0,255,244,0.3); }
+
+body.avt .gb-goal-block   { border-color: rgba(0,255,244,0.3); }
+
+body.avt .gb-level-block  { border-color: rgba(0,255,244,0.3); }
+
+body.avt   .btn-achievements { border-color: #ffd700; color: #ffd700; box-shadow: 0 0 8px rgba(255,215,0,.25); }
+
+body.avt .profile-btn { border-color: rgba(0,255,244,0.3); color: #aae8e5; }
+
+body.avt .profile-btn:hover { border-color: #00fff4; color: #fff; }
+
+body.avt .prf-av-btn.prf-av-active { border-color: #00fff4; box-shadow: 0 0 8px rgba(0,255,244,0.2); }
+
+body.avt .prf-add-confirm { background: linear-gradient(90deg,#00807a,#00fff4); }
+
+body.avt    .sidebar { background: #081c1b; border-color: rgba(0,255,244,.12); }
+
+body.avt .sidebar-logo-text { color: #00fff4; }
+
+body.avt .sidebar-profile-btn { border-color: rgba(0,255,244,.25); }
+
+body.avt .sidebar-profile-btn:hover { border-color: #00fff4; }
+
+body.avt   .sb-btn:hover  { background: rgba(0,255,244,.08); color: #aae8e5; }
+
+body.avt   .sb-btn.sb-active { background: rgba(0,255,244,.12); color: #00fff4; }
+
+body.avt   .sb-flyout { background: #081c1b; border-color: rgba(0,255,244,.14); }
+
+body.avt .hamburger { border-color: rgba(0,255,244,.3); }
+
+body.avt .profile-save-btn { background: linear-gradient(90deg,#00807a,#00fff4); }
+
+body.avt .sb-add-btn { color: #00fff4; border-color: rgba(0,255,244,.3); }
+
+body.avt .sb-add-btn:hover { border-color: #00fff4; }
+
+body.avt .sb-dd-item.sb-dd-active { color: #00fff4; }
+
+body.avt .sb-dd-check { color: #00fff4; }
+
+body.avt .sb-toggle-pill.on { background: #00fff4; }
+
+body.avt .header-wotd .wotd-word { color: #00fff4; }
+
+body.avt .prf-delete-name { color: #ff6b6b; }
+
+body.avt .prf-delete-btn-confirm { background: #c0392b; }
+
+body.avt .settings-section-danger { border-color: rgba(255,100,80,.25); }
+
+body.avt .voice-card:hover    { border-color: #00fff4; }
+
+body.avt .voice-card-active   { border-color: #00fff4; box-shadow: 0 0 10px rgba(0,255,244,.15); }
+
+
+/* ── Goal block centered overrides ── */
+body.avt .gb-goal-block .gb-goal-big { color: #c8f5f3; font-family: 'Orbitron', monospace; }
+
+body.avt .gb-goal-sep  { color: rgba(200,255,253,0.4); }
+
+body.avt .gb-level-arrow { color: rgba(200,255,253,0.4); }
+
+
+/* ══ Star Wars: Page Overlays ═══════════════════════════════════ */
+body.avt .page-overlay {
+  background: #061a19;
+  background-image:
+    radial-gradient(ellipse at top, rgba(0,60,57,0.6) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(0,255,244,0.03) 60px),
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(0,255,244,0.02) 60px);
+}
+
+body.avt .page-inner { border-left: 1px solid rgba(0,255,244,0.08); }
+
+body.avt .page-title { color: #00fff4; font-family: 'Orbitron', monospace; letter-spacing: .05em; }
+
+body.avt .page-header { border-color: rgba(0,255,244,0.15); }
+
+
+/* ── SW Stats panel ── */
+body.avt .stats-panel {
+  background: #061a19;
+  border: 1px solid rgba(0,255,244,0.12);
+  box-shadow: 0 0 40px rgba(0,255,244,0.06), inset 0 0 60px rgba(0,30,29,0.8);
+}
+
+body.avt .stats-title { color: #00fff4; font-family: 'Orbitron', monospace; }
+
+body.avt .stats-section-title { color: #5fc8c3; letter-spacing: .04em; }
+
+body.avt .stats-section { border-bottom: 1px solid rgba(0,255,244,0.07); }
+
+body.avt .stat-card { background: rgba(0,50,48,0.6); border: 1px solid rgba(0,255,244,0.12); border-radius: 12px; }
+
+body.avt .sv { color: #00fff4; }
+
+
+/* ── SW Settings sections ── */
+body.avt .settings-section {
+  background: rgba(0,35,33,0.7);
+  border-color: rgba(0,255,244,0.15);
+}
+
+body.avt .settings-section-title { color: #5fc8c3; }
+
+body.avt .settings-section-danger { border-color: rgba(231,76,60,0.3); background: rgba(231,76,60,0.04); }
+
+
+/* ── SW Modals ── */
+body.avt .prf-delete-panel,
+body.avt .import-panel {
+  background: #091e1d;
+  border: 1px solid rgba(0,255,244,0.2);
+  box-shadow: 0 0 60px rgba(0,255,244,0.1);
+}
+
+body.avt .prf-delete-title { color: #e8fffe; }
+
+body.avt .prf-delete-warn  { color: rgba(200,255,253,0.5); }
+
+
+/* ── SW Achievement toast ── */
+body.avt #achievement-toast {
+  background: linear-gradient(135deg, #051a19 0%, #0a2827 100%);
+  border: 1px solid rgba(0,255,244,0.3);
+  box-shadow: 0 0 30px rgba(0,255,244,0.2), 0 0 60px rgba(0,255,244,0.08);
+}
+
+body.avt #achievement-toast .toast-title { color: #00fff4; font-family: 'Orbitron', monospace; font-size: .7rem; letter-spacing: .1em; }
+
+body.avt #achievement-toast .toast-name  { color: #e8fffe; }
+
+body.avt #achievement-toast .toast-icon  { text-shadow: 0 0 20px rgba(0,255,244,0.6); }
+
+
+/* ── SW Achievement popup ── */
+body.avt .ach-popup {
+  background: #081c1b;
+  border: 1px solid rgba(0,255,244,0.25);
+  box-shadow: 0 0 50px rgba(0,255,244,0.15);
+}
+
+body.avt .ach-popup-icon { text-shadow: 0 0 30px rgba(0,255,244,0.5); }
+
+body.avt .ach-popup-name { color: #00fff4; }
+
+body.avt .ach-popup-prog-fill { background: linear-gradient(90deg, #00fff4, #7dfff9); box-shadow: 0 0 8px rgba(0,255,244,0.4); }
+
+
+/* ── SW Achievements grid (locked/unlocked) ── */
+body.avt .ach-card { background: rgba(0,35,33,0.6); border-color: rgba(0,255,244,0.1); }
+
+body.avt .ach-card.unlocked { border-color: rgba(0,255,244,0.35); box-shadow: 0 0 12px rgba(0,255,244,0.1); }
+
+body.avt .ach-card.unlocked .ach-icon { text-shadow: 0 0 16px rgba(0,255,244,0.5); }
+
+body.avt .ach-progress-fill { background: linear-gradient(90deg, #00fff4, #7dfff9); }
+
+
+/* ── SW Combo toast ── */
+body.avt .combo-toast {
+  background: linear-gradient(90deg, #002826, #004441);
+  border: 1px solid rgba(0,255,244,0.4);
+  color: #00fff4;
+  text-shadow: 0 0 10px rgba(0,255,244,0.5);
+  box-shadow: 0 0 20px rgba(0,255,244,0.2);
+}
+
+
+/* ── SW Levels roadmap ── */
+body.avt .level-row { background: rgba(0,25,24,0.6); border-color: rgba(0,255,244,0.1); }
+
+body.avt .level-row.level-current { border-width: 2px; }
+
+body.avt .level-row-name { font-family: 'Orbitron', monospace; font-size: .75rem !important; }
+
+body.avt .note-panel { background:#091e1d; border:1px solid rgba(0,255,244,.2); }
+
+body.avt .note-textarea { border-color:rgba(0,255,244,.25); }
+
+body.avt .srs-fc-bar { background:rgba(0,255,244,.4); }
+
+body.avt .srs-fc-today { background:#00fff4 !important; box-shadow:0 0 8px rgba(0,255,244,.4); }
+
+body.avt .dc-word { color:#00fff4; }
+
+body.avt .dc-pbar-fill { background:linear-gradient(90deg,#00807a,#00fff4); }
+
+body.avt .dc-opt:hover:not(:disabled) { border-color:#00fff4; }
+
+body.avt .rd-unknown { background:rgba(231,76,60,.15); border-color:rgba(231,76,60,.4); }
+
+body.avt .rd-known   { background:rgba(0,255,244,.1);  border-color:rgba(0,255,244,.3); }
+
+body.avt .rd-popup-word { color:#00fff4; }
+
+body.avt .duel-card-active { border-color:#00fff4; }
+
+body.avt .notif-toggle-wrap input:checked + .notif-toggle-pill-ui { background:#00fff4; }
+
+body.avt .time-picker { border-color: rgba(0,255,244,.2); }
+
+body.avt .time-select:hover, body.avt .time-select:focus { background: rgba(0,255,244,.1); }
+
+body.avt .idioms-tab-active { background: #00fff4; border-color: #00fff4; }
+
+body.avt .idiom-meaning { color: #00fff4; }
