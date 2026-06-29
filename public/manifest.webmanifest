@@ -2,7 +2,6 @@
   "name": "Vymova",
   "short_name": "Vymova",
   "description": "Flashcard trainer for English vocabulary",
-  "id": ".",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
