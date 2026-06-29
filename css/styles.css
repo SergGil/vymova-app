@@ -6284,3 +6284,523 @@ body.mcu .time-select:hover, body.mcu .time-select:focus { background: rgba(255,
 body.mcu .idioms-tab-active { background: #ff0009; border-color: #ff0009; }
 
 body.mcu .idiom-meaning { color: #ff0009; }
+
+
+/* ═══════════════════════════════════════════════════
+   🐺  WITCHER THEME  —  body.witcher
+   ═══════════════════════════════════════════════════ */
+
+  body.witcher .title-sw-toggle { opacity: 1; border-color: #00ffeb; color: #00ffeb; background: rgba(0,255,235,.1); }
+
+  body.witcher .lang-opt.lang-active { color: #00ffeb; background: rgba(0,255,235,.12); }
+
+  body.witcher .search-result-item.sr-known { background: #10302e; }
+
+  body.witcher .scr-tile-placed { background: var(--accent); border-color: var(--accent); color: #000; }
+
+
+
+
+/* ═══════════════════════════════════════════════════
+   ⚔️  STAR WARS THEME  —  body.witcher
+   ═══════════════════════════════════════════════════ */
+
+/* ── Змінні ── */
+body.witcher {
+  --bg:        #071a19;
+  --card:      #0c302d;
+  --text:      #d4f8f5;
+  --text2:     #6ab8b2;
+  --text3:     #2d7872;
+  --accent:    #00ffeb;
+  --accent2:   #ff3391;
+  --border:    #1a6b65;
+  --shadow:    0 0 18px rgba(0,255,235,0.12), 0 4px 24px rgba(0,0,0,0.6);
+  /* Modal backgrounds — dark neon panels instead of white */
+  --modal-bg:     #0e3835;
+  --modal-av-bg:  rgba(0,255,235,.08);
+}
+
+
+/* ── Star Wars neon scrollbars ── */
+body.witcher ::-webkit-scrollbar             { width: 5px; height: 5px; }
+
+body.witcher ::-webkit-scrollbar-track       { background: rgba(0,20,18,.7); }
+
+body.witcher ::-webkit-scrollbar-thumb       {
+  background: linear-gradient(180deg, #00ffeb 0%, #00aa9d 100%);
+  border-radius: 10px;
+  box-shadow: 0 0 6px rgba(0,255,235,.6), 0 0 12px rgba(0,255,235,.25);
+}
+
+body.witcher ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #40fff0 0%, #00ddcc 100%);
+  box-shadow: 0 0 10px rgba(0,255,235,.9), 0 0 20px rgba(0,255,235,.4);
+}
+
+body.witcher ::-webkit-scrollbar-corner { background: rgba(0,20,18,.7); }
+
+body.witcher * { scrollbar-color: #00ffeb rgba(0,20,18,.7); }
+
+
+/* ── Зіркове небо ── */
+body.witcher::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1px 1px at 10% 15%,  rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 40%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 8%,   rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 28%,  rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 5%,   rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 18%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 35%,  rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 60%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 75%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 55%,  rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 70%,  rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 85%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 62%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 20% 90%,  rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 45% 80%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 75% 45%,  rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5%  50%,  rgba(100,255,243,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38% 22%,  rgba(100,255,243,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 88%,  rgba(169,150,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 50%,  rgba(100,255,243,0.5) 0%, transparent 100%);
+  background-color: #071a19;
+  pointer-events: none;
+}
+
+
+/* ── Orbitron для заголовку ── */
+body.witcher .title {
+  font-family: 'Cinzel Decorative', sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(0,255,235,0.5);
+}
+
+
+/* ── HUD куточки на картці ── */
+body.witcher .card-face {
+  position: relative;
+}
+
+body.witcher .card-face::before,
+body.witcher .card-face::after {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  border-color: rgba(0,255,235,0.6);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 3;
+}
+
+body.witcher .card-face::before {
+  top: 8px; left: 8px;
+  border-width: 2px 0 0 2px;
+  border-radius: 2px 0 0 0;
+}
+
+body.witcher .card-face::after {
+  bottom: 8px; right: 8px;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 2px 0;
+}
+
+
+/* ── Scanlines (голограмний ефект) ── */
+body.witcher .card-face {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,255,235,0.015) 3px,
+    rgba(0,255,235,0.015) 4px
+  );
+}
+
+
+/* ── Glow на картці ── */
+body.witcher .card-face {
+  border-color: rgba(0,255,235,0.25);
+  box-shadow: 0 0 20px rgba(0,255,235,0.1), 0 4px 30px rgba(0,0,0,0.7),
+    inset 0 0 40px rgba(0,255,235,0.03);
+}
+
+
+/* ── Відома картка — Jedi Green Lightsaber ── */
+body.witcher .card.is-known .card-face {
+  border-color: rgba(57,211,83,0.4) !important;
+  box-shadow: 0 0 25px rgba(57,211,83,0.2), 0 4px 30px rgba(0,0,0,0.7) !important;
+}
+
+
+/* ── Прогрес-бар — Lightsaber ── */
+body.witcher .progress-fill {
+  background: linear-gradient(90deg, #00ffeb, #00ffeb);
+  box-shadow: 0 0 8px #00ffeb, 0 0 16px rgba(0,255,235,0.5);
+}
+
+body.witcher .goal-fill {
+  background: linear-gradient(90deg, #00ffeb, #7dfff5) !important;
+  box-shadow: 0 0 8px #00ffeb, 0 0 20px rgba(0,255,235,0.4) !important;
+}
+
+body.witcher .goal-fill.done {
+  background: linear-gradient(90deg, #ff6600, #ffd700) !important;
+  box-shadow: 0 0 8px #ffd700, 0 0 20px rgba(255,215,0,0.4) !important;
+}
+
+
+/* ── Achievements progress ── */
+body.witcher .ach-progress-fill { background: linear-gradient(90deg, #00ffeb, #7dfff5); }
+
+
+/* ── Кнопки ── */
+body.witcher .btn {
+  background: rgba(10,44,41,0.9);
+  border-color: rgba(0,255,235,0.25);
+  color: var(--text2);
+  transition: all .2s;
+}
+
+body.witcher .btn:hover {
+  border-color: rgba(0,255,235,0.6);
+  color: var(--accent);
+  box-shadow: 0 0 12px rgba(0,255,235,0.2);
+}
+
+body.witcher .btn-know {
+  border-color: rgba(57,211,83,0.5) !important;
+  color: #39d353 !important;
+}
+
+body.witcher .btn-know:hover {
+  background: rgba(57,211,83,0.1) !important;
+  box-shadow: 0 0 15px rgba(57,211,83,0.3) !important;
+}
+
+body.witcher .btn-dontknow {
+  border-color: rgba(255,69,58,0.5) !important;
+  color: #ff453a !important;
+}
+
+body.witcher .btn-dontknow:hover {
+  background: rgba(255,69,58,0.1) !important;
+  box-shadow: 0 0 15px rgba(255,69,58,0.3) !important;
+}
+
+
+/* ── Пошук ── */
+body.witcher #search-input {
+  background: rgba(10,44,41,0.9);
+  border-color: rgba(0,255,235,0.2);
+  color: var(--text);
+}
+
+body.witcher #search-input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(0,255,235,0.2); }
+
+
+/* ── Слово ── */
+body.witcher .word-text { color: #e8fcfa; text-shadow: 0 0 20px rgba(0,255,235,0.1); }
+
+body.witcher .transcription { color: var(--accent2); }
+
+
+/* ── Модальні вікна ── */
+body.witcher .quiz-panel,
+body.witcher .pairs-panel {
+  background: rgba(10,44,41,0.97);
+  border: 1px solid rgba(0,255,235,0.2);
+  box-shadow: 0 0 40px rgba(0,255,235,0.15), 0 20px 60px rgba(0,0,0,0.8);
+}
+
+
+/* ── Теги/бейджі ── */
+body.witcher .card-tag { background: rgba(0,255,235,0.12); color: var(--accent); border: 1px solid rgba(0,255,235,0.3); }
+
+body.witcher .level-badge { box-shadow: 0 0 10px rgba(0,255,235,0.2); }
+
+
+/* ── SRS stats bar ── */
+body.witcher .srs-stats-bar {
+  background: rgba(10,44,41,0.9);
+  border-color: rgba(0,255,235,0.15);
+}
+
+
+/* ── Ring ── */
+body.witcher .ring-fill { stroke: #00ffeb; filter: drop-shadow(0 0 4px #00ffeb); }
+
+body.witcher #btn-witcher {
+  border-color: #00ffeb;
+  color: #00ffeb;
+  box-shadow: 0 0 8px rgba(0,255,235,0.3);
+  text-shadow: 0 0 6px rgba(0,255,235,0.6);
+}
+
+body.witcher .progress-fill,
+body.witcher .goal-fill { animation: saberPulse 2.5s ease-in-out infinite; }
+
+
+/* ── Word of the day ── */
+body.witcher .wotd-box {
+  background: rgba(10,44,41,0.9);
+  border-color: rgba(0,255,235,0.2);
+}
+
+body.witcher .wotd-word { color: var(--accent); text-shadow: 0 0 8px rgba(0,255,235,0.3); }
+
+
+/* ── Star Wars mode enhancements for modes panel ── */
+body.witcher .modes-panel {
+  background: rgba(10,44,41,0.98);
+  border: 1px solid rgba(0,255,235,0.2);
+  box-shadow: 0 0 40px rgba(0,255,235,0.15), 0 -8px 40px rgba(0,0,0,.8);
+}
+
+body.witcher .mode-card {
+  background: rgba(7,26,25,0.8);
+  border-color: rgba(0,255,235,0.15);
+}
+
+body.witcher .mode-card:hover {
+  border-color: #00ffeb;
+  background: rgba(0,255,235,0.05);
+  box-shadow: 0 0 12px rgba(0,255,235,0.15);
+}
+
+body.witcher .mode-name { color: #d4f8f5; }
+
+
+/* SW theme enhancements */
+body.witcher .gb-block {
+  background: rgba(10,44,41,0.9);
+  border-color: rgba(0,255,235,0.15);
+}
+
+body.witcher .gb-level-fill {
+  background: linear-gradient(90deg, #00ffeb, #7dfff5);
+  box-shadow: 0 0 6px rgba(0,255,235,0.4);
+}
+
+body.witcher .gb-streak-num { color: #00ffeb; }
+
+
+/* ── SW theme: extra glow ── */
+body.witcher .gb-streak-block { border-color: rgba(0,255,235,0.3); }
+
+body.witcher .gb-goal-block   { border-color: rgba(0,255,235,0.3); }
+
+body.witcher .gb-level-block  { border-color: rgba(0,255,235,0.3); }
+
+body.witcher   .btn-achievements { border-color: #ffd700; color: #ffd700; box-shadow: 0 0 8px rgba(255,215,0,.25); }
+
+body.witcher .profile-btn { border-color: rgba(0,255,235,0.3); color: #aae8e3; }
+
+body.witcher .profile-btn:hover { border-color: #00ffeb; color: #fff; }
+
+body.witcher .prf-av-btn.prf-av-active { border-color: #00ffeb; box-shadow: 0 0 8px rgba(0,255,235,0.2); }
+
+body.witcher .prf-add-confirm { background: linear-gradient(90deg,#008076,#00ffeb); }
+
+body.witcher    .sidebar { background: #081c1a; border-color: rgba(0,255,235,.12); }
+
+body.witcher .sidebar-logo-text { color: #00ffeb; }
+
+body.witcher .sidebar-profile-btn { border-color: rgba(0,255,235,.25); }
+
+body.witcher .sidebar-profile-btn:hover { border-color: #00ffeb; }
+
+body.witcher   .sb-btn:hover  { background: rgba(0,255,235,.08); color: #aae8e3; }
+
+body.witcher   .sb-btn.sb-active { background: rgba(0,255,235,.12); color: #00ffeb; }
+
+body.witcher   .sb-flyout { background: #081c1a; border-color: rgba(0,255,235,.14); }
+
+body.witcher .hamburger { border-color: rgba(0,255,235,.3); }
+
+body.witcher .profile-save-btn { background: linear-gradient(90deg,#008076,#00ffeb); }
+
+body.witcher .sb-add-btn { color: #00ffeb; border-color: rgba(0,255,235,.3); }
+
+body.witcher .sb-add-btn:hover { border-color: #00ffeb; }
+
+body.witcher .sb-dd-item.sb-dd-active { color: #00ffeb; }
+
+body.witcher .sb-dd-check { color: #00ffeb; }
+
+body.witcher .sb-toggle-pill.on { background: #00ffeb; }
+
+body.witcher .header-wotd .wotd-word { color: #00ffeb; }
+
+body.witcher .prf-delete-name { color: #ff6b6b; }
+
+body.witcher .prf-delete-btn-confirm { background: #c0392b; }
+
+body.witcher .settings-section-danger { border-color: rgba(255,100,80,.25); }
+
+body.witcher .voice-card:hover    { border-color: #00ffeb; }
+
+body.witcher .voice-card-active   { border-color: #00ffeb; box-shadow: 0 0 10px rgba(0,255,235,.15); }
+
+
+/* ── Goal block centered overrides ── */
+body.witcher .gb-goal-block .gb-goal-big { color: #c8f5f1; font-family: 'Cinzel Decorative', monospace; }
+
+body.witcher .gb-goal-sep  { color: rgba(200,255,251,0.4); }
+
+body.witcher .gb-level-arrow { color: rgba(200,255,251,0.4); }
+
+
+/* ══ Star Wars: Page Overlays ═══════════════════════════════════ */
+body.witcher .page-overlay {
+  background: #061a18;
+  background-image:
+    radial-gradient(ellipse at top, rgba(0,60,55,0.6) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(0,255,235,0.03) 60px),
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(0,255,235,0.02) 60px);
+}
+
+body.witcher .page-inner { border-left: 1px solid rgba(0,255,235,0.08); }
+
+body.witcher .page-title { color: #00ffeb; font-family: 'Cinzel Decorative', monospace; letter-spacing: .05em; }
+
+body.witcher .page-header { border-color: rgba(0,255,235,0.15); }
+
+
+/* ── SW Stats panel ── */
+body.witcher .stats-panel {
+  background: #061a18;
+  border: 1px solid rgba(0,255,235,0.12);
+  box-shadow: 0 0 40px rgba(0,255,235,0.06), inset 0 0 60px rgba(0,30,28,0.8);
+}
+
+body.witcher .stats-title { color: #00ffeb; font-family: 'Cinzel Decorative', monospace; }
+
+body.witcher .stats-section-title { color: #5fc8c0; letter-spacing: .04em; }
+
+body.witcher .stats-section { border-bottom: 1px solid rgba(0,255,235,0.07); }
+
+body.witcher .stat-card { background: rgba(0,50,46,0.6); border: 1px solid rgba(0,255,235,0.12); border-radius: 12px; }
+
+body.witcher .sv { color: #00ffeb; }
+
+
+/* ── SW Settings sections ── */
+body.witcher .settings-section {
+  background: rgba(0,35,32,0.7);
+  border-color: rgba(0,255,235,0.15);
+}
+
+body.witcher .settings-section-title { color: #5fc8c0; }
+
+body.witcher .settings-section-danger { border-color: rgba(231,76,60,0.3); background: rgba(231,76,60,0.04); }
+
+
+/* ── SW Modals ── */
+body.witcher .prf-delete-panel,
+body.witcher .import-panel {
+  background: #091e1c;
+  border: 1px solid rgba(0,255,235,0.2);
+  box-shadow: 0 0 60px rgba(0,255,235,0.1);
+}
+
+body.witcher .prf-delete-title { color: #e8fffd; }
+
+body.witcher .prf-delete-warn  { color: rgba(200,255,251,0.5); }
+
+
+/* ── SW Achievement toast ── */
+body.witcher #achievement-toast {
+  background: linear-gradient(135deg, #051a18 0%, #0a2826 100%);
+  border: 1px solid rgba(0,255,235,0.3);
+  box-shadow: 0 0 30px rgba(0,255,235,0.2), 0 0 60px rgba(0,255,235,0.08);
+}
+
+body.witcher #achievement-toast .toast-title { color: #00ffeb; font-family: 'Cinzel Decorative', monospace; font-size: .7rem; letter-spacing: .1em; }
+
+body.witcher #achievement-toast .toast-name  { color: #e8fffd; }
+
+body.witcher #achievement-toast .toast-icon  { text-shadow: 0 0 20px rgba(0,255,235,0.6); }
+
+
+/* ── SW Achievement popup ── */
+body.witcher .ach-popup {
+  background: #081c1a;
+  border: 1px solid rgba(0,255,235,0.25);
+  box-shadow: 0 0 50px rgba(0,255,235,0.15);
+}
+
+body.witcher .ach-popup-icon { text-shadow: 0 0 30px rgba(0,255,235,0.5); }
+
+body.witcher .ach-popup-name { color: #00ffeb; }
+
+body.witcher .ach-popup-prog-fill { background: linear-gradient(90deg, #00ffeb, #7dfff5); box-shadow: 0 0 8px rgba(0,255,235,0.4); }
+
+
+/* ── SW Achievements grid (locked/unlocked) ── */
+body.witcher .ach-card { background: rgba(0,35,32,0.6); border-color: rgba(0,255,235,0.1); }
+
+body.witcher .ach-card.unlocked { border-color: rgba(0,255,235,0.35); box-shadow: 0 0 12px rgba(0,255,235,0.1); }
+
+body.witcher .ach-card.unlocked .ach-icon { text-shadow: 0 0 16px rgba(0,255,235,0.5); }
+
+body.witcher .ach-progress-fill { background: linear-gradient(90deg, #00ffeb, #7dfff5); }
+
+
+/* ── SW Combo toast ── */
+body.witcher .combo-toast {
+  background: linear-gradient(90deg, #002825, #00443f);
+  border: 1px solid rgba(0,255,235,0.4);
+  color: #00ffeb;
+  text-shadow: 0 0 10px rgba(0,255,235,0.5);
+  box-shadow: 0 0 20px rgba(0,255,235,0.2);
+}
+
+
+/* ── SW Levels roadmap ── */
+body.witcher .level-row { background: rgba(0,25,23,0.6); border-color: rgba(0,255,235,0.1); }
+
+body.witcher .level-row.level-current { border-width: 2px; }
+
+body.witcher .level-row-name { font-family: 'Cinzel Decorative', monospace; font-size: .75rem !important; }
+
+body.witcher .note-panel { background:#091e1c; border:1px solid rgba(0,255,235,.2); }
+
+body.witcher .note-textarea { border-color:rgba(0,255,235,.25); }
+
+body.witcher .srs-fc-bar { background:rgba(0,255,235,.4); }
+
+body.witcher .srs-fc-today { background:#00ffeb !important; box-shadow:0 0 8px rgba(0,255,235,.4); }
+
+body.witcher .dc-word { color:#00ffeb; }
+
+body.witcher .dc-pbar-fill { background:linear-gradient(90deg,#008076,#00ffeb); }
+
+body.witcher .dc-opt:hover:not(:disabled) { border-color:#00ffeb; }
+
+body.witcher .rd-unknown { background:rgba(231,76,60,.15); border-color:rgba(231,76,60,.4); }
+
+body.witcher .rd-known   { background:rgba(0,255,235,.1);  border-color:rgba(0,255,235,.3); }
+
+body.witcher .rd-popup-word { color:#00ffeb; }
+
+body.witcher .duel-card-active { border-color:#00ffeb; }
+
+body.witcher .notif-toggle-wrap input:checked + .notif-toggle-pill-ui { background:#00ffeb; }
+
+body.witcher .time-picker { border-color: rgba(0,255,235,.2); }
+
+body.witcher .time-select:hover, body.witcher .time-select:focus { background: rgba(0,255,235,.1); }
+
+body.witcher .idioms-tab-active { background: #00ffeb; border-color: #00ffeb; }
+
+body.witcher .idiom-meaning { color: #00ffeb; }
