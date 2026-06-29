@@ -3446,6 +3446,11 @@ body.hp .voice-card:hover    { border-color: #d3a625; }
 body.sw .voice-card-active   { border-color: #00c8ff; box-shadow: 0 0 10px rgba(0,200,255,.15); }
 body.hp .voice-card-active   { border-color: #d3a625; box-shadow: 0 0 10px rgba(211,166,37,.15); }
 
+.voice-section summary { color: var(--text3); user-select: none; }
+.voice-section summary:hover { color: var(--accent); }
+.voice-section summary::marker { color: var(--text3); }
+.voice-section[open] summary { color: var(--accent); }
+
 /* ── Levels roadmap ── */
 .levels-roadmap { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
 .level-row {

@@ -456,11 +456,16 @@ export function _renderVoices(): void {
   }
   const addSection = (title: string, voices: SpeechSynthesisVoice[], activeURI: string, storageKey: string, testText: string): void => {
     if (!voices.length) return;
-    const hdr = document.createElement('div');
-    hdr.style.cssText = 'font-size:.7rem;font-weight:700;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;margin:10px 0 6px;width:100%;';
-    hdr.textContent = title; container.appendChild(hdr);
+    const details = document.createElement('details');
+    details.className = 'voice-section';
+    details.style.cssText = 'width:100%;margin:6px 0;';
+    const hdr = document.createElement('summary');
+    hdr.style.cssText = 'font-size:.7rem;font-weight:700;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;padding:6px 0;cursor:pointer;';
+    const activeLabel = voices.find(v => v.voiceURI === activeURI);
+    hdr.textContent = title + ` (${voices.length})` + (activeLabel ? ` — ${_getLabel(activeLabel).label}` : '');
+    details.appendChild(hdr);
     const grid = document.createElement('div');
-    grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;width:100%;';
+    grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;width:100%;margin-top:6px;';
     voices.forEach(v => grid.appendChild(_makeCard(v, activeURI, uri => {
       if (storageKey === 'ew_ws_voice') _enURI = uri;
       else if (storageKey === 'ew_ws_es_voice') _esURI = uri;
@@ -481,7 +486,8 @@ export function _renderVoices(): void {
       synth?.cancel(); const u = new SpeechSynthesisUtterance(testText);
       u.voice = v; u.lang = v.lang; u.rate = 0.88; synth?.speak(u);
     })));
-    container.appendChild(grid);
+    details.appendChild(grid);
+    container.appendChild(details);
   };
   const addMissing = (titleKey: string, descKey: string): void => {
     const noVoice = document.createElement('div');
