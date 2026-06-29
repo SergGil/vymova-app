@@ -40,7 +40,7 @@ function _setActiveId(id: string): void { localStorage.setItem(ACTIVE_KEY, id); 
 // 'ew_known_es', 'ew_srs_fr', 'ew_ach_de', 'ew_modes_pt') that aren't
 // enumerable up front — captured dynamically below so every profile keeps
 // its own progress per language instead of sharing one.
-const DYNAMIC_KEY_PREFIXES = [
+export const DYNAMIC_KEY_PREFIXES = [
   'ew_cp_', 'ew_known_', 'ew_srs_', 'ew_ach_',
   'ew_game_', 'ew_daily_', 'ew_modes_', 'ew_mode_acc_', 'ew_mistakes_', 'ew_ws_',
 ];

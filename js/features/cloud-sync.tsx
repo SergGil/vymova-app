@@ -2,6 +2,7 @@
 // Firebase Realtime Database sync via REST API (no SDK)
 import { useEffect, type ReactElement } from 'react';
 import { t } from './i18n.ts';
+import { DYNAMIC_KEY_PREFIXES } from './profile-switcher.tsx';
 
 const DB_URL      = 'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
 const KEY_LS      = 'ew_sync_key';
@@ -21,13 +22,19 @@ const BACKUP_KEYS = [
   'ew_profiles', 'ew_active_profile',
 ];
 
-// Dynamically collect all per-profile snapshot keys (ew_p_{id}__{key})
-function _profileSnapKeys(): string[] {
+// Dynamically collect every key that isn't already in BACKUP_KEYS but
+// matters for backup: per-profile snapshots (ew_p_{id}__{key}) and
+// per-target-language progress (ew_known_es, ew_srs_fr, ew_ach_de, ...) —
+// the same DYNAMIC_KEY_PREFIXES profile-switcher.tsx uses to snapshot a
+// profile's progress per language, reused here so the cloud backup doesn't
+// silently miss progress in any learn language other than English.
+function _dynamicBackupKeys(): string[] {
   try {
     const keys: string[] = [];
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (k && k.startsWith('ew_p_')) keys.push(k);
+      if (!k || BACKUP_KEYS.includes(k)) continue;
+      if (k.startsWith('ew_p_') || DYNAMIC_KEY_PREFIXES.some(p => k.startsWith(p))) keys.push(k);
     }
     return keys;
   } catch (e) { return []; }
@@ -49,10 +56,10 @@ function _fmt(k: string): string {
 }
 
 // ── Firebase ──────────────────────────────────────────────────
-async function saveToCloud(): Promise<void> {
+export async function saveToCloud(): Promise<void> {
   const key = _getKey();
   const data: Record<string, string> = { _ts: String(Date.now()), _v: '3' };
-  const allKeys = [...BACKUP_KEYS, ..._profileSnapKeys()];
+  const allKeys = [...BACKUP_KEYS, ..._dynamicBackupKeys()];
   for (const k of allKeys) {
     const v = localStorage.getItem(k);
     if (v) data[k] = v;
@@ -65,20 +72,25 @@ async function saveToCloud(): Promise<void> {
   if (!res.ok) throw new Error('HTTP ' + res.status);
 }
 
-async function loadFromCloud(raw: string): Promise<void> {
+export async function loadFromCloud(raw: string): Promise<void> {
   const key = raw.replace(/[-\s]/g, '').toUpperCase();
   if (key.length < 12) throw new Error(t('settings.cloudKeyTooShort'));
+  // Restoring into the same key you'd save to (the common "just re-sync my
+  // own progress" case) would otherwise silently overwrite any local
+  // progress made since the last save/auto-push — push it first so nothing
+  // gets lost.
+  if (key === _getKey()) { try { await saveToCloud(); } catch (e) {} }
   const res = await fetch(DB_URL + '/sync/' + key + '.json');
   if (!res.ok) throw new Error('HTTP ' + res.status);
   const data = await res.json() as Record<string, string> | null;
   if (!data || !data._ts) throw new Error(t('settings.cloudDataNotFound'));
-  // Restore fixed keys
-  for (const k of BACKUP_KEYS) {
-    if (data[k]) localStorage.setItem(k, data[k]);
-  }
-  // Restore all per-profile snapshot keys from backup
+  // Restore every key the backup actually contains, not just a fixed
+  // allow-list — keeps this symmetric with whatever saveToCloud() wrote
+  // (BACKUP_KEYS + per-profile snapshots + per-language progress), so the
+  // two can't silently drift apart again.
   for (const k of Object.keys(data)) {
-    if (k.startsWith('ew_p_') && data[k]) localStorage.setItem(k, data[k]);
+    if (k === '_ts' || k === '_v') continue;
+    localStorage.setItem(k, data[k]);
   }
   localStorage.setItem(KEY_LS, key);
 }

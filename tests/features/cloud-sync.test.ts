@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { saveToCloud, loadFromCloud } from '../../js/features/cloud-sync.tsx';
 
 // ── localStorage mock with all keys ──────────────────────────
 const _store: Record<string, string> = {};
@@ -49,6 +50,63 @@ describe('Profile snapshot key pattern', () => {
     expect(keys.length).toBe(3);
     expect(keys.filter(k => k.includes('profile1')).length).toBe(2);
     expect(keys.filter(k => k.includes('profile2')).length).toBe(1);
+  });
+});
+
+// ── saveToCloud / loadFromCloud ────────────────────────────────
+describe('saveToCloud / loadFromCloud', () => {
+  function mockFetch(): { calls: { url: string; opts?: RequestInit }[]; remote: Record<string, Record<string, string>> } {
+    const remote: Record<string, Record<string, string>> = {};
+    const calls: { url: string; opts?: RequestInit }[] = [];
+    vi.stubGlobal('fetch', vi.fn(async (url: string, opts?: RequestInit) => {
+      calls.push({ url, opts });
+      const key = url.split('/sync/')[1].replace('.json', '');
+      if (opts?.method === 'PUT') {
+        remote[key] = JSON.parse(opts.body as string);
+        return { ok: true };
+      }
+      return { ok: true, json: async () => remote[key] ?? null };
+    }));
+    return { calls, remote };
+  }
+
+  it('saves per-target-language progress keys, not just the fixed list', async () => {
+    lsMock.setItem('ew_known', '["abandon"]');
+    lsMock.setItem('ew_known_es', '["hola"]');
+    lsMock.setItem('ew_srs_fr', '{}');
+    const { remote } = mockFetch();
+
+    await saveToCloud();
+
+    const key = lsMock.getItem('ew_sync_key')!;
+    expect(remote[key].ew_known_es).toBe('["hola"]');
+    expect(remote[key].ew_srs_fr).toBe('{}');
+  });
+
+  it('restoring your own key pushes current local progress first instead of silently discarding it', async () => {
+    lsMock.setItem('ew_sync_key', 'AAAABBBBCCCC');
+    const { remote, calls } = mockFetch();
+    remote['AAAABBBBCCCC'] = { _ts: '1', ew_known: '["old"]' };
+
+    lsMock.setItem('ew_known', '["new","words"]'); // progress made since the stale remote snapshot
+
+    await loadFromCloud('AAAA-BBBB-CCCC');
+
+    const putCall = calls.find(c => c.opts?.method === 'PUT');
+    expect(putCall).toBeTruthy();
+    expect(JSON.parse(putCall!.opts!.body as string).ew_known).toBe('["new","words"]');
+    // the push (PUT) must complete before the restore's own GET reads it back
+    expect(lsMock.getItem('ew_known')).toBe('["new","words"]');
+  });
+
+  it('restores any key present in the backup, not just a fixed allow-list', async () => {
+    lsMock.setItem('ew_sync_key', 'ZZZZYYYYXXXX');
+    const { remote } = mockFetch();
+    remote['DDDDEEEEFFFF'] = { _ts: '1', ew_known_fr: '["bonjour"]' };
+
+    await loadFromCloud('DDDD-EEEE-FFFF');
+
+    expect(lsMock.getItem('ew_known_fr')).toBe('["bonjour"]');
   });
 });
 
