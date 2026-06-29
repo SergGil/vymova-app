@@ -4790,7 +4790,6 @@ body.dark .cefr-C2, body.hp .cefr-C2 { background: rgba(142,68,173,.18); }
    🤖  CYBERPUNK THEME  —  body.cp
    ═══════════════════════════════════════════════════ */
 
-  body.cp .title-sw-toggle { opacity: 1; border-color: #ff006e; color: #ff006e; background: rgba(255,0,110,.1); }
 
   body.cp .lang-opt.lang-active { color: #ff006e; background: rgba(255,0,110,.12); }
 
@@ -5310,7 +5309,6 @@ body.cp .idiom-meaning { color: #ff006e; }
    💍  LORD OF THE RINGS THEME  —  body.lotr
    ═══════════════════════════════════════════════════ */
 
-  body.lotr .title-sw-toggle { opacity: 1; border-color: #00ff65; color: #00ff65; background: rgba(0,255,101,.1); }
 
   body.lotr .lang-opt.lang-active { color: #00ff65; background: rgba(0,255,101,.12); }
 
@@ -5830,7 +5828,6 @@ body.lotr .idiom-meaning { color: #00ff65; }
    🛡️  MARVEL THEME  —  body.mcu
    ═══════════════════════════════════════════════════ */
 
-  body.mcu .title-sw-toggle { opacity: 1; border-color: #ff0009; color: #ff0009; background: rgba(255,0,9,.1); }
 
   body.mcu .lang-opt.lang-active { color: #ff0009; background: rgba(255,0,9,.12); }
 
@@ -6350,7 +6347,6 @@ body.mcu .idiom-meaning { color: #ff0009; }
    🐺  WITCHER THEME  —  body.witcher
    ═══════════════════════════════════════════════════ */
 
-  body.witcher .title-sw-toggle { opacity: 1; border-color: #00ffeb; color: #00ffeb; background: rgba(0,255,235,.1); }
 
   body.witcher .lang-opt.lang-active { color: #00ffeb; background: rgba(0,255,235,.12); }
 
@@ -6870,7 +6866,6 @@ body.witcher .idiom-meaning { color: #00ffeb; }
    ⛏️  MINECRAFT THEME  —  body.mc
    ═══════════════════════════════════════════════════ */
 
-  body.mc .title-sw-toggle { opacity: 1; border-color: #68ff00; color: #68ff00; background: rgba(104,255,0,.1); }
 
   body.mc .lang-opt.lang-active { color: #68ff00; background: rgba(104,255,0,.12); }
 
@@ -7390,7 +7385,6 @@ body.mc .idiom-meaning { color: #68ff00; }
    🦇  DC THEME  —  body.dc
    ═══════════════════════════════════════════════════ */
 
-  body.dc .title-sw-toggle { opacity: 1; border-color: #0044ff; color: #0044ff; background: rgba(0,68,255,.1); }
 
   body.dc .lang-opt.lang-active { color: #0044ff; background: rgba(0,68,255,.12); }
 
@@ -7910,7 +7904,6 @@ body.dc .idiom-meaning { color: #0044ff; }
    🐉  GAME OF THRONES THEME  —  body.got
    ═══════════════════════════════════════════════════ */
 
-  body.got .title-sw-toggle { opacity: 1; border-color: #ff6b00; color: #ff6b00; background: rgba(255,107,0,.1); }
 
   body.got .lang-opt.lang-active { color: #ff6b00; background: rgba(255,107,0,.12); }
 
@@ -8430,7 +8423,6 @@ body.got .idiom-meaning { color: #ff6b00; }
    🐢  DISCWORLD THEME  —  body.dw
    ═══════════════════════════════════════════════════ */
 
-  body.dw .title-sw-toggle { opacity: 1; border-color: #b9ff00; color: #b9ff00; background: rgba(185,255,0,.1); }
 
   body.dw .lang-opt.lang-active { color: #b9ff00; background: rgba(185,255,0,.12); }
 
@@ -8950,7 +8942,6 @@ body.dw .idiom-meaning { color: #b9ff00; }
    🏜️  DUNE THEME  —  body.dune
    ═══════════════════════════════════════════════════ */
 
-  body.dune .title-sw-toggle { opacity: 1; border-color: #ffbe00; color: #ffbe00; background: rgba(255,190,0,.1); }
 
   body.dune .lang-opt.lang-active { color: #ffbe00; background: rgba(255,190,0,.12); }
 
@@ -9470,7 +9461,6 @@ body.dune .idiom-meaning { color: #ffbe00; }
    🏹  HUNGER GAMES THEME  —  body.hg
    ═══════════════════════════════════════════════════ */
 
-  body.hg .title-sw-toggle { opacity: 1; border-color: #8500ff; color: #8500ff; background: rgba(133,0,255,.1); }
 
   body.hg .lang-opt.lang-active { color: #8500ff; background: rgba(133,0,255,.12); }
 
@@ -9990,7 +9980,6 @@ body.hg .idiom-meaning { color: #8500ff; }
    🌿  AVATAR THEME  —  body.avt
    ═══════════════════════════════════════════════════ */
 
-  body.avt .title-sw-toggle { opacity: 1; border-color: #00fff4; color: #00fff4; background: rgba(0,255,244,.1); }
 
   body.avt .lang-opt.lang-active { color: #00fff4; background: rgba(0,255,244,.12); }
 
@@ -10510,7 +10499,6 @@ body.avt .idiom-meaning { color: #00fff4; }
    🗼  THE DARK TOWER THEME  —  body.dt
    ═══════════════════════════════════════════════════ */
 
-  body.dt .title-sw-toggle { opacity: 1; border-color: #ff0000; color: #ff0000; background: rgba(255,0,0,.1); }
 
   body.dt .lang-opt.lang-active { color: #ff0000; background: rgba(255,0,0,.12); }
 
