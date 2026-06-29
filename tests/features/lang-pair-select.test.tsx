@@ -31,49 +31,64 @@ function setupDom(selModeValue = 'en'): void {
   (document.getElementById('sel-mode') as HTMLSelectElement).value = selModeValue;
 }
 
+function dropdowns(): HTMLDivElement[] {
+  return Array.from(document.querySelectorAll('#lang-pair-select .flagdd')) as HTMLDivElement[];
+}
+
+// Opens a dropdown (by its position: 0=know, 1=learn, 2=direction) and clicks the option with the given value.
+function selectOption(index: number, value: string): void {
+  const dd = dropdowns()[index];
+  act(() => { (dd.querySelector('.flagdd-btn') as HTMLButtonElement).click(); });
+  act(() => { (dd.querySelector(`.flagdd-item[data-value="${value}"]`) as HTMLButtonElement).click(); });
+}
+
 describe('lang-pair-select', () => {
   beforeEach(() => {
     localStorage.clear();
     setupDom('en');
   });
 
-  it('renders three selects with options', () => {
+  it('renders three flag dropdowns with options', () => {
     act(() => { mountLangPairSelect(); });
-    const selects = document.querySelectorAll('#lang-pair-select select');
-    expect(selects.length).toBe(3);
-    expect((selects[0] as HTMLSelectElement).options.length).toBe(15); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl
-    expect((selects[1] as HTMLSelectElement).options.length).toBe(14); // learn options for know=ua
-    expect((selects[2] as HTMLSelectElement).options.length).toBe(3); // direction: fwd/rev/mix
+    const dds = dropdowns();
+    expect(dds.length).toBe(3);
+
+    act(() => { (dds[0].querySelector('.flagdd-btn') as HTMLButtonElement).click(); });
+    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(15); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl
+
+    act(() => { (dds[1].querySelector('.flagdd-btn') as HTMLButtonElement).click(); });
+    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(14); // learn options for know=ua
+
+    act(() => { (dds[2].querySelector('.flagdd-btn') as HTMLButtonElement).click(); });
+    expect(dds[2].querySelectorAll('.flagdd-item').length).toBe(3); // direction: fwd/rev/mix
   });
 
   it('restores pair from existing #sel-mode value', () => {
     setupDom('es-ua');
     act(() => { mountLangPairSelect(); });
-    const [knowSel, learnSel] = document.querySelectorAll('#lang-pair-select select') as unknown as HTMLSelectElement[];
-    expect(knowSel.value).toBe('ua');
-    expect(learnSel.value).toBe('es');
+    const [knowDD, learnDD] = dropdowns();
+    expect((knowDD.querySelector('.flagdd-btn') as HTMLButtonElement).dataset.value).toBe('ua');
+    expect((learnDD.querySelector('.flagdd-btn') as HTMLButtonElement).dataset.value).toBe('es');
   });
 
   it('changing "know" updates #sel-mode and dispatches change', () => {
     act(() => { mountLangPairSelect(); });
     let changed = false;
     document.getElementById('sel-mode')!.addEventListener('change', () => { changed = true; });
-    const [knowSel] = document.querySelectorAll('#lang-pair-select select') as unknown as HTMLSelectElement[];
-    act(() => {
-      knowSel.value = 'es';
-      knowSel.dispatchEvent(new Event('change', { bubbles: true }));
-    });
+    selectOption(0, 'es');
     expect((document.getElementById('sel-mode') as HTMLSelectElement).value).toBe('en-es');
     expect(changed).toBe(true);
   });
 
   it('changing "learn" updates #sel-mode', () => {
     act(() => { mountLangPairSelect(); });
-    const [, learnSel] = document.querySelectorAll('#lang-pair-select select') as unknown as HTMLSelectElement[];
-    act(() => {
-      learnSel.value = 'fr';
-      learnSel.dispatchEvent(new Event('change', { bubbles: true }));
-    });
+    selectOption(1, 'fr');
     expect((document.getElementById('sel-mode') as HTMLSelectElement).value).toBe('fr-ua');
+  });
+
+  it('selecting a value closes the dropdown', () => {
+    act(() => { mountLangPairSelect(); });
+    selectOption(1, 'fr');
+    expect(dropdowns()[1].querySelector('.flagdd-list')).toBeNull();
   });
 });

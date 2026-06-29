@@ -445,6 +445,22 @@ function _makeCard(v: SpeechSynthesisVoice, activeURI: string, onSelect: (uri: s
   return btn;
 }
 
+// Which per-language <details> sections are expanded, keyed by a stable id
+// (not the title text, which changes once a voice is picked) — re-rendering
+// rebuilds every <details> from scratch, so without this every dropdown
+// would snap shut each time a voice card is clicked.
+const _openSectionIds = new Set<string>();
+
+function _sectionFlagImg(flagCode: string): HTMLImageElement | null {
+  const url = flagUrl(flagCode);
+  if (!url) return null;
+  const img = document.createElement('img');
+  img.src = url; img.alt = '';
+  img.width = 14; img.height = 14;
+  img.style.cssText = 'border-radius:50%;vertical-align:middle;margin-right:6px;box-shadow:0 0 0 1px var(--border);';
+  return img;
+}
+
 export function _renderVoices(): void {
   const container = document.getElementById('fy-voices-list');
   if (!container) return;
@@ -458,15 +474,21 @@ export function _renderVoices(): void {
       && !plVoices.length && !zhVoices.length && !elVoices.length && !jaVoices.length && !trVoices.length && !nlVoices.length) {
     container.innerHTML = '<span style="font-size:.78rem;color:var(--text3);">' + t('settings.voicesNotFound') + '</span>'; return;
   }
-  const addSection = (title: string, voices: SpeechSynthesisVoice[], activeURI: string, storageKey: string, testText: string): void => {
+  const addSection = (id: string, flagCode: string, title: string, voices: SpeechSynthesisVoice[], activeURI: string, storageKey: string, testText: string): void => {
     if (!voices.length) return;
     const details = document.createElement('details');
     details.className = 'voice-section';
     details.style.cssText = 'width:100%;margin:6px 0;';
+    details.open = _openSectionIds.has(id);
+    details.addEventListener('toggle', () => {
+      if (details.open) _openSectionIds.add(id); else _openSectionIds.delete(id);
+    });
     const hdr = document.createElement('summary');
     hdr.style.cssText = 'font-size:.7rem;font-weight:700;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;padding:6px 0;cursor:pointer;';
+    const flagImg = _sectionFlagImg(flagCode);
+    if (flagImg) hdr.appendChild(flagImg);
     const activeLabel = voices.find(v => v.voiceURI === activeURI);
-    hdr.textContent = title + ` (${voices.length})` + (activeLabel ? ` — ${_getLabel(activeLabel).label}` : '');
+    hdr.appendChild(document.createTextNode(title + ` (${voices.length})` + (activeLabel ? ` — ${_getLabel(activeLabel).label}` : '')));
     details.appendChild(hdr);
     const grid = document.createElement('div');
     grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;width:100%;margin-top:6px;';
@@ -493,48 +515,54 @@ export function _renderVoices(): void {
     details.appendChild(grid);
     container.appendChild(details);
   };
-  const addMissing = (titleKey: string, descKey: string): void => {
+  const addMissing = (id: string, flagCode: string, titleKey: string, descKey: string): void => {
     const details = document.createElement('details');
     details.className = 'voice-section';
     details.style.cssText = 'width:100%;margin:6px 0;';
+    details.open = _openSectionIds.has(id);
+    details.addEventListener('toggle', () => {
+      if (details.open) _openSectionIds.add(id); else _openSectionIds.delete(id);
+    });
     const hdr = document.createElement('summary');
     hdr.style.cssText = 'font-size:.7rem;font-weight:700;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;padding:6px 0;cursor:pointer;';
-    hdr.textContent = t(titleKey);
+    const flagImg = _sectionFlagImg(flagCode);
+    if (flagImg) hdr.appendChild(flagImg);
+    hdr.appendChild(document.createTextNode(t(titleKey)));
     const noVoice = document.createElement('div');
     noVoice.style.cssText = 'margin-top:6px;padding:12px 14px;border:1.5px dashed rgba(255,255,255,.12);border-radius:12px;font-size:.78rem;color:var(--text2);line-height:1.6;';
     noVoice.innerHTML = t(descKey);
     details.append(hdr, noVoice);
     container.appendChild(details);
   };
-  addSection(t('settings.enVoicesTitle'), enVoices, _enURI, 'ew_ws_voice', 'Hello there, general Kenobi');
-  if (ukVoices.length) addSection(t('settings.ukVoicesTitle'), ukVoices, _ukURI, 'ew_ws_uk_voice', 'Привіт, як справи');
-  else addMissing('settings.noUkVoicesTitle', 'settings.noUkVoicesDesc');
-  if (esVoices.length) addSection(t('settings.esVoicesTitle'), esVoices, _esURI, 'ew_ws_es_voice', 'Hola, ¿cómo estás?');
-  else addMissing('settings.noEsVoicesTitle', 'settings.noEsVoicesDesc');
-  if (frVoices.length) addSection(t('settings.frVoicesTitle'), frVoices, _frURI, 'ew_ws_fr_voice', 'Bonjour, comment ça va ?');
-  else addMissing('settings.noFrVoicesTitle', 'settings.noFrVoicesDesc');
-  if (itVoices.length) addSection(t('settings.itVoicesTitle'), itVoices, _itURI, 'ew_ws_it_voice', 'Ciao, come stai?');
-  else addMissing('settings.noItVoicesTitle', 'settings.noItVoicesDesc');
-  if (ptVoices.length) addSection(t('settings.ptVoicesTitle'), ptVoices, _ptURI, 'ew_ws_pt_voice', 'Olá, como você está?');
-  else addMissing('settings.noPtVoicesTitle', 'settings.noPtVoicesDesc');
-  if (deVoices.length) addSection(t('settings.deVoicesTitle'), deVoices, _deURI, 'ew_ws_de_voice', 'Hallo, wie geht es dir?');
-  else addMissing('settings.noDeVoicesTitle', 'settings.noDeVoicesDesc');
-  if (heVoices.length) addSection(t('settings.heVoicesTitle'), heVoices, _heURI, 'ew_ws_he_voice', 'שלום, מה נשמע?');
-  else addMissing('settings.noHeVoicesTitle', 'settings.noHeVoicesDesc');
-  if (arVoices.length) addSection(t('settings.arVoicesTitle'), arVoices, _arURI, 'ew_ws_ar_voice', 'مرحبا، كيف حالك؟');
-  else addMissing('settings.noArVoicesTitle', 'settings.noArVoicesDesc');
-  if (plVoices.length) addSection(t('settings.plVoicesTitle'), plVoices, _plURI, 'ew_ws_pl_voice', 'Cześć, jak się masz?');
-  else addMissing('settings.noPlVoicesTitle', 'settings.noPlVoicesDesc');
-  if (zhVoices.length) addSection(t('settings.zhVoicesTitle'), zhVoices, _zhURI, 'ew_ws_zh_voice', '你好，你怎么样？');
-  else addMissing('settings.noZhVoicesTitle', 'settings.noZhVoicesDesc');
-  if (elVoices.length) addSection(t('settings.elVoicesTitle'), elVoices, _elURI, 'ew_ws_el_voice', 'Γεια σου, τι κάνεις;');
-  else addMissing('settings.noElVoicesTitle', 'settings.noElVoicesDesc');
-  if (jaVoices.length) addSection(t('settings.jaVoicesTitle'), jaVoices, _jaURI, 'ew_ws_ja_voice', 'こんにちは、お元気ですか？');
-  else addMissing('settings.noJaVoicesTitle', 'settings.noJaVoicesDesc');
-  if (trVoices.length) addSection(t('settings.trVoicesTitle'), trVoices, _trURI, 'ew_ws_tr_voice', 'Merhaba, nasılsın?');
-  else addMissing('settings.noTrVoicesTitle', 'settings.noTrVoicesDesc');
-  if (nlVoices.length) addSection(t('settings.nlVoicesTitle'), nlVoices, _nlURI, 'ew_ws_nl_voice', 'Hallo, hoe gaat het?');
-  else addMissing('settings.noNlVoicesTitle', 'settings.noNlVoicesDesc');
+  addSection('en', 'gb', t('settings.enVoicesTitle'), enVoices, _enURI, 'ew_ws_voice', 'Hello there, general Kenobi');
+  if (ukVoices.length) addSection('uk', 'ua', t('settings.ukVoicesTitle'), ukVoices, _ukURI, 'ew_ws_uk_voice', 'Привіт, як справи');
+  else addMissing('uk', 'ua', 'settings.noUkVoicesTitle', 'settings.noUkVoicesDesc');
+  if (esVoices.length) addSection('es', 'es', t('settings.esVoicesTitle'), esVoices, _esURI, 'ew_ws_es_voice', 'Hola, ¿cómo estás?');
+  else addMissing('es', 'es', 'settings.noEsVoicesTitle', 'settings.noEsVoicesDesc');
+  if (frVoices.length) addSection('fr', 'fr', t('settings.frVoicesTitle'), frVoices, _frURI, 'ew_ws_fr_voice', 'Bonjour, comment ça va ?');
+  else addMissing('fr', 'fr', 'settings.noFrVoicesTitle', 'settings.noFrVoicesDesc');
+  if (itVoices.length) addSection('it', 'it', t('settings.itVoicesTitle'), itVoices, _itURI, 'ew_ws_it_voice', 'Ciao, come stai?');
+  else addMissing('it', 'it', 'settings.noItVoicesTitle', 'settings.noItVoicesDesc');
+  if (ptVoices.length) addSection('pt', 'pt', t('settings.ptVoicesTitle'), ptVoices, _ptURI, 'ew_ws_pt_voice', 'Olá, como você está?');
+  else addMissing('pt', 'pt', 'settings.noPtVoicesTitle', 'settings.noPtVoicesDesc');
+  if (deVoices.length) addSection('de', 'de', t('settings.deVoicesTitle'), deVoices, _deURI, 'ew_ws_de_voice', 'Hallo, wie geht es dir?');
+  else addMissing('de', 'de', 'settings.noDeVoicesTitle', 'settings.noDeVoicesDesc');
+  if (heVoices.length) addSection('he', 'il', t('settings.heVoicesTitle'), heVoices, _heURI, 'ew_ws_he_voice', 'שלום, מה נשמע?');
+  else addMissing('he', 'il', 'settings.noHeVoicesTitle', 'settings.noHeVoicesDesc');
+  if (arVoices.length) addSection('ar', 'sa', t('settings.arVoicesTitle'), arVoices, _arURI, 'ew_ws_ar_voice', 'مرحبا، كيف حالك؟');
+  else addMissing('ar', 'sa', 'settings.noArVoicesTitle', 'settings.noArVoicesDesc');
+  if (plVoices.length) addSection('pl', 'pl', t('settings.plVoicesTitle'), plVoices, _plURI, 'ew_ws_pl_voice', 'Cześć, jak się masz?');
+  else addMissing('pl', 'pl', 'settings.noPlVoicesTitle', 'settings.noPlVoicesDesc');
+  if (zhVoices.length) addSection('zh', 'cn', t('settings.zhVoicesTitle'), zhVoices, _zhURI, 'ew_ws_zh_voice', '你好，你怎么样？');
+  else addMissing('zh', 'cn', 'settings.noZhVoicesTitle', 'settings.noZhVoicesDesc');
+  if (elVoices.length) addSection('el', 'gr', t('settings.elVoicesTitle'), elVoices, _elURI, 'ew_ws_el_voice', 'Γεια σου, τι κάνεις;');
+  else addMissing('el', 'gr', 'settings.noElVoicesTitle', 'settings.noElVoicesDesc');
+  if (jaVoices.length) addSection('ja', 'jp', t('settings.jaVoicesTitle'), jaVoices, _jaURI, 'ew_ws_ja_voice', 'こんにちは、お元気ですか？');
+  else addMissing('ja', 'jp', 'settings.noJaVoicesTitle', 'settings.noJaVoicesDesc');
+  if (trVoices.length) addSection('tr', 'tr', t('settings.trVoicesTitle'), trVoices, _trURI, 'ew_ws_tr_voice', 'Merhaba, nasılsın?');
+  else addMissing('tr', 'tr', 'settings.noTrVoicesTitle', 'settings.noTrVoicesDesc');
+  if (nlVoices.length) addSection('nl', 'nl', t('settings.nlVoicesTitle'), nlVoices, _nlURI, 'ew_ws_nl_voice', 'Hallo, hoe gaat het?');
+  else addMissing('nl', 'nl', 'settings.noNlVoicesTitle', 'settings.noNlVoicesDesc');
   if (!_enURI && enVoices.length) { _enURI = (enVoices.find(v => v.name.toLowerCase().includes('google')) ?? enVoices[0]).voiceURI; localStorage.setItem('ew_ws_voice', _enURI); }
   if (!_ukURI && ukVoices.length) { _ukURI = ukVoices[0].voiceURI; localStorage.setItem('ew_ws_uk_voice', _ukURI); }
   if (!_esURI && esVoices.length) { _esURI = (esVoices.find(v => v.name.toLowerCase().includes('google')) ?? esVoices[0]).voiceURI; localStorage.setItem('ew_ws_es_voice', _esURI); }

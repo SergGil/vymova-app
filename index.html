@@ -75,13 +75,13 @@
   <div class="sb-lang-section">
     <div class="sb-lang-label" data-i18n="nav.language">🌐 Мова</div>
     <div class="lang-toggle" title="Мова меню / Menu language / Idioma del menú">
-      <button class="lang-opt" data-lang="ua"><img src="data/countries/ua.svg" alt="" width="13" height="13">UA</button>
-      <button class="lang-opt" data-lang="en"><img src="data/countries/gb.svg" alt="" width="13" height="13">EN</button>
-      <button class="lang-opt" data-lang="es"><img src="data/countries/es.svg" alt="" width="13" height="13">ES</button>
-      <button class="lang-opt" data-lang="fr"><img src="data/countries/fr.svg" alt="" width="13" height="13">FR</button>
-      <button class="lang-opt" data-lang="it"><img src="data/countries/it.svg" alt="" width="13" height="13">IT</button>
-      <button class="lang-opt" data-lang="pt"><img src="data/countries/pt.svg" alt="" width="13" height="13">PT</button>
-      <button class="lang-opt" data-lang="de"><img src="data/countries/de.svg" alt="" width="13" height="13">DE</button>
+      <button class="lang-opt" data-lang="ua" title="Українська"><img src="data/countries/ua.svg" alt="UA" width="13" height="13"></button>
+      <button class="lang-opt" data-lang="en" title="English"><img src="data/countries/gb.svg" alt="EN" width="13" height="13"></button>
+      <button class="lang-opt" data-lang="es" title="Español"><img src="data/countries/es.svg" alt="ES" width="13" height="13"></button>
+      <button class="lang-opt" data-lang="fr" title="Français"><img src="data/countries/fr.svg" alt="FR" width="13" height="13"></button>
+      <button class="lang-opt" data-lang="it" title="Italiano"><img src="data/countries/it.svg" alt="IT" width="13" height="13"></button>
+      <button class="lang-opt" data-lang="pt" title="Português"><img src="data/countries/pt.svg" alt="PT" width="13" height="13"></button>
+      <button class="lang-opt" data-lang="de" title="Deutsch"><img src="data/countries/de.svg" alt="DE" width="13" height="13"></button>
     </div>
   </div>
 
@@ -385,66 +385,69 @@
             <span class="sb-label" data-i18n="settings.harryPotter">Гаррі Поттер</span>
             <span class="sb-toggle-pill" id="set-hp-pill"></span>
           </div>
-          <div class="sb-toggle-row" id="set-cp" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">🤖</span>
-            <span class="sb-label" data-i18n="settings.cyberpunk">Кіберпанк</span>
-            <span class="sb-toggle-pill" id="set-cp-pill"></span>
+          <div id="theme-rows-extra" style="display:none;flex-direction:column;gap:2px;">
+            <div class="sb-toggle-row" id="set-cp" style="background:var(--bg);border-radius:10px;">
+              <span class="sb-icon">🤖</span>
+              <span class="sb-label" data-i18n="settings.cyberpunk">Кіберпанк</span>
+              <span class="sb-toggle-pill" id="set-cp-pill"></span>
+            </div>
+            <div class="sb-toggle-row" id="set-lotr" style="background:var(--bg);border-radius:10px;">
+              <span class="sb-icon">💍</span>
+              <span class="sb-label" data-i18n="settings.lotr">Володар Перснів</span>
+              <span class="sb-toggle-pill" id="set-lotr-pill"></span>
+            </div>
+            <div class="sb-toggle-row" id="set-mcu" style="background:var(--bg);border-radius:10px;">
+              <span class="sb-icon">🛡️</span>
+              <span class="sb-label" data-i18n="settings.marvel">Марвел</span>
+              <span class="sb-toggle-pill" id="set-mcu-pill"></span>
+            </div>
+            <div class="sb-toggle-row" id="set-witcher" style="background:var(--bg);border-radius:10px;">
+              <span class="sb-icon">🐺</span>
+              <span class="sb-label" data-i18n="settings.witcher">Відьмак</span>
+              <span class="sb-toggle-pill" id="set-witcher-pill"></span>
+            </div>
+            <div class="sb-toggle-row" id="set-mc" style="background:var(--bg);border-radius:10px;">
+              <span class="sb-icon">⛏️</span>
+              <span class="sb-label" data-i18n="settings.minecraft">Майнкрафт</span>
+              <span class="sb-toggle-pill" id="set-mc-pill"></span>
+            </div>
+            <div class="sb-toggle-row" id="set-dc" style="background:var(--bg);border-radius:10px;">
+              <span class="sb-icon">🦇</span>
+              <span class="sb-label" data-i18n="settings.dc">DC</span>
+              <span class="sb-toggle-pill" id="set-dc-pill"></span>
+            </div>
+            <div class="sb-toggle-row" id="set-got" style="background:var(--bg);border-radius:10px;">
+              <span class="sb-icon">🐉</span>
+              <span class="sb-label" data-i18n="settings.got">Гра Престолів</span>
+              <span class="sb-toggle-pill" id="set-got-pill"></span>
+            </div>
+            <div class="sb-toggle-row" id="set-dw" style="background:var(--bg);border-radius:10px;">
+              <span class="sb-icon">🐢</span>
+              <span class="sb-label" data-i18n="settings.discworld">Дискосвіт</span>
+              <span class="sb-toggle-pill" id="set-dw-pill"></span>
+            </div>
+            <div class="sb-toggle-row" id="set-dune" style="background:var(--bg);border-radius:10px;">
+              <span class="sb-icon">🏜️</span>
+              <span class="sb-label" data-i18n="settings.dune">Дюна</span>
+              <span class="sb-toggle-pill" id="set-dune-pill"></span>
+            </div>
+            <div class="sb-toggle-row" id="set-hg" style="background:var(--bg);border-radius:10px;">
+              <span class="sb-icon">🏹</span>
+              <span class="sb-label" data-i18n="settings.hungerGames">Голодні Ігри</span>
+              <span class="sb-toggle-pill" id="set-hg-pill"></span>
+            </div>
+            <div class="sb-toggle-row" id="set-avt" style="background:var(--bg);border-radius:10px;">
+              <span class="sb-icon">🌿</span>
+              <span class="sb-label" data-i18n="settings.avatar">Аватар</span>
+              <span class="sb-toggle-pill" id="set-avt-pill"></span>
+            </div>
+            <div class="sb-toggle-row" id="set-dt" style="background:var(--bg);border-radius:10px;">
+              <span class="sb-icon">🗼</span>
+              <span class="sb-label" data-i18n="settings.darkTower">Темна Вежа</span>
+              <span class="sb-toggle-pill" id="set-dt-pill"></span>
+            </div>
           </div>
-          <div class="sb-toggle-row" id="set-lotr" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">💍</span>
-            <span class="sb-label" data-i18n="settings.lotr">Володар Перснів</span>
-            <span class="sb-toggle-pill" id="set-lotr-pill"></span>
-          </div>
-          <div class="sb-toggle-row" id="set-mcu" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">🛡️</span>
-            <span class="sb-label" data-i18n="settings.marvel">Марвел</span>
-            <span class="sb-toggle-pill" id="set-mcu-pill"></span>
-          </div>
-          <div class="sb-toggle-row" id="set-witcher" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">🐺</span>
-            <span class="sb-label" data-i18n="settings.witcher">Відьмак</span>
-            <span class="sb-toggle-pill" id="set-witcher-pill"></span>
-          </div>
-          <div class="sb-toggle-row" id="set-mc" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">⛏️</span>
-            <span class="sb-label" data-i18n="settings.minecraft">Майнкрафт</span>
-            <span class="sb-toggle-pill" id="set-mc-pill"></span>
-          </div>
-          <div class="sb-toggle-row" id="set-dc" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">🦇</span>
-            <span class="sb-label" data-i18n="settings.dc">DC</span>
-            <span class="sb-toggle-pill" id="set-dc-pill"></span>
-          </div>
-          <div class="sb-toggle-row" id="set-got" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">🐉</span>
-            <span class="sb-label" data-i18n="settings.got">Гра Престолів</span>
-            <span class="sb-toggle-pill" id="set-got-pill"></span>
-          </div>
-          <div class="sb-toggle-row" id="set-dw" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">🐢</span>
-            <span class="sb-label" data-i18n="settings.discworld">Дискосвіт</span>
-            <span class="sb-toggle-pill" id="set-dw-pill"></span>
-          </div>
-          <div class="sb-toggle-row" id="set-dune" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">🏜️</span>
-            <span class="sb-label" data-i18n="settings.dune">Дюна</span>
-            <span class="sb-toggle-pill" id="set-dune-pill"></span>
-          </div>
-          <div class="sb-toggle-row" id="set-hg" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">🏹</span>
-            <span class="sb-label" data-i18n="settings.hungerGames">Голодні Ігри</span>
-            <span class="sb-toggle-pill" id="set-hg-pill"></span>
-          </div>
-          <div class="sb-toggle-row" id="set-avt" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">🌿</span>
-            <span class="sb-label" data-i18n="settings.avatar">Аватар</span>
-            <span class="sb-toggle-pill" id="set-avt-pill"></span>
-          </div>
-          <div class="sb-toggle-row" id="set-dt" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">🗼</span>
-            <span class="sb-label" data-i18n="settings.darkTower">Темна Вежа</span>
-            <span class="sb-toggle-pill" id="set-dt-pill"></span>
-          </div>
+          <button type="button" id="theme-rows-toggle" class="theme-rows-toggle-btn" data-i18n="settings.showMoreThemes">Показати більше тем ▾</button>
         </div>
       </div>
 
@@ -452,7 +455,7 @@
       <div class="settings-section">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
           <div class="settings-section-title" style="margin-bottom:0" data-i18n="settings.voiceTitle">🔊 Голос озвучення</div>
-          <button id="voices-reload-btn" class="backup-btn" style="padding:3px 9px;font-size:.68rem;flex-shrink:0;" data-i18n="settings.voiceReload" data-i18n-title="settings.voiceReloadTitle" title="Перезавантажити список голосів">🔄 Оновити</button>
+          <button id="voices-reload-btn" class="backup-btn" style="flex:none;padding:3px 9px;font-size:.68rem;" data-i18n="settings.voiceReload" data-i18n-title="settings.voiceReloadTitle" title="Перезавантажити список голосів">🔄 Оновити</button>
         </div>
         <div id="fy-voices-list" style="margin-top:10px;"></div>
       </div>
@@ -575,7 +578,7 @@
         <button id="btn-reset" class="settings-reset-btn" style="margin-top:12px;" data-i18n="settings.resetBtn">↺ Скинути прогрес</button>
       </div>
 
-      <div class="settings-footer">© 2026 Vymova · v1.17.0</div>
+      <div class="settings-footer">© 2026 Vymova · v1.18.0</div>
 
     </div>
   </div>

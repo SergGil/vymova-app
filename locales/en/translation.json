@@ -676,6 +676,8 @@
   "settings.hungerGames": "The Hunger Games",
   "settings.avatar": "Avatar",
   "settings.darkTower": "The Dark Tower",
+  "settings.showMoreThemes": "Show more themes ▾",
+  "settings.showLessThemes": "Show less ▴",
   "settings.voiceTitle": "🔊 Voice",
   "settings.voiceReload": "🔄 Refresh",
   "settings.voiceReloadTitle": "Reload the voice list",

@@ -12,6 +12,7 @@ import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
 import { _renderVoices } from './voice.tsx';
 import { _updateUI as _refreshNotifUI } from './notifications.tsx';
 import { _refreshCloudSyncUI } from './cloud-sync.tsx';
+import { t } from './i18n.ts';
 
 // ── Modes page dynamic descriptions ───────────────────────────
 export function updateModesPageDesc(): void {
@@ -372,6 +373,22 @@ export function SidebarInit(): ReactElement | null {
     const mo = new MutationObserver(_updateTogglePills);
     mo.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
+    // ── Show more/less fandom themes ─────────────────────────────
+    // Only the base 3 (dark/SW/HP) show by default; the rest sit behind a
+    // "show more" toggle so the Settings page doesn't open to a wall of
+    // rows — unless one of them is already the active theme, in which case
+    // start expanded so the user can see what's currently selected.
+    const EXTRA_THEME_KEYS = ['cp', 'lotr', 'mcu', 'witcher', 'mc', 'dc', 'got', 'dw', 'dune', 'hg', 'avt', 'dt'];
+    const extraRows = document.getElementById('theme-rows-extra');
+    const toggleRowsBtn = document.getElementById('theme-rows-toggle');
+    const setThemeRowsExpanded = (expanded: boolean) => {
+      if (extraRows) extraRows.style.display = expanded ? 'flex' : 'none';
+      if (toggleRowsBtn) toggleRowsBtn.textContent = t(expanded ? 'settings.showLessThemes' : 'settings.showMoreThemes');
+    };
+    setThemeRowsExpanded(EXTRA_THEME_KEYS.some(k => document.body.classList.contains(k)));
+    const onToggleRowsClick = () => setThemeRowsExpanded(extraRows?.style.display === 'none');
+    toggleRowsBtn?.addEventListener('click', onToggleRowsClick);
+
     // ── Restore last open page after a reload ───────────────────
     // Deferred via setTimeout: at module-eval time some page renderers
     // (learning-path, duel, etc.) depend on app state/data that other
@@ -412,6 +429,7 @@ export function SidebarInit(): ReactElement | null {
       document.removeEventListener('click', onDocClickCloseGroups);
       setTheme?.removeEventListener('click', onSetThemeClick);
       themeRowCleanups.forEach(fn => fn());
+      toggleRowsBtn?.removeEventListener('click', onToggleRowsClick);
       mo.disconnect();
       if (t1) clearTimeout(t1);
       if (t2) clearTimeout(t2);

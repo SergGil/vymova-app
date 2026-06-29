@@ -676,6 +676,8 @@
   "settings.hungerGames": "Hunger Games",
   "settings.avatar": "Avatar",
   "settings.darkTower": "La Tour sombre",
+  "settings.showMoreThemes": "Afficher plus de thèmes ▾",
+  "settings.showLessThemes": "Afficher moins ▴",
   "settings.voiceTitle": "🔊 Voix",
   "settings.voiceReload": "🔄 Actualiser",
   "settings.voiceReloadTitle": "Recharger la liste des voix",

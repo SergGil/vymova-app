@@ -676,6 +676,8 @@
   "settings.hungerGames": "Los Juegos del Hambre",
   "settings.avatar": "Avatar",
   "settings.darkTower": "La Torre Oscura",
+  "settings.showMoreThemes": "Mostrar más temas ▾",
+  "settings.showLessThemes": "Mostrar menos ▴",
   "settings.voiceTitle": "🔊 Voz",
   "settings.voiceReload": "🔄 Actualizar",
   "settings.voiceReloadTitle": "Recargar la lista de voces",

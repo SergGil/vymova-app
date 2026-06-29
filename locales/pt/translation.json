@@ -676,6 +676,8 @@
   "settings.hungerGames": "Jogos Vorazes",
   "settings.avatar": "Avatar",
   "settings.darkTower": "A Torre Negra",
+  "settings.showMoreThemes": "Mostrar mais temas ▾",
+  "settings.showLessThemes": "Mostrar menos ▴",
   "settings.voiceTitle": "🔊 Vozes",
   "settings.voiceReload": "🔄 Atualizar",
   "settings.voiceReloadTitle": "Recarregar a lista de vozes",

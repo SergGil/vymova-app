@@ -691,6 +691,8 @@
   "settings.hungerGames": "Голодні Ігри",
   "settings.avatar": "Аватар",
   "settings.darkTower": "Темна Вежа",
+  "settings.showMoreThemes": "Показати більше тем ▾",
+  "settings.showLessThemes": "Згорнути ▴",
   "settings.voiceTitle": "🔊 Голос озвучення",
   "settings.voiceReload": "🔄 Оновити",
   "settings.voiceReloadTitle": "Перезавантажити список голосів",

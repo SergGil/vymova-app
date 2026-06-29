@@ -2,14 +2,27 @@
 // "Я знаю" / "Хочу вчити" / "Напрямок" language pair picker (first React component).
 // Drives the legacy #sel-mode <select> so all existing listeners
 // (deck-mode, tag-filter, word-detail, mode-utils, ...) keep working untouched.
-import { useState, type ReactElement } from 'react';
+import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { t, getLang } from './i18n.ts';
 import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { flagUrl } from '../core/flags.ts';
 
 export type LangCode = 'ua' | 'en' | 'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar' | 'pl' | 'zh' | 'el' | 'ja' | 'tr' | 'nl';
 type Direction = 'fwd' | 'rev' | 'mix';
 
 const ALL_LANGS: LangCode[] = ['ua', 'en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl'];
+
+// Flag shown for each language — picks the country most learners associate
+// with it, not necessarily the only place it's spoken.
+const FLAG_CODE: Record<LangCode, string> = {
+  ua: 'ua', en: 'gb', es: 'es', fr: 'fr', it: 'it', pt: 'pt', de: 'de',
+  he: 'il', ar: 'sa', pl: 'pl', zh: 'cn', el: 'gr', ja: 'jp', tr: 'tr', nl: 'nl',
+};
+
+function LangFlag({ lang }: { lang: LangCode }): ReactElement {
+  const url = flagUrl(FLAG_CODE[lang]);
+  return url ? <img src={url} alt="" width={16} height={16} /> : <span>{lang.toUpperCase()}</span>;
+}
 
 // Every language can pair with every other — all `data/words_XX.js` files
 // share the same English-headword keys (the 13 target-language files share
@@ -134,6 +147,57 @@ function applyMode(learn: LangCode, know: LangCode, direction: Direction): void 
   sel.dispatchEvent(new Event('change'));
 }
 
+// A flag-icon dropdown standing in for a native <select> — browsers don't
+// render images inside <option>, so showing a flag per language/direction
+// means rolling our own button + popover list instead.
+function FlagDropdown<T extends string>({ value, options, renderOption, onChange, ariaLabel }: {
+  value: T;
+  options: T[];
+  renderOption: (opt: T) => ReactElement;
+  onChange: (opt: T) => void;
+  ariaLabel: string;
+}): ReactElement {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function onDocClick(e: MouseEvent): void {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+    }
+    function onKeyDown(e: KeyboardEvent): void {
+      if (e.key === 'Escape') setOpen(false);
+    }
+    document.addEventListener('click', onDocClick);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('click', onDocClick);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, []);
+
+  return (
+    <div className="flagdd" ref={rootRef}>
+      <button type="button" className="flagdd-btn" data-value={value} aria-label={ariaLabel} aria-expanded={open} onClick={() => setOpen(o => !o)}>
+        {renderOption(value)}
+        <span className="flagdd-arrow">{open ? '▴' : '▾'}</span>
+      </button>
+      {open && (
+        <div className="flagdd-list" role="listbox" aria-label={ariaLabel}>
+          {options.map(opt => (
+            <button
+              type="button" key={opt} role="option" data-value={opt} aria-selected={opt === value}
+              className={'flagdd-item' + (opt === value ? ' flagdd-active' : '')}
+              onClick={() => { onChange(opt); setOpen(false); }}
+            >
+              {renderOption(opt)}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function LangPairSelect(): ReactElement {
   useStateVersion();
   const [{ learnLang, knowLang, direction }, setState] = useState(initialState);
@@ -165,22 +229,37 @@ export function LangPairSelect(): ReactElement {
     persist({ learnLang, knowLang, direction: next });
   }
 
-  const fwdLabel = `${learnLang.toUpperCase()} → ${knowLang.toUpperCase()}`;
-  const revLabel = `${knowLang.toUpperCase()} → ${learnLang.toUpperCase()}`;
+  function renderLangOption(l: LangCode): ReactElement {
+    return (
+      <span className="flagdd-content">
+        <LangFlag lang={l} />
+        <span className="flagdd-label">{langAcc(l)}</span>
+      </span>
+    );
+  }
+
+  function renderDirectionOption(d: Direction): ReactElement {
+    if (d === 'mix') {
+      return (
+        <span className="flagdd-content">
+          <LangFlag lang={learnLang} /><span className="flagdd-mix-icon">⇄</span><LangFlag lang={knowLang} />
+          <span className="flagdd-label">{t('mode.mixed')}</span>
+        </span>
+      );
+    }
+    const [from, to] = d === 'fwd' ? [learnLang, knowLang] : [knowLang, learnLang];
+    return (
+      <span className="flagdd-content">
+        <LangFlag lang={from} /><span className="flagdd-arrow-icon">→</span><LangFlag lang={to} />
+      </span>
+    );
+  }
 
   return (
     <div className="lang-pair-row" style={{ display: 'flex', gap: '8px', marginRight: '4px' }}>
-      <select aria-label={t('langpair.know')} value={knowLang} onChange={e => onKnowChange(e.target.value as LangCode)}>
-        {ALL_LANGS.map(l => <option key={l} value={l}>{t('langpair.know')}: {langAcc(l)}</option>)}
-      </select>
-      <select aria-label={t('langpair.learn')} value={learnLang} onChange={e => onLearnChange(e.target.value as LangCode)}>
-        {LEARN_OPTIONS[knowLang].map(l => <option key={l} value={l}>{t('langpair.learn')}: {langAcc(l)}</option>)}
-      </select>
-      <select aria-label={t('langpair.direction')} value={direction} onChange={e => onDirectionChange(e.target.value as Direction)}>
-        <option value="fwd">{fwdLabel}</option>
-        <option value="rev">{revLabel}</option>
-        <option value="mix">{t('mode.mixed')}</option>
-      </select>
+      <FlagDropdown value={knowLang} options={ALL_LANGS} renderOption={renderLangOption} onChange={onKnowChange} ariaLabel={t('langpair.know')} />
+      <FlagDropdown value={learnLang} options={LEARN_OPTIONS[knowLang]} renderOption={renderLangOption} onChange={onLearnChange} ariaLabel={t('langpair.learn')} />
+      <FlagDropdown value={direction} options={['fwd', 'rev', 'mix']} renderOption={renderDirectionOption} onChange={onDirectionChange} ariaLabel={t('langpair.direction')} />
     </div>
   );
 }
@@ -190,4 +269,3 @@ export function LangPairSelect(): ReactElement {
   const { learnLang, knowLang, direction } = initialState();
   applyMode(learnLang, knowLang, direction);
 }
-
