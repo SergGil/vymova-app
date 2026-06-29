@@ -213,6 +213,12 @@ export function CloudSyncInit(): ReactElement | null {
       setMsg(t('settings.cloudLoading'), 'var(--text3)');
       try {
         await loadFromCloud(inp.value);
+        // A successful restore means this device is now actively using cloud
+        // sync, even though it never pushed before — without this, the
+        // post-word-saved auto-push (gated on LAST_LS) would stay dormant on
+        // this device forever, silently discarding all progress made after
+        // the restore until someone happens to open Settings and hit Save.
+        localStorage.setItem(LAST_LS, String(Date.now()));
         setMsg(t('settings.cloudRestoreSuccess'), '#27ae60');
         setTimeout(() => location.reload(), 1200);
       } catch (e) {

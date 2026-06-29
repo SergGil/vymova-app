@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { ImagePrefetchSettings } from '../../js/features/image-prefetch.tsx';
@@ -20,11 +20,14 @@ vi.mock('../../js/core/images.ts', () => ({
 }));
 vi.mock('../../js/features/sidebar.tsx', () => ({ showImgClearConfirm }));
 
+let roots: Root[] = [];
+
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
   act(() => { root.render(<ImagePrefetchSettings />); });
+  roots.push(root);
   return { container, root };
 }
 
@@ -37,6 +40,15 @@ describe('image-prefetch.tsx ImagePrefetchSettings', () => {
     getPixabayKey.mockClear().mockReturnValue('');
     resetImgCache.mockClear();
     showImgClearConfirm.mockClear();
+  });
+
+  // 'starts prefetching' leaves a recursive setTimeout(fetchNext, ...) chain
+  // running via the mocked loadWikiImage's immediate callback — without
+  // unmounting (which clears timerRef via the component's cleanup), it keeps
+  // firing in the background for the rest of the test run.
+  afterEach(() => {
+    roots.forEach(r => act(() => { r.unmount(); }));
+    roots = [];
   });
 
   it('shows the "ready to start" status when the cache is empty', () => {
