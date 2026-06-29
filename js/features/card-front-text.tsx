@@ -13,6 +13,7 @@ import {
   esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry,
 } from './mode-utils.ts';
 import { speakEnAccent, speakEsAccent, speakPtAccent, hasEsAccent, hasPtAccent } from './voice.tsx';
+import { flagUrl } from '../core/flags.ts';
 import { speakForCode } from './speak-lang.ts';
 import { SENSES_BY_LANG, type SenseEntry } from '../../data/senses.ts';
 import { InfoIcon, InfoNote } from './info-icon.tsx';
@@ -21,6 +22,13 @@ import type { WordEntry } from '../../src/types.js';
 
 function getRangeVal(): string {
   return (document.getElementById('sel-range') as HTMLSelectElement | null)?.value ?? '';
+}
+
+// Accent-toggle button content: a flag icon when we have one locally,
+// otherwise the plain 2-letter code (e.g. for accents flags.ts doesn't cover).
+function AccentFlag({ code }: { code: string }) {
+  const url = flagUrl(code);
+  return url ? <img src={url} alt={code} width={16} height={16} /> : <>{code}</>;
 }
 
 export function WordText() {
@@ -54,20 +62,20 @@ export function Transcription() {
         {trans && <span>{trans}</span>}
         {FRONT_LANG === 'EN' && (
           <>
-            <button type="button" className="accent-btn" title="British" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'GB', e.currentTarget); }}>GB</button>
-            <button type="button" className="accent-btn" title="American" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'US', e.currentTarget); }}>US</button>
+            <button type="button" className="accent-btn" title="British" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'GB', e.currentTarget); }}><AccentFlag code="GB" /></button>
+            <button type="button" className="accent-btn" title="American" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'US', e.currentTarget); }}><AccentFlag code="US" /></button>
           </>
         )}
         {FRONT_LANG === 'ES' && (
           <>
-            {hasEsAccent('ES') && <button type="button" className="accent-btn" title="España" onClick={e => { e.stopPropagation(); speakEsAccent(frontWord, 'ES', e.currentTarget); }}>ES</button>}
-            {hasEsAccent('MX') && <button type="button" className="accent-btn" title="Latinoamérica" onClick={e => { e.stopPropagation(); speakEsAccent(frontWord, 'MX', e.currentTarget); }}>MX</button>}
+            {hasEsAccent('ES') && <button type="button" className="accent-btn" title="España" onClick={e => { e.stopPropagation(); speakEsAccent(frontWord, 'ES', e.currentTarget); }}><AccentFlag code="ES" /></button>}
+            {hasEsAccent('MX') && <button type="button" className="accent-btn" title="Latinoamérica" onClick={e => { e.stopPropagation(); speakEsAccent(frontWord, 'MX', e.currentTarget); }}><AccentFlag code="MX" /></button>}
           </>
         )}
         {FRONT_LANG === 'PT' && (
           <>
-            {hasPtAccent('PT') && <button type="button" className="accent-btn" title="Portugal" onClick={e => { e.stopPropagation(); speakPtAccent(frontWord, 'PT', e.currentTarget); }}>PT</button>}
-            {hasPtAccent('BR') && <button type="button" className="accent-btn" title="Brasil" onClick={e => { e.stopPropagation(); speakPtAccent(frontWord, 'BR', e.currentTarget); }}>BR</button>}
+            {hasPtAccent('PT') && <button type="button" className="accent-btn" title="Portugal" onClick={e => { e.stopPropagation(); speakPtAccent(frontWord, 'PT', e.currentTarget); }}><AccentFlag code="PT" /></button>}
+            {hasPtAccent('BR') && <button type="button" className="accent-btn" title="Brasil" onClick={e => { e.stopPropagation(); speakPtAccent(frontWord, 'BR', e.currentTarget); }}><AccentFlag code="BR" /></button>}
           </>
         )}
         {legend && <InfoIcon open={legendOpen} onToggle={() => setLegendOpen(o => !o)} label={t('cards.transcriptionInfo')} />}

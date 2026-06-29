@@ -64,13 +64,15 @@ describe('card-front-text.tsx', () => {
     expect(el.querySelector('span')!.textContent).toBe('[ˈæ]');
   });
 
-  it('Transcription renders UK/US accent buttons for English-front modes', () => {
+  it('Transcription renders UK/US accent buttons (as flag icons) for English-front modes', () => {
     const { container } = mount(Transcription);
     const el = container.querySelector('#wtrans') as HTMLElement;
     const btns = el.querySelectorAll<HTMLButtonElement>('button.accent-btn');
     expect(btns.length).toBe(2);
-    expect(btns[0].textContent).toBe('GB');
-    expect(btns[1].textContent).toBe('US');
+    expect(btns[0].title).toBe('British');
+    expect(btns[1].title).toBe('American');
+    expect(btns[0].querySelector('img')!.alt).toBe('GB');
+    expect(btns[1].querySelector('img')!.alt).toBe('US');
   });
 
   it('clicking the GB/US buttons speaks the front word with that accent', () => {

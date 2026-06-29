@@ -3,6 +3,7 @@
 import { useEffect, type ReactElement } from 'react';
 import { synth } from '../core/srs.ts';
 import { t } from './i18n.ts';
+import { flagUrl } from '../core/flags.ts';
 
 let _enURI = localStorage.getItem('ew_ws_voice')    ?? '';
 let _ukURI = localStorage.getItem('ew_ws_uk_voice') ?? '';
@@ -418,14 +419,17 @@ function _makeCard(v: SpeechSynthesisVoice, activeURI: string, onSelect: (uri: s
   top.style.cssText = 'display:flex;align-items:center;gap:6px;margin-bottom:3px;';
   (['gender', 'accent', 'label'] as const).forEach((k, i) => {
     if (k === 'accent') {
-      const code = info.accent.toLowerCase();
-      const img = document.createElement('img');
-      img.src = `https://flagcdn.com/20x15/${code}.png`;
-      img.alt = info.accent;
-      img.width = 20; img.height = 15;
-      img.style.cssText = 'border-radius:2px;box-shadow:0 0 0 1px var(--border);vertical-align:middle;';
-      img.onerror = () => { img.replaceWith(document.createTextNode(info.accent)); };
-      top.appendChild(img);
+      const url = flagUrl(info.accent);
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = info.accent;
+        img.width = 16; img.height = 16;
+        img.style.cssText = 'border-radius:50%;box-shadow:0 0 0 1px var(--border);vertical-align:middle;';
+        top.appendChild(img);
+      } else {
+        top.appendChild(document.createTextNode(info.accent));
+      }
       return;
     }
     const s = document.createElement('span');
