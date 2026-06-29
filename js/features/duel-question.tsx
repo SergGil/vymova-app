@@ -7,10 +7,13 @@ import type { ReactElement } from 'react';
 import { useEffect, useRef } from 'react';
 import { t } from './i18n.ts';
 import { _getQuestionData, _onOptionClick, _onInputChange, _submitWrite, _useHint, _onNextClick } from './duel.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { notifyStateChange } from '../../src/store.ts';
+import { useDuelQuestion } from '../../src/duel-question-store.ts';
+import { useDuelRoomState } from '../../src/duel-room-store.ts';
 
 export function DuelQuestion(): ReactElement {
-  useStateVersion();
+  useDuelQuestion();
+  useDuelRoomState();
   const d = _getQuestionData();
   const inputRef = useRef<HTMLInputElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);

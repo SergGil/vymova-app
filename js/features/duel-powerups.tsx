@@ -5,10 +5,11 @@
 import type { ReactElement } from 'react';
 import { _getPowerupsData, _onPowerupClick, POWERUPS, type PowerupType } from './duel.ts';
 import { t } from './i18n.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { notifyStateChange } from '../../src/store.ts';
+import { useDuelRoomState } from '../../src/duel-room-store.ts';
 
 export function DuelPowerups(): ReactElement | null {
-  useStateVersion();
+  useDuelRoomState();
   const d = _getPowerupsData();
   if (!d.enabled) return null;
   return (

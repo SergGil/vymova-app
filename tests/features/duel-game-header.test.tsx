@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { DuelGameHeader } from '../../js/features/duel-game-header.tsx';
+import { setDuelRoom } from '../../src/duel-room-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -116,7 +116,7 @@ describe('duel-game-header.tsx DuelGameHeader', () => {
       bestOf: 1, seriesMe: 0, seriesOpp: 0,
       roomCode: null,
     });
-    act(() => { notifyStateChange(); });
+    act(() => { notifyStateChange(); setDuelRoom({}); });
     expect(container.textContent).toContain('Foxy');
   });
 });

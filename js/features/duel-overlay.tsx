@@ -6,7 +6,7 @@
 import type { ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { _getDuelScreen } from './duel.ts';
-import { useStateVersion } from '../../src/store.ts';
+import { useDuelRoomState } from '../../src/duel-room-store.ts';
 import { DuelLobby } from './duel-lobby.tsx';
 import { DuelCountdown } from './duel-countdown.tsx';
 import { DuelGameHeader } from './duel-game-header.tsx';
@@ -21,7 +21,7 @@ import { DuelSpectatorView } from './duel-spectator.tsx';
 import { DuelTournament } from './duel-tournament.tsx';
 
 export function DuelOverlay(): ReactElement {
-  useStateVersion();
+  useDuelRoomState();
   const screen = _getDuelScreen();
 
   return (

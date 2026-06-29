@@ -3,6 +3,7 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { DuelResume, refreshDuelResume } from '../../js/features/duel-resume.tsx';
 import type { ResumeSessionVM } from '../../js/features/duel.ts';
+import { setDuelResumeSessions } from '../../src/duel-async-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -84,7 +85,7 @@ describe('duel-resume.tsx DuelResume', () => {
     expect(container.innerHTML).toBe('');
 
     getResumeSessions.mockReturnValue([makeSession()]);
-    act(() => { refreshDuelResume(); });
+    act(() => { refreshDuelResume(); setDuelResumeSessions([makeSession()]); });
     expect(container.textContent).toContain('🔄 Незавершена дуель');
   });
 });

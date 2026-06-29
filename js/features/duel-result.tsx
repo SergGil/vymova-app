@@ -4,7 +4,7 @@
 import type { ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { _getResultData, _onResultRematch, _onResultNewDuel, _onResultReaction, REACTIONS } from './duel.ts';
-import { useStateVersion } from '../../src/store.ts';
+import { useDuelResult } from '../../src/duel-async-store.ts';
 
 const btnRowStyle = { display: 'flex', gap: 8, justifyContent: 'center', marginTop: 16, flexWrap: 'wrap' as const };
 const rematchBtnStyle = { padding: '12px 24px', borderRadius: 12, border: '1.5px solid var(--accent)', background: 'none', color: 'var(--accent)', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', fontSize: '.88rem' };
@@ -13,7 +13,7 @@ const againBtnStyle = { padding: '12px 24px', borderRadius: 12, border: 'none', 
 const OUTCOME_EMOJI: Record<string, string> = { win: '🏆', tie: '🤝', loss: '😔' };
 
 export function DuelResult(): ReactElement | null {
-  useStateVersion();
+  useDuelResult();
   const d = _getResultData();
   if (!d) return null;
 

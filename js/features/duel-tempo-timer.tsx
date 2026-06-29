@@ -6,10 +6,10 @@ import type { ReactElement } from 'react';
 import { useEffect, useRef } from 'react';
 import { t } from './i18n.ts';
 import { _getTempoData, TEMPO_SEC } from './duel.ts';
-import { useStateVersion } from '../../src/store.ts';
+import { useDuelRoomState } from '../../src/duel-room-store.ts';
 
 export function DuelTempoTimer(): ReactElement | null {
-  useStateVersion();
+  useDuelRoomState();
   const d = _getTempoData();
   const barRef = useRef<HTMLDivElement>(null);
 

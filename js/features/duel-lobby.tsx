@@ -5,7 +5,7 @@
 // Читає _getLobbyUIData(); duel.ts викликає notifyStateChange().
 import { useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
-import { useStateVersion } from '../../src/store.ts';
+import { useDuelLobby } from '../../src/duel-lobby-store.ts';
 import { DuelLeaderboard, DuelRating } from './duel-leaderboard.tsx';
 import { DuelHistory } from './duel-history.tsx';
 import { DuelModePicker, DuelCategoryPicker, DuelOptionsRow, DuelLangPicker, DuelKnowLangPicker } from './duel-lobby-options.tsx';
@@ -23,7 +23,7 @@ function _formatJoinCode(raw: string): string {
 }
 
 export function DuelLobby(): ReactElement {
-  useStateVersion();
+  useDuelLobby();
   const d = _getLobbyUIData();
   const [joinCode, setJoinCode] = useState('');
 

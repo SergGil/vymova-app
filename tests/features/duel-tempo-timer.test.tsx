@@ -1,13 +1,14 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { DuelTempoTimer } from '../../js/features/duel-tempo-timer.tsx';
 import { TEMPO_SEC } from '../../js/features/duel.ts';
+import { setDuelRoom } from '../../src/duel-room-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
+let tempo: { visible: boolean; num: number } = { visible: false, num: 4 };
 const { getTempoData } = vi.hoisted(() => ({
   getTempoData: vi.fn(() => ({ visible: false, num: 4 })),
 }));
@@ -29,9 +30,9 @@ describe('duel-tempo-timer.tsx DuelTempoTimer', () => {
 
   beforeEach(() => {
     document.body.innerHTML = '';
-    state.duelTempo = { visible: false, num: TEMPO_SEC };
+    tempo = { visible: false, num: TEMPO_SEC };
     roots = [];
-    getTempoData.mockClear().mockImplementation(() => state.duelTempo);
+    getTempoData.mockClear().mockImplementation(() => tempo);
   });
 
   afterEach(() => {
@@ -45,7 +46,7 @@ describe('duel-tempo-timer.tsx DuelTempoTimer', () => {
   });
 
   it('renders the timer number when visible', () => {
-    state.duelTempo = { visible: true, num: 3 };
+    tempo = { visible: true, num: 3 };
     const { container, root } = mount();
     roots.push(root);
     expect(container.textContent).toContain('3');
@@ -53,7 +54,7 @@ describe('duel-tempo-timer.tsx DuelTempoTimer', () => {
   });
 
   it('resets the progress bar to full width when num equals TEMPO_SEC', () => {
-    state.duelTempo = { visible: true, num: TEMPO_SEC };
+    tempo = { visible: true, num: TEMPO_SEC };
     const { container, root } = mount();
     roots.push(root);
 
@@ -62,13 +63,13 @@ describe('duel-tempo-timer.tsx DuelTempoTimer', () => {
   });
 
   it('re-renders when state changes and notifyStateChange is called', () => {
-    state.duelTempo = { visible: false, num: 4 };
+    tempo = { visible: false, num: 4 };
     const { container, root } = mount();
     roots.push(root);
     expect(container.innerHTML).toBe('');
 
-    state.duelTempo = { visible: true, num: 2 };
-    act(() => { notifyStateChange(); });
+    tempo = { visible: true, num: 2 };
+    act(() => { notifyStateChange(); setDuelRoom({}); });
 
     expect(container.textContent).toContain('2');
   });

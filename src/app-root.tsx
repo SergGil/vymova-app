@@ -12,6 +12,10 @@ import { KnownWordsProvider } from './known-words-store.ts';
 import { SrsProvider } from './srs-store.ts';
 import { DeckFilterProvider } from './deck-filter-store.ts';
 import { DeckProvider } from './deck-store.ts';
+import { DuelLobbyProvider } from './duel-lobby-store.ts';
+import { DuelRoomProvider } from './duel-room-store.ts';
+import { DuelQuestionProvider } from './duel-question-store.ts';
+import { DuelChatProvider, DuelSpecRoomProvider, DuelTournViewProvider, DuelResultProvider, DuelResumeSessionsProvider } from './duel-async-store.ts';
 
 import { ProfileSwitcher } from '../js/features/profile-switcher.tsx';
 import { WordOfDay } from '../js/features/word-of-day.tsx';
@@ -230,9 +234,25 @@ export function mountAppRoot(): void {
           <SrsProvider>
             <DeckFilterProvider>
               <DeckProvider>
-                <NavigateBridge/>
-                <RouterSync/>
-                <AppRoot/>
+                <DuelLobbyProvider>
+                  <DuelRoomProvider>
+                    <DuelQuestionProvider>
+                      <DuelChatProvider>
+                        <DuelSpecRoomProvider>
+                          <DuelTournViewProvider>
+                            <DuelResultProvider>
+                              <DuelResumeSessionsProvider>
+                                <NavigateBridge/>
+                                <RouterSync/>
+                                <AppRoot/>
+                              </DuelResumeSessionsProvider>
+                            </DuelResultProvider>
+                          </DuelTournViewProvider>
+                        </DuelSpecRoomProvider>
+                      </DuelChatProvider>
+                    </DuelQuestionProvider>
+                  </DuelRoomProvider>
+                </DuelLobbyProvider>
               </DeckProvider>
             </DeckFilterProvider>
           </SrsProvider>

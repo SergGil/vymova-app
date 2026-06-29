@@ -5,7 +5,9 @@
 import type { ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { _getTournamentData, _getDuelScreen, _onTournStart, _onTournCancel, _onTournPlay, _onTournRejoin, type TournRoundVM } from './duel.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { notifyStateChange } from '../../src/store.ts';
+import { useDuelTournView } from '../../src/duel-async-store.ts';
+import { useDuelRoomState } from '../../src/duel-room-store.ts';
 
 function TournWaiting(): ReactElement | null {
   const d = _getTournamentData();
@@ -109,7 +111,8 @@ function TournBracket(): ReactElement | null {
 }
 
 export function DuelTournament(): ReactElement | null {
-  useStateVersion();
+  useDuelTournView();
+  useDuelRoomState();
   if (_getDuelScreen() !== 'tournament') return null;
   return (
     <>

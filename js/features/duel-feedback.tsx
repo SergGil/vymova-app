@@ -5,10 +5,11 @@
 // заморозка/очікування суперника).
 import type { ReactElement } from 'react';
 import { _getFeedbackData } from './duel.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { notifyStateChange } from '../../src/store.ts';
+import { useDuelQuestion } from '../../src/duel-question-store.ts';
 
 export function DuelFeedback(): ReactElement {
-  useStateVersion();
+  useDuelQuestion();
   const d = _getFeedbackData();
   return (
     <>

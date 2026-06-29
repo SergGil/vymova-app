@@ -96,20 +96,9 @@ export interface ModeAccEntry { ok: number; err: number; }
 export type ModeAccuracy = Record<string, ModeAccEntry | undefined>;
 
 // ── App State ─────────────────────────────────────────────────
-export interface AppState {
-  duelSel:        DuelSelState;
-  duelResumeSessions: import('../js/features/duel.ts').ResumeSessionVM[];
-  duelChatHistory: { text: string; isMe: boolean }[];
-  duelSpecRoom: import('../js/features/duel.ts').RoomData | null;
-  duelTournView: import('../js/features/duel.ts').TournamentData | null;
-  duelQuestion: DuelQuestionState;
-  duelRoom: DuelRoomState;
-  duelScreen: DuelScreen;
-  duelCountdownNum: number; // Фаза 9/1: поточне число countdown-екрану (3,2,1,0='⚡'), читає duel-countdown.tsx
-  duelResult: import('../js/features/duel.ts').DuelResultData; // Фаза 9/2: знімок result-екрану, читає duel-result.tsx
-  duelTempo: { visible: boolean; num: number }; // Фаза 9/3: tempo-таймер game-екрану, читає duel-tempo-timer.tsx
-  duelLobbyUI: DuelLobbyUIState; // Фаза 9/6: lobby UI (msg/waiting/buttons), читає duel-lobby.tsx
-}
+// Усі домени мігровано на окремі реактивні стори (SRS/game-caches,
+// картка/дека, дуель/мультиплеєр) — AppState більше не тримає полів.
+export type AppState = Record<string, never>;
 
 // Лобі-екран дуелі (Фаза 9/6) — стан повідомлення/банера очікування/кнопок,
 // що раніше були прямими DOM-маніпуляціями (#duel-msg/#duel-waiting/...).

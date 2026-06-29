@@ -15,6 +15,17 @@ import { t, getLang } from './i18n.ts';
 import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from './mode-utils.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { DICT } from '../modes/word-letters.tsx';
+import { getDuelQuestionSnapshot, setDuelQuestionFields, setDuelChosenOption,
+         setDuelHintNote, setDuelWriteInput, setDuelShowNextBtn } from '../../src/duel-question-store.ts';
+import { getDuelSelSnapshot, getDuelLobbyUISnapshot, setSelField, setLobbyMsg,
+         setLobbyWaiting, setLobbyJoinRowVisible, setLobbyBtn, setLobbyTournBtn,
+         resetLobbyUI } from '../../src/duel-lobby-store.ts';
+import { getDuelScreenSnapshot, setDuelScreen, setDuelCountdownNum,
+         getDuelCountdownNumSnapshot, getDuelRoomSnapshot, setDuelRoom,
+         getDuelTempoSnapshot, setDuelTempo } from '../../src/duel-room-store.ts';
+import { setDuelChat, getDuelChatSnapshot, appendDuelChat, setDuelResult, getDuelResultSnapshot,
+         setDuelSpecRoom, getDuelSpecRoomSnapshot, setDuelTournView, getDuelTournViewSnapshot,
+         setDuelResumeSessions, getDuelResumeSessionsSnapshot } from '../../src/duel-async-store.ts';
 
 // Динамічний імпорт: sidebar.tsx має DOM-side-effects на рівні модуля,
 // а sidebar.tsx сам статично імпортує цей файл (renderDuel) — статичний
@@ -185,20 +196,20 @@ let _tempoLeft = TEMPO_SEC;
 // Spectator
 let _isSpectator = false;
 let _specId = '';
-export function _getSpecRoom(): RoomData|null { return state.duelSpecRoom; }
+export function _getSpecRoom(): RoomData|null { return getDuelSpecRoomSnapshot(); }
 // Async challenge (24h)
 let _asyncStartTimer: ReturnType<typeof setTimeout> | null = null;
 // Freeze timer
 let _freezeTimer: ReturnType<typeof setTimeout> | null = null;
 // Feedback / speed indicator under the question (item 32, Фаза 5)
-export function _getFeedbackData(): { html:string; speed:string } { return { html:state.duelQuestion.feedbackHtml, speed:state.duelQuestion.speedText }; }
+export function _getFeedbackData(): { html:string; speed:string } { const q=getDuelQuestionSnapshot(); return { html:q.feedbackHtml, speed:q.speedText }; }
 // Room/deck params kept for session persistence & resume (esp. async duels,
 // whose /duel_rooms/ doc may only contain partial data pushed by _pushScore)
 
 // ── Session persistence ───────────────────────────────────────
 const SESSION_KEY = 'ew_duel_sessions';
 const SESSION_KEY_OLD = 'ew_duel_session';
-export function _getChatHistory(): {text:string;isMe:boolean}[] { return state.duelChatHistory; }
+export function _getChatHistory(): {text:string;isMe:boolean}[] { return getDuelChatSnapshot(); }
 interface DuelSession {roomId:string;slot:'p1'|'p2';mode:DuelMode;idx:number;score:number;correct?:number;wrong?:number;flags?:(boolean|'skip'|'double')[];chat?:{text:string;isMe:boolean}[];deckLen?:number;createdAt?:number;
   seed?:number;category?:string;difficulty?:Difficulty;maxHints?:number;bestOf?:BestOf;
   powerupsEnabled?:boolean;myPowerups?:Record<PowerupType,number>;oppName?:string;oppAvatar?:string;}
@@ -220,15 +231,16 @@ function _saveSessions(list: DuelSession[]): void {
   try { localStorage.setItem(SESSION_KEY, JSON.stringify(list)); } catch(e){}
 }
 function _saveSession(): void {
-  if(!state.duelRoom.roomId) return;
-  const list=_loadSessions().filter(s=>s.roomId!==state.duelRoom.roomId);
-  list.push({roomId:state.duelRoom.roomId,slot:state.duelRoom.mySlot,mode:state.duelRoom.mode,idx:state.duelRoom.quizIdx,score:state.duelRoom.myScore,correct:state.duelRoom.myCorrect,wrong:state.duelRoom.myWrong,flags:state.duelRoom.myFlags,chat:state.duelChatHistory,deckLen:state.duelRoom.quizDeck.length,createdAt:state.duelRoom.roomCreatedAt,
-    seed:state.duelRoom.roomSeed,category:state.duelRoom.roomCategory,difficulty:state.duelRoom.roomDifficulty,maxHints:state.duelRoom.roomMaxHints,bestOf:state.duelRoom.bestOf,
-    powerupsEnabled:state.duelRoom.powerupsEnabled,myPowerups:{...state.duelRoom.myPowerups},oppName:state.duelRoom.oppName,oppAvatar:state.duelRoom.oppAvatar});
+  const room=getDuelRoomSnapshot();
+  if(!room.roomId) return;
+  const list=_loadSessions().filter(s=>s.roomId!==room.roomId);
+  list.push({roomId:room.roomId,slot:room.mySlot,mode:room.mode,idx:room.quizIdx,score:room.myScore,correct:room.myCorrect,wrong:room.myWrong,flags:room.myFlags,chat:getDuelChatSnapshot(),deckLen:room.quizDeck.length,createdAt:room.roomCreatedAt,
+    seed:room.roomSeed,category:room.roomCategory,difficulty:room.roomDifficulty,maxHints:room.roomMaxHints,bestOf:room.bestOf,
+    powerupsEnabled:room.powerupsEnabled,myPowerups:{...room.myPowerups},oppName:room.oppName,oppAvatar:room.oppAvatar});
   _saveSessions(list);
 }
 function _clearSession(roomId?: string): void {
-  const id=roomId||state.duelRoom.roomId; if(!id) return;
+  const id=roomId||getDuelRoomSnapshot().roomId; if(!id) return;
   _saveSessions(_loadSessions().filter(s=>s.roomId!==id));
 }
 
@@ -314,12 +326,13 @@ export function _buildDeck(seed:number, category:string, difficulty:Difficulty, 
 
 // Append one extra word to the deck when Skip is used, so skipping doesn't shorten the round
 function _extendDeckOnSkip(): void {
-  const scramble = state.duelRoom.mode==='anagram'||state.duelRoom.mode==='letters';
+  const room=getDuelRoomSnapshot();
+  const scramble = room.mode==='anagram'||room.mode==='letters';
   const pool = scramble ? _SCRAMBLE_POOL : (W as unknown as WordEntry[]);
-  const used = new Set(state.duelRoom.quizDeck.map(w=>w[0].toLowerCase()));
+  const used = new Set(room.quizDeck.map(w=>w[0].toLowerCase()));
   const candidates = pool.filter(w=>!used.has(w[0].toLowerCase()));
   const src = candidates.length ? candidates : pool;
-  state.duelRoom.quizDeck.push(src[Math.floor(Math.random()*src.length)]);
+  setDuelRoom({ quizDeck: [...room.quizDeck, src[Math.floor(Math.random()*src.length)]] });
   notifyStateChange();
 }
 
@@ -336,24 +349,25 @@ interface GameHeaderData {
   roomCode:string|null;
 }
 export function _getGameHeaderData(): GameHeaderData {
+  const room=getDuelRoomSnapshot();
   return {
     myAvatar: _getMyAvatar(),
-    myScore: state.duelRoom.myScore,
-    myIdx: state.duelRoom.quizIdx,
-    myTotal: state.duelRoom.quizDeck.length,
-    myFlags: state.duelRoom.myFlags,
-    oppAvatar: state.duelRoom.oppAvatar||'🧑',
-    oppName: state.duelRoom.oppName||t('duel.opp'),
-    oppScore: state.duelRoom.oppScore,
-    oppIdx: state.duelRoom.oppIdx,
-    oppFlags: state.duelRoom.oppFlags,
+    myScore: room.myScore,
+    myIdx: room.quizIdx,
+    myTotal: room.quizDeck.length,
+    myFlags: room.myFlags,
+    oppAvatar: room.oppAvatar||'🧑',
+    oppName: room.oppName||t('duel.opp'),
+    oppScore: room.oppScore,
+    oppIdx: room.oppIdx,
+    oppFlags: room.oppFlags,
     oppTotal: ROOM_SIZE,
-    mode: state.duelRoom.mode,
-    progressText: `${state.duelRoom.quizIdx+1} / ${state.duelRoom.quizDeck.length}`,
-    bestOf: state.duelRoom.bestOf,
-    seriesMe: state.duelRoom.mySlot==='p1'?state.duelRoom.series.p1wins:state.duelRoom.series.p2wins,
-    seriesOpp: state.duelRoom.mySlot==='p1'?state.duelRoom.series.p2wins:state.duelRoom.series.p1wins,
-    roomCode: (state.duelRoom.roomId && state.duelRoom.mySlot==='p1') ? state.duelRoom.roomId : null,
+    mode: room.mode,
+    progressText: `${room.quizIdx+1} / ${room.quizDeck.length}`,
+    bestOf: room.bestOf,
+    seriesMe: room.mySlot==='p1'?room.series.p1wins:room.series.p2wins,
+    seriesOpp: room.mySlot==='p1'?room.series.p2wins:room.series.p1wins,
+    roomCode: (room.roomId && room.mySlot==='p1') ? room.roomId : null,
   };
 }
 
@@ -361,56 +375,50 @@ export function _getGameHeaderData(): GameHeaderData {
 // `_showLobby`/`_showCountdown`/`_showGame`/`_showResult`/`_showTournament`/
 // spectator-view.
 export function _getDuelScreen(): DuelScreen {
-  return state.duelScreen;
+  return getDuelScreenSnapshot();
 }
 
 // ── UI refs ───────────────────────────────────────────────────
 function _showLobby()    {
   // Always reset waiting state so the create button is never stuck
-  state.duelLobbyUI.waiting.visible=false;
-  state.duelLobbyUI.joinRowVisible=true;
-  state.duelLobbyUI.createBtn.disabled=false;
-  state.duelLobbyUI.joinBtn.disabled=false;
-  state.duelLobbyUI.asyncBtn.disabled=false;
-  state.duelLobbyUI.tournBtn4={disabled:false,errorLabel:null};
-  state.duelLobbyUI.tournBtn8={disabled:false,errorLabel:null};
-  state.duelScreen='lobby'; notifyStateChange();
+  resetLobbyUI();
+  setDuelScreen('lobby'); notifyStateChange();
 }
-function _showCountdown(){ state.duelScreen='countdown'; notifyStateChange(); }
-function _showGame(clearChat=true) { state.duelScreen='game'; if(clearChat){ state.duelChatHistory=[]; refreshDuelChatLog(); _lastReactionTs=0; } notifyStateChange(); }
+function _showCountdown(){ setDuelScreen('countdown'); notifyStateChange(); }
+function _showGame(clearChat=true) { setDuelScreen('game'); if(clearChat){ setDuelChat([]); refreshDuelChatLog(); _lastReactionTs=0; } notifyStateChange(); }
 // Keep the chat panel visible/usable on the finish screen so players can keep chatting.
-function _showResult()   { state.duelScreen='result'; notifyStateChange(); }
+function _showResult()   { setDuelScreen('result'); notifyStateChange(); }
 
 // ── Lobby pickers ─────────────────────────────────────────────
-// Geттери/сеттери для React-пікерів (item 29, Фаза 5) — createRoom/joinRoom/
-// тощо й далі читають ці значення напряму через `state.duelSel` (item 36,
-// Фаза 7.4-B/1), React-компоненти синхронізують свій локальний useState
-// через ці функції.
-export function _getSelMode(): DuelMode { return state.duelSel.mode; }
-export function _setSelMode(m: DuelMode): void { state.duelSel.mode = m; notifyStateChange(); }
-export function _getSelCategory(): string { return state.duelSel.category; }
-export function _setSelCategory(c: string): void { state.duelSel.category = c; notifyStateChange(); }
-export function _getSelDifficulty(): Difficulty { return state.duelSel.difficulty; }
-export function _setSelDifficulty(d: Difficulty): void { state.duelSel.difficulty = d; notifyStateChange(); }
-export function _getSelBestOf(): BestOf { return state.duelSel.bestOf; }
-export function _setSelBestOf(b: BestOf): void { state.duelSel.bestOf = b; notifyStateChange(); }
-export function _getSelMaxHints(): number { return state.duelSel.maxHints; }
-export function _setSelMaxHints(h: number): void { state.duelSel.maxHints = h; notifyStateChange(); }
-export function _getSelPowerups(): boolean { return state.duelSel.powerupsEnabled; }
-export function _setSelPowerups(p: boolean): void { state.duelSel.powerupsEnabled = p; notifyStateChange(); }
-export function _getSelLang(): string { return state.duelSel.lang; }
+// Геттери/сеттери для React-пікерів (item 29, Фаза 5) — createRoom/joinRoom/
+// тощо й далі читають ці значення напряму через `getDuelSelSnapshot()`
+// (item 36, Фаза 7.4-B/1), React-компоненти синхронізують свій локальний
+// useState через ці функції.
+export function _getSelMode(): DuelMode { return getDuelSelSnapshot().mode; }
+export function _setSelMode(m: DuelMode): void { setSelField('mode', m); notifyStateChange(); }
+export function _getSelCategory(): string { return getDuelSelSnapshot().category; }
+export function _setSelCategory(c: string): void { setSelField('category', c); notifyStateChange(); }
+export function _getSelDifficulty(): Difficulty { return getDuelSelSnapshot().difficulty; }
+export function _setSelDifficulty(d: Difficulty): void { setSelField('difficulty', d); notifyStateChange(); }
+export function _getSelBestOf(): BestOf { return getDuelSelSnapshot().bestOf; }
+export function _setSelBestOf(b: BestOf): void { setSelField('bestOf', b); notifyStateChange(); }
+export function _getSelMaxHints(): number { return getDuelSelSnapshot().maxHints; }
+export function _setSelMaxHints(h: number): void { setSelField('maxHints', h); notifyStateChange(); }
+export function _getSelPowerups(): boolean { return getDuelSelSnapshot().powerupsEnabled; }
+export function _setSelPowerups(p: boolean): void { setSelField('powerupsEnabled', p); notifyStateChange(); }
+export function _getSelLang(): string { return getDuelSelSnapshot().lang; }
 export function _setSelLang(l: string): void {
-  state.duelSel.lang = l;
-  if (state.duelSel.knowLang === l) {
-    state.duelSel.knowLang = DUEL_LANG_CODES.find(x => x !== l) ?? 'ua';
+  setSelField('lang', l);
+  if (getDuelSelSnapshot().knowLang === l) {
+    setSelField('knowLang', DUEL_LANG_CODES.find(x => x !== l) ?? 'ua');
   }
   notifyStateChange();
 }
-export function _getSelKnowLang(): string { return state.duelSel.knowLang; }
+export function _getSelKnowLang(): string { return getDuelSelSnapshot().knowLang; }
 export function _setSelKnowLang(l: string): void {
-  state.duelSel.knowLang = l;
-  if (state.duelSel.lang === l) {
-    state.duelSel.lang = DUEL_LANG_CODES.find(x => x !== l) ?? 'en';
+  setSelField('knowLang', l);
+  if (getDuelSelSnapshot().lang === l) {
+    setSelField('lang', DUEL_LANG_CODES.find(x => x !== l) ?? 'en');
   }
   notifyStateChange();
 }
@@ -475,99 +483,105 @@ interface CountdownData {
   roomCode:string|null; num:number;
 }
 export function _getCountdownData(): CountdownData {
+  const room=getDuelRoomSnapshot();
   return {
-    oppAvatar: state.duelRoom.oppAvatar,
-    oppName:   state.duelRoom.oppName,
+    oppAvatar: room.oppAvatar,
+    oppName:   room.oppName,
     myAvatar:  _getMyAvatar(),
     myName:    _getMyName(),
     // Show room code so p1 still has time to share it during countdown
-    roomCode:  (state.duelRoom.roomId && state.duelRoom.mySlot === 'p1') ? state.duelRoom.roomId : null,
-    num:       state.duelCountdownNum,
+    roomCode:  (room.roomId && room.mySlot === 'p1') ? room.roomId : null,
+    num:       getDuelCountdownNumSnapshot(),
   };
 }
 
 export function _getTempoData(): { visible: boolean; num: number } {
-  return state.duelTempo;
+  return getDuelTempoSnapshot();
 }
 
 // Знімок lobby UI (Фаза 9/6), читає duel-lobby.tsx.
 export function _getLobbyUIData(): DuelLobbyUIState {
-  return state.duelLobbyUI;
+  return getDuelLobbyUISnapshot();
 }
 
 function _runCountdown(cb: ()=>void): void {
   _showCountdown();
-  state.duelCountdownNum = 3;
+  setDuelCountdownNum(3);
   notifyStateChange();
   const _timer = setInterval(()=>{
-    state.duelCountdownNum--;
+    setDuelCountdownNum(getDuelCountdownNumSnapshot()-1);
     notifyStateChange();
-    if (state.duelCountdownNum < 0) { clearInterval(_timer); cb(); }
+    if (getDuelCountdownNumSnapshot() < 0) { clearInterval(_timer); cb(); }
   }, 1000);
 }
 
 // ── Create / Join ─────────────────────────────────────────────
 export async function createRoom(): Promise<void> {
-  state.duelLobbyUI.createBtn.disabled=true; notifyStateChange();
+  setLobbyBtn('createBtn', true); notifyStateChange();
   try {
-    state.duelRoom.roomId=_genCode(); state.duelRoom.mySlot='p1'; state.duelRoom.isAsyncChallenge=false;
+    const sel=getDuelSelSnapshot();
+    const roomId=_genCode();
+    setDuelRoom({ roomId, mySlot:'p1', isAsyncChallenge:false });
     const seed=Date.now();
     const room: RoomData = {
-      seed, mode:state.duelSel.mode, category:state.duelSel.category, difficulty:state.duelSel.difficulty,
-      bestOf:state.duelSel.bestOf, maxHints:state.duelSel.maxHints, powerupsEnabled:state.duelSel.powerupsEnabled,
-      lang:state.duelSel.lang, knowLang:state.duelSel.knowLang,
+      seed, mode:sel.mode, category:sel.category, difficulty:sel.difficulty,
+      bestOf:sel.bestOf, maxHints:sel.maxHints, powerupsEnabled:sel.powerupsEnabled,
+      lang:sel.lang, knowLang:sel.knowLang,
       createdAt:Date.now(), started:false, finished:false,
       series:{p1wins:0,p2wins:0,round:1},
-      p1:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:state.duelSel.maxHints,powerups:{double:state.duelSel.powerupsEnabled?1:0,skip:state.duelSel.powerupsEnabled?1:0,freeze:state.duelSel.powerupsEnabled?1:0}},
+      p1:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:sel.maxHints,powerups:{double:sel.powerupsEnabled?1:0,skip:sel.powerupsEnabled?1:0,freeze:sel.powerupsEnabled?1:0}},
       p2:null,
     };
-    await _fbSet(`/duel_rooms/${state.duelRoom.roomId}`,room);
-    state.duelRoom.roomCreatedAt=room.createdAt;
-    state.duelRoom.roomSeed=seed; state.duelRoom.roomCategory=state.duelSel.category; state.duelRoom.roomDifficulty=state.duelSel.difficulty; state.duelRoom.roomMaxHints=state.duelSel.maxHints;
-    state.duelRoom.roomLang=state.duelSel.lang; state.duelRoom.roomKnowLang=state.duelSel.knowLang;
-    state.duelRoom.quizDeck=_buildDeck(seed,state.duelSel.category,state.duelSel.difficulty,state.duelSel.mode,state.duelSel.lang,state.duelSel.knowLang);
+    await _fbSet(`/duel_rooms/${roomId}`,room);
+    setDuelRoom({
+      roomCreatedAt:room.createdAt, roomSeed:seed, roomCategory:sel.category, roomDifficulty:sel.difficulty,
+      roomMaxHints:sel.maxHints, roomLang:sel.lang, roomKnowLang:sel.knowLang,
+      quizDeck:_buildDeck(seed,sel.category,sel.difficulty,sel.mode,sel.lang,sel.knowLang),
+    });
     notifyStateChange();
-    const mInfo=DUEL_MODES.find(m=>m.id===state.duelSel.mode)!;
-    const catLabel=state.duelSel.category?` · ${state.duelSel.category.split(' ')[0]}`:'';
-    const diff=DIFFICULTIES.find(d=>d.id===state.duelSel.difficulty); const diffLabel=diff?(diff.id==='mixed'?t('duel.diff.mixed'):diff.label):'';
-    const modeLabel=`${mInfo.icon} ${t('duel.mode.'+mInfo.id)}${catLabel} · ${diffLabel}${state.duelSel.bestOf===3?' · '+t('duel.bestOf3'):''}`;
-    state.duelLobbyUI.msg.visible=false; state.duelLobbyUI.msg.challenge=null;
-    state.duelLobbyUI.waiting={visible:true,roomCode:_fmtCode(state.duelRoom.roomId),modeLabel};
-    state.duelLobbyUI.joinRowVisible=false;
+    const mInfo=DUEL_MODES.find(m=>m.id===sel.mode)!;
+    const catLabel=sel.category?` · ${sel.category.split(' ')[0]}`:'';
+    const diff=DIFFICULTIES.find(d=>d.id===sel.difficulty); const diffLabel=diff?(diff.id==='mixed'?t('duel.diff.mixed'):diff.label):'';
+    const modeLabel=`${mInfo.icon} ${t('duel.mode.'+mInfo.id)}${catLabel} · ${diffLabel}${sel.bestOf===3?' · '+t('duel.bestOf3'):''}`;
+    setLobbyMsg({ visible:false, text:getDuelLobbyUISnapshot().msg.text, challenge:null });
+    setLobbyWaiting({visible:true,roomCode:_fmtCode(roomId),modeLabel});
+    setLobbyJoinRowVisible(false);
     notifyStateChange();
     _startWaitPoll();
   } catch(e){
-    state.duelLobbyUI.createBtn.disabled=false;
-    state.duelLobbyUI.msg={visible:true,text:'❌ '+(e as Error).message,challenge:null};
+    setLobbyBtn('createBtn', false);
+    setLobbyMsg({visible:true,text:'❌ '+(e as Error).message,challenge:null});
     notifyStateChange();
   }
 }
 
 export async function joinRoom(rawCode: string): Promise<void> {
   const code=rawCode.replace(/[^A-Z0-9]/gi,'').toUpperCase();
-  if(code.length<6){state.duelLobbyUI.msg={visible:true,text:t('duel.enterCode'),challenge:null};notifyStateChange();return;}
-  state.duelLobbyUI.joinBtn.disabled=true; notifyStateChange();
+  if(code.length<6){setLobbyMsg({visible:true,text:t('duel.enterCode'),challenge:null});notifyStateChange();return;}
+  setLobbyBtn('joinBtn', true); notifyStateChange();
   try {
     const room=await _fbGet(`/duel_rooms/${code}`) as RoomData|null;
     if(!room?.seed) throw new Error(t('duel.err.notFound'));
     if(room.p2)      throw new Error(t('duel.err.taken'));
     if(room.finished) throw new Error(t('duel.err.finished'));
-    state.duelRoom.roomId=code; state.duelRoom.mySlot='p2'; state.duelRoom.isAsyncChallenge=false;
-    state.duelRoom.roomCreatedAt=room.createdAt||Date.now();
-    state.duelRoom.roomSeed=room.seed; state.duelRoom.roomCategory=room.category; state.duelRoom.roomDifficulty=room.difficulty; state.duelRoom.roomMaxHints=room.maxHints;
-    state.duelRoom.roomLang=room.lang||'ua'; state.duelRoom.roomKnowLang=room.knowLang||'en';
-    state.duelRoom.quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode,room.lang,room.knowLang);
-    state.duelRoom.bestOf=room.bestOf||1; state.duelRoom.series={...room.series};
-    await _fbPatch(`/duel_rooms/${state.duelRoom.roomId}`,{
+    setDuelRoom({
+      roomId:code, mySlot:'p2', isAsyncChallenge:false,
+      roomCreatedAt:room.createdAt||Date.now(),
+      roomSeed:room.seed, roomCategory:room.category, roomDifficulty:room.difficulty, roomMaxHints:room.maxHints,
+      roomLang:room.lang||'ua', roomKnowLang:room.knowLang||'en',
+      quizDeck:_buildDeck(room.seed,room.category,room.difficulty,room.mode,room.lang,room.knowLang),
+      bestOf:room.bestOf||1, series:{...room.series},
+    });
+    await _fbPatch(`/duel_rooms/${code}`,{
       p2:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:room.maxHints,powerups:{double:room.powerupsEnabled?1:0,skip:room.powerupsEnabled?1:0,freeze:room.powerupsEnabled?1:0}},
       started:true,
     });
-    state.duelRoom.oppName=room.p1.name; state.duelRoom.oppAvatar=room.p1.avatar;
+    setDuelRoom({ oppName:room.p1.name, oppAvatar:room.p1.avatar });
     notifyStateChange();
     _initGame(room.mode,room.maxHints,room.bestOf,room.series,room.powerupsEnabled);
   } catch(e){
-    state.duelLobbyUI.joinBtn.disabled=false;
-    state.duelLobbyUI.msg={visible:true,text:'❌ '+(e as Error).message,challenge:null};
+    setLobbyBtn('joinBtn', false);
+    setLobbyMsg({visible:true,text:'❌ '+(e as Error).message,challenge:null});
     notifyStateChange();
   }
 }
@@ -575,11 +589,11 @@ export async function joinRoom(rawCode: string): Promise<void> {
 function _startWaitPoll(): void {
   _pollTimer=setInterval(async()=>{
     try {
-      const room=await _fbGet(`/duel_rooms/${state.duelRoom.roomId}`) as RoomData|null;
+      const room=await _fbGet(`/duel_rooms/${getDuelRoomSnapshot().roomId}`) as RoomData|null;
       if(!room) return;
       if(room.started&&room.p2){
         clearInterval(_pollTimer!); _pollTimer=null;
-        state.duelRoom.oppName=room.p2.name; state.duelRoom.oppAvatar=room.p2.avatar;
+        setDuelRoom({ oppName:room.p2.name, oppAvatar:room.p2.avatar });
         notifyStateChange();
         _initGame(room.mode,room.maxHints,room.bestOf,room.series,room.powerupsEnabled);
       }
@@ -588,13 +602,16 @@ function _startWaitPoll(): void {
 }
 
 function _initGame(mode:DuelMode,maxHints:number,bestOf:BestOf,series:SeriesData,powerupsEnabled=false): void {
-  state.duelRoom.mode=mode; state.duelRoom.bestOf=bestOf; state.duelRoom.series={...series};
   if(_advanceTimer){clearTimeout(_advanceTimer);_advanceTimer=null;}
-  state.duelRoom.quizIdx=0; state.duelRoom.myScore=0; state.duelRoom.myCorrect=0; state.duelRoom.myWrong=0; state.duelRoom.myFlags=[]; state.duelChatHistory=[]; state.duelRoom.answered=false; state.duelRoom.finished=false; state.duelRoom.myDone=false;
-  state.duelRoom.hintsLeft = maxHints === 0 ? 999 : maxHints;
-  state.duelRoom.powerupsEnabled = powerupsEnabled;
-  state.duelRoom.myPowerups = powerupsEnabled ? {double:1,skip:1,freeze:1} : {double:0,skip:0,freeze:0};
-  state.duelRoom.doubleActive = false;
+  setDuelRoom({
+    mode, bestOf, series:{...series},
+    quizIdx:0, myScore:0, myCorrect:0, myWrong:0, myFlags:[], answered:false, finished:false, myDone:false,
+    hintsLeft: maxHints === 0 ? 999 : maxHints,
+    powerupsEnabled,
+    myPowerups: powerupsEnabled ? {double:1,skip:1,freeze:1} : {double:0,skip:0,freeze:0},
+    doubleActive: false,
+  });
+  setDuelChat([]);
   notifyStateChange();
   _runCountdown(()=>_startGameUI());
 }
@@ -604,14 +621,14 @@ function _setupGameUI(): void {
   if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
   refreshDuelGameHeader();
-  state.duelTempo.visible=state.duelRoom.mode==='tempo';
+  setDuelTempo({ ...getDuelTempoSnapshot(), visible:getDuelRoomSnapshot().mode==='tempo' });
   notifyStateChange();
   // Power-ups
   _renderPowerups();
 }
 
 function _startGameUI(): void {
-  state.duelRoom.oppScore=0; state.duelRoom.oppIdx=0; state.duelRoom.oppFlags=[];
+  setDuelRoom({ oppScore:0, oppIdx:0, oppFlags:[] });
   notifyStateChange();
   _setupGameUI();
   _showGame();
@@ -624,13 +641,14 @@ interface PowerupsData {
   enabled:boolean; mode:DuelMode; myPowerups:Record<PowerupType,number>; answered:boolean;
 }
 export function _getPowerupsData(): PowerupsData {
-  return { enabled:state.duelRoom.powerupsEnabled, mode:state.duelRoom.mode, myPowerups:{...state.duelRoom.myPowerups}, answered:state.duelRoom.answered };
+  const room=getDuelRoomSnapshot();
+  return { enabled:room.powerupsEnabled, mode:room.mode, myPowerups:{...room.myPowerups}, answered:room.answered };
 }
 
 // Клік по паверапу з duel-powerups.tsx — той самий guard, що раніше був
 // у addEventListener (запобігає freeze поза tempo-режимом).
 export function _onPowerupClick(type:PowerupType): void {
-  if(type==='freeze' && state.duelRoom.mode!=='tempo'){
+  if(type==='freeze' && getDuelRoomSnapshot().mode!=='tempo'){
     _showMiniToast(t('duel.pu.freeze.unavail'));
     return;
   }
@@ -642,37 +660,41 @@ function _renderPowerups(): void {
 }
 
 async function _usePowerup(type: PowerupType): Promise<void> {
-  if(state.duelRoom.myPowerups[type]<=0 || state.duelRoom.answered) return;
-  state.duelRoom.myPowerups[type]--;
+  let room=getDuelRoomSnapshot();
+  if(room.myPowerups[type]<=0 || room.answered) return;
+  setDuelRoom({ myPowerups: { ...room.myPowerups, [type]: room.myPowerups[type]-1 } });
   notifyStateChange();
   _renderPowerups();
-  const w = state.duelRoom.quizDeck[state.duelRoom.quizIdx];
+  room=getDuelRoomSnapshot();
+  const w = room.quizDeck[room.quizIdx];
   if(type==='double'){
-    state.duelRoom.doubleActive = true;
+    setDuelRoom({ doubleActive: true });
     notifyStateChange();
     _showMiniToast(t('duel.toast.double'));
   } else if(type==='skip'){
     // Skip current question without penalty
-    state.duelRoom.answered = true;
+    setDuelRoom({ answered: true });
     if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
-    state.duelQuestion.feedbackHtml=`<span style="color:var(--accent)">${t('duel.toast.skip')}</span>`;
+    setDuelQuestionFields({ feedbackHtml: `<span style="color:var(--accent)">${t('duel.toast.skip')}</span>` });
     notifyStateChange();
     refreshDuelFeedback();
     _extendDeckOnSkip();
-    state.duelRoom.myFlags.push('skip');
-    state.duelRoom.quizIdx++;
+    room=getDuelRoomSnapshot();
+    setDuelRoom({ myFlags: [...room.myFlags, 'skip'], quizIdx: room.quizIdx+1 });
     notifyStateChange();
     _renderMyProgressBar();
     await _pushScore();
     if(_advanceTimer) clearTimeout(_advanceTimer);
-    _advanceTimer=setTimeout(()=>{ _advanceTimer=null; if(state.duelRoom.quizIdx<state.duelRoom.quizDeck.length) _renderQuestion(); else _finishMyGame(); }, 700);
+    _advanceTimer=setTimeout(()=>{ _advanceTimer=null; const r=getDuelRoomSnapshot(); if(r.quizIdx<r.quizDeck.length) _renderQuestion(); else _finishMyGame(); }, 700);
   } else if(type==='freeze'){
     // Send freeze signal to opponent via Firebase
-    try{ await _fbPatch(`/duel_rooms/${state.duelRoom.roomId}`,{[`${state.duelRoom.mySlot==='p1'?'p2':'p1'}_freeze`]:Date.now()+5000}); }catch(e){}
+    const r=getDuelRoomSnapshot();
+    try{ await _fbPatch(`/duel_rooms/${r.roomId}`,{[`${r.mySlot==='p1'?'p2':'p1'}_freeze`]:Date.now()+5000}); }catch(e){}
     _showMiniToast(t('duel.toast.freeze'));
   }
   // Persist powerup state
-  try{ await _fbPatch(`/duel_rooms/${state.duelRoom.roomId}/${state.duelRoom.mySlot}`,{powerups:state.duelRoom.myPowerups}); }catch(e){}
+  const r2=getDuelRoomSnapshot();
+  try{ await _fbPatch(`/duel_rooms/${r2.roomId}/${r2.mySlot}`,{powerups:r2.myPowerups}); }catch(e){}
 }
 
 function _showMiniToast(msg:string): void {
@@ -686,7 +708,7 @@ function _showMiniToast(msg:string): void {
 // ── Animated dot progress bar (mine + opponent's) — rendered by
 // duel-game-header.tsx via refreshDuelGameHeader() ────────────────
 function _renderOppProgressBar(idx:number, flags?:(boolean|'skip'|'double')[]): void {
-  state.duelRoom.oppIdx=idx; state.duelRoom.oppFlags=flags||[];
+  setDuelRoom({ oppIdx:idx, oppFlags:flags||[] });
   notifyStateChange();
   refreshDuelGameHeader();
 }
@@ -695,33 +717,36 @@ function _renderMyProgressBar(): void { refreshDuelGameHeader(); }
 function _startOpponentPoll(): void {
   _pollTimer=setInterval(async()=>{
     try {
-      const room=await _fbGet(`/duel_rooms/${state.duelRoom.roomId}`) as (RoomData & Record<string,unknown>)|null;
+      const room0=getDuelRoomSnapshot();
+      const room=await _fbGet(`/duel_rooms/${room0.roomId}`) as (RoomData & Record<string,unknown>)|null;
       if(!room) return;
-      const opp=state.duelRoom.mySlot==='p1'?room.p2:room.p1;
+      const opp=room0.mySlot==='p1'?room.p2:room.p1;
       if(opp){
-        state.duelRoom.oppScore=opp.score;
+        setDuelRoom({ oppScore:opp.score });
         notifyStateChange();
         _renderOppProgressBar(opp.idx, opp.flags);
         if(opp.reaction) _showReactionReceived(opp.reaction,opp.reactionTs);
       }
       // Check if I'm frozen (opponent used freeze on me)
-      const myFreezeKey = `${state.duelRoom.mySlot}_freeze`;
+      const myFreezeKey = `${room0.mySlot}_freeze`;
       const freezeUntil = room[myFreezeKey] as number|undefined;
-      if(freezeUntil && freezeUntil > Date.now() && !state.duelRoom.answered && state.duelRoom.mode==='tempo'){
+      const roomNow=getDuelRoomSnapshot();
+      if(freezeUntil && freezeUntil > Date.now() && !roomNow.answered && roomNow.mode==='tempo'){
         if(!_freezeTimer){
           const remaining = Math.ceil((freezeUntil-Date.now())/1000);
-          state.duelQuestion.feedbackHtml=`<span style="color:#5dade2">${t('duel.frozen')} ${remaining}${_secUnit()}!</span>`; notifyStateChange(); refreshDuelFeedback();
+          setDuelQuestionFields({ feedbackHtml: `<span style="color:#5dade2">${t('duel.frozen')} ${remaining}${_secUnit()}!</span>` }); notifyStateChange(); refreshDuelFeedback();
           if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
           _freezeTimer=setTimeout(()=>{
-            _freezeTimer=null; state.duelQuestion.feedbackHtml=''; notifyStateChange(); refreshDuelFeedback();
-            _startTempoTimer(state.duelRoom.quizDeck[state.duelRoom.quizIdx]);
+            _freezeTimer=null; setDuelQuestionFields({ feedbackHtml: '' }); notifyStateChange(); refreshDuelFeedback();
+            const r=getDuelRoomSnapshot();
+            _startTempoTimer(r.quizDeck[r.quizIdx]);
           },freezeUntil-Date.now());
         }
       }
       if(room.finished){ clearInterval(_pollTimer!); _pollTimer=null; _showFinish(room as RoomData); }
-      else if(state.duelRoom.myDone && opp?.done){
+      else if(roomNow.myDone && opp?.done){
         // Both players finished but a race left `finished` unset — settle it here.
-        await _fbPatch(`/duel_rooms/${state.duelRoom.roomId}`,{finished:true});
+        await _fbPatch(`/duel_rooms/${roomNow.roomId}`,{finished:true});
         clearInterval(_pollTimer!); _pollTimer=null;
         _showFinish({...room,finished:true} as RoomData);
       }
@@ -732,7 +757,7 @@ function _startOpponentPoll(): void {
 // ── Reactions / chat ──────────────────────────────────────────
 let _lastReactionTs = 0;
 function _appendChatMsg(text:string, isMe:boolean, record=true): void {
-  if(record){ state.duelChatHistory.push({text,isMe}); notifyStateChange(); _saveSession(); }
+  if(record){ appendDuelChat({text,isMe}); notifyStateChange(); _saveSession(); }
   refreshDuelChatLog();
 }
 function _showReactionReceived(text:string, ts?:number): void {
@@ -750,9 +775,9 @@ function _startResultPoll(): void {
   _stopResultPoll();
   _resultPollTimer=setInterval(async()=>{
     try {
-      const room=await _fbGet(`/duel_rooms/${state.duelRoom.roomId}`) as RoomData|null;
+      const room=await _fbGet(`/duel_rooms/${getDuelRoomSnapshot().roomId}`) as RoomData|null;
       if(!room) return;
-      const opp=state.duelRoom.mySlot==='p1'?room.p2:room.p1;
+      const opp=getDuelRoomSnapshot().mySlot==='p1'?room.p2:room.p1;
       if(opp?.reaction) _showReactionReceived(opp.reaction,opp.reactionTs);
     } catch(e){}
   },1500);
@@ -761,36 +786,39 @@ function _startResultPoll(): void {
 export async function _sendChatMsg(text:string): Promise<void> {
   if(!text.trim()) return;
   const ts=Date.now();
-  try { await _fbPatch(`/duel_rooms/${state.duelRoom.roomId}/${state.duelRoom.mySlot}`,{reaction:text,reactionTs:ts}); } catch(e){}
+  const room=getDuelRoomSnapshot();
+  try { await _fbPatch(`/duel_rooms/${room.roomId}/${room.mySlot}`,{reaction:text,reactionTs:ts}); } catch(e){}
   _lastReactionTs=ts;
   _appendChatMsg(text,true);
 }
 
 // ── Questions ─────────────────────────────────────────────────
 function _renderQuestion(): void {
-  if(state.duelRoom.quizIdx>=state.duelRoom.quizDeck.length){_finishMyGame();return;}
-  const w=state.duelRoom.quizDeck[state.duelRoom.quizIdx];
-  state.duelRoom.answered=false; state.duelRoom.answerStartMs=Date.now();
-  state.duelQuestion.feedbackHtml=''; state.duelQuestion.speedText=''; notifyStateChange(); refreshDuelFeedback();
+  let room=getDuelRoomSnapshot();
+  if(room.quizIdx>=room.quizDeck.length){_finishMyGame();return;}
+  const w=room.quizDeck[room.quizIdx];
+  setDuelRoom({ answered:false, answerStartMs:Date.now() });
+  setDuelQuestionFields({ feedbackHtml: '', speedText: '' }); notifyStateChange(); refreshDuelFeedback();
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
-  state.duelQuestion.chosenOption=null; state.duelQuestion.hintNote=null; state.duelQuestion.writeInputValue=''; state.duelQuestion.inputBorderColor=''; state.duelQuestion.showNextBtn=false; state.duelQuestion.waitingFinish=false;
-  if(state.duelRoom.mode==='write') _renderWriteQ(w);
-  else if(state.duelRoom.mode==='anagram') _renderAnagramQ(w);
-  else if(state.duelRoom.mode==='letters') _renderLettersQ(w);
+  setDuelQuestionFields({ chosenOption: null, hintNote: null, writeInputValue: '', inputBorderColor: '', showNextBtn: false, waitingFinish: false });
+  if(room.mode==='write') _renderWriteQ(w);
+  else if(room.mode==='anagram') _renderAnagramQ(w);
+  else if(room.mode==='letters') _renderLettersQ(w);
   else _renderChoiceQ(w);
   _renderPowerups();
   notifyStateChange();
   refreshDuelQuestion();
-  if(state.duelRoom.mode==='tempo') _startTempoTimer(w);
+  if(room.mode==='tempo') _startTempoTimer(w);
 }
 
 function _renderChoiceQ(w:WordEntry): void {
-  const lang = state.duelRoom.roomLang || 'ua';
-  const knowLang = state.duelRoom.roomKnowLang || 'en';
-  const isRev=state.duelRoom.mode==='reverse';
+  const room=getDuelRoomSnapshot();
+  const lang = room.roomLang || 'ua';
+  const knowLang = room.roomKnowLang || 'en';
+  const isRev=room.mode==='reverse';
   const q=isRev?_wordInLang(w,lang):_wordInLang(w,knowLang);
   const ans=isRev?_wordInLang(w,knowLang):_wordInLang(w,lang);
-  state.duelQuestion.qPrimary=q; state.duelQuestion.qSecondary=''; state.duelQuestion.qTertiary='';
+  setDuelQuestionFields({ qPrimary: q, qSecondary: '', qTertiary: '' });
   const wrongs:string[]=[]; const used=new Set([w[0].toLowerCase()]);
   const pool=_shuf(W.slice() as unknown as WordEntry[]);
   for(const pw of pool){
@@ -800,45 +828,41 @@ function _renderChoiceQ(w:WordEntry): void {
     const distractor = isRev ? _wordInLang(pw,knowLang) : _wordInLang(pw, lang);
     if (distractor) wrongs.push(distractor);
   }
-  state.duelQuestion.choiceOptions=_shuf([ans,...wrongs]);
-  state.duelQuestion.choiceAnswer=ans;
+  setDuelQuestionFields({ choiceOptions: _shuf([ans,...wrongs]), choiceAnswer: ans });
 }
 
 function _renderWriteQ(w:WordEntry): void {
-  const lang = state.duelRoom.roomLang || 'ua';
-  const knowLang = state.duelRoom.roomKnowLang || 'en';
-  state.duelQuestion.qPrimary=_wordInLang(w,lang); state.duelQuestion.qSecondary=t('duel.writeHint'); state.duelQuestion.qTertiary='';
-  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer=_wordInLang(w,knowLang);
+  const room=getDuelRoomSnapshot();
+  const lang = room.roomLang || 'ua';
+  const knowLang = room.roomKnowLang || 'en';
+  setDuelQuestionFields({ qPrimary: _wordInLang(w,lang), qSecondary: t('duel.writeHint'), qTertiary: '', choiceOptions: [], choiceAnswer: _wordInLang(w,knowLang) });
 }
 
 // Anagram always scrambles the English spelling — translations can be multi-word
 // phrases or contain diacritics, which would break letter-scrambling/matching.
 function _renderAnagramQ(w:WordEntry): void {
-  const lang = state.duelRoom.roomLang || 'ua';
-  state.duelQuestion.qPrimary=_shuffleLetters(w[0]); state.duelQuestion.qSecondary=_wordInLang(w,lang); state.duelQuestion.qTertiary=t('duel.anagramHint');
-  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer=w[0];
+  const lang = getDuelRoomSnapshot().roomLang || 'ua';
+  setDuelQuestionFields({ qPrimary: _shuffleLetters(w[0]), qSecondary: _wordInLang(w,lang), qTertiary: t('duel.anagramHint'), choiceOptions: [], choiceAnswer: w[0] });
 }
 
 function _renderLettersQ(w:WordEntry): void {
-  state.duelQuestion.qPrimary=_shuffleLetters(w[0]); state.duelQuestion.qSecondary=t('duel.lettersHint'); state.duelQuestion.qTertiary='';
-  state.duelQuestion.choiceOptions=[]; state.duelQuestion.choiceAnswer=w[0];
+  setDuelQuestionFields({ qPrimary: _shuffleLetters(w[0]), qSecondary: t('duel.lettersHint'), qTertiary: '', choiceOptions: [], choiceAnswer: w[0] });
 }
 
 function _startTempoTimer(w:WordEntry): void {
   _tempoLeft=TEMPO_SEC;
-  state.duelTempo.num=TEMPO_SEC;
+  setDuelTempo({ ...getDuelTempoSnapshot(), num:TEMPO_SEC });
   notifyStateChange();
   _tempoTimer=setInterval(()=>{
     _tempoLeft--;
-    state.duelTempo.num=_tempoLeft;
+    setDuelTempo({ ...getDuelTempoSnapshot(), num:_tempoLeft });
     notifyStateChange();
     if(_tempoLeft<=0){
       clearInterval(_tempoTimer!); _tempoTimer=null;
-      if(!state.duelRoom.answered){
-        state.duelRoom.answered=true;
-        state.duelQuestion.feedbackHtml=`<span style="color:#e74c3c">${t('duel.timeout')}</span>`;
-        state.duelRoom.myWrong++; state.duelRoom.myFlags.push(false);
-        state.duelRoom.quizIdx++;
+      const room=getDuelRoomSnapshot();
+      if(!room.answered){
+        setDuelQuestionFields({ feedbackHtml: `<span style="color:#e74c3c">${t('duel.timeout')}</span>` });
+        setDuelRoom({ answered:true, myWrong:room.myWrong+1, myFlags:[...room.myFlags, false], quizIdx:room.quizIdx+1 });
         notifyStateChange();
         refreshDuelFeedback();
         _renderMyProgressBar(); _pushScore();
@@ -852,87 +876,86 @@ function _startTempoTimer(w:WordEntry): void {
 
 // ── Answers ───────────────────────────────────────────────────
 export async function _onOptionClick(chosen:string):Promise<void>{
-  if(state.duelRoom.answered) return;
-  state.duelRoom.answered=true;
-  state.duelQuestion.chosenOption=chosen;
+  let room=getDuelRoomSnapshot();
+  if(room.answered) return;
+  setDuelRoom({ answered:true });
+  setDuelChosenOption(chosen);
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
-  const ms=Date.now()-state.duelRoom.answerStartMs;
-  const correct=state.duelQuestion.choiceAnswer;
+  const ms=Date.now()-room.answerStartMs;
+  const correct=getDuelQuestionSnapshot().choiceAnswer;
   const ok=chosen===correct;
   let feedbackHtml = '';
   if(ok){
-    const wasDouble = state.duelRoom.doubleActive;
+    const wasDouble = room.doubleActive;
     const pts = wasDouble ? 2 : 1;
-    state.duelRoom.myScore += pts; state.duelRoom.myCorrect++;
-    state.duelRoom.myFlags.push(wasDouble?'double':true);
-    if(wasDouble){ state.duelRoom.doubleActive=false; feedbackHtml=`<span style="color:#f39c12">${t('duel.doublePts')}</span>`; }
+    setDuelRoom({ myScore:room.myScore+pts, myCorrect:room.myCorrect+1, myFlags:[...room.myFlags, wasDouble?'double':true], doubleActive: wasDouble?false:room.doubleActive });
+    if(wasDouble){ feedbackHtml=`<span style="color:#f39c12">${t('duel.doublePts')}</span>`; }
     else { feedbackHtml=`<span style="color:#27ae60">${t('duel.correct')}</span>`; }
   } else {
-    state.duelRoom.myWrong++;
-    state.duelRoom.myFlags.push(false);
+    setDuelRoom({ myWrong:room.myWrong+1, myFlags:[...room.myFlags, false] });
     feedbackHtml=`<span style="color:#e74c3c">✗ ${correct}</span>`;
   }
-  state.duelQuestion.feedbackHtml=feedbackHtml;
-  state.duelQuestion.speedText=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
+  setDuelQuestionFields({ feedbackHtml, speedText: ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'' });
   notifyStateChange();
   refreshDuelFeedback();
   _renderPowerups();
   refreshDuelQuestion();
-  state.duelRoom.quizIdx++; notifyStateChange();
+  room=getDuelRoomSnapshot();
+  setDuelRoom({ quizIdx:room.quizIdx+1 }); notifyStateChange();
   _renderMyProgressBar(); await _pushScore();
   if(_advanceTimer) clearTimeout(_advanceTimer);
-  _advanceTimer=setTimeout(()=>{ _advanceTimer=null; if(state.duelRoom.quizIdx<state.duelRoom.quizDeck.length)_renderQuestion();else _finishMyGame();},ok?600:1200);
+  _advanceTimer=setTimeout(()=>{ _advanceTimer=null; const r=getDuelRoomSnapshot(); if(r.quizIdx<r.quizDeck.length)_renderQuestion();else _finishMyGame();},ok?600:1200);
 }
 
-export function _onInputChange(val:string): void { state.duelQuestion.writeInputValue=val; notifyStateChange(); }
+export function _onInputChange(val:string): void { setDuelWriteInput(val); notifyStateChange(); }
 
 export function _submitWrite(): void {
-  if(state.duelRoom.answered) return;
-  const w=state.duelRoom.quizDeck[state.duelRoom.quizIdx];
-  const knowLang = state.duelRoom.roomKnowLang || 'en';
-  const val=state.duelQuestion.writeInputValue.trim().toLowerCase();
-  const isEnglishOnly = state.duelRoom.mode==='letters' || state.duelRoom.mode==='anagram';
+  let room=getDuelRoomSnapshot();
+  if(room.answered) return;
+  const w=room.quizDeck[room.quizIdx];
+  const knowLang = room.roomKnowLang || 'en';
+  const val=getDuelQuestionSnapshot().writeInputValue.trim().toLowerCase();
+  const isEnglishOnly = room.mode==='letters' || room.mode==='anagram';
   const ans=(isEnglishOnly ? w[0] : _wordInLang(w,knowLang)).toLowerCase();
-  const ok = _checkWriteAnswer(state.duelRoom.mode, val, ans);
-  const ms=Date.now()-state.duelRoom.answerStartMs;
-  state.duelRoom.answered=true;
-  state.duelQuestion.inputBorderColor=ok?'#27ae60':'#e74c3c';
+  const ok = _checkWriteAnswer(room.mode, val, ans);
+  const ms=Date.now()-room.answerStartMs;
+  setDuelRoom({ answered:true });
+  setDuelQuestionFields({ inputBorderColor: ok?'#27ae60':'#e74c3c' });
   let feedbackHtml='';
   if(ok){
-    const wasDouble=state.duelRoom.doubleActive;
-    state.duelRoom.myScore += wasDouble?2:1; state.duelRoom.myCorrect++;
-    state.duelRoom.myFlags.push(wasDouble?'double':true);
-    if(wasDouble){ state.duelRoom.doubleActive=false; feedbackHtml=`<span style="color:#f39c12">${t('duel.doublePts')}</span>`; }
+    const wasDouble=room.doubleActive;
+    setDuelRoom({ myScore:room.myScore+(wasDouble?2:1), myCorrect:room.myCorrect+1, myFlags:[...room.myFlags, wasDouble?'double':true], doubleActive: wasDouble?false:room.doubleActive });
+    if(wasDouble){ feedbackHtml=`<span style="color:#f39c12">${t('duel.doublePts')}</span>`; }
     else feedbackHtml=`<span style="color:#27ae60">${t('duel.correct')}</span>`;
   } else {
-    state.duelRoom.myWrong++;
-    state.duelRoom.myFlags.push(false);
+    setDuelRoom({ myWrong:room.myWrong+1, myFlags:[...room.myFlags, false] });
     const correctDisplay = isEnglishOnly ? w[0] : _wordInLang(w,knowLang);
     feedbackHtml=`<span style="color:#e74c3c">✗ ${correctDisplay}</span>`;
   }
-  state.duelQuestion.feedbackHtml=feedbackHtml;
-  state.duelQuestion.speedText=ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'';
-  state.duelQuestion.showNextBtn=true;
+  setDuelQuestionFields({ feedbackHtml, speedText: ok?`⚡ ${(ms/1000).toFixed(1)}${_secUnit()}`:'', showNextBtn: true });
   notifyStateChange();
   refreshDuelFeedback();
   _renderPowerups();
   refreshDuelQuestion();
-  state.duelRoom.quizIdx++; notifyStateChange();
+  room=getDuelRoomSnapshot();
+  setDuelRoom({ quizIdx:room.quizIdx+1 }); notifyStateChange();
   _renderMyProgressBar(); _pushScore();
 }
 
 export function _onNextClick(): void {
-  state.duelQuestion.showNextBtn=false;
+  setDuelShowNextBtn(false);
   notifyStateChange();
-  if(state.duelRoom.quizIdx<state.duelRoom.quizDeck.length) _renderQuestion(); else _finishMyGame();
+  const room=getDuelRoomSnapshot();
+  if(room.quizIdx<room.quizDeck.length) _renderQuestion(); else _finishMyGame();
 }
 
 export function _useHint(): void {
-  if(state.duelRoom.hintsLeft<=0||state.duelRoom.answered) return; // only before answering
-  const w=state.duelRoom.quizDeck[state.duelRoom.quizIdx]; if(!w) return;
-  if(state.duelRoom.hintsLeft<999) state.duelRoom.hintsLeft--;
-  const h=state.duelQuestion.choiceAnswer || w[0];
-  state.duelQuestion.hintNote=`💡 ${h.slice(0,Math.ceil(h.length/3))}...`;
+  const room=getDuelRoomSnapshot();
+  if(room.hintsLeft<=0||room.answered) return; // only before answering
+  const w=room.quizDeck[room.quizIdx]; if(!w) return;
+  if(room.hintsLeft<999) setDuelRoom({ hintsLeft:room.hintsLeft-1 });
+  const h=getDuelQuestionSnapshot().choiceAnswer || w[0];
+  setDuelHintNote(`💡 ${h.slice(0,Math.ceil(h.length/3))}...`);
   notifyStateChange();
   refreshDuelQuestion();
 }
@@ -960,55 +983,59 @@ interface QuestionData {
   showNextBtn: boolean;
 }
 export function _getQuestionData(): QuestionData {
-  const isInput=state.duelRoom.mode==='write'||state.duelRoom.mode==='anagram'||state.duelRoom.mode==='letters';
+  const room=getDuelRoomSnapshot();
+  const isInput=room.mode==='write'||room.mode==='anagram'||room.mode==='letters';
+  const q=getDuelQuestionSnapshot();
   return {
-    mode:state.duelRoom.mode,
-    quizIdx:state.duelRoom.quizIdx,
-    waiting:state.duelQuestion.waitingFinish,
-    myCorrect:state.duelRoom.myCorrect,
-    myWrong:state.duelRoom.myWrong,
-    qPrimary:state.duelQuestion.qPrimary,
-    qSecondary:state.duelQuestion.qSecondary,
-    qTertiary:state.duelQuestion.qTertiary,
-    hintNote:state.duelQuestion.hintNote,
-    options:state.duelQuestion.choiceOptions.map((opt,i)=>{
+    mode:room.mode,
+    quizIdx:room.quizIdx,
+    waiting:q.waitingFinish,
+    myCorrect:room.myCorrect,
+    myWrong:room.myWrong,
+    qPrimary:q.qPrimary,
+    qSecondary:q.qSecondary,
+    qTertiary:q.qTertiary,
+    hintNote:q.hintNote,
+    options:q.choiceOptions.map((opt,i)=>{
       let cls='quiz-option';
-      if(state.duelRoom.answered){
-        if(opt===state.duelQuestion.chosenOption) cls += (state.duelQuestion.chosenOption===state.duelQuestion.choiceAnswer?' correct':' wrong');
-        else if(state.duelQuestion.chosenOption!==state.duelQuestion.choiceAnswer && opt===state.duelQuestion.choiceAnswer) cls+=' reveal';
+      if(room.answered){
+        if(opt===q.chosenOption) cls += (q.chosenOption===q.choiceAnswer?' correct':' wrong');
+        else if(q.chosenOption!==q.choiceAnswer && opt===q.choiceAnswer) cls+=' reveal';
       }
       return {text:opt,num:i+1,cls};
     }),
-    answered:state.duelRoom.answered,
-    showOptions: !isInput && !state.duelQuestion.waitingFinish,
-    showInputRow: isInput && !state.duelQuestion.waitingFinish,
-    inputBorderColor:state.duelQuestion.inputBorderColor,
-    showHintBtn:state.duelRoom.mode==='write',
-    hintBtnText:state.duelRoom.hintsLeft>=999?t('duel.hint.btn'):`💡 ×${state.duelRoom.hintsLeft}`,
-    hintBtnDisabled:state.duelRoom.hintsLeft<=0,
-    showNextBtn:state.duelQuestion.showNextBtn,
+    answered:room.answered,
+    showOptions: !isInput && !q.waitingFinish,
+    showInputRow: isInput && !q.waitingFinish,
+    inputBorderColor:q.inputBorderColor,
+    showHintBtn:room.mode==='write',
+    hintBtnText:room.hintsLeft>=999?t('duel.hint.btn'):`💡 ×${room.hintsLeft}`,
+    hintBtnDisabled:room.hintsLeft<=0,
+    showNextBtn:q.showNextBtn,
   };
 }
 
 async function _pushScore():Promise<void>{
   _saveSession();
-  try{await _fbPatch(`/duel_rooms/${state.duelRoom.roomId}/${state.duelRoom.mySlot}`,{score:state.duelRoom.myScore,idx:state.duelRoom.quizIdx,flags:state.duelRoom.myFlags});}catch(e){}
+  const room=getDuelRoomSnapshot();
+  try{await _fbPatch(`/duel_rooms/${room.roomId}/${room.mySlot}`,{score:room.myScore,idx:room.quizIdx,flags:room.myFlags});}catch(e){}
 }
 
 async function _finishMyGame():Promise<void>{
   try{
-    await _fbPatch(`/duel_rooms/${state.duelRoom.roomId}/${state.duelRoom.mySlot}`,{score:state.duelRoom.myScore,idx:state.duelRoom.quizDeck.length,flags:state.duelRoom.myFlags,done:true});
-    state.duelRoom.myDone=true;
+    let room=getDuelRoomSnapshot();
+    await _fbPatch(`/duel_rooms/${room.roomId}/${room.mySlot}`,{score:room.myScore,idx:room.quizDeck.length,flags:room.myFlags,done:true});
+    setDuelRoom({ myDone:true });
     notifyStateChange();
-    const room=await _fbGet(`/duel_rooms/${state.duelRoom.roomId}`) as RoomData;
-    const opp=state.duelRoom.mySlot==='p1'?room.p2:room.p1;
+    room=getDuelRoomSnapshot();
+    const roomData=await _fbGet(`/duel_rooms/${room.roomId}`) as RoomData;
+    const opp=room.mySlot==='p1'?roomData.p2:roomData.p1;
     if(opp?.done){
-      await _fbPatch(`/duel_rooms/${state.duelRoom.roomId}`,{finished:true});
+      await _fbPatch(`/duel_rooms/${room.roomId}`,{finished:true});
       clearInterval(_pollTimer!); _pollTimer=null;
-      _showFinish({...room,[state.duelRoom.mySlot]:{...room[state.duelRoom.mySlot],score:state.duelRoom.myScore,done:true}} as RoomData);
+      _showFinish({...roomData,[room.mySlot]:{...roomData[room.mySlot],score:room.myScore,done:true}} as RoomData);
     } else {
-      state.duelQuestion.waitingFinish=true;
-      state.duelQuestion.feedbackHtml=t('duel.waiting');
+      setDuelQuestionFields({ waitingFinish: true, feedbackHtml: t('duel.waiting') });
       notifyStateChange();
       refreshDuelFeedback();
       refreshDuelQuestion();
@@ -1025,58 +1052,59 @@ export type DuelResultData =
       roomSize: number; historyText: string }
   | null;
 
-export function _getResultData(): DuelResultData { return state.duelResult; }
+export function _getResultData(): DuelResultData { return getDuelResultSnapshot(); }
 
-function _showFinish(room:RoomData):void{
-  if(state.duelRoom.finished) return;
-  state.duelRoom.finished=true;
+function _showFinish(roomData:RoomData):void{
+  let room=getDuelRoomSnapshot();
+  if(room.finished) return;
+  setDuelRoom({ finished:true });
   notifyStateChange();
   // Tournament hook: if we're in a tournament match, report result and return to bracket
   const hook=_tournFinishHook;
   if(hook&&_tournId){
     _tournFinishHook=null;
-    hook(room);
+    hook(roomData);
     setTimeout(()=>{ _showTournament(); const t=_tournData; if(t) _renderTournBracket(t); },800);
     return;
   }
-  const me=room[state.duelRoom.mySlot] as PlayerData;
-  const opp=(state.duelRoom.mySlot==='p1'?room.p2:room.p1) as PlayerData;
+  const me=roomData[room.mySlot] as PlayerData;
+  const opp=(room.mySlot==='p1'?roomData.p2:roomData.p1) as PlayerData;
   const won=me.score>(opp?.score??0), tie=me.score===(opp?.score??0);
-  const mInfo=DUEL_MODES.find(m=>m.id===room.mode)||DUEL_MODES[0];
+  const mInfo=DUEL_MODES.find(m=>m.id===roomData.mode)||DUEL_MODES[0];
 
   // Save history + rating
-  _addHistory({date:`${new Date().toLocaleDateString(_dateLocale())} ${new Date().toLocaleTimeString(_dateLocale(),{hour:'2-digit',minute:'2-digit'})}`,mode:room.mode,myScore:me.score,oppScore:opp?.score??0,oppName:opp?.name||state.duelRoom.oppName||t('duel.opp'),won,category:room.category,lang:state.duelRoom.roomLang,knowLang:state.duelRoom.roomKnowLang});
+  _addHistory({date:`${new Date().toLocaleDateString(_dateLocale())} ${new Date().toLocaleTimeString(_dateLocale(),{hour:'2-digit',minute:'2-digit'})}`,mode:roomData.mode,myScore:me.score,oppScore:opp?.score??0,oppName:opp?.name||room.oppName||t('duel.opp'),won,category:roomData.category,lang:room.roomLang,knowLang:room.roomKnowLang});
   _updateRating(won,tie);
   _clearSession();
 
   // Best of 3 logic
-  if(room.bestOf===3){
-    const newSeries={...room.series};
-    if(won) { if(state.duelRoom.mySlot==='p1') newSeries.p1wins++; else newSeries.p2wins++; }
-    else if(!tie) { if(state.duelRoom.mySlot==='p1') newSeries.p2wins++; else newSeries.p1wins++; }
+  if(roomData.bestOf===3){
+    const newSeries={...roomData.series};
+    if(won) { if(room.mySlot==='p1') newSeries.p1wins++; else newSeries.p2wins++; }
+    else if(!tie) { if(room.mySlot==='p1') newSeries.p2wins++; else newSeries.p1wins++; }
     newSeries.round++;
-    const myW=state.duelRoom.mySlot==='p1'?newSeries.p1wins:newSeries.p2wins;
-    const oppW=state.duelRoom.mySlot==='p1'?newSeries.p2wins:newSeries.p1wins;
-    state.duelRoom.series=newSeries;
+    const myW=room.mySlot==='p1'?newSeries.p1wins:newSeries.p2wins;
+    const oppW=room.mySlot==='p1'?newSeries.p2wins:newSeries.p1wins;
+    setDuelRoom({ series:newSeries });
     notifyStateChange();
     if(myW<2&&oppW<2&&newSeries.round<=3){
       // Series not decided — show next round
       const outcome:DuelResultOutcome = won?'win':tie?'tie':'loss';
-      state.duelResult={kind:'round',outcome,round:newSeries.round-1,myWins:myW,oppWins:oppW,myName:_getMyName(),oppName:opp?.name||t('duel.opp')};
+      setDuelResult({kind:'round',outcome,round:newSeries.round-1,myWins:myW,oppWins:oppW,myName:_getMyName(),oppName:opp?.name||t('duel.opp')});
       _showResult(); return;
     }
   }
 
-  const catLabel=room.category?` · ${room.category.split(' ')[0]}`:'';
+  const catLabel=roomData.category?` · ${roomData.category.split(' ')[0]}`:'';
   const outcome:DuelResultOutcome = won?'win':tie?'tie':'loss';
-  state.duelResult={
+  setDuelResult({
     kind:'final', outcome,
     modeIcon:mInfo.icon, modeLabel:t('duel.mode.'+mInfo.id), catLabel,
     myAvatar:me.avatar||'🧑', myScore:me.score,
     oppAvatar:opp?.avatar||'🧑', oppScore:opp?.score??0, oppName:opp?.name||t('duel.opp'),
     roomSize:ROOM_SIZE,
     historyText:`${mInfo.icon} ${t('duel.mode.'+mInfo.id)}${catLabel} · ${new Date().toLocaleDateString(_dateLocale())}`,
-  };
+  });
   _showResult();
   _startResultPoll();
 }
@@ -1094,23 +1122,24 @@ export function _cancelRoom():void{
   if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
   if(_freezeTimer){clearTimeout(_freezeTimer);_freezeTimer=null;}
   if(_asyncStartTimer){clearTimeout(_asyncStartTimer);_asyncStartTimer=null;}
-  if(state.duelRoom.roomId){
-    if(state.duelRoom.isAsyncChallenge){
-      fetch(`${DB_URL}/duel_async/${state.duelRoom.roomId}.json`,{method:'DELETE'}).catch(()=>{});
-    } else if(state.duelRoom.mySlot==='p1') {
-      fetch(`${DB_URL}/duel_rooms/${state.duelRoom.roomId}.json`,{method:'DELETE'}).catch(()=>{});
+  const room=getDuelRoomSnapshot();
+  if(room.roomId){
+    if(room.isAsyncChallenge){
+      fetch(`${DB_URL}/duel_async/${room.roomId}.json`,{method:'DELETE'}).catch(()=>{});
+    } else if(room.mySlot==='p1') {
+      fetch(`${DB_URL}/duel_rooms/${room.roomId}.json`,{method:'DELETE'}).catch(()=>{});
     }
     // Remove spectator entry if spectator
-    if(_isSpectator&&_specId) fetch(`${DB_URL}/duel_rooms/${state.duelRoom.roomId}/spectators/${_specId}.json`,{method:'DELETE'}).catch(()=>{});
-    state.duelRoom.roomId='';
+    if(_isSpectator&&_specId) fetch(`${DB_URL}/duel_rooms/${room.roomId}/spectators/${_specId}.json`,{method:'DELETE'}).catch(()=>{});
+    setDuelRoom({ roomId:'' });
   }
   _isSpectator=false;
-  state.duelRoom.isAsyncChallenge=false;
-  state.duelLobbyUI.waiting.visible=false;
-  state.duelLobbyUI.joinRowVisible=true;
-  state.duelLobbyUI.createBtn.disabled=false;
-  state.duelLobbyUI.asyncBtn.disabled=false;
-  state.duelLobbyUI.msg.visible=false; state.duelLobbyUI.msg.challenge=null;
+  setDuelRoom({ isAsyncChallenge:false });
+  setLobbyWaiting({ ...getDuelLobbyUISnapshot().waiting, visible:false });
+  setLobbyJoinRowVisible(true);
+  setLobbyBtn('createBtn', false);
+  setLobbyBtn('asyncBtn', false);
+  setLobbyMsg({ visible:false, text:getDuelLobbyUISnapshot().msg.text, challenge:null });
   notifyStateChange();
 }
 
@@ -1165,28 +1194,28 @@ export async function joinAsSpectator(): Promise<void> {
   try {
     const room=await _fbGet(`/duel_rooms/${code}`) as RoomData|null;
     if(!room?.seed) throw new Error(t('duel.err.notFound'));
-    _isSpectator=true; _specId=_genCode(); state.duelRoom.roomId=code;
+    _isSpectator=true; _specId=_genCode(); setDuelRoom({ roomId:code });
     notifyStateChange();
     await _fbPatch(`/duel_rooms/${code}/spectators/${_specId}`,{name:_getMyName(),avatar:_getMyAvatar()});
     _startSpectatorView(room);
   } catch(e){
-    state.duelLobbyUI.msg={visible:true,text:'❌ '+(e as Error).message,challenge:null};
+    setLobbyMsg({visible:true,text:'❌ '+(e as Error).message,challenge:null});
     notifyStateChange();
   }
 }
 
 function _startSpectatorView(room:RoomData): void {
-  state.duelScreen='spectate'; notifyStateChange();
+  setDuelScreen('spectate'); notifyStateChange();
   _renderSpectatorView(room);
   _pollTimer=setInterval(async()=>{
     try{
-      const r=await _fbGet(`/duel_rooms/${state.duelRoom.roomId}`) as RoomData|null;
+      const r=await _fbGet(`/duel_rooms/${getDuelRoomSnapshot().roomId}`) as RoomData|null;
       if(!r) return;
       _renderSpectatorView(r);
       if(r.finished){
         clearInterval(_pollTimer!); _pollTimer=null;
         // Clean up spectator entry in Firebase before leaving
-        if(_specId) fetch(`${DB_URL}/duel_rooms/${state.duelRoom.roomId}/spectators/${_specId}.json`,{method:'DELETE'}).catch(()=>{});
+        if(_specId) fetch(`${DB_URL}/duel_rooms/${getDuelRoomSnapshot().roomId}/spectators/${_specId}.json`,{method:'DELETE'}).catch(()=>{});
         _specId=''; _isSpectator=false;
         setTimeout(()=>{ _showLobby(); renderDuel(); },3000);
       }
@@ -1195,7 +1224,7 @@ function _startSpectatorView(room:RoomData): void {
 }
 
 function _renderSpectatorView(room:RoomData): void {
-  state.duelSpecRoom = room;
+  setDuelSpecRoom(room);
   notifyStateChange();
   refreshDuelSpectator();
 }
@@ -1210,42 +1239,45 @@ export function _leaveSpectator(): void {
 
 // ── Async duel (challenge) ────────────────────────────────────
 export async function createAsyncChallenge(): Promise<void> {
-  state.duelLobbyUI.asyncBtn.disabled=true; notifyStateChange();
+  setLobbyBtn('asyncBtn', true); notifyStateChange();
   try {
     // Clear any stale tournament state so _showFinish doesn't route to tournament path
     _tournId=''; _tournData=null;
     _tournFinishHook=null;
     const code=_genCode();
     const seed=Date.now();
+    const sel=getDuelSelSnapshot();
     const challenge: AsyncDuel = {
-      seed, mode:state.duelSel.mode, category:state.duelSel.category, difficulty:state.duelSel.difficulty,
+      seed, mode:sel.mode, category:sel.category, difficulty:sel.difficulty,
       createdAt:Date.now(), expiresAt:Date.now()+86_400_000, // 24 hours
-      powerupsEnabled:state.duelSel.powerupsEnabled, maxHints:state.duelSel.maxHints, bestOf:state.duelSel.bestOf,
-      lang:state.duelSel.lang, knowLang:state.duelSel.knowLang,
+      powerupsEnabled:sel.powerupsEnabled, maxHints:sel.maxHints, bestOf:sel.bestOf,
+      lang:sel.lang, knowLang:sel.knowLang,
       challenger:{ name:_getMyName(), avatar:_getMyAvatar(), score:0, done:false },
       finished:false,
     };
     await _fbSet(`/duel_async/${code}`, challenge);
     // Play immediately as challenger
-    state.duelRoom.roomId=code; state.duelRoom.mySlot='p1'; state.duelRoom.isAsyncChallenge=true; state.duelRoom.roomCreatedAt=challenge.createdAt;
-    state.duelRoom.roomSeed=seed; state.duelRoom.roomCategory=state.duelSel.category; state.duelRoom.roomDifficulty=state.duelSel.difficulty; state.duelRoom.roomMaxHints=state.duelSel.maxHints;
-    state.duelRoom.roomLang=state.duelSel.lang; state.duelRoom.roomKnowLang=state.duelSel.knowLang;
-    state.duelRoom.quizDeck=_buildDeck(seed,state.duelSel.category,state.duelSel.difficulty,state.duelSel.mode,state.duelSel.lang,state.duelSel.knowLang);
+    setDuelRoom({
+      roomId:code, mySlot:'p1', isAsyncChallenge:true, roomCreatedAt:challenge.createdAt,
+      roomSeed:seed, roomCategory:sel.category, roomDifficulty:sel.difficulty, roomMaxHints:sel.maxHints,
+      roomLang:sel.lang, roomKnowLang:sel.knowLang,
+      quizDeck:_buildDeck(seed,sel.category,sel.difficulty,sel.mode,sel.lang,sel.knowLang),
+    });
     // Show code to share
-    state.duelLobbyUI.waiting={visible:true,roomCode:_fmtCode(code),modeLabel:`📬 ${t('duel.mode.'+state.duelSel.mode)} · ${t('duel.async.24h')}`};
-    state.duelLobbyUI.joinRowVisible=false;
+    setLobbyWaiting({visible:true,roomCode:_fmtCode(code),modeLabel:`📬 ${t('duel.mode.'+sel.mode)} · ${t('duel.async.24h')}`});
+    setLobbyJoinRowVisible(false);
     notifyStateChange();
     // Start playing immediately
     if(_asyncStartTimer){clearTimeout(_asyncStartTimer);_asyncStartTimer=null;}
     _asyncStartTimer=setTimeout(()=>{
       _asyncStartTimer=null;
-      state.duelLobbyUI.waiting.visible=false;
+      setLobbyWaiting({ ...getDuelLobbyUISnapshot().waiting, visible:false });
       notifyStateChange();
-      _initGame(state.duelSel.mode, state.duelSel.maxHints, 1, {p1wins:0,p2wins:0,round:1}, state.duelSel.powerupsEnabled);
+      _initGame(sel.mode, sel.maxHints, 1, {p1wins:0,p2wins:0,round:1}, sel.powerupsEnabled);
     }, 2000);
   } catch(e){
-    state.duelLobbyUI.asyncBtn.disabled=false;
-    state.duelLobbyUI.msg={visible:true,text:'❌ '+(e as Error).message,challenge:null};
+    setLobbyBtn('asyncBtn', false);
+    setLobbyMsg({visible:true,text:'❌ '+(e as Error).message,challenge:null});
     notifyStateChange();
   }
 }
@@ -1259,34 +1291,36 @@ export async function joinAsyncChallenge(): Promise<void> {
     if(challenge.finished) throw new Error(t('duel.err.chal.finished'));
     if(Date.now()>challenge.expiresAt) throw new Error(t('duel.err.chal.expired'));
     if(challenge.opponent) throw new Error(t('duel.err.chal.taken'));
-    state.duelRoom.roomId=code; state.duelRoom.mySlot='p2'; state.duelRoom.isAsyncChallenge=true; state.duelRoom.roomCreatedAt=challenge.createdAt||Date.now();
-    state.duelRoom.roomSeed=challenge.seed; state.duelRoom.roomCategory=challenge.category; state.duelRoom.roomDifficulty=challenge.difficulty; state.duelRoom.roomMaxHints=challenge.maxHints??3;
-    state.duelRoom.roomLang=challenge.lang||'ua'; state.duelRoom.roomKnowLang=challenge.knowLang||'en';
-    state.duelRoom.quizDeck=_buildDeck(challenge.seed,challenge.category,challenge.difficulty,challenge.mode,challenge.lang,challenge.knowLang);
-    state.duelRoom.oppName=challenge.challenger.name; state.duelRoom.oppAvatar=challenge.challenger.avatar;
+    setDuelRoom({
+      roomId:code, mySlot:'p2', isAsyncChallenge:true, roomCreatedAt:challenge.createdAt||Date.now(),
+      roomSeed:challenge.seed, roomCategory:challenge.category, roomDifficulty:challenge.difficulty, roomMaxHints:challenge.maxHints??3,
+      roomLang:challenge.lang||'ua', roomKnowLang:challenge.knowLang||'en',
+      quizDeck:_buildDeck(challenge.seed,challenge.category,challenge.difficulty,challenge.mode,challenge.lang,challenge.knowLang),
+      oppName:challenge.challenger.name, oppAvatar:challenge.challenger.avatar,
+    });
     notifyStateChange();
     const mInfo=DUEL_MODES.find(m=>m.id===challenge.mode);
-    state.duelLobbyUI.msg={visible:true,text:'',challenge:{avatar:challenge.challenger.avatar,name:challenge.challenger.name,modeIcon:mInfo?.icon??'',modeLabel:mInfo?t('duel.mode.'+mInfo.id):''}};
+    setLobbyMsg({visible:true,text:'',challenge:{avatar:challenge.challenger.avatar,name:challenge.challenger.name,modeIcon:mInfo?.icon??'',modeLabel:mInfo?t('duel.mode.'+mInfo.id):''}});
     notifyStateChange();
     // Let the challenger know who accepted, so resume cards can show "vs <opponent>"
     _fbPatch(`/duel_async/${code}`,{opponent:{name:_getMyName(),avatar:_getMyAvatar(),score:0,done:false}}).catch(()=>{});
     if(_asyncStartTimer){clearTimeout(_asyncStartTimer);_asyncStartTimer=null;}
-    _asyncStartTimer=setTimeout(()=>{ _asyncStartTimer=null; state.duelLobbyUI.msg.visible=false; notifyStateChange(); _initGame(challenge.mode,state.duelRoom.roomMaxHints,challenge.bestOf??1,{p1wins:0,p2wins:0,round:1},challenge.powerupsEnabled??false); }, 1800);
+    _asyncStartTimer=setTimeout(()=>{ _asyncStartTimer=null; setLobbyMsg({ ...getDuelLobbyUISnapshot().msg, visible:false }); notifyStateChange(); _initGame(challenge.mode,getDuelRoomSnapshot().roomMaxHints,challenge.bestOf??1,{p1wins:0,p2wins:0,round:1},challenge.powerupsEnabled??false); }, 1800);
   } catch(e){
-    state.duelLobbyUI.msg={visible:true,text:'❌ '+(e as Error).message,challenge:null};
+    setLobbyMsg({visible:true,text:'❌ '+(e as Error).message,challenge:null});
     notifyStateChange();
   }
 }
 
 function _doRematch():void{
-  if(state.duelRoom.mySlot==='p1'){
+  if(getDuelRoomSnapshot().mySlot==='p1'){
     // p1 creates a new room — show waiting screen
     _showLobby(); renderDuel();
     _cancelRoom(); createRoom();
   } else {
     // p2 gets new code to join
     _showLobby(); renderDuel();
-    state.duelLobbyUI.msg={visible:true,text:t('duel.rematch.ask'),challenge:null};
+    setLobbyMsg({visible:true,text:t('duel.rematch.ask'),challenge:null});
     notifyStateChange();
   }
 }
@@ -1303,11 +1337,11 @@ export interface ResumeSessionVM {
   expiresAt: number;
 }
 let _resumeValid: {sess:DuelSession; room:RoomData}[] = [];
-export function _getResumeSessions(): ResumeSessionVM[] { return state.duelResumeSessions; }
+export function _getResumeSessions(): ResumeSessionVM[] { return getDuelResumeSessionsSnapshot(); }
 
 async function _tryResumeSession():Promise<void>{
   const sessions=_loadSessions();
-  if(!sessions.length){ _resumeValid=[]; state.duelResumeSessions=[]; notifyStateChange(); refreshDuelResume(); return; }
+  if(!sessions.length){ _resumeValid=[]; setDuelResumeSessions([]); notifyStateChange(); refreshDuelResume(); return; }
 
   const valid: {sess:DuelSession; room:RoomData}[] = [];
   for(const sess of sessions){
@@ -1319,7 +1353,7 @@ async function _tryResumeSession():Promise<void>{
       valid.push({sess,room});
     }catch(e){_clearSession(sess.roomId);}
   }
-  if(!valid.length){ _resumeValid=[]; state.duelResumeSessions=[]; notifyStateChange(); refreshDuelResume(); return; }
+  if(!valid.length){ _resumeValid=[]; setDuelResumeSessions([]); notifyStateChange(); refreshDuelResume(); return; }
 
   // Show the duel with the least time left to finish first.
   valid.sort((a,b)=>{
@@ -1329,7 +1363,7 @@ async function _tryResumeSession():Promise<void>{
   });
 
   _resumeValid=valid;
-  state.duelResumeSessions=valid.map(({sess,room})=>{
+  setDuelResumeSessions(valid.map(({sess,room})=>{
     const opp=sess.slot==='p1'?room.p2:room.p1;
     const oppName=opp?.name||sess.oppName;
     const oppAvatar=opp?.avatar||sess.oppAvatar||'';
@@ -1344,7 +1378,7 @@ async function _tryResumeSession():Promise<void>{
       oppText: oppName ? `${t('duel.resume.opp')} ${oppAvatar} ${oppName}` : null,
       expiresAt,
     };
-  });
+  }));
   notifyStateChange();
   refreshDuelResume();
 }
@@ -1353,35 +1387,40 @@ export function _onResumeContinue(roomId:string): void {
   const found=_resumeValid.find(v=>v.sess.roomId===roomId);
   if(!found) return;
   const {sess,room}=found;
-  _resumeValid=[]; state.duelResumeSessions=[]; notifyStateChange(); refreshDuelResume();
-  state.duelRoom.roomId=sess.roomId; state.duelRoom.mySlot=sess.slot; state.duelRoom.mode=sess.mode;
-  state.duelRoom.roomCreatedAt=sess.createdAt||room.createdAt||Date.now();
+  _resumeValid=[]; setDuelResumeSessions([]); notifyStateChange(); refreshDuelResume();
   const seed=sess.seed??room.seed, category=sess.category??room.category, difficulty=sess.difficulty??room.difficulty;
   const maxHints=sess.maxHints??room.maxHints, bestOf=sess.bestOf??room.bestOf;
-  state.duelRoom.roomSeed=seed; state.duelRoom.roomCategory=category; state.duelRoom.roomDifficulty=difficulty; state.duelRoom.roomMaxHints=maxHints;
-  state.duelRoom.roomLang=room.lang||'ua'; state.duelRoom.roomKnowLang=room.knowLang||'en';
-  state.duelRoom.quizDeck=_buildDeck(seed,category,difficulty,sess.mode,room.lang,room.knowLang);
   const oppRoom=room[sess.slot==='p1'?'p2':'p1'];
-  state.duelRoom.oppName=oppRoom?.name||sess.oppName||t('duel.opp');
-  state.duelRoom.oppAvatar=oppRoom?.avatar||sess.oppAvatar||'🧑';
+  setDuelRoom({
+    roomId:sess.roomId, mySlot:sess.slot, mode:sess.mode,
+    roomCreatedAt:sess.createdAt||room.createdAt||Date.now(),
+    roomSeed:seed, roomCategory:category, roomDifficulty:difficulty, roomMaxHints:maxHints,
+    roomLang:room.lang||'ua', roomKnowLang:room.knowLang||'en',
+    quizDeck:_buildDeck(seed,category,difficulty,sess.mode,room.lang,room.knowLang),
+    oppName:oppRoom?.name||sess.oppName||t('duel.opp'),
+    oppAvatar:oppRoom?.avatar||sess.oppAvatar||'🧑',
+  });
   notifyStateChange();
   const savedIdx=sess.idx,savedScore=sess.score;
   // Restore saved state directly, bypassing _initGame's reset+countdown
   // (which would re-zero score/progress and wipe chat a few seconds later).
   const series=room.series||{p1wins:0,p2wins:0,round:1};
-  state.duelRoom.bestOf=bestOf||1; state.duelRoom.series={...series};
   if(_advanceTimer){clearTimeout(_advanceTimer);_advanceTimer=null;}
-  state.duelRoom.quizIdx=savedIdx; state.duelRoom.myScore=savedScore;
-  state.duelRoom.myCorrect=sess.correct??0; state.duelRoom.myWrong=sess.wrong??0; state.duelRoom.myFlags=sess.flags??[];
-  state.duelChatHistory=sess.chat??[]; notifyStateChange();
-  state.duelRoom.answered=false; state.duelRoom.finished=false;
-  state.duelRoom.hintsLeft = maxHints===0 ? 999 : maxHints;
-  state.duelRoom.powerupsEnabled = sess.powerupsEnabled ?? !!room.powerupsEnabled;
+  setDuelChat(sess.chat??[]); notifyStateChange();
+  const powerupsEnabled = sess.powerupsEnabled ?? !!room.powerupsEnabled;
   const savedPowerups = sess.myPowerups ?? room[sess.slot]?.powerups;
-  state.duelRoom.myPowerups = savedPowerups ? {...savedPowerups} : (state.duelRoom.powerupsEnabled ? {double:1,skip:1,freeze:1} : {double:0,skip:0,freeze:0});
-  state.duelRoom.doubleActive = false;
+  setDuelRoom({
+    bestOf:bestOf||1, series:{...series},
+    quizIdx:savedIdx, myScore:savedScore,
+    myCorrect:sess.correct??0, myWrong:sess.wrong??0, myFlags:sess.flags??[],
+    answered:false, finished:false,
+    hintsLeft: maxHints===0 ? 999 : maxHints,
+    powerupsEnabled,
+    myPowerups: savedPowerups ? {...savedPowerups} : (powerupsEnabled ? {double:1,skip:1,freeze:1} : {double:0,skip:0,freeze:0}),
+    doubleActive: false,
+  });
   const savedDeckLen=sess.deckLen??ROOM_SIZE;
-  while(state.duelRoom.quizDeck.length<savedDeckLen) _extendDeckOnSkip();
+  while(getDuelRoomSnapshot().quizDeck.length<savedDeckLen) _extendDeckOnSkip();
   notifyStateChange();
   _setupGameUI();
   _renderMyProgressBar();
@@ -1415,7 +1454,7 @@ let _tournData: Tournament | null = null;
 let _tournPoll: ReturnType<typeof setInterval> | null = null;
 let _tournFinishHook: ((r:RoomData)=>void) | null = null;
 
-function _showTournament() { state.duelScreen='tournament'; notifyStateChange(); }
+function _showTournament() { setDuelScreen('tournament'); notifyStateChange(); }
 
 // Знімок даних для duel-tournament.tsx (item 33, Фаза 5).
 interface TournSlotVM { filled:boolean; avatar:string; name:string; label:string; }
@@ -1446,7 +1485,7 @@ export interface TournamentData {
 }
 let _tournPlayCtx: {tourn:Tournament; round:number; matchIdx:number} | null = null;
 let _tournRejoinRoomId: string|null = null;
-export function _getTournamentData(): TournamentData|null { return state.duelTournView; }
+export function _getTournamentData(): TournamentData|null { return getDuelTournViewSnapshot(); }
 export function _onTournStart(): void { startTournament(); }
 export function _onTournCancel(): void { _cancelTournament(); }
 export function _onTournPlay(): void { if(_tournPlayCtx) _startTournMatch(_tournPlayCtx.tourn,_tournPlayCtx.round,_tournPlayCtx.matchIdx); }
@@ -1476,13 +1515,14 @@ function _tournRoundName(round:number, totalRounds:number): string {
 }
 
 export async function createTournament(size:4|8): Promise<void> {
-  const tournBtn = size===4 ? state.duelLobbyUI.tournBtn4 : state.duelLobbyUI.tournBtn8;
-  tournBtn.disabled=true; notifyStateChange();
+  const tournBtnKey = size===4 ? 'tournBtn4' : 'tournBtn8';
+  setLobbyTournBtn(tournBtnKey, true, null); notifyStateChange();
   try {
     _tournId=_genCode();
+    const sel=getDuelSelSnapshot();
     const tourn: Tournament = {
-      code:_tournId, size, mode:state.duelSel.mode, category:state.duelSel.category, difficulty:state.duelSel.difficulty,
-      lang:state.duelSel.lang, knowLang:state.duelSel.knowLang,
+      code:_tournId, size, mode:sel.mode, category:sel.category, difficulty:sel.difficulty,
+      lang:sel.lang, knowLang:sel.knowLang,
       players:{0:{name:_getMyName(),avatar:_getMyAvatar()}},
       bracket:_buildBracket(size), currentRound:0, currentMatch:0,
       started:false, finished:false, champion:'', createdAt:Date.now(),
@@ -1493,7 +1533,7 @@ export async function createTournament(size:4|8): Promise<void> {
     _renderTournWaiting(tourn);
     _startTournWaitPoll();
   } catch(e){
-    tournBtn.disabled=false; tournBtn.errorLabel='❌ '+(e as Error).message;
+    setLobbyTournBtn(tournBtnKey, false, '❌ '+(e as Error).message);
     notifyStateChange();
   }
 }
@@ -1537,7 +1577,7 @@ function _renderTournWaiting(tourn:Tournament): void {
       : {filled:false, avatar:'', name:'', label:`${t('duel.tourn.slot')} ${i+1}`};
   });
   const joined=Object.keys(tourn.players).length;
-  state.duelTournView={
+  setDuelTournView({
     phase:'waiting',
     code:_fmtCode(_tournId),
     modeLabel:`${mInfo.icon} ${t('duel.mode.'+tourn.mode)} · ${tourn.size} ${t('duel.tourn.players')}`,
@@ -1546,7 +1586,7 @@ function _renderTournWaiting(tourn:Tournament): void {
     startBtnLabel:`${t('duel.tourn.start')} (${joined}/${tourn.size})`,
     finished:false, champion:'', statusLabel:'', statusColor:'',
     rounds:[], matchArea:{kind:'none'},
-  };
+  });
   notifyStateChange();
   refreshDuelTournament();
 }
@@ -1630,11 +1670,11 @@ function _renderTournBracket(tourn:Tournament): void {
       }
     }
   }
-  state.duelTournView={
+  setDuelTournView({
     phase:'bracket', code:'', modeLabel:'', slots:[], joined:0, size:tourn.size,
     showStartBtn:false, startBtnLabel:'',
     finished:tourn.finished, champion:tourn.champion, statusLabel, statusColor, rounds, matchArea,
-  };
+  });
   notifyStateChange();
   refreshDuelTournament();
 }
@@ -1642,7 +1682,8 @@ function _renderTournBracket(tourn:Tournament): void {
 async function _startTournMatch(tourn:Tournament, round:number, matchIdx:number): Promise<void> {
   const match=tourn.bracket[round][matchIdx];
   // Create a duel room for this match
-  state.duelRoom.roomId=_genCode(); state.duelRoom.mySlot=match.p1===_tournSlot?'p1':'p2';
+  const roomId=_genCode(); const mySlot:'p1'|'p2'=match.p1===_tournSlot?'p1':'p2';
+  setDuelRoom({ roomId, mySlot });
   const seed=Date.now();
   const room:RoomData={
     seed, mode:tourn.mode, category:tourn.category, difficulty:tourn.difficulty,
@@ -1653,20 +1694,22 @@ async function _startTournMatch(tourn:Tournament, round:number, matchIdx:number)
     p1:{name:tourn.players[match.p1].name,avatar:tourn.players[match.p1].avatar,score:0,idx:0,done:false,hintsLeft:3,powerups:{double:0,skip:0,freeze:0}},
     p2:null,
   };
-  await _fbSet(`/duel_rooms/${state.duelRoom.roomId}`,room);
+  await _fbSet(`/duel_rooms/${roomId}`,room);
   // Save room ID to tournament match
   const matchPath=`/tournaments/${_tournId}/bracket/${round}/${matchIdx}`;
-  await _fbPatch(matchPath,{roomId:state.duelRoom.roomId});
-  state.duelRoom.oppName=tourn.players[match.p1===_tournSlot?match.p2:match.p1].name;
-  state.duelRoom.oppAvatar=tourn.players[match.p1===_tournSlot?match.p2:match.p1].avatar;
-  state.duelRoom.roomLang=tourn.lang||'ua'; state.duelRoom.roomKnowLang=tourn.knowLang||'en';
-  state.duelRoom.quizDeck=_buildDeck(seed,tourn.category,tourn.difficulty,tourn.mode,tourn.lang,tourn.knowLang);
+  await _fbPatch(matchPath,{roomId});
+  setDuelRoom({
+    oppName:tourn.players[match.p1===_tournSlot?match.p2:match.p1].name,
+    oppAvatar:tourn.players[match.p1===_tournSlot?match.p2:match.p1].avatar,
+    roomLang:tourn.lang||'ua', roomKnowLang:tourn.knowLang||'en',
+    quizDeck:_buildDeck(seed,tourn.category,tourn.difficulty,tourn.mode,tourn.lang,tourn.knowLang),
+  });
   notifyStateChange();
   _initGame(tourn.mode,3,1,{p1wins:0,p2wins:0,round:1},false);
   // After game finishes, save result to tournament
   _tournFinishHook=async(roomData:RoomData)=>{
-    const me=roomData[state.duelRoom.mySlot] as PlayerData;
-    const opp=(roomData[state.duelRoom.mySlot==='p1'?'p2':'p1']) as PlayerData;
+    const me=roomData[mySlot] as PlayerData;
+    const opp=(roomData[mySlot==='p1'?'p2':'p1']) as PlayerData;
     const myScore=me.score, oppScore=opp?.score??0;
     const winner=myScore>oppScore?match.p1===_tournSlot?match.p1:match.p2:match.p1===_tournSlot?match.p2:match.p1;
     await _fbPatch(`/tournaments/${_tournId}/bracket/${round}/${matchIdx}`,{
@@ -1683,14 +1726,16 @@ async function _joinTournMatch(roomId:string): Promise<void> {
   try{
     const room=await _fbGet(`/duel_rooms/${roomId}`) as RoomData|null;
     if(!room) return;
-    state.duelRoom.roomId=roomId; state.duelRoom.mySlot='p2';
+    setDuelRoom({ roomId, mySlot:'p2' });
     await _fbPatch(`/duel_rooms/${roomId}`,{
       p2:{name:_getMyName(),avatar:_getMyAvatar(),score:0,idx:0,done:false,hintsLeft:3,powerups:{double:0,skip:0,freeze:0}},
       started:true,
     });
-    state.duelRoom.roomLang=room.lang||'ua'; state.duelRoom.roomKnowLang=room.knowLang||'en';
-    state.duelRoom.quizDeck=_buildDeck(room.seed,room.category,room.difficulty,room.mode,room.lang,room.knowLang);
-    state.duelRoom.oppName=room.p1.name; state.duelRoom.oppAvatar=room.p1.avatar;
+    setDuelRoom({
+      roomLang:room.lang||'ua', roomKnowLang:room.knowLang||'en',
+      quizDeck:_buildDeck(room.seed,room.category,room.difficulty,room.mode,room.lang,room.knowLang),
+      oppName:room.p1.name, oppAvatar:room.p1.avatar,
+    });
     notifyStateChange();
     _initGame(room.mode,3,1,{p1wins:0,p2wins:0,round:1},false);
   }catch(e){}
@@ -1783,10 +1828,11 @@ function _showConfirm(title: string, message: string, okLabel: string): Promise<
 export function DuelInit(): ReactElement | null {
   useEffect(() => {
     const onKeydown = (e: KeyboardEvent) => {
-      if(state.duelScreen!=='game') return;
-      if(state.duelRoom.mode!=='write'&&!state.duelRoom.answered&&['1','2','3','4'].includes(e.key)){
+      if(getDuelScreenSnapshot()!=='game') return;
+      const room=getDuelRoomSnapshot();
+      if(room.mode!=='write'&&!room.answered&&['1','2','3','4'].includes(e.key)){
         e.preventDefault();
-        const opt=state.duelQuestion.choiceOptions[parseInt(e.key)-1];
+        const opt=getDuelQuestionSnapshot().choiceOptions[parseInt(e.key)-1];
         if(opt) _onOptionClick(opt);
       }
     };
@@ -1800,16 +1846,17 @@ export function DuelInit(): ReactElement | null {
     // If game/tournament/spectator is active → return to lobby; else → close page
     const closeBtn = document.getElementById('duel-page-close');
     const onCloseClick = async () => {
-      const gameVisible      = state.duelScreen === 'game';
-      const tournVisible     = state.duelScreen === 'tournament';
-      const spectVisible     = state.duelScreen === 'spectate';
-      const countdownVisible = state.duelScreen === 'countdown';
-      const waitingVisible   = state.duelLobbyUI.waiting.visible;
+      const screen           = getDuelScreenSnapshot();
+      const gameVisible      = screen === 'game';
+      const tournVisible     = screen === 'tournament';
+      const spectVisible     = screen === 'spectate';
+      const countdownVisible = screen === 'countdown';
+      const waitingVisible   = getDuelLobbyUISnapshot().waiting.visible;
 
       // 24h async duel: leaving mid-question (or during the pre-game countdown)
       // never forfeits — the room stays alive, the session is saved, and the
       // player can resume the same question later from the lobby's resume banner.
-      if ((gameVisible && !state.duelRoom.finished) || countdownVisible) {
+      if ((gameVisible && !getDuelRoomSnapshot().finished) || countdownVisible) {
         if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}
         if(_tempoTimer){clearInterval(_tempoTimer);_tempoTimer=null;}
         if(_freezeTimer){clearTimeout(_freezeTimer);_freezeTimer=null;}

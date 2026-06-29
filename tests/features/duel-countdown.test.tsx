@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
 import { DuelCountdown } from '../../js/features/duel-countdown.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -24,11 +23,6 @@ describe('duel-countdown.tsx DuelCountdown', () => {
 
   beforeEach(() => {
     document.body.innerHTML = '';
-    state.duelCountdownNum = 3;
-    state.duelRoom.oppAvatar = '🤖';
-    state.duelRoom.oppName = 'Bot';
-    state.duelRoom.roomId = '';
-    state.duelRoom.mySlot = 'p1';
     roots = [];
     getCountdownData.mockClear().mockReturnValue({ oppAvatar: '🤖', oppName: 'Bot', myAvatar: '🧑', myName: 'Me', roomCode: null, num: 3 });
   });

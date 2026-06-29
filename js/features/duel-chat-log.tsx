@@ -6,10 +6,11 @@
 import type { ReactElement } from 'react';
 import { useEffect, useRef } from 'react';
 import { _getChatHistory } from './duel.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { notifyStateChange } from '../../src/store.ts';
+import { useDuelChat } from '../../src/duel-async-store.ts';
 
 export function DuelChatLog(): ReactElement {
-  useStateVersion();
+  useDuelChat();
   const msgs = _getChatHistory();
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {

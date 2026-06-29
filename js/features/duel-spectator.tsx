@@ -6,7 +6,9 @@
 import type { ReactElement } from 'react';
 import { _getSpecRoom, _getDuelScreen, _leaveSpectator, DUEL_MODES, ROOM_SIZE } from './duel.ts';
 import { t } from './i18n.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { notifyStateChange } from '../../src/store.ts';
+import { useDuelSpecRoom } from '../../src/duel-async-store.ts';
+import { useDuelRoomState } from '../../src/duel-room-store.ts';
 
 function Dots({ idx, color }: { idx:number; color:string }): ReactElement {
   return (
@@ -19,7 +21,8 @@ function Dots({ idx, color }: { idx:number; color:string }): ReactElement {
 }
 
 export function DuelSpectatorView(): ReactElement | null {
-  useStateVersion();
+  useDuelSpecRoom();
+  useDuelRoomState();
   if (_getDuelScreen() !== 'spectate') return null;
   const room = _getSpecRoom();
   if (!room) return null;

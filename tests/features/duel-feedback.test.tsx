@@ -1,11 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
 import { DuelFeedback, refreshDuelFeedback } from '../../js/features/duel-feedback.tsx';
+import { setDuelQuestionFields } from '../../src/duel-question-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
+let feedback = { html: '', speed: '' };
 const { getFeedbackData } = vi.hoisted(() => ({
   getFeedbackData: vi.fn(() => ({ html: '', speed: '' })),
 }));
@@ -24,10 +25,9 @@ describe('duel-feedback.tsx DuelFeedback', () => {
 
   beforeEach(() => {
     document.body.innerHTML = '';
-    state.duelQuestion.feedbackHtml = '';
-    state.duelQuestion.speedText = '';
+    feedback = { html: '', speed: '' };
     roots = [];
-    getFeedbackData.mockClear().mockImplementation(() => ({ html: state.duelQuestion.feedbackHtml, speed: state.duelQuestion.speedText }));
+    getFeedbackData.mockClear().mockImplementation(() => feedback);
   });
 
   afterEach(() => {
@@ -43,8 +43,7 @@ describe('duel-feedback.tsx DuelFeedback', () => {
   });
 
   it('renders feedback HTML and speed text', () => {
-    state.duelQuestion.feedbackHtml = '<b>Правильно!</b>';
-    state.duelQuestion.speedText = '0.8s';
+    feedback = { html: '<b>Правильно!</b>', speed: '0.8s' };
     const { container, root } = mount();
     roots.push(root);
 
@@ -57,9 +56,8 @@ describe('duel-feedback.tsx DuelFeedback', () => {
     const { container, root } = mount();
     roots.push(root);
 
-    state.duelQuestion.feedbackHtml = '<b>Невірно</b>';
-    state.duelQuestion.speedText = '1.2s';
-    act(() => { refreshDuelFeedback(); });
+    feedback = { html: '<b>Невірно</b>', speed: '1.2s' };
+    act(() => { refreshDuelFeedback(); setDuelQuestionFields({}); });
 
     const divs = container.querySelectorAll('div');
     expect(divs[0].innerHTML).toBe('<b>Невірно</b>');

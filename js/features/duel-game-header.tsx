@@ -6,7 +6,8 @@
 import type { ReactElement } from 'react';
 import { _getGameHeaderData, DUEL_MODES } from './duel.ts';
 import { t } from './i18n.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { notifyStateChange } from '../../src/store.ts';
+import { useDuelRoomState } from '../../src/duel-room-store.ts';
 
 function Dots({ idx, flags, total, color }: { idx:number; flags:(boolean|'skip'|'double')[]; total:number; color:string }): ReactElement {
   const len = Math.max(total, flags?.length ?? 0);
@@ -25,7 +26,7 @@ function Dots({ idx, flags, total, color }: { idx:number; flags:(boolean|'skip'|
 }
 
 export function DuelGameHeader(): ReactElement {
-  useStateVersion();
+  useDuelRoomState();
   const d = _getGameHeaderData();
   const mInfo = DUEL_MODES.find(m => m.id === d.mode) || DUEL_MODES[0];
   return (

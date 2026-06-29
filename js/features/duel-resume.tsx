@@ -7,7 +7,8 @@ import type { ReactElement } from 'react';
 import { useEffect, useState } from 'react';
 import { t } from './i18n.ts';
 import { _getResumeSessions, _onResumeContinue, _onResumeDiscard, type ResumeSessionVM } from './duel.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { notifyStateChange } from '../../src/store.ts';
+import { useDuelResumeSessions } from '../../src/duel-async-store.ts';
 
 function ResumeCard({ s }: { s: ResumeSessionVM }): ReactElement {
   const [now, setNow] = useState(Date.now());
@@ -52,7 +53,7 @@ function ResumeCard({ s }: { s: ResumeSessionVM }): ReactElement {
 }
 
 export function DuelResume(): ReactElement | null {
-  useStateVersion();
+  useDuelResumeSessions();
   const sessions = _getResumeSessions();
   if (!sessions.length) return null;
   return <>{sessions.map(s => <ResumeCard key={s.roomId} s={s} />)}</>;

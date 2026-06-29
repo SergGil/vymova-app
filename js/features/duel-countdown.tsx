@@ -6,10 +6,10 @@ import type { ReactElement } from 'react';
 import { useEffect, useRef } from 'react';
 import { t } from './i18n.ts';
 import { _getCountdownData } from './duel.ts';
-import { useStateVersion } from '../../src/store.ts';
+import { useDuelRoomState } from '../../src/duel-room-store.ts';
 
 export function DuelCountdown(): ReactElement {
-  useStateVersion();
+  useDuelRoomState();
   const d = _getCountdownData();
   const numRef = useRef<HTMLDivElement>(null);
 

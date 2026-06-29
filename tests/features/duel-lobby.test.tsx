@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
+import { resetLobbyUI as resetLobbyStore, setLobbyWaiting, setLobbyMsg } from '../../src/duel-lobby-store.ts';
 import { DuelLobby } from '../../js/features/duel-lobby.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -50,16 +50,7 @@ function mount(): { container: HTMLElement; root: Root } {
 }
 
 function resetLobbyUI(): void {
-  state.duelLobbyUI = {
-    msg: { visible: false, text: '', challenge: null },
-    waiting: { visible: false, roomCode: '', modeLabel: '' },
-    joinRowVisible: true,
-    createBtn: { disabled: false },
-    joinBtn: { disabled: false },
-    asyncBtn: { disabled: false },
-    tournBtn4: { disabled: false, errorLabel: null },
-    tournBtn8: { disabled: false, errorLabel: null },
-  };
+  resetLobbyStore();
 }
 
 describe('duel-lobby.tsx DuelLobby', () => {
@@ -97,7 +88,7 @@ describe('duel-lobby.tsx DuelLobby', () => {
   });
 
   it('shows the waiting panel with room code when waiting for an opponent', () => {
-    state.duelLobbyUI.waiting = { visible: true, roomCode: 'ABC123', modeLabel: '🧠 Тест' };
+    setLobbyWaiting({ visible: true, roomCode: 'ABC123', modeLabel: '🧠 Тест' });
     const { container, root } = mount();
     roots.push(root);
     expect(container.querySelector('#duel-room-code')!.textContent).toBe('ABC123');
@@ -147,7 +138,7 @@ describe('duel-lobby.tsx DuelLobby', () => {
   });
 
   it('shows a message banner when duelLobbyUI.msg is visible', () => {
-    state.duelLobbyUI.msg = { visible: true, text: 'Привіт', challenge: null };
+    setLobbyMsg({ visible: true, text: 'Привіт', challenge: null });
     const { container, root } = mount();
     roots.push(root);
     expect(container.querySelector('#duel-msg')!.textContent).toContain('Привіт');
