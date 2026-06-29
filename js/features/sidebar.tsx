@@ -154,7 +154,7 @@ export function closePage(): void {
   }
 }
 
-const FANDOM_THEME_KEYS = ['sw', 'hp', 'cp', 'lotr', 'mcu', 'witcher', 'mc'];
+const FANDOM_THEME_KEYS = ['sw', 'hp', 'cp', 'lotr', 'mcu', 'witcher', 'mc', 'dc', 'got', 'dw', 'dune', 'hg', 'avt', 'dt'];
 
 function _updateTogglePills(): void {
   // Dark theme pill reflects user preference (ew_theme), not a fandom-induced body.dark

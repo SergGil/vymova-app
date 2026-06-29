@@ -13,6 +13,7 @@ const BACKUP_KEYS = [
   'ew_known', 'ew_known_lz', 'ew_srs', 'ew_srs_lz',
   'ew_game', 'ew_daily', 'ew_ach',
   'ew_fontsize', 'ew_theme', 'ew_sw', 'ew_hp', 'ew_cp', 'ew_lotr', 'ew_mcu', 'ew_witcher', 'ew_mc',
+  'ew_dc', 'ew_got', 'ew_dw', 'ew_dune', 'ew_hg', 'ew_avt', 'ew_dt',
   'ew_ws_voice', 'ew_ws_uk_voice',
   'ew_notif_enabled', 'ew_notes', 'ew_bookmarks',
   'ew_milestones', 'ew_mode_acc', 'ew_mistakes',

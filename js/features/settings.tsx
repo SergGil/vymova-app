@@ -77,6 +77,13 @@ export function SettingsInit(): ReactElement | null {
       { key: 'mcu', titleOn: 'settings.mcuTitleOn', titleOff: 'settings.mcuTitle' },
       { key: 'witcher', titleOn: 'settings.witcherTitleOn', titleOff: 'settings.witcherTitle' },
       { key: 'mc', titleOn: 'settings.mcTitleOn', titleOff: 'settings.mcTitle' },
+      { key: 'dc', titleOn: 'settings.dcTitleOn', titleOff: 'settings.dcTitle' },
+      { key: 'got', titleOn: 'settings.gotTitleOn', titleOff: 'settings.gotTitle' },
+      { key: 'dw', titleOn: 'settings.dwTitleOn', titleOff: 'settings.dwTitle' },
+      { key: 'dune', titleOn: 'settings.duneTitleOn', titleOff: 'settings.duneTitle' },
+      { key: 'hg', titleOn: 'settings.hgTitleOn', titleOff: 'settings.hgTitle' },
+      { key: 'avt', titleOn: 'settings.avtTitleOn', titleOff: 'settings.avtTitle' },
+      { key: 'dt', titleOn: 'settings.dtTitleOn', titleOff: 'settings.dtTitle' },
     ];
     const themeBtns = THEME_DEFS.map(d => ({ ...d, el: document.getElementById(`btn-${d.key}`) as HTMLElement | null }));
     const themeCleanups: VoidFn[] = [];
