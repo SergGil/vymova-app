@@ -87,9 +87,21 @@ export function SettingsInit(): ReactElement | null {
     ];
     const themeBtns = THEME_DEFS.map(d => ({ ...d, el: document.getElementById(`btn-${d.key}`) as HTMLElement | null }));
     const themeCleanups: VoidFn[] = [];
+    // Self-heal stale state from before mutual exclusivity was enforced (or
+    // any other way two `ew_<key>` flags ended up '1' at once) — apply only
+    // the first one found and clear the rest, so at most one skin is active.
+    let _themeAlreadyApplied = false;
     themeBtns.forEach(({ key, el, titleOn, titleOff }) => {
       if (!el) return;
-      if (localStorage.getItem(`ew_${key}`) === '1') document.body.classList.add(key);
+      if (localStorage.getItem(`ew_${key}`) === '1') {
+        if (_themeAlreadyApplied) {
+          localStorage.setItem(`ew_${key}`, '0');
+          el.title = t(titleOff);
+        } else {
+          document.body.classList.add(key);
+          _themeAlreadyApplied = true;
+        }
+      }
       const onClick = () => {
         const isOn = document.body.classList.toggle(key);
         localStorage.setItem(`ew_${key}`, isOn ? '1' : '0');

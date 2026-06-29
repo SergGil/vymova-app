@@ -341,7 +341,7 @@ export function QuizPage(): ReactElement {
               <button
                 onClick={restartWrong}
                 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '.88rem', fontWeight: 600, padding: '10px 22px', borderRadius: 10, border: '1.5px solid var(--accent2)', background: 'none', color: 'var(--accent2)', cursor: 'pointer' }}
-              >✗ {t('quiz.restartWrongPrefix')} {_mistakeCount(wrongWords.length)}</button>
+              >{t('quiz.restartWrongPrefix')} {_mistakeCount(wrongWords.length)}</button>
             )}
             <button
               onClick={closeQuiz}
