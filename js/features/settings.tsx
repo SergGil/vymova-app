@@ -68,45 +68,37 @@ export function SettingsInit(): ReactElement | null {
       } catch (e) {}
     }, 200);
 
-    // ── Star Wars Mode ─────────────────────────────────────────────
-    const btnSW = document.getElementById('btn-sw');
-    const btnHP = document.getElementById('btn-hp');
-    let onSwClick: (() => void) | null = null;
-    if (btnSW) {
-      if (localStorage.getItem('ew_sw') === '1') {
-        document.body.classList.add('sw');
-      }
-      onSwClick = () => {
-        const isOn = document.body.classList.toggle('sw');
-        localStorage.setItem('ew_sw', isOn ? '1' : '0');
-        btnSW.title = isOn ? t('settings.swTitleOn') : t('settings.swTitle');
+    // ── Fandom theme skins (mutually exclusive body classes) ────────
+    const THEME_DEFS = [
+      { key: 'sw', titleOn: 'settings.swTitleOn', titleOff: 'settings.swTitle' },
+      { key: 'hp', titleOn: 'settings.hpTitleOn', titleOff: 'settings.hpTitle' },
+      { key: 'cp', titleOn: 'settings.cpTitleOn', titleOff: 'settings.cpTitle' },
+      { key: 'lotr', titleOn: 'settings.lotrTitleOn', titleOff: 'settings.lotrTitle' },
+      { key: 'mcu', titleOn: 'settings.mcuTitleOn', titleOff: 'settings.mcuTitle' },
+      { key: 'witcher', titleOn: 'settings.witcherTitleOn', titleOff: 'settings.witcherTitle' },
+      { key: 'mc', titleOn: 'settings.mcTitleOn', titleOff: 'settings.mcTitle' },
+    ];
+    const themeBtns = THEME_DEFS.map(d => ({ ...d, el: document.getElementById(`btn-${d.key}`) as HTMLElement | null }));
+    const themeCleanups: VoidFn[] = [];
+    themeBtns.forEach(({ key, el, titleOn, titleOff }) => {
+      if (!el) return;
+      if (localStorage.getItem(`ew_${key}`) === '1') document.body.classList.add(key);
+      const onClick = () => {
+        const isOn = document.body.classList.toggle(key);
+        localStorage.setItem(`ew_${key}`, isOn ? '1' : '0');
+        el.title = isOn ? t(titleOn) : t(titleOff);
         if (isOn) {
-          document.body.classList.remove('hp');
-          localStorage.setItem('ew_hp', '0');
-          if (btnHP) btnHP.title = t('settings.hpTitle');
+          themeBtns.forEach(other => {
+            if (other.key === key || !other.el) return;
+            document.body.classList.remove(other.key);
+            localStorage.setItem(`ew_${other.key}`, '0');
+            other.el.title = t(other.titleOff);
+          });
         }
       };
-      btnSW.addEventListener('click', onSwClick);
-    }
-
-    // ── Harry Potter Mode ──────────────────────────────────────────
-    let onHpClick: (() => void) | null = null;
-    if (btnHP) {
-      if (localStorage.getItem('ew_hp') === '1') {
-        document.body.classList.add('hp');
-      }
-      onHpClick = () => {
-        const isOn = document.body.classList.toggle('hp');
-        localStorage.setItem('ew_hp', isOn ? '1' : '0');
-        btnHP.title = isOn ? t('settings.hpTitleOn') : t('settings.hpTitle');
-        if (isOn) {
-          document.body.classList.remove('sw');
-          localStorage.setItem('ew_sw', '0');
-          if (btnSW) btnSW.title = t('settings.swTitle');
-        }
-      };
-      btnHP.addEventListener('click', onHpClick);
-    }
+      el.addEventListener('click', onClick);
+      themeCleanups.push(() => el.removeEventListener('click', onClick));
+    });
 
     // ── Modes Modal ────────────────────────────────────────────────
     const _modesOvl = document.getElementById('modes-overlay');
@@ -171,8 +163,7 @@ export function SettingsInit(): ReactElement | null {
       btnNext?.removeEventListener('click', onNext, true);
       document.removeEventListener('visibilitychange', onVisibilityChange);
       clearTimeout(renderTimer);
-      if (btnSW && onSwClick) btnSW.removeEventListener('click', onSwClick);
-      if (btnHP && onHpClick) btnHP.removeEventListener('click', onHpClick);
+      themeCleanups.forEach(fn => fn());
       if (_openBtn && openModes) _openBtn.removeEventListener('click', openModes);
       btnAch?.removeEventListener('click', onAchClick);
       if (btnPwaInstall && onPwaInstallClick) btnPwaInstall.removeEventListener('click', onPwaInstallClick);
