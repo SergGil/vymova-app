@@ -14,7 +14,7 @@ const ALL_LANGS: LangCode[] = ['ua', 'en', 'es', 'fr', 'it', 'pt', 'de', 'he', '
 
 // Flag shown for each language — picks the country most learners associate
 // with it, not necessarily the only place it's spoken.
-const FLAG_CODE: Record<LangCode, string> = {
+export const FLAG_CODE: Record<LangCode, string> = {
   ua: 'ua', en: 'gb', es: 'es', fr: 'fr', it: 'it', pt: 'pt', de: 'de',
   he: 'il', ar: 'sa', pl: 'pl', zh: 'cn', el: 'gr', ja: 'jp', tr: 'tr', nl: 'nl',
 };
@@ -150,12 +150,15 @@ function applyMode(learn: LangCode, know: LangCode, direction: Direction): void 
 // A flag-icon dropdown standing in for a native <select> — browsers don't
 // render images inside <option>, so showing a flag per language/direction
 // means rolling our own button + popover list instead.
-function FlagDropdown<T extends string>({ value, options, renderOption, onChange, ariaLabel }: {
+function FlagDropdown<T extends string>({ value, options, renderOption, onChange, ariaLabel, tag }: {
   value: T;
   options: T[];
   renderOption: (opt: T) => ReactElement;
   onChange: (opt: T) => void;
   ariaLabel: string;
+  // Short caption (e.g. "Я знаю") shown on the closed button only, so the
+  // two near-identical know/learn dropdowns stay distinguishable at a glance.
+  tag?: string;
 }): ReactElement {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -178,6 +181,7 @@ function FlagDropdown<T extends string>({ value, options, renderOption, onChange
   return (
     <div className="flagdd" ref={rootRef}>
       <button type="button" className="flagdd-btn" data-value={value} aria-label={ariaLabel} aria-expanded={open} onClick={() => setOpen(o => !o)}>
+        {tag && <span className="flagdd-tag">{tag}</span>}
         {renderOption(value)}
         <span className="flagdd-arrow">{open ? '▴' : '▾'}</span>
       </button>
@@ -257,8 +261,8 @@ export function LangPairSelect(): ReactElement {
 
   return (
     <div className="lang-pair-row" style={{ display: 'flex', gap: '8px', marginRight: '4px' }}>
-      <FlagDropdown value={knowLang} options={ALL_LANGS} renderOption={renderLangOption} onChange={onKnowChange} ariaLabel={t('langpair.know')} />
-      <FlagDropdown value={learnLang} options={LEARN_OPTIONS[knowLang]} renderOption={renderLangOption} onChange={onLearnChange} ariaLabel={t('langpair.learn')} />
+      <FlagDropdown value={knowLang} options={ALL_LANGS} renderOption={renderLangOption} onChange={onKnowChange} ariaLabel={t('langpair.know')} tag={t('langpair.know')} />
+      <FlagDropdown value={learnLang} options={LEARN_OPTIONS[knowLang]} renderOption={renderLangOption} onChange={onLearnChange} ariaLabel={t('langpair.learn')} tag={t('langpair.learn')} />
       <FlagDropdown value={direction} options={['fwd', 'rev', 'mix']} renderOption={renderDirectionOption} onChange={onDirectionChange} ariaLabel={t('langpair.direction')} />
     </div>
   );

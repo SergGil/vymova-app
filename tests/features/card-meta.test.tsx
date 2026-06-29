@@ -71,7 +71,9 @@ describe('card-meta.tsx CardMeta', () => {
 
   it('shows the front-language tag', () => {
     const { container } = mount();
-    expect(container.querySelector('#wlang')!.textContent).toBe('EN');
+    const tag = container.querySelector('#wlang')!;
+    const img = tag.querySelector('img');
+    expect(img ? img.alt : tag.textContent).toBe('EN');
   });
 
   it('the unmark button stops click propagation', () => {

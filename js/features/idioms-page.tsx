@@ -4,7 +4,8 @@ import { useEffect, useState, type ReactElement, type MouseEventHandler } from '
 import { IDIOMS_BY_LANG, type Idiom } from '../../data/idioms.ts';
 import { t } from './i18n.ts';
 import { _speakWithLang } from './speech.ts';
-import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
+import { getKnowLang, getLearnLang, FLAG_CODE, type LangCode } from './lang-pair-select.tsx';
+import { flagUrl } from '../core/flags.ts';
 
 type Tab = 'en' | 'ua' | 'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar' | 'pl' | 'zh' | 'el' | 'ja' | 'tr' | 'nl';
 
@@ -98,9 +99,15 @@ function IdiomsPage(): ReactElement {
   return (
     <>
       <div className="idioms-tabs">
-        {tabs.map(tb => (
-          <button key={tb} className={'idioms-tab' + (tb === activeTab ? ' idioms-tab-active' : '')} onClick={() => setTab(tb)} data-i18n={TAB_I18N_KEY[tb]}>{t(TAB_I18N_KEY[tb])}</button>
-        ))}
+        {tabs.map(tb => {
+          const url = flagUrl(FLAG_CODE[tb as LangCode]);
+          return (
+            <button key={tb} className={'idioms-tab' + (tb === activeTab ? ' idioms-tab-active' : '')} onClick={() => setTab(tb)}>
+              {url && <img src={url} alt="" width={14} height={14} />}
+              <span data-i18n={TAB_I18N_KEY[tb]}>{t(TAB_I18N_KEY[tb])}</span>
+            </button>
+          );
+        })}
       </div>
       <div className="idioms-search-wrap">
         <input
