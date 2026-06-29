@@ -194,14 +194,23 @@ describe('voice.tsx', () => {
     expect(list.querySelectorAll('.voice-card').length).toBe(1);
   });
 
-  it('clicking the settings overlay re-renders voices', () => {
+  it('opening the settings overlay re-renders voices, but clicking inside it does not', async () => {
     const voices = [makeVoice('Google US English', 'en-US')];
     vi.stubGlobal('speechSynthesis', makeFakeSynth(voices));
     const { root } = mount();
     roots.push(root);
 
+    // A plain click inside the (already open) overlay must NOT force a
+    // re-render — that would collapse any <details> dropdown the user just
+    // expanded. Only the overlay gaining the 'open' class re-renders.
     document.getElementById('fy-voices-list')!.innerHTML = '';
     act(() => { document.getElementById('settings-overlay')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(0);
+
+    await act(async () => {
+      document.getElementById('settings-overlay')!.classList.add('open');
+      await Promise.resolve();
+    });
     expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(1);
   });
 

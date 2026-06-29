@@ -692,7 +692,7 @@
   "settings.avatar": "Аватар",
   "settings.darkTower": "Темна Вежа",
   "settings.voiceTitle": "🔊 Голос озвучення",
-  "settings.voiceReload": "🔄 Оновити список",
+  "settings.voiceReload": "🔄 Оновити",
   "settings.voiceReloadTitle": "Перезавантажити список голосів",
   "settings.voiceDesc": "Безкоштовно, без API ключа, миттєво. Аудіо кешується після першого відтворення.",
   "settings.imagesTitle": "🖼️ Зображення на картках",

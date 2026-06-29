@@ -677,7 +677,7 @@
   "settings.avatar": "Avatar",
   "settings.darkTower": "Der Dunkle Turm",
   "settings.voiceTitle": "🔊 Stimmen",
-  "settings.voiceReload": "🔄 Liste aktualisieren",
+  "settings.voiceReload": "🔄 Aktualisieren",
   "settings.voiceReloadTitle": "Stimmenliste neu laden",
   "settings.voiceDesc": "Kostenlos, ohne API-Schlüssel, sofort. Das Audio wird nach der ersten Wiedergabe zwischengespeichert.",
   "settings.imagesTitle": "🖼️ Kartenbilder",

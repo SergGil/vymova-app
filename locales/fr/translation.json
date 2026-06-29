@@ -677,7 +677,7 @@
   "settings.avatar": "Avatar",
   "settings.darkTower": "La Tour sombre",
   "settings.voiceTitle": "🔊 Voix",
-  "settings.voiceReload": "🔄 Actualiser la liste",
+  "settings.voiceReload": "🔄 Actualiser",
   "settings.voiceReloadTitle": "Recharger la liste des voix",
   "settings.voiceDesc": "Gratuit, sans clé API, instantané. L'audio est mis en cache après la première lecture.",
   "settings.imagesTitle": "🖼️ Images des cartes",

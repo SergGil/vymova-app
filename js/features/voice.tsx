@@ -490,10 +490,17 @@ export function _renderVoices(): void {
     container.appendChild(details);
   };
   const addMissing = (titleKey: string, descKey: string): void => {
+    const details = document.createElement('details');
+    details.className = 'voice-section';
+    details.style.cssText = 'width:100%;margin:6px 0;';
+    const hdr = document.createElement('summary');
+    hdr.style.cssText = 'font-size:.7rem;font-weight:700;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;padding:6px 0;cursor:pointer;';
+    hdr.textContent = t(titleKey);
     const noVoice = document.createElement('div');
-    noVoice.style.cssText = 'margin-top:12px;padding:12px 14px;border:1.5px dashed rgba(255,255,255,.12);border-radius:12px;font-size:.78rem;color:var(--text2);line-height:1.6;';
-    noVoice.innerHTML = `<b style="color:var(--text)">${t(titleKey)}</b><br>${t(descKey)}`;
-    container.appendChild(noVoice);
+    noVoice.style.cssText = 'margin-top:6px;padding:12px 14px;border:1.5px dashed rgba(255,255,255,.12);border-radius:12px;font-size:.78rem;color:var(--text2);line-height:1.6;';
+    noVoice.innerHTML = t(descKey);
+    details.append(hdr, noVoice);
+    container.appendChild(details);
   };
   addSection(t('settings.enVoicesTitle'), enVoices, _enURI, 'ew_ws_voice', 'Hello there, general Kenobi');
   if (ukVoices.length) addSection(t('settings.ukVoicesTitle'), ukVoices, _ukURI, 'ew_ws_uk_voice', 'Привіт, як справи');
@@ -567,8 +574,15 @@ export function VoiceInit(): ReactElement | null {
       window.speechSynthesis.addEventListener('voiceschanged', onVoicesChanged);
     }
 
+    // Re-render once when the Settings page opens (so the list reflects
+    // voices loaded since last time) — NOT on every click inside it, which
+    // would collapse the per-language <details> dropdowns right back up.
     const settingsOverlay = document.getElementById('settings-overlay');
-    settingsOverlay?.addEventListener('click', _renderVoices);
+    const onOverlayClassChange = () => {
+      if (settingsOverlay?.classList.contains('open')) _renderVoices();
+    };
+    const overlayObserver = new MutationObserver(onOverlayClassChange);
+    if (settingsOverlay) overlayObserver.observe(settingsOverlay, { attributes: true, attributeFilter: ['class'] });
 
     const onReloadClick = () => {
       const all = _allVoices();
@@ -590,7 +604,7 @@ export function VoiceInit(): ReactElement | null {
 
     return () => {
       if (window.speechSynthesis) window.speechSynthesis.removeEventListener('voiceschanged', onVoicesChanged);
-      settingsOverlay?.removeEventListener('click', _renderVoices);
+      overlayObserver.disconnect();
       reloadBtn?.removeEventListener('click', onReloadClick);
     };
   }, []);

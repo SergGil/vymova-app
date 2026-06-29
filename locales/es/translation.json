@@ -677,7 +677,7 @@
   "settings.avatar": "Avatar",
   "settings.darkTower": "La Torre Oscura",
   "settings.voiceTitle": "🔊 Voz",
-  "settings.voiceReload": "🔄 Actualizar lista",
+  "settings.voiceReload": "🔄 Actualizar",
   "settings.voiceReloadTitle": "Recargar la lista de voces",
   "settings.voiceDesc": "Gratis, sin clave de API, instantáneo. El audio se guarda en caché tras la primera reproducción.",
   "settings.imagesTitle": "🖼️ Imágenes en las tarjetas",

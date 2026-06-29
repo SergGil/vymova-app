@@ -677,7 +677,7 @@
   "settings.avatar": "Avatar",
   "settings.darkTower": "A Torre Negra",
   "settings.voiceTitle": "🔊 Vozes",
-  "settings.voiceReload": "🔄 Atualizar lista",
+  "settings.voiceReload": "🔄 Atualizar",
   "settings.voiceReloadTitle": "Recarregar a lista de vozes",
   "settings.voiceDesc": "Gratuito, sem chave de API, instantâneo. O áudio é armazenado em cache após a primeira reprodução.",
   "settings.imagesTitle": "🖼️ Imagens dos cartões",

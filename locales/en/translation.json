@@ -677,7 +677,7 @@
   "settings.avatar": "Avatar",
   "settings.darkTower": "The Dark Tower",
   "settings.voiceTitle": "🔊 Voice",
-  "settings.voiceReload": "🔄 Refresh list",
+  "settings.voiceReload": "🔄 Refresh",
   "settings.voiceReloadTitle": "Reload the voice list",
   "settings.voiceDesc": "Free, no API key, instant. Audio is cached after the first playback.",
   "settings.imagesTitle": "🖼️ Card images",
