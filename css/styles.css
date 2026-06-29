@@ -7844,3 +7844,523 @@ body.dc .time-select:hover, body.dc .time-select:focus { background: rgba(0,68,2
 body.dc .idioms-tab-active { background: #0044ff; border-color: #0044ff; }
 
 body.dc .idiom-meaning { color: #0044ff; }
+
+
+/* ═══════════════════════════════════════════════════
+   🐉  GAME OF THRONES THEME  —  body.got
+   ═══════════════════════════════════════════════════ */
+
+  body.got .title-sw-toggle { opacity: 1; border-color: #ff6b00; color: #ff6b00; background: rgba(255,107,0,.1); }
+
+  body.got .lang-opt.lang-active { color: #ff6b00; background: rgba(255,107,0,.12); }
+
+  body.got .search-result-item.sr-known { background: #301d10; }
+
+  body.got .scr-tile-placed { background: var(--accent); border-color: var(--accent); color: #000; }
+
+
+
+
+/* ═══════════════════════════════════════════════════
+   ⚔️  STAR WARS THEME  —  body.got
+   ═══════════════════════════════════════════════════ */
+
+/* ── Змінні ── */
+body.got {
+  --bg:        #1a0f07;
+  --card:      #301b0c;
+  --text:      #f8e3d4;
+  --text2:     #b88b6a;
+  --text3:     #784c2d;
+  --accent:    #ff6b00;
+  --accent2:   #33f7ff;
+  --border:    #6b3c1a;
+  --shadow:    0 0 18px rgba(255,107,0,0.12), 0 4px 24px rgba(0,0,0,0.6);
+  /* Modal backgrounds — dark neon panels instead of white */
+  --modal-bg:     #38200e;
+  --modal-av-bg:  rgba(255,107,0,.08);
+}
+
+
+/* ── Star Wars neon scrollbars ── */
+body.got ::-webkit-scrollbar             { width: 5px; height: 5px; }
+
+body.got ::-webkit-scrollbar-track       { background: rgba(20,8,0,.7); }
+
+body.got ::-webkit-scrollbar-thumb       {
+  background: linear-gradient(180deg, #ff6b00 0%, #aa4700 100%);
+  border-radius: 10px;
+  box-shadow: 0 0 6px rgba(255,107,0,.6), 0 0 12px rgba(255,107,0,.25);
+}
+
+body.got ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff9040 0%, #dd5d00 100%);
+  box-shadow: 0 0 10px rgba(255,107,0,.9), 0 0 20px rgba(255,107,0,.4);
+}
+
+body.got ::-webkit-scrollbar-corner { background: rgba(20,8,0,.7); }
+
+body.got * { scrollbar-color: #ff6b00 rgba(20,8,0,.7); }
+
+
+/* ── Зіркове небо ── */
+body.got::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1px 1px at 10% 15%,  rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 40%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 8%,   rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 28%,  rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 5%,   rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 18%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 35%,  rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 60%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 75%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 55%,  rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 70%,  rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 85%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 62%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 20% 90%,  rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 45% 80%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 75% 45%,  rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5%  50%,  rgba(255,165,100,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38% 22%,  rgba(255,165,100,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 88%,  rgba(184,255,150,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 50%,  rgba(255,165,100,0.5) 0%, transparent 100%);
+  background-color: #1a0f07;
+  pointer-events: none;
+}
+
+
+/* ── Orbitron для заголовку ── */
+body.got .title {
+  font-family: 'Cinzel Decorative', sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(255,107,0,0.5);
+}
+
+
+/* ── HUD куточки на картці ── */
+body.got .card-face {
+  position: relative;
+}
+
+body.got .card-face::before,
+body.got .card-face::after {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  border-color: rgba(255,107,0,0.6);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 3;
+}
+
+body.got .card-face::before {
+  top: 8px; left: 8px;
+  border-width: 2px 0 0 2px;
+  border-radius: 2px 0 0 0;
+}
+
+body.got .card-face::after {
+  bottom: 8px; right: 8px;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 2px 0;
+}
+
+
+/* ── Scanlines (голограмний ефект) ── */
+body.got .card-face {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(255,107,0,0.015) 3px,
+    rgba(255,107,0,0.015) 4px
+  );
+}
+
+
+/* ── Glow на картці ── */
+body.got .card-face {
+  border-color: rgba(255,107,0,0.25);
+  box-shadow: 0 0 20px rgba(255,107,0,0.1), 0 4px 30px rgba(0,0,0,0.7),
+    inset 0 0 40px rgba(255,107,0,0.03);
+}
+
+
+/* ── Відома картка — Jedi Green Lightsaber ── */
+body.got .card.is-known .card-face {
+  border-color: rgba(57,211,83,0.4) !important;
+  box-shadow: 0 0 25px rgba(57,211,83,0.2), 0 4px 30px rgba(0,0,0,0.7) !important;
+}
+
+
+/* ── Прогрес-бар — Lightsaber ── */
+body.got .progress-fill {
+  background: linear-gradient(90deg, #ff6b00, #ff6b00);
+  box-shadow: 0 0 8px #ff6b00, 0 0 16px rgba(255,107,0,0.5);
+}
+
+body.got .goal-fill {
+  background: linear-gradient(90deg, #ff6b00, #ffb37d) !important;
+  box-shadow: 0 0 8px #ff6b00, 0 0 20px rgba(255,107,0,0.4) !important;
+}
+
+body.got .goal-fill.done {
+  background: linear-gradient(90deg, #ff6600, #ffd700) !important;
+  box-shadow: 0 0 8px #ffd700, 0 0 20px rgba(255,215,0,0.4) !important;
+}
+
+
+/* ── Achievements progress ── */
+body.got .ach-progress-fill { background: linear-gradient(90deg, #ff6b00, #ffb37d); }
+
+
+/* ── Кнопки ── */
+body.got .btn {
+  background: rgba(44,24,10,0.9);
+  border-color: rgba(255,107,0,0.25);
+  color: var(--text2);
+  transition: all .2s;
+}
+
+body.got .btn:hover {
+  border-color: rgba(255,107,0,0.6);
+  color: var(--accent);
+  box-shadow: 0 0 12px rgba(255,107,0,0.2);
+}
+
+body.got .btn-know {
+  border-color: rgba(57,211,83,0.5) !important;
+  color: #39d353 !important;
+}
+
+body.got .btn-know:hover {
+  background: rgba(57,211,83,0.1) !important;
+  box-shadow: 0 0 15px rgba(57,211,83,0.3) !important;
+}
+
+body.got .btn-dontknow {
+  border-color: rgba(255,69,58,0.5) !important;
+  color: #ff453a !important;
+}
+
+body.got .btn-dontknow:hover {
+  background: rgba(255,69,58,0.1) !important;
+  box-shadow: 0 0 15px rgba(255,69,58,0.3) !important;
+}
+
+
+/* ── Пошук ── */
+body.got #search-input {
+  background: rgba(44,24,10,0.9);
+  border-color: rgba(255,107,0,0.2);
+  color: var(--text);
+}
+
+body.got #search-input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(255,107,0,0.2); }
+
+
+/* ── Слово ── */
+body.got .word-text { color: #fcf0e8; text-shadow: 0 0 20px rgba(255,107,0,0.1); }
+
+body.got .transcription { color: var(--accent2); }
+
+
+/* ── Модальні вікна ── */
+body.got .quiz-panel,
+body.got .pairs-panel {
+  background: rgba(44,24,10,0.97);
+  border: 1px solid rgba(255,107,0,0.2);
+  box-shadow: 0 0 40px rgba(255,107,0,0.15), 0 20px 60px rgba(0,0,0,0.8);
+}
+
+
+/* ── Теги/бейджі ── */
+body.got .card-tag { background: rgba(255,107,0,0.12); color: var(--accent); border: 1px solid rgba(255,107,0,0.3); }
+
+body.got .level-badge { box-shadow: 0 0 10px rgba(255,107,0,0.2); }
+
+
+/* ── SRS stats bar ── */
+body.got .srs-stats-bar {
+  background: rgba(44,24,10,0.9);
+  border-color: rgba(255,107,0,0.15);
+}
+
+
+/* ── Ring ── */
+body.got .ring-fill { stroke: #ff6b00; filter: drop-shadow(0 0 4px #ff6b00); }
+
+body.got #btn-got {
+  border-color: #ff6b00;
+  color: #ff6b00;
+  box-shadow: 0 0 8px rgba(255,107,0,0.3);
+  text-shadow: 0 0 6px rgba(255,107,0,0.6);
+}
+
+body.got .progress-fill,
+body.got .goal-fill { animation: saberPulse 2.5s ease-in-out infinite; }
+
+
+/* ── Word of the day ── */
+body.got .wotd-box {
+  background: rgba(44,24,10,0.9);
+  border-color: rgba(255,107,0,0.2);
+}
+
+body.got .wotd-word { color: var(--accent); text-shadow: 0 0 8px rgba(255,107,0,0.3); }
+
+
+/* ── Star Wars mode enhancements for modes panel ── */
+body.got .modes-panel {
+  background: rgba(44,24,10,0.98);
+  border: 1px solid rgba(255,107,0,0.2);
+  box-shadow: 0 0 40px rgba(255,107,0,0.15), 0 -8px 40px rgba(0,0,0,.8);
+}
+
+body.got .mode-card {
+  background: rgba(26,15,7,0.8);
+  border-color: rgba(255,107,0,0.15);
+}
+
+body.got .mode-card:hover {
+  border-color: #ff6b00;
+  background: rgba(255,107,0,0.05);
+  box-shadow: 0 0 12px rgba(255,107,0,0.15);
+}
+
+body.got .mode-name { color: #f8e3d4; }
+
+
+/* SW theme enhancements */
+body.got .gb-block {
+  background: rgba(44,24,10,0.9);
+  border-color: rgba(255,107,0,0.15);
+}
+
+body.got .gb-level-fill {
+  background: linear-gradient(90deg, #ff6b00, #ffb37d);
+  box-shadow: 0 0 6px rgba(255,107,0,0.4);
+}
+
+body.got .gb-streak-num { color: #ff6b00; }
+
+
+/* ── SW theme: extra glow ── */
+body.got .gb-streak-block { border-color: rgba(255,107,0,0.3); }
+
+body.got .gb-goal-block   { border-color: rgba(255,107,0,0.3); }
+
+body.got .gb-level-block  { border-color: rgba(255,107,0,0.3); }
+
+body.got   .btn-achievements { border-color: #ffd700; color: #ffd700; box-shadow: 0 0 8px rgba(255,215,0,.25); }
+
+body.got .profile-btn { border-color: rgba(255,107,0,0.3); color: #e8c4aa; }
+
+body.got .profile-btn:hover { border-color: #ff6b00; color: #fff; }
+
+body.got .prf-av-btn.prf-av-active { border-color: #ff6b00; box-shadow: 0 0 8px rgba(255,107,0,0.2); }
+
+body.got .prf-add-confirm { background: linear-gradient(90deg,#803600,#ff6b00); }
+
+body.got    .sidebar { background: #1c1008; border-color: rgba(255,107,0,.12); }
+
+body.got .sidebar-logo-text { color: #ff6b00; }
+
+body.got .sidebar-profile-btn { border-color: rgba(255,107,0,.25); }
+
+body.got .sidebar-profile-btn:hover { border-color: #ff6b00; }
+
+body.got   .sb-btn:hover  { background: rgba(255,107,0,.08); color: #e8c4aa; }
+
+body.got   .sb-btn.sb-active { background: rgba(255,107,0,.12); color: #ff6b00; }
+
+body.got   .sb-flyout { background: #1c1008; border-color: rgba(255,107,0,.14); }
+
+body.got .hamburger { border-color: rgba(255,107,0,.3); }
+
+body.got .profile-save-btn { background: linear-gradient(90deg,#803600,#ff6b00); }
+
+body.got .sb-add-btn { color: #ff6b00; border-color: rgba(255,107,0,.3); }
+
+body.got .sb-add-btn:hover { border-color: #ff6b00; }
+
+body.got .sb-dd-item.sb-dd-active { color: #ff6b00; }
+
+body.got .sb-dd-check { color: #ff6b00; }
+
+body.got .sb-toggle-pill.on { background: #ff6b00; }
+
+body.got .header-wotd .wotd-word { color: #ff6b00; }
+
+body.got .prf-delete-name { color: #ff6b6b; }
+
+body.got .prf-delete-btn-confirm { background: #c0392b; }
+
+body.got .settings-section-danger { border-color: rgba(255,100,80,.25); }
+
+body.got .voice-card:hover    { border-color: #ff6b00; }
+
+body.got .voice-card-active   { border-color: #ff6b00; box-shadow: 0 0 10px rgba(255,107,0,.15); }
+
+
+/* ── Goal block centered overrides ── */
+body.got .gb-goal-block .gb-goal-big { color: #f5dbc8; font-family: 'Cinzel Decorative', monospace; }
+
+body.got .gb-goal-sep  { color: rgba(255,223,200,0.4); }
+
+body.got .gb-level-arrow { color: rgba(255,223,200,0.4); }
+
+
+/* ══ Star Wars: Page Overlays ═══════════════════════════════════ */
+body.got .page-overlay {
+  background: #1a0e06;
+  background-image:
+    radial-gradient(ellipse at top, rgba(60,25,0,0.6) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,107,0,0.03) 60px),
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,107,0,0.02) 60px);
+}
+
+body.got .page-inner { border-left: 1px solid rgba(255,107,0,0.08); }
+
+body.got .page-title { color: #ff6b00; font-family: 'Cinzel Decorative', monospace; letter-spacing: .05em; }
+
+body.got .page-header { border-color: rgba(255,107,0,0.15); }
+
+
+/* ── SW Stats panel ── */
+body.got .stats-panel {
+  background: #1a0e06;
+  border: 1px solid rgba(255,107,0,0.12);
+  box-shadow: 0 0 40px rgba(255,107,0,0.06), inset 0 0 60px rgba(30,13,0,0.8);
+}
+
+body.got .stats-title { color: #ff6b00; font-family: 'Cinzel Decorative', monospace; }
+
+body.got .stats-section-title { color: #c88b5f; letter-spacing: .04em; }
+
+body.got .stats-section { border-bottom: 1px solid rgba(255,107,0,0.07); }
+
+body.got .stat-card { background: rgba(50,21,0,0.6); border: 1px solid rgba(255,107,0,0.12); border-radius: 12px; }
+
+body.got .sv { color: #ff6b00; }
+
+
+/* ── SW Settings sections ── */
+body.got .settings-section {
+  background: rgba(35,15,0,0.7);
+  border-color: rgba(255,107,0,0.15);
+}
+
+body.got .settings-section-title { color: #c88b5f; }
+
+body.got .settings-section-danger { border-color: rgba(231,76,60,0.3); background: rgba(231,76,60,0.04); }
+
+
+/* ── SW Modals ── */
+body.got .prf-delete-panel,
+body.got .import-panel {
+  background: #1e1209;
+  border: 1px solid rgba(255,107,0,0.2);
+  box-shadow: 0 0 60px rgba(255,107,0,0.1);
+}
+
+body.got .prf-delete-title { color: #fff2e8; }
+
+body.got .prf-delete-warn  { color: rgba(255,223,200,0.5); }
+
+
+/* ── SW Achievement toast ── */
+body.got #achievement-toast {
+  background: linear-gradient(135deg, #1a0e05 0%, #28170a 100%);
+  border: 1px solid rgba(255,107,0,0.3);
+  box-shadow: 0 0 30px rgba(255,107,0,0.2), 0 0 60px rgba(255,107,0,0.08);
+}
+
+body.got #achievement-toast .toast-title { color: #ff6b00; font-family: 'Cinzel Decorative', monospace; font-size: .7rem; letter-spacing: .1em; }
+
+body.got #achievement-toast .toast-name  { color: #fff2e8; }
+
+body.got #achievement-toast .toast-icon  { text-shadow: 0 0 20px rgba(255,107,0,0.6); }
+
+
+/* ── SW Achievement popup ── */
+body.got .ach-popup {
+  background: #1c1008;
+  border: 1px solid rgba(255,107,0,0.25);
+  box-shadow: 0 0 50px rgba(255,107,0,0.15);
+}
+
+body.got .ach-popup-icon { text-shadow: 0 0 30px rgba(255,107,0,0.5); }
+
+body.got .ach-popup-name { color: #ff6b00; }
+
+body.got .ach-popup-prog-fill { background: linear-gradient(90deg, #ff6b00, #ffb37d); box-shadow: 0 0 8px rgba(255,107,0,0.4); }
+
+
+/* ── SW Achievements grid (locked/unlocked) ── */
+body.got .ach-card { background: rgba(35,15,0,0.6); border-color: rgba(255,107,0,0.1); }
+
+body.got .ach-card.unlocked { border-color: rgba(255,107,0,0.35); box-shadow: 0 0 12px rgba(255,107,0,0.1); }
+
+body.got .ach-card.unlocked .ach-icon { text-shadow: 0 0 16px rgba(255,107,0,0.5); }
+
+body.got .ach-progress-fill { background: linear-gradient(90deg, #ff6b00, #ffb37d); }
+
+
+/* ── SW Combo toast ── */
+body.got .combo-toast {
+  background: linear-gradient(90deg, #281100, #441d00);
+  border: 1px solid rgba(255,107,0,0.4);
+  color: #ff6b00;
+  text-shadow: 0 0 10px rgba(255,107,0,0.5);
+  box-shadow: 0 0 20px rgba(255,107,0,0.2);
+}
+
+
+/* ── SW Levels roadmap ── */
+body.got .level-row { background: rgba(25,10,0,0.6); border-color: rgba(255,107,0,0.1); }
+
+body.got .level-row.level-current { border-width: 2px; }
+
+body.got .level-row-name { font-family: 'Cinzel Decorative', monospace; font-size: .75rem !important; }
+
+body.got .note-panel { background:#1e1209; border:1px solid rgba(255,107,0,.2); }
+
+body.got .note-textarea { border-color:rgba(255,107,0,.25); }
+
+body.got .srs-fc-bar { background:rgba(255,107,0,.4); }
+
+body.got .srs-fc-today { background:#ff6b00 !important; box-shadow:0 0 8px rgba(255,107,0,.4); }
+
+body.got .dc-word { color:#ff6b00; }
+
+body.got .dc-pbar-fill { background:linear-gradient(90deg,#803600,#ff6b00); }
+
+body.got .dc-opt:hover:not(:disabled) { border-color:#ff6b00; }
+
+body.got .rd-unknown { background:rgba(231,76,60,.15); border-color:rgba(231,76,60,.4); }
+
+body.got .rd-known   { background:rgba(255,107,0,.1);  border-color:rgba(255,107,0,.3); }
+
+body.got .rd-popup-word { color:#ff6b00; }
+
+body.got .duel-card-active { border-color:#ff6b00; }
+
+body.got .notif-toggle-wrap input:checked + .notif-toggle-pill-ui { background:#ff6b00; }
+
+body.got .time-picker { border-color: rgba(255,107,0,.2); }
+
+body.got .time-select:hover, body.got .time-select:focus { background: rgba(255,107,0,.1); }
+
+body.got .idioms-tab-active { background: #ff6b00; border-color: #ff6b00; }
+
+body.got .idiom-meaning { color: #ff6b00; }
