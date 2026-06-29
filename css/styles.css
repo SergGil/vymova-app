@@ -9404,3 +9404,523 @@ body.dune .time-select:hover, body.dune .time-select:focus { background: rgba(25
 body.dune .idioms-tab-active { background: #ffbe00; border-color: #ffbe00; }
 
 body.dune .idiom-meaning { color: #ffbe00; }
+
+
+/* ═══════════════════════════════════════════════════
+   🏹  HUNGER GAMES THEME  —  body.hg
+   ═══════════════════════════════════════════════════ */
+
+  body.hg .title-sw-toggle { opacity: 1; border-color: #8500ff; color: #8500ff; background: rgba(133,0,255,.1); }
+
+  body.hg .lang-opt.lang-active { color: #8500ff; background: rgba(133,0,255,.12); }
+
+  body.hg .search-result-item.sr-known { background: #211030; }
+
+  body.hg .scr-tile-placed { background: var(--accent); border-color: var(--accent); color: #000; }
+
+
+
+
+/* ═══════════════════════════════════════════════════
+   ⚔️  STAR WARS THEME  —  body.hg
+   ═══════════════════════════════════════════════════ */
+
+/* ── Змінні ── */
+body.hg {
+  --bg:        #11071a;
+  --card:      #1f0c30;
+  --text:      #e7d4f8;
+  --text2:     #936ab8;
+  --text3:     #542d78;
+  --accent:    #8500ff;
+  --accent2:   #e3ff33;
+  --border:    #441a6b;
+  --shadow:    0 0 18px rgba(133,0,255,0.12), 0 4px 24px rgba(0,0,0,0.6);
+  /* Modal backgrounds — dark neon panels instead of white */
+  --modal-bg:     #240e38;
+  --modal-av-bg:  rgba(133,0,255,.08);
+}
+
+
+/* ── Star Wars neon scrollbars ── */
+body.hg ::-webkit-scrollbar             { width: 5px; height: 5px; }
+
+body.hg ::-webkit-scrollbar-track       { background: rgba(10,0,20,.7); }
+
+body.hg ::-webkit-scrollbar-thumb       {
+  background: linear-gradient(180deg, #8500ff 0%, #5800aa 100%);
+  border-radius: 10px;
+  box-shadow: 0 0 6px rgba(133,0,255,.6), 0 0 12px rgba(133,0,255,.25);
+}
+
+body.hg ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a340ff 0%, #7300dd 100%);
+  box-shadow: 0 0 10px rgba(133,0,255,.9), 0 0 20px rgba(133,0,255,.4);
+}
+
+body.hg ::-webkit-scrollbar-corner { background: rgba(10,0,20,.7); }
+
+body.hg * { scrollbar-color: #8500ff rgba(10,0,20,.7); }
+
+
+/* ── Зіркове небо ── */
+body.hg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1px 1px at 10% 15%,  rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 40%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 8%,   rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 28%,  rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 5%,   rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 18%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 35%,  rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 60%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 75%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 55%,  rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 70%,  rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 85%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 62%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 20% 90%,  rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 45% 80%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 75% 45%,  rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5%  50%,  rgba(181,100,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38% 22%,  rgba(181,100,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 88%,  rgba(255,150,173,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 50%,  rgba(181,100,255,0.5) 0%, transparent 100%);
+  background-color: #11071a;
+  pointer-events: none;
+}
+
+
+/* ── Orbitron для заголовку ── */
+body.hg .title {
+  font-family: 'Cinzel Decorative', sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(133,0,255,0.5);
+}
+
+
+/* ── HUD куточки на картці ── */
+body.hg .card-face {
+  position: relative;
+}
+
+body.hg .card-face::before,
+body.hg .card-face::after {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  border-color: rgba(133,0,255,0.6);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 3;
+}
+
+body.hg .card-face::before {
+  top: 8px; left: 8px;
+  border-width: 2px 0 0 2px;
+  border-radius: 2px 0 0 0;
+}
+
+body.hg .card-face::after {
+  bottom: 8px; right: 8px;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 2px 0;
+}
+
+
+/* ── Scanlines (голограмний ефект) ── */
+body.hg .card-face {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(133,0,255,0.015) 3px,
+    rgba(133,0,255,0.015) 4px
+  );
+}
+
+
+/* ── Glow на картці ── */
+body.hg .card-face {
+  border-color: rgba(133,0,255,0.25);
+  box-shadow: 0 0 20px rgba(133,0,255,0.1), 0 4px 30px rgba(0,0,0,0.7),
+    inset 0 0 40px rgba(133,0,255,0.03);
+}
+
+
+/* ── Відома картка — Jedi Green Lightsaber ── */
+body.hg .card.is-known .card-face {
+  border-color: rgba(57,211,83,0.4) !important;
+  box-shadow: 0 0 25px rgba(57,211,83,0.2), 0 4px 30px rgba(0,0,0,0.7) !important;
+}
+
+
+/* ── Прогрес-бар — Lightsaber ── */
+body.hg .progress-fill {
+  background: linear-gradient(90deg, #8500ff, #8500ff);
+  box-shadow: 0 0 8px #8500ff, 0 0 16px rgba(133,0,255,0.5);
+}
+
+body.hg .goal-fill {
+  background: linear-gradient(90deg, #8500ff, #c17dff) !important;
+  box-shadow: 0 0 8px #8500ff, 0 0 20px rgba(133,0,255,0.4) !important;
+}
+
+body.hg .goal-fill.done {
+  background: linear-gradient(90deg, #ff6600, #ffd700) !important;
+  box-shadow: 0 0 8px #ffd700, 0 0 20px rgba(255,215,0,0.4) !important;
+}
+
+
+/* ── Achievements progress ── */
+body.hg .ach-progress-fill { background: linear-gradient(90deg, #8500ff, #c17dff); }
+
+
+/* ── Кнопки ── */
+body.hg .btn {
+  background: rgba(28,10,44,0.9);
+  border-color: rgba(133,0,255,0.25);
+  color: var(--text2);
+  transition: all .2s;
+}
+
+body.hg .btn:hover {
+  border-color: rgba(133,0,255,0.6);
+  color: var(--accent);
+  box-shadow: 0 0 12px rgba(133,0,255,0.2);
+}
+
+body.hg .btn-know {
+  border-color: rgba(57,211,83,0.5) !important;
+  color: #39d353 !important;
+}
+
+body.hg .btn-know:hover {
+  background: rgba(57,211,83,0.1) !important;
+  box-shadow: 0 0 15px rgba(57,211,83,0.3) !important;
+}
+
+body.hg .btn-dontknow {
+  border-color: rgba(255,69,58,0.5) !important;
+  color: #ff453a !important;
+}
+
+body.hg .btn-dontknow:hover {
+  background: rgba(255,69,58,0.1) !important;
+  box-shadow: 0 0 15px rgba(255,69,58,0.3) !important;
+}
+
+
+/* ── Пошук ── */
+body.hg #search-input {
+  background: rgba(28,10,44,0.9);
+  border-color: rgba(133,0,255,0.2);
+  color: var(--text);
+}
+
+body.hg #search-input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(133,0,255,0.2); }
+
+
+/* ── Слово ── */
+body.hg .word-text { color: #f2e8fc; text-shadow: 0 0 20px rgba(133,0,255,0.1); }
+
+body.hg .transcription { color: var(--accent2); }
+
+
+/* ── Модальні вікна ── */
+body.hg .quiz-panel,
+body.hg .pairs-panel {
+  background: rgba(28,10,44,0.97);
+  border: 1px solid rgba(133,0,255,0.2);
+  box-shadow: 0 0 40px rgba(133,0,255,0.15), 0 20px 60px rgba(0,0,0,0.8);
+}
+
+
+/* ── Теги/бейджі ── */
+body.hg .card-tag { background: rgba(133,0,255,0.12); color: var(--accent); border: 1px solid rgba(133,0,255,0.3); }
+
+body.hg .level-badge { box-shadow: 0 0 10px rgba(133,0,255,0.2); }
+
+
+/* ── SRS stats bar ── */
+body.hg .srs-stats-bar {
+  background: rgba(28,10,44,0.9);
+  border-color: rgba(133,0,255,0.15);
+}
+
+
+/* ── Ring ── */
+body.hg .ring-fill { stroke: #8500ff; filter: drop-shadow(0 0 4px #8500ff); }
+
+body.hg #btn-hg {
+  border-color: #8500ff;
+  color: #8500ff;
+  box-shadow: 0 0 8px rgba(133,0,255,0.3);
+  text-shadow: 0 0 6px rgba(133,0,255,0.6);
+}
+
+body.hg .progress-fill,
+body.hg .goal-fill { animation: saberPulse 2.5s ease-in-out infinite; }
+
+
+/* ── Word of the day ── */
+body.hg .wotd-box {
+  background: rgba(28,10,44,0.9);
+  border-color: rgba(133,0,255,0.2);
+}
+
+body.hg .wotd-word { color: var(--accent); text-shadow: 0 0 8px rgba(133,0,255,0.3); }
+
+
+/* ── Star Wars mode enhancements for modes panel ── */
+body.hg .modes-panel {
+  background: rgba(28,10,44,0.98);
+  border: 1px solid rgba(133,0,255,0.2);
+  box-shadow: 0 0 40px rgba(133,0,255,0.15), 0 -8px 40px rgba(0,0,0,.8);
+}
+
+body.hg .mode-card {
+  background: rgba(17,7,26,0.8);
+  border-color: rgba(133,0,255,0.15);
+}
+
+body.hg .mode-card:hover {
+  border-color: #8500ff;
+  background: rgba(133,0,255,0.05);
+  box-shadow: 0 0 12px rgba(133,0,255,0.15);
+}
+
+body.hg .mode-name { color: #e7d4f8; }
+
+
+/* SW theme enhancements */
+body.hg .gb-block {
+  background: rgba(28,10,44,0.9);
+  border-color: rgba(133,0,255,0.15);
+}
+
+body.hg .gb-level-fill {
+  background: linear-gradient(90deg, #8500ff, #c17dff);
+  box-shadow: 0 0 6px rgba(133,0,255,0.4);
+}
+
+body.hg .gb-streak-num { color: #8500ff; }
+
+
+/* ── SW theme: extra glow ── */
+body.hg .gb-streak-block { border-color: rgba(133,0,255,0.3); }
+
+body.hg .gb-goal-block   { border-color: rgba(133,0,255,0.3); }
+
+body.hg .gb-level-block  { border-color: rgba(133,0,255,0.3); }
+
+body.hg   .btn-achievements { border-color: #ffd700; color: #ffd700; box-shadow: 0 0 8px rgba(255,215,0,.25); }
+
+body.hg .profile-btn { border-color: rgba(133,0,255,0.3); color: #caaae8; }
+
+body.hg .profile-btn:hover { border-color: #8500ff; color: #fff; }
+
+body.hg .prf-av-btn.prf-av-active { border-color: #8500ff; box-shadow: 0 0 8px rgba(133,0,255,0.2); }
+
+body.hg .prf-add-confirm { background: linear-gradient(90deg,#430080,#8500ff); }
+
+body.hg    .sidebar { background: #12081c; border-color: rgba(133,0,255,.12); }
+
+body.hg .sidebar-logo-text { color: #8500ff; }
+
+body.hg .sidebar-profile-btn { border-color: rgba(133,0,255,.25); }
+
+body.hg .sidebar-profile-btn:hover { border-color: #8500ff; }
+
+body.hg   .sb-btn:hover  { background: rgba(133,0,255,.08); color: #caaae8; }
+
+body.hg   .sb-btn.sb-active { background: rgba(133,0,255,.12); color: #8500ff; }
+
+body.hg   .sb-flyout { background: #12081c; border-color: rgba(133,0,255,.14); }
+
+body.hg .hamburger { border-color: rgba(133,0,255,.3); }
+
+body.hg .profile-save-btn { background: linear-gradient(90deg,#430080,#8500ff); }
+
+body.hg .sb-add-btn { color: #8500ff; border-color: rgba(133,0,255,.3); }
+
+body.hg .sb-add-btn:hover { border-color: #8500ff; }
+
+body.hg .sb-dd-item.sb-dd-active { color: #8500ff; }
+
+body.hg .sb-dd-check { color: #8500ff; }
+
+body.hg .sb-toggle-pill.on { background: #8500ff; }
+
+body.hg .header-wotd .wotd-word { color: #8500ff; }
+
+body.hg .prf-delete-name { color: #ff6b6b; }
+
+body.hg .prf-delete-btn-confirm { background: #c0392b; }
+
+body.hg .settings-section-danger { border-color: rgba(255,100,80,.25); }
+
+body.hg .voice-card:hover    { border-color: #8500ff; }
+
+body.hg .voice-card-active   { border-color: #8500ff; box-shadow: 0 0 10px rgba(133,0,255,.15); }
+
+
+/* ── Goal block centered overrides ── */
+body.hg .gb-goal-block .gb-goal-big { color: #dfc8f5; font-family: 'Cinzel Decorative', monospace; }
+
+body.hg .gb-goal-sep  { color: rgba(229,200,255,0.4); }
+
+body.hg .gb-level-arrow { color: rgba(229,200,255,0.4); }
+
+
+/* ══ Star Wars: Page Overlays ═══════════════════════════════════ */
+body.hg .page-overlay {
+  background: #10061a;
+  background-image:
+    radial-gradient(ellipse at top, rgba(31,0,60,0.6) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(133,0,255,0.03) 60px),
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(133,0,255,0.02) 60px);
+}
+
+body.hg .page-inner { border-left: 1px solid rgba(133,0,255,0.08); }
+
+body.hg .page-title { color: #8500ff; font-family: 'Cinzel Decorative', monospace; letter-spacing: .05em; }
+
+body.hg .page-header { border-color: rgba(133,0,255,0.15); }
+
+
+/* ── SW Stats panel ── */
+body.hg .stats-panel {
+  background: #10061a;
+  border: 1px solid rgba(133,0,255,0.12);
+  box-shadow: 0 0 40px rgba(133,0,255,0.06), inset 0 0 60px rgba(16,0,30,0.8);
+}
+
+body.hg .stats-title { color: #8500ff; font-family: 'Cinzel Decorative', monospace; }
+
+body.hg .stats-section-title { color: #965fc8; letter-spacing: .04em; }
+
+body.hg .stats-section { border-bottom: 1px solid rgba(133,0,255,0.07); }
+
+body.hg .stat-card { background: rgba(26,0,50,0.6); border: 1px solid rgba(133,0,255,0.12); border-radius: 12px; }
+
+body.hg .sv { color: #8500ff; }
+
+
+/* ── SW Settings sections ── */
+body.hg .settings-section {
+  background: rgba(18,0,35,0.7);
+  border-color: rgba(133,0,255,0.15);
+}
+
+body.hg .settings-section-title { color: #965fc8; }
+
+body.hg .settings-section-danger { border-color: rgba(231,76,60,0.3); background: rgba(231,76,60,0.04); }
+
+
+/* ── SW Modals ── */
+body.hg .prf-delete-panel,
+body.hg .import-panel {
+  background: #14091e;
+  border: 1px solid rgba(133,0,255,0.2);
+  box-shadow: 0 0 60px rgba(133,0,255,0.1);
+}
+
+body.hg .prf-delete-title { color: #f4e8ff; }
+
+body.hg .prf-delete-warn  { color: rgba(229,200,255,0.5); }
+
+
+/* ── SW Achievement toast ── */
+body.hg #achievement-toast {
+  background: linear-gradient(135deg, #10051a 0%, #1a0a28 100%);
+  border: 1px solid rgba(133,0,255,0.3);
+  box-shadow: 0 0 30px rgba(133,0,255,0.2), 0 0 60px rgba(133,0,255,0.08);
+}
+
+body.hg #achievement-toast .toast-title { color: #8500ff; font-family: 'Cinzel Decorative', monospace; font-size: .7rem; letter-spacing: .1em; }
+
+body.hg #achievement-toast .toast-name  { color: #f4e8ff; }
+
+body.hg #achievement-toast .toast-icon  { text-shadow: 0 0 20px rgba(133,0,255,0.6); }
+
+
+/* ── SW Achievement popup ── */
+body.hg .ach-popup {
+  background: #12081c;
+  border: 1px solid rgba(133,0,255,0.25);
+  box-shadow: 0 0 50px rgba(133,0,255,0.15);
+}
+
+body.hg .ach-popup-icon { text-shadow: 0 0 30px rgba(133,0,255,0.5); }
+
+body.hg .ach-popup-name { color: #8500ff; }
+
+body.hg .ach-popup-prog-fill { background: linear-gradient(90deg, #8500ff, #c17dff); box-shadow: 0 0 8px rgba(133,0,255,0.4); }
+
+
+/* ── SW Achievements grid (locked/unlocked) ── */
+body.hg .ach-card { background: rgba(18,0,35,0.6); border-color: rgba(133,0,255,0.1); }
+
+body.hg .ach-card.unlocked { border-color: rgba(133,0,255,0.35); box-shadow: 0 0 12px rgba(133,0,255,0.1); }
+
+body.hg .ach-card.unlocked .ach-icon { text-shadow: 0 0 16px rgba(133,0,255,0.5); }
+
+body.hg .ach-progress-fill { background: linear-gradient(90deg, #8500ff, #c17dff); }
+
+
+/* ── SW Combo toast ── */
+body.hg .combo-toast {
+  background: linear-gradient(90deg, #150028, #230044);
+  border: 1px solid rgba(133,0,255,0.4);
+  color: #8500ff;
+  text-shadow: 0 0 10px rgba(133,0,255,0.5);
+  box-shadow: 0 0 20px rgba(133,0,255,0.2);
+}
+
+
+/* ── SW Levels roadmap ── */
+body.hg .level-row { background: rgba(13,0,25,0.6); border-color: rgba(133,0,255,0.1); }
+
+body.hg .level-row.level-current { border-width: 2px; }
+
+body.hg .level-row-name { font-family: 'Cinzel Decorative', monospace; font-size: .75rem !important; }
+
+body.hg .note-panel { background:#14091e; border:1px solid rgba(133,0,255,.2); }
+
+body.hg .note-textarea { border-color:rgba(133,0,255,.25); }
+
+body.hg .srs-fc-bar { background:rgba(133,0,255,.4); }
+
+body.hg .srs-fc-today { background:#8500ff !important; box-shadow:0 0 8px rgba(133,0,255,.4); }
+
+body.hg .dc-word { color:#8500ff; }
+
+body.hg .dc-pbar-fill { background:linear-gradient(90deg,#430080,#8500ff); }
+
+body.hg .dc-opt:hover:not(:disabled) { border-color:#8500ff; }
+
+body.hg .rd-unknown { background:rgba(231,76,60,.15); border-color:rgba(231,76,60,.4); }
+
+body.hg .rd-known   { background:rgba(133,0,255,.1);  border-color:rgba(133,0,255,.3); }
+
+body.hg .rd-popup-word { color:#8500ff; }
+
+body.hg .duel-card-active { border-color:#8500ff; }
+
+body.hg .notif-toggle-wrap input:checked + .notif-toggle-pill-ui { background:#8500ff; }
+
+body.hg .time-picker { border-color: rgba(133,0,255,.2); }
+
+body.hg .time-select:hover, body.hg .time-select:focus { background: rgba(133,0,255,.1); }
+
+body.hg .idioms-tab-active { background: #8500ff; border-color: #8500ff; }
+
+body.hg .idiom-meaning { color: #8500ff; }
