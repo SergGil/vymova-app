@@ -6804,3 +6804,523 @@ body.witcher .time-select:hover, body.witcher .time-select:focus { background: r
 body.witcher .idioms-tab-active { background: #00ffeb; border-color: #00ffeb; }
 
 body.witcher .idiom-meaning { color: #00ffeb; }
+
+
+/* ═══════════════════════════════════════════════════
+   ⛏️  MINECRAFT THEME  —  body.mc
+   ═══════════════════════════════════════════════════ */
+
+  body.mc .title-sw-toggle { opacity: 1; border-color: #68ff00; color: #68ff00; background: rgba(104,255,0,.1); }
+
+  body.mc .lang-opt.lang-active { color: #68ff00; background: rgba(104,255,0,.12); }
+
+  body.mc .search-result-item.sr-known { background: #1d3010; }
+
+  body.mc .scr-tile-placed { background: var(--accent); border-color: var(--accent); color: #000; }
+
+
+
+
+/* ═══════════════════════════════════════════════════
+   ⚔️  STAR WARS THEME  —  body.mc
+   ═══════════════════════════════════════════════════ */
+
+/* ── Змінні ── */
+body.mc {
+  --bg:        #0f1a07;
+  --card:      #1b300c;
+  --text:      #e3f8d4;
+  --text2:     #8ab86a;
+  --text3:     #4c782d;
+  --accent:    #68ff00;
+  --accent2:   #5e33ff;
+  --border:    #3b6b1a;
+  --shadow:    0 0 18px rgba(104,255,0,0.12), 0 4px 24px rgba(0,0,0,0.6);
+  /* Modal backgrounds — dark neon panels instead of white */
+  --modal-bg:     #1f380e;
+  --modal-av-bg:  rgba(104,255,0,.08);
+}
+
+
+/* ── Star Wars neon scrollbars ── */
+body.mc ::-webkit-scrollbar             { width: 5px; height: 5px; }
+
+body.mc ::-webkit-scrollbar-track       { background: rgba(8,20,0,.7); }
+
+body.mc ::-webkit-scrollbar-thumb       {
+  background: linear-gradient(180deg, #68ff00 0%, #45aa00 100%);
+  border-radius: 10px;
+  box-shadow: 0 0 6px rgba(104,255,0,.6), 0 0 12px rgba(104,255,0,.25);
+}
+
+body.mc ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #8eff40 0%, #5add00 100%);
+  box-shadow: 0 0 10px rgba(104,255,0,.9), 0 0 20px rgba(104,255,0,.4);
+}
+
+body.mc ::-webkit-scrollbar-corner { background: rgba(8,20,0,.7); }
+
+body.mc * { scrollbar-color: #68ff00 rgba(8,20,0,.7); }
+
+
+/* ── Зіркове небо ── */
+body.mc::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1px 1px at 10% 15%,  rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 40%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 8%,   rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 28%,  rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 5%,   rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 18%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 35%,  rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 60%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 75%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 55%,  rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 70%,  rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 85%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 62%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 20% 90%,  rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 45% 80%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 75% 45%,  rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5%  50%,  rgba(163,255,100,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38% 22%,  rgba(163,255,100,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 88%,  rgba(150,255,239,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 50%,  rgba(163,255,100,0.5) 0%, transparent 100%);
+  background-color: #0f1a07;
+  pointer-events: none;
+}
+
+
+/* ── Orbitron для заголовку ── */
+body.mc .title {
+  font-family: 'Courier New', sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(104,255,0,0.5);
+}
+
+
+/* ── HUD куточки на картці ── */
+body.mc .card-face {
+  position: relative;
+}
+
+body.mc .card-face::before,
+body.mc .card-face::after {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  border-color: rgba(104,255,0,0.6);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 3;
+}
+
+body.mc .card-face::before {
+  top: 8px; left: 8px;
+  border-width: 2px 0 0 2px;
+  border-radius: 2px 0 0 0;
+}
+
+body.mc .card-face::after {
+  bottom: 8px; right: 8px;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 2px 0;
+}
+
+
+/* ── Scanlines (голограмний ефект) ── */
+body.mc .card-face {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(104,255,0,0.015) 3px,
+    rgba(104,255,0,0.015) 4px
+  );
+}
+
+
+/* ── Glow на картці ── */
+body.mc .card-face {
+  border-color: rgba(104,255,0,0.25);
+  box-shadow: 0 0 20px rgba(104,255,0,0.1), 0 4px 30px rgba(0,0,0,0.7),
+    inset 0 0 40px rgba(104,255,0,0.03);
+}
+
+
+/* ── Відома картка — Jedi Green Lightsaber ── */
+body.mc .card.is-known .card-face {
+  border-color: rgba(57,211,83,0.4) !important;
+  box-shadow: 0 0 25px rgba(57,211,83,0.2), 0 4px 30px rgba(0,0,0,0.7) !important;
+}
+
+
+/* ── Прогрес-бар — Lightsaber ── */
+body.mc .progress-fill {
+  background: linear-gradient(90deg, #68ff00, #68ff00);
+  box-shadow: 0 0 8px #68ff00, 0 0 16px rgba(104,255,0,0.5);
+}
+
+body.mc .goal-fill {
+  background: linear-gradient(90deg, #68ff00, #b2ff7d) !important;
+  box-shadow: 0 0 8px #68ff00, 0 0 20px rgba(104,255,0,0.4) !important;
+}
+
+body.mc .goal-fill.done {
+  background: linear-gradient(90deg, #ff6600, #ffd700) !important;
+  box-shadow: 0 0 8px #ffd700, 0 0 20px rgba(255,215,0,0.4) !important;
+}
+
+
+/* ── Achievements progress ── */
+body.mc .ach-progress-fill { background: linear-gradient(90deg, #68ff00, #b2ff7d); }
+
+
+/* ── Кнопки ── */
+body.mc .btn {
+  background: rgba(24,44,10,0.9);
+  border-color: rgba(104,255,0,0.25);
+  color: var(--text2);
+  transition: all .2s;
+}
+
+body.mc .btn:hover {
+  border-color: rgba(104,255,0,0.6);
+  color: var(--accent);
+  box-shadow: 0 0 12px rgba(104,255,0,0.2);
+}
+
+body.mc .btn-know {
+  border-color: rgba(57,211,83,0.5) !important;
+  color: #39d353 !important;
+}
+
+body.mc .btn-know:hover {
+  background: rgba(57,211,83,0.1) !important;
+  box-shadow: 0 0 15px rgba(57,211,83,0.3) !important;
+}
+
+body.mc .btn-dontknow {
+  border-color: rgba(255,69,58,0.5) !important;
+  color: #ff453a !important;
+}
+
+body.mc .btn-dontknow:hover {
+  background: rgba(255,69,58,0.1) !important;
+  box-shadow: 0 0 15px rgba(255,69,58,0.3) !important;
+}
+
+
+/* ── Пошук ── */
+body.mc #search-input {
+  background: rgba(24,44,10,0.9);
+  border-color: rgba(104,255,0,0.2);
+  color: var(--text);
+}
+
+body.mc #search-input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(104,255,0,0.2); }
+
+
+/* ── Слово ── */
+body.mc .word-text { color: #f0fce8; text-shadow: 0 0 20px rgba(104,255,0,0.1); }
+
+body.mc .transcription { color: var(--accent2); }
+
+
+/* ── Модальні вікна ── */
+body.mc .quiz-panel,
+body.mc .pairs-panel {
+  background: rgba(24,44,10,0.97);
+  border: 1px solid rgba(104,255,0,0.2);
+  box-shadow: 0 0 40px rgba(104,255,0,0.15), 0 20px 60px rgba(0,0,0,0.8);
+}
+
+
+/* ── Теги/бейджі ── */
+body.mc .card-tag { background: rgba(104,255,0,0.12); color: var(--accent); border: 1px solid rgba(104,255,0,0.3); }
+
+body.mc .level-badge { box-shadow: 0 0 10px rgba(104,255,0,0.2); }
+
+
+/* ── SRS stats bar ── */
+body.mc .srs-stats-bar {
+  background: rgba(24,44,10,0.9);
+  border-color: rgba(104,255,0,0.15);
+}
+
+
+/* ── Ring ── */
+body.mc .ring-fill { stroke: #68ff00; filter: drop-shadow(0 0 4px #68ff00); }
+
+body.mc #btn-mc {
+  border-color: #68ff00;
+  color: #68ff00;
+  box-shadow: 0 0 8px rgba(104,255,0,0.3);
+  text-shadow: 0 0 6px rgba(104,255,0,0.6);
+}
+
+body.mc .progress-fill,
+body.mc .goal-fill { animation: saberPulse 2.5s ease-in-out infinite; }
+
+
+/* ── Word of the day ── */
+body.mc .wotd-box {
+  background: rgba(24,44,10,0.9);
+  border-color: rgba(104,255,0,0.2);
+}
+
+body.mc .wotd-word { color: var(--accent); text-shadow: 0 0 8px rgba(104,255,0,0.3); }
+
+
+/* ── Star Wars mode enhancements for modes panel ── */
+body.mc .modes-panel {
+  background: rgba(24,44,10,0.98);
+  border: 1px solid rgba(104,255,0,0.2);
+  box-shadow: 0 0 40px rgba(104,255,0,0.15), 0 -8px 40px rgba(0,0,0,.8);
+}
+
+body.mc .mode-card {
+  background: rgba(15,26,7,0.8);
+  border-color: rgba(104,255,0,0.15);
+}
+
+body.mc .mode-card:hover {
+  border-color: #68ff00;
+  background: rgba(104,255,0,0.05);
+  box-shadow: 0 0 12px rgba(104,255,0,0.15);
+}
+
+body.mc .mode-name { color: #e3f8d4; }
+
+
+/* SW theme enhancements */
+body.mc .gb-block {
+  background: rgba(24,44,10,0.9);
+  border-color: rgba(104,255,0,0.15);
+}
+
+body.mc .gb-level-fill {
+  background: linear-gradient(90deg, #68ff00, #b2ff7d);
+  box-shadow: 0 0 6px rgba(104,255,0,0.4);
+}
+
+body.mc .gb-streak-num { color: #68ff00; }
+
+
+/* ── SW theme: extra glow ── */
+body.mc .gb-streak-block { border-color: rgba(104,255,0,0.3); }
+
+body.mc .gb-goal-block   { border-color: rgba(104,255,0,0.3); }
+
+body.mc .gb-level-block  { border-color: rgba(104,255,0,0.3); }
+
+body.mc   .btn-achievements { border-color: #ffd700; color: #ffd700; box-shadow: 0 0 8px rgba(255,215,0,.25); }
+
+body.mc .profile-btn { border-color: rgba(104,255,0,0.3); color: #c3e8aa; }
+
+body.mc .profile-btn:hover { border-color: #68ff00; color: #fff; }
+
+body.mc .prf-av-btn.prf-av-active { border-color: #68ff00; box-shadow: 0 0 8px rgba(104,255,0,0.2); }
+
+body.mc .prf-add-confirm { background: linear-gradient(90deg,#348000,#68ff00); }
+
+body.mc    .sidebar { background: #101c08; border-color: rgba(104,255,0,.12); }
+
+body.mc .sidebar-logo-text { color: #68ff00; }
+
+body.mc .sidebar-profile-btn { border-color: rgba(104,255,0,.25); }
+
+body.mc .sidebar-profile-btn:hover { border-color: #68ff00; }
+
+body.mc   .sb-btn:hover  { background: rgba(104,255,0,.08); color: #c3e8aa; }
+
+body.mc   .sb-btn.sb-active { background: rgba(104,255,0,.12); color: #68ff00; }
+
+body.mc   .sb-flyout { background: #101c08; border-color: rgba(104,255,0,.14); }
+
+body.mc .hamburger { border-color: rgba(104,255,0,.3); }
+
+body.mc .profile-save-btn { background: linear-gradient(90deg,#348000,#68ff00); }
+
+body.mc .sb-add-btn { color: #68ff00; border-color: rgba(104,255,0,.3); }
+
+body.mc .sb-add-btn:hover { border-color: #68ff00; }
+
+body.mc .sb-dd-item.sb-dd-active { color: #68ff00; }
+
+body.mc .sb-dd-check { color: #68ff00; }
+
+body.mc .sb-toggle-pill.on { background: #68ff00; }
+
+body.mc .header-wotd .wotd-word { color: #68ff00; }
+
+body.mc .prf-delete-name { color: #ff6b6b; }
+
+body.mc .prf-delete-btn-confirm { background: #c0392b; }
+
+body.mc .settings-section-danger { border-color: rgba(255,100,80,.25); }
+
+body.mc .voice-card:hover    { border-color: #68ff00; }
+
+body.mc .voice-card-active   { border-color: #68ff00; box-shadow: 0 0 10px rgba(104,255,0,.15); }
+
+
+/* ── Goal block centered overrides ── */
+body.mc .gb-goal-block .gb-goal-big { color: #daf5c8; font-family: 'Courier New', monospace; }
+
+body.mc .gb-goal-sep  { color: rgba(222,255,200,0.4); }
+
+body.mc .gb-level-arrow { color: rgba(222,255,200,0.4); }
+
+
+/* ══ Star Wars: Page Overlays ═══════════════════════════════════ */
+body.mc .page-overlay {
+  background: #0e1a06;
+  background-image:
+    radial-gradient(ellipse at top, rgba(25,60,0,0.6) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(104,255,0,0.03) 60px),
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(104,255,0,0.02) 60px);
+}
+
+body.mc .page-inner { border-left: 1px solid rgba(104,255,0,0.08); }
+
+body.mc .page-title { color: #68ff00; font-family: 'Courier New', monospace; letter-spacing: .05em; }
+
+body.mc .page-header { border-color: rgba(104,255,0,0.15); }
+
+
+/* ── SW Stats panel ── */
+body.mc .stats-panel {
+  background: #0e1a06;
+  border: 1px solid rgba(104,255,0,0.12);
+  box-shadow: 0 0 40px rgba(104,255,0,0.06), inset 0 0 60px rgba(12,30,0,0.8);
+}
+
+body.mc .stats-title { color: #68ff00; font-family: 'Courier New', monospace; }
+
+body.mc .stats-section-title { color: #8ac85f; letter-spacing: .04em; }
+
+body.mc .stats-section { border-bottom: 1px solid rgba(104,255,0,0.07); }
+
+body.mc .stat-card { background: rgba(20,50,0,0.6); border: 1px solid rgba(104,255,0,0.12); border-radius: 12px; }
+
+body.mc .sv { color: #68ff00; }
+
+
+/* ── SW Settings sections ── */
+body.mc .settings-section {
+  background: rgba(14,35,0,0.7);
+  border-color: rgba(104,255,0,0.15);
+}
+
+body.mc .settings-section-title { color: #8ac85f; }
+
+body.mc .settings-section-danger { border-color: rgba(231,76,60,0.3); background: rgba(231,76,60,0.04); }
+
+
+/* ── SW Modals ── */
+body.mc .prf-delete-panel,
+body.mc .import-panel {
+  background: #121e09;
+  border: 1px solid rgba(104,255,0,0.2);
+  box-shadow: 0 0 60px rgba(104,255,0,0.1);
+}
+
+body.mc .prf-delete-title { color: #f1ffe8; }
+
+body.mc .prf-delete-warn  { color: rgba(222,255,200,0.5); }
+
+
+/* ── SW Achievement toast ── */
+body.mc #achievement-toast {
+  background: linear-gradient(135deg, #0e1a05 0%, #16280a 100%);
+  border: 1px solid rgba(104,255,0,0.3);
+  box-shadow: 0 0 30px rgba(104,255,0,0.2), 0 0 60px rgba(104,255,0,0.08);
+}
+
+body.mc #achievement-toast .toast-title { color: #68ff00; font-family: 'Courier New', monospace; font-size: .7rem; letter-spacing: .1em; }
+
+body.mc #achievement-toast .toast-name  { color: #f1ffe8; }
+
+body.mc #achievement-toast .toast-icon  { text-shadow: 0 0 20px rgba(104,255,0,0.6); }
+
+
+/* ── SW Achievement popup ── */
+body.mc .ach-popup {
+  background: #101c08;
+  border: 1px solid rgba(104,255,0,0.25);
+  box-shadow: 0 0 50px rgba(104,255,0,0.15);
+}
+
+body.mc .ach-popup-icon { text-shadow: 0 0 30px rgba(104,255,0,0.5); }
+
+body.mc .ach-popup-name { color: #68ff00; }
+
+body.mc .ach-popup-prog-fill { background: linear-gradient(90deg, #68ff00, #b2ff7d); box-shadow: 0 0 8px rgba(104,255,0,0.4); }
+
+
+/* ── SW Achievements grid (locked/unlocked) ── */
+body.mc .ach-card { background: rgba(14,35,0,0.6); border-color: rgba(104,255,0,0.1); }
+
+body.mc .ach-card.unlocked { border-color: rgba(104,255,0,0.35); box-shadow: 0 0 12px rgba(104,255,0,0.1); }
+
+body.mc .ach-card.unlocked .ach-icon { text-shadow: 0 0 16px rgba(104,255,0,0.5); }
+
+body.mc .ach-progress-fill { background: linear-gradient(90deg, #68ff00, #b2ff7d); }
+
+
+/* ── SW Combo toast ── */
+body.mc .combo-toast {
+  background: linear-gradient(90deg, #102800, #1c4400);
+  border: 1px solid rgba(104,255,0,0.4);
+  color: #68ff00;
+  text-shadow: 0 0 10px rgba(104,255,0,0.5);
+  box-shadow: 0 0 20px rgba(104,255,0,0.2);
+}
+
+
+/* ── SW Levels roadmap ── */
+body.mc .level-row { background: rgba(10,25,0,0.6); border-color: rgba(104,255,0,0.1); }
+
+body.mc .level-row.level-current { border-width: 2px; }
+
+body.mc .level-row-name { font-family: 'Courier New', monospace; font-size: .75rem !important; }
+
+body.mc .note-panel { background:#121e09; border:1px solid rgba(104,255,0,.2); }
+
+body.mc .note-textarea { border-color:rgba(104,255,0,.25); }
+
+body.mc .srs-fc-bar { background:rgba(104,255,0,.4); }
+
+body.mc .srs-fc-today { background:#68ff00 !important; box-shadow:0 0 8px rgba(104,255,0,.4); }
+
+body.mc .dc-word { color:#68ff00; }
+
+body.mc .dc-pbar-fill { background:linear-gradient(90deg,#348000,#68ff00); }
+
+body.mc .dc-opt:hover:not(:disabled) { border-color:#68ff00; }
+
+body.mc .rd-unknown { background:rgba(231,76,60,.15); border-color:rgba(231,76,60,.4); }
+
+body.mc .rd-known   { background:rgba(104,255,0,.1);  border-color:rgba(104,255,0,.3); }
+
+body.mc .rd-popup-word { color:#68ff00; }
+
+body.mc .duel-card-active { border-color:#68ff00; }
+
+body.mc .notif-toggle-wrap input:checked + .notif-toggle-pill-ui { background:#68ff00; }
+
+body.mc .time-picker { border-color: rgba(104,255,0,.2); }
+
+body.mc .time-select:hover, body.mc .time-select:focus { background: rgba(104,255,0,.1); }
+
+body.mc .idioms-tab-active { background: #68ff00; border-color: #68ff00; }
+
+body.mc .idiom-meaning { color: #68ff00; }
