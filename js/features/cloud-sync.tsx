@@ -226,8 +226,24 @@ export function CloudSyncInit(): ReactElement | null {
     // Start auto-sync
     _startAutoSync();
 
+    // Push to the cloud shortly after every known-word/SRS write (debounced,
+    // so a study session doesn't fire one request per card) — relying only
+    // on the auto-sync interval meant progress could sit unbacked-up for as
+    // long as that interval, or forever if the user never set one. Gated on
+    // LAST_LS so this only kicks in for people who've already used cloud
+    // sync at least once (no point pushing for everyone by default).
+    let progressPushTimer: ReturnType<typeof setTimeout> | null = null;
+    const onProgressSaved = () => {
+      if (!localStorage.getItem(LAST_LS)) return;
+      if (progressPushTimer) clearTimeout(progressPushTimer);
+      progressPushTimer = setTimeout(_autoSave, 3000);
+    };
+    window.addEventListener('ew-progress-saved', onProgressSaved);
+
     return () => {
       if (_autoTimer) { clearInterval(_autoTimer); _autoTimer = null; }
+      if (progressPushTimer) clearTimeout(progressPushTimer);
+      window.removeEventListener('ew-progress-saved', onProgressSaved);
       copyBtn?.removeEventListener('click', onCopy);
       saveBtn?.removeEventListener('click', onSave);
       sel?.removeEventListener('change', onIntervalChange);

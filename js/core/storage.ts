@@ -16,6 +16,9 @@ export function _lzSave(key: string, data: unknown): void {
   } catch (e) {
     try { localStorage.setItem(key, JSON.stringify(data)); } catch (e2) {}
   }
+  // Lets cloud-sync.tsx debounce a backup push after known-words/SRS writes,
+  // so progress isn't only as fresh as the last manual save or sync interval.
+  window.dispatchEvent(new Event('ew-progress-saved'));
 }
 
 export function _lzLoad<T>(key: string, fallback: T): T {
