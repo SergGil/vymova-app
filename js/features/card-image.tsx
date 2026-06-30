@@ -1,7 +1,7 @@
 // Vymova — js/features/card-image.tsx
 // Реактивний #illus: картинка картки (кеш/IndexedDB/Pixabay/Wikipedia fallback).
 // Виділено з card-engine.ts's renderCardImage() (item: card/deck DOM extraction).
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { getIllus } from '../../data/illustrations.js';
 import { loadWikiImage, _imgCache, _idb } from '../core/images.ts';
 import { _isOnlineCheck, _offlineSvg } from './offline.ts';
@@ -79,27 +79,4 @@ export function CardImage() {
   }, [cw]);
 
   return <div className="illus-box" id="illus" ref={elRef} />;
-}
-
-// Small round thumbnail for word chips (similar words, etc). Reuses the
-// same cache + Wikipedia/Pixabay lookup as the main card image — a cache
-// hit (very common once a word has appeared as a main card) costs nothing,
-// a miss fires one lazy request per chip, same as CardImage already does
-// for the word currently on screen.
-export function MiniWordImage({ word }: { word: string }) {
-  const [url, setUrl] = useState<string | null>(() =>
-    Object.prototype.hasOwnProperty.call(_imgCache, word) ? (_imgCache as Record<string, string | null>)[word] : null
-  );
-
-  useEffect(() => {
-    if (Object.prototype.hasOwnProperty.call(_imgCache, word)) return;
-    let alive = true;
-    loadWikiImage(word, (w, u) => { if (alive && w === word) setUrl(u); });
-    return () => { alive = false; };
-  }, [word]);
-
-  if (url) return <span className="mini-word-img"><img src={url} alt="" loading="lazy" /></span>;
-  const local = getIllus(word);
-  if (local) return <span className="mini-word-img" dangerouslySetInnerHTML={{ __html: local }} />;
-  return null;
 }

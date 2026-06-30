@@ -12,7 +12,6 @@ import type { WordEntry } from '../../src/types.js';
 import { getMode as _getMode, parsePair, getActiveKnownSet, headwordFor, type Code } from './mode-utils.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { t } from './i18n.ts';
-import { MiniWordImage } from './card-image.tsx';
 
 function _getActiveKnown(): Set<string> {
   return getActiveKnownSet(_getMode(), getKnownSnapshot('en'));
@@ -143,7 +142,6 @@ export function SimilarWordsChips(): ReactElement | null {
             <div key={w[0]} className={'sim-chip' + (isKnown ? ' known-chip' : '')}
               onClick={(e) => { e.stopPropagation(); openWordDetail(w); }}
             >
-              <MiniWordImage word={w[0]} />
               <span className="sc-word">{displayWord}</span>
               <span className="sc-transl">{displayTransl}</span>
             </div>
