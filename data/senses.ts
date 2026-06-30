@@ -222,6 +222,177 @@ export const SENSES: Record<string, SenseEntry[]> = {
     { pos: 'noun', translation: 'предмет', exEn: 'There was a strange object lying on the table.', exUa: 'На столі лежав дивний предмет.' },
     { pos: 'v',    translation: 'заперечувати', exEn: 'Her lawyer objected to the question immediately.', exUa: 'Її адвокат негайно заперечив проти запитання.' },
   ],
+
+
+  // ── Expanded set ─────────────────────────────────────────────────────────
+  'bow': [
+    { pos: 'noun', translation: 'бант', exEn: 'She tied a pink bow in her daughter\'s hair.', exUa: 'Вона зав\'язала рожевий бант у волоссі доньки.' },
+    { pos: 'noun', translation: 'лук (зброя)', exEn: 'The archer drew his bow and aimed at the target.', exUa: 'Лучник натягнув лук і прицілився в мішень.' },
+  ],
+  'tear': [
+    { pos: 'noun', translation: 'сльоза', exEn: 'A single tear rolled down her cheek during the movie.', exUa: 'Під час фільму одна сльоза скотилася по її щоці.' },
+    { pos: 'v', translation: 'рвати, дерти', exEn: 'He accidentally tore the page while turning it.', exUa: 'Він випадково порвав сторінку, перегортаючи її.' },
+  ],
+  'wind': [
+    { pos: 'noun', translation: 'вітер', exEn: 'A strong wind blew the leaves across the yard.', exUa: 'Сильний вітер гнав листя через двір.' },
+    { pos: 'v', translation: 'заводити (годинник), намотувати', exEn: 'She had to wind the old clock every morning.', exUa: 'Їй доводилося заводити старий годинник щоранку.' },
+  ],
+  'lead': [
+    { pos: 'noun', translation: 'свинець', exEn: 'The old pipes were made of lead.', exUa: 'Старі труби були зроблені зі свинцю.' },
+    { pos: 'v', translation: 'вести, керувати', exEn: 'She will lead the team through the new project.', exUa: 'Вона керуватиме командою під час нового проєкту.' },
+  ],
+  'park': [
+    { pos: 'noun', translation: 'парк', exEn: 'They had a picnic in the park near the river.', exUa: 'Вони влаштували пікнік у парку біля річки.' },
+    { pos: 'v', translation: 'паркувати', exEn: 'He parked the car right outside the building.', exUa: 'Він припаркував машину прямо біля будівлі.' },
+  ],
+  'date': [
+    { pos: 'noun', translation: 'дата', exEn: 'They haven\'t decided on a date for the wedding yet.', exUa: 'Вони ще не визначилися з датою весілля.' },
+    { pos: 'noun', translation: 'фінік (плід)', exEn: 'She added chopped dates to the morning porridge.', exUa: 'Вона додала нарізані фініки до ранкової каші.' },
+  ],
+  'long': [
+    { pos: 'adj', translation: 'довгий', exEn: 'It was a long journey across the mountains.', exUa: 'Це була довга подорож через гори.' },
+    { pos: 'v', translation: 'сильно хотіти, тужити', exEn: 'She longed to see her family again after the war.', exUa: 'Вона дуже хотіла знову побачити свою родину після війни.' },
+  ],
+  'second': [
+    { pos: 'adj', translation: 'другий', exEn: 'This is the second time he has visited Paris.', exUa: 'Це вже другий раз, коли він відвідує Париж.' },
+    { pos: 'noun', translation: 'секунда', exEn: 'The race was decided by less than a second.', exUa: 'Перегони вирішила різниця менш ніж в одну секунду.' },
+  ],
+  'address': [
+    { pos: 'noun', translation: 'адреса', exEn: 'Please write your home address on the form.', exUa: 'Будь ласка, напишіть свою домашню адресу у формі.' },
+    { pos: 'v', translation: 'звертатися, вирішувати (проблему)', exEn: 'The mayor promised to address the housing crisis.', exUa: 'Мер пообіцяв вирішити кризу з житлом.' },
+  ],
+  'capital': [
+    { pos: 'noun', translation: 'столиця', exEn: 'Paris is the capital of France.', exUa: 'Париж — столиця Франції.' },
+    { pos: 'noun', translation: 'капітал, кошти', exEn: 'The company raised enough capital to expand abroad.', exUa: 'Компанія залучила достатньо капіталу, щоб розширитися за кордон.' },
+  ],
+  'current': [
+    { pos: 'adj', translation: 'теперішній, поточний', exEn: 'Her current job involves a lot of travelling.', exUa: 'Її теперішня робота передбачає багато подорожей.' },
+    { pos: 'noun', translation: 'течія, струм', exEn: 'The swimmer was swept away by a strong current.', exUa: 'Плавця віднесло сильною течією.' },
+  ],
+  'state': [
+    { pos: 'noun', translation: 'штат, держава', exEn: 'California is the most populous state in the USA.', exUa: 'Каліфорнія — найбільш населений штат у США.' },
+    { pos: 'v', translation: 'заявляти, стверджувати', exEn: 'The witness stated that she saw nothing unusual.', exUa: 'Свідок заявила, що не бачила нічого незвичайного.' },
+  ],
+  'rock': [
+    { pos: 'noun', translation: 'скеля, камінь', exEn: 'The climbers rested on a flat rock halfway up.', exUa: 'Альпіністи відпочили на пласкій скелі на половині шляху.' },
+    { pos: 'noun', translation: 'рок (музика)', exEn: 'He grew up listening to classic rock on the radio.', exUa: 'Він виріс, слухаючи класичний рок по радіо.' },
+  ],
+  'tip': [
+    { pos: 'noun', translation: 'кінчик', exEn: 'She felt a sharp pain at the tip of her finger.', exUa: 'Вона відчула гострий біль на кінчику пальця.' },
+    { pos: 'noun', translation: 'чайові', exEn: 'They left a generous tip for the waiter.', exUa: 'Вони залишили щедрі чайові офіціанту.' },
+  ],
+  'fast': [
+    { pos: 'adj', translation: 'швидкий', exEn: 'He drives a fast sports car.', exUa: 'Він водить швидкий спортивний автомобіль.' },
+    { pos: 'v', translation: 'постити, голодувати', exEn: 'Many people fast during religious holidays.', exUa: 'Багато людей постять під час релігійних свят.' },
+  ],
+  'last': [
+    { pos: 'adj', translation: 'останній', exEn: 'This is the last chapter of the book.', exUa: 'Це останній розділ книги.' },
+    { pos: 'v', translation: 'тривати', exEn: 'The meeting lasted almost two hours.', exUa: 'Зустріч тривала майже дві години.' },
+  ],
+  'stand': [
+    { pos: 'v', translation: 'стояти', exEn: 'They had to stand for the entire train ride.', exUa: 'Їм довелося стояти всю поїздку на потязі.' },
+    { pos: 'noun', translation: 'кіоск, прилавок', exEn: 'She bought fresh lemonade from a small stand.', exUa: 'Вона купила свіжий лимонад у маленькому кіоску.' },
+  ],
+  'palm': [
+    { pos: 'noun', translation: 'долоня', exEn: 'He held the coin tightly in his palm.', exUa: 'Він міцно тримав монету в долоні.' },
+    { pos: 'noun', translation: 'пальма', exEn: 'Tall palms lined the sandy beach.', exUa: 'Високі пальми обрамляли піщаний пляж.' },
+  ],
+  'orange': [
+    { pos: 'noun', translation: 'апельсин', exEn: 'She squeezed a fresh orange for breakfast.', exUa: 'Вона видавила свіжий апельсин на сніданок.' },
+    { pos: 'adj', translation: 'помаранчевий', exEn: 'The sky turned a brilliant orange at sunset.', exUa: 'Небо набуло яскравого помаранчевого кольору на заході сонця.' },
+  ],
+  'iron': [
+    { pos: 'noun', translation: 'залізо', exEn: 'The gate was made of solid iron.', exUa: 'Ворота були зроблені з суцільного заліза.' },
+    { pos: 'v', translation: 'прасувати', exEn: 'She ironed his shirt before the interview.', exUa: 'Вона попрасувала йому сорочку перед співбесідою.' },
+  ],
+  'wave': [
+    { pos: 'noun', translation: 'хвиля', exEn: 'A huge wave crashed against the rocks.', exUa: 'Величезна хвиля розбилася об скелі.' },
+    { pos: 'v', translation: 'махати рукою', exEn: 'She waved at her friends from across the street.', exUa: 'Вона помахала друзям з іншого боку вулиці.' },
+  ],
+  'train': [
+    { pos: 'noun', translation: 'потяг', exEn: 'They caught the early train to the city.', exUa: 'Вони встигли на ранній потяг до міста.' },
+    { pos: 'v', translation: 'тренувати(ся)', exEn: 'She trains every morning before work.', exUa: 'Вона тренується щоранку перед роботою.' },
+  ],
+  'race': [
+    { pos: 'noun', translation: 'перегони, гонка', exEn: 'He won the race by a few seconds.', exUa: 'Він виграв перегони з різницею в кілька секунд.' },
+    { pos: 'noun', translation: 'раса', exEn: 'The festival celebrated people of every race and culture.', exUa: 'Фестиваль святкував людей будь-якої раси та культури.' },
+  ],
+  'note': [
+    { pos: 'noun', translation: 'нота (музична)', exEn: 'She hit the highest note perfectly during the song.', exUa: 'Вона ідеально взяла найвищу ноту під час пісні.' },
+    { pos: 'noun', translation: 'записка', exEn: 'He left a short note on the kitchen table.', exUa: 'Він залишив коротку записку на кухонному столі.' },
+  ],
+  'check': [
+    { pos: 'v', translation: 'перевіряти', exEn: 'Please check your answers before submitting the test.', exUa: 'Будь ласка, перевір свої відповіді перед здачею тесту.' },
+    { pos: 'noun', translation: 'чек (банківський)', exEn: 'He paid the contractor with a check.', exUa: 'Він заплатив підряднику чеком.' },
+  ],
+  'fall': [
+    { pos: 'v', translation: 'падати', exEn: 'Be careful not to fall on the icy pavement.', exUa: 'Будь обережний, щоб не впасти на ожеледиці.' },
+    { pos: 'noun', translation: 'осінь', exEn: 'The leaves turn golden every fall.', exUa: 'Листя стає золотим щоосені.' },
+  ],
+  'sound': [
+    { pos: 'noun', translation: 'звук', exEn: 'They heard a strange sound coming from the basement.', exUa: 'Вони почули дивний звук, що долинав з підвалу.' },
+    { pos: 'adj', translation: 'здоровий, міцний, обґрунтований', exEn: 'Her argument was based on sound reasoning.', exUa: 'Її аргумент ґрунтувався на обґрунтованих міркуваннях.' },
+  ],
+  'minute': [
+    { pos: 'noun', translation: 'хвилина', exEn: 'Wait just a minute, I\'ll be right with you.', exUa: 'Зачекай хвилинку, я зараз буду.' },
+    { pos: 'adj', translation: 'крихітний, мізерний', exEn: 'There was only a minute chance of survival.', exUa: 'Шанс на виживання був лише мізерним.' },
+  ],
+  'court': [
+    { pos: 'noun', translation: 'суд', exEn: 'The case will be heard in court next month.', exUa: 'Справу розглядатимуть у суді наступного місяця.' },
+    { pos: 'noun', translation: 'корт, майданчик', exEn: 'They booked a tennis court for the afternoon.', exUa: 'Вони забронювали тенісний корт на другу половину дня.' },
+  ],
+  'company': [
+    { pos: 'noun', translation: 'компанія, фірма', exEn: 'She started her own company at the age of twenty-five.', exUa: 'Вона заснувала власну компанію у двадцять п\'ять років.' },
+    { pos: 'noun', translation: 'товариство, компанія (людей)', exEn: 'He enjoyed the company of old friends after years apart.', exUa: 'Він насолоджувався товариством старих друзів після років розлуки.' },
+  ],
+  'arm': [
+    { pos: 'noun', translation: 'рука (від плеча до кисті)', exEn: 'She broke her arm while skiing last winter.', exUa: 'Вона зламала руку під час катання на лижах минулої зими.' },
+    { pos: 'v', translation: 'озброювати', exEn: 'The soldiers were armed before the mission began.', exUa: 'Солдатів озброїли перед початком місії.' },
+  ],
+  'foot': [
+    { pos: 'noun', translation: 'стопа, нога', exEn: 'He stubbed his foot on the corner of the bed.', exUa: 'Він вдарився ногою об кут ліжка.' },
+    { pos: 'noun', translation: 'фут (одиниця довжини)', exEn: 'The ceiling was just over ten foot high.', exUa: 'Стеля була трохи вищою за десять футів.' },
+  ],
+  'head': [
+    { pos: 'noun', translation: 'голова', exEn: 'She nodded her head in agreement.', exUa: 'Вона кивнула головою на знак згоди.' },
+    { pos: 'v', translation: 'прямувати', exEn: 'They headed toward the mountains at dawn.', exUa: 'На світанку вони попрямували до гір.' },
+  ],
+  'band': [
+    { pos: 'noun', translation: 'гурт (музичний)', exEn: 'The band played until midnight at the festival.', exUa: 'Гурт грав до півночі на фестивалі.' },
+    { pos: 'noun', translation: 'стрічка, обідок', exEn: 'She wore a thin gold band on her finger.', exUa: 'Вона носила тонкий золотий обідок на пальці.' },
+  ],
+  'bark': [
+    { pos: 'noun', translation: 'кора (дерева)', exEn: 'The tree\'s bark was rough and grey.', exUa: 'Кора дерева була грубою і сірою.' },
+    { pos: 'v', translation: 'гавкати', exEn: 'The dog barked loudly at the stranger.', exUa: 'Собака голосно гавкав на незнайомця.' },
+  ],
+  'block': [
+    { pos: 'noun', translation: 'квартал (міський)', exEn: 'Their house is just two blocks from the park.', exUa: 'Їхній будинок лише за два квартали від парку.' },
+    { pos: 'v', translation: 'блокувати', exEn: 'The fallen tree blocked the entire road.', exUa: 'Повалене дерево заблокувало всю дорогу.' },
+  ],
+  'figure': [
+    { pos: 'noun', translation: 'цифра, число', exEn: 'The exact figure was not released to the public.', exUa: 'Точну цифру не оприлюднили для громадськості.' },
+    { pos: 'v', translation: 'здогадатися, зрозуміти', exEn: 'It took her a while to figure out the puzzle.', exUa: 'Їй знадобився певний час, щоб розгадати головоломку.' },
+  ],
+  'ground': [
+    { pos: 'noun', translation: 'земля, ґрунт', exEn: 'The apples fell straight onto the ground.', exUa: 'Яблука впали прямо на землю.' },
+    { pos: 'v', translation: 'заземляти, забороняти виходити', exEn: 'Her parents grounded her for missing curfew.', exUa: 'Батьки заборонили їй виходити за порушення комендантської години.' },
+  ],
+  'land': [
+    { pos: 'noun', translation: 'земля, суходіл', exEn: 'After weeks at sea, they finally spotted land.', exUa: 'Після тижнів у морі вони нарешті помітили землю.' },
+    { pos: 'v', translation: 'приземлятися', exEn: 'The plane landed safely despite the storm.', exUa: 'Літак безпечно приземлився попри шторм.' },
+  ],
+  'organ': [
+    { pos: 'noun', translation: 'орган (тіла)', exEn: 'The heart is the most vital organ in the body.', exUa: 'Серце — найважливіший орган у тілі.' },
+    { pos: 'noun', translation: 'орган (музичний інструмент)', exEn: 'The organist played a powerful hymn on the church organ.', exUa: 'Органіст зіграв потужний гімн на церковному органі.' },
+  ],
+  'sentence': [
+    { pos: 'noun', translation: 'речення', exEn: 'She wrote a short sentence at the top of the page.', exUa: 'Вона написала коротке речення вгорі сторінки.' },
+    { pos: 'noun', translation: 'вирок (судовий)', exEn: 'The judge handed down a harsh sentence for the crime.', exUa: 'Суддя виніс суворий вирок за цей злочин.' },
+  ],
+  'volume': [
+    { pos: 'noun', translation: 'гучність', exEn: 'Could you turn down the volume on the TV?', exUa: 'Чи міг би ти зменшити гучність телевізора?' },
+    { pos: 'noun', translation: 'том (книги)', exEn: 'The encyclopedia filled twelve thick volumes.', exUa: 'Енциклопедія складалася з дванадцяти товстих томів.' },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
@@ -307,6 +478,141 @@ export const SENSES_ES: Record<string, SenseEntry[]> = {
     { pos: 'noun', translation: 'мис (географічний)', exEn: 'El barco dobló el cabo durante una peligrosa tormenta nocturna de invierno.', exUa: 'Корабель обійшов мис під час небезпечного нічного зимового шторму.' },
     { pos: 'noun', translation: 'капрал (військове звання)', exEn: 'El cabo dio las órdenes a los soldados antes del amanecer.', exUa: 'Капрал віддав накази солдатам перед світанком.' },
   ],
+
+
+  // ── Expanded set ─────────────────────────────────────────────────────────
+  'cura': [
+    { pos: 'noun', translation: 'священник', exEn: 'El cura bendijo a los recién casados frente a la iglesia.', exUa: 'Священник благословив молодят перед церквою.' },
+    { pos: 'noun', translation: 'лікування, зцілення', exEn: 'Los científicos todavía buscan una cura para esa enfermedad.', exUa: 'Науковці досі шукають ліки від цієї хвороби.' },
+  ],
+  'corte': [
+    { pos: 'noun', translation: 'королівський двір', exEn: 'El embajador fue recibido en la corte del rey.', exUa: 'Посла прийняли при королівському дворі.' },
+    { pos: 'noun', translation: 'розріз, поріз', exEn: 'Se hizo un corte profundo en el dedo mientras cocinaba.', exUa: 'Вона глибоко порізала палець під час готування.' },
+  ],
+  'cometa': [
+    { pos: 'noun', translation: 'комета', exEn: 'El cometa será visible en el cielo nocturno esta semana.', exUa: 'Комету буде видно на нічному небі цього тижня.' },
+    { pos: 'noun', translation: 'повітряний змій', exEn: 'Los niños hicieron volar una cometa de colores en el parque.', exUa: 'Діти запускали барвистого повітряного змія в парку.' },
+  ],
+  'pez': [
+    { pos: 'noun', translation: 'риба', exEn: 'Un pez plateado nadaba cerca de la orilla del lago.', exUa: 'Срібляста риба плавала біля берега озера.' },
+    { pos: 'noun', translation: 'смола (дьоготь)', exEn: 'Sellaron las grietas del barco con pez caliente.', exUa: 'Вони запечатали тріщини на човні гарячою смолою.' },
+  ],
+  'gato': [
+    { pos: 'noun', translation: 'кіт', exEn: 'El gato dormía tranquilamente sobre el sofá.', exUa: 'Кіт спокійно спав на дивані.' },
+    { pos: 'noun', translation: 'домкрат', exEn: 'Sacó el gato del maletero para cambiar la rueda pinchada.', exUa: 'Він дістав домкрат із багажника, щоб поміняти спущене колесо.' },
+  ],
+  'real': [
+    { pos: 'adj', translation: 'справжній, дійсний', exEn: 'Esta historia está basada en hechos reales.', exUa: 'Ця історія заснована на реальних подіях.' },
+    { pos: 'adj', translation: 'королівський', exEn: 'La familia real visitó el hospital infantil ayer.', exUa: 'Королівська родина вчора відвідала дитячу лікарню.' },
+  ],
+  'llama': [
+    { pos: 'noun', translation: 'полум\'я', exEn: 'Una pequeña llama parpadeaba en la oscuridad de la cueva.', exUa: 'Маленьке полум\'я мерехтіло в темряві печери.' },
+    { pos: 'noun', translation: 'лама (тварина)', exEn: 'La llama caminaba lentamente por los Andes con su carga.', exUa: 'Лама повільно йшла Андами зі своїм вантажем.' },
+  ],
+  'mango': [
+    { pos: 'noun', translation: 'манго (фрукт)', exEn: 'Cortó el mango maduro en rodajas para la ensalada.', exUa: 'Вона нарізала стиглий манго скибочками для салату.' },
+    { pos: 'noun', translation: 'руків\'я, ручка', exEn: 'El mango del cuchillo estaba hecho de madera oscura.', exUa: 'Руків\'я ножа було зроблене з темного дерева.' },
+  ],
+  'falta': [
+    { pos: 'noun', translation: 'відсутність, брак', exEn: 'El proyecto se retrasó por falta de financiación.', exUa: 'Проєкт затримався через брак фінансування.' },
+    { pos: 'noun', translation: 'фол (спортивний)', exEn: 'El árbitro pitó una falta dentro del área.', exUa: 'Суддя зафіксував фол у межах штрафного майданчика.' },
+  ],
+  'cola': [
+    { pos: 'noun', translation: 'хвіст', exEn: 'El perro movía la cola con entusiasmo cuando lo veía llegar.', exUa: 'Собака радісно вертів хвостом, коли бачив, що він приходить.' },
+    { pos: 'noun', translation: 'черга', exEn: 'Esperaron media hora en la cola del cine.', exUa: 'Вони чекали півгодини в черзі до кінотеатру.' },
+  ],
+  'copa': [
+    { pos: 'noun', translation: 'келих', exEn: 'Brindaron con una copa de vino tinto.', exUa: 'Вони цокнулися келихами червоного вина.' },
+    { pos: 'noun', translation: 'крона (дерева)', exEn: 'Los pájaros anidaban en la copa del viejo roble.', exUa: 'Птахи гніздилися в кроні старого дуба.' },
+  ],
+  'lengua': [
+    { pos: 'noun', translation: 'язик (частина тіла)', exEn: 'Se quemó la lengua al beber el café demasiado caliente.', exUa: 'Вона обпекла язик, випивши надто гарячу каву.' },
+    { pos: 'noun', translation: 'мова, мовлення', exEn: 'Aprender una nueva lengua amplía la mente.', exUa: 'Вивчення нової мови розширює світогляд.' },
+  ],
+  'pila': [
+    { pos: 'noun', translation: 'батарейка', exEn: 'El mando a distancia necesita una pila nueva.', exUa: 'Пульту дистанційного керування потрібна нова батарейка.' },
+    { pos: 'noun', translation: 'купа, стос', exEn: 'Dejó una pila de libros sobre el escritorio.', exUa: 'Вона залишила стос книг на письмовому столі.' },
+  ],
+  'planta': [
+    { pos: 'noun', translation: 'рослина', exEn: 'Riega la planta dos veces por semana.', exUa: 'Вона поливає рослину двічі на тиждень.' },
+    { pos: 'noun', translation: 'підошва (стопи)', exEn: 'Sintió una piedra afilada bajo la planta del pie.', exUa: 'Вона відчула гострий камінець під підошвою ноги.' },
+  ],
+  'gracia': [
+    { pos: 'noun', translation: 'грація, витонченість', exEn: 'La bailarina se movía con una gracia extraordinaria.', exUa: 'Танцівниця рухалася з надзвичайною грацією.' },
+    { pos: 'noun', translation: 'дотепність, кумедність', exEn: 'Su comentario tenía mucha gracia y todos rieron.', exUa: 'Його коментар був дуже дотепним, і всі засміялися.' },
+  ],
+  'pasta': [
+    { pos: 'noun', translation: 'паста, макарони', exEn: 'Cocinó pasta fresca para la cena familiar.', exUa: 'Вона приготувала свіжу пасту на сімейну вечерю.' },
+    { pos: 'noun', translation: 'гроші (розмовно)', exEn: 'No tenía suficiente pasta para pagar el alquiler ese mes.', exUa: 'Тоді йому не вистачало грошей заплатити за оренду.' },
+  ],
+  'cara': [
+    { pos: 'noun', translation: 'обличчя', exEn: 'Su cara se iluminó al ver el regalo.', exUa: 'Її обличчя засяяло, коли вона побачила подарунок.' },
+    { pos: 'adj', translation: 'дорогий (за ціною)', exEn: 'Esa chaqueta de cuero era demasiado cara para su presupuesto.', exUa: 'Та шкіряна куртка була надто дорогою для її бюджету.' },
+  ],
+  'pico': [
+    { pos: 'noun', translation: 'дзьоб', exEn: 'El pájaro sostenía un gusano en el pico.', exUa: 'Птах тримав у дзьобі черв\'яка.' },
+    { pos: 'noun', translation: 'вершина, пік', exEn: 'Alcanzaron el pico de la montaña justo antes del atardecer.', exUa: 'Вони досягли вершини гори якраз перед заходом сонця.' },
+  ],
+  'sierra': [
+    { pos: 'noun', translation: 'пилка', exEn: 'Cortó la madera con una sierra eléctrica.', exUa: 'Він розпиляв деревину електричною пилкою.' },
+    { pos: 'noun', translation: 'гірський хребет', exEn: 'Pasaron el verano caminando por la sierra.', exUa: 'Вони провели літо, гуляючи гірським хребтом.' },
+  ],
+  'pasaje': [
+    { pos: 'noun', translation: 'прохід, провулок', exEn: 'Encontraron un pasaje estrecho entre los dos edificios.', exUa: 'Вони знайшли вузький прохід між двома будівлями.' },
+    { pos: 'noun', translation: 'квиток (проїзний)', exEn: 'Compró el pasaje de avión con tres meses de antelación.', exUa: 'Вона купила авіаквиток за три місяці наперед.' },
+  ],
+  'cuenta': [
+    { pos: 'noun', translation: 'рахунок (банківський)', exEn: 'Abrió una cuenta nueva en el banco del centro.', exUa: 'Вона відкрила новий рахунок у банку в центрі міста.' },
+    { pos: 'noun', translation: 'намистина', exEn: 'El collar estaba hecho de cuentas de cristal azul.', exUa: 'Намисто було зроблене з блакитних скляних намистин.' },
+  ],
+  'partido': [
+    { pos: 'noun', translation: 'матч (спортивний)', exEn: 'Vieron el partido de fútbol en casa de un amigo.', exUa: 'Вони дивилися футбольний матч у будинку друга.' },
+    { pos: 'noun', translation: 'партія (політична)', exEn: 'Se unió al partido político cuando era estudiante.', exUa: 'Вона вступила до політичної партії, коли була студенткою.' },
+  ],
+  'pluma': [
+    { pos: 'noun', translation: 'перо (пташине)', exEn: 'Una pluma blanca cayó suavemente sobre la hierba.', exUa: 'Біле перо м\'яко впало на траву.' },
+    { pos: 'noun', translation: 'перо, ручка (для письма)', exEn: 'Firmó el contrato con una pluma elegante.', exUa: 'Вона підписала контракт елегантною ручкою.' },
+  ],
+  'cuadro': [
+    { pos: 'noun', translation: 'картина', exEn: 'Colgó un cuadro nuevo sobre la chimenea.', exUa: 'Вона повісила нову картину над каміном.' },
+    { pos: 'noun', translation: 'таблиця, схема', exEn: 'El profesor dibujó un cuadro para explicar los datos.', exUa: 'Вчитель намалював таблицю, щоб пояснити дані.' },
+  ],
+  'lima': [
+    { pos: 'noun', translation: 'лайм (фрукт)', exEn: 'Exprimió una lima fresca sobre el pescado.', exUa: 'Вона видавила сік свіжого лайма на рибу.' },
+    { pos: 'noun', translation: 'пилка (для нігтів, металу)', exEn: 'Usó una lima para suavizar el borde del metal.', exUa: 'Вона використала пилку, щоб згладити край металу.' },
+  ],
+  'cuerda': [
+    { pos: 'noun', translation: 'мотузка', exEn: 'Ataron la cuerda alrededor del tronco del árbol.', exUa: 'Вони прив\'язали мотузку навколо стовбура дерева.' },
+    { pos: 'noun', translation: 'струна (музичного інструменту)', exEn: 'Una cuerda de la guitarra se rompió durante el concierto.', exUa: 'Одна струна гітари порвалася під час концерту.' },
+  ],
+  'orden': [
+    { pos: 'noun', translation: 'порядок, послідовність', exEn: 'Pon los libros en orden alfabético en la estantería.', exUa: 'Розклади книги в алфавітному порядку на полиці.' },
+    { pos: 'noun', translation: 'наказ, розпорядження', exEn: 'El general dio la orden de retirada al amanecer.', exUa: 'Генерал віддав наказ про відступ на світанку.' },
+  ],
+  'mañana': [
+    { pos: 'noun', translation: 'ранок', exEn: 'Salió a correr temprano por la mañana.', exUa: 'Вона вийшла на пробіжку рано-вранці.' },
+    { pos: 'adv', translation: 'завтра', exEn: 'Nos vemos mañana en la reunión.', exUa: 'Побачимось завтра на зустрічі.' },
+  ],
+  'parte': [
+    { pos: 'noun', translation: 'частина', exEn: 'Solo leyó la primera parte del informe.', exUa: 'Вона прочитала лише першу частину звіту.' },
+    { pos: 'noun', translation: 'зведення, бюлетень', exEn: 'Escucharon el parte meteorológico antes de salir de viaje.', exUa: 'Перед поїздкою вони прослухали зведення погоди.' },
+  ],
+  'pendiente': [
+    { pos: 'noun', translation: 'сережка', exEn: 'Perdió un pendiente de plata en la fiesta.', exUa: 'Вона загубила срібну сережку на вечірці.' },
+    { pos: 'noun', translation: 'схил, скат', exEn: 'La casa estaba construida sobre una pendiente pronunciada.', exUa: 'Будинок був побудований на крутому схилі.' },
+  ],
+  'cubierta': [
+    { pos: 'noun', translation: 'палуба (корабля)', exEn: 'Los pasajeros tomaban el sol en la cubierta del barco.', exUa: 'Пасажири засмагали на палубі корабля.' },
+    { pos: 'noun', translation: 'обкладинка, чохол', exEn: 'La cubierta del libro estaba decorada con flores doradas.', exUa: 'Обкладинка книги була прикрашена золотими квітами.' },
+  ],
+  'tapa': [
+    { pos: 'noun', translation: 'кришка', exEn: 'Cerró la olla con la tapa antes de salir.', exUa: 'Вона закрила каструлю кришкою перед виходом.' },
+    { pos: 'noun', translation: 'тапас, закуска', exEn: 'Pidieron una tapa de jamón para compartir.', exUa: 'Вони замовили закуску з хамоном, щоб поділитися.' },
+  ],
+  'banda': [
+    { pos: 'noun', translation: 'гурт, оркестр', exEn: 'La banda tocó en la plaza durante el festival.', exUa: 'Гурт грав на площі під час фестивалю.' },
+    { pos: 'noun', translation: 'стрічка, перев\'язь', exEn: 'La reina llevaba una banda azul sobre el vestido.', exUa: 'Королева носила синю стрічку поверх сукні.' },
+  ],
 };
 
 export const SENSES_FR: Record<string, SenseEntry[]> = {
@@ -329,6 +635,121 @@ export const SENSES_FR: Record<string, SenseEntry[]> = {
   'café': [
     { pos: 'noun', translation: 'кава (напій)', exEn: 'Il boit toujours un café fort avant de commencer le travail.', exUa: 'Він завжди випиває міцну каву перед початком роботи.' },
     { pos: 'noun', translation: 'кафе (заклад)', exEn: 'Ils se sont retrouvés dans un café confortable près de la gare.', exUa: 'Вони зустрілися в затишному кафе біля вокзалу.' },
+  ],
+
+
+  // ── Expanded set ─────────────────────────────────────────────────────────
+  'avocat': [
+    { pos: 'noun', translation: 'адвокат', exEn: 'L\'avocat a défendu son client avec passion devant le tribunal.', exUa: 'Адвокат пристрасно захищав свого клієнта в суді.' },
+    { pos: 'noun', translation: 'авокадо', exEn: 'Elle a écrasé un avocat mûr pour préparer le guacamole.', exUa: 'Вона розім\'яла стиглий авокадо, щоб приготувати гуакамоле.' },
+  ],
+  'livre': [
+    { pos: 'noun', translation: 'книга', exEn: 'Il a passé tout le week-end à lire un nouveau livre.', exUa: 'Він провів увесь вихідний, читаючи нову книгу.' },
+    { pos: 'noun', translation: 'фунт (вага або валюта)', exEn: 'Elle a acheté une livre de fraises fraîches au marché.', exUa: 'Вона купила фунт свіжої полуниці на ринку.' },
+  ],
+  'voile': [
+    { pos: 'noun', translation: 'вуаль, покривало', exEn: 'La mariée portait un long voile blanc.', exUa: 'Наречена носила довгу білу вуаль.' },
+    { pos: 'noun', translation: 'парус', exEn: 'Le bateau hissa sa voile et quitta le port au lever du soleil.', exUa: 'Човен підняв вітрило і вийшов з порту на світанку.' },
+  ],
+  'tour': [
+    { pos: 'noun', translation: 'вежа', exEn: 'Ils ont grimpé jusqu\'au sommet de la vieille tour.', exUa: 'Вони піднялися на вершину старої вежі.' },
+    { pos: 'noun', translation: 'черга, оберт', exEn: 'C\'était enfin son tour de parler lors de la réunion.', exUa: 'Нарешті настала її черга говорити на зустрічі.' },
+  ],
+  'mode': [
+    { pos: 'noun', translation: 'мода', exEn: 'Elle suit toujours les dernières tendances de la mode.', exUa: 'Вона завжди слідкує за останніми тенденціями моди.' },
+    { pos: 'noun', translation: 'спосіб, режим', exEn: 'Le téléphone est resté en mode silencieux toute la nuit.', exUa: 'Телефон цілу ніч залишався в беззвучному режимі.' },
+  ],
+  'poste': [
+    { pos: 'noun', translation: 'посада', exEn: 'Elle a obtenu un nouveau poste dans une entreprise internationale.', exUa: 'Вона отримала нову посаду в міжнародній компанії.' },
+    { pos: 'noun', translation: 'пошта (заклад)', exEn: 'Il a envoyé le colis depuis le bureau de poste local.', exUa: 'Він відправив посилку з місцевого поштового відділення.' },
+  ],
+  'manche': [
+    { pos: 'noun', translation: 'рукав', exEn: 'Elle a remonté ses manches avant de commencer à cuisiner.', exUa: 'Вона закотила рукави, перш ніж почати готувати.' },
+    { pos: 'noun', translation: 'руків\'я, ручка', exEn: 'Le manche du marteau était fait de bois solide.', exUa: 'Руків\'я молотка було зроблене з міцного дерева.' },
+  ],
+  'mémoire': [
+    { pos: 'noun', translation: 'пам\'ять', exEn: 'Sa mémoire impressionnante lui permettait de réciter des poèmes entiers.', exUa: 'Її вражаюча пам\'ять дозволяла декламувати цілі вірші.' },
+    { pos: 'noun', translation: 'дипломна робота, мемуар', exEn: 'Il a passé des mois à rédiger son mémoire de fin d\'études.', exUa: 'Він провів місяці, пишучи свою випускну дипломну роботу.' },
+  ],
+  'physique': [
+    { pos: 'noun', translation: 'фізика (наука)', exEn: 'Elle étudie la physique quantique à l\'université.', exUa: 'Вона вивчає квантову фізику в університеті.' },
+    { pos: 'noun', translation: 'статура, зовнішність', exEn: 'Il garde un physique athlétique grâce à un entraînement régulier.', exUa: 'Він підтримує спортивну статуру завдяки регулярним тренуванням.' },
+  ],
+  'somme': [
+    { pos: 'noun', translation: 'сума (грошова)', exEn: 'Ils ont dépensé une somme considérable pour rénover la maison.', exUa: 'Вони витратили значну суму на ремонт будинку.' },
+    { pos: 'noun', translation: 'короткий сон', exEn: 'Elle a fait un petit somme après le déjeuner.', exUa: 'Вона трохи поспала після обіду.' },
+  ],
+  'vase': [
+    { pos: 'noun', translation: 'ваза', exEn: 'Elle a mis les roses fraîches dans un vase en cristal.', exUa: 'Вона поставила свіжі троянди у кришталеву вазу.' },
+    { pos: 'noun', translation: 'мул, баговиння', exEn: 'Leurs bottes s\'enfonçaient dans la vase au bord de l\'étang.', exUa: 'Їхні чоботи загрузали в мулі біля краю ставка.' },
+  ],
+  'moule': [
+    { pos: 'noun', translation: 'форма (для випічки)', exEn: 'Elle a versé la pâte dans un moule à gâteau.', exUa: 'Вона налила тісто у форму для торта.' },
+    { pos: 'noun', translation: 'мідія', exEn: 'Ils ont commandé des moules marinières au restaurant du port.', exUa: 'Вони замовили мідії в ресторані біля порту.' },
+  ],
+  'poêle': [
+    { pos: 'noun', translation: 'сковорода', exEn: 'Elle a fait revenir les oignons dans une poêle chaude.', exUa: 'Вона обсмажила цибулю на гарячій сковороді.' },
+    { pos: 'noun', translation: 'піч, грубка', exEn: 'Une vieille poêle à bois chauffait toute la cabane.', exUa: 'Стара дров\'яна піч обігрівала всю хатину.' },
+  ],
+  'glace': [
+    { pos: 'noun', translation: 'лід', exEn: 'Le lac était couvert d\'une fine couche de glace en hiver.', exUa: 'Озеро взимку було вкрите тонким шаром льоду.' },
+    { pos: 'noun', translation: 'дзеркало', exEn: 'Elle s\'est regardée dans la glace avant de sortir.', exUa: 'Вона подивилася на себе в дзеркало, перш ніж вийти.' },
+  ],
+  'temps': [
+    { pos: 'noun', translation: 'час', exEn: 'Elle n\'a jamais assez de temps pour tout terminer.', exUa: 'Їй ніколи не вистачає часу, щоб усе закінчити.' },
+    { pos: 'noun', translation: 'погода', exEn: 'Le temps était parfait pour une longue promenade au bord de la mer.', exUa: 'Погода була ідеальною для довгої прогулянки біля моря.' },
+  ],
+  'addition': [
+    { pos: 'noun', translation: 'додавання', exEn: 'Les enfants apprennent l\'addition en première année.', exUa: 'Діти вивчають додавання в першому класі.' },
+    { pos: 'noun', translation: 'рахунок (у ресторані)', exEn: 'Il a demandé l\'addition à la fin du repas.', exUa: 'Він попросив рахунок наприкінці трапези.' },
+  ],
+  'carte': [
+    { pos: 'noun', translation: 'карта (географічна)', exEn: 'Ils ont étudié la carte avant de partir en randonnée.', exUa: 'Вони вивчили карту перед тим, як вирушити в похід.' },
+    { pos: 'noun', translation: 'меню', exEn: 'Le serveur leur a apporté la carte dès qu\'ils se sont assis.', exUa: 'Офіціант приніс їм меню, щойно вони сіли.' },
+  ],
+  'pièce': [
+    { pos: 'noun', translation: 'кімната', exEn: 'L\'appartement comptait quatre pièces lumineuses.', exUa: 'У квартирі було чотири світлі кімнати.' },
+    { pos: 'noun', translation: 'монета', exEn: 'Il a trouvé une vieille pièce en argent dans le jardin.', exUa: 'Він знайшов стару срібну монету в саду.' },
+  ],
+  'note': [
+    { pos: 'noun', translation: 'оцінка (шкільна)', exEn: 'Elle a obtenu une excellente note à son examen final.', exUa: 'Вона отримала відмінну оцінку на випускному іспиті.' },
+    { pos: 'noun', translation: 'нота (музична)', exEn: 'Le pianiste a joué la dernière note avec beaucoup d\'émotion.', exUa: 'Піаніст зіграв останню ноту з великим почуттям.' },
+  ],
+  'col': [
+    { pos: 'noun', translation: 'комір', exEn: 'Le col de sa chemise était soigneusement repassé.', exUa: 'Комір її сорочки був акуратно випрасуваний.' },
+    { pos: 'noun', translation: 'гірський перевал', exEn: 'Les cyclistes ont franchi le col après des heures d\'effort.', exUa: 'Велосипедисти подолали гірський перевал після годин зусиль.' },
+  ],
+  'feuille': [
+    { pos: 'noun', translation: 'листок (дерева)', exEn: 'Une feuille jaune tomba doucement sur le sentier.', exUa: 'Жовтий листок тихо впав на стежку.' },
+    { pos: 'noun', translation: 'аркуш (паперу)', exEn: 'Elle a écrit son adresse sur une feuille blanche.', exUa: 'Вона написала свою адресу на чистому аркуші.' },
+  ],
+  'mine': [
+    { pos: 'noun', translation: 'шахта, копальня', exEn: 'Son grand-père travaillait dans une mine de charbon.', exUa: 'Його дід працював на вугільній шахті.' },
+    { pos: 'noun', translation: 'грифель (олівця)', exEn: 'La mine du crayon s\'est cassée pendant l\'examen.', exUa: 'Грифель олівця зламався під час іспиту.' },
+  ],
+  'chat': [
+    { pos: 'noun', translation: 'кіт', exEn: 'Le chat dormait paisiblement sur le rebord de la fenêtre.', exUa: 'Кіт мирно спав на підвіконні.' },
+    { pos: 'noun', translation: 'чат (онлайн-спілкування)', exEn: 'Ils ont discuté pendant des heures sur le chat de l\'entreprise.', exUa: 'Вони годинами спілкувалися в робочому чаті компанії.' },
+  ],
+  'rose': [
+    { pos: 'noun', translation: 'троянда', exEn: 'Il lui a offert une rose rouge pour son anniversaire.', exUa: 'Він подарував їй червону троянду на день народження.' },
+    { pos: 'adj', translation: 'рожевий', exEn: 'Elle portait une robe rose pour la fête.', exUa: 'Вона була у рожевій сукні на святі.' },
+  ],
+  'cours': [
+    { pos: 'noun', translation: 'урок, заняття', exEn: 'Le cours de français commence à neuf heures.', exUa: 'Урок французької починається о дев\'ятій годині.' },
+    { pos: 'noun', translation: 'курс (валюти, акцій)', exEn: 'Le cours de l\'action a chuté après l\'annonce.', exUa: 'Курс акції впав після оголошення.' },
+  ],
+  'fil': [
+    { pos: 'noun', translation: 'нитка', exEn: 'Elle a cousu le bouton avec du fil rouge.', exUa: 'Вона пришила ґудзик червоною ниткою.' },
+    { pos: 'noun', translation: 'дріт, провід', exEn: 'Un fil électrique pendait du plafond endommagé.', exUa: 'Електричний дріт звисав зі пошкодженої стелі.' },
+  ],
+  'banc': [
+    { pos: 'noun', translation: 'лава, лавка', exEn: 'Ils se sont assis sur un banc pour regarder les bateaux.', exUa: 'Вони сіли на лавку, щоб подивитися на човни.' },
+    { pos: 'noun', translation: 'косяк (риби)', exEn: 'Un grand banc de poissons argentés traversa la baie.', exUa: 'Великий косяк сріблястих риб перетнув затоку.' },
+  ],
+  'pile': [
+    { pos: 'noun', translation: 'батарейка', exEn: 'La télécommande ne fonctionne plus, il faut changer la pile.', exUa: 'Пульт більше не працює, треба поміняти батарейку.' },
+    { pos: 'noun', translation: 'стос, купа', exEn: 'Une pile de dossiers s\'entassait sur son bureau.', exUa: 'На її столі громадився стос документів.' },
   ],
 };
 
