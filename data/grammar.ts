@@ -6149,6 +6149,444 @@ export const GRAMMAR_ES: GrammarCategory[] = [
     ],
   },
 
+  // ══════════════════════════════════════
+  //   МАЙСТЕРНІСТЬ
+  // ══════════════════════════════════════
+  {
+    id: 'mastery', title: 'Майстерність', titleEn: 'Mastery', emoji: '🏆',
+    rules: [
+
+      {
+        id: 'subjuntivo-imperfecto', title: 'Imperfecto de Subjuntivo — B2', emoji: '🌫️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Минулий час підрядного способу — для бажань, сумнівів і гіпотез у минулому, а також в умовних реченнях нереального типу (si + imperfecto de subjuntivo). Утворюється від основи 3-ї особи множини Pretérito Indefinido.',
+            en: { text: 'The past subjunctive — for wishes, doubts and hypotheses in the past, and in unreal si-conditionals. Formed from the ellos/ellas Pretérito Indefinido stem.' },
+          },
+          {
+            type: 'formula', title: 'hablar, comer, vivir (основа -ron → -ra)',
+            rows: [
+              ['yo', 'hablara', 'comiera', 'viviera'],
+              ['tú', 'hablaras', 'comieras', 'vivieras'],
+              ['él/ella/usted', 'hablara', 'comiera', 'viviera'],
+              ['nosotros/as', 'habláramos', 'comiéramos', 'viviéramos'],
+              ['vosotros/as', 'hablarais', 'comierais', 'vivierais'],
+              ['ellos/ellas/ustedes', 'hablaran', 'comieran', 'vivieran'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'Існує також альтернативна форма на -se (hablase, comiese...), рівнозначна формі на -ra, поширена в Іспанії в офіційному стилі.',
+            en: { text: 'There is also an alternative -se form (hablase, comiese...), equivalent to the -ra form, common in formal Spanish in Spain.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Quería que vinieras conmigo.', 'Я хотів, щоб ти пішов зі мною.'],
+              ['Si tuviera más tiempo, viajaría más.', 'Якби в мене було більше часу, я б подорожував більше.'],
+              ['Dudaba que ella supiera la verdad.', 'Я сумнівався, що вона знає правду.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'subjuntivo-perfecto', title: 'Pretérito Perfecto de Subjuntivo — B2', emoji: '✅',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Складений час підрядного способу — для дій, що мали б завершитись до моменту мовлення, при вираженні сумніву, емоцій чи бажання. Утворюється: haya/hayas... (subjuntivo дієслова haber) + дієприкметник минулого часу.',
+            en: { text: 'A compound subjunctive tense — for actions that should be completed by the moment of speaking, when expressing doubt, emotion or wish. Formed with haya/hayas... (subjunctive of haber) + past participle.' },
+          },
+          {
+            type: 'formula', title: 'haber (subjuntivo) + participio',
+            rows: [
+              ['yo', 'haya hablado', '→ Espero que haya llegado bien.'],
+              ['tú', 'hayas comido', '→ No creo que hayas terminado.'],
+              ['él/ella/usted', 'haya vivido', '→ Dudo que haya vivido allí.'],
+              ['nosotros/as', 'hayamos trabajado', '→ Ojalá que hayamos acertado.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Espero que hayas dormido bien.', 'Сподіваюсь, ти добре виспався.'],
+              ['Me alegro de que hayan venido.', 'Я радий, що вони прийшли.'],
+              ['Es posible que se haya equivocado.', 'Можливо, він помилився.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'imperative-negative', title: 'Imperativo Negativo — A2', emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечний наказовий спосіб утворюється не від стверджувального, а від форм Presente de Subjuntivo, поставлених після no.',
+            en: { text: 'The negative imperative is not formed from the affirmative imperative but from the Presente de Subjuntivo forms, placed after no.' },
+          },
+          {
+            type: 'formula', title: 'no + subjuntivo presente',
+            rows: [
+              ['tú', 'no hables / no comas / no vivas', '→ ¡No hables tan alto!'],
+              ['usted', 'no hable / no coma / no viva', '→ No fume aquí, por favor.'],
+              ['vosotros/as', 'no habléis / no comáis / no viváis', '→ No habléis durante el examen.'],
+              ['ustedes', 'no hablen / no coman / no vivan', '→ No lleguen tarde.'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'У заперечному наказовому способі займенники ставляться ПЕРЕД дієсловом (на відміну від стверджувального, де вони приєднуються до кінця): ¡No me lo digas!',
+            en: { text: 'In the negative imperative, pronouns go BEFORE the verb (unlike the affirmative, where they attach to the end): ¡No me lo digas!' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['¡No te preocupes!', 'Не хвилюйся!'],
+              ['No lo hagas así.', 'Не роби так.'],
+              ['No me llames después de las diez.', 'Не дзвони мені після десятої.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'possessive-pronouns', title: 'Pronombres Posesivos — B1', emoji: '👪',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Присвійні займенники (на відміну від прикметників) замінюють іменник повністю і зазвичай вживаються з артиклем: el mío, la tuya...',
+            en: { text: 'Possessive pronouns (unlike adjectives) replace the noun entirely and are usually used with an article: el mío, la tuya...' },
+          },
+          {
+            type: 'table', title: 'Форми (чол. одн. / жін. одн.)',
+            rows: [
+              ['el mío / la mía', 'мій / моя'],
+              ['el tuyo / la tuya', 'твій / твоя'],
+              ['el suyo / la suya', 'його/її/Ваш'],
+              ['el nuestro / la nuestra', 'наш/наша'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Mi coche es azul, ¿y el tuyo?', 'Моя машина синя, а твоя?'],
+              ['Esta mesa es la nuestra.', 'Цей стіл наш.'],
+              ['Sus ideas son mejores que las mías.', 'Його/її ідеї кращі за мої.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'absolute-superlative', title: 'Superlativo Absoluto (-ísimo) — B1', emoji: '⚡',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Абсолютний найвищий ступінь виражає дуже високу міру якості без порівняння з кимось/чимось. Утворюється додаванням -ísimo/-ísima до основи прикметника.',
+            en: { text: 'The absolute superlative expresses a very high degree of a quality without comparing to anyone/anything else. Formed by adding -ísimo/-ísima to the adjective stem.' },
+          },
+          {
+            type: 'table', title: 'Приклади утворення',
+            rows: [
+              ['alto → altísimo', 'дуже високий'],
+              ['fácil → facilísimo', 'дуже легкий'],
+              ['rico → riquísimo', 'дуже смачний/багатий'],
+              ['largo → larguísimo', 'дуже довгий'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'Так само можна сказати muy + прикметник (muy alto), але -ísimo звучить емоційніше й розмовніше.',
+            en: { text: 'You can also say muy + adjective (muy alto), but -ísimo sounds more emphatic and colloquial.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Esta película es buenísima.', 'Цей фільм дуже хороший.'],
+              ['Estoy cansadísimo hoy.', 'Я сьогодні дуже втомлений.'],
+              ['El examen fue dificilísimo.', 'Іспит був дуже важким.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'estar-resultant-state', title: 'Estar + Participio (estado resultante) — A2', emoji: '🔒',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Estar + дієприкметник минулого часу описує стан, що є результатом дії (а не саму дію). Дієприкметник тут узгоджується з підметом, як прикметник.',
+            en: { text: 'Estar + past participle describes a state that results from an action (not the action itself). Here the participle agrees with the subject like an adjective.' },
+          },
+          {
+            type: 'table', title: 'Порівняння: дія vs стан',
+            rows: [
+              ['дія (пасив)', 'La puerta es cerrada (por alguien).', 'Двері зачиняються (кимось).'],
+              ['стан (результат)', 'La puerta está cerrada.', 'Двері зачинені.'],
+              ['стан (результат)', 'Las tiendas están abiertas.', 'Магазини відчинені.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['La ventana está rota.', 'Вікно розбите.'],
+              ['Estamos cansados después del viaje.', 'Ми втомлені після подорожі.'],
+              ['El trabajo ya está terminado.', 'Робота вже завершена.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'acabar-de', title: 'Acabar de + Infinitivo — A2', emoji: '⏪',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Конструкція acabar de + інфінітив виражає дію, що відбулась щойно, буквально "закінчити щойно робити щось".',
+            en: { text: 'The construction acabar de + infinitive expresses an action that just happened, literally "to just finish doing something".' },
+          },
+          {
+            type: 'formula', title: 'acabar + de + infinitivo',
+            rows: [
+              ['yo', 'acabo de', '→ Acabo de llegar.'],
+              ['tú', 'acabas de', '→ ¿Acabas de comer?'],
+              ['él/ella/usted', 'acaba de', '→ Acaba de salir.'],
+              ['nosotros/as', 'acabamos de', '→ Acabamos de terminar.'],
+            ],
+            en: { title: 'acabar + de + infinitive' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Acabo de recibir tu mensaje.', 'Я щойно отримав твоє повідомлення.'],
+              ['Acaban de mudarse.', 'Вони щойно переїхали.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'volver-a', title: 'Volver a + Infinitivo — B1', emoji: '🔁',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Конструкція volver a + інфінітив означає повторення дії — "знову зробити щось".',
+            en: { text: 'The construction volver a + infinitive expresses repeating an action — "to do something again".' },
+          },
+          {
+            type: 'formula', title: 'volver + a + infinitivo',
+            rows: [
+              ['yo', 'vuelvo a', '→ Vuelvo a intentarlo.'],
+              ['tú', 'vuelves a', '→ ¿Vuelves a llamarlo?'],
+              ['él/ella/usted', 'vuelve a', '→ Vuelve a llover.'],
+              ['nosotros/as', 'volvemos a', '→ Volvemos a vernos pronto.'],
+            ],
+            en: { title: 'volver + a + infinitive' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Volvió a leer la carta.', 'Він перечитав листа знову.'],
+              ['No vuelvas a hacerlo.', 'Більше так не роби.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'obligation-verbs', title: 'Hay que, Tener que, Deber — A2', emoji: '📌',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Три способи виразити необхідність: hay que (безособове, загальне правило), tener que (особисте, конкретне зобов\'язання), deber (порада/моральний обов\'язок).',
+            en: { text: 'Three ways to express necessity: hay que (impersonal, general rule), tener que (personal, specific obligation), deber (advice/moral duty).' },
+          },
+          {
+            type: 'table', title: 'Різниця',
+            rows: [
+              ['hay que', 'безособово', 'Hay que estudiar para aprobar.'],
+              ['tener que', 'особисто', 'Tengo que terminar este informe.'],
+              ['deber', 'порада', 'Deberías dormir más.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Hay que respetar las normas.', 'Треба поважати правила.'],
+              ['Tengo que ir al médico mañana.', 'Мені треба піти до лікаря завтра.'],
+              ['Debes pedir disculpas.', 'Тобі слід вибачитись.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'cual-vs-que', title: '¿Cuál? vs ¿Qué? — B1', emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Qué запитує про визначення/тип ("що це таке?"), cuál — про вибір з-поміж варіантів ("який саме?"). Перед іменником зазвичай вживають qué.',
+            en: { text: 'Qué asks for a definition/type ("what is it?"), cuál asks for a choice among options ("which one?"). Before a noun, qué is usually used.' },
+          },
+          {
+            type: 'table', title: 'Порівняння',
+            rows: [
+              ['¿Qué es esto?', 'визначення', 'Що це таке?'],
+              ['¿Cuál prefieres?', 'вибір', 'Який ти волієш?'],
+              ['¿Qué libro lees?', 'перед іменником', 'Яку книгу ти читаєш?'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['¿Qué quieres comer?', 'Що ти хочеш з\'їсти?'],
+              ['¿Cuál es tu color favorito?', 'Який твій улюблений колір?'],
+              ['¿Cuáles son tus planes?', 'Які твої плани?'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pero-sino', title: 'Pero vs Sino — B1', emoji: '↔️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Pero вживають у звичайному протиставленні. Sino вживають лише після заперечення, коли друга частина повністю заперечує/замінює першу ("не..., а...").',
+            en: { text: 'Pero is used for a regular contrast. Sino is used only after a negation, when the second part completely contradicts/replaces the first ("not..., but...").' },
+          },
+          {
+            type: 'table', title: 'Порівняння',
+            rows: [
+              ['pero', 'звичайний контраст', 'Es caro, pero bueno.'],
+              ['sino', 'після заперечення', 'No es caro, sino barato.'],
+              ['sino que', 'перед дієсловом', 'No estudia, sino que trabaja.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['No quiero té, sino café.', 'Я хочу не чай, а каву.'],
+              ['Es difícil, pero no imposible.', 'Це важко, але не неможливо.'],
+              ['No fue ella sino él quien llamó.', 'Дзвонила не вона, а він.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'infinitive-gerund-verbs', title: 'Verbos + Infinitivo/Gerundio — B2', emoji: '🧩',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Деякі дієслова вимагають після себе інфінітив, інші — герундій, залежно від значення.',
+            en: { text: 'Some verbs require an infinitive after them, others a gerund, depending on the meaning.' },
+          },
+          {
+            type: 'table', title: 'Типові приклади',
+            rows: [
+              ['+ infinitivo', 'querer, poder, decidir, soler', 'Suelo levantarme temprano.'],
+              ['+ gerundio', 'seguir, llevar, continuar', 'Sigue trabajando allí.'],
+              ['+ ambos (різний зміст)', 'empezar a / empezar + gerundio', 'Empezó a llover. / Empezó cantando.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Suele llegar tarde.', 'Він зазвичай приходить пізно.'],
+              ['Lleva dos horas esperando.', 'Він чекає вже дві години.'],
+              ['Decidió cambiar de trabajo.', 'Він вирішив змінити роботу.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'impersonal-expressions', title: 'Expresiones Impersonales (hay, hace, es) — A2', emoji: '🌦️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Безособові конструкції не мають конкретного підмета і вживаються лише в 3-й особі однини: hay (наявність), hace (погода), es (час, оцінка).',
+            en: { text: 'Impersonal constructions have no specific subject and are used only in the third person singular: hay (existence), hace (weather), es (time, evaluation).' },
+          },
+          {
+            type: 'table', title: 'Приклади',
+            rows: [
+              ['hay', 'наявність', 'Hay mucha gente aquí.'],
+              ['hace + погода', 'погода', 'Hace frío hoy.'],
+              ['es + час/оцінка', 'час/оцінка', 'Es importante estudiar.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Hay un problema con el coche.', 'Є проблема з машиною.'],
+              ['Hace mucho calor en verano.', 'Влітку дуже спекотно.'],
+              ['Es necesario llegar a tiempo.', 'Необхідно прийти вчасно.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'reported-questions', title: 'Preguntas Indirectas — B1', emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У непрямих питаннях порядок слів прямий (як у розповідному реченні), знаки питання не вживають. Питання з питальним словом зберігають його; питання без питального слова з\'єднують через si.',
+            en: { text: 'In indirect questions, the word order is the normal statement order, and question marks are not used. Questions with a question word keep it; yes/no questions are joined with si.' },
+          },
+          {
+            type: 'table', title: 'Структура',
+            rows: [
+              ['з питальним словом', 'Me preguntó dónde vivía.', 'Він запитав мене, де я живу.'],
+              ['без питального слова', 'Me preguntó si quería venir.', 'Він запитав мене, чи хочу я прийти.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['"¿Dónde vives?" → Me preguntó dónde vivía.', '"Де ти живеш?" → Він запитав, де я живу.'],
+              ['"¿Tienes hambre?" → Me preguntó si tenía hambre.', '"Ти голодний?" → Він запитав, чи я голодний.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'become-verbs', title: 'Ponerse, Volverse, Hacerse, Llegar a ser — B2', emoji: '🦋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Іспанська не має одного дієслова "ставати" — вибір залежить від типу зміни: тимчасова емоція/вигляд, раптова й глибока зміна, зусилля/досягнення, чи поступовий процес.',
+            en: { text: 'Spanish has no single verb for "to become" — the choice depends on the type of change: temporary emotion/appearance, sudden deep change, effort/achievement, or a gradual process.' },
+          },
+          {
+            type: 'table', title: 'Вибір дієслова',
+            rows: [
+              ['ponerse', 'тимчасова емоція/стан', 'Se puso nervioso.'],
+              ['volverse', 'раптова, тривала зміна', 'Se volvió loco.'],
+              ['hacerse', 'зусилля, ідентичність', 'Se hizo médico.'],
+              ['llegar a ser', 'поступовий, тривалий процес', 'Llegó a ser presidente.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Me puse muy contento con la noticia.', 'Я дуже зрадів цій новині.'],
+              ['Se hizo rico trabajando duro.', 'Він розбагатів, важко працюючи.'],
+              ['Con los años, se volvió más paciente.', 'З роками він став терплячішим.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
 ];
 
 // ── French grammar ───────────────────────────────────────────
@@ -7387,6 +7825,423 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ['Je ne l\'ai pas vue depuis l\'été.', 'Я не бачив її з літа.'],
               ['Il a travaillé pendant dix ans dans cette entreprise.', 'Він працював у тій компанії десять років.'],
               ['Elle est partie il y a une semaine.', 'Вона поїхала тиждень тому.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+  // ══════════════════════════════════════
+  //   MAÎTRISE
+  // ══════════════════════════════════════
+  {
+    id: 'mastery', title: 'Майстерність', titleEn: 'Mastery', emoji: '🏆',
+    rules: [
+
+      {
+        id: 'subjonctif-passe', title: 'Subjonctif Passé — B2', emoji: '✅',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Минулий час підрядного способу — для дій, що мали б завершитись до моменту мовлення, при вираженні сумніву, емоцій чи бажання. Утворюється: avoir/être (subjonctif présent) + дієприкметник минулого часу.',
+            en: { text: 'The past subjunctive — for actions that should be completed by the moment of speaking, when expressing doubt, emotion or wish. Formed with avoir/être (subjonctif présent) + past participle.' },
+          },
+          {
+            type: 'formula', title: 'avoir/être (subjonctif) + participe passé',
+            rows: [
+              ['je', 'aie parlé', '→ Je suis content que tu aies réussi.'],
+              ['tu', 'aies fini', '→ Je doute que tu aies fini.'],
+              ['il / elle', 'soit parti(e)', '→ Il est possible qu\'elle soit déjà partie.'],
+              ['nous', 'ayons terminé', '→ Bien que nous ayons terminé tôt...'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je suis content que tu sois venu.', 'Я радий, що ти прийшов.'],
+              ['Je ne pense pas qu\'il ait compris.', 'Я не думаю, що він зрозумів.'],
+              ['C\'est dommage qu\'elle n\'ait pas pu venir.', 'Шкода, що вона не змогла прийти.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'imperative-negative', title: 'Impératif Négatif — A2', emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечний наказовий спосіб утворюється рамкою ne...pas навколо стверджувальної форми. На відміну від стверджувального, займенники тут ставляться перед дієсловом.',
+            en: { text: 'The negative imperative is formed with the ne...pas frame around the affirmative form. Unlike the affirmative, pronouns here go before the verb.' },
+          },
+          {
+            type: 'formula', title: 'ne + impératif + pas',
+            rows: [
+              ['tu', 'ne parle pas', '→ Ne parle pas si fort!'],
+              ['nous', 'ne parlons pas', '→ Ne paniquons pas.'],
+              ['vous', 'ne parlez pas', '→ Ne partez pas encore.'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'З займенником: Ne me le dis pas! (а не Dis-moi-le pas!) — порядок займенників такий самий, як у звичайному реченні.',
+            en: { text: 'With a pronoun: Ne me le dis pas! (not Dis-moi-le pas!) — the pronoun order is the same as in a regular sentence.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ne t\'inquiète pas!', 'Не хвилюйся!'],
+              ['Ne le fais pas comme ça.', 'Не роби так.'],
+              ['Ne m\'appelle pas après dix heures.', 'Не дзвони мені після десятої.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pronoms-possessifs', title: 'Pronoms Possessifs (le mien, le tien) — B1', emoji: '👪',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Присвійні займенники (на відміну від прикметників) замінюють іменник повністю і завжди вживаються з означеним артиклем.',
+            en: { text: 'Possessive pronouns (unlike adjectives) replace the noun entirely and are always used with the definite article.' },
+          },
+          {
+            type: 'table', title: 'Форми (чол. одн. / жін. одн.)',
+            rows: [
+              ['le mien / la mienne', 'мій / моя'],
+              ['le tien / la tienne', 'твій / твоя'],
+              ['le sien / la sienne', 'його/її'],
+              ['le nôtre / la nôtre', 'наш/наша'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ma voiture est bleue, et la tienne?', 'Моя машина синя, а твоя?'],
+              ['Cette table est la nôtre.', 'Цей стіл наш.'],
+              ['Ses idées sont meilleures que les miennes.', 'Його/її ідеї кращі за мої.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'adverbes-ment', title: 'Adverbes en -ment — A2', emoji: '⚡',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Більшість прислівників способу дії утворюються додаванням -ment до жіночої форми прикметника.',
+            en: { text: 'Most adverbs of manner are formed by adding -ment to the feminine form of the adjective.' },
+          },
+          {
+            type: 'table', title: 'Утворення',
+            rows: [
+              ['lent → lente → lentement', 'повільно'],
+              ['heureux → heureuse → heureusement', 'на щастя'],
+              ['vrai → vraiment', 'справді (без -e, бо закінчується на голосну)'],
+              ['constant → constamment', '-ant → -amment'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Elle conduit lentement.', 'Вона веде машину повільно.'],
+              ['Heureusement, il n\'a pas plu.', 'На щастя, дощу не було.'],
+              ['Il parle constamment de son travail.', 'Він постійно говорить про роботу.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'etre-participe-etat', title: 'Être + Participe Passé (état résultant) — A2', emoji: '🔒',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Être + дієприкметник минулого часу описує стан, що є результатом дії (а не саму дію), і узгоджується з підметом, як прикметник.',
+            en: { text: 'Être + past participle describes a state resulting from an action (not the action itself), and agrees with the subject like an adjective.' },
+          },
+          {
+            type: 'table', title: 'Порівняння: дія vs стан',
+            rows: [
+              ['дія (пасив)', 'La porte est fermée (par quelqu\'un).', 'Двері зачиняються (кимось).'],
+              ['стан (результат)', 'La porte est fermée.', 'Двері зачинені.'],
+              ['стан (результат)', 'Les magasins sont ouverts.', 'Магазини відчинені.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['La fenêtre est cassée.', 'Вікно розбите.'],
+              ['Nous sommes fatigués après le voyage.', 'Ми втомлені після подорожі.'],
+              ['Le travail est déjà terminé.', 'Робота вже завершена.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'etre-sur-le-point-de', title: 'Être sur le Point de + Infinitif — B1', emoji: '⏩',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Конструкція être sur le point de + інфінітив виражає дію, яка от-от станеться — "бути на межі того, щоб зробити щось".',
+            en: { text: 'The construction être sur le point de + infinitive expresses an action that is about to happen — "to be on the verge of doing something".' },
+          },
+          {
+            type: 'formula', title: 'être + sur le point de + infinitif',
+            rows: [
+              ['je', 'suis sur le point de', '→ Je suis sur le point de partir.'],
+              ['elle', 'est sur le point de', '→ Elle est sur le point de pleurer.'],
+              ['nous', 'sommes sur le point de', '→ Nous sommes sur le point de commencer.'],
+            ],
+            en: { title: 'être + sur le point de + infinitive' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Le film est sur le point de commencer.', 'Фільм от-от почнеться.'],
+              ['J\'étais sur le point de t\'appeler.', 'Я якраз збирався тобі подзвонити.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'obligation-verbs', title: 'Devoir, Il faut, Avoir besoin de — A2', emoji: '📌',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Три способи виразити необхідність: il faut (безособове, загальне правило), devoir (особистий обов\'язок/порада), avoir besoin de (потреба в чомусь чи зробити щось).',
+            en: { text: 'Three ways to express necessity: il faut (impersonal, general rule), devoir (personal duty/advice), avoir besoin de (need for something or to do something).' },
+          },
+          {
+            type: 'table', title: 'Різниця',
+            rows: [
+              ['il faut', 'безособово', 'Il faut respecter les règles.'],
+              ['devoir', 'особисто/порада', 'Tu dois finir ce rapport.'],
+              ['avoir besoin de', 'потреба', 'J\'ai besoin de me reposer.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Il faut étudier pour réussir.', 'Треба вчитися, щоб досягти успіху.'],
+              ['Je dois aller chez le médecin demain.', 'Мені треба піти до лікаря завтра.'],
+              ['Tu as besoin de dormir plus.', 'Тобі потрібно більше спати.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'quel-vs-quest-ce-que', title: 'Quel vs Qu\'est-ce que — B1', emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Quel(le)(s) — питальний прикметник, узгоджується з іменником і вживається перед ним. Qu\'est-ce que — питальний займенник для запитання "що" як додатка дієслова.',
+            en: { text: 'Quel(le)(s) is an interrogative adjective, agrees with the noun and comes before it. Qu\'est-ce que is an interrogative pronoun for asking "what" as the object of a verb.' },
+          },
+          {
+            type: 'table', title: 'Порівняння',
+            rows: [
+              ['Quel + ім.', 'перед іменником', 'Quel livre lis-tu?'],
+              ['Qu\'est-ce que', 'додаток дієслова', 'Qu\'est-ce que tu fais?'],
+              ['Qu\'est-ce qui', 'підмет (для речей)', 'Qu\'est-ce qui se passe?'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Quelle heure est-il?', 'Котра година?'],
+              ['Qu\'est-ce que tu veux manger?', 'Що ти хочеш з\'їсти?'],
+              ['Quels sont tes projets?', 'Які твої плани?'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'ni-ni', title: 'Ne... Ni... Ni — B1', emoji: '↔️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Конструкція ne...ni...ni означає "ні..., ні...". Артиклі un/une/des та частковий артикль перед іменником зазвичай опускаються.',
+            en: { text: 'The construction ne...ni...ni means "neither... nor...". The articles un/une/des and the partitive article before the noun are usually dropped.' },
+          },
+          {
+            type: 'formula', title: 'Структура',
+            rows: [
+              ['', 'sujet + ne + verbe + ni... ni...', "→ Je n'aime ni le café ni le thé."],
+            ],
+            en: { title: 'Structure' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Il n\'a ni frère ni sœur.', 'У нього немає ні брата, ні сестри.'],
+              ['Je ne veux ni sortir ni rester.', 'Я не хочу ні виходити, ні залишатись.'],
+              ['Elle n\'a ni le temps ni l\'argent.', 'У неї немає ні часу, ні грошей.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'infinitif-passe', title: 'Infinitif Passé — B2', emoji: '⏮️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Минулий інфінітив виражає дію, що завершилась до іншої дії, найчастіше після après. Утворюється: avoir/être (інфінітив) + дієприкметник минулого часу.',
+            en: { text: 'The past infinitive expresses an action completed before another, most often after après. Formed with avoir/être (infinitive) + past participle.' },
+          },
+          {
+            type: 'formula', title: 'avoir/être (infinitif) + participe passé',
+            rows: [
+              ['avoir + participe', 'après avoir mangé', '→ Après avoir mangé, il est sorti.'],
+              ['être + participe', 'après être parti(e)', '→ Après être partie, elle a appelé.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Après avoir fini ses devoirs, il a joué.', 'Закінчивши домашнє завдання, він пограв.'],
+              ['Après être arrivés, ils ont déjeuné.', 'Прибувши, вони пообідали.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'impersonal-expressions', title: 'Expressions Impersonnelles — A2', emoji: '🌦️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Безособові конструкції не мають конкретного підмета й вживаються лише з il: il y a (наявність), il fait (погода), il est (час, оцінка).',
+            en: { text: 'Impersonal constructions have no specific subject and are used only with il: il y a (existence), il fait (weather), il est (time, evaluation).' },
+          },
+          {
+            type: 'table', title: 'Приклади',
+            rows: [
+              ['il y a', 'наявність', 'Il y a beaucoup de monde ici.'],
+              ['il fait + погода', 'погода', 'Il fait froid aujourd\'hui.'],
+              ['il est + час/оцінка', 'час/оцінка', 'Il est important d\'étudier.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Il y a un problème avec la voiture.', 'Є проблема з машиною.'],
+              ['Il fait très chaud en été.', 'Влітку дуже спекотно.'],
+              ['Il est nécessaire d\'arriver à l\'heure.', 'Необхідно прийти вчасно.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'reported-questions', title: 'Discours Indirect : les Questions — B1', emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У непрямих питаннях порядок слів прямий, знаки питання не вживають. Питання з питальним словом зберігають його (que → ce que); питання без питального слова з\'єднують через si.',
+            en: { text: 'In indirect questions, the word order is the normal statement order, and question marks are not used. Questions with a question word keep it (que → ce que); yes/no questions are joined with si.' },
+          },
+          {
+            type: 'table', title: 'Структура',
+            rows: [
+              ['з питальним словом', 'Il m\'a demandé où j\'habitais.', 'Він запитав мене, де я живу.'],
+              ['"qu\'est-ce que" → ce que', 'Il m\'a demandé ce que je voulais.', 'Він запитав мене, що я хочу.'],
+              ['без питального слова', 'Il m\'a demandé si je voulais venir.', 'Він запитав мене, чи хочу я прийти.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['"Où habites-tu?" → Il m\'a demandé où j\'habitais.', '"Де ти живеш?" → Він запитав, де я живу.'],
+              ['"As-tu faim?" → Il m\'a demandé si j\'avais faim.', '"Ти голодний?" → Він запитав, чи я голодний.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'devenir-rendre', title: 'Devenir, Rendre, Se Rendre — B2', emoji: '🦋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Французька не має одного дієслова "ставати" для всіх контекстів: devenir для самостійної зміни підмета, rendre + прикметник для зміни, спричиненої кимось іншим, se rendre compte de для усвідомлення.',
+            en: { text: 'French has no single verb for "to become" in every context: devenir for the subject\'s own change, rendre + adjective for a change caused by someone else, se rendre compte de for realizing something.' },
+          },
+          {
+            type: 'table', title: 'Вибір дієслова',
+            rows: [
+              ['devenir', 'власна зміна підмета', 'Il est devenu médecin.'],
+              ['rendre + прикм.', 'зміна, спричинена кимось', 'Cette nouvelle l\'a rendu triste.'],
+              ['se rendre compte de', 'усвідомити', 'Je me suis rendu compte de mon erreur.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Avec les années, il est devenu plus patient.', 'З роками він став терплячішим.'],
+              ['Cette musique me rend heureux.', 'Ця музика робить мене щасливим.'],
+              ['Elle s\'est rendu compte qu\'elle s\'était trompée.', 'Вона усвідомила, що помилилась.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'participe-present', title: 'Participe Présent vs Gérondif — B2', emoji: '🌳',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Participe présent (parlant, finissant) без en вживається як прикметник або для опису одночасної, але окремої дії того ж підмета чи іншого. Gérondif (en + participe présent) завжди стосується підмета головного дієслова.',
+            en: { text: 'The participe présent (parlant, finissant) without en is used as an adjective or to describe a simultaneous but separate action of the same or a different subject. The gérondif (en + participe présent) always relates to the subject of the main verb.' },
+          },
+          {
+            type: 'table', title: 'Порівняння',
+            rows: [
+              ['participe présent', 'як прикметник/окрема дія', 'Une eau courante. / Habitant à Paris, il...'],
+              ['gérondif', 'одночасна дія того ж підмета', 'Il mange en regardant la télé.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Connaissant bien la ville, il nous a guidés.', 'Добре знаючи місто, він провів нас.'],
+              ['Elle chante en cuisinant.', 'Вона співає, готуючи їжу.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'subjonctif-vs-indicatif', title: 'Subjonctif ou Indicatif? — B2', emoji: '⚖️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Деякі вирази вимагають subjonctif (сумнів, бажання, емоції), інші — indicatif (упевненість, факт). Вибір залежить від ступеня впевненості мовця.',
+            en: { text: 'Some expressions require the subjonctif (doubt, wish, emotion), others the indicatif (certainty, fact). The choice depends on the speaker\'s degree of certainty.' },
+          },
+          {
+            type: 'table', title: 'Порівняння',
+            rows: [
+              ['subjonctif', 'сумнів/бажання', 'Je doute qu\'il vienne.'],
+              ['indicatif', 'упевненість', 'Je suis sûr qu\'il vient.'],
+              ['subjonctif', 'після penser/croire у заперечній формі', 'Je ne pense pas qu\'il ait raison.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je pense qu\'il a raison.', 'Я думаю, що він правий. (indicatif)'],
+              ['Je ne pense pas qu\'il ait raison.', 'Я не думаю, що він правий. (subjonctif)'],
+              ['Il est certain qu\'elle viendra.', 'Точно, що вона прийде. (indicatif)'],
             ],
           },
         ],
