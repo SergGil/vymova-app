@@ -37,7 +37,11 @@ function _tok(s: string, code: Code): string[] {
 let _synIdxCache: Partial<Record<Code, Record<string, number[]>>> = {};
 
 function _buildSynIdx(code: Code): Record<string, number[]> {
-  const idx: Record<string, number[]> = {};
+  // Object.create(null) — a plain {} inherits Object.prototype, so a token
+  // equal to a built-in property name (e.g. the ES headword "constructor"
+  // for "builder") would make idx[t] resolve to that inherited function
+  // instead of undefined, and idx[t].push would then throw.
+  const idx: Record<string, number[]> = Object.create(null);
   for (let i = 0; i < W.length; i++) {
     const headword = headwordFor(code, W[i] as unknown as WordEntry);
     if (!headword) continue;
