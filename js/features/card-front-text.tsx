@@ -79,9 +79,10 @@ const LOCAL_ENTRY_LOOKUP: Partial<
 export function Transcription() {
   const { cw } = useDeckState();
   const [legendOpen, setLegendOpen] = useState(false);
+  const cwHead = cw?.[0];
   useEffect(() => {
     setLegendOpen(false);
-  }, [cw?.[0]]);
+  }, [cwHead]);
   if (!cw) return null;
   const { FRONT_LANG, frontWord } = computeCardView(cw, getResolvedMode());
   const lookup = LOCAL_ENTRY_LOOKUP[FRONT_LANG];

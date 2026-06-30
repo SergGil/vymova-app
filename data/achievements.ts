@@ -11,10 +11,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перший крок',
     cat: '📖 Слова',
     hint: 'Натисни ✓ Знаю на першому слові — подорож починається!',
-    progress: function (k: number, g: GameData) {
+    progress: function (k: number, _g: GameData) {
       return { cur: Math.min(k, 1), max: 1 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (k: number, _g: GameData) {
       return k >= 1;
     },
   },
@@ -24,10 +24,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '10 слів',
     cat: '📖 Слова',
     hint: 'Познач як «Знаю» 10 різних слів',
-    progress: function (k: number, g: GameData) {
+    progress: function (k: number, _g: GameData) {
       return { cur: Math.min(k, 10), max: 10 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (k: number, _g: GameData) {
       return k >= 10;
     },
   },
@@ -37,10 +37,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '50 слів',
     cat: '📖 Слова',
     hint: 'Вивчи 50 слів — ти вже Падаван! Приблизно 0.5% словника.',
-    progress: function (k: number, g: GameData) {
+    progress: function (k: number, _g: GameData) {
       return { cur: Math.min(k, 50), max: 50 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (k: number, _g: GameData) {
       return k >= 50;
     },
   },
@@ -50,10 +50,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '100 слів',
     cat: '📖 Слова',
     hint: '100 слів — ти вже читаєш прості тексти!',
-    progress: function (k: number, g: GameData) {
+    progress: function (k: number, _g: GameData) {
       return { cur: Math.min(k, 100), max: 100 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (k: number, _g: GameData) {
       return k >= 100;
     },
   },
@@ -63,10 +63,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '250 слів',
     cat: '📖 Слова',
     hint: '250 слів покривають 65% розмовної мови. Сила з тобою!',
-    progress: function (k: number, g: GameData) {
+    progress: function (k: number, _g: GameData) {
       return { cur: Math.min(k, 250), max: 250 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (k: number, _g: GameData) {
       return k >= 250;
     },
   },
@@ -76,10 +76,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '500 слів',
     cat: '📖 Слова',
     hint: '500 слів — рівень впевненого Джедай-лицаря!',
-    progress: function (k: number, g: GameData) {
+    progress: function (k: number, _g: GameData) {
       return { cur: Math.min(k, 500), max: 500 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (k: number, _g: GameData) {
       return k >= 500;
     },
   },
@@ -89,10 +89,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '1 000 слів',
     cat: '📖 Слова',
     hint: '1000 слів = A2/B1. Розумієш фільми з субтитрами!',
-    progress: function (k: number, g: GameData) {
+    progress: function (k: number, _g: GameData) {
       return { cur: Math.min(k, 1000), max: 1000 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (k: number, _g: GameData) {
       return k >= 1000;
     },
   },
@@ -102,10 +102,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '2 000 слів',
     cat: '📖 Слова',
     hint: '2000 слів — ти вільно спілкуєшся. Гідний Ради!',
-    progress: function (k: number, g: GameData) {
+    progress: function (k: number, _g: GameData) {
       return { cur: Math.min(k, 2000), max: 2000 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (k: number, _g: GameData) {
       return k >= 2000;
     },
   },
@@ -115,10 +115,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '3 000 слів',
     cat: '📖 Слова',
     hint: '3000 слів — рівень C1, майже Ситх-лорд лексики!',
-    progress: function (k: number, g: GameData) {
+    progress: function (k: number, _g: GameData) {
       return { cur: Math.min(k, 3000), max: 3000 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (k: number, _g: GameData) {
       return k >= 3000;
     },
   },
@@ -128,10 +128,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '4 000 слів',
     cat: '📖 Слова',
     hint: '4000 слів — ти вже Обраний. Читаєш без словника!',
-    progress: function (k: number, g: GameData) {
+    progress: function (k: number, _g: GameData) {
       return { cur: Math.min(k, 4000), max: 4000 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (k: number, _g: GameData) {
       return k >= 4000;
     },
   },
@@ -141,10 +141,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '6 000 слів',
     cat: '📖 Слова',
     hint: '6000 слів — рівень Члена Ради. Майже половина словника!',
-    progress: function (k: number, g: GameData) {
+    progress: function (k: number, _g: GameData) {
       return { cur: Math.min(k, 6000), max: 6000 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (k: number, _g: GameData) {
       return k >= 6000;
     },
   },
@@ -154,10 +154,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '8 000 слів',
     cat: '📖 Слова',
     hint: '8000 слів — рівень Ситх-лорда лексики. Майже все вивчено!',
-    progress: function (k: number, g: GameData) {
+    progress: function (k: number, _g: GameData) {
       return { cur: Math.min(k, 8000), max: 8000 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (k: number, _g: GameData) {
       return k >= 8000;
     },
   },
@@ -167,11 +167,11 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Магістр Йода',
     cat: '📖 Слова',
     hint: 'Всі слова вивчено. Do or do not — there is no try!',
-    progress: function (k: number, g: GameData) {
+    progress: function (k: number, _g: GameData) {
       const max = getMaxWordsForLearnLang();
       return { cur: Math.min(k, max), max };
     },
-    check: function (k: number, g: GameData) {
+    check: function (k: number, _g: GameData) {
       return k >= getMaxWordsForLearnLang();
     },
   },

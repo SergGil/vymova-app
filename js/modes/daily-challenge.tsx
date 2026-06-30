@@ -1,7 +1,6 @@
 // Vymova — js/modes/daily-challenge.tsx
 // ⚡ Daily Challenge: 10 seeded words + timer + bonus XP
 import { useEffect, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
 import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words.js';
 import { getGameData, saveGameData, recordModeComplete } from '../features/game.ts';

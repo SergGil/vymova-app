@@ -8,7 +8,6 @@ import { getSrsDataSnapshot, deleteSrsEntry, clearSrsData } from '../../src/srs-
 import { getBaseWordsSnapshot } from '../../src/deck-filter-store.ts';
 import { today } from '../core/today.ts';
 import { addCombo, breakCombo, flashCard } from './combo.ts';
-import { hasNote } from './notes.ts';
 import { openNoteModal } from './note-modal.tsx';
 import { toggleBookmark } from './bookmarks.ts';
 import { isPronuncSupported, startPronunciationCheck } from './pronunciation.ts';

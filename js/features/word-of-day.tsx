@@ -210,6 +210,7 @@ export function WordOfDay(): ReactElement {
 
   const word = pickWord(mode);
   const front = frontWord(word, mode);
+  const wordHead = word[0];
 
   useEffect(() => {
     const sel = document.getElementById('sel-mode');
@@ -221,11 +222,11 @@ export function WordOfDay(): ReactElement {
   useEffect(() => {
     setImgUrl(null);
     setImgFailed(false);
-    loadWikiImage(word[0], (_w, url) => {
+    loadWikiImage(wordHead, (_w, url) => {
       if (url) setImgUrl(url);
       else setImgFailed(true);
     });
-  }, [word[0]]);
+  }, [wordHead]);
 
   return (
     <div

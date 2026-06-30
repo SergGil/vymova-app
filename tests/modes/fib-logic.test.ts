@@ -11,7 +11,7 @@ function makeBlank(w: WordEntry): BlankItem | null {
   let sentence = w[2] ?? '';
   if (!sentence || sentence.length < 5) return null;
   if (!sentence.includes('<b>')) {
-    const esc = w[0].replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
+    const esc = w[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     sentence = sentence.replace(new RegExp('(' + esc + ')', 'i'), '<b>$1</b>');
   }
   const m = sentence.match(/<b>(.*?)<\/b>/i);

@@ -20,7 +20,6 @@ import { W_NL } from '../../data/words_nl.js';
 import { W } from '../../data/words.js';
 import { boldEn, boldUa, boldHead } from '../core/card-helpers.ts';
 import {
-  saveKnown,
   saveKnownEs,
   saveKnownFr,
   saveKnownIt,

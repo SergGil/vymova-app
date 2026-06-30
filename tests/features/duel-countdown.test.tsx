@@ -33,16 +33,14 @@ describe('duel-countdown.tsx DuelCountdown', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
     roots = [];
-    getCountdownData
-      .mockClear()
-      .mockReturnValue({
-        oppAvatar: '🤖',
-        oppName: 'Bot',
-        myAvatar: '🧑',
-        myName: 'Me',
-        roomCode: null,
-        num: 3,
-      });
+    getCountdownData.mockClear().mockReturnValue({
+      oppAvatar: '🤖',
+      oppName: 'Bot',
+      myAvatar: '🧑',
+      myName: 'Me',
+      roomCode: null,
+      num: 3,
+    });
   });
 
   afterEach(() => {

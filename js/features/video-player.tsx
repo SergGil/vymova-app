@@ -21,10 +21,10 @@ import type { WordEntry } from '../../src/types.js';
 type PopupWord = { word: string; trans: string; ipa: string; known: boolean };
 
 function renderCueHtml(text: string): string {
-  const chunks = text.split(/(\s+|[,\.!?;:'"()\-—]+)/);
+  const chunks = text.split(/(\s+|[,.!?;:'"()\-—]+)/);
   return chunks
     .map((chunk) => {
-      if (/^\s+$/.test(chunk) || /^[,\.!?;:'"()\-—]+$/.test(chunk)) return chunk;
+      if (/^\s+$/.test(chunk) || /^[,.!?;:'"()\-—]+$/.test(chunk)) return chunk;
       const w = lookupEnglishWord(chunk);
       if (!w) return chunk;
       const isKnown = getKnownSnapshot('en').has(w[0]);

@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setDeckState } from '../../src/deck-store.ts';
-import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { SearchInline } from '../../js/features/search-inline.tsx';

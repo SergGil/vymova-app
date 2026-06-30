@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { renderCardState, setDeckState, setFlippedState } from '../../src/deck-store.ts';
+import { renderCardState, setDeckState } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 import { CardNoteDisplay, CardBookmarkNoteVisuals } from '../../js/features/card-indicators.tsx';
 

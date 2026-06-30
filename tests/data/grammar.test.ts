@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { GRAMMAR } from '../../data/grammar.ts';
-import type { GrammarCategory, GrammarRule } from '../../data/grammar.ts';
 
 describe('GRAMMAR data structure', () => {
   it('is a non-empty array', () => {

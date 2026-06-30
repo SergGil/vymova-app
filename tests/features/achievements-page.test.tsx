@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { state } from '../../src/state.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
 import { AchievementsPage, refreshAchievementsPage } from '../../js/features/achievements-page.tsx';

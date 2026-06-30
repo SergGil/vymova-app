@@ -93,12 +93,12 @@ function lookupWord(raw: string): WordEntry | null {
 }
 
 function renderTextHtml(text: string): { html: string; known: number; unknown: number } {
-  const chunks = text.split(/(\s+|[,\.!?;:'"()\-—]+)/);
+  const chunks = text.split(/(\s+|[,.!?;:'"()\-—]+)/);
   let knownCount = 0,
     unknownCount = 0;
   const html = chunks
     .map((chunk) => {
-      if (/^\s+$/.test(chunk) || /^[,\.!?;:'"()\-—]+$/.test(chunk)) return chunk;
+      if (/^\s+$/.test(chunk) || /^[,.!?;:'"()\-—]+$/.test(chunk)) return chunk;
       const w = lookupWord(chunk);
       if (!w) return chunk;
       const isKnown = state.known.has(w[0]);

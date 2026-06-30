@@ -129,7 +129,7 @@ export function WordDetailPage(): ReactElement | null {
 
   const similar = getSimilarWordsFor(frontPair, w[0], transl, 5);
 
-  const escWord = w[0].replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
+  const escWord = w[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const enExHtml = enEx ? enEx.replace(new RegExp(`(${escWord}\\w*)`, 'gi'), '<b>$1</b>') : '';
 
   function onKnow(): void {

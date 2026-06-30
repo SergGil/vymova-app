@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { state } from '../../src/state.ts';
-import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 
 const { getGameData, getModeStats, registerCheckAchievements, showToast } = vi.hoisted(() => ({
   getGameData: vi.fn(),

@@ -112,11 +112,11 @@ function makeBlank(w: WordEntry, learnLang: string = 'en'): BlankItem | null {
     if (!sentence || sentence.length < 5) return null;
   }
   if (!sentence.includes('<b>')) {
-    const esc = learnWord.replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
+    const esc = learnWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     sentence = sentence.replace(new RegExp('(' + esc + ')', 'i'), '<b>$1</b>');
     // if still no match and learnLang is not EN, also try EN word
     if (!sentence.includes('<b>') && learnLang !== 'en') {
-      const escEn = w[0].replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
+      const escEn = w[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       sentence = sentence.replace(new RegExp('(' + escEn + ')', 'i'), '<b>$1</b>');
     }
   }

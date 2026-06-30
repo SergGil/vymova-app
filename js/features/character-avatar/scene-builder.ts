@@ -4,7 +4,6 @@
 import {
   Group,
   Mesh,
-  SkinnedMesh,
   SphereGeometry,
   CylinderGeometry,
   ConeGeometry,

@@ -86,8 +86,6 @@ function ach(id: string) {
   if (!a) throw new Error(`Achievement not found: ${id}`);
   return a;
 }
-const emptyM: ModeStats = {};
-
 // ── Goal achievements ─────────────────────────────────────────
 describe('Achievement logic — goals', () => {
   it('goal1: passes when goalCur >= goalMax', () => {

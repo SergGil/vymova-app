@@ -2,10 +2,9 @@
 // ⚔️ Full-featured Duel: leaderboard + live multiplayer quiz
 
 import { useEffect, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import { WORD_CATEGORIES } from '../../data/categories.js';
-import { getCefrLevel, CEFR_META } from '../../data/cefr.ts';
+import { getCefrLevel } from '../../data/cefr.ts';
 import type { CefrLevel } from '../../data/cefr.ts';
 import * as LZString from 'lz-string';
 import { _shuf } from '../core/srs.ts';
@@ -1167,8 +1166,6 @@ async function _usePowerup(type: PowerupType): Promise<void> {
   setDuelRoom({ myPowerups: { ...room.myPowerups, [type]: room.myPowerups[type] - 1 } });
   notifyStateChange();
   _renderPowerups();
-  room = getDuelRoomSnapshot();
-  const w = room.quizDeck[room.quizIdx];
   if (type === 'double') {
     setDuelRoom({ doubleActive: true });
     notifyStateChange();
@@ -1433,7 +1430,7 @@ function _renderLettersQ(w: WordEntry): void {
   });
 }
 
-function _startTempoTimer(w: WordEntry): void {
+function _startTempoTimer(_w: WordEntry): void {
   _tempoLeft = TEMPO_SEC;
   setDuelTempo({ ...getDuelTempoSnapshot(), num: TEMPO_SEC });
   notifyStateChange();

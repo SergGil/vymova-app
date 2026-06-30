@@ -12,7 +12,7 @@ function isCorrect(inp: string, raw: string): boolean {
   const a = inp.trim().toLowerCase();
   if (!a) return false;
   const variants = raw
-    .split(/[;,\/]/)
+    .split(/[;,/]/)
     .map((s) => s.trim().toLowerCase())
     .filter(Boolean);
   return variants.some((v) => a === v || (v.length > 3 && lev(a, v) <= 1));

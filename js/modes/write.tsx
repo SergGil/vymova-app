@@ -93,7 +93,7 @@ function isCorrect(inp: string, raw: string): boolean {
   const a = inp.trim().toLowerCase();
   if (!a) return false;
   const variants = raw
-    .split(/[;,\/]/)
+    .split(/[;,/]/)
     .map((s) => s.trim().toLowerCase())
     .filter(Boolean);
   return variants.some((v) => a === v || (v.length > 3 && lev(a, v) <= 1));
@@ -234,7 +234,7 @@ export function WritePage(): ReactElement {
       setFail((f) => f + 1);
       setWrong((ws) => [...ws, w]);
       setBorderColor('#e74c3c');
-      const shown = ans.split(/[;,\/]/)[0].trim();
+      const shown = ans.split(/[;,/]/)[0].trim();
       setResult({ text: `✗ ${t('write.correctAnswerPrefix')} <b>${shown}</b>`, color: '#e74c3c' });
       try {
         breakCombo();
@@ -313,7 +313,7 @@ export function WritePage(): ReactElement {
 
   const showHint = (): void => {
     if (answered || !w) return;
-    const first = backWord.split(/[;,\/]/)[0].trim();
+    const first = backWord.split(/[;,/]/)[0].trim();
     setHint('💡 ' + first.slice(0, Math.ceil(first.length / 3)) + '...');
   };
 

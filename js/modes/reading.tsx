@@ -221,12 +221,12 @@ function _renderTextHtml(
   entry: TextEntry,
   epubBook: EpubBook | null,
 ): { html: string; known: number; unknown: number } {
-  const chunks = entry.text.split(/(\s+|[,\.!?;:'"()\-—]+)/);
+  const chunks = entry.text.split(/(\s+|[,.!?;:'"()\-—]+)/);
   let knownCount = 0,
     unknownCount = 0;
   const html = chunks
     .map((chunk) => {
-      if (/^\s+$/.test(chunk) || /^[,\.!?;:'"()\-—]+$/.test(chunk)) return chunk;
+      if (/^\s+$/.test(chunk) || /^[,.!?;:'"()\-—]+$/.test(chunk)) return chunk;
       const w = _lookupWord(chunk);
       if (!w) return chunk;
       const isKnown = getKnownSnapshot('en').has(w[0]);

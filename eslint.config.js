@@ -33,7 +33,14 @@ export default tseslint.config(
       'react-refresh/only-export-components': 'off',
       '@typescript-eslint/no-unused-vars': [
         'warn',
-        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          // Pervasive intentional error-swallowing pattern across this
+          // codebase: catch (e) {} / catch (e) { return fallback; }.
+          // Mirrors the no-empty/allowEmptyCatch choice above.
+          caughtErrors: 'none',
+        },
       ],
       '@typescript-eslint/no-explicit-any': 'off',
       'no-empty': ['error', { allowEmptyCatch: true }],

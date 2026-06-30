@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 import { clearSrsData } from '../../src/srs-store.ts';
 import { today } from '../../js/core/today.ts';
 import { W } from '../../data/words.js';

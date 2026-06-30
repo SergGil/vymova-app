@@ -106,7 +106,7 @@ function _highlightText(text: string): { html: string; total: number; known: num
     if (word.length < 3) continue;
     if (!lowerText.includes(word)) continue;
     const regex = new RegExp(
-      `\\b(${word.replace(/[.*+?^${}()|\[\]\\]/g, '\\$&')}(?:s|ed|ing|er|est|ly)?)\\b`,
+      `\\b(${word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:s|ed|ing|er|est|ly)?)\\b`,
       'gi',
     );
     let m: RegExpExecArray | null;

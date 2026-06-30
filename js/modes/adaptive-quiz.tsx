@@ -11,7 +11,7 @@ import { recordModeComplete, recordMistake, recordModeAnswer } from '../features
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { playSound } from '../core/audio.ts';
 import { speak, _speakWithLang } from '../features/speech.ts';
-import { t, getLang } from '../features/i18n.ts';
+import { t } from '../features/i18n.ts';
 import {
   esEntry,
   frEntry,

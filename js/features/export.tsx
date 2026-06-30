@@ -96,7 +96,7 @@ export function ExportInit(): ReactElement | null {
       </head><body>
       <h1>📚 Vymova — ${filterLabel[filter] || ''} (${src.length} ${t('export.pdf.wordsSuffix')})</h1>
       <table><thead><tr><th>#</th><th>${t('export.pdf.wordCol')}</th><th>${t('export.pdf.translCol')}</th><th>${t('export.pdf.exampleCol')}</th></tr></thead><tbody>${rows}</tbody></table>
-      <script>window.onload=()=>window.print();<\/script></body></html>`;
+      <script>window.onload=()=>window.print();</script></body></html>`;
       const w = window.open('', '_blank');
       if (w) {
         w.document.write(html);

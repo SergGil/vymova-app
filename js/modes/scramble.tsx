@@ -251,13 +251,6 @@ export function ScramblePage(): ReactElement {
     setAnswer(newAnswer);
   };
 
-  const clearAnswer = (): void => {
-    if (answered) return;
-    const newLetters = letters.map((tl) => ({ ...tl, used: false }));
-    setLetters(newLetters);
-    setAnswer([]);
-  };
-
   const removeLastLetter = (): void => {
     if (answered || !answer.length) return;
     deselectAt(answer.length - 1);

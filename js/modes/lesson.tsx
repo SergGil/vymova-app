@@ -90,7 +90,7 @@ function buildQuizOptions(w: WordEntry, learnLang: string): string[] {
 function buildEnExHtml(w: WordEntry): string {
   const enExSrc = w[2] ?? '';
   if (enExSrc.includes('<b>')) return enExSrc;
-  const ew = w[0].replace(/\s*\([^)]*\)/g, '').replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
+  const ew = w[0].replace(/\s*\([^)]*\)/g, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const parts = ew
     .split(/\s+/)
     .filter(Boolean)

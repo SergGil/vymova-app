@@ -1,6 +1,5 @@
 // Vymova — js/features/learning-path.ts
 // 🎯 Learning Path: structured CEFR-based curriculum with daily goals
-import { state } from '../../src/state.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { CEFR_META } from '../../data/cefr.ts';
 import type { CefrLevel } from '../../data/cefr.ts';

@@ -2,7 +2,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { getDeckSnapshot, setDeckState, setModeState } from '../../src/deck-store.ts';
-import type { WordEntry } from '../../src/types.ts';
 import { WordOfDay } from '../../js/features/word-of-day.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;

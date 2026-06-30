@@ -24,7 +24,7 @@ export function boldEn(src: string, w: WordEntry): string {
   const parts = bw
     .split(/\s+/)
     .filter(Boolean)
-    .map((p) => p.replace(/[.*+?^${}()|\[\]\\]/g, '\\$&') + '\\w*');
+    .map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\w*');
   return src.replace(new RegExp('(' + parts.join('\\s+') + ')', 'i'), '<b>$1</b>');
 }
 
@@ -32,9 +32,9 @@ export function boldEn(src: string, w: WordEntry): string {
 export function boldUa(src: string, w: WordEntry): string {
   if (!src) return src;
   const uw = (w[1] as string)
-    .split(/[;,\/]/)[0]
+    .split(/[;,/]/)[0]
     .trim()
-    .replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
+    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   return src.replace(new RegExp('(' + uw + '\\w*)', 'i'), '<b>$1</b>');
 }
 
@@ -44,9 +44,9 @@ export function boldHead(src: string, word: string): string {
   if (!word || src.indexOf('<b>') !== -1) return src;
   const hw = word
     .replace(/\s*\([^)]*\)/g, '')
-    .split(/[;,\/]/)[0]
+    .split(/[;,/]/)[0]
     .trim()
-    .replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
+    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   if (!hw) return src;
   return src.replace(new RegExp('(' + hw + '\\w*)', 'i'), '<b>$1</b>');
 }

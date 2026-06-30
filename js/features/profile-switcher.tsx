@@ -168,7 +168,10 @@ function ProfileAvatarView({ profile, size }: { profile: Profile; size: number }
 
 export function ProfileSwitcher(): ReactElement {
   const [profiles, setProfiles] = useState<Profile[]>(() => _getProfiles());
-  const [activeId, setActiveId] = useState<string>(() => _getActiveId());
+  // setActiveId intentionally unused: switchProfile()/confirmAdd()/delete all
+  // call window.location.reload() right after persisting the new active id,
+  // so the component remounts and re-reads _getActiveId() fresh.
+  const [activeId] = useState<string>(() => _getActiveId());
   const [dropOpen, setDropOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [newName, setNewName] = useState('');

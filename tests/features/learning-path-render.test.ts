@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { state } from '../../src/state.ts';
-import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 
 vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));

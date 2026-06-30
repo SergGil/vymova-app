@@ -1,7 +1,6 @@
 // Vymova — js/modes/catpairs.tsx
 // 📦 CATEGORY PAIRS MODE + WOTD + MILESTONES + WEAK WORDS
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { state } from '../../src/state.ts';
 import { getWordIndex } from '../core/word-index.ts';
 import { _shuf } from '../core/srs.ts';
 import { loadSRS } from '../core/storage.ts';
@@ -10,7 +9,6 @@ import { getGameData } from '../features/game.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { t, wordsLabel, categoryName } from '../features/i18n.ts';
-import { renderGameBar } from '../features/render-game-bar.ts';
 import { playSound } from '../core/audio.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import {
@@ -492,7 +490,12 @@ const MILESTONES = [
   { id: 's100', check: () => (getGameData().streak ?? 0) >= 100, key: 'milestone.s100' },
 ];
 
-function checkMilestones(): void {
+// TODO: never called anywhere — the milestone-toast system (MILESTONES,
+// showMilestone, ew_milestones persistence) below is fully built but not
+// wired to any trigger point (e.g. after marking a word known). Flagged
+// during a 2026-06-30 lint cleanup pass, not fixed here since the correct
+// call site is a product decision.
+function _checkMilestones(): void {
   MILESTONES.forEach((m) => {
     if (!_shownMilestones[m.id] && m.check()) {
       _shownMilestones[m.id] = 1;

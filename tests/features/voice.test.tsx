@@ -108,8 +108,8 @@ describe('voice.tsx', () => {
     const list = document.getElementById('fy-voices-list')!;
     expect(list.textContent).toContain('Англійські голоси');
     expect(list.querySelectorAll('.voice-card').length).toBe(2);
-    expect(list.textContent).toContain('Українські голоси не знайдено');
-    expect(list.textContent).toContain('Іспанські голоси не знайдено');
+    expect(list.textContent).toContain('Українських голосів не знайдено');
+    expect(list.textContent).toContain('Іспанських голосів не знайдено');
   });
 
   it('renders Ukrainian voices when present', () => {
@@ -119,7 +119,7 @@ describe('voice.tsx', () => {
 
     const list = document.getElementById('fy-voices-list')!;
     expect(list.textContent).toContain('Українські голоси (UA→EN картки)');
-    expect(list.textContent).not.toContain('Українські голоси не знайдено');
+    expect(list.textContent).not.toContain('Українських голосів не знайдено');
   });
 
   it('selecting a voice card persists the choice and speaks a test phrase', () => {

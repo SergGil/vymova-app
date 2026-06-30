@@ -2,14 +2,7 @@
 // Game data, progress tracking, levels & achievements data
 import { today } from '../core/today.ts';
 import { getMaxWordsForLearnLang } from './mode-utils.ts';
-import type {
-  GameData,
-  Level,
-  Achievement,
-  ModeStats,
-  ModeAccuracy,
-  ModeAccEntry,
-} from '../../src/types.js';
+import type { GameData, Level, ModeStats, ModeAccuracy, ModeAccEntry } from '../../src/types.js';
 
 // ── Session caches ─────────────────────────────────────────────
 // Module-private caches (same pattern as _modeStatsCache below) — nothing
