@@ -202,10 +202,18 @@ export function ProfileSwitcher(): ReactElement {
     return () => window.removeEventListener('ew:profiles-changed', onProfilesChanged);
   }, []);
 
-  // Keep the (hidden, legacy) header profile button in sync.
+  // Keep the (hidden, legacy) header profile button in sync. Built via DOM
+  // nodes rather than innerHTML — active.name is free-text from the "add
+  // profile" form, so string-interpolating it into HTML would be a stored
+  // XSS vector (e.g. a name like <img src=x onerror=...>).
   useEffect(() => {
     const hBtn = document.getElementById('profile-btn');
-    if (hBtn && active) hBtn.innerHTML = `${active.avatar} <span>${active.name}</span> ▾`;
+    if (!hBtn || !active) return;
+    hBtn.textContent = `${active.avatar} `;
+    const span = document.createElement('span');
+    span.textContent = active.name;
+    hBtn.appendChild(span);
+    hBtn.appendChild(document.createTextNode(' ▾'));
   }, [active]);
 
   useEffect(() => {

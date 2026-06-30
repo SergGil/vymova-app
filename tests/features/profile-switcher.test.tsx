@@ -73,6 +73,15 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     expect(document.getElementById('profile-btn')!.innerHTML).toContain('Alice');
   });
 
+  it('renders a profile name containing HTML as plain text, not markup (XSS regression)', () => {
+    setupProfiles([{ id: 'p1', name: '<img src=x onerror=alert(1)>', avatar: '🧑' }], 'p1');
+    const { root } = mount();
+    roots.push(root);
+    const hBtn = document.getElementById('profile-btn')!;
+    expect(hBtn.querySelector('img')).toBeNull();
+    expect(hBtn.textContent).toContain('<img src=x onerror=alert(1)>');
+  });
+
   it('toggles the profile dropdown and shows all profiles with a checkmark on the active one', () => {
     const { container, root } = mount();
     roots.push(root);
