@@ -14,13 +14,15 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<AchievementToast />); });
+  act(() => {
+    root.render(<AchievementToast />);
+  });
   activeRoot = root;
   return { container, root };
 }
 
 function rafTick(): Promise<void> {
-  return new Promise(resolve => requestAnimationFrame(() => resolve()));
+  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }
 
 describe('achievement-toast.tsx', () => {
@@ -29,7 +31,12 @@ describe('achievement-toast.tsx', () => {
   });
 
   afterEach(() => {
-    if (activeRoot) { act(() => { activeRoot!.unmount(); }); activeRoot = null; }
+    if (activeRoot) {
+      act(() => {
+        activeRoot!.unmount();
+      });
+      activeRoot = null;
+    }
   });
 
   it('renders a hidden empty toast initially', () => {
@@ -66,19 +73,23 @@ describe('achievement-toast.tsx', () => {
     expect((container.querySelector('#achievement-toast') as HTMLElement).className).toBe('show');
 
     await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 3500));
+      await new Promise((resolve) => setTimeout(resolve, 3500));
     });
     expect((container.querySelector('#achievement-toast') as HTMLElement).className).toBe('');
 
     await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 350));
+      await new Promise((resolve) => setTimeout(resolve, 350));
     });
-    expect((container.querySelector('#achievement-toast') as HTMLElement).style.display).toBe('none');
+    expect((container.querySelector('#achievement-toast') as HTMLElement).style.display).toBe(
+      'none',
+    );
   }, 10000);
 
   it('does not throw when showToast is called after unmount', () => {
     const { root } = mount();
-    act(() => { root.unmount(); });
+    act(() => {
+      root.unmount();
+    });
     activeRoot = null;
     expect(() => showToast(ach)).not.toThrow();
   });

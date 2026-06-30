@@ -8,12 +8,42 @@ import { today } from '../core/today.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { t } from './i18n.ts';
-import { ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES, ZH_MODES, EL_MODES, JA_MODES, TR_MODES, NL_MODES, getMode, esEntry as _esEntry, frEntry as _frEntry, itEntry as _itEntry, ptEntry as _ptEntry, deEntry as _deEntry, heEntry as _heEntry, arEntry as _arEntry, plEntry as _plEntry, zhEntry as _zhEntry, elEntry as _elEntry, jaEntry as _jaEntry, trEntry as _trEntry, nlEntry as _nlEntry } from './mode-utils.ts';
+import {
+  ES_MODES,
+  FR_MODES,
+  IT_MODES,
+  PT_MODES,
+  DE_MODES,
+  HE_MODES,
+  AR_MODES,
+  PL_MODES,
+  ZH_MODES,
+  EL_MODES,
+  JA_MODES,
+  TR_MODES,
+  NL_MODES,
+  getMode,
+  esEntry as _esEntry,
+  frEntry as _frEntry,
+  itEntry as _itEntry,
+  ptEntry as _ptEntry,
+  deEntry as _deEntry,
+  heEntry as _heEntry,
+  arEntry as _arEntry,
+  plEntry as _plEntry,
+  zhEntry as _zhEntry,
+  elEntry as _elEntry,
+  jaEntry as _jaEntry,
+  trEntry as _trEntry,
+  nlEntry as _nlEntry,
+} from './mode-utils.ts';
 import { loadWikiImage } from '../core/images.ts';
 import { closePage } from './sidebar.tsx';
 import { render, setIdx } from '../core/card-engine.ts';
 
-const todayNum = today().split('').reduce((a, c) => a * 31 + c.charCodeAt(0), 0);
+const todayNum = today()
+  .split('')
+  .reduce((a, c) => a * 31 + c.charCodeAt(0), 0);
 const wotdBaseIdx = Math.abs(todayNum) % W.length;
 
 // Pick the word-of-the-day word matching the currently selected language pair:
@@ -33,7 +63,22 @@ function pickWord(mode: string): WordEntry {
   const needsJa = JA_MODES.has(mode);
   const needsTr = TR_MODES.has(mode);
   const needsNl = NL_MODES.has(mode);
-  if (!needsEs && !needsFr && !needsIt && !needsPt && !needsDe && !needsHe && !needsAr && !needsPl && !needsZh && !needsEl && !needsJa && !needsTr && !needsNl) return words[wotdBaseIdx];
+  if (
+    !needsEs &&
+    !needsFr &&
+    !needsIt &&
+    !needsPt &&
+    !needsDe &&
+    !needsHe &&
+    !needsAr &&
+    !needsPl &&
+    !needsZh &&
+    !needsEl &&
+    !needsJa &&
+    !needsTr &&
+    !needsNl
+  )
+    return words[wotdBaseIdx];
   for (let i = 0; i < words.length; i++) {
     const cand = words[(wotdBaseIdx + i) % words.length];
     if (needsEs && !_esEntry(cand[0])) continue;
@@ -69,56 +114,89 @@ function frontWord(cw: WordEntry, mode: string): string {
   const tr = TR_MODES.has(mode) ? _trEntry(cw[0]) : null;
   const nl = NL_MODES.has(mode) ? _nlEntry(cw[0]) : null;
   switch (mode) {
-    case 'ua':    return cw[1];
+    case 'ua':
+      return cw[1];
     case 'es-en':
-    case 'es-ua': return es ? es[0] : '';
-    case 'ua-es': return cw[1];
+    case 'es-ua':
+      return es ? es[0] : '';
+    case 'ua-es':
+      return cw[1];
     case 'fr-en':
-    case 'fr-ua': return fr ? fr[0] : '';
-    case 'ua-fr': return cw[1];
-    case 'es-fr': return es ? es[0] : '';
-    case 'fr-es': return fr ? fr[0] : '';
+    case 'fr-ua':
+      return fr ? fr[0] : '';
+    case 'ua-fr':
+      return cw[1];
+    case 'es-fr':
+      return es ? es[0] : '';
+    case 'fr-es':
+      return fr ? fr[0] : '';
     case 'it-en':
-    case 'it-ua': return it ? it[0] : '';
-    case 'ua-it': return cw[1];
+    case 'it-ua':
+      return it ? it[0] : '';
+    case 'ua-it':
+      return cw[1];
     case 'pt-en':
-    case 'pt-ua': return pt ? pt[0] : '';
-    case 'ua-pt': return cw[1];
+    case 'pt-ua':
+      return pt ? pt[0] : '';
+    case 'ua-pt':
+      return cw[1];
     case 'de-en':
-    case 'de-ua': return de ? de[0] : '';
-    case 'ua-de': return cw[1];
+    case 'de-ua':
+      return de ? de[0] : '';
+    case 'ua-de':
+      return cw[1];
     case 'he-en':
-    case 'he-ua': return he ? he[0] : '';
-    case 'ua-he': return cw[1];
+    case 'he-ua':
+      return he ? he[0] : '';
+    case 'ua-he':
+      return cw[1];
     case 'ar-en':
-    case 'ar-ua': return ar ? ar[0] : '';
-    case 'ua-ar': return cw[1];
+    case 'ar-ua':
+      return ar ? ar[0] : '';
+    case 'ua-ar':
+      return cw[1];
     case 'pl-en':
-    case 'pl-ua': return pl ? pl[0] : '';
-    case 'ua-pl': return cw[1];
+    case 'pl-ua':
+      return pl ? pl[0] : '';
+    case 'ua-pl':
+      return cw[1];
     case 'zh-en':
-    case 'zh-ua': return zh ? zh[0] : '';
-    case 'ua-zh': return cw[1];
+    case 'zh-ua':
+      return zh ? zh[0] : '';
+    case 'ua-zh':
+      return cw[1];
     case 'el-en':
-    case 'el-ua': return el ? el[0] : '';
-    case 'ua-el': return cw[1];
+    case 'el-ua':
+      return el ? el[0] : '';
+    case 'ua-el':
+      return cw[1];
     case 'ja-en':
-    case 'ja-ua': return ja ? ja[0] : '';
-    case 'ua-ja': return cw[1];
+    case 'ja-ua':
+      return ja ? ja[0] : '';
+    case 'ua-ja':
+      return cw[1];
     case 'tr-en':
-    case 'tr-ua': return tr ? tr[0] : '';
-    case 'ua-tr': return cw[1];
+    case 'tr-ua':
+      return tr ? tr[0] : '';
+    case 'ua-tr':
+      return cw[1];
     case 'nl-en':
-    case 'nl-ua': return nl ? nl[0] : '';
-    case 'ua-nl': return cw[1];
-    default:      return cw[0];
+    case 'nl-ua':
+      return nl ? nl[0] : '';
+    case 'ua-nl':
+      return cw[1];
+    default:
+      return cw[0];
   }
 }
 
 function goToWord(word: WordEntry): void {
   const deck = getDeckSnapshot();
-  let di = deck.findIndex(w => w[0] === word[0]);
-  if (di === -1) { deck.push(word); di = deck.length - 1; }
+  let di = deck.findIndex((w) => w[0] === word[0]);
+  if (di === -1) {
+    deck.push(word);
+    di = deck.length - 1;
+  }
   setIdx(di);
   closePage();
   render();
@@ -144,12 +222,17 @@ export function WordOfDay(): ReactElement {
     setImgUrl(null);
     setImgFailed(false);
     loadWikiImage(word[0], (_w, url) => {
-      if (url) setImgUrl(url); else setImgFailed(true);
+      if (url) setImgUrl(url);
+      else setImgFailed(true);
     });
   }, [word[0]]);
 
   return (
-    <div className="wotd-box header-wotd" title={t('cards.wotdTitle')} onClick={() => goToWord(word)}>
+    <div
+      className="wotd-box header-wotd"
+      title={t('cards.wotdTitle')}
+      onClick={() => goToWord(word)}
+    >
       <span className="wotd-lbl">{t('cards.wotdLabel')}</span>
       <div className="wotd-body">
         <div className={`wotd-img-wrap${imgFailed ? ' wotd-no-img' : ''}`}>
@@ -162,4 +245,3 @@ export function WordOfDay(): ReactElement {
     </div>
   );
 }
-

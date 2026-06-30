@@ -9,7 +9,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<QuizSwipe />); });
+  act(() => {
+    root.render(<QuizSwipe />);
+  });
   return { container, root };
 }
 
@@ -44,7 +46,9 @@ describe('swipe.tsx QuizSwipe', () => {
     const overlay = document.getElementById('quiz-overlay')!;
     const next = document.getElementById('quiz-next') as HTMLButtonElement;
     let clicked = false;
-    next.addEventListener('click', () => { clicked = true; });
+    next.addEventListener('click', () => {
+      clicked = true;
+    });
 
     act(() => {
       overlay.dispatchEvent(touch(overlay, 'touchstart', 0));
@@ -59,7 +63,9 @@ describe('swipe.tsx QuizSwipe', () => {
     const overlay = document.getElementById('quiz-overlay')!;
     const next = document.getElementById('quiz-next') as HTMLButtonElement;
     let clicked = false;
-    next.addEventListener('click', () => { clicked = true; });
+    next.addEventListener('click', () => {
+      clicked = true;
+    });
 
     act(() => {
       overlay.dispatchEvent(touch(overlay, 'touchstart', 0));
@@ -74,7 +80,9 @@ describe('swipe.tsx QuizSwipe', () => {
     const overlay = document.getElementById('quiz-overlay')!;
     const next = document.getElementById('quiz-next') as HTMLButtonElement;
     let clicked = false;
-    next.addEventListener('click', () => { clicked = true; });
+    next.addEventListener('click', () => {
+      clicked = true;
+    });
 
     act(() => {
       overlay.dispatchEvent(touch(overlay, 'touchstart', 100));
@@ -90,7 +98,9 @@ describe('swipe.tsx QuizSwipe', () => {
     const overlay = document.getElementById('quiz-overlay')!;
     const next = document.getElementById('quiz-next') as HTMLButtonElement;
     let clicked = false;
-    next.addEventListener('click', () => { clicked = true; });
+    next.addEventListener('click', () => {
+      clicked = true;
+    });
 
     act(() => {
       overlay.dispatchEvent(touch(overlay, 'touchstart', 0));
@@ -105,9 +115,13 @@ describe('swipe.tsx QuizSwipe', () => {
     const overlay = document.getElementById('quiz-overlay')!;
     const next = document.getElementById('quiz-next') as HTMLButtonElement;
     let clicked = false;
-    next.addEventListener('click', () => { clicked = true; });
+    next.addEventListener('click', () => {
+      clicked = true;
+    });
 
-    act(() => { root.unmount(); });
+    act(() => {
+      root.unmount();
+    });
 
     act(() => {
       overlay.dispatchEvent(touch(overlay, 'touchstart', 0));

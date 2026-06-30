@@ -13,18 +13,38 @@ function applySize(sz: number): void {
 export function FontSizeControl(): ReactElement {
   const [sz, setSz] = useState(() => parseInt(localStorage.getItem('ew_fontsize') ?? '100', 10));
 
-  useEffect(() => { applySize(sz); }, [sz]);
+  useEffect(() => {
+    applySize(sz);
+  }, [sz]);
 
   function change(delta: number): void {
-    setSz(prev => Math.min(MAX, Math.max(MIN, prev + delta)));
+    setSz((prev) => Math.min(MAX, Math.max(MIN, prev + delta)));
   }
 
   return (
     <>
-      <button id="btn-font-down" className="btn" style={{ fontSize: 11, padding: '3px 8px', color: 'var(--text2)' }} onClick={() => change(-10)}>A−</button>
-      <span id="font-pct" style={{ fontSize: 11, color: 'var(--text3)', minWidth: 32, textAlign: 'center' }}>{sz}%</span>
-      <button id="btn-font-up" className="btn" style={{ fontSize: 13, padding: '3px 8px', color: 'var(--text2)' }} onClick={() => change(10)}>A+</button>
+      <button
+        id="btn-font-down"
+        className="btn"
+        style={{ fontSize: 11, padding: '3px 8px', color: 'var(--text2)' }}
+        onClick={() => change(-10)}
+      >
+        A−
+      </button>
+      <span
+        id="font-pct"
+        style={{ fontSize: 11, color: 'var(--text3)', minWidth: 32, textAlign: 'center' }}
+      >
+        {sz}%
+      </span>
+      <button
+        id="btn-font-up"
+        className="btn"
+        style={{ fontSize: 13, padding: '3px 8px', color: 'var(--text2)' }}
+        onClick={() => change(10)}
+      >
+        A+
+      </button>
     </>
   );
 }
-

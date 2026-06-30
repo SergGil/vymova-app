@@ -49,7 +49,19 @@ const LANG_KEY = 'ew_lang';
 
 function storedLang(): Lang {
   const v = localStorage.getItem(LANG_KEY);
-  return v === 'en' ? 'en' : v === 'es' ? 'es' : v === 'fr' ? 'fr' : v === 'it' ? 'it' : v === 'pt' ? 'pt' : v === 'de' ? 'de' : 'ua';
+  return v === 'en'
+    ? 'en'
+    : v === 'es'
+      ? 'es'
+      : v === 'fr'
+        ? 'fr'
+        : v === 'it'
+          ? 'it'
+          : v === 'pt'
+            ? 'pt'
+            : v === 'de'
+              ? 'de'
+              : 'ua';
 }
 
 i18next.init({
@@ -61,12 +73,54 @@ i18next.init({
   interpolation: { escapeValue: false },
   resources: {
     ua: { translation: ua, dates: uaDates },
-    en: { translation: en, dates: enDates, levels: enLevels, categories: enCategories, skills: enSkills, achievements: enAchievements },
-    es: { translation: es, dates: esDates, levels: esLevels, categories: esCategories, skills: esSkills, achievements: esAchievements },
-    fr: { translation: fr, dates: frDates, levels: frLevels, categories: frCategories, skills: frSkills, achievements: frAchievements },
-    it: { translation: it, dates: itDates, levels: itLevels, categories: itCategories, skills: itSkills, achievements: itAchievements },
-    pt: { translation: pt, dates: ptDates, levels: ptLevels, categories: ptCategories, skills: ptSkills, achievements: ptAchievements },
-    de: { translation: de, dates: deDates, levels: deLevels, categories: deCategories, skills: deSkills, achievements: deAchievements },
+    en: {
+      translation: en,
+      dates: enDates,
+      levels: enLevels,
+      categories: enCategories,
+      skills: enSkills,
+      achievements: enAchievements,
+    },
+    es: {
+      translation: es,
+      dates: esDates,
+      levels: esLevels,
+      categories: esCategories,
+      skills: esSkills,
+      achievements: esAchievements,
+    },
+    fr: {
+      translation: fr,
+      dates: frDates,
+      levels: frLevels,
+      categories: frCategories,
+      skills: frSkills,
+      achievements: frAchievements,
+    },
+    it: {
+      translation: it,
+      dates: itDates,
+      levels: itLevels,
+      categories: itCategories,
+      skills: itSkills,
+      achievements: itAchievements,
+    },
+    pt: {
+      translation: pt,
+      dates: ptDates,
+      levels: ptLevels,
+      categories: ptCategories,
+      skills: ptSkills,
+      achievements: ptAchievements,
+    },
+    de: {
+      translation: de,
+      dates: deDates,
+      levels: deLevels,
+      categories: deCategories,
+      skills: deSkills,
+      achievements: deAchievements,
+    },
   },
 });
 
@@ -139,23 +193,23 @@ export function achCatName(cat: string): string {
 
 function applyI18n(): void {
   const lang = getLang();
-  document.querySelectorAll<HTMLElement>('[data-i18n]').forEach(el => {
+  document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => {
     const key = el.dataset.i18n;
     if (key && i18next.exists(key)) el.textContent = tLang(key, lang);
   });
-  document.querySelectorAll<HTMLInputElement>('[data-i18n-placeholder]').forEach(el => {
+  document.querySelectorAll<HTMLInputElement>('[data-i18n-placeholder]').forEach((el) => {
     const key = el.dataset.i18nPlaceholder;
     if (key && i18next.exists(key)) el.placeholder = tLang(key, lang);
   });
-  document.querySelectorAll<HTMLElement>('[data-i18n-title]').forEach(el => {
+  document.querySelectorAll<HTMLElement>('[data-i18n-title]').forEach((el) => {
     const key = el.dataset.i18nTitle;
     if (key && i18next.exists(key)) el.title = tLang(key, lang);
   });
-  document.querySelectorAll<HTMLOptGroupElement>('[data-i18n-label]').forEach(el => {
+  document.querySelectorAll<HTMLOptGroupElement>('[data-i18n-label]').forEach((el) => {
     const key = el.dataset.i18nLabel;
     if (key && i18next.exists(key)) el.label = tLang(key, lang);
   });
-  document.querySelectorAll<HTMLElement>('.lang-opt').forEach(btn => {
+  document.querySelectorAll<HTMLElement>('.lang-opt').forEach((btn) => {
     btn.classList.toggle('lang-active', btn.dataset.lang === lang);
   });
   // Один notifyStateChange() ре-рендерить усі useStateVersion-підписники:
@@ -164,29 +218,41 @@ function applyI18n(): void {
   // ~10 окремих window._refreshXxx/renderXxx викликів (усі — тонкі
   // notifyStateChange()-обгортки).
   notifyStateChange();
-  import('./deck-filter.tsx').then(({ _refreshRangeOptions }) => _refreshRangeOptions()).catch(() => {});
+  import('./deck-filter.tsx')
+    .then(({ _refreshRangeOptions }) => _refreshRangeOptions())
+    .catch(() => {});
   import('../core/card-engine.ts').then(({ render }) => render()).catch(() => {});
   if (document.getElementById('lp-overlay')?.classList.contains('open')) {
-    import('./learning-path.ts').then(({ renderLearningPath }) => renderLearningPath()).catch(() => {});
+    import('./learning-path.ts')
+      .then(({ renderLearningPath }) => renderLearningPath())
+      .catch(() => {});
   }
   if (document.getElementById('duel-overlay')?.classList.contains('open')) {
     import('./duel.ts').then(({ renderDuel }) => renderDuel()).catch(() => {});
   }
   if (document.getElementById('grammar-overlay')?.classList.contains('open')) {
-    import('./grammar-page.tsx').then(({ openGrammarContent }) => openGrammarContent()).catch(() => {});
+    import('./grammar-page.tsx')
+      .then(({ openGrammarContent }) => openGrammarContent())
+      .catch(() => {});
   }
   if (document.getElementById('idioms-overlay')?.classList.contains('open')) {
-    import('./idioms-page.tsx').then(({ openIdiomsContent }) => openIdiomsContent()).catch(() => {});
+    import('./idioms-page.tsx')
+      .then(({ openIdiomsContent }) => openIdiomsContent())
+      .catch(() => {});
   }
   if (document.getElementById('settings-overlay')?.classList.contains('open')) {
     import('./notifications.tsx').then(({ _updateUI }) => _updateUI()).catch(() => {});
-    import('./cloud-sync.tsx').then(({ _refreshCloudSyncUI }) => _refreshCloudSyncUI()).catch(() => {});
+    import('./cloud-sync.tsx')
+      .then(({ _refreshCloudSyncUI }) => _refreshCloudSyncUI())
+      .catch(() => {});
     import('./voice.tsx').then(({ _renderVoices }) => _renderVoices()).catch(() => {});
   }
   const statsOverlay = document.getElementById('stats-overlay') as HTMLElement | null;
   if (statsOverlay && statsOverlay.style.display === 'flex') {
     import('./stats-page.tsx').then(({ refreshStatsPage }) => refreshStatsPage()).catch(() => {});
-    import('../modes/catpairs.tsx').then(({ renderWeakWords }) => renderWeakWords()).catch(() => {});
+    import('../modes/catpairs.tsx')
+      .then(({ renderWeakWords }) => renderWeakWords())
+      .catch(() => {});
   }
 }
 
@@ -197,11 +263,24 @@ export function I18nInit(): ReactElement | null {
     const btns = document.querySelectorAll<HTMLElement>('.lang-opt');
     const onLangClick = (btn: HTMLElement) => () => {
       const dl = btn.dataset.lang;
-      const lang: Lang = dl === 'en' ? 'en' : dl === 'es' ? 'es' : dl === 'fr' ? 'fr' : dl === 'it' ? 'it' : dl === 'pt' ? 'pt' : dl === 'de' ? 'de' : 'ua';
+      const lang: Lang =
+        dl === 'en'
+          ? 'en'
+          : dl === 'es'
+            ? 'es'
+            : dl === 'fr'
+              ? 'fr'
+              : dl === 'it'
+                ? 'it'
+                : dl === 'pt'
+                  ? 'pt'
+                  : dl === 'de'
+                    ? 'de'
+                    : 'ua';
       setLang(lang);
     };
     const handlers = new Map<HTMLElement, () => void>();
-    btns.forEach(btn => {
+    btns.forEach((btn) => {
       const handler = onLangClick(btn);
       handlers.set(btn, handler);
       btn.addEventListener('click', handler);

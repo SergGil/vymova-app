@@ -11,7 +11,9 @@ const { closePage, render, setIdx, loadWikiImage } = vi.hoisted(() => ({
   closePage: vi.fn(),
   render: vi.fn(),
   setIdx: vi.fn(),
-  loadWikiImage: vi.fn((_word: string, cb: (w: string, url: string | null) => void) => cb(_word, null)),
+  loadWikiImage: vi.fn((_word: string, cb: (w: string, url: string | null) => void) =>
+    cb(_word, null),
+  ),
 }));
 vi.mock('../../js/features/sidebar.tsx', () => ({ closePage }));
 vi.mock('../../js/core/card-engine.ts', () => ({ render, setIdx }));
@@ -21,27 +23,34 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<WordOfDay />); });
+  act(() => {
+    root.render(<WordOfDay />);
+  });
   return { container, root };
 }
 
 describe('word-of-day.tsx WordOfDay', () => {
   beforeEach(() => {
-    document.body.innerHTML = '<select id="sel-mode"><option value="en" selected>en</option></select>';
+    document.body.innerHTML =
+      '<select id="sel-mode"><option value="en" selected>en</option></select>';
     setModeState('en');
     setDeckState([]);
     closePage.mockClear();
     render.mockClear();
     setIdx.mockClear();
     loadWikiImage.mockClear();
-    loadWikiImage.mockImplementation((_word: string, cb: (w: string, url: string | null) => void) => cb(_word, null));
+    loadWikiImage.mockImplementation((_word: string, cb: (w: string, url: string | null) => void) =>
+      cb(_word, null),
+    );
   });
 
   it('renders a word-of-the-day box with a label and a word', () => {
     const { container } = mount();
     expect(container.querySelector('.wotd-lbl')!.textContent).toBe('📖 Слово дня');
     expect(container.querySelector('.wotd-word')!.textContent).toBeTruthy();
-    expect(container.querySelector('.wotd-box')!.getAttribute('title')).toBe('Слово дня — натисни щоб перейти');
+    expect(container.querySelector('.wotd-box')!.getAttribute('title')).toBe(
+      'Слово дня — натисни щоб перейти',
+    );
   });
 
   it('shows a placeholder (no-img class) when the image fails to load', () => {
@@ -51,7 +60,9 @@ describe('word-of-day.tsx WordOfDay', () => {
   });
 
   it('shows an image when loadWikiImage resolves a URL', () => {
-    loadWikiImage.mockImplementation((word: string, cb: (w: string, url: string | null) => void) => cb(word, 'https://example.com/img.jpg'));
+    loadWikiImage.mockImplementation((word: string, cb: (w: string, url: string | null) => void) =>
+      cb(word, 'https://example.com/img.jpg'),
+    );
     const { container } = mount();
     const img = container.querySelector('img') as HTMLImageElement;
     expect(img).not.toBeNull();
@@ -60,17 +71,23 @@ describe('word-of-day.tsx WordOfDay', () => {
   });
 
   it('falls back to the no-img placeholder if the image element errors', () => {
-    loadWikiImage.mockImplementation((word: string, cb: (w: string, url: string | null) => void) => cb(word, 'https://example.com/broken.jpg'));
+    loadWikiImage.mockImplementation((word: string, cb: (w: string, url: string | null) => void) =>
+      cb(word, 'https://example.com/broken.jpg'),
+    );
     const { container } = mount();
     const img = container.querySelector('img') as HTMLImageElement;
-    act(() => { img.dispatchEvent(new Event('error')); });
+    act(() => {
+      img.dispatchEvent(new Event('error'));
+    });
     expect(container.querySelector('.wotd-img-wrap')!.className).toContain('wotd-no-img');
   });
 
   it('navigates to the word, closes the sidebar and re-renders when clicked', () => {
     const { container } = mount();
     const box = container.querySelector('.wotd-box') as HTMLElement;
-    act(() => { box.click(); });
+    act(() => {
+      box.click();
+    });
 
     expect(getDeckSnapshot().length).toBe(1);
     expect(setIdx).toHaveBeenCalledWith(0);
@@ -82,10 +99,14 @@ describe('word-of-day.tsx WordOfDay', () => {
     const { container } = mount();
     const word = container.querySelector('.wotd-word')!.textContent!;
     const box = container.querySelector('.wotd-box') as HTMLElement;
-    act(() => { box.click(); });
+    act(() => {
+      box.click();
+    });
     const lenAfterFirst = getDeckSnapshot().length;
 
-    act(() => { box.click(); });
+    act(() => {
+      box.click();
+    });
     expect(getDeckSnapshot().length).toBe(lenAfterFirst);
     void word;
   });
@@ -95,7 +116,9 @@ describe('word-of-day.tsx WordOfDay', () => {
     const sel = document.getElementById('sel-mode') as HTMLSelectElement;
     sel.innerHTML += '<option value="ua">ua</option>';
     sel.value = 'ua';
-    act(() => { sel.dispatchEvent(new Event('change')); });
+    act(() => {
+      sel.dispatchEvent(new Event('change'));
+    });
     expect(container.querySelector('.wotd-word')!.textContent).toBeTruthy();
   });
 });

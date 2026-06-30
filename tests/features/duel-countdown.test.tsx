@@ -6,7 +6,14 @@ import { DuelCountdown } from '../../js/features/duel-countdown.tsx';
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const { getCountdownData } = vi.hoisted(() => ({
-  getCountdownData: vi.fn(() => ({ oppAvatar: '🤖', oppName: 'Bot', myAvatar: '🧑', myName: 'Me', roomCode: null as string | null, num: 3 })),
+  getCountdownData: vi.fn(() => ({
+    oppAvatar: '🤖',
+    oppName: 'Bot',
+    myAvatar: '🧑',
+    myName: 'Me',
+    roomCode: null as string | null,
+    num: 3,
+  })),
 }));
 vi.mock('../../js/features/duel.ts', () => ({ _getCountdownData: getCountdownData }));
 
@@ -14,7 +21,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<DuelCountdown />); });
+  act(() => {
+    root.render(<DuelCountdown />);
+  });
   return { container, root };
 }
 
@@ -24,11 +33,24 @@ describe('duel-countdown.tsx DuelCountdown', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
     roots = [];
-    getCountdownData.mockClear().mockReturnValue({ oppAvatar: '🤖', oppName: 'Bot', myAvatar: '🧑', myName: 'Me', roomCode: null, num: 3 });
+    getCountdownData
+      .mockClear()
+      .mockReturnValue({
+        oppAvatar: '🤖',
+        oppName: 'Bot',
+        myAvatar: '🧑',
+        myName: 'Me',
+        roomCode: null,
+        num: 3,
+      });
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('shows the player names/avatars and the countdown number', () => {
@@ -40,14 +62,28 @@ describe('duel-countdown.tsx DuelCountdown', () => {
   });
 
   it('shows a lightning bolt instead of a number once countdown reaches zero', () => {
-    getCountdownData.mockReturnValue({ oppAvatar: '🤖', oppName: 'Bot', myAvatar: '🧑', myName: 'Me', roomCode: null, num: 0 });
+    getCountdownData.mockReturnValue({
+      oppAvatar: '🤖',
+      oppName: 'Bot',
+      myAvatar: '🧑',
+      myName: 'Me',
+      roomCode: null,
+      num: 0,
+    });
     const { container, root } = mount();
     roots.push(root);
     expect(container.textContent).toContain('⚡');
   });
 
   it('shows the room code when provided', () => {
-    getCountdownData.mockReturnValue({ oppAvatar: '🤖', oppName: 'Bot', myAvatar: '🧑', myName: 'Me', roomCode: 'ABCD12', num: 3 });
+    getCountdownData.mockReturnValue({
+      oppAvatar: '🤖',
+      oppName: 'Bot',
+      myAvatar: '🧑',
+      myName: 'Me',
+      roomCode: 'ABCD12',
+      num: 3,
+    });
     const { container, root } = mount();
     roots.push(root);
     expect(container.textContent).toContain('ABCD12');
@@ -65,7 +101,9 @@ describe('duel-countdown.tsx DuelCountdown', () => {
     const numEl = container.querySelector('div[style*="6rem"]') as HTMLElement;
     expect(numEl.style.transform).toBe('scale(1.4)');
 
-    await act(async () => { await new Promise(r => setTimeout(r, 160)); });
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 160));
+    });
     expect(numEl.style.transform).toBe('');
   });
 });

@@ -10,7 +10,18 @@ import { DeckFilterInit, _refreshRangeOptions } from '../../js/features/deck-fil
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const { render, setDeck, setIdx, stopAuto, shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck, getHardWords, getBookmarks } = vi.hoisted(() => ({
+const {
+  render,
+  setDeck,
+  setIdx,
+  stopAuto,
+  shuffle,
+  _shuf,
+  buildSRSDeck,
+  buildUnlearnedDeck,
+  getHardWords,
+  getBookmarks,
+} = vi.hoisted(() => ({
   render: vi.fn(),
   setDeck: vi.fn(),
   setIdx: vi.fn(),
@@ -31,14 +42,18 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<DeckFilterInit />); });
+  act(() => {
+    root.render(<DeckFilterInit />);
+  });
   return { container, root };
 }
 
 function change(value: string): void {
   const sel = document.getElementById('sel-range') as HTMLSelectElement;
   sel.value = value;
-  act(() => { sel.dispatchEvent(new Event('change')); });
+  act(() => {
+    sel.dispatchEvent(new Event('change'));
+  });
 }
 
 describe('deck-filter.tsx DeckFilterInit', () => {
@@ -102,7 +117,7 @@ describe('deck-filter.tsx DeckFilterInit', () => {
     mount();
     change('bookmarks');
     const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
-    expect(deck.every(w => w[0] === target)).toBe(true);
+    expect(deck.every((w) => w[0] === target)).toBe(true);
     expect(deck.length).toBe(1);
   });
 
@@ -110,19 +125,21 @@ describe('deck-filter.tsx DeckFilterInit', () => {
     const sel = document.getElementById('sel-range') as HTMLSelectElement;
     sel.value = 'bookmarks';
     mount();
-    act(() => { sel.dispatchEvent(new Event('change')); });
+    act(() => {
+      sel.dispatchEvent(new Event('change'));
+    });
     expect(sel.value).toBe('0');
     const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
     expect(deck.length).toBe(W.length);
   });
 
   it('filters to hard words on "hard" selection', () => {
-    const targets = (W as unknown as WordEntry[]).slice(0, 2).map(w => w[0]);
+    const targets = (W as unknown as WordEntry[]).slice(0, 2).map((w) => w[0]);
     getHardWords.mockReturnValue(targets);
     mount();
     change('hard');
     const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
-    expect(deck.map(w => w[0]).sort()).toEqual(targets.slice().sort());
+    expect(deck.map((w) => w[0]).sort()).toEqual(targets.slice().sort());
   });
 
   it('falls back to unlearned deck when no hard words exist', () => {
@@ -144,16 +161,18 @@ describe('deck-filter.tsx DeckFilterInit', () => {
     change('pos-n');
     const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
     expect(deck.length).toBeGreaterThan(0);
-    expect(deck.every(w => (w[5] ?? '').split('/').includes('n'))).toBe(true);
+    expect(deck.every((w) => (w[5] ?? '').split('/').includes('n'))).toBe(true);
   });
 
   it('"pos-other" matches the low-frequency tags (prep/conj/det/num/interj)', () => {
     mount();
     change('pos-other');
     const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
-    const about = (W as unknown as WordEntry[]).find(w => w[0] === 'about')!;
-    expect(deck.some(w => w[0] === about[0])).toBe(true);
-    expect(deck.every(w => ['prep', 'conj', 'det', 'num', 'interj'].includes(w[5] ?? ''))).toBe(true);
+    const about = (W as unknown as WordEntry[]).find((w) => w[0] === 'about')!;
+    expect(deck.some((w) => w[0] === about[0])).toBe(true);
+    expect(deck.every((w) => ['prep', 'conj', 'det', 'num', 'interj'].includes(w[5] ?? ''))).toBe(
+      true,
+    );
   });
 
   it('falls back to a shuffled full deck when no words match the POS filter', () => {
@@ -163,7 +182,9 @@ describe('deck-filter.tsx DeckFilterInit', () => {
     sel.appendChild(opt);
     mount();
     sel.value = 'pos-zzz';
-    act(() => { sel.dispatchEvent(new Event('change')); });
+    act(() => {
+      sel.dispatchEvent(new Event('change'));
+    });
     const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
     expect(deck.length).toBe(W.length);
   });
@@ -193,17 +214,22 @@ describe('deck-filter.tsx DeckFilterInit', () => {
 
   it('cleans up the change listener on unmount', () => {
     const { root } = mount();
-    act(() => { root.unmount(); });
+    act(() => {
+      root.unmount();
+    });
     const sel = document.getElementById('sel-range') as HTMLSelectElement;
     sel.value = 'srs';
-    act(() => { sel.dispatchEvent(new Event('change')); });
+    act(() => {
+      sel.dispatchEvent(new Event('change'));
+    });
     expect(buildSRSDeck).not.toHaveBeenCalled();
   });
 });
 
 describe('deck-filter.tsx _refreshRangeOptions', () => {
   beforeEach(() => {
-    document.body.innerHTML = '<select id="sel-range"><option value="0">All</option><option value="3">old</option></select>';
+    document.body.innerHTML =
+      '<select id="sel-range"><option value="0">All</option><option value="3">old</option></select>';
   });
 
   it('does nothing when #sel-range is absent', () => {

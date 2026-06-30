@@ -6,7 +6,12 @@ import { W } from '../../data/words.js';
 import { getWordsForPair } from './mode-utils.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { getSrsDataSnapshot } from '../../src/srs-store.ts';
-import { setBaseWords, setActiveTagSet, setDeckFilter, getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
+import {
+  setBaseWords,
+  setActiveTagSet,
+  setDeckFilter,
+  getActiveTagSetSnapshot,
+} from '../../src/deck-filter-store.ts';
 import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck } from '../core/srs.ts';
 import { getHardWords } from './game.ts';
 import { getBookmarks } from './bookmarks.ts';
@@ -38,17 +43,20 @@ function _matchesPos(w: WordEntry, target: string): boolean {
 function _applyLangFilter(deck: WordEntry[]): WordEntry[] {
   const langDeck = _getLangDeck();
   if (!langDeck) return deck;
-  const ids = new Set(langDeck.map(w => w[0]));
-  const filtered = deck.filter(w => ids.has(w[0]));
+  const ids = new Set(langDeck.map((w) => w[0]));
+  const filtered = deck.filter((w) => ids.has(w[0]));
   return filtered.length ? filtered : langDeck.slice();
 }
 
-function buildStaleDeck(days: number, base: WordEntry[] = W as unknown as WordEntry[]): WordEntry[] {
+function buildStaleDeck(
+  days: number,
+  base: WordEntry[] = W as unknown as WordEntry[],
+): WordEntry[] {
   const d = new Date();
   d.setDate(d.getDate() - days);
   const cutoff = d.toISOString().slice(0, 10);
   const srsData = getSrsDataSnapshot();
-  const result = base.filter(function(w) {
+  const result = base.filter(function (w) {
     const srs = (srsData as any)[w[0]];
     if (!srs || !srs.due) return true;
     const dt = new Date(srs.due);
@@ -70,19 +78,21 @@ export function _refreshRangeOptions(): void {
 function _showToast(msg: string): void {
   const el = document.getElementById('milestone-toast');
   if (!el) return;
-  el.textContent  = msg;
-  el.className    = 'milestone-toast';
+  el.textContent = msg;
+  el.className = 'milestone-toast';
   void el.offsetWidth;
-  el.className    = 'milestone-toast show';
-  setTimeout(() => { el.className = 'milestone-toast'; }, 3500);
+  el.className = 'milestone-toast show';
+  setTimeout(() => {
+    el.className = 'milestone-toast';
+  }, 3500);
 }
 
 export function DeckFilterInit(): ReactElement | null {
   useEffect(() => {
     const selRange = document.getElementById('sel-range');
-    const onChange = function(this: HTMLSelectElement) {
+    const onChange = function (this: HTMLSelectElement) {
       stopAuto();
-      const v        = this.value;
+      const v = this.value;
       const selTagEl = document.getElementById('sel-tag') as HTMLSelectElement | null;
 
       if (v === 'srs' || v === 'unlearned' || v.startsWith('stale')) {
@@ -92,23 +102,30 @@ export function DeckFilterInit(): ReactElement | null {
 
       // Base deck for the current language (null = English, use full W)
       const langDeck = _getLangDeck();
-      const langBase: WordEntry[] = langDeck ?? W as unknown as WordEntry[];
+      const langBase: WordEntry[] = langDeck ?? (W as unknown as WordEntry[]);
 
       let deck: WordEntry[];
 
       if (v === 'weak') {
-        const _srsAll  = getSrsDataSnapshot() as Record<string, { ef?: number; reps?: number; lapses?: number }>;
+        const _srsAll = getSrsDataSnapshot() as Record<
+          string,
+          { ef?: number; reps?: number; lapses?: number }
+        >;
         const _srsWeak = Object.entries(_srsAll)
           .filter(([, d]) => d && typeof d.ef === 'number' && d.ef < 2.5)
-          .sort(([, a], [, b]) => (b.lapses ?? 0) - (a.lapses ?? 0) || (a.ef ?? 2.5) - (b.ef ?? 2.5))
+          .sort(
+            ([, a], [, b]) => (b.lapses ?? 0) - (a.lapses ?? 0) || (a.ef ?? 2.5) - (b.ef ?? 2.5),
+          )
           .slice(0, 50);
         if (_srsWeak.length >= 5) {
           const _weakSet = new Set(_srsWeak.map(([k]) => k));
-          deck = langBase.filter(w => _weakSet.has(w[0]));
+          deck = langBase.filter((w) => _weakSet.has(w[0]));
           if (!deck.length) deck = langBase.slice();
         } else if (getKnownSnapshot('en').size > 0) {
-          deck = Array.from(getKnownSnapshot('en')).slice().reverse()
-            .map(k => langBase.find(w => w[0] === k))
+          deck = Array.from(getKnownSnapshot('en'))
+            .slice()
+            .reverse()
+            .map((k) => langBase.find((w) => w[0] === k))
             .filter(Boolean) as WordEntry[];
           if (!deck.length) deck = buildUnlearnedDeck(langBase);
           _showToast(t('range.weakFallbackKnown'));
@@ -124,8 +141,8 @@ export function DeckFilterInit(): ReactElement | null {
         return;
       } else if (v === 'hard') {
         const _hardWords = getHardWords(50);
-        const _hardSet   = new Set(_hardWords);
-        deck = langBase.filter(w => _hardSet.has(w[0]));
+        const _hardSet = new Set(_hardWords);
+        deck = langBase.filter((w) => _hardSet.has(w[0]));
         if (!deck.length) {
           _showToast(t('range.noHardWords'));
           deck = buildUnlearnedDeck(langBase);
@@ -140,7 +157,7 @@ export function DeckFilterInit(): ReactElement | null {
         return;
       } else if (v === 'bookmarks') {
         const _bms = getBookmarks();
-        deck = langBase.filter(w => _bms.has(w[0]));
+        deck = langBase.filter((w) => _bms.has(w[0]));
         if (!deck.length) {
           _showToast(t('range.noBookmarks'));
           this.value = '0';
@@ -162,7 +179,7 @@ export function DeckFilterInit(): ReactElement | null {
         deck = buildSRSDeck(langBase);
       } else if (v.startsWith('cefr-')) {
         const cefrTarget = v.replace('cefr-', '') as import('../../data/cefr.ts').CefrLevel;
-        deck = langBase.filter(w => getCefrLevel(w[0]) === cefrTarget);
+        deck = langBase.filter((w) => getCefrLevel(w[0]) === cefrTarget);
         shuffle(deck);
         if (!deck.length) {
           _showToast(t('range.noCefrWords', { l: cefrTarget }));
@@ -177,7 +194,7 @@ export function DeckFilterInit(): ReactElement | null {
         return;
       } else if (v.startsWith('pos-')) {
         const posTarget = v.replace('pos-', '');
-        deck = langBase.filter(w => _matchesPos(w, posTarget));
+        deck = langBase.filter((w) => _matchesPos(w, posTarget));
         shuffle(deck);
         if (!deck.length) {
           _showToast(t('range.noPosWords'));
@@ -200,8 +217,8 @@ export function DeckFilterInit(): ReactElement | null {
         shuffle(deck);
         const _ats = getActiveTagSetSnapshot();
         if (_ats) {
-          deck = deck.filter(w => (_ats as Set<string>).has(w[0]));
-          if (!deck.length) deck = langBase.filter(w => (_ats as Set<string>).has(w[0]));
+          deck = deck.filter((w) => (_ats as Set<string>).has(w[0]));
+          if (!deck.length) deck = langBase.filter((w) => (_ats as Set<string>).has(w[0]));
           shuffle(deck);
         }
       }
@@ -212,7 +229,11 @@ export function DeckFilterInit(): ReactElement | null {
     selRange?.addEventListener('change', onChange as EventListener);
 
     // Initialize options on load
-    try { _refreshRangeOptions(); } catch (e) { console.warn(e); }
+    try {
+      _refreshRangeOptions();
+    } catch (e) {
+      console.warn(e);
+    }
 
     return () => selRange?.removeEventListener('change', onChange as EventListener);
   }, []);

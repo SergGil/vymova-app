@@ -25,13 +25,18 @@ function mount(Component: () => JSX.Element | null): { container: HTMLElement; r
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<Component />); });
+  act(() => {
+    root.render(<Component />);
+  });
   _roots.push(root);
   return { container, root };
 }
 
 afterEach(() => {
-  for (const root of _roots) act(() => { root.unmount(); });
+  for (const root of _roots)
+    act(() => {
+      root.unmount();
+    });
   _roots = [];
 });
 
@@ -97,7 +102,9 @@ describe('CardBookmarkNoteVisuals', () => {
     mount(CardBookmarkNoteVisuals);
     expect(document.getElementById('btn-bookmark')!.textContent).toBe('★');
 
-    act(() => { renderCardState(word2, 'en'); });
+    act(() => {
+      renderCardState(word2, 'en');
+    });
     expect(document.getElementById('btn-bookmark')!.textContent).toBe('☆');
   });
 });

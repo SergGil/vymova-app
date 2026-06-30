@@ -11,8 +11,8 @@ import { openPage } from './sidebar.tsx';
 
 export function GameBarLevel(): ReactElement {
   useStateVersion();
-  const n    = getKnownInLang();
-  const lv   = getLevel(n);
+  const n = getKnownInLang();
+  const lv = getLevel(n);
   const next = getNextLevel(n);
   const lvIdx = LEVELS.indexOf(lv) + 1;
 
@@ -21,24 +21,40 @@ export function GameBarLevel(): ReactElement {
   let xpText = t('levels.maxReached');
   let nextText = '';
   if (next) {
-    const cur  = n - lv.min;
+    const cur = n - lv.min;
     const need = next.min - lv.min;
-    fillPct = Math.round(cur / need * 100);
-    fillBg  = `linear-gradient(90deg,${lv.color},${next.color || lv.color})`;
-    xpText  = `${cur} / ${need} ${wordsLabel(need)}`;
+    fillPct = Math.round((cur / need) * 100);
+    fillBg = `linear-gradient(90deg,${lv.color},${next.color || lv.color})`;
+    xpText = `${cur} / ${need} ${wordsLabel(need)}`;
     nextText = levelName(next.name);
   }
 
   return (
-    <div className="gb-level-clickable" role="button" tabIndex={0} title={t('levels.goToAchievements')}
+    <div
+      className="gb-level-clickable"
+      role="button"
+      tabIndex={0}
+      title={t('levels.goToAchievements')}
       onClick={() => openPage('ach')}
-      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') openPage('ach'); }}>
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') openPage('ach');
+      }}
+    >
       <div className="gb-level-name-row">
-        <span className="level-badge" style={{ background: lv.color + '22', color: lv.color }}>{levelName(lv.name)}</span>
-        <span className="level-badge level-badge-mobile" style={{ background: lv.color + '22', color: lv.color }}>{t('levels.mobileLabel')}</span>
+        <span className="level-badge" style={{ background: lv.color + '22', color: lv.color }}>
+          {levelName(lv.name)}
+        </span>
+        <span
+          className="level-badge level-badge-mobile"
+          style={{ background: lv.color + '22', color: lv.color }}
+        >
+          {t('levels.mobileLabel')}
+        </span>
         <span className="gb-level-arrow">→</span>
         <span className="gb-level-next">{nextText}</span>
-        <span className="gb-level-num" style={{ color: lv.color }}>{lvIdx}</span>
+        <span className="gb-level-num" style={{ color: lv.color }}>
+          {lvIdx}
+        </span>
       </div>
       <div className="gb-level-track">
         <div className="gb-level-fill" style={{ width: fillPct + '%', background: fillBg }} />

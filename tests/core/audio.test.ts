@@ -20,8 +20,12 @@ class MockOscillatorNode {
 class MockAudioContext {
   currentTime = 0;
   destination = {};
-  createOscillator(): MockOscillatorNode { return new MockOscillatorNode(); }
-  createGain(): MockGainNode { return new MockGainNode(); }
+  createOscillator(): MockOscillatorNode {
+    return new MockOscillatorNode();
+  }
+  createGain(): MockGainNode {
+    return new MockGainNode();
+  }
 }
 
 describe('audio.ts playSound()', () => {
@@ -66,8 +70,12 @@ describe('audio.ts playSound()', () => {
 
   it('swallows errors thrown while creating nodes', () => {
     class ThrowingContext {
-      createOscillator() { throw new Error('boom'); }
-      createGain() { return new MockGainNode(); }
+      createOscillator() {
+        throw new Error('boom');
+      }
+      createGain() {
+        return new MockGainNode();
+      }
     }
     (window as any).AudioContext = ThrowingContext;
     expect(() => playSound('know')).not.toThrow();

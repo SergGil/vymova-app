@@ -22,7 +22,7 @@ describe('learning-path-logic.ts', () => {
       const stats = computeCefrStats(known, words);
       expect(stats.A1.total).toBe(3);
       expect(stats.A1.known).toBe(1);
-      expect(stats.A1.pct).toBe(Math.round(1 / 3 * 100));
+      expect(stats.A1.pct).toBe(Math.round((1 / 3) * 100));
     });
 
     it('returns 0% for levels with no words', () => {
@@ -40,7 +40,9 @@ describe('learning-path-logic.ts', () => {
 
     it('returns C2 when all levels are at or above 70%', () => {
       const stats = computeCefrStats(new Set(), []);
-      (['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const).forEach(l => { stats[l].pct = 100; });
+      (['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const).forEach((l) => {
+        stats[l].pct = 100;
+      });
       expect(findCurrentLevel(stats)).toBe('C2');
     });
   });
@@ -51,7 +53,7 @@ describe('learning-path-logic.ts', () => {
       const known = new Set(['able']);
       const result = filterDailyWords('A1', known, words, 2);
       expect(result.length).toBe(2);
-      result.forEach(w => expect(w[0]).not.toBe('able'));
+      result.forEach((w) => expect(w[0]).not.toBe('able'));
     });
   });
 

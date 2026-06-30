@@ -25,8 +25,8 @@ export function _rebuildEsDeck(): void {
   const m = getMode();
   if (!_isSpecialMode(m)) return;
   const specialDeck = _getSpecialDeck(m);
-  const ats    = getActiveTagSetSnapshot();
-  let deck     = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
+  const ats = getActiveTagSetSnapshot();
+  let deck = ats ? specialDeck.filter((w) => (ats as Set<string>).has(w[0])) : specialDeck.slice();
   if (!deck.length) deck = specialDeck.slice();
   setDeck(shuffle(deck));
   setIdx(0);
@@ -45,10 +45,12 @@ export function DeckModeInit(): ReactElement | null {
       if (specialDeck.length) {
         if (!_preSpecialDeck) {
           _preSpecialDeck = getDeckSnapshot();
-          _preSpecialIdx  = getIdxSnapshot();
+          _preSpecialIdx = getIdxSnapshot();
         }
         const ats = getActiveTagSetSnapshot();
-        let deck = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
+        let deck = ats
+          ? specialDeck.filter((w) => (ats as Set<string>).has(w[0]))
+          : specialDeck.slice();
         if (!deck.length) deck = specialDeck.slice();
         setDeck(shuffle(deck));
         setIdx(0);
@@ -57,10 +59,10 @@ export function DeckModeInit(): ReactElement | null {
       }
     }
 
-    const onChange = function(this: HTMLSelectElement) {
+    const onChange = function (this: HTMLSelectElement) {
       stopAuto();
-      const m          = this.value;
-      const isSpecial  = _isSpecialMode(m);
+      const m = this.value;
+      const isSpecial = _isSpecialMode(m);
 
       if (isSpecial) {
         const specialDeck = _getSpecialDeck(m);
@@ -68,9 +70,12 @@ export function DeckModeInit(): ReactElement | null {
           const _mt = document.getElementById('milestone-toast');
           if (_mt) {
             _mt.textContent = t(noTranslationsKey(m, W as unknown as WordEntry[]));
-            _mt.className = 'milestone-toast'; void _mt.offsetWidth;
+            _mt.className = 'milestone-toast';
+            void _mt.offsetWidth;
             _mt.className = 'milestone-toast show';
-            setTimeout(() => { _mt.className = 'milestone-toast'; }, 3500);
+            setTimeout(() => {
+              _mt.className = 'milestone-toast';
+            }, 3500);
           }
           this.value = 'en';
           render();
@@ -78,17 +83,19 @@ export function DeckModeInit(): ReactElement | null {
         }
         if (!_preSpecialDeck) {
           _preSpecialDeck = getDeckSnapshot();
-          _preSpecialIdx  = getIdxSnapshot();
+          _preSpecialIdx = getIdxSnapshot();
         }
         const ats = getActiveTagSetSnapshot();
-        let deck = ats ? specialDeck.filter(w => (ats as Set<string>).has(w[0])) : specialDeck.slice();
+        let deck = ats
+          ? specialDeck.filter((w) => (ats as Set<string>).has(w[0]))
+          : specialDeck.slice();
         if (!deck.length) deck = specialDeck.slice();
         setDeck(shuffle(deck));
         setIdx(0);
         _refreshRangeOptions();
       } else if (!isSpecial && _preSpecialDeck) {
         setDeck(_preSpecialDeck);
-        const deckLen = (getDeckSnapshot()).length;
+        const deckLen = getDeckSnapshot().length;
         setIdx(deckLen ? _preSpecialIdx % deckLen : 0);
         _preSpecialDeck = null;
         _refreshRangeOptions();

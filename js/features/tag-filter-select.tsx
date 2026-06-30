@@ -12,7 +12,8 @@ import { _rebuildEsDeck, _isSpecialMode } from './deck-mode.tsx';
 
 function fitSelTag(selTag: HTMLSelectElement): void {
   const tmp = document.createElement('select');
-  tmp.style.cssText = 'visibility:hidden;position:absolute;font:inherit;font-size:12px;padding:6px 24px 6px 10px;';
+  tmp.style.cssText =
+    'visibility:hidden;position:absolute;font:inherit;font-size:12px;padding:6px 24px 6px 10px;';
   const opt = document.createElement('option');
   opt.textContent = selTag.options[selTag.selectedIndex]?.textContent ?? '';
   tmp.appendChild(opt);
@@ -28,8 +29,8 @@ function applyTagFilter(selTag: HTMLSelectElement): void {
   } else {
     const wordIdx = getWordIndex();
     const words = (WORD_CATEGORIES[tag] ?? [])
-      .map(w => w.toLowerCase())
-      .filter(w => wordIdx ? wordIdx.has(w) : true);
+      .map((w) => w.toLowerCase())
+      .filter((w) => (wordIdx ? wordIdx.has(w) : true));
     setActiveTagSet(new Set(words));
   }
   const selMode = document.getElementById('sel-mode') as HTMLSelectElement | null;
@@ -63,10 +64,11 @@ export function TagFilterSelect(): ReactElement {
   return (
     <>
       <option value="">{t('cards.allTopics')}</option>
-      {CATEGORY_LIST.map(cat => (
-        <option key={cat} value={cat}>{categoryName(cat)}</option>
+      {CATEGORY_LIST.map((cat) => (
+        <option key={cat} value={cat}>
+          {categoryName(cat)}
+        </option>
       ))}
     </>
   );
 }
-

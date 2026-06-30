@@ -9,7 +9,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<KeysOverlay />); });
+  act(() => {
+    root.render(<KeysOverlay />);
+  });
   return { container, root };
 }
 
@@ -30,16 +32,22 @@ describe('keyboard.tsx KeysOverlay', () => {
   it('opens when #btn-keys is clicked', () => {
     const { container } = mount();
     const btn = document.getElementById('btn-keys')!;
-    act(() => { btn.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      btn.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(container.querySelector('#keys-overlay')!.className).toBe('open');
   });
 
   it('opens with "?" and closes with Escape', () => {
     const { container } = mount();
-    act(() => { press('?'); });
+    act(() => {
+      press('?');
+    });
     expect(container.querySelector('#keys-overlay')!.className).toBe('open');
 
-    act(() => { press('Escape'); });
+    act(() => {
+      press('Escape');
+    });
     expect(container.querySelector('#keys-overlay')!.className).toBe('');
   });
 
@@ -47,30 +55,42 @@ describe('keyboard.tsx KeysOverlay', () => {
     const input = document.getElementById('search-input') as HTMLInputElement;
     input.focus();
     const { container } = mount();
-    act(() => { press('?'); });
+    act(() => {
+      press('?');
+    });
     expect(container.querySelector('#keys-overlay')!.className).toBe('');
   });
 
   it('closes when clicking the close button', () => {
     const { container } = mount();
-    act(() => { press('?'); });
+    act(() => {
+      press('?');
+    });
     const closeBtn = container.querySelector('#keys-close') as HTMLButtonElement;
-    act(() => { closeBtn.click(); });
+    act(() => {
+      closeBtn.click();
+    });
     expect(container.querySelector('#keys-overlay')!.className).toBe('');
   });
 
   it('closes when clicking directly on the overlay backdrop', () => {
     const { container } = mount();
-    act(() => { press('?'); });
+    act(() => {
+      press('?');
+    });
     const overlay = container.querySelector('#keys-overlay') as HTMLElement;
-    act(() => { overlay.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      overlay.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(overlay.className).toBe('');
   });
 
   it('focuses #search-input on Ctrl+K', () => {
     mount();
     const input = document.getElementById('search-input') as HTMLInputElement;
-    act(() => { press('k', { ctrlKey: true }); });
+    act(() => {
+      press('k', { ctrlKey: true });
+    });
     expect(document.activeElement).toBe(input);
   });
 });

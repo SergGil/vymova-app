@@ -1,19 +1,39 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { _lzSave, _lzLoad, saveKnown, loadKnown, saveKnownEs, loadKnownEs } from '../../js/core/storage.ts';
+import {
+  _lzSave,
+  _lzLoad,
+  saveKnown,
+  loadKnown,
+  saveKnownEs,
+  loadKnownEs,
+} from '../../js/core/storage.ts';
 
 // ── localStorage mock ─────────────────────────────────────────
 const _store: Record<string, string> = {};
 const lsMock = {
-  getItem:    (k: string) => _store[k] ?? null,
-  setItem:    (k: string, v: string) => { _store[k] = v; },
-  removeItem: (k: string) => { delete _store[k]; },
-  clear:      () => { Object.keys(_store).forEach(k => delete _store[k]); },
-  get length(){ return Object.keys(_store).length; },
+  getItem: (k: string) => _store[k] ?? null,
+  setItem: (k: string, v: string) => {
+    _store[k] = v;
+  },
+  removeItem: (k: string) => {
+    delete _store[k];
+  },
+  clear: () => {
+    Object.keys(_store).forEach((k) => delete _store[k]);
+  },
+  get length() {
+    return Object.keys(_store).length;
+  },
   key: (i: number) => Object.keys(_store)[i] ?? null,
 };
 
-beforeEach(() => { lsMock.clear(); vi.stubGlobal('localStorage', lsMock); });
-afterEach(() => { vi.unstubAllGlobals(); });
+beforeEach(() => {
+  lsMock.clear();
+  vi.stubGlobal('localStorage', lsMock);
+});
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 // ── LZ corruption fallback ─────────────────────────────────────
 describe('_lzLoad() — corruption fallback', () => {
@@ -30,7 +50,7 @@ describe('_lzLoad() — corruption fallback', () => {
 
   it('returns fallback on JSON.parse failure', () => {
     lsMock.setItem('bad_json', '{not valid json}');
-    const result = _lzLoad<Record<string,number>>('bad_json', { default: 1 });
+    const result = _lzLoad<Record<string, number>>('bad_json', { default: 1 });
     expect(result).toEqual({ default: 1 });
   });
 

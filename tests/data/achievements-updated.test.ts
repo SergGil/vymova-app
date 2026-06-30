@@ -4,7 +4,20 @@ import { getMaxWordsForLearnLang } from '../../js/features/mode-utils.ts';
 import type { GameData, ModeStats } from '../../src/types.js';
 
 function g(o: Partial<GameData> = {}): GameData {
-  return { streak:0, streakDate:null, shields:0, goalMax:20, goalCur:0, goalDate:'', goalDays:0, confettiShown:null, sessionWords:0, xp:0, maxCombo:0, ...o };
+  return {
+    streak: 0,
+    streakDate: null,
+    shields: 0,
+    goalMax: 20,
+    goalCur: 0,
+    goalDate: '',
+    goalDays: 0,
+    confettiShown: null,
+    sessionWords: 0,
+    xp: 0,
+    maxCombo: 0,
+    ...o,
+  };
 }
 
 // ── Word count milestones — scales with the current learn language's
@@ -13,7 +26,7 @@ function g(o: Partial<GameData> = {}): GameData {
 describe('Achievement word milestones — dynamic word count', () => {
   it('words10002 achievement targets the full vocabulary for the current learn language', () => {
     const max = getMaxWordsForLearnLang();
-    const a = ACHIEVEMENTS.find(x => x.id === 'words10002')!;
+    const a = ACHIEVEMENTS.find((x) => x.id === 'words10002')!;
     expect(a).toBeDefined();
     expect(a.progress(max, g()).max).toBe(max);
     expect(a.check(max - 1, g())).toBe(false);
@@ -22,7 +35,7 @@ describe('Achievement word milestones — dynamic word count', () => {
 
   it('words10002 progress bar caps at the max', () => {
     const max = getMaxWordsForLearnLang();
-    const a = ACHIEVEMENTS.find(x => x.id === 'words10002')!;
+    const a = ACHIEVEMENTS.find((x) => x.id === 'words10002')!;
     expect(a.progress(max + 1000, g()).cur).toBe(max);
   });
 });
@@ -31,7 +44,14 @@ describe('Achievement word milestones — dynamic word count', () => {
 describe('All achievements — progress cur ≤ max', () => {
   it('progress.cur never exceeds progress.max for any input', () => {
     const modeStats = { quiz: 100, tempo: 50, pairs: 30, write: 25, listen: 20, lesson: 15 };
-    const gameData = g({ streak: 200, maxCombo: 50, sessionWords: 150, goalCur: 25, goalMax: 20, goalDays: 50 });
+    const gameData = g({
+      streak: 200,
+      maxCombo: 50,
+      sessionWords: 150,
+      goalCur: 25,
+      goalMax: 20,
+      goalDays: 50,
+    });
     for (const a of ACHIEVEMENTS) {
       const p = a.progress(9999, gameData, modeStats);
       expect(p.cur, `${a.id}: cur(${p.cur}) > max(${p.max})`).toBeLessThanOrEqual(p.max);
@@ -51,7 +71,7 @@ describe('Achievement check/progress consistency', () => {
       { k: 0, g: g({ streak: 7 }), m: modeStats, id: 'streak7' },
     ];
     for (const tc of cases) {
-      const a = ACHIEVEMENTS.find(x => x.id === tc.id)!;
+      const a = ACHIEVEMENTS.find((x) => x.id === tc.id)!;
       if (a.check(tc.k, tc.g, tc.m)) {
         const p = a.progress(tc.k, tc.g, tc.m);
         expect(p.cur, `${tc.id}: check=true but progress incomplete`).toBe(p.max);
@@ -62,7 +82,7 @@ describe('Achievement check/progress consistency', () => {
 
 // helper to look up an achievement by id (throws if missing)
 function ach(id: string) {
-  const a = ACHIEVEMENTS.find(x => x.id === id);
+  const a = ACHIEVEMENTS.find((x) => x.id === id);
   if (!a) throw new Error(`Achievement not found: ${id}`);
   return a;
 }
@@ -120,8 +140,15 @@ describe('Achievement logic — speed (sessionWords)', () => {
 // ── Level achievements ────────────────────────────────────────
 describe('Achievement logic — levels (lvl2–lvl10)', () => {
   const cases: Array<[string, number]> = [
-    ['lvl2', 30], ['lvl3', 100], ['lvl4', 250], ['lvl5', 500],
-    ['lvl6', 900], ['lvl7', 1500], ['lvl8', 2500], ['lvl9', 4000], ['lvl10', getMaxWordsForLearnLang()],
+    ['lvl2', 30],
+    ['lvl3', 100],
+    ['lvl4', 250],
+    ['lvl5', 500],
+    ['lvl6', 900],
+    ['lvl7', 1500],
+    ['lvl8', 2500],
+    ['lvl9', 4000],
+    ['lvl10', getMaxWordsForLearnLang()],
   ];
 
   it.each(cases)('%s: passes at k=%i, fails at k=%i-1', (id, threshold) => {
@@ -171,21 +198,21 @@ describe('Achievement logic — combo', () => {
 // ── Mode achievements (untested modes) ───────────────────────
 describe('Achievement logic — remaining mode achievements', () => {
   const modeCases: Array<[string, string, number]> = [
-    ['mode_quiz10',    'quiz',    10],
-    ['mode_quiz50',    'quiz',    50],
-    ['mode_tempo1',    'tempo',   1],
-    ['mode_tempo10',   'tempo',   10],
-    ['mode_pairs1',    'pairs',   1],
-    ['mode_write20',   'write',   20],
-    ['mode_listen1',   'listen',  1],
-    ['mode_lesson1',   'lesson',  1],
-    ['mode_fib1',      'fib',     1],
-    ['mode_story1',    'story',   1],
-    ['mode_daily1',    'daily',   1],
-    ['mode_spelling1', 'spelling',1],
-    ['mode_context1',  'context', 1],
-    ['mode_scramble1', 'scramble',1],
-    ['mode_letters1',  'letters', 1],
+    ['mode_quiz10', 'quiz', 10],
+    ['mode_quiz50', 'quiz', 50],
+    ['mode_tempo1', 'tempo', 1],
+    ['mode_tempo10', 'tempo', 10],
+    ['mode_pairs1', 'pairs', 1],
+    ['mode_write20', 'write', 20],
+    ['mode_listen1', 'listen', 1],
+    ['mode_lesson1', 'lesson', 1],
+    ['mode_fib1', 'fib', 1],
+    ['mode_story1', 'story', 1],
+    ['mode_daily1', 'daily', 1],
+    ['mode_spelling1', 'spelling', 1],
+    ['mode_context1', 'context', 1],
+    ['mode_scramble1', 'scramble', 1],
+    ['mode_letters1', 'letters', 1],
   ];
 
   it.each(modeCases)('%s: fails below %i, passes at %i', (id, modeKey, threshold) => {

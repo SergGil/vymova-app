@@ -7,7 +7,8 @@ import type { WordEntry } from '../../src/types.js';
 
 // Ukrainian pluralization (mirrors _pluralUa in quiz.ts)
 function _pluralUa(n: number, one: string, few: string, many: string): string {
-  const mod10 = n % 10, mod100 = n % 100;
+  const mod10 = n % 10,
+    mod100 = n % 100;
   if (mod10 === 1 && mod100 !== 11) return one;
   if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return few;
   return many;
@@ -37,7 +38,7 @@ function getWrongOptions(
 
 // Score percentage helper (mirrors quiz showFinal logic)
 function scorePct(correct: number, total: number): number {
-  return Math.round(correct / total * 100);
+  return Math.round((correct / total) * 100);
 }
 
 // ── _pluralUa() ────────────────────────────────────────────────
@@ -90,12 +91,12 @@ describe('_pluralUa() — Ukrainian pluralization', () => {
 
 // ── getWrongOptions() ─────────────────────────────────────────
 const POOL: WordEntry[] = [
-  ['run',    'бігти',    'He runs.', 'Він бігає.', '/rʌn/'],
-  ['swim',   'плавати',  'She swims.','Вона плаває.','/swɪm/'],
-  ['jump',   'стрибати', 'Jump!',    'Стрибай!',  '/dʒʌmp/'],
-  ['walk',   'ходити',   'Let\'s walk.','Ходімо.','/wɔːk/'],
-  ['eat',    'їсти',     'I eat.',   'Я їм.',     '/iːt/'],
-  ['drink',  'пити',     'Drink up.','Пий.',       '/drɪŋk/'],
+  ['run', 'бігти', 'He runs.', 'Він бігає.', '/rʌn/'],
+  ['swim', 'плавати', 'She swims.', 'Вона плаває.', '/swɪm/'],
+  ['jump', 'стрибати', 'Jump!', 'Стрибай!', '/dʒʌmp/'],
+  ['walk', 'ходити', "Let's walk.", 'Ходімо.', '/wɔːk/'],
+  ['eat', 'їсти', 'I eat.', 'Я їм.', '/iːt/'],
+  ['drink', 'пити', 'Drink up.', 'Пий.', '/drɪŋk/'],
 ];
 
 describe('getWrongOptions() — distractor generation', () => {
@@ -127,7 +128,7 @@ describe('getWrongOptions() — distractor generation', () => {
     const correct = POOL[0]; // 'run'
     const opts = getWrongOptions(correct, 'run', false, POOL);
     // Options should be English words (not Ukrainian translations)
-    opts.forEach(o => expect(o).not.toMatch(/[а-яіїєґ]/i));
+    opts.forEach((o) => expect(o).not.toMatch(/[а-яіїєґ]/i));
   });
 
   it('returns fewer options when pool is small', () => {
@@ -149,11 +150,11 @@ describe('getWrongOptions() — distractor generation', () => {
 // ── scorePct() ────────────────────────────────────────────────
 describe('scorePct() — quiz score percentage', () => {
   it('10/10 = 100%', () => expect(scorePct(10, 10)).toBe(100));
-  it('0/10 = 0%',   () => expect(scorePct(0, 10)).toBe(0));
-  it('5/10 = 50%',  () => expect(scorePct(5, 10)).toBe(50));
-  it('7/10 = 70%',  () => expect(scorePct(7, 10)).toBe(70));
-  it('1/3 = 33%',   () => expect(scorePct(1, 3)).toBe(33));
-  it('2/3 = 67%',   () => expect(scorePct(2, 3)).toBe(67));
+  it('0/10 = 0%', () => expect(scorePct(0, 10)).toBe(0));
+  it('5/10 = 50%', () => expect(scorePct(5, 10)).toBe(50));
+  it('7/10 = 70%', () => expect(scorePct(7, 10)).toBe(70));
+  it('1/3 = 33%', () => expect(scorePct(1, 3)).toBe(33));
+  it('2/3 = 67%', () => expect(scorePct(2, 3)).toBe(67));
   it('rounds to nearest integer', () => {
     expect(scorePct(1, 6)).toBe(17); // 16.666… → 17
     expect(scorePct(5, 6)).toBe(83); // 83.333… → 83

@@ -2,11 +2,24 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { getActivePage, dispatchClosePage } from '../../src/nav-store.tsx';
-import { SidebarInit, openPage, closePage, showImgClearConfirm } from '../../js/features/sidebar.tsx';
+import {
+  SidebarInit,
+  openPage,
+  closePage,
+  showImgClearConfirm,
+} from '../../js/features/sidebar.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const { refreshAchievementsPage, renderDuel, openGrammarContent, openIdiomsContent, renderVoices, updateNotifUI, refreshCloudSyncUI } = vi.hoisted(() => ({
+const {
+  refreshAchievementsPage,
+  renderDuel,
+  openGrammarContent,
+  openIdiomsContent,
+  renderVoices,
+  updateNotifUI,
+  refreshCloudSyncUI,
+} = vi.hoisted(() => ({
   refreshAchievementsPage: vi.fn(),
   renderDuel: vi.fn(),
   openGrammarContent: vi.fn(),
@@ -27,12 +40,16 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<SidebarInit />); });
+  act(() => {
+    root.render(<SidebarInit />);
+  });
   return { container, root };
 }
 
 async function wait(ms: number): Promise<void> {
-  await act(async () => { await new Promise(r => setTimeout(r, ms)); });
+  await act(async () => {
+    await new Promise((r) => setTimeout(r, ms));
+  });
 }
 
 describe('sidebar.tsx', () => {
@@ -89,7 +106,11 @@ describe('sidebar.tsx', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
     closePage();
   });
 
@@ -105,11 +126,17 @@ describe('sidebar.tsx', () => {
     const sidebar = document.getElementById('sidebar')!;
     const overlay = document.getElementById('sidebar-overlay')!;
 
-    act(() => { document.getElementById('hamburger')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('hamburger')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(sidebar.classList.contains('open')).toBe(true);
     expect(overlay.classList.contains('open')).toBe(true);
 
-    act(() => { overlay.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      overlay.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(sidebar.classList.contains('open')).toBe(false);
     expect(overlay.classList.contains('open')).toBe(false);
   });
@@ -118,9 +145,13 @@ describe('sidebar.tsx', () => {
     const { root } = mount();
     roots.push(root);
     let statsClicked = false;
-    document.getElementById('btn-stats')!.addEventListener('click', () => { statsClicked = true; });
+    document.getElementById('btn-stats')!.addEventListener('click', () => {
+      statsClicked = true;
+    });
 
-    act(() => { openPage('stats'); });
+    act(() => {
+      openPage('stats');
+    });
 
     expect(getActivePage()).toBe('stats');
     expect(document.getElementById('sb-stats')!.classList.contains('sb-active')).toBe(true);
@@ -133,7 +164,9 @@ describe('sidebar.tsx', () => {
   it('openPage("ach") opens the achievements overlay and refreshes the page', () => {
     const { root } = mount();
     roots.push(root);
-    act(() => { openPage('ach'); });
+    act(() => {
+      openPage('ach');
+    });
 
     expect(document.getElementById('ach-overlay')!.classList.contains('open')).toBe(true);
     expect(refreshAchievementsPage).toHaveBeenCalled();
@@ -142,7 +175,9 @@ describe('sidebar.tsx', () => {
   it('openPage("settings") opens settings and refreshes related UIs', () => {
     const { root } = mount();
     roots.push(root);
-    act(() => { openPage('settings'); });
+    act(() => {
+      openPage('settings');
+    });
 
     expect(document.getElementById('settings-overlay')!.classList.contains('open')).toBe(true);
     expect(renderVoices).toHaveBeenCalled();
@@ -154,15 +189,21 @@ describe('sidebar.tsx', () => {
     const { root } = mount();
     roots.push(root);
 
-    act(() => { openPage('duel'); });
+    act(() => {
+      openPage('duel');
+    });
     expect(document.getElementById('duel-overlay')!.classList.contains('open')).toBe(true);
     expect(renderDuel).toHaveBeenCalled();
 
-    act(() => { openPage('grammar'); });
+    act(() => {
+      openPage('grammar');
+    });
     expect(document.getElementById('grammar-overlay')!.classList.contains('open')).toBe(true);
     expect(openGrammarContent).toHaveBeenCalled();
 
-    act(() => { openPage('idioms'); });
+    act(() => {
+      openPage('idioms');
+    });
     expect(document.getElementById('idioms-overlay')!.classList.contains('open')).toBe(true);
     expect(openIdiomsContent).toHaveBeenCalled();
   });
@@ -170,10 +211,14 @@ describe('sidebar.tsx', () => {
   it('closePage clears active page state and closes overlays', () => {
     const { root } = mount();
     roots.push(root);
-    act(() => { openPage('ach'); });
+    act(() => {
+      openPage('ach');
+    });
     expect(getActivePage()).toBe('ach');
 
-    act(() => { closePage(); });
+    act(() => {
+      closePage();
+    });
     expect(getActivePage()).toBeNull();
     expect(document.getElementById('ach-overlay')!.classList.contains('open')).toBe(false);
     expect(document.body.style.overflow).toBe('');
@@ -183,10 +228,18 @@ describe('sidebar.tsx', () => {
   it('sidebar nav buttons open the corresponding page', () => {
     const { root } = mount();
     roots.push(root);
-    act(() => { document.getElementById('sb-achievements')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('sb-achievements')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(getActivePage()).toBe('ach');
 
-    act(() => { document.getElementById('sb-cards')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('sb-cards')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(getActivePage()).toBeNull();
   });
 
@@ -198,7 +251,11 @@ describe('sidebar.tsx', () => {
     const overlay = document.getElementById('img-clear-overlay')!;
     expect(overlay.classList.contains('open')).toBe(true);
 
-    act(() => { document.getElementById('img-clear-confirm')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('img-clear-confirm')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(cb).toHaveBeenCalled();
     expect(overlay.classList.contains('open')).toBe(false);
   });
@@ -209,7 +266,11 @@ describe('sidebar.tsx', () => {
     const cb = vi.fn();
     showImgClearConfirm(cb);
 
-    act(() => { document.getElementById('img-clear-cancel')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('img-clear-cancel')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(cb).not.toHaveBeenCalled();
     expect(document.getElementById('img-clear-overlay')!.classList.contains('open')).toBe(false);
   });
@@ -223,7 +284,11 @@ describe('sidebar.tsx', () => {
       localStorage.setItem('ew_theme', 'dark');
     });
 
-    act(() => { document.getElementById('set-theme')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('set-theme')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(themeClicked).toBe(true);
 
     await wait(60);
@@ -242,10 +307,16 @@ describe('sidebar.tsx', () => {
 
   it('removes listeners on unmount', () => {
     const { root } = mount();
-    act(() => { root.unmount(); });
+    act(() => {
+      root.unmount();
+    });
 
     refreshAchievementsPage.mockClear();
-    act(() => { document.getElementById('sb-achievements')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('sb-achievements')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(refreshAchievementsPage).not.toHaveBeenCalled();
   });
 });

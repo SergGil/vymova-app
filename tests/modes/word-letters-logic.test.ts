@@ -7,10 +7,13 @@ const ROUNDS = 5;
 
 // ── Re-declared pure helpers from js/modes/word-letters.tsx ──
 const DICT: string[] = (W as unknown as WordEntry[])
-  .filter(w => /^[a-z]+$/i.test(w[0]) && w[0].length >= 3 && w[0].length <= 9)
-  .map(w => w[0].toLowerCase());
+  .filter((w) => /^[a-z]+$/i.test(w[0]) && w[0].length >= 3 && w[0].length <= 9)
+  .map((w) => w[0].toLowerCase());
 
-interface RoundData { base: string; possible: string[]; }
+interface RoundData {
+  base: string;
+  possible: string[];
+}
 
 function letterCounts(word: string): Record<string, number> {
   const c: Record<string, number> = {};
@@ -28,12 +31,12 @@ function canForm(word: string, base: Record<string, number>): boolean {
 }
 
 function pickBase(exclude: Set<string>): RoundData {
-  const candidates = _shuf(DICT.filter(w => w.length >= 6 && w.length <= 8 && !exclude.has(w)));
+  const candidates = _shuf(DICT.filter((w) => w.length >= 6 && w.length <= 8 && !exclude.has(w)));
   let best: RoundData | null = null;
   for (let i = 0; i < Math.min(candidates.length, 60); i++) {
-    const base   = candidates[i];
+    const base = candidates[i];
     const counts = letterCounts(base);
-    const possible = DICT.filter(w => w !== base && w.length < base.length && canForm(w, counts));
+    const possible = DICT.filter((w) => w !== base && w.length < base.length && canForm(w, counts));
     if (possible.length >= 5) return { base, possible };
     if (!best || possible.length > best.possible.length) best = { base, possible };
   }
@@ -58,7 +61,7 @@ function roundDuration(r: RoundData): number {
 describe('word-letters-logic', () => {
   describe('DICT', () => {
     it('only contains lowercase alphabetic words of length 3-9', () => {
-      DICT.forEach(w => {
+      DICT.forEach((w) => {
         expect(w).toMatch(/^[a-z]+$/);
         expect(w.length).toBeGreaterThanOrEqual(3);
         expect(w.length).toBeLessThanOrEqual(9);
@@ -104,7 +107,7 @@ describe('word-letters-logic', () => {
     it('every possible word can be formed from the base letters and is shorter', () => {
       const r = pickBase(new Set());
       const counts = letterCounts(r.base);
-      r.possible.forEach(w => {
+      r.possible.forEach((w) => {
         expect(canForm(w, counts)).toBe(true);
         expect(w.length).toBeLessThan(r.base.length);
         expect(w).not.toBe(r.base);
@@ -122,7 +125,7 @@ describe('word-letters-logic', () => {
     it('produces ROUNDS rounds with distinct base words', () => {
       const rounds = build();
       expect(rounds.length).toBe(ROUNDS);
-      const bases = rounds.map(r => r.base);
+      const bases = rounds.map((r) => r.base);
       expect(new Set(bases).size).toBe(bases.length);
     });
   });

@@ -30,7 +30,10 @@ const initialQuestion: DuelQuestionState = {
   showNextBtn: false,
 };
 
-function duelQuestionReducer(state: DuelQuestionState, action: DuelQuestionAction): DuelQuestionState {
+function duelQuestionReducer(
+  state: DuelQuestionState,
+  action: DuelQuestionAction,
+): DuelQuestionState {
   switch (action.type) {
     case 'RESET_QUESTION':
       return { ...initialQuestion, ...action.patch };
@@ -43,7 +46,11 @@ function duelQuestionReducer(state: DuelQuestionState, action: DuelQuestionActio
     case 'SET_HINT_NOTE':
       return { ...state, hintNote: action.hintNote };
     case 'SET_WRITE_INPUT':
-      return { ...state, writeInputValue: action.value, inputBorderColor: action.borderColor ?? state.inputBorderColor };
+      return {
+        ...state,
+        writeInputValue: action.value,
+        inputBorderColor: action.borderColor ?? state.inputBorderColor,
+      };
     case 'SET_WAITING_FINISH':
       return { ...state, waitingFinish: action.waiting };
     case 'SET_SHOW_NEXT':
@@ -51,7 +58,10 @@ function duelQuestionReducer(state: DuelQuestionState, action: DuelQuestionActio
   }
 }
 
-const duelQuestionStore = createDomainStore<DuelQuestionState, DuelQuestionAction>(duelQuestionReducer, initialQuestion);
+const duelQuestionStore = createDomainStore<DuelQuestionState, DuelQuestionAction>(
+  duelQuestionReducer,
+  initialQuestion,
+);
 
 export const DuelQuestionProvider = duelQuestionStore.Provider;
 

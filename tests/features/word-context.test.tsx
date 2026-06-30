@@ -5,7 +5,13 @@ import { setCwState, setFlippedState } from '../../src/deck-store.ts';
 import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
-import { CollocationsSection, WordFamiliesChips, SynonymsChips, EtymologyNote, UsageNoteBox } from '../../js/features/word-context.tsx';
+import {
+  CollocationsSection,
+  WordFamiliesChips,
+  SynonymsChips,
+  EtymologyNote,
+  UsageNoteBox,
+} from '../../js/features/word-context.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -23,7 +29,9 @@ function mount(Component: () => JSX.Element | null): { container: HTMLElement; r
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<Component />); });
+  act(() => {
+    root.render(<Component />);
+  });
   return { container, root };
 }
 
@@ -78,27 +86,35 @@ describe('word-context.tsx', () => {
       const { container } = mount(WordFamiliesChips);
       const chips = container.querySelectorAll('.family-chip');
       expect(chips.length).toBeGreaterThan(0);
-      const words = Array.from(chips).map(c => c.querySelector('.sc-word')!.textContent);
+      const words = Array.from(chips).map((c) => c.querySelector('.sc-word')!.textContent);
       expect(words).toContain('sustainable');
-      const sustainableChip = Array.from(chips).find(c => c.querySelector('.sc-word')!.textContent === 'sustainable')!;
-      expect(sustainableChip.querySelector('.sc-transl')!.textContent).toBe('сталий, збалансований');
+      const sustainableChip = Array.from(chips).find(
+        (c) => c.querySelector('.sc-word')!.textContent === 'sustainable',
+      )!;
+      expect(sustainableChip.querySelector('.sc-transl')!.textContent).toBe(
+        'сталий, збалансований',
+      );
     });
 
     it('marks a chip as known when its word is in state.known', () => {
       setCwState(sustainEntry);
       setKnownWords('en', new Set(['sustainable']));
       const { container } = mount(WordFamiliesChips);
-      const chip = Array.from(container.querySelectorAll('.family-chip'))
-        .find(c => c.querySelector('.sc-word')!.textContent === 'sustainable')!;
+      const chip = Array.from(container.querySelectorAll('.family-chip')).find(
+        (c) => c.querySelector('.sc-word')!.textContent === 'sustainable',
+      )!;
       expect(chip.className).toContain('known-chip');
     });
 
     it('opens the word detail when a chip is clicked', () => {
       setCwState(sustainEntry);
       const { container } = mount(WordFamiliesChips);
-      const chip = Array.from(container.querySelectorAll('.family-chip'))
-        .find(c => c.querySelector('.sc-word')!.textContent === 'sustainable')! as HTMLElement;
-      act(() => { chip.click(); });
+      const chip = Array.from(container.querySelectorAll('.family-chip')).find(
+        (c) => c.querySelector('.sc-word')!.textContent === 'sustainable',
+      )! as HTMLElement;
+      act(() => {
+        chip.click();
+      });
       expect(openWordDetail).toHaveBeenCalled();
       const arg = openWordDetail.mock.calls[0][0] as WordEntry;
       expect(arg[0]).toBe('sustainable');
@@ -123,7 +139,7 @@ describe('word-context.tsx', () => {
       setCwState(gladEntry);
       const { container } = mount(SynonymsChips);
       const chips = container.querySelectorAll('.syn-chip');
-      const words = Array.from(chips).map(c => c.querySelector('.sc-word')!.textContent);
+      const words = Array.from(chips).map((c) => c.querySelector('.sc-word')!.textContent);
       expect(words).toContain('happy');
       expect(words).not.toContain('glad');
       expect(words).toContain('joyful');
@@ -132,17 +148,21 @@ describe('word-context.tsx', () => {
     it('shows the nuance note instead of the translation for a synonym entry', () => {
       setCwState(happyEntry);
       const { container } = mount(SynonymsChips);
-      const chip = Array.from(container.querySelectorAll('.syn-chip'))
-        .find(c => c.querySelector('.sc-word')!.textContent === 'joyful')!;
+      const chip = Array.from(container.querySelectorAll('.syn-chip')).find(
+        (c) => c.querySelector('.sc-word')!.textContent === 'joyful',
+      )!;
       expect(chip.querySelector('.sc-transl')!.textContent).toBe('сильніша радість');
     });
 
     it('opens the word detail when a chip is clicked', () => {
       setCwState(happyEntry);
       const { container } = mount(SynonymsChips);
-      const chip = Array.from(container.querySelectorAll('.syn-chip'))
-        .find(c => c.querySelector('.sc-word')!.textContent === 'glad')! as HTMLElement;
-      act(() => { chip.click(); });
+      const chip = Array.from(container.querySelectorAll('.syn-chip')).find(
+        (c) => c.querySelector('.sc-word')!.textContent === 'glad',
+      )! as HTMLElement;
+      act(() => {
+        chip.click();
+      });
       expect(openWordDetail).toHaveBeenCalled();
       const arg = openWordDetail.mock.calls[0][0] as WordEntry;
       expect(arg[0]).toBe('glad');

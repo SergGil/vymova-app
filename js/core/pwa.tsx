@@ -15,11 +15,14 @@ window.addEventListener('beforeinstallprompt', (e: Event) => {
   e.preventDefault();
   _deferredPrompt = e;
 });
-window.addEventListener('appinstalled', () => { _deferredPrompt = null; });
+window.addEventListener('appinstalled', () => {
+  _deferredPrompt = null;
+});
 
 const _isIOS = (): boolean => /iphone|ipad|ipod/i.test(navigator.userAgent);
 const _isStandalone = (): boolean =>
-  (navigator as any).standalone === true || window.matchMedia?.('(display-mode: standalone)').matches;
+  (navigator as any).standalone === true ||
+  window.matchMedia?.('(display-mode: standalone)').matches;
 // Chrome only fires beforeinstallprompt to a page once per cooldown period —
 // once it's been dismissed/missed, it won't refire on demand for a while,
 // even though the browser's own address-bar/menu install icon stays
@@ -62,7 +65,7 @@ export function PwaBanner(): ReactElement {
     }
     window.addEventListener('beforeinstallprompt', onBeforeInstall);
 
-    const isIOS          = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
     const isInStandalone = (navigator as any).standalone === true;
     let tm: ReturnType<typeof setTimeout> | undefined;
     if (isIOS && !isInStandalone && !localStorage.getItem('ew_pwa_dismissed')) {
@@ -89,21 +92,33 @@ export function PwaBanner(): ReactElement {
         </div>
       )}
       {!iosHint && (
-        <button className="pwa-btn" id="pwa-install" onClick={() => {
-          setVisible(false);
-          if (deferredPrompt.current) {
-            deferredPrompt.current.prompt();
-            deferredPrompt.current.userChoice.then((r: any) => {
-              if (r.outcome === 'accepted') localStorage.setItem('ew_pwa_dismissed', '1');
-              deferredPrompt.current = null;
-            });
-          }
-        }}>{t('pwa.installBtn')}</button>
+        <button
+          className="pwa-btn"
+          id="pwa-install"
+          onClick={() => {
+            setVisible(false);
+            if (deferredPrompt.current) {
+              deferredPrompt.current.prompt();
+              deferredPrompt.current.userChoice.then((r: any) => {
+                if (r.outcome === 'accepted') localStorage.setItem('ew_pwa_dismissed', '1');
+                deferredPrompt.current = null;
+              });
+            }
+          }}
+        >
+          {t('pwa.installBtn')}
+        </button>
       )}
-      <button className="pwa-close" id="pwa-close" onClick={() => {
-        setVisible(false);
-        localStorage.setItem('ew_pwa_dismissed', '1');
-      }}>✕</button>
+      <button
+        className="pwa-close"
+        id="pwa-close"
+        onClick={() => {
+          setVisible(false);
+          localStorage.setItem('ew_pwa_dismissed', '1');
+        }}
+      >
+        ✕
+      </button>
     </div>
   );
 }

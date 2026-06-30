@@ -35,14 +35,25 @@ export function DuelChatPanel(): ReactElement {
           spellCheck={false}
           maxLength={80}
           value={text}
-          onChange={e => setText(e.target.value)}
-          onKeyDown={e => { if (e.key === 'Enter') send(); }}
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') send();
+          }}
         />
-        <button id="duel-chat-send" title={t('duel.send')} onClick={send}>➤</button>
+        <button id="duel-chat-send" title={t('duel.send')} onClick={send}>
+          ➤
+        </button>
       </div>
       <div className="duel-chat-react-row" id="dm-react-row">
-        {CHAT_REACTIONS.map(r => (
-          <button key={r.emoji} className="dm-react-btn" title={t(r.titleKey)} onClick={() => _sendChatMsg(r.emoji)}>{r.emoji}</button>
+        {CHAT_REACTIONS.map((r) => (
+          <button
+            key={r.emoji}
+            className="dm-react-btn"
+            title={t(r.titleKey)}
+            onClick={() => _sendChatMsg(r.emoji)}
+          >
+            {r.emoji}
+          </button>
         ))}
       </div>
     </>

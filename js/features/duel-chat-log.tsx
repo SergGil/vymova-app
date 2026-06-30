@@ -19,10 +19,14 @@ export function DuelChatLog(): ReactElement {
   return (
     <div ref={ref} id="duel-chat-log" className="duel-chat-log">
       {msgs.map((m, i) => (
-        <div key={i} className={'duel-chat-msg' + (m.isMe ? ' me' : '')}>{m.text}</div>
+        <div key={i} className={'duel-chat-msg' + (m.isMe ? ' me' : '')}>
+          {m.text}
+        </div>
       ))}
     </div>
   );
 }
 
-export function refreshDuelChatLog(): void { notifyStateChange(); }
+export function refreshDuelChatLog(): void {
+  notifyStateChange();
+}

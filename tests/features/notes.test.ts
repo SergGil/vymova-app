@@ -17,7 +17,9 @@ describe('notes.ts', () => {
     setNoteForWord('abandon', '  remember the root "bandon"  ');
     expect(getNoteForWord('abandon')).toBe('remember the root "bandon"');
     expect(hasNote('abandon')).toBe(true);
-    expect(JSON.parse(localStorage.getItem('ew_notes')!)).toEqual({ abandon: 'remember the root "bandon"' });
+    expect(JSON.parse(localStorage.getItem('ew_notes')!)).toEqual({
+      abandon: 'remember the root "bandon"',
+    });
   });
 
   it('deletes the note when set to an empty or whitespace-only string', async () => {

@@ -6,23 +6,29 @@ import { t } from './i18n.ts';
 const SEEN_KEY = 'ew_mode_hints_seen';
 
 const HINTS: Record<string, { key: string; panel: string }> = {
-  'quiz-overlay':    { key: 'hints.quiz',    panel: '.quiz-panel' },
-  'write-overlay':   { key: 'hints.write',   panel: '.quiz-panel' },
-  'listen-overlay':  { key: 'hints.listen',  panel: '.quiz-panel' },
-  'fib-overlay':     { key: 'hints.fib',     panel: '.quiz-panel' },
-  'tempo-overlay':   { key: 'hints.tempo',   panel: '#tempo-panel' },
-  'lesson-overlay':  { key: 'hints.lesson',  panel: '.quiz-panel' },
-  'dc-overlay':      { key: 'hints.daily',   panel: '.page-inner' },
+  'quiz-overlay': { key: 'hints.quiz', panel: '.quiz-panel' },
+  'write-overlay': { key: 'hints.write', panel: '.quiz-panel' },
+  'listen-overlay': { key: 'hints.listen', panel: '.quiz-panel' },
+  'fib-overlay': { key: 'hints.fib', panel: '.quiz-panel' },
+  'tempo-overlay': { key: 'hints.tempo', panel: '#tempo-panel' },
+  'lesson-overlay': { key: 'hints.lesson', panel: '.quiz-panel' },
+  'dc-overlay': { key: 'hints.daily', panel: '.page-inner' },
   'reading-overlay': { key: 'hints.reading', panel: '.page-inner' },
 };
 
 function _getSeen(): Set<string> {
-  try { return new Set(JSON.parse(localStorage.getItem(SEEN_KEY) ?? '[]') as string[]); }
-  catch (e) { return new Set(); }
+  try {
+    return new Set(JSON.parse(localStorage.getItem(SEEN_KEY) ?? '[]') as string[]);
+  } catch (e) {
+    return new Set();
+  }
 }
 function _markSeen(id: string): void {
-  const s = _getSeen(); s.add(id);
-  try { localStorage.setItem(SEEN_KEY, JSON.stringify([...s])); } catch (e) {}
+  const s = _getSeen();
+  s.add(id);
+  try {
+    localStorage.setItem(SEEN_KEY, JSON.stringify([...s]));
+  } catch (e) {}
 }
 
 function _showHint(panelEl: HTMLElement, text: string): void {
@@ -46,7 +52,11 @@ function _showHint(panelEl: HTMLElement, text: string): void {
   panelEl.insertBefore(banner, panelEl.firstChild);
   setTimeout(() => {
     banner.style.opacity = '0';
-    setTimeout(() => { try { banner.remove(); } catch (e) {} }, 450);
+    setTimeout(() => {
+      try {
+        banner.remove();
+      } catch (e) {}
+    }, 450);
   }, 4500);
 }
 
@@ -78,8 +88,10 @@ function _watch(overlayId: string): MutationObserver | null {
 
 export function ModeHints(): null {
   useEffect(() => {
-    const observers = Object.keys(HINTS).map(_watch).filter((o): o is MutationObserver => !!o);
-    return () => observers.forEach(o => o.disconnect());
+    const observers = Object.keys(HINTS)
+      .map(_watch)
+      .filter((o): o is MutationObserver => !!o);
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
   return null;
 }

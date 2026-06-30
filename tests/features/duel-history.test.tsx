@@ -5,7 +5,15 @@ import { DuelHistory } from '../../js/features/duel-history.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-interface HistEntry { date: string; mode: string; myScore: number; oppScore: number; oppName: string; won: boolean; category: string; }
+interface HistEntry {
+  date: string;
+  mode: string;
+  myScore: number;
+  oppScore: number;
+  oppName: string;
+  won: boolean;
+  category: string;
+}
 
 const { getHistory } = vi.hoisted(() => ({
   getHistory: vi.fn(() => [] as HistEntry[]),
@@ -16,12 +24,23 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<DuelHistory />); });
+  act(() => {
+    root.render(<DuelHistory />);
+  });
   return { container, root };
 }
 
 function makeEntry(over: Partial<HistEntry> = {}): HistEntry {
-  return { date: '2026-06-01', mode: 'quiz', myScore: 8, oppScore: 5, oppName: 'Bot', won: true, category: 'Animals', ...over };
+  return {
+    date: '2026-06-01',
+    mode: 'quiz',
+    myScore: 8,
+    oppScore: 5,
+    oppName: 'Bot',
+    won: true,
+    category: 'Animals',
+    ...over,
+  };
 }
 
 describe('duel-history.tsx DuelHistory', () => {
@@ -34,7 +53,11 @@ describe('duel-history.tsx DuelHistory', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('shows the empty-history message when there is no history', () => {
@@ -59,14 +82,18 @@ describe('duel-history.tsx DuelHistory', () => {
   });
 
   it('does not show pagination controls when there is only one page', () => {
-    getHistory.mockReturnValue(Array.from({ length: 5 }, (_, i) => makeEntry({ oppName: `Bot${i}` })));
+    getHistory.mockReturnValue(
+      Array.from({ length: 5 }, (_, i) => makeEntry({ oppName: `Bot${i}` })),
+    );
     const { container, root } = mount();
     roots.push(root);
     expect(container.querySelector('button')).toBeNull();
   });
 
   it('paginates when there are more than 10 entries', () => {
-    getHistory.mockReturnValue(Array.from({ length: 15 }, (_, i) => makeEntry({ oppName: `Bot${i}` })));
+    getHistory.mockReturnValue(
+      Array.from({ length: 15 }, (_, i) => makeEntry({ oppName: `Bot${i}` })),
+    );
     const { container, root } = mount();
     roots.push(root);
 
@@ -74,8 +101,12 @@ describe('duel-history.tsx DuelHistory', () => {
     expect(rows().length).toBe(10);
     expect(container.textContent).toContain('1 / 2');
 
-    const nextBtn = Array.from(container.querySelectorAll('button')).find(b => b.textContent === '›') as HTMLButtonElement;
-    act(() => { nextBtn.click(); });
+    const nextBtn = Array.from(container.querySelectorAll('button')).find(
+      (b) => b.textContent === '›',
+    ) as HTMLButtonElement;
+    act(() => {
+      nextBtn.click();
+    });
     expect(rows().length).toBe(5);
     expect(container.textContent).toContain('2 / 2');
     expect(nextBtn.disabled).toBe(true);

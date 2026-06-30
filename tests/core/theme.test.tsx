@@ -9,7 +9,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<ThemeToggle />); });
+  act(() => {
+    root.render(<ThemeToggle />);
+  });
   return { container, root };
 }
 
@@ -24,7 +26,11 @@ describe('theme.tsx ThemeToggle', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders the moon icon when no theme is saved', () => {
@@ -49,12 +55,16 @@ describe('theme.tsx ThemeToggle', () => {
     roots.push(root);
     const btn = container.querySelector('#btn-theme') as HTMLButtonElement;
 
-    act(() => { btn.click(); });
+    act(() => {
+      btn.click();
+    });
     expect(btn.textContent).toBe('☀️');
     expect(document.body.classList.contains('dark')).toBe(true);
     expect(localStorage.getItem('ew_theme')).toBe('dark');
 
-    act(() => { btn.click(); });
+    act(() => {
+      btn.click();
+    });
     expect(btn.textContent).toBe('🌙');
     expect(document.body.classList.contains('dark')).toBe(false);
     expect(localStorage.getItem('ew_theme')).toBe('light');

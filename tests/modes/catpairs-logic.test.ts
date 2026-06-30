@@ -2,9 +2,16 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { t } from '../../js/features/i18n.ts';
 
 // ── Re-declared pure helpers from js/modes/catpairs.tsx ──
-function fmt(ms: number): string { return (ms / 1000).toFixed(1) + t('common.secSuffix'); }
-function getBest(k: string): number { return parseFloat(localStorage.getItem('ew_cp_' + k) ?? '0'); }
-function setBest(k: string, secs: number): void { const b = getBest(k); if (!b || secs < b) localStorage.setItem('ew_cp_' + k, secs.toFixed(1)); }
+function fmt(ms: number): string {
+  return (ms / 1000).toFixed(1) + t('common.secSuffix');
+}
+function getBest(k: string): number {
+  return parseFloat(localStorage.getItem('ew_cp_' + k) ?? '0');
+}
+function setBest(k: string, secs: number): void {
+  const b = getBest(k);
+  if (!b || secs < b) localStorage.setItem('ew_cp_' + k, secs.toFixed(1));
+}
 
 const MILESTONE_THRESHOLDS = [100, 500, 1000, 2000];
 const STREAK_THRESHOLDS = [7, 30, 100];
@@ -59,7 +66,7 @@ describe('catpairs-logic', () => {
 
   describe('milestone thresholds (streak based)', () => {
     it.each(STREAK_THRESHOLDS)('triggers only when streak reaches %d', (threshold) => {
-      expect((threshold - 1) >= threshold).toBe(false);
+      expect(threshold - 1 >= threshold).toBe(false);
       expect(threshold >= threshold).toBe(true);
     });
   });

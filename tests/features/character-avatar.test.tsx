@@ -1,7 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import { createRoot, type Root } from 'react-dom/client';
 import { act } from 'react';
-import { CharacterAvatar, SKIN_TONES, HAIR_STYLES, HAIR_COLORS, EYE_COLORS, OUTFIT_STYLES, OUTFIT_COLORS } from '../../js/features/character-avatar.tsx';
+import {
+  CharacterAvatar,
+  SKIN_TONES,
+  HAIR_STYLES,
+  HAIR_COLORS,
+  EYE_COLORS,
+  OUTFIT_STYLES,
+  OUTFIT_COLORS,
+} from '../../js/features/character-avatar.tsx';
 import type { CharacterAppearance } from '../../src/types.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -10,13 +18,22 @@ function mount(appearance: CharacterAppearance): { container: HTMLElement; root:
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<CharacterAvatar appearance={appearance} />); });
+  act(() => {
+    root.render(<CharacterAvatar appearance={appearance} />);
+  });
   return { container, root };
 }
 
 describe('character-avatar.tsx CharacterAvatar', () => {
   it('renders an svg with a head circle for the default appearance', () => {
-    const { container } = mount({ skinTone: 0, hairStyle: 0, hairColor: 0, eyeColor: 0, outfitStyle: 0, outfitColor: 0 });
+    const { container } = mount({
+      skinTone: 0,
+      hairStyle: 0,
+      hairColor: 0,
+      eyeColor: 0,
+      outfitStyle: 0,
+      outfitColor: 0,
+    });
     expect(container.querySelector('svg')).not.toBeNull();
     // head + 2 ears + 2 eye whites + 2 pupils + 2 eye-shine highlights = at least 8 circles
     expect(container.querySelectorAll('circle').length).toBeGreaterThanOrEqual(8);
@@ -24,10 +41,24 @@ describe('character-avatar.tsx CharacterAvatar', () => {
 
   it('renders no extra hair shapes when hairStyle is "bald"', () => {
     const baldIdx = HAIR_STYLES.indexOf('bald');
-    const { container: withBald } = mount({ skinTone: 0, hairStyle: baldIdx, hairColor: 0, eyeColor: 0, outfitStyle: 0, outfitColor: 0 });
+    const { container: withBald } = mount({
+      skinTone: 0,
+      hairStyle: baldIdx,
+      hairColor: 0,
+      eyeColor: 0,
+      outfitStyle: 0,
+      outfitColor: 0,
+    });
     const baldCircleCount = withBald.querySelectorAll('circle').length;
 
-    const { container: withCurly } = mount({ skinTone: 0, hairStyle: HAIR_STYLES.indexOf('curly'), hairColor: 0, eyeColor: 0, outfitStyle: 0, outfitColor: 0 });
+    const { container: withCurly } = mount({
+      skinTone: 0,
+      hairStyle: HAIR_STYLES.indexOf('curly'),
+      hairColor: 0,
+      eyeColor: 0,
+      outfitStyle: 0,
+      outfitColor: 0,
+    });
     const curlyCircleCount = withCurly.querySelectorAll('circle').length;
 
     // Curly hair adds extra <circle> bumps on top of the head/eyes that bald doesn't have.
@@ -35,7 +66,14 @@ describe('character-avatar.tsx CharacterAvatar', () => {
   });
 
   it('wraps out-of-range indices instead of crashing', () => {
-    const { container } = mount({ skinTone: 99, hairStyle: -3, hairColor: 7, eyeColor: -1, outfitStyle: 12, outfitColor: -7 });
+    const { container } = mount({
+      skinTone: 99,
+      hairStyle: -3,
+      hairColor: 7,
+      eyeColor: -1,
+      outfitStyle: 12,
+      outfitColor: -7,
+    });
     expect(container.querySelector('svg')).not.toBeNull();
   });
 
@@ -49,8 +87,22 @@ describe('character-avatar.tsx CharacterAvatar', () => {
   });
 
   it('gives each rendered instance unique gradient ids (no collisions when many avatars render at once)', () => {
-    const { container: a } = mount({ skinTone: 0, hairStyle: 0, hairColor: 0, eyeColor: 0, outfitStyle: 0, outfitColor: 0 });
-    const { container: b } = mount({ skinTone: 1, hairStyle: 0, hairColor: 0, eyeColor: 0, outfitStyle: 0, outfitColor: 0 });
+    const { container: a } = mount({
+      skinTone: 0,
+      hairStyle: 0,
+      hairColor: 0,
+      eyeColor: 0,
+      outfitStyle: 0,
+      outfitColor: 0,
+    });
+    const { container: b } = mount({
+      skinTone: 1,
+      hairStyle: 0,
+      hairColor: 0,
+      eyeColor: 0,
+      outfitStyle: 0,
+      outfitColor: 0,
+    });
     const idA = a.querySelector('radialGradient')!.id;
     const idB = b.querySelector('radialGradient')!.id;
     expect(idA).not.toBe(idB);

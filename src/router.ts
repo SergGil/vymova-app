@@ -7,7 +7,9 @@ type NavFn = (to: string, opts?: { replace?: boolean }) => void;
 // Fallback used only if routerNavigate() is called before React mounts and
 // NavigateBridge installs the real react-router navigate() — matches
 // HashRouter's URL shape (#/path) so it stays consistent with in-app nav.
-let _nav: NavFn = (to) => { window.location.hash = to; };
+let _nav: NavFn = (to) => {
+  window.location.hash = to;
+};
 
 export function setRouterNavigate(fn: NavFn): void {
   _nav = fn;
@@ -19,22 +21,22 @@ export function routerNavigate(to: string, replace = false): void {
 
 // Page id (used in nav-store's activePage) → URL path
 export const PAGE_TO_ROUTE: Record<string, string> = {
-  stats:            '/stats',
-  ach:              '/achievements',
-  modes:            '/modes',
-  settings:         '/settings',
-  duel:             '/duel',
-  grammar:          '/grammar',
-  idioms:           '/idioms',
-  'ai-tutor':       '/ai-tutor',
+  stats: '/stats',
+  ach: '/achievements',
+  modes: '/modes',
+  settings: '/settings',
+  duel: '/duel',
+  grammar: '/grammar',
+  idioms: '/idioms',
+  'ai-tutor': '/ai-tutor',
   'voice-roleplay': '/voice-roleplay',
   'youtube-player': '/youtube',
-  'video-player':   '/video-player',
-  'learning-path':  '/learning-path',
-  profile:          '/profile',
+  'video-player': '/video-player',
+  'learning-path': '/learning-path',
+  profile: '/profile',
 };
 
 // URL path → page id
 export const ROUTE_TO_PAGE: Record<string, string> = Object.fromEntries(
-  Object.entries(PAGE_TO_ROUTE).map(([k, v]) => [v, k])
+  Object.entries(PAGE_TO_ROUTE).map(([k, v]) => [v, k]),
 );

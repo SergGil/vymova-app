@@ -11,13 +11,20 @@ const SIZE = 10;
 function isCorrect(inp: string, raw: string): boolean {
   const a = inp.trim().toLowerCase();
   if (!a) return false;
-  const variants = raw.split(/[;,\/]/).map(s => s.trim().toLowerCase()).filter(Boolean);
-  return variants.some(v => a === v || (v.length > 3 && lev(a, v) <= 1));
+  const variants = raw
+    .split(/[;,\/]/)
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+  return variants.some((v) => a === v || (v.length > 3 && lev(a, v) <= 1));
 }
 
 function build(src?: WordEntry[] | null): WordEntry[] {
   const pool = _shuf(
-    (src?.length ? src : (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice())) as unknown as WordEntry[]
+    (src?.length
+      ? src
+      : getDeckSnapshot().length
+        ? getDeckSnapshot().slice()
+        : W.slice()) as unknown as WordEntry[],
   );
   return pool.slice(0, Math.min(SIZE, pool.length));
 }
@@ -67,7 +74,7 @@ describe('write-logic', () => {
       ];
       const deck = build(src);
       expect(deck.length).toBe(2);
-      deck.forEach(w => expect(src.some(s => s[0] === w[0])).toBe(true));
+      deck.forEach((w) => expect(src.some((s) => s[0] === w[0])).toBe(true));
     });
 
     it('falls back to getDeckSnapshot()/W when src is empty', () => {

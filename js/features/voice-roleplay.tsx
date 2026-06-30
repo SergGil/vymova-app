@@ -13,26 +13,106 @@ import { useStateVersion } from '../../src/store.ts';
 import { bindOverlayDismiss } from './overlay-utils.ts';
 
 export type ScenarioId =
-  | 'job-interview' | 'ordering-coffee' | 'restaurant' | 'hotel-checkin' | 'airport-security'
-  | 'doctor-appointment' | 'asking-directions' | 'shopping-clothes' | 'returning-item' | 'bank-account'
-  | 'renting-apartment' | 'performance-review' | 'small-talk-party' | 'taxi-ride' | 'car-rental'
-  | 'gym-membership' | 'hairdresser' | 'noise-complaint' | 'tech-support' | 'ordering-pizza'
-  | 'lost-luggage' | 'museum-tour' | 'ordering-takeout' | 'booking-flight' | 'negotiating-price'
-  | 'emergency-call' | 'parent-teacher' | 'first-date' | 'customer-complaint' | 'networking-event'
-  | 'lost-passport' | 'train-station' | 'bus-information' | 'hostel-checkin' | 'car-breakdown'
-  | 'parking-ticket' | 'lost-and-found' | 'customs-declaration' | 'car-accident' | 'weather-smalltalk'
-  | 'job-offer-negotiation' | 'coworker-conflict' | 'client-meeting' | 'business-trip-planning' | 'resignation'
-  | 'asking-for-raise' | 'onboarding-new-job' | 'conference-networking' | 'team-standup' | 'freelance-pitch'
-  | 'ordering-fastfood' | 'wine-tasting' | 'grocery-shopping' | 'food-allergy' | 'cooking-class'
-  | 'farmers-market' | 'birthday-party' | 'baking-recipe' | 'food-delivery-issue' | 'dinner-party-host'
-  | 'dentist-visit' | 'pharmacy-visit' | 'vet-appointment' | 'fitness-trainer' | 'mental-health-checkin'
-  | 'eye-exam' | 'yoga-class' | 'hospital-checkin' | 'nutrition-consult' | 'physical-therapy'
-  | 'real-estate-viewing' | 'utility-setup' | 'moving-day' | 'neighbor-introduction' | 'home-repair'
-  | 'internet-installation' | 'insurance-claim' | 'furniture-shopping' | 'pet-adoption' | 'garden-center'
-  | 'wedding-planning' | 'blind-date' | 'meeting-in-laws' | 'breakup-conversation' | 'catching-up-friend'
-  | 'roommate-agreement' | 'family-reunion' | 'apologizing-friend' | 'giving-advice' | 'volunteer-orientation'
-  | 'university-application' | 'classroom-discussion' | 'library-help-desk' | 'study-group' | 'exam-stress'
-  | 'police-report' | 'dmv-appointment' | 'voting-registration' | 'jury-duty' | 'tax-office-visit';
+  | 'job-interview'
+  | 'ordering-coffee'
+  | 'restaurant'
+  | 'hotel-checkin'
+  | 'airport-security'
+  | 'doctor-appointment'
+  | 'asking-directions'
+  | 'shopping-clothes'
+  | 'returning-item'
+  | 'bank-account'
+  | 'renting-apartment'
+  | 'performance-review'
+  | 'small-talk-party'
+  | 'taxi-ride'
+  | 'car-rental'
+  | 'gym-membership'
+  | 'hairdresser'
+  | 'noise-complaint'
+  | 'tech-support'
+  | 'ordering-pizza'
+  | 'lost-luggage'
+  | 'museum-tour'
+  | 'ordering-takeout'
+  | 'booking-flight'
+  | 'negotiating-price'
+  | 'emergency-call'
+  | 'parent-teacher'
+  | 'first-date'
+  | 'customer-complaint'
+  | 'networking-event'
+  | 'lost-passport'
+  | 'train-station'
+  | 'bus-information'
+  | 'hostel-checkin'
+  | 'car-breakdown'
+  | 'parking-ticket'
+  | 'lost-and-found'
+  | 'customs-declaration'
+  | 'car-accident'
+  | 'weather-smalltalk'
+  | 'job-offer-negotiation'
+  | 'coworker-conflict'
+  | 'client-meeting'
+  | 'business-trip-planning'
+  | 'resignation'
+  | 'asking-for-raise'
+  | 'onboarding-new-job'
+  | 'conference-networking'
+  | 'team-standup'
+  | 'freelance-pitch'
+  | 'ordering-fastfood'
+  | 'wine-tasting'
+  | 'grocery-shopping'
+  | 'food-allergy'
+  | 'cooking-class'
+  | 'farmers-market'
+  | 'birthday-party'
+  | 'baking-recipe'
+  | 'food-delivery-issue'
+  | 'dinner-party-host'
+  | 'dentist-visit'
+  | 'pharmacy-visit'
+  | 'vet-appointment'
+  | 'fitness-trainer'
+  | 'mental-health-checkin'
+  | 'eye-exam'
+  | 'yoga-class'
+  | 'hospital-checkin'
+  | 'nutrition-consult'
+  | 'physical-therapy'
+  | 'real-estate-viewing'
+  | 'utility-setup'
+  | 'moving-day'
+  | 'neighbor-introduction'
+  | 'home-repair'
+  | 'internet-installation'
+  | 'insurance-claim'
+  | 'furniture-shopping'
+  | 'pet-adoption'
+  | 'garden-center'
+  | 'wedding-planning'
+  | 'blind-date'
+  | 'meeting-in-laws'
+  | 'breakup-conversation'
+  | 'catching-up-friend'
+  | 'roommate-agreement'
+  | 'family-reunion'
+  | 'apologizing-friend'
+  | 'giving-advice'
+  | 'volunteer-orientation'
+  | 'university-application'
+  | 'classroom-discussion'
+  | 'library-help-desk'
+  | 'study-group'
+  | 'exam-stress'
+  | 'police-report'
+  | 'dmv-appointment'
+  | 'voting-registration'
+  | 'jury-duty'
+  | 'tax-office-visit';
 
 export const SCENARIOS: { id: ScenarioId; emoji: string; labelKey: string }[] = [
   { id: 'job-interview', emoji: '💼', labelKey: 'roleplay.scenarioInterview' },
@@ -138,11 +218,28 @@ export const SCENARIOS: { id: ScenarioId; emoji: string; labelKey: string }[] = 
 ];
 
 const SPEECH_LANG: Record<string, string> = {
-  ua: 'uk-UA', en: 'en-US', es: 'es-ES', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT', de: 'de-DE',
-  he: 'he-IL', ar: 'ar-SA', pl: 'pl-PL', zh: 'zh-CN', el: 'el-GR', ja: 'ja-JP', tr: 'tr-TR', nl: 'nl-NL',
+  ua: 'uk-UA',
+  en: 'en-US',
+  es: 'es-ES',
+  fr: 'fr-FR',
+  it: 'it-IT',
+  pt: 'pt-PT',
+  de: 'de-DE',
+  he: 'he-IL',
+  ar: 'ar-SA',
+  pl: 'pl-PL',
+  zh: 'zh-CN',
+  el: 'el-GR',
+  ja: 'ja-JP',
+  tr: 'tr-TR',
+  nl: 'nl-NL',
 };
 
-export interface RoleplayTurn { role: 'user' | 'assistant'; text: string; feedback?: string; }
+export interface RoleplayTurn {
+  role: 'user' | 'assistant';
+  text: string;
+  feedback?: string;
+}
 
 interface SpeechRecognitionLike extends EventTarget {
   lang: string;
@@ -156,7 +253,10 @@ interface SpeechRecognitionLike extends EventTarget {
 }
 
 function getSpeechRecognition(): (new () => SpeechRecognitionLike) | null {
-  const w = window as unknown as { SpeechRecognition?: new () => SpeechRecognitionLike; webkitSpeechRecognition?: new () => SpeechRecognitionLike };
+  const w = window as unknown as {
+    SpeechRecognition?: new () => SpeechRecognitionLike;
+    webkitSpeechRecognition?: new () => SpeechRecognitionLike;
+  };
   return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
 }
 
@@ -171,7 +271,10 @@ export function splitFeedback(raw: string): { reply: string; feedback: string | 
   return { reply: raw.slice(0, idx).trim(), feedback: raw.slice(idx + 'FEEDBACK:'.length).trim() };
 }
 
-export async function sendRoleplayMessage(scenario: ScenarioId, turns: RoleplayTurn[]): Promise<{ reply: string; feedback: string | null }> {
+export async function sendRoleplayMessage(
+  scenario: ScenarioId,
+  turns: RoleplayTurn[],
+): Promise<{ reply: string; feedback: string | null }> {
   const res = await fetch(`${AI_PROXY_URL}/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -179,11 +282,11 @@ export async function sendRoleplayMessage(scenario: ScenarioId, turns: RoleplayT
       mode: 'roleplay',
       scenario,
       lang: { know: getKnowLang(), learn: getLearnLang() },
-      messages: turns.map(m => ({ role: m.role, text: m.text })),
+      messages: turns.map((m) => ({ role: m.role, text: m.text })),
     }),
   });
   if (!res.ok) throw new Error(`AI proxy responded ${res.status}`);
-  const data = await res.json() as { text?: string };
+  const data = (await res.json()) as { text?: string };
   if (!data.text) throw new Error('AI proxy returned no text');
   return splitFeedback(data.text);
 }
@@ -203,7 +306,9 @@ export function VoiceRoleplayPage(): ReactElement | null {
   if (!target) return null;
   if (!AI_TUTOR_ENABLED) {
     return createPortal(
-      <div style={{ padding: '24px 16px', textAlign: 'center', color: 'var(--text3)' }}>{t('aiTutor.disabled')}</div>,
+      <div style={{ padding: '24px 16px', textAlign: 'center', color: 'var(--text3)' }}>
+        {t('aiTutor.disabled')}
+      </div>,
       target,
     );
   }
@@ -223,8 +328,10 @@ export function VoiceRoleplayPage(): ReactElement | null {
     setPending(true);
     try {
       const { reply, feedback } = await sendRoleplayMessage(scenario, next);
-      setTurns(t2 => {
-        const updated = t2.map((turn, i) => (i === t2.length - 1 ? { ...turn, feedback: feedback ?? undefined } : turn));
+      setTurns((t2) => {
+        const updated = t2.map((turn, i) =>
+          i === t2.length - 1 ? { ...turn, feedback: feedback ?? undefined } : turn,
+        );
         return [...updated, { role: 'assistant', text: reply }];
       });
       speakReply(reply);
@@ -284,8 +391,13 @@ export function VoiceRoleplayPage(): ReactElement | null {
       ) : (
         <>
           <div className="roleplay-header">
-            <span>{SCENARIOS.find(s => s.id === scenario)?.emoji} {t(SCENARIOS.find(s => s.id === scenario)!.labelKey as any)}</span>
-            <button className="roleplay-change-btn" onClick={() => setScenario(null)}>{t('roleplay.changeScenario')}</button>
+            <span>
+              {SCENARIOS.find((s) => s.id === scenario)?.emoji}{' '}
+              {t(SCENARIOS.find((s) => s.id === scenario)!.labelKey as any)}
+            </span>
+            <button className="roleplay-change-btn" onClick={() => setScenario(null)}>
+              {t('roleplay.changeScenario')}
+            </button>
           </div>
 
           <div className="ai-tutor-messages roleplay-messages">
@@ -296,7 +408,11 @@ export function VoiceRoleplayPage(): ReactElement | null {
                 {turn.feedback && <div className="roleplay-feedback">📝 {turn.feedback}</div>}
               </div>
             ))}
-            {pending && <div className="ai-tutor-msg ai-tutor-msg-assistant ai-tutor-typing">{t('aiTutor.typing')}</div>}
+            {pending && (
+              <div className="ai-tutor-msg ai-tutor-msg-assistant ai-tutor-typing">
+                {t('aiTutor.typing')}
+              </div>
+            )}
             {error && <div className="ai-tutor-error">{error}</div>}
           </div>
 
@@ -306,20 +422,31 @@ export function VoiceRoleplayPage(): ReactElement | null {
                 className={`roleplay-mic-btn${listening ? ' listening' : ''}`}
                 onClick={listening ? stopListening : startListening}
                 disabled={pending}
-              >{listening ? `⏹ ${t('roleplay.stop')}` : `🎤 ${t('roleplay.speak')}`}</button>
+              >
+                {listening ? `⏹ ${t('roleplay.stop')}` : `🎤 ${t('roleplay.speak')}`}
+              </button>
             ) : (
               <form
                 className="ai-tutor-form"
-                onSubmit={(e) => { e.preventDefault(); void send(textInput); }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  void send(textInput);
+                }}
               >
                 <input
                   className="ai-tutor-input"
                   value={textInput}
-                  onChange={e => setTextInput(e.target.value)}
+                  onChange={(e) => setTextInput(e.target.value)}
                   placeholder={t('roleplay.noMicPlaceholder')}
                   disabled={pending}
                 />
-                <button type="submit" className="ai-tutor-send" disabled={pending || !textInput.trim()}>{t('aiTutor.send')}</button>
+                <button
+                  type="submit"
+                  className="ai-tutor-send"
+                  disabled={pending || !textInput.trim()}
+                >
+                  {t('aiTutor.send')}
+                </button>
               </form>
             )}
           </div>

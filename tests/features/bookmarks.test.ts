@@ -8,7 +8,7 @@ describe('bookmarks.ts', () => {
     // _refreshRangeOptions() call) triggered by the previous test, so they
     // don't mutate #sel-range mid-test.
     await vi.dynamicImportSettled();
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
     localStorage.clear();
     document.body.innerHTML = '';
     vi.resetModules();
@@ -58,11 +58,11 @@ describe('bookmarks.ts', () => {
     await vi.dynamicImportSettled();
     // Let the .then() chains of those dynamic imports (e.g. i18n.ts's
     // deck-filter._refreshRangeOptions() call) finish running too.
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
     const sel = document.getElementById('sel-range') as HTMLSelectElement;
     const opt = sel.querySelector('option[value="bookmarks"]') as HTMLOptionElement;
     expect(opt).not.toBeNull();
-    const values = Array.from(sel.options).map(o => o.value);
+    const values = Array.from(sel.options).map((o) => o.value);
     expect(values.indexOf('bookmarks')).toBe(values.indexOf('srs') + 1);
   });
 
@@ -70,7 +70,7 @@ describe('bookmarks.ts', () => {
     document.body.innerHTML = `<select id="sel-range"><option value="all">All</option></select>`;
     await import('../../js/features/bookmarks.ts');
     const sel = document.getElementById('sel-range') as HTMLSelectElement;
-    const values = Array.from(sel.options).map(o => o.value);
+    const values = Array.from(sel.options).map((o) => o.value);
     // i18n.ts may asynchronously trigger deck-filter's _refreshRangeOptions(),
     // which appends its own numeric range options later — only assert on the
     // "all"/"bookmarks" pair that bookmarks.ts itself is responsible for.

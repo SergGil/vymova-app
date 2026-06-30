@@ -5,7 +5,7 @@
 
 // main.ts — Vite entry point. Loads all modules in order.
 
-export {};  // make this a module
+export {}; // make this a module
 
 // ── 8. App + modes + features ─────────────────────────────────
 await import('../js/app.ts');

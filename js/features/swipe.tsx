@@ -7,7 +7,8 @@ export function QuizSwipe(): null {
     const overlay = document.getElementById('quiz-overlay');
     if (!overlay) return;
 
-    let startX = 0, startTime = 0;
+    let startX = 0,
+      startTime = 0;
     function onTouchStart(e: TouchEvent): void {
       startX = e.touches[0].clientX;
       startTime = Date.now();

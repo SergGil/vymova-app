@@ -5,7 +5,7 @@ describe('searchCollocations()', () => {
   it('finds collocations containing the given word', () => {
     const results = searchCollocations('decision');
     expect(results.length).toBeGreaterThan(0);
-    expect(results.some(c => c.phrase === 'make a decision')).toBe(true);
+    expect(results.some((c) => c.phrase === 'make a decision')).toBe(true);
   });
 
   it('is case-insensitive', () => {
@@ -31,6 +31,6 @@ describe('searchCollocations()', () => {
 
   it('matches a word appearing anywhere in the phrase, not just first', () => {
     const results = searchCollocations('research');
-    expect(results.some(c => c.phrase.includes('research'))).toBe(true);
+    expect(results.some((c) => c.phrase.includes('research'))).toBe(true);
   });
 });

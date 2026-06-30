@@ -6,17 +6,19 @@ import { setFlipped } from './card-engine.ts';
 
 export function CardSwipe(): null {
   useEffect(() => {
-    const card    = document.getElementById('card');
+    const card = document.getElementById('card');
     const shRight = document.getElementById('sh-right');
-    const shLeft  = document.getElementById('sh-left');
-    const shUp    = document.getElementById('sh-up');
+    const shLeft = document.getElementById('sh-left');
+    const shUp = document.getElementById('sh-up');
     if (!card || !shRight || !shLeft || !shUp) return;
 
-    let startX = 0, startY = 0, startTime = 0;
+    let startX = 0,
+      startY = 0,
+      startTime = 0;
     let isDragging = false;
 
     const THRESHOLD = 60;
-    const MAX_TIME  = 400;
+    const MAX_TIME = 400;
 
     function onTouchStart(e: TouchEvent): void {
       const t = e.touches[0];
@@ -28,24 +30,24 @@ export function CardSwipe(): null {
 
     function onTouchMove(e: TouchEvent): void {
       if (!isDragging) return;
-      const t   = e.touches[0];
-      const dx  = t.clientX - startX;
-      const dy  = t.clientY - startY;
+      const t = e.touches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
       const absDx = Math.abs(dx);
       const absDy = Math.abs(dy);
 
       if (absDx > 20 && absDx > absDy) {
         shRight!.className = 'swipe-hint-right' + (dx > 0 ? ' show' : '');
-        shLeft!.className  = 'swipe-hint-left'  + (dx < 0 ? ' show' : '');
-        shUp!.className    = 'swipe-hint-up';
+        shLeft!.className = 'swipe-hint-left' + (dx < 0 ? ' show' : '');
+        shUp!.className = 'swipe-hint-up';
         card!.style.transition = 'none';
-        card!.style.transform  = 'translateX(' + (dx * 0.25) + 'px) rotate(' + (dx * 0.02) + 'deg)';
+        card!.style.transform = 'translateX(' + dx * 0.25 + 'px) rotate(' + dx * 0.02 + 'deg)';
       } else if (absDy > 20 && absDy > absDx && dy < 0) {
-        shUp!.className    = 'swipe-hint-up show';
+        shUp!.className = 'swipe-hint-up show';
         shRight!.className = 'swipe-hint-right';
-        shLeft!.className  = 'swipe-hint-left';
+        shLeft!.className = 'swipe-hint-left';
         card!.style.transition = 'none';
-        card!.style.transform  = 'translateY(' + (dy * 0.2) + 'px)';
+        card!.style.transform = 'translateY(' + dy * 0.2 + 'px)';
       }
     }
 
@@ -54,10 +56,10 @@ export function CardSwipe(): null {
       isDragging = false;
 
       shRight!.className = 'swipe-hint-right';
-      shLeft!.className  = 'swipe-hint-left';
-      shUp!.className    = 'swipe-hint-up';
+      shLeft!.className = 'swipe-hint-left';
+      shUp!.className = 'swipe-hint-up';
 
-      const t  = e.changedTouches[0];
+      const t = e.changedTouches[0];
       const dx = t.clientX - startX;
       const dy = t.clientY - startY;
       const dt = Date.now() - startTime;
@@ -65,20 +67,20 @@ export function CardSwipe(): null {
       const absDy = Math.abs(dy);
 
       card!.style.transition = '';
-      card!.style.transform  = '';
+      card!.style.transform = '';
 
       if (dt > MAX_TIME) return;
 
       if (absDx > THRESHOLD && absDx > absDy * 1.5) {
         if (dx > 0) {
           card!.classList.add('swipe-right');
-          setTimeout(function() {
+          setTimeout(function () {
             card!.classList.remove('swipe-right');
             document.getElementById('btn-know')!.click();
           }, 220);
         } else {
           card!.classList.add('swipe-left');
-          setTimeout(function() {
+          setTimeout(function () {
             card!.classList.remove('swipe-left');
             document.getElementById('btn-next')!.click();
           }, 220);
@@ -86,7 +88,7 @@ export function CardSwipe(): null {
       } else if (absDy > 40 && dy < 0 && absDy > absDx * 1.2) {
         if (!getFlippedSnapshot()) {
           card!.classList.add('swipe-up');
-          setTimeout(function() {
+          setTimeout(function () {
             card!.classList.remove('swipe-up');
             setFlipped(true);
           }, 200);

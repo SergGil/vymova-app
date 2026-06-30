@@ -8,14 +8,14 @@ interface NavState {
   activePage: string | null;
 }
 
-type NavAction =
-  | { type: 'OPEN_PAGE'; page: string }
-  | { type: 'CLOSE_PAGE' };
+type NavAction = { type: 'OPEN_PAGE'; page: string } | { type: 'CLOSE_PAGE' };
 
 function navReducer(state: NavState, action: NavAction): NavState {
   switch (action.type) {
-    case 'OPEN_PAGE': return { activePage: action.page };
-    case 'CLOSE_PAGE': return { activePage: null };
+    case 'OPEN_PAGE':
+      return { activePage: action.page };
+    case 'CLOSE_PAGE':
+      return { activePage: null };
   }
 }
 

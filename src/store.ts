@@ -11,12 +11,14 @@ let version = 0;
 
 export function notifyStateChange(): void {
   version++;
-  listeners.forEach(l => l());
+  listeners.forEach((l) => l());
 }
 
 function subscribe(listener: Listener): () => void {
   listeners.add(listener);
-  return () => { listeners.delete(listener); };
+  return () => {
+    listeners.delete(listener);
+  };
 }
 
 function getVersion(): number {

@@ -44,7 +44,10 @@ function knownWordsReducer(state: KnownWordsState, action: KnownWordsAction): Kn
   }
 }
 
-const knownWordsStore = createDomainStore<KnownWordsState, KnownWordsAction>(knownWordsReducer, emptyState());
+const knownWordsStore = createDomainStore<KnownWordsState, KnownWordsAction>(
+  knownWordsReducer,
+  emptyState(),
+);
 
 export const KnownWordsProvider = knownWordsStore.Provider;
 

@@ -12,11 +12,22 @@ function _getOrCreateBanner(): HTMLElement {
   const el = document.createElement('div');
   el.id = 'offline-banner';
   el.style.cssText = [
-    'position:fixed', 'top:0', 'left:0', 'right:0', 'z-index:99998',
-    'padding:8px 16px', 'text-align:center', 'font-size:.82rem',
-    'font-weight:600', 'transition:transform .3s ease, opacity .3s ease',
-    'transform:translateY(-100%)', 'opacity:0',
-    'display:flex', 'align-items:center', 'justify-content:center', 'gap:8px',
+    'position:fixed',
+    'top:0',
+    'left:0',
+    'right:0',
+    'z-index:99998',
+    'padding:8px 16px',
+    'text-align:center',
+    'font-size:.82rem',
+    'font-weight:600',
+    'transition:transform .3s ease, opacity .3s ease',
+    'transform:translateY(-100%)',
+    'opacity:0',
+    'display:flex',
+    'align-items:center',
+    'justify-content:center',
+    'gap:8px',
   ].join(';');
   document.body.appendChild(el);
   _banner = el;
@@ -24,7 +35,10 @@ function _getOrCreateBanner(): HTMLElement {
 }
 
 function _showOffline(): void {
-  if (_hideTimer) { clearTimeout(_hideTimer); _hideTimer = null; }
+  if (_hideTimer) {
+    clearTimeout(_hideTimer);
+    _hideTimer = null;
+  }
   const b = _getOrCreateBanner();
   b.style.background = '#c0392b';
   b.style.color = '#fff';
@@ -65,7 +79,8 @@ export function OfflineInit(): ReactElement | null {
         const isOnline = navigator.onLine;
         if (isOnline === _online) return;
         _online = isOnline;
-        if (isOnline) _showOnline(); else _showOffline();
+        if (isOnline) _showOnline();
+        else _showOffline();
       }, 600);
     };
     window.addEventListener('online', onChange);

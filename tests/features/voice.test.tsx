@@ -2,9 +2,18 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import {
-  VoiceInit, _renderVoices, speakFakeYou, speakEnAccent,
-  getSelectedUkVoice, getSelectedEsVoice, getSelectedFrVoice, getSelectedItVoice, getSelectedPtVoice, getSelectedDeVoice,
-  getSelectedHeVoice, getSelectedArVoice,
+  VoiceInit,
+  _renderVoices,
+  speakFakeYou,
+  speakEnAccent,
+  getSelectedUkVoice,
+  getSelectedEsVoice,
+  getSelectedFrVoice,
+  getSelectedItVoice,
+  getSelectedPtVoice,
+  getSelectedDeVoice,
+  getSelectedHeVoice,
+  getSelectedArVoice,
 } from '../../js/features/voice.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -24,7 +33,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<VoiceInit />); });
+  act(() => {
+    root.render(<VoiceInit />);
+  });
   return { container, root };
 }
 
@@ -36,7 +47,9 @@ class FakeUtterance {
   pitch = 1;
   onend: (() => void) | null = null;
   onerror: (() => void) | null = null;
-  constructor(text: string) { this.text = text; }
+  constructor(text: string) {
+    this.text = text;
+  }
 }
 
 function makeFakeSynth(voices: FakeVoice[]) {
@@ -66,7 +79,11 @@ describe('voice.tsx', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
     vi.unstubAllGlobals();
   });
 
@@ -112,12 +129,16 @@ describe('voice.tsx', () => {
     _renderVoices();
 
     const cards = document.querySelectorAll<HTMLButtonElement>('.voice-card');
-    act(() => { cards[1].click(); });
+    act(() => {
+      cards[1].click();
+    });
 
     expect(localStorage.getItem('ew_ws_voice')).toBe('Microsoft David');
     expect(synth.cancel).toHaveBeenCalled();
     expect(synth.speak).toHaveBeenCalled();
-    expect(document.querySelectorAll('.voice-card-active')[0].textContent).toContain('Microsoft David');
+    expect(document.querySelectorAll('.voice-card-active')[0].textContent).toContain(
+      'Microsoft David',
+    );
   });
 
   it('speakFakeYou returns false when there are no EN voices', () => {
@@ -139,7 +160,9 @@ describe('voice.tsx', () => {
     expect(utterance.text).toBe('Hello world');
     expect(btn.classList.contains('on')).toBe(true);
 
-    act(() => { utterance.onend?.(); });
+    act(() => {
+      utterance.onend?.();
+    });
     expect(btn.classList.contains('on')).toBe(false);
   });
 
@@ -150,7 +173,16 @@ describe('voice.tsx', () => {
   });
 
   it('getSelected*Voice falls back to the first matching voice when nothing saved', () => {
-    const voices = [makeVoice('Microsoft Ostap', 'uk-UA'), makeVoice('Microsoft Helena', 'es-ES'), makeVoice('Microsoft Henri', 'fr-FR'), makeVoice('Microsoft Elsa', 'it-IT'), makeVoice('Microsoft Raquel', 'pt-PT'), makeVoice('Microsoft Katja', 'de-DE'), makeVoice('Microsoft Asaf', 'he-IL'), makeVoice('Microsoft Hamed', 'ar-SA')];
+    const voices = [
+      makeVoice('Microsoft Ostap', 'uk-UA'),
+      makeVoice('Microsoft Helena', 'es-ES'),
+      makeVoice('Microsoft Henri', 'fr-FR'),
+      makeVoice('Microsoft Elsa', 'it-IT'),
+      makeVoice('Microsoft Raquel', 'pt-PT'),
+      makeVoice('Microsoft Katja', 'de-DE'),
+      makeVoice('Microsoft Asaf', 'he-IL'),
+      makeVoice('Microsoft Hamed', 'ar-SA'),
+    ];
     vi.stubGlobal('speechSynthesis', makeFakeSynth(voices));
 
     expect(getSelectedUkVoice()?.name).toBe('Microsoft Ostap');
@@ -174,7 +206,11 @@ describe('voice.tsx', () => {
   });
 
   it('renders Hebrew and Arabic voices when present', () => {
-    const voices = [makeVoice('Google US English', 'en-US'), makeVoice('Microsoft Asaf', 'he-IL'), makeVoice('Microsoft Hamed', 'ar-SA')];
+    const voices = [
+      makeVoice('Google US English', 'en-US'),
+      makeVoice('Microsoft Asaf', 'he-IL'),
+      makeVoice('Microsoft Hamed', 'ar-SA'),
+    ];
     vi.stubGlobal('speechSynthesis', makeFakeSynth(voices));
     _renderVoices();
 
@@ -204,14 +240,22 @@ describe('voice.tsx', () => {
     // re-render — that would collapse any <details> dropdown the user just
     // expanded. Only the overlay gaining the 'open' class re-renders.
     document.getElementById('fy-voices-list')!.innerHTML = '';
-    act(() => { document.getElementById('settings-overlay')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
-    expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(0);
+    act(() => {
+      document
+        .getElementById('settings-overlay')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+    expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(
+      0,
+    );
 
     await act(async () => {
       document.getElementById('settings-overlay')!.classList.add('open');
       await Promise.resolve();
     });
-    expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(1);
+    expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(
+      1,
+    );
   });
 
   it('reload button logs voices and forces a re-render', () => {
@@ -222,11 +266,17 @@ describe('voice.tsx', () => {
     roots.push(root);
 
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    act(() => { document.getElementById('voices-reload-btn')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('voices-reload-btn')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
     expect(fakeSynth.cancel).toHaveBeenCalled();
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Google US English'));
-    expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(1);
+    expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(
+      1,
+    );
     logSpy.mockRestore();
   });
 
@@ -268,7 +318,9 @@ describe('voice.tsx', () => {
     expect(btn.classList.contains('on')).toBe(true);
 
     const utterance = synth.speak.mock.calls[0][0] as FakeUtterance;
-    act(() => { utterance.onend?.(); });
+    act(() => {
+      utterance.onend?.();
+    });
     expect(btn.classList.contains('on')).toBe(false);
   });
 
@@ -277,7 +329,9 @@ describe('voice.tsx', () => {
     const fakeSynth = makeFakeSynth(voices);
     vi.stubGlobal('speechSynthesis', fakeSynth);
     const { root } = mount();
-    act(() => { root.unmount(); });
+    act(() => {
+      root.unmount();
+    });
 
     expect(fakeSynth.removeEventListener).toHaveBeenCalled();
   });

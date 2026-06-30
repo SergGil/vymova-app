@@ -12,7 +12,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<GameBarLevel />); });
+  act(() => {
+    root.render(<GameBarLevel />);
+  });
   return { container, root };
 }
 
@@ -39,7 +41,10 @@ describe('game-bar-level.tsx GameBarLevel', () => {
   });
 
   it('shows the max-reached message at the final level', () => {
-    setKnownWords('en', new Set(Array.from({ length: getMaxWordsForLearnLang() }, (_, i) => `w${i}`)));
+    setKnownWords(
+      'en',
+      new Set(Array.from({ length: getMaxWordsForLearnLang() }, (_, i) => `w${i}`)),
+    );
     const { container } = mount();
     expect(container.querySelector('.gb-level-num')!.textContent).toBe('10');
     const fill = container.querySelector('.gb-level-fill') as HTMLElement;

@@ -17,20 +17,11 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "useDefineForClassFields": true,
-    "allowJs": true,           // legacy .js files allowed (phases 1-2)
-    "checkJs": false,          // don't type-check .js files yet
+    "allowJs": true, // legacy .js files allowed (phases 1-2)
+    "checkJs": false, // don't type-check .js files yet
     "outDir": "./dist",
     "rootDir": "."
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "js/**/*.ts",
-    "js/**/*.tsx",
-    "data/**/*.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "js/**/*.ts", "js/**/*.tsx", "data/**/*.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }

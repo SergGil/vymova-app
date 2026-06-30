@@ -1,17 +1,29 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
-  getMistakes, recordMistake, clearMistake, getHardWords,
-  getModeAccuracy, recordModeAnswer,
+  getMistakes,
+  recordMistake,
+  clearMistake,
+  getHardWords,
+  getModeAccuracy,
+  recordModeAnswer,
 } from '../../js/features/game.ts';
 
 // ── localStorage mock ─────────────────────────────────────────
 const _store: Record<string, string> = {};
 const localStorageMock = {
-  getItem:    (k: string) => _store[k] ?? null,
-  setItem:    (k: string, v: string) => { _store[k] = v; },
-  removeItem: (k: string) => { delete _store[k]; },
-  clear:      () => { Object.keys(_store).forEach(k => delete _store[k]); },
-  get length(){ return Object.keys(_store).length; },
+  getItem: (k: string) => _store[k] ?? null,
+  setItem: (k: string, v: string) => {
+    _store[k] = v;
+  },
+  removeItem: (k: string) => {
+    delete _store[k];
+  },
+  clear: () => {
+    Object.keys(_store).forEach((k) => delete _store[k]);
+  },
+  get length() {
+    return Object.keys(_store).length;
+  },
   key: (i: number) => Object.keys(_store)[i] ?? null,
 };
 
@@ -19,7 +31,9 @@ beforeEach(() => {
   localStorageMock.clear();
   vi.stubGlobal('localStorage', localStorageMock);
 });
-afterEach(() => { vi.unstubAllGlobals(); });
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 // ── Mistakes ──────────────────────────────────────────────────
 describe('recordMistake / getMistakes', () => {

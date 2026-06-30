@@ -1,7 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import {
-  _letterCounts, _canForm, _shuffleLetters, _checkWriteAnswer,
-  _genCode, _fmtCode, _rng, _buildDeck, CHARS, ROOM_SIZE,
+  _letterCounts,
+  _canForm,
+  _shuffleLetters,
+  _checkWriteAnswer,
+  _genCode,
+  _fmtCode,
+  _rng,
+  _buildDeck,
+  CHARS,
+  ROOM_SIZE,
 } from '../../js/features/duel.ts';
 
 describe('_letterCounts()', () => {
@@ -66,7 +74,7 @@ describe('_genCode() / _fmtCode()', () => {
   it('generates a 6-character code from the allowed charset', () => {
     const code = _genCode();
     expect(code.length).toBe(6);
-    expect(code.split('').every(c => CHARS.includes(c))).toBe(true);
+    expect(code.split('').every((c) => CHARS.includes(c))).toBe(true);
   });
   it('formats a code as XXX-XXX', () => {
     expect(_fmtCode('ABC123')).toBe('ABC-123');
@@ -75,7 +83,8 @@ describe('_genCode() / _fmtCode()', () => {
 
 describe('_rng()', () => {
   it('is deterministic for a given seed', () => {
-    const a = _rng(42), b = _rng(42);
+    const a = _rng(42),
+      b = _rng(42);
     expect(a()).toBe(b());
     expect(a()).toBe(b());
   });
@@ -94,18 +103,18 @@ describe('_buildDeck()', () => {
     expect(_buildDeck(1, '', 'mixed').length).toBe(ROOM_SIZE);
   });
   it('is deterministic for the same seed', () => {
-    const a = _buildDeck(7, '', 'mixed').map(w => w[0]);
-    const b = _buildDeck(7, '', 'mixed').map(w => w[0]);
+    const a = _buildDeck(7, '', 'mixed').map((w) => w[0]);
+    const b = _buildDeck(7, '', 'mixed').map((w) => w[0]);
     expect(a).toEqual(b);
   });
   it('different seeds tend to produce different decks', () => {
-    const a = _buildDeck(1, '', 'mixed').map(w => w[0]);
-    const b = _buildDeck(2, '', 'mixed').map(w => w[0]);
+    const a = _buildDeck(1, '', 'mixed').map((w) => w[0]);
+    const b = _buildDeck(2, '', 'mixed').map((w) => w[0]);
     expect(a).not.toEqual(b);
   });
   it('anagram/letters mode restricts to plain a-z words of 4-9 letters', () => {
     const deck = _buildDeck(5, '', 'mixed', 'anagram');
-    deck.forEach(w => {
+    deck.forEach((w) => {
       expect(/^[a-z]+$/i.test(w[0])).toBe(true);
       expect(w[0].length).toBeGreaterThanOrEqual(4);
       expect(w[0].length).toBeLessThanOrEqual(9);

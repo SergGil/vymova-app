@@ -8,7 +8,9 @@ const SIZE = 10;
 
 // ── Re-declared pure helpers from js/modes/listening.tsx ──
 function build(): WordEntry[] {
-  const pool = _shuf((getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[]);
+  const pool = _shuf(
+    (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[],
+  );
   return pool.slice(0, SIZE);
 }
 
@@ -55,7 +57,7 @@ describe('listening-logic', () => {
     it('does not include the same word as both correct and wrong', () => {
       const word = (W as unknown as WordEntry[])[0];
       const options = buildOptions(word);
-      const occurrences = options.filter(o => o === word[1]).length;
+      const occurrences = options.filter((o) => o === word[1]).length;
       expect(occurrences).toBe(1);
     });
   });

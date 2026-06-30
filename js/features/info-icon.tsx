@@ -4,7 +4,15 @@
 // блочним сиблінгом поза flex-рядком із самою кнопкою.
 import type { ReactNode } from 'react';
 
-export function InfoIcon({ open, onToggle, label }: { open: boolean; onToggle: () => void; label: string }) {
+export function InfoIcon({
+  open,
+  onToggle,
+  label,
+}: {
+  open: boolean;
+  onToggle: () => void;
+  label: string;
+}) {
   return (
     <button
       type="button"
@@ -12,7 +20,10 @@ export function InfoIcon({ open, onToggle, label }: { open: boolean; onToggle: (
       aria-label={label}
       aria-expanded={open}
       title={label}
-      onClick={e => { e.stopPropagation(); onToggle(); }}
+      onClick={(e) => {
+        e.stopPropagation();
+        onToggle();
+      }}
     >
       ℹ️
     </button>
@@ -21,7 +32,7 @@ export function InfoIcon({ open, onToggle, label }: { open: boolean; onToggle: (
 
 export function InfoNote({ children }: { children: ReactNode }) {
   return (
-    <div className="info-note" onClick={e => e.stopPropagation()}>
+    <div className="info-note" onClick={(e) => e.stopPropagation()}>
       {children}
     </div>
   );

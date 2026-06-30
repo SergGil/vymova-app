@@ -2,9 +2,16 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { t } from '../../js/features/i18n.ts';
 
 // ── Re-declared pure helpers from js/modes/pairs.tsx ──
-function getBest(): number { return parseFloat(localStorage.getItem('ew_pairs_best') ?? '0'); }
-function setBest(secs: number): void { const b = getBest(); if (!b || secs < b) localStorage.setItem('ew_pairs_best', secs.toFixed(1)); }
-function fmt(ms: number): string { return (ms / 1000).toFixed(1) + t('common.secSuffix'); }
+function getBest(): number {
+  return parseFloat(localStorage.getItem('ew_pairs_best') ?? '0');
+}
+function setBest(secs: number): void {
+  const b = getBest();
+  if (!b || secs < b) localStorage.setItem('ew_pairs_best', secs.toFixed(1));
+}
+function fmt(ms: number): string {
+  return (ms / 1000).toFixed(1) + t('common.secSuffix');
+}
 
 describe('pairs-logic', () => {
   beforeEach(() => {

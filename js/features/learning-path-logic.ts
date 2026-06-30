@@ -4,23 +4,29 @@ import { getCefrLevel } from '../../data/cefr.ts';
 import type { CefrLevel } from '../../data/cefr.ts';
 import type { WordEntry } from '../../src/types.js';
 
-interface CefrStat { total: number; known: number; pct: number; }
+interface CefrStat {
+  total: number;
+  known: number;
+  pct: number;
+}
 type CefrStats = Record<CefrLevel, CefrStat>;
-export interface PaceSnapshot { date: string; count: number; } // date: 'YYYY-MM-DD'
+export interface PaceSnapshot {
+  date: string;
+  count: number;
+} // date: 'YYYY-MM-DD'
 
 const LEVELS: CefrLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 export function computeCefrStats(knownWords: Set<string>, words: WordEntry[]): CefrStats {
   const result = {} as CefrStats;
-  LEVELS.forEach(l => result[l] = { total: 0, known: 0, pct: 0 });
-  words.forEach(w => {
+  LEVELS.forEach((l) => (result[l] = { total: 0, known: 0, pct: 0 }));
+  words.forEach((w) => {
     const lvl = getCefrLevel(w[0]);
     result[lvl].total++;
     if (knownWords.has(w[0])) result[lvl].known++;
   });
-  LEVELS.forEach(l => {
-    result[l].pct = result[l].total > 0
-      ? Math.round(result[l].known / result[l].total * 100) : 0;
+  LEVELS.forEach((l) => {
+    result[l].pct = result[l].total > 0 ? Math.round((result[l].known / result[l].total) * 100) : 0;
   });
   return result;
 }
@@ -38,9 +44,7 @@ export function filterDailyWords(
   words: WordEntry[],
   limit = 20,
 ): WordEntry[] {
-  return words
-    .filter(w => getCefrLevel(w[0]) === level && !knownWords.has(w[0]))
-    .slice(0, limit);
+  return words.filter((w) => getCefrLevel(w[0]) === level && !knownWords.has(w[0])).slice(0, limit);
 }
 
 export function computePersonalPace(snapshots: PaceSnapshot[]): number | null {
@@ -56,7 +60,7 @@ export function computePersonalPace(snapshots: PaceSnapshot[]): number | null {
 }
 
 export function estimateDays(remaining: number, pace: number | null): number {
-  const effectivePace = (pace !== null && pace > 0) ? pace : 20;
+  const effectivePace = pace !== null && pace > 0 ? pace : 20;
   return Math.max(1, Math.ceil(remaining / effectivePace));
 }
 
@@ -66,7 +70,7 @@ export function updateCompletionDates(
   todayStr: string,
 ): Record<string, string> {
   const updated = { ...stored };
-  LEVELS.forEach(l => {
+  LEVELS.forEach((l) => {
     if (stats[l].pct >= 90 && !updated[l]) {
       updated[l] = todayStr;
     }

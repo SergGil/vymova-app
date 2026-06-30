@@ -16,7 +16,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<DuelChatLog />); });
+  act(() => {
+    root.render(<DuelChatLog />);
+  });
   return { container, root };
 }
 
@@ -31,7 +33,11 @@ describe('duel-chat-log.tsx DuelChatLog', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders an empty log when there is no chat history', () => {
@@ -42,7 +48,10 @@ describe('duel-chat-log.tsx DuelChatLog', () => {
   });
 
   it('renders chat messages and marks own messages with the "me" class', () => {
-    chatHistory = [{ text: 'Hello', isMe: true }, { text: 'Hi there', isMe: false }];
+    chatHistory = [
+      { text: 'Hello', isMe: true },
+      { text: 'Hi there', isMe: false },
+    ];
     const { container, root } = mount();
     roots.push(root);
 
@@ -60,7 +69,10 @@ describe('duel-chat-log.tsx DuelChatLog', () => {
     expect(container.querySelectorAll('.duel-chat-msg').length).toBe(0);
 
     chatHistory = [{ text: 'New message', isMe: true }];
-    act(() => { refreshDuelChatLog(); setDuelChat(chatHistory); });
+    act(() => {
+      refreshDuelChatLog();
+      setDuelChat(chatHistory);
+    });
 
     expect(container.querySelectorAll('.duel-chat-msg').length).toBe(1);
     expect(container.querySelector('.duel-chat-msg')!.textContent).toBe('New message');
@@ -74,7 +86,10 @@ describe('duel-chat-log.tsx DuelChatLog', () => {
     log.scrollTop = 0;
 
     chatHistory = [{ text: 'New message', isMe: true }];
-    act(() => { refreshDuelChatLog(); setDuelChat(chatHistory); });
+    act(() => {
+      refreshDuelChatLog();
+      setDuelChat(chatHistory);
+    });
 
     expect(log.scrollTop).toBe(500);
   });

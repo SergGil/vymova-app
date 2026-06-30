@@ -1,19 +1,41 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { _lzSave, _lzLoad, saveKnown, loadKnown, saveKnownEs, loadKnownEs, saveSRS, loadSRS } from '../../js/core/storage.ts';
+import {
+  _lzSave,
+  _lzLoad,
+  saveKnown,
+  loadKnown,
+  saveKnownEs,
+  loadKnownEs,
+  saveSRS,
+  loadSRS,
+} from '../../js/core/storage.ts';
 
 // ── localStorage mock ─────────────────────────────────────────
 const _store: Record<string, string> = {};
 const lsMock = {
-  getItem:    (k: string) => _store[k] ?? null,
-  setItem:    (k: string, v: string) => { _store[k] = v; },
-  removeItem: (k: string) => { delete _store[k]; },
-  clear:      () => { Object.keys(_store).forEach(k => delete _store[k]); },
-  get length(){ return Object.keys(_store).length; },
+  getItem: (k: string) => _store[k] ?? null,
+  setItem: (k: string, v: string) => {
+    _store[k] = v;
+  },
+  removeItem: (k: string) => {
+    delete _store[k];
+  },
+  clear: () => {
+    Object.keys(_store).forEach((k) => delete _store[k]);
+  },
+  get length() {
+    return Object.keys(_store).length;
+  },
   key: (i: number) => Object.keys(_store)[i] ?? null,
 };
 
-beforeEach(() => { lsMock.clear(); vi.stubGlobal('localStorage', lsMock); });
-afterEach(() => { vi.unstubAllGlobals(); });
+beforeEach(() => {
+  lsMock.clear();
+  vi.stubGlobal('localStorage', lsMock);
+});
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 // ── _lzSave / _lzLoad round-trip ─────────────────────────────
 describe('_lzSave() + _lzLoad() round-trip', () => {

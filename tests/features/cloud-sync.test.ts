@@ -4,16 +4,29 @@ import { saveToCloud, loadFromCloud } from '../../js/features/cloud-sync.tsx';
 // ── localStorage mock with all keys ──────────────────────────
 const _store: Record<string, string> = {};
 const lsMock = {
-  getItem:    (k: string) => _store[k] ?? null,
-  setItem:    (k: string, v: string) => { _store[k] = v; },
-  removeItem: (k: string) => { delete _store[k]; },
-  clear:      () => { Object.keys(_store).forEach(k => delete _store[k]); },
-  get length(){ return Object.keys(_store).length; },
+  getItem: (k: string) => _store[k] ?? null,
+  setItem: (k: string, v: string) => {
+    _store[k] = v;
+  },
+  removeItem: (k: string) => {
+    delete _store[k];
+  },
+  clear: () => {
+    Object.keys(_store).forEach((k) => delete _store[k]);
+  },
+  get length() {
+    return Object.keys(_store).length;
+  },
   key: (i: number) => Object.keys(_store)[i] ?? null,
 };
 
-beforeEach(() => { lsMock.clear(); vi.stubGlobal('localStorage', lsMock); });
-afterEach(() => { vi.unstubAllGlobals(); });
+beforeEach(() => {
+  lsMock.clear();
+  vi.stubGlobal('localStorage', lsMock);
+});
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 // ── _profileSnapKeys logic ────────────────────────────────────
 // Test the pattern _profileSnapKeys uses (iterated separately since function not exported)
@@ -48,25 +61,31 @@ describe('Profile snapshot key pattern', () => {
       if (k?.startsWith('ew_p_')) keys.push(k);
     }
     expect(keys.length).toBe(3);
-    expect(keys.filter(k => k.includes('profile1')).length).toBe(2);
-    expect(keys.filter(k => k.includes('profile2')).length).toBe(1);
+    expect(keys.filter((k) => k.includes('profile1')).length).toBe(2);
+    expect(keys.filter((k) => k.includes('profile2')).length).toBe(1);
   });
 });
 
 // ── saveToCloud / loadFromCloud ────────────────────────────────
 describe('saveToCloud / loadFromCloud', () => {
-  function mockFetch(): { calls: { url: string; opts?: RequestInit }[]; remote: Record<string, Record<string, string>> } {
+  function mockFetch(): {
+    calls: { url: string; opts?: RequestInit }[];
+    remote: Record<string, Record<string, string>>;
+  } {
     const remote: Record<string, Record<string, string>> = {};
     const calls: { url: string; opts?: RequestInit }[] = [];
-    vi.stubGlobal('fetch', vi.fn(async (url: string, opts?: RequestInit) => {
-      calls.push({ url, opts });
-      const key = url.split('/sync/')[1].replace('.json', '');
-      if (opts?.method === 'PUT') {
-        remote[key] = JSON.parse(opts.body as string);
-        return { ok: true };
-      }
-      return { ok: true, json: async () => remote[key] ?? null };
-    }));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string, opts?: RequestInit) => {
+        calls.push({ url, opts });
+        const key = url.split('/sync/')[1].replace('.json', '');
+        if (opts?.method === 'PUT') {
+          remote[key] = JSON.parse(opts.body as string);
+          return { ok: true };
+        }
+        return { ok: true, json: async () => remote[key] ?? null };
+      }),
+    );
     return { calls, remote };
   }
 
@@ -92,7 +111,7 @@ describe('saveToCloud / loadFromCloud', () => {
 
     await loadFromCloud('AAAA-BBBB-CCCC');
 
-    const putCall = calls.find(c => c.opts?.method === 'PUT');
+    const putCall = calls.find((c) => c.opts?.method === 'PUT');
     expect(putCall).toBeTruthy();
     expect(JSON.parse(putCall!.opts!.body as string).ew_known).toBe('["new","words"]');
     // the push (PUT) must complete before the restore's own GET reads it back
@@ -113,13 +132,26 @@ describe('saveToCloud / loadFromCloud', () => {
 // ── BACKUP_KEYS coverage ──────────────────────────────────────
 describe('Backup keys completeness', () => {
   const BACKUP_KEYS = [
-    'ew_known', 'ew_known_lz', 'ew_srs', 'ew_srs_lz',
-    'ew_game', 'ew_daily', 'ew_ach',
-    'ew_fontsize', 'ew_theme', 'ew_sw',
-    'ew_ws_voice', 'ew_ws_uk_voice',
-    'ew_notif_enabled', 'ew_notes', 'ew_bookmarks',
-    'ew_milestones', 'ew_mode_acc', 'ew_mistakes',
-    'ew_profiles', 'ew_active_profile',
+    'ew_known',
+    'ew_known_lz',
+    'ew_srs',
+    'ew_srs_lz',
+    'ew_game',
+    'ew_daily',
+    'ew_ach',
+    'ew_fontsize',
+    'ew_theme',
+    'ew_sw',
+    'ew_ws_voice',
+    'ew_ws_uk_voice',
+    'ew_notif_enabled',
+    'ew_notes',
+    'ew_bookmarks',
+    'ew_milestones',
+    'ew_mode_acc',
+    'ew_mistakes',
+    'ew_profiles',
+    'ew_active_profile',
   ];
 
   it('backup includes profile metadata keys', () => {

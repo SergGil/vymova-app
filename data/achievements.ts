@@ -5,71 +5,709 @@ import { getMaxWordsForLearnLang } from '../js/features/mode-utils.ts';
 
 export const ACHIEVEMENTS: Achievement[] = [
   // ── 📖 Слова ──
-  { id:'first1',    icon:'🌱', name:'Перший крок',      cat:'📖 Слова',     hint:'Натисни ✓ Знаю на першому слові — подорож починається!',                progress: function(k: number, g: GameData){ return {cur:Math.min(k,1),     max:1}; },    check: function(k: number, g: GameData){ return k>=1; } },
-  { id:'words10',   icon:'📖', name:'10 слів',          cat:'📖 Слова',     hint:'Познач як «Знаю» 10 різних слів',                                       progress: function(k: number, g: GameData){ return {cur:Math.min(k,10),    max:10}; },   check: function(k: number, g: GameData){ return k>=10; } },
-  { id:'words50',   icon:'📚', name:'50 слів',          cat:'📖 Слова',     hint:'Вивчи 50 слів — ти вже Падаван! Приблизно 0.5% словника.',               progress: function(k: number, g: GameData){ return {cur:Math.min(k,50),    max:50}; },   check: function(k: number, g: GameData){ return k>=50; } },
-  { id:'words100',  icon:'💯', name:'100 слів',         cat:'📖 Слова',     hint:'100 слів — ти вже читаєш прості тексти!',                               progress: function(k: number, g: GameData){ return {cur:Math.min(k,100),   max:100}; },  check: function(k: number, g: GameData){ return k>=100; } },
-  { id:'words250',  icon:'⚡', name:'250 слів',         cat:'📖 Слова',     hint:'250 слів покривають 65% розмовної мови. Сила з тобою!',                  progress: function(k: number, g: GameData){ return {cur:Math.min(k,250),   max:250}; },  check: function(k: number, g: GameData){ return k>=250; } },
-  { id:'words500',  icon:'🌟', name:'500 слів',         cat:'📖 Слова',     hint:'500 слів — рівень впевненого Джедай-лицаря!',                           progress: function(k: number, g: GameData){ return {cur:Math.min(k,500),   max:500}; },  check: function(k: number, g: GameData){ return k>=500; } },
-  { id:'words1000', icon:'🔵', name:'1 000 слів',       cat:'📖 Слова',     hint:'1000 слів = A2/B1. Розумієш фільми з субтитрами!',                      progress: function(k: number, g: GameData){ return {cur:Math.min(k,1000),  max:1000}; }, check: function(k: number, g: GameData){ return k>=1000; } },
-  { id:'words2000', icon:'🟣', name:'2 000 слів',       cat:'📖 Слова',     hint:'2000 слів — ти вільно спілкуєшся. Гідний Ради!',                        progress: function(k: number, g: GameData){ return {cur:Math.min(k,2000),  max:2000}; }, check: function(k: number, g: GameData){ return k>=2000; } },
-  { id:'words3000', icon:'🔴', name:'3 000 слів',       cat:'📖 Слова',     hint:'3000 слів — рівень C1, майже Ситх-лорд лексики!',                       progress: function(k: number, g: GameData){ return {cur:Math.min(k,3000),  max:3000}; }, check: function(k: number, g: GameData){ return k>=3000; } },
-  { id:'words4000', icon:'🌠', name:'4 000 слів',       cat:'📖 Слова',     hint:'4000 слів — ти вже Обраний. Читаєш без словника!',                       progress: function(k: number, g: GameData){ return {cur:Math.min(k,4000),  max:4000}; }, check: function(k: number, g: GameData){ return k>=4000; } },
-  { id:'words6000', icon:'💠', name:'6 000 слів',       cat:'📖 Слова',     hint:'6000 слів — рівень Члена Ради. Майже половина словника!',               progress: function(k: number, g: GameData){ return {cur:Math.min(k,6000),  max:6000}; }, check: function(k: number, g: GameData){ return k>=6000; } },
-  { id:'words8000', icon:'🌀', name:'8 000 слів',       cat:'📖 Слова',     hint:'8000 слів — рівень Ситх-лорда лексики. Майже все вивчено!',             progress: function(k: number, g: GameData){ return {cur:Math.min(k,8000),  max:8000}; }, check: function(k: number, g: GameData){ return k>=8000; } },
-  { id:'words10002',icon:'🏆', name:'Магістр Йода',     cat:'📖 Слова',     hint:'Всі слова вивчено. Do or do not — there is no try!',              progress: function(k: number, g: GameData){ const max = getMaxWordsForLearnLang(); return {cur:Math.min(k,max), max}; }, check: function(k: number, g: GameData){ return k>=getMaxWordsForLearnLang(); } },
+  {
+    id: 'first1',
+    icon: '🌱',
+    name: 'Перший крок',
+    cat: '📖 Слова',
+    hint: 'Натисни ✓ Знаю на першому слові — подорож починається!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(k, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData) {
+      return k >= 1;
+    },
+  },
+  {
+    id: 'words10',
+    icon: '📖',
+    name: '10 слів',
+    cat: '📖 Слова',
+    hint: 'Познач як «Знаю» 10 різних слів',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(k, 10), max: 10 };
+    },
+    check: function (k: number, g: GameData) {
+      return k >= 10;
+    },
+  },
+  {
+    id: 'words50',
+    icon: '📚',
+    name: '50 слів',
+    cat: '📖 Слова',
+    hint: 'Вивчи 50 слів — ти вже Падаван! Приблизно 0.5% словника.',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(k, 50), max: 50 };
+    },
+    check: function (k: number, g: GameData) {
+      return k >= 50;
+    },
+  },
+  {
+    id: 'words100',
+    icon: '💯',
+    name: '100 слів',
+    cat: '📖 Слова',
+    hint: '100 слів — ти вже читаєш прості тексти!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(k, 100), max: 100 };
+    },
+    check: function (k: number, g: GameData) {
+      return k >= 100;
+    },
+  },
+  {
+    id: 'words250',
+    icon: '⚡',
+    name: '250 слів',
+    cat: '📖 Слова',
+    hint: '250 слів покривають 65% розмовної мови. Сила з тобою!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(k, 250), max: 250 };
+    },
+    check: function (k: number, g: GameData) {
+      return k >= 250;
+    },
+  },
+  {
+    id: 'words500',
+    icon: '🌟',
+    name: '500 слів',
+    cat: '📖 Слова',
+    hint: '500 слів — рівень впевненого Джедай-лицаря!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(k, 500), max: 500 };
+    },
+    check: function (k: number, g: GameData) {
+      return k >= 500;
+    },
+  },
+  {
+    id: 'words1000',
+    icon: '🔵',
+    name: '1 000 слів',
+    cat: '📖 Слова',
+    hint: '1000 слів = A2/B1. Розумієш фільми з субтитрами!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(k, 1000), max: 1000 };
+    },
+    check: function (k: number, g: GameData) {
+      return k >= 1000;
+    },
+  },
+  {
+    id: 'words2000',
+    icon: '🟣',
+    name: '2 000 слів',
+    cat: '📖 Слова',
+    hint: '2000 слів — ти вільно спілкуєшся. Гідний Ради!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(k, 2000), max: 2000 };
+    },
+    check: function (k: number, g: GameData) {
+      return k >= 2000;
+    },
+  },
+  {
+    id: 'words3000',
+    icon: '🔴',
+    name: '3 000 слів',
+    cat: '📖 Слова',
+    hint: '3000 слів — рівень C1, майже Ситх-лорд лексики!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(k, 3000), max: 3000 };
+    },
+    check: function (k: number, g: GameData) {
+      return k >= 3000;
+    },
+  },
+  {
+    id: 'words4000',
+    icon: '🌠',
+    name: '4 000 слів',
+    cat: '📖 Слова',
+    hint: '4000 слів — ти вже Обраний. Читаєш без словника!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(k, 4000), max: 4000 };
+    },
+    check: function (k: number, g: GameData) {
+      return k >= 4000;
+    },
+  },
+  {
+    id: 'words6000',
+    icon: '💠',
+    name: '6 000 слів',
+    cat: '📖 Слова',
+    hint: '6000 слів — рівень Члена Ради. Майже половина словника!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(k, 6000), max: 6000 };
+    },
+    check: function (k: number, g: GameData) {
+      return k >= 6000;
+    },
+  },
+  {
+    id: 'words8000',
+    icon: '🌀',
+    name: '8 000 слів',
+    cat: '📖 Слова',
+    hint: '8000 слів — рівень Ситх-лорда лексики. Майже все вивчено!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(k, 8000), max: 8000 };
+    },
+    check: function (k: number, g: GameData) {
+      return k >= 8000;
+    },
+  },
+  {
+    id: 'words10002',
+    icon: '🏆',
+    name: 'Магістр Йода',
+    cat: '📖 Слова',
+    hint: 'Всі слова вивчено. Do or do not — there is no try!',
+    progress: function (k: number, g: GameData) {
+      const max = getMaxWordsForLearnLang();
+      return { cur: Math.min(k, max), max };
+    },
+    check: function (k: number, g: GameData) {
+      return k >= getMaxWordsForLearnLang();
+    },
+  },
 
   // ── 📅 Серія ──
-  { id:'streak3',   icon:'🔥', name:'3 дні підряд',    cat:'📅 Серія',     hint:'Займайся 3 дні поспіль — звичка починається!',                          progress: function(k: number, g: GameData){ return {cur:Math.min(g.streak||0,3),   max:3}; },   check: function(k: number, g: GameData){ return (g.streak||0)>=3; } },
-  { id:'streak7',   icon:'📅', name:'Тиждень Джедая',  cat:'📅 Серія',     hint:'7 днів підряд — справжній Джедай не здається!',                         progress: function(k: number, g: GameData){ return {cur:Math.min(g.streak||0,7),   max:7}; },   check: function(k: number, g: GameData){ return (g.streak||0)>=7; } },
-  { id:'streak14',  icon:'⚔️', name:'Два тижні',       cat:'📅 Серія',     hint:'14 днів — ти вже тренуєшся як у Храмі Джедаїв!',                        progress: function(k: number, g: GameData){ return {cur:Math.min(g.streak||0,14),  max:14}; },  check: function(k: number, g: GameData){ return (g.streak||0)>=14; } },
-  { id:'streak30',  icon:'🗓️', name:'Місяць Сили',     cat:'📅 Серія',     hint:'30 днів — ти зробив це. Рада Джедаїв аплодує!',                         progress: function(k: number, g: GameData){ return {cur:Math.min(g.streak||0,30),  max:30}; },  check: function(k: number, g: GameData){ return (g.streak||0)>=30; } },
-  { id:'streak100', icon:'🌌', name:'100 днів',         cat:'📅 Серія',     hint:'100 днів підряд. Сила стала частиною тебе.',                             progress: function(k: number, g: GameData){ return {cur:Math.min(g.streak||0,100), max:100}; }, check: function(k: number, g: GameData){ return (g.streak||0)>=100; } },
+  {
+    id: 'streak3',
+    icon: '🔥',
+    name: '3 дні підряд',
+    cat: '📅 Серія',
+    hint: 'Займайся 3 дні поспіль — звичка починається!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.streak || 0, 3), max: 3 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.streak || 0) >= 3;
+    },
+  },
+  {
+    id: 'streak7',
+    icon: '📅',
+    name: 'Тиждень Джедая',
+    cat: '📅 Серія',
+    hint: '7 днів підряд — справжній Джедай не здається!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.streak || 0, 7), max: 7 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.streak || 0) >= 7;
+    },
+  },
+  {
+    id: 'streak14',
+    icon: '⚔️',
+    name: 'Два тижні',
+    cat: '📅 Серія',
+    hint: '14 днів — ти вже тренуєшся як у Храмі Джедаїв!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.streak || 0, 14), max: 14 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.streak || 0) >= 14;
+    },
+  },
+  {
+    id: 'streak30',
+    icon: '🗓️',
+    name: 'Місяць Сили',
+    cat: '📅 Серія',
+    hint: '30 днів — ти зробив це. Рада Джедаїв аплодує!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.streak || 0, 30), max: 30 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.streak || 0) >= 30;
+    },
+  },
+  {
+    id: 'streak100',
+    icon: '🌌',
+    name: '100 днів',
+    cat: '📅 Серія',
+    hint: '100 днів підряд. Сила стала частиною тебе.',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.streak || 0, 100), max: 100 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.streak || 0) >= 100;
+    },
+  },
 
   // ── 🎯 Цілі ──
-  { id:'goal1',     icon:'🎯', name:'Перша ціль',      cat:'🎯 Цілі',      hint:'Виконай денну ціль — вивчи задану кількість слів за день',               progress: function(k: number, g: GameData){ return {cur:Math.min(g.goalCur||0,g.goalMax||20), max:g.goalMax||20}; }, check: function(k: number, g: GameData){ return (g.goalCur||0)>=(g.goalMax||20); } },
-  { id:'goal7',     icon:'🎖️', name:'Тиждень цілей',  cat:'🎯 Цілі',      hint:'Виконай денну ціль 7 разів (не обовʼязково підряд)',                     progress: function(k: number, g: GameData){ return {cur:Math.min(g.goalDays||0,7),  max:7}; },  check: function(k: number, g: GameData){ return (g.goalDays||0)>=7; } },
-  { id:'goal30',    icon:'🏅', name:'30 цілей',        cat:'🎯 Цілі',      hint:'30 виконаних денних цілей. Дисципліна Джедая!',                          progress: function(k: number, g: GameData){ return {cur:Math.min(g.goalDays||0,30), max:30}; }, check: function(k: number, g: GameData){ return (g.goalDays||0)>=30; } },
+  {
+    id: 'goal1',
+    icon: '🎯',
+    name: 'Перша ціль',
+    cat: '🎯 Цілі',
+    hint: 'Виконай денну ціль — вивчи задану кількість слів за день',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.goalCur || 0, g.goalMax || 20), max: g.goalMax || 20 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.goalCur || 0) >= (g.goalMax || 20);
+    },
+  },
+  {
+    id: 'goal7',
+    icon: '🎖️',
+    name: 'Тиждень цілей',
+    cat: '🎯 Цілі',
+    hint: 'Виконай денну ціль 7 разів (не обовʼязково підряд)',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.goalDays || 0, 7), max: 7 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.goalDays || 0) >= 7;
+    },
+  },
+  {
+    id: 'goal30',
+    icon: '🏅',
+    name: '30 цілей',
+    cat: '🎯 Цілі',
+    hint: '30 виконаних денних цілей. Дисципліна Джедая!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.goalDays || 0, 30), max: 30 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.goalDays || 0) >= 30;
+    },
+  },
 
   // ── ⚡ Швидкість ──
-  { id:'speed20',   icon:'⚡', name:'Спринт',           cat:'⚡ Швидкість', hint:'Вивчи 20 слів за одну сесію',                                             progress: function(k: number, g: GameData){ return {cur:Math.min(g.sessionWords||0,20),  max:20}; },  check: function(k: number, g: GameData){ return (g.sessionWords||0)>=20; } },
-  { id:'speed50',   icon:'🚀', name:'Гіперстрибок',     cat:'⚡ Швидкість', hint:'50 слів за одну сесію — як гіперстрибок!',                                progress: function(k: number, g: GameData){ return {cur:Math.min(g.sessionWords||0,50),  max:50}; },  check: function(k: number, g: GameData){ return (g.sessionWords||0)>=50; } },
-  { id:'speed100',  icon:'🛸', name:'Сокіл Тисячоліть', cat:'⚡ Швидкість', hint:'100 слів за одну сесію. 12 парсеків!',                                    progress: function(k: number, g: GameData){ return {cur:Math.min(g.sessionWords||0,100), max:100}; }, check: function(k: number, g: GameData){ return (g.sessionWords||0)>=100; } },
+  {
+    id: 'speed20',
+    icon: '⚡',
+    name: 'Спринт',
+    cat: '⚡ Швидкість',
+    hint: 'Вивчи 20 слів за одну сесію',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.sessionWords || 0, 20), max: 20 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.sessionWords || 0) >= 20;
+    },
+  },
+  {
+    id: 'speed50',
+    icon: '🚀',
+    name: 'Гіперстрибок',
+    cat: '⚡ Швидкість',
+    hint: '50 слів за одну сесію — як гіперстрибок!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.sessionWords || 0, 50), max: 50 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.sessionWords || 0) >= 50;
+    },
+  },
+  {
+    id: 'speed100',
+    icon: '🛸',
+    name: 'Сокіл Тисячоліть',
+    cat: '⚡ Швидкість',
+    hint: '100 слів за одну сесію. 12 парсеків!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.sessionWords || 0, 100), max: 100 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.sessionWords || 0) >= 100;
+    },
+  },
 
   // ── 🎮 Режими ──
-  { id:'mode_quiz1',    icon:'🧠', name:'Перший Тест',       cat:'🎮 Режими', hint:'Пройди перший Тест з 4 варіантами відповідей',          progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.quiz||0,1),   max:1}; },   check: function(k: number, g: GameData, m?: ModeStats){ return (m?.quiz||0)>=1; } },
-  { id:'mode_quiz10',   icon:'🧠', name:'Тест ×10',          cat:'🎮 Режими', hint:'10 завершених квізів — справжній знавець!',              progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.quiz||0,10),  max:10}; },  check: function(k: number, g: GameData, m?: ModeStats){ return (m?.quiz||0)>=10; } },
-  { id:'mode_quiz50',   icon:'🧠', name:'Тест ×50',          cat:'🎮 Режими', hint:'50 квізів. Розум гострий як меч Джедая!',                progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.quiz||0,50),  max:50}; },  check: function(k: number, g: GameData, m?: ModeStats){ return (m?.quiz||0)>=50; } },
-  { id:'mode_tempo1',   icon:'⚡', name:'Перший Темп',        cat:'🎮 Режими', hint:'Заверши першу гру на час',                               progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.tempo||0,1),  max:1}; },   check: function(k: number, g: GameData, m?: ModeStats){ return (m?.tempo||0)>=1; } },
-  { id:'mode_tempo10',  icon:'⚡', name:'Темп ×10',           cat:'🎮 Режими', hint:'10 ігор на час. Швидкість — твоя зброя!',                progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.tempo||0,10), max:10}; },  check: function(k: number, g: GameData, m?: ModeStats){ return (m?.tempo||0)>=10; } },
-  { id:'mode_pairs1',   icon:'🔗', name:'Перші Пари',         cat:'🎮 Режими', hint:'Заверши перший режим Пари',                              progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.pairs||0,1),  max:1}; },   check: function(k: number, g: GameData, m?: ModeStats){ return (m?.pairs||0)>=1; } },
-  { id:'mode_write1',   icon:'✍️', name:'Перше Письмо',       cat:'🎮 Режими', hint:'Напиши перше слово вручну. Писемність Падавана!',        progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.write||0,1),  max:1}; },   check: function(k: number, g: GameData, m?: ModeStats){ return (m?.write||0)>=1; } },
-  { id:'mode_write20',  icon:'✍️', name:'Письмо ×20',         cat:'🎮 Режими', hint:'20 сесій письма. Рука памʼятає!',                        progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.write||0,20), max:20}; },  check: function(k: number, g: GameData, m?: ModeStats){ return (m?.write||0)>=20; } },
-  { id:'mode_listen1',  icon:'🔊', name:'Перше Прослуховування',cat:'🎮 Режими', hint:'Заверши перший режим Слухай',                          progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.listen||0,1), max:1}; },   check: function(k: number, g: GameData, m?: ModeStats){ return (m?.listen||0)>=1; } },
-  { id:'mode_lesson1',  icon:'📚', name:'Перший Урок',         cat:'🎮 Режими', hint:'Пройди перший 5×3 урок',                                progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.lesson||0,1), max:1}; },   check: function(k: number, g: GameData, m?: ModeStats){ return (m?.lesson||0)>=1; } },
-  { id:'mode_fib1',     icon:'✏️', name:'Перший Пропуск',     cat:'🎮 Режими', hint:'Заверши перший режим Пропуск — встав слово в речення',  progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.fib||0,1),     max:1}; },   check: function(k: number, g: GameData, m?: ModeStats){ return (m?.fib||0)>=1; } },
-  { id:'mode_story1',   icon:'📖', name:'Перше Читання+',     cat:'🎮 Режими', hint:'Заверши першу історію в режимі Читання+',               progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.story||0,1),   max:1}; },   check: function(k: number, g: GameData, m?: ModeStats){ return (m?.story||0)>=1; } },
-  { id:'mode_daily1',   icon:'⚡', name:'Перша Місія дня',    cat:'🎮 Режими', hint:'Виконай першу щоденну місію — 10 слів на час!',         progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.daily||0,1),   max:1}; },   check: function(k: number, g: GameData, m?: ModeStats){ return (m?.daily||0)>=1; } },
-  { id:'mode_spelling1',icon:'🐝', name:'Перший Spelling Bee',cat:'🎮 Режими', hint:'Заверши перший раунд Spelling Bee — почуй і напиши слово',progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.spelling||0,1), max:1}; },   check: function(k: number, g: GameData, m?: ModeStats){ return (m?.spelling||0)>=1; } },
+  {
+    id: 'mode_quiz1',
+    icon: '🧠',
+    name: 'Перший Тест',
+    cat: '🎮 Режими',
+    hint: 'Пройди перший Тест з 4 варіантами відповідей',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.quiz || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.quiz || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_quiz10',
+    icon: '🧠',
+    name: 'Тест ×10',
+    cat: '🎮 Режими',
+    hint: '10 завершених квізів — справжній знавець!',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.quiz || 0, 10), max: 10 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.quiz || 0) >= 10;
+    },
+  },
+  {
+    id: 'mode_quiz50',
+    icon: '🧠',
+    name: 'Тест ×50',
+    cat: '🎮 Режими',
+    hint: '50 квізів. Розум гострий як меч Джедая!',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.quiz || 0, 50), max: 50 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.quiz || 0) >= 50;
+    },
+  },
+  {
+    id: 'mode_tempo1',
+    icon: '⚡',
+    name: 'Перший Темп',
+    cat: '🎮 Режими',
+    hint: 'Заверши першу гру на час',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.tempo || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.tempo || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_tempo10',
+    icon: '⚡',
+    name: 'Темп ×10',
+    cat: '🎮 Режими',
+    hint: '10 ігор на час. Швидкість — твоя зброя!',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.tempo || 0, 10), max: 10 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.tempo || 0) >= 10;
+    },
+  },
+  {
+    id: 'mode_pairs1',
+    icon: '🔗',
+    name: 'Перші Пари',
+    cat: '🎮 Режими',
+    hint: 'Заверши перший режим Пари',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.pairs || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.pairs || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_write1',
+    icon: '✍️',
+    name: 'Перше Письмо',
+    cat: '🎮 Режими',
+    hint: 'Напиши перше слово вручну. Писемність Падавана!',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.write || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.write || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_write20',
+    icon: '✍️',
+    name: 'Письмо ×20',
+    cat: '🎮 Режими',
+    hint: '20 сесій письма. Рука памʼятає!',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.write || 0, 20), max: 20 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.write || 0) >= 20;
+    },
+  },
+  {
+    id: 'mode_listen1',
+    icon: '🔊',
+    name: 'Перше Прослуховування',
+    cat: '🎮 Режими',
+    hint: 'Заверши перший режим Слухай',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.listen || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.listen || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_lesson1',
+    icon: '📚',
+    name: 'Перший Урок',
+    cat: '🎮 Режими',
+    hint: 'Пройди перший 5×3 урок',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.lesson || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.lesson || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_fib1',
+    icon: '✏️',
+    name: 'Перший Пропуск',
+    cat: '🎮 Режими',
+    hint: 'Заверши перший режим Пропуск — встав слово в речення',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.fib || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.fib || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_story1',
+    icon: '📖',
+    name: 'Перше Читання+',
+    cat: '🎮 Режими',
+    hint: 'Заверши першу історію в режимі Читання+',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.story || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.story || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_daily1',
+    icon: '⚡',
+    name: 'Перша Місія дня',
+    cat: '🎮 Режими',
+    hint: 'Виконай першу щоденну місію — 10 слів на час!',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.daily || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.daily || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_spelling1',
+    icon: '🐝',
+    name: 'Перший Spelling Bee',
+    cat: '🎮 Режими',
+    hint: 'Заверши перший раунд Spelling Bee — почуй і напиши слово',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.spelling || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.spelling || 0) >= 1;
+    },
+  },
 
   // ── 🔥 Комбо ──
-  { id:'combo5',    icon:'🔥', name:'Серія ×5',          cat:'🔥 Комбо', hint:'Відповідай правильно 5 разів підряд без помилок',              progress: function(k: number, g: GameData){ return {cur:Math.min(g.maxCombo||0,5),  max:5}; },   check: function(k: number, g: GameData){ return (g.maxCombo||0)>=5; } },
-  { id:'combo10',   icon:'⚡', name:'Серія ×10',          cat:'🔥 Комбо', hint:'10 правильних відповідей підряд — Джедай-рефлекси!',           progress: function(k: number, g: GameData){ return {cur:Math.min(g.maxCombo||0,10), max:10}; },  check: function(k: number, g: GameData){ return (g.maxCombo||0)>=10; } },
-  { id:'combo25',   icon:'🌌', name:'Джедайський потік',  cat:'🔥 Комбо', hint:'25 підряд. Сила веде тебе через кожне слово',                  progress: function(k: number, g: GameData){ return {cur:Math.min(g.maxCombo||0,25), max:25}; },  check: function(k: number, g: GameData){ return (g.maxCombo||0)>=25; } },
+  {
+    id: 'combo5',
+    icon: '🔥',
+    name: 'Серія ×5',
+    cat: '🔥 Комбо',
+    hint: 'Відповідай правильно 5 разів підряд без помилок',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.maxCombo || 0, 5), max: 5 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.maxCombo || 0) >= 5;
+    },
+  },
+  {
+    id: 'combo10',
+    icon: '⚡',
+    name: 'Серія ×10',
+    cat: '🔥 Комбо',
+    hint: '10 правильних відповідей підряд — Джедай-рефлекси!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.maxCombo || 0, 10), max: 10 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.maxCombo || 0) >= 10;
+    },
+  },
+  {
+    id: 'combo25',
+    icon: '🌌',
+    name: 'Джедайський потік',
+    cat: '🔥 Комбо',
+    hint: '25 підряд. Сила веде тебе через кожне слово',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.maxCombo || 0, 25), max: 25 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.maxCombo || 0) >= 25;
+    },
+  },
 
   // ── 🌟 Рівні ──
-  { id:'lvl2',  icon:'✨', name:'Чутливий до Сили', cat:'🌟 Рівні', hint:'Досягни рівня 2 — Чутливий до Сили (30 слів)',   progress: function(k: number){ return {cur:Math.min(k,30),   max:30}; },   check: function(k: number){ return k>=30; } },
-  { id:'lvl3',  icon:'🟡', name:'Падаван',           cat:'🌟 Рівні', hint:'Досягни рівня Падаван (100 слів)',               progress: function(k: number){ return {cur:Math.min(k,100),  max:100}; },  check: function(k: number){ return k>=100; } },
-  { id:'lvl4',  icon:'🔵', name:'Джедай-лицар',      cat:'🌟 Рівні', hint:'Досягни рівня Джедай-лицар (250 слів)',          progress: function(k: number){ return {cur:Math.min(k,250),  max:250}; },  check: function(k: number){ return k>=250; } },
-  { id:'lvl5',  icon:'🟢', name:'Майстер Джедай',     cat:'🌟 Рівні', hint:'Досягни рівня Майстер Джедай (500 слів)',        progress: function(k: number){ return {cur:Math.min(k,500),  max:500}; },  check: function(k: number){ return k>=500; } },
-  { id:'lvl6',  icon:'🟣', name:'Член Ради',          cat:'🌟 Рівні', hint:'Досягни рівня Член Ради (900 слів)',             progress: function(k: number){ return {cur:Math.min(k,900),  max:900}; },  check: function(k: number){ return k>=900; } },
-  { id:'lvl7',  icon:'🔴', name:'Ситх-лорд',          cat:'🌟 Рівні', hint:'Досягни рівня Ситх-лорд (1500 слів)',           progress: function(k: number){ return {cur:Math.min(k,1500), max:1500}; }, check: function(k: number){ return k>=1500; } },
-  { id:'lvl8',  icon:'⚡', name:'Обраний',             cat:'🌟 Рівні', hint:'Досягни рівня Обраний (2500 слів)',              progress: function(k: number){ return {cur:Math.min(k,2500), max:2500}; }, check: function(k: number){ return k>=2500; } },
-  { id:'lvl9',  icon:'🌠', name:'Балансувальник Сили', cat:'🌟 Рівні', hint:'Досягни рівня Балансувальник (4000 слів)',       progress: function(k: number){ return {cur:Math.min(k,4000), max:4000}; }, check: function(k: number){ return k>=4000; } },
-  { id:'lvl10', icon:'🏆', name:'Магістр Йода',       cat:'🌟 Рівні', hint:'Досягни рівня Магістр Йода (весь словник)', progress: function(k: number){ const max = getMaxWordsForLearnLang(); return {cur:Math.min(k,max), max}; }, check: function(k: number){ return k>=getMaxWordsForLearnLang(); } },
+  {
+    id: 'lvl2',
+    icon: '✨',
+    name: 'Чутливий до Сили',
+    cat: '🌟 Рівні',
+    hint: 'Досягни рівня 2 — Чутливий до Сили (30 слів)',
+    progress: function (k: number) {
+      return { cur: Math.min(k, 30), max: 30 };
+    },
+    check: function (k: number) {
+      return k >= 30;
+    },
+  },
+  {
+    id: 'lvl3',
+    icon: '🟡',
+    name: 'Падаван',
+    cat: '🌟 Рівні',
+    hint: 'Досягни рівня Падаван (100 слів)',
+    progress: function (k: number) {
+      return { cur: Math.min(k, 100), max: 100 };
+    },
+    check: function (k: number) {
+      return k >= 100;
+    },
+  },
+  {
+    id: 'lvl4',
+    icon: '🔵',
+    name: 'Джедай-лицар',
+    cat: '🌟 Рівні',
+    hint: 'Досягни рівня Джедай-лицар (250 слів)',
+    progress: function (k: number) {
+      return { cur: Math.min(k, 250), max: 250 };
+    },
+    check: function (k: number) {
+      return k >= 250;
+    },
+  },
+  {
+    id: 'lvl5',
+    icon: '🟢',
+    name: 'Майстер Джедай',
+    cat: '🌟 Рівні',
+    hint: 'Досягни рівня Майстер Джедай (500 слів)',
+    progress: function (k: number) {
+      return { cur: Math.min(k, 500), max: 500 };
+    },
+    check: function (k: number) {
+      return k >= 500;
+    },
+  },
+  {
+    id: 'lvl6',
+    icon: '🟣',
+    name: 'Член Ради',
+    cat: '🌟 Рівні',
+    hint: 'Досягни рівня Член Ради (900 слів)',
+    progress: function (k: number) {
+      return { cur: Math.min(k, 900), max: 900 };
+    },
+    check: function (k: number) {
+      return k >= 900;
+    },
+  },
+  {
+    id: 'lvl7',
+    icon: '🔴',
+    name: 'Ситх-лорд',
+    cat: '🌟 Рівні',
+    hint: 'Досягни рівня Ситх-лорд (1500 слів)',
+    progress: function (k: number) {
+      return { cur: Math.min(k, 1500), max: 1500 };
+    },
+    check: function (k: number) {
+      return k >= 1500;
+    },
+  },
+  {
+    id: 'lvl8',
+    icon: '⚡',
+    name: 'Обраний',
+    cat: '🌟 Рівні',
+    hint: 'Досягни рівня Обраний (2500 слів)',
+    progress: function (k: number) {
+      return { cur: Math.min(k, 2500), max: 2500 };
+    },
+    check: function (k: number) {
+      return k >= 2500;
+    },
+  },
+  {
+    id: 'lvl9',
+    icon: '🌠',
+    name: 'Балансувальник Сили',
+    cat: '🌟 Рівні',
+    hint: 'Досягни рівня Балансувальник (4000 слів)',
+    progress: function (k: number) {
+      return { cur: Math.min(k, 4000), max: 4000 };
+    },
+    check: function (k: number) {
+      return k >= 4000;
+    },
+  },
+  {
+    id: 'lvl10',
+    icon: '🏆',
+    name: 'Магістр Йода',
+    cat: '🌟 Рівні',
+    hint: 'Досягни рівня Магістр Йода (весь словник)',
+    progress: function (k: number) {
+      const max = getMaxWordsForLearnLang();
+      return { cur: Math.min(k, max), max };
+    },
+    check: function (k: number) {
+      return k >= getMaxWordsForLearnLang();
+    },
+  },
 
   // ── 🎮 Режими (додатково) ──
-  { id:'mode_context1',  icon:'🔍', name:'Перший Контекст',  cat:'🎮 Режими', hint:'Заверши перший раунд режиму Контекст — вгадай слово з речення', progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.context||0,1),  max:1}; }, check: function(k: number, g: GameData, m?: ModeStats){ return (m?.context||0)>=1; } },
-  { id:'mode_scramble1', icon:'🔀', name:'Перша Анаграма',   cat:'🎮 Режими', hint:'Збери перше слово з розкиданих букв у режимі Анаграма',         progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.scramble||0,1), max:1}; }, check: function(k: number, g: GameData, m?: ModeStats){ return (m?.scramble||0)>=1; } },
-  { id:'mode_letters1',  icon:'🔤', name:'Перші Букви',      cat:'🎮 Режими', hint:'Заверши перший раунд режиму Букви — знайди слова',              progress: function(k: number, g: GameData, m?: ModeStats){ return {cur:Math.min(m?.letters||0,1),  max:1}; }, check: function(k: number, g: GameData, m?: ModeStats){ return (m?.letters||0)>=1; } },
+  {
+    id: 'mode_context1',
+    icon: '🔍',
+    name: 'Перший Контекст',
+    cat: '🎮 Режими',
+    hint: 'Заверши перший раунд режиму Контекст — вгадай слово з речення',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.context || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.context || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_scramble1',
+    icon: '🔀',
+    name: 'Перша Анаграма',
+    cat: '🎮 Режими',
+    hint: 'Збери перше слово з розкиданих букв у режимі Анаграма',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.scramble || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.scramble || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_letters1',
+    icon: '🔤',
+    name: 'Перші Букви',
+    cat: '🎮 Режими',
+    hint: 'Заверши перший раунд режиму Букви — знайди слова',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.letters || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.letters || 0) >= 1;
+    },
+  },
 ];

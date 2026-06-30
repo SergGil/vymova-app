@@ -12,7 +12,14 @@ import { USAGE_NOTES_BY_LANG } from '../../data/usage-notes.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { openWordDetail } from './word-detail.tsx';
-import { getMode, parsePair, headwordFor, isTargetLang, reverseHeadwordFor, type Code } from './mode-utils.ts';
+import {
+  getMode,
+  parsePair,
+  headwordFor,
+  isTargetLang,
+  reverseHeadwordFor,
+  type Code,
+} from './mode-utils.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { getLang, t } from './i18n.ts';
 
@@ -23,7 +30,9 @@ import { getLang, t } from './i18n.ts';
 // знаю" / "Хочу вчити"), matched against the canonical English word
 // (cw[0]) regardless of which side is displayed — irrelevant noise for
 // pairs with neither (e.g. a pure DE↔IT pair).
-function _collocationsLangAndWord(cw: WordEntry): { lang: 'en' | 'es' | 'fr'; word: string } | null {
+function _collocationsLangAndWord(
+  cw: WordEntry,
+): { lang: 'en' | 'es' | 'fr'; word: string } | null {
   const { front, back } = parsePair(getMode());
   if (front === 'es' || front === 'fr') {
     const word = headwordFor(front, cw);
@@ -50,12 +59,17 @@ export function CollocationsSection(): ReactElement | null {
   return (
     <div className="similar-section" id="cb-collocations" style={{ margin: '8px 0 0' }}>
       <div className="similar-title">{t('cards.collocationsTitle')}</div>
-      <div id="cb-collocation-list" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <div
+        id="cb-collocation-list"
+        style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
+      >
         {colls.slice(0, 6).map((c, i) => {
           const parts = c.phrase.split(re);
           return (
             <span className="colloc-pill" key={i}>
-              {parts.map((part, j) => re.test(part) && j % 2 === 1 ? <b key={j}>{part}</b> : part)}
+              {parts.map((part, j) =>
+                re.test(part) && j % 2 === 1 ? <b key={j}>{part}</b> : part,
+              )}
             </span>
           );
         })}
@@ -106,11 +120,14 @@ export function WordFamiliesChips(): ReactElement | null {
   let head = word;
   if (!family) {
     const base = WORD_FAMILY_REVERSE_BY_LANG[front]?.get(word);
-    if (base) { family = dict[base]; head = base; }
+    if (base) {
+      family = dict[base];
+      head = base;
+    }
   }
   if (!family || family.length === 0) return null;
 
-  const chips = [head, ...family].filter(w => w !== word);
+  const chips = [head, ...family].filter((w) => w !== word);
   if (!chips.length) return null;
 
   const wordIdx = getWordIndex();
@@ -119,7 +136,7 @@ export function WordFamiliesChips(): ReactElement | null {
     <div className="similar-section" id="cb-families" style={{ margin: '14px 0 0' }}>
       <div className="similar-title">{t('cards.familyTitle')}</div>
       <div className="similar-chips" id="cb-family-chips">
-        {chips.slice(0, 6).map(w => {
+        {chips.slice(0, 6).map((w) => {
           const headEn = _headEnFor(front, w);
           const wi = headEn !== undefined && headEn !== null ? wordIdx?.get(headEn) : undefined;
           const entry = wi !== undefined ? (W[wi] as unknown as WordEntry) : null;
@@ -127,12 +144,18 @@ export function WordFamiliesChips(): ReactElement | null {
           const transl = entry ? headwordFor(back, entry) : '';
           const isKnown = headEn ? getKnownSnapshot('en').has(headEn) : false;
           return (
-            <div key={w} className={'sim-chip family-chip' + (isKnown ? ' known-chip' : '')}
+            <div
+              key={w}
+              className={'sim-chip family-chip' + (isKnown ? ' known-chip' : '')}
               style={clickable ? undefined : { cursor: 'default' }}
-              onClick={clickable ? (e) => {
-                e.stopPropagation();
-                if (entry) openWordDetail(entry);
-              } : undefined}
+              onClick={
+                clickable
+                  ? (e) => {
+                      e.stopPropagation();
+                      if (entry) openWordDetail(entry);
+                    }
+                  : undefined
+              }
             >
               <span className="sc-word">{w}</span>
               {transl ? <span className="sc-transl">{transl}</span> : null}
@@ -160,11 +183,16 @@ export function SynonymsChips(): ReactElement | null {
   let head = word;
   if (!members) {
     const base = SYNONYM_REVERSE_BY_LANG[front]?.get(word);
-    if (base) { members = dict[base]; head = base; }
+    if (base) {
+      members = dict[base];
+      head = base;
+    }
   }
   if (!members) return null;
 
-  const chips = [{ word: head, note: undefined as string | undefined }, ...members].filter(c => c.word !== word);
+  const chips = [{ word: head, note: undefined as string | undefined }, ...members].filter(
+    (c) => c.word !== word,
+  );
   if (!chips.length) return null;
 
   const wordIdx = getWordIndex();
@@ -173,7 +201,7 @@ export function SynonymsChips(): ReactElement | null {
     <div className="similar-section" id="cb-synonyms" style={{ margin: '14px 0 0' }}>
       <div className="similar-title">{t('cards.synonymsTitle')}</div>
       <div className="similar-chips" id="cb-synonym-chips">
-        {chips.slice(0, 6).map(c => {
+        {chips.slice(0, 6).map((c) => {
           const headEn = _headEnFor(front, c.word);
           const wi = headEn !== undefined && headEn !== null ? wordIdx?.get(headEn) : undefined;
           const entry = wi !== undefined ? (W[wi] as unknown as WordEntry) : null;
@@ -181,15 +209,25 @@ export function SynonymsChips(): ReactElement | null {
           const transl = entry ? headwordFor(back, entry) : '';
           const isKnown = headEn ? getKnownSnapshot('en').has(headEn) : false;
           return (
-            <div key={c.word} className={'sim-chip syn-chip' + (isKnown ? ' known-chip' : '')}
+            <div
+              key={c.word}
+              className={'sim-chip syn-chip' + (isKnown ? ' known-chip' : '')}
               style={clickable ? undefined : { cursor: 'default' }}
-              onClick={clickable ? (e) => {
-                e.stopPropagation();
-                if (entry) openWordDetail(entry);
-              } : undefined}
+              onClick={
+                clickable
+                  ? (e) => {
+                      e.stopPropagation();
+                      if (entry) openWordDetail(entry);
+                    }
+                  : undefined
+              }
             >
               <span className="sc-word">{c.word}</span>
-              {c.note ? <span className="sc-transl">{c.note}</span> : transl ? <span className="sc-transl">{transl}</span> : null}
+              {c.note ? (
+                <span className="sc-transl">{c.note}</span>
+              ) : transl ? (
+                <span className="sc-transl">{transl}</span>
+              ) : null}
             </div>
           );
         })}

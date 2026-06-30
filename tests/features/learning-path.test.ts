@@ -15,14 +15,20 @@ import type { CefrLevel } from '../../data/cefr.ts';
 // A1 words from CEFR_MAP: 'cat', 'dog', 'go', 'big', 'run'
 // B1 word: 'achieve', 'improve', 'develop'
 const MOCK_WORDS: WordEntry[] = [
-  ['cat',     'кіт',         'The cat is on the mat.',    'Кіт на килимку.',    '/kæt/'],
-  ['dog',     'пес',         'I have a dog.',             'У мене є пес.',      '/dɒɡ/'],
-  ['go',      'йти',         'Let\'s go to school.',      'Ходімо до школи.',   '/ɡəʊ/'],
-  ['big',     'великий',     'It is a big house.',        'Це великий будинок.','/bɪɡ/'],
-  ['run',     'бігти',       'I run every day.',          'Я бігаю щодня.',     '/rʌn/'],
-  ['achieve', 'досягати',    'We can achieve our goals.', 'Ми можемо досягти наших цілей.', '/əˈtʃiːv/'],
+  ['cat', 'кіт', 'The cat is on the mat.', 'Кіт на килимку.', '/kæt/'],
+  ['dog', 'пес', 'I have a dog.', 'У мене є пес.', '/dɒɡ/'],
+  ['go', 'йти', "Let's go to school.", 'Ходімо до школи.', '/ɡəʊ/'],
+  ['big', 'великий', 'It is a big house.', 'Це великий будинок.', '/bɪɡ/'],
+  ['run', 'бігти', 'I run every day.', 'Я бігаю щодня.', '/rʌn/'],
+  [
+    'achieve',
+    'досягати',
+    'We can achieve our goals.',
+    'Ми можемо досягти наших цілей.',
+    '/əˈtʃiːv/',
+  ],
   ['improve', 'покращувати', 'Practice will improve it.', 'Практика покращить це.', '/ɪmˈpruːv/'],
-  ['develop', 'розвивати',   'We will develop a plan.',   'Ми розробимо план.', '/dɪˈveləp/'],
+  ['develop', 'розвивати', 'We will develop a plan.', 'Ми розробимо план.', '/dɪˈveləp/'],
 ];
 // cat, dog, go, big, run → A1 (all in CEFR_MAP)
 // achieve, improve, develop → B1 (in CEFR_MAP)
@@ -66,7 +72,7 @@ describe('computeCefrStats', () => {
 
   it('all levels present in result', () => {
     const stats = computeCefrStats(new Set(), MOCK_WORDS);
-    (['A1','A2','B1','B2','C1','C2'] as CefrLevel[]).forEach(l => {
+    (['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as CefrLevel[]).forEach((l) => {
       expect(stats[l]).toBeDefined();
     });
   });
@@ -75,10 +81,10 @@ describe('computeCefrStats', () => {
 // ── findCurrentLevel ──────────────────────────────────────────
 describe('findCurrentLevel', () => {
   function makeStats(pcts: Partial<Record<CefrLevel, number>>) {
-    const base = { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 };
+    const base = { A1: 0, A2: 0, B1: 0, B2: 0, C1: 0, C2: 0 };
     const merged = { ...base, ...pcts };
     const stats = {} as ReturnType<typeof computeCefrStats>;
-    (Object.keys(merged) as CefrLevel[]).forEach(l => {
+    (Object.keys(merged) as CefrLevel[]).forEach((l) => {
       stats[l] = { total: 100, known: merged[l]!, pct: merged[l]! };
     });
     return stats;
@@ -93,7 +99,9 @@ describe('findCurrentLevel', () => {
   });
 
   it('returns C2 when all levels are at or above 70%', () => {
-    expect(findCurrentLevel(makeStats({ A1:100, A2:90, B1:80, B2:75, C1:70, C2:70 }))).toBe('C2');
+    expect(findCurrentLevel(makeStats({ A1: 100, A2: 90, B1: 80, B2: 75, C1: 70, C2: 70 }))).toBe(
+      'C2',
+    );
   });
 
   it('treats exactly 70% as complete (not current)', () => {
@@ -105,14 +113,14 @@ describe('findCurrentLevel', () => {
 describe('filterDailyWords', () => {
   it('returns only words from the given CEFR level', () => {
     const result = filterDailyWords('A1', new Set(), MOCK_WORDS);
-    result.forEach(w => expect(['cat','dog','go','big','run']).toContain(w[0]));
+    result.forEach((w) => expect(['cat', 'dog', 'go', 'big', 'run']).toContain(w[0]));
   });
 
   it('excludes already-known words', () => {
     const known = new Set(['cat', 'dog']);
     const result = filterDailyWords('A1', known, MOCK_WORDS);
-    expect(result.map(w => w[0])).not.toContain('cat');
-    expect(result.map(w => w[0])).not.toContain('dog');
+    expect(result.map((w) => w[0])).not.toContain('cat');
+    expect(result.map((w) => w[0])).not.toContain('dog');
     expect(result.length).toBe(3);
   });
 
@@ -212,10 +220,10 @@ describe('estimateDays', () => {
 // ── updateCompletionDates ─────────────────────────────────────
 describe('updateCompletionDates', () => {
   function makeStats(pcts: Partial<Record<CefrLevel, number>>) {
-    const base = { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 };
+    const base = { A1: 0, A2: 0, B1: 0, B2: 0, C1: 0, C2: 0 };
     const merged = { ...base, ...pcts };
     const stats = {} as ReturnType<typeof computeCefrStats>;
-    (Object.keys(merged) as CefrLevel[]).forEach(l => {
+    (Object.keys(merged) as CefrLevel[]).forEach((l) => {
       stats[l] = { total: 100, known: merged[l]!, pct: merged[l]! };
     });
     return stats;

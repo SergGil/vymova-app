@@ -4,11 +4,17 @@ import { createRoot, type Root } from 'react-dom/client';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const configMock = vi.hoisted(() => ({ AI_PROXY_URL: 'https://proxy.example.test', AI_TUTOR_ENABLED: true }));
+const configMock = vi.hoisted(() => ({
+  AI_PROXY_URL: 'https://proxy.example.test',
+  AI_TUTOR_ENABLED: true,
+}));
 vi.mock('../../js/config.ts', () => configMock);
 
 async function flush(): Promise<void> {
-  await act(async () => { await Promise.resolve(); await Promise.resolve(); });
+  await act(async () => {
+    await Promise.resolve();
+    await Promise.resolve();
+  });
 }
 
 // Setting input.value directly skips React's internal value tracker, so
@@ -31,7 +37,9 @@ describe('ai-tutor.tsx AiTutorPage', () => {
   });
 
   afterEach(() => {
-    act(() => { root?.unmount(); });
+    act(() => {
+      root?.unmount();
+    });
     vi.unstubAllGlobals();
     vi.resetModules();
   });
@@ -41,7 +49,9 @@ describe('ai-tutor.tsx AiTutorPage', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     root = createRoot(container);
-    act(() => { root.render(<AiTutorPage />); });
+    act(() => {
+      root.render(<AiTutorPage />);
+    });
     return container;
   }
 
@@ -70,7 +80,9 @@ describe('ai-tutor.tsx AiTutorPage', () => {
     const form = target.querySelector('.ai-tutor-form') as HTMLFormElement;
 
     typeInto(input, 'Hola');
-    await act(async () => { form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); });
+    await act(async () => {
+      form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    });
     await flush();
 
     expect(fetch).toHaveBeenCalledWith(
@@ -91,7 +103,9 @@ describe('ai-tutor.tsx AiTutorPage', () => {
     const form = target.querySelector('.ai-tutor-form') as HTMLFormElement;
 
     typeInto(input, 'Hi');
-    await act(async () => { form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); });
+    await act(async () => {
+      form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    });
     await flush();
 
     expect(target.querySelector('.ai-tutor-error')).not.toBeNull();

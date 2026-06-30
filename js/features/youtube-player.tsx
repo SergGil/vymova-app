@@ -34,12 +34,18 @@ export function parseYoutubeId(input: string): string | null {
 }
 
 function loadHistory(): string[] {
-  try { return JSON.parse(localStorage.getItem(HISTORY_KEY) ?? '[]'); } catch { return []; }
+  try {
+    return JSON.parse(localStorage.getItem(HISTORY_KEY) ?? '[]');
+  } catch {
+    return [];
+  }
 }
 
 function pushHistory(id: string): string[] {
-  const next = [id, ...loadHistory().filter(v => v !== id)].slice(0, MAX_HISTORY);
-  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(next)); } catch {}
+  const next = [id, ...loadHistory().filter((v) => v !== id)].slice(0, MAX_HISTORY);
+  try {
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
+  } catch {}
   return next;
 }
 
@@ -62,7 +68,10 @@ export function YoutubePlayerPage(): ReactElement | null {
   const submit = (e: FormEvent): void => {
     e.preventDefault();
     const id = parseYoutubeId(input);
-    if (!id) { setError(t('ytPlayer.invalidUrl')); return; }
+    if (!id) {
+      setError(t('ytPlayer.invalidUrl'));
+      return;
+    }
     load(id);
   };
 
@@ -72,10 +81,12 @@ export function YoutubePlayerPage(): ReactElement | null {
         <input
           className="ai-tutor-input"
           value={input}
-          onChange={e => setInput(e.target.value)}
+          onChange={(e) => setInput(e.target.value)}
           placeholder={t('ytPlayer.placeholder')}
         />
-        <button type="submit" className="ai-tutor-send">{t('ytPlayer.watch')}</button>
+        <button type="submit" className="ai-tutor-send">
+          {t('ytPlayer.watch')}
+        </button>
       </form>
       {error && <div className="ai-tutor-error">{error}</div>}
 
@@ -98,8 +109,13 @@ export function YoutubePlayerPage(): ReactElement | null {
         <div className="yt-player-history">
           <div className="yt-player-history-title">{t('ytPlayer.recent')}</div>
           <div className="yt-player-history-grid">
-            {history.map(id => (
-              <button key={id} className="yt-player-history-item" onClick={() => load(id)} title={id}>
+            {history.map((id) => (
+              <button
+                key={id}
+                className="yt-player-history-item"
+                onClick={() => load(id)}
+                title={id}
+              >
                 <img src={`https://i.ytimg.com/vi/${id}/mqdefault.jpg`} alt="" loading="lazy" />
               </button>
             ))}

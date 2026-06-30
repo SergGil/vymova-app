@@ -7,7 +7,12 @@ import { openGrammarContent } from './grammar-page.tsx';
 import { openIdiomsContent } from './idioms-page.tsx';
 import { AI_TUTOR_ENABLED } from '../config.ts';
 import { notifyStateChange } from '../../src/store.ts';
-import { getActivePage, dispatchOpenPage, dispatchClosePage, useActivePage } from '../../src/nav-store.tsx';
+import {
+  getActivePage,
+  dispatchOpenPage,
+  dispatchClosePage,
+  useActivePage,
+} from '../../src/nav-store.tsx';
 import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
 import { _renderVoices } from './voice.tsx';
 import { _updateUI as _refreshNotifUI } from './notifications.tsx';
@@ -44,9 +49,12 @@ import { routerNavigate, PAGE_TO_ROUTE } from '../../src/router.ts';
 const ACTIVE_PAGE_KEY = 'ew_active_page';
 
 const PAGE_TO_SIDEBAR: Record<string, string> = {
-  stats: 'sb-stats', ach: 'sb-achievements',
-  modes: 'sb-modes', settings: 'sb-settings',
-  duel: 'sb-duel',   grammar: 'sb-grammar',
+  stats: 'sb-stats',
+  ach: 'sb-achievements',
+  modes: 'sb-modes',
+  settings: 'sb-settings',
+  duel: 'sb-duel',
+  grammar: 'sb-grammar',
   idioms: 'sb-idioms',
   'learning-path': 'sb-learning-path',
   profile: 'sb-profile',
@@ -57,7 +65,22 @@ const PAGE_TO_SIDEBAR: Record<string, string> = {
 };
 
 function _setSidebarActive(page: string | null): void {
-  ['sb-cards','sb-stats','sb-achievements','sb-modes','sb-settings','sb-duel','sb-grammar','sb-idioms','sb-learning-path','sb-profile','sb-ai-tutor','sb-voice-roleplay','sb-youtube-player','sb-video-player'].forEach(id => {
+  [
+    'sb-cards',
+    'sb-stats',
+    'sb-achievements',
+    'sb-modes',
+    'sb-settings',
+    'sb-duel',
+    'sb-grammar',
+    'sb-idioms',
+    'sb-learning-path',
+    'sb-profile',
+    'sb-ai-tutor',
+    'sb-voice-roleplay',
+    'sb-youtube-player',
+    'sb-video-player',
+  ].forEach((id) => {
     document.getElementById(id)?.classList.remove('sb-active');
   });
   const activeId = page ? (PAGE_TO_SIDEBAR[page] ?? 'sb-cards') : 'sb-cards';
@@ -72,7 +95,9 @@ function closeSidebar(): void {
 export function openPage(page: string): void {
   closePage();
   dispatchOpenPage(page);
-  try { localStorage.setItem(ACTIVE_PAGE_KEY, page); } catch(e){}
+  try {
+    localStorage.setItem(ACTIVE_PAGE_KEY, page);
+  } catch (e) {}
   _setSidebarActive(page);
   // Sync URL — skip if already at this route (e.g. called from RouterSync)
   const route = PAGE_TO_ROUTE[page];
@@ -81,7 +106,10 @@ export function openPage(page: string): void {
   document.body.style.overflow = 'hidden';
   if (page === 'stats') {
     const so = document.getElementById('stats-overlay');
-    if (so) { so.classList.add('as-page'); so.style.display = 'flex'; }
+    if (so) {
+      so.classList.add('as-page');
+      so.style.display = 'flex';
+    }
     document.getElementById('btn-stats')?.dispatchEvent(new Event('click'));
   } else if (page === 'ach') {
     document.getElementById('ach-overlay')?.classList.add('open');
@@ -126,21 +154,35 @@ export function openPage(page: string): void {
 // overlays (z-index 9100+) and are toggled via style.display rather than
 // classes — close them too so they don't bleed through when switching pages.
 const MODE_OVERLAY_IDS = [
-  'bee-overlay', 'scr-overlay', 'wl-overlay', 'story-mode-overlay', 'ctx-overlay',
-  'fib-overlay', 'listen-overlay', 'catpairs-overlay', 'lesson-overlay',
-  'write-overlay', 'pairs-overlay', 'tempo-overlay',
+  'bee-overlay',
+  'scr-overlay',
+  'wl-overlay',
+  'story-mode-overlay',
+  'ctx-overlay',
+  'fib-overlay',
+  'listen-overlay',
+  'catpairs-overlay',
+  'lesson-overlay',
+  'write-overlay',
+  'pairs-overlay',
+  'tempo-overlay',
 ];
 
 export function closePage(): void {
   if (getActivePage() !== null) dispatchClosePage();
-  try { localStorage.removeItem(ACTIVE_PAGE_KEY); } catch(e){}
+  try {
+    localStorage.removeItem(ACTIVE_PAGE_KEY);
+  } catch (e) {}
   // Navigate to root only if we're currently on a page route
   if (_currentHashRoute() !== '/') routerNavigate('/');
   _setSidebarActive(null);
   // Restore body scroll when page is closed
   document.body.style.overflow = '';
   const so = document.getElementById('stats-overlay');
-  if (so) { so.classList.remove('as-page'); so.style.display = 'none'; }
+  if (so) {
+    so.classList.remove('as-page');
+    so.style.display = 'none';
+  }
   document.getElementById('ach-overlay')?.classList.remove('open');
   const mo = document.getElementById('modes-overlay');
   mo?.classList.remove('as-page', 'open');
@@ -160,14 +202,31 @@ export function closePage(): void {
   }
 }
 
-const FANDOM_THEME_KEYS = ['sw', 'hp', 'cp', 'lotr', 'mcu', 'witcher', 'mc', 'dc', 'got', 'dw', 'dune', 'hg', 'avt', 'dt'];
+const FANDOM_THEME_KEYS = [
+  'sw',
+  'hp',
+  'cp',
+  'lotr',
+  'mcu',
+  'witcher',
+  'mc',
+  'dc',
+  'got',
+  'dw',
+  'dune',
+  'hg',
+  'avt',
+  'dt',
+];
 
 function _updateTogglePills(): void {
   // Dark theme pill reflects user preference (ew_theme), not a fandom-induced body.dark
   const isDark = localStorage.getItem('ew_theme') === 'dark';
   document.getElementById('set-theme-pill')?.classList.toggle('on', isDark);
   for (const key of FANDOM_THEME_KEYS) {
-    document.getElementById(`set-${key}-pill`)?.classList.toggle('on', document.body.classList.contains(key));
+    document
+      .getElementById(`set-${key}-pill`)
+      ?.classList.toggle('on', document.body.classList.contains(key));
   }
 }
 
@@ -181,10 +240,20 @@ export function SidebarInit(): ReactElement | null {
     const imgClearOvl = document.getElementById('img-clear-overlay');
     const imgClearCancel = document.getElementById('img-clear-cancel');
     const imgClearConfirm = document.getElementById('img-clear-confirm');
-    const onImgClearCancel = () => { imgClearOvl?.classList.remove('open'); _imgClearCb = null; };
-    const onImgClearConfirm = () => { imgClearOvl?.classList.remove('open'); _imgClearCb?.(); _imgClearCb = null; };
+    const onImgClearCancel = () => {
+      imgClearOvl?.classList.remove('open');
+      _imgClearCb = null;
+    };
+    const onImgClearConfirm = () => {
+      imgClearOvl?.classList.remove('open');
+      _imgClearCb?.();
+      _imgClearCb = null;
+    };
     const onImgClearOvlClick = (e: MouseEvent) => {
-      if (e.target === imgClearOvl) { imgClearOvl?.classList.remove('open'); _imgClearCb = null; }
+      if (e.target === imgClearOvl) {
+        imgClearOvl?.classList.remove('open');
+        _imgClearCb = null;
+      }
     };
     imgClearCancel?.addEventListener('click', onImgClearCancel);
     imgClearConfirm?.addEventListener('click', onImgClearConfirm);
@@ -209,7 +278,7 @@ export function SidebarInit(): ReactElement | null {
     sbOvl?.addEventListener('click', closeSidebar);
 
     const closePageBtns = document.querySelectorAll<HTMLElement>('[data-close-page]');
-    closePageBtns.forEach(btn => btn.addEventListener('click', closePage));
+    closePageBtns.forEach((btn) => btn.addEventListener('click', closePage));
     const statsClose = document.getElementById('stats-close');
     const modesClose = document.getElementById('modes-close');
     statsClose?.addEventListener('click', closePage);
@@ -231,26 +300,32 @@ export function SidebarInit(): ReactElement | null {
     }
 
     const sbCards = document.getElementById('sb-cards') as HTMLAnchorElement | null;
-    const sbHome  = document.getElementById('sb-home');
+    const sbHome = document.getElementById('sb-home');
     if (sbCards) sbCards.href = base + '/';
-    const onCardsClick = _navHandler(() => { closePage(); if (window.innerWidth <= 900) closeSidebar(); });
+    const onCardsClick = _navHandler(() => {
+      closePage();
+      if (window.innerWidth <= 900) closeSidebar();
+    });
     sbCards?.addEventListener('click', onCardsClick);
-    sbHome?.addEventListener('click', () => { closePage(); if (window.innerWidth <= 900) closeSidebar(); });
+    sbHome?.addEventListener('click', () => {
+      closePage();
+      if (window.innerWidth <= 900) closeSidebar();
+    });
 
     const NAV_LINKS: [string, string, string][] = [
-      ['sb-stats',         '/stats',          'stats'],
-      ['sb-achievements',  '/achievements',   'ach'],
-      ['sb-modes',         '/modes',          'modes'],
-      ['sb-settings',      '/settings',       'settings'],
-      ['sb-duel',          '/duel',           'duel'],
-      ['sb-grammar',       '/grammar',        'grammar'],
-      ['sb-idioms',        '/idioms',         'idioms'],
-      ['sb-learning-path', '/learning-path',  'learning-path'],
-      ['sb-profile',       '/profile',        'profile'],
-      ['sb-ai-tutor',      '/ai-tutor',       'ai-tutor'],
-      ['sb-voice-roleplay','/voice-roleplay', 'voice-roleplay'],
-      ['sb-youtube-player','/youtube',        'youtube-player'],
-      ['sb-video-player',  '/video-player',   'video-player'],
+      ['sb-stats', '/stats', 'stats'],
+      ['sb-achievements', '/achievements', 'ach'],
+      ['sb-modes', '/modes', 'modes'],
+      ['sb-settings', '/settings', 'settings'],
+      ['sb-duel', '/duel', 'duel'],
+      ['sb-grammar', '/grammar', 'grammar'],
+      ['sb-idioms', '/idioms', 'idioms'],
+      ['sb-learning-path', '/learning-path', 'learning-path'],
+      ['sb-profile', '/profile', 'profile'],
+      ['sb-ai-tutor', '/ai-tutor', 'ai-tutor'],
+      ['sb-voice-roleplay', '/voice-roleplay', 'voice-roleplay'],
+      ['sb-youtube-player', '/youtube', 'youtube-player'],
+      ['sb-video-player', '/video-player', 'video-player'],
     ];
     const _navListeners: [HTMLElement, string, EventListener][] = [];
     for (const [id, route, page] of NAV_LINKS) {
@@ -267,10 +342,13 @@ export function SidebarInit(): ReactElement | null {
     const allFlyoutGroups: Array<{ group: HTMLElement; flyout: HTMLElement }> = [];
     const closeOtherFlyouts = (except: HTMLElement) => {
       allFlyoutGroups.forEach(({ group: g, flyout: f }) => {
-        if (f !== except) { f.classList.remove('open'); g.classList.remove('open'); }
+        if (f !== except) {
+          f.classList.remove('open');
+          g.classList.remove('open');
+        }
       });
     };
-    document.querySelectorAll<HTMLElement>('.sb-group').forEach(group => {
+    document.querySelectorAll<HTMLElement>('.sb-group').forEach((group) => {
       const trigger = group.querySelector<HTMLElement>('.sb-group-trigger');
       const flyout = group.querySelector<HTMLElement>('.sb-flyout');
       if (!trigger || !flyout) return;
@@ -297,7 +375,10 @@ export function SidebarInit(): ReactElement | null {
         }
       };
       const openFlyout = () => {
-        if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+        if (closeTimer) {
+          clearTimeout(closeTimer);
+          closeTimer = null;
+        }
         if (isMobile()) return;
         closeOtherFlyouts(flyout);
         positionFlyout();
@@ -307,13 +388,23 @@ export function SidebarInit(): ReactElement | null {
         closeTimer = setTimeout(() => flyout.classList.remove('open'), 150);
       };
       const onTriggerEnter = () => openFlyout();
-      const onTriggerLeave = () => { if (!isMobile()) scheduleClose(); };
-      const onFlyoutEnter = () => { if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; } };
+      const onTriggerLeave = () => {
+        if (!isMobile()) scheduleClose();
+      };
+      const onFlyoutEnter = () => {
+        if (closeTimer) {
+          clearTimeout(closeTimer);
+          closeTimer = null;
+        }
+      };
       const onFlyoutLeave = () => scheduleClose();
       const onTriggerClick = (e: MouseEvent) => {
         e.preventDefault();
         const willOpen = !flyout.classList.contains('open');
-        if (willOpen) { closeOtherFlyouts(flyout); positionFlyout(); }
+        if (willOpen) {
+          closeOtherFlyouts(flyout);
+          positionFlyout();
+        }
         flyout.classList.toggle('open', willOpen);
         group.classList.toggle('open', willOpen);
       };
@@ -338,13 +429,13 @@ export function SidebarInit(): ReactElement | null {
         trigger.removeEventListener('click', onTriggerClick);
         flyout.removeEventListener('click', onFlyoutItemClick);
         if (closeTimer) clearTimeout(closeTimer);
-        const idx = allFlyoutGroups.findIndex(x => x.flyout === flyout);
+        const idx = allFlyoutGroups.findIndex((x) => x.flyout === flyout);
         if (idx !== -1) allFlyoutGroups.splice(idx, 1);
         flyoutPlaceholder.replaceWith(flyout);
       });
     });
     const onDocClickCloseGroups = (e: MouseEvent) => {
-      document.querySelectorAll<HTMLElement>('.sb-group').forEach(group => {
+      document.querySelectorAll<HTMLElement>('.sb-group').forEach((group) => {
         // The flyout itself lives under <body> now (see the reparenting
         // above), so it's no longer a descendant of .sb-group — look it up
         // by id instead of group.querySelector.
@@ -360,13 +451,19 @@ export function SidebarInit(): ReactElement | null {
 
     // ── Theme toggles ──────────────────────────────────────────
     const setTheme = document.getElementById('set-theme');
-    const onSetThemeClick = () => { document.getElementById('btn-theme')?.click(); setTimeout(_updateTogglePills, 50); };
+    const onSetThemeClick = () => {
+      document.getElementById('btn-theme')?.click();
+      setTimeout(_updateTogglePills, 50);
+    };
     setTheme?.addEventListener('click', onSetThemeClick);
     const themeRowCleanups: Array<() => void> = [];
     for (const key of FANDOM_THEME_KEYS) {
       const setRow = document.getElementById(`set-${key}`);
       const titleToggle = document.getElementById(`title-${key}-toggle`);
-      const onClick = () => { document.getElementById(`btn-${key}`)?.click(); setTimeout(_updateTogglePills, 50); };
+      const onClick = () => {
+        document.getElementById(`btn-${key}`)?.click();
+        setTimeout(_updateTogglePills, 50);
+      };
       setRow?.addEventListener('click', onClick);
       titleToggle?.addEventListener('click', onClick);
       themeRowCleanups.push(() => {
@@ -383,14 +480,30 @@ export function SidebarInit(): ReactElement | null {
     // "show more" toggle so the Settings page doesn't open to a wall of
     // rows — unless one of them is already the active theme, in which case
     // start expanded so the user can see what's currently selected.
-    const EXTRA_THEME_KEYS = ['cp', 'lotr', 'mcu', 'witcher', 'mc', 'dc', 'got', 'dw', 'dune', 'hg', 'avt', 'dt'];
+    const EXTRA_THEME_KEYS = [
+      'cp',
+      'lotr',
+      'mcu',
+      'witcher',
+      'mc',
+      'dc',
+      'got',
+      'dw',
+      'dune',
+      'hg',
+      'avt',
+      'dt',
+    ];
     const extraRows = document.getElementById('theme-rows-extra');
     const toggleRowsBtn = document.getElementById('theme-rows-toggle');
     const setThemeRowsExpanded = (expanded: boolean) => {
       if (extraRows) extraRows.style.display = expanded ? 'flex' : 'none';
-      if (toggleRowsBtn) toggleRowsBtn.textContent = t(expanded ? 'settings.showLessThemes' : 'settings.showMoreThemes');
+      if (toggleRowsBtn)
+        toggleRowsBtn.textContent = t(
+          expanded ? 'settings.showLessThemes' : 'settings.showMoreThemes',
+        );
     };
-    setThemeRowsExpanded(EXTRA_THEME_KEYS.some(k => document.body.classList.contains(k)));
+    setThemeRowsExpanded(EXTRA_THEME_KEYS.some((k) => document.body.classList.contains(k)));
     const onToggleRowsClick = () => setThemeRowsExpanded(extraRows?.style.display === 'none');
     toggleRowsBtn?.addEventListener('click', onToggleRowsClick);
 
@@ -411,13 +524,21 @@ export function SidebarInit(): ReactElement | null {
       const savedPage = localStorage.getItem(ACTIVE_PAGE_KEY);
       if (savedPage) {
         t1 = setTimeout(() => {
-          try { openPage(savedPage); } catch(e){ console.error('[sidebar] failed to restore page', savedPage, e); }
+          try {
+            openPage(savedPage);
+          } catch (e) {
+            console.error('[sidebar] failed to restore page', savedPage, e);
+          }
         }, 0);
         t2 = setTimeout(() => {
-          try { openPage(savedPage); } catch(e){ console.error('[sidebar] failed to restore page (retry)', savedPage, e); }
+          try {
+            openPage(savedPage);
+          } catch (e) {
+            console.error('[sidebar] failed to restore page (retry)', savedPage, e);
+          }
         }, 250);
       }
-    } catch(e){}
+    } catch (e) {}
 
     return () => {
       imgClearCancel?.removeEventListener('click', onImgClearCancel);
@@ -425,15 +546,15 @@ export function SidebarInit(): ReactElement | null {
       imgClearOvl?.removeEventListener('click', onImgClearOvlClick);
       ham?.removeEventListener('click', onHamClick);
       sbOvl?.removeEventListener('click', closeSidebar);
-      closePageBtns.forEach(btn => btn.removeEventListener('click', closePage));
+      closePageBtns.forEach((btn) => btn.removeEventListener('click', closePage));
       statsClose?.removeEventListener('click', closePage);
       modesClose?.removeEventListener('click', closePage);
       sbCards?.removeEventListener('click', onCardsClick);
       for (const [el, evt, fn] of _navListeners) el.removeEventListener(evt, fn);
-      groupCleanups.forEach(fn => fn());
+      groupCleanups.forEach((fn) => fn());
       document.removeEventListener('click', onDocClickCloseGroups);
       setTheme?.removeEventListener('click', onSetThemeClick);
-      themeRowCleanups.forEach(fn => fn());
+      themeRowCleanups.forEach((fn) => fn());
       toggleRowsBtn?.removeEventListener('click', onToggleRowsClick);
       mo.disconnect();
       if (t1) clearTimeout(t1);

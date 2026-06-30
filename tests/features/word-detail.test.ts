@@ -49,7 +49,7 @@ describe('Example extraction', () => {
 // ── Grammar rendering logic (section types) ───────────────────
 describe('Grammar section type coverage', () => {
   const allSectionTypes = new Set(
-    GRAMMAR.flatMap(c => c.rules.flatMap(r => r.sections.map(s => s.type)))
+    GRAMMAR.flatMap((c) => c.rules.flatMap((r) => r.sections.map((s) => s.type))),
   );
 
   it('has intro sections', () => expect(allSectionTypes.has('intro')).toBe(true));
@@ -63,22 +63,22 @@ describe('Grammar section type coverage', () => {
 
 describe('Grammar content — new rules completeness', () => {
   it('has reported-questions rule', () => {
-    const all = GRAMMAR.flatMap(c => c.rules);
-    expect(all.some(r => r.id === 'reported-questions')).toBe(true);
+    const all = GRAMMAR.flatMap((c) => c.rules);
+    expect(all.some((r) => r.id === 'reported-questions')).toBe(true);
   });
 
   it('has wish-would-rather rule', () => {
-    const all = GRAMMAR.flatMap(c => c.rules);
-    expect(all.some(r => r.id === 'wish-would-rather')).toBe(true);
+    const all = GRAMMAR.flatMap((c) => c.rules);
+    expect(all.some((r) => r.id === 'wish-would-rather')).toBe(true);
   });
 
   it('has numbers-determiners rule', () => {
-    const all = GRAMMAR.flatMap(c => c.rules);
-    expect(all.some(r => r.id === 'numbers-determiners')).toBe(true);
+    const all = GRAMMAR.flatMap((c) => c.rules);
+    expect(all.some((r) => r.id === 'numbers-determiners')).toBe(true);
   });
 
   it('grammar category has more rules than initial 4', () => {
-    const grammar = GRAMMAR.find(c => c.id === 'grammar')!;
+    const grammar = GRAMMAR.find((c) => c.id === 'grammar')!;
     expect(grammar.rules.length).toBeGreaterThan(10);
   });
 });

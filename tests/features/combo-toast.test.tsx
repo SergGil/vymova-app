@@ -11,13 +11,15 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<ComboToast />); });
+  act(() => {
+    root.render(<ComboToast />);
+  });
   activeRoot = root;
   return { container, root };
 }
 
 function rafTick(): Promise<void> {
-  return new Promise(resolve => requestAnimationFrame(() => resolve()));
+  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }
 
 describe('combo-toast.tsx', () => {
@@ -26,7 +28,12 @@ describe('combo-toast.tsx', () => {
   });
 
   afterEach(() => {
-    if (activeRoot) { act(() => { activeRoot!.unmount(); }); activeRoot = null; }
+    if (activeRoot) {
+      act(() => {
+        activeRoot!.unmount();
+      });
+      activeRoot = null;
+    }
   });
 
   it('renders an empty hidden toast initially', () => {
@@ -53,17 +60,21 @@ describe('combo-toast.tsx', () => {
       showComboToast('×3 MEGA!');
       await rafTick();
     });
-    expect((container.querySelector('#combo-toast') as HTMLElement).className).toBe('combo-toast show');
+    expect((container.querySelector('#combo-toast') as HTMLElement).className).toBe(
+      'combo-toast show',
+    );
 
     await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 1700));
+      await new Promise((resolve) => setTimeout(resolve, 1700));
     });
     expect((container.querySelector('#combo-toast') as HTMLElement).className).toBe('combo-toast');
   }, 10000);
 
   it('does not throw when showComboToast is called after unmount', () => {
     const { root } = mount();
-    act(() => { root.unmount(); });
+    act(() => {
+      root.unmount();
+    });
     activeRoot = null;
     expect(() => showComboToast('JEDI FLOW!')).not.toThrow();
   });

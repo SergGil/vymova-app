@@ -21,7 +21,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<DuelTempoTimer />); });
+  act(() => {
+    root.render(<DuelTempoTimer />);
+  });
   return { container, root };
 }
 
@@ -36,7 +38,11 @@ describe('duel-tempo-timer.tsx DuelTempoTimer', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders nothing when not visible', () => {
@@ -69,7 +75,10 @@ describe('duel-tempo-timer.tsx DuelTempoTimer', () => {
     expect(container.innerHTML).toBe('');
 
     tempo = { visible: true, num: 2 };
-    act(() => { notifyStateChange(); setDuelRoom({}); });
+    act(() => {
+      notifyStateChange();
+      setDuelRoom({});
+    });
 
     expect(container.textContent).toContain('2');
   });

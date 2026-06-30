@@ -1,5 +1,15 @@
 import { describe, it, expect } from 'vitest';
-import { GRAMMAR_HE, GRAMMAR_AR, GRAMMAR_PL, GRAMMAR_ZH, GRAMMAR_EL, GRAMMAR_JA, GRAMMAR_TR, GRAMMAR_NL, GRAMMAR_BY_LANG } from '../../data/grammar.ts';
+import {
+  GRAMMAR_HE,
+  GRAMMAR_AR,
+  GRAMMAR_PL,
+  GRAMMAR_ZH,
+  GRAMMAR_EL,
+  GRAMMAR_JA,
+  GRAMMAR_TR,
+  GRAMMAR_NL,
+  GRAMMAR_BY_LANG,
+} from '../../data/grammar.ts';
 import type { GrammarCategory } from '../../data/grammar.ts';
 
 function checkGrammarShape(categories: GrammarCategory[], name: string) {
@@ -10,7 +20,9 @@ function checkGrammarShape(categories: GrammarCategory[], name: string) {
       expect(cat.id, `${name}: category missing id`).toBeTruthy();
       expect(cat.title, `${name}: category ${cat.id} missing title`).toBeTruthy();
       expect(cat.emoji, `${name}: category ${cat.id} missing emoji`).toBeTruthy();
-      expect(Array.isArray(cat.rules), `${name}: category ${cat.id} rules must be array`).toBe(true);
+      expect(Array.isArray(cat.rules), `${name}: category ${cat.id} rules must be array`).toBe(
+        true,
+      );
     }
   });
 
@@ -25,7 +37,10 @@ function checkGrammarShape(categories: GrammarCategory[], name: string) {
         expect(rule.id, `${name}: rule missing id`).toBeTruthy();
         expect(rule.title, `${name}: rule ${rule.id} missing title`).toBeTruthy();
         expect(rule.emoji, `${name}: rule ${rule.id} missing emoji`).toBeTruthy();
-        expect(Array.isArray(rule.sections), `${name}: rule ${rule.id} sections must be array`).toBe(true);
+        expect(
+          Array.isArray(rule.sections),
+          `${name}: rule ${rule.id} sections must be array`,
+        ).toBe(true);
         expect(rule.sections.length, `${name}: rule ${rule.id} has no sections`).toBeGreaterThan(0);
       }
     }
@@ -34,13 +49,15 @@ function checkGrammarShape(categories: GrammarCategory[], name: string) {
   it(`${name} rule titles do not contain raw HTML (plain-text nav buttons would render it literally)`, () => {
     for (const cat of categories) {
       for (const rule of cat.rules) {
-        expect(rule.title, `${name}: rule ${rule.id} title must be plain text`).not.toContain('<span');
+        expect(rule.title, `${name}: rule ${rule.id} title must be plain text`).not.toContain(
+          '<span',
+        );
       }
     }
   });
 
   it(`${name} rule IDs are unique`, () => {
-    const ids = categories.flatMap(c => c.rules.map(r => r.id));
+    const ids = categories.flatMap((c) => c.rules.map((r) => r.id));
     expect(new Set(ids).size).toBe(ids.length);
   });
 
@@ -50,7 +67,10 @@ function checkGrammarShape(categories: GrammarCategory[], name: string) {
         for (const s of rule.sections) {
           if (s.type !== 'formula') continue;
           for (const row of s.rows ?? []) {
-            expect(row.length, `${name}: rule ${rule.id} formula row too short: ${JSON.stringify(row)}`).toBeGreaterThanOrEqual(3);
+            expect(
+              row.length,
+              `${name}: rule ${rule.id} formula row too short: ${JSON.stringify(row)}`,
+            ).toBeGreaterThanOrEqual(3);
           }
         }
       }

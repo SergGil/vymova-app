@@ -21,10 +21,13 @@ const { _rebuildEsDeck, _isSpecialMode } = vi.hoisted(() => ({
 vi.mock('../../js/features/deck-mode.tsx', () => ({ _rebuildEsDeck, _isSpecialMode }));
 
 function mount(): { selTag: HTMLSelectElement; root: Root } {
-  document.body.innerHTML = '<select id="sel-tag"></select><select id="sel-mode"><option value="en">en</option></select><select id="sel-range"><option value="all">all</option></select>';
+  document.body.innerHTML =
+    '<select id="sel-tag"></select><select id="sel-mode"><option value="en">en</option></select><select id="sel-range"><option value="all">all</option></select>';
   const selTag = document.getElementById('sel-tag') as HTMLSelectElement;
   const root = createRoot(selTag);
-  act(() => { root.render(<TagFilterSelect />); });
+  act(() => {
+    root.render(<TagFilterSelect />);
+  });
   return { selTag, root };
 }
 
@@ -59,9 +62,13 @@ describe('tag-filter-select.tsx TagFilterSelect', () => {
 
     selTag.value = cat;
     let changeFired = false;
-    document.getElementById('sel-range')!.addEventListener('change', () => { changeFired = true; });
+    document.getElementById('sel-range')!.addEventListener('change', () => {
+      changeFired = true;
+    });
 
-    act(() => { selTag.dispatchEvent(new Event('change')); });
+    act(() => {
+      selTag.dispatchEvent(new Event('change'));
+    });
 
     expect(getActiveTagSetSnapshot()).toEqual(new Set([word.toLowerCase()]));
     expect(changeFired).toBe(true);
@@ -72,7 +79,9 @@ describe('tag-filter-select.tsx TagFilterSelect', () => {
     const { selTag } = mount();
     setActiveTagSet(new Set(['abandon']));
     selTag.value = '';
-    act(() => { selTag.dispatchEvent(new Event('change')); });
+    act(() => {
+      selTag.dispatchEvent(new Event('change'));
+    });
     expect(getActiveTagSetSnapshot()).toBeNull();
   });
 
@@ -83,9 +92,13 @@ describe('tag-filter-select.tsx TagFilterSelect', () => {
     selTag.value = cat;
 
     let changeFired = false;
-    document.getElementById('sel-range')!.addEventListener('change', () => { changeFired = true; });
+    document.getElementById('sel-range')!.addEventListener('change', () => {
+      changeFired = true;
+    });
 
-    act(() => { selTag.dispatchEvent(new Event('change')); });
+    act(() => {
+      selTag.dispatchEvent(new Event('change'));
+    });
 
     expect(_rebuildEsDeck).toHaveBeenCalled();
     expect(changeFired).toBe(false);

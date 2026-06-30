@@ -7,7 +7,13 @@ import { openPage } from './sidebar.tsx';
 import { t } from './i18n.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
 import { bindModalDismiss } from './overlay-utils.ts';
-import { isPwaInstalled, canTriggerPwaInstall, needsPwaIosHint, needsBrowserUiHint, triggerPwaInstall } from '../core/pwa.tsx';
+import {
+  isPwaInstalled,
+  canTriggerPwaInstall,
+  needsPwaIosHint,
+  needsBrowserUiHint,
+  triggerPwaInstall,
+} from '../core/pwa.tsx';
 import type { WordEntry } from '../../src/types.js';
 
 type VoidFn = () => void;
@@ -15,7 +21,7 @@ const _callWin = (name: string) => (window[name] as VoidFn | undefined)?.();
 
 function haptic(type: string): void {
   if (!navigator.vibrate) return;
-  if (type === 'correct')   navigator.vibrate(50);
+  if (type === 'correct') navigator.vibrate(50);
   else if (type === 'wrong') navigator.vibrate([80, 40, 80]);
   else if (type === 'milestone') navigator.vibrate([50, 30, 50, 30, 200]);
   else if (type === 'combo') navigator.vibrate([30, 20, 30, 20, 60]);
@@ -24,7 +30,10 @@ function haptic(type: string): void {
 export function SettingsInit(): ReactElement | null {
   useEffect(() => {
     // ── Auto Dark Mode ─────────────────────────────────────────────
-    if (!localStorage.getItem('ew_theme') && window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
+    if (
+      !localStorage.getItem('ew_theme') &&
+      window.matchMedia?.('(prefers-color-scheme: dark)').matches
+    ) {
       document.body.classList.add('dark');
     }
     const darkMq = window.matchMedia?.('(prefers-color-scheme: dark)');
@@ -46,9 +55,9 @@ export function SettingsInit(): ReactElement | null {
       if (document.visibilityState !== 'visible') return;
       const _idle = window._idle as ((fn: VoidFn) => void) | undefined;
       _idle?.(() => {
-        const uncached = W.filter(w => !Object.prototype.hasOwnProperty.call(_imgCache, w[0]));
+        const uncached = W.filter((w) => !Object.prototype.hasOwnProperty.call(_imgCache, w[0]));
         if (uncached.length > 0 && uncached.length < W.length * 0.1) {
-          uncached.slice(0, 20).forEach(w => {
+          uncached.slice(0, 20).forEach((w) => {
             setTimeout(() => loadWikiImage(w[0], () => {}), Math.random() * 5000);
           });
         }
@@ -57,10 +66,26 @@ export function SettingsInit(): ReactElement | null {
     document.addEventListener('visibilitychange', onVisibilityChange);
 
     // ── Initial renders ────────────────────────────────────────────
-    try { refreshGameBarLevel(); } catch (e) { console.error(e); }
-    try { updateSrsUI(W as unknown as WordEntry[]); } catch (e) { console.error(e); }
-    try { _callWin('checkAchievements'); } catch (e) { console.error(e); }
-    try { _callWin('render'); } catch (e) { console.error('render ERR:', e); }
+    try {
+      refreshGameBarLevel();
+    } catch (e) {
+      console.error(e);
+    }
+    try {
+      updateSrsUI(W as unknown as WordEntry[]);
+    } catch (e) {
+      console.error(e);
+    }
+    try {
+      _callWin('checkAchievements');
+    } catch (e) {
+      console.error(e);
+    }
+    try {
+      _callWin('render');
+    } catch (e) {
+      console.error('render ERR:', e);
+    }
     const renderTimer = setTimeout(() => {
       try {
         const ww = document.getElementById('wword');
@@ -85,7 +110,10 @@ export function SettingsInit(): ReactElement | null {
       { key: 'avt', titleOn: 'settings.avtTitleOn', titleOff: 'settings.avtTitle' },
       { key: 'dt', titleOn: 'settings.dtTitleOn', titleOff: 'settings.dtTitle' },
     ];
-    const themeBtns = THEME_DEFS.map(d => ({ ...d, el: document.getElementById(`btn-${d.key}`) as HTMLElement | null }));
+    const themeBtns = THEME_DEFS.map((d) => ({
+      ...d,
+      el: document.getElementById(`btn-${d.key}`) as HTMLElement | null,
+    }));
     const themeCleanups: VoidFn[] = [];
     // Self-heal stale state from before mutual exclusivity was enforced (or
     // any other way two `ew_<key>` flags ended up '1' at once) — apply only
@@ -107,7 +135,7 @@ export function SettingsInit(): ReactElement | null {
         localStorage.setItem(`ew_${key}`, isOn ? '1' : '0');
         el.title = isOn ? t(titleOn) : t(titleOff);
         if (isOn) {
-          themeBtns.forEach(other => {
+          themeBtns.forEach((other) => {
             if (other.key === key || !other.el) return;
             document.body.classList.remove(other.key);
             localStorage.setItem(`ew_${other.key}`, '0');
@@ -121,11 +149,15 @@ export function SettingsInit(): ReactElement | null {
 
     // ── Modes Modal ────────────────────────────────────────────────
     const _modesOvl = document.getElementById('modes-overlay');
-    const _openBtn  = document.getElementById('btn-modes-open');
+    const _openBtn = document.getElementById('btn-modes-open');
     let openModes: (() => void) | null = null;
     if (_modesOvl && _openBtn) {
-      openModes  = (): void => { _modesOvl.className = 'modes-overlay open'; };
-      const closeModes = (): void => { _modesOvl.className = 'modes-overlay'; };
+      openModes = (): void => {
+        _modesOvl.className = 'modes-overlay open';
+      };
+      const closeModes = (): void => {
+        _modesOvl.className = 'modes-overlay';
+      };
       _openBtn.addEventListener('click', openModes);
       bindModalDismiss('modes-overlay', 'modes-close', closeModes);
     }
@@ -153,11 +185,17 @@ export function SettingsInit(): ReactElement | null {
         pwaStatus.style.display = 'none';
       } else if (needsPwaIosHint()) {
         btnPwaInstall.style.display = 'none';
-        if (pwaHint) { pwaHint.style.display = ''; pwaHint.innerHTML = t('pwa.iosInstallHint'); }
+        if (pwaHint) {
+          pwaHint.style.display = '';
+          pwaHint.innerHTML = t('pwa.iosInstallHint');
+        }
         pwaStatus.style.display = 'none';
       } else if (needsBrowserUiHint()) {
         btnPwaInstall.style.display = 'none';
-        if (pwaHint) { pwaHint.style.display = ''; pwaHint.textContent = t('settings.pwaAddressBarHint'); }
+        if (pwaHint) {
+          pwaHint.style.display = '';
+          pwaHint.textContent = t('settings.pwaAddressBarHint');
+        }
         pwaStatus.style.display = 'none';
       } else {
         btnPwaInstall.style.display = 'none';
@@ -168,7 +206,9 @@ export function SettingsInit(): ReactElement | null {
     }
     if (btnPwaInstall) {
       refreshPwaSection();
-      onPwaInstallClick = () => { triggerPwaInstall().then(refreshPwaSection); };
+      onPwaInstallClick = () => {
+        triggerPwaInstall().then(refreshPwaSection);
+      };
       btnPwaInstall.addEventListener('click', onPwaInstallClick);
       // beforeinstallprompt can arrive after this page already rendered;
       // appinstalled confirms the install actually completed
@@ -182,10 +222,11 @@ export function SettingsInit(): ReactElement | null {
       btnNext?.removeEventListener('click', onNext, true);
       document.removeEventListener('visibilitychange', onVisibilityChange);
       clearTimeout(renderTimer);
-      themeCleanups.forEach(fn => fn());
+      themeCleanups.forEach((fn) => fn());
       if (_openBtn && openModes) _openBtn.removeEventListener('click', openModes);
       btnAch?.removeEventListener('click', onAchClick);
-      if (btnPwaInstall && onPwaInstallClick) btnPwaInstall.removeEventListener('click', onPwaInstallClick);
+      if (btnPwaInstall && onPwaInstallClick)
+        btnPwaInstall.removeEventListener('click', onPwaInstallClick);
       window.removeEventListener('beforeinstallprompt', refreshPwaSection);
       window.removeEventListener('appinstalled', refreshPwaSection);
     };

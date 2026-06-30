@@ -3,12 +3,35 @@ import { setModeState } from '../../src/deck-store.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 import {
-  getMode, getFrontLang, getResolvedMode, getActiveKnown, computeCardView,
-  esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry,
-  ES_MODES, FR_MODES, IT_MODES, PT_MODES, DE_MODES, HE_MODES, AR_MODES, PL_MODES,
+  getMode,
+  getFrontLang,
+  getResolvedMode,
+  getActiveKnown,
+  computeCardView,
+  esEntry,
+  frEntry,
+  itEntry,
+  ptEntry,
+  deEntry,
+  heEntry,
+  arEntry,
+  plEntry,
+  ES_MODES,
+  FR_MODES,
+  IT_MODES,
+  PT_MODES,
+  DE_MODES,
+  HE_MODES,
+  AR_MODES,
+  PL_MODES,
 } from '../../js/features/mode-utils.ts';
 
-const abandon: WordEntry = ['abandon', 'покинути', 'They had to <b>abandon</b> the ship.', 'Вони мусили <b>покинути</b> корабель.'];
+const abandon: WordEntry = [
+  'abandon',
+  'покинути',
+  'They had to <b>abandon</b> the ship.',
+  'Вони мусили <b>покинути</b> корабель.',
+];
 
 describe('mode-utils.ts', () => {
   afterEach(() => {

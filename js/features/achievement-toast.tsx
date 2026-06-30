@@ -10,7 +10,7 @@ type Listener = (ach: Achievement) => void;
 const listeners = new Set<Listener>();
 
 export function showToast(ach: Achievement): void {
-  listeners.forEach(l => l(ach));
+  listeners.forEach((l) => l(ach));
 }
 
 export function AchievementToast(): ReactElement {
@@ -22,8 +22,13 @@ export function AchievementToast(): ReactElement {
     let hideTimer: ReturnType<typeof setTimeout> | null = null;
     let unmountTimer: ReturnType<typeof setTimeout> | null = null;
     const rafs: number[] = [];
-    const raf = (fn: () => void): void => { rafs.push(requestAnimationFrame(fn)); };
-    const clearRafs = (): void => { rafs.forEach(cancelAnimationFrame); rafs.length = 0; };
+    const raf = (fn: () => void): void => {
+      rafs.push(requestAnimationFrame(fn));
+    };
+    const clearRafs = (): void => {
+      rafs.forEach(cancelAnimationFrame);
+      rafs.length = 0;
+    };
     const listener = (a: Achievement): void => {
       if (hideTimer) clearTimeout(hideTimer);
       if (unmountTimer) clearTimeout(unmountTimer);
@@ -52,11 +57,21 @@ export function AchievementToast(): ReactElement {
   }, []);
 
   return (
-    <div id="achievement-toast" className={animate ? 'show' : ''} style={{ display: visible ? 'block' : 'none' }}>
-      <span className="toast-icon" id="toast-icon">{ach?.icon ?? '🏆'}</span>
+    <div
+      id="achievement-toast"
+      className={animate ? 'show' : ''}
+      style={{ display: visible ? 'block' : 'none' }}
+    >
+      <span className="toast-icon" id="toast-icon">
+        {ach?.icon ?? '🏆'}
+      </span>
       <div className="toast-title">Нове досягнення!</div>
-      <div className="toast-name" id="toast-name">{ach ? achName(ach) : ''}</div>
-      <div className="toast-desc" id="toast-desc">{ach ? achHint(ach) : ''}</div>
+      <div className="toast-name" id="toast-name">
+        {ach ? achName(ach) : ''}
+      </div>
+      <div className="toast-desc" id="toast-desc">
+        {ach ? achHint(ach) : ''}
+      </div>
     </div>
   );
 }

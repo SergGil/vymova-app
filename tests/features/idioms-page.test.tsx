@@ -1,7 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { ENGLISH_IDIOMS, UKRAINIAN_IDIOMS, SPANISH_IDIOMS, HEBREW_IDIOMS, ARABIC_IDIOMS, POLISH_IDIOMS } from '../../data/idioms.ts';
+import {
+  ENGLISH_IDIOMS,
+  UKRAINIAN_IDIOMS,
+  SPANISH_IDIOMS,
+  HEBREW_IDIOMS,
+  ARABIC_IDIOMS,
+  POLISH_IDIOMS,
+} from '../../data/idioms.ts';
 import { IdiomsPageRoot, openIdiomsContent } from '../../js/features/idioms-page.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -13,7 +20,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<IdiomsPageRoot />); });
+  act(() => {
+    root.render(<IdiomsPageRoot />);
+  });
   return { container, root };
 }
 
@@ -33,7 +42,9 @@ describe('idioms-page.tsx IdiomsPageRoot', () => {
   it('switches to the Ukrainian idioms tab', () => {
     const { container } = mount();
     const tabs = container.querySelectorAll('.idioms-tab');
-    act(() => { (tabs[1] as HTMLButtonElement).click(); });
+    act(() => {
+      (tabs[1] as HTMLButtonElement).click();
+    });
     expect(container.querySelector('.idioms-tab-active')!.textContent).toContain('Українські');
     expect(container.querySelectorAll('.idiom-card').length).toBe(UKRAINIAN_IDIOMS.length);
   });
@@ -43,7 +54,9 @@ describe('idioms-page.tsx IdiomsPageRoot', () => {
     localStorage.setItem('ew_know_lang', 'es');
     const { container } = mount();
     const tabs = container.querySelectorAll('.idioms-tab');
-    act(() => { (tabs[1] as HTMLButtonElement).click(); });
+    act(() => {
+      (tabs[1] as HTMLButtonElement).click();
+    });
     expect(container.querySelector('.idioms-tab-active')!.textContent).toContain('Іспанські');
     expect(container.querySelectorAll('.idiom-card').length).toBe(SPANISH_IDIOMS.length);
     expect(container.querySelector('.idiom-meaning-en')).not.toBeNull();
@@ -95,7 +108,10 @@ describe('idioms-page.tsx IdiomsPageRoot', () => {
   it('filters idioms by search query', () => {
     const { container } = mount();
     const input = container.querySelector('.idioms-search') as HTMLInputElement;
-    const nativeValueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
+    const nativeValueSetter = Object.getOwnPropertyDescriptor(
+      HTMLInputElement.prototype,
+      'value',
+    )!.set!;
     act(() => {
       nativeValueSetter.call(input, 'break the ice');
       input.dispatchEvent(new Event('input', { bubbles: true }));
@@ -108,7 +124,10 @@ describe('idioms-page.tsx IdiomsPageRoot', () => {
   it('shows an empty message when no idioms match the query', () => {
     const { container } = mount();
     const input = container.querySelector('.idioms-search') as HTMLInputElement;
-    const nativeValueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
+    const nativeValueSetter = Object.getOwnPropertyDescriptor(
+      HTMLInputElement.prototype,
+      'value',
+    )!.set!;
     act(() => {
       nativeValueSetter.call(input, 'zzzzzzzzznotfound');
       input.dispatchEvent(new Event('input', { bubbles: true }));
@@ -119,7 +138,9 @@ describe('idioms-page.tsx IdiomsPageRoot', () => {
   it('calls _speakWithLang when a speak button is clicked', () => {
     const { container } = mount();
     const btn = container.querySelector('.idiom-speak') as HTMLButtonElement;
-    act(() => { btn.click(); });
+    act(() => {
+      btn.click();
+    });
     expect(speakWithLang).toHaveBeenCalledWith(ENGLISH_IDIOMS[0].phrase, 'en-US', btn);
   });
 

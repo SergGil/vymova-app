@@ -1,6 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { _getLobbyUIData, _cancelRoom } from '../../js/features/duel.ts';
-import { setLobbyWaiting, setLobbyJoinRowVisible, setLobbyBtn, setLobbyMsg, getDuelLobbyUISnapshot } from '../../src/duel-lobby-store.ts';
+import {
+  setLobbyWaiting,
+  setLobbyJoinRowVisible,
+  setLobbyBtn,
+  setLobbyMsg,
+  getDuelLobbyUISnapshot,
+} from '../../src/duel-lobby-store.ts';
 
 describe('duel lobby UI state (Фаза 9/6, state.duelLobbyUI)', () => {
   it('_getLobbyUIData() reflects state.duelLobbyUI default', () => {

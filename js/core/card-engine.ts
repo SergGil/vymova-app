@@ -2,26 +2,36 @@
 // Ядро картки: deck/idx/flipped/cw/autoTimer + render()/анімації/auto-play/onWordLearned.
 // Перенесено з js/app.ts (Фаза 7.5, Під-фаза D).
 import type { WordEntry } from '../../src/types.js';
-import { W }                                       from '../../data/words.js';
-import { loadWikiImage, _imgCache }                from './images.ts';
-import { notifyStateChange }                       from '../../src/store.ts';
-import { synth }                                    from './srs.ts';
-import { awardXP }                                  from '../features/combo.ts';
-import { showComboToast }                           from '../features/combo-toast.tsx';
-import { getGameData, saveGameData, recordDailyWord,
-         updateStreak,
-         _idle }                                    from '../features/game.ts';
-import { t }                                       from '../features/i18n.ts';
-import { renderGameBar }                           from '../features/render-game-bar.ts';
+import { W } from '../../data/words.js';
+import { loadWikiImage, _imgCache } from './images.ts';
+import { notifyStateChange } from '../../src/store.ts';
+import { synth } from './srs.ts';
+import { awardXP } from '../features/combo.ts';
+import { showComboToast } from '../features/combo-toast.tsx';
+import {
+  getGameData,
+  saveGameData,
+  recordDailyWord,
+  updateStreak,
+  _idle,
+} from '../features/game.ts';
+import { t } from '../features/i18n.ts';
+import { renderGameBar } from '../features/render-game-bar.ts';
 import { refreshGameBarLevel as renderLevelBadge } from '../features/game-bar-level.tsx';
-import { checkAchievements }                       from '../features/render-achievements.ts';
-import { maybeSubmitScore }                        from '../features/leaderboard.tsx';
-import { updateRing }                              from '../features/ring.tsx';
+import { checkAchievements } from '../features/render-achievements.ts';
+import { maybeSubmitScore } from '../features/leaderboard.tsx';
+import { updateRing } from '../features/ring.tsx';
 import { getMode, getActiveKnownSet } from '../features/mode-utils.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
-import { safe as _safe }                           from './card-helpers.ts';
-import { setDeckState, setIdxState, setFlippedState, renderCardState,
-         getDeckSnapshot, getIdxSnapshot }          from '../../src/deck-store.ts';
+import { safe as _safe } from './card-helpers.ts';
+import {
+  setDeckState,
+  setIdxState,
+  setFlippedState,
+  renderCardState,
+  getDeckSnapshot,
+  getIdxSnapshot,
+} from '../../src/deck-store.ts';
 
 let autoTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -43,21 +53,28 @@ export function setFlipped(v: boolean): void {
 }
 
 // Helper: get cached element with null safety
-function $e(id: string): HTMLElement { return $el[id] as HTMLElement; }
+function $e(id: string): HTMLElement {
+  return $el[id] as HTMLElement;
+}
 
 // Кеш DOM-елементів: уникаємо getElementById на кожен render()
 const $el: Record<string, HTMLElement | null> = {};
-['card'].forEach(function(id: string) {
+['card'].forEach(function (id: string) {
   $el[id] = document.getElementById(id);
 });
 
 export function stopAuto(): void {
-  if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+  if (autoTimer) {
+    clearInterval(autoTimer);
+    autoTimer = null;
+  }
   const btnAuto = document.getElementById('btn-auto');
   if (btnAuto) btnAuto.textContent = t('cards.auto');
 }
 
-export function isAutoRunning(): boolean { return !!autoTimer; }
+export function isAutoRunning(): boolean {
+  return !!autoTimer;
+}
 
 export function startAuto(): void {
   autoTimer = setInterval(() => {
@@ -87,16 +104,28 @@ export function animCard(dir: 'next' | 'prev' | 'fade'): void {
 export function render(): void {
   try {
     const deck = getDeckSnapshot();
-    if (!deck || !deck.length) { console.error('render: deck empty'); return; }
-    if (synth) { _safe(() => synth.cancel()); }
+    if (!deck || !deck.length) {
+      console.error('render: deck empty');
+      return;
+    }
+    if (synth) {
+      _safe(() => synth.cancel());
+    }
     const idx = getIdxSnapshot();
     const cw = deck[idx % deck.length];
-    if (!cw) { console.error('render: cw is null'); return; }
+    if (!cw) {
+      console.error('render: cw is null');
+      return;
+    }
     const mode = getMode();
     renderCardState(cw, mode);
     const cardEl = $e('card');
     if (cardEl) {
-      if (_activeKnown().has(cw[0])) { cardEl.classList.add('is-known'); } else { cardEl.classList.remove('is-known'); }
+      if (_activeKnown().has(cw[0])) {
+        cardEl.classList.add('is-known');
+      } else {
+        cardEl.classList.remove('is-known');
+      }
     }
     _safe(() => {
       const dontKnowEl = document.getElementById('btn-dontknow') as HTMLElement | null;
@@ -105,23 +134,25 @@ export function render(): void {
         dontKnowEl.style.display = rangeVal === 'srs' ? '' : 'none';
       }
     });
-    _safe(() => { updateRing(); });
+    _safe(() => {
+      updateRing();
+    });
     notifyStateChange();
     // Predictive prefetch: наступні картки (без дублів для малих дек)
-    _idle(function() {
+    _idle(function () {
       _safe(() => {
         const _seen: Record<string, number> = {};
         const _limit = Math.min(4, deck.length - 1);
         for (let _pi = 1; _pi <= _limit; _pi++) {
           const _nw = deck[(idx + _pi) % deck.length];
-          if (_nw && !_seen[_nw[0]] && !_imgCache.hasOwnProperty(_nw[0])) {
+          if (_nw && !_seen[_nw[0]] && !Object.prototype.hasOwnProperty.call(_imgCache, _nw[0])) {
             _seen[_nw[0]] = 1;
-            loadWikiImage(_nw[0], function(){});
+            loadWikiImage(_nw[0], function () {});
           }
         }
       });
     });
-  } catch(e) {
+  } catch (e) {
     console.error('render FAILED:', (e as Error).message);
   }
 }
@@ -129,18 +160,20 @@ export function render(): void {
 export function onWordLearned(): void {
   let d = getGameData();
   d.goalCur = (d.goalCur || 0) + 1;
-  if (d.goalCur === d.goalMax) { d.goalDays = (d.goalDays || 0) + 1; }
+  if (d.goalCur === d.goalMax) {
+    d.goalDays = (d.goalDays || 0) + 1;
+  }
   d = updateStreak(d);
   saveGameData(d);
   renderGameBar();
   recordDailyWord();
   _safe(() => maybeSubmitScore());
-  let gd2 = getGameData();
+  const gd2 = getGameData();
   gd2.sessionWords = (gd2.sessionWords || 0) + 1;
   saveGameData(gd2);
   const xp = awardXP(10); // ×2/×3 з комбо
   _safe(() => showComboToast(`+${xp} XP`));
-  _idle(function() {
+  _idle(function () {
     _safe(() => renderLevelBadge());
     _safe(() => checkAchievements());
   });

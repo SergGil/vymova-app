@@ -25,14 +25,24 @@ const OPF_XML = `<?xml version="1.0"?>
 </package>`;
 
 function chapterHtml(paragraphCount: number, wordsPerParagraph: number, prefix: string): string {
-  const paragraphs = Array.from({ length: paragraphCount }, (_, i) =>
-    `<p>${prefix} paragraph ${i} ${'word '.repeat(wordsPerParagraph).trim()}</p>`
+  const paragraphs = Array.from(
+    { length: paragraphCount },
+    (_, i) => `<p>${prefix} paragraph ${i} ${'word '.repeat(wordsPerParagraph).trim()}</p>`,
   ).join('\n');
   return `<html><body>${paragraphs}</body></html>`;
 }
 
-async function buildEpub(opts: { withContainer?: boolean; opfXml?: string; chapters?: Record<string, string> } = {}): Promise<File> {
-  const { withContainer = true, opfXml = OPF_XML, chapters = { 'OEBPS/chap1.xhtml': chapterHtml(10, 30, 'one'), 'OEBPS/chap2.xhtml': chapterHtml(10, 30, 'two') } } = opts;
+async function buildEpub(
+  opts: { withContainer?: boolean; opfXml?: string; chapters?: Record<string, string> } = {},
+): Promise<File> {
+  const {
+    withContainer = true,
+    opfXml = OPF_XML,
+    chapters = {
+      'OEBPS/chap1.xhtml': chapterHtml(10, 30, 'one'),
+      'OEBPS/chap2.xhtml': chapterHtml(10, 30, 'two'),
+    },
+  } = opts;
   const zip = new JSZip();
   if (withContainer) zip.file('META-INF/container.xml', CONTAINER_XML);
   zip.file('OEBPS/content.opf', opfXml);
@@ -106,7 +116,9 @@ describe('epub.ts loadEpub', () => {
   });
 
   it('skips chapters shorter than the minimum text length', async () => {
-    const file = await buildEpub({ chapters: { 'OEBPS/chap1.xhtml': '<html><body><p>too short</p></body></html>' } });
+    const file = await buildEpub({
+      chapters: { 'OEBPS/chap1.xhtml': '<html><body><p>too short</p></body></html>' },
+    });
     const onDone = vi.fn();
     loadEpub(file, vi.fn(), onDone);
     await vi.waitFor(() => expect(onDone).toHaveBeenCalled());

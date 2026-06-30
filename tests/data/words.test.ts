@@ -35,7 +35,7 @@ describe('W (main word dictionary)', () => {
   });
 
   it('all headwords (lowercased) are unique', () => {
-    const words = entries.map(e => e[0].toLowerCase());
+    const words = entries.map((e) => e[0].toLowerCase());
     expect(new Set(words).size).toBe(words.length);
   });
 });

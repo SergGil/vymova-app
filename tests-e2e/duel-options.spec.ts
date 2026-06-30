@@ -36,15 +36,19 @@ test.describe('Duel lobby options', () => {
 
     await expect(page.locator('#duel-options-row select').first()).toHaveValue('3');
     await expect(page.locator('#duel-options-row select').nth(1)).toHaveValue('1');
-    await expect(page.locator('#duel-options-row input[type="checkbox"]')).toBeChecked({ checked: !powerupsBefore });
+    await expect(page.locator('#duel-options-row input[type="checkbox"]')).toBeChecked({
+      checked: !powerupsBefore,
+    });
   });
 });
 
 test.describe('Duel join room', () => {
   test('joining with an empty code shows an inline error, no crash', async ({ page }) => {
     const errors: string[] = [];
-    page.on('pageerror', e => errors.push(e.message));
-    page.on('console', msg => { if (msg.type() === 'error') errors.push(msg.text()); });
+    page.on('pageerror', (e) => errors.push(e.message));
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') errors.push(msg.text());
+    });
 
     await openApp(page);
     await page.click('#sb-duel');

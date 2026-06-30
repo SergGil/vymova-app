@@ -11,11 +11,30 @@ import { jumpToGrammarRule } from '../features/grammar-page.tsx';
 import type { WordEntry } from '../../src/types.js';
 import type { PaceSnapshot } from './learning-path-logic.ts';
 import {
-  computeCefrStats, findCurrentLevel, filterDailyWords,
-  computePersonalPace, estimateDays, updateCompletionDates,
+  computeCefrStats,
+  findCurrentLevel,
+  filterDailyWords,
+  computePersonalPace,
+  estimateDays,
+  updateCompletionDates,
 } from './learning-path-logic.ts';
 import { t, getLang, skillName, levelName } from './i18n.ts';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry, isTargetLang } from './mode-utils.ts';
+import {
+  esEntry,
+  frEntry,
+  itEntry,
+  ptEntry,
+  deEntry,
+  heEntry,
+  arEntry,
+  plEntry,
+  zhEntry,
+  elEntry,
+  jaEntry,
+  trEntry,
+  nlEntry,
+  isTargetLang,
+} from './mode-utils.ts';
 
 // ── Language helpers ──────────────────────────────────────────
 
@@ -30,103 +49,142 @@ function _activeKnownSet(): Set<string> {
 
 function _getTranslation(w: WordEntry, lang: string): string {
   switch (lang) {
-    case 'es': return esEntry(w[0])?.[0] ?? w[1];
-    case 'fr': return frEntry(w[0])?.[0] ?? w[1];
-    case 'it': return itEntry(w[0])?.[0] ?? w[1];
-    case 'pt': return ptEntry(w[0])?.[0] ?? w[1];
-    case 'de': return deEntry(w[0])?.[0] ?? w[1];
-    case 'he': return heEntry(w[0])?.[0] ?? w[1];
-    case 'ar': return arEntry(w[0])?.[0] ?? w[1];
-    case 'pl': return plEntry(w[0])?.[0] ?? w[1];
-    case 'zh': return zhEntry(w[0])?.[0] ?? w[1];
-    case 'el': return elEntry(w[0])?.[0] ?? w[1];
-    case 'ja': return jaEntry(w[0])?.[0] ?? w[1];
-    case 'tr': return trEntry(w[0])?.[0] ?? w[1];
-    case 'nl': return nlEntry(w[0])?.[0] ?? w[1];
-    default:   return w[1];
+    case 'es':
+      return esEntry(w[0])?.[0] ?? w[1];
+    case 'fr':
+      return frEntry(w[0])?.[0] ?? w[1];
+    case 'it':
+      return itEntry(w[0])?.[0] ?? w[1];
+    case 'pt':
+      return ptEntry(w[0])?.[0] ?? w[1];
+    case 'de':
+      return deEntry(w[0])?.[0] ?? w[1];
+    case 'he':
+      return heEntry(w[0])?.[0] ?? w[1];
+    case 'ar':
+      return arEntry(w[0])?.[0] ?? w[1];
+    case 'pl':
+      return plEntry(w[0])?.[0] ?? w[1];
+    case 'zh':
+      return zhEntry(w[0])?.[0] ?? w[1];
+    case 'el':
+      return elEntry(w[0])?.[0] ?? w[1];
+    case 'ja':
+      return jaEntry(w[0])?.[0] ?? w[1];
+    case 'tr':
+      return trEntry(w[0])?.[0] ?? w[1];
+    case 'nl':
+      return nlEntry(w[0])?.[0] ?? w[1];
+    default:
+      return w[1];
   }
 }
 
 function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
   switch (lang) {
-    case 'es': return words.filter(w => esEntry(w[0]) !== null);
-    case 'fr': return words.filter(w => frEntry(w[0]) !== null);
-    case 'it': return words.filter(w => itEntry(w[0]) !== null);
-    case 'pt': return words.filter(w => ptEntry(w[0]) !== null);
-    case 'de': return words.filter(w => deEntry(w[0]) !== null);
-    case 'he': return words.filter(w => heEntry(w[0]) !== null);
-    case 'ar': return words.filter(w => arEntry(w[0]) !== null);
-    case 'pl': return words.filter(w => plEntry(w[0]) !== null);
-    case 'zh': return words.filter(w => zhEntry(w[0]) !== null);
-    case 'el': return words.filter(w => elEntry(w[0]) !== null);
-    case 'ja': return words.filter(w => jaEntry(w[0]) !== null);
-    case 'tr': return words.filter(w => trEntry(w[0]) !== null);
-    case 'nl': return words.filter(w => nlEntry(w[0]) !== null);
-    default:   return words;
+    case 'es':
+      return words.filter((w) => esEntry(w[0]) !== null);
+    case 'fr':
+      return words.filter((w) => frEntry(w[0]) !== null);
+    case 'it':
+      return words.filter((w) => itEntry(w[0]) !== null);
+    case 'pt':
+      return words.filter((w) => ptEntry(w[0]) !== null);
+    case 'de':
+      return words.filter((w) => deEntry(w[0]) !== null);
+    case 'he':
+      return words.filter((w) => heEntry(w[0]) !== null);
+    case 'ar':
+      return words.filter((w) => arEntry(w[0]) !== null);
+    case 'pl':
+      return words.filter((w) => plEntry(w[0]) !== null);
+    case 'zh':
+      return words.filter((w) => zhEntry(w[0]) !== null);
+    case 'el':
+      return words.filter((w) => elEntry(w[0]) !== null);
+    case 'ja':
+      return words.filter((w) => jaEntry(w[0]) !== null);
+    case 'tr':
+      return words.filter((w) => trEntry(w[0]) !== null);
+    case 'nl':
+      return words.filter((w) => nlEntry(w[0]) !== null);
+    default:
+      return words;
   }
 }
 
 // ── Plan definition ───────────────────────────────────────────
 interface LevelPlan {
-  level:     CefrLevel;
+  level: CefrLevel;
   wordsGoal: number;
-  skills:    string[];
+  skills: string[];
   grammarLinks: Partial<Record<string, string>>; // skill label → grammar rule id
 }
 
 const PLANS: LevelPlan[] = [
   {
-    level: 'A1', wordsGoal: 283,
-    skills: ['Базове вітання', 'Числа і кольори', 'Сім\'я та тіло', 'Повсякденні дії'],
+    level: 'A1',
+    wordsGoal: 283,
+    skills: ['Базове вітання', 'Числа і кольори', "Сім'я та тіло", 'Повсякденні дії'],
     grammarLinks: {
-      'Базове вітання':   'greetings-intro',
-      'Числа і кольори':  'numbers-determiners',
-      'Сім\'я та тіло':   'family-body',
-      'Повсякденні дії':  'present-simple',
+      'Базове вітання': 'greetings-intro',
+      'Числа і кольори': 'numbers-determiners',
+      "Сім'я та тіло": 'family-body',
+      'Повсякденні дії': 'present-simple',
     },
   },
   {
-    level: 'A2', wordsGoal: 883,
+    level: 'A2',
+    wordsGoal: 883,
     skills: ['Опис людей/місць', 'Магазини і ціни', 'Подорожі', 'Минулі події'],
     grammarLinks: {
       'Опис людей/місць': 'comparatives',
-      'Магазини і ціни':  'countable-uncountable',
-      'Подорожі':         'prepositions',
-      'Минулі події':     'past-simple',
+      'Магазини і ціни': 'countable-uncountable',
+      Подорожі: 'prepositions',
+      'Минулі події': 'past-simple',
     },
   },
   {
-    level: 'B1', wordsGoal: 1917,
+    level: 'B1',
+    wordsGoal: 1917,
     skills: ['Розмова про роботу', 'Новини та медіа', 'Вирішення проблем', 'Плани на майбутнє'],
     grammarLinks: {
-      'Розмова про роботу':  'modal-verbs',
-      'Новини та медіа':     'reported-speech',
-      'Вирішення проблем':   'advice-suggestions',
-      'Плани на майбутнє':   'future-forms',
+      'Розмова про роботу': 'modal-verbs',
+      'Новини та медіа': 'reported-speech',
+      'Вирішення проблем': 'advice-suggestions',
+      'Плани на майбутнє': 'future-forms',
     },
   },
   {
-    level: 'B2', wordsGoal: 1512,
-    skills: ['Академічні тексти', 'Бізнес комунікація', 'Складні аргументи', 'Фільми без субтитрів'],
+    level: 'B2',
+    wordsGoal: 1512,
+    skills: [
+      'Академічні тексти',
+      'Бізнес комунікація',
+      'Складні аргументи',
+      'Фільми без субтитрів',
+    ],
     grammarLinks: {
-      'Академічні тексти':   'passive-voice',
-      'Бізнес комунікація':  'business-english',
-      'Складні аргументи':   'conditionals',
+      'Академічні тексти': 'passive-voice',
+      'Бізнес комунікація': 'business-english',
+      'Складні аргументи': 'conditionals',
       // 'Фільми без субтитрів' — навичка слухання, не граматика
     },
   },
   {
-    level: 'C1', wordsGoal: 817,
+    level: 'C1',
+    wordsGoal: 817,
     skills: ['Наукові статті', 'Переговори', 'Нюанси та ідіоми', 'Публічні виступи'],
     grammarLinks: {
-      'Наукові статті':   'nominalisation',
-      'Переговори':       'negotiation-language',
+      'Наукові статті': 'nominalisation',
+      Переговори: 'negotiation-language',
       'Нюанси та ідіоми': 'idioms',
       'Публічні виступи': 'register',
     },
   },
   {
-    level: 'C2', wordsGoal: 230,
+    level: 'C2',
+    wordsGoal: 230,
     skills: ['Художня проза', 'Академічний стиль', 'Повне розуміння', 'Рівень носія'],
     grammarLinks: {
       'Академічний стиль': 'register',
@@ -143,23 +201,39 @@ function _lsKey(base: string): string {
 }
 
 function _loadSnapshots(): PaceSnapshot[] {
-  try { return JSON.parse(localStorage.getItem(_lsKey('lp_pace_snapshots')) ?? '[]'); } catch { return []; }
+  try {
+    return JSON.parse(localStorage.getItem(_lsKey('lp_pace_snapshots')) ?? '[]');
+  } catch {
+    return [];
+  }
 }
 
 function _saveSnapshot(knownCount: number): void {
   const today = new Date().toISOString().slice(0, 10);
-  const snaps = _loadSnapshots().filter(s => s.date !== today);
+  const snaps = _loadSnapshots().filter((s) => s.date !== today);
   snaps.push({ date: today, count: knownCount });
   const kept = snaps.sort((a, b) => a.date.localeCompare(b.date)).slice(-14);
-  try { localStorage.setItem(_lsKey('lp_pace_snapshots'), JSON.stringify(kept)); } catch { /* quota */ }
+  try {
+    localStorage.setItem(_lsKey('lp_pace_snapshots'), JSON.stringify(kept));
+  } catch {
+    /* quota */
+  }
 }
 
 function _loadCompletionDates(): Record<string, string> {
-  try { return JSON.parse(localStorage.getItem(_lsKey('lp_completion_dates')) ?? '{}'); } catch { return {}; }
+  try {
+    return JSON.parse(localStorage.getItem(_lsKey('lp_completion_dates')) ?? '{}');
+  } catch {
+    return {};
+  }
 }
 
 function _saveCompletionDates(dates: Record<string, string>): void {
-  try { localStorage.setItem(_lsKey('lp_completion_dates'), JSON.stringify(dates)); } catch { /* quota */ }
+  try {
+    localStorage.setItem(_lsKey('lp_completion_dates'), JSON.stringify(dates));
+  } catch {
+    /* quota */
+  }
 }
 
 function _formatDate(iso: string): string {
@@ -186,44 +260,51 @@ export function renderLearningPath(): void {
   const el = document.getElementById('lp-content') as HTMLElement | null;
   if (!el) return;
 
-  const lang         = _learnLang();
-  const knownSet     = _activeKnownSet();
-  const allWords     = W as unknown as WordEntry[];
-  const words        = _filterWordsForLang(allWords, lang);
+  const lang = _learnLang();
+  const knownSet = _activeKnownSet();
+  const allWords = W as unknown as WordEntry[];
+  const words = _filterWordsForLang(allWords, lang);
 
   // Track daily pace snapshot
   _saveSnapshot(knownSet.size);
 
-  const stats        = computeCefrStats(knownSet, words);
+  const stats = computeCefrStats(knownSet, words);
   const currentLevel = findCurrentLevel(stats);
-  const snapshots    = _loadSnapshots();
-  const pace         = computePersonalPace(snapshots);
-  const todayStr     = new Date().toISOString().slice(0, 10);
-  const lv           = getLevel(knownSet.size);
-  const todayWords   = filterDailyWords(currentLevel, knownSet, words);
+  const snapshots = _loadSnapshots();
+  const pace = computePersonalPace(snapshots);
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const lv = getLevel(knownSet.size);
+  const todayWords = filterDailyWords(currentLevel, knownSet, words);
 
   // Save completion dates for newly-completed levels
   const prevDates = _loadCompletionDates();
-  const newDates  = updateCompletionDates(stats, prevDates, todayStr);
+  const newDates = updateCompletionDates(stats, prevDates, todayStr);
   if (JSON.stringify(newDates) !== JSON.stringify(prevDates)) _saveCompletionDates(newDates);
 
   // Daily challenge section
-  const dailyChallengeHtml = todayWords.length > 0 ? `
+  const dailyChallengeHtml =
+    todayWords.length > 0
+      ? `
     <div class="lp-section">
       <div class="lp-section-title">📅 ${t('lp.todayPlan')} ${currentLevel}</div>
       <div class="lp-day-words">
-        ${todayWords.map(w => `
+        ${todayWords
+          .map(
+            (w) => `
           <div class="lp-word-chip">
             <span class="lp-word">${w[0]}</span>
             <span class="lp-transl">${_getTranslation(w, lang)}</span>
           </div>
-        `).join('')}
+        `,
+          )
+          .join('')}
       </div>
       <button class="lp-start-btn" data-lp-level="${currentLevel}">
         📚 ${t('lp.learnWordsNow')} ${currentLevel} ${t('lp.now')}
       </button>
     </div>
-  ` : `
+  `
+      : `
     <div class="lp-section lp-complete">
       <div class="lp-section-title">🏆 ${t('lp.levelWord')} ${currentLevel} ${t('lp.completedExcl')}</div>
       <p>${t('lp.allLearned')}</p>
@@ -231,33 +312,37 @@ export function renderLearningPath(): void {
   `;
 
   // CEFR progress rows
-  const progressHtml = PLANS.map(plan => {
-    const s         = stats[plan.level];
-    const meta      = CEFR_META[plan.level];
+  const progressHtml = PLANS.map((plan) => {
+    const s = stats[plan.level];
+    const meta = CEFR_META[plan.level];
     const isCurrent = plan.level === currentLevel;
     const isComplete = s.pct >= 90;
-    const compDate  = newDates[plan.level];
+    const compDate = newDates[plan.level];
     const remaining = s.total - s.known;
-    const days      = estimateDays(remaining, pace);
-    const paceLabel = pace !== null && pace > 0
-      ? `${t('lp.yourPace')} ${pace} ${t('lp.wordsPerDay')}`
-      : t('lp.defaultPace');
+    const days = estimateDays(remaining, pace);
+    const paceLabel =
+      pace !== null && pace > 0
+        ? `${t('lp.yourPace')} ${pace} ${t('lp.wordsPerDay')}`
+        : t('lp.defaultPace');
 
-    const skillsHtml = plan.skills.map(sk => {
-      const gid = plan.grammarLinks[sk];
-      if (gid) {
-        return `<span class="lp-skill-tag lp-skill-link" data-grammar="${gid}" title="${t('lp.openGrammar')}">✓ ${skillName(sk)} ↗</span>`;
-      }
-      return `<span class="lp-skill-tag">✓ ${skillName(sk)}</span>`;
-    }).join('');
+    const skillsHtml = plan.skills
+      .map((sk) => {
+        const gid = plan.grammarLinks[sk];
+        if (gid) {
+          return `<span class="lp-skill-tag lp-skill-link" data-grammar="${gid}" title="${t('lp.openGrammar')}">✓ ${skillName(sk)} ↗</span>`;
+        }
+        return `<span class="lp-skill-tag">✓ ${skillName(sk)}</span>`;
+      })
+      .join('');
 
-    const milestones = [25, 50, 75].map(m =>
-      `<div class="lp-milestone" style="left:${m}%"></div>`
-    ).join('');
+    const milestones = [25, 50, 75]
+      .map((m) => `<div class="lp-milestone" style="left:${m}%"></div>`)
+      .join('');
 
-    const completionHtml = isComplete && compDate
-      ? `<div class="lp-completion-date">${t('lp.completed')} ${_formatDate(compDate)}</div>`
-      : '';
+    const completionHtml =
+      isComplete && compDate
+        ? `<div class="lp-completion-date">${t('lp.completed')} ${_formatDate(compDate)}</div>`
+        : '';
 
     return `
       <div class="lp-level-row${isCurrent ? ' lp-current' : ''}${isComplete ? ' lp-done' : ''}">
@@ -293,11 +378,12 @@ export function renderLearningPath(): void {
 
   // Overall stats
   const totalKnown = Object.values(stats).reduce((s, v) => s + v.known, 0);
-  const totalWords  = Object.values(stats).reduce((s, v) => s + v.total, 0);
-  const overallPct  = Math.round(totalKnown / totalWords * 100);
-  const paceDisplay = pace !== null && pace > 0
-    ? `⚡ ${pace} ${t('lp.wordsPerDayFull')}`
-    : `📈 ${t('lp.startLearning')}`;
+  const totalWords = Object.values(stats).reduce((s, v) => s + v.total, 0);
+  const overallPct = Math.round((totalKnown / totalWords) * 100);
+  const paceDisplay =
+    pace !== null && pace > 0
+      ? `⚡ ${pace} ${t('lp.wordsPerDayFull')}`
+      : `📈 ${t('lp.startLearning')}`;
 
   el.innerHTML = `
     <div class="lp-hero">
@@ -328,7 +414,7 @@ export function renderLearningPath(): void {
   `;
 
   // Wire up "Start / Learn" buttons
-  el.querySelectorAll<HTMLButtonElement>('[data-lp-level]').forEach(btn => {
+  el.querySelectorAll<HTMLButtonElement>('[data-lp-level]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const lvl = btn.dataset.lpLevel as CefrLevel;
       _navigateToLevel(lvl);
@@ -336,7 +422,7 @@ export function renderLearningPath(): void {
   });
 
   // Wire up grammar skill links
-  el.querySelectorAll<HTMLElement>('.lp-skill-link').forEach(tag => {
+  el.querySelectorAll<HTMLElement>('.lp-skill-link').forEach((tag) => {
     tag.addEventListener('click', () => {
       const gid = tag.dataset.grammar!;
       jumpToGrammarRule(gid);

@@ -1,7 +1,11 @@
 // Vymova — js/features/subtitle-parser.ts
 // Pure .srt/.vtt → cue-list parser. No DOM access — safe to unit-test and
 // safe to call before the video element even exists.
-export interface Cue { start: number; end: number; text: string; }
+export interface Cue {
+  start: number;
+  end: number;
+  text: string;
+}
 
 // "00:01:23,456" (SRT) or "00:01:23.456" (VTT) or "01:23.456" (VTT, no hours) → seconds.
 function parseTimestamp(raw: string): number | null {
@@ -9,7 +13,12 @@ function parseTimestamp(raw: string): number | null {
   if (!m) return null;
   const [, h, min, sec, ms] = m;
   const millis = ms.padEnd(3, '0');
-  return (parseInt(h ?? '0', 10) * 3600) + (parseInt(min, 10) * 60) + parseInt(sec, 10) + parseInt(millis, 10) / 1000;
+  return (
+    parseInt(h ?? '0', 10) * 3600 +
+    parseInt(min, 10) * 60 +
+    parseInt(sec, 10) +
+    parseInt(millis, 10) / 1000
+  );
 }
 
 // Strips basic subtitle markup: HTML-ish tags (<i>, <b>, <font ...>), ASS
@@ -20,7 +29,7 @@ function cleanCueText(raw: string): string {
     .replace(/\{[^}]*\}/g, '')
     .replace(/^\s*\[[^\]]*\]\s*$/gm, '')
     .split('\n')
-    .map(line => line.trim())
+    .map((line) => line.trim())
     .filter(Boolean)
     .join(' ')
     .trim();
@@ -35,7 +44,10 @@ export function parseSubtitles(raw: string): Cue[] {
   while (i < lines.length) {
     const line = lines[i];
     const tsMatch = line.match(TIMESTAMP_LINE);
-    if (!tsMatch) { i++; continue; }
+    if (!tsMatch) {
+      i++;
+      continue;
+    }
     const start = parseTimestamp(tsMatch[1]);
     const end = parseTimestamp(tsMatch[2]);
     i++;

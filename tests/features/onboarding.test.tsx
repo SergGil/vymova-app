@@ -12,25 +12,34 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<OnboardingPage />); });
+  act(() => {
+    root.render(<OnboardingPage />);
+  });
   return { container, root };
 }
 
 async function wait(ms: number): Promise<void> {
-  await act(async () => { await new Promise(r => setTimeout(r, ms)); });
+  await act(async () => {
+    await new Promise((r) => setTimeout(r, ms));
+  });
 }
 
 describe('onboarding.tsx OnboardingPage', () => {
   let roots: Root[] = [];
 
   beforeEach(() => {
-    document.body.innerHTML = '<select id="sel-range"><option value="0">All</option><option value="srs">SRS</option><option value="unlearned">Unlearned</option></select><button id="btn-daily-challenge"></button>';
+    document.body.innerHTML =
+      '<select id="sel-range"><option value="0">All</option><option value="srs">SRS</option><option value="unlearned">Unlearned</option></select><button id="btn-daily-challenge"></button>';
     localStorage.clear();
     roots = [];
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders nothing when the onboarding flag is not set', async () => {
@@ -73,7 +82,9 @@ describe('onboarding.tsx OnboardingPage', () => {
     expect(slides[0].className).toContain('ob-active');
 
     const nextBtn = container.querySelector('.ob-btn-next') as HTMLButtonElement;
-    act(() => { nextBtn.click(); });
+    act(() => {
+      nextBtn.click();
+    });
 
     expect(slides[0].className).not.toContain('ob-active');
     expect(slides[1].className).toContain('ob-active');
@@ -88,9 +99,15 @@ describe('onboarding.tsx OnboardingPage', () => {
     await wait(500);
 
     const nextBtn = container.querySelector('.ob-btn-next') as HTMLButtonElement;
-    act(() => { nextBtn.click(); });
-    act(() => { nextBtn.click(); });
-    act(() => { nextBtn.click(); });
+    act(() => {
+      nextBtn.click();
+    });
+    act(() => {
+      nextBtn.click();
+    });
+    act(() => {
+      nextBtn.click();
+    });
 
     const levelBtns = container.querySelectorAll('.ob-level-btn');
     expect(levelBtns.length).toBe(4);
@@ -100,7 +117,9 @@ describe('onboarding.tsx OnboardingPage', () => {
     const allBtn = container.querySelector('.ob-level-btn[data-range="0"]') as HTMLElement;
     expect(allBtn.textContent).toContain(String(W.length));
 
-    act(() => { allBtn.click(); });
+    act(() => {
+      allBtn.click();
+    });
     expect(allBtn.className).toContain('ob-sel');
     expect(srsBtn.className).not.toContain('ob-sel');
 
@@ -115,18 +134,32 @@ describe('onboarding.tsx OnboardingPage', () => {
     await wait(500);
 
     const nextBtn = container.querySelector('.ob-btn-next') as HTMLButtonElement;
-    act(() => { nextBtn.click(); });
-    act(() => { nextBtn.click(); });
-    act(() => { nextBtn.click(); });
+    act(() => {
+      nextBtn.click();
+    });
+    act(() => {
+      nextBtn.click();
+    });
+    act(() => {
+      nextBtn.click();
+    });
 
-    const unlearnedBtn = container.querySelector('.ob-level-btn[data-range="unlearned"]') as HTMLElement;
-    act(() => { unlearnedBtn.click(); });
+    const unlearnedBtn = container.querySelector(
+      '.ob-level-btn[data-range="unlearned"]',
+    ) as HTMLElement;
+    act(() => {
+      unlearnedBtn.click();
+    });
 
     const selRange = document.getElementById('sel-range') as HTMLSelectElement;
     let changeFired = false;
-    selRange.addEventListener('change', () => { changeFired = true; });
+    selRange.addEventListener('change', () => {
+      changeFired = true;
+    });
 
-    act(() => { nextBtn.click(); });
+    act(() => {
+      nextBtn.click();
+    });
 
     expect(selRange.value).toBe('unlearned');
     expect(changeFired).toBe(true);
@@ -142,18 +175,30 @@ describe('onboarding.tsx OnboardingPage', () => {
     await wait(500);
 
     const nextBtn = container.querySelector('.ob-btn-next') as HTMLButtonElement;
-    act(() => { nextBtn.click(); });
-    act(() => { nextBtn.click(); });
-    act(() => { nextBtn.click(); });
+    act(() => {
+      nextBtn.click();
+    });
+    act(() => {
+      nextBtn.click();
+    });
+    act(() => {
+      nextBtn.click();
+    });
 
     const dailyBtn = container.querySelector('.ob-level-btn[data-range="daily"]') as HTMLElement;
-    act(() => { dailyBtn.click(); });
+    act(() => {
+      dailyBtn.click();
+    });
 
     const dailyChallengeBtn = document.getElementById('btn-daily-challenge') as HTMLButtonElement;
     let clicked = false;
-    dailyChallengeBtn.addEventListener('click', () => { clicked = true; });
+    dailyChallengeBtn.addEventListener('click', () => {
+      clicked = true;
+    });
 
-    act(() => { nextBtn.click(); });
+    act(() => {
+      nextBtn.click();
+    });
     expect(clicked).toBe(true);
   });
 
@@ -168,9 +213,13 @@ describe('onboarding.tsx OnboardingPage', () => {
 
     const selRange = document.getElementById('sel-range') as HTMLSelectElement;
     let changeFired = false;
-    selRange.addEventListener('change', () => { changeFired = true; });
+    selRange.addEventListener('change', () => {
+      changeFired = true;
+    });
 
-    act(() => { skipBtn.click(); });
+    act(() => {
+      skipBtn.click();
+    });
 
     expect(selRange.value).toBe('srs');
     expect(changeFired).toBe(true);

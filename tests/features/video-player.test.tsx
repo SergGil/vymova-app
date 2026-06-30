@@ -8,10 +8,15 @@ import { VideoPlayerPage } from '../../js/features/video-player.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const dictWord = (W as unknown as WordEntry[]).find(w => /^[a-z]+$/i.test(w[0]) && w[0].length >= 4)!;
+const dictWord = (W as unknown as WordEntry[]).find(
+  (w) => /^[a-z]+$/i.test(w[0]) && w[0].length >= 4,
+)!;
 
 async function flush(): Promise<void> {
-  await act(async () => { await Promise.resolve(); await Promise.resolve(); });
+  await act(async () => {
+    await Promise.resolve();
+    await Promise.resolve();
+  });
 }
 
 describe('video-player.tsx VideoPlayerPage', () => {
@@ -25,7 +30,9 @@ describe('video-player.tsx VideoPlayerPage', () => {
   });
 
   afterEach(() => {
-    act(() => { root?.unmount(); });
+    act(() => {
+      root?.unmount();
+    });
     vi.restoreAllMocks();
   });
 
@@ -33,7 +40,9 @@ describe('video-player.tsx VideoPlayerPage', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     root = createRoot(container);
-    act(() => { root.render(<VideoPlayerPage />); });
+    act(() => {
+      root.render(<VideoPlayerPage />);
+    });
     return document.getElementById('video-player-content')!;
   }
 
@@ -46,7 +55,9 @@ describe('video-player.tsx VideoPlayerPage', () => {
     const file = new File([text], 'subs.srt', { type: 'text/plain' });
     const input = target.querySelector('#vp-sub-input') as HTMLInputElement;
     Object.defineProperty(input, 'files', { value: [file], configurable: true });
-    await act(async () => { input.dispatchEvent(new Event('change', { bubbles: true })); });
+    await act(async () => {
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
     await flush();
   }
 
@@ -54,16 +65,23 @@ describe('video-player.tsx VideoPlayerPage', () => {
     const file = new File(['fake'], 'movie.mp4', { type: 'video/mp4' });
     const input = target.querySelector('#vp-video-input') as HTMLInputElement;
     Object.defineProperty(input, 'files', { value: [file], configurable: true });
-    await act(async () => { input.dispatchEvent(new Event('change', { bubbles: true })); });
+    await act(async () => {
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
     await flush();
     const video = target.querySelector('.video-player-el') as HTMLVideoElement;
     Object.defineProperty(video, 'currentTime', { value: seconds, configurable: true });
-    act(() => { video.dispatchEvent(new Event('timeupdate', { bubbles: true })); });
+    act(() => {
+      video.dispatchEvent(new Event('timeupdate', { bubbles: true }));
+    });
   }
 
   it('parses an uploaded .srt file and shows a count once cues are loaded', async () => {
     const target = mount();
-    await loadSubtitles(target, `1\n00:00:00,000 --> 00:00:10,000\nThe word ${dictWord[0]} appears here.\n`);
+    await loadSubtitles(
+      target,
+      `1\n00:00:00,000 --> 00:00:10,000\nThe word ${dictWord[0]} appears here.\n`,
+    );
     expect(target.querySelector('.video-player-cue-count')).not.toBeNull();
     expect(target.textContent).not.toContain('Завантаж файл субтитрів');
   });
@@ -84,7 +102,9 @@ describe('video-player.tsx VideoPlayerPage', () => {
 
     const wordSpan = target.querySelector('.rd-word') as HTMLElement;
     expect(wordSpan).not.toBeNull();
-    act(() => { wordSpan.click(); });
+    act(() => {
+      wordSpan.click();
+    });
 
     expect(target.querySelector('.rd-word-popup')).not.toBeNull();
     expect(target.textContent).toContain(dictWord[0]);

@@ -3,16 +3,36 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 // ── Mock Firebase fetch ───────────────────────────────────────
 const _fbStore: Record<string, unknown> = {};
 vi.stubGlobal('fetch', async (url: string, opts?: RequestInit) => {
-  const path = url.replace('https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app', '').replace('.json', '');
-  if (opts?.method === 'PUT')  { _fbStore[path] = JSON.parse(opts.body as string); }
-  if (opts?.method === 'PATCH'){ const ex = (_fbStore[path] as Record<string,unknown>) ?? {}; _fbStore[path] = { ...ex, ...JSON.parse(opts.body as string) }; }
-  if (opts?.method === 'DELETE'){ delete _fbStore[path]; }
+  const path = url
+    .replace(
+      'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app',
+      '',
+    )
+    .replace('.json', '');
+  if (opts?.method === 'PUT') {
+    _fbStore[path] = JSON.parse(opts.body as string);
+  }
+  if (opts?.method === 'PATCH') {
+    const ex = (_fbStore[path] as Record<string, unknown>) ?? {};
+    _fbStore[path] = { ...ex, ...JSON.parse(opts.body as string) };
+  }
+  if (opts?.method === 'DELETE') {
+    delete _fbStore[path];
+  }
   return { ok: true, json: async () => _fbStore[path] ?? null } as Response;
 });
 
 // ── Tournament bracket builder ─────────────────────────────────
 // We test the bracket-building logic by extracting it
-type TournMatch = { p1:number; p2:number; p1score:number; p2score:number; winner:number; done:boolean; roomId:string; };
+type TournMatch = {
+  p1: number;
+  p2: number;
+  p1score: number;
+  p2score: number;
+  winner: number;
+  done: boolean;
+  roomId: string;
+};
 
 function buildBracket(size: 4 | 8): TournMatch[][] {
   const rounds: TournMatch[][] = [];
@@ -20,14 +40,24 @@ function buildBracket(size: 4 | 8): TournMatch[][] {
   while (prev.length > 1) {
     const matches: TournMatch[] = [];
     for (let i = 0; i < prev.length; i += 2)
-      matches.push({ p1: prev[i], p2: prev[i+1], p1score:0, p2score:0, winner:-1, done:false, roomId:'' });
+      matches.push({
+        p1: prev[i],
+        p2: prev[i + 1],
+        p1score: 0,
+        p2score: 0,
+        winner: -1,
+        done: false,
+        roomId: '',
+      });
     rounds.push(matches);
-    prev = matches.map((_, i) => -(i+1));
+    prev = matches.map((_, i) => -(i + 1));
   }
   return rounds;
 }
 
-beforeEach(() => { Object.keys(_fbStore).forEach(k => delete _fbStore[k]); });
+beforeEach(() => {
+  Object.keys(_fbStore).forEach((k) => delete _fbStore[k]);
+});
 afterEach(() => {});
 
 // ── buildBracket tests ────────────────────────────────────────
@@ -47,15 +77,17 @@ describe('buildBracket(4)', () => {
 
   it('all slot 0-3 players appear exactly once in round 1', () => {
     const round1 = buildBracket(4)[0];
-    const slots = round1.flatMap(m => [m.p1, m.p2]).sort();
+    const slots = round1.flatMap((m) => [m.p1, m.p2]).sort();
     expect(slots).toEqual([0, 1, 2, 3]);
   });
 
   it('every match starts with winner=-1 and done=false', () => {
-    buildBracket(4).flat().forEach(m => {
-      expect(m.winner).toBe(-1);
-      expect(m.done).toBe(false);
-    });
+    buildBracket(4)
+      .flat()
+      .forEach((m) => {
+        expect(m.winner).toBe(-1);
+        expect(m.done).toBe(false);
+      });
   });
 });
 
@@ -78,8 +110,8 @@ describe('buildBracket(8)', () => {
 
   it('all 8 slots appear exactly once in round 1', () => {
     const round1 = buildBracket(8)[0];
-    const slots = round1.flatMap(m => [m.p1, m.p2]).sort((a,b)=>a-b);
-    expect(slots).toEqual([0,1,2,3,4,5,6,7]);
+    const slots = round1.flatMap((m) => [m.p1, m.p2]).sort((a, b) => a - b);
+    expect(slots).toEqual([0, 1, 2, 3, 4, 5, 6, 7]);
   });
 });
 
@@ -116,14 +148,17 @@ describe('Power-up state', () => {
 
   it('powerups are 0 when disabled', () => {
     const powerups = { double: 0, skip: 0, freeze: 0 };
-    expect(Object.values(powerups).every(v => v === 0)).toBe(true);
+    expect(Object.values(powerups).every((v) => v === 0)).toBe(true);
   });
 
   it('double score multiplier logic', () => {
     let score = 3;
     let doubleActive = true;
     // When double is active: +2 instead of +1
-    if (doubleActive) { score += 2; doubleActive = false; }
+    if (doubleActive) {
+      score += 2;
+      doubleActive = false;
+    }
     expect(score).toBe(5);
     expect(doubleActive).toBe(false);
     // Next answer: +1 normal

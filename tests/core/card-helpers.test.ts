@@ -3,8 +3,7 @@ import { safe, boldEn, boldUa, boldHead, srsStatusInfo } from '../../js/core/car
 import type { WordEntry } from '../../src/types.js';
 
 // ── Helpers ────────────────────────────────────────────────────
-const w = (en: string, ua: string): WordEntry =>
-  [en, ua, '', '', ''] as unknown as WordEntry;
+const w = (en: string, ua: string): WordEntry => [en, ua, '', '', ''] as unknown as WordEntry;
 
 // ══════════════════════════════════════════════════════════════
 describe('safe()', () => {
@@ -15,12 +14,18 @@ describe('safe()', () => {
   });
 
   it('swallows errors instead of throwing', () => {
-    expect(() => safe(() => { throw new Error('boom'); })).not.toThrow();
+    expect(() =>
+      safe(() => {
+        throw new Error('boom');
+      }),
+    ).not.toThrow();
   });
 
   it('warns to console on error', () => {
     const spy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    safe(() => { throw new Error('oops'); });
+    safe(() => {
+      throw new Error('oops');
+    });
     expect(spy).toHaveBeenCalledWith('[safe]', 'oops');
     spy.mockRestore();
   });
@@ -38,30 +43,33 @@ describe('boldEn()', () => {
   });
 
   it('wraps a simple word form with <b>', () => {
-    expect(boldEn('The bank was robbed by a gang.', w('rob', 'грабувати')))
-      .toBe('The bank was <b>robbed</b> by a gang.');
+    expect(boldEn('The bank was robbed by a gang.', w('rob', 'грабувати'))).toBe(
+      'The bank was <b>robbed</b> by a gang.',
+    );
   });
 
   it('matches the exact headword', () => {
-    expect(boldEn('She must abandon the plan.', w('abandon', 'покидати')))
-      .toBe('She must <b>abandon</b> the plan.');
+    expect(boldEn('She must abandon the plan.', w('abandon', 'покидати'))).toBe(
+      'She must <b>abandon</b> the plan.',
+    );
   });
 
   it('is case-insensitive', () => {
-    expect(boldEn('ABANDON all hope.', w('abandon', 'покидати')))
-      .toBe('<b>ABANDON</b> all hope.');
+    expect(boldEn('ABANDON all hope.', w('abandon', 'покидати'))).toBe('<b>ABANDON</b> all hope.');
   });
 
   it('strips parenthesised notes before matching', () => {
     // w[0] = "go (somewhere)" → cleans to "go"
-    expect(boldEn('Where did you go last night?', w('go (somewhere)', 'йти')))
-      .toBe('Where did you <b>go</b> last night?');
+    expect(boldEn('Where did you go last night?', w('go (somewhere)', 'йти'))).toBe(
+      'Where did you <b>go</b> last night?',
+    );
   });
 
   it('handles multi-word headword (phrase)', () => {
     // "give up" → regex `give\w*\s+up\w*`
-    expect(boldEn('She decided to give up smoking.', w('give up', 'кидати')))
-      .toBe('She decided to <b>give up</b> smoking.');
+    expect(boldEn('She decided to give up smoking.', w('give up', 'кидати'))).toBe(
+      'She decided to <b>give up</b> smoking.',
+    );
   });
 
   it('escapes regex special characters in headword', () => {
@@ -95,13 +103,13 @@ describe('boldUa()', () => {
 
   it('uses only the first segment of w[1] (before ; or ,)', () => {
     // w[1] = "покидати; залишати" → uses "покидати"
-    expect(boldUa('Він вирішив покидати місто.', w('abandon', 'покидати; залишати')))
-      .toBe('Він вирішив <b>покидати</b> місто.');
+    expect(boldUa('Він вирішив покидати місто.', w('abandon', 'покидати; залишати'))).toBe(
+      'Він вирішив <b>покидати</b> місто.',
+    );
   });
 
   it('is case-insensitive for latin characters', () => {
-    expect(boldUa('LEARN english.', w('learn', 'LEARN')))
-      .toBe('<b>LEARN</b> english.');
+    expect(boldUa('LEARN english.', w('learn', 'LEARN'))).toBe('<b>LEARN</b> english.');
   });
 
   it('returns src unchanged when UA word is not found', () => {
@@ -127,25 +135,26 @@ describe('boldHead()', () => {
   });
 
   it('wraps the matching word', () => {
-    expect(boldHead('She must abandon the plan.', 'abandon'))
-      .toBe('She must <b>abandon</b> the plan.');
+    expect(boldHead('She must abandon the plan.', 'abandon')).toBe(
+      'She must <b>abandon</b> the plan.',
+    );
   });
 
   it('is case-insensitive', () => {
-    expect(boldHead('ABANDON all hope.', 'abandon'))
-      .toBe('<b>ABANDON</b> all hope.');
+    expect(boldHead('ABANDON all hope.', 'abandon')).toBe('<b>ABANDON</b> all hope.');
   });
 
   it('uses only the first segment when word contains ; or /', () => {
-    expect(boldHead('She must abandon the plan.', 'abandon; forsake'))
-      .toBe('She must <b>abandon</b> the plan.');
-    expect(boldHead('She must abandon the plan.', 'abandon/forsake'))
-      .toBe('She must <b>abandon</b> the plan.');
+    expect(boldHead('She must abandon the plan.', 'abandon; forsake')).toBe(
+      'She must <b>abandon</b> the plan.',
+    );
+    expect(boldHead('She must abandon the plan.', 'abandon/forsake')).toBe(
+      'She must <b>abandon</b> the plan.',
+    );
   });
 
   it('strips parenthesised notes before matching', () => {
-    expect(boldHead('Let go of the rope.', 'go (somewhere)'))
-      .toBe('Let <b>go</b> of the rope.');
+    expect(boldHead('Let go of the rope.', 'go (somewhere)')).toBe('Let <b>go</b> of the rope.');
   });
 
   it('returns src unchanged when word not found', () => {

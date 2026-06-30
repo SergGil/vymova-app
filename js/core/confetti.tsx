@@ -7,8 +7,28 @@ let _done = false;
 
 export function ConfettiCanvas(): ReactElement {
   const ref = useRef<HTMLCanvasElement>(null);
-  useEffect(() => { _canvas = ref.current; return () => { _canvas = null; }; }, []);
-  return <canvas ref={ref} id="confetti-canvas" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99990, display: 'block' }} />;
+  useEffect(() => {
+    _canvas = ref.current;
+    return () => {
+      _canvas = null;
+    };
+  }, []);
+  return (
+    <canvas
+      ref={ref}
+      id="confetti-canvas"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        zIndex: 99990,
+        display: 'block',
+      }}
+    />
+  );
 }
 
 export function launchConfetti(): void {
@@ -20,8 +40,19 @@ export function launchConfetti(): void {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  type Piece = { x:number; y:number; w:number; h:number; r:number; vx:number; vy:number; vr:number; color:string; opacity:number };
-  const colors = ['#4ecca3','#e67e22','#3498db','#e74c3c','#f1c40f','#9b59b6','#27ae60'];
+  type Piece = {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+    r: number;
+    vx: number;
+    vy: number;
+    vr: number;
+    color: string;
+    opacity: number;
+  };
+  const colors = ['#4ecca3', '#e67e22', '#3498db', '#e74c3c', '#f1c40f', '#9b59b6', '#27ae60'];
   const pieces: Piece[] = Array.from({ length: 120 }, () => ({
     x: Math.random() * canvas.width,
     y: -20 - Math.random() * 100,
@@ -39,7 +70,9 @@ export function launchConfetti(): void {
   function animate(): void {
     ctx.clearRect(0, 0, canvas!.width, canvas!.height);
     for (const p of pieces) {
-      p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.r += p.vr;
       if (frame > 60) p.opacity = Math.max(0, p.opacity - 0.012);
       ctx.save();
       ctx.globalAlpha = p.opacity;
@@ -51,7 +84,10 @@ export function launchConfetti(): void {
     }
     frame++;
     if (frame < 140) requestAnimationFrame(animate);
-    else { ctx.clearRect(0, 0, canvas!.width, canvas!.height); _done = false; }
+    else {
+      ctx.clearRect(0, 0, canvas!.width, canvas!.height);
+      _done = false;
+    }
   }
   animate();
 }

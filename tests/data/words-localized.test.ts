@@ -7,10 +7,14 @@ import { W_IT } from '../../data/words_it.js';
 import { W_PT } from '../../data/words_pt.js';
 import type { WordEntry } from '../../src/types.js';
 
-const headwords = new Set((W as unknown as WordEntry[]).map(e => e[0]));
+const headwords = new Set((W as unknown as WordEntry[]).map((e) => e[0]));
 
 const LOCALES: Record<string, Record<string, readonly [string, string, string?]>> = {
-  W_DE, W_ES, W_FR, W_IT, W_PT,
+  W_DE,
+  W_ES,
+  W_FR,
+  W_IT,
+  W_PT,
 };
 
 describe.each(Object.entries(LOCALES))('%s (localized word list)', (_name, dict) => {
@@ -27,7 +31,10 @@ describe.each(Object.entries(LOCALES))('%s (localized word list)', (_name, dict)
   it('every entry is a [translation, example, transcription?] tuple of non-empty strings', () => {
     for (const [key, value] of Object.entries(dict)) {
       expect(Array.isArray(value), `${key}: value must be array`).toBe(true);
-      expect(value.length === 2 || value.length === 3, `${key}: value must have 2 or 3 elements`).toBe(true);
+      expect(
+        value.length === 2 || value.length === 3,
+        `${key}: value must have 2 or 3 elements`,
+      ).toBe(true);
       const [translation, example, transcription] = value;
       expect(typeof translation, `${key}: translation`).toBe('string');
       expect(translation.length).toBeGreaterThan(0);

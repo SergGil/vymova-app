@@ -28,7 +28,7 @@ function buildQuestion(deck: WordEntry[], idx: number): Question {
   const w = deck[idx];
   const isEnToUa = Math.random() < 0.5;
   const question = isEnToUa ? w[0] : w[1];
-  const answer   = isEnToUa ? w[1] : w[0];
+  const answer = isEnToUa ? w[1] : w[0];
 
   const pool = _shuf(W.slice() as unknown as WordEntry[]);
   const wrongs: string[] = [];

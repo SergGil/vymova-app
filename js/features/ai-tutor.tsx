@@ -10,7 +10,10 @@ import { t } from './i18n.ts';
 import { useStateVersion } from '../../src/store.ts';
 import { bindOverlayDismiss } from './overlay-utils.ts';
 
-export interface ChatMessage { role: 'user' | 'assistant'; text: string; }
+export interface ChatMessage {
+  role: 'user' | 'assistant';
+  text: string;
+}
 
 export async function sendTutorMessage(messages: ChatMessage[]): Promise<string> {
   const res = await fetch(`${AI_PROXY_URL}/chat`, {
@@ -19,11 +22,11 @@ export async function sendTutorMessage(messages: ChatMessage[]): Promise<string>
     body: JSON.stringify({
       mode: 'tutor',
       lang: { know: getKnowLang(), learn: getLearnLang() },
-      messages: messages.map(m => ({ role: m.role, text: m.text })),
+      messages: messages.map((m) => ({ role: m.role, text: m.text })),
     }),
   });
   if (!res.ok) throw new Error(`AI proxy responded ${res.status}`);
-  const data = await res.json() as { text?: string };
+  const data = (await res.json()) as { text?: string };
   if (!data.text) throw new Error('AI proxy returned no text');
   return data.text;
 }
@@ -40,7 +43,10 @@ export function AiTutorPage(): ReactElement | null {
   if (!target) return null;
   if (!AI_TUTOR_ENABLED) {
     return createPortal(
-      <div className="ai-tutor-disabled" style={{ padding: '24px 16px', textAlign: 'center', color: 'var(--text3)' }}>
+      <div
+        className="ai-tutor-disabled"
+        style={{ padding: '24px 16px', textAlign: 'center', color: 'var(--text3)' }}
+      >
         {t('aiTutor.disabled')}
       </div>,
       target,
@@ -58,12 +64,14 @@ export function AiTutorPage(): ReactElement | null {
     setPending(true);
     try {
       const reply = await sendTutorMessage(next);
-      setMessages(m => [...m, { role: 'assistant', text: reply }]);
+      setMessages((m) => [...m, { role: 'assistant', text: reply }]);
     } catch {
       setError(t('aiTutor.error'));
     } finally {
       setPending(false);
-      requestAnimationFrame(() => { if (listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight; });
+      requestAnimationFrame(() => {
+        if (listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight;
+      });
     }
   };
 
@@ -72,20 +80,28 @@ export function AiTutorPage(): ReactElement | null {
       <div ref={listRef} className="ai-tutor-messages">
         {messages.length === 0 && <div className="ai-tutor-hint">{t('aiTutor.hint')}</div>}
         {messages.map((m, i) => (
-          <div key={i} className={`ai-tutor-msg ai-tutor-msg-${m.role}`}>{m.text}</div>
+          <div key={i} className={`ai-tutor-msg ai-tutor-msg-${m.role}`}>
+            {m.text}
+          </div>
         ))}
-        {pending && <div className="ai-tutor-msg ai-tutor-msg-assistant ai-tutor-typing">{t('aiTutor.typing')}</div>}
+        {pending && (
+          <div className="ai-tutor-msg ai-tutor-msg-assistant ai-tutor-typing">
+            {t('aiTutor.typing')}
+          </div>
+        )}
         {error && <div className="ai-tutor-error">{error}</div>}
       </div>
       <form className="ai-tutor-form" onSubmit={submit}>
         <input
           className="ai-tutor-input"
           value={input}
-          onChange={e => setInput(e.target.value)}
+          onChange={(e) => setInput(e.target.value)}
           placeholder={t('aiTutor.placeholder')}
           disabled={pending}
         />
-        <button type="submit" className="ai-tutor-send" disabled={pending || !input.trim()}>{t('aiTutor.send')}</button>
+        <button type="submit" className="ai-tutor-send" disabled={pending || !input.trim()}>
+          {t('aiTutor.send')}
+        </button>
       </form>
     </div>,
     target,

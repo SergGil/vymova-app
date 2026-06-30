@@ -9,10 +9,22 @@ import { setDuelRoom } from '../../src/duel-room-store.ts';
 
 const { getGameHeaderData } = vi.hoisted(() => ({
   getGameHeaderData: vi.fn(() => ({
-    myAvatar: '🧑', myScore: 0, myIdx: 0, myTotal: 10, myFlags: [] as (boolean | 'skip' | 'double')[],
-    oppAvatar: '🤖', oppName: 'Bot', oppScore: 0, oppIdx: 0, oppFlags: [] as (boolean | 'skip' | 'double')[], oppTotal: 10,
-    mode: 'quiz' as const, progressText: '1 / 10',
-    bestOf: 1 as const, seriesMe: 0, seriesOpp: 0,
+    myAvatar: '🧑',
+    myScore: 0,
+    myIdx: 0,
+    myTotal: 10,
+    myFlags: [] as (boolean | 'skip' | 'double')[],
+    oppAvatar: '🤖',
+    oppName: 'Bot',
+    oppScore: 0,
+    oppIdx: 0,
+    oppFlags: [] as (boolean | 'skip' | 'double')[],
+    oppTotal: 10,
+    mode: 'quiz' as const,
+    progressText: '1 / 10',
+    bestOf: 1 as const,
+    seriesMe: 0,
+    seriesOpp: 0,
     roomCode: null as string | null,
   })),
 }));
@@ -25,7 +37,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<DuelGameHeader />); });
+  act(() => {
+    root.render(<DuelGameHeader />);
+  });
   return { container, root };
 }
 
@@ -36,16 +50,32 @@ describe('duel-game-header.tsx DuelGameHeader', () => {
     document.body.innerHTML = '';
     roots = [];
     getGameHeaderData.mockClear().mockReturnValue({
-      myAvatar: '🧑', myScore: 0, myIdx: 0, myTotal: 10, myFlags: [],
-      oppAvatar: '🤖', oppName: 'Bot', oppScore: 0, oppIdx: 0, oppFlags: [], oppTotal: 10,
-      mode: 'quiz', progressText: '1 / 10',
-      bestOf: 1, seriesMe: 0, seriesOpp: 0,
+      myAvatar: '🧑',
+      myScore: 0,
+      myIdx: 0,
+      myTotal: 10,
+      myFlags: [],
+      oppAvatar: '🤖',
+      oppName: 'Bot',
+      oppScore: 0,
+      oppIdx: 0,
+      oppFlags: [],
+      oppTotal: 10,
+      mode: 'quiz',
+      progressText: '1 / 10',
+      bestOf: 1,
+      seriesMe: 0,
+      seriesOpp: 0,
       roomCode: null,
     });
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders avatars, scores, opponent name and progress text', () => {
@@ -65,10 +95,22 @@ describe('duel-game-header.tsx DuelGameHeader', () => {
 
   it('shows the series score for a best-of-3 match', () => {
     getGameHeaderData.mockReturnValue({
-      myAvatar: '🧑', myScore: 5, myIdx: 3, myTotal: 10, myFlags: [],
-      oppAvatar: '🤖', oppName: 'Bot', oppScore: 2, oppIdx: 3, oppFlags: [], oppTotal: 10,
-      mode: 'quiz', progressText: '4 / 10',
-      bestOf: 3, seriesMe: 1, seriesOpp: 0,
+      myAvatar: '🧑',
+      myScore: 5,
+      myIdx: 3,
+      myTotal: 10,
+      myFlags: [],
+      oppAvatar: '🤖',
+      oppName: 'Bot',
+      oppScore: 2,
+      oppIdx: 3,
+      oppFlags: [],
+      oppTotal: 10,
+      mode: 'quiz',
+      progressText: '4 / 10',
+      bestOf: 3,
+      seriesMe: 1,
+      seriesOpp: 0,
       roomCode: null,
     });
     const { container, root } = mount();
@@ -79,10 +121,22 @@ describe('duel-game-header.tsx DuelGameHeader', () => {
 
   it('shows the room code when present', () => {
     getGameHeaderData.mockReturnValue({
-      myAvatar: '🧑', myScore: 0, myIdx: 0, myTotal: 10, myFlags: [],
-      oppAvatar: '🤖', oppName: 'Bot', oppScore: 0, oppIdx: 0, oppFlags: [], oppTotal: 10,
-      mode: 'quiz', progressText: '1 / 10',
-      bestOf: 1, seriesMe: 0, seriesOpp: 0,
+      myAvatar: '🧑',
+      myScore: 0,
+      myIdx: 0,
+      myTotal: 10,
+      myFlags: [],
+      oppAvatar: '🤖',
+      oppName: 'Bot',
+      oppScore: 0,
+      oppIdx: 0,
+      oppFlags: [],
+      oppTotal: 10,
+      mode: 'quiz',
+      progressText: '1 / 10',
+      bestOf: 1,
+      seriesMe: 0,
+      seriesOpp: 0,
       roomCode: 'ABCD12',
     });
     const { container, root } = mount();
@@ -92,10 +146,22 @@ describe('duel-game-header.tsx DuelGameHeader', () => {
 
   it('renders flag dots reflecting answered status', () => {
     getGameHeaderData.mockReturnValue({
-      myAvatar: '🧑', myScore: 1, myIdx: 1, myTotal: 10, myFlags: [true, false],
-      oppAvatar: '🤖', oppName: 'Bot', oppScore: 0, oppIdx: 0, oppFlags: [], oppTotal: 10,
-      mode: 'quiz', progressText: '2 / 10',
-      bestOf: 1, seriesMe: 0, seriesOpp: 0,
+      myAvatar: '🧑',
+      myScore: 1,
+      myIdx: 1,
+      myTotal: 10,
+      myFlags: [true, false],
+      oppAvatar: '🤖',
+      oppName: 'Bot',
+      oppScore: 0,
+      oppIdx: 0,
+      oppFlags: [],
+      oppTotal: 10,
+      mode: 'quiz',
+      progressText: '2 / 10',
+      bestOf: 1,
+      seriesMe: 0,
+      seriesOpp: 0,
       roomCode: null,
     });
     const { container, root } = mount();
@@ -110,13 +176,28 @@ describe('duel-game-header.tsx DuelGameHeader', () => {
     expect(container.textContent).toContain('Bot');
 
     getGameHeaderData.mockReturnValue({
-      myAvatar: '🧑', myScore: 0, myIdx: 0, myTotal: 10, myFlags: [],
-      oppAvatar: '🦊', oppName: 'Foxy', oppScore: 0, oppIdx: 0, oppFlags: [], oppTotal: 10,
-      mode: 'quiz', progressText: '1 / 10',
-      bestOf: 1, seriesMe: 0, seriesOpp: 0,
+      myAvatar: '🧑',
+      myScore: 0,
+      myIdx: 0,
+      myTotal: 10,
+      myFlags: [],
+      oppAvatar: '🦊',
+      oppName: 'Foxy',
+      oppScore: 0,
+      oppIdx: 0,
+      oppFlags: [],
+      oppTotal: 10,
+      mode: 'quiz',
+      progressText: '1 / 10',
+      bestOf: 1,
+      seriesMe: 0,
+      seriesOpp: 0,
       roomCode: null,
     });
-    act(() => { notifyStateChange(); setDuelRoom({}); });
+    act(() => {
+      notifyStateChange();
+      setDuelRoom({});
+    });
     expect(container.textContent).toContain('Foxy');
   });
 });

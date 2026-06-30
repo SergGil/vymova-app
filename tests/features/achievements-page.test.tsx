@@ -24,7 +24,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<AchievementsPage />); });
+  act(() => {
+    root.render(<AchievementsPage />);
+  });
   return { container, root };
 }
 
@@ -43,7 +45,7 @@ describe('achievements-page.tsx AchievementsPage', () => {
   it('renders an achievement card for every achievement, grouped by category', () => {
     const { container } = mount();
     expect(container.querySelectorAll('.ach-card').length).toBe(ACHIEVEMENTS.length);
-    const cats = new Set(ACHIEVEMENTS.map(a => a.cat));
+    const cats = new Set(ACHIEVEMENTS.map((a) => a.cat));
     expect(container.querySelectorAll('.ach-category').length).toBe(cats.size);
   });
 
@@ -70,7 +72,42 @@ describe('achievements-page.tsx AchievementsPage', () => {
   });
 
   it('marks a higher level as current when known word count increases', () => {
-    setKnownWords('en', new Set(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'aa', 'bb', 'cc', 'dd', 'ee']));
+    setKnownWords(
+      'en',
+      new Set([
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'f',
+        'g',
+        'h',
+        'i',
+        'j',
+        'k',
+        'l',
+        'm',
+        'n',
+        'o',
+        'p',
+        'q',
+        'r',
+        's',
+        't',
+        'u',
+        'v',
+        'w',
+        'x',
+        'y',
+        'z',
+        'aa',
+        'bb',
+        'cc',
+        'dd',
+        'ee',
+      ]),
+    );
     mount();
     const roadmap = document.getElementById('levels-roadmap') as HTMLElement;
     const rows = roadmap.querySelectorAll('.level-row');
@@ -81,25 +118,33 @@ describe('achievements-page.tsx AchievementsPage', () => {
   it('opens the achievement popup when a card is clicked and closes it', () => {
     const { container } = mount();
     const card = container.querySelectorAll('.ach-card')[0] as HTMLElement;
-    act(() => { card.click(); });
+    act(() => {
+      card.click();
+    });
 
     const overlay = document.getElementById('ach-popup-overlay') as HTMLElement;
     expect(overlay.className).toBe('open');
     expect(overlay.querySelector('.ach-popup-name')!.textContent).toBe(ACHIEVEMENTS[0].name);
 
     const closeBtn = overlay.querySelector('.ach-popup-close') as HTMLButtonElement;
-    act(() => { closeBtn.click(); });
+    act(() => {
+      closeBtn.click();
+    });
     expect(overlay.className).toBe('');
   });
 
   it('closes the popup when clicking the overlay backdrop', () => {
     const { container } = mount();
     const card = container.querySelectorAll('.ach-card')[0] as HTMLElement;
-    act(() => { card.click(); });
+    act(() => {
+      card.click();
+    });
 
     const overlay = document.getElementById('ach-popup-overlay') as HTMLElement;
     expect(overlay.className).toBe('open');
-    act(() => { overlay.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      overlay.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(overlay.className).toBe('');
   });
 

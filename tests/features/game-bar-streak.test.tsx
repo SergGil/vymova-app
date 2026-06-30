@@ -16,7 +16,9 @@ function mount(Component: () => JSX.Element): { container: HTMLElement; root: Ro
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<Component />); });
+  act(() => {
+    root.render(<Component />);
+  });
   return { container, root };
 }
 

@@ -18,13 +18,22 @@ const { CardMeta } = await import('../../js/features/card-meta.tsx');
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const cw: WordEntry = ['abandon', 'покинути', 'He will <b>abandon</b> it.', 'Він <b>покине</b> його.', 'ˈæ', 'v'];
+const cw: WordEntry = [
+  'abandon',
+  'покинути',
+  'He will <b>abandon</b> it.',
+  'Він <b>покине</b> його.',
+  'ˈæ',
+  'v',
+];
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<CardMeta />); });
+  act(() => {
+    root.render(<CardMeta />);
+  });
   return { container, root };
 }
 
@@ -79,9 +88,13 @@ describe('card-meta.tsx CardMeta', () => {
   it('the unmark button stops click propagation', () => {
     const { container } = mount();
     let outerClicked = false;
-    document.body.addEventListener('click', () => { outerClicked = true; });
+    document.body.addEventListener('click', () => {
+      outerClicked = true;
+    });
     const btn = container.querySelector('#btn-unmark') as HTMLButtonElement;
-    act(() => { btn.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      btn.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(outerClicked).toBe(false);
   });
 
@@ -89,17 +102,22 @@ describe('card-meta.tsx CardMeta', () => {
     setKnownWords('en', new Set(['abandon']));
     const { container } = mount();
     const btn = container.querySelector('#btn-unmark') as HTMLButtonElement;
-    act(() => { btn.click(); });
+    act(() => {
+      btn.click();
+    });
     expect(getKnownSnapshot('en').has('abandon')).toBe(false);
   });
 
   it('the unmark button removes the word from the active language-specific known set', () => {
-    document.body.innerHTML = '<select id="sel-mode"><option value="he-ua" selected>x</option></select>';
+    document.body.innerHTML =
+      '<select id="sel-mode"><option value="he-ua" selected>x</option></select>';
     (document.getElementById('sel-mode') as HTMLSelectElement).value = 'he-ua';
     setKnownWords('he', new Set(['abandon']));
     const { container } = mount();
     const btn = container.querySelector('#btn-unmark') as HTMLButtonElement;
-    act(() => { btn.click(); });
+    act(() => {
+      btn.click();
+    });
     expect(getKnownSnapshot('he').has('abandon')).toBe(false);
   });
 });

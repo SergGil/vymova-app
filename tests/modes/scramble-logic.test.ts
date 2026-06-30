@@ -8,10 +8,17 @@ const SIZE = 10;
 
 // ── Re-declared pure helpers from js/modes/scramble.tsx ──
 function build(): WordEntry[] {
-  const pool = _shuf((getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[]);
-  const filtered = pool.filter(w => /^[A-Za-z]+$/.test(w[0]) && w[0].length >= 4 && w[0].length <= 9);
-  const fallback = pool.filter(w => /^[A-Za-z]+$/.test(w[0]));
-  return (filtered.length >= SIZE ? filtered : fallback.length >= SIZE ? fallback : pool).slice(0, SIZE);
+  const pool = _shuf(
+    (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[],
+  );
+  const filtered = pool.filter(
+    (w) => /^[A-Za-z]+$/.test(w[0]) && w[0].length >= 4 && w[0].length <= 9,
+  );
+  const fallback = pool.filter((w) => /^[A-Za-z]+$/.test(w[0]));
+  return (filtered.length >= SIZE ? filtered : fallback.length >= SIZE ? fallback : pool).slice(
+    0,
+    SIZE,
+  );
 }
 
 function shuffleWord(word: string): string[] {
@@ -36,7 +43,7 @@ describe('scramble-logic', () => {
       setDeckState([]);
       const deck = build();
       expect(deck.length).toBe(SIZE);
-      deck.forEach(w => {
+      deck.forEach((w) => {
         expect(w[0]).toMatch(/^[A-Za-z]+$/);
         expect(w[0].length).toBeGreaterThanOrEqual(4);
         expect(w[0].length).toBeLessThanOrEqual(9);
@@ -50,7 +57,7 @@ describe('scramble-logic', () => {
       ];
       setDeckState(custom);
       const deck = build();
-      deck.forEach(w => expect(custom.some(c => c[0] === w[0])).toBe(true));
+      deck.forEach((w) => expect(custom.some((c) => c[0] === w[0])).toBe(true));
       setDeckState([]);
     });
   });
@@ -63,7 +70,7 @@ describe('scramble-logic', () => {
 
     it('lowercases the letters', () => {
       const result = shuffleWord('CAT');
-      expect(result.every(ch => ch === ch.toLowerCase())).toBe(true);
+      expect(result.every((ch) => ch === ch.toLowerCase())).toBe(true);
     });
 
     it('returns a single-character array unchanged for 1-letter words', () => {

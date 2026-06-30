@@ -5,7 +5,8 @@ import { W } from '../../data/words.js';
 import { t } from '../../js/features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 
-const SIZE = 8, NUM_OPTS = 4;
+const SIZE = 8,
+  NUM_OPTS = 4;
 
 // ── Re-declared pure helpers from js/modes/context.tsx ──
 function getExample(w: WordEntry): string {
@@ -18,10 +19,15 @@ function hasGoodExample(w: WordEntry): boolean {
 }
 
 function build(): WordEntry[] {
-  const pool = _shuf((getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[]);
+  const pool = _shuf(
+    (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[],
+  );
   let deck = pool.filter(hasGoodExample).slice(0, SIZE);
   if (deck.length < 4) {
-    deck = _shuf((W as unknown as WordEntry[]).filter(w => getExample(w).length >= 15)).slice(0, SIZE);
+    deck = _shuf((W as unknown as WordEntry[]).filter((w) => getExample(w).length >= 15)).slice(
+      0,
+      SIZE,
+    );
   }
   return deck;
 }
@@ -40,7 +46,9 @@ function buildQuestion(w: WordEntry): Question {
   const hiddenHtml = ex.replace(new RegExp(wordBase + '\\w*', 'gi'), '___');
 
   const ipaRaw = w[4] ?? '';
-  const hint = ipaRaw ? `${t('ctx.hintColon')} ${ipaRaw}` : `${t('ctx.firstLetterColon')} ${w[0][0].toUpperCase()}`;
+  const hint = ipaRaw
+    ? `${t('ctx.hintColon')} ${ipaRaw}`
+    : `${t('ctx.firstLetterColon')} ${w[0][0].toUpperCase()}`;
 
   const correct = w[1];
   const wrongs: string[] = [];
@@ -49,7 +57,8 @@ function buildQuestion(w: WordEntry): Question {
   for (const pw of pool) {
     if (wrongs.length >= NUM_OPTS - 1) break;
     if (used.has(pw[0].toLowerCase())) continue;
-    used.add(pw[0].toLowerCase()); wrongs.push(pw[1]);
+    used.add(pw[0].toLowerCase());
+    wrongs.push(pw[1]);
   }
   const options = _shuf([correct, ...wrongs]);
   return { w, hiddenHtml, hint, options, correct };
@@ -77,11 +86,17 @@ describe('context-logic', () => {
     });
 
     it('returns false when the example does not mention the word', () => {
-      expect(hasGoodExample(w('garden', 'сад', 'This is a long sentence about nothing.'))).toBe(false);
+      expect(hasGoodExample(w('garden', 'сад', 'This is a long sentence about nothing.'))).toBe(
+        false,
+      );
     });
 
     it('checks only the first word of multi-word entries', () => {
-      expect(hasGoodExample(w('look forward', 'з нетерпінням чекати', 'I look forward to seeing you soon.'))).toBe(true);
+      expect(
+        hasGoodExample(
+          w('look forward', 'з нетерпінням чекати', 'I look forward to seeing you soon.'),
+        ),
+      ).toBe(true);
     });
   });
 
@@ -91,7 +106,7 @@ describe('context-logic', () => {
       const deck = build();
       expect(deck.length).toBeGreaterThan(0);
       expect(deck.length).toBeLessThanOrEqual(SIZE);
-      deck.forEach(word => expect(getExample(word).length).toBeGreaterThanOrEqual(15));
+      deck.forEach((word) => expect(getExample(word).length).toBeGreaterThanOrEqual(15));
     });
   });
 
@@ -112,7 +127,9 @@ describe('context-logic', () => {
     });
 
     it('uses the IPA as hint when available, else the first letter', () => {
-      const withIpa = buildQuestion(w('garden', 'сад', 'She works in the garden every morning.', '/ˈɡɑːrdn/'));
+      const withIpa = buildQuestion(
+        w('garden', 'сад', 'She works in the garden every morning.', '/ˈɡɑːrdn/'),
+      );
       expect(withIpa.hint).toContain('/ˈɡɑːrdn/');
 
       const noIpa = buildQuestion(w('garden', 'сад', 'She works in the garden every morning.'));

@@ -13,21 +13,21 @@ import type { CefrLevel } from '../../data/cefr.ts';
 
 // A1 words from CEFR_MAP: cat, dog, go, big, run; B1: achieve, improve, debate
 const W: WordEntry[] = [
-  ['cat',     'кіт',         'The cat is here.', '', ''],
-  ['dog',     'пес',         'The dog runs.',    '', ''],
-  ['go',      'йти',         'Let\'s go.',       '', ''],
-  ['big',     'великий',     'A big house.',     '', ''],
-  ['run',     'бігти',       'I run daily.',     '', ''],
-  ['achieve', 'досягати',    'We achieve goals.','', ''],
-  ['improve', 'покращувати', 'Let\'s improve.',  '', ''],
-  ['debate',  'дебатувати',  'They debate.',     '', ''],
+  ['cat', 'кіт', 'The cat is here.', '', ''],
+  ['dog', 'пес', 'The dog runs.', '', ''],
+  ['go', 'йти', "Let's go.", '', ''],
+  ['big', 'великий', 'A big house.', '', ''],
+  ['run', 'бігти', 'I run daily.', '', ''],
+  ['achieve', 'досягати', 'We achieve goals.', '', ''],
+  ['improve', 'покращувати', "Let's improve.", '', ''],
+  ['debate', 'дебатувати', 'They debate.', '', ''],
 ];
 
 function makeStats(pcts: Partial<Record<CefrLevel, number>>): ReturnType<typeof computeCefrStats> {
-  const base = { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 };
+  const base = { A1: 0, A2: 0, B1: 0, B2: 0, C1: 0, C2: 0 };
   const merged = { ...base, ...pcts };
   const stats = {} as ReturnType<typeof computeCefrStats>;
-  (Object.keys(merged) as CefrLevel[]).forEach(l => {
+  (Object.keys(merged) as CefrLevel[]).forEach((l) => {
     stats[l] = { total: 100, known: merged[l]!, pct: merged[l]! };
   });
   return stats;
@@ -37,7 +37,7 @@ function makeStats(pcts: Partial<Record<CefrLevel, number>>): ReturnType<typeof 
 describe('computeCefrStats() — edge cases', () => {
   it('empty words list → all zeros', () => {
     const stats = computeCefrStats(new Set(['cat']), []);
-    (['A1','A2','B1','B2','C1','C2'] as CefrLevel[]).forEach(l => {
+    (['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as CefrLevel[]).forEach((l) => {
       expect(stats[l].total).toBe(0);
       expect(stats[l].known).toBe(0);
       expect(stats[l].pct).toBe(0);
@@ -46,19 +46,19 @@ describe('computeCefrStats() — edge cases', () => {
 
   it('empty known set → known=0, pct=0 for all levels', () => {
     const stats = computeCefrStats(new Set(), W);
-    (['A1','B1'] as CefrLevel[]).forEach(l => {
+    (['A1', 'B1'] as CefrLevel[]).forEach((l) => {
       expect(stats[l].known).toBe(0);
       expect(stats[l].pct).toBe(0);
     });
   });
 
   it('known words not in word list do not affect totals', () => {
-    const stats = computeCefrStats(new Set(['banana','orange','xyz']), W);
+    const stats = computeCefrStats(new Set(['banana', 'orange', 'xyz']), W);
     expect(stats['A1'].known).toBe(0);
   });
 
   it('knowing all words in a level gives 100%', () => {
-    const stats = computeCefrStats(new Set(['cat','dog','go','big','run']), W);
+    const stats = computeCefrStats(new Set(['cat', 'dog', 'go', 'big', 'run']), W);
     expect(stats['A1'].pct).toBe(100);
   });
 
@@ -92,11 +92,13 @@ describe('findCurrentLevel() — edge cases', () => {
   });
 
   it('all levels >= 70 → returns C2', () => {
-    expect(findCurrentLevel(makeStats({ A1:100, A2:100, B1:100, B2:100, C1:100, C2:100 }))).toBe('C2');
+    expect(
+      findCurrentLevel(makeStats({ A1: 100, A2: 100, B1: 100, B2: 100, C1: 100, C2: 100 })),
+    ).toBe('C2');
   });
 
   it('skips completed levels correctly: A1=90, A2=90, B1=50 → B1', () => {
-    expect(findCurrentLevel(makeStats({ A1:90, A2:90, B1:50 }))).toBe('B1');
+    expect(findCurrentLevel(makeStats({ A1: 90, A2: 90, B1: 50 }))).toBe('B1');
   });
 });
 
@@ -114,9 +116,9 @@ describe('filterDailyWords() — edge cases', () => {
   it('known words are excluded regardless of limit', () => {
     const known = new Set(['cat', 'dog', 'go']);
     const result = filterDailyWords('A1', known, W, 10);
-    expect(result.map(w => w[0])).not.toContain('cat');
-    expect(result.map(w => w[0])).not.toContain('dog');
-    expect(result.map(w => w[0])).not.toContain('go');
+    expect(result.map((w) => w[0])).not.toContain('cat');
+    expect(result.map((w) => w[0])).not.toContain('dog');
+    expect(result.map((w) => w[0])).not.toContain('go');
     expect(result.length).toBe(2);
   });
 
@@ -217,16 +219,23 @@ describe('updateCompletionDates() — edge cases', () => {
   });
 
   it('all levels at 100% → all get dates', () => {
-    const pcts: Partial<Record<CefrLevel, number>> = { A1:100, A2:100, B1:100, B2:100, C1:100, C2:100 };
+    const pcts: Partial<Record<CefrLevel, number>> = {
+      A1: 100,
+      A2: 100,
+      B1: 100,
+      B2: 100,
+      C1: 100,
+      C2: 100,
+    };
     const result = updateCompletionDates(makeStats(pcts), {}, '2026-06-10');
-    (['A1','A2','B1','B2','C1','C2'] as CefrLevel[]).forEach(l => {
+    (['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as CefrLevel[]).forEach((l) => {
       expect(result[l]).toBe('2026-06-10');
     });
   });
 
   it('returned object is a new reference (immutable)', () => {
     const stored = { A1: '2026-01-01' };
-    const result = updateCompletionDates(makeStats({ A1:100 }), stored, '2026-06-10');
+    const result = updateCompletionDates(makeStats({ A1: 100 }), stored, '2026-06-10');
     expect(result).not.toBe(stored);
   });
 });

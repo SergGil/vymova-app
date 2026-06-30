@@ -6,7 +6,13 @@ import { refreshGameBarLevel } from './game-bar-level.tsx';
 import { refreshGameBarStreak, refreshGameBarGoal } from './game-bar-streak.tsx';
 
 export function renderGameBar(): void {
-  try { refreshGameBarStreak(); } catch (_e) {}
-  try { refreshGameBarGoal(); } catch (_e) {}
-  try { refreshGameBarLevel(); } catch (_e) {}
+  try {
+    refreshGameBarStreak();
+  } catch (_e) {}
+  try {
+    refreshGameBarGoal();
+  } catch (_e) {}
+  try {
+    refreshGameBarLevel();
+  } catch (_e) {}
 }

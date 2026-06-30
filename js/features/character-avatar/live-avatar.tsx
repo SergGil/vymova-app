@@ -77,7 +77,9 @@ export function LiveAvatar({ appearance, size, variant }: LiveAvatarProps): Reac
     const scheduleResume = (): void => {
       if (reducedMotion) return;
       if (resumeTimer) window.clearTimeout(resumeTimer);
-      resumeTimer = window.setTimeout(() => { controls.autoRotate = true; }, 2500);
+      resumeTimer = window.setTimeout(() => {
+        controls.autoRotate = true;
+      }, 2500);
     };
     controls.addEventListener('start', pauseAutoRotate);
     controls.addEventListener('end', scheduleResume);
@@ -90,13 +92,17 @@ export function LiveAvatar({ appearance, size, variant }: LiveAvatarProps): Reac
       const t = performance.now() - startTime;
 
       if (built && !reducedMotion) {
-        built.torso.position.y = torsoBaseYRef.current + Math.sin((t / BREATHE_PERIOD_MS) * Math.PI * 2) * 0.025;
+        built.torso.position.y =
+          torsoBaseYRef.current + Math.sin((t / BREATHE_PERIOD_MS) * Math.PI * 2) * 0.025;
 
         const phase = t % BLINK_PERIOD_MS;
-        const scaleY = phase < BLINK_DURATION_MS
-          ? Math.max(0.06, Math.abs(Math.cos((phase / BLINK_DURATION_MS) * Math.PI)))
-          : 1;
-        built.eyelids.forEach(eye => { eye.scale.y = scaleY; });
+        const scaleY =
+          phase < BLINK_DURATION_MS
+            ? Math.max(0.06, Math.abs(Math.cos((phase / BLINK_DURATION_MS) * Math.PI)))
+            : 1;
+        built.eyelids.forEach((eye) => {
+          eye.scale.y = scaleY;
+        });
 
         // Subtle continuous weight-shift sway through the spine.
         built.rig.bones.spine.rotation.z = Math.sin((t / SWAY_PERIOD_MS) * Math.PI * 2) * 0.025;

@@ -9,7 +9,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<PwaBanner />); });
+  act(() => {
+    root.render(<PwaBanner />);
+  });
   return { container, root };
 }
 
@@ -24,7 +26,11 @@ describe('pwa.tsx PwaBanner', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
     vi.useRealTimers();
     vi.unstubAllGlobals();
   });
@@ -44,8 +50,12 @@ describe('pwa.tsx PwaBanner', () => {
       prompt: vi.fn(),
       userChoice: Promise.resolve({ outcome: 'accepted' }),
     });
-    act(() => { window.dispatchEvent(evt); });
-    act(() => { vi.advanceTimersByTime(2000); });
+    act(() => {
+      window.dispatchEvent(evt);
+    });
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
 
     expect(container.querySelector('#pwa-banner')!.className).toBe('show');
     expect(container.querySelector('strong')!.textContent).toBe('Встанови як додаток');
@@ -61,8 +71,12 @@ describe('pwa.tsx PwaBanner', () => {
       prompt: vi.fn(),
       userChoice: Promise.resolve({ outcome: 'accepted' }),
     });
-    act(() => { window.dispatchEvent(evt); });
-    act(() => { vi.advanceTimersByTime(2000); });
+    act(() => {
+      window.dispatchEvent(evt);
+    });
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
 
     expect(container.querySelector('#pwa-banner')!.className).toBe('');
   });
@@ -77,11 +91,17 @@ describe('pwa.tsx PwaBanner', () => {
       prompt: vi.fn(),
       userChoice,
     });
-    act(() => { window.dispatchEvent(evt); });
-    act(() => { vi.advanceTimersByTime(2000); });
+    act(() => {
+      window.dispatchEvent(evt);
+    });
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
 
     const installBtn = container.querySelector('#pwa-install') as HTMLButtonElement;
-    act(() => { installBtn.click(); });
+    act(() => {
+      installBtn.click();
+    });
     expect(container.querySelector('#pwa-banner')!.className).toBe('');
     expect(evt.prompt).toHaveBeenCalled();
   });
@@ -95,11 +115,17 @@ describe('pwa.tsx PwaBanner', () => {
       prompt: vi.fn(),
       userChoice: Promise.resolve({ outcome: 'accepted' }),
     });
-    act(() => { window.dispatchEvent(evt); });
-    act(() => { vi.advanceTimersByTime(2000); });
+    act(() => {
+      window.dispatchEvent(evt);
+    });
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
 
     const closeBtn = container.querySelector('#pwa-close') as HTMLButtonElement;
-    act(() => { closeBtn.click(); });
+    act(() => {
+      closeBtn.click();
+    });
     expect(container.querySelector('#pwa-banner')!.className).toBe('');
     expect(localStorage.getItem('ew_pwa_dismissed')).toBe('1');
   });
@@ -113,7 +139,9 @@ describe('pwa.tsx PwaBanner', () => {
 
     const { container, root } = mount();
     roots.push(root);
-    act(() => { vi.advanceTimersByTime(2000); });
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
 
     expect(container.querySelector('#pwa-banner')!.className).toBe('show');
     expect(container.querySelector('.pwa-text')!.innerHTML).toContain('Додай на головний екран');

@@ -1,7 +1,24 @@
 import { describe, it, expect, beforeEach, beforeAll, afterEach, vi } from 'vitest';
-import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck, updateSrsUI, sm2Update } from '../../js/core/srs.ts';
-import { getSrsNewRemaining, SRS_NEW_DAILY_CAP, invalidateGameCaches } from '../../js/features/game.ts';
-import { clearSrsData, getSrsDataSnapshot, setSrsEntry, loadSrsData, markSrsStatsClean } from '../../src/srs-store.ts';
+import {
+  shuffle,
+  _shuf,
+  buildSRSDeck,
+  buildUnlearnedDeck,
+  updateSrsUI,
+  sm2Update,
+} from '../../js/core/srs.ts';
+import {
+  getSrsNewRemaining,
+  SRS_NEW_DAILY_CAP,
+  invalidateGameCaches,
+} from '../../js/features/game.ts';
+import {
+  clearSrsData,
+  getSrsDataSnapshot,
+  setSrsEntry,
+  loadSrsData,
+  markSrsStatsClean,
+} from '../../src/srs-store.ts';
 import { setActiveTagSet } from '../../src/deck-filter-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -102,12 +119,12 @@ describe('buildUnlearnedDeck()', () => {
     setKnownWords('en', new Set(['apple', 'banana']));
     const deck = buildUnlearnedDeck(W);
     expect(deck.length).toBe(W.length - 2);
-    expect(deck.some(w => w[0] === 'apple')).toBe(false);
-    expect(deck.some(w => w[0] === 'banana')).toBe(false);
+    expect(deck.some((w) => w[0] === 'apple')).toBe(false);
+    expect(deck.some((w) => w[0] === 'banana')).toBe(false);
   });
 
   it('returns all words (as fallback) when everything is known', () => {
-    setKnownWords('en', new Set(W.map(w => w[0])));
+    setKnownWords('en', new Set(W.map((w) => w[0])));
     const deck = buildUnlearnedDeck(W);
     expect(deck.length).toBe(W.length);
   });
@@ -116,7 +133,7 @@ describe('buildUnlearnedDeck()', () => {
     setActiveTagSet(new Set(['apple', 'banana']));
     const deck = buildUnlearnedDeck(W);
     expect(deck.length).toBe(2);
-    expect(deck.every(w => ['apple', 'banana'].includes(w[0]))).toBe(true);
+    expect(deck.every((w) => ['apple', 'banana'].includes(w[0]))).toBe(true);
   });
 });
 
@@ -126,14 +143,14 @@ describe('buildSRSDeck()', () => {
     setSrsEntry('apple', { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' }); // overdue
     setSrsEntry('banana', { ef: 2.5, reps: 1, interval: 1, due: '2024-07-01' }); // not yet
     const deck = buildSRSDeck(W);
-    expect(deck.some(w => w[0] === 'apple')).toBe(true);
+    expect(deck.some((w) => w[0] === 'apple')).toBe(true);
   });
 
   it('excludes cards not yet due', () => {
     setSrsEntry('apple', { ef: 2.5, reps: 1, interval: 5, due: '2024-07-01' }); // future
     const deck = buildSRSDeck(W);
     // apple should not be in due cards — may appear as new card if room
-    const appleEntry = deck.find(w => w[0] === 'apple');
+    const appleEntry = deck.find((w) => w[0] === 'apple');
     if (appleEntry) {
       // If apple appears, it's as a new card (no due date counting as new)
       // Actually: apple HAS an srsData entry, so it's NOT treated as new
@@ -147,7 +164,7 @@ describe('buildSRSDeck()', () => {
     setKnownWords('en', new Set(['cat', 'dog', 'fish', 'book', 'house']));
     const deck = buildSRSDeck(W);
     // new cards: apple, banana, car (3 total)
-    const newWords = deck.filter(w => !getSrsDataSnapshot()[w[0]]?.due);
+    const newWords = deck.filter((w) => !getSrsDataSnapshot()[w[0]]?.due);
     expect(newWords.length).toBeLessThanOrEqual(10);
   });
 
@@ -158,7 +175,7 @@ describe('buildSRSDeck()', () => {
   });
 
   it('falls back to all words when everything is known and no SRS', () => {
-    setKnownWords('en', new Set(W.map(w => w[0])));
+    setKnownWords('en', new Set(W.map((w) => w[0])));
     const deck = buildSRSDeck(W);
     expect(deck.length).toBe(W.length);
   });
@@ -244,7 +261,7 @@ describe('SRS daily new-card quota', () => {
     for (let i = 0; i < SRS_NEW_DAILY_CAP - 1; i++) sm2Update(`seen${i}`, 4);
     expect(getSrsNewRemaining()).toBe(1);
     const deck = buildSRSDeck(W);
-    const newInDeck = deck.filter(w => !getSrsDataSnapshot()[w[0]]?.due);
+    const newInDeck = deck.filter((w) => !getSrsDataSnapshot()[w[0]]?.due);
     expect(newInDeck.length).toBeLessThanOrEqual(1);
   });
 

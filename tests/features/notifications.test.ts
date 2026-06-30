@@ -3,16 +3,31 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 // ── localStorage mock ─────────────────────────────────────────
 const _store: Record<string, string> = {};
 const lsMock = {
-  getItem:    (k: string) => _store[k] ?? null,
-  setItem:    (k: string, v: string) => { _store[k] = v; },
-  removeItem: (k: string) => { delete _store[k]; },
-  clear:      () => { Object.keys(_store).forEach(k => delete _store[k]); },
-  get length(){ return Object.keys(_store).length; },
+  getItem: (k: string) => _store[k] ?? null,
+  setItem: (k: string, v: string) => {
+    _store[k] = v;
+  },
+  removeItem: (k: string) => {
+    delete _store[k];
+  },
+  clear: () => {
+    Object.keys(_store).forEach((k) => delete _store[k]);
+  },
+  get length() {
+    return Object.keys(_store).length;
+  },
   key: (i: number) => Object.keys(_store)[i] ?? null,
 };
 
-beforeEach(() => { lsMock.clear(); vi.useFakeTimers(); vi.stubGlobal('localStorage', lsMock); });
-afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); });
+beforeEach(() => {
+  lsMock.clear();
+  vi.useFakeTimers();
+  vi.stubGlobal('localStorage', lsMock);
+});
+afterEach(() => {
+  vi.useRealTimers();
+  vi.unstubAllGlobals();
+});
 
 // ── Reminder time logic ───────────────────────────────────────
 describe('Notification time parsing', () => {
@@ -55,7 +70,7 @@ describe('Daily study detection', () => {
     const today = new Date().toISOString().slice(0, 10);
     const daily: Record<string, number> = { [today]: 5 };
     lsMock.setItem('ew_daily', JSON.stringify(daily));
-    const data = JSON.parse(lsMock.getItem('ew_daily') || '{}') as Record<string,number>;
+    const data = JSON.parse(lsMock.getItem('ew_daily') || '{}') as Record<string, number>;
     expect((data[today] ?? 0) > 0).toBe(true);
   });
 
@@ -63,7 +78,7 @@ describe('Daily study detection', () => {
     const today = new Date().toISOString().slice(0, 10);
     const daily: Record<string, number> = {};
     lsMock.setItem('ew_daily', JSON.stringify(daily));
-    const data = JSON.parse(lsMock.getItem('ew_daily') || '{}') as Record<string,number>;
+    const data = JSON.parse(lsMock.getItem('ew_daily') || '{}') as Record<string, number>;
     expect((data[today] ?? 0) > 0).toBe(false);
   });
 

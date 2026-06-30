@@ -16,7 +16,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<DuelFeedback />); });
+  act(() => {
+    root.render(<DuelFeedback />);
+  });
   return { container, root };
 }
 
@@ -31,7 +33,11 @@ describe('duel-feedback.tsx DuelFeedback', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders empty feedback and speed text by default', () => {
@@ -57,7 +63,10 @@ describe('duel-feedback.tsx DuelFeedback', () => {
     roots.push(root);
 
     feedback = { html: '<b>Невірно</b>', speed: '1.2s' };
-    act(() => { refreshDuelFeedback(); setDuelQuestionFields({}); });
+    act(() => {
+      refreshDuelFeedback();
+      setDuelQuestionFields({});
+    });
 
     const divs = container.querySelectorAll('div');
     expect(divs[0].innerHTML).toBe('<b>Невірно</b>');

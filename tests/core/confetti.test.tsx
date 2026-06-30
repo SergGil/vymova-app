@@ -9,7 +9,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<ConfettiCanvas />); });
+  act(() => {
+    root.render(<ConfettiCanvas />);
+  });
   return { container, root };
 }
 
@@ -42,7 +44,11 @@ describe('confetti.tsx', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });

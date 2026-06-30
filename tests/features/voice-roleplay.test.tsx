@@ -5,13 +5,19 @@ import { splitFeedback } from '../../js/features/voice-roleplay.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const configMock = vi.hoisted(() => ({ AI_PROXY_URL: 'https://proxy.example.test', AI_TUTOR_ENABLED: true }));
+const configMock = vi.hoisted(() => ({
+  AI_PROXY_URL: 'https://proxy.example.test',
+  AI_TUTOR_ENABLED: true,
+}));
 vi.mock('../../js/config.ts', () => configMock);
 
 vi.mock('../../js/features/speech.ts', () => ({ _speakWithLang: vi.fn() }));
 
 async function flush(): Promise<void> {
-  await act(async () => { await Promise.resolve(); await Promise.resolve(); });
+  await act(async () => {
+    await Promise.resolve();
+    await Promise.resolve();
+  });
 }
 
 describe('splitFeedback()', () => {
@@ -40,7 +46,9 @@ describe('voice-roleplay.tsx VoiceRoleplayPage', () => {
   });
 
   afterEach(() => {
-    act(() => { root?.unmount(); });
+    act(() => {
+      root?.unmount();
+    });
     vi.unstubAllGlobals();
     vi.resetModules();
   });
@@ -50,7 +58,9 @@ describe('voice-roleplay.tsx VoiceRoleplayPage', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     root = createRoot(container);
-    act(() => { root.render(<VoiceRoleplayPage />); });
+    act(() => {
+      root.render(<VoiceRoleplayPage />);
+    });
     return container;
   }
 
@@ -76,17 +86,24 @@ describe('voice-roleplay.tsx VoiceRoleplayPage', () => {
     await mount();
     const target = document.getElementById('voice-roleplay-content')!;
     const firstCard = target.querySelectorAll('.roleplay-scenario-row')[1] as HTMLButtonElement; // ordering-coffee
-    act(() => { firstCard.click(); });
+    act(() => {
+      firstCard.click();
+    });
 
     const input = target.querySelector('.ai-tutor-input') as HTMLInputElement;
     expect(input).not.toBeNull();
-    const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')!.set!;
+    const setter = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype,
+      'value',
+    )!.set!;
     act(() => {
       setter.call(input, 'One coffee please');
       input.dispatchEvent(new Event('input', { bubbles: true }));
     });
     const form = target.querySelector('.ai-tutor-form') as HTMLFormElement;
-    await act(async () => { form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); });
+    await act(async () => {
+      form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    });
     await flush();
 
     const body = JSON.parse((fetch as unknown as ReturnType<typeof vi.fn>).mock.calls[0][1].body);

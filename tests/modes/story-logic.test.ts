@@ -14,7 +14,8 @@ function getWordIdx(): Map<string, number> {
 
 function highlightText(text: string): { html: string; total: number; known: number } {
   const wi = getWordIdx();
-  let knownInStory = 0, totalHighlighted = 0;
+  let knownInStory = 0,
+    totalHighlighted = 0;
   const lowerText = text.toLowerCase();
   const words = Array.from(wi.keys()).sort((a, b) => b.length - a.length);
   let result = text;
@@ -23,10 +24,13 @@ function highlightText(text: string): { html: string; total: number; known: numb
   for (const word of words) {
     if (word.length < 3) continue;
     if (!lowerText.includes(word)) continue;
-    const regex = new RegExp(`\\b(${word.replace(/[.*+?^${}()|\[\]\\]/g, '\\$&')}(?:s|ed|ing|er|est|ly)?)\\b`, 'gi');
+    const regex = new RegExp(
+      `\\b(${word.replace(/[.*+?^${}()|\[\]\\]/g, '\\$&')}(?:s|ed|ing|er|est|ly)?)\\b`,
+      'gi',
+    );
     let m: RegExpExecArray | null;
     while ((m = regex.exec(text)) !== null) {
-      const overlap = markers.some(mk => m!.index < mk.to && m!.index + m![0].length > mk.from);
+      const overlap = markers.some((mk) => m!.index < mk.to && m!.index + m![0].length > mk.from);
       if (!overlap) {
         markers.push({ from: m.index, to: m.index + m[0].length, word });
         totalHighlighted++;
@@ -40,7 +44,8 @@ function highlightText(text: string): { html: string; total: number; known: numb
     const isKnown = state.known.has(mk.word);
     const matched = text.slice(mk.from, mk.to);
     const cls = `sm-word${isKnown ? ' sm-known' : ''}`;
-    result = result.slice(0, mk.from) +
+    result =
+      result.slice(0, mk.from) +
       `<span class="${cls}" data-word="${mk.word}">${matched}</span>` +
       result.slice(mk.to);
   }
@@ -70,7 +75,7 @@ describe('story-logic', () => {
 
     it('wraps recognized dictionary words in <span class="sm-word">', () => {
       const all = W as unknown as WordEntry[];
-      const dictWord = all.find(w => /^[a-z]+$/i.test(w[0]) && w[0].length >= 4);
+      const dictWord = all.find((w) => /^[a-z]+$/i.test(w[0]) && w[0].length >= 4);
       if (!dictWord) throw new Error('no suitable dictionary word found for test');
       const text = `This is a ${dictWord[0]} example sentence for testing purposes here.`;
       const { html, total } = highlightText(text);
@@ -81,7 +86,7 @@ describe('story-logic', () => {
 
     it('marks known words with the sm-known class and counts them', () => {
       const all = W as unknown as WordEntry[];
-      const dictWord = all.find(w => /^[a-z]+$/i.test(w[0]) && w[0].length >= 4);
+      const dictWord = all.find((w) => /^[a-z]+$/i.test(w[0]) && w[0].length >= 4);
       if (!dictWord) throw new Error('no suitable dictionary word found for test');
       state.known.add(dictWord[0].toLowerCase());
       const text = `This is a ${dictWord[0]} example sentence for testing purposes here.`;
@@ -92,7 +97,7 @@ describe('story-logic', () => {
 
     it('does not double-highlight overlapping matches', () => {
       const all = W as unknown as WordEntry[];
-      const dictWord = all.find(w => /^[a-z]+$/i.test(w[0]) && w[0].length >= 4);
+      const dictWord = all.find((w) => /^[a-z]+$/i.test(w[0]) && w[0].length >= 4);
       if (!dictWord) throw new Error('no suitable dictionary word found for test');
       const text = `${dictWord[0]} ${dictWord[0]}ing here.`;
       const { total } = highlightText(text);

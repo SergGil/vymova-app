@@ -5,7 +5,14 @@ import { setCwState, setFlippedState, setModeState } from '../../src/deck-store.
 import { clearSrsData } from '../../src/srs-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 import {
-  WordText, Transcription, PosTag, SrsBadge, Translation, ExEn, ExUa, OtherMeanings,
+  WordText,
+  Transcription,
+  PosTag,
+  SrsBadge,
+  Translation,
+  ExEn,
+  ExUa,
+  OtherMeanings,
 } from '../../js/features/card-front-text.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -13,25 +20,45 @@ import {
 const { speakEnAccent } = vi.hoisted(() => ({ speakEnAccent: vi.fn() }));
 vi.mock('../../js/features/voice.tsx', () => ({
   speakEnAccent,
-  speakEsAccent: vi.fn(), speakPtAccent: vi.fn(), hasEsAccent: vi.fn(() => false), hasPtAccent: vi.fn(() => false),
+  speakEsAccent: vi.fn(),
+  speakPtAccent: vi.fn(),
+  hasEsAccent: vi.fn(() => false),
+  hasPtAccent: vi.fn(() => false),
   getSelectedUkVoice: vi.fn(() => null),
-  getSelectedEsVoice: vi.fn(() => null), getSelectedFrVoice: vi.fn(() => null), getSelectedItVoice: vi.fn(() => null),
-  getSelectedPtVoice: vi.fn(() => null), getSelectedDeVoice: vi.fn(() => null), getSelectedHeVoice: vi.fn(() => null),
-  getSelectedArVoice: vi.fn(() => null), getSelectedPlVoice: vi.fn(() => null), getSelectedZhVoice: vi.fn(() => null),
-  getSelectedElVoice: vi.fn(() => null), getSelectedJaVoice: vi.fn(() => null), getSelectedTrVoice: vi.fn(() => null),
+  getSelectedEsVoice: vi.fn(() => null),
+  getSelectedFrVoice: vi.fn(() => null),
+  getSelectedItVoice: vi.fn(() => null),
+  getSelectedPtVoice: vi.fn(() => null),
+  getSelectedDeVoice: vi.fn(() => null),
+  getSelectedHeVoice: vi.fn(() => null),
+  getSelectedArVoice: vi.fn(() => null),
+  getSelectedPlVoice: vi.fn(() => null),
+  getSelectedZhVoice: vi.fn(() => null),
+  getSelectedElVoice: vi.fn(() => null),
+  getSelectedJaVoice: vi.fn(() => null),
+  getSelectedTrVoice: vi.fn(() => null),
   getSelectedNlVoice: vi.fn(() => null),
 }));
 
 const { speak } = vi.hoisted(() => ({ speak: vi.fn() }));
 vi.mock('../../js/features/speech.ts', () => ({ speak }));
 
-const cw: WordEntry = ['abandon', 'покинути', 'He will <b>abandon</b> it.', 'Він <b>покине</b> його.', 'ˈæ', 'v'];
+const cw: WordEntry = [
+  'abandon',
+  'покинути',
+  'He will <b>abandon</b> it.',
+  'Він <b>покине</b> його.',
+  'ˈæ',
+  'v',
+];
 
 function mount(Component: () => JSX.Element | null): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<Component />); });
+  act(() => {
+    root.render(<Component />);
+  });
   return { container, root };
 }
 
@@ -80,10 +107,14 @@ describe('card-front-text.tsx', () => {
     const el = container.querySelector('#wtrans') as HTMLElement;
     const [gbBtn, usBtn] = el.querySelectorAll<HTMLButtonElement>('button.accent-btn');
 
-    act(() => { gbBtn.click(); });
+    act(() => {
+      gbBtn.click();
+    });
     expect(speakEnAccent).toHaveBeenCalledWith('abandon', 'GB', gbBtn);
 
-    act(() => { usBtn.click(); });
+    act(() => {
+      usBtn.click();
+    });
     expect(speakEnAccent).toHaveBeenCalledWith('abandon', 'US', usBtn);
   });
 
@@ -133,14 +164,16 @@ describe('card-front-text.tsx', () => {
   });
 
   it('SrsBadge renders a hidden placeholder when there is nothing to show', () => {
-    document.body.innerHTML = '<select id="sel-range"><option value="all" selected>all</option></select>';
+    document.body.innerHTML =
+      '<select id="sel-range"><option value="all" selected>all</option></select>';
     const { container } = mount(SrsBadge);
     const el = container.querySelector('#srs-next') as HTMLElement;
     expect(el.style.display).toBe('none');
   });
 
   it('SrsBadge shows a "new" badge when the SRS range is selected and the word is unscheduled', () => {
-    document.body.innerHTML = '<select id="sel-range"><option value="srs" selected>srs</option></select>';
+    document.body.innerHTML =
+      '<select id="sel-range"><option value="srs" selected>srs</option></select>';
     (document.getElementById('sel-range') as HTMLSelectElement).value = 'srs';
     const { container } = mount(SrsBadge);
     const el = container.querySelector('#srs-next') as HTMLElement;
@@ -154,7 +187,9 @@ describe('card-front-text.tsx', () => {
     expect(el.textContent).toBe('покинути');
     expect(el.className).toBe('transl');
 
-    act(() => { setFlippedState(true); });
+    act(() => {
+      setFlippedState(true);
+    });
     expect(container.querySelector('#wtransl')!.className).toBe('transl show');
   });
 
@@ -170,7 +205,9 @@ describe('card-front-text.tsx', () => {
     expect(el.innerHTML).toContain('<b>покине</b>');
     expect(el.className).toBe('ex-ua');
 
-    act(() => { setFlippedState(true); });
+    act(() => {
+      setFlippedState(true);
+    });
     expect(container.querySelector('#exua')!.className).toBe('ex-ua show');
   });
 
@@ -206,19 +243,28 @@ describe('card-front-text.tsx', () => {
       expect(container.querySelector('.similar-title')!.textContent).toContain('Усі значення');
     });
 
-    it('each sense has its own speak button that speaks that sense\'s example', () => {
+    it("each sense has its own speak button that speaks that sense's example", () => {
       setFlippedState(true);
       setCwState(['light', 'світло', '', '', '', 'n'] as unknown as WordEntry);
       const { container } = mount(OtherMeanings);
       const items = container.querySelectorAll('#cb-senses-list li');
-      const btns = Array.from(items).map(li => li.querySelector<HTMLButtonElement>('.sense-speak-btn')!);
+      const btns = Array.from(items).map((li) =>
+        li.querySelector<HTMLButtonElement>('.sense-speak-btn')!,
+      );
       expect(btns.length).toBe(2);
 
-      act(() => { btns[0].click(); });
+      act(() => {
+        btns[0].click();
+      });
       expect(speak).toHaveBeenCalledWith('Please turn on the light in the hallway.', btns[0]);
 
-      act(() => { btns[1].click(); });
-      expect(speak).toHaveBeenCalledWith('This suitcase is surprisingly light for its size.', btns[1]);
+      act(() => {
+        btns[1].click();
+      });
+      expect(speak).toHaveBeenCalledWith(
+        'This suitcase is surprisingly light for its size.',
+        btns[1],
+      );
     });
   });
 });

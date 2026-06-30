@@ -19,12 +19,14 @@ export function createDomainStore<S, A>(reducer: (state: S, action: A) => S, ini
 
   function dispatch(action: A): void {
     snapshot = reducer(snapshot, action);
-    listeners.forEach(l => l());
+    listeners.forEach((l) => l());
   }
 
   function subscribe(listener: () => void): () => void {
     listeners.add(listener);
-    return () => { listeners.delete(listener); };
+    return () => {
+      listeners.delete(listener);
+    };
   }
 
   function getSnapshot(): S {

@@ -23,7 +23,10 @@ export function BugReportForm(): ReactElement {
 
   function send(): void {
     const msg = message.trim();
-    if (!msg) { setError(true); return; }
+    if (!msg) {
+      setError(true);
+      return;
+    }
     setError(false);
 
     const subjectVal = subject || t('settings.bugSubjectDefault');
@@ -35,13 +38,26 @@ export function BugReportForm(): ReactElement {
       `&body=${encodeURIComponent(body)}`;
 
     setSent(true);
-    setTimeout(() => { setMessage(''); setSubject(''); setSent(false); }, 2000);
+    setTimeout(() => {
+      setMessage('');
+      setSubject('');
+      setSent(false);
+    }, 2000);
   }
 
   return (
     <div className="bug-form" id="bug-form">
-      <select id="bug-subject" className="bug-select" value={subject} onChange={e => setSubject(e.target.value)}>
-        {SUBJECT_KEYS.map(key => <option key={key} value={key === 'settings.bugSubjectDefault' ? '' : t(key)}>{t(key)}</option>)}
+      <select
+        id="bug-subject"
+        className="bug-select"
+        value={subject}
+        onChange={(e) => setSubject(e.target.value)}
+      >
+        {SUBJECT_KEYS.map((key) => (
+          <option key={key} value={key === 'settings.bugSubjectDefault' ? '' : t(key)}>
+            {t(key)}
+          </option>
+        ))}
       </select>
       <textarea
         id="bug-message"
@@ -49,11 +65,22 @@ export function BugReportForm(): ReactElement {
         rows={4}
         placeholder={t('settings.bugPlaceholder')}
         value={message}
-        onChange={e => { setMessage(e.target.value); setError(false); }}
+        onChange={(e) => {
+          setMessage(e.target.value);
+          setError(false);
+        }}
       />
       <div className="bug-row">
-        <button id="bug-send-btn" className="bug-send-btn" onClick={send}>{t('settings.bugSendBtn')}</button>
-        <span id="bug-sent-note" className="bug-sent-note" style={{ display: sent ? 'inline' : 'none' }}>{t('settings.bugSentNote')}</span>
+        <button id="bug-send-btn" className="bug-send-btn" onClick={send}>
+          {t('settings.bugSendBtn')}
+        </button>
+        <span
+          id="bug-sent-note"
+          className="bug-sent-note"
+          style={{ display: sent ? 'inline' : 'none' }}
+        >
+          {t('settings.bugSentNote')}
+        </span>
       </div>
     </div>
   );

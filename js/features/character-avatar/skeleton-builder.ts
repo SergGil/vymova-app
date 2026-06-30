@@ -2,46 +2,68 @@
 // Procedural bone hierarchy + skinned "limb tube" geometry generator.
 // Pure three.js object construction — no DOM/WebGL, safe to unit-test.
 import {
-  Bone, Skeleton, SkinnedMesh, Vector3,
-  BufferGeometry, BufferAttribute, Uint16BufferAttribute,
+  Bone,
+  Skeleton,
+  SkinnedMesh,
+  Vector3,
+  BufferGeometry,
+  BufferAttribute,
+  Uint16BufferAttribute,
   type Material,
 } from 'three';
 
 export type BoneName =
-  | 'hips' | 'spine' | 'chest' | 'neck' | 'head'
-  | 'shoulderL' | 'forearmL' | 'handL'
-  | 'shoulderR' | 'forearmR' | 'handR'
-  | 'upperLegL' | 'lowerLegL' | 'footL'
-  | 'upperLegR' | 'lowerLegR' | 'footR';
+  | 'hips'
+  | 'spine'
+  | 'chest'
+  | 'neck'
+  | 'head'
+  | 'shoulderL'
+  | 'forearmL'
+  | 'handL'
+  | 'shoulderR'
+  | 'forearmR'
+  | 'handR'
+  | 'upperLegL'
+  | 'lowerLegL'
+  | 'footL'
+  | 'upperLegR'
+  | 'lowerLegR'
+  | 'footR';
 
-interface BoneSpec { name: BoneName; parent: BoneName | null; world: [number, number, number]; }
+interface BoneSpec {
+  name: BoneName;
+  parent: BoneName | null;
+  world: [number, number, number];
+}
 
 // World-space (== character group local space) rest-pose positions.
 // Local bone offsets are derived from these at build time.
 const BONE_SPECS: BoneSpec[] = [
-  { name: 'hips',  parent: null,    world: [0, 0.55, 0] },
-  { name: 'spine', parent: 'hips',  world: [0, 0.78, 0] },
+  { name: 'hips', parent: null, world: [0, 0.55, 0] },
+  { name: 'spine', parent: 'hips', world: [0, 0.78, 0] },
   { name: 'chest', parent: 'spine', world: [0, 0.95, 0] },
-  { name: 'neck',  parent: 'chest', world: [0, 1.42, 0] },
-  { name: 'head',  parent: 'neck',  world: [0, 1.70, 0] },
+  { name: 'neck', parent: 'chest', world: [0, 1.42, 0] },
+  { name: 'head', parent: 'neck', world: [0, 1.7, 0] },
 
-  { name: 'shoulderL', parent: 'chest',     world: [-0.50, 1.25, 0] },
-  { name: 'forearmL',  parent: 'shoulderL', world: [-0.55, 0.95, 0] },
-  { name: 'handL',     parent: 'forearmL',  world: [-0.50, 0.62, 0] },
-  { name: 'shoulderR', parent: 'chest',     world: [0.50, 1.25, 0] },
-  { name: 'forearmR',  parent: 'shoulderR', world: [0.55, 0.95, 0] },
-  { name: 'handR',     parent: 'forearmR',  world: [0.50, 0.62, 0] },
+  { name: 'shoulderL', parent: 'chest', world: [-0.5, 1.25, 0] },
+  { name: 'forearmL', parent: 'shoulderL', world: [-0.55, 0.95, 0] },
+  { name: 'handL', parent: 'forearmL', world: [-0.5, 0.62, 0] },
+  { name: 'shoulderR', parent: 'chest', world: [0.5, 1.25, 0] },
+  { name: 'forearmR', parent: 'shoulderR', world: [0.55, 0.95, 0] },
+  { name: 'handR', parent: 'forearmR', world: [0.5, 0.62, 0] },
 
-  { name: 'upperLegL', parent: 'hips',      world: [-0.18, 0.55, 0] },
-  { name: 'lowerLegL', parent: 'upperLegL', world: [-0.18, 0.20, 0] },
-  { name: 'footL',     parent: 'lowerLegL', world: [-0.18, -0.22, 0] },
-  { name: 'upperLegR', parent: 'hips',      world: [0.18, 0.55, 0] },
-  { name: 'lowerLegR', parent: 'upperLegR', world: [0.18, 0.20, 0] },
-  { name: 'footR',     parent: 'lowerLegR', world: [0.18, -0.22, 0] },
+  { name: 'upperLegL', parent: 'hips', world: [-0.18, 0.55, 0] },
+  { name: 'lowerLegL', parent: 'upperLegL', world: [-0.18, 0.2, 0] },
+  { name: 'footL', parent: 'lowerLegL', world: [-0.18, -0.22, 0] },
+  { name: 'upperLegR', parent: 'hips', world: [0.18, 0.55, 0] },
+  { name: 'lowerLegR', parent: 'upperLegR', world: [0.18, 0.2, 0] },
+  { name: 'footR', parent: 'lowerLegR', world: [0.18, -0.22, 0] },
 ];
 
-export const BONE_WORLD: Record<BoneName, [number, number, number]> =
-  Object.fromEntries(BONE_SPECS.map(s => [s.name, s.world])) as Record<BoneName, [number, number, number]>;
+export const BONE_WORLD: Record<BoneName, [number, number, number]> = Object.fromEntries(
+  BONE_SPECS.map((s) => [s.name, s.world]),
+) as Record<BoneName, [number, number, number]>;
 
 export interface SkeletonRig {
   bones: Record<BoneName, Bone>;
@@ -59,7 +81,11 @@ export function buildSkeletonRig(): SkeletonRig {
     const bone = new Bone();
     bone.name = spec.name;
     const parentWorld = spec.parent ? BONE_WORLD[spec.parent] : [0, 0, 0];
-    bone.position.set(spec.world[0] - parentWorld[0], spec.world[1] - parentWorld[1], spec.world[2] - parentWorld[2]);
+    bone.position.set(
+      spec.world[0] - parentWorld[0],
+      spec.world[1] - parentWorld[1],
+      spec.world[2] - parentWorld[2],
+    );
     bones[spec.name] = bone;
     boneIndex[spec.name] = i;
     orderedBones.push(bone);
@@ -89,14 +115,20 @@ export interface LimbTubeOptions {
 
 export function buildLimbTube(opts: LimbTubeOptions): BufferGeometry {
   const {
-    boneAIndex, boneBIndex, radiusStart, radiusBend, radiusEnd,
-    radialSegments = 14, lengthSegments = 8,
+    boneAIndex,
+    boneBIndex,
+    radiusStart,
+    radiusBend,
+    radiusEnd,
+    radialSegments = 14,
+    lengthSegments = 8,
   } = opts;
   const start = new Vector3(...opts.start);
   const end = new Vector3(...opts.end);
   const bendVec = new Vector3(...opts.bend);
   const total = start.distanceTo(end);
-  const bendT = total > 1e-6 ? Math.min(0.95, Math.max(0.05, start.distanceTo(bendVec) / total)) : 0.5;
+  const bendT =
+    total > 1e-6 ? Math.min(0.95, Math.max(0.05, start.distanceTo(bendVec) / total)) : 0.5;
 
   const dir = end.clone().sub(start).normalize();
   const upHint = Math.abs(dir.y) > 0.99 ? new Vector3(1, 0, 0) : new Vector3(0, 1, 0);
@@ -111,16 +143,19 @@ export function buildLimbTube(opts: LimbTubeOptions): BufferGeometry {
 
   for (let i = 0; i < ringCount; i++) {
     const t = i / lengthSegments;
-    const radius = t <= bendT
-      ? radiusStart + (radiusBend - radiusStart) * (t / bendT)
-      : radiusBend + (radiusEnd - radiusBend) * ((t - bendT) / (1 - bendT));
+    const radius =
+      t <= bendT
+        ? radiusStart + (radiusBend - radiusStart) * (t / bendT)
+        : radiusBend + (radiusEnd - radiusBend) * ((t - bendT) / (1 - bendT));
     const center = start.clone().lerp(end, t);
     const weightB = smoothstep(t, bendT, 0.3);
     const weightA = 1 - weightB;
 
     for (let j = 0; j < radialSegments; j++) {
       const angle = (j / radialSegments) * Math.PI * 2;
-      const offset = right.clone().multiplyScalar(Math.cos(angle) * radius)
+      const offset = right
+        .clone()
+        .multiplyScalar(Math.cos(angle) * radius)
         .add(up.clone().multiplyScalar(Math.sin(angle) * radius));
       const vertex = center.clone().add(offset);
       positions.push(vertex.x, vertex.y, vertex.z);
@@ -149,10 +184,14 @@ export function buildLimbTube(opts: LimbTubeOptions): BufferGeometry {
   // interior entirely.
   const capRing = (ringIndex: number, weightA: number, weightB: number, outward: number): void => {
     const centerIdx = positions.length / 3;
-    let avgX = 0, avgY = 0, avgZ = 0;
+    let avgX = 0,
+      avgY = 0,
+      avgZ = 0;
     for (let j = 0; j < radialSegments; j++) {
       const idx = (ringIndex * radialSegments + j) * 3;
-      avgX += positions[idx]; avgY += positions[idx + 1]; avgZ += positions[idx + 2];
+      avgX += positions[idx];
+      avgY += positions[idx + 1];
+      avgZ += positions[idx + 2];
     }
     positions.push(avgX / radialSegments, avgY / radialSegments, avgZ / radialSegments);
     normals.push(dir.x * outward, dir.y * outward, dir.z * outward);
@@ -177,7 +216,11 @@ export function buildLimbTube(opts: LimbTubeOptions): BufferGeometry {
   return geometry;
 }
 
-export function buildSkinnedLimb(geometry: BufferGeometry, material: Material, skeleton: Skeleton): SkinnedMesh {
+export function buildSkinnedLimb(
+  geometry: BufferGeometry,
+  material: Material,
+  skeleton: Skeleton,
+): SkinnedMesh {
   const mesh = new SkinnedMesh(geometry, material);
   mesh.bind(skeleton);
   return mesh;

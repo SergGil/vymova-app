@@ -18,7 +18,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<ExportInit />); });
+  act(() => {
+    root.render(<ExportInit />);
+  });
   return { container, root };
 }
 
@@ -40,7 +42,11 @@ describe('export.tsx ExportInit', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders nothing', () => {
@@ -56,7 +62,11 @@ describe('export.tsx ExportInit', () => {
     const createObjectURL = vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:mock-url');
     const revokeObjectURL = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
 
-    act(() => { document.getElementById('btn-anki-export')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-anki-export')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
     expect(createObjectURL).toHaveBeenCalled();
     expect(revokeObjectURL).toHaveBeenCalledWith('blob:mock-url');
@@ -75,7 +85,11 @@ describe('export.tsx ExportInit', () => {
     const openSpy = vi.fn().mockReturnValue({ document: { write: writeMock, close: closeMock } });
     window.open = openSpy as unknown as typeof window.open;
 
-    act(() => { document.getElementById('btn-pdf-export')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-pdf-export')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
     expect(openSpy).toHaveBeenCalledWith('', '_blank');
     expect(writeMock).toHaveBeenCalled();
@@ -94,7 +108,11 @@ describe('export.tsx ExportInit', () => {
     const alertSpy = vi.fn();
     vi.stubGlobal('alert', alertSpy);
 
-    act(() => { document.getElementById('btn-pdf-export')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-pdf-export')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
     expect(alertSpy).toHaveBeenCalledWith('Немає слів для експорту. Змініть фільтр.');
     vi.unstubAllGlobals();
@@ -102,7 +120,9 @@ describe('export.tsx ExportInit', () => {
 
   it('removes listeners on unmount', () => {
     const { root } = mount();
-    act(() => { root.unmount(); });
+    act(() => {
+      root.unmount();
+    });
     // No assertion target needed beyond confirming unmount doesn't throw —
     // listener removal is implicitly covered by the effect cleanup running.
   });

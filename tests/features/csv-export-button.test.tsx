@@ -13,7 +13,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<CsvExportButton />); });
+  act(() => {
+    root.render(<CsvExportButton />);
+  });
   return { container, root };
 }
 
@@ -33,12 +35,19 @@ describe('csv-export-button.tsx CsvExportButton', () => {
 
   it('triggers a CSV download when clicked', () => {
     let capturedBlob: Blob | null = null;
-    const createObjectURL = vi.spyOn(URL, 'createObjectURL').mockImplementation((b: Blob | MediaSource) => { capturedBlob = b as Blob; return 'blob:fake-url'; });
+    const createObjectURL = vi
+      .spyOn(URL, 'createObjectURL')
+      .mockImplementation((b: Blob | MediaSource) => {
+        capturedBlob = b as Blob;
+        return 'blob:fake-url';
+      });
     const revokeObjectURL = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
 
     const { container } = mount();
     const btn = container.querySelector('#btn-csv-export') as HTMLButtonElement;
-    act(() => { btn.click(); });
+    act(() => {
+      btn.click();
+    });
 
     expect(createObjectURL).toHaveBeenCalled();
     expect(revokeObjectURL).toHaveBeenCalledWith('blob:fake-url');
@@ -52,12 +61,19 @@ describe('csv-export-button.tsx CsvExportButton', () => {
   it('includes known/unknown status rows derived from state.known', async () => {
     setKnownWords('en', new Set([W[0][0]]));
     let capturedBlob: Blob | null = null;
-    const createObjectURL = vi.spyOn(URL, 'createObjectURL').mockImplementation((b: Blob | MediaSource) => { capturedBlob = b as Blob; return 'blob:fake-url'; });
+    const createObjectURL = vi
+      .spyOn(URL, 'createObjectURL')
+      .mockImplementation((b: Blob | MediaSource) => {
+        capturedBlob = b as Blob;
+        return 'blob:fake-url';
+      });
     const revokeObjectURL = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
 
     const { container } = mount();
     const btn = container.querySelector('#btn-csv-export') as HTMLButtonElement;
-    act(() => { btn.click(); });
+    act(() => {
+      btn.click();
+    });
 
     const text = await capturedBlob!.text();
     expect(text).toContain('Знаю');

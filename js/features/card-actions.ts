@@ -16,8 +16,20 @@ import { showPronuncResult } from './pronunciation-toast.tsx';
 import { getSelectedUkVoice } from './voice.tsx';
 import { speak, _speakWithLang } from './speech.ts';
 import { updateSimilarWords } from './similar-words.tsx';
-import { getMode, getActiveTargetLang, isTargetLang, langConfig, parsePair, ALL_TARGET_LANGS } from './mode-utils.ts';
-import { getKnownSnapshot, markKnown, clearAllKnown, type KnownLang } from '../../src/known-words-store.ts';
+import {
+  getMode,
+  getActiveTargetLang,
+  isTargetLang,
+  langConfig,
+  parsePair,
+  ALL_TARGET_LANGS,
+} from './mode-utils.ts';
+import {
+  getKnownSnapshot,
+  markKnown,
+  clearAllKnown,
+  type KnownLang,
+} from '../../src/known-words-store.ts';
 import { VOICE_GETTERS } from './speak-lang.ts';
 import { playSound } from '../core/audio.ts';
 import { launchConfetti } from '../core/confetti.tsx';
@@ -25,13 +37,31 @@ import { t } from './i18n.ts';
 import { renderGameBar } from './render-game-bar.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
 import { updateRing } from './ring.tsx';
-import { render, setIdx, setDeck, setFlipped, animCard, stopAuto, startAuto,
-         isAutoRunning, onWordLearned } from '../core/card-engine.ts';
-import { getDeckSnapshot, getIdxSnapshot, getCwSnapshot, getFlippedSnapshot } from '../../src/deck-store.ts';
+import {
+  render,
+  setIdx,
+  setDeck,
+  setFlipped,
+  animCard,
+  stopAuto,
+  startAuto,
+  isAutoRunning,
+  onWordLearned,
+} from '../core/card-engine.ts';
+import {
+  getDeckSnapshot,
+  getIdxSnapshot,
+  getCwSnapshot,
+  getFlippedSnapshot,
+} from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
 
 function _safe(fn: () => void): void {
-  try { fn(); } catch (e) { console.warn('[safe]', (e as Error).message ?? e); }
+  try {
+    fn();
+  } catch (e) {
+    console.warn('[safe]', (e as Error).message ?? e);
+  }
 }
 
 function _activeKnownLang(): KnownLang {
@@ -61,7 +91,10 @@ export function CardActionsInit(): ReactElement | null {
       if (isTargetLang(front)) {
         const cfg = langConfig(front);
         const entry = cfg.entry(cw[0]);
-        if (entry && VOICE_GETTERS[front]()) { _speakWithLang(entry[0], cfg.voiceLocale, speakWordBtn); return; }
+        if (entry && VOICE_GETTERS[front]()) {
+          _speakWithLang(entry[0], cfg.voiceLocale, speakWordBtn);
+          return;
+        }
       }
       speak(cw[0], speakWordBtn);
     };
@@ -72,10 +105,10 @@ export function CardActionsInit(): ReactElement | null {
       e.stopPropagation();
       const cw = getCwSnapshot();
       if (!cw) return;
-      const exEn    = cw[2] || '';
-      const exUa    = cw[3] || '';
+      const exEn = cw[2] || '';
+      const exUa = cw[3] || '';
       const modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
-      const front   = parsePair(modeVal).front;
+      const front = parsePair(modeVal).front;
       // Speak the example in whichever language is on the card front: a
       // target language's example (if a voice is available), the Ukrainian
       // example (front === 'ua'), or fall back to the English example.
@@ -136,7 +169,10 @@ export function CardActionsInit(): ReactElement | null {
       e.stopPropagation();
       stopAuto();
       const deckLen = getDeckSnapshot().length;
-      if (!deckLen) { render(); return; }
+      if (!deckLen) {
+        render();
+        return;
+      }
       setIdx((getIdxSnapshot() - 1 + deckLen) % deckLen);
       animCard('prev');
       render();
@@ -148,7 +184,7 @@ export function CardActionsInit(): ReactElement | null {
       e.stopPropagation();
       const cw = getCwSnapshot();
       if (cw) {
-        const _lang         = _activeKnownLang();
+        const _lang = _activeKnownLang();
         const isNewlyKnown = !getKnownSnapshot(_lang).has(cw[0]);
         markKnown(_lang, cw[0]);
         const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
@@ -164,12 +200,19 @@ export function CardActionsInit(): ReactElement | null {
           // re-enter the SRS queue with stale data.
           deleteSrsEntry(cw[0]);
         }
-        if (isTargetLang(_lang)) { const cfg = langConfig(_lang); cfg.saveKnown(cfg.known()); }
-        else { saveKnown(getKnownSnapshot('en')); }
+        if (isTargetLang(_lang)) {
+          const cfg = langConfig(_lang);
+          cfg.saveKnown(cfg.known());
+        } else {
+          saveKnown(getKnownSnapshot('en'));
+        }
         saveSRS(getSrsDataSnapshot());
         _safe(() => updateSrsUI(getBaseWordsSnapshot() as unknown as WordEntry[]));
         _safe(() => playSound('know'));
-        _safe(() => { addCombo(); flashCard(true); });
+        _safe(() => {
+          addCombo();
+          flashCard(true);
+        });
         if (isNewlyKnown) {
           onWordLearned();
           _safe(() => {
@@ -192,7 +235,10 @@ export function CardActionsInit(): ReactElement | null {
           const newDeck = buildUnlearnedDeck(getBaseWordsSnapshot() as unknown as WordEntry[]);
           setDeck(newDeck);
           const dl = getDeckSnapshot().length;
-          if (!dl) { render(); return; }
+          if (!dl) {
+            render();
+            return;
+          }
           setIdx(getIdxSnapshot() % dl);
           animCard('fade');
           render();
@@ -200,7 +246,10 @@ export function CardActionsInit(): ReactElement | null {
         }
       }
       const deckLen = getDeckSnapshot().length;
-      if (!deckLen) { render(); return; }
+      if (!deckLen) {
+        render();
+        return;
+      }
       animCard('next');
       setIdx((getIdxSnapshot() + 1) % deckLen);
       render();
@@ -213,7 +262,10 @@ export function CardActionsInit(): ReactElement | null {
       _safe(() => playSound('next'));
       _safe(() => breakCombo());
       const deckLen = getDeckSnapshot().length;
-      if (!deckLen) { render(); return; }
+      if (!deckLen) {
+        render();
+        return;
+      }
       setIdx((getIdxSnapshot() + 1) % deckLen);
       render();
     };
@@ -238,7 +290,10 @@ export function CardActionsInit(): ReactElement | null {
         }
       }
       const deckLen = getDeckSnapshot().length;
-      if (!deckLen) { render(); return; }
+      if (!deckLen) {
+        render();
+        return;
+      }
       setIdx((getIdxSnapshot() + 1) % deckLen);
       render();
     };

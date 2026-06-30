@@ -11,7 +11,9 @@ function mount(refreshKey: number): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<Leaderboard refreshKey={refreshKey} />); });
+  act(() => {
+    root.render(<Leaderboard refreshKey={refreshKey} />);
+  });
   return { container, root };
 }
 
@@ -31,17 +33,22 @@ describe('leaderboard.tsx Leaderboard', () => {
   });
 
   it('submits the real known-word count on mount (regression: reading ew_known with a raw JSON.parse threw because it is LZ-compressed, so scores never got submitted)', async () => {
-    localStorage.setItem('ew_profiles', JSON.stringify([{ id: 'p1', name: 'Sergii', avatar: '🧑' }]));
+    localStorage.setItem(
+      'ew_profiles',
+      JSON.stringify([{ id: 'p1', name: 'Sergii', avatar: '🧑' }]),
+    );
     localStorage.setItem('ew_active_profile', 'p1');
     setKnownWords('en', new Set(Array.from({ length: 100 }, (_, i) => `word${i}`)));
     fetchMock.mockResolvedValue({ ok: true, json: async () => null });
 
     await act(async () => {
       mount(10);
-      await new Promise(r => setTimeout(r, 0));
+      await new Promise((r) => setTimeout(r, 0));
     });
 
-    const putCall = fetchMock.mock.calls.find(([, opts]) => (opts as RequestInit | undefined)?.method === 'PUT');
+    const putCall = fetchMock.mock.calls.find(
+      ([, opts]) => (opts as RequestInit | undefined)?.method === 'PUT',
+    );
     expect(putCall).toBeDefined();
     const body = JSON.parse((putCall![1] as RequestInit).body as string);
     expect(body.known).toBe(100);
@@ -59,7 +66,7 @@ describe('leaderboard.tsx Leaderboard', () => {
     fetchMock.mockResolvedValue({ ok: true, json: async () => null });
     const { container } = await act(async () => {
       const result = mount(1);
-      await new Promise(r => setTimeout(r, 0));
+      await new Promise((r) => setTimeout(r, 0));
       return result;
     });
     expect(container.textContent).toContain('Поки немає учасників');
@@ -73,14 +80,16 @@ describe('leaderboard.tsx Leaderboard', () => {
     fetchMock.mockResolvedValue({ ok: true, json: async () => data });
     const { container } = await act(async () => {
       const result = mount(2);
-      await new Promise(r => setTimeout(r, 0));
+      await new Promise((r) => setTimeout(r, 0));
       return result;
     });
     expect(container.textContent).toContain('Alice');
     expect(container.textContent).toContain('Bob');
     expect(container.textContent).toContain('🌍');
 
-    const names = Array.from(container.querySelectorAll('div')).map(d => d.textContent).filter(t => t === 'Alice' || t === 'Bob');
+    const names = Array.from(container.querySelectorAll('div'))
+      .map((d) => d.textContent)
+      .filter((t) => t === 'Alice' || t === 'Bob');
     expect(names[0]).toBe('Bob');
   });
 
@@ -88,7 +97,7 @@ describe('leaderboard.tsx Leaderboard', () => {
     fetchMock.mockRejectedValue(new Error('network error'));
     const { container } = await act(async () => {
       const result = mount(3);
-      await new Promise(r => setTimeout(r, 0));
+      await new Promise((r) => setTimeout(r, 0));
       return result;
     });
     expect(container.textContent).toContain('Поки немає учасників');

@@ -71,7 +71,7 @@ describe('parseSubtitles() — markup and edge cases', () => {
   it('sorts cues by start time even if the file lists them out of order', () => {
     const raw = '00:00:10,000 --> 00:00:12,000\nSecond\n\n00:00:01,000 --> 00:00:03,000\nFirst\n';
     const cues = parseSubtitles(raw);
-    expect(cues.map(c => c.text)).toEqual(['First', 'Second']);
+    expect(cues.map((c) => c.text)).toEqual(['First', 'Second']);
   });
 });
 

@@ -9,8 +9,24 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { t, tLang, type Lang } from './i18n.ts';
 import { srsStatusInfo, forgettingCurveTooltip, type SrsEntry } from '../core/card-helpers.ts';
 import {
-  getResolvedMode, computeCardView, parsePair, headwordFor, type Code,
-  esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry,
+  getResolvedMode,
+  computeCardView,
+  parsePair,
+  headwordFor,
+  type Code,
+  esEntry,
+  frEntry,
+  itEntry,
+  ptEntry,
+  deEntry,
+  heEntry,
+  arEntry,
+  plEntry,
+  zhEntry,
+  elEntry,
+  jaEntry,
+  trEntry,
+  nlEntry,
 } from './mode-utils.ts';
 import { speakEnAccent, speakEsAccent, speakPtAccent, hasEsAccent, hasPtAccent } from './voice.tsx';
 import { flagUrl } from '../core/flags.ts';
@@ -35,56 +51,161 @@ export function WordText() {
   const { cw } = useDeckState();
   if (!cw) return null;
   const { frontWord, frontRtl } = computeCardView(cw, getResolvedMode());
-  return <span className="word-text" id="wword" dir={frontRtl ? 'rtl' : undefined}>{frontWord}</span>;
+  return (
+    <span className="word-text" id="wword" dir={frontRtl ? 'rtl' : undefined}>
+      {frontWord}
+    </span>
+  );
 }
 
-const LOCAL_ENTRY_LOOKUP: Partial<Record<string, (word: string) => readonly [string, string, string?] | null>> = {
-  ES: esEntry, FR: frEntry, IT: itEntry, PT: ptEntry, DE: deEntry, HE: heEntry,
-  AR: arEntry, PL: plEntry, ZH: zhEntry, EL: elEntry, JA: jaEntry, TR: trEntry, NL: nlEntry,
+const LOCAL_ENTRY_LOOKUP: Partial<
+  Record<string, (word: string) => readonly [string, string, string?] | null>
+> = {
+  ES: esEntry,
+  FR: frEntry,
+  IT: itEntry,
+  PT: ptEntry,
+  DE: deEntry,
+  HE: heEntry,
+  AR: arEntry,
+  PL: plEntry,
+  ZH: zhEntry,
+  EL: elEntry,
+  JA: jaEntry,
+  TR: trEntry,
+  NL: nlEntry,
 };
 
 export function Transcription() {
   const { cw } = useDeckState();
   const [legendOpen, setLegendOpen] = useState(false);
-  useEffect(() => { setLegendOpen(false); }, [cw?.[0]]);
+  useEffect(() => {
+    setLegendOpen(false);
+  }, [cw?.[0]]);
   if (!cw) return null;
   const { FRONT_LANG, frontWord } = computeCardView(cw, getResolvedMode());
   const lookup = LOCAL_ENTRY_LOOKUP[FRONT_LANG];
   const localTranscription = lookup ? lookup(cw[0])?.[2] : undefined;
-  const trans = FRONT_LANG === 'EN'
-    ? decodeIpa(cw[4] || '')
-    : (localTranscription ? decodeIpa(localTranscription) : '');
-  if (FRONT_LANG !== 'EN' && !trans) return <div className="transcription" id="wtrans" style={{ display: 'none' }} />;
+  const trans =
+    FRONT_LANG === 'EN'
+      ? decodeIpa(cw[4] || '')
+      : localTranscription
+        ? decodeIpa(localTranscription)
+        : '';
+  if (FRONT_LANG !== 'EN' && !trans)
+    return <div className="transcription" id="wtrans" style={{ display: 'none' }} />;
   const legend = TRANSCRIPTION_LEGEND[FRONT_LANG];
   return (
     <div className="transcription-wrap">
-      <div className="transcription" id="wtrans" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+      <div
+        className="transcription"
+        id="wtrans"
+        style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+      >
         {trans && <span>{trans}</span>}
         {FRONT_LANG === 'EN' && (
           <>
-            <button type="button" className="accent-btn" title="British" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'GB', e.currentTarget); }}><AccentFlag code="GB" /></button>
-            <button type="button" className="accent-btn" title="American" onClick={e => { e.stopPropagation(); speakEnAccent(frontWord, 'US', e.currentTarget); }}><AccentFlag code="US" /></button>
+            <button
+              type="button"
+              className="accent-btn"
+              title="British"
+              onClick={(e) => {
+                e.stopPropagation();
+                speakEnAccent(frontWord, 'GB', e.currentTarget);
+              }}
+            >
+              <AccentFlag code="GB" />
+            </button>
+            <button
+              type="button"
+              className="accent-btn"
+              title="American"
+              onClick={(e) => {
+                e.stopPropagation();
+                speakEnAccent(frontWord, 'US', e.currentTarget);
+              }}
+            >
+              <AccentFlag code="US" />
+            </button>
           </>
         )}
         {FRONT_LANG === 'ES' && (
           <>
-            {hasEsAccent('ES') && <button type="button" className="accent-btn" title="España" onClick={e => { e.stopPropagation(); speakEsAccent(frontWord, 'ES', e.currentTarget); }}><AccentFlag code="ES" /></button>}
-            {hasEsAccent('MX') && <button type="button" className="accent-btn" title="Latinoamérica" onClick={e => { e.stopPropagation(); speakEsAccent(frontWord, 'MX', e.currentTarget); }}><AccentFlag code="MX" /></button>}
+            {hasEsAccent('ES') && (
+              <button
+                type="button"
+                className="accent-btn"
+                title="España"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  speakEsAccent(frontWord, 'ES', e.currentTarget);
+                }}
+              >
+                <AccentFlag code="ES" />
+              </button>
+            )}
+            {hasEsAccent('MX') && (
+              <button
+                type="button"
+                className="accent-btn"
+                title="Latinoamérica"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  speakEsAccent(frontWord, 'MX', e.currentTarget);
+                }}
+              >
+                <AccentFlag code="MX" />
+              </button>
+            )}
           </>
         )}
         {FRONT_LANG === 'PT' && (
           <>
-            {hasPtAccent('PT') && <button type="button" className="accent-btn" title="Portugal" onClick={e => { e.stopPropagation(); speakPtAccent(frontWord, 'PT', e.currentTarget); }}><AccentFlag code="PT" /></button>}
-            {hasPtAccent('BR') && <button type="button" className="accent-btn" title="Brasil" onClick={e => { e.stopPropagation(); speakPtAccent(frontWord, 'BR', e.currentTarget); }}><AccentFlag code="BR" /></button>}
+            {hasPtAccent('PT') && (
+              <button
+                type="button"
+                className="accent-btn"
+                title="Portugal"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  speakPtAccent(frontWord, 'PT', e.currentTarget);
+                }}
+              >
+                <AccentFlag code="PT" />
+              </button>
+            )}
+            {hasPtAccent('BR') && (
+              <button
+                type="button"
+                className="accent-btn"
+                title="Brasil"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  speakPtAccent(frontWord, 'BR', e.currentTarget);
+                }}
+              >
+                <AccentFlag code="BR" />
+              </button>
+            )}
           </>
         )}
-        {legend && <InfoIcon open={legendOpen} onToggle={() => setLegendOpen(o => !o)} label={t('cards.transcriptionInfo')} />}
+        {legend && (
+          <InfoIcon
+            open={legendOpen}
+            onToggle={() => setLegendOpen((o) => !o)}
+            label={t('cards.transcriptionInfo')}
+          />
+        )}
       </div>
       {legend && legendOpen && (
         <InfoNote>
           <div className="info-note-title">{t('cards.transcriptionInfo')}</div>
           <ul className="info-note-list">
-            {legend.map((row, i) => <li key={i}><b>{row.symbol}</b> — {row.desc}</li>)}
+            {legend.map((row, i) => (
+              <li key={i}>
+                <b>{row.symbol}</b> — {row.desc}
+              </li>
+            ))}
           </ul>
         </InfoNote>
       )}
@@ -97,11 +218,28 @@ export function PosTag() {
   if (!cw) return null;
   const { FRONT_LANG } = computeCardView(cw, getResolvedMode());
   const posCode = cw[5] || '';
-  const posLang: Lang = FRONT_LANG === 'EN' ? 'en' : FRONT_LANG === 'UA' ? 'ua' : FRONT_LANG === 'FR' ? 'fr'
-    : FRONT_LANG === 'IT' ? 'it' : FRONT_LANG === 'PT' ? 'pt' : FRONT_LANG === 'DE' ? 'de'
-    : FRONT_LANG === 'ES' ? 'es' : 'en'; // HE/AR have no dedicated UI locale yet — fall back to English pos labels
+  const posLang: Lang =
+    FRONT_LANG === 'EN'
+      ? 'en'
+      : FRONT_LANG === 'UA'
+        ? 'ua'
+        : FRONT_LANG === 'FR'
+          ? 'fr'
+          : FRONT_LANG === 'IT'
+            ? 'it'
+            : FRONT_LANG === 'PT'
+              ? 'pt'
+              : FRONT_LANG === 'DE'
+                ? 'de'
+                : FRONT_LANG === 'ES'
+                  ? 'es'
+                  : 'en'; // HE/AR have no dedicated UI locale yet — fall back to English pos labels
   const posText = posCode ? tLang('pos.' + posCode, posLang) : '';
-  return <div className="pos-tag" id="wpos" style={{ display: posCode ? 'block' : 'none' }}>{posText}</div>;
+  return (
+    <div className="pos-tag" id="wpos" style={{ display: posCode ? 'block' : 'none' }}>
+      {posText}
+    </div>
+  );
 }
 
 export function SrsBadge() {
@@ -111,7 +249,11 @@ export function SrsBadge() {
   const sd = (srsData as Record<string, SrsEntry>)[cw[0]];
   const info = srsStatusInfo(sd, today(), getRangeVal());
   if (!info) return <div id="srs-next" className="srs-next" style={{ display: 'none' }} />;
-  return <div id="srs-next" className={info.className} title={forgettingCurveTooltip(sd)}>{info.text}</div>;
+  return (
+    <div id="srs-next" className={info.className} title={forgettingCurveTooltip(sd)}>
+      {info.text}
+    </div>
+  );
 }
 
 // Raw (non-highlighted) example text for `code`'s language — used to feed
@@ -123,8 +265,18 @@ function exampleTextFor(code: Code, cw: WordEntry): string {
   return lookup ? (lookup(cw[0])?.[1] ?? '') : '';
 }
 
-function BackSpeakBtn({ code, text, fallbackEnText, className, style }: {
-  code: Code; text: string; fallbackEnText: string; className: string; style?: React.CSSProperties;
+function BackSpeakBtn({
+  code,
+  text,
+  fallbackEnText,
+  className,
+  style,
+}: {
+  code: Code;
+  text: string;
+  fallbackEnText: string;
+  className: string;
+  style?: React.CSSProperties;
 }) {
   if (code === 'ua' || !text) return null;
   return (
@@ -133,8 +285,13 @@ function BackSpeakBtn({ code, text, fallbackEnText, className, style }: {
       className={className}
       style={style}
       title={t('cards.pronounce')}
-      onClick={(e) => { e.stopPropagation(); speakForCode(code, text, fallbackEnText, e.currentTarget); }}
-    >🔊</button>
+      onClick={(e) => {
+        e.stopPropagation();
+        speakForCode(code, text, fallbackEnText, e.currentTarget);
+      }}
+    >
+      🔊
+    </button>
   );
 }
 
@@ -144,10 +301,21 @@ export function Translation() {
   const { backWord, backRtl } = computeCardView(cw, getResolvedMode());
   const back = parsePair(getResolvedMode()).back;
   return (
-    <div className={'transl' + (flipped ? ' show' : '')} id="wtransl" dir={backRtl ? 'rtl' : undefined}>
+    <div
+      className={'transl' + (flipped ? ' show' : '')}
+      id="wtransl"
+      dir={backRtl ? 'rtl' : undefined}
+    >
       {backWord}
-      {flipped && <BackSpeakBtn code={back} text={backWord} fallbackEnText={cw[0]}
-        className="speak-btn" style={{ marginLeft: 6, width: 20, height: 20, fontSize: 11, verticalAlign: 'middle' }} />}
+      {flipped && (
+        <BackSpeakBtn
+          code={back}
+          text={backWord}
+          fallbackEnText={cw[0]}
+          className="speak-btn"
+          style={{ marginLeft: 6, width: 20, height: 20, fontSize: 11, verticalAlign: 'middle' }}
+        />
+      )}
     </div>
   );
 }
@@ -156,7 +324,14 @@ export function ExEn() {
   const { cw } = useDeckState();
   if (!cw) return null;
   const { exenHtml, frontRtl } = computeCardView(cw, getResolvedMode());
-  return <span className="ex-en" id="exen" dir={frontRtl ? 'rtl' : undefined} dangerouslySetInnerHTML={{ __html: exenHtml }} />;
+  return (
+    <span
+      className="ex-en"
+      id="exen"
+      dir={frontRtl ? 'rtl' : undefined}
+      dangerouslySetInnerHTML={{ __html: exenHtml }}
+    />
+  );
 }
 
 export function ExUa() {
@@ -167,9 +342,21 @@ export function ExUa() {
   const backExText = exampleTextFor(back, cw);
   return (
     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 5 }}>
-      <div className={'ex-ua' + (flipped ? ' show' : '')} id="exua" dir={backRtl ? 'rtl' : undefined} dangerouslySetInnerHTML={{ __html: exuaHtml }} />
-      {flipped && <BackSpeakBtn code={back} text={backExText} fallbackEnText={cw[2] || ''}
-        className="speak-btn speak-ex-btn" style={{ marginTop: 2, flexShrink: 0 }} />}
+      <div
+        className={'ex-ua' + (flipped ? ' show' : '')}
+        id="exua"
+        dir={backRtl ? 'rtl' : undefined}
+        dangerouslySetInnerHTML={{ __html: exuaHtml }}
+      />
+      {flipped && (
+        <BackSpeakBtn
+          code={back}
+          text={backExText}
+          fallbackEnText={cw[2] || ''}
+          className="speak-btn speak-ex-btn"
+          style={{ marginTop: 2, flexShrink: 0 }}
+        />
+      )}
     </div>
   );
 }
@@ -200,8 +387,14 @@ export function CardHint() {
 // (будівля)") — a homonym key like "banco" only ever matches one variant
 // of one headword's display, so look it up by trying each comma/
 // semicolon-separated, parenthetical-stripped token rather than the whole string.
-function findSenses(dict: Record<string, SenseEntry[]>, frontWord: string): SenseEntry[] | undefined {
-  const tokens = frontWord.toLowerCase().split(/[,;]/).map(s => s.replace(/\s*\([^)]*\)\s*$/, '').trim());
+function findSenses(
+  dict: Record<string, SenseEntry[]>,
+  frontWord: string,
+): SenseEntry[] | undefined {
+  const tokens = frontWord
+    .toLowerCase()
+    .split(/[,;]/)
+    .map((s) => s.replace(/\s*\([^)]*\)\s*$/, '').trim());
   for (const tok of tokens) {
     if (tok && dict[tok]) return dict[tok];
   }
@@ -229,7 +422,17 @@ export function OtherMeanings() {
             <span className="sense-translation">{s.translation}</span>
             <div className="sense-example">
               {s.exEn} {s.exUa ? <i>— {s.exUa}</i> : null}
-              <button type="button" className="speak-btn sense-speak-btn" title="Вимовити приклад" onClick={e => { e.stopPropagation(); speakForCode(front, s.exEn, '', e.currentTarget); }}>🔊</button>
+              <button
+                type="button"
+                className="speak-btn sense-speak-btn"
+                title="Вимовити приклад"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  speakForCode(front, s.exEn, '', e.currentTarget);
+                }}
+              >
+                🔊
+              </button>
             </div>
           </li>
         ))}
@@ -237,4 +440,3 @@ export function OtherMeanings() {
     </div>
   );
 }
-

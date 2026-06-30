@@ -28,12 +28,19 @@ describe('CatPairsWiringInit no longer steals the unmark-button click', () => {
     document.body.appendChild(container);
     const root = createRoot(container);
     act(() => {
-      root.render(<><CardMeta /><CatPairsWiringInit /></>);
+      root.render(
+        <>
+          <CardMeta />
+          <CatPairsWiringInit />
+        </>,
+      );
     });
 
     const btn = container.querySelector('#btn-unmark') as HTMLButtonElement;
     expect(btn).not.toBeNull();
-    act(() => { btn.click(); });
+    act(() => {
+      btn.click();
+    });
 
     expect(getKnownSnapshot('en').has('abandon')).toBe(false);
   });

@@ -13,7 +13,9 @@ function mount(Component: () => JSX.Element): { container: HTMLElement; root: Ro
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<Component />); });
+  act(() => {
+    root.render(<Component />);
+  });
   return { container, root };
 }
 
@@ -59,7 +61,7 @@ describe('card-progress.tsx', () => {
       expect(bar.style.width).toBe('0%');
 
       act(() => {
-        setKnownWords('en', new Set((W as unknown as WordEntry[]).map(w => w[0])));
+        setKnownWords('en', new Set((W as unknown as WordEntry[]).map((w) => w[0])));
       });
       const bar2 = container.querySelector('#pbar') as HTMLElement;
       expect(bar2.style.width).toBe('100%');

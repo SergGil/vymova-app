@@ -20,7 +20,10 @@ const { isOnlineCheck, offlineSvg } = vi.hoisted(() => ({
   isOnlineCheck: vi.fn(() => true),
   offlineSvg: vi.fn(() => ''),
 }));
-vi.mock('../../js/features/offline.ts', () => ({ _isOnlineCheck: isOnlineCheck, _offlineSvg: offlineSvg }));
+vi.mock('../../js/features/offline.ts', () => ({
+  _isOnlineCheck: isOnlineCheck,
+  _offlineSvg: offlineSvg,
+}));
 
 const word: WordEntry = ['hello', 'привіт', '', '', '', ''] as unknown as WordEntry;
 
@@ -28,7 +31,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<CardImage />); });
+  act(() => {
+    root.render(<CardImage />);
+  });
   return { container, root };
 }
 

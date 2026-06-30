@@ -20,17 +20,22 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<SearchOverlay />); });
+  act(() => {
+    root.render(<SearchOverlay />);
+  });
   return { container, root };
 }
 
 async function wait(ms = 150): Promise<void> {
-  await act(async () => { await new Promise(r => setTimeout(r, ms)); });
+  await act(async () => {
+    await new Promise((r) => setTimeout(r, ms));
+  });
 }
 
 describe('search-overlay.tsx SearchOverlay', () => {
   beforeEach(() => {
-    document.body.innerHTML = '<button id="btn-search"></button><select id="sel-range"><option value="0">All</option><option value="srs">SRS</option></select>';
+    document.body.innerHTML =
+      '<button id="btn-search"></button><select id="sel-range"><option value="0">All</option><option value="srs">SRS</option></select>';
     setDeckState([]);
     render.mockClear();
     setIdx.mockClear();
@@ -44,32 +49,55 @@ describe('search-overlay.tsx SearchOverlay', () => {
 
   it('opens when #btn-search is clicked', () => {
     const { container } = mount();
-    act(() => { document.getElementById('btn-search')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-search')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(container.querySelector('input')).not.toBeNull();
   });
 
   it('opens on Ctrl+F when not focused in an input', () => {
     const { container } = mount();
-    act(() => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'f', ctrlKey: true, bubbles: true, cancelable: true })); });
+    act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'f', ctrlKey: true, bubbles: true, cancelable: true }),
+      );
+    });
     expect(container.querySelector('input')).not.toBeNull();
   });
 
   it('closes on Escape', () => {
     const { container } = mount();
-    act(() => { document.getElementById('btn-search')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-search')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(container.querySelector('input')).not.toBeNull();
 
-    act(() => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })); });
+    act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+      );
+    });
     expect(container.innerHTML).toBe('');
   });
 
   it('shows search results matching the query after debounce', async () => {
     const target = (W as unknown as WordEntry[])[0];
     const { container } = mount();
-    act(() => { document.getElementById('btn-search')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-search')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
     const input = container.querySelector('input') as HTMLInputElement;
-    const nativeValueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
+    const nativeValueSetter = Object.getOwnPropertyDescriptor(
+      HTMLInputElement.prototype,
+      'value',
+    )!.set!;
     act(() => {
       nativeValueSetter.call(input, target[0].slice(0, 4));
       input.dispatchEvent(new Event('input', { bubbles: true }));
@@ -81,10 +109,17 @@ describe('search-overlay.tsx SearchOverlay', () => {
 
   it('shows "no results" for an unmatched query', async () => {
     const { container } = mount();
-    act(() => { document.getElementById('btn-search')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-search')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
     const input = container.querySelector('input') as HTMLInputElement;
-    const nativeValueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
+    const nativeValueSetter = Object.getOwnPropertyDescriptor(
+      HTMLInputElement.prototype,
+      'value',
+    )!.set!;
     act(() => {
       nativeValueSetter.call(input, 'zzzzzzzzzznotfound');
       input.dispatchEvent(new Event('input', { bubbles: true }));
@@ -97,10 +132,17 @@ describe('search-overlay.tsx SearchOverlay', () => {
   it('opens the word detail when a result row is clicked', async () => {
     const target = (W as unknown as WordEntry[])[0];
     const { container } = mount();
-    act(() => { document.getElementById('btn-search')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-search')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
     const input = container.querySelector('input') as HTMLInputElement;
-    const nativeValueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
+    const nativeValueSetter = Object.getOwnPropertyDescriptor(
+      HTMLInputElement.prototype,
+      'value',
+    )!.set!;
     act(() => {
       nativeValueSetter.call(input, target[0]);
       input.dispatchEvent(new Event('input', { bubbles: true }));
@@ -108,7 +150,9 @@ describe('search-overlay.tsx SearchOverlay', () => {
     await wait();
 
     const row = container.querySelector('.search-row') as HTMLElement;
-    act(() => { row.click(); });
+    act(() => {
+      row.click();
+    });
 
     expect(openWordDetail).toHaveBeenCalled();
     expect(container.innerHTML).toBe('');
@@ -118,10 +162,17 @@ describe('search-overlay.tsx SearchOverlay', () => {
     const target = (W as unknown as WordEntry[])[0];
     setDeckState([target]);
     const { container } = mount();
-    act(() => { document.getElementById('btn-search')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-search')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
     const input = container.querySelector('input') as HTMLInputElement;
-    const nativeValueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
+    const nativeValueSetter = Object.getOwnPropertyDescriptor(
+      HTMLInputElement.prototype,
+      'value',
+    )!.set!;
     act(() => {
       nativeValueSetter.call(input, target[0]);
       input.dispatchEvent(new Event('input', { bubbles: true }));
@@ -130,7 +181,9 @@ describe('search-overlay.tsx SearchOverlay', () => {
 
     const badge = container.querySelector('.sr-goto-badge') as HTMLElement;
     expect(badge.textContent).toContain('у колоді');
-    act(() => { badge.click(); });
+    act(() => {
+      badge.click();
+    });
 
     expect(setIdx).toHaveBeenCalledWith(0);
     expect(render).toHaveBeenCalled();
@@ -139,10 +192,16 @@ describe('search-overlay.tsx SearchOverlay', () => {
 
   it('closes when clicking the backdrop', () => {
     const { container } = mount();
-    act(() => { document.getElementById('btn-search')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-search')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
     const backdrop = container.firstElementChild as HTMLElement;
-    act(() => { backdrop.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      backdrop.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(container.innerHTML).toBe('');
   });
 });

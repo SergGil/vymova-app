@@ -4,8 +4,10 @@ import { openApp } from './helpers.ts';
 test.describe('Duel room creation', () => {
   test('creating a room shows the waiting screen with a room code, no crash', async ({ page }) => {
     const errors: string[] = [];
-    page.on('pageerror', e => errors.push(e.message));
-    page.on('console', msg => { if (msg.type() === 'error') errors.push(msg.text()); });
+    page.on('pageerror', (e) => errors.push(e.message));
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') errors.push(msg.text());
+    });
 
     await openApp(page);
     await page.click('#sb-duel');
@@ -22,8 +24,10 @@ test.describe('Duel room creation', () => {
 
   test('cancelling a created room returns to the join/create lobby state', async ({ page }) => {
     const errors: string[] = [];
-    page.on('pageerror', e => errors.push(e.message));
-    page.on('console', msg => { if (msg.type() === 'error') errors.push(msg.text()); });
+    page.on('pageerror', (e) => errors.push(e.message));
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') errors.push(msg.text());
+    });
 
     await openApp(page);
     await page.click('#sb-duel');

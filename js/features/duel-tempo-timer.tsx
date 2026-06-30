@@ -29,12 +29,24 @@ export function DuelTempoTimer(): ReactElement | null {
 
   return (
     <div style={{ marginBottom: 8 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 4,
+        }}
+      >
         <span style={{ fontSize: '.72rem', color: 'var(--text3)' }}>{t('duel.time')}</span>
-        <span style={{ fontSize: '.85rem', fontWeight: 700, color: 'var(--accent2)' }}>{d.num}</span>
+        <span style={{ fontSize: '.85rem', fontWeight: 700, color: 'var(--accent2)' }}>
+          {d.num}
+        </span>
       </div>
       <div style={{ height: 5, background: 'var(--border)', borderRadius: 3, overflow: 'hidden' }}>
-        <div ref={barRef} style={{ height: '100%', background: 'var(--accent2)', borderRadius: 3, width: '100%' }} />
+        <div
+          ref={barRef}
+          style={{ height: '100%', background: 'var(--accent2)', borderRadius: 3, width: '100%' }}
+        />
       </div>
     </div>
   );

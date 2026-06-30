@@ -10,14 +10,17 @@ class MockXHR {
   onload: (() => void) | null = null;
   onerror: (() => void) | null = null;
   ontimeout: (() => void) | null = null;
-  open(_method: string, url: string): void { this.url = url; MockXHR.instances.push(this); }
+  open(_method: string, url: string): void {
+    this.url = url;
+    MockXHR.instances.push(this);
+  }
   send(): void {}
 }
 
 describe('images.ts', () => {
   beforeEach(() => {
     localStorage.clear();
-    Object.keys(_imgCache).forEach(k => delete _imgCache[k]);
+    Object.keys(_imgCache).forEach((k) => delete _imgCache[k]);
     MockXHR.instances = [];
     vi.stubGlobal('XMLHttpRequest', MockXHR);
   });
@@ -81,7 +84,9 @@ describe('images.ts', () => {
       expect(MockXHR.instances[0].url).toContain('pixabay.com');
 
       MockXHR.instances[0].status = 200;
-      MockXHR.instances[0].responseText = JSON.stringify({ hits: [{ webformatURL: 'http://example.com/bird.png' }] });
+      MockXHR.instances[0].responseText = JSON.stringify({
+        hits: [{ webformatURL: 'http://example.com/bird.png' }],
+      });
       MockXHR.instances[0].onload!();
 
       expect(cb).toHaveBeenCalledWith('bird', 'http://example.com/bird.png');

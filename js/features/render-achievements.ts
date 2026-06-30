@@ -4,7 +4,10 @@
 // Achievements grid/popup live in achievements-page.tsx (React).
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
 import {
-  getGameData, getModeStats, loadUnlocked, saveUnlocked,
+  getGameData,
+  getModeStats,
+  loadUnlocked,
+  saveUnlocked,
   registerCheckAchievements,
 } from './game.ts';
 import { showToast } from './achievement-toast.tsx';
@@ -20,7 +23,7 @@ export function checkAchievements(): void {
   const g = getGameData();
   const m = getModeStats();
   const newOnes: Achievement[] = [];
-  ACHIEVEMENTS.forEach(function(a) {
+  ACHIEVEMENTS.forEach(function (a) {
     if (!unlockedSet.has(a.id) && a.check(k, g, m)) {
       newOnes.push(a);
       unlocked.push(a.id);

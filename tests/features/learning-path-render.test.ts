@@ -44,7 +44,7 @@ describe('learning-path.ts renderLearningPath/openLearningPath', () => {
 
   it('shows the "level complete" message when a level is ~done', () => {
     document.body.innerHTML = '<div id="lp-content"></div>';
-    setKnownWords('en', new Set((W as unknown as [string, ...unknown[]][]).map(w => w[0])));
+    setKnownWords('en', new Set((W as unknown as [string, ...unknown[]][]).map((w) => w[0])));
     renderLearningPath();
     const el = document.getElementById('lp-content')!;
     expect(el.innerHTML).toContain('lp-complete');
@@ -60,7 +60,8 @@ describe('learning-path.ts renderLearningPath/openLearningPath', () => {
   });
 
   it('clicking a [data-lp-level] button navigates to that CEFR level', () => {
-    document.body.innerHTML = '<div id="lp-content"></div><select id="sel-range"><option value="all">all</option><option value="cefr-A1">A1</option><option value="cefr-A2">A2</option></select>';
+    document.body.innerHTML =
+      '<div id="lp-content"></div><select id="sel-range"><option value="all">all</option><option value="cefr-A1">A1</option><option value="cefr-A2">A2</option></select>';
     renderLearningPath();
     const el = document.getElementById('lp-content')!;
     const btn = el.querySelector('[data-lp-level]') as HTMLButtonElement;
@@ -68,7 +69,9 @@ describe('learning-path.ts renderLearningPath/openLearningPath', () => {
 
     const sel = document.getElementById('sel-range') as HTMLSelectElement;
     let changeFired = false;
-    sel.addEventListener('change', () => { changeFired = true; });
+    sel.addEventListener('change', () => {
+      changeFired = true;
+    });
 
     btn.click();
 

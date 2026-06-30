@@ -10,7 +10,11 @@ import type { WordEntry } from '../../src/types.js';
 export function CardIdx() {
   const { deck, idx } = useDeckState();
   if (!deck.length) return <span id="cidx">0/0</span>;
-  return <span id="cidx">{(idx % deck.length) + 1}/{deck.length}</span>;
+  return (
+    <span id="cidx">
+      {(idx % deck.length) + 1}/{deck.length}
+    </span>
+  );
 }
 
 export function CardKnownCount() {
@@ -25,4 +29,3 @@ export function ProgressBar() {
   const pct = (getActiveKnown(known).size / (W as unknown as WordEntry[]).length) * 100;
   return <div className="progress-fill" id="pbar" style={{ width: pct + '%' }} />;
 }
-

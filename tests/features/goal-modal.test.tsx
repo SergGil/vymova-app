@@ -13,16 +13,23 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<GoalModal />); });
+  act(() => {
+    root.render(<GoalModal />);
+  });
   return { container, root };
 }
 
 function openModal(): void {
   const btn = document.getElementById('goal-set-btn')!;
-  act(() => { btn.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+  act(() => {
+    btn.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  });
 }
 
-const nativeInputValueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
+const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+  HTMLInputElement.prototype,
+  'value',
+)!.set!;
 
 function setInputValue(input: HTMLInputElement, value: string): void {
   nativeInputValueSetter.call(input, value);
@@ -65,11 +72,15 @@ describe('goal-modal.tsx GoalModal', () => {
     const { container } = mount();
     openModal();
     const input = container.querySelector('input') as HTMLInputElement;
-    act(() => { setInputValue(input, '50'); });
+    act(() => {
+      setInputValue(input, '50');
+    });
 
     const buttons = container.querySelectorAll('button');
-    const saveBtn = Array.from(buttons).find(b => b.textContent === 'Зберегти')!;
-    act(() => { saveBtn.click(); });
+    const saveBtn = Array.from(buttons).find((b) => b.textContent === 'Зберегти')!;
+    act(() => {
+      saveBtn.click();
+    });
 
     expect(getGameData().goalMax).toBe(50);
     expect(renderGameBar).toHaveBeenCalled();
@@ -80,11 +91,15 @@ describe('goal-modal.tsx GoalModal', () => {
     const { container } = mount();
     openModal();
     const input = container.querySelector('input') as HTMLInputElement;
-    act(() => { setInputValue(input, '0'); });
+    act(() => {
+      setInputValue(input, '0');
+    });
 
     const buttons = container.querySelectorAll('button');
-    const saveBtn = Array.from(buttons).find(b => b.textContent === 'Зберегти')!;
-    act(() => { saveBtn.click(); });
+    const saveBtn = Array.from(buttons).find((b) => b.textContent === 'Зберегти')!;
+    act(() => {
+      saveBtn.click();
+    });
 
     expect((container.querySelector('input') as HTMLInputElement).className).toBe('shake');
     expect(container.querySelector('input')).not.toBeNull();
@@ -95,8 +110,10 @@ describe('goal-modal.tsx GoalModal', () => {
     const { container } = mount();
     openModal();
     const buttons = container.querySelectorAll('button');
-    const cancelBtn = Array.from(buttons).find(b => b.textContent === 'Відміна')!;
-    act(() => { cancelBtn.click(); });
+    const cancelBtn = Array.from(buttons).find((b) => b.textContent === 'Відміна')!;
+    act(() => {
+      cancelBtn.click();
+    });
     expect(container.innerHTML).toBe('');
   });
 
@@ -104,7 +121,9 @@ describe('goal-modal.tsx GoalModal', () => {
     const { container } = mount();
     openModal();
     const input = container.querySelector('input') as HTMLInputElement;
-    act(() => { input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); });
+    act(() => {
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    });
     expect(container.innerHTML).toBe('');
   });
 });

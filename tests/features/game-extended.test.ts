@@ -1,20 +1,40 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
-  getLevel, getNextLevel, LEVELS,
-  updateStreak, getDailyStats, saveDailyStats, recordDailyWord,
-  getModeStats, saveModeStats, recordModeComplete, invalidateModeStatsCache,
-  getGameData, saveGameData, loadUnlocked, saveUnlocked, invalidateGameCaches,
+  getLevel,
+  getNextLevel,
+  LEVELS,
+  updateStreak,
+  getDailyStats,
+  saveDailyStats,
+  recordDailyWord,
+  getModeStats,
+  saveModeStats,
+  recordModeComplete,
+  invalidateModeStatsCache,
+  getGameData,
+  saveGameData,
+  loadUnlocked,
+  saveUnlocked,
+  invalidateGameCaches,
 } from '../../js/features/game.ts';
 import type { GameData } from '../../src/types.js';
 
 // ── localStorage + date mock ──────────────────────────────────
 const _store: Record<string, string> = {};
 const lsMock = {
-  getItem:    (k: string) => _store[k] ?? null,
-  setItem:    (k: string, v: string) => { _store[k] = v; },
-  removeItem: (k: string) => { delete _store[k]; },
-  clear:      () => { Object.keys(_store).forEach(k => delete _store[k]); },
-  get length(){ return Object.keys(_store).length; },
+  getItem: (k: string) => _store[k] ?? null,
+  setItem: (k: string, v: string) => {
+    _store[k] = v;
+  },
+  removeItem: (k: string) => {
+    delete _store[k];
+  },
+  clear: () => {
+    Object.keys(_store).forEach((k) => delete _store[k]);
+  },
+  get length() {
+    return Object.keys(_store).length;
+  },
   key: (i: number) => Object.keys(_store)[i] ?? null,
 };
 
@@ -25,10 +45,17 @@ function setFakeDate(isoDate: string): void {
 
 function makeGame(overrides: Partial<GameData> = {}): GameData {
   return {
-    streak: 0, streakDate: null, shields: 0,
-    goalMax: 20, goalCur: 0, goalDate: '',
-    goalDays: 0, confettiShown: null,
-    sessionWords: 0, xp: 0, maxCombo: 0,
+    streak: 0,
+    streakDate: null,
+    shields: 0,
+    goalMax: 20,
+    goalCur: 0,
+    goalDate: '',
+    goalDays: 0,
+    confettiShown: null,
+    sessionWords: 0,
+    xp: 0,
+    maxCombo: 0,
     ...overrides,
   };
 }
@@ -178,7 +205,7 @@ describe('getDailyStats() + saveDailyStats()', () => {
 
 // ── recordDailyWord() ─────────────────────────────────────────
 describe('recordDailyWord()', () => {
-  it('increments today\'s counter', () => {
+  it("increments today's counter", () => {
     recordDailyWord();
     invalidateGameCaches();
     expect(getDailyStats()['2024-06-15']).toBe(1);
@@ -197,7 +224,7 @@ describe('recordDailyWord()', () => {
     invalidateGameCaches();
     const stats = getDailyStats();
     // recordDailyWord uses TODAY + '_h' + getHours() format to prevent cross-day bleed
-    const hourKeys = Object.keys(stats).filter(k => /^\d{4}-\d{2}-\d{2}_h\d+$/.test(k));
+    const hourKeys = Object.keys(stats).filter((k) => /^\d{4}-\d{2}-\d{2}_h\d+$/.test(k));
     expect(hourKeys.length).toBeGreaterThanOrEqual(1);
     expect(stats[hourKeys[0]]).toBeGreaterThanOrEqual(1);
   });
@@ -247,8 +274,14 @@ describe('getGameData() + saveGameData()', () => {
 
   it('round-trips xp, maxCombo, goalDays, sessionWords', () => {
     // Use streakDate = yesterday so getGameData() does not reset streak to 0
-    const data = makeGame({ streak: 5, xp: 300, maxCombo: 12, goalDays: 8,
-      sessionWords: 42, streakDate: '2024-06-14' });
+    const data = makeGame({
+      streak: 5,
+      xp: 300,
+      maxCombo: 12,
+      goalDays: 8,
+      sessionWords: 42,
+      streakDate: '2024-06-14',
+    });
     saveGameData(data);
     invalidateGameCaches(); // force re-read from localStorage
     const loaded = getGameData();

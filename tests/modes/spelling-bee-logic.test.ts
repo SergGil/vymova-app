@@ -10,8 +10,10 @@ const HINTS = 3;
 
 // ── Re-declared pure helpers from js/modes/spelling-bee.tsx ──
 function build(): WordEntry[] {
-  const pool = _shuf((getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[]);
-  const filtered = pool.filter(w => w[0].length >= 4);
+  const pool = _shuf(
+    (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[],
+  );
+  const filtered = pool.filter((w) => w[0].length >= 4);
   return (filtered.length >= SIZE ? filtered : pool).slice(0, SIZE);
 }
 
@@ -27,7 +29,7 @@ function judge(input: string, answer: string): 'ok' | 'almost' | 'wrong' {
 
 function hintReveal(word: string, hintsLeft: number): string {
   const left = hintsLeft - 1;
-  const revealCount = Math.ceil(word.length * (HINTS - left) / HINTS);
+  const revealCount = Math.ceil((word.length * (HINTS - left)) / HINTS);
   return word.slice(0, revealCount) + '_'.repeat(Math.max(0, word.length - revealCount));
 }
 
@@ -37,7 +39,7 @@ describe('spelling-bee-logic', () => {
       setDeckState([]);
       const deck = build();
       expect(deck.length).toBe(SIZE);
-      deck.forEach(w => expect(w[0].length).toBeGreaterThanOrEqual(4));
+      deck.forEach((w) => expect(w[0].length).toBeGreaterThanOrEqual(4));
     });
   });
 

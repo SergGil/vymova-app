@@ -22,12 +22,23 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<DuelResume />); });
+  act(() => {
+    root.render(<DuelResume />);
+  });
   return { container, root };
 }
 
 function makeSession(over: Partial<ResumeSessionVM> = {}): ResumeSessionVM {
-  return { roomId: 'r1', modeIcon: '🧠', modeLabel: 'Тест', score: 4, roomSize: 10, oppText: null, expiresAt: Date.now() + 3_600_000, ...over };
+  return {
+    roomId: 'r1',
+    modeIcon: '🧠',
+    modeLabel: 'Тест',
+    score: 4,
+    roomSize: 10,
+    oppText: null,
+    expiresAt: Date.now() + 3_600_000,
+    ...over,
+  };
 }
 
 describe('duel-resume.tsx DuelResume', () => {
@@ -42,7 +53,11 @@ describe('duel-resume.tsx DuelResume', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders nothing when there are no resume sessions', () => {
@@ -73,9 +88,13 @@ describe('duel-resume.tsx DuelResume', () => {
     const { container, root } = mount();
     roots.push(root);
     const buttons = container.querySelectorAll('button');
-    act(() => { (buttons[0] as HTMLButtonElement).click(); });
+    act(() => {
+      (buttons[0] as HTMLButtonElement).click();
+    });
     expect(onResumeContinue).toHaveBeenCalledWith('r42');
-    act(() => { (buttons[1] as HTMLButtonElement).click(); });
+    act(() => {
+      (buttons[1] as HTMLButtonElement).click();
+    });
     expect(onResumeDiscard).toHaveBeenCalledWith('r42');
   });
 
@@ -85,7 +104,10 @@ describe('duel-resume.tsx DuelResume', () => {
     expect(container.innerHTML).toBe('');
 
     getResumeSessions.mockReturnValue([makeSession()]);
-    act(() => { refreshDuelResume(); setDuelResumeSessions([makeSession()]); });
+    act(() => {
+      refreshDuelResume();
+      setDuelResumeSessions([makeSession()]);
+    });
     expect(container.textContent).toContain('🔄 Незавершена дуель');
   });
 });

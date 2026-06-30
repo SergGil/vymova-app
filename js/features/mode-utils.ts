@@ -20,9 +20,20 @@ import { W_NL } from '../../data/words_nl.js';
 import { W } from '../../data/words.js';
 import { boldEn, boldUa, boldHead } from '../core/card-helpers.ts';
 import {
-  saveKnown, saveKnownEs, saveKnownFr, saveKnownIt, saveKnownPt, saveKnownDe,
-  saveKnownHe, saveKnownAr, saveKnownPl, saveKnownZh, saveKnownEl, saveKnownJa,
-  saveKnownTr, saveKnownNl,
+  saveKnown,
+  saveKnownEs,
+  saveKnownFr,
+  saveKnownIt,
+  saveKnownPt,
+  saveKnownDe,
+  saveKnownHe,
+  saveKnownAr,
+  saveKnownPl,
+  saveKnownZh,
+  saveKnownEl,
+  saveKnownJa,
+  saveKnownTr,
+  saveKnownNl,
 } from '../core/storage.ts';
 import { getModeSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -47,19 +58,97 @@ interface LangConfig {
 }
 
 const LANG_REGISTRY: Record<TargetLang, LangConfig> = {
-  es: { entry: w => lookup(W_ES, w), known: () => getKnownSnapshot('es'), saveKnown: saveKnownEs, voiceLocale: 'es-ES', rtl: false },
-  fr: { entry: w => lookup(W_FR, w), known: () => getKnownSnapshot('fr'), saveKnown: saveKnownFr, voiceLocale: 'fr-FR', rtl: false },
-  it: { entry: w => lookup(W_IT, w), known: () => getKnownSnapshot('it'), saveKnown: saveKnownIt, voiceLocale: 'it-IT', rtl: false },
-  pt: { entry: w => lookup(W_PT, w), known: () => getKnownSnapshot('pt'), saveKnown: saveKnownPt, voiceLocale: 'pt-PT', rtl: false },
-  de: { entry: w => lookup(W_DE, w), known: () => getKnownSnapshot('de'), saveKnown: saveKnownDe, voiceLocale: 'de-DE', rtl: false },
-  he: { entry: w => lookup(W_HE, w), known: () => getKnownSnapshot('he'), saveKnown: saveKnownHe, voiceLocale: 'he-IL', rtl: true },
-  ar: { entry: w => lookup(W_AR, w), known: () => getKnownSnapshot('ar'), saveKnown: saveKnownAr, voiceLocale: 'ar-SA', rtl: true },
-  pl: { entry: w => lookup(W_PL, w), known: () => getKnownSnapshot('pl'), saveKnown: saveKnownPl, voiceLocale: 'pl-PL', rtl: false },
-  zh: { entry: w => lookup(W_ZH, w), known: () => getKnownSnapshot('zh'), saveKnown: saveKnownZh, voiceLocale: 'zh-CN', rtl: false },
-  el: { entry: w => lookup(W_EL, w), known: () => getKnownSnapshot('el'), saveKnown: saveKnownEl, voiceLocale: 'el-GR', rtl: false },
-  ja: { entry: w => lookup(W_JA, w), known: () => getKnownSnapshot('ja'), saveKnown: saveKnownJa, voiceLocale: 'ja-JP', rtl: false },
-  tr: { entry: w => lookup(W_TR, w), known: () => getKnownSnapshot('tr'), saveKnown: saveKnownTr, voiceLocale: 'tr-TR', rtl: false },
-  nl: { entry: w => lookup(W_NL, w), known: () => getKnownSnapshot('nl'), saveKnown: saveKnownNl, voiceLocale: 'nl-NL', rtl: false },
+  es: {
+    entry: (w) => lookup(W_ES, w),
+    known: () => getKnownSnapshot('es'),
+    saveKnown: saveKnownEs,
+    voiceLocale: 'es-ES',
+    rtl: false,
+  },
+  fr: {
+    entry: (w) => lookup(W_FR, w),
+    known: () => getKnownSnapshot('fr'),
+    saveKnown: saveKnownFr,
+    voiceLocale: 'fr-FR',
+    rtl: false,
+  },
+  it: {
+    entry: (w) => lookup(W_IT, w),
+    known: () => getKnownSnapshot('it'),
+    saveKnown: saveKnownIt,
+    voiceLocale: 'it-IT',
+    rtl: false,
+  },
+  pt: {
+    entry: (w) => lookup(W_PT, w),
+    known: () => getKnownSnapshot('pt'),
+    saveKnown: saveKnownPt,
+    voiceLocale: 'pt-PT',
+    rtl: false,
+  },
+  de: {
+    entry: (w) => lookup(W_DE, w),
+    known: () => getKnownSnapshot('de'),
+    saveKnown: saveKnownDe,
+    voiceLocale: 'de-DE',
+    rtl: false,
+  },
+  he: {
+    entry: (w) => lookup(W_HE, w),
+    known: () => getKnownSnapshot('he'),
+    saveKnown: saveKnownHe,
+    voiceLocale: 'he-IL',
+    rtl: true,
+  },
+  ar: {
+    entry: (w) => lookup(W_AR, w),
+    known: () => getKnownSnapshot('ar'),
+    saveKnown: saveKnownAr,
+    voiceLocale: 'ar-SA',
+    rtl: true,
+  },
+  pl: {
+    entry: (w) => lookup(W_PL, w),
+    known: () => getKnownSnapshot('pl'),
+    saveKnown: saveKnownPl,
+    voiceLocale: 'pl-PL',
+    rtl: false,
+  },
+  zh: {
+    entry: (w) => lookup(W_ZH, w),
+    known: () => getKnownSnapshot('zh'),
+    saveKnown: saveKnownZh,
+    voiceLocale: 'zh-CN',
+    rtl: false,
+  },
+  el: {
+    entry: (w) => lookup(W_EL, w),
+    known: () => getKnownSnapshot('el'),
+    saveKnown: saveKnownEl,
+    voiceLocale: 'el-GR',
+    rtl: false,
+  },
+  ja: {
+    entry: (w) => lookup(W_JA, w),
+    known: () => getKnownSnapshot('ja'),
+    saveKnown: saveKnownJa,
+    voiceLocale: 'ja-JP',
+    rtl: false,
+  },
+  tr: {
+    entry: (w) => lookup(W_TR, w),
+    known: () => getKnownSnapshot('tr'),
+    saveKnown: saveKnownTr,
+    voiceLocale: 'tr-TR',
+    rtl: false,
+  },
+  nl: {
+    entry: (w) => lookup(W_NL, w),
+    known: () => getKnownSnapshot('nl'),
+    saveKnown: saveKnownNl,
+    voiceLocale: 'nl-NL',
+    rtl: false,
+  },
 };
 
 export function langConfig(code: TargetLang): LangConfig {
@@ -71,8 +160,19 @@ export function isTargetLang(v: string): v is TargetLang {
 }
 
 const RAW_TABLES: Record<TargetLang, Record<string, unknown>> = {
-  es: W_ES, fr: W_FR, it: W_IT, pt: W_PT, de: W_DE, he: W_HE, ar: W_AR,
-  pl: W_PL, zh: W_ZH, el: W_EL, ja: W_JA, tr: W_TR, nl: W_NL,
+  es: W_ES,
+  fr: W_FR,
+  it: W_IT,
+  pt: W_PT,
+  de: W_DE,
+  he: W_HE,
+  ar: W_AR,
+  pl: W_PL,
+  zh: W_ZH,
+  el: W_EL,
+  ja: W_JA,
+  tr: W_TR,
+  nl: W_NL,
 };
 
 // word (in `code`'s own language) → English headword — built lazily, once
@@ -104,7 +204,8 @@ export function parsePair(mode: string): { front: Code; back: Code; valid: boole
   if (mode === 'ua') return { front: 'ua', back: 'en', valid: true };
   const i = mode.indexOf('-');
   if (i > 0) {
-    const f = mode.slice(0, i), b = mode.slice(i + 1);
+    const f = mode.slice(0, i),
+      b = mode.slice(i + 1);
     if (isCode(f) && isCode(b)) return { front: f, back: b, valid: true };
   }
   return { front: 'en', back: 'ua', valid: false };
@@ -122,8 +223,8 @@ function entryFor(code: Code, cw: WordEntry): { word: string; ex: string } {
 // pairs) — existing consumers that only check membership (not direction)
 // keep working unchanged.
 function modesFor(code: TargetLang): Set<string> {
-  const others: Code[] = ['en', 'ua', ...ALL_TARGET_LANGS.filter(l => l !== code)];
-  const modes = others.flatMap(o => [`${code}-${o}`, `${o}-${code}`]);
+  const others: Code[] = ['en', 'ua', ...ALL_TARGET_LANGS.filter((l) => l !== code)];
+  const modes = others.flatMap((o) => [`${code}-${o}`, `${o}-${code}`]);
   return new Set(modes);
 }
 
@@ -152,7 +253,22 @@ export function getMode(): string {
   return m || 'en';
 }
 
-export type FrontLang = 'EN' | 'UA' | 'ES' | 'FR' | 'IT' | 'PT' | 'DE' | 'HE' | 'AR' | 'PL' | 'ZH' | 'EL' | 'JA' | 'TR' | 'NL';
+export type FrontLang =
+  | 'EN'
+  | 'UA'
+  | 'ES'
+  | 'FR'
+  | 'IT'
+  | 'PT'
+  | 'DE'
+  | 'HE'
+  | 'AR'
+  | 'PL'
+  | 'ZH'
+  | 'EL'
+  | 'JA'
+  | 'TR'
+  | 'NL';
 
 // FRONT_LANG залежить лише від обраного режиму (не від конкретного слова) —
 // чисто обчислюється з `mode`, тому винесено окремо для CardMeta (item 28a).
@@ -210,11 +326,13 @@ export function computeCardView(cw: WordEntry, mode: string): CardView {
   const frontE = entryFor(front, cw);
   const backE = entryFor(back, cw);
   const FRONT_LANG = front.toUpperCase() as FrontLang;
-  const frontWord = frontE.word, backWord = backE.word;
+  const frontWord = frontE.word,
+    backWord = backE.word;
   const frontRtl = isTargetLang(front) && LANG_REGISTRY[front].rtl;
   const backRtl = isTargetLang(back) && LANG_REGISTRY[back].rtl;
 
-  let exenHtml = '', exuaHtml = '';
+  let exenHtml = '',
+    exuaHtml = '';
   if (mode === 'en') {
     exenHtml = boldEn(frontE.ex, cw);
     exuaHtml = backE.ex;
@@ -229,19 +347,45 @@ export function computeCardView(cw: WordEntry, mode: string): CardView {
   return { FRONT_LANG, frontWord, backWord, exenHtml, exuaHtml, frontRtl, backRtl };
 }
 
-export function esEntry(word: string): Entry { return LANG_REGISTRY.es.entry(word); }
-export function frEntry(word: string): Entry { return LANG_REGISTRY.fr.entry(word); }
-export function itEntry(word: string): Entry { return LANG_REGISTRY.it.entry(word); }
-export function ptEntry(word: string): Entry { return LANG_REGISTRY.pt.entry(word); }
-export function deEntry(word: string): Entry { return LANG_REGISTRY.de.entry(word); }
-export function heEntry(word: string): Entry { return LANG_REGISTRY.he.entry(word); }
-export function arEntry(word: string): Entry { return LANG_REGISTRY.ar.entry(word); }
-export function plEntry(word: string): Entry { return LANG_REGISTRY.pl.entry(word); }
-export function zhEntry(word: string): Entry { return LANG_REGISTRY.zh.entry(word); }
-export function elEntry(word: string): Entry { return LANG_REGISTRY.el.entry(word); }
-export function jaEntry(word: string): Entry { return LANG_REGISTRY.ja.entry(word); }
-export function trEntry(word: string): Entry { return LANG_REGISTRY.tr.entry(word); }
-export function nlEntry(word: string): Entry { return LANG_REGISTRY.nl.entry(word); }
+export function esEntry(word: string): Entry {
+  return LANG_REGISTRY.es.entry(word);
+}
+export function frEntry(word: string): Entry {
+  return LANG_REGISTRY.fr.entry(word);
+}
+export function itEntry(word: string): Entry {
+  return LANG_REGISTRY.it.entry(word);
+}
+export function ptEntry(word: string): Entry {
+  return LANG_REGISTRY.pt.entry(word);
+}
+export function deEntry(word: string): Entry {
+  return LANG_REGISTRY.de.entry(word);
+}
+export function heEntry(word: string): Entry {
+  return LANG_REGISTRY.he.entry(word);
+}
+export function arEntry(word: string): Entry {
+  return LANG_REGISTRY.ar.entry(word);
+}
+export function plEntry(word: string): Entry {
+  return LANG_REGISTRY.pl.entry(word);
+}
+export function zhEntry(word: string): Entry {
+  return LANG_REGISTRY.zh.entry(word);
+}
+export function elEntry(word: string): Entry {
+  return LANG_REGISTRY.el.entry(word);
+}
+export function jaEntry(word: string): Entry {
+  return LANG_REGISTRY.ja.entry(word);
+}
+export function trEntry(word: string): Entry {
+  return LANG_REGISTRY.tr.entry(word);
+}
+export function nlEntry(word: string): Entry {
+  return LANG_REGISTRY.nl.entry(word);
+}
 
 function targetLangFromStorageKey(key: string): TargetLang | null {
   return isTargetLang(key) ? key : null;
@@ -262,7 +406,7 @@ export function getKnownInLang(): number {
 // Target-language vocabulary sizes, precomputed once — the 12 "small"
 // languages cover 2000 words each, while ES (and EN/UA) cover the full list.
 const TARGET_LANG_SIZE: Record<TargetLang, number> = Object.fromEntries(
-  ALL_TARGET_LANGS.map(l => [l, Object.keys(RAW_TABLES[l]).length])
+  ALL_TARGET_LANGS.map((l) => [l, Object.keys(RAW_TABLES[l]).length]),
 ) as Record<TargetLang, number>;
 
 /** Total vocabulary size available for the currently selected learn language (full dictionary for en/ua, that language's own table otherwise). */
@@ -286,9 +430,10 @@ export function getWordsForPair(words: WordEntry[]): WordEntry[] {
   const learn = targetLangFromStorageKey(localStorage.getItem('ew_learn_lang') ?? 'en');
   const know = targetLangFromStorageKey(localStorage.getItem('ew_know_lang') ?? 'ua');
   if (!learn && !know) return words;
-  return words.filter(w =>
-    (!learn || LANG_REGISTRY[learn].entry(w[0]) !== null) &&
-    (!know || LANG_REGISTRY[know].entry(w[0]) !== null)
+  return words.filter(
+    (w) =>
+      (!learn || LANG_REGISTRY[learn].entry(w[0]) !== null) &&
+      (!know || LANG_REGISTRY[know].entry(w[0]) !== null),
   );
 }
 
@@ -309,21 +454,31 @@ export function getWordsForMode(mode: string, words: WordEntry[]): WordEntry[] {
   const frontT = isTargetLang(front) ? front : null;
   const backT = isTargetLang(back) ? back : null;
   if (!frontT && !backT) return words;
-  return words.filter(w =>
-    (!frontT || LANG_REGISTRY[frontT].entry(w[0]) !== null) &&
-    (!backT || LANG_REGISTRY[backT].entry(w[0]) !== null)
+  return words.filter(
+    (w) =>
+      (!frontT || LANG_REGISTRY[frontT].entry(w[0]) !== null) &&
+      (!backT || LANG_REGISTRY[backT].entry(w[0]) !== null),
   );
 }
 
 const NO_TRANSLATIONS_KEY: Record<TargetLang, string> = {
-  es: 'deck.noEsTranslations', fr: 'deck.noFrTranslations', it: 'deck.noItTranslations', pt: 'deck.noPtTranslations',
-  de: 'deck.noDeTranslations', he: 'deck.noHeTranslations', ar: 'deck.noArTranslations', pl: 'deck.noPlTranslations',
-  zh: 'deck.noZhTranslations', el: 'deck.noElTranslations', ja: 'deck.noJaTranslations', tr: 'deck.noTrTranslations',
+  es: 'deck.noEsTranslations',
+  fr: 'deck.noFrTranslations',
+  it: 'deck.noItTranslations',
+  pt: 'deck.noPtTranslations',
+  de: 'deck.noDeTranslations',
+  he: 'deck.noHeTranslations',
+  ar: 'deck.noArTranslations',
+  pl: 'deck.noPlTranslations',
+  zh: 'deck.noZhTranslations',
+  el: 'deck.noElTranslations',
+  ja: 'deck.noJaTranslations',
+  tr: 'deck.noTrTranslations',
   nl: 'deck.noNlTranslations',
 };
 
 function hasAnyEntries(lang: TargetLang, words: WordEntry[]): boolean {
-  return words.some(w => LANG_REGISTRY[lang].entry(w[0]) !== null);
+  return words.some((w) => LANG_REGISTRY[lang].entry(w[0]) !== null);
 }
 
 /** i18n key for the "no translations available" toast shown when getWordsForMode(mode, words) is empty. */

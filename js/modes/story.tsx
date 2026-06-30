@@ -7,7 +7,21 @@ import { recordModeComplete } from '../features/game.ts';
 import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
+import {
+  esEntry,
+  frEntry,
+  itEntry,
+  ptEntry,
+  deEntry,
+  heEntry,
+  arEntry,
+  plEntry,
+  zhEntry,
+  elEntry,
+  jaEntry,
+  trEntry,
+  nlEntry,
+} from '../features/mode-utils.ts';
 import { getKnowLang } from '../features/lang-pair-select.tsx';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 
@@ -33,25 +47,40 @@ const STORIES = [
   },
 ];
 
-type Story = typeof STORIES[0];
+type Story = (typeof STORIES)[0];
 
 function getWordInLang(w: WordEntry, lang: string): string {
   switch (lang) {
-    case 'ua': return w[1];
-    case 'es': return esEntry(w[0])?.[0] ?? '';
-    case 'fr': return frEntry(w[0])?.[0] ?? '';
-    case 'it': return itEntry(w[0])?.[0] ?? '';
-    case 'pt': return ptEntry(w[0])?.[0] ?? '';
-    case 'de': return deEntry(w[0])?.[0] ?? '';
-    case 'he': return heEntry(w[0])?.[0] ?? '';
-    case 'ar': return arEntry(w[0])?.[0] ?? '';
-    case 'pl': return plEntry(w[0])?.[0] ?? '';
-    case 'zh': return zhEntry(w[0])?.[0] ?? '';
-    case 'el': return elEntry(w[0])?.[0] ?? '';
-    case 'ja': return jaEntry(w[0])?.[0] ?? '';
-    case 'tr': return trEntry(w[0])?.[0] ?? '';
-    case 'nl': return nlEntry(w[0])?.[0] ?? '';
-    default:   return w[0];
+    case 'ua':
+      return w[1];
+    case 'es':
+      return esEntry(w[0])?.[0] ?? '';
+    case 'fr':
+      return frEntry(w[0])?.[0] ?? '';
+    case 'it':
+      return itEntry(w[0])?.[0] ?? '';
+    case 'pt':
+      return ptEntry(w[0])?.[0] ?? '';
+    case 'de':
+      return deEntry(w[0])?.[0] ?? '';
+    case 'he':
+      return heEntry(w[0])?.[0] ?? '';
+    case 'ar':
+      return arEntry(w[0])?.[0] ?? '';
+    case 'pl':
+      return plEntry(w[0])?.[0] ?? '';
+    case 'zh':
+      return zhEntry(w[0])?.[0] ?? '';
+    case 'el':
+      return elEntry(w[0])?.[0] ?? '';
+    case 'ja':
+      return jaEntry(w[0])?.[0] ?? '';
+    case 'tr':
+      return trEntry(w[0])?.[0] ?? '';
+    case 'nl':
+      return nlEntry(w[0])?.[0] ?? '';
+    default:
+      return w[0];
   }
 }
 
@@ -66,7 +95,8 @@ function _getWordIdx(): Map<string, number> {
 
 function _highlightText(text: string): { html: string; total: number; known: number } {
   const wi = _getWordIdx();
-  let knownInStory = 0, totalHighlighted = 0;
+  let knownInStory = 0,
+    totalHighlighted = 0;
   const lowerText = text.toLowerCase();
   const words = Array.from(wi.keys()).sort((a, b) => b.length - a.length);
   let result = text;
@@ -75,10 +105,13 @@ function _highlightText(text: string): { html: string; total: number; known: num
   for (const word of words) {
     if (word.length < 3) continue;
     if (!lowerText.includes(word)) continue;
-    const regex = new RegExp(`\\b(${word.replace(/[.*+?^${}()|\[\]\\]/g, '\\$&')}(?:s|ed|ing|er|est|ly)?)\\b`, 'gi');
+    const regex = new RegExp(
+      `\\b(${word.replace(/[.*+?^${}()|\[\]\\]/g, '\\$&')}(?:s|ed|ing|er|est|ly)?)\\b`,
+      'gi',
+    );
     let m: RegExpExecArray | null;
     while ((m = regex.exec(text)) !== null) {
-      const overlap = markers.some(mk => m!.index < mk.to && m!.index + m![0].length > mk.from);
+      const overlap = markers.some((mk) => m!.index < mk.to && m!.index + m![0].length > mk.from);
       if (!overlap) {
         markers.push({ from: m.index, to: m.index + m[0].length, word });
         totalHighlighted++;
@@ -92,7 +125,8 @@ function _highlightText(text: string): { html: string; total: number; known: num
     const isKnown = getKnownSnapshot('en').has(mk.word);
     const matched = text.slice(mk.from, mk.to);
     const cls = `sm-word${isKnown ? ' sm-known' : ''}`;
-    result = result.slice(0, mk.from) +
+    result =
+      result.slice(0, mk.from) +
       `<span class="${cls}" data-word="${mk.word}">${matched}</span>` +
       result.slice(mk.to);
   }
@@ -102,8 +136,12 @@ function _highlightText(text: string): { html: string; total: number; known: num
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openStoryMode(): void { _open?.(); }
-function closeStoryMode(): void { _close?.(); }
+function openStoryMode(): void {
+  _open?.();
+}
+function closeStoryMode(): void {
+  _close?.();
+}
 
 type Popup = { word: string; trans: string; ipa: string; top: number; left: number };
 
@@ -136,7 +174,10 @@ export function StoryPage(): ReactElement {
       const overlay = document.getElementById('story-mode-overlay');
       if (overlay) overlay.style.display = 'none';
     };
-    return () => { _open = null; _close = null; };
+    return () => {
+      _open = null;
+      _close = null;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [story, completed]);
 
@@ -158,7 +199,10 @@ export function StoryPage(): ReactElement {
 
   const onTextClick = (e: { target: EventTarget | null; stopPropagation: () => void }): void => {
     const target = (e.target as HTMLElement).closest<HTMLElement>('.sm-word');
-    if (!target) { setPopup(null); return; }
+    if (!target) {
+      setPopup(null);
+      return;
+    }
     e.stopPropagation();
     const word = target.dataset.word ?? '';
     const wi = _getWordIdx();
@@ -166,12 +210,14 @@ export function StoryPage(): ReactElement {
     if (idx === undefined) return;
     const w = (W as unknown as WordEntry[])[idx];
     const ipaRaw = w[4] ?? '';
-    const ipa = ipaRaw ? ipaRaw.replace(/\\u([0-9a-fA-F]{4})/g, (_m, c) => String.fromCharCode(parseInt(c, 16))) : '';
+    const ipa = ipaRaw
+      ? ipaRaw.replace(/\\u([0-9a-fA-F]{4})/g, (_m, c) => String.fromCharCode(parseInt(c, 16)))
+      : '';
 
     const rect = target.getBoundingClientRect();
     const parent = textRef.current?.parentElement;
     const pr = parent?.getBoundingClientRect() ?? { top: 0, left: 0, width: 0 };
-    let top = rect.bottom - pr.top + (parent?.scrollTop ?? 0) + 8;
+    const top = rect.bottom - pr.top + (parent?.scrollTop ?? 0) + 8;
     let left = rect.left - pr.left + (parent?.scrollLeft ?? 0);
     if (left + 200 > pr.width) left = pr.width - 210;
     if (left < 0) left = 0;
@@ -180,49 +226,88 @@ export function StoryPage(): ReactElement {
 
   const speakPopup = (): void => {
     if (!popup) return;
-    try { speak(popup.word, document.getElementById('sm-popup-speak')); } catch (e) {}
+    try {
+      speak(popup.word, document.getElementById('sm-popup-speak'));
+    } catch (e) {}
   };
 
   if (!isOpen) return <></>;
 
   const highlighted = story ? _highlightText(story.text) : null;
-  const pct = highlighted && highlighted.total > 0 ? Math.round(highlighted.known / highlighted.total * 100) : 0;
+  const pct =
+    highlighted && highlighted.total > 0
+      ? Math.round((highlighted.known / highlighted.total) * 100)
+      : 0;
 
   return (
     <>
       <div className="page-header">
         <div>
           <div className="page-title">{story ? story.title : '📖 Story Mode'}</div>
-          {story && <div style={{ fontSize: '.72rem', color: 'var(--accent)', marginTop: 2 }}>{story.level}</div>}
+          {story && (
+            <div style={{ fontSize: '.72rem', color: 'var(--accent)', marginTop: 2 }}>
+              {story.level}
+            </div>
+          )}
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           {story && (
             <button
-              style={{ padding: '6px 12px', borderRadius: 9, border: '1.5px solid var(--border)', background: 'none', color: 'var(--text2)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '.8rem' }}
+              style={{
+                padding: '6px 12px',
+                borderRadius: 9,
+                border: '1.5px solid var(--border)',
+                background: 'none',
+                color: 'var(--text2)',
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+                fontSize: '.8rem',
+              }}
               onClick={goBack}
               data-i18n="cards.back"
-            >{t('cards.back')}</button>
+            >
+              {t('cards.back')}
+            </button>
           )}
-          <button className="page-close-btn" onClick={closeStoryMode}>✕</button>
+          <button className="page-close-btn" onClick={closeStoryMode}>
+            ✕
+          </button>
         </div>
       </div>
 
       {!story && (
         <div style={{ padding: '14px 20px' }}>
-          <div style={{ fontSize: '.82rem', color: 'var(--text2)', marginBottom: 12 }} data-i18n="story.pickerDesc">{t('story.pickerDesc')}</div>
+          <div
+            style={{ fontSize: '.82rem', color: 'var(--text2)', marginBottom: 12 }}
+            data-i18n="story.pickerDesc"
+          >
+            {t('story.pickerDesc')}
+          </div>
           <div>
-            {STORIES.map(s => (
+            {STORIES.map((s) => (
               <button
                 key={s.id}
                 onClick={() => setStory(s)}
                 style={{
-                  display: 'block', width: '100%', textAlign: 'left', padding: '12px 14px', marginBottom: 8,
-                  borderRadius: 12, border: '1.5px solid var(--border)', background: 'var(--bg)',
-                  cursor: 'pointer', fontFamily: 'inherit', transition: 'border-color .15s',
+                  display: 'block',
+                  width: '100%',
+                  textAlign: 'left',
+                  padding: '12px 14px',
+                  marginBottom: 8,
+                  borderRadius: 12,
+                  border: '1.5px solid var(--border)',
+                  background: 'var(--bg)',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  transition: 'border-color .15s',
                 }}
               >
-                <div style={{ fontWeight: 700, fontSize: '.9rem', color: 'var(--text)' }}>{s.title}</div>
-                <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginTop: 2 }}>{t('story.levelLabel', { lvl: s.level })}</div>
+                <div style={{ fontWeight: 700, fontSize: '.9rem', color: 'var(--text)' }}>
+                  {s.title}
+                </div>
+                <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginTop: 2 }}>
+                  {t('story.levelLabel', { lvl: s.level })}
+                </div>
               </button>
             ))}
           </div>
@@ -231,23 +316,56 @@ export function StoryPage(): ReactElement {
 
       {story && highlighted && (
         <div style={{ padding: '14px 20px', position: 'relative' }}>
-          <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginBottom: 12 }}>{t('story.statsLine', { n: highlighted.total, pct })}</div>
-          <div ref={textRef} style={{ fontSize: '.9rem', lineHeight: 1.8, color: 'var(--text)' }} onClick={onTextClick} dangerouslySetInnerHTML={{ __html: highlighted.html }} />
+          <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginBottom: 12 }}>
+            {t('story.statsLine', { n: highlighted.total, pct })}
+          </div>
+          <div
+            ref={textRef}
+            style={{ fontSize: '.9rem', lineHeight: 1.8, color: 'var(--text)' }}
+            onClick={onTextClick}
+            dangerouslySetInnerHTML={{ __html: highlighted.html }}
+          />
           {popup && (
             <div
               style={{
-                display: 'flex', position: 'absolute', background: 'var(--card)', border: '1.5px solid var(--border)',
-                borderRadius: 12, padding: '10px 14px', boxShadow: '0 8px 24px rgba(0,0,0,.25)', zIndex: 10,
-                minWidth: 160, flexDirection: 'column', gap: 4, top: popup.top, left: popup.left,
+                display: 'flex',
+                position: 'absolute',
+                background: 'var(--card)',
+                border: '1.5px solid var(--border)',
+                borderRadius: 12,
+                padding: '10px 14px',
+                boxShadow: '0 8px 24px rgba(0,0,0,.25)',
+                zIndex: 10,
+                minWidth: 160,
+                flexDirection: 'column',
+                gap: 4,
+                top: popup.top,
+                left: popup.left,
               }}
               onClick={(e) => e.stopPropagation()}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontWeight: 700, fontSize: '.95rem', color: 'var(--text)' }}>{popup.word}</span>
-                <button id="sm-popup-speak" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: 2 }} onClick={speakPopup}>🔊</button>
+                <span style={{ fontWeight: 700, fontSize: '.95rem', color: 'var(--text)' }}>
+                  {popup.word}
+                </span>
+                <button
+                  id="sm-popup-speak"
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '1rem',
+                    padding: 2,
+                  }}
+                  onClick={speakPopup}
+                >
+                  🔊
+                </button>
               </div>
               <div style={{ fontSize: '.75rem', color: 'var(--accent2)' }}>{popup.ipa}</div>
-              <div style={{ fontSize: '.82rem', color: 'var(--text2)', fontWeight: 600 }}>{popup.trans}</div>
+              <div style={{ fontSize: '.82rem', color: 'var(--text2)', fontWeight: 600 }}>
+                {popup.trans}
+              </div>
             </div>
           )}
         </div>

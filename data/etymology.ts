@@ -4,687 +4,1224 @@
 import type { Lang } from '../js/features/i18n.ts';
 
 export const ETYMOLOGY: Record<string, string> = {
-  'salary':     'від лат. salarium — "платня за сіль": римським солдатам частину зарплати видавали саме сіллю.',
-  'disaster':   'від італ. disastro — "погана зірка" (dis- "погано" + astro "зірка"): за давнім повір\'ям, біда настає через несприятливе розташування зірок.',
-  'clue':       'від староангл. clew — "клубок ниток": у грецькому міфі Тезей знайшов вихід з лабіринту, розмотуючи клубок ниток.',
-  'muscle':     'від лат. musculus — "маленька мишка": скорочений біцепс рухається під шкірою, наче мишка.',
-  'candidate':  'від лат. candidatus — "одягнений у біле": претенденти на посаду в Римі вдягали білу тогу на знак чистоти намірів.',
-  'calculate':  'від лат. calculus — "камінець": римляни рахували за допомогою маленьких камінців на рахівниці.',
-  'sincere':    'часто пояснюють як лат. sine cera — "без воску": нечесні скульптори ховали тріщини в мармурі воском, а чесна робота була "без воску".',
-  'salad':      'від лат. salata — "солона": овочі заправляли соляним розсолом ще в Стародавньому Римі.',
-  'holiday':    'від староангл. haligdæg — "святий день" (holy + day): спочатку слово означало лише релігійне свято.',
-  'breakfast':  'буквально "перервати піст" (break + fast) — перший прийом їжі завершує нічну перерву без їжі.',
-  'nightmare':  'від night + mare — злий дух, який, за середньовічними віруваннями, сідав на груди сплячого й насилав важкі сни.',
-  'quarantine': 'від італ. quaranta giorni — "сорок днів": саме на такий термін ізолювали кораблі під час епідемій чуми.',
-  'assassin':   'від араб. hashashin — назва середньовічної секти, члени якої, за легендою, вживали гашиш перед таємними вбивствами.',
-  'robot':      'від чеськ. robota — "примусова праця": слово ввів письменник Карел Чапек у п\'єсі "R.U.R." (1920).',
-  'sandwich':   'названо на честь графа Сендвіча, який любив їсти м\'ясо між двома шматками хліба, не відриваючись від карт.',
-  'panic':      'від імені грецького бога Пана, який, за міфом, наводив раптовий жах на людей і стада своїм криком.',
-  'volcano':    'від імені Вулкана — римського бога вогню та кузні.',
-  'planet':     'від грец. planetes — "мандрівник": зорі, що рухались на тлі нерухомого неба, здавались грекам "мандрівними".',
-  'geography':  'від грец. geo "земля" + graphein "писати, описувати" — буквально "опис землі".',
-  'biology':    'від грец. bios "життя" + logos "вчення" — буквально "вчення про життя".',
-  'alarm':      'від італ. all\'arme — "до зброї!": бойовий клич, яким сповіщали про небезпеку.',
-  'glamour':    'шотландський варіант слова grammar: колись означало "магічне чарування", бо вчені люди асоціювались із таємничою силою знань.',
+  salary:
+    'від лат. salarium — "платня за сіль": римським солдатам частину зарплати видавали саме сіллю.',
+  disaster:
+    'від італ. disastro — "погана зірка" (dis- "погано" + astro "зірка"): за давнім повір\'ям, біда настає через несприятливе розташування зірок.',
+  clue: 'від староангл. clew — "клубок ниток": у грецькому міфі Тезей знайшов вихід з лабіринту, розмотуючи клубок ниток.',
+  muscle:
+    'від лат. musculus — "маленька мишка": скорочений біцепс рухається під шкірою, наче мишка.',
+  candidate:
+    'від лат. candidatus — "одягнений у біле": претенденти на посаду в Римі вдягали білу тогу на знак чистоти намірів.',
+  calculate:
+    'від лат. calculus — "камінець": римляни рахували за допомогою маленьких камінців на рахівниці.',
+  sincere:
+    'часто пояснюють як лат. sine cera — "без воску": нечесні скульптори ховали тріщини в мармурі воском, а чесна робота була "без воску".',
+  salad: 'від лат. salata — "солона": овочі заправляли соляним розсолом ще в Стародавньому Римі.',
+  holiday:
+    'від староангл. haligdæg — "святий день" (holy + day): спочатку слово означало лише релігійне свято.',
+  breakfast:
+    'буквально "перервати піст" (break + fast) — перший прийом їжі завершує нічну перерву без їжі.',
+  nightmare:
+    'від night + mare — злий дух, який, за середньовічними віруваннями, сідав на груди сплячого й насилав важкі сни.',
+  quarantine:
+    'від італ. quaranta giorni — "сорок днів": саме на такий термін ізолювали кораблі під час епідемій чуми.',
+  assassin:
+    'від араб. hashashin — назва середньовічної секти, члени якої, за легендою, вживали гашиш перед таємними вбивствами.',
+  robot:
+    'від чеськ. robota — "примусова праця": слово ввів письменник Карел Чапек у п\'єсі "R.U.R." (1920).',
+  sandwich:
+    "названо на честь графа Сендвіча, який любив їсти м'ясо між двома шматками хліба, не відриваючись від карт.",
+  panic:
+    'від імені грецького бога Пана, який, за міфом, наводив раптовий жах на людей і стада своїм криком.',
+  volcano: 'від імені Вулкана — римського бога вогню та кузні.',
+  planet:
+    'від грец. planetes — "мандрівник": зорі, що рухались на тлі нерухомого неба, здавались грекам "мандрівними".',
+  geography: 'від грец. geo "земля" + graphein "писати, описувати" — буквально "опис землі".',
+  biology: 'від грец. bios "життя" + logos "вчення" — буквально "вчення про життя".',
+  alarm: 'від італ. all\'arme — "до зброї!": бойовий клич, яким сповіщали про небезпеку.',
+  glamour:
+    'шотландський варіант слова grammar: колись означало "магічне чарування", бо вчені люди асоціювались із таємничою силою знань.',
 
-  'clock':      'від середньовіч. лат. clocca — "дзвін": перші механічні годинники не мали циферблата і просто відбивали години дзвоном.',
-  'bankrupt':   'від італ. banca rotta — "зламана лавка": лихварів, які розорялися, символічно "виганяли" з ринку, ламаючи їхню торгову лавку.',
-  'avocado':    'від ацтекського ahuacatl — "яєчко" (через форму плоду): іспанці перекрутили слово, зблизивши його зі своїм abogado — "адвокат".',
-  'ballot':     'від італ. ballotta — "кулька": у середньовічній Венеції голосували, кидаючи кольорові кульки в урну.',
-  'jeans':      'від франц. Gênes — назва міста Генуя в Італії, де вперше виготовляли цю міцну бавовняну тканину.',
-  'mortgage':   'від старофранц. mort — "мертвий" + gage — "застава": боргове зобов\'язання вважалось "мертвим" після виплати — або сама власність ставала "мертвою" для боржника, якщо він не платив.',
-  'chess':      'зрештою від перського shah — "король": слово пройшло через арабську й старофранцузьку, перш ніж стати "chess" в англійській.',
-  'nice':       'від лат. nescius — "невіглас, незнаючий" (ne- "не" + scire "знати"): спочатку слово означало щось на зразок "дурний" і лише за кілька століть набуло сучасного значення "приємний".',
-  'silly':      'від староангл. sælig — "благословенний, щасливий": значення поступово зсунулось через "наївний" до сучасного "нерозумний".',
-  'husband':    'від давньоскандинавського húsbóndi — hus "дім" + bondi "господар, мешканець": спочатку слово означало просто "господар дому", без стосунку до шлюбу.',
-  'girl':       'у середньоанглійській gyrle спочатку означало просто "дитина" будь-якої статі, а не лише дівчинку.',
-  'gossip':     'від староангл. godsibb — "богопов\'язаний" (god + sibb "родич"): спочатку слово означало хресного батька чи близького друга родини на хрещенні.',
-  'bonfire':    'буквально "вогнище з кісток" (bone + fire): у середньовіччі на святкові вогнища справді інколи спалювали кістки тварин.',
-  'magenta':    'назва кольору походить від битви при Маджента (1859, Італія) — приблизно тоді ж винайшли яскравий рожево-червоний барвник.',
-  'boycott':    'на честь капітана Чарльза Бойкотта, англійського управителя в Ірландії, якого 1880 року місцеві мешканці повністю ізолювали за нечесні методи роботи.',
-  'maverick':   'на честь Сема Маверіка, техаського ранчера, який не таврував своє стадо — тому "немарковані" корови почали називати його прізвищем.',
-  'cereal':     'від імені Церери — римської богині землеробства та врожаю зерна.',
-  'echo':       'від імені німфи Ехо з грецького міфу: вона так сумувала за Нарцисом, що згасла, лишивши по собі лише голос, який повторює чужі слова.',
-  'vandalism':  'від назви германського племені вандалів, які 455 року розграбували Рим — звідси й слово для безглуздого руйнування.',
-  'companionship': 'від лат. com- "разом" + panis "хліб": компаньйон буквально означає "той, з ким ти ділиш хліб".',
-  'cancel':     'від лат. cancellus — "решітка, ґратки": перекреслені рядки нагадували саме таку решітку.',
-  'shampoo':    'від хінді champo, наказової форми champna — "масажувати, розминати": спочатку слово означало масаж голови, а не миття волосся.',
-  'candy':      'через араб. qandi й перс. qand зрештою від санскр. khanda — "кусок (цукру)".',
-  'coffee':     'через араб. qahwa, можливо пов\'язане з регіоном Каффа в Ефіопії, звідки родом кавові дерева.',
-  'tariff':     'від араб. ta\'rif — "повідомлення, роз\'яснення": так називали список, що інформував купців про належні мита.',
-  'magazine':   'від араб. makhazin (мн. від makhzan) — "склади, сховища": спочатку слово означало просто "склад", а пізніше — "збірку" статей.',
-  'gym':        'скорочення від gymnasium, від грец. gymnos — "голий": давні греки тренувалися й змагались оголеними.',
-  'handicap':   'від вислову "hand in cap" — давньої гри, де ставки клали в шапку; пізніше слово почали вживати в скачках для штучного "вирівнювання" суперників.',
-  'lemon':      'через араб. laymūn і перс. līmūn, зрештою пов\'язане із санскритським коренем для цитрусових.',
-  'orange':     'через старофранц. orenge, араб. nāranj, перс. nārang і санскр. nāraṅga: назва кольору з\'явилась в англійській лише після того, як став відомим сам фрукт.',
-  'tea':        'походить від китайського te, яке потрапило в англійську через голландських торговців; слова "чай" в інших мовах прийшли іншим — сухопутним — торговим шляхом від того ж кореня.',
-  'sugar':      'через араб. sukkar і перс. shakar, зрештою від санскр. śarkarā — "пісок, гравій" (так називали кристалики цукру).',
-  'arsenal':    'від араб. dar as-sina\'a — "будинок виробництва" через італ. arzanà: спочатку слово означало верф для будівництва й ремонту кораблів.',
-  'algorithm':  'на честь персидського математика аль-Хорезмі (IX ст.), чиє ім\'я латинізували як algorismus.',
-  'zero':       'через араб. sifr — "порожнеча, ніщо" (переклад санскр. śūnya): слово пройшло через італійську zefiro і скоротилось до zero.',
-  'typhoon':    'імовірно поєднання грец. typhon (страховище-вітер, велетень з мітів) і кит. tai fung — "великий вітер".',
-  'ketchup':    'імовірно від хоккʼєнської kê-tsiap — рибного ферментованого соусу, який європейські торговці перетворили на томатну приправу.',
-  'slogan':     'від шотл.-гельського sluagh-ghairm — "бойовий клич" (sluagh "військо" + gairm "крик").',
-  'whisky':     'від гельського uisge beatha — "вода життя" (переклад лат. aqua vitae).',
-  'marathon':   'на честь битви при Марафоні (490 р. до н.е.): за легендою, гонець пробіг від Марафону до Афін сповістити про перемогу — і помер від виснаження.',
-  'laser':      'абревіатура від Light Amplification by Stimulated Emission of Radiation — "посилення світла за допомогою стимульованого випромінювання".',
-  'radar':      'абревіатура від RAdio Detection And Ranging — "радіовиявлення і визначення відстані".',
-  'quiz':       'походження достеменно невідоме; за популярною (хоч і недоведеною) легендою, дублінський театральний директор вигадав це безглузде слово на заклад, щоб увести його в мову за одну ніч.',
+  clock:
+    'від середньовіч. лат. clocca — "дзвін": перші механічні годинники не мали циферблата і просто відбивали години дзвоном.',
+  bankrupt:
+    'від італ. banca rotta — "зламана лавка": лихварів, які розорялися, символічно "виганяли" з ринку, ламаючи їхню торгову лавку.',
+  avocado:
+    'від ацтекського ahuacatl — "яєчко" (через форму плоду): іспанці перекрутили слово, зблизивши його зі своїм abogado — "адвокат".',
+  ballot:
+    'від італ. ballotta — "кулька": у середньовічній Венеції голосували, кидаючи кольорові кульки в урну.',
+  jeans:
+    'від франц. Gênes — назва міста Генуя в Італії, де вперше виготовляли цю міцну бавовняну тканину.',
+  mortgage:
+    'від старофранц. mort — "мертвий" + gage — "застава": боргове зобов\'язання вважалось "мертвим" після виплати — або сама власність ставала "мертвою" для боржника, якщо він не платив.',
+  chess:
+    'зрештою від перського shah — "король": слово пройшло через арабську й старофранцузьку, перш ніж стати "chess" в англійській.',
+  nice: 'від лат. nescius — "невіглас, незнаючий" (ne- "не" + scire "знати"): спочатку слово означало щось на зразок "дурний" і лише за кілька століть набуло сучасного значення "приємний".',
+  silly:
+    'від староангл. sælig — "благословенний, щасливий": значення поступово зсунулось через "наївний" до сучасного "нерозумний".',
+  husband:
+    'від давньоскандинавського húsbóndi — hus "дім" + bondi "господар, мешканець": спочатку слово означало просто "господар дому", без стосунку до шлюбу.',
+  girl: 'у середньоанглійській gyrle спочатку означало просто "дитина" будь-якої статі, а не лише дівчинку.',
+  gossip:
+    'від староангл. godsibb — "богопов\'язаний" (god + sibb "родич"): спочатку слово означало хресного батька чи близького друга родини на хрещенні.',
+  bonfire:
+    'буквально "вогнище з кісток" (bone + fire): у середньовіччі на святкові вогнища справді інколи спалювали кістки тварин.',
+  magenta:
+    'назва кольору походить від битви при Маджента (1859, Італія) — приблизно тоді ж винайшли яскравий рожево-червоний барвник.',
+  boycott:
+    'на честь капітана Чарльза Бойкотта, англійського управителя в Ірландії, якого 1880 року місцеві мешканці повністю ізолювали за нечесні методи роботи.',
+  maverick:
+    'на честь Сема Маверіка, техаського ранчера, який не таврував своє стадо — тому "немарковані" корови почали називати його прізвищем.',
+  cereal: 'від імені Церери — римської богині землеробства та врожаю зерна.',
+  echo: 'від імені німфи Ехо з грецького міфу: вона так сумувала за Нарцисом, що згасла, лишивши по собі лише голос, який повторює чужі слова.',
+  vandalism:
+    'від назви германського племені вандалів, які 455 року розграбували Рим — звідси й слово для безглуздого руйнування.',
+  companionship:
+    'від лат. com- "разом" + panis "хліб": компаньйон буквально означає "той, з ким ти ділиш хліб".',
+  cancel:
+    'від лат. cancellus — "решітка, ґратки": перекреслені рядки нагадували саме таку решітку.',
+  shampoo:
+    'від хінді champo, наказової форми champna — "масажувати, розминати": спочатку слово означало масаж голови, а не миття волосся.',
+  candy: 'через араб. qandi й перс. qand зрештою від санскр. khanda — "кусок (цукру)".',
+  coffee:
+    "через араб. qahwa, можливо пов'язане з регіоном Каффа в Ефіопії, звідки родом кавові дерева.",
+  tariff:
+    'від араб. ta\'rif — "повідомлення, роз\'яснення": так називали список, що інформував купців про належні мита.',
+  magazine:
+    'від араб. makhazin (мн. від makhzan) — "склади, сховища": спочатку слово означало просто "склад", а пізніше — "збірку" статей.',
+  gym: 'скорочення від gymnasium, від грец. gymnos — "голий": давні греки тренувалися й змагались оголеними.',
+  handicap:
+    'від вислову "hand in cap" — давньої гри, де ставки клали в шапку; пізніше слово почали вживати в скачках для штучного "вирівнювання" суперників.',
+  lemon:
+    "через араб. laymūn і перс. līmūn, зрештою пов'язане із санскритським коренем для цитрусових.",
+  orange:
+    "через старофранц. orenge, араб. nāranj, перс. nārang і санскр. nāraṅga: назва кольору з'явилась в англійській лише після того, як став відомим сам фрукт.",
+  tea: 'походить від китайського te, яке потрапило в англійську через голландських торговців; слова "чай" в інших мовах прийшли іншим — сухопутним — торговим шляхом від того ж кореня.',
+  sugar:
+    'через араб. sukkar і перс. shakar, зрештою від санскр. śarkarā — "пісок, гравій" (так називали кристалики цукру).',
+  arsenal:
+    'від араб. dar as-sina\'a — "будинок виробництва" через італ. arzanà: спочатку слово означало верф для будівництва й ремонту кораблів.',
+  algorithm:
+    "на честь персидського математика аль-Хорезмі (IX ст.), чиє ім'я латинізували як algorismus.",
+  zero: 'через араб. sifr — "порожнеча, ніщо" (переклад санскр. śūnya): слово пройшло через італійську zefiro і скоротилось до zero.',
+  typhoon:
+    'імовірно поєднання грец. typhon (страховище-вітер, велетень з мітів) і кит. tai fung — "великий вітер".',
+  ketchup:
+    'імовірно від хоккʼєнської kê-tsiap — рибного ферментованого соусу, який європейські торговці перетворили на томатну приправу.',
+  slogan: 'від шотл.-гельського sluagh-ghairm — "бойовий клич" (sluagh "військо" + gairm "крик").',
+  whisky: 'від гельського uisge beatha — "вода життя" (переклад лат. aqua vitae).',
+  marathon:
+    'на честь битви при Марафоні (490 р. до н.е.): за легендою, гонець пробіг від Марафону до Афін сповістити про перемогу — і помер від виснаження.',
+  laser:
+    'абревіатура від Light Amplification by Stimulated Emission of Radiation — "посилення світла за допомогою стимульованого випромінювання".',
+  radar: 'абревіатура від RAdio Detection And Ranging — "радіовиявлення і визначення відстані".',
+  quiz: 'походження достеменно невідоме; за популярною (хоч і недоведеною) легендою, дублінський театральний директор вигадав це безглузде слово на заклад, щоб увести його в мову за одну ніч.',
 
-  'jovial':     'від імені Юпітера (Jove): за давньою астрологією, народжені під знаком цієї планети вважалися щасливими й веселими людьми.',
-  'mercurial':  'від імені бога Меркурія, швидкого й непередбачуваного посланця богів; також пов\'язано з ртуттю (mercury) — рідким металом такої ж мінливої, плинної природи.',
-  'narcissistic': 'від імені Нарциса з грецького міфу — юнака, який так захопився власним відображенням у воді, що загинув, не в змозі відірватися від нього.',
-  'hygiene':    'від імені Гігієї — грецької богині здоров\'я та чистоти, дочки бога медицини Асклепія.',
-  'museum':     'від грец. mouseion — "храм Муз": споруда, присвячена дев\'ятьом музам, богиням мистецтв і наук.',
-  'music':      'від грец. mousike (techne) — буквально "мистецтво Муз", тобто все, що було під покровительством дев\'яти Муз.',
-  'tragedy':    'від грец. tragoidia — буквально "піснь козла" (tragos "козел" + oide "піснь"): можливо, через хор, одягнений у козячі шкури, або козла як приз за найкращий спів.',
-  'comedy':     'від грец. komoidia — "піснь гуляння" (komos "весела процесія" + oide "піснь"): пов\'язано з веселими святковими процесіями на честь Діоніса.',
-  'vaccine':    'від лат. vacca — "корова": першу вакцину, проти віспи, виготовляли з матеріалу коров\'ячої віспи (cowpox).',
-  'nausea':     'від грец. nausia — "морська хвороба" (naus "корабель"): спочатку слово означало саме нудоту від хитавиці на кораблі.',
-  'testify':    'від лат. testis — "свідок": testify буквально означає "виступати як свідок".',
-  'silhouette': 'на честь Етьєна де Сілуета, французького міністра фінансів XVIII ст., відомого скупістю: дешеві контурні портрети, які увійшли в моду через економію на дорожчих, отримали його ім\'я.',
-  'saxophone':  'на честь Адольфа Сакса, бельгійського майстра, що винайшов інструмент у 1840-х роках.',
-  'melancholy': 'від грец. melas "чорний" + khole "жовч": за античною медициною, надлишок "чорної жовчі" в організмі вважався причиною пригніченого настрою.',
-  'lunatic':    'від лат. luna — "місяць": за давнім повір\'ям, фази місяця впливали на психічне здоров\'я людини, спричиняючи періоди безумства.',
-  'genuine':    'від лат. genuinus, пов\'язаного з genu — "колено": за римським звичаєм, батько визнавав дитину своєю, посадивши її на коліно.',
-  'sabotage':   'від франц. sabot — "деревʼяний черевик": за легендою, робітники кидали такі черевики в машини або псували обладнання важкими підошвами на знак протесту.',
-  'hazard':     'від араб. az-zahr — "гральні кістки": слово прийшло через старофранцузьку як назва азартної гри в кістки, а пізніше стало означати ризик і небезпеку загалом.',
-  'soccer':     'скорочення від "association" (Association Football): британські студенти любили скорочувати слова на "-er", додавши його до "asSOCiation".',
-  'zenith':     'через старофранц. zenith і середньовіч. лат. cenit від араб. samt (ar-ra\'s) — "шлях (над головою)": помилка переписувачів перетворила "m" на "ni".',
-  'syrup':      'через старофранц. sirop і лат. siropus, зрештою від араб. sharab — "напій": той самий корінь, що й у слові "шербет".',
-  'utopia':     'вигадане слово Томаса Мора (1516) з грец. ou "не" + topos "місце" — буквально "неіснуюче місце"; гра слів із eu-topia "хороше місце".',
-  'quixotic':   'від Дон Кіхота, героя роману Сервантеса, відомого своїми нереалістичними, ідеалістичними пригодами.',
-  'laconic':    'від Лаконії, регіону Стародавньої Спарти: спартанці славилися своєю небагатослівністю та стислими висловлюваннями.',
-  'stoic':      'від давньогрецької філософської школи стоїків, заснованої Зеноном: вони зустрічалися в "Stoa Poikile" (розписаному портику) в Афінах і проповідували незворушність перед стражданням.',
-  'cynical':    'від грец. kynikos — "собачий" (kyon "пес"): філософів-кініків, що жили підкреслено просто й нехтували умовностями, прозвали "собачими" — можливо, через прізвисько їхнього засновника Діогена.',
-  'academic':   'від Академії — гаю біля Афін, названого на честь героя Академа, де Платон навчав своїх учнів.',
+  jovial:
+    'від імені Юпітера (Jove): за давньою астрологією, народжені під знаком цієї планети вважалися щасливими й веселими людьми.',
+  mercurial:
+    "від імені бога Меркурія, швидкого й непередбачуваного посланця богів; також пов'язано з ртуттю (mercury) — рідким металом такої ж мінливої, плинної природи.",
+  narcissistic:
+    'від імені Нарциса з грецького міфу — юнака, який так захопився власним відображенням у воді, що загинув, не в змозі відірватися від нього.',
+  hygiene: "від імені Гігієї — грецької богині здоров'я та чистоти, дочки бога медицини Асклепія.",
+  museum:
+    'від грец. mouseion — "храм Муз": споруда, присвячена дев\'ятьом музам, богиням мистецтв і наук.',
+  music:
+    'від грец. mousike (techne) — буквально "мистецтво Муз", тобто все, що було під покровительством дев\'яти Муз.',
+  tragedy:
+    'від грец. tragoidia — буквально "піснь козла" (tragos "козел" + oide "піснь"): можливо, через хор, одягнений у козячі шкури, або козла як приз за найкращий спів.',
+  comedy:
+    'від грец. komoidia — "піснь гуляння" (komos "весела процесія" + oide "піснь"): пов\'язано з веселими святковими процесіями на честь Діоніса.',
+  vaccine:
+    'від лат. vacca — "корова": першу вакцину, проти віспи, виготовляли з матеріалу коров\'ячої віспи (cowpox).',
+  nausea:
+    'від грец. nausia — "морська хвороба" (naus "корабель"): спочатку слово означало саме нудоту від хитавиці на кораблі.',
+  testify: 'від лат. testis — "свідок": testify буквально означає "виступати як свідок".',
+  silhouette:
+    "на честь Етьєна де Сілуета, французького міністра фінансів XVIII ст., відомого скупістю: дешеві контурні портрети, які увійшли в моду через економію на дорожчих, отримали його ім'я.",
+  saxophone:
+    'на честь Адольфа Сакса, бельгійського майстра, що винайшов інструмент у 1840-х роках.',
+  melancholy:
+    'від грец. melas "чорний" + khole "жовч": за античною медициною, надлишок "чорної жовчі" в організмі вважався причиною пригніченого настрою.',
+  lunatic:
+    'від лат. luna — "місяць": за давнім повір\'ям, фази місяця впливали на психічне здоров\'я людини, спричиняючи періоди безумства.',
+  genuine:
+    'від лат. genuinus, пов\'язаного з genu — "колено": за римським звичаєм, батько визнавав дитину своєю, посадивши її на коліно.',
+  sabotage:
+    'від франц. sabot — "деревʼяний черевик": за легендою, робітники кидали такі черевики в машини або псували обладнання важкими підошвами на знак протесту.',
+  hazard:
+    'від араб. az-zahr — "гральні кістки": слово прийшло через старофранцузьку як назва азартної гри в кістки, а пізніше стало означати ризик і небезпеку загалом.',
+  soccer:
+    'скорочення від "association" (Association Football): британські студенти любили скорочувати слова на "-er", додавши його до "asSOCiation".',
+  zenith:
+    'через старофранц. zenith і середньовіч. лат. cenit від араб. samt (ar-ra\'s) — "шлях (над головою)": помилка переписувачів перетворила "m" на "ni".',
+  syrup:
+    'через старофранц. sirop і лат. siropus, зрештою від араб. sharab — "напій": той самий корінь, що й у слові "шербет".',
+  utopia:
+    'вигадане слово Томаса Мора (1516) з грец. ou "не" + topos "місце" — буквально "неіснуюче місце"; гра слів із eu-topia "хороше місце".',
+  quixotic:
+    'від Дон Кіхота, героя роману Сервантеса, відомого своїми нереалістичними, ідеалістичними пригодами.',
+  laconic:
+    'від Лаконії, регіону Стародавньої Спарти: спартанці славилися своєю небагатослівністю та стислими висловлюваннями.',
+  stoic:
+    'від давньогрецької філософської школи стоїків, заснованої Зеноном: вони зустрічалися в "Stoa Poikile" (розписаному портику) в Афінах і проповідували незворушність перед стражданням.',
+  cynical:
+    'від грец. kynikos — "собачий" (kyon "пес"): філософів-кініків, що жили підкреслено просто й нехтували умовностями, прозвали "собачими" — можливо, через прізвисько їхнього засновника Діогена.',
+  academic:
+    'від Академії — гаю біля Афін, названого на честь героя Академа, де Платон навчав своїх учнів.',
 };
 
 // ── Same facts, localized for the other 6 UI languages ──────────
 const ETYMOLOGY_EN: Record<string, string> = {
-  'salary':     "from Latin salarium — 'salt money': Roman soldiers were partly paid in salt, a valuable commodity at the time.",
-  'disaster':   "from Italian disastro — 'bad star' (dis- 'bad' + astro 'star'): in old folk belief, misfortune was blamed on an unlucky position of the stars.",
-  'clue':       "from Old English clew — 'ball of thread': in Greek myth, Theseus escaped the labyrinth by unwinding a ball of thread.",
-  'muscle':     "from Latin musculus — 'little mouse': a flexing bicep looked to the Romans like a mouse moving under the skin.",
-  'candidate':  "from Latin candidatus — 'dressed in white': Roman office-seekers wore a bright white toga to signal pure intentions.",
-  'calculate':  "from Latin calculus — 'small pebble': Romans counted using small stones on a counting board.",
-  'sincere':    "popularly explained as Latin sine cera — 'without wax': dishonest sculptors hid cracks in marble with wax, so honest work was 'without wax' (the real etymology is uncertain, but the story stuck).",
-  'salad':      "from Latin salata — 'salted': vegetables were once dressed with a salty brine, a habit going back to ancient Rome.",
-  'holiday':    "from Old English haligdæg — 'holy day': the word originally meant only a religious feast day.",
-  'breakfast':  "literally 'break' + 'fast' — the first meal of the day ends the night's fast.",
-  'nightmare':  "from night + mare, an evil spirit believed in medieval times to sit on a sleeper's chest and send troubling dreams.",
-  'quarantine': "from Italian quaranta giorni — 'forty days': ships were isolated for exactly that long during plague outbreaks.",
-  'assassin':   "from Arabic hashashin, the name of a medieval sect whose members were said to use hashish before carrying out secret killings.",
-  'robot':      "from Czech robota — 'forced labour': coined by writer Karel Čapek in his play 'R.U.R.' (1920).",
-  'sandwich':   "named after the Earl of Sandwich, who liked eating meat between two slices of bread without leaving the card table.",
-  'panic':      "from the Greek god Pan, who, according to myth, struck sudden terror into people and herds with his cry.",
-  'volcano':    "from Vulcan, the Roman god of fire and the forge.",
-  'planet':     "from Greek planetes — 'wanderer': stars that moved against the fixed sky looked to the Greeks like wanderers.",
-  'geography':  "from Greek geo 'earth' + graphein 'to write, describe' — literally 'a description of the earth'.",
-  'biology':    "from Greek bios 'life' + logos 'study' — literally 'the study of life'.",
-  'alarm':      "from Italian all'arme — 'to arms!': a battle cry used to warn of approaching danger.",
-  'glamour':    "a Scottish variant of 'grammar': it once meant a magic spell, since learned people were associated with the mysterious power of knowledge.",
+  salary:
+    "from Latin salarium — 'salt money': Roman soldiers were partly paid in salt, a valuable commodity at the time.",
+  disaster:
+    "from Italian disastro — 'bad star' (dis- 'bad' + astro 'star'): in old folk belief, misfortune was blamed on an unlucky position of the stars.",
+  clue: "from Old English clew — 'ball of thread': in Greek myth, Theseus escaped the labyrinth by unwinding a ball of thread.",
+  muscle:
+    "from Latin musculus — 'little mouse': a flexing bicep looked to the Romans like a mouse moving under the skin.",
+  candidate:
+    "from Latin candidatus — 'dressed in white': Roman office-seekers wore a bright white toga to signal pure intentions.",
+  calculate:
+    "from Latin calculus — 'small pebble': Romans counted using small stones on a counting board.",
+  sincere:
+    "popularly explained as Latin sine cera — 'without wax': dishonest sculptors hid cracks in marble with wax, so honest work was 'without wax' (the real etymology is uncertain, but the story stuck).",
+  salad:
+    "from Latin salata — 'salted': vegetables were once dressed with a salty brine, a habit going back to ancient Rome.",
+  holiday:
+    "from Old English haligdæg — 'holy day': the word originally meant only a religious feast day.",
+  breakfast: "literally 'break' + 'fast' — the first meal of the day ends the night's fast.",
+  nightmare:
+    "from night + mare, an evil spirit believed in medieval times to sit on a sleeper's chest and send troubling dreams.",
+  quarantine:
+    "from Italian quaranta giorni — 'forty days': ships were isolated for exactly that long during plague outbreaks.",
+  assassin:
+    'from Arabic hashashin, the name of a medieval sect whose members were said to use hashish before carrying out secret killings.',
+  robot:
+    "from Czech robota — 'forced labour': coined by writer Karel Čapek in his play 'R.U.R.' (1920).",
+  sandwich:
+    'named after the Earl of Sandwich, who liked eating meat between two slices of bread without leaving the card table.',
+  panic:
+    'from the Greek god Pan, who, according to myth, struck sudden terror into people and herds with his cry.',
+  volcano: 'from Vulcan, the Roman god of fire and the forge.',
+  planet:
+    "from Greek planetes — 'wanderer': stars that moved against the fixed sky looked to the Greeks like wanderers.",
+  geography:
+    "from Greek geo 'earth' + graphein 'to write, describe' — literally 'a description of the earth'.",
+  biology: "from Greek bios 'life' + logos 'study' — literally 'the study of life'.",
+  alarm: "from Italian all'arme — 'to arms!': a battle cry used to warn of approaching danger.",
+  glamour:
+    "a Scottish variant of 'grammar': it once meant a magic spell, since learned people were associated with the mysterious power of knowledge.",
 
-  'clock':      "from medieval Latin clocca — 'bell': early mechanical clocks had no face and simply struck the hours on a bell.",
-  'bankrupt':   "from Italian banca rotta — 'broken bench': moneylenders who went under had their market bench symbolically broken.",
-  'avocado':    "from Aztec Nahuatl ahuacatl — 'testicle' (because of the fruit's shape): Spanish speakers later blended the word with their own abogado, 'lawyer'.",
-  'ballot':     "from Italian ballotta — 'little ball': in medieval Venice, votes were cast by dropping coloured balls into an urn.",
-  'jeans':      "from French Gênes, the name of the Italian city of Genoa, where this sturdy cotton fabric was first made.",
-  'mortgage':   "from Old French mort — 'dead' + gage — 'pledge': the debt is considered 'dead' once paid off — or the property becomes 'dead' to the borrower if they default.",
-  'chess':      "ultimately from Persian shah — 'king', passing through Arabic and Old French on its way into English.",
-  'nice':       "from Latin nescius — 'ignorant, not knowing' (ne- 'not' + scire 'to know'): the word originally meant something like 'foolish' and only gained its modern, pleasant sense centuries later.",
-  'silly':      "from Old English sælig — 'blessed, happy': the meaning gradually drifted through 'innocent' to today's 'foolish'.",
-  'husband':    "from Old Norse húsbóndi — hus 'house' + bondi 'dweller, master': it originally just meant 'master of the house', with no link to marriage.",
-  'girl':       "in Middle English, gyrle simply meant 'a young person' of either sex, not specifically a female child.",
-  'gossip':     "from Old English godsibb — 'god-related' (god + sibb 'kinsman'): it originally meant a godparent or close family friend present at a baptism.",
-  'bonfire':    "literally 'bone fire' (bone + fire): in medieval times, festival bonfires really were sometimes fuelled with animal bones.",
-  'magenta':    "the colour is named after the Battle of Magenta (1859, Italy) — around the time the vivid pinkish-red dye was discovered.",
-  'boycott':    "named after Captain Charles Boycott, an English land agent in Ireland whom local tenants completely shunned in 1880 for unfair practices.",
-  'maverick':   "named after Samuel Maverick, a Texas rancher who didn't brand his cattle — so 'unbranded' cows became known by his name.",
-  'cereal':     "from Ceres, the Roman goddess of agriculture and the grain harvest.",
-  'echo':       "from the Greek myth of the nymph Echo, who pined so deeply for Narcissus that she faded away, leaving only her voice, which repeats others' words.",
-  'vandalism':  "from the Vandals, a Germanic tribe who sacked Rome in 455 AD — hence the word for senseless destruction.",
-  'companionship': "from Latin com- 'together' + panis 'bread': a companion is literally 'someone you share bread with'.",
-  'cancel':     "from Latin cancellus — 'lattice, grating': crossed-out lines looked like exactly that kind of grid.",
-  'shampoo':    "from Hindi champo, the imperative of champna — 'to press, to massage': it originally meant a head massage, not hair washing.",
-  'candy':      "via Arabic qandi and Persian qand, ultimately from Sanskrit khanda — 'a piece (of sugar)'.",
-  'coffee':     "via Arabic qahwa, possibly linked to the Kaffa region of Ethiopia, where coffee plants originate.",
-  'tariff':     "from Arabic ta'rif — 'notification, explanation': a list informing merchants what duties they owed.",
-  'magazine':   "from Arabic makhazin (plural of makhzan) — 'storehouses': the word first meant a warehouse, later a 'storehouse' of articles.",
-  'gym':        "short for gymnasium, from Greek gymnos — 'naked': ancient Greek athletes trained and competed nude.",
-  'handicap':   "from the phrase 'hand in cap', an old game of chance where forfeit money was placed in a cap; later used in horse racing for an artificial disadvantage that levels the field.",
-  'lemon':      "via Arabic laymūn and Persian līmūn, ultimately tied to a Sanskrit root for citrus fruits.",
-  'orange':     "via Old French orenge, Arabic nāranj, Persian nārang and Sanskrit nāraṅga: the colour name only appeared in English after the fruit itself became known.",
-  'tea':        "comes from Chinese te, which reached English via Dutch traders; the 'cha'-type words used in many other languages travelled the same root by an overland trade route instead.",
-  'sugar':      "via Arabic sukkar and Persian shakar, ultimately from Sanskrit śarkarā — 'gravel, grit', a reference to crystallized sugar.",
-  'arsenal':    "from Arabic dar as-sina'a — 'house of manufacture', via Italian arzanà: it originally meant a dockyard for building and repairing ships.",
-  'algorithm':  "named after the Persian mathematician al-Khwarizmi (9th century), whose name was Latinized as algorismus.",
-  'zero':       "via Arabic sifr — 'emptiness, nothing' (a translation of Sanskrit śūnya): the word passed through Italian zefiro before shortening to zero.",
-  'typhoon':    "probably a blend of Greek typhon (a monstrous storm-wind, also a giant from myth) and Chinese tai fung — 'big wind'.",
-  'ketchup':    "probably from Hokkien Chinese kê-tsiap, a fermented fish sauce that European traders turned into a tomato-based condiment.",
-  'slogan':     "from Scottish Gaelic sluagh-ghairm — 'war cry' (sluagh 'army, host' + gairm 'cry').",
-  'whisky':     "from Gaelic uisge beatha — 'water of life', a translation of Latin aqua vitae.",
-  'marathon':   "named after the Battle of Marathon (490 BC): legend says a messenger ran from Marathon to Athens to announce victory — and died from the effort.",
-  'laser':      "an acronym for Light Amplification by Stimulated Emission of Radiation.",
-  'radar':      "an acronym for RAdio Detection And Ranging.",
-  'quiz':       "origin unknown; a popular (if unproven) legend claims a Dublin theatre manager invented this nonsense word on a bet, to introduce it into the language overnight.",
+  clock:
+    "from medieval Latin clocca — 'bell': early mechanical clocks had no face and simply struck the hours on a bell.",
+  bankrupt:
+    "from Italian banca rotta — 'broken bench': moneylenders who went under had their market bench symbolically broken.",
+  avocado:
+    "from Aztec Nahuatl ahuacatl — 'testicle' (because of the fruit's shape): Spanish speakers later blended the word with their own abogado, 'lawyer'.",
+  ballot:
+    "from Italian ballotta — 'little ball': in medieval Venice, votes were cast by dropping coloured balls into an urn.",
+  jeans:
+    'from French Gênes, the name of the Italian city of Genoa, where this sturdy cotton fabric was first made.',
+  mortgage:
+    "from Old French mort — 'dead' + gage — 'pledge': the debt is considered 'dead' once paid off — or the property becomes 'dead' to the borrower if they default.",
+  chess:
+    "ultimately from Persian shah — 'king', passing through Arabic and Old French on its way into English.",
+  nice: "from Latin nescius — 'ignorant, not knowing' (ne- 'not' + scire 'to know'): the word originally meant something like 'foolish' and only gained its modern, pleasant sense centuries later.",
+  silly:
+    "from Old English sælig — 'blessed, happy': the meaning gradually drifted through 'innocent' to today's 'foolish'.",
+  husband:
+    "from Old Norse húsbóndi — hus 'house' + bondi 'dweller, master': it originally just meant 'master of the house', with no link to marriage.",
+  girl: "in Middle English, gyrle simply meant 'a young person' of either sex, not specifically a female child.",
+  gossip:
+    "from Old English godsibb — 'god-related' (god + sibb 'kinsman'): it originally meant a godparent or close family friend present at a baptism.",
+  bonfire:
+    "literally 'bone fire' (bone + fire): in medieval times, festival bonfires really were sometimes fuelled with animal bones.",
+  magenta:
+    'the colour is named after the Battle of Magenta (1859, Italy) — around the time the vivid pinkish-red dye was discovered.',
+  boycott:
+    'named after Captain Charles Boycott, an English land agent in Ireland whom local tenants completely shunned in 1880 for unfair practices.',
+  maverick:
+    "named after Samuel Maverick, a Texas rancher who didn't brand his cattle — so 'unbranded' cows became known by his name.",
+  cereal: 'from Ceres, the Roman goddess of agriculture and the grain harvest.',
+  echo: "from the Greek myth of the nymph Echo, who pined so deeply for Narcissus that she faded away, leaving only her voice, which repeats others' words.",
+  vandalism:
+    'from the Vandals, a Germanic tribe who sacked Rome in 455 AD — hence the word for senseless destruction.',
+  companionship:
+    "from Latin com- 'together' + panis 'bread': a companion is literally 'someone you share bread with'.",
+  cancel:
+    "from Latin cancellus — 'lattice, grating': crossed-out lines looked like exactly that kind of grid.",
+  shampoo:
+    "from Hindi champo, the imperative of champna — 'to press, to massage': it originally meant a head massage, not hair washing.",
+  candy:
+    "via Arabic qandi and Persian qand, ultimately from Sanskrit khanda — 'a piece (of sugar)'.",
+  coffee:
+    'via Arabic qahwa, possibly linked to the Kaffa region of Ethiopia, where coffee plants originate.',
+  tariff:
+    "from Arabic ta'rif — 'notification, explanation': a list informing merchants what duties they owed.",
+  magazine:
+    "from Arabic makhazin (plural of makhzan) — 'storehouses': the word first meant a warehouse, later a 'storehouse' of articles.",
+  gym: "short for gymnasium, from Greek gymnos — 'naked': ancient Greek athletes trained and competed nude.",
+  handicap:
+    "from the phrase 'hand in cap', an old game of chance where forfeit money was placed in a cap; later used in horse racing for an artificial disadvantage that levels the field.",
+  lemon:
+    'via Arabic laymūn and Persian līmūn, ultimately tied to a Sanskrit root for citrus fruits.',
+  orange:
+    'via Old French orenge, Arabic nāranj, Persian nārang and Sanskrit nāraṅga: the colour name only appeared in English after the fruit itself became known.',
+  tea: "comes from Chinese te, which reached English via Dutch traders; the 'cha'-type words used in many other languages travelled the same root by an overland trade route instead.",
+  sugar:
+    "via Arabic sukkar and Persian shakar, ultimately from Sanskrit śarkarā — 'gravel, grit', a reference to crystallized sugar.",
+  arsenal:
+    "from Arabic dar as-sina'a — 'house of manufacture', via Italian arzanà: it originally meant a dockyard for building and repairing ships.",
+  algorithm:
+    'named after the Persian mathematician al-Khwarizmi (9th century), whose name was Latinized as algorismus.',
+  zero: "via Arabic sifr — 'emptiness, nothing' (a translation of Sanskrit śūnya): the word passed through Italian zefiro before shortening to zero.",
+  typhoon:
+    "probably a blend of Greek typhon (a monstrous storm-wind, also a giant from myth) and Chinese tai fung — 'big wind'.",
+  ketchup:
+    'probably from Hokkien Chinese kê-tsiap, a fermented fish sauce that European traders turned into a tomato-based condiment.',
+  slogan: "from Scottish Gaelic sluagh-ghairm — 'war cry' (sluagh 'army, host' + gairm 'cry').",
+  whisky: "from Gaelic uisge beatha — 'water of life', a translation of Latin aqua vitae.",
+  marathon:
+    'named after the Battle of Marathon (490 BC): legend says a messenger ran from Marathon to Athens to announce victory — and died from the effort.',
+  laser: 'an acronym for Light Amplification by Stimulated Emission of Radiation.',
+  radar: 'an acronym for RAdio Detection And Ranging.',
+  quiz: 'origin unknown; a popular (if unproven) legend claims a Dublin theatre manager invented this nonsense word on a bet, to introduce it into the language overnight.',
 
-  'jovial':     "from Jove, another name for Jupiter: in old astrology, those born under this planet's sign were thought to be cheerful, good-humoured people.",
-  'mercurial':  "from Mercury, the swift and unpredictable messenger god; also linked to the liquid metal mercury, which shares that same shifting, unstable nature.",
-  'narcissistic': "from Narcissus, the youth in Greek myth who fell so in love with his own reflection in the water that he wasted away, unable to look away.",
-  'hygiene':    "from Hygieia, the Greek goddess of health and cleanliness, daughter of Asclepius, the god of medicine.",
-  'museum':     "from Greek mouseion — 'seat of the Muses': a place dedicated to the nine Muses, goddesses of the arts and sciences.",
-  'music':      "from Greek mousike (techne) — literally 'art of the Muses', i.e. anything under the patronage of the nine Muses.",
-  'tragedy':    "from Greek tragoidia, literally 'goat song' (tragos 'goat' + oide 'song'): possibly linked to choruses dressed in goatskins, or to a goat awarded as a prize for the best singing.",
-  'comedy':     "from Greek komoidia — 'song of revelry' (komos 'merry procession' + oide 'song'): tied to festive processions held in honour of Dionysus.",
-  'vaccine':    "from Latin vacca — 'cow': the first vaccine, against smallpox, was made from material taken from cowpox.",
-  'nausea':     "from Greek nausia — 'seasickness' (naus 'ship'): the word originally meant specifically the queasiness caused by a ship's motion.",
-  'testify':    "from Latin testis — 'witness': to testify literally means 'to act as a witness'.",
-  'silhouette': "named after Étienne de Silhouette, an 18th-century French finance minister known for his stinginess: cheap outline portraits, which became fashionable as a result of his austerity drives, were named after him.",
-  'saxophone':  "named after Adolphe Sax, the Belgian instrument maker who invented it in the 1840s.",
-  'melancholy': "from Greek melas 'black' + khole 'bile': ancient medicine blamed a low mood on an excess of 'black bile' in the body.",
-  'lunatic':    "from Latin luna — 'moon': old belief held that the phases of the moon affected a person's mental health, triggering periods of madness.",
-  'genuine':    "from Latin genuinus, related to genu — 'knee': by Roman custom, a father acknowledged a child as his own by placing it on his knee.",
-  'sabotage':   "from French sabot — 'wooden shoe': legend has it that workers threw such clogs into machinery, or wrecked equipment with their heavy soles, as a form of protest.",
-  'hazard':     "from Arabic az-zahr — 'the dice': the word passed through Old French as the name of a dice game before coming to mean risk and danger in general.",
-  'soccer':     "a shortening of 'association' (Association Football): British students liked clipping words and adding '-er', turning asSOCiation into 'soccer'.",
-  'zenith':     "via Old French zenith and medieval Latin cenit, from Arabic samt (ar-ra's) — 'the way (over the head)': a copying error turned the 'm' into 'ni'.",
-  'syrup':      "via Old French sirop and Latin siropus, ultimately from Arabic sharab — 'a drink', the same root that gave us 'sherbet'.",
-  'utopia':     "a word coined by Thomas More (1516) from Greek ou 'not' + topos 'place' — literally 'no-place'; also a pun on eu-topia, 'good place'.",
-  'quixotic':   "after Don Quixote, the hero of Cervantes' novel, famous for his unrealistic, idealistic adventures.",
-  'laconic':    "from Laconia, the region of ancient Sparta: the Spartans were famous for their terse, sparing way of speaking.",
-  'stoic':      "from the ancient Greek school of Stoic philosophy, founded by Zeno: its followers met at the 'Stoa Poikile' (painted porch) in Athens and preached calm endurance of suffering.",
-  'cynical':    "from Greek kynikos — 'dog-like' (kyon 'dog'): the Cynic philosophers, who lived pointedly simple lives and scorned convention, were nicknamed 'doglike' — perhaps after their founder Diogenes' own nickname.",
-  'academic':   "from the Academy, a grove near Athens named after the hero Academus, where Plato taught his students.",
+  jovial:
+    "from Jove, another name for Jupiter: in old astrology, those born under this planet's sign were thought to be cheerful, good-humoured people.",
+  mercurial:
+    'from Mercury, the swift and unpredictable messenger god; also linked to the liquid metal mercury, which shares that same shifting, unstable nature.',
+  narcissistic:
+    'from Narcissus, the youth in Greek myth who fell so in love with his own reflection in the water that he wasted away, unable to look away.',
+  hygiene:
+    'from Hygieia, the Greek goddess of health and cleanliness, daughter of Asclepius, the god of medicine.',
+  museum:
+    "from Greek mouseion — 'seat of the Muses': a place dedicated to the nine Muses, goddesses of the arts and sciences.",
+  music:
+    "from Greek mousike (techne) — literally 'art of the Muses', i.e. anything under the patronage of the nine Muses.",
+  tragedy:
+    "from Greek tragoidia, literally 'goat song' (tragos 'goat' + oide 'song'): possibly linked to choruses dressed in goatskins, or to a goat awarded as a prize for the best singing.",
+  comedy:
+    "from Greek komoidia — 'song of revelry' (komos 'merry procession' + oide 'song'): tied to festive processions held in honour of Dionysus.",
+  vaccine:
+    "from Latin vacca — 'cow': the first vaccine, against smallpox, was made from material taken from cowpox.",
+  nausea:
+    "from Greek nausia — 'seasickness' (naus 'ship'): the word originally meant specifically the queasiness caused by a ship's motion.",
+  testify: "from Latin testis — 'witness': to testify literally means 'to act as a witness'.",
+  silhouette:
+    'named after Étienne de Silhouette, an 18th-century French finance minister known for his stinginess: cheap outline portraits, which became fashionable as a result of his austerity drives, were named after him.',
+  saxophone: 'named after Adolphe Sax, the Belgian instrument maker who invented it in the 1840s.',
+  melancholy:
+    "from Greek melas 'black' + khole 'bile': ancient medicine blamed a low mood on an excess of 'black bile' in the body.",
+  lunatic:
+    "from Latin luna — 'moon': old belief held that the phases of the moon affected a person's mental health, triggering periods of madness.",
+  genuine:
+    "from Latin genuinus, related to genu — 'knee': by Roman custom, a father acknowledged a child as his own by placing it on his knee.",
+  sabotage:
+    "from French sabot — 'wooden shoe': legend has it that workers threw such clogs into machinery, or wrecked equipment with their heavy soles, as a form of protest.",
+  hazard:
+    "from Arabic az-zahr — 'the dice': the word passed through Old French as the name of a dice game before coming to mean risk and danger in general.",
+  soccer:
+    "a shortening of 'association' (Association Football): British students liked clipping words and adding '-er', turning asSOCiation into 'soccer'.",
+  zenith:
+    "via Old French zenith and medieval Latin cenit, from Arabic samt (ar-ra's) — 'the way (over the head)': a copying error turned the 'm' into 'ni'.",
+  syrup:
+    "via Old French sirop and Latin siropus, ultimately from Arabic sharab — 'a drink', the same root that gave us 'sherbet'.",
+  utopia:
+    "a word coined by Thomas More (1516) from Greek ou 'not' + topos 'place' — literally 'no-place'; also a pun on eu-topia, 'good place'.",
+  quixotic:
+    "after Don Quixote, the hero of Cervantes' novel, famous for his unrealistic, idealistic adventures.",
+  laconic:
+    'from Laconia, the region of ancient Sparta: the Spartans were famous for their terse, sparing way of speaking.',
+  stoic:
+    "from the ancient Greek school of Stoic philosophy, founded by Zeno: its followers met at the 'Stoa Poikile' (painted porch) in Athens and preached calm endurance of suffering.",
+  cynical:
+    "from Greek kynikos — 'dog-like' (kyon 'dog'): the Cynic philosophers, who lived pointedly simple lives and scorned convention, were nicknamed 'doglike' — perhaps after their founder Diogenes' own nickname.",
+  academic:
+    'from the Academy, a grove near Athens named after the hero Academus, where Plato taught his students.',
 };
 
 const ETYMOLOGY_ES: Record<string, string> = {
-  'salary':     'del latín salarium — "paga de sal": a los soldados romanos se les pagaba en parte con sal, un bien muy valioso.',
-  'disaster':   'del italiano disastro — "mala estrella" (dis- "malo" + astro "estrella"): según una vieja creencia, la desgracia se debía a una mala posición de los astros.',
-  'clue':       'del inglés antiguo clew — "ovillo de hilo": en el mito griego, Teseo escapó del laberinto desenrollando un ovillo de hilo.',
-  'muscle':     'del latín musculus — "ratoncito": un bíceps flexionado parecía a los romanos un ratón moviéndose bajo la piel.',
-  'candidate':  'del latín candidatus — "vestido de blanco": los aspirantes a un cargo en Roma vestían una toga blanca como señal de pureza de intenciones.',
-  'calculate':  'del latín calculus — "piedrita": los romanos contaban con pequeñas piedras sobre un tablero.',
-  'sincere':    'se suele explicar como el latín sine cera — "sin cera": los escultores deshonestos ocultaban grietas en el mármol con cera, así que un trabajo honesto era "sin cera" (la etimología real es incierta, pero la historia se quedó).',
-  'salad':      'del latín salata — "salada": las verduras se aliñaban con salmuera ya en la antigua Roma.',
-  'holiday':    'del inglés antiguo haligdæg — "día santo": en origen la palabra solo designaba una fiesta religiosa.',
-  'breakfast':  'literalmente "romper" + "ayuno" (break + fast): la primera comida del día pone fin al ayuno nocturno.',
-  'nightmare':  'de night + mare, un espíritu maligno que, según creencias medievales, se sentaba sobre el pecho del durmiente y provocaba sueños angustiosos.',
-  'quarantine': 'del italiano quaranta giorni — "cuarenta días": ese era el tiempo exacto que se aislaban los barcos durante las epidemias de peste.',
-  'assassin':   'del árabe hashashin, nombre de una secta medieval cuyos miembros, según la leyenda, consumían hachís antes de cometer asesinatos secretos.',
-  'robot':      'del checo robota — "trabajo forzado": palabra acuñada por el escritor Karel Čapek en su obra "R.U.R." (1920).',
-  'sandwich':   'nombrado en honor al conde de Sandwich, que disfrutaba comiendo carne entre dos rebanadas de pan sin dejar la mesa de juego.',
-  'panic':      'del dios griego Pan, que, según el mito, provocaba un terror repentino en personas y rebaños con su grito.',
-  'volcano':    'de Vulcano, el dios romano del fuego y la fragua.',
-  'planet':     'del griego planetes — "errante": las estrellas que se movían sobre el cielo fijo parecían a los griegos "errantes".',
-  'geography':  'del griego geo "tierra" + graphein "escribir, describir" — literalmente "descripción de la tierra".',
-  'biology':    'del griego bios "vida" + logos "estudio" — literalmente "estudio de la vida".',
-  'alarm':      'del italiano all\'arme — "¡a las armas!": un grito de guerra usado para avisar de un peligro.',
-  'glamour':    'variante escocesa de "grammar" (gramática): antes significaba un hechizo mágico, porque las personas instruidas se asociaban con el poder misterioso del saber.',
+  salary:
+    'del latín salarium — "paga de sal": a los soldados romanos se les pagaba en parte con sal, un bien muy valioso.',
+  disaster:
+    'del italiano disastro — "mala estrella" (dis- "malo" + astro "estrella"): según una vieja creencia, la desgracia se debía a una mala posición de los astros.',
+  clue: 'del inglés antiguo clew — "ovillo de hilo": en el mito griego, Teseo escapó del laberinto desenrollando un ovillo de hilo.',
+  muscle:
+    'del latín musculus — "ratoncito": un bíceps flexionado parecía a los romanos un ratón moviéndose bajo la piel.',
+  candidate:
+    'del latín candidatus — "vestido de blanco": los aspirantes a un cargo en Roma vestían una toga blanca como señal de pureza de intenciones.',
+  calculate:
+    'del latín calculus — "piedrita": los romanos contaban con pequeñas piedras sobre un tablero.',
+  sincere:
+    'se suele explicar como el latín sine cera — "sin cera": los escultores deshonestos ocultaban grietas en el mármol con cera, así que un trabajo honesto era "sin cera" (la etimología real es incierta, pero la historia se quedó).',
+  salad:
+    'del latín salata — "salada": las verduras se aliñaban con salmuera ya en la antigua Roma.',
+  holiday:
+    'del inglés antiguo haligdæg — "día santo": en origen la palabra solo designaba una fiesta religiosa.',
+  breakfast:
+    'literalmente "romper" + "ayuno" (break + fast): la primera comida del día pone fin al ayuno nocturno.',
+  nightmare:
+    'de night + mare, un espíritu maligno que, según creencias medievales, se sentaba sobre el pecho del durmiente y provocaba sueños angustiosos.',
+  quarantine:
+    'del italiano quaranta giorni — "cuarenta días": ese era el tiempo exacto que se aislaban los barcos durante las epidemias de peste.',
+  assassin:
+    'del árabe hashashin, nombre de una secta medieval cuyos miembros, según la leyenda, consumían hachís antes de cometer asesinatos secretos.',
+  robot:
+    'del checo robota — "trabajo forzado": palabra acuñada por el escritor Karel Čapek en su obra "R.U.R." (1920).',
+  sandwich:
+    'nombrado en honor al conde de Sandwich, que disfrutaba comiendo carne entre dos rebanadas de pan sin dejar la mesa de juego.',
+  panic:
+    'del dios griego Pan, que, según el mito, provocaba un terror repentino en personas y rebaños con su grito.',
+  volcano: 'de Vulcano, el dios romano del fuego y la fragua.',
+  planet:
+    'del griego planetes — "errante": las estrellas que se movían sobre el cielo fijo parecían a los griegos "errantes".',
+  geography:
+    'del griego geo "tierra" + graphein "escribir, describir" — literalmente "descripción de la tierra".',
+  biology: 'del griego bios "vida" + logos "estudio" — literalmente "estudio de la vida".',
+  alarm:
+    'del italiano all\'arme — "¡a las armas!": un grito de guerra usado para avisar de un peligro.',
+  glamour:
+    'variante escocesa de "grammar" (gramática): antes significaba un hechizo mágico, porque las personas instruidas se asociaban con el poder misterioso del saber.',
 
-  'clock':      'del latín medieval clocca — "campana": los primeros relojes mecánicos no tenían esfera y solo marcaban las horas con una campana.',
-  'bankrupt':   'del italiano banca rotta — "banco roto": a los prestamistas que quebraban se les rompía simbólicamente el banco del mercado.',
-  'avocado':    'del náhuatl azteca ahuacatl — "testículo" (por la forma del fruto): los españoles deformaron la palabra acercándola a "abogado".',
-  'ballot':     'del italiano ballotta — "bolita": en la Venecia medieval se votaba echando bolas de colores en una urna.',
-  'jeans':      'del francés Gênes, nombre de la ciudad italiana de Génova, donde se fabricó por primera vez esta resistente tela de algodón.',
-  'mortgage':   'del francés antiguo mort — "muerto" + gage — "prenda": la deuda se considera "muerta" una vez pagada, o la propiedad queda "muerta" para el deudor si no paga.',
-  'chess':      'en última instancia del persa shah — "rey": la palabra pasó por el árabe y el francés antiguo antes de llegar al inglés.',
-  'nice':       'del latín nescius — "ignorante" (ne- "no" + scire "saber"): al principio significaba algo así como "tonto" y solo siglos después adquirió su sentido actual de "agradable".',
-  'silly':      'del inglés antiguo sælig — "bendito, feliz": el significado fue derivando hacia "inocente" y finalmente hacia el actual "tonto".',
-  'husband':    'del nórdico antiguo húsbóndi — hus "casa" + bondi "habitante, amo": en origen solo significaba "el amo de la casa", sin relación con el matrimonio.',
-  'girl':       'en inglés medio, gyrle significaba simplemente "niño/a" de cualquier sexo, no solo una niña.',
-  'gossip':     'del inglés antiguo godsibb — "emparentado con Dios" (god + sibb "pariente"): al principio designaba al padrino o a un amigo cercano de la familia presente en el bautismo.',
-  'bonfire':    'literalmente "fuego de huesos" (bone + fire): en la Edad Media, las hogueras festivas a veces realmente se alimentaban con huesos de animales.',
-  'magenta':    'el color debe su nombre a la batalla de Magenta (1859, Italia), época en que se descubrió este vivo tinte rosado-rojizo.',
-  'boycott':    'en honor al capitán Charles Boycott, administrador de tierras inglés en Irlanda, al que los arrendatarios locales aislaron por completo en 1880 por sus prácticas injustas.',
-  'maverick':   'en honor a Samuel Maverick, un ganadero de Texas que no marcaba su ganado, por lo que las vacas "sin marca" empezaron a llamarse por su apellido.',
-  'cereal':     'de Ceres, la diosa romana de la agricultura y la cosecha de grano.',
-  'echo':       'del mito griego de la ninfa Eco, que se consumió de amor por Narciso hasta desaparecer, dejando solo su voz, que repite las palabras de otros.',
-  'vandalism':  'de los vándalos, un pueblo germánico que saqueó Roma en el año 455 — de ahí la palabra para la destrucción sin sentido.',
-  'companionship': 'del latín com- "junto" + panis "pan": un compañero es literalmente "alguien con quien compartes el pan".',
-  'cancel':     'del latín cancellus — "reja, enrejado": las líneas tachadas se parecían a esa especie de rejilla.',
-  'shampoo':    'del hindi champo, imperativo de champna — "masajear, amasar": al principio significaba un masaje en la cabeza, no lavar el cabello.',
-  'candy':      'a través del árabe qandi y el persa qand, en última instancia del sánscrito khanda — "trozo (de azúcar)".',
-  'coffee':     'a través del árabe qahwa, posiblemente relacionado con la región de Kaffa, en Etiopía, de donde es originario el cafeto.',
-  'tariff':     'del árabe ta\'rif — "notificación, explicación": una lista que informaba a los comerciantes de los impuestos que debían pagar.',
-  'magazine':   'del árabe makhazin (plural de makhzan) — "almacenes": la palabra significó primero un depósito y luego una "colección" de artículos.',
-  'gym':        'forma corta de gymnasium, del griego gymnos — "desnudo": los atletas griegos entrenaban y competían desnudos.',
-  'handicap':   'de la expresión "hand in cap" (mano en la gorra), un viejo juego de azar en el que las apuestas se depositaban en una gorra; más tarde se usó en las carreras de caballos para una desventaja artificial que igualara a los competidores.',
-  'lemon':      'a través del árabe laymūn y el persa līmūn, vinculado en última instancia a una raíz sánscrita para los cítricos.',
-  'orange':     'a través del francés antiguo orenge, el árabe nāranj, el persa nārang y el sánscrito nāraṅga: el nombre del color apareció en inglés solo después de conocerse la fruta.',
-  'tea':        'viene del chino te, que llegó al inglés a través de comerciantes neerlandeses; las palabras tipo "cha" de otros idiomas siguieron la misma raíz por una ruta comercial terrestre distinta.',
-  'sugar':      'a través del árabe sukkar y el persa shakar, en última instancia del sánscrito śarkarā — "grava, arenilla", en referencia al azúcar cristalizado.',
-  'arsenal':    'del árabe dar as-sina\'a — "casa de fabricación", a través del italiano arzanà: en origen designaba un astillero para construir y reparar barcos.',
-  'algorithm':  'en honor al matemático persa al-Juarismi (siglo IX), cuyo nombre se latinizó como algorismus.',
-  'zero':       'a través del árabe sifr — "vacío, nada" (traducción del sánscrito śūnya): la palabra pasó por el italiano zefiro antes de acortarse a zero.',
-  'typhoon':    'probablemente una mezcla del griego typhon (un monstruoso viento-tormenta, también un gigante mitológico) y el chino tai fung — "gran viento".',
-  'ketchup':    'probablemente del hokkien kê-tsiap, una salsa de pescado fermentado que los comerciantes europeos transformaron en un condimento a base de tomate.',
-  'slogan':     'del gaélico escocés sluagh-ghairm — "grito de guerra" (sluagh "ejército, hueste" + gairm "grito").',
-  'whisky':     'del gaélico uisge beatha — "agua de vida", traducción del latín aqua vitae.',
-  'marathon':   'en honor a la batalla de Maratón (490 a.C.): la leyenda cuenta que un mensajero corrió desde Maratón hasta Atenas para anunciar la victoria, y murió por el esfuerzo.',
-  'laser':      'acrónimo de Light Amplification by Stimulated Emission of Radiation ("amplificación de luz por emisión estimulada de radiación").',
-  'radar':      'acrónimo de RAdio Detection And Ranging ("detección y localización por radio").',
-  'quiz':       'origen desconocido; una leyenda popular (aunque no probada) afirma que el gerente de un teatro de Dublín inventó esta palabra sin sentido en una apuesta, para introducirla en el idioma en una sola noche.',
+  clock:
+    'del latín medieval clocca — "campana": los primeros relojes mecánicos no tenían esfera y solo marcaban las horas con una campana.',
+  bankrupt:
+    'del italiano banca rotta — "banco roto": a los prestamistas que quebraban se les rompía simbólicamente el banco del mercado.',
+  avocado:
+    'del náhuatl azteca ahuacatl — "testículo" (por la forma del fruto): los españoles deformaron la palabra acercándola a "abogado".',
+  ballot:
+    'del italiano ballotta — "bolita": en la Venecia medieval se votaba echando bolas de colores en una urna.',
+  jeans:
+    'del francés Gênes, nombre de la ciudad italiana de Génova, donde se fabricó por primera vez esta resistente tela de algodón.',
+  mortgage:
+    'del francés antiguo mort — "muerto" + gage — "prenda": la deuda se considera "muerta" una vez pagada, o la propiedad queda "muerta" para el deudor si no paga.',
+  chess:
+    'en última instancia del persa shah — "rey": la palabra pasó por el árabe y el francés antiguo antes de llegar al inglés.',
+  nice: 'del latín nescius — "ignorante" (ne- "no" + scire "saber"): al principio significaba algo así como "tonto" y solo siglos después adquirió su sentido actual de "agradable".',
+  silly:
+    'del inglés antiguo sælig — "bendito, feliz": el significado fue derivando hacia "inocente" y finalmente hacia el actual "tonto".',
+  husband:
+    'del nórdico antiguo húsbóndi — hus "casa" + bondi "habitante, amo": en origen solo significaba "el amo de la casa", sin relación con el matrimonio.',
+  girl: 'en inglés medio, gyrle significaba simplemente "niño/a" de cualquier sexo, no solo una niña.',
+  gossip:
+    'del inglés antiguo godsibb — "emparentado con Dios" (god + sibb "pariente"): al principio designaba al padrino o a un amigo cercano de la familia presente en el bautismo.',
+  bonfire:
+    'literalmente "fuego de huesos" (bone + fire): en la Edad Media, las hogueras festivas a veces realmente se alimentaban con huesos de animales.',
+  magenta:
+    'el color debe su nombre a la batalla de Magenta (1859, Italia), época en que se descubrió este vivo tinte rosado-rojizo.',
+  boycott:
+    'en honor al capitán Charles Boycott, administrador de tierras inglés en Irlanda, al que los arrendatarios locales aislaron por completo en 1880 por sus prácticas injustas.',
+  maverick:
+    'en honor a Samuel Maverick, un ganadero de Texas que no marcaba su ganado, por lo que las vacas "sin marca" empezaron a llamarse por su apellido.',
+  cereal: 'de Ceres, la diosa romana de la agricultura y la cosecha de grano.',
+  echo: 'del mito griego de la ninfa Eco, que se consumió de amor por Narciso hasta desaparecer, dejando solo su voz, que repite las palabras de otros.',
+  vandalism:
+    'de los vándalos, un pueblo germánico que saqueó Roma en el año 455 — de ahí la palabra para la destrucción sin sentido.',
+  companionship:
+    'del latín com- "junto" + panis "pan": un compañero es literalmente "alguien con quien compartes el pan".',
+  cancel:
+    'del latín cancellus — "reja, enrejado": las líneas tachadas se parecían a esa especie de rejilla.',
+  shampoo:
+    'del hindi champo, imperativo de champna — "masajear, amasar": al principio significaba un masaje en la cabeza, no lavar el cabello.',
+  candy:
+    'a través del árabe qandi y el persa qand, en última instancia del sánscrito khanda — "trozo (de azúcar)".',
+  coffee:
+    'a través del árabe qahwa, posiblemente relacionado con la región de Kaffa, en Etiopía, de donde es originario el cafeto.',
+  tariff:
+    'del árabe ta\'rif — "notificación, explicación": una lista que informaba a los comerciantes de los impuestos que debían pagar.',
+  magazine:
+    'del árabe makhazin (plural de makhzan) — "almacenes": la palabra significó primero un depósito y luego una "colección" de artículos.',
+  gym: 'forma corta de gymnasium, del griego gymnos — "desnudo": los atletas griegos entrenaban y competían desnudos.',
+  handicap:
+    'de la expresión "hand in cap" (mano en la gorra), un viejo juego de azar en el que las apuestas se depositaban en una gorra; más tarde se usó en las carreras de caballos para una desventaja artificial que igualara a los competidores.',
+  lemon:
+    'a través del árabe laymūn y el persa līmūn, vinculado en última instancia a una raíz sánscrita para los cítricos.',
+  orange:
+    'a través del francés antiguo orenge, el árabe nāranj, el persa nārang y el sánscrito nāraṅga: el nombre del color apareció en inglés solo después de conocerse la fruta.',
+  tea: 'viene del chino te, que llegó al inglés a través de comerciantes neerlandeses; las palabras tipo "cha" de otros idiomas siguieron la misma raíz por una ruta comercial terrestre distinta.',
+  sugar:
+    'a través del árabe sukkar y el persa shakar, en última instancia del sánscrito śarkarā — "grava, arenilla", en referencia al azúcar cristalizado.',
+  arsenal:
+    'del árabe dar as-sina\'a — "casa de fabricación", a través del italiano arzanà: en origen designaba un astillero para construir y reparar barcos.',
+  algorithm:
+    'en honor al matemático persa al-Juarismi (siglo IX), cuyo nombre se latinizó como algorismus.',
+  zero: 'a través del árabe sifr — "vacío, nada" (traducción del sánscrito śūnya): la palabra pasó por el italiano zefiro antes de acortarse a zero.',
+  typhoon:
+    'probablemente una mezcla del griego typhon (un monstruoso viento-tormenta, también un gigante mitológico) y el chino tai fung — "gran viento".',
+  ketchup:
+    'probablemente del hokkien kê-tsiap, una salsa de pescado fermentado que los comerciantes europeos transformaron en un condimento a base de tomate.',
+  slogan:
+    'del gaélico escocés sluagh-ghairm — "grito de guerra" (sluagh "ejército, hueste" + gairm "grito").',
+  whisky: 'del gaélico uisge beatha — "agua de vida", traducción del latín aqua vitae.',
+  marathon:
+    'en honor a la batalla de Maratón (490 a.C.): la leyenda cuenta que un mensajero corrió desde Maratón hasta Atenas para anunciar la victoria, y murió por el esfuerzo.',
+  laser:
+    'acrónimo de Light Amplification by Stimulated Emission of Radiation ("amplificación de luz por emisión estimulada de radiación").',
+  radar: 'acrónimo de RAdio Detection And Ranging ("detección y localización por radio").',
+  quiz: 'origen desconocido; una leyenda popular (aunque no probada) afirma que el gerente de un teatro de Dublín inventó esta palabra sin sentido en una apuesta, para introducirla en el idioma en una sola noche.',
 
-  'jovial':     'de Jove, otro nombre de Júpiter: según la vieja astrología, quienes nacían bajo el signo de ese planeta eran alegres y de buen humor.',
-  'mercurial':  'del dios Mercurio, el veloz e impredecible mensajero divino; también relacionado con el mercurio, el metal líquido de naturaleza igualmente inestable y cambiante.',
-  'narcissistic': 'de Narciso, el joven del mito griego que se enamoró tanto de su propio reflejo en el agua que se consumió, incapaz de apartar la mirada.',
-  'hygiene':    'de Higía, la diosa griega de la salud y la limpieza, hija de Asclepio, el dios de la medicina.',
-  'museum':     'del griego mouseion — "sede de las Musas": un lugar dedicado a las nueve Musas, diosas de las artes y las ciencias.',
-  'music':      'del griego mousike (techne) — literalmente "el arte de las Musas", es decir, todo lo que estaba bajo el patronazgo de las nueve Musas.',
-  'tragedy':    'del griego tragoidia, literalmente "canto del macho cabrío" (tragos "macho cabrío" + oide "canto"): quizá por coros vestidos con pieles de cabra, o por una cabra como premio al mejor cantante.',
-  'comedy':     'del griego komoidia — "canto de fiesta" (komos "procesión festiva" + oide "canto"): ligado a las procesiones festivas en honor a Dioniso.',
-  'vaccine':    'del latín vacca — "vaca": la primera vacuna, contra la viruela, se elaboraba con material de la viruela bovina (cowpox).',
-  'nausea':     'del griego nausia — "mareo marino" (naus "barco"): la palabra originalmente designaba solo el malestar provocado por el movimiento de un barco.',
-  'testify':    'del latín testis — "testigo": testify significa literalmente "actuar como testigo".',
-  'silhouette': 'en honor a Étienne de Silhouette, ministro de finanzas francés del siglo XVIII conocido por su tacañería: los retratos de contorno baratos, populares gracias a sus recortes de gastos, recibieron su nombre.',
-  'saxophone':  'en honor a Adolphe Sax, el fabricante belga de instrumentos que lo inventó en la década de 1840.',
-  'melancholy': 'del griego melas "negro" + khole "bilis": la medicina antigua culpaba de un estado de ánimo bajo a un exceso de "bilis negra" en el cuerpo.',
-  'lunatic':    'del latín luna — "luna": una vieja creencia sostenía que las fases lunares afectaban la salud mental de las personas, provocando episodios de locura.',
-  'genuine':    'del latín genuinus, relacionado con genu — "rodilla": según la costumbre romana, un padre reconocía a un hijo como suyo sentándolo sobre su rodilla.',
-  'sabotage':   'del francés sabot — "zapato de madera": según la leyenda, los trabajadores arrojaban esos zuecos a la maquinaria, o dañaban el equipo con sus pesadas suelas, como forma de protesta.',
-  'hazard':     'del árabe az-zahr — "los dados": la palabra pasó por el francés antiguo como nombre de un juego de dados antes de pasar a significar riesgo y peligro en general.',
-  'soccer':     'forma abreviada de "association" (Association Football): a los estudiantes británicos les gustaba acortar palabras y añadir "-er", convirtiendo asSOCiation en "soccer".',
-  'zenith':     'a través del francés antiguo zenith y el latín medieval cenit, del árabe samt (ar-ra\'s) — "el camino (sobre la cabeza)": un error de copista convirtió la "m" en "ni".',
-  'syrup':      'a través del francés antiguo sirop y el latín siropus, en última instancia del árabe sharab — "una bebida", la misma raíz que dio "sorbete".',
-  'utopia':     'palabra acuñada por Tomás Moro (1516) a partir del griego ou "no" + topos "lugar" — literalmente "ningún lugar"; también un juego de palabras con eu-topia, "buen lugar".',
-  'quixotic':   'por Don Quijote, el héroe de la novela de Cervantes, famoso por sus aventuras poco realistas e idealistas.',
-  'laconic':    'de Laconia, la región de la antigua Esparta: los espartanos eran famosos por su forma de hablar escueta y económica.',
-  'stoic':      'de la antigua escuela filosófica griega de los estoicos, fundada por Zenón: sus seguidores se reunían en la "Stoa Poikile" (pórtico pintado) de Atenas y predicaban soportar el sufrimiento con calma.',
-  'cynical':    'del griego kynikos — "perruno" (kyon "perro"): a los filósofos cínicos, que vivían con deliberada sencillez y despreciaban las convenciones, se les apodó "perrunos", quizá por el propio apodo de su fundador Diógenes.',
-  'academic':   'de la Academia, una arboleda cerca de Atenas llamada así por el héroe Academo, donde Platón enseñaba a sus alumnos.',
+  jovial:
+    'de Jove, otro nombre de Júpiter: según la vieja astrología, quienes nacían bajo el signo de ese planeta eran alegres y de buen humor.',
+  mercurial:
+    'del dios Mercurio, el veloz e impredecible mensajero divino; también relacionado con el mercurio, el metal líquido de naturaleza igualmente inestable y cambiante.',
+  narcissistic:
+    'de Narciso, el joven del mito griego que se enamoró tanto de su propio reflejo en el agua que se consumió, incapaz de apartar la mirada.',
+  hygiene:
+    'de Higía, la diosa griega de la salud y la limpieza, hija de Asclepio, el dios de la medicina.',
+  museum:
+    'del griego mouseion — "sede de las Musas": un lugar dedicado a las nueve Musas, diosas de las artes y las ciencias.',
+  music:
+    'del griego mousike (techne) — literalmente "el arte de las Musas", es decir, todo lo que estaba bajo el patronazgo de las nueve Musas.',
+  tragedy:
+    'del griego tragoidia, literalmente "canto del macho cabrío" (tragos "macho cabrío" + oide "canto"): quizá por coros vestidos con pieles de cabra, o por una cabra como premio al mejor cantante.',
+  comedy:
+    'del griego komoidia — "canto de fiesta" (komos "procesión festiva" + oide "canto"): ligado a las procesiones festivas en honor a Dioniso.',
+  vaccine:
+    'del latín vacca — "vaca": la primera vacuna, contra la viruela, se elaboraba con material de la viruela bovina (cowpox).',
+  nausea:
+    'del griego nausia — "mareo marino" (naus "barco"): la palabra originalmente designaba solo el malestar provocado por el movimiento de un barco.',
+  testify: 'del latín testis — "testigo": testify significa literalmente "actuar como testigo".',
+  silhouette:
+    'en honor a Étienne de Silhouette, ministro de finanzas francés del siglo XVIII conocido por su tacañería: los retratos de contorno baratos, populares gracias a sus recortes de gastos, recibieron su nombre.',
+  saxophone:
+    'en honor a Adolphe Sax, el fabricante belga de instrumentos que lo inventó en la década de 1840.',
+  melancholy:
+    'del griego melas "negro" + khole "bilis": la medicina antigua culpaba de un estado de ánimo bajo a un exceso de "bilis negra" en el cuerpo.',
+  lunatic:
+    'del latín luna — "luna": una vieja creencia sostenía que las fases lunares afectaban la salud mental de las personas, provocando episodios de locura.',
+  genuine:
+    'del latín genuinus, relacionado con genu — "rodilla": según la costumbre romana, un padre reconocía a un hijo como suyo sentándolo sobre su rodilla.',
+  sabotage:
+    'del francés sabot — "zapato de madera": según la leyenda, los trabajadores arrojaban esos zuecos a la maquinaria, o dañaban el equipo con sus pesadas suelas, como forma de protesta.',
+  hazard:
+    'del árabe az-zahr — "los dados": la palabra pasó por el francés antiguo como nombre de un juego de dados antes de pasar a significar riesgo y peligro en general.',
+  soccer:
+    'forma abreviada de "association" (Association Football): a los estudiantes británicos les gustaba acortar palabras y añadir "-er", convirtiendo asSOCiation en "soccer".',
+  zenith:
+    'a través del francés antiguo zenith y el latín medieval cenit, del árabe samt (ar-ra\'s) — "el camino (sobre la cabeza)": un error de copista convirtió la "m" en "ni".',
+  syrup:
+    'a través del francés antiguo sirop y el latín siropus, en última instancia del árabe sharab — "una bebida", la misma raíz que dio "sorbete".',
+  utopia:
+    'palabra acuñada por Tomás Moro (1516) a partir del griego ou "no" + topos "lugar" — literalmente "ningún lugar"; también un juego de palabras con eu-topia, "buen lugar".',
+  quixotic:
+    'por Don Quijote, el héroe de la novela de Cervantes, famoso por sus aventuras poco realistas e idealistas.',
+  laconic:
+    'de Laconia, la región de la antigua Esparta: los espartanos eran famosos por su forma de hablar escueta y económica.',
+  stoic:
+    'de la antigua escuela filosófica griega de los estoicos, fundada por Zenón: sus seguidores se reunían en la "Stoa Poikile" (pórtico pintado) de Atenas y predicaban soportar el sufrimiento con calma.',
+  cynical:
+    'del griego kynikos — "perruno" (kyon "perro"): a los filósofos cínicos, que vivían con deliberada sencillez y despreciaban las convenciones, se les apodó "perrunos", quizá por el propio apodo de su fundador Diógenes.',
+  academic:
+    'de la Academia, una arboleda cerca de Atenas llamada así por el héroe Academo, donde Platón enseñaba a sus alumnos.',
 };
 
 const ETYMOLOGY_FR: Record<string, string> = {
-  'salary':     "du latin salarium — « paye en sel » : les soldats romains recevaient en partie leur solde en sel, une denrée précieuse.",
-  'disaster':   "de l'italien disastro — « mauvaise étoile » (dis- « mauvais » + astro « étoile ») : selon une vieille croyance, le malheur venait d'une mauvaise position des astres.",
-  'clue':       "du vieil anglais clew — « pelote de fil » : dans le mythe grec, Thésée sortit du labyrinthe en déroulant une pelote de fil.",
-  'muscle':     "du latin musculus — « petite souris » : un biceps contracté évoquait pour les Romains une souris bougeant sous la peau.",
-  'candidate':  "du latin candidatus — « habillé de blanc » : à Rome, les prétendants à une charge portaient une toge blanche, signe de pureté d'intentions.",
-  'calculate':  "du latin calculus — « petit caillou » : les Romains comptaient à l'aide de petits cailloux sur un boulier.",
-  'sincere':    "souvent expliqué par le latin sine cera — « sans cire » : les sculpteurs malhonnêtes cachaient les fissures du marbre avec de la cire, donc un travail honnête était « sans cire » (l'étymologie réelle reste incertaine, mais l'histoire a marqué les esprits).",
-  'salad':      "du latin salata — « salée » : les légumes étaient assaisonnés avec de la saumure dès l'Antiquité romaine.",
-  'holiday':    "du vieil anglais haligdæg — « jour saint » : le mot ne désignait au départ qu'une fête religieuse.",
-  'breakfast':  "littéralement « rompre » + « jeûne » (break + fast) : le premier repas de la journée met fin au jeûne nocturne.",
-  'nightmare':  "de night + mare, un esprit malfaisant qui, selon les croyances médiévales, s'asseyait sur la poitrine du dormeur et lui envoyait des rêves angoissants.",
-  'quarantine': "de l'italien quaranta giorni — « quarante jours » : c'est exactement la durée pendant laquelle les navires étaient isolés lors des épidémies de peste.",
-  'assassin':   "de l'arabe hashashin, nom d'une secte médiévale dont les membres, selon la légende, consommaient du hashish avant de commettre des meurtres secrets.",
-  'robot':      "du tchèque robota — « travail forcé » : mot inventé par l'écrivain Karel Čapek dans sa pièce « R.U.R. » (1920).",
-  'sandwich':   "nommé d'après le comte de Sandwich, qui aimait manger de la viande entre deux tranches de pain sans quitter sa table de jeu.",
-  'panic':      "du dieu grec Pan, qui, selon le mythe, semait une terreur soudaine chez les hommes et les troupeaux par son cri.",
-  'volcano':    "de Vulcain, le dieu romain du feu et de la forge.",
-  'planet':     "du grec planetes — « errant » : les étoiles qui se déplaçaient sur le ciel fixe paraissaient « errantes » aux Grecs.",
-  'geography':  "du grec geo « terre » + graphein « écrire, décrire » — littéralement « description de la terre ».",
-  'biology':    "du grec bios « vie » + logos « étude » — littéralement « étude de la vie ».",
-  'alarm':      "de l'italien all'arme — « aux armes ! » : un cri de guerre utilisé pour signaler un danger.",
-  'glamour':    "variante écossaise de « grammar » (grammaire) : le mot désignait autrefois un sortilège, les lettrés étant associés au pouvoir mystérieux du savoir.",
+  salary:
+    'du latin salarium — « paye en sel » : les soldats romains recevaient en partie leur solde en sel, une denrée précieuse.',
+  disaster:
+    "de l'italien disastro — « mauvaise étoile » (dis- « mauvais » + astro « étoile ») : selon une vieille croyance, le malheur venait d'une mauvaise position des astres.",
+  clue: 'du vieil anglais clew — « pelote de fil » : dans le mythe grec, Thésée sortit du labyrinthe en déroulant une pelote de fil.',
+  muscle:
+    'du latin musculus — « petite souris » : un biceps contracté évoquait pour les Romains une souris bougeant sous la peau.',
+  candidate:
+    "du latin candidatus — « habillé de blanc » : à Rome, les prétendants à une charge portaient une toge blanche, signe de pureté d'intentions.",
+  calculate:
+    "du latin calculus — « petit caillou » : les Romains comptaient à l'aide de petits cailloux sur un boulier.",
+  sincere:
+    "souvent expliqué par le latin sine cera — « sans cire » : les sculpteurs malhonnêtes cachaient les fissures du marbre avec de la cire, donc un travail honnête était « sans cire » (l'étymologie réelle reste incertaine, mais l'histoire a marqué les esprits).",
+  salad:
+    "du latin salata — « salée » : les légumes étaient assaisonnés avec de la saumure dès l'Antiquité romaine.",
+  holiday:
+    "du vieil anglais haligdæg — « jour saint » : le mot ne désignait au départ qu'une fête religieuse.",
+  breakfast:
+    'littéralement « rompre » + « jeûne » (break + fast) : le premier repas de la journée met fin au jeûne nocturne.',
+  nightmare:
+    "de night + mare, un esprit malfaisant qui, selon les croyances médiévales, s'asseyait sur la poitrine du dormeur et lui envoyait des rêves angoissants.",
+  quarantine:
+    "de l'italien quaranta giorni — « quarante jours » : c'est exactement la durée pendant laquelle les navires étaient isolés lors des épidémies de peste.",
+  assassin:
+    "de l'arabe hashashin, nom d'une secte médiévale dont les membres, selon la légende, consommaient du hashish avant de commettre des meurtres secrets.",
+  robot:
+    "du tchèque robota — « travail forcé » : mot inventé par l'écrivain Karel Čapek dans sa pièce « R.U.R. » (1920).",
+  sandwich:
+    "nommé d'après le comte de Sandwich, qui aimait manger de la viande entre deux tranches de pain sans quitter sa table de jeu.",
+  panic:
+    'du dieu grec Pan, qui, selon le mythe, semait une terreur soudaine chez les hommes et les troupeaux par son cri.',
+  volcano: 'de Vulcain, le dieu romain du feu et de la forge.',
+  planet:
+    'du grec planetes — « errant » : les étoiles qui se déplaçaient sur le ciel fixe paraissaient « errantes » aux Grecs.',
+  geography:
+    'du grec geo « terre » + graphein « écrire, décrire » — littéralement « description de la terre ».',
+  biology: 'du grec bios « vie » + logos « étude » — littéralement « étude de la vie ».',
+  alarm:
+    "de l'italien all'arme — « aux armes ! » : un cri de guerre utilisé pour signaler un danger.",
+  glamour:
+    'variante écossaise de « grammar » (grammaire) : le mot désignait autrefois un sortilège, les lettrés étant associés au pouvoir mystérieux du savoir.',
 
-  'clock':      "du latin médiéval clocca — « cloche » : les premières horloges mécaniques n'avaient pas de cadran et sonnaient simplement les heures sur une cloche.",
-  'bankrupt':   "de l'italien banca rotta — « banc cassé » : on brisait symboliquement le banc des prêteurs sur gages qui faisaient faillite.",
-  'avocado':    "du nahuatl aztèque ahuacatl — « testicule » (en raison de la forme du fruit) : les Espagnols ont déformé le mot en le rapprochant de abogado, « avocat ».",
-  'ballot':     "de l'italien ballotta — « petite boule » : dans la Venise médiévale, on votait en déposant des boules colorées dans une urne.",
-  'jeans':      "du français Gênes, ville italienne où ce tissu de coton résistant fut fabriqué pour la première fois.",
-  'mortgage':   "de l'ancien français mort — « mort » + gage — « gage » : la dette est considérée comme « morte » une fois remboursée, ou le bien devient « mort » pour l'emprunteur s'il ne paie pas.",
-  'chess':      "finalement issu du persan shah — « roi » : le mot est passé par l'arabe puis l'ancien français avant d'arriver en anglais.",
-  'nice':       "du latin nescius — « ignorant » (ne- « ne pas » + scire « savoir ») : le mot signifiait d'abord quelque chose comme « sot » et n'a pris son sens actuel d'« agréable » que des siècles plus tard.",
-  'silly':      "du vieil anglais sælig — « béni, heureux » : le sens a glissé vers « innocent », puis vers le « sot » actuel.",
-  'husband':    "du vieux norrois húsbóndi — hus « maison » + bondi « habitant, maître » : le mot signifiait simplement « maître de maison », sans lien avec le mariage.",
-  'girl':       "en moyen anglais, gyrle désignait simplement « un jeune enfant », des deux sexes, et non une fille en particulier.",
-  'gossip':     "du vieil anglais godsibb — « apparenté à Dieu » (god + sibb « parent ») : le mot désignait d'abord un parrain ou un ami proche de la famille présent au baptême.",
-  'bonfire':    "littéralement « feu d'os » (bone + fire) : au Moyen Âge, les feux de fête étaient parfois réellement alimentés avec des os d'animaux.",
-  'magenta':    "la couleur doit son nom à la bataille de Magenta (1859, Italie), époque à laquelle ce colorant rose-rouge vif a été découvert.",
-  'boycott':    "d'après le capitaine Charles Boycott, agent foncier anglais en Irlande, totalement mis à l'écart par les fermiers locaux en 1880 pour ses pratiques injustes.",
-  'maverick':   "d'après Samuel Maverick, un éleveur du Texas qui ne marquait pas son bétail — les vaches « sans marque » ont fini par porter son nom.",
-  'cereal':     "de Cérès, la déesse romaine de l'agriculture et des récoltes de céréales.",
-  'echo':       "du mythe grec de la nymphe Écho, tellement éprise de Narcisse qu'elle finit par s'évanouir, ne laissant subsister que sa voix, qui répète les paroles des autres.",
-  'vandalism':  "des Vandales, un peuple germanique qui mit Rome à sac en 455 — d'où le mot désignant la destruction gratuite.",
-  'companionship': "du latin com- « ensemble » + panis « pain » : un compagnon est littéralement « celui avec qui l'on partage le pain ».",
-  'cancel':     "du latin cancellus — « grille, treillis » : les lignes barrées ressemblaient à ce type de grille.",
-  'shampoo':    "du hindi champo, impératif de champna — « masser, pétrir » : le mot désignait d'abord un massage du crâne, et non un lavage des cheveux.",
-  'candy':      "via l'arabe qandi et le persan qand, finalement issu du sanskrit khanda — « morceau (de sucre) ».",
-  'coffee':     "via l'arabe qahwa, peut-être lié à la région de Kaffa, en Éthiopie, berceau du caféier.",
-  'tariff':     "de l'arabe ta'rif — « notification, explication » : une liste informant les marchands des taxes qu'ils devaient payer.",
-  'magazine':   "de l'arabe makhazin (pluriel de makhzan) — « entrepôts » : le mot a d'abord désigné un dépôt, puis un « entrepôt » d'articles.",
-  'gym':        "abréviation de gymnasium, du grec gymnos — « nu » : les athlètes grecs s'entraînaient et concouraient nus.",
-  'handicap':   "de l'expression « hand in cap » (la main dans le bonnet), un vieux jeu de hasard où les mises étaient déposées dans un bonnet ; le mot a ensuite servi aux courses de chevaux pour désigner un désavantage artificiel destiné à égaliser les concurrents.",
-  'lemon':      "via l'arabe laymūn et le persan līmūn, finalement lié à une racine sanskrite désignant les agrumes.",
-  'orange':     "via l'ancien français orenge, l'arabe nāranj, le persan nārang et le sanskrit nāraṅga : le nom de la couleur n'est apparu en anglais qu'après que le fruit lui-même soit devenu connu.",
-  'tea':        "vient du chinois te, arrivé en anglais via les marchands néerlandais ; les mots du type « cha », utilisés dans bien d'autres langues, ont suivi la même racine par une route commerciale terrestre différente.",
-  'sugar':      "via l'arabe sukkar et le persan shakar, finalement issu du sanskrit śarkarā — « gravier, grain », en référence au sucre cristallisé.",
-  'arsenal':    "de l'arabe dar as-sina'a — « maison de fabrication », via l'italien arzanà : le mot désignait d'abord un chantier naval pour construire et réparer les navires.",
-  'algorithm':  "d'après le mathématicien perse al-Khwarizmi (IXe siècle), dont le nom a été latinisé en algorismus.",
-  'zero':       "via l'arabe sifr — « vide, néant » (traduction du sanskrit śūnya) : le mot est passé par l'italien zefiro avant de se réduire à zero.",
-  'typhoon':    "probablement un mélange du grec typhon (un vent-tempête monstrueux, aussi un géant de la mythologie) et du chinois tai fung — « grand vent ».",
-  'ketchup':    "probablement du hokkien kê-tsiap, une sauce de poisson fermenté que les marchands européens ont transformée en condiment à base de tomate.",
-  'slogan':     "du gaélique écossais sluagh-ghairm — « cri de guerre » (sluagh « armée, troupe » + gairm « cri »).",
-  'whisky':     "du gaélique uisge beatha — « eau de vie », traduction du latin aqua vitae.",
-  'marathon':   "d'après la bataille de Marathon (490 av. J.-C.) : selon la légende, un messager courut de Marathon à Athènes pour annoncer la victoire — et mourut d'épuisement.",
-  'laser':      "acronyme de Light Amplification by Stimulated Emission of Radiation (« amplification de lumière par émission stimulée de radiation »).",
-  'radar':      "acronyme de RAdio Detection And Ranging (« détection et télémétrie par radio »).",
-  'quiz':       "origine inconnue ; une légende populaire, jamais prouvée, raconte qu'un directeur de théâtre dublinois aurait inventé ce mot absurde sur un pari, pour l'introduire dans la langue en une seule nuit.",
+  clock:
+    "du latin médiéval clocca — « cloche » : les premières horloges mécaniques n'avaient pas de cadran et sonnaient simplement les heures sur une cloche.",
+  bankrupt:
+    "de l'italien banca rotta — « banc cassé » : on brisait symboliquement le banc des prêteurs sur gages qui faisaient faillite.",
+  avocado:
+    'du nahuatl aztèque ahuacatl — « testicule » (en raison de la forme du fruit) : les Espagnols ont déformé le mot en le rapprochant de abogado, « avocat ».',
+  ballot:
+    "de l'italien ballotta — « petite boule » : dans la Venise médiévale, on votait en déposant des boules colorées dans une urne.",
+  jeans:
+    'du français Gênes, ville italienne où ce tissu de coton résistant fut fabriqué pour la première fois.',
+  mortgage:
+    "de l'ancien français mort — « mort » + gage — « gage » : la dette est considérée comme « morte » une fois remboursée, ou le bien devient « mort » pour l'emprunteur s'il ne paie pas.",
+  chess:
+    "finalement issu du persan shah — « roi » : le mot est passé par l'arabe puis l'ancien français avant d'arriver en anglais.",
+  nice: "du latin nescius — « ignorant » (ne- « ne pas » + scire « savoir ») : le mot signifiait d'abord quelque chose comme « sot » et n'a pris son sens actuel d'« agréable » que des siècles plus tard.",
+  silly:
+    'du vieil anglais sælig — « béni, heureux » : le sens a glissé vers « innocent », puis vers le « sot » actuel.',
+  husband:
+    'du vieux norrois húsbóndi — hus « maison » + bondi « habitant, maître » : le mot signifiait simplement « maître de maison », sans lien avec le mariage.',
+  girl: 'en moyen anglais, gyrle désignait simplement « un jeune enfant », des deux sexes, et non une fille en particulier.',
+  gossip:
+    "du vieil anglais godsibb — « apparenté à Dieu » (god + sibb « parent ») : le mot désignait d'abord un parrain ou un ami proche de la famille présent au baptême.",
+  bonfire:
+    "littéralement « feu d'os » (bone + fire) : au Moyen Âge, les feux de fête étaient parfois réellement alimentés avec des os d'animaux.",
+  magenta:
+    'la couleur doit son nom à la bataille de Magenta (1859, Italie), époque à laquelle ce colorant rose-rouge vif a été découvert.',
+  boycott:
+    "d'après le capitaine Charles Boycott, agent foncier anglais en Irlande, totalement mis à l'écart par les fermiers locaux en 1880 pour ses pratiques injustes.",
+  maverick:
+    "d'après Samuel Maverick, un éleveur du Texas qui ne marquait pas son bétail — les vaches « sans marque » ont fini par porter son nom.",
+  cereal: "de Cérès, la déesse romaine de l'agriculture et des récoltes de céréales.",
+  echo: "du mythe grec de la nymphe Écho, tellement éprise de Narcisse qu'elle finit par s'évanouir, ne laissant subsister que sa voix, qui répète les paroles des autres.",
+  vandalism:
+    "des Vandales, un peuple germanique qui mit Rome à sac en 455 — d'où le mot désignant la destruction gratuite.",
+  companionship:
+    "du latin com- « ensemble » + panis « pain » : un compagnon est littéralement « celui avec qui l'on partage le pain ».",
+  cancel:
+    'du latin cancellus — « grille, treillis » : les lignes barrées ressemblaient à ce type de grille.',
+  shampoo:
+    "du hindi champo, impératif de champna — « masser, pétrir » : le mot désignait d'abord un massage du crâne, et non un lavage des cheveux.",
+  candy:
+    "via l'arabe qandi et le persan qand, finalement issu du sanskrit khanda — « morceau (de sucre) ».",
+  coffee: "via l'arabe qahwa, peut-être lié à la région de Kaffa, en Éthiopie, berceau du caféier.",
+  tariff:
+    "de l'arabe ta'rif — « notification, explication » : une liste informant les marchands des taxes qu'ils devaient payer.",
+  magazine:
+    "de l'arabe makhazin (pluriel de makhzan) — « entrepôts » : le mot a d'abord désigné un dépôt, puis un « entrepôt » d'articles.",
+  gym: "abréviation de gymnasium, du grec gymnos — « nu » : les athlètes grecs s'entraînaient et concouraient nus.",
+  handicap:
+    "de l'expression « hand in cap » (la main dans le bonnet), un vieux jeu de hasard où les mises étaient déposées dans un bonnet ; le mot a ensuite servi aux courses de chevaux pour désigner un désavantage artificiel destiné à égaliser les concurrents.",
+  lemon:
+    "via l'arabe laymūn et le persan līmūn, finalement lié à une racine sanskrite désignant les agrumes.",
+  orange:
+    "via l'ancien français orenge, l'arabe nāranj, le persan nārang et le sanskrit nāraṅga : le nom de la couleur n'est apparu en anglais qu'après que le fruit lui-même soit devenu connu.",
+  tea: "vient du chinois te, arrivé en anglais via les marchands néerlandais ; les mots du type « cha », utilisés dans bien d'autres langues, ont suivi la même racine par une route commerciale terrestre différente.",
+  sugar:
+    "via l'arabe sukkar et le persan shakar, finalement issu du sanskrit śarkarā — « gravier, grain », en référence au sucre cristallisé.",
+  arsenal:
+    "de l'arabe dar as-sina'a — « maison de fabrication », via l'italien arzanà : le mot désignait d'abord un chantier naval pour construire et réparer les navires.",
+  algorithm:
+    "d'après le mathématicien perse al-Khwarizmi (IXe siècle), dont le nom a été latinisé en algorismus.",
+  zero: "via l'arabe sifr — « vide, néant » (traduction du sanskrit śūnya) : le mot est passé par l'italien zefiro avant de se réduire à zero.",
+  typhoon:
+    'probablement un mélange du grec typhon (un vent-tempête monstrueux, aussi un géant de la mythologie) et du chinois tai fung — « grand vent ».',
+  ketchup:
+    'probablement du hokkien kê-tsiap, une sauce de poisson fermenté que les marchands européens ont transformée en condiment à base de tomate.',
+  slogan:
+    'du gaélique écossais sluagh-ghairm — « cri de guerre » (sluagh « armée, troupe » + gairm « cri »).',
+  whisky: 'du gaélique uisge beatha — « eau de vie », traduction du latin aqua vitae.',
+  marathon:
+    "d'après la bataille de Marathon (490 av. J.-C.) : selon la légende, un messager courut de Marathon à Athènes pour annoncer la victoire — et mourut d'épuisement.",
+  laser:
+    'acronyme de Light Amplification by Stimulated Emission of Radiation (« amplification de lumière par émission stimulée de radiation »).',
+  radar: 'acronyme de RAdio Detection And Ranging (« détection et télémétrie par radio »).',
+  quiz: "origine inconnue ; une légende populaire, jamais prouvée, raconte qu'un directeur de théâtre dublinois aurait inventé ce mot absurde sur un pari, pour l'introduire dans la langue en une seule nuit.",
 
-  'jovial':     "de Jove, un autre nom de Jupiter : selon l'ancienne astrologie, les personnes nées sous le signe de cette planète étaient réputées joyeuses et de bonne humeur.",
-  'mercurial':  "du dieu Mercure, messager divin rapide et imprévisible ; lié aussi au mercure, ce métal liquide d'une nature tout aussi instable et changeante.",
-  'narcissistic': "de Narcisse, le jeune homme du mythe grec tombé tellement amoureux de son propre reflet dans l'eau qu'il se laissa mourir, incapable de s'en détourner.",
-  'hygiene':    "d'Hygie, la déesse grecque de la santé et de la propreté, fille d'Asclépios, le dieu de la médecine.",
-  'museum':     "du grec mouseion — « siège des Muses » : un lieu consacré aux neuf Muses, déesses des arts et des sciences.",
-  'music':      "du grec mousike (techne) — littéralement « l'art des Muses », c'est-à-dire tout ce qui relevait du patronage des neuf Muses.",
-  'tragedy':    "du grec tragoidia, littéralement « chant du bouc » (tragos « bouc » + oide « chant ») : peut-être lié à des chœurs vêtus de peaux de chèvre, ou à un bouc offert en prix au meilleur chanteur.",
-  'comedy':     "du grec komoidia — « chant de réjouissance » (komos « cortège festif » + oide « chant ») : lié aux processions festives en l'honneur de Dionysos.",
-  'vaccine':    "du latin vacca — « vache » : le premier vaccin, contre la variole, était préparé à partir de matière prélevée sur la vaccine (variole bovine).",
-  'nausea':     "du grec nausia — « mal de mer » (naus « bateau ») : le mot ne désignait à l'origine que le malaise causé par le roulis d'un navire.",
-  'testify':    "du latin testis — « témoin » : testify signifie littéralement « agir comme témoin ».",
-  'silhouette': "d'après Étienne de Silhouette, ministre des Finances français du XVIIIe siècle réputé pour son avarice : les portraits en contour, bon marché et popularisés par ses mesures d'austérité, ont pris son nom.",
-  'saxophone':  "d'après Adolphe Sax, le facteur d'instruments belge qui l'a inventé dans les années 1840.",
-  'melancholy': "du grec melas « noir » + khole « bile » : la médecine antique attribuait un état d'âme abattu à un excès de « bile noire » dans le corps.",
-  'lunatic':    "du latin luna — « lune » : une vieille croyance voulait que les phases de la lune affectent la santé mentale, provoquant des accès de folie.",
-  'genuine':    "du latin genuinus, lié à genu — « genou » : selon la coutume romaine, un père reconnaissait un enfant comme le sien en l'asseyant sur son genou.",
-  'sabotage':   "du français sabot : selon la légende, des ouvriers auraient jeté ces chaussures de bois dans les machines, ou endommagé l'équipement avec leurs semelles épaisses, en signe de protestation.",
-  'hazard':     "de l'arabe az-zahr — « les dés » : le mot est passé par l'ancien français comme nom d'un jeu de dés avant de signifier le risque et le danger en général.",
-  'soccer':     "abréviation de « association » (Association Football) : les étudiants britanniques aimaient raccourcir les mots en ajoutant « -er », transformant asSOCiation en « soccer ».",
-  'zenith':     "via l'ancien français zenith et le latin médiéval cenit, de l'arabe samt (ar-ra's) — « le chemin (au-dessus de la tête) » : une erreur de copiste a transformé le « m » en « ni ».",
-  'syrup':      "via l'ancien français sirop et le latin siropus, finalement de l'arabe sharab — « une boisson », la même racine que « sorbet ».",
-  'utopia':     "mot inventé par Thomas More (1516) à partir du grec ou « ne... pas » + topos « lieu » — littéralement « nul lieu » ; aussi un jeu de mots avec eu-topia, « bon lieu ».",
-  'quixotic':   "d'après Don Quichotte, le héros du roman de Cervantès, célèbre pour ses aventures peu réalistes et idéalistes.",
-  'laconic':    "de la Laconie, la région de l'antique Sparte : les Spartiates étaient réputés pour leur façon de parler brève et économe.",
-  'stoic':      "de l'ancienne école philosophique grecque des stoïciens, fondée par Zénon : ses adeptes se réunissaient sous la « Stoa Poikile » (portique peint) d'Athènes et prônaient une endurance calme face à la souffrance.",
-  'cynical':    "du grec kynikos — « semblable à un chien » (kyon « chien ») : les philosophes cyniques, qui vivaient avec une simplicité affichée et méprisaient les conventions, furent surnommés ainsi, peut-être d'après le propre surnom de leur fondateur Diogène.",
-  'academic':   "de l'Académie, un bois sacré près d'Athènes nommé d'après le héros Académos, où Platon enseignait à ses élèves.",
+  jovial:
+    "de Jove, un autre nom de Jupiter : selon l'ancienne astrologie, les personnes nées sous le signe de cette planète étaient réputées joyeuses et de bonne humeur.",
+  mercurial:
+    "du dieu Mercure, messager divin rapide et imprévisible ; lié aussi au mercure, ce métal liquide d'une nature tout aussi instable et changeante.",
+  narcissistic:
+    "de Narcisse, le jeune homme du mythe grec tombé tellement amoureux de son propre reflet dans l'eau qu'il se laissa mourir, incapable de s'en détourner.",
+  hygiene:
+    "d'Hygie, la déesse grecque de la santé et de la propreté, fille d'Asclépios, le dieu de la médecine.",
+  museum:
+    'du grec mouseion — « siège des Muses » : un lieu consacré aux neuf Muses, déesses des arts et des sciences.',
+  music:
+    "du grec mousike (techne) — littéralement « l'art des Muses », c'est-à-dire tout ce qui relevait du patronage des neuf Muses.",
+  tragedy:
+    'du grec tragoidia, littéralement « chant du bouc » (tragos « bouc » + oide « chant ») : peut-être lié à des chœurs vêtus de peaux de chèvre, ou à un bouc offert en prix au meilleur chanteur.',
+  comedy:
+    "du grec komoidia — « chant de réjouissance » (komos « cortège festif » + oide « chant ») : lié aux processions festives en l'honneur de Dionysos.",
+  vaccine:
+    'du latin vacca — « vache » : le premier vaccin, contre la variole, était préparé à partir de matière prélevée sur la vaccine (variole bovine).',
+  nausea:
+    "du grec nausia — « mal de mer » (naus « bateau ») : le mot ne désignait à l'origine que le malaise causé par le roulis d'un navire.",
+  testify: 'du latin testis — « témoin » : testify signifie littéralement « agir comme témoin ».',
+  silhouette:
+    "d'après Étienne de Silhouette, ministre des Finances français du XVIIIe siècle réputé pour son avarice : les portraits en contour, bon marché et popularisés par ses mesures d'austérité, ont pris son nom.",
+  saxophone:
+    "d'après Adolphe Sax, le facteur d'instruments belge qui l'a inventé dans les années 1840.",
+  melancholy:
+    "du grec melas « noir » + khole « bile » : la médecine antique attribuait un état d'âme abattu à un excès de « bile noire » dans le corps.",
+  lunatic:
+    'du latin luna — « lune » : une vieille croyance voulait que les phases de la lune affectent la santé mentale, provoquant des accès de folie.',
+  genuine:
+    "du latin genuinus, lié à genu — « genou » : selon la coutume romaine, un père reconnaissait un enfant comme le sien en l'asseyant sur son genou.",
+  sabotage:
+    "du français sabot : selon la légende, des ouvriers auraient jeté ces chaussures de bois dans les machines, ou endommagé l'équipement avec leurs semelles épaisses, en signe de protestation.",
+  hazard:
+    "de l'arabe az-zahr — « les dés » : le mot est passé par l'ancien français comme nom d'un jeu de dés avant de signifier le risque et le danger en général.",
+  soccer:
+    'abréviation de « association » (Association Football) : les étudiants britanniques aimaient raccourcir les mots en ajoutant « -er », transformant asSOCiation en « soccer ».',
+  zenith:
+    "via l'ancien français zenith et le latin médiéval cenit, de l'arabe samt (ar-ra's) — « le chemin (au-dessus de la tête) » : une erreur de copiste a transformé le « m » en « ni ».",
+  syrup:
+    "via l'ancien français sirop et le latin siropus, finalement de l'arabe sharab — « une boisson », la même racine que « sorbet ».",
+  utopia:
+    'mot inventé par Thomas More (1516) à partir du grec ou « ne... pas » + topos « lieu » — littéralement « nul lieu » ; aussi un jeu de mots avec eu-topia, « bon lieu ».',
+  quixotic:
+    "d'après Don Quichotte, le héros du roman de Cervantès, célèbre pour ses aventures peu réalistes et idéalistes.",
+  laconic:
+    "de la Laconie, la région de l'antique Sparte : les Spartiates étaient réputés pour leur façon de parler brève et économe.",
+  stoic:
+    "de l'ancienne école philosophique grecque des stoïciens, fondée par Zénon : ses adeptes se réunissaient sous la « Stoa Poikile » (portique peint) d'Athènes et prônaient une endurance calme face à la souffrance.",
+  cynical:
+    "du grec kynikos — « semblable à un chien » (kyon « chien ») : les philosophes cyniques, qui vivaient avec une simplicité affichée et méprisaient les conventions, furent surnommés ainsi, peut-être d'après le propre surnom de leur fondateur Diogène.",
+  academic:
+    "de l'Académie, un bois sacré près d'Athènes nommé d'après le héros Académos, où Platon enseignait à ses élèves.",
 };
 
 const ETYMOLOGY_IT: Record<string, string> = {
-  'salary':     'dal latino salarium — "paga in sale": ai soldati romani parte dello stipendio veniva versata in sale, un bene prezioso.',
-  'disaster':   'dall\'italiano disastro — "cattiva stella" (dis- "cattivo" + astro "stella"): secondo un\'antica credenza, la sfortuna dipendeva da una posizione astrale infausta.',
-  'clue':       'dall\'inglese antico clew — "gomitolo di filo": nel mito greco, Teseo uscì dal labirinto srotolando un gomitolo di filo.',
-  'muscle':     'dal latino musculus — "topolino": un bicipite flesso sembrava ai Romani un topo che si muoveva sotto la pelle.',
-  'candidate':  'dal latino candidatus — "vestito di bianco": a Roma gli aspiranti a una carica indossavano una toga bianca, segno di purezza d\'intenti.',
-  'calculate':  'dal latino calculus — "sassolino": i Romani contavano con piccoli sassi su un\'asse di calcolo.',
-  'sincere':    'spesso spiegato con il latino sine cera — "senza cera": gli scultori disonesti nascondevano le crepe nel marmo con la cera, così un lavoro onesto era "senza cera" (l\'etimologia reale è incerta, ma la storia è rimasta).',
-  'salad':      'dal latino salata — "salata": le verdure venivano condite con salamoia già nell\'antica Roma.',
-  'holiday':    'dall\'inglese antico haligdæg — "giorno santo": in origine la parola indicava solo una festa religiosa.',
-  'breakfast':  'letteralmente "rompere" + "digiuno" (break + fast): il primo pasto della giornata interrompe il digiuno notturno.',
-  'nightmare':  'da night + mare, uno spirito maligno che, secondo le credenze medievali, si sedeva sul petto del dormiente e provocava sogni angosciosi.',
-  'quarantine': 'dall\'italiano quaranta giorni: era esattamente questo il periodo in cui le navi venivano isolate durante le epidemie di peste.',
-  'assassin':   'dall\'arabo hashashin, nome di una setta medievale i cui membri, secondo la leggenda, assumevano hashish prima di compiere omicidi segreti.',
-  'robot':      'dal ceco robota — "lavoro forzato": parola coniata dallo scrittore Karel Čapek nella sua opera teatrale "R.U.R." (1920).',
-  'sandwich':   'così chiamato in onore del conte di Sandwich, che amava mangiare carne tra due fette di pane senza lasciare il tavolo da gioco.',
-  'panic':      'dal dio greco Pan, che, secondo il mito, suscitava un terrore improvviso in persone e mandrie con il suo grido.',
-  'volcano':    'da Vulcano, il dio romano del fuoco e della fucina.',
-  'planet':     'dal greco planetes — "errante": le stelle che si muovevano sullo sfondo fisso del cielo sembravano ai Greci "errabonde".',
-  'geography':  'dal greco geo "terra" + graphein "scrivere, descrivere" — letteralmente "descrizione della terra".',
-  'biology':    'dal greco bios "vita" + logos "studio" — letteralmente "studio della vita".',
-  'alarm':      'dall\'italiano all\'arme — "alle armi!": un grido di battaglia usato per avvisare di un pericolo.',
-  'glamour':    'variante scozzese di "grammar" (grammatica): un tempo significava un incantesimo magico, perché i dotti erano associati al potere misterioso del sapere.',
+  salary:
+    'dal latino salarium — "paga in sale": ai soldati romani parte dello stipendio veniva versata in sale, un bene prezioso.',
+  disaster:
+    'dall\'italiano disastro — "cattiva stella" (dis- "cattivo" + astro "stella"): secondo un\'antica credenza, la sfortuna dipendeva da una posizione astrale infausta.',
+  clue: 'dall\'inglese antico clew — "gomitolo di filo": nel mito greco, Teseo uscì dal labirinto srotolando un gomitolo di filo.',
+  muscle:
+    'dal latino musculus — "topolino": un bicipite flesso sembrava ai Romani un topo che si muoveva sotto la pelle.',
+  candidate:
+    'dal latino candidatus — "vestito di bianco": a Roma gli aspiranti a una carica indossavano una toga bianca, segno di purezza d\'intenti.',
+  calculate:
+    'dal latino calculus — "sassolino": i Romani contavano con piccoli sassi su un\'asse di calcolo.',
+  sincere:
+    'spesso spiegato con il latino sine cera — "senza cera": gli scultori disonesti nascondevano le crepe nel marmo con la cera, così un lavoro onesto era "senza cera" (l\'etimologia reale è incerta, ma la storia è rimasta).',
+  salad:
+    'dal latino salata — "salata": le verdure venivano condite con salamoia già nell\'antica Roma.',
+  holiday:
+    'dall\'inglese antico haligdæg — "giorno santo": in origine la parola indicava solo una festa religiosa.',
+  breakfast:
+    'letteralmente "rompere" + "digiuno" (break + fast): il primo pasto della giornata interrompe il digiuno notturno.',
+  nightmare:
+    'da night + mare, uno spirito maligno che, secondo le credenze medievali, si sedeva sul petto del dormiente e provocava sogni angosciosi.',
+  quarantine:
+    "dall'italiano quaranta giorni: era esattamente questo il periodo in cui le navi venivano isolate durante le epidemie di peste.",
+  assassin:
+    "dall'arabo hashashin, nome di una setta medievale i cui membri, secondo la leggenda, assumevano hashish prima di compiere omicidi segreti.",
+  robot:
+    'dal ceco robota — "lavoro forzato": parola coniata dallo scrittore Karel Čapek nella sua opera teatrale "R.U.R." (1920).',
+  sandwich:
+    'così chiamato in onore del conte di Sandwich, che amava mangiare carne tra due fette di pane senza lasciare il tavolo da gioco.',
+  panic:
+    'dal dio greco Pan, che, secondo il mito, suscitava un terrore improvviso in persone e mandrie con il suo grido.',
+  volcano: 'da Vulcano, il dio romano del fuoco e della fucina.',
+  planet:
+    'dal greco planetes — "errante": le stelle che si muovevano sullo sfondo fisso del cielo sembravano ai Greci "errabonde".',
+  geography:
+    'dal greco geo "terra" + graphein "scrivere, descrivere" — letteralmente "descrizione della terra".',
+  biology: 'dal greco bios "vita" + logos "studio" — letteralmente "studio della vita".',
+  alarm:
+    'dall\'italiano all\'arme — "alle armi!": un grido di battaglia usato per avvisare di un pericolo.',
+  glamour:
+    'variante scozzese di "grammar" (grammatica): un tempo significava un incantesimo magico, perché i dotti erano associati al potere misterioso del sapere.',
 
-  'clock':      'dal latino medievale clocca — "campana": i primi orologi meccanici non avevano un quadrante e segnavano le ore semplicemente con un rintocco di campana.',
-  'bankrupt':   'dall\'italiano banca rotta: ai prestatori che fallivano veniva simbolicamente rotto il banco al mercato.',
-  'avocado':    'dal nahuatl azteco ahuacatl — "testicolo" (per la forma del frutto): gli spagnoli storpiarono la parola accostandola al loro abogado, "avvocato".',
-  'ballot':     'dall\'italiano ballotta — "pallina": nella Venezia medievale si votava gettando palline colorate in un\'urna.',
-  'jeans':      'dal francese Gênes, nome della città italiana di Genova, dove questo robusto tessuto di cotone fu prodotto per la prima volta.',
-  'mortgage':   'dal francese antico mort — "morto" + gage — "pegno": il debito è considerato "morto" una volta saldato, oppure il bene diventa "morto" per il debitore se non paga.',
-  'chess':      'in ultima analisi dal persiano shah — "re": la parola è passata per l\'arabo e il francese antico prima di arrivare in inglese.',
-  'nice':       'dal latino nescius — "ignorante" (ne- "non" + scire "sapere"): in origine significava qualcosa come "sciocco" e solo secoli dopo ha assunto il senso attuale di "gentile, piacevole".',
-  'silly':      'dall\'inglese antico sælig — "benedetto, felice": il significato è scivolato verso "ingenuo" e infine verso l\'attuale "sciocco".',
-  'husband':    'dal norreno antico húsbóndi — hus "casa" + bondi "abitante, padrone": in origine significava semplicemente "padrone di casa", senza nessun legame col matrimonio.',
-  'girl':       'in inglese medio, gyrle significava semplicemente "bambino/a" di qualsiasi sesso, non solo una bambina.',
-  'gossip':     'dall\'inglese antico godsibb — "legato a Dio" (god + sibb "parente"): in origine indicava il padrino o un amico di famiglia presente al battesimo.',
-  'bonfire':    'letteralmente "fuoco di ossa" (bone + fire): nel Medioevo i falò di festa erano talvolta davvero alimentati con ossa di animali.',
-  'magenta':    'il colore deve il nome alla battaglia di Magenta (1859, Italia), epoca in cui fu scoperto questo intenso colorante rosa-rosso.',
-  'boycott':    'in onore del capitano Charles Boycott, agente terriero inglese in Irlanda, completamente isolato dai contadini locali nel 1880 per le sue pratiche ingiuste.',
-  'maverick':   'in onore di Samuel Maverick, un allevatore texano che non marchiava il bestiame — le mucche "senza marchio" presero così il suo nome.',
-  'cereal':     'da Cerere, la dea romana dell\'agricoltura e del raccolto dei cereali.',
-  'echo':       'dal mito greco della ninfa Eco, così innamorata di Narciso da svanire, lasciando solo la sua voce, che ripete le parole degli altri.',
-  'vandalism':  'dai Vandali, popolo germanico che saccheggiò Roma nel 455 — da cui la parola per la distruzione insensata.',
-  'companionship': 'dal latino com- "insieme" + panis "pane": un compagno è letteralmente "qualcuno con cui si condivide il pane".',
-  'cancel':     'dal latino cancellus — "grata, reticolo": le righe cancellate ricordavano proprio quel tipo di griglia.',
-  'shampoo':    'dall\'hindi champo, imperativo di champna — "massaggiare, impastare": in origine significava un massaggio alla testa, non il lavaggio dei capelli.',
-  'candy':      'tramite l\'arabo qandi e il persiano qand, in ultima analisi dal sanscrito khanda — "pezzo (di zucchero)".',
-  'coffee':     'tramite l\'arabo qahwa, forse legato alla regione di Kaffa, in Etiopia, da cui è originaria la pianta del caffè.',
-  'tariff':     'dall\'arabo ta\'rif — "notifica, spiegazione": un elenco che informava i mercanti dei dazi da pagare.',
-  'magazine':   'dall\'arabo makhazin (plurale di makhzan) — "magazzini": la parola indicava prima un deposito, poi una "raccolta" di articoli.',
-  'gym':        'abbreviazione di gymnasium, dal greco gymnos — "nudo": gli atleti greci si allenavano e competevano nudi.',
-  'handicap':   'dall\'espressione "hand in cap" (la mano nel berretto), un\'antica scommessa in cui la posta veniva messa in un berretto; più tardi usata nelle corse di cavalli per indicare uno svantaggio artificiale che livella i concorrenti.',
-  'lemon':      'tramite l\'arabo laymūn e il persiano līmūn, legato in ultima analisi a una radice sanscrita per gli agrumi.',
-  'orange':     'tramite il francese antico orenge, l\'arabo nāranj, il persiano nārang e il sanscrito nāraṅga: il nome del colore apparve in inglese solo dopo che il frutto stesso divenne noto.',
-  'tea':        'deriva dal cinese te, arrivato in inglese tramite i mercanti olandesi; le parole simili a "cha" in molte altre lingue seguirono la stessa radice attraverso una rotta commerciale terrestre diversa.',
-  'sugar':      'tramite l\'arabo sukkar e il persiano shakar, in ultima analisi dal sanscrito śarkarā — "ghiaia, granello", in riferimento allo zucchero cristallizzato.',
-  'arsenal':    'dall\'arabo dar as-sina\'a — "casa di fabbricazione", tramite l\'italiano arzanà: in origine indicava un cantiere navale per costruire e riparare navi.',
-  'algorithm':  'in onore del matematico persiano al-Khwarizmi (IX secolo), il cui nome fu latinizzato in algorismus.',
-  'zero':       'tramite l\'arabo sifr — "vuoto, nulla" (traduzione del sanscrito śūnya): la parola passò per l\'italiano zefiro prima di abbreviarsi in zero.',
-  'typhoon':    'probabilmente un incrocio tra il greco typhon (un mostruoso vento-tempesta, anche un gigante mitologico) e il cinese tai fung — "grande vento".',
-  'ketchup':    'probabilmente dal hokkien kê-tsiap, una salsa di pesce fermentato che i mercanti europei trasformarono in un condimento a base di pomodoro.',
-  'slogan':     'dal gaelico scozzese sluagh-ghairm — "grido di guerra" (sluagh "esercito, schiera" + gairm "grido").',
-  'whisky':     'dal gaelico uisge beatha — "acqua di vita", traduzione del latino aqua vitae.',
-  'marathon':   'dalla battaglia di Maratona (490 a.C.): la leggenda narra che un messaggero corse da Maratona ad Atene per annunciare la vittoria — e morì per lo sforzo.',
-  'laser':      'acronimo di Light Amplification by Stimulated Emission of Radiation ("amplificazione di luce per emissione stimolata di radiazione").',
-  'radar':      'acronimo di RAdio Detection And Ranging ("rilevamento e localizzazione tramite radio").',
-  'quiz':       'origine sconosciuta; una leggenda popolare, mai provata, racconta che un direttore di teatro di Dublino inventò questa parola senza senso per una scommessa, per introdurla nella lingua in una sola notte.',
+  clock:
+    'dal latino medievale clocca — "campana": i primi orologi meccanici non avevano un quadrante e segnavano le ore semplicemente con un rintocco di campana.',
+  bankrupt:
+    "dall'italiano banca rotta: ai prestatori che fallivano veniva simbolicamente rotto il banco al mercato.",
+  avocado:
+    'dal nahuatl azteco ahuacatl — "testicolo" (per la forma del frutto): gli spagnoli storpiarono la parola accostandola al loro abogado, "avvocato".',
+  ballot:
+    'dall\'italiano ballotta — "pallina": nella Venezia medievale si votava gettando palline colorate in un\'urna.',
+  jeans:
+    'dal francese Gênes, nome della città italiana di Genova, dove questo robusto tessuto di cotone fu prodotto per la prima volta.',
+  mortgage:
+    'dal francese antico mort — "morto" + gage — "pegno": il debito è considerato "morto" una volta saldato, oppure il bene diventa "morto" per il debitore se non paga.',
+  chess:
+    'in ultima analisi dal persiano shah — "re": la parola è passata per l\'arabo e il francese antico prima di arrivare in inglese.',
+  nice: 'dal latino nescius — "ignorante" (ne- "non" + scire "sapere"): in origine significava qualcosa come "sciocco" e solo secoli dopo ha assunto il senso attuale di "gentile, piacevole".',
+  silly:
+    'dall\'inglese antico sælig — "benedetto, felice": il significato è scivolato verso "ingenuo" e infine verso l\'attuale "sciocco".',
+  husband:
+    'dal norreno antico húsbóndi — hus "casa" + bondi "abitante, padrone": in origine significava semplicemente "padrone di casa", senza nessun legame col matrimonio.',
+  girl: 'in inglese medio, gyrle significava semplicemente "bambino/a" di qualsiasi sesso, non solo una bambina.',
+  gossip:
+    'dall\'inglese antico godsibb — "legato a Dio" (god + sibb "parente"): in origine indicava il padrino o un amico di famiglia presente al battesimo.',
+  bonfire:
+    'letteralmente "fuoco di ossa" (bone + fire): nel Medioevo i falò di festa erano talvolta davvero alimentati con ossa di animali.',
+  magenta:
+    'il colore deve il nome alla battaglia di Magenta (1859, Italia), epoca in cui fu scoperto questo intenso colorante rosa-rosso.',
+  boycott:
+    'in onore del capitano Charles Boycott, agente terriero inglese in Irlanda, completamente isolato dai contadini locali nel 1880 per le sue pratiche ingiuste.',
+  maverick:
+    'in onore di Samuel Maverick, un allevatore texano che non marchiava il bestiame — le mucche "senza marchio" presero così il suo nome.',
+  cereal: "da Cerere, la dea romana dell'agricoltura e del raccolto dei cereali.",
+  echo: 'dal mito greco della ninfa Eco, così innamorata di Narciso da svanire, lasciando solo la sua voce, che ripete le parole degli altri.',
+  vandalism:
+    'dai Vandali, popolo germanico che saccheggiò Roma nel 455 — da cui la parola per la distruzione insensata.',
+  companionship:
+    'dal latino com- "insieme" + panis "pane": un compagno è letteralmente "qualcuno con cui si condivide il pane".',
+  cancel:
+    'dal latino cancellus — "grata, reticolo": le righe cancellate ricordavano proprio quel tipo di griglia.',
+  shampoo:
+    'dall\'hindi champo, imperativo di champna — "massaggiare, impastare": in origine significava un massaggio alla testa, non il lavaggio dei capelli.',
+  candy:
+    'tramite l\'arabo qandi e il persiano qand, in ultima analisi dal sanscrito khanda — "pezzo (di zucchero)".',
+  coffee:
+    "tramite l'arabo qahwa, forse legato alla regione di Kaffa, in Etiopia, da cui è originaria la pianta del caffè.",
+  tariff:
+    'dall\'arabo ta\'rif — "notifica, spiegazione": un elenco che informava i mercanti dei dazi da pagare.',
+  magazine:
+    'dall\'arabo makhazin (plurale di makhzan) — "magazzini": la parola indicava prima un deposito, poi una "raccolta" di articoli.',
+  gym: 'abbreviazione di gymnasium, dal greco gymnos — "nudo": gli atleti greci si allenavano e competevano nudi.',
+  handicap:
+    'dall\'espressione "hand in cap" (la mano nel berretto), un\'antica scommessa in cui la posta veniva messa in un berretto; più tardi usata nelle corse di cavalli per indicare uno svantaggio artificiale che livella i concorrenti.',
+  lemon:
+    "tramite l'arabo laymūn e il persiano līmūn, legato in ultima analisi a una radice sanscrita per gli agrumi.",
+  orange:
+    "tramite il francese antico orenge, l'arabo nāranj, il persiano nārang e il sanscrito nāraṅga: il nome del colore apparve in inglese solo dopo che il frutto stesso divenne noto.",
+  tea: 'deriva dal cinese te, arrivato in inglese tramite i mercanti olandesi; le parole simili a "cha" in molte altre lingue seguirono la stessa radice attraverso una rotta commerciale terrestre diversa.',
+  sugar:
+    'tramite l\'arabo sukkar e il persiano shakar, in ultima analisi dal sanscrito śarkarā — "ghiaia, granello", in riferimento allo zucchero cristallizzato.',
+  arsenal:
+    "dall'arabo dar as-sina'a — \"casa di fabbricazione\", tramite l'italiano arzanà: in origine indicava un cantiere navale per costruire e riparare navi.",
+  algorithm:
+    'in onore del matematico persiano al-Khwarizmi (IX secolo), il cui nome fu latinizzato in algorismus.',
+  zero: 'tramite l\'arabo sifr — "vuoto, nulla" (traduzione del sanscrito śūnya): la parola passò per l\'italiano zefiro prima di abbreviarsi in zero.',
+  typhoon:
+    'probabilmente un incrocio tra il greco typhon (un mostruoso vento-tempesta, anche un gigante mitologico) e il cinese tai fung — "grande vento".',
+  ketchup:
+    'probabilmente dal hokkien kê-tsiap, una salsa di pesce fermentato che i mercanti europei trasformarono in un condimento a base di pomodoro.',
+  slogan:
+    'dal gaelico scozzese sluagh-ghairm — "grido di guerra" (sluagh "esercito, schiera" + gairm "grido").',
+  whisky: 'dal gaelico uisge beatha — "acqua di vita", traduzione del latino aqua vitae.',
+  marathon:
+    'dalla battaglia di Maratona (490 a.C.): la leggenda narra che un messaggero corse da Maratona ad Atene per annunciare la vittoria — e morì per lo sforzo.',
+  laser:
+    'acronimo di Light Amplification by Stimulated Emission of Radiation ("amplificazione di luce per emissione stimolata di radiazione").',
+  radar: 'acronimo di RAdio Detection And Ranging ("rilevamento e localizzazione tramite radio").',
+  quiz: 'origine sconosciuta; una leggenda popolare, mai provata, racconta che un direttore di teatro di Dublino inventò questa parola senza senso per una scommessa, per introdurla nella lingua in una sola notte.',
 
-  'jovial':     'da Jove, un altro nome di Giove: secondo l\'antica astrologia, chi nasceva sotto il segno di questo pianeta era allegro e di buon umore.',
-  'mercurial':  'dal dio Mercurio, il messaggero divino veloce e imprevedibile; legato anche al mercurio, il metallo liquido di natura altrettanto instabile e mutevole.',
-  'narcissistic': 'da Narciso, il giovane del mito greco innamoratosi così tanto del proprio riflesso nell\'acqua da consumarsi, incapace di staccarsene.',
-  'hygiene':    'da Igea, la dea greca della salute e della pulizia, figlia di Asclepio, il dio della medicina.',
-  'museum':     'dal greco mouseion — "sede delle Muse": un luogo dedicato alle nove Muse, dee delle arti e delle scienze.',
-  'music':      'dal greco mousike (techne) — letteralmente "l\'arte delle Muse", cioè tutto ciò che era sotto il patronato delle nove Muse.',
-  'tragedy':    'dal greco tragoidia, letteralmente "canto del capro" (tragos "capro" + oide "canto"): forse legato a cori vestiti con pelli di capra, oppure a un capro come premio per il miglior canto.',
-  'comedy':     'dal greco komoidia — "canto di festa" (komos "corteo festoso" + oide "canto"): legato alle processioni festive in onore di Dioniso.',
-  'vaccine':    'dal latino vacca — "vacca": il primo vaccino, contro il vaiolo, era prodotto con materiale prelevato dal vaiolo bovino (cowpox).',
-  'nausea':     'dal greco nausia — "mal di mare" (naus "nave"): in origine la parola indicava solo il malessere causato dal moto di una nave.',
-  'testify':    'dal latino testis — "testimone": testify significa letteralmente "agire da testimone".',
-  'silhouette': 'in onore di Étienne de Silhouette, ministro delle finanze francese del XVIII secolo noto per la sua avarizia: i ritratti di profilo, economici e diffusi grazie ai suoi tagli alla spesa, presero il suo nome.',
-  'saxophone':  'in onore di Adolphe Sax, il liutaio belga che lo inventò negli anni 1840.',
-  'melancholy': 'dal greco melas "nero" + khole "bile": la medicina antica attribuiva un umore depresso a un eccesso di "bile nera" nel corpo.',
-  'lunatic':    'dal latino luna — "luna": un\'antica credenza voleva che le fasi lunari influenzassero la salute mentale, provocando episodi di follia.',
-  'genuine':    'dal latino genuinus, legato a genu — "ginocchio": secondo l\'usanza romana, un padre riconosceva un figlio come proprio sedendolo sul ginocchio.',
-  'sabotage':   'dal francese sabot — "zoccolo di legno": secondo la leggenda, gli operai gettavano questi zoccoli nei macchinari, o danneggiavano le attrezzature con le loro pesanti suole, come forma di protesta.',
-  'hazard':     'dall\'arabo az-zahr — "i dadi": la parola passò per il francese antico come nome di un gioco di dadi prima di assumere il significato di rischio e pericolo in generale.',
-  'soccer':     'abbreviazione di "association" (Association Football): agli studenti britannici piaceva abbreviare le parole aggiungendo "-er", trasformando asSOCiation in "soccer".',
-  'zenith':     'tramite il francese antico zenith e il latino medievale cenit, dall\'arabo samt (ar-ra\'s) — "il percorso (sopra la testa)": un errore di trascrizione trasformò la "m" in "ni".',
-  'syrup':      'tramite il francese antico sirop e il latino siropus, in ultima analisi dall\'arabo sharab — "una bevanda", la stessa radice di "sorbetto".',
-  'utopia':     'parola coniata da Tommaso Moro (1516) dal greco ou "non" + topos "luogo" — letteralmente "nessun luogo"; anche un gioco di parole con eu-topia, "buon luogo".',
-  'quixotic':   'da Don Chisciotte, l\'eroe del romanzo di Cervantes, famoso per le sue avventure poco realistiche e idealistiche.',
-  'laconic':    'dalla Laconia, la regione dell\'antica Sparta: gli spartani erano famosi per il loro modo di parlare conciso ed economico.',
-  'stoic':      'dall\'antica scuola filosofica greca degli stoici, fondata da Zenone: i suoi seguaci si riunivano nella "Stoa Poikile" (portico dipinto) di Atene e predicavano una calma resistenza alla sofferenza.',
-  'cynical':    'dal greco kynikos — "simile a un cane" (kyon "cane"): i filosofi cinici, che vivevano con deliberata semplicità e disprezzavano le convenzioni, furono soprannominati così, forse dal soprannome del loro stesso fondatore Diogene.',
-  'academic':   'dall\'Accademia, un boschetto vicino ad Atene chiamato così in onore dell\'eroe Academo, dove Platone insegnava ai suoi allievi.',
+  jovial:
+    "da Jove, un altro nome di Giove: secondo l'antica astrologia, chi nasceva sotto il segno di questo pianeta era allegro e di buon umore.",
+  mercurial:
+    'dal dio Mercurio, il messaggero divino veloce e imprevedibile; legato anche al mercurio, il metallo liquido di natura altrettanto instabile e mutevole.',
+  narcissistic:
+    "da Narciso, il giovane del mito greco innamoratosi così tanto del proprio riflesso nell'acqua da consumarsi, incapace di staccarsene.",
+  hygiene:
+    'da Igea, la dea greca della salute e della pulizia, figlia di Asclepio, il dio della medicina.',
+  museum:
+    'dal greco mouseion — "sede delle Muse": un luogo dedicato alle nove Muse, dee delle arti e delle scienze.',
+  music:
+    'dal greco mousike (techne) — letteralmente "l\'arte delle Muse", cioè tutto ciò che era sotto il patronato delle nove Muse.',
+  tragedy:
+    'dal greco tragoidia, letteralmente "canto del capro" (tragos "capro" + oide "canto"): forse legato a cori vestiti con pelli di capra, oppure a un capro come premio per il miglior canto.',
+  comedy:
+    'dal greco komoidia — "canto di festa" (komos "corteo festoso" + oide "canto"): legato alle processioni festive in onore di Dioniso.',
+  vaccine:
+    'dal latino vacca — "vacca": il primo vaccino, contro il vaiolo, era prodotto con materiale prelevato dal vaiolo bovino (cowpox).',
+  nausea:
+    'dal greco nausia — "mal di mare" (naus "nave"): in origine la parola indicava solo il malessere causato dal moto di una nave.',
+  testify: 'dal latino testis — "testimone": testify significa letteralmente "agire da testimone".',
+  silhouette:
+    'in onore di Étienne de Silhouette, ministro delle finanze francese del XVIII secolo noto per la sua avarizia: i ritratti di profilo, economici e diffusi grazie ai suoi tagli alla spesa, presero il suo nome.',
+  saxophone: 'in onore di Adolphe Sax, il liutaio belga che lo inventò negli anni 1840.',
+  melancholy:
+    'dal greco melas "nero" + khole "bile": la medicina antica attribuiva un umore depresso a un eccesso di "bile nera" nel corpo.',
+  lunatic:
+    'dal latino luna — "luna": un\'antica credenza voleva che le fasi lunari influenzassero la salute mentale, provocando episodi di follia.',
+  genuine:
+    'dal latino genuinus, legato a genu — "ginocchio": secondo l\'usanza romana, un padre riconosceva un figlio come proprio sedendolo sul ginocchio.',
+  sabotage:
+    'dal francese sabot — "zoccolo di legno": secondo la leggenda, gli operai gettavano questi zoccoli nei macchinari, o danneggiavano le attrezzature con le loro pesanti suole, come forma di protesta.',
+  hazard:
+    'dall\'arabo az-zahr — "i dadi": la parola passò per il francese antico come nome di un gioco di dadi prima di assumere il significato di rischio e pericolo in generale.',
+  soccer:
+    'abbreviazione di "association" (Association Football): agli studenti britannici piaceva abbreviare le parole aggiungendo "-er", trasformando asSOCiation in "soccer".',
+  zenith:
+    'tramite il francese antico zenith e il latino medievale cenit, dall\'arabo samt (ar-ra\'s) — "il percorso (sopra la testa)": un errore di trascrizione trasformò la "m" in "ni".',
+  syrup:
+    'tramite il francese antico sirop e il latino siropus, in ultima analisi dall\'arabo sharab — "una bevanda", la stessa radice di "sorbetto".',
+  utopia:
+    'parola coniata da Tommaso Moro (1516) dal greco ou "non" + topos "luogo" — letteralmente "nessun luogo"; anche un gioco di parole con eu-topia, "buon luogo".',
+  quixotic:
+    "da Don Chisciotte, l'eroe del romanzo di Cervantes, famoso per le sue avventure poco realistiche e idealistiche.",
+  laconic:
+    "dalla Laconia, la regione dell'antica Sparta: gli spartani erano famosi per il loro modo di parlare conciso ed economico.",
+  stoic:
+    'dall\'antica scuola filosofica greca degli stoici, fondata da Zenone: i suoi seguaci si riunivano nella "Stoa Poikile" (portico dipinto) di Atene e predicavano una calma resistenza alla sofferenza.',
+  cynical:
+    'dal greco kynikos — "simile a un cane" (kyon "cane"): i filosofi cinici, che vivevano con deliberata semplicità e disprezzavano le convenzioni, furono soprannominati così, forse dal soprannome del loro stesso fondatore Diogene.',
+  academic:
+    "dall'Accademia, un boschetto vicino ad Atene chiamato così in onore dell'eroe Academo, dove Platone insegnava ai suoi allievi.",
 };
 
 const ETYMOLOGY_PT: Record<string, string> = {
-  'salary':     'do latim salarium — "pagamento em sal": parte do soldo dos soldados romanos era paga em sal, um bem valioso.',
-  'disaster':   'do italiano disastro — "má estrela" (dis- "mau" + astro "estrela"): segundo uma antiga crença, o infortúnio vinha de uma posição desfavorável dos astros.',
-  'clue':       'do inglês antigo clew — "bola de fio": no mito grego, Teseu saiu do labirinto desenrolando uma bola de fio.',
-  'muscle':     'do latim musculus — "ratinho": um bíceps contraído parecia aos romanos um rato a mover-se sob a pele.',
-  'candidate':  'do latim candidatus — "vestido de branco": em Roma, os candidatos a um cargo usavam uma toga branca como sinal de pureza de intenções.',
-  'calculate':  'do latim calculus — "pedrinha": os romanos contavam com pequenas pedras sobre um tabuleiro.',
-  'sincere':    'frequentemente explicado pelo latim sine cera — "sem cera": escultores desonestos escondiam fendas no mármore com cera, então um trabalho honesto era "sem cera" (a etimologia real é incerta, mas a história ficou).',
-  'salad':      'do latim salata — "salgada": os vegetais já eram temperados com salmoura na Roma Antiga.',
-  'holiday':    'do inglês antigo haligdæg — "dia sagrado": a palavra originalmente designava apenas uma festa religiosa.',
-  'breakfast':  'literalmente "romper" + "jejum" (break + fast): a primeira refeição do dia encerra o jejum noturno.',
-  'nightmare':  'de night + mare, um espírito maligno que, segundo crenças medievais, se sentava no peito do dorminte e provocava sonhos angustiantes.',
-  'quarantine': 'do italiano quaranta giorni — "quarenta dias": era exatamente esse o tempo em que os navios ficavam isolados durante epidemias de peste.',
-  'assassin':   'do árabe hashashin, nome de uma seita medieval cujos membros, segundo a lenda, consumiam haxixe antes de cometer assassinatos secretos.',
-  'robot':      'do tcheco robota — "trabalho forçado": palavra criada pelo escritor Karel Čapek na peça "R.U.R." (1920).',
-  'sandwich':   'nomeado em homenagem ao conde de Sandwich, que gostava de comer carne entre duas fatias de pão sem se levantar da mesa de cartas.',
-  'panic':      'do deus grego Pã, que, segundo o mito, causava um terror súbito em pessoas e rebanhos com seu grito.',
-  'volcano':    'de Vulcano, o deus romano do fogo e da forja.',
-  'planet':     'do grego planetes — "errante": as estrelas que se moviam sobre o céu fixo pareciam aos gregos "errantes".',
-  'geography':  'do grego geo "terra" + graphein "escrever, descrever" — literalmente "descrição da terra".',
-  'biology':    'do grego bios "vida" + logos "estudo" — literalmente "estudo da vida".',
-  'alarm':      'do italiano all\'arme — "às armas!": um grito de guerra usado para avisar de um perigo.',
-  'glamour':    'variante escocesa de "grammar" (gramática): antes significava um feitiço mágico, pois as pessoas instruídas eram associadas ao poder misterioso do saber.',
+  salary:
+    'do latim salarium — "pagamento em sal": parte do soldo dos soldados romanos era paga em sal, um bem valioso.',
+  disaster:
+    'do italiano disastro — "má estrela" (dis- "mau" + astro "estrela"): segundo uma antiga crença, o infortúnio vinha de uma posição desfavorável dos astros.',
+  clue: 'do inglês antigo clew — "bola de fio": no mito grego, Teseu saiu do labirinto desenrolando uma bola de fio.',
+  muscle:
+    'do latim musculus — "ratinho": um bíceps contraído parecia aos romanos um rato a mover-se sob a pele.',
+  candidate:
+    'do latim candidatus — "vestido de branco": em Roma, os candidatos a um cargo usavam uma toga branca como sinal de pureza de intenções.',
+  calculate:
+    'do latim calculus — "pedrinha": os romanos contavam com pequenas pedras sobre um tabuleiro.',
+  sincere:
+    'frequentemente explicado pelo latim sine cera — "sem cera": escultores desonestos escondiam fendas no mármore com cera, então um trabalho honesto era "sem cera" (a etimologia real é incerta, mas a história ficou).',
+  salad: 'do latim salata — "salgada": os vegetais já eram temperados com salmoura na Roma Antiga.',
+  holiday:
+    'do inglês antigo haligdæg — "dia sagrado": a palavra originalmente designava apenas uma festa religiosa.',
+  breakfast:
+    'literalmente "romper" + "jejum" (break + fast): a primeira refeição do dia encerra o jejum noturno.',
+  nightmare:
+    'de night + mare, um espírito maligno que, segundo crenças medievais, se sentava no peito do dorminte e provocava sonhos angustiantes.',
+  quarantine:
+    'do italiano quaranta giorni — "quarenta dias": era exatamente esse o tempo em que os navios ficavam isolados durante epidemias de peste.',
+  assassin:
+    'do árabe hashashin, nome de uma seita medieval cujos membros, segundo a lenda, consumiam haxixe antes de cometer assassinatos secretos.',
+  robot:
+    'do tcheco robota — "trabalho forçado": palavra criada pelo escritor Karel Čapek na peça "R.U.R." (1920).',
+  sandwich:
+    'nomeado em homenagem ao conde de Sandwich, que gostava de comer carne entre duas fatias de pão sem se levantar da mesa de cartas.',
+  panic:
+    'do deus grego Pã, que, segundo o mito, causava um terror súbito em pessoas e rebanhos com seu grito.',
+  volcano: 'de Vulcano, o deus romano do fogo e da forja.',
+  planet:
+    'do grego planetes — "errante": as estrelas que se moviam sobre o céu fixo pareciam aos gregos "errantes".',
+  geography:
+    'do grego geo "terra" + graphein "escrever, descrever" — literalmente "descrição da terra".',
+  biology: 'do grego bios "vida" + logos "estudo" — literalmente "estudo da vida".',
+  alarm: 'do italiano all\'arme — "às armas!": um grito de guerra usado para avisar de um perigo.',
+  glamour:
+    'variante escocesa de "grammar" (gramática): antes significava um feitiço mágico, pois as pessoas instruídas eram associadas ao poder misterioso do saber.',
 
-  'clock':      'do latim medieval clocca — "sino": os primeiros relógios mecânicos não tinham mostrador e apenas marcavam as horas com badaladas.',
-  'bankrupt':   'do italiano banca rotta — "banco partido": os agiotas que faliam tinham simbolicamente seu banco do mercado quebrado.',
-  'avocado':    'do náuatle asteca ahuacatl — "testículo" (pela forma do fruto): os espanhóis deformaram a palavra aproximando-a de abogado, "advogado".',
-  'ballot':     'do italiano ballotta — "bolinha": na Veneza medieval, votava-se lançando bolas coloridas numa urna.',
-  'jeans':      'do francês Gênes, nome da cidade italiana de Gênova, onde esse tecido de algodão resistente foi feito por primeira vez.',
-  'mortgage':   'do francês antigo mort — "morto" + gage — "penhor": a dívida é considerada "morta" depois de paga, ou o bem fica "morto" para o devedor se ele não pagar.',
-  'chess':      'em última análise, do persa shah — "rei": a palavra passou pelo árabe e pelo francês antigo antes de chegar ao inglês.',
-  'nice':       'do latim nescius — "ignorante" (ne- "não" + scire "saber"): a palavra significava a princípio algo como "tolo" e só séculos depois ganhou o sentido atual de "agradável".',
-  'silly':      'do inglês antigo sælig — "bendito, feliz": o sentido foi deslizando para "ingênuo" e por fim para o atual "bobo".',
-  'husband':    'do nórdico antigo húsbóndi — hus "casa" + bondi "habitante, senhor": originalmente significava apenas "senhor da casa", sem ligação com o casamento.',
-  'girl':       'em inglês médio, gyrle significava simplesmente "criança" de qualquer sexo, não apenas uma menina.',
-  'gossip':     'do inglês antigo godsibb — "ligado a Deus" (god + sibb "parente"): a princípio designava o padrinho ou um amigo próximo da família presente no batismo.',
-  'bonfire':    'literalmente "fogo de ossos" (bone + fire): na Idade Média, as fogueiras de festa eram às vezes realmente alimentadas com ossos de animais.',
-  'magenta':    'a cor recebeu o nome da batalha de Magenta (1859, Itália), época em que esse corante rosa-vermelho vivo foi descoberto.',
-  'boycott':    'em homenagem ao capitão Charles Boycott, administrador de terras inglês na Irlanda, totalmente isolado pelos arrendatários locais em 1880 por práticas injustas.',
-  'maverick':   'em homenagem a Samuel Maverick, um fazendeiro texano que não marcava seu gado — as vacas "sem marca" passaram a ser chamadas pelo seu nome.',
-  'cereal':     'de Ceres, a deusa romana da agricultura e da colheita de cereais.',
-  'echo':       'do mito grego da ninfa Eco, tão apaixonada por Narciso que desapareceu, deixando apenas sua voz, que repete as palavras dos outros.',
-  'vandalism':  'dos vândalos, um povo germânico que saqueou Roma em 455 — daí a palavra para a destruição sem sentido.',
-  'companionship': 'do latim com- "junto" + panis "pão": um companheiro é literalmente "alguém com quem se partilha o pão".',
-  'cancel':     'do latim cancellus — "grade, gradeamento": as linhas riscadas lembravam exatamente esse tipo de grade.',
-  'shampoo':    'do hindi champo, imperativo de champna — "massagear, amassar": a princípio significava uma massagem na cabeça, não lavar o cabelo.',
-  'candy':      'via árabe qandi e persa qand, em última análise do sânscrito khanda — "pedaço (de açúcar)".',
-  'coffee':     'via árabe qahwa, possivelmente ligado à região de Caffa, na Etiópia, de onde é originário o cafeeiro.',
-  'tariff':     'do árabe ta\'rif — "notificação, explicação": uma lista que informava os comerciantes sobre as taxas devidas.',
-  'magazine':   'do árabe makhazin (plural de makhzan) — "armazéns": a palavra significou primeiro um depósito e depois uma "coleção" de artigos.',
-  'gym':        'abreviação de gymnasium, do grego gymnos — "nu": os atletas gregos treinavam e competiam nus.',
-  'handicap':   'da expressão "hand in cap" (mão no boné), um antigo jogo de azar em que as apostas eram colocadas num boné; mais tarde usado nas corridas de cavalos para um desvio artificial que equilibra os competidores.',
-  'lemon':      'via árabe laymūn e persa līmūn, ligado em última análise a uma raiz sânscrita para os citros.',
-  'orange':     'via francês antigo orenge, árabe nāranj, persa nārang e sânscrito nāraṅga: o nome da cor só apareceu em inglês depois que a própria fruta se tornou conhecida.',
-  'tea':        'vem do chinês te, que chegou ao inglês via comerciantes holandeses; as palavras do tipo "cha" usadas em muitas outras línguas seguiram a mesma raiz por uma rota comercial terrestre diferente.',
-  'sugar':      'via árabe sukkar e persa shakar, em última análise do sânscrito śarkarā — "cascalho, areia", referindo-se ao açúcar cristalizado.',
-  'arsenal':    'do árabe dar as-sina\'a — "casa de fabricação", via italiano arzanà: originalmente designava um estaleiro para construir e reparar navios.',
-  'algorithm':  'em homenagem ao matemático persa al-Khwarizmi (séc. IX), cujo nome foi latinizado como algorismus.',
-  'zero':       'via árabe sifr — "vazio, nada" (tradução do sânscrito śūnya): a palavra passou pelo italiano zefiro antes de se reduzir a zero.',
-  'typhoon':    'provavelmente uma mistura do grego typhon (um vento-tempestade monstruoso, também um gigante mitológico) e do chinês tai fung — "grande vento".',
-  'ketchup':    'provavelmente do hokkien kê-tsiap, um molho de peixe fermentado que comerciantes europeus transformaram num condimento à base de tomate.',
-  'slogan':     'do gaélico escocês sluagh-ghairm — "grito de guerra" (sluagh "exército, hoste" + gairm "grito").',
-  'whisky':     'do gaélico uisge beatha — "água da vida", tradução do latim aqua vitae.',
-  'marathon':   'em homenagem à batalha de Maratona (490 a.C.): a lenda conta que um mensageiro correu de Maratona a Atenas para anunciar a vitória — e morreu de exaustão.',
-  'laser':      'sigla de Light Amplification by Stimulated Emission of Radiation ("amplificação de luz por emissão estimulada de radiação").',
-  'radar':      'sigla de RAdio Detection And Ranging ("detecção e localização por rádio").',
-  'quiz':       'origem desconhecida; uma lenda popular (embora nunca comprovada) afirma que um diretor de teatro de Dublin inventou essa palavra sem sentido numa aposta, para introduzi-la na língua em uma única noite.',
+  clock:
+    'do latim medieval clocca — "sino": os primeiros relógios mecânicos não tinham mostrador e apenas marcavam as horas com badaladas.',
+  bankrupt:
+    'do italiano banca rotta — "banco partido": os agiotas que faliam tinham simbolicamente seu banco do mercado quebrado.',
+  avocado:
+    'do náuatle asteca ahuacatl — "testículo" (pela forma do fruto): os espanhóis deformaram a palavra aproximando-a de abogado, "advogado".',
+  ballot:
+    'do italiano ballotta — "bolinha": na Veneza medieval, votava-se lançando bolas coloridas numa urna.',
+  jeans:
+    'do francês Gênes, nome da cidade italiana de Gênova, onde esse tecido de algodão resistente foi feito por primeira vez.',
+  mortgage:
+    'do francês antigo mort — "morto" + gage — "penhor": a dívida é considerada "morta" depois de paga, ou o bem fica "morto" para o devedor se ele não pagar.',
+  chess:
+    'em última análise, do persa shah — "rei": a palavra passou pelo árabe e pelo francês antigo antes de chegar ao inglês.',
+  nice: 'do latim nescius — "ignorante" (ne- "não" + scire "saber"): a palavra significava a princípio algo como "tolo" e só séculos depois ganhou o sentido atual de "agradável".',
+  silly:
+    'do inglês antigo sælig — "bendito, feliz": o sentido foi deslizando para "ingênuo" e por fim para o atual "bobo".',
+  husband:
+    'do nórdico antigo húsbóndi — hus "casa" + bondi "habitante, senhor": originalmente significava apenas "senhor da casa", sem ligação com o casamento.',
+  girl: 'em inglês médio, gyrle significava simplesmente "criança" de qualquer sexo, não apenas uma menina.',
+  gossip:
+    'do inglês antigo godsibb — "ligado a Deus" (god + sibb "parente"): a princípio designava o padrinho ou um amigo próximo da família presente no batismo.',
+  bonfire:
+    'literalmente "fogo de ossos" (bone + fire): na Idade Média, as fogueiras de festa eram às vezes realmente alimentadas com ossos de animais.',
+  magenta:
+    'a cor recebeu o nome da batalha de Magenta (1859, Itália), época em que esse corante rosa-vermelho vivo foi descoberto.',
+  boycott:
+    'em homenagem ao capitão Charles Boycott, administrador de terras inglês na Irlanda, totalmente isolado pelos arrendatários locais em 1880 por práticas injustas.',
+  maverick:
+    'em homenagem a Samuel Maverick, um fazendeiro texano que não marcava seu gado — as vacas "sem marca" passaram a ser chamadas pelo seu nome.',
+  cereal: 'de Ceres, a deusa romana da agricultura e da colheita de cereais.',
+  echo: 'do mito grego da ninfa Eco, tão apaixonada por Narciso que desapareceu, deixando apenas sua voz, que repete as palavras dos outros.',
+  vandalism:
+    'dos vândalos, um povo germânico que saqueou Roma em 455 — daí a palavra para a destruição sem sentido.',
+  companionship:
+    'do latim com- "junto" + panis "pão": um companheiro é literalmente "alguém com quem se partilha o pão".',
+  cancel:
+    'do latim cancellus — "grade, gradeamento": as linhas riscadas lembravam exatamente esse tipo de grade.',
+  shampoo:
+    'do hindi champo, imperativo de champna — "massagear, amassar": a princípio significava uma massagem na cabeça, não lavar o cabelo.',
+  candy:
+    'via árabe qandi e persa qand, em última análise do sânscrito khanda — "pedaço (de açúcar)".',
+  coffee:
+    'via árabe qahwa, possivelmente ligado à região de Caffa, na Etiópia, de onde é originário o cafeeiro.',
+  tariff:
+    'do árabe ta\'rif — "notificação, explicação": uma lista que informava os comerciantes sobre as taxas devidas.',
+  magazine:
+    'do árabe makhazin (plural de makhzan) — "armazéns": a palavra significou primeiro um depósito e depois uma "coleção" de artigos.',
+  gym: 'abreviação de gymnasium, do grego gymnos — "nu": os atletas gregos treinavam e competiam nus.',
+  handicap:
+    'da expressão "hand in cap" (mão no boné), um antigo jogo de azar em que as apostas eram colocadas num boné; mais tarde usado nas corridas de cavalos para um desvio artificial que equilibra os competidores.',
+  lemon:
+    'via árabe laymūn e persa līmūn, ligado em última análise a uma raiz sânscrita para os citros.',
+  orange:
+    'via francês antigo orenge, árabe nāranj, persa nārang e sânscrito nāraṅga: o nome da cor só apareceu em inglês depois que a própria fruta se tornou conhecida.',
+  tea: 'vem do chinês te, que chegou ao inglês via comerciantes holandeses; as palavras do tipo "cha" usadas em muitas outras línguas seguiram a mesma raiz por uma rota comercial terrestre diferente.',
+  sugar:
+    'via árabe sukkar e persa shakar, em última análise do sânscrito śarkarā — "cascalho, areia", referindo-se ao açúcar cristalizado.',
+  arsenal:
+    'do árabe dar as-sina\'a — "casa de fabricação", via italiano arzanà: originalmente designava um estaleiro para construir e reparar navios.',
+  algorithm:
+    'em homenagem ao matemático persa al-Khwarizmi (séc. IX), cujo nome foi latinizado como algorismus.',
+  zero: 'via árabe sifr — "vazio, nada" (tradução do sânscrito śūnya): a palavra passou pelo italiano zefiro antes de se reduzir a zero.',
+  typhoon:
+    'provavelmente uma mistura do grego typhon (um vento-tempestade monstruoso, também um gigante mitológico) e do chinês tai fung — "grande vento".',
+  ketchup:
+    'provavelmente do hokkien kê-tsiap, um molho de peixe fermentado que comerciantes europeus transformaram num condimento à base de tomate.',
+  slogan:
+    'do gaélico escocês sluagh-ghairm — "grito de guerra" (sluagh "exército, hoste" + gairm "grito").',
+  whisky: 'do gaélico uisge beatha — "água da vida", tradução do latim aqua vitae.',
+  marathon:
+    'em homenagem à batalha de Maratona (490 a.C.): a lenda conta que um mensageiro correu de Maratona a Atenas para anunciar a vitória — e morreu de exaustão.',
+  laser:
+    'sigla de Light Amplification by Stimulated Emission of Radiation ("amplificação de luz por emissão estimulada de radiação").',
+  radar: 'sigla de RAdio Detection And Ranging ("detecção e localização por rádio").',
+  quiz: 'origem desconhecida; uma lenda popular (embora nunca comprovada) afirma que um diretor de teatro de Dublin inventou essa palavra sem sentido numa aposta, para introduzi-la na língua em uma única noite.',
 
-  'jovial':     'de Jove, outro nome de Júpiter: segundo a antiga astrologia, quem nascia sob o signo desse planeta era alegre e bem-humorado.',
-  'mercurial':  'do deus Mercúrio, o veloz e imprevisível mensageiro divino; ligado também ao mercúrio, o metal líquido de natureza igualmente instável e mutável.',
-  'narcissistic': 'de Narciso, o jovem do mito grego que se apaixonou tanto pelo próprio reflexo na água que se consumiu, incapaz de desviar o olhar.',
-  'hygiene':    'de Higeia, a deusa grega da saúde e da limpeza, filha de Asclépio, o deus da medicina.',
-  'museum':     'do grego mouseion — "sede das Musas": um lugar dedicado às nove Musas, deusas das artes e das ciências.',
-  'music':      'do grego mousike (techne) — literalmente "a arte das Musas", ou seja, tudo o que estava sob o patrocínio das nove Musas.',
-  'tragedy':    'do grego tragoidia, literalmente "canto do bode" (tragos "bode" + oide "canto"): talvez ligado a coros vestidos com peles de cabra, ou a um bode dado como prêmio ao melhor cantor.',
-  'comedy':     'do grego komoidia — "canto de festa" (komos "procissão festiva" + oide "canto"): ligado às procissões festivas em honra de Dioniso.',
-  'vaccine':    'do latim vacca — "vaca": a primeira vacina, contra a variola, era feita com material retirado da variola bovina (cowpox).',
-  'nausea':     'do grego nausia — "mal do mar" (naus "navio"): a palavra originalmente designava apenas o mal-estar causado pelo balanço de um navio.',
-  'testify':    'do latim testis — "testemunha": testify significa literalmente "agir como testemunha".',
-  'silhouette': 'em homenagem a Étienne de Silhouette, ministro das finanças francês do século XVIII conhecido por sua avareza: os retratos de contorno, baratos e popularizados por seus cortes de gastos, receberam o seu nome.',
-  'saxophone':  'em homenagem a Adolphe Sax, o construtor de instrumentos belga que o inventou na década de 1840.',
-  'melancholy': 'do grego melas "negro" + khole "bile": a medicina antiga atribuía um humor abatido a um excesso de "bile negra" no corpo.',
-  'lunatic':    'do latim luna — "lua": uma antiga crença sustentava que as fases da lua afetavam a saúde mental, provocando episódios de loucura.',
-  'genuine':    'do latim genuinus, ligado a genu — "joelho": pelo costume romano, um pai reconhecia um filho como seu colocando-o sobre o joelho.',
-  'sabotage':   'do francês sabot — "sapato de madeira": segundo a lenda, trabalhadores jogavam esses tamancos nas máquinas, ou danificavam os equipamentos com suas solas pesadas, como forma de protesto.',
-  'hazard':     'do árabe az-zahr — "os dados": a palavra passou pelo francês antigo como nome de um jogo de dados antes de passar a significar risco e perigo em geral.',
-  'soccer':     'forma abreviada de "association" (Association Football): os estudantes britânicos gostavam de abreviar palavras acrescentando "-er", transformando asSOCiation em "soccer".',
-  'zenith':     'via o francês antigo zenith e o latim medieval cenit, do árabe samt (ar-ra\'s) — "o caminho (sobre a cabeça)": um erro de cópia transformou o "m" em "ni".',
-  'syrup':      'via o francês antigo sirop e o latim siropus, em última análise do árabe sharab — "uma bebida", a mesma raiz de "sorvete".',
-  'utopia':     'palavra criada por Thomas More (1516) a partir do grego ou "não" + topos "lugar" — literalmente "lugar nenhum"; também um trocadilho com eu-topia, "lugar bom".',
-  'quixotic':   'em referência a Dom Quixote, o herói do romance de Cervantes, famoso por suas aventuras pouco realistas e idealistas.',
-  'laconic':    'da Lacônia, a região da antiga Esparta: os espartanos eram famosos por seu modo de falar breve e econômico.',
-  'stoic':      'da antiga escola filosófica grega dos estoicos, fundada por Zenão: seus seguidores se reuniam no "Stoa Poikile" (pórtico pintado) de Atenas e pregavam suportar o sofrimento com calma.',
-  'cynical':    'do grego kynikos — "semelhante a um cão" (kyon "cão"): os filósofos cínicos, que viviam com simplicidade deliberada e desprezavam as convenções, foram apelidados assim, talvez a partir do próprio apelido de seu fundador Diógenes.',
-  'academic':   'da Academia, um bosque perto de Atenas chamado assim em honra ao herói Academo, onde Platão ensinava seus alunos.',
+  jovial:
+    'de Jove, outro nome de Júpiter: segundo a antiga astrologia, quem nascia sob o signo desse planeta era alegre e bem-humorado.',
+  mercurial:
+    'do deus Mercúrio, o veloz e imprevisível mensageiro divino; ligado também ao mercúrio, o metal líquido de natureza igualmente instável e mutável.',
+  narcissistic:
+    'de Narciso, o jovem do mito grego que se apaixonou tanto pelo próprio reflexo na água que se consumiu, incapaz de desviar o olhar.',
+  hygiene: 'de Higeia, a deusa grega da saúde e da limpeza, filha de Asclépio, o deus da medicina.',
+  museum:
+    'do grego mouseion — "sede das Musas": um lugar dedicado às nove Musas, deusas das artes e das ciências.',
+  music:
+    'do grego mousike (techne) — literalmente "a arte das Musas", ou seja, tudo o que estava sob o patrocínio das nove Musas.',
+  tragedy:
+    'do grego tragoidia, literalmente "canto do bode" (tragos "bode" + oide "canto"): talvez ligado a coros vestidos com peles de cabra, ou a um bode dado como prêmio ao melhor cantor.',
+  comedy:
+    'do grego komoidia — "canto de festa" (komos "procissão festiva" + oide "canto"): ligado às procissões festivas em honra de Dioniso.',
+  vaccine:
+    'do latim vacca — "vaca": a primeira vacina, contra a variola, era feita com material retirado da variola bovina (cowpox).',
+  nausea:
+    'do grego nausia — "mal do mar" (naus "navio"): a palavra originalmente designava apenas o mal-estar causado pelo balanço de um navio.',
+  testify: 'do latim testis — "testemunha": testify significa literalmente "agir como testemunha".',
+  silhouette:
+    'em homenagem a Étienne de Silhouette, ministro das finanças francês do século XVIII conhecido por sua avareza: os retratos de contorno, baratos e popularizados por seus cortes de gastos, receberam o seu nome.',
+  saxophone:
+    'em homenagem a Adolphe Sax, o construtor de instrumentos belga que o inventou na década de 1840.',
+  melancholy:
+    'do grego melas "negro" + khole "bile": a medicina antiga atribuía um humor abatido a um excesso de "bile negra" no corpo.',
+  lunatic:
+    'do latim luna — "lua": uma antiga crença sustentava que as fases da lua afetavam a saúde mental, provocando episódios de loucura.',
+  genuine:
+    'do latim genuinus, ligado a genu — "joelho": pelo costume romano, um pai reconhecia um filho como seu colocando-o sobre o joelho.',
+  sabotage:
+    'do francês sabot — "sapato de madeira": segundo a lenda, trabalhadores jogavam esses tamancos nas máquinas, ou danificavam os equipamentos com suas solas pesadas, como forma de protesto.',
+  hazard:
+    'do árabe az-zahr — "os dados": a palavra passou pelo francês antigo como nome de um jogo de dados antes de passar a significar risco e perigo em geral.',
+  soccer:
+    'forma abreviada de "association" (Association Football): os estudantes britânicos gostavam de abreviar palavras acrescentando "-er", transformando asSOCiation em "soccer".',
+  zenith:
+    'via o francês antigo zenith e o latim medieval cenit, do árabe samt (ar-ra\'s) — "o caminho (sobre a cabeça)": um erro de cópia transformou o "m" em "ni".',
+  syrup:
+    'via o francês antigo sirop e o latim siropus, em última análise do árabe sharab — "uma bebida", a mesma raiz de "sorvete".',
+  utopia:
+    'palavra criada por Thomas More (1516) a partir do grego ou "não" + topos "lugar" — literalmente "lugar nenhum"; também um trocadilho com eu-topia, "lugar bom".',
+  quixotic:
+    'em referência a Dom Quixote, o herói do romance de Cervantes, famoso por suas aventuras pouco realistas e idealistas.',
+  laconic:
+    'da Lacônia, a região da antiga Esparta: os espartanos eram famosos por seu modo de falar breve e econômico.',
+  stoic:
+    'da antiga escola filosófica grega dos estoicos, fundada por Zenão: seus seguidores se reuniam no "Stoa Poikile" (pórtico pintado) de Atenas e pregavam suportar o sofrimento com calma.',
+  cynical:
+    'do grego kynikos — "semelhante a um cão" (kyon "cão"): os filósofos cínicos, que viviam com simplicidade deliberada e desprezavam as convenções, foram apelidados assim, talvez a partir do próprio apelido de seu fundador Diógenes.',
+  academic:
+    'da Academia, um bosque perto de Atenas chamado assim em honra ao herói Academo, onde Platão ensinava seus alunos.',
 };
 
 const ETYMOLOGY_DE: Record<string, string> = {
-  'salary':     'vom lateinischen salarium — „Salzgeld": römische Soldaten erhielten einen Teil ihres Lohns in Salz, einem damals wertvollen Gut.',
-  'disaster':   'vom italienischen disastro — „schlechter Stern" (dis- „schlecht" + astro „Stern"): nach altem Glauben wurde Unglück einer ungünstigen Sternenkonstellation zugeschrieben.',
-  'clue':       'vom altenglischen clew — „Fadenknäuel": im griechischen Mythos entkam Theseus dem Labyrinth, indem er ein Fadenknäuel abrollte.',
-  'muscle':     'vom lateinischen musculus — „kleine Maus": ein angespannter Bizeps erschien den Römern wie eine Maus, die sich unter der Haut bewegt.',
-  'candidate':  'vom lateinischen candidatus — „weiß gekleidet": Amtsanwärter in Rom trugen eine weiße Toga als Zeichen reiner Absichten.',
-  'calculate':  'vom lateinischen calculus — „kleiner Stein": die Römer rechneten mit kleinen Steinen auf einem Rechenbrett.',
-  'sincere':    'wird oft mit dem Lateinischen sine cera — „ohne Wachs" erklärt: unehrliche Bildhauer verbargen Risse im Marmor mit Wachs, ehrliche Arbeit war also „ohne Wachs" (die wahre Herkunft ist unsicher, die Geschichte hat sich aber gehalten).',
-  'salad':      'vom lateinischen salata — „gesalzen": Gemüse wurde schon im alten Rom mit Salzlake gewürzt.',
-  'holiday':    'vom altenglischen haligdæg — „heiliger Tag": das Wort bezeichnete ursprünglich nur einen religiösen Feiertag.',
-  'breakfast':  'wörtlich „brechen" + „Fasten" (break + fast): die erste Mahlzeit des Tages beendet das nächtliche Fasten.',
-  'nightmare':  'von night + mare, einem bösen Geist, der nach mittelalterlichem Glauben auf der Brust des Schlafenden saß und beängstigende Träume schickte.',
-  'quarantine': 'vom italienischen quaranta giorni — „vierzig Tage": genau so lange wurden Schiffe während Pestepidemien isoliert.',
-  'assassin':   'vom arabischen hashashin, dem Namen einer mittelalterlichen Sekte, deren Mitglieder der Legende nach vor geheimen Anschlägen Haschisch konsumierten.',
-  'robot':      'vom tschechischen robota — „Zwangsarbeit": geprägt vom Schriftsteller Karel Čapek in seinem Stück „R.U.R." (1920).',
-  'sandwich':   'benannt nach dem Earl of Sandwich, der gerne Fleisch zwischen zwei Brotscheiben aß, ohne den Spieltisch zu verlassen.',
-  'panic':      'nach dem griechischen Gott Pan, der der Sage nach mit seinem Schrei plötzlichen Schrecken unter Menschen und Herden auslöste.',
-  'volcano':    'nach Vulkan, dem römischen Gott des Feuers und der Schmiedekunst.',
-  'planet':     'vom griechischen planetes — „Wanderer": Sterne, die sich vor dem unbeweglichen Himmel bewegten, erschienen den Griechen als „wandernd".',
-  'geography':  'vom griechischen geo „Erde" + graphein „schreiben, beschreiben" — wörtlich „Beschreibung der Erde".',
-  'biology':    'vom griechischen bios „Leben" + logos „Lehre" — wörtlich „Lehre vom Leben".',
-  'alarm':      'vom italienischen all\'arme — „zu den Waffen!": ein Kampfruf, mit dem vor Gefahr gewarnt wurde.',
-  'glamour':    'eine schottische Variante von „grammar" (Grammatik): bedeutete früher einen Zauber, da gelehrte Menschen mit der geheimnisvollen Macht des Wissens in Verbindung gebracht wurden.',
+  salary:
+    'vom lateinischen salarium — „Salzgeld": römische Soldaten erhielten einen Teil ihres Lohns in Salz, einem damals wertvollen Gut.',
+  disaster:
+    'vom italienischen disastro — „schlechter Stern" (dis- „schlecht" + astro „Stern"): nach altem Glauben wurde Unglück einer ungünstigen Sternenkonstellation zugeschrieben.',
+  clue: 'vom altenglischen clew — „Fadenknäuel": im griechischen Mythos entkam Theseus dem Labyrinth, indem er ein Fadenknäuel abrollte.',
+  muscle:
+    'vom lateinischen musculus — „kleine Maus": ein angespannter Bizeps erschien den Römern wie eine Maus, die sich unter der Haut bewegt.',
+  candidate:
+    'vom lateinischen candidatus — „weiß gekleidet": Amtsanwärter in Rom trugen eine weiße Toga als Zeichen reiner Absichten.',
+  calculate:
+    'vom lateinischen calculus — „kleiner Stein": die Römer rechneten mit kleinen Steinen auf einem Rechenbrett.',
+  sincere:
+    'wird oft mit dem Lateinischen sine cera — „ohne Wachs" erklärt: unehrliche Bildhauer verbargen Risse im Marmor mit Wachs, ehrliche Arbeit war also „ohne Wachs" (die wahre Herkunft ist unsicher, die Geschichte hat sich aber gehalten).',
+  salad:
+    'vom lateinischen salata — „gesalzen": Gemüse wurde schon im alten Rom mit Salzlake gewürzt.',
+  holiday:
+    'vom altenglischen haligdæg — „heiliger Tag": das Wort bezeichnete ursprünglich nur einen religiösen Feiertag.',
+  breakfast:
+    'wörtlich „brechen" + „Fasten" (break + fast): die erste Mahlzeit des Tages beendet das nächtliche Fasten.',
+  nightmare:
+    'von night + mare, einem bösen Geist, der nach mittelalterlichem Glauben auf der Brust des Schlafenden saß und beängstigende Träume schickte.',
+  quarantine:
+    'vom italienischen quaranta giorni — „vierzig Tage": genau so lange wurden Schiffe während Pestepidemien isoliert.',
+  assassin:
+    'vom arabischen hashashin, dem Namen einer mittelalterlichen Sekte, deren Mitglieder der Legende nach vor geheimen Anschlägen Haschisch konsumierten.',
+  robot:
+    'vom tschechischen robota — „Zwangsarbeit": geprägt vom Schriftsteller Karel Čapek in seinem Stück „R.U.R." (1920).',
+  sandwich:
+    'benannt nach dem Earl of Sandwich, der gerne Fleisch zwischen zwei Brotscheiben aß, ohne den Spieltisch zu verlassen.',
+  panic:
+    'nach dem griechischen Gott Pan, der der Sage nach mit seinem Schrei plötzlichen Schrecken unter Menschen und Herden auslöste.',
+  volcano: 'nach Vulkan, dem römischen Gott des Feuers und der Schmiedekunst.',
+  planet:
+    'vom griechischen planetes — „Wanderer": Sterne, die sich vor dem unbeweglichen Himmel bewegten, erschienen den Griechen als „wandernd".',
+  geography:
+    'vom griechischen geo „Erde" + graphein „schreiben, beschreiben" — wörtlich „Beschreibung der Erde".',
+  biology: 'vom griechischen bios „Leben" + logos „Lehre" — wörtlich „Lehre vom Leben".',
+  alarm:
+    'vom italienischen all\'arme — „zu den Waffen!": ein Kampfruf, mit dem vor Gefahr gewarnt wurde.',
+  glamour:
+    'eine schottische Variante von „grammar" (Grammatik): bedeutete früher einen Zauber, da gelehrte Menschen mit der geheimnisvollen Macht des Wissens in Verbindung gebracht wurden.',
 
-  'clock':      'vom mittellateinischen clocca — „Glocke": die ersten mechanischen Uhren hatten kein Zifferblatt und schlugen die Stunden nur mit einer Glocke.',
-  'bankrupt':   'vom italienischen banca rotta — „zerbrochene Bank": Geldverleihern, die zahlungsunfähig wurden, zerschlug man symbolisch ihre Markttischbank.',
-  'avocado':    'vom aztekischen Nahuatl ahuacatl — „Hode" (wegen der Form der Frucht): die Spanier verformten das Wort in Anlehnung an ihr eigenes abogado, „Anwalt".',
-  'ballot':     'vom italienischen ballotta — „kleine Kugel": im mittelalterlichen Venedig wurde abgestimmt, indem man bunte Kugeln in eine Urne warf.',
-  'jeans':      'vom französischen Gênes, dem Namen der italienischen Stadt Genua, wo dieser robuste Baumwollstoff erstmals hergestellt wurde.',
-  'mortgage':   'vom altfranzösischen mort — „tot" + gage — „Pfand": die Schuld gilt nach der Tilgung als „tot" — oder der Besitz wird für den Schuldner „tot", wenn er nicht zahlt.',
-  'chess':      'letztlich vom persischen shah — „König": das Wort wanderte über das Arabische und Altfranzösische ins Englische.',
-  'nice':       'vom lateinischen nescius — „unwissend" (ne- „nicht" + scire „wissen"): das Wort bedeutete ursprünglich so etwas wie „dumm" und erhielt erst Jahrhunderte später die heutige, freundliche Bedeutung.',
-  'silly':      'vom altenglischen sælig — „gesegnet, glücklich": die Bedeutung verschob sich allmählich über „naiv" zum heutigen „albern".',
-  'husband':    'vom altnordischen húsbóndi — hus „Haus" + bondi „Bewohner, Herr": bedeutete ursprünglich nur „Herr des Hauses", ohne Bezug zur Ehe.',
-  'girl':       'im Mittelenglischen bedeutete gyrle einfach „junger Mensch" jeglichen Geschlechts, nicht speziell ein Mädchen.',
-  'gossip':     'vom altenglischen godsibb — „mit Gott verwandt" (god + sibb „Verwandter"): bezeichnete ursprünglich einen Taufpaten oder engen Familienfreund, der bei der Taufe anwesend war.',
-  'bonfire':    'wörtlich „Knochenfeuer" (bone + fire): im Mittelalter wurden Festfeuer manchmal tatsächlich mit Tierknochen befeuert.',
-  'magenta':    'die Farbe ist nach der Schlacht von Magenta (1859, Italien) benannt, etwa zur gleichen Zeit, als dieser kräftige pinkrote Farbstoff entdeckt wurde.',
-  'boycott':    'benannt nach Captain Charles Boycott, einem englischen Gutsverwalter in Irland, den die örtlichen Pächter 1880 wegen unfairer Methoden vollständig ächteten.',
-  'maverick':   'benannt nach Samuel Maverick, einem texanischen Rancher, der sein Vieh nicht brandmarkte — „unmarkierte" Kühe wurden so nach ihm benannt.',
-  'cereal':     'nach Ceres, der römischen Göttin des Ackerbaus und der Getreideernte.',
-  'echo':       'aus dem griechischen Mythos der Nymphe Echo, die sich so sehr nach Narziss verzehrte, dass sie verging und nur ihre Stimme zurückblieb, die die Worte anderer wiederholt.',
-  'vandalism':  'nach den Vandalen, einem germanischen Volk, das 455 n. Chr. Rom plünderte — daher das Wort für sinnlose Zerstörung.',
-  'companionship': 'vom lateinischen com- „zusammen" + panis „Brot": ein Begleiter ist wörtlich „jemand, mit dem man das Brot teilt".',
-  'cancel':     'vom lateinischen cancellus — „Gitter": durchgestrichene Linien erinnerten genau an so ein Gitter.',
-  'shampoo':    'vom Hindi champo, Imperativ von champna — „massieren, kneten": bedeutete ursprünglich eine Kopfmassage, nicht das Haarewaschen.',
-  'candy':      'über das arabische qandi und persische qand, letztlich vom sanskritischen khanda — „Stück (Zucker)".',
-  'coffee':     'über das arabische qahwa, möglicherweise mit der Region Kaffa in Äthiopien verbunden, der Heimat der Kaffeepflanze.',
-  'tariff':     'vom arabischen ta\'rif — „Bekanntmachung, Erklärung": eine Liste, die Händler über fällige Abgaben informierte.',
-  'magazine':   'vom arabischen makhazin (Plural von makhzan) — „Lagerhäuser": das Wort bedeutete zunächst ein Lager, später eine „Sammlung" von Artikeln.',
-  'gym':        'kurz für gymnasium, vom griechischen gymnos — „nackt": griechische Athleten trainierten und traten nackt an.',
-  'handicap':   'vom Ausdruck „hand in cap" (Hand in der Mütze), einem alten Glücksspiel, bei dem Einsätze in eine Mütze gelegt wurden; später beim Pferderennen für einen künstlichen Nachteil verwendet, der die Konkurrenten ausgleicht.',
-  'lemon':      'über das arabische laymūn und persische līmūn, letztlich mit einer Sanskritwurzel für Zitrusfrüchte verbunden.',
-  'orange':     'über das altfranzösische orenge, arabisch nāranj, persisch nārang und sanskritisch nāraṅga: der Farbname erschien im Englischen erst, nachdem die Frucht selbst bekannt geworden war.',
-  'tea':        'stammt vom chinesischen te, das über niederländische Händler ins Englische kam; die „cha"-ähnlichen Wörter in vielen anderen Sprachen folgten derselben Wurzel auf einer anderen, landgebundenen Handelsroute.',
-  'sugar':      'über das arabische sukkar und persische shakar, letztlich vom sanskritischen śarkarā — „Kies, Körnchen", in Bezug auf kristallisierten Zucker.',
-  'arsenal':    'vom arabischen dar as-sina\'a — „Haus der Herstellung", über das italienische arzanà: bezeichnete ursprünglich eine Schiffswerft zum Bau und zur Reparatur von Schiffen.',
-  'algorithm':  'nach dem persischen Mathematiker al-Chwarizmi (9. Jh.) benannt, dessen Name als algorismus latinisiert wurde.',
-  'zero':       'über das arabische sifr — „Leere, Nichts" (eine Übersetzung des sanskritischen śūnya): das Wort wanderte über das italienische zefiro, bevor es sich zu zero verkürzte.',
-  'typhoon':    'wahrscheinlich eine Mischung aus dem griechischen typhon (ein monströser Sturmwind, auch ein Riese aus dem Mythos) und dem chinesischen tai fung — „großer Wind".',
-  'ketchup':    'wahrscheinlich vom Hokkien kê-tsiap, einer fermentierten Fischsauce, die europäische Händler zu einem tomatenbasierten Würzmittel umgestalteten.',
-  'slogan':     'vom schottisch-gälischen sluagh-ghairm — „Kriegsruf" (sluagh „Heer, Schar" + gairm „Ruf").',
-  'whisky':     'vom gälischen uisge beatha — „Wasser des Lebens", einer Übersetzung des lateinischen aqua vitae.',
-  'marathon':   'nach der Schlacht von Marathon (490 v. Chr.) benannt: der Legende nach lief ein Bote von Marathon nach Athen, um den Sieg zu verkünden — und starb an der Erschöpfung.',
-  'laser':      'Akronym für Light Amplification by Stimulated Emission of Radiation („Lichtverstärkung durch stimulierte Emission von Strahlung").',
-  'radar':      'Akronym für RAdio Detection And Ranging („Funkortung und -entfernungsmessung").',
-  'quiz':       'Herkunft unbekannt; einer beliebten (aber unbewiesenen) Legende zufolge erfand ein Dubliner Theaterdirektor dieses Unsinnswort aufgrund einer Wette, um es über Nacht in die Sprache einzuführen.',
+  clock:
+    'vom mittellateinischen clocca — „Glocke": die ersten mechanischen Uhren hatten kein Zifferblatt und schlugen die Stunden nur mit einer Glocke.',
+  bankrupt:
+    'vom italienischen banca rotta — „zerbrochene Bank": Geldverleihern, die zahlungsunfähig wurden, zerschlug man symbolisch ihre Markttischbank.',
+  avocado:
+    'vom aztekischen Nahuatl ahuacatl — „Hode" (wegen der Form der Frucht): die Spanier verformten das Wort in Anlehnung an ihr eigenes abogado, „Anwalt".',
+  ballot:
+    'vom italienischen ballotta — „kleine Kugel": im mittelalterlichen Venedig wurde abgestimmt, indem man bunte Kugeln in eine Urne warf.',
+  jeans:
+    'vom französischen Gênes, dem Namen der italienischen Stadt Genua, wo dieser robuste Baumwollstoff erstmals hergestellt wurde.',
+  mortgage:
+    'vom altfranzösischen mort — „tot" + gage — „Pfand": die Schuld gilt nach der Tilgung als „tot" — oder der Besitz wird für den Schuldner „tot", wenn er nicht zahlt.',
+  chess:
+    'letztlich vom persischen shah — „König": das Wort wanderte über das Arabische und Altfranzösische ins Englische.',
+  nice: 'vom lateinischen nescius — „unwissend" (ne- „nicht" + scire „wissen"): das Wort bedeutete ursprünglich so etwas wie „dumm" und erhielt erst Jahrhunderte später die heutige, freundliche Bedeutung.',
+  silly:
+    'vom altenglischen sælig — „gesegnet, glücklich": die Bedeutung verschob sich allmählich über „naiv" zum heutigen „albern".',
+  husband:
+    'vom altnordischen húsbóndi — hus „Haus" + bondi „Bewohner, Herr": bedeutete ursprünglich nur „Herr des Hauses", ohne Bezug zur Ehe.',
+  girl: 'im Mittelenglischen bedeutete gyrle einfach „junger Mensch" jeglichen Geschlechts, nicht speziell ein Mädchen.',
+  gossip:
+    'vom altenglischen godsibb — „mit Gott verwandt" (god + sibb „Verwandter"): bezeichnete ursprünglich einen Taufpaten oder engen Familienfreund, der bei der Taufe anwesend war.',
+  bonfire:
+    'wörtlich „Knochenfeuer" (bone + fire): im Mittelalter wurden Festfeuer manchmal tatsächlich mit Tierknochen befeuert.',
+  magenta:
+    'die Farbe ist nach der Schlacht von Magenta (1859, Italien) benannt, etwa zur gleichen Zeit, als dieser kräftige pinkrote Farbstoff entdeckt wurde.',
+  boycott:
+    'benannt nach Captain Charles Boycott, einem englischen Gutsverwalter in Irland, den die örtlichen Pächter 1880 wegen unfairer Methoden vollständig ächteten.',
+  maverick:
+    'benannt nach Samuel Maverick, einem texanischen Rancher, der sein Vieh nicht brandmarkte — „unmarkierte" Kühe wurden so nach ihm benannt.',
+  cereal: 'nach Ceres, der römischen Göttin des Ackerbaus und der Getreideernte.',
+  echo: 'aus dem griechischen Mythos der Nymphe Echo, die sich so sehr nach Narziss verzehrte, dass sie verging und nur ihre Stimme zurückblieb, die die Worte anderer wiederholt.',
+  vandalism:
+    'nach den Vandalen, einem germanischen Volk, das 455 n. Chr. Rom plünderte — daher das Wort für sinnlose Zerstörung.',
+  companionship:
+    'vom lateinischen com- „zusammen" + panis „Brot": ein Begleiter ist wörtlich „jemand, mit dem man das Brot teilt".',
+  cancel:
+    'vom lateinischen cancellus — „Gitter": durchgestrichene Linien erinnerten genau an so ein Gitter.',
+  shampoo:
+    'vom Hindi champo, Imperativ von champna — „massieren, kneten": bedeutete ursprünglich eine Kopfmassage, nicht das Haarewaschen.',
+  candy:
+    'über das arabische qandi und persische qand, letztlich vom sanskritischen khanda — „Stück (Zucker)".',
+  coffee:
+    'über das arabische qahwa, möglicherweise mit der Region Kaffa in Äthiopien verbunden, der Heimat der Kaffeepflanze.',
+  tariff:
+    'vom arabischen ta\'rif — „Bekanntmachung, Erklärung": eine Liste, die Händler über fällige Abgaben informierte.',
+  magazine:
+    'vom arabischen makhazin (Plural von makhzan) — „Lagerhäuser": das Wort bedeutete zunächst ein Lager, später eine „Sammlung" von Artikeln.',
+  gym: 'kurz für gymnasium, vom griechischen gymnos — „nackt": griechische Athleten trainierten und traten nackt an.',
+  handicap:
+    'vom Ausdruck „hand in cap" (Hand in der Mütze), einem alten Glücksspiel, bei dem Einsätze in eine Mütze gelegt wurden; später beim Pferderennen für einen künstlichen Nachteil verwendet, der die Konkurrenten ausgleicht.',
+  lemon:
+    'über das arabische laymūn und persische līmūn, letztlich mit einer Sanskritwurzel für Zitrusfrüchte verbunden.',
+  orange:
+    'über das altfranzösische orenge, arabisch nāranj, persisch nārang und sanskritisch nāraṅga: der Farbname erschien im Englischen erst, nachdem die Frucht selbst bekannt geworden war.',
+  tea: 'stammt vom chinesischen te, das über niederländische Händler ins Englische kam; die „cha"-ähnlichen Wörter in vielen anderen Sprachen folgten derselben Wurzel auf einer anderen, landgebundenen Handelsroute.',
+  sugar:
+    'über das arabische sukkar und persische shakar, letztlich vom sanskritischen śarkarā — „Kies, Körnchen", in Bezug auf kristallisierten Zucker.',
+  arsenal:
+    'vom arabischen dar as-sina\'a — „Haus der Herstellung", über das italienische arzanà: bezeichnete ursprünglich eine Schiffswerft zum Bau und zur Reparatur von Schiffen.',
+  algorithm:
+    'nach dem persischen Mathematiker al-Chwarizmi (9. Jh.) benannt, dessen Name als algorismus latinisiert wurde.',
+  zero: 'über das arabische sifr — „Leere, Nichts" (eine Übersetzung des sanskritischen śūnya): das Wort wanderte über das italienische zefiro, bevor es sich zu zero verkürzte.',
+  typhoon:
+    'wahrscheinlich eine Mischung aus dem griechischen typhon (ein monströser Sturmwind, auch ein Riese aus dem Mythos) und dem chinesischen tai fung — „großer Wind".',
+  ketchup:
+    'wahrscheinlich vom Hokkien kê-tsiap, einer fermentierten Fischsauce, die europäische Händler zu einem tomatenbasierten Würzmittel umgestalteten.',
+  slogan:
+    'vom schottisch-gälischen sluagh-ghairm — „Kriegsruf" (sluagh „Heer, Schar" + gairm „Ruf").',
+  whisky:
+    'vom gälischen uisge beatha — „Wasser des Lebens", einer Übersetzung des lateinischen aqua vitae.',
+  marathon:
+    'nach der Schlacht von Marathon (490 v. Chr.) benannt: der Legende nach lief ein Bote von Marathon nach Athen, um den Sieg zu verkünden — und starb an der Erschöpfung.',
+  laser:
+    'Akronym für Light Amplification by Stimulated Emission of Radiation („Lichtverstärkung durch stimulierte Emission von Strahlung").',
+  radar: 'Akronym für RAdio Detection And Ranging („Funkortung und -entfernungsmessung").',
+  quiz: 'Herkunft unbekannt; einer beliebten (aber unbewiesenen) Legende zufolge erfand ein Dubliner Theaterdirektor dieses Unsinnswort aufgrund einer Wette, um es über Nacht in die Sprache einzuführen.',
 
-  'jovial':     'von Jove, einem anderen Namen für Jupiter: nach alter Astrologie waren unter diesem Planeten Geborene fröhlich und gut gelaunt.',
-  'mercurial':  'vom Gott Merkur, dem schnellen und unberechenbaren Götterboten; auch verbunden mit Quecksilber (mercury), dem flüssigen Metall mit ebenso wechselhafter, unbeständiger Natur.',
-  'narcissistic': 'nach Narziss, dem Jüngling aus dem griechischen Mythos, der sich so sehr in sein eigenes Spiegelbild im Wasser verliebte, dass er dahinschwand, unfähig, den Blick abzuwenden.',
-  'hygiene':    'nach Hygieia, der griechischen Göttin der Gesundheit und Sauberkeit, Tochter des Asklepios, des Gottes der Heilkunst.',
-  'museum':     'vom griechischen mouseion — „Sitz der Musen": ein Ort, der den neun Musen, den Göttinnen der Künste und Wissenschaften, gewidmet war.',
-  'music':      'vom griechischen mousike (techne) — wörtlich „die Kunst der Musen", also alles, was unter der Schirmherrschaft der neun Musen stand.',
-  'tragedy':    'vom griechischen tragoidia, wörtlich „Bocksgesang" (tragos „Bock" + oide „Gesang"): vielleicht wegen Chören in Ziegenfellen, oder weil ein Bock als Preis für den besten Gesang vergeben wurde.',
-  'comedy':     'vom griechischen komoidia — „Festgesang" (komos „fröhlicher Umzug" + oide „Gesang"): verbunden mit festlichen Umzügen zu Ehren des Dionysos.',
-  'vaccine':    'vom lateinischen vacca — „Kuh": der erste Impfstoff, gegen Pocken, wurde aus Material der Kuhpocken (cowpox) gewonnen.',
-  'nausea':     'vom griechischen nausia — „Seekrankheit" (naus „Schiff"): das Wort bezeichnete ursprünglich nur das Unwohlsein durch die Bewegung eines Schiffes.',
-  'testify':    'vom lateinischen testis — „Zeuge": testify bedeutet wörtlich „als Zeuge auftreten".',
-  'silhouette': 'benannt nach Étienne de Silhouette, einem französischen Finanzminister des 18. Jahrhunderts, bekannt für seinen Geiz: die billigen Umrissporträts, die durch seine Sparmaßnahmen in Mode kamen, erhielten seinen Namen.',
-  'saxophone':  'benannt nach Adolphe Sax, dem belgischen Instrumentenbauer, der es in den 1840er-Jahren erfand.',
-  'melancholy': 'vom griechischen melas „schwarz" + khole „Galle": die antike Medizin führte gedrückte Stimmung auf einen Überschuss an „schwarzer Galle" im Körper zurück.',
-  'lunatic':    'vom lateinischen luna — „Mond": ein alter Glaube besagte, die Mondphasen würden die seelische Gesundheit beeinflussen und Phasen des Wahnsinns auslösen.',
-  'genuine':    'vom lateinischen genuinus, verwandt mit genu — „Knie": nach römischem Brauch erkannte ein Vater ein Kind als sein eigenes an, indem er es auf sein Knie setzte.',
-  'sabotage':   'vom französischen sabot — „Holzschuh": der Legende nach warfen Arbeiter solche Holzschuhe in Maschinen oder beschädigten Geräte mit ihren schweren Sohlen, um zu protestieren.',
-  'hazard':     'vom arabischen az-zahr — „die Würfel": das Wort gelangte über das Altfranzösische als Name eines Würfelspiels in die Sprache, bevor es allgemein Risiko und Gefahr bedeutete.',
-  'soccer':     'eine Kürzung von „association" (Association Football): britische Studenten kürzten gern Wörter ab und fügten „-er" an, wodurch aus asSOCiation „soccer" wurde.',
-  'zenith':     'über das altfranzösische zenith und das mittellateinische cenit, vom arabischen samt (ar-ra\'s) — „der Weg (über dem Kopf)": ein Abschreibfehler verwandelte das „m" in „ni".',
-  'syrup':      'über das altfranzösische sirop und das lateinische siropus, letztlich vom arabischen sharab — „ein Getränk", derselben Wurzel wie „Sorbet".',
-  'utopia':     'ein von Thomas More (1516) geprägtes Wort aus dem griechischen ou „nicht" + topos „Ort" — wörtlich „Nicht-Ort"; zugleich ein Wortspiel mit eu-topia, „guter Ort".',
-  'quixotic':   'nach Don Quijote, dem Helden des Romans von Cervantes, bekannt für seine unrealistischen, idealistischen Abenteuer.',
-  'laconic':    'nach Lakonien, der Region des antiken Sparta: die Spartaner waren berühmt für ihre knappe, sparsame Ausdrucksweise.',
-  'stoic':      'nach der antiken griechischen Philosophenschule der Stoiker, gegründet von Zenon: ihre Anhänger trafen sich an der „Stoa Poikile" (bemalte Säulenhalle) in Athen und predigten gelassenes Ertragen von Leid.',
-  'cynical':    'vom griechischen kynikos — „hundeartig" (kyon „Hund"): die kynischen Philosophen, die bewusst einfach lebten und Konventionen verachteten, wurden so genannt — vielleicht nach dem eigenen Spitznamen ihres Gründers Diogenes.',
-  'academic':   'nach der Akademie, einem Hain bei Athen, benannt nach dem Helden Akademos, wo Platon seine Schüler unterrichtete.',
+  jovial:
+    'von Jove, einem anderen Namen für Jupiter: nach alter Astrologie waren unter diesem Planeten Geborene fröhlich und gut gelaunt.',
+  mercurial:
+    'vom Gott Merkur, dem schnellen und unberechenbaren Götterboten; auch verbunden mit Quecksilber (mercury), dem flüssigen Metall mit ebenso wechselhafter, unbeständiger Natur.',
+  narcissistic:
+    'nach Narziss, dem Jüngling aus dem griechischen Mythos, der sich so sehr in sein eigenes Spiegelbild im Wasser verliebte, dass er dahinschwand, unfähig, den Blick abzuwenden.',
+  hygiene:
+    'nach Hygieia, der griechischen Göttin der Gesundheit und Sauberkeit, Tochter des Asklepios, des Gottes der Heilkunst.',
+  museum:
+    'vom griechischen mouseion — „Sitz der Musen": ein Ort, der den neun Musen, den Göttinnen der Künste und Wissenschaften, gewidmet war.',
+  music:
+    'vom griechischen mousike (techne) — wörtlich „die Kunst der Musen", also alles, was unter der Schirmherrschaft der neun Musen stand.',
+  tragedy:
+    'vom griechischen tragoidia, wörtlich „Bocksgesang" (tragos „Bock" + oide „Gesang"): vielleicht wegen Chören in Ziegenfellen, oder weil ein Bock als Preis für den besten Gesang vergeben wurde.',
+  comedy:
+    'vom griechischen komoidia — „Festgesang" (komos „fröhlicher Umzug" + oide „Gesang"): verbunden mit festlichen Umzügen zu Ehren des Dionysos.',
+  vaccine:
+    'vom lateinischen vacca — „Kuh": der erste Impfstoff, gegen Pocken, wurde aus Material der Kuhpocken (cowpox) gewonnen.',
+  nausea:
+    'vom griechischen nausia — „Seekrankheit" (naus „Schiff"): das Wort bezeichnete ursprünglich nur das Unwohlsein durch die Bewegung eines Schiffes.',
+  testify: 'vom lateinischen testis — „Zeuge": testify bedeutet wörtlich „als Zeuge auftreten".',
+  silhouette:
+    'benannt nach Étienne de Silhouette, einem französischen Finanzminister des 18. Jahrhunderts, bekannt für seinen Geiz: die billigen Umrissporträts, die durch seine Sparmaßnahmen in Mode kamen, erhielten seinen Namen.',
+  saxophone:
+    'benannt nach Adolphe Sax, dem belgischen Instrumentenbauer, der es in den 1840er-Jahren erfand.',
+  melancholy:
+    'vom griechischen melas „schwarz" + khole „Galle": die antike Medizin führte gedrückte Stimmung auf einen Überschuss an „schwarzer Galle" im Körper zurück.',
+  lunatic:
+    'vom lateinischen luna — „Mond": ein alter Glaube besagte, die Mondphasen würden die seelische Gesundheit beeinflussen und Phasen des Wahnsinns auslösen.',
+  genuine:
+    'vom lateinischen genuinus, verwandt mit genu — „Knie": nach römischem Brauch erkannte ein Vater ein Kind als sein eigenes an, indem er es auf sein Knie setzte.',
+  sabotage:
+    'vom französischen sabot — „Holzschuh": der Legende nach warfen Arbeiter solche Holzschuhe in Maschinen oder beschädigten Geräte mit ihren schweren Sohlen, um zu protestieren.',
+  hazard:
+    'vom arabischen az-zahr — „die Würfel": das Wort gelangte über das Altfranzösische als Name eines Würfelspiels in die Sprache, bevor es allgemein Risiko und Gefahr bedeutete.',
+  soccer:
+    'eine Kürzung von „association" (Association Football): britische Studenten kürzten gern Wörter ab und fügten „-er" an, wodurch aus asSOCiation „soccer" wurde.',
+  zenith:
+    'über das altfranzösische zenith und das mittellateinische cenit, vom arabischen samt (ar-ra\'s) — „der Weg (über dem Kopf)": ein Abschreibfehler verwandelte das „m" in „ni".',
+  syrup:
+    'über das altfranzösische sirop und das lateinische siropus, letztlich vom arabischen sharab — „ein Getränk", derselben Wurzel wie „Sorbet".',
+  utopia:
+    'ein von Thomas More (1516) geprägtes Wort aus dem griechischen ou „nicht" + topos „Ort" — wörtlich „Nicht-Ort"; zugleich ein Wortspiel mit eu-topia, „guter Ort".',
+  quixotic:
+    'nach Don Quijote, dem Helden des Romans von Cervantes, bekannt für seine unrealistischen, idealistischen Abenteuer.',
+  laconic:
+    'nach Lakonien, der Region des antiken Sparta: die Spartaner waren berühmt für ihre knappe, sparsame Ausdrucksweise.',
+  stoic:
+    'nach der antiken griechischen Philosophenschule der Stoiker, gegründet von Zenon: ihre Anhänger trafen sich an der „Stoa Poikile" (bemalte Säulenhalle) in Athen und predigten gelassenes Ertragen von Leid.',
+  cynical:
+    'vom griechischen kynikos — „hundeartig" (kyon „Hund"): die kynischen Philosophen, die bewusst einfach lebten und Konventionen verachteten, wurden so genannt — vielleicht nach dem eigenen Spitznamen ihres Gründers Diogenes.',
+  academic:
+    'nach der Akademie, einem Hain bei Athen, benannt nach dem Helden Akademos, wo Platon seine Schüler unterrichtete.',
 };
 
 const ETYMOLOGY_BY_LANG: Record<Lang, Record<string, string>> = {
-  ua: ETYMOLOGY, en: ETYMOLOGY_EN, es: ETYMOLOGY_ES, fr: ETYMOLOGY_FR, it: ETYMOLOGY_IT, pt: ETYMOLOGY_PT, de: ETYMOLOGY_DE,
+  ua: ETYMOLOGY,
+  en: ETYMOLOGY_EN,
+  es: ETYMOLOGY_ES,
+  fr: ETYMOLOGY_FR,
+  it: ETYMOLOGY_IT,
+  pt: ETYMOLOGY_PT,
+  de: ETYMOLOGY_DE,
 };
 
 /** Etymology fact for `word` in the given UI language, falling back to Ukrainian if untranslated. */

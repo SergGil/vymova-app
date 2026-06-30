@@ -4,9 +4,9 @@ const mockUkVoice = { name: 'Ukrainian', lang: 'uk-UA' } as SpeechSynthesisVoice
 const mockEsVoice = { name: 'Spanish', lang: 'es-ES' } as SpeechSynthesisVoice;
 const mockEnVoice = { name: 'Google US English', lang: 'en-US' } as SpeechSynthesisVoice;
 
-let getSelectedUkVoice = vi.fn<() => SpeechSynthesisVoice | null>();
-let getSelectedEsVoice = vi.fn<() => SpeechSynthesisVoice | null>();
-let speakFakeYou = vi.fn<(text: string, btn: HTMLElement | null) => boolean>();
+const getSelectedUkVoice = vi.fn<() => SpeechSynthesisVoice | null>();
+const getSelectedEsVoice = vi.fn<() => SpeechSynthesisVoice | null>();
+const speakFakeYou = vi.fn<(text: string, btn: HTMLElement | null) => boolean>();
 
 // i18n.ts (transitively imported via srs.ts) dynamically imports card-engine
 // on language change; stub it out so resetModules() doesn't re-trigger its
@@ -16,7 +16,7 @@ vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
 vi.mock('../../js/features/voice.tsx', () => ({
   getSelectedUkVoice: (...a: unknown[]) => getSelectedUkVoice(...(a as [])),
   getSelectedEsVoice: (...a: unknown[]) => getSelectedEsVoice(...(a as [])),
-  speakFakeYou:       (...a: unknown[]) => speakFakeYou(...(a as [string, HTMLElement | null])),
+  speakFakeYou: (...a: unknown[]) => speakFakeYou(...(a as [string, HTMLElement | null])),
 }));
 
 class FakeUtterance {
@@ -27,7 +27,9 @@ class FakeUtterance {
   voice: SpeechSynthesisVoice | null = null;
   onend: (() => void) | null = null;
   onerror: (() => void) | null = null;
-  constructor(text: string) { this.text = text; }
+  constructor(text: string) {
+    this.text = text;
+  }
 }
 
 function makeSynth(voices: SpeechSynthesisVoice[]) {

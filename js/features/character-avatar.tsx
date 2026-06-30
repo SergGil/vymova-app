@@ -5,19 +5,63 @@
 import { useId, type ReactElement } from 'react';
 import type { CharacterAppearance } from '../../src/types.ts';
 
-export const BODY_TYPES  = ['masc', 'fem'] as const;
-export const SKIN_TONES  = ['#FFE0BD', '#FFDBAC', '#F1C27D', '#E0AC69', '#C68642', '#8D5524', '#5C3A21', '#3B2219'];
-export const HAIR_COLORS = ['#2C2C2C', '#5A3825', '#A0522D', '#D4A017', '#E8B4B8', '#9B9B9B', '#1F4E79', '#27AE60'];
-export const EYE_COLORS  = ['#3B2412', '#2E5E8C', '#3F6B35', '#555555', '#6B3FA0', '#8B5E3C'];
-export const HAIR_STYLES = ['bald', 'short', 'long', 'curly', 'mohawk', 'ponytail', 'bun', 'spiky'] as const;
+export const BODY_TYPES = ['masc', 'fem'] as const;
+export const SKIN_TONES = [
+  '#FFE0BD',
+  '#FFDBAC',
+  '#F1C27D',
+  '#E0AC69',
+  '#C68642',
+  '#8D5524',
+  '#5C3A21',
+  '#3B2219',
+];
+export const HAIR_COLORS = [
+  '#2C2C2C',
+  '#5A3825',
+  '#A0522D',
+  '#D4A017',
+  '#E8B4B8',
+  '#9B9B9B',
+  '#1F4E79',
+  '#27AE60',
+];
+export const EYE_COLORS = ['#3B2412', '#2E5E8C', '#3F6B35', '#555555', '#6B3FA0', '#8B5E3C'];
+export const HAIR_STYLES = [
+  'bald',
+  'short',
+  'long',
+  'curly',
+  'mohawk',
+  'ponytail',
+  'bun',
+  'spiky',
+] as const;
 export const OUTFIT_STYLES = ['tshirt', 'hoodie', 'jacket', 'dress', 'overalls'] as const;
-export const OUTFIT_COLORS = ['#e74c3c', '#2980b9', '#27ae60', '#9b59b6', '#f1c40f', '#2c3e50', '#e67e22', '#1abc9c'];
+export const OUTFIT_COLORS = [
+  '#e74c3c',
+  '#2980b9',
+  '#27ae60',
+  '#9b59b6',
+  '#f1c40f',
+  '#2c3e50',
+  '#e67e22',
+  '#1abc9c',
+];
 
 export const DEFAULT_APPEARANCE: CharacterAppearance = {
-  bodyType: 0, skinTone: 1, hairStyle: 1, hairColor: 0, eyeColor: 0, outfitStyle: 0, outfitColor: 0,
+  bodyType: 0,
+  skinTone: 1,
+  hairStyle: 1,
+  hairColor: 0,
+  eyeColor: 0,
+  outfitStyle: 0,
+  outfitColor: 0,
 };
 
-function clampIdx(i: number, len: number): number { return ((i % len) + len) % len; }
+function clampIdx(i: number, len: number): number {
+  return ((i % len) + len) % len;
+}
 
 // Darkens a "#rrggbb" hex color by the given fraction (0-1), for shading/eyebrows.
 function shade(hex: string, amount: number): string {
@@ -63,7 +107,15 @@ const FEM_SPIKES = [
   { cx: 132, peakY: 31, lean: 4, baseHalf: 8 },
 ];
 
-function Hair({ style, color, bodyType }: { style: string; color: string; bodyType: number }): ReactElement | null {
+function Hair({
+  style,
+  color,
+  bodyType,
+}: {
+  style: string;
+  color: string;
+  bodyType: number;
+}): ReactElement | null {
   const fem = bodyType === 1;
   const cap = <path d={HAIR_CAP_D} fill={color} />;
 
@@ -104,8 +156,16 @@ function Hair({ style, color, bodyType }: { style: string; color: string; bodyTy
   }
 
   if (style === 'curly') {
-    const topBumps = [62, 78, 100, 122, 138].map(cx => <circle key={cx} cx={cx} cy="36" r={fem ? 9 : 6.5} fill={color} />);
-    if (!fem) return <>{cap}{topBumps}</>;
+    const topBumps = [62, 78, 100, 122, 138].map((cx) => (
+      <circle key={cx} cx={cx} cy="36" r={fem ? 9 : 6.5} fill={color} />
+    ));
+    if (!fem)
+      return (
+        <>
+          {cap}
+          {topBumps}
+        </>
+      );
     // Fuller curls cascading down both sides to the jaw, framing the face.
     return (
       <>
@@ -123,9 +183,11 @@ function Hair({ style, color, bodyType }: { style: string; color: string; bodyTy
 
   if (style === 'mohawk') {
     // A tapered crest rather than a plain rectangle; shorter (fauxhawk) for fem.
-    return fem
-      ? <path d="M90 22 Q87 38 90 48 L110 48 Q113 38 110 22 Z" fill={color} />
-      : <path d="M90 14 Q86 38 90 60 L110 60 Q114 38 110 14 Z" fill={color} />;
+    return fem ? (
+      <path d="M90 22 Q87 38 90 48 L110 48 Q113 38 110 22 Z" fill={color} />
+    ) : (
+      <path d="M90 14 Q86 38 90 60 L110 60 Q114 38 110 14 Z" fill={color} />
+    );
   }
 
   if (style === 'ponytail') {
@@ -155,8 +217,20 @@ function Hair({ style, color, bodyType }: { style: string; color: string; bodyTy
         {fem ? (
           <>
             <circle cx="132" cy="30" r="14" fill={color} />
-            <path d="M122 36 Q115 30 119 23" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" />
-            <path d="M144 40 Q151 34 148 27" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" />
+            <path
+              d="M122 36 Q115 30 119 23"
+              fill="none"
+              stroke={color}
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+            <path
+              d="M144 40 Q151 34 148 27"
+              fill="none"
+              stroke={color}
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
           </>
         ) : (
           <circle cx="100" cy="20" r="9" fill={color} />
@@ -171,7 +245,9 @@ function Hair({ style, color, bodyType }: { style: string; color: string; bodyTy
     return (
       <>
         {cap}
-        {FEM_SPIKES.map((s, i) => <path key={i} d={spikePath(s.cx, s.peakY, s.lean, s.baseHalf)} fill={color} />)}
+        {FEM_SPIKES.map((s, i) => (
+          <path key={i} d={spikePath(s.cx, s.peakY, s.lean, s.baseHalf)} fill={color} />
+        ))}
         {/* one longer side-swept piece over the brow for asymmetry */}
         <path d="M72 42 Q58 32 48 40 Q60 48 73 52 Z" fill={color} />
       </>
@@ -180,17 +256,33 @@ function Hair({ style, color, bodyType }: { style: string; color: string; bodyTy
   return (
     <>
       {cap}
-      {MASC_SPIKES.map((s, i) => <path key={i} d={spikePath(s.cx, s.peakY, s.lean, s.baseHalf)} fill={color} />)}
+      {MASC_SPIKES.map((s, i) => (
+        <path key={i} d={spikePath(s.cx, s.peakY, s.lean, s.baseHalf)} fill={color} />
+      ))}
     </>
   );
 }
 
-interface OutfitSpec { style: string; color: string; }
+interface OutfitSpec {
+  style: string;
+  color: string;
+}
 
-function Outfit({ outfit, skinFill, outfitFill, bodyType }: { outfit: OutfitSpec; skinFill: string; outfitFill: string; bodyType: number }): ReactElement {
-  const legs = outfit.style === 'dress'
-    ? <path d="M70 200 L130 200 L142 300 L58 300 Z" fill={outfitFill} />
-    : (
+function Outfit({
+  outfit,
+  skinFill,
+  outfitFill,
+  bodyType,
+}: {
+  outfit: OutfitSpec;
+  skinFill: string;
+  outfitFill: string;
+  bodyType: number;
+}): ReactElement {
+  const legs =
+    outfit.style === 'dress' ? (
+      <path d="M70 200 L130 200 L142 300 L58 300 Z" fill={outfitFill} />
+    ) : (
       <>
         <rect x="62" y="200" width="30" height="100" rx="10" fill="#34495e" />
         <rect x="108" y="200" width="30" height="100" rx="10" fill="#34495e" />
@@ -200,9 +292,15 @@ function Outfit({ outfit, skinFill, outfitFill, bodyType }: { outfit: OutfitSpec
     );
   // Same 80×88 bounding box as the masc torso, just tapered at the waist —
   // keeps arm/leg/collar coordinates valid for either body type.
-  const torso = bodyType === 1
-    ? <path d="M60 122 L140 122 Q140 145 128 166 Q140 185 136 210 L64 210 Q60 185 72 166 Q60 145 60 122 Z" fill={outfitFill} />
-    : <rect x="60" y="122" width="80" height="88" rx="22" fill={outfitFill} />;
+  const torso =
+    bodyType === 1 ? (
+      <path
+        d="M60 122 L140 122 Q140 145 128 166 Q140 185 136 210 L64 210 Q60 185 72 166 Q60 145 60 122 Z"
+        fill={outfitFill}
+      />
+    ) : (
+      <rect x="60" y="122" width="80" height="88" rx="22" fill={outfitFill} />
+    );
   return (
     <>
       {/* arms */}
@@ -212,8 +310,17 @@ function Outfit({ outfit, skinFill, outfitFill, bodyType }: { outfit: OutfitSpec
       <circle cx="150" cy="210" r="11" fill={skinFill} />
       {/* torso */}
       {torso}
-      {outfit.style === 'hoodie' && <path d="M78 122 Q100 138 122 122" fill="none" stroke="#00000022" strokeWidth="4" />}
-      {outfit.style === 'jacket' && <path d="M100 122 L92 200 M100 122 L108 200" stroke="#00000033" strokeWidth="3" fill="none" />}
+      {outfit.style === 'hoodie' && (
+        <path d="M78 122 Q100 138 122 122" fill="none" stroke="#00000022" strokeWidth="4" />
+      )}
+      {outfit.style === 'jacket' && (
+        <path
+          d="M100 122 L92 200 M100 122 L108 200"
+          stroke="#00000033"
+          strokeWidth="3"
+          fill="none"
+        />
+      )}
       {outfit.style === 'overalls' && (
         <>
           <rect x="72" y="150" width="56" height="60" rx="6" fill="#00000022" />
@@ -235,13 +342,18 @@ export interface CharacterAvatarProps {
   animated?: boolean;
 }
 
-export function CharacterAvatar({ appearance, size = 220, variant = 'full', animated = true }: CharacterAvatarProps): ReactElement {
+export function CharacterAvatar({
+  appearance,
+  size = 220,
+  variant = 'full',
+  animated = true,
+}: CharacterAvatarProps): ReactElement {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
   const bodyType = clampIdx(appearance.bodyType ?? 0, BODY_TYPES.length);
-  const skin     = SKIN_TONES[clampIdx(appearance.skinTone, SKIN_TONES.length)];
-  const hairCol  = HAIR_COLORS[clampIdx(appearance.hairColor, HAIR_COLORS.length)];
+  const skin = SKIN_TONES[clampIdx(appearance.skinTone, SKIN_TONES.length)];
+  const hairCol = HAIR_COLORS[clampIdx(appearance.hairColor, HAIR_COLORS.length)];
   const hairStyl = HAIR_STYLES[clampIdx(appearance.hairStyle, HAIR_STYLES.length)];
-  const eyeCol   = EYE_COLORS[clampIdx(appearance.eyeColor, EYE_COLORS.length)];
+  const eyeCol = EYE_COLORS[clampIdx(appearance.eyeColor, EYE_COLORS.length)];
   const outfit: OutfitSpec = {
     style: OUTFIT_STYLES[clampIdx(appearance.outfitStyle, OUTFIT_STYLES.length)],
     color: OUTFIT_COLORS[clampIdx(appearance.outfitColor, OUTFIT_COLORS.length)],
@@ -258,7 +370,13 @@ export function CharacterAvatar({ appearance, size = 220, variant = 'full', anim
   const eyebrowColor = shade(hairCol, 0.25);
 
   return (
-    <svg viewBox={viewBox} width={size} height={size * (vbH / vbW)} role="img" aria-label="character avatar">
+    <svg
+      viewBox={viewBox}
+      width={size}
+      height={size * (vbH / vbW)}
+      role="img"
+      aria-label="character avatar"
+    >
       <defs>
         {/* Hard-edged two-tone "cel shading" bands rather than a smooth blend —
             closer to the bold flat-shaded game-art look than a soft gradient. */}
@@ -296,13 +414,37 @@ export function CharacterAvatar({ appearance, size = 220, variant = 'full', anim
         {/* eyebrows — thinner and a touch higher-arched for the feminine body type */}
         {bodyType === 1 ? (
           <>
-            <path d="M73 56 Q84 49 95 55" fill="none" stroke={eyebrowColor} strokeWidth="2" strokeLinecap="round" />
-            <path d="M105 55 Q116 49 127 56" fill="none" stroke={eyebrowColor} strokeWidth="2" strokeLinecap="round" />
+            <path
+              d="M73 56 Q84 49 95 55"
+              fill="none"
+              stroke={eyebrowColor}
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <path
+              d="M105 55 Q116 49 127 56"
+              fill="none"
+              stroke={eyebrowColor}
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
           </>
         ) : (
           <>
-            <path d="M74 57 Q84 52 94 56" fill="none" stroke={eyebrowColor} strokeWidth="3" strokeLinecap="round" />
-            <path d="M106 56 Q116 52 126 57" fill="none" stroke={eyebrowColor} strokeWidth="3" strokeLinecap="round" />
+            <path
+              d="M74 57 Q84 52 94 56"
+              fill="none"
+              stroke={eyebrowColor}
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+            <path
+              d="M106 56 Q116 52 126 57"
+              fill="none"
+              stroke={eyebrowColor}
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
           </>
         )}
         {/* eyes */}
@@ -330,9 +472,21 @@ export function CharacterAvatar({ appearance, size = 220, variant = 'full', anim
         </g>
         {/* mouth — fuller, tinted lips for the feminine body type; a simple smile line otherwise */}
         {bodyType === 1 ? (
-          <path d="M84 85 Q100 96 116 85 Q108 91.5 100 91.5 Q92 91.5 84 85 Z" fill="#c0667a" stroke="#1a1626" strokeWidth="1.5" strokeLinejoin="round" />
+          <path
+            d="M84 85 Q100 96 116 85 Q108 91.5 100 91.5 Q92 91.5 84 85 Z"
+            fill="#c0667a"
+            stroke="#1a1626"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
         ) : (
-          <path d="M86 84 Q100 94 114 84" fill="none" stroke="#1a1626" strokeWidth="3" strokeLinecap="round" />
+          <path
+            d="M86 84 Q100 94 114 84"
+            fill="none"
+            stroke="#1a1626"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
         )}
       </g>
     </svg>

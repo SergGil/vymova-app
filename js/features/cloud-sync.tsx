@@ -4,22 +4,47 @@ import { useEffect, type ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { DYNAMIC_KEY_PREFIXES } from './profile-switcher.tsx';
 
-const DB_URL      = 'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
-const KEY_LS      = 'ew_sync_key';
+const DB_URL = 'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
+const KEY_LS = 'ew_sync_key';
 const INTERVAL_LS = 'ew_sync_interval'; // minutes, 0 = off
-const LAST_LS     = 'ew_sync_last';
-const CHARS       = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const LAST_LS = 'ew_sync_last';
+const CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
 const BACKUP_KEYS = [
-  'ew_known', 'ew_known_lz', 'ew_srs', 'ew_srs_lz',
-  'ew_game', 'ew_daily', 'ew_ach',
-  'ew_fontsize', 'ew_theme', 'ew_sw', 'ew_hp', 'ew_cp', 'ew_lotr', 'ew_mcu', 'ew_witcher', 'ew_mc',
-  'ew_dc', 'ew_got', 'ew_dw', 'ew_dune', 'ew_hg', 'ew_avt', 'ew_dt',
-  'ew_ws_voice', 'ew_ws_uk_voice',
-  'ew_notif_enabled', 'ew_notes', 'ew_bookmarks',
-  'ew_milestones', 'ew_mode_acc', 'ew_mistakes',
+  'ew_known',
+  'ew_known_lz',
+  'ew_srs',
+  'ew_srs_lz',
+  'ew_game',
+  'ew_daily',
+  'ew_ach',
+  'ew_fontsize',
+  'ew_theme',
+  'ew_sw',
+  'ew_hp',
+  'ew_cp',
+  'ew_lotr',
+  'ew_mcu',
+  'ew_witcher',
+  'ew_mc',
+  'ew_dc',
+  'ew_got',
+  'ew_dw',
+  'ew_dune',
+  'ew_hg',
+  'ew_avt',
+  'ew_dt',
+  'ew_ws_voice',
+  'ew_ws_uk_voice',
+  'ew_notif_enabled',
+  'ew_notes',
+  'ew_bookmarks',
+  'ew_milestones',
+  'ew_mode_acc',
+  'ew_mistakes',
   // Profile metadata — names & avatars
-  'ew_profiles', 'ew_active_profile',
+  'ew_profiles',
+  'ew_active_profile',
 ];
 
 // Dynamically collect every key that isn't already in BACKUP_KEYS but
@@ -34,10 +59,12 @@ function _dynamicBackupKeys(): string[] {
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
       if (!k || BACKUP_KEYS.includes(k)) continue;
-      if (k.startsWith('ew_p_') || DYNAMIC_KEY_PREFIXES.some(p => k.startsWith(p))) keys.push(k);
+      if (k.startsWith('ew_p_') || DYNAMIC_KEY_PREFIXES.some((p) => k.startsWith(p))) keys.push(k);
     }
     return keys;
-  } catch (e) { return []; }
+  } catch (e) {
+    return [];
+  }
 }
 
 // ── Key ───────────────────────────────────────────────────────
@@ -45,14 +72,16 @@ function _getKey(): string {
   let k = localStorage.getItem(KEY_LS);
   if (!k) {
     const b = crypto.getRandomValues(new Uint8Array(12));
-    k = Array.from(b).map(v => CHARS[v % CHARS.length]).join('');
+    k = Array.from(b)
+      .map((v) => CHARS[v % CHARS.length])
+      .join('');
     localStorage.setItem(KEY_LS, k);
   }
   return k;
 }
 
 function _fmt(k: string): string {
-  return k.slice(0,4) + '-' + k.slice(4,8) + '-' + k.slice(8,12);
+  return k.slice(0, 4) + '-' + k.slice(4, 8) + '-' + k.slice(8, 12);
 }
 
 // ── Firebase ──────────────────────────────────────────────────
@@ -79,10 +108,14 @@ export async function loadFromCloud(raw: string): Promise<void> {
   // own progress" case) would otherwise silently overwrite any local
   // progress made since the last save/auto-push — push it first so nothing
   // gets lost.
-  if (key === _getKey()) { try { await saveToCloud(); } catch (e) {} }
+  if (key === _getKey()) {
+    try {
+      await saveToCloud();
+    } catch (e) {}
+  }
   const res = await fetch(DB_URL + '/sync/' + key + '.json');
   if (!res.ok) throw new Error('HTTP ' + res.status);
-  const data = await res.json() as Record<string, string> | null;
+  const data = (await res.json()) as Record<string, string> | null;
   if (!data || !data._ts) throw new Error(t('settings.cloudDataNotFound'));
   // Restore every key the backup actually contains, not just a fixed
   // allow-list — keeps this symmetric with whatever saveToCloud() wrote
@@ -107,10 +140,10 @@ function _fmtLast(): string {
   if (!ts) return '';
   const diff = Date.now() - ts;
   const mins = Math.floor(diff / 60000);
-  if (mins < 1)  return t('settings.cloudJustNow');
+  if (mins < 1) return t('settings.cloudJustNow');
   if (mins < 60) return mins + ' ' + t('settings.cloudMinAgo');
   const hrs = Math.floor(mins / 60);
-  if (hrs < 24)  return hrs + ' ' + t('settings.cloudHourAgo');
+  if (hrs < 24) return hrs + ' ' + t('settings.cloudHourAgo');
   return Math.floor(hrs / 24) + ' ' + t('settings.cloudDayAgo');
 }
 
@@ -128,7 +161,10 @@ async function _autoSave(): Promise<void> {
 }
 
 function _startAutoSync(): void {
-  if (_autoTimer) { clearInterval(_autoTimer); _autoTimer = null; }
+  if (_autoTimer) {
+    clearInterval(_autoTimer);
+    _autoTimer = null;
+  }
   const min = _getIntervalMin();
   if (!min) return;
   const lastTs = parseInt(localStorage.getItem(LAST_LS) ?? '0');
@@ -166,12 +202,15 @@ export function CloudSyncInit(): ReactElement | null {
     // Copy key
     const copyBtn = document.getElementById('cs-copy');
     const onCopy = () => {
-      navigator.clipboard.writeText(_fmt(_getKey()))
+      navigator.clipboard
+        .writeText(_fmt(_getKey()))
         .then(() => {
           const btn = document.getElementById('cs-copy')!;
           const orig = btn.textContent;
           btn.textContent = t('settings.cloudCopied');
-          setTimeout(() => { btn.textContent = orig ?? t('settings.cloudCopy'); }, 2000);
+          setTimeout(() => {
+            btn.textContent = orig ?? t('settings.cloudCopy');
+          }, 2000);
         })
         .catch(() => prompt(t('settings.cloudYourKey'), _fmt(_getKey())));
     };
@@ -200,7 +239,10 @@ export function CloudSyncInit(): ReactElement | null {
       const min = parseInt(sel!.value);
       localStorage.setItem(INTERVAL_LS, String(min));
       _startAutoSync();
-      setMsg(min ? t('settings.cloudAutoOn') : t('settings.cloudAutoOff'), min ? '#27ae60' : 'var(--text3)');
+      setMsg(
+        min ? t('settings.cloudAutoOn') : t('settings.cloudAutoOff'),
+        min ? '#27ae60' : 'var(--text3)',
+      );
       setTimeout(() => setMsg('', ''), 2500);
     };
     sel?.addEventListener('change', onIntervalChange);
@@ -209,8 +251,8 @@ export function CloudSyncInit(): ReactElement | null {
     const inp = document.getElementById('cs-inp') as HTMLInputElement | null;
     const onInpInput = () => {
       let v = inp!.value.replace(/[^A-Z0-9]/gi, '').toUpperCase();
-      if (v.length > 4) v = v.slice(0,4) + '-' + v.slice(4);
-      if (v.length > 9) v = v.slice(0,9) + '-' + v.slice(9);
+      if (v.length > 4) v = v.slice(0, 4) + '-' + v.slice(4);
+      if (v.length > 9) v = v.slice(0, 9) + '-' + v.slice(9);
       inp!.value = v.slice(0, 14);
     };
     inp?.addEventListener('input', onInpInput);
@@ -218,7 +260,10 @@ export function CloudSyncInit(): ReactElement | null {
     // Restore button
     const restoreBtn = document.getElementById('cs-restore') as HTMLButtonElement | null;
     const onRestore = async () => {
-      if (!inp?.value.trim()) { setMsg(t('settings.cloudEnterKey'), '#e74c3c'); return; }
+      if (!inp?.value.trim()) {
+        setMsg(t('settings.cloudEnterKey'), '#e74c3c');
+        return;
+      }
       if (!confirm(t('settings.cloudRestoreConfirm'))) return;
       if (restoreBtn) restoreBtn.disabled = true;
       if (inp) inp.disabled = true;
@@ -259,7 +304,10 @@ export function CloudSyncInit(): ReactElement | null {
     window.addEventListener('ew-progress-saved', onProgressSaved);
 
     return () => {
-      if (_autoTimer) { clearInterval(_autoTimer); _autoTimer = null; }
+      if (_autoTimer) {
+        clearInterval(_autoTimer);
+        _autoTimer = null;
+      }
       if (progressPushTimer) clearTimeout(progressPushTimer);
       window.removeEventListener('ew-progress-saved', onProgressSaved);
       copyBtn?.removeEventListener('click', onCopy);

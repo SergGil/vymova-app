@@ -1,14 +1,20 @@
 import { describe, it, expect, vi, beforeAll, beforeEach, afterEach } from 'vitest';
-import { getDeckSnapshot, getIdxSnapshot, getFlippedSnapshot, getCwSnapshot } from '../../src/deck-store.ts';
+import {
+  getDeckSnapshot,
+  getIdxSnapshot,
+  getFlippedSnapshot,
+  getCwSnapshot,
+} from '../../src/deck-store.ts';
 import { setKnownWords, markKnown, unmarkKnown } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.js';
 
-const { getComboMult, awardXP } = vi.hoisted(() => ({ getComboMult: vi.fn(() => 1), awardXP: vi.fn(() => 10) }));
+const { getComboMult, awardXP } = vi.hoisted(() => ({
+  getComboMult: vi.fn(() => 1),
+  awardXP: vi.fn(() => 10),
+}));
 vi.mock('../../js/features/combo.ts', () => ({ getComboMult, awardXP }));
 
-const {
-  getGameData, saveGameData, recordDailyWord, updateStreak, idleFn,
-} = vi.hoisted(() => ({
+const { getGameData, saveGameData, recordDailyWord, updateStreak, idleFn } = vi.hoisted(() => ({
   getGameData: vi.fn(() => ({ goalCur: 0, goalMax: 20, goalDays: 0, sessionWords: 0, xp: 0 })),
   saveGameData: vi.fn(),
   recordDailyWord: vi.fn(),
@@ -16,7 +22,11 @@ const {
   idleFn: vi.fn((fn: () => void) => fn()),
 }));
 vi.mock('../../js/features/game.ts', () => ({
-  getGameData, saveGameData, recordDailyWord, updateStreak, _idle: idleFn,
+  getGameData,
+  saveGameData,
+  recordDailyWord,
+  updateStreak,
+  _idle: idleFn,
 }));
 
 vi.mock('../../js/features/i18n.ts', () => ({ t: (k: string) => k }));
@@ -46,8 +56,22 @@ vi.mock('../../js/core/images.ts', () => ({
 const { notifyStateChange } = vi.hoisted(() => ({ notifyStateChange: vi.fn() }));
 vi.mock('../../src/store.ts', () => ({ notifyStateChange }));
 
-const word1: WordEntry = ['hello', 'привіт', 'Hello there.', 'Привіт.', '/heˈloʊ/', 'greeting'] as unknown as WordEntry;
-const word2: WordEntry = ['world', 'світ', 'The world.', 'Світ.', '/wɜːrld/', 'noun'] as unknown as WordEntry;
+const word1: WordEntry = [
+  'hello',
+  'привіт',
+  'Hello there.',
+  'Привіт.',
+  '/heˈloʊ/',
+  'greeting',
+] as unknown as WordEntry;
+const word2: WordEntry = [
+  'world',
+  'світ',
+  'The world.',
+  'Світ.',
+  '/wɜːrld/',
+  'noun',
+] as unknown as WordEntry;
 
 let engine: typeof import('../../js/core/card-engine.ts');
 
@@ -59,7 +83,10 @@ beforeAll(async () => {
     <select id="sel-mode"><option value="en-ua" selected>en-ua</option></select>
     <button id="btn-auto"></button>
   `;
-  vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: false })));
+  vi.stubGlobal(
+    'matchMedia',
+    vi.fn(() => ({ matches: false })),
+  );
   engine = await import('../../js/core/card-engine.ts');
 });
 
@@ -112,12 +139,18 @@ describe('card-engine.ts', () => {
     });
 
     it('does nothing when reduced motion is preferred', () => {
-      vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: true })));
+      vi.stubGlobal(
+        'matchMedia',
+        vi.fn(() => ({ matches: true })),
+      );
       const face = document.querySelector('.card-face') as HTMLElement;
       face.classList.remove('anim-fade');
       engine.animCard('fade');
       expect(face.classList.contains('anim-fade')).toBe(false);
-      vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: false })));
+      vi.stubGlobal(
+        'matchMedia',
+        vi.fn(() => ({ matches: false })),
+      );
     });
   });
 
@@ -147,7 +180,7 @@ describe('card-engine.ts', () => {
       expect(document.getElementById('card')!.classList.contains('is-known')).toBe(false);
     });
 
-    it('toggles the don\'t-know button based on sel-range value', () => {
+    it("toggles the don't-know button based on sel-range value", () => {
       (document.getElementById('sel-range') as HTMLSelectElement).value = 'srs';
       engine.render();
       expect(document.getElementById('btn-dontknow')!.style.display).toBe('');
@@ -177,7 +210,13 @@ describe('card-engine.ts', () => {
     });
 
     it('increments goalDays when goalCur reaches goalMax', () => {
-      getGameData.mockReturnValue({ goalCur: 19, goalMax: 20, goalDays: 0, sessionWords: 0, xp: 0 });
+      getGameData.mockReturnValue({
+        goalCur: 19,
+        goalMax: 20,
+        goalDays: 0,
+        sessionWords: 0,
+        xp: 0,
+      });
       engine.onWordLearned();
       const firstCallArg = saveGameData.mock.calls[0][0];
       expect(firstCallArg.goalCur).toBe(20);

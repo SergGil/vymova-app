@@ -9,12 +9,14 @@ import { DEFAULT_APPEARANCE } from '../features/character-avatar.tsx';
 
 export function _lzSave(key: string, data: unknown): void {
   try {
-    const json       = JSON.stringify(data);
+    const json = JSON.stringify(data);
     const compressed = LZString.compress(json);
-    localStorage.setItem(key,          compressed);
+    localStorage.setItem(key, compressed);
     localStorage.setItem(key + '_lz', '1');
   } catch (e) {
-    try { localStorage.setItem(key, JSON.stringify(data)); } catch (e2) {}
+    try {
+      localStorage.setItem(key, JSON.stringify(data));
+    } catch (e2) {}
   }
   // Lets cloud-sync.tsx debounce a backup push after known-words/SRS writes,
   // so progress isn't only as fresh as the last manual save or sync interval.
@@ -201,7 +203,11 @@ export function loadSRS(): SRSData {
 // 'ew_profiles' (alongside its legacy `avatar` emoji), so every
 // profile keeps its own look without needing a separate snapshot key.
 
-interface ProfileLike { id: string; appearance?: Partial<CharacterAppearance>; avatarMode?: 'preset' | 'character'; }
+interface ProfileLike {
+  id: string;
+  appearance?: Partial<CharacterAppearance>;
+  avatarMode?: 'preset' | 'character';
+}
 
 export function appearanceOf(p: ProfileLike): CharacterAppearance {
   return { ...DEFAULT_APPEARANCE, ...(p.appearance ?? {}) };
@@ -211,7 +217,7 @@ export function loadCharacter(): CharacterAppearance {
   try {
     const profiles = JSON.parse(localStorage.getItem('ew_profiles') ?? '[]') as ProfileLike[];
     const activeId = localStorage.getItem('ew_active_profile') ?? '';
-    const p = profiles.find(p => p.id === activeId);
+    const p = profiles.find((p) => p.id === activeId);
     return p ? appearanceOf(p) : { ...DEFAULT_APPEARANCE };
   } catch (e) {
     return { ...DEFAULT_APPEARANCE };
@@ -224,7 +230,9 @@ export function saveCharacter(appearance: CharacterAppearance): void {
   try {
     const profiles = JSON.parse(localStorage.getItem('ew_profiles') ?? '[]') as ProfileLike[];
     const activeId = localStorage.getItem('ew_active_profile') ?? '';
-    const next = profiles.map(p => p.id === activeId ? { ...p, appearance, avatarMode: 'character' as const } : p);
+    const next = profiles.map((p) =>
+      p.id === activeId ? { ...p, appearance, avatarMode: 'character' as const } : p,
+    );
     localStorage.setItem('ew_profiles', JSON.stringify(next));
     window.dispatchEvent(new Event('ew:profiles-changed'));
   } catch (e) {}

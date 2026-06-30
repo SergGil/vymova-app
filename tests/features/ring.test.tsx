@@ -11,7 +11,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<LevelRing />); });
+  act(() => {
+    root.render(<LevelRing />);
+  });
   return { container, root };
 }
 
@@ -25,7 +27,10 @@ describe('ring.tsx LevelRing', () => {
     const { container } = mount();
     expect(container.querySelector('#ring-center')!.textContent).toContain('0%');
     expect(container.querySelector('#ring-center')!.textContent).toContain('🌌');
-    expect(container.querySelector('#ring-fill')!.className.baseVal ?? container.querySelector('#ring-fill')!.getAttribute('class')).not.toContain('done');
+    expect(
+      container.querySelector('#ring-fill')!.className.baseVal ??
+        container.querySelector('#ring-fill')!.getAttribute('class'),
+    ).not.toContain('done');
   });
 
   it('shows progress toward the next level', () => {
@@ -36,7 +41,10 @@ describe('ring.tsx LevelRing', () => {
   });
 
   it('shows 100% and the "done" class for the final level', () => {
-    setKnownWords('en', new Set(Array.from({ length: getMaxWordsForLearnLang() }, (_, i) => `w${i}`)));
+    setKnownWords(
+      'en',
+      new Set(Array.from({ length: getMaxWordsForLearnLang() }, (_, i) => `w${i}`)),
+    );
     const { container } = mount();
     expect(container.querySelector('#ring-center')!.textContent).toContain('100%');
     expect(container.querySelector('#ring-fill')!.getAttribute('class')).toContain('done');

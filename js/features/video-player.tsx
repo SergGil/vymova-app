@@ -22,13 +22,15 @@ type PopupWord = { word: string; trans: string; ipa: string; known: boolean };
 
 function renderCueHtml(text: string): string {
   const chunks = text.split(/(\s+|[,\.!?;:'"()\-—]+)/);
-  return chunks.map(chunk => {
-    if (/^\s+$/.test(chunk) || /^[,\.!?;:'"()\-—]+$/.test(chunk)) return chunk;
-    const w = lookupEnglishWord(chunk);
-    if (!w) return chunk;
-    const isKnown = getKnownSnapshot('en').has(w[0]);
-    return `<span class="rd-word ${isKnown ? 'rd-known' : 'rd-unknown'}" data-word="${w[0]}">${chunk}</span>`;
-  }).join('');
+  return chunks
+    .map((chunk) => {
+      if (/^\s+$/.test(chunk) || /^[,\.!?;:'"()\-—]+$/.test(chunk)) return chunk;
+      const w = lookupEnglishWord(chunk);
+      if (!w) return chunk;
+      const isKnown = getKnownSnapshot('en').has(w[0]);
+      return `<span class="rd-word ${isKnown ? 'rd-known' : 'rd-unknown'}" data-word="${w[0]}">${chunk}</span>`;
+    })
+    .join('');
 }
 
 export function VideoPlayerPage(): ReactElement | null {
@@ -40,7 +42,12 @@ export function VideoPlayerPage(): ReactElement | null {
   const [popup, setPopup] = useState<PopupWord | null>(null);
   const videoUrlRef = useRef<string | null>(null);
 
-  useEffect(() => () => { if (videoUrlRef.current) URL.revokeObjectURL(videoUrlRef.current); }, []);
+  useEffect(
+    () => () => {
+      if (videoUrlRef.current) URL.revokeObjectURL(videoUrlRef.current);
+    },
+    [],
+  );
 
   useEffect(() => {
     function onDocClick(e: MouseEvent): void {
@@ -67,7 +74,13 @@ export function VideoPlayerPage(): ReactElement | null {
     const file = e.target.files?.[0];
     e.target.value = '';
     if (!file) return;
-    file.text().then(text => { setCues(parseSubtitles(text)); setActiveCue(null); }).catch(() => {});
+    file
+      .text()
+      .then((text) => {
+        setCues(parseSubtitles(text));
+        setActiveCue(null);
+      })
+      .catch(() => {});
   };
 
   const onTimeUpdate = (e: { currentTarget: HTMLVideoElement }): void => {
@@ -77,7 +90,12 @@ export function VideoPlayerPage(): ReactElement | null {
   const showPopup = (w: WordEntry): void => {
     const knowLang = getKnowLang();
     const trans = getWordTrans(w, knowLang) || w[1];
-    setPopup({ word: w[0], trans, ipa: decodeIpa(w[4] ?? ''), known: getKnownSnapshot('en').has(w[0]) });
+    setPopup({
+      word: w[0],
+      trans,
+      ipa: decodeIpa(w[4] ?? ''),
+      known: getKnownSnapshot('en').has(w[0]),
+    });
   };
 
   const onCueClick = (e: { target: EventTarget | null; stopPropagation: () => void }): void => {
@@ -90,26 +108,63 @@ export function VideoPlayerPage(): ReactElement | null {
 
   const markKnown = (): void => {
     if (!popup) return;
-    if (!popup.known) { _markKnown('en', popup.word); saveKnown(getKnownSnapshot('en')); onWordLearned(); }
+    if (!popup.known) {
+      _markKnown('en', popup.word);
+      saveKnown(getKnownSnapshot('en'));
+      onWordLearned();
+    }
     setPopup(null);
   };
 
-  const speakPopup = (): void => { if (popup) speak(popup.word, null); };
+  const speakPopup = (): void => {
+    if (popup) speak(popup.word, null);
+  };
 
   return createPortal(
     <div className="video-player-panel">
       <div className="video-player-uploads">
-        <button className="backup-btn primary" onClick={() => document.getElementById('vp-video-input')?.click()}>{t('videoPlayer.uploadVideo')}</button>
-        <input id="vp-video-input" type="file" accept="video/*" style={{ display: 'none' }} onChange={onVideoFile} />
-        <button className="backup-btn" onClick={() => document.getElementById('vp-sub-input')?.click()}>{t('videoPlayer.uploadSubs')}</button>
-        <input id="vp-sub-input" type="file" accept=".srt,.vtt" style={{ display: 'none' }} onChange={onSubtitleFile} />
-        {cues.length > 0 && <span className="video-player-cue-count">{t('videoPlayer.cueCount', { n: cues.length })}</span>}
+        <button
+          className="backup-btn primary"
+          onClick={() => document.getElementById('vp-video-input')?.click()}
+        >
+          {t('videoPlayer.uploadVideo')}
+        </button>
+        <input
+          id="vp-video-input"
+          type="file"
+          accept="video/*"
+          style={{ display: 'none' }}
+          onChange={onVideoFile}
+        />
+        <button
+          className="backup-btn"
+          onClick={() => document.getElementById('vp-sub-input')?.click()}
+        >
+          {t('videoPlayer.uploadSubs')}
+        </button>
+        <input
+          id="vp-sub-input"
+          type="file"
+          accept=".srt,.vtt"
+          style={{ display: 'none' }}
+          onChange={onSubtitleFile}
+        />
+        {cues.length > 0 && (
+          <span className="video-player-cue-count">
+            {t('videoPlayer.cueCount', { n: cues.length })}
+          </span>
+        )}
       </div>
 
       <div className="video-player-stage">
         <div className="video-player-video-col">
           {videoUrl ? (
-            <video className="video-player-el" src={videoUrl} controls onTimeUpdate={onTimeUpdate} />
+            <video
+              className="video-player-el"
+              src={videoUrl}
+              controls
+              onTimeUpdate={onTimeUpdate}
+            />
           ) : (
             <div className="video-player-placeholder">{t('videoPlayer.noVideo')}</div>
           )}
@@ -118,18 +173,34 @@ export function VideoPlayerPage(): ReactElement | null {
           {cues.length === 0 ? (
             <div className="ai-tutor-hint">{t('videoPlayer.noSubs')}</div>
           ) : activeCue ? (
-            <div className="rd-text video-player-cue" onClick={onCueClick} dangerouslySetInnerHTML={{ __html: renderCueHtml(activeCue.text) }} />
+            <div
+              className="rd-text video-player-cue"
+              onClick={onCueClick}
+              dangerouslySetInnerHTML={{ __html: renderCueHtml(activeCue.text) }}
+            />
           ) : (
             <div className="ai-tutor-hint">{t('videoPlayer.silentHint')}</div>
           )}
           {popup && (
-            <div className="rd-word-popup" style={{ display: 'block' }} onClick={(e) => e.stopPropagation()}>
+            <div
+              className="rd-word-popup"
+              style={{ display: 'block' }}
+              onClick={(e) => e.stopPropagation()}
+            >
               <div className="rd-popup-word">{popup.word}</div>
               <div className="rd-popup-ipa">{popup.ipa}</div>
               <div className="rd-popup-trans">{popup.trans}</div>
               <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
-                <button className="backup-btn" style={{ padding: '5px 12px' }} onClick={speakPopup}>🔊</button>
-                <button className="backup-btn primary" style={{ flex: 1, padding: 5 }} onClick={markKnown}>{popup.known ? t('reading.popupKnow') : t('reading.popupLearn')}</button>
+                <button className="backup-btn" style={{ padding: '5px 12px' }} onClick={speakPopup}>
+                  🔊
+                </button>
+                <button
+                  className="backup-btn primary"
+                  style={{ flex: 1, padding: 5 }}
+                  onClick={markKnown}
+                >
+                  {popup.known ? t('reading.popupKnow') : t('reading.popupLearn')}
+                </button>
               </div>
             </div>
           )}

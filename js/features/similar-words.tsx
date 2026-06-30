@@ -9,7 +9,13 @@ import { useStateVersion, notifyStateChange } from '../../src/store.ts';
 import { getCwSnapshot, getFlippedSnapshot } from '../../src/deck-store.ts';
 import { openWordDetail } from './word-detail.tsx';
 import type { WordEntry } from '../../src/types.js';
-import { getMode as _getMode, parsePair, getActiveKnownSet, headwordFor, type Code } from './mode-utils.ts';
+import {
+  getMode as _getMode,
+  parsePair,
+  getActiveKnownSet,
+  headwordFor,
+  type Code,
+} from './mode-utils.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { t } from './i18n.ts';
 
@@ -17,9 +23,116 @@ function _getActiveKnown(): Set<string> {
   return getActiveKnownSet(_getMode(), getKnownSnapshot('en'));
 }
 
-const STOP_UA = new Set(['бути','мати','стати','який','яка','яке','свій','своя','цей','ця','той','та','такий','одна','також','дуже','більш','менш','людина','великий','малий','новий','старий','добрий','поганий','перший','другий','інший','різний','можна','треба','або','чи','але','його','її','їх','він','вона','вони','цього','того','собою']);
-const STOP_ES = new Set(['ser','estar','tener','hacer','poder','para','como','pero','más','muy','bien','todo','cada','otro','esta','este','también','cuando','entre','sobre','hasta','desde','porque','aunque','donde','algo','alguien','mismo','parte','gran']);
-const STOP_FR = new Set(['être','avoir','faire','pouvoir','pour','comme','mais','plus','très','bien','tout','toute','chaque','autre','cette','aussi','quand','entre','sur','dans','depuis','parce','bien','alors','avec','sans','leur','leurs','cela','celui','celle']);
+const STOP_UA = new Set([
+  'бути',
+  'мати',
+  'стати',
+  'який',
+  'яка',
+  'яке',
+  'свій',
+  'своя',
+  'цей',
+  'ця',
+  'той',
+  'та',
+  'такий',
+  'одна',
+  'також',
+  'дуже',
+  'більш',
+  'менш',
+  'людина',
+  'великий',
+  'малий',
+  'новий',
+  'старий',
+  'добрий',
+  'поганий',
+  'перший',
+  'другий',
+  'інший',
+  'різний',
+  'можна',
+  'треба',
+  'або',
+  'чи',
+  'але',
+  'його',
+  'її',
+  'їх',
+  'він',
+  'вона',
+  'вони',
+  'цього',
+  'того',
+  'собою',
+]);
+const STOP_ES = new Set([
+  'ser',
+  'estar',
+  'tener',
+  'hacer',
+  'poder',
+  'para',
+  'como',
+  'pero',
+  'más',
+  'muy',
+  'bien',
+  'todo',
+  'cada',
+  'otro',
+  'esta',
+  'este',
+  'también',
+  'cuando',
+  'entre',
+  'sobre',
+  'hasta',
+  'desde',
+  'porque',
+  'aunque',
+  'donde',
+  'algo',
+  'alguien',
+  'mismo',
+  'parte',
+  'gran',
+]);
+const STOP_FR = new Set([
+  'être',
+  'avoir',
+  'faire',
+  'pouvoir',
+  'pour',
+  'comme',
+  'mais',
+  'plus',
+  'très',
+  'bien',
+  'tout',
+  'toute',
+  'chaque',
+  'autre',
+  'cette',
+  'aussi',
+  'quand',
+  'entre',
+  'sur',
+  'dans',
+  'depuis',
+  'parce',
+  'bien',
+  'alors',
+  'avec',
+  'sans',
+  'leur',
+  'leurs',
+  'cela',
+  'celui',
+  'celle',
+]);
 const STOP_BY_CODE: Partial<Record<Code, Set<string>>> = { ua: STOP_UA, es: STOP_ES, fr: STOP_FR };
 
 // Chinese/Japanese words are typically 1-3 characters — the length>=4
@@ -30,8 +143,12 @@ const SHORT_TOKEN_CODES = new Set<Code>(['zh', 'ja']);
 function _tok(s: string, code: Code): string[] {
   const minLen = SHORT_TOKEN_CODES.has(code) ? 1 : 4;
   const stop = STOP_BY_CODE[code];
-  return (s.toLowerCase().replace(/\([^)]*\)/g, '').match(/[\p{L}]+/gu) ?? [])
-    .filter(t => t.length >= minLen && !(stop && stop.has(t)));
+  return (
+    s
+      .toLowerCase()
+      .replace(/\([^)]*\)/g, '')
+      .match(/[\p{L}]+/gu) ?? []
+  ).filter((t) => t.length >= minLen && !(stop && stop.has(t)));
 }
 
 let _synIdxCache: Partial<Record<Code, Record<string, number[]>>> = {};
@@ -45,7 +162,7 @@ function _buildSynIdx(code: Code): Record<string, number[]> {
   for (let i = 0; i < W.length; i++) {
     const headword = headwordFor(code, W[i] as unknown as WordEntry);
     if (!headword) continue;
-    _tok(headword, code).forEach(t => {
+    _tok(headword, code).forEach((t) => {
       (idx[t] ??= []).push(i);
     });
   }
@@ -68,15 +185,20 @@ export function invalidateSimilarCache(): void {
  * translation text (`displayWord`) plus English-spelling prefix overlap
  * (always against the English headword, since that's the data's shared key).
  */
-export function getSimilarWordsFor(code: Code, enWord: string, displayWord: string, maxCount = 5): WordEntry[] {
+export function getSimilarWordsFor(
+  code: Code,
+  enWord: string,
+  displayWord: string,
+  maxCount = 5,
+): WordEntry[] {
   const cacheKey = code + ':' + enWord;
   if (_cache[cacheKey]) return _cache[cacheKey];
   const idx = _getSynIdx(code);
 
   const counts: Record<string, number> = {};
   // 1. Translation token matching (in `code`)
-  _tok(displayWord, code).forEach(t => {
-    (idx[t] ?? []).forEach(i => {
+  _tok(displayWord, code).forEach((t) => {
+    (idx[t] ?? []).forEach((i) => {
       if ((W[i] as unknown as WordEntry)[0].toLowerCase() !== enWord.toLowerCase())
         counts[i] = (counts[i] ?? 0) + t.length * 2;
     });
@@ -88,8 +210,8 @@ export function getSimilarWordsFor(code: Code, enWord: string, displayWord: stri
     if (wl2 === wl) continue;
     let pLen = 0;
     while (pLen < wl.length && pLen < wl2.length && wl[pLen] === wl2[pLen]) pLen++;
-    if (pLen >= 4)             counts[i] = (counts[i] ?? 0) + pLen * 3;
-    if (wl.length >= 5  && wl2.includes(wl.substring(0, 4)))  counts[i] = (counts[i] ?? 0) + 8;
+    if (pLen >= 4) counts[i] = (counts[i] ?? 0) + pLen * 3;
+    if (wl.length >= 5 && wl2.includes(wl.substring(0, 4))) counts[i] = (counts[i] ?? 0) + 8;
     if (wl2.length >= 5 && wl.includes(wl2.substring(0, 4))) counts[i] = (counts[i] ?? 0) + 8;
   }
 
@@ -134,13 +256,18 @@ export function SimilarWordsChips(): ReactElement | null {
     <div className="similar-section" id="cb-similar">
       <div className="similar-title">{t('cards.similarTitle')}</div>
       <div className="similar-chips" id="cb-chips">
-        {similar.map(w => {
+        {similar.map((w) => {
           const isKnown = _getActiveKnown().has(w[0]);
           const displayWord = headwordFor(front, w) || w[0];
           const displayTransl = headwordFor(back, w) || w[1];
           return (
-            <div key={w[0]} className={'sim-chip' + (isKnown ? ' known-chip' : '')}
-              onClick={(e) => { e.stopPropagation(); openWordDetail(w); }}
+            <div
+              key={w[0]}
+              className={'sim-chip' + (isKnown ? ' known-chip' : '')}
+              onClick={(e) => {
+                e.stopPropagation();
+                openWordDetail(w);
+              }}
             >
               <span className="sc-word">{displayWord}</span>
               <span className="sc-transl">{displayTransl}</span>

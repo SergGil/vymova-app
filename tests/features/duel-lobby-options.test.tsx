@@ -2,7 +2,11 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { CATEGORY_LIST } from '../../data/categories.js';
-import { DuelModePicker, DuelCategoryPicker, DuelOptionsRow } from '../../js/features/duel-lobby-options.tsx';
+import {
+  DuelModePicker,
+  DuelCategoryPicker,
+  DuelOptionsRow,
+} from '../../js/features/duel-lobby-options.tsx';
 import type { Difficulty, BestOf, DuelMode } from '../../js/features/duel.ts';
 import type { ReactElement } from 'react';
 
@@ -10,12 +14,18 @@ import type { ReactElement } from 'react';
 
 const {
   showInfoTooltip,
-  getSelMode, setSelMode,
-  getSelCategory, setSelCategory,
-  getSelDifficulty, setSelDifficulty,
-  getSelBestOf, setSelBestOf,
-  getSelMaxHints, setSelMaxHints,
-  getSelPowerups, setSelPowerups,
+  getSelMode,
+  setSelMode,
+  getSelCategory,
+  setSelCategory,
+  getSelDifficulty,
+  setSelDifficulty,
+  getSelBestOf,
+  setSelBestOf,
+  getSelMaxHints,
+  setSelMaxHints,
+  getSelPowerups,
+  setSelPowerups,
 } = vi.hoisted(() => ({
   showInfoTooltip: vi.fn(),
   getSelMode: vi.fn((): DuelMode => 'quiz'),
@@ -36,12 +46,18 @@ vi.mock('../../js/features/duel.ts', async (importOriginal) => {
   return {
     ...orig,
     _showInfoTooltip: showInfoTooltip,
-    _getSelMode: getSelMode, _setSelMode: setSelMode,
-    _getSelCategory: getSelCategory, _setSelCategory: setSelCategory,
-    _getSelDifficulty: getSelDifficulty, _setSelDifficulty: setSelDifficulty,
-    _getSelBestOf: getSelBestOf, _setSelBestOf: setSelBestOf,
-    _getSelMaxHints: getSelMaxHints, _setSelMaxHints: setSelMaxHints,
-    _getSelPowerups: getSelPowerups, _setSelPowerups: setSelPowerups,
+    _getSelMode: getSelMode,
+    _setSelMode: setSelMode,
+    _getSelCategory: getSelCategory,
+    _setSelCategory: setSelCategory,
+    _getSelDifficulty: getSelDifficulty,
+    _setSelDifficulty: setSelDifficulty,
+    _getSelBestOf: getSelBestOf,
+    _setSelBestOf: setSelBestOf,
+    _getSelMaxHints: getSelMaxHints,
+    _setSelMaxHints: setSelMaxHints,
+    _getSelPowerups: getSelPowerups,
+    _setSelPowerups: setSelPowerups,
   };
 });
 
@@ -49,7 +65,9 @@ function mount(el: ReactElement): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(el); });
+  act(() => {
+    root.render(el);
+  });
   return { container, root };
 }
 
@@ -64,7 +82,11 @@ describe('duel-lobby-options.tsx DuelModePicker', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders all duel mode buttons with the active one marked', () => {
@@ -80,7 +102,9 @@ describe('duel-lobby-options.tsx DuelModePicker', () => {
     const { container, root } = mount(<DuelModePicker />);
     roots.push(root);
     const buttons = container.querySelectorAll('.duel-mode-btn');
-    act(() => { (buttons[3] as HTMLButtonElement).click(); });
+    act(() => {
+      (buttons[3] as HTMLButtonElement).click();
+    });
     expect(setSelMode).toHaveBeenCalledWith('tempo');
     expect(buttons[3].className).toContain('duel-mode-sel');
     expect(buttons[0].className).not.toContain('duel-mode-sel');
@@ -98,7 +122,11 @@ describe('duel-lobby-options.tsx DuelCategoryPicker', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders an "all words" option plus every category', () => {
@@ -139,7 +167,11 @@ describe('duel-lobby-options.tsx DuelOptionsRow', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders the 7 difficulty buttons with "mixed" active', () => {
@@ -155,7 +187,9 @@ describe('duel-lobby-options.tsx DuelOptionsRow', () => {
     const { container, root } = mount(<DuelOptionsRow />);
     roots.push(root);
     const buttons = container.querySelectorAll('.duel-cefr-btn');
-    act(() => { (buttons[1] as HTMLButtonElement).click(); });
+    act(() => {
+      (buttons[1] as HTMLButtonElement).click();
+    });
     expect(setSelDifficulty).toHaveBeenCalledWith('A1');
   });
 
@@ -181,7 +215,9 @@ describe('duel-lobby-options.tsx DuelOptionsRow', () => {
     roots.push(root);
     const checkbox = container.querySelector('input[type="checkbox"]') as HTMLInputElement;
     expect(checkbox.checked).toBe(true);
-    act(() => { checkbox.click(); });
+    act(() => {
+      checkbox.click();
+    });
     expect(setSelPowerups).toHaveBeenCalledWith(false);
   });
 
@@ -189,7 +225,9 @@ describe('duel-lobby-options.tsx DuelOptionsRow', () => {
     const { container, root } = mount(<DuelOptionsRow />);
     roots.push(root);
     const infoButtons = container.querySelectorAll('.duel-info-btn');
-    act(() => { (infoButtons[0] as HTMLButtonElement).click(); });
+    act(() => {
+      (infoButtons[0] as HTMLButtonElement).click();
+    });
     expect(showInfoTooltip).toHaveBeenCalled();
   });
 });

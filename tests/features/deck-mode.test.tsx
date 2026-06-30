@@ -26,7 +26,9 @@ vi.mock('../../data/words_de.js', () => ({ W_DE: {} }));
 function changeMode(value: string): void {
   const sel = document.getElementById('sel-mode') as HTMLSelectElement;
   sel.value = value;
-  act(() => { sel.dispatchEvent(new Event('change')); });
+  act(() => {
+    sel.dispatchEvent(new Event('change'));
+  });
 }
 
 describe('deck-mode.tsx DeckModeInit', () => {
@@ -63,7 +65,9 @@ describe('deck-mode.tsx DeckModeInit', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     const root = createRoot(container);
-    act(() => { root.render(<DeckModeInit />); });
+    act(() => {
+      root.render(<DeckModeInit />);
+    });
 
     changeMode('es-en');
 
@@ -82,7 +86,9 @@ describe('deck-mode.tsx DeckModeInit', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     const root = createRoot(container);
-    act(() => { root.render(<DeckModeInit />); });
+    act(() => {
+      root.render(<DeckModeInit />);
+    });
 
     const originalDeck = getDeckSnapshot();
     changeMode('es-en');
@@ -98,7 +104,9 @@ describe('deck-mode.tsx DeckModeInit', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     const root = createRoot(container);
-    act(() => { root.render(<DeckModeInit />); });
+    act(() => {
+      root.render(<DeckModeInit />);
+    });
 
     changeMode('fr-en');
 
@@ -114,12 +122,14 @@ describe('deck-mode.tsx DeckModeInit', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     const root = createRoot(container);
-    act(() => { root.render(<DeckModeInit />); });
+    act(() => {
+      root.render(<DeckModeInit />);
+    });
 
     setActiveTagSet(new Set([esWord]));
     changeMode('es-en');
 
     const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
-    expect(deck.map(w => w[0])).toEqual([esWord]);
+    expect(deck.map((w) => w[0])).toEqual([esWord]);
   });
 });

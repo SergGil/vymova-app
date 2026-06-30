@@ -54,18 +54,26 @@ describe('progress-io.tsx ProgressIO', () => {
     localStorage.clear();
 
     root = createRoot(container);
-    act(() => { root.render(createElement(ProgressIO)); });
+    act(() => {
+      root.render(createElement(ProgressIO));
+    });
   });
 
   afterEach(() => {
-    act(() => { root.unmount(); });
+    act(() => {
+      root.unmount();
+    });
     vi.useRealTimers();
     vi.unstubAllGlobals();
     vi.clearAllMocks();
   });
 
   it('exports progress as base64 into the textarea and opens the modal', async () => {
-    act(() => { document.getElementById('btn-export')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-export')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(closeStats).toHaveBeenCalled();
 
     const ta = document.getElementById('export-textarea') as HTMLTextAreaElement;
@@ -76,7 +84,9 @@ describe('progress-io.tsx ProgressIO', () => {
 
     expect((document.getElementById('export-modal') as HTMLElement).style.display).toBe('flex');
 
-    await act(async () => { vi.advanceTimersByTime(100); });
+    await act(async () => {
+      vi.advanceTimersByTime(100);
+    });
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(ta.value);
     expect(document.getElementById('export-select-all')!.textContent).toBe('✓ Скопійовано!');
   });
@@ -85,7 +95,11 @@ describe('progress-io.tsx ProgressIO', () => {
     (document.getElementById('import-textarea') as HTMLTextAreaElement).value = 'old';
     document.getElementById('import-error')!.textContent = 'old error';
 
-    act(() => { document.getElementById('btn-import-open')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-import-open')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
     expect(closeStats).toHaveBeenCalled();
     expect((document.getElementById('import-textarea') as HTMLTextAreaElement).value).toBe('');
@@ -95,25 +109,44 @@ describe('progress-io.tsx ProgressIO', () => {
 
   it('shows an error when confirming an empty import code', () => {
     (document.getElementById('import-textarea') as HTMLTextAreaElement).value = '';
-    act(() => { document.getElementById('import-confirm')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('import-confirm')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(document.getElementById('import-error')!.textContent).toBe('Встав код прогресу');
   });
 
   it('shows an error when confirming an invalid import code', () => {
-    (document.getElementById('import-textarea') as HTMLTextAreaElement).value = 'not-valid-base64!!';
-    act(() => { document.getElementById('import-confirm')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
-    expect(document.getElementById('import-error')!.textContent).toBe('❌ Невірний код — перевір чи повністю скопіював');
+    (document.getElementById('import-textarea') as HTMLTextAreaElement).value =
+      'not-valid-base64!!';
+    act(() => {
+      document
+        .getElementById('import-confirm')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+    expect(document.getElementById('import-error')!.textContent).toBe(
+      '❌ Невірний код — перевір чи повністю скопіював',
+    );
   });
 
   it('round-trips export → import, restoring known words and refreshing the UI', async () => {
     setKnownWords('en', new Set(['abandon', 'idiom']));
-    act(() => { document.getElementById('btn-export')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-export')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     const code = (document.getElementById('export-textarea') as HTMLTextAreaElement).value;
 
     setKnownWords('en', new Set());
 
     (document.getElementById('import-textarea') as HTMLTextAreaElement).value = code;
-    act(() => { document.getElementById('import-confirm')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('import-confirm')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
     expect(document.getElementById('import-modal')!.className).toBe('');
     expect(getKnownSnapshot('en')).toEqual(new Set(['abandon', 'idiom']));
@@ -125,20 +158,30 @@ describe('progress-io.tsx ProgressIO', () => {
 
     const btn = document.getElementById('btn-import-open')!;
     expect(btn.textContent).toBe('✓ Імпортовано!');
-    act(() => { vi.advanceTimersByTime(3000); });
+    act(() => {
+      vi.advanceTimersByTime(3000);
+    });
     expect(btn.textContent).toBe('📥 Імпорт');
   });
 
   it('closing the export modal resets it and the select-all label', () => {
     document.getElementById('export-select-all')!.textContent = '✓ Скопійовано!';
-    act(() => { document.getElementById('export-modal-close')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('export-modal-close')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect((document.getElementById('export-modal') as HTMLElement).style.display).toBe('none');
     expect(document.getElementById('export-select-all')!.textContent).toBe('Виділити все');
   });
 
   it('cancelling the import modal clears its open state', () => {
     document.getElementById('import-modal')!.className = 'open';
-    act(() => { document.getElementById('import-cancel')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('import-cancel')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(document.getElementById('import-modal')!.className).toBe('');
   });
 });

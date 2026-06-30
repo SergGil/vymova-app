@@ -58,7 +58,11 @@ describe('i18n', () => {
   it('renders full counter strings via t() with n + unit interpolation', () => {
     expect(t('wd.repsCount', { n: 1, unit: pluralLabel('common_rep', 1) })).toBe('1 повторення');
     expect(t('wd.repsCount', { n: 5, unit: pluralLabel('common_rep', 5) })).toBe('5 повторень');
-    expect(tLang('stats.perDayCount', 'en', { n: 1, unit: tLang('common_day', 'en', { count: 1 }) })).toBe('(last 1 day)');
-    expect(tLang('stats.perDayCount', 'en', { n: 7, unit: tLang('common_day', 'en', { count: 7 }) })).toBe('(last 7 days)');
+    expect(
+      tLang('stats.perDayCount', 'en', { n: 1, unit: tLang('common_day', 'en', { count: 1 }) }),
+    ).toBe('(last 1 day)');
+    expect(
+      tLang('stats.perDayCount', 'en', { n: 7, unit: tLang('common_day', 'en', { count: 7 }) }),
+    ).toBe('(last 7 days)');
   });
 });

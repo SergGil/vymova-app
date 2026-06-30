@@ -8,8 +8,9 @@ function _getCtx(): AudioContext | null {
   if (!_audioCtx) {
     try {
       // Prefer standard AudioContext, fall back to webkit (old Safari/Chrome)
-      const Ctx = window.AudioContext
-        ?? (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      const Ctx =
+        window.AudioContext ??
+        (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       if (Ctx) _audioCtx = new Ctx();
     } catch (e) {}
   }
@@ -43,9 +44,12 @@ export function playSound(type: string): void {
       osc.stop(ctx.currentTime + 0.12);
     } else if (type === 'combo') {
       [440, 554, 659, 880].forEach((freq, i) => {
-        const o = ctx.createOscillator(), g = ctx.createGain();
-        o.connect(g); g.connect(ctx.destination);
-        o.frequency.value = freq; o.type = 'sine';
+        const o = ctx.createOscillator(),
+          g = ctx.createGain();
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.frequency.value = freq;
+        o.type = 'sine';
         g.gain.setValueAtTime(0.09, ctx.currentTime + i * 0.06);
         g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.06 + 0.18);
         o.start(ctx.currentTime + i * 0.06);
@@ -60,9 +64,12 @@ export function playSound(type: string): void {
       osc.stop(ctx.currentTime + 0.08);
     } else if (type === 'goal') {
       [523, 659, 784, 1047].forEach((freq, i) => {
-        const o = ctx.createOscillator(), g = ctx.createGain();
-        o.connect(g); g.connect(ctx.destination);
-        o.frequency.value = freq; o.type = 'sine';
+        const o = ctx.createOscillator(),
+          g = ctx.createGain();
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.frequency.value = freq;
+        o.type = 'sine';
         g.gain.setValueAtTime(0.12, ctx.currentTime + i * 0.1);
         g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.1 + 0.25);
         o.start(ctx.currentTime + i * 0.1);

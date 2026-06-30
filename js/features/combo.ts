@@ -17,21 +17,36 @@ export function getComboMult(): number {
 export function addCombo(): void {
   sessionCombo++;
   _renderCombo();
-  if (sessionCombo === 5)  { try { playSound('combo'); } catch(e){} showComboToast('🔥 ×2 COMBO!'); }
-  if (sessionCombo === 10) { try { playSound('combo'); } catch(e){} showComboToast('⚡ ×3 MEGA!'); }
-  if (sessionCombo === 25) { showComboToast('🌌 JEDI FLOW!'); }
+  if (sessionCombo === 5) {
+    try {
+      playSound('combo');
+    } catch (e) {}
+    showComboToast('🔥 ×2 COMBO!');
+  }
+  if (sessionCombo === 10) {
+    try {
+      playSound('combo');
+    } catch (e) {}
+    showComboToast('⚡ ×3 MEGA!');
+  }
+  if (sessionCombo === 25) {
+    showComboToast('🌌 JEDI FLOW!');
+  }
   try {
     const d = getGameData();
     if (sessionCombo > (d.maxCombo || 0)) {
       d.maxCombo = sessionCombo;
       saveGameData(d);
     }
-  } catch(e){}
-  try { checkAchievements(); } catch(e){}
+  } catch (e) {}
+  try {
+    checkAchievements();
+  } catch (e) {}
 }
 export function breakCombo(): void {
   if (sessionCombo === 0) return;
-  sessionCombo = 0; _renderCombo();
+  sessionCombo = 0;
+  _renderCombo();
 }
 
 // Single place every mode awards XP through — applies the current combo
@@ -53,7 +68,8 @@ function _renderCombo(): void {
 export function flashCard(ok: boolean): void {
   const face = document.getElementById('card-front') as HTMLElement | null;
   if (!face) return;
-  face.classList.remove('flash-ok', 'flash-fail'); void face.offsetWidth;
+  face.classList.remove('flash-ok', 'flash-fail');
+  void face.offsetWidth;
   face.classList.add(ok ? 'flash-ok' : 'flash-fail');
   setTimeout(() => face.classList.remove('flash-ok', 'flash-fail'), 550);
 }

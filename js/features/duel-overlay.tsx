@@ -26,38 +26,38 @@ export function DuelOverlay(): ReactElement {
 
   return (
     <>
-      {screen === 'lobby' && <DuelLobby/>}
+      {screen === 'lobby' && <DuelLobby />}
 
-      <DuelSpectatorView/>
-      <DuelTournament/>
+      <DuelSpectatorView />
+      <DuelTournament />
 
       {screen === 'countdown' && (
         <div id="duel-countdown" style={{ textAlign: 'center', padding: '40px 0' }}>
-          <DuelCountdown/>
+          <DuelCountdown />
         </div>
       )}
 
       {screen === 'game' && (
         <div id="duel-game">
-          <DuelGameHeader/>
-          <DuelTempoTimer/>
-          <DuelQuestion/>
-          <DuelFeedback/>
-          <DuelPowerups/>
+          <DuelGameHeader />
+          <DuelTempoTimer />
+          <DuelQuestion />
+          <DuelFeedback />
+          <DuelPowerups />
         </div>
       )}
 
       {(screen === 'game' || screen === 'result') && (
         <div id="duel-chat-panel" className="duel-chat-panel">
           <div className="duel-chat-title">💬 {t('duel.chat')}</div>
-          <DuelChatLog/>
-          <DuelChatPanel/>
+          <DuelChatLog />
+          <DuelChatPanel />
         </div>
       )}
 
       {screen === 'result' && (
         <div id="duel-result" style={{ textAlign: 'center', padding: '10px 0' }}>
-          <DuelResult/>
+          <DuelResult />
         </div>
       )}
     </>

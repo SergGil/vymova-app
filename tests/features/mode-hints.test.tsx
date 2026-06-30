@@ -9,7 +9,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<ModeHints />); });
+  act(() => {
+    root.render(<ModeHints />);
+  });
   return { container, root };
 }
 
@@ -31,7 +33,9 @@ describe('mode-hints.tsx ModeHints', () => {
   it('shows a hint banner once a watched overlay becomes visible', async () => {
     mount();
     const overlay = document.getElementById('quiz-overlay')!;
-    act(() => { overlay.classList.add('open'); });
+    act(() => {
+      overlay.classList.add('open');
+    });
 
     await vi.advanceTimersByTimeAsync(0);
     await vi.advanceTimersByTimeAsync(250);
@@ -44,7 +48,9 @@ describe('mode-hints.tsx ModeHints', () => {
   it('marks the overlay as seen and does not show the hint again', async () => {
     mount();
     const overlay = document.getElementById('quiz-overlay')!;
-    act(() => { overlay.classList.add('open'); });
+    act(() => {
+      overlay.classList.add('open');
+    });
     await vi.advanceTimersByTimeAsync(250);
     expect(overlay.querySelector('.mode-hint-banner')).not.toBeNull();
 
@@ -52,8 +58,12 @@ describe('mode-hints.tsx ModeHints', () => {
     expect(seen).toContain('quiz-overlay');
 
     overlay.querySelector('.mode-hint-banner')!.remove();
-    act(() => { overlay.classList.remove('open'); });
-    act(() => { overlay.classList.add('open'); });
+    act(() => {
+      overlay.classList.remove('open');
+    });
+    act(() => {
+      overlay.classList.add('open');
+    });
     await vi.advanceTimersByTimeAsync(250);
     expect(overlay.querySelector('.mode-hint-banner')).toBeNull();
   });
@@ -61,7 +71,9 @@ describe('mode-hints.tsx ModeHints', () => {
   it('fades out and removes the banner after 4500ms + 450ms', async () => {
     mount();
     const overlay = document.getElementById('quiz-overlay')!;
-    act(() => { overlay.classList.add('open'); });
+    act(() => {
+      overlay.classList.add('open');
+    });
     await vi.advanceTimersByTimeAsync(250);
     const banner = overlay.querySelector('.mode-hint-banner') as HTMLElement;
     expect(banner).not.toBeNull();
@@ -76,14 +88,18 @@ describe('mode-hints.tsx ModeHints', () => {
   it('does nothing for an overlay that is not visible', async () => {
     mount();
     const overlay = document.getElementById('quiz-overlay')!;
-    act(() => { overlay.setAttribute('style', 'display:none'); });
+    act(() => {
+      overlay.setAttribute('style', 'display:none');
+    });
     await vi.advanceTimersByTimeAsync(250);
     expect(overlay.querySelector('.mode-hint-banner')).toBeNull();
   });
 
   it('disconnects observers on unmount', async () => {
     const { root } = mount();
-    act(() => { root.unmount(); });
+    act(() => {
+      root.unmount();
+    });
     const overlay = document.getElementById('quiz-overlay')!;
     overlay.classList.add('open');
     await vi.advanceTimersByTimeAsync(250);

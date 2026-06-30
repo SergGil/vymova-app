@@ -10,7 +10,7 @@ describe('GRAMMAR data structure', () => {
 
   it('every category has required fields', () => {
     for (const cat of GRAMMAR) {
-      expect(cat.id,    `category missing id`).toBeTruthy();
+      expect(cat.id, `category missing id`).toBeTruthy();
       expect(cat.title, `category ${cat.id} missing title`).toBeTruthy();
       expect(cat.emoji, `category ${cat.id} missing emoji`).toBeTruthy();
       expect(Array.isArray(cat.rules), `category ${cat.id} rules must be array`).toBe(true);
@@ -21,9 +21,9 @@ describe('GRAMMAR data structure', () => {
   it('every rule has required fields', () => {
     for (const cat of GRAMMAR) {
       for (const rule of cat.rules) {
-        expect(rule.id,      `rule missing id in ${cat.id}`).toBeTruthy();
-        expect(rule.title,   `rule ${rule.id} missing title`).toBeTruthy();
-        expect(rule.emoji,   `rule ${rule.id} missing emoji`).toBeTruthy();
+        expect(rule.id, `rule missing id in ${cat.id}`).toBeTruthy();
+        expect(rule.title, `rule ${rule.id} missing title`).toBeTruthy();
+        expect(rule.emoji, `rule ${rule.id} missing emoji`).toBeTruthy();
         expect(Array.isArray(rule.sections), `rule ${rule.id} sections must be array`).toBe(true);
         expect(rule.sections.length, `rule ${rule.id} has no sections`).toBeGreaterThan(0);
       }
@@ -31,13 +31,13 @@ describe('GRAMMAR data structure', () => {
   });
 
   it('all rule IDs are unique across categories', () => {
-    const ids = GRAMMAR.flatMap(c => c.rules.map(r => r.id));
+    const ids = GRAMMAR.flatMap((c) => c.rules.map((r) => r.id));
     const unique = new Set(ids);
     expect(unique.size).toBe(ids.length);
   });
 
   it('all category IDs are unique', () => {
-    const ids = GRAMMAR.map(c => c.id);
+    const ids = GRAMMAR.map((c) => c.id);
     const unique = new Set(ids);
     expect(unique.size).toBe(ids.length);
   });
@@ -85,16 +85,14 @@ describe('GRAMMAR data structure', () => {
   });
 
   it('irregular verbs table has header + data rows', () => {
-    const irregRule = GRAMMAR
-      .flatMap(c => c.rules)
-      .find(r => r.id === 'irregular-verbs');
+    const irregRule = GRAMMAR.flatMap((c) => c.rules).find((r) => r.id === 'irregular-verbs');
     expect(irregRule).toBeDefined();
-    const table = irregRule!.sections.find(s => s.type === 'table');
+    const table = irregRule!.sections.find((s) => s.type === 'table');
     expect(table?.rows?.length).toBeGreaterThan(50); // 60+ verbs + header
   });
 
   it('contains core tenses', () => {
-    const ids = new Set(GRAMMAR.flatMap(c => c.rules.map(r => r.id)));
+    const ids = new Set(GRAMMAR.flatMap((c) => c.rules.map((r) => r.id)));
     const required = ['present-simple', 'past-simple', 'present-perfect', 'future-simple'];
     for (const id of required) {
       expect(ids.has(id), `missing tense: ${id}`).toBe(true);

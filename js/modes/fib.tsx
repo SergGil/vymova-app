@@ -11,50 +11,94 @@ import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
 import { speak } from '../features/speech.ts';
 import type { WordEntry } from '../../src/types.js';
-import { esEntry, frEntry, itEntry, ptEntry, deEntry, heEntry, arEntry, plEntry, zhEntry, elEntry, jaEntry, trEntry, nlEntry } from '../features/mode-utils.ts';
+import {
+  esEntry,
+  frEntry,
+  itEntry,
+  ptEntry,
+  deEntry,
+  heEntry,
+  arEntry,
+  plEntry,
+  zhEntry,
+  elEntry,
+  jaEntry,
+  trEntry,
+  nlEntry,
+} from '../features/mode-utils.ts';
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 
 const SIZE = 10;
 type BlankItem = { sentence: string; answer: string; base: string };
-type FibEntry  = { w: WordEntry; blank: BlankItem };
+type FibEntry = { w: WordEntry; blank: BlankItem };
 
 function getLangWord(w: WordEntry, lang: string): string {
   switch (lang) {
-    case 'ua': return w[1];
-    case 'es': return esEntry(w[0])?.[0] ?? '';
-    case 'fr': return frEntry(w[0])?.[0] ?? '';
-    case 'it': return itEntry(w[0])?.[0] ?? '';
-    case 'pt': return ptEntry(w[0])?.[0] ?? '';
-    case 'de': return deEntry(w[0])?.[0] ?? '';
-    case 'he': return heEntry(w[0])?.[0] ?? '';
-    case 'ar': return arEntry(w[0])?.[0] ?? '';
-    case 'pl': return plEntry(w[0])?.[0] ?? '';
-    case 'zh': return zhEntry(w[0])?.[0] ?? '';
-    case 'el': return elEntry(w[0])?.[0] ?? '';
-    case 'ja': return jaEntry(w[0])?.[0] ?? '';
-    case 'tr': return trEntry(w[0])?.[0] ?? '';
-    case 'nl': return nlEntry(w[0])?.[0] ?? '';
-    default:   return w[0];
+    case 'ua':
+      return w[1];
+    case 'es':
+      return esEntry(w[0])?.[0] ?? '';
+    case 'fr':
+      return frEntry(w[0])?.[0] ?? '';
+    case 'it':
+      return itEntry(w[0])?.[0] ?? '';
+    case 'pt':
+      return ptEntry(w[0])?.[0] ?? '';
+    case 'de':
+      return deEntry(w[0])?.[0] ?? '';
+    case 'he':
+      return heEntry(w[0])?.[0] ?? '';
+    case 'ar':
+      return arEntry(w[0])?.[0] ?? '';
+    case 'pl':
+      return plEntry(w[0])?.[0] ?? '';
+    case 'zh':
+      return zhEntry(w[0])?.[0] ?? '';
+    case 'el':
+      return elEntry(w[0])?.[0] ?? '';
+    case 'ja':
+      return jaEntry(w[0])?.[0] ?? '';
+    case 'tr':
+      return trEntry(w[0])?.[0] ?? '';
+    case 'nl':
+      return nlEntry(w[0])?.[0] ?? '';
+    default:
+      return w[0];
   }
 }
 
 function getLangSentence(w: WordEntry, lang: string): string {
   switch (lang) {
-    case 'ua': return w[3] ?? '';
-    case 'es': return esEntry(w[0])?.[1] ?? '';
-    case 'fr': return frEntry(w[0])?.[1] ?? '';
-    case 'it': return itEntry(w[0])?.[1] ?? '';
-    case 'pt': return ptEntry(w[0])?.[1] ?? '';
-    case 'de': return deEntry(w[0])?.[1] ?? '';
-    case 'he': return heEntry(w[0])?.[1] ?? '';
-    case 'ar': return arEntry(w[0])?.[1] ?? '';
-    case 'pl': return plEntry(w[0])?.[1] ?? '';
-    case 'zh': return zhEntry(w[0])?.[1] ?? '';
-    case 'el': return elEntry(w[0])?.[1] ?? '';
-    case 'ja': return jaEntry(w[0])?.[1] ?? '';
-    case 'tr': return trEntry(w[0])?.[1] ?? '';
-    case 'nl': return nlEntry(w[0])?.[1] ?? '';
-    default:   return w[2] ?? '';
+    case 'ua':
+      return w[3] ?? '';
+    case 'es':
+      return esEntry(w[0])?.[1] ?? '';
+    case 'fr':
+      return frEntry(w[0])?.[1] ?? '';
+    case 'it':
+      return itEntry(w[0])?.[1] ?? '';
+    case 'pt':
+      return ptEntry(w[0])?.[1] ?? '';
+    case 'de':
+      return deEntry(w[0])?.[1] ?? '';
+    case 'he':
+      return heEntry(w[0])?.[1] ?? '';
+    case 'ar':
+      return arEntry(w[0])?.[1] ?? '';
+    case 'pl':
+      return plEntry(w[0])?.[1] ?? '';
+    case 'zh':
+      return zhEntry(w[0])?.[1] ?? '';
+    case 'el':
+      return elEntry(w[0])?.[1] ?? '';
+    case 'ja':
+      return jaEntry(w[0])?.[1] ?? '';
+    case 'tr':
+      return trEntry(w[0])?.[1] ?? '';
+    case 'nl':
+      return nlEntry(w[0])?.[1] ?? '';
+    default:
+      return w[2] ?? '';
   }
 }
 
@@ -80,13 +124,16 @@ function makeBlank(w: WordEntry, learnLang: string = 'en'): BlankItem | null {
   if (!m) return null;
   return {
     sentence: sentence.replace(/<b>.*?<\/b>/i, '<span class="fib-blank">___</span>'),
-    answer: m[1], base: w[0],
+    answer: m[1],
+    base: w[0],
   };
 }
 
 function build(): FibEntry[] {
   const learnLang = getLearnLang();
-  const pool = _shuf((getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[]);
+  const pool = _shuf(
+    (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[],
+  );
   const deck: FibEntry[] = [];
   for (let i = 0; i < pool.length && deck.length < SIZE; i++) {
     const b = makeBlank(pool[i], learnLang);
@@ -102,15 +149,19 @@ function renderSentence(item: FibEntry, correct: boolean | null): string {
     : 'background:rgba(231,76,60,.12);border-color:#e74c3c;color:#e74c3c';
   return item.blank.sentence.replace(
     /<span class="fib-blank">.*?<\/span>/,
-    `<span class="fib-blank" style="${hlStyle};border-radius:4px;padding:0 4px;">${item.blank.answer}</span>`
+    `<span class="fib-blank" style="${hlStyle};border-radius:4px;padding:0 4px;">${item.blank.answer}</span>`,
   );
 }
 
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openFib(): void { _open?.(); }
-function closeFib(): void { _close?.(); }
+function openFib(): void {
+  _open?.();
+}
+function closeFib(): void {
+  _close?.();
+}
 
 export function FibPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
@@ -155,13 +206,20 @@ export function FibPage(): ReactElement {
       const overlay = document.getElementById('fib-overlay');
       if (overlay) overlay.style.display = 'none';
     };
-    return () => { _open = null; _close = null; };
+    return () => {
+      _open = null;
+      _close = null;
+    };
   }, []);
 
   // Focus input on new question
   useEffect(() => {
     if (!isOpen || !item) return;
-    const tmr = setTimeout(() => { try { inputRef.current?.focus(); } catch (e) {} }, 60);
+    const tmr = setTimeout(() => {
+      try {
+        inputRef.current?.focus();
+      } catch (e) {}
+    }, 60);
     return () => clearTimeout(tmr);
   }, [isOpen, idx, item]);
 
@@ -174,7 +232,7 @@ export function FibPage(): ReactElement {
   }, [showFinal, completed]);
 
   const advanceQ = (): void => {
-    setIdx(i => i + 1);
+    setIdx((i) => i + 1);
     setInput('');
     setResult(null);
     setHint('');
@@ -185,17 +243,26 @@ export function FibPage(): ReactElement {
     const inp = input.trim().toLowerCase();
     const ans = item.blank.answer.toLowerCase();
     const base = item.blank.base.toLowerCase();
-    const okAnswer = inp === ans || inp === base
-      || (ans.length > 3 && lev(inp, ans) <= 1)
-      || (base.length > 3 && lev(inp, base) <= 1);
+    const okAnswer =
+      inp === ans ||
+      inp === base ||
+      (ans.length > 3 && lev(inp, ans) <= 1) ||
+      (base.length > 3 && lev(inp, base) <= 1);
     setResult(okAnswer);
     if (okAnswer) {
-      setOk(o => o + 1);
-      try { addCombo(); awardXP(5); playSound('know'); } catch (e) {}
+      setOk((o) => o + 1);
+      try {
+        addCombo();
+        awardXP(5);
+        playSound('know');
+      } catch (e) {}
       recordModeAnswer('fib', true);
     } else {
-      setFail(f => f + 1);
-      try { breakCombo(); playSound('next'); } catch (e) {}
+      setFail((f) => f + 1);
+      try {
+        breakCombo();
+        playSound('next');
+      } catch (e) {}
       recordMistake(item.blank.base);
       recordModeAnswer('fib', false);
     }
@@ -209,43 +276,107 @@ export function FibPage(): ReactElement {
 
   const speakCorrectWord = (): void => {
     if (!item) return;
-    const speakWord = getLearnLang() === 'en' ? item.blank.answer : (getLangWord(item.w, getLearnLang()) || item.blank.answer);
-    try { speak(speakWord, inputRef.current as unknown as HTMLElement); } catch (e) {}
+    const speakWord =
+      getLearnLang() === 'en'
+        ? item.blank.answer
+        : getLangWord(item.w, getLearnLang()) || item.blank.answer;
+    try {
+      speak(speakWord, inputRef.current as unknown as HTMLElement);
+    } catch (e) {}
   };
 
   // Keyboard shortcuts
   useEffect(() => {
     function onKeydown(e: KeyboardEvent): void {
       if (!isOpen) return;
-      if (e.key === 'Escape') { closeFib(); return; }
+      if (e.key === 'Escape') {
+        closeFib();
+        return;
+      }
       const { result: curResult, idx: curIdx, deck: curDeck } = stateRef.current;
-      if ((e.key === 'ArrowRight' || e.key === ' ') && curResult !== null && document.activeElement !== inputRef.current) {
-        if (curIdx < curDeck.length) { e.preventDefault(); advanceQ(); }
+      if (
+        (e.key === 'ArrowRight' || e.key === ' ') &&
+        curResult !== null &&
+        document.activeElement !== inputRef.current
+      ) {
+        if (curIdx < curDeck.length) {
+          e.preventDefault();
+          advanceQ();
+        }
       }
     }
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
-  const pct = deck.length > 0 ? Math.round(ok / deck.length * 100) : 0;
+  const pct = deck.length > 0 ? Math.round((ok / deck.length) * 100) : 0;
   const finalEmoji = pct === 100 ? '🏆' : pct >= 80 ? '🎉' : pct >= 60 ? '👍' : '💪';
-  const finalTitle = pct === 100 ? t('quiz.perfectTitle') : pct >= 80 ? t('quiz.greatTitle') : pct >= 60 ? t('quiz.goodTitle') : t('listen.keepGoingTitle');
+  const finalTitle =
+    pct === 100
+      ? t('quiz.perfectTitle')
+      : pct >= 80
+        ? t('quiz.greatTitle')
+        : pct >= 60
+          ? t('quiz.goodTitle')
+          : t('listen.keepGoingTitle');
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 16,
+        }}
+      >
         <div>
-          <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text)' }} data-i18n="fib.title">{t('fib.title')}</div>
+          <div
+            style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text)' }}
+            data-i18n="fib.title"
+          >
+            {t('fib.title')}
+          </div>
           <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginTop: 2 }}>
-            {!showFinal && !noSentences && item ? `${t('fib.sentence')} ${idx + 1} ${t('common.of')} ${deck.length}` : showFinal ? t('write.completed') : ''}
+            {!showFinal && !noSentences && item
+              ? `${t('fib.sentence')} ${idx + 1} ${t('common.of')} ${deck.length}`
+              : showFinal
+                ? t('write.completed')
+                : ''}
           </div>
         </div>
-        <button onClick={closeFib} style={{ background: 'none', border: 'none', fontSize: '1.3rem', cursor: 'pointer', color: 'var(--text3)' }}>✕</button>
+        <button
+          onClick={closeFib}
+          style={{
+            background: 'none',
+            border: 'none',
+            fontSize: '1.3rem',
+            cursor: 'pointer',
+            color: 'var(--text3)',
+          }}
+        >
+          ✕
+        </button>
       </div>
 
-      <div style={{ height: 4, background: 'var(--border)', borderRadius: 4, marginBottom: 18, overflow: 'hidden' }}>
-        <div style={{ height: '100%', background: 'var(--accent)', borderRadius: 4, transition: 'width .4s', width: showFinal ? '100%' : `${deck.length ? idx / deck.length * 100 : 0}%` }} />
+      <div
+        style={{
+          height: 4,
+          background: 'var(--border)',
+          borderRadius: 4,
+          marginBottom: 18,
+          overflow: 'hidden',
+        }}
+      >
+        <div
+          style={{
+            height: '100%',
+            background: 'var(--accent)',
+            borderRadius: 4,
+            transition: 'width .4s',
+            width: showFinal ? '100%' : `${deck.length ? (idx / deck.length) * 100 : 0}%`,
+          }}
+        />
       </div>
 
       {noSentences && (
@@ -259,10 +390,43 @@ export function FibPage(): ReactElement {
             <span style={{ fontSize: '.82rem', color: '#e74c3c', fontWeight: 600 }}>✗ {fail}</span>
           </div>
 
-          <div style={{ background: 'var(--bg)', borderRadius: 14, padding: '20px 16px', textAlign: 'center', marginBottom: 14 }}>
-            <div style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--text3)', marginBottom: 10 }}>Вставте пропущене слово</div>
-            <div className="fib-sentence" dangerouslySetInnerHTML={{ __html: renderSentence(item, result) }} />
-            {hint && <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginTop: 8, fontStyle: 'italic' }}>{hint}</div>}
+          <div
+            style={{
+              background: 'var(--bg)',
+              borderRadius: 14,
+              padding: '20px 16px',
+              textAlign: 'center',
+              marginBottom: 14,
+            }}
+          >
+            <div
+              style={{
+                fontSize: '.65rem',
+                fontWeight: 700,
+                letterSpacing: '.1em',
+                textTransform: 'uppercase',
+                color: 'var(--text3)',
+                marginBottom: 10,
+              }}
+            >
+              Вставте пропущене слово
+            </div>
+            <div
+              className="fib-sentence"
+              dangerouslySetInnerHTML={{ __html: renderSentence(item, result) }}
+            />
+            {hint && (
+              <div
+                style={{
+                  fontSize: '.75rem',
+                  color: 'var(--text3)',
+                  marginTop: 8,
+                  fontStyle: 'italic',
+                }}
+              >
+                {hint}
+              </div>
+            )}
           </div>
 
           <input
@@ -276,24 +440,46 @@ export function FibPage(): ReactElement {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                if (result === null) submit(); else advanceQ();
+                if (result === null) submit();
+                else advanceQ();
               }
             }}
             style={{
-              width: '100%', padding: '12px 16px',
+              width: '100%',
+              padding: '12px 16px',
               border: `2px solid ${result === null ? 'var(--border)' : result ? '#27ae60' : '#e74c3c'}`,
-              borderRadius: 12, fontSize: '1rem', fontFamily: "'DM Sans',sans-serif",
-              background: 'var(--bg)', color: 'var(--text)', outline: 'none',
-              boxSizing: 'border-box', marginBottom: 10, transition: 'border-color .2s',
+              borderRadius: 12,
+              fontSize: '1rem',
+              fontFamily: "'DM Sans',sans-serif",
+              background: 'var(--bg)',
+              color: 'var(--text)',
+              outline: 'none',
+              boxSizing: 'border-box',
+              marginBottom: 10,
+              transition: 'border-color .2s',
             }}
           />
 
-          <div style={{ minHeight: 24, textAlign: 'center', fontSize: '.9rem', fontWeight: 600, marginBottom: 10 }}>
+          <div
+            style={{
+              minHeight: 24,
+              textAlign: 'center',
+              fontSize: '.9rem',
+              fontWeight: 600,
+              marginBottom: 10,
+            }}
+          >
             {result === true && <span style={{ color: '#27ae60' }}>{t('quiz.correctMsg')}</span>}
             {result === false && (
               <>
                 <span style={{ color: '#e74c3c' }}>{t('quiz.incorrectMsg')}</span>
-                <button className="mode-speak" title={t('common.listen')} onClick={speakCorrectWord}>🔊</button>
+                <button
+                  className="mode-speak"
+                  title={t('common.listen')}
+                  onClick={speakCorrectWord}
+                >
+                  🔊
+                </button>
               </>
             )}
           </div>
@@ -302,21 +488,56 @@ export function FibPage(): ReactElement {
             {result === null && (
               <button
                 onClick={submit}
-                style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '.9rem', fontWeight: 600, padding: '11px 28px', borderRadius: 10, border: 'none', background: 'var(--accent)', color: '#fff', cursor: 'pointer' }}
+                style={{
+                  fontFamily: "'DM Sans',sans-serif",
+                  fontSize: '.9rem',
+                  fontWeight: 600,
+                  padding: '11px 28px',
+                  borderRadius: 10,
+                  border: 'none',
+                  background: 'var(--accent)',
+                  color: '#fff',
+                  cursor: 'pointer',
+                }}
                 data-i18n="write.checkBtn"
-              >{t('write.checkBtn')}</button>
+              >
+                {t('write.checkBtn')}
+              </button>
             )}
             {result !== null && (
               <button
                 onClick={advanceQ}
                 autoFocus
-                style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '.9rem', fontWeight: 600, padding: '11px 28px', borderRadius: 10, border: 'none', background: 'var(--accent)', color: '#fff', cursor: 'pointer' }}
-              >{idx >= deck.length - 1 ? t('quiz.finish') : t('quiz.next')}</button>
+                style={{
+                  fontFamily: "'DM Sans',sans-serif",
+                  fontSize: '.9rem',
+                  fontWeight: 600,
+                  padding: '11px 28px',
+                  borderRadius: 10,
+                  border: 'none',
+                  background: 'var(--accent)',
+                  color: '#fff',
+                  cursor: 'pointer',
+                }}
+              >
+                {idx >= deck.length - 1 ? t('quiz.finish') : t('quiz.next')}
+              </button>
             )}
             <button
               onClick={showHint}
-              style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '.82rem', padding: '11px 14px', borderRadius: 10, border: '1.5px solid var(--border)', background: 'none', color: 'var(--text3)', cursor: 'pointer' }}
-            >💡</button>
+              style={{
+                fontFamily: "'DM Sans',sans-serif",
+                fontSize: '.82rem',
+                padding: '11px 14px',
+                borderRadius: 10,
+                border: '1.5px solid var(--border)',
+                background: 'none',
+                color: 'var(--text3)',
+                cursor: 'pointer',
+              }}
+            >
+              💡
+            </button>
           </div>
         </>
       )}
@@ -324,19 +545,48 @@ export function FibPage(): ReactElement {
       {showFinal && (
         <div style={{ textAlign: 'center', padding: '10px 0 4px' }}>
           <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>{finalEmoji}</div>
-          <div style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>{finalTitle}</div>
-          <div style={{ fontSize: '.9rem', color: 'var(--text2)', marginBottom: 18 }}>{ok} {t('common.of')} {deck.length} ({pct}%)</div>
+          <div
+            style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}
+          >
+            {finalTitle}
+          </div>
+          <div style={{ fontSize: '.9rem', color: 'var(--text2)', marginBottom: 18 }}>
+            {ok} {t('common.of')} {deck.length} ({pct}%)
+          </div>
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
-              style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '.88rem', fontWeight: 600, padding: '10px 22px', borderRadius: 10, border: '1.5px solid var(--accent)', background: 'none', color: 'var(--accent)', cursor: 'pointer' }}
+              style={{
+                fontFamily: "'DM Sans',sans-serif",
+                fontSize: '.88rem',
+                fontWeight: 600,
+                padding: '10px 22px',
+                borderRadius: 10,
+                border: '1.5px solid var(--accent)',
+                background: 'none',
+                color: 'var(--accent)',
+                cursor: 'pointer',
+              }}
               onClick={startGame}
               data-i18n="common.tryAgain"
-            >🔄 {t('common.tryAgain').replace(/^🔄\s*/, '')}</button>
+            >
+              🔄 {t('common.tryAgain').replace(/^🔄\s*/, '')}
+            </button>
             <button
-              style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '.88rem', padding: '10px 22px', borderRadius: 10, border: '1.5px solid var(--border)', background: 'none', color: 'var(--text2)', cursor: 'pointer' }}
+              style={{
+                fontFamily: "'DM Sans',sans-serif",
+                fontSize: '.88rem',
+                padding: '10px 22px',
+                borderRadius: 10,
+                border: '1.5px solid var(--border)',
+                background: 'none',
+                color: 'var(--text2)',
+                cursor: 'pointer',
+              }}
               onClick={closeFib}
               data-i18n="common.close"
-            >{t('common.close')}</button>
+            >
+              {t('common.close')}
+            </button>
           </div>
         </div>
       )}

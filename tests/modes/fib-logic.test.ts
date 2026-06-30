@@ -18,7 +18,8 @@ function makeBlank(w: WordEntry): BlankItem | null {
   if (!m) return null;
   return {
     sentence: sentence.replace(/<b>.*?<\/b>/i, '<span class="fib-blank">___</span>'),
-    answer: m[1], base: w[0],
+    answer: m[1],
+    base: w[0],
   };
 }
 

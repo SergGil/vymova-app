@@ -14,11 +14,18 @@ export function ThemeToggle(): ReactElement {
   }, []);
 
   return (
-    <button id="btn-theme" title="Темна/світла тема" style={{ display: 'none' }} onClick={() => {
-      const next = !isDark;
-      document.body.classList.toggle('dark', next);
-      localStorage.setItem('ew_theme', next ? 'dark' : 'light');
-      setIsDark(next);
-    }}>{isDark ? '☀️' : '🌙'}</button>
+    <button
+      id="btn-theme"
+      title="Темна/світла тема"
+      style={{ display: 'none' }}
+      onClick={() => {
+        const next = !isDark;
+        document.body.classList.toggle('dark', next);
+        localStorage.setItem('ew_theme', next ? 'dark' : 'light');
+        setIsDark(next);
+      }}
+    >
+      {isDark ? '☀️' : '🌙'}
+    </button>
   );
 }

@@ -12,7 +12,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<QuickQuizButton />); });
+  act(() => {
+    root.render(<QuickQuizButton />);
+  });
   return { container, root };
 }
 
@@ -33,7 +35,9 @@ describe('quick-quiz.tsx QuickQuizButton', () => {
   it('calls openQuickQuiz when clicked', () => {
     const { container } = mount();
     const btn = container.querySelector('#btn-quick-quiz') as HTMLButtonElement;
-    act(() => { btn.click(); });
+    act(() => {
+      btn.click();
+    });
     expect(openQuickQuiz).toHaveBeenCalledTimes(1);
   });
 });

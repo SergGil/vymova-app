@@ -19,11 +19,16 @@ function mount(): { container: HTMLElement; root: Root } {
   document.body.appendChild(container);
   const root = createRoot(container);
   activeRoot = root;
-  act(() => { root.render(<NoteModal />); });
+  act(() => {
+    root.render(<NoteModal />);
+  });
   return { container, root };
 }
 
-const nativeValueSetter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')!.set!;
+const nativeValueSetter = Object.getOwnPropertyDescriptor(
+  HTMLTextAreaElement.prototype,
+  'value',
+)!.set!;
 function setTextareaValue(el: HTMLTextAreaElement, value: string): void {
   nativeValueSetter.call(el, value);
   el.dispatchEvent(new Event('input', { bubbles: true }));
@@ -36,7 +41,12 @@ describe('note-modal.tsx NoteModal', () => {
   });
 
   afterEach(() => {
-    if (activeRoot) { act(() => { activeRoot!.unmount(); }); activeRoot = null; }
+    if (activeRoot) {
+      act(() => {
+        activeRoot!.unmount();
+      });
+      activeRoot = null;
+    }
     document.body.innerHTML = '';
   });
 
@@ -48,19 +58,29 @@ describe('note-modal.tsx NoteModal', () => {
   it('shows the word and any existing note when opened', () => {
     setNoteForWord('abandon', 'remember: leave behind');
     mount();
-    act(() => { openNoteModal('abandon'); });
+    act(() => {
+      openNoteModal('abandon');
+    });
     expect(document.querySelector('#note-word-title')!.textContent).toBe('📝 Нотатка: abandon');
-    expect((document.querySelector('.note-textarea') as HTMLTextAreaElement).value).toBe('remember: leave behind');
+    expect((document.querySelector('.note-textarea') as HTMLTextAreaElement).value).toBe(
+      'remember: leave behind',
+    );
   });
 
   it('saves the note text when closed via the save button', () => {
     mount();
-    act(() => { openNoteModal('cat'); });
+    act(() => {
+      openNoteModal('cat');
+    });
     const textarea = document.querySelector('.note-textarea') as HTMLTextAreaElement;
-    act(() => { setTextareaValue(textarea, 'кіт = cat'); });
+    act(() => {
+      setTextareaValue(textarea, 'кіт = cat');
+    });
 
     const saveBtn = document.querySelector('.prf-delete-btn-confirm') as HTMLButtonElement;
-    act(() => { saveBtn.click(); });
+    act(() => {
+      saveBtn.click();
+    });
 
     expect(getNoteForWord('cat')).toBe('кіт = cat');
     expect(document.getElementById('note-overlay')).toBeNull();
@@ -69,10 +89,14 @@ describe('note-modal.tsx NoteModal', () => {
   it('deletes the note and closes when the delete button is clicked', () => {
     setNoteForWord('dog', 'собака');
     mount();
-    act(() => { openNoteModal('dog'); });
+    act(() => {
+      openNoteModal('dog');
+    });
 
     const delBtn = document.querySelector('.prf-delete-btn-cancel') as HTMLButtonElement;
-    act(() => { delBtn.click(); });
+    act(() => {
+      delBtn.click();
+    });
 
     expect(getNoteForWord('dog')).toBe('');
     expect(document.getElementById('note-overlay')).toBeNull();
@@ -80,10 +104,18 @@ describe('note-modal.tsx NoteModal', () => {
 
   it('saves and closes on Ctrl+Enter', () => {
     mount();
-    act(() => { openNoteModal('bird'); });
+    act(() => {
+      openNoteModal('bird');
+    });
     const textarea = document.querySelector('.note-textarea') as HTMLTextAreaElement;
-    act(() => { setTextareaValue(textarea, 'птах'); });
-    act(() => { textarea.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', ctrlKey: true, bubbles: true })); });
+    act(() => {
+      setTextareaValue(textarea, 'птах');
+    });
+    act(() => {
+      textarea.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter', ctrlKey: true, bubbles: true }),
+      );
+    });
 
     expect(getNoteForWord('bird')).toBe('птах');
     expect(document.getElementById('note-overlay')).toBeNull();
@@ -91,10 +123,16 @@ describe('note-modal.tsx NoteModal', () => {
 
   it('saves and closes on Escape', () => {
     mount();
-    act(() => { openNoteModal('fish'); });
+    act(() => {
+      openNoteModal('fish');
+    });
     const textarea = document.querySelector('.note-textarea') as HTMLTextAreaElement;
-    act(() => { setTextareaValue(textarea, 'риба'); });
-    act(() => { textarea.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); });
+    act(() => {
+      setTextareaValue(textarea, 'риба');
+    });
+    act(() => {
+      textarea.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    });
 
     expect(getNoteForWord('fish')).toBe('риба');
     expect(document.getElementById('note-overlay')).toBeNull();
@@ -102,9 +140,13 @@ describe('note-modal.tsx NoteModal', () => {
 
   it('closes when clicking the backdrop', () => {
     mount();
-    act(() => { openNoteModal('owl'); });
+    act(() => {
+      openNoteModal('owl');
+    });
     const overlay = document.getElementById('note-overlay') as HTMLElement;
-    act(() => { overlay.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      overlay.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(document.getElementById('note-overlay')).toBeNull();
   });
 });

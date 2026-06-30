@@ -12,7 +12,9 @@ function buildQuizOptions(w: WordEntry): string[] {
   for (const pw of pool) {
     if (wrongs.length >= 3) break;
     const k = pw[0].toLowerCase();
-    if (used[k]) continue; used[k] = true; wrongs.push(pw[0]);
+    if (used[k]) continue;
+    used[k] = true;
+    wrongs.push(pw[0]);
   }
   return _shuf([correct, ...wrongs]);
 }
@@ -21,7 +23,10 @@ function buildEnExHtml(w: WordEntry): string {
   const enExSrc = w[2] ?? '';
   if (enExSrc.includes('<b>')) return enExSrc;
   const ew = w[0].replace(/\s*\([^)]*\)/g, '').replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
-  const parts = ew.split(/\s+/).filter(Boolean).map(p => p + '\\w*');
+  const parts = ew
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((p) => p + '\\w*');
   return enExSrc.replace(new RegExp('(' + parts.join('\\s+') + ')', 'i'), '<b>$1</b>');
 }
 

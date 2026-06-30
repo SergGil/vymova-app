@@ -7,7 +7,9 @@ describe('parseYoutubeId()', () => {
   });
 
   it('extracts the id from a watch?v= URL with extra params', () => {
-    expect(parseYoutubeId('https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=30s&list=PL123')).toBe('dQw4w9WgXcQ');
+    expect(parseYoutubeId('https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=30s&list=PL123')).toBe(
+      'dQw4w9WgXcQ',
+    );
   });
 
   it('extracts the id from a youtu.be short link', () => {

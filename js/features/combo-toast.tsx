@@ -7,7 +7,7 @@ type Listener = (text: string) => void;
 const listeners = new Set<Listener>();
 
 export function showComboToast(text: string): void {
-  listeners.forEach(l => l(text));
+  listeners.forEach((l) => l(text));
 }
 
 export function ComboToast(): ReactElement {
@@ -22,7 +22,10 @@ export function ComboToast(): ReactElement {
       if (raf !== null) cancelAnimationFrame(raf);
       setText(t);
       setShow(false);
-      raf = requestAnimationFrame(() => { raf = null; setShow(true); });
+      raf = requestAnimationFrame(() => {
+        raf = null;
+        setShow(true);
+      });
       timer = setTimeout(() => setShow(false), 1700);
     };
     listeners.add(listener);
@@ -33,5 +36,9 @@ export function ComboToast(): ReactElement {
     };
   }, []);
 
-  return <div id="combo-toast" className={`combo-toast${show ? ' show' : ''}`}>{text}</div>;
+  return (
+    <div id="combo-toast" className={`combo-toast${show ? ' show' : ''}`}>
+      {text}
+    </div>
+  );
 }

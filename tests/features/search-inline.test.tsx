@@ -21,11 +21,16 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<SearchInline />); });
+  act(() => {
+    root.render(<SearchInline />);
+  });
   return { container, root };
 }
 
-const nativeValueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
+const nativeValueSetter = Object.getOwnPropertyDescriptor(
+  HTMLInputElement.prototype,
+  'value',
+)!.set!;
 function setInputValue(input: HTMLInputElement, value: string): void {
   nativeValueSetter.call(input, value);
   input.dispatchEvent(new Event('input', { bubbles: true }));
@@ -33,7 +38,8 @@ function setInputValue(input: HTMLInputElement, value: string): void {
 
 describe('search-inline.tsx SearchInline', () => {
   beforeEach(() => {
-    document.body.innerHTML = '<select id="sel-mode"><option value="en" selected>en</option></select><select id="sel-range"><option value="0">All</option></select>';
+    document.body.innerHTML =
+      '<select id="sel-mode"><option value="en" selected>en</option></select><select id="sel-range"><option value="0">All</option></select>';
     setDeckState((W as unknown as WordEntry[]).slice(0, 5));
     setKnownWords('en', new Set());
     render.mockClear();
@@ -53,9 +59,13 @@ describe('search-inline.tsx SearchInline', () => {
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
     const target = (W as unknown as WordEntry[])[0][0];
-    act(() => { setInputValue(input, target.slice(0, 3)); });
+    act(() => {
+      setInputValue(input, target.slice(0, 3));
+    });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 220)); });
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 220));
+    });
 
     const results = container.querySelector('#search-results') as HTMLElement;
     expect(results.className).toContain('open');
@@ -65,9 +75,13 @@ describe('search-inline.tsx SearchInline', () => {
   it('shows a "no results" message for an unmatched query', async () => {
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
-    act(() => { setInputValue(input, 'zzzzzzzzzzzz'); });
+    act(() => {
+      setInputValue(input, 'zzzzzzzzzzzz');
+    });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 220)); });
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 220));
+    });
 
     expect(container.querySelector('.search-no-results')).not.toBeNull();
     expect(container.querySelector('.search-no-results')!.textContent).toBe('Нічого не знайдено');
@@ -78,9 +92,13 @@ describe('search-inline.tsx SearchInline', () => {
     setKnownWords('en', new Set([target[0]]));
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
-    act(() => { setInputValue(input, target[0]); });
+    act(() => {
+      setInputValue(input, target[0]);
+    });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 220)); });
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 220));
+    });
 
     const item = container.querySelector('.search-result-item') as HTMLElement;
     expect(item.className).toContain('sr-known');
@@ -92,12 +110,18 @@ describe('search-inline.tsx SearchInline', () => {
     setDeckState([target]);
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
-    act(() => { setInputValue(input, target[0]); });
+    act(() => {
+      setInputValue(input, target[0]);
+    });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 220)); });
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 220));
+    });
 
     const item = container.querySelector('.search-result-item') as HTMLElement;
-    act(() => { item.click(); });
+    act(() => {
+      item.click();
+    });
 
     expect(setIdx).toHaveBeenCalledWith(0);
     expect(stopAuto).toHaveBeenCalled();
@@ -110,15 +134,27 @@ describe('search-inline.tsx SearchInline', () => {
     setDeckState([target]);
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
-    act(() => { setInputValue(input, target[0]); });
+    act(() => {
+      setInputValue(input, target[0]);
+    });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 220)); });
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 220));
+    });
 
-    act(() => { input.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true })); });
+    act(() => {
+      input.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }),
+      );
+    });
     const active = container.querySelector('.search-result-item.active');
     expect(active).not.toBeNull();
 
-    act(() => { input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true })); });
+    act(() => {
+      input.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }),
+      );
+    });
     expect(setIdx).toHaveBeenCalledWith(0);
   });
 
@@ -126,23 +162,41 @@ describe('search-inline.tsx SearchInline', () => {
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
     const target = (W as unknown as WordEntry[])[0];
-    act(() => { setInputValue(input, target[0]); });
-    await act(async () => { await new Promise(r => setTimeout(r, 220)); });
+    act(() => {
+      setInputValue(input, target[0]);
+    });
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 220));
+    });
 
     expect((container.querySelector('#search-results') as HTMLElement).className).toContain('open');
-    act(() => { input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })); });
-    expect((container.querySelector('#search-results') as HTMLElement).className).not.toContain('open');
+    act(() => {
+      input.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+      );
+    });
+    expect((container.querySelector('#search-results') as HTMLElement).className).not.toContain(
+      'open',
+    );
   });
 
   it('closes the results dropdown when clicking outside', async () => {
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
     const target = (W as unknown as WordEntry[])[0];
-    act(() => { setInputValue(input, target[0]); });
-    await act(async () => { await new Promise(r => setTimeout(r, 220)); });
+    act(() => {
+      setInputValue(input, target[0]);
+    });
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 220));
+    });
 
     expect((container.querySelector('#search-results') as HTMLElement).className).toContain('open');
-    act(() => { document.body.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
-    expect((container.querySelector('#search-results') as HTMLElement).className).not.toContain('open');
+    act(() => {
+      document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+    expect((container.querySelector('#search-results') as HTMLElement).className).not.toContain(
+      'open',
+    );
   });
 });

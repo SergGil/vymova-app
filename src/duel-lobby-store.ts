@@ -15,7 +15,12 @@ type DuelLobbyAction =
   | { type: 'SET_WAITING'; waiting: DuelLobbyUIState['waiting'] }
   | { type: 'SET_JOIN_ROW_VISIBLE'; visible: boolean }
   | { type: 'SET_BTN'; btn: 'createBtn' | 'joinBtn' | 'asyncBtn'; disabled: boolean }
-  | { type: 'SET_TOURN_BTN'; btn: 'tournBtn4' | 'tournBtn8'; disabled: boolean; errorLabel: string | null }
+  | {
+      type: 'SET_TOURN_BTN';
+      btn: 'tournBtn4' | 'tournBtn8';
+      disabled: boolean;
+      errorLabel: string | null;
+    }
   | { type: 'RESET_LOBBY' };
 
 const initialSel: DuelSelState = {
@@ -53,16 +58,22 @@ function duelLobbyReducer(state: DuelLobbyState, action: DuelLobbyAction): DuelL
     case 'SET_BTN':
       return { ...state, ui: { ...state.ui, [action.btn]: { disabled: action.disabled } } };
     case 'SET_TOURN_BTN':
-      return { ...state, ui: { ...state.ui, [action.btn]: { disabled: action.disabled, errorLabel: action.errorLabel } } };
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          [action.btn]: { disabled: action.disabled, errorLabel: action.errorLabel },
+        },
+      };
     case 'RESET_LOBBY':
       return { ...state, ui: { ...initialUi } };
   }
 }
 
-const duelLobbyStore = createDomainStore<DuelLobbyState, DuelLobbyAction>(
-  duelLobbyReducer,
-  { sel: initialSel, ui: initialUi },
-);
+const duelLobbyStore = createDomainStore<DuelLobbyState, DuelLobbyAction>(duelLobbyReducer, {
+  sel: initialSel,
+  ui: initialUi,
+});
 
 export const DuelLobbyProvider = duelLobbyStore.Provider;
 
@@ -98,7 +109,11 @@ export function setLobbyBtn(btn: 'createBtn' | 'joinBtn' | 'asyncBtn', disabled:
   duelLobbyStore.dispatch({ type: 'SET_BTN', btn, disabled });
 }
 
-export function setLobbyTournBtn(btn: 'tournBtn4' | 'tournBtn8', disabled: boolean, errorLabel: string | null): void {
+export function setLobbyTournBtn(
+  btn: 'tournBtn4' | 'tournBtn8',
+  disabled: boolean,
+  errorLabel: string | null,
+): void {
   duelLobbyStore.dispatch({ type: 'SET_TOURN_BTN', btn, disabled, errorLabel });
 }
 

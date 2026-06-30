@@ -1,9 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const closePage = vi.fn();
-vi.mock('../../js/features/sidebar.tsx', () => ({ closePage: (...a: unknown[]) => closePage(...a) }));
+vi.mock('../../js/features/sidebar.tsx', () => ({
+  closePage: (...a: unknown[]) => closePage(...a),
+}));
 
-import { bindOverlayOpenClose, bindModalDismiss, bindOverlayDismiss } from '../../js/features/overlay-utils.ts';
+import {
+  bindOverlayOpenClose,
+  bindModalDismiss,
+  bindOverlayDismiss,
+} from '../../js/features/overlay-utils.ts';
 
 describe('overlay-utils.ts', () => {
   beforeEach(() => {
@@ -36,7 +42,9 @@ describe('overlay-utils.ts', () => {
     });
 
     it('does nothing when ids are missing', () => {
-      expect(() => bindOverlayOpenClose('missing-btn', 'missing-ov', vi.fn(), vi.fn())).not.toThrow();
+      expect(() =>
+        bindOverlayOpenClose('missing-btn', 'missing-ov', vi.fn(), vi.fn()),
+      ).not.toThrow();
     });
   });
 
@@ -77,7 +85,7 @@ describe('overlay-utils.ts', () => {
       document.body.innerHTML = `<div id="ov" class="open"><button id="close"></button></div>`;
       bindOverlayDismiss('ov', 'close');
       document.getElementById('close')!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-      await new Promise(r => setTimeout(r, 0));
+      await new Promise((r) => setTimeout(r, 0));
       expect(closePage).toHaveBeenCalledTimes(1);
     });
 
@@ -86,11 +94,11 @@ describe('overlay-utils.ts', () => {
       bindOverlayDismiss('ov');
 
       document.getElementById('ov')!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-      await new Promise(r => setTimeout(r, 0));
+      await new Promise((r) => setTimeout(r, 0));
       expect(closePage).toHaveBeenCalledTimes(1);
 
       document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-      await new Promise(r => setTimeout(r, 0));
+      await new Promise((r) => setTimeout(r, 0));
       expect(closePage).toHaveBeenCalledTimes(2);
     });
 

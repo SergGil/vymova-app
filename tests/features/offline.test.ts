@@ -23,7 +23,9 @@ describe('offline.ts', () => {
   });
 
   afterEach(() => {
-    act(() => { root?.unmount(); });
+    act(() => {
+      root?.unmount();
+    });
     vi.useRealTimers();
     vi.unstubAllGlobals();
   });
@@ -36,7 +38,9 @@ describe('offline.ts', () => {
     await vi.dynamicImportSettled();
     await vi.waitFor(() => {});
     root = createRoot(container);
-    act(() => { root.render(createElement(mod.OfflineInit)); });
+    act(() => {
+      root.render(createElement(mod.OfflineInit));
+    });
     return mod;
   }
 
@@ -65,8 +69,12 @@ describe('offline.ts', () => {
     await mount();
 
     setOnline(false);
-    act(() => { window.dispatchEvent(new Event('offline')); });
-    act(() => { vi.advanceTimersByTime(600); });
+    act(() => {
+      window.dispatchEvent(new Event('offline'));
+    });
+    act(() => {
+      vi.advanceTimersByTime(600);
+    });
 
     const banner = document.getElementById('offline-banner');
     expect(banner).not.toBeNull();
@@ -77,18 +85,28 @@ describe('offline.ts', () => {
     setOnline(true);
     await mount();
     setOnline(false);
-    act(() => { window.dispatchEvent(new Event('offline')); });
-    act(() => { vi.advanceTimersByTime(600); });
+    act(() => {
+      window.dispatchEvent(new Event('offline'));
+    });
+    act(() => {
+      vi.advanceTimersByTime(600);
+    });
 
     setOnline(true);
-    act(() => { window.dispatchEvent(new Event('online')); });
-    act(() => { vi.advanceTimersByTime(600); });
+    act(() => {
+      window.dispatchEvent(new Event('online'));
+    });
+    act(() => {
+      vi.advanceTimersByTime(600);
+    });
 
     const banner = document.getElementById('offline-banner');
     expect(banner!.style.background).toBe('#27ae60');
     expect(banner!.innerHTML).toContain('Підключення відновлено');
 
-    act(() => { vi.advanceTimersByTime(2500); });
+    act(() => {
+      vi.advanceTimersByTime(2500);
+    });
     expect(banner!.style.transform).toBe('translateY(-100%)');
     expect(banner!.style.opacity).toBe('0');
   });
@@ -97,21 +115,35 @@ describe('offline.ts', () => {
     setOnline(true);
     const { _isOnlineCheck } = await mount();
     setOnline(false);
-    act(() => { window.dispatchEvent(new Event('offline')); });
-    act(() => { vi.advanceTimersByTime(100); });
+    act(() => {
+      window.dispatchEvent(new Event('offline'));
+    });
+    act(() => {
+      vi.advanceTimersByTime(100);
+    });
     // a second event within the debounce window should restart the timer,
     // not produce a second independent update
-    act(() => { window.dispatchEvent(new Event('offline')); });
-    act(() => { vi.advanceTimersByTime(600); });
+    act(() => {
+      window.dispatchEvent(new Event('offline'));
+    });
+    act(() => {
+      vi.advanceTimersByTime(600);
+    });
     // let the requestAnimationFrame from _showOffline() flush before the
     // test manipulates the banner directly, so it isn't clobbered later
-    act(() => { vi.advanceTimersByTime(50); });
+    act(() => {
+      vi.advanceTimersByTime(50);
+    });
     expect(_isOnlineCheck()).toBe(false);
 
     const banner = document.getElementById('offline-banner')!;
     banner.style.opacity = '0.5';
-    act(() => { window.dispatchEvent(new Event('offline')); });
-    act(() => { vi.advanceTimersByTime(600); });
+    act(() => {
+      window.dispatchEvent(new Event('offline'));
+    });
+    act(() => {
+      vi.advanceTimersByTime(600);
+    });
     // already offline — no-op, banner untouched
     expect(banner.style.opacity).toBe('0.5');
   });
@@ -121,8 +153,12 @@ describe('offline.ts', () => {
     await mount();
 
     expect(document.getElementById('offline-banner')).toBeNull();
-    act(() => { vi.advanceTimersByTime(1000); });
-    act(() => { vi.advanceTimersByTime(0); });
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    act(() => {
+      vi.advanceTimersByTime(0);
+    });
 
     const banner = document.getElementById('offline-banner');
     expect(banner).not.toBeNull();

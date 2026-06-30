@@ -6,14 +6,21 @@ import { DuelLeaderboard, DuelRating } from '../../js/features/duel-leaderboard.
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const {
-  getProfiles, getActiveId, currentSnap, readSnap, parseKnown, parseGame, weekWords, getRating,
+  getProfiles,
+  getActiveId,
+  currentSnap,
+  readSnap,
+  parseKnown,
+  parseGame,
+  weekWords,
+  getRating,
 } = vi.hoisted(() => ({
   getProfiles: vi.fn(() => [] as { id: string; name: string; avatar: string }[]),
   getActiveId: vi.fn(() => ''),
-  currentSnap: vi.fn(() => ({} as Record<string, string>)),
-  readSnap: vi.fn(() => ({} as Record<string, string>)),
+  currentSnap: vi.fn(() => ({}) as Record<string, string>),
+  readSnap: vi.fn(() => ({}) as Record<string, string>),
   parseKnown: vi.fn(() => [] as string[]),
-  parseGame: vi.fn(() => ({} as Record<string, number>)),
+  parseGame: vi.fn(() => ({}) as Record<string, number>),
   weekWords: vi.fn(() => 0),
   getRating: vi.fn(() => ({ wins: 0, losses: 0, ties: 0 })),
 }));
@@ -32,7 +39,9 @@ function mount(El: () => React.ReactElement | null): { container: HTMLElement; r
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(El()); });
+  act(() => {
+    root.render(El());
+  });
   return { container, root };
 }
 
@@ -53,7 +62,11 @@ describe('duel-leaderboard.tsx DuelLeaderboard', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('shows the "no profiles" message when there are no profiles', () => {
@@ -68,8 +81,12 @@ describe('duel-leaderboard.tsx DuelLeaderboard', () => {
       { id: 'p2', name: 'Bob', avatar: '🦊' },
     ]);
     getActiveId.mockReturnValue('p1');
-    parseKnown.mockImplementation((snap: Record<string, string>) => snap.tag === 'p1' ? ['a', 'b'] : ['c']);
-    parseGame.mockImplementation((snap: Record<string, string>) => snap.tag === 'p1' ? { streak: 3, xp: 100 } : { streak: 1, xp: 5 });
+    parseKnown.mockImplementation((snap: Record<string, string>) =>
+      snap.tag === 'p1' ? ['a', 'b'] : ['c'],
+    );
+    parseGame.mockImplementation((snap: Record<string, string>) =>
+      snap.tag === 'p1' ? { streak: 3, xp: 100 } : { streak: 1, xp: 5 },
+    );
     currentSnap.mockReturnValue({ tag: 'p1' });
     readSnap.mockReturnValue({ tag: 'p2' });
     weekWords.mockReturnValue(2);
@@ -99,7 +116,11 @@ describe('duel-leaderboard.tsx DuelRating', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders win/loss/tie counts with correct plural labels', () => {

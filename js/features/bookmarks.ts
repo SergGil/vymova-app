@@ -8,13 +8,20 @@ try {
 } catch (e) {}
 
 function _save(): void {
-  try { localStorage.setItem('ew_bookmarks', JSON.stringify([..._bm])); } catch (e) {}
+  try {
+    localStorage.setItem('ew_bookmarks', JSON.stringify([..._bm]));
+  } catch (e) {}
 }
 
-export function isBookmarked(w: string): boolean { return _bm.has(w); }
-export function getBookmarks(): Set<string> { return _bm; }
+export function isBookmarked(w: string): boolean {
+  return _bm.has(w);
+}
+export function getBookmarks(): Set<string> {
+  return _bm;
+}
 export function toggleBookmark(w: string): boolean {
-  if (_bm.has(w)) _bm.delete(w); else _bm.add(w);
+  if (_bm.has(w)) _bm.delete(w);
+  else _bm.add(w);
   _save();
   return _bm.has(w);
 }
@@ -24,7 +31,10 @@ export function toggleBookmark(w: string): boolean {
 const sel = document.getElementById('sel-range') as HTMLSelectElement | null;
 if (sel && !sel.querySelector('option[value="bookmarks"]')) {
   const opt = document.createElement('option');
-  opt.value = 'bookmarks'; opt.dataset.i18n = 'range.bookmarks'; opt.textContent = t('range.bookmarks');
+  opt.value = 'bookmarks';
+  opt.dataset.i18n = 'range.bookmarks';
+  opt.textContent = t('range.bookmarks');
   const srsOpt = sel.querySelector('option[value="srs"]');
-  if (srsOpt) srsOpt.after(opt); else sel.appendChild(opt);
+  if (srsOpt) srsOpt.after(opt);
+  else sel.appendChild(opt);
 }

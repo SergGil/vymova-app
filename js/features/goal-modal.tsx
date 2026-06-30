@@ -23,7 +23,11 @@ export function GoalModal(): ReactElement | null {
   }, []);
 
   useEffect(() => {
-    if (open) setTimeout(() => { inputRef.current?.focus(); inputRef.current?.select(); }, 50);
+    if (open)
+      setTimeout(() => {
+        inputRef.current?.focus();
+        inputRef.current?.select();
+      }, 50);
   }, [open]);
 
   if (!open) return null;
@@ -46,11 +50,43 @@ export function GoalModal(): ReactElement | null {
   return (
     <div
       className="modal-overlay"
-      onClick={e => { if (e.target === e.currentTarget) setOpen(false); }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) setOpen(false);
+      }}
     >
-      <div className="modal-inner" style={{ background: 'var(--modal-bg,var(--card))', borderRadius: 16, padding: '24px 20px', maxWidth: 300, width: '90%', textAlign: 'center', boxShadow: '0 8px 32px rgba(0,0,0,.2)' }}>
-        <div style={{ fontSize: '1rem', fontWeight: 600, marginBottom: 6, color: 'var(--text)', textAlign: 'center' }}>{t('goal.modal.title')}</div>
-        <div style={{ fontSize: '.83rem', color: 'var(--text2)', marginBottom: 14, textAlign: 'center' }}>{t('goal.modal.desc')}</div>
+      <div
+        className="modal-inner"
+        style={{
+          background: 'var(--modal-bg,var(--card))',
+          borderRadius: 16,
+          padding: '24px 20px',
+          maxWidth: 300,
+          width: '90%',
+          textAlign: 'center',
+          boxShadow: '0 8px 32px rgba(0,0,0,.2)',
+        }}
+      >
+        <div
+          style={{
+            fontSize: '1rem',
+            fontWeight: 600,
+            marginBottom: 6,
+            color: 'var(--text)',
+            textAlign: 'center',
+          }}
+        >
+          {t('goal.modal.title')}
+        </div>
+        <div
+          style={{
+            fontSize: '.83rem',
+            color: 'var(--text2)',
+            marginBottom: 14,
+            textAlign: 'center',
+          }}
+        >
+          {t('goal.modal.desc')}
+        </div>
         <input
           ref={inputRef}
           type="text"
@@ -59,19 +95,59 @@ export function GoalModal(): ReactElement | null {
           min={1}
           max={500}
           value={value}
-          onChange={e => setValue(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))}
-          onKeyDown={e => {
+          onChange={(e) => setValue(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))}
+          onKeyDown={(e) => {
             if (e.key === 'Enter') save();
             if (e.key === 'Escape') setOpen(false);
           }}
           className={shake ? 'shake' : ''}
-          style={{ width: '100%', padding: 10, border: '1.5px solid var(--border)', borderRadius: 10, fontSize: '1.1rem', textAlign: 'center', fontFamily: 'inherit', background: 'var(--bg)', color: 'var(--text)', outline: 'none', boxSizing: 'border-box', marginBottom: 14 }}
+          style={{
+            width: '100%',
+            padding: 10,
+            border: '1.5px solid var(--border)',
+            borderRadius: 10,
+            fontSize: '1.1rem',
+            textAlign: 'center',
+            fontFamily: 'inherit',
+            background: 'var(--bg)',
+            color: 'var(--text)',
+            outline: 'none',
+            boxSizing: 'border-box',
+            marginBottom: 14,
+          }}
         />
         <div style={{ display: 'flex', gap: 8 }}>
-          <button onClick={() => setOpen(false)} style={{ flex: 1, padding: 9, border: '1.5px solid var(--border)', borderRadius: 8, background: 'var(--bg)', color: 'var(--text2)', fontSize: '.9rem', cursor: 'pointer', fontFamily: 'inherit' }}>
+          <button
+            onClick={() => setOpen(false)}
+            style={{
+              flex: 1,
+              padding: 9,
+              border: '1.5px solid var(--border)',
+              borderRadius: 8,
+              background: 'var(--bg)',
+              color: 'var(--text2)',
+              fontSize: '.9rem',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+            }}
+          >
             {t('goal.modal.cancel')}
           </button>
-          <button onClick={save} style={{ flex: 1, padding: 9, border: 'none', borderRadius: 8, background: 'var(--accent)', color: '#fff', fontSize: '.9rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+          <button
+            onClick={save}
+            style={{
+              flex: 1,
+              padding: 9,
+              border: 'none',
+              borderRadius: 8,
+              background: 'var(--accent)',
+              color: '#fff',
+              fontSize: '.9rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+            }}
+          >
             {t('goal.modal.save')}
           </button>
         </div>
@@ -79,4 +155,3 @@ export function GoalModal(): ReactElement | null {
     </div>
   );
 }
-

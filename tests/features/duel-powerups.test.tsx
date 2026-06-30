@@ -7,7 +7,9 @@ import { DuelPowerups } from '../../js/features/duel-powerups.tsx';
 
 const { getPowerupsData, onPowerupClick } = vi.hoisted(() => ({
   getPowerupsData: vi.fn(() => ({
-    enabled: true, mode: 'quiz' as const, answered: false,
+    enabled: true,
+    mode: 'quiz' as const,
+    answered: false,
     myPowerups: { double: 1, skip: 1, freeze: 1 },
   })),
   onPowerupClick: vi.fn(),
@@ -21,7 +23,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<DuelPowerups />); });
+  act(() => {
+    root.render(<DuelPowerups />);
+  });
   return { container, root };
 }
 
@@ -33,17 +37,28 @@ describe('duel-powerups.tsx DuelPowerups', () => {
     roots = [];
     onPowerupClick.mockClear();
     getPowerupsData.mockClear().mockReturnValue({
-      enabled: true, mode: 'quiz', answered: false,
+      enabled: true,
+      mode: 'quiz',
+      answered: false,
       myPowerups: { double: 1, skip: 1, freeze: 1 },
     });
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders nothing when powerups are disabled', () => {
-    getPowerupsData.mockReturnValue({ enabled: false, mode: 'quiz', answered: false, myPowerups: { double: 1, skip: 1, freeze: 1 } });
+    getPowerupsData.mockReturnValue({
+      enabled: false,
+      mode: 'quiz',
+      answered: false,
+      myPowerups: { double: 1, skip: 1, freeze: 1 },
+    });
     const { container, root } = mount();
     roots.push(root);
     expect(container.innerHTML).toBe('');
@@ -60,17 +75,26 @@ describe('duel-powerups.tsx DuelPowerups', () => {
     const { container, root } = mount();
     roots.push(root);
     const buttons = container.querySelectorAll('button');
-    act(() => { (buttons[0] as HTMLButtonElement).click(); });
+    act(() => {
+      (buttons[0] as HTMLButtonElement).click();
+    });
     expect(onPowerupClick).toHaveBeenCalledWith('double');
   });
 
   it('disables a powerup button once it has been used up', () => {
-    getPowerupsData.mockReturnValue({ enabled: true, mode: 'quiz', answered: false, myPowerups: { double: 0, skip: 1, freeze: 1 } });
+    getPowerupsData.mockReturnValue({
+      enabled: true,
+      mode: 'quiz',
+      answered: false,
+      myPowerups: { double: 0, skip: 1, freeze: 1 },
+    });
     const { container, root } = mount();
     roots.push(root);
     const buttons = container.querySelectorAll('button');
     expect(buttons[0].style.pointerEvents).toBe('none');
-    act(() => { (buttons[0] as HTMLButtonElement).click(); });
+    act(() => {
+      (buttons[0] as HTMLButtonElement).click();
+    });
     expect(onPowerupClick).not.toHaveBeenCalled();
   });
 
@@ -84,11 +108,18 @@ describe('duel-powerups.tsx DuelPowerups', () => {
   });
 
   it('does not allow clicks once the question is answered', () => {
-    getPowerupsData.mockReturnValue({ enabled: true, mode: 'quiz', answered: true, myPowerups: { double: 1, skip: 1, freeze: 1 } });
+    getPowerupsData.mockReturnValue({
+      enabled: true,
+      mode: 'quiz',
+      answered: true,
+      myPowerups: { double: 1, skip: 1, freeze: 1 },
+    });
     const { container, root } = mount();
     roots.push(root);
     const buttons = container.querySelectorAll('button');
-    act(() => { (buttons[0] as HTMLButtonElement).click(); });
+    act(() => {
+      (buttons[0] as HTMLButtonElement).click();
+    });
     expect(onPowerupClick).not.toHaveBeenCalled();
   });
 });

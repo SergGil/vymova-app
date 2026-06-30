@@ -9,7 +9,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<FontSizeControl />); });
+  act(() => {
+    root.render(<FontSizeControl />);
+  });
   return { container, root };
 }
 
@@ -38,11 +40,15 @@ describe('font-size-control.tsx FontSizeControl', () => {
     const { container } = mount();
     const up = container.querySelector('#btn-font-up') as HTMLButtonElement;
 
-    act(() => { up.click(); });
+    act(() => {
+      up.click();
+    });
     expect(container.querySelector('#font-pct')!.textContent).toBe('140%');
     expect(localStorage.getItem('ew_fontsize')).toBe('140');
 
-    act(() => { up.click(); });
+    act(() => {
+      up.click();
+    });
     expect(container.querySelector('#font-pct')!.textContent).toBe('140%');
   });
 
@@ -51,12 +57,16 @@ describe('font-size-control.tsx FontSizeControl', () => {
     const { container } = mount();
     const down = container.querySelector('#btn-font-down') as HTMLButtonElement;
 
-    act(() => { down.click(); });
+    act(() => {
+      down.click();
+    });
     expect(container.querySelector('#font-pct')!.textContent).toBe('70%');
     expect(document.documentElement.style.fontSize).toBe('70%');
     expect(localStorage.getItem('ew_fontsize')).toBe('70');
 
-    act(() => { down.click(); });
+    act(() => {
+      down.click();
+    });
     expect(container.querySelector('#font-pct')!.textContent).toBe('70%');
   });
 });

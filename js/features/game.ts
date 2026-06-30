@@ -2,7 +2,14 @@
 // Game data, progress tracking, levels & achievements data
 import { today } from '../core/today.ts';
 import { getMaxWordsForLearnLang } from './mode-utils.ts';
-import type { GameData, Level, Achievement, ModeStats, ModeAccuracy, ModeAccEntry } from '../../src/types.js';
+import type {
+  GameData,
+  Level,
+  Achievement,
+  ModeStats,
+  ModeAccuracy,
+  ModeAccEntry,
+} from '../../src/types.js';
 
 // ── Session caches ─────────────────────────────────────────────
 // Module-private caches (same pattern as _modeStatsCache below) — nothing
@@ -25,13 +32,18 @@ export function invalidateGameCaches(): void {
 }
 
 function loadGameDataRaw(): GameData {
-  try { return JSON.parse(localStorage.getItem(_langKey('ew_game')) ?? '{}') as GameData; }
-  catch (e) { return {} as GameData; }
+  try {
+    return JSON.parse(localStorage.getItem(_langKey('ew_game')) ?? '{}') as GameData;
+  } catch (e) {
+    return {} as GameData;
+  }
 }
 
 export function saveGameData(d: GameData): void {
   _gameCache = d;
-  try { localStorage.setItem(_langKey('ew_game'), JSON.stringify(d)); } catch (e) {}
+  try {
+    localStorage.setItem(_langKey('ew_game'), JSON.stringify(d));
+  } catch (e) {}
 }
 
 export function getGameData(): GameData {
@@ -43,9 +55,19 @@ export function getGameData(): GameData {
   }
   const d = _gameCache;
   if (!d.goalMax) d.goalMax = 20;
-  if (d.goalDate !== TODAY) { d.goalDate = TODAY; d.goalCur = 0; d.confettiShown = null; }
-  if (!d.streakDate) { d.streakDate = null; d.streak = 0; }
-  if (d.srsNewDate !== TODAY) { d.srsNewDate = TODAY; d.srsNewToday = 0; }
+  if (d.goalDate !== TODAY) {
+    d.goalDate = TODAY;
+    d.goalCur = 0;
+    d.confettiShown = null;
+  }
+  if (!d.streakDate) {
+    d.streakDate = null;
+    d.streak = 0;
+  }
+  if (d.srsNewDate !== TODAY) {
+    d.srsNewDate = TODAY;
+    d.srsNewToday = 0;
+  }
   // Return a shallow copy so callers can't accidentally mutate the cache
   // without going through saveGameData(). Cache mutations above (date reset) are intentional.
   return { ...d };
@@ -103,8 +125,11 @@ export function updateStreak(d: GameData): GameData {
 export function getDailyStats(): Record<string, number> {
   const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
   if (!_dailyCache || _dailyCachedLang !== lang) {
-    try { _dailyCache = JSON.parse(localStorage.getItem(_langKey('ew_daily')) ?? '{}'); }
-    catch (e) { _dailyCache = {}; }
+    try {
+      _dailyCache = JSON.parse(localStorage.getItem(_langKey('ew_daily')) ?? '{}');
+    } catch (e) {
+      _dailyCache = {};
+    }
     _dailyCachedLang = lang;
   }
   return Object.assign({}, _dailyCache as Record<string, number>);
@@ -113,7 +138,9 @@ export function getDailyStats(): Record<string, number> {
 export function saveDailyStats(d: Record<string, number>): void {
   _dailyCache = Object.assign({}, d);
   _dailyCachedLang = localStorage.getItem('ew_learn_lang') ?? 'en';
-  try { localStorage.setItem(_langKey('ew_daily'), JSON.stringify(d)); } catch (e) {}
+  try {
+    localStorage.setItem(_langKey('ew_daily'), JSON.stringify(d));
+  } catch (e) {}
 }
 
 export function recordDailyWord(): void {
@@ -137,13 +164,17 @@ export function getModeStats(): ModeStats {
     _modeStatsCache = JSON.parse(localStorage.getItem(_langKey('ew_modes')) ?? '{}') as ModeStats;
     _modeStatsCachedLang = lang;
     return Object.assign({}, _modeStatsCache);
-  } catch (e) { return {}; }
+  } catch (e) {
+    return {};
+  }
 }
 
 export function saveModeStats(m: ModeStats): void {
   _modeStatsCache = Object.assign({}, m);
   _modeStatsCachedLang = localStorage.getItem('ew_learn_lang') ?? 'en';
-  try { localStorage.setItem(_langKey('ew_modes'), JSON.stringify(m)); } catch (e) {}
+  try {
+    localStorage.setItem(_langKey('ew_modes'), JSON.stringify(m));
+  } catch (e) {}
 }
 
 export function invalidateModeStatsCache(): void {
@@ -158,12 +189,17 @@ function _achKey(): string {
 }
 
 export function loadUnlocked(): string[] {
-  try { return JSON.parse(localStorage.getItem(_achKey()) ?? '[]') as string[]; }
-  catch (e) { return []; }
+  try {
+    return JSON.parse(localStorage.getItem(_achKey()) ?? '[]') as string[];
+  } catch (e) {
+    return [];
+  }
 }
 
 export function saveUnlocked(arr: string[]): void {
-  try { localStorage.setItem(_achKey(), JSON.stringify(arr)); } catch (e) {}
+  try {
+    localStorage.setItem(_achKey(), JSON.stringify(arr));
+  } catch (e) {}
 }
 
 // ── Idle scheduler ─────────────────────────────────────────────
@@ -174,41 +210,63 @@ export function _idle(fn: () => void): void {
   // imports a call site relies on (e.g. a `safe()` wrapper) in a
   // temporary not-yet-initialized state — an uncaught error here would
   // otherwise escape as an unhandled exception with no useful call stack.
-  const guarded = (): void => { try { fn(); } catch (e) {} };
+  const guarded = (): void => {
+    try {
+      fn();
+    } catch (e) {}
+  };
   if ('requestIdleCallback' in window) requestIdleCallback(guarded, { timeout: 2000 });
   else setTimeout(guarded, 50);
 }
 
 // ── Levels ─────────────────────────────────────────────────────
 export const LEVELS: Level[] = [
-  { name: '🌌 Цивільний',           min: 0,    color: '#95a5a6', bg: '#ecf0f1' },
-  { name: '✨ Чутливий до Сили',    min: 30,   color: '#5dade2', bg: '#eaf4fb' },
-  { name: '🟡 Падаван',             min: 100,  color: '#f1c40f', bg: '#fefde7' },
-  { name: '🔵 Джедай-лицар',        min: 250,  color: '#2980b9', bg: '#eaf4fb' },
-  { name: '🟢 Майстер Джедай',      min: 500,  color: '#27ae60', bg: '#e8f8f0' },
-  { name: '🟣 Член Ради',           min: 900,  color: '#8e44ad', bg: '#f5eef8' },
-  { name: '🔴 Ситх-лорд',           min: 1500, color: '#c0392b', bg: '#fdedec' },
-  { name: '⚡ Обраний',             min: 2500, color: '#d4ac0d', bg: '#fefde7' },
+  { name: '🌌 Цивільний', min: 0, color: '#95a5a6', bg: '#ecf0f1' },
+  { name: '✨ Чутливий до Сили', min: 30, color: '#5dade2', bg: '#eaf4fb' },
+  { name: '🟡 Падаван', min: 100, color: '#f1c40f', bg: '#fefde7' },
+  { name: '🔵 Джедай-лицар', min: 250, color: '#2980b9', bg: '#eaf4fb' },
+  { name: '🟢 Майстер Джедай', min: 500, color: '#27ae60', bg: '#e8f8f0' },
+  { name: '🟣 Член Ради', min: 900, color: '#8e44ad', bg: '#f5eef8' },
+  { name: '🔴 Ситх-лорд', min: 1500, color: '#c0392b', bg: '#fdedec' },
+  { name: '⚡ Обраний', min: 2500, color: '#d4ac0d', bg: '#fefde7' },
   { name: '🌠 Балансувальник Сили', min: 4000, color: '#1a1a2e', bg: '#eaf0fb' },
-  { name: '🏆 Магістр Йода',        get min() { return getMaxWordsForLearnLang(); }, color: '#2d6a3d', bg: '#e0f7e9' },
+  {
+    name: '🏆 Магістр Йода',
+    get min() {
+      return getMaxWordsForLearnLang();
+    },
+    color: '#2d6a3d',
+    bg: '#e0f7e9',
+  },
 ];
 
 export function getLevel(n: number): Level {
   let lv = LEVELS[0];
-  for (const lvl of LEVELS) { if (n >= lvl.min) lv = lvl; else break; }
+  for (const lvl of LEVELS) {
+    if (n >= lvl.min) lv = lvl;
+    else break;
+  }
   return lv;
 }
 
 export function getNextLevel(n: number): Level | null {
-  for (const lvl of LEVELS) { if (lvl.min > n) return lvl; }
+  for (const lvl of LEVELS) {
+    if (lvl.min > n) return lvl;
+  }
   return null;
 }
 
 // ── Achievement checker registration ──────────────────────────
 // checkAchievements lives in app.ts (depends on DOM). Register it here to avoid window.*.
 let _checkAchievementsFn: (() => void) | null = null;
-export function registerCheckAchievements(fn: () => void): void { _checkAchievementsFn = fn; }
-function _runCheckAchievements(): void { try { _checkAchievementsFn?.(); } catch (e) {} }
+export function registerCheckAchievements(fn: () => void): void {
+  _checkAchievementsFn = fn;
+}
+function _runCheckAchievements(): void {
+  try {
+    _checkAchievementsFn?.();
+  } catch (e) {}
+}
 
 // ── recordModeComplete ─────────────────────────────────────────
 export function recordModeComplete(mode: string): void {
@@ -220,34 +278,50 @@ export function recordModeComplete(mode: string): void {
 
 // ── Mode accuracy tracking ─────────────────────────────────────
 export function getModeAccuracy(): ModeAccuracy {
-  try { return JSON.parse(localStorage.getItem(_langKey('ew_mode_acc')) ?? '{}') as ModeAccuracy; }
-  catch (e) { return {}; }
+  try {
+    return JSON.parse(localStorage.getItem(_langKey('ew_mode_acc')) ?? '{}') as ModeAccuracy;
+  } catch (e) {
+    return {};
+  }
 }
 
 export function recordModeAnswer(mode: string, ok: boolean): void {
   const acc = getModeAccuracy();
   const entry: ModeAccEntry = acc[mode] ?? { ok: 0, err: 0 };
-  if (ok) entry.ok++; else entry.err++;
+  if (ok) entry.ok++;
+  else entry.err++;
   acc[mode] = entry;
-  try { localStorage.setItem(_langKey('ew_mode_acc'), JSON.stringify(acc)); } catch (e) {}
+  try {
+    localStorage.setItem(_langKey('ew_mode_acc'), JSON.stringify(acc));
+  } catch (e) {}
 }
 
 // ── Mistake tracking (cross-mode "hard words") ─────────────────
 export function getMistakes(): Record<string, number> {
-  try { return JSON.parse(localStorage.getItem(_langKey('ew_mistakes')) ?? '{}') as Record<string, number>; }
-  catch (e) { return {}; }
+  try {
+    return JSON.parse(localStorage.getItem(_langKey('ew_mistakes')) ?? '{}') as Record<
+      string,
+      number
+    >;
+  } catch (e) {
+    return {};
+  }
 }
 
 export function recordMistake(word: string): void {
   const m = getMistakes();
   m[word] = (m[word] ?? 0) + 1;
-  try { localStorage.setItem(_langKey('ew_mistakes'), JSON.stringify(m)); } catch (e) {}
+  try {
+    localStorage.setItem(_langKey('ew_mistakes'), JSON.stringify(m));
+  } catch (e) {}
 }
 
 export function clearMistake(word: string): void {
   const m = getMistakes();
   delete m[word];
-  try { localStorage.setItem(_langKey('ew_mistakes'), JSON.stringify(m)); } catch (e) {}
+  try {
+    localStorage.setItem(_langKey('ew_mistakes'), JSON.stringify(m));
+  } catch (e) {}
 }
 
 export function getHardWords(limit = 50): string[] {

@@ -13,9 +13,17 @@ import type { WordEntry } from '../../src/types.js';
 // similar-words, word-context, ...) that aren't relevant to the
 // know/don't-know/reset logic under test, so they're stubbed out.
 const gameData = {
-  streak: 0, streakDate: null, shields: 0, goalMax: 20, goalCur: 0,
-  goalDate: '', goalDays: 0, confettiShown: null as string | null,
-  sessionWords: 0, xp: 0, maxCombo: 0,
+  streak: 0,
+  streakDate: null,
+  shields: 0,
+  goalMax: 20,
+  goalCur: 0,
+  goalDate: '',
+  goalDays: 0,
+  confettiShown: null as string | null,
+  sessionWords: 0,
+  xp: 0,
+  maxCombo: 0,
 };
 const saveGameData = vi.fn();
 const invalidateGameCaches = vi.fn();
@@ -34,10 +42,13 @@ vi.mock('../../js/features/game.ts', () => ({
   recordSrsNewCard: vi.fn(),
 }));
 vi.mock('../../js/features/combo.ts', () => ({
-  addCombo: vi.fn(), breakCombo: vi.fn(), flashCard: vi.fn(),
+  addCombo: vi.fn(),
+  breakCombo: vi.fn(),
+  flashCard: vi.fn(),
 }));
 vi.mock('../../js/features/notes.ts', () => ({
-  openNoteModal: vi.fn(), hasNote: vi.fn(() => false),
+  openNoteModal: vi.fn(),
+  hasNote: vi.fn(() => false),
 }));
 vi.mock('../../js/features/bookmarks.ts', () => ({
   toggleBookmark: vi.fn(() => true),
@@ -52,7 +63,8 @@ vi.mock('../../js/features/voice.ts', () => ({
   getSelectedEsVoice: vi.fn(() => null),
 }));
 vi.mock('../../js/features/speech.ts', () => ({
-  speak: vi.fn(), _speakWithLang: vi.fn(),
+  speak: vi.fn(),
+  _speakWithLang: vi.fn(),
 }));
 vi.mock('../../js/features/similar-words.tsx', () => ({
   updateSimilarWords: vi.fn(),
@@ -67,9 +79,15 @@ vi.mock('../../js/features/i18n.ts', () => ({
   t: (k: string) => k,
 }));
 
-const engineSetIdx = vi.fn((i: number) => { setIdxState(i); });
-const engineSetDeck = vi.fn((d: WordEntry[]) => { setDeckState(d); });
-const engineSetFlipped = vi.fn((v: boolean) => { setFlippedState(v); });
+const engineSetIdx = vi.fn((i: number) => {
+  setIdxState(i);
+});
+const engineSetDeck = vi.fn((d: WordEntry[]) => {
+  setDeckState(d);
+});
+const engineSetFlipped = vi.fn((v: boolean) => {
+  setFlippedState(v);
+});
 const engineRender = vi.fn();
 const engineAnimCard = vi.fn();
 const engineStopAuto = vi.fn();
@@ -89,9 +107,9 @@ vi.mock('../../js/core/card-engine.ts', () => ({
 }));
 
 const W: WordEntry[] = [
-  ['apple',  'яблуко',  'I eat an apple.',   'Я їм яблуко.'],
-  ['banana', 'банан',   'The banana is yellow.', 'Банан жовтий.'],
-  ['cat',    'кіт',     'The cat sleeps.',   'Кіт спить.'],
+  ['apple', 'яблуко', 'I eat an apple.', 'Я їм яблуко.'],
+  ['banana', 'банан', 'The banana is yellow.', 'Банан жовтий.'],
+  ['cat', 'кіт', 'The cat sleeps.', 'Кіт спить.'],
 ];
 
 beforeAll(async () => {
@@ -130,7 +148,9 @@ beforeAll(async () => {
   const { CardActionsInit } = await import('../../js/features/card-actions.ts');
   const mountEl = document.createElement('div');
   document.body.appendChild(mountEl);
-  act(() => { createRoot(mountEl).render(createElement(CardActionsInit)); });
+  act(() => {
+    createRoot(mountEl).render(createElement(CardActionsInit));
+  });
 });
 
 function setRange(v: string): void {

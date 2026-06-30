@@ -2,16 +2,33 @@
 // Pure procedural geometry builder for the 3D character avatar.
 // No DOM, no WebGL — safe to unit-test directly.
 import {
-  Group, Mesh, SkinnedMesh,
-  SphereGeometry, CylinderGeometry, ConeGeometry, BoxGeometry,
-  MeshStandardMaterial, DoubleSide,
+  Group,
+  Mesh,
+  SkinnedMesh,
+  SphereGeometry,
+  CylinderGeometry,
+  ConeGeometry,
+  BoxGeometry,
+  MeshStandardMaterial,
+  DoubleSide,
 } from 'three';
 import type { Object3D } from 'three';
 import type { CharacterAppearance } from '../../../src/types.ts';
 import {
-  SKIN_TONES, HAIR_COLORS, EYE_COLORS, HAIR_STYLES, OUTFIT_STYLES, OUTFIT_COLORS,
+  SKIN_TONES,
+  HAIR_COLORS,
+  EYE_COLORS,
+  HAIR_STYLES,
+  OUTFIT_STYLES,
+  OUTFIT_COLORS,
 } from './appearance-options.ts';
-import { buildSkeletonRig, buildLimbTube, buildSkinnedLimb, BONE_WORLD, type SkeletonRig } from './skeleton-builder.ts';
+import {
+  buildSkeletonRig,
+  buildLimbTube,
+  buildSkinnedLimb,
+  BONE_WORLD,
+  type SkeletonRig,
+} from './skeleton-builder.ts';
 
 export function clampIdx(i: number, len: number): number {
   return ((i % len) + len) % len;
@@ -29,7 +46,7 @@ export interface BuiltCharacter {
 function disposeMesh(mesh: Mesh): void {
   mesh.geometry.dispose();
   const mat = mesh.material;
-  if (Array.isArray(mat)) mat.forEach(m => m.dispose());
+  if (Array.isArray(mat)) mat.forEach((m) => m.dispose());
   else mat.dispose();
 }
 
@@ -70,7 +87,7 @@ export function buildHair(style: string, color: string): Mesh[] {
     const cap = hairCap(color);
     const bumpGeo = new SphereGeometry(0.16, 10, 8);
     const mat = new MeshStandardMaterial({ color, roughness: 0.8 });
-    const bumps = [-0.45, -0.22, 0, 0.22, 0.45].map(x => {
+    const bumps = [-0.45, -0.22, 0, 0.22, 0.45].map((x) => {
       const m = new Mesh(bumpGeo, mat.clone());
       m.position.set(x, 1.78, 0.15);
       return m;
@@ -112,7 +129,7 @@ export function buildHair(style: string, color: string): Mesh[] {
   const cap = hairCap(color);
   const spikeGeo = new ConeGeometry(0.1, 0.4, 8);
   const mat = new MeshStandardMaterial({ color, roughness: 0.7 });
-  const spikes = [-0.45, -0.27, -0.09, 0.09, 0.27, 0.45].map(x => {
+  const spikes = [-0.45, -0.27, -0.09, 0.09, 0.27, 0.45].map((x) => {
     const m = new Mesh(spikeGeo, mat.clone());
     m.position.set(x, 1.9, 0);
     return m;
@@ -130,7 +147,11 @@ export function buildCharacterGroup(appearance: CharacterAppearance): BuiltChara
 
   const group = new Group();
   const skinMat = new MeshStandardMaterial({ color: skin, roughness: 0.6 });
-  const outfitMat = new MeshStandardMaterial({ color: outfitColor, roughness: 0.65, side: DoubleSide });
+  const outfitMat = new MeshStandardMaterial({
+    color: outfitColor,
+    roughness: 0.65,
+    side: DoubleSide,
+  });
   const pantsMat = new MeshStandardMaterial({ color: '#34495e', roughness: 0.7, side: DoubleSide });
   const shoeMat = new MeshStandardMaterial({ color: '#1c2833', roughness: 0.5 });
 
@@ -143,21 +164,31 @@ export function buildCharacterGroup(appearance: CharacterAppearance): BuiltChara
 
   // Torso/hips — one skinned tube so breathing/spine-sway bends it smoothly.
   const torsoGeo = buildLimbTube({
-    boneAIndex: boneIndex.hips, boneBIndex: boneIndex.chest,
-    start: BONE_WORLD.hips, bend: BONE_WORLD.spine, end: BONE_WORLD.neck,
-    radiusStart: 0.42, radiusBend: 0.40, radiusEnd: 0.38,
+    boneAIndex: boneIndex.hips,
+    boneBIndex: boneIndex.chest,
+    start: BONE_WORLD.hips,
+    bend: BONE_WORLD.spine,
+    end: BONE_WORLD.neck,
+    radiusStart: 0.42,
+    radiusBend: 0.4,
+    radiusEnd: 0.38,
   });
   group.add(buildSkinnedLimb(torsoGeo, outfitMat, skeleton));
 
   // Arms — one skinned tube per arm spanning shoulder -> wrist, bending at the elbow.
-  (['L', 'R'] as const).forEach(side => {
+  (['L', 'R'] as const).forEach((side) => {
     const shoulder = `shoulder${side}` as const;
     const forearm = `forearm${side}` as const;
     const hand = `hand${side}` as const;
     const armGeo = buildLimbTube({
-      boneAIndex: boneIndex[shoulder], boneBIndex: boneIndex[forearm],
-      start: BONE_WORLD[shoulder], bend: BONE_WORLD[forearm], end: BONE_WORLD[hand],
-      radiusStart: 0.11, radiusBend: 0.095, radiusEnd: 0.085,
+      boneAIndex: boneIndex[shoulder],
+      boneBIndex: boneIndex[forearm],
+      start: BONE_WORLD[shoulder],
+      bend: BONE_WORLD[forearm],
+      end: BONE_WORLD[hand],
+      radiusStart: 0.11,
+      radiusBend: 0.095,
+      radiusEnd: 0.085,
     });
     group.add(buildSkinnedLimb(armGeo, outfitMat, skeleton));
 
@@ -171,14 +202,19 @@ export function buildCharacterGroup(appearance: CharacterAppearance): BuiltChara
     dress.position.y = -0.18;
     bones.hips.add(dress);
   } else {
-    (['L', 'R'] as const).forEach(side => {
+    (['L', 'R'] as const).forEach((side) => {
       const upperLeg = `upperLeg${side}` as const;
       const lowerLeg = `lowerLeg${side}` as const;
       const foot = `foot${side}` as const;
       const legGeo = buildLimbTube({
-        boneAIndex: boneIndex[upperLeg], boneBIndex: boneIndex[lowerLeg],
-        start: BONE_WORLD[upperLeg], bend: BONE_WORLD[lowerLeg], end: BONE_WORLD[foot],
-        radiusStart: 0.16, radiusBend: 0.13, radiusEnd: 0.11,
+        boneAIndex: boneIndex[upperLeg],
+        boneBIndex: boneIndex[lowerLeg],
+        start: BONE_WORLD[upperLeg],
+        bend: BONE_WORLD[lowerLeg],
+        end: BONE_WORLD[foot],
+        radiusStart: 0.16,
+        radiusBend: 0.13,
+        radiusEnd: 0.11,
       });
       group.add(buildSkinnedLimb(legGeo, pantsMat, skeleton));
 
@@ -190,16 +226,22 @@ export function buildCharacterGroup(appearance: CharacterAppearance): BuiltChara
 
   // Outfit accents — rigid, parented onto the chest bone.
   if (outfitStyle === 'hoodie') {
-    const zip = new Mesh(new BoxGeometry(0.04, 0.55, 0.04), new MeshStandardMaterial({ color: '#00000033', roughness: 0.9 }));
+    const zip = new Mesh(
+      new BoxGeometry(0.04, 0.55, 0.04),
+      new MeshStandardMaterial({ color: '#00000033', roughness: 0.9 }),
+    );
     zip.position.set(0, -0.05, 0.43);
     bones.chest.add(zip);
   } else if (outfitStyle === 'jacket') {
-    const stripe = new Mesh(new BoxGeometry(0.06, 0.6, 0.04), new MeshStandardMaterial({ color: '#00000033', roughness: 0.9 }));
+    const stripe = new Mesh(
+      new BoxGeometry(0.06, 0.6, 0.04),
+      new MeshStandardMaterial({ color: '#00000033', roughness: 0.9 }),
+    );
     stripe.position.set(0, -0.05, 0.43);
     bones.chest.add(stripe);
   } else if (outfitStyle === 'overalls') {
     const strapMat = new MeshStandardMaterial({ color: outfitColor, roughness: 0.65 });
-    [-0.22, 0.22].forEach(x => {
+    [-0.22, 0.22].forEach((x) => {
       const strap = new Mesh(new BoxGeometry(0.1, 0.5, 0.06), strapMat);
       strap.position.set(x, 0.3, 0.4);
       bones.chest.add(strap);
@@ -217,7 +259,7 @@ export function buildCharacterGroup(appearance: CharacterAppearance): BuiltChara
 
   // Ears
   const earGeo = new SphereGeometry(0.07, 10, 8);
-  [-0.45, 0.45].forEach(x => {
+  [-0.45, 0.45].forEach((x) => {
     const ear = new Mesh(earGeo, skinMat);
     ear.position.set(x, 0, 0);
     headAnchor.add(ear);
@@ -229,7 +271,7 @@ export function buildCharacterGroup(appearance: CharacterAppearance): BuiltChara
   const pupilGeo = new SphereGeometry(0.038, 8, 6);
   const pupilMat = new MeshStandardMaterial({ color: eyeColor, roughness: 0.4 });
   const eyelids: Object3D[] = [];
-  [-0.17, 0.17].forEach(x => {
+  [-0.17, 0.17].forEach((x) => {
     const eyeGroup = new Group();
     eyeGroup.position.set(x, 0.05, 0.39);
     const white = new Mesh(eyeWhiteGeo, eyeWhiteMat);
@@ -251,7 +293,7 @@ export function buildCharacterGroup(appearance: CharacterAppearance): BuiltChara
 
   // Hair
   const hairMeshes = buildHair(hairStyle, hairColor);
-  hairMeshes.forEach(m => headAnchor.add(m));
+  hairMeshes.forEach((m) => headAnchor.add(m));
 
   return {
     group,
@@ -265,7 +307,11 @@ export function buildCharacterGroup(appearance: CharacterAppearance): BuiltChara
   };
 }
 
-export function cacheKeyFor(appearance: CharacterAppearance, variant: 'full' | 'head', size: number): string {
+export function cacheKeyFor(
+  appearance: CharacterAppearance,
+  variant: 'full' | 'head',
+  size: number,
+): string {
   const skinTone = clampIdx(appearance.skinTone, SKIN_TONES.length);
   const hairStyle = clampIdx(appearance.hairStyle, HAIR_STYLES.length);
   const hairColor = clampIdx(appearance.hairColor, HAIR_COLORS.length);

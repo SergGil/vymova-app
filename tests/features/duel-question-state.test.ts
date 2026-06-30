@@ -22,7 +22,7 @@ describe('duel question/feedback state (Фаза 7.4-B / 6, state.duelQuestion)'
     expect(data.showNextBtn).toBe(q.showNextBtn);
     expect(data.waiting).toBe(q.waitingFinish);
     expect(data.options).toEqual(
-      q.choiceOptions.map((opt, i) => ({ text: opt, num: i + 1, cls: 'quiz-option' }))
+      q.choiceOptions.map((opt, i) => ({ text: opt, num: i + 1, cls: 'quiz-option' })),
     );
   });
 

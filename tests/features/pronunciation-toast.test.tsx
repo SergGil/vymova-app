@@ -16,7 +16,9 @@ function mount(): { container: HTMLElement; root: Root } {
   document.body.appendChild(container);
   const root = createRoot(container);
   roots.push(root);
-  act(() => { root.render(<PronunciationToast />); });
+  act(() => {
+    root.render(<PronunciationToast />);
+  });
   return { container, root };
 }
 
@@ -28,7 +30,11 @@ describe('pronunciation-toast.tsx', () => {
   });
 
   afterEach(() => {
-    roots.forEach(r => { act(() => { r.unmount(); }); });
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
     vi.useRealTimers();
   });
 
@@ -39,7 +45,9 @@ describe('pronunciation-toast.tsx', () => {
 
   it('shows a "perfect" toast with score percentage', () => {
     mount();
-    act(() => { showPronuncResult('perfect', 1, 'hello', 'hello'); });
+    act(() => {
+      showPronuncResult('perfect', 1, 'hello', 'hello');
+    });
     const el = document.querySelector('#_pron-toast') as HTMLElement;
     expect(el).not.toBeNull();
     expect(el.style.opacity).toBe('1');
@@ -51,7 +59,9 @@ describe('pronunciation-toast.tsx', () => {
 
   it('shows a "try_again" toast with spoken vs target text', () => {
     mount();
-    act(() => { showPronuncResult('try_again', 0.3, 'helo', 'hello'); });
+    act(() => {
+      showPronuncResult('try_again', 0.3, 'helo', 'hello');
+    });
     const el = document.querySelector('#_pron-toast') as HTMLElement;
     expect(el.textContent).toContain('"helo" → "hello"');
     expect(el.style.background).toBe('#e74c3c');
@@ -59,20 +69,28 @@ describe('pronunciation-toast.tsx', () => {
 
   it('falls back to the "error" message for an unknown status', () => {
     mount();
-    act(() => { showPronuncResult('bogus', 0, '', ''); });
+    act(() => {
+      showPronuncResult('bogus', 0, '', '');
+    });
     const el = document.querySelector('#_pron-toast') as HTMLElement;
     expect(el.textContent).toContain('⚠️');
   });
 
   it('hides after 3000ms and unmounts after a further 350ms', () => {
     mount();
-    act(() => { showPronuncResult('good', 0.8, 'hi', 'hi'); });
+    act(() => {
+      showPronuncResult('good', 0.8, 'hi', 'hi');
+    });
     expect(document.querySelector('#_pron-toast')).not.toBeNull();
 
-    act(() => { vi.advanceTimersByTime(3000); });
+    act(() => {
+      vi.advanceTimersByTime(3000);
+    });
     expect((document.querySelector('#_pron-toast') as HTMLElement).style.opacity).toBe('0');
 
-    act(() => { vi.advanceTimersByTime(350); });
+    act(() => {
+      vi.advanceTimersByTime(350);
+    });
     expect(document.querySelector('#_pron-toast')).toBeNull();
   });
 });

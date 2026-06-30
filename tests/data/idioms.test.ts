@@ -1,5 +1,18 @@
 import { describe, it, expect } from 'vitest';
-import { ENGLISH_IDIOMS, UKRAINIAN_IDIOMS, SPANISH_IDIOMS, HEBREW_IDIOMS, ARABIC_IDIOMS, POLISH_IDIOMS, CHINESE_IDIOMS, GREEK_IDIOMS, JAPANESE_IDIOMS, TURKISH_IDIOMS, DUTCH_IDIOMS, IDIOMS_BY_LANG } from '../../data/idioms.ts';
+import {
+  ENGLISH_IDIOMS,
+  UKRAINIAN_IDIOMS,
+  SPANISH_IDIOMS,
+  HEBREW_IDIOMS,
+  ARABIC_IDIOMS,
+  POLISH_IDIOMS,
+  CHINESE_IDIOMS,
+  GREEK_IDIOMS,
+  JAPANESE_IDIOMS,
+  TURKISH_IDIOMS,
+  DUTCH_IDIOMS,
+  IDIOMS_BY_LANG,
+} from '../../data/idioms.ts';
 import type { Idiom } from '../../data/idioms.ts';
 
 function checkIdiomShape(list: Idiom[], name: string) {
@@ -19,7 +32,7 @@ function checkIdiomShape(list: Idiom[], name: string) {
   });
 
   it(`${name} has unique phrases`, () => {
-    const phrases = list.map(i => i.phrase);
+    const phrases = list.map((i) => i.phrase);
     expect(new Set(phrases).size).toBe(phrases.length);
   });
 

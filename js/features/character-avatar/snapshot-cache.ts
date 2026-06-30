@@ -20,7 +20,12 @@ function getRenderer(): WebGLRenderer | null {
   if (renderer) return renderer;
   try {
     const canvas = document.createElement('canvas');
-    renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+    renderer = new WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true,
+      preserveDrawingBuffer: true,
+    });
     return renderer;
   } catch {
     webglUnavailable = true;
@@ -37,7 +42,11 @@ function rememberInCache(key: string, dataUrl: string): void {
   }
 }
 
-export function getSnapshot(appearance: CharacterAppearance, variant: 'full' | 'head', size: number): string | null {
+export function getSnapshot(
+  appearance: CharacterAppearance,
+  variant: 'full' | 'head',
+  size: number,
+): string | null {
   const key = cacheKeyFor(appearance, variant, size);
   const cached = cache.get(key);
   if (cached) {

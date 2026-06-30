@@ -4,10 +4,17 @@ import type { GameData, ModeStats } from '../../src/types.js';
 
 function makeGame(overrides: Partial<GameData> = {}): GameData {
   return {
-    streak: 0, streakDate: null, shields: 0,
-    goalMax: 20, goalCur: 0, goalDate: '',
-    goalDays: 0, confettiShown: null,
-    sessionWords: 0, xp: 0, maxCombo: 0,
+    streak: 0,
+    streakDate: null,
+    shields: 0,
+    goalMax: 20,
+    goalCur: 0,
+    goalDate: '',
+    goalDays: 0,
+    confettiShown: null,
+    sessionWords: 0,
+    xp: 0,
+    maxCombo: 0,
     ...overrides,
   };
 }
@@ -21,10 +28,10 @@ describe('ACHIEVEMENTS structure', () => {
 
   it('every achievement has required string fields', () => {
     for (const a of ACHIEVEMENTS) {
-      expect(a.id,   `missing id`).toBeTruthy();
+      expect(a.id, `missing id`).toBeTruthy();
       expect(a.icon, `${a.id} missing icon`).toBeTruthy();
       expect(a.name, `${a.id} missing name`).toBeTruthy();
-      expect(a.cat,  `${a.id} missing cat`).toBeTruthy();
+      expect(a.cat, `${a.id} missing cat`).toBeTruthy();
       expect(a.hint, `${a.id} missing hint`).toBeTruthy();
     }
   });
@@ -32,12 +39,12 @@ describe('ACHIEVEMENTS structure', () => {
   it('every achievement has progress and check functions', () => {
     for (const a of ACHIEVEMENTS) {
       expect(typeof a.progress, `${a.id} progress must be function`).toBe('function');
-      expect(typeof a.check,   `${a.id} check must be function`).toBe('function');
+      expect(typeof a.check, `${a.id} check must be function`).toBe('function');
     }
   });
 
   it('all IDs are unique', () => {
-    const ids = ACHIEVEMENTS.map(a => a.id);
+    const ids = ACHIEVEMENTS.map((a) => a.id);
     expect(new Set(ids).size).toBe(ids.length);
   });
 
@@ -62,20 +69,20 @@ describe('ACHIEVEMENTS structure', () => {
 
 describe('Achievement logic — word-count milestones', () => {
   it('first1: check passes at k=1', () => {
-    const a = ACHIEVEMENTS.find(x => x.id === 'first1')!;
+    const a = ACHIEVEMENTS.find((x) => x.id === 'first1')!;
     expect(a.check(0, makeGame())).toBe(false);
     expect(a.check(1, makeGame())).toBe(true);
   });
 
   it('words10: check passes at k≥10', () => {
-    const a = ACHIEVEMENTS.find(x => x.id === 'words10')!;
-    expect(a.check(9,  makeGame())).toBe(false);
+    const a = ACHIEVEMENTS.find((x) => x.id === 'words10')!;
+    expect(a.check(9, makeGame())).toBe(false);
     expect(a.check(10, makeGame())).toBe(true);
     expect(a.check(11, makeGame())).toBe(true);
   });
 
   it('words100: progress increases with k', () => {
-    const a = ACHIEVEMENTS.find(x => x.id === 'words100')!;
+    const a = ACHIEVEMENTS.find((x) => x.id === 'words100')!;
     const g = makeGame();
     expect(a.progress(50, g).cur).toBe(50);
     expect(a.progress(100, g).cur).toBe(100);
@@ -85,13 +92,13 @@ describe('Achievement logic — word-count milestones', () => {
 
 describe('Achievement logic — streaks', () => {
   it('streak3: passes when streak ≥ 3', () => {
-    const a = ACHIEVEMENTS.find(x => x.id === 'streak3')!;
+    const a = ACHIEVEMENTS.find((x) => x.id === 'streak3')!;
     expect(a.check(0, makeGame({ streak: 2 }))).toBe(false);
     expect(a.check(0, makeGame({ streak: 3 }))).toBe(true);
   });
 
   it('streak7: passes at streak = 7', () => {
-    const a = ACHIEVEMENTS.find(x => x.id === 'streak7')!;
+    const a = ACHIEVEMENTS.find((x) => x.id === 'streak7')!;
     expect(a.check(0, makeGame({ streak: 6 }))).toBe(false);
     expect(a.check(0, makeGame({ streak: 7 }))).toBe(true);
   });
@@ -99,20 +106,20 @@ describe('Achievement logic — streaks', () => {
 
 describe('Achievement logic — modes', () => {
   it('mode_quiz1: passes when quiz ≥ 1', () => {
-    const a = ACHIEVEMENTS.find(x => x.id === 'mode_quiz1')!;
+    const a = ACHIEVEMENTS.find((x) => x.id === 'mode_quiz1')!;
     expect(a.check(0, makeGame(), { quiz: 0 })).toBe(false);
     expect(a.check(0, makeGame(), { quiz: 1 })).toBe(true);
   });
 
   it('mode_write1: passes when write ≥ 1', () => {
-    const a = ACHIEVEMENTS.find(x => x.id === 'mode_write1')!;
+    const a = ACHIEVEMENTS.find((x) => x.id === 'mode_write1')!;
     expect(a.check(0, makeGame(), { write: 1 })).toBe(true);
   });
 });
 
 describe('Achievement logic — combo', () => {
   it('combo5: passes when maxCombo ≥ 5', () => {
-    const a = ACHIEVEMENTS.find(x => x.id === 'combo5')!;
+    const a = ACHIEVEMENTS.find((x) => x.id === 'combo5')!;
     expect(a.check(0, makeGame({ maxCombo: 4 }))).toBe(false);
     expect(a.check(0, makeGame({ maxCombo: 5 }))).toBe(true);
   });

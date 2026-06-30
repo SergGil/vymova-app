@@ -19,14 +19,19 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<ProfilePage />); });
+  act(() => {
+    root.render(<ProfilePage />);
+  });
   return { container: document.getElementById('profile-content')!, root };
 }
 
 describe('profile-page.tsx ProfilePage', () => {
   beforeEach(() => {
     localStorage.clear();
-    localStorage.setItem('ew_profiles', JSON.stringify([{ id: 'p1', name: 'Alice', avatar: '🧑' }]));
+    localStorage.setItem(
+      'ew_profiles',
+      JSON.stringify([{ id: 'p1', name: 'Alice', avatar: '🧑' }]),
+    );
     localStorage.setItem('ew_active_profile', 'p1');
     getGameData.mockClear().mockReturnValue({ streak: 3, xp: 100 });
     loadUnlocked.mockClear().mockReturnValue(['first1']);
@@ -41,10 +46,12 @@ describe('profile-page.tsx ProfilePage', () => {
 
   it('shows streak, total XP (xp + known*5), words learned and achievement count', () => {
     const { container } = mount();
-    const values = Array.from(container.querySelectorAll('.profile-stats .sv')).map(el => el.textContent);
-    expect(values).toContain('3');     // streak
-    expect(values).toContain('200');   // 100 + 20*5
-    expect(values).toContain('20');    // known
+    const values = Array.from(container.querySelectorAll('.profile-stats .sv')).map(
+      (el) => el.textContent,
+    );
+    expect(values).toContain('3'); // streak
+    expect(values).toContain('200'); // 100 + 20*5
+    expect(values).toContain('20'); // known
   });
 
   it('cycles an option forward locally without persisting until Save Changes is clicked', () => {
@@ -52,13 +59,17 @@ describe('profile-page.tsx ProfilePage', () => {
     const firstRow = container.querySelectorAll('.profile-picker-row')[0];
     const nextBtn = firstRow.querySelectorAll('.profile-picker-arrow')[1] as HTMLButtonElement;
     const valBefore = firstRow.querySelector('.profile-picker-val')!.textContent;
-    act(() => { nextBtn.click(); });
+    act(() => {
+      nextBtn.click();
+    });
     const valAfter = firstRow.querySelector('.profile-picker-val')!.textContent;
     expect(valAfter).not.toBe(valBefore);
     expect(JSON.parse(localStorage.getItem('ew_profiles')!)[0].appearance).toBeUndefined();
 
     const saveBtn = container.querySelector('.profile-save-btn') as HTMLButtonElement;
-    act(() => { saveBtn.click(); });
+    act(() => {
+      saveBtn.click();
+    });
     const profiles = JSON.parse(localStorage.getItem('ew_profiles')!);
     expect(profiles[0].appearance).toBeDefined();
     expect(profiles[0].avatarMode).toBe('character');
@@ -73,10 +84,14 @@ describe('profile-page.tsx ProfilePage', () => {
     const nextBtn = firstRow.querySelectorAll('.profile-picker-arrow')[1] as HTMLButtonElement;
     const prevBtn = firstRow.querySelectorAll('.profile-picker-arrow')[0] as HTMLButtonElement;
 
-    act(() => { nextBtn.click(); });
+    act(() => {
+      nextBtn.click();
+    });
     expect(saveBtn.disabled).toBe(false);
 
-    act(() => { prevBtn.click(); }); // back to the original value
+    act(() => {
+      prevBtn.click();
+    }); // back to the original value
     expect(saveBtn.disabled).toBe(true);
   });
 });

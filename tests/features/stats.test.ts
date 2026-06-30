@@ -6,7 +6,10 @@ import { createRoot, type Root } from 'react-dom/client';
 
 const openStats = vi.fn();
 const closeStats = vi.fn();
-vi.mock('../../js/features/stats-page.tsx', () => ({ openStats: (...a: unknown[]) => openStats(...a), closeStats: (...a: unknown[]) => closeStats(...a) }));
+vi.mock('../../js/features/stats-page.tsx', () => ({
+  openStats: (...a: unknown[]) => openStats(...a),
+  closeStats: (...a: unknown[]) => closeStats(...a),
+}));
 
 import { StatsInit } from '../../js/features/stats.ts';
 
@@ -23,41 +26,67 @@ describe('stats.ts StatsInit', () => {
   });
 
   afterEach(() => {
-    act(() => { root?.unmount(); });
+    act(() => {
+      root?.unmount();
+    });
   });
 
   it('opens stats when the stats button is clicked', () => {
     root = createRoot(container);
-    act(() => { root.render(createElement(StatsInit)); });
+    act(() => {
+      root.render(createElement(StatsInit));
+    });
 
-    act(() => { document.getElementById('btn-stats')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-stats')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(openStats).toHaveBeenCalledTimes(1);
     expect(closeStats).not.toHaveBeenCalled();
   });
 
   it('closes stats when clicking the overlay background but not its children', () => {
     root = createRoot(container);
-    act(() => { root.render(createElement(StatsInit)); });
+    act(() => {
+      root.render(createElement(StatsInit));
+    });
 
-    act(() => { document.getElementById('inner')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document.getElementById('inner')!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(closeStats).not.toHaveBeenCalled();
 
-    act(() => { document.getElementById('stats-overlay')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('stats-overlay')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(closeStats).toHaveBeenCalledTimes(1);
   });
 
   it('removes its listeners on unmount', () => {
     root = createRoot(container);
-    act(() => { root.render(createElement(StatsInit)); });
-    act(() => { root.unmount(); });
+    act(() => {
+      root.render(createElement(StatsInit));
+    });
+    act(() => {
+      root.unmount();
+    });
 
-    act(() => { document.getElementById('btn-stats')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-stats')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(openStats).not.toHaveBeenCalled();
   });
 
   it('renders nothing', () => {
     root = createRoot(container);
-    act(() => { root.render(createElement(StatsInit)); });
+    act(() => {
+      root.render(createElement(StatsInit));
+    });
     expect(container.innerHTML).toBe('');
   });
 });

@@ -20,7 +20,9 @@ function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-  act(() => { root.render(<SettingsInit />); });
+  act(() => {
+    root.render(<SettingsInit />);
+  });
   return { container, root };
 }
 
@@ -58,21 +60,33 @@ describe('settings.tsx SettingsInit', () => {
   it('vibrates on know/next button clicks (haptic feedback)', () => {
     mount();
     const vibrate = navigator.vibrate as ReturnType<typeof vi.fn>;
-    act(() => { document.getElementById('btn-know')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-know')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(vibrate).toHaveBeenCalledWith(50);
 
-    act(() => { document.getElementById('btn-next')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-next')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(vibrate).toHaveBeenCalledWith([80, 40, 80]);
   });
 
   it('toggles Star Wars mode and persists the choice', () => {
     mount();
     const btnSW = document.getElementById('btn-sw') as HTMLButtonElement;
-    act(() => { btnSW.click(); });
+    act(() => {
+      btnSW.click();
+    });
     expect(document.body.classList.contains('sw')).toBe(true);
     expect(localStorage.getItem('ew_sw')).toBe('1');
 
-    act(() => { btnSW.click(); });
+    act(() => {
+      btnSW.click();
+    });
     expect(document.body.classList.contains('sw')).toBe(false);
     expect(localStorage.getItem('ew_sw')).toBe('0');
   });
@@ -87,27 +101,41 @@ describe('settings.tsx SettingsInit', () => {
     mount();
     const openBtn = document.getElementById('btn-modes-open') as HTMLButtonElement;
     const overlay = document.getElementById('modes-overlay') as HTMLElement;
-    act(() => { openBtn.click(); });
+    act(() => {
+      openBtn.click();
+    });
     expect(overlay.className).toBe('modes-overlay open');
 
     const closeBtn = document.getElementById('modes-close') as HTMLButtonElement;
-    act(() => { closeBtn.click(); });
+    act(() => {
+      closeBtn.click();
+    });
     expect(overlay.className).toBe('modes-overlay');
   });
 
   it('opens the achievements page when the achievements button is clicked', () => {
     mount();
-    act(() => { document.getElementById('btn-achievements')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-achievements')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(openPage).toHaveBeenCalledWith('ach');
   });
 
   it('removes listeners on unmount', () => {
     const { root } = mount();
-    act(() => { root.unmount(); });
+    act(() => {
+      root.unmount();
+    });
 
     const vibrate = navigator.vibrate as ReturnType<typeof vi.fn>;
     vibrate.mockClear();
-    act(() => { document.getElementById('btn-know')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    act(() => {
+      document
+        .getElementById('btn-know')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
     expect(vibrate).not.toHaveBeenCalled();
   });
 });

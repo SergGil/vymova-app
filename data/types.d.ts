@@ -70,4 +70,3 @@ declare module './illustrations.js' {
   export const SVG: Record<string, string>;
   export function getIllus(word: string): string | null;
 }
-

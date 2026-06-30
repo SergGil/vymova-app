@@ -14,8 +14,21 @@ function _localizeSection(s: GSection): GSection {
 }
 
 const SPEECH_LANG: Record<LangCode, string> = {
-  en: 'en-US', ua: 'uk-UA', es: 'es-ES', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT', de: 'de-DE', he: 'he-IL', ar: 'ar-SA',
-  pl: 'pl-PL', zh: 'zh-CN', el: 'el-GR', ja: 'ja-JP', tr: 'tr-TR', nl: 'nl-NL',
+  en: 'en-US',
+  ua: 'uk-UA',
+  es: 'es-ES',
+  fr: 'fr-FR',
+  it: 'it-IT',
+  pt: 'pt-PT',
+  de: 'de-DE',
+  he: 'he-IL',
+  ar: 'ar-SA',
+  pl: 'pl-PL',
+  zh: 'zh-CN',
+  el: 'el-GR',
+  ja: 'ja-JP',
+  tr: 'tr-TR',
+  nl: 'nl-NL',
 };
 
 // ── Level sort ────────────────────────────────────────────────
@@ -36,41 +49,52 @@ function _renderSection(s: GSection): string {
 
     case 'formula': {
       const title = s.title ? `<div class="gr-section-title">📐 ${s.title}</div>` : '';
-      const rows  = (s.rows ?? []).map(r => {
-        const cls = r[0].startsWith('✅') ? 'gr-plus'
-                  : r[0].startsWith('❌') ? 'gr-minus'
-                  : r[0].startsWith('❓') ? 'gr-ques' : '';
-        return `<tr class="${cls}">
+      const rows = (s.rows ?? [])
+        .map((r) => {
+          const cls = r[0].startsWith('✅')
+            ? 'gr-plus'
+            : r[0].startsWith('❌')
+              ? 'gr-minus'
+              : r[0].startsWith('❓')
+                ? 'gr-ques'
+                : '';
+          return `<tr class="${cls}">
           <td class="gr-fm-tag">${r[0]}</td>
           <td class="gr-fm-subj">${r[1]}</td>
           <td class="gr-fm-form">${r[2]}</td>
           <td class="gr-fm-ex">${r[3] ?? ''}</td>
         </tr>`;
-      }).join('');
+        })
+        .join('');
       return `${title}<div class="gr-table-wrap"><table class="gr-formula-table"><tbody>${rows}</tbody></table></div>`;
     }
 
     case 'table': {
       const title = s.title ? `<div class="gr-section-title">📊 ${s.title}</div>` : '';
-      const rows  = (s.rows ?? []).map((r, i) => {
-        const tag = i === 0 ? 'th' : 'td';
-        const cls = i === 0 ? 'gr-thead' : '';
-        return `<tr class="${cls}">${r.map(c => `<${tag}>${c}</${tag}>`).join('')}</tr>`;
-      }).join('');
+      const rows = (s.rows ?? [])
+        .map((r, i) => {
+          const tag = i === 0 ? 'th' : 'td';
+          const cls = i === 0 ? 'gr-thead' : '';
+          return `<tr class="${cls}">${r.map((c) => `<${tag}>${c}</${tag}>`).join('')}</tr>`;
+        })
+        .join('');
       return `${title}<div class="gr-table-wrap"><table class="gr-data-table"><tbody>${rows}</tbody></table></div>`;
     }
 
     case 'examples': {
       const title = s.title ? `<div class="gr-section-title">💬 ${s.title}</div>` : '';
-      const rows  = (s.rows ?? []).map(r =>
-        `<tr><td class="gr-ex-en"><span class="gr-ex-text">${r[0]}</span><button class="speak-btn gr-ex-speak" title="🔊">🔊</button></td><td class="gr-ex-ua">${r[1]}</td></tr>`
-      ).join('');
+      const rows = (s.rows ?? [])
+        .map(
+          (r) =>
+            `<tr><td class="gr-ex-en"><span class="gr-ex-text">${r[0]}</span><button class="speak-btn gr-ex-speak" title="🔊">🔊</button></td><td class="gr-ex-ua">${r[1]}</td></tr>`,
+        )
+        .join('');
       return `${title}<div class="gr-table-wrap"><table class="gr-ex-table"><tbody>${rows}</tbody></table></div>`;
     }
 
     case 'markers': {
       const title = s.title ? `<div class="gr-section-title">⏰ ${s.title}</div>` : '';
-      const chips = (s.items ?? []).map(m => `<span class="gr-chip">${m}</span>`).join('');
+      const chips = (s.items ?? []).map((m) => `<span class="gr-chip">${m}</span>`).join('');
       return `${title}<div class="gr-chips">${chips}</div>`;
     }
 
@@ -94,7 +118,7 @@ function _renderSection(s: GSection): string {
 function _renderRuleHtml(rule: GrammarRule): string {
   return `
     <div class="gr-rule-title">${rule.emoji} ${getLang() === 'en' && rule.titleEn ? rule.titleEn : rule.title}</div>
-    ${rule.sections.map(s => _renderSection(_localizeSection(s))).join('')}
+    ${rule.sections.map((s) => _renderSection(_localizeSection(s))).join('')}
   `;
 }
 
@@ -118,7 +142,7 @@ export function openGrammarContent(): void {
 function openGrammar(): void {
   // Динамічний імпорт: sidebar.tsx статично імпортує цей файл
   // (openGrammarContent) — зворотний статичний імпорт створив би цикл.
-  import('./sidebar.tsx').then(m => m.openPage('grammar'));
+  import('./sidebar.tsx').then((m) => m.openPage('grammar'));
 }
 
 export function jumpToGrammarRule(id: string): void {
@@ -133,8 +157,11 @@ export function GrammarPage(): ReactElement {
 
   useEffect(() => {
     _setActiveId = setActiveId;
-    _bumpTick = () => setTick(x => x + 1);
-    return () => { _setActiveId = null; _bumpTick = null; };
+    _bumpTick = () => setTick((x) => x + 1);
+    return () => {
+      _setActiveId = null;
+      _bumpTick = null;
+    };
   }, []);
 
   const grammar = (GRAMMAR_BY_LANG as Record<string, GrammarCategory[]>)[getLearnLang()] ?? [];
@@ -151,20 +178,22 @@ export function GrammarPage(): ReactElement {
 
   let activeRule: GrammarRule | undefined;
   for (const cat of grammar) {
-    activeRule = cat.rules.find(r => r.id === effectiveId);
+    activeRule = cat.rules.find((r) => r.id === effectiveId);
     if (activeRule) break;
   }
 
   return (
     <>
       <div id="grammar-nav" className="grammar-nav">
-        {grammar.map(cat => {
+        {grammar.map((cat) => {
           const sorted = [...cat.rules].sort((a, b) => _levelOrder(a.title) - _levelOrder(b.title));
           return (
             <div className="gr-cat" key={cat.title}>
-              <div className="gr-cat-title">{cat.emoji} {getLang() === 'en' && cat.titleEn ? cat.titleEn : cat.title}</div>
+              <div className="gr-cat-title">
+                {cat.emoji} {getLang() === 'en' && cat.titleEn ? cat.titleEn : cat.title}
+              </div>
               <div className="gr-cat-rules">
-                {sorted.map(r => (
+                {sorted.map((r) => (
                   <button
                     key={r.id}
                     className={'gr-nav-btn' + (r.id === effectiveId ? ' gr-nav-active' : '')}
@@ -172,7 +201,9 @@ export function GrammarPage(): ReactElement {
                     onClick={() => {
                       setActiveId(r.id);
                       if (window.innerWidth < 700) {
-                        document.getElementById('grammar-content')?.scrollIntoView({ behavior: 'smooth' });
+                        document
+                          .getElementById('grammar-content')
+                          ?.scrollIntoView({ behavior: 'smooth' });
                       }
                     }}
                   >
@@ -185,9 +216,11 @@ export function GrammarPage(): ReactElement {
         })}
       </div>
       <div id="grammar-content" className="grammar-content" onClick={_onContentClick}>
-        {activeRule
-          ? <div dangerouslySetInnerHTML={{ __html: _renderRuleHtml(activeRule) }} />
-          : <div className="gr-empty">{t('grammar.selectTopic')}</div>}
+        {activeRule ? (
+          <div dangerouslySetInnerHTML={{ __html: _renderRuleHtml(activeRule) }} />
+        ) : (
+          <div className="gr-empty">{t('grammar.selectTopic')}</div>
+        )}
       </div>
     </>
   );
