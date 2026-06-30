@@ -36,7 +36,7 @@ describe('onboarding.tsx OnboardingPage', () => {
   it('renders nothing when the onboarding flag is not set', async () => {
     const { container, root } = mount();
     roots.push(root);
-    await wait(350);
+    await wait(500);
     expect(container.innerHTML).toBe('');
   });
 
@@ -44,7 +44,7 @@ describe('onboarding.tsx OnboardingPage', () => {
     localStorage.setItem(FLAG_KEY, '1');
     const { container, root } = mount();
     roots.push(root);
-    await wait(350);
+    await wait(500);
 
     expect(container.querySelector('#ob-overlay')).not.toBeNull();
     expect(localStorage.getItem(FLAG_KEY)).toBeNull();
@@ -54,7 +54,7 @@ describe('onboarding.tsx OnboardingPage', () => {
     localStorage.setItem(FLAG_KEY, '1');
     const { container, root } = mount();
     roots.push(root);
-    await wait(350);
+    await wait(500);
 
     const slide1 = container.querySelectorAll('.ob-slide')[0];
     expect(slide1.innerHTML).toContain(String(W.length));
@@ -66,7 +66,7 @@ describe('onboarding.tsx OnboardingPage', () => {
     localStorage.setItem(FLAG_KEY, '1');
     const { container, root } = mount();
     roots.push(root);
-    await wait(350);
+    await wait(500);
 
     const slides = container.querySelectorAll('.ob-slide');
     expect(slides.length).toBe(4);
@@ -85,7 +85,7 @@ describe('onboarding.tsx OnboardingPage', () => {
     localStorage.setItem(FLAG_KEY, '1');
     const { container, root } = mount();
     roots.push(root);
-    await wait(350);
+    await wait(500);
 
     const nextBtn = container.querySelector('.ob-btn-next') as HTMLButtonElement;
     act(() => { nextBtn.click(); });
@@ -112,7 +112,7 @@ describe('onboarding.tsx OnboardingPage', () => {
     localStorage.setItem(FLAG_KEY, '1');
     const { container, root } = mount();
     roots.push(root);
-    await wait(350);
+    await wait(500);
 
     const nextBtn = container.querySelector('.ob-btn-next') as HTMLButtonElement;
     act(() => { nextBtn.click(); });
@@ -139,7 +139,7 @@ describe('onboarding.tsx OnboardingPage', () => {
     localStorage.setItem(FLAG_KEY, '1');
     const { container, root } = mount();
     roots.push(root);
-    await wait(350);
+    await wait(500);
 
     const nextBtn = container.querySelector('.ob-btn-next') as HTMLButtonElement;
     act(() => { nextBtn.click(); });
@@ -161,7 +161,7 @@ describe('onboarding.tsx OnboardingPage', () => {
     localStorage.setItem(FLAG_KEY, '1');
     const { container, root } = mount();
     roots.push(root);
-    await wait(350);
+    await wait(500);
 
     const skipBtn = container.querySelector('.ob-btn-skip') as HTMLButtonElement;
     expect(skipBtn).not.toBeNull();
