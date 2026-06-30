@@ -1,0 +1,6 @@
+dist
+node_modules
+public
+data/*.js
+locales
+worker/.wrangler
