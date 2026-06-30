@@ -5360,6 +5360,183 @@ export const GRAMMAR_ES: GrammarCategory[] = [
         ],
       },
 
+      {
+        id: 'imperfecto', title: 'Pretérito Imperfecto — A2', emoji: '🕰️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Минулий незавершений час — для звичних дій у минулому, опису людей/місць та фону подій. На відміну від Pretérito Indefinido, не вказує на завершеність дії.',
+            en: { text: 'The imperfect past tense — for habitual past actions, descriptions of people/places, and background. Unlike the Pretérito Indefinido, it does not mark the action as completed.' },
+          },
+          {
+            type: 'formula', title: 'hablar (-ar), comer (-er), vivir (-ir)',
+            rows: [
+              ['yo', 'hablaba', 'comía', 'vivía'],
+              ['tú', 'hablabas', 'comías', 'vivías'],
+              ['él/ella/usted', 'hablaba', 'comía', 'vivía'],
+              ['nosotros/as', 'hablábamos', 'comíamos', 'vivíamos'],
+              ['vosotros/as', 'hablabais', 'comíais', 'vivíais'],
+              ['ellos/ellas/ustedes', 'hablaban', 'comían', 'vivían'],
+            ],
+          },
+          {
+            type: 'note', title: 'Неправильні форми',
+            text: 'Лише три дієслова неправильні: ser → era, ir → iba, ver → veía.',
+            en: { title: 'Irregular forms' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Cuando era niño, vivía en Madrid.', 'Коли я був дитиною, я жив у Мадриді.'],
+              ['Hacía sol todos los días.', 'Щодня було сонячно.'],
+              ['Mi abuela cocinaba muy bien.', 'Моя бабуся дуже добре готувала.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'preterito-perfecto', title: 'Pretérito Perfecto Compuesto — A2', emoji: '✅',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Складений минулий час для дій, що відбулись у незавершеному відрізку часу (сьогодні, цього тижня) або мають зв\'язок із теперішнім. Утворюється: haber (теперішній час) + дієприкметник минулого часу.',
+            en: { text: 'A compound past tense for actions in a time period that is not yet over (today, this week) or that relate to the present. Formed with haber (present tense) + past participle.' },
+          },
+          {
+            type: 'table', title: 'Дієприкметник минулого часу',
+            rows: [
+              ['-ar → -ado', 'hablar → hablado', 'trabajar → trabajado'],
+              ['-er → -ido', 'comer → comido', 'tener → tenido'],
+              ['-ir → -ido', 'vivir → vivido', 'salir → salido'],
+            ],
+          },
+          {
+            type: 'formula', title: 'haber + participio',
+            rows: [
+              ['yo', 'he hablado', '→ Hoy he hablado con ella.'],
+              ['tú', 'has comido', '→ ¿Has comido ya?'],
+              ['él/ella/usted', 'ha vivido', '→ Ha vivido aquí toda su vida.'],
+              ['nosotros/as', 'hemos trabajado', '→ Hemos trabajado mucho hoy.'],
+              ['vosotros/as', 'habéis salido', '→ ¿Habéis salido esta semana?'],
+              ['ellos/ellas/ustedes', 'han tenido', '→ Han tenido suerte.'],
+            ],
+          },
+          {
+            type: 'note', title: 'Неправильні дієприкметники',
+            text: 'hacer → hecho, decir → dicho, escribir → escrito, ver → visto, poner → puesto, volver → vuelto, abrir → abierto, romper → roto.',
+            en: { title: 'Irregular participles' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Esta mañana he desayunado tarde.', 'Цього ранку я пізно поснідав.'],
+              ['Nunca he estado en Japón.', 'Я ніколи не був у Японії.'],
+              ['¿Has visto mi teléfono?', 'Ти бачив мій телефон?'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pluscuamperfecto', title: 'Pretérito Pluscuamperfecto — B1', emoji: '⏮️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Передминулий час — для дії, що відбулась раніше за іншу минулу дію. Утворюється: haber в imperfecto + дієприкметник минулого часу.',
+            en: { text: 'The past perfect — for an action that happened before another past action. Formed with haber in the imperfect + past participle.' },
+          },
+          {
+            type: 'formula', title: 'haber (imperfecto) + participio',
+            rows: [
+              ['yo', 'había hablado', '→ Ya había comido cuando llegaste.'],
+              ['tú', 'habías comido', '→ Habías salido antes de la llamada.'],
+              ['él/ella/usted', 'había vivido', '→ Nunca había visto algo así.'],
+              ['nosotros/as', 'habíamos trabajado', '→ Habíamos terminado antes de las seis.'],
+              ['vosotros/as', 'habíais salido', '→ Ya habíais llegado.'],
+              ['ellos/ellas/ustedes', 'habían tenido', '→ Habían tenido un problema antes.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Cuando llegué, ya habían comido.', 'Коли я прийшов, вони вже поїли.'],
+              ['Nunca había viajado en avión antes de ese día.', 'Я ніколи не літав літаком до того дня.'],
+              ['Ella ya se había ido.', 'Вона вже пішла.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'condicional-simple', title: 'Condicional Simple — B1', emoji: '🌀',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Умовний спосіб для гіпотетичних дій, ввічливих прохань і порад. Утворюється так само, як Futuro Simple — від повного інфінітива + закінчення -ía.',
+            en: { text: 'The conditional mood, used for hypothetical actions, polite requests and advice. Formed like the Futuro Simple — from the full infinitive + -ía endings.' },
+          },
+          {
+            type: 'formula', title: 'hablar / comer / vivir + закінчення',
+            rows: [
+              ['yo', 'hablar-ía', '→ Yo hablaría con él.'],
+              ['tú', 'comer-ías', '→ ¿Qué comerías tú?'],
+              ['él/ella/usted', 'vivir-ía', '→ Viviría en otra ciudad.'],
+              ['nosotros/as', 'hablar-íamos', '→ Hablaríamos más despacio.'],
+              ['vosotros/as', 'comer-íais', '→ ¿Comeríais aquí?'],
+              ['ellos/ellas/ustedes', 'vivir-ían', '→ Vivirían felices.'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'Ті самі неправильні основи, що й у Futuro Simple: tener → tendr-, hacer → har-, decir → dir-, poder → podr-, salir → saldr-.',
+            en: { text: 'The same irregular stems as the Futuro Simple: tener → tendr-, hacer → har-, decir → dir-, poder → podr-, salir → saldr-.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['¿Podrías ayudarme, por favor?', 'Не міг би ти мені допомогти, будь ласка?'],
+              ['Me gustaría viajar a España.', 'Мені б хотілося поїхати до Іспанії.'],
+              ['Deberías descansar más.', 'Тобі варто б більше відпочивати.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'subjuntivo-presente', title: 'Presente de Subjuntivo — B1', emoji: '🌫️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дієслівний спосіб для бажань, сумнівів, емоцій та порад (після que). На відміну від дійсного способу, не виражає об\'єктивного факту.',
+            en: { text: 'A verbal mood for wishes, doubts, emotions and advice (after que). Unlike the indicative, it does not express an objective fact.' },
+          },
+          {
+            type: 'formula', title: 'hablar (-ar), comer (-er), vivir (-ir)',
+            rows: [
+              ['yo', 'hable', 'coma', 'viva'],
+              ['tú', 'hables', 'comas', 'vivas'],
+              ['él/ella/usted', 'hable', 'coma', 'viva'],
+              ['nosotros/as', 'hablemos', 'comamos', 'vivamos'],
+              ['vosotros/as', 'habléis', 'comáis', 'viváis'],
+              ['ellos/ellas/ustedes', 'hablen', 'coman', 'vivan'],
+            ],
+          },
+          {
+            type: 'markers', title: 'Тригери subjuntivo',
+            items: ['quiero que...', 'espero que...', 'dudo que...', 'es importante que...', 'ojalá que...', 'no creo que...'],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Quiero que vengas a la fiesta.', 'Я хочу, щоб ти прийшов на вечірку.'],
+              ['Espero que todo vaya bien.', 'Сподіваюсь, що все буде добре.'],
+              ['Ojalá que llueva mañana.', 'Якби тільки завтра пішов дощ.'],
+            ],
+          },
+        ],
+      },
+
     ],
   },
 
@@ -5532,6 +5709,438 @@ export const GRAMMAR_ES: GrammarCategory[] = [
               ['Mi hermano es mayor que yo.', 'Мій брат старший за мене.'],
               ['Este libro es mejor que el otro.', 'Ця книга краща за ту.'],
               ['Es el restaurante más caro de la ciudad.', 'Це найдорожчий ресторан у місті.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'indirect-object-pronouns', title: 'Pronombres de Objeto Indirecto — A2', emoji: '🔁',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Непрямі додаткові займенники вказують, кому/для кого виконується дія, і, як і прямі, ставляться перед дієсловом.',
+            en: { text: 'Indirect object pronouns show to/for whom an action is done, and like direct ones, go right before the verb.' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['me', 'мені'],
+              ['te', 'тобі'],
+              ['le', 'йому/їй/Вам'],
+              ['nos', 'нам'],
+              ['os', 'вам'],
+              ['les', 'їм'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Le doy un regalo a mi madre.', 'Я даю мамі подарунок.'],
+              ['¿Me puedes ayudar?', 'Ти можеш мені допомогти?'],
+              ['Les escribo un correo.', 'Я пишу їм листа.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'double-object-pronouns', title: 'Pronombres Combinados (se lo) — B1', emoji: '🔗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Коли в реченні є і непрямий, і прямий займенник, непрямий ставиться першим. Якщо обидва займенники починаються на l- (le/les + lo/la/los/las), le/les замінюється на se.',
+            en: { text: 'When a sentence has both an indirect and a direct object pronoun, the indirect one comes first. If both start with l- (le/les + lo/la/los/las), le/les becomes se.' },
+          },
+          {
+            type: 'formula', title: 'se + lo/la/los/las',
+            rows: [
+              ['le + lo → se lo', '', '→ Se lo doy a él. (= le doy el regalo)'],
+              ['les + la → se la', '', '→ Se la envío a ellos.'],
+              ['me + lo → me lo', '', '→ Me lo explicó bien.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['¿El libro? Se lo di a María.', 'Книгу? Я віддав її Марії.'],
+              ['Me lo dijo ayer.', 'Він сказав мені це вчора.'],
+              ['¿Puedes prestármelo?', 'Можеш позичити мені це?'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'relative-pronouns', title: 'Pronombres Relativos (que, quien, donde) — B1', emoji: '🧵',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Відносні займенники з\'єднують два речення, уникаючи повторення іменника. Que — найуживаніший (особи й речі), quien(es) — лише особи (після прийменника), donde — місце.',
+            en: { text: 'Relative pronouns join two clauses without repeating the noun. Que is the most common (people and things), quien(es) is for people only (after a preposition), donde is for place.' },
+          },
+          {
+            type: 'table', title: 'Основні відносні слова',
+            rows: [
+              ['que', 'який/яка/яке/які (особи й речі)'],
+              ['quien(es)', 'хто (після прийменника, лише особи)'],
+              ['donde', 'де'],
+              ['el/la cual, los/las cuales', 'який/яка (формальний стиль)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['El hombre que vive aquí es médico.', 'Чоловік, який тут живе, лікар.'],
+              ['La persona con quien hablé es mi jefa.', 'Людина, з якою я говорив, моя начальниця.'],
+              ['Esta es la casa donde nací.', 'Це дім, де я народився.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'passive-voice', title: 'Voz Pasiva (ser + participio) — B1', emoji: '🎭',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Пасивний стан вживають, коли важливіша дія, а не той, хто її виконує. Утворюється: ser + дієприкметник, що узгоджується з підметом у роді й числі. Виконавець дії вводиться через por.',
+            en: { text: 'The passive voice is used when the action matters more than who performs it. Formed with ser + past participle, which agrees with the subject in gender and number. The agent is introduced with por.' },
+          },
+          {
+            type: 'formula', title: 'ser + participio (+ por)',
+            rows: [
+              ['presente', 'es construido/a', '→ La casa es construida por obreros.'],
+              ['pasado', 'fue escrito/a', '→ El libro fue escrito por ella.'],
+              ['futuro', 'será anunciado/a', '→ El resultado será anunciado mañana.'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'У розмовній мові частіше вживають пасивну конструкцію з se: Se construyó la casa en 1990.',
+            en: { text: 'In everyday speech, the se-passive construction is more common: Se construyó la casa en 1990.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['El cuadro fue pintado por Picasso.', 'Картину намалював Пікассо.'],
+              ['Las cartas son enviadas todos los días.', 'Листи відправляють щодня.'],
+              ['Se habla español aquí.', 'Тут розмовляють іспанською.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'gerund-uses', title: 'Usos del Gerundio — B1', emoji: '🏃',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Окрім Presente Continuo, герундій вживають як обставину способу дії (як саме щось відбувається) і з дієсловами seguir/llevar для тривалості.',
+            en: { text: 'Besides the Presente Continuo, the gerund is used to show how an action is done, and with seguir/llevar to express duration.' },
+          },
+          {
+            type: 'table', title: 'Типові конструкції',
+            rows: [
+              ['спосіб дії', 'Aprendió español viajando.', 'Він вивчив іспанську подорожуючи.'],
+              ['seguir + gerundio', 'Sigue trabajando aquí.', 'Він досі тут працює.'],
+              ['llevar + gerundio', 'Llevo dos años estudiando.', 'Я вже два роки навчаюся.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Mejoró su inglés escuchando música.', 'Він покращив англійську, слухаючи музику.'],
+              ['Sigue lloviendo desde ayer.', 'Досі дощить від учора.'],
+              ['Llevamos una hora esperando.', 'Ми чекаємо вже годину.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+  // ══════════════════════════════════════
+  //   ПРОСУНУТА ГРАМАТИКА
+  // ══════════════════════════════════════
+  {
+    id: 'advanced', title: 'Просунута граматика', titleEn: 'Advanced grammar', emoji: '🚀',
+    rules: [
+
+      {
+        id: 'conditional-sentences', title: 'Oraciones Condicionales con Si — B1', emoji: '🔀',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Умовні речення з si мають три основні типи залежно від реалістичності умови.',
+            en: { text: 'Conditional sentences with si have three main types depending on how realistic the condition is.' },
+          },
+          {
+            type: 'table', title: 'Типи умовних речень',
+            rows: [
+              ['реальна умова', 'Si + presente, + presente/futuro/imperativo', 'Si tengo tiempo, te llamo.'],
+              ['нереальна теперішня', 'Si + imperfecto subjuntivo, + condicional', 'Si tuviera dinero, viajaría.'],
+              ['нереальна минула', 'Si + pluscuamperfecto subjuntivo, + condicional perfecto', 'Si hubiera estudiado, habría aprobado.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Si llueve, no salimos.', 'Якщо піде дощ, ми не вийдемо.'],
+              ['Si fuera rico, compraría una casa.', 'Якби я був багатим, я б купив будинок.'],
+              ['Si hubiera sabido, te habría avisado.', 'Якби я знав, я б тебе попередив.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'reported-speech', title: 'Estilo Indirecto — B1', emoji: '💬',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У непрямій мові, коли головне дієслово (dijo, comentó) стоїть у минулому часі, час дієслова в підрядному реченні зазвичай зміщується на крок назад.',
+            en: { text: 'In reported speech, when the main verb (dijo, comentó) is in the past, the verb tense in the reported clause usually shifts one step back.' },
+          },
+          {
+            type: 'table', title: 'Зміщення часів',
+            rows: [
+              ['presente → imperfecto', '"Estudio" → Dijo que estudiaba.'],
+              ['pretérito → pluscuamperfecto', '"Comí" → Dijo que había comido.'],
+              ['futuro → condicional', '"Vendré" → Dijo que vendría.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['"Tengo hambre" → Dijo que tenía hambre.', '"Я голодний" → Він сказав, що голодний.'],
+              ['"Llegaré tarde" → Dijo que llegaría tarde.', '"Я прийду пізно" → Він сказав, що прийде пізно.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'indefinite-pronouns', title: 'Pronombres Indefinidos — A2', emoji: '❔',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Невизначені займенники вказують на невідомі, неконкретні особи, предмети чи кількості.',
+            en: { text: 'Indefinite pronouns refer to unknown or unspecified people, things or quantities.' },
+          },
+          {
+            type: 'table', title: 'Основні форми',
+            rows: [
+              ['algo / nada', 'щось / нічого'],
+              ['alguien / nadie', 'хтось / ніхто'],
+              ['alguno/a / ninguno/a', 'якийсь / жодний'],
+              ['todo / cada', 'все / кожен'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['¿Hay alguien en casa?', 'Хтось є вдома?'],
+              ['No tengo nada que decir.', 'Мені нічого сказати.'],
+              ['Ninguno de ellos vino.', 'Жоден з них не прийшов.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'ordinal-numbers', title: 'Números Ordinales — A2', emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Порядкові числівники узгоджуються з іменником у роді й числі. Після десятого зазвичай вживають кількісні числівники замість порядкових.',
+            en: { text: 'Ordinal numbers agree with the noun in gender and number. After "tenth", cardinal numbers are usually used instead of ordinals.' },
+          },
+          {
+            type: 'table', title: 'Перші десять',
+            rows: [
+              ['primero/a', '1-й', 'sexto/a', '6-й'],
+              ['segundo/a', '2-й', 'séptimo/a', '7-й'],
+              ['tercero/a', '3-й', 'octavo/a', '8-й'],
+              ['cuarto/a', '4-й', 'noveno/a', '9-й'],
+              ['quinto/a', '5-й', 'décimo/a', '10-й'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'primero й tercero втрачають -o перед іменником чоловічого роду в однині: el primer día, el tercer piso.',
+            en: { text: 'primero and tercero drop the -o before a singular masculine noun: el primer día, el tercer piso.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Vivo en el tercer piso.', 'Я живу на третьому поверсі.'],
+              ['Es la primera vez que vengo aquí.', 'Це перший раз, коли я тут.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'exclamatory-sentences', title: 'Oraciones Exclamativas — A2', emoji: '❗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Окличні речення утворюють за допомогою qué, cuánto/a(s) або cómo, обрамлених знаками ¡ ... !',
+            en: { text: 'Exclamatory sentences are formed with qué, cuánto/a(s) or cómo, framed with ¡ ... !' },
+          },
+          {
+            type: 'table', title: 'Структури',
+            rows: [
+              ['¡Qué + прикм./ім.!', 'для якості/предмету', '¡Qué bonito!'],
+              ['¡Cuánto/a(s) + ім.!', 'для кількості', '¡Cuánta gente!'],
+              ['¡Cómo + дієслово!', 'для способу', '¡Cómo llueve!'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['¡Qué calor hace hoy!', 'Як же сьогодні спекотно!'],
+              ['¡Cuánto te quiero!', 'Як же я тебе люблю!'],
+              ['¡Cómo ha crecido tu hijo!', 'Як же виріс твій син!'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'prepositions-a-en-de', title: 'Preposiciones A, En, De — A2', emoji: '📍',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Три з найуживаніших прийменників: a (напрямок, час), en (місце знаходження, транспорт, місяці), de (походження, матеріал, належність).',
+            en: { text: 'Three of the most common prepositions: a (direction, time), en (location, transport, months), de (origin, material, possession).' },
+          },
+          {
+            type: 'table', title: 'Вживання',
+            rows: [
+              ['a', 'напрямок/час', 'Voy a Madrid. A las tres.'],
+              ['en', 'місце/транспорт', 'Estoy en casa. Viajo en tren.'],
+              ['de', 'походження/матеріал', 'Soy de Ucrania. Es de madera.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Llegamos a las nueve.', 'Ми прибуваємо о дев\'ятій.'],
+              ['Vivo en Barcelona.', 'Я живу в Барселоні.'],
+              ['Este anillo es de oro.', 'Ця обручка золота.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'diminutives', title: 'Diminutivos (-ito/-ita) — B1', emoji: '🐣',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Зменшувально-пестливі суфікси -ito/-ita (та варіанти -cito/-ecito) виражають малий розмір, ніжність або пом\'якшення тону, особливо популярні в розмовній мові Латинської Америки.',
+            en: { text: 'The diminutive suffixes -ito/-ita (and the -cito/-ecito variants) express small size, affection, or softened tone, especially common in Latin American spoken Spanish.' },
+          },
+          {
+            type: 'table', title: 'Приклади утворення',
+            rows: [
+              ['casa → casita', 'будиночок'],
+              ['perro → perrito', 'песик'],
+              ['momento → momentito', 'хвилинка'],
+              ['café → cafecito', 'кавчик'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Espera un momentito, por favor.', 'Зачекай хвилинку, будь ласка.'],
+              ['¡Qué perrito tan bonito!', 'Який же гарненький песик!'],
+              ['Vivimos en una casita pequeña.', 'Ми живемо в маленькому будиночку.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'prepositional-pronouns', title: 'Pronombres Preposicionales — A2', emoji: '🎯',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Після прийменників (a, de, con, para...) особові займенники змінюють форму. Виняток: con + mí/ti дають conmigo/contigo.',
+            en: { text: 'After prepositions (a, de, con, para...) personal pronouns change form. Exception: con + mí/ti become conmigo/contigo.' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['mí', 'для мене', 'ti', 'для тебе'],
+              ['él/ella/usted', 'для нього/неї/Вас', 'nosotros/as', 'для нас'],
+              ['vosotros/as', 'для вас', 'ellos/ellas/ustedes', 'для них'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Este regalo es para ti.', 'Цей подарунок для тебе.'],
+              ['¿Quieres venir conmigo?', 'Хочеш піти зі мною?'],
+              ['Hablaban de mí.', 'Вони говорили про мене.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'time-expressions', title: 'Desde, Hace, Durante — B1', emoji: '⏳',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Три способи виразити тривалість: desde (з якого моменту), hace (скільки часу тому/назад), durante (протягом якого періоду).',
+            en: { text: 'Three ways to express duration: desde (since when), hace (how long ago), durante (for how long/during).' },
+          },
+          {
+            type: 'table', title: 'Вживання',
+            rows: [
+              ['desde', 'з (моменту)', 'Vivo aquí desde 2015.'],
+              ['hace', '(скільки) тому', 'Llegué hace dos horas.'],
+              ['durante', 'протягом', 'Estudié durante tres años.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['No la veo desde el verano.', 'Я не бачив її з літа.'],
+              ['Hace una semana que no llueve.', 'Вже тиждень, як не йде дощ.'],
+              ['Trabajó durante diez años en esa empresa.', 'Він працював у тій компанії десять років.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'uses-of-se', title: 'Usos de "Se" — B2', emoji: '🔄',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Частка se має кілька різних функцій в іспанській: зворотну, взаємну, пасивну та безособову.',
+            en: { text: 'The particle se has several different functions in Spanish: reflexive, reciprocal, passive, and impersonal.' },
+          },
+          {
+            type: 'table', title: 'Функції se',
+            rows: [
+              ['зворотне', 'дія на себе', 'Se lava las manos.'],
+              ['взаємне', 'дія один на одного', 'Se quieren mucho.'],
+              ['пасивне se', 'хто виконує — неважливо', 'Se venden casas aquí.'],
+              ['безособове se', 'без конкретного підмета', 'Se vive bien en este pueblo.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Se despierta a las siete.', 'Він прокидається о сьомій.'],
+              ['Mis padres se escriben cada semana.', 'Мої батьки пишуть одне одному щотижня.'],
+              ['Se habla inglés en la recepción.', 'На рецепції розмовляють англійською.'],
             ],
           },
         ],
@@ -6050,6 +6659,158 @@ export const GRAMMAR_FR: GrammarCategory[] = [
         ],
       },
 
+      {
+        id: 'plus-que-parfait', title: 'Plus-que-parfait — B1', emoji: '⏮️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Передминулий час — для дії, що відбулась раніше за іншу минулу дію. Утворюється: avoir/être в imparfait + дієприкметник минулого часу (ті самі правила вибору допоміжного дієслова, що й у Passé Composé).',
+            en: { text: 'The past perfect — for an action that happened before another past action. Formed with avoir/être in the imparfait + past participle (same auxiliary-choice rules as the Passé Composé).' },
+          },
+          {
+            type: 'formula', title: 'avoir/être (imparfait) + participe passé',
+            rows: [
+              ['je', 'avais parlé', '→ J\'avais déjà mangé quand tu es arrivé.'],
+              ['tu', 'avais fini', '→ Tu avais fini avant moi.'],
+              ['il / elle', 'avait vendu / était parti(e)', '→ Elle était déjà partie.'],
+              ['nous', 'avions mangé', '→ Nous avions mangé avant huit heures.'],
+              ['vous', 'aviez fini', '→ Vous aviez déjà fini.'],
+              ['ils / elles', 'avaient parlé / étaient partis(es)', '→ Ils étaient déjà partis.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Quand je suis arrivé, ils avaient déjà mangé.', 'Коли я прийшов, вони вже поїли.'],
+              ['Je n\'avais jamais vu un film pareil.', 'Я ніколи не бачив подібного фільму.'],
+              ['Elle était déjà partie quand j\'ai appelé.', 'Вона вже пішла, коли я подзвонив.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'conditionnel-present', title: 'Conditionnel Présent — B1', emoji: '🌀',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Умовний спосіб для гіпотетичних дій, ввічливих прохань і порад. Утворюється від основи Futur Simple + закінчення imparfait (-ais, -ais, -ait, -ions, -iez, -aient).',
+            en: { text: 'The conditional mood, used for hypothetical actions, polite requests and advice. Formed from the Futur Simple stem + imparfait endings (-ais, -ais, -ait, -ions, -iez, -aient).' },
+          },
+          {
+            type: 'formula', title: 'parler / finir / vendre + закінчення',
+            rows: [
+              ['je', 'parler-ais', '→ Je parlerais avec lui.'],
+              ['tu', 'finir-ais', '→ Tu finirais à temps?'],
+              ['il / elle', 'vendr-ait', '→ Elle vendrait sa voiture.'],
+              ['nous', 'parler-ions', '→ Nous parlerions plus lentement.'],
+              ['vous', 'finir-iez', '→ Finiriez-vous à six heures?'],
+              ['ils / elles', 'vendr-aient', '→ Ils vendraient la maison.'],
+            ],
+            en: { title: 'parler / finir / vendre + endings' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Pourriez-vous m\'aider, s\'il vous plaît?', 'Не могли б Ви мені допомогти, будь ласка?'],
+              ['J\'aimerais voyager en France.', 'Мені б хотілося поїхати до Франції.'],
+              ['Tu devrais te reposer davantage.', 'Тобі варто б більше відпочивати.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'subjonctif-present', title: 'Subjonctif Présent — B1', emoji: '🌫️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дієслівний спосіб для бажань, сумнівів, емоцій і необхідності (зазвичай після que). Утворюється від основи 3-ї особи множини теперішнього часу.',
+            en: { text: 'A verbal mood for wishes, doubts, emotions and necessity (usually after que). Formed from the present-tense ils/elles stem.' },
+          },
+          {
+            type: 'formula', title: 'parler (-er), finir (-ir), vendre (-re)',
+            rows: [
+              ['je', 'parle', 'finisse', 'vende'],
+              ['tu', 'parles', 'finisses', 'vendes'],
+              ['il / elle', 'parle', 'finisse', 'vende'],
+              ['nous', 'parlions', 'finissions', 'vendions'],
+              ['vous', 'parliez', 'finissiez', 'vendiez'],
+              ['ils / elles', 'parlent', 'finissent', 'vendent'],
+            ],
+          },
+          {
+            type: 'markers', title: 'Тригери subjonctif',
+            items: ['il faut que...', 'je veux que...', 'je doute que...', 'il est important que...', 'avant que...', 'bien que...'],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Il faut que tu viennes.', 'Треба, щоб ти прийшов.'],
+              ['Je doute qu\'il sache la vérité.', 'Я сумніваюсь, що він знає правду.'],
+              ['Bien qu\'il pleuve, nous sortons.', 'Хоча йде дощ, ми виходимо.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'futur-anterieur', title: 'Futur Antérieur — B2', emoji: '🔮',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Передмайбутній час — для дії, яка завершиться до певного моменту в майбутньому. Утворюється: avoir/être у Futur Simple + дієприкметник минулого часу.',
+            en: { text: 'The future perfect — for an action that will be completed before a point in the future. Formed with avoir/être in the Futur Simple + past participle.' },
+          },
+          {
+            type: 'formula', title: 'avoir/être (futur simple) + participe passé',
+            rows: [
+              ['je', 'aurai fini', '→ J\'aurai fini avant midi.'],
+              ['tu', 'auras parlé', '→ Tu auras parlé avec elle d\'ici demain.'],
+              ['il / elle', 'sera parti(e)', '→ Il sera déjà parti.'],
+              ['nous', 'aurons terminé', '→ Nous aurons terminé avant huit heures.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Quand tu arriveras, j\'aurai déjà fini.', 'Коли ти прийдеш, я вже закінчу.'],
+              ['Elle sera rentrée avant minuit.', 'Вона повернеться додому до півночі.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'passe-recent', title: 'Passé Récent (venir de) — A2', emoji: '⏪',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Для дії, що відбулась щойно, вживають venir (теперішній час) + de + інфінітив.',
+            en: { text: 'For an action that just happened, use venir (present tense) + de + infinitive.' },
+          },
+          {
+            type: 'formula', title: 'venir + de + infinitif',
+            rows: [
+              ['je', 'viens de', '→ Je viens de manger.'],
+              ['tu', 'viens de', '→ Tu viens de finir?'],
+              ['il / elle', 'vient de', '→ Elle vient de partir.'],
+              ['nous', 'venons de', '→ Nous venons d\'arriver.'],
+              ['vous', 'venez de', '→ Vous venez de la voir?'],
+              ['ils / elles', 'viennent de', '→ Ils viennent de téléphoner.'],
+            ],
+            en: { title: 'venir + de + infinitive' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je viens de recevoir ton message.', 'Я щойно отримав твоє повідомлення.'],
+              ['Ils viennent de déménager.', 'Вони щойно переїхали.'],
+            ],
+          },
+        ],
+      },
+
     ],
   },
 
@@ -6208,6 +6969,424 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ["Il n'y a pas de pain.", 'Немає хліба.'],
               ['Il faut étudier pour réussir.', 'Треба вчитися, щоб досягти успіху.'],
               ['Il faut deux heures pour y arriver.', 'Потрібно дві години, щоб туди дістатися.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'indirect-object-pronouns', title: 'Pronoms Compléments Indirects (COI) — A2', emoji: '🔁',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Непрямі додаткові займенники (COI) вказують, кому/для кого виконується дія, і, як і прямі, ставляться перед дієсловом.',
+            en: { text: 'Indirect object pronouns (COI) show to/for whom an action is done, and like direct ones, go right before the verb.' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['me / m\'', 'мені'],
+              ['te / t\'', 'тобі'],
+              ['lui', 'йому/їй'],
+              ['nous', 'нам'],
+              ['vous', 'вам'],
+              ['leur', 'їм'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je lui donne un cadeau.', 'Я даю йому/їй подарунок.'],
+              ['Tu peux me téléphoner ce soir.', 'Можеш зателефонувати мені сьогодні ввечері.'],
+              ['Je leur écris un message.', 'Я пишу їм повідомлення.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pronoms-en-y', title: 'Pronoms En et Y — B1', emoji: '🔗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'En замінює "de + іменник" (кількість, походження), y замінює "à/en/dans + місце". Обидва ставляться перед дієсловом.',
+            en: { text: 'En replaces "de + noun" (quantity, origin), y replaces "à/en/dans + place". Both go right before the verb.' },
+          },
+          {
+            type: 'table', title: 'Вживання',
+            rows: [
+              ['en', 'de + ім.', 'J\'en ai trois. (= trois pommes)'],
+              ['y', 'à/en/dans + місце', 'J\'y vais demain. (= à Paris)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Tu veux du café? Oui, j\'en veux.', 'Хочеш кави? Так, хочу.'],
+              ['Je pense souvent à ce projet. — J\'y pense souvent.', 'Я часто думаю про цей проєкт.'],
+              ['Combien de frères as-tu? J\'en ai deux.', 'Скільки в тебе братів? У мене двоє.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'relative-pronouns', title: 'Pronoms Relatifs (qui, que, où, dont) — B1', emoji: '🧵',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Відносні займенники з\'єднують два речення, уникаючи повторення іменника. Qui — підмет, que — додаток, où — місце/час, dont — заміняє "de + іменник".',
+            en: { text: 'Relative pronouns join two clauses without repeating the noun. Qui is the subject, que is the object, où is place/time, dont replaces "de + noun".' },
+          },
+          {
+            type: 'table', title: 'Основні відносні слова',
+            rows: [
+              ['qui', 'хто/який (підмет)'],
+              ['que', 'якого/яку (додаток)'],
+              ['où', 'де/коли'],
+              ['dont', 'про якого, чий (з de)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['L\'homme qui parle est mon père.', 'Чоловік, який говорить, мій батько.'],
+              ['Le livre que je lis est intéressant.', 'Книга, яку я читаю, цікава.'],
+              ['C\'est la maison où je suis né.', 'Це дім, де я народився.'],
+              ['Voici le livre dont je parlais.', 'Ось книга, про яку я говорив.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'passive-voice', title: 'Voix Passive (être + participe) — B1', emoji: '🎭',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Пасивний стан вживають, коли важливіша дія, а не той, хто її виконує. Утворюється: être + дієприкметник, що узгоджується з підметом у роді й числі. Виконавець дії вводиться через par.',
+            en: { text: 'The passive voice is used when the action matters more than who performs it. Formed with être + past participle, which agrees with the subject in gender and number. The agent is introduced with par.' },
+          },
+          {
+            type: 'formula', title: 'être + participe (+ par)',
+            rows: [
+              ['présent', 'est construit(e)', '→ La maison est construite par des ouvriers.'],
+              ['passé', 'a été écrit(e)', '→ Le livre a été écrit par elle.'],
+              ['futur', 'sera annoncé(e)', '→ Le résultat sera annoncé demain.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ce tableau a été peint par Monet.', 'Цю картину намалював Моне.'],
+              ['Les lettres sont envoyées chaque jour.', 'Листи відправляють щодня.'],
+              ['Le français est parlé ici.', 'Тут розмовляють французькою.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'gerondif', title: 'Le Gérondif (en + participe présent) — B1', emoji: '🏃',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Gérondif (en + дієприслівник теперішнього часу) описує дію, що відбувається одночасно з головною, або спосіб/засіб її виконання.',
+            en: { text: 'The gérondif (en + present participle) describes an action happening at the same time as the main one, or the manner/means of doing it.' },
+          },
+          {
+            type: 'formula', title: 'Утворення',
+            rows: [
+              ['parler → parlant', 'en parlant', '→ Il mange en parlant.'],
+              ['finir → finissant', 'en finissant', '→ En finissant tôt, il a pu sortir.'],
+              ['faire → faisant', 'en faisant', '→ Il apprend en faisant des erreurs.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Elle a appris le français en regardant des films.', 'Вона вивчила французьку, дивлячись фільми.'],
+              ['Il s\'est blessé en courant.', 'Він травмувався, біжучи.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+  // ══════════════════════════════════════
+  //   GRAMMAIRE AVANCÉE
+  // ══════════════════════════════════════
+  {
+    id: 'advanced', title: 'Просунута граматика', titleEn: 'Advanced grammar', emoji: '🚀',
+    rules: [
+
+      {
+        id: 'conditional-sentences', title: 'Phrases Conditionnelles avec Si — B1', emoji: '🔀',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Умовні речення з si мають три основні типи залежно від реалістичності умови.',
+            en: { text: 'Conditional sentences with si have three main types depending on how realistic the condition is.' },
+          },
+          {
+            type: 'table', title: 'Типи умовних речень',
+            rows: [
+              ['реальна умова', 'Si + présent, + présent/futur/impératif', 'Si j\'ai le temps, je t\'appelle.'],
+              ['нереальна теперішня', 'Si + imparfait, + conditionnel présent', 'Si j\'avais de l\'argent, je voyagerais.'],
+              ['нереальна минула', 'Si + plus-que-parfait, + conditionnel passé', 'Si j\'avais su, je t\'aurais prévenu.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['S\'il pleut, nous ne sortons pas.', 'Якщо піде дощ, ми не вийдемо.'],
+              ['Si j\'étais riche, j\'achèterais une maison.', 'Якби я був багатим, я б купив будинок.'],
+              ['Si j\'avais étudié, j\'aurais réussi.', 'Якби я навчався, я б склав.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'discours-indirect', title: 'Discours Indirect — B1', emoji: '💬',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У непрямій мові, коли головне дієслово (a dit, a expliqué) стоїть у минулому часі, час дієслова в підрядному реченні зазвичай зміщується на крок назад.',
+            en: { text: 'In reported speech, when the main verb (a dit, a expliqué) is in the past, the verb tense in the reported clause usually shifts one step back.' },
+          },
+          {
+            type: 'table', title: 'Зміщення часів',
+            rows: [
+              ['présent → imparfait', '"Je travaille" → Il a dit qu\'il travaillait.'],
+              ['passé composé → plus-que-parfait', '"J\'ai mangé" → Il a dit qu\'il avait mangé.'],
+              ['futur simple → conditionnel', '"Je viendrai" → Il a dit qu\'il viendrait.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['"J\'ai faim" → Il a dit qu\'il avait faim.', '"Я голодний" → Він сказав, що голодний.'],
+              ['"J\'arriverai en retard" → Il a dit qu\'il arriverait en retard.', '"Я прийду пізно" → Він сказав, що прийде пізно.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pronoms-indefinis', title: 'Pronoms Indéfinis — A2', emoji: '❔',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Невизначені займенники вказують на невідомі, неконкретні особи, предмети чи кількості.',
+            en: { text: 'Indefinite pronouns refer to unknown or unspecified people, things or quantities.' },
+          },
+          {
+            type: 'table', title: 'Основні форми',
+            rows: [
+              ['quelque chose / rien', 'щось / нічого'],
+              ['quelqu\'un / personne', 'хтось / ніхто'],
+              ['quelques-uns / aucun', 'декілька / жодний'],
+              ['tout / chaque', 'все / кожен'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Il y a quelqu\'un à la porte?', 'Хтось є біля дверей?'],
+              ['Je n\'ai rien à dire.', 'Мені нічого сказати.'],
+              ['Aucun d\'eux n\'est venu.', 'Жоден з них не прийшов.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'nombres-ordinaux', title: 'Nombres Ordinaux — A2', emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Порядкові числівники зазвичай утворюються додаванням -ième до кількісного числівника (з винятком "перший").',
+            en: { text: 'Ordinal numbers are usually formed by adding -ième to the cardinal number (with the exception of "first").' },
+          },
+          {
+            type: 'table', title: 'Перші десять',
+            rows: [
+              ['premier/première', '1-й', 'sixième', '6-й'],
+              ['deuxième', '2-й', 'septième', '7-й'],
+              ['troisième', '3-й', 'huitième', '8-й'],
+              ['quatrième', '4-й', 'neuvième', '9-й'],
+              ['cinquième', '5-й', 'dixième', '10-й'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['J\'habite au troisième étage.', 'Я живу на третьому поверсі.'],
+              ['C\'est la première fois que je viens ici.', 'Це перший раз, коли я тут.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'exclamatives', title: 'Phrases Exclamatives — A2', emoji: '❗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Окличні речення утворюють за допомогою quel(le)(s) + іменник або que/comme + речення.',
+            en: { text: 'Exclamatory sentences are formed with quel(le)(s) + noun or que/comme + clause.' },
+          },
+          {
+            type: 'table', title: 'Структури',
+            rows: [
+              ['Quel(le)(s) + ім.!', 'для предмету/якості', 'Quelle belle journée!'],
+              ['Que + речення!', 'для способу/міри', 'Qu\'il fait beau!'],
+              ['Comme + речення!', 'для способу', 'Comme tu as grandi!'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Quelle bonne idée!', 'Яка чудова ідея!'],
+              ['Que c\'est beau!', 'Як же це гарно!'],
+              ['Comme il pleut fort!', 'Як же сильно йде дощ!'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'prepositions-lieu', title: 'Prépositions de Lieu — A2', emoji: '📍',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Прийменники місця показують, де розташований предмет чи особа відносно іншого об\'єкта.',
+            en: { text: 'Prepositions of place show where something or someone is located relative to another object.' },
+          },
+          {
+            type: 'table', title: 'Основні прийменники',
+            rows: [
+              ['sur / sous', 'на / під'],
+              ['dans / devant', 'у / перед'],
+              ['derrière / entre', 'позаду / між'],
+              ['chez', 'у когось вдома/в офісі'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Le chat est sur la table.', 'Кіт на столі.'],
+              ['Je vais chez le médecin.', 'Я йду до лікаря.'],
+              ['La pharmacie est entre la banque et l\'école.', 'Аптека між банком і школою.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'ne-que', title: 'Ne... Que (seulement) — B1', emoji: '🎯',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Конструкція ne...que виражає обмеження "лише, тільки" — це не справжнє заперечення, а синонім до seulement.',
+            en: { text: 'The construction ne...que expresses restriction ("only") — it is not a true negation, but a synonym for seulement.' },
+          },
+          {
+            type: 'formula', title: 'Структура',
+            rows: [
+              ['', 'sujet + ne + verbe + que + ...', '→ Je n\'ai que deux euros.'],
+            ],
+            en: { title: 'Structure' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Elle ne mange que des légumes.', 'Вона їсть тільки овочі.'],
+              ['Il n\'a que dix-huit ans.', 'Йому лише вісімнадцять років.'],
+              ['Nous n\'avons que deux jours.', 'У нас лише два дні.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pronoms-toniques', title: 'Pronoms Toniques — A2', emoji: '🎯',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Наголошені (тонічні) займенники вживають після прийменників, у порівняннях, для підкреслення підмета та в коротких відповідях.',
+            en: { text: 'Stressed (tonic) pronouns are used after prepositions, in comparisons, to emphasize the subject, and in short answers.' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['moi', 'я (наголош.)', 'nous', 'ми (наголош.)'],
+              ['toi', 'ти (наголош.)', 'vous', 'ви (наголош.)'],
+              ['lui / elle', 'він/вона (наголош.)', 'eux / elles', 'вони (наголош.)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ce cadeau est pour toi.', 'Цей подарунок для тебе.'],
+              ['Moi, je préfère le café.', 'Я особисто волію каву.'],
+              ['Qui a faim? — Moi!', 'Хто голодний? — Я!'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'concordance-des-temps', title: 'Concordance des Temps — B2', emoji: '⏱️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Узгодження часів — правило, за яким час дієслова в підрядному реченні залежить від часу в головному реченні, особливо в непрямій мові.',
+            en: { text: 'Sequence of tenses — the rule by which the tense of the verb in a subordinate clause depends on the tense in the main clause, especially in reported speech.' },
+          },
+          {
+            type: 'table', title: 'Узгодження',
+            rows: [
+              ['головне в теперішньому', 'підрядне — будь-який час', 'Il dit qu\'il vient/est venu/viendra.'],
+              ['головне в минулому', 'présent → imparfait', 'Il a dit qu\'il venait.'],
+              ['головне в минулому', 'futur → conditionnel', 'Il a dit qu\'il viendrait.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Il sait que tu travailles.', 'Він знає, що ти працюєш.'],
+              ['Il savait que tu travaillais.', 'Він знав, що ти працюєш(-ла).'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'depuis-pendant-il-y-a', title: 'Depuis, Pendant, Il y a — B1', emoji: '⏳',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Три способи виразити тривалість: depuis (з якого моменту/відтоді), pendant (протягом якого періоду), il y a (скільки часу тому).',
+            en: { text: 'Three ways to express duration: depuis (since when), pendant (for how long/during), il y a (how long ago).' },
+          },
+          {
+            type: 'table', title: 'Вживання',
+            rows: [
+              ['depuis', 'з (моменту)', 'J\'habite ici depuis 2015.'],
+              ['pendant', 'протягом', 'J\'ai étudié pendant trois ans.'],
+              ['il y a', '(скільки) тому', 'Il est arrivé il y a deux heures.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je ne l\'ai pas vue depuis l\'été.', 'Я не бачив її з літа.'],
+              ['Il a travaillé pendant dix ans dans cette entreprise.', 'Він працював у тій компанії десять років.'],
+              ['Elle est partie il y a une semaine.', 'Вона поїхала тиждень тому.'],
             ],
           },
         ],
