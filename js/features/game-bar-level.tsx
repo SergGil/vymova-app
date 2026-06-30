@@ -35,6 +35,7 @@ export function GameBarLevel(): ReactElement {
       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') openPage('ach'); }}>
       <div className="gb-level-name-row">
         <span className="level-badge" style={{ background: lv.color + '22', color: lv.color }}>{levelName(lv.name)}</span>
+        <span className="level-badge level-badge-mobile" style={{ background: lv.color + '22', color: lv.color }}>{t('levels.mobileLabel')}</span>
         <span className="gb-level-arrow">→</span>
         <span className="gb-level-next">{nextText}</span>
         <span className="gb-level-num" style={{ color: lv.color }}>{lvIdx}</span>

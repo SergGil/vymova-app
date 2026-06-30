@@ -2465,6 +2465,7 @@ body.hp .mode-name { color: #f5e6c8; }
 .gb-level-block { flex: 1.5; }
 .gb-level-clickable { cursor: pointer; }
 .gb-level-clickable:hover .level-badge { filter: brightness(1.08); }
+.level-badge-mobile { display: none; }
 
 /* Level name row: badge → next level → level number, all on one line */
 .gb-level-name-row {
@@ -4427,9 +4428,10 @@ body.hp .idiom-meaning { color: #d3a625; }
   .gb-level-block { flex: 1.5; }
   .gb-level-name-row { margin-bottom: 3px; }
 
-  /* Level name doesn't fit on narrow screens even abbreviated — hide it
-     and keep just the level number + progress bar/XP text. */
-  .level-badge { display: none; }
+  /* The actual level name doesn't fit on narrow screens even abbreviated —
+     swap it for a short fixed "Шлях Джедая" label that always fits. */
+  .level-badge:not(.level-badge-mobile) { display: none; }
+  .level-badge-mobile { display: inline-flex; }
 
   /* Hide next-level arrow + name — save space on narrow screens */
   .gb-level-arrow, .gb-level-next { display: none; }
