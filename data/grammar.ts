@@ -6587,6 +6587,428 @@ export const GRAMMAR_ES: GrammarCategory[] = [
     ],
   },
 
+  // ══════════════════════════════════════
+  //   ВІЛЬНЕ ВОЛОДІННЯ
+  // ══════════════════════════════════════
+  {
+    id: 'fluency', title: 'Вільне володіння', titleEn: 'Fluency', emoji: '🎓',
+    rules: [
+
+      {
+        id: 'condicional-compuesto', title: 'Condicional Compuesto — B2', emoji: '⏮️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Складений умовний спосіб — для нездійснених у минулому гіпотез ("я б зробив, але..."), а також у головній частині нереальних умовних речень минулого часу. Утворюється: haber у Condicional Simple + дієприкметник минулого часу.',
+            en: { text: 'The compound conditional — for unrealized past hypotheticals ("I would have done, but..."), and in the main clause of unreal past conditionals. Formed with haber in the Condicional Simple + past participle.' },
+          },
+          {
+            type: 'formula', title: 'haber (condicional) + participio',
+            rows: [
+              ['yo', 'habría hablado', '→ Habría llamado, pero no tenía tu número.'],
+              ['tú', 'habrías comido', '→ ¿Habrías comido eso?'],
+              ['él/ella/usted', 'habría vivido', '→ Habría vivido allí si hubiera podido.'],
+              ['nosotros/as', 'habríamos trabajado', '→ Habríamos trabajado más rápido juntos.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Si hubiera sabido, te habría avisado.', 'Якби я знав, я б тебе попередив.'],
+              ['Yo no habría dicho eso.', 'Я б такого не сказав.'],
+              ['Habríamos llegado antes sin tráfico.', 'Ми б прибули раніше без затору.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'futuro-perfecto', title: 'Futuro Perfecto — B2', emoji: '🔮',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Передмайбутній час — для дії, яка завершиться до певного моменту в майбутньому, або для припущення про минуле. Утворюється: haber у Futuro Simple + дієприкметник минулого часу.',
+            en: { text: 'The future perfect — for an action that will be completed before a future point, or for a guess about the past. Formed with haber in the Futuro Simple + past participle.' },
+          },
+          {
+            type: 'formula', title: 'haber (futuro) + participio',
+            rows: [
+              ['yo', 'habré terminado', '→ Habré terminado antes de las seis.'],
+              ['tú', 'habrás llegado', '→ Para entonces ya habrás llegado.'],
+              ['él/ella/usted', 'habrá salido', '→ Ya habrá salido de casa.'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'Часто вживають для висловлення припущення: ¿Dónde estará Juan? Habrá perdido el tren. (Мабуть, він спізнився на потяг.)',
+            en: { text: 'Often used to express a guess: ¿Dónde estará Juan? Habrá perdido el tren. (He probably missed the train.)' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Cuando llegues, ya habré terminado.', 'Коли ти прийдеш, я вже закінчу.'],
+              ['Habrá tenido sus motivos.', 'Мабуть, у нього були свої причини.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'tu-vs-usted', title: 'Tú vs Usted (formalidad) — A2', emoji: '🎩',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Tú вживають у неформальному спілкуванні (друзі, родина, ровесники), usted — у формальному (незнайомі люди, начальство, ввічливе звертання). Usted вживається з дієсловами 3-ї особи однини.',
+            en: { text: 'Tú is used informally (friends, family, peers), usted formally (strangers, superiors, polite address). Usted takes third-person singular verb forms.' },
+          },
+          {
+            type: 'table', title: 'Порівняння',
+            rows: [
+              ['tú', '2-а ос. одн.', '¿Cómo estás?'],
+              ['usted', '3-я ос. одн. (формально)', '¿Cómo está usted?'],
+              ['ustedes', '3-я ос. мн. (мн. в Латинській Америці завжди)', '¿Cómo están ustedes?'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'У Латинській Америці vosotros практично не вживають — навіть у неформальному спілкуванні з кількома людьми використовують ustedes.',
+            en: { text: 'In Latin America, vosotros is practically never used — even in informal speech with several people, ustedes is used instead.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['¿Tienes hermanos? (informal)', 'У тебе є брати чи сестри?'],
+              ['¿Tiene usted hermanos? (formal)', 'У Вас є брати чи сестри?'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'lo-neutro', title: 'El Artículo Neutro "Lo" — B1', emoji: '◾',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Нейтральний артикль lo + прикметник перетворює прикметник на абстрактний іменник ("те, що є..."). Не плутати із займенником lo (прямий додаток "його/це").',
+            en: { text: 'The neutral article lo + adjective turns the adjective into an abstract noun ("that which is..."). Not to be confused with the pronoun lo (direct object "him/it").' },
+          },
+          {
+            type: 'formula', title: 'lo + прикметник',
+            rows: [
+              ['lo + bueno', 'те хороше, що...', '→ Lo bueno es que aprendiste.'],
+              ['lo + importante', 'те важливе, що...', '→ Lo importante es intentarlo.'],
+              ['lo + difícil', 'те складне, що...', '→ Lo difícil fue empezar.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Lo malo es que llegamos tarde.', 'Погано те, що ми спізнились.'],
+              ['No entiendo lo que dices.', 'Я не розумію того, що ти кажеш.'],
+              ['Eso es lo mejor de mi día.', 'Це найкраще, що сталось за мій день.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'cuyo', title: 'Pronombre Relativo "Cuyo" — B2', emoji: '🧵',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Cuyo/a/os/as ("чий, якого") — присвійний відносний займенник; узгоджується з іменником, що йде ПІСЛЯ нього (тобто з предметом володіння), а не з власником.',
+            en: { text: 'Cuyo/a/os/as ("whose") is a possessive relative pronoun; it agrees with the noun that follows it (i.e. the thing owned), not with the owner.' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['cuyo / cuyos', 'чий (чол. одн./мн.)'],
+              ['cuya / cuyas', 'чий (жін. одн./мн.)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['El autor cuyo libro leí es famoso.', 'Автор, чию книгу я читав, відомий.'],
+              ['La mujer cuya casa visitamos es médica.', 'Жінка, чий будинок ми відвідали, лікарка.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'causative-hacer-dejar', title: 'Hacer/Dejar + Infinitivo — B2', emoji: '🎬',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Hacer + інфінітив означає "змусити/спричинити, щоб щось сталося", dejar + інфінітив — "дозволити, щоб щось сталося".',
+            en: { text: 'Hacer + infinitive means "to make/cause something to happen", dejar + infinitive means "to let/allow something to happen".' },
+          },
+          {
+            type: 'table', title: 'Порівняння',
+            rows: [
+              ['hacer + inf.', 'примушувати/спричиняти', 'Me hizo reír mucho.'],
+              ['dejar + inf.', 'дозволяти', 'Mis padres me dejan salir.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Esta película me hizo llorar.', 'Цей фільм змусив мене плакати.'],
+              ['No me dejaron entrar sin entrada.', 'Мене не пустили без квитка.'],
+              ['Hizo reparar el coche.', 'Він наказав полагодити машину.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'ya-todavia', title: 'Ya, Todavía, Todavía no — A2', emoji: '⏱️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Ya означає "вже", todavía — "ще" (у стверджувальних реченнях), todavía no — "ще не" (у заперечних).',
+            en: { text: 'Ya means "already", todavía means "still" (in affirmative sentences), todavía no means "not yet" (in negative ones).' },
+          },
+          {
+            type: 'table', title: 'Вживання',
+            rows: [
+              ['ya', 'вже', 'Ya he comido.'],
+              ['todavía', 'ще', 'Todavía vive en Madrid.'],
+              ['todavía no', 'ще не', 'Todavía no he terminado.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['¿Ya has llegado?', 'Ти вже прийшов?'],
+              ['Todavía estoy trabajando.', 'Я ще працюю.'],
+              ['Todavía no sé la respuesta.', 'Я ще не знаю відповіді.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'tan-tanto', title: 'Tan vs Tanto — B1', emoji: '📏',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Tan вживають перед прикметниками й прислівниками ("так, такий"), tanto/a(s) — перед іменниками ("стільки") і узгоджується з ними в роді й числі.',
+            en: { text: 'Tan is used before adjectives and adverbs ("so, such"), tanto/a(s) before nouns ("so much/many") and agrees with them in gender and number.' },
+          },
+          {
+            type: 'table', title: 'Порівняння',
+            rows: [
+              ['tan + прикм./присл.', 'так, такий', 'Es tan alto.'],
+              ['tanto/a + ім.', 'стільки', 'Tiene tanta paciencia.'],
+              ['tantos/as + ім. мн.', 'стільки (мн.)', 'Hay tantos libros aquí.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['No sabía que eras tan simpático.', 'Я не знав, що ти такий приємний.'],
+              ['Tengo tanto trabajo esta semana.', 'У мене стільки роботи цього тижня.'],
+              ['Nunca había visto tanta gente.', 'Я ніколи не бачив стільки людей.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'adjective-position', title: 'Posición del Adjetivo — B2', emoji: '🔀',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Більшість прикметників стоять після іменника, але деякі змінюють значення залежно від позиції — перед іменником вони набувають переносного/суб\'єктивного значення.',
+            en: { text: 'Most adjectives come after the noun, but some change meaning depending on position — before the noun they take on a figurative/subjective sense.' },
+          },
+          {
+            type: 'table', title: 'Зміна значення',
+            rows: [
+              ['un amigo viejo', 'старий за віком друг', 'un viejo amigo', 'давній (по дружбі) друг'],
+              ['un hombre grande', 'фізично великий чоловік', 'un gran hombre', 'видатна людина'],
+              ['una mujer pobre', 'небагата жінка', 'una pobre mujer', 'бідолашна жінка'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Es un gran escritor.', 'Він видатний письменник.'],
+              ['Tiene un coche grande.', 'У нього велика машина.'],
+              ['Es una pobre niña sin familia.', 'Це бідолашна дитина без родини.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'prepositions-extra', title: 'Preposiciones: Sobre, Entre, Hacia, Desde — A2', emoji: '🧭',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Чотири додаткові прийменники місця й напрямку, що часто плутають: sobre (на/про), entre (між), hacia (у напрямку), desde (з/від).',
+            en: { text: 'Four additional prepositions of place/direction that are often confused: sobre (on/about), entre (between), hacia (towards), desde (from/since).' },
+          },
+          {
+            type: 'table', title: 'Вживання',
+            rows: [
+              ['sobre', 'на/про', 'El libro está sobre la mesa.'],
+              ['entre', 'між', 'Está entre la silla y la puerta.'],
+              ['hacia', 'у напрямку', 'Caminamos hacia el parque.'],
+              ['desde', 'з/від (місце/час)', 'Desde aquí se ve el mar.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Hablamos sobre el proyecto.', 'Ми говорили про проєкт.'],
+              ['El pueblo está entre dos montañas.', 'Село між двома горами.'],
+              ['Vamos hacia el centro.', 'Ми йдемо в напрямку центру.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'lo-que-cleft', title: '"Lo que" (oraciones enfáticas) — B2', emoji: '🎯',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Конструкція lo que + дієслово... es/era... вживається для підкреслення певної частини речення (виокремлювальна конструкція).',
+            en: { text: 'The construction lo que + verb... es/era... is used to emphasize a particular part of a sentence (a cleft construction).' },
+          },
+          {
+            type: 'formula', title: 'Структура',
+            rows: [
+              ['', 'Lo que + речення + es/era + ...', '→ Lo que necesito es tiempo.'],
+            ],
+            en: { title: 'Structure' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Lo que más me gusta es viajar.', 'Те, що мені найбільше подобається, — це подорожувати.'],
+              ['Lo que quiero decir es que tienes razón.', 'Те, що я хочу сказати, — це що ти маєш рацію.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'large-numbers', title: 'Números Cardinales Grandes — A2', emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Cien(to) узгоджується перед іменником (cien casas), а зі складеними числами вживають ciento (ciento veinte). Mil ніколи не вживають з un (mil, а не un mil).',
+            en: { text: 'Cien(to) shortens before a noun (cien casas), while compound numbers use ciento (ciento veinte). Mil is never used with un (mil, not un mil).' },
+          },
+          {
+            type: 'table', title: 'Приклади',
+            rows: [
+              ['100', 'cien', '1 000', 'mil'],
+              ['101', 'ciento uno', '1 000 000', 'un millón'],
+              ['200', 'doscientos', '2 000 000', 'dos millones'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'Сотні від 200 узгоджуються в роді з іменником: doscientas personas, quinientos euros.',
+            en: { text: 'Hundreds from 200 onwards agree in gender with the noun: doscientas personas, quinientos euros.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Cuesta cien euros.', 'Це коштує сто євро.'],
+              ['Había quinientas personas en el concierto.', 'На концерті було п\'ятсот людей.'],
+              ['La ciudad tiene un millón de habitantes.', 'Місто має мільйон жителів.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'reflexive-emphatic', title: 'Pronombres Reflexivos Enfáticos (a mí mismo) — B2', emoji: '🪞',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Mismo/a(s) додають до займенників для підсилення зворотності дії — "сам собі/сам себе".',
+            en: { text: 'Mismo/a(s) is added to pronouns to emphasize the reflexive nature of the action — "myself/yourself", emphatically.' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['a mí mismo/a', 'самому собі/себе'],
+              ['a ti mismo/a', 'самому собі/себе (ти)'],
+              ['a sí mismo/a', 'самому собі/себе (він/вона/Ви)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Me hablo a mí mismo cuando estoy nervioso.', 'Я говорю сам із собою, коли нервую.'],
+              ['Se exige demasiado a sí mismo.', 'Він вимагає від себе занадто багато.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'subjuntivo-con-ojala', title: 'Ojalá + Subjuntivo (deseos) — B1', emoji: '🌠',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Ojalá (que) виражає сильне бажання й завжди вимагає subjuntivo. Presente de subjuntivo — для здійсненних бажань, imperfecto de subjuntivo — для малоймовірних/нереальних.',
+            en: { text: 'Ojalá (que) expresses a strong wish and always requires the subjunctive. Presente de subjuntivo for achievable wishes, imperfecto de subjuntivo for unlikely/unreal ones.' },
+          },
+          {
+            type: 'table', title: 'Вживання',
+            rows: [
+              ['ojalá + presente subj.', 'здійсненне бажання', 'Ojalá apruebe el examen.'],
+              ['ojalá + imperfecto subj.', 'малоймовірне бажання', 'Ojalá tuviera más tiempo.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['¡Ojalá llueva pronto!', 'Якби тільки скоро пішов дощ!'],
+              ['¡Ojalá pudiera viajar más!', 'Якби ж я міг подорожувати більше!'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'acentuacion', title: 'Reglas de Acentuación — A2', emoji: '✍️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Слова без написаного наголосу мають передбачуваний наголос за правилами; письмовий наголос (tilde) ставлять, коли слово порушує ці правила.',
+            en: { text: 'Words without a written accent follow predictable stress rules; the written accent (tilde) is added when a word breaks these rules.' },
+          },
+          {
+            type: 'table', title: 'Правила',
+            rows: [
+              ['закінчення на голосну/n/s', 'наголос на передостанньому складі', 'casa, hablan, libros'],
+              ['закінчення на приголосну (не n/s)', 'наголос на останньому складі', 'hablar, ciudad'],
+              ['виняток із правила', 'потрібна tilde', 'café, jardín, fácil'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['música, médico, rápido', 'esdrújulas — завжди з tilde'],
+              ['¿Qué? ¿Cómo? ¿Dónde?', 'питальні слова завжди з tilde'],
+              ['él (він) vs el (артикль)', 'tilde розрізняє значення (tilde diacrítica)'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
 ];
 
 // ── French grammar ───────────────────────────────────────────
@@ -8242,6 +8664,426 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ['Je pense qu\'il a raison.', 'Я думаю, що він правий. (indicatif)'],
               ['Je ne pense pas qu\'il ait raison.', 'Я не думаю, що він правий. (subjonctif)'],
               ['Il est certain qu\'elle viendra.', 'Точно, що вона прийде. (indicatif)'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+  // ══════════════════════════════════════
+  //   MAÎTRISE FLUIDE
+  // ══════════════════════════════════════
+  {
+    id: 'fluency', title: 'Вільне володіння', titleEn: 'Fluency', emoji: '🎓',
+    rules: [
+
+      {
+        id: 'conditionnel-passe', title: 'Conditionnel Passé — B2', emoji: '⏮️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Складений умовний спосіб — для нездійснених у минулому гіпотез ("я б зробив, але..."), а також у головній частині нереальних умовних речень минулого часу. Утворюється: avoir/être у Conditionnel Présent + дієприкметник минулого часу.',
+            en: { text: 'The compound conditional — for unrealized past hypotheticals ("I would have done, but..."), and in the main clause of unreal past conditionals. Formed with avoir/être in the Conditionnel Présent + past participle.' },
+          },
+          {
+            type: 'formula', title: 'avoir/être (conditionnel) + participe passé',
+            rows: [
+              ['j\'', 'aurais parlé', '→ J\'aurais appelé, mais je n\'avais pas ton numéro.'],
+              ['tu', 'aurais fini', '→ Tu aurais fini à temps.'],
+              ['il / elle', 'serait parti(e)', '→ Elle serait partie si elle avait pu.'],
+              ['nous', 'aurions travaillé', '→ Nous aurions travaillé plus vite ensemble.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Si j\'avais su, je t\'aurais prévenu.', 'Якби я знав, я б тебе попередив.'],
+              ['Je n\'aurais pas dit ça.', 'Я б такого не сказав.'],
+              ['Nous serions arrivés plus tôt sans embouteillage.', 'Ми б прибули раніше без затору.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'tu-vs-vous', title: 'Tu vs Vous (formalité) — A2', emoji: '🎩',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Tu вживають у неформальному спілкуванні (друзі, родина, ровесники), vous — у формальному (незнайомі люди, начальство, ввічливе звертання) і завжди для звертання до кількох осіб.',
+            en: { text: 'Tu is used informally (friends, family, peers), vous formally (strangers, superiors, polite address) and always when addressing more than one person.' },
+          },
+          {
+            type: 'table', title: 'Порівняння',
+            rows: [
+              ['tu', '2-а ос. одн. (неформ.)', 'Comment vas-tu?'],
+              ['vous', '2-а ос. мн./ввічливе одн.', 'Comment allez-vous?'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'Перехід з vous на tu (tutoyer) зазвичай відбувається за взаємною згодою, коли стосунки стають ближчими.',
+            en: { text: 'Switching from vous to tu (tutoyer) usually happens by mutual agreement as the relationship becomes closer.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Tu as des frères et sœurs? (informel)', 'У тебе є брати чи сестри?'],
+              ['Avez-vous des frères et sœurs? (formel)', 'У Вас є брати чи сестри?'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'ce-qui-ce-que', title: '"Ce qui" / "Ce que" — B1', emoji: '◾',
+        sections: [
+          {
+            type: 'intro',
+            text: '"Ce qui" і "ce que" означають "те, що" — узагальнюють невизначений предмет/факт. Ce qui — підмет наступного дієслова, ce que — додаток.',
+            en: { text: '"Ce qui" and "ce que" mean "that which/what" — they generalize an unspecified thing or fact. Ce qui is the subject of the following verb, ce que is the object.' },
+          },
+          {
+            type: 'table', title: 'Порівняння',
+            rows: [
+              ['ce qui', 'підмет', 'Dis-moi ce qui se passe.'],
+              ['ce que', 'додаток', 'Je ne sais pas ce que tu veux.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ce qui m\'intéresse, c\'est la musique.', 'Те, що мене цікавить, — це музика.'],
+              ['Je ne comprends pas ce que tu dis.', 'Я не розумію того, що ти кажеш.'],
+              ['C\'est exactement ce que je pensais.', 'Це саме те, що я думав.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'celui-celle', title: 'Pronoms Démonstratifs (celui, celle, ceux, celles) — B2', emoji: '👉',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Вказівні займенники celui/celle/ceux/celles замінюють іменник, щоб уникнути повторення, і завжди супроводжуються уточненням (de + іменник, відносним реченням або -ci/-là).',
+            en: { text: 'Demonstrative pronouns celui/celle/ceux/celles replace a noun to avoid repetition, and are always followed by a qualifier (de + noun, a relative clause, or -ci/-là).' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['celui / celle', 'той/та (одн. ч./ж.)'],
+              ['ceux / celles', 'ті (мн. ч./ж.)'],
+              ['celui-ci / celui-là', 'цей / той (з двох)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ce livre est celui de Marie.', 'Ця книга — Маріїна.'],
+              ['Je préfère celui-ci à celui-là.', 'Я волію цей, а не той.'],
+              ['Prends celles que tu aimes.', 'Бери ті, які тобі подобаються.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'faire-causatif', title: 'Faire + Infinitif (causatif) — B2', emoji: '🎬',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Faire + інфінітив означає "змусити/спричинити, щоб щось сталося" — той, хто виконує дію, вводиться через par або à.',
+            en: { text: 'Faire + infinitive means "to make/cause something to happen" — the person who performs the action is introduced with par or à.' },
+          },
+          {
+            type: 'formula', title: 'faire + infinitif',
+            rows: [
+              ['', 'faire + infinitif', '→ Il m\'a fait rire.'],
+              ['', 'faire + infinitif + par/à', '→ Elle a fait réparer sa voiture par un mécanicien.'],
+            ],
+            en: { title: 'faire + infinitive' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ce film m\'a fait pleurer.', 'Цей фільм змусив мене плакати.'],
+              ['Elle a fait construire une maison.', 'Вона наказала збудувати дім.'],
+              ['Fais-moi savoir si tu viens.', 'Дай мені знати, чи ти прийдеш.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'deja-encore-pas-encore', title: 'Déjà, Encore, Pas encore — A2', emoji: '⏱️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Déjà означає "вже", encore — "ще" (у стверджувальних реченнях), pas encore — "ще не" (у заперечних).',
+            en: { text: 'Déjà means "already", encore means "still" (in affirmative sentences), pas encore means "not yet" (in negative ones).' },
+          },
+          {
+            type: 'table', title: 'Вживання',
+            rows: [
+              ['déjà', 'вже', 'J\'ai déjà mangé.'],
+              ['encore', 'ще', 'Il habite encore à Paris.'],
+              ['pas encore', 'ще не', 'Je n\'ai pas encore fini.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Tu es déjà arrivé?', 'Ти вже прийшов?'],
+              ['Je travaille encore.', 'Я ще працюю.'],
+              ['Je ne sais pas encore la réponse.', 'Я ще не знаю відповіді.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'si-tellement', title: 'Si vs Tellement — B1', emoji: '📏',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Si вживають перед прикметниками й прислівниками ("так, такий"), tellement — теж перед прикметниками/прислівниками, але також перед "de + іменник" ("стільки").',
+            en: { text: 'Si is used before adjectives and adverbs ("so, such"), tellement is used the same way but also before "de + noun" ("so much/many").' },
+          },
+          {
+            type: 'table', title: 'Порівняння',
+            rows: [
+              ['si + прикм./присл.', 'так, такий', 'Il est si grand.'],
+              ['tellement + прикм./присл.', 'так, такий', 'Il est tellement gentil.'],
+              ['tellement de + ім.', 'стільки', 'Il y a tellement de monde.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je ne savais pas que tu étais si sympathique.', 'Я не знав, що ти такий приємний.'],
+              ['J\'ai tellement de travail cette semaine.', 'У мене стільки роботи цього тижня.'],
+              ['Je n\'avais jamais vu tellement de monde.', 'Я ніколи не бачив стільки людей.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'position-adjectif', title: 'Position de l\'Adjectif — B2', emoji: '🔀',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Більшість прикметників стоять після іменника, але деякі змінюють значення залежно від позиції — перед іменником вони набувають переносного/суб\'єктивного значення.',
+            en: { text: 'Most adjectives come after the noun, but some change meaning depending on position — before the noun they take on a figurative/subjective sense.' },
+          },
+          {
+            type: 'table', title: 'Зміна значення',
+            rows: [
+              ['un ami ancien', 'давній за часом друг', 'un ancien ami', 'колишній друг'],
+              ['un homme grand', 'високий чоловік', 'un grand homme', 'видатна людина'],
+              ['une histoire propre', 'чиста (фізично) історія', 'sa propre histoire', 'власна історія'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['C\'est un grand écrivain.', 'Він видатний письменник.'],
+              ['Il a une voiture grande.', 'У нього велика машина.'],
+              ['C\'est ma propre décision.', 'Це моє власне рішення.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'prepositions-extra', title: 'Prépositions: Sur, Entre, Vers, Depuis — A2', emoji: '🧭',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Чотири додаткові прийменники місця й напрямку, що часто плутають: sur (на), entre (між), vers (у напрямку), depuis (з/від).',
+            en: { text: 'Four additional prepositions of place/direction that are often confused: sur (on), entre (between), vers (towards), depuis (from/since).' },
+          },
+          {
+            type: 'table', title: 'Вживання',
+            rows: [
+              ['sur', 'на', 'Le livre est sur la table.'],
+              ['entre', 'між', 'C\'est entre la chaise et la porte.'],
+              ['vers', 'у напрямку', 'Nous marchons vers le parc.'],
+              ['depuis', 'з/від (місце/час)', 'Depuis ici, on voit la mer.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Nous avons parlé du projet.', 'Ми говорили про проєкт.'],
+              ['Le village est entre deux montagnes.', 'Село між двома горами.'],
+              ['Allons vers le centre-ville.', 'Ходімо в напрямку центру.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'cest-qui-cest-que', title: 'Structures Emphatiques "C\'est... qui/que" — B2', emoji: '🎯',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Конструкція c\'est... qui/que вживається для підкреслення певної частини речення (виокремлювальна конструкція). Qui — коли підкреслений елемент є підметом, que — коли додатком.',
+            en: { text: 'The construction c\'est... qui/que is used to emphasize a particular part of a sentence (a cleft construction). Qui when the emphasized element is the subject, que when it is the object.' },
+          },
+          {
+            type: 'formula', title: 'Структура',
+            rows: [
+              ['підмет', 'C\'est... qui...', '→ C\'est Marie qui a appelé.'],
+              ['додаток', 'C\'est... que...', '→ C\'est ce livre que je veux.'],
+            ],
+            en: { title: 'Structure' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['C\'est toi qui as raison.', 'Це ти маєш рацію.'],
+              ['C\'est le temps qui me manque.', 'Мені бракує саме часу.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'grands-nombres', title: 'Grands Nombres Cardinaux — A2', emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Cent у множині втрачає -s перед іншим числом, але зберігає його, коли стоїть останнім. Mille ніколи не змінюється і не вживається з un.',
+            en: { text: 'Cent in the plural loses its -s before another number, but keeps it when it comes last. Mille never changes form and is never used with un.' },
+          },
+          {
+            type: 'table', title: 'Приклади',
+            rows: [
+              ['100', 'cent'],
+              ['101', 'cent un'],
+              ['200', 'deux cents'],
+              ['250', 'deux cent cinquante'],
+              ['1 000', 'mille'],
+              ['1 000 000', 'un million'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ça coûte cent euros.', 'Це коштує сто євро.'],
+              ['Il y avait cinq cents personnes au concert.', 'На концерті було п\'ятсот людей.'],
+              ['La ville compte un million d\'habitants.', 'Місто має мільйон жителів.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'pronoms-reflexifs-emphatiques', title: 'Pronoms Réfléchis Emphatiques (moi-même) — B2', emoji: '🪞',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Même додають до наголошених займенників для підсилення зворотності дії — "сам собі/сам себе".',
+            en: { text: 'Même is added to stressed pronouns to emphasize the reflexive nature of the action — "myself/yourself", emphatically.' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['moi-même', 'я сам/сама'],
+              ['toi-même', 'ти сам/сама'],
+              ['lui-même / elle-même', 'він сам / вона сама'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je me parle à moi-même quand je suis nerveux.', 'Я говорю сам із собою, коли нервую.'],
+              ['Il exige trop de lui-même.', 'Він вимагає від себе занадто багато.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'souhait-subjonctif', title: 'Souhaiter que + Subjonctif (souhaits) — B1', emoji: '🌠',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Souhaiter que, vouloir que та подібні дієслова бажання завжди вимагають subjonctif у підрядному реченні (на відміну від espérer que, яке вживається з indicatif).',
+            en: { text: 'Souhaiter que, vouloir que and similar verbs of wishing always require the subjonctif in the subordinate clause (unlike espérer que, which takes the indicatif).' },
+          },
+          {
+            type: 'table', title: 'Порівняння',
+            rows: [
+              ['souhaiter que + subj.', 'бажати, щоб', 'Je souhaite que tu réussisses.'],
+              ['espérer que + indic.', 'сподіватись, що', 'J\'espère que tu réussiras.'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je souhaite que tout aille bien.', 'Я бажаю, щоб усе було добре.'],
+              ['Nous voulons qu\'elle vienne avec nous.', 'Ми хочемо, щоб вона пішла з нами.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'accent-orthographe', title: 'Règles des Accents — A2', emoji: '✍️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Французькі діакритичні знаки (accents) можуть змінювати вимову голосної або розрізняти слова, що пишуться однаково.',
+            en: { text: 'French diacritics (accents) can change a vowel\'s pronunciation or distinguish words that are otherwise spelled the same.' },
+          },
+          {
+            type: 'table', title: 'Типи акцентів',
+            rows: [
+              ['é (accent aigu)', 'закрите е', 'café, été'],
+              ['è / ê (accent grave/circonflexe)', 'відкрите е', 'mère, fête'],
+              ['ç (cédille)', 'звук "с" перед a/o/u', 'français, garçon'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['où (де) vs ou (або)', 'accent розрізняє значення'],
+              ['à (прийменник) vs a (має, від avoir)', 'accent розрізняє значення'],
+              ['français, à côté, déjà', 'типові слова з accents'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'adverbes-frequence', title: 'Adverbes de Fréquence — A2', emoji: '🔁',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Прислівники частоти показують, як часто відбувається дія. Зазвичай стоять після дієслова в простих часах і між допоміжним дієсловом і дієприкметником у складених.',
+            en: { text: 'Adverbs of frequency show how often an action happens. They usually go after the verb in simple tenses, and between the auxiliary and the participle in compound tenses.' },
+          },
+          {
+            type: 'table', title: 'Шкала частоти',
+            rows: [
+              ['toujours', 'завжди'],
+              ['souvent', 'часто'],
+              ['parfois / quelquefois', 'іноді'],
+              ['rarement', 'рідко'],
+              ['jamais', 'ніколи'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je bois toujours du café le matin.', 'Я завжди п\'ю каву вранці.'],
+              ['Il a souvent voyagé en Europe.', 'Він часто подорожував Європою.'],
+              ['Je ne mange jamais de viande.', 'Я ніколи не їм м\'яса.'],
             ],
           },
         ],
