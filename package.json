@@ -1,8 +1,11 @@
 {
   "name": "vymova",
-  "version": "1.39.0",
+  "version": "1.39.1",
   "type": "module",
   "main": "public/sw.js",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "directories": {
     "lib": "lib"
   },
