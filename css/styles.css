@@ -4429,18 +4429,24 @@ body.hp .idiom-meaning { color: #d3a625; }
   .gb-level-name-row { margin-bottom: 3px; }
 
   /* The actual level name doesn't fit on narrow screens even abbreviated —
-     swap it for a short fixed "Шлях Джедая" label that always fits.
-     white-space/flex-shrink keep it on one line instead of wrapping and
-     getting clipped by .gb-level-name-row's overflow: hidden. */
+     swap it for a short fixed "Шлях Джедая" label. The block is only
+     ~90-110px wide here, so the number badge is hidden too (redundant with
+     the XP text below) to give the label the whole row instead of fighting
+     it for space and getting clipped by overflow: hidden. */
   .level-badge:not(.level-badge-mobile) { display: none; }
   .level-badge-mobile {
     display: inline-flex;
+    justify-content: center;
+    flex: 1 1 auto;
+    width: 100%;
+    box-sizing: border-box;
     white-space: nowrap;
-    flex-shrink: 0;
+    font-size: .62rem !important;
+    padding: 2px 4px !important;
   }
 
-  /* Hide next-level arrow + name — save space on narrow screens */
-  .gb-level-arrow, .gb-level-next { display: none; }
+  /* Hide next-level arrow + name + level number — save space on narrow screens */
+  .gb-level-arrow, .gb-level-next, .gb-level-num { display: none; }
 
   /* XP text: more visible */
   .gb-level-xp {

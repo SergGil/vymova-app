@@ -5302,6 +5302,241 @@ export const GRAMMAR_ES: GrammarCategory[] = [
         ],
       },
 
+      {
+        id: 'ir-a-infinitivo', title: 'Futuro Próximo (ir a + infinitivo) — A1', emoji: '🚶',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Найпоширеніший спосіб говорити про найближче майбутнє — дієслово ir (йти) у теперішньому часі + a + інфінітив. Вживається частіше за Futuro Simple в розмовній мові.',
+            en: { text: 'The most common way to talk about the near future is the verb ir (to go) in the present tense + a + infinitive. It is used more often than the Futuro Simple in everyday speech.' },
+          },
+          {
+            type: 'formula', title: 'ir + a + infinitivo',
+            rows: [
+              ['yo', 'voy a', '→ Voy a viajar mañana.'],
+              ['tú', 'vas a', '→ ¿Vas a venir a la fiesta?'],
+              ['él/ella/usted', 'va a', '→ Va a llover.'],
+              ['nosotros/as', 'vamos a', '→ Vamos a comer ahora.'],
+              ['vosotros/as', 'vais a', '→ Vais a llegar tarde.'],
+              ['ellos/ellas/ustedes', 'van a', '→ Van a estudiar esta noche.'],
+            ],
+            en: { title: 'ir + a + infinitive' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Voy a llamar a mi madre.', 'Я зателефоную мамі.'],
+              ['¿Qué vas a hacer este fin de semana?', 'Що ти робитимеш цими вихідними?'],
+              ['Va a empezar a las ocho.', 'Це почнеться о восьмій.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'present-continuous', title: 'Presente Continuo (estar + gerundio) — A2', emoji: '▶️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Теперішній тривалий час підкреслює, що дія відбувається саме зараз. Утворюється: estar (теперішній час) + герундій (-ando для -ar дієслів, -iendo для -er/-ir).',
+            en: { text: 'The present continuous emphasizes that an action is happening right now. It is formed with estar (present tense) + gerund (-ando for -ar verbs, -iendo for -er/-ir verbs).' },
+          },
+          {
+            type: 'table', title: 'Утворення герундія',
+            rows: [
+              ['hablar → hablando', 'comer → comiendo', 'escribir → escribiendo'],
+              ['leer → leyendo', 'dormir → durmiendo', 'pedir → pidiendo'],
+            ],
+            en: { title: 'Forming the gerund' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Estoy comiendo ahora mismo.', 'Я зараз їм.'],
+              ['¿Qué estás haciendo?', 'Що ти зараз робиш?'],
+              ['Están durmiendo todavía.', 'Вони ще сплять.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+  // ══════════════════════════════════════
+  //   ГРАМАТИКА
+  // ══════════════════════════════════════
+  {
+    id: 'grammar', title: 'Граматика', titleEn: 'Grammar', emoji: '📖',
+    rules: [
+
+      {
+        id: 'gustar', title: 'Verbo Gustar — A2', emoji: '❤️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Gustar будується "навпаки": підметом речення є те, що подобається, а особа, якій подобається, виражається непрямим займенником (me, te, le, nos, os, les). Дієслово узгоджується з тим, що подобається — однина чи множина.',
+            en: { text: 'Gustar works "backwards": the subject of the sentence is the thing that is liked, while the person who likes it is expressed with an indirect object pronoun (me, te, le, nos, os, les). The verb agrees with the thing liked — singular or plural.' },
+          },
+          {
+            type: 'formula', title: 'gustar (з однини / множини)',
+            rows: [
+              ['me', 'gusta el café', 'gustan los gatos', '→ Me gusta el café.'],
+              ['te', 'gusta la música', 'gustan las películas', '→ Te gustan las películas.'],
+              ['le', 'gusta bailar', 'gustan los libros', '→ Le gusta bailar.'],
+              ['nos', 'gusta este plan', 'gustan estas ideas', '→ Nos gustan estas ideas.'],
+              ['os', 'gusta el viaje', 'gustan las fiestas', '→ Os gusta el viaje.'],
+              ['les', 'gusta el fútbol', 'gustan los deportes', '→ Les gustan los deportes.'],
+            ],
+            en: { title: 'gustar (with singular / plural)' },
+          },
+          {
+            type: 'note',
+            text: 'Так само працюють encantar (дуже подобатись), interesar (цікавити), molestar (заважати), doler (боліти): Me duele la cabeza.',
+            en: { text: 'The same pattern applies to encantar (to love), interesar (to interest), molestar (to bother), doler (to hurt): Me duele la cabeza.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Me gusta el chocolate.', 'Мені подобається шоколад.'],
+              ['¿Te gustan los animales?', 'Тобі подобаються тварини?'],
+              ['A ella le gusta leer.', 'Їй подобається читати.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'por-para', title: 'Por vs Para — B1', emoji: '🔀',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Por і para обидва перекладаються як "для/через/за", але вживаються в різних контекстах. Por — причина, засіб, тривалість, обмін. Para — мета, призначення, напрямок, термін.',
+            en: { text: 'Por and para both can translate as "for/through/by", but are used in different contexts. Por is for cause, means, duration, exchange. Para is for purpose, destination, recipient, deadline.' },
+          },
+          {
+            type: 'table', title: 'Коли вживати',
+            rows: [
+              ['', 'por', 'para'],
+              ['причина', 'por amor (через кохання)', '—'],
+              ['тривалість', 'por dos horas', '—'],
+              ['засіб', 'por correo, por avión', '—'],
+              ['мета/призначення', '—', 'para aprender'],
+              ['отримувач', '—', 'un regalo para ti'],
+              ['термін', '—', 'para el lunes'],
+            ],
+            en: { title: 'When to use' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Gracias por tu ayuda.', 'Дякую за твою допомогу.'],
+              ['Caminamos por el parque.', 'Ми гуляли парком.'],
+              ['Este regalo es para ti.', 'Цей подарунок для тебе.'],
+              ['Necesito esto para mañana.', 'Мені потрібно це на завтра.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'direct-object-pronouns', title: 'Pronombres de Objeto Directo — A2', emoji: '🔁',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Прямі додаткові займенники замінюють іменник, на якому виконується дія, і зазвичай ставляться перед дієсловом.',
+            en: { text: 'Direct object pronouns replace the noun that receives the action, and usually go right before the conjugated verb.' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['me', 'мене'],
+              ['te', 'тебе'],
+              ['lo / la', 'його / її, Вас (ч./ж.)'],
+              ['nos', 'нас'],
+              ['os', 'вас'],
+              ['los / las', 'їх (ч./ж.)'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['¿Tienes el libro? Sí, lo tengo.', 'У тебе є книга? Так, вона в мене.'],
+              ['¿Conoces a María? No, no la conozco.', 'Ти знаєш Марію? Ні, я її не знаю.'],
+              ['Te quiero mucho.', 'Я тебе дуже люблю.'],
+              ['¿Dónde están mis llaves? Las tienes tú.', 'Де мої ключі? Вони в тебе.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'imperative-affirmative', title: 'Imperativo Afirmativo — A2', emoji: '❗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Стверджувальний наказовий спосіб використовують для прохань, порад і команд. Форма tú для правильних дієслів збігається з формою él/ella теперішнього часу.',
+            en: { text: 'The affirmative imperative is used for requests, advice and commands. For regular verbs, the tú form matches the present-tense él/ella form.' },
+          },
+          {
+            type: 'formula', title: 'hablar (-ar), comer (-er), escribir (-ir)',
+            rows: [
+              ['tú', 'habla', 'come', 'escribe'],
+              ['usted', 'hable', 'coma', 'escriba'],
+              ['nosotros/as', 'hablemos', 'comamos', 'escribamos'],
+              ['vosotros/as', 'hablad', 'comed', 'escribid'],
+              ['ustedes', 'hablen', 'coman', 'escriban'],
+            ],
+          },
+          {
+            type: 'note', title: 'Неправильні форми tú',
+            text: 'decir → di, hacer → haz, ir → ve, poner → pon, salir → sal, ser → sé, tener → ten, venir → ven.',
+            en: { title: 'Irregular tú forms' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['¡Habla más despacio, por favor!', 'Говори повільніше, будь ласка!'],
+              ['Coma verduras todos los días.', 'Їжте овочі щодня. (Ви)'],
+              ['¡Ven aquí ahora mismo!', 'Іди сюди негайно!'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'comparatives', title: 'Comparativos y Superlativos — A2', emoji: '⚖️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Порівняння будується за допомогою más/menos...que (більше/менше, ніж) або tan...como (так само, як). Найвищий ступінь — el/la/los/las más...de.',
+            en: { text: 'Comparisons are formed with más/menos...que (more/less than) or tan...como (as...as). The superlative is el/la/los/las más...de.' },
+          },
+          {
+            type: 'table', title: 'Структура',
+            rows: [
+              ['вищий ступінь', 'más + прикм. + que', 'Ana es más alta que yo.'],
+              ['нижчий ступінь', 'menos + прикм. + que', 'Es menos caro que ese.'],
+              ['рівність', 'tan + прикм. + como', 'Es tan alto como tú.'],
+              ['найвищий', 'el/la más + прикм. + de', 'Es la más inteligente de la clase.'],
+            ],
+          },
+          {
+            type: 'note', title: 'Неправильні форми',
+            text: 'bueno → mejor (краще), malo → peor (гірше), grande → mayor (старший/більший), pequeño → menor (молодший/менший).',
+            en: { title: 'Irregular forms' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Mi hermano es mayor que yo.', 'Мій брат старший за мене.'],
+              ['Este libro es mejor que el otro.', 'Ця книга краща за ту.'],
+              ['Es el restaurante más caro de la ciudad.', 'Це найдорожчий ресторан у місті.'],
+            ],
+          },
+        ],
+      },
+
     ],
   },
 
@@ -5379,6 +5614,600 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ['La maison est grande.', 'Дім великий.'],
               ['Les enfants jouent.', 'Діти грають.'],
               ["J'ai une pomme.", 'У мене є яблуко.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'articles', title: 'Артиклі (défini / indéfini / partitif) — A1', emoji: '🔖',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У французькій є три типи артиклів: означений (le, la, les) — для конкретних, відомих предметів; неозначений (un, une, des) — для нових, невизначених; частковий (du, de la, des) — для незлічуваної кількості.',
+            en: { text: 'French has three article types: definite (le, la, les) for specific, known things; indefinite (un, une, des) for new, unspecified things; partitive (du, de la, des) for an uncountable quantity.' },
+          },
+          {
+            type: 'table', title: 'Форми артиклів',
+            rows: [
+              ['', 'чол.', 'жін.', 'множина'],
+              ['означений', 'le / l\'', 'la / l\'', 'les'],
+              ['неозначений', 'un', 'une', 'des'],
+              ['частковий', 'du / de l\'', 'de la / de l\'', 'des'],
+            ],
+            en: { title: 'Article forms' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je mange du pain.', 'Я їм хліб. (трохи)'],
+              ["Elle boit de l'eau.", 'Вона п\'є воду.'],
+              ['J\'ai un chat et une chienne.', 'У мене є кіт і собака.'],
+              ['Les enfants aiment les bonbons.', 'Діти люблять цукерки.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'plural-nouns', title: 'Множина іменників — A1', emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Множина зазвичай утворюється додаванням -s до однини (на письмі; вимова майже не змінюється). Є кілька груп винятків.',
+            en: { text: 'The plural is usually formed by adding -s to the singular (in writing; pronunciation barely changes). There are a few groups of exceptions.' },
+          },
+          {
+            type: 'table', title: 'Правила утворення множини',
+            rows: [
+              ['основне правило: +s', 'livre → livres', 'maison → maisons'],
+              ['-eau/-eu → +x', 'château → châteaux', 'jeu → jeux'],
+              ['-al → -aux', 'animal → animaux', 'journal → journaux'],
+              ['-s/-x/-z → без змін', 'pays → pays', 'voix → voix'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ["J'ai deux chats.", 'У мене два коти.'],
+              ['Les chevaux courent vite.', 'Коні бігають швидко.'],
+              ['Ce sont mes journaux préférés.', 'Це мої улюблені газети.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'adjectives', title: 'Прикметники — A1', emoji: '🎨',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Прикметники узгоджуються з іменником у роді й числі. Жіночий рід зазвичай утворюється додаванням -e, множина — додаванням -s.',
+            en: { text: 'Adjectives agree with the noun in gender and number. The feminine is usually formed by adding -e, the plural by adding -s.' },
+          },
+          {
+            type: 'table', title: 'Узгодження',
+            rows: [
+              ['основне правило', 'petit', 'petite', 'petits / petites'],
+              ['-eux → -euse', 'heureux', 'heureuse', 'heureux / heureuses'],
+              ['-f → -ve', 'actif', 'active', 'actifs / actives'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Il est grand. Elle est grande.', 'Він високий. Вона висока.'],
+              ['Ce sont de belles fleurs.', 'Це гарні квіти.'],
+              ['Un homme heureux, une femme heureuse.', 'Щасливий чоловік, щаслива жінка.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'possessives', title: 'Присвійні прикметники — A1', emoji: '👪',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Присвійні прикметники узгоджуються не з власником, а з предметом, яким володіють — у роді й числі.',
+            en: { text: 'Possessive adjectives agree not with the owner but with the thing owned — in gender and number.' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['mon / ma / mes', 'мій, моя, мої'],
+              ['ton / ta / tes', 'твій, твоя, твої'],
+              ['son / sa / ses', 'його, її'],
+              ['notre / nos', 'наш, наші'],
+              ['votre / vos', 'ваш, ваші'],
+              ['leur / leurs', 'їхній, їхні'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'Перед іменником жіночого роду, що починається з голосної, "ma/ta/sa" замінюють на "mon/ton/son": mon amie (а не ma amie).',
+            en: { text: 'Before a feminine noun starting with a vowel, "ma/ta/sa" are replaced with "mon/ton/son": mon amie (not ma amie).' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ["C'est mon frère.", 'Це мій брат.'],
+              ['Où sont tes clés?', 'Де твої ключі?'],
+              ['Notre maison est petite.', 'Наш будинок маленький.'],
+              ['Ils aiment leurs enfants.', 'Вони люблять своїх дітей.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'demonstratives', title: 'Вказівні прикметники — A1', emoji: '👉',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Вказівні прикметники "цей/ця/це/ці" узгоджуються з іменником у роді й числі. Перед чоловічим іменником, що починається з голосної, ce замінюють на cet.',
+            en: { text: 'Demonstrative adjectives ("this/that/these/those") agree with the noun in gender and number. Before a masculine noun starting with a vowel, ce becomes cet.' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['чол. одн.', 'ce / cet (перед голосною)'],
+              ['жін. одн.', 'cette'],
+              ['множина', 'ces'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Ce livre est intéressant.', 'Ця книга цікава.'],
+              ['Cet homme est mon père.', 'Цей чоловік — мій батько.'],
+              ['Cette robe est belle.', 'Ця сукня гарна.'],
+              ['Ces enfants jouent dehors.', 'Ці діти грають надворі.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'question-words', title: 'Питальні слова — A1', emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питальні слова стоять зазвичай на початку речення; у розмовній мові питання часто утворюють самою лише інтонацією.',
+            en: { text: 'Question words usually come at the start of the sentence; in everyday speech, questions are often formed by intonation alone.' },
+          },
+          {
+            type: 'table', title: 'Основні питальні слова',
+            rows: [
+              ['Qui?', 'Хто?'],
+              ['Que / Quoi?', 'Що?'],
+              ['Où?', 'Де?'],
+              ['Quand?', 'Коли?'],
+              ['Pourquoi?', 'Чому?'],
+              ['Comment?', 'Як?'],
+              ['Combien?', 'Скільки?'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Qui est-ce?', 'Хто це?'],
+              ['Où habites-tu?', 'Де ти живеш?'],
+              ['Pourquoi pleures-tu?', 'Чому ти плачеш?'],
+              ['Combien ça coûte?', 'Скільки це коштує?'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'negation', title: 'Заперечення — A1', emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечення утворюється рамкою ne...pas навколо дієслова. Перед голосною ne скорочується до n\'.',
+            en: { text: 'Negation is formed with the frame ne...pas around the verb. Before a vowel, ne shortens to n\'.' },
+          },
+          {
+            type: 'formula', title: 'Структура',
+            rows: [
+              ['❌ (−)', 'ne + verbe + pas', '→ Je ne sais pas.'],
+              ['❌ (−)', "перед голосною: n' + verbe + pas", "→ Il n'aime pas ça."],
+            ],
+            en: { title: 'Structure' },
+          },
+          {
+            type: 'note',
+            text: 'Інші заперечні слова: ne...jamais (ніколи), ne...rien (нічого), ne...personne (нікого), ne...plus (більше не).',
+            en: { text: 'Other negative words: ne...jamais (never), ne...rien (nothing), ne...personne (nobody), ne...plus (no longer).' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je ne parle pas anglais.', 'Я не говорю англійською.'],
+              ["Elle n'a pas de voiture.", 'У неї немає машини.'],
+              ['Il ne mange jamais de viande.', 'Він ніколи не їсть м\'яса.'],
+              ["Nous n'avons rien.", 'У нас нічого немає.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'present-regular', title: 'Теперішній час правильних дієслів — A1', emoji: '📌',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Правильні дієслова поділяють на групи за закінченням інфінітива: -er (найбільша група), -ir (тип finir), -re (тип vendre). Кожна група має свій набір закінчень.',
+            en: { text: 'Regular verbs fall into groups by infinitive ending: -er (the largest group), -ir (finir type), -re (vendre type). Each group has its own set of endings.' },
+          },
+          {
+            type: 'formula', title: 'parler (-er), finir (-ir), vendre (-re)',
+            rows: [
+              ['je', 'parl-e', 'fin-is', 'vend-s'],
+              ['tu', 'parl-es', 'fin-is', 'vend-s'],
+              ['il / elle', 'parl-e', 'fin-it', 'vend'],
+              ['nous', 'parl-ons', 'fin-issons', 'vend-ons'],
+              ['vous', 'parl-ez', 'fin-issez', 'vend-ez'],
+              ['ils / elles', 'parl-ent', 'fin-issent', 'vend-ent'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je parle français.', 'Я говорю французькою.'],
+              ['Tu finis tes devoirs?', 'Ти закінчуєш домашнє завдання?'],
+              ['Elle vend des fleurs.', 'Вона продає квіти.'],
+              ['Nous parlons souvent.', 'Ми часто розмовляємо.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+  // ══════════════════════════════════════
+  //   ЧАСИ ДІЄСЛІВ
+  // ══════════════════════════════════════
+  {
+    id: 'tenses', title: 'Часи дієслів', titleEn: 'Verb Tenses', emoji: '🕐',
+    rules: [
+
+      {
+        id: 'futur-proche', title: 'Futur Proche (aller + infinitif) — A1', emoji: '🚶',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Найпоширеніший спосіб говорити про найближче майбутнє — дієслово aller (йти) у теперішньому часі + інфінітив. У розмовній мові вживається частіше за Futur Simple.',
+            en: { text: 'The most common way to talk about the near future is the verb aller (to go) in the present tense + infinitive. It is used more often than the Futur Simple in everyday speech.' },
+          },
+          {
+            type: 'formula', title: 'aller + infinitif',
+            rows: [
+              ['je', 'vais', '→ Je vais partir demain.'],
+              ['tu', 'vas', '→ Tu vas venir à la fête?'],
+              ['il / elle', 'va', '→ Il va pleuvoir.'],
+              ['nous', 'allons', '→ Nous allons manger maintenant.'],
+              ['vous', 'allez', '→ Vous allez arriver en retard.'],
+              ['ils / elles', 'vont', '→ Ils vont étudier ce soir.'],
+            ],
+            en: { title: 'aller + infinitive' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je vais appeler ma mère.', 'Я зателефоную мамі.'],
+              ['Qu\'est-ce que tu vas faire ce week-end?', 'Що ти робитимеш цими вихідними?'],
+              ['Ça va commencer à huit heures.', 'Це почнеться о восьмій.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'passe-compose', title: 'Passé Composé — A2', emoji: '📅',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Минулий доконаний час для завершених дій у минулому. Утворюється: avoir або être (теперішній час) + дієприкметник минулого часу (participe passé). Більшість дієслів використовують avoir; дієслова руху/стану та зворотні дієслова — être.',
+            en: { text: 'The compound past for completed past actions. Formed with avoir or être (present tense) + past participle. Most verbs use avoir; verbs of motion/state and reflexive verbs use être.' },
+          },
+          {
+            type: 'table', title: 'Participe passé',
+            rows: [
+              ['-er → -é', 'parler → parlé', 'manger → mangé'],
+              ['-ir → -i', 'finir → fini', 'choisir → choisi'],
+              ['-re → -u', 'vendre → vendu', 'attendre → attendu'],
+            ],
+          },
+          {
+            type: 'formula', title: 'avoir / être + participe passé',
+            rows: [
+              ['je', 'ai parlé', "→ J'ai parlé avec elle."],
+              ['tu', 'as fini', '→ Tu as fini tes devoirs?'],
+              ['il / elle', 'a vendu / est allé(e)', '→ Elle est allée au marché.'],
+              ['nous', 'avons mangé', '→ Nous avons mangé tôt.'],
+              ['vous', 'avez fini', '→ Vous avez fini?'],
+              ['ils / elles', 'ont parlé / sont partis(es)', '→ Ils sont partis hier.'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'З être дієприкметник узгоджується з підметом у роді й числі: elle est allée, ils sont partis.',
+            en: { text: 'With être, the past participle agrees with the subject in gender and number: elle est allée, ils sont partis.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['J\'ai mangé une pomme.', 'Я з\'їв яблуко.'],
+              ['Elle est née à Paris.', 'Вона народилась у Парижі.'],
+              ['Nous avons visité le musée.', 'Ми відвідали музей.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'imparfait', title: 'Imparfait — A2', emoji: '🕰️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Минулий незавершений час — для звичних дій у минулому, опису і фону подій. Утворюється від основи nous теперішнього часу (без -ons) + закінчення.',
+            en: { text: 'The imperfect tense — for habitual past actions, descriptions and background. Formed from the nous present-tense stem (without -ons) + endings.' },
+          },
+          {
+            type: 'formula', title: 'parler, finir, vendre',
+            rows: [
+              ['je', 'parl-ais', 'finiss-ais', 'vend-ais'],
+              ['tu', 'parl-ais', 'finiss-ais', 'vend-ais'],
+              ['il / elle', 'parl-ait', 'finiss-ait', 'vend-ait'],
+              ['nous', 'parl-ions', 'finiss-ions', 'vend-ions'],
+              ['vous', 'parl-iez', 'finiss-iez', 'vend-iez'],
+              ['ils / elles', 'parl-aient', 'finiss-aient', 'vend-aient'],
+            ],
+          },
+          {
+            type: 'note',
+            text: 'Виняток — être: основа ét- (j\'étais, tu étais, il était...).',
+            en: { text: 'Exception — être: stem ét- (j\'étais, tu étais, il était...).' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Quand j\'étais petit, je jouais au parc.', 'Коли я був малим, я грався в парку.'],
+              ['Il faisait beau ce jour-là.', 'Того дня була гарна погода.'],
+              ['Nous habitions à Lyon.', 'Ми жили в Ліоні.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'futur-simple', title: 'Futur Simple — A2', emoji: '🔮',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Простий майбутній час утворюють від інфінітива (для -re дієслів відкидають кінцеве -e) + закінчення -ai, -as, -a, -ons, -ez, -ont.',
+            en: { text: 'The simple future is formed from the infinitive (drop the final -e for -re verbs) + endings -ai, -as, -a, -ons, -ez, -ont.' },
+          },
+          {
+            type: 'formula', title: 'parler / finir / vendre + закінчення',
+            rows: [
+              ['je', 'parler-ai', '→ Demain, je parlerai avec lui.'],
+              ['tu', 'finir-as', '→ Tu finiras à quelle heure?'],
+              ['il / elle', 'vendr-a', '→ Elle vendra sa voiture.'],
+              ['nous', 'parler-ons', '→ Nous parlerons demain.'],
+              ['vous', 'finir-ez', '→ Vous finirez à temps.'],
+              ['ils / elles', 'vendr-ont', '→ Ils vendront la maison.'],
+            ],
+            en: { title: 'parler / finir / vendre + endings' },
+          },
+          {
+            type: 'note',
+            text: 'Неправильні основи: être → ser-, avoir → aur-, aller → ir-, faire → fer-, pouvoir → pourr-, voir → verr-, venir → viendr-.',
+            en: { text: 'Irregular stems: être → ser-, avoir → aur-, aller → ir-, faire → fer-, pouvoir → pourr-, voir → verr-, venir → viendr-.' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Demain, je parlerai avec le directeur.', 'Завтра я поговорю з директором.'],
+              ['Elle finira son travail à six heures.', 'Вона закінчить роботу о шостій.'],
+              ['Nous irons en France l\'été prochain.', 'Ми поїдемо до Франції наступного літа.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'etre-en-train-de', title: 'Être en train de + infinitif — A2', emoji: '▶️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У французькій немає окремого тривалого часу, як англійський Continuous. Щоб підкреслити, що дія відбувається саме зараз, вживають конструкцію être en train de + інфінітив.',
+            en: { text: 'French has no separate continuous tense like English. To emphasize that an action is happening right now, use the construction être en train de + infinitive.' },
+          },
+          {
+            type: 'formula', title: 'être + en train de + infinitif',
+            rows: [
+              ['je', 'suis en train de', '→ Je suis en train de manger.'],
+              ['tu', 'es en train de', '→ Tu es en train de travailler?'],
+              ['il / elle', 'est en train de', '→ Elle est en train de lire.'],
+              ['nous', 'sommes en train de', '→ Nous sommes en train de cuisiner.'],
+              ['vous', 'êtes en train de', '→ Vous êtes en train de partir?'],
+              ['ils / elles', 'sont en train de', '→ Ils sont en train de jouer.'],
+            ],
+            en: { title: 'être + en train de + infinitive' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je suis en train de travailler.', 'Я зараз працюю.'],
+              ['Ne me dérange pas, je suis en train de cuisiner.', 'Не заважай, я зараз готую.'],
+              ['Ils sont en train de regarder un film.', 'Вони зараз дивляться фільм.'],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+
+  // ══════════════════════════════════════
+  //   ГРАМАТИКА
+  // ══════════════════════════════════════
+  {
+    id: 'grammar', title: 'Граматика', titleEn: 'Grammar', emoji: '📖',
+    rules: [
+
+      {
+        id: 'comparatives', title: 'Comparatifs et Superlatifs — A2', emoji: '⚖️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Порівняння будується за допомогою plus...que (більше, ніж), moins...que (менше, ніж) або aussi...que (так само, як). Найвищий ступінь — le/la/les plus...',
+            en: { text: 'Comparisons use plus...que (more than), moins...que (less than) or aussi...que (as...as). The superlative is le/la/les plus...' },
+          },
+          {
+            type: 'table', title: 'Структура',
+            rows: [
+              ['вищий ступінь', 'plus + прикм. + que', 'Il est plus grand que moi.'],
+              ['нижчий ступінь', 'moins + прикм. + que', "C'est moins cher que ça."],
+              ['рівність', 'aussi + прикм. + que', 'Elle est aussi belle que toi.'],
+              ['найвищий', 'le/la plus + прикм.', "C'est le plus beau jour."],
+            ],
+          },
+          {
+            type: 'note', title: 'Неправильні форми',
+            text: 'bon → meilleur (кращий), mauvais → pire (гірший).',
+            en: { title: 'Irregular forms' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Paris est plus grand que Lyon.', 'Париж більший за Ліон.'],
+              ['Mon frère est meilleur que moi en sport.', 'Мій брат кращий за мене у спорті.'],
+              ['C\'est le livre le plus intéressant que j\'ai lu.', 'Це найцікавіша книга, яку я читав.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'object-pronouns', title: 'Pronoms Compléments Directs (COD) — B1', emoji: '🔁',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Прямі додаткові займенники (COD) замінюють іменник-додаток і ставляться перед дієсловом.',
+            en: { text: 'Direct object pronouns (COD) replace the object noun and go right before the verb.' },
+          },
+          {
+            type: 'table', title: 'Форми',
+            rows: [
+              ['me / m\'', 'мене'],
+              ['te / t\'', 'тебе'],
+              ['le / la / l\'', 'його / її'],
+              ['nous', 'нас'],
+              ['vous', 'вас'],
+              ['les', 'їх'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Tu as mon livre? Oui, je l\'ai.', 'У тебе моя книга? Так, вона в мене.'],
+              ['Je la connais bien.', 'Я добре її знаю.'],
+              ['Il nous invite à dîner.', 'Він запрошує нас на вечерю.'],
+              ['Je vous remercie.', 'Я вам дякую.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'imperative', title: 'L\'Impératif — A2', emoji: '❗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Наказовий спосіб утворюється від теперішнього часу без займенника-підмета. У -er дієслів форма tu втрачає кінцеве -s.',
+            en: { text: 'The imperative is formed from the present tense without the subject pronoun. For -er verbs, the tu form drops the final -s.' },
+          },
+          {
+            type: 'formula', title: 'parler (-er), finir (-ir), vendre (-re)',
+            rows: [
+              ['tu', 'parle', 'finis', 'vends'],
+              ['nous', 'parlons', 'finissons', 'vendons'],
+              ['vous', 'parlez', 'finissez', 'vendez'],
+            ],
+          },
+          {
+            type: 'note', title: 'Неправильні форми',
+            text: 'être → sois, soyons, soyez; avoir → aie, ayons, ayez.',
+            en: { title: 'Irregular forms' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Parle plus fort!', 'Говори голосніше!'],
+              ['Finissons ce travail.', 'Завершімо цю роботу.'],
+              ["N'aie pas peur!", 'Не бійся!'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'preposition-villes-pays', title: 'Prépositions à / en avec villes et pays — A2', emoji: '🗺️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Перед назвами міст зазвичай вживають à. Перед країнами жіночого роду (або тими, що починаються з голосної) — en, перед чоловічим родом — au, перед множиною — aux.',
+            en: { text: 'Cities usually take à. Feminine countries (or those starting with a vowel) take en, masculine countries take au, plural countries take aux.' },
+          },
+          {
+            type: 'table', title: 'Вживання',
+            rows: [
+              ['місто', 'à', 'à Paris, à Madrid'],
+              ['країна ж.р./голосна', 'en', 'en France, en Italie'],
+              ['країна ч.р.', 'au', 'au Canada, au Japon'],
+              ['країна, множина', 'aux', 'aux États-Unis'],
+            ],
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Je vis à Paris.', 'Я живу в Парижі.'],
+              ['Elle voyage en Espagne.', 'Вона подорожує Іспанією.'],
+              ['Nous allons au Portugal cet été.', 'Ми їдемо до Португалії цього літа.'],
+              ['Ils habitent aux Pays-Bas.', 'Вони живуть у Нідерландах.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'il-y-a-il-faut', title: 'Il y a / Il faut — A1', emoji: '📍',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Il y a ("є, там є") вказує на наявність чогось. Il faut ("треба, потрібно") виражає необхідність. Обидві конструкції безособові й не змінюються за особами.',
+            en: { text: 'Il y a ("there is/are") indicates that something exists. Il faut ("it is necessary") expresses necessity. Both are impersonal and never change for person.' },
+          },
+          {
+            type: 'formula', title: 'Структура',
+            rows: [
+              ['', 'il y a + іменник', "→ Il y a un café près d'ici."],
+              ['', 'il faut + infinitif', '→ Il faut partir maintenant.'],
+            ],
+            en: { title: 'Structure' },
+          },
+          {
+            type: 'examples', title: 'Приклади', en: { title: 'Examples' },
+            rows: [
+              ['Il y a beaucoup de monde ici.', 'Тут багато людей.'],
+              ["Il n'y a pas de pain.", 'Немає хліба.'],
+              ['Il faut étudier pour réussir.', 'Треба вчитися, щоб досягти успіху.'],
+              ['Il faut deux heures pour y arriver.', 'Потрібно дві години, щоб туди дістатися.'],
             ],
           },
         ],
