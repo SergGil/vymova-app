@@ -6,6 +6,33 @@
 export type LegendRow = { symbol: string; desc: string };
 
 export const TRANSCRIPTION_LEGEND: Partial<Record<string, LegendRow[]>> = {
+  EN: [
+    { symbol: 'ˈ', desc: 'наголос — стоїть перед ударним складом' },
+    { symbol: 'iː', desc: 'довге і (як в see)' },
+    { symbol: 'ɪ', desc: 'коротке і (як в sit)' },
+    { symbol: 'uː', desc: 'довге у (як в too)' },
+    { symbol: 'ʊ', desc: 'коротке у (як в put)' },
+    { symbol: 'ɒ', desc: 'коротке відкрите о (брит., як в hot)' },
+    { symbol: 'ɔː', desc: 'довге о (як в law)' },
+    { symbol: 'æ', desc: 'відкрите е/а (як в cat)' },
+    { symbol: 'ʌ', desc: 'коротке а (як в cup)' },
+    { symbol: 'ɜː', desc: 'довге шва (як в bird)' },
+    { symbol: 'ə', desc: 'шва — нейтральний, майже невимовлений звук' },
+    { symbol: 'eɪ', desc: 'дифтонг ей (як в day)' },
+    { symbol: 'aɪ', desc: 'дифтонг ай (як в my)' },
+    { symbol: 'ɔɪ', desc: 'дифтонг ой (як в boy)' },
+    { symbol: 'aʊ', desc: 'дифтонг ау (як в now)' },
+    { symbol: 'əʊ', desc: 'дифтонг оу, брит. (як в go)' },
+    { symbol: 'oʊ', desc: 'дифтонг оу, амер. (як в go)' },
+    { symbol: 'θ', desc: 'глухе міжзубне th (як в think)' },
+    { symbol: 'ð', desc: 'дзвінке міжзубне th (як в this)' },
+    { symbol: 'ʃ', desc: 'ш (як в she)' },
+    { symbol: 'ʒ', desc: 'ж (як в vision)' },
+    { symbol: 'ŋ', desc: 'носове н (як в sing)' },
+    { symbol: 'tʃ', desc: 'ч (як в chair)' },
+    { symbol: 'dʒ', desc: 'дж (як в job)' },
+    { symbol: 'r', desc: 'англійське р — без вібрації, вимовляється м\'якше за українське' },
+  ],
   ES: [
     { symbol: 'ˈ', desc: 'наголос — стоїть перед ударним складом' },
     { symbol: 'ð', desc: 'як англійське th у "this" (м\'яке міжзубне з)' },

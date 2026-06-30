@@ -7,6 +7,7 @@ import { getLevel, getNextLevel, LEVELS } from './game.ts';
 import { t, levelName, wordsLabel } from './i18n.ts';
 import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { getKnownInLang } from './mode-utils.ts';
+import { openPage } from './sidebar.tsx';
 
 export function GameBarLevel(): ReactElement {
   useStateVersion();
@@ -29,7 +30,9 @@ export function GameBarLevel(): ReactElement {
   }
 
   return (
-    <>
+    <div className="gb-level-clickable" role="button" tabIndex={0} title={t('levels.goToAchievements')}
+      onClick={() => openPage('ach')}
+      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') openPage('ach'); }}>
       <div className="gb-level-name-row">
         <span className="level-badge" style={{ background: lv.color + '22', color: lv.color }}>{levelName(lv.name)}</span>
         <span className="gb-level-arrow">→</span>
@@ -40,7 +43,7 @@ export function GameBarLevel(): ReactElement {
         <div className="gb-level-fill" style={{ width: fillPct + '%', background: fillBg }} />
       </div>
       <div className="gb-level-xp">{xpText}</div>
-    </>
+    </div>
   );
 }
 

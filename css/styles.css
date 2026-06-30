@@ -178,8 +178,10 @@
 
   .card-meta {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    row-gap: 4px;
     margin-bottom: 14px;
   }
   .card-num { font-size: 11px; color: var(--text3); letter-spacing: .05em; }
@@ -2461,6 +2463,8 @@ body.hp .mode-name { color: #f5e6c8; }
 
 /* Block 3: Level XP */
 .gb-level-block { flex: 1.5; }
+.gb-level-clickable { cursor: pointer; }
+.gb-level-clickable:hover .level-badge { filter: brightness(1.08); }
 
 /* Level name row: badge → next level → level number, all on one line */
 .gb-level-name-row {
@@ -4420,11 +4424,15 @@ body.hp .idiom-meaning { color: #d3a625; }
   .gb-level-block { flex: 1.5; }
   .gb-level-name-row { margin-bottom: 3px; }
 
-  /* Level badge: bigger, prominent */
+  /* Level badge: bigger, prominent — arrow/next are hidden below, so let
+     the badge use the freed-up space instead of a fixed max-width
+     (which was truncating longer level names down to 1-2 letters). */
+  .gb-level-name-row { flex-wrap: nowrap; }
   .level-badge {
     font-size: .68rem !important;
     padding: 2px 6px !important;
-    max-width: 90px;
+    flex: 1 1 auto;
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -4446,7 +4454,7 @@ body.hp .idiom-meaning { color: #d3a625; }
 }
 
 @media (max-width: 360px) {
-  .level-badge { max-width: 72px; font-size: .62rem !important; }
+  .level-badge { font-size: .62rem !important; }
 }
 
 /* ── Inline search — mobile improvements ────────────────────── */
@@ -4577,7 +4585,13 @@ body.dark .cefr-C2, body.hp .cefr-C2 { background: rgba(142,68,173,.18); }
 }
 
 @media (max-width: 480px) {
-  .category-badge { font-size: .62rem; padding: 1px 5px; }
+  .category-badge {
+    font-size: .62rem;
+    padding: 1px 5px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 /* ══════════════════════════════════════════
