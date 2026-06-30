@@ -4434,13 +4434,21 @@ body.hp .idiom-meaning { color: #d3a625; }
      the XP text below) to give the label the whole row instead of fighting
      it for space and getting clipped by overflow: hidden. */
   .level-badge:not(.level-badge-mobile) { display: none; }
+  /* .gb-level-block .level-badge (base rule) sets max-width:55% + ellipsis,
+     which otherwise outranks the plain .level-badge-mobile class below and
+     squashes+centers the text so it gets clipped on both sides instead of
+     just the end. Match that selector's specificity to override it. */
+  .gb-level-block .level-badge-mobile,
   .level-badge-mobile {
     display: inline-flex;
     justify-content: center;
     flex: 1 1 auto;
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
     white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
     font-size: .62rem !important;
     padding: 2px 4px !important;
   }
