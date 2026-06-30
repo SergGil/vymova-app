@@ -1,15 +1,15 @@
 // Vymova — data/collocations.ts
-// Fixed word combinations that native English speakers always use together.
-// Especially useful for Ukrainian learners who frequently confuse make/do and other patterns.
+// Fixed word combinations that native speakers always use together (e.g.
+// "make a decision" NOT "do a decision"). Covers English, Spanish and French.
 
-interface Collocation {
+export interface Collocation {
   phrase: string;    // the full collocation: "make a decision"
   category: string;  // "make/do", "take", "have", "adjective+noun", etc.
   note?: string;     // brief explanation if needed
 }
 
 // Map: keyword → list of collocations using that word
-const COLLOCATIONS: Record<string, Collocation[]> = {
+const COLLOCATIONS_EN: Record<string, Collocation[]> = {
 
   // ─── MAKE (NOT "do") ───────────────────────────────────────────────────────
   'make': [
@@ -387,22 +387,250 @@ const COLLOCATIONS: Record<string, Collocation[]> = {
   ],
 };
 
+// ─── Spanish ─────────────────────────────────────────────────────────────────
+const COLLOCATIONS_ES: Record<string, Collocation[]> = {
+
+  // ─── TENER ─────────────────────────────────────────────────────────────────
+  'tener': [
+    { phrase: 'tener cuidado',     category: 'tener', note: 'NOT "ser cuidado"' },
+    { phrase: 'tener hambre',      category: 'tener', note: 'NOT "estar hambre"' },
+    { phrase: 'tener sed',         category: 'tener' },
+    { phrase: 'tener sueño',       category: 'tener', note: 'feel sleepy' },
+    { phrase: 'tener miedo',       category: 'tener' },
+    { phrase: 'tener prisa',       category: 'tener', note: 'be in a hurry' },
+    { phrase: 'tener razón',       category: 'tener', note: 'be right' },
+    { phrase: 'tener éxito',       category: 'tener' },
+    { phrase: 'tener suerte',      category: 'tener' },
+    { phrase: 'tener ganas de',    category: 'tener', note: 'feel like (doing something)' },
+    { phrase: 'tener en cuenta',   category: 'tener', note: 'take into account' },
+    { phrase: 'tener lugar',       category: 'tener', note: 'take place; NOT "hacer lugar"' },
+    { phrase: 'tener confianza',   category: 'tener' },
+    { phrase: 'tener paciencia',   category: 'tener' },
+    { phrase: 'tener vergüenza',   category: 'tener', note: 'be ashamed' },
+    { phrase: 'tener celos',       category: 'tener', note: 'be jealous' },
+    { phrase: 'tener cariño a',    category: 'tener' },
+  ],
+
+  // ─── HACER ─────────────────────────────────────────────────────────────────
+  'hacer': [
+    { phrase: 'hacer una pregunta',  category: 'hacer', note: 'NOT "preguntar una pregunta"' },
+    { phrase: 'hacer un esfuerzo',   category: 'hacer' },
+    { phrase: 'hacer la cama',       category: 'hacer' },
+    { phrase: 'hacer las maletas',   category: 'hacer', note: 'pack the suitcases' },
+    { phrase: 'hacer caso',          category: 'hacer', note: 'pay attention / obey' },
+    { phrase: 'hacer daño',          category: 'hacer' },
+    { phrase: 'hacer ejercicio',     category: 'hacer' },
+    { phrase: 'hacer una llamada',   category: 'hacer' },
+    { phrase: 'hacer un viaje',      category: 'hacer' },
+    { phrase: 'hacer falta',         category: 'hacer', note: 'be needed' },
+    { phrase: 'hacer trampa',        category: 'hacer', note: 'cheat' },
+    { phrase: 'hacer cola',          category: 'hacer', note: 'queue up' },
+    { phrase: 'hacer ruido',         category: 'hacer' },
+    { phrase: 'hacer las paces',     category: 'hacer', note: 'make peace' },
+    { phrase: 'hacer un favor',      category: 'hacer' },
+    { phrase: 'hacer cola en el banco', category: 'hacer' },
+  ],
+
+  // ─── DAR ───────────────────────────────────────────────────────────────────
+  'dar': [
+    { phrase: 'dar un paseo',        category: 'dar', note: 'go for a walk' },
+    { phrase: 'dar las gracias',     category: 'dar' },
+    { phrase: 'dar miedo',           category: 'dar', note: 'be scary' },
+    { phrase: 'dar la bienvenida',   category: 'dar' },
+    { phrase: 'dar a luz',           category: 'dar', note: 'give birth' },
+    { phrase: 'dar un consejo',      category: 'dar' },
+    { phrase: 'dar permiso',         category: 'dar' },
+    { phrase: 'dar una vuelta',      category: 'dar', note: 'go for a stroll/ride' },
+    { phrase: 'dar prisa',           category: 'dar', note: 'hurry someone' },
+    { phrase: 'dar pena',            category: 'dar', note: 'make sad/sorry' },
+    { phrase: 'dar igual',           category: 'dar', note: "be all the same (to someone)" },
+    { phrase: 'dar la razón',        category: 'dar', note: 'agree someone is right' },
+  ],
+
+  // ─── PONER ─────────────────────────────────────────────────────────────────
+  'poner': [
+    { phrase: 'poner la mesa',       category: 'poner', note: 'set the table' },
+    { phrase: 'poner atención',      category: 'poner' },
+    { phrase: 'ponerse nervioso',    category: 'poner' },
+    { phrase: 'poner en marcha',     category: 'poner', note: 'start up / launch' },
+    { phrase: 'poner un ejemplo',    category: 'poner' },
+    { phrase: 'poner fin a',         category: 'poner' },
+    { phrase: 'poner en duda',       category: 'poner' },
+    { phrase: 'poner a prueba',      category: 'poner', note: 'put to the test' },
+  ],
+
+  // ─── ECHAR ─────────────────────────────────────────────────────────────────
+  'echar': [
+    { phrase: 'echar de menos',      category: 'echar', note: 'miss someone' },
+    { phrase: 'echar la culpa',      category: 'echar' },
+    { phrase: 'echar una mano',      category: 'echar', note: 'lend a hand' },
+    { phrase: 'echar un vistazo',    category: 'echar', note: 'take a glance' },
+  ],
+
+  // ─── ADJETIVO + SUSTANTIVO ─────────────────────────────────────────────────
+  'adjetivo+sustantivo': [
+    { phrase: 'gran éxito',          category: 'adjetivo+sustantivo' },
+    { phrase: 'buena suerte',        category: 'adjetivo+sustantivo' },
+    { phrase: 'mal humor',           category: 'adjetivo+sustantivo' },
+    { phrase: 'fuerte dolor',        category: 'adjetivo+sustantivo' },
+    { phrase: 'alto riesgo',         category: 'adjetivo+sustantivo' },
+    { phrase: 'estrecha relación',   category: 'adjetivo+sustantivo' },
+    { phrase: 'amplia experiencia',  category: 'adjetivo+sustantivo' },
+  ],
+
+  // ─── VERBO + SUSTANTIVO (general) ─────────────────────────────────────────
+  'verbo+sustantivo': [
+    { phrase: 'tomar una decisión',  category: 'verbo+sustantivo' },
+    { phrase: 'prestar atención',    category: 'verbo+sustantivo' },
+    { phrase: 'correr un riesgo',    category: 'verbo+sustantivo' },
+    { phrase: 'sacar conclusiones',  category: 'verbo+sustantivo' },
+    { phrase: 'cumplir una promesa', category: 'verbo+sustantivo' },
+    { phrase: 'alcanzar un acuerdo', category: 'verbo+sustantivo' },
+    { phrase: 'romper un récord',    category: 'verbo+sustantivo' },
+    { phrase: 'ganar dinero',        category: 'verbo+sustantivo' },
+    { phrase: 'perder el tiempo',    category: 'verbo+sustantivo' },
+    { phrase: 'cambiar de opinión',  category: 'verbo+sustantivo' },
+  ],
+};
+
+// ─── French ──────────────────────────────────────────────────────────────────
+const COLLOCATIONS_FR: Record<string, Collocation[]> = {
+
+  // ─── FAIRE ─────────────────────────────────────────────────────────────────
+  'faire': [
+    { phrase: 'faire attention',          category: 'faire' },
+    { phrase: 'faire la queue',           category: 'faire', note: 'queue up' },
+    { phrase: 'faire la cuisine',         category: 'faire', note: 'cook' },
+    { phrase: 'faire le ménage',          category: 'faire' },
+    { phrase: 'faire les courses',        category: 'faire', note: 'go shopping' },
+    { phrase: 'faire un effort',          category: 'faire' },
+    { phrase: 'faire confiance à',        category: 'faire' },
+    { phrase: 'faire de son mieux',       category: 'faire', note: 'do one\'s best' },
+    { phrase: 'faire une promenade',      category: 'faire' },
+    { phrase: 'faire un voyage',          category: 'faire' },
+    { phrase: 'faire la connaissance de', category: 'faire', note: 'meet/get to know someone' },
+    { phrase: 'faire mal',                category: 'faire' },
+    { phrase: 'faire peur',               category: 'faire' },
+    { phrase: 'faire plaisir',            category: 'faire' },
+    { phrase: 'faire la sieste',          category: 'faire' },
+    { phrase: 'faire du sport',           category: 'faire' },
+    { phrase: 'faire des progrès',        category: 'faire' },
+    { phrase: 'faire la fête',            category: 'faire' },
+    { phrase: 'faire semblant',           category: 'faire', note: 'pretend' },
+    { phrase: 'faire exprès',             category: 'faire', note: 'do on purpose' },
+  ],
+
+  // ─── AVOIR ─────────────────────────────────────────────────────────────────
+  'avoir': [
+    { phrase: 'avoir faim',          category: 'avoir', note: 'NOT "être faim"' },
+    { phrase: 'avoir soif',          category: 'avoir' },
+    { phrase: 'avoir sommeil',       category: 'avoir' },
+    { phrase: 'avoir peur',          category: 'avoir' },
+    { phrase: 'avoir raison',        category: 'avoir', note: 'be right' },
+    { phrase: 'avoir tort',          category: 'avoir', note: 'be wrong' },
+    { phrase: 'avoir de la chance',  category: 'avoir' },
+    { phrase: 'avoir besoin de',     category: 'avoir' },
+    { phrase: 'avoir envie de',      category: 'avoir' },
+    { phrase: "avoir l'air",         category: 'avoir', note: 'look/seem' },
+    { phrase: 'avoir lieu',          category: 'avoir', note: 'take place' },
+    { phrase: 'avoir confiance',     category: 'avoir' },
+    { phrase: 'avoir honte',         category: 'avoir' },
+    { phrase: 'avoir du mal à',      category: 'avoir', note: 'have trouble doing something' },
+    { phrase: 'avoir hâte de',       category: 'avoir', note: "can't wait to" },
+  ],
+
+  // ─── PRENDRE ───────────────────────────────────────────────────────────────
+  'prendre': [
+    { phrase: 'prendre une décision', category: 'prendre' },
+    { phrase: 'prendre soin de',      category: 'prendre' },
+    { phrase: 'prendre rendez-vous',  category: 'prendre' },
+    { phrase: 'prendre le temps',     category: 'prendre' },
+    { phrase: 'prendre une douche',   category: 'prendre' },
+    { phrase: 'prendre un risque',    category: 'prendre' },
+    { phrase: 'prendre la parole',    category: 'prendre', note: 'start speaking' },
+    { phrase: 'prendre conscience de', category: 'prendre', note: 'become aware of' },
+    { phrase: 'prendre part à',       category: 'prendre' },
+    { phrase: 'prendre congé',        category: 'prendre', note: 'take leave / say goodbye' },
+    { phrase: 'prendre note',         category: 'prendre' },
+    { phrase: 'prendre du poids',     category: 'prendre' },
+  ],
+
+  // ─── METTRE ────────────────────────────────────────────────────────────────
+  'mettre': [
+    { phrase: 'mettre la table',         category: 'mettre', note: 'set the table' },
+    { phrase: 'mettre fin à',            category: 'mettre' },
+    { phrase: 'mettre en place',         category: 'mettre', note: 'set up / implement' },
+    { phrase: 'mettre en question',      category: 'mettre' },
+    { phrase: 'mettre en valeur',        category: 'mettre', note: 'highlight' },
+    { phrase: "mettre l'accent sur",     category: 'mettre', note: 'emphasize' },
+    { phrase: 'se mettre en colère',     category: 'mettre', note: 'get angry' },
+    { phrase: 'mettre du temps',         category: 'mettre' },
+  ],
+
+  // ─── DONNER ────────────────────────────────────────────────────────────────
+  'donner': [
+    { phrase: 'donner un coup de main',  category: 'donner', note: 'lend a hand' },
+    { phrase: 'donner raison à',         category: 'donner', note: 'agree someone is right' },
+    { phrase: 'donner envie',            category: 'donner' },
+    { phrase: 'donner rendez-vous',      category: 'donner' },
+    { phrase: "donner l'impression",     category: 'donner' },
+    { phrase: 'donner suite à',          category: 'donner', note: 'follow up on' },
+  ],
+
+  // ─── ADJECTIF + NOM ────────────────────────────────────────────────────────
+  'adjectif+nom': [
+    { phrase: 'grand succès',     category: 'adjectif+nom' },
+    { phrase: 'forte pluie',      category: 'adjectif+nom' },
+    { phrase: 'bonne idée',       category: 'adjectif+nom' },
+    { phrase: 'mauvaise humeur',  category: 'adjectif+nom' },
+    { phrase: 'gros effort',      category: 'adjectif+nom' },
+    { phrase: 'profond sommeil',  category: 'adjectif+nom' },
+    { phrase: 'large expérience', category: 'adjectif+nom' },
+  ],
+
+  // ─── VERBE + NOM (general) ─────────────────────────────────────────────────
+  'verbe+nom': [
+    { phrase: 'poser une question',     category: 'verbe+nom' },
+    { phrase: 'tenir compte de',        category: 'verbe+nom', note: 'take into account' },
+    { phrase: 'porter plainte',         category: 'verbe+nom', note: 'file a complaint' },
+    { phrase: 'jouer un rôle',          category: 'verbe+nom' },
+    { phrase: 'garder le silence',      category: 'verbe+nom' },
+    { phrase: 'perdre du temps',        category: 'verbe+nom' },
+    { phrase: "gagner de l'argent",     category: 'verbe+nom' },
+    { phrase: "changer d'avis",         category: 'verbe+nom' },
+    { phrase: 'tirer une conclusion',   category: 'verbe+nom' },
+    { phrase: 'atteindre un objectif',  category: 'verbe+nom' },
+  ],
+};
+
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
-// Inverted index: each word in any phrase → collocations containing it
-const _collIndex = new Map<string, Collocation[]>();
-for (const colls of Object.values(COLLOCATIONS)) {
-  for (const c of colls) {
-    for (const token of c.phrase.toLowerCase().split(/\s+/)) {
-      const list = _collIndex.get(token);
-      if (list) list.push(c);
-      else _collIndex.set(token, [c]);
+// Inverted index: each word in any phrase → collocations containing it.
+// Splits on apostrophes too (not just whitespace) so a French elision like
+// "l'accent" indexes under "accent", matching the bare headword "accent".
+function _buildIndex(byCategory: Record<string, Collocation[]>): Map<string, Collocation[]> {
+  const idx = new Map<string, Collocation[]>();
+  for (const colls of Object.values(byCategory)) {
+    for (const c of colls) {
+      for (const token of c.phrase.toLowerCase().split(/[\s']+/)) {
+        if (!token) continue;
+        const list = idx.get(token);
+        if (list) list.push(c);
+        else idx.set(token, [c]);
+      }
     }
   }
+  return idx;
 }
 
-/** Search collocations whose phrase contains a given word (O(1) index lookup) */
-export function searchCollocations(word: string): Collocation[] {
-  return _collIndex.get(word.toLowerCase()) ?? [];
+const _INDEX_BY_LANG: Record<string, Map<string, Collocation[]>> = {
+  en: _buildIndex(COLLOCATIONS_EN),
+  es: _buildIndex(COLLOCATIONS_ES),
+  fr: _buildIndex(COLLOCATIONS_FR),
+};
+
+/** Search `lang`'s collocations whose phrase contains a given word (O(1) index lookup). Defaults to English. */
+export function searchCollocations(word: string, lang = 'en'): Collocation[] {
+  return _INDEX_BY_LANG[lang]?.get(word.toLowerCase()) ?? [];
 }
 

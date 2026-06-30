@@ -16,25 +16,35 @@ import { getMode, parsePair, headwordFor, isTargetLang, reverseHeadwordFor, type
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { getLang, t } from './i18n.ts';
 
-// Collocations are English-specific idiomatic patterns (e.g. "make a
-// decision" NOT "do a decision") — only meaningful when English is one of
-// the two selected languages ("Я знаю" / "Хочу вчити"); irrelevant noise
-// otherwise (e.g. a pure FR↔IT pair).
-function _englishInPair(): boolean {
+// Collocations are idiomatic word combinations (e.g. "make a decision" NOT
+// "do a decision") with dedicated data for EN/ES/FR only. When the front
+// language is ES or FR, match against its own headword; otherwise fall
+// back to English whenever it's one of the two selected languages ("Я
+// знаю" / "Хочу вчити"), matched against the canonical English word
+// (cw[0]) regardless of which side is displayed — irrelevant noise for
+// pairs with neither (e.g. a pure DE↔IT pair).
+function _collocationsLangAndWord(cw: WordEntry): { lang: 'en' | 'es' | 'fr'; word: string } | null {
   const { front, back } = parsePair(getMode());
-  return front === 'en' || back === 'en';
+  if (front === 'es' || front === 'fr') {
+    const word = headwordFor(front, cw);
+    return word ? { lang: front, word } : null;
+  }
+  if (front === 'en' || back === 'en') return { lang: 'en', word: cw[0] };
+  return null;
 }
 
 export function CollocationsSection(): ReactElement | null {
   useStateVersion();
   const cw = getCwSnapshot() as WordEntry | null;
   if (!cw || !getFlippedSnapshot()) return null;
-  if (!_englishInPair()) return null;
 
-  const colls = searchCollocations(cw[0]);
+  const target = _collocationsLangAndWord(cw);
+  if (!target) return null;
+
+  const colls = searchCollocations(target.word, target.lang);
   if (!colls.length) return null;
 
-  const wordLow = cw[0].toLowerCase();
+  const wordLow = target.word.toLowerCase();
   const re = new RegExp('\\b(' + wordLow + '\\w*)\\b', 'i');
 
   return (
