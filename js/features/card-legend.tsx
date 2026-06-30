@@ -17,10 +17,10 @@ const ITEMS: { icon: string; key: string }[] = [
   { icon: '☆',     key: 'bookmark' },
   { icon: '🔀',    key: 'senses' },
   { icon: '🪄',    key: 'etymology' },
-  { icon: '🔗',    key: 'similar' },
-  { icon: '🌳',    key: 'family' },
-  { icon: '≈',     key: 'synonyms' },
-  { icon: '🧩',    key: 'collocations' },
+  { icon: '🧩',    key: 'similar' },
+  { icon: '🌱',    key: 'family' },
+  { icon: '🔄',    key: 'synonyms' },
+  { icon: '🔗',    key: 'collocations' },
 ];
 
 export function CardLegendModal(): ReactElement | null {

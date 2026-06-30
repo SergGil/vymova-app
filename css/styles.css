@@ -1337,9 +1337,9 @@
   .colloc-pill:hover { background: rgba(52,152,219,.14); }
 
   /* Light theme overrides */
-  body:not(.dark):not(.sw):not(.hp) .sim-chip { background: #f5f5f5; }
-  body:not(.dark):not(.sw):not(.hp) .sim-chip:hover { background: #e8f8f0; border-color: var(--accent); }
-  body:not(.dark):not(.sw):not(.hp) .family-chip { background: rgba(45,90,61,.06); }
+  body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .sim-chip { background: #f5f5f5; }
+  body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .sim-chip:hover { background: #e8f8f0; border-color: var(--accent); }
+  body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .family-chip { background: rgba(45,90,61,.06); }
 
   /* ── Compact on mobile ── */
   @media (max-width: 480px) {
@@ -2651,20 +2651,20 @@ body.hp .gb-streak-num { color: #d3a625; }
 #btn-achievements:hover { color: #ffd700 !important; text-shadow: 0 0 8px rgba(255,215,0,0.6); }
 
 /* ── Light theme: keep game-bar readable ── */
-body:not(.dark):not(.sw) .gb-block {
+body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .gb-block {
   background: var(--card);
   border-color: var(--border);
 }
-body:not(.dark):not(.sw) .gb-block::after { display: none; }
-body:not(.dark):not(.sw) .gb-label { color: var(--text3); text-transform: none; font-size: .72rem; }
-body:not(.dark):not(.sw) .gb-streak-block .gb-streak-num { color: #e67e22; text-shadow: none; }
-body:not(.dark):not(.sw) .gb-goal-block .goal-track { background: var(--border); }
-body:not(.dark):not(.sw) .gb-goal-block .goal-fill { background: linear-gradient(90deg, #27ae60, #2ecc71); box-shadow: none; }
-body:not(.dark):not(.sw) .gb-goal-block .goal-fill.done { background: linear-gradient(90deg,#f39c12,#e67e22)!important; box-shadow: none!important; }
-body:not(.dark):not(.sw) .goal-done-badge { background:#27ae60; color:#fff; border:none; box-shadow:none; }
-body:not(.dark):not(.sw) .gb-level-block { border-color: var(--border); box-shadow: var(--shadow); }
-body:not(.dark):not(.sw) .gb-level-next { color: var(--text3); }
-body:not(.dark):not(.sw) .gb-level-xp { color: var(--text3); }
+body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .gb-block::after { display: none; }
+body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .gb-label { color: var(--text3); text-transform: none; font-size: .72rem; }
+body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .gb-streak-block .gb-streak-num { color: #e67e22; text-shadow: none; }
+body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .gb-goal-block .goal-track { background: var(--border); }
+body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .gb-goal-block .goal-fill { background: linear-gradient(90deg, #27ae60, #2ecc71); box-shadow: none; }
+body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .gb-goal-block .goal-fill.done { background: linear-gradient(90deg,#f39c12,#e67e22)!important; box-shadow: none!important; }
+body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .goal-done-badge { background:#27ae60; color:#fff; border:none; box-shadow:none; }
+body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .gb-level-block { border-color: var(--border); box-shadow: var(--shadow); }
+body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .gb-level-next { color: var(--text3); }
+body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .gb-level-xp { color: var(--text3); }
 
 /* ── SW theme: extra glow ── */
 body.sw .gb-streak-block { border-color: rgba(0,200,255,0.3); }
@@ -3549,8 +3549,8 @@ body.sw .gb-goal-sep  { color: rgba(200,230,255,0.4); }
 body.hp .gb-goal-sep  { color: rgba(245,230,200,0.4); }
 body.sw .gb-level-arrow { color: rgba(200,230,255,0.4); }
 body.hp .gb-level-arrow { color: rgba(245,230,200,0.4); }
-body:not(.dark):not(.sw) .gb-goal-big { color: var(--text); }
-body:not(.dark):not(.sw) .gb-goal-sep { color: var(--text3); }
+body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .gb-goal-big { color: var(--text); }
+body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):not(.mc):not(.dc):not(.got):not(.dw):not(.dune):not(.hg):not(.avt):not(.dt) .gb-goal-sep { color: var(--text3); }
 
 /* ── Level number circle in game bar ── */
 .gb-level-num {
