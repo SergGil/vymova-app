@@ -1291,6 +1291,16 @@
   .sim-chip .sc-transl { font-size: .62rem; color: var(--text3); }
   .sim-chip.known-chip { border-color: rgba(39,174,96,.4); background: rgba(39,174,96,.06); }
   .sim-chip.known-chip .sc-word { color: var(--accent); }
+  .mini-word-img {
+    display: block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 2px;
+    flex-shrink: 0;
+  }
+  .mini-word-img img, .mini-word-img svg { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   /* ── Word Families chips — distinct style ── */
   .family-chip {
