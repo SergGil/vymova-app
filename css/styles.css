@@ -4429,9 +4429,15 @@ body.hp .idiom-meaning { color: #d3a625; }
   .gb-level-name-row { margin-bottom: 3px; }
 
   /* The actual level name doesn't fit on narrow screens even abbreviated —
-     swap it for a short fixed "Шлях Джедая" label that always fits. */
+     swap it for a short fixed "Шлях Джедая" label that always fits.
+     white-space/flex-shrink keep it on one line instead of wrapping and
+     getting clipped by .gb-level-name-row's overflow: hidden. */
   .level-badge:not(.level-badge-mobile) { display: none; }
-  .level-badge-mobile { display: inline-flex; }
+  .level-badge-mobile {
+    display: inline-flex;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 
   /* Hide next-level arrow + name — save space on narrow screens */
   .gb-level-arrow, .gb-level-next { display: none; }
