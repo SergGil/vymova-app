@@ -4227,6 +4227,9 @@ body.hp .idiom-meaning { color: #d3a625; }
   /* Quick Quiz button */
   #btn-quick-quiz { font-size: .8rem; padding: 8px 0; }
 
+  /* Gap between Quick Quiz and the font-size (A-/A+) controls below it */
+  .quick-quiz-wrap { margin-bottom: 14px; }
+
   /* Keyboard hint: hide on mobile */
   .kbd-hint { display: none; }
 
@@ -4424,19 +4427,9 @@ body.hp .idiom-meaning { color: #d3a625; }
   .gb-level-block { flex: 1.5; }
   .gb-level-name-row { margin-bottom: 3px; }
 
-  /* Level badge: bigger, prominent — arrow/next are hidden below, so let
-     the badge use the freed-up space instead of a fixed max-width
-     (which was truncating longer level names down to 1-2 letters). */
-  .gb-level-name-row { flex-wrap: nowrap; }
-  .level-badge {
-    font-size: .68rem !important;
-    padding: 2px 6px !important;
-    flex: 1 1 auto;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  /* Level name doesn't fit on narrow screens even abbreviated — hide it
+     and keep just the level number + progress bar/XP text. */
+  .level-badge { display: none; }
 
   /* Hide next-level arrow + name — save space on narrow screens */
   .gb-level-arrow, .gb-level-next { display: none; }
@@ -4453,9 +4446,6 @@ body.hp .idiom-meaning { color: #d3a625; }
   .gb-level-track { height: 5px; margin: 4px 0; }
 }
 
-@media (max-width: 360px) {
-  .level-badge { font-size: .62rem !important; }
-}
 
 /* ── Inline search — mobile improvements ────────────────────── */
 /* Higher z-index so results appear above other content on mobile */

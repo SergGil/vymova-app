@@ -53,11 +53,13 @@ export function GoalModal(): ReactElement | null {
         <div style={{ fontSize: '.83rem', color: 'var(--text2)', marginBottom: 14, textAlign: 'center' }}>{t('goal.modal.desc')}</div>
         <input
           ref={inputRef}
-          type="number"
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
           min={1}
           max={500}
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={e => setValue(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))}
           onKeyDown={e => {
             if (e.key === 'Enter') save();
             if (e.key === 'Escape') setOpen(false);
