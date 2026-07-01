@@ -243,6 +243,7 @@
   "stats.wordsLearned": "Palavras aprendidas",
   "stats.ofAllWords": "Do total de palavras",
   "stats.daysStreak": "🔥 Dias consecutivos",
+  "stats.weekWordsLabel": "📅 Palavras esta semana",
   "stats.perDayTitle": "Palavras aprendidas por dia",
   "stats.perDayCount": "(últimos {{n}} {{unit}})",
   "stats.yearActivity": "🗓️ Atividade do ano",

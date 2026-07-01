@@ -454,8 +454,13 @@ export function StatsPage(): ReactElement {
                 {t('stats.personalBest', { n: gd.maxStreak ?? 0 })}
               </div>
             )}
-            <div className="stat-card-sub">
-              {t('stats.weekWords', { n: weeklyTotal })}
+          </div>
+          <div className="stat-card">
+            <div className="sv" id="st-week">
+              {weeklyTotal}
+            </div>
+            <div className="sl" data-i18n="stats.weekWordsLabel">
+              {t('stats.weekWordsLabel')}
             </div>
           </div>
         </div>

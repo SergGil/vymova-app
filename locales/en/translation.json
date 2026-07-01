@@ -276,6 +276,7 @@
   "stats.day": "☀️ afternoon",
   "stats.evening": "🌆 evening",
   "stats.weekWords": "{{n}} this week",
+  "stats.weekWordsLabel": "📅 Words this week",
   "stats.personalBest": "Best: {{n}} days",
   "mistakes.reviewBtn": "🔄 Review mistakes ({{n}})",
   "mistakes.title": "🔴 Mistake Review",

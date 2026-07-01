@@ -61,6 +61,11 @@ export function SettingsInit(): ReactElement | null {
     // ── Haptic toggle UI ───────────────────────────────────────────
     const hapticToggle = document.getElementById('haptic-toggle') as HTMLInputElement | null;
     const hapticStatusEl = document.getElementById('haptic-status') as HTMLElement | null;
+    // Hide haptic section on non-touch devices where vibration is unsupported
+    const hapticSection = hapticToggle?.closest('.settings-section') as HTMLElement | null;
+    if (hapticSection && !('vibrate' in navigator && navigator.maxTouchPoints > 0)) {
+      hapticSection.style.display = 'none';
+    }
     if (hapticToggle) {
       hapticToggle.checked = hapticEnabled();
       const updateHapticLabel = () => {

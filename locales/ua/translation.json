@@ -291,6 +291,7 @@
   "stats.day": "☀️ день",
   "stats.evening": "🌆 вечір",
   "stats.weekWords": "{{n}} цього тижня",
+  "stats.weekWordsLabel": "📅 Слів цього тижня",
   "stats.personalBest": "Рекорд: {{n}} дн.",
   "mistakes.reviewBtn": "🔄 Повторити помилки ({{n}})",
   "mistakes.title": "🔴 Розбір помилок",

@@ -243,6 +243,7 @@
   "stats.wordsLearned": "Mots appris",
   "stats.ofAllWords": "Sur tous les mots",
   "stats.daysStreak": "🔥 Jours d'affilée",
+  "stats.weekWordsLabel": "📅 Mots cette semaine",
   "stats.perDayTitle": "Mots appris par jour",
   "stats.perDayCount": "(les {{n}} derniers {{unit}})",
   "stats.yearActivity": "🗓️ Activité de l'année",
