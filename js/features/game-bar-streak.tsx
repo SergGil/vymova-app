@@ -45,35 +45,52 @@ export function ComboBox(): ReactElement {
   );
 }
 
+const RING_R = 22;
+const RING_STROKE = 4;
+const RING_C = 2 * Math.PI * RING_R;
+
 export function GameBarGoal(): ReactElement {
   useStateVersion();
   const d = getGameData();
   const pct = Math.min((d.goalCur / d.goalMax) * 100, 100);
   const done = d.goalCur >= d.goalMax;
+  const offset = RING_C * (1 - pct / 100);
+  const ringColor = done ? '#f39c12' : '#27ae60';
   return (
-    <>
-      <div className="gb-goal-big">
+    <div className="gb-goal-ring-wrap">
+      <svg
+        width="54"
+        height="54"
+        className="gb-goal-ring"
+        style={{ transform: 'rotate(-90deg)' }}
+        aria-hidden="true"
+      >
+        <circle
+          cx="27" cy="27" r={RING_R}
+          fill="none"
+          stroke="var(--border)"
+          strokeWidth={RING_STROKE}
+        />
+        <circle
+          cx="27" cy="27" r={RING_R}
+          fill="none"
+          stroke={ringColor}
+          strokeWidth={RING_STROKE}
+          strokeDasharray={RING_C}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          style={{ transition: 'stroke-dashoffset 0.4s ease, stroke 0.3s ease' }}
+        />
+      </svg>
+      <div className="gb-goal-ring-text">
         <span id="goal-cur">{d.goalCur || 0}</span>
         <span className="gb-goal-sep">/</span>
         <span id="goal-max">{d.goalMax}</span>
       </div>
-      <div className="goal-track" style={{ margin: '5px 0 5px' }}>
-        <div
-          className={'goal-fill' + (done ? ' done' : '')}
-          id="goal-fill"
-          style={{ width: pct + '%' }}
-        />
-      </div>
-      <div className="gb-goal-footer">
-        <span
-          className="goal-done-badge"
-          id="goal-done"
-          style={{ display: done ? 'inline' : 'none' }}
-        >
-          {t('cards.goalDone')}
-        </span>
-      </div>
-    </>
+      {done && (
+        <div className="goal-done-badge" id="goal-done">{t('cards.goalDone')}</div>
+      )}
+    </div>
   );
 }
 

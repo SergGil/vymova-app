@@ -76,24 +76,48 @@ describe('game-bar-streak.tsx', () => {
   });
 
   describe('GameBarGoal', () => {
-    it('shows progress toward the goal', () => {
+    const RING_R = 22;
+    const RING_C = 2 * Math.PI * RING_R;
+
+    it('shows current and max goal numbers', () => {
       saveGameData({ ...getGameData(), goalCur: 5, goalMax: 20 });
       const { container } = mount(GameBarGoal);
       expect(container.querySelector('#goal-cur')!.textContent).toBe('5');
       expect(container.querySelector('#goal-max')!.textContent).toBe('20');
-      const fill = container.querySelector('.goal-fill') as HTMLElement;
-      expect(fill.style.width).toBe('25%');
-      expect(fill.className).toBe('goal-fill');
-      expect((container.querySelector('#goal-done') as HTMLElement).style.display).toBe('none');
     });
 
-    it('shows the "done" badge when the goal is reached', () => {
+    it('renders SVG ring with correct stroke-dashoffset for 25% progress', () => {
+      saveGameData({ ...getGameData(), goalCur: 5, goalMax: 20 });
+      const { container } = mount(GameBarGoal);
+      const circles = container.querySelectorAll('circle');
+      expect(circles.length).toBe(2);
+      const fillCircle = circles[1] as SVGCircleElement;
+      const offset = parseFloat(fillCircle.getAttribute('stroke-dashoffset') ?? '0');
+      expect(offset).toBeCloseTo(RING_C * 0.75, 1);
+    });
+
+    it('hides the done badge when goal is not yet reached', () => {
+      saveGameData({ ...getGameData(), goalCur: 5, goalMax: 20 });
+      const { container } = mount(GameBarGoal);
+      expect(container.querySelector('#goal-done')).toBeNull();
+    });
+
+    it('shows the "done" badge and full ring when the goal is reached', () => {
       saveGameData({ ...getGameData(), goalCur: 20, goalMax: 20 });
       const { container } = mount(GameBarGoal);
-      const fill = container.querySelector('.goal-fill') as HTMLElement;
-      expect(fill.className).toBe('goal-fill done');
-      expect((container.querySelector('#goal-done') as HTMLElement).style.display).toBe('inline');
-      expect(container.querySelector('#goal-done')!.textContent).toBe('🎉 Ціль досягнута!');
+      const badge = container.querySelector('#goal-done');
+      expect(badge).not.toBeNull();
+      expect(badge!.textContent).toBe('🎉 Ціль досягнута!');
+      const fillCircle = container.querySelectorAll('circle')[1] as SVGCircleElement;
+      const offset = parseFloat(fillCircle.getAttribute('stroke-dashoffset') ?? '1');
+      expect(offset).toBeCloseTo(0, 1);
+    });
+
+    it('uses orange ring color when goal is done', () => {
+      saveGameData({ ...getGameData(), goalCur: 20, goalMax: 20 });
+      const { container } = mount(GameBarGoal);
+      const fillCircle = container.querySelectorAll('circle')[1] as SVGCircleElement;
+      expect(fillCircle.getAttribute('stroke')).toBe('#f39c12');
     });
   });
 });

@@ -17710,6 +17710,92 @@ body.dt .idiom-meaning {
   border-radius: 10px;
 }
 
+/* ── F: Slide-up overlay animation ── */
+@keyframes slideUpPanel {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes slideUpSheet {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#quiz-overlay.open .quiz-panel,
+#aq-overlay.open .quiz-panel,
+#listen-overlay.open .quiz-panel,
+#write-overlay.open .quiz-panel,
+#fib-overlay.open .quiz-panel,
+#lesson-overlay.open .quiz-panel,
+#scramble-overlay.open .quiz-panel,
+#letters-overlay.open .quiz-panel,
+#tempo-overlay.open #tempo-panel {
+  animation: slideUpPanel 0.3s cubic-bezier(0.34, 1.26, 0.64, 1) both;
+}
+.modes-overlay.open .modes-panel {
+  animation: slideUpSheet 0.32s cubic-bezier(0.34, 1.26, 0.64, 1) both;
+}
+.stats-panel.slide-up {
+  animation: slideUpPanel 0.32s cubic-bezier(0.34, 1.26, 0.64, 1) both;
+}
+.page-overlay.open .page-inner {
+  animation: slideUpPanel 0.28s cubic-bezier(0.34, 1.26, 0.64, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  #quiz-overlay.open .quiz-panel,
+  .modes-overlay.open .modes-panel,
+  .stats-panel.slide-up,
+  .page-overlay.open .page-inner { animation: none; }
+}
+
+/* ── E: Goal progress ring ── */
+.gb-goal-ring-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.gb-goal-ring {
+  display: block;
+  overflow: visible;
+}
+.gb-goal-ring-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.gb-goal-ring-text .gb-goal-sep {
+  font-size: 0.6rem;
+  color: var(--text3);
+  margin: 0 1px;
+}
+.goal-done-badge {
+  font-size: 0.65rem;
+  color: #f39c12;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ── B: Pull-to-refresh indicator ── */
+.stats-pull-indicator {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--accent);
+  padding: 6px 0 0;
+  animation: spinOnce 0.6s ease;
+}
+@keyframes spinOnce {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 /* ── D: Stat-card entrance animation ── */
 @keyframes statCardEnter {
   from { opacity: 0; transform: translateY(10px) scale(0.97); }

@@ -1,7 +1,7 @@
 // Vymova — js/features/stats-page.tsx
 // Statistics overlay: progress, daily chart, heatmap, calendar, SRS forecast,
 // mode accuracy, CEFR progress, leaderboard.
-import { useEffect, useState, type ReactElement } from 'react';
+import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { today as todayDateStr } from '../core/today.ts';
 import { getDailyStats, getGameData, getModeStats, getModeAccuracy, getMistakes, getWeeklyTotal } from './game.ts';
 import { loadSRS } from '../core/storage.ts';
@@ -301,7 +301,15 @@ export function refreshStatsPage(): void {
 export function openStats(): void {
   refreshStatsPage();
   const overlay = document.getElementById('stats-overlay');
-  if (overlay) overlay.style.display = 'flex';
+  if (overlay) {
+    overlay.style.display = 'flex';
+    const panel = overlay.querySelector<HTMLElement>('.stats-panel');
+    if (panel) {
+      panel.classList.remove('slide-up');
+      void panel.offsetWidth;
+      panel.classList.add('slide-up');
+    }
+  }
 }
 
 export function closeStats(): void {
@@ -320,6 +328,8 @@ export function StatsPage(): ReactElement {
   const [, setTick] = useState(0);
   const [weakWordsInfoOpen, setWeakWordsInfoOpen] = useState(false);
   const [mistakeReviewOpen, setMistakeReviewOpen] = useState(false);
+  const [pulling, setPulling] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     _bumpTick = () => {
@@ -330,6 +340,31 @@ export function StatsPage(): ReactElement {
     };
     return () => {
       _bumpTick = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) return;
+    let startY = 0;
+    const onTouchStart = (e: TouchEvent): void => {
+      startY = panel.scrollTop === 0 ? e.touches[0].clientY : 0;
+    };
+    const onTouchEnd = (e: TouchEvent): void => {
+      if (!startY) return;
+      const dy = e.changedTouches[0].clientY - startY;
+      if (dy > 60) {
+        refreshStatsPage();
+        setPulling(true);
+        setTimeout(() => setPulling(false), 700);
+      }
+      startY = 0;
+    };
+    panel.addEventListener('touchstart', onTouchStart, { passive: true });
+    panel.addEventListener('touchend', onTouchEnd, { passive: true });
+    return () => {
+      panel.removeEventListener('touchstart', onTouchStart);
+      panel.removeEventListener('touchend', onTouchEnd);
     };
   }, []);
 
@@ -375,7 +410,8 @@ export function StatsPage(): ReactElement {
   }
 
   return (
-    <div className="stats-panel">
+    <div className="stats-panel" ref={panelRef}>
+      {pulling && <div className="stats-pull-indicator">↻</div>}
       <div className="stats-header">
         <div className="stats-title" data-i18n="stats.title">
           {t('stats.title')}
