@@ -415,7 +415,7 @@ export function StatsPage(): ReactElement {
             </div>
             {(gd.maxStreak ?? 0) > 0 && (
               <div className="stat-card-sub">
-                {t('stats.personalBest', { n: gd.maxStreak })}
+                {t('stats.personalBest', { n: gd.maxStreak ?? 0 })}
               </div>
             )}
             <div className="stat-card-sub">
