@@ -126,19 +126,19 @@ describe('profile-page.tsx ProfilePage', () => {
     expect(saveBtn.disabled).toBe(true);
   });
 
-  // ── Level card ────────────────────────────────────────────────
-  it('renders the level card with a badge and progress bar', () => {
+  // ── Hero section (level, XP, avatar) ────────────────────────
+  it('renders the hero banner with a level badge and XP progress bar', () => {
     const { container } = mount();
-    expect(container.querySelector('.profile-level-card')).not.toBeNull();
-    expect(container.querySelector('.profile-level-badge')).not.toBeNull();
-    expect(container.querySelector('.profile-level-bar-wrap')).not.toBeNull();
+    expect(container.querySelector('.profile-hero')).not.toBeNull();
+    expect(container.querySelector('.profile-hero-banner')).not.toBeNull();
+    expect(container.querySelector('.profile-hero-lvl-badge')).not.toBeNull();
+    expect(container.querySelector('.profile-hero-bar-wrap')).not.toBeNull();
   });
 
   it('shows level 1 when XP is 0 (no words, no game XP)', () => {
     getGameData.mockReturnValue({ streak: 0, xp: 0 });
     const { container } = mount();
-    const badge = container.querySelector('.profile-level-badge')!;
-    expect(badge.textContent).toBe('1');
+    expect(container.querySelector('.profile-hero-lvl-badge')!.textContent).toContain('1');
   });
 
   it('shows level 2 when total XP reaches 100', () => {
@@ -146,7 +146,7 @@ describe('profile-page.tsx ProfilePage', () => {
     knownSnapshots['en'] = new Set(Array.from({ length: 20 }, (_, i) => `word${i}`));
     getGameData.mockReturnValue({ streak: 0, xp: 0 });
     const { container } = mount();
-    expect(container.querySelector('.profile-level-badge')!.textContent).toBe('2');
+    expect(container.querySelector('.profile-hero-lvl-badge')!.textContent).toContain('2');
   });
 
   it('shows the info popup trigger button', () => {
@@ -155,33 +155,33 @@ describe('profile-page.tsx ProfilePage', () => {
   });
 
   // ── Primary language card ─────────────────────────────────────
-  it('always shows the primary language card with the correct flag img', () => {
+  it('always shows the primary language card with the correct circular flag img', () => {
     const { container } = mount();
     const primaryCard = container.querySelector('.profile-lang-card--primary')!;
     expect(primaryCard).not.toBeNull();
-    const img = primaryCard.querySelector('img.profile-lang-flag-img') as HTMLImageElement;
+    const img = primaryCard.querySelector('img.profile-flag-circle-img') as HTMLImageElement;
     expect(img).not.toBeNull();
     expect(img.src).toContain('gb.svg');
   });
 
-  it('shows per-language streak and knownCount inside the primary card mini-stats', () => {
+  it('shows per-language streak and knownCount inside the primary card stat row', () => {
     getLangStreak.mockImplementation((_lang: string) => 7);
     const { container } = mount();
     const vals = Array.from(
-      container.querySelectorAll('.profile-lang-card--primary .profile-mini-val'),
+      container.querySelectorAll('.profile-lang-card--primary .profile-stat-val'),
     ).map((el) => el.textContent);
     expect(vals).toContain('7');  // per-language streak
     expect(vals).toContain('20'); // knownCount from getKnownInLang mock
   });
 
-  it('uses totalXp across all language snapshots for the XP mini-stat', () => {
+  it('uses totalXp across all language snapshots for the XP stat', () => {
     // gd.xp=0, en=10 words, es=5 words → total = 15*5 = 75 XP
     knownSnapshots['en'] = new Set(Array.from({ length: 10 }, (_, i) => `w${i}`));
     knownSnapshots['es'] = new Set(['hola', 'adios', 'bueno', 'malo', 'gato']);
     getGameData.mockReturnValue({ streak: 1, xp: 0 });
     const { container } = mount();
     const xpVal = Array.from(
-      container.querySelectorAll('.profile-lang-card--primary .profile-mini-val'),
+      container.querySelectorAll('.profile-lang-card--primary .profile-stat-val'),
     ).find((el) => el.textContent === '75');
     expect(xpVal).not.toBeUndefined();
   });
@@ -213,13 +213,13 @@ describe('profile-page.tsx ProfilePage', () => {
     expect(flags.some((s) => s.includes('fr.svg'))).toBe(true);
   });
 
-  it('shows per-language streak and word count in secondary card mini-stats', () => {
+  it('shows per-language streak and word count in secondary card stat row', () => {
     knownSnapshots['de'] = new Set(['Apfel', 'Buch', 'Haus']);
     getLangStreak.mockImplementation((lang: string) => lang === 'de' ? 4 : 0);
     const secondary = mount().container.querySelector(
       '.profile-lang-card:not(.profile-lang-card--primary)',
     )!;
-    const vals = Array.from(secondary.querySelectorAll('.profile-mini-val')).map((el) => el.textContent);
+    const vals = Array.from(secondary.querySelectorAll('.profile-stat-val')).map((el) => el.textContent);
     expect(vals).toContain('3'); // word count
     expect(vals).toContain('4'); // German-specific streak
   });

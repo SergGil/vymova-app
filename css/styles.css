@@ -5682,6 +5682,162 @@ body.hp .profile-save-btn {
   background: linear-gradient(90deg, #005580, #d3a625);
 }
 
+/* ── Profile hero card ──────────────────────────────────────────── */
+.profile-hero {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: visible;
+}
+.profile-hero-banner {
+  height: 80px;
+  background: linear-gradient(
+    135deg,
+    var(--accent) 0%,
+    color-mix(in srgb, var(--accent) 55%, #7c3aed 45%) 100%
+  );
+  border-radius: 18px 18px 0 0;
+}
+.profile-hero-body {
+  padding: 0 20px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.profile-hero-avatar-ring {
+  margin-top: -45px;
+  width: 90px;
+  height: 90px;
+  border-radius: 16px;
+  border: 3px solid var(--card);
+  box-shadow: 0 0 0 2px var(--accent), 0 6px 20px rgba(0,0,0,0.35);
+  overflow: hidden;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.profile-hero-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 4px;
+  letter-spacing: -0.2px;
+}
+.profile-hero-level-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+.profile-hero-lvl-badge {
+  flex-shrink: 0;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 60%, #7c3aed));
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.profile-hero-bar-wrap {
+  flex: 1;
+  height: 5px;
+  background: var(--bg);
+  border-radius: 999px;
+  overflow: hidden;
+  min-width: 30px;
+}
+.profile-hero-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, #fff 40%));
+  border-radius: 999px;
+  transition: width 0.5s ease;
+  min-width: 5px;
+}
+.profile-hero-xp-text {
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  color: var(--text3);
+  white-space: nowrap;
+}
+/* ── Circular flag ─────────────────────────────────────────────── */
+.profile-flag-circle {
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+.profile-lang-card--primary .profile-flag-circle {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.profile-flag-circle-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.profile-flag-circle-fb {
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+/* ── Stat row (icon + value + label) ──────────────────────────── */
+.profile-stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 5px;
+}
+.profile-stat-item {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+.profile-stat-icon {
+  font-size: 0.8rem;
+  line-height: 1;
+}
+.profile-stat-val {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+.profile-stat-lbl {
+  font-size: 0.68rem;
+  color: var(--text3);
+}
+/* ── Updated lang card base ────────────────────────────────────── */
+.profile-lang-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 12px 16px;
+}
+.profile-lang-card--primary {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: 16px;
+  padding: 14px 18px;
+  align-items: center;
+}
+
 /* Idle character animation: gentle breathing bob + periodic blink. */
 @keyframes char-breathe {
   0%,

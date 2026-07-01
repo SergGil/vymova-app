@@ -60,20 +60,31 @@ const LANG_META: Record<string, { name: string; country: string }> = {
   nl: { name: 'Nederlands', country: 'nl' },
 };
 
-function LangFlag({ lang, size = 24 }: { lang: string; size?: number }): ReactElement {
+function FlagCircle({ lang, size = 44 }: { lang: string; size?: number }): ReactElement {
   const meta = LANG_META[lang];
   const src = meta ? (flagUrl(meta.country) ?? null) : null;
-  if (src)
-    return (
-      <img
-        src={src}
-        alt={meta.name}
-        width={size}
-        height={size}
-        className="profile-lang-flag-img"
-      />
-    );
-  return <span className="profile-lang-flag-fb">{lang.toUpperCase()}</span>;
+  return (
+    <div
+      className="profile-flag-circle"
+      style={{ width: size, height: size }}
+      aria-label={meta?.name ?? lang}
+    >
+      {src
+        ? <img src={src} alt={meta?.name ?? lang} className="profile-flag-circle-img" />
+        : <span className="profile-flag-circle-fb">{lang.slice(0, 2).toUpperCase()}</span>
+      }
+    </div>
+  );
+}
+
+function getProfileName(): string {
+  try {
+    const profiles = JSON.parse(localStorage.getItem('ew_profiles') ?? '[]') as { id: string; name?: string }[];
+    const activeId = localStorage.getItem('ew_active_profile') ?? '';
+    return profiles.find((p) => p.id === activeId)?.name ?? '';
+  } catch {
+    return '';
+  }
 }
 
 export function ProfilePage(): ReactElement | null {
@@ -120,15 +131,65 @@ export function ProfilePage(): ReactElement | null {
     .map((code) => ({ code, count: allKnownWords[code].size }))
     .filter((x) => x.count > 0);
 
-  // knownCount in current lang for the mini-stat card
+  // knownCount in current lang for the primary card
   const knownCount = getKnownInLang();
+
+  const profileName = getProfileName();
+  const xpNext = levelInfo.isMax ? null : LEVEL_XP[levelInfo.level];
 
   return createPortal(
     <div className="profile-panel">
-      <div className="profile-avatar-wrap">
-        <CharacterAvatar appearance={appearance} size={200} />
+
+      {/* ── Hero card ─────────────────────────────────────────────── */}
+      <div className="profile-hero">
+        <div className="profile-hero-banner" />
+        <div className="profile-hero-body">
+          <div className="profile-hero-avatar-ring">
+            <CharacterAvatar appearance={appearance} size={90} />
+          </div>
+          {profileName && (
+            <div className="profile-hero-name">{profileName}</div>
+          )}
+          <div className="profile-hero-level-row">
+            <span className="profile-hero-lvl-badge" aria-label={`${t('profile.level')} ${levelInfo.level}`}>
+              {t('profile.level')} {levelInfo.level}{levelInfo.isMax ? ' 🏅' : ''}
+            </span>
+            {!levelInfo.isMax && (
+              <div className="profile-hero-bar-wrap">
+                <div
+                  className="profile-hero-bar"
+                  style={{ width: `${Math.round(levelInfo.progress * 100)}%` }}
+                />
+              </div>
+            )}
+            <span className="profile-hero-xp-text">
+              {levelInfo.isMax
+                ? t('profile.levelMax')
+                : `${totalXp.toLocaleString()} / ${(xpNext ?? 0).toLocaleString()} XP`}
+            </span>
+            {/* Info popup — click to toggle */}
+            <details className="level-info-wrap">
+              <summary className="level-info-btn" title={t('profile.xpInfo')}>ⓘ</summary>
+              <div className="level-info-popup">
+                <div className="level-info-title">{t('profile.xpInfo')}</div>
+                <div className="level-info-rule">{t('profile.xpWordRule')}</div>
+                <div className="level-info-rule">{t('profile.xpGameRule')}</div>
+                <div className="level-info-rule">{t('profile.xpComboRule')}</div>
+                <div className="level-info-divider" />
+                <div className="level-info-table-title">{t('profile.xpLevelTable')}</div>
+                {LEVEL_MILESTONES.map(([lv, xp]) => (
+                  <div key={lv} className="level-info-row">
+                    <span>{t('profile.level')} {lv}</span>
+                    <span>{xp.toLocaleString()} XP</span>
+                  </div>
+                ))}
+              </div>
+            </details>
+          </div>
+        </div>
       </div>
 
+      {/* ── Customize dropdown ───────────────────────────────────── */}
       <div className="profile-customize">
         <button
           className="profile-customize-toggle"
@@ -165,106 +226,58 @@ export function ProfilePage(): ReactElement | null {
         )}
       </div>
 
-      {/* ── Level card ────────────────────────────────────────── */}
-      <div className="profile-level-card">
-        <div className="profile-level-top">
-          <div className="profile-level-badge" aria-label={`${t('profile.level')} ${levelInfo.level}`}>
-            {levelInfo.level}
-          </div>
-          <div className="profile-level-meta">
-            <span className="profile-level-label">
-              {t('profile.level')} <strong>{levelInfo.level}</strong>
-              {levelInfo.isMax && ' 🏅'}
-            </span>
-            <span className="profile-level-sub">
-              {levelInfo.isMax
-                ? t('profile.levelMax')
-                : `${totalXp.toLocaleString()} / ${LEVEL_XP[levelInfo.level].toLocaleString()} XP`}
-            </span>
-          </div>
-
-          {/* Info popup — click to toggle */}
-          <details className="level-info-wrap">
-            <summary className="level-info-btn" title={t('profile.xpInfo')}>ⓘ</summary>
-            <div className="level-info-popup">
-              <div className="level-info-title">{t('profile.xpInfo')}</div>
-              <div className="level-info-rule">{t('profile.xpWordRule')}</div>
-              <div className="level-info-rule">{t('profile.xpGameRule')}</div>
-              <div className="level-info-rule">{t('profile.xpComboRule')}</div>
-              <div className="level-info-divider" />
-              <div className="level-info-table-title">{t('profile.xpLevelTable')}</div>
-              {LEVEL_MILESTONES.map(([lv, xp]) => (
-                <div key={lv} className="level-info-row">
-                  <span>{t('profile.level')} {lv}</span>
-                  <span>{xp.toLocaleString()} XP</span>
-                </div>
-              ))}
-            </div>
-          </details>
-        </div>
-
-        {!levelInfo.isMax && (
-          <div className="profile-level-bar-wrap">
-            <div
-              className="profile-level-bar"
-              style={{ width: `${Math.round(levelInfo.progress * 100)}%` }}
-            />
-          </div>
-        )}
-      </div>
-
-      {/* ── Language stats ───────────────────────────────────── */}
+      {/* ── Language stats ───────────────────────────────────────── */}
       <div className="profile-lang-stats">
         <div className="profile-lang-stats-title">{t('profile.langStatsTitle')}</div>
         <div className="profile-lang-grid">
 
-          {/* Primary card — current learn language with stats */}
+          {/* Primary card — current learn language */}
           <div className="profile-lang-card profile-lang-card--primary">
-            <LangFlag lang={learnLang} size={40} />
+            <FlagCircle lang={learnLang} size={48} />
             <div className="profile-lang-info">
-              <span className="profile-lang-name">
-                {primaryMeta?.name ?? learnLang.toUpperCase()}
-              </span>
-              <div className="profile-lang-mini-stats">
-                <div className="profile-mini-stat">
-                  <span className="profile-mini-val">{getLangStreak(learnLang)}</span>
-                  <span className="profile-mini-label">{t('stats.daysStreak')}</span>
-                </div>
-                <div className="profile-mini-stat">
-                  <span className="profile-mini-val">{knownCount}</span>
-                  <span className="profile-mini-label">{wordsLabel(knownCount)}</span>
-                </div>
-                <div className="profile-mini-stat">
-                  <span className="profile-mini-val">{totalXp.toLocaleString()}</span>
-                  <span className="profile-mini-label">{t('profile.totalXp')}</span>
-                </div>
-                <div className="profile-mini-stat">
-                  <span className="profile-mini-val">
-                    {achCount}/{ACHIEVEMENTS.length}
-                  </span>
-                  <span className="profile-mini-label">{t('profile.achievements')}</span>
-                </div>
+              <span className="profile-lang-name">{primaryMeta?.name ?? learnLang.toUpperCase()}</span>
+              <div className="profile-stat-row">
+                <span className="profile-stat-item">
+                  <span className="profile-stat-icon">🔥</span>
+                  <span className="profile-stat-val">{getLangStreak(learnLang)}</span>
+                  <span className="profile-stat-lbl">{t('stats.daysStreak')}</span>
+                </span>
+                <span className="profile-stat-item">
+                  <span className="profile-stat-icon">📖</span>
+                  <span className="profile-stat-val">{knownCount}</span>
+                  <span className="profile-stat-lbl">{wordsLabel(knownCount)}</span>
+                </span>
+                <span className="profile-stat-item">
+                  <span className="profile-stat-icon">⭐</span>
+                  <span className="profile-stat-val">{totalXp.toLocaleString()}</span>
+                  <span className="profile-stat-lbl">XP</span>
+                </span>
+                <span className="profile-stat-item">
+                  <span className="profile-stat-icon">🏆</span>
+                  <span className="profile-stat-val">{achCount}/{ACHIEVEMENTS.length}</span>
+                  <span className="profile-stat-lbl">{t('profile.achievements')}</span>
+                </span>
               </div>
             </div>
           </div>
 
-          {/* Other languages — compact */}
+          {/* Secondary language cards */}
           {otherLangs.map(({ code, count }) => (
             <div key={code} className="profile-lang-card">
-              <LangFlag lang={code} size={28} />
+              <FlagCircle lang={code} size={38} />
               <div className="profile-lang-info">
-                <span className="profile-lang-name">
-                  {LANG_META[code]?.name ?? code.toUpperCase()}
-                </span>
-                <div className="profile-lang-mini-stats">
-                  <div className="profile-mini-stat">
-                    <span className="profile-mini-val">{getLangStreak(code)}</span>
-                    <span className="profile-mini-label">{t('stats.daysStreak')}</span>
-                  </div>
-                  <div className="profile-mini-stat">
-                    <span className="profile-mini-val">{count}</span>
-                    <span className="profile-mini-label">{wordsLabel(count)}</span>
-                  </div>
+                <span className="profile-lang-name">{LANG_META[code]?.name ?? code.toUpperCase()}</span>
+                <div className="profile-stat-row">
+                  <span className="profile-stat-item">
+                    <span className="profile-stat-icon">🔥</span>
+                    <span className="profile-stat-val">{getLangStreak(code)}</span>
+                    <span className="profile-stat-lbl">{t('stats.daysStreak')}</span>
+                  </span>
+                  <span className="profile-stat-item">
+                    <span className="profile-stat-icon">📖</span>
+                    <span className="profile-stat-val">{count}</span>
+                    <span className="profile-stat-lbl">{wordsLabel(count)}</span>
+                  </span>
                 </div>
               </div>
             </div>
