@@ -59,6 +59,10 @@ export function getKnownSnapshot(lang: KnownLang): Set<string> {
   return knownWordsStore.getSnapshot()[lang];
 }
 
+export function useAllKnownWords(): KnownWordsState {
+  return knownWordsStore.useStore();
+}
+
 export function markKnown(lang: KnownLang, word: string): void {
   knownWordsStore.dispatch({ type: 'MARK', lang, word });
 }

@@ -16,10 +16,10 @@ import { loadCharacter, saveCharacter } from '../core/storage.ts';
 import { getGameData, loadUnlocked } from './game.ts';
 import { getKnownInLang } from './mode-utils.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
-import { t } from './i18n.ts';
+import { t, wordsLabel } from './i18n.ts';
 import { useStateVersion } from '../../src/store.ts';
 import type { CharacterAppearance } from '../../src/types.js';
-import { getKnownSnapshot, type KnownLang } from '../../src/known-words-store.ts';
+import { useAllKnownWords, type KnownLang } from '../../src/known-words-store.ts';
 import { ALL_TARGET_LANGS } from '../../src/types.ts';
 import { flagUrl } from '../core/flags.ts';
 import { getLevelInfo, LEVEL_XP, LEVEL_MILESTONES } from '../core/level-system.ts';
@@ -78,6 +78,7 @@ function LangFlag({ lang, size = 24 }: { lang: string; size?: number }): ReactEl
 
 export function ProfilePage(): ReactElement | null {
   useStateVersion();
+  const allKnownWords = useAllKnownWords();
   const target = document.getElementById('profile-content');
   const [savedAppearance, setSavedAppearance] = useState<CharacterAppearance>(() =>
     loadCharacter(),
@@ -100,9 +101,9 @@ export function ProfilePage(): ReactElement | null {
   const gd = getGameData();
   const achCount = loadUnlocked().length;
 
-  // Total XP across ALL languages (words × 5 + game activity XP)
+  // Total XP across ALL languages (words × 5 + game activity XP) — reactive via useAllKnownWords
   const allKnownCount = (['en', ...ALL_TARGET_LANGS] as KnownLang[]).reduce(
-    (sum, lang) => sum + getKnownSnapshot(lang).size,
+    (sum, lang) => sum + allKnownWords[lang].size,
     0,
   );
   const totalXp = (gd.xp ?? 0) + allKnownCount * 5;
@@ -116,7 +117,7 @@ export function ProfilePage(): ReactElement | null {
   // Other languages with at least 1 known word
   const otherLangs = (['en', ...ALL_TARGET_LANGS] as KnownLang[])
     .filter((code) => code !== learnLang)
-    .map((code) => ({ code, count: getKnownSnapshot(code).size }))
+    .map((code) => ({ code, count: allKnownWords[code].size }))
     .filter((x) => x.count > 0);
 
   // knownCount in current lang for the mini-stat card
@@ -231,7 +232,7 @@ export function ProfilePage(): ReactElement | null {
                 </div>
                 <div className="profile-mini-stat">
                   <span className="profile-mini-val">{knownCount}</span>
-                  <span className="profile-mini-label">{t('stats.wordsLearned')}</span>
+                  <span className="profile-mini-label">{wordsLabel(knownCount)}</span>
                 </div>
                 <div className="profile-mini-stat">
                   <span className="profile-mini-val">{totalXp.toLocaleString()}</span>
@@ -255,9 +256,16 @@ export function ProfilePage(): ReactElement | null {
                 <span className="profile-lang-name">
                   {LANG_META[code]?.name ?? code.toUpperCase()}
                 </span>
-                <span className="profile-lang-count">
-                  {count} {t('profile.langWords')}
-                </span>
+                <div className="profile-lang-mini-stats">
+                  <div className="profile-mini-stat">
+                    <span className="profile-mini-val">{gd.streak || 0}</span>
+                    <span className="profile-mini-label">{t('stats.daysStreak')}</span>
+                  </div>
+                  <div className="profile-mini-stat">
+                    <span className="profile-mini-val">{count}</span>
+                    <span className="profile-mini-label">{wordsLabel(count)}</span>
+                  </div>
+                </div>
               </div>
             </div>
           ))}

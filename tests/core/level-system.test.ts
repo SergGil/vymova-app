@@ -21,8 +21,8 @@ describe('level-system.ts', () => {
       }
     });
 
-    it('level 100 threshold is under 200 000 XP (reachable by dedicated users)', () => {
-      expect(LEVEL_XP[99]).toBeLessThan(200_000);
+    it('level 100 threshold is under 2 000 000 XP', () => {
+      expect(LEVEL_XP[99]).toBeLessThan(2_000_000);
     });
   });
 
@@ -95,12 +95,12 @@ describe('level-system.ts', () => {
       }
     });
 
-    it('level 10 is reachable with ~2700 XP (≈540 words learned)', () => {
+    it('level 10 requires exactly LEVEL_XP[9] XP', () => {
       const info = getLevelInfo(LEVEL_XP[9]);
       expect(info.level).toBe(10);
     });
 
-    it('level 50 is reachable with ~34 300 XP (≈6860 words or sustained play)', () => {
+    it('level 50 requires exactly LEVEL_XP[49] XP', () => {
       const info = getLevelInfo(LEVEL_XP[49]);
       expect(info.level).toBe(50);
     });

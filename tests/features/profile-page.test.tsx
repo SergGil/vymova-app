@@ -14,10 +14,17 @@ vi.mock('../../js/features/game.ts', () => ({ getGameData, loadUnlocked }));
 const { getKnownInLang } = vi.hoisted(() => ({ getKnownInLang: vi.fn(() => 20) }));
 vi.mock('../../js/features/mode-utils.ts', () => ({ getKnownInLang }));
 
-// Known-words store: default to empty; override per-test via knownSnapshots
+// Known-words store: default to empty; override per-test via knownSnapshots.
+// useAllKnownWords() must return a full state object for all 14 languages.
 const knownSnapshots: Record<string, Set<string>> = {};
 vi.mock('../../src/known-words-store.ts', () => ({
-  getKnownSnapshot: (lang: string) => knownSnapshots[lang] ?? new Set<string>(),
+  useAllKnownWords: () => {
+    const state: Record<string, Set<string>> = {};
+    for (const lang of ['en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl']) {
+      state[lang] = knownSnapshots[lang] ?? new Set<string>();
+    }
+    return state;
+  },
 }));
 
 // flags.ts uses import.meta.glob — stub to return predictable URLs
@@ -203,11 +210,14 @@ describe('profile-page.tsx ProfilePage', () => {
     expect(flags.some((s) => s.includes('fr.svg'))).toBe(true);
   });
 
-  it('shows the correct word count in secondary cards', () => {
+  it('shows the correct word count and streak in secondary card mini-stats', () => {
     knownSnapshots['de'] = new Set(['Apfel', 'Buch', 'Haus']);
+    getGameData.mockReturnValue({ streak: 5, xp: 0 });
     const secondary = mount().container.querySelector(
       '.profile-lang-card:not(.profile-lang-card--primary)',
     )!;
-    expect(secondary.querySelector('.profile-lang-count')?.textContent).toContain('3');
+    const vals = Array.from(secondary.querySelectorAll('.profile-mini-val')).map((el) => el.textContent);
+    expect(vals).toContain('3'); // word count
+    expect(vals).toContain('5'); // streak
   });
 });

@@ -9,14 +9,14 @@
 //   up to ~300 XP — daily challenge completion
 //   Combo: ×2 at 5 in a row, ×3 at 10+ in a row
 //
-// Threshold formula: LEVEL_XP[n] = Math.round(100 * n^1.5)
-//   Level 1 starts at 0 XP, level 2 needs 100, level 10 needs 2 700, level 100 needs 98 510.
+// Threshold formula: LEVEL_XP[n] = Math.round(100 * n^2)
+//   Level 1 starts at 0 XP, level 2 needs 100, level 10 needs 10 000, level 100 needs 1 000 000.
 
 /** Cumulative XP needed to REACH each level.
  *  Index = level − 1, so LEVEL_XP[0] = 0 (level 1), LEVEL_XP[1] = 100 (level 2), ... */
 export const LEVEL_XP: readonly number[] = (() => {
   const t: number[] = [0];
-  for (let i = 1; i < 100; i++) t.push(Math.round(100 * Math.pow(i, 1.5)));
+  for (let i = 1; i < 100; i++) t.push(Math.round(100 * Math.pow(i, 2)));
   return t;
 })();
 
