@@ -444,6 +444,11 @@ export function getActiveKnownByLang(): Set<string> {
   return lang ? LANG_REGISTRY[lang].known() : getKnownSnapshot('en');
 }
 
+/** Count of target languages (beyond en/ua) with at least one known word — for "polyglot" achievements. */
+export function getStudiedLangCount(): number {
+  return ALL_TARGET_LANGS.filter((l) => LANG_REGISTRY[l].known().size > 0).length;
+}
+
 /**
  * Filter word list to only those available in the current pair — the
  * intersection of whichever of (learn language, know language) are target

@@ -64,6 +64,7 @@ export interface GameData {
   srsNewToday?: number; // new (never-before-seen) SRS cards studied today
   srsNewDate?: string; // date srsNewToday was last reset
   maxStreak?: number;
+  mistakesFixed?: number; // lifetime count of clearMistake() calls, for achievements
 }
 
 // ── Character avatar (profile page) ─────────────────────────────

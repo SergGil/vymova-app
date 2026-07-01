@@ -392,10 +392,15 @@ export function recordMistake(word: string): void {
 
 export function clearMistake(word: string): void {
   const m = getMistakes();
+  if (!(word in m)) return;
   delete m[word];
   try {
     localStorage.setItem(_langKey('ew_mistakes'), JSON.stringify(m));
   } catch (e) {}
+  const d = getGameData();
+  d.mistakesFixed = (d.mistakesFixed || 0) + 1;
+  saveGameData(d);
+  _runCheckAchievements();
 }
 
 export function getHardWords(limit = 50): string[] {

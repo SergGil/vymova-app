@@ -1,7 +1,26 @@
 // Vymova — data/achievements.ts
 // Static achievements definition (pure data, no side effects)
 import type { Achievement, GameData, ModeStats } from '../src/types.js';
-import { getMaxWordsForLearnLang } from '../js/features/mode-utils.ts';
+import { getMaxWordsForLearnLang, getStudiedLangCount } from '../js/features/mode-utils.ts';
+
+// Every mode key recordModeComplete() is called with, across the whole app —
+// used by the "try every mode" achievement below.
+const ALL_MODE_KEYS = [
+  'quiz',
+  'tempo',
+  'pairs',
+  'write',
+  'listen',
+  'lesson',
+  'fib',
+  'story',
+  'daily',
+  'spelling',
+  'context',
+  'scramble',
+  'letters',
+  'adaptive-quiz',
+];
 
 export const ACHIEVEMENTS: Achievement[] = [
   // ── 📖 Слова ──
@@ -708,6 +727,115 @@ export const ACHIEVEMENTS: Achievement[] = [
     },
     check: function (k: number, g: GameData, m?: ModeStats) {
       return (m?.letters || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_adaptive1',
+    icon: '🎚️',
+    name: 'Перший Адаптивний тест',
+    cat: '🎮 Режими',
+    hint: 'Заверши перший раунд Адаптивного тесту — складність підлаштовується під тебе',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.['adaptive-quiz'] || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.['adaptive-quiz'] || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_adaptive10',
+    icon: '🎚️',
+    name: 'Адаптивний ×10',
+    cat: '🎮 Режими',
+    hint: '10 адаптивних тестів. Дроїд-аналітик вже добре тебе знає!',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.['adaptive-quiz'] || 0, 10), max: 10 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.['adaptive-quiz'] || 0) >= 10;
+    },
+  },
+  {
+    id: 'mode_allmodes',
+    icon: '🧩',
+    name: 'Універсальний боєць',
+    cat: '🎮 Режими',
+    hint: `Заверши хоча б раз кожен з ${ALL_MODE_KEYS.length} режимів гри`,
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      const done = ALL_MODE_KEYS.filter((key) => (m?.[key] || 0) >= 1).length;
+      return { cur: done, max: ALL_MODE_KEYS.length };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return ALL_MODE_KEYS.every((key) => (m?.[key] || 0) >= 1);
+    },
+  },
+
+  // ── 🛠️ Помилки ──
+  {
+    id: 'mistakes_fixed10',
+    icon: '🔧',
+    name: 'Ремонт дроїда',
+    cat: '🛠️ Помилки',
+    hint: 'Виправ 10 складних слів у розділі «Розбір помилок»',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.mistakesFixed || 0, 10), max: 10 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.mistakesFixed || 0) >= 10;
+    },
+  },
+  {
+    id: 'mistakes_fixed50',
+    icon: '🛠️',
+    name: 'Майстер ремонту',
+    cat: '🛠️ Помилки',
+    hint: '50 виправлених помилок. Жоден баг не встоїть проти тебе!',
+    progress: function (k: number, g: GameData) {
+      return { cur: Math.min(g.mistakesFixed || 0, 50), max: 50 };
+    },
+    check: function (k: number, g: GameData) {
+      return (g.mistakesFixed || 0) >= 50;
+    },
+  },
+
+  // ── 🌍 Мови ──
+  {
+    id: 'lang2',
+    icon: '🌍',
+    name: 'Дві мови',
+    cat: '🌍 Мови',
+    hint: 'Вивчи хоча б одне слово у двох різних мовах одночасно',
+    progress: function () {
+      return { cur: Math.min(getStudiedLangCount(), 2), max: 2 };
+    },
+    check: function () {
+      return getStudiedLangCount() >= 2;
+    },
+  },
+  {
+    id: 'lang3',
+    icon: '🗺️',
+    name: 'Поліглот',
+    cat: '🌍 Мови',
+    hint: 'Три мови одночасно — справжній Поліглот Галактики!',
+    progress: function () {
+      return { cur: Math.min(getStudiedLangCount(), 3), max: 3 };
+    },
+    check: function () {
+      return getStudiedLangCount() >= 3;
+    },
+  },
+  {
+    id: 'lang5',
+    icon: '🌌',
+    name: 'Мовний Магістр',
+    cat: '🌍 Мови',
+    hint: "П'ять мов одночасно. Сила мов з тобою!",
+    progress: function () {
+      return { cur: Math.min(getStudiedLangCount(), 5), max: 5 };
+    },
+    check: function () {
+      return getStudiedLangCount() >= 5;
     },
   },
 ];
