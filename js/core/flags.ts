@@ -36,6 +36,7 @@ const modules = import.meta.glob(
     '../../data/countries/jp.svg',
     '../../data/countries/tr.svg',
     '../../data/countries/nl.svg',
+    '../../data/countries/vn.svg',
   ],
   { eager: true, query: '?url', import: 'default' },
 ) as Record<string, string>;
