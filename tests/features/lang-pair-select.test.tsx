@@ -1,7 +1,24 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { LangPairSelect } from '../../js/features/lang-pair-select.tsx';
+
+// Stub word files so ensureLangTableLoaded resolves instantly (no real file I/O)
+// and areLangTablesReady returns true synchronously — tests only verify UI state.
+vi.mock('../../data/words_es.js', () => ({ W_ES: {} }));
+vi.mock('../../data/words_fr.js', () => ({ W_FR: {} }));
+vi.mock('../../data/words_it.js', () => ({ W_IT: {} }));
+vi.mock('../../data/words_pt.js', () => ({ W_PT: {} }));
+vi.mock('../../data/words_de.js', () => ({ W_DE: {} }));
+vi.mock('../../data/words_he.js', () => ({ W_HE: {} }));
+vi.mock('../../data/words_ar.js', () => ({ W_AR: {} }));
+vi.mock('../../data/words_pl.js', () => ({ W_PL: {} }));
+vi.mock('../../data/words_zh.js', () => ({ W_ZH: {} }));
+vi.mock('../../data/words_el.js', () => ({ W_EL: {} }));
+vi.mock('../../data/words_ja.js', () => ({ W_JA: {} }));
+vi.mock('../../data/words_tr.js', () => ({ W_TR: {} }));
+vi.mock('../../data/words_nl.js', () => ({ W_NL: {} }));
+import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 
 function mountLangPairSelect(): void {
   const el = document.getElementById('lang-pair-select')!;
@@ -49,6 +66,16 @@ function selectOption(index: number, value: string): void {
 }
 
 describe('lang-pair-select', () => {
+  beforeAll(async () => {
+    // Preload all lang tables (from stubs above) so areLangTablesReady()
+    // returns true and persist() takes the synchronous applyMode path.
+    await Promise.all(
+      ['es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl'].map(
+        ensureLangTableLoaded,
+      ),
+    );
+  });
+
   beforeEach(() => {
     localStorage.clear();
     setupDom('en');

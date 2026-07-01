@@ -4,19 +4,6 @@
 // matrix" for the rationale. Mode strings stay `${front}-${back}` (or the
 // bare 'en'/'ua' for the EN↔UA pair) exactly as before; we just stopped
 // hand-enumerating which pairs are constructible.
-import { W_ES } from '../../data/words_es.js';
-import { W_FR } from '../../data/words_fr.js';
-import { W_IT } from '../../data/words_it.js';
-import { W_PT } from '../../data/words_pt.js';
-import { W_DE } from '../../data/words_de.js';
-import { W_HE } from '../../data/words_he.js';
-import { W_AR } from '../../data/words_ar.js';
-import { W_PL } from '../../data/words_pl.js';
-import { W_ZH } from '../../data/words_zh.js';
-import { W_EL } from '../../data/words_el.js';
-import { W_JA } from '../../data/words_ja.js';
-import { W_TR } from '../../data/words_tr.js';
-import { W_NL } from '../../data/words_nl.js';
 import { W } from '../../data/words.js';
 import { boldEn, boldUa, boldHead } from '../core/card-helpers.ts';
 import {
@@ -43,9 +30,54 @@ export type { TargetLang, Code };
 export { ALL_TARGET_LANGS };
 
 type Entry = readonly [string, string, string?] | null;
+type Table = Record<string, unknown>;
 
-function lookup(table: Record<string, unknown>, word: string): Entry {
+function lookup(table: Table, word: string): Entry {
   return (table as Record<string, Entry>)[word] ?? null;
+}
+
+// Per-language word tables are loaded on first use (dynamic import) to keep
+// the initial bundle small. Only words.js (EN/UA base) is eager.
+const TABLES: Partial<Record<TargetLang, Table>> = {};
+const LANG_LOADERS: Record<TargetLang, () => Promise<Table>> = {
+  es: () => import('../../data/words_es.js').then((m) => m.W_ES as Table),
+  fr: () => import('../../data/words_fr.js').then((m) => m.W_FR as Table),
+  it: () => import('../../data/words_it.js').then((m) => m.W_IT as Table),
+  pt: () => import('../../data/words_pt.js').then((m) => m.W_PT as Table),
+  de: () => import('../../data/words_de.js').then((m) => m.W_DE as Table),
+  he: () => import('../../data/words_he.js').then((m) => m.W_HE as Table),
+  ar: () => import('../../data/words_ar.js').then((m) => m.W_AR as Table),
+  pl: () => import('../../data/words_pl.js').then((m) => m.W_PL as Table),
+  zh: () => import('../../data/words_zh.js').then((m) => m.W_ZH as Table),
+  el: () => import('../../data/words_el.js').then((m) => m.W_EL as Table),
+  ja: () => import('../../data/words_ja.js').then((m) => m.W_JA as Table),
+  tr: () => import('../../data/words_tr.js').then((m) => m.W_TR as Table),
+  nl: () => import('../../data/words_nl.js').then((m) => m.W_NL as Table),
+};
+
+// In-flight promises to avoid duplicate fetches for the same language.
+const LOADING: Partial<Record<TargetLang, Promise<void>>> = {};
+
+/** True when both lang codes have their word tables in cache (en/ua are always ready). */
+export function areLangTablesReady(a: string, b: string): boolean {
+  const ready = (c: string) => !isTargetLang(c) || !!TABLES[c];
+  return ready(a) && ready(b);
+}
+
+/** Ensures the word table for `code` is loaded. Safe to call multiple times. */
+export async function ensureLangTableLoaded(code: string): Promise<void> {
+  if (!isTargetLang(code)) return;
+  if (TABLES[code]) return;
+  if (!LOADING[code]) {
+    LOADING[code] = LANG_LOADERS[code]().then((t) => {
+      TABLES[code] = t;
+    });
+  }
+  await LOADING[code];
+}
+
+function getTable(code: TargetLang): Table {
+  return TABLES[code] ?? {};
 }
 
 interface LangConfig {
@@ -58,91 +90,91 @@ interface LangConfig {
 
 const LANG_REGISTRY: Record<TargetLang, LangConfig> = {
   es: {
-    entry: (w) => lookup(W_ES, w),
+    entry: (w) => lookup(getTable('es'), w),
     known: () => getKnownSnapshot('es'),
     saveKnown: saveKnownEs,
     voiceLocale: 'es-ES',
     rtl: false,
   },
   fr: {
-    entry: (w) => lookup(W_FR, w),
+    entry: (w) => lookup(getTable('fr'), w),
     known: () => getKnownSnapshot('fr'),
     saveKnown: saveKnownFr,
     voiceLocale: 'fr-FR',
     rtl: false,
   },
   it: {
-    entry: (w) => lookup(W_IT, w),
+    entry: (w) => lookup(getTable('it'), w),
     known: () => getKnownSnapshot('it'),
     saveKnown: saveKnownIt,
     voiceLocale: 'it-IT',
     rtl: false,
   },
   pt: {
-    entry: (w) => lookup(W_PT, w),
+    entry: (w) => lookup(getTable('pt'), w),
     known: () => getKnownSnapshot('pt'),
     saveKnown: saveKnownPt,
     voiceLocale: 'pt-PT',
     rtl: false,
   },
   de: {
-    entry: (w) => lookup(W_DE, w),
+    entry: (w) => lookup(getTable('de'), w),
     known: () => getKnownSnapshot('de'),
     saveKnown: saveKnownDe,
     voiceLocale: 'de-DE',
     rtl: false,
   },
   he: {
-    entry: (w) => lookup(W_HE, w),
+    entry: (w) => lookup(getTable('he'), w),
     known: () => getKnownSnapshot('he'),
     saveKnown: saveKnownHe,
     voiceLocale: 'he-IL',
     rtl: true,
   },
   ar: {
-    entry: (w) => lookup(W_AR, w),
+    entry: (w) => lookup(getTable('ar'), w),
     known: () => getKnownSnapshot('ar'),
     saveKnown: saveKnownAr,
     voiceLocale: 'ar-SA',
     rtl: true,
   },
   pl: {
-    entry: (w) => lookup(W_PL, w),
+    entry: (w) => lookup(getTable('pl'), w),
     known: () => getKnownSnapshot('pl'),
     saveKnown: saveKnownPl,
     voiceLocale: 'pl-PL',
     rtl: false,
   },
   zh: {
-    entry: (w) => lookup(W_ZH, w),
+    entry: (w) => lookup(getTable('zh'), w),
     known: () => getKnownSnapshot('zh'),
     saveKnown: saveKnownZh,
     voiceLocale: 'zh-CN',
     rtl: false,
   },
   el: {
-    entry: (w) => lookup(W_EL, w),
+    entry: (w) => lookup(getTable('el'), w),
     known: () => getKnownSnapshot('el'),
     saveKnown: saveKnownEl,
     voiceLocale: 'el-GR',
     rtl: false,
   },
   ja: {
-    entry: (w) => lookup(W_JA, w),
+    entry: (w) => lookup(getTable('ja'), w),
     known: () => getKnownSnapshot('ja'),
     saveKnown: saveKnownJa,
     voiceLocale: 'ja-JP',
     rtl: false,
   },
   tr: {
-    entry: (w) => lookup(W_TR, w),
+    entry: (w) => lookup(getTable('tr'), w),
     known: () => getKnownSnapshot('tr'),
     saveKnown: saveKnownTr,
     voiceLocale: 'tr-TR',
     rtl: false,
   },
   nl: {
-    entry: (w) => lookup(W_NL, w),
+    entry: (w) => lookup(getTable('nl'), w),
     known: () => getKnownSnapshot('nl'),
     saveKnown: saveKnownNl,
     voiceLocale: 'nl-NL',
@@ -158,22 +190,6 @@ export function isTargetLang(v: string): v is TargetLang {
   return Object.prototype.hasOwnProperty.call(LANG_REGISTRY, v);
 }
 
-const RAW_TABLES: Record<TargetLang, Record<string, unknown>> = {
-  es: W_ES,
-  fr: W_FR,
-  it: W_IT,
-  pt: W_PT,
-  de: W_DE,
-  he: W_HE,
-  ar: W_AR,
-  pl: W_PL,
-  zh: W_ZH,
-  el: W_EL,
-  ja: W_JA,
-  tr: W_TR,
-  nl: W_NL,
-};
-
 // word (in `code`'s own language) → English headword — built lazily, once
 // per language, by inverting that language's translation table. Lets UI
 // that only has a foreign-language word string (e.g. a hand-curated
@@ -184,7 +200,7 @@ export function reverseHeadwordFor(code: TargetLang, word: string): string | nul
   let map = REVERSE_HEADWORD_CACHE[code];
   if (!map) {
     map = new Map();
-    for (const [en, entry] of Object.entries(RAW_TABLES[code])) {
+    for (const [en, entry] of Object.entries(getTable(code))) {
       const translated = (entry as Entry)?.[0];
       if (translated && !map.has(translated.toLowerCase())) map.set(translated.toLowerCase(), en);
     }
@@ -402,16 +418,10 @@ export function getKnownInLang(): number {
   return getActiveKnownByLang().size;
 }
 
-// Target-language vocabulary sizes, precomputed once — the 12 "small"
-// languages cover 2000 words each, while ES (and EN/UA) cover the full list.
-const TARGET_LANG_SIZE: Record<TargetLang, number> = Object.fromEntries(
-  ALL_TARGET_LANGS.map((l) => [l, Object.keys(RAW_TABLES[l]).length]),
-) as Record<TargetLang, number>;
-
 /** Total vocabulary size available for the currently selected learn language (full dictionary for en/ua, that language's own table otherwise). */
 export function getMaxWordsForLearnLang(): number {
   const lang = targetLangFromStorageKey(localStorage.getItem('ew_learn_lang') ?? 'en');
-  return lang ? TARGET_LANG_SIZE[lang] : W.length;
+  return lang ? Object.keys(getTable(lang)).length : W.length;
 }
 
 /** The active known Set for the currently selected learn language. */

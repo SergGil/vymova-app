@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { t, getLang } from './i18n.ts';
 import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { flagUrl } from '../core/flags.ts';
+import { ensureLangTableLoaded, areLangTablesReady } from './mode-utils.ts';
 
 export type LangCode =
   | 'ua'
@@ -304,8 +305,21 @@ export function LangPairSelect(): ReactElement {
       window.dispatchEvent(new CustomEvent('ew-learn-lang-changed', { detail: next.learnLang }));
     }
     setState(next);
-    applyMode(next.learnLang, next.knowLang, next.direction);
-    notifyStateChange();
+    // If both tables are already in cache, apply mode synchronously (common path
+    // after boot preload). Otherwise load in the background then re-apply so the
+    // first render isn't blocked by a network fetch.
+    if (areLangTablesReady(next.learnLang, next.knowLang)) {
+      applyMode(next.learnLang, next.knowLang, next.direction);
+      notifyStateChange();
+    } else {
+      void Promise.all([
+        ensureLangTableLoaded(next.learnLang),
+        ensureLangTableLoaded(next.knowLang),
+      ]).then(() => {
+        applyMode(next.learnLang, next.knowLang, next.direction);
+        notifyStateChange();
+      });
+    }
   }
 
   function onKnowChange(next: LangCode): void {
@@ -381,8 +395,12 @@ export function LangPairSelect(): ReactElement {
   );
 }
 
-// Apply the restored state to #sel-mode on load (in case it differs from the default).
+// Preload the active pair's word tables before wiring up #sel-mode so that
+// entry lookups (deck filter, computeCardView) are synchronously available
+// from the first render. top-level await is safe: this file is a module
+// (type="module") and Vite targets esnext.
 {
   const { learnLang, knowLang, direction } = initialState();
+  await Promise.all([ensureLangTableLoaded(learnLang), ensureLangTableLoaded(knowLang)]);
   applyMode(learnLang, knowLang, direction);
 }

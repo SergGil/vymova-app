@@ -1,4 +1,4 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, beforeAll } from 'vitest';
 import { setModeState } from '../../src/deck-store.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.ts';
@@ -24,6 +24,7 @@ import {
   HE_MODES,
   AR_MODES,
   PL_MODES,
+  ensureLangTableLoaded,
 } from '../../js/features/mode-utils.ts';
 
 const abandon: WordEntry = [
@@ -144,6 +145,10 @@ describe('mode-utils.ts', () => {
   });
 
   describe('entry lookups', () => {
+    beforeAll(async () => {
+      await Promise.all(['es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl'].map(ensureLangTableLoaded));
+    });
+
     it('returns a translation entry for a known word', () => {
       expect(esEntry('abandon')?.slice(0, 2)).toEqual(['abandonar', expect.any(String)]);
       expect(frEntry('abandon')?.slice(0, 2)).toEqual(['abandonner', expect.any(String)]);
@@ -165,6 +170,10 @@ describe('mode-utils.ts', () => {
   });
 
   describe('computeCardView', () => {
+    beforeAll(async () => {
+      await Promise.all(['es', 'fr', 'he', 'ar', 'pl'].map(ensureLangTableLoaded));
+    });
+
     it('"en" mode shows English front / Ukrainian back with bolded examples', () => {
       const view = computeCardView(abandon, 'en');
       expect(view.FRONT_LANG).toBe('EN');

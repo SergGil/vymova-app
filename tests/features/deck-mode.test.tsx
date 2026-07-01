@@ -5,6 +5,7 @@ import { getDeckSnapshot, setDeckState, setIdxState } from '../../src/deck-store
 import { setActiveTagSet } from '../../src/deck-filter-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
+import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -33,6 +34,9 @@ function changeMode(value: string): void {
 
 describe('deck-mode.tsx DeckModeInit', () => {
   beforeEach(async () => {
+    // Preload word tables from mocked modules so getWordsForMode works synchronously.
+    await Promise.all(['es', 'fr', 'it', 'pt', 'de'].map(ensureLangTableLoaded));
+
     document.body.innerHTML = `
       <select id="sel-mode">
         <option value="en" selected>en</option>
