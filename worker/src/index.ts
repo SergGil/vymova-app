@@ -22,6 +22,11 @@ interface ChatRequestBody {
 
 const GEMINI_MODEL = 'gemini-2.5-flash';
 const RATE_LIMIT_PER_MINUTE = 15;
+const MAX_MESSAGES = 50;
+const MAX_PAYLOAD_CHARS = 20_000;
+const VALID_LANGS = new Set([
+  'en', 'ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl',
+]);
 
 const ROLEPLAY_SCENARIOS: Record<string, string> = {
   'job-interview': 'You are a hiring manager conducting a friendly first-round job interview.',
@@ -215,6 +220,26 @@ export default {
     if (!body.messages?.length || !body.lang) {
       return new Response(JSON.stringify({ error: 'missing_fields' }), {
         status: 400,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      });
+    }
+
+    // Validate lang codes against known set to prevent prompt injection.
+    if (!VALID_LANGS.has(body.lang.know) || !VALID_LANGS.has(body.lang.learn)) {
+      return new Response(JSON.stringify({ error: 'invalid_lang' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      });
+    }
+
+    // Cap messages to prevent runaway Gemini costs.
+    if (body.messages.length > MAX_MESSAGES) {
+      body.messages = body.messages.slice(-MAX_MESSAGES);
+    }
+    const totalChars = body.messages.reduce((s, m) => s + (m.text?.length ?? 0), 0);
+    if (totalChars > MAX_PAYLOAD_CHARS) {
+      return new Response(JSON.stringify({ error: 'payload_too_large' }), {
+        status: 413,
         headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
       });
     }

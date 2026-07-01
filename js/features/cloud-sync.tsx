@@ -123,6 +123,7 @@ export async function loadFromCloud(raw: string): Promise<void> {
   // two can't silently drift apart again.
   for (const k of Object.keys(data)) {
     if (k === '_ts' || k === '_v') continue;
+    if (!k.startsWith('ew_')) continue; // ignore unexpected keys from server response
     localStorage.setItem(k, data[k]);
   }
   localStorage.setItem(KEY_LS, key);

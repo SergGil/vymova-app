@@ -218,6 +218,10 @@ export function lookupEnglishWord(raw: string): WordEntry | null {
 }
 const _lookupWord = lookupEnglishWord;
 
+function _esc(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 function _renderTextHtml(
   entry: TextEntry,
   epubBook: EpubBook | null,
@@ -227,16 +231,17 @@ function _renderTextHtml(
     unknownCount = 0;
   const html = chunks
     .map((chunk) => {
-      if (/^\s+$/.test(chunk) || /^[,.!?;:'"()\-—]+$/.test(chunk)) return chunk;
+      const safe = _esc(chunk);
+      if (/^\s+$/.test(chunk) || /^[,.!?;:'"()\-—]+$/.test(chunk)) return safe;
       const w = _lookupWord(chunk);
-      if (!w) return chunk;
+      if (!w) return safe;
       const isKnown = getKnownSnapshot('en').has(w[0]);
       if (isKnown) {
         knownCount++;
-        return `<span class="rd-word rd-known" data-word="${w[0]}">${chunk}</span>`;
+        return `<span class="rd-word rd-known" data-word="${_esc(w[0])}">${safe}</span>`;
       }
       unknownCount++;
-      return `<span class="rd-word rd-unknown" data-word="${w[0]}">${chunk}</span>`;
+      return `<span class="rd-word rd-unknown" data-word="${_esc(w[0])}">${safe}</span>`;
     })
     .join('');
   void epubBook;

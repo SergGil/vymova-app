@@ -82,8 +82,13 @@ function renderCardImage(
           loadWikiImage(word, function (wd, imgUrl) {
             if (!isCurrentWord(wd)) return;
             if (imgUrl) {
-              illusEl.innerHTML =
-                '<img src="' + imgUrl + '" alt="" loading="lazy" style="' + _IMG_S + '">';
+              const wikiImg = document.createElement('img');
+              wikiImg.alt = '';
+              wikiImg.loading = 'lazy';
+              wikiImg.style.cssText = _IMG_S;
+              wikiImg.src = imgUrl;
+              illusEl.innerHTML = '';
+              illusEl.appendChild(wikiImg);
               illusEl.style.display = '';
             }
           });

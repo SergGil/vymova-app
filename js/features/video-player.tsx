@@ -21,15 +21,20 @@ import type { WordEntry } from '../../src/types.js';
 
 type PopupWord = { word: string; trans: string; ipa: string; known: boolean };
 
+function _esc(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 function renderCueHtml(text: string): string {
   const chunks = text.split(/(\s+|[,.!?;:'"()\-—]+)/);
   return chunks
     .map((chunk) => {
-      if (/^\s+$/.test(chunk) || /^[,.!?;:'"()\-—]+$/.test(chunk)) return chunk;
+      const safe = _esc(chunk);
+      if (/^\s+$/.test(chunk) || /^[,.!?;:'"()\-—]+$/.test(chunk)) return safe;
       const w = lookupEnglishWord(chunk);
-      if (!w) return chunk;
+      if (!w) return safe;
       const isKnown = getKnownSnapshot('en').has(w[0]);
-      return `<span class="rd-word ${isKnown ? 'rd-known' : 'rd-unknown'}" data-word="${w[0]}">${chunk}</span>`;
+      return `<span class="rd-word ${isKnown ? 'rd-known' : 'rd-unknown'}" data-word="${_esc(w[0])}">${safe}</span>`;
     })
     .join('');
 }
