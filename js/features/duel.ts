@@ -502,6 +502,7 @@ export const DUEL_LANG_CODES = [
   'ja',
   'tr',
   'nl',
+  'vi',
 ];
 
 function _wordInLang(w: WordEntry, lang: string): string {
