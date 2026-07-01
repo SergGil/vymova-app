@@ -715,6 +715,7 @@
   "settings.hapticDesc": "Feedback aptico quando si risponde alle schede.",
   "settings.hapticOn": "Attivato",
   "settings.hapticOff": "Disattivato",
+  "settings.hapticIosNote": "⚠️ Safari/iOS non supporta la vibrazione — limitazione Apple.",
   "settings.notifAllow": "Consenti",
   "settings.notifTimeLabel": "⏰ Ricordami ogni giorno alle",
   "settings.notifTimeSuffix": "se non hai studiato oggi",

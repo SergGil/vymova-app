@@ -729,6 +729,7 @@
   "settings.hapticDesc": "Haptic feedback when answering flashcards.",
   "settings.hapticOn": "Enabled",
   "settings.hapticOff": "Disabled",
+  "settings.hapticIosNote": "⚠️ Safari/iOS does not support vibration — Apple limitation.",
   "settings.notifAllow": "Allow",
   "settings.notifTimeLabel": "⏰ Remind me daily at",
   "settings.notifTimeSuffix": "if you haven’t studied today",

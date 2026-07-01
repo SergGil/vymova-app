@@ -715,6 +715,7 @@
   "settings.hapticDesc": "Retour haptique lors des réponses aux cartes.",
   "settings.hapticOn": "Activé",
   "settings.hapticOff": "Désactivé",
+  "settings.hapticIosNote": "⚠️ Safari/iOS ne supporte pas la vibration — limitation Apple.",
   "settings.notifAllow": "Autoriser",
   "settings.notifTimeLabel": "⏰ Me rappeler chaque jour à",
   "settings.notifTimeSuffix": "si tu n'as pas étudié aujourd'hui",

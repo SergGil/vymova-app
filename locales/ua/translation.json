@@ -744,6 +744,7 @@
   "settings.hapticDesc": "Тактильний відгук при відповідях на картках.",
   "settings.hapticOn": "Увімкнено",
   "settings.hapticOff": "Вимкнено",
+  "settings.hapticIosNote": "⚠️ Safari/iOS не підтримує вібрацію — обмеження Apple.",
   "settings.notifAllow": "Дозволити",
   "settings.notifTimeLabel": "⏰ Нагадувати щодня о",
   "settings.notifTimeSuffix": "якщо не вчив сьогодні",

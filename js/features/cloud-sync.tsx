@@ -42,6 +42,10 @@ const BACKUP_KEYS = [
   'ew_milestones',
   'ew_mode_acc',
   'ew_mistakes',
+  // Duel history & rating
+  'ew_duel_history',
+  'ew_duel_rating',
+  'ew_duel_sessions',
   // Profile metadata — names & avatars
   'ew_profiles',
   'ew_active_profile',

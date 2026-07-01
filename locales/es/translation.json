@@ -715,6 +715,7 @@
   "settings.hapticDesc": "Respuesta háptica al responder tarjetas.",
   "settings.hapticOn": "Activado",
   "settings.hapticOff": "Desactivado",
+  "settings.hapticIosNote": "⚠️ Safari/iOS no admite vibración — limitación de Apple.",
   "settings.notifAllow": "Permitir",
   "settings.notifTimeLabel": "⏰ Recordarme cada día a las",
   "settings.notifTimeSuffix": "si no has estudiado hoy",

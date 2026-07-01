@@ -80,6 +80,7 @@ export const DYNAMIC_KEY_PREFIXES = [
   'ew_mode_acc_',
   'ew_mistakes_',
   'ew_ws_',
+  'ew_duel_',
 ];
 
 function _snapKeys(): string[] {
