@@ -5,6 +5,7 @@ import { setDeckState } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { SearchOverlay } from '../../js/features/search-overlay.tsx';
+import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -188,6 +189,33 @@ describe('search-overlay.tsx SearchOverlay', () => {
     expect(setIdx).toHaveBeenCalledWith(0);
     expect(render).toHaveBeenCalled();
     expect(container.innerHTML).toBe('');
+  });
+
+  it('searches and displays results in the current learn language, not just EN/UA', async () => {
+    localStorage.setItem('ew_learn_lang', 'es');
+    await ensureLangTableLoaded('es');
+    const { container } = mount();
+    act(() => {
+      document
+        .getElementById('btn-search')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+
+    const input = container.querySelector('input') as HTMLInputElement;
+    const nativeValueSetter = Object.getOwnPropertyDescriptor(
+      HTMLInputElement.prototype,
+      'value',
+    )!.set!;
+    act(() => {
+      nativeValueSetter.call(input, 'abandonar');
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
+    await wait();
+    const row = container.querySelector('.search-row') as HTMLElement;
+    expect(row).not.toBeNull();
+    expect(row.textContent).toContain('abandonar');
+    localStorage.removeItem('ew_learn_lang');
   });
 
   it('closes when clicking the backdrop', () => {

@@ -9,43 +9,56 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { openWordDetail } from './word-detail.tsx';
 import { t } from './i18n.ts';
 import { render, setIdx } from '../core/card-engine.ts';
+import { getLearnLang, getKnowLang } from './lang-pair-select.tsx';
+import { headwordFor, langConfig, isTargetLang, type Code } from './mode-utils.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const MAX_RESULTS = 40;
 
-function ipa(w: WordEntry): string {
-  return decodeIpa(w[4] ?? '');
+/** Transcription for `code` — English's own IPA (w[4]) for 'en', the target
+ * language's own transcription (from its word table) for other target
+ * languages, '' for 'ua' or languages without one. */
+function transcriptionFor(code: Code, w: WordEntry): string {
+  if (code === 'en') return decodeIpa(w[4] ?? '');
+  if (!isTargetLang(code)) return '';
+  const local = langConfig(code).entry(w[0])?.[2];
+  return local ? decodeIpa(local) : '';
 }
 
 function inDeck(word: string): boolean {
   return getDeckSnapshot().some((w) => w[0] === word);
 }
 
-function search(q: string): WordEntry[] {
-  const en: WordEntry[] = [],
-    ua: WordEntry[] = [],
-    enContains: WordEntry[] = [],
-    uaContains: WordEntry[] = [];
-  for (const w of W as unknown as WordEntry[]) {
-    const enLow = w[0].toLowerCase(),
-      uaLow = w[1].toLowerCase();
-    if (enLow.startsWith(q)) {
-      en.push(w);
-      continue;
-    }
-    if (uaLow.startsWith(q)) {
-      ua.push(w);
-      continue;
-    }
-    if (enLow.includes(q)) {
-      enContains.push(w);
-      continue;
-    }
-    if (uaLow.includes(q)) {
-      uaContains.push(w);
-    }
+/** The language codes actually worth searching/displaying: en, ua, plus the
+ * current learn/know pair (deduped) — so search works for the language pair
+ * on screen, not just the EN/UA master list. */
+function activeCodes(): Code[] {
+  const codes: Code[] = [];
+  for (const c of ['en', 'ua', getLearnLang(), getKnowLang()] as Code[]) {
+    if (!codes.includes(c)) codes.push(c);
   }
-  return [...en, ...ua, ...enContains, ...uaContains].slice(0, MAX_RESULTS);
+  return codes;
+}
+
+function search(q: string, codes: Code[]): WordEntry[] {
+  const primary: WordEntry[] = [],
+    contains: WordEntry[] = [];
+  for (const w of W as unknown as WordEntry[]) {
+    let hitPrimary = false,
+      hitContains = false;
+    for (const c of codes) {
+      const word = headwordFor(c, w).toLowerCase();
+      if (!word) continue;
+      if (word.startsWith(q)) {
+        hitPrimary = true;
+        break;
+      }
+      if (word.includes(q)) hitContains = true;
+    }
+    if (hitPrimary) primary.push(w);
+    else if (hitContains) contains.push(w);
+  }
+  return [...primary, ...contains].slice(0, MAX_RESULTS);
 }
 
 function jumpTo(w: WordEntry, close: () => void): void {
@@ -80,6 +93,8 @@ export function SearchOverlay(): ReactElement | null {
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const learnCode = getLearnLang();
+  const knowCode = getKnowLang();
 
   function close(): void {
     setOpen(false);
@@ -131,7 +146,7 @@ export function SearchOverlay(): ReactElement | null {
       setHits([]);
       return;
     }
-    timerRef.current = setTimeout(() => setHits(search(q)), 120);
+    timerRef.current = setTimeout(() => setHits(search(q, activeCodes())), 120);
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
@@ -178,7 +193,7 @@ export function SearchOverlay(): ReactElement | null {
           <input
             ref={inputRef}
             type="text"
-            placeholder="Пошук по словнику EN або UA..."
+            placeholder="Пошук по словнику..."
             autoComplete="off"
             spellCheck={false}
             value={query}
@@ -241,6 +256,9 @@ export function SearchOverlay(): ReactElement | null {
         >
           {hits.map((w) => {
             const isInDeck = inDeck(w[0]);
+            const headword = headwordFor(learnCode, w) || w[0];
+            const translation = headwordFor(knowCode, w) || w[1];
+            const trans = transcriptionFor(learnCode, w);
             return (
               <div
                 key={w[0]}
@@ -281,16 +299,18 @@ export function SearchOverlay(): ReactElement | null {
                     style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}
                   >
                     <span style={{ fontWeight: 600, fontSize: '.97rem', color: 'var(--text)' }}>
-                      {w[0]}
+                      {headword}
                     </span>
-                    <span
-                      style={{ fontSize: '.75rem', color: 'var(--text3)', fontStyle: 'italic' }}
-                    >
-                      {ipa(w)}
-                    </span>
+                    {trans && (
+                      <span
+                        style={{ fontSize: '.75rem', color: 'var(--text3)', fontStyle: 'italic' }}
+                      >
+                        {trans}
+                      </span>
+                    )}
                   </div>
                   <div style={{ fontSize: '.85rem', color: 'var(--text2)', marginTop: 2 }}>
-                    {w[1]}
+                    {translation}
                   </div>
                 </div>
                 <button
