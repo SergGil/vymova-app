@@ -5,11 +5,12 @@ import { ProfilePage } from '../../js/features/profile-page.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const { getGameData, loadUnlocked } = vi.hoisted(() => ({
+const { getGameData, loadUnlocked, getLangStreak } = vi.hoisted(() => ({
   getGameData: vi.fn(() => ({ streak: 3, xp: 100 })),
   loadUnlocked: vi.fn(() => ['first1']),
+  getLangStreak: vi.fn((_lang: string) => 3),
 }));
-vi.mock('../../js/features/game.ts', () => ({ getGameData, loadUnlocked }));
+vi.mock('../../js/features/game.ts', () => ({ getGameData, loadUnlocked, getLangStreak }));
 
 const { getKnownInLang } = vi.hoisted(() => ({ getKnownInLang: vi.fn(() => 20) }));
 vi.mock('../../js/features/mode-utils.ts', () => ({ getKnownInLang }));
@@ -61,6 +62,7 @@ describe('profile-page.tsx ProfilePage', () => {
     getGameData.mockClear().mockReturnValue({ streak: 3, xp: 100 });
     loadUnlocked.mockClear().mockReturnValue(['first1']);
     getKnownInLang.mockClear().mockReturnValue(20);
+    getLangStreak.mockClear().mockImplementation((_lang: string) => 3);
     for (const k of Object.keys(knownSnapshots)) delete knownSnapshots[k];
   });
 
@@ -162,12 +164,13 @@ describe('profile-page.tsx ProfilePage', () => {
     expect(img.src).toContain('gb.svg');
   });
 
-  it('shows streak, knownCount and achievements inside the primary card mini-stats', () => {
+  it('shows per-language streak and knownCount inside the primary card mini-stats', () => {
+    getLangStreak.mockImplementation((_lang: string) => 7);
     const { container } = mount();
     const vals = Array.from(
       container.querySelectorAll('.profile-lang-card--primary .profile-mini-val'),
     ).map((el) => el.textContent);
-    expect(vals).toContain('3');  // streak
+    expect(vals).toContain('7');  // per-language streak
     expect(vals).toContain('20'); // knownCount from getKnownInLang mock
   });
 
@@ -210,14 +213,14 @@ describe('profile-page.tsx ProfilePage', () => {
     expect(flags.some((s) => s.includes('fr.svg'))).toBe(true);
   });
 
-  it('shows the correct word count and streak in secondary card mini-stats', () => {
+  it('shows per-language streak and word count in secondary card mini-stats', () => {
     knownSnapshots['de'] = new Set(['Apfel', 'Buch', 'Haus']);
-    getGameData.mockReturnValue({ streak: 5, xp: 0 });
+    getLangStreak.mockImplementation((lang: string) => lang === 'de' ? 4 : 0);
     const secondary = mount().container.querySelector(
       '.profile-lang-card:not(.profile-lang-card--primary)',
     )!;
     const vals = Array.from(secondary.querySelectorAll('.profile-mini-val')).map((el) => el.textContent);
     expect(vals).toContain('3'); // word count
-    expect(vals).toContain('5'); // streak
+    expect(vals).toContain('4'); // German-specific streak
   });
 });

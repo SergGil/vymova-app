@@ -32,6 +32,16 @@ function loadGameDataRaw(): GameData {
   }
 }
 
+export function getLangStreak(lang: string): number {
+  const key = lang === 'en' ? 'ew_game' : `ew_game_${lang}`;
+  try {
+    const d = JSON.parse(localStorage.getItem(key) ?? '{}') as GameData;
+    return d.streak ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
 export function saveGameData(d: GameData): void {
   _gameCache = d;
   try {

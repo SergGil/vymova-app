@@ -13,7 +13,7 @@ import {
   OUTFIT_COLORS,
 } from './character-avatar.tsx';
 import { loadCharacter, saveCharacter } from '../core/storage.ts';
-import { getGameData, loadUnlocked } from './game.ts';
+import { getGameData, loadUnlocked, getLangStreak } from './game.ts';
 import { getKnownInLang } from './mode-utils.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
 import { t, wordsLabel } from './i18n.ts';
@@ -227,7 +227,7 @@ export function ProfilePage(): ReactElement | null {
               </span>
               <div className="profile-lang-mini-stats">
                 <div className="profile-mini-stat">
-                  <span className="profile-mini-val">{gd.streak || 0}</span>
+                  <span className="profile-mini-val">{getLangStreak(learnLang)}</span>
                   <span className="profile-mini-label">{t('stats.daysStreak')}</span>
                 </div>
                 <div className="profile-mini-stat">
@@ -258,7 +258,7 @@ export function ProfilePage(): ReactElement | null {
                 </span>
                 <div className="profile-lang-mini-stats">
                   <div className="profile-mini-stat">
-                    <span className="profile-mini-val">{gd.streak || 0}</span>
+                    <span className="profile-mini-val">{getLangStreak(code)}</span>
                     <span className="profile-mini-label">{t('stats.daysStreak')}</span>
                   </div>
                   <div className="profile-mini-stat">
