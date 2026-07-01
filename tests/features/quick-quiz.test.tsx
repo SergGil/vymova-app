@@ -24,11 +24,11 @@ describe('quick-quiz.tsx QuickQuizButton', () => {
     openQuickQuiz.mockClear();
   });
 
-  it('renders the button with the translated label and title', () => {
+  it('renders a compact icon button with the description in its title', () => {
     const { container } = mount();
     const btn = container.querySelector('#btn-quick-quiz') as HTMLButtonElement;
     expect(btn).not.toBeNull();
-    expect(btn.textContent).toBe('⚡ Quick Quiz — 5 питань');
+    expect(btn.textContent).toBe('⚡');
     expect(btn.title).toBe('5 питань з поточної колоди (Quick Quiz)');
   });
 

@@ -5,6 +5,9 @@ import { openQuickQuiz } from '../modes/quiz.tsx';
 import { t } from './i18n.ts';
 import { useStateVersion } from '../../src/store.ts';
 
+// Compact icon button living in the actions-bar-center row (next to
+// Назад/Авто/🔀/🔍/Далі) rather than its own full-width row below — the
+// label lives in the title tooltip, matching the 🔀/🔍 icon-only buttons.
 export function QuickQuizButton(): ReactElement {
   useStateVersion();
   return (
@@ -13,17 +16,13 @@ export function QuickQuizButton(): ReactElement {
       className="btn"
       title={t('cards.quickQuizTitle')}
       style={{
-        width: '100%',
-        maxWidth: '360px',
-        fontSize: '.88rem',
-        padding: '9px 0',
+        fontSize: '14px',
         color: 'var(--accent)',
         borderColor: 'var(--accent)',
-        opacity: 0.85,
       }}
       onClick={openQuickQuiz}
     >
-      <span>{t('cards.quickQuiz')}</span>
+      ⚡
     </button>
   );
 }

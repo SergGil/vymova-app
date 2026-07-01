@@ -8048,17 +8048,6 @@ body.hp .idiom-meaning {
     font-size: 11px;
   }
 
-  /* Quick Quiz button */
-  #btn-quick-quiz {
-    font-size: 0.8rem;
-    padding: 8px 0;
-  }
-
-  /* Gap between Quick Quiz and the font-size (A-/A+) controls below it */
-  .quick-quiz-wrap {
-    margin-bottom: 14px;
-  }
-
   /* Keyboard hint: hide on mobile */
   .kbd-hint {
     display: none;
