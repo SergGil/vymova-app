@@ -22,6 +22,7 @@ import type { CharacterAppearance } from '../../src/types.js';
 import { getKnownSnapshot, type KnownLang } from '../../src/known-words-store.ts';
 import { ALL_TARGET_LANGS } from '../../src/types.ts';
 import { flagUrl } from '../core/flags.ts';
+import { getLevelInfo, LEVEL_XP, LEVEL_MILESTONES } from '../core/level-system.ts';
 
 type PickerKey = keyof CharacterAppearance;
 
@@ -40,7 +41,7 @@ const PICKERS: { key: PickerKey; labelKey: string; len: number; names?: () => st
   { key: 'outfitColor', labelKey: 'profile.outfitColor', len: OUTFIT_COLORS.length },
 ];
 
-// Language display names (native) + ISO 3166-1 alpha-2 country codes for flags.
+// Language display names (native) + ISO 3166-1 alpha-2 country codes.
 // Uses the same flagUrl() / data/countries/*.svg system as lang-pair-select.
 const LANG_META: Record<string, { name: string; country: string }> = {
   en: { name: 'English', country: 'gb' },
@@ -62,7 +63,16 @@ const LANG_META: Record<string, { name: string; country: string }> = {
 function LangFlag({ lang, size = 24 }: { lang: string; size?: number }): ReactElement {
   const meta = LANG_META[lang];
   const src = meta ? (flagUrl(meta.country) ?? null) : null;
-  if (src) return <img src={src} alt={meta.name} width={size} height={size} className="profile-lang-flag-img" />;
+  if (src)
+    return (
+      <img
+        src={src}
+        alt={meta.name}
+        width={size}
+        height={size}
+        className="profile-lang-flag-img"
+      />
+    );
   return <span className="profile-lang-flag-fb">{lang.toUpperCase()}</span>;
 }
 
@@ -88,11 +98,17 @@ export function ProfilePage(): ReactElement | null {
   }
 
   const gd = getGameData();
-  const knownCount = getKnownInLang();
-  const totalXp = (gd.xp ?? 0) + knownCount * 5;
   const achCount = loadUnlocked().length;
 
-  // Current learn language (always shown as primary card)
+  // Total XP across ALL languages (words × 5 + game activity XP)
+  const allKnownCount = (['en', ...ALL_TARGET_LANGS] as KnownLang[]).reduce(
+    (sum, lang) => sum + getKnownSnapshot(lang).size,
+    0,
+  );
+  const totalXp = (gd.xp ?? 0) + allKnownCount * 5;
+  const levelInfo = getLevelInfo(totalXp);
+
+  // Current language word count (for the primary lang card)
   const rawLearnLang = localStorage.getItem('ew_learn_lang') ?? 'en';
   const learnLang = (LANG_META[rawLearnLang] ? rawLearnLang : 'en') as KnownLang;
   const primaryCount = getKnownSnapshot(learnLang).size;
@@ -103,6 +119,9 @@ export function ProfilePage(): ReactElement | null {
     .filter((code) => code !== learnLang)
     .map((code) => ({ code, count: getKnownSnapshot(code).size }))
     .filter((x) => x.count > 0);
+
+  // knownCount in current lang for the mini-stat card
+  const knownCount = getKnownInLang();
 
   return createPortal(
     <div className="profile-panel">
@@ -146,26 +165,77 @@ export function ProfilePage(): ReactElement | null {
         )}
       </div>
 
+      {/* ── Level card ────────────────────────────────────────── */}
+      <div className="profile-level-card">
+        <div className="profile-level-top">
+          <div className="profile-level-badge" aria-label={`${t('profile.level')} ${levelInfo.level}`}>
+            {levelInfo.level}
+          </div>
+          <div className="profile-level-meta">
+            <span className="profile-level-label">
+              {t('profile.level')} <strong>{levelInfo.level}</strong>
+              {levelInfo.isMax && ' 🏅'}
+            </span>
+            <span className="profile-level-sub">
+              {levelInfo.isMax
+                ? t('profile.levelMax')
+                : `${totalXp.toLocaleString()} / ${LEVEL_XP[levelInfo.level].toLocaleString()} XP`}
+            </span>
+          </div>
+
+          {/* Info popup — click to toggle */}
+          <details className="level-info-wrap">
+            <summary className="level-info-btn" title={t('profile.xpInfo')}>ⓘ</summary>
+            <div className="level-info-popup">
+              <div className="level-info-title">{t('profile.xpInfo')}</div>
+              <div className="level-info-rule">{t('profile.xpWordRule')}</div>
+              <div className="level-info-rule">{t('profile.xpGameRule')}</div>
+              <div className="level-info-rule">{t('profile.xpComboRule')}</div>
+              <div className="level-info-divider" />
+              <div className="level-info-table-title">{t('profile.xpLevelTable')}</div>
+              {LEVEL_MILESTONES.map(([lv, xp]) => (
+                <div key={lv} className="level-info-row">
+                  <span>{t('profile.level')} {lv}</span>
+                  <span>{xp.toLocaleString()} XP</span>
+                </div>
+              ))}
+            </div>
+          </details>
+        </div>
+
+        {!levelInfo.isMax && (
+          <div className="profile-level-bar-wrap">
+            <div
+              className="profile-level-bar"
+              style={{ width: `${Math.round(levelInfo.progress * 100)}%` }}
+            />
+          </div>
+        )}
+      </div>
+
+      {/* ── Language stats ───────────────────────────────────── */}
       <div className="profile-lang-stats">
         <div className="profile-lang-stats-title">{t('profile.langStatsTitle')}</div>
         <div className="profile-lang-grid">
 
-          {/* Primary card — current learn language with all global stats */}
+          {/* Primary card — current learn language with stats */}
           <div className="profile-lang-card profile-lang-card--primary">
             <LangFlag lang={learnLang} size={40} />
             <div className="profile-lang-info">
-              <span className="profile-lang-name">{primaryMeta?.name ?? learnLang.toUpperCase()}</span>
+              <span className="profile-lang-name">
+                {primaryMeta?.name ?? learnLang.toUpperCase()}
+              </span>
               <div className="profile-lang-mini-stats">
                 <div className="profile-mini-stat">
                   <span className="profile-mini-val">{gd.streak || 0}</span>
                   <span className="profile-mini-label">{t('stats.daysStreak')}</span>
                 </div>
                 <div className="profile-mini-stat">
-                  <span className="profile-mini-val">{primaryCount}</span>
+                  <span className="profile-mini-val">{knownCount}</span>
                   <span className="profile-mini-label">{t('stats.wordsLearned')}</span>
                 </div>
                 <div className="profile-mini-stat">
-                  <span className="profile-mini-val">{totalXp}</span>
+                  <span className="profile-mini-val">{totalXp.toLocaleString()}</span>
                   <span className="profile-mini-label">{t('profile.totalXp')}</span>
                 </div>
                 <div className="profile-mini-stat">
@@ -178,12 +248,14 @@ export function ProfilePage(): ReactElement | null {
             </div>
           </div>
 
-          {/* Other languages — compact, only if ≥1 word known */}
+          {/* Other languages — compact */}
           {otherLangs.map(({ code, count }) => (
             <div key={code} className="profile-lang-card">
               <LangFlag lang={code} size={28} />
               <div className="profile-lang-info">
-                <span className="profile-lang-name">{LANG_META[code]?.name ?? code.toUpperCase()}</span>
+                <span className="profile-lang-name">
+                  {LANG_META[code]?.name ?? code.toUpperCase()}
+                </span>
                 <span className="profile-lang-count">
                   {count} {t('profile.langWords')}
                 </span>

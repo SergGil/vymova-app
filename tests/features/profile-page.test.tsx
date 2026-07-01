@@ -14,13 +14,13 @@ vi.mock('../../js/features/game.ts', () => ({ getGameData, loadUnlocked }));
 const { getKnownInLang } = vi.hoisted(() => ({ getKnownInLang: vi.fn(() => 20) }));
 vi.mock('../../js/features/mode-utils.ts', () => ({ getKnownInLang }));
 
-// Known-words store: default to empty for all langs; override per-test via knownSnapshots
+// Known-words store: default to empty; override per-test via knownSnapshots
 const knownSnapshots: Record<string, Set<string>> = {};
 vi.mock('../../src/known-words-store.ts', () => ({
   getKnownSnapshot: (lang: string) => knownSnapshots[lang] ?? new Set<string>(),
 }));
 
-// flags.ts uses import.meta.glob — stub it to return predictable URLs
+// flags.ts uses import.meta.glob — stub to return predictable URLs
 vi.mock('../../js/core/flags.ts', () => ({
   flagUrl: (code: string) => `/flags/${code}.svg`,
 }));
@@ -36,7 +36,6 @@ function mount(): { container: HTMLElement; root: Root } {
   return { container: document.getElementById('profile-content')!, root };
 }
 
-/** Click the customize toggle to expand the pickers. */
 function openCustomize(container: HTMLElement): void {
   const btn = container.querySelector('.profile-customize-toggle') as HTMLButtonElement;
   act(() => {
@@ -70,17 +69,23 @@ describe('profile-page.tsx ProfilePage', () => {
     const { container } = mount();
     openCustomize(container);
     expect(container.querySelectorAll('.profile-picker-row').length).toBe(7);
-    const toggle = container.querySelector('.profile-customize-toggle') as HTMLButtonElement;
-    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+    expect(
+      (container.querySelector('.profile-customize-toggle') as HTMLButtonElement).getAttribute(
+        'aria-expanded',
+      ),
+    ).toBe('true');
   });
 
   it('collapses pickers when toggle is clicked a second time', () => {
     const { container } = mount();
     openCustomize(container);
-    openCustomize(container); // close
+    openCustomize(container);
     expect(container.querySelectorAll('.profile-picker-row').length).toBe(0);
-    const toggle = container.querySelector('.profile-customize-toggle') as HTMLButtonElement;
-    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+    expect(
+      (container.querySelector('.profile-customize-toggle') as HTMLButtonElement).getAttribute(
+        'aria-expanded',
+      ),
+    ).toBe('false');
   });
 
   it('cycles an option forward locally without persisting until Save Changes is clicked', () => {
@@ -89,64 +94,86 @@ describe('profile-page.tsx ProfilePage', () => {
     const firstRow = container.querySelectorAll('.profile-picker-row')[0];
     const nextBtn = firstRow.querySelectorAll('.profile-picker-arrow')[1] as HTMLButtonElement;
     const valBefore = firstRow.querySelector('.profile-picker-val')!.textContent;
-    act(() => {
-      nextBtn.click();
-    });
-    const valAfter = firstRow.querySelector('.profile-picker-val')!.textContent;
-    expect(valAfter).not.toBe(valBefore);
+    act(() => { nextBtn.click(); });
+    expect(firstRow.querySelector('.profile-picker-val')!.textContent).not.toBe(valBefore);
     expect(JSON.parse(localStorage.getItem('ew_profiles')!)[0].appearance).toBeUndefined();
-
-    const saveBtn = container.querySelector('.profile-save-btn') as HTMLButtonElement;
-    act(() => {
-      saveBtn.click();
-    });
+    act(() => { (container.querySelector('.profile-save-btn') as HTMLButtonElement).click(); });
     const profiles = JSON.parse(localStorage.getItem('ew_profiles')!);
     expect(profiles[0].appearance).toBeDefined();
     expect(profiles[0].avatarMode).toBe('character');
   });
 
-  it('disables Save Changes again once a cycled option is reverted back to its saved value', () => {
+  it('disables Save Changes again once a cycled option is reverted', () => {
     const { container } = mount();
     openCustomize(container);
     const saveBtn = container.querySelector('.profile-save-btn') as HTMLButtonElement;
     expect(saveBtn.disabled).toBe(true);
-
     const firstRow = container.querySelectorAll('.profile-picker-row')[0];
     const nextBtn = firstRow.querySelectorAll('.profile-picker-arrow')[1] as HTMLButtonElement;
     const prevBtn = firstRow.querySelectorAll('.profile-picker-arrow')[0] as HTMLButtonElement;
-
-    act(() => {
-      nextBtn.click();
-    });
+    act(() => { nextBtn.click(); });
     expect(saveBtn.disabled).toBe(false);
-
-    act(() => {
-      prevBtn.click();
-    });
+    act(() => { prevBtn.click(); });
     expect(saveBtn.disabled).toBe(true);
   });
 
-  // ── Primary language card (always visible) ────────────────────
+  // ── Level card ────────────────────────────────────────────────
+  it('renders the level card with a badge and progress bar', () => {
+    const { container } = mount();
+    expect(container.querySelector('.profile-level-card')).not.toBeNull();
+    expect(container.querySelector('.profile-level-badge')).not.toBeNull();
+    expect(container.querySelector('.profile-level-bar-wrap')).not.toBeNull();
+  });
+
+  it('shows level 1 when XP is 0 (no words, no game XP)', () => {
+    getGameData.mockReturnValue({ streak: 0, xp: 0 });
+    const { container } = mount();
+    const badge = container.querySelector('.profile-level-badge')!;
+    expect(badge.textContent).toBe('1');
+  });
+
+  it('shows level 2 when total XP reaches 100', () => {
+    // 20 words × 5 XP = 100 XP; gd.xp = 0 → level 2 exactly
+    knownSnapshots['en'] = new Set(Array.from({ length: 20 }, (_, i) => `word${i}`));
+    getGameData.mockReturnValue({ streak: 0, xp: 0 });
+    const { container } = mount();
+    expect(container.querySelector('.profile-level-badge')!.textContent).toBe('2');
+  });
+
+  it('shows the info popup trigger button', () => {
+    const { container } = mount();
+    expect(container.querySelector('.level-info-btn')).not.toBeNull();
+  });
+
+  // ── Primary language card ─────────────────────────────────────
   it('always shows the primary language card with the correct flag img', () => {
     const { container } = mount();
     const primaryCard = container.querySelector('.profile-lang-card--primary')!;
     expect(primaryCard).not.toBeNull();
     const img = primaryCard.querySelector('img.profile-lang-flag-img') as HTMLImageElement;
     expect(img).not.toBeNull();
-    // Default learn lang is 'en' → country 'gb'
     expect(img.src).toContain('gb.svg');
   });
 
-  it('shows streak, words, XP and achievements inside the primary card mini-stats', () => {
-    knownSnapshots['en'] = new Set(['apple', 'book', 'car']); // 3 words
+  it('shows streak, knownCount and achievements inside the primary card mini-stats', () => {
     const { container } = mount();
     const vals = Array.from(
       container.querySelectorAll('.profile-lang-card--primary .profile-mini-val'),
     ).map((el) => el.textContent);
-    expect(vals).toContain('3'); // streak
-    expect(vals).toContain('3'); // words (from snapshot — getKnownInLang mock returns 20 but snapshot returns 3)
-    // totalXp = 100 + 20*5 = 200
-    expect(vals).toContain('200');
+    expect(vals).toContain('3');  // streak
+    expect(vals).toContain('20'); // knownCount from getKnownInLang mock
+  });
+
+  it('uses totalXp across all language snapshots for the XP mini-stat', () => {
+    // gd.xp=0, en=10 words, es=5 words → total = 15*5 = 75 XP
+    knownSnapshots['en'] = new Set(Array.from({ length: 10 }, (_, i) => `w${i}`));
+    knownSnapshots['es'] = new Set(['hola', 'adios', 'bueno', 'malo', 'gato']);
+    getGameData.mockReturnValue({ streak: 1, xp: 0 });
+    const { container } = mount();
+    const xpVal = Array.from(
+      container.querySelectorAll('.profile-lang-card--primary .profile-mini-val'),
+    ).find((el) => el.textContent === '75');
+    expect(xpVal).not.toBeUndefined();
   });
 
   it('uses the current learn language for the primary card', () => {
@@ -160,31 +187,25 @@ describe('profile-page.tsx ProfilePage', () => {
   });
 
   // ── Other language cards ──────────────────────────────────────
-  it('does not show secondary cards when no other language has known words', () => {
-    const { container } = mount();
-    const allCards = container.querySelectorAll('.profile-lang-card');
-    // Only the primary card
-    expect(allCards.length).toBe(1);
+  it('does not show secondary cards when no other language has words', () => {
+    expect(mount().container.querySelectorAll('.profile-lang-card').length).toBe(1);
   });
 
   it('shows compact secondary cards for other languages with ≥1 word', () => {
     knownSnapshots['es'] = new Set(['hola', 'adios']);
     knownSnapshots['fr'] = new Set(['bonjour']);
     const { container } = mount();
-    // primary + 2 secondary
-    const allCards = container.querySelectorAll('.profile-lang-card');
-    expect(allCards.length).toBe(3);
-    const secondaryFlags = Array.from(
+    expect(container.querySelectorAll('.profile-lang-card').length).toBe(3);
+    const flags = Array.from(
       container.querySelectorAll('.profile-lang-card:not(.profile-lang-card--primary) img'),
     ).map((el) => (el as HTMLImageElement).src);
-    expect(secondaryFlags.some((s) => s.includes('es.svg'))).toBe(true);
-    expect(secondaryFlags.some((s) => s.includes('fr.svg'))).toBe(true);
+    expect(flags.some((s) => s.includes('es.svg'))).toBe(true);
+    expect(flags.some((s) => s.includes('fr.svg'))).toBe(true);
   });
 
   it('shows the correct word count in secondary cards', () => {
     knownSnapshots['de'] = new Set(['Apfel', 'Buch', 'Haus']);
-    const { container } = mount();
-    const secondary = container.querySelector(
+    const secondary = mount().container.querySelector(
       '.profile-lang-card:not(.profile-lang-card--primary)',
     )!;
     expect(secondary.querySelector('.profile-lang-count')?.textContent).toContain('3');
