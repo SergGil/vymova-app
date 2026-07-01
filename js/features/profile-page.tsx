@@ -13,7 +13,7 @@ import {
   OUTFIT_COLORS,
 } from './character-avatar.tsx';
 import { loadCharacter, saveCharacter } from '../core/storage.ts';
-import { loadUnlocked, getLangStreak, getLangXp } from './game.ts';
+import { loadUnlocked, getLangStreak, getLangXp, getLangAchCount } from './game.ts';
 import { getKnownInLang } from './mode-utils.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
 import { t, wordsLabel } from './i18n.ts';
@@ -273,6 +273,11 @@ export function ProfilePage(): ReactElement | null {
                     <span className="profile-stat-icon">📖</span>
                     <span className="profile-stat-val">{count}</span>
                     <span className="profile-stat-lbl">{wordsLabel(count)}</span>
+                  </span>
+                  <span className="profile-stat-item">
+                    <span className="profile-stat-icon">🏆</span>
+                    <span className="profile-stat-val">{getLangAchCount(code)}/{ACHIEVEMENTS.length}</span>
+                    <span className="profile-stat-lbl">{t('profile.achievements')}</span>
                   </span>
                 </div>
               </div>

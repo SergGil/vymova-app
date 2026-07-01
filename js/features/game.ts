@@ -52,6 +52,15 @@ export function getLangXp(lang: string): number {
   }
 }
 
+export function getLangAchCount(lang: string): number {
+  const key = lang === 'en' || lang === 'ua' ? 'ew_ach' : `ew_ach_${lang}`;
+  try {
+    return (JSON.parse(localStorage.getItem(key) ?? '[]') as string[]).length;
+  } catch {
+    return 0;
+  }
+}
+
 export function saveGameData(d: GameData): void {
   _gameCache = d;
   try {

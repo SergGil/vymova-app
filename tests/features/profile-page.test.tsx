@@ -5,12 +5,13 @@ import { ProfilePage } from '../../js/features/profile-page.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const { loadUnlocked, getLangStreak, getLangXp } = vi.hoisted(() => ({
+const { loadUnlocked, getLangStreak, getLangXp, getLangAchCount } = vi.hoisted(() => ({
   loadUnlocked: vi.fn(() => ['first1']),
   getLangStreak: vi.fn((_lang: string) => 3),
   getLangXp: vi.fn((_lang: string) => 0),
+  getLangAchCount: vi.fn((_lang: string) => 0),
 }));
-vi.mock('../../js/features/game.ts', () => ({ loadUnlocked, getLangStreak, getLangXp }));
+vi.mock('../../js/features/game.ts', () => ({ loadUnlocked, getLangStreak, getLangXp, getLangAchCount }));
 
 const { getKnownInLang } = vi.hoisted(() => ({ getKnownInLang: vi.fn(() => 20) }));
 vi.mock('../../js/features/mode-utils.ts', () => ({ getKnownInLang }));
@@ -63,6 +64,7 @@ describe('profile-page.tsx ProfilePage', () => {
     getKnownInLang.mockClear().mockReturnValue(20);
     getLangStreak.mockClear().mockImplementation((_lang: string) => 3);
     getLangXp.mockClear().mockImplementation((_lang: string) => 0);
+    getLangAchCount.mockClear().mockImplementation((_lang: string) => 0);
     for (const k of Object.keys(knownSnapshots)) delete knownSnapshots[k];
   });
 
