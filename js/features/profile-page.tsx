@@ -21,6 +21,7 @@ import { useStateVersion } from '../../src/store.ts';
 import type { CharacterAppearance } from '../../src/types.js';
 import { getKnownSnapshot, type KnownLang } from '../../src/known-words-store.ts';
 import { ALL_TARGET_LANGS } from '../../src/types.ts';
+import { flagUrl } from '../core/flags.ts';
 
 type PickerKey = keyof CharacterAppearance;
 
@@ -39,24 +40,31 @@ const PICKERS: { key: PickerKey; labelKey: string; len: number; names?: () => st
   { key: 'outfitColor', labelKey: 'profile.outfitColor', len: OUTFIT_COLORS.length },
 ];
 
-// Native language names + flags — intentionally not translated, as native
-// names are universally recognizable regardless of UI language.
-const LANG_INFO: Record<string, { flag: string; name: string }> = {
-  en: { flag: '🇬🇧', name: 'English' },
-  es: { flag: '🇪🇸', name: 'Español' },
-  fr: { flag: '🇫🇷', name: 'Français' },
-  it: { flag: '🇮🇹', name: 'Italiano' },
-  pt: { flag: '🇵🇹', name: 'Português' },
-  de: { flag: '🇩🇪', name: 'Deutsch' },
-  he: { flag: '🇮🇱', name: 'עִברִית' },
-  ar: { flag: '🇸🇦', name: 'العربية' },
-  pl: { flag: '🇵🇱', name: 'Polski' },
-  zh: { flag: '🇨🇳', name: '中文' },
-  el: { flag: '🇬🇷', name: 'Ελληνικά' },
-  ja: { flag: '🇯🇵', name: '日本語' },
-  tr: { flag: '🇹🇷', name: 'Türkçe' },
-  nl: { flag: '🇳🇱', name: 'Nederlands' },
+// Language display names (native) + ISO 3166-1 alpha-2 country codes for flags.
+// Uses the same flagUrl() / data/countries/*.svg system as lang-pair-select.
+const LANG_META: Record<string, { name: string; country: string }> = {
+  en: { name: 'English', country: 'gb' },
+  es: { name: 'Español', country: 'es' },
+  fr: { name: 'Français', country: 'fr' },
+  it: { name: 'Italiano', country: 'it' },
+  pt: { name: 'Português', country: 'pt' },
+  de: { name: 'Deutsch', country: 'de' },
+  he: { name: 'עִברִית', country: 'il' },
+  ar: { name: 'العربية', country: 'sa' },
+  pl: { name: 'Polski', country: 'pl' },
+  zh: { name: '中文', country: 'cn' },
+  el: { name: 'Ελληνικά', country: 'gr' },
+  ja: { name: '日本語', country: 'jp' },
+  tr: { name: 'Türkçe', country: 'tr' },
+  nl: { name: 'Nederlands', country: 'nl' },
 };
+
+function LangFlag({ lang, size = 24 }: { lang: string; size?: number }): ReactElement {
+  const meta = LANG_META[lang];
+  const src = meta ? (flagUrl(meta.country) ?? null) : null;
+  if (src) return <img src={src} alt={meta.name} width={size} height={size} className="profile-lang-flag-img" />;
+  return <span className="profile-lang-flag-fb">{lang.toUpperCase()}</span>;
+}
 
 export function ProfilePage(): ReactElement | null {
   useStateVersion();
@@ -84,8 +92,16 @@ export function ProfilePage(): ReactElement | null {
   const totalXp = (gd.xp ?? 0) + knownCount * 5;
   const achCount = loadUnlocked().length;
 
-  const langStats = (['en', ...ALL_TARGET_LANGS] as KnownLang[])
-    .map((code) => ({ code, count: getKnownSnapshot(code).size, ...LANG_INFO[code] }))
+  // Current learn language (always shown as primary card)
+  const rawLearnLang = localStorage.getItem('ew_learn_lang') ?? 'en';
+  const learnLang = (LANG_META[rawLearnLang] ? rawLearnLang : 'en') as KnownLang;
+  const primaryCount = getKnownSnapshot(learnLang).size;
+  const primaryMeta = LANG_META[learnLang];
+
+  // Other languages with at least 1 known word
+  const otherLangs = (['en', ...ALL_TARGET_LANGS] as KnownLang[])
+    .filter((code) => code !== learnLang)
+    .map((code) => ({ code, count: getKnownSnapshot(code).size }))
     .filter((x) => x.count > 0);
 
   return createPortal(
@@ -130,45 +146,53 @@ export function ProfilePage(): ReactElement | null {
         )}
       </div>
 
-      <div className="stats-summary profile-stats">
-        <div className="stat-card">
-          <div className="sv">{gd.streak || 0}</div>
-          <div className="sl">{t('stats.daysStreak')}</div>
-        </div>
-        <div className="stat-card">
-          <div className="sv">{totalXp}</div>
-          <div className="sl">{t('profile.totalXp')}</div>
-        </div>
-        <div className="stat-card">
-          <div className="sv">{knownCount}</div>
-          <div className="sl">{t('stats.wordsLearned')}</div>
-        </div>
-        <div className="stat-card">
-          <div className="sv">
-            {achCount}/{ACHIEVEMENTS.length}
-          </div>
-          <div className="sl">{t('profile.achievements')}</div>
-        </div>
-      </div>
+      <div className="profile-lang-stats">
+        <div className="profile-lang-stats-title">{t('profile.langStatsTitle')}</div>
+        <div className="profile-lang-grid">
 
-      {langStats.length > 0 && (
-        <div className="profile-lang-stats">
-          <div className="profile-lang-stats-title">{t('profile.langStatsTitle')}</div>
-          <div className="profile-lang-grid">
-            {langStats.map(({ code, flag, name, count }) => (
-              <div key={code} className="profile-lang-card">
-                <span className="profile-lang-flag">{flag}</span>
-                <div className="profile-lang-info">
-                  <span className="profile-lang-name">{name}</span>
-                  <span className="profile-lang-count">
-                    {count} {t('profile.langWords')}
+          {/* Primary card — current learn language with all global stats */}
+          <div className="profile-lang-card profile-lang-card--primary">
+            <LangFlag lang={learnLang} size={40} />
+            <div className="profile-lang-info">
+              <span className="profile-lang-name">{primaryMeta?.name ?? learnLang.toUpperCase()}</span>
+              <div className="profile-lang-mini-stats">
+                <div className="profile-mini-stat">
+                  <span className="profile-mini-val">{gd.streak || 0}</span>
+                  <span className="profile-mini-label">{t('stats.daysStreak')}</span>
+                </div>
+                <div className="profile-mini-stat">
+                  <span className="profile-mini-val">{primaryCount}</span>
+                  <span className="profile-mini-label">{t('stats.wordsLearned')}</span>
+                </div>
+                <div className="profile-mini-stat">
+                  <span className="profile-mini-val">{totalXp}</span>
+                  <span className="profile-mini-label">{t('profile.totalXp')}</span>
+                </div>
+                <div className="profile-mini-stat">
+                  <span className="profile-mini-val">
+                    {achCount}/{ACHIEVEMENTS.length}
                   </span>
+                  <span className="profile-mini-label">{t('profile.achievements')}</span>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
+
+          {/* Other languages — compact, only if ≥1 word known */}
+          {otherLangs.map(({ code, count }) => (
+            <div key={code} className="profile-lang-card">
+              <LangFlag lang={code} size={28} />
+              <div className="profile-lang-info">
+                <span className="profile-lang-name">{LANG_META[code]?.name ?? code.toUpperCase()}</span>
+                <span className="profile-lang-count">
+                  {count} {t('profile.langWords')}
+                </span>
+              </div>
+            </div>
+          ))}
+
         </div>
-      )}
+      </div>
     </div>,
     target,
   );

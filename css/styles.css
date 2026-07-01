@@ -5413,10 +5413,6 @@ body.hp .hamburger {
   min-width: 38px;
   text-align: center;
 }
-.profile-stats {
-  width: 100%;
-  max-width: 420px;
-}
 .profile-save-btn {
   width: 100%;
   padding: 10px;
@@ -5453,36 +5449,86 @@ body.hp .hamburger {
 .profile-lang-grid {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
+/* Compact card for secondary languages */
 .profile-lang-card {
   display: flex;
   align-items: center;
   gap: 10px;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 9px 14px;
+  border-radius: 12px;
+  padding: 10px 14px;
 }
-.profile-lang-flag {
-  font-size: 1.4rem;
-  line-height: 1;
+/* Primary card — current learn language with global stats */
+.profile-lang-card--primary {
+  border-color: var(--accent);
+  border-radius: 14px;
+  padding: 14px 16px;
+  align-items: flex-start;
+}
+.profile-lang-flag-img {
   flex-shrink: 0;
+  border-radius: 3px;
+  object-fit: cover;
+}
+.profile-lang-flag-fb {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 20px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 3px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 .profile-lang-info {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
   flex: 1;
+  min-width: 0;
 }
 .profile-lang-name {
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 700;
   color: var(--text);
+}
+.profile-lang-card--primary .profile-lang-name {
+  font-size: 1rem;
+  margin-bottom: 4px;
 }
 .profile-lang-count {
   font-size: 0.75rem;
   color: var(--text3);
+}
+/* 2×2 mini-stats grid inside the primary card */
+.profile-lang-mini-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 20px;
+  margin-top: 6px;
+}
+.profile-mini-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.profile-mini-val {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.1;
+}
+.profile-mini-label {
+  font-size: 0.68rem;
+  color: var(--text3);
+  white-space: nowrap;
 }
 body.sw .profile-save-btn {
   background: linear-gradient(90deg, #005580, #00c8ff);

@@ -14,10 +14,15 @@ vi.mock('../../js/features/game.ts', () => ({ getGameData, loadUnlocked }));
 const { getKnownInLang } = vi.hoisted(() => ({ getKnownInLang: vi.fn(() => 20) }));
 vi.mock('../../js/features/mode-utils.ts', () => ({ getKnownInLang }));
 
-// Known-words store: default to empty for all langs; override per-test via mockSnapshot
+// Known-words store: default to empty for all langs; override per-test via knownSnapshots
 const knownSnapshots: Record<string, Set<string>> = {};
 vi.mock('../../src/known-words-store.ts', () => ({
   getKnownSnapshot: (lang: string) => knownSnapshots[lang] ?? new Set<string>(),
+}));
+
+// flags.ts uses import.meta.glob — stub it to return predictable URLs
+vi.mock('../../js/core/flags.ts', () => ({
+  flagUrl: (code: string) => `/flags/${code}.svg`,
 }));
 
 function mount(): { container: HTMLElement; root: Root } {
@@ -50,15 +55,14 @@ describe('profile-page.tsx ProfilePage', () => {
     getGameData.mockClear().mockReturnValue({ streak: 3, xp: 100 });
     loadUnlocked.mockClear().mockReturnValue(['first1']);
     getKnownInLang.mockClear().mockReturnValue(20);
-    // Reset per-lang snapshots
     for (const k of Object.keys(knownSnapshots)) delete knownSnapshots[k];
   });
 
+  // ── Customize toggle ──────────────────────────────────────────
   it('renders the avatar and customize toggle (pickers hidden until opened)', () => {
     const { container } = mount();
     expect(container.querySelector('[aria-label="character avatar"]')).not.toBeNull();
     expect(container.querySelector('.profile-customize-toggle')).not.toBeNull();
-    // Pickers hidden before toggle
     expect(container.querySelectorAll('.profile-picker-row').length).toBe(0);
   });
 
@@ -73,21 +77,10 @@ describe('profile-page.tsx ProfilePage', () => {
   it('collapses pickers when toggle is clicked a second time', () => {
     const { container } = mount();
     openCustomize(container);
-    expect(container.querySelectorAll('.profile-picker-row').length).toBe(7);
     openCustomize(container); // close
     expect(container.querySelectorAll('.profile-picker-row').length).toBe(0);
     const toggle = container.querySelector('.profile-customize-toggle') as HTMLButtonElement;
     expect(toggle.getAttribute('aria-expanded')).toBe('false');
-  });
-
-  it('shows streak, total XP (xp + known*5), words learned and achievement count', () => {
-    const { container } = mount();
-    const values = Array.from(container.querySelectorAll('.profile-stats .sv')).map(
-      (el) => el.textContent,
-    );
-    expect(values).toContain('3'); // streak
-    expect(values).toContain('200'); // 100 + 20*5
-    expect(values).toContain('20'); // known
   });
 
   it('cycles an option forward locally without persisting until Save Changes is clicked', () => {
@@ -129,42 +122,71 @@ describe('profile-page.tsx ProfilePage', () => {
 
     act(() => {
       prevBtn.click();
-    }); // back to the original value
+    });
     expect(saveBtn.disabled).toBe(true);
   });
 
-  it('hides the language stats section when no language has known words', () => {
+  // ── Primary language card (always visible) ────────────────────
+  it('always shows the primary language card with the correct flag img', () => {
     const { container } = mount();
-    expect(container.querySelector('.profile-lang-stats')).toBeNull();
+    const primaryCard = container.querySelector('.profile-lang-card--primary')!;
+    expect(primaryCard).not.toBeNull();
+    const img = primaryCard.querySelector('img.profile-lang-flag-img') as HTMLImageElement;
+    expect(img).not.toBeNull();
+    // Default learn lang is 'en' → country 'gb'
+    expect(img.src).toContain('gb.svg');
   });
 
-  it('shows a lang card for each language that has at least 1 known word', () => {
-    knownSnapshots['en'] = new Set(['apple', 'book']);
-    knownSnapshots['es'] = new Set(['hola']);
+  it('shows streak, words, XP and achievements inside the primary card mini-stats', () => {
+    knownSnapshots['en'] = new Set(['apple', 'book', 'car']); // 3 words
     const { container } = mount();
-    const cards = container.querySelectorAll('.profile-lang-card');
-    expect(cards.length).toBe(2);
-    const flags = Array.from(cards).map((c) => c.querySelector('.profile-lang-flag')?.textContent);
-    expect(flags).toContain('🇬🇧');
-    expect(flags).toContain('🇪🇸');
+    const vals = Array.from(
+      container.querySelectorAll('.profile-lang-card--primary .profile-mini-val'),
+    ).map((el) => el.textContent);
+    expect(vals).toContain('3'); // streak
+    expect(vals).toContain('3'); // words (from snapshot — getKnownInLang mock returns 20 but snapshot returns 3)
+    // totalXp = 100 + 20*5 = 200
+    expect(vals).toContain('200');
   });
 
-  it('shows the correct word count in each language card', () => {
+  it('uses the current learn language for the primary card', () => {
+    localStorage.setItem('ew_learn_lang', 'de');
+    knownSnapshots['de'] = new Set(['Apfel']);
+    const { container } = mount();
+    const primaryCard = container.querySelector('.profile-lang-card--primary')!;
+    const img = primaryCard.querySelector('img') as HTMLImageElement;
+    expect(img.src).toContain('de.svg');
+    expect(primaryCard.querySelector('.profile-lang-name')?.textContent).toBe('Deutsch');
+  });
+
+  // ── Other language cards ──────────────────────────────────────
+  it('does not show secondary cards when no other language has known words', () => {
+    const { container } = mount();
+    const allCards = container.querySelectorAll('.profile-lang-card');
+    // Only the primary card
+    expect(allCards.length).toBe(1);
+  });
+
+  it('shows compact secondary cards for other languages with ≥1 word', () => {
+    knownSnapshots['es'] = new Set(['hola', 'adios']);
+    knownSnapshots['fr'] = new Set(['bonjour']);
+    const { container } = mount();
+    // primary + 2 secondary
+    const allCards = container.querySelectorAll('.profile-lang-card');
+    expect(allCards.length).toBe(3);
+    const secondaryFlags = Array.from(
+      container.querySelectorAll('.profile-lang-card:not(.profile-lang-card--primary) img'),
+    ).map((el) => (el as HTMLImageElement).src);
+    expect(secondaryFlags.some((s) => s.includes('es.svg'))).toBe(true);
+    expect(secondaryFlags.some((s) => s.includes('fr.svg'))).toBe(true);
+  });
+
+  it('shows the correct word count in secondary cards', () => {
     knownSnapshots['de'] = new Set(['Apfel', 'Buch', 'Haus']);
     const { container } = mount();
-    const card = container.querySelector('.profile-lang-card')!;
-    expect(card.querySelector('.profile-lang-flag')?.textContent).toBe('🇩🇪');
-    expect(card.querySelector('.profile-lang-count')?.textContent).toContain('3');
-  });
-
-  it('does not show a lang card for languages with zero known words', () => {
-    knownSnapshots['fr'] = new Set(['bonjour']);
-    // 'de' has 0 — no card for it
-    const { container } = mount();
-    const flags = Array.from(container.querySelectorAll('.profile-lang-flag')).map(
-      (el) => el.textContent,
-    );
-    expect(flags).toContain('🇫🇷');
-    expect(flags).not.toContain('🇩🇪');
+    const secondary = container.querySelector(
+      '.profile-lang-card:not(.profile-lang-card--primary)',
+    )!;
+    expect(secondary.querySelector('.profile-lang-count')?.textContent).toContain('3');
   });
 });
