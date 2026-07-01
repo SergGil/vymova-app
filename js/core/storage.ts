@@ -185,6 +185,15 @@ export function loadKnownNl(): Set<string> {
   return new Set(arr);
 }
 
+export function saveKnownVi(known: Set<string>): void {
+  _lzSave('ew_known_vi', [...known]);
+}
+
+export function loadKnownVi(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_vi', []);
+  return new Set(arr);
+}
+
 function _srsLangKey(): string {
   const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
   return lang === 'en' ? 'ew_srs' : `ew_srs_${lang}`;

@@ -8,7 +8,7 @@
 // compatibility) so src/known-words-store.ts can use them without a runtime
 // import cycle back into mode-utils.ts.
 export type TargetLang =
-  'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar' | 'pl' | 'zh' | 'el' | 'ja' | 'tr' | 'nl';
+  'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar' | 'pl' | 'zh' | 'el' | 'ja' | 'tr' | 'nl' | 'vi';
 export type Code = TargetLang | 'en' | 'ua';
 export const ALL_TARGET_LANGS: TargetLang[] = [
   'es',
@@ -24,6 +24,7 @@ export const ALL_TARGET_LANGS: TargetLang[] = [
   'ja',
   'tr',
   'nl',
+  'vi',
 ];
 
 // ── Word data ─────────────────────────────────────────────────

@@ -20,6 +20,7 @@ import {
   saveKnownJa,
   saveKnownTr,
   saveKnownNl,
+  saveKnownVi,
 } from '../core/storage.ts';
 import { getModeSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -53,6 +54,7 @@ const LANG_LOADERS: Record<TargetLang, () => Promise<Table>> = {
   ja: () => import('../../data/words_ja.js').then((m) => m.W_JA as Table),
   tr: () => import('../../data/words_tr.js').then((m) => m.W_TR as Table),
   nl: () => import('../../data/words_nl.js').then((m) => m.W_NL as Table),
+  vi: () => import('../../data/words_vi.js').then((m) => m.W_VI as Table),
 };
 
 // In-flight promises to avoid duplicate fetches for the same language.
@@ -180,6 +182,13 @@ const LANG_REGISTRY: Record<TargetLang, LangConfig> = {
     voiceLocale: 'nl-NL',
     rtl: false,
   },
+  vi: {
+    entry: (w) => lookup(getTable('vi'), w),
+    known: () => getKnownSnapshot('vi'),
+    saveKnown: saveKnownVi,
+    voiceLocale: 'vi-VN',
+    rtl: false,
+  },
 };
 
 export function langConfig(code: TargetLang): LangConfig {
@@ -256,6 +265,7 @@ export const EL_MODES = modesFor('el');
 export const JA_MODES = modesFor('ja');
 export const TR_MODES = modesFor('tr');
 export const NL_MODES = modesFor('nl');
+export const VI_MODES = modesFor('vi');
 
 export function getMode(): string {
   const sel = document.getElementById('sel-mode') as HTMLSelectElement | null;
@@ -283,7 +293,8 @@ export type FrontLang =
   | 'EL'
   | 'JA'
   | 'TR'
-  | 'NL';
+  | 'NL'
+  | 'VI';
 
 // FRONT_LANG залежить лише від обраного режиму (не від конкретного слова) —
 // чисто обчислюється з `mode`, тому винесено окремо для CardMeta (item 28a).
@@ -401,6 +412,9 @@ export function trEntry(word: string): Entry {
 export function nlEntry(word: string): Entry {
   return LANG_REGISTRY.nl.entry(word);
 }
+export function viEntry(word: string): Entry {
+  return LANG_REGISTRY.vi.entry(word);
+}
 
 function targetLangFromStorageKey(key: string): TargetLang | null {
   return isTargetLang(key) ? key : null;
@@ -484,6 +498,7 @@ const NO_TRANSLATIONS_KEY: Record<TargetLang, string> = {
   ja: 'deck.noJaTranslations',
   tr: 'deck.noTrTranslations',
   nl: 'deck.noNlTranslations',
+  vi: 'deck.noViTranslations',
 };
 
 function hasAnyEntries(lang: TargetLang, words: WordEntry[]): boolean {

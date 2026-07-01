@@ -32,6 +32,7 @@ import {
   jaEntry,
   trEntry,
   nlEntry,
+  viEntry,
   isTargetLang,
 } from './mode-utils.ts';
 
@@ -74,6 +75,8 @@ function _getTranslation(w: WordEntry, lang: string): string {
       return trEntry(w[0])?.[0] ?? w[1];
     case 'nl':
       return nlEntry(w[0])?.[0] ?? w[1];
+    case 'vi':
+      return viEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1];
   }
@@ -107,6 +110,8 @@ function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
       return words.filter((w) => trEntry(w[0]) !== null);
     case 'nl':
       return words.filter((w) => nlEntry(w[0]) !== null);
+    case 'vi':
+      return words.filter((w) => viEntry(w[0]) !== null);
     default:
       return words;
   }

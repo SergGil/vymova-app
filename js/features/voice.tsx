@@ -20,6 +20,7 @@ let _elURI = localStorage.getItem('ew_ws_el_voice') ?? '';
 let _jaURI = localStorage.getItem('ew_ws_ja_voice') ?? '';
 let _trURI = localStorage.getItem('ew_ws_tr_voice') ?? '';
 let _nlURI = localStorage.getItem('ew_ws_nl_voice') ?? '';
+let _viURI = localStorage.getItem('ew_ws_vi_voice') ?? '';
 
 type VoiceMapEntry = { match: string; label: string; gender: string; accent: string };
 
@@ -233,6 +234,7 @@ function _langFlag(lang: string): string {
   if (l.startsWith('ja')) return 'JP';
   if (l.startsWith('tr')) return 'TR';
   if (l.startsWith('nl')) return 'NL';
+  if (l.startsWith('vi')) return 'VN';
   return '🌐';
 }
 
@@ -361,6 +363,13 @@ function _nlVoices(): SpeechSynthesisVoice[] {
     return l.startsWith('nl') || n.includes('dutch') || n.includes('nederlands');
   });
 }
+function _viVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('vi') || n.includes('vietnamese') || n.includes('tiếng việt');
+  });
+}
 function _findByURI(uri: string, voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
   return voices.find((v) => v.voiceURI === uri) ?? null;
 }
@@ -406,6 +415,9 @@ export function getSelectedTrVoice(): SpeechSynthesisVoice | null {
 }
 export function getSelectedNlVoice(): SpeechSynthesisVoice | null {
   return _findByURI(_nlURI, _nlVoices()) ?? _nlVoices()[0] ?? null;
+}
+export function getSelectedViVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_viURI, _viVoices()) ?? _viVoices()[0] ?? null;
 }
 
 // Speaks `text` with a voice tagged for `accent` (matched via VOICE_MAP first,
@@ -594,7 +606,8 @@ export function _renderVoices(): void {
     elVoices = _sortVoices(_elVoices()),
     jaVoices = _sortVoices(_jaVoices()),
     trVoices = _sortVoices(_trVoices()),
-    nlVoices = _sortVoices(_nlVoices());
+    nlVoices = _sortVoices(_nlVoices()),
+    viVoices = _sortVoices(_viVoices());
   if (
     !enVoices.length &&
     !ukVoices.length &&
@@ -610,7 +623,8 @@ export function _renderVoices(): void {
     !elVoices.length &&
     !jaVoices.length &&
     !trVoices.length &&
-    !nlVoices.length
+    !nlVoices.length &&
+    !viVoices.length
   ) {
     container.innerHTML =
       '<span style="font-size:.78rem;color:var(--text3);">' +
@@ -668,6 +682,7 @@ export function _renderVoices(): void {
           else if (storageKey === 'ew_ws_ja_voice') _jaURI = uri;
           else if (storageKey === 'ew_ws_tr_voice') _trURI = uri;
           else if (storageKey === 'ew_ws_nl_voice') _nlURI = uri;
+          else if (storageKey === 'ew_ws_vi_voice') _viURI = uri;
           else _ukURI = uri;
           localStorage.setItem(storageKey, uri);
           _renderVoices();
@@ -868,6 +883,17 @@ export function _renderVoices(): void {
       'Hallo, hoe gaat het?',
     );
   else addMissing('nl', 'nl', 'settings.noNlVoicesTitle', 'settings.noNlVoicesDesc');
+  if (viVoices.length)
+    addSection(
+      'vi',
+      'vn',
+      t('settings.viVoicesTitle'),
+      viVoices,
+      _viURI,
+      'ew_ws_vi_voice',
+      'Xin chào, bạn khỏe không?',
+    );
+  else addMissing('vi', 'vn', 'settings.noViVoicesTitle', 'settings.noViVoicesDesc');
   if (!_enURI && enVoices.length) {
     _enURI = (enVoices.find((v) => v.name.toLowerCase().includes('google')) ?? enVoices[0])
       .voiceURI;
@@ -941,6 +967,11 @@ export function _renderVoices(): void {
     _nlURI = (nlVoices.find((v) => v.name.toLowerCase().includes('google')) ?? nlVoices[0])
       .voiceURI;
     localStorage.setItem('ew_ws_nl_voice', _nlURI);
+  }
+  if (!_viURI && viVoices.length) {
+    _viURI = (viVoices.find((v) => v.name.toLowerCase().includes('google')) ?? viVoices[0])
+      .voiceURI;
+    localStorage.setItem('ew_ws_vi_voice', _viURI);
   }
 }
 

@@ -60,6 +60,10 @@ declare module './words_nl.js' {
   export const W_NL: Record<string, readonly [string, string, string?]>;
 }
 
+declare module './words_vi.js' {
+  export const W_VI: Record<string, readonly [string, string, string?]>;
+}
+
 declare module './categories.js' {
   export const CATEGORY_LIST: string[];
   export const WORD_CATEGORIES: Record<string, string[]>;

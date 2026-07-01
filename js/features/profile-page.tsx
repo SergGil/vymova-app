@@ -58,6 +58,7 @@ const LANG_META: Record<string, { name: string; country: string }> = {
   ja: { name: '日本語', country: 'jp' },
   tr: { name: 'Türkçe', country: 'tr' },
   nl: { name: 'Nederlands', country: 'nl' },
+  vi: { name: 'Tiếng Việt', country: 'vn' },
 };
 
 function FlagCircle({ lang, size = 44 }: { lang: string; size?: number }): ReactElement {
@@ -246,7 +247,7 @@ export function ProfilePage(): ReactElement | null {
                 </span>
                 <span className="profile-stat-item">
                   <span className="profile-stat-icon">⭐</span>
-                  <span className="profile-stat-val">{totalXp.toLocaleString()}</span>
+                  <span className="profile-stat-val">{(getLangXp(learnLang) + allKnownWords[learnLang].size * 5).toLocaleString()}</span>
                   <span className="profile-stat-lbl">XP</span>
                 </span>
                 <span className="profile-stat-item">
@@ -273,6 +274,11 @@ export function ProfilePage(): ReactElement | null {
                     <span className="profile-stat-icon">📖</span>
                     <span className="profile-stat-val">{count}</span>
                     <span className="profile-stat-lbl">{wordsLabel(count)}</span>
+                  </span>
+                  <span className="profile-stat-item">
+                    <span className="profile-stat-icon">⭐</span>
+                    <span className="profile-stat-val">{(getLangXp(code) + count * 5).toLocaleString()}</span>
+                    <span className="profile-stat-lbl">XP</span>
                   </span>
                   <span className="profile-stat-item">
                     <span className="profile-stat-icon">🏆</span>

@@ -23,7 +23,8 @@ export type LangCode =
   | 'el'
   | 'ja'
   | 'tr'
-  | 'nl';
+  | 'nl'
+  | 'vi';
 type Direction = 'fwd' | 'rev' | 'mix';
 
 const ALL_LANGS: LangCode[] = [
@@ -42,6 +43,7 @@ const ALL_LANGS: LangCode[] = [
   'ja',
   'tr',
   'nl',
+  'vi',
 ];
 
 // Flag shown for each language — picks the country most learners associate
@@ -62,6 +64,7 @@ export const FLAG_CODE: Record<LangCode, string> = {
   ja: 'jp',
   tr: 'tr',
   nl: 'nl',
+  vi: 'vn',
 };
 
 function LangFlag({ lang }: { lang: LangCode }): ReactElement {
@@ -129,7 +132,8 @@ function isLangCode(v: string | null): v is LangCode {
     v === 'el' ||
     v === 'ja' ||
     v === 'tr' ||
-    v === 'nl'
+    v === 'nl' ||
+    v === 'vi'
   );
 }
 

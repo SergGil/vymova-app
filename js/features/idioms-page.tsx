@@ -22,7 +22,8 @@ type Tab =
   | 'el'
   | 'ja'
   | 'tr'
-  | 'nl';
+  | 'nl'
+  | 'vi';
 
 function _speak(text: string, lang: string, btn: HTMLElement | null): void {
   _speakWithLang(text, lang, btn);
@@ -44,6 +45,7 @@ const LANG_BY_TAB: Record<Tab, string> = {
   ja: 'ja-JP',
   tr: 'tr-TR',
   nl: 'nl-NL',
+  vi: 'vi-VN',
 };
 const TAB_I18N_KEY: Record<Tab, string> = {
   en: 'idioms.tabEn',
@@ -61,6 +63,7 @@ const TAB_I18N_KEY: Record<Tab, string> = {
   ja: 'idioms.tabJa',
   tr: 'idioms.tabTr',
   nl: 'idioms.tabNl',
+  vi: 'idioms.tabVi',
 };
 const RTL_TABS = new Set<Tab>(['he', 'ar']);
 
@@ -80,7 +83,8 @@ function _isTab(l: string): l is Tab {
     l === 'el' ||
     l === 'ja' ||
     l === 'tr' ||
-    l === 'nl'
+    l === 'nl' ||
+    l === 'vi'
   );
 }
 

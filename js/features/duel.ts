@@ -25,6 +25,7 @@ import {
   jaEntry,
   trEntry,
   nlEntry,
+  viEntry,
 } from './mode-utils.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { DICT } from '../modes/word-letters.tsx';
@@ -533,6 +534,8 @@ function _wordInLang(w: WordEntry, lang: string): string {
       return trEntry(w[0])?.[0] ?? w[1];
     case 'nl':
       return nlEntry(w[0])?.[0] ?? w[1];
+    case 'vi':
+      return viEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1]; // 'ua'
   }
@@ -570,6 +573,8 @@ function _hasLangWord(w: WordEntry, lang: string): boolean {
       return trEntry(w[0]) !== null;
     case 'nl':
       return nlEntry(w[0]) !== null;
+    case 'vi':
+      return viEntry(w[0]) !== null;
     default:
       return true;
   }

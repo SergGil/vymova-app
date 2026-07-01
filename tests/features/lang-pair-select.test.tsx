@@ -18,6 +18,7 @@ vi.mock('../../data/words_el.js', () => ({ W_EL: {} }));
 vi.mock('../../data/words_ja.js', () => ({ W_JA: {} }));
 vi.mock('../../data/words_tr.js', () => ({ W_TR: {} }));
 vi.mock('../../data/words_nl.js', () => ({ W_NL: {} }));
+vi.mock('../../data/words_vi.js', () => ({ W_VI: {} }));
 import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 
 function mountLangPairSelect(): void {
@@ -70,7 +71,7 @@ describe('lang-pair-select', () => {
     // Preload all lang tables (from stubs above) so areLangTablesReady()
     // returns true and persist() takes the synchronous applyMode path.
     await Promise.all(
-      ['es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl'].map(
+      ['es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl', 'vi'].map(
         ensureLangTableLoaded,
       ),
     );
@@ -91,12 +92,12 @@ describe('lang-pair-select', () => {
     act(() => {
       (dds[0].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(15); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl
+    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(16); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi
 
     act(() => {
       (dds[1].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(14); // learn options for know=ua
+    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(15); // learn options for know=ua
 
     act(() => {
       (dds[2].querySelector('.flagdd-btn') as HTMLButtonElement).click();

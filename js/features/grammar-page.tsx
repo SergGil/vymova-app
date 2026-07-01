@@ -29,6 +29,7 @@ const SPEECH_LANG: Record<LangCode, string> = {
   ja: 'ja-JP',
   tr: 'tr-TR',
   nl: 'nl-NL',
+  vi: 'vi-VN',
 };
 
 // ── Level sort ────────────────────────────────────────────────

@@ -22,7 +22,7 @@ const knownSnapshots: Record<string, Set<string>> = {};
 vi.mock('../../src/known-words-store.ts', () => ({
   useAllKnownWords: () => {
     const state: Record<string, Set<string>> = {};
-    for (const lang of ['en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl']) {
+    for (const lang of ['en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl', 'vi']) {
       state[lang] = knownSnapshots[lang] ?? new Set<string>();
     }
     return state;
@@ -176,16 +176,25 @@ describe('profile-page.tsx ProfilePage', () => {
     expect(vals).toContain('20'); // knownCount from getKnownInLang mock
   });
 
-  it('uses totalXp across all language snapshots for the XP stat', () => {
-    // game XP=0, en=10 words, es=5 words → total = 15*5 = 75 XP
+  it('shows per-language XP in primary card (en words×5 + en game XP)', () => {
+    // active lang=en, en=10 words → en XP = 10*5 = 50; es words ignored for primary card
     knownSnapshots['en'] = new Set(Array.from({ length: 10 }, (_, i) => `w${i}`));
     knownSnapshots['es'] = new Set(['hola', 'adios', 'bueno', 'malo', 'gato']);
     getLangXp.mockImplementation((_lang: string) => 0);
     const { container } = mount();
     const xpVal = Array.from(
       container.querySelectorAll('.profile-lang-card--primary .profile-stat-val'),
-    ).find((el) => el.textContent === '75');
+    ).find((el) => el.textContent === '50');
     expect(xpVal).not.toBeUndefined();
+  });
+
+  it('shows per-language XP in secondary cards', () => {
+    knownSnapshots['de'] = new Set(['Apfel', 'Buch']);
+    getLangXp.mockImplementation((lang: string) => lang === 'de' ? 20 : 0);
+    const { container } = mount();
+    const secondary = container.querySelector('.profile-lang-card:not(.profile-lang-card--primary)')!;
+    const vals = Array.from(secondary.querySelectorAll('.profile-stat-val')).map((el) => el.textContent);
+    expect(vals).toContain('30'); // 2 words*5 + 20 game XP
   });
 
   it('uses the current learn language for the primary card', () => {

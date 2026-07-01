@@ -19,6 +19,7 @@ import {
   getSelectedJaVoice,
   getSelectedTrVoice,
   getSelectedNlVoice,
+  getSelectedViVoice,
 } from './voice.tsx';
 import { speak, _speakWithLang } from './speech.ts';
 import { isTargetLang, langConfig, type TargetLang, type Code } from './mode-utils.ts';
@@ -37,6 +38,7 @@ export const VOICE_GETTERS: Record<TargetLang, () => SpeechSynthesisVoice | null
   ja: getSelectedJaVoice,
   tr: getSelectedTrVoice,
   nl: getSelectedNlVoice,
+  vi: getSelectedViVoice,
 };
 
 export function speakForCode(
