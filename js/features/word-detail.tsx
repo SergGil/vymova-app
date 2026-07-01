@@ -4,28 +4,41 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { getSrsDataSnapshot, deleteSrsEntry } from '../../src/srs-store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import { speak, _speakWithLang } from './speech.ts';
+import { speakForCode } from './speak-lang.ts';
+import { saveKnown } from '../core/storage.ts';
 import { getSimilarWordsFor } from './similar-words.tsx';
 import { W } from '../../data/words.js';
 import { isBookmarked, toggleBookmark } from './bookmarks.ts';
-import { getFrontLang, isTargetLang, langConfig, parsePair, headwordFor } from './mode-utils.ts';
-import { getKnownSnapshot, markKnown, unmarkKnown } from '../../src/known-words-store.ts';
+import {
+  isTargetLang,
+  langConfig,
+  parsePair,
+  headwordFor,
+  computeCardView,
+  getActiveTargetLang,
+  getResolvedMode,
+  type Code,
+} from './mode-utils.ts';
+import {
+  getKnownSnapshot,
+  markKnown,
+  unmarkKnown,
+  type KnownLang,
+} from '../../src/known-words-store.ts';
 import { t, pluralLabel } from './i18n.ts';
 import { render, setIdx, onWordLearned as _onWordLearned } from '../core/card-engine.ts';
 import { checkMilestones } from './milestones.ts';
 import type { WordEntry } from '../../src/types.js';
 
-function _modeVal(): string {
-  return (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? '';
-}
-
 function SpeakBtn({
   text,
-  lang = 'en-US',
+  code = 'en',
+  fallback,
   style,
 }: {
   text: string;
-  lang?: string;
+  code?: Code;
+  fallback?: string;
   style?: React.CSSProperties;
 }): ReactElement {
   return (
@@ -35,9 +48,7 @@ function SpeakBtn({
       style={style}
       onClick={(e) => {
         e.stopPropagation();
-        const btn = e.currentTarget;
-        if (lang.startsWith('uk')) _speakWithLang(text, lang, btn);
-        else speak(text, btn);
+        speakForCode(code, text, fallback ?? text, e.currentTarget);
       }}
     >
       🔊
@@ -64,7 +75,8 @@ export function WordDetailPage(): ReactElement | null {
   useEffect(() => {
     _open = (w: WordEntry) => {
       setCw(w);
-      setKnown(getKnownSnapshot('en').has(w[0]));
+      const lang: KnownLang = getActiveTargetLang(getResolvedMode()) ?? 'en';
+      setKnown(getKnownSnapshot(lang).has(w[0]));
       setBm(isBookmarked(w[0]));
       setSrsEntry(
         (getSrsDataSnapshot() as Record<string, { due?: string; ef?: number; reps?: number }>)[
@@ -110,45 +122,56 @@ export function WordDetailPage(): ReactElement | null {
 
   const w = cw;
   const enEx = w[2] ?? '';
-  const uaEx = w[3] ?? '';
 
-  // Which language is shown on the front of the card right now — drives
-  // which translation/transcription this panel shows (mirrors the card
-  // itself instead of an ambiguous "is any of the 13 languages active" check).
-  const front = getFrontLang(_modeVal());
-  const frontCode = front.toLowerCase();
-  const { front: frontPair, back: backPair } = parsePair(_modeVal());
-  const localEntry = isTargetLang(frontCode) ? langConfig(frontCode).entry(w[0]) : null;
-  const transl = localEntry ? localEntry[0] : w[1];
-  // Local transcription (pinyin/romaji/transliteration/IPA) for the active learn language, if available.
-  const localTranscription = localEntry?.[2];
-  const ipa = localTranscription
-    ? decodeIpa(localTranscription)
-    : localEntry || isTargetLang(frontCode)
-      ? ''
-      : decodeIpa(w[4] ?? '');
+  // Resolved (never literally 'mix') pair — mirrors exactly what the card
+  // itself shows, instead of hardcoding EN/UA regardless of the active pair.
+  const mode = getResolvedMode();
+  const { front, back } = parsePair(mode);
+  const {
+    frontWord,
+    exenHtml: frontExHtml,
+    exuaHtml: backExHtml,
+    frontRtl,
+    backRtl,
+  } = computeCardView(w, mode);
+  const transl = headwordFor(back, w) || w[1];
+  // Transcription for whichever language is on the front right now.
+  const frontTranscription = isTargetLang(front) ? langConfig(front).entry(w[0])?.[2] : undefined;
+  const ipa = frontTranscription
+    ? decodeIpa(frontTranscription)
+    : front === 'en'
+      ? decodeIpa(w[4] ?? '')
+      : '';
 
-  const similar = getSimilarWordsFor(frontPair, w[0], transl, 5);
-
-  const escWord = w[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const enExHtml = enEx ? enEx.replace(new RegExp(`(${escWord}\\w*)`, 'gi'), '<b>$1</b>') : '';
+  const similar = getSimilarWordsFor(front, w[0], transl, 5);
+  const frontExPlain = frontExHtml.replace(/<[^>]+>/g, '');
 
   function onKnow(): void {
     _onWordLearned();
-    markKnown('en', w[0]);
+    const lang: KnownLang = getActiveTargetLang(mode) ?? 'en';
+    markKnown(lang, w[0]);
+    if (isTargetLang(lang)) {
+      const cfg = langConfig(lang);
+      cfg.saveKnown(cfg.known());
+    } else {
+      saveKnown(getKnownSnapshot('en'));
+    }
     checkMilestones();
     setKnown(true);
   }
 
   function onForget(): void {
-    unmarkKnown('en', w[0]);
+    const lang: KnownLang = getActiveTargetLang(mode) ?? 'en';
+    unmarkKnown(lang, w[0]);
     deleteSrsEntry(w[0]);
     try {
-      const { saveKnown, saveSRS } = window as Window & {
-        saveKnown?: (s: Set<string>) => void;
-        saveSRS?: (d: unknown) => void;
-      };
-      saveKnown?.(getKnownSnapshot('en'));
+      if (isTargetLang(lang)) {
+        const cfg = langConfig(lang);
+        cfg.saveKnown(cfg.known());
+      } else {
+        saveKnown(getKnownSnapshot('en'));
+      }
+      const { saveSRS } = window as Window & { saveSRS?: (d: unknown) => void };
       saveSRS?.(getSrsDataSnapshot());
     } catch (e) {}
     setKnown(false);
@@ -265,6 +288,7 @@ export function WordDetailPage(): ReactElement | null {
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
               <span
                 id="wd-word"
+                dir={frontRtl ? 'rtl' : undefined}
                 style={{
                   fontFamily: "'DM Serif Display',serif",
                   fontSize: '2rem',
@@ -272,9 +296,14 @@ export function WordDetailPage(): ReactElement | null {
                   lineHeight: 1.1,
                 }}
               >
-                {w[0]}
+                {frontWord || w[0]}
               </span>
-              <SpeakBtn text={w[0]} style={{ fontSize: '1.1rem' }} />
+              <SpeakBtn
+                text={frontWord || w[0]}
+                code={front}
+                fallback={w[0]}
+                style={{ fontSize: '1.1rem' }}
+              />
             </div>
             <div id="wd-ipa" style={{ fontSize: '.85rem', color: 'var(--accent2)', marginTop: 2 }}>
               {ipa}
@@ -299,12 +328,13 @@ export function WordDetailPage(): ReactElement | null {
         {/* Translation */}
         <div
           id="wd-transl"
+          dir={backRtl ? 'rtl' : undefined}
           style={{ fontSize: '1.1rem', color: 'var(--text2)', fontWeight: 600, marginBottom: 14 }}
         >
           {transl}
         </div>
         {/* Examples */}
-        {enEx && (
+        {(frontExHtml || backExHtml) && (
           <div
             id="wd-examples"
             style={{
@@ -316,6 +346,7 @@ export function WordDetailPage(): ReactElement | null {
           >
             <div
               id="wd-ex-en"
+              dir={frontRtl ? 'rtl' : undefined}
               style={{
                 fontSize: '.85rem',
                 color: 'var(--text2)',
@@ -324,14 +355,17 @@ export function WordDetailPage(): ReactElement | null {
                 marginBottom: 6,
               }}
             >
-              <span dangerouslySetInnerHTML={{ __html: enExHtml }} />
-              <SpeakBtn text={enEx.replace(/<[^>]*>/g, '')} lang="en-US" />
+              <span dangerouslySetInnerHTML={{ __html: frontExHtml }} />
+              {frontExPlain && (
+                <SpeakBtn text={frontExPlain} code={front} fallback={enEx} />
+              )}
             </div>
             <div
               id="wd-ex-ua"
+              dir={backRtl ? 'rtl' : undefined}
               style={{ fontSize: '.8rem', color: 'var(--text3)', lineHeight: 1.4 }}
             >
-              {uaEx}
+              <span dangerouslySetInnerHTML={{ __html: backExHtml }} />
             </div>
           </div>
         )}
@@ -366,8 +400,8 @@ export function WordDetailPage(): ReactElement | null {
             </div>
             <div id="wd-similar-chips" style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {similar.map((s) => {
-                const sWord = headwordFor(frontPair, s) || s[0];
-                const sTransl = headwordFor(backPair, s) || s[1];
+                const sWord = headwordFor(front, s) || s[0];
+                const sTransl = headwordFor(back, s) || s[1];
                 return (
                   <div
                     key={s[0]}
