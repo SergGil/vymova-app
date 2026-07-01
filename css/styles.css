@@ -6,6 +6,7 @@
 
 :root {
   --bg: #f7f4ef;
+  --bg2: #f0ede7;
   --card: #ffffff;
   --text: #1a1612;
   --text2: #6b6560;
@@ -16,6 +17,10 @@
   --shadow: 0 2px 20px rgba(0, 0, 0, 0.07);
   --modal-bg: #ffffff;
   --modal-av-bg: rgba(0, 0, 0, 0.06);
+  --danger: #c0392b;
+  --danger-bg: #fdedec;
+  --success: #27ae60;
+  --success-bg: #e8f8f0;
 }
 
 * {
@@ -820,6 +825,7 @@ select:focus {
 /* ── Темна тема ── */
 body.dark {
   --bg: #1a1a2e;
+  --bg2: #1e2340;
   --card: #16213e;
   --text: #e0e0e0;
   --text2: #a0a0b0;
@@ -830,6 +836,10 @@ body.dark {
   --shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
   --modal-bg: #1e2340;
   --modal-av-bg: rgba(255, 255, 255, 0.08);
+  --danger: #e74c3c;
+  --danger-bg: rgba(231, 76, 60, 0.15);
+  --success: #2ecc71;
+  --success-bg: rgba(46, 204, 113, 0.12);
 }
 body.dark .game-bar {
   background: var(--card);
@@ -3105,11 +3115,11 @@ body.dark .cat-select-btn:hover {
   transition: opacity 0.25s, transform 0.25s;
 }
 .mistake-review-front {
-  background: var(--bg2, #f8f9fa);
+  background: var(--bg2);
 }
 .mistake-review-back {
   display: none;
-  background: var(--bg2, #f8f9fa);
+  background: var(--bg2);
 }
 .mistake-review-card.flipped .mistake-review-front { display: none; }
 .mistake-review-card.flipped .mistake-review-back { display: block; }
@@ -3163,12 +3173,12 @@ body.dark .cat-select-btn:hover {
 }
 .mistake-review-btn:hover { opacity: 0.85; }
 .mistake-review-btn.hard {
-  background: #fdedec;
-  color: #c0392b;
+  background: var(--danger-bg);
+  color: var(--danger);
 }
 .mistake-review-btn.got {
-  background: #e8f8f0;
-  color: #27ae60;
+  background: var(--success-bg);
+  color: var(--success);
 }
 .mistake-review-done {
   text-align: center;
@@ -8116,11 +8126,11 @@ body.hp .idiom-meaning {
 @keyframes card-slide-in-right {
   from {
     opacity: 0;
-    transform: translateX(28px);
+    transform: translateX(52px) scale(0.97);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) scale(1);
   }
 }
 
@@ -8128,11 +8138,11 @@ body.hp .idiom-meaning {
 @keyframes card-slide-in-left {
   from {
     opacity: 0;
-    transform: translateX(-28px);
+    transform: translateX(-52px) scale(0.97);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) scale(1);
   }
 }
 
@@ -8140,11 +8150,11 @@ body.hp .idiom-meaning {
 @keyframes card-fade-in {
   from {
     opacity: 0;
-    transform: scale(0.97);
+    transform: scale(0.95) translateY(6px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
   }
 }
 
@@ -17663,4 +17673,93 @@ body.dt .idioms-tab-active {
 
 body.dt .idiom-meaning {
   color: #ff0000;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UI Polish block (v1.44.0)
+   A — Card animation enhancement (done in @keyframes above)
+   B — ModeHints (done in mode-hints.tsx)
+   C — Mobile stats responsive
+   D — Skeleton loaders & stat-card entrance
+   E — Dark mode polish (done via CSS vars above)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── D: Skeleton shimmer ── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--bg2) 50%,
+    var(--border) 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 6px;
+  display: block;
+}
+.skeleton-text {
+  height: 0.9em;
+  margin: 4px 0;
+  border-radius: 4px;
+}
+.skeleton-block {
+  border-radius: 10px;
+}
+
+/* ── D: Stat-card entrance animation ── */
+@keyframes statCardEnter {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.stats-summary .stat-card {
+  animation: statCardEnter 0.32s ease both;
+}
+.stats-summary .stat-card:nth-child(2) { animation-delay: 0.07s; }
+.stats-summary .stat-card:nth-child(3) { animation-delay: 0.14s; }
+@media (prefers-reduced-motion: reduce) {
+  .stats-summary .stat-card { animation: none; }
+}
+
+/* ── C: Stats page mobile responsive ── */
+@media (max-width: 480px) {
+  .stats-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+  .stats-summary .stat-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+  .stat-card .sv {
+    font-size: 1.4rem;
+  }
+  #heatmap-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .stats-section-title {
+    font-size: 0.82rem;
+  }
+  .mode-accuracy-list,
+  #mode-accuracy-list {
+    font-size: 0.8rem;
+  }
+}
+
+/* ── E: Dark mode — mode-complete-toast ── */
+body.dark .mode-complete-toast {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+body.dark .mct-streak {
+  color: #f39c12;
+}
+
+/* ── E: Dark mode — mistake-review ── */
+body.dark .mistake-review-panel {
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+}
+body.dark .mistake-review-done-stats {
+  color: var(--text2);
 }

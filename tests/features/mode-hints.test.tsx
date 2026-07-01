@@ -105,4 +105,55 @@ describe('mode-hints.tsx ModeHints', () => {
     await vi.advanceTimersByTimeAsync(250);
     expect(overlay.querySelector('.mode-hint-banner')).toBeNull();
   });
+
+  it('shows a hint for youtube-player-overlay when it becomes visible', async () => {
+    document.body.innerHTML = `
+      <div id="youtube-player-overlay" style="display:none">
+        <div class="yt-player-panel"></div>
+      </div>
+    `;
+    mount();
+    const overlay = document.getElementById('youtube-player-overlay')!;
+    act(() => {
+      overlay.style.display = 'flex';
+    });
+    await vi.advanceTimersByTimeAsync(250);
+    const banner = overlay.querySelector('.mode-hint-banner');
+    expect(banner).not.toBeNull();
+    expect(banner!.textContent).toContain('YouTube');
+  });
+
+  it('shows a hint for scramble-overlay when it becomes visible', async () => {
+    document.body.innerHTML = `
+      <div id="scramble-overlay">
+        <div class="quiz-panel"></div>
+      </div>
+    `;
+    mount();
+    const overlay = document.getElementById('scramble-overlay')!;
+    act(() => {
+      overlay.classList.add('open');
+    });
+    await vi.advanceTimersByTimeAsync(250);
+    const banner = overlay.querySelector('.mode-hint-banner');
+    expect(banner).not.toBeNull();
+    expect(banner!.textContent).toContain('Скремблер');
+  });
+
+  it('shows a hint for letters-overlay when it becomes visible', async () => {
+    document.body.innerHTML = `
+      <div id="letters-overlay">
+        <div class="quiz-panel"></div>
+      </div>
+    `;
+    mount();
+    const overlay = document.getElementById('letters-overlay')!;
+    act(() => {
+      overlay.classList.add('open');
+    });
+    await vi.advanceTimersByTimeAsync(250);
+    const banner = overlay.querySelector('.mode-hint-banner');
+    expect(banner).not.toBeNull();
+    expect(banner!.textContent).toContain('Букви');
+  });
 });

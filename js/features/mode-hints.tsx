@@ -14,6 +14,9 @@ const HINTS: Record<string, { key: string; panel: string }> = {
   'lesson-overlay': { key: 'hints.lesson', panel: '.quiz-panel' },
   'dc-overlay': { key: 'hints.daily', panel: '.page-inner' },
   'reading-overlay': { key: 'hints.reading', panel: '.page-inner' },
+  'youtube-player-overlay': { key: 'hints.ytPlayer', panel: '.yt-player-panel' },
+  'scramble-overlay': { key: 'hints.scramble', panel: '.quiz-panel' },
+  'letters-overlay': { key: 'hints.letters', panel: '.quiz-panel' },
 };
 
 function _getSeen(): Set<string> {
