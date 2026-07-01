@@ -1031,7 +1031,7 @@
   "duel.diff.mixed": "Mix",
   "duel.stats.words": "Words",
   "duel.stats.streak": "Streak",
-  "duel.stats.week": "Week",
+  "duel.stats.week": "Words/wk",
   "duel.frozen": "🧊 Frozen for",
   "duel.mode.tempo.desc": "4 options · 4s/question",
   "duel.hint.info.title": "💡 Hints in Write mode",
