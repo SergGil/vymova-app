@@ -1306,12 +1306,6 @@ body.dark .chart-wrap {
   color: #c0c0d0;
 }
 
-/* ── Сітка досягнень у статистиці ── */
-.achievements-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 10px;
-}
 .ach-card {
   background: var(--bg);
   border-radius: 12px;
