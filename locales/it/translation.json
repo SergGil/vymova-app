@@ -238,6 +238,8 @@
   "profile.customizeHint": "🎨 Personalizza pelle, capelli, occhi e abbigliamento nella pagina Profilo.",
   "profile.totalXp": "XP totali",
   "profile.achievements": "Obiettivi",
+  "profile.langStatsTitle": "📊 Progressi per lingua",
+  "profile.langWords": "parole",
   "stats.title": "📊 Statistiche",
   "stats.overallProgress": "Progresso generale",
   "stats.wordsLearned": "Parole imparate",

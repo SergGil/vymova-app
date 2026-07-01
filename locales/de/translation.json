@@ -238,6 +238,8 @@
   "profile.customizeHint": "🎨 Passe Hautfarbe, Haare, Augen und Outfit auf der Profilseite an.",
   "profile.totalXp": "Gesamt-XP",
   "profile.achievements": "Erfolge",
+  "profile.langStatsTitle": "📊 Fortschritt nach Sprache",
+  "profile.langWords": "Wörter",
   "stats.title": "📊 Statistiken",
   "stats.overallProgress": "Gesamtfortschritt",
   "stats.wordsLearned": "Gelernte Wörter",

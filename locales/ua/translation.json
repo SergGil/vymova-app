@@ -253,6 +253,8 @@
   "profile.customizeHint": "🎨 Налаштуй шкіру, волосся, очі й одяг на сторінці Профіль.",
   "profile.totalXp": "Всього XP",
   "profile.achievements": "Досягнення",
+  "profile.langStatsTitle": "📊 Прогрес по мовах",
+  "profile.langWords": "слів",
   "stats.title": "📊 Статистика",
   "stats.overallProgress": "Загальний прогрес",
   "stats.wordsLearned": "Вивчено слів",

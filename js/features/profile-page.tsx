@@ -19,6 +19,8 @@ import { ACHIEVEMENTS } from '../../data/achievements.ts';
 import { t } from './i18n.ts';
 import { useStateVersion } from '../../src/store.ts';
 import type { CharacterAppearance } from '../../src/types.js';
+import { getKnownSnapshot, type KnownLang } from '../../src/known-words-store.ts';
+import { ALL_TARGET_LANGS } from '../../src/types.ts';
 
 type PickerKey = keyof CharacterAppearance;
 
@@ -37,6 +39,25 @@ const PICKERS: { key: PickerKey; labelKey: string; len: number; names?: () => st
   { key: 'outfitColor', labelKey: 'profile.outfitColor', len: OUTFIT_COLORS.length },
 ];
 
+// Native language names + flags — intentionally not translated, as native
+// names are universally recognizable regardless of UI language.
+const LANG_INFO: Record<string, { flag: string; name: string }> = {
+  en: { flag: '🇬🇧', name: 'English' },
+  es: { flag: '🇪🇸', name: 'Español' },
+  fr: { flag: '🇫🇷', name: 'Français' },
+  it: { flag: '🇮🇹', name: 'Italiano' },
+  pt: { flag: '🇵🇹', name: 'Português' },
+  de: { flag: '🇩🇪', name: 'Deutsch' },
+  he: { flag: '🇮🇱', name: 'עִברִית' },
+  ar: { flag: '🇸🇦', name: 'العربية' },
+  pl: { flag: '🇵🇱', name: 'Polski' },
+  zh: { flag: '🇨🇳', name: '中文' },
+  el: { flag: '🇬🇷', name: 'Ελληνικά' },
+  ja: { flag: '🇯🇵', name: '日本語' },
+  tr: { flag: '🇹🇷', name: 'Türkçe' },
+  nl: { flag: '🇳🇱', name: 'Nederlands' },
+};
+
 export function ProfilePage(): ReactElement | null {
   useStateVersion();
   const target = document.getElementById('profile-content');
@@ -44,6 +65,7 @@ export function ProfilePage(): ReactElement | null {
     loadCharacter(),
   );
   const [appearance, setAppearance] = useState<CharacterAppearance>(savedAppearance);
+  const [customizeOpen, setCustomizeOpen] = useState(false);
   const dirty = PICKERS.some((p) => appearance[p.key] !== savedAppearance[p.key]);
 
   if (!target) return null;
@@ -62,6 +84,10 @@ export function ProfilePage(): ReactElement | null {
   const totalXp = (gd.xp ?? 0) + knownCount * 5;
   const achCount = loadUnlocked().length;
 
+  const langStats = (['en', ...ALL_TARGET_LANGS] as KnownLang[])
+    .map((code) => ({ code, count: getKnownSnapshot(code).size, ...LANG_INFO[code] }))
+    .filter((x) => x.count > 0);
+
   return createPortal(
     <div className="profile-panel">
       <div className="profile-avatar-wrap">
@@ -69,28 +95,39 @@ export function ProfilePage(): ReactElement | null {
       </div>
 
       <div className="profile-customize">
-        <div className="stats-section-title">{t('profile.customizeTitle')}</div>
-        {PICKERS.map((p) => (
-          <div className="profile-picker-row" key={p.key}>
-            <span className="profile-picker-label">{t(p.labelKey)}</span>
-            <div className="profile-picker-controls">
-              <button className="profile-picker-arrow" onClick={() => cycle(p.key, p.len, -1)}>
-                ◀
-              </button>
-              <span className="profile-picker-val">
-                {p.names
-                  ? p.names()[appearance[p.key] ?? 0]
-                  : `${(appearance[p.key] ?? 0) + 1} / ${p.len}`}
-              </span>
-              <button className="profile-picker-arrow" onClick={() => cycle(p.key, p.len, 1)}>
-                ▶
-              </button>
-            </div>
-          </div>
-        ))}
-        <button className="profile-save-btn" disabled={!dirty} onClick={saveChanges}>
-          {t('profile.saveChanges')}
+        <button
+          className="profile-customize-toggle"
+          onClick={() => setCustomizeOpen((o) => !o)}
+          aria-expanded={customizeOpen}
+        >
+          <span>{t('profile.customizeTitle')}</span>
+          <span className={`profile-customize-chevron${customizeOpen ? ' open' : ''}`}>▼</span>
         </button>
+        {customizeOpen && (
+          <div className="profile-customize-body">
+            {PICKERS.map((p) => (
+              <div className="profile-picker-row" key={p.key}>
+                <span className="profile-picker-label">{t(p.labelKey)}</span>
+                <div className="profile-picker-controls">
+                  <button className="profile-picker-arrow" onClick={() => cycle(p.key, p.len, -1)}>
+                    ◀
+                  </button>
+                  <span className="profile-picker-val">
+                    {p.names
+                      ? p.names()[appearance[p.key] ?? 0]
+                      : `${(appearance[p.key] ?? 0) + 1} / ${p.len}`}
+                  </span>
+                  <button className="profile-picker-arrow" onClick={() => cycle(p.key, p.len, 1)}>
+                    ▶
+                  </button>
+                </div>
+              </div>
+            ))}
+            <button className="profile-save-btn" disabled={!dirty} onClick={saveChanges}>
+              {t('profile.saveChanges')}
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="stats-summary profile-stats">
@@ -113,6 +150,25 @@ export function ProfilePage(): ReactElement | null {
           <div className="sl">{t('profile.achievements')}</div>
         </div>
       </div>
+
+      {langStats.length > 0 && (
+        <div className="profile-lang-stats">
+          <div className="profile-lang-stats-title">{t('profile.langStatsTitle')}</div>
+          <div className="profile-lang-grid">
+            {langStats.map(({ code, flag, name, count }) => (
+              <div key={code} className="profile-lang-card">
+                <span className="profile-lang-flag">{flag}</span>
+                <div className="profile-lang-info">
+                  <span className="profile-lang-name">{name}</span>
+                  <span className="profile-lang-count">
+                    {count} {t('profile.langWords')}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>,
     target,
   );

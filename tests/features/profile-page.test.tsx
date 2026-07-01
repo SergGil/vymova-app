@@ -14,6 +14,12 @@ vi.mock('../../js/features/game.ts', () => ({ getGameData, loadUnlocked }));
 const { getKnownInLang } = vi.hoisted(() => ({ getKnownInLang: vi.fn(() => 20) }));
 vi.mock('../../js/features/mode-utils.ts', () => ({ getKnownInLang }));
 
+// Known-words store: default to empty for all langs; override per-test via mockSnapshot
+const knownSnapshots: Record<string, Set<string>> = {};
+vi.mock('../../src/known-words-store.ts', () => ({
+  getKnownSnapshot: (lang: string) => knownSnapshots[lang] ?? new Set<string>(),
+}));
+
 function mount(): { container: HTMLElement; root: Root } {
   document.body.innerHTML = '<div id="profile-content"></div>';
   const container = document.createElement('div');
@@ -23,6 +29,14 @@ function mount(): { container: HTMLElement; root: Root } {
     root.render(<ProfilePage />);
   });
   return { container: document.getElementById('profile-content')!, root };
+}
+
+/** Click the customize toggle to expand the pickers. */
+function openCustomize(container: HTMLElement): void {
+  const btn = container.querySelector('.profile-customize-toggle') as HTMLButtonElement;
+  act(() => {
+    btn.click();
+  });
 }
 
 describe('profile-page.tsx ProfilePage', () => {
@@ -36,12 +50,34 @@ describe('profile-page.tsx ProfilePage', () => {
     getGameData.mockClear().mockReturnValue({ streak: 3, xp: 100 });
     loadUnlocked.mockClear().mockReturnValue(['first1']);
     getKnownInLang.mockClear().mockReturnValue(20);
+    // Reset per-lang snapshots
+    for (const k of Object.keys(knownSnapshots)) delete knownSnapshots[k];
   });
 
-  it('renders the avatar and a picker row for every customization category', () => {
+  it('renders the avatar and customize toggle (pickers hidden until opened)', () => {
     const { container } = mount();
     expect(container.querySelector('[aria-label="character avatar"]')).not.toBeNull();
+    expect(container.querySelector('.profile-customize-toggle')).not.toBeNull();
+    // Pickers hidden before toggle
+    expect(container.querySelectorAll('.profile-picker-row').length).toBe(0);
+  });
+
+  it('expands pickers when customize toggle is clicked and shows 7 rows', () => {
+    const { container } = mount();
+    openCustomize(container);
     expect(container.querySelectorAll('.profile-picker-row').length).toBe(7);
+    const toggle = container.querySelector('.profile-customize-toggle') as HTMLButtonElement;
+    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('collapses pickers when toggle is clicked a second time', () => {
+    const { container } = mount();
+    openCustomize(container);
+    expect(container.querySelectorAll('.profile-picker-row').length).toBe(7);
+    openCustomize(container); // close
+    expect(container.querySelectorAll('.profile-picker-row').length).toBe(0);
+    const toggle = container.querySelector('.profile-customize-toggle') as HTMLButtonElement;
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('shows streak, total XP (xp + known*5), words learned and achievement count', () => {
@@ -56,6 +92,7 @@ describe('profile-page.tsx ProfilePage', () => {
 
   it('cycles an option forward locally without persisting until Save Changes is clicked', () => {
     const { container } = mount();
+    openCustomize(container);
     const firstRow = container.querySelectorAll('.profile-picker-row')[0];
     const nextBtn = firstRow.querySelectorAll('.profile-picker-arrow')[1] as HTMLButtonElement;
     const valBefore = firstRow.querySelector('.profile-picker-val')!.textContent;
@@ -77,6 +114,7 @@ describe('profile-page.tsx ProfilePage', () => {
 
   it('disables Save Changes again once a cycled option is reverted back to its saved value', () => {
     const { container } = mount();
+    openCustomize(container);
     const saveBtn = container.querySelector('.profile-save-btn') as HTMLButtonElement;
     expect(saveBtn.disabled).toBe(true);
 
@@ -93,5 +131,40 @@ describe('profile-page.tsx ProfilePage', () => {
       prevBtn.click();
     }); // back to the original value
     expect(saveBtn.disabled).toBe(true);
+  });
+
+  it('hides the language stats section when no language has known words', () => {
+    const { container } = mount();
+    expect(container.querySelector('.profile-lang-stats')).toBeNull();
+  });
+
+  it('shows a lang card for each language that has at least 1 known word', () => {
+    knownSnapshots['en'] = new Set(['apple', 'book']);
+    knownSnapshots['es'] = new Set(['hola']);
+    const { container } = mount();
+    const cards = container.querySelectorAll('.profile-lang-card');
+    expect(cards.length).toBe(2);
+    const flags = Array.from(cards).map((c) => c.querySelector('.profile-lang-flag')?.textContent);
+    expect(flags).toContain('🇬🇧');
+    expect(flags).toContain('🇪🇸');
+  });
+
+  it('shows the correct word count in each language card', () => {
+    knownSnapshots['de'] = new Set(['Apfel', 'Buch', 'Haus']);
+    const { container } = mount();
+    const card = container.querySelector('.profile-lang-card')!;
+    expect(card.querySelector('.profile-lang-flag')?.textContent).toBe('🇩🇪');
+    expect(card.querySelector('.profile-lang-count')?.textContent).toContain('3');
+  });
+
+  it('does not show a lang card for languages with zero known words', () => {
+    knownSnapshots['fr'] = new Set(['bonjour']);
+    // 'de' has 0 — no card for it
+    const { container } = mount();
+    const flags = Array.from(container.querySelectorAll('.profile-lang-flag')).map(
+      (el) => el.textContent,
+    );
+    expect(flags).toContain('🇫🇷');
+    expect(flags).not.toContain('🇩🇪');
   });
 });
