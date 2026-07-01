@@ -3176,12 +3176,17 @@ body.dark .cat-select-btn:hover {
   transition: opacity 0.15s;
 }
 .mistake-review-btn:hover { opacity: 0.85; }
+/* --danger-bg/--success-bg are only defined by :root and body.dark, not by
+   the 14 custom color themes (hp, sw, cp, ...) — those would fall back to
+   the light-theme pastel values and clash against a dark theme card.
+   color-mix() derives a translucent tint straight from --danger/--success
+   (which every theme does define), so it's readable under any theme. */
 .mistake-review-btn.hard {
-  background: var(--danger-bg);
+  background: color-mix(in srgb, var(--danger) 15%, transparent);
   color: var(--danger);
 }
 .mistake-review-btn.got {
-  background: var(--success-bg);
+  background: color-mix(in srgb, var(--success) 15%, transparent);
   color: var(--success);
 }
 .mistake-review-done {
