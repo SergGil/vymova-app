@@ -13,7 +13,7 @@ import {
   OUTFIT_COLORS,
 } from './character-avatar.tsx';
 import { loadCharacter, saveCharacter } from '../core/storage.ts';
-import { getGameData, loadUnlocked, getLangStreak } from './game.ts';
+import { loadUnlocked, getLangStreak, getLangXp } from './game.ts';
 import { getKnownInLang } from './mode-utils.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
 import { t, wordsLabel } from './i18n.ts';
@@ -109,15 +109,13 @@ export function ProfilePage(): ReactElement | null {
     setSavedAppearance(appearance);
   }
 
-  const gd = getGameData();
   const achCount = loadUnlocked().length;
 
-  // Total XP across ALL languages (words × 5 + game activity XP) — reactive via useAllKnownWords
-  const allKnownCount = (['en', ...ALL_TARGET_LANGS] as KnownLang[]).reduce(
-    (sum, lang) => sum + allKnownWords[lang].size,
-    0,
-  );
-  const totalXp = (gd.xp ?? 0) + allKnownCount * 5;
+  // Total XP across ALL languages (words × 5 + game activity XP per language) — reactive via useAllKnownWords
+  const allLangs = ['en', ...ALL_TARGET_LANGS] as KnownLang[];
+  const allKnownCount = allLangs.reduce((sum, lang) => sum + allKnownWords[lang].size, 0);
+  const allGameXp = allLangs.reduce((sum, lang) => sum + getLangXp(lang), 0);
+  const totalXp = allGameXp + allKnownCount * 5;
   const levelInfo = getLevelInfo(totalXp);
 
   // Current language
@@ -238,7 +236,6 @@ export function ProfilePage(): ReactElement | null {
               <span className="profile-lang-name">{primaryMeta?.name ?? learnLang.toUpperCase()}</span>
               <div className="profile-stat-row">
                 <span className="profile-stat-item">
-                  <span className="profile-stat-icon">🔥</span>
                   <span className="profile-stat-val">{getLangStreak(learnLang)}</span>
                   <span className="profile-stat-lbl">{t('stats.daysStreak')}</span>
                 </span>
@@ -269,7 +266,6 @@ export function ProfilePage(): ReactElement | null {
                 <span className="profile-lang-name">{LANG_META[code]?.name ?? code.toUpperCase()}</span>
                 <div className="profile-stat-row">
                   <span className="profile-stat-item">
-                    <span className="profile-stat-icon">🔥</span>
                     <span className="profile-stat-val">{getLangStreak(code)}</span>
                     <span className="profile-stat-lbl">{t('stats.daysStreak')}</span>
                   </span>

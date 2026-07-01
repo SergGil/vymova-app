@@ -5717,7 +5717,7 @@ body.hp .profile-save-btn {
   overflow: hidden;
   background: var(--bg);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-shrink: 0;
 }

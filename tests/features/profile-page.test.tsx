@@ -5,12 +5,12 @@ import { ProfilePage } from '../../js/features/profile-page.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const { getGameData, loadUnlocked, getLangStreak } = vi.hoisted(() => ({
-  getGameData: vi.fn(() => ({ streak: 3, xp: 100 })),
+const { loadUnlocked, getLangStreak, getLangXp } = vi.hoisted(() => ({
   loadUnlocked: vi.fn(() => ['first1']),
   getLangStreak: vi.fn((_lang: string) => 3),
+  getLangXp: vi.fn((_lang: string) => 0),
 }));
-vi.mock('../../js/features/game.ts', () => ({ getGameData, loadUnlocked, getLangStreak }));
+vi.mock('../../js/features/game.ts', () => ({ loadUnlocked, getLangStreak, getLangXp }));
 
 const { getKnownInLang } = vi.hoisted(() => ({ getKnownInLang: vi.fn(() => 20) }));
 vi.mock('../../js/features/mode-utils.ts', () => ({ getKnownInLang }));
@@ -59,10 +59,10 @@ describe('profile-page.tsx ProfilePage', () => {
       JSON.stringify([{ id: 'p1', name: 'Alice', avatar: '🧑' }]),
     );
     localStorage.setItem('ew_active_profile', 'p1');
-    getGameData.mockClear().mockReturnValue({ streak: 3, xp: 100 });
     loadUnlocked.mockClear().mockReturnValue(['first1']);
     getKnownInLang.mockClear().mockReturnValue(20);
     getLangStreak.mockClear().mockImplementation((_lang: string) => 3);
+    getLangXp.mockClear().mockImplementation((_lang: string) => 0);
     for (const k of Object.keys(knownSnapshots)) delete knownSnapshots[k];
   });
 
@@ -136,15 +136,15 @@ describe('profile-page.tsx ProfilePage', () => {
   });
 
   it('shows level 1 when XP is 0 (no words, no game XP)', () => {
-    getGameData.mockReturnValue({ streak: 0, xp: 0 });
+    getLangXp.mockImplementation((_lang: string) => 0);
     const { container } = mount();
     expect(container.querySelector('.profile-hero-lvl-badge')!.textContent).toContain('1');
   });
 
   it('shows level 2 when total XP reaches 100', () => {
-    // 20 words × 5 XP = 100 XP; gd.xp = 0 → level 2 exactly
+    // 20 words × 5 XP = 100 XP; game XP = 0 → level 2 exactly
     knownSnapshots['en'] = new Set(Array.from({ length: 20 }, (_, i) => `word${i}`));
-    getGameData.mockReturnValue({ streak: 0, xp: 0 });
+    getLangXp.mockImplementation((_lang: string) => 0);
     const { container } = mount();
     expect(container.querySelector('.profile-hero-lvl-badge')!.textContent).toContain('2');
   });
@@ -175,10 +175,10 @@ describe('profile-page.tsx ProfilePage', () => {
   });
 
   it('uses totalXp across all language snapshots for the XP stat', () => {
-    // gd.xp=0, en=10 words, es=5 words → total = 15*5 = 75 XP
+    // game XP=0, en=10 words, es=5 words → total = 15*5 = 75 XP
     knownSnapshots['en'] = new Set(Array.from({ length: 10 }, (_, i) => `w${i}`));
     knownSnapshots['es'] = new Set(['hola', 'adios', 'bueno', 'malo', 'gato']);
-    getGameData.mockReturnValue({ streak: 1, xp: 0 });
+    getLangXp.mockImplementation((_lang: string) => 0);
     const { container } = mount();
     const xpVal = Array.from(
       container.querySelectorAll('.profile-lang-card--primary .profile-stat-val'),
