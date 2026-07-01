@@ -19,10 +19,15 @@ import type { WordEntry } from '../../src/types.js';
 type VoidFn = () => void;
 const _callWin = (name: string) => (window[name] as VoidFn | undefined)?.();
 
+function hapticEnabled(): boolean {
+  return localStorage.getItem('ew_haptic') !== '0';
+}
+
 function haptic(type: string): void {
-  if (!navigator.vibrate) return;
+  if (!navigator.vibrate || !hapticEnabled()) return;
   if (type === 'correct') navigator.vibrate(50);
   else if (type === 'wrong') navigator.vibrate([80, 40, 80]);
+  else if (type === 'dontknow') navigator.vibrate([40, 30, 40]);
   else if (type === 'milestone') navigator.vibrate([50, 30, 50, 30, 200]);
   else if (type === 'combo') navigator.vibrate([30, 20, 30, 20, 60]);
 }
@@ -45,10 +50,28 @@ export function SettingsInit(): ReactElement | null {
     // ── Haptic Feedback ────────────────────────────────────────────
     const onKnow = () => haptic('correct');
     const onNext = () => haptic('wrong');
+    const onDontKnow = () => haptic('dontknow');
     const btnKnow = document.getElementById('btn-know');
     const btnNext = document.getElementById('btn-next');
+    const btnDontKnow = document.getElementById('btn-dontknow');
     btnKnow?.addEventListener('click', onKnow, true);
     btnNext?.addEventListener('click', onNext, true);
+    btnDontKnow?.addEventListener('click', onDontKnow, true);
+
+    // ── Haptic toggle UI ───────────────────────────────────────────
+    const hapticToggle = document.getElementById('haptic-toggle') as HTMLInputElement | null;
+    if (hapticToggle) {
+      hapticToggle.checked = hapticEnabled();
+      const hapticStatusEl = hapticToggle.closest('div')?.querySelector('span') as HTMLElement | null;
+      const updateHapticLabel = () => {
+        if (hapticStatusEl) hapticStatusEl.textContent = t(hapticToggle.checked ? 'settings.hapticOn' : 'settings.hapticOff');
+      };
+      updateHapticLabel();
+      hapticToggle.addEventListener('change', () => {
+        localStorage.setItem('ew_haptic', hapticToggle.checked ? '1' : '0');
+        updateHapticLabel();
+      });
+    }
 
     // ── Visibilitychange: auto-prefetch ────────────────────────────
     const onVisibilityChange = () => {
@@ -220,6 +243,7 @@ export function SettingsInit(): ReactElement | null {
       darkMq?.removeEventListener('change', onDarkChange);
       btnKnow?.removeEventListener('click', onKnow, true);
       btnNext?.removeEventListener('click', onNext, true);
+      btnDontKnow?.removeEventListener('click', onDontKnow, true);
       document.removeEventListener('visibilitychange', onVisibilityChange);
       clearTimeout(renderTimer);
       themeCleanups.forEach((fn) => fn());

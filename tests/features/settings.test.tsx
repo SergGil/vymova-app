@@ -31,12 +31,20 @@ describe('settings.tsx SettingsInit', () => {
     document.body.innerHTML = `
       <button id="btn-know"></button>
       <button id="btn-next"></button>
+      <button id="btn-dontknow"></button>
       <button id="btn-sw" title="off"></button>
       <button id="btn-modes-open"></button>
       <div id="modes-overlay" class="modes-overlay"></div>
       <button id="modes-close"></button>
       <button id="btn-achievements"></button>
       <div id="wword">word</div>
+      <div>
+        <label class="notif-toggle-wrap">
+          <input type="checkbox" id="haptic-toggle" checked>
+          <span class="notif-toggle-pill-ui"></span>
+        </label>
+        <span id="haptic-status">Увімкнено</span>
+      </div>
     `;
     document.body.classList.remove('dark', 'sw');
     localStorage.clear();
@@ -57,7 +65,7 @@ describe('settings.tsx SettingsInit', () => {
     expect(updateSrsUI).toHaveBeenCalled();
   });
 
-  it('vibrates on know/next button clicks (haptic feedback)', () => {
+  it('vibrates on know/next/dontknow button clicks (haptic feedback)', () => {
     mount();
     const vibrate = navigator.vibrate as ReturnType<typeof vi.fn>;
     act(() => {
@@ -73,6 +81,64 @@ describe('settings.tsx SettingsInit', () => {
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
     expect(vibrate).toHaveBeenCalledWith([80, 40, 80]);
+
+    act(() => {
+      document
+        .getElementById('btn-dontknow')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+    expect(vibrate).toHaveBeenCalledWith([40, 30, 40]);
+  });
+
+  it('haptic toggle checkbox reads initial state from localStorage', () => {
+    localStorage.setItem('ew_haptic', '0');
+    mount();
+    const toggle = document.getElementById('haptic-toggle') as HTMLInputElement;
+    expect(toggle.checked).toBe(false);
+  });
+
+  it('haptic toggle checkbox defaults to enabled when localStorage is unset', () => {
+    mount();
+    const toggle = document.getElementById('haptic-toggle') as HTMLInputElement;
+    expect(toggle.checked).toBe(true);
+  });
+
+  it('saving haptic toggle off persists to localStorage and suppresses vibration', () => {
+    mount();
+    const toggle = document.getElementById('haptic-toggle') as HTMLInputElement;
+    const vibrate = navigator.vibrate as ReturnType<typeof vi.fn>;
+    act(() => {
+      toggle.checked = false;
+      toggle.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    expect(localStorage.getItem('ew_haptic')).toBe('0');
+
+    vibrate.mockClear();
+    act(() => {
+      document
+        .getElementById('btn-know')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+    expect(vibrate).not.toHaveBeenCalled();
+  });
+
+  it('turning haptic toggle back on re-enables vibration', () => {
+    localStorage.setItem('ew_haptic', '0');
+    mount();
+    const toggle = document.getElementById('haptic-toggle') as HTMLInputElement;
+    const vibrate = navigator.vibrate as ReturnType<typeof vi.fn>;
+    act(() => {
+      toggle.checked = true;
+      toggle.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    expect(localStorage.getItem('ew_haptic')).toBe('1');
+
+    act(() => {
+      document
+        .getElementById('btn-know')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+    expect(vibrate).toHaveBeenCalledWith(50);
   });
 
   it('toggles Star Wars mode and persists the choice', () => {
