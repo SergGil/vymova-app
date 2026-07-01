@@ -7,17 +7,26 @@ import { AchievementsPage, refreshAchievementsPage } from '../../js/features/ach
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const { getGameData, getModeStats, loadUnlocked, LEVELS } = vi.hoisted(() => ({
-  getGameData: vi.fn(() => ({ streak: 0, xp: 0 })),
-  getModeStats: vi.fn(() => ({})),
-  loadUnlocked: vi.fn(() => [] as string[]),
-  LEVELS: [
-    { name: '🌌 Цивільний', min: 0, color: '#95a5a6', bg: '#ecf0f1' },
-    { name: '✨ Чутливий до Сили', min: 30, color: '#5dade2', bg: '#eaf4fb' },
-    { name: '⚔️ Падаван', min: 100, color: '#27ae60', bg: '#e9f7ef' },
-  ],
+const { getGameData, getModeStats, loadUnlocked, loadUnlockedTimestamps, LEVELS } = vi.hoisted(
+  () => ({
+    getGameData: vi.fn(() => ({ streak: 0, xp: 0 })),
+    getModeStats: vi.fn(() => ({})),
+    loadUnlocked: vi.fn(() => [] as string[]),
+    loadUnlockedTimestamps: vi.fn(() => ({}) as Record<string, number>),
+    LEVELS: [
+      { name: '🌌 Цивільний', min: 0, color: '#95a5a6', bg: '#ecf0f1' },
+      { name: '✨ Чутливий до Сили', min: 30, color: '#5dade2', bg: '#eaf4fb' },
+      { name: '⚔️ Падаван', min: 100, color: '#27ae60', bg: '#e9f7ef' },
+    ],
+  }),
+);
+vi.mock('../../js/features/game.ts', () => ({
+  getGameData,
+  getModeStats,
+  loadUnlocked,
+  loadUnlockedTimestamps,
+  LEVELS,
 }));
-vi.mock('../../js/features/game.ts', () => ({ getGameData, getModeStats, loadUnlocked, LEVELS }));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

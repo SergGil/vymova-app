@@ -1597,6 +1597,23 @@ body.dark .ach-card {
   padding: 1px 6px;
 }
 
+.ach-new-badge {
+  position: absolute;
+  top: 5px;
+  left: 7px;
+  font-size: 0.56rem;
+  font-weight: 700;
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+  border-radius: 20px;
+  padding: 1px 6px;
+}
+
+.ach-cat-count {
+  font-weight: 400;
+  color: var(--text3);
+}
+
 .ach-empty-state {
   text-align: center;
   padding: 32px 16px;

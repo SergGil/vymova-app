@@ -238,6 +238,31 @@ export function saveUnlocked(arr: string[]): void {
   } catch (e) {}
 }
 
+// ── Achievement unlock timestamps (for the "NEW" badge) ────────
+function _achTsKey(): string {
+  return _achKey() + '_ts';
+}
+
+export function loadUnlockedTimestamps(): Record<string, number> {
+  try {
+    return JSON.parse(localStorage.getItem(_achTsKey()) ?? '{}') as Record<string, number>;
+  } catch (e) {
+    return {};
+  }
+}
+
+export function markUnlockedNow(ids: string[]): void {
+  if (!ids.length) return;
+  const ts = loadUnlockedTimestamps();
+  const now = Date.now();
+  ids.forEach((id) => {
+    ts[id] = now;
+  });
+  try {
+    localStorage.setItem(_achTsKey(), JSON.stringify(ts));
+  } catch (e) {}
+}
+
 // ── Idle scheduler ─────────────────────────────────────────────
 export function _idle(fn: () => void): void {
   // Runs detached from the call site (50ms-2s later). Wrap in try/catch

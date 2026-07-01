@@ -5,7 +5,13 @@ import { createPortal } from 'react-dom';
 import { useEffect, useState, type ReactElement } from 'react';
 import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
-import { getGameData, getModeStats, loadUnlocked, LEVELS } from './game.ts';
+import {
+  getGameData,
+  getModeStats,
+  loadUnlocked,
+  loadUnlockedTimestamps,
+  LEVELS,
+} from './game.ts';
 import { t, achName, achHint, achCatName, levelName, wordsLabel } from './i18n.ts';
 import { getKnownInLang } from './mode-utils.ts';
 import type { Achievement } from '../../src/types.js';
@@ -101,6 +107,9 @@ const ALMOST_THERE_PCT = 70;
 // as an active tracker rather than a rendering glitch.
 const MIN_PROG_FILL_PCT = 4;
 
+// How long an unlocked achievement keeps its "NEW" badge.
+const NEW_BADGE_MS = 24 * 60 * 60 * 1000;
+
 function AchievementsSummaryBar({
   unlockedCount,
   total,
@@ -146,9 +155,19 @@ function AchievementsGrid({
   onSelect: (a: Achievement) => void;
 }): ReactElement {
   const unlocked = new Set(loadUnlocked());
+  const unlockedTs = loadUnlockedTimestamps();
   const k = getKnownInLang();
   const g = getGameData();
   const m = getModeStats();
+
+  // True per-category totals, independent of the active filter, so the
+  // header still reads e.g. "5/8" while a "Locked"-only view hides the rest.
+  const catStats: Record<string, { unlocked: number; total: number }> = {};
+  ACHIEVEMENTS.forEach(function (a) {
+    const s = (catStats[a.cat] ??= { unlocked: 0, total: 0 });
+    s.total++;
+    if (unlocked.has(a.id)) s.unlocked++;
+  });
 
   const cats: Record<string, Achievement[]> = {};
   ACHIEVEMENTS.forEach(function (a) {
@@ -178,7 +197,13 @@ function AchievementsGrid({
     <>
       {Object.keys(cats).map((cat) => (
         <div className="ach-category" key={cat}>
-          <div className="ach-cat-title">{achCatName(cat)}</div>
+          <div className="ach-cat-title">
+            {achCatName(cat)}
+            <span className="ach-cat-count">
+              {' '}
+              · {catStats[cat].unlocked}/{catStats[cat].total}
+            </span>
+          </div>
           <div className="ach-grid-inner">
             {cats[cat].map((a) => {
               const isUnlocked = unlocked.has(a.id);
@@ -186,6 +211,7 @@ function AchievementsGrid({
               const pct = Math.round((prog.cur / prog.max) * 100);
               const fillPct = isUnlocked ? pct : Math.max(pct, MIN_PROG_FILL_PCT);
               const almostThere = !isUnlocked && pct >= ALMOST_THERE_PCT;
+              const isNew = isUnlocked && Date.now() - (unlockedTs[a.id] ?? 0) < NEW_BADGE_MS;
               return (
                 <div
                   key={a.id}
@@ -196,6 +222,7 @@ function AchievementsGrid({
                   }}
                 >
                   {almostThere && <span className="ach-almost-badge">{t('ach.almostThere')}</span>}
+                  {isNew && <span className="ach-new-badge">{t('ach.new')}</span>}
                   <span className="ach-icon">{a.icon}</span>
                   <div className="ach-name">{achName(a)}</div>
                   <div className="ach-progress-track">
@@ -232,8 +259,15 @@ function AchievementPopup({
     function onOverlayClick(e: MouseEvent) {
       if (e.target === target) onClose();
     }
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose();
+    }
     target.addEventListener('click', onOverlayClick);
-    return () => target.removeEventListener('click', onOverlayClick);
+    if (ach) document.addEventListener('keydown', onKeyDown);
+    return () => {
+      target.removeEventListener('click', onOverlayClick);
+      document.removeEventListener('keydown', onKeyDown);
+    };
   }, [ach, target, onClose]);
 
   if (!target || !ach) return null;

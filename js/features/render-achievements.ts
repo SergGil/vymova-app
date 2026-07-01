@@ -8,6 +8,7 @@ import {
   getModeStats,
   loadUnlocked,
   saveUnlocked,
+  markUnlockedNow,
   registerCheckAchievements,
 } from './game.ts';
 import { showToast } from './achievement-toast.tsx';
@@ -31,6 +32,7 @@ export function checkAchievements(): void {
   });
   if (newOnes.length) {
     saveUnlocked(unlocked);
+    markUnlockedNow(newOnes.map((a) => a.id));
     let i = 0;
     function showNext() {
       if (i < newOnes.length) {

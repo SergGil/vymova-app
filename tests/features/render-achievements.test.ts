@@ -13,6 +13,7 @@ vi.mock('../../js/features/game.ts', () => ({
   getModeStats: (...a: unknown[]) => getModeStats(...a),
   loadUnlocked: () => JSON.parse(localStorage.getItem('ew_ach') ?? '[]'),
   saveUnlocked: (arr: string[]) => localStorage.setItem('ew_ach', JSON.stringify(arr)),
+  markUnlockedNow: () => {},
   registerCheckAchievements: (...a: unknown[]) => registerCheckAchievements(...a),
 }));
 
