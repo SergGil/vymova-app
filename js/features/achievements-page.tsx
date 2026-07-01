@@ -97,6 +97,10 @@ type AchFilter = 'all' | 'unlocked' | 'locked';
 // "almost there" nudge — high enough that it stays a rare, meaningful signal.
 const ALMOST_THERE_PCT = 70;
 
+// Keep a sliver of the progress bar visible even at 0% so the track reads
+// as an active tracker rather than a rendering glitch.
+const MIN_PROG_FILL_PCT = 4;
+
 function AchievementsSummaryBar({
   unlockedCount,
   total,
@@ -180,6 +184,7 @@ function AchievementsGrid({
               const isUnlocked = unlocked.has(a.id);
               const prog = a.progress(k, g, m);
               const pct = Math.round((prog.cur / prog.max) * 100);
+              const fillPct = isUnlocked ? pct : Math.max(pct, MIN_PROG_FILL_PCT);
               const almostThere = !isUnlocked && pct >= ALMOST_THERE_PCT;
               return (
                 <div
@@ -196,7 +201,7 @@ function AchievementsGrid({
                   <div className="ach-progress-track">
                     <div
                       className="ach-progress-fill"
-                      style={{ width: pct + '%', background: isUnlocked ? '#27ae60' : undefined }}
+                      style={{ width: fillPct + '%', background: isUnlocked ? '#27ae60' : undefined }}
                     />
                   </div>
                   <div className="ach-progress-label">
@@ -240,6 +245,7 @@ function AchievementPopup({
   const m = getModeStats();
   const prog = ach.progress(k, g, m);
   const pct = Math.min(Math.round((prog.cur / prog.max) * 100), 100);
+  const fillPct = isUnlocked ? pct : Math.max(pct, MIN_PROG_FILL_PCT);
 
   return createPortal(
     <div className="ach-popup">
@@ -257,7 +263,7 @@ function AchievementPopup({
         <div className="ach-popup-prog-track">
           <div
             className="ach-popup-prog-fill"
-            style={{ width: pct + '%', background: isUnlocked ? '#27ae60' : undefined }}
+            style={{ width: fillPct + '%', background: isUnlocked ? '#27ae60' : undefined }}
           />
         </div>
       </div>
