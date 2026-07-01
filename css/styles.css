@@ -18146,7 +18146,14 @@ body.dt .idiom-meaning {
   animation: slideUpPanel 0.32s cubic-bezier(0.34, 1.26, 0.64, 1) both;
 }
 .page-overlay.open .page-inner {
-  animation: slideUpPanel 0.28s cubic-bezier(0.34, 1.26, 0.64, 1) both;
+  /* backwards (not both/forwards): the "to" keyframe (translateY(0) scale(1))
+     is visually identical to no transform at all, but a lingering non-none
+     transform after the animation ends turns .page-inner into a containing
+     block for position:fixed descendants (e.g. .duel-chat-panel's fixed
+     right-side layout at >=1400px) — anchoring them to this 560px dialog
+     instead of the viewport. Dropping forwards lets transform revert to
+     none once the animation completes. */
+  animation: slideUpPanel 0.28s cubic-bezier(0.34, 1.26, 0.64, 1) backwards;
 }
 @media (prefers-reduced-motion: reduce) {
   #quiz-overlay.open .quiz-panel,
