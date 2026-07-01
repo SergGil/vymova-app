@@ -1,4 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
+import { ensureLocaleLoaded } from '../../js/features/i18n.ts';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setCwState, setFlippedState, setModeState } from '../../src/deck-store.ts';
@@ -63,6 +64,11 @@ function mount(Component: () => JSX.Element | null): { container: HTMLElement; r
 }
 
 describe('card-front-text.tsx', () => {
+  beforeAll(async () => {
+    // PosTag renders the part-of-speech label translated into the front language.
+    await ensureLocaleLoaded('en');
+  });
+
   beforeEach(() => {
     document.body.innerHTML = '';
     setModeState('en');

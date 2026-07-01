@@ -2257,6 +2257,13 @@ body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):no
   height: 100%;
   border: none;
 }
+.yt-player-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
 .yt-player-history-title {
   font-size: 0.7rem;
   font-weight: 700;

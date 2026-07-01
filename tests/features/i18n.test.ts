@@ -1,7 +1,12 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { t, tLang, getLang, wordsLabel, pluralLabel } from '../../js/features/i18n.ts';
+import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
+import { t, tLang, getLang, wordsLabel, pluralLabel, ensureLocaleLoaded } from '../../js/features/i18n.ts';
 
 describe('i18n', () => {
+  beforeAll(async () => {
+    // Tests call tLang(..., 'en') and tLang(..., 'es') — pre-load those locales.
+    await Promise.all(['en', 'es'].map(ensureLocaleLoaded));
+  });
+
   beforeEach(() => {
     localStorage.clear();
   });

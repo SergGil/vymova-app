@@ -1,47 +1,13 @@
 // Vymova — js/features/i18n.ts
-// Minimal i18n: translates sidebar menu labels (UA ⇄ EN), persisted via localStorage
+// Minimal i18n: translates UI labels, persisted via localStorage.
+// Only the active locale is bundled at startup; the other 6 are lazy-loaded
+// on first language switch (same pattern as per-language word tables).
 
 import { useEffect, type ReactElement } from 'react';
 import i18next from 'i18next';
 import { notifyStateChange } from '../../src/store.ts';
 import ua from '../../locales/ua/translation.json';
-import en from '../../locales/en/translation.json';
-import es from '../../locales/es/translation.json';
-import fr from '../../locales/fr/translation.json';
 import uaDates from '../../locales/ua/dates.json';
-import enDates from '../../locales/en/dates.json';
-import esDates from '../../locales/es/dates.json';
-import frDates from '../../locales/fr/dates.json';
-import enLevels from '../../locales/en/levels.json';
-import esLevels from '../../locales/es/levels.json';
-import frLevels from '../../locales/fr/levels.json';
-import enCategories from '../../locales/en/categories.json';
-import esCategories from '../../locales/es/categories.json';
-import frCategories from '../../locales/fr/categories.json';
-import enSkills from '../../locales/en/skills.json';
-import esSkills from '../../locales/es/skills.json';
-import frSkills from '../../locales/fr/skills.json';
-import enAchievements from '../../locales/en/achievements.json';
-import esAchievements from '../../locales/es/achievements.json';
-import frAchievements from '../../locales/fr/achievements.json';
-import it from '../../locales/it/translation.json';
-import pt from '../../locales/pt/translation.json';
-import de from '../../locales/de/translation.json';
-import itDates from '../../locales/it/dates.json';
-import ptDates from '../../locales/pt/dates.json';
-import deDates from '../../locales/de/dates.json';
-import itLevels from '../../locales/it/levels.json';
-import ptLevels from '../../locales/pt/levels.json';
-import deLevels from '../../locales/de/levels.json';
-import itCategories from '../../locales/it/categories.json';
-import ptCategories from '../../locales/pt/categories.json';
-import deCategories from '../../locales/de/categories.json';
-import itSkills from '../../locales/it/skills.json';
-import ptSkills from '../../locales/pt/skills.json';
-import deSkills from '../../locales/de/skills.json';
-import itAchievements from '../../locales/it/achievements.json';
-import ptAchievements from '../../locales/pt/achievements.json';
-import deAchievements from '../../locales/de/achievements.json';
 
 export type Lang = 'ua' | 'en' | 'es' | 'fr' | 'it' | 'pt' | 'de';
 
@@ -64,64 +30,88 @@ function storedLang(): Lang {
               : 'ua';
 }
 
+// ── Lazy-load infrastructure ───────────────────────────────────
+
+type LocaleBundle = {
+  translation: Record<string, unknown>;
+  dates: Record<string, unknown>;
+  levels: Record<string, unknown>;
+  categories: Record<string, unknown>;
+  skills: Record<string, unknown>;
+  achievements: Record<string, unknown>;
+};
+
+type NonUaLang = Exclude<Lang, 'ua'>;
+
+// One dynamic import per locale — Rollup/Vite bundles each into its own chunk.
+const LOCALE_LOADERS: Record<NonUaLang, () => Promise<LocaleBundle>> = {
+  en: () => import('../../locales/en/index.ts') as Promise<LocaleBundle>,
+  es: () => import('../../locales/es/index.ts') as Promise<LocaleBundle>,
+  fr: () => import('../../locales/fr/index.ts') as Promise<LocaleBundle>,
+  it: () => import('../../locales/it/index.ts') as Promise<LocaleBundle>,
+  pt: () => import('../../locales/pt/index.ts') as Promise<LocaleBundle>,
+  de: () => import('../../locales/de/index.ts') as Promise<LocaleBundle>,
+};
+
+const LOADED: Partial<Record<NonUaLang, LocaleBundle>> = {};
+const LOADING: Partial<Record<NonUaLang, Promise<void>>> = {};
+
+function _addBundle(lang: NonUaLang, b: LocaleBundle): void {
+  i18next.addResourceBundle(lang, 'translation', b.translation, true, true);
+  i18next.addResourceBundle(lang, 'dates', b.dates, true, true);
+  i18next.addResourceBundle(lang, 'levels', b.levels, true, true);
+  i18next.addResourceBundle(lang, 'categories', b.categories, true, true);
+  i18next.addResourceBundle(lang, 'skills', b.skills, true, true);
+  i18next.addResourceBundle(lang, 'achievements', b.achievements, true, true);
+}
+
+export async function ensureLocaleLoaded(lang: Lang): Promise<void> {
+  if (lang === 'ua') return;
+  const code = lang as NonUaLang;
+  if (LOADED[code]) return;
+  if (!LOADING[code]) {
+    LOADING[code] = LOCALE_LOADERS[code]().then((bundle) => {
+      LOADED[code] = bundle;
+      // Only call addResourceBundle if i18next is already initialised (i.e.
+      // called from setLang() during a switch, not from the boot block below).
+      if (i18next.isInitialized) _addBundle(code, bundle);
+    });
+  }
+  await LOADING[code];
+}
+
+// ── Boot: pre-load the active locale before i18next.init() ────
+
+const initialLang = storedLang();
+
+if (initialLang !== 'ua') {
+  await ensureLocaleLoaded(initialLang);
+}
+
+// Build the initial resources object (ua always present; active lang if loaded)
+const _initResources: Record<string, Record<string, unknown>> = {
+  ua: { translation: ua as Record<string, unknown>, dates: uaDates as Record<string, unknown> },
+};
+const _activeBundle = LOADED[initialLang as NonUaLang];
+if (_activeBundle) {
+  _initResources[initialLang] = {
+    translation: _activeBundle.translation,
+    dates: _activeBundle.dates,
+    levels: _activeBundle.levels,
+    categories: _activeBundle.categories,
+    skills: _activeBundle.skills,
+    achievements: _activeBundle.achievements,
+  };
+}
+
 i18next.init({
-  lng: storedLang(),
+  lng: initialLang,
   fallbackLng: 'ua',
   keySeparator: false,
   nsSeparator: false,
   ns: ['translation', 'dates', 'levels', 'categories', 'skills', 'achievements'],
   interpolation: { escapeValue: false },
-  resources: {
-    ua: { translation: ua, dates: uaDates },
-    en: {
-      translation: en,
-      dates: enDates,
-      levels: enLevels,
-      categories: enCategories,
-      skills: enSkills,
-      achievements: enAchievements,
-    },
-    es: {
-      translation: es,
-      dates: esDates,
-      levels: esLevels,
-      categories: esCategories,
-      skills: esSkills,
-      achievements: esAchievements,
-    },
-    fr: {
-      translation: fr,
-      dates: frDates,
-      levels: frLevels,
-      categories: frCategories,
-      skills: frSkills,
-      achievements: frAchievements,
-    },
-    it: {
-      translation: it,
-      dates: itDates,
-      levels: itLevels,
-      categories: itCategories,
-      skills: itSkills,
-      achievements: itAchievements,
-    },
-    pt: {
-      translation: pt,
-      dates: ptDates,
-      levels: ptLevels,
-      categories: ptCategories,
-      skills: ptSkills,
-      achievements: ptAchievements,
-    },
-    de: {
-      translation: de,
-      dates: deDates,
-      levels: deLevels,
-      categories: deCategories,
-      skills: deSkills,
-      achievements: deAchievements,
-    },
-  },
+  resources: _initResources as Parameters<typeof i18next.init>[0]['resources'],
 });
 
 // 'ua' isn't a valid Intl.PluralRules locale — borrow Ukrainian (uk) plural
@@ -131,14 +121,20 @@ const baseGetRule = pluralResolver.getRule.bind(pluralResolver);
 pluralResolver.getRule = (code: string, options?: object) =>
   baseGetRule(code === 'ua' ? 'uk' : code, options);
 
+// ── Public API ────────────────────────────────────────────────
+
 export function getLang(): Lang {
   return i18next.language as Lang;
 }
 
 function setLang(lang: Lang): void {
   localStorage.setItem(LANG_KEY, lang);
-  i18next.changeLanguage(lang);
-  applyI18n();
+  void ensureLocaleLoaded(lang).then(() => {
+    // If loaded via ensureLocaleLoaded after init, _addBundle was already called.
+    // If it was the initial lang (loaded before init), resources are in init().
+    i18next.changeLanguage(lang);
+    applyI18n();
+  });
 }
 
 export function t(key: string, params?: Record<string, string | number>): string {
@@ -212,11 +208,6 @@ function applyI18n(): void {
   document.querySelectorAll<HTMLElement>('.lang-opt').forEach((btn) => {
     btn.classList.toggle('lang-active', btn.dataset.lang === lang);
   });
-  // Один notifyStateChange() ре-рендерить усі useStateVersion-підписники:
-  // lang-pair-select, word-of-day, search-inline/overlay, tag-filter-select,
-  // game bar (streak/goal/level), achievements/levels roadmap — заміна
-  // ~10 окремих window._refreshXxx/renderXxx викликів (усі — тонкі
-  // notifyStateChange()-обгортки).
   notifyStateChange();
   import('./deck-filter.tsx')
     .then(({ _refreshRangeOptions }) => _refreshRangeOptions())
