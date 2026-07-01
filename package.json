@@ -1,6 +1,6 @@
 {
   "name": "vymova",
-  "version": "1.63.1",
+  "version": "1.64.0",
   "type": "module",
   "main": "public/sw.js",
   "engines": {

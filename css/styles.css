@@ -1591,6 +1591,56 @@ body.dark .ach-card {
   color: var(--text3);
   margin-top: 3px;
 }
+.ach-almost-badge {
+  position: absolute;
+  top: 5px;
+  left: 7px;
+  font-size: 0.56rem;
+  font-weight: 700;
+  color: var(--accent2, var(--accent));
+  background: color-mix(in srgb, var(--accent2, var(--accent)) 14%, transparent);
+  border-radius: 20px;
+  padding: 1px 6px;
+}
+
+/* ── Лічильник + фільтр над сіткою досягнень ── */
+.ach-summary-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.ach-summary-count {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text2);
+}
+.ach-summary-tabs {
+  display: flex;
+  gap: 6px;
+}
+.ach-filter-tab {
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.ach-filter-tab:hover {
+  border-color: var(--accent);
+}
+.ach-filter-tab.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+}
 
 /* ── Попап деталей ── */
 #ach-popup-overlay {

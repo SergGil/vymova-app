@@ -151,4 +151,33 @@ describe('achievements-page.tsx AchievementsPage', () => {
     mount();
     expect(() => refreshAchievementsPage()).not.toThrow();
   });
+
+  it('shows an unlocked/total summary count', () => {
+    loadUnlocked.mockReturnValue([ACHIEVEMENTS[0].id, ACHIEVEMENTS[1].id]);
+    const { container } = mount();
+    expect(container.querySelector('.ach-summary-count')!.textContent).toBe(
+      `2 / ${ACHIEVEMENTS.length} відкрито`,
+    );
+  });
+
+  it('filters to only unlocked or only locked cards via the filter tabs', () => {
+    loadUnlocked.mockReturnValue([ACHIEVEMENTS[0].id]);
+    const { container } = mount();
+    expect(container.querySelectorAll('.ach-card').length).toBe(ACHIEVEMENTS.length);
+
+    const tabs = container.querySelectorAll('.ach-filter-tab');
+    act(() => {
+      (tabs[1] as HTMLElement).click(); // "Відкриті"
+    });
+    let cards = container.querySelectorAll('.ach-card');
+    expect(cards.length).toBe(1);
+    expect(cards[0].classList.contains('unlocked')).toBe(true);
+
+    act(() => {
+      (container.querySelectorAll('.ach-filter-tab')[2] as HTMLElement).click(); // "Заблоковані"
+    });
+    cards = container.querySelectorAll('.ach-card');
+    expect(cards.length).toBe(ACHIEVEMENTS.length - 1);
+    [...cards].forEach((c) => expect(c.classList.contains('locked')).toBe(true));
+  });
 });

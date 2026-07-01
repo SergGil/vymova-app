@@ -12,9 +12,19 @@ import type { Achievement } from '../../src/types.js';
 
 function LevelsRoadmap(): ReactElement | null {
   const target = document.getElementById('levels-roadmap');
-  if (!target) return null;
   const n = getKnownInLang();
   const wu = wordsLabel(2);
+
+  // Scroll the current level into view when the page opens — with 10 levels,
+  // an advanced learner would otherwise land at the top and have to scroll
+  // past everything they've already unlocked.
+  useEffect(() => {
+    if (!target) return;
+    const cur = target.querySelector('.level-current');
+    cur?.scrollIntoView({ block: 'center', behavior: 'auto' });
+  }, [target]);
+
+  if (!target) return null;
 
   return createPortal(
     <>
@@ -81,7 +91,56 @@ function LevelsRoadmap(): ReactElement | null {
   );
 }
 
-function AchievementsGrid({ onSelect }: { onSelect: (a: Achievement) => void }): ReactElement {
+type AchFilter = 'all' | 'unlocked' | 'locked';
+
+// How close to completion a still-locked achievement needs to be to get the
+// "almost there" nudge — high enough that it stays a rare, meaningful signal.
+const ALMOST_THERE_PCT = 70;
+
+function AchievementsSummaryBar({
+  unlockedCount,
+  total,
+  filter,
+  onFilterChange,
+}: {
+  unlockedCount: number;
+  total: number;
+  filter: AchFilter;
+  onFilterChange: (f: AchFilter) => void;
+}): ReactElement {
+  const tabs: { id: AchFilter; label: string }[] = [
+    { id: 'all', label: t('ach.filterAll') },
+    { id: 'unlocked', label: t('ach.filterUnlocked') },
+    { id: 'locked', label: t('ach.filterLocked') },
+  ];
+  return (
+    <div className="ach-summary-bar">
+      <div className="ach-summary-count">
+        {t('ach.summary', { unlocked: unlockedCount, total })}
+      </div>
+      <div className="ach-summary-tabs">
+        {tabs.map((tb) => (
+          <button
+            key={tb.id}
+            type="button"
+            className={'ach-filter-tab' + (filter === tb.id ? ' active' : '')}
+            onClick={() => onFilterChange(tb.id)}
+          >
+            {tb.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AchievementsGrid({
+  filter,
+  onSelect,
+}: {
+  filter: AchFilter;
+  onSelect: (a: Achievement) => void;
+}): ReactElement {
   const unlocked = new Set(loadUnlocked());
   const k = getKnownInLang();
   const g = getGameData();
@@ -89,6 +148,9 @@ function AchievementsGrid({ onSelect }: { onSelect: (a: Achievement) => void }):
 
   const cats: Record<string, Achievement[]> = {};
   ACHIEVEMENTS.forEach(function (a) {
+    const isUnlocked = unlocked.has(a.id);
+    if (filter === 'unlocked' && !isUnlocked) return;
+    if (filter === 'locked' && isUnlocked) return;
     if (!cats[a.cat]) cats[a.cat] = [];
     cats[a.cat].push(a);
   });
@@ -103,6 +165,7 @@ function AchievementsGrid({ onSelect }: { onSelect: (a: Achievement) => void }):
               const isUnlocked = unlocked.has(a.id);
               const prog = a.progress(k, g, m);
               const pct = Math.round((prog.cur / prog.max) * 100);
+              const almostThere = !isUnlocked && pct >= ALMOST_THERE_PCT;
               return (
                 <div
                   key={a.id}
@@ -112,6 +175,7 @@ function AchievementsGrid({ onSelect }: { onSelect: (a: Achievement) => void }):
                     onSelect(a);
                   }}
                 >
+                  {almostThere && <span className="ach-almost-badge">{t('ach.almostThere')}</span>}
                   <span className="ach-icon">{a.icon}</span>
                   <div className="ach-name">{achName(a)}</div>
                   <div className="ach-progress-track">
@@ -197,9 +261,17 @@ function AchievementPopup({
 export function AchievementsPage(): ReactElement {
   useStateVersion();
   const [selected, setSelected] = useState<Achievement | null>(null);
+  const [filter, setFilter] = useState<AchFilter>('all');
+  const unlockedCount = loadUnlocked().length;
   return (
     <>
-      <AchievementsGrid onSelect={setSelected} />
+      <AchievementsSummaryBar
+        unlockedCount={unlockedCount}
+        total={ACHIEVEMENTS.length}
+        filter={filter}
+        onFilterChange={setFilter}
+      />
+      <AchievementsGrid filter={filter} onSelect={setSelected} />
       <LevelsRoadmap />
       <AchievementPopup ach={selected} onClose={() => setSelected(null)} />
     </>
