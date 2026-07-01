@@ -60,11 +60,12 @@ export function SettingsInit(): ReactElement | null {
 
     // ── Haptic toggle UI ───────────────────────────────────────────
     const hapticToggle = document.getElementById('haptic-toggle') as HTMLInputElement | null;
+    const hapticStatusEl = document.getElementById('haptic-status') as HTMLElement | null;
     if (hapticToggle) {
       hapticToggle.checked = hapticEnabled();
-      const hapticStatusEl = hapticToggle.closest('div')?.querySelector('span') as HTMLElement | null;
       const updateHapticLabel = () => {
-        if (hapticStatusEl) hapticStatusEl.textContent = t(hapticToggle.checked ? 'settings.hapticOn' : 'settings.hapticOff');
+        if (hapticStatusEl)
+          hapticStatusEl.textContent = t(hapticToggle.checked ? 'settings.hapticOn' : 'settings.hapticOff');
       };
       updateHapticLabel();
       hapticToggle.addEventListener('change', () => {
@@ -177,6 +178,11 @@ export function SettingsInit(): ReactElement | null {
     if (_modesOvl && _openBtn) {
       openModes = (): void => {
         _modesOvl.className = 'modes-overlay open';
+        const selMode = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value;
+        _modesOvl.querySelectorAll<HTMLElement>('.mode-card').forEach((c) =>
+          c.classList.remove('mode-card--active'),
+        );
+        if (selMode) document.getElementById('btn-' + selMode)?.classList.add('mode-card--active');
       };
       const closeModes = (): void => {
         _modesOvl.className = 'modes-overlay';

@@ -526,7 +526,7 @@
             <input type="checkbox" id="haptic-toggle" checked>
             <span class="notif-toggle-pill-ui"></span>
           </label>
-          <span style="font-size:.85rem;color:var(--text2);" data-i18n="settings.hapticOn">Увімкнено</span>
+          <span id="haptic-status" style="font-size:.85rem;color:var(--text2);" data-i18n="settings.hapticOn">Увімкнено</span>
         </div>
       </div>
 
@@ -592,7 +592,7 @@
         <button id="btn-reset" class="settings-reset-btn" style="margin-top:12px;" data-i18n="settings.resetBtn">↺ Скинути прогрес</button>
       </div>
 
-      <div class="settings-footer">© 2026 Vymova · v1.45.0</div>
+      <div class="settings-footer">© 2026 Vymova · v1.46.0</div>
 
     </div>
   </div>
@@ -856,22 +856,31 @@
         <button class="modes-close-btn" id="modes-close">✕</button>
       </div>
       <div class="modes-grid">
-        <button class="mode-card mc-quiz"   id="btn-quiz"    ><span class="mode-icon">🧠</span><span class="mode-name" data-i18n="modesPg.quizName">Тест</span>    <span class="mode-desc" data-i18n="modesPg.quizDesc">4 варіанти</span></button>
-        <button class="mode-card mc-tempo"  id="btn-tempo"   ><span class="mode-icon">⚡</span><span class="mode-name" data-i18n="modesPg.tempoName">Темп</span>    <span class="mode-desc" data-i18n="modesPg.tempoDesc">На час</span></button>
-        <button class="mode-card mc-write"  id="btn-write"   ><span class="mode-icon">✍️</span><span class="mode-name" data-i18n="modesPg.writeName">Письмо</span>  <span class="mode-desc" id="write-mode-desc" data-i18n="modesPg.writeDesc">UA → EN</span></button>
-        <button class="mode-card mc-lesson" id="btn-lesson"  ><span class="mode-icon">📚</span><span class="mode-name" data-i18n="modesPg.lessonName">Урок</span>    <span class="mode-desc" data-i18n="modesPg.lessonDesc">5×3 вправи</span></button>
-        <button class="mode-card mc-pairs"  id="btn-pairs"   ><span class="mode-icon">🔗</span><span class="mode-name" data-i18n="modesPg.pairsName">Пари</span>    <span class="mode-desc" data-i18n="modesPg.pairsDesc">6 пар</span></button>
-        <button class="mode-card mc-cat"    id="btn-catpairs"><span class="mode-icon">📦</span><span class="mode-name" data-i18n="modesPg.catName">Теми</span>    <span class="mode-desc" data-i18n="modesPg.catDesc">По темі</span></button>
-        <button class="mode-card mc-listen" id="btn-listen"  ><span class="mode-icon">🔊</span><span class="mode-name" data-i18n="modesPg.listenName">Слухай</span>  <span class="mode-desc" data-i18n="modesPg.listenDesc">Аудіо</span></button>
-        <button class="mode-card mc-fib"    id="btn-fib"     ><span class="mode-icon">✏️</span><span class="mode-name" data-i18n="modesPg.fibName">Пропуск</span> <span class="mode-desc" data-i18n="modesPg.fibDesc">Вставте слово</span></button>
-        <button class="mode-card mc-daily"     id="btn-daily-challenge"><span class="mode-icon">⚡</span><span class="mode-name" data-i18n="modesPg.dailyName">Місія дня</span>  <span class="mode-desc" data-i18n="modesPg.dailyDesc">10 слів + таймер</span></button>
-        <button class="mode-card mc-quiz"      id="btn-adaptive-quiz"><span class="mode-icon">🎯</span><span class="mode-name" data-i18n="modesPg.adaptiveName">Адаптивний тест</span>  <span class="mode-desc" data-i18n="modesPg.adaptiveDesc">Складність підлаштовується</span></button>
-        <button class="mode-card mc-reading"   id="btn-reading">        <span class="mode-icon">📖</span><span class="mode-name" data-i18n="modesPg.readingName">Читання</span>    <span class="mode-desc" data-i18n="modesPg.readingDesc">Текст зі словами</span></button>
-        <button class="mode-card mc-context"   id="btn-context">        <span class="mode-icon">🔍</span><span class="mode-name" data-i18n="modesPg.contextName">Контекст</span>   <span class="mode-desc" data-i18n="modesPg.contextDesc">Вгадай з речення</span></button>
-        <button class="mode-card mc-spelling"  id="btn-spelling-bee">   <span class="mode-icon">🐝</span><span class="mode-name" data-i18n="modesPg.beeName">Spelling Bee</span><span class="mode-desc" data-i18n="modesPg.beeDesc">Почуй і напиши</span></button>
-        <button class="mode-card mc-story"     id="btn-story">          <span class="mode-icon">📖</span><span class="mode-name" data-i18n="modesPg.storyName">Читання+</span>   <span class="mode-desc" data-i18n="modesPg.storyDesc">Текст зі словами</span></button>
-        <button class="mode-card mc-scramble"  id="btn-scramble">       <span class="mode-icon">🔀</span><span class="mode-name" data-i18n="modesPg.scrambleName">Анаграма</span><span class="mode-desc" data-i18n="modesPg.scrambleDesc">Збери слово</span></button>
-        <button class="mode-card mc-letters"   id="btn-letters">        <span class="mode-icon">🔤</span><span class="mode-name" data-i18n="modesPg.lettersName">Букви</span>  <span class="mode-desc" data-i18n="modesPg.lettersDesc">Знайди слова</span></button>
+        <div class="modes-section-label" data-i18n="modesPg.groupCards">Картки</div>
+        <div class="modes-section-grid">
+          <button class="mode-card mc-quiz"   id="btn-quiz"   ><span class="mode-icon">🧠</span><span class="mode-name" data-i18n="modesPg.quizName">Тест</span>   <span class="mode-desc" data-i18n="modesPg.quizDesc">4 варіанти</span></button>
+          <button class="mode-card mc-write"  id="btn-write"  ><span class="mode-icon">✍️</span><span class="mode-name" data-i18n="modesPg.writeName">Письмо</span> <span class="mode-desc" id="write-mode-desc" data-i18n="modesPg.writeDesc">UA → EN</span></button>
+          <button class="mode-card mc-listen" id="btn-listen" ><span class="mode-icon">🔊</span><span class="mode-name" data-i18n="modesPg.listenName">Слухай</span> <span class="mode-desc" data-i18n="modesPg.listenDesc">Аудіо</span></button>
+          <button class="mode-card mc-fib"    id="btn-fib"    ><span class="mode-icon">✏️</span><span class="mode-name" data-i18n="modesPg.fibName">Пропуск</span> <span class="mode-desc" data-i18n="modesPg.fibDesc">Вставте слово</span></button>
+          <button class="mode-card mc-tempo"  id="btn-tempo"  ><span class="mode-icon">⚡</span><span class="mode-name" data-i18n="modesPg.tempoName">Темп</span>   <span class="mode-desc" data-i18n="modesPg.tempoDesc">На час</span></button>
+        </div>
+        <div class="modes-section-label" data-i18n="modesPg.groupGames">Ігри</div>
+        <div class="modes-section-grid">
+          <button class="mode-card mc-pairs"   id="btn-pairs"      ><span class="mode-icon">🔗</span><span class="mode-name" data-i18n="modesPg.pairsName">Пари</span>    <span class="mode-desc" data-i18n="modesPg.pairsDesc">6 пар</span></button>
+          <button class="mode-card mc-cat"     id="btn-catpairs"   ><span class="mode-icon">📦</span><span class="mode-name" data-i18n="modesPg.catName">Теми</span>    <span class="mode-desc" data-i18n="modesPg.catDesc">По темі</span></button>
+          <button class="mode-card mc-scramble" id="btn-scramble"  ><span class="mode-icon">🔀</span><span class="mode-name" data-i18n="modesPg.scrambleName">Анаграма</span><span class="mode-desc" data-i18n="modesPg.scrambleDesc">Збери слово</span></button>
+          <button class="mode-card mc-letters"  id="btn-letters"   ><span class="mode-icon">🔤</span><span class="mode-name" data-i18n="modesPg.lettersName">Букви</span>  <span class="mode-desc" data-i18n="modesPg.lettersDesc">Знайди слова</span></button>
+          <button class="mode-card mc-spelling" id="btn-spelling-bee"><span class="mode-icon">🐝</span><span class="mode-name" data-i18n="modesPg.beeName">Spelling Bee</span><span class="mode-desc" data-i18n="modesPg.beeDesc">Почуй і напиши</span></button>
+        </div>
+        <div class="modes-section-label" data-i18n="modesPg.groupPractice">Практика</div>
+        <div class="modes-section-grid">
+          <button class="mode-card mc-lesson"   id="btn-lesson"        ><span class="mode-icon">📚</span><span class="mode-name" data-i18n="modesPg.lessonName">Урок</span>           <span class="mode-desc" data-i18n="modesPg.lessonDesc">5×3 вправи</span></button>
+          <button class="mode-card mc-reading"  id="btn-reading"       ><span class="mode-icon">📖</span><span class="mode-name" data-i18n="modesPg.readingName">Читання</span>        <span class="mode-desc" data-i18n="modesPg.readingDesc">Текст зі словами</span></button>
+          <button class="mode-card mc-story"    id="btn-story"         ><span class="mode-icon">✨</span><span class="mode-name" data-i18n="modesPg.storyName">Читання+</span>        <span class="mode-desc" data-i18n="modesPg.storyDesc">Текст зі словами</span></button>
+          <button class="mode-card mc-context"  id="btn-context"       ><span class="mode-icon">🔍</span><span class="mode-name" data-i18n="modesPg.contextName">Контекст</span>       <span class="mode-desc" data-i18n="modesPg.contextDesc">Вгадай з речення</span></button>
+          <button class="mode-card mc-daily"    id="btn-daily-challenge"><span class="mode-icon">🎯</span><span class="mode-name" data-i18n="modesPg.dailyName">Місія дня</span>      <span class="mode-desc" data-i18n="modesPg.dailyDesc">10 слів + таймер</span></button>
+          <button class="mode-card mc-adaptive" id="btn-adaptive-quiz" ><span class="mode-icon">🧩</span><span class="mode-name" data-i18n="modesPg.adaptiveName">Адаптивний</span>    <span class="mode-desc" data-i18n="modesPg.adaptiveDesc">Складність підлаштовується</span></button>
+        </div>
       </div>
     </div>
   </div>
