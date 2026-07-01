@@ -3119,11 +3119,11 @@ body.dark .cat-select-btn:hover {
   transition: opacity 0.25s, transform 0.25s;
 }
 .mistake-review-front {
-  background: var(--bg2);
+  background: var(--bg);
 }
 .mistake-review-back {
   display: none;
-  background: var(--bg2);
+  background: var(--bg);
 }
 .mistake-review-card.flipped .mistake-review-front { display: none; }
 .mistake-review-card.flipped .mistake-review-back { display: block; }
