@@ -3,7 +3,7 @@
 // mode accuracy, CEFR progress, leaderboard.
 import { useEffect, useState, type ReactElement } from 'react';
 import { today as todayDateStr } from '../core/today.ts';
-import { getDailyStats, getGameData, getModeStats, getModeAccuracy } from './game.ts';
+import { getDailyStats, getGameData, getModeStats, getModeAccuracy, getMistakes, getWeeklyTotal } from './game.ts';
 import { loadSRS } from '../core/storage.ts';
 import { t, getLang, wordsLabel, pluralLabel, monthNames, dowNames } from './i18n.ts';
 import { W } from '../../data/words.js';
@@ -14,6 +14,7 @@ import { closePage } from './sidebar.tsx';
 import { getKnownInLang, getActiveKnownByLang, getWordsForLang } from './mode-utils.ts';
 import type { WordEntry } from '../../src/types.js';
 import { InfoIcon, InfoNote } from './info-icon.tsx';
+import { MistakeReview } from './mistake-review.tsx';
 
 const _p2 = (n: number): string => (n < 10 ? '0' + n : '' + n);
 
@@ -318,6 +319,7 @@ export function StatsPage(): ReactElement {
   const [calMonth, setCalMonth] = useState(() => new Date().getMonth());
   const [, setTick] = useState(0);
   const [weakWordsInfoOpen, setWeakWordsInfoOpen] = useState(false);
+  const [mistakeReviewOpen, setMistakeReviewOpen] = useState(false);
 
   useEffect(() => {
     _bumpTick = () => {
@@ -334,6 +336,8 @@ export function StatsPage(): ReactElement {
   const [lbKey, setLbKey] = useState(0);
 
   const gd = getGameData();
+  const weeklyTotal = getWeeklyTotal();
+  const mistakeCount = Object.keys(getMistakes()).length;
   const knownCount = getKnownInLang();
   const totalWords = getWordsForLang(W as unknown as WordEntry[]).length;
   const pctKnown = Math.round((knownCount / totalWords) * 100);
@@ -408,6 +412,14 @@ export function StatsPage(): ReactElement {
             </div>
             <div className="sl" data-i18n="stats.daysStreak">
               {t('stats.daysStreak')}
+            </div>
+            {(gd.maxStreak ?? 0) > 0 && (
+              <div className="stat-card-sub">
+                {t('stats.personalBest', { n: gd.maxStreak })}
+              </div>
+            )}
+            <div className="stat-card-sub">
+              {t('stats.weekWords', { n: weeklyTotal })}
             </div>
           </div>
         </div>
@@ -669,6 +681,16 @@ export function StatsPage(): ReactElement {
           id="weak-words-list"
           style={{ fontSize: '.8rem', color: 'var(--text2)', marginTop: 8 }}
         />
+        {mistakeCount > 0 && (
+          <button
+            className="backup-btn"
+            style={{ marginTop: 10 }}
+            onClick={() => setMistakeReviewOpen(true)}
+          >
+            {t('mistakes.reviewBtn', { n: mistakeCount })}
+          </button>
+        )}
+        {mistakeReviewOpen && <MistakeReview onClose={() => setMistakeReviewOpen(false)} />}
       </div>
 
       <div className="stats-section">

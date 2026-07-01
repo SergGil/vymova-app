@@ -110,7 +110,21 @@ export function updateStreak(d: GameData): GameData {
     d.streak = 1;
     d.streakDate = TODAY;
   }
+  if (d.streak > (d.maxStreak ?? 0)) d.maxStreak = d.streak;
   return d;
+}
+
+export function getWeeklyTotal(): number {
+  const daily = getDailyStats();
+  const now = new Date();
+  let total = 0;
+  for (let i = 0; i < 7; i++) {
+    const dt = new Date(now);
+    dt.setDate(dt.getDate() - i);
+    const ds = dt.toISOString().slice(0, 10);
+    total += daily[ds] ?? 0;
+  }
+  return total;
 }
 
 // ── Daily stats ────────────────────────────────────────────────
@@ -262,11 +276,24 @@ function _runCheckAchievements(): void {
 }
 
 // ── recordModeComplete ─────────────────────────────────────────
+type ModeCompleteListener = (mode: string) => void;
+const _modeCompleteListeners = new Set<ModeCompleteListener>();
+
+export function onModeComplete(fn: ModeCompleteListener): () => void {
+  _modeCompleteListeners.add(fn);
+  return () => _modeCompleteListeners.delete(fn);
+}
+
 export function recordModeComplete(mode: string): void {
   const m = getModeStats();
   m[mode] = (m[mode] ?? 0) + 1;
   saveModeStats(m);
   _runCheckAchievements();
+  _modeCompleteListeners.forEach((fn) => {
+    try {
+      fn(mode);
+    } catch (e) {}
+  });
 }
 
 // ── Mode accuracy tracking ─────────────────────────────────────

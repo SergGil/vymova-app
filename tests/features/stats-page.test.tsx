@@ -19,6 +19,8 @@ const {
   getGameData,
   getModeStats,
   getModeAccuracy,
+  getMistakes,
+  getWeeklyTotal,
   refreshAchievementsPage,
   closePage,
 } = vi.hoisted(() => ({
@@ -26,6 +28,8 @@ const {
   getGameData: vi.fn(() => ({ streak: 0, xp: 0 })),
   getModeStats: vi.fn(() => ({}) as Record<string, number>),
   getModeAccuracy: vi.fn(() => ({}) as Record<string, { ok: number; err: number }>),
+  getMistakes: vi.fn(() => ({}) as Record<string, number>),
+  getWeeklyTotal: vi.fn(() => 0),
   refreshAchievementsPage: vi.fn(),
   closePage: vi.fn(),
 }));
@@ -34,6 +38,15 @@ vi.mock('../../js/features/game.ts', () => ({
   getGameData,
   getModeStats,
   getModeAccuracy,
+  getMistakes,
+  getWeeklyTotal,
+}));
+vi.mock('../../js/features/mistake-review.tsx', () => ({
+  MistakeReview: ({ onClose }: { onClose: () => void }) => (
+    <div data-testid="mistake-review">
+      <button onClick={onClose}>close</button>
+    </div>
+  ),
 }));
 vi.mock('../../js/features/achievements-page.tsx', () => ({ refreshAchievementsPage }));
 vi.mock('../../js/features/sidebar.tsx', () => ({ closePage }));
@@ -65,6 +78,8 @@ describe('stats-page.tsx StatsPage', () => {
     getGameData.mockClear().mockReturnValue({ streak: 0, xp: 0 });
     getModeStats.mockClear().mockReturnValue({});
     getModeAccuracy.mockClear().mockReturnValue({});
+    getMistakes.mockClear().mockReturnValue({});
+    getWeeklyTotal.mockClear().mockReturnValue(0);
     refreshAchievementsPage.mockClear();
     closePage.mockClear();
   });

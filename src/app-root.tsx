@@ -107,6 +107,7 @@ import { BugReportForm } from '../js/features/bug-report.tsx';
 import { AchievementToast } from '../js/features/achievement-toast.tsx';
 import { CsvExportButton } from '../js/features/csv-export-button.tsx';
 import { ComboToast } from '../js/features/combo-toast.tsx';
+import { ModeCompleteToast } from '../js/features/mode-complete-toast.tsx';
 import { NoteModal } from '../js/features/note-modal.tsx';
 import { CardLegendModal } from '../js/features/card-legend.tsx';
 import { PronunciationToast } from '../js/features/pronunciation-toast.tsx';
@@ -361,6 +362,9 @@ function AppRoot(): ReactElement {
       </Portal>
       <Portal id="combo-toast-mount">
         <ComboToast />
+      </Portal>
+      <Portal id="mode-complete-toast-mount">
+        <ModeCompleteToast />
       </Portal>
       <NoteModal />
       <CardLegendModal />

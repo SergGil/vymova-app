@@ -62,6 +62,7 @@ export interface GameData {
   maxCombo: number;
   srsNewToday?: number; // new (never-before-seen) SRS cards studied today
   srsNewDate?: string; // date srsNewToday was last reset
+  maxStreak?: number;
 }
 
 // ── Character avatar (profile page) ─────────────────────────────
