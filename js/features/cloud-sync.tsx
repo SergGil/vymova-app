@@ -46,6 +46,17 @@ const BACKUP_KEYS = [
   'ew_duel_history',
   'ew_duel_rating',
   'ew_duel_sessions',
+  // Game mode best scores
+  'ew_pairs_best',
+  // Language pair selection
+  'ew_learn_lang',
+  'ew_know_lang',
+  // Notification schedule
+  'ew_notif_time',
+  // User-provided API key
+  'ew_pixabay_key',
+  // Leaderboard identity
+  'ew_lb_uid',
   // Profile metadata — names & avatars
   'ew_profiles',
   'ew_active_profile',
