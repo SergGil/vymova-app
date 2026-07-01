@@ -108,10 +108,9 @@ export function ProfilePage(): ReactElement | null {
   const totalXp = (gd.xp ?? 0) + allKnownCount * 5;
   const levelInfo = getLevelInfo(totalXp);
 
-  // Current language word count (for the primary lang card)
+  // Current language
   const rawLearnLang = localStorage.getItem('ew_learn_lang') ?? 'en';
   const learnLang = (LANG_META[rawLearnLang] ? rawLearnLang : 'en') as KnownLang;
-  const primaryCount = getKnownSnapshot(learnLang).size;
   const primaryMeta = LANG_META[learnLang];
 
   // Other languages with at least 1 known word

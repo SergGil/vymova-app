@@ -1,11 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   getWeeklyTotal,
-  getDailyStats,
   saveDailyStats,
   updateStreak,
-  getGameData,
-  saveGameData,
   invalidateGameCaches,
   onModeComplete,
   recordModeComplete,
