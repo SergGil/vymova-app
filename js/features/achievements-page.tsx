@@ -155,6 +155,21 @@ function AchievementsGrid({
     cats[a.cat].push(a);
   });
 
+  // Surface "almost there" achievements first within each category — they're
+  // the ones most likely to make the player click and finish the job.
+  function isAlmostThere(a: Achievement): boolean {
+    if (unlocked.has(a.id)) return false;
+    const prog = a.progress(k, g, m);
+    return Math.round((prog.cur / prog.max) * 100) >= ALMOST_THERE_PCT;
+  }
+  Object.values(cats).forEach((list) =>
+    list.sort((x, y) => Number(isAlmostThere(y)) - Number(isAlmostThere(x))),
+  );
+
+  if (Object.keys(cats).length === 0) {
+    return <div className="ach-empty-state">{t('ach.emptyState')}</div>;
+  }
+
   return (
     <>
       {Object.keys(cats).map((cat) => (
@@ -234,7 +249,7 @@ function AchievementPopup({
       <div className="ach-popup-hint">{achHint(ach)}</div>
       <div className="ach-popup-progress">
         <div className="ach-popup-prog-row">
-          <span>Прогрес</span>
+          <span>{t('ach.progress')}</span>
           <span>
             {prog.cur} / {prog.max}
           </span>

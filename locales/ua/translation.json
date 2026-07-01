@@ -246,6 +246,8 @@
   "ach.filterUnlocked": "Відкриті",
   "ach.filterLocked": "Заблоковані",
   "ach.almostThere": "Майже!",
+  "ach.progress": "Прогрес",
+  "ach.emptyState": "Тут поки що нічого немає.",
   "profile.pageTitle": "👤 Профіль",
   "profile.customizeTitle": "🎨 Налаштуй свого персонажа",
   "profile.bodyType": "Тип фігури",

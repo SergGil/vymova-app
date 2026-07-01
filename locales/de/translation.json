@@ -230,6 +230,8 @@
   "ach.filterUnlocked": "Freigeschaltet",
   "ach.filterLocked": "Gesperrt",
   "ach.almostThere": "Fast geschafft!",
+  "ach.progress": "Fortschritt",
+  "ach.emptyState": "Hier ist noch nichts.",
   "profile.pageTitle": "👤 Profil",
   "profile.customizeTitle": "🎨 Gestalte deinen Charakter",
   "profile.bodyType": "Körpertyp",

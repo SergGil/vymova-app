@@ -230,6 +230,8 @@
   "ach.filterUnlocked": "Unlocked",
   "ach.filterLocked": "Locked",
   "ach.almostThere": "Almost there!",
+  "ach.progress": "Progress",
+  "ach.emptyState": "Nothing here yet.",
   "profile.pageTitle": "👤 Profile",
   "profile.customizeTitle": "🎨 Customize your character",
   "profile.bodyType": "Body type",
