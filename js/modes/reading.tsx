@@ -9,6 +9,7 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { closePage, openPage } from '../features/sidebar.tsx';
 import { t, pluralLabel } from '../features/i18n.ts';
 import { onWordLearned } from '../core/card-engine.ts';
+import { checkMilestones } from '../features/milestones.ts';
 import { speak } from '../features/speech.ts';
 import type { WordEntry } from '../../src/types.js';
 import {
@@ -320,6 +321,7 @@ export function ReadingPage(): ReactElement {
       _markKnown('en', popup.word);
       saveKnown(getKnownSnapshot('en'));
       onWordLearned();
+      checkMilestones();
     }
     setPopup(null);
     setTick((x) => x + 1);

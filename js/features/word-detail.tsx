@@ -12,6 +12,7 @@ import { getFrontLang, isTargetLang, langConfig, parsePair, headwordFor } from '
 import { getKnownSnapshot, markKnown, unmarkKnown } from '../../src/known-words-store.ts';
 import { t, pluralLabel } from './i18n.ts';
 import { render, setIdx, onWordLearned as _onWordLearned } from '../core/card-engine.ts';
+import { checkMilestones } from './milestones.ts';
 import type { WordEntry } from '../../src/types.js';
 
 function _modeVal(): string {
@@ -135,6 +136,7 @@ export function WordDetailPage(): ReactElement | null {
   function onKnow(): void {
     _onWordLearned();
     markKnown('en', w[0]);
+    checkMilestones();
     setKnown(true);
   }
 

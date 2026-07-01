@@ -10,6 +10,7 @@ import { saveKnown } from '../core/storage.ts';
 import { getKnownSnapshot, markKnown as _markKnown } from '../../src/known-words-store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { onWordLearned } from '../core/card-engine.ts';
+import { checkMilestones } from './milestones.ts';
 import { speak } from './speech.ts';
 import { t } from './i18n.ts';
 import { lookupEnglishWord, getWordTrans } from '../modes/reading.tsx';
@@ -112,6 +113,7 @@ export function VideoPlayerPage(): ReactElement | null {
       _markKnown('en', popup.word);
       saveKnown(getKnownSnapshot('en'));
       onWordLearned();
+      checkMilestones();
     }
     setPopup(null);
   };

@@ -13,6 +13,7 @@ import { toggleBookmark } from './bookmarks.ts';
 import { isPronuncSupported, startPronunciationCheck } from './pronunciation.ts';
 import { showPronuncResult } from './pronunciation-toast.tsx';
 import { getSelectedUkVoice } from './voice.tsx';
+import { checkMilestones } from './milestones.ts';
 import { speak, _speakWithLang } from './speech.ts';
 import { updateSimilarWords } from './similar-words.tsx';
 import {
@@ -214,6 +215,7 @@ export function CardActionsInit(): ReactElement | null {
         });
         if (isNewlyKnown) {
           onWordLearned();
+          _safe(() => checkMilestones());
           _safe(() => {
             const gd = getGameData();
             if (gd.goalCur >= gd.goalMax && !gd.confettiShown) {
