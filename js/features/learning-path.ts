@@ -34,12 +34,22 @@ import {
   nlEntry,
   viEntry,
   isTargetLang,
+  headwordFor,
+  type Code,
 } from './mode-utils.ts';
 
 // ── Language helpers ──────────────────────────────────────────
 
 function _learnLang(): string {
   return localStorage.getItem('ew_learn_lang') ?? 'en';
+}
+
+function _knowLang(): string {
+  return localStorage.getItem('ew_know_lang') ?? 'ua';
+}
+
+function _isCode(v: string): v is Code {
+  return v === 'en' || v === 'ua' || isTargetLang(v);
 }
 
 function _activeKnownSet(): Set<string> {
@@ -265,6 +275,9 @@ export function renderLearningPath(): void {
   if (!el) return;
 
   const lang = _learnLang();
+  const knownLang = _knowLang();
+  const learnCode: Code = _isCode(lang) ? lang : 'en';
+  const knowCode: Code = _isCode(knownLang) ? knownLang : 'ua';
   const knownSet = _activeKnownSet();
   const allWords = W as unknown as WordEntry[];
   const words = _filterWordsForLang(allWords, lang);
@@ -296,8 +309,8 @@ export function renderLearningPath(): void {
           .map(
             (w) => `
           <div class="lp-word-chip">
-            <span class="lp-word">${w[0]}</span>
-            <span class="lp-transl">${_getTranslation(w, lang)}</span>
+            <span class="lp-word">${headwordFor(learnCode, w) || w[0]}</span>
+            <span class="lp-transl">${headwordFor(knowCode, w) || _getTranslation(w, lang)}</span>
           </div>
         `,
           )
