@@ -2,6 +2,12 @@
 // Static achievements definition (pure data, no side effects)
 import type { Achievement, GameData, ModeStats } from '../src/types.js';
 import { getMaxWordsForLearnLang, getStudiedLangCount } from '../js/features/mode-utils.ts';
+// getDuelRating comes from the small dependency-free duel-rating.ts, NOT
+// duel.ts itself — duel.ts is a large, import-fragile module (documented in
+// its own comments) and this file is imported almost everywhere, so a
+// static import of duel.ts here would risk reintroducing the TDZ bug fixed
+// earlier for duel-lobby-options.tsx.
+import { getDuelRating } from '../js/features/duel-rating.ts';
 
 // Every mode key recordModeComplete() is called with, across the whole app —
 // used by the "try every mode" achievement below.
@@ -836,6 +842,73 @@ export const ACHIEVEMENTS: Achievement[] = [
     },
     check: function () {
       return getStudiedLangCount() >= 5;
+    },
+  },
+
+  // ── ⚔️ Дуель ──
+  {
+    id: 'duel_win1',
+    icon: '⚔️',
+    name: 'Перша перемога',
+    cat: '⚔️ Дуель',
+    hint: 'Виграй свій перший дуель',
+    progress: function () {
+      return { cur: Math.min(getDuelRating().wins, 1), max: 1 };
+    },
+    check: function () {
+      return getDuelRating().wins >= 1;
+    },
+  },
+  {
+    id: 'duel_win10',
+    icon: '🛡️',
+    name: 'Дуелянт',
+    cat: '⚔️ Дуель',
+    hint: '10 перемог у дуелях',
+    progress: function () {
+      return { cur: Math.min(getDuelRating().wins, 10), max: 10 };
+    },
+    check: function () {
+      return getDuelRating().wins >= 10;
+    },
+  },
+  {
+    id: 'duel_win50',
+    icon: '👑',
+    name: 'Чемпіон Дуелей',
+    cat: '⚔️ Дуель',
+    hint: '50 перемог. Ти — легенда арени!',
+    progress: function () {
+      return { cur: Math.min(getDuelRating().wins, 50), max: 50 };
+    },
+    check: function () {
+      return getDuelRating().wins >= 50;
+    },
+  },
+  {
+    id: 'duel_streak3',
+    icon: '🔥',
+    name: 'Серія ×3',
+    cat: '⚔️ Дуель',
+    hint: 'Виграй 3 дуелі поспіль без жодної поразки',
+    progress: function () {
+      return { cur: Math.min(getDuelRating().maxWinStreak, 3), max: 3 };
+    },
+    check: function () {
+      return getDuelRating().maxWinStreak >= 3;
+    },
+  },
+  {
+    id: 'duel_streak5',
+    icon: '⚡',
+    name: 'Непереможний',
+    cat: '⚔️ Дуель',
+    hint: '5 перемог поспіль. Жоден суперник не встоїть!',
+    progress: function () {
+      return { cur: Math.min(getDuelRating().maxWinStreak, 5), max: 5 };
+    },
+    check: function () {
+      return getDuelRating().maxWinStreak >= 5;
     },
   },
 ];

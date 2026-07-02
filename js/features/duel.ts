@@ -28,6 +28,7 @@ import {
   viEntry,
 } from './mode-utils.ts';
 import { notifyStateChange } from '../../src/store.ts';
+import { getDuelRating, recordDuelResult } from './duel-rating.ts';
 import { DICT } from '../modes/word-letters.tsx';
 import {
   getDuelQuestionSnapshot,
@@ -232,8 +233,9 @@ interface AsyncDuel {
 }
 
 // ── History & Rating (localStorage) ──────────────────────────
+// Rating storage itself lives in duel-rating.ts (a dependency-free leaf
+// module) so achievements.ts can read it without importing this whole file.
 const HIST_KEY = 'ew_duel_history';
-const RATING_KEY = 'ew_duel_rating';
 
 interface HistEntry {
   date: string;
@@ -245,11 +247,6 @@ interface HistEntry {
   category: string;
   lang?: string;
   knowLang?: string;
-}
-interface Rating {
-  wins: number;
-  losses: number;
-  ties: number;
 }
 
 export function _getHistory(): HistEntry[] {
@@ -267,22 +264,7 @@ function _addHistory(e: HistEntry): void {
     localStorage.setItem(HIST_KEY, JSON.stringify(h));
   } catch (e) {}
 }
-export function _getRating(): Rating {
-  try {
-    return JSON.parse(localStorage.getItem(RATING_KEY) || '{"wins":0,"losses":0,"ties":0}');
-  } catch (e) {
-    return { wins: 0, losses: 0, ties: 0 };
-  }
-}
-function _updateRating(won: boolean, tie: boolean): void {
-  const r = _getRating();
-  if (tie) r.ties++;
-  else if (won) r.wins++;
-  else r.losses++;
-  try {
-    localStorage.setItem(RATING_KEY, JSON.stringify(r));
-  } catch (e) {}
-}
+export const _getRating = getDuelRating;
 
 // ── Profile leaderboard ───────────────────────────────────────
 const LIST_KEY = 'ew_profiles',
@@ -1772,7 +1754,7 @@ function _showFinish(roomData: RoomData): void {
     lang: room.roomLang,
     knowLang: room.roomKnowLang,
   });
-  _updateRating(won, tie);
+  recordDuelResult(won, tie);
   _clearSession();
 
   // Best of 3 logic

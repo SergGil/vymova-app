@@ -329,6 +329,12 @@ function _runCheckAchievements(): void {
   } catch (e) {}
 }
 
+// Public entry point for modules outside game.ts (e.g. duel-rating.ts) that
+// mutate their own stats and need an achievement check afterward.
+export function runCheckAchievements(): void {
+  _runCheckAchievements();
+}
+
 // ── recordModeComplete ─────────────────────────────────────────
 type ModeCompleteListener = (mode: string) => void;
 const _modeCompleteListeners = new Set<ModeCompleteListener>();

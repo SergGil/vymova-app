@@ -109,6 +109,16 @@
   "lang3_hint": "Tre lingue contemporaneamente — un vero Poliglotta Galattico!",
   "lang5_name": "Maestro delle Lingue",
   "lang5_hint": "Cinque lingue contemporaneamente. La Forza delle lingue è con te!",
+  "duel_win1_name": "Prima Vittoria",
+  "duel_win1_hint": "Vinci il tuo primo Duello",
+  "duel_win10_name": "Duellante",
+  "duel_win10_hint": "10 vittorie nei Duelli",
+  "duel_win50_name": "Campione dei Duelli",
+  "duel_win50_hint": "50 vittorie. Sei una leggenda dell'arena!",
+  "duel_streak3_name": "Serie ×3",
+  "duel_streak3_hint": "Vinci 3 Duelli di fila senza alcuna sconfitta",
+  "duel_streak5_name": "Inarrestabile",
+  "duel_streak5_hint": "5 vittorie di fila. Nessun avversario può resisterti!",
   "📖 Слова": "📖 Parole",
   "📅 Серія": "📅 Serie",
   "🎯 Цілі": "🎯 Obiettivi",
@@ -117,5 +127,6 @@
   "🔥 Комбо": "🔥 Combo",
   "🌟 Рівні": "🌟 Livelli",
   "🛠️ Помилки": "🛠️ Errori",
-  "🌍 Мови": "🌍 Lingue"
+  "🌍 Мови": "🌍 Lingue",
+  "⚔️ Дуель": "⚔️ Duello"
 }
