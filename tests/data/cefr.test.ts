@@ -41,7 +41,9 @@ describe('CEFR_META', () => {
     for (const level of LEVELS) {
       expect(CEFR_META[level]).toBeTruthy();
       expect(CEFR_META[level].label).toBe(level);
-      expect(CEFR_META[level].color).toMatch(/^#[0-9a-f]{6}$/i);
+      // Theme-aware CSS (color-mix off var(--accent)), not a raw hex — see
+      // CEFR_META's own comment for why (matches the Stats page's ramp).
+      expect(CEFR_META[level].color).toContain('var(--accent)');
       expect(CEFR_META[level].desc.length).toBeGreaterThan(0);
     }
   });

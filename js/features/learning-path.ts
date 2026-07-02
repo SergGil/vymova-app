@@ -314,7 +314,7 @@ export function renderLearningPath(): void {
             (w) => `
           <div class="lp-word-chip">
             <span class="lp-word">${headwordFor(learnCode, w) || w[0]}</span>
-            <span class="lp-transl">${headwordFor(knowCode, w) || _getTranslation(w, lang)}</span>
+            <span class="lp-transl">${headwordFor(knowCode, w) || _getTranslation(w, knownLang)}</span>
           </div>
         `,
           )
@@ -368,7 +368,7 @@ export function renderLearningPath(): void {
     return `
       <div class="lp-level-row${isCurrent ? ' lp-current' : ''}${isComplete ? ' lp-done' : ''}">
         <div class="lp-level-header">
-          <span class="lp-level-badge" style="background:${meta.color}22;color:${meta.color};border:1.5px solid ${meta.color}44;">
+          <span class="lp-level-badge" style="background:color-mix(in srgb, ${meta.color} 15%, transparent);color:${meta.color};border:1.5px solid color-mix(in srgb, ${meta.color} 35%, transparent);">
             ${isComplete ? '✓' : plan.level}
           </span>
           <div class="lp-level-info">

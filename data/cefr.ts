@@ -9904,11 +9904,36 @@ export function getCefrLevel(word: string): CefrLevel {
 }
 
 // ── Level metadata ────────────────────────────────────────────
+// One hue (the active theme's accent), ramped light→dark by difficulty —
+// same technique as the Stats page's CEFR badges — instead of six unrelated
+// hardcoded hex colors that ignored all 14 custom themes. CEFR_META.color is
+// the only consumer of these (learning-path.ts), so safe to make theme-aware
+// here rather than patching hex at each call site.
 export const CEFR_META: Record<CefrLevel, { label: string; color: string; desc: string }> = {
-  A1: { label: 'A1', color: '#27ae60', desc: 'Початківець' },
-  A2: { label: 'A2', color: '#2ecc71', desc: 'Елементарний' },
-  B1: { label: 'B1', color: '#d4ac0d', desc: 'Середній' },
-  B2: { label: 'B2', color: '#e67e22', desc: 'Вище середнього' },
-  C1: { label: 'C1', color: '#e74c3c', desc: 'Просунутий' },
-  C2: { label: 'C2', color: '#8e44ad', desc: 'Майстерний' },
+  A1: {
+    label: 'A1',
+    color: 'color-mix(in srgb, var(--accent) 35%, var(--text3))',
+    desc: 'Початківець',
+  },
+  A2: {
+    label: 'A2',
+    color: 'color-mix(in srgb, var(--accent) 50%, var(--text3))',
+    desc: 'Елементарний',
+  },
+  B1: {
+    label: 'B1',
+    color: 'color-mix(in srgb, var(--accent) 65%, var(--text3))',
+    desc: 'Середній',
+  },
+  B2: {
+    label: 'B2',
+    color: 'color-mix(in srgb, var(--accent) 80%, var(--text3))',
+    desc: 'Вище середнього',
+  },
+  C1: {
+    label: 'C1',
+    color: 'color-mix(in srgb, var(--accent) 92%, var(--text3))',
+    desc: 'Просунутий',
+  },
+  C2: { label: 'C2', color: 'var(--accent)', desc: 'Майстерний' },
 };
