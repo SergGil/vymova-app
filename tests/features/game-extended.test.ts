@@ -353,4 +353,22 @@ describe('loadUnlocked() + saveUnlocked()', () => {
     lsMock.setItem('ew_ach', 'not-valid-json!!!');
     expect(loadUnlocked()).toEqual([]);
   });
+
+  it('migrates legacy renamed achievement ids to their current id', () => {
+    // words5542 -> words8327 -> words10002 as the vocabulary grew — a user
+    // who unlocked it under an old id shouldn't lose that progress.
+    lsMock.setItem('ew_ach', JSON.stringify(['first1', 'words5542']));
+    const loaded = loadUnlocked();
+    expect(loaded).toContain('first1');
+    expect(loaded).toContain('words10002');
+    expect(loaded).not.toContain('words5542');
+    // Migration is persisted, not just applied in-memory.
+    expect(JSON.parse(lsMock.getItem('ew_ach')!)).toEqual(loaded);
+  });
+
+  it('dedupes if both an old and the current id are already present', () => {
+    lsMock.setItem('ew_ach', JSON.stringify(['words8327', 'words10002']));
+    const loaded = loadUnlocked();
+    expect(loaded.filter((id) => id === 'words10002').length).toBe(1);
+  });
 });

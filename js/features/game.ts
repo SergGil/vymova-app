@@ -224,9 +224,26 @@ function _achKey(): string {
   return lang === 'en' || lang === 'ua' ? 'ew_ach' : `ew_ach_${lang}`;
 }
 
+// The top word-count achievement has been renamed every time the
+// vocabulary grew (words5542 -> words8327 -> words10002) because its id
+// embedded the raw count. Anyone who unlocked it under an old id would
+// otherwise have a dead entry in their unlocked list and need to re-earn
+// it — remap on read so past renames (and any future one) don't strand
+// existing progress.
+const ACH_ID_ALIASES: Record<string, string> = {
+  words5542: 'words10002',
+  words8327: 'words10002',
+};
+
 export function loadUnlocked(): string[] {
   try {
-    return JSON.parse(localStorage.getItem(_achKey()) ?? '[]') as string[];
+    const raw = JSON.parse(localStorage.getItem(_achKey()) ?? '[]') as string[];
+    if (raw.some((id) => id in ACH_ID_ALIASES)) {
+      const migrated = Array.from(new Set(raw.map((id) => ACH_ID_ALIASES[id] ?? id)));
+      saveUnlocked(migrated);
+      return migrated;
+    }
+    return raw;
   } catch (e) {
     return [];
   }
@@ -290,13 +307,18 @@ export const LEVELS: Level[] = [
   { name: '🟣 Член Ради', min: 900, color: '#8e44ad', bg: '#f5eef8' },
   { name: '🔴 Ситх-лорд', min: 1500, color: '#c0392b', bg: '#fdedec' },
   { name: '⚡ Обраний', min: 2500, color: '#d4ac0d', bg: '#fefde7' },
-  { name: '🌠 Балансувальник Сили', min: 4000, color: '#1a1a2e', bg: '#eaf0fb' },
+  // These two used to be #1a1a2e and #2d6a3d — #1a1a2e is the exact
+  // --bg value of the dark theme (body.dark), so the level 9 name/border/
+  // badge/fill were literally invisible whenever it was the active level
+  // under dark mode; #2d6a3d was similarly too dark to read comfortably.
+  // Lightened while keeping each tier's own distinct hue.
+  { name: '🌠 Балансувальник Сили', min: 4000, color: '#6c6ca8', bg: '#eaf0fb' },
   {
     name: '🏆 Магістр Йода',
     get min() {
       return getMaxWordsForLearnLang();
     },
-    color: '#2d6a3d',
+    color: '#e8b923',
     bg: '#e0f7e9',
   },
 ];
