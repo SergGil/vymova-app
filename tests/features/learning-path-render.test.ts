@@ -98,4 +98,17 @@ describe('learning-path.ts renderLearningPath/openLearningPath', () => {
     expect(() => openLearningPath()).not.toThrow();
     expect(document.getElementById('lp-content')!.innerHTML).toContain('lp-hero');
   });
+
+  it('does not offer a grammar link for a target language whose rule set uses different ids', () => {
+    // PLANS' grammarLinks ids (greetings-intro, past-simple, ...) only exist
+    // in the English grammar set — German's has its own ids entirely, so
+    // clicking a link here would previously land on an empty "select a
+    // topic" page instead of the intended rule.
+    localStorage.setItem('ew_learn_lang', 'de');
+    document.body.innerHTML = '<div id="lp-content"></div>';
+    renderLearningPath();
+    const el = document.getElementById('lp-content')!;
+    expect(el.querySelector('.lp-skill-link')).toBeNull();
+    expect(el.querySelector('.lp-skill-tag')).not.toBeNull();
+  });
 });

@@ -7,6 +7,7 @@ import { W } from '../../data/words.js';
 import { getLevel } from '../features/game.ts';
 import { openPage, closePage } from '../features/sidebar.tsx';
 import { jumpToGrammarRule } from '../features/grammar-page.tsx';
+import { GRAMMAR_BY_LANG } from '../../data/grammar.ts';
 import type { WordEntry } from '../../src/types.js';
 import type { PaceSnapshot } from './learning-path-logic.ts';
 import {
@@ -260,6 +261,20 @@ function _formatDate(iso: string): string {
   return d.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
+// ── Grammar link availability ────────────────────────────────
+// PLANS' grammarLinks ids (greetings-intro, past-simple, ...) are only
+// defined in the English grammar set (data/grammar.ts's GRAMMAR) — the
+// per-target-language sets (GRAMMAR_ES, GRAMMAR_DE, ...) use their own,
+// unrelated rule ids (and several target languages only have a handful of
+// rules at all so far). Blindly rendering every skill as a "↗ open
+// grammar" link meant clicking it for any non-English target language
+// silently landed on the empty "select a topic" state instead of the
+// intended rule. Only offer the link where it actually resolves.
+function _grammarRuleExists(gid: string, lang: string): boolean {
+  const grammar = (GRAMMAR_BY_LANG as Record<string, { rules: { id: string }[] }[]>)[lang] ?? [];
+  return grammar.some((cat) => cat.rules.some((r) => r.id === gid));
+}
+
 // ── Navigate to CEFR level ────────────────────────────────────
 
 function _navigateToLevel(level: CefrLevel): void {
@@ -349,7 +364,7 @@ export function renderLearningPath(): void {
     const skillsHtml = plan.skills
       .map((sk) => {
         const gid = plan.grammarLinks[sk];
-        if (gid) {
+        if (gid && _grammarRuleExists(gid, lang)) {
           return `<span class="lp-skill-tag lp-skill-link" data-grammar="${gid}" title="${t('lp.openGrammar')}">✓ ${skillName(sk)} ↗</span>`;
         }
         return `<span class="lp-skill-tag">✓ ${skillName(sk)}</span>`;
