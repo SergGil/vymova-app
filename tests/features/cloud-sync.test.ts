@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { saveToCloud, loadFromCloud } from '../../js/features/cloud-sync.tsx';
+import { saveToCloud, loadFromCloud, BACKUP_KEYS } from '../../js/features/cloud-sync.tsx';
 
 // ── localStorage mock with all keys ──────────────────────────
 const _store: Record<string, string> = {};
@@ -130,30 +130,9 @@ describe('saveToCloud / loadFromCloud', () => {
 });
 
 // ── BACKUP_KEYS coverage ──────────────────────────────────────
+// Uses the real exported BACKUP_KEYS (not a hand-copied list) so this test
+// can't silently drift out of sync with cloud-sync.tsx the way it used to.
 describe('Backup keys completeness', () => {
-  const BACKUP_KEYS = [
-    'ew_known',
-    'ew_known_lz',
-    'ew_srs',
-    'ew_srs_lz',
-    'ew_game',
-    'ew_daily',
-    'ew_ach',
-    'ew_fontsize',
-    'ew_theme',
-    'ew_sw',
-    'ew_ws_voice',
-    'ew_ws_uk_voice',
-    'ew_notif_enabled',
-    'ew_notes',
-    'ew_bookmarks',
-    'ew_milestones',
-    'ew_mode_acc',
-    'ew_mistakes',
-    'ew_profiles',
-    'ew_active_profile',
-  ];
-
   it('backup includes profile metadata keys', () => {
     expect(BACKUP_KEYS).toContain('ew_profiles');
     expect(BACKUP_KEYS).toContain('ew_active_profile');
@@ -169,6 +148,14 @@ describe('Backup keys completeness', () => {
   it('backup includes new feature keys', () => {
     expect(BACKUP_KEYS).toContain('ew_mode_acc');
     expect(BACKUP_KEYS).toContain('ew_mistakes');
+  });
+
+  it('backup includes settings tied to the learn/know pair and identity', () => {
+    expect(BACKUP_KEYS).toContain('ew_lang');
+    expect(BACKUP_KEYS).toContain('ew_direction');
+    expect(BACKUP_KEYS).toContain('ew_haptic');
+    expect(BACKUP_KEYS).toContain('ew_lb_registered');
+    expect(BACKUP_KEYS).toContain('ew_yt_history');
   });
 
   it('all keys are unique', () => {

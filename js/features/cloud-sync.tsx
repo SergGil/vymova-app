@@ -10,7 +10,7 @@ const INTERVAL_LS = 'ew_sync_interval'; // minutes, 0 = off
 const LAST_LS = 'ew_sync_last';
 const CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
-const BACKUP_KEYS = [
+export const BACKUP_KEYS = [
   'ew_known',
   'ew_known_lz',
   'ew_srs',
@@ -57,9 +57,18 @@ const BACKUP_KEYS = [
   'ew_pixabay_key',
   // Leaderboard identity
   'ew_lb_uid',
+  'ew_lb_registered',
   // Profile metadata — names & avatars
   'ew_profiles',
   'ew_active_profile',
+  // Interface language
+  'ew_lang',
+  // Selected pair's forward/reverse direction — goes with ew_learn_lang/ew_know_lang
+  'ew_direction',
+  // Haptic feedback toggle
+  'ew_haptic',
+  // Recently watched YouTube videos (immersion mode)
+  'ew_yt_history',
 ];
 
 // Dynamically collect every key that isn't already in BACKUP_KEYS but
