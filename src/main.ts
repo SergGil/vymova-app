@@ -7,6 +7,9 @@
 
 export {}; // make this a module
 
+import { initStaleChunkRecovery } from './stale-chunk-recovery.ts';
+initStaleChunkRecovery();
+
 // ── 8. App + modes + features ─────────────────────────────────
 await import('../js/app.ts');
 
