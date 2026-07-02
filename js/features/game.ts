@@ -1,6 +1,6 @@
 // Vymova — js/features/game.ts
 // Game data, progress tracking, levels & achievements data
-import { today } from '../core/today.ts';
+import { today, localDateStr } from '../core/today.ts';
 import { getMaxWordsForLearnLang } from './mode-utils.ts';
 import type { GameData, Level, ModeStats, ModeAccuracy, ModeAccEntry } from '../../src/types.js';
 
@@ -116,7 +116,7 @@ export function updateStreak(d: GameData): GameData {
   const TODAY = today();
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
-  const yStr = yesterday.toISOString().slice(0, 10);
+  const yStr = localDateStr(yesterday);
   if (!d.shields) d.shields = 0;
   if (d.streakDate === TODAY) {
     // already counted today — nothing to do (shield awarded only on first increment)
@@ -150,7 +150,7 @@ export function getWeeklyTotal(): number {
   for (let i = 0; i < 7; i++) {
     const dt = new Date(now);
     dt.setDate(dt.getDate() - i);
-    const ds = dt.toISOString().slice(0, 10);
+    const ds = localDateStr(dt);
     total += daily[ds] ?? 0;
   }
   return total;

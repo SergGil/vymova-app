@@ -1,6 +1,7 @@
 // Vymova — js/features/notifications.tsx
 import { useEffect, type ReactElement } from 'react';
 import { t, pluralLabel } from './i18n.ts';
+import { today as localToday, localDateStr } from '../core/today.ts';
 
 const KEY_ENABLED = 'ew_notif_enabled';
 const KEY_TIME = 'ew_notif_time'; // "HH:MM"
@@ -180,7 +181,7 @@ function _checkAndNotify(): void {
   // Bug fix 4: skip if tab is in focus — user is already in the app
   if (!document.hidden) return;
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localToday();
   const lastShown = localStorage.getItem(KEY_SHOWN) ?? '';
   if (lastShown === today) return; // already showed today
   if (_studiedToday(today)) return; // already studied today — no need to remind
@@ -197,7 +198,7 @@ function _checkAndNotify(): void {
       streak?: number;
       streakDate?: string;
     };
-    const yesterday = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
+    const yesterday = localDateStr(new Date(Date.now() - 86_400_000));
     if ((gd.streak ?? 0) > 1 && gd.streakDate === yesterday) {
       shown = _notify(
         t('notif.streak.title'),

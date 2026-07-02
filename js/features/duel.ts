@@ -9,6 +9,7 @@ import type { CefrLevel } from '../../data/cefr.ts';
 import * as LZString from 'lz-string';
 import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
+import { localDateStr } from '../core/today.ts';
 import type { WordEntry, DuelScreen, DuelLobbyUIState } from '../../src/types.js';
 import { t, getLang } from './i18n.ts';
 import {
@@ -324,7 +325,7 @@ export function _weekWords(s: Record<string, string>): number {
     for (let i = 0; i < 7; i++) {
       const dt = new Date(t);
       dt.setDate(dt.getDate() - i);
-      c += d[dt.toISOString().slice(0, 10)] || 0;
+      c += d[localDateStr(dt)] || 0;
     }
     return c;
   } catch (e) {

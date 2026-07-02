@@ -13,6 +13,7 @@ import {
   getActiveTagSetSnapshot,
 } from '../../src/deck-filter-store.ts';
 import { shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck } from '../core/srs.ts';
+import { localDateStr } from '../core/today.ts';
 import { getHardWords } from './game.ts';
 import { getBookmarks } from './bookmarks.ts';
 import { getCefrLevel } from '../../data/cefr.ts';
@@ -54,14 +55,18 @@ function buildStaleDeck(
 ): WordEntry[] {
   const d = new Date();
   d.setDate(d.getDate() - days);
-  const cutoff = d.toISOString().slice(0, 10);
+  const cutoff = localDateStr(d);
   const srsData = getSrsDataSnapshot();
   const result = base.filter(function (w) {
     const srs = (srsData as any)[w[0]];
     if (!srs || !srs.due) return true;
-    const dt = new Date(srs.due);
+    // Parse srs.due from local components — `new Date(srs.due)` would parse
+    // the bare YYYY-MM-DD as UTC midnight, then mixing that with the local
+    // .setDate() below could shift the result by a day depending on timezone.
+    const [y, m, day] = (srs.due as string).split('-').map(Number);
+    const dt = new Date(y, m - 1, day);
     dt.setDate(dt.getDate() - (srs.interval || 1));
-    return dt.toISOString().slice(0, 10) <= cutoff;
+    return localDateStr(dt) <= cutoff;
   });
   shuffle(result);
   return result.length ? result : _shuf(base).slice(0, 50);

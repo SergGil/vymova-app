@@ -10,7 +10,7 @@ import {
   markSrsStatsClean,
 } from '../../src/srs-store.ts';
 import { getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
-import { today } from './today.ts';
+import { today, localDateStr } from './today.ts';
 import { t } from '../features/i18n.ts';
 import { getSrsNewRemaining, recordSrsNewCard } from '../features/game.ts';
 
@@ -28,9 +28,13 @@ export function _shuf<T>(a: T[]): T[] {
 
 // ── Date helpers ──────────────────────────────────────────────
 export function addDays(dateStr: string, n: number): string {
-  const d = new Date(dateStr);
+  // Build the Date from local components rather than `new Date(dateStr)`
+  // (which parses a bare YYYY-MM-DD as UTC midnight) — avoids mixing a
+  // UTC-parsed instant with the local-time .setDate()/.getDate() below.
+  const [y, m, day] = dateStr.split('-').map(Number);
+  const d = new Date(y, m - 1, day);
   d.setDate(d.getDate() + n);
-  return d.toISOString().slice(0, 10);
+  return localDateStr(d);
 }
 
 // ── SM-2 update ───────────────────────────────────────────────

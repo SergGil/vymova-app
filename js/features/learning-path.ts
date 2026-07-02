@@ -18,6 +18,7 @@ import {
   updateCompletionDates,
 } from './learning-path-logic.ts';
 import { t, getLang, skillName, levelName } from './i18n.ts';
+import { today as localToday } from '../core/today.ts';
 import {
   esEntry,
   frEntry,
@@ -223,7 +224,7 @@ function _loadSnapshots(): PaceSnapshot[] {
 }
 
 function _saveSnapshot(knownCount: number): void {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localToday();
   const snaps = _loadSnapshots().filter((s) => s.date !== today);
   snaps.push({ date: today, count: knownCount });
   const kept = snaps.sort((a, b) => a.date.localeCompare(b.date)).slice(-14);
@@ -251,7 +252,10 @@ function _saveCompletionDates(dates: Record<string, string>): void {
 }
 
 function _formatDate(iso: string): string {
-  const d = new Date(iso);
+  // Parse from local components — `new Date(iso)` parses a bare YYYY-MM-DD
+  // as UTC midnight, which formats as the previous local day west of UTC.
+  const [y, m, day] = iso.split('-').map(Number);
+  const d = new Date(y, m - 1, day);
   const locale = getLang() === 'en' ? 'en-US' : getLang() === 'es' ? 'es-ES' : 'uk-UA';
   return d.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
 }
@@ -289,7 +293,7 @@ export function renderLearningPath(): void {
   const currentLevel = findCurrentLevel(stats);
   const snapshots = _loadSnapshots();
   const pace = computePersonalPace(snapshots);
-  const todayStr = new Date().toISOString().slice(0, 10);
+  const todayStr = localToday();
   const lv = getLevel(knownSet.size);
   const todayWords = filterDailyWords(currentLevel, knownSet, words);
 

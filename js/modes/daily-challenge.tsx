@@ -2,6 +2,7 @@
 // ⚡ Daily Challenge: 10 seeded words + timer + bonus XP
 import { useEffect, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
+import { today as localToday } from '../core/today.ts';
 import { W } from '../../data/words.js';
 import { getGameData, saveGameData, recordModeComplete } from '../features/game.ts';
 import { closePage, openPage } from '../features/sidebar.tsx';
@@ -68,7 +69,7 @@ const DC_SIZE = 10,
   DC_XP = 3;
 
 function _todayWords(): WordEntry[] {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localToday();
   let seed = today.split('').reduce((a, c) => a * 31 + c.charCodeAt(0), 0);
   let pool = (W as unknown as WordEntry[]).filter((w) => !getKnownSnapshot('en').has(w[0]));
   if (pool.length < DC_SIZE) pool = W.slice(0) as unknown as WordEntry[];

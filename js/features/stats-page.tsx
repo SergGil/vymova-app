@@ -2,7 +2,7 @@
 // Statistics overlay: progress, daily chart, heatmap, calendar, SRS forecast,
 // mode accuracy, CEFR progress, leaderboard.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { today as todayDateStr } from '../core/today.ts';
+import { today as todayDateStr, localDateStr } from '../core/today.ts';
 import { getDailyStats, getGameData, getModeStats, getModeAccuracy, getMistakes, getWeeklyTotal } from './game.ts';
 import { loadSRS } from '../core/storage.ts';
 import { t, getLang, wordsLabel, pluralLabel, monthNames, dowNames } from './i18n.ts';
@@ -15,6 +15,7 @@ import { getKnownInLang, getActiveKnownByLang, getWordsForLang } from './mode-ut
 import type { WordEntry } from '../../src/types.js';
 import { InfoIcon, InfoNote } from './info-icon.tsx';
 import { MistakeReview } from './mistake-review.tsx';
+import { renderWeakWords } from '../modes/catpairs.tsx';
 
 const _p2 = (n: number): string => (n < 10 ? '0' + n : '' + n);
 
@@ -51,7 +52,7 @@ function computeHeatmap(): HeatDay[][] {
     for (let d = 0; d <= 6; d++) {
       const dt = new Date(today);
       dt.setDate(dt.getDate() - (w * 7 + (6 - d)));
-      const ds = dt.toISOString().slice(0, 10);
+      const ds = localDateStr(dt);
       week.push({ ds, n: daily[ds] ?? 0 });
     }
     weeks.push(week);
@@ -150,7 +151,7 @@ function computeWeekComparisonPct(): number | null {
   for (let i = 0; i < 14; i++) {
     const dt = new Date(now);
     dt.setDate(dt.getDate() - i);
-    const n = daily[dt.toISOString().slice(0, 10)] ?? 0;
+    const n = daily[localDateStr(dt)] ?? 0;
     if (i < 7) thisWeek += n;
     else lastWeek += n;
   }
@@ -168,7 +169,7 @@ function computeChartDays(chartDays: number): ChartDay[] {
   for (let i = chartDays - 1; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    const ds = d.toISOString().slice(0, 10);
+    const ds = localDateStr(d);
     const lbl = d.getDate() + '/' + (d.getMonth() + 1);
     days.push({ date: ds, label: lbl, val: daily[ds] || 0, isToday: ds === today });
   }
@@ -186,7 +187,7 @@ function computeSrsForecast(): { totalDue: number; bars: SrsBar[] } {
   for (let i = 0; i < 14; i++) {
     const d = new Date(today);
     d.setDate(d.getDate() + i);
-    const dateStr = d.toISOString().slice(0, 10);
+    const dateStr = localDateStr(d);
     const cnt = Object.values(srsData).filter((s: any) => s.due === dateStr).length;
     counts.push({
       date: dateStr,
@@ -379,6 +380,13 @@ export function StatsPage(): ReactElement {
       try {
         renderAchievements();
       } catch (e) {}
+      // Weak words is rendered via legacy imperative DOM writes (catpairs.tsx),
+      // not React state, so it wouldn't otherwise pick up changes made
+      // elsewhere on the page (e.g. clearing mistakes in Mistake Review)
+      // until the whole panel was closed and reopened.
+      try {
+        renderWeakWords();
+      } catch (e) {}
     };
     return () => {
       _bumpTick = null;
@@ -418,7 +426,12 @@ export function StatsPage(): ReactElement {
   const mistakeCount = Object.keys(getMistakes()).length;
   const knownCount = getKnownInLang();
   const totalWords = getWordsForLang(W as unknown as WordEntry[]).length;
-  const pctKnown = Math.round((knownCount / totalWords) * 100);
+  // knownCount counts every known word in the learn language regardless of
+  // the know-language pairing, but totalWords is pair-filtered (learn ∩
+  // know) — if the know-language's table is smaller (e.g. a partially
+  // translated language), totalWords can shrink below knownCount and this
+  // would otherwise show over 100%.
+  const pctKnown = Math.min(100, Math.round((knownCount / totalWords) * 100));
 
   const chartData = computeChartDays(chartDays);
   const maxVal = Math.max(...chartData.map((d) => d.val)) || 1;
@@ -545,11 +558,16 @@ export function StatsPage(): ReactElement {
             ) : (
               chartData.map((d) => {
                 const h = Math.round((d.val / maxVal) * barH);
+                // Read the day-of-month straight from the YYYY-MM-DD string
+                // instead of `new Date(d.date).getDate()` — d.date is a
+                // local calendar date, but re-parsing it with `new Date()`
+                // treats it as UTC midnight, which can read back as the
+                // wrong day depending on the browser's timezone.
                 const showLabel =
                   !sm ||
                   d.isToday ||
                   d.date.endsWith('-01') ||
-                  new Date(d.date).getDate() % (chartDays <= 30 ? 5 : 15) === 0;
+                  Number(d.date.slice(8, 10)) % (chartDays <= 30 ? 5 : 15) === 0;
                 return (
                   <div className={'chart-col' + (sm ? ' chart-col-sm' : '')} key={d.date}>
                     {d.val > 0 ? (
@@ -781,7 +799,17 @@ export function StatsPage(): ReactElement {
             {t('mistakes.reviewBtn', { n: mistakeCount })}
           </button>
         )}
-        {mistakeReviewOpen && <MistakeReview onClose={() => setMistakeReviewOpen(false)} />}
+        {mistakeReviewOpen && (
+          <MistakeReview
+            onClose={() => {
+              setMistakeReviewOpen(false);
+              // Words cleared during review affect both the mistake count
+              // above and the weak-words list below — refresh so neither
+              // shows stale data now that the modal is gone.
+              refreshStatsPage();
+            }}
+          />
+        )}
       </div>
 
       <div className="stats-section">
