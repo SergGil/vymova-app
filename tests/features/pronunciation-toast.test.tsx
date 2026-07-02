@@ -51,7 +51,7 @@ describe('pronunciation-toast.tsx', () => {
     const el = document.querySelector('#_pron-toast') as HTMLElement;
     expect(el).not.toBeNull();
     expect(el.style.opacity).toBe('1');
-    expect(el.style.background).toBe('#27ae60');
+    expect(el.style.background).toBe('var(--success)');
     expect(el.textContent).toContain('🏆');
     const bar = el.lastElementChild!.firstElementChild as HTMLElement;
     expect(bar.style.width).toBe('100%');
@@ -64,7 +64,7 @@ describe('pronunciation-toast.tsx', () => {
     });
     const el = document.querySelector('#_pron-toast') as HTMLElement;
     expect(el.textContent).toContain('"helo" → "hello"');
-    expect(el.style.background).toBe('#e74c3c');
+    expect(el.style.background).toBe('var(--danger)');
   });
 
   it('falls back to the "error" message for an unknown status', () => {

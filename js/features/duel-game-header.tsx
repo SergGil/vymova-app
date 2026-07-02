@@ -27,7 +27,14 @@ function Dots({
         let bg = 'var(--border)';
         if (flags && i < flags.length) {
           const f = flags[i];
-          bg = f === 'skip' ? '#7f8c8d' : f === 'double' ? '#f1c40f' : f ? '#27ae60' : '#e74c3c';
+          bg =
+            f === 'skip'
+              ? 'var(--text3)'
+              : f === 'double'
+                ? 'var(--accent2)'
+                : f
+                  ? 'var(--success)'
+                  : 'var(--danger)';
         } else if (i < idx) bg = color;
         return (
           <span

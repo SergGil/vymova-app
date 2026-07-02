@@ -479,7 +479,7 @@ export function TempoPage(): ReactElement {
               style={{
                 fontSize: '1.6rem',
                 fontWeight: 700,
-                color: timeLeft <= 10 ? '#e74c3c' : 'var(--accent)',
+                color: timeLeft <= 10 ? 'var(--danger)' : 'var(--accent)',
                 minWidth: 48,
                 textAlign: 'center',
               }}
@@ -579,9 +579,9 @@ export function TempoPage(): ReactElement {
           >
             {question.selected &&
               (question.selected === question.answer ? (
-                <span style={{ color: '#27ae60' }}>{t('quiz.correctMsg')}</span>
+                <span style={{ color: 'var(--success)' }}>{t('quiz.correctMsg')}</span>
               ) : (
-                <span style={{ color: '#e74c3c' }}>✗ {question.answer}</span>
+                <span style={{ color: 'var(--danger)' }}>✗ {question.answer}</span>
               ))}
           </div>
         </div>

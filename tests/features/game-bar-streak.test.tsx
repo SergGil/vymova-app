@@ -117,7 +117,7 @@ describe('game-bar-streak.tsx', () => {
       saveGameData({ ...getGameData(), goalCur: 20, goalMax: 20 });
       const { container } = mount(GameBarGoal);
       const fillCircle = container.querySelectorAll('circle')[1] as SVGCircleElement;
-      expect(fillCircle.getAttribute('stroke')).toBe('#f39c12');
+      expect(fillCircle.getAttribute('stroke')).toBe('var(--accent2)');
     });
   });
 });

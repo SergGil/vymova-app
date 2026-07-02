@@ -423,14 +423,14 @@ export function AdaptiveQuizPage(): ReactElement {
               flexShrink: 0,
             }}
           >
-            <span style={{ fontSize: '.82rem', color: '#27ae60', fontWeight: 600 }}>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>
               ✓ {correct}
             </span>
-            <span style={{ fontSize: '.82rem', color: '#e74c3c', fontWeight: 600 }}>✗ {wrong}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>✗ {wrong}</span>
             <span
               style={{
                 fontSize: '.82rem',
-                color: timeLeft <= 3 ? '#e74c3c' : 'var(--text2)',
+                color: timeLeft <= 3 ? 'var(--danger)' : 'var(--text2)',
                 fontWeight: 600,
               }}
             >
@@ -511,9 +511,9 @@ export function AdaptiveQuizPage(): ReactElement {
           >
             {answered &&
               (chosen === qData.answer ? (
-                <span style={{ color: '#27ae60' }}>{t('quiz.correctMsg')}</span>
+                <span style={{ color: 'var(--success)' }}>{t('quiz.correctMsg')}</span>
               ) : (
-                <span style={{ color: '#e74c3c' }}>
+                <span style={{ color: 'var(--danger)' }}>
                   {chosen === null ? t('adaptiveQuiz.timeUp') : t('quiz.incorrectMsg')}
                 </span>
               ))}

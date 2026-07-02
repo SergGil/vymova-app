@@ -30,7 +30,11 @@ export function DuelHistory() {
         const cat = e.category ? ` · ${e.category.split(' ')[0]}` : '';
         const langTag =
           e.knowLang && e.lang ? ` · ${e.knowLang.toUpperCase()}↔${e.lang.toUpperCase()}` : '';
-        const color = e.won ? '#27ae60' : e.myScore === e.oppScore ? 'var(--text3)' : '#e74c3c';
+        const color = e.won
+          ? 'var(--success)'
+          : e.myScore === e.oppScore
+            ? 'var(--text3)'
+            : 'var(--danger)';
         return (
           <div
             key={start + i}

@@ -87,7 +87,7 @@ export function ImagePrefetchSettings(): ReactElement {
     statusColor = 'var(--accent)';
   } else if (cached >= total) {
     statusText = `${t('settings.prefetchDonePrefix')} ${withImg} ${t('settings.prefetchImagesOf')} ${total} ${wordsLabel(total)}`;
-    statusColor = '#27ae60';
+    statusColor = 'var(--success)';
   } else if (cached > 0) {
     statusText = `${t('settings.prefetchPaused')} ${cached}/${total} (${withImg} ${t('settings.withPhotos')})`;
     statusColor = 'var(--text3)';

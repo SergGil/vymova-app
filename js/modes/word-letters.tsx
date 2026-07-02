@@ -186,7 +186,7 @@ export function WordLettersPage(): ReactElement {
   useEffect(() => {
     if (!isOpen || showFinal || !r) return;
     if (timeLeft <= 0 && timerRef.current === null && !done) {
-      setResult({ text: t('letters.timeUp'), color: '#e74c3c' });
+      setResult({ text: t('letters.timeUp'), color: 'var(--danger)' });
       setDone(true);
       const tmr = setTimeout(advance, 1200);
       return () => clearTimeout(tmr);
@@ -236,24 +236,24 @@ export function WordLettersPage(): ReactElement {
     if (!r || done) return;
     const word = guess.map((ti) => tiles[ti].ch).join('');
     if (word.length < 3) {
-      setResult({ text: t('letters.tooShort'), color: '#e74c3c' });
+      setResult({ text: t('letters.tooShort'), color: 'var(--danger)' });
       return;
     }
     if (found.has(word)) {
-      setResult({ text: t('letters.alreadyMsg'), color: '#f39c12' });
+      setResult({ text: t('letters.alreadyMsg'), color: 'var(--accent2)' });
       return;
     }
     if (r.possible.includes(word)) {
       setFound((f) => new Set(f).add(word));
       setFoundTotal((n) => n + 1);
-      setResult({ text: t('letters.foundMsg'), color: '#27ae60' });
+      setResult({ text: t('letters.foundMsg'), color: 'var(--success)' });
       try {
         addCombo();
         awardXP(5);
       } catch (e) {}
       recordModeAnswer('letters', true);
     } else {
-      setResult({ text: t('letters.wrongMsg'), color: '#e74c3c' });
+      setResult({ text: t('letters.wrongMsg'), color: 'var(--danger)' });
       try {
         breakCombo();
       } catch (e) {}
@@ -354,14 +354,14 @@ export function WordLettersPage(): ReactElement {
             <span style={{ fontSize: '.82rem', color: 'var(--text2)', fontWeight: 600 }}>
               {t('letters.foundLabel')}
             </span>
-            <span style={{ fontSize: '.82rem', color: '#27ae60', fontWeight: 700 }}>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 700 }}>
               {found.size} / {r.possible.length}
             </span>
             <span
               style={{
                 fontSize: '.82rem',
                 fontWeight: 700,
-                color: timeLeft <= 10 ? '#e74c3c' : 'var(--accent)',
+                color: timeLeft <= 10 ? 'var(--danger)' : 'var(--accent)',
               }}
             >
               ⏱ {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}

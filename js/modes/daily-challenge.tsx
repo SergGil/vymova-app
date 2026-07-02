@@ -138,7 +138,7 @@ export function DailyChallenge(): ReactElement | null {
       dcTimer = setInterval(() => {
         dcTimeLeft--;
         elTimer.textContent = dcTimeLeft + t('common.secSuffix');
-        if (dcTimeLeft <= 15) elTimer.style.color = '#e74c3c';
+        if (dcTimeLeft <= 15) elTimer.style.color = 'var(--danger)';
         if (dcTimeLeft > 0 && dcTimeLeft <= 15) {
           try {
             playSound('tick');
@@ -198,10 +198,10 @@ export function DailyChallenge(): ReactElement | null {
           if (ok) {
             dcCorrect++;
             btn.classList.add('dc-opt-ok');
-            elResult.innerHTML = `<span style="color:#27ae60">${t('quiz.correctMsg')}</span>`;
+            elResult.innerHTML = `<span style="color:var(--success)">${t('quiz.correctMsg')}</span>`;
           } else {
             btn.classList.add('dc-opt-fail');
-            elResult.innerHTML = `<span style="color:#e74c3c">✗ ${correct}</span>`;
+            elResult.innerHTML = `<span style="color:var(--danger)">✗ ${correct}</span>`;
           }
           elOpts.querySelectorAll<HTMLButtonElement>('.dc-opt').forEach((b) => {
             b.disabled = true;

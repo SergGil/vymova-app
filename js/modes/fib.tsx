@@ -145,8 +145,8 @@ function build(): FibEntry[] {
 function renderSentence(item: FibEntry, correct: boolean | null): string {
   if (correct === null) return item.blank.sentence;
   const hlStyle = correct
-    ? 'background:rgba(39,174,96,.15);border-color:#27ae60;color:#27ae60'
-    : 'background:rgba(231,76,60,.12);border-color:#e74c3c;color:#e74c3c';
+    ? 'background:color-mix(in srgb, var(--success) 15%, transparent);border-color:var(--success);color:var(--success)'
+    : 'background:color-mix(in srgb, var(--danger) 12%, transparent);border-color:var(--danger);color:var(--danger)';
   return item.blank.sentence.replace(
     /<span class="fib-blank">.*?<\/span>/,
     `<span class="fib-blank" style="${hlStyle};border-radius:4px;padding:0 4px;">${item.blank.answer}</span>`,
@@ -380,14 +380,14 @@ export function FibPage(): ReactElement {
       </div>
 
       {noSentences && (
-        <div style={{ color: '#e74c3c', fontSize: '.9rem' }}>{t('fib.noSentences')}</div>
+        <div style={{ color: 'var(--danger)', fontSize: '.9rem' }}>{t('fib.noSentences')}</div>
       )}
 
       {!noSentences && !showFinal && item && (
         <>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 14 }}>
-            <span style={{ fontSize: '.82rem', color: '#27ae60', fontWeight: 600 }}>✓ {ok}</span>
-            <span style={{ fontSize: '.82rem', color: '#e74c3c', fontWeight: 600 }}>✗ {fail}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>✓ {ok}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>✗ {fail}</span>
           </div>
 
           <div
@@ -447,7 +447,7 @@ export function FibPage(): ReactElement {
             style={{
               width: '100%',
               padding: '12px 16px',
-              border: `2px solid ${result === null ? 'var(--border)' : result ? '#27ae60' : '#e74c3c'}`,
+              border: `2px solid ${result === null ? 'var(--border)' : result ? 'var(--success)' : 'var(--danger)'}`,
               borderRadius: 12,
               fontSize: '1rem',
               fontFamily: "'DM Sans',sans-serif",
@@ -469,10 +469,10 @@ export function FibPage(): ReactElement {
               marginBottom: 10,
             }}
           >
-            {result === true && <span style={{ color: '#27ae60' }}>{t('quiz.correctMsg')}</span>}
+            {result === true && <span style={{ color: 'var(--success)' }}>{t('quiz.correctMsg')}</span>}
             {result === false && (
               <>
-                <span style={{ color: '#e74c3c' }}>{t('quiz.incorrectMsg')}</span>
+                <span style={{ color: 'var(--danger)' }}>{t('quiz.incorrectMsg')}</span>
                 <button
                   className="mode-speak"
                   title={t('common.listen')}

@@ -465,10 +465,10 @@ export function QuizPage(): ReactElement {
               flexShrink: 0,
             }}
           >
-            <span style={{ fontSize: '.82rem', color: '#27ae60', fontWeight: 600 }}>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>
               ✓ {correct} <span data-i18n="quiz.correctLbl">{t('quiz.correctLbl')}</span>
             </span>
-            <span style={{ fontSize: '.82rem', color: '#e74c3c', fontWeight: 600 }}>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>
               ✗ {wrong} <span data-i18n="quiz.wrongLbl">{t('quiz.wrongLbl')}</span>
             </span>
           </div>
@@ -574,9 +574,9 @@ export function QuizPage(): ReactElement {
           >
             {answered &&
               (chosen === qData.answer ? (
-                <span style={{ color: '#27ae60' }}>{t('quiz.correctMsg')}</span>
+                <span style={{ color: 'var(--success)' }}>{t('quiz.correctMsg')}</span>
               ) : (
-                <span style={{ color: '#e74c3c' }}>{t('quiz.incorrectMsg')}</span>
+                <span style={{ color: 'var(--danger)' }}>{t('quiz.incorrectMsg')}</span>
               ))}
           </div>
 

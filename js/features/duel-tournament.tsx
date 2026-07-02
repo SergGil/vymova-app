@@ -193,7 +193,7 @@ function TournBracket(): ReactElement | null {
         {d.matchArea.kind === 'champion' && (
           <div style={{ textAlign: 'center', padding: 16 }}>
             <div style={{ fontSize: '3rem' }}>🏆</div>
-            <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#f39c12', marginTop: 8 }}>
+            <div style={{ fontWeight: 700, fontSize: '1.1rem', color: 'var(--accent2)', marginTop: 8 }}>
               {d.champion} — {t('duel.tourn.champ.excl')}
             </div>
             <button

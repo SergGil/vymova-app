@@ -228,7 +228,7 @@ function AchievementsGrid({
                   <div className="ach-progress-track">
                     <div
                       className="ach-progress-fill"
-                      style={{ width: fillPct + '%', background: isUnlocked ? '#27ae60' : undefined }}
+                      style={{ width: fillPct + '%', background: isUnlocked ? 'var(--success)' : undefined }}
                     />
                   </div>
                   <div className="ach-progress-label">
@@ -297,7 +297,7 @@ function AchievementPopup({
         <div className="ach-popup-prog-track">
           <div
             className="ach-popup-prog-fill"
-            style={{ width: fillPct + '%', background: isUnlocked ? '#27ae60' : undefined }}
+            style={{ width: fillPct + '%', background: isUnlocked ? 'var(--success)' : undefined }}
           />
         </div>
       </div>

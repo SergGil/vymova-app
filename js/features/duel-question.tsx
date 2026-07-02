@@ -60,11 +60,15 @@ export function DuelQuestion(): ReactElement {
         }}
       >
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#27ae60' }}>{d.myCorrect}</div>
+          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--success)' }}>
+            {d.myCorrect}
+          </div>
           <div style={{ fontSize: '.78rem', color: 'var(--text3)' }}>{t('duel.correctCount')}</div>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#e74c3c' }}>{d.myWrong}</div>
+          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--danger)' }}>
+            {d.myWrong}
+          </div>
           <div style={{ fontSize: '.78rem', color: 'var(--text3)' }}>{t('duel.wrongCount')}</div>
         </div>
       </div>

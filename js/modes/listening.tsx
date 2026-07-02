@@ -303,8 +303,8 @@ export function ListeningPage(): ReactElement {
       {!showFinal && (
         <>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 18 }}>
-            <span style={{ fontSize: '.82rem', color: '#27ae60', fontWeight: 600 }}>✓ {ok}</span>
-            <span style={{ fontSize: '.82rem', color: '#e74c3c', fontWeight: 600 }}>✗ {fail}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>✓ {ok}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>✗ {fail}</span>
           </div>
 
           <div style={{ textAlign: 'center', marginBottom: 16 }}>
@@ -362,11 +362,11 @@ export function ListeningPage(): ReactElement {
             {result &&
               word &&
               (result.correct ? (
-                <span style={{ color: '#27ae60' }}>
+                <span style={{ color: 'var(--success)' }}>
                   {t('quiz.correctMsg')} — <b>{getWordInLang(word, getLearnLang()) || word[0]}</b>
                 </span>
               ) : (
-                <span style={{ color: '#e74c3c' }}>
+                <span style={{ color: 'var(--danger)' }}>
                   ✗ {t('listen.wrongPrefix')}{' '}
                   <b>{getWordInLang(word, getLearnLang()) || word[0]}</b> — «{result.correctAnswer}»
                 </span>

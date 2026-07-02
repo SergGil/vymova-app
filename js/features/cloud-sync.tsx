@@ -250,9 +250,9 @@ export function CloudSyncInit(): ReactElement | null {
         await saveToCloud();
         localStorage.setItem(LAST_LS, String(Date.now()));
         if (lastEl) lastEl.textContent = t('settings.cloudAutoPrefix') + ' ' + _fmtLast();
-        setMsg(t('settings.cloudSaved'), '#27ae60');
+        setMsg(t('settings.cloudSaved'), 'var(--success)');
       } catch (e) {
-        setMsg('❌ ' + (e as Error).message, '#e74c3c');
+        setMsg('❌ ' + (e as Error).message, 'var(--danger)');
       } finally {
         if (saveBtn) saveBtn.disabled = false;
       }
@@ -266,7 +266,7 @@ export function CloudSyncInit(): ReactElement | null {
       _startAutoSync();
       setMsg(
         min ? t('settings.cloudAutoOn') : t('settings.cloudAutoOff'),
-        min ? '#27ae60' : 'var(--text3)',
+        min ? 'var(--success)' : 'var(--text3)',
       );
       setTimeout(() => setMsg('', ''), 2500);
     };
@@ -286,7 +286,7 @@ export function CloudSyncInit(): ReactElement | null {
     const restoreBtn = document.getElementById('cs-restore') as HTMLButtonElement | null;
     const onRestore = async () => {
       if (!inp?.value.trim()) {
-        setMsg(t('settings.cloudEnterKey'), '#e74c3c');
+        setMsg(t('settings.cloudEnterKey'), 'var(--danger)');
         return;
       }
       if (!confirm(t('settings.cloudRestoreConfirm'))) return;
@@ -301,10 +301,10 @@ export function CloudSyncInit(): ReactElement | null {
         // this device forever, silently discarding all progress made after
         // the restore until someone happens to open Settings and hit Save.
         localStorage.setItem(LAST_LS, String(Date.now()));
-        setMsg(t('settings.cloudRestoreSuccess'), '#27ae60');
+        setMsg(t('settings.cloudRestoreSuccess'), 'var(--success)');
         setTimeout(() => location.reload(), 1200);
       } catch (e) {
-        setMsg('❌ ' + (e as Error).message, '#e74c3c');
+        setMsg('❌ ' + (e as Error).message, 'var(--danger)');
         if (restoreBtn) restoreBtn.disabled = false;
         if (inp) inp.disabled = false;
       }

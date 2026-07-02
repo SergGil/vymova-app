@@ -267,7 +267,7 @@ export function LessonPage(): ReactElement {
         ns[1]++;
         return ns;
       });
-      setResult({ text: t('quiz.correctMsg'), color: '#27ae60' });
+      setResult({ text: t('quiz.correctMsg'), color: 'var(--success)' });
       try {
         addCombo();
         playSound('know');
@@ -276,7 +276,7 @@ export function LessonPage(): ReactElement {
     } else {
       setResult({
         text: `✗ ${t('write.correctAnswerPrefix')} <b>${correct}</b>`,
-        color: '#e74c3c',
+        color: 'var(--danger)',
       });
       try {
         breakCombo();
@@ -301,7 +301,7 @@ export function LessonPage(): ReactElement {
         ns[2]++;
         return ns;
       });
-      setResult({ text: t('quiz.correctMsg'), color: '#27ae60' });
+      setResult({ text: t('quiz.correctMsg'), color: 'var(--success)' });
       try {
         addCombo();
         playSound('know');
@@ -310,7 +310,7 @@ export function LessonPage(): ReactElement {
     } else {
       setResult({
         text: `✗ ${t('write.correctAnswerPrefix')} <b>${correctWord}</b>`,
-        color: '#e74c3c',
+        color: 'var(--danger)',
       });
       try {
         breakCombo();

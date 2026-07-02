@@ -55,7 +55,7 @@ export function GameBarGoal(): ReactElement {
   const pct = Math.min((d.goalCur / d.goalMax) * 100, 100);
   const done = d.goalCur >= d.goalMax;
   const offset = RING_C * (1 - pct / 100);
-  const ringColor = done ? '#f39c12' : '#27ae60';
+  const ringColor = done ? 'var(--accent2)' : 'var(--success)';
   return (
     <div className="gb-goal-ring-wrap">
       <svg

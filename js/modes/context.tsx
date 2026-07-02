@@ -335,8 +335,8 @@ export function ContextPage(): ReactElement {
               flexShrink: 0,
             }}
           >
-            <span style={{ fontSize: '.82rem', color: '#27ae60', fontWeight: 600 }}>✓ {ok}</span>
-            <span style={{ fontSize: '.82rem', color: '#e74c3c', fontWeight: 600 }}>✗ {fail}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>✓ {ok}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>✗ {fail}</span>
           </div>
 
           {!revealed && (
@@ -434,9 +434,9 @@ export function ContextPage(): ReactElement {
           >
             {selected &&
               (selected === question.correct ? (
-                <span style={{ color: '#27ae60' }}>{t('quiz.correctMsg')}</span>
+                <span style={{ color: 'var(--success)' }}>{t('quiz.correctMsg')}</span>
               ) : (
-                <span style={{ color: '#e74c3c' }}>✗ {question.correct}</span>
+                <span style={{ color: 'var(--danger)' }}>✗ {question.correct}</span>
               ))}
           </div>
 

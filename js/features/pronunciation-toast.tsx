@@ -37,13 +37,18 @@ export function PronunciationToast(): ReactElement {
       if (unmountTimer) clearTimeout(unmountTimer);
 
       const msgs: Record<string, [string, string, string, string]> = {
-        perfect: ['🏆', t('pron.perfect.title'), t('pron.perfect.sub'), '#27ae60'],
-        good: ['✅', t('pron.good.title'), t('pron.good.sub'), '#2980b9'],
-        okay: ['👍', t('pron.okay.title'), t('pron.okay.sub', { s: spoken }), '#e67e22'],
-        try_again: ['🔁', t('pron.tryAgain.title'), `"${spoken ?? '?'}" → "${target}"`, '#e74c3c'],
-        unsupported: ['🎤', t('pron.unsupported.title'), t('pron.unsupported.sub'), '#888'],
-        no_speech: ['🔇', t('pron.noSpeech.title'), t('pron.noSpeech.sub'), '#888'],
-        error: ['⚠️', t('pron.error.title'), t('pron.error.sub'), '#e74c3c'],
+        perfect: ['🏆', t('pron.perfect.title'), t('pron.perfect.sub'), 'var(--success)'],
+        good: ['✅', t('pron.good.title'), t('pron.good.sub'), 'var(--accent)'],
+        okay: ['👍', t('pron.okay.title'), t('pron.okay.sub', { s: spoken }), 'var(--accent2)'],
+        try_again: [
+          '🔁',
+          t('pron.tryAgain.title'),
+          `"${spoken ?? '?'}" → "${target}"`,
+          'var(--danger)',
+        ],
+        unsupported: ['🎤', t('pron.unsupported.title'), t('pron.unsupported.sub'), 'var(--text3)'],
+        no_speech: ['🔇', t('pron.noSpeech.title'), t('pron.noSpeech.sub'), 'var(--text3)'],
+        error: ['⚠️', t('pron.error.title'), t('pron.error.sub'), 'var(--danger)'],
       };
       const [emoji, title, subtitle, color] = msgs[status] ?? msgs.error;
 

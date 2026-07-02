@@ -222,8 +222,8 @@ export function WritePage(): ReactElement {
     setAnswered(true);
     if (correct) {
       setOk((o) => o + 1);
-      setBorderColor('#27ae60');
-      setResult({ text: t('quiz.correctMsg'), color: '#27ae60' });
+      setBorderColor('var(--success)');
+      setResult({ text: t('quiz.correctMsg'), color: 'var(--success)' });
       try {
         playSound('know');
         addCombo();
@@ -233,9 +233,9 @@ export function WritePage(): ReactElement {
     } else {
       setFail((f) => f + 1);
       setWrong((ws) => [...ws, w]);
-      setBorderColor('#e74c3c');
+      setBorderColor('var(--danger)');
       const shown = ans.split(/[;,/]/)[0].trim();
-      setResult({ text: `✗ ${t('write.correctAnswerPrefix')} <b>${shown}</b>`, color: '#e74c3c' });
+      setResult({ text: `✗ ${t('write.correctAnswerPrefix')} <b>${shown}</b>`, color: 'var(--danger)' });
       try {
         breakCombo();
         playSound('next');
@@ -449,8 +449,8 @@ export function WritePage(): ReactElement {
       {!showFinal && w && (
         <>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 16 }}>
-            <span style={{ fontSize: '.82rem', color: '#27ae60', fontWeight: 600 }}>✓ {ok}</span>
-            <span style={{ fontSize: '.82rem', color: '#e74c3c', fontWeight: 600 }}>✗ {fail}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>✓ {ok}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>✗ {fail}</span>
           </div>
 
           <div
@@ -612,9 +612,9 @@ export function WritePage(): ReactElement {
                   fontSize: '.9rem',
                   padding: '11px 14px',
                   borderRadius: 10,
-                  border: `1.5px solid ${micActive ? '#e74c3c' : 'var(--border)'}`,
+                  border: `1.5px solid ${micActive ? 'var(--danger)' : 'var(--border)'}`,
                   background: 'none',
-                  color: micActive ? '#e74c3c' : 'var(--text2)',
+                  color: micActive ? 'var(--danger)' : 'var(--text2)',
                   cursor: 'pointer',
                   transition: 'all .2s',
                 }}

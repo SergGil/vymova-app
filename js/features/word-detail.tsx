@@ -207,7 +207,7 @@ export function WordDetailPage(): ReactElement | null {
   const chips: ReactElement[] = [];
   if (known)
     chips.push(
-      <span key="learned" style={{ color: '#27ae60', fontWeight: 600 }}>
+      <span key="learned" style={{ color: 'var(--success)', fontWeight: 600 }}>
         {t('wd.learned')}
       </span>,
     );
@@ -219,7 +219,7 @@ export function WordDetailPage(): ReactElement | null {
         : daysUntil === 1
           ? t('wd.tomorrow')
           : t('wd.inDays', { n: daysUntil });
-    const color = daysUntil <= 0 ? '#e74c3c' : daysUntil <= 3 ? '#f39c12' : 'var(--text3)';
+    const color = daysUntil <= 0 ? 'var(--danger)' : daysUntil <= 3 ? 'var(--accent2)' : 'var(--text3)';
     chips.push(
       <span key="due" style={{ color }}>
         🔁 {label}
@@ -477,7 +477,7 @@ export function WordDetailPage(): ReactElement | null {
               borderRadius: 12,
               border: '1.5px solid var(--border)',
               background: 'none',
-              color: bm ? '#f39c12' : 'var(--text2)',
+              color: bm ? 'var(--accent2)' : 'var(--text2)',
               cursor: 'pointer',
               fontSize: '1rem',
             }}

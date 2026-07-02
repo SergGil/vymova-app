@@ -74,8 +74,8 @@ export function DuelResult(): ReactElement | null {
     );
   }
 
-  const myColor = d.outcome !== 'loss' ? '#27ae60' : '#e74c3c';
-  const oppColor = d.outcome === 'loss' ? '#27ae60' : '#e74c3c';
+  const myColor = d.outcome !== 'loss' ? 'var(--success)' : 'var(--danger)';
+  const oppColor = d.outcome === 'loss' ? 'var(--success)' : 'var(--danger)';
   const resultLabel =
     d.outcome === 'win'
       ? t('duel.result.won')

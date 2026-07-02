@@ -347,8 +347,8 @@ export function ScramblePage(): ReactElement {
       {!showFinal && w && (
         <>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 12 }}>
-            <span style={{ fontSize: '.82rem', color: '#27ae60', fontWeight: 600 }}>✓ {ok}</span>
-            <span style={{ fontSize: '.82rem', color: '#e74c3c', fontWeight: 600 }}>✗ {fail}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>✓ {ok}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>✗ {fail}</span>
           </div>
 
           <div
@@ -469,7 +469,7 @@ export function ScramblePage(): ReactElement {
             }}
           >
             {result && (
-              <span style={{ color: result.ok ? '#27ae60' : '#e74c3c' }}>{result.text}</span>
+              <span style={{ color: result.ok ? 'var(--success)' : 'var(--danger)' }}>{result.text}</span>
             )}
           </div>
 

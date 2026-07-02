@@ -312,8 +312,8 @@ export function SpellingBeePage(): ReactElement {
       {!showFinal && w && (
         <>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 12 }}>
-            <span style={{ fontSize: '.82rem', color: '#27ae60', fontWeight: 600 }}>✓ {ok}</span>
-            <span style={{ fontSize: '.82rem', color: '#e74c3c', fontWeight: 600 }}>✗ {fail}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>✓ {ok}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>✗ {fail}</span>
           </div>
 
           <div
@@ -405,7 +405,7 @@ export function SpellingBeePage(): ReactElement {
             style={{
               width: '100%',
               padding: '12px 16px',
-              border: `2px solid ${emptyWarn ? '#e74c3c' : result === 'ok' ? '#27ae60' : result === 'almost' ? '#f39c12' : result === 'wrong' ? '#e74c3c' : 'var(--border)'}`,
+              border: `2px solid ${emptyWarn ? 'var(--danger)' : result === 'ok' ? 'var(--success)' : result === 'almost' ? 'var(--accent2)' : result === 'wrong' ? 'var(--danger)' : 'var(--border)'}`,
               borderRadius: 12,
               fontSize: '1rem',
               fontFamily: 'inherit',
@@ -427,10 +427,10 @@ export function SpellingBeePage(): ReactElement {
               marginBottom: 8,
             }}
           >
-            {result === 'ok' && <span style={{ color: '#27ae60' }}>{t('quiz.correctMsg')}</span>}
+            {result === 'ok' && <span style={{ color: 'var(--success)' }}>{t('quiz.correctMsg')}</span>}
             {result === 'almost' && (
               <span
-                style={{ color: '#f39c12' }}
+                style={{ color: 'var(--accent2)' }}
                 dangerouslySetInnerHTML={{
                   __html: t('bee.almostMsg', {
                     w: `<b>${getWordInLang(w, getLearnLang()) || w[0]}</b>`,
@@ -440,7 +440,7 @@ export function SpellingBeePage(): ReactElement {
             )}
             {result === 'wrong' && (
               <span
-                style={{ color: '#e74c3c' }}
+                style={{ color: 'var(--danger)' }}
                 dangerouslySetInnerHTML={{
                   __html: t('bee.wrongMsg', {
                     w: `<b>${getWordInLang(w, getLearnLang()) || w[0]}</b>`,

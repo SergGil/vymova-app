@@ -444,7 +444,9 @@ export function ProfileSwitcher(): ReactElement {
             outline: 'none',
             boxSizing: 'border-box',
             marginBottom: 8,
-            border: `1.5px solid ${newNameError ? '#e74c3c' : 'var(--border)'}`,
+            borderWidth: '1.5px',
+            borderStyle: 'solid',
+            borderColor: newNameError ? 'var(--danger)' : 'var(--border)',
           }}
         />
         <div className="prf-char-preview">
@@ -544,7 +546,9 @@ export function ProfileSwitcher(): ReactElement {
                   outline: 'none',
                   boxSizing: 'border-box',
                   marginBottom: 10,
-                  border: `1.5px solid ${editNameError ? '#e74c3c' : 'var(--border)'}`,
+                  borderWidth: '1.5px',
+                  borderStyle: 'solid',
+                  borderColor: editNameError ? 'var(--danger)' : 'var(--border)',
                 }}
               />
               <div className="prf-char-preview" style={{ marginBottom: 14 }}>

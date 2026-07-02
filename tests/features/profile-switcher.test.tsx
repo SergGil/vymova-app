@@ -141,7 +141,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
       (container.querySelector('#sb-new-confirm') as HTMLButtonElement).click();
     });
     const input = container.querySelector('#sb-new-name') as HTMLInputElement;
-    expect(input.style.border).toContain('#e74c3c');
+    expect(input.style.borderColor).toBe('var(--danger)');
     expect(reloadSpy).not.toHaveBeenCalled();
   });
 
@@ -201,7 +201,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     act(() => {
       saveBtn.click();
     });
-    expect(nameInput.style.border).toContain('#e74c3c');
+    expect(nameInput.style.borderColor).toBe('var(--danger)');
     expect(document.getElementById('prf-edit-overlay')).not.toBeNull();
 
     act(() => {
