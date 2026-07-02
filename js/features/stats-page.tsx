@@ -456,7 +456,6 @@ export function StatsPage(): ReactElement {
             </div>
           </div>
           <div className="stat-card">
-            <span className="stat-card-icon ic-accent2">🔥</span>
             <div className="sv" id="st-streak">
               {gd.streak || 0}
             </div>
@@ -470,7 +469,6 @@ export function StatsPage(): ReactElement {
             )}
           </div>
           <div className="stat-card">
-            <span className="stat-card-icon ic-accent">📅</span>
             <div className="sv" id="st-week">
               {weeklyTotal}
             </div>
