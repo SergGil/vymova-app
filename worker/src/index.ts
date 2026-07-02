@@ -25,7 +25,7 @@ const RATE_LIMIT_PER_MINUTE = 15;
 const MAX_MESSAGES = 50;
 const MAX_PAYLOAD_CHARS = 20_000;
 const VALID_LANGS = new Set([
-  'en', 'ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl',
+  'en', 'ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl', 'vi',
 ]);
 
 const ROLEPLAY_SCENARIOS: Record<string, string> = {

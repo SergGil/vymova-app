@@ -233,6 +233,7 @@ const SPEECH_LANG: Record<string, string> = {
   ja: 'ja-JP',
   tr: 'tr-TR',
   nl: 'nl-NL',
+  vi: 'vi-VN',
 };
 
 export interface RoleplayTurn {

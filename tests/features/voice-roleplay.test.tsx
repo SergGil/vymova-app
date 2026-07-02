@@ -11,7 +11,8 @@ const configMock = vi.hoisted(() => ({
 }));
 vi.mock('../../js/config.ts', () => configMock);
 
-vi.mock('../../js/features/speech.ts', () => ({ _speakWithLang: vi.fn() }));
+const { speakWithLang } = vi.hoisted(() => ({ speakWithLang: vi.fn() }));
+vi.mock('../../js/features/speech.ts', () => ({ _speakWithLang: speakWithLang }));
 
 async function flush(): Promise<void> {
   await act(async () => {
@@ -40,6 +41,8 @@ describe('voice-roleplay.tsx VoiceRoleplayPage', () => {
     document.body.innerHTML = '<div id="voice-roleplay-content"></div>';
     configMock.AI_TUTOR_ENABLED = true;
     vi.stubGlobal('fetch', vi.fn());
+    speakWithLang.mockClear();
+    localStorage.clear();
     // No SpeechRecognition in happy-dom by default → text-input fallback path.
     delete (window as unknown as { SpeechRecognition?: unknown }).SpeechRecognition;
     delete (window as unknown as { webkitSpeechRecognition?: unknown }).webkitSpeechRecognition;
@@ -111,5 +114,36 @@ describe('voice-roleplay.tsx VoiceRoleplayPage', () => {
     expect(body.scenario).toBe('ordering-coffee');
     expect(target.textContent).toContain('Good morning!');
     expect(target.textContent).toContain('Use "a coffee"');
+  });
+
+  it('speaks the reply in Vietnamese when the learn language is vi', async () => {
+    localStorage.setItem('ew_learn_lang', 'vi');
+    (fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      json: async () => ({ text: 'Chào buổi sáng!' }),
+    });
+    await mount();
+    const target = document.getElementById('voice-roleplay-content')!;
+    const firstCard = target.querySelectorAll('.roleplay-scenario-row')[1] as HTMLButtonElement;
+    act(() => {
+      firstCard.click();
+    });
+
+    const input = target.querySelector('.ai-tutor-input') as HTMLInputElement;
+    const setter = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype,
+      'value',
+    )!.set!;
+    act(() => {
+      setter.call(input, 'Xin chào');
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    const form = target.querySelector('.ai-tutor-form') as HTMLFormElement;
+    await act(async () => {
+      form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    });
+    await flush();
+
+    expect(speakWithLang).toHaveBeenCalledWith('Chào buổi sáng!', 'vi-VN', null);
   });
 });
