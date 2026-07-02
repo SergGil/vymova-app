@@ -7,10 +7,15 @@ import type { WordEntry } from '../../src/types.js';
 
 // ── Re-declared pure helpers from js/modes/tempo.tsx ──
 function getBest(sec: number): number {
-  return parseInt(localStorage.getItem(`tempo_best_${sec}`) ?? '0');
+  const key = `ew_tempo_best_${sec}`;
+  if (localStorage.getItem(key) === null) {
+    const legacy = localStorage.getItem(`tempo_best_${sec}`);
+    if (legacy !== null) localStorage.setItem(key, legacy);
+  }
+  return parseInt(localStorage.getItem(key) ?? '0');
 }
 function setBest(sec: number, val: number): void {
-  if (val > getBest(sec)) localStorage.setItem(`tempo_best_${sec}`, String(val));
+  if (val > getBest(sec)) localStorage.setItem(`ew_tempo_best_${sec}`, String(val));
 }
 
 type Question = {
@@ -82,6 +87,12 @@ describe('tempo-logic', () => {
       setBest(60, 25);
       expect(getBest(30)).toBe(10);
       expect(getBest(60)).toBe(25);
+    });
+
+    it('migrates a legacy unprefixed key (missed by cloud-sync) on first read', () => {
+      localStorage.setItem('tempo_best_30', '18');
+      expect(getBest(30)).toBe(18);
+      expect(localStorage.getItem('ew_tempo_best_30')).toBe('18');
     });
   });
 

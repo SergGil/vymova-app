@@ -198,7 +198,7 @@ export function PairsMode(): ReactElement | null {
       pFinal!.style.display = 'block';
       recordModeComplete('pairs');
       pTimer!.textContent = fmt(ms);
-      pTimer!.style.color = isNew ? '#e67e22' : 'var(--accent)';
+      pTimer!.style.color = isNew ? 'var(--accent2)' : 'var(--accent)';
       document.getElementById('pf-emoji')!.textContent = isNew ? '🏆' : '🎉';
       document.getElementById('pf-time')!.textContent = fmt(ms);
       document.getElementById('pf-best')!.textContent = isNew

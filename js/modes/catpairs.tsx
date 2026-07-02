@@ -292,7 +292,7 @@ export function CatPairsPage(): ReactElement {
               style={{
                 fontSize: '1.4rem',
                 fontWeight: 700,
-                color: finished.isNew ? '#e67e22' : 'var(--accent)',
+                color: finished.isNew ? 'var(--accent2)' : 'var(--accent)',
                 minWidth: 52,
                 textAlign: 'right',
               }}

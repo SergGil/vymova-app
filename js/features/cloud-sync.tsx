@@ -48,6 +48,9 @@ export const BACKUP_KEYS = [
   'ew_duel_sessions',
   // Game mode best scores
   'ew_pairs_best',
+  'ew_tempo_best_30',
+  'ew_tempo_best_60',
+  'ew_tempo_best_90',
   // Language pair selection
   'ew_learn_lang',
   'ew_know_lang',

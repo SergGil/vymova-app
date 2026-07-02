@@ -39,11 +39,22 @@ type Question = {
   selected: string | null;
 };
 
+// Every other piece of progress in this app uses an 'ew_' prefixed
+// localStorage key, which is how cloud-sync.tsx discovers what to back up
+// (BACKUP_KEYS + a scan for known prefixes). tempo_best_<sec> didn't follow
+// that convention, so Tempo high scores were silently never included in a
+// cloud backup/restore. Migrate transparently from the old unprefixed key
+// the first time each is read, rather than losing existing best scores.
 function getBest(sec: number): number {
-  return parseInt(localStorage.getItem(`tempo_best_${sec}`) ?? '0');
+  const key = `ew_tempo_best_${sec}`;
+  if (localStorage.getItem(key) === null) {
+    const legacy = localStorage.getItem(`tempo_best_${sec}`);
+    if (legacy !== null) localStorage.setItem(key, legacy);
+  }
+  return parseInt(localStorage.getItem(key) ?? '0');
 }
 function setBest(sec: number, val: number): void {
-  if (val > getBest(sec)) localStorage.setItem(`tempo_best_${sec}`, String(val));
+  if (val > getBest(sec)) localStorage.setItem(`ew_tempo_best_${sec}`, String(val));
 }
 
 function getWordInLang(w: WordEntry, lang: string): string {
