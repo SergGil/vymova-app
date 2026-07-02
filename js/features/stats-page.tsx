@@ -19,10 +19,10 @@ import { MistakeReview } from './mistake-review.tsx';
 const _p2 = (n: number): string => (n < 10 ? '0' + n : '' + n);
 
 function getBlockColor(pct: number): string {
-  if (pct >= 80) return '#27ae60';
-  if (pct >= 50) return '#f39c12';
-  if (pct >= 20) return '#3498db';
-  return '#bdc3c7';
+  if (pct >= 80) return 'var(--success)';
+  if (pct >= 50) return 'var(--accent2)';
+  if (pct >= 20) return 'var(--accent)';
+  return 'var(--text3)';
 }
 
 // ── Heatmap ──────────────────────────────────────────────────────
@@ -77,7 +77,7 @@ function computeHourly(): { bars: HourBar[]; bestLabel: string } {
     const pct = Math.round((n / maxH) * 100);
     const isNight = h >= 22 || h < 6,
       isMorning = h >= 6 && h < 12;
-    const color = isNight ? '#5d6d7e' : isMorning ? '#f39c12' : 'var(--accent)';
+    const color = isNight ? 'var(--text3)' : isMorning ? 'var(--accent2)' : 'var(--accent)';
     return { h, n, pct, color };
   });
   let bestLabel = '';
@@ -214,7 +214,13 @@ function computeModeAccuracy(): ModeRow[] {
     const total = (a?.ok ?? 0) + (a?.err ?? 0);
     const pct = total > 0 ? Math.round((a!.ok / total) * 100) : null;
     const barColor =
-      pct === null ? 'var(--border)' : pct >= 80 ? '#27ae60' : pct >= 60 ? '#f39c12' : '#e74c3c';
+      pct === null
+        ? 'var(--border)'
+        : pct >= 80
+          ? 'var(--success)'
+          : pct >= 60
+            ? 'var(--accent2)'
+            : 'var(--danger)';
     const totText = total > 0 ? `${a?.ok ?? 0}✓ ${a?.err ?? 0}✗` : '';
     rows.push({ key: m.key, icon: m.icon, label: m.label, pct, totText, sessions, barColor });
   });
@@ -231,16 +237,21 @@ type CefrRow = {
   pct: number;
 };
 
+// One hue (the theme's accent), ramped light→dark by CEFR difficulty — a
+// sequential encoding instead of six unrelated hardcoded hex colors, so it
+// stays legible and on-brand across every custom theme.
+const CEFR_RAMP: Record<'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2', string> = {
+  A1: 'color-mix(in srgb, var(--accent) 35%, var(--text3))',
+  A2: 'color-mix(in srgb, var(--accent) 50%, var(--text3))',
+  B1: 'color-mix(in srgb, var(--accent) 65%, var(--text3))',
+  B2: 'color-mix(in srgb, var(--accent) 80%, var(--text3))',
+  C1: 'color-mix(in srgb, var(--accent) 92%, var(--text3))',
+  C2: 'var(--accent)',
+};
+
 function computeCefrStats(): CefrRow[] {
   const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
-  const colors = {
-    A1: '#27ae60',
-    A2: '#2ecc71',
-    B1: '#d4ac0d',
-    B2: '#e67e22',
-    C1: '#e74c3c',
-    C2: '#8e44ad',
-  };
+  const colors = CEFR_RAMP;
   const descs = {
     A1: t('cefr.A1'),
     A2: t('cefr.A2'),
@@ -427,6 +438,7 @@ export function StatsPage(): ReactElement {
         </div>
         <div className="stats-summary">
           <div className="stat-card">
+            <span className="stat-card-icon ic-accent">📖</span>
             <div className="sv" id="st-known">
               {knownCount}
             </div>
@@ -435,6 +447,7 @@ export function StatsPage(): ReactElement {
             </div>
           </div>
           <div className="stat-card">
+            <span className="stat-card-icon ic-success">🎯</span>
             <div className="sv" id="st-pct">
               {pctKnown}%
             </div>
@@ -443,6 +456,7 @@ export function StatsPage(): ReactElement {
             </div>
           </div>
           <div className="stat-card">
+            <span className="stat-card-icon ic-accent2">🔥</span>
             <div className="sv" id="st-streak">
               {gd.streak || 0}
             </div>
@@ -456,6 +470,7 @@ export function StatsPage(): ReactElement {
             )}
           </div>
           <div className="stat-card">
+            <span className="stat-card-icon ic-accent">📅</span>
             <div className="sv" id="st-week">
               {weeklyTotal}
             </div>
@@ -822,9 +837,9 @@ export function StatsPage(): ReactElement {
                 <span style={{ fontSize: '.8rem', fontWeight: 700 }}>
                   <span
                     style={{
-                      background: `${r.color}22`,
+                      background: `color-mix(in srgb, ${r.color} 15%, transparent)`,
                       color: r.color,
-                      border: `1.5px solid ${r.color}44`,
+                      border: `1.5px solid color-mix(in srgb, ${r.color} 35%, transparent)`,
                       borderRadius: 6,
                       padding: '1px 6px',
                       fontSize: '.72rem',
