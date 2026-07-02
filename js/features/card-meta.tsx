@@ -53,11 +53,11 @@ export function CardMeta() {
         {'#' + num}
       </span>
       <span className="known-badge">
-        <span>✓ Знаю</span>{' '}
+        <span>{t('cards.know')}</span>{' '}
         <button
           className="unmark-btn"
           id="btn-unmark"
-          title="Прибрати з вивчених"
+          title={t('cards.removeKnown')}
           onClick={(e) => {
             e.stopPropagation();
             _unmarkActiveKnownAndSave(cw[0]);

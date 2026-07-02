@@ -1,7 +1,7 @@
 // Vymova — js/features/game.ts
 // Game data, progress tracking, levels & achievements data
 import { today, localDateStr } from '../core/today.ts';
-import { getMaxWordsForLearnLang } from './mode-utils.ts';
+import { getMaxWordsForLearnLang, ALL_TARGET_LANGS } from './mode-utils.ts';
 import type { GameData, Level, ModeStats, ModeAccuracy, ModeAccEntry } from '../../src/types.js';
 
 // ── Session caches ─────────────────────────────────────────────
@@ -81,6 +81,7 @@ export function getGameData(): GameData {
     d.goalDate = TODAY;
     d.goalCur = 0;
     d.confettiShown = null;
+    d.goalCounted = false;
   }
   if (!d.streakDate) {
     d.streakDate = null;
@@ -278,6 +279,27 @@ export function markUnlockedNow(ids: string[]): void {
   try {
     localStorage.setItem(_achTsKey(), JSON.stringify(ts));
   } catch (e) {}
+}
+
+// ── Full progress reset (every learn language) ──────────────────
+// _langKey()/_achKey()/etc. above always key off the CURRENTLY ACTIVE
+// learn language, so a naive localStorage.removeItem('ew_game') etc. only
+// clears the active language's data — any other target language the user
+// has ever practiced keeps its game/daily/achievement/SRS/mistake data
+// completely intact, silently contradicting the "Reset progress" modal's
+// promise to delete everything. Loops every possible learn language
+// explicitly instead of relying on whichever one happens to be active.
+export function resetAllLangProgress(): void {
+  for (const lang of ['en', ...ALL_TARGET_LANGS]) {
+    const suffix = lang === 'en' ? '' : `_${lang}`;
+    for (const base of ['ew_game', 'ew_daily', 'ew_mistakes', 'ew_mode_acc', 'ew_srs']) {
+      localStorage.removeItem(base + suffix);
+      localStorage.removeItem(base + suffix + '_lz');
+    }
+    localStorage.removeItem('ew_ach' + suffix);
+    localStorage.removeItem('ew_ach' + suffix + '_ts');
+  }
+  invalidateGameCaches();
 }
 
 // ── Idle scheduler ─────────────────────────────────────────────

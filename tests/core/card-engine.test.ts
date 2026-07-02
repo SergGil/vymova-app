@@ -222,5 +222,39 @@ describe('card-engine.ts', () => {
       expect(firstCallArg.goalCur).toBe(20);
       expect(firstCallArg.goalDays).toBe(1);
     });
+
+    it('still credits goalDays when the goal was lowered mid-day, past an exact match', () => {
+      // goalCur already exceeds goalMax without ever landing exactly on it —
+      // regression test for the old `===` check, which would silently never
+      // increment goalDays for the rest of the day in this case.
+      getGameData.mockReturnValue({
+        goalCur: 15,
+        goalMax: 10,
+        goalDays: 0,
+        goalCounted: false,
+        sessionWords: 0,
+        xp: 0,
+      });
+      engine.onWordLearned();
+      const firstCallArg = saveGameData.mock.calls[0][0];
+      expect(firstCallArg.goalCur).toBe(16);
+      expect(firstCallArg.goalDays).toBe(1);
+      expect(firstCallArg.goalCounted).toBe(true);
+    });
+
+    it('does not double-count goalDays for further words learned after the goal is already met', () => {
+      getGameData.mockReturnValue({
+        goalCur: 20,
+        goalMax: 20,
+        goalDays: 1,
+        goalCounted: true,
+        sessionWords: 0,
+        xp: 0,
+      });
+      engine.onWordLearned();
+      const firstCallArg = saveGameData.mock.calls[0][0];
+      expect(firstCallArg.goalCur).toBe(21);
+      expect(firstCallArg.goalDays).toBe(1);
+    });
   });
 });

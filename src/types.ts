@@ -65,6 +65,7 @@ export interface GameData {
   srsNewDate?: string; // date srsNewToday was last reset
   maxStreak?: number;
   mistakesFixed?: number; // lifetime count of clearMistake() calls, for achievements
+  goalCounted?: boolean; // whether goalDays was already incremented for the current goalDate
 }
 
 // ── Character avatar (profile page) ─────────────────────────────

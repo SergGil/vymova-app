@@ -3,7 +3,7 @@
 import { useEffect, type ReactElement } from 'react';
 import { sm2Update, buildSRSDeck, buildUnlearnedDeck, shuffle, updateSrsUI } from '../core/srs.ts';
 import { saveKnown, saveSRS } from '../core/storage.ts';
-import { getGameData, saveGameData, invalidateGameCaches } from './game.ts';
+import { getGameData, saveGameData, resetAllLangProgress } from './game.ts';
 import { getSrsDataSnapshot, deleteSrsEntry, clearSrsData } from '../../src/srs-store.ts';
 import { getBaseWordsSnapshot } from '../../src/deck-filter-store.ts';
 import { today } from '../core/today.ts';
@@ -145,7 +145,7 @@ export function CardActionsInit(): ReactElement | null {
       if (!cw) return;
       const isNow = toggleBookmark(cw[0]);
       bookmarkBtn.textContent = isNow ? '★' : '☆';
-      bookmarkBtn.style.color = isNow ? '#f1c40f' : '';
+      bookmarkBtn.style.color = isNow ? 'var(--accent2)' : '';
     };
     bookmarkBtn.addEventListener('click', onBookmarkClick);
 
@@ -344,10 +344,12 @@ export function CardActionsInit(): ReactElement | null {
       saveKnown(getKnownSnapshot('en'));
       for (const lang of ALL_TARGET_LANGS) langConfig(lang).saveKnown(getKnownSnapshot(lang));
       saveSRS(getSrsDataSnapshot());
-      _safe(() => localStorage.removeItem('ew_game'));
-      _safe(() => localStorage.removeItem('ew_daily'));
-      _safe(() => localStorage.removeItem('ew_ach'));
-      invalidateGameCaches();
+      // Wipes game/daily/achievement/mistake/mode-accuracy/SRS data for
+      // EVERY learn language, not just whichever one is currently active —
+      // see resetAllLangProgress()'s own comment for why the plain
+      // removeItem('ew_game') this replaced wasn't enough for anyone who'd
+      // ever practiced more than one target language.
+      _safe(() => resetAllLangProgress());
       const cardEl2 = document.getElementById('card');
       if (cardEl2) cardEl2.classList.remove('is-known');
       const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;

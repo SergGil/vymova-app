@@ -83,7 +83,7 @@ describe('CardBookmarkNoteVisuals', () => {
     const bmBtn = document.getElementById('btn-bookmark')!;
     const noteBtn = document.getElementById('btn-note')!;
     expect(bmBtn.textContent).toBe('★');
-    expect(bmBtn.style.color).toBe('#f1c40f');
+    expect(bmBtn.style.color).toBe('var(--accent2)');
     expect(noteBtn.style.opacity).toBe('1');
   });
 

@@ -42,7 +42,7 @@ export function CardBookmarkNoteVisuals() {
     if (bmBtn) {
       const isBm = isBookmarked(cw[0]);
       bmBtn.textContent = isBm ? '★' : '☆';
-      bmBtn.style.color = isBm ? '#f1c40f' : '';
+      bmBtn.style.color = isBm ? 'var(--accent2)' : '';
     }
     if (noteBtn) {
       noteBtn.style.opacity = hasNote(cw[0]) ? '1' : '0.5';

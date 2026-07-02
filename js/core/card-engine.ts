@@ -160,8 +160,13 @@ export function render(): void {
 export function onWordLearned(): void {
   let d = getGameData();
   d.goalCur = (d.goalCur || 0) + 1;
-  if (d.goalCur === d.goalMax) {
+  // >= (not ===) so lowering the daily goal mid-session — after goalCur had
+  // already passed the new, lower value — still credits the day; goalCounted
+  // (reset alongside goalCur on the next new day) stops this from
+  // re-incrementing goalDays on every word learned after the goal is hit.
+  if (d.goalCur >= d.goalMax && !d.goalCounted) {
     d.goalDays = (d.goalDays || 0) + 1;
+    d.goalCounted = true;
   }
   d = updateStreak(d);
   saveGameData(d);

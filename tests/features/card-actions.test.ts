@@ -27,11 +27,18 @@ const gameData = {
 };
 const saveGameData = vi.fn();
 const invalidateGameCaches = vi.fn();
+const resetAllLangProgress = vi.fn(() => {
+  invalidateGameCaches();
+  for (const key of ['ew_game', 'ew_daily', 'ew_ach', 'ew_ach_ts', 'ew_mistakes', 'ew_mode_acc']) {
+    localStorage.removeItem(key);
+  }
+});
 
 vi.mock('../../js/features/game.ts', () => ({
   getGameData: () => gameData,
   saveGameData,
   invalidateGameCaches,
+  resetAllLangProgress,
   getLevel: () => ({ name: '⭐ Test', min: 0, color: '#000', bg: '#fff' }),
   getNextLevel: () => null,
   registerCheckAchievements: vi.fn(),
