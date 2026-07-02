@@ -28,11 +28,25 @@ function getBlockColor(pct: number): string {
 // ── Heatmap ──────────────────────────────────────────────────────
 type HeatDay = { ds: string; n: number; lvl: number };
 
+// Cap the heatmap at how far back the user actually has activity, instead
+// of always drawing the full 52-week grid — a 3-week-old account otherwise
+// shows 49 weeks of empty cells before any real data appears.
+const DATE_KEY_RE = /^\d{4}-\d{2}-\d{2}$/;
+
 function computeHeatmap(): HeatDay[][] {
   const daily = getDailyStats();
   const today = new Date();
+  const activeDates = Object.keys(daily).filter((k) => DATE_KEY_RE.test(k) && daily[k] > 0);
+  let weeksBack = 51;
+  if (activeDates.length > 0) {
+    const earliest = activeDates.reduce((a, b) => (a < b ? a : b));
+    const daysSince = Math.floor(
+      (today.getTime() - new Date(earliest).getTime()) / (24 * 60 * 60 * 1000),
+    );
+    weeksBack = Math.min(51, Math.max(3, Math.ceil(daysSince / 7)));
+  }
   const weeks: { ds: string; n: number }[][] = [];
-  for (let w = 51; w >= 0; w--) {
+  for (let w = weeksBack; w >= 0; w--) {
     const week: { ds: string; n: number }[] = [];
     for (let d = 0; d <= 6; d++) {
       const dt = new Date(today);
@@ -125,6 +139,23 @@ function computeMonthCal(year: number, month: number): { cells: CalCell[]; summa
       ? `${t('stats.totalForMonth')}: ${monthTotal} ${wordsLabel(monthTotal)}`
       : t('stats.noWordsThisMonth');
   return { cells, summary };
+}
+
+// ── Week-over-week comparison ─────────────────────────────────
+function computeWeekComparisonPct(): number | null {
+  const daily = getDailyStats();
+  const now = new Date();
+  let thisWeek = 0,
+    lastWeek = 0;
+  for (let i = 0; i < 14; i++) {
+    const dt = new Date(now);
+    dt.setDate(dt.getDate() - i);
+    const n = daily[dt.toISOString().slice(0, 10)] ?? 0;
+    if (i < 7) thisWeek += n;
+    else lastWeek += n;
+  }
+  if (lastWeek === 0) return null;
+  return Math.round(((thisWeek - lastWeek) / lastWeek) * 100);
 }
 
 // ── Daily chart ──────────────────────────────────────────────────
@@ -383,6 +414,7 @@ export function StatsPage(): ReactElement {
 
   const gd = getGameData();
   const weeklyTotal = getWeeklyTotal();
+  const weekCmpPct = computeWeekComparisonPct();
   const mistakeCount = Object.keys(getMistakes()).length;
   const knownCount = getKnownInLang();
   const totalWords = getWordsForLang(W as unknown as WordEntry[]).length;
@@ -475,6 +507,11 @@ export function StatsPage(): ReactElement {
             <div className="sl" data-i18n="stats.weekWordsLabel">
               {t('stats.weekWordsLabel')}
             </div>
+            {weekCmpPct !== null && (
+              <div className="stat-card-sub">
+                {t('stats.vsLastWeek', { pct: (weekCmpPct >= 0 ? '+' : '') + weekCmpPct + '%' })}
+              </div>
+            )}
           </div>
         </div>
       </div>
