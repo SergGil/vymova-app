@@ -113,7 +113,18 @@ function IdiomCard({
   const tr = tab === 'ua' ? idiom.translations?.[learnLang] : undefined;
   const meaning = tr?.meaning ?? idiom.meaning;
   const exampleTr = tr?.exampleTr ?? idiom.exampleTr;
-  const trLang = tr ? (LANG_BY_TAB[learnLang as Tab] ?? lang) : lang;
+  // exampleTr's language depends on where it came from, NOT on the active
+  // tab: a per-language `translations` entry is in learnLang; the UA tab's
+  // own idiom.exampleTr fallback (no translations entry for this learnLang,
+  // e.g. he/ar/pl/zh/el/ja/tr/nl/vi) is English; every other tab's
+  // idiom.exampleTr is Ukrainian (see the Idiom interface's field comments).
+  // Using the tab's own source language here would ask the TTS engine to
+  // read Ukrainian or English text in the wrong voice/locale.
+  const trLang = tr
+    ? (LANG_BY_TAB[learnLang as Tab] ?? lang)
+    : tab === 'ua'
+      ? LANG_BY_TAB.en
+      : LANG_BY_TAB.ua;
   const rtl = RTL_TABS.has(tab) ? 'rtl' : undefined;
 
   const speak =

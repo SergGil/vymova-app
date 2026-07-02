@@ -144,6 +144,40 @@ describe('idioms-page.tsx IdiomsPageRoot', () => {
     expect(speakWithLang).toHaveBeenCalledWith(ENGLISH_IDIOMS[0].phrase, 'en-US', btn);
   });
 
+  it('speaks the English-tab translation example in Ukrainian, not English', () => {
+    // idiom.exampleTr on every non-UA tab's data is Ukrainian text — the
+    // speak button for it must use the Ukrainian voice, not the tab's own
+    // source-language voice, or the TTS engine reads Ukrainian text with
+    // an English locale.
+    const { container } = mount();
+    const firstCard = container.querySelector('.idiom-card')!;
+    const speakBtns = firstCard.querySelectorAll('.idiom-speak');
+    const trSpeakBtn = speakBtns[speakBtns.length - 1] as HTMLButtonElement;
+    act(() => {
+      trSpeakBtn.click();
+    });
+    expect(speakWithLang).toHaveBeenCalledWith(ENGLISH_IDIOMS[0].exampleTr, 'uk-UA', trSpeakBtn);
+  });
+
+  it('speaks the Ukrainian tab\'s untranslated example in English, not Ukrainian', () => {
+    // UKRAINIAN_IDIOMS' own idiom.exampleTr fallback (no translations entry
+    // for the current learn language) is English text.
+    localStorage.setItem('ew_learn_lang', 'ja'); // not covered by any idiom's translations map
+    const { container } = mount();
+    const tabs = container.querySelectorAll('.idioms-tab');
+    const uaTab = [...tabs].find((tb) => tb.textContent?.includes('Українські'))!;
+    act(() => {
+      (uaTab as HTMLButtonElement).click();
+    });
+    const firstCard = container.querySelector('.idiom-card')!;
+    const speakBtns = firstCard.querySelectorAll('.idiom-speak');
+    const trSpeakBtn = speakBtns[speakBtns.length - 1] as HTMLButtonElement;
+    act(() => {
+      trSpeakBtn.click();
+    });
+    expect(speakWithLang).toHaveBeenCalledWith(UKRAINIAN_IDIOMS[0].exampleTr, 'en-US', trSpeakBtn);
+  });
+
   it('does not throw when openIdiomsContent is called', () => {
     mount();
     expect(() => openIdiomsContent()).not.toThrow();
