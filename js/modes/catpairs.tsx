@@ -502,9 +502,9 @@ export function renderWeakWords(): void {
   el.innerHTML = top
     .map(
       (item, i) =>
-        `<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border);">` +
+        `<div class="weak-word-row">` +
         `<span>${i + 1}. <b>${item.w[0]}</b> — ${item.w[1]}</span>` +
-        `<span style="font-size:.72rem;color:#e74c3c;white-space:nowrap;margin-left:8px;">EF ${item.ef.toFixed(2)} · ✗${item.lapses}</span></div>`,
+        `<span class="weak-word-ef">EF ${item.ef.toFixed(2)} · ✗${item.lapses}</span></div>`,
     )
     .join('');
 }
