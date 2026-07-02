@@ -2838,35 +2838,24 @@ body.dark .quiz-option.reveal {
   border-radius: 2px;
   cursor: default;
 }
+/* One hue (the active theme's accent), ramped light→dark by activity level
+   — same technique as the CEFR badges — instead of a hardcoded GitHub-green
+   scale that only had a body.dark override and looked pasted-on under all
+   14 custom themes. Self-adapts to light/dark since it's mixed with --bg. */
 .hm-l0 {
   background: var(--border);
 }
 .hm-l1 {
-  background: #c6e48b;
+  background: color-mix(in srgb, var(--accent) 30%, var(--bg));
 }
 .hm-l2 {
-  background: #7bc96f;
+  background: color-mix(in srgb, var(--accent) 55%, var(--bg));
 }
 .hm-l3 {
-  background: #239a3b;
+  background: color-mix(in srgb, var(--accent) 78%, var(--bg));
 }
 .hm-l4 {
-  background: #196127;
-}
-body.dark .hm-l0 {
-  background: #161b22;
-}
-body.dark .hm-l1 {
-  background: #0e4429;
-}
-body.dark .hm-l2 {
-  background: #006d32;
-}
-body.dark .hm-l3 {
-  background: #26a641;
-}
-body.dark .hm-l4 {
-  background: #39d353;
+  background: var(--accent);
 }
 .hm-day:hover {
   opacity: 0.7;
