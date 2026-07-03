@@ -29,9 +29,19 @@ const BASE_SNAP_KEYS = [
   'ew_ws_es_voice',
   'ew_notes',
   'ew_bookmarks',
-  'tempo_best_30',
-  'tempo_best_60',
-  'tempo_best_120',
+  // tempo.tsx's actual durations are 30/60/90s — this used to read
+  // tempo_best_30/60/120 (wrong duration, and missing the 'ew_' prefix
+  // tempo.tsx has used since it was fixed for cloud-sync in an earlier
+  // pass), so Tempo best scores were never actually isolated per profile.
+  'ew_tempo_best_30',
+  'ew_tempo_best_60',
+  'ew_tempo_best_90',
+  // Leaderboard identity — without this, every local profile on the same
+  // device shared one Firebase leaderboard entry, so switching profiles
+  // and submitting a score overwrote the other profile's entry instead of
+  // each having its own.
+  'ew_lb_uid',
+  'ew_lb_registered',
   // Pattern: all ew_* keys not already listed above are captured dynamically in _snapKeys()
 ];
 

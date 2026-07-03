@@ -129,6 +129,29 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     expect(reloadSpy).toHaveBeenCalled();
   });
 
+  it('isolates leaderboard identity and Tempo best scores per profile', () => {
+    // Regression: these two used to leak across profiles — the leaderboard
+    // uid wasn't in the snapshot key list at all (so every profile shared
+    // one Firebase leaderboard entry), and the Tempo keys were stale
+    // (wrong duration, missing the 'ew_' prefix tempo.tsx actually uses).
+    localStorage.setItem('ew_lb_uid', 'uid-for-p1');
+    localStorage.setItem('ew_lb_registered', '12345');
+    localStorage.setItem('ew_tempo_best_30', '42');
+    const { container, root } = mount();
+    roots.push(root);
+    act(() => {
+      (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
+    });
+    const items = container.querySelectorAll('.sb-dd-item');
+    act(() => {
+      (items[1] as HTMLButtonElement).click();
+    });
+
+    expect(localStorage.getItem('ew_p_p1__ew_lb_uid')).toBe('uid-for-p1');
+    expect(localStorage.getItem('ew_p_p1__ew_lb_registered')).toBe('12345');
+    expect(localStorage.getItem('ew_p_p1__ew_tempo_best_30')).toBe('42');
+  });
+
   it('opens the add-profile form and shows an error for an empty name', async () => {
     const { container, root } = mount();
     roots.push(root);
