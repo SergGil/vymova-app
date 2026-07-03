@@ -1,14 +1,14 @@
 // Vymova — Finnish translations (subset)
 // Format: "english_word": ["fi_translation","fi_example_sentence"]
 export const W_FI = {
-  "hello": ["hei", "Hei! Hauska tavata sinut."],
-  "water": ["vesi", "Juon lasin vettä joka aamu."],
-  "house": ["talo", "He asuvat pienessä talossa."],
-  "eat": ["syödä", "Syömme illallista yhdessä joka ilta."],
-  "good": ["hyvä", "Hän on erittäin hyvä opettaja."],
-  "friend": ["ystävä", "Hän on paras ystäväni."],
-  "love": ["rakastaa", "Rakastan perhettäni todella paljon."],
-  "time": ["aika", "Minulla ei ole paljon aikaa tänään."],
-  "day": ["päivä", "Tänään on kaunis päivä."],
-  "family": ["perhe", "Perheeni on minulle hyvin tärkeä."],
+  "a blessing in disguise": ["naamioitu siunaus", "Työn menettäminen oli itse asiassa naamioitu siunaus — se johti johonkin parempaan."],
+  "a piece of cake": ["helppo nakki", "Koe oli helppo nakki — sain sen valmiiksi puolessa ajassa."],
+  "abandon": ["hylätä", "Heidän piti hylätä auto, kun tie tulvi."],
+  "abandoned": ["hylätty", "Kaupunki purki lopulta hylätyn rakennuksen."],
+  "abash": ["nolostuttaa", "Hän nolostui odottamattomasta huomiosta."],
+  "abate": ["heiketä", "Myrsky alkoi heiketä monien pitkien tuntien jälkeen."],
+  "abbreviate": ["lyhentää", "Voit lyhentää sanan 'kilometre' muotoon 'km'."],
+  "abdicate": ["luopua vallasta", "Kuningas luopui vallasta poikansa hyväksi."],
+  "abdomen": ["vatsa", "Hän tunsi terävää kipua alavatsassa."],
+  "abduct": ["siepata", "Lapsi siepattiin aivan koulun ulkopuolella."],
 };

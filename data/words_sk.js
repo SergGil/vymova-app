@@ -1,14 +1,14 @@
 // Vymova — Slovak translations (subset)
 // Format: "english_word": ["sk_translation","sk_example_sentence"]
 export const W_SK = {
-  "hello": ["ahoj", "Ahoj! Teší ma, že ťa spoznávam."],
-  "water": ["voda", "Každé ráno pijem pohár vody."],
-  "house": ["dom", "Bývajú v malom dome."],
-  "eat": ["jesť", "Každý večer jeme spolu."],
-  "good": ["dobrý", "Je to veľmi dobrá učiteľka."],
-  "friend": ["priateľ", "Je to môj najlepší priateľ."],
-  "love": ["milovať", "Veľmi milujem svoju rodinu."],
-  "time": ["čas", "Dnes nemám veľa času."],
-  "day": ["deň", "Dnes je krásny deň."],
-  "family": ["rodina", "Moja rodina je pre mňa veľmi dôležitá."],
+  "a blessing in disguise": ["skryté požehnanie", "Strata tej práce bola v skutočnosti skryté požehnanie — viedla k niečomu lepšiemu."],
+  "a piece of cake": ["hračka", "Skúška bola hračka — dokončil som ju za polovicu času."],
+  "abandon": ["opustiť", "Museli opustiť auto, keď bola cesta zaplavená."],
+  "abandoned": ["opustený", "Opustenú budovu nakoniec zbúralo mesto."],
+  "abash": ["zahanbiť", "Bola zahanbená neočakávanou pozornosťou."],
+  "abate": ["utíchnuť", "Búrka po mnohých dlhých hodinách začala utíchať."],
+  "abbreviate": ["skrátiť", "Slovo 'kilometre' môžeš skrátiť na 'km'."],
+  "abdicate": ["abdikovať", "Kráľ abdikoval v prospech svojho syna."],
+  "abdomen": ["brucho", "Cítil ostrú bolesť v dolnej časti brucha."],
+  "abduct": ["uniesť", "Dieťa bolo unesené priamo pred školou."],
 };
