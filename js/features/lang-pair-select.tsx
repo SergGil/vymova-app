@@ -447,6 +447,13 @@ export function LangPairSelect(): ReactElement {
     persist({ learnLang, knowLang, direction: next });
   }
 
+  // Sorts dropdown entries by their displayed label (langAcc), not the fixed
+  // ALL_LANGS/LEARN_OPTIONS declaration order, so the list reads alphabetically
+  // in whatever language the UI itself is currently shown in.
+  function sortByLabel(codes: LangCode[]): LangCode[] {
+    return [...codes].sort((a, b) => langAcc(a).localeCompare(langAcc(b), getLang()));
+  }
+
   function renderLangOption(l: LangCode): ReactElement {
     return (
       <span className="flagdd-content">
@@ -481,7 +488,7 @@ export function LangPairSelect(): ReactElement {
     <div className="lang-pair-row" style={{ display: 'flex', gap: '8px', marginRight: '4px' }}>
       <FlagDropdown
         value={knowLang}
-        options={ALL_LANGS}
+        options={sortByLabel(ALL_LANGS)}
         renderOption={renderLangOption}
         onChange={onKnowChange}
         ariaLabel={t('langpair.know')}
@@ -489,7 +496,7 @@ export function LangPairSelect(): ReactElement {
       />
       <FlagDropdown
         value={learnLang}
-        options={LEARN_OPTIONS[knowLang]}
+        options={sortByLabel(LEARN_OPTIONS[knowLang])}
         renderOption={renderLangOption}
         onChange={onLearnChange}
         ariaLabel={t('langpair.learn')}
