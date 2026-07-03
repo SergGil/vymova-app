@@ -24,9 +24,8 @@ import {
   joinAsSpectator,
   createAsyncChallenge,
   joinAsyncChallenge,
-  createTournament,
-  joinTournament,
 } from './duel.ts';
+import { createTournament, joinTournament } from './duel-tournament-logic.ts';
 
 function _formatJoinCode(raw: string): string {
   let v = raw.replace(/[^A-Z0-9]/gi, '').toUpperCase();

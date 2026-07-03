@@ -39,10 +39,12 @@ vi.mock('../../js/features/duel.ts', async (importOriginal) => {
     joinAsSpectator,
     createAsyncChallenge,
     joinAsyncChallenge,
-    createTournament,
-    joinTournament,
   };
 });
+vi.mock('../../js/features/duel-tournament-logic.ts', () => ({
+  createTournament,
+  joinTournament,
+}));
 
 vi.mock('../../js/features/duel-leaderboard.tsx', () => ({
   DuelLeaderboard: () => <div data-testid="leaderboard" />,

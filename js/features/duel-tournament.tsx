@@ -4,15 +4,15 @@
 // при кожній зміні (полінг кімнати очікування / турнірного браунзера).
 import type { ReactElement } from 'react';
 import { t } from './i18n.ts';
+import { _getDuelScreen } from './duel.ts';
 import {
   _getTournamentData,
-  _getDuelScreen,
   _onTournStart,
   _onTournCancel,
   _onTournPlay,
   _onTournRejoin,
   type TournRoundVM,
-} from './duel.ts';
+} from './duel-tournament-logic.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { useDuelTournView } from '../../src/duel-async-store.ts';
 import { useDuelRoomState } from '../../src/duel-room-store.ts';

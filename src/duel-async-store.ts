@@ -6,12 +6,8 @@
 // create a fake coupling and cause e.g. duel-result.tsx to re-render on
 // unrelated tournament-bracket updates).
 import { createDomainStore } from './create-domain-store.tsx';
-import type {
-  RoomData,
-  TournamentData,
-  DuelResultData,
-  ResumeSessionVM,
-} from '../js/features/duel.ts';
+import type { RoomData, DuelResultData, ResumeSessionVM } from '../js/features/duel.ts';
+import type { TournamentData } from '../js/features/duel-tournament-logic.ts';
 
 // ── Chat history ──────────────────────────────────────────────
 type ChatMsg = { text: string; isMe: boolean };

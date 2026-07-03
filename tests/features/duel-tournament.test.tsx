@@ -21,8 +21,10 @@ const {
   onTournRejoin: vi.fn(),
 }));
 vi.mock('../../js/features/duel.ts', () => ({
-  _getTournamentData: getTournamentData,
   _getDuelScreen: getDuelScreen,
+}));
+vi.mock('../../js/features/duel-tournament-logic.ts', () => ({
+  _getTournamentData: getTournamentData,
   _onTournStart: onTournStart,
   _onTournCancel: onTournCancel,
   _onTournPlay: onTournPlay,
