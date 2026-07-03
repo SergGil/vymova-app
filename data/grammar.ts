@@ -14331,6 +14331,310 @@ export const GRAMMAR_DE: GrammarCategory[] = [
           },
         ],
       },
+      {
+        id: 'woertfolge-hauptsatz',
+        title: 'Порядок слів у головному реченні — A1',
+        emoji: '📏',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дієслово в головному реченні завжди стоїть на другому місці (правило "Verb-Zweit").',
+            en: { text: 'The verb in a main clause is always in second position (the "verb-second" rule).' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich gehe heute ins Kino.', 'Я йду сьогодні в кіно.'],
+              ['Heute gehe ich ins Kino.', 'Сьогодні я йду в кіно. (дієслово все одно на 2-му місці)'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'woertfolge-nebensatz',
+        title: 'Порядок слів у підрядному реченні — A2',
+        emoji: '📐',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У підрядному реченні дієслово переноситься в кінець.',
+            en: { text: 'In a subordinate clause, the conjugated verb moves to the end.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich weiß, dass er krank ist.', 'Я знаю, що він хворий.'],
+              ['Sie bleibt zu Hause, weil es regnet.', 'Вона залишається вдома, бо йде дощ.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'konjunktionen-koordinierend',
+        title: 'Сурядні сполучники — A2',
+        emoji: '🔗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Сурядні сполучники (und, aber, oder, denn, sondern) не змінюють порядок слів у реченні.',
+            en: { text: 'Coordinating conjunctions (und, aber, oder, denn, sondern) do not change the word order.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich koche, und er deckt den Tisch.', 'Я готую, а він накриває на стіл.'],
+              ['Sie ist müde, aber sie arbeitet weiter.', 'Вона втомлена, але продовжує працювати.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'konjunktionen-subordinierend',
+        title: 'Підрядні сполучники — B1',
+        emoji: '🧷',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Підрядні сполучники (weil, dass, obwohl, wenn, als) відправляють дієслово в кінець речення.',
+            en: { text: 'Subordinating conjunctions (weil, dass, obwohl, wenn, als) send the verb to the end of the clause.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Obwohl es regnet, gehen wir spazieren.', 'Хоча йде дощ, ми йдемо на прогулянку.'],
+              ['Als ich klein war, wohnte ich in Kyjiw.', 'Коли я був маленьким, я жив у Києві.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'relativsaetze',
+        title: 'Відносні речення — B1',
+        emoji: '🔁',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Відносні займенники (der, die, das) вводять підрядні означальні речення й узгоджуються з іменником у роді/числі, а відмінок беруть із власної ролі в реченні.',
+            en: { text: 'Relative pronouns (der, die, das) introduce relative clauses, agreeing in gender/number with the noun, and taking their case from their role in the clause.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Der Mann, der dort steht, ist mein Lehrer.', 'Чоловік, що там стоїть, — мій вчитель.'],
+              ['Das ist die Frau, die ich gestern getroffen habe.', 'Це жінка, яку я зустрів учора.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'fragewoerter',
+        title: 'Питальні слова — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питальні слова (wer, was, wo, wann, warum, wie) ставляться на перше місце в реченні, дієслово — на друге.',
+            en: { text: 'Question words (wer, was, wo, wann, warum, wie) come first, with the verb in second position.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Wo wohnst du?', 'Де ти живеш?'],
+              ['Warum lernst du Deutsch?', 'Чому ти вчиш німецьку?'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'ja-nein-fragen',
+        title: 'Так/ні питання — A1',
+        emoji: '✋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У загальних питаннях дієслово ставиться на перше місце.',
+            en: { text: 'In yes/no questions, the verb comes first.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Kommst du morgen?', 'Ти прийдеш завтра?'],
+              ['Hast du Zeit?', 'У тебе є час?'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'verneinung',
+        title: 'Заперечення (nicht/kein) — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Kein заперечує іменник з неозначеним артиклем, nicht заперечує дієслово, прикметник чи все речення.',
+            en: { text: 'Kein negates a noun with an indefinite article, nicht negates a verb, adjective, or the whole sentence.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich habe kein Auto.', 'У мене немає машини.'],
+              ['Ich verstehe das nicht.', 'Я цього не розумію.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'reflexivverben',
+        title: 'Зворотні дієслова — A2',
+        emoji: '🪞',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Зворотні дієслова (sich freuen, sich waschen) вживаються зі зворотним займенником, який узгоджується з підметом.',
+            en: { text: 'Reflexive verbs (sich freuen, sich waschen) are used with a reflexive pronoun that agrees with the subject.' },
+          },
+          {
+            type: 'table',
+            title: 'Зворотні займенники (Akkusativ)',
+            rows: [
+              ['ich', 'mich'],
+              ['du', 'dich'],
+              ['er/sie/es', 'sich'],
+              ['wir', 'uns'],
+              ['ihr', 'euch'],
+              ['sie/Sie', 'sich'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich freue mich auf die Ferien.', 'Я тішуся з приводу канікул.'],
+              ['Er wäscht sich jeden Morgen.', 'Він миється щоранку.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'trennbare-verben-intro',
+        title: 'Відокремлювані префікси дієслів — A2',
+        emoji: '✂️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Деякі префікси (an-, auf-, aus-, mit-, weg-...) відокремлюються від дієслова і йдуть у кінець речення в Präsens/Präteritum.',
+            en: { text: 'Some prefixes (an-, auf-, aus-, mit-, weg-...) separate from the verb and move to the end of the sentence in Präsens/Präteritum.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich stehe um sieben Uhr auf.', 'Я встаю о сьомій годині.'],
+              ['Er ruft mich später an.', 'Він зателефонує мені пізніше.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'untrennbare-verben',
+        title: 'Невідокремлювані префікси дієслів — B1',
+        emoji: '🔒',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Префікси be-, ge-, er-, ver-, zer-, ent-, emp-, miss- ніколи не відокремлюються від дієслова.',
+            en: { text: 'The prefixes be-, ge-, er-, ver-, zer-, ent-, emp-, miss- never separate from the verb.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Sie verstehen den Text.', 'Вони розуміють текст.'],
+              ['Ich besuche meine Oma.', 'Я відвідую бабусю.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'nomen-plural',
+        title: 'Множина іменників — A1',
+        emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Множина в німецькій утворюється по-різному: -e, -er, -(e)n, -s, або без закінчення. Її потрібно запам\'ятовувати разом зі словом.',
+            en: { text: 'German plurals form in several ways: -e, -er, -(e)n, -s, or no ending. They must be memorised with the word.' },
+          },
+          {
+            type: 'table',
+            title: 'Приклади типів множини',
+            rows: [
+              ['der Tisch → die Tische', '-e'],
+              ['das Kind → die Kinder', '-er'],
+              ['die Frau → die Frauen', '-en'],
+              ['das Auto → die Autos', '-s'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich habe zwei Bücher.', 'У мене дві книги.'],
+              ['Die Kinder spielen im Garten.', 'Діти грають у саду.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'nomen-genus',
+        title: 'Рід іменників — A1',
+        emoji: '⚧️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Рід іменника не завжди передбачуваний, але є кілька корисних правил за закінченням слова.',
+            en: { text: 'Noun gender is not always predictable, but there are several useful rules based on word endings.' },
+          },
+          {
+            type: 'table',
+            title: 'Корисні підказки',
+            rows: [
+              ['-ung, -heit, -keit, -schaft → жіночий', 'die Zeitung, die Freiheit'],
+              ['-chen, -lein → середній', 'das Mädchen'],
+              ['-er (люди) → чоловічий', 'der Lehrer'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['die Freiheit ist wichtig.', 'Свобода важлива.'],
+              ['Das Mädchen liest ein Buch.', 'Дівчинка читає книгу.'],
+            ],
+          },
+        ],
+      },
     ],
   },
 ];
