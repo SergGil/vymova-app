@@ -25,6 +25,7 @@ import {
   jaEntry,
   trEntry,
   nlEntry,
+  viEntry,
 } from '../features/mode-utils.ts';
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 
@@ -62,6 +63,8 @@ function getLangWord(w: WordEntry, lang: string): string {
       return trEntry(w[0])?.[0] ?? '';
     case 'nl':
       return nlEntry(w[0])?.[0] ?? '';
+    case 'vi':
+      return viEntry(w[0])?.[0] ?? '';
     default:
       return w[0];
   }
@@ -97,6 +100,8 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return trEntry(w[0])?.[1] ?? '';
     case 'nl':
       return nlEntry(w[0])?.[1] ?? '';
+    case 'vi':
+      return viEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }

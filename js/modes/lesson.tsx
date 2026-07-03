@@ -26,6 +26,7 @@ import {
   jaEntry,
   trEntry,
   nlEntry,
+  viEntry,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 
@@ -65,6 +66,8 @@ function getWordInLang(w: WordEntry, lang: string): string {
       return trEntry(w[0])?.[0] ?? '';
     case 'nl':
       return nlEntry(w[0])?.[0] ?? '';
+    case 'vi':
+      return viEntry(w[0])?.[0] ?? '';
     default:
       return w[0];
   }

@@ -23,6 +23,7 @@ import {
   jaEntry,
   trEntry,
   nlEntry,
+  viEntry,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import type { WordEntry } from '../../src/types.js';
@@ -70,6 +71,8 @@ function getWordInLang(w: WordEntry, lang: string): string {
       return trEntry(w[0])?.[0] ?? '';
     case 'nl':
       return nlEntry(w[0])?.[0] ?? '';
+    case 'vi':
+      return viEntry(w[0])?.[0] ?? '';
     default:
       return w[0];
   }
@@ -136,6 +139,10 @@ function getWrongOptions(correctWord: WordEntry, answer: string, backLang: strin
       opt = e[0];
     } else if (backLang === 'NL') {
       const e = nlEntry(w[0]);
+      if (!e) continue;
+      opt = e[0];
+    } else if (backLang === 'VI') {
+      const e = viEntry(w[0]);
       if (!e) continue;
       opt = e[0];
     } else {

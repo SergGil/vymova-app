@@ -15,6 +15,7 @@ import {
   loadKnownJa,
   loadKnownTr,
   loadKnownNl,
+  loadKnownVi,
   loadSRS,
 } from './core/storage.ts';
 import { W } from '../data/words.js';
@@ -63,6 +64,7 @@ setKnownWords('el', loadKnownEl());
 setKnownWords('ja', loadKnownJa());
 setKnownWords('tr', loadKnownTr());
 setKnownWords('nl', loadKnownNl());
+setKnownWords('vi', loadKnownVi());
 
 setBaseWords(W.slice() as unknown as WordEntry[]);
 
