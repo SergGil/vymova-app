@@ -4236,6 +4236,956 @@ export const VIETNAMESE_IDIOMS: Idiom[] = [
   },
 ];
 
+export const HINDI_IDIOMS: Idiom[] = [
+  {
+    emoji: '🏃',
+    phrase: 'नौ दो ग्यारह होना',
+    meaning: 'Швидко втекти, дати драла',
+    exampleSrc: 'चोर पुलिस को देखकर नौ दो ग्यारह हो गया।',
+    exampleTr: 'Злодій, побачивши поліцію, дав драла.',
+  },
+  {
+    emoji: '🌫️',
+    phrase: 'आँखों में धूल झोंकना',
+    meaning: 'Обманювати, пускати пилюку в очі',
+    exampleSrc: 'उसने ग्राहकों की आँखों में धूल झोंककर नकली सामान बेच दिया।',
+    exampleTr: 'Він обдурив клієнтів і продав підробний товар.',
+  },
+  {
+    emoji: '😫',
+    phrase: 'नानी याद आना',
+    meaning: 'Дуже намучитися, потрапити в скруту',
+    exampleSrc: 'इतनी गर्मी में काम करते हुए मुझे नानी याद आ गई।',
+    exampleTr: 'Працюючи в таку спеку, я натерпівся до сліз.',
+  },
+  {
+    emoji: '🔄',
+    phrase: 'उल्टी गंगा बहाना',
+    meaning: 'Робити щось всупереч логіці чи звичаю',
+    exampleSrc: 'वह हमेशा उल्टी गंगा बहाने की कोशिश करता है।',
+    exampleTr: 'Він завжди намагається зробити все навпаки, проти правил.',
+  },
+  {
+    emoji: '⚫',
+    phrase: 'दाल में कुछ काला होना',
+    meaning: 'Щось підозріле відбувається',
+    exampleSrc: 'इस मामले में दाल में कुछ काला जरूर है।',
+    exampleTr: 'У цій справі точно щось нечисто.',
+  },
+];
+
+export const BENGALI_IDIOMS: Idiom[] = [
+  {
+    emoji: '😲',
+    phrase: 'আকাশ থেকে পড়া',
+    meaning: 'Бути дуже здивованим/шокованим',
+    exampleSrc: 'খবরটা শুনে আমি আকাশ থেকে পড়লাম।',
+    exampleTr: 'Почувши новину, я був вкрай приголомшений.',
+  },
+  {
+    emoji: '⚡',
+    phrase: 'মাথায় বাজ পড়া',
+    meaning: 'Бути враженим поганою новиною',
+    exampleSrc: 'পরীক্ষার ফলাফল শুনে তার মাথায় যেন বাজ পড়ল।',
+    exampleTr: 'Почувши результати іспиту, він був наче громом уражений.',
+  },
+  {
+    emoji: '💸',
+    phrase: 'নয়-ছয় করা',
+    meaning: 'Марнувати, розтринькувати (гроші)',
+    exampleSrc: 'সে সব টাকা নয়-ছয় করে ফেলল।',
+    exampleTr: 'Він розтринькав усі гроші.',
+  },
+  {
+    emoji: '👁️',
+    phrase: 'চোখের বালি',
+    meaning: 'Хтось дуже неприємний, як більмо на оці',
+    exampleSrc: 'সে আমার চোখের বালি হয়ে উঠেছে।',
+    exampleTr: 'Він став для мене більмом на оці.',
+  },
+  {
+    emoji: '🥚',
+    phrase: 'ঘোড়ার ডিম',
+    meaning: 'Щось абсолютно марне чи неіснуюче',
+    exampleSrc: 'তার পরিকল্পনাটা আসলে ঘোড়ার ডিম।',
+    exampleTr: 'Його план насправді нічого не вартий.',
+  },
+];
+
+export const INDONESIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🖐️',
+    phrase: 'Panjang tangan',
+    meaning: 'Схильний до крадіжки, нечистий на руку',
+    exampleSrc: 'Hati-hati, dia terkenal panjang tangan di kantor ini.',
+    exampleTr: 'Обережно, він відомий тим, що на руку нечистий у цьому офісі.',
+  },
+  {
+    emoji: '💬',
+    phrase: 'Buah bibir',
+    meaning: 'Стати предметом обговорень/пліток',
+    exampleSrc: 'Skandal itu menjadi buah bibir seluruh kota.',
+    exampleTr: 'Той скандал став темою пліток усього міста.',
+  },
+  {
+    emoji: '🎈',
+    phrase: 'Besar kepala',
+    meaning: 'Зазнаватися, ставати зарозумілим',
+    exampleSrc: 'Jangan besar kepala hanya karena satu kemenangan.',
+    exampleTr: 'Не зазнавайся через одну перемогу.',
+  },
+  {
+    emoji: '📚',
+    phrase: 'Kutu buku',
+    meaning: "Книжковий черв'як, той, хто любить читати",
+    exampleSrc: 'Adikku memang kutu buku sejak kecil.',
+    exampleTr: "Мій молодший брат — книжковий черв'як з дитинства.",
+  },
+  {
+    emoji: '🍃',
+    phrase: 'Naik daun',
+    meaning: 'Ставати популярним, підійматися вгору кар\'єрою',
+    exampleSrc: 'Aktor itu sedang naik daun tahun ini.',
+    exampleTr: 'Цей актор цього року на злеті популярності.',
+  },
+];
+
+export const NIGERIAN_PIDGIN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐒',
+    phrase: 'Monkey dey work, baboon dey chop',
+    meaning: 'Одні працюють, а вигоду отримують інші (несправедливість)',
+    exampleSrc: 'For dis kontri, monkey dey work, baboon dey chop.',
+    exampleTr: 'У цій країні одні працюють, а плоди пожинають інші.',
+  },
+  {
+    emoji: '🦐',
+    phrase: 'Na condition make crayfish bend',
+    meaning: 'Обставини змушують людину пристосовуватися',
+    exampleSrc: 'No vex, na condition make crayfish bend.',
+    exampleTr: 'Не гнівайся, обставини змушують пристосовуватись.',
+  },
+  {
+    emoji: '🙅',
+    phrase: 'No wahala',
+    meaning: 'Немає проблем, все гаразд',
+    exampleSrc: 'You fit come late, no wahala.',
+    exampleTr: 'Можеш прийти пізніше, без проблем.',
+  },
+  {
+    emoji: '🛑',
+    phrase: 'E don do',
+    meaning: 'Досить, вже достатньо',
+    exampleSrc: 'Abeg, e don do — make we go house.',
+    exampleTr: 'Досить уже, ходімо додому.',
+  },
+  {
+    emoji: '🏁',
+    phrase: 'Carry last',
+    meaning: 'Бути останнім, програти',
+    exampleSrc: 'If you no hurry, you go carry last.',
+    exampleTr: 'Якщо не поквапишся, будеш останнім/програєш.',
+  },
+];
+
+export const KOREAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🤲',
+    phrase: '손이 크다',
+    meaning: 'Щедрий, схильний давати/витрачати багато',
+    exampleSrc: '우리 어머니는 손이 커서 항상 음식을 많이 만드세요.',
+    exampleTr: 'Моя мама дуже щедра — завжди готує багато їжі.',
+  },
+  {
+    emoji: '👣',
+    phrase: '발이 넓다',
+    meaning: 'Мати широке коло знайомств',
+    exampleSrc: '그는 발이 넓어서 아는 사람이 정말 많다.',
+    exampleTr: 'У нього широке коло знайомств, він знає дуже багатьох людей.',
+  },
+  {
+    emoji: '🥬',
+    phrase: '김칫국부터 마시다',
+    meaning: 'Радіти чи розраховувати на щось завчасно',
+    exampleSrc: '합격도 안 했는데 김칫국부터 마시지 마.',
+    exampleTr: 'Ти ще не склав іспит, не радій завчасно.',
+  },
+  {
+    emoji: '🌿',
+    phrase: '미역국을 먹다',
+    meaning: 'Провалитися (на іспиті)',
+    exampleSrc: '그는 이번 시험에서 미역국을 먹었다.',
+    exampleTr: 'Він провалив цей іспит.',
+  },
+  {
+    emoji: '🔥',
+    phrase: '발등에 불이 떨어지다',
+    meaning: 'Опинитися в терміновій, критичній ситуації',
+    exampleSrc: '마감이 내일이라 발등에 불이 떨어졌다.',
+    exampleTr: 'Дедлайн завтра, тож справа стала нагальною.',
+  },
+];
+
+export const PERSIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '💭',
+    phrase: 'سر به هوا',
+    meaning: 'Неуважний, розсіяний',
+    exampleSrc: 'او خیلی سر به هواست و همیشه چیزی را فراموش می‌کند.',
+    exampleTr: 'Він дуже неуважний і завжди щось забуває.',
+  },
+  {
+    emoji: '🌊',
+    phrase: 'دل به دریا زدن',
+    meaning: 'Ризикнути, зважитися на щось важливе',
+    exampleSrc: 'بالاخره دل به دریا زد و شغلش را عوض کرد.',
+    exampleTr: 'Врешті він зважився на ризик і змінив роботу.',
+  },
+  {
+    emoji: '🆘',
+    phrase: 'آب از سرش گذشته',
+    meaning: 'Ситуація стала безнадійною',
+    exampleSrc: 'دیگر کاری نمی‌شود کرد، آب از سرش گذشته.',
+    exampleTr: 'Уже нічого не вдієш, ситуація безнадійна.',
+  },
+  {
+    emoji: '💔',
+    phrase: 'خون به دل کردن',
+    meaning: 'Завдавати комусь великого страждання',
+    exampleSrc: 'بچه‌هایش خیلی خون به دلش کردند.',
+    exampleTr: 'Її діти завдали їй великого горя.',
+  },
+  {
+    emoji: '🧂',
+    phrase: 'دستش نمک نداره',
+    meaning: 'Бути неприємним, нехаризматичним',
+    exampleSrc: 'با او کار کردن سخت است، دستش نمک نداره.',
+    exampleTr: 'З ним важко працювати, він зовсім не приємний у спілкуванні.',
+  },
+];
+
+export const SWAHILI_IDIOMS: Idiom[] = [
+  {
+    emoji: '⏳',
+    phrase: 'Haraka haraka haina baraka',
+    meaning: 'Поспіх не до добра',
+    exampleSrc: 'Haraka haraka haina baraka, fanya kazi yako polepole.',
+    exampleTr: 'Поспіх не приносить благодаті, роби свою роботу повільно.',
+  },
+  {
+    emoji: '🪓',
+    phrase: 'Mchagua jembe si mkulima',
+    meaning: 'Хто надто перебірливий, той нічого не досягає',
+    exampleSrc: 'Usiwe mchagua jembe si mkulima, chukua kazi yoyote.',
+    exampleTr: 'Не будь надто перебірливим, візьми будь-яку роботу.',
+  },
+  {
+    emoji: '🐢',
+    phrase: 'Polepole ndio mwendo',
+    meaning: 'Повільно та впевнено — правильний шлях',
+    exampleSrc: 'Polepole ndio mwendo, hakuna haja ya kukimbia.',
+    exampleTr: 'Повільно, але вірно — немає потреби бігти.',
+  },
+  {
+    emoji: '🛏️',
+    phrase: 'Mtaka cha mvunguni sharti ainame',
+    meaning: 'Без зусиль нічого не досягнеш',
+    exampleSrc: 'Mtaka cha mvunguni sharti ainame, hakuna kitu bila jitihada.',
+    exampleTr: 'Хто хоче те, що під ліжком, мусить нахилитися — нічого не дається без зусиль.',
+  },
+  {
+    emoji: '🌍',
+    phrase: 'Asiyefunzwa na mamaye hufunzwa na ulimwengu',
+    meaning: 'Хто не вчиться від батьків, того навчить життя',
+    exampleSrc: 'Kijana yule hakusikiliza wazazi, sasa asiyefunzwa na mamaye hufunzwa na ulimwengu.',
+    exampleTr: 'Той юнак не слухав батьків, тепер його вчить життя.',
+  },
+];
+
+export const MALAY_IDIOMS: Idiom[] = [
+  {
+    emoji: '🎍',
+    phrase: 'Bagai aur dengan tebing',
+    meaning: 'Тісна взаємозалежність, взаємна підтримка',
+    exampleSrc: 'Mereka bekerjasama bagai aur dengan tebing.',
+    exampleTr: 'Вони співпрацюють у повній взаємозалежності.',
+  },
+  {
+    emoji: '⚖️',
+    phrase: 'Berat sama dipikul, ringan sama dijinjing',
+    meaning: 'Ділити тягар і радощі разом',
+    exampleSrc: 'Sebagai keluarga, berat sama dipikul, ringan sama dijinjing.',
+    exampleTr: 'Як родина, ми ділимо і тягар, і радість порівну.',
+  },
+  {
+    emoji: '🐊',
+    phrase: 'Air tenang jangan disangka tiada buaya',
+    meaning: 'Не недооцінюй тихих/спокійних людей',
+    exampleSrc: 'Jangan remehkan dia, air tenang jangan disangka tiada buaya.',
+    exampleTr: 'Не недооцінюй його — тиха вода теж буває з крокодилами.',
+  },
+  {
+    emoji: '🐸',
+    phrase: 'Bagai katak di bawah tempurung',
+    meaning: 'Мати вузький світогляд',
+    exampleSrc: 'Jangan jadi bagai katak di bawah tempurung, lihatlah dunia luar.',
+    exampleTr: 'Не будь як жаба під шкаралупою кокоса — дивись на світ ширше.',
+  },
+  {
+    emoji: '🚶',
+    phrase: 'Melepaskan batuk di tangga',
+    meaning: 'Робити щось абияк, для галочки',
+    exampleSrc: 'Dia hanya melepaskan batuk di tangga, kerjanya tidak sempurna.',
+    exampleTr: 'Він зробив усе абияк, робота не завершена як слід.',
+  },
+];
+
+export const THAI_IDIOMS: Idiom[] = [
+  {
+    emoji: '🙏',
+    phrase: 'ปิดทองหลังพระ',
+    meaning: 'Робити добро без бажання визнання',
+    exampleSrc: 'เขาชอบปิดทองหลังพระ ไม่เคยอยากให้ใครรู้ว่าเขาช่วยเหลือ',
+    exampleTr: 'Він любить робити добро непомітно, не бажаючи визнання.',
+  },
+  {
+    emoji: '🦎',
+    phrase: 'กิ้งก่าได้ทอง',
+    meaning: 'Загордитися після дрібного успіху',
+    exampleSrc: 'พอได้เลื่อนตำแหน่งนิดหน่อยก็ทำตัวเป็นกิ้งก่าได้ทอง',
+    exampleTr: 'Отримавши невелике підвищення, він одразу загордився.',
+  },
+  {
+    emoji: '💰',
+    phrase: 'ชักหน้าไม่ถึงหลัง',
+    meaning: 'Жити від зарплати до зарплати, ледве зводити кінці з кінцями',
+    exampleSrc: 'เดือนนี้เงินเดือนชักหน้าไม่ถึงหลังอีกแล้ว',
+    exampleTr: 'Цього місяця грошей знову ледве вистачає до зарплати.',
+  },
+  {
+    emoji: '🐔',
+    phrase: 'ไก่งามเพราะขน คนงามเพราะแต่ง',
+    meaning: 'Зовнішній вигляд прикрашає завдяки одягу/оздобленню',
+    exampleSrc: 'ไก่งามเพราะขน คนงามเพราะแต่ง แต่งตัวดีก็ดูดีขึ้น',
+    exampleTr: 'Курка гарна пір\'ям, людина — вбранням: гарний одяг покращує вигляд.',
+  },
+  {
+    emoji: '💧',
+    phrase: 'น้ำท่วมปาก',
+    meaning: 'Не могти висловитися через обставини',
+    exampleSrc: 'เขารู้ความจริงแต่พูดไม่ออกเพราะน้ำท่วมปาก',
+    exampleTr: 'Він знав правду, але не міг сказати через обставини.',
+  },
+];
+
+export const AZERBAIJANI_IDIOMS: Idiom[] = [
+  {
+    emoji: '⛰️',
+    phrase: 'Dağ dağa rast gəlməz, insan insana rast gələr',
+    meaning: 'Люди завжди можуть знову зустрітися',
+    exampleSrc: 'Narahat olma, dağ dağa rast gəlməz, insan insana rast gələr.',
+    exampleTr: 'Не хвилюйся, гора з горою не сходиться, а людина з людиною зустрінеться.',
+  },
+  {
+    emoji: '🍯',
+    phrase: 'Ağzından bal axır',
+    meaning: 'Говорити дуже улесливо/солодко',
+    exampleSrc: 'Ehtiyatlı ol, onun ağzından bal axır amma niyyəti başqadır.',
+    exampleTr: 'Будь обережним, він говорить дуже солодко, але має інші наміри.',
+  },
+  {
+    emoji: '🐇',
+    phrase: 'İki dovşanı bir güllə ilə vurmaq',
+    meaning: 'Досягти двох цілей одночасно',
+    exampleSrc: 'Bu layihə ilə iki dovşanı bir güllə ilə vurduq.',
+    exampleTr: 'Цим проєктом ми вбили двох зайців одним пострілом.',
+  },
+  {
+    emoji: '🍉',
+    phrase: 'Bir əldə iki qarpız tutmaq olmaz',
+    meaning: 'Неможливо робити дві великі справи одночасно',
+    exampleSrc: 'Bir əldə iki qarpız tutmaq olmaz, bir işi seç.',
+    exampleTr: 'Не можна тримати два кавуни в одній руці — обери одну справу.',
+  },
+  {
+    emoji: '🌧️',
+    phrase: 'Yağış yağanda küpünü tut',
+    meaning: 'Скористатися нагодою, коли вона трапляється',
+    exampleSrc: 'Fürsət gələndə yağış yağanda küpünü tut.',
+    exampleTr: 'Коли трапляється нагода, лови її, як дощову воду глечиком.',
+  },
+];
+
+export const ROMANIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🌿',
+    phrase: 'A freca menta',
+    meaning: 'Байдикувати, ледарювати',
+    exampleSrc: 'În loc să muncească, el freacă menta toată ziua.',
+    exampleTr: 'Замість того, щоб працювати, він байдикує цілий день.',
+  },
+  {
+    emoji: '🐕',
+    phrase: 'A tăia frunză la câini',
+    meaning: 'Марнувати час на щось непотрібне',
+    exampleSrc: 'Nu mai tăia frunză la câini, ai treabă de făcut.',
+    exampleTr: 'Не марнуй час на дурниці, у тебе є справи.',
+  },
+  {
+    emoji: '🪰',
+    phrase: 'A avea musca pe căciulă',
+    meaning: 'Мати нечисте сумління',
+    exampleSrc: 'Se simte vinovat, parcă are musca pe căciulă.',
+    exampleTr: 'Він почувається винним, наче має нечисте сумління.',
+  },
+  {
+    emoji: '🐾',
+    phrase: 'A da din colț în colț',
+    meaning: 'Ледве зводити кінці з кінцями',
+    exampleSrc: 'De când a pierdut slujba, dă din colț în colț.',
+    exampleTr: 'Відколи він втратив роботу, ледве зводить кінці з кінцями.',
+  },
+  {
+    emoji: '🤝',
+    phrase: 'A lua pe cineva cu binișorul',
+    meaning: 'Тактовно, м\'яко переконувати когось',
+    exampleSrc: 'Mai bine îl iei cu binișorul decât să te cerți cu el.',
+    exampleTr: 'Краще підійти до нього м\'яко/тактовно, ніж сваритися.',
+  },
+];
+
+export const HUNGARIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐖',
+    phrase: 'Kutyából nem lesz szalonna',
+    meaning: 'Людину неможливо докорінно змінити',
+    exampleSrc: 'Hiába próbálod, kutyából nem lesz szalonna.',
+    exampleTr: 'Марно намагаєшся, горбатого могила виправить.',
+  },
+  {
+    emoji: '🦢',
+    phrase: 'Sok lúd disznót győz',
+    meaning: 'У єдності — сила',
+    exampleSrc: 'Egyedül nem megy, de sok lúd disznót győz.',
+    exampleTr: 'Самому не вдасться, але гуртом можна перемогти.',
+  },
+  {
+    emoji: '🍎',
+    phrase: 'Nem esik messze az alma a fájától',
+    meaning: 'Діти схожі на батьків',
+    exampleSrc: 'Ő is ilyen makacs, nem esik messze az alma a fájától.',
+    exampleTr: 'Він теж такий впертий, яблуко від яблуні недалеко падає.',
+  },
+  {
+    emoji: '🕳️',
+    phrase: 'Aki másnak vermet ás, maga esik bele',
+    meaning: 'Зло, вчинене іншим, повертається до кривдника',
+    exampleSrc: 'Vigyázz, aki másnak vermet ás, maga esik bele.',
+    exampleTr: 'Обережно, хто копає яму іншому, сам у неї впаде.',
+  },
+  {
+    emoji: '😢',
+    phrase: 'Egyik szemem sír, a másik nevet',
+    meaning: 'Мати змішані почуття',
+    exampleSrc: 'Egyik szemem sír, a másik nevet ezen a napon.',
+    exampleTr: 'Сьогодні в мене змішані почуття — і сумно, і радісно водночас.',
+  },
+];
+
+export const CZECH_IDIOMS: Idiom[] = [
+  {
+    emoji: '🧈',
+    phrase: 'Mít máslo na hlavě',
+    meaning: 'Мати нечисте сумління',
+    exampleSrc: 'Mlčí, protože má máslo na hlavě.',
+    exampleTr: 'Він мовчить, бо має нечисте сумління.',
+  },
+  {
+    emoji: '🔫',
+    phrase: 'Házet flintu do žita',
+    meaning: 'Здаватися занадто рано',
+    exampleSrc: 'Nesmíš hned házet flintu do žita.',
+    exampleTr: 'Не варто одразу здаватися.',
+  },
+  {
+    emoji: '🍲',
+    phrase: 'Chodit kolem horké kaše',
+    meaning: 'Ходити навколо теми, уникати прямої розмови',
+    exampleSrc: 'Přestaň chodit kolem horké kaše a řekni to přímo.',
+    exampleTr: 'Перестань ходити навколо та скажи прямо.',
+  },
+  {
+    emoji: '🌊',
+    phrase: 'Tichá voda břehy mele',
+    meaning: 'Тихі люди можуть бути найглибшими/найнебезпечнішими',
+    exampleSrc: 'Nepodceňuj ho, tichá voda břehy mele.',
+    exampleTr: 'Не недооцінюй його, тиха вода греблю рве.',
+  },
+  {
+    emoji: '🛢️',
+    phrase: 'Kdo maže, ten jede',
+    meaning: 'Хабар допомагає справам рухатися',
+    exampleSrc: 'V úřadech to platí — kdo maže, ten jede.',
+    exampleTr: 'У державних установах діє правило: хто дає хабаря, той просувається.',
+  },
+];
+
+export const KAZAKH_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐇',
+    phrase: 'Екі қоянды бір оқпен ату',
+    meaning: 'Досягти двох цілей одразу',
+    exampleSrc: 'Бұл шешіммен екі қоянды бір оқпен аттық.',
+    exampleTr: 'Цим рішенням ми вбили двох зайців одним пострілом.',
+  },
+  {
+    emoji: '🗣️',
+    phrase: 'Тіл тас жарады, тас жармаса, бас жарады',
+    meaning: 'Слова можуть бути дуже небезпечними',
+    exampleSrc: 'Абайла, тіл тас жарады, тас жармаса, бас жарады.',
+    exampleTr: 'Обережно зі словами, вони можуть завдати серйозної шкоди.',
+  },
+  {
+    emoji: '🐎',
+    phrase: 'Ат айналып қазығын табады',
+    meaning: 'Людина зрештою повертається до своїх коренів',
+    exampleSrc: 'Қанша жерге кетсе де, ат айналып қазығын табады.',
+    exampleTr: 'Куди б не поїхав, кінь врешті повертається до свого кілка (людина повертається додому).',
+  },
+  {
+    emoji: '💪',
+    phrase: 'Еңбек етсең ерінбей, тояды қарның тіленбей',
+    meaning: 'Наполеглива праця приносить достаток',
+    exampleSrc: 'Еңбек етсең ерінбей, тояды қарның тіленбей дейді халық.',
+    exampleTr: 'Народ каже: хто наполегливо працює, той не голодуватиме.',
+  },
+  {
+    emoji: '🤝',
+    phrase: 'Бірлік бар жерде тірлік бар',
+    meaning: 'У єдності — успіх і процвітання',
+    exampleSrc: 'Бірлік бар жерде тірлік бар, бірге жұмыс істейік.',
+    exampleTr: 'Де є єдність, там є життя — працюймо разом.',
+  },
+];
+
+export const SWEDISH_IDIOMS: Idiom[] = [
+  {
+    emoji: '🍤',
+    phrase: 'Att glida in på en räkmacka',
+    meaning: 'Отримати щось легко, без зусиль',
+    exampleSrc: 'Han fick inte jobbet genom hårt arbete, han gled in på en räkmacka.',
+    exampleTr: 'Він отримав роботу не завдяки праці, а буквально на срібному тарелі.',
+  },
+  {
+    emoji: '🦉',
+    phrase: 'Ana ugglor i mossen',
+    meaning: 'Підозрювати щось нечисте',
+    exampleSrc: 'Jag anar ugglor i mossen med det här avtalet.',
+    exampleTr: 'Мені щось підозріле здається в цій угоді.',
+  },
+  {
+    emoji: '🐄',
+    phrase: 'Det är ingen ko på isen',
+    meaning: 'Немає причин для поспіху/хвилювання',
+    exampleSrc: 'Ta det lugnt, det är ingen ko på isen.',
+    exampleTr: 'Заспокойся, поспішати нікуди.',
+  },
+  {
+    emoji: '🪰',
+    phrase: 'Skjuta två flugor i en smäll',
+    meaning: 'Досягти двох цілей одночасно',
+    exampleSrc: 'Med den här lösningen sköt vi två flugor i en smäll.',
+    exampleTr: 'Цим рішенням ми вбили двох зайців одним пострілом.',
+  },
+  {
+    emoji: '❤️',
+    phrase: 'Ha hjärtat på rätta stället',
+    meaning: 'Бути доброю людиною попри зовнішню суворість',
+    exampleSrc: 'Hon är sträng men har hjärtat på rätta stället.',
+    exampleTr: 'Вона сувора, але має добре серце.',
+  },
+];
+
+export const GEORGIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐟',
+    phrase: 'თევზი თავიდან ყროლდება',
+    meaning: 'Проблема (корупція) починається з керівництва',
+    exampleSrc: 'კორუფცია ყოველთვის თევზი თავიდან ყროლდება.',
+    exampleTr: 'Корупція завжди починається з голови (з керівництва).',
+  },
+  {
+    emoji: '⛰️',
+    phrase: 'მთას მთა არ ეახლება, კაცი კაცს ეახლება',
+    meaning: 'Люди завжди можуть знову зустрітися',
+    exampleSrc: 'ნუ წუხარ, მთას მთა არ ეახლება, კაცი კაცს ეახლება.',
+    exampleTr: 'Не сумуй, гора з горою не сходиться, а людина з людиною зустрінеться.',
+  },
+  {
+    emoji: '🤐',
+    phrase: 'პირში წყალი ჩაიგუბა',
+    meaning: 'Мовчати, тримати язика за зубами',
+    exampleSrc: 'ის ისე იჯდა, თითქოს პირში წყალი ჩაეგუბა.',
+    exampleTr: 'Він сидів так, наче набрав води в рот — мовчав.',
+  },
+  {
+    emoji: '🤝',
+    phrase: 'ერთი ხელი მეორეს ბანავს',
+    meaning: 'Взаємна допомога',
+    exampleSrc: 'ჩვენ ერთმანეთს ვეხმარებით, ერთი ხელი მეორეს ბანავს.',
+    exampleTr: 'Ми допомагаємо одне одному — рука руку миє.',
+  },
+  {
+    emoji: '🐎',
+    phrase: 'ცხენს ჭენებაში შეხედე',
+    meaning: 'Оцінювати людину за її діями, а не словами',
+    exampleSrc: 'ცხენს ჭენებაში შეხედე — საქმეებით შეაფასე ადამიანი.',
+    exampleTr: 'Оцінюй коня в галопі — суди про людину за її вчинками.',
+  },
+];
+
+export const CROATIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🔫',
+    phrase: 'Baciti pušku u trnje',
+    meaning: 'Здатися, відмовитися від боротьби',
+    exampleSrc: 'Ne smiješ tako lako baciti pušku u trnje.',
+    exampleTr: 'Не можна так легко здаватися.',
+  },
+  {
+    emoji: '🐦',
+    phrase: 'Tko rano rani, dvije sreće grabi',
+    meaning: 'Хто рано встає, того чекає успіх',
+    exampleSrc: 'Tko rano rani, dvije sreće grabi, zato ustajem u šest.',
+    exampleTr: 'Хто рано встає, тому щастя двічі всміхається, тому я встаю о шостій.',
+  },
+  {
+    emoji: '🐺',
+    phrase: 'Vuk dlaku mijenja, ali ćud nikada',
+    meaning: 'Людина не змінює своєї суті',
+    exampleSrc: 'Pazi na njega, vuk dlaku mijenja, ali ćud nikada.',
+    exampleTr: 'Стережись його, вовк міняє шерсть, але не норов.',
+  },
+  {
+    emoji: '🃏',
+    phrase: 'Doći kao kec na desetku',
+    meaning: 'Трапитися в найпотрібніший момент',
+    exampleSrc: 'Njegova pomoć je došla kao kec na desetku.',
+    exampleTr: 'Його допомога прийшла якраз вчасно, як туз на десятку.',
+  },
+  {
+    emoji: '🐭',
+    phrase: 'Tresla se brda, rodio se miš',
+    meaning: 'Багато галасу даремно',
+    exampleSrc: 'Puno najave, a na kraju: tresla se brda, rodio se miš.',
+    exampleTr: 'Багато анонсів, а зрештою — гора народила мишу.',
+  },
+];
+
+export const SERBIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐭',
+    phrase: 'Тресла се брда, родио се миш',
+    meaning: 'Багато галасу даремно',
+    exampleSrc: 'Толико najave, а на крају: тресла се брда, родио се миш.',
+    exampleTr: 'Стільки анонсів, а зрештою — гора народила мишу.',
+  },
+  {
+    emoji: '🐺',
+    phrase: 'Вук длаку мења, али ћуд никада',
+    meaning: 'Людина не змінює своєї суті',
+    exampleSrc: 'Пази на њега, вук длаку мења, али ћуд никада.',
+    exampleTr: 'Стережись його, вовк міняє шерсть, але не норов.',
+  },
+  {
+    emoji: '🐦',
+    phrase: 'Ко рано рани, две среће граби',
+    meaning: 'Хто рано встає, того чекає успіх',
+    exampleSrc: 'Ко рано рани, две среће граби, зато устајем рано.',
+    exampleTr: 'Хто рано встає, тому щастя двічі всміхається, тому я рано прокидаюсь.',
+  },
+  {
+    emoji: '🔫',
+    phrase: 'Бацити пушку у трње',
+    meaning: 'Здатися, відмовитися від боротьби',
+    exampleSrc: 'Не смеш тако лако бацити пушку у трње.',
+    exampleTr: 'Не можна так легко здаватися.',
+  },
+  {
+    emoji: '🕳️',
+    phrase: 'Ко другом јаму копа, сам у њу упада',
+    meaning: 'Зло, вчинене іншим, повертається до кривдника',
+    exampleSrc: 'Пази, ко другом јаму копа, сам у њу упада.',
+    exampleTr: 'Обережно, хто копає яму іншому, сам у неї впаде.',
+  },
+];
+
+export const BOSNIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐦',
+    phrase: 'Ko rano rani, dvije sreće grabi',
+    meaning: 'Хто рано встає, того чекає успіх',
+    exampleSrc: 'Ko rano rani, dvije sreće grabi, zato ustajem rano ujutro.',
+    exampleTr: 'Хто рано встає, тому щастя двічі всміхається, тому я рано встаю.',
+  },
+  {
+    emoji: '🐺',
+    phrase: 'Vuk dlaku mijenja, ali ćud nikada',
+    meaning: 'Людина не змінює своєї суті',
+    exampleSrc: 'Pazi na njega, vuk dlaku mijenja, ali ćud nikada.',
+    exampleTr: 'Стережись його, вовк міняє шерсть, але не норов.',
+  },
+  {
+    emoji: '🐭',
+    phrase: 'Tresla se brda, rodio se miš',
+    meaning: 'Багато галасу даремно',
+    exampleSrc: 'Toliko najave, a na kraju: tresla se brda, rodio se miš.',
+    exampleTr: 'Стільки анонсів, а зрештою — гора народила мишу.',
+  },
+  {
+    emoji: '🔫',
+    phrase: 'Baciti pušku u trnje',
+    meaning: 'Здатися, відмовитися від боротьби',
+    exampleSrc: 'Ne smiješ tako lako baciti pušku u trnje.',
+    exampleTr: 'Не можна так легко здаватися.',
+  },
+  {
+    emoji: '🕳️',
+    phrase: 'Ko drugom jamu kopa, sam u nju upada',
+    meaning: 'Зло, вчинене іншим, повертається до кривдника',
+    exampleSrc: 'Pazi, ko drugom jamu kopa, sam u nju upada.',
+    exampleTr: 'Обережно, хто копає яму іншому, сам у неї впаде.',
+  },
+];
+
+export const BULGARIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🕳️',
+    phrase: 'Който копае гроб другиму, сам пада в него',
+    meaning: 'Зло, вчинене іншим, повертається до кривдника',
+    exampleSrc: 'Внимавай, който копае гроб другиму, сам пада в него.',
+    exampleTr: 'Обережно, хто копає яму іншому, сам у неї впаде.',
+  },
+  {
+    emoji: '🐕',
+    phrase: 'Кучето лае, керванът си върви',
+    meaning: 'Ігноруй критиків і продовжуй свою справу',
+    exampleSrc: 'Не обръщай внимание, кучето лае, керванът си върви.',
+    exampleTr: 'Не звертай уваги, собака гавкає, а караван іде далі.',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'Всяко зло за добро',
+    meaning: 'У кожній поганій ситуації є щось добре',
+    exampleSrc: 'Не се притеснявай, всяко зло за добро.',
+    exampleTr: 'Не хвилюйся, немає лиха без добра.',
+  },
+  {
+    emoji: '🐔',
+    phrase: 'Гладна кокошка просо сънува',
+    meaning: 'Людина мріє про те, чого їй бракує',
+    exampleSrc: 'Гладна кокошка просо сънува — той винаги мисли за пари.',
+    exampleTr: 'Голодна курка просо снить — він завжди думає про гроші.',
+  },
+  {
+    emoji: '🦹',
+    phrase: 'Крадецът вика: дръжте крадеца!',
+    meaning: 'Звинувачувати інших, щоб приховати власну провину',
+    exampleSrc: 'Типично за него — крадецът вика: дръжте крадеца!',
+    exampleTr: 'Типово для нього — злодій кричить: тримайте злодія!',
+  },
+];
+
+export const SLOVAK_IDIOMS: Idiom[] = [
+  {
+    emoji: '🕳️',
+    phrase: 'Kto druhému jamu kope, sám do nej padne',
+    meaning: 'Зло, вчинене іншим, повертається до кривдника',
+    exampleSrc: 'Pozor, kto druhému jamu kope, sám do nej padne.',
+    exampleTr: 'Обережно, хто копає яму іншому, сам у неї впаде.',
+  },
+  {
+    emoji: '🧈',
+    phrase: 'Mať maslo na hlave',
+    meaning: 'Мати нечисте сумління',
+    exampleSrc: 'Mlčí, lebo má maslo na hlave.',
+    exampleTr: 'Він мовчить, бо має нечисте сумління.',
+  },
+  {
+    emoji: '🐦',
+    phrase: 'Ranné vtáča ďalej doskáče',
+    meaning: 'Хто рано встає, того чекає успіх',
+    exampleSrc: 'Ranné vtáča ďalej doskáče, preto vstávam skoro.',
+    exampleTr: 'Рання пташка далі летить, тому я рано встаю.',
+  },
+  {
+    emoji: '🔫',
+    phrase: 'Hádzať flintu do žita',
+    meaning: 'Здаватися занадто рано',
+    exampleSrc: 'Nesmieš hneď hádzať flintu do žita.',
+    exampleTr: 'Не варто одразу здаватися.',
+  },
+  {
+    emoji: '🌊',
+    phrase: 'Tichá voda brehy myje',
+    meaning: 'Тихі люди можуть бути найглибшими/найнебезпечнішими',
+    exampleSrc: 'Nepodceňuj ju, tichá voda brehy myje.',
+    exampleTr: 'Не недооцінюй її, тиха вода греблю рве.',
+  },
+];
+
+export const ARMENIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐍',
+    phrase: 'Մեկ ծակից երկու անգամ չեն խայթի',
+    meaning: 'Обпікшись раз, вдруге бути обережним',
+    exampleSrc: 'Զգույշ եղիր, մեկ ծակից երկու անգամ չեն խայթի։',
+    exampleTr: 'Будь обережний, обпікшись раз, вдруге вже будеш обачним.',
+  },
+  {
+    emoji: '🐦‍⬛',
+    phrase: 'Ագռավը ագռավի աչքը չի հանի',
+    meaning: 'Люди зі свого кола захищають одне одного',
+    exampleSrc: 'Նրանք միշտ պաշտպանում են իրար, ագռավը ագռավի աչքը չի հանի։',
+    exampleTr: 'Вони завжди захищають одне одного, ворон ворону око не виклює.',
+  },
+  {
+    emoji: '🌪️',
+    phrase: 'Ով քամի է ցանում, փոթորիկ է հնձելու',
+    meaning: 'Погані вчинки мають серйозні наслідки',
+    exampleSrc: 'Զգուշացրու նրան, ով քամի է ցանում, փոթորիկ է հնձելու։',
+    exampleTr: 'Попередь його: хто сіє вітер, той пожинає бурю.',
+  },
+  {
+    emoji: '📏',
+    phrase: 'Հարյուր անգամ չափիր, մեկ անգամ կտրիր',
+    meaning: 'Треба ретельно обдумати перед дією',
+    exampleSrc: 'Հարյուր անգամ չափիր, մեկ անգամ կտրիր, նախքան որոշում կայացնես։',
+    exampleTr: 'Сто разів відмір, один раз відріж, перш ніж прийняти рішення.',
+  },
+  {
+    emoji: '🐟',
+    phrase: 'Ձուկը գլխից է հոտում',
+    meaning: 'Проблема починається з керівництва',
+    exampleSrc: 'Կոռուպցիան միշտ ձուկը գլխից է հոտում։',
+    exampleTr: 'Корупція завжди починається з голови (з керівництва).',
+  },
+];
+
+export const DANISH_IDIOMS: Idiom[] = [
+  {
+    emoji: '🦉',
+    phrase: 'Der er ugler i mosen',
+    meaning: 'Щось підозріле відбувається',
+    exampleSrc: 'Der er ugler i mosen med den her aftale.',
+    exampleTr: 'З цією угодою щось нечисто.',
+  },
+  {
+    emoji: '🪰',
+    phrase: 'At slå to fluer med ét smæk',
+    meaning: 'Досягти двох цілей одразу',
+    exampleSrc: 'Med den her løsning slog vi to fluer med ét smæk.',
+    exampleTr: 'Цим рішенням ми вбили двох зайців одним пострілом.',
+  },
+  {
+    emoji: '🏃',
+    phrase: 'At tage benene på nakken',
+    meaning: 'Швидко втекти',
+    exampleSrc: 'Da han så hunden, tog han benene på nakken.',
+    exampleTr: 'Побачивши собаку, він дав драла.',
+  },
+  {
+    emoji: '🐄',
+    phrase: 'Der er ingen ko på isen',
+    meaning: 'Немає причин для поспіху',
+    exampleSrc: 'Tag det roligt, der er ingen ko på isen.',
+    exampleTr: 'Заспокойся, поспішати нікуди.',
+  },
+  {
+    emoji: '🔩',
+    phrase: 'At have en skrue løs',
+    meaning: 'Бути трохи дивакуватим',
+    exampleSrc: 'Han opfører sig underligt, han har vist en skrue løs.',
+    exampleTr: 'Він поводиться дивно, у нього наче гвинтика бракує.',
+  },
+];
+
+export const FINNISH_IDIOMS: Idiom[] = [
+  {
+    emoji: '🛞',
+    phrase: 'Heittää kapuloita rattaisiin',
+    meaning: 'Умисно заважати, саботувати',
+    exampleSrc: 'Hän yritti heittää kapuloita rattaisiin koko projektin ajan.',
+    exampleTr: 'Він увесь час намагався ставити палиці в колеса проєкту.',
+  },
+  {
+    emoji: '😢',
+    phrase: 'Ei auta itku markkinoilla',
+    meaning: 'Скаржитися марно, треба діяти',
+    exampleSrc: 'Ei auta itku markkinoilla, jatketaan eteenpäin.',
+    exampleTr: 'Сльозами горю не допоможеш, рухаймося далі.',
+  },
+  {
+    emoji: '🌲',
+    phrase: 'Kuka kuuseen kurkottaa, se katajaan kapsahtaa',
+    meaning: 'Занадто високі амбіції можуть призвести до провалу',
+    exampleSrc: 'Älä tavoittele liikaa, kuka kuuseen kurkottaa, se katajaan kapsahtaa.',
+    exampleTr: 'Не прагни надто багато — хто тягнеться до ялини, впаде в ялівець.',
+  },
+  {
+    emoji: '💨',
+    phrase: 'Ei savua ilman tulta',
+    meaning: 'У чутках зазвичай є частка правди',
+    exampleSrc: 'Ei savua ilman tulta, siinä huhussa on varmasti totuutta.',
+    exampleTr: 'Диму без вогню не буває, у тій чутці точно є правда.',
+  },
+  {
+    emoji: '🏺',
+    phrase: 'Vanha vara parempi',
+    meaning: 'Краще підготуватися заздалегідь',
+    exampleSrc: 'Osta varasuunnitelma, vanha vara parempi.',
+    exampleTr: 'Купи запасний план, бережене береже.',
+  },
+];
+
+export const NORWEGIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐱',
+    phrase: 'Å gå som katta rundt den varme grøten',
+    meaning: 'Уникати прямої розмови, ходити навколо теми',
+    exampleSrc: 'Slutt å gå som katta rundt den varme grøten og si det rett ut.',
+    exampleTr: 'Перестань ходити навколо та скажи прямо.',
+  },
+  {
+    emoji: '🪰',
+    phrase: 'Å slå to fluer i en smekk',
+    meaning: 'Досягти двох цілей одразу',
+    exampleSrc: 'Med denne løsningen slo vi to fluer i en smekk.',
+    exampleTr: 'Цим рішенням ми вбили двох зайців одним пострілом.',
+  },
+  {
+    emoji: '🐄',
+    phrase: 'Det er ingen ku på isen',
+    meaning: 'Немає причин для поспіху',
+    exampleSrc: 'Ta det med ro, det er ingen ku på isen.',
+    exampleTr: 'Заспокойся, поспішати нікуди.',
+  },
+  {
+    emoji: '🔩',
+    phrase: 'Å ha en skrue løs',
+    meaning: 'Бути трохи дивакуватим',
+    exampleSrc: 'Han oppfører seg rart, han har visst en skrue løs.',
+    exampleTr: 'Він поводиться дивно, у нього наче гвинтика бракує.',
+  },
+  {
+    emoji: '🌾',
+    phrase: 'Kaste blår i øynene på noen',
+    meaning: 'Намагатися обманути/ввести в оману',
+    exampleSrc: 'Han prøvde å kaste blår i øynene på oss.',
+    exampleTr: 'Він намагався замилити нам очі.',
+  },
+];
+
 // ── Idioms per language ─────────────────────────────────────────
 export const IDIOMS_BY_LANG: Partial<
   Record<
@@ -4293,29 +5243,29 @@ export const IDIOMS_BY_LANG: Partial<
   tr: TURKISH_IDIOMS,
   nl: DUTCH_IDIOMS,
   vi: VIETNAMESE_IDIOMS,
-  hi: [],
-  bn: [],
-  id: [],
-  pcm: [],
-  ko: [],
-  fa: [],
-  sw: [],
-  ms: [],
-  th: [],
-  az: [],
-  ro: [],
-  hu: [],
-  cs: [],
-  kk: [],
-  sv: [],
-  ka: [],
-  hr: [],
-  sr: [],
-  bs: [],
-  bg: [],
-  sk: [],
-  hy: [],
-  da: [],
-  fi: [],
-  no: [],
+  hi: HINDI_IDIOMS,
+  bn: BENGALI_IDIOMS,
+  id: INDONESIAN_IDIOMS,
+  pcm: NIGERIAN_PIDGIN_IDIOMS,
+  ko: KOREAN_IDIOMS,
+  fa: PERSIAN_IDIOMS,
+  sw: SWAHILI_IDIOMS,
+  ms: MALAY_IDIOMS,
+  th: THAI_IDIOMS,
+  az: AZERBAIJANI_IDIOMS,
+  ro: ROMANIAN_IDIOMS,
+  hu: HUNGARIAN_IDIOMS,
+  cs: CZECH_IDIOMS,
+  kk: KAZAKH_IDIOMS,
+  sv: SWEDISH_IDIOMS,
+  ka: GEORGIAN_IDIOMS,
+  hr: CROATIAN_IDIOMS,
+  sr: SERBIAN_IDIOMS,
+  bs: BOSNIAN_IDIOMS,
+  bg: BULGARIAN_IDIOMS,
+  sk: SLOVAK_IDIOMS,
+  hy: ARMENIAN_IDIOMS,
+  da: DANISH_IDIOMS,
+  fi: FINNISH_IDIOMS,
+  no: NORWEGIAN_IDIOMS,
 };
