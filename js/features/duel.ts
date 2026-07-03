@@ -3,7 +3,19 @@
 
 import { useEffect, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
-import type { CefrLevel } from '../../data/cefr.ts';
+import { CHARS, ROOM_SIZE } from './duel-types.ts';
+import type {
+  DuelMode,
+  Difficulty,
+  BestOf,
+  PowerupType,
+  PlayerData,
+  SeriesData,
+  RoomData,
+  DuelResultData,
+  DuelResultOutcome,
+  ResumeSessionVM,
+} from './duel-types.ts';
 import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
 import type { WordEntry, DuelScreen, DuelLobbyUIState } from '../../src/types.js';
@@ -59,6 +71,24 @@ import {
   setDuelResumeSessions,
   getDuelResumeSessionsSnapshot,
 } from '../../src/duel-async-store.ts';
+
+// Re-exported so existing `import { X } from './duel.ts'` call sites
+// (duel-async-challenge.ts, duel-deck.ts, duel-powerups.tsx, duel-spectator-
+// logic.ts, duel-tournament-logic.ts) keep working unchanged — the actual
+// declarations now live in duel-types.ts, a leaf module with no imports of
+// its own (see that file's header comment for why).
+export type {
+  DuelMode,
+  Difficulty,
+  BestOf,
+  PowerupType,
+  PlayerData,
+  SeriesData,
+  RoomData,
+  DuelResultData,
+  ResumeSessionVM,
+};
+export { CHARS, ROOM_SIZE };
 
 // Динамічний імпорт: sidebar.tsx має DOM-side-effects на рівні модуля,
 // а sidebar.tsx сам статично імпортує цей файл (renderDuel) — статичний
@@ -165,17 +195,11 @@ export function _checkWriteAnswer(mode: DuelMode, val: string, ans: string): boo
 }
 
 // ── Constants ─────────────────────────────────────────────────
-export const CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-export const ROOM_SIZE = 10;
+// CHARS/ROOM_SIZE now live in duel-types.ts (re-exported below) — see that
+// file's header comment for why (circular-chunk fix).
 const NUM_OPTS = 4;
 export const TEMPO_SEC = 4;
 const REACTIONS = ['👍', '😅', '🔥', '😂', '🤯', '😤', '🎉', '👏'];
-
-// ── Types ─────────────────────────────────────────────────────
-export type DuelMode = 'quiz' | 'reverse' | 'write' | 'tempo' | 'anagram' | 'letters';
-export type Difficulty = CefrLevel | 'mixed'; // CEFR-based difficulty
-export type BestOf = 1 | 3;
-export type PowerupType = 'double' | 'skip' | 'freeze';
 
 export const POWERUPS: { id: PowerupType; icon: string }[] = [
   { id: 'double', icon: '🎯' },
@@ -204,46 +228,6 @@ export const DIFFICULTIES: { id: Difficulty; label: string; color: string }[] = 
   { id: 'C2', label: 'C2', color: 'var(--accent)' },
 ];
 
-export interface PlayerData {
-  name: string;
-  avatar: string;
-  score: number;
-  idx: number;
-  done: boolean;
-  reaction?: string;
-  reactionTs?: number;
-  hintsLeft: number;
-  powerups: Record<PowerupType, number>;
-  frozenUntil?: number;
-  flags?: (boolean | 'skip' | 'double')[];
-}
-export interface SeriesData {
-  p1wins: number;
-  p2wins: number;
-  round: number;
-}
-interface SpectatorData {
-  name: string;
-  avatar: string;
-}
-export interface RoomData {
-  seed: number;
-  mode: DuelMode;
-  category: string;
-  difficulty: Difficulty;
-  bestOf: BestOf;
-  maxHints: number;
-  powerupsEnabled: boolean;
-  lang?: string;
-  knowLang?: string;
-  p1: PlayerData;
-  p2: PlayerData | null;
-  started: boolean;
-  finished: boolean;
-  createdAt: number;
-  series: SeriesData;
-  spectators?: Record<string, SpectatorData>;
-}
 // ── History & Rating (localStorage) ──────────────────────────
 // Rating storage itself lives in duel-rating.ts (a dependency-free leaf
 // module) so achievements.ts can read it without importing this whole file.
@@ -1433,33 +1417,6 @@ async function _finishMyGame(): Promise<void> {
 }
 
 // Знімок даних для duel-result.tsx (Фаза 9/2).
-type DuelResultOutcome = 'win' | 'tie' | 'loss';
-export type DuelResultData =
-  | {
-      kind: 'round';
-      outcome: DuelResultOutcome;
-      round: number;
-      myWins: number;
-      oppWins: number;
-      myName: string;
-      oppName: string;
-    }
-  | {
-      kind: 'final';
-      outcome: DuelResultOutcome;
-      modeIcon: string;
-      modeLabel: string;
-      catLabel: string;
-      myAvatar: string;
-      myScore: number;
-      oppAvatar: string;
-      oppScore: number;
-      oppName: string;
-      roomSize: number;
-      historyText: string;
-    }
-  | null;
-
 export function _getResultData(): DuelResultData {
   return getDuelResultSnapshot();
 }
@@ -1669,15 +1626,6 @@ function _doRematch(): void {
 
 // ── Session resume ────────────────────────────────────────────
 // Знімок даних для duel-resume.tsx (item 33, Фаза 5).
-export interface ResumeSessionVM {
-  roomId: string;
-  modeIcon: string;
-  modeLabel: string;
-  score: number;
-  roomSize: number;
-  oppText: string | null;
-  expiresAt: number;
-}
 let _resumeValid: { sess: DuelSession; room: RoomData }[] = [];
 export function _getResumeSessions(): ResumeSessionVM[] {
   return getDuelResumeSessionsSnapshot();

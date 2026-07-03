@@ -11,7 +11,18 @@ import {
 } from '../../src/duel-lobby-store.ts';
 import { setDuelScreen, setDuelRoom } from '../../src/duel-room-store.ts';
 import { setDuelTournView, getDuelTournViewSnapshot } from '../../src/duel-async-store.ts';
-import type { DuelMode, Difficulty, RoomData, PlayerData } from './duel.ts';
+import type {
+  DuelMode,
+  Difficulty,
+  RoomData,
+  PlayerData,
+  TournSlotVM,
+  TournMatchVM,
+  TournRoundVM,
+  TournMatchArea,
+  TournamentData,
+} from './duel-types.ts';
+export type { TournMatchVM, TournRoundVM, TournamentData };
 import { DB_URL, _fbGet, _fbPatch, _fbSet } from './duel-firebase.ts';
 import { _genCode, _fmtCode, _buildDeck } from './duel-deck.ts';
 import {
@@ -64,51 +75,6 @@ function _showTournament() {
   notifyStateChange();
 }
 
-// Знімок даних для duel-tournament.tsx (item 33, Фаза 5).
-interface TournSlotVM {
-  filled: boolean;
-  avatar: string;
-  name: string;
-  label: string;
-}
-interface TournPlayerVM {
-  name: string;
-  avatar: string;
-  won: boolean;
-}
-export interface TournMatchVM {
-  p1: TournPlayerVM;
-  p2: TournPlayerVM;
-  done: boolean;
-  active: boolean;
-  scoreText: string | null;
-}
-export interface TournRoundVM {
-  name: string;
-  matches: TournMatchVM[];
-}
-type TournMatchArea =
-  | { kind: 'none' }
-  | { kind: 'champion' }
-  | { kind: 'play' }
-  | { kind: 'rejoin' }
-  | { kind: 'waiting'; oppName: string };
-export interface TournamentData {
-  phase: 'waiting' | 'bracket';
-  code: string;
-  modeLabel: string;
-  slots: TournSlotVM[];
-  joined: number;
-  size: number;
-  showStartBtn: boolean;
-  startBtnLabel: string;
-  finished: boolean;
-  champion: string;
-  statusLabel: string;
-  statusColor: string;
-  rounds: TournRoundVM[];
-  matchArea: TournMatchArea;
-}
 let _tournPlayCtx: { tourn: Tournament; round: number; matchIdx: number } | null = null;
 let _tournRejoinRoomId: string | null = null;
 export function _getTournamentData(): TournamentData | null {

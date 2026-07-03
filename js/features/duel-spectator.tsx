@@ -4,7 +4,8 @@
 // duel-spectator-logic.ts (_startSpectatorView/_renderSpectatorView), яка
 // викликає refreshDuelSpectator() після кожного оновлення.
 import type { ReactElement } from 'react';
-import { _getDuelScreen, DUEL_MODES, ROOM_SIZE } from './duel.ts';
+import { _getDuelScreen, DUEL_MODES } from './duel.ts';
+import { ROOM_SIZE } from './duel-types.ts';
 import { _getSpecRoom, _leaveSpectator } from './duel-spectator-logic.ts';
 import { t } from './i18n.ts';
 import { notifyStateChange } from '../../src/store.ts';

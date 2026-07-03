@@ -51,7 +51,7 @@ import {
   noEntry,
 } from './mode-utils.ts';
 import type { DuelMode, Difficulty } from './duel.ts';
-import { CHARS, ROOM_SIZE } from './duel.ts';
+import { CHARS, ROOM_SIZE } from './duel-types.ts';
 
 export const DUEL_LANG_CODES = [
   'en',
