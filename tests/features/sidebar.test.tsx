@@ -295,6 +295,19 @@ describe('sidebar.tsx', () => {
     expect(document.getElementById('set-theme-pill')!.classList.contains('on')).toBe(true);
   });
 
+  it('shows the theme pill as on when body.dark is set without an explicit ew_theme preference', async () => {
+    // settings.tsx applies body.dark from prefers-color-scheme before the
+    // user ever sets ew_theme explicitly — the pill should reflect that
+    // actual state instead of defaulting to "off" and contradicting what's
+    // on screen.
+    document.body.classList.add('dark');
+    const { root } = mount();
+    roots.push(root);
+
+    await wait(10);
+    expect(document.getElementById('set-theme-pill')!.classList.contains('on')).toBe(true);
+  });
+
   it('restores the last open page from localStorage on mount', async () => {
     localStorage.setItem('ew_active_page', 'idioms');
     const { root } = mount();

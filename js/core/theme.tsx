@@ -10,6 +10,12 @@ export function ThemeToggle(): ReactElement {
     if (saved === 'dark') {
       document.body.classList.add('dark');
       setIsDark(true);
+    } else if (!saved) {
+      // No explicit preference yet — settings.tsx's system-color-scheme
+      // auto-detection may already have applied body.dark; match it so the
+      // first click actually toggles away from the visible state instead of
+      // just making the already-dark look "official" by writing ew_theme.
+      setIsDark(document.body.classList.contains('dark'));
     }
   }, []);
 

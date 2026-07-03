@@ -2,6 +2,8 @@
 import { useEffect, type ReactElement } from 'react';
 import { t, pluralLabel } from './i18n.ts';
 import { today as localToday, localDateStr } from '../core/today.ts';
+import { getDailyStats, getGameData } from './game.ts';
+import { loadSRS } from '../core/storage.ts';
 
 const KEY_ENABLED = 'ew_notif_enabled';
 const KEY_TIME = 'ew_notif_time'; // "HH:MM"
@@ -39,7 +41,7 @@ async function _syncNotifSnapshot(): Promise<void> {
   if (!db) return;
   let daily: Record<string, number> = {};
   try {
-    daily = JSON.parse(localStorage.getItem('ew_daily') ?? '{}');
+    daily = getDailyStats();
   } catch (e) {}
   const snapshot = {
     enabled: isEnabled(),
@@ -168,7 +170,7 @@ function _notify(title: string, body: string): boolean {
 // Bug fix 3: accept today as param so it's always consistent with the caller's value
 function _studiedToday(today: string): boolean {
   try {
-    const daily = JSON.parse(localStorage.getItem('ew_daily') ?? '{}') as Record<string, number>;
+    const daily = getDailyStats();
     return (daily[today] ?? 0) > 0;
   } catch (e) {
     return false;
@@ -194,10 +196,7 @@ function _checkAndNotify(): void {
   let shown: boolean;
 
   try {
-    const gd = JSON.parse(localStorage.getItem('ew_game') ?? '{}') as {
-      streak?: number;
-      streakDate?: string;
-    };
+    const gd = getGameData();
     const yesterday = localDateStr(new Date(Date.now() - 86_400_000));
     if ((gd.streak ?? 0) > 1 && gd.streakDate === yesterday) {
       shown = _notify(
@@ -216,10 +215,7 @@ function _checkAndNotify(): void {
   } catch (e) {}
 
   try {
-    const srs = JSON.parse(localStorage.getItem('ew_srs') ?? '{}') as Record<
-      string,
-      { due?: string }
-    >;
+    const srs = loadSRS();
     const due = Object.values(srs).filter((s) => s.due && s.due <= today).length;
     if (due >= 3) {
       shown = _notify(t('notif.due.title', { n: due }), t('notif.due.body'));

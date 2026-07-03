@@ -69,4 +69,23 @@ describe('theme.tsx ThemeToggle', () => {
     expect(document.body.classList.contains('dark')).toBe(false);
     expect(localStorage.getItem('ew_theme')).toBe('light');
   });
+
+  it('matches the sun icon and toggles off on the first click when body.dark was applied by system auto-detection (no saved preference)', () => {
+    // settings.tsx adds body.dark from prefers-color-scheme before ew_theme
+    // is ever set. Without reading that, the toggle showed the "currently
+    // light" moon icon while the app was actually dark, and the first click
+    // would set ew_theme='dark' instead of actually turning it off.
+    document.body.classList.add('dark');
+    const { container, root } = mount();
+    roots.push(root);
+    const btn = container.querySelector('#btn-theme') as HTMLButtonElement;
+    expect(btn.textContent).toBe('☀️');
+
+    act(() => {
+      btn.click();
+    });
+    expect(btn.textContent).toBe('🌙');
+    expect(document.body.classList.contains('dark')).toBe(false);
+    expect(localStorage.getItem('ew_theme')).toBe('light');
+  });
 });

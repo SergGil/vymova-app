@@ -220,8 +220,13 @@ const FANDOM_THEME_KEYS = [
 ];
 
 function _updateTogglePills(): void {
-  // Dark theme pill reflects user preference (ew_theme), not a fandom-induced body.dark
-  const isDark = localStorage.getItem('ew_theme') === 'dark';
+  // Dark theme pill reflects user preference (ew_theme), not a fandom-induced
+  // body.dark — but when there's no explicit preference yet, settings.tsx's
+  // system-color-scheme auto-detection may already have applied body.dark,
+  // and the pill should show that actual state rather than defaulting to
+  // "off" and contradicting what the user is currently looking at.
+  const savedTheme = localStorage.getItem('ew_theme');
+  const isDark = savedTheme ? savedTheme === 'dark' : document.body.classList.contains('dark');
   document.getElementById('set-theme-pill')?.classList.toggle('on', isDark);
   for (const key of FANDOM_THEME_KEYS) {
     document
