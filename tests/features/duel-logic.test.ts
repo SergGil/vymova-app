@@ -4,13 +4,10 @@ import {
   _canForm,
   _shuffleLetters,
   _checkWriteAnswer,
-  _genCode,
-  _fmtCode,
-  _rng,
-  _buildDeck,
   CHARS,
   ROOM_SIZE,
 } from '../../js/features/duel.ts';
+import { _genCode, _fmtCode, _rng, _buildDeck } from '../../js/features/duel-deck.ts';
 
 describe('_letterCounts()', () => {
   it('counts letter frequencies', () => {

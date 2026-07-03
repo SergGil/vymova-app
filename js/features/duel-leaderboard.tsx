@@ -3,6 +3,7 @@
 // у лобі дуелі. Частина item 31 (Фаза 5).
 import { useStateVersion } from '../../src/store.ts';
 import { t, pluralLabel } from './i18n.ts';
+import { _getRating } from './duel.ts';
 import {
   _getProfiles,
   _getActiveId,
@@ -11,8 +12,7 @@ import {
   _parseKnown,
   _parseGame,
   _weekWords,
-  _getRating,
-} from './duel.ts';
+} from './duel-profile-snap.ts';
 import { CharacterAvatar } from './character-avatar.tsx';
 import { appearanceOf } from '../core/storage.ts';
 import type { CharacterAppearance } from '../../src/types.js';

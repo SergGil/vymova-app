@@ -25,6 +25,9 @@ const {
   getRating: vi.fn(() => ({ wins: 0, losses: 0, ties: 0 })),
 }));
 vi.mock('../../js/features/duel.ts', () => ({
+  _getRating: getRating,
+}));
+vi.mock('../../js/features/duel-profile-snap.ts', () => ({
   _getProfiles: getProfiles,
   _getActiveId: getActiveId,
   _currentSnap: currentSnap,
@@ -32,7 +35,6 @@ vi.mock('../../js/features/duel.ts', () => ({
   _parseKnown: parseKnown,
   _parseGame: parseGame,
   _weekWords: weekWords,
-  _getRating: getRating,
 }));
 
 function mount(El: () => React.ReactElement | null): { container: HTMLElement; root: Root } {

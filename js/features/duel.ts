@@ -3,34 +3,25 @@
 
 import { useEffect, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
-import { WORD_CATEGORIES } from '../../data/categories.js';
-import { getCefrLevel } from '../../data/cefr.ts';
 import type { CefrLevel } from '../../data/cefr.ts';
-import * as LZString from 'lz-string';
 import { _shuf } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
-import { localDateStr } from '../core/today.ts';
 import type { WordEntry, DuelScreen, DuelLobbyUIState } from '../../src/types.js';
-import { t, getLang } from './i18n.ts';
-import {
-  esEntry,
-  frEntry,
-  itEntry,
-  ptEntry,
-  deEntry,
-  heEntry,
-  arEntry,
-  plEntry,
-  zhEntry,
-  elEntry,
-  jaEntry,
-  trEntry,
-  nlEntry,
-  viEntry,
-} from './mode-utils.ts';
+import { t } from './i18n.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { getDuelRating, recordDuelResult } from './duel-rating.ts';
 import { DB_URL, _fbGet, _fbPatch, _fbSet } from './duel-firebase.ts';
+import { _getProfiles, _getActiveId } from './duel-profile-snap.ts';
+import {
+  DUEL_LANG_CODES,
+  _wordInLang,
+  _dateLocale,
+  _secUnit,
+  _genCode,
+  _fmtCode,
+  _buildDeck,
+  _SCRAMBLE_POOL,
+} from './duel-deck.ts';
 import { DICT } from '../modes/word-letters.tsx';
 import {
   getDuelQuestionSnapshot,
@@ -273,72 +264,6 @@ function _addHistory(e: HistEntry): void {
 }
 export const _getRating = getDuelRating;
 
-// ── Profile leaderboard ───────────────────────────────────────
-const LIST_KEY = 'ew_profiles',
-  ACTIVE_KEY = 'ew_active_profile';
-const SNAP_KEYS = ['ew_known', 'ew_known_lz', 'ew_game', 'ew_daily', 'ew_ach'];
-export function _getProfiles() {
-  try {
-    return JSON.parse(localStorage.getItem(LIST_KEY) || '[]');
-  } catch (e) {
-    return [];
-  }
-}
-export function _getActiveId() {
-  return localStorage.getItem(ACTIVE_KEY) || '';
-}
-export function _readSnap(id: string): Record<string, string> {
-  const d: Record<string, string> = {};
-  SNAP_KEYS.forEach((k) => {
-    const v = localStorage.getItem(`ew_p_${id}__${k}`);
-    if (v !== null) d[k] = v;
-  });
-  return d;
-}
-export function _currentSnap(): Record<string, string> {
-  const d: Record<string, string> = {};
-  SNAP_KEYS.forEach((k) => {
-    const v = localStorage.getItem(k);
-    if (v !== null) d[k] = v;
-  });
-  return d;
-}
-export function _parseKnown(s: Record<string, string>): string[] {
-  const r = s['ew_known'];
-  if (!r) return [];
-  try {
-    if (s['ew_known_lz'] === '1') {
-      const d = LZString.decompress(r);
-      if (d) return JSON.parse(d);
-    }
-    return JSON.parse(r);
-  } catch (e) {
-    return [];
-  }
-}
-export function _parseGame(s: Record<string, string>) {
-  try {
-    return JSON.parse(s['ew_game'] || '{}');
-  } catch (e) {
-    return {};
-  }
-}
-export function _weekWords(s: Record<string, string>): number {
-  try {
-    const d = JSON.parse(s['ew_daily'] || '{}');
-    const t = new Date();
-    let c = 0;
-    for (let i = 0; i < 7; i++) {
-      const dt = new Date(t);
-      dt.setDate(dt.getDate() - i);
-      c += d[localDateStr(dt)] || 0;
-    }
-    return c;
-  } catch (e) {
-    return 0;
-  }
-}
-
 // ── Room state ────────────────────────────────────────────────
 let _pollTimer: ReturnType<typeof setInterval> | null = null;
 let _resultPollTimer: ReturnType<typeof setInterval> | null = null;
@@ -443,167 +368,6 @@ function _clearSession(roomId?: string): void {
   const id = roomId || getDuelRoomSnapshot().roomId;
   if (!id) return;
   _saveSessions(_loadSessions().filter((s) => s.roomId !== id));
-}
-
-// ── Language helpers ──────────────────────────────────────────
-export const DUEL_LANG_CODES = [
-  'en',
-  'ua',
-  'es',
-  'fr',
-  'it',
-  'pt',
-  'de',
-  'he',
-  'ar',
-  'pl',
-  'zh',
-  'el',
-  'ja',
-  'tr',
-  'nl',
-  'vi',
-];
-
-function _wordInLang(w: WordEntry, lang: string): string {
-  switch (lang) {
-    case 'en':
-      return w[0];
-    case 'es':
-      return esEntry(w[0])?.[0] ?? w[1];
-    case 'fr':
-      return frEntry(w[0])?.[0] ?? w[1];
-    case 'it':
-      return itEntry(w[0])?.[0] ?? w[1];
-    case 'pt':
-      return ptEntry(w[0])?.[0] ?? w[1];
-    case 'de':
-      return deEntry(w[0])?.[0] ?? w[1];
-    case 'he':
-      return heEntry(w[0])?.[0] ?? w[1];
-    case 'ar':
-      return arEntry(w[0])?.[0] ?? w[1];
-    case 'pl':
-      return plEntry(w[0])?.[0] ?? w[1];
-    case 'zh':
-      return zhEntry(w[0])?.[0] ?? w[1];
-    case 'el':
-      return elEntry(w[0])?.[0] ?? w[1];
-    case 'ja':
-      return jaEntry(w[0])?.[0] ?? w[1];
-    case 'tr':
-      return trEntry(w[0])?.[0] ?? w[1];
-    case 'nl':
-      return nlEntry(w[0])?.[0] ?? w[1];
-    case 'vi':
-      return viEntry(w[0])?.[0] ?? w[1];
-    default:
-      return w[1]; // 'ua'
-  }
-}
-
-// Whether `w` has a usable translation for `lang` (en/ua are always present).
-function _hasLangWord(w: WordEntry, lang: string): boolean {
-  switch (lang) {
-    case 'en':
-    case 'ua':
-      return true;
-    case 'es':
-      return esEntry(w[0]) !== null;
-    case 'fr':
-      return frEntry(w[0]) !== null;
-    case 'it':
-      return itEntry(w[0]) !== null;
-    case 'pt':
-      return ptEntry(w[0]) !== null;
-    case 'de':
-      return deEntry(w[0]) !== null;
-    case 'he':
-      return heEntry(w[0]) !== null;
-    case 'ar':
-      return arEntry(w[0]) !== null;
-    case 'pl':
-      return plEntry(w[0]) !== null;
-    case 'zh':
-      return zhEntry(w[0]) !== null;
-    case 'el':
-      return elEntry(w[0]) !== null;
-    case 'ja':
-      return jaEntry(w[0]) !== null;
-    case 'tr':
-      return trEntry(w[0]) !== null;
-    case 'nl':
-      return nlEntry(w[0]) !== null;
-    case 'vi':
-      return viEntry(w[0]) !== null;
-    default:
-      return true;
-  }
-}
-
-// ── Deck building ─────────────────────────────────────────────
-function _dateLocale(): string {
-  return getLang() === 'en' ? 'en' : getLang() === 'es' ? 'es' : 'uk';
-}
-function _secUnit(): string {
-  return getLang() === 'ua' ? 'с' : 's';
-}
-export function _genCode(): string {
-  return Array.from(crypto.getRandomValues(new Uint8Array(6)), (v) => CHARS[v % CHARS.length]).join(
-    '',
-  );
-}
-export function _fmtCode(c: string): string {
-  return c.slice(0, 3) + '-' + c.slice(3);
-}
-export function _rng(seed: number): () => number {
-  let s = seed;
-  return () => {
-    s = (s * 1664525 + 1013904223) & 0x7fffffff;
-    return s / 0x7fffffff;
-  };
-}
-
-// Words usable as a letter source for anagram/letters modes: plain a-z, 4-9 letters
-const _SCRAMBLE_POOL: WordEntry[] = (W as unknown as WordEntry[]).filter(
-  (w) => /^[a-z]+$/i.test(w[0]) && w[0].length >= 4 && w[0].length <= 9,
-);
-
-export function _buildDeck(
-  seed: number,
-  category: string,
-  difficulty: Difficulty,
-  mode?: DuelMode,
-  lang?: string,
-  knowLang?: string,
-): WordEntry[] {
-  const rnd = _rng(seed);
-  const scramble = mode === 'anagram' || mode === 'letters';
-  let pool = scramble ? _SCRAMBLE_POOL : (W as unknown as WordEntry[]);
-  // Language filter: keep only words that have translations in both selected languages
-  if (!scramble) {
-    const langPool = pool.filter(
-      (w) => _hasLangWord(w, lang || 'en') && _hasLangWord(w, knowLang || 'ua'),
-    );
-    if (langPool.length >= ROOM_SIZE) pool = langPool;
-  }
-  // Category filter
-  if (category) {
-    const allowed = new Set((WORD_CATEGORIES[category] ?? []).map((w: string) => w.toLowerCase()));
-    pool = pool.filter((w) => allowed.has(w[0].toLowerCase()));
-  }
-  // CEFR-based difficulty filter
-  if (difficulty !== 'mixed') {
-    const cefrPool = pool.filter((w) => getCefrLevel(w[0]) === difficulty);
-    if (cefrPool.length >= ROOM_SIZE) pool = cefrPool;
-    // fallback: include adjacent levels if not enough words
-    else if (cefrPool.length > 0) pool = cefrPool;
-  }
-  if (pool.length < ROOM_SIZE) pool = scramble ? _SCRAMBLE_POOL : (W as unknown as WordEntry[]); // final fallback
-  return Array.from({ length: pool.length }, (_, i) => i)
-    .sort(() => rnd() - 0.5)
-    .slice(0, ROOM_SIZE)
-    .map((i) => pool[i]);
 }
 
 // Append one extra word to the deck when Skip is used, so skipping doesn't shorten the round

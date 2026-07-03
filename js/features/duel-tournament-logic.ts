@@ -13,10 +13,8 @@ import { setDuelScreen, setDuelRoom } from '../../src/duel-room-store.ts';
 import { setDuelTournView, getDuelTournViewSnapshot } from '../../src/duel-async-store.ts';
 import type { DuelMode, Difficulty, RoomData, PlayerData } from './duel.ts';
 import { DB_URL, _fbGet, _fbPatch, _fbSet } from './duel-firebase.ts';
+import { _genCode, _fmtCode, _buildDeck } from './duel-deck.ts';
 import {
-  _genCode,
-  _fmtCode,
-  _buildDeck,
   _getMyName,
   _getMyAvatar,
   _showLobby,
