@@ -13500,6 +13500,380 @@ export const GRAMMAR_PT: GrammarCategory[] = [
 // ── German grammar ───────────────────────────────────────────
 export const GRAMMAR_DE: GrammarCategory[] = [
   {
+    id: 'tenses',
+    title: 'Часи та способи дієслова',
+    titleEn: 'Tenses & Moods',
+    emoji: '🕐',
+    rules: [
+      {
+        id: 'praesens',
+        title: 'Präsens — A1',
+        emoji: '📌',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Теперішній час. Використовується для теперішніх дій, постійних фактів і навіть майбутнього (з вказівкою часу).',
+            en: { text: 'Present tense. Used for current actions, permanent facts, and even the future (with a time reference).' },
+          },
+          {
+            type: 'formula',
+            title: 'Дієвідмінювання (spielen)',
+            rows: [
+              ['ich', 'spiele'],
+              ['du', 'spielst'],
+              ['er / sie / es', 'spielt'],
+              ['wir', 'spielen'],
+              ['ihr', 'spielt'],
+              ['sie / Sie', 'spielen'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich spiele Fußball.', 'Я граю у футбол.'],
+              ['Wir fahren morgen nach Berlin.', 'Ми їдемо завтра до Берліна.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'perfekt',
+        title: 'Perfekt — A2',
+        emoji: '✅',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Розмовний минулий час. Утворюється з haben/sein у теперішньому часі + Partizip II. Найчастіше вживається в усному мовленні.',
+            en: { text: 'The conversational past tense. Formed with haben/sein in the present tense + Partizip II. Most common in spoken German.' },
+          },
+          {
+            type: 'formula',
+            title: 'Структура',
+            rows: [
+              ['haben/sein + Partizip II', 'Ich habe gespielt.', 'Я грав.'],
+              ['sein-дієслова (рух, зміна стану)', 'Ich bin gegangen.', 'Я пішов.'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich habe das Buch gelesen.', 'Я прочитав книгу.'],
+              ['Sie ist nach Hause gefahren.', 'Вона поїхала додому.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'praeteritum',
+        title: 'Präteritum — A2',
+        emoji: '📖',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Простий минулий час. Вживається переважно в письмовій мові, розповідях, а також завжди з haben, sein, модальними дієсловами.',
+            en: { text: 'The simple past tense. Used mainly in written narratives, and always with haben, sein and modal verbs.' },
+          },
+          {
+            type: 'formula',
+            title: 'Дієвідмінювання (sagen)',
+            rows: [
+              ['ich', 'sagte'],
+              ['du', 'sagtest'],
+              ['er / sie / es', 'sagte'],
+              ['wir', 'sagten'],
+              ['ihr', 'sagtet'],
+              ['sie / Sie', 'sagten'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich war gestern krank.', 'Я вчора хворів.'],
+              ['Er hatte keine Zeit.', 'У нього не було часу.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'plusquamperfekt',
+        title: 'Plusquamperfekt — B1',
+        emoji: '⏮️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Передминулий час — дія, що відбулася раніше за іншу дію в минулому. Утворюється з haben/sein у Präteritum + Partizip II.',
+            en: { text: 'The past perfect — an action that happened before another past action. Formed with haben/sein in Präteritum + Partizip II.' },
+          },
+          {
+            type: 'formula',
+            title: 'Структура',
+            rows: [['hatte/war + Partizip II', 'Ich hatte schon gegessen, als er kam.', 'Я вже поїв, коли він прийшов.']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Sie war schon weg, als ich anrief.', 'Вона вже пішла, коли я подзвонив.'],
+              ['Wir hatten das Projekt beendet, bevor die Frist kam.', 'Ми завершили проєкт до настання дедлайну.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'futur-1',
+        title: 'Futur I — A2',
+        emoji: '🔮',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Майбутній час. Утворюється з werden + інфінітив. Часто замінюється на Präsens з вказівкою часу.',
+            en: { text: 'The future tense. Formed with werden + infinitive. Often replaced by the present tense with a time reference.' },
+          },
+          {
+            type: 'formula',
+            title: 'Структура',
+            rows: [['werden + Infinitiv', 'Ich werde morgen kommen.', 'Я прийду завтра.']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Sie wird nächstes Jahr studieren.', 'Вона вступить до університету наступного року.'],
+              ['Wir werden das schaffen.', 'Ми з цим впораємось.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'futur-2',
+        title: 'Futur II — B2',
+        emoji: '🔁',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Передмайбутній час — дія, що завершиться до певного моменту в майбутньому, або припущення щодо минулого.',
+            en: { text: 'The future perfect — an action completed by a certain future point, or a guess about the past.' },
+          },
+          {
+            type: 'formula',
+            title: 'Структура',
+            rows: [['werden + Partizip II + haben/sein', 'Bis morgen werde ich es geschafft haben.', 'До завтра я вже впораюся з цим.']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Er wird wohl den Zug verpasst haben.', 'Він, мабуть, спізнився на потяг.'],
+              ['Bis Freitag werden wir alles vorbereitet haben.', 'До п\'ятниці ми все підготуємо.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'imperativ',
+        title: 'Imperativ — A1',
+        emoji: '❗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Наказовий спосіб — для прохань, порад і наказів. Форми відрізняються для du, ihr та Sie.',
+            en: { text: 'The imperative mood — for requests, advice and commands. The forms differ for du, ihr and Sie.' },
+          },
+          {
+            type: 'formula',
+            title: 'Форми (kommen)',
+            rows: [
+              ['du', 'Komm!'],
+              ['ihr', 'Kommt!'],
+              ['Sie', 'Kommen Sie!'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Mach die Tür zu!', 'Закрий двері!'],
+              ['Setzen Sie sich bitte.', 'Сідайте, будь ласка.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'konjunktiv-2-gegenwart',
+        title: 'Konjunktiv II (Gegenwart) — B1',
+        emoji: '💭',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Умовний спосіб теперішнього часу — для нереальних умов, побажань і ввічливих прохань.',
+            en: { text: 'The present subjunctive — used for unreal conditions, wishes and polite requests.' },
+          },
+          {
+            type: 'formula',
+            title: 'Структура',
+            rows: [
+              ['würde + Infinitiv', 'Ich würde gern kommen.', 'Я б залюбки прийшов.'],
+              ['wäre / hätte / könnte (сильні форми)', 'Wenn ich Zeit hätte...', 'Якби у мене був час...'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Wenn ich reich wäre, würde ich reisen.', 'Якби я був багатим, я б подорожував.'],
+              ['Könnten Sie mir bitte helfen?', 'Чи не могли б ви мені допомогти?'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'konjunktiv-2-vergangenheit',
+        title: 'Konjunktiv II (Vergangenheit) — B2',
+        emoji: '🕰️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Умовний спосіб минулого часу — для нереальних умов і жалю щодо минулого. Утворюється з hätte/wäre + Partizip II.',
+            en: { text: 'The past subjunctive — used for unreal past conditions and regret. Formed with hätte/wäre + Partizip II.' },
+          },
+          {
+            type: 'formula',
+            title: 'Структура',
+            rows: [['hätte/wäre + Partizip II', 'Ich hätte das nicht gesagt.', 'Я б цього не сказав.']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Wenn ich das gewusst hätte, wäre ich nicht gekommen.', 'Якби я це знав, я б не прийшов.'],
+              ['Wir wären fast zu spät gekommen.', 'Ми ледь не запізнилися.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'konjunktiv-1',
+        title: 'Konjunktiv I (indirekte Rede) — B2',
+        emoji: '💬',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Використовується переважно в непрямій мові (переказі чужих слів) у пресі та офіційних текстах.',
+            en: { text: 'Used mainly for reported speech in press and formal writing.' },
+          },
+          {
+            type: 'formula',
+            title: 'Приклад форми (sein)',
+            rows: [
+              ['er/sie/es', 'sei'],
+              ['sie (Pl.)', 'seien'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Er sagte, er sei krank.', 'Він сказав, що хворий.'],
+              ['Sie behauptet, sie habe es nicht gewusst.', 'Вона стверджує, що не знала цього.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'passiv-vorgang',
+        title: 'Passiv (Vorgangspassiv) — B1',
+        emoji: '🔄',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Пасивний стан процесу — коли важлива дія, а не хто її виконує. Утворюється з werden + Partizip II.',
+            en: { text: 'The passive of process — used when the action matters more than who performs it. Formed with werden + Partizip II.' },
+          },
+          {
+            type: 'formula',
+            title: 'Структура',
+            rows: [['werden + Partizip II', 'Das Haus wird gebaut.', 'Будинок будується.']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Die Tür wurde geöffnet.', 'Двері відчинили.'],
+              ['Der Brief wird morgen geschickt.', 'Лист відправлять завтра.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'passiv-zustand',
+        title: 'Zustandspassiv — B2',
+        emoji: '🚪',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Пасивний стан результату — описує стан, що виник після дії. Утворюється з sein + Partizip II.',
+            en: { text: 'The passive of state — describes the resulting state after an action. Formed with sein + Partizip II.' },
+          },
+          {
+            type: 'formula',
+            title: 'Структура',
+            rows: [['sein + Partizip II', 'Die Tür ist geöffnet.', 'Двері відчинені.']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Das Geschäft ist geschlossen.', 'Магазин зачинений.'],
+              ['Der Tisch ist gedeckt.', 'Стіл накритий.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'modalverben-perfekt',
+        title: 'Modalverben im Perfekt — B2',
+        emoji: '🔗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У Perfekt з модальним дієсловом та іншим дієсловом використовується подвійний інфінітив замість Partizip II.',
+            en: { text: 'In the Perfekt with a modal verb plus another verb, a double infinitive is used instead of Partizip II.' },
+          },
+          {
+            type: 'formula',
+            title: 'Структура',
+            rows: [['haben + Infinitiv + Modalverb (Infinitiv)', 'Ich habe kommen müssen.', 'Мені довелося прийти.']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Er hat das nicht machen können.', 'Він не зміг цього зробити.'],
+              ['Wir haben früh aufstehen müssen.', 'Нам довелося рано встати.'],
+            ],
+          },
+        ],
+      },
+    ],
+  },
+
+  {
     id: 'basics',
     title: 'Основи',
     titleEn: 'Basics',
