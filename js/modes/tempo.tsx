@@ -24,6 +24,31 @@ import {
   trEntry,
   nlEntry,
   viEntry,
+  hiEntry,
+  bnEntry,
+  idEntry,
+  pcmEntry,
+  koEntry,
+  faEntry,
+  swEntry,
+  msEntry,
+  thEntry,
+  azEntry,
+  roEntry,
+  huEntry,
+  csEntry,
+  kkEntry,
+  svEntry,
+  kaEntry,
+  hrEntry,
+  srEntry,
+  bsEntry,
+  bgEntry,
+  skEntry,
+  hyEntry,
+  daEntry,
+  fiEntry,
+  noEntry,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
@@ -90,6 +115,56 @@ function getWordInLang(w: WordEntry, lang: string): string {
       return nlEntry(w[0])?.[0] ?? '';
     case 'vi':
       return viEntry(w[0])?.[0] ?? '';
+    case 'hi':
+      return hiEntry(w[0])?.[0] ?? '';
+    case 'bn':
+      return bnEntry(w[0])?.[0] ?? '';
+    case 'id':
+      return idEntry(w[0])?.[0] ?? '';
+    case 'pcm':
+      return pcmEntry(w[0])?.[0] ?? '';
+    case 'ko':
+      return koEntry(w[0])?.[0] ?? '';
+    case 'fa':
+      return faEntry(w[0])?.[0] ?? '';
+    case 'sw':
+      return swEntry(w[0])?.[0] ?? '';
+    case 'ms':
+      return msEntry(w[0])?.[0] ?? '';
+    case 'th':
+      return thEntry(w[0])?.[0] ?? '';
+    case 'az':
+      return azEntry(w[0])?.[0] ?? '';
+    case 'ro':
+      return roEntry(w[0])?.[0] ?? '';
+    case 'hu':
+      return huEntry(w[0])?.[0] ?? '';
+    case 'cs':
+      return csEntry(w[0])?.[0] ?? '';
+    case 'kk':
+      return kkEntry(w[0])?.[0] ?? '';
+    case 'sv':
+      return svEntry(w[0])?.[0] ?? '';
+    case 'ka':
+      return kaEntry(w[0])?.[0] ?? '';
+    case 'hr':
+      return hrEntry(w[0])?.[0] ?? '';
+    case 'sr':
+      return srEntry(w[0])?.[0] ?? '';
+    case 'bs':
+      return bsEntry(w[0])?.[0] ?? '';
+    case 'bg':
+      return bgEntry(w[0])?.[0] ?? '';
+    case 'sk':
+      return skEntry(w[0])?.[0] ?? '';
+    case 'hy':
+      return hyEntry(w[0])?.[0] ?? '';
+    case 'da':
+      return daEntry(w[0])?.[0] ?? '';
+    case 'fi':
+      return fiEntry(w[0])?.[0] ?? '';
+    case 'no':
+      return noEntry(w[0])?.[0] ?? '';
     default:
       return w[0];
   }

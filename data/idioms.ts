@@ -4238,7 +4238,44 @@ export const VIETNAMESE_IDIOMS: Idiom[] = [
 
 // ── Idioms per language ─────────────────────────────────────────
 export const IDIOMS_BY_LANG: Partial<
-  Record<Lang | 'he' | 'ar' | 'pl' | 'zh' | 'el' | 'ja' | 'tr' | 'nl' | 'vi', Idiom[]>
+  Record<
+    | Lang
+    | 'he'
+    | 'ar'
+    | 'pl'
+    | 'zh'
+    | 'el'
+    | 'ja'
+    | 'tr'
+    | 'nl'
+    | 'vi'
+    | 'hi'
+    | 'bn'
+    | 'id'
+    | 'pcm'
+    | 'ko'
+    | 'fa'
+    | 'sw'
+    | 'ms'
+    | 'th'
+    | 'az'
+    | 'ro'
+    | 'hu'
+    | 'cs'
+    | 'kk'
+    | 'sv'
+    | 'ka'
+    | 'hr'
+    | 'sr'
+    | 'bs'
+    | 'bg'
+    | 'sk'
+    | 'hy'
+    | 'da'
+    | 'fi'
+    | 'no',
+    Idiom[]
+  >
 > = {
   en: ENGLISH_IDIOMS,
   ua: UKRAINIAN_IDIOMS,
@@ -4256,4 +4293,29 @@ export const IDIOMS_BY_LANG: Partial<
   tr: TURKISH_IDIOMS,
   nl: DUTCH_IDIOMS,
   vi: VIETNAMESE_IDIOMS,
+  hi: [],
+  bn: [],
+  id: [],
+  pcm: [],
+  ko: [],
+  fa: [],
+  sw: [],
+  ms: [],
+  th: [],
+  az: [],
+  ro: [],
+  hu: [],
+  cs: [],
+  kk: [],
+  sv: [],
+  ka: [],
+  hr: [],
+  sr: [],
+  bs: [],
+  bg: [],
+  sk: [],
+  hy: [],
+  da: [],
+  fi: [],
+  no: [],
 };

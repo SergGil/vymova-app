@@ -21,6 +21,31 @@ import {
   saveKnownTr,
   saveKnownNl,
   saveKnownVi,
+  saveKnownHi,
+  saveKnownBn,
+  saveKnownId,
+  saveKnownPcm,
+  saveKnownKo,
+  saveKnownFa,
+  saveKnownSw,
+  saveKnownMs,
+  saveKnownTh,
+  saveKnownAz,
+  saveKnownRo,
+  saveKnownHu,
+  saveKnownCs,
+  saveKnownKk,
+  saveKnownSv,
+  saveKnownKa,
+  saveKnownHr,
+  saveKnownSr,
+  saveKnownBs,
+  saveKnownBg,
+  saveKnownSk,
+  saveKnownHy,
+  saveKnownDa,
+  saveKnownFi,
+  saveKnownNo,
 } from '../core/storage.ts';
 import { getModeSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -55,6 +80,31 @@ const LANG_LOADERS: Record<TargetLang, () => Promise<Table>> = {
   tr: () => import('../../data/words_tr.js').then((m) => m.W_TR as Table),
   nl: () => import('../../data/words_nl.js').then((m) => m.W_NL as Table),
   vi: () => import('../../data/words_vi.js').then((m) => m.W_VI as Table),
+  hi: () => import('../../data/words_hi.js').then((m) => m.W_HI as Table),
+  bn: () => import('../../data/words_bn.js').then((m) => m.W_BN as Table),
+  id: () => import('../../data/words_id.js').then((m) => m.W_ID as Table),
+  pcm: () => import('../../data/words_pcm.js').then((m) => m.W_PCM as Table),
+  ko: () => import('../../data/words_ko.js').then((m) => m.W_KO as Table),
+  fa: () => import('../../data/words_fa.js').then((m) => m.W_FA as Table),
+  sw: () => import('../../data/words_sw.js').then((m) => m.W_SW as Table),
+  ms: () => import('../../data/words_ms.js').then((m) => m.W_MS as Table),
+  th: () => import('../../data/words_th.js').then((m) => m.W_TH as Table),
+  az: () => import('../../data/words_az.js').then((m) => m.W_AZ as Table),
+  ro: () => import('../../data/words_ro.js').then((m) => m.W_RO as Table),
+  hu: () => import('../../data/words_hu.js').then((m) => m.W_HU as Table),
+  cs: () => import('../../data/words_cs.js').then((m) => m.W_CS as Table),
+  kk: () => import('../../data/words_kk.js').then((m) => m.W_KK as Table),
+  sv: () => import('../../data/words_sv.js').then((m) => m.W_SV as Table),
+  ka: () => import('../../data/words_ka.js').then((m) => m.W_KA as Table),
+  hr: () => import('../../data/words_hr.js').then((m) => m.W_HR as Table),
+  sr: () => import('../../data/words_sr.js').then((m) => m.W_SR as Table),
+  bs: () => import('../../data/words_bs.js').then((m) => m.W_BS as Table),
+  bg: () => import('../../data/words_bg.js').then((m) => m.W_BG as Table),
+  sk: () => import('../../data/words_sk.js').then((m) => m.W_SK as Table),
+  hy: () => import('../../data/words_hy.js').then((m) => m.W_HY as Table),
+  da: () => import('../../data/words_da.js').then((m) => m.W_DA as Table),
+  fi: () => import('../../data/words_fi.js').then((m) => m.W_FI as Table),
+  no: () => import('../../data/words_no.js').then((m) => m.W_NO as Table),
 };
 
 // In-flight promises to avoid duplicate fetches for the same language.
@@ -189,6 +239,181 @@ const LANG_REGISTRY: Record<TargetLang, LangConfig> = {
     voiceLocale: 'vi-VN',
     rtl: false,
   },
+  hi: {
+    entry: (w) => lookup(getTable('hi'), w),
+    known: () => getKnownSnapshot('hi'),
+    saveKnown: saveKnownHi,
+    voiceLocale: 'hi-IN',
+    rtl: false,
+  },
+  bn: {
+    entry: (w) => lookup(getTable('bn'), w),
+    known: () => getKnownSnapshot('bn'),
+    saveKnown: saveKnownBn,
+    voiceLocale: 'bn-BD',
+    rtl: false,
+  },
+  id: {
+    entry: (w) => lookup(getTable('id'), w),
+    known: () => getKnownSnapshot('id'),
+    saveKnown: saveKnownId,
+    voiceLocale: 'id-ID',
+    rtl: false,
+  },
+  pcm: {
+    entry: (w) => lookup(getTable('pcm'), w),
+    known: () => getKnownSnapshot('pcm'),
+    saveKnown: saveKnownPcm,
+    voiceLocale: 'pcm-NG',
+    rtl: false,
+  },
+  ko: {
+    entry: (w) => lookup(getTable('ko'), w),
+    known: () => getKnownSnapshot('ko'),
+    saveKnown: saveKnownKo,
+    voiceLocale: 'ko-KR',
+    rtl: false,
+  },
+  fa: {
+    entry: (w) => lookup(getTable('fa'), w),
+    known: () => getKnownSnapshot('fa'),
+    saveKnown: saveKnownFa,
+    voiceLocale: 'fa-IR',
+    rtl: true,
+  },
+  sw: {
+    entry: (w) => lookup(getTable('sw'), w),
+    known: () => getKnownSnapshot('sw'),
+    saveKnown: saveKnownSw,
+    voiceLocale: 'sw-TZ',
+    rtl: false,
+  },
+  ms: {
+    entry: (w) => lookup(getTable('ms'), w),
+    known: () => getKnownSnapshot('ms'),
+    saveKnown: saveKnownMs,
+    voiceLocale: 'ms-MY',
+    rtl: false,
+  },
+  th: {
+    entry: (w) => lookup(getTable('th'), w),
+    known: () => getKnownSnapshot('th'),
+    saveKnown: saveKnownTh,
+    voiceLocale: 'th-TH',
+    rtl: false,
+  },
+  az: {
+    entry: (w) => lookup(getTable('az'), w),
+    known: () => getKnownSnapshot('az'),
+    saveKnown: saveKnownAz,
+    voiceLocale: 'az-AZ',
+    rtl: false,
+  },
+  ro: {
+    entry: (w) => lookup(getTable('ro'), w),
+    known: () => getKnownSnapshot('ro'),
+    saveKnown: saveKnownRo,
+    voiceLocale: 'ro-RO',
+    rtl: false,
+  },
+  hu: {
+    entry: (w) => lookup(getTable('hu'), w),
+    known: () => getKnownSnapshot('hu'),
+    saveKnown: saveKnownHu,
+    voiceLocale: 'hu-HU',
+    rtl: false,
+  },
+  cs: {
+    entry: (w) => lookup(getTable('cs'), w),
+    known: () => getKnownSnapshot('cs'),
+    saveKnown: saveKnownCs,
+    voiceLocale: 'cs-CZ',
+    rtl: false,
+  },
+  kk: {
+    entry: (w) => lookup(getTable('kk'), w),
+    known: () => getKnownSnapshot('kk'),
+    saveKnown: saveKnownKk,
+    voiceLocale: 'kk-KZ',
+    rtl: false,
+  },
+  sv: {
+    entry: (w) => lookup(getTable('sv'), w),
+    known: () => getKnownSnapshot('sv'),
+    saveKnown: saveKnownSv,
+    voiceLocale: 'sv-SE',
+    rtl: false,
+  },
+  ka: {
+    entry: (w) => lookup(getTable('ka'), w),
+    known: () => getKnownSnapshot('ka'),
+    saveKnown: saveKnownKa,
+    voiceLocale: 'ka-GE',
+    rtl: false,
+  },
+  hr: {
+    entry: (w) => lookup(getTable('hr'), w),
+    known: () => getKnownSnapshot('hr'),
+    saveKnown: saveKnownHr,
+    voiceLocale: 'hr-HR',
+    rtl: false,
+  },
+  sr: {
+    entry: (w) => lookup(getTable('sr'), w),
+    known: () => getKnownSnapshot('sr'),
+    saveKnown: saveKnownSr,
+    voiceLocale: 'sr-RS',
+    rtl: false,
+  },
+  bs: {
+    entry: (w) => lookup(getTable('bs'), w),
+    known: () => getKnownSnapshot('bs'),
+    saveKnown: saveKnownBs,
+    voiceLocale: 'bs-BA',
+    rtl: false,
+  },
+  bg: {
+    entry: (w) => lookup(getTable('bg'), w),
+    known: () => getKnownSnapshot('bg'),
+    saveKnown: saveKnownBg,
+    voiceLocale: 'bg-BG',
+    rtl: false,
+  },
+  sk: {
+    entry: (w) => lookup(getTable('sk'), w),
+    known: () => getKnownSnapshot('sk'),
+    saveKnown: saveKnownSk,
+    voiceLocale: 'sk-SK',
+    rtl: false,
+  },
+  hy: {
+    entry: (w) => lookup(getTable('hy'), w),
+    known: () => getKnownSnapshot('hy'),
+    saveKnown: saveKnownHy,
+    voiceLocale: 'hy-AM',
+    rtl: false,
+  },
+  da: {
+    entry: (w) => lookup(getTable('da'), w),
+    known: () => getKnownSnapshot('da'),
+    saveKnown: saveKnownDa,
+    voiceLocale: 'da-DK',
+    rtl: false,
+  },
+  fi: {
+    entry: (w) => lookup(getTable('fi'), w),
+    known: () => getKnownSnapshot('fi'),
+    saveKnown: saveKnownFi,
+    voiceLocale: 'fi-FI',
+    rtl: false,
+  },
+  no: {
+    entry: (w) => lookup(getTable('no'), w),
+    known: () => getKnownSnapshot('no'),
+    saveKnown: saveKnownNo,
+    voiceLocale: 'nb-NO',
+    rtl: false,
+  },
 };
 
 export function langConfig(code: TargetLang): LangConfig {
@@ -266,6 +491,31 @@ export const JA_MODES = modesFor('ja');
 export const TR_MODES = modesFor('tr');
 export const NL_MODES = modesFor('nl');
 export const VI_MODES = modesFor('vi');
+export const HI_MODES = modesFor('hi');
+export const BN_MODES = modesFor('bn');
+export const ID_MODES = modesFor('id');
+export const PCM_MODES = modesFor('pcm');
+export const KO_MODES = modesFor('ko');
+export const FA_MODES = modesFor('fa');
+export const SW_MODES = modesFor('sw');
+export const MS_MODES = modesFor('ms');
+export const TH_MODES = modesFor('th');
+export const AZ_MODES = modesFor('az');
+export const RO_MODES = modesFor('ro');
+export const HU_MODES = modesFor('hu');
+export const CS_MODES = modesFor('cs');
+export const KK_MODES = modesFor('kk');
+export const SV_MODES = modesFor('sv');
+export const KA_MODES = modesFor('ka');
+export const HR_MODES = modesFor('hr');
+export const SR_MODES = modesFor('sr');
+export const BS_MODES = modesFor('bs');
+export const BG_MODES = modesFor('bg');
+export const SK_MODES = modesFor('sk');
+export const HY_MODES = modesFor('hy');
+export const DA_MODES = modesFor('da');
+export const FI_MODES = modesFor('fi');
+export const NO_MODES = modesFor('no');
 
 export function getMode(): string {
   const sel = document.getElementById('sel-mode') as HTMLSelectElement | null;
@@ -294,7 +544,32 @@ export type FrontLang =
   | 'JA'
   | 'TR'
   | 'NL'
-  | 'VI';
+  | 'VI'
+  | 'HI'
+  | 'BN'
+  | 'ID'
+  | 'PCM'
+  | 'KO'
+  | 'FA'
+  | 'SW'
+  | 'MS'
+  | 'TH'
+  | 'AZ'
+  | 'RO'
+  | 'HU'
+  | 'CS'
+  | 'KK'
+  | 'SV'
+  | 'KA'
+  | 'HR'
+  | 'SR'
+  | 'BS'
+  | 'BG'
+  | 'SK'
+  | 'HY'
+  | 'DA'
+  | 'FI'
+  | 'NO';
 
 // FRONT_LANG залежить лише від обраного режиму (не від конкретного слова) —
 // чисто обчислюється з `mode`, тому винесено окремо для CardMeta (item 28a).
@@ -415,6 +690,81 @@ export function nlEntry(word: string): Entry {
 export function viEntry(word: string): Entry {
   return LANG_REGISTRY.vi.entry(word);
 }
+export function hiEntry(word: string): Entry {
+  return LANG_REGISTRY.hi.entry(word);
+}
+export function bnEntry(word: string): Entry {
+  return LANG_REGISTRY.bn.entry(word);
+}
+export function idEntry(word: string): Entry {
+  return LANG_REGISTRY.id.entry(word);
+}
+export function pcmEntry(word: string): Entry {
+  return LANG_REGISTRY.pcm.entry(word);
+}
+export function koEntry(word: string): Entry {
+  return LANG_REGISTRY.ko.entry(word);
+}
+export function faEntry(word: string): Entry {
+  return LANG_REGISTRY.fa.entry(word);
+}
+export function swEntry(word: string): Entry {
+  return LANG_REGISTRY.sw.entry(word);
+}
+export function msEntry(word: string): Entry {
+  return LANG_REGISTRY.ms.entry(word);
+}
+export function thEntry(word: string): Entry {
+  return LANG_REGISTRY.th.entry(word);
+}
+export function azEntry(word: string): Entry {
+  return LANG_REGISTRY.az.entry(word);
+}
+export function roEntry(word: string): Entry {
+  return LANG_REGISTRY.ro.entry(word);
+}
+export function huEntry(word: string): Entry {
+  return LANG_REGISTRY.hu.entry(word);
+}
+export function csEntry(word: string): Entry {
+  return LANG_REGISTRY.cs.entry(word);
+}
+export function kkEntry(word: string): Entry {
+  return LANG_REGISTRY.kk.entry(word);
+}
+export function svEntry(word: string): Entry {
+  return LANG_REGISTRY.sv.entry(word);
+}
+export function kaEntry(word: string): Entry {
+  return LANG_REGISTRY.ka.entry(word);
+}
+export function hrEntry(word: string): Entry {
+  return LANG_REGISTRY.hr.entry(word);
+}
+export function srEntry(word: string): Entry {
+  return LANG_REGISTRY.sr.entry(word);
+}
+export function bsEntry(word: string): Entry {
+  return LANG_REGISTRY.bs.entry(word);
+}
+export function bgEntry(word: string): Entry {
+  return LANG_REGISTRY.bg.entry(word);
+}
+export function skEntry(word: string): Entry {
+  return LANG_REGISTRY.sk.entry(word);
+}
+export function hyEntry(word: string): Entry {
+  return LANG_REGISTRY.hy.entry(word);
+}
+export function daEntry(word: string): Entry {
+  return LANG_REGISTRY.da.entry(word);
+}
+export function fiEntry(word: string): Entry {
+  return LANG_REGISTRY.fi.entry(word);
+}
+export function noEntry(word: string): Entry {
+  return LANG_REGISTRY.no.entry(word);
+}
 
 function targetLangFromStorageKey(key: string): TargetLang | null {
   return isTargetLang(key) ? key : null;
@@ -504,6 +854,31 @@ const NO_TRANSLATIONS_KEY: Record<TargetLang, string> = {
   tr: 'deck.noTrTranslations',
   nl: 'deck.noNlTranslations',
   vi: 'deck.noViTranslations',
+  hi: 'deck.noHiTranslations',
+  bn: 'deck.noBnTranslations',
+  id: 'deck.noIdTranslations',
+  pcm: 'deck.noPcmTranslations',
+  ko: 'deck.noKoTranslations',
+  fa: 'deck.noFaTranslations',
+  sw: 'deck.noSwTranslations',
+  ms: 'deck.noMsTranslations',
+  th: 'deck.noThTranslations',
+  az: 'deck.noAzTranslations',
+  ro: 'deck.noRoTranslations',
+  hu: 'deck.noHuTranslations',
+  cs: 'deck.noCsTranslations',
+  kk: 'deck.noKkTranslations',
+  sv: 'deck.noSvTranslations',
+  ka: 'deck.noKaTranslations',
+  hr: 'deck.noHrTranslations',
+  sr: 'deck.noSrTranslations',
+  bs: 'deck.noBsTranslations',
+  bg: 'deck.noBgTranslations',
+  sk: 'deck.noSkTranslations',
+  hy: 'deck.noHyTranslations',
+  da: 'deck.noDaTranslations',
+  fi: 'deck.noFiTranslations',
+  no: 'deck.noNoTranslations',
 };
 
 function hasAnyEntries(lang: TargetLang, words: WordEntry[]): boolean {

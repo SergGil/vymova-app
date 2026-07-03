@@ -35,6 +35,31 @@ import {
   trEntry,
   nlEntry,
   viEntry,
+  hiEntry,
+  bnEntry,
+  idEntry,
+  pcmEntry,
+  koEntry,
+  faEntry,
+  swEntry,
+  msEntry,
+  thEntry,
+  azEntry,
+  roEntry,
+  huEntry,
+  csEntry,
+  kkEntry,
+  svEntry,
+  kaEntry,
+  hrEntry,
+  srEntry,
+  bsEntry,
+  bgEntry,
+  skEntry,
+  hyEntry,
+  daEntry,
+  fiEntry,
+  noEntry,
   isTargetLang,
   headwordFor,
   type Code,
@@ -89,6 +114,56 @@ function _getTranslation(w: WordEntry, lang: string): string {
       return nlEntry(w[0])?.[0] ?? w[1];
     case 'vi':
       return viEntry(w[0])?.[0] ?? w[1];
+    case 'hi':
+      return hiEntry(w[0])?.[0] ?? w[1];
+    case 'bn':
+      return bnEntry(w[0])?.[0] ?? w[1];
+    case 'id':
+      return idEntry(w[0])?.[0] ?? w[1];
+    case 'pcm':
+      return pcmEntry(w[0])?.[0] ?? w[1];
+    case 'ko':
+      return koEntry(w[0])?.[0] ?? w[1];
+    case 'fa':
+      return faEntry(w[0])?.[0] ?? w[1];
+    case 'sw':
+      return swEntry(w[0])?.[0] ?? w[1];
+    case 'ms':
+      return msEntry(w[0])?.[0] ?? w[1];
+    case 'th':
+      return thEntry(w[0])?.[0] ?? w[1];
+    case 'az':
+      return azEntry(w[0])?.[0] ?? w[1];
+    case 'ro':
+      return roEntry(w[0])?.[0] ?? w[1];
+    case 'hu':
+      return huEntry(w[0])?.[0] ?? w[1];
+    case 'cs':
+      return csEntry(w[0])?.[0] ?? w[1];
+    case 'kk':
+      return kkEntry(w[0])?.[0] ?? w[1];
+    case 'sv':
+      return svEntry(w[0])?.[0] ?? w[1];
+    case 'ka':
+      return kaEntry(w[0])?.[0] ?? w[1];
+    case 'hr':
+      return hrEntry(w[0])?.[0] ?? w[1];
+    case 'sr':
+      return srEntry(w[0])?.[0] ?? w[1];
+    case 'bs':
+      return bsEntry(w[0])?.[0] ?? w[1];
+    case 'bg':
+      return bgEntry(w[0])?.[0] ?? w[1];
+    case 'sk':
+      return skEntry(w[0])?.[0] ?? w[1];
+    case 'hy':
+      return hyEntry(w[0])?.[0] ?? w[1];
+    case 'da':
+      return daEntry(w[0])?.[0] ?? w[1];
+    case 'fi':
+      return fiEntry(w[0])?.[0] ?? w[1];
+    case 'no':
+      return noEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1];
   }
@@ -124,6 +199,56 @@ function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
       return words.filter((w) => nlEntry(w[0]) !== null);
     case 'vi':
       return words.filter((w) => viEntry(w[0]) !== null);
+    case 'hi':
+      return words.filter((w) => hiEntry(w[0]) !== null);
+    case 'bn':
+      return words.filter((w) => bnEntry(w[0]) !== null);
+    case 'id':
+      return words.filter((w) => idEntry(w[0]) !== null);
+    case 'pcm':
+      return words.filter((w) => pcmEntry(w[0]) !== null);
+    case 'ko':
+      return words.filter((w) => koEntry(w[0]) !== null);
+    case 'fa':
+      return words.filter((w) => faEntry(w[0]) !== null);
+    case 'sw':
+      return words.filter((w) => swEntry(w[0]) !== null);
+    case 'ms':
+      return words.filter((w) => msEntry(w[0]) !== null);
+    case 'th':
+      return words.filter((w) => thEntry(w[0]) !== null);
+    case 'az':
+      return words.filter((w) => azEntry(w[0]) !== null);
+    case 'ro':
+      return words.filter((w) => roEntry(w[0]) !== null);
+    case 'hu':
+      return words.filter((w) => huEntry(w[0]) !== null);
+    case 'cs':
+      return words.filter((w) => csEntry(w[0]) !== null);
+    case 'kk':
+      return words.filter((w) => kkEntry(w[0]) !== null);
+    case 'sv':
+      return words.filter((w) => svEntry(w[0]) !== null);
+    case 'ka':
+      return words.filter((w) => kaEntry(w[0]) !== null);
+    case 'hr':
+      return words.filter((w) => hrEntry(w[0]) !== null);
+    case 'sr':
+      return words.filter((w) => srEntry(w[0]) !== null);
+    case 'bs':
+      return words.filter((w) => bsEntry(w[0]) !== null);
+    case 'bg':
+      return words.filter((w) => bgEntry(w[0]) !== null);
+    case 'sk':
+      return words.filter((w) => skEntry(w[0]) !== null);
+    case 'hy':
+      return words.filter((w) => hyEntry(w[0]) !== null);
+    case 'da':
+      return words.filter((w) => daEntry(w[0]) !== null);
+    case 'fi':
+      return words.filter((w) => fiEntry(w[0]) !== null);
+    case 'no':
+      return words.filter((w) => noEntry(w[0]) !== null);
     default:
       return words;
   }

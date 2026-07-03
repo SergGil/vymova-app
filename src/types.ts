@@ -8,7 +8,45 @@
 // compatibility) so src/known-words-store.ts can use them without a runtime
 // import cycle back into mode-utils.ts.
 export type TargetLang =
-  'es' | 'fr' | 'it' | 'pt' | 'de' | 'he' | 'ar' | 'pl' | 'zh' | 'el' | 'ja' | 'tr' | 'nl' | 'vi';
+  | 'es'
+  | 'fr'
+  | 'it'
+  | 'pt'
+  | 'de'
+  | 'he'
+  | 'ar'
+  | 'pl'
+  | 'zh'
+  | 'el'
+  | 'ja'
+  | 'tr'
+  | 'nl'
+  | 'vi'
+  | 'hi'
+  | 'bn'
+  | 'id'
+  | 'pcm'
+  | 'ko'
+  | 'fa'
+  | 'sw'
+  | 'ms'
+  | 'th'
+  | 'az'
+  | 'ro'
+  | 'hu'
+  | 'cs'
+  | 'kk'
+  | 'sv'
+  | 'ka'
+  | 'hr'
+  | 'sr'
+  | 'bs'
+  | 'bg'
+  | 'sk'
+  | 'hy'
+  | 'da'
+  | 'fi'
+  | 'no';
 export type Code = TargetLang | 'en' | 'ua';
 export const ALL_TARGET_LANGS: TargetLang[] = [
   'es',
@@ -25,6 +63,31 @@ export const ALL_TARGET_LANGS: TargetLang[] = [
   'tr',
   'nl',
   'vi',
+  'hi',
+  'bn',
+  'id',
+  'pcm',
+  'ko',
+  'fa',
+  'sw',
+  'ms',
+  'th',
+  'az',
+  'ro',
+  'hu',
+  'cs',
+  'kk',
+  'sv',
+  'ka',
+  'hr',
+  'sr',
+  'bs',
+  'bg',
+  'sk',
+  'hy',
+  'da',
+  'fi',
+  'no',
 ];
 
 // ── Word data ─────────────────────────────────────────────────

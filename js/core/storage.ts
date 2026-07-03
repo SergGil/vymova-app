@@ -194,6 +194,231 @@ export function loadKnownVi(): Set<string> {
   return new Set(arr);
 }
 
+export function saveKnownHi(known: Set<string>): void {
+  _lzSave('ew_known_hi', [...known]);
+}
+
+export function loadKnownHi(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_hi', []);
+  return new Set(arr);
+}
+
+export function saveKnownBn(known: Set<string>): void {
+  _lzSave('ew_known_bn', [...known]);
+}
+
+export function loadKnownBn(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_bn', []);
+  return new Set(arr);
+}
+
+export function saveKnownId(known: Set<string>): void {
+  _lzSave('ew_known_id', [...known]);
+}
+
+export function loadKnownId(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_id', []);
+  return new Set(arr);
+}
+
+export function saveKnownPcm(known: Set<string>): void {
+  _lzSave('ew_known_pcm', [...known]);
+}
+
+export function loadKnownPcm(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_pcm', []);
+  return new Set(arr);
+}
+
+export function saveKnownKo(known: Set<string>): void {
+  _lzSave('ew_known_ko', [...known]);
+}
+
+export function loadKnownKo(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_ko', []);
+  return new Set(arr);
+}
+
+export function saveKnownFa(known: Set<string>): void {
+  _lzSave('ew_known_fa', [...known]);
+}
+
+export function loadKnownFa(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_fa', []);
+  return new Set(arr);
+}
+
+export function saveKnownSw(known: Set<string>): void {
+  _lzSave('ew_known_sw', [...known]);
+}
+
+export function loadKnownSw(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_sw', []);
+  return new Set(arr);
+}
+
+export function saveKnownMs(known: Set<string>): void {
+  _lzSave('ew_known_ms', [...known]);
+}
+
+export function loadKnownMs(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_ms', []);
+  return new Set(arr);
+}
+
+export function saveKnownTh(known: Set<string>): void {
+  _lzSave('ew_known_th', [...known]);
+}
+
+export function loadKnownTh(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_th', []);
+  return new Set(arr);
+}
+
+export function saveKnownAz(known: Set<string>): void {
+  _lzSave('ew_known_az', [...known]);
+}
+
+export function loadKnownAz(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_az', []);
+  return new Set(arr);
+}
+
+export function saveKnownRo(known: Set<string>): void {
+  _lzSave('ew_known_ro', [...known]);
+}
+
+export function loadKnownRo(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_ro', []);
+  return new Set(arr);
+}
+
+export function saveKnownHu(known: Set<string>): void {
+  _lzSave('ew_known_hu', [...known]);
+}
+
+export function loadKnownHu(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_hu', []);
+  return new Set(arr);
+}
+
+export function saveKnownCs(known: Set<string>): void {
+  _lzSave('ew_known_cs', [...known]);
+}
+
+export function loadKnownCs(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_cs', []);
+  return new Set(arr);
+}
+
+export function saveKnownKk(known: Set<string>): void {
+  _lzSave('ew_known_kk', [...known]);
+}
+
+export function loadKnownKk(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_kk', []);
+  return new Set(arr);
+}
+
+export function saveKnownSv(known: Set<string>): void {
+  _lzSave('ew_known_sv', [...known]);
+}
+
+export function loadKnownSv(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_sv', []);
+  return new Set(arr);
+}
+
+export function saveKnownKa(known: Set<string>): void {
+  _lzSave('ew_known_ka', [...known]);
+}
+
+export function loadKnownKa(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_ka', []);
+  return new Set(arr);
+}
+
+export function saveKnownHr(known: Set<string>): void {
+  _lzSave('ew_known_hr', [...known]);
+}
+
+export function loadKnownHr(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_hr', []);
+  return new Set(arr);
+}
+
+export function saveKnownSr(known: Set<string>): void {
+  _lzSave('ew_known_sr', [...known]);
+}
+
+export function loadKnownSr(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_sr', []);
+  return new Set(arr);
+}
+
+export function saveKnownBs(known: Set<string>): void {
+  _lzSave('ew_known_bs', [...known]);
+}
+
+export function loadKnownBs(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_bs', []);
+  return new Set(arr);
+}
+
+export function saveKnownBg(known: Set<string>): void {
+  _lzSave('ew_known_bg', [...known]);
+}
+
+export function loadKnownBg(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_bg', []);
+  return new Set(arr);
+}
+
+export function saveKnownSk(known: Set<string>): void {
+  _lzSave('ew_known_sk', [...known]);
+}
+
+export function loadKnownSk(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_sk', []);
+  return new Set(arr);
+}
+
+export function saveKnownHy(known: Set<string>): void {
+  _lzSave('ew_known_hy', [...known]);
+}
+
+export function loadKnownHy(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_hy', []);
+  return new Set(arr);
+}
+
+export function saveKnownDa(known: Set<string>): void {
+  _lzSave('ew_known_da', [...known]);
+}
+
+export function loadKnownDa(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_da', []);
+  return new Set(arr);
+}
+
+export function saveKnownFi(known: Set<string>): void {
+  _lzSave('ew_known_fi', [...known]);
+}
+
+export function loadKnownFi(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_fi', []);
+  return new Set(arr);
+}
+
+export function saveKnownNo(known: Set<string>): void {
+  _lzSave('ew_known_no', [...known]);
+}
+
+export function loadKnownNo(): Set<string> {
+  const arr = _lzLoad<string[]>('ew_known_no', []);
+  return new Set(arr);
+}
+
 function _srsLangKey(): string {
   const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
   return lang === 'en' ? 'ew_srs' : `ew_srs_${lang}`;

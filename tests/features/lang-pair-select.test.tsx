@@ -19,7 +19,37 @@ vi.mock('../../data/words_ja.js', () => ({ W_JA: {} }));
 vi.mock('../../data/words_tr.js', () => ({ W_TR: {} }));
 vi.mock('../../data/words_nl.js', () => ({ W_NL: {} }));
 vi.mock('../../data/words_vi.js', () => ({ W_VI: {} }));
+vi.mock('../../data/words_hi.js', () => ({ W_HI: {} }));
+vi.mock('../../data/words_bn.js', () => ({ W_BN: {} }));
+vi.mock('../../data/words_id.js', () => ({ W_ID: {} }));
+vi.mock('../../data/words_pcm.js', () => ({ W_PCM: {} }));
+vi.mock('../../data/words_ko.js', () => ({ W_KO: {} }));
+vi.mock('../../data/words_fa.js', () => ({ W_FA: {} }));
+vi.mock('../../data/words_sw.js', () => ({ W_SW: {} }));
+vi.mock('../../data/words_ms.js', () => ({ W_MS: {} }));
+vi.mock('../../data/words_th.js', () => ({ W_TH: {} }));
+vi.mock('../../data/words_az.js', () => ({ W_AZ: {} }));
+vi.mock('../../data/words_ro.js', () => ({ W_RO: {} }));
+vi.mock('../../data/words_hu.js', () => ({ W_HU: {} }));
+vi.mock('../../data/words_cs.js', () => ({ W_CS: {} }));
+vi.mock('../../data/words_kk.js', () => ({ W_KK: {} }));
+vi.mock('../../data/words_sv.js', () => ({ W_SV: {} }));
+vi.mock('../../data/words_ka.js', () => ({ W_KA: {} }));
+vi.mock('../../data/words_hr.js', () => ({ W_HR: {} }));
+vi.mock('../../data/words_sr.js', () => ({ W_SR: {} }));
+vi.mock('../../data/words_bs.js', () => ({ W_BS: {} }));
+vi.mock('../../data/words_bg.js', () => ({ W_BG: {} }));
+vi.mock('../../data/words_sk.js', () => ({ W_SK: {} }));
+vi.mock('../../data/words_hy.js', () => ({ W_HY: {} }));
+vi.mock('../../data/words_da.js', () => ({ W_DA: {} }));
+vi.mock('../../data/words_fi.js', () => ({ W_FI: {} }));
+vi.mock('../../data/words_no.js', () => ({ W_NO: {} }));
 import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
+
+const NEW_LANGS = [
+  'hi', 'bn', 'id', 'pcm', 'ko', 'fa', 'sw', 'ms', 'th', 'az', 'ro', 'hu', 'cs', 'kk', 'sv',
+  'ka', 'hr', 'sr', 'bs', 'bg', 'sk', 'hy', 'da', 'fi', 'no',
+];
 
 function mountLangPairSelect(): void {
   const el = document.getElementById('lang-pair-select')!;
@@ -71,7 +101,7 @@ describe('lang-pair-select', () => {
     // Preload all lang tables (from stubs above) so areLangTablesReady()
     // returns true and persist() takes the synchronous applyMode path.
     await Promise.all(
-      ['es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl', 'vi'].map(
+      ['es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl', 'vi', ...NEW_LANGS].map(
         ensureLangTableLoaded,
       ),
     );
@@ -92,12 +122,12 @@ describe('lang-pair-select', () => {
     act(() => {
       (dds[0].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(16); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi
+    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(41); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 25 new langs
 
     act(() => {
       (dds[1].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(15); // learn options for know=ua
+    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(40); // learn options for know=ua
 
     act(() => {
       (dds[2].querySelector('.flagdd-btn') as HTMLButtonElement).click();

@@ -24,6 +24,31 @@ import {
   trEntry,
   nlEntry,
   viEntry,
+  hiEntry,
+  bnEntry,
+  idEntry,
+  pcmEntry,
+  koEntry,
+  faEntry,
+  swEntry,
+  msEntry,
+  thEntry,
+  azEntry,
+  roEntry,
+  huEntry,
+  csEntry,
+  kkEntry,
+  svEntry,
+  kaEntry,
+  hrEntry,
+  srEntry,
+  bsEntry,
+  bgEntry,
+  skEntry,
+  hyEntry,
+  daEntry,
+  fiEntry,
+  noEntry,
 } from './mode-utils.ts';
 import type { DuelMode, Difficulty } from './duel.ts';
 import { CHARS, ROOM_SIZE } from './duel.ts';
@@ -79,6 +104,56 @@ export function _wordInLang(w: WordEntry, lang: string): string {
       return nlEntry(w[0])?.[0] ?? w[1];
     case 'vi':
       return viEntry(w[0])?.[0] ?? w[1];
+    case 'hi':
+      return hiEntry(w[0])?.[0] ?? w[1];
+    case 'bn':
+      return bnEntry(w[0])?.[0] ?? w[1];
+    case 'id':
+      return idEntry(w[0])?.[0] ?? w[1];
+    case 'pcm':
+      return pcmEntry(w[0])?.[0] ?? w[1];
+    case 'ko':
+      return koEntry(w[0])?.[0] ?? w[1];
+    case 'fa':
+      return faEntry(w[0])?.[0] ?? w[1];
+    case 'sw':
+      return swEntry(w[0])?.[0] ?? w[1];
+    case 'ms':
+      return msEntry(w[0])?.[0] ?? w[1];
+    case 'th':
+      return thEntry(w[0])?.[0] ?? w[1];
+    case 'az':
+      return azEntry(w[0])?.[0] ?? w[1];
+    case 'ro':
+      return roEntry(w[0])?.[0] ?? w[1];
+    case 'hu':
+      return huEntry(w[0])?.[0] ?? w[1];
+    case 'cs':
+      return csEntry(w[0])?.[0] ?? w[1];
+    case 'kk':
+      return kkEntry(w[0])?.[0] ?? w[1];
+    case 'sv':
+      return svEntry(w[0])?.[0] ?? w[1];
+    case 'ka':
+      return kaEntry(w[0])?.[0] ?? w[1];
+    case 'hr':
+      return hrEntry(w[0])?.[0] ?? w[1];
+    case 'sr':
+      return srEntry(w[0])?.[0] ?? w[1];
+    case 'bs':
+      return bsEntry(w[0])?.[0] ?? w[1];
+    case 'bg':
+      return bgEntry(w[0])?.[0] ?? w[1];
+    case 'sk':
+      return skEntry(w[0])?.[0] ?? w[1];
+    case 'hy':
+      return hyEntry(w[0])?.[0] ?? w[1];
+    case 'da':
+      return daEntry(w[0])?.[0] ?? w[1];
+    case 'fi':
+      return fiEntry(w[0])?.[0] ?? w[1];
+    case 'no':
+      return noEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1]; // 'ua'
   }
@@ -118,6 +193,56 @@ export function _hasLangWord(w: WordEntry, lang: string): boolean {
       return nlEntry(w[0]) !== null;
     case 'vi':
       return viEntry(w[0]) !== null;
+    case 'hi':
+      return hiEntry(w[0]) !== null;
+    case 'bn':
+      return bnEntry(w[0]) !== null;
+    case 'id':
+      return idEntry(w[0]) !== null;
+    case 'pcm':
+      return pcmEntry(w[0]) !== null;
+    case 'ko':
+      return koEntry(w[0]) !== null;
+    case 'fa':
+      return faEntry(w[0]) !== null;
+    case 'sw':
+      return swEntry(w[0]) !== null;
+    case 'ms':
+      return msEntry(w[0]) !== null;
+    case 'th':
+      return thEntry(w[0]) !== null;
+    case 'az':
+      return azEntry(w[0]) !== null;
+    case 'ro':
+      return roEntry(w[0]) !== null;
+    case 'hu':
+      return huEntry(w[0]) !== null;
+    case 'cs':
+      return csEntry(w[0]) !== null;
+    case 'kk':
+      return kkEntry(w[0]) !== null;
+    case 'sv':
+      return svEntry(w[0]) !== null;
+    case 'ka':
+      return kaEntry(w[0]) !== null;
+    case 'hr':
+      return hrEntry(w[0]) !== null;
+    case 'sr':
+      return srEntry(w[0]) !== null;
+    case 'bs':
+      return bsEntry(w[0]) !== null;
+    case 'bg':
+      return bgEntry(w[0]) !== null;
+    case 'sk':
+      return skEntry(w[0]) !== null;
+    case 'hy':
+      return hyEntry(w[0]) !== null;
+    case 'da':
+      return daEntry(w[0]) !== null;
+    case 'fi':
+      return fiEntry(w[0]) !== null;
+    case 'no':
+      return noEntry(w[0]) !== null;
     default:
       return true;
   }

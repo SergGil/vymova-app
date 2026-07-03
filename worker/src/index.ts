@@ -26,6 +26,7 @@ const MAX_MESSAGES = 50;
 const MAX_PAYLOAD_CHARS = 20_000;
 const VALID_LANGS = new Set([
   'en', 'ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl', 'vi',
+  'hi', 'bn', 'id', 'pcm', 'ko', 'fa', 'sw', 'ms', 'th', 'az', 'ro', 'hu', 'cs', 'kk', 'sv', 'ka', 'hr', 'sr', 'bs', 'bg', 'sk', 'hy', 'da', 'fi', 'no',
 ]);
 
 const ROLEPLAY_SCENARIOS: Record<string, string> = {

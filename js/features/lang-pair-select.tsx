@@ -24,7 +24,32 @@ export type LangCode =
   | 'ja'
   | 'tr'
   | 'nl'
-  | 'vi';
+  | 'vi'
+  | 'hi'
+  | 'bn'
+  | 'id'
+  | 'pcm'
+  | 'ko'
+  | 'fa'
+  | 'sw'
+  | 'ms'
+  | 'th'
+  | 'az'
+  | 'ro'
+  | 'hu'
+  | 'cs'
+  | 'kk'
+  | 'sv'
+  | 'ka'
+  | 'hr'
+  | 'sr'
+  | 'bs'
+  | 'bg'
+  | 'sk'
+  | 'hy'
+  | 'da'
+  | 'fi'
+  | 'no';
 type Direction = 'fwd' | 'rev' | 'mix';
 
 const ALL_LANGS: LangCode[] = [
@@ -44,6 +69,31 @@ const ALL_LANGS: LangCode[] = [
   'tr',
   'nl',
   'vi',
+  'hi',
+  'bn',
+  'id',
+  'pcm',
+  'ko',
+  'fa',
+  'sw',
+  'ms',
+  'th',
+  'az',
+  'ro',
+  'hu',
+  'cs',
+  'kk',
+  'sv',
+  'ka',
+  'hr',
+  'sr',
+  'bs',
+  'bg',
+  'sk',
+  'hy',
+  'da',
+  'fi',
+  'no',
 ];
 
 // Flag shown for each language — picks the country most learners associate
@@ -65,6 +115,31 @@ export const FLAG_CODE: Record<LangCode, string> = {
   tr: 'tr',
   nl: 'nl',
   vi: 'vn',
+  hi: 'in',
+  bn: 'bd',
+  id: 'id',
+  pcm: 'ng',
+  ko: 'kr',
+  fa: 'ir',
+  sw: 'tz',
+  ms: 'my',
+  th: 'th',
+  az: 'az',
+  ro: 'ro',
+  hu: 'hu',
+  cs: 'cz',
+  kk: 'kz',
+  sv: 'se',
+  ka: 'ge',
+  hr: 'hr',
+  sr: 'rs',
+  bs: 'ba',
+  bg: 'bg',
+  sk: 'sk',
+  hy: 'am',
+  da: 'dk',
+  fi: 'fi',
+  no: 'no',
 };
 
 function LangFlag({ lang }: { lang: LangCode }): ReactElement {
@@ -133,7 +208,32 @@ function isLangCode(v: string | null): v is LangCode {
     v === 'ja' ||
     v === 'tr' ||
     v === 'nl' ||
-    v === 'vi'
+    v === 'vi' ||
+    v === 'hi' ||
+    v === 'bn' ||
+    v === 'id' ||
+    v === 'pcm' ||
+    v === 'ko' ||
+    v === 'fa' ||
+    v === 'sw' ||
+    v === 'ms' ||
+    v === 'th' ||
+    v === 'az' ||
+    v === 'ro' ||
+    v === 'hu' ||
+    v === 'cs' ||
+    v === 'kk' ||
+    v === 'sv' ||
+    v === 'ka' ||
+    v === 'hr' ||
+    v === 'sr' ||
+    v === 'bs' ||
+    v === 'bg' ||
+    v === 'sk' ||
+    v === 'hy' ||
+    v === 'da' ||
+    v === 'fi' ||
+    v === 'no'
   );
 }
 
@@ -184,17 +284,24 @@ let _optionsEnsured = false;
 function _ensureModeOptions(sel: HTMLSelectElement): void {
   if (_optionsEnsured) return;
   _optionsEnsured = true;
+  // Collect existing values once instead of a querySelector scan per pair —
+  // with ALL_LANGS this large, the O(n) DOM scan inside an O(n²) pair loop
+  // made this O(n³) and measurably slow (see lang-pair-select.test.tsx).
+  const existing = new Set(Array.from(sel.options).map((o) => o.value));
+  const frag = document.createDocumentFragment();
   for (const front of ALL_LANGS) {
     for (const back of ALL_LANGS) {
       if (front === back) continue;
       const mode = modeForPair(front, back);
-      if (sel.querySelector(`option[value="${mode}"]`)) continue;
+      if (existing.has(mode)) continue;
+      existing.add(mode);
       const opt = document.createElement('option');
       opt.value = mode;
       opt.textContent = `${front.toUpperCase()} → ${back.toUpperCase()}`;
-      sel.appendChild(opt);
+      frag.appendChild(opt);
     }
   }
+  sel.appendChild(frag);
 }
 
 // Applies the chosen pair + direction to the legacy #sel-mode select.

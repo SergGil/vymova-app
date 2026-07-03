@@ -16,6 +16,31 @@ import {
   loadKnownTr,
   loadKnownNl,
   loadKnownVi,
+  loadKnownHi,
+  loadKnownBn,
+  loadKnownId,
+  loadKnownPcm,
+  loadKnownKo,
+  loadKnownFa,
+  loadKnownSw,
+  loadKnownMs,
+  loadKnownTh,
+  loadKnownAz,
+  loadKnownRo,
+  loadKnownHu,
+  loadKnownCs,
+  loadKnownKk,
+  loadKnownSv,
+  loadKnownKa,
+  loadKnownHr,
+  loadKnownSr,
+  loadKnownBs,
+  loadKnownBg,
+  loadKnownSk,
+  loadKnownHy,
+  loadKnownDa,
+  loadKnownFi,
+  loadKnownNo,
   loadSRS,
 } from './core/storage.ts';
 import { W } from '../data/words.js';
@@ -65,6 +90,31 @@ setKnownWords('ja', loadKnownJa());
 setKnownWords('tr', loadKnownTr());
 setKnownWords('nl', loadKnownNl());
 setKnownWords('vi', loadKnownVi());
+setKnownWords('hi', loadKnownHi());
+setKnownWords('bn', loadKnownBn());
+setKnownWords('id', loadKnownId());
+setKnownWords('pcm', loadKnownPcm());
+setKnownWords('ko', loadKnownKo());
+setKnownWords('fa', loadKnownFa());
+setKnownWords('sw', loadKnownSw());
+setKnownWords('ms', loadKnownMs());
+setKnownWords('th', loadKnownTh());
+setKnownWords('az', loadKnownAz());
+setKnownWords('ro', loadKnownRo());
+setKnownWords('hu', loadKnownHu());
+setKnownWords('cs', loadKnownCs());
+setKnownWords('kk', loadKnownKk());
+setKnownWords('sv', loadKnownSv());
+setKnownWords('ka', loadKnownKa());
+setKnownWords('hr', loadKnownHr());
+setKnownWords('sr', loadKnownSr());
+setKnownWords('bs', loadKnownBs());
+setKnownWords('bg', loadKnownBg());
+setKnownWords('sk', loadKnownSk());
+setKnownWords('hy', loadKnownHy());
+setKnownWords('da', loadKnownDa());
+setKnownWords('fi', loadKnownFi());
+setKnownWords('no', loadKnownNo());
 
 setBaseWords(W.slice() as unknown as WordEntry[]);
 

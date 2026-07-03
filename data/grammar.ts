@@ -15154,7 +15154,44 @@ export const GRAMMAR_VI: GrammarCategory[] = [
 
 // ── Grammar content per language being learned ─────────────────
 export const GRAMMAR_BY_LANG: Partial<
-  Record<Lang | 'he' | 'ar' | 'pl' | 'zh' | 'el' | 'ja' | 'tr' | 'nl' | 'vi', GrammarCategory[]>
+  Record<
+    | Lang
+    | 'he'
+    | 'ar'
+    | 'pl'
+    | 'zh'
+    | 'el'
+    | 'ja'
+    | 'tr'
+    | 'nl'
+    | 'vi'
+    | 'hi'
+    | 'bn'
+    | 'id'
+    | 'pcm'
+    | 'ko'
+    | 'fa'
+    | 'sw'
+    | 'ms'
+    | 'th'
+    | 'az'
+    | 'ro'
+    | 'hu'
+    | 'cs'
+    | 'kk'
+    | 'sv'
+    | 'ka'
+    | 'hr'
+    | 'sr'
+    | 'bs'
+    | 'bg'
+    | 'sk'
+    | 'hy'
+    | 'da'
+    | 'fi'
+    | 'no',
+    GrammarCategory[]
+  >
 > = {
   en: GRAMMAR,
   es: GRAMMAR_ES,
@@ -15171,4 +15208,29 @@ export const GRAMMAR_BY_LANG: Partial<
   tr: GRAMMAR_TR,
   nl: GRAMMAR_NL,
   vi: GRAMMAR_VI,
+  hi: [],
+  bn: [],
+  id: [],
+  pcm: [],
+  ko: [],
+  fa: [],
+  sw: [],
+  ms: [],
+  th: [],
+  az: [],
+  ro: [],
+  hu: [],
+  cs: [],
+  kk: [],
+  sv: [],
+  ka: [],
+  hr: [],
+  sr: [],
+  bs: [],
+  bg: [],
+  sk: [],
+  hy: [],
+  da: [],
+  fi: [],
+  no: [],
 };

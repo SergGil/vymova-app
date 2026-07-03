@@ -22,7 +22,11 @@ const knownSnapshots: Record<string, Set<string>> = {};
 vi.mock('../../src/known-words-store.ts', () => ({
   useAllKnownWords: () => {
     const state: Record<string, Set<string>> = {};
-    for (const lang of ['en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl', 'vi']) {
+    for (const lang of [
+      'en', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl', 'vi',
+      'hi', 'bn', 'id', 'pcm', 'ko', 'fa', 'sw', 'ms', 'th', 'az', 'ro', 'hu', 'cs', 'kk', 'sv',
+      'ka', 'hr', 'sr', 'bs', 'bg', 'sk', 'hy', 'da', 'fi', 'no',
+    ]) {
       state[lang] = knownSnapshots[lang] ?? new Set<string>();
     }
     return state;
