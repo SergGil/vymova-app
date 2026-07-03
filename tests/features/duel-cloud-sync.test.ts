@@ -30,11 +30,27 @@ vi.stubGlobal('crypto', {
   },
 });
 
-const { askCode } = vi.hoisted(() => ({ askCode: vi.fn(async () => 'ABCDEF') }));
-vi.mock('../../js/features/duel.ts', async (importOriginal) => {
-  const orig = await importOriginal<typeof import('../../js/features/duel.ts')>();
-  return { ...orig, _askCode: askCode };
-});
+// _askCode() drives a real DOM prompt (#code-input-*) rather than a plain
+// promise, so functions that use it (joinAsSpectator here) need those
+// elements present; this drives them for real instead of mocking duel.ts's
+// module (which — now that duel.ts statically imports from duel-spectator-
+// logic.ts — makes vi.mock's importOriginal() resolve _askCode ambiguously
+// across the two module instances).
+function _mountCodeInputDom(): void {
+  document.body.innerHTML += `
+    <div id="code-input-overlay" style="display:none">
+      <span id="code-input-title"></span>
+      <span id="code-input-desc"></span>
+      <input id="code-input-field" />
+      <button id="code-input-ok"></button>
+      <button id="code-input-cancel"></button>
+    </div>`;
+}
+async function _answerCodePrompt(code: string): Promise<void> {
+  await new Promise((r) => setTimeout(r, 0)); // let _askCode() render into the overlay
+  (document.getElementById('code-input-field') as HTMLInputElement).value = code;
+  document.getElementById('code-input-ok')!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+}
 
 import { createRoom, joinRoom, _cancelRoom } from '../../js/features/duel.ts';
 import { createAsyncChallenge, _cancelAsyncStart } from '../../js/features/duel-async-challenge.ts';
@@ -47,14 +63,14 @@ import { getDuelLobbyUISnapshot } from '../../src/duel-lobby-store.ts';
 // them) end to end, specifically to verify that the duel.ts split into
 // duel-firebase.ts / duel-tournament-logic.ts / duel-async-challenge.ts /
 // duel-spectator-logic.ts didn't drop or misroute any cloud read/write, and
-// that the new dynamic-import cleanup wiring in duel.ts's _cancelRoom()
-// (which now reaches into the three extracted modules instead of touching
-// their state directly) actually fires.
+// that the cleanup wiring in duel.ts's _cancelRoom() (which now calls into
+// the three extracted modules instead of touching their state directly)
+// actually fires.
 describe('duel cloud sync — real Firebase-facing functions after the module split', () => {
   beforeEach(() => {
     Object.keys(_fbStore).forEach((k) => delete _fbStore[k]);
     _calls.length = 0;
-    askCode.mockClear();
+    document.body.innerHTML = '';
   });
 
   it('createRoom() PUTs a full room doc, then _cancelRoom() DELETEs it (p1 owns cleanup)', async () => {
@@ -135,8 +151,10 @@ describe('duel cloud sync — real Firebase-facing functions after the module sp
       createdAt: Date.now(),
       series: { p1wins: 0, p2wins: 0, round: 1 },
     };
-    askCode.mockResolvedValueOnce('SPECROOM');
-    await joinAsSpectator();
+    _mountCodeInputDom();
+    const joined = joinAsSpectator();
+    await _answerCodePrompt('SPECROOM');
+    await joined;
     const patch = _calls.find(
       (c) => c.method === 'PATCH' && c.path.startsWith('/duel_rooms/SPECROOM/spectators/'),
     );
@@ -145,11 +163,10 @@ describe('duel cloud sync — real Firebase-facing functions after the module sp
 
     // This is the key regression check: _cancelRoom() lives in duel.ts and no
     // longer touches spectator state directly — it reaches into
-    // duel-spectator-logic.ts via a dynamic import (_cancelSpectating). If
-    // that wiring broke during the split, this DELETE would never fire and
-    // the spectator entry would leak in Firebase forever.
+    // duel-spectator-logic.ts's _cancelSpectating(). If that wiring broke
+    // during the split, this DELETE would never fire and the spectator
+    // entry would leak in Firebase forever.
     _cancelRoom();
-    await new Promise((r) => setTimeout(r, 0)); // let the dynamic import's microtask resolve
     const del = _calls.find((c) => c.method === 'DELETE' && c.path === specPath);
     expect(del).toBeTruthy();
 

@@ -19,7 +19,17 @@ import { setDuelRoom, getDuelRoomSnapshot } from '../../src/duel-room-store.ts';
 import type { DuelMode, Difficulty, BestOf } from './duel.ts';
 import { _genCode, _fmtCode, _buildDeck } from './duel-deck.ts';
 import { DUEL_MODES, _getMyName, _getMyAvatar, _askCode, _initGame } from './duel.ts';
-import { _clearTournamentState } from './duel-tournament-logic.ts';
+
+// Dynamic import: duel-tournament-logic.ts statically imports duel-
+// tournament.tsx (the whole tournament bracket UI), which is heavy and
+// otherwise unrelated to creating an async challenge. A static import here
+// would also make duel.ts's own dynamic import of *this* file (for
+// _cancelAsyncStart, used by _cancelRoom()) pull in that entire tree just
+// to clear a timer — slow enough in CI to occasionally lose the race
+// against Vitest's per-file environment teardown.
+async function _clearTournamentState(): Promise<void> {
+  (await import('./duel-tournament-logic.ts'))._clearTournamentState();
+}
 
 interface AsyncDuel {
   seed: number;
@@ -55,7 +65,7 @@ export async function createAsyncChallenge(): Promise<void> {
   notifyStateChange();
   try {
     // Clear any stale tournament state so _showFinish doesn't route to tournament path
-    _clearTournamentState();
+    await _clearTournamentState();
     const code = _genCode();
     const seed = Date.now();
     const sel = getDuelSelSnapshot();

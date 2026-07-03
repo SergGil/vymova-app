@@ -90,21 +90,16 @@ async function _clearTournamentState(): Promise<void> {
   (await import('./duel-tournament-logic.ts'))._clearTournamentState();
 }
 
-// Той самий прийом для duel-spectator-logic.ts, яке статично імпортує
-// _cancelRoom/_showLobby/renderDuel звідси — статичний імпорт назад
-// теж створив би цикл.
-async function _cancelSpectating(roomId: string): Promise<void> {
-  (await import('./duel-spectator-logic.ts'))._cancelSpectating(roomId);
-}
-async function _leaveSpectator(): Promise<void> {
-  (await import('./duel-spectator-logic.ts'))._leaveSpectator();
-}
-
-// Той самий прийом для duel-async-challenge.ts, яке статично імпортує
-// DUEL_MODES/_genCode/тощо звідси.
-async function _cancelAsyncStart(): Promise<void> {
-  (await import('./duel-async-challenge.ts'))._cancelAsyncStart();
-}
+// duel-spectator-logic.ts and duel-async-challenge.ts also statically
+// import from duel.ts (forming the same kind of cycle as duel-tournament-
+// logic.ts above), but neither calls back into duel.ts at module top level
+// the way _registerMatchFinishHook() does — so a plain static import here
+// is safe. (duel-async-challenge.ts used to statically import duel-
+// tournament-logic.ts too, which transitively pulled in the whole
+// tournament bracket UI just to clear a timer; that import is now scoped
+// to a dynamic import inside createAsyncChallenge() itself instead.)
+import { _cancelSpectating, _leaveSpectator } from './duel-spectator-logic.ts';
+import { _cancelAsyncStart } from './duel-async-challenge.ts';
 
 // Лінива ініціалізація: уникає TDZ-помилки у production-збірці, де
 // duel.ts і duel-tournament.tsx опиняються в циклічно залежних чанках
