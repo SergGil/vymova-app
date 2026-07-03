@@ -14635,6 +14635,306 @@ export const GRAMMAR_DE: GrammarCategory[] = [
           },
         ],
       },
+      {
+        id: 'zusammengesetzte-nomen',
+        title: 'Складні іменники (Komposita) — A2',
+        emoji: '🧱',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Німецькі складні іменники утворюються поєднанням кількох слів в одне; рід визначає останнє слово.',
+            en: { text: 'German compound nouns are formed by joining several words into one; the gender is determined by the last word.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['die Hand + der Schuh → der Handschuh', 'рукавичка'],
+              ['das Haus + die Tür → die Haustür', 'вхідні двері'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'da-wo-composita',
+        title: 'da-/wo- складні слова — B1',
+        emoji: '🧩',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Da- + прийменник замінює займенник, коли йдеться про неживий предмет (damit, davon). Wo- + прийменник використовується в питаннях (womit, wovon).',
+            en: { text: 'Da- + preposition replaces a pronoun when referring to a thing (damit, davon). Wo- + preposition is used in questions (womit, wovon).' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Womit schreibst du? — Ich schreibe damit.', 'Чим ти пишеш? — Я пишу цим.'],
+              ['Wovon sprichst du?', 'Про що ти говориш?'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'zahlen',
+        title: 'Числівники — A1',
+        emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Кількісні числівники від 21 до 99 читаються "у зворотному порядку": спочатку одиниці, потім десятки через und.',
+            en: { text: 'Cardinal numbers from 21 to 99 are read "in reverse": units first, then tens, joined by und.' },
+          },
+          {
+            type: 'table',
+            title: 'Приклади',
+            rows: [
+              ['21', 'einundzwanzig'],
+              ['34', 'vierunddreißig'],
+              ['100', 'hundert'],
+              ['1000', 'tausend'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich bin fünfundzwanzig Jahre alt.', 'Мені двадцять п\'ять років.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'ordinalzahlen',
+        title: 'Порядкові числівники — A1',
+        emoji: '🥇',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Порядкові числівники утворюються з -te (2–19) або -ste (з 20) і відмінюються як прикметники.',
+            en: { text: 'Ordinal numbers are formed with -te (2–19) or -ste (from 20) and decline like adjectives.' },
+          },
+          {
+            type: 'table',
+            title: 'Приклади',
+            rows: [
+              ['1.', 'erste'],
+              ['3.', 'dritte'],
+              ['7.', 'siebte'],
+              ['20.', 'zwanzigste'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Heute ist der erste Mai.', 'Сьогодні перше травня.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'uhrzeit',
+        title: 'Час доби (Uhrzeit) — A1',
+        emoji: '🕐',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Час можна називати офіційно (24-годинний формат) або розмовно, з viertel/halb.',
+            en: { text: 'Time can be told officially (24-hour format) or colloquially, using viertel/halb.' },
+          },
+          {
+            type: 'table',
+            title: 'Приклади',
+            rows: [
+              ['9:00', 'neun Uhr'],
+              ['9:15', 'Viertel nach neun'],
+              ['9:30', 'halb zehn'],
+              ['9:45', 'Viertel vor zehn'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Es ist halb acht.', 'Зараз пів на восьму.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'datum',
+        title: 'Дата — A1',
+        emoji: '📅',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дата вказується порядковим числівником у Dativ з прийменником am.',
+            en: { text: 'The date is given with an ordinal number in the dative, using the preposition am.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich habe am dritten Mai Geburtstag.', 'У мене день народження третього травня.'],
+              ['Wir treffen uns am zwanzigsten Juni.', 'Ми зустрічаємось двадцятого червня.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'modalpartikeln',
+        title: 'Модальні частки — B1',
+        emoji: '✨',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Частки doch, mal, ja, eben, halt надають реченню відтінку емоції чи ставлення й не мають прямого перекладу.',
+            en: { text: 'Particles like doch, mal, ja, eben, halt add nuance or attitude to a sentence and have no direct translation.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Komm doch mit!', 'Та ходімо ж разом! (заохочення)'],
+              ['Das ist ja toll!', 'Це ж чудово! (здивування)'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'konjunktiv-hoeflichkeit',
+        title: 'Ввічливі прохання (Konjunktiv II) — A2',
+        emoji: '🙏',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Konjunktiv II робить прохання чи запитання ввічливішим, ніж пряма форма Präsens.',
+            en: { text: 'Konjunktiv II makes a request or question more polite than the direct present-tense form.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Könntest du mir helfen?', 'Чи не міг би ти мені допомогти?'],
+              ['Ich hätte gern einen Kaffee.', 'Я б хотів (замовити) каву.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'infinitiv-mit-zu',
+        title: 'Інфінітив з zu — B1',
+        emoji: '➕',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Після більшості дієслів (крім модальних) другий інфінітив вживається з zu.',
+            en: { text: 'After most verbs (except modals), a second infinitive is used with zu.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich versuche, früh aufzustehen.', 'Я намагаюсь рано вставати.'],
+              ['Es ist wichtig, Deutsch zu lernen.', 'Важливо вивчати німецьку.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'um-zu-damit',
+        title: 'um...zu / damit — B1',
+        emoji: '🎯',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Um...zu вживається, коли підмет обох дій однаковий; damit — коли підмети різні.',
+            en: { text: 'Um...zu is used when both clauses share the same subject; damit is used when the subjects differ.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich lerne, um die Prüfung zu bestehen.', 'Я вчуся, щоб скласти іспит.'],
+              ['Ich erkläre es dir, damit du es verstehst.', 'Я пояснюю тобі це, щоб ти зрозумів.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'lassen-konstruktion',
+        title: 'Конструкція lassen — B1',
+        emoji: '🛠️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Lassen + інфінітив означає "дозволяти" або "доручати комусь зробити щось".',
+            en: { text: 'Lassen + infinitive means "to allow" or "to have someone do something".' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich lasse mein Auto reparieren.', 'Я віддаю машину в ремонт (доручаю комусь відремонтувати).'],
+              ['Lass mich in Ruhe!', 'Залиши мене в спокої!'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'es-gibt',
+        title: 'Конструкція es gibt — A1',
+        emoji: '📍',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Es gibt (є, існує) завжди вживається з Akkusativ і однаково для однини й множини.',
+            en: { text: 'Es gibt (there is/are) is always followed by the accusative, and is the same for singular and plural.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Es gibt hier einen guten Supermarkt.', 'Тут є хороший супермаркет.'],
+              ['Es gibt viele Probleme.', 'Є багато проблем.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'adjektive-praedikativ-attributiv',
+        title: 'Прикметники: предикативні vs атрибутивні — A2',
+        emoji: '🖌️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Предикативний прикметник (після sein/werden) не відмінюється; атрибутивний (перед іменником) відмінюється.',
+            en: { text: 'A predicative adjective (after sein/werden) is not declined; an attributive one (before a noun) is declined.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Das Auto ist neu.', 'Машина нова. (предикативний, без закінчення)'],
+              ['Das ist ein neues Auto.', 'Це нова машина. (атрибутивний, з закінченням)'],
+            ],
+          },
+        ],
+      },
     ],
   },
 ];
