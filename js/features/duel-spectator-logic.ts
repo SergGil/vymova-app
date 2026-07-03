@@ -49,7 +49,10 @@ export async function joinAsSpectator(): Promise<void> {
     if (!room?.seed) throw new Error(t('duel.err.notFound'));
     _isSpectator = true;
     _specId = _genCode();
-    setDuelRoom({ roomId: code });
+    // mySlot defaults to (or may still hold) 'p1' from a previous game —
+    // force it to 'p2' so _cancelRoom()'s "I'm p1, delete the room" branch
+    // never fires for a spectator, who never owns the room being watched.
+    setDuelRoom({ roomId: code, mySlot: 'p2' });
     notifyStateChange();
     await _fbPatch(`/duel_rooms/${code}/spectators/${_specId}`, {
       name: _getMyName(),
