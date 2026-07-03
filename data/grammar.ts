@@ -13954,6 +13954,385 @@ export const GRAMMAR_DE: GrammarCategory[] = [
       },
     ],
   },
+  {
+    id: 'grammar',
+    title: 'Граматика',
+    titleEn: 'Grammar',
+    emoji: '📚',
+    rules: [
+      {
+        id: 'nominativ',
+        title: 'Nominativ — A1',
+        emoji: '1️⃣',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Називний відмінок — відповідає на питання "хто? що?". Це відмінок підмета речення.',
+            en: { text: 'The nominative case — answers "who? what?". It is the case of the subject of the sentence.' },
+          },
+          {
+            type: 'table',
+            title: 'Артиклі в Nominativ',
+            rows: [
+              ['чоловічий', 'der Mann', 'ein Mann'],
+              ['жіночий', 'die Frau', 'eine Frau'],
+              ['середній', 'das Kind', 'ein Kind'],
+              ['множина', 'die Kinder', '—'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Der Mann liest.', 'Чоловік читає.'],
+              ['Die Frau kocht.', 'Жінка готує.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'akkusativ',
+        title: 'Akkusativ — A1',
+        emoji: '2️⃣',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Знахідний відмінок — відповідає на питання "кого? що?". Це відмінок прямого додатка.',
+            en: { text: 'The accusative case — answers "whom? what?". It is the case of the direct object.' },
+          },
+          {
+            type: 'table',
+            title: 'Артиклі в Akkusativ',
+            rows: [
+              ['чоловічий', 'den Mann', 'einen Mann'],
+              ['жіночий', 'die Frau', 'eine Frau'],
+              ['середній', 'das Kind', 'ein Kind'],
+              ['множина', 'die Kinder', '—'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich sehe den Mann.', 'Я бачу чоловіка.'],
+              ['Sie kauft einen Apfel.', 'Вона купує яблуко.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'dativ',
+        title: 'Dativ — A1',
+        emoji: '3️⃣',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Давальний відмінок — відповідає на питання "кому? чому?". Це відмінок непрямого додатка.',
+            en: { text: 'The dative case — answers "to whom? to what?". It is the case of the indirect object.' },
+          },
+          {
+            type: 'table',
+            title: 'Артиклі в Dativ',
+            rows: [
+              ['чоловічий', 'dem Mann', 'einem Mann'],
+              ['жіночий', 'der Frau', 'einer Frau'],
+              ['середній', 'dem Kind', 'einem Kind'],
+              ['множина', 'den Kindern', '—'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich gebe dem Mann das Buch.', 'Я даю чоловікові книгу.'],
+              ['Sie hilft der Frau.', 'Вона допомагає жінці.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'genitiv',
+        title: 'Genitiv — B1',
+        emoji: '4️⃣',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Родовий відмінок — виражає належність, відповідає на питання "кого? чого? чий?". У розмовній мові часто замінюється на von + Dativ.',
+            en: { text: 'The genitive case — expresses possession, answers "whose?". In spoken German it is often replaced by von + dative.' },
+          },
+          {
+            type: 'table',
+            title: 'Артиклі в Genitiv',
+            rows: [
+              ['чоловічий', 'des Mannes', 'eines Mannes'],
+              ['жіночий', 'der Frau', 'einer Frau'],
+              ['середній', 'des Kindes', 'eines Kindes'],
+              ['множина', 'der Kinder', '—'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Das ist das Auto des Mannes.', 'Це машина чоловіка.'],
+              ['Die Farbe der Blätter ändert sich.', 'Колір листя змінюється.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'personalpronomen',
+        title: 'Особові займенники — A1',
+        emoji: '👤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Особові займенники змінюються за відмінками так само, як іменники.',
+            en: { text: 'Personal pronouns decline by case just like nouns.' },
+          },
+          {
+            type: 'table',
+            title: 'Nominativ / Akkusativ / Dativ',
+            rows: [
+              ['ich', 'mich', 'mir'],
+              ['du', 'dich', 'dir'],
+              ['er/sie/es', 'ihn/sie/es', 'ihm/ihr/ihm'],
+              ['wir', 'uns', 'uns'],
+              ['ihr', 'euch', 'euch'],
+              ['sie/Sie', 'sie/Sie', 'ihnen/Ihnen'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich sehe ihn.', 'Я його бачу.'],
+              ['Sie gibt mir das Geld.', 'Вона дає мені гроші.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'possessivpronomen',
+        title: 'Присвійні займенники — A1',
+        emoji: '🏠',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Присвійні займенники (mein, dein, sein...) вказують на належність і відмінюються як неозначений артикль.',
+            en: { text: 'Possessive pronouns (mein, dein, sein...) show ownership and decline like the indefinite article.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові форми',
+            rows: [
+              ['ich', 'mein'],
+              ['du', 'dein'],
+              ['er/es', 'sein'],
+              ['sie', 'ihr'],
+              ['wir', 'unser'],
+              ['ihr', 'euer'],
+              ['sie/Sie', 'ihr/Ihr'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Das ist mein Buch.', 'Це моя книга.'],
+              ['Wo ist deine Tasche?', 'Де твоя сумка?'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'modalverben',
+        title: 'Модальні дієслова — A2',
+        emoji: '🎯',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Модальні дієслова (können, müssen, dürfen, wollen, sollen, mögen) виражають можливість, необхідність, дозвіл чи бажання й вживаються з інфінітивом без zu.',
+            en: { text: 'Modal verbs (können, müssen, dürfen, wollen, sollen, mögen) express ability, necessity, permission or desire, and take an infinitive without zu.' },
+          },
+          {
+            type: 'table',
+            title: 'Значення',
+            rows: [
+              ['können', 'могти, вміти'],
+              ['müssen', 'бути зобов\'язаним'],
+              ['dürfen', 'мати дозвіл'],
+              ['wollen', 'хотіти'],
+              ['sollen', 'бути повинним (за наказом)'],
+              ['mögen', 'подобатися'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich kann schwimmen.', 'Я вмію плавати.'],
+              ['Du musst jetzt gehen.', 'Тобі треба йти зараз.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'adjektivdeklination',
+        title: 'Відмінювання прикметників — B1',
+        emoji: '🎨',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Закінчення прикметника залежить від відмінка, роду та від того, чи стоїть перед ним артикль.',
+            en: { text: 'The adjective ending depends on the case, gender, and whether an article precedes it.' },
+          },
+          {
+            type: 'table',
+            title: 'Після означеного артикля (Nominativ)',
+            rows: [
+              ['чоловічий', 'der gute Mann'],
+              ['жіночий', 'die gute Frau'],
+              ['середній', 'das gute Kind'],
+              ['множина', 'die guten Kinder'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich kaufe einen roten Apfel.', 'Я купую червоне яблуко.'],
+              ['Das ist ein interessantes Buch.', 'Це цікава книга.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'komparativ-superlativ',
+        title: 'Ступені порівняння прикметників — A2',
+        emoji: '📈',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Вищий ступінь утворюється додаванням -er, найвищий — am + -sten.',
+            en: { text: 'The comparative is formed with -er, the superlative with am + -sten.' },
+          },
+          {
+            type: 'table',
+            title: 'Приклад (schnell)',
+            rows: [
+              ['звичайний', 'schnell'],
+              ['вищий', 'schneller'],
+              ['найвищий', 'am schnellsten'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Er ist schneller als ich.', 'Він швидший за мене.'],
+              ['Das ist das beste Restaurant der Stadt.', 'Це найкращий ресторан у місті.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'praepositionen-akkusativ',
+        title: 'Прийменники з Akkusativ — A2',
+        emoji: '➡️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Ці прийменники завжди вимагають Akkusativ: durch, für, gegen, ohne, um.',
+            en: { text: 'These prepositions always take the accusative: durch, für, gegen, ohne, um.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Das Geschenk ist für dich.', 'Цей подарунок для тебе.'],
+              ['Wir gehen ohne ihn.', 'Ми йдемо без нього.'],
+              ['Er läuft durch den Park.', 'Він біжить через парк.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'praepositionen-dativ',
+        title: 'Прийменники з Dativ — A2',
+        emoji: '⬅️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Ці прийменники завжди вимагають Dativ: aus, bei, mit, nach, seit, von, zu.',
+            en: { text: 'These prepositions always take the dative: aus, bei, mit, nach, seit, von, zu.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich komme aus der Ukraine.', 'Я з України.'],
+              ['Sie fährt mit dem Bus.', 'Вона їде автобусом.'],
+              ['Wir wohnen seit einem Jahr hier.', 'Ми живемо тут уже рік.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'wechselpraepositionen',
+        title: 'Двосторонні прийменники (Wechselpräpositionen) — B1',
+        emoji: '↔️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Ці дев\'ять прийменників вимагають Akkusativ при русі (куди?) і Dativ при місцезнаходженні (де?): an, auf, hinter, in, neben, über, unter, vor, zwischen.',
+            en: { text: 'These nine prepositions take the accusative for movement (where to?) and the dative for location (where?): an, auf, hinter, in, neben, über, unter, vor, zwischen.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich lege das Buch auf den Tisch.', 'Я кладу книгу на стіл. (Akkusativ — куди?)'],
+              ['Das Buch liegt auf dem Tisch.', 'Книга лежить на столі. (Dativ — де?)'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'praepositionen-genitiv',
+        title: 'Прийменники з Genitiv — B2',
+        emoji: '🔸',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Ці прийменники вимагають Genitiv: während, trotz, wegen, statt (у розмовній мові часто з Dativ).',
+            en: { text: 'These prepositions take the genitive: während, trotz, wegen, statt (often used with the dative in spoken German).' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Wegen des Regens bleiben wir zu Hause.', 'Через дощ ми залишаємось удома.'],
+              ['Trotz der Kälte ging sie spazieren.', 'Незважаючи на холод, вона пішла на прогулянку.'],
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export const GRAMMAR_HE: GrammarCategory[] = [
