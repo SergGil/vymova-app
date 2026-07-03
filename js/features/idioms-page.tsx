@@ -23,7 +23,32 @@ type Tab =
   | 'ja'
   | 'tr'
   | 'nl'
-  | 'vi';
+  | 'vi'
+  | 'hi'
+  | 'bn'
+  | 'id'
+  | 'pcm'
+  | 'ko'
+  | 'fa'
+  | 'sw'
+  | 'ms'
+  | 'th'
+  | 'az'
+  | 'ro'
+  | 'hu'
+  | 'cs'
+  | 'kk'
+  | 'sv'
+  | 'ka'
+  | 'hr'
+  | 'sr'
+  | 'bs'
+  | 'bg'
+  | 'sk'
+  | 'hy'
+  | 'da'
+  | 'fi'
+  | 'no';
 
 function _speak(text: string, lang: string, btn: HTMLElement | null): void {
   _speakWithLang(text, lang, btn);
@@ -46,6 +71,31 @@ const LANG_BY_TAB: Record<Tab, string> = {
   tr: 'tr-TR',
   nl: 'nl-NL',
   vi: 'vi-VN',
+  hi: 'hi-IN',
+  bn: 'bn-BD',
+  id: 'id-ID',
+  pcm: 'pcm-NG',
+  ko: 'ko-KR',
+  fa: 'fa-IR',
+  sw: 'sw-TZ',
+  ms: 'ms-MY',
+  th: 'th-TH',
+  az: 'az-AZ',
+  ro: 'ro-RO',
+  hu: 'hu-HU',
+  cs: 'cs-CZ',
+  kk: 'kk-KZ',
+  sv: 'sv-SE',
+  ka: 'ka-GE',
+  hr: 'hr-HR',
+  sr: 'sr-RS',
+  bs: 'bs-BA',
+  bg: 'bg-BG',
+  sk: 'sk-SK',
+  hy: 'hy-AM',
+  da: 'da-DK',
+  fi: 'fi-FI',
+  no: 'nb-NO',
 };
 const TAB_I18N_KEY: Record<Tab, string> = {
   en: 'idioms.tabEn',
@@ -64,8 +114,33 @@ const TAB_I18N_KEY: Record<Tab, string> = {
   tr: 'idioms.tabTr',
   nl: 'idioms.tabNl',
   vi: 'idioms.tabVi',
+  hi: 'idioms.tabHi',
+  bn: 'idioms.tabBn',
+  id: 'idioms.tabId',
+  pcm: 'idioms.tabPcm',
+  ko: 'idioms.tabKo',
+  fa: 'idioms.tabFa',
+  sw: 'idioms.tabSw',
+  ms: 'idioms.tabMs',
+  th: 'idioms.tabTh',
+  az: 'idioms.tabAz',
+  ro: 'idioms.tabRo',
+  hu: 'idioms.tabHu',
+  cs: 'idioms.tabCs',
+  kk: 'idioms.tabKk',
+  sv: 'idioms.tabSv',
+  ka: 'idioms.tabKa',
+  hr: 'idioms.tabHr',
+  sr: 'idioms.tabSr',
+  bs: 'idioms.tabBs',
+  bg: 'idioms.tabBg',
+  sk: 'idioms.tabSk',
+  hy: 'idioms.tabHy',
+  da: 'idioms.tabDa',
+  fi: 'idioms.tabFi',
+  no: 'idioms.tabNo',
 };
-const RTL_TABS = new Set<Tab>(['he', 'ar']);
+const RTL_TABS = new Set<Tab>(['he', 'ar', 'fa']);
 
 function _isTab(l: string): l is Tab {
   return (
@@ -84,7 +159,32 @@ function _isTab(l: string): l is Tab {
     l === 'ja' ||
     l === 'tr' ||
     l === 'nl' ||
-    l === 'vi'
+    l === 'vi' ||
+    l === 'hi' ||
+    l === 'bn' ||
+    l === 'id' ||
+    l === 'pcm' ||
+    l === 'ko' ||
+    l === 'fa' ||
+    l === 'sw' ||
+    l === 'ms' ||
+    l === 'th' ||
+    l === 'az' ||
+    l === 'ro' ||
+    l === 'hu' ||
+    l === 'cs' ||
+    l === 'kk' ||
+    l === 'sv' ||
+    l === 'ka' ||
+    l === 'hr' ||
+    l === 'sr' ||
+    l === 'bs' ||
+    l === 'bg' ||
+    l === 'sk' ||
+    l === 'hy' ||
+    l === 'da' ||
+    l === 'fi' ||
+    l === 'no'
   );
 }
 
