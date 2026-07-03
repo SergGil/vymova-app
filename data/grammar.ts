@@ -15152,6 +15152,3335 @@ export const GRAMMAR_VI: GrammarCategory[] = [
   },
 ];
 
+export const GRAMMAR_HI: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Займенник другої особи вибирається за ступенем ввічливості: तुम — до рівних/молодших, आप — ввічливо, до старших чи незнайомих.',
+            en: {
+              text: 'The second-person pronoun depends on politeness level: तुम for peers/juniors, आप as the polite/formal form for elders or strangers.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['मैं (maiṅ)', 'я'],
+              ['तुम / आप', 'ти / ви (ввічливо)'],
+              ['वह (vah)', 'він / вона / воно'],
+              ['हम (ham)', 'ми'],
+              ['वे (ve)', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['मैं ठीक हूँ।', 'Я в порядку.'],
+              ['आप कैसे हैं?', 'Як ви? (ввічливо)'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "होना" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Гінді має порядок слів SOV — дієслово-зв\'язка "होना" ставиться в кінці речення, а не після підмета, як в українській.',
+            en: {
+              text: 'Hindi uses SOV word order — the linking verb "होना" (to be) goes at the end of the sentence, not right after the subject.',
+            },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + присудок + है/हैं',
+            rows: [
+              ['यह किताब है।', '(Це книга.)'],
+              ['वे अच्छे हैं।', '(Вони хороші.)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['मैं छात्र हूँ।', 'Я студент.'],
+              ['वह डॉक्टर है।', 'Він/вона лікар.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "नहीं" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечна частка नहीं (nahīṅ) ставиться перед дієсловом, зберігаючи порядок слів SOV.',
+            en: { text: 'The negative particle नहीं (nahīṅ) goes right before the verb, keeping the SOV word order.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + додаток + नहीं + дієслово',
+            rows: [['मुझे पता नहीं है।', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['मुझे पता नहीं है।', 'Я не знаю.'],
+              ['वह नहीं आया।', 'Він не прийшов.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання "क्या" — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання типу "так/ні" утворюються додаванням частки क्या (kyā) на початок стверджувального речення — порядок слів не змінюється.',
+            en: {
+              text: 'Yes/no questions are formed by adding the particle क्या (kyā) at the start of the statement — word order stays unchanged.',
+            },
+          },
+          {
+            type: 'formula',
+            title: 'क्या + твердження?',
+            rows: [['क्या आप ठीक हैं?', '(Ви в порядку?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['क्या तुम आ रहे हो?', 'Ти йдеш?'],
+              ['क्या यह सही है?', 'Це правильно?'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'word-order',
+        title: 'Порядок слів SOV — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Базовий порядок слів у гінді — підмет-додаток-присудок (SOV), на відміну від українського/англійського SVO. Дієслово завжди в кінці речення.',
+            en: {
+              text: "Hindi's basic word order is Subject-Object-Verb (SOV), unlike English/Ukrainian SVO — the verb always comes last.",
+            },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['मैं किताब पढ़ता हूँ।', 'Я читаю книгу (букв. "я книгу читаю").'],
+              ['वह चाय पीती है।', 'Вона п\'є чай (букв. "вона чай п\'є").'],
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_BN: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Бенгальська має три ступені ввічливості для "ти/ви": তুই (фамільярно), তুমি (нейтрально), আপনি (ввічливо).',
+            en: { text: 'Bengali has three politeness levels for "you": তুই (intimate), তুমি (neutral), আপনি (polite).' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['আমি (ami)', 'я'],
+              ['তুমি / আপনি', 'ти / ви (ввічливо)'],
+              ['সে (se)', 'він / вона'],
+              ['আমরা (amra)', 'ми'],
+              ['তারা (tara)', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['আমি ভালো আছি।', 'Я почуваюся добре.'],
+              ['আপনি কেমন আছেন?', 'Як ви поживаєте? (ввічливо)'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'zero-copula',
+        title: 'Нульова зв\'язка — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У теперішньому часі для опису тотожності ("я — студент") бенгальська часто обходиться без дієслова-зв\'язки взагалі — присудок-іменник ставиться просто після підмета.',
+            en: {
+              text: 'For present-tense identity statements ("I am a student"), Bengali often drops the linking verb entirely — the noun predicate just follows the subject.',
+            },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + іменник(-присудок)',
+            rows: [['আমি ছাত্র।', '(Я студент.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['সে ডাক্তার।', 'Він/вона лікар.'],
+              ['আমি এখানে আছি।', 'Я тут (для місця вживається আছি).'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "না" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'На відміну від багатьох мов, заперечна частка না (na) в бенгальській ставиться ПІСЛЯ дієслова, а не перед ним.',
+            en: { text: 'Unlike many languages, the negative particle না (na) in Bengali comes AFTER the verb, not before it.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + дієслово + না',
+            rows: [['আমি জানি না।', '(Я не знаю, букв. "знаю не".)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['আমি জানি না।', 'Я не знаю.'],
+              ['সে আসেনি।', 'Він/вона не прийшов(-ла).'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання з "কি" — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні утворюються часткою কি (ki), яка зазвичай ставиться одразу після підмета, без зміни іншого порядку слів.',
+            en: { text: 'Yes/no questions use the particle কি (ki), usually placed right after the subject, without changing the rest of the word order.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + কি + решта речення?',
+            rows: [['তুমি কি আসবে?', '(Ти прийдеш?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['আপনি কি ব্যস্ত?', 'Ви зайняті?'],
+              ['তুমি কি ক্ষুধার্ত?', 'Ти голодний?'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'plurals',
+        title: 'Множина — A1',
+        emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Множина для людей утворюється суфіксом -রা, а для предметів — -গুলো/-গুলি, що приєднуються до іменника.',
+            en: { text: 'The plural for people uses the suffix -রা, while for objects it is -গুলো/-গুলি, attached to the noun.' },
+          },
+          {
+            type: 'table',
+            title: 'Приклади суфіксів',
+            rows: [
+              ['ছেলে → ছেলেরা', 'хлопчик → хлопчики'],
+              ['বই → বইগুলো', 'книга → книги'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['ছেলেরা খেলছে।', 'Хлопчики граються.']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_ID: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Індонезійські дієслова не змінюються за особами чи числом — займенник завжди залишається головним показником, хто виконує дію.',
+            en: { text: 'Indonesian verbs never change for person or number — the pronoun is always the main marker of who does the action.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['saya / aku', 'я (ввічливо / неформально)'],
+              ['kamu / Anda', 'ти / ви (ввічливо)'],
+              ['dia', 'він / вона'],
+              ['kami / kita', 'ми (без співрозмовника / з ним)'],
+              ['mereka', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Saya guru.', 'Я вчитель.'],
+              ['Anda dari mana?', 'Звідки ви?'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'zero-copula',
+        title: 'Нульова зв\'язка — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Індонезійська не має дієслова "бути" перед іменником чи прикметником — присудок ставиться відразу після підмета.',
+            en: { text: 'Indonesian has no "to be" verb before a noun or adjective — the predicate simply follows the subject directly.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + присудок',
+            rows: [['Saya guru.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Rumah ini besar.', 'Цей будинок великий.'],
+              ['Dia lapar.', 'Він/вона голодний(-а).'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "tidak" / "bukan" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Для заперечення дієслів і прикметників використовують tidak, а для заперечення іменників — bukan.',
+            en: { text: 'Verbs and adjectives are negated with tidak, while nouns are negated with bukan.' },
+          },
+          {
+            type: 'formula',
+            title: 'tidak / bukan + слово',
+            rows: [
+              ['Saya tidak tahu.', '(Я не знаю.)'],
+              ['Ini bukan buku saya.', '(Це не моя книга.)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Dia tidak lapar.', 'Він/вона не голодний(-а).']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання "apakah" — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні можна утворити часткою apakah на початку речення або просто інтонацією, без зміни порядку слів.',
+            en: { text: 'Yes/no questions can be formed with apakah at the start of the sentence, or just by rising intonation — word order never changes.' },
+          },
+          {
+            type: 'formula',
+            title: 'Apakah + твердження?',
+            rows: [['Apakah kamu lapar?', '(Ти голодний?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Kamu lelah?', 'Ти втомлений? (без apakah, лише інтонація)']],
+          },
+        ],
+      },
+      {
+        id: 'reduplication',
+        title: 'Множина через повтор — A1',
+        emoji: '🔁',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Замість закінчень множина в індонезійській часто утворюється повторенням усього слова.',
+            en: { text: 'Instead of endings, the plural in Indonesian is often formed by reduplicating the whole word.' },
+          },
+          {
+            type: 'table',
+            title: 'Приклади',
+            rows: [
+              ['buku → buku-buku', 'книга → книги'],
+              ['anak → anak-anak', 'дитина → діти'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Anak-anak bermain.', 'Діти граються.']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_PCM: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Займенники нігерійського піджину подібні до англійських, але спрощені — форма не змінюється за відмінком так, як в англійській "I/me".',
+            en: { text: 'Nigerian Pidgin pronouns resemble English but are simplified — they do not change by case the way English "I/me" does.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['I', 'я'],
+              ['you', 'ти / ви'],
+              ['im / e', 'він / вона / воно'],
+              ['we', 'ми'],
+              ['dem', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['I dey fine.', 'Я в порядку.'],
+              ['Dem dey house.', 'Вони вдома.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'na-copula',
+        title: 'Зв\'язка "na" — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Для ототожнення ("я — вчитель") використовується слово na перед іменником, а для місцезнаходження/існування — dey.',
+            en: { text: 'For identity statements ("I am a teacher"), use na before the noun; for location/existence, use dey.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + na + іменник',
+            rows: [
+              ['I na teacher.', '(Я вчитель.)'],
+              ['E dey house.', '(Він вдома.)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Im na doctor.', 'Він/вона лікар.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "no" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечення утворюється часткою no, яка ставиться перед дієсловом.',
+            en: { text: 'Negation is formed with the particle no, placed right before the verb.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + no + дієслово',
+            rows: [['I no know.', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['E no dey work today.', 'Він не працює сьогодні.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні найчастіше утворюються висхідною інтонацією без зміни порядку слів, іноді з часткою abi в кінці.',
+            en: { text: 'Yes/no questions are usually formed just by rising intonation, without changing word order, sometimes with abi at the end.' },
+          },
+          {
+            type: 'formula',
+            title: 'Твердження + висхідна інтонація?',
+            rows: [['You dey fine?', '(Ти в порядку?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['You dey come, abi?', 'Ти йдеш, чи не так?']],
+          },
+        ],
+      },
+      {
+        id: 'dey-marker',
+        title: 'Маркер "dey" — A1',
+        emoji: '🔁',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Слово dey перед дієсловом позначає тривалу/звичну дію — подібно до англійського "-ing" чи Present Simple.',
+            en: { text: 'The word dey before a verb marks an ongoing or habitual action — similar to English "-ing" or the Present Simple.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['I dey work.', 'Я працюю (зараз або регулярно).'],
+              ['Dem dey chop.', 'Вони їдять.'],
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_KO: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У корейській займенники часто просто опускаються, якщо зрозуміло з контексту, про кого йдеться — це називають pro-drop.',
+            en: { text: 'Korean pronouns are frequently dropped when the referent is clear from context — this is called "pro-drop".' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['저 / 나', 'я (ввічливо / звичайно)'],
+              ['너 / 당신', 'ти / ви'],
+              ['그 / 그녀', 'він / вона'],
+              ['우리', 'ми'],
+              ['그들', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['저는 학생이에요.', 'Я студент.'],
+              ['(당신은) 어디에서 왔어요?', 'Звідки ви? (займенник часто опускається)'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Зв\'язка "이다" — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Зв\'язка "이다" приєднується прямо до іменника-присудка; у ввічливій формі теперішнього часу вона виглядає як -이에요/-예요.',
+            en: { text: 'The copula "이다" attaches directly to the predicate noun; in the polite present tense it appears as -이에요/-예요.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет(-는/은) + іменник + -이에요/-예요',
+            rows: [['저는 학생이에요.', '(Я студент.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['그는 의사예요.', 'Він лікар.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "안" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Найпростіше заперечення — частка 안 перед дієсловом; є й довша форма з суфіксом -지 않다.',
+            en: { text: 'The simplest negation is the particle 안 before the verb; a longer form uses the suffix -지 않다.' },
+          },
+          {
+            type: 'formula',
+            title: '안 + дієслово',
+            rows: [['안 가요.', '(Не йду.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['저는 커피를 안 마셔요.', 'Я не п\'ю каву.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У ввічливій розмовній мові питання часто утворюються просто висхідною інтонацією на закінченні -요, без окремої питальної частки.',
+            en: { text: 'In polite conversational speech, questions are often formed just with rising intonation on the -요 ending, with no separate question particle.' },
+          },
+          {
+            type: 'formula',
+            title: 'Твердження(-요) + висхідна інтонація?',
+            rows: [['학생이에요?', '(Ви студент?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['배고파요?', 'Ти голодний?']],
+          },
+        ],
+      },
+      {
+        id: 'particles',
+        title: 'Частки та порядок слів SOV — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Корейська має порядок слів SOV (дієслово в кінці), а граматична роль слова позначається часткою: 은/는 — тема, 이/가 — підмет, 을/를 — додаток.',
+            en: {
+              text: 'Korean uses SOV word order (verb last), and a word\'s grammatical role is marked by a particle: 은/는 for topic, 이/가 for subject, 을/를 for object.',
+            },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['저는 밥을 먹어요.', 'Я їм рис (букв. "я рис їм").']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_FA: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Перська не має граматичного роду — займенник او (u) означає і "він", і "вона".',
+            en: { text: 'Persian has no grammatical gender — the pronoun او (u) means both "he" and "she".' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['من (man)', 'я'],
+              ['تو (to)', 'ти'],
+              ['او (u)', 'він / вона'],
+              ['ما (mâ)', 'ми'],
+              ['آنها (ânhâ)', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['من دانشجو هستم.', 'Я студент.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "بودن" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дієслово "بودن" (бути) в теперішньому часі приєднується як суфікс до присудка: هستم (я є), هستی (ти є) тощо.',
+            en: { text: 'The verb "بودن" (to be) attaches as a suffix to the predicate in the present tense: هستم (I am), هستی (you are), etc.' },
+          },
+          {
+            type: 'formula',
+            title: 'Присудок + هستم/هستی/است',
+            rows: [['من دانشجو هستم.', '(Я студент.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['او پزشک است.', 'Він/вона лікар.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "نـ" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечення утворюється префіксом نـ (na-/ne-), який приєднується безпосередньо до дієслова.',
+            en: { text: 'Negation is formed with the prefix نـ (na-/ne-), attached directly to the verb.' },
+          },
+          {
+            type: 'formula',
+            title: 'نـ + дієслово',
+            rows: [['نمی‌دانم.', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['او نیامد.', 'Він/вона не прийшов(-ла).']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання "آیا" — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Формальні питання так/ні починаються з частки آیا; в розмовній мові її часто пропускають, лишаючи саму інтонацію.',
+            en: { text: 'Formal yes/no questions start with the particle آیا; in casual speech it is often dropped, leaving just the rising intonation.' },
+          },
+          {
+            type: 'formula',
+            title: 'آیا + твердження؟',
+            rows: [['آیا تو گرسنه‌ای؟', '(Ти голодний?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['خسته‌ای؟', 'Ти втомлений? (без آیا)']],
+          },
+        ],
+      },
+      {
+        id: 'word-order',
+        title: 'Порядок слів SOV — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Базовий порядок слів у перській — підмет-додаток-дієслово (SOV): дієслово завжди стоїть в кінці речення.',
+            en: { text: "Persian's basic word order is Subject-Object-Verb (SOV): the verb always comes at the end of the sentence." },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['من کتاب می‌خوانم.', 'Я читаю книгу (букв. "я книгу читаю").']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_SW: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Суб\'єктні префікси — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У суахілі особа підмета часто позначається префіксом прямо на дієслові, а не окремим займенником.',
+            en: { text: 'In Swahili the subject person is often marked with a prefix directly on the verb, rather than a separate pronoun.' },
+          },
+          {
+            type: 'table',
+            title: 'Суб\'єктні префікси дієслова',
+            rows: [
+              ['ni-', 'я'],
+              ['u-', 'ти'],
+              ['a-', 'він / вона'],
+              ['tu-', 'ми'],
+              ['wa-', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ninasoma.', 'Я читаю (ni- + -na- (теп.час) + -soma).']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Зв\'язка "ni" — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Для ототожнення ("я — вчитель") використовують коротке слово ni між підметом та іменником-присудком.',
+            en: { text: 'For identity statements ("I am a teacher"), use the short word ni between the subject and the predicate noun.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + ni + іменник',
+            rows: [['Mimi ni mwalimu.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Yeye ni daktari.', 'Він/вона лікар.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "si" / "ha-" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Для заперечення "бути" використовують si, а для інших дієслів — префікс ha- перед суб\'єктним префіксом.',
+            en: { text: 'To negate "to be" use si, while other verbs are negated with the prefix ha- before the subject prefix.' },
+          },
+          {
+            type: 'formula',
+            title: 'ha- + suб\'єктний префікс + дієслово',
+            rows: [['Sijui.', '(Я не знаю, si- + jui.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Mimi si mwalimu.', 'Я не вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання з "Je" — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні можна утворити словом Je на початку речення або просто висхідною інтонацією.',
+            en: { text: 'Yes/no questions can be formed with Je at the start of the sentence, or simply with rising intonation.' },
+          },
+          {
+            type: 'formula',
+            title: 'Je, + твердження?',
+            rows: [['Je, wewe ni mwanafunzi?', '(Ти студент?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Una njaa?', 'Ти голодний? (без Je)']],
+          },
+        ],
+      },
+      {
+        id: 'noun-classes',
+        title: 'Класи іменників — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Іменники в суахілі належать до класів з характерними префіксами (наприклад, m-/wa- для людей), від яких залежить множина й узгодження прикметників.',
+            en: {
+              text: 'Swahili nouns belong to classes with characteristic prefixes (e.g. m-/wa- for people), which determine the plural and adjective agreement.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Приклад класу людей (m-/wa-)',
+            rows: [
+              ['mtu → watu', 'людина → люди'],
+              ['mwalimu → walimu', 'вчитель → вчителі'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Watu wengi wanafanya kazi.', 'Багато людей працюють.']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_MS: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Малайські дієслова не змінюються за особами чи числом — займенник лишається головним показником, хто виконує дію (як і в спорідненій індонезійській).',
+            en: { text: 'Malay verbs never change for person or number — the pronoun stays the main marker of who acts (as in related Indonesian).' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['saya / aku', 'я (ввічливо / неформально)'],
+              ['awak / anda', 'ти / ви (ввічливо)'],
+              ['dia', 'він / вона'],
+              ['kami / kita', 'ми (без співрозмовника / з ним)'],
+              ['mereka', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Saya guru.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'zero-copula',
+        title: 'Нульова зв\'язка — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Малайська не має дієслова "бути" перед іменником чи прикметником — присудок ставиться відразу після підмета.',
+            en: { text: 'Malay has no "to be" verb before a noun or adjective — the predicate simply follows the subject directly.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + присудок',
+            rows: [['Saya guru.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Dia lapar.', 'Він/вона голодний(-а).']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "tidak" / "bukan" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Для заперечення дієслів і прикметників використовують tidak, а для заперечення іменників — bukan.',
+            en: { text: 'Verbs and adjectives are negated with tidak, while nouns are negated with bukan.' },
+          },
+          {
+            type: 'formula',
+            title: 'tidak / bukan + слово',
+            rows: [['Saya tidak faham.', '(Я не розумію.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ini bukan buku saya.', 'Це не моя книга.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні найчастіше утворюються висхідною інтонацією або суфіксом -kah, доданим до ключового слова.',
+            en: { text: 'Yes/no questions are most often formed with rising intonation, or with the suffix -kah attached to the key word.' },
+          },
+          {
+            type: 'formula',
+            title: 'Твердження + висхідна інтонація?',
+            rows: [['Awak lapar?', '(Ти голодний?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Betulkah itu?', 'Це справді так?']],
+          },
+        ],
+      },
+      {
+        id: 'reduplication',
+        title: 'Множина через повтор — A1',
+        emoji: '🔁',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Замість закінчень множина в малайській часто утворюється повторенням усього слова.',
+            en: { text: 'Instead of endings, the plural in Malay is often formed by reduplicating the whole word.' },
+          },
+          {
+            type: 'table',
+            title: 'Приклади',
+            rows: [['buku → buku-buku', 'книга → книги']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Kanak-kanak bermain.', 'Діти граються.']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_TH: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Займенник "я" в тайській залежить від статі мовця: ผม використовують чоловіки, ดิฉัน — жінки.',
+            en: { text: 'The pronoun "I" in Thai depends on the speaker\'s gender: ผม is used by men, ดิฉัน by women.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['ผม / ดิฉัน', 'я (чоловік / жінка)'],
+              ['คุณ', 'ти / ви'],
+              ['เขา', 'він / вона'],
+              ['เรา', 'ми'],
+              ['พวกเขา', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['ผมเป็นนักเรียน.', 'Я студент (чоловік).']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "เป็น" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'เป็น використовують для ототожнення (професія, національність), а อยู่ — для позначення місцезнаходження.',
+            en: { text: 'เป็น is used for identity statements (profession, nationality), while อยู่ marks location.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + เป็น + іменник',
+            rows: [['ผมเป็นนักเรียน.', '(Я студент.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['เขาอยู่ที่บ้าน.', 'Він/вона вдома (อยู่ для місця).']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "ไม่" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечна частка ไม่ (mâi) ставиться перед дієсловом чи прикметником — тайські дієслова взагалі не відмінюються.',
+            en: { text: 'The negative particle ไม่ (mâi) goes before the verb or adjective — Thai verbs never conjugate at all.' },
+          },
+          {
+            type: 'formula',
+            title: 'ไม่ + дієслово/прикметник',
+            rows: [['ผมไม่รู้.', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['อาหารนี้ไม่อร่อย.', 'Ця їжа не смачна.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання з "ไหม" — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні утворюються додаванням частки ไหม в кінець стверджувального речення.',
+            en: { text: 'Yes/no questions are formed by adding the particle ไหม at the end of the statement.' },
+          },
+          {
+            type: 'formula',
+            title: 'Твердження + ไหม?',
+            rows: [['คุณหิวไหม?', '(Ти голодний?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['คุณเหนื่อยไหม?', 'Ти втомлений?']],
+          },
+        ],
+      },
+      {
+        id: 'no-conjugation',
+        title: 'Без відмінювання й часу — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Тайські дієслова мають лише одну форму — час, тривалість чи завершеність дії передають окремими словами-маркерами, а не закінченнями.',
+            en: {
+              text: 'Thai verbs have just one form — tense, duration, or completion is shown with separate marker words, not endings.',
+            },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['เขากินข้าวแล้ว.', 'Він/вона вже поїв(-ла) (แล้ว = маркер завершеної дії).']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_AZ: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Азербайджанська не розрізняє граматичного роду — о означає і "він", і "вона", і "воно".',
+            en: { text: 'Azerbaijani has no grammatical gender — o means "he", "she", and "it" alike.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['mən', 'я'],
+              ['sən', 'ти'],
+              ['o', 'він / вона / воно'],
+              ['biz', 'ми'],
+              ['onlar', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Mən müəlliməm.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Зв\'язка-суфікс — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Замість окремого дієслова "бути" азербайджанська приєднує особовий суфікс прямо до присудка.',
+            en: { text: 'Instead of a separate "to be" verb, Azerbaijani attaches a personal suffix directly to the predicate.' },
+          },
+          {
+            type: 'formula',
+            title: 'Присудок + -(y)Am/-San/...',
+            rows: [['Mən müəlliməm.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Sən yorğunsan.', 'Ти втомлений.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "deyil" / -mA- — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Для заперечення іменного присудка вживають deyil, а для дієслів — інфікс -mA-/-mə- перед особовим закінченням.',
+            en: { text: 'Nominal predicates are negated with deyil, while verbs take the infix -mA-/-mə- before the personal ending.' },
+          },
+          {
+            type: 'formula',
+            title: 'Присудок + deyil / дієслово + -mA-',
+            rows: [['Mən müəllim deyiləm.', '(Я не вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Bilmirəm.', 'Я не знаю.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання з частками -mı/-mi — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні утворюються приєднанням питальної частки -mı/-mi/-mu/-mü (за законом гармонії голосних) до ключового слова.',
+            en: { text: 'Yes/no questions are formed by attaching the question particle -mı/-mi/-mu/-mü (following vowel harmony) to the key word.' },
+          },
+          {
+            type: 'formula',
+            title: 'Слово + -mI (гармонія голосних)?',
+            rows: [['Sən acsanmı?', '(Ти голодний?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Bu doğrudurmu?', 'Це правда?']],
+          },
+        ],
+      },
+      {
+        id: 'word-order',
+        title: 'Порядок слів SOV — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Базовий порядок слів — підмет-додаток-присудок (SOV), а суфікси приєднуються за законом гармонії голосних.',
+            en: { text: 'The basic word order is Subject-Object-Predicate (SOV), and suffixes attach following vowel harmony.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Mən kitab oxuyuram.', 'Я читаю книгу (букв. "я книгу читаю").']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_RO: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Румунські дієслова майже завжди вказують особу самі через закінчення, тому займенники часто опускають.',
+            en: { text: 'Romanian verbs almost always mark person through their ending, so the pronoun is often dropped.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['eu', 'я'],
+              ['tu', 'ти'],
+              ['el / ea', 'він / вона'],
+              ['noi', 'ми'],
+              ['ei / ele', 'вони (чол. / жін.)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Eu sunt profesor.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "a fi" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: '"A fi" — неправильне дієслово, форми якого важливо запам\'ятати напам\'ять для теперішнього часу.',
+            en: { text: '"A fi" is an irregular verb whose present-tense forms need to be memorised directly.' },
+          },
+          {
+            type: 'formula',
+            title: 'sunt / ești / este / suntem / sunteți / sunt',
+            rows: [['Eu sunt profesor.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ea este doctor.', 'Вона лікар.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "nu" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечення утворюється часткою nu безпосередньо перед дієсловом.',
+            en: { text: 'Negation is formed with the particle nu directly before the verb.' },
+          },
+          {
+            type: 'formula',
+            title: 'nu + дієслово',
+            rows: [['Nu știu.', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['El nu a venit.', 'Він не прийшов.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні найчастіше утворюються просто висхідною інтонацією, без зміни порядку слів чи додаткової частки.',
+            en: { text: 'Yes/no questions are most often formed just with rising intonation, without changing word order or adding a particle.' },
+          },
+          {
+            type: 'formula',
+            title: 'Твердження + висхідна інтонація?',
+            rows: [['Ești obosit?', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ai timp acum?', 'У тебе є час зараз?']],
+          },
+        ],
+      },
+      {
+        id: 'definite-article',
+        title: 'Означений артикль-суфікс — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'На відміну від англійської, означений артикль у румунській приєднується як суфікс в кінці іменника, а не стоїть окремим словом перед ним.',
+            en: { text: "Unlike English, Romanian's definite article attaches as a suffix at the end of the noun, rather than standing as a separate word before it." },
+          },
+          {
+            type: 'table',
+            title: 'Приклади',
+            rows: [
+              ['băiat → băiatul', 'хлопчик → цей хлопчик'],
+              ['casă → casa', 'дім → цей дім'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Băiatul citește.', 'Хлопчик читає.']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_HU: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Угорські дієслова показують особу через закінчення, тому займенник часто опускають — його вживають лише для наголосу.',
+            en: { text: 'Hungarian verbs mark person through their ending, so the pronoun is often dropped — it is used mainly for emphasis.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['én', 'я'],
+              ['te', 'ти'],
+              ['ő', 'він / вона'],
+              ['mi', 'ми'],
+              ['ők', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Én tanár vagyok.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "van" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'З іменником-присудком "van/vagyok" вживається так само, як в українській, але з прикметником у 3-й особі теперішнього часу зв\'язка ОПУСКАЄТЬСЯ.',
+            en: { text: 'With a noun predicate, "van/vagyok" behaves like Ukrainian "бути", but with an adjective in the 3rd person present tense the copula is DROPPED.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + vagyok/van + присудок',
+            rows: [
+              ['Én tanár vagyok.', '(Я вчитель.)'],
+              ['Ő fáradt.', '(Він втомлений — без "van"!)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Te orvos vagy.', 'Ти лікар.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "nem" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечна частка nem ставиться безпосередньо перед словом, яке заперечують.',
+            en: { text: 'The negative particle nem goes directly before the word being negated.' },
+          },
+          {
+            type: 'formula',
+            title: 'nem + слово',
+            rows: [['Nem tudom.', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ő nem fáradt.', 'Він не втомлений.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні здебільшого утворюються висхідною інтонацією; у формальнішому мовленні можлива питальна частка -e.',
+            en: { text: 'Yes/no questions are mostly formed with rising intonation; more formal speech may add the question particle -e.' },
+          },
+          {
+            type: 'formula',
+            title: 'Твердження + висхідна інтонація?',
+            rows: [['Fáradt vagy?', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Van időd?', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'case-suffixes',
+        title: 'Відмінкові суфікси замість прийменників — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Замість прийменників угорська приєднує відмінкові суфікси до кінця слова, вибір голосної в яких залежить від гармонії голосних.',
+            en: { text: 'Instead of prepositions, Hungarian attaches case suffixes to the end of the word; the vowel choice follows vowel harmony.' },
+          },
+          {
+            type: 'table',
+            title: 'Приклад: "у/в" (-ban/-ben)',
+            rows: [['ház → házban', 'дім → у домі']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['A könyv az asztalon van.', 'Книга на столі (-on = "на").']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_CS: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Чеські дієслова показують особу закінченням, тому займенник у звичайній розмові часто опускають — як і в українській.',
+            en: { text: 'Czech verbs mark person through their ending, so the pronoun is often dropped in normal speech — much like in Ukrainian.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['já', 'я'],
+              ['ty', 'ти'],
+              ['on / ona / ono', 'він / вона / воно'],
+              ['my', 'ми'],
+              ['oni / ony', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Já jsem učitel.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "být" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: '"Být" відмінюється неправильно, але дуже схоже на українське "бути" за формою вживання.',
+            en: { text: '"Být" conjugates irregularly, but is used very similarly to Ukrainian "бути".' },
+          },
+          {
+            type: 'formula',
+            title: 'jsem / jsi / je / jsme / jste / jsou',
+            rows: [['Já jsem učitel.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ona je lékařka.', 'Вона лікарка.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення префіксом "ne-" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'На відміну від окремого слова, заперечення в чеській приєднується прямо до дієслова як префікс ne-.',
+            en: { text: "Unlike a separate word, negation in Czech attaches directly to the verb as the prefix ne-." },
+          },
+          {
+            type: 'formula',
+            title: 'ne- + дієслово',
+            rows: [['Nevím.', '(Я не знаю, ne+vím.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['On nepřišel.', 'Він не прийшов.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні найчастіше утворюються висхідною інтонацією або порядком слів дієслово-підмет.',
+            en: { text: 'Yes/no questions are most often formed with rising intonation, or with verb-subject word order.' },
+          },
+          {
+            type: 'formula',
+            title: 'Дієслово + підмет + ...?',
+            rows: [['Jsi unavený?', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Máš čas?', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'cases',
+        title: 'Сім відмінків — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Чеські іменники, як і українські, змінюються за сімома відмінками — закінчення показують роль слова в реченні без прийменника.',
+            en: { text: 'Czech nouns, like Ukrainian ones, decline through seven cases — the ending shows a word\'s role in the sentence without needing a preposition.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Vidím psa.', 'Я бачу собаку (знахідний відмінок від "pes").']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_KK: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Казахська не має граматичного роду — ол означає і "він", і "вона", і "воно".',
+            en: { text: 'Kazakh has no grammatical gender — ол means "he", "she", and "it" alike.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['мен', 'я'],
+              ['сен / сіз', 'ти / ви (ввічливо)'],
+              ['ол', 'він / вона / воно'],
+              ['біз', 'ми'],
+              ['олар', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Мен мұғаліммін.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Зв\'язка-суфікс — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Як і в інших тюркських мовах, "бути" в теперішньому часі виражається особовим суфіксом, приєднаним прямо до присудка.',
+            en: { text: 'As in other Turkic languages, "to be" in the present is expressed by a personal suffix attached directly to the predicate.' },
+          },
+          {
+            type: 'formula',
+            title: 'Присудок + -мын/-мін/-бын/...',
+            rows: [['Мен мұғаліммін.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ол дәрігер.', 'Він/вона лікар.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "емес" / -ма- — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Для заперечення іменного присудка вживають емес, а для дієслів — інфікс -ма-/-ме- перед закінченням.',
+            en: { text: 'Nominal predicates are negated with емес, while verbs take the infix -ма-/-ме- before the ending.' },
+          },
+          {
+            type: 'formula',
+            title: 'Присудок + емес / дієслово + -ма-',
+            rows: [['Мен мұғалім емеспін.', '(Я не вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Білмеймін.', 'Я не знаю.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання з частками ма/ме/ба/бе — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні утворюються приєднанням питальної частки ма/ме/ба/бе (за законом гармонії голосних) до ключового слова.',
+            en: { text: 'Yes/no questions are formed by attaching the question particle ма/ме/ба/бе (following vowel harmony) to the key word.' },
+          },
+          {
+            type: 'formula',
+            title: 'Слово + ма/ме/ба/бе?',
+            rows: [['Сен аш па?', '(Ти голодний?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Уақытың бар ма?', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'word-order',
+        title: 'Порядок слів SOV — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Базовий порядок слів — підмет-додаток-присудок (SOV), а відмінкові та особові суфікси приєднуються за законом гармонії голосних.',
+            en: { text: 'The basic word order is Subject-Object-Predicate (SOV), with case and personal suffixes attaching following vowel harmony.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Мен кітап оқимын.', 'Я читаю книгу (букв. "я книгу читаю").']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_SV: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Шведські дієслова не змінюються за особами чи числом — форма дієслова однакова для jag, du, han тощо.',
+            en: { text: 'Swedish verbs never change for person or number — the verb form is identical for jag, du, han, and so on.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['jag', 'я'],
+              ['du', 'ти'],
+              ['han / hon / den / det', 'він / вона / воно'],
+              ['vi', 'ми'],
+              ['de', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Jag är lärare.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "att vara" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дієслово "vara" (бути) має ЄДИНУ форму теперішнього часу — är — для всіх осіб та чисел.',
+            en: { text: 'The verb "vara" (to be) has just ONE present-tense form — är — for every person and number.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + är + присудок',
+            rows: [['Jag är lärare.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['De är trötta.', 'Вони втомлені.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "inte" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'На відміну від українського "не" перед дієсловом, заперечна частка inte в шведській ставиться ПІСЛЯ дієслова.',
+            en: { text: "Unlike Ukrainian's pre-verbal negation, the negative particle inte in Swedish comes AFTER the verb." },
+          },
+          {
+            type: 'formula',
+            title: 'Дієслово + inte',
+            rows: [['Jag vet inte.', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Han kommer inte.', 'Він не прийде.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання — інверсія — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні утворюються перестановкою дієслова перед підметом (інверсія), без додаткових допоміжних слів.',
+            en: { text: 'Yes/no questions are formed by moving the verb before the subject (inversion), with no extra auxiliary word needed.' },
+          },
+          {
+            type: 'formula',
+            title: 'Дієслово + підмет + ...?',
+            rows: [['Är du trött?', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Har du tid?', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'suffixed-article',
+        title: 'Артикль-суфікс — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Означений артикль у шведській зазвичай приєднується як суфікс в кінці іменника, а не окремим словом перед ним.',
+            en: { text: "The definite article in Swedish is usually attached as a suffix at the end of the noun, rather than as a separate word before it." },
+          },
+          {
+            type: 'table',
+            title: 'Приклади',
+            rows: [
+              ['en bok → boken', 'книга → ця книга'],
+              ['ett hus → huset', 'дім → цей дім'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Boken är bra.', 'Ця книга хороша.']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_KA: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Грузинська не має граматичного роду — ის означає і "він", і "вона", і "воно".',
+            en: { text: 'Georgian has no grammatical gender — ის means "he", "she", and "it" alike.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['მე (me)', 'я'],
+              ['შენ (shen)', 'ти'],
+              ['ის (is)', 'він / вона / воно'],
+              ['ჩვენ (chven)', 'ми'],
+              ['ისინი (isini)', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['მე მასწავლებელი ვარ.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Зв\'язка "ვარ/ხარ/არის" — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дієслово-зв\'язка ставиться в кінці речення, після присудка, а не одразу після підмета.',
+            en: { text: 'The linking verb goes at the end of the sentence, after the predicate, rather than right after the subject.' },
+          },
+          {
+            type: 'formula',
+            title: 'Присудок + ვარ/ხარ/არის',
+            rows: [['მე მასწავლებელი ვარ.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['ის ექიმია.', 'Він/вона лікар (скорочена форма -ია замість არის).']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "არ" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечна частка არ ставиться перед дієсловом.',
+            en: { text: 'The negative particle არ goes before the verb.' },
+          },
+          {
+            type: 'formula',
+            title: 'არ + дієслово',
+            rows: [['არ ვიცი.', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['ის არ მოვიდა.', 'Він/вона не прийшов(-ла).']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні найчастіше утворюються висхідною інтонацією, без зміни порядку слів чи додаткової частки.',
+            en: { text: 'Yes/no questions are most often formed with rising intonation, without changing word order or adding a particle.' },
+          },
+          {
+            type: 'formula',
+            title: 'Твердження + висхідна інтонація?',
+            rows: [['შენ დაღლილი ხარ?', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['დრო გაქვს?', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'verb-agreement',
+        title: 'Узгодження дієслова з двома учасниками — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Грузинське дієслово може одночасно узгоджуватися і з підметом, і з додатком через префікси/суфікси — це рідкісна риса, яку називають поліперсоналізмом.',
+            en: {
+              text: "A Georgian verb can agree with both the subject and the object at once through prefixes/suffixes — a rare feature called polypersonalism.",
+            },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['გნახე.', 'Я тебе бачив (одне дієслово-форма кодує і "я", і "тебе").']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_HR: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Хорватські дієслова показують особу закінченням, тому займенник у звичайній розмові часто опускають — як і в українській.',
+            en: { text: 'Croatian verbs mark person through their ending, so the pronoun is often dropped in normal speech — much like in Ukrainian.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['ja', 'я'],
+              ['ti', 'ти'],
+              ['on / ona / ono', 'він / вона / воно'],
+              ['mi', 'ми'],
+              ['oni / one', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ja sam učitelj.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "biti" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: '"Biti" відмінюється схоже на українське "бути" й активно використовується і як зв\'язка, і в складених минулих часах.',
+            en: { text: '"Biti" conjugates similarly to Ukrainian "бути" and is actively used both as a copula and in compound past tenses.' },
+          },
+          {
+            type: 'formula',
+            title: 'sam / si / je / smo / ste / su',
+            rows: [['Ja sam učitelj.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ona je liječnica.', 'Вона лікарка.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "ne" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечна частка ne ставиться безпосередньо перед дієсловом.',
+            en: { text: 'The negative particle ne goes directly before the verb.' },
+          },
+          {
+            type: 'formula',
+            title: 'ne + дієслово',
+            rows: [['Ne znam.', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['On nije došao.', 'Він не прийшов.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання з "li" — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні часто утворюються часткою li одразу після дієслова.',
+            en: { text: 'Yes/no questions are often formed with the particle li right after the verb.' },
+          },
+          {
+            type: 'formula',
+            title: 'Дієслово + li + решта речення?',
+            rows: [['Jesi li umoran?', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Imaš li vremena?', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'cases',
+        title: 'Сім відмінків — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Хорватські іменники, як і українські, змінюються за сімома відмінками — закінчення показують роль слова в реченні.',
+            en: { text: "Croatian nouns, like Ukrainian ones, decline through seven cases — the ending shows a word's role in the sentence." },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Vidim psa.', 'Я бачу собаку (знахідний відмінок від "pas").']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_SR: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Сербські дієслова показують особу закінченням, тому займенник у звичайній розмові часто опускають — як і в українській.',
+            en: { text: 'Serbian verbs mark person through their ending, so the pronoun is often dropped in normal speech — much like in Ukrainian.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['ја', 'я'],
+              ['ти', 'ти'],
+              ['он / она / оно', 'він / вона / воно'],
+              ['ми', 'ми'],
+              ['они / оне', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ја сам учитељ.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "бити" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: '"Бити" відмінюється схоже на українське "бути" й активно використовується і як зв\'язка, і в складених минулих часах.',
+            en: { text: '"Бити" conjugates similarly to Ukrainian "бути" and is actively used both as a copula and in compound past tenses.' },
+          },
+          {
+            type: 'formula',
+            title: 'сам / си / је / смо / сте / су',
+            rows: [['Ја сам учитељ.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Она је лекарка.', 'Вона лікарка.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "не" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечна частка не ставиться безпосередньо перед дієсловом.',
+            en: { text: 'The negative particle не goes directly before the verb.' },
+          },
+          {
+            type: 'formula',
+            title: 'не + дієслово',
+            rows: [['Не знам.', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Он није дошао.', 'Він не прийшов.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання з "ли" — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні часто утворюються часткою ли одразу після дієслова (або конструкцією "да ли" на початку речення).',
+            en: { text: 'Yes/no questions are often formed with the particle ли right after the verb (or the "да ли" construction at the start of the sentence).' },
+          },
+          {
+            type: 'formula',
+            title: 'Да ли + твердження?',
+            rows: [['Да ли си уморан?', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Имаш ли времена?', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'cases',
+        title: 'Сім відмінків — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Сербські іменники, як і українські, змінюються за сімома відмінками — закінчення показують роль слова в реченні.',
+            en: { text: "Serbian nouns, like Ukrainian ones, decline through seven cases — the ending shows a word's role in the sentence." },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Видим пса.', 'Я бачу собаку (знахідний відмінок від "пас").']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_BS: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Боснійські дієслова показують особу закінченням, тому займенник у звичайній розмові часто опускають — як і в українській.',
+            en: { text: 'Bosnian verbs mark person through their ending, so the pronoun is often dropped in normal speech — much like in Ukrainian.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['ja', 'я'],
+              ['ti', 'ти'],
+              ['on / ona / ono', 'він / вона / воно'],
+              ['mi', 'ми'],
+              ['oni / one', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ja sam učitelj.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "biti" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: '"Biti" відмінюється схоже на українське "бути" й активно використовується і як зв\'язка, і в складених минулих часах.',
+            en: { text: '"Biti" conjugates similarly to Ukrainian "бути" and is actively used both as a copula and in compound past tenses.' },
+          },
+          {
+            type: 'formula',
+            title: 'sam / si / je / smo / ste / su',
+            rows: [['Ja sam učitelj.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ona je liječnica.', 'Вона лікарка.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "ne" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечна частка ne ставиться безпосередньо перед дієсловом.',
+            en: { text: 'The negative particle ne goes directly before the verb.' },
+          },
+          {
+            type: 'formula',
+            title: 'ne + дієслово',
+            rows: [['Ne znam.', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['On nije došao.', 'Він не прийшов.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання з "li" — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні часто утворюються часткою li одразу після дієслова.',
+            en: { text: 'Yes/no questions are often formed with the particle li right after the verb.' },
+          },
+          {
+            type: 'formula',
+            title: 'Дієслово + li + решта речення?',
+            rows: [['Jesi li umoran?', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Imaš li vremena?', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'cases',
+        title: 'Сім відмінків — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Боснійські іменники, як і українські, змінюються за сімома відмінками — закінчення показують роль слова в реченні.',
+            en: { text: "Bosnian nouns, like Ukrainian ones, decline through seven cases — the ending shows a word's role in the sentence." },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Vidim psa.', 'Я бачу собаку (знахідний відмінок від "pas").']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_BG: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Болгарські дієслова показують особу закінченням, тому займенник у звичайній розмові часто опускають.',
+            en: { text: 'Bulgarian verbs mark person through their ending, so the pronoun is often dropped in normal speech.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['аз', 'я'],
+              ['ти', 'ти'],
+              ['той / тя / то', 'він / вона / воно'],
+              ['ние', 'ми'],
+              ['те', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Аз съм учител.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "съм" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: '"Съм" відмінюється схоже на українське "бути" й активно використовується як зв\'язка.',
+            en: { text: '"Съм" conjugates similarly to Ukrainian "бути" and is actively used as a copula.' },
+          },
+          {
+            type: 'formula',
+            title: 'съм / си / е / сме / сте / са',
+            rows: [['Аз съм учител.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Тя е лекарка.', 'Вона лікарка.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "не" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечна частка не ставиться безпосередньо перед дієсловом.',
+            en: { text: 'The negative particle не goes directly before the verb.' },
+          },
+          {
+            type: 'formula',
+            title: 'не + дієслово',
+            rows: [['Не знам.', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Той не дойде.', 'Він не прийшов.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання з "ли" — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні часто утворюються часткою ли одразу після ключового слова.',
+            en: { text: 'Yes/no questions are often formed with the particle ли right after the key word.' },
+          },
+          {
+            type: 'formula',
+            title: 'Слово + ли + решта речення?',
+            rows: [['Уморен ли си?', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Имаш ли време?', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'suffixed-article',
+        title: 'Артикль-суфікс, без відмінків — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'На відміну від інших слов\'янських мов, болгарська втратила відмінки іменників, але має означений артикль, приєднаний як суфікс в кінці слова.',
+            en: {
+              text: 'Unlike other Slavic languages, Bulgarian lost noun cases, but has a definite article attached as a suffix at the end of the word.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Приклади',
+            rows: [['книга → книгата', 'книга → ця книга']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Книгата е интересна.', 'Ця книга цікава.']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_SK: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Словацькі дієслова показують особу закінченням, тому займенник у звичайній розмові часто опускають — як і в українській.',
+            en: { text: 'Slovak verbs mark person through their ending, so the pronoun is often dropped in normal speech — much like in Ukrainian.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['ja', 'я'],
+              ['ty', 'ти'],
+              ['on / ona / ono', 'він / вона / воно'],
+              ['my', 'ми'],
+              ['oni / ony', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ja som učiteľ.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "byť" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: '"Byť" відмінюється неправильно, дуже схоже на чеське "být" і українське "бути" за формою вживання.',
+            en: { text: '"Byť" conjugates irregularly, very similarly to Czech "být" and Ukrainian "бути" in how it is used.' },
+          },
+          {
+            type: 'formula',
+            title: 'som / si / je / sme / ste / sú',
+            rows: [['Ja som učiteľ.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ona je lekárka.', 'Вона лікарка.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення префіксом "ne-" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечення в словацькій приєднується прямо до дієслова як префікс ne-, а не окремим словом перед ним.',
+            en: { text: 'Negation in Slovak attaches directly to the verb as the prefix ne-, rather than as a separate word before it.' },
+          },
+          {
+            type: 'formula',
+            title: 'ne- + дієслово',
+            rows: [['Neviem.', '(Я не знаю, ne+viem.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['On neprišiel.', 'Він не прийшов.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні найчастіше утворюються висхідною інтонацією або порядком слів дієслово-підмет.',
+            en: { text: 'Yes/no questions are most often formed with rising intonation, or with verb-subject word order.' },
+          },
+          {
+            type: 'formula',
+            title: 'Дієслово + підмет + ...?',
+            rows: [['Si unavený?', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Máš čas?', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'cases',
+        title: 'Шість відмінків — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Словацькі іменники, як і українські, змінюються за відмінками (шість) — закінчення показують роль слова в реченні без прийменника.',
+            en: { text: "Slovak nouns, like Ukrainian ones, decline through cases (six) — the ending shows a word's role in the sentence without needing a preposition." },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Vidím psa.', 'Я бачу собаку (знахідний відмінок від "pes").']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_HY: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Вірменська не має граматичного роду — նա означає і "він", і "вона".',
+            en: { text: 'Armenian has no grammatical gender — նա means both "he" and "she".' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['ես (yes)', 'я'],
+              ['դու (du)', 'ти'],
+              ['նա (na)', 'він / вона'],
+              ['մենք (menk\')', 'ми'],
+              ['նրանք (nrank\')', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ես ուսուցիչ եմ։', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Зв\'язка "եմ/ես/է" — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дієслово-зв\'язка "бути" ставиться в кінці речення, після присудка.',
+            en: { text: 'The "to be" linking verb goes at the end of the sentence, after the predicate.' },
+          },
+          {
+            type: 'formula',
+            title: 'Присудок + եմ/ես/է',
+            rows: [['Ես ուսուցիչ եմ։', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Նա բժիշկ է։', 'Він/вона лікар.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення префіксом "չ-" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У теперішньому часі заперечення утворюється префіксом չ- перед дієсловом.',
+            en: { text: 'In the present tense, negation is formed with the prefix չ- before the verb.' },
+          },
+          {
+            type: 'formula',
+            title: 'չ- + дієслово',
+            rows: [['Չգիտեմ։', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Նա չեկավ։', 'Він/вона не прийшов(-ла).']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання — наголос на складі — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У питаннях так/ні наголос переноситься на склад слова, яке уточнюють — на письмі це позначають знаком над голосною.',
+            en: { text: 'In yes/no questions, stress shifts to the syllable of the word being questioned — in writing this is marked with a diacritic over the vowel.' },
+          },
+          {
+            type: 'formula',
+            title: 'Твердження зі зміщеним наголосом?',
+            rows: [['Դու հոգնա՞ծ ես։', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ժամանա՞կ ունես։', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'no-gender',
+        title: 'Без граматичного роду й прийменників — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Вірменська не має граматичного роду взагалі та використовує післяйменники/відмінкові закінчення замість прийменників перед словом.',
+            en: {
+              text: 'Armenian has no grammatical gender at all, and uses postpositions/case endings instead of prepositions before the word.',
+            },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Սեղանի վրա', 'На столі (վրա = "на", стоїть після слова).']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_DA: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Данські дієслова не змінюються за особами чи числом — форма дієслова однакова для jeg, du, han тощо.',
+            en: { text: 'Danish verbs never change for person or number — the verb form is identical for jeg, du, han, and so on.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['jeg', 'я'],
+              ['du', 'ти'],
+              ['han / hun / den / det', 'він / вона / воно'],
+              ['vi', 'ми'],
+              ['de', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Jeg er lærer.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "at være" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дієслово "være" (бути) має ЄДИНУ форму теперішнього часу — er — для всіх осіб та чисел.',
+            en: { text: 'The verb "være" (to be) has just ONE present-tense form — er — for every person and number.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + er + присудок',
+            rows: [['Jeg er lærer.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['De er trætte.', 'Вони втомлені.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "ikke" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'На відміну від українського "не" перед дієсловом, заперечна частка ikke в данській ставиться ПІСЛЯ дієслова.',
+            en: { text: "Unlike Ukrainian's pre-verbal negation, the negative particle ikke in Danish comes AFTER the verb." },
+          },
+          {
+            type: 'formula',
+            title: 'Дієслово + ikke',
+            rows: [['Jeg ved ikke.', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Han kommer ikke.', 'Він не прийде.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання — інверсія — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні утворюються перестановкою дієслова перед підметом (інверсія), без додаткових допоміжних слів.',
+            en: { text: 'Yes/no questions are formed by moving the verb before the subject (inversion), with no extra auxiliary word needed.' },
+          },
+          {
+            type: 'formula',
+            title: 'Дієслово + підмет + ...?',
+            rows: [['Er du træt?', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Har du tid?', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'suffixed-article',
+        title: 'Артикль-суфікс — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Означений артикль у данській зазвичай приєднується як суфікс в кінці іменника, а не окремим словом перед ним.',
+            en: { text: "The definite article in Danish is usually attached as a suffix at the end of the noun, rather than as a separate word before it." },
+          },
+          {
+            type: 'table',
+            title: 'Приклади',
+            rows: [
+              ['en bog → bogen', 'книга → ця книга'],
+              ['et hus → huset', 'дім → цей дім'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Bogen er god.', 'Ця книга хороша.']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_FI: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Фінська не має граматичного роду — hän означає і "він", і "вона".',
+            en: { text: 'Finnish has no grammatical gender — hän means both "he" and "she".' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['minä', 'я'],
+              ['sinä', 'ти'],
+              ['hän', 'він / вона'],
+              ['me', 'ми'],
+              ['he', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Minä olen opettaja.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "olla" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: '"Olla" відмінюється регулярно за особами, як і українське "бути" в минулому часі.',
+            en: { text: '"Olla" conjugates regularly for each person, similar to how Ukrainian "бути" behaves in the past tense.' },
+          },
+          {
+            type: 'formula',
+            title: 'olen / olet / on / olemme / olette / ovat',
+            rows: [['Minä olen opettaja.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Hän on lääkäri.', 'Він/вона лікар.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення дієсловом "ei" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'На відміну від простої частки, заперечення у фінській — це окреме дієслово ei, яке саме відмінюється за особами, а основне дієслово стоїть у незмінній основі.',
+            en: {
+              text: 'Unlike a simple particle, negation in Finnish is a separate verb ei that itself conjugates for person, while the main verb stays in an unchanging stem form.',
+            },
+          },
+          {
+            type: 'formula',
+            title: 'en/et/ei/emme/ette/eivät + основа дієслова',
+            rows: [['En tiedä.', '(Я не знаю, en + tiedä.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Hän ei tullut.', 'Він/вона не прийшов(-ла).']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання з суфіксом "-ko/-kö" — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні утворюються приєднанням суфікса -ko/-kö (за законом гармонії голосних) до першого слова речення.',
+            en: { text: 'Yes/no questions are formed by attaching the suffix -ko/-kö (following vowel harmony) to the first word of the sentence.' },
+          },
+          {
+            type: 'formula',
+            title: 'Слово+ko/kö + решта речення?',
+            rows: [['Oletko väsynyt?', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Onko sinulla aikaa?', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'cases',
+        title: 'П\'ятнадцять відмінків — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Замість прийменників фінська використовує аж 15 відмінків-закінчень, які приєднуються прямо до слова.',
+            en: { text: 'Instead of prepositions, Finnish uses as many as 15 case endings attached directly to the word.' },
+          },
+          {
+            type: 'table',
+            title: 'Приклад: "у/в" (inessive -ssa/-ssä)',
+            rows: [['talo → talossa', 'дім → у домі']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Kirja on pöydällä.', 'Книга на столі (-llä = "на").']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const GRAMMAR_NO: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Норвезькі дієслова не змінюються за особами чи числом — форма дієслова однакова для jeg, du, han тощо.',
+            en: { text: 'Norwegian verbs never change for person or number — the verb form is identical for jeg, du, han, and so on.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['jeg', 'я'],
+              ['du', 'ти'],
+              ['han / hun / den / det', 'він / вона / воно'],
+              ['vi', 'ми'],
+              ['de', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Jeg er lærer.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "å være" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дієслово "være" (бути) має ЄДИНУ форму теперішнього часу — er — для всіх осіб та чисел.',
+            en: { text: 'The verb "være" (to be) has just ONE present-tense form — er — for every person and number.' },
+          },
+          {
+            type: 'formula',
+            title: 'Підмет + er + присудок',
+            rows: [['Jeg er lærer.', '(Я вчитель.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['De er trøtte.', 'Вони втомлені.']],
+          },
+        ],
+      },
+      {
+        id: 'negation',
+        title: 'Заперечення "ikke" — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'На відміну від українського "не" перед дієсловом, заперечна частка ikke в норвезькій ставиться ПІСЛЯ дієслова.',
+            en: { text: "Unlike Ukrainian's pre-verbal negation, the negative particle ikke in Norwegian comes AFTER the verb." },
+          },
+          {
+            type: 'formula',
+            title: 'Дієслово + ikke',
+            rows: [['Jeg vet ikke.', '(Я не знаю.)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Han kommer ikke.', 'Він не прийде.']],
+          },
+        ],
+      },
+      {
+        id: 'questions',
+        title: 'Питання — інверсія — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питання так/ні утворюються перестановкою дієслова перед підметом (інверсія), без додаткових допоміжних слів.',
+            en: { text: 'Yes/no questions are formed by moving the verb before the subject (inversion), with no extra auxiliary word needed.' },
+          },
+          {
+            type: 'formula',
+            title: 'Дієслово + підмет + ...?',
+            rows: [['Er du trøtt?', '(Ти втомлений?)']],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Har du tid?', 'У тебе є час?']],
+          },
+        ],
+      },
+      {
+        id: 'suffixed-article',
+        title: 'Артикль-суфікс — A1',
+        emoji: '🔤',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Означений артикль у норвезькій зазвичай приєднується як суфікс в кінці іменника, а не окремим словом перед ним.',
+            en: { text: "The definite article in Norwegian is usually attached as a suffix at the end of the noun, rather than as a separate word before it." },
+          },
+          {
+            type: 'table',
+            title: 'Приклади',
+            rows: [
+              ['en bok → boka/boken', 'книга → ця книга'],
+              ['et hus → huset', 'дім → цей дім'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Boka er god.', 'Ця книга хороша.']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
 // ── Grammar content per language being learned ─────────────────
 export const GRAMMAR_BY_LANG: Partial<
   Record<
@@ -15208,29 +18537,29 @@ export const GRAMMAR_BY_LANG: Partial<
   tr: GRAMMAR_TR,
   nl: GRAMMAR_NL,
   vi: GRAMMAR_VI,
-  hi: [],
-  bn: [],
-  id: [],
-  pcm: [],
-  ko: [],
-  fa: [],
-  sw: [],
-  ms: [],
-  th: [],
-  az: [],
-  ro: [],
-  hu: [],
-  cs: [],
-  kk: [],
-  sv: [],
-  ka: [],
-  hr: [],
-  sr: [],
-  bs: [],
-  bg: [],
-  sk: [],
-  hy: [],
-  da: [],
-  fi: [],
-  no: [],
+  hi: GRAMMAR_HI,
+  bn: GRAMMAR_BN,
+  id: GRAMMAR_ID,
+  pcm: GRAMMAR_PCM,
+  ko: GRAMMAR_KO,
+  fa: GRAMMAR_FA,
+  sw: GRAMMAR_SW,
+  ms: GRAMMAR_MS,
+  th: GRAMMAR_TH,
+  az: GRAMMAR_AZ,
+  ro: GRAMMAR_RO,
+  hu: GRAMMAR_HU,
+  cs: GRAMMAR_CS,
+  kk: GRAMMAR_KK,
+  sv: GRAMMAR_SV,
+  ka: GRAMMAR_KA,
+  hr: GRAMMAR_HR,
+  sr: GRAMMAR_SR,
+  bs: GRAMMAR_BS,
+  bg: GRAMMAR_BG,
+  sk: GRAMMAR_SK,
+  hy: GRAMMAR_HY,
+  da: GRAMMAR_DA,
+  fi: GRAMMAR_FI,
+  no: GRAMMAR_NO,
 };
