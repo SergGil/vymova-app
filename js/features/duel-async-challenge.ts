@@ -18,15 +18,18 @@ import {
 import { setDuelRoom, getDuelRoomSnapshot } from '../../src/duel-room-store.ts';
 import type { DuelMode, Difficulty, BestOf } from './duel.ts';
 import { _genCode, _fmtCode, _buildDeck } from './duel-deck.ts';
-import { DUEL_MODES, _getMyName, _getMyAvatar, _askCode, _initGame } from './duel.ts';
+import {
+  DUEL_MODES,
+  _getMyName,
+  _getMyAvatar,
+  _askCode,
+  _initGame,
+  _registerAsyncStartCancelHook,
+} from './duel.ts';
 
 // Dynamic import: duel-tournament-logic.ts statically imports duel-
 // tournament.tsx (the whole tournament bracket UI), which is heavy and
-// otherwise unrelated to creating an async challenge. A static import here
-// would also make duel.ts's own dynamic import of *this* file (for
-// _cancelAsyncStart, used by _cancelRoom()) pull in that entire tree just
-// to clear a timer — slow enough in CI to occasionally lose the race
-// against Vitest's per-file environment teardown.
+// otherwise unrelated to creating an async challenge.
 async function _clearTournamentState(): Promise<void> {
   (await import('./duel-tournament-logic.ts'))._clearTournamentState();
 }
@@ -50,15 +53,19 @@ interface AsyncDuel {
 
 let _asyncStartTimer: ReturnType<typeof setTimeout> | null = null;
 
-// Called by duel.ts's _cancelRoom() (via dynamic import, mirrors the
-// tournament/spectator cleanup pattern) so leaving/cancelling a room also
-// stops the pending "start playing" timer.
+// Called by duel.ts's _cancelRoom() via the registered hook below, so
+// leaving/cancelling a room also stops the pending "start playing" timer.
 export function _cancelAsyncStart(): void {
   if (_asyncStartTimer) {
     clearTimeout(_asyncStartTimer);
     _asyncStartTimer = null;
   }
 }
+
+// Registered once at module load — duel.ts's _cancelRoom() calls this via
+// _asyncStartCancelHook without duel.ts needing to import this module
+// (mirrors duel-tournament-logic.ts's _registerMatchFinishHook pattern).
+_registerAsyncStartCancelHook(_cancelAsyncStart);
 
 export async function createAsyncChallenge(): Promise<void> {
   setLobbyBtn('asyncBtn', true);

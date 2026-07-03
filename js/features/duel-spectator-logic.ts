@@ -13,7 +13,16 @@ import { setDuelScreen, setDuelRoom, getDuelRoomSnapshot } from '../../src/duel-
 import { setDuelSpecRoom, getDuelSpecRoomSnapshot } from '../../src/duel-async-store.ts';
 import type { RoomData } from './duel.ts';
 import { _genCode } from './duel-deck.ts';
-import { _askCode, _getMyName, _getMyAvatar, _showLobby, _cancelRoom, renderDuel } from './duel.ts';
+import {
+  _askCode,
+  _getMyName,
+  _getMyAvatar,
+  _showLobby,
+  _cancelRoom,
+  renderDuel,
+  _registerSpecCancelHook,
+  _registerSpecLeaveHook,
+} from './duel.ts';
 import { refreshDuelSpectator } from './duel-spectator.tsx';
 
 let _isSpectator = false;
@@ -24,9 +33,9 @@ export function _getSpecRoom(): RoomData | null {
   return getDuelSpecRoomSnapshot();
 }
 
-// Called by duel.ts's _cancelRoom() (via dynamic import, mirrors the
-// tournament-logic pattern) so leaving/cancelling a room while spectating
-// also stops the poll and removes the spectator entry from Firebase.
+// Called by duel.ts's _cancelRoom() via the registered hook below, so
+// leaving/cancelling a room while spectating also stops the poll and
+// removes the spectator entry from Firebase.
 export function _cancelSpectating(roomId: string): void {
   if (_specPollTimer) {
     clearInterval(_specPollTimer);
@@ -106,3 +115,9 @@ export function _leaveSpectator(): void {
   _showLobby();
   renderDuel();
 }
+
+// Registered once at module load — duel.ts's _cancelRoom()/DuelInit call
+// these via _specCancelHook/_specLeaveHook without importing this module
+// (mirrors duel-async-challenge.ts's _registerAsyncStartCancelHook pattern).
+_registerSpecCancelHook(_cancelSpectating);
+_registerSpecLeaveHook(_leaveSpectator);

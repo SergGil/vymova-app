@@ -22,7 +22,6 @@ import {
   _buildDeck,
   _SCRAMBLE_POOL,
 } from './duel-deck.ts';
-import { DICT } from '../modes/word-letters.tsx';
 import {
   getDuelQuestionSnapshot,
   setDuelQuestionFields,
@@ -71,12 +70,13 @@ async function _openPage(page: string): Promise<void> {
 async function _closePage(): Promise<void> {
   (await import('./sidebar.tsx')).closePage();
 }
-import { refreshDuelGameHeader } from './duel-game-header.tsx';
-import { refreshDuelPowerups } from './duel-powerups.tsx';
-import { refreshDuelFeedback } from './duel-feedback.tsx';
-import { refreshDuelChatLog } from './duel-chat-log.tsx';
-import { refreshDuelQuestion } from './duel-question.tsx';
-import { refreshDuelResume } from './duel-resume.tsx';
+// No imports for duel-game-header.tsx/duel-powerups.tsx/duel-feedback.tsx/
+// duel-chat-log.tsx/duel-question.tsx/duel-resume.tsx's refreshDuelXxx()
+// functions: every one of them is a one-line `notifyStateChange()` wrapper
+// (React components re-render off the store, same as everywhere else in
+// this file) — calling notifyStateChange() directly here is identical
+// behavior without an import that would close a duel <-> duel-*.tsx chunk
+// cycle for zero benefit.
 
 // Динамічний імпорт (той самий прийом, що й для sidebar.tsx вище): duel-
 // tournament-logic.ts статично імпортує багато чого з duel.ts, тож
@@ -90,24 +90,43 @@ async function _clearTournamentState(): Promise<void> {
   (await import('./duel-tournament-logic.ts'))._clearTournamentState();
 }
 
-// duel-spectator-logic.ts and duel-async-challenge.ts also statically
-// import from duel.ts (forming the same kind of cycle as duel-tournament-
-// logic.ts above), but neither calls back into duel.ts at module top level
-// the way _registerMatchFinishHook() does — so a plain static import here
-// is safe. (duel-async-challenge.ts used to statically import duel-
-// tournament-logic.ts too, which transitively pulled in the whole
-// tournament bracket UI just to clear a timer; that import is now scoped
-// to a dynamic import inside createAsyncChallenge() itself instead.)
-import { _cancelSpectating, _leaveSpectator } from './duel-spectator-logic.ts';
-import { _cancelAsyncStart } from './duel-async-challenge.ts';
+// Registration-hook indirection (mirrors _registerMatchFinishHook below):
+// duel-async-challenge.ts and duel-spectator-logic.ts are each reachable
+// from *two* separate entry points (statically from duel-lobby.tsx/
+// duel-spectator.tsx, and would-be statically from here), which makes
+// rollup carve each into its own chunk — a static import back here would
+// then report as a real duel <-> duel-*-logic chunk cycle. Since both
+// already import plenty from duel.ts, they register their own cleanup
+// callbacks at module load instead of duel.ts importing them.
+let _asyncStartCancelHook: (() => void) | null = null;
+export function _registerAsyncStartCancelHook(fn: (() => void) | null): void {
+  _asyncStartCancelHook = fn;
+}
+let _specCancelHook: ((roomId: string) => void) | null = null;
+export function _registerSpecCancelHook(fn: ((roomId: string) => void) | null): void {
+  _specCancelHook = fn;
+}
+let _specLeaveHook: (() => void) | null = null;
+export function _registerSpecLeaveHook(fn: (() => void) | null): void {
+  _specLeaveHook = fn;
+}
 
-// Лінива ініціалізація: уникає TDZ-помилки у production-збірці, де
-// duel.ts і duel-tournament.tsx опиняються в циклічно залежних чанках
-// (rollup "Circular chunk" warning) — обчислення на рівні модуля може
-// виконатись раніше за визначення DICT у чанку duel-tournament.
+// word-letters.tsx's DICT export is a pure derivation of W (below) with no
+// dependency of its own on the rest of that file — but word-letters.tsx
+// transitively imports combo.ts, which imports game-bar-level.tsx, and
+// game-bar-level.tsx (via sidebar.tsx) statically imports duel.ts. Importing
+// DICT from word-letters.tsx here would close that game-bar-level <-> duel
+// cycle (rollup's "Circular chunk" warning in production builds), so this
+// recomputes the same filter directly from W instead of importing it.
 let _dictSet: Set<string> | null = null;
 function _getDictSet(): Set<string> {
-  if (!_dictSet) _dictSet = new Set(DICT);
+  if (!_dictSet) {
+    _dictSet = new Set(
+      (W as unknown as WordEntry[])
+        .filter((w) => /^[a-z]+$/i.test(w[0]) && w[0].length >= 3 && w[0].length <= 9)
+        .map((w) => w[0].toLowerCase()),
+    );
+  }
   return _dictSet;
 }
 
@@ -462,7 +481,7 @@ function _showGame(clearChat = true) {
   setDuelScreen('game');
   if (clearChat) {
     setDuelChat([]);
-    refreshDuelChatLog();
+    notifyStateChange();
     _lastReactionTs = 0;
   }
   notifyStateChange();
@@ -838,7 +857,7 @@ function _setupGameUI(): void {
     clearInterval(_tempoTimer);
     _tempoTimer = null;
   }
-  refreshDuelGameHeader();
+  notifyStateChange();
   setDuelTempo({ ...getDuelTempoSnapshot(), visible: getDuelRoomSnapshot().mode === 'tempo' });
   notifyStateChange();
   // Power-ups
@@ -882,7 +901,7 @@ export function _onPowerupClick(type: PowerupType): void {
 }
 
 function _renderPowerups(): void {
-  refreshDuelPowerups();
+  notifyStateChange();
 }
 
 async function _usePowerup(type: PowerupType): Promise<void> {
@@ -906,7 +925,6 @@ async function _usePowerup(type: PowerupType): Promise<void> {
       feedbackHtml: `<span style="color:var(--accent)">${t('duel.toast.skip')}</span>`,
     });
     notifyStateChange();
-    refreshDuelFeedback();
     _extendDeckOnSkip();
     room = getDuelRoomSnapshot();
     setDuelRoom({ myFlags: [...room.myFlags, 'skip'], quizIdx: room.quizIdx + 1 });
@@ -947,14 +965,13 @@ function _showMiniToast(msg: string): void {
 }
 
 // ── Animated dot progress bar (mine + opponent's) — rendered by
-// duel-game-header.tsx via refreshDuelGameHeader() ────────────────
+// duel-game-header.tsx off notifyStateChange() ────────────────
 function _renderOppProgressBar(idx: number, flags?: (boolean | 'skip' | 'double')[]): void {
   setDuelRoom({ oppIdx: idx, oppFlags: flags || [] });
   notifyStateChange();
-  refreshDuelGameHeader();
 }
 function _renderMyProgressBar(): void {
-  refreshDuelGameHeader();
+  notifyStateChange();
 }
 
 function _startOpponentPoll(): void {
@@ -987,7 +1004,6 @@ function _startOpponentPoll(): void {
             feedbackHtml: `<span style="color:var(--accent)">${t('duel.frozen')} ${remaining}${_secUnit()}!</span>`,
           });
           notifyStateChange();
-          refreshDuelFeedback();
           if (_tempoTimer) {
             clearInterval(_tempoTimer);
             _tempoTimer = null;
@@ -996,7 +1012,6 @@ function _startOpponentPoll(): void {
             _freezeTimer = null;
             setDuelQuestionFields({ feedbackHtml: '' });
             notifyStateChange();
-            refreshDuelFeedback();
             const r = getDuelRoomSnapshot();
             _startTempoTimer(r.quizDeck[r.quizIdx]);
           }, freezeUntil - Date.now());
@@ -1025,7 +1040,7 @@ function _appendChatMsg(text: string, isMe: boolean, record = true): void {
     notifyStateChange();
     _saveSession();
   }
-  refreshDuelChatLog();
+  notifyStateChange();
 }
 function _showReactionReceived(text: string, ts?: number): void {
   if (ts !== undefined) {
@@ -1075,7 +1090,6 @@ function _renderQuestion(): void {
   setDuelRoom({ answered: false, answerStartMs: Date.now() });
   setDuelQuestionFields({ feedbackHtml: '', speedText: '' });
   notifyStateChange();
-  refreshDuelFeedback();
   if (_tempoTimer) {
     clearInterval(_tempoTimer);
     _tempoTimer = null;
@@ -1094,7 +1108,6 @@ function _renderQuestion(): void {
   else _renderChoiceQ(w);
   _renderPowerups();
   notifyStateChange();
-  refreshDuelQuestion();
   if (room.mode === 'tempo') _startTempoTimer(w);
 }
 
@@ -1178,10 +1191,9 @@ function _startTempoTimer(_w: WordEntry): void {
           quizIdx: room.quizIdx + 1,
         });
         notifyStateChange();
-        refreshDuelFeedback();
         _renderMyProgressBar();
         _pushScore();
-        refreshDuelQuestion();
+        notifyStateChange();
         if (_advanceTimer) clearTimeout(_advanceTimer);
         _advanceTimer = setTimeout(() => {
           _advanceTimer = null;
@@ -1229,9 +1241,8 @@ export async function _onOptionClick(chosen: string): Promise<void> {
     speedText: ok ? `⚡ ${(ms / 1000).toFixed(1)}${_secUnit()}` : '',
   });
   notifyStateChange();
-  refreshDuelFeedback();
   _renderPowerups();
-  refreshDuelQuestion();
+  notifyStateChange();
   room = getDuelRoomSnapshot();
   setDuelRoom({ quizIdx: room.quizIdx + 1 });
   notifyStateChange();
@@ -1289,9 +1300,8 @@ export function _submitWrite(): void {
     showNextBtn: true,
   });
   notifyStateChange();
-  refreshDuelFeedback();
   _renderPowerups();
-  refreshDuelQuestion();
+  notifyStateChange();
   room = getDuelRoomSnapshot();
   setDuelRoom({ quizIdx: room.quizIdx + 1 });
   notifyStateChange();
@@ -1316,7 +1326,6 @@ export function _useHint(): void {
   const h = getDuelQuestionSnapshot().choiceAnswer || w[0];
   setDuelHintNote(`💡 ${h.slice(0, Math.ceil(h.length / 3))}...`);
   notifyStateChange();
-  refreshDuelQuestion();
 }
 
 // Знімок даних для duel-question.tsx (item 32, Фаза 5).
@@ -1416,8 +1425,7 @@ async function _finishMyGame(): Promise<void> {
     } else {
       setDuelQuestionFields({ waitingFinish: true, feedbackHtml: t('duel.waiting') });
       notifyStateChange();
-      refreshDuelFeedback();
-      refreshDuelQuestion();
+      notifyStateChange();
     }
   } catch (e) {
     console.warn('[duel]', e);
@@ -1575,7 +1583,7 @@ export function _cancelRoom(): void {
     clearTimeout(_freezeTimer);
     _freezeTimer = null;
   }
-  _cancelAsyncStart();
+  _asyncStartCancelHook?.();
   const room = getDuelRoomSnapshot();
   if (room.roomId) {
     if (room.isAsyncChallenge) {
@@ -1584,7 +1592,7 @@ export function _cancelRoom(): void {
       fetch(`${DB_URL}/duel_rooms/${room.roomId}.json`, { method: 'DELETE' }).catch(() => {});
     }
     // Remove spectator entry if spectator
-    _cancelSpectating(room.roomId);
+    _specCancelHook?.(room.roomId);
     setDuelRoom({ roomId: '' });
   }
   setDuelRoom({ isAsyncChallenge: false });
@@ -1681,7 +1689,6 @@ async function _tryResumeSession(): Promise<void> {
     _resumeValid = [];
     setDuelResumeSessions([]);
     notifyStateChange();
-    refreshDuelResume();
     return;
   }
 
@@ -1707,7 +1714,6 @@ async function _tryResumeSession(): Promise<void> {
     _resumeValid = [];
     setDuelResumeSessions([]);
     notifyStateChange();
-    refreshDuelResume();
     return;
   }
 
@@ -1738,7 +1744,6 @@ async function _tryResumeSession(): Promise<void> {
     }),
   );
   notifyStateChange();
-  refreshDuelResume();
 }
 
 export function _onResumeContinue(roomId: string): void {
@@ -1748,7 +1753,6 @@ export function _onResumeContinue(roomId: string): void {
   _resumeValid = [];
   setDuelResumeSessions([]);
   notifyStateChange();
-  refreshDuelResume();
   const seed = sess.seed ?? room.seed,
     category = sess.category ?? room.category,
     difficulty = sess.difficulty ?? room.difficulty;
@@ -1809,7 +1813,7 @@ export function _onResumeContinue(roomId: string): void {
   _setupGameUI();
   _renderMyProgressBar();
   _showGame(false);
-  refreshDuelChatLog();
+  notifyStateChange();
   _renderQuestion();
   _startOpponentPoll();
 }
@@ -1942,7 +1946,7 @@ export function DuelInit(): ReactElement | null {
       } else if (tournVisible) {
         _cancelTournament();
       } else if (spectVisible) {
-        _leaveSpectator();
+        _specLeaveHook?.();
       } else {
         // Result screen or plain lobby → reset state, then close
         _showLobby();
