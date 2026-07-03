@@ -15578,6 +15578,39 @@ export const GRAMMAR_DE: GrammarCategory[] = [
           },
         ],
       },
+      {
+        id: 'rechtschreibung',
+        title: 'Правила написання — A1',
+        titleEn: 'Spelling Rules — A1',
+        emoji: '✍️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Кілька ключових правил німецького правопису: великі літери для іменників, ß vs ss, та вживання умлаутів.',
+            en: { text: 'Several key German spelling rules: capitalizing nouns, ß vs ss, and the use of umlauts.' },
+          },
+          {
+            type: 'markers',
+            title: 'Основні правила',
+            en: { title: 'Main rules' },
+            items: [
+              'Усі іменники завжди пишуться з великої літери (das Haus, die Liebe).',
+              'ß вживається після довгого голосного/дифтонга (die Straße), ss — після короткого (dass, essen).',
+              'Умлаути ä, ö, ü змінюють значення слова (schon vs schön).',
+              'У Швейцарії ß взагалі не використовується — завжди ss.',
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich lese ein interessantes Buch.', 'Я читаю цікаву книгу. (іменники з великої)'],
+              ['Der Fluss ist breit, aber die Straße ist schmal.', 'Річка широка, а вулиця вузька. (ss vs ß)'],
+            ],
+          },
+        ],
+      },
     ],
   },
 ];
