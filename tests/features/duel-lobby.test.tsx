@@ -36,14 +36,18 @@ vi.mock('../../js/features/duel.ts', async (importOriginal) => {
     createRoom,
     joinRoom,
     _cancelRoom: cancelRoom,
-    joinAsSpectator,
-    createAsyncChallenge,
-    joinAsyncChallenge,
   };
 });
 vi.mock('../../js/features/duel-tournament-logic.ts', () => ({
   createTournament,
   joinTournament,
+}));
+vi.mock('../../js/features/duel-spectator-logic.ts', () => ({
+  joinAsSpectator,
+}));
+vi.mock('../../js/features/duel-async-challenge.ts', () => ({
+  createAsyncChallenge,
+  joinAsyncChallenge,
 }));
 
 vi.mock('../../js/features/duel-leaderboard.tsx', () => ({

@@ -14,11 +14,13 @@ vi.mock('../../js/features/duel.ts', async (importOriginal) => {
   const orig = await importOriginal<typeof import('../../js/features/duel.ts')>();
   return {
     ...orig,
-    _getSpecRoom: getSpecRoom,
     _getDuelScreen: getDuelScreen,
-    _leaveSpectator: leaveSpectator,
   };
 });
+vi.mock('../../js/features/duel-spectator-logic.ts', () => ({
+  _getSpecRoom: getSpecRoom,
+  _leaveSpectator: leaveSpectator,
+}));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

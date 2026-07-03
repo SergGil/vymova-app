@@ -16,16 +16,10 @@ import {
   DuelKnowLangPicker,
 } from './duel-lobby-options.tsx';
 import { DuelResume } from './duel-resume.tsx';
-import {
-  _getLobbyUIData,
-  createRoom,
-  joinRoom,
-  _cancelRoom,
-  joinAsSpectator,
-  createAsyncChallenge,
-  joinAsyncChallenge,
-} from './duel.ts';
+import { _getLobbyUIData, createRoom, joinRoom, _cancelRoom } from './duel.ts';
 import { createTournament, joinTournament } from './duel-tournament-logic.ts';
+import { joinAsSpectator } from './duel-spectator-logic.ts';
+import { createAsyncChallenge, joinAsyncChallenge } from './duel-async-challenge.ts';
 
 function _formatJoinCode(raw: string): string {
   let v = raw.replace(/[^A-Z0-9]/gi, '').toUpperCase();

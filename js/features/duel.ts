@@ -30,6 +30,7 @@ import {
 } from './mode-utils.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import { getDuelRating, recordDuelResult } from './duel-rating.ts';
+import { DB_URL, _fbGet, _fbPatch, _fbSet } from './duel-firebase.ts';
 import { DICT } from '../modes/word-letters.tsx';
 import {
   getDuelQuestionSnapshot,
@@ -65,8 +66,6 @@ import {
   appendDuelChat,
   setDuelResult,
   getDuelResultSnapshot,
-  setDuelSpecRoom,
-  getDuelSpecRoomSnapshot,
   setDuelResumeSessions,
   getDuelResumeSessionsSnapshot,
 } from '../../src/duel-async-store.ts';
@@ -82,7 +81,6 @@ async function _closePage(): Promise<void> {
   (await import('./sidebar.tsx')).closePage();
 }
 import { refreshDuelGameHeader } from './duel-game-header.tsx';
-import { refreshDuelSpectator } from './duel-spectator.tsx';
 import { refreshDuelPowerups } from './duel-powerups.tsx';
 import { refreshDuelFeedback } from './duel-feedback.tsx';
 import { refreshDuelChatLog } from './duel-chat-log.tsx';
@@ -99,6 +97,22 @@ async function _cancelTournament(): Promise<void> {
 }
 async function _clearTournamentState(): Promise<void> {
   (await import('./duel-tournament-logic.ts'))._clearTournamentState();
+}
+
+// Той самий прийом для duel-spectator-logic.ts, яке статично імпортує
+// _cancelRoom/_showLobby/renderDuel звідси — статичний імпорт назад
+// теж створив би цикл.
+async function _cancelSpectating(roomId: string): Promise<void> {
+  (await import('./duel-spectator-logic.ts'))._cancelSpectating(roomId);
+}
+async function _leaveSpectator(): Promise<void> {
+  (await import('./duel-spectator-logic.ts'))._leaveSpectator();
+}
+
+// Той самий прийом для duel-async-challenge.ts, яке статично імпортує
+// DUEL_MODES/_genCode/тощо звідси.
+async function _cancelAsyncStart(): Promise<void> {
+  (await import('./duel-async-challenge.ts'))._cancelAsyncStart();
 }
 
 // Лінива ініціалізація: уникає TDZ-помилки у production-збірці, де
@@ -146,8 +160,6 @@ export function _checkWriteAnswer(mode: DuelMode, val: string, ans: string): boo
 }
 
 // ── Constants ─────────────────────────────────────────────────
-export const DB_URL =
-  'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
 export const CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 export const ROOM_SIZE = 10;
 const NUM_OPTS = 4;
@@ -227,24 +239,6 @@ export interface RoomData {
   series: SeriesData;
   spectators?: Record<string, SpectatorData>;
 }
-// Async duel (challenge)
-interface AsyncDuel {
-  seed: number;
-  mode: DuelMode;
-  category: string;
-  difficulty: Difficulty;
-  createdAt: number;
-  expiresAt: number;
-  powerupsEnabled?: boolean;
-  maxHints?: number;
-  bestOf?: BestOf;
-  lang?: string;
-  knowLang?: string;
-  challenger: { name: string; avatar: string; score: number; done: boolean };
-  opponent?: { name: string; avatar: string; score: number; done: boolean };
-  finished: boolean;
-}
-
 // ── History & Rating (localStorage) ──────────────────────────
 // Rating storage itself lives in duel-rating.ts (a dependency-free leaf
 // module) so achievements.ts can read it without importing this whole file.
@@ -345,41 +339,12 @@ export function _weekWords(s: Record<string, string>): number {
   }
 }
 
-// ── Firebase ──────────────────────────────────────────────────
-export async function _fbGet(p: string): Promise<unknown> {
-  const r = await fetch(`${DB_URL}${p}.json`);
-  if (!r.ok) throw new Error('HTTP ' + r.status);
-  return r.json();
-}
-export async function _fbPatch(p: string, d: unknown): Promise<void> {
-  await fetch(`${DB_URL}${p}.json`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(d),
-  });
-}
-export async function _fbSet(p: string, d: unknown): Promise<void> {
-  await fetch(`${DB_URL}${p}.json`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(d),
-  });
-}
-
 // ── Room state ────────────────────────────────────────────────
 let _pollTimer: ReturnType<typeof setInterval> | null = null;
 let _resultPollTimer: ReturnType<typeof setInterval> | null = null;
 let _tempoTimer: ReturnType<typeof setInterval> | null = null;
 let _advanceTimer: ReturnType<typeof setTimeout> | null = null;
 let _tempoLeft = TEMPO_SEC;
-// Spectator
-let _isSpectator = false;
-let _specId = '';
-export function _getSpecRoom(): RoomData | null {
-  return getDuelSpecRoomSnapshot();
-}
-// Async challenge (24h)
-let _asyncStartTimer: ReturnType<typeof setTimeout> | null = null;
 // Freeze timer
 let _freezeTimer: ReturnType<typeof setTimeout> | null = null;
 // Feedback / speed indicator under the question (item 32, Фаза 5)
@@ -1851,10 +1816,7 @@ export function _cancelRoom(): void {
     clearTimeout(_freezeTimer);
     _freezeTimer = null;
   }
-  if (_asyncStartTimer) {
-    clearTimeout(_asyncStartTimer);
-    _asyncStartTimer = null;
-  }
+  _cancelAsyncStart();
   const room = getDuelRoomSnapshot();
   if (room.roomId) {
     if (room.isAsyncChallenge) {
@@ -1863,13 +1825,9 @@ export function _cancelRoom(): void {
       fetch(`${DB_URL}/duel_rooms/${room.roomId}.json`, { method: 'DELETE' }).catch(() => {});
     }
     // Remove spectator entry if spectator
-    if (_isSpectator && _specId)
-      fetch(`${DB_URL}/duel_rooms/${room.roomId}/spectators/${_specId}.json`, {
-        method: 'DELETE',
-      }).catch(() => {});
+    _cancelSpectating(room.roomId);
     setDuelRoom({ roomId: '' });
   }
-  _isSpectator = false;
   setDuelRoom({ isAsyncChallenge: false });
   setLobbyWaiting({ ...getDuelLobbyUISnapshot().waiting, visible: false });
   setLobbyJoinRowVisible(true);
@@ -1924,206 +1882,6 @@ export function _askCode(title: string, desc: string): Promise<string | null> {
     cancelBtn.addEventListener('click', _cancel);
     inp.addEventListener('keydown', _key);
   });
-}
-
-// ── Spectator mode ────────────────────────────────────────────
-export async function joinAsSpectator(): Promise<void> {
-  const code = await _askCode(t('duel.spectate.title'), t('duel.spectate.desc'));
-  if (!code) return;
-  try {
-    const room = (await _fbGet(`/duel_rooms/${code}`)) as RoomData | null;
-    if (!room?.seed) throw new Error(t('duel.err.notFound'));
-    _isSpectator = true;
-    _specId = _genCode();
-    setDuelRoom({ roomId: code });
-    notifyStateChange();
-    await _fbPatch(`/duel_rooms/${code}/spectators/${_specId}`, {
-      name: _getMyName(),
-      avatar: _getMyAvatar(),
-    });
-    _startSpectatorView(room);
-  } catch (e) {
-    setLobbyMsg({ visible: true, text: '❌ ' + (e as Error).message, challenge: null });
-    notifyStateChange();
-  }
-}
-
-function _startSpectatorView(room: RoomData): void {
-  setDuelScreen('spectate');
-  notifyStateChange();
-  _renderSpectatorView(room);
-  _pollTimer = setInterval(async () => {
-    try {
-      const r = (await _fbGet(`/duel_rooms/${getDuelRoomSnapshot().roomId}`)) as RoomData | null;
-      if (!r) return;
-      _renderSpectatorView(r);
-      if (r.finished) {
-        clearInterval(_pollTimer!);
-        _pollTimer = null;
-        // Clean up spectator entry in Firebase before leaving
-        if (_specId)
-          fetch(`${DB_URL}/duel_rooms/${getDuelRoomSnapshot().roomId}/spectators/${_specId}.json`, {
-            method: 'DELETE',
-          }).catch(() => {});
-        _specId = '';
-        _isSpectator = false;
-        setTimeout(() => {
-          _showLobby();
-          renderDuel();
-        }, 3000);
-      }
-    } catch (e) {}
-  }, 1500);
-}
-
-function _renderSpectatorView(room: RoomData): void {
-  setDuelSpecRoom(room);
-  notifyStateChange();
-  refreshDuelSpectator();
-}
-
-// Покинути спостереження (item 33, Фаза 5) — викликається з React-кнопки
-// duel-spectator.tsx, а також зі smart close-кнопки нижче.
-export function _leaveSpectator(): void {
-  _cancelRoom();
-  _showLobby();
-  renderDuel();
-}
-
-// ── Async duel (challenge) ────────────────────────────────────
-export async function createAsyncChallenge(): Promise<void> {
-  setLobbyBtn('asyncBtn', true);
-  notifyStateChange();
-  try {
-    // Clear any stale tournament state so _showFinish doesn't route to tournament path
-    _clearTournamentState();
-    const code = _genCode();
-    const seed = Date.now();
-    const sel = getDuelSelSnapshot();
-    const challenge: AsyncDuel = {
-      seed,
-      mode: sel.mode,
-      category: sel.category,
-      difficulty: sel.difficulty,
-      createdAt: Date.now(),
-      expiresAt: Date.now() + 86_400_000, // 24 hours
-      powerupsEnabled: sel.powerupsEnabled,
-      maxHints: sel.maxHints,
-      bestOf: sel.bestOf,
-      lang: sel.lang,
-      knowLang: sel.knowLang,
-      challenger: { name: _getMyName(), avatar: _getMyAvatar(), score: 0, done: false },
-      finished: false,
-    };
-    await _fbSet(`/duel_async/${code}`, challenge);
-    // Play immediately as challenger
-    setDuelRoom({
-      roomId: code,
-      mySlot: 'p1',
-      isAsyncChallenge: true,
-      roomCreatedAt: challenge.createdAt,
-      roomSeed: seed,
-      roomCategory: sel.category,
-      roomDifficulty: sel.difficulty,
-      roomMaxHints: sel.maxHints,
-      roomLang: sel.lang,
-      roomKnowLang: sel.knowLang,
-      quizDeck: _buildDeck(seed, sel.category, sel.difficulty, sel.mode, sel.lang, sel.knowLang),
-    });
-    // Show code to share
-    setLobbyWaiting({
-      visible: true,
-      roomCode: _fmtCode(code),
-      modeLabel: `📬 ${t('duel.mode.' + sel.mode)} · ${t('duel.async.24h')}`,
-    });
-    setLobbyJoinRowVisible(false);
-    notifyStateChange();
-    // Start playing immediately
-    if (_asyncStartTimer) {
-      clearTimeout(_asyncStartTimer);
-      _asyncStartTimer = null;
-    }
-    _asyncStartTimer = setTimeout(() => {
-      _asyncStartTimer = null;
-      setLobbyWaiting({ ...getDuelLobbyUISnapshot().waiting, visible: false });
-      notifyStateChange();
-      _initGame(sel.mode, sel.maxHints, 1, { p1wins: 0, p2wins: 0, round: 1 }, sel.powerupsEnabled);
-    }, 2000);
-  } catch (e) {
-    setLobbyBtn('asyncBtn', false);
-    setLobbyMsg({ visible: true, text: '❌ ' + (e as Error).message, challenge: null });
-    notifyStateChange();
-  }
-}
-
-export async function joinAsyncChallenge(): Promise<void> {
-  const code = await _askCode(t('duel.async.reply.title'), t('duel.async.reply.desc'));
-  if (!code) return;
-  try {
-    const challenge = (await _fbGet(`/duel_async/${code}`)) as AsyncDuel | null;
-    if (!challenge) throw new Error(t('duel.err.chal.notFound'));
-    if (challenge.finished) throw new Error(t('duel.err.chal.finished'));
-    if (Date.now() > challenge.expiresAt) throw new Error(t('duel.err.chal.expired'));
-    if (challenge.opponent) throw new Error(t('duel.err.chal.taken'));
-    setDuelRoom({
-      roomId: code,
-      mySlot: 'p2',
-      isAsyncChallenge: true,
-      roomCreatedAt: challenge.createdAt || Date.now(),
-      roomSeed: challenge.seed,
-      roomCategory: challenge.category,
-      roomDifficulty: challenge.difficulty,
-      roomMaxHints: challenge.maxHints ?? 3,
-      roomLang: challenge.lang || 'ua',
-      roomKnowLang: challenge.knowLang || 'en',
-      quizDeck: _buildDeck(
-        challenge.seed,
-        challenge.category,
-        challenge.difficulty,
-        challenge.mode,
-        challenge.lang,
-        challenge.knowLang,
-      ),
-      oppName: challenge.challenger.name,
-      oppAvatar: challenge.challenger.avatar,
-    });
-    notifyStateChange();
-    const mInfo = DUEL_MODES.find((m) => m.id === challenge.mode);
-    setLobbyMsg({
-      visible: true,
-      text: '',
-      challenge: {
-        avatar: challenge.challenger.avatar,
-        name: challenge.challenger.name,
-        modeIcon: mInfo?.icon ?? '',
-        modeLabel: mInfo ? t('duel.mode.' + mInfo.id) : '',
-      },
-    });
-    notifyStateChange();
-    // Let the challenger know who accepted, so resume cards can show "vs <opponent>"
-    _fbPatch(`/duel_async/${code}`, {
-      opponent: { name: _getMyName(), avatar: _getMyAvatar(), score: 0, done: false },
-    }).catch(() => {});
-    if (_asyncStartTimer) {
-      clearTimeout(_asyncStartTimer);
-      _asyncStartTimer = null;
-    }
-    _asyncStartTimer = setTimeout(() => {
-      _asyncStartTimer = null;
-      setLobbyMsg({ ...getDuelLobbyUISnapshot().msg, visible: false });
-      notifyStateChange();
-      _initGame(
-        challenge.mode,
-        getDuelRoomSnapshot().roomMaxHints,
-        challenge.bestOf ?? 1,
-        { p1wins: 0, p2wins: 0, round: 1 },
-        challenge.powerupsEnabled ?? false,
-      );
-    }, 1800);
-  } catch (e) {
-    setLobbyMsg({ visible: true, text: '❌ ' + (e as Error).message, challenge: null });
-    notifyStateChange();
-  }
 }
 
 function _doRematch(): void {
