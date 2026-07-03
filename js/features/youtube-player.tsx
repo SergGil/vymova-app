@@ -95,7 +95,10 @@ export function parseYoutubeId(input: string): string | null {
   const trimmed = input.trim();
   if (/^[\w-]{11}$/.test(trimmed)) return trimmed;
   try {
-    const url = new URL(trimmed);
+    // `new URL()` throws on a schemeless string like "youtube.com/watch?v=..."
+    // or "www.youtube.com/..." — a common paste pattern — so it would
+    // otherwise report a perfectly valid YouTube link as invalid.
+    const url = new URL(/^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`);
     if (url.hostname === 'youtu.be') {
       const id = url.pathname.slice(1).split('/')[0];
       return /^[\w-]{11}$/.test(id) ? id : null;

@@ -41,4 +41,9 @@ describe('parseYoutubeId()', () => {
   it('returns null for a youtube.com URL with no recognizable video id', () => {
     expect(parseYoutubeId('https://www.youtube.com/feed/subscriptions')).toBeNull();
   });
+
+  it('accepts a schemeless URL (a common paste pattern)', () => {
+    expect(parseYoutubeId('www.youtube.com/watch?v=dQw4w9WgXcQ')).toBe('dQw4w9WgXcQ');
+    expect(parseYoutubeId('youtu.be/dQw4w9WgXcQ')).toBe('dQw4w9WgXcQ');
+  });
 });
