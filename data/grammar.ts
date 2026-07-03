@@ -14935,6 +14935,288 @@ export const GRAMMAR_DE: GrammarCategory[] = [
           },
         ],
       },
+      {
+        id: 'adverbien',
+        title: 'Прислівники — A2',
+        emoji: '🧭',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Німецькі прислівники зазвичай мають ту саму форму, що й прикметники, і не відмінюються.',
+            en: { text: 'German adverbs usually have the same form as adjectives and are not declined.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Sie singt schön.', 'Вона гарно співає.'],
+              ['Er fährt schnell.', 'Він швидко їде.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'steigerung-unregelmaessig',
+        title: 'Неправильні ступені порівняння — A2',
+        emoji: '⚡',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Деякі прикметники утворюють ступені порівняння нерегулярно.',
+            en: { text: 'Some adjectives form comparison degrees irregularly.' },
+          },
+          {
+            type: 'table',
+            title: 'Найважливіші винятки',
+            rows: [
+              ['gut', 'besser', 'am besten'],
+              ['viel', 'mehr', 'am meisten'],
+              ['gern', 'lieber', 'am liebsten'],
+              ['hoch', 'höher', 'am höchsten'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich mag Tee, aber ich mag Kaffee lieber.', 'Я люблю чай, але каву люблю більше.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'genitiv-vs-von',
+        title: 'Genitiv vs von + Dativ — B1',
+        emoji: '⚖️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У розмовній мові Genitiv часто замінюється конструкцією von + Dativ.',
+            en: { text: 'In spoken German, the genitive is often replaced by von + dative.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['das Auto des Mannes (Genitiv)', 'машина чоловіка'],
+              ['das Auto von dem Mann (розмовне)', 'машина того чоловіка'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'indirekte-fragesaetze',
+        title: 'Непрямі питання — B1',
+        emoji: '🔄',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У непрямих питаннях дієслово переноситься в кінець речення, як у підрядному.',
+            en: { text: 'In indirect questions the verb moves to the end of the clause, as in a subordinate clause.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich weiß nicht, wo er wohnt.', 'Я не знаю, де він живе.'],
+              ['Sie fragt, ob ich Zeit habe.', 'Вона питає, чи є в мене час.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'konjunktiv-wuensche',
+        title: 'Побажання (Ich wünschte...) — B2',
+        emoji: '🌠',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Konjunktiv II з wenn nur / ich wünschte виражає жаль або нереальне побажання.',
+            en: { text: 'Konjunktiv II with wenn nur / ich wünschte expresses regret or an unreal wish.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich wünschte, ich hätte mehr Zeit.', 'Хотів би я мати більше часу.'],
+              ['Wenn ich nur früher angefangen hätte!', 'Якби ж я почав раніше!'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'partizip-1-2',
+        title: 'Partizip I та II як прикметники — B1',
+        emoji: '🎭',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Partizip I (-end) означає дію, що триває; Partizip II означає завершену дію чи пасивний стан.',
+            en: { text: 'Partizip I (-end) denotes an ongoing action; Partizip II denotes a completed action or passive state.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['das schlafende Kind', 'дитина, що спить'],
+              ['das gekochte Ei', 'зварене яйце'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'erweitertes-partizip',
+        title: 'Розширена дієприкметникова конструкція — C1',
+        emoji: '🧠',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Типова для офіційного письма конструкція, де дієприкметник з додатковими словами стоїть перед іменником замість відносного речення.',
+            en: { text: 'A construction typical of formal writing where a participle with additional words stands before the noun instead of a relative clause.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['der gestern angekommene Zug', 'потяг, що прибув учора'],
+              ['die von der Regierung geplante Reform', 'реформа, запланована урядом'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'nominalisierung',
+        title: 'Номіналізація дієслів — B2',
+        emoji: '🏛️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дієслова можна перетворити на іменник за допомогою das + інфінітив або суфіксів -ung, -heit.',
+            en: { text: 'Verbs can be turned into nouns using das + infinitive or suffixes such as -ung, -heit.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['das Lesen', 'читання'],
+              ['die Entscheidung (entscheiden)', 'рішення'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'satzklammer',
+        title: 'Рамкова конструкція речення (Satzklammer) — B1',
+        emoji: '🖇️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Змінна частина дієслова стоїть на другому місці, а незмінна (частка, інфінітив, Partizip II) — у кінці, утворюючи "рамку".',
+            en: { text: 'The finite verb part stands in second position, and the non-finite part (particle, infinitive, Partizip II) goes to the end, forming a "frame".' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich habe das Buch gestern gelesen.', 'Я прочитав книгу вчора.'],
+              ['Er ruft seine Mutter oft an.', 'Він часто дзвонить своїй матері.'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'stellung-objekte',
+        title: 'Порядок додатків (Akkusativ vs Dativ) — B1',
+        emoji: '↕️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Якщо обидва додатки — іменники, першим стоїть Dativ; якщо один із них займенник, він стоїть першим.',
+            en: { text: 'If both objects are nouns, the dative comes first; if one is a pronoun, the pronoun comes first.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Ich gebe dem Mann das Buch.', 'Я даю чоловікові книгу. (Dativ перед Akkusativ)'],
+              ['Ich gebe es ihm.', 'Я даю це йому. (займенник перед іменником)'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'hoeflichkeitsform',
+        title: 'Форма ввічливості Sie — A1',
+        emoji: '🎩',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Sie (з великої літери) — ввічливе звертання до незнайомих людей чи в офіційних ситуаціях, дієслово узгоджується як з sie (вони).',
+            en: { text: 'Sie (capitalized) is the polite form of address for strangers or formal situations, conjugated like sie (they).' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Wie heißen Sie?', 'Як вас звати?'],
+              ['Können Sie mir helfen?', 'Чи можете ви мені допомогти?'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'anrede-briefe',
+        title: 'Звертання в листах та e-mail — A2',
+        emoji: '✉️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Офіційні листи починаються з Sehr geehrte(r), а неофіційні — з Liebe(r) чи Hallo.',
+            en: { text: 'Formal letters begin with Sehr geehrte(r), while informal ones start with Liebe(r) or Hallo.' },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Sehr geehrte Frau Müller,', 'Шановна пані Мюллер,'],
+              ['Liebe Anna, wie geht es dir?', 'Люба Анно, як справи?'],
+            ],
+          },
+        ],
+      },
+      {
+        id: 'modalverben-subjektiv',
+        title: "Суб'єктивне вживання модальних дієслів — C1",
+        emoji: '🔮',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Модальні дієслова можуть виражати не лише об\'єктивне значення, а й припущення чи оцінку мовця (müssen — впевненість, könnte — можливість).',
+            en: { text: "Modal verbs can express not just objective meaning but the speaker's guess or assessment (müssen — certainty, könnte — possibility)." },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['Er müsste jetzt zu Hause sein.', 'Він, мабуть, уже вдома.'],
+              ['Das könnte stimmen.', 'Це може бути правдою.'],
+            ],
+          },
+        ],
+      },
     ],
   },
 ];
