@@ -165,14 +165,17 @@ export const DUEL_MODES: { id: DuelMode; icon: string }[] = [
   { id: 'anagram', icon: '🔀' },
   { id: 'letters', icon: '🔤' },
 ];
+// Same single-hue sequential ramp (off var(--accent)) as the Stats page and
+// Learning Path CEFR badges, instead of a third copy of the same six
+// hardcoded hex colors that ignored all 14 custom themes.
 export const DIFFICULTIES: { id: Difficulty; label: string; color: string }[] = [
   { id: 'mixed', label: 'Мікс', color: 'var(--text3)' },
-  { id: 'A1', label: 'A1', color: '#27ae60' },
-  { id: 'A2', label: 'A2', color: '#2ecc71' },
-  { id: 'B1', label: 'B1', color: '#d4ac0d' },
-  { id: 'B2', label: 'B2', color: '#e67e22' },
-  { id: 'C1', label: 'C1', color: '#e74c3c' },
-  { id: 'C2', label: 'C2', color: '#8e44ad' },
+  { id: 'A1', label: 'A1', color: 'color-mix(in srgb, var(--accent) 35%, var(--text3))' },
+  { id: 'A2', label: 'A2', color: 'color-mix(in srgb, var(--accent) 50%, var(--text3))' },
+  { id: 'B1', label: 'B1', color: 'color-mix(in srgb, var(--accent) 65%, var(--text3))' },
+  { id: 'B2', label: 'B2', color: 'color-mix(in srgb, var(--accent) 80%, var(--text3))' },
+  { id: 'C1', label: 'C1', color: 'color-mix(in srgb, var(--accent) 92%, var(--text3))' },
+  { id: 'C2', label: 'C2', color: 'var(--accent)' },
 ];
 
 interface PlayerData {
@@ -1248,7 +1251,7 @@ function _startOpponentPoll(): void {
         if (!_freezeTimer) {
           const remaining = Math.ceil((freezeUntil - Date.now()) / 1000);
           setDuelQuestionFields({
-            feedbackHtml: `<span style="color:#5dade2">${t('duel.frozen')} ${remaining}${_secUnit()}!</span>`,
+            feedbackHtml: `<span style="color:var(--accent)">${t('duel.frozen')} ${remaining}${_secUnit()}!</span>`,
           });
           notifyStateChange();
           refreshDuelFeedback();
@@ -1433,7 +1436,7 @@ function _startTempoTimer(_w: WordEntry): void {
       const room = getDuelRoomSnapshot();
       if (!room.answered) {
         setDuelQuestionFields({
-          feedbackHtml: `<span style="color:#e74c3c">${t('duel.timeout')}</span>`,
+          feedbackHtml: `<span style="color:var(--danger)">${t('duel.timeout')}</span>`,
         });
         setDuelRoom({
           answered: true,
@@ -1480,13 +1483,13 @@ export async function _onOptionClick(chosen: string): Promise<void> {
       doubleActive: wasDouble ? false : room.doubleActive,
     });
     if (wasDouble) {
-      feedbackHtml = `<span style="color:#f39c12">${t('duel.doublePts')}</span>`;
+      feedbackHtml = `<span style="color:var(--accent2)">${t('duel.doublePts')}</span>`;
     } else {
-      feedbackHtml = `<span style="color:#27ae60">${t('duel.correct')}</span>`;
+      feedbackHtml = `<span style="color:var(--success)">${t('duel.correct')}</span>`;
     }
   } else {
     setDuelRoom({ myWrong: room.myWrong + 1, myFlags: [...room.myFlags, false] });
-    feedbackHtml = `<span style="color:#e74c3c">✗ ${correct}</span>`;
+    feedbackHtml = `<span style="color:var(--danger)">✗ ${correct}</span>`;
   }
   setDuelQuestionFields({
     feedbackHtml,
@@ -1529,7 +1532,7 @@ export function _submitWrite(): void {
   const ok = _checkWriteAnswer(room.mode, val, ans);
   const ms = Date.now() - room.answerStartMs;
   setDuelRoom({ answered: true });
-  setDuelQuestionFields({ inputBorderColor: ok ? '#27ae60' : '#e74c3c' });
+  setDuelQuestionFields({ inputBorderColor: ok ? 'var(--success)' : 'var(--danger)' });
   let feedbackHtml: string;
   if (ok) {
     const wasDouble = room.doubleActive;
@@ -1540,12 +1543,12 @@ export function _submitWrite(): void {
       doubleActive: wasDouble ? false : room.doubleActive,
     });
     if (wasDouble) {
-      feedbackHtml = `<span style="color:#f39c12">${t('duel.doublePts')}</span>`;
-    } else feedbackHtml = `<span style="color:#27ae60">${t('duel.correct')}</span>`;
+      feedbackHtml = `<span style="color:var(--accent2)">${t('duel.doublePts')}</span>`;
+    } else feedbackHtml = `<span style="color:var(--success)">${t('duel.correct')}</span>`;
   } else {
     setDuelRoom({ myWrong: room.myWrong + 1, myFlags: [...room.myFlags, false] });
     const correctDisplay = isEnglishOnly ? w[0] : _wordInLang(w, knowLang);
-    feedbackHtml = `<span style="color:#e74c3c">✗ ${correctDisplay}</span>`;
+    feedbackHtml = `<span style="color:var(--danger)">✗ ${correctDisplay}</span>`;
   }
   setDuelQuestionFields({
     feedbackHtml,
@@ -1894,7 +1897,7 @@ function _askCode(title: string, desc: string): Promise<string | null> {
     function _ok(): void {
       const v = inp.value.replace(/[-\s]/g, '').toUpperCase();
       if (v.length >= 6) _close(v);
-      else inp.style.borderColor = '#e74c3c';
+      else inp.style.borderColor = 'var(--danger)';
     }
     function _cancel(): void {
       _close(null);
@@ -2571,7 +2574,7 @@ function _renderTournBracket(tourn: Tournament): void {
   let statusLabel: string, statusColor: string;
   if (tourn.finished) {
     statusLabel = `🏆 ${t('duel.tourn.champion')} ${tourn.champion}!`;
-    statusColor = '#f39c12';
+    statusColor = 'var(--accent2)';
   } else {
     statusLabel = `${_tournRoundName(tourn.currentRound, totalRounds)} · ${t('duel.tourn.match')} ${tourn.currentMatch + 1}`;
     statusColor = 'var(--text3)';
