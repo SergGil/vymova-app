@@ -237,7 +237,12 @@ export function PosTag() {
                 : FRONT_LANG === 'ES'
                   ? 'es'
                   : 'en'; // HE/AR have no dedicated UI locale yet — fall back to English pos labels
-  const posText = posCode ? tLang('pos.' + posCode, posLang) : '';
+  const posText = posCode
+    ? posCode
+        .split('/')
+        .map((code) => tLang('pos.' + code, posLang))
+        .join('/')
+    : '';
   return (
     <div className="pos-tag" id="wpos" style={{ display: posCode ? 'block' : 'none' }}>
       {posText}
