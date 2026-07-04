@@ -51,7 +51,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['*.config.{js,ts}', 'playwright.config.ts', 'scripts/**/*.js'],
+    files: ['*.config.{js,ts}', 'playwright.config.ts', 'scripts/**/*.{js,cjs}'],
     languageOptions: { globals: globals.node },
   },
   prettierConfig,

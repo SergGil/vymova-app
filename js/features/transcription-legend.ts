@@ -221,4 +221,11 @@ export const TRANSCRIPTION_LEGEND: Partial<Record<string, LegendRow[]>> = {
     { symbol: 'ng', desc: 'носове н (як в англ. song)' },
     { symbol: 'ri', desc: 'складовий р (рідкісний, санскритського походження звук)' },
   ],
+  FA: [
+    { symbol: 'kh', desc: 'глухе гортанне х' },
+    { symbol: 'gh', desc: 'дзвінке гортанне р/г (ѓейн)' },
+    { symbol: "'", desc: 'гортанна зупинка (ع/ء)' },
+    { symbol: 'zh', desc: 'ж' },
+    { symbol: 'sh', desc: 'ш' },
+  ],
 };
