@@ -2,7 +2,7 @@
 
 Tracks the word-count status of every language dictionary in Vymova (`data/words_<code>.js`), against the canonical English source list in `data/words.js` (currently **10403** headwords).
 
-Last updated: 2026-07-04 (v1.99.1)
+Last updated: 2026-07-04 (v1.101.0)
 
 ## Rule: every dictionary entry must include transcription
 
@@ -13,7 +13,11 @@ Every `data/words_<code>.js` entry must be a **3-element** tuple — `["translat
 - **Other scripts** (bn, fa, hi, hy, ka, ko, th): transliterate via the recognized romanization standard — bn: ISO 15919, fa: UN/DMG, hi: ISO 15919/IAST, hy: ISO 9985, ka: 2002 national system, ko: Revised Romanization of Korean, th: RTGS.
 - Prefer a deterministic transliterator script (character-mapping table, or algorithmic like Hangul-block decomposition for Korean) over hand-typing transcriptions per word — these standards are rule-based, so scripting is faster and more consistent than manual entry.
 - Wiring: a working transcription also needs `LOCAL_ENTRY_LOOKUP` in [card-front-text.tsx](js/features/card-front-text.tsx) to point at the language's `xxEntry` function (already defined in `mode-utils.ts` for all languages), plus a `TRANSCRIPTION_LEGEND` entry in [transcription-legend.ts](js/features/transcription-legend.ts) explaining any non-obvious symbols.
-- **Retrofit needed:** az, ko, bg, bn were completed without transcription and need it backfilled. vi has transcription only for its original 100 legacy words — the ~1950 words added since are missing it too.
+- **Retrofit status:** ko, bg, bn — done (transliterator scripts written, all 2110 words backfilled, wired into `LOCAL_ENTRY_LOOKUP` + `TRANSCRIPTION_LEGEND`). az still needs it. vi has transcription only for its original 100 legacy words — the ~1950 words added since are still missing it.
+  - `bg`: `translit-bg.js` — official 2009 Streamlined System, plain character table (no context-sensitive rules needed).
+  - `ko`: `translit-ko.js` — Revised Romanization via Hangul-block Unicode decomposition, with nasalization/lateralization/simple-batchim liaison applied within each word.
+  - `bn`: `translit-bn.js` — phonetic-leaning romanization (inherent vowel rendered "o", not ISO 15919's "a" — confirmed with project owner since "a" would mislead pronunciation of the most frequent Bengali vowel). Handles virama clusters, nukta letters (ড়/ঢ়/য়), and the অ্যা loanword digraph. Documented simplifications: word-final vowel elision not modeled, a few irregular conjuncts (জ্ঞ, ন্য) rendered by the generic rule instead of their lexical exception, স always "s".
+  - All three transliterator scripts are committed under [scripts/translit/](scripts/translit/) (`translit-bg.js`, `translit-ko.js`, `translit-bn.js`) — reuse them for any future batch added to these languages, rather than re-deriving the rules.
 
 ## Fully expanded to the full source list (10403 words)
 
