@@ -4,6 +4,17 @@ Tracks the word-count status of every language dictionary in Vymova (`data/words
 
 Last updated: 2026-07-04 (v1.99.1)
 
+## Rule: every dictionary entry must include transcription
+
+Every `data/words_<code>.js` entry must be a **3-element** tuple — `["translation", "example", "transcription"]` — not just 2. This applies both when translating a new batch of words and when adding a brand-new language. Never ship translation-only batches without transcription going forward.
+
+- **Latin-script languages** (az, bs, cs, da, fi, hr, hu, id, ms, no, pcm, ro, sk, sv, sw): transcription is optional/skippable since the word itself is already readable — strip language-specific diacritics only if needed (e.g. for URLs), otherwise leave as-is.
+- **Cyrillic-script languages** (bg, kk, sr): transliterate via the official Latin-transliteration standard for each — bg: 2009 Streamlined System (official law), kk: 2021 Kazakhstan Latin standard, sr: Gaj's Latin alphabet.
+- **Other scripts** (bn, fa, hi, hy, ka, ko, th): transliterate via the recognized romanization standard — bn: ISO 15919, fa: UN/DMG, hi: ISO 15919/IAST, hy: ISO 9985, ka: 2002 national system, ko: Revised Romanization of Korean, th: RTGS.
+- Prefer a deterministic transliterator script (character-mapping table, or algorithmic like Hangul-block decomposition for Korean) over hand-typing transcriptions per word — these standards are rule-based, so scripting is faster and more consistent than manual entry.
+- Wiring: a working transcription also needs `LOCAL_ENTRY_LOOKUP` in [card-front-text.tsx](js/features/card-front-text.tsx) to point at the language's `xxEntry` function (already defined in `mode-utils.ts` for all languages), plus a `TRANSCRIPTION_LEGEND` entry in [transcription-legend.ts](js/features/transcription-legend.ts) explaining any non-obvious symbols.
+- **Retrofit needed:** az, ko, bg, bn were completed without transcription and need it backfilled. vi has transcription only for its original 100 legacy words — the ~1950 words added since are missing it too.
+
 ## Fully expanded to the full source list (10403 words)
 
 | Code | Language   | Words |
