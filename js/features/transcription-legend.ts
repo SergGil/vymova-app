@@ -206,4 +206,11 @@ export const TRANSCRIPTION_LEGEND: Partial<Record<string, LegendRow[]>> = {
     { symbol: 'y', desc: 'й, або м\'який знак ь перед о (ьо → yo)' },
     { symbol: 'a (з ъ)', desc: 'ъ передається як a (напр. България → Balgariya)' },
   ],
+  KO: [
+    { symbol: 'eo', desc: '어 — окремий звук, щось між "о" і "а"' },
+    { symbol: 'eu', desc: '으 — окремий звук, стиснуте "и"/"у" без округлення губ' },
+    { symbol: 'ng', desc: 'носове н (як в англ. song), не "нг" двома звуками' },
+    { symbol: 'ch', desc: 'ч' },
+    { symbol: 'kk / tt / pp / jj', desc: 'напружені (посилені) к/т/п/ч — вимовляються твердіше, без придиху' },
+  ],
 };
