@@ -16,16 +16,55 @@ export function safe(fn: () => void): void {
 // Each wraps the first matching occurrence of a word in <b>…</b>.
 // Returns src unchanged if src already contains <b>.
 
-/** Bold the English headword (w[0]) inside an example sentence. */
-export function boldEn(src: string, w: WordEntry): string {
-  if (!src) return '';
-  if (src.indexOf('<b>') !== -1) return src;
-  const bw = (w[0] as string).replace(/\s*\([^)]*\)/g, '').trim();
-  const parts = bw
+/**
+ * Pull alternate word forms out of a headword's parenthetical, e.g.
+ * "spend (spent, spent)" -> ["spent", "spent"]. Irregular verbs list their
+ * past/participle forms this way, and example sentences often use those
+ * forms instead of the base headword — a plain "spend\w*" suffix match
+ * can never catch "spent". Segments that aren't a single bare word (notes
+ * like "мн.ч: deer" get their prefix stripped; multi-word notes like
+ * "про манеру" are dropped entirely) are filtered out.
+ */
+function altFormsOf(raw: string): string[] {
+  const m = raw.match(/\(([^)]*)\)/);
+  if (!m) return [];
+  return m[1]
+    .split(',')
+    .map((seg) => {
+      const idx = seg.lastIndexOf(':');
+      return (idx === -1 ? seg : seg.slice(idx + 1)).trim();
+    })
+    .filter((s) => /^[A-Za-zА-Яа-яІіЇїЄєҐґ'-]+$/.test(s));
+}
+
+/** Builds a case-insensitive "<b>" wrapper that matches `phrase` (with a
+ * trailing \w* per word, so plurals/conjugations still highlight) inside
+ * `src`, or returns null if `phrase` doesn't occur in `src` at all. */
+function tryBold(src: string, phrase: string): string | null {
+  const parts = phrase
     .split(/\s+/)
     .filter(Boolean)
     .map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\w*');
-  return src.replace(new RegExp('(' + parts.join('\\s+') + ')', 'i'), '<b>$1</b>');
+  if (!parts.length) return null;
+  const re = new RegExp('(' + parts.join('\\s+') + ')', 'i');
+  return re.test(src) ? src.replace(re, '<b>$1</b>') : null;
+}
+
+/** Bold the English headword (w[0]) inside an example sentence. Falls back
+ * to any alternate forms in the headword's parenthetical (irregular verb
+ * forms) if the base word itself doesn't appear in the sentence. */
+export function boldEn(src: string, w: WordEntry): string {
+  if (!src) return '';
+  if (src.indexOf('<b>') !== -1) return src;
+  const raw = w[0] as string;
+  const bw = raw.replace(/\s*\([^)]*\)/g, '').trim();
+  const base = tryBold(src, bw);
+  if (base) return base;
+  for (const alt of altFormsOf(raw)) {
+    const result = tryBold(src, alt);
+    if (result) return result;
+  }
+  return src;
 }
 
 /** Bold the Ukrainian translation (w[1], first segment) inside a UA sentence. */
@@ -33,22 +72,30 @@ export function boldUa(src: string, w: WordEntry): string {
   if (!src) return src;
   const uw = (w[1] as string)
     .split(/[;,/]/)[0]
+    .replace(/\s*\([^)]*\)/g, '')
     .trim()
     .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   return src.replace(new RegExp('(' + uw + '\\w*)', 'i'), '<b>$1</b>');
 }
 
-/** Bold an arbitrary headword string (first segment before ; , /) inside src. */
+/** Bold an arbitrary headword string (first segment before ; , /) inside src.
+ * Falls back to alternate forms in the word's parenthetical, same as
+ * `boldEn`, if the base word doesn't appear in the sentence. */
 export function boldHead(src: string, word: string): string {
   if (!src) return '';
   if (!word || src.indexOf('<b>') !== -1) return src;
   const hw = word
     .replace(/\s*\([^)]*\)/g, '')
     .split(/[;,/]/)[0]
-    .trim()
-    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    .trim();
   if (!hw) return src;
-  return src.replace(new RegExp('(' + hw + '\\w*)', 'i'), '<b>$1</b>');
+  const base = tryBold(src, hw);
+  if (base) return base;
+  for (const alt of altFormsOf(word)) {
+    const result = tryBold(src, alt);
+    if (result) return result;
+  }
+  return src;
 }
 
 // ── SRS badge logic ────────────────────────────────────────────

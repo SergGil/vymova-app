@@ -88,6 +88,24 @@ describe('boldEn()', () => {
     const count = (result.match(/<b>/g) || []).length;
     expect(count).toBe(1);
   });
+
+  it('falls back to an irregular past-tense form from the parenthetical', () => {
+    expect(
+      boldEn('She spent three hours preparing for the presentation.', w('spend (spent, spent)', 'витрачати')),
+    ).toBe('She <b>spent</b> three hours preparing for the presentation.');
+  });
+
+  it('prefers the base word over an irregular form when the base word is present', () => {
+    expect(boldEn('Please spend your time wisely.', w('spend (spent, spent)', 'витрачати'))).toBe(
+      'Please <b>spend</b> your time wisely.',
+    );
+  });
+
+  it('falls back to an irregular form behind a note prefix (e.g. "мн.ч:")', () => {
+    expect(boldEn('There were mice all over the attic.', w('mouse (мн.ч:mice)', 'миша'))).toBe(
+      'There were <b>mice</b> all over the attic.',
+    );
+  });
 });
 
 // ══════════════════════════════════════════════════════════════
@@ -115,6 +133,13 @@ describe('boldUa()', () => {
   it('returns src unchanged when UA word is not found', () => {
     const src = 'Зовсім інший текст.';
     expect(boldUa(src, w('abandon', 'покидати'))).toBe(src);
+  });
+
+  it('strips a parenthesised disambiguation note before matching', () => {
+    // w[1] = "знайомий (людина)" (no ;/,) → note must not end up in the pattern
+    expect(boldUa('Він був знайомий з цією проблемою.', w('familiar', 'знайомий (людина)'))).toBe(
+      'Він був <b>знайомий</b> з цією проблемою.',
+    );
   });
 });
 
@@ -155,6 +180,12 @@ describe('boldHead()', () => {
 
   it('strips parenthesised notes before matching', () => {
     expect(boldHead('Let go of the rope.', 'go (somewhere)')).toBe('Let <b>go</b> of the rope.');
+  });
+
+  it('falls back to an irregular form from the parenthetical', () => {
+    expect(boldHead('She spent three hours preparing.', 'spend (spent, spent)')).toBe(
+      'She <b>spent</b> three hours preparing.',
+    );
   });
 
   it('returns src unchanged when word not found', () => {
