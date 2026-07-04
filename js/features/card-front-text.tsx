@@ -32,6 +32,7 @@ import {
   koEntry,
   bnEntry,
   faEntry,
+  hiEntry,
 } from './mode-utils.ts';
 import { speakEnAccent, speakEsAccent, speakPtAccent, hasEsAccent, hasPtAccent } from './voice.tsx';
 import { flagUrl } from '../core/flags.ts';
@@ -84,6 +85,7 @@ const LOCAL_ENTRY_LOOKUP: Partial<
   KO: koEntry,
   BN: bnEntry,
   FA: faEntry,
+  HI: hiEntry,
 };
 
 export function Transcription() {

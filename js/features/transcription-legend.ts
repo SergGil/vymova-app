@@ -228,4 +228,11 @@ export const TRANSCRIPTION_LEGEND: Partial<Record<string, LegendRow[]>> = {
     { symbol: 'zh', desc: 'ж' },
     { symbol: 'sh', desc: 'ш' },
   ],
+  HI: [
+    { symbol: 'a (у кінці слова)', desc: 'часто не вимовляється в розмовній хінді (कमल звучить "камал", не "камала") — тут завжди показаний' },
+    { symbol: 'aa / ii / uu', desc: 'довгі голосні (на відміну від коротких a/i/u)' },
+    { symbol: 'ch / chh', desc: 'ч / придихове ч' },
+    { symbol: 'bh / dh / gh / jh / kh / ph / th', desc: 'придихові приголосні — той самий звук + легкий видих' },
+    { symbol: 'ri', desc: 'складовий р (рідкісний, санскритського походження звук)' },
+  ],
 };
