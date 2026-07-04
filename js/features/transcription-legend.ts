@@ -195,4 +195,15 @@ export const TRANSCRIPTION_LEGEND: Partial<Record<string, LegendRow[]>> = {
     { symbol: 'əː / ə̆', desc: 'шва-подібні звуки (ơ, â)' },
     { symbol: 'k̚ / t̚ / p̚', desc: 'нечутно вибухові кінцеві приголосні (c/ch, t, p) — беззвучна змичка' },
   ],
+  BG: [
+    { symbol: 'zh', desc: 'ж' },
+    { symbol: 'ch', desc: 'ч' },
+    { symbol: 'sh', desc: 'ш' },
+    { symbol: 'sht', desc: 'щ' },
+    { symbol: 'ts', desc: 'ц' },
+    { symbol: 'yu', desc: 'ю' },
+    { symbol: 'ya', desc: 'я' },
+    { symbol: 'y', desc: 'й, або м\'який знак ь перед о (ьо → yo)' },
+    { symbol: 'a (з ъ)', desc: 'ъ передається як a (напр. България → Balgariya)' },
+  ],
 };
