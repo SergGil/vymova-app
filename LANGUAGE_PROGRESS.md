@@ -2,7 +2,7 @@
 
 Tracks the word-count status of every language dictionary in Vymova (`data/words_<code>.js`), against the canonical English source list in `data/words.js` (currently **10403** headwords).
 
-Last updated: 2026-07-05 (v1.103.0)
+Last updated: 2026-07-05 (v1.105.1)
 
 ## Rule: every dictionary entry must include transcription
 
@@ -19,14 +19,15 @@ Every `data/words_<code>.js` entry must be a **3-element** tuple — `["translat
   - `bn`: `translit-bn.cjs` — phonetic-leaning romanization (inherent vowel rendered "o", not ISO 15919's "a" — confirmed with project owner since "a" would mislead pronunciation of the most frequent Bengali vowel). Handles virama clusters, nukta letters (ড়/ঢ়/য়), and the অ্যা loanword digraph. Documented simplifications: word-final vowel elision not modeled, a few irregular conjuncts (জ্ঞ, ন্য) rendered by the generic rule instead of their lexical exception, স always "s".
   - `vi`: `translit-vi.cjs` — Quốc Ngữ -> IPA with tone-contour numbers, matching the convention already used by the original 100 legacy words. NFD-normalizes to separate tone marks from vowel-quality marks, then parses initial/nucleus/final via lookup tables. Assumes Northern (Hanoi) dialect mergers (d/gi/r -> z, s/x -> s, ch/tr -> tɕ).
   - All transliterator scripts are committed under [scripts/translit/](scripts/translit/) — reuse them for any future batch added to these languages, rather than re-deriving the rules.
-- **Pending languages (not yet translated) — transliterator already written and tested against sample vocabulary, ready to apply once each language actually gets translated:**
-  - `sr` (Serbian, Cyrillic) — `translit-sr.cjs`. Gaj's Latin alphabet: clean 1:1 bijective mapping (č/ć/đ/š/ž kept as the standard's own diacritics, not ASCII-simplified, since this is the language's actual parallel script, not an invented romanization). 9/9 test words pass.
-  - `kk` (Kazakh, Cyrillic) — `translit-kk.cjs`. 2021 Kazakhstan Latin standard. ⚠️ **Confidence flag**: Kazakhstan revised this standard 4+ times (2017-2021); table is a best-effort reconstruction, not verified against the primary decree — re-check before treating as ground truth.
-  - `hy` (Armenian) — `translit-hy.cjs`. Simplified learner-facing system (ISO 9985-adjacent but without its diacritics): aspirated stops get a trailing apostrophe (tʿ→t'), unaspirated get the plain digraph. Word-initial ե/ո → "ye"/"vo" handled positionally.
-  - `ka` (Georgian) — `translit-ka.cjs`. 2002 national system. ⚠️ **Confidence flag**: reasonably but not fully confident in the aspirate-vs-ejective apostrophe assignment (თ/ფ/ქ plain vs. ტ/პ/კ/ყ/წ/ჭ apostrophe'd) — re-check before treating as ground truth.
-  - `fa` (Persian, Perso-Arabic) — `translit-fa.cjs`. **Fundamental precondition, confirmed with project owner:** ordinary Persian omits short vowels entirely, so fa translations must be typed WITH Arabic diacritics (fatha/kasra/damma: َ ِ ُ) for this transliterator to work at all — unlike every other script here, this can't be retrofitted onto plain undiacritized text. Handles context-dependent و/ی (consonant vs. long vowel) and the word-final ه→"eh" convention. 8/8 test words pass.
-  - `hi` (Hindi, Devanagari) — `translit-hi.cjs`. ISO 15919/IAST-style; structurally the same abugida architecture as `translit-bn.cjs` (virama, nukta, matras) but unlike Bengali, Hindi's inherent vowel really is "a" phonetically, so no inherent-vowel conflict to resolve. Known gap: word-final schwa deletion not modeled (कमल renders "kamala", spoken "kamal") — same accepted trade-off as Bengali.
-  - `th` (Thai, RTGS) — `translit-th.cjs`. The hardest of all 11: Thai script marks neither syllable boundaries nor (per RTGS itself) tone. Required a real syllabification heuristic (`syllableOpen` flag tracking whether a bare consonant closes the prior syllable as a final vs. starts a new one) plus handling for leading vowels written before the consonant they follow (เมือง→"mueang") and the "ห นำ" silent-leading-ho rule. Validated against 34 common words. Known gaps: genuine multi-consonant clusters (ปร- in ประเทศ), compound-word syllable/word-boundary coincidences (ร้านอาหาร), and Sanskrit/Pali double-duty consonants (มหาวิทยาลัย) are not modeled — these require a dictionary lookup, not a spelling rule.
+- **sr, kk, hy, ka, fa, hi, th — done (batch 1, 160 words each, transcription generated and wired from the start, not retrofitted):**
+  - `sr` (Serbian, Cyrillic) — `translit-sr.cjs`. Gaj's Latin alphabet: clean 1:1 bijective mapping (č/ć/đ/š/ž kept as the standard's own diacritics).
+  - `kk` (Kazakh, Cyrillic) — `translit-kk.cjs`. 2021 Kazakhstan Latin standard. ⚠️ **Confidence flag**: Kazakhstan revised this standard 4+ times (2017-2021); table is a best-effort reconstruction, not verified against the primary decree.
+  - `hy` (Armenian) — `translit-hy.cjs`. Simplified learner-facing system: aspirated stops get a trailing apostrophe (tʿ→t'), unaspirated get the plain digraph.
+  - `ka` (Georgian) — `translit-ka.cjs`. 2002 national system. ⚠️ **Confidence flag**: aspirate-vs-ejective apostrophe assignment (თ/ფ/ქ plain vs. ტ/პ/კ/ყ/წ/ჭ apostrophe'd) not independently verified.
+  - `fa` (Persian, Perso-Arabic) — `translit-fa.cjs`. Translations typed WITH Arabic diacritics (fatha/kasra/damma) per the fundamental precondition confirmed earlier — this actually worked in batch 1, though needed 2 rounds of diacritic-placement fixes on words like کردن (kardan) and a missing آ (alef madda) mapping.
+  - `hi` (Hindi, Devanagari) — `translit-hi.cjs`. Same abugida architecture as Bengali; no inherent-vowel conflict since Hindi's "a" is phonetically accurate.
+  - `th` (Thai, RTGS) — `translit-th.cjs`. Hardest of all 11. Batch 1's real 150-word translation surfaced 3 more bugs beyond the original 34-word test suite (เ-ิ vowel pattern, missing ฤ letter, bare-consonant+ะ not in the vowel table) plus added genuine 2-consonant cluster recognition (ปร-, กล- etc., so ประเทศ → "prathet" not "poratheto"). All fixed; residual errors are compound-word/word-boundary and double-duty-consonant cases, already documented as out of scope without a word dictionary.
+  - All transliterator scripts are committed under [scripts/translit/](scripts/translit/) — reuse them for any future batch added to these languages.
 
 ## Fully expanded to the full source list (10403 words)
 
@@ -61,8 +62,30 @@ Every `data/words_<code>.js` entry must be a **3-element** tuple — `["translat
 | bg   | Bulgarian          | 2110  |
 | bn   | Bengali            | 2110  |
 
-## Pending — still at the starter set (10 words), next up in the current expansion effort
+## In progress — batch 1 done (160 words), need further batches to reach 2000+
 
-bs (Bosnian), cs (Czech), da (Danish), fa (Persian), fi (Finnish), hi (Hindi), hr (Croatian), hu (Hungarian), hy (Armenian), id (Indonesian), ka (Georgian), kk (Kazakh), ms (Malay), no (Norwegian), pcm (Nigerian Pidgin), ro (Romanian), sk (Slovak), sr (Serbian), sv (Swedish), sw (Swahili), th (Thai)
+| Code | Language           | Words |
+|------|--------------------|-------|
+| bs   | Bosnian            | 160   |
+| cs   | Czech              | 160   |
+| da   | Danish             | 160   |
+| fa   | Persian            | 160   |
+| fi   | Finnish            | 160   |
+| hi   | Hindi              | 160   |
+| hr   | Croatian           | 160   |
+| hu   | Hungarian          | 160   |
+| hy   | Armenian           | 160   |
+| id   | Indonesian         | 160   |
+| ka   | Georgian           | 160   |
+| kk   | Kazakh             | 160   |
+| ms   | Malay              | 160   |
+| no   | Norwegian          | 160   |
+| pcm  | Nigerian Pidgin    | 160   |
+| ro   | Romanian           | 160   |
+| sk   | Slovak             | 160   |
+| sr   | Serbian            | 160   |
+| sv   | Swedish            | 160   |
+| sw   | Swahili            | 160   |
+| th   | Thai               | 160   |
 
-**20 languages remaining** to bring from 10 → 2000+ words, following the same batch-by-batch process used for az/ko/vi/bg/bn (translate ~150-word slices of `words.js` at a time, verify, commit each batch, push only once the language crosses 2000+).
+**All 21 languages now at 160/2000+ words** (batch 1 complete for each, index 10-159, same range reused across all of them since they draw from the identical `words.js` source list). Continue with batch 2 (index 160-309) and onward for each, following the same process, until each crosses 2000+.
