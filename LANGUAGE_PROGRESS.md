@@ -2,7 +2,7 @@
 
 Tracks the word-count status of every language dictionary in Vymova (`data/words_<code>.js`), against the canonical English source list in `data/words.js` (currently **10403** headwords).
 
-Last updated: 2026-07-05 (v1.105.1)
+Last updated: 2026-07-05 (v1.105.3)
 
 ## Rule: every dictionary entry must include transcription
 
@@ -71,7 +71,7 @@ Every `data/words_<code>.js` entry must be a **3-element** tuple — `["translat
 | da   | Danish             | 160   |
 | fa   | Persian            | 160   |
 | fi   | Finnish            | 160   |
-| hi   | Hindi              | 160   |
+| hi   | Hindi              | 310   |
 | hr   | Croatian           | 160   |
 | hu   | Hungarian          | 160   |
 | hy   | Armenian           | 160   |
@@ -88,4 +88,4 @@ Every `data/words_<code>.js` entry must be a **3-element** tuple — `["translat
 | sw   | Swahili            | 160   |
 | th   | Thai               | 160   |
 
-**All 21 languages now at 160/2000+ words** (batch 1 complete for each, index 10-159, same range reused across all of them since they draw from the identical `words.js` source list). Continue with batch 2 (index 160-309) and onward for each, following the same process, until each crosses 2000+.
+**All 21 languages started with batch 1 (index 10-159, 160 words).** `hi` (Hindi) has since continued with batch 2 (index 160-309) and is now at 310 words. The other 20 remain at 160 pending their own batch 2. Continue similarly for each, following the same process, until each crosses 2000+.
