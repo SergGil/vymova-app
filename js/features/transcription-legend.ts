@@ -256,4 +256,13 @@ export const TRANSCRIPTION_LEGEND: Partial<Record<string, LegendRow[]>> = {
     { symbol: 'ū', desc: "коротке у (ұ)" },
     { symbol: 'ï', desc: "и після приголосної (і/и залежно від контексту)" },
   ],
+  SR: [
+    { symbol: 'č', desc: 'тверде ч' },
+    { symbol: 'ć', desc: "м'яке ть (як укр. ць)" },
+    { symbol: 'š', desc: 'ш' },
+    { symbol: 'ž', desc: 'ж' },
+    { symbol: 'đ', desc: "м'яке дж (як в англ. j)" },
+    { symbol: 'dž', desc: 'тверде дж' },
+    { symbol: 'lj / nj', desc: "м'які ль/нь" },
+  ],
 };

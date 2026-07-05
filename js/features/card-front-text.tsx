@@ -36,6 +36,7 @@ import {
   hyEntry,
   kaEntry,
   kkEntry,
+  srEntry,
 } from './mode-utils.ts';
 import { speakEnAccent, speakEsAccent, speakPtAccent, hasEsAccent, hasPtAccent } from './voice.tsx';
 import { flagUrl } from '../core/flags.ts';
@@ -92,6 +93,7 @@ const LOCAL_ENTRY_LOOKUP: Partial<
   HY: hyEntry,
   KA: kaEntry,
   KK: kkEntry,
+  SR: srEntry,
 };
 
 export function Transcription() {
