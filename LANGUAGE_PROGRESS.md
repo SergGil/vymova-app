@@ -2,7 +2,7 @@
 
 Tracks the word-count status of every language dictionary in Vymova (`data/words_<code>.js`), against the canonical English source list in `data/words.js` (currently **10403** headwords).
 
-Last updated: 2026-07-05 (v1.105.3)
+Last updated: 2026-07-05 (v1.105.4)
 
 ## Rule: every dictionary entry must include transcription
 
@@ -25,7 +25,7 @@ Every `data/words_<code>.js` entry must be a **3-element** tuple — `["translat
   - `hy` (Armenian) — `translit-hy.cjs`. Simplified learner-facing system: aspirated stops get a trailing apostrophe (tʿ→t'), unaspirated get the plain digraph.
   - `ka` (Georgian) — `translit-ka.cjs`. 2002 national system. ⚠️ **Confidence flag**: aspirate-vs-ejective apostrophe assignment (თ/ფ/ქ plain vs. ტ/პ/კ/ყ/წ/ჭ apostrophe'd) not independently verified.
   - `fa` (Persian, Perso-Arabic) — `translit-fa.cjs`. Translations typed WITH Arabic diacritics (fatha/kasra/damma) per the fundamental precondition confirmed earlier — this actually worked in batch 1, though needed 2 rounds of diacritic-placement fixes on words like کردن (kardan) and a missing آ (alef madda) mapping.
-  - `hi` (Hindi, Devanagari) — `translit-hi.cjs`. Same abugida architecture as Bengali; no inherent-vowel conflict since Hindi's "a" is phonetically accurate.
+  - `hi` (Hindi, Devanagari) — `translit-hi.cjs`. Same abugida architecture as Bengali; no inherent-vowel conflict since Hindi's "a" is phonetically accurate. Fixed during batch 3 (2026-07-05): candra-O vowel (ऑ/ॉ, used in English loanwords like डॉक्टर, कॉलेज, अपॉइंटमेंट) was missing from both the VOWELS and MATRAS tables, causing raw Devanagari to leak into the transcription untransliterated — added `ऑ`/`ॉ` → `"o"` to both tables.
   - `th` (Thai, RTGS) — `translit-th.cjs`. Hardest of all 11. Batch 1's real 150-word translation surfaced 3 more bugs beyond the original 34-word test suite (เ-ิ vowel pattern, missing ฤ letter, bare-consonant+ะ not in the vowel table) plus added genuine 2-consonant cluster recognition (ปร-, กล- etc., so ประเทศ → "prathet" not "poratheto"). All fixed; residual errors are compound-word/word-boundary and double-duty-consonant cases, already documented as out of scope without a word dictionary.
   - All transliterator scripts are committed under [scripts/translit/](scripts/translit/) — reuse them for any future batch added to these languages.
 
@@ -71,7 +71,7 @@ Every `data/words_<code>.js` entry must be a **3-element** tuple — `["translat
 | da   | Danish             | 160   |
 | fa   | Persian            | 160   |
 | fi   | Finnish            | 160   |
-| hi   | Hindi              | 310   |
+| hi   | Hindi              | 610   |
 | hr   | Croatian           | 160   |
 | hu   | Hungarian          | 160   |
 | hy   | Armenian           | 160   |
