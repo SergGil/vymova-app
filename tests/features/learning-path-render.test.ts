@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
+import { today as localToday } from '../../js/core/today.ts';
 
 vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
 
@@ -54,8 +55,7 @@ describe('learning-path.ts renderLearningPath/openLearningPath', () => {
     setKnownWords('en', new Set(['abandon']));
     renderLearningPath();
     const snaps = JSON.parse(localStorage.getItem('lp_pace_snapshots')!);
-    const today = new Date().toISOString().slice(0, 10);
-    expect(snaps).toEqual([{ date: today, count: 1 }]);
+    expect(snaps).toEqual([{ date: localToday(), count: 1 }]);
   });
 
   it('clicking a [data-lp-level] button navigates to that CEFR level', () => {
