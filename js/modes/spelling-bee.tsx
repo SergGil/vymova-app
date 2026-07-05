@@ -53,6 +53,7 @@ import {
   noEntry,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { speakForCode } from '../features/speak-lang.ts';
 
 const SIZE = 10;
 const HINTS = 3;
@@ -146,6 +147,93 @@ function getWordInLang(w: WordEntry, lang: string): string {
   }
 }
 
+function getLangSentence(w: WordEntry, lang: string): string {
+  switch (lang) {
+    case 'ua':
+      return w[3] ?? '';
+    case 'es':
+      return esEntry(w[0])?.[1] ?? '';
+    case 'fr':
+      return frEntry(w[0])?.[1] ?? '';
+    case 'it':
+      return itEntry(w[0])?.[1] ?? '';
+    case 'pt':
+      return ptEntry(w[0])?.[1] ?? '';
+    case 'de':
+      return deEntry(w[0])?.[1] ?? '';
+    case 'he':
+      return heEntry(w[0])?.[1] ?? '';
+    case 'ar':
+      return arEntry(w[0])?.[1] ?? '';
+    case 'pl':
+      return plEntry(w[0])?.[1] ?? '';
+    case 'zh':
+      return zhEntry(w[0])?.[1] ?? '';
+    case 'el':
+      return elEntry(w[0])?.[1] ?? '';
+    case 'ja':
+      return jaEntry(w[0])?.[1] ?? '';
+    case 'tr':
+      return trEntry(w[0])?.[1] ?? '';
+    case 'nl':
+      return nlEntry(w[0])?.[1] ?? '';
+    case 'vi':
+      return viEntry(w[0])?.[1] ?? '';
+    case 'hi':
+      return hiEntry(w[0])?.[1] ?? '';
+    case 'bn':
+      return bnEntry(w[0])?.[1] ?? '';
+    case 'id':
+      return idEntry(w[0])?.[1] ?? '';
+    case 'pcm':
+      return pcmEntry(w[0])?.[1] ?? '';
+    case 'ko':
+      return koEntry(w[0])?.[1] ?? '';
+    case 'fa':
+      return faEntry(w[0])?.[1] ?? '';
+    case 'sw':
+      return swEntry(w[0])?.[1] ?? '';
+    case 'ms':
+      return msEntry(w[0])?.[1] ?? '';
+    case 'th':
+      return thEntry(w[0])?.[1] ?? '';
+    case 'az':
+      return azEntry(w[0])?.[1] ?? '';
+    case 'ro':
+      return roEntry(w[0])?.[1] ?? '';
+    case 'hu':
+      return huEntry(w[0])?.[1] ?? '';
+    case 'cs':
+      return csEntry(w[0])?.[1] ?? '';
+    case 'kk':
+      return kkEntry(w[0])?.[1] ?? '';
+    case 'sv':
+      return svEntry(w[0])?.[1] ?? '';
+    case 'ka':
+      return kaEntry(w[0])?.[1] ?? '';
+    case 'hr':
+      return hrEntry(w[0])?.[1] ?? '';
+    case 'sr':
+      return srEntry(w[0])?.[1] ?? '';
+    case 'bs':
+      return bsEntry(w[0])?.[1] ?? '';
+    case 'bg':
+      return bgEntry(w[0])?.[1] ?? '';
+    case 'sk':
+      return skEntry(w[0])?.[1] ?? '';
+    case 'hy':
+      return hyEntry(w[0])?.[1] ?? '';
+    case 'da':
+      return daEntry(w[0])?.[1] ?? '';
+    case 'fi':
+      return fiEntry(w[0])?.[1] ?? '';
+    case 'no':
+      return noEntry(w[0])?.[1] ?? '';
+    default:
+      return w[2] ?? '';
+  }
+}
+
 function build(): WordEntry[] {
   const learnLang = getLearnLang();
   const pool = _shuf(
@@ -189,6 +277,10 @@ export function SpellingBeePage(): ReactElement {
 
   const w: WordEntry | null = deck[idx] ?? null;
   const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const knowLang = getKnowLang();
+  const learnLang = getLearnLang();
+  const knowSentence = w ? getLangSentence(w, knowLang) : '';
+  const learnSentence = w ? getLangSentence(w, learnLang) : '';
 
   const speak = (word: string): void => {
     try {
@@ -446,6 +538,29 @@ export function SpellingBeePage(): ReactElement {
                 {decodeIpa(w[4] ?? '')}
               </div>
             )}
+            {knowSentence && (
+              <div
+                style={{
+                  fontSize: '.8rem',
+                  color: 'var(--text3)',
+                  fontStyle: 'italic',
+                  marginTop: 6,
+                  lineHeight: 1.4,
+                }}
+              >
+                {knowSentence}
+                <button
+                  className="mode-speak"
+                  title={t('common.listen')}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    speakForCode(knowLang, knowSentence, knowSentence, e.currentTarget);
+                  }}
+                >
+                  🔊
+                </button>
+              </div>
+            )}
           </div>
 
           {hint && (
@@ -527,6 +642,31 @@ export function SpellingBeePage(): ReactElement {
               />
             )}
           </div>
+
+          {result && learnSentence && (
+            <div
+              style={{
+                textAlign: 'center',
+                fontSize: '.8rem',
+                color: 'var(--text3)',
+                fontStyle: 'italic',
+                marginBottom: 10,
+                lineHeight: 1.4,
+              }}
+            >
+              {learnSentence}
+              <button
+                className="mode-speak"
+                title={t('common.listen')}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  speakForCode(learnLang, learnSentence, learnSentence, e.currentTarget);
+                }}
+              >
+                🔊
+              </button>
+            </div>
+          )}
 
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
             <button
