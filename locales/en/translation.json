@@ -659,6 +659,8 @@
   "daily.missionDone": "Mission accomplished!",
   "daily.keepTraining": "Keep practicing!",
   "daily.xpLabel": "+{{xp}} XP for the daily mission",
+  "daily.alreadyDoneTitle": "Daily mission already completed today!",
+  "daily.nextIn": "Next mission in {{time}}",
   "hints.quiz": "🧠 Quiz: pick the correct translation from 4 options. Keys 1–4 for quick selection.",
   "hints.write": "✍️ Write: type the translation in English. 💡 — hint, 🎤 — voice input.",
   "hints.listen": "🔊 Listening: press ▶ to hear the word, then pick the translation. Space = repeat.",

@@ -7,10 +7,10 @@ it, the AI tutor, voice roleplay, and AI-generated stories ("Історії" /
 Reading+) features simply stay hidden (or, for stories, fall back to the
 built-in offline texts).
 
-If you already have this Worker deployed and are pulling an update that
-added `mode: 'story'` support (see `src/index.ts`), run `wrangler deploy`
-again to pick it up — existing tutor/roleplay traffic is unaffected either
-way, but story generation will 404 until the Worker is redeployed.
+If you already have this Worker deployed and are pulling an update to
+`src/index.ts`, either run `wrangler deploy` again yourself or set up the
+GitHub Actions auto-deploy below (section 5) so future pushes redeploy it
+for you.
 
 ## 1. Get a free Gemini API key
 
@@ -57,3 +57,20 @@ VITE_AI_PROXY_URL=https://vymova-ai-proxy.<you>.workers.dev
 
 Rebuild/redeploy the frontend — the "AI Tutor" sidebar entry appears
 automatically once this is set (see `js/config.ts`).
+
+## 5. (Optional) Automatic deploys via GitHub Actions
+
+`.github/workflows/deploy-worker.yml` redeploys the Worker automatically on
+every push to `main` that touches `worker/**` (or via manual "Run workflow"
+in the Actions tab). It needs two repo secrets — GitHub repo → Settings →
+Secrets and variables → Actions → New repository secret:
+
+- `CLOUDFLARE_API_TOKEN` — create one at
+  https://dash.cloudflare.com/profile/api-tokens using the "Edit Cloudflare
+  Workers" template (scoped to this account).
+- `CLOUDFLARE_ACCOUNT_ID` — found on the right sidebar of any page in the
+  Cloudflare dashboard, or via `wrangler whoami`.
+
+Without these secrets the workflow fails (visible in the Actions tab) but
+nothing else breaks — manual `wrangler deploy` from step 2 always still
+works as a fallback.

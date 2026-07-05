@@ -25,6 +25,7 @@ import {
 
 import { ProfileSwitcher } from '../js/features/profile-switcher.tsx';
 import { WordOfDay } from '../js/features/word-of-day.tsx';
+import { DailyMissionCard } from '../js/features/daily-mission-card.tsx';
 import { LangPairSelect } from '../js/features/lang-pair-select.tsx';
 import { FontSizeControl } from '../js/features/font-size-control.tsx';
 import { TagFilterSelect } from '../js/features/tag-filter-select.tsx';
@@ -156,6 +157,9 @@ function AppRoot(): ReactElement {
       </Portal>
       <Portal id="wotd-mount">
         <WordOfDay />
+      </Portal>
+      <Portal id="daily-mission-mount">
+        <DailyMissionCard />
       </Portal>
       <Portal id="lang-pair-select">
         <LangPairSelect />

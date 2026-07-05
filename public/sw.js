@@ -1,4 +1,4 @@
-﻿var CACHE = 'ew-v37';
+﻿var CACHE = 'ew-v38';
 
 self.addEventListener('install', function(e) {
   self.skipWaiting();
@@ -17,9 +17,13 @@ self.addEventListener('fetch', function(e) {
 
   var url = e.request.url;
 
-  // Зовнішні API (Pixabay, Wikipedia, ElevenLabs тощо) — не кешуємо
+  // Зовнішні API (Pixabay, Wikipedia, ElevenLabs тощо) — не кешуємо.
+  // firebasedatabase.app — лідерборд: дані міняються постійно, кеш-first тут
+  // означає що "Оновити" показує застарілі дані (виправляються лише на 2-й клік,
+  // коли фонове оновлення кешу з 1-го кліку вже встигло записатись).
   var EXTERNAL = ['pixabay.com', 'wikipedia.org', 'wikimedia.org', 'api.fakeyou.com',
-                  'streamelements.com', 'elevenlabs.io', 'storage.googleapis.com/vocodes'];
+                  'streamelements.com', 'elevenlabs.io', 'storage.googleapis.com/vocodes',
+                  'firebasedatabase.app'];
   if (EXTERNAL.some(function(d){ return url.includes(d); })) return;
 
   // HTML — завжди мережа (свіжий контент), fallback на кеш якщо офлайн

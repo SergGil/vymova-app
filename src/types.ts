@@ -129,6 +129,7 @@ export interface GameData {
   maxStreak?: number;
   mistakesFixed?: number; // lifetime count of clearMistake() calls, for achievements
   goalCounted?: boolean; // whether goalDays was already incremented for the current goalDate
+  dailyMissionDate?: string; // today() the daily mission (⚡) was last completed — gates it to once/24h
 }
 
 // ── Character avatar (profile page) ─────────────────────────────

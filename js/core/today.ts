@@ -17,3 +17,11 @@ export function localDateStr(d: Date): string {
 export function today(): string {
   return localDateStr(new Date());
 }
+
+/** Milliseconds from now until the next local midnight (00:00) — used for
+ * "resets tomorrow" countdowns (e.g. the once-per-day mission). */
+export function msUntilNextLocalMidnight(): number {
+  const now = new Date();
+  const next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
+  return next.getTime() - now.getTime();
+}

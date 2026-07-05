@@ -648,6 +648,8 @@
   "daily.missionDone": "Missione completata!",
   "daily.keepTraining": "Continua ad allenarti!",
   "daily.xpLabel": "+{{xp}} XP per la missione giornaliera",
+  "daily.alreadyDoneTitle": "Missione giornaliera già completata oggi!",
+  "daily.nextIn": "Prossima missione tra {{time}}",
   "hints.quiz": "🧠 Quiz: scegli la traduzione corretta tra 4 opzioni. Tasti 1–4 per selezionare velocemente.",
   "hints.write": "✍️ Scrittura: scrivi la traduzione in inglese. 💡 — indizio, 🎤 — input vocale.",
   "hints.listen": "🔊 Ascolto: premi ▶ per ascoltare la parola, poi scegli la traduzione. Spazio = ripeti.",

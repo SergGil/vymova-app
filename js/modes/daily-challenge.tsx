@@ -2,7 +2,7 @@
 // ⚡ Daily Challenge: 10 seeded words + timer + bonus XP
 import { useEffect, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
-import { today as localToday } from '../core/today.ts';
+import { today as localToday, msUntilNextLocalMidnight } from '../core/today.ts';
 import { W } from '../../data/words.js';
 import { getGameData, saveGameData, recordModeComplete } from '../features/game.ts';
 import { closePage, openPage } from '../features/sidebar.tsx';
@@ -171,6 +171,7 @@ export function DailyChallenge(): ReactElement | null {
     let dcTimer: ReturnType<typeof setInterval> | null = null,
       dcTimeLeft = 120,
       dcStarted = false;
+    let dcCooldownTimer: ReturnType<typeof setInterval> | null = null;
 
     const elTitle = document.getElementById('dc-title')!;
     const elWord = document.getElementById('dc-word')!;
@@ -183,6 +184,54 @@ export function DailyChallenge(): ReactElement | null {
     const elFinalEmoji = document.getElementById('dc-final-emoji')!;
     const elFinalTitle = document.getElementById('dc-final-title')!;
     const elFinalXP = document.getElementById('dc-final-xp')!;
+    const elFinalCooldown = document.getElementById('dc-final-cooldown')!;
+    const elWordArea = overlay.querySelector<HTMLElement>('.dc-word-area')!;
+    const elPbarWrap = overlay.querySelector<HTMLElement>('.dc-pbar-wrap')!;
+
+    function isDoneToday(): boolean {
+      return getGameData().dailyMissionDate === localToday();
+    }
+
+    function _formatCountdown(ms: number): string {
+      const totalSec = Math.max(0, Math.floor(ms / 1000));
+      const h = Math.floor(totalSec / 3600);
+      const m = Math.floor((totalSec % 3600) / 60);
+      const s = totalSec % 60;
+      return [h, m, s].map((n) => String(n).padStart(2, '0')).join(':');
+    }
+
+    function _stopCooldownTicker(): void {
+      if (dcCooldownTimer) {
+        clearInterval(dcCooldownTimer);
+        dcCooldownTimer = null;
+      }
+    }
+
+    function _startCooldownTicker(): void {
+      _stopCooldownTicker();
+      const tick = (): void => {
+        const ms = msUntilNextLocalMidnight();
+        elFinalCooldown.textContent = t('daily.nextIn', { time: _formatCountdown(ms) });
+        if (ms <= 0) {
+          _stopCooldownTicker();
+          open();
+        }
+      };
+      tick();
+      dcCooldownTimer = setInterval(tick, 1000);
+    }
+
+    function showLockedScreen(): void {
+      elWordArea.style.display = 'none';
+      elPbarWrap.style.display = 'none';
+      elTimer.textContent = '';
+      elOpts.innerHTML = '';
+      elFinalEmoji.textContent = '✅';
+      elFinalTitle.textContent = t('daily.alreadyDoneTitle');
+      elFinalXP.textContent = '';
+      elFinal.style.display = 'block';
+      _startCooldownTicker();
+    }
 
     function open(): void {
       closePage();
@@ -192,6 +241,12 @@ export function DailyChallenge(): ReactElement | null {
         modesOvl.style.display = 'none';
       }
       overlay!.classList.add('open');
+      if (isDoneToday()) {
+        showLockedScreen();
+        return;
+      }
+      elWordArea.style.display = '';
+      elPbarWrap.style.display = '';
       dcDeck = _todayWords();
       dcIdx = 0;
       dcCorrect = 0;
@@ -206,6 +261,7 @@ export function DailyChallenge(): ReactElement | null {
         clearInterval(dcTimer);
         dcTimer = null;
       }
+      _stopCooldownTicker();
       openPage('modes');
     }
 
@@ -317,6 +373,7 @@ export function DailyChallenge(): ReactElement | null {
       try {
         const d = getGameData();
         d.xp = (d.xp ?? 0) + xp;
+        d.dailyMissionDate = localToday();
         saveGameData(d);
         refreshGameBarLevel();
       } catch (e) {}
@@ -324,33 +381,24 @@ export function DailyChallenge(): ReactElement | null {
       try {
         checkAchievements();
       } catch (e) {}
+      _startCooldownTicker();
     }
 
     const btnOpen = document.getElementById('btn-daily-challenge');
     const btnClose = document.getElementById('dc-close');
-    const btnRestart = document.getElementById('dc-restart');
-    const onRestart = () => {
-      dcIdx = 0;
-      dcCorrect = 0;
-      dcStarted = false;
-      if (dcTimer) clearInterval(dcTimer);
-      elFinal.style.display = 'none';
-      _renderQ();
-    };
     const onOverlayClick = (e: MouseEvent) => {
       if (e.target === overlay) close();
     };
 
     btnOpen?.addEventListener('click', open);
     btnClose?.addEventListener('click', close);
-    btnRestart?.addEventListener('click', onRestart);
     overlay.addEventListener('click', onOverlayClick);
 
     return () => {
       if (dcTimer) clearInterval(dcTimer);
+      _stopCooldownTicker();
       btnOpen?.removeEventListener('click', open);
       btnClose?.removeEventListener('click', close);
-      btnRestart?.removeEventListener('click', onRestart);
       overlay.removeEventListener('click', onOverlayClick);
     };
   }, []);

@@ -54,4 +54,24 @@ describe('daily-challenge-logic', () => {
       expect(words.length).toBe(DC_SIZE);
     });
   });
+
+  // ── Re-declared once/24h gate from js/modes/daily-challenge.tsx ──
+  // (`isDoneToday()` there is `getGameData().dailyMissionDate === localToday()`)
+  describe('once-per-24h gate', () => {
+    function isDoneToday(dailyMissionDate: string | undefined, todayStr: string): boolean {
+      return dailyMissionDate === todayStr;
+    }
+
+    it('is not done when dailyMissionDate is unset', () => {
+      expect(isDoneToday(undefined, '2026-07-05')).toBe(false);
+    });
+
+    it("is not done when dailyMissionDate is a previous day", () => {
+      expect(isDoneToday('2026-07-04', '2026-07-05')).toBe(false);
+    });
+
+    it('is done once dailyMissionDate matches today', () => {
+      expect(isDoneToday('2026-07-05', '2026-07-05')).toBe(true);
+    });
+  });
 });
