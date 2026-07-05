@@ -265,4 +265,10 @@ export const TRANSCRIPTION_LEGEND: Partial<Record<string, LegendRow[]>> = {
     { symbol: 'dž', desc: 'тверде дж' },
     { symbol: 'lj / nj', desc: "м'які ль/нь" },
   ],
+  TH: [
+    { symbol: '(без тонів)', desc: 'офіційна система RTGS свідомо не позначає тони — тайська має 5 тонів, які тут не показані' },
+    { symbol: 'ph / th / kh', desc: 'придихові п/т/к (не "ф/th/х" — просто п,т,к із легким видихом)' },
+    { symbol: 'ue', desc: 'стиснутий голосний без округлення губ (як укр. и, але глибше)' },
+    { symbol: 'ng (в кінці)', desc: 'носове н' },
+  ],
 };
