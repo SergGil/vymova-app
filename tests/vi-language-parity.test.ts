@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { entryFor, ensureLangTableLoaded } from '../js/features/mode-utils.ts';
+import type { WordEntry } from '../src/types.js';
 
 // Regression test for a real, confirmed gap found while documenting
 // docs/adding-a-language.md: Vietnamese ('vi') was registered in the
@@ -26,6 +28,11 @@ const root = join(__dirname, '..');
 const read = (rel: string): string => readFileSync(join(root, rel), 'utf8');
 
 describe('Vietnamese is wired into every per-mode translation switch', () => {
+  // reading.tsx and story.tsx no longer have their own per-mode switch — both
+  // were rewritten to call mode-utils.ts's shared, type-safe `entryFor`
+  // (Record<TargetLang, ...>-backed) instead, which can't silently omit a
+  // language the way a copy-pasted `switch` could, so they're excluded here
+  // rather than exempted from the bug class this test guards against.
   const modeFilesWithOneSwitch = [
     'js/modes/catpairs.tsx',
     'js/modes/context.tsx',
@@ -33,10 +40,8 @@ describe('Vietnamese is wired into every per-mode translation switch', () => {
     'js/modes/lesson.tsx',
     'js/modes/listening.tsx',
     'js/modes/pairs.tsx',
-    'js/modes/reading.tsx',
     'js/modes/scramble.tsx',
     'js/modes/spelling-bee.tsx',
-    'js/modes/story.tsx',
     'js/modes/write.tsx',
     'js/features/duel-deck.ts',
     'js/features/learning-path.ts',
@@ -60,6 +65,24 @@ describe('Vietnamese is wired into every per-mode translation switch', () => {
     const src = read('js/modes/fib.tsx');
     const viCount = (src.match(/case 'vi':/g) ?? []).length;
     expect(viCount).toBe(2);
+  });
+
+  it('reading.tsx and story.tsx both import entryFor from mode-utils.ts (shared dispatch, not a raw switch)', () => {
+    for (const file of ['js/modes/reading.tsx', 'js/modes/story.tsx']) {
+      expect(read(file), file).toMatch(/entryFor/);
+    }
+  });
+
+  it("entryFor resolves Vietnamese without falling through to the English word", async () => {
+    await ensureLangTableLoaded('vi');
+    const abandon: WordEntry = [
+      'abandon',
+      'покинути',
+      'They had to abandon the ship.',
+      'Вони мусили покинути корабель.',
+    ];
+    const { word } = entryFor('vi', abandon);
+    expect(word).not.toBe('abandon');
   });
 });
 

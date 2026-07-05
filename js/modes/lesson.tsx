@@ -562,6 +562,7 @@ export function LessonPage(): ReactElement {
                   {getWordInLang(w, knowLang)}
                 </div>
                 <div
+                  className="ex-en"
                   style={{
                     fontSize: '.85rem',
                     color: 'var(--text2)',

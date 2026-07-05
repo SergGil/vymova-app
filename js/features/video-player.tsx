@@ -13,7 +13,8 @@ import { onWordLearned } from '../core/card-engine.ts';
 import { checkMilestones } from './milestones.ts';
 import { speak } from './speech.ts';
 import { t } from './i18n.ts';
-import { lookupEnglishWord, getWordTrans } from '../modes/reading.tsx';
+import { lookupEnglishWord } from '../modes/reading.tsx';
+import { entryFor } from './mode-utils.ts';
 import { getKnowLang } from './lang-pair-select.tsx';
 import { parseSubtitles, findActiveCue, type Cue } from './subtitle-parser.ts';
 import { bindOverlayDismiss } from './overlay-utils.ts';
@@ -95,7 +96,7 @@ export function VideoPlayerPage(): ReactElement | null {
 
   const showPopup = (w: WordEntry): void => {
     const knowLang = getKnowLang();
-    const trans = getWordTrans(w, knowLang) || w[1];
+    const trans = entryFor(knowLang, w).word || w[1];
     setPopup({
       word: w[0],
       trans,

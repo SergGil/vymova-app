@@ -14,10 +14,11 @@ interface ChatTurn {
   text: string;
 }
 interface ChatRequestBody {
-  mode: 'tutor' | 'roleplay';
+  mode: 'tutor' | 'roleplay' | 'story';
   lang: { know: string; learn: string };
-  messages: ChatTurn[];
+  messages?: ChatTurn[]; // absent/empty for 'story' — that mode is a one-shot generation, not a conversation
   scenario?: string; // roleplay only, e.g. "job-interview" | "ordering-coffee"
+  level?: string; // story only, a CEFR level like "A1".."C1"
 }
 
 const GEMINI_MODEL = 'gemini-2.5-flash';
@@ -28,6 +29,16 @@ const VALID_LANGS = new Set([
   'en', 'ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl', 'vi',
   'hi', 'bn', 'id', 'pcm', 'ko', 'fa', 'sw', 'ms', 'th', 'az', 'ro', 'hu', 'cs', 'kk', 'sv', 'ka', 'hr', 'sr', 'bs', 'bg', 'sk', 'hy', 'da', 'fi', 'no',
 ]);
+const VALID_LEVELS = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
+const LANG_NAMES: Record<string, string> = {
+  en: 'English', ua: 'Ukrainian', es: 'Spanish', fr: 'French', it: 'Italian', pt: 'Portuguese',
+  de: 'German', he: 'Hebrew', ar: 'Arabic', pl: 'Polish', zh: 'Chinese', el: 'Greek', ja: 'Japanese',
+  tr: 'Turkish', nl: 'Dutch', vi: 'Vietnamese', hi: 'Hindi', bn: 'Bengali', id: 'Indonesian',
+  pcm: 'Nigerian Pidgin', ko: 'Korean', fa: 'Persian', sw: 'Swahili', ms: 'Malay', th: 'Thai',
+  az: 'Azerbaijani', ro: 'Romanian', hu: 'Hungarian', cs: 'Czech', kk: 'Kazakh', sv: 'Swedish',
+  ka: 'Georgian', hr: 'Croatian', sr: 'Serbian', bs: 'Bosnian', bg: 'Bulgarian', sk: 'Slovak',
+  hy: 'Armenian', da: 'Danish', fi: 'Finnish', no: 'Norwegian',
+};
 
 const ROLEPLAY_SCENARIOS: Record<string, string> = {
   'job-interview': 'You are a hiring manager conducting a friendly first-round job interview.',
@@ -175,6 +186,17 @@ function buildSystemPrompt(body: ChatRequestBody): string {
       `Keep the in-character reply short (1-3 sentences).`,
     ].join(' ');
   }
+  if (body.mode === 'story') {
+    const level: string = body.level && VALID_LEVELS.has(body.level) ? body.level : 'A2';
+    const learnName = LANG_NAMES[learn] ?? learn;
+    return [
+      `Write a short, engaging story entirely in ${learnName}, for a language learner at CEFR level ${level}.`,
+      `Use vocabulary and grammar appropriate for that level — simpler sentences and common words for A1/A2, more complexity for B1 and above.`,
+      `Keep the story between 120 and 220 words.`,
+      `Respond with the story's title on the first line prefixed exactly "TITLE: ", followed by a blank line, then the story text.`,
+      `Do not add any other commentary, headings, or markdown formatting — plain prose only.`,
+    ].join(' ');
+  }
   return [
     `You are a friendly, patient language tutor helping someone learn ${learn} (their native language is ${know}).`,
     `Have a natural conversation in ${learn}. Gently correct mistakes inline and explain briefly in ${know} when useful.`,
@@ -218,7 +240,15 @@ export default {
         headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
       });
     }
-    if (!body.messages?.length || !body.lang) {
+    // Story generation has no conversation turns to send — it's a single
+    // one-shot request driven entirely by lang/level, unlike tutor/roleplay.
+    if (body.mode !== 'story' && !body.messages?.length) {
+      return new Response(JSON.stringify({ error: 'missing_fields' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      });
+    }
+    if (!body.lang) {
       return new Response(JSON.stringify({ error: 'missing_fields' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
@@ -232,12 +262,18 @@ export default {
         headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
       });
     }
+    if (body.mode === 'story' && body.level !== undefined && !VALID_LEVELS.has(body.level)) {
+      return new Response(JSON.stringify({ error: 'invalid_level' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      });
+    }
 
     // Cap messages to prevent runaway Gemini costs.
-    if (body.messages.length > MAX_MESSAGES) {
-      body.messages = body.messages.slice(-MAX_MESSAGES);
+    if ((body.messages?.length ?? 0) > MAX_MESSAGES) {
+      body.messages = body.messages!.slice(-MAX_MESSAGES);
     }
-    const totalChars = body.messages.reduce((s, m) => s + (m.text?.length ?? 0), 0);
+    const totalChars = (body.messages ?? []).reduce((s, m) => s + (m.text?.length ?? 0), 0);
     if (totalChars > MAX_PAYLOAD_CHARS) {
       return new Response(JSON.stringify({ error: 'payload_too_large' }), {
         status: 413,
@@ -246,10 +282,15 @@ export default {
     }
 
     const systemPrompt = buildSystemPrompt(body);
-    const contents = body.messages.map((m) => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.text }],
-    }));
+    // Gemini's generateContent needs at least one content turn even when the
+    // whole request is really driven by the system prompt (story mode).
+    const contents =
+      body.mode === 'story'
+        ? [{ role: 'user', parts: [{ text: 'Generate the story now.' }] }]
+        : (body.messages ?? []).map((m) => ({
+            role: m.role === 'assistant' ? 'model' : 'user',
+            parts: [{ text: m.text }],
+          }));
 
     const geminiRes = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${env.GEMINI_API_KEY}`,
@@ -273,9 +314,19 @@ export default {
     const data = (await geminiRes.json()) as {
       candidates?: { content?: { parts?: { text?: string }[] } }[];
     };
-    const text = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('') ?? '';
+    const raw = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('') ?? '';
 
-    return new Response(JSON.stringify({ text }), {
+    let text = raw;
+    let title: string | undefined;
+    if (body.mode === 'story') {
+      const m = raw.match(/^TITLE:\s*(.+?)\s*\n+([\s\S]*)$/);
+      if (m) {
+        title = m[1].trim();
+        text = m[2].trim();
+      }
+    }
+
+    return new Response(JSON.stringify({ text, ...(title ? { title } : {}) }), {
       headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
     });
   },

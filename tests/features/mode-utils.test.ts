@@ -8,6 +8,7 @@ import {
   getResolvedMode,
   getActiveKnown,
   computeCardView,
+  entryFor,
   esEntry,
   frEntry,
   itEntry,
@@ -25,6 +26,9 @@ import {
   AR_MODES,
   PL_MODES,
   ensureLangTableLoaded,
+  getKnownSetForLang,
+  markKnownForLang,
+  markLearnLangKnown,
 } from '../../js/features/mode-utils.ts';
 
 const abandon: WordEntry = [
@@ -262,6 +266,57 @@ describe('mode-utils.ts', () => {
       expect(view.backWord).toBe('abandon');
       expect(view.frontRtl).toBe(false);
       expect(view.backRtl).toBe(false);
+    });
+  });
+
+  describe('entryFor', () => {
+    it('returns the English word+example for "en"', () => {
+      expect(entryFor('en', abandon)).toEqual({
+        word: 'abandon',
+        ex: 'They had to <b>abandon</b> the ship.',
+      });
+    });
+
+    it('returns the Ukrainian word+example for "ua"', () => {
+      expect(entryFor('ua', abandon)).toEqual({
+        word: 'покинути',
+        ex: 'Вони мусили <b>покинути</b> корабель.',
+      });
+    });
+
+    it('returns a target language\'s translation+example', () => {
+      const { word, ex } = entryFor('es', abandon);
+      expect(word).toBe('abandonar');
+      expect(typeof ex).toBe('string');
+    });
+  });
+
+  describe('getKnownSetForLang / markKnownForLang / markLearnLangKnown', () => {
+    afterEach(() => {
+      localStorage.removeItem('ew_learn_lang');
+    });
+
+    it('marks a word known in the English bucket and reads it back', () => {
+      markKnownForLang('en', 'zzz_test_en_word');
+      expect(getKnownSetForLang('en').has('zzz_test_en_word')).toBe(true);
+    });
+
+    it('marks a word known in a target language\'s own bucket, not the English one', () => {
+      markKnownForLang('es', 'zzz_test_es_word');
+      expect(getKnownSetForLang('es').has('zzz_test_es_word')).toBe(true);
+      expect(getKnownSetForLang('en').has('zzz_test_es_word')).toBe(false);
+    });
+
+    it('markLearnLangKnown writes to the currently-selected learn language bucket', () => {
+      localStorage.setItem('ew_learn_lang', 'fr');
+      markLearnLangKnown('zzz_test_learn_word');
+      expect(getKnownSetForLang('fr').has('zzz_test_learn_word')).toBe(true);
+    });
+
+    it('markLearnLangKnown falls back to the English bucket when learn language is English', () => {
+      localStorage.setItem('ew_learn_lang', 'en');
+      markLearnLangKnown('zzz_test_learn_en_word');
+      expect(getKnownSetForLang('en').has('zzz_test_learn_en_word')).toBe(true);
     });
   });
 });

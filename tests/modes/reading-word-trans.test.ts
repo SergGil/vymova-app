@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getWordTrans } from '../../js/modes/reading.tsx';
-import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
+import { entryFor, ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const abandon: WordEntry = [
@@ -12,21 +11,25 @@ const abandon: WordEntry = [
   'v',
 ];
 
-describe('getWordTrans()', () => {
-  it('returns the Ukrainian translation for lang="ua"', () => {
-    expect(getWordTrans(abandon, 'ua')).toBe('покидати, залишати');
+describe('entryFor() — used by reading.tsx and story.tsx for per-language word+example lookup', () => {
+  it('returns the Ukrainian translation and example for lang="ua"', () => {
+    const { word, ex } = entryFor('ua', abandon);
+    expect(word).toBe('покидати, залишати');
+    expect(ex).toBe('Їм довелося залишити машину, коли дорога затопилась.');
+  });
+
+  it('returns the English word and example for lang="en"', () => {
+    const { word, ex } = entryFor('en', abandon);
+    expect(word).toBe('abandon');
+    expect(ex).toBe('They had to abandon the car when the road flooded.');
   });
 
   it('returns the Vietnamese translation for lang="vi"', async () => {
     await ensureLangTableLoaded('vi');
-    const trans = getWordTrans(abandon, 'vi');
+    const { word } = entryFor('vi', abandon);
     // Vietnamese only covers the first ~100 headwords, so just assert it
     // didn't fall through to the English default (the bug this covers) —
     // it should be the Vietnamese entry or an empty string, never 'abandon'.
-    expect(trans).not.toBe('abandon');
-  });
-
-  it('falls back to the English headword for an unrecognized lang code', () => {
-    expect(getWordTrans(abandon, 'xx')).toBe('abandon');
+    expect(word).not.toBe('abandon');
   });
 });

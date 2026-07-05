@@ -7,6 +7,7 @@
 import { W } from '../../data/words.js';
 import { boldEn, boldUa, boldHead } from '../core/card-helpers.ts';
 import {
+  saveKnown,
   saveKnownEs,
   saveKnownFr,
   saveKnownIt,
@@ -50,7 +51,7 @@ import {
 import { getModeSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
 import { ALL_TARGET_LANGS, type TargetLang, type Code } from '../../src/types.js';
-import { getKnownSnapshot } from '../../src/known-words-store.ts';
+import { getKnownSnapshot, markKnown } from '../../src/known-words-store.ts';
 
 export type { TargetLang, Code };
 export { ALL_TARGET_LANGS };
@@ -460,7 +461,7 @@ export function parsePair(mode: string): { front: Code; back: Code; valid: boole
   return { front: 'en', back: 'ua', valid: false };
 }
 
-function entryFor(code: Code, cw: WordEntry): { word: string; ex: string } {
+export function entryFor(code: Code, cw: WordEntry): { word: string; ex: string } {
   if (code === 'en') return { word: cw[0], ex: cw[2] || '' };
   if (code === 'ua') return { word: cw[1], ex: cw[3] || '' };
   const e = LANG_REGISTRY[code].entry(cw[0]);
@@ -792,6 +793,38 @@ export function getMaxWordsForLearnLang(): number {
 export function getActiveKnownByLang(): Set<string> {
   const lang = targetLangFromStorageKey(localStorage.getItem('ew_learn_lang') ?? 'en');
   return lang ? LANG_REGISTRY[lang].known() : getKnownSnapshot('en');
+}
+
+/** The known Set for an explicit language bucket (target language, or 'en'
+ * for the plain English store) — unlike `getActiveKnownByLang`, this doesn't
+ * read the currently-selected learn language, for callers that need a
+ * specific bucket regardless of it (e.g. English-only content like epub
+ * imports or builtin story text, which stay English no matter what language
+ * the user happens to be learning right now). */
+export function getKnownSetForLang(lang: 'en' | TargetLang): Set<string> {
+  return isTargetLang(lang) ? LANG_REGISTRY[lang].known() : getKnownSnapshot('en');
+}
+
+/** Marks `word` (English headword) as known in an explicit language bucket,
+ * persisting via that language's own storage (or the plain 'en' store) — same
+ * branch as the Know button in `card-actions.ts`. */
+export function markKnownForLang(lang: 'en' | TargetLang, word: string): void {
+  if (isTargetLang(lang)) {
+    markKnown(lang, word);
+    const cfg = LANG_REGISTRY[lang];
+    cfg.saveKnown(cfg.known());
+  } else {
+    markKnown('en', word);
+    saveKnown(getKnownSnapshot('en'));
+  }
+}
+
+/** Marks `word` (English headword) as known for whichever language is
+ * currently selected to learn — extracted here so other modes don't
+ * hardcode 'en' regardless of the active learn language. */
+export function markLearnLangKnown(word: string): void {
+  const lang = targetLangFromStorageKey(localStorage.getItem('ew_learn_lang') ?? 'en');
+  markKnownForLang(lang ?? 'en', word);
 }
 
 /** Count of target languages (beyond en/ua) with at least one known word — for "polyglot" achievements. */

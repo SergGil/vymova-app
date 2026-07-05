@@ -1,8 +1,10 @@
 // Vymova — js/modes/reading.tsx
-// 📖 Reading mode: text with highlighted unknown words
-import { useEffect, useState, type ReactElement } from 'react';
-import { saveKnown } from '../core/storage.ts';
-import { getKnownSnapshot, markKnown as _markKnown } from '../../src/known-words-store.ts';
+// 📖 Reading mode: texts assembled from the dictionary's own example
+// sentences (see reading-passages.ts), highlighted by known/unknown status
+// for whichever language is currently being learned — or, if the user
+// imports an .epub, that book's chapters instead (English-only highlighting
+// there, via the legacy stemming matcher below).
+import { useState, useEffect, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
 import { loadEpub } from '../features/epub.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
@@ -10,195 +12,30 @@ import { closePage, openPage } from '../features/sidebar.tsx';
 import { t, pluralLabel } from '../features/i18n.ts';
 import { onWordLearned } from '../core/card-engine.ts';
 import { checkMilestones } from '../features/milestones.ts';
-import { speak } from '../features/speech.ts';
+import { speakForCode } from '../features/speak-lang.ts';
 import type { WordEntry } from '../../src/types.js';
 import {
-  esEntry,
-  frEntry,
-  itEntry,
-  ptEntry,
-  deEntry,
-  heEntry,
-  arEntry,
-  plEntry,
-  zhEntry,
-  elEntry,
-  jaEntry,
-  trEntry,
-  nlEntry,
-  viEntry,
-  hiEntry,
-  bnEntry,
-  idEntry,
-  pcmEntry,
-  koEntry,
-  faEntry,
-  swEntry,
-  msEntry,
-  thEntry,
-  azEntry,
-  roEntry,
-  huEntry,
-  csEntry,
-  kkEntry,
-  svEntry,
-  kaEntry,
-  hrEntry,
-  srEntry,
-  bsEntry,
-  bgEntry,
-  skEntry,
-  hyEntry,
-  daEntry,
-  fiEntry,
-  noEntry,
+  entryFor,
+  getWordsForPair,
+  getActiveKnownByLang,
+  getKnownSetForLang,
+  markKnownForLang,
+  isTargetLang,
+  langConfig,
+  type Code,
+  type TargetLang,
 } from '../features/mode-utils.ts';
-import { getKnowLang } from '../features/lang-pair-select.tsx';
-
-export function getWordTrans(w: WordEntry, lang: string): string {
-  switch (lang) {
-    case 'ua':
-      return w[1];
-    case 'es':
-      return esEntry(w[0])?.[0] ?? '';
-    case 'fr':
-      return frEntry(w[0])?.[0] ?? '';
-    case 'it':
-      return itEntry(w[0])?.[0] ?? '';
-    case 'pt':
-      return ptEntry(w[0])?.[0] ?? '';
-    case 'de':
-      return deEntry(w[0])?.[0] ?? '';
-    case 'he':
-      return heEntry(w[0])?.[0] ?? '';
-    case 'ar':
-      return arEntry(w[0])?.[0] ?? '';
-    case 'pl':
-      return plEntry(w[0])?.[0] ?? '';
-    case 'zh':
-      return zhEntry(w[0])?.[0] ?? '';
-    case 'el':
-      return elEntry(w[0])?.[0] ?? '';
-    case 'ja':
-      return jaEntry(w[0])?.[0] ?? '';
-    case 'tr':
-      return trEntry(w[0])?.[0] ?? '';
-    case 'nl':
-      return nlEntry(w[0])?.[0] ?? '';
-    case 'vi':
-      return viEntry(w[0])?.[0] ?? '';
-    case 'hi':
-      return hiEntry(w[0])?.[0] ?? '';
-    case 'bn':
-      return bnEntry(w[0])?.[0] ?? '';
-    case 'id':
-      return idEntry(w[0])?.[0] ?? '';
-    case 'pcm':
-      return pcmEntry(w[0])?.[0] ?? '';
-    case 'ko':
-      return koEntry(w[0])?.[0] ?? '';
-    case 'fa':
-      return faEntry(w[0])?.[0] ?? '';
-    case 'sw':
-      return swEntry(w[0])?.[0] ?? '';
-    case 'ms':
-      return msEntry(w[0])?.[0] ?? '';
-    case 'th':
-      return thEntry(w[0])?.[0] ?? '';
-    case 'az':
-      return azEntry(w[0])?.[0] ?? '';
-    case 'ro':
-      return roEntry(w[0])?.[0] ?? '';
-    case 'hu':
-      return huEntry(w[0])?.[0] ?? '';
-    case 'cs':
-      return csEntry(w[0])?.[0] ?? '';
-    case 'kk':
-      return kkEntry(w[0])?.[0] ?? '';
-    case 'sv':
-      return svEntry(w[0])?.[0] ?? '';
-    case 'ka':
-      return kaEntry(w[0])?.[0] ?? '';
-    case 'hr':
-      return hrEntry(w[0])?.[0] ?? '';
-    case 'sr':
-      return srEntry(w[0])?.[0] ?? '';
-    case 'bs':
-      return bsEntry(w[0])?.[0] ?? '';
-    case 'bg':
-      return bgEntry(w[0])?.[0] ?? '';
-    case 'sk':
-      return skEntry(w[0])?.[0] ?? '';
-    case 'hy':
-      return hyEntry(w[0])?.[0] ?? '';
-    case 'da':
-      return daEntry(w[0])?.[0] ?? '';
-    case 'fi':
-      return fiEntry(w[0])?.[0] ?? '';
-    case 'no':
-      return noEntry(w[0])?.[0] ?? '';
-    default:
-      return w[0];
-  }
-}
+import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { buildReadingPassages, type ReadingPassage, type PassageRun } from '../features/reading-passages.ts';
 
 type TextEntry = { title: string; text: string; level: string };
 type EpubBook = { title: string; chapters: TextEntry[] };
 
-const TEXTS: TextEntry[] = [
-  {
-    title: 'The Storm',
-    level: 'B1',
-    text: 'The dark clouds began to accumulate on the horizon. Scientists had predicted that the storm would abate by morning, but the wind only grew more fierce. People sought shelter in adjacent buildings, their anxiety visible on every face. The magnitude of the storm was unprecedented — it would inevitably alter the landscape of the region.',
-  },
-  {
-    title: 'The Discovery',
-    level: 'B2',
-    text: 'The archaeologist had an intuition that something significant lay beneath the ancient ruins. After weeks of meticulous excavation, the team made a remarkable discovery. The artifacts were in pristine condition, their intricate patterns still vivid after centuries. The finding would substantially expand our knowledge of the civilization that had once flourished here.',
-  },
-  {
-    title: 'The Forest',
-    level: 'B1',
-    text: 'She walked through the dense forest, her footsteps barely audible on the soft moss. The trees formed a natural canopy overhead, filtering the sunlight into scattered beams. A profound tranquility pervaded the air. She felt her tension gradually diminish as she ventured deeper into this serene sanctuary, far from the chaos of urban life.',
-  },
-  {
-    title: 'Innovation',
-    level: 'B2',
-    text: 'The startup had developed an innovative technology that could potentially transform the industry. Investors were eager to collaborate with the founder, whose vision was both ambitious and pragmatic. The team worked with remarkable diligence to refine their product, anticipating that it would eventually disrupt conventional approaches to the problem.',
-  },
-  {
-    title: 'The Journey',
-    level: 'B2',
-    text: 'The expedition set out at dawn, their equipment meticulously organized. The terrain proved more challenging than anticipated, forcing them to adapt their strategy. Despite the persistent obstacles, the team remained resilient and continued their ascent. By nightfall, they had reached an altitude that offered a breathtaking panoramic view of the vast, luminous valley below.',
-  },
-  {
-    title: 'The Negotiation',
-    level: 'B2',
-    text: 'The two factions had been in conflict for decades. A neutral mediator was appointed to facilitate dialogue between the adversaries. The negotiations were tense, yet both sides demonstrated a willingness to compromise. The agreement they reached was considered a significant diplomatic achievement, though some critics remained skeptical about its long-term sustainability.',
-  },
-  {
-    title: 'The Library',
-    level: 'B1',
-    text: 'The ancient library contained thousands of manuscripts, each one a valuable artifact of human knowledge. Scholars traveled from distant regions to consult these texts, which documented everything from astronomy to philosophy. The librarian took meticulous care to preserve each document, aware that even a single page could contain irreplaceable wisdom accumulated over centuries.',
-  },
-  {
-    title: 'The Invention',
-    level: 'B2',
-    text: 'The engineer had been working on her invention for three years. The device was designed to convert solar energy into a portable, efficient power source. Her colleagues were initially skeptical, but the prototype demonstrated remarkable results. The invention had the potential to provide electricity to remote communities and substantially reduce dependence on conventional fuel sources.',
-  },
-  {
-    title: 'The City',
-    level: 'B1',
-    text: 'The city had transformed dramatically over the past decade. Abandoned industrial areas had been converted into vibrant cultural districts. New sustainable architecture replaced outdated structures, and the urban landscape became more diverse and accessible. Residents who had witnessed the gradual transformation expressed profound pride in their community and optimism about its future prosperity.',
-  },
-  {
-    title: 'The Mentor',
-    level: 'B1',
-    text: 'The young apprentice had much to learn, but her mentor was patient and perceptive. He recognized her innate talent and encouraged her to pursue challenges beyond her comfort zone. His guidance was subtle yet effective, allowing her to develop her abilities organically. Under his tutelage, she gradually became more confident and capable, eventually surpassing expectations.',
-  },
-];
-
 // ── Dictionary index (module-level cache, invalidated externally) ──
+// English-only stemming matcher, kept for the epub-import path (arbitrary
+// free-form book text isn't assembled from known headwords, so it has no
+// per-word origin to exploit the way generated passages do) and reused by
+// video-player.tsx/youtube-player.tsx for subtitle matching.
 let _dictIndex: Map<string, WordEntry> | null = null;
 let _stemCache: Record<string, WordEntry | false> = {};
 
@@ -273,7 +110,8 @@ function _stems(w: string): string[] {
 
 // English-keyed dictionary lookup with light stemming. Exported for reuse by
 // any feature that needs to match arbitrary English text against the app's
-// vocab (currently: reading mode itself, and video-player.tsx's subtitles).
+// vocab (currently: the epub-import path here, and video-player.tsx's/
+// youtube-player.tsx's subtitles).
 export function lookupEnglishWord(raw: string): WordEntry | null {
   const clean = raw.toLowerCase().replace(/[^a-z]/g, '');
   if (!clean || clean.length < 2) return null;
@@ -300,11 +138,12 @@ function _esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-function _renderTextHtml(
-  entry: TextEntry,
-  epubBook: EpubBook | null,
-): { html: string; known: number; unknown: number } {
+/** Legacy free-text highlighter — epub chapters only (see module comment).
+ * Epub text is always English regardless of the current learn language, so
+ * known/unknown status is checked against the plain English known-bucket. */
+function _renderTextHtml(entry: TextEntry): { html: string; known: number; unknown: number } {
   const chunks = entry.text.split(/(\s+|[,.!?;:'"()\-—]+)/);
+  const known = getKnownSetForLang('en');
   let knownCount = 0,
     unknownCount = 0;
   const html = chunks
@@ -313,7 +152,7 @@ function _renderTextHtml(
       if (/^\s+$/.test(chunk) || /^[,.!?;:'"()\-—]+$/.test(chunk)) return safe;
       const w = _lookupWord(chunk);
       if (!w) return safe;
-      const isKnown = getKnownSnapshot('en').has(w[0]);
+      const isKnown = known.has(w[0]);
       if (isKnown) {
         knownCount++;
         return `<span class="rd-word rd-known" data-word="${_esc(w[0])}">${safe}</span>`;
@@ -322,8 +161,13 @@ function _renderTextHtml(
       return `<span class="rd-word rd-unknown" data-word="${_esc(w[0])}">${safe}</span>`;
     })
     .join('');
-  void epubBook;
   return { html, known: knownCount, unknown: unknownCount };
+}
+
+function getTranscription(cw: WordEntry, learnLang: Code): string {
+  if (learnLang === 'en') return decodeIpa(cw[4] ?? '');
+  if (isTargetLang(learnLang)) return langConfig(learnLang).entry(cw[0])?.[2] ?? '';
+  return '';
 }
 
 let _open: (() => void) | null = null;
@@ -336,17 +180,28 @@ function closeReading(): void {
   _close?.();
 }
 
-type PopupWord = { word: string; trans: string; ipa: string; known: boolean };
+type PopupWord = {
+  cw: WordEntry;
+  learnWord: string;
+  trans: string;
+  transcription: string;
+  known: boolean;
+  /** Which known-word bucket this popup's know/learn toggle writes to — the
+   * current learn language for generated passages, or always 'en' for
+   * epub-sourced words (epub text is English regardless of learn language). */
+  knownLang: 'en' | TargetLang;
+};
+type ViewMode = 'picker' | 'reader';
 
 export function ReadingPage(): ReactElement {
-  const [currentTextIdx, setCurrentTextIdx] = useState(0);
+  const [passages, setPassages] = useState<ReadingPassage[]>([]);
   const [epubBook, setEpubBook] = useState<EpubBook | null>(null);
+  const [view, setView] = useState<ViewMode>('picker');
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [search, setSearch] = useState('');
   const [popup, setPopup] = useState<PopupWord | null>(null);
   const [epubProgress, setEpubProgress] = useState<string | null>(null);
   const [, setTick] = useState(0);
-
-  const texts = epubBook ? epubBook.chapters : TEXTS;
-  const entry = texts[currentTextIdx];
 
   useEffect(() => {
     _open = () => {
@@ -356,6 +211,11 @@ export function ReadingPage(): ReactElement {
         modesOvl.classList.remove('as-page', 'open');
         modesOvl.style.display = 'none';
       }
+      setEpubBook(null);
+      setPassages(buildReadingPassages(getWordsForPair(W as unknown as WordEntry[]), getLearnLang()));
+      setView('picker');
+      setSearch('');
+      setPopup(null);
       document.getElementById('reading-overlay')?.classList.add('open');
     };
     _close = () => {
@@ -379,30 +239,38 @@ export function ReadingPage(): ReactElement {
     return () => document.removeEventListener('click', onDocClick);
   }, []);
 
-  const showPopup = (w: WordEntry): void => {
-    const knowLang = getKnowLang();
-    const trans = getWordTrans(w, knowLang) || w[1];
+  // `displayWord`/`knownLangOverride` are set by the epub path, where the
+  // clicked word is always the literal English text on the page (not
+  // whatever the current learn language would translate it to), and its
+  // known/unknown status always lives in the English bucket.
+  const showPopup = (cw: WordEntry, displayWord?: string, knownLangOverride?: 'en'): void => {
+    const learnLang = getLearnLang();
+    const knownLang: 'en' | TargetLang =
+      knownLangOverride ?? (isTargetLang(learnLang) ? learnLang : 'en');
+    const learnWord = displayWord ?? (entryFor(learnLang, cw).word || cw[0]);
+    const trans = entryFor(getKnowLang(), cw).word || cw[1];
     setPopup({
-      word: w[0],
+      cw,
+      learnWord,
       trans,
-      ipa: decodeIpa(w[4] ?? ''),
-      known: getKnownSnapshot('en').has(w[0]),
+      transcription: getTranscription(cw, learnLang),
+      known: getKnownSetForLang(knownLang).has(cw[0]),
+      knownLang,
     });
   };
 
-  const onTextClick = (e: { target: EventTarget | null; stopPropagation: () => void }): void => {
+  const onEpubTextClick = (e: { target: EventTarget | null; stopPropagation: () => void }): void => {
     const target = (e.target as HTMLElement).closest<HTMLElement>('.rd-word');
     if (!target) return;
     e.stopPropagation();
     const w = _lookupWord(target.dataset.word ?? '');
-    if (w) showPopup(w);
+    if (w) showPopup(w, w[0], 'en');
   };
 
   const markKnown = (): void => {
     if (!popup) return;
     if (!popup.known) {
-      _markKnown('en', popup.word);
-      saveKnown(getKnownSnapshot('en'));
+      markKnownForLang(popup.knownLang, popup.cw[0]);
       onWordLearned();
       checkMilestones();
     }
@@ -412,7 +280,7 @@ export function ReadingPage(): ReactElement {
 
   const speakPopup = (): void => {
     if (!popup) return;
-    speak(popup.word, null);
+    speakForCode(popup.knownLang, popup.learnWord, popup.cw[0], null);
   };
 
   const handleEpubChange = (e: { target: HTMLInputElement }): void => {
@@ -436,7 +304,8 @@ export function ReadingPage(): ReactElement {
           title: bookTitle,
           chapters: chunks.map((text) => ({ text, title: bookTitle, level: 'epub' })),
         });
-        setCurrentTextIdx(0);
+        setCurrentIdx(0);
+        setView('picker');
         setEpubProgress(
           t('reading.epubLoaded', {
             n: chunks.length,
@@ -448,13 +317,86 @@ export function ReadingPage(): ReactElement {
     );
   };
 
-  if (!entry) return <></>;
+  const openItem = (idx: number): void => {
+    setCurrentIdx(idx);
+    setView('reader');
+    setPopup(null);
+  };
 
-  const { html, known, unknown } = _renderTextHtml(entry, epubBook);
-  const title = epubBook
-    ? `${epubBook.title} — ${t('reading.chapterLabel', { n: currentTextIdx + 1 })}`
-    : entry.title;
-  const level = epubBook ? 'epub' : entry.level;
+  const itemCount = epubBook ? epubBook.chapters.length : passages.length;
+
+  type PickerItem = { idx: number; title: string; subtitle: string };
+  const pickerItems: PickerItem[] = epubBook
+    ? epubBook.chapters.map((c, i) => ({
+        idx: i,
+        title: `${epubBook.title} — ${t('reading.chapterLabel', { n: i + 1 })}`,
+        subtitle: c.text.length > 90 ? c.text.slice(0, 90) + '…' : c.text,
+      }))
+    : passages.map((p, i) => ({
+        idx: i,
+        title: t('reading.rangeLabel', { from: p.from, to: p.to }),
+        subtitle: p.preview.length > 90 ? p.preview.slice(0, 90) + '…' : p.preview,
+      }));
+  const filteredItems = search.trim()
+    ? pickerItems.filter((it) => {
+        const q = search.trim().toLowerCase();
+        return it.title.toLowerCase().includes(q) || it.subtitle.toLowerCase().includes(q);
+      })
+    : pickerItems;
+
+  const renderPassageRuns = (runs: PassageRun[], known: Set<string>): ReactElement => (
+    <>
+      {runs.map((run, i) =>
+        run.kind === 'text' ? (
+          <span key={i}>{run.text}</span>
+        ) : (
+          <span
+            key={i}
+            className={`rd-word ${known.has(run.cw[0]) ? 'rd-known' : 'rd-unknown'}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              showPopup(run.cw);
+            }}
+          >
+            {run.text}
+          </span>
+        ),
+      )}
+    </>
+  );
+
+  let readerTitle = '';
+  let readerBody: ReactElement | null = null;
+  let statsKnown = 0;
+  let statsUnknown = 0;
+
+  if (view === 'reader') {
+    if (epubBook) {
+      const entry = epubBook.chapters[currentIdx];
+      if (entry) {
+        const { html, known, unknown } = _renderTextHtml(entry);
+        statsKnown = known;
+        statsUnknown = unknown;
+        readerTitle = `${epubBook.title} — ${t('reading.chapterLabel', { n: currentIdx + 1 })}`;
+        readerBody = (
+          <div className="rd-text" onClick={onEpubTextClick} dangerouslySetInnerHTML={{ __html: html }} />
+        );
+      }
+    } else {
+      const passage = passages[currentIdx];
+      if (passage) {
+        const known = getActiveKnownByLang();
+        statsKnown = passage.runs.filter((r) => r.kind === 'word' && known.has(r.cw[0])).length;
+        statsUnknown = passage.runs.filter((r) => r.kind === 'word' && !known.has(r.cw[0])).length;
+        readerTitle = t('reading.rangeLabel', { from: passage.from, to: passage.to });
+        readerBody = (
+          <div className="rd-text" onClick={(e) => e.stopPropagation()}>
+            {renderPassageRuns(passage.runs, known)}
+          </div>
+        );
+      }
+    }
+  }
 
   return (
     <>
@@ -463,119 +405,168 @@ export function ReadingPage(): ReactElement {
           <div className="page-title" data-i18n="reading.title">
             {t('reading.title')}
           </div>
-          <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginTop: 2 }}>
-            {t('reading.statsLine', { k: known, u: unknown })}
-          </div>
+          {view === 'reader' && (
+            <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginTop: 2 }}>
+              {t('reading.statsLine', { k: statsKnown, u: statsUnknown })}
+            </div>
+          )}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <button
-            className="backup-btn"
-            style={{ padding: '5px 12px' }}
-            disabled={currentTextIdx === 0}
-            onClick={() => setCurrentTextIdx((i) => i - 1)}
-            data-i18n="reading.prevBtn"
-          >
-            {t('reading.prevBtn')}
-          </button>
-          <span
-            style={{
-              fontSize: '.7rem',
-              padding: '2px 8px',
-              borderRadius: 20,
-              background: 'var(--accent)',
-              color: '#fff',
-              fontWeight: 700,
-            }}
-          >
-            {level}
-          </span>
-          <button
-            className="backup-btn"
-            style={{ padding: '5px 12px' }}
-            disabled={currentTextIdx === texts.length - 1}
-            onClick={() => setCurrentTextIdx((i) => i + 1)}
-            data-i18n="reading.nextBtn"
-          >
-            {t('reading.nextBtn')}
-          </button>
+          {view === 'reader' && (
+            <>
+              <button
+                className="backup-btn"
+                style={{ padding: '5px 12px' }}
+                disabled={currentIdx === 0}
+                onClick={() => openItem(currentIdx - 1)}
+                data-i18n="reading.prevBtn"
+              >
+                {t('reading.prevBtn')}
+              </button>
+              <button
+                className="backup-btn"
+                style={{ padding: '5px 12px' }}
+                disabled={currentIdx === itemCount - 1}
+                onClick={() => openItem(currentIdx + 1)}
+                data-i18n="reading.nextBtn"
+              >
+                {t('reading.nextBtn')}
+              </button>
+              <button
+                className="backup-btn"
+                style={{ padding: '5px 12px' }}
+                onClick={() => setView('picker')}
+                data-i18n="cards.back"
+              >
+                {t('cards.back')}
+              </button>
+            </>
+          )}
           <button className="page-close-btn" onClick={closeReading}>
             ✕
           </button>
         </div>
       </div>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          marginBottom: 12,
-          flexWrap: 'wrap',
-        }}
-      >
-        <h2
-          style={{
-            fontSize: '1.1rem',
-            fontWeight: 700,
-            color: 'var(--text)',
-            flex: 1,
-            minWidth: 0,
-            margin: 0,
-          }}
-        >
-          {title}
-        </h2>
-        <button
-          className="backup-btn primary"
-          style={{ padding: '6px 14px', fontSize: '.78rem', flexShrink: 0 }}
-          onClick={() => document.getElementById('rd-epub-input')?.click()}
-          data-i18n="reading.epubBtn"
-        >
-          {t('reading.epubBtn')}
-        </button>
-        <input
-          id="rd-epub-input"
-          type="file"
-          accept=".epub"
-          style={{ display: 'none' }}
-          onChange={handleEpubChange}
-        />
-      </div>
-      {epubProgress && (
-        <div
-          style={{
-            fontSize: '.75rem',
-            color: 'var(--accent)',
-            marginBottom: 8,
-            padding: '6px 10px',
-            background: 'rgba(0,200,255,.07)',
-            borderRadius: 8,
-          }}
-        >
-          {epubProgress}
-        </div>
-      )}
-      <div className="rd-text" onClick={onTextClick} dangerouslySetInnerHTML={{ __html: html }} />
-      {popup && (
-        <div
-          className="rd-word-popup"
-          style={{ display: 'block' }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="rd-popup-word">{popup.word}</div>
-          <div className="rd-popup-ipa">{popup.ipa}</div>
-          <div className="rd-popup-trans">{popup.trans}</div>
-          <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
-            <button className="backup-btn" style={{ padding: '5px 12px' }} onClick={speakPopup}>
-              🔊
-            </button>
+
+      {view === 'picker' && (
+        <div style={{ padding: '14px 20px' }}>
+          <div
+            style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}
+          >
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={t('reading.searchPlaceholder')}
+              style={{
+                flex: 1,
+                minWidth: 160,
+                padding: '8px 12px',
+                borderRadius: 10,
+                border: '1.5px solid var(--border)',
+                background: 'var(--bg)',
+                color: 'var(--text)',
+                fontFamily: 'inherit',
+                fontSize: '.85rem',
+              }}
+            />
             <button
               className="backup-btn primary"
-              style={{ flex: 1, padding: 5 }}
-              onClick={markKnown}
+              style={{ padding: '6px 14px', fontSize: '.78rem', flexShrink: 0 }}
+              onClick={() => document.getElementById('rd-epub-input')?.click()}
+              data-i18n="reading.epubBtn"
             >
-              {popup.known ? t('reading.popupKnow') : t('reading.popupLearn')}
+              {t('reading.epubBtn')}
             </button>
+            <input
+              id="rd-epub-input"
+              type="file"
+              accept=".epub"
+              style={{ display: 'none' }}
+              onChange={handleEpubChange}
+            />
           </div>
+          {epubProgress && (
+            <div
+              style={{
+                fontSize: '.75rem',
+                color: 'var(--accent)',
+                marginBottom: 8,
+                padding: '6px 10px',
+                background: 'rgba(0,200,255,.07)',
+                borderRadius: 8,
+              }}
+            >
+              {epubProgress}
+            </div>
+          )}
+          <div>
+            {filteredItems.map((it) => (
+              <button
+                key={it.idx}
+                onClick={() => openItem(it.idx)}
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  textAlign: 'left',
+                  padding: '12px 14px',
+                  marginBottom: 8,
+                  borderRadius: 12,
+                  border: '1.5px solid var(--border)',
+                  background: 'var(--bg)',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  transition: 'border-color .15s',
+                }}
+              >
+                <div style={{ fontWeight: 700, fontSize: '.85rem', color: 'var(--accent)' }}>
+                  {it.title}
+                </div>
+                <div style={{ fontSize: '.78rem', color: 'var(--text3)', marginTop: 2 }}>
+                  {it.subtitle}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {view === 'reader' && readerBody && (
+        <div style={{ padding: '14px 20px', position: 'relative' }}>
+          <h2
+            style={{
+              fontSize: '1rem',
+              fontWeight: 700,
+              color: 'var(--text)',
+              marginTop: 0,
+              marginBottom: 12,
+            }}
+          >
+            {readerTitle}
+          </h2>
+          {readerBody}
+          {popup && (
+            <div
+              className="rd-word-popup"
+              style={{ display: 'block' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="rd-popup-word">{popup.learnWord}</div>
+              {popup.transcription && <div className="rd-popup-ipa">{popup.transcription}</div>}
+              <div className="rd-popup-trans">{popup.trans}</div>
+              <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
+                <button className="backup-btn" style={{ padding: '5px 12px' }} onClick={speakPopup}>
+                  🔊
+                </button>
+                <button
+                  className="backup-btn primary"
+                  style={{ flex: 1, padding: 5 }}
+                  onClick={markKnown}
+                >
+                  {popup.known ? t('reading.popupKnow') : t('reading.popupLearn')}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </>

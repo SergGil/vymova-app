@@ -3,7 +3,14 @@
 Thin proxy that hides a Google Gemini API key from the client. The Vymova
 frontend is a static site with no backend of its own — this Worker is the
 only piece that needs your own deploy, and it's entirely optional: without
-it, the AI tutor and voice roleplay features simply stay hidden.
+it, the AI tutor, voice roleplay, and AI-generated stories ("Історії" /
+Reading+) features simply stay hidden (or, for stories, fall back to the
+built-in offline texts).
+
+If you already have this Worker deployed and are pulling an update that
+added `mode: 'story'` support (see `src/index.ts`), run `wrangler deploy`
+again to pick it up — existing tutor/roleplay traffic is unaffected either
+way, but story generation will 404 until the Worker is redeployed.
 
 ## 1. Get a free Gemini API key
 
