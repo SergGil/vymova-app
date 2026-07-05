@@ -248,4 +248,12 @@ export const TRANSCRIPTION_LEGEND: Partial<Record<string, LegendRow[]>> = {
     { symbol: 'gh', desc: 'дзвінке гортанне р/г' },
     { symbol: 'kh', desc: 'глухе гортанне х' },
   ],
+  KK: [
+    { symbol: 'ä', desc: "м'яке а (ә)" },
+    { symbol: 'ğ', desc: "м'яке г (ғ)" },
+    { symbol: 'ñ', desc: "носове н (ң)" },
+    { symbol: 'ö / ü', desc: "огублені о/у (ө/ү)" },
+    { symbol: 'ū', desc: "коротке у (ұ)" },
+    { symbol: 'ï', desc: "и після приголосної (і/и залежно від контексту)" },
+  ],
 };
