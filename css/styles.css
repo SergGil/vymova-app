@@ -4192,9 +4192,9 @@ body.hp .wotd-word {
 
 /* ── Actions bar: 3 groups ── */
 .actions-bar {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: center;
   gap: 8px;
   margin-top: 10px;
   margin-bottom: 6px;
@@ -4202,7 +4202,17 @@ body.hp .wotd-word {
 .actions-bar .btn {
   flex-shrink: 0;
 }
+.actions-bar-mission {
+  grid-column: 3;
+  justify-self: end;
+  min-width: 0;
+}
+.actions-bar-mission .wotd-box {
+  margin-bottom: 0;
+  padding: 6px 10px;
+}
 .actions-bar-center {
+  grid-column: 2;
   display: flex;
   gap: 6px;
   align-items: center;
@@ -8130,6 +8140,14 @@ body.hp .idiom-meaning {
   }
 
   /* Action bar: column on very narrow */
+  .actions-bar {
+    display: flex;
+    flex-direction: column;
+  }
+  .actions-bar-mission {
+    justify-self: center;
+    align-self: center;
+  }
   .actions-bar-center {
     gap: 5px;
     flex-wrap: wrap;
