@@ -2041,6 +2041,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'ООН намагалася виступити посередником у мирній угоді між двома націями.',
     },
   ],
+  brokerage: [
+    {
+      pos: 'noun',
+      translation: 'брокерські послуги',
+      exEn: 'The firm charges a small fee for its brokerage services.',
+      exUa: 'Фірма стягує невелику комісію за свої брокерські послуги.',
+    },
+    {
+      pos: 'noun',
+      translation: 'брокерська компанія',
+      exEn: 'She opened an account with a well-known brokerage.',
+      exUa: 'Вона відкрила рахунок у відомій брокерській компанії.',
+    },
+  ],
+  brood: [
+    {
+      pos: 'v',
+      translation: 'мовчки переживати',
+      exEn: 'He tends to brood for days after losing an argument.',
+      exUa: 'Він схильний мовчки переживати кілька днів після програної суперечки.',
+    },
+    {
+      pos: 'noun',
+      translation: 'виводок',
+      exEn: 'The hen carefully watched over her brood of chicks.',
+      exUa: 'Курка уважно наглядала за своїм виводком курчат.',
+    },
+  ],
+  'brother-in-law': [
+    {
+      pos: 'noun',
+      translation: 'зять',
+      exEn: 'My sister\'s husband, my brother-in-law, works as an engineer.',
+      exUa: 'Чоловік моєї сестри, мій зять, працює інженером.',
+    },
+    {
+      pos: 'noun',
+      translation: 'швагер',
+      exEn: "My wife's brother, my brother-in-law, came to visit us for the weekend.",
+      exUa: 'Брат моєї дружини, мій швагер, приїхав до нас у гості на вихідні.',
+    },
+  ],
+  buoyant: [
+    {
+      pos: 'adj',
+      translation: 'жвавий, оптимістичний',
+      exEn: 'She remained buoyant and cheerful despite the setback.',
+      exUa: 'Вона залишалася жвавою й оптимістичною, попри невдачу.',
+    },
+    {
+      pos: 'adj',
+      translation: 'такий, що тримається на плаву',
+      exEn: 'The life jacket kept him buoyant in the rough water.',
+      exUa: 'Рятувальний жилет тримав його на плаву в неспокійній воді.',
+    },
+  ],
+  'buy into': [
+    {
+      pos: 'v',
+      translation: 'вірити в ідею',
+      exEn: 'Not everyone on the team bought into the new strategy.',
+      exUa: 'Не всі в команді повірили в нову стратегію.',
+    },
+    {
+      pos: 'v',
+      translation: 'приймати аргументи',
+      exEn: 'She refused to buy into his excuses any longer.',
+      exUa: 'Вона відмовилася й далі приймати його виправдання.',
+    },
+  ],
+  calibre: [
+    {
+      pos: 'noun',
+      translation: 'рівень, якість',
+      exEn: 'The competition attracted athletes of exceptional calibre.',
+      exUa: 'Змагання привабили спортсменів виняткового рівня.',
+    },
+    {
+      pos: 'noun',
+      translation: 'калібр',
+      exEn: 'The rifle uses a smaller calibre of ammunition.',
+      exUa: 'Ця гвинтівка використовує набої меншого калібру.',
+    },
+  ],
+  care: [
+    {
+      pos: 'v',
+      translation: 'дбати',
+      exEn: "Good nurses genuinely care about their patients' wellbeing.",
+      exUa: 'Хороші медсестри щиро дбають про самопочуття своїх пацієнтів.',
+    },
+    {
+      pos: 'noun',
+      translation: 'турбота',
+      exEn: 'She surrounded her elderly mother with constant care.',
+      exUa: 'Вона оточила свою літню матір постійною турботою.',
+    },
+  ],
+  cascade: [
+    {
+      pos: 'noun',
+      translation: 'каскад',
+      exEn: 'A gentle cascade of water flowed over the rocks.',
+      exUa: 'Ніжний каскад води стікав по каменях.',
+    },
+    {
+      pos: 'v',
+      translation: 'падати каскадом',
+      exEn: 'Autumn leaves cascaded down onto the quiet street.',
+      exUa: 'Осіннє листя каскадом падало на тиху вулицю.',
+    },
+  ],
+  censure: [
+    {
+      pos: 'noun',
+      translation: 'осуд, критика',
+      exEn: 'The minister faced public censure for his careless remarks.',
+      exUa: 'Міністр зіткнувся з публічним осудом за свої необережні висловлювання.',
+    },
+    {
+      pos: 'v',
+      translation: 'засуджувати',
+      exEn: 'The committee voted to censure the senator for his conduct.',
+      exUa: 'Комітет проголосував за осуд сенатора за його поведінку.',
+    },
+  ],
+  challenge: [
+    {
+      pos: 'noun',
+      translation: 'виклик',
+      exEn: 'Learning a new language later in life is a real challenge.',
+      exUa: 'Вивчення нової мови в дорослому віці — це справжній виклик.',
+    },
+    {
+      pos: 'v',
+      translation: 'кидати виклик',
+      exEn: "She decided to challenge the referee's decision.",
+      exUa: 'Вона вирішила кинути виклик рішенню судді.',
+    },
+  ],
+  channel: [
+    {
+      pos: 'noun',
+      translation: 'канал',
+      exEn: 'She changed the channel to watch the evening news.',
+      exUa: 'Вона перемкнула канал, щоб подивитися вечірні новини.',
+    },
+    {
+      pos: 'v',
+      translation: 'спрямовувати',
+      exEn: 'He learned to channel his anger into something productive.',
+      exUa: 'Він навчився спрямовувати свій гнів у щось продуктивне.',
+    },
+  ],
+  charter: [
+    {
+      pos: 'noun',
+      translation: 'статут, хартія',
+      exEn: "The organisation's charter outlines its core mission and values.",
+      exUa: 'Статут організації окреслює її основну місію та цінності.',
+    },
+    {
+      pos: 'noun',
+      translation: 'чартер (рейс)',
+      exEn: 'They booked a charter flight to the small island.',
+      exUa: 'Вони забронювали чартерний рейс на маленький острів.',
+    },
+  ],
+  chemical: [
+    {
+      pos: 'noun',
+      translation: 'хімічна речовина',
+      exEn: 'The factory releases several chemicals into the river.',
+      exUa: 'Завод скидає кілька хімічних речовин у річку.',
+    },
+    {
+      pos: 'adj',
+      translation: 'хімічний',
+      exEn: 'The reaction produced an unexpected chemical change.',
+      exUa: 'Реакція спричинила несподівану хімічну зміну.',
+    },
+  ],
+  chicken: [
+    {
+      pos: 'noun',
+      translation: 'курка',
+      exEn: 'The farmer keeps forty chickens in the yard.',
+      exUa: "Фермер тримає сорок курей на подвір'ї.",
+    },
+    {
+      pos: 'noun',
+      translation: 'курятина',
+      exEn: 'We had roast chicken with potatoes for dinner.',
+      exUa: "На вечерю в нас була смажена курятина з картоплею.",
+    },
+  ],
+  circulation: [
+    {
+      pos: 'noun',
+      translation: 'тираж',
+      exEn: "The newspaper's circulation dropped sharply after it went online.",
+      exUa: 'Тираж газети різко впав після переходу онлайн.',
+    },
+    {
+      pos: 'noun',
+      translation: 'циркуляція',
+      exEn: 'Poor blood circulation can cause cold hands and feet.',
+      exUa: 'Погана циркуляція крові може спричиняти холодні руки й ноги.',
+    },
+  ],
+  clamour: [
+    {
+      pos: 'noun',
+      translation: 'галас, гамір',
+      exEn: 'The clamour of the crowd grew louder as the match continued.',
+      exUa: 'Гамір натовпу ставав гучнішим у міру продовження матчу.',
+    },
+    {
+      pos: 'v',
+      translation: 'гучно вимагати',
+      exEn: 'Fans clamoured for the band to play one more song.',
+      exUa: 'Фанати гучно вимагали, щоб гурт зіграв ще одну пісню.',
+    },
+  ],
+  clean: [
+    {
+      pos: 'adj',
+      translation: 'чистий',
+      exEn: 'She keeps her kitchen spotlessly clean at all times.',
+      exUa: 'Вона завжди тримає свою кухню бездоганно чистою.',
+    },
+    {
+      pos: 'v',
+      translation: 'прибирати',
+      exEn: 'He promised to clean his room before the weekend.',
+      exUa: 'Він пообіцяв прибрати свою кімнату до вихідних.',
+    },
+  ],
+  close: [
+    {
+      pos: 'v',
+      translation: 'закривати',
+      exEn: "Please close the door — there's a draught.",
+      exUa: 'Будь ласка, зачини двері — тут протяг.',
+    },
+    {
+      pos: 'adj',
+      translation: 'близький',
+      exEn: 'They have remained close friends since childhood.',
+      exUa: 'Вони залишаються близькими друзями з дитинства.',
+    },
+  ],
+  collaborator: [
+    {
+      pos: 'noun',
+      translation: 'колаборатор',
+      exEn: 'The man was branded a collaborator after helping the occupying forces.',
+      exUa: 'Чоловіка назвали колаборатором після того, як він допомагав окупаційним військам.',
+    },
+    {
+      pos: 'noun',
+      translation: 'співпрацівник',
+      exEn: 'She found a talented collaborator for her new music project.',
+      exUa: 'Вона знайшла талановитого співпрацівника для свого нового музичного проєкту.',
+    },
+  ],
+  comment: [
+    {
+      pos: 'noun',
+      translation: 'коментар',
+      exEn: 'She left a thoughtful comment under his photo.',
+      exUa: 'Вона залишила продуманий коментар під його фотографією.',
+    },
+    {
+      pos: 'v',
+      translation: 'коментувати',
+      exEn: 'The spokesperson refused to comment on the rumours.',
+      exUa: 'Речник відмовився коментувати чутки.',
+    },
+  ],
+  complete: [
+    {
+      pos: 'v',
+      translation: 'завершувати',
+      exEn: 'She worked late to complete the project on time.',
+      exUa: 'Вона працювала допізна, щоб вчасно завершити проєкт.',
+    },
+    {
+      pos: 'adj',
+      translation: 'повний',
+      exEn: 'The collection is now complete after years of searching.',
+      exUa: 'Колекція тепер повна після багатьох років пошуків.',
+    },
+  ],
+  compromise: [
+    {
+      pos: 'noun',
+      translation: 'компроміс',
+      exEn: 'After a long discussion, they finally reached a compromise.',
+      exUa: 'Після довгої дискусії вони нарешті досягли компромісу.',
+    },
+    {
+      pos: 'v',
+      translation: 'йти на поступки',
+      exEn: 'Marriage often requires both partners to compromise.',
+      exUa: 'Шлюб часто вимагає, щоб обидва партнери йшли на поступки.',
+    },
+  ],
+  conflict: [
+    {
+      pos: 'noun',
+      translation: 'конфлікт',
+      exEn: 'The two neighbouring countries have been in conflict for decades.',
+      exUa: 'Дві сусідні країни перебувають у конфлікті вже десятиліттями.',
+    },
+    {
+      pos: 'v',
+      translation: 'суперечити',
+      exEn: 'Her new statement seemed to conflict with what she said earlier.',
+      exUa: 'Її нова заява, здається, суперечила тому, що вона казала раніше.',
+    },
+  ],
+  conservative: [
+    {
+      pos: 'adj',
+      translation: 'консервативний',
+      exEn: 'He held fairly conservative views on most social issues.',
+      exUa: 'Він мав досить консервативні погляди на більшість соціальних питань.',
+    },
+    {
+      pos: 'noun',
+      translation: 'консерватор',
+      exEn: 'She has always voted for the Conservatives in every election.',
+      exUa: 'Вона завжди голосувала за консерваторів на кожних виборах.',
+    },
+  ],
+  contrast: [
+    {
+      pos: 'noun',
+      translation: 'контраст',
+      exEn: 'The bright colours created a striking contrast against the grey wall.',
+      exUa: 'Яскраві кольори створювали разючий контраст на тлі сірої стіни.',
+    },
+    {
+      pos: 'v',
+      translation: 'протиставляти',
+      exEn: 'The documentary contrasts life in the city with life in the countryside.',
+      exUa: 'Документальний фільм протиставляє життя в місті життю в сільській місцевості.',
+    },
+  ],
+  control: [
+    {
+      pos: 'v',
+      translation: 'контролювати',
+      exEn: 'It took years for her to learn to control her temper.',
+      exUa: 'Їй знадобилися роки, щоб навчитися контролювати свій характер.',
+    },
+    {
+      pos: 'noun',
+      translation: 'контроль',
+      exEn: 'The pilot lost control of the aircraft during the storm.',
+      exUa: 'Пілот втратив контроль над літаком під час шторму.',
+    },
+  ],
+  convention: [
+    {
+      pos: 'noun',
+      translation: 'конвенція, угода',
+      exEn: 'The country signed an international convention on human rights.',
+      exUa: 'Країна підписала міжнародну конвенцію про права людини.',
+    },
+    {
+      pos: 'noun',
+      translation: 'традиція',
+      exEn: 'She refused to follow the convention of wearing white at weddings.',
+      exUa: 'Вона відмовилася дотримуватися традиції носити біле на весіллях.',
+    },
+  ],
+  conviction: [
+    {
+      pos: 'noun',
+      translation: 'переконання',
+      exEn: 'He spoke about his political beliefs with great conviction.',
+      exUa: 'Він говорив про свої політичні переконання з великою впевненістю.',
+    },
+    {
+      pos: 'noun',
+      translation: 'засудження (вироком суду)',
+      exEn: 'His previous conviction made it harder to find a job.',
+      exUa: 'Його попереднє засудження ускладнило пошук роботи.',
+    },
+  ],
+  cost: [
+    {
+      pos: 'v',
+      translation: 'коштувати',
+      exEn: 'The repairs cost more than she had expected.',
+      exUa: 'Ремонт коштував більше, ніж вона очікувала.',
+    },
+    {
+      pos: 'noun',
+      translation: 'вартість',
+      exEn: 'The total cost of the trip included flights and hotels.',
+      exUa: 'Загальна вартість поїздки включала перельоти й готелі.',
+    },
+  ],
+  country: [
+    {
+      pos: 'noun',
+      translation: 'країна',
+      exEn: 'She has travelled to more than twenty countries.',
+      exUa: 'Вона побувала більш ніж у двадцяти країнах.',
+    },
+    {
+      pos: 'noun',
+      translation: 'село',
+      exEn: 'They moved to the country to escape the noisy city.',
+      exUa: 'Вони переїхали в село, щоб втекти від галасливого міста.',
+    },
+  ],
+  criminal: [
+    {
+      pos: 'noun',
+      translation: 'злочинець',
+      exEn: 'The criminal was finally arrested after months on the run.',
+      exUa: 'Злочинця нарешті заарештували після кількох місяців переховування.',
+    },
+    {
+      pos: 'adj',
+      translation: 'злочинний',
+      exEn: 'It would be criminal to waste such a huge opportunity.',
+      exUa: 'Було б злочинно змарнувати таку величезну можливість.',
+    },
+  ],
+  crusader: [
+    {
+      pos: 'noun',
+      translation: 'хрестоносець',
+      exEn: 'Medieval crusaders travelled thousands of miles to the Holy Land.',
+      exUa: 'Середньовічні хрестоносці долали тисячі миль до Святої землі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'поборник (за ідею)',
+      exEn: 'She became a lifelong crusader for children\'s rights.',
+      exUa: "Вона стала довічним поборником прав дітей.",
+    },
+  ],
+  cure: [
+    {
+      pos: 'noun',
+      translation: 'ліки',
+      exEn: 'Scientists are still searching for a cure for the disease.',
+      exUa: 'Науковці досі шукають ліки від цієї хвороби.',
+    },
+    {
+      pos: 'v',
+      translation: 'вилікувати',
+      exEn: 'Rest and fluids helped cure her cold within a week.',
+      exUa: 'Відпочинок і рідина допомогли вилікувати її застуду протягом тижня.',
+    },
+  ],
+  curl: [
+    {
+      pos: 'noun',
+      translation: 'завиток',
+      exEn: 'A single curl of hair fell across her forehead.',
+      exUa: 'Один завиток волосся впав їй на чоло.',
+    },
+    {
+      pos: 'v',
+      translation: 'скручуватися',
+      exEn: 'The old photograph began to curl at the edges.',
+      exUa: 'Стара фотографія почала скручуватися по краях.',
+    },
+  ],
+  curse: [
+    {
+      pos: 'noun',
+      translation: 'прокляття',
+      exEn: 'According to legend, the ancient tomb carries a terrible curse.',
+      exUa: 'За легендою, стародавня гробниця несе жахливе прокляття.',
+    },
+    {
+      pos: 'v',
+      translation: 'лаятися',
+      exEn: 'He tends to curse loudly whenever he stubs his toe.',
+      exUa: 'Він схильний голосно лаятися щоразу, коли вдаряється пальцем ноги.',
+    },
+  ],
+  'cut loose': [
+    {
+      pos: 'v',
+      translation: 'звільнитися від обмежень',
+      exEn: 'On holiday, she finally let herself cut loose and relax.',
+      exUa: 'У відпустці вона нарешті дозволила собі звільнитися від обмежень і розслабитися.',
+    },
+    {
+      pos: 'v',
+      translation: 'звільнити',
+      exEn: 'The company had to cut loose several employees during the crisis.',
+      exUa: 'Компанії довелося звільнити кількох працівників під час кризи.',
+    },
+  ],
+  cutoff: [
+    {
+      pos: 'noun',
+      translation: 'граничний термін',
+      exEn: 'The application cutoff is midnight on Friday.',
+      exUa: "Граничний термін подання заявок — опівночі в п'ятницю.",
+    },
+    {
+      pos: 'noun',
+      translation: 'рубіж, точка відсічення',
+      exEn: 'Anyone scoring above the cutoff will advance to the next round.',
+      exUa: 'Кожен, хто набере бали вище точки відсічення, пройде в наступний раунд.',
+    },
+  ],
+  damage: [
+    {
+      pos: 'noun',
+      translation: 'шкода',
+      exEn: 'The storm caused severe damage to the coastal town.',
+      exUa: 'Шторм завдав серйозної шкоди прибережному містечку.',
+    },
+    {
+      pos: 'v',
+      translation: 'пошкоджувати',
+      exEn: 'The flood damaged dozens of homes along the river.',
+      exUa: 'Повінь пошкодила десятки будинків уздовж річки.',
+    },
+  ],
+  damn: [
+    {
+      pos: 'adj',
+      translation: 'клятий',
+      exEn: "He couldn't find his damn keys anywhere in the house.",
+      exUa: 'Він ніяк не міг знайти свої кляті ключі в усьому будинку.',
+    },
+    {
+      pos: 'v',
+      translation: 'проклинати',
+      exEn: 'She damned herself for forgetting such an important appointment.',
+      exUa: 'Вона проклинала себе за те, що забула про таку важливу зустріч.',
+    },
+  ],
+  dampen: [
+    {
+      pos: 'v',
+      translation: 'гасити, зменшувати (ентузіазм)',
+      exEn: 'Nothing could dampen her enthusiasm for the new project.',
+      exUa: 'Ніщо не могло погасити її ентузіазм щодо нового проєкту.',
+    },
+    {
+      pos: 'v',
+      translation: 'зволожувати',
+      exEn: 'She dampened the cloth before wiping down the counter.',
+      exUa: 'Вона зволожила ганчірку, перш ніж протерти стільницю.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
