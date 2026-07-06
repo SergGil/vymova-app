@@ -7085,6 +7085,552 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Вона завжди мала сильний музичний талант.',
     },
   ],
+  mute: [
+    {
+      pos: 'adj',
+      translation: 'беззвучний',
+      exEn: 'She kept her phone on mute during the meeting.',
+      exUa: 'Вона тримала телефон у беззвучному режимі під час зустрічі.',
+    },
+    {
+      pos: 'v',
+      translation: 'заглушувати',
+      exEn: 'He muted the television during the commercial break.',
+      exUa: 'Він заглушив телевізор під час рекламної паузи.',
+    },
+  ],
+  name: [
+    {
+      pos: 'noun',
+      translation: "ім'я",
+      exEn: 'Her name is written on the certificate.',
+      exUa: "Її ім'я написано на сертифікаті.",
+    },
+    {
+      pos: 'noun',
+      translation: 'назва',
+      exEn: 'The company changed its name after the merger.',
+      exUa: 'Компанія змінила назву після злиття.',
+    },
+  ],
+  nap: [
+    {
+      pos: 'v',
+      translation: 'подрімати',
+      exEn: 'She likes to nap for twenty minutes after lunch.',
+      exUa: 'Вона любить подрімати двадцять хвилин після обіду.',
+    },
+    {
+      pos: 'noun',
+      translation: 'короткий сон',
+      exEn: 'A short nap can improve your focus in the afternoon.',
+      exUa: 'Короткий сон може покращити концентрацію вдень.',
+    },
+  ],
+  need: [
+    {
+      pos: 'v',
+      translation: 'потребувати',
+      exEn: 'She needs more time to finish the report.',
+      exUa: 'Їй потрібно більше часу, щоб завершити звіт.',
+    },
+    {
+      pos: 'noun',
+      translation: 'потреба',
+      exEn: 'There is an urgent need for more volunteers.',
+      exUa: 'Існує нагальна потреба в більшій кількості волонтерів.',
+    },
+  ],
+  nest: [
+    {
+      pos: 'noun',
+      translation: 'гніздо',
+      exEn: 'The bird built its nest high in the tree.',
+      exUa: 'Птах звив своє гніздо високо на дереві.',
+    },
+    {
+      pos: 'v',
+      translation: 'звивати гніздо',
+      exEn: 'Robins usually nest in quiet, sheltered spots.',
+      exUa: 'Вільшанки зазвичай звивають гніздо в тихих, захищених місцях.',
+    },
+  ],
+  network: [
+    {
+      pos: 'noun',
+      translation: 'мережа',
+      exEn: 'The company built a strong network of suppliers.',
+      exUa: 'Компанія побудувала міцну мережу постачальників.',
+    },
+    {
+      pos: 'v',
+      translation: 'налагоджувати контакти',
+      exEn: 'She attended the conference mainly to network with other professionals.',
+      exUa: 'Вона відвідала конференцію переважно, щоб налагодити контакти з іншими фахівцями.',
+    },
+  ],
+  neurotic: [
+    {
+      pos: 'adj',
+      translation: 'невротичний',
+      exEn: 'He became increasingly neurotic about germs after the illness.',
+      exUa: 'Він ставав дедалі більш невротичним щодо мікробів після хвороби.',
+    },
+    {
+      pos: 'noun',
+      translation: 'невротик',
+      exEn: 'Her friends jokingly called her a neurotic about cleanliness.',
+      exUa: 'Друзі жартома називали її невротиком через її потяг до чистоти.',
+    },
+  ],
+  nobility: [
+    {
+      pos: 'noun',
+      translation: 'шляхетність',
+      exEn: 'He faced the tragedy with quiet nobility.',
+      exUa: 'Він зустрів трагедію з тихою шляхетністю.',
+    },
+    {
+      pos: 'noun',
+      translation: 'дворянство',
+      exEn: 'The French nobility lost much of its power after the revolution.',
+      exUa: 'Французьке дворянство втратило значну частину влади після революції.',
+    },
+  ],
+  nominal: [
+    {
+      pos: 'adj',
+      translation: 'номінальний',
+      exEn: 'He remains the nominal head of the company, though he rarely makes decisions.',
+      exUa: 'Він залишається номінальним керівником компанії, хоча рідко ухвалює рішення.',
+    },
+    {
+      pos: 'adj',
+      translation: 'незначний',
+      exEn: 'They charge only a nominal fee for the service.',
+      exUa: 'Вони стягують лише незначну плату за послугу.',
+    },
+  ],
+  notice: [
+    {
+      pos: 'v',
+      translation: 'помічати',
+      exEn: 'She noticed a small crack in the wall.',
+      exUa: 'Вона помітила невелику тріщину в стіні.',
+    },
+    {
+      pos: 'noun',
+      translation: 'повідомлення',
+      exEn: 'The tenants received a notice about the upcoming repairs.',
+      exUa: 'Орендарі отримали повідомлення про майбутній ремонт.',
+    },
+  ],
+  numb: [
+    {
+      pos: 'v',
+      translation: 'заніміти',
+      exEn: 'Cold weather quickly numbed his hands.',
+      exUa: 'Холодна погода швидко заніміла його руки.',
+    },
+    {
+      pos: 'adj',
+      translation: 'онімілий',
+      exEn: 'After the injection, her whole arm felt numb.',
+      exUa: 'Після ін\'єкції вся рука здавалася онімілою.',
+    },
+  ],
+  nurse: [
+    {
+      pos: 'noun',
+      translation: 'медсестра',
+      exEn: 'The kind nurse checked on every patient during the shift.',
+      exUa: 'Добра медсестра перевіряла кожного пацієнта під час зміни.',
+    },
+    {
+      pos: 'v',
+      translation: 'доглядати',
+      exEn: 'She nursed her sick grandmother back to health.',
+      exUa: 'Вона доглядала за хворою бабусею, поки та не одужала.',
+    },
+  ],
+  nurturing: [
+    {
+      pos: 'adj',
+      translation: 'турботливий, виховуючий',
+      exEn: 'She grew up in a warm and nurturing family.',
+      exUa: 'Вона виросла в теплій і турботливій родині.',
+    },
+    {
+      pos: 'noun',
+      translation: 'виховання',
+      exEn: "Good nurturing in early childhood shapes a person's whole life.",
+      exUa: 'Хороше виховання в ранньому дитинстві формує все життя людини.',
+    },
+  ],
+  obstruction: [
+    {
+      pos: 'noun',
+      translation: 'перешкода, перепона',
+      exEn: 'A fallen tree caused a major obstruction on the highway.',
+      exUa: 'Повалене дерево спричинило серйозну перешкоду на трасі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'обструкція',
+      exEn: 'Opposition politicians were accused of obstruction in parliament.',
+      exUa: 'Опозиційних політиків звинуватили в обструкції в парламенті.',
+    },
+  ],
+  offer: [
+    {
+      pos: 'v',
+      translation: 'пропонувати',
+      exEn: 'The company offered her a higher salary.',
+      exUa: 'Компанія запропонувала їй вищу зарплату.',
+    },
+    {
+      pos: 'noun',
+      translation: 'пропозиція',
+      exEn: 'She received an excellent job offer from a well-known company.',
+      exUa: 'Вона отримала чудову пропозицію роботи від відомої компанії.',
+    },
+  ],
+  offset: [
+    {
+      pos: 'v',
+      translation: 'компенсувати',
+      exEn: 'The company plans to offset its carbon emissions by planting trees.',
+      exUa: 'Компанія планує компенсувати викиди вуглецю, саджаючи дерева.',
+    },
+    {
+      pos: 'noun',
+      translation: 'зміщення',
+      exEn: 'There was a slight offset between the two printed layers.',
+      exUa: 'Було невелике зміщення між двома надрукованими шарами.',
+    },
+  ],
+  offshore: [
+    {
+      pos: 'adj',
+      translation: 'офшорний',
+      exEn: 'The company transferred its profits to an offshore account.',
+      exUa: 'Компанія перевела свої прибутки на офшорний рахунок.',
+    },
+    {
+      pos: 'adv',
+      translation: 'за кордоном',
+      exEn: 'Many manufacturing jobs have moved offshore in recent decades.',
+      exUa: 'Багато виробничих робочих місць переїхали за кордон за останні десятиліття.',
+    },
+  ],
+  open: [
+    {
+      pos: 'v',
+      translation: 'відкривати',
+      exEn: 'Could you open the window, please?',
+      exUa: 'Чи не міг би ти відкрити вікно, будь ласка?',
+    },
+    {
+      pos: 'adj',
+      translation: 'відкритий',
+      exEn: 'The shop stays open until nine every evening.',
+      exUa: 'Магазин залишається відкритим до дев\'ятої щовечора.',
+    },
+  ],
+  opposite: [
+    {
+      pos: 'adj',
+      translation: 'протилежний',
+      exEn: 'They live on opposite sides of the city.',
+      exUa: 'Вони живуть на протилежних кінцях міста.',
+    },
+    {
+      pos: 'adv',
+      translation: 'навпроти',
+      exEn: 'The bakery stands right opposite the old church.',
+      exUa: 'Пекарня стоїть якраз навпроти старої церкви.',
+    },
+  ],
+  orbit: [
+    {
+      pos: 'noun',
+      translation: 'орбіта',
+      exEn: 'The satellite entered orbit around the Earth.',
+      exUa: 'Супутник вийшов на орбіту навколо Землі.',
+    },
+    {
+      pos: 'v',
+      translation: 'обертатися',
+      exEn: 'The Moon orbits the Earth roughly once a month.',
+      exUa: 'Місяць обертається навколо Землі приблизно раз на місяць.',
+    },
+  ],
+  outline: [
+    {
+      pos: 'v',
+      translation: 'окреслювати',
+      exEn: 'The manager outlined the main goals for next year.',
+      exUa: 'Керівник окреслив основні цілі на наступний рік.',
+    },
+    {
+      pos: 'noun',
+      translation: 'нарис',
+      exEn: 'She wrote a brief outline before starting the full essay.',
+      exUa: 'Вона написала короткий нарис, перш ніж почати повне есе.',
+    },
+  ],
+  outrage: [
+    {
+      pos: 'noun',
+      translation: 'обурення',
+      exEn: 'The decision sparked public outrage across the country.',
+      exUa: 'Рішення викликало суспільне обурення по всій країні.',
+    },
+    {
+      pos: 'v',
+      translation: 'обурювати',
+      exEn: 'The unfair verdict outraged everyone in the courtroom.',
+      exUa: 'Несправедливий вирок обурив усіх у залі суду.',
+    },
+  ],
+  overhead: [
+    {
+      pos: 'adv',
+      translation: 'над головою',
+      exEn: 'A plane flew overhead just as they arrived.',
+      exUa: 'Літак пролетів над головою якраз тоді, коли вони прибули.',
+    },
+    {
+      pos: 'noun',
+      translation: 'накладні витрати',
+      exEn: 'The company tried to reduce its overhead costs.',
+      exUa: 'Компанія намагалася скоротити накладні витрати.',
+    },
+  ],
+  overreach: [
+    {
+      pos: 'noun',
+      translation: 'перевищення повноважень',
+      exEn: 'Critics accused the agency of regulatory overreach.',
+      exUa: 'Критики звинуватили агентство в перевищенні повноважень.',
+    },
+    {
+      pos: 'noun',
+      translation: 'надмірні амбіції',
+      exEn: 'The failed expansion was a classic case of corporate overreach.',
+      exUa: 'Невдале розширення стало класичним прикладом надмірних амбіцій компанії.',
+    },
+  ],
+  overture: [
+    {
+      pos: 'noun',
+      translation: 'увертюра',
+      exEn: 'The orchestra opened the concert with a dramatic overture.',
+      exUa: 'Оркестр відкрив концерт драматичною увертюрою.',
+    },
+    {
+      pos: 'noun',
+      translation: 'початок',
+      exEn: 'Their first meeting was seen as a diplomatic overture toward peace.',
+      exUa: 'Їхня перша зустріч розглядалася як початок дипломатичних кроків до миру.',
+    },
+  ],
+  own: [
+    {
+      pos: 'adj',
+      translation: 'власний',
+      exEn: 'She finally has her own apartment.',
+      exUa: 'У неї нарешті є власна квартира.',
+    },
+    {
+      pos: 'v',
+      translation: 'визнавати',
+      exEn: 'She owned her mistake honestly in front of everyone.',
+      exUa: 'Вона чесно визнала свою помилку перед усіма.',
+    },
+  ],
+  pack: [
+    {
+      pos: 'v',
+      translation: 'пакувати',
+      exEn: 'She packed her suitcase the night before the flight.',
+      exUa: 'Вона спакувала валізу за ніч до рейсу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'упаковка',
+      exEn: 'The pack of biscuits was already half empty.',
+      exUa: 'Упаковка печива вже була наполовину порожня.',
+    },
+  ],
+  paddle: [
+    {
+      pos: 'v',
+      translation: 'гребти',
+      exEn: 'They paddled steadily across the calm lake.',
+      exUa: 'Вони рівномірно гребли через спокійне озеро.',
+    },
+    {
+      pos: 'noun',
+      translation: 'весло',
+      exEn: 'He lost his paddle in the middle of the river.',
+      exUa: 'Він загубив весло посеред річки.',
+    },
+  ],
+  pain: [
+    {
+      pos: 'noun',
+      translation: 'біль',
+      exEn: 'She felt a sharp pain in her lower back.',
+      exUa: 'Вона відчула гострий біль у попереку.',
+    },
+    {
+      pos: 'v',
+      translation: 'завдавати болю',
+      exEn: 'His harsh words really pained her.',
+      exUa: 'Його різкі слова справді завдали їй болю.',
+    },
+  ],
+  painting: [
+    {
+      pos: 'noun',
+      translation: 'картина',
+      exEn: 'The museum bought a rare painting by a local artist.',
+      exUa: 'Музей придбав рідкісну картину місцевого художника.',
+    },
+    {
+      pos: 'noun',
+      translation: 'живопис',
+      exEn: 'She studied painting at art school for four years.',
+      exUa: 'Вона вивчала живопис у художній школі протягом чотирьох років.',
+    },
+  ],
+  pair: [
+    {
+      pos: 'noun',
+      translation: 'пара',
+      exEn: 'She bought a new pair of shoes for the wedding.',
+      exUa: 'Вона купила нову пару взуття на весілля.',
+    },
+    {
+      pos: 'v',
+      translation: 'підбирати в пару',
+      exEn: 'The stylist paired the blue jacket with grey trousers.',
+      exUa: 'Стиліст підібрав у пару синій піджак із сірими штанами.',
+    },
+  ],
+  pale: [
+    {
+      pos: 'adj',
+      translation: 'блідий',
+      exEn: 'His face looked unusually pale after the long illness.',
+      exUa: 'Його обличчя виглядало незвично блідим після тривалої хвороби.',
+    },
+    {
+      pos: 'v',
+      translation: 'блідіти',
+      exEn: 'She paled visibly at the mention of the accident.',
+      exUa: 'Вона помітно зблідла при згадці про аварію.',
+    },
+  ],
+  pan: [
+    {
+      pos: 'noun',
+      translation: 'сковорідка',
+      exEn: 'She heated some oil in the pan before adding the onions.',
+      exUa: 'Вона нагріла трохи олії на сковорідці, перш ніж додати цибулю.',
+    },
+    {
+      pos: 'v',
+      translation: 'панорамувати',
+      exEn: 'The camera panned slowly across the mountain landscape.',
+      exUa: 'Камера повільно панорамувала гірський ландшафт.',
+    },
+  ],
+  panic: [
+    {
+      pos: 'noun',
+      translation: 'паніка',
+      exEn: 'There was widespread panic when the alarm went off.',
+      exUa: 'Коли пролунала сигналізація, охопила загальна паніка.',
+    },
+    {
+      pos: 'v',
+      translation: 'панікувати',
+      exEn: "Please don't panic — everything is under control.",
+      exUa: 'Будь ласка, не панікуй — усе під контролем.',
+    },
+  ],
+  paraphrase: [
+    {
+      pos: 'v',
+      translation: 'перефразувати',
+      exEn: 'Could you paraphrase that in simpler terms?',
+      exUa: 'Чи не міг би ти перефразувати це простішими словами?',
+    },
+    {
+      pos: 'noun',
+      translation: 'переказ',
+      exEn: 'The student submitted a short paraphrase of the article.',
+      exUa: 'Студент подав короткий переказ статті.',
+    },
+  ],
+  parent: [
+    {
+      pos: 'noun',
+      translation: 'батько',
+      exEn: 'Her father was a strict but loving parent.',
+      exUa: 'Її батько був суворим, але люблячим батьком.',
+    },
+    {
+      pos: 'noun',
+      translation: 'мати (один із батьків)',
+      exEn: 'As a parent, she always put her children\'s needs first.',
+      exUa: 'Як мати, вона завжди ставила потреби дітей на перше місце.',
+    },
+  ],
+  parrot: [
+    {
+      pos: 'noun',
+      translation: 'папуга',
+      exEn: 'The colourful parrot could say several words.',
+      exUa: 'Барвистий папуга міг вимовляти кілька слів.',
+    },
+    {
+      pos: 'v',
+      translation: 'повторювати бездумно',
+      exEn: 'He just parrots whatever his favourite politician says.',
+      exUa: 'Він просто бездумно повторює все, що каже його улюблений політик.',
+    },
+  ],
+  part: [
+    {
+      pos: 'noun',
+      translation: 'частина, роль',
+      exEn: 'This chapter is only a small part of the whole story.',
+      exUa: 'Цей розділ — лише невелика частина всієї історії.',
+    },
+    {
+      pos: 'v',
+      translation: 'розлучатися',
+      exEn: 'The two old friends finally had to part ways.',
+      exUa: 'Двоє старих друзів нарешті мусили розлучитися.',
+    },
+  ],
+  pass: [
+    {
+      pos: 'v',
+      translation: 'проходити',
+      exEn: "Please let me pass — I'm in a hurry.",
+      exUa: 'Будь ласка, дай мені пройти — я поспішаю.',
+    },
+    {
+      pos: 'noun',
+      translation: 'перепустка',
+      exEn: 'You need a valid pass to enter the building.',
+      exUa: 'Вам потрібна дійсна перепустка, щоб увійти до будівлі.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
