@@ -3161,6 +3161,572 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Минулого кварталу відбулося різке зростання продажів.',
     },
   ],
+  drawing: [
+    {
+      pos: 'noun',
+      translation: 'малювання',
+      exEn: 'Drawing has been her favourite hobby since childhood.',
+      exUa: "Малювання було її улюбленим хобі з дитинства.",
+    },
+    {
+      pos: 'noun',
+      translation: 'малюнок',
+      exEn: 'She pinned her latest drawing on the wall above her desk.',
+      exUa: 'Вона причепила свій останній малюнок на стіну над столом.',
+    },
+  ],
+  dread: [
+    {
+      pos: 'noun',
+      translation: 'жах',
+      exEn: 'She felt a growing sense of dread before the exam.',
+      exUa: 'Вона відчувала наростаючий жах перед іспитом.',
+    },
+    {
+      pos: 'v',
+      translation: 'боятися',
+      exEn: 'He dreaded telling his parents about the accident.',
+      exUa: 'Він боявся розповісти батькам про аварію.',
+    },
+  ],
+  dream: [
+    {
+      pos: 'noun',
+      translation: 'мрія',
+      exEn: 'Owning her own bakery had always been her dream.',
+      exUa: 'Володіти власною пекарнею завжди було її мрією.',
+    },
+    {
+      pos: 'v',
+      translation: 'снитися',
+      exEn: 'She dreamed about flying over the ocean last night.',
+      exUa: 'Минулої ночі їй снилося, що вона летить над океаном.',
+    },
+  ],
+  dress: [
+    {
+      pos: 'v',
+      translation: 'одягатися',
+      exEn: 'It only took her five minutes to dress this morning.',
+      exUa: 'Цього ранку їй знадобилося лише п\'ять хвилин, щоб одягнутися.',
+    },
+    {
+      pos: 'noun',
+      translation: 'сукня',
+      exEn: 'She wore a beautiful blue dress to the wedding.',
+      exUa: 'Вона вдягла красиву синю сукню на весілля.',
+    },
+  ],
+  drill: [
+    {
+      pos: 'noun',
+      translation: 'свердло',
+      exEn: 'He bought a new electric drill to hang the shelves.',
+      exUa: 'Він купив нову електричну дриль, щоб повісити полиці.',
+    },
+    {
+      pos: 'v',
+      translation: 'свердлити',
+      exEn: 'Workers drilled through the concrete floor to install new pipes.',
+      exUa: 'Робітники свердлили бетонну підлогу, щоб встановити нові труби.',
+    },
+    {
+      pos: 'noun',
+      translation: 'тренування',
+      exEn: 'The fire drill was held on Tuesday morning.',
+      exUa: 'Пожежне тренування відбулося у вівторок вранці.',
+    },
+  ],
+  drink: [
+    {
+      pos: 'v',
+      translation: 'пити',
+      exEn: 'She drinks a glass of water first thing every morning.',
+      exUa: 'Вона щоранку першим ділом випиває склянку води.',
+    },
+    {
+      pos: 'noun',
+      translation: 'напій',
+      exEn: 'Would you like a cold drink after your walk?',
+      exUa: 'Хочеш холодний напій після прогулянки?',
+    },
+  ],
+  drip: [
+    {
+      pos: 'v',
+      translation: 'капати',
+      exEn: 'Water dripped steadily from the leaking tap all night.',
+      exUa: 'Вода всю ніч рівномірно капала з протікаючого крана.',
+    },
+    {
+      pos: 'noun',
+      translation: 'крапля',
+      exEn: 'A single drip of paint fell onto the clean floor.',
+      exUa: 'Одна крапля фарби впала на чисту підлогу.',
+    },
+  ],
+  drizzle: [
+    {
+      pos: 'noun',
+      translation: 'мряка',
+      exEn: 'A light drizzle fell all morning making the streets wet.',
+      exUa: 'Легка мряка йшла цілий ранок, змочуючи вулиці.',
+    },
+    {
+      pos: 'v',
+      translation: 'мрячити',
+      exEn: 'It began to drizzle just as we left the house.',
+      exUa: 'Почало мрячити якраз тоді, коли ми вийшли з дому.',
+    },
+  ],
+  drop: [
+    {
+      pos: 'v',
+      translation: 'падати',
+      exEn: 'The temperature is expected to drop sharply tonight.',
+      exUa: 'Очікується, що температура різко впаде сьогодні вночі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'крапля',
+      exEn: 'A single drop of rain landed on her cheek.',
+      exUa: 'Одна крапля дощу впала їй на щоку.',
+    },
+  ],
+  drum: [
+    {
+      pos: 'noun',
+      translation: 'барабан',
+      exEn: 'He bought his son a small drum for his birthday.',
+      exUa: 'Він купив синові маленький барабан на день народження.',
+    },
+    {
+      pos: 'v',
+      translation: 'барабанити',
+      exEn: 'Rain drummed steadily against the window all night.',
+      exUa: 'Дощ рівномірно барабанив у вікно всю ніч.',
+    },
+  ],
+  dry: [
+    {
+      pos: 'adj',
+      translation: 'сухий',
+      exEn: 'The desert air is extremely dry and hot.',
+      exUa: 'Повітря пустелі надзвичайно сухе й гаряче.',
+    },
+    {
+      pos: 'v',
+      translation: 'сушити',
+      exEn: 'She hung the laundry outside to dry in the sun.',
+      exUa: 'Вона повісила білизну надворі сушитися на сонці.',
+    },
+  ],
+  duplicate: [
+    {
+      pos: 'noun',
+      translation: 'дублікат',
+      exEn: "She keeps a duplicate of her house key at her sister's.",
+      exUa: 'Вона зберігає дублікат ключа від дому в сестри.',
+    },
+    {
+      pos: 'v',
+      translation: 'дублювати',
+      exEn: "Please don't duplicate the work someone else has already done.",
+      exUa: 'Будь ласка, не дублюй роботу, яку вже виконав хтось інший.',
+    },
+  ],
+  dust: [
+    {
+      pos: 'noun',
+      translation: 'пил',
+      exEn: 'A thick layer of dust covered the old furniture.',
+      exUa: 'Товстий шар пилу вкривав старі меблі.',
+    },
+    {
+      pos: 'v',
+      translation: 'витирати пил',
+      exEn: 'She dusted the shelves before the guests arrived.',
+      exUa: 'Вона витерла пил з полиць перед приходом гостей.',
+    },
+  ],
+  dye: [
+    {
+      pos: 'noun',
+      translation: 'фарба',
+      exEn: 'She used a natural dye made from beetroot.',
+      exUa: 'Вона використала натуральну фарбу з буряка.',
+    },
+    {
+      pos: 'v',
+      translation: 'фарбувати',
+      exEn: 'He decided to dye his hair a darker shade.',
+      exUa: 'Він вирішив пофарбувати волосся в темніший відтінок.',
+    },
+  ],
+  ease: [
+    {
+      pos: 'noun',
+      translation: 'легкість',
+      exEn: 'She completed the difficult exam with remarkable ease.',
+      exUa: 'Вона склала складний іспит з надзвичайною легкістю.',
+    },
+    {
+      pos: 'v',
+      translation: 'полегшувати',
+      exEn: "The medicine helped ease the pain in his shoulder.",
+      exUa: 'Ліки допомогли полегшити біль у його плечі.',
+    },
+  ],
+  echo: [
+    {
+      pos: 'noun',
+      translation: 'луна',
+      exEn: 'The echo of her footsteps filled the empty hallway.',
+      exUa: 'Луна її кроків наповнювала порожній коридор.',
+    },
+    {
+      pos: 'v',
+      translation: 'відлунювати',
+      exEn: 'His words echoed through the silent church.',
+      exUa: 'Його слова відлунювали в тихій церкві.',
+    },
+  ],
+  'edge out': [
+    {
+      pos: 'v',
+      translation: 'витісняти',
+      exEn: 'New technology is gradually edging out the old factory jobs.',
+      exUa: 'Нові технології поступово витісняють старі заводські робочі місця.',
+    },
+    {
+      pos: 'v',
+      translation: 'трохи обходити',
+      exEn: 'She edged out her closest rival by less than a second.',
+      exUa: 'Вона трохи обійшла свою найближчу суперницю менш ніж на секунду.',
+    },
+  ],
+  editorial: [
+    {
+      pos: 'noun',
+      translation: 'редакційна стаття',
+      exEn: 'The newspaper published a strong editorial about climate policy.',
+      exUa: 'Газета опублікувала гостру редакційну статтю про кліматичну політику.',
+    },
+    {
+      pos: 'adj',
+      translation: 'редакційний',
+      exEn: 'The magazine has strict editorial standards for every article.',
+      exUa: 'Журнал має суворі редакційні стандарти для кожної статті.',
+    },
+  ],
+  efface: [
+    {
+      pos: 'v',
+      translation: 'стирати, знищувати (слід)',
+      exEn: 'Time had almost effaced the inscription on the old gravestone.',
+      exUa: 'Час майже стер напис на старому надгробку.',
+    },
+    {
+      pos: 'v',
+      translation: 'вести себе непомітно',
+      exEn: 'He tends to efface himself in large social gatherings.',
+      exUa: 'Він схильний триматися непомітно на великих зібраннях.',
+    },
+  ],
+  elaborate: [
+    {
+      pos: 'v',
+      translation: 'детально розробляти',
+      exEn: 'Could you elaborate on your plan for the new project?',
+      exUa: 'Чи не могли б ви детальніше розробити свій план щодо нового проєкту?',
+    },
+    {
+      pos: 'adj',
+      translation: 'докладний',
+      exEn: 'She gave an elaborate explanation of the entire process.',
+      exUa: 'Вона дала докладне пояснення всього процесу.',
+    },
+  ],
+  embark: [
+    {
+      pos: 'v',
+      translation: 'відправлятися',
+      exEn: 'The passengers embarked on the ship early in the morning.',
+      exUa: 'Пасажири відправилися на кораблі рано вранці.',
+    },
+    {
+      pos: 'v',
+      translation: 'братися за',
+      exEn: 'She decided to embark on a completely new career.',
+      exUa: "Вона вирішила взятися за абсолютно нову кар'єру.",
+    },
+  ],
+  empty: [
+    {
+      pos: 'adj',
+      translation: 'порожній',
+      exEn: 'The room was completely empty when she finally arrived.',
+      exUa: 'Кімната була абсолютно порожньою, коли вона нарешті прийшла.',
+    },
+    {
+      pos: 'v',
+      translation: 'спустошувати',
+      exEn: 'He emptied his pockets onto the table before going through security.',
+      exUa: 'Він спустошив кишені на стіл перед проходом через контроль безпеки.',
+    },
+  ],
+  enabler: [
+    {
+      pos: 'noun',
+      translation: 'пособник',
+      exEn: 'Critics called him an enabler of corrupt practices.',
+      exUa: 'Критики назвали його пособником корупційних практик.',
+    },
+    {
+      pos: 'noun',
+      translation: 'той, хто сприяє (поведінці)',
+      exEn: 'Friends who always cover for him have become enablers of his bad habits.',
+      exUa: 'Друзі, які завжди його прикривають, стали тими, хто сприяє його поганим звичкам.',
+    },
+  ],
+  encore: [
+    {
+      pos: 'noun',
+      translation: 'біс',
+      exEn: 'The crowd shouted for an encore after the final song.',
+      exUa: 'Натовп вигукував «біс» після останньої пісні.',
+    },
+    {
+      pos: 'v',
+      translation: 'виконувати на біс',
+      exEn: 'The band encored with their most popular hit.',
+      exUa: 'Гурт виконав на біс свій найпопулярніший хіт.',
+    },
+  ],
+  end: [
+    {
+      pos: 'noun',
+      translation: 'кінець',
+      exEn: 'At the end of the film, everyone was crying.',
+      exUa: 'Наприкінці фільму всі плакали.',
+    },
+    {
+      pos: 'v',
+      translation: 'закінчувати',
+      exEn: 'They decided to end the meeting early.',
+      exUa: 'Вони вирішили закінчити зустріч раніше.',
+    },
+  ],
+  'endeavor (endeavour)': [
+    {
+      pos: 'noun',
+      translation: 'зусилля',
+      exEn: 'Their endeavour to save the old theatre finally succeeded.',
+      exUa: 'Їхні зусилля врятувати старий театр нарешті увінчалися успіхом.',
+    },
+    {
+      pos: 'v',
+      translation: 'намагатися',
+      exEn: 'The team endeavoured to finish the project ahead of schedule.',
+      exUa: 'Команда намагалася завершити проєкт раніше запланованого терміну.',
+    },
+  ],
+  envy: [
+    {
+      pos: 'noun',
+      translation: 'заздрість',
+      exEn: "She couldn't hide her envy when her friend won the prize.",
+      exUa: 'Вона не могла приховати заздрість, коли її подруга виграла приз.',
+    },
+    {
+      pos: 'v',
+      translation: 'заздрити',
+      exEn: "He envied his brother's easy confidence in social situations.",
+      exUa: 'Він заздрив легкій впевненості свого брата в спілкуванні.',
+    },
+  ],
+  equal: [
+    {
+      pos: 'adj',
+      translation: 'рівний',
+      exEn: 'Everyone deserves equal treatment regardless of background.',
+      exUa: 'Кожен заслуговує на рівне ставлення незалежно від походження.',
+    },
+    {
+      pos: 'v',
+      translation: 'дорівнювати',
+      exEn: 'Two plus two equals four.',
+      exUa: 'Два плюс два дорівнює чотирьом.',
+    },
+  ],
+  establishment: [
+    {
+      pos: 'noun',
+      translation: 'установа',
+      exEn: 'The old hotel is a well-known establishment in the town.',
+      exUa: 'Старий готель — відома установа в місті.',
+    },
+    {
+      pos: 'noun',
+      translation: 'заснування',
+      exEn: 'The establishment of the new library took almost two years.',
+      exUa: 'Заснування нової бібліотеки зайняло майже два роки.',
+    },
+  ],
+  esteem: [
+    {
+      pos: 'noun',
+      translation: 'повага',
+      exEn: 'He is held in high esteem by his colleagues.',
+      exUa: 'Колеги ставляться до нього з великою повагою.',
+    },
+    {
+      pos: 'v',
+      translation: 'поважати',
+      exEn: 'Everyone in the village esteemed the old doctor deeply.',
+      exUa: 'Усі в селі глибоко поважали старого лікаря.',
+    },
+  ],
+  estimate: [
+    {
+      pos: 'v',
+      translation: 'оцінювати',
+      exEn: 'Experts estimate that repairs will cost around ten thousand dollars.',
+      exUa: 'Експерти оцінюють, що ремонт коштуватиме близько десяти тисяч доларів.',
+    },
+    {
+      pos: 'noun',
+      translation: 'кошторис',
+      exEn: 'The builder gave us a written estimate before starting the work.',
+      exUa: 'Будівельник надав нам письмовий кошторис перед початком робіт.',
+    },
+  ],
+  exact: [
+    {
+      pos: 'adj',
+      translation: 'точний',
+      exEn: 'She could not recall the exact time when the incident occurred.',
+      exUa: 'Вона не могла пригадати точний час, коли стався інцидент.',
+    },
+    {
+      pos: 'v',
+      translation: 'вимагати',
+      exEn: 'The dictator exacted a heavy price from anyone who opposed him.',
+      exUa: 'Диктатор вимагав важку плату від кожного, хто йому опирався.',
+    },
+  ],
+  exchange: [
+    {
+      pos: 'noun',
+      translation: 'обмін',
+      exEn: 'They had a brief exchange of opinions before the meeting started.',
+      exUa: 'Перед початком зустрічі вони коротко обмінялися думками.',
+    },
+    {
+      pos: 'v',
+      translation: 'обмінювати',
+      exEn: 'She wanted to exchange the shirt for a larger size.',
+      exUa: 'Вона хотіла обміняти сорочку на більший розмір.',
+    },
+  ],
+  excuse: [
+    {
+      pos: 'noun',
+      translation: 'виправдання',
+      exEn: 'He always has an excuse for being late.',
+      exUa: 'У нього завжди є виправдання для запізнення.',
+    },
+    {
+      pos: 'v',
+      translation: 'вибачати',
+      exEn: 'Please excuse my late reply — I was travelling.',
+      exUa: 'Будь ласка, вибачте за пізню відповідь — я подорожував.',
+    },
+  ],
+  execution: [
+    {
+      pos: 'noun',
+      translation: 'виконання',
+      exEn: 'The plan was excellent, but its execution was poor.',
+      exUa: 'План був чудовий, але його виконання було слабким.',
+    },
+    {
+      pos: 'noun',
+      translation: 'страта',
+      exEn: 'The king ordered the execution of the traitor at dawn.',
+      exUa: 'Король наказав стратити зрадника на світанку.',
+    },
+  ],
+  exercise: [
+    {
+      pos: 'noun',
+      translation: 'вправа',
+      exEn: 'Complete exercise three on page twelve for homework.',
+      exUa: 'Виконайте вправу три на сторінці дванадцять як домашнє завдання.',
+    },
+    {
+      pos: 'v',
+      translation: 'тренуватися',
+      exEn: 'Doctors recommend exercising at least thirty minutes a day.',
+      exUa: 'Лікарі рекомендують тренуватися щонайменше тридцять хвилин на день.',
+    },
+  ],
+  exhaust: [
+    {
+      pos: 'v',
+      translation: 'виснажувати',
+      exEn: 'The long hike completely exhausted every member of the group.',
+      exUa: 'Довгий похід повністю виснажив кожного учасника групи.',
+    },
+    {
+      pos: 'noun',
+      translation: 'вихлоп',
+      exEn: "Black smoke poured from the car's exhaust pipe.",
+      exUa: 'Чорний дим валив з вихлопної труби автомобіля.',
+    },
+  ],
+  exit: [
+    {
+      pos: 'noun',
+      translation: 'вихід',
+      exEn: 'Please use the emergency exit at the back of the building.',
+      exUa: 'Будь ласка, скористайтеся аварійним виходом у задній частині будівлі.',
+    },
+    {
+      pos: 'v',
+      translation: 'виходити',
+      exEn: 'Passengers should exit the train quickly at this station.',
+      exUa: 'Пасажирам слід швидко виходити з потяга на цій станції.',
+    },
+  ],
+  export: [
+    {
+      pos: 'noun',
+      translation: 'експорт',
+      exEn: 'The country relies heavily on the export of grain.',
+      exUa: 'Країна значною мірою залежить від експорту зерна.',
+    },
+    {
+      pos: 'v',
+      translation: 'експортувати',
+      exEn: 'The company exports furniture to over thirty countries.',
+      exUa: 'Компанія експортує меблі до понад тридцяти країн.',
+    },
+  ],
+  exposure: [
+    {
+      pos: 'noun',
+      translation: 'вплив, контакт',
+      exEn: 'Long exposure to loud noise can damage your hearing.',
+      exUa: 'Тривалий вплив гучного шуму може пошкодити слух.',
+    },
+    {
+      pos: 'noun',
+      translation: 'оприлюднення',
+      exEn: 'The scandal received massive media exposure within days.',
+      exUa: 'Скандал отримав масштабне медійне висвітлення протягом кількох днів.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
