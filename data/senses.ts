@@ -13261,6 +13261,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Дрібна корекція дизайну мала велике значення.',
     },
   ],
+  twig: [
+    {
+      pos: 'noun',
+      translation: 'гілочка',
+      exEn: 'She snapped a small twig off the tree.',
+      exUa: 'Вона зламала маленьку гілочку з дерева.',
+    },
+    {
+      pos: 'v',
+      translation: 'розуміти',
+      exEn: 'She finally twigged what he had been hinting at.',
+      exUa: 'Вона нарешті зрозуміла, на що він натякав.',
+    },
+  ],
+  twist: [
+    {
+      pos: 'v',
+      translation: 'скручувати',
+      exEn: 'She twisted the cap off the bottle.',
+      exUa: 'Вона скрутила кришку з пляшки.',
+    },
+    {
+      pos: 'noun',
+      translation: 'поворот',
+      exEn: 'The story took an unexpected twist near the end.',
+      exUa: 'Історія мала несподіваний поворот ближче до кінця.',
+    },
+  ],
+  type: [
+    {
+      pos: 'noun',
+      translation: 'тип',
+      exEn: 'What type of music do you prefer?',
+      exUa: 'Який тип музики ти віддаєш перевагу?',
+    },
+    {
+      pos: 'v',
+      translation: 'друкувати',
+      exEn: 'She typed the report quickly on her laptop.',
+      exUa: 'Вона швидко надрукувала звіт на своєму ноутбуці.',
+    },
+  ],
+  undertaking: [
+    {
+      pos: 'noun',
+      translation: 'починання, підприємство',
+      exEn: 'Building the new hospital was a massive undertaking.',
+      exUa: 'Будівництво нової лікарні було масштабним починанням.',
+    },
+    {
+      pos: 'noun',
+      translation: "зобов'язання",
+      exEn: 'She gave a formal undertaking to repay the loan.',
+      exUa: "Вона дала офіційне зобов'язання погасити кредит.",
+    },
+  ],
+  update: [
+    {
+      pos: 'v',
+      translation: 'оновлювати',
+      exEn: 'Please update your password every three months.',
+      exUa: 'Будь ласка, оновлюйте свій пароль кожні три місяці.',
+    },
+    {
+      pos: 'noun',
+      translation: 'оновлення',
+      exEn: 'The app received a major update last week.',
+      exUa: 'Застосунок отримав велике оновлення минулого тижня.',
+    },
+  ],
+  uplift: [
+    {
+      pos: 'v',
+      translation: 'піднімати настрій',
+      exEn: 'Her kind words uplifted everyone in the room.',
+      exUa: 'Її добрі слова підняли настрій усім у кімнаті.',
+    },
+    {
+      pos: 'noun',
+      translation: 'підйом',
+      exEn: 'The music gave a sense of uplift to the whole audience.',
+      exUa: 'Музика подарувала відчуття піднесення всій аудиторії.',
+    },
+  ],
+  upset: [
+    {
+      pos: 'v',
+      translation: 'засмучувати',
+      exEn: 'The bad news upset her deeply.',
+      exUa: 'Погана новина глибоко засмутила її.',
+    },
+    {
+      pos: 'noun',
+      translation: 'розлад',
+      exEn: 'He suffered from a stomach upset after the meal.',
+      exUa: 'У нього стався розлад шлунку після їжі.',
+    },
+  ],
+  uptake: [
+    {
+      pos: 'noun',
+      translation: 'засвоєння',
+      exEn: 'Vitamin C improves the uptake of iron in the body.',
+      exUa: 'Вітамін C покращує засвоєння заліза в організмі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'прийняття (нового)',
+      exEn: 'The uptake of the new technology was slower than expected.',
+      exUa: 'Прийняття нової технології було повільнішим, ніж очікувалося.',
+    },
+  ],
+  urge: [
+    {
+      pos: 'v',
+      translation: 'спонукати',
+      exEn: 'She urged him to see a doctor immediately.',
+      exUa: 'Вона спонукала його негайно звернутися до лікаря.',
+    },
+    {
+      pos: 'noun',
+      translation: 'нагальне бажання',
+      exEn: 'He felt a sudden urge to travel somewhere new.',
+      exUa: 'Він відчув раптове нагальне бажання поїхати кудись нове.',
+    },
+  ],
+  'used to': [
+    {
+      pos: 'v',
+      translation: 'звикати',
+      exEn: 'She is slowly getting used to her new job.',
+      exUa: 'Вона поступово звикає до нової роботи.',
+    },
+    {
+      pos: 'v',
+      translation: 'раніше робив',
+      exEn: 'He used to smoke, but he quit five years ago.',
+      exUa: "Він раніше курив, але кинув п'ять років тому.",
+    },
+  ],
+  utter: [
+    {
+      pos: 'v',
+      translation: 'вимовляти',
+      exEn: "She didn't utter a single word during the meeting.",
+      exUa: 'Вона не вимовила жодного слова під час зустрічі.',
+    },
+    {
+      pos: 'adj',
+      translation: 'цілковитий',
+      exEn: 'The plan ended in utter chaos.',
+      exUa: 'План закінчився цілковитим хаосом.',
+    },
+  ],
+  vacuum: [
+    {
+      pos: 'noun',
+      translation: 'пилосос',
+      exEn: 'She bought a new vacuum for the apartment.',
+      exUa: 'Вона купила новий пилосос для квартири.',
+    },
+    {
+      pos: 'v',
+      translation: 'пилососити',
+      exEn: 'He vacuums the living room every Saturday.',
+      exUa: 'Він пилососить вітальню щосуботи.',
+    },
+  ],
+  value: [
+    {
+      pos: 'noun',
+      translation: 'цінність',
+      exEn: 'Honesty is one of her core values.',
+      exUa: 'Чесність — одна з її головних цінностей.',
+    },
+    {
+      pos: 'v',
+      translation: 'цінувати',
+      exEn: "She values her friends' opinions highly.",
+      exUa: 'Вона дуже цінує думки своїх друзів.',
+    },
+  ],
+  vapor: [
+    {
+      pos: 'noun',
+      translation: 'пара',
+      exEn: 'Water vapor rose from the boiling kettle.',
+      exUa: 'Водяна пара піднімалася з чайника, що кипів.',
+    },
+    {
+      pos: 'v',
+      translation: 'випаровуватися',
+      exEn: 'The liquid vaporized quickly in the heat.',
+      exUa: 'Рідина швидко випарувалася на спеці.',
+    },
+  ],
+  variable: [
+    {
+      pos: 'adj',
+      translation: 'мінливий',
+      exEn: 'The weather in this region is highly variable.',
+      exUa: 'Погода в цьому регіоні дуже мінлива.',
+    },
+    {
+      pos: 'noun',
+      translation: 'змінна',
+      exEn: 'The scientist changed one variable at a time in the experiment.',
+      exUa: 'Науковець змінював одну змінну за раз в експерименті.',
+    },
+  ],
+  varnish: [
+    {
+      pos: 'noun',
+      translation: 'лак',
+      exEn: 'She applied a coat of varnish to the wooden table.',
+      exUa: 'Вона нанесла шар лаку на дерев\'яний стіл.',
+    },
+    {
+      pos: 'v',
+      translation: 'лакувати',
+      exEn: 'He varnished the floor to protect it from scratches.',
+      exUa: 'Він полакував підлогу, щоб захистити її від подряпин.',
+    },
+  ],
+  vegan: [
+    {
+      pos: 'noun',
+      translation: 'веган',
+      exEn: 'She has been a vegan for over five years.',
+      exUa: "Вона веганка вже понад п'ять років.",
+    },
+    {
+      pos: 'adj',
+      translation: 'веганський',
+      exEn: 'The restaurant offers a full vegan menu.',
+      exUa: 'Ресторан пропонує повне веганське меню.',
+    },
+  ],
+  veil: [
+    {
+      pos: 'noun',
+      translation: 'вуаль',
+      exEn: 'She wore a delicate lace veil at her wedding.',
+      exUa: 'Вона одягла вишукану мереживну вуаль на весілля.',
+    },
+    {
+      pos: 'v',
+      translation: 'приховувати',
+      exEn: 'He veiled his true intentions behind polite words.',
+      exUa: 'Він приховав свої справжні наміри за ввічливими словами.',
+    },
+  ],
+  vent: [
+    {
+      pos: 'v',
+      translation: 'висловлювати',
+      exEn: 'She needed to vent her frustration after work.',
+      exUa: 'Їй потрібно було висловити своє роздратування після роботи.',
+    },
+    {
+      pos: 'noun',
+      translation: 'вентиляційний отвір',
+      exEn: 'Warm air came out of the vent in the wall.',
+      exUa: 'Тепле повітря виходило з вентиляційного отвору в стіні.',
+    },
+  ],
+  venture: [
+    {
+      pos: 'v',
+      translation: 'ризикувати',
+      exEn: 'She ventured into the unknown despite her fears.',
+      exUa: 'Вона ризикнула піти в невідоме, попри свої страхи.',
+    },
+    {
+      pos: 'noun',
+      translation: 'підприємство',
+      exEn: 'Their new business venture proved highly successful.',
+      exUa: 'Їхнє нове підприємство виявилося дуже успішним.',
+    },
+  ],
+  vest: [
+    {
+      pos: 'noun',
+      translation: 'жилет',
+      exEn: 'He wore a warm vest under his jacket.',
+      exUa: 'Він одягнув теплий жилет під куртку.',
+    },
+    {
+      pos: 'v',
+      translation: 'надавати повноваження',
+      exEn: 'The authority was vested in the newly elected council.',
+      exUa: 'Повноваження були надані новообраній раді.',
+    },
+  ],
+  visit: [
+    {
+      pos: 'v',
+      translation: 'відвідувати',
+      exEn: 'She visits her grandmother every Sunday.',
+      exUa: 'Вона відвідує бабусю щонеділі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'візит',
+      exEn: "The doctor's visit lasted only ten minutes.",
+      exUa: 'Візит лікаря тривав лише десять хвилин.',
+    },
+  ],
+  vocal: [
+    {
+      pos: 'adj',
+      translation: 'вокальний',
+      exEn: 'She took vocal lessons to improve her singing.',
+      exUa: 'Вона брала вокальні уроки, щоб покращити свій спів.',
+    },
+    {
+      pos: 'adj',
+      translation: 'активний, гучний',
+      exEn: 'He has always been vocal about environmental issues.',
+      exUa: 'Він завжди був активним і голосним щодо екологічних питань.',
+    },
+  ],
+  vomit: [
+    {
+      pos: 'v',
+      translation: 'блювати',
+      exEn: 'The child vomited after eating too much candy.',
+      exUa: "Дитину знудило після того, як вона з'їла забагато цукерок.",
+    },
+    {
+      pos: 'noun',
+      translation: 'блювотина',
+      exEn: 'The nurse cleaned up the vomit from the floor.',
+      exUa: 'Медсестра прибрала блювотину з підлоги.',
+    },
+  ],
+  vote: [
+    {
+      pos: 'v',
+      translation: 'голосувати',
+      exEn: 'Citizens vote for their representatives every four years.',
+      exUa: 'Громадяни голосують за своїх представників кожні чотири роки.',
+    },
+    {
+      pos: 'noun',
+      translation: 'голос',
+      exEn: 'Every vote counts in a close election.',
+      exUa: 'Кожен голос має значення на виборах з невеликою перевагою.',
+    },
+  ],
+  vow: [
+    {
+      pos: 'v',
+      translation: 'клястися',
+      exEn: 'She vowed to never give up on her dream.',
+      exUa: 'Вона поклялася ніколи не відмовлятися від своєї мрії.',
+    },
+    {
+      pos: 'noun',
+      translation: 'обітниця',
+      exEn: 'They exchanged wedding vows in front of their families.',
+      exUa: 'Вони обмінялися весільними обітницями перед своїми родинами.',
+    },
+  ],
+  waffle: [
+    {
+      pos: 'noun',
+      translation: 'вафля',
+      exEn: 'She had a waffle with syrup for breakfast.',
+      exUa: "На сніданок вона з'їла вафлю з сиропом.",
+    },
+    {
+      pos: 'v',
+      translation: 'говорити пусто',
+      exEn: 'He waffled on for ten minutes without answering the question.',
+      exUa: 'Він десять хвилин говорив пусто, так і не відповівши на питання.',
+    },
+  ],
+  wage: [
+    {
+      pos: 'noun',
+      translation: 'зарплата',
+      exEn: 'The minimum wage increased this year.',
+      exUa: 'Мінімальна зарплата цього року зросла.',
+    },
+    {
+      pos: 'v',
+      translation: 'вести',
+      exEn: 'The two countries waged war for over a decade.',
+      exUa: 'Дві країни вели війну понад десятиліття.',
+    },
+  ],
+  wail: [
+    {
+      pos: 'v',
+      translation: 'голосити',
+      exEn: 'The baby wailed loudly all through the night.',
+      exUa: 'Немовля голосно кричало всю ніч.',
+    },
+    {
+      pos: 'noun',
+      translation: 'ридання',
+      exEn: 'A wail of grief echoed through the house.',
+      exUa: 'Ридання горя пролунало по всьому будинку.',
+    },
+  ],
+  walk: [
+    {
+      pos: 'v',
+      translation: 'ходити',
+      exEn: 'She walks to work every morning.',
+      exUa: 'Вона щоранку ходить пішки на роботу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'прогулянка',
+      exEn: 'They went for a long walk along the river.',
+      exUa: 'Вони пішли на довгу прогулянку вздовж річки.',
+    },
+  ],
+  ward: [
+    {
+      pos: 'noun',
+      translation: 'палата',
+      exEn: 'The patient was moved to a private ward.',
+      exUa: 'Пацієнта перевели в приватну палату.',
+    },
+    {
+      pos: 'v',
+      translation: 'охороняти',
+      exEn: 'The amulet was believed to ward off evil spirits.',
+      exUa: 'Вважалося, що амулет охороняє від злих духів.',
+    },
+  ],
+  warrant: [
+    {
+      pos: 'v',
+      translation: 'виправдовувати',
+      exEn: 'The situation warranted immediate action.',
+      exUa: 'Ситуація виправдовувала негайні дії.',
+    },
+    {
+      pos: 'noun',
+      translation: 'ордер',
+      exEn: 'Police obtained a warrant to search the house.',
+      exUa: 'Поліція отримала ордер на обшук будинку.',
+    },
+  ],
+  waste: [
+    {
+      pos: 'v',
+      translation: 'марнувати',
+      exEn: "Don't waste your time on things that don't matter.",
+      exUa: 'Не марнуй свій час на речі, які не мають значення.',
+    },
+    {
+      pos: 'noun',
+      translation: 'відходи',
+      exEn: 'The factory produces a lot of industrial waste.',
+      exUa: 'Завод виробляє багато промислових відходів.',
+    },
+  ],
+  watershed: [
+    {
+      pos: 'noun',
+      translation: 'вододіл',
+      exEn: 'The river marks the watershed between the two regions.',
+      exUa: 'Річка позначає вододіл між двома регіонами.',
+    },
+    {
+      pos: 'noun',
+      translation: 'переломний момент',
+      exEn: "The election was a watershed moment in the country's history.",
+      exUa: 'Вибори стали переломним моментом в історії країни.',
+    },
+  ],
+  wax: [
+    {
+      pos: 'adj',
+      translation: 'восковий',
+      exEn: 'The candle was made of pure beeswax.',
+      exUa: 'Свічка була зроблена з чистого бджолиного воску.',
+    },
+    {
+      pos: 'v',
+      translation: 'ставати',
+      exEn: 'The moon waxes and wanes throughout the month.',
+      exUa: 'Місяць прибуває і убуває протягом місяця.',
+    },
+  ],
+  wedge: [
+    {
+      pos: 'noun',
+      translation: 'клин',
+      exEn: 'He used a wedge to split the log.',
+      exUa: 'Він скористався клином, щоб розколоти колоду.',
+    },
+    {
+      pos: 'v',
+      translation: 'затиснути',
+      exEn: 'She wedged the door open with a book.',
+      exUa: 'Вона затиснула двері книгою, щоб вони залишалися відкритими.',
+    },
+  ],
+  wee: [
+    {
+      pos: 'adj',
+      translation: 'маленький',
+      exEn: 'Just a wee bit more sugar, please.',
+      exUa: 'Ще трошки цукру, будь ласка.',
+    },
+    {
+      pos: 'v',
+      translation: 'писяти',
+      exEn: 'The toddler needed a wee before bedtime.',
+      exUa: 'Малюку потрібно було пописяти перед сном.',
+    },
+  ],
+  weed: [
+    {
+      pos: 'noun',
+      translation: "бур'ян",
+      exEn: 'The garden was overrun with weeds.',
+      exUa: "Сад заріс бур'яном.",
+    },
+    {
+      pos: 'v',
+      translation: 'прополювати',
+      exEn: 'She weeded the vegetable patch every weekend.',
+      exUa: 'Вона щовихідних прополювала городик.',
+    },
+  ],
+  welcome: [
+    {
+      pos: 'v',
+      translation: 'вітати',
+      exEn: 'They welcomed the new employees warmly.',
+      exUa: 'Вони тепло привітали нових працівників.',
+    },
+    {
+      pos: 'noun',
+      translation: 'ласкаво просимо',
+      exEn: 'Welcome to our home!',
+      exUa: 'Ласкаво просимо до нашого дому!',
+    },
+  ],
+  weld: [
+    {
+      pos: 'v',
+      translation: 'зварювати',
+      exEn: 'He welded the two metal pipes together.',
+      exUa: 'Він зварив дві металеві труби разом.',
+    },
+    {
+      pos: 'noun',
+      translation: 'зварний шов',
+      exEn: 'The weld held firm despite the heavy pressure.',
+      exUa: 'Зварний шов витримав, попри великий тиск.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
