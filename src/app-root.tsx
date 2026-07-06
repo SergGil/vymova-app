@@ -98,6 +98,7 @@ import { ErrorHuntPage } from '../js/modes/error-hunt.tsx';
 import { AssocChainPage } from '../js/modes/assoc-chain.tsx';
 import { WordHintPage } from '../js/modes/word-hint.tsx';
 import { ShadowingPage } from '../js/modes/shadowing.tsx';
+import { GhostRacePage } from '../js/modes/ghost-race.tsx';
 import { ScramblePage } from '../js/modes/scramble.tsx';
 import { WordLettersPage } from '../js/modes/word-letters.tsx';
 import { StatsPage } from '../js/features/stats-page.tsx';
@@ -352,6 +353,9 @@ function AppRoot(): ReactElement {
       </Portal>
       <Portal id="shadow-page-mount">
         <ShadowingPage />
+      </Portal>
+      <Portal id="ghost-page-mount">
+        <GhostRacePage />
       </Portal>
       <Portal id="scr-page-mount">
         <ScramblePage />
