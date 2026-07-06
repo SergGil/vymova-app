@@ -13821,6 +13821,384 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Зварний шов витримав, попри великий тиск.',
     },
   ],
+  wet: [
+    {
+      pos: 'adj',
+      translation: 'мокрий',
+      exEn: 'Her clothes were completely wet after the storm.',
+      exUa: 'Її одяг був повністю мокрим після шторму.',
+    },
+    {
+      pos: 'v',
+      translation: 'намочити',
+      exEn: 'He wetted the cloth before wiping the counter.',
+      exUa: 'Він намочив ганчірку, перш ніж протерти стільницю.',
+    },
+  ],
+  whack: [
+    {
+      pos: 'v',
+      translation: 'вдарити',
+      exEn: 'She whacked the ball over the fence.',
+      exUa: "Вона вдарила по м'ячу так, що він перелетів через паркан.",
+    },
+    {
+      pos: 'noun',
+      translation: 'порція',
+      exEn: 'He paid his whack for the group dinner.',
+      exUa: 'Він заплатив свою частку за групову вечерю.',
+    },
+  ],
+  whip: [
+    {
+      pos: 'noun',
+      translation: 'батіг',
+      exEn: 'The rider gently touched the horse with a whip.',
+      exUa: 'Вершник обережно торкнувся коня батогом.',
+    },
+    {
+      pos: 'v',
+      translation: 'хльостати',
+      exEn: 'The wind whipped through the trees during the storm.',
+      exUa: 'Вітер хльостав крізь дерева під час шторму.',
+    },
+  ],
+  whirl: [
+    {
+      pos: 'v',
+      translation: 'кружляти',
+      exEn: 'Leaves whirled around in the autumn wind.',
+      exUa: 'Листя кружляло на осінньому вітрі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'вир',
+      exEn: 'She felt caught in a whirl of excitement and confusion.',
+      exUa: 'Вона відчувала себе захопленою виром хвилювання і плутанини.',
+    },
+  ],
+  whisper: [
+    {
+      pos: 'v',
+      translation: 'шептати',
+      exEn: 'She whispered the secret to her best friend.',
+      exUa: 'Вона прошепотіла секрет своїй найкращій подрузі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'шепіт',
+      exEn: 'A soft whisper filled the quiet room.',
+      exUa: 'Тихий шепіт наповнив тиху кімнату.',
+    },
+  ],
+  whistle: [
+    {
+      pos: 'v',
+      translation: 'свистати',
+      exEn: 'He whistled a cheerful tune on his way to work.',
+      exUa: 'Він насвистував веселу мелодію по дорозі на роботу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'свисток',
+      exEn: 'The referee blew the whistle to start the match.',
+      exUa: 'Суддя дав свисток, щоб розпочати матч.',
+    },
+  ],
+  whiz: [
+    {
+      pos: 'v',
+      translation: 'мчати',
+      exEn: 'The cars whizzed past on the motorway.',
+      exUa: 'Машини мчали повз на автомагістралі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'геній',
+      exEn: "She's a real whiz at mathematics.",
+      exUa: 'Вона справжній геній математики.',
+    },
+  ],
+  'wind (wound, wound)': [
+    {
+      pos: 'v',
+      translation: 'намотувати',
+      exEn: 'He wound the rope carefully around the pole.',
+      exUa: 'Він обережно намотав мотузку навколо стовпа.',
+    },
+    {
+      pos: 'noun',
+      translation: 'звивистий шлях',
+      exEn: 'The path wound steeply upward through the pine forest.',
+      exUa: 'Звивистий шлях круто піднімався вгору крізь сосновий ліс.',
+    },
+  ],
+  wire: [
+    {
+      pos: 'noun',
+      translation: 'дріт',
+      exEn: 'The electrician replaced the old copper wire.',
+      exUa: 'Електрик замінив старий мідний дріт.',
+    },
+    {
+      pos: 'v',
+      translation: 'надсилати телеграму',
+      exEn: 'She wired the money to her family back home.',
+      exUa: 'Вона надіслала телеграфом гроші своїй родині додому.',
+    },
+  ],
+  witness: [
+    {
+      pos: 'noun',
+      translation: 'свідок',
+      exEn: 'The witness described the accident in detail.',
+      exUa: 'Свідок детально описав аварію.',
+    },
+    {
+      pos: 'v',
+      translation: 'свідчити',
+      exEn: 'She witnessed the entire event from her window.',
+      exUa: 'Вона стала свідком усієї події зі свого вікна.',
+    },
+  ],
+  wobble: [
+    {
+      pos: 'v',
+      translation: 'хитатися',
+      exEn: 'The old table wobbled every time she leaned on it.',
+      exUa: 'Старий стіл хитався щоразу, коли вона на нього спиралася.',
+    },
+    {
+      pos: 'adj',
+      translation: 'неміцний',
+      exEn: 'One of the chair legs was wobbly and needed repair.',
+      exUa: 'Одна з ніжок стільця була неміцною і потребувала ремонту.',
+    },
+  ],
+  wonder: [
+    {
+      pos: 'v',
+      translation: 'дивуватися',
+      exEn: 'She wondered why he never called back.',
+      exUa: 'Вона дивувалася, чому він так і не передзвонив.',
+    },
+    {
+      pos: 'noun',
+      translation: 'диво',
+      exEn: 'The pyramids are considered one of the wonders of the world.',
+      exUa: "Піраміди вважаються одним із чудес світу.",
+    },
+  ],
+  work: [
+    {
+      pos: 'v',
+      translation: 'працювати',
+      exEn: 'She works hard every day to achieve her goals.',
+      exUa: 'Вона щодня наполегливо працює, щоб досягти своїх цілей.',
+    },
+    {
+      pos: 'noun',
+      translation: 'робота',
+      exEn: 'He found a new work opportunity in another city.',
+      exUa: 'Він знайшов нову можливість роботи в іншому місті.',
+    },
+  ],
+  worship: [
+    {
+      pos: 'v',
+      translation: 'поклонятися',
+      exEn: 'They worship at the local temple every week.',
+      exUa: 'Вони щотижня поклоняються в місцевому храмі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'богослужіння',
+      exEn: 'The church holds worship every Sunday morning.',
+      exUa: 'Церква проводить богослужіння щонеділі вранці.',
+    },
+  ],
+  wound: [
+    {
+      pos: 'noun',
+      translation: 'поранення',
+      exEn: "The soldier's wound healed slowly over several months.",
+      exUa: 'Поранення солдата загоювалося повільно протягом кількох місяців.',
+    },
+    {
+      pos: 'v',
+      translation: 'ранити',
+      exEn: 'His harsh comment wounded her deeply.',
+      exUa: 'Його різкий коментар глибоко поранив її.',
+    },
+  ],
+  wrench: [
+    {
+      pos: 'noun',
+      translation: 'гайковий ключ',
+      exEn: 'He used a wrench to tighten the bolt.',
+      exUa: 'Він скористався гайковим ключем, щоб затягнути болт.',
+    },
+    {
+      pos: 'v',
+      translation: 'вирвати',
+      exEn: 'She wrenched the door open with all her strength.',
+      exUa: 'Вона з усієї сили вирвала двері.',
+    },
+  ],
+  wrinkle: [
+    {
+      pos: 'noun',
+      translation: 'зморшка',
+      exEn: 'She noticed a few new wrinkles around her eyes.',
+      exUa: 'Вона помітила кілька нових зморшок навколо очей.',
+    },
+    {
+      pos: 'v',
+      translation: 'зморщувати',
+      exEn: 'He wrinkled his nose at the unpleasant smell.',
+      exUa: 'Він зморщив ніс від неприємного запаху.',
+    },
+  ],
+  wrong: [
+    {
+      pos: 'adj',
+      translation: 'неправильний',
+      exEn: 'She gave the wrong answer by mistake.',
+      exUa: 'Вона помилково дала неправильну відповідь.',
+    },
+    {
+      pos: 'v',
+      translation: 'кривдити',
+      exEn: 'He felt he had been wronged by his former employer.',
+      exUa: 'Він відчував, що його скривдив колишній роботодавець.',
+    },
+  ],
+  yarn: [
+    {
+      pos: 'noun',
+      translation: 'пряжа',
+      exEn: 'She bought colourful yarn to knit a scarf.',
+      exUa: 'Вона купила кольорову пряжу, щоб зв\'язати шарф.',
+    },
+    {
+      pos: 'noun',
+      translation: 'байка, вигадана розповідь',
+      exEn: 'The old sailor spun a yarn about his adventures at sea.',
+      exUa: 'Старий моряк розповів байку про свої пригоди в морі.',
+    },
+  ],
+  yawn: [
+    {
+      pos: 'v',
+      translation: 'позіхати',
+      exEn: 'She yawned during the boring lecture.',
+      exUa: 'Вона позіхала під час нудної лекції.',
+    },
+    {
+      pos: 'noun',
+      translation: 'позіхання',
+      exEn: 'A loud yawn escaped him during the meeting.',
+      exUa: 'Гучне позіхання вирвалося в нього під час зустрічі.',
+    },
+  ],
+  yearbook: [
+    {
+      pos: 'noun',
+      translation: 'щорічник',
+      exEn: 'The library keeps a copy of every yearbook published.',
+      exUa: 'Бібліотека зберігає копію кожного опублікованого щорічника.',
+    },
+    {
+      pos: 'noun',
+      translation: 'шкільний альбом',
+      exEn: "She signed her friends' yearbooks on the last day of school.",
+      exUa: 'Вона підписала шкільні альбоми своїх друзів в останній день школи.',
+    },
+  ],
+  yeoman: [
+    {
+      pos: 'noun',
+      translation: 'йомен (дрібний землевласник)',
+      exEn: 'In medieval England, a yeoman owned and farmed his own land.',
+      exUa: 'У середньовічній Англії йомен володів і обробляв власну землю.',
+    },
+    {
+      pos: 'noun',
+      translation: 'надійний труженик',
+      exEn: "He did yeoman's work organising the entire festival alone.",
+      exUa: 'Він виконав роботу надійного трудівника, самотужки організувавши весь фестиваль.',
+    },
+  ],
+  yoke: [
+    {
+      pos: 'noun',
+      translation: 'ярмо',
+      exEn: 'The oxen were fitted with a wooden yoke.',
+      exUa: 'На волів надягнули дерев\'яне ярмо.',
+    },
+    {
+      pos: 'v',
+      translation: "поєднувати",
+      exEn: 'The two companies were yoked together after the merger.',
+      exUa: "Дві компанії були поєднані разом після злиття.",
+    },
+  ],
+  zap: [
+    {
+      pos: 'v',
+      translation: 'знищувати швидко',
+      exEn: 'The bug zapper zapped the mosquitoes instantly.',
+      exUa: 'Пастка для комах миттєво знищувала москітів.',
+    },
+    {
+      pos: 'v',
+      translation: 'надсилати (файл)',
+      exEn: 'Could you zap me that file before the meeting?',
+      exUa: 'Чи не міг би ти надіслати мені цей файл до зустрічі?',
+    },
+  ],
+  zapping: [
+    {
+      pos: 'noun',
+      translation: 'перемикання каналів',
+      exEn: 'Constant zapping between channels annoyed her husband.',
+      exUa: 'Постійне перемикання каналів дратувало її чоловіка.',
+    },
+    {
+      pos: 'noun',
+      translation: 'знищення',
+      exEn: 'The pest control focused on the zapping of insects in the yard.',
+      exUa: 'Служба боротьби зі шкідниками зосередилася на знищенні комах у дворі.',
+    },
+  ],
+  zest: [
+    {
+      pos: 'noun',
+      translation: 'запал, ентузіазм',
+      exEn: 'She approached every new project with great zest.',
+      exUa: 'Вона підходила до кожного нового проєкту з великим запалом.',
+    },
+    {
+      pos: 'noun',
+      translation: 'пікантність',
+      exEn: 'Add some lemon zest to give the cake extra flavour.',
+      exUa: 'Додай трохи лимонної цедри, щоб надати торту додаткового смаку.',
+    },
+  ],
+  zigzag: [
+    {
+      pos: 'noun',
+      translation: 'зигзагоподібний рух',
+      exEn: 'The road followed a zigzag pattern up the mountain.',
+      exUa: 'Дорога йшла зигзагоподібним рухом угору по горі.',
+    },
+    {
+      pos: 'v',
+      translation: 'петляти',
+      exEn: 'The rabbit zigzagged across the field to escape the fox.',
+      exUa: 'Кролик петляв полем, щоб втекти від лисиці.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
