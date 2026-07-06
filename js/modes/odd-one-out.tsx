@@ -278,9 +278,11 @@ export function OddOneOutPage(): ReactElement {
                   style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10 }}
                 >
                   <span>{c.label}</span>
-                  <span style={{ fontSize: '.8rem', opacity: 0.65, fontWeight: 400 }}>
-                    {c.translation}
-                  </span>
+                  {selected !== null && (
+                    <span style={{ fontSize: '.8rem', opacity: 0.65, fontWeight: 400 }}>
+                      {c.translation}
+                    </span>
+                  )}
                 </button>
               );
             })}
