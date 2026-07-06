@@ -9317,6 +9317,578 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Драматичний порятунок транслювали в прямому ефірі телебачення.',
     },
   ],
+  research: [
+    {
+      pos: 'noun',
+      translation: 'дослідження',
+      exEn: 'She conducted years of research into rare diseases.',
+      exUa: 'Вона провела роки досліджень рідкісних хвороб.',
+    },
+    {
+      pos: 'v',
+      translation: 'досліджувати',
+      exEn: 'Scientists are researching new ways to treat cancer.',
+      exUa: 'Науковці досліджують нові способи лікування раку.',
+    },
+  ],
+  reserve: [
+    {
+      pos: 'noun',
+      translation: 'резерв',
+      exEn: 'The team kept two players in reserve.',
+      exUa: 'Команда тримала двох гравців у резерві.',
+    },
+    {
+      pos: 'v',
+      translation: 'резервувати',
+      exEn: 'She reserved a table at the restaurant for six people.',
+      exUa: 'Вона зарезервувала столик у ресторані на шість осіб.',
+    },
+  ],
+  resolution: [
+    {
+      pos: 'noun',
+      translation: 'рішення, постанова',
+      exEn: 'The council passed a resolution to protect the park.',
+      exUa: 'Рада ухвалила постанову про захист парку.',
+    },
+    {
+      pos: 'noun',
+      translation: 'вирішення',
+      exEn: 'They finally reached a resolution to the long dispute.',
+      exUa: 'Вони нарешті досягли вирішення тривалої суперечки.',
+    },
+  ],
+  resolve: [
+    {
+      pos: 'v',
+      translation: 'вирішувати',
+      exEn: 'They managed to resolve the conflict peacefully.',
+      exUa: 'Їм вдалося мирно вирішити конфлікт.',
+    },
+    {
+      pos: 'noun',
+      translation: 'рішучість',
+      exEn: 'Her resolve never weakened despite the setbacks.',
+      exUa: 'Її рішучість жодного разу не ослабла, попри невдачі.',
+    },
+  ],
+  resort: [
+    {
+      pos: 'noun',
+      translation: 'курорт',
+      exEn: 'They spent their honeymoon at a beach resort.',
+      exUa: 'Вони провели медовий місяць на пляжному курорті.',
+    },
+    {
+      pos: 'v',
+      translation: 'вдаватися до',
+      exEn: 'He resorted to begging for help when the deadline approached.',
+      exUa: 'Він вдався до благань про допомогу, коли наближався дедлайн.',
+    },
+  ],
+  restraint: [
+    {
+      pos: 'noun',
+      translation: 'стриманість',
+      exEn: 'She showed remarkable restraint during the heated argument.',
+      exUa: 'Вона виявила дивовижну стриманість під час гострої суперечки.',
+    },
+    {
+      pos: 'noun',
+      translation: 'обмеження',
+      exEn: 'The new rules impose strict restraints on spending.',
+      exUa: 'Нові правила накладають суворі обмеження на витрати.',
+    },
+  ],
+  resume: [
+    {
+      pos: 'v',
+      translation: 'відновлювати',
+      exEn: 'Trading resumed after a brief pause.',
+      exUa: 'Торгівля відновилася після короткої паузи.',
+    },
+    {
+      pos: 'noun',
+      translation: 'резюме',
+      exEn: 'She updated her resume before applying for the job.',
+      exUa: 'Вона оновила своє резюме перед подачею заявки на роботу.',
+    },
+  ],
+  retreat: [
+    {
+      pos: 'v',
+      translation: 'відступати',
+      exEn: 'The soldiers retreated after suffering heavy losses.',
+      exUa: 'Солдати відступили після значних втрат.',
+    },
+    {
+      pos: 'noun',
+      translation: 'відступ',
+      exEn: "The army's retreat was carefully organised.",
+      exUa: 'Відступ армії був ретельно організований.',
+    },
+  ],
+  return: [
+    {
+      pos: 'v',
+      translation: 'повертатися',
+      exEn: 'She plans to return home next Friday.',
+      exUa: "Вона планує повернутися додому наступної п'ятниці.",
+    },
+    {
+      pos: 'noun',
+      translation: 'повернення',
+      exEn: 'His return to the team was welcomed by all the fans.',
+      exUa: 'Його повернення до команди привітали всі фанати.',
+    },
+  ],
+  reverse: [
+    {
+      pos: 'v',
+      translation: 'здавати назад',
+      exEn: 'He carefully reversed the truck into the narrow driveway.',
+      exUa: "Він обережно здав задом вантажівку на вузьку під'їзну доріжку.",
+    },
+    {
+      pos: 'adj',
+      translation: 'зворотний',
+      exEn: 'They took the reverse route back to avoid traffic.',
+      exUa: 'Вони поїхали зворотним маршрутом, щоб уникнути затору.',
+    },
+  ],
+  review: [
+    {
+      pos: 'noun',
+      translation: 'огляд',
+      exEn: 'The film received a glowing review from critics.',
+      exUa: 'Фільм отримав захопливий огляд від критиків.',
+    },
+    {
+      pos: 'v',
+      translation: 'перевіряти',
+      exEn: 'She reviewed the contract carefully before signing.',
+      exUa: 'Вона ретельно перевірила контракт, перш ніж підписати.',
+    },
+  ],
+  revolt: [
+    {
+      pos: 'v',
+      translation: 'бунтувати',
+      exEn: 'The people revolted against the unfair new taxes.',
+      exUa: 'Люди повстали проти несправедливих нових податків.',
+    },
+    {
+      pos: 'noun',
+      translation: 'повстання',
+      exEn: 'The revolt was crushed within a few days.',
+      exUa: 'Повстання придушили протягом кількох днів.',
+    },
+  ],
+  reward: [
+    {
+      pos: 'v',
+      translation: 'винагороджувати',
+      exEn: 'The company rewards employees who exceed their targets.',
+      exUa: 'Компанія винагороджує працівників, які перевищують свої показники.',
+    },
+    {
+      pos: 'noun',
+      translation: 'нагорода',
+      exEn: 'She received a generous reward for returning the lost wallet.',
+      exUa: 'Вона отримала щедру нагороду за повернення загубленого гаманця.',
+    },
+  ],
+  rhyme: [
+    {
+      pos: 'noun',
+      translation: 'рима',
+      exEn: 'The poem uses a simple rhyme scheme.',
+      exUa: 'Вірш використовує просту схему рими.',
+    },
+    {
+      pos: 'v',
+      translation: 'римуватися',
+      exEn: "The word 'cat' rhymes with 'hat'.",
+      exUa: "Слово 'cat' римується зі словом 'hat'.",
+    },
+  ],
+  ride: [
+    {
+      pos: 'v',
+      translation: 'їздити',
+      exEn: 'She rides her bicycle to work every day.',
+      exUa: 'Вона щодня їздить на роботу на велосипеді.',
+    },
+    {
+      pos: 'noun',
+      translation: 'поїздка',
+      exEn: 'The ride to the airport took almost an hour.',
+      exUa: 'Поїздка до аеропорту зайняла майже годину.',
+    },
+  ],
+  rifle: [
+    {
+      pos: 'noun',
+      translation: 'гвинтівка',
+      exEn: 'The hunter carried an old rifle over his shoulder.',
+      exUa: 'Мисливець ніс стару гвинтівку через плече.',
+    },
+    {
+      pos: 'v',
+      translation: 'обшукати',
+      exEn: 'Someone had rifled through her desk drawers.',
+      exUa: 'Хтось обшукав шухляди її столу.',
+    },
+  ],
+  rig: [
+    {
+      pos: 'noun',
+      translation: 'обладнання',
+      exEn: 'Workers repaired the oil rig after the storm.',
+      exUa: 'Робітники відремонтували нафтову вишку після шторму.',
+    },
+    {
+      pos: 'v',
+      translation: 'маніпулювати',
+      exEn: 'The scandal revealed that officials had rigged the election.',
+      exUa: 'Скандал показав, що чиновники сфальсифікували вибори.',
+    },
+  ],
+  'ring (rang, rung)': [
+    {
+      pos: 'v',
+      translation: 'дзвонити',
+      exEn: 'Please ring me when you arrive at the station.',
+      exUa: 'Будь ласка, зателефонуй мені, коли прибудеш на станцію.',
+    },
+    {
+      pos: 'noun',
+      translation: 'кільце',
+      exEn: 'He proposed with a beautiful diamond ring.',
+      exUa: 'Він зробив пропозицію з красивим діамантовим кільцем.',
+    },
+  ],
+  riot: [
+    {
+      pos: 'noun',
+      translation: 'заворушення',
+      exEn: 'The riot broke out after the controversial verdict.',
+      exUa: 'Заворушення спалахнули після суперечливого вироку.',
+    },
+    {
+      pos: 'v',
+      translation: 'бешкетувати',
+      exEn: 'Fans rioted in the streets after their team lost.',
+      exUa: 'Фанати бешкетували на вулицях після поразки своєї команди.',
+    },
+  ],
+  ripple: [
+    {
+      pos: 'noun',
+      translation: 'брижа',
+      exEn: 'A gentle ripple spread across the still pond.',
+      exUa: 'Легка брижа розійшлася по тихому ставку.',
+    },
+    {
+      pos: 'v',
+      translation: 'поширюватися',
+      exEn: 'News of the scandal rippled through the entire office.',
+      exUa: 'Новина про скандал поширилася по всьому офісу.',
+    },
+  ],
+  'rise (rose, risen)': [
+    {
+      pos: 'v',
+      translation: 'підніматися',
+      exEn: 'Smoke rose slowly from the chimney.',
+      exUa: 'Дим повільно піднімався з димаря.',
+    },
+    {
+      pos: 'noun',
+      translation: 'зростання',
+      exEn: 'There was a sudden rise in temperature yesterday.',
+      exUa: 'Учора відбулося раптове зростання температури.',
+    },
+  ],
+  rivet: [
+    {
+      pos: 'noun',
+      translation: 'заклепка',
+      exEn: 'The engineer checked every rivet on the old bridge.',
+      exUa: 'Інженер перевірив кожну заклепку на старому мосту.',
+    },
+    {
+      pos: 'v',
+      translation: 'захоплювати увагу',
+      exEn: 'The gripping story riveted the audience from start to finish.',
+      exUa: 'Захоплива історія прикувала увагу глядачів від початку до кінця.',
+    },
+  ],
+  roar: [
+    {
+      pos: 'v',
+      translation: 'ревти',
+      exEn: 'Lions roared in the distance during the night safari.',
+      exUa: 'Леви ревли вдалині під час нічного сафарі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'гуркіт',
+      exEn: 'The roar of the engine echoed through the valley.',
+      exUa: 'Гуркіт двигуна лунав по долині.',
+    },
+  ],
+  roast: [
+    {
+      pos: 'v',
+      translation: 'смажити',
+      exEn: 'She roasted the chicken with herbs and lemon.',
+      exUa: 'Вона запекла курку з травами та лимоном.',
+    },
+    {
+      pos: 'noun',
+      translation: "смажене м'ясо",
+      exEn: 'They served a Sunday roast with all the trimmings.',
+      exUa: "Вони подали недільне смажене м'ясо з усіма гарнірами.",
+    },
+  ],
+  roll: [
+    {
+      pos: 'v',
+      translation: 'котитися',
+      exEn: 'The ball rolled down the hill and into the street.',
+      exUa: 'М\'яч котився з пагорба на вулицю.',
+    },
+    {
+      pos: 'noun',
+      translation: 'рулон',
+      exEn: 'She bought a new roll of paper towels.',
+      exUa: 'Вона купила новий рулон паперових рушників.',
+    },
+  ],
+  root: [
+    {
+      pos: 'noun',
+      translation: 'корінь',
+      exEn: 'The old oak had deep, sprawling roots.',
+      exUa: 'Старий дуб мав глибоке розлоге коріння.',
+    },
+    {
+      pos: 'v',
+      translation: 'укорінюватися',
+      exEn: 'The tradition rooted itself deeply in local culture.',
+      exUa: 'Традиція глибоко вкоренилася в місцевій культурі.',
+    },
+  ],
+  round: [
+    {
+      pos: 'adj',
+      translation: 'кругий',
+      exEn: 'The table had a round wooden top.',
+      exUa: 'Стіл мав круглу дерев\'яну стільницю.',
+    },
+    {
+      pos: 'noun',
+      translation: 'раунд',
+      exEn: 'The boxer won the fight in the third round.',
+      exUa: 'Боксер виграв бій у третьому раунді.',
+    },
+    {
+      pos: 'v',
+      translation: 'обходити',
+      exEn: 'The road rounds the lake before reaching the village.',
+      exUa: 'Дорога обходить озеро, перш ніж дістатися до села.',
+    },
+  ],
+  roundabout: [
+    {
+      pos: 'noun',
+      translation: "кільцева розв'язка",
+      exEn: "There's a large roundabout just before the town centre.",
+      exUa: "Перед центром міста є велика кільцева розв'язка.",
+    },
+    {
+      pos: 'adj',
+      translation: 'непрямий',
+      exEn: 'He gave a roundabout answer instead of a direct one.',
+      exUa: 'Він дав непряму відповідь замість прямої.',
+    },
+  ],
+  routine: [
+    {
+      pos: 'noun',
+      translation: 'звичний порядок, рутина',
+      exEn: 'She has a strict morning routine before work.',
+      exUa: 'У неї є суворий ранковий розпорядок перед роботою.',
+    },
+    {
+      pos: 'adj',
+      translation: 'рутинний',
+      exEn: 'It was just a routine check-up at the dentist.',
+      exUa: 'Це був просто рутинний огляд у стоматолога.',
+    },
+  ],
+  row: [
+    {
+      pos: 'noun',
+      translation: 'ряд',
+      exEn: 'They sat in the front row of the theatre.',
+      exUa: 'Вони сиділи в першому ряду театру.',
+    },
+    {
+      pos: 'noun',
+      translation: 'сварка',
+      exEn: 'The neighbours had a loud row over the fence.',
+      exUa: 'Сусіди мали гучну сварку через паркан.',
+    },
+    {
+      pos: 'v',
+      translation: 'гребти',
+      exEn: 'They rowed across the lake at sunrise.',
+      exUa: 'Вони гребли через озеро на світанку.',
+    },
+  ],
+  rub: [
+    {
+      pos: 'v',
+      translation: 'терти',
+      exEn: 'She rubbed her eyes after waking up.',
+      exUa: 'Вона потерла очі, прокинувшись.',
+    },
+    {
+      pos: 'noun',
+      translation: 'тертя',
+      exEn: 'There was noticeable friction between the two managers.',
+      exUa: 'Між двома керівниками відчувалося помітне тертя.',
+    },
+  ],
+  ruin: [
+    {
+      pos: 'noun',
+      translation: 'руїна',
+      exEn: 'The ancient ruin attracted thousands of tourists each year.',
+      exUa: 'Стародавня руїна щороку приваблювала тисячі туристів.',
+    },
+    {
+      pos: 'v',
+      translation: 'руйнувати',
+      exEn: 'The scandal ruined his political career.',
+      exUa: 'Скандал зруйнував його політичну кар\'єру.',
+    },
+  ],
+  rule: [
+    {
+      pos: 'noun',
+      translation: 'правило',
+      exEn: 'The school has a strict rule about mobile phones.',
+      exUa: 'У школі є суворе правило щодо мобільних телефонів.',
+    },
+    {
+      pos: 'v',
+      translation: 'керувати',
+      exEn: 'The queen ruled the country for over fifty years.',
+      exUa: "Королева керувала країною понад п'ятдесят років.",
+    },
+  ],
+  ruling: [
+    {
+      pos: 'noun',
+      translation: 'постанова, рішення',
+      exEn: "The court's ruling surprised many legal experts.",
+      exUa: 'Постанова суду здивувала багатьох правових експертів.',
+    },
+    {
+      pos: 'adj',
+      translation: 'правлячий',
+      exEn: 'The ruling party faced strong criticism after the vote.',
+      exUa: 'Правляча партія зіткнулася з серйозною критикою після голосування.',
+    },
+  ],
+  rumble: [
+    {
+      pos: 'v',
+      translation: 'гуркотіти',
+      exEn: 'Thunder rumbled in the distance before the storm hit.',
+      exUa: 'Грім гуркотів вдалині перед тим, як вдарив шторм.',
+    },
+    {
+      pos: 'noun',
+      translation: 'гуркіт',
+      exEn: 'She heard a low rumble coming from the basement.',
+      exUa: 'Вона почула тихий гуркіт, що долинав з підвалу.',
+    },
+  ],
+  rust: [
+    {
+      pos: 'noun',
+      translation: 'іржа',
+      exEn: 'Rust covered the old bicycle chain.',
+      exUa: 'Іржа вкривала старий ланцюг велосипеда.',
+    },
+    {
+      pos: 'v',
+      translation: 'іржавіти',
+      exEn: 'The metal gate began to rust after years in the rain.',
+      exUa: 'Металева хвіртка почала іржавіти після років під дощем.',
+    },
+  ],
+  sack: [
+    {
+      pos: 'noun',
+      translation: 'мішок',
+      exEn: 'The farmer carried a heavy sack of potatoes.',
+      exUa: 'Фермер ніс важкий мішок картоплі.',
+    },
+    {
+      pos: 'v',
+      translation: 'звільняти',
+      exEn: 'He was sacked from his job after repeated lateness.',
+      exUa: 'Його звільнили з роботи через постійні запізнення.',
+    },
+  ],
+  sacrifice: [
+    {
+      pos: 'v',
+      translation: 'жертвувати',
+      exEn: 'She sacrificed her weekends to finish the project.',
+      exUa: 'Вона пожертвувала своїми вихідними, щоб завершити проєкт.',
+    },
+    {
+      pos: 'noun',
+      translation: 'жертва',
+      exEn: 'Their success came at a great personal sacrifice.',
+      exUa: 'Їхній успіх коштував великої особистої жертви.',
+    },
+  ],
+  saddle: [
+    {
+      pos: 'noun',
+      translation: 'сідло',
+      exEn: 'He adjusted the saddle before riding the horse.',
+      exUa: 'Він відрегулював сідло, перш ніж сісти на коня.',
+    },
+    {
+      pos: 'v',
+      translation: 'обтяжувати',
+      exEn: 'She was saddled with all the extra paperwork.',
+      exUa: 'Її обтяжили усією додатковою паперовою роботою.',
+    },
+  ],
+  safeguard: [
+    {
+      pos: 'noun',
+      translation: 'захист',
+      exEn: 'The new law provides a safeguard for consumer rights.',
+      exUa: 'Новий закон забезпечує захист прав споживачів.',
+    },
+    {
+      pos: 'v',
+      translation: 'охороняти',
+      exEn: "The company took steps to safeguard its employees' data.",
+      exUa: 'Компанія вжила заходів, щоб охороняти дані своїх працівників.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
