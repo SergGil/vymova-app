@@ -5407,6 +5407,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Її спокійні аргументи схилили його погодитися.',
     },
   ],
+  increase: [
+    {
+      pos: 'v',
+      translation: 'збільшувати',
+      exEn: 'The government decided to increase the minimum wage.',
+      exUa: 'Уряд вирішив збільшити мінімальну заробітну плату.',
+    },
+    {
+      pos: 'noun',
+      translation: 'зростання',
+      exEn: 'There was a sharp increase in tourism this summer.',
+      exUa: 'Цього літа відбулося різке зростання туризму.',
+    },
+  ],
+  inertia: [
+    {
+      pos: 'noun',
+      translation: 'інерція',
+      exEn: 'The car continued moving forward due to inertia.',
+      exUa: 'Автомобіль продовжував рухатися вперед через інерцію.',
+    },
+    {
+      pos: 'noun',
+      translation: 'небажання діяти',
+      exEn: 'Pure inertia kept him in the same job for twenty years.',
+      exUa: 'Просте небажання діяти утримувало його на тій самій роботі двадцять років.',
+    },
+  ],
+  influence: [
+    {
+      pos: 'noun',
+      translation: 'вплив',
+      exEn: 'Her parents had a huge influence on her career choice.',
+      exUa: 'Її батьки мали величезний вплив на вибір кар\'єри.',
+    },
+    {
+      pos: 'v',
+      translation: 'впливати',
+      exEn: 'Advertising can strongly influence what people buy.',
+      exUa: 'Реклама може сильно впливати на те, що купують люди.',
+    },
+  ],
+  input: [
+    {
+      pos: 'noun',
+      translation: 'внесок',
+      exEn: 'We value your input on this important decision.',
+      exUa: 'Ми цінуємо ваш внесок у це важливе рішення.',
+    },
+    {
+      pos: 'v',
+      translation: 'вводити',
+      exEn: 'Please input your password to continue.',
+      exUa: 'Будь ласка, введіть свій пароль, щоб продовжити.',
+    },
+  ],
+  instruction: [
+    {
+      pos: 'noun',
+      translation: 'інструкція',
+      exEn: 'Please read the instructions carefully before assembling the furniture.',
+      exUa: 'Будь ласка, уважно прочитайте інструкцію, перш ніж збирати меблі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'навчання',
+      exEn: 'The school offers instruction in three foreign languages.',
+      exUa: 'Школа пропонує навчання трьома іноземними мовами.',
+    },
+  ],
+  instrumental: [
+    {
+      pos: 'adj',
+      translation: 'ключовий, вирішальний',
+      exEn: 'She was instrumental in organising the charity event.',
+      exUa: 'Вона відіграла ключову роль в організації благодійного заходу.',
+    },
+    {
+      pos: 'adj',
+      translation: 'інструментальний',
+      exEn: 'The album features several instrumental tracks without vocals.',
+      exUa: 'Альбом містить кілька інструментальних треків без вокалу.',
+    },
+  ],
+  insult: [
+    {
+      pos: 'noun',
+      translation: 'образа',
+      exEn: 'He took her comment as a personal insult.',
+      exUa: 'Він сприйняв її коментар як особисту образу.',
+    },
+    {
+      pos: 'v',
+      translation: 'ображати',
+      exEn: "She didn't mean to insult anyone with her joke.",
+      exUa: 'Вона не мала на меті нікого образити своїм жартом.',
+    },
+  ],
+  interest: [
+    {
+      pos: 'noun',
+      translation: 'інтерес',
+      exEn: 'She showed great interest in ancient history.',
+      exUa: 'Вона виявила великий інтерес до стародавньої історії.',
+    },
+    {
+      pos: 'v',
+      translation: 'зацікавлювати',
+      exEn: 'The story interested him from the very first page.',
+      exUa: 'Історія зацікавила його з першої ж сторінки.',
+    },
+  ],
+  intern: [
+    {
+      pos: 'noun',
+      translation: 'стажер',
+      exEn: 'The company hired a new intern for the summer.',
+      exUa: 'Компанія найняла нового стажера на літо.',
+    },
+    {
+      pos: 'v',
+      translation: 'проходити стажування',
+      exEn: 'She interned at a law firm during her final year.',
+      exUa: 'Вона проходила стажування в юридичній фірмі на останньому курсі.',
+    },
+  ],
+  interview: [
+    {
+      pos: 'noun',
+      translation: 'співбесіда',
+      exEn: 'She was nervous before her job interview.',
+      exUa: 'Вона нервувала перед співбесідою на роботу.',
+    },
+    {
+      pos: 'noun',
+      translation: "інтерв'ю",
+      exEn: 'The journalist conducted an interview with the mayor.',
+      exUa: "Журналіст провів інтерв'ю з мером.",
+    },
+  ],
+  intrigue: [
+    {
+      pos: 'noun',
+      translation: 'інтрига',
+      exEn: 'Political intrigue surrounded the royal court.',
+      exUa: 'Політична інтрига оточувала королівський двір.',
+    },
+    {
+      pos: 'v',
+      translation: 'цікавити',
+      exEn: 'The mysterious painting intrigued every visitor to the museum.',
+      exUa: 'Загадкова картина цікавила кожного відвідувача музею.',
+    },
+  ],
+  issue: [
+    {
+      pos: 'noun',
+      translation: 'проблема, питання',
+      exEn: 'Pollution remains a serious issue in many big cities.',
+      exUa: 'Забруднення залишається серйозною проблемою у багатьох великих містах.',
+    },
+    {
+      pos: 'v',
+      translation: 'видавати',
+      exEn: 'The library issues new cards at the front desk.',
+      exUa: 'Бібліотека видає нові картки на стійці реєстрації.',
+    },
+  ],
+  itch: [
+    {
+      pos: 'v',
+      translation: 'свербіти',
+      exEn: 'Her skin began to itch after the mosquito bite.',
+      exUa: 'Її шкіра почала свербіти після укусу комара.',
+    },
+    {
+      pos: 'noun',
+      translation: 'свербіж',
+      exEn: 'The wool sweater caused an annoying itch.',
+      exUa: 'Вовняний светр викликав неприємний свербіж.',
+    },
+  ],
+  jab: [
+    {
+      pos: 'v',
+      translation: 'колоти',
+      exEn: 'The nurse gently jabbed the needle into his arm.',
+      exUa: 'Медсестра обережно вколола голку в його руку.',
+    },
+    {
+      pos: 'noun',
+      translation: 'укол',
+      exEn: 'The doctor gave her a flu jab before winter.',
+      exUa: 'Лікар зробив їй укол від грипу перед зимою.',
+    },
+  ],
+  jail: [
+    {
+      pos: 'noun',
+      translation: "в'язниця",
+      exEn: 'He spent five years in jail for the robbery.',
+      exUa: "Він провів п'ять років у в'язниці за пограбування.",
+    },
+    {
+      pos: 'v',
+      translation: "ув'язнити",
+      exEn: 'The court jailed him for fraud.',
+      exUa: "Суд ув'язнив його за шахрайство.",
+    },
+  ],
+  jamboree: [
+    {
+      pos: 'noun',
+      translation: 'джамборі',
+      exEn: 'Thousands of scouts attended the international jamboree.',
+      exUa: 'Тисячі скаутів взяли участь у міжнародному джамборі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'велике гучне святкування',
+      exEn: 'The whole town turned the festival into a joyful jamboree.',
+      exUa: 'Все місто перетворило фестиваль на велике гучне святкування.',
+    },
+  ],
+  jar: [
+    {
+      pos: 'noun',
+      translation: 'банка',
+      exEn: 'She kept sugar in a glass jar on the shelf.',
+      exUa: 'Вона тримала цукор у скляній банці на полиці.',
+    },
+    {
+      pos: 'v',
+      translation: 'дратувати',
+      exEn: 'His constant complaining began to jar on her nerves.',
+      exUa: 'Його постійні скарги почали дратувати їй нерви.',
+    },
+  ],
+  jazzy: [
+    {
+      pos: 'adj',
+      translation: 'яскравий, строкатий',
+      exEn: 'She wore a jazzy shirt with bright patterns.',
+      exUa: 'Вона вдягла яскраву строкату сорочку з яскравими візерунками.',
+    },
+    {
+      pos: 'adj',
+      translation: 'джазовий',
+      exEn: 'The band played a jazzy version of the classic tune.',
+      exUa: 'Гурт зіграв джазову версію класичної мелодії.',
+    },
+  ],
+  jerk: [
+    {
+      pos: 'v',
+      translation: 'смикати',
+      exEn: 'He jerked the rope to test if it was secure.',
+      exUa: 'Він смикнув мотузку, щоб перевірити, чи вона надійна.',
+    },
+    {
+      pos: 'noun',
+      translation: 'дурень',
+      exEn: 'Everyone agreed that he had acted like a real jerk.',
+      exUa: 'Усі погодилися, що він повівся як справжній дурень.',
+    },
+  ],
+  jest: [
+    {
+      pos: 'v',
+      translation: 'жартувати',
+      exEn: 'He jested about retiring early, though he never meant it.',
+      exUa: 'Він жартував про дострокову пенсію, хоча й не мав цього на увазі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'жарт',
+      exEn: 'It was said in jest, not meant to hurt anyone.',
+      exUa: 'Це було сказано як жарт, без наміру когось образити.',
+    },
+  ],
+  jingle: [
+    {
+      pos: 'v',
+      translation: 'дзвеніти',
+      exEn: 'The coins jingled loudly in his pocket.',
+      exUa: 'Монети голосно дзвеніли в його кишені.',
+    },
+    {
+      pos: 'noun',
+      translation: 'рекламна мелодія',
+      exEn: 'The catchy jingle played every time the advert came on.',
+      exUa: 'Заразлива рекламна мелодія лунала щоразу, коли з\'являлася реклама.',
+    },
+  ],
+  jinx: [
+    {
+      pos: 'v',
+      translation: 'накликати нещастя',
+      exEn: "Don't say that out loud, you'll jinx it!",
+      exUa: 'Не кажи цього вголос, накличеш нещастя!',
+    },
+    {
+      pos: 'noun',
+      translation: 'невезіння',
+      exEn: 'The team seemed to be under some kind of jinx this season.',
+      exUa: 'Команда цього сезону, здавалося, перебувала під якимось невезінням.',
+    },
+  ],
+  job: [
+    {
+      pos: 'noun',
+      translation: 'робота',
+      exEn: 'She finally found a job after months of searching.',
+      exUa: 'Вона нарешті знайшла роботу після кількох місяців пошуків.',
+    },
+    {
+      pos: 'noun',
+      translation: 'посада',
+      exEn: 'He was offered a senior job at the new company.',
+      exUa: 'Йому запропонували керівну посаду в новій компанії.',
+    },
+  ],
+  jolt: [
+    {
+      pos: 'noun',
+      translation: 'поштовх',
+      exEn: 'The sudden jolt of the train woke her up.',
+      exUa: 'Раптовий поштовх потяга розбудив її.',
+    },
+    {
+      pos: 'v',
+      translation: 'різко рухатися',
+      exEn: 'The car jolted forward when the light turned green.',
+      exUa: 'Автомобіль різко рушив уперед, коли загорілося зелене світло.',
+    },
+  ],
+  judge: [
+    {
+      pos: 'noun',
+      translation: 'суддя',
+      exEn: 'The judge sentenced him to five years in prison.',
+      exUa: "Суддя присудив йому п'ять років ув'язнення.",
+    },
+    {
+      pos: 'v',
+      translation: 'судити',
+      exEn: "Try not to judge people before you know their story.",
+      exUa: 'Намагайся не судити людей, доки не знаєш їхньої історії.',
+    },
+  ],
+  juggle: [
+    {
+      pos: 'v',
+      translation: 'жонглювати',
+      exEn: 'The street performer juggled five balls at once.',
+      exUa: "Вуличний артист жонглював п'ятьма м'ячами одночасно.",
+    },
+    {
+      pos: 'v',
+      translation: 'поєднувати (кілька справ)',
+      exEn: 'She juggles a full-time job and raising three children.',
+      exUa: 'Вона поєднує роботу на повну ставку з вихованням трьох дітей.',
+    },
+  ],
+  jump: [
+    {
+      pos: 'v',
+      translation: 'стрибати',
+      exEn: 'The children jumped happily on the trampoline.',
+      exUa: 'Діти щасливо стрибали на батуті.',
+    },
+    {
+      pos: 'noun',
+      translation: 'стрибок',
+      exEn: 'It was a huge jump in her career after the promotion.',
+      exUa: "Це був величезний стрибок у її кар'єрі після підвищення.",
+    },
+  ],
+  juncture: [
+    {
+      pos: 'noun',
+      translation: 'момент, поворотний пункт',
+      exEn: 'At this juncture, we need to make a final decision.',
+      exUa: 'На цьому поворотному етапі нам потрібно ухвалити остаточне рішення.',
+    },
+    {
+      pos: 'noun',
+      translation: "з'єднання",
+      exEn: 'Engineers reinforced the juncture between the two beams.',
+      exUa: "Інженери зміцнили з'єднання між двома балками.",
+    },
+  ],
+  juvenile: [
+    {
+      pos: 'adj',
+      translation: 'юнацький',
+      exEn: 'The court handled the case in a special juvenile division.',
+      exUa: 'Суд розглядав справу в спеціальному юнацькому відділенні.',
+    },
+    {
+      pos: 'adj',
+      translation: 'неповнолітній',
+      exEn: 'Juvenile offenders are treated differently from adults in court.',
+      exUa: 'З неповнолітніми правопорушниками в суді поводяться інакше, ніж з дорослими.',
+    },
+  ],
+  keynote: [
+    {
+      pos: 'noun',
+      translation: 'основна тема',
+      exEn: 'Innovation was the keynote of her entire presentation.',
+      exUa: 'Інновація була основною темою всієї її презентації.',
+    },
+    {
+      pos: 'noun',
+      translation: 'головна доповідь',
+      exEn: 'She delivered the keynote at the technology conference.',
+      exUa: 'Вона виголосила головну доповідь на технологічній конференції.',
+    },
+  ],
+  kick: [
+    {
+      pos: 'v',
+      translation: 'бити ногою',
+      exEn: 'He kicked the ball straight into the goal.',
+      exUa: 'Він вдарив ногою по м\'ячу прямо у ворота.',
+    },
+    {
+      pos: 'noun',
+      translation: 'удар',
+      exEn: 'The horse gave a sudden kick backward.',
+      exUa: 'Кінь раптово вдарив ногою назад.',
+    },
+  ],
+  'kick back': [
+    {
+      pos: 'v',
+      translation: 'розслаблятися',
+      exEn: 'On weekends, he prefers to kick back and watch movies.',
+      exUa: 'На вихідних він віддає перевагу розслаблятися й дивитися фільми.',
+    },
+    {
+      pos: 'noun',
+      translation: 'відкат',
+      exEn: 'The official was accused of accepting a kickback from the contractor.',
+      exUa: 'Посадовця звинуватили в отриманні відкату від підрядника.',
+    },
+  ],
+  'kick in': [
+    {
+      pos: 'v',
+      translation: 'вступати в дію',
+      exEn: 'The new tax rules kick in next January.',
+      exUa: 'Нові податкові правила вступають в дію наступного січня.',
+    },
+    {
+      pos: 'v',
+      translation: 'спрацьовувати',
+      exEn: 'The painkillers finally kicked in after twenty minutes.',
+      exUa: 'Знеболювальні нарешті спрацювали через двадцять хвилин.',
+    },
+  ],
+  kickback: [
+    {
+      pos: 'noun',
+      translation: 'відкат, хабар',
+      exEn: 'The contractor was accused of paying a kickback to win the deal.',
+      exUa: 'Підрядника звинуватили у сплаті відкату, щоб отримати контракт.',
+    },
+    {
+      pos: 'noun',
+      translation: 'зворотна реакція',
+      exEn: 'There was a strong kickback from the public against the new tax.',
+      exUa: 'Була сильна зворотна реакція громадськості проти нового податку.',
+    },
+  ],
+  kid: [
+    {
+      pos: 'noun',
+      translation: 'дитина',
+      exEn: 'The kid ran happily around the playground.',
+      exUa: 'Дитина щасливо бігала по дитячому майданчику.',
+    },
+    {
+      pos: 'v',
+      translation: 'жартувати',
+      exEn: "I'm just kidding, don't take it seriously.",
+      exUa: 'Я просто жартую, не сприймай це серйозно.',
+    },
+  ],
+  knock: [
+    {
+      pos: 'v',
+      translation: 'стукати',
+      exEn: 'She knocked gently on the door before entering.',
+      exUa: 'Вона тихо постукала у двері, перш ніж увійти.',
+    },
+    {
+      pos: 'noun',
+      translation: 'вдар',
+      exEn: 'He felt a sharp knock on the back of his head.',
+      exUa: 'Він відчув різкий удар по потилиці.',
+    },
+  ],
+  'knock off': [
+    {
+      pos: 'v',
+      translation: 'знижувати ціну',
+      exEn: 'The seller knocked off ten dollars from the original price.',
+      exUa: 'Продавець знизив ціну на десять доларів від початкової.',
+    },
+    {
+      pos: 'v',
+      translation: 'звільнятися з роботи',
+      exEn: 'We usually knock off work at five oclock on Fridays.',
+      exUa: "У п'ятницю ми зазвичай звільняємося з роботи о п'ятій годині.",
+    },
+  ],
+  knockout: [
+    {
+      pos: 'noun',
+      translation: 'нокаут',
+      exEn: 'The boxer won the match with a stunning knockout.',
+      exUa: 'Боксер виграв поєдинок приголомшливим нокаутом.',
+    },
+    {
+      pos: 'noun',
+      translation: 'щось вражаюче приголомшливе',
+      exEn: 'Her performance at the concert was an absolute knockout.',
+      exUa: 'Її виступ на концерті був абсолютно приголомшливим.',
+    },
+  ],
+  knot: [
+    {
+      pos: 'noun',
+      translation: 'вузол',
+      exEn: 'She tied a tight knot to secure the rope.',
+      exUa: 'Вона зав\'язала тугий вузол, щоб закріпити мотузку.',
+    },
+    {
+      pos: 'v',
+      translation: "зав'язувати",
+      exEn: 'He knotted his tie carefully before the interview.',
+      exUa: "Він обережно зав'язав краватку перед співбесідою.",
+    },
+  ],
+  lack: [
+    {
+      pos: 'noun',
+      translation: 'брак',
+      exEn: 'The project failed due to a lack of proper funding.',
+      exUa: 'Проєкт провалився через брак належного фінансування.',
+    },
+    {
+      pos: 'v',
+      translation: 'бракувати',
+      exEn: 'The plan lacked any clear direction from the start.',
+      exUa: 'Плану з самого початку бракувало чіткого напрямку.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
