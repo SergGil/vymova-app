@@ -5967,6 +5967,572 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Плану з самого початку бракувало чіткого напрямку.',
     },
   ],
+  lag: [
+    {
+      pos: 'v',
+      translation: 'відставати',
+      exEn: 'Sales in that region continued to lag behind the rest of the country.',
+      exUa: 'Продажі в тому регіоні продовжували відставати від решти країни.',
+    },
+    {
+      pos: 'noun',
+      translation: 'затримка',
+      exEn: 'There was a noticeable lag between the click and the response.',
+      exUa: 'Була помітна затримка між клацанням і реакцією.',
+    },
+  ],
+  lapdog: [
+    {
+      pos: 'noun',
+      translation: 'підлабузник',
+      exEn: 'Critics called the newspaper a lapdog of the government.',
+      exUa: 'Критики назвали газету підлабузником уряду.',
+    },
+    {
+      pos: 'noun',
+      translation: 'кімнатна собачка',
+      exEn: 'She carried her tiny lapdog everywhere she went.',
+      exUa: 'Вона носила свою маленьку кімнатну собачку всюди, куди йшла.',
+    },
+  ],
+  'lash (eyelash)': [
+    {
+      pos: 'noun',
+      translation: 'вія',
+      exEn: 'A speck of dust got caught in her eyelash.',
+      exUa: 'Порошинка потрапила їй у вію.',
+    },
+    {
+      pos: 'v',
+      translation: 'хльостати',
+      exEn: 'Heavy rain lashed the windows all through the night.',
+      exUa: 'Сильний дощ хльостав по вікнах усю ніч.',
+    },
+  ],
+  latch: [
+    {
+      pos: 'noun',
+      translation: 'защіпка',
+      exEn: 'She lifted the latch on the wooden gate.',
+      exUa: 'Вона підняла защіпку на дерев\'яній хвіртці.',
+    },
+    {
+      pos: 'v',
+      translation: 'зачіплятися',
+      exEn: 'The door latched shut with a soft click.',
+      exUa: 'Двері зачепилися з тихим клацанням.',
+    },
+  ],
+  latitude: [
+    {
+      pos: 'noun',
+      translation: 'широта (географічна)',
+      exEn: 'The city is located at a fairly high latitude.',
+      exUa: 'Місто розташоване на досить високій широті.',
+    },
+    {
+      pos: 'noun',
+      translation: 'свобода дій',
+      exEn: 'The manager gave her a great deal of latitude in decision-making.',
+      exUa: 'Керівник надав їй велику свободу дій у прийнятті рішень.',
+    },
+  ],
+  laugh: [
+    {
+      pos: 'v',
+      translation: 'сміятися',
+      exEn: 'The children laughed loudly at the funny clown.',
+      exUa: 'Діти голосно сміялися з кумедного клоуна.',
+    },
+    {
+      pos: 'noun',
+      translation: 'сміх',
+      exEn: 'Her laugh could be heard across the entire room.',
+      exUa: 'Її сміх було чути через усю кімнату.',
+    },
+  ],
+  launch: [
+    {
+      pos: 'v',
+      translation: 'запускати',
+      exEn: 'The company will launch its new product next month.',
+      exUa: 'Компанія запустить свій новий продукт наступного місяця.',
+    },
+    {
+      pos: 'noun',
+      translation: 'початок',
+      exEn: 'The launch of the campaign was delayed by two weeks.',
+      exUa: 'Початок кампанії було відкладено на два тижні.',
+    },
+  ],
+  layperson: [
+    {
+      pos: 'noun',
+      translation: 'мирянин',
+      exEn: 'The sermon was written to be understood by any layperson.',
+      exUa: 'Проповідь була написана так, щоб її розумів будь-який мирянин.',
+    },
+    {
+      pos: 'noun',
+      translation: 'непрофесіонал, звичайна людина',
+      exEn: 'The report was simplified for a layperson to understand.',
+      exUa: 'Звіт спростили, щоб його зрозуміла звичайна людина.',
+    },
+  ],
+  leak: [
+    {
+      pos: 'noun',
+      translation: 'витік',
+      exEn: 'The company investigated a serious data leak.',
+      exUa: 'Компанія розслідувала серйозний витік даних.',
+    },
+    {
+      pos: 'v',
+      translation: 'протікати',
+      exEn: 'The roof began to leak after the heavy storm.',
+      exUa: 'Дах почав протікати після сильного шторму.',
+    },
+  ],
+  lean: [
+    {
+      pos: 'v',
+      translation: 'нахилятися',
+      exEn: 'She leaned against the wall and waited for him.',
+      exUa: 'Вона притулилася до стіни й чекала на нього.',
+    },
+    {
+      pos: 'adj',
+      translation: 'худий',
+      exEn: 'The lean athlete moved gracefully across the field.',
+      exUa: 'Худорлявий спортсмен грайливо рухався полем.',
+    },
+  ],
+  'lean on': [
+    {
+      pos: 'v',
+      translation: 'спиратися на',
+      exEn: 'She learned to lean on her friends during difficult times.',
+      exUa: 'Вона навчилася спиратися на друзів у важкі часи.',
+    },
+    {
+      pos: 'v',
+      translation: 'тиснути на',
+      exEn: 'The manager leaned on the team to finish the project faster.',
+      exUa: 'Керівник тиснув на команду, щоб та швидше завершила проєкт.',
+    },
+  ],
+  leap: [
+    {
+      pos: 'v',
+      translation: 'стрибати',
+      exEn: 'The cat leapt gracefully onto the windowsill.',
+      exUa: 'Кіт граційно стрибнув на підвіконня.',
+    },
+    {
+      pos: 'noun',
+      translation: 'стрибок',
+      exEn: 'It was a huge leap forward for medical science.',
+      exUa: 'Це був величезний стрибок вперед для медичної науки.',
+    },
+  ],
+  lease: [
+    {
+      pos: 'noun',
+      translation: 'оренда',
+      exEn: 'They signed a two-year lease on the apartment.',
+      exUa: 'Вони підписали дворічну оренду на квартиру.',
+    },
+    {
+      pos: 'v',
+      translation: 'здавати в оренду',
+      exEn: 'The company leases office space to small businesses.',
+      exUa: 'Компанія здає офісні приміщення в оренду малому бізнесу.',
+    },
+  ],
+  lecture: [
+    {
+      pos: 'noun',
+      translation: 'лекція',
+      exEn: 'Students attended a fascinating lecture on ancient history.',
+      exUa: 'Студенти відвідали захопливу лекцію з давньої історії.',
+    },
+    {
+      pos: 'v',
+      translation: 'читати лекцію',
+      exEn: 'The professor lectures on economics twice a week.',
+      exUa: 'Професор читає лекції з економіки двічі на тиждень.',
+    },
+  ],
+  level: [
+    {
+      pos: 'noun',
+      translation: 'рівень',
+      exEn: 'Water levels rose sharply after the storm.',
+      exUa: 'Рівень води різко піднявся після шторму.',
+    },
+    {
+      pos: 'v',
+      translation: 'вирівнювати',
+      exEn: 'Workers levelled the ground before building the foundation.',
+      exUa: 'Робітники вирівняли землю перед закладанням фундаменту.',
+    },
+  ],
+  leverage: [
+    {
+      pos: 'noun',
+      translation: 'важіль, вплив',
+      exEn: 'The union used its leverage to negotiate better wages.',
+      exUa: 'Профспілка використала свій важіль впливу, щоб домовитися про кращу зарплату.',
+    },
+    {
+      pos: 'v',
+      translation: 'використовувати',
+      exEn: 'The company leveraged its brand to enter new markets.',
+      exUa: 'Компанія використала свій бренд, щоб вийти на нові ринки.',
+    },
+  ],
+  liability: [
+    {
+      pos: 'noun',
+      translation: 'відповідальність',
+      exEn: 'The company accepted full liability for the damage.',
+      exUa: 'Компанія взяла на себе повну відповідальність за завдану шкоду.',
+    },
+    {
+      pos: 'noun',
+      translation: 'зобов\'язання',
+      exEn: 'Unpaid debts are listed as liabilities on the balance sheet.',
+      exUa: 'Несплачені борги вказуються як зобов\'язання в балансі.',
+    },
+  ],
+  liberal: [
+    {
+      pos: 'adj',
+      translation: 'ліберальний',
+      exEn: 'She holds fairly liberal views on social issues.',
+      exUa: 'Вона має досить ліберальні погляди на соціальні питання.',
+    },
+    {
+      pos: 'noun',
+      translation: 'ліберал',
+      exEn: 'He has always identified himself as a liberal.',
+      exUa: 'Він завжди ідентифікував себе як ліберала.',
+    },
+  ],
+  lie: [
+    {
+      pos: 'v',
+      translation: 'брехати',
+      exEn: 'He lied about his age to get the job.',
+      exUa: 'Він збрехав про свій вік, щоб отримати роботу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'брехня',
+      exEn: 'Everyone in the room knew it was a lie.',
+      exUa: 'Усі в кімнаті знали, що це брехня.',
+    },
+  ],
+  lift: [
+    {
+      pos: 'v',
+      translation: 'піднімати',
+      exEn: 'Could you help me lift this heavy box?',
+      exUa: 'Чи не міг би ти допомогти мені підняти цю важку коробку?',
+    },
+    {
+      pos: 'noun',
+      translation: 'ліфт',
+      exEn: 'They took the lift to the tenth floor.',
+      exUa: 'Вони піднялися ліфтом на десятий поверх.',
+    },
+  ],
+  'light (lit, lit)': [
+    {
+      pos: 'v',
+      translation: 'запалювати',
+      exEn: 'He lit the campfire just before it got dark.',
+      exUa: 'Він запалив багаття якраз перед тим, як стемніло.',
+    },
+    {
+      pos: 'noun',
+      translation: 'світло',
+      exEn: 'Please turn off the light before you leave the room.',
+      exUa: 'Будь ласка, вимкни світло, перш ніж вийти з кімнати.',
+    },
+    {
+      pos: 'adj',
+      translation: 'легкий',
+      exEn: 'This backpack feels surprisingly light for its size.',
+      exUa: 'Цей рюкзак на диво легкий для свого розміру.',
+    },
+  ],
+  like: [
+    {
+      pos: 'v',
+      translation: 'подобатися',
+      exEn: 'She likes reading mystery novels before bed.',
+      exUa: 'Їй подобається читати детективи перед сном.',
+    },
+    {
+      pos: 'adv',
+      translation: 'як',
+      exEn: 'He walked into the room like a man with no worries.',
+      exUa: 'Він увійшов до кімнати, як людина без жодних турбот.',
+    },
+  ],
+  limit: [
+    {
+      pos: 'v',
+      translation: 'обмежувати',
+      exEn: 'Doctors advise patients to limit their sugar intake.',
+      exUa: 'Лікарі радять пацієнтам обмежувати споживання цукру.',
+    },
+    {
+      pos: 'noun',
+      translation: 'межа',
+      exEn: 'There is a strict limit on how much luggage you can bring.',
+      exUa: 'Існує чітка межа того, скільки багажу можна взяти.',
+    },
+  ],
+  limp: [
+    {
+      pos: 'v',
+      translation: 'кульгати',
+      exEn: 'She limped slightly after the long hike.',
+      exUa: 'Вона трохи кульгала після довгого походу.',
+    },
+    {
+      pos: 'adv',
+      translation: 'мляво',
+      exEn: 'The wilted flowers hung limp in the vase.',
+      exUa: 'Зів\'ялі квіти мляво звисали у вазі.',
+    },
+  ],
+  list: [
+    {
+      pos: 'noun',
+      translation: 'список',
+      exEn: 'She made a shopping list before going to the store.',
+      exUa: 'Вона склала список покупок перед походом у магазин.',
+    },
+    {
+      pos: 'v',
+      translation: 'перелічувати',
+      exEn: 'The teacher listed the main causes of the war on the board.',
+      exUa: 'Учитель перелічив головні причини війни на дошці.',
+    },
+  ],
+  litter: [
+    {
+      pos: 'v',
+      translation: 'сміттити',
+      exEn: "Please don't litter in the park.",
+      exUa: 'Будь ласка, не смітіть у парку.',
+    },
+    {
+      pos: 'noun',
+      translation: 'послід',
+      exEn: 'Farmers use chicken litter as a natural fertiliser for their fields.',
+      exUa: 'Фермери використовують курячий послід як натуральне добриво для полів.',
+    },
+  ],
+  'live on': [
+    {
+      pos: 'v',
+      translation: 'жити на (кошти)',
+      exEn: 'The family had to live on a very tight budget.',
+      exUa: 'Родині довелося жити на дуже обмежений бюджет.',
+    },
+    {
+      pos: 'v',
+      translation: 'продовжувати жити (про спогади)',
+      exEn: 'Her memory will live on in the hearts of everyone who knew her.',
+      exUa: 'Її пам\'ять продовжуватиме жити в серцях усіх, хто її знав.',
+    },
+  ],
+  load: [
+    {
+      pos: 'v',
+      translation: 'вантажити',
+      exEn: 'Workers loaded boxes onto the truck all morning.',
+      exUa: 'Робітники вантажили коробки на вантажівку цілий ранок.',
+    },
+    {
+      pos: 'noun',
+      translation: 'навантаження',
+      exEn: 'The bridge was designed to carry a heavy load.',
+      exUa: 'Міст спроєктований витримувати велике навантаження.',
+    },
+  ],
+  loaf: [
+    {
+      pos: 'noun',
+      translation: 'буханка',
+      exEn: 'She bought a fresh loaf of bread from the bakery.',
+      exUa: 'Вона купила свіжу буханку хліба в пекарні.',
+    },
+    {
+      pos: 'v',
+      translation: 'ледарювати',
+      exEn: 'He spent the whole weekend loafing around the house.',
+      exUa: 'Він провів усі вихідні, ледарюючи вдома.',
+    },
+  ],
+  loan: [
+    {
+      pos: 'noun',
+      translation: 'позика',
+      exEn: 'They took out a loan to buy their first house.',
+      exUa: 'Вони взяли позику, щоб купити свій перший будинок.',
+    },
+    {
+      pos: 'v',
+      translation: 'позичати',
+      exEn: 'Could you loan me twenty dollars until Friday?',
+      exUa: "Чи не міг би ти позичити мені двадцять доларів до п'ятниці?",
+    },
+  ],
+  lobby: [
+    {
+      pos: 'noun',
+      translation: 'вестибюль',
+      exEn: 'Guests waited in the hotel lobby for their rooms to be ready.',
+      exUa: 'Гості чекали у вестибюлі готелю, поки їхні номери будуть готові.',
+    },
+    {
+      pos: 'v',
+      translation: 'лобіювати',
+      exEn: 'Environmental groups lobbied hard for the new law.',
+      exUa: 'Екологічні групи наполегливо лобіювали новий закон.',
+    },
+  ],
+  lock: [
+    {
+      pos: 'v',
+      translation: 'замикати',
+      exEn: 'Please lock the door before you leave.',
+      exUa: 'Будь ласка, замкни двері, перш ніж вийти.',
+    },
+    {
+      pos: 'noun',
+      translation: 'замок',
+      exEn: 'She changed the lock after losing her keys.',
+      exUa: 'Вона поміняла замок після втрати ключів.',
+    },
+  ],
+  'lock down': [
+    {
+      pos: 'v',
+      translation: 'встановлювати суворий контроль',
+      exEn: 'Authorities locked down the entire border area.',
+      exUa: 'Влада встановила суворий контроль над усією прикордонною зоною.',
+    },
+    {
+      pos: 'v',
+      translation: 'блокувати',
+      exEn: 'The prison was locked down after the incident.',
+      exUa: 'В\'язницю заблокували після інциденту.',
+    },
+  ],
+  lodge: [
+    {
+      pos: 'v',
+      translation: 'подавати скаргу',
+      exEn: 'She lodged a formal complaint with the manager.',
+      exUa: 'Вона подала офіційну скаргу керівнику.',
+    },
+    {
+      pos: 'noun',
+      translation: 'притулок',
+      exEn: 'They stayed at a small mountain lodge during the trip.',
+      exUa: 'Під час подорожі вони зупинилися в маленькому гірському притулку.',
+    },
+  ],
+  log: [
+    {
+      pos: 'noun',
+      translation: 'колода',
+      exEn: 'He chopped the fallen log into smaller pieces for firewood.',
+      exUa: 'Він порубав повалену колоду на менші шматки для дров.',
+    },
+    {
+      pos: 'v',
+      translation: 'реєструвати',
+      exEn: 'He logged all the daily expenses in a spreadsheet.',
+      exUa: 'Він реєстрував усі щоденні витрати в таблиці.',
+    },
+  ],
+  loom: [
+    {
+      pos: 'noun',
+      translation: 'ткацький верстат',
+      exEn: 'The old loom in the museum still worked perfectly.',
+      exUa: 'Старий ткацький верстат у музеї досі працював бездоганно.',
+    },
+    {
+      pos: 'v',
+      translation: 'маячити',
+      exEn: 'Dark clouds loomed on the horizon before the storm.',
+      exUa: 'Темні хмари маячили на горизонті перед штормом.',
+    },
+  ],
+  loot: [
+    {
+      pos: 'v',
+      translation: 'пограбувати',
+      exEn: 'Rioters looted several shops during the unrest.',
+      exUa: 'Бунтівники пограбували кілька магазинів під час заворушень.',
+    },
+    {
+      pos: 'noun',
+      translation: 'здобич',
+      exEn: 'The pirates divided their loot among the crew.',
+      exUa: 'Пірати розділили здобич між командою.',
+    },
+  ],
+  lounge: [
+    {
+      pos: 'noun',
+      translation: 'вітальня',
+      exEn: 'They relaxed together in the lounge after dinner.',
+      exUa: 'Вони разом відпочивали у вітальні після вечері.',
+    },
+    {
+      pos: 'v',
+      translation: 'чекати',
+      exEn: 'She sat in the lounge, waiting for her connecting flight to be called.',
+      exUa: 'Вона сиділа в залі очікування, чекаючи виклику на пересадку.',
+    },
+  ],
+  love: [
+    {
+      pos: 'v',
+      translation: 'любити',
+      exEn: 'She loves spending time with her family.',
+      exUa: 'Вона любить проводити час зі своєю родиною.',
+    },
+    {
+      pos: 'noun',
+      translation: 'любов',
+      exEn: 'Their love for each other grew stronger every year.',
+      exUa: 'Їхня любов одне до одного з кожним роком ставала міцнішою.',
+    },
+  ],
+  lower: [
+    {
+      pos: 'v',
+      translation: 'знижувати',
+      exEn: 'The store lowered its prices for the holiday season.',
+      exUa: 'Магазин знизив ціни на святковий сезон.',
+    },
+    {
+      pos: 'adj',
+      translation: 'нижній',
+      exEn: 'She lives on the lower floor of the building.',
+      exUa: 'Вона живе на нижньому поверсі будівлі.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
