@@ -1,7 +1,7 @@
 // Vymova — js/modes/assoc-chain.tsx
 // 🔗🧠 Association Chain: pick a synonym, then a synonym of that, and so on —
 // one wrong pick (or running out of further synonyms) ends the chain.
-import { useEffect, useState, type ReactElement } from 'react';
+import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words.js';
 import { getWordIndex } from '../core/word-index.ts';
@@ -29,6 +29,29 @@ function setBest(lang: string, n: number): boolean {
   return false;
 }
 
+// SYNONYMS is stored as directed edges (headword → its synonyms), so most
+// synonym words never appear as a dict key themselves. Left as-is, that made
+// the chain dead-end right after the first correct pick almost every time —
+// synonymy is symmetric, so we materialise the reverse edges once per game.
+function buildSymmetricDict(raw: SynDict): SynDict {
+  const out: Record<string, Map<string, { word: string }>> = {};
+  const add = (key: string, val: { word: string }): void => {
+    const k = key.toLowerCase();
+    if (val.word.toLowerCase() === k) return;
+    if (!out[k]) out[k] = new Map();
+    if (!out[k].has(val.word.toLowerCase())) out[k].set(val.word.toLowerCase(), val);
+  };
+  for (const [key, members] of Object.entries(raw)) {
+    for (const m of members) {
+      add(key, m);
+      add(m.word, { word: key });
+    }
+  }
+  const result: SynDict = {};
+  for (const k of Object.keys(out)) result[k] = Array.from(out[k].values());
+  return result;
+}
+
 function wordPoolFor(dict: SynDict): string[] {
   const set = new Set<string>();
   for (const [k, members] of Object.entries(dict)) {
@@ -54,10 +77,17 @@ function translationFor(word: string): string {
 
 type Step = { current: string; correct: string; options: string[] };
 
-function buildStep(dict: SynDict, pool: string[], current: string): Step | null {
+function buildStep(
+  dict: SynDict,
+  pool: string[],
+  current: string,
+  visited: Set<string>,
+): Step | null {
   const entries = dict[current.toLowerCase()];
   if (!entries || !entries.length) return null;
-  const correct = _shuf(entries)[0].word;
+  const unvisited = entries.filter((e) => !visited.has(e.word.toLowerCase()));
+  const candidates = unvisited.length ? unvisited : entries;
+  const correct = _shuf(candidates)[0].word;
   const used = new Set([current.toLowerCase(), correct.toLowerCase()]);
   const wrongs: string[] = [];
   for (const cand of _shuf(pool)) {
@@ -90,9 +120,11 @@ export function AssocChainPage(): ReactElement {
   const [isNewBest, setIsNewBest] = useState(false);
 
   const learnLang = getLearnLang();
+  const visitedRef = useRef<Set<string>>(new Set());
 
   const startGame = (): void => {
-    const d = (SYNONYMS_BY_LANG[learnLang] as SynDict | undefined) ?? null;
+    const raw = SYNONYMS_BY_LANG[learnLang] as SynDict | undefined;
+    const d = raw ? buildSymmetricDict(raw) : null;
     setDict(d);
     setChain(0);
     setSelected(null);
@@ -103,7 +135,8 @@ export function AssocChainPage(): ReactElement {
       const keys = Object.keys(d);
       let s: Step | null = null;
       for (const start of _shuf(keys)) {
-        s = buildStep(d, pool, start);
+        visitedRef.current = new Set([start.toLowerCase()]);
+        s = buildStep(d, pool, start, visitedRef.current);
         if (s) break;
       }
       setStep(s);
@@ -177,8 +210,9 @@ export function AssocChainPage(): ReactElement {
         finish(newChain);
         return;
       }
+      visitedRef.current.add(opt.toLowerCase());
       const pool = wordPoolFor(dict);
-      const next = buildStep(dict, pool, opt);
+      const next = buildStep(dict, pool, opt, visitedRef.current);
       if (next) setStep(next);
       else finish(newChain);
     }, 700);
