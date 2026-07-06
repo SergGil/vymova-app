@@ -1,7 +1,7 @@
 {
   "name": "Vymova",
   "short_name": "Vymova",
-  "description": "Flashcard trainer for English vocabulary",
+  "description": "Vocabulary trainer with spaced repetition, 16+ practice modes, and an AI tutor — 10,000+ words across 30+ languages",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",

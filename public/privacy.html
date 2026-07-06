@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Vymova</title>
+<meta name="robots" content="index, follow">
+<style>
+  :root {
+    --bg: #f7f4ef;
+    --card: #ffffff;
+    --text: #1a1612;
+    --text2: #5b5348;
+    --accent: #2d5a3d;
+    --border: #e8e3dc;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a2e;
+      --card: #16213e;
+      --text: #e0e0e0;
+      --text2: #9aa0b4;
+      --accent: #4ecca3;
+      --border: #2a2a4a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; }
+  a { color: var(--accent); }
+  h1 {
+    font-size: 1.9rem;
+    margin: 0 0 6px;
+  }
+  .updated { color: var(--text2); font-size: 0.88rem; margin-bottom: 36px; }
+  h2 {
+    font-size: 1.15rem;
+    margin: 40px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  p, li { color: var(--text); font-size: 0.98rem; }
+  ul { padding-left: 1.3em; }
+  li { margin-bottom: 6px; }
+  code {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.88em;
+  }
+  .box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .back { display: inline-block; margin-bottom: 28px; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="./">← Back to Vymova</a>
+    <h1>Privacy Policy</h1>
+    <div class="updated">Last updated: July 2026</div>
+
+    <p>
+      Vymova is a vocabulary trainer (flashcards, spaced repetition, practice games, and an
+      optional AI tutor). This page explains what data the app handles, where it goes, and how
+      you can remove it. It applies to the app at whatever address you're reading this from.
+    </p>
+
+    <h2>What stays on your device</h2>
+    <p>By default, everything Vymova tracks about your learning is stored only in your browser's
+    local storage — nothing is sent anywhere. This includes:</p>
+    <ul>
+      <li>Which words you know, your spaced-repetition (SRS) schedule, and mistake history</li>
+      <li>Achievements, streaks, XP, and daily goals</li>
+      <li>App settings — theme, font size, chosen language pair, notes, bookmarks</li>
+    </ul>
+    <p>Uninstalling the app, clearing your browser's site data, or using a private/incognito
+    window removes all of it. Nothing here ever leaves your device unless you turn on cloud sync
+    (below).</p>
+
+    <h2>Optional cloud sync</h2>
+    <p>If you turn on sync (Settings → Cloud Sync), the data listed above is uploaded to a
+    Firebase Realtime Database (hosted in the EU, <code>europe-west1</code>) so you can restore
+    it on another device.</p>
+    <div class="box">
+      <ul>
+        <li><b>No account, email, or name is required.</b> Sync is identified only by a short
+        random code generated on your device — you choose whether to share that code with
+        yourself on another device.</li>
+        <li>Turning sync off, or simply not using it, means nothing is uploaded.</li>
+        <li>To have synced data deleted, email us the sync code (see Contact below) — we can't
+        find or delete it without that code, since we don't store anything that links a code to
+        a person.</li>
+      </ul>
+    </div>
+
+    <h2>AI features (AI Tutor, voice roleplay, generated stories)</h2>
+    <p>These are optional and off by default. When you use one, the message or sentence you type
+    is sent to Vymova's own backend proxy, which forwards it to Google's Gemini API to generate a
+    reply. That input is processed under
+    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's own
+    privacy policy</a> — Vymova does not store the conversation itself beyond your current
+    session. If the AI backend isn't available, these features are simply hidden, or (for
+    stories) fall back to built-in offline text.</p>
+
+    <h2>Duels and leaderboards</h2>
+    <p>Real-time duels and leaderboard rankings use the same database as cloud sync. The display
+    name you choose in-app is visible to your opponent and on the leaderboard — use a nickname
+    rather than your real name if you'd rather not share it.</p>
+
+    <h2>Optional third-party API key (images)</h2>
+    <p>If you add your own Pixabay API key (Settings) to enable word illustration images, that
+    key is stored the same way as other settings (locally, and synced if sync is on) and is only
+    ever used to call Pixabay's API directly from your browser.</p>
+
+    <h2>What Vymova does <em>not</em> do</h2>
+    <ul>
+      <li>No ads, no ad networks, no ad-tracking pixels</li>
+      <li>No analytics or usage-tracking scripts of any kind</li>
+      <li>No cookies used for tracking (only browser local storage, described above)</li>
+      <li>No selling or sharing of data with third parties</li>
+    </ul>
+    <p>If any of this changes in the future, this page will be updated accordingly before the
+    change ships.</p>
+
+    <h2>Children</h2>
+    <p>Vymova isn't directed at children under 13, and we don't knowingly collect any personal
+    information from them. Sync, when enabled, only ever stores anonymous learning progress under
+    a random code, never a name, birthdate, or contact detail.</p>
+
+    <h2>Contact</h2>
+    <p>Questions, data-deletion requests, or anything else:
+    <a href="mailto:beizmans@gmail.com">beizmans@gmail.com</a>.</p>
+  </div>
+</body>
+</html>

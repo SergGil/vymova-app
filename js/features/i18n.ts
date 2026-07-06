@@ -80,6 +80,23 @@ export async function ensureLocaleLoaded(lang: Lang): Promise<void> {
   await LOADING[code];
 }
 
+// The app's internal 'ua' code is a historical shorthand (Ukraine, the
+// country) — the actual BCP-47 tag for Ukrainian is "uk". Everything else
+// already matches its own ISO code.
+const HTML_LANG: Record<Lang, string> = {
+  ua: 'uk',
+  en: 'en',
+  es: 'es',
+  fr: 'fr',
+  it: 'it',
+  pt: 'pt',
+  de: 'de',
+};
+
+function applyHtmlLang(lang: Lang): void {
+  document.documentElement.lang = HTML_LANG[lang] ?? 'en';
+}
+
 // ── Boot: pre-load the active locale before i18next.init() ────
 
 const initialLang = storedLang();
@@ -114,6 +131,8 @@ i18next.init({
   resources: _initResources as Parameters<typeof i18next.init>[0]['resources'],
 });
 
+applyHtmlLang(initialLang);
+
 // 'ua' isn't a valid Intl.PluralRules locale — borrow Ukrainian (uk) plural
 // categories (one/few/many/other) so wordsLabel() pluralizes correctly.
 const pluralResolver = i18next.services.pluralResolver;
@@ -133,6 +152,7 @@ function setLang(lang: Lang): void {
     // If loaded via ensureLocaleLoaded after init, _addBundle was already called.
     // If it was the initial lang (loaded before init), resources are in init().
     i18next.changeLanguage(lang);
+    applyHtmlLang(lang);
     applyI18n();
   });
 }
