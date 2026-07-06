@@ -70,11 +70,16 @@ export function CardMeta() {
       <span className={'cefr-badge cefr-' + level} id="wcefr">
         {level}
       </span>
-      {cats[0] && (
-        <span className="category-badge" id="wcategory" title={cats.map(categoryName).join(', ')}>
-          {categoryName(cats[0])}
+      {cats.map((cat, i) => (
+        <span
+          className="category-badge"
+          id={i === 0 ? 'wcategory' : undefined}
+          key={cat}
+          title={categoryName(cat)}
+        >
+          {categoryName(cat)}
         </span>
-      )}
+      ))}
       <span className="card-tag" id="wlang">
         {frontFlagUrl ? (
           <img src={frontFlagUrl} alt={frontLang} width={14} height={14} />
