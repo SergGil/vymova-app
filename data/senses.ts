@@ -11569,6 +11569,572 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Вона акуратно склала стільці в стос у кутку.',
     },
   ],
+  stage: [
+    {
+      pos: 'noun',
+      translation: 'сцена',
+      exEn: 'The actors rehearsed on the empty stage.',
+      exUa: 'Актори репетирували на порожній сцені.',
+    },
+    {
+      pos: 'noun',
+      translation: 'етап',
+      exEn: 'The project is now entering its final stage.',
+      exUa: 'Проєкт зараз вступає у свій завершальний етап.',
+    },
+    {
+      pos: 'v',
+      translation: 'організовувати',
+      exEn: 'They staged a surprise party for her birthday.',
+      exUa: 'Вони організували вечірку-сюрприз на її день народження.',
+    },
+  ],
+  stain: [
+    {
+      pos: 'noun',
+      translation: 'пляма',
+      exEn: 'There was a coffee stain on the tablecloth.',
+      exUa: 'На скатертині була кавова пляма.',
+    },
+    {
+      pos: 'v',
+      translation: 'забруднювати',
+      exEn: 'The wine stained her white dress.',
+      exUa: 'Вино забруднило її білу сукню.',
+    },
+  ],
+  stalk: [
+    {
+      pos: 'v',
+      translation: 'переслідувати',
+      exEn: 'The lion stalked its prey silently through the grass.',
+      exUa: 'Лев мовчки переслідував свою здобич крізь траву.',
+    },
+    {
+      pos: 'noun',
+      translation: 'стебло',
+      exEn: 'She picked a flower with a long, thin stalk.',
+      exUa: 'Вона зірвала квітку з довгим тонким стеблом.',
+    },
+  ],
+  stall: [
+    {
+      pos: 'v',
+      translation: 'зупинятися',
+      exEn: 'The car engine stalled at the traffic light.',
+      exUa: 'Двигун автомобіля заглух на світлофорі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'ятка',
+      exEn: 'She bought fresh vegetables from a market stall.',
+      exUa: 'Вона купила свіжі овочі на ринковій ятці.',
+    },
+  ],
+  stammer: [
+    {
+      pos: 'v',
+      translation: 'заїкатися',
+      exEn: 'He stammered nervously during his first speech.',
+      exUa: 'Він нервово заїкався під час своєї першої промови.',
+    },
+    {
+      pos: 'noun',
+      translation: 'заїкання',
+      exEn: 'She has worked hard to overcome her stammer.',
+      exUa: 'Вона наполегливо працювала, щоб подолати своє заїкання.',
+    },
+  ],
+  stamp: [
+    {
+      pos: 'noun',
+      translation: 'штамп',
+      exEn: 'The clerk placed an official stamp on the document.',
+      exUa: 'Клерк поставив офіційний штамп на документ.',
+    },
+    {
+      pos: 'v',
+      translation: 'тупати',
+      exEn: 'She stamped her foot impatiently while waiting.',
+      exUa: 'Вона нетерпляче тупала ногою, чекаючи.',
+    },
+  ],
+  start: [
+    {
+      pos: 'v',
+      translation: 'починати',
+      exEn: 'She started her homework right after dinner.',
+      exUa: 'Вона почала домашнє завдання одразу після вечері.',
+    },
+    {
+      pos: 'noun',
+      translation: 'початок',
+      exEn: 'The start of the race was delayed by rain.',
+      exUa: 'Початок забігу було затримано через дощ.',
+    },
+  ],
+  stash: [
+    {
+      pos: 'v',
+      translation: 'ховати',
+      exEn: 'He stashed the extra cash under his mattress.',
+      exUa: 'Він сховав зайві гроші під матрацом.',
+    },
+    {
+      pos: 'noun',
+      translation: 'тайник',
+      exEn: 'Police found a hidden stash of drugs in the warehouse.',
+      exUa: 'Поліція знайшла прихований тайник з наркотиками на складі.',
+    },
+  ],
+  station: [
+    {
+      pos: 'noun',
+      translation: 'станція',
+      exEn: 'The bus stopped at every station along the route.',
+      exUa: 'Автобус зупинявся на кожній станції вздовж маршруту.',
+    },
+    {
+      pos: 'noun',
+      translation: 'вокзал',
+      exEn: 'They waited for the train at the central station.',
+      exUa: 'Вони чекали на потяг на центральному вокзалі.',
+    },
+  ],
+  statute: [
+    {
+      pos: 'noun',
+      translation: 'статут',
+      exEn: "The company's statute outlines its main objectives.",
+      exUa: 'Статут компанії окреслює її основні цілі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'закон',
+      exEn: 'The new statute takes effect at the start of next year.',
+      exUa: 'Новий закон набирає чинності з початку наступного року.',
+    },
+  ],
+  steam: [
+    {
+      pos: 'noun',
+      translation: 'пара',
+      exEn: 'Steam rose from the hot cup of tea.',
+      exUa: 'Пара піднімалася від гарячої чашки чаю.',
+    },
+    {
+      pos: 'v',
+      translation: 'паритися',
+      exEn: 'The vegetables steamed gently in the covered pot.',
+      exUa: 'Овочі ніжно парилися в накритій каструлі.',
+    },
+  ],
+  steel: [
+    {
+      pos: 'noun',
+      translation: 'сталь',
+      exEn: 'The bridge was built from reinforced steel.',
+      exUa: 'Міст був побудований з армованої сталі.',
+    },
+    {
+      pos: 'v',
+      translation: 'загартовувати',
+      exEn: 'She steeled herself for the difficult conversation.',
+      exUa: 'Вона загартувала себе перед складною розмовою.',
+    },
+  ],
+  steep: [
+    {
+      pos: 'adj',
+      translation: 'крутий',
+      exEn: 'The path up the mountain was extremely steep.',
+      exUa: 'Стежка в гору була надзвичайно крутою.',
+    },
+    {
+      pos: 'v',
+      translation: 'занурювати',
+      exEn: 'Let the tea leaves steep for five minutes.',
+      exUa: "Дайте чайному листю настоятися п'ять хвилин.",
+    },
+  ],
+  stem: [
+    {
+      pos: 'noun',
+      translation: 'стебло',
+      exEn: 'She cut the rose just below the stem.',
+      exUa: 'Вона зрізала троянду якраз під стеблом.',
+    },
+    {
+      pos: 'v',
+      translation: 'стримувати',
+      exEn: 'The government tried to stem the flow of illegal migration.',
+      exUa: 'Уряд намагався стримати потік нелегальної міграції.',
+    },
+  ],
+  step: [
+    {
+      pos: 'noun',
+      translation: 'крок',
+      exEn: 'She took a small step toward the door.',
+      exUa: 'Вона зробила невеликий крок до дверей.',
+    },
+    {
+      pos: 'v',
+      translation: 'ступити',
+      exEn: 'He stepped carefully over the puddle.',
+      exUa: 'Він обережно ступив через калюжу.',
+    },
+  ],
+  stew: [
+    {
+      pos: 'noun',
+      translation: 'рагу',
+      exEn: 'She made a hearty beef stew for dinner.',
+      exUa: 'Вона приготувала ситне рагу з яловичини на вечерю.',
+    },
+    {
+      pos: 'v',
+      translation: 'тушкувати',
+      exEn: 'The meat was stewed slowly for several hours.',
+      exUa: 'М\'ясо тушкували повільно кілька годин.',
+    },
+  ],
+  'stick (stuck, stuck)': [
+    {
+      pos: 'v',
+      translation: 'застрягати',
+      exEn: 'Her shoe got stuck in the mud.',
+      exUa: 'Її взуття застрягло в грязюці.',
+    },
+    {
+      pos: 'noun',
+      translation: 'палиця',
+      exEn: 'He used a stick to knock the fruit down from the tree.',
+      exUa: 'Він скористався палицею, щоб збити фрукт з дерева.',
+    },
+  ],
+  'sting (stung, stung)': [
+    {
+      pos: 'v',
+      translation: 'жалити',
+      exEn: 'A bee stung her on the arm.',
+      exUa: 'Бджола вжалила її в руку.',
+    },
+    {
+      pos: 'noun',
+      translation: 'жало',
+      exEn: "The scorpion's sting can be extremely dangerous.",
+      exUa: 'Жало скорпіона може бути надзвичайно небезпечним.',
+    },
+  ],
+  stint: [
+    {
+      pos: 'noun',
+      translation: 'термін служби',
+      exEn: 'He completed a two-year stint in the army.',
+      exUa: 'Він завершив дворічний термін служби в армії.',
+    },
+    {
+      pos: 'v',
+      translation: 'обмежувати',
+      exEn: 'She never stints on quality when it comes to food.',
+      exUa: 'Вона ніколи не обмежує якість, коли йдеться про їжу.',
+    },
+  ],
+  stitch: [
+    {
+      pos: 'noun',
+      translation: 'стібок',
+      exEn: 'The tailor added a neat stitch to the hem.',
+      exUa: 'Кравець додав акуратний стібок до підшивки.',
+    },
+    {
+      pos: 'v',
+      translation: 'зашивати',
+      exEn: 'The doctor stitched up the wound carefully.',
+      exUa: 'Лікар обережно зашив рану.',
+    },
+  ],
+  stomach: [
+    {
+      pos: 'noun',
+      translation: 'шлунок',
+      exEn: 'She felt a sharp pain in her stomach.',
+      exUa: 'Вона відчула гострий біль у шлунку.',
+    },
+    {
+      pos: 'v',
+      translation: 'терпіти',
+      exEn: "He couldn't stomach the idea of losing again.",
+      exUa: 'Він не міг стерпіти думку про чергову поразку.',
+    },
+  ],
+  store: [
+    {
+      pos: 'v',
+      translation: 'зберігати',
+      exEn: 'They store the wine in a cool, dark cellar.',
+      exUa: 'Вони зберігають вино в прохолодному темному підвалі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'магазин',
+      exEn: 'She bought new shoes at the store downtown.',
+      exUa: 'Вона купила нове взуття в магазині в центрі міста.',
+    },
+  ],
+  strand: [
+    {
+      pos: 'noun',
+      translation: 'нитка',
+      exEn: 'A single strand of hair fell across her face.',
+      exUa: 'Одне пасмо волосся впало їй на обличчя.',
+    },
+    {
+      pos: 'v',
+      translation: 'залишити без допомоги',
+      exEn: 'The broken-down car left them stranded on the highway.',
+      exUa: 'Зламана машина залишила їх без допомоги на трасі.',
+    },
+  ],
+  strap: [
+    {
+      pos: 'noun',
+      translation: 'ремінець',
+      exEn: 'She adjusted the strap of her bag.',
+      exUa: 'Вона підправила ремінець своєї сумки.',
+    },
+    {
+      pos: 'v',
+      translation: 'пристебнути',
+      exEn: 'He strapped the child safely into the car seat.',
+      exUa: 'Він безпечно пристебнув дитину в автокріслі.',
+    },
+  ],
+  stray: [
+    {
+      pos: 'v',
+      translation: 'заблукати',
+      exEn: 'The dog strayed far from home and got lost.',
+      exUa: 'Собака забрів далеко від дому і загубився.',
+    },
+    {
+      pos: 'adj',
+      translation: 'безпритульний',
+      exEn: 'She took in a stray cat from the street.',
+      exUa: 'Вона прихистила безпритульного кота з вулиці.',
+    },
+  ],
+  stream: [
+    {
+      pos: 'noun',
+      translation: 'потік',
+      exEn: 'A small stream ran through the meadow.',
+      exUa: 'Крізь луку тік невеликий потік.',
+    },
+    {
+      pos: 'v',
+      translation: 'транслювати',
+      exEn: 'They streamed the concert live online.',
+      exUa: 'Вони транслювали концерт наживо онлайн.',
+    },
+  ],
+  stress: [
+    {
+      pos: 'noun',
+      translation: 'стрес',
+      exEn: 'Work-related stress can affect your health.',
+      exUa: "Стрес, пов'язаний з роботою, може вплинути на здоров'я.",
+    },
+    {
+      pos: 'v',
+      translation: 'підкреслювати',
+      exEn: 'The teacher stressed the importance of practice.',
+      exUa: 'Вчитель підкреслив важливість практики.',
+    },
+  ],
+  stride: [
+    {
+      pos: 'v',
+      translation: 'крокувати',
+      exEn: 'She strode confidently across the stage.',
+      exUa: 'Вона впевнено крокувала через сцену.',
+    },
+    {
+      pos: 'noun',
+      translation: 'крок',
+      exEn: 'He took long strides to keep up with her.',
+      exUa: 'Він робив довгі кроки, щоб не відставати від неї.',
+    },
+  ],
+  strike: [
+    {
+      pos: 'noun',
+      translation: 'страйк',
+      exEn: 'Workers voted to go on strike over pay.',
+      exUa: 'Робітники проголосували за страйк через оплату праці.',
+    },
+    {
+      pos: 'v',
+      translation: 'вдаряти',
+      exEn: 'Lightning struck the old oak tree.',
+      exUa: 'Блискавка вдарила у старий дуб.',
+    },
+  ],
+  string: [
+    {
+      pos: 'noun',
+      translation: 'нитка',
+      exEn: 'She tied the package with a piece of string.',
+      exUa: 'Вона перев\'язала посилку шматком нитки.',
+    },
+    {
+      pos: 'v',
+      translation: "зв'язувати",
+      exEn: 'He strung the beads together to make a necklace.',
+      exUa: "Він нанизав намистини разом, щоб зробити намисто.",
+    },
+  ],
+  strip: [
+    {
+      pos: 'v',
+      translation: 'знімати',
+      exEn: 'He stripped the old paint off the door.',
+      exUa: 'Він зняв стару фарбу з дверей.',
+    },
+    {
+      pos: 'noun',
+      translation: 'смуга',
+      exEn: 'The flag had a red strip across the middle.',
+      exUa: 'Прапор мав червону смугу посередині.',
+    },
+  ],
+  stroll: [
+    {
+      pos: 'v',
+      translation: 'прогулятися',
+      exEn: 'They strolled along the beach at sunset.',
+      exUa: 'Вони прогулялися пляжем на заході сонця.',
+    },
+    {
+      pos: 'noun',
+      translation: 'прогулянка',
+      exEn: 'She enjoys a quiet stroll in the park every morning.',
+      exUa: 'Вона щоранку насолоджується тихою прогулянкою в парку.',
+    },
+  ],
+  struggle: [
+    {
+      pos: 'v',
+      translation: 'боротися',
+      exEn: 'She struggled to keep her business afloat.',
+      exUa: 'Вона боролася, щоб втримати свій бізнес на плаву.',
+    },
+    {
+      pos: 'noun',
+      translation: 'труднощі',
+      exEn: 'Learning a new language can be a real struggle.',
+      exUa: 'Вивчення нової мови може бути справжніми труднощами.',
+    },
+  ],
+  stuff: [
+    {
+      pos: 'noun',
+      translation: 'речі',
+      exEn: 'She packed all her stuff into two suitcases.',
+      exUa: 'Вона спакувала всі свої речі у дві валізи.',
+    },
+    {
+      pos: 'v',
+      translation: 'набивати',
+      exEn: 'He stuffed his pockets with candy.',
+      exUa: 'Він набив кишені цукерками.',
+    },
+  ],
+  stump: [
+    {
+      pos: 'v',
+      translation: 'ставити в безвихідь',
+      exEn: 'The final question completely stumped her.',
+      exUa: 'Останнє питання повністю поставило її в глухий кут.',
+    },
+    {
+      pos: 'noun',
+      translation: 'пень',
+      exEn: 'The old tree stump made a perfect seat.',
+      exUa: 'Старий пень дерева слугував чудовим сидінням.',
+    },
+  ],
+  stunt: [
+    {
+      pos: 'noun',
+      translation: 'трюк',
+      exEn: 'The actor performed his own dangerous stunt.',
+      exUa: 'Актор сам виконав свій небезпечний трюк.',
+    },
+    {
+      pos: 'v',
+      translation: 'затримувати ріст',
+      exEn: "Poor nutrition can stunt a child's growth.",
+      exUa: 'Погане харчування може затримати ріст дитини.',
+    },
+  ],
+  subject: [
+    {
+      pos: 'noun',
+      translation: 'тема',
+      exEn: 'History was always her favourite subject in school.',
+      exUa: 'Історія завжди була її улюбленою темою у школі.',
+    },
+    {
+      pos: 'v',
+      translation: 'підлягати',
+      exEn: 'The decision is subject to approval by the board.',
+      exUa: 'Рішення підлягає затвердженню радою.',
+    },
+  ],
+  subpoena: [
+    {
+      pos: 'noun',
+      translation: 'судова повістка',
+      exEn: 'She received a subpoena to testify in court.',
+      exUa: 'Вона отримала судову повістку для дачі свідчень у суді.',
+    },
+    {
+      pos: 'v',
+      translation: 'викликати повісткою',
+      exEn: 'The witness was subpoenaed to appear before the jury.',
+      exUa: 'Свідка викликали повісткою постати перед присяжними.',
+    },
+  ],
+  substitute: [
+    {
+      pos: 'noun',
+      translation: 'замінник',
+      exEn: 'They used a sugar substitute in the recipe.',
+      exUa: 'Вони використали замінник цукру в рецепті.',
+    },
+    {
+      pos: 'v',
+      translation: 'заміщувати',
+      exEn: 'The coach substituted the tired player in the second half.',
+      exUa: 'Тренер замінив втомленого гравця в другому таймі.',
+    },
+  ],
+  sum: [
+    {
+      pos: 'noun',
+      translation: 'сума',
+      exEn: 'She calculated the total sum of the expenses.',
+      exUa: 'Вона підрахувала загальну суму витрат.',
+    },
+    {
+      pos: 'v',
+      translation: 'підбивати підсумок',
+      exEn: 'Let me sum up the main points of the meeting.',
+      exUa: 'Дозвольте мені підбити підсумок основних пунктів зустрічі.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
