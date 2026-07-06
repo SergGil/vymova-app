@@ -10,7 +10,7 @@ import { recordModeComplete, recordModeAnswer, recordMistake } from '../features
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
-import { getLearnLang } from '../features/lang-pair-select.tsx';
+import { getLearnLang, getKnowLang } from '../features/lang-pair-select.tsx';
 
 const ROUNDS = 8;
 
@@ -111,6 +111,7 @@ export function ErrorHuntPage(): ReactElement {
 
   const round: Round | null = deck[idx] ?? null;
   const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const knowEx = round ? entryFor(getKnowLang(), round.w).ex : '';
 
   const startGame = (): void => {
     setDeck(buildDeck());
@@ -347,6 +348,20 @@ export function ErrorHuntPage(): ReactElement {
                 </span>
               ))}
           </div>
+
+          {selected !== null && knowEx && (
+            <div
+              style={{
+                textAlign: 'center',
+                fontSize: '.8rem',
+                fontStyle: 'italic',
+                color: 'var(--text2)',
+                marginBottom: 12,
+              }}
+            >
+              {knowEx}
+            </div>
+          )}
 
           {selected !== null && (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
