@@ -93,6 +93,7 @@ import { CatPairsPage, CatPairsWiringInit } from '../js/modes/catpairs.tsx';
 import { QuizPage } from '../js/modes/quiz.tsx';
 import { AdaptiveQuizPage } from '../js/modes/adaptive-quiz.tsx';
 import { OddOneOutPage } from '../js/modes/odd-one-out.tsx';
+import { SentenceBuilderPage } from '../js/modes/sentence-builder.tsx';
 import { ScramblePage } from '../js/modes/scramble.tsx';
 import { WordLettersPage } from '../js/modes/word-letters.tsx';
 import { StatsPage } from '../js/features/stats-page.tsx';
@@ -332,6 +333,9 @@ function AppRoot(): ReactElement {
       </Portal>
       <Portal id="oo-page-mount">
         <OddOneOutPage />
+      </Portal>
+      <Portal id="sb-page-mount">
+        <SentenceBuilderPage />
       </Portal>
       <Portal id="scr-page-mount">
         <ScramblePage />
