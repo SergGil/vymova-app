@@ -12135,6 +12135,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Дозвольте мені підбити підсумок основних пунктів зустрічі.',
     },
   ],
+  supplement: [
+    {
+      pos: 'noun',
+      translation: 'доповнення',
+      exEn: 'She took vitamin supplements every morning.',
+      exUa: 'Вона щоранку приймала вітамінні добавки.',
+    },
+    {
+      pos: 'v',
+      translation: 'доповнювати',
+      exEn: 'He supplements his income by teaching guitar lessons.',
+      exUa: 'Він доповнює свій дохід, викладаючи уроки гри на гітарі.',
+    },
+  ],
+  supply: [
+    {
+      pos: 'v',
+      translation: 'постачати',
+      exEn: 'The farm supplies fresh vegetables to local restaurants.',
+      exUa: 'Ферма постачає свіжі овочі місцевим ресторанам.',
+    },
+    {
+      pos: 'noun',
+      translation: 'запас',
+      exEn: 'They kept a large supply of firewood for winter.',
+      exUa: 'Вони тримали великий запас дров на зиму.',
+    },
+  ],
+  support: [
+    {
+      pos: 'v',
+      translation: 'підтримувати',
+      exEn: 'Her family supported her decision to study abroad.',
+      exUa: 'Її родина підтримала її рішення навчатися за кордоном.',
+    },
+    {
+      pos: 'noun',
+      translation: 'підтримка',
+      exEn: 'She received great support from her friends during the illness.',
+      exUa: 'Вона отримала велику підтримку від друзів під час хвороби.',
+    },
+  ],
+  surface: [
+    {
+      pos: 'noun',
+      translation: 'поверхня',
+      exEn: 'The table has a smooth wooden surface.',
+      exUa: 'Стіл має гладку дерев\'яну поверхню.',
+    },
+    {
+      pos: 'v',
+      translation: 'спливати',
+      exEn: 'New evidence surfaced during the investigation.',
+      exUa: 'Під час розслідування спливли нові докази.',
+    },
+  ],
+  surge: [
+    {
+      pos: 'v',
+      translation: 'різко зростати',
+      exEn: 'Demand for masks surged during the pandemic.',
+      exUa: 'Попит на маски різко зріс під час пандемії.',
+    },
+    {
+      pos: 'noun',
+      translation: 'хвиля',
+      exEn: 'A surge of emotion overwhelmed her at the wedding.',
+      exUa: 'Хвиля емоцій охопила її на весіллі.',
+    },
+  ],
+  surprise: [
+    {
+      pos: 'v',
+      translation: 'дивувати',
+      exEn: 'Her sudden resignation surprised everyone at the company.',
+      exUa: 'Її раптова відставка здивувала всіх у компанії.',
+    },
+    {
+      pos: 'noun',
+      translation: 'сюрприз',
+      exEn: 'They planned a surprise party for his fortieth birthday.',
+      exUa: 'Вони спланували сюрприз-вечірку на його сорокаріччя.',
+    },
+  ],
+  surrender: [
+    {
+      pos: 'v',
+      translation: 'здаватися',
+      exEn: 'The soldiers surrendered after running out of supplies.',
+      exUa: 'Солдати здалися, коли в них закінчилися припаси.',
+    },
+    {
+      pos: 'noun',
+      translation: 'капітуляція',
+      exEn: 'The surrender marked the end of the long war.',
+      exUa: 'Капітуляція ознаменувала кінець тривалої війни.',
+    },
+  ],
+  suspect: [
+    {
+      pos: 'v',
+      translation: 'підозрювати',
+      exEn: 'She suspected that her colleague had lied to her.',
+      exUa: 'Вона підозрювала, що колега їй збрехав.',
+    },
+    {
+      pos: 'noun',
+      translation: 'підозрюваний',
+      exEn: 'Police arrested the main suspect near the station.',
+      exUa: 'Поліція заарештувала головного підозрюваного біля станції.',
+    },
+  ],
+  swallow: [
+    {
+      pos: 'v',
+      translation: 'ковтати',
+      exEn: 'She swallowed the pill with a glass of water.',
+      exUa: 'Вона проковтнула таблетку зі склянкою води.',
+    },
+    {
+      pos: 'noun',
+      translation: 'ластівка',
+      exEn: 'A swallow built its nest under the roof.',
+      exUa: 'Ластівка звила гніздо під дахом.',
+    },
+  ],
+  swamp: [
+    {
+      pos: 'noun',
+      translation: 'болото',
+      exEn: 'They paddled a canoe through the swamp.',
+      exUa: 'Вони пливли на каное через болото.',
+    },
+    {
+      pos: 'v',
+      translation: 'засипати',
+      exEn: 'The office was swamped with complaints after the change.',
+      exUa: 'Офіс був завалений скаргами після зміни.',
+    },
+  ],
+  swarm: [
+    {
+      pos: 'noun',
+      translation: 'рій',
+      exEn: 'A swarm of bees settled in the old tree.',
+      exUa: 'Рій бджіл оселився в старому дереві.',
+    },
+    {
+      pos: 'v',
+      translation: 'роїтися',
+      exEn: 'Tourists swarmed around the famous statue.',
+      exUa: 'Туристи роїлися навколо відомої статуї.',
+    },
+  ],
+  sweat: [
+    {
+      pos: 'noun',
+      translation: 'піт',
+      exEn: 'Sweat dripped down his forehead after the run.',
+      exUa: 'Піт стікав по його чолу після пробіжки.',
+    },
+    {
+      pos: 'v',
+      translation: 'потіти',
+      exEn: 'She sweated nervously before the big interview.',
+      exUa: 'Вона нервово потіла перед важливою співбесідою.',
+    },
+  ],
+  'swell (swelled, swollen)': [
+    {
+      pos: 'v',
+      translation: 'набрякати',
+      exEn: 'Her ankle swelled badly after the fall.',
+      exUa: 'Її щиколотка сильно набрякла після падіння.',
+    },
+    {
+      pos: 'adj',
+      translation: 'чудовий',
+      exEn: "That's a swell idea, let's do it!",
+      exUa: "Це чудова ідея, зробімо це!",
+    },
+  ],
+  'swing (swung, swung)': [
+    {
+      pos: 'v',
+      translation: 'гойдатися',
+      exEn: 'The children loved to swing in the park.',
+      exUa: 'Діти любили гойдатися в парку.',
+    },
+    {
+      pos: 'noun',
+      translation: 'розмах',
+      exEn: 'The mood swing caught everyone off guard.',
+      exUa: 'Різкий перепад настрою захопив усіх зненацька.',
+    },
+  ],
+  swirl: [
+    {
+      pos: 'noun',
+      translation: 'вихор',
+      exEn: 'A swirl of dust rose from the road.',
+      exUa: 'Вихор пилу піднявся з дороги.',
+    },
+    {
+      pos: 'v',
+      translation: 'кружляти',
+      exEn: 'Autumn leaves swirled around in the wind.',
+      exUa: 'Осіннє листя кружляло на вітрі.',
+    },
+  ],
+  switch: [
+    {
+      pos: 'v',
+      translation: 'перемикати',
+      exEn: 'She switched the channel to watch the news.',
+      exUa: 'Вона перемкнула канал, щоб подивитися новини.',
+    },
+    {
+      pos: 'noun',
+      translation: 'вимикач',
+      exEn: 'He flipped the light switch as he entered the room.',
+      exUa: 'Він клацнув вимикачем світла, заходячи в кімнату.',
+    },
+  ],
+  swoop: [
+    {
+      pos: 'v',
+      translation: 'пікірувати',
+      exEn: 'The eagle swooped down to catch its prey.',
+      exUa: 'Орел спікірував, щоб схопити здобич.',
+    },
+    {
+      pos: 'noun',
+      translation: 'напад',
+      exEn: 'Police made a dawn swoop on the suspected hideout.',
+      exUa: 'Поліція здійснила напад на світанку на підозрюваний сховок.',
+    },
+  ],
+  tag: [
+    {
+      pos: 'noun',
+      translation: 'ярлик',
+      exEn: 'She checked the price tag before buying the dress.',
+      exUa: 'Вона перевірила цінник, перш ніж купити сукню.',
+    },
+    {
+      pos: 'v',
+      translation: 'мітити',
+      exEn: 'Scientists tagged the birds to track their migration.',
+      exUa: 'Науковці помітили птахів, щоб відстежити їхню міграцію.',
+    },
+  ],
+  tail: [
+    {
+      pos: 'noun',
+      translation: 'хвіст',
+      exEn: 'The dog wagged its tail happily.',
+      exUa: 'Собака щасливо махав хвостом.',
+    },
+    {
+      pos: 'v',
+      translation: 'стежити',
+      exEn: 'Detectives tailed the suspect for several days.',
+      exUa: 'Детективи стежили за підозрюваним кілька днів.',
+    },
+  ],
+  tailor: [
+    {
+      pos: 'noun',
+      translation: 'кравець',
+      exEn: 'The tailor adjusted the suit to fit him perfectly.',
+      exUa: 'Кравець підігнав костюм так, щоб він ідеально сидів.',
+    },
+    {
+      pos: 'v',
+      translation: 'підлаштовувати',
+      exEn: 'She tailored her presentation to suit the audience.',
+      exUa: 'Вона підлаштувала свою презентацію під аудиторію.',
+    },
+  ],
+  tame: [
+    {
+      pos: 'adj',
+      translation: 'приручений',
+      exEn: 'The tame deer approached visitors without fear.',
+      exUa: 'Приручений олень наближався до відвідувачів без страху.',
+    },
+    {
+      pos: 'v',
+      translation: 'підкоряти',
+      exEn: 'The trainer slowly tamed the wild horse.',
+      exUa: 'Дресирувальник повільно приборкав дикого коня.',
+    },
+  ],
+  tan: [
+    {
+      pos: 'noun',
+      translation: 'засмага',
+      exEn: 'She got a nice tan during her holiday.',
+      exUa: 'Вона отримала гарну засмагу під час відпустки.',
+    },
+    {
+      pos: 'v',
+      translation: 'дубити',
+      exEn: 'The workshop tans leather using traditional methods.',
+      exUa: 'Майстерня дубить шкіру традиційними методами.',
+    },
+  ],
+  tangle: [
+    {
+      pos: 'v',
+      translation: 'заплутуватися',
+      exEn: 'Her hair tangled easily in the wind.',
+      exUa: 'Її волосся легко заплутувалося на вітрі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'клубок',
+      exEn: 'The wires formed a hopeless tangle in the drawer.',
+      exUa: 'Дроти утворили безнадійний клубок у шухляді.',
+    },
+  ],
+  tap: [
+    {
+      pos: 'noun',
+      translation: 'кран',
+      exEn: 'She turned off the tap after washing her hands.',
+      exUa: 'Вона закрутила кран після миття рук.',
+    },
+    {
+      pos: 'v',
+      translation: 'тихо постукувати',
+      exEn: 'He tapped gently on the door before entering.',
+      exUa: 'Він тихо постукав у двері, перш ніж увійти.',
+    },
+  ],
+  tape: [
+    {
+      pos: 'noun',
+      translation: 'стрічка',
+      exEn: 'She wrapped the gift with colourful tape.',
+      exUa: 'Вона обгорнула подарунок кольоровою стрічкою.',
+    },
+    {
+      pos: 'v',
+      translation: 'записувати',
+      exEn: 'He taped the interview for later use.',
+      exUa: 'Він записав інтерв\'ю для подальшого використання.',
+    },
+  ],
+  target: [
+    {
+      pos: 'noun',
+      translation: 'ціль, мета',
+      exEn: 'The arrow hit the target dead centre.',
+      exUa: 'Стріла влучила прямо в центр цілі.',
+    },
+    {
+      pos: 'v',
+      translation: 'спрямовувати',
+      exEn: 'The campaign targets young voters specifically.',
+      exUa: 'Кампанія спрямована саме на молодих виборців.',
+    },
+  ],
+  tarnish: [
+    {
+      pos: 'v',
+      translation: 'плямити, псувати репутацію',
+      exEn: 'The scandal tarnished his reputation permanently.',
+      exUa: 'Скандал назавжди зіпсував його репутацію.',
+    },
+    {
+      pos: 'v',
+      translation: 'тьмяніти',
+      exEn: 'Silver tarnishes quickly if left exposed to air.',
+      exUa: 'Срібло швидко тьмяніє, якщо залишити його на повітрі.',
+    },
+  ],
+  task: [
+    {
+      pos: 'noun',
+      translation: 'завдання',
+      exEn: 'She completed the difficult task ahead of schedule.',
+      exUa: 'Вона виконала складне завдання раніше запланованого терміну.',
+    },
+    {
+      pos: 'v',
+      translation: 'доручати',
+      exEn: 'The manager tasked her with organising the event.',
+      exUa: 'Керівник доручив їй організувати захід.',
+    },
+  ],
+  taste: [
+    {
+      pos: 'noun',
+      translation: 'смак',
+      exEn: 'The soup had a rich, savoury taste.',
+      exUa: 'Суп мав насичений пікантний смак.',
+    },
+    {
+      pos: 'v',
+      translation: 'пробувати',
+      exEn: 'She tasted the sauce before serving it.',
+      exUa: 'Вона спробувала соус перед подачею.',
+    },
+  ],
+  tax: [
+    {
+      pos: 'noun',
+      translation: 'податок',
+      exEn: 'The government raised taxes on luxury goods.',
+      exUa: 'Уряд підвищив податки на предмети розкоші.',
+    },
+    {
+      pos: 'v',
+      translation: 'обкладати податком',
+      exEn: 'The state taxes cigarettes heavily.',
+      exUa: 'Штат сильно обкладає податком сигарети.',
+    },
+  ],
+  team: [
+    {
+      pos: 'noun',
+      translation: 'команда',
+      exEn: 'The team celebrated their victory together.',
+      exUa: 'Команда разом святкувала свою перемогу.',
+    },
+    {
+      pos: 'v',
+      translation: "об'єднуватися",
+      exEn: 'The two companies teamed up on the new project.',
+      exUa: "Дві компанії об'єдналися для нового проєкту.",
+    },
+  ],
+  temper: [
+    {
+      pos: 'noun',
+      translation: 'характер',
+      exEn: 'He has always had a quick temper.',
+      exUa: 'У нього завжди був запальний характер.',
+    },
+    {
+      pos: 'v',
+      translation: 'стримувати',
+      exEn: 'She tempered her criticism with a few kind words.',
+      exUa: 'Вона стримала свою критику кількома добрими словами.',
+    },
+  ],
+  test: [
+    {
+      pos: 'noun',
+      translation: 'тест',
+      exEn: 'She passed the driving test on her first attempt.',
+      exUa: 'Вона склала тест на водіння з першої спроби.',
+    },
+    {
+      pos: 'v',
+      translation: 'перевіряти',
+      exEn: 'Scientists tested the new vaccine on volunteers.',
+      exUa: 'Науковці перевірили нову вакцину на добровольцях.',
+    },
+  ],
+  text: [
+    {
+      pos: 'noun',
+      translation: 'текст',
+      exEn: 'She read the entire text of the contract carefully.',
+      exUa: 'Вона уважно прочитала весь текст контракту.',
+    },
+    {
+      pos: 'v',
+      translation: 'надсилати повідомлення',
+      exEn: 'He texted her as soon as he landed.',
+      exUa: 'Він надіслав їй повідомлення, щойно приземлився.',
+    },
+  ],
+  there: [
+    {
+      pos: 'adv',
+      translation: 'там',
+      exEn: 'She left her keys there on the table.',
+      exUa: 'Вона залишила ключі там на столі.',
+    },
+    {
+      pos: 'adv',
+      translation: 'туди',
+      exEn: "We're planning to go there next summer.",
+      exUa: 'Ми плануємо поїхати туди наступного літа.',
+    },
+  ],
+  thread: [
+    {
+      pos: 'noun',
+      translation: 'нитка',
+      exEn: 'She used a red thread to sew the button.',
+      exUa: 'Вона використала червону нитку, щоб пришити ґудзик.',
+    },
+    {
+      pos: 'v',
+      translation: 'прошивати',
+      exEn: 'He threaded the needle carefully before sewing.',
+      exUa: 'Він обережно просилив голку, перш ніж шити.',
+    },
+  ],
+  threaten: [
+    {
+      pos: 'v',
+      translation: 'погрожувати',
+      exEn: "He threatened to quit if things didn't change.",
+      exUa: 'Він погрожував звільнитися, якщо нічого не зміниться.',
+    },
+    {
+      pos: 'v',
+      translation: 'загрожувати',
+      exEn: 'Rising sea levels threaten many coastal cities.',
+      exUa: 'Підвищення рівня моря загрожує багатьом прибережним містам.',
+    },
+  ],
+  throng: [
+    {
+      pos: 'noun',
+      translation: 'натовп',
+      exEn: 'A throng of fans waited outside the stadium.',
+      exUa: 'Натовп фанатів чекав біля стадіону.',
+    },
+    {
+      pos: 'v',
+      translation: 'юрмитися',
+      exEn: 'Shoppers thronged the streets during the holiday sale.',
+      exUa: 'Покупці юрмилися на вулицях під час святкового розпродажу.',
+    },
+  ],
+  thumb: [
+    {
+      pos: 'noun',
+      translation: 'великий палець',
+      exEn: 'He hurt his thumb while fixing the shelf.',
+      exUa: 'Він поранив великий палець, ремонтуючи полицю.',
+    },
+    {
+      pos: 'v',
+      translation: 'гортати',
+      exEn: 'She thumbed through the magazine while waiting.',
+      exUa: 'Вона гортала журнал, чекаючи.',
+    },
+  ],
+  thump: [
+    {
+      pos: 'v',
+      translation: 'гупнути',
+      exEn: 'He thumped the table in frustration.',
+      exUa: 'Він гупнув по столу від роздратування.',
+    },
+    {
+      pos: 'noun',
+      translation: 'сильний удар',
+      exEn: 'She felt a heavy thump against the door.',
+      exUa: 'Вона відчула сильний удар у двері.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
