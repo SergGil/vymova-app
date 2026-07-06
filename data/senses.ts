@@ -1481,6 +1481,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Він не міг перестати хвалитися своєю перемогою.',
     },
   ],
+  abdicate: [
+    {
+      pos: 'v',
+      translation: 'зрікатися (престолу)',
+      exEn: 'King Edward abdicated the throne to marry the woman he loved.',
+      exUa: 'Король Едвард зрікся престолу, щоб одружитися з жінкою, яку кохав.',
+    },
+    {
+      pos: 'v',
+      translation: 'відмовлятися від відповідальності',
+      exEn: 'Parents cannot simply abdicate responsibility for their children\'s education.',
+      exUa: 'Батьки не можуть просто відмовлятися від відповідальності за освіту своїх дітей.',
+    },
+  ],
+  abide: [
+    {
+      pos: 'v',
+      translation: 'терпіти',
+      exEn: 'I cannot abide people who are constantly late.',
+      exUa: 'Я не можу терпіти людей, які постійно спізнюються.',
+    },
+    {
+      pos: 'v',
+      translation: 'дотримуватися',
+      exEn: "All members must abide by the club's rules.",
+      exUa: 'Усі члени повинні дотримуватися правил клубу.',
+    },
+  ],
+  abrasive: [
+    {
+      pos: 'adj',
+      translation: 'різкий, грубий (про манеру)',
+      exEn: 'Her abrasive tone made the meeting uncomfortable for everyone.',
+      exUa: 'Її різкий тон зробив зустріч незручною для всіх.',
+    },
+    {
+      pos: 'adj',
+      translation: 'абразивний',
+      exEn: 'The cleaner contains abrasive particles that scratch soft surfaces.',
+      exUa: 'Засіб для чищення містить абразивні частинки, які дряпають м\'які поверхні.',
+    },
+  ],
+  academic: [
+    {
+      pos: 'adj',
+      translation: 'академічний',
+      exEn: 'She has published several academic papers on climate change.',
+      exUa: 'Вона опублікувала кілька академічних статей про зміну клімату.',
+    },
+    {
+      pos: 'noun',
+      translation: 'науковець',
+      exEn: 'The academic gave a lecture on ancient Roman history.',
+      exUa: 'Науковець прочитав лекцію з історії стародавнього Риму.',
+    },
+  ],
+  acclaim: [
+    {
+      pos: 'noun',
+      translation: 'схвалення, визнання',
+      exEn: 'The novel received widespread critical acclaim upon its release.',
+      exUa: 'Роман отримав широке визнання критиків після виходу.',
+    },
+    {
+      pos: 'v',
+      translation: 'прославляти',
+      exEn: 'Critics acclaimed her performance as the best of the year.',
+      exUa: 'Критики прославляли її виступ як найкращий за рік.',
+    },
+  ],
+  ache: [
+    {
+      pos: 'v',
+      translation: 'боліти',
+      exEn: 'Her legs ached after the long mountain hike.',
+      exUa: 'Її ноги боліли після довгого походу в гори.',
+    },
+    {
+      pos: 'noun',
+      translation: 'біль',
+      exEn: 'He felt a dull ache in his lower back.',
+      exUa: 'Він відчув тупий біль у попереку.',
+    },
+  ],
+  actuate: [
+    {
+      pos: 'v',
+      translation: 'приводити в дію',
+      exEn: 'A small motor actuates the mechanism inside the door lock.',
+      exUa: 'Невеликий двигун приводить у дію механізм всередині дверного замка.',
+    },
+    {
+      pos: 'v',
+      translation: 'спонукати',
+      exEn: 'Fear of failure actuated him to work harder than ever.',
+      exUa: 'Страх невдачі спонукав його працювати ще старанніше.',
+    },
+  ],
+  admission: [
+    {
+      pos: 'noun',
+      translation: 'визнання',
+      exEn: 'His admission of the mistake came only after weeks of denial.',
+      exUa: 'Його визнання помилки прийшло лише через кілька тижнів заперечень.',
+    },
+    {
+      pos: 'noun',
+      translation: 'прийом',
+      exEn: 'Admission to the university is highly competitive this year.',
+      exUa: 'Прийом до університету цього року дуже конкурентний.',
+    },
+  ],
+  agitate: [
+    {
+      pos: 'v',
+      translation: 'збуджувати, хвилювати',
+      exEn: 'The loud noises outside began to agitate the sleeping baby.',
+      exUa: 'Гучні звуки надворі почали хвилювати немовля, що спало.',
+    },
+    {
+      pos: 'v',
+      translation: 'агітувати',
+      exEn: 'Activists agitated for stronger environmental protection laws.',
+      exUa: 'Активісти агітували за суворіші закони про захист довкілля.',
+    },
+  ],
+  airtight: [
+    {
+      pos: 'adj',
+      translation: 'герметичний',
+      exEn: 'Store the flour in an airtight container to keep it fresh.',
+      exUa: 'Зберігайте борошно в герметичному контейнері, щоб воно залишалося свіжим.',
+    },
+    {
+      pos: 'adj',
+      translation: 'бездоганний, без вад',
+      exEn: 'The lawyer presented an airtight case with no weaknesses.',
+      exUa: 'Адвокат представив бездоганну справу без жодних слабких місць.',
+    },
+  ],
+  alert: [
+    {
+      pos: 'v',
+      translation: 'попереджати',
+      exEn: 'The guard alerted everyone about the approaching storm.',
+      exUa: 'Охоронець попередив усіх про шторм, що наближався.',
+    },
+    {
+      pos: 'adj',
+      translation: 'пильний',
+      exEn: 'Stay alert while driving on icy roads.',
+      exUa: 'Залишайтеся пильними, керуючи автомобілем на слизьких дорогах.',
+    },
+  ],
+  allure: [
+    {
+      pos: 'noun',
+      translation: 'принадність, привабливість',
+      exEn: 'The allure of the big city drew thousands of young people each year.',
+      exUa: 'Привабливість великого міста щороку приваблювала тисячі молодих людей.',
+    },
+    {
+      pos: 'v',
+      translation: 'приваблювати',
+      exEn: 'The shop window was designed to allure passing customers.',
+      exUa: 'Вітрина магазину була створена, щоб приваблювати перехожих.',
+    },
+  ],
+  'amount to': [
+    {
+      pos: 'v',
+      translation: 'рівнятися, дорівнювати',
+      exEn: 'Her total expenses amounted to almost a thousand dollars.',
+      exUa: 'Її загальні витрати дорівнювали майже тисячі доларів.',
+    },
+    {
+      pos: 'v',
+      translation: 'зводитися до',
+      exEn: 'His whole argument amounts to nothing more than an excuse.',
+      exUa: 'Уся його аргументація зводиться лише до виправдання.',
+    },
+  ],
+  annex: [
+    {
+      pos: 'v',
+      translation: 'приєднувати, анексувати',
+      exEn: 'The empire annexed the small neighbouring kingdom after a brief war.',
+      exUa: 'Імперія анексувала невелике сусіднє королівство після короткої війни.',
+    },
+    {
+      pos: 'noun',
+      translation: 'додаток',
+      exEn: 'Please refer to the annex for detailed technical specifications.',
+      exUa: 'Будь ласка, зверніться до додатка для детальних технічних характеристик.',
+    },
+  ],
+  answer: [
+    {
+      pos: 'noun',
+      translation: 'відповідь',
+      exEn: 'She gave a thoughtful answer to a difficult question.',
+      exUa: 'Вона дала продуману відповідь на складне запитання.',
+    },
+    {
+      pos: 'v',
+      translation: 'відповідати',
+      exEn: "Please answer the phone — it's been ringing for a while.",
+      exUa: 'Будь ласка, відповідай на телефон — він дзвонить вже деякий час.',
+    },
+  ],
+  'appeal to': [
+    {
+      pos: 'v',
+      translation: 'апелювати до',
+      exEn: 'The lawyer decided to appeal to a higher court.',
+      exUa: 'Адвокат вирішив апелювати до вищого суду.',
+    },
+    {
+      pos: 'v',
+      translation: 'подобатися',
+      exEn: 'The idea of working from home really appeals to me.',
+      exUa: 'Ідея роботи з дому мені справді подобається.',
+    },
+  ],
+  'apply to': [
+    {
+      pos: 'v',
+      translation: 'стосуватися',
+      exEn: 'This rule applies to all employees without exception.',
+      exUa: 'Це правило стосується всіх працівників без винятку.',
+    },
+    {
+      pos: 'v',
+      translation: 'подавати заявку',
+      exEn: 'She decided to apply to three different universities.',
+      exUa: 'Вона вирішила подати заявку до трьох різних університетів.',
+    },
+  ],
+  appreciation: [
+    {
+      pos: 'noun',
+      translation: 'вдячність',
+      exEn: 'He expressed his sincere appreciation for their help.',
+      exUa: 'Він висловив щиру вдячність за їхню допомогу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'розуміння',
+      exEn: 'Years abroad gave her a deeper appreciation of other cultures.',
+      exUa: 'Роки за кордоном дали їй глибше розуміння інших культур.',
+    },
+  ],
+  apprehend: [
+    {
+      pos: 'v',
+      translation: 'затримувати (злочинця)',
+      exEn: 'Police apprehended the suspect near the train station.',
+      exUa: 'Поліція затримала підозрюваного біля залізничної станції.',
+    },
+    {
+      pos: 'v',
+      translation: 'розуміти',
+      exEn: 'It took her a moment to fully apprehend the seriousness of the situation.',
+      exUa: 'Їй знадобилася мить, щоб повністю зрозуміти серйозність ситуації.',
+    },
+  ],
+  apprehension: [
+    {
+      pos: 'noun',
+      translation: 'побоювання, тривога',
+      exEn: 'She felt a growing sense of apprehension before the interview.',
+      exUa: 'Вона відчувала зростаюче почуття тривоги перед співбесідою.',
+    },
+    {
+      pos: 'noun',
+      translation: 'затримання',
+      exEn: "The apprehension of the escaped prisoner took several days.",
+      exUa: "Затримання втікача-в'язня зайняло кілька днів.",
+    },
+  ],
+  apt: [
+    {
+      pos: 'adj',
+      translation: 'схильний',
+      exEn: 'Children are apt to imitate the behaviour of their parents.',
+      exUa: 'Діти схильні наслідувати поведінку своїх батьків.',
+    },
+    {
+      pos: 'adj',
+      translation: 'влучний, доречний',
+      exEn: 'That was a very apt comparison to describe the situation.',
+      exUa: 'Це було дуже влучне порівняння, щоб описати ситуацію.',
+    },
+  ],
+  articulate: [
+    {
+      pos: 'v',
+      translation: 'чітко висловлювати',
+      exEn: 'She struggled to articulate her feelings after the accident.',
+      exUa: 'Їй було важко чітко висловити свої почуття після аварії.',
+    },
+    {
+      pos: 'adj',
+      translation: 'красномовний',
+      exEn: 'He is a remarkably articulate speaker for his young age.',
+      exUa: 'Він на диво красномовний оратор як для свого молодого віку.',
+    },
+  ],
+  attribute: [
+    {
+      pos: 'v',
+      translation: 'приписувати',
+      exEn: 'Historians attribute the painting to a lesser-known Renaissance artist.',
+      exUa: 'Історики приписують цю картину маловідомому художнику епохи Відродження.',
+    },
+    {
+      pos: 'noun',
+      translation: 'атрибут',
+      exEn: 'Patience is an essential attribute for a good teacher.',
+      exUa: 'Терпіння — це важливий атрибут хорошого вчителя.',
+    },
+  ],
+  attrition: [
+    {
+      pos: 'noun',
+      translation: 'виснаження, знос',
+      exEn: 'The long war became a slow battle of attrition.',
+      exUa: 'Довга війна перетворилася на повільну війну на виснаження.',
+    },
+    {
+      pos: 'noun',
+      translation: 'природне скорочення',
+      exEn: 'The company reduced staff through natural attrition rather than layoffs.',
+      exUa: 'Компанія скоротила штат через природне скорочення, а не звільнення.',
+    },
+  ],
+  back: [
+    {
+      pos: 'noun',
+      translation: 'спина',
+      exEn: 'He hurt his back while lifting the heavy box.',
+      exUa: 'Він пошкодив спину, піднімаючи важку коробку.',
+    },
+    {
+      pos: 'adv',
+      translation: 'назад',
+      exEn: 'Please step back from the edge of the platform.',
+      exUa: 'Будь ласка, відійдіть назад від краю платформи.',
+    },
+  ],
+  'bail out': [
+    {
+      pos: 'v',
+      translation: 'рятувати (фінансово)',
+      exEn: 'The government agreed to bail out the failing bank.',
+      exUa: 'Уряд погодився фінансово врятувати банк, що збанкрутував.',
+    },
+    {
+      pos: 'v',
+      translation: 'вискакувати з парашутом',
+      exEn: 'The pilot had to bail out before the plane crashed.',
+      exUa: 'Пілот мусив вистрибнути з парашутом до того, як літак розбився.',
+    },
+  ],
+  bankrupt: [
+    {
+      pos: 'noun',
+      translation: 'банкрут',
+      exEn: 'After the failed investment, he was declared a bankrupt.',
+      exUa: 'Після невдалої інвестиції його оголосили банкрутом.',
+    },
+    {
+      pos: 'v',
+      translation: 'банкрутувати',
+      exEn: 'Poor management caused the small business to bankrupt within a year.',
+      exUa: 'Погане управління призвело до того, що малий бізнес збанкрутував протягом року.',
+    },
+  ],
+  barbecue: [
+    {
+      pos: 'noun',
+      translation: 'барбекю',
+      exEn: "We're hosting a barbecue in the backyard this Saturday.",
+      exUa: 'Ми влаштовуємо барбекю на задньому дворі цієї суботи.',
+    },
+    {
+      pos: 'v',
+      translation: 'смажити на грилі',
+      exEn: 'Dad loves to barbecue burgers for the whole family.',
+      exUa: 'Тато любить смажити бургери на грилі для всієї родини.',
+    },
+  ],
+  'be bound to': [
+    {
+      pos: 'v',
+      translation: 'бути приреченим на',
+      exEn: 'Without proper planning, the project was bound to fail.',
+      exUa: 'Без належного планування проєкт був приречений на провал.',
+    },
+    {
+      pos: 'v',
+      translation: "бути зобов'язаним",
+      exEn: 'As a citizen, you are bound to follow the law.',
+      exUa: "Як громадянин, ти зобов'язаний дотримуватися закону.",
+    },
+  ],
+  besiege: [
+    {
+      pos: 'v',
+      translation: 'облягати',
+      exEn: 'Enemy forces besieged the ancient city for over a year.',
+      exUa: 'Ворожі війська облягали стародавнє місто понад рік.',
+    },
+    {
+      pos: 'v',
+      translation: 'засипати (проханнями)',
+      exEn: 'Reporters besieged the actress with questions outside the courthouse.',
+      exUa: 'Репортери засипали акторку запитаннями біля будівлі суду.',
+    },
+  ],
+  blight: [
+    {
+      pos: 'noun',
+      translation: 'пошесть, руйнівна сила',
+      exEn: 'Poverty remains a blight on many parts of the city.',
+      exUa: 'Бідність залишається пошестю для багатьох районів міста.',
+    },
+    {
+      pos: 'v',
+      translation: 'руйнувати',
+      exEn: 'A mysterious disease blighted the entire potato harvest that year.',
+      exUa: 'Таємнича хвороба знищила весь урожай картоплі того року.',
+    },
+  ],
+  'blind spot': [
+    {
+      pos: 'noun',
+      translation: 'сліпа пляма',
+      exEn: 'Always check your blind spot before changing lanes.',
+      exUa: 'Завжди перевіряй сліпу пляму, перш ніж перебудуватися в інший ряд.',
+    },
+    {
+      pos: 'noun',
+      translation: 'область незнання',
+      exEn: 'Everyone has a blind spot when judging their own behaviour.',
+      exUa: 'У кожного є область незнання, коли йдеться про оцінку власної поведінки.',
+    },
+  ],
+  blunder: [
+    {
+      pos: 'noun',
+      translation: 'груба помилка',
+      exEn: "Forgetting the client's name was an embarrassing blunder.",
+      exUa: 'Забути ім\'я клієнта було ганебною грубою помилкою.',
+    },
+    {
+      pos: 'v',
+      translation: 'помилятися',
+      exEn: 'Even experienced pilots occasionally blunder under pressure.',
+      exUa: 'Навіть досвідчені пілоти інколи помиляються під тиском.',
+    },
+  ],
+  blunt: [
+    {
+      pos: 'adj',
+      translation: 'прямий, різкий (про манеру говорити)',
+      exEn: 'She gave a blunt assessment of his performance.',
+      exUa: 'Вона дала пряму й різку оцінку його виступу.',
+    },
+    {
+      pos: 'adj',
+      translation: 'тупий (про предмет)',
+      exEn: 'The knife was too blunt to cut the bread properly.',
+      exUa: 'Ніж був занадто тупий, щоб як слід нарізати хліб.',
+    },
+  ],
+  boom: [
+    {
+      pos: 'noun',
+      translation: 'бум, різке зростання',
+      exEn: 'The city experienced an economic boom after the new factory opened.',
+      exUa: 'Місто пережило економічний бум після відкриття нового заводу.',
+    },
+    {
+      pos: 'v',
+      translation: 'гриміти',
+      exEn: 'Thunder boomed across the valley during the storm.',
+      exUa: 'Грім гримів по всій долині під час шторму.',
+    },
+  ],
+  'bottom line': [
+    {
+      pos: 'noun',
+      translation: 'суть справи',
+      exEn: 'The bottom line is that we simply cannot afford this expense.',
+      exUa: 'Суть справи в тому, що ми просто не можемо дозволити собі ці витрати.',
+    },
+    {
+      pos: 'noun',
+      translation: 'підсумковий результат',
+      exEn: "New efficiency measures improved the company's bottom line significantly.",
+      exUa: 'Нові заходи з підвищення ефективності суттєво покращили підсумковий результат компанії.',
+    },
+  ],
+  'box office': [
+    {
+      pos: 'noun',
+      translation: 'каса (кінотеатру)',
+      exEn: 'Tickets are available at the box office an hour before the show.',
+      exUa: 'Квитки можна придбати в касі кінотеатру за годину до сеансу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'касові збори',
+      exEn: 'The film topped the box office for three weeks in a row.',
+      exUa: 'Фільм очолював касові збори три тижні поспіль.',
+    },
+  ],
+  brainstorm: [
+    {
+      pos: 'noun',
+      translation: 'мозковий штурм',
+      exEn: 'The team held a brainstorm to generate new marketing ideas.',
+      exUa: 'Команда провела мозковий штурм, щоб згенерувати нові маркетингові ідеї.',
+    },
+    {
+      pos: 'v',
+      translation: 'проводити мозковий штурм',
+      exEn: "Let's brainstorm some possible solutions before the deadline.",
+      exUa: 'Давайте проведемо мозковий штурм можливих рішень до кінцевого терміну.',
+    },
+  ],
+  breakdown: [
+    {
+      pos: 'noun',
+      translation: 'збій, розпад',
+      exEn: 'The negotiations ended in a complete breakdown of communication.',
+      exUa: 'Переговори завершилися повним розпадом комунікації.',
+    },
+    {
+      pos: 'noun',
+      translation: 'аналіз',
+      exEn: 'The report gives a detailed breakdown of monthly expenses.',
+      exUa: 'Звіт дає детальний аналіз щомісячних витрат.',
+    },
+  ],
+  broker: [
+    {
+      pos: 'noun',
+      translation: 'брокер',
+      exEn: 'She works as a broker for a large real estate firm.',
+      exUa: 'Вона працює брокером у великій компанії з нерухомості.',
+    },
+    {
+      pos: 'v',
+      translation: 'домовлятися, посередничати',
+      exEn: 'The UN tried to broker a peace agreement between the two nations.',
+      exUa: 'ООН намагалася виступити посередником у мирній угоді між двома націями.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
