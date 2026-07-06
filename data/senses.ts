@@ -4847,6 +4847,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Курчата вилупилися з яєць через три тижні.',
     },
   ],
+  hawk: [
+    {
+      pos: 'noun',
+      translation: 'яструб',
+      exEn: 'A hawk circled high above the open field.',
+      exUa: 'Яструб кружляв високо над відкритим полем.',
+    },
+    {
+      pos: 'v',
+      translation: 'продавати',
+      exEn: 'Vendors hawked souvenirs to tourists near the monument.',
+      exUa: "Продавці продавали сувеніри туристам біля пам'ятника.",
+    },
+  ],
+  headroom: [
+    {
+      pos: 'noun',
+      translation: 'вільний простір (над головою)',
+      exEn: 'The attic has very little headroom near the walls.',
+      exUa: 'На горищі дуже мало вільного простору над головою біля стін.',
+    },
+    {
+      pos: 'noun',
+      translation: 'запас маневру',
+      exEn: 'The company has some financial headroom to invest in new projects.',
+      exUa: 'Компанія має певний запас маневру для інвестування в нові проєкти.',
+    },
+  ],
+  heap: [
+    {
+      pos: 'noun',
+      translation: 'купа',
+      exEn: 'Dirty clothes were piled in a heap on the floor.',
+      exUa: 'Брудний одяг лежав купою на підлозі.',
+    },
+    {
+      pos: 'v',
+      translation: 'звалювати',
+      exEn: 'She heaped mashed potatoes onto his plate.',
+      exUa: 'Вона наклала йому повну тарілку картопляного пюре.',
+    },
+  ],
+  heat: [
+    {
+      pos: 'noun',
+      translation: 'тепло',
+      exEn: 'She turned up the heat because the room was too cold.',
+      exUa: 'Вона зробила тепло сильнішим, бо в кімнаті було занадто холодно.',
+    },
+    {
+      pos: 'v',
+      translation: 'нагрівати',
+      exEn: 'Heat the oil in the pan before adding the onions.',
+      exUa: 'Нагрій олію на сковороді, перш ніж додати цибулю.',
+    },
+  ],
+  hedge: [
+    {
+      pos: 'noun',
+      translation: 'живопліт',
+      exEn: 'A tall hedge separated the two gardens.',
+      exUa: 'Високий живопліт розділяв два сади.',
+    },
+    {
+      pos: 'v',
+      translation: 'страхуватися',
+      exEn: 'Investors hedge against risk by diversifying their portfolio.',
+      exUa: 'Інвестори страхуються від ризику, диверсифікуючи свій портфель.',
+    },
+  ],
+  help: [
+    {
+      pos: 'v',
+      translation: 'допомагати',
+      exEn: 'Could you help me carry these boxes upstairs?',
+      exUa: 'Чи не міг би ти допомогти мені занести ці коробки нагору?',
+    },
+    {
+      pos: 'noun',
+      translation: 'допомога',
+      exEn: 'She needed some help with her homework.',
+      exUa: 'Їй потрібна була якась допомога з домашнім завданням.',
+    },
+  ],
+  herald: [
+    {
+      pos: 'noun',
+      translation: 'вісник',
+      exEn: 'The first robin is often seen as a herald of spring.',
+      exUa: 'Перший вільшанка часто вважається вісником весни.',
+    },
+    {
+      pos: 'v',
+      translation: 'сповіщати',
+      exEn: 'Dark clouds heralded the coming storm.',
+      exUa: 'Темні хмари сповіщали про наближення шторму.',
+    },
+  ],
+  herd: [
+    {
+      pos: 'noun',
+      translation: 'стадо',
+      exEn: 'A herd of cattle grazed peacefully in the meadow.',
+      exUa: 'Стадо худоби мирно паслося на луці.',
+    },
+    {
+      pos: 'v',
+      translation: 'пасти',
+      exEn: 'Shepherds herded the sheep down from the hills.',
+      exUa: 'Пастухи спускали овець з пагорбів.',
+    },
+  ],
+  heresy: [
+    {
+      pos: 'noun',
+      translation: 'єресь',
+      exEn: "The scholar's ideas were condemned as heresy by the church.",
+      exUa: 'Ідеї вченого були засуджені церквою як єресь.',
+    },
+    {
+      pos: 'noun',
+      translation: 'відступництво від загальноприйнятих поглядів',
+      exEn: 'Questioning the theory was considered heresy among his colleagues.',
+      exUa: 'Сумнів у теорії вважався відступництвом від загальноприйнятих поглядів серед його колег.',
+    },
+  ],
+  'high heels': [
+    {
+      pos: 'noun',
+      translation: 'підбори',
+      exEn: 'She struggled to walk in such high heels.',
+      exUa: 'Їй було важко ходити на таких високих підборах.',
+    },
+    {
+      pos: 'noun',
+      translation: 'туфлі на підборах',
+      exEn: 'She packed a pair of high heels for the wedding.',
+      exUa: 'Вона взяла з собою туфлі на підборах на весілля.',
+    },
+  ],
+  highlight: [
+    {
+      pos: 'v',
+      translation: 'виділяти',
+      exEn: 'She highlighted the most important sentences in yellow.',
+      exUa: 'Вона виділила найважливіші речення жовтим кольором.',
+    },
+    {
+      pos: 'noun',
+      translation: 'найвища точка',
+      exEn: 'Meeting the author was the highlight of the whole trip.',
+      exUa: 'Зустріч з автором була найвищою точкою всієї поїздки.',
+    },
+  ],
+  hike: [
+    {
+      pos: 'noun',
+      translation: 'похід',
+      exEn: 'They went on a long hike through the mountains.',
+      exUa: 'Вони вирушили в довгий похід через гори.',
+    },
+    {
+      pos: 'v',
+      translation: 'йти в похід',
+      exEn: 'We plan to hike to the summit before sunrise.',
+      exUa: 'Ми плануємо йти в похід до вершини до світанку.',
+    },
+  ],
+  hinge: [
+    {
+      pos: 'noun',
+      translation: 'завіса',
+      exEn: 'The door hinge squeaked every time it opened.',
+      exUa: 'Дверна завіса скрипіла щоразу, коли двері відчинялися.',
+    },
+    {
+      pos: 'v',
+      translation: 'залежати від',
+      exEn: 'Their whole plan hinges on the weather being good.',
+      exUa: 'Весь їхній план залежить від того, чи буде гарна погода.',
+    },
+  ],
+  hint: [
+    {
+      pos: 'noun',
+      translation: 'натяк',
+      exEn: 'She dropped a hint about her upcoming birthday.',
+      exUa: "Вона зробила натяк про своє наближення дня народження.",
+    },
+    {
+      pos: 'v',
+      translation: 'натякати',
+      exEn: 'He hinted that he might be leaving the company soon.',
+      exUa: 'Він натякнув, що незабаром може піти з компанії.',
+    },
+  ],
+  hoard: [
+    {
+      pos: 'v',
+      translation: 'накопичувати',
+      exEn: 'During the crisis, some people began to hoard food and supplies.',
+      exUa: 'Під час кризи деякі люди почали накопичувати їжу та припаси.',
+    },
+    {
+      pos: 'noun',
+      translation: 'запас',
+      exEn: 'They found a hidden hoard of old coins in the attic.',
+      exUa: 'Вони знайшли прихований запас старих монет на горищі.',
+    },
+  ],
+  hog: [
+    {
+      pos: 'noun',
+      translation: 'великий кабан',
+      exEn: 'The farmer kept several hogs in the barn.',
+      exUa: 'Фермер тримав кількох великих кабанів у сараї.',
+    },
+    {
+      pos: 'v',
+      translation: 'займати',
+      exEn: 'He always hogs the remote control during movie night.',
+      exUa: 'Він завжди займає пульт під час перегляду фільмів.',
+    },
+  ],
+  holiday: [
+    {
+      pos: 'noun',
+      translation: 'свято',
+      exEn: 'Christmas is a major holiday celebrated worldwide.',
+      exUa: 'Різдво — велике свято, яке відзначають у всьому світі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'відпустка',
+      exEn: 'They booked a two-week holiday in Spain.',
+      exUa: 'Вони забронювали двотижневу відпустку в Іспанії.',
+    },
+  ],
+  'honor (honour)': [
+    {
+      pos: 'noun',
+      translation: 'честь',
+      exEn: 'She accepted the award with great honour and gratitude.',
+      exUa: 'Вона прийняла нагороду з великою честю та вдячністю.',
+    },
+    {
+      pos: 'v',
+      translation: 'шанувати',
+      exEn: 'The city built a statue to honour the fallen soldiers.',
+      exUa: 'Місто спорудило статую, щоб вшанувати загиблих солдатів.',
+    },
+  ],
+  hook: [
+    {
+      pos: 'noun',
+      translation: 'гачок',
+      exEn: 'She hung her coat on the hook behind the door.',
+      exUa: 'Вона повісила пальто на гачок за дверима.',
+    },
+    {
+      pos: 'v',
+      translation: 'зачіпляти',
+      exEn: 'The fisherman hooked a large trout in the river.',
+      exUa: 'Рибалка зачепив на гачок велику форель у річці.',
+    },
+  ],
+  hop: [
+    {
+      pos: 'v',
+      translation: 'стрибати',
+      exEn: 'The rabbit hopped quickly across the garden.',
+      exUa: 'Кролик швидко стрибав через сад.',
+    },
+    {
+      pos: 'noun',
+      translation: 'стрибок',
+      exEn: "It's just a short hop from here to the next town.",
+      exUa: 'Звідси до наступного міста лише короткий стрибок.',
+    },
+  ],
+  hope: [
+    {
+      pos: 'v',
+      translation: 'сподіватися',
+      exEn: 'I hope you have a wonderful trip.',
+      exUa: 'Сподіваюся, у тебе буде чудова поїздка.',
+    },
+    {
+      pos: 'noun',
+      translation: 'надія',
+      exEn: 'She never lost hope during the difficult years.',
+      exUa: 'Вона ніколи не втрачала надії протягом важких років.',
+    },
+  ],
+  hose: [
+    {
+      pos: 'noun',
+      translation: 'шланг',
+      exEn: 'He used the garden hose to wash the car.',
+      exUa: 'Він скористався садовим шлангом, щоб помити машину.',
+    },
+    {
+      pos: 'v',
+      translation: 'поливати',
+      exEn: 'She hosed down the muddy patio after the party.',
+      exUa: 'Вона полила з шланга брудну терасу після вечірки.',
+    },
+  ],
+  host: [
+    {
+      pos: 'noun',
+      translation: 'господар',
+      exEn: 'The host greeted every guest warmly at the door.',
+      exUa: 'Господар тепло вітав кожного гостя біля дверей.',
+    },
+    {
+      pos: 'v',
+      translation: 'приймати',
+      exEn: 'The city will host the international conference next year.',
+      exUa: 'Місто прийматиме міжнародну конференцію наступного року.',
+    },
+  ],
+  hound: [
+    {
+      pos: 'noun',
+      translation: 'мисливський пес',
+      exEn: "The hunter's hound tracked the scent through the forest.",
+      exUa: 'Мисливський пес мисливця йшов слідом крізь ліс.',
+    },
+    {
+      pos: 'v',
+      translation: 'переслідувати',
+      exEn: 'Reporters hounded the celebrity for weeks after the scandal.',
+      exUa: 'Репортери переслідували знаменитість тижнями після скандалу.',
+    },
+  ],
+  howl: [
+    {
+      pos: 'v',
+      translation: 'вити',
+      exEn: 'Wolves howled in the distance throughout the night.',
+      exUa: 'Вовки вили вдалині всю ніч.',
+    },
+    {
+      pos: 'noun',
+      translation: 'завивання',
+      exEn: 'The howl of the wind kept them awake all night.',
+      exUa: 'Завивання вітру не давало їм заснути всю ніч.',
+    },
+  ],
+  hug: [
+    {
+      pos: 'v',
+      translation: 'обіймати',
+      exEn: 'She hugged her grandmother tightly at the airport.',
+      exUa: 'Вона міцно обійняла бабусю в аеропорту.',
+    },
+    {
+      pos: 'noun',
+      translation: 'обійми',
+      exEn: 'He gave his son a warm hug before leaving.',
+      exUa: "Він тепло обійняв сина перед від'їздом.",
+    },
+  ],
+  hull: [
+    {
+      pos: 'noun',
+      translation: 'корпус',
+      exEn: "The ship's hull was damaged by the rocks.",
+      exUa: 'Корпус корабля був пошкоджений об каміння.',
+    },
+    {
+      pos: 'v',
+      translation: 'лущити',
+      exEn: 'She hulled the strawberries before making the jam.',
+      exUa: 'Вона очистила полуницю, перш ніж робити варення.',
+    },
+  ],
+  humble: [
+    {
+      pos: 'adj',
+      translation: 'скромний',
+      exEn: 'Despite his fame, he remained genuinely humble.',
+      exUa: 'Попри свою славу, він залишався щиро скромним.',
+    },
+    {
+      pos: 'v',
+      translation: 'приземляти',
+      exEn: 'The unexpected defeat humbled the arrogant champion.',
+      exUa: 'Несподівана поразка приземлила зарозумілого чемпіона.',
+    },
+  ],
+  hump: [
+    {
+      pos: 'noun',
+      translation: 'горб',
+      exEn: "The camel's hump stores fat, not water.",
+      exUa: 'Горб верблюда зберігає жир, а не воду.',
+    },
+    {
+      pos: 'v',
+      translation: 'здолати',
+      exEn: 'It took real effort to hump the heavy suitcase over the hill.',
+      exUa: 'Знадобилися справжні зусилля, щоб здолати пагорб з важкою валізою.',
+    },
+  ],
+  hunch: [
+    {
+      pos: 'noun',
+      translation: 'передчуття',
+      exEn: 'She had a strong hunch that something was wrong.',
+      exUa: 'У неї було сильне передчуття, що щось не так.',
+    },
+    {
+      pos: 'v',
+      translation: 'горбитися',
+      exEn: 'He hunched over his desk, exhausted after the long shift.',
+      exUa: 'Він горбився за столом, виснажений після довгої зміни.',
+    },
+  ],
+  hunt: [
+    {
+      pos: 'noun',
+      translation: 'полювання',
+      exEn: 'The hunt lasted several hours before they found the deer.',
+      exUa: 'Полювання тривало кілька годин, перш ніж вони знайшли оленя.',
+    },
+    {
+      pos: 'v',
+      translation: 'полювати',
+      exEn: 'Owls hunt mice and small rodents at night.',
+      exUa: 'Сови полюють на мишей та дрібних гризунів вночі.',
+    },
+  ],
+  hurry: [
+    {
+      pos: 'v',
+      translation: 'поспішати',
+      exEn: 'She hurried to catch the last bus home.',
+      exUa: 'Вона поспішала, щоб встигнути на останній автобус додому.',
+    },
+    {
+      pos: 'noun',
+      translation: 'поспіх',
+      exEn: 'In her hurry, she forgot her keys on the table.',
+      exUa: 'У поспіху вона забула ключі на столі.',
+    },
+  ],
+  hush: [
+    {
+      pos: 'noun',
+      translation: 'тиша',
+      exEn: 'A sudden hush fell over the crowd as the speaker approached.',
+      exUa: 'Раптова тиша запанувала над натовпом, коли промовець наблизився.',
+    },
+    {
+      pos: 'v',
+      translation: 'замовчати',
+      exEn: 'The company tried to hush up the scandal.',
+      exUa: 'Компанія намагалася замовчати скандал.',
+    },
+  ],
+  hustle: [
+    {
+      pos: 'noun',
+      translation: 'метушня',
+      exEn: 'She loves the hustle and energy of the big city.',
+      exUa: 'Їй подобається метушня та енергія великого міста.',
+    },
+    {
+      pos: 'v',
+      translation: 'поспішати',
+      exEn: 'They hustled through the airport to catch their connecting flight.',
+      exUa: 'Вони поспішали через аеропорт, щоб встигнути на пересадку.',
+    },
+  ],
+  hybrid: [
+    {
+      pos: 'noun',
+      translation: 'гібрид',
+      exEn: 'The new car is a hybrid powered by petrol and electricity.',
+      exUa: 'Нова машина — гібрид, що працює на бензині та електриці.',
+    },
+    {
+      pos: 'adj',
+      translation: 'гібридний',
+      exEn: 'The company adopted a hybrid work model after the pandemic.',
+      exUa: 'Компанія запровадила гібридну модель роботи після пандемії.',
+    },
+  ],
+  immune: [
+    {
+      pos: 'adj',
+      translation: 'несприйнятливий',
+      exEn: 'No one is completely immune to stress.',
+      exUa: 'Ніхто не є повністю несприйнятливим до стресу.',
+    },
+    {
+      pos: 'adj',
+      translation: 'імунний',
+      exEn: 'A healthy diet strengthens your immune system.',
+      exUa: 'Здорове харчування зміцнює імунну систему.',
+    },
+  ],
+  import: [
+    {
+      pos: 'noun',
+      translation: 'імпорт',
+      exEn: "The country's economy depends heavily on the import of oil.",
+      exUa: 'Економіка країни значною мірою залежить від імпорту нафти.',
+    },
+    {
+      pos: 'v',
+      translation: 'імпортувати',
+      exEn: 'The company imports coffee beans from South America.',
+      exUa: 'Компанія імпортує кавові зерна з Південної Америки.',
+    },
+  ],
+  imprint: [
+    {
+      pos: 'noun',
+      translation: 'відбиток',
+      exEn: 'The fossil preserved a clear imprint of an ancient leaf.',
+      exUa: 'Скам\'янілість зберегла чіткий відбиток стародавнього листка.',
+    },
+    {
+      pos: 'v',
+      translation: 'залишати слід',
+      exEn: 'Her kindness imprinted itself on everyone she met.',
+      exUa: 'Її доброта залишала слід у кожному, кого вона зустрічала.',
+    },
+  ],
+  inch: [
+    {
+      pos: 'noun',
+      translation: 'дюйм',
+      exEn: 'The screen measures six inches diagonally.',
+      exUa: 'Екран має шість дюймів по діагоналі.',
+    },
+    {
+      pos: 'v',
+      translation: 'повільно рухатися',
+      exEn: 'Traffic inched forward slowly during rush hour.',
+      exUa: 'Рух повільно просувався вперед у годину пік.',
+    },
+  ],
+  incline: [
+    {
+      pos: 'noun',
+      translation: 'схил',
+      exEn: 'The path followed a gentle incline up the hill.',
+      exUa: 'Стежка йшла пологим схилом угору.',
+    },
+    {
+      pos: 'v',
+      translation: 'схиляти',
+      exEn: 'Her calm arguments inclined him to agree.',
+      exUa: 'Її спокійні аргументи схилили його погодитися.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
