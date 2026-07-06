@@ -8757,6 +8757,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Провина мучила його роками після аварії.',
     },
   ],
+  rage: [
+    {
+      pos: 'noun',
+      translation: 'лють',
+      exEn: 'He felt a sudden surge of rage when he heard the news.',
+      exUa: 'Він відчув раптовий спалах люті, почувши новину.',
+    },
+    {
+      pos: 'v',
+      translation: 'шаленіти',
+      exEn: 'The storm raged for three days without stopping.',
+      exUa: 'Шторм шаленів три дні без зупинки.',
+    },
+  ],
+  rake: [
+    {
+      pos: 'noun',
+      translation: 'граблі',
+      exEn: 'He used a rake to gather the fallen leaves.',
+      exUa: 'Він скористався граблями, щоб зібрати опале листя.',
+    },
+    {
+      pos: 'v',
+      translation: 'згрібати',
+      exEn: 'She raked the leaves into a large pile.',
+      exUa: 'Вона згребла листя у велику купу.',
+    },
+  ],
+  rally: [
+    {
+      pos: 'noun',
+      translation: 'мітинг',
+      exEn: 'Thousands attended the political rally downtown.',
+      exUa: 'Тисячі людей відвідали політичний мітинг у центрі міста.',
+    },
+    {
+      pos: 'v',
+      translation: "об'єднуватися",
+      exEn: 'The team rallied together after their early defeat.',
+      exUa: "Команда об'єдналася після ранньої поразки.",
+    },
+  ],
+  ram: [
+    {
+      pos: 'noun',
+      translation: 'баран',
+      exEn: 'The ram butted heads with another male in the field.',
+      exUa: 'Баран зіштовхнувся головами з іншим самцем на полі.',
+    },
+    {
+      pos: 'v',
+      translation: 'вдарятися',
+      exEn: 'The truck rammed into the back of the parked car.',
+      exUa: 'Вантажівка врізалася в задню частину припаркованого автомобіля.',
+    },
+  ],
+  rampage: [
+    {
+      pos: 'noun',
+      translation: 'нищівний напад',
+      exEn: 'The elephant went on a rampage through the village.',
+      exUa: 'Слон здійснив нищівний напад на село.',
+    },
+    {
+      pos: 'v',
+      translation: 'шаленіти',
+      exEn: 'The mob rampaged through the streets after the match.',
+      exUa: 'Натовп шаленів на вулицях після матчу.',
+    },
+  ],
+  rank: [
+    {
+      pos: 'noun',
+      translation: 'звання',
+      exEn: 'He was promoted to the rank of captain.',
+      exUa: 'Його підвищили до звання капітана.',
+    },
+    {
+      pos: 'v',
+      translation: 'ранжувати',
+      exEn: 'The website ranks hotels based on customer reviews.',
+      exUa: 'Сайт ранжує готелі на основі відгуків клієнтів.',
+    },
+  ],
+  rate: [
+    {
+      pos: 'noun',
+      translation: 'ставка',
+      exEn: 'The bank offered a lower interest rate this year.',
+      exUa: 'Банк цього року запропонував нижчу процентну ставку.',
+    },
+    {
+      pos: 'v',
+      translation: 'оцінювати',
+      exEn: 'Customers rated the service five stars.',
+      exUa: 'Клієнти оцінили обслуговування на п\'ять зірок.',
+    },
+  ],
+  rating: [
+    {
+      pos: 'noun',
+      translation: 'рейтинг',
+      exEn: 'The film received an excellent rating from viewers.',
+      exUa: 'Фільм отримав чудовий рейтинг від глядачів.',
+    },
+    {
+      pos: 'noun',
+      translation: 'оцінка',
+      exEn: 'Her performance rating this year was outstanding.',
+      exUa: 'Її оцінка ефективності цього року була відмінною.',
+    },
+  ],
+  rattle: [
+    {
+      pos: 'v',
+      translation: 'брязчати',
+      exEn: 'The old windows rattled loudly in the wind.',
+      exUa: 'Старі вікна голосно брязчали на вітрі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'тріщотка',
+      exEn: 'The baby shook her rattle happily.',
+      exUa: 'Малюк щасливо трусив своєю тріщоткою.',
+    },
+  ],
+  readily: [
+    {
+      pos: 'adv',
+      translation: 'охоче',
+      exEn: 'She readily agreed to help with the project.',
+      exUa: 'Вона охоче погодилася допомогти з проєктом.',
+    },
+    {
+      pos: 'adv',
+      translation: 'легко',
+      exEn: 'The information is readily available online.',
+      exUa: 'Ця інформація легко доступна онлайн.',
+    },
+  ],
+  rear: [
+    {
+      pos: 'adj',
+      translation: 'задній',
+      exEn: 'The rear window of the car was cracked.',
+      exUa: 'Заднє вікно автомобіля було тріснуте.',
+    },
+    {
+      pos: 'v',
+      translation: 'виховувати',
+      exEn: 'They reared three children in that small house.',
+      exUa: 'Вони виховали трьох дітей у тому маленькому будинку.',
+    },
+  ],
+  reason: [
+    {
+      pos: 'noun',
+      translation: 'причина',
+      exEn: 'There was no clear reason for his sudden departure.',
+      exUa: 'Не було чіткої причини для його раптового від\'їзду.',
+    },
+    {
+      pos: 'v',
+      translation: 'міркувати',
+      exEn: 'He reasoned carefully before making his final decision.',
+      exUa: 'Він ретельно поміркував, перш ніж ухвалити остаточне рішення.',
+    },
+  ],
+  rebel: [
+    {
+      pos: 'v',
+      translation: 'повставати',
+      exEn: "Teenagers often rebel against their parents' rules.",
+      exUa: 'Підлітки часто повстають проти правил своїх батьків.',
+    },
+    {
+      pos: 'noun',
+      translation: 'бунтівник',
+      exEn: 'The rebels captured the town after a long siege.',
+      exUa: 'Бунтівники захопили місто після тривалої облоги.',
+    },
+  ],
+  rebuke: [
+    {
+      pos: 'v',
+      translation: 'докоряти, осуджувати',
+      exEn: 'The coach rebuked the player for his poor attitude.',
+      exUa: 'Тренер докорив гравцеві за погане ставлення.',
+    },
+    {
+      pos: 'noun',
+      translation: 'догана',
+      exEn: 'She received a formal rebuke from her manager.',
+      exUa: 'Вона отримала офіційну догану від свого керівника.',
+    },
+  ],
+  recap: [
+    {
+      pos: 'noun',
+      translation: 'короткий підсумок',
+      exEn: "Let's start the meeting with a quick recap of last week.",
+      exUa: 'Розпочнемо зустріч із короткого підсумку минулого тижня.',
+    },
+    {
+      pos: 'v',
+      translation: 'підсумовувати',
+      exEn: 'She recapped the main points before ending the presentation.',
+      exUa: 'Вона підсумувала основні пункти перед завершенням презентації.',
+    },
+  ],
+  recoil: [
+    {
+      pos: 'v',
+      translation: 'відступати в жаху',
+      exEn: 'She recoiled in horror at the sight of the spider.',
+      exUa: 'Вона відступила в жаху при вигляді павука.',
+    },
+    {
+      pos: 'noun',
+      translation: 'відкат',
+      exEn: "The rifle's recoil surprised the new shooter.",
+      exUa: 'Відкат гвинтівки здивував нового стрільця.',
+    },
+  ],
+  recruit: [
+    {
+      pos: 'v',
+      translation: 'набирати',
+      exEn: 'The army recruits thousands of young volunteers every year.',
+      exUa: 'Армія щороку набирає тисячі молодих добровольців.',
+    },
+    {
+      pos: 'noun',
+      translation: 'рекрут',
+      exEn: 'The new recruit struggled during his first week of training.',
+      exUa: 'Новий рекрут мав труднощі протягом першого тижня навчання.',
+    },
+  ],
+  redundancy: [
+    {
+      pos: 'noun',
+      translation: 'скорочення штату',
+      exEn: 'Many workers faced redundancy after the factory closed.',
+      exUa: 'Багато робітників зіткнулися зі скороченням штату після закриття заводу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'надлишковість',
+      exEn: 'The system was designed with built-in redundancy for safety.',
+      exUa: 'Система була спроєктована з вбудованою надлишковістю для безпеки.',
+    },
+  ],
+  reel: [
+    {
+      pos: 'noun',
+      translation: 'котушка',
+      exEn: 'He wound the fishing line back onto the reel.',
+      exUa: 'Він намотав волосінь назад на котушку.',
+    },
+    {
+      pos: 'v',
+      translation: 'хитатися',
+      exEn: 'She reeled in shock after hearing the terrible news.',
+      exUa: 'Вона захиталася від шоку, почувши жахливу новину.',
+    },
+  ],
+  reflection: [
+    {
+      pos: 'noun',
+      translation: 'відображення',
+      exEn: 'She admired her reflection in the mirror.',
+      exUa: 'Вона милувалася своїм відображенням у дзеркалі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'роздум',
+      exEn: 'After much reflection, he decided to change careers.',
+      exUa: 'Після довгих роздумів він вирішив змінити кар\'єру.',
+    },
+  ],
+  reform: [
+    {
+      pos: 'noun',
+      translation: 'реформа',
+      exEn: 'The government introduced a major education reform.',
+      exUa: 'Уряд запровадив масштабну освітню реформу.',
+    },
+    {
+      pos: 'v',
+      translation: 'реформувати',
+      exEn: 'They plan to reform the outdated tax system.',
+      exUa: 'Вони планують реформувати застарілу податкову систему.',
+    },
+  ],
+  refrain: [
+    {
+      pos: 'v',
+      translation: 'утримуватися',
+      exEn: 'Please refrain from smoking in this area.',
+      exUa: 'Будь ласка, утримайтеся від куріння в цій зоні.',
+    },
+    {
+      pos: 'noun',
+      translation: 'приспів',
+      exEn: 'Everyone sang along to the catchy refrain.',
+      exUa: 'Усі підспівували заразливому приспіву.',
+    },
+  ],
+  refuse: [
+    {
+      pos: 'v',
+      translation: 'відмовляти',
+      exEn: 'She refused to sign the contract without changes.',
+      exUa: 'Вона відмовилася підписувати контракт без змін.',
+    },
+    {
+      pos: 'noun',
+      translation: 'сміття',
+      exEn: 'The council collects refuse every Tuesday morning.',
+      exUa: 'Рада забирає сміття щовівторка вранці.',
+    },
+  ],
+  regard: [
+    {
+      pos: 'v',
+      translation: 'вважати',
+      exEn: 'She is widely regarded as an expert in her field.',
+      exUa: 'Її широко вважають експертом у своїй галузі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'повага',
+      exEn: 'He has great regard for his former teacher.',
+      exUa: 'Він має велику повагу до свого колишнього вчителя.',
+    },
+  ],
+  regiment: [
+    {
+      pos: 'noun',
+      translation: 'полк',
+      exEn: 'The regiment marched through the town at dawn.',
+      exUa: 'Полк марширував через місто на світанку.',
+    },
+    {
+      pos: 'v',
+      translation: 'суворо контролювати',
+      exEn: 'Her daily routine was regimented down to the minute.',
+      exUa: 'Її щоденний розпорядок був суворо контрольований до хвилини.',
+    },
+  ],
+  register: [
+    {
+      pos: 'v',
+      translation: 'реєструватися',
+      exEn: 'Students must register for classes before September.',
+      exUa: 'Студенти повинні зареєструватися на заняття до вересня.',
+    },
+    {
+      pos: 'noun',
+      translation: 'журнал',
+      exEn: 'The teacher checked the attendance register every morning.',
+      exUa: 'Вчителька щоранку перевіряла журнал відвідуваності.',
+    },
+  ],
+  regret: [
+    {
+      pos: 'v',
+      translation: 'шкодувати',
+      exEn: 'She regrets not studying abroad when she had the chance.',
+      exUa: 'Вона шкодує, що не навчалася за кордоном, коли мала таку можливість.',
+    },
+    {
+      pos: 'noun',
+      translation: 'жаль',
+      exEn: 'He expressed deep regret for his mistake.',
+      exUa: 'Він висловив глибокий жаль за свою помилку.',
+    },
+  ],
+  rein: [
+    {
+      pos: 'noun',
+      translation: 'поводи',
+      exEn: 'She pulled gently on the reins to slow the horse.',
+      exUa: 'Вона обережно потягнула за поводи, щоб сповільнити коня.',
+    },
+    {
+      pos: 'v',
+      translation: 'стримувати',
+      exEn: 'The government tried to rein in inflation.',
+      exUa: 'Уряд намагався стримати інфляцію.',
+    },
+  ],
+  relay: [
+    {
+      pos: 'v',
+      translation: 'передавати',
+      exEn: 'She relayed the message to the rest of the team.',
+      exUa: 'Вона передала повідомлення решті команди.',
+    },
+    {
+      pos: 'noun',
+      translation: 'естафета',
+      exEn: 'Their team won the relay race at the school championship.',
+      exUa: 'Їхня команда виграла естафету на шкільному чемпіонаті.',
+    },
+  ],
+  relish: [
+    {
+      pos: 'v',
+      translation: 'насолоджуватися',
+      exEn: 'She relished every moment of her vacation.',
+      exUa: 'Вона насолоджувалася кожною миттю своєї відпустки.',
+    },
+    {
+      pos: 'noun',
+      translation: 'гострий соус',
+      exEn: 'He added a spoonful of relish to his hot dog.',
+      exUa: 'Він додав ложку гострого соусу до свого хот-дога.',
+    },
+  ],
+  remark: [
+    {
+      pos: 'noun',
+      translation: 'зауваження',
+      exEn: 'His remark about her cooking upset her deeply.',
+      exUa: 'Його зауваження про її кулінарію дуже засмутило її.',
+    },
+    {
+      pos: 'v',
+      translation: 'зауважувати',
+      exEn: 'She remarked that the weather had improved recently.',
+      exUa: 'Вона зауважила, що погода нещодавно покращилася.',
+    },
+  ],
+  renaissance: [
+    {
+      pos: 'noun',
+      translation: 'відродження',
+      exEn: 'The city experienced a cultural renaissance in the 1990s.',
+      exUa: 'Місто пережило культурне відродження у 1990-х.',
+    },
+    {
+      pos: 'noun',
+      translation: 'епоха Відродження',
+      exEn: "The museum's collection focuses on art from the Renaissance.",
+      exUa: 'Колекція музею зосереджена на мистецтві епохи Відродження.',
+    },
+  ],
+  rent: [
+    {
+      pos: 'noun',
+      translation: 'орендна плата',
+      exEn: 'They struggled to pay the rent this month.',
+      exUa: 'Цього місяця їм було важко сплатити орендну плату.',
+    },
+    {
+      pos: 'v',
+      translation: 'орендувати',
+      exEn: 'They decided to rent an apartment near the city centre.',
+      exUa: 'Вони вирішили орендувати квартиру біля центру міста.',
+    },
+  ],
+  repair: [
+    {
+      pos: 'v',
+      translation: 'ремонтувати',
+      exEn: 'He repaired the broken fence over the weekend.',
+      exUa: 'Він відремонтував зламаний паркан на вихідних.',
+    },
+    {
+      pos: 'noun',
+      translation: 'ремонт',
+      exEn: 'The car needs major repair after the accident.',
+      exUa: 'Автомобілю потрібен серйозний ремонт після аварії.',
+    },
+  ],
+  reply: [
+    {
+      pos: 'v',
+      translation: 'відповідати',
+      exEn: 'She replied to the email within an hour.',
+      exUa: 'Вона відповіла на лист протягом години.',
+    },
+    {
+      pos: 'noun',
+      translation: 'відповідь',
+      exEn: 'His reply came as a complete surprise.',
+      exUa: 'Його відповідь стала повною несподіванкою.',
+    },
+  ],
+  report: [
+    {
+      pos: 'noun',
+      translation: 'звіт',
+      exEn: 'She submitted her final report on Friday.',
+      exUa: "Вона подала свій остаточний звіт у п'ятницю.",
+    },
+    {
+      pos: 'v',
+      translation: 'повідомляти',
+      exEn: 'Witnesses reported seeing a suspicious car nearby.',
+      exUa: 'Свідки повідомили, що бачили поблизу підозрілу машину.',
+    },
+  ],
+  representative: [
+    {
+      pos: 'adj',
+      translation: 'репрезентативний',
+      exEn: 'The survey used a representative sample of the population.',
+      exUa: 'Опитування використовувало репрезентативну вибірку населення.',
+    },
+    {
+      pos: 'noun',
+      translation: 'представник',
+      exEn: 'A company representative answered all our questions.',
+      exUa: 'Представник компанії відповів на всі наші запитання.',
+    },
+  ],
+  reproach: [
+    {
+      pos: 'v',
+      translation: 'дорікати',
+      exEn: 'She reproached him for arriving so late.',
+      exUa: 'Вона дорікнула йому за таке запізнення.',
+    },
+    {
+      pos: 'noun',
+      translation: 'докір',
+      exEn: 'There was a note of reproach in her voice.',
+      exUa: 'У її голосі відчувався докір.',
+    },
+  ],
+  request: [
+    {
+      pos: 'v',
+      translation: 'просити',
+      exEn: 'She requested a window seat for the flight.',
+      exUa: 'Вона попросила місце біля вікна на рейс.',
+    },
+    {
+      pos: 'noun',
+      translation: 'прохання',
+      exEn: 'The manager granted his request for extra leave.',
+      exUa: 'Керівник задовольнив його прохання про додаткову відпустку.',
+    },
+  ],
+  rescue: [
+    {
+      pos: 'v',
+      translation: 'рятувати',
+      exEn: 'Firefighters rescued the family from the burning building.',
+      exUa: 'Пожежники врятували родину з палаючої будівлі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'порятунок',
+      exEn: 'The dramatic rescue was broadcast live on television.',
+      exUa: 'Драматичний порятунок транслювали в прямому ефірі телебачення.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
