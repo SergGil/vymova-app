@@ -2601,6 +2601,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Вона зволожила ганчірку, перш ніж протерти стільницю.',
     },
   ],
+  dash: [
+    {
+      pos: 'v',
+      translation: 'кидатися',
+      exEn: 'He made a sudden dash for the exit when the fire alarm rang.',
+      exUa: 'Він раптово кинувся до виходу, коли пролунала пожежна сигналізація.',
+    },
+    {
+      pos: 'noun',
+      translation: 'тире',
+      exEn: 'Use a dash to separate the two parts of the sentence.',
+      exUa: 'Використай тире, щоб розділити дві частини речення.',
+    },
+  ],
+  debut: [
+    {
+      pos: 'noun',
+      translation: 'дебют',
+      exEn: 'Her debut novel became an instant bestseller.',
+      exUa: 'Її дебютний роман миттєво став бестселером.',
+    },
+    {
+      pos: 'v',
+      translation: 'дебютувати',
+      exEn: 'The young actor will debut in a major film next year.',
+      exUa: 'Молодий актор дебютує у великому фільмі наступного року.',
+    },
+  ],
+  decay: [
+    {
+      pos: 'v',
+      translation: 'гнити',
+      exEn: 'The fallen leaves slowly decayed on the forest floor.',
+      exUa: 'Опале листя повільно гнило на лісовій підстилці.',
+    },
+    {
+      pos: 'noun',
+      translation: 'занепад',
+      exEn: 'The old mansion showed clear signs of decay.',
+      exUa: 'Старий особняк мав явні ознаки занепаду.',
+    },
+  ],
+  decrease: [
+    {
+      pos: 'v',
+      translation: 'зменшувати',
+      exEn: 'The company decreased its prices to attract more customers.',
+      exUa: 'Компанія зменшила ціни, щоб привабити більше клієнтів.',
+    },
+    {
+      pos: 'noun',
+      translation: 'зниження',
+      exEn: 'There has been a steady decrease in unemployment this year.',
+      exUa: 'Цього року спостерігається стійке зниження безробіття.',
+    },
+  ],
+  default: [
+    {
+      pos: 'v',
+      translation: "не виконувати зобов'язань",
+      exEn: 'The borrower defaulted on his loan after losing his job.',
+      exUa: "Позичальник не виконав зобов'язання за кредитом після втрати роботи.",
+    },
+    {
+      pos: 'v',
+      translation: 'мати значення за замовчуванням',
+      exEn: 'The settings default to English unless changed manually.',
+      exUa: 'Налаштування мають значення за замовчуванням англійською, якщо не змінені вручну.',
+    },
+  ],
+  defeat: [
+    {
+      pos: 'noun',
+      translation: 'поразка',
+      exEn: 'The team suffered a humiliating defeat in the final match.',
+      exUa: 'Команда зазнала принизливої поразки у фінальному матчі.',
+    },
+    {
+      pos: 'v',
+      translation: 'перемагати',
+      exEn: 'Our side defeated the opponents by three points.',
+      exUa: 'Наша сторона перемогла суперників з різницею у три очки.',
+    },
+  ],
+  defendant: [
+    {
+      pos: 'noun',
+      translation: 'відповідач',
+      exEn: 'The defendant filed a counterclaim in the civil case.',
+      exUa: 'Відповідач подав зустрічний позов у цивільній справі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'підсудний',
+      exEn: 'The defendant pleaded not guilty before the judge.',
+      exUa: 'Підсудний визнав себе невинним перед суддею.',
+    },
+  ],
+  delay: [
+    {
+      pos: 'noun',
+      translation: 'затримка',
+      exEn: 'The flight suffered a three-hour delay due to bad weather.',
+      exUa: 'Рейс мав тригодинну затримку через погану погоду.',
+    },
+    {
+      pos: 'v',
+      translation: 'затримувати',
+      exEn: 'Heavy traffic delayed her arrival by almost an hour.',
+      exUa: 'Через сильний трафік вона запізнилась майже на годину.',
+    },
+  ],
+  delegation: [
+    {
+      pos: 'noun',
+      translation: 'делегація',
+      exEn: 'A delegation from the ministry visited the factory yesterday.',
+      exUa: 'Учора завод відвідала делегація з міністерства.',
+    },
+    {
+      pos: 'noun',
+      translation: 'делегування',
+      exEn: 'Good managers understand the importance of delegation.',
+      exUa: 'Хороші керівники розуміють важливість делегування повноважень.',
+    },
+  ],
+  delicacy: [
+    {
+      pos: 'noun',
+      translation: 'делікатес',
+      exEn: 'Caviar is considered a delicacy in many countries.',
+      exUa: 'Ікра вважається делікатесом у багатьох країнах.',
+    },
+    {
+      pos: 'noun',
+      translation: 'тонкість',
+      exEn: 'She handled the sensitive topic with great delicacy.',
+      exUa: 'Вона делікатно, з великою тонкістю, підійшла до чутливої теми.',
+    },
+  ],
+  delight: [
+    {
+      pos: 'noun',
+      translation: 'насолода',
+      exEn: 'Watching the children play brought her great delight.',
+      exUa: 'Спостереження за грою дітей приносило їй велику насолоду.',
+    },
+    {
+      pos: 'v',
+      translation: 'радувати',
+      exEn: 'The surprise gift delighted her beyond words.',
+      exUa: 'Несподіваний подарунок надзвичайно порадував її.',
+    },
+  ],
+  demand: [
+    {
+      pos: 'v',
+      translation: 'вимагати',
+      exEn: 'The workers demanded better pay and safer conditions.',
+      exUa: 'Робітники вимагали кращої оплати та безпечніших умов.',
+    },
+    {
+      pos: 'noun',
+      translation: 'попит',
+      exEn: 'There is growing demand for electric vehicles worldwide.',
+      exUa: 'У всьому світі зростає попит на електромобілі.',
+    },
+  ],
+  demographic: [
+    {
+      pos: 'adj',
+      translation: 'демографічний',
+      exEn: 'The country is facing a serious demographic crisis.',
+      exUa: 'Країна стикається із серйозною демографічною кризою.',
+    },
+    {
+      pos: 'noun',
+      translation: 'демографія',
+      exEn: 'Marketers study demographics to understand their target audience.',
+      exUa: 'Маркетологи вивчають демографію, щоб зрозуміти свою цільову аудиторію.',
+    },
+  ],
+  derivation: [
+    {
+      pos: 'noun',
+      translation: 'похідне, деривація',
+      exEn: "The word's derivation can be traced back to Old French.",
+      exUa: 'Походження цього слова можна простежити до старофранцузької мови.',
+    },
+    {
+      pos: 'noun',
+      translation: 'виведення',
+      exEn: 'The textbook includes a full derivation of the formula.',
+      exUa: 'Підручник містить повне виведення формули.',
+    },
+  ],
+  design: [
+    {
+      pos: 'noun',
+      translation: 'дизайн',
+      exEn: "The building's design won several architecture awards.",
+      exUa: 'Дизайн будівлі отримав кілька архітектурних нагород.',
+    },
+    {
+      pos: 'v',
+      translation: 'проектувати',
+      exEn: 'Engineers designed a bridge that could withstand earthquakes.',
+      exUa: 'Інженери спроектували міст, здатний витримати землетруси.',
+    },
+  ],
+  desire: [
+    {
+      pos: 'noun',
+      translation: 'бажання',
+      exEn: 'She had a strong desire to travel the world.',
+      exUa: 'У неї було сильне бажання подорожувати світом.',
+    },
+    {
+      pos: 'v',
+      translation: 'прагнути',
+      exEn: 'He desired nothing more than peace and quiet.',
+      exUa: 'Він не прагнув нічого, окрім спокою і тиші.',
+    },
+  ],
+  determination: [
+    {
+      pos: 'noun',
+      translation: 'рішучість',
+      exEn: 'Her determination helped her overcome every obstacle.',
+      exUa: 'Її рішучість допомогла їй подолати кожну перешкоду.',
+    },
+    {
+      pos: 'noun',
+      translation: 'визначення',
+      exEn: 'The determination of the exact cause took several weeks.',
+      exUa: 'Визначення точної причини зайняло кілька тижнів.',
+    },
+  ],
+  dial: [
+    {
+      pos: 'v',
+      translation: 'набирати номер',
+      exEn: 'She dialled the number three times but nobody answered.',
+      exUa: 'Вона набрала номер тричі, але ніхто не відповів.',
+    },
+    {
+      pos: 'noun',
+      translation: 'циферблат',
+      exEn: 'The clock\'s dial glowed softly in the dark.',
+      exUa: 'Циферблат годинника м\'яко світився в темряві.',
+    },
+  ],
+  'dig in': [
+    {
+      pos: 'v',
+      translation: 'заглиблюватися',
+      exEn: "Let's dig in and look at the details of the contract.",
+      exUa: 'Давайте заглибимось і розглянемо деталі контракту.',
+    },
+    {
+      pos: 'v',
+      translation: 'вперто триматися',
+      exEn: 'The soldiers dug in and refused to retreat.',
+      exUa: 'Солдати вперто трималися позиції й відмовлялися відступати.',
+    },
+  ],
+  dim: [
+    {
+      pos: 'adj',
+      translation: 'тьмяний',
+      exEn: 'The room was lit only by a dim lamp in the corner.',
+      exUa: 'Кімнату освітлювала лише тьмяна лампа в кутку.',
+    },
+    {
+      pos: 'v',
+      translation: 'приглушувати',
+      exEn: 'She dimmed the lights before the movie started.',
+      exUa: 'Вона приглушила світло перед початком фільму.',
+    },
+  ],
+  dip: [
+    {
+      pos: 'v',
+      translation: 'занурювати',
+      exEn: 'He dipped his toast into the warm soup.',
+      exUa: 'Він занурив тост у теплий суп.',
+    },
+    {
+      pos: 'noun',
+      translation: 'соус',
+      exEn: 'She served the vegetables with a creamy dip.',
+      exUa: 'Вона подала овочі з вершковим соусом.',
+    },
+  ],
+  direct: [
+    {
+      pos: 'adj',
+      translation: 'прямий',
+      exEn: 'She took the most direct route to avoid the heavy traffic.',
+      exUa: 'Вона обрала найпряміший маршрут, щоб уникнути щільного руху.',
+    },
+    {
+      pos: 'v',
+      translation: 'направляти',
+      exEn: 'The officer directed the traffic around the accident.',
+      exUa: 'Офіцер направляв рух транспорту навколо аварії.',
+    },
+  ],
+  discipline: [
+    {
+      pos: 'noun',
+      translation: 'дисципліна',
+      exEn: 'Success in sport requires years of discipline.',
+      exUa: 'Успіх у спорті вимагає багатьох років дисципліни.',
+    },
+    {
+      pos: 'v',
+      translation: 'дисциплінувати',
+      exEn: 'The coach disciplined the players who missed training.',
+      exUa: 'Тренер дисциплінував гравців, які пропустили тренування.',
+    },
+  ],
+  discount: [
+    {
+      pos: 'noun',
+      translation: 'знижка',
+      exEn: 'Students receive a ten percent discount on tickets.',
+      exUa: 'Студенти отримують десятивідсоткову знижку на квитки.',
+    },
+    {
+      pos: 'v',
+      translation: 'не брати до уваги',
+      exEn: "We shouldn't discount the possibility of a delay.",
+      exUa: 'Нам не варто відкидати можливість затримки.',
+    },
+  ],
+  disdain: [
+    {
+      pos: 'noun',
+      translation: 'зневага',
+      exEn: 'He looked at the offer with obvious disdain.',
+      exUa: 'Він подивився на пропозицію з очевидною зневагою.',
+    },
+    {
+      pos: 'v',
+      translation: 'зневажати',
+      exEn: 'She openly disdained anyone who broke the rules.',
+      exUa: 'Вона відкрито зневажала кожного, хто порушував правила.',
+    },
+  ],
+  disguise: [
+    {
+      pos: 'noun',
+      translation: 'маскування',
+      exEn: 'The spy entered the building wearing a clever disguise.',
+      exUa: 'Шпигун увійшов до будівлі в хитромудрому маскуванні.',
+    },
+    {
+      pos: 'v',
+      translation: 'маскувати',
+      exEn: 'He tried to disguise his accent during the interview.',
+      exUa: 'Він намагався маскувати свій акцент під час співбесіди.',
+    },
+  ],
+  dispatch: [
+    {
+      pos: 'v',
+      translation: 'відправляти',
+      exEn: 'The company dispatched the package the same afternoon.',
+      exUa: 'Компанія відправила посилку того ж дня по обіді.',
+    },
+    {
+      pos: 'noun',
+      translation: 'відправка',
+      exEn: 'The dispatch of emergency supplies took only a few hours.',
+      exUa: 'Відправка гуманітарної допомоги зайняла лише кілька годин.',
+    },
+  ],
+  display: [
+    {
+      pos: 'v',
+      translation: 'демонструвати',
+      exEn: 'The museum displays artefacts from ancient Egypt.',
+      exUa: 'Музей демонструє артефакти стародавнього Єгипту.',
+    },
+    {
+      pos: 'noun',
+      translation: 'виставка',
+      exEn: 'The gallery organised a special display of local art.',
+      exUa: 'Галерея організувала спеціальну виставку місцевого мистецтва.',
+    },
+  ],
+  dispute: [
+    {
+      pos: 'noun',
+      translation: 'суперечка',
+      exEn: 'The two companies settled their dispute out of court.',
+      exUa: 'Дві компанії владнали свою суперечку поза судом.',
+    },
+    {
+      pos: 'v',
+      translation: 'сперечатися',
+      exEn: "They disputed the referee's decision for several minutes.",
+      exUa: 'Вони сперечалися з рішенням судді кілька хвилин.',
+    },
+  ],
+  disquiet: [
+    {
+      pos: 'noun',
+      translation: 'неспокій, тривога',
+      exEn: 'A sense of disquiet spread through the town after the news.',
+      exUa: 'Після новин у місті поширилося відчуття тривоги.',
+    },
+    {
+      pos: 'v',
+      translation: 'тривожити',
+      exEn: 'The strange silence disquieted everyone in the room.',
+      exUa: 'Дивна тиша тривожила всіх у кімнаті.',
+    },
+  ],
+  dissent: [
+    {
+      pos: 'noun',
+      translation: 'незгода',
+      exEn: 'There was open dissent among party members over the new policy.',
+      exUa: 'Серед членів партії була відкрита незгода щодо нової політики.',
+    },
+    {
+      pos: 'v',
+      translation: 'не погоджуватися',
+      exEn: "Two judges dissented from the majority's final ruling.",
+      exUa: 'Двоє суддів не погодилися з остаточним рішенням більшості.',
+    },
+  ],
+  distill: [
+    {
+      pos: 'v',
+      translation: 'дистилювати',
+      exEn: 'The factory distills water to remove impurities.',
+      exUa: 'Завод дистилює воду, щоб видалити домішки.',
+    },
+    {
+      pos: 'v',
+      translation: 'виражати суть',
+      exEn: "Her speech distilled decades of experience into a few simple ideas.",
+      exUa: 'Її промова виразила суть десятиліть досвіду в кількох простих ідеях.',
+    },
+  ],
+  distrust: [
+    {
+      pos: 'noun',
+      translation: 'недовіра',
+      exEn: 'Years of broken promises had left him with a deep distrust.',
+      exUa: 'Роки порушених обіцянок залишили в ньому глибоку недовіру.',
+    },
+    {
+      pos: 'v',
+      translation: 'не довіряти',
+      exEn: 'She distrusted strangers who seemed overly friendly.',
+      exUa: 'Вона не довіряла незнайомцям, які здавалися занадто дружніми.',
+    },
+  ],
+  ditch: [
+    {
+      pos: 'noun',
+      translation: 'рів',
+      exEn: "The car skidded off the road and into a ditch.",
+      exUa: "Автомобіль з'їхав з дороги в рів.",
+    },
+    {
+      pos: 'v',
+      translation: 'кидати',
+      exEn: 'He decided to ditch his old plan and start fresh.',
+      exUa: 'Він вирішив кинути свій старий план і почати спочатку.',
+    },
+  ],
+  divorce: [
+    {
+      pos: 'noun',
+      translation: 'розлучення',
+      exEn: 'Their divorce was finalised after months of negotiation.',
+      exUa: 'Їхнє розлучення було оформлене після кількох місяців переговорів.',
+    },
+    {
+      pos: 'v',
+      translation: 'розлучатися',
+      exEn: 'They decided to divorce after twenty years of marriage.',
+      exUa: 'Вони вирішили розлучитися після двадцяти років шлюбу.',
+    },
+  ],
+  dock: [
+    {
+      pos: 'noun',
+      translation: 'причал',
+      exEn: 'The ship was tied up at the dock overnight.',
+      exUa: 'Корабель був пришвартований до причалу на ніч.',
+    },
+    {
+      pos: 'v',
+      translation: 'стикуватися',
+      exEn: 'The spacecraft docked with the station successfully.',
+      exUa: 'Космічний корабель успішно пристикувався до станції.',
+    },
+  ],
+  document: [
+    {
+      pos: 'noun',
+      translation: 'документ',
+      exEn: 'Please sign the document before submitting it.',
+      exUa: 'Будь ласка, підпишіть документ перед подачею.',
+    },
+    {
+      pos: 'v',
+      translation: 'документувати',
+      exEn: 'Researchers carefully documented every stage of the experiment.',
+      exUa: 'Дослідники ретельно документували кожен етап експерименту.',
+    },
+  ],
+  double: [
+    {
+      pos: 'v',
+      translation: 'подвоювати',
+      exEn: 'The company doubled its profits within two years.',
+      exUa: 'Компанія подвоїла свій прибуток за два роки.',
+    },
+    {
+      pos: 'adj',
+      translation: 'подвійний',
+      exEn: 'She ordered a double espresso to stay awake.',
+      exUa: 'Вона замовила подвійний еспресо, щоб не заснути.',
+    },
+  ],
+  doubt: [
+    {
+      pos: 'noun',
+      translation: 'сумнів',
+      exEn: 'She had serious doubts about whether the plan would work.',
+      exUa: 'У неї були серйозні сумніви щодо того, чи спрацює план.',
+    },
+    {
+      pos: 'v',
+      translation: 'сумніватися',
+      exEn: 'I doubt that he will arrive on time.',
+      exUa: 'Я сумніваюся, що він прибуде вчасно.',
+    },
+  ],
+  dramatic: [
+    {
+      pos: 'adj',
+      translation: 'драматичний',
+      exEn: 'The play ended with a dramatic final scene.',
+      exUa: "П'єса завершилася драматичною фінальною сценою.",
+    },
+    {
+      pos: 'adj',
+      translation: 'різкий',
+      exEn: 'There was a dramatic increase in sales last quarter.',
+      exUa: 'Минулого кварталу відбулося різке зростання продажів.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
