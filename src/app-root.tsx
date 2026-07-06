@@ -97,6 +97,7 @@ import { SentenceBuilderPage } from '../js/modes/sentence-builder.tsx';
 import { ErrorHuntPage } from '../js/modes/error-hunt.tsx';
 import { AssocChainPage } from '../js/modes/assoc-chain.tsx';
 import { WordHintPage } from '../js/modes/word-hint.tsx';
+import { ShadowingPage } from '../js/modes/shadowing.tsx';
 import { ScramblePage } from '../js/modes/scramble.tsx';
 import { WordLettersPage } from '../js/modes/word-letters.tsx';
 import { StatsPage } from '../js/features/stats-page.tsx';
@@ -348,6 +349,9 @@ function AppRoot(): ReactElement {
       </Portal>
       <Portal id="hint-page-mount">
         <WordHintPage />
+      </Portal>
+      <Portal id="shadow-page-mount">
+        <ShadowingPage />
       </Portal>
       <Portal id="scr-page-mount">
         <ScramblePage />
