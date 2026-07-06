@@ -16,7 +16,7 @@ const N = 10;
 const NUM_OPTS = 4;
 
 type Question = { w: WordEntry; prompt: string; options: string[]; correct: string };
-type GhostData = { checkpoints: number[]; total: number };
+type GhostData = { checkpoints: number[]; total: number; ok: number };
 
 function ghostKey(): string {
   return `ew_ghost_best_${getLearnLang()}_${getKnowLang()}`;
@@ -27,17 +27,20 @@ function loadGhost(): GhostData | null {
     const raw = localStorage.getItem(ghostKey());
     if (!raw) return null;
     const parsed = JSON.parse(raw) as GhostData;
-    if (Array.isArray(parsed.checkpoints) && typeof parsed.total === 'number') return parsed;
+    if (Array.isArray(parsed.checkpoints) && typeof parsed.total === 'number')
+      return { ...parsed, ok: typeof parsed.ok === 'number' ? parsed.ok : parsed.checkpoints.length };
   } catch (e) {}
   return null;
 }
 
+// A run only beats the saved ghost if it answered at least as many questions
+// correctly — otherwise racing to click through wrong answers as fast as
+// possible would "win", which defeats the point of a vocabulary quiz. Among
+// runs with equal accuracy, the faster one wins.
 function saveGhostIfBetter(current: GhostData, prev: GhostData | null): boolean {
-  if (!prev || current.total < prev.total) {
-    localStorage.setItem(ghostKey(), JSON.stringify(current));
-    return true;
-  }
-  return false;
+  const better = !prev || current.ok > prev.ok || (current.ok === prev.ok && current.total < prev.total);
+  if (better) localStorage.setItem(ghostKey(), JSON.stringify(current));
+  return better;
 }
 
 function fmt(ms: number): string {
@@ -174,10 +177,10 @@ export function GhostRacePage(): ReactElement {
     }, 100);
   };
 
-  const finishRace = (finalCheckpoints: number[]): void => {
+  const finishRace = (finalCheckpoints: number[], finalOk: number): void => {
     stopTick();
     const total = finalCheckpoints[finalCheckpoints.length - 1] ?? 0;
-    const isNew = saveGhostIfBetter({ checkpoints: finalCheckpoints, total }, ghost);
+    const isNew = saveGhostIfBetter({ checkpoints: finalCheckpoints, total, ok: finalOk }, ghost);
     setResult({ total, isNew });
     setScreen('result');
     if (!completed) {
@@ -193,7 +196,8 @@ export function GhostRacePage(): ReactElement {
     if (!q || selected) return;
     setSelected(opt);
     const isOk = opt === q.correct;
-    if (isOk) setOk((o) => o + 1);
+    const newOk = isOk ? ok + 1 : ok;
+    if (isOk) setOk(newOk);
     else recordMistake(q.w[0]);
     try {
       if (isOk) {
@@ -212,7 +216,7 @@ export function GhostRacePage(): ReactElement {
     setTimeout(() => {
       setSelected(null);
       if (qIdx + 1 >= deck.length) {
-        finishRace(newCheckpoints);
+        finishRace(newCheckpoints, newOk);
       } else {
         setQIdx((i) => i + 1);
       }
@@ -259,7 +263,9 @@ export function GhostRacePage(): ReactElement {
             {t('ghost.readyPrompt', { n: N })}
           </div>
           <div style={{ fontSize: '.85rem', color: 'var(--text3)', marginBottom: 20 }}>
-            {ghost ? `${t('ghost.bestLabel')}: ${fmt(ghost.total)}` : t('ghost.noGhostYet')}
+            {ghost
+              ? `${t('ghost.bestLabel')}: ${fmt(ghost.total)} (${ghost.ok}/${N})`
+              : t('ghost.noGhostYet')}
           </div>
           <button
             onClick={startRace}
