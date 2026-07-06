@@ -7,7 +7,7 @@ import { W } from '../../data/words.js';
 import { WORD_CATEGORIES, CATEGORY_LIST, getCategoriesForWord } from '../../data/categories.js';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
-import { getLearnLang } from '../features/lang-pair-select.tsx';
+import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { t, categoryName } from '../features/i18n.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
@@ -16,7 +16,7 @@ const ROUNDS = 8;
 const GROUP_SIZE = 4;
 const GENERIC_CATEGORY = '🔤 Загальна лексика';
 
-type Choice = { entry: WordEntry; label: string };
+type Choice = { entry: WordEntry; label: string; translation: string };
 type Round = {
   choices: Choice[];
   oddIndex: number;
@@ -35,7 +35,12 @@ function wordsForCategory(cat: string): WordEntry[] {
 
 function toChoice(w: WordEntry): Choice {
   const learnLang = getLearnLang();
-  return { entry: w, label: entryFor(learnLang, w).word || w[0] };
+  const knowLang = getKnowLang();
+  return {
+    entry: w,
+    label: entryFor(learnLang, w).word || w[0],
+    translation: entryFor(knowLang, w).word || w[1],
+  };
 }
 
 function buildRoundForMain(mainCat: string): Round | null {
@@ -270,8 +275,12 @@ export function OddOneOutPage(): ReactElement {
                   className={cls}
                   disabled={selected !== null}
                   onClick={() => checkAnswer(i)}
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10 }}
                 >
-                  {c.label}
+                  <span>{c.label}</span>
+                  <span style={{ fontSize: '.8rem', opacity: 0.65, fontWeight: 400 }}>
+                    {c.translation}
+                  </span>
                 </button>
               );
             })}
@@ -280,23 +289,49 @@ export function OddOneOutPage(): ReactElement {
           <div
             style={{
               textAlign: 'center',
-              fontSize: '.82rem',
+              fontSize: '.85rem',
+              fontWeight: 600,
               minHeight: 22,
-              marginBottom: 8,
-              color: 'var(--text3)',
+              marginBottom: selected !== null ? 8 : 0,
             }}
           >
             {selected !== null &&
               (selected === round.oddIndex ? (
-                <span style={{ color: 'var(--success)', fontWeight: 600 }}>
-                  {t('quiz.correctMsg')} — {categoryName(round.oddCategory)}
-                </span>
+                <span style={{ color: 'var(--success)' }}>{t('quiz.correctMsg')}</span>
               ) : (
-                <span>
-                  {t('oddone.oddCategoryLabel', { cat: categoryName(round.oddCategory) })}
-                </span>
+                <span style={{ color: 'var(--danger)' }}>{t('oddone.wrongMsg')}</span>
               ))}
           </div>
+
+          {selected !== null && (
+            <div
+              style={{
+                background: 'var(--bg)',
+                borderRadius: 10,
+                padding: 12,
+                marginBottom: 10,
+                fontSize: '.82rem',
+                color: 'var(--text2)',
+                lineHeight: 1.6,
+              }}
+            >
+              <div>
+                <span style={{ fontWeight: 700, color: 'var(--text)' }}>
+                  {categoryName(round.mainCategory)}:
+                </span>{' '}
+                {round.choices
+                  .filter((_, i) => i !== round.oddIndex)
+                  .map((c) => c.label)
+                  .join(', ')}
+              </div>
+              <div style={{ marginTop: 4 }}>
+                <span style={{ fontWeight: 700, color: 'var(--danger)' }}>
+                  {categoryName(round.oddCategory)} ({t('oddone.oddLabel')}):
+                </span>{' '}
+                {round.choices[round.oddIndex].label}
+              </div>
+            </div>
+          )}
 
           {selected !== null && (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
