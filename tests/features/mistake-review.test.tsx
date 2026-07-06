@@ -89,9 +89,22 @@ describe('MistakeReview', () => {
     expect(card.className).toContain('flipped');
   });
 
+  it('hides Got it / Still hard until the card is checked, decodes the IPA without double brackets', () => {
+    getMistakes.mockReturnValue({ abandon: 1 });
+    mount(<MistakeReview onClose={vi.fn()} />);
+    expect(document.querySelector('.mistake-review-ipa')!.textContent).toBe('[ˈæ]');
+    expect(document.querySelectorAll('.mistake-review-actions').length).toBe(0);
+    const checkBtn = document.querySelector('.mistake-review-btn.check') as HTMLElement;
+    act(() => { checkBtn.click(); });
+    expect(document.querySelector('.mistake-review-card')!.className).toContain('flipped');
+    expect(document.querySelectorAll('.mistake-review-actions').length).toBe(1);
+  });
+
   it('"Got it" advances to next card and calls clearMistake', () => {
     getMistakes.mockReturnValue({ abandon: 2 });
     mount(<MistakeReview onClose={vi.fn()} />);
+    const card = document.querySelector('.mistake-review-card') as HTMLElement;
+    act(() => { card.click(); });
     const gotBtn = Array.from(document.querySelectorAll('.mistake-review-btn')).find(
       (b) => b.textContent?.includes('Знаю'),
     ) as HTMLElement;
@@ -104,6 +117,8 @@ describe('MistakeReview', () => {
   it('"Still hard" advances to next card without calling clearMistake', () => {
     getMistakes.mockReturnValue({ abandon: 2 });
     mount(<MistakeReview onClose={vi.fn()} />);
+    const card = document.querySelector('.mistake-review-card') as HTMLElement;
+    act(() => { card.click(); });
     const hardBtn = Array.from(document.querySelectorAll('.mistake-review-btn')).find(
       (b) => b.textContent?.includes('Ще важко'),
     ) as HTMLElement;
@@ -115,13 +130,16 @@ describe('MistakeReview', () => {
   it('done screen shows correct cleared count', () => {
     getMistakes.mockReturnValue({ abandon: 1, book: 2 });
     mount(<MistakeReview onClose={vi.fn()} />);
+    const card = () => document.querySelector('.mistake-review-card') as HTMLElement;
     // click "got it" for abandon
     const gotBtn = () =>
       Array.from(document.querySelectorAll('.mistake-review-btn')).find(
         (b) => b.textContent?.includes('Знаю'),
       ) as HTMLElement;
+    act(() => { card().click(); });
     act(() => { gotBtn().click(); }); // advance past abandon
     // click "still hard" for book
+    act(() => { card().click(); });
     const hardBtn = Array.from(document.querySelectorAll('.mistake-review-btn')).find(
       (b) => b.textContent?.includes('Ще важко'),
     ) as HTMLElement;

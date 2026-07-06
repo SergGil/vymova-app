@@ -390,6 +390,7 @@
   "stats.personalBest": "Рекорд: {{n}} дн.",
   "mistakes.reviewBtn": "🔄 Повторити помилки ({{n}})",
   "mistakes.title": "🔴 Розбір помилок",
+  "mistakes.checkBtn": "Перевірити",
   "mistakes.gotIt": "✓ Знаю!",
   "mistakes.stillHard": "✗ Ще важко",
   "mistakes.doneTitle": "Готово! 🎉",

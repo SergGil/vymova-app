@@ -8,6 +8,7 @@ import { W } from '../../data/words.js';
 import { getWordIndex } from '../core/word-index.ts';
 import { getMistakes, clearMistake } from './game.ts';
 import { speak } from './speech.ts';
+import { decodeIpa } from '../core/ui-helpers.ts';
 import { t } from './i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -95,7 +96,7 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
               <div className="mistake-review-front">
                 <div className="mistake-review-word">{card!.word}</div>
                 {card!.entry[4] && (
-                  <div className="mistake-review-ipa">[{card!.entry[4]}]</div>
+                  <div className="mistake-review-ipa">{decodeIpa(card!.entry[4])}</div>
                 )}
                 <button
                   className="mistake-review-speak"
@@ -106,7 +107,17 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
                 >
                   🔊
                 </button>
-                <div className="mistake-review-tap-hint">👆 натисни, щоб побачити</div>
+                {!flipped && (
+                  <button
+                    className="mistake-review-btn check"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setFlipped(true);
+                    }}
+                  >
+                    👁 {t('mistakes.checkBtn')}
+                  </button>
+                )}
               </div>
               <div className="mistake-review-back">
                 <div className="mistake-review-trans">{card!.entry[1]}</div>
@@ -119,14 +130,16 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
               </div>
             </div>
 
-            <div className="mistake-review-actions">
-              <button className="mistake-review-btn hard" onClick={stillHard}>
-                {t('mistakes.stillHard')}
-              </button>
-              <button className="mistake-review-btn got" onClick={gotIt}>
-                {t('mistakes.gotIt')}
-              </button>
-            </div>
+            {flipped && (
+              <div className="mistake-review-actions">
+                <button className="mistake-review-btn hard" onClick={stillHard}>
+                  {t('mistakes.stillHard')}
+                </button>
+                <button className="mistake-review-btn got" onClick={gotIt}>
+                  {t('mistakes.gotIt')}
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>

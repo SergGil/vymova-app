@@ -324,6 +324,7 @@
   "stats.personalBest": "Best: {{n}} days",
   "mistakes.reviewBtn": "🔄 Review mistakes ({{n}})",
   "mistakes.title": "🔴 Mistake Review",
+  "mistakes.checkBtn": "Check",
   "mistakes.gotIt": "✓ Got it!",
   "mistakes.stillHard": "✗ Still hard",
   "mistakes.doneTitle": "Done! 🎉",

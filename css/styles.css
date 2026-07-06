@@ -3238,9 +3238,9 @@ body.dark .cat-select-btn:hover {
   cursor: pointer;
   margin-bottom: 6px;
 }
-.mistake-review-tap-hint {
-  font-size: .73rem;
-  color: var(--text3, #aaa);
+.mistake-review-btn.check {
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  color: var(--accent);
   margin-top: 4px;
 }
 .mistake-review-trans {
