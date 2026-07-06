@@ -95,6 +95,7 @@ import { AdaptiveQuizPage } from '../js/modes/adaptive-quiz.tsx';
 import { OddOneOutPage } from '../js/modes/odd-one-out.tsx';
 import { SentenceBuilderPage } from '../js/modes/sentence-builder.tsx';
 import { ErrorHuntPage } from '../js/modes/error-hunt.tsx';
+import { AssocChainPage } from '../js/modes/assoc-chain.tsx';
 import { ScramblePage } from '../js/modes/scramble.tsx';
 import { WordLettersPage } from '../js/modes/word-letters.tsx';
 import { StatsPage } from '../js/features/stats-page.tsx';
@@ -340,6 +341,9 @@ function AppRoot(): ReactElement {
       </Portal>
       <Portal id="eh-page-mount">
         <ErrorHuntPage />
+      </Portal>
+      <Portal id="assoc-page-mount">
+        <AssocChainPage />
       </Portal>
       <Portal id="scr-page-mount">
         <ScramblePage />
