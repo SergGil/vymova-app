@@ -407,7 +407,7 @@ export function WritePage(): ReactElement {
         breakCombo();
         playSound('next');
       } catch (e) {}
-      recordMistake(ans);
+      recordMistake(w[0]);
       recordModeAnswer('write', false);
     }
     setTimeout(() => {

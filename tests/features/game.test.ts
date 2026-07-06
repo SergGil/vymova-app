@@ -68,6 +68,17 @@ describe('recordMistake / getMistakes', () => {
   it('clearMistake on non-existent word does not throw', () => {
     expect(() => clearMistake('nonexistent')).not.toThrow();
   });
+
+  it('a mode mistake also registers as an SRS lapse for that word', async () => {
+    const { getSrsDataSnapshot } = await import('../../src/srs-store.ts');
+    // Unique word (not touched by the other tests in this file) so leftover
+    // unawaited recordMistake() calls elsewhere can't pollute the count.
+    await recordMistake('srs-lapse-test-word');
+    const entry = getSrsDataSnapshot()['srs-lapse-test-word'];
+    expect(entry).toBeDefined();
+    expect(entry.lapses).toBe(1);
+    expect(entry.reps).toBe(0);
+  });
 });
 
 describe('getHardWords()', () => {

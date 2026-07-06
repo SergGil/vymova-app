@@ -432,12 +432,20 @@ export function getMistakes(): Record<string, number> {
   }
 }
 
-export function recordMistake(word: string): void {
+export function recordMistake(word: string): Promise<void> {
   const m = getMistakes();
   m[word] = (m[word] ?? 0) + 1;
   try {
     localStorage.setItem(_langKey('ew_mistakes'), JSON.stringify(m));
   } catch (e) {}
+  // A wrong answer in any practice mode counts as an SRS lapse too, not
+  // just "Не знаю" on the main flashcard — otherwise mode mistakes never
+  // show up as due reviews or in the weak-words list. Dynamic import avoids
+  // a static circular dependency (srs.ts already imports from game.ts).
+  // Callers don't need the returned promise; it exists so tests can await it.
+  return import('../core/srs.ts')
+    .then((m) => m.sm2Update(word, 1))
+    .catch(() => {});
 }
 
 export function clearMistake(word: string): void {
