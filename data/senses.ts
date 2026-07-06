@@ -6533,6 +6533,558 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Вона живе на нижньому поверсі будівлі.',
     },
   ],
+  lull: [
+    {
+      pos: 'noun',
+      translation: 'затишшя',
+      exEn: 'There was a brief lull in the fighting before dawn.',
+      exUa: 'Перед світанком настало коротке затишшя в боях.',
+    },
+    {
+      pos: 'v',
+      translation: 'заколисувати',
+      exEn: 'The gentle rocking lulled the baby to sleep.',
+      exUa: 'Ніжне гойдання заколисало малюка.',
+    },
+  ],
+  lumber: [
+    {
+      pos: 'noun',
+      translation: 'деревина',
+      exEn: 'The factory produces high-quality lumber for construction.',
+      exUa: 'Завод виробляє високоякісну деревину для будівництва.',
+    },
+    {
+      pos: 'v',
+      translation: 'брести',
+      exEn: 'The old bear lumbered slowly through the forest.',
+      exUa: 'Старий ведмідь повільно брів через ліс.',
+    },
+  ],
+  lunge: [
+    {
+      pos: 'v',
+      translation: 'кидатися',
+      exEn: 'The dog lunged forward suddenly when it spotted the squirrel.',
+      exUa: 'Собака раптово кинувся вперед, помітивши білку.',
+    },
+    {
+      pos: 'noun',
+      translation: 'випад',
+      exEn: 'The fencer made a quick lunge toward his opponent.',
+      exUa: 'Фехтувальник зробив швидкий випад у бік суперника.',
+    },
+  ],
+  lurch: [
+    {
+      pos: 'v',
+      translation: 'хитатися',
+      exEn: 'The ship lurched violently in the storm.',
+      exUa: 'Корабель сильно хитався під час шторму.',
+    },
+    {
+      pos: 'noun',
+      translation: 'поштовх',
+      exEn: 'The bus stopped with a sudden lurch.',
+      exUa: 'Автобус зупинився з раптовим поштовхом.',
+    },
+  ],
+  lure: [
+    {
+      pos: 'noun',
+      translation: 'принада',
+      exEn: 'The lure of easy money attracted many investors.',
+      exUa: 'Принада легких грошей приваблювала багатьох інвесторів.',
+    },
+    {
+      pos: 'v',
+      translation: 'заманювати',
+      exEn: 'The shop used discounts to lure more customers.',
+      exUa: 'Магазин використовував знижки, щоб заманити більше клієнтів.',
+    },
+  ],
+  malfunction: [
+    {
+      pos: 'noun',
+      translation: 'несправність',
+      exEn: 'A technical malfunction delayed the flight for hours.',
+      exUa: 'Технічна несправність затримала рейс на кілька годин.',
+    },
+    {
+      pos: 'v',
+      translation: 'давати збій',
+      exEn: 'The system malfunctioned during the live broadcast.',
+      exUa: 'Система дала збій під час прямої трансляції.',
+    },
+  ],
+  man: [
+    {
+      pos: 'noun',
+      translation: 'чоловік',
+      exEn: 'A tall man stood by the entrance.',
+      exUa: 'Біля входу стояв високий чоловік.',
+    },
+    {
+      pos: 'noun',
+      translation: 'людина',
+      exEn: 'Man has always been curious about the stars.',
+      exUa: 'Людина завжди цікавилася зірками.',
+    },
+  ],
+  maneuver: [
+    {
+      pos: 'noun',
+      translation: 'маневр',
+      exEn: 'The pilot performed a difficult maneuver to avoid the storm.',
+      exUa: 'Пілот виконав складний маневр, щоб уникнути шторму.',
+    },
+    {
+      pos: 'v',
+      translation: 'маневрувати',
+      exEn: 'She had to maneuver carefully between the parked cars.',
+      exUa: 'Їй довелося обережно маневрувати між припаркованими автомобілями.',
+    },
+  ],
+  manifest: [
+    {
+      pos: 'v',
+      translation: 'виявляти',
+      exEn: 'Her anxiety began to manifest as physical symptoms.',
+      exUa: 'Її тривога почала виявлятися у вигляді фізичних симптомів.',
+    },
+    {
+      pos: 'noun',
+      translation: 'маніфест',
+      exEn: 'The artist published a bold manifesto about modern art.',
+      exUa: 'Митець опублікував сміливий маніфест про сучасне мистецтво.',
+    },
+  ],
+  marinade: [
+    {
+      pos: 'noun',
+      translation: 'маринад',
+      exEn: 'She prepared a spicy marinade for the chicken.',
+      exUa: 'Вона приготувала гострий маринад для курки.',
+    },
+    {
+      pos: 'v',
+      translation: 'маринувати',
+      exEn: 'Marinate the meat overnight for the best flavour.',
+      exUa: "Маринуй м'ясо всю ніч для найкращого смаку.",
+    },
+  ],
+  marvel: [
+    {
+      pos: 'v',
+      translation: 'дивуватися',
+      exEn: 'Tourists marvelled at the ancient architecture.',
+      exUa: 'Туристи дивувалися стародавній архітектурі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'диво',
+      exEn: 'The bridge is considered an engineering marvel.',
+      exUa: 'Міст вважається інженерним дивом.',
+    },
+  ],
+  mash: [
+    {
+      pos: 'v',
+      translation: 'товкти',
+      exEn: 'She mashed the potatoes with butter and milk.',
+      exUa: "Вона розтовкла картоплю з маслом та молоком.",
+    },
+    {
+      pos: 'noun',
+      translation: 'каша',
+      exEn: 'For breakfast, the farmer fed the pigs a warm mash.',
+      exUa: 'На сніданок фермер годував свиней теплою кашею.',
+    },
+  ],
+  mask: [
+    {
+      pos: 'noun',
+      translation: 'маска',
+      exEn: 'He wore a mask to the costume party.',
+      exUa: 'Він одягнув маску на костюмовану вечірку.',
+    },
+    {
+      pos: 'v',
+      translation: 'маскувати',
+      exEn: 'She tried to mask her disappointment with a smile.',
+      exUa: 'Вона намагалася замаскувати своє розчарування усмішкою.',
+    },
+  ],
+  master: [
+    {
+      pos: 'v',
+      translation: 'опановувати',
+      exEn: 'It takes years to master a musical instrument.',
+      exUa: 'Потрібні роки, щоб опанувати музичний інструмент.',
+    },
+    {
+      pos: 'noun',
+      translation: 'майстер',
+      exEn: 'He is a true master of his craft.',
+      exUa: 'Він справжній майстер своєї справи.',
+    },
+  ],
+  mate: [
+    {
+      pos: 'noun',
+      translation: 'товариш',
+      exEn: 'He met up with his old school mate for coffee.',
+      exUa: 'Він зустрівся зі своїм старим шкільним товаришем на каву.',
+    },
+    {
+      pos: 'v',
+      translation: 'підходити',
+      exEn: 'This connector is designed to mate perfectly with the corresponding socket.',
+      exUa: 'Цей з\'єднувач розроблений так, щоб ідеально підходити до відповідного гнізда.',
+    },
+  ],
+  matter: [
+    {
+      pos: 'v',
+      translation: 'мати значення',
+      exEn: 'Your opinion really matters to me.',
+      exUa: 'Твоя думка справді має для мене значення.',
+    },
+    {
+      pos: 'noun',
+      translation: 'справа',
+      exEn: 'This is a matter of great importance to the whole team.',
+      exUa: 'Це справа великої важливості для всієї команди.',
+    },
+  ],
+  mature: [
+    {
+      pos: 'adj',
+      translation: 'дорослий',
+      exEn: 'He seemed remarkably mature for his age.',
+      exUa: 'Він здавався напрочуд дорослим як для свого віку.',
+    },
+    {
+      pos: 'v',
+      translation: 'дозрівати',
+      exEn: 'The cheese needs several months to mature properly.',
+      exUa: 'Сиру потрібно кілька місяців, щоб належно дозріти.',
+    },
+  ],
+  measure: [
+    {
+      pos: 'v',
+      translation: 'міряти',
+      exEn: 'She measured the room before buying new furniture.',
+      exUa: 'Вона виміряла кімнату перед купівлею нових меблів.',
+    },
+    {
+      pos: 'noun',
+      translation: 'захід',
+      exEn: 'The government introduced new measures to fight inflation.',
+      exUa: 'Уряд запровадив нові заходи для боротьби з інфляцією.',
+    },
+  ],
+  meeting: [
+    {
+      pos: 'noun',
+      translation: 'зустріч',
+      exEn: 'They arranged a meeting to discuss the contract.',
+      exUa: 'Вони домовилися про зустріч, щоб обговорити контракт.',
+    },
+    {
+      pos: 'noun',
+      translation: 'нарада',
+      exEn: 'The manager called an urgent meeting with the whole department.',
+      exUa: 'Керівник скликав термінову нараду з усім відділом.',
+    },
+  ],
+  meltdown: [
+    {
+      pos: 'noun',
+      translation: 'розплавлення ядра',
+      exEn: 'Engineers worked to prevent a nuclear meltdown at the plant.',
+      exUa: 'Інженери працювали, щоб запобігти розплавленню ядра на станції.',
+    },
+    {
+      pos: 'noun',
+      translation: 'повний крах',
+      exEn: 'The country suffered a complete economic meltdown in the 1990s.',
+      exUa: 'Країна пережила повний економічний крах у 1990-х.',
+    },
+    {
+      pos: 'noun',
+      translation: 'емоційний зрив',
+      exEn: 'The toddler had a complete meltdown in the middle of the store.',
+      exUa: 'У малюка стався справжній емоційний зрив посеред магазину.',
+    },
+  ],
+  menace: [
+    {
+      pos: 'noun',
+      translation: 'загроза',
+      exEn: 'The wild dog was seen as a menace to the neighbourhood.',
+      exUa: 'Дикого собаку вважали загрозою для району.',
+    },
+    {
+      pos: 'v',
+      translation: 'погрожувати',
+      exEn: 'He menaced his neighbour with threats of violence.',
+      exUa: 'Він погрожував сусідові насильством.',
+    },
+  ],
+  mesh: [
+    {
+      pos: 'noun',
+      translation: 'сітка',
+      exEn: 'The wire mesh fence surrounded the entire garden.',
+      exUa: 'Дротяна сітчаста огорожа оточувала весь сад.',
+    },
+    {
+      pos: 'v',
+      translation: 'зчіплюватися',
+      exEn: 'The gears meshed smoothly together when the machine started.',
+      exUa: 'Шестерні плавно зчепилися разом, коли машина запустилася.',
+    },
+  ],
+  mess: [
+    {
+      pos: 'noun',
+      translation: 'безлад',
+      exEn: 'The kids left the kitchen in a complete mess.',
+      exUa: 'Діти залишили кухню в повному безладі.',
+    },
+    {
+      pos: 'v',
+      translation: 'заплутати',
+      exEn: 'His careless comment messed up the whole negotiation.',
+      exUa: 'Його необережний коментар заплутав усі переговори.',
+    },
+  ],
+  mince: [
+    {
+      pos: 'v',
+      translation: 'рубати',
+      exEn: 'She minced the garlic finely before adding it to the sauce.',
+      exUa: 'Вона дрібно порубала часник, перш ніж додати його до соусу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'фарш',
+      exEn: 'The recipe calls for half a kilo of beef mince.',
+      exUa: "Рецепт вимагає півкіло яловичого фаршу.",
+    },
+  ],
+  mineral: [
+    {
+      pos: 'noun',
+      translation: 'мінерал',
+      exEn: 'The cave contains rare and valuable minerals.',
+      exUa: 'Печера містить рідкісні та цінні мінерали.',
+    },
+    {
+      pos: 'adj',
+      translation: 'мінеральний',
+      exEn: 'She drinks mineral water every morning.',
+      exUa: "Вона щоранку п'є мінеральну воду.",
+    },
+  ],
+  mistake: [
+    {
+      pos: 'noun',
+      translation: 'помилка',
+      exEn: "Forgetting the client's name was an embarrassing mistake.",
+      exUa: 'Забути ім\'я клієнта було ганебною помилкою.',
+    },
+    {
+      pos: 'v',
+      translation: 'помилитися',
+      exEn: "I think you've mistaken me for someone else.",
+      exUa: 'Гадаю, ти помилився, прийнявши мене за когось іншого.',
+    },
+  ],
+  mix: [
+    {
+      pos: 'v',
+      translation: 'змішувати',
+      exEn: 'Mix the flour and sugar together in a large bowl.',
+      exUa: 'Змішай борошно та цукор у великій мисці.',
+    },
+    {
+      pos: 'noun',
+      translation: 'суміш',
+      exEn: 'The cake mix just needs water and eggs.',
+      exUa: 'Суміш для торта потребує лише води та яєць.',
+    },
+  ],
+  moderate: [
+    {
+      pos: 'adj',
+      translation: 'помірний',
+      exEn: 'She took a moderate approach to the issue.',
+      exUa: 'Вона обрала помірний підхід до питання.',
+    },
+    {
+      pos: 'v',
+      translation: 'помірковувати',
+      exEn: 'She moderated between two extreme viewpoints before making her final decision.',
+      exUa: 'Вона поміркувала над двома крайніми поглядами, перш ніж ухвалити остаточне рішення.',
+    },
+  ],
+  'mold (mould)': [
+    {
+      pos: 'noun',
+      translation: 'пліснява',
+      exEn: 'Mold started growing on the old bread.',
+      exUa: 'На старому хлібі почала рости пліснява.',
+    },
+    {
+      pos: 'noun',
+      translation: 'форма',
+      exEn: 'The sculptor poured the plaster into a mold.',
+      exUa: 'Скульптор залив гіпс у форму.',
+    },
+  ],
+  mop: [
+    {
+      pos: 'noun',
+      translation: 'швабра',
+      exEn: 'She kept a mop and bucket in the closet.',
+      exUa: 'Вона тримала швабру та відро в шафі.',
+    },
+    {
+      pos: 'v',
+      translation: 'мити підлогу',
+      exEn: 'He mopped the kitchen floor after dinner.',
+      exUa: 'Він помив підлогу на кухні після вечері.',
+    },
+  ],
+  'mother-in-law': [
+    {
+      pos: 'noun',
+      translation: 'теща',
+      exEn: "His mother-in-law, his wife's mother, visits every Sunday.",
+      exUa: 'Його теща, мати дружини, приходить у гості щонеділі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'свекруха',
+      exEn: "Her mother-in-law, her husband's mother, taught her the family recipe.",
+      exUa: 'Її свекруха, мати чоловіка, навчила її сімейного рецепта.',
+    },
+  ],
+  mould: [
+    {
+      pos: 'v',
+      translation: 'формувати',
+      exEn: 'Teachers help mould young minds from an early age.',
+      exUa: 'Вчителі допомагають формувати молоді уми з раннього віку.',
+    },
+    {
+      pos: 'noun',
+      translation: 'пліснява',
+      exEn: 'Damp walls often develop mould over time.',
+      exUa: 'Вологі стіни з часом часто вкриваються пліснявою.',
+    },
+  ],
+  mount: [
+    {
+      pos: 'v',
+      translation: 'підійматися',
+      exEn: 'Tension mounted as the deadline approached.',
+      exUa: 'Напруга наростала в міру наближення дедлайну.',
+    },
+    {
+      pos: 'noun',
+      translation: 'гора',
+      exEn: 'They set up camp at the foot of the mount.',
+      exUa: 'Вони розбили табір біля підніжжя гори.',
+    },
+  ],
+  muddle: [
+    {
+      pos: 'noun',
+      translation: 'плутанина',
+      exEn: 'The schedule was a complete muddle after the last-minute changes.',
+      exUa: 'Розклад перетворився на повну плутанину після змін в останню хвилину.',
+    },
+    {
+      pos: 'v',
+      translation: 'заплутувати',
+      exEn: 'Too much information only muddled her thinking.',
+      exUa: 'Забагато інформації лише заплутало її думки.',
+    },
+  ],
+  mug: [
+    {
+      pos: 'noun',
+      translation: 'кружка',
+      exEn: 'She poured hot coffee into her favourite mug.',
+      exUa: 'Вона налила гарячу каву у свою улюблену кружку.',
+    },
+    {
+      pos: 'v',
+      translation: 'пограбувати',
+      exEn: 'He was mugged on his way home from work.',
+      exUa: 'Його пограбували дорогою додому з роботи.',
+    },
+  ],
+  murder: [
+    {
+      pos: 'noun',
+      translation: 'вбивство',
+      exEn: 'The detective investigated the mysterious murder for months.',
+      exUa: 'Детектив розслідував загадкове вбивство протягом кількох місяців.',
+    },
+    {
+      pos: 'v',
+      translation: 'вбивати',
+      exEn: "The novel's villain murders three people before being caught.",
+      exUa: 'Лиходій у романі вбиває трьох людей, перш ніж його спіймають.',
+    },
+  ],
+  murmur: [
+    {
+      pos: 'v',
+      translation: 'шепотіти',
+      exEn: 'She murmured a quiet apology under her breath.',
+      exUa: 'Вона прошепотіла тихе вибачення собі під ніс.',
+    },
+    {
+      pos: 'noun',
+      translation: 'шепіт',
+      exEn: 'A low murmur spread through the crowd.',
+      exUa: 'Тихий шепіт поширився натовпом.',
+    },
+  ],
+  mush: [
+    {
+      pos: 'noun',
+      translation: 'каша',
+      exEn: 'The overcooked vegetables turned into a soft mush.',
+      exUa: 'Переварені овочі перетворилися на м\'яку кашу.',
+    },
+    {
+      pos: 'v',
+      translation: 'розм\'якшувати',
+      exEn: 'Constant rain mushed the ground into thick mud.',
+      exUa: 'Постійний дощ розм\'якшив землю в густу грязюку.',
+    },
+  ],
+  musical: [
+    {
+      pos: 'noun',
+      translation: 'мюзикл',
+      exEn: 'They went to see a famous musical on Broadway.',
+      exUa: 'Вони пішли подивитися відомий мюзикл на Бродвеї.',
+    },
+    {
+      pos: 'adj',
+      translation: 'музичний',
+      exEn: 'She has always had a strong musical talent.',
+      exUa: 'Вона завжди мала сильний музичний талант.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
