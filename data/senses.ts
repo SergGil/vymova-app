@@ -11009,6 +11009,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Він нечітко вимовляв слова, випивши забагато.',
     },
   ],
+  smack: [
+    {
+      pos: 'v',
+      translation: 'шльопати',
+      exEn: 'She smacked her hand on the table to get attention.',
+      exUa: 'Вона хляснула рукою по столу, щоб привернути увагу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'пряме влучення',
+      exEn: 'He received a smack right on the nose.',
+      exUa: 'Він отримав пряме влучення прямо в ніс.',
+    },
+  ],
+  smear: [
+    {
+      pos: 'v',
+      translation: 'мазати',
+      exEn: 'She smeared paint across the canvas.',
+      exUa: 'Вона розмазала фарбу по полотну.',
+    },
+    {
+      pos: 'noun',
+      translation: 'наклеп',
+      exEn: 'The article was widely seen as a political smear.',
+      exUa: 'Статтю широко сприймали як політичний наклеп.',
+    },
+  ],
+  smile: [
+    {
+      pos: 'v',
+      translation: 'посміхатися',
+      exEn: 'She smiled warmly at the young child.',
+      exUa: 'Вона тепло посміхнулася до маленької дитини.',
+    },
+    {
+      pos: 'noun',
+      translation: 'посмішка',
+      exEn: 'His friendly smile put everyone at ease.',
+      exUa: 'Його дружня посмішка заспокоювала всіх.',
+    },
+  ],
+  smirk: [
+    {
+      pos: 'v',
+      translation: 'ухмилятися',
+      exEn: 'He smirked when he saw her mistake.',
+      exUa: 'Він ухмилявся, побачивши її помилку.',
+    },
+    {
+      pos: 'noun',
+      translation: 'ухмилка',
+      exEn: 'There was a hint of a smirk on her face.',
+      exUa: 'На її обличчі промайнула легка ухмилка.',
+    },
+  ],
+  smooth: [
+    {
+      pos: 'adj',
+      translation: 'гладкий',
+      exEn: 'The stone was worn perfectly smooth by the river.',
+      exUa: 'Камінь був досконало гладким, обточений річкою.',
+    },
+    {
+      pos: 'v',
+      translation: "пом'якшувати",
+      exEn: 'She smoothed things over after the argument.',
+      exUa: 'Вона згладила ситуацію після сварки.',
+    },
+  ],
+  smudge: [
+    {
+      pos: 'noun',
+      translation: 'пляма',
+      exEn: 'There was an ink smudge on the paper.',
+      exUa: 'На папері була чорнильна пляма.',
+    },
+    {
+      pos: 'v',
+      translation: 'розмазувати',
+      exEn: 'She accidentally smudged her lipstick.',
+      exUa: 'Вона випадково розмазала свою помаду.',
+    },
+  ],
+  snag: [
+    {
+      pos: 'v',
+      translation: 'зачепитися',
+      exEn: 'Her sweater snagged on the fence.',
+      exUa: 'Її светр зачепився за паркан.',
+    },
+    {
+      pos: 'noun',
+      translation: 'перешкода',
+      exEn: "There was a small snag in the plan they hadn't anticipated.",
+      exUa: 'У плані виникла невелика перешкода, якої вони не передбачили.',
+    },
+  ],
+  snake: [
+    {
+      pos: 'noun',
+      translation: 'змія',
+      exEn: 'A snake slithered through the grass.',
+      exUa: 'Змія проповзла крізь траву.',
+    },
+    {
+      pos: 'v',
+      translation: 'звивисто рухатися',
+      exEn: 'The path snaked through the dense forest.',
+      exUa: 'Стежка звивисто йшла через густий ліс.',
+    },
+  ],
+  sneer: [
+    {
+      pos: 'v',
+      translation: 'глузувати',
+      exEn: 'He sneered at her attempt to apologise.',
+      exUa: 'Він поглузував з її спроби вибачитися.',
+    },
+    {
+      pos: 'noun',
+      translation: 'зневажлива усмішка',
+      exEn: 'There was a sneer on his face as he walked away.',
+      exUa: 'На його обличчі була зневажлива усмішка, коли він відходив.',
+    },
+  ],
+  snowball: [
+    {
+      pos: 'noun',
+      translation: 'сніжний ком',
+      exEn: 'The children threw snowballs at each other.',
+      exUa: 'Діти кидали одне в одного сніжками.',
+    },
+    {
+      pos: 'v',
+      translation: 'наростати',
+      exEn: 'Small problems began to snowball into a major crisis.',
+      exUa: 'Дрібні проблеми почали наростати як сніжний ком, перетворюючись на серйозну кризу.',
+    },
+  ],
+  sock: [
+    {
+      pos: 'noun',
+      translation: 'шкарпетка',
+      exEn: 'She pulled on thick woollen socks before going outside.',
+      exUa: 'Вона натягнула товсті вовняні шкарпетки перед виходом надвір.',
+    },
+    {
+      pos: 'v',
+      translation: 'вдарити',
+      exEn: 'He socked his opponent right in the jaw.',
+      exUa: 'Він вдарив суперника прямо в щелепу.',
+    },
+  ],
+  soil: [
+    {
+      pos: 'noun',
+      translation: 'ґрунт',
+      exEn: 'The soil in this region is rich and fertile.',
+      exUa: 'Ґрунт у цьому регіоні багатий і родючий.',
+    },
+    {
+      pos: 'v',
+      translation: 'забруднювати',
+      exEn: 'Try not to soil your clean clothes.',
+      exUa: 'Намагайся не забруднити свій чистий одяг.',
+    },
+  ],
+  solidify: [
+    {
+      pos: 'v',
+      translation: 'затвердіти',
+      exEn: 'The melted wax solidified as it cooled.',
+      exUa: 'Розплавлений віск затвердів, охолоджуючись.',
+    },
+    {
+      pos: 'v',
+      translation: 'зміцнити, закріпити',
+      exEn: 'The victory solidified his reputation as a champion.',
+      exUa: 'Перемога зміцнила його репутацію чемпіона.',
+    },
+  ],
+  sort: [
+    {
+      pos: 'noun',
+      translation: 'вид',
+      exEn: 'What sort of music do you enjoy?',
+      exUa: 'Який вид музики тобі подобається?',
+    },
+    {
+      pos: 'v',
+      translation: 'сортувати',
+      exEn: 'She sorted the mail into separate piles.',
+      exUa: 'Вона розсортувала пошту на окремі стоси.',
+    },
+  ],
+  sour: [
+    {
+      pos: 'adj',
+      translation: 'кислий',
+      exEn: 'The lemon was too sour for her taste.',
+      exUa: 'Лимон був занадто кислим на її смак.',
+    },
+    {
+      pos: 'v',
+      translation: 'скисати',
+      exEn: 'The milk soured after being left out overnight.',
+      exUa: 'Молоко скисло, простоявши всю ніч поза холодильником.',
+    },
+  ],
+  span: [
+    {
+      pos: 'v',
+      translation: 'охоплювати',
+      exEn: 'Her career spanned over four decades.',
+      exUa: 'Її кар\'єра охоплювала понад чотири десятиліття.',
+    },
+    {
+      pos: 'noun',
+      translation: 'проміжок',
+      exEn: 'The bridge has a span of nearly two kilometres.',
+      exUa: 'Проміжок мосту становить майже два кілометри.',
+    },
+  ],
+  spare: [
+    {
+      pos: 'adj',
+      translation: 'запасний',
+      exEn: 'She kept a spare key under the doormat.',
+      exUa: 'Вона тримала запасний ключ під килимком.',
+    },
+    {
+      pos: 'v',
+      translation: 'жаліти',
+      exEn: "He didn't spare her feelings when he criticised the plan.",
+      exUa: 'Він не пожалів її почуттів, критикуючи план.',
+    },
+  ],
+  spark: [
+    {
+      pos: 'noun',
+      translation: 'іскра',
+      exEn: 'A single spark from the fire started the blaze.',
+      exUa: 'Одна іскра від вогнища спричинила пожежу.',
+    },
+    {
+      pos: 'v',
+      translation: 'запалювати',
+      exEn: 'The speech sparked a wave of public support.',
+      exUa: 'Промова запалила хвилю суспільної підтримки.',
+    },
+  ],
+  spear: [
+    {
+      pos: 'noun',
+      translation: 'спис',
+      exEn: 'The warrior carried a long spear into battle.',
+      exUa: 'Воїн ніс довгий спис у бій.',
+    },
+    {
+      pos: 'v',
+      translation: 'пронизувати',
+      exEn: 'The fisherman speared a large fish in the shallow water.',
+      exUa: 'Рибалка проколов списом велику рибу на мілководді.',
+    },
+  ],
+  spell: [
+    {
+      pos: 'noun',
+      translation: 'заклинання',
+      exEn: 'The witch cast a powerful spell.',
+      exUa: 'Відьма наклала потужне заклинання.',
+    },
+    {
+      pos: 'v',
+      translation: 'вимовляти по буквах',
+      exEn: 'Could you spell your last name for me?',
+      exUa: 'Чи не могли б ви вимовити своє прізвище по буквах?',
+    },
+  ],
+  spike: [
+    {
+      pos: 'noun',
+      translation: 'шип',
+      exEn: 'The fence was topped with sharp metal spikes.',
+      exUa: 'Паркан був увінчаний гострими металевими шипами.',
+    },
+    {
+      pos: 'v',
+      translation: 'різко підскочити',
+      exEn: 'Prices spiked dramatically after the shortage.',
+      exUa: 'Ціни різко підскочили після дефіциту.',
+    },
+  ],
+  spit: [
+    {
+      pos: 'v',
+      translation: 'плювати',
+      exEn: 'He spat on the ground in disgust.',
+      exUa: 'Він плюнув на землю з огидою.',
+    },
+    {
+      pos: 'noun',
+      translation: 'рожен',
+      exEn: 'The meat was roasted slowly on a spit.',
+      exUa: "М'ясо повільно смажили на рожні.",
+    },
+  ],
+  splash: [
+    {
+      pos: 'v',
+      translation: 'плескати',
+      exEn: 'The children splashed water at each other in the pool.',
+      exUa: 'Діти плескали одне в одного водою в басейні.',
+    },
+    {
+      pos: 'noun',
+      translation: 'бризки',
+      exEn: 'A splash of mud covered her white shoes.',
+      exUa: 'Бризки грязюки вкрили її білі туфлі.',
+    },
+  ],
+  splinter: [
+    {
+      pos: 'noun',
+      translation: 'скалка',
+      exEn: 'She got a splinter in her finger from the old fence.',
+      exUa: 'Вона загнала скалку в палець зі старого паркану.',
+    },
+    {
+      pos: 'v',
+      translation: 'розколюватися',
+      exEn: 'The old political party splintered into several smaller groups.',
+      exUa: 'Стара політична партія розкололася на кілька менших груп.',
+    },
+  ],
+  spoiled: [
+    {
+      pos: 'adj',
+      translation: 'зіпсований (про їжу)',
+      exEn: 'The milk had gone spoiled by the time she noticed.',
+      exUa: 'Молоко зіпсувалося до того часу, як вона помітила.',
+    },
+    {
+      pos: 'adj',
+      translation: 'розпещений (про людину)',
+      exEn: 'He was a spoiled child who always got what he wanted.',
+      exUa: 'Він був розпещеною дитиною, яка завжди отримувала бажане.',
+    },
+  ],
+  sponge: [
+    {
+      pos: 'noun',
+      translation: 'губка',
+      exEn: 'She wiped the counter with a wet sponge.',
+      exUa: 'Вона протерла стільницю вологою губкою.',
+    },
+    {
+      pos: 'v',
+      translation: 'жити за чужий рахунок',
+      exEn: "He's been sponging off his parents for years.",
+      exUa: 'Він роками жив за чужий рахунок своїх батьків.',
+    },
+  ],
+  sponsor: [
+    {
+      pos: 'noun',
+      translation: 'спонсор',
+      exEn: "The event's main sponsor was a local bank.",
+      exUa: 'Головним спонсором заходу був місцевий банк.',
+    },
+    {
+      pos: 'v',
+      translation: 'спонсорувати',
+      exEn: 'The company sponsors several youth sports teams.',
+      exUa: 'Компанія спонсорує кілька молодіжних спортивних команд.',
+    },
+  ],
+  spoon: [
+    {
+      pos: 'noun',
+      translation: 'ложка',
+      exEn: 'She stirred her tea with a small spoon.',
+      exUa: 'Вона розмішала чай маленькою ложкою.',
+    },
+    {
+      pos: 'v',
+      translation: 'годувати з ложки',
+      exEn: "The mother spooned soup into the baby's mouth.",
+      exUa: 'Мама годувала малюка супом з ложки.',
+    },
+  ],
+  spotlight: [
+    {
+      pos: 'noun',
+      translation: 'прожектор',
+      exEn: 'The dancer stood alone under the bright spotlight.',
+      exUa: 'Танцівниця стояла сама під яскравим прожектором.',
+    },
+    {
+      pos: 'v',
+      translation: 'привертати увагу',
+      exEn: 'The scandal spotlighted serious problems within the organisation.',
+      exUa: 'Скандал привернув увагу до серйозних проблем в організації.',
+    },
+  ],
+  'spring (sprang, sprung)': [
+    {
+      pos: 'v',
+      translation: 'стрибати',
+      exEn: 'She sprang out of bed when the alarm rang.',
+      exUa: 'Вона зістрибнула з ліжка, коли задзвонив будильник.',
+    },
+    {
+      pos: 'noun',
+      translation: 'пружина',
+      exEn: 'The old mattress had a broken spring.',
+      exUa: 'У старому матраці була зламана пружина.',
+    },
+  ],
+  sprint: [
+    {
+      pos: 'noun',
+      translation: 'спринт',
+      exEn: 'She trains for the hundred-metre sprint every day.',
+      exUa: 'Вона щодня тренується для стометрового спринту.',
+    },
+    {
+      pos: 'v',
+      translation: 'бігти на короткі дистанції',
+      exEn: 'He sprinted the last hundred metres to win the race.',
+      exUa: 'Він пробіг спринтом останні сто метрів, щоб виграти забіг.',
+    },
+  ],
+  sprout: [
+    {
+      pos: 'v',
+      translation: 'проростати',
+      exEn: 'The seeds began to sprout after a few days.',
+      exUa: 'Насіння почало проростати через кілька днів.',
+    },
+    {
+      pos: 'noun',
+      translation: 'паросток',
+      exEn: 'A tiny green sprout appeared in the pot.',
+      exUa: "У горщику з'явився крихітний зелений паросток.",
+    },
+  ],
+  spur: [
+    {
+      pos: 'noun',
+      translation: 'шпора',
+      exEn: 'The rider gently touched the horse with his spur.',
+      exUa: 'Вершник обережно торкнувся коня шпорою.',
+    },
+    {
+      pos: 'v',
+      translation: 'підштовхувати',
+      exEn: 'The competition spurred them to work even harder.',
+      exUa: 'Конкуренція підштовхнула їх працювати ще старанніше.',
+    },
+  ],
+  spy: [
+    {
+      pos: 'noun',
+      translation: 'шпигун',
+      exEn: 'The novel is about a Cold War spy.',
+      exUa: 'Роман про шпигуна часів Холодної війни.',
+    },
+    {
+      pos: 'v',
+      translation: 'шпигувати',
+      exEn: 'The company was accused of spying on its competitors.',
+      exUa: 'Компанію звинуватили в шпигунстві за своїми конкурентами.',
+    },
+  ],
+  squash: [
+    {
+      pos: 'v',
+      translation: 'давити',
+      exEn: 'He squashed the bug with his shoe.',
+      exUa: 'Він розчавив жука своїм черевиком.',
+    },
+    {
+      pos: 'noun',
+      translation: 'гарбуз',
+      exEn: 'She roasted the squash with olive oil and herbs.',
+      exUa: 'Вона запекла гарбуз з оливковою олією та травами.',
+    },
+  ],
+  squat: [
+    {
+      pos: 'v',
+      translation: 'присідати',
+      exEn: 'She squatted down to tie her shoelace.',
+      exUa: 'Вона присіла, щоб зав\'язати шнурок.',
+    },
+    {
+      pos: 'noun',
+      translation: 'сквот',
+      exEn: 'The abandoned building became a squat for homeless people.',
+      exUa: 'Покинута будівля стала сквотом для бездомних людей.',
+    },
+  ],
+  squeal: [
+    {
+      pos: 'v',
+      translation: 'верещати',
+      exEn: 'The children squealed with delight on the rollercoaster.',
+      exUa: 'Діти верещали від захвату на американських гірках.',
+    },
+    {
+      pos: 'noun',
+      translation: 'пронизливий крик',
+      exEn: 'A squeal of brakes echoed through the street.',
+      exUa: 'Пронизливий скрип гальм пролунав вулицею.',
+    },
+  ],
+  squirt: [
+    {
+      pos: 'v',
+      translation: 'бризкати',
+      exEn: 'She squirted lemon juice over the fish.',
+      exUa: 'Вона бризнула лимонним соком на рибу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'струмінь',
+      exEn: 'A squirt of water hit him right in the face.',
+      exUa: 'Струмінь води влучив йому прямо в обличчя.',
+    },
+  ],
+  stab: [
+    {
+      pos: 'v',
+      translation: 'колоти',
+      exEn: 'The attacker stabbed him with a knife.',
+      exUa: 'Нападник вдарив його ножем.',
+    },
+    {
+      pos: 'noun',
+      translation: 'зрадливий удар',
+      exEn: "Losing his best friend's trust felt like a stab in the back.",
+      exUa: "Втрата довіри найкращого друга відчувалася як зрадливий удар у спину.",
+    },
+  ],
+  stack: [
+    {
+      pos: 'noun',
+      translation: 'стос',
+      exEn: 'There was a huge stack of papers on his desk.',
+      exUa: 'На його столі був величезний стос паперів.',
+    },
+    {
+      pos: 'v',
+      translation: 'складати в стос',
+      exEn: 'She stacked the chairs neatly in the corner.',
+      exUa: 'Вона акуратно склала стільці в стос у кутку.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
