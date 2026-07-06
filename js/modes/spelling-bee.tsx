@@ -533,7 +533,7 @@ export function SpellingBeePage(): ReactElement {
             >
               {getWordInLang(w, getKnowLang()) || w[1]}
             </div>
-            {getLearnLang() === 'en' && (
+            {result && getLearnLang() === 'en' && (
               <div style={{ fontSize: '.8rem', color: 'var(--accent2)' }}>
                 {decodeIpa(w[4] ?? '')}
               </div>
