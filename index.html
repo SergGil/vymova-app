@@ -101,7 +101,6 @@
       <button id="profile-btn" class="profile-btn" style="display:none">🧑 <span>Гравець 1</span> ▾</button>
     </div>
     <div class="controls">
-      <div id="wotd-mount"></div>
       <div id="theme-toggle-mount"></div>
       <button id="btn-sw" title="Star Wars режим" style="display:none"></button>
       <button id="btn-hp" title="Гаррі Поттер режим" style="display:none"></button>
@@ -223,6 +222,11 @@
         <span class="goal-set" id="goal-set-btn" title="Змінити ціль">⚙️</span>
       </div>
       <div id="goal-block-mount"></div>
+    </div>
+
+    <!-- Block 2.5: Word of the day (React, see word-of-day.tsx) -->
+    <div class="gb-block gb-wotd-block">
+      <div id="wotd-mount"></div>
     </div>
 
     <!-- Block 3: Level XP progress (React, see game-bar-level.tsx) -->
@@ -592,7 +596,7 @@
         <button id="btn-reset" class="settings-reset-btn" style="margin-top:12px;" data-i18n="settings.resetBtn">↺ Скинути прогрес</button>
       </div>
 
-      <div class="settings-footer">© 2026 Vymova · v1.120.0</div>
+      <div class="settings-footer">© 2026 Vymova · v1.120.1</div>
 
     </div>
   </div>
