@@ -592,7 +592,7 @@
         <button id="btn-reset" class="settings-reset-btn" style="margin-top:12px;" data-i18n="settings.resetBtn">↺ Скинути прогрес</button>
       </div>
 
-      <div class="settings-footer">© 2026 Vymova · v1.111.0</div>
+      <div class="settings-footer">© 2026 Vymova · v1.112.0</div>
 
     </div>
   </div>
@@ -885,6 +885,7 @@
         <div class="modes-section-grid">
           <button class="mode-card mc-oddone" id="btn-oddone" ><span class="mode-icon">🧐</span><span class="mode-name" data-i18n="modesPg.oddoneName">Зайве слово</span><span class="mode-desc" data-i18n="modesPg.oddoneDesc">Знайди зайве</span></button>
           <button class="mode-card mc-sentbuild" id="btn-sentbuild" ><span class="mode-icon">🧱</span><span class="mode-name" data-i18n="modesPg.sentbuildName">Речення</span><span class="mode-desc" data-i18n="modesPg.sentbuildDesc">Склади з тайлів</span></button>
+          <button class="mode-card mc-errorhunt" id="btn-error-hunt" ><span class="mode-icon">🕵️</span><span class="mode-name" data-i18n="modesPg.errorhuntName">Мисливець</span><span class="mode-desc" data-i18n="modesPg.errorhuntDesc">Знайди помилку</span></button>
         </div>
       </div>
     </div>
@@ -954,6 +955,13 @@
   <div id="sb-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
     <div class="quiz-panel">
       <div id="sb-page-mount"></div>
+    </div>
+  </div>
+
+  <!-- ══ ERROR HUNT MODAL ══ -->
+  <div id="eh-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
+    <div class="quiz-panel">
+      <div id="eh-page-mount"></div>
     </div>
   </div>
 
