@@ -48,8 +48,10 @@ import {
   daEntry,
   fiEntry,
   noEntry,
+  entryFor,
 } from '../features/mode-utils.ts';
 import { getKnowLang } from '../features/lang-pair-select.tsx';
+import { speak } from '../features/speech.ts';
 
 function getWordInLang(w: WordEntry, lang: string): string {
   switch (lang) {
@@ -425,6 +427,9 @@ export function ContextPage(): ReactElement {
                 padding: 16,
                 marginBottom: 10,
                 minHeight: 70,
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: 10,
               }}
             >
               <div
@@ -433,10 +438,22 @@ export function ContextPage(): ReactElement {
                   fontSize: '.95rem',
                   color: 'var(--text)',
                   lineHeight: 1.6,
+                  flex: 1,
                 }}
               >
                 "{question.hiddenHtml}"
               </div>
+              <button
+                className="mode-speak"
+                title={t('common.listen')}
+                onClick={(e) => {
+                  try {
+                    speak(getExample(w), e.currentTarget);
+                  } catch (err) {}
+                }}
+              >
+                🔊
+              </button>
             </div>
           )}
           {revealed && (
@@ -449,16 +466,32 @@ export function ContextPage(): ReactElement {
                 minHeight: 70,
               }}
             >
-              <div
-                style={{
-                  fontStyle: 'italic',
-                  fontSize: '.9rem',
-                  color: 'var(--text)',
-                  lineHeight: 1.6,
-                  marginBottom: 8,
-                }}
-                dangerouslySetInnerHTML={{ __html: `"${revealedHtml}"` }}
-              />
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 8 }}>
+                <div
+                  style={{
+                    fontStyle: 'italic',
+                    fontSize: '.9rem',
+                    color: 'var(--text)',
+                    lineHeight: 1.6,
+                    flex: 1,
+                  }}
+                  dangerouslySetInnerHTML={{ __html: `"${revealedHtml}"` }}
+                />
+                <button
+                  className="mode-speak"
+                  title={t('common.listen')}
+                  onClick={(e) => {
+                    try {
+                      speak(getExample(w), e.currentTarget);
+                    } catch (err) {}
+                  }}
+                >
+                  🔊
+                </button>
+              </div>
+              <div style={{ fontSize: '.8rem', color: 'var(--text3)', marginBottom: 8 }}>
+                {entryFor(getKnowLang(), w).ex}
+              </div>
               <div style={{ fontSize: '.82rem', fontWeight: 700, color: 'var(--text)' }}>
                 {w[0]}
               </div>
