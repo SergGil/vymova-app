@@ -310,6 +310,11 @@ export function WordHintPage(): ReactElement {
                 return <span key={i}>{display}</span>;
               })}
             </div>
+            {answered && (
+              <div style={{ fontSize: '.85rem', color: 'var(--text2)', marginTop: 8 }}>
+                {entryFor(getKnowLang(), round.w).word}
+              </div>
+            )}
           </div>
 
           {!answered && (
