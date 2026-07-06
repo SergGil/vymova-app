@@ -4287,6 +4287,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Вона зробила жест у бік порожнього стільця, запрошуючи його сісти.',
     },
   ],
+  'get around': [
+    {
+      pos: 'v',
+      translation: "обходити, обʼїжджати",
+      exEn: 'They found a clever way to get around the new regulations.',
+      exUa: 'Вони знайшли хитрий спосіб обійти нові правила.',
+    },
+    {
+      pos: 'v',
+      translation: 'поширюватись (про новини)',
+      exEn: 'News of the merger quickly got around the office.',
+      exUa: 'Новини про злиття швидко поширилися по офісу.',
+    },
+  ],
+  girl: [
+    {
+      pos: 'noun',
+      translation: 'дівчинка',
+      exEn: 'The little girl was playing happily in the park.',
+      exUa: 'Маленька дівчинка щасливо гралася в парку.',
+    },
+    {
+      pos: 'noun',
+      translation: 'дівчина',
+      exEn: 'The girl next door just started university this year.',
+      exUa: "Дівчина із сусіднього будинку цього року щойно почала навчання в університеті.",
+    },
+  ],
+  girlfriend: [
+    {
+      pos: 'noun',
+      translation: 'подруга',
+      exEn: 'She met her best girlfriend for coffee on Sunday.',
+      exUa: 'Вона зустрілася зі своєю найкращою подругою на каву в неділю.',
+    },
+    {
+      pos: 'noun',
+      translation: 'дівчина',
+      exEn: 'He introduced his girlfriend to his parents for the first time.',
+      exUa: 'Він вперше познайомив свою дівчину з батьками.',
+    },
+  ],
+  'give way': [
+    {
+      pos: 'v',
+      translation: 'поступатися',
+      exEn: 'Eventually, his stubbornness gave way to common sense.',
+      exUa: 'Врешті-решт його впертість поступилася здоровому глузду.',
+    },
+    {
+      pos: 'v',
+      translation: 'провалюватись',
+      exEn: 'The old bridge suddenly gave way under the heavy truck.',
+      exUa: 'Старий міст раптово провалився під важкою вантажівкою.',
+    },
+  ],
+  glance: [
+    {
+      pos: 'v',
+      translation: 'кинути погляд',
+      exEn: 'She glanced at her watch during the meeting.',
+      exUa: 'Вона кинула погляд на годинник під час зустрічі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'погляд',
+      exEn: 'One glance at his face told her something was wrong.',
+      exUa: 'Один погляд на його обличчя підказав їй, що щось не так.',
+    },
+  ],
+  glaze: [
+    {
+      pos: 'v',
+      translation: "покривати глазур'ю",
+      exEn: 'The baker glazed the donuts with sweet icing.',
+      exUa: "Пекар покрив пончики солодкою глазур'ю.",
+    },
+    {
+      pos: 'noun',
+      translation: 'скляний погляд',
+      exEn: 'He stared ahead with a glaze in his tired eyes.',
+      exUa: 'Він дивився вперед зі скляним поглядом у втомлених очах.',
+    },
+  ],
+  gleam: [
+    {
+      pos: 'noun',
+      translation: 'блиск',
+      exEn: 'There was a mischievous gleam in her eyes.',
+      exUa: 'У її очах був пустотливий блиск.',
+    },
+    {
+      pos: 'v',
+      translation: 'сяяти',
+      exEn: 'The polished silver gleamed under the bright lights.',
+      exUa: 'Відполіроване срібло сяяло під яскравим світлом.',
+    },
+  ],
+  glimpse: [
+    {
+      pos: 'noun',
+      translation: 'короткий погляд',
+      exEn: 'She got only a brief glimpse of the rare bird before it flew away.',
+      exUa: 'Вона встигла кинути лише короткий погляд на рідкісного птаха, перш ніж він відлетів.',
+    },
+    {
+      pos: 'v',
+      translation: 'побачити мигцем',
+      exEn: 'I glimpsed her face for just a second in the crowd.',
+      exUa: 'Я побачив мигцем її обличчя лише на секунду в натовпі.',
+    },
+  ],
+  glitter: [
+    {
+      pos: 'noun',
+      translation: 'блиск',
+      exEn: 'The snow had a magical glitter under the streetlights.',
+      exUa: 'Сніг мав чарівний блиск під вуличними ліхтарями.',
+    },
+    {
+      pos: 'v',
+      translation: 'блищати',
+      exEn: 'Her earrings glittered every time she moved her head.',
+      exUa: 'Її сережки блищали щоразу, коли вона рухала головою.',
+    },
+  ],
+  glow: [
+    {
+      pos: 'v',
+      translation: 'сяяти',
+      exEn: 'The embers continued to glow long after the fire went out.',
+      exUa: 'Жарини продовжували сяяти ще довго після того, як вогонь погас.',
+    },
+    {
+      pos: 'noun',
+      translation: 'світіння',
+      exEn: 'The soft glow of the lamp filled the room.',
+      exUa: 'М\'яке світіння лампи наповнювало кімнату.',
+    },
+  ],
+  glue: [
+    {
+      pos: 'noun',
+      translation: 'клей',
+      exEn: 'She used strong glue to fix the broken vase.',
+      exUa: 'Вона використала міцний клей, щоб полагодити розбиту вазу.',
+    },
+    {
+      pos: 'v',
+      translation: 'клеїти',
+      exEn: 'He glued the pieces of the model together carefully.',
+      exUa: 'Він обережно склеїв частини моделі докупи.',
+    },
+  ],
+  gorge: [
+    {
+      pos: 'noun',
+      translation: 'ущелина',
+      exEn: 'The river carved a deep gorge through the mountains.',
+      exUa: 'Річка прорізала глибоку ущелину крізь гори.',
+    },
+    {
+      pos: 'v',
+      translation: 'наїдатися',
+      exEn: 'They gorged themselves on cake at the birthday party.',
+      exUa: 'Вони наїлися торта на дні народження.',
+    },
+  ],
+  gossip: [
+    {
+      pos: 'noun',
+      translation: 'плітки',
+      exEn: 'She refused to listen to office gossip.',
+      exUa: 'Вона відмовлялася слухати офісні плітки.',
+    },
+    {
+      pos: 'v',
+      translation: 'пліткувати',
+      exEn: 'The neighbours love to gossip about everyone on the street.',
+      exUa: 'Сусіди люблять пліткувати про всіх на вулиці.',
+    },
+  ],
+  gouge: [
+    {
+      pos: 'v',
+      translation: 'вирізати, видовбувати',
+      exEn: 'He accidentally gouged a hole in the wooden table.',
+      exUa: "Він випадково видовбав дірку в дерев'яному столі.",
+    },
+    {
+      pos: 'v',
+      translation: 'здирати ціну',
+      exEn: 'The vendor was accused of gouging tourists on prices.',
+      exUa: 'Продавця звинуватили в тому, що він здирав ціну з туристів.',
+    },
+  ],
+  gourmet: [
+    {
+      pos: 'noun',
+      translation: 'гурман',
+      exEn: 'As a true gourmet, he only eats at the finest restaurants.',
+      exUa: 'Як справжній гурман, він їсть лише в найкращих ресторанах.',
+    },
+    {
+      pos: 'adj',
+      translation: 'вишуканий',
+      exEn: 'The hotel offers a gourmet breakfast every morning.',
+      exUa: 'Готель щоранку пропонує вишуканий сніданок.',
+    },
+  ],
+  graduate: [
+    {
+      pos: 'noun',
+      translation: 'випускник',
+      exEn: 'She is a recent graduate of a prestigious law school.',
+      exUa: 'Вона нещодавня випускниця престижної юридичної школи.',
+    },
+    {
+      pos: 'v',
+      translation: 'закінчувати',
+      exEn: 'He plans to graduate from university next spring.',
+      exUa: 'Він планує закінчити університет наступної весни.',
+    },
+  ],
+  grate: [
+    {
+      pos: 'noun',
+      translation: 'решітка',
+      exEn: 'Warm air rose from the metal grate in the floor.',
+      exUa: 'Тепле повітря піднімалося з металевої решітки в підлозі.',
+    },
+    {
+      pos: 'v',
+      translation: 'натирати',
+      exEn: 'She grated fresh cheese over the hot pasta.',
+      exUa: 'Вона натерла свіжий сир на гарячу пасту.',
+    },
+  ],
+  grease: [
+    {
+      pos: 'noun',
+      translation: 'мастило',
+      exEn: 'The mechanic applied grease to the squeaky hinge.',
+      exUa: 'Механік наніс мастило на скрипучу петлю.',
+    },
+    {
+      pos: 'v',
+      translation: 'змащувати',
+      exEn: 'You should grease the pan before adding the batter.',
+      exUa: 'Тобі слід змастити сковороду, перш ніж додати тісто.',
+    },
+  ],
+  grill: [
+    {
+      pos: 'noun',
+      translation: 'гриль',
+      exEn: 'They bought a new grill for the summer barbecues.',
+      exUa: 'Вони купили новий гриль для літніх барбекю.',
+    },
+    {
+      pos: 'v',
+      translation: 'смажити на грилі',
+      exEn: 'Dad loves to grill vegetables alongside the meat.',
+      exUa: "Тато любить смажити овочі на грилі разом з м'ясом.",
+    },
+  ],
+  grin: [
+    {
+      pos: 'v',
+      translation: 'усміхатися',
+      exEn: 'She grinned widely when she saw the surprise party.',
+      exUa: 'Вона широко усміхнулася, побачивши вечірку-сюрприз.',
+    },
+    {
+      pos: 'noun',
+      translation: 'усмішка',
+      exEn: 'He had a mischievous grin on his face.',
+      exUa: 'На його обличчі була пустотлива усмішка.',
+    },
+  ],
+  grip: [
+    {
+      pos: 'noun',
+      translation: 'хватка',
+      exEn: 'She kept a firm grip on the railing as she climbed.',
+      exUa: 'Вона міцно тримала поручень, піднімаючись.',
+    },
+    {
+      pos: 'v',
+      translation: 'стиснути',
+      exEn: 'He gripped the steering wheel tightly during the storm.',
+      exUa: 'Він міцно стиснув кермо під час шторму.',
+    },
+  ],
+  groan: [
+    {
+      pos: 'v',
+      translation: 'стогнати',
+      exEn: 'He groaned in pain after twisting his ankle.',
+      exUa: 'Він застогнав від болю, підвернувши ногу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'стогін',
+      exEn: 'A low groan escaped her lips as she stood up.',
+      exUa: 'Тихий стогін вирвався з її вуст, коли вона підвелася.',
+    },
+  ],
+  groom: [
+    {
+      pos: 'noun',
+      translation: 'наречений',
+      exEn: 'The groom looked nervous as he waited at the altar.',
+      exUa: 'Наречений виглядав нервовим, чекаючи біля вівтаря.',
+    },
+    {
+      pos: 'v',
+      translation: 'доглядати',
+      exEn: 'She grooms her horse every morning before riding.',
+      exUa: 'Вона доглядає свого коня щоранку перед їздою.',
+    },
+  ],
+  guarantee: [
+    {
+      pos: 'noun',
+      translation: 'гарантія',
+      exEn: 'The washing machine comes with a two-year guarantee.',
+      exUa: 'Пральна машина постачається з дворічною гарантією.',
+    },
+    {
+      pos: 'v',
+      translation: 'гарантувати',
+      exEn: "The company guarantees a full refund if you're not satisfied.",
+      exUa: 'Компанія гарантує повне повернення коштів, якщо ви не задоволені.',
+    },
+  ],
+  guard: [
+    {
+      pos: 'v',
+      translation: 'охороняти',
+      exEn: 'Two soldiers guarded the entrance to the palace.',
+      exUa: 'Двоє солдатів охороняли вхід до палацу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'варта',
+      exEn: 'The night guard checked every door before locking up.',
+      exUa: 'Нічна варта перевірила кожні двері перед тим, як зачинити.',
+    },
+  ],
+  guide: [
+    {
+      pos: 'noun',
+      translation: 'гід',
+      exEn: 'She hired a local guide to show them around the ruins.',
+      exUa: 'Вона найняла місцевого гіда, щоб показати їм руїни.',
+    },
+    {
+      pos: 'v',
+      translation: 'направляти',
+      exEn: 'The teacher gently guided the students through the difficult exercise.',
+      exUa: 'Вчителька м\'яко направляла учнів через складну вправу.',
+    },
+  ],
+  guilty: [
+    {
+      pos: 'adj',
+      translation: 'винний',
+      exEn: 'The jury found him guilty of all charges.',
+      exUa: 'Присяжні визнали його винним за всіма пунктами звинувачення.',
+    },
+    {
+      pos: 'adj',
+      translation: 'відчуває провину',
+      exEn: "She felt guilty for forgetting her friend's birthday.",
+      exUa: "Вона відчувала провину за те, що забула про день народження подруги.",
+    },
+  ],
+  gull: [
+    {
+      pos: 'noun',
+      translation: 'чайка',
+      exEn: 'Seagulls circled noisily above the fishing boats.',
+      exUa: 'Чайки галасливо кружляли над рибальськими човнами.',
+    },
+    {
+      pos: 'v',
+      translation: 'обманути',
+      exEn: 'The scammer gulled several elderly victims out of their savings.',
+      exUa: 'Шахрай обманом позбавив кількох літніх людей їхніх заощаджень.',
+    },
+  ],
+  gulp: [
+    {
+      pos: 'v',
+      translation: 'ковтати',
+      exEn: 'He gulped his coffee before rushing out the door.',
+      exUa: 'Він проковтнув каву, перш ніж вибігти за двері.',
+    },
+    {
+      pos: 'noun',
+      translation: 'великий ковток',
+      exEn: 'She took a big gulp of water after the run.',
+      exUa: 'Вона зробила великий ковток води після пробіжки.',
+    },
+  ],
+  hail: [
+    {
+      pos: 'v',
+      translation: 'вітати',
+      exEn: 'Critics hailed the film as a masterpiece.',
+      exUa: 'Критики вітали фільм як шедевр.',
+    },
+    {
+      pos: 'noun',
+      translation: 'град',
+      exEn: 'Heavy hail damaged several cars parked outside.',
+      exUa: 'Сильний град пошкодив кілька автомобілів, припаркованих надворі.',
+    },
+  ],
+  halt: [
+    {
+      pos: 'v',
+      translation: 'зупинятися',
+      exEn: 'The train halted suddenly between two stations.',
+      exUa: 'Потяг раптово зупинився між двома станціями.',
+    },
+    {
+      pos: 'noun',
+      translation: 'зупинка',
+      exEn: 'Production came to a complete halt after the accident.',
+      exUa: 'Виробництво повністю зупинилося після аварії.',
+    },
+  ],
+  hammer: [
+    {
+      pos: 'noun',
+      translation: 'молоток',
+      exEn: 'He used a hammer to fix the loose shelf.',
+      exUa: 'Він скористався молотком, щоб полагодити хитку полицю.',
+    },
+    {
+      pos: 'v',
+      translation: 'забивати',
+      exEn: 'She hammered the nail into the wall carefully.',
+      exUa: 'Вона обережно забила цвях у стіну.',
+    },
+  ],
+  hamper: [
+    {
+      pos: 'v',
+      translation: 'заважати',
+      exEn: 'Heavy fog hampered visibility on the motorway.',
+      exUa: 'Сильний туман заважав видимості на автомагістралі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'кошик',
+      exEn: 'They packed a picnic hamper full of sandwiches and fruit.',
+      exUa: 'Вони спакували кошик для пікніка, повний бутербродів і фруктів.',
+    },
+  ],
+  handle: [
+    {
+      pos: 'noun',
+      translation: 'рукоятка',
+      exEn: 'The knife has a wooden handle.',
+      exUa: 'Ніж має дерев\'яну рукоятку.',
+    },
+    {
+      pos: 'v',
+      translation: 'справлятися',
+      exEn: 'She handled the difficult situation with great calm.',
+      exUa: 'Вона справилася зі складною ситуацією з великим спокоєм.',
+    },
+  ],
+  harangue: [
+    {
+      pos: 'noun',
+      translation: 'гнівна промова',
+      exEn: "The coach launched into a harangue about the team's poor effort.",
+      exUa: 'Тренер розпочав гнівну промову про слабкі старання команди.',
+    },
+    {
+      pos: 'v',
+      translation: 'виголошувати гнівно',
+      exEn: 'He harangued the crowd for nearly twenty minutes.',
+      exUa: 'Він гнівно виголошував промову перед натовпом майже двадцять хвилин.',
+    },
+  ],
+  'harbor (harbour)': [
+    {
+      pos: 'noun',
+      translation: 'гавань',
+      exEn: 'Ships took shelter in the harbor during the storm.',
+      exUa: 'Кораблі знайшли прихисток у гавані під час шторму.',
+    },
+    {
+      pos: 'v',
+      translation: 'плекати',
+      exEn: 'She had long harboured a secret dream of becoming a writer.',
+      exUa: 'Вона довго плекала таємну мрію стати письменницею.',
+    },
+  ],
+  harbour: [
+    {
+      pos: 'v',
+      translation: 'плекати (почуття)',
+      exEn: 'He harboured a deep resentment toward his former boss.',
+      exUa: 'Він плекав глибоку образу до свого колишнього начальника.',
+    },
+    {
+      pos: 'noun',
+      translation: 'гавань',
+      exEn: 'Fishing boats returned safely to the harbour before the storm hit.',
+      exUa: 'Рибальські човни безпечно повернулися в гавань до того, як вдарив шторм.',
+    },
+  ],
+  harm: [
+    {
+      pos: 'noun',
+      translation: 'шкода',
+      exEn: 'The chemicals could cause serious harm to the environment.',
+      exUa: 'Ці хімікати можуть завдати серйозної шкоди довкіллю.',
+    },
+    {
+      pos: 'v',
+      translation: 'шкодити',
+      exEn: 'Smoking harms not only the smoker but people around them.',
+      exUa: 'Куріння шкодить не лише курцю, а й людям навколо.',
+    },
+  ],
+  harvest: [
+    {
+      pos: 'noun',
+      translation: 'врожай',
+      exEn: 'Farmers celebrated an unusually large harvest this year.',
+      exUa: 'Фермери відзначили незвично великий врожай цього року.',
+    },
+    {
+      pos: 'v',
+      translation: 'збирати',
+      exEn: 'Workers harvest the grapes early in the morning.',
+      exUa: 'Робітники збирають виноград рано вранці.',
+    },
+  ],
+  hatch: [
+    {
+      pos: 'noun',
+      translation: 'люк',
+      exEn: "The submarine's hatch opened with a loud hiss.",
+      exUa: 'Люк підводного човна відкрився з гучним шипінням.',
+    },
+    {
+      pos: 'v',
+      translation: 'вилуплюватися',
+      exEn: 'The chicks hatched from their eggs after three weeks.',
+      exUa: 'Курчата вилупилися з яєць через три тижні.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
