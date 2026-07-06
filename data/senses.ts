@@ -12695,6 +12695,572 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Вона відчула сильний удар у двері.',
     },
   ],
+  thunder: [
+    {
+      pos: 'noun',
+      translation: 'грім',
+      exEn: 'Thunder rumbled in the distance before the storm.',
+      exUa: 'Грім гуркотів вдалині перед штормом.',
+    },
+    {
+      pos: 'v',
+      translation: 'гриміти',
+      exEn: 'The sky thundered loudly during the storm.',
+      exUa: 'Небо голосно гриміло під час шторму.',
+    },
+  ],
+  tick: [
+    {
+      pos: 'v',
+      translation: 'позначати',
+      exEn: 'He ticked the box to confirm his agreement.',
+      exUa: 'Він поставив галочку, щоб підтвердити свою згоду.',
+    },
+    {
+      pos: 'v',
+      translation: 'цокати',
+      exEn: 'The old clock ticked loudly in the silent room.',
+      exUa: 'Старий годинник голосно цокав у тихій кімнаті.',
+    },
+    {
+      pos: 'noun',
+      translation: 'кліщ',
+      exEn: 'She found a tick on the dog after the walk in the woods.',
+      exUa: 'Вона знайшла кліща на собаці після прогулянки в лісі.',
+    },
+  ],
+  tidy: [
+    {
+      pos: 'adj',
+      translation: 'охайний',
+      exEn: 'She keeps her desk very tidy.',
+      exUa: 'Вона тримає свій стіл дуже охайним.',
+    },
+    {
+      pos: 'v',
+      translation: 'прибирати',
+      exEn: 'He tidied his room before his parents arrived.',
+      exUa: 'Він прибрав у своїй кімнаті перед приїздом батьків.',
+    },
+  ],
+  tie: [
+    {
+      pos: 'v',
+      translation: "зав'язувати",
+      exEn: 'She tied her shoelaces before the race.',
+      exUa: 'Вона зав\'язала шнурки перед забігом.',
+    },
+    {
+      pos: 'noun',
+      translation: 'краватка',
+      exEn: 'He wore a blue tie to the interview.',
+      exUa: 'Він одягнув синю краватку на співбесіду.',
+    },
+  ],
+  'tie up': [
+    {
+      pos: 'v',
+      translation: "зв'язувати",
+      exEn: 'The robbers tied up the security guard.',
+      exUa: "Грабіжники зв'язали охоронця.",
+    },
+    {
+      pos: 'v',
+      translation: 'остаточно вирішити',
+      exEn: 'They need a few more days to tie up the deal.',
+      exUa: 'Їм потрібно ще кілька днів, щоб остаточно вирішити угоду.',
+    },
+  ],
+  tilt: [
+    {
+      pos: 'v',
+      translation: 'нахиляти',
+      exEn: 'She tilted her head to hear him better.',
+      exUa: 'Вона нахилила голову, щоб краще його чути.',
+    },
+    {
+      pos: 'noun',
+      translation: 'нахил',
+      exEn: "The Earth's tilt causes the seasons to change.",
+      exUa: 'Нахил Землі спричиняє зміну пір року.',
+    },
+  ],
+  tint: [
+    {
+      pos: 'noun',
+      translation: 'відтінок',
+      exEn: 'The sunset gave the sky a pink tint.',
+      exUa: 'Захід сонця надав небу рожевого відтінку.',
+    },
+    {
+      pos: 'v',
+      translation: 'підфарбовувати',
+      exEn: 'She tinted her hair a light auburn colour.',
+      exUa: 'Вона підфарбувала волосся в світло-каштановий колір.',
+    },
+  ],
+  'tire (tyre)': [
+    {
+      pos: 'noun',
+      translation: 'шина',
+      exEn: 'He checked the pressure in all four tyres.',
+      exUa: 'Він перевірив тиск у всіх чотирьох шинах.',
+    },
+    {
+      pos: 'v',
+      translation: 'втомлюватися',
+      exEn: 'She tires easily after a long day at work.',
+      exUa: 'Вона легко втомлюється після довгого робочого дня.',
+    },
+  ],
+  toast: [
+    {
+      pos: 'noun',
+      translation: 'тост',
+      exEn: 'He raised his glass to give a toast at the wedding.',
+      exUa: 'Він підняв келих, щоб виголосити тост на весіллі.',
+    },
+    {
+      pos: 'v',
+      translation: 'смажити',
+      exEn: 'She toasted the bread until it was golden brown.',
+      exUa: 'Вона підсмажила хліб до золотисто-коричневого кольору.',
+    },
+  ],
+  toil: [
+    {
+      pos: 'v',
+      translation: 'важко працювати',
+      exEn: 'They toiled in the fields from dawn to dusk.',
+      exUa: 'Вони важко працювали в полях від світанку до заходу сонця.',
+    },
+    {
+      pos: 'noun',
+      translation: 'каторжна праця',
+      exEn: 'Years of toil finally paid off when the farm succeeded.',
+      exUa: 'Роки каторжної праці нарешті окупилися, коли ферма стала успішною.',
+    },
+  ],
+  torment: [
+    {
+      pos: 'v',
+      translation: 'мучити',
+      exEn: 'Guilt tormented him for years after the accident.',
+      exUa: 'Провина мучила його роками після аварії.',
+    },
+    {
+      pos: 'noun',
+      translation: 'мука',
+      exEn: 'Waiting for the exam results was pure torment.',
+      exUa: 'Очікування результатів іспиту було справжньою мукою.',
+    },
+  ],
+  torture: [
+    {
+      pos: 'v',
+      translation: 'катувати',
+      exEn: 'The prisoners were tortured for information.',
+      exUa: 'В\'язнів катували, щоб отримати інформацію.',
+    },
+    {
+      pos: 'noun',
+      translation: 'тортури',
+      exEn: 'The museum has an exhibit about medieval torture.',
+      exUa: 'У музеї є експозиція про середньовічні тортури.',
+    },
+  ],
+  total: [
+    {
+      pos: 'adj',
+      translation: 'загальний',
+      exEn: 'The total cost of the trip was higher than expected.',
+      exUa: 'Загальна вартість поїздки була вищою, ніж очікувалося.',
+    },
+    {
+      pos: 'v',
+      translation: 'підраховувати',
+      exEn: 'She totalled the expenses at the end of the month.',
+      exUa: 'Вона підрахувала витрати наприкінці місяця.',
+    },
+  ],
+  tow: [
+    {
+      pos: 'v',
+      translation: 'буксирувати',
+      exEn: 'The truck towed the broken-down car to the garage.',
+      exUa: 'Вантажівка відбуксирувала зламану машину в гараж.',
+    },
+    {
+      pos: 'noun',
+      translation: 'буксир',
+      exEn: 'The boat was pulled by a tow rope.',
+      exUa: 'Човен тягли на буксирі.',
+    },
+  ],
+  tower: [
+    {
+      pos: 'noun',
+      translation: 'вежа',
+      exEn: 'The old castle had a tall stone tower.',
+      exUa: 'Старий замок мав високу кам\'яну вежу.',
+    },
+    {
+      pos: 'v',
+      translation: 'возвишатися',
+      exEn: 'The skyscraper towered over the surrounding buildings.',
+      exUa: 'Хмарочос височів над навколишніми будівлями.',
+    },
+  ],
+  trace: [
+    {
+      pos: 'v',
+      translation: 'простежувати',
+      exEn: 'Historians traced the origins of the tradition.',
+      exUa: 'Історики простежили походження традиції.',
+    },
+    {
+      pos: 'noun',
+      translation: 'слід',
+      exEn: "There wasn't a trace of evidence left at the scene.",
+      exUa: 'На місці події не залишилося жодного сліду доказів.',
+    },
+  ],
+  track: [
+    {
+      pos: 'v',
+      translation: 'відстежувати',
+      exEn: 'The app tracks your daily steps.',
+      exUa: 'Застосунок відстежує ваші щоденні кроки.',
+    },
+    {
+      pos: 'noun',
+      translation: 'колія',
+      exEn: 'The train left the tracks after the derailment.',
+      exUa: 'Потяг зійшов з колії після аварії.',
+    },
+  ],
+  trade: [
+    {
+      pos: 'v',
+      translation: 'торгувати',
+      exEn: 'The two countries have traded goods for centuries.',
+      exUa: 'Дві країни торгують товарами протягом століть.',
+    },
+    {
+      pos: 'noun',
+      translation: 'ремесло',
+      exEn: 'He learned the carpentry trade from his father.',
+      exUa: 'Він вивчив ремесло теслярства від свого батька.',
+    },
+  ],
+  trainer: [
+    {
+      pos: 'noun',
+      translation: 'тренер',
+      exEn: 'Her personal trainer designed a fitness programme.',
+      exUa: 'Її особистий тренер розробив фітнес-програму.',
+    },
+    {
+      pos: 'noun',
+      translation: 'кросівка',
+      exEn: 'She wore her new white trainers to the gym.',
+      exUa: 'Вона взула нові білі кросівки до спортзалу.',
+    },
+  ],
+  tramp: [
+    {
+      pos: 'noun',
+      translation: 'бродяга',
+      exEn: 'A tramp slept on the park bench overnight.',
+      exUa: 'Бродяга спав на лавці в парку всю ніч.',
+    },
+    {
+      pos: 'v',
+      translation: 'важко йти',
+      exEn: 'They tramped through the muddy field for hours.',
+      exUa: 'Вони важко йшли через грязюку в полі кілька годин.',
+    },
+  ],
+  transport: [
+    {
+      pos: 'noun',
+      translation: 'транспорт',
+      exEn: 'Public transport is very reliable in this city.',
+      exUa: 'Громадський транспорт у цьому місті дуже надійний.',
+    },
+    {
+      pos: 'v',
+      translation: 'транспортувати',
+      exEn: 'The company transports goods across the country.',
+      exUa: 'Компанія транспортує товари по всій країні.',
+    },
+  ],
+  trap: [
+    {
+      pos: 'noun',
+      translation: 'пастка',
+      exEn: 'The mouse got caught in the trap.',
+      exUa: 'Миша потрапила в пастку.',
+    },
+    {
+      pos: 'v',
+      translation: 'ловити в пастку',
+      exEn: 'Hunters trapped foxes in the forest.',
+      exUa: 'Мисливці ловили лисиць у пастку в лісі.',
+    },
+  ],
+  trash: [
+    {
+      pos: 'noun',
+      translation: 'сміття',
+      exEn: 'Please take out the trash before you leave.',
+      exUa: 'Будь ласка, винеси сміття перед виходом.',
+    },
+    {
+      pos: 'v',
+      translation: 'нищити',
+      exEn: 'The vandals trashed the empty building.',
+      exUa: 'Вандали знищили порожню будівлю.',
+    },
+  ],
+  tread: [
+    {
+      pos: 'v',
+      translation: 'ступати',
+      exEn: 'She trod carefully on the wet rocks.',
+      exUa: 'Вона обережно ступала по мокрому камінню.',
+    },
+    {
+      pos: 'noun',
+      translation: 'протектор',
+      exEn: "The tyre's tread was completely worn down.",
+      exUa: 'Протектор шини був повністю зношений.',
+    },
+  ],
+  treasure: [
+    {
+      pos: 'noun',
+      translation: 'скарб',
+      exEn: 'The pirates buried their treasure on the island.',
+      exUa: 'Пірати закопали свій скарб на острові.',
+    },
+    {
+      pos: 'v',
+      translation: 'цінувати',
+      exEn: 'She treasures every memory of her childhood.',
+      exUa: 'Вона цінує кожен спогад про своє дитинство.',
+    },
+  ],
+  trigger: [
+    {
+      pos: 'noun',
+      translation: 'спусковий гачок',
+      exEn: 'He pulled the trigger of the old rifle.',
+      exUa: 'Він натиснув на спусковий гачок старої гвинтівки.',
+    },
+    {
+      pos: 'v',
+      translation: 'запускати',
+      exEn: 'Stress can trigger severe headaches in some people.',
+      exUa: 'Стрес може запускати сильні головні болі в деяких людей.',
+    },
+  ],
+  trim: [
+    {
+      pos: 'v',
+      translation: 'підрізати',
+      exEn: 'She trimmed the hedge before the guests arrived.',
+      exUa: 'Вона підрізала живопліт перед приходом гостей.',
+    },
+    {
+      pos: 'adj',
+      translation: 'охайний',
+      exEn: 'He keeps a trim, well-groomed appearance.',
+      exUa: 'Він підтримує охайний, доглянутий вигляд.',
+    },
+  ],
+  trip: [
+    {
+      pos: 'noun',
+      translation: 'поїздка',
+      exEn: 'They planned a trip to the mountains next month.',
+      exUa: 'Вони спланували поїздку в гори наступного місяця.',
+    },
+    {
+      pos: 'v',
+      translation: 'спіткнутися',
+      exEn: 'She tripped over the loose cable and fell.',
+      exUa: 'Вона спіткнулася об незакріплений кабель і впала.',
+    },
+  ],
+  triple: [
+    {
+      pos: 'v',
+      translation: 'потроювати',
+      exEn: 'The company tripled its profits in just two years.',
+      exUa: 'Компанія потроїла свій прибуток лише за два роки.',
+    },
+    {
+      pos: 'adj',
+      translation: 'потрійний',
+      exEn: 'She ordered a triple scoop of ice cream.',
+      exUa: 'Вона замовила потрійну порцію морозива.',
+    },
+  ],
+  triumph: [
+    {
+      pos: 'noun',
+      translation: 'тріумф',
+      exEn: 'The victory was a triumph for the entire team.',
+      exUa: 'Перемога була тріумфом для всієї команди.',
+    },
+    {
+      pos: 'v',
+      translation: 'перемагати',
+      exEn: 'Good ultimately triumphed over evil in the story.',
+      exUa: 'Добро зрештою перемогло зло в цій історії.',
+    },
+  ],
+  troop: [
+    {
+      pos: 'noun',
+      translation: 'загін',
+      exEn: 'A troop of soldiers marched through the village.',
+      exUa: 'Загін солдатів марширував через село.',
+    },
+    {
+      pos: 'v',
+      translation: 'збиратися',
+      exEn: 'Fans trooped into the stadium before kickoff.',
+      exUa: 'Фанати збиралися на стадіоні перед початком матчу.',
+    },
+  ],
+  trump: [
+    {
+      pos: 'noun',
+      translation: 'козирна карта',
+      exEn: 'She played her trump card at the last moment.',
+      exUa: 'Вона зіграла свою козирну карту в останню мить.',
+    },
+    {
+      pos: 'v',
+      translation: 'бити козирем',
+      exEn: 'He trumped her argument with a stronger point.',
+      exUa: 'Він побив її аргумент козирем сильнішого доводу.',
+    },
+  ],
+  trumpet: [
+    {
+      pos: 'noun',
+      translation: 'труба',
+      exEn: 'He learned to play the trumpet as a child.',
+      exUa: 'Він навчився грати на трубі в дитинстві.',
+    },
+    {
+      pos: 'v',
+      translation: 'трубити',
+      exEn: 'Elephants trumpeted loudly across the savanna.',
+      exUa: 'Слони голосно трубили по всій савані.',
+    },
+  ],
+  trust: [
+    {
+      pos: 'v',
+      translation: 'довіряти',
+      exEn: 'She trusts her best friend with all her secrets.',
+      exUa: 'Вона довіряє своїй найкращій подрузі всі свої секрети.',
+    },
+    {
+      pos: 'noun',
+      translation: 'довіра',
+      exEn: 'Trust between the two countries took years to rebuild.',
+      exUa: 'Довіра між двома країнами відновлювалася роками.',
+    },
+  ],
+  tune: [
+    {
+      pos: 'noun',
+      translation: 'мелодія',
+      exEn: 'She hummed a cheerful tune while cooking.',
+      exUa: 'Вона наспівувала веселу мелодію, готуючи.',
+    },
+    {
+      pos: 'v',
+      translation: 'налаштовувати',
+      exEn: 'The technician tuned the piano before the concert.',
+      exUa: 'Технік налаштував піаніно перед концертом.',
+    },
+  ],
+  turn: [
+    {
+      pos: 'v',
+      translation: 'повертати',
+      exEn: 'Turn left at the next intersection.',
+      exUa: 'Поверни ліворуч на наступному перехресті.',
+    },
+    {
+      pos: 'noun',
+      translation: 'черга',
+      exEn: "It's your turn to choose the movie tonight.",
+      exUa: 'Сьогодні твоя черга обирати фільм.',
+    },
+  ],
+  'turn around': [
+    {
+      pos: 'v',
+      translation: 'розвертатися',
+      exEn: "She turned around when she heard her name called.",
+      exUa: "Вона розвернулася, почувши, як гукають її ім'я.",
+    },
+    {
+      pos: 'v',
+      translation: 'докорінно змінюватися',
+      exEn: 'The company turned around its finances within a year.',
+      exUa: 'Компанія докорінно змінила своє фінансове становище протягом року.',
+    },
+  ],
+  turnaround: [
+    {
+      pos: 'noun',
+      translation: 'зміна ситуації на краще',
+      exEn: "The team's turnaround this season surprised everyone.",
+      exUa: 'Зміна ситуації команди на краще цього сезону здивувала всіх.',
+    },
+    {
+      pos: 'noun',
+      translation: 'термін виконання',
+      exEn: 'The printer offers a fast turnaround for large orders.',
+      exUa: 'Друкарня пропонує швидкий термін виконання для великих замовлень.',
+    },
+  ],
+  tutor: [
+    {
+      pos: 'noun',
+      translation: 'репетитор',
+      exEn: 'She hired a private tutor to help with maths.',
+      exUa: 'Вона найняла приватного репетитора з математики.',
+    },
+    {
+      pos: 'v',
+      translation: 'навчати',
+      exEn: 'He tutors students in physics after school.',
+      exUa: 'Він навчає учнів фізики після школи.',
+    },
+  ],
+  tweak: [
+    {
+      pos: 'v',
+      translation: 'підналадити',
+      exEn: 'She tweaked the recipe slightly to make it healthier.',
+      exUa: 'Вона трохи підналадила рецепт, щоб зробити його здоровішим.',
+    },
+    {
+      pos: 'noun',
+      translation: 'дрібна корекція',
+      exEn: 'A small tweak to the design made a big difference.',
+      exUa: 'Дрібна корекція дизайну мала велике значення.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
