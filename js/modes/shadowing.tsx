@@ -204,6 +204,18 @@ export function ShadowingPage(): ReactElement {
     return () => document.removeEventListener('keydown', onKeydown);
   }, []);
 
+  // Auto-play the sentence as soon as a round is ready, so the user doesn't
+  // have to tap the speaker button just to hear it once.
+  useEffect(() => {
+    if (!round || phase !== 'ready') return;
+    const id = setTimeout(() => {
+      try {
+        speak(round.target, speakBtnRef.current);
+      } catch (e) {}
+    }, 300);
+    return () => clearTimeout(id);
+  }, [round, phase]);
+
   const finishRound = (spoken: string | null): void => {
     if (!round) return;
     const sim = spoken === null ? 1 : sentenceSimilarity(round.target, spoken);
