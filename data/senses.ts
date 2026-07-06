@@ -8197,6 +8197,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Дикі тварини можуть становити реальну загрозу, якщо до них необережно наближатися.',
     },
   ],
+  post: [
+    {
+      pos: 'noun',
+      translation: 'пост',
+      exEn: 'She was appointed to a senior post at the ministry.',
+      exUa: 'Її призначили на керівний пост у міністерстві.',
+    },
+    {
+      pos: 'v',
+      translation: 'надсилати',
+      exEn: "Please post the letter before five o'clock.",
+      exUa: "Будь ласка, надішли лист до п'ятої години.",
+    },
+  ],
+  postgraduate: [
+    {
+      pos: 'noun',
+      translation: 'аспірант',
+      exEn: 'She is a postgraduate studying chemistry at the university.',
+      exUa: 'Вона аспірантка, яка вивчає хімію в університеті.',
+    },
+    {
+      pos: 'adj',
+      translation: 'аспірантський',
+      exEn: 'He enrolled in a postgraduate programme in economics.',
+      exUa: 'Він вступив на аспірантську програму з економіки.',
+    },
+  ],
+  pound: [
+    {
+      pos: 'noun',
+      translation: 'фунт',
+      exEn: 'The recipe calls for one pound of flour.',
+      exUa: 'Рецепт вимагає одного фунта борошна.',
+    },
+    {
+      pos: 'v',
+      translation: 'товкти',
+      exEn: 'He pounded the meat with a mallet to tenderize it.',
+      exUa: "Він товк м'ясо молотком, щоб зробити його м'якшим.",
+    },
+  ],
+  powder: [
+    {
+      pos: 'noun',
+      translation: 'порошок',
+      exEn: 'She mixed the protein powder into her smoothie.',
+      exUa: 'Вона змішала протеїновий порошок у своєму смузі.',
+    },
+    {
+      pos: 'v',
+      translation: 'припудрювати',
+      exEn: 'She powdered her face lightly before the interview.',
+      exUa: 'Вона легенько припудрила обличчя перед співбесідою.',
+    },
+  ],
+  practice: [
+    {
+      pos: 'noun',
+      translation: 'практика',
+      exEn: 'Regular practice is the key to learning any language.',
+      exUa: 'Регулярна практика — ключ до вивчення будь-якої мови.',
+    },
+    {
+      pos: 'v',
+      translation: 'вправлятися',
+      exEn: 'He practices the piano every day after school.',
+      exUa: 'Він вправляється на піаніно щодня після школи.',
+    },
+  ],
+  praise: [
+    {
+      pos: 'v',
+      translation: 'хвалити',
+      exEn: 'The teacher praised her students for their hard work.',
+      exUa: 'Вчителька похвалила своїх учнів за наполегливу працю.',
+    },
+    {
+      pos: 'noun',
+      translation: 'похвала',
+      exEn: 'He received high praise for his outstanding performance.',
+      exUa: 'Він отримав високу похвалу за свій видатний виступ.',
+    },
+  ],
+  precipitate: [
+    {
+      pos: 'v',
+      translation: 'прискорювати (події)',
+      exEn: 'The scandal precipitated his sudden resignation.',
+      exUa: 'Скандал прискорив його раптову відставку.',
+    },
+    {
+      pos: 'noun',
+      translation: 'опад',
+      exEn: 'The weather report predicts precipitation later today.',
+      exUa: 'Прогноз погоди передбачає опади пізніше сьогодні.',
+    },
+  ],
+  press: [
+    {
+      pos: 'noun',
+      translation: 'преса',
+      exEn: 'The press gathered outside the courthouse for the verdict.',
+      exUa: 'Преса зібралася біля будівлі суду, чекаючи на вирок.',
+    },
+    {
+      pos: 'v',
+      translation: 'натискати',
+      exEn: 'Press the button to open the door.',
+      exUa: 'Натисни кнопку, щоб відчинити двері.',
+    },
+  ],
+  pressure: [
+    {
+      pos: 'noun',
+      translation: 'тиск',
+      exEn: 'She performed well even under enormous pressure.',
+      exUa: 'Вона добре виступила навіть під величезним тиском.',
+    },
+    {
+      pos: 'v',
+      translation: 'тиснути',
+      exEn: 'Her parents pressured her to choose a more practical career.',
+      exUa: "Батьки тиснули на неї, щоб вона обрала практичнішу кар'єру.",
+    },
+  ],
+  prick: [
+    {
+      pos: 'v',
+      translation: 'колоти',
+      exEn: 'She pricked her finger while sewing.',
+      exUa: 'Вона вколола палець під час шиття.',
+    },
+    {
+      pos: 'noun',
+      translation: 'укол',
+      exEn: 'He felt a small prick when the needle went in.',
+      exUa: 'Він відчув невеликий укол, коли ввійшла голка.',
+    },
+  ],
+  print: [
+    {
+      pos: 'adj',
+      translation: 'друкований (про ЗМІ)',
+      exEn: 'The magazine is available in both print and digital formats.',
+      exUa: 'Журнал доступний як у друкованому, так і в цифровому форматі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'друк',
+      exEn: 'The book went into its third print run this year.',
+      exUa: 'Книга цього року вийшла третім друком.',
+    },
+  ],
+  probation: [
+    {
+      pos: 'noun',
+      translation: 'пробаційний нагляд',
+      exEn: 'He was placed on probation instead of going to prison.',
+      exUa: "Його поставили під пробаційний нагляд замість в'язниці.",
+    },
+    {
+      pos: 'noun',
+      translation: 'випробувальний термін',
+      exEn: 'New employees serve a three-month probation period.',
+      exUa: 'Нові працівники проходять тримісячний випробувальний термін.',
+    },
+  ],
+  probe: [
+    {
+      pos: 'v',
+      translation: 'розслідувати',
+      exEn: "Journalists probed the company's financial records.",
+      exUa: 'Журналісти розслідували фінансові документи компанії.',
+    },
+    {
+      pos: 'noun',
+      translation: 'зонд',
+      exEn: 'The space probe sent back stunning images of Mars.',
+      exUa: 'Космічний зонд надіслав вражаючі знімки Марса.',
+    },
+  ],
+  process: [
+    {
+      pos: 'noun',
+      translation: 'процес',
+      exEn: 'The entire hiring process took almost two months.',
+      exUa: 'Весь процес найму зайняв майже два місяці.',
+    },
+    {
+      pos: 'v',
+      translation: 'обробляти',
+      exEn: 'The factory processes thousands of tons of grain each year.',
+      exUa: 'Завод обробляє тисячі тонн зерна щороку.',
+    },
+  ],
+  profess: [
+    {
+      pos: 'v',
+      translation: 'стверджувати, заявляти',
+      exEn: 'He professed his innocence throughout the trial.',
+      exUa: 'Він заявляв про свою невинуватість протягом усього суду.',
+    },
+    {
+      pos: 'v',
+      translation: 'сповідувати',
+      exEn: 'Most people in the village profess the Christian faith.',
+      exUa: 'Більшість жителів села сповідують християнську віру.',
+    },
+  ],
+  professional: [
+    {
+      pos: 'noun',
+      translation: 'професіонал',
+      exEn: 'She hired a professional to fix the leaking roof.',
+      exUa: 'Вона найняла професіонала, щоб полагодити протікаючий дах.',
+    },
+    {
+      pos: 'adj',
+      translation: 'професійний',
+      exEn: 'He always maintains a professional attitude at work.',
+      exUa: 'Він завжди зберігає професійне ставлення на роботі.',
+    },
+  ],
+  profit: [
+    {
+      pos: 'noun',
+      translation: 'прибуток',
+      exEn: 'The company reported a record profit this quarter.',
+      exUa: 'Компанія повідомила про рекордний прибуток цього кварталу.',
+    },
+    {
+      pos: 'v',
+      translation: 'отримувати вигоду',
+      exEn: 'Investors profited greatly from the rising stock prices.',
+      exUa: 'Інвестори отримали велику вигоду від зростання цін на акції.',
+    },
+  ],
+  promise: [
+    {
+      pos: 'v',
+      translation: 'обіцяти',
+      exEn: 'She promised to call him as soon as she landed.',
+      exUa: 'Вона пообіцяла зателефонувати йому, як тільки приземлиться.',
+    },
+    {
+      pos: 'noun',
+      translation: 'обіцянка',
+      exEn: 'He broke his promise to help with the move.',
+      exUa: 'Він порушив свою обіцянку допомогти з переїздом.',
+    },
+  ],
+  prompt: [
+    {
+      pos: 'v',
+      translation: 'спонукати',
+      exEn: 'The alarm prompted everyone to leave the building immediately.',
+      exUa: 'Сигналізація спонукала всіх негайно покинути будівлю.',
+    },
+    {
+      pos: 'adj',
+      translation: 'негайний',
+      exEn: 'She gave a prompt reply to every client email.',
+      exUa: 'Вона давала негайну відповідь на кожен лист клієнта.',
+    },
+  ],
+  prop: [
+    {
+      pos: 'noun',
+      translation: 'підпора',
+      exEn: 'They used a wooden beam as a prop for the sagging roof.',
+      exUa: 'Вони використали дерев\'яну балку як підпору для проваленого даху.',
+    },
+    {
+      pos: 'v',
+      translation: 'підтримувати',
+      exEn: 'She propped the door open with a heavy book.',
+      exUa: 'Вона підперла двері відкритими важкою книгою.',
+    },
+  ],
+  protest: [
+    {
+      pos: 'noun',
+      translation: 'протест',
+      exEn: 'Thousands joined the protest against the new law.',
+      exUa: 'Тисячі людей приєдналися до протесту проти нового закону.',
+    },
+    {
+      pos: 'v',
+      translation: 'протестувати',
+      exEn: 'Students protested outside the parliament building.',
+      exUa: 'Студенти протестували біля будівлі парламенту.',
+    },
+  ],
+  provision: [
+    {
+      pos: 'noun',
+      translation: 'забезпечення',
+      exEn: 'The charity focuses on the provision of clean water.',
+      exUa: 'Благодійна організація зосереджується на забезпеченні чистою водою.',
+    },
+    {
+      pos: 'noun',
+      translation: 'положення (закону)',
+      exEn: 'The contract includes a provision for early termination.',
+      exUa: 'Контракт містить положення про дострокове розірвання.',
+    },
+  ],
+  puff: [
+    {
+      pos: 'v',
+      translation: 'пихкати',
+      exEn: 'The old train puffed slowly up the hill.',
+      exUa: 'Старий потяг повільно пихкав угору схилом.',
+    },
+    {
+      pos: 'noun',
+      translation: 'клубок диму',
+      exEn: 'A puff of smoke rose from the chimney.',
+      exUa: 'Клубок диму піднявся з димаря.',
+    },
+  ],
+  pump: [
+    {
+      pos: 'noun',
+      translation: 'насос',
+      exEn: 'The water pump broke down during the drought.',
+      exUa: 'Водяний насос зламався під час посухи.',
+    },
+    {
+      pos: 'v',
+      translation: 'качати',
+      exEn: 'He pumped air into the flat tyre.',
+      exUa: 'Він накачав повітря в спущену шину.',
+    },
+  ],
+  purchase: [
+    {
+      pos: 'v',
+      translation: 'купувати',
+      exEn: 'She purchased a new laptop for university.',
+      exUa: 'Вона купила новий ноутбук для університету.',
+    },
+    {
+      pos: 'noun',
+      translation: 'купівля',
+      exEn: 'The purchase of the house took several months to complete.',
+      exUa: 'Купівля будинку зайняла кілька місяців для завершення.',
+    },
+  ],
+  puree: [
+    {
+      pos: 'noun',
+      translation: 'пюре',
+      exEn: 'She made a smooth puree from the roasted vegetables.',
+      exUa: 'Вона зробила гладке пюре з печених овочів.',
+    },
+    {
+      pos: 'v',
+      translation: 'протирати',
+      exEn: "Puree the soup until it's completely smooth.",
+      exUa: 'Протри суп, поки він не стане цілком гладким.',
+    },
+  ],
+  purge: [
+    {
+      pos: 'noun',
+      translation: 'очищення',
+      exEn: 'The new leader launched a purge of corrupt officials.',
+      exUa: 'Новий лідер розпочав очищення від корумпованих чиновників.',
+    },
+    {
+      pos: 'v',
+      translation: 'очищати',
+      exEn: 'The company purged its records of outdated files.',
+      exUa: 'Компанія очистила свої записи від застарілих файлів.',
+    },
+  ],
+  purse: [
+    {
+      pos: 'noun',
+      translation: 'гаманець',
+      exEn: 'She kept her money in a small leather purse.',
+      exUa: 'Вона тримала гроші в маленькому шкіряному гаманці.',
+    },
+    {
+      pos: 'v',
+      translation: 'стягувати губи',
+      exEn: 'She pursed her lips in disapproval.',
+      exUa: 'Вона стиснула губи на знак несхвалення.',
+    },
+  ],
+  puzzle: [
+    {
+      pos: 'noun',
+      translation: 'головоломка',
+      exEn: 'The children solved the puzzle in under ten minutes.',
+      exUa: 'Діти розв\'язали головоломку менш ніж за десять хвилин.',
+    },
+    {
+      pos: 'v',
+      translation: 'збивати з пантелику',
+      exEn: 'Her strange behaviour puzzled everyone in the room.',
+      exUa: 'Її дивна поведінка збила з пантелику всіх у кімнаті.',
+    },
+  ],
+  'qualified opinion': [
+    {
+      pos: 'noun',
+      translation: 'кваліфікована думка',
+      exEn: 'Before making such a big decision, get a qualified opinion from a specialist.',
+      exUa: 'Перш ніж ухвалювати таке важливе рішення, отримай кваліфіковану думку фахівця.',
+    },
+    {
+      pos: 'noun',
+      translation: 'думка з застереженнями',
+      exEn: 'The report included a qualified opinion due to incomplete records.',
+      exUa: 'Звіт містив думку із застереженнями через неповні записи.',
+    },
+  ],
+  quarrel: [
+    {
+      pos: 'noun',
+      translation: 'сварка',
+      exEn: 'Their quarrel over money lasted the whole evening.',
+      exUa: 'Їхня сварка через гроші тривала весь вечір.',
+    },
+    {
+      pos: 'v',
+      translation: 'сваритися',
+      exEn: 'The two brothers quarrelled constantly as children.',
+      exUa: 'Двоє братів постійно сварилися в дитинстві.',
+    },
+  ],
+  query: [
+    {
+      pos: 'noun',
+      translation: 'запит',
+      exEn: 'She submitted a query about her recent order.',
+      exUa: 'Вона подала запит щодо свого нещодавнього замовлення.',
+    },
+    {
+      pos: 'v',
+      translation: 'запитувати',
+      exEn: 'He queried whether the price included tax.',
+      exUa: 'Він запитав, чи включена в ціну податок.',
+    },
+  ],
+  question: [
+    {
+      pos: 'noun',
+      translation: 'питання',
+      exEn: 'She asked a difficult question during the interview.',
+      exUa: 'Вона поставила складне питання під час співбесіди.',
+    },
+    {
+      pos: 'v',
+      translation: 'ставити під сумнів',
+      exEn: 'Nobody questioned his loyalty to the company.',
+      exUa: 'Ніхто не ставив під сумнів його відданість компанії.',
+    },
+  ],
+  'question mark': [
+    {
+      pos: 'noun',
+      translation: 'знак питання',
+      exEn: 'Remember to add a question mark at the end of the sentence.',
+      exUa: 'Не забудь поставити знак питання в кінці речення.',
+    },
+    {
+      pos: 'noun',
+      translation: 'непевність',
+      exEn: 'There is still a question mark over his future at the club.',
+      exUa: 'Досі існує непевність щодо його майбутнього в клубі.',
+    },
+  ],
+  queue: [
+    {
+      pos: 'noun',
+      translation: 'черга',
+      exEn: 'She stood in a long queue at the post office.',
+      exUa: 'Вона стояла в довгій черзі на пошті.',
+    },
+    {
+      pos: 'v',
+      translation: 'чекати в черзі',
+      exEn: 'Dozens of fans queued overnight for concert tickets.',
+      exUa: 'Десятки фанатів чекали в черзі всю ніч за квитками на концерт.',
+    },
+  ],
+  quicken: [
+    {
+      pos: 'v',
+      translation: 'прискорюватися',
+      exEn: 'Her heartbeat quickened as she waited for the results.',
+      exUa: 'Її серцебиття прискорилося, поки вона чекала на результати.',
+    },
+    {
+      pos: 'v',
+      translation: 'пожвавлюватися',
+      exEn: 'The pace of the story quickens in the final chapters.',
+      exUa: 'Темп історії пожвавлюється в останніх розділах.',
+    },
+  ],
+  quintuple: [
+    {
+      pos: 'adj',
+      translation: "п'ятикратний",
+      exEn: 'The company saw a quintuple increase in sales after the campaign.',
+      exUa: "Компанія побачила п'ятикратне зростання продажів після кампанії.",
+    },
+    {
+      pos: 'v',
+      translation: "збільшити у п'ять разів",
+      exEn: 'The population of the town quintupled in just twenty years.',
+      exUa: "Населення міста збільшилося у п'ять разів лише за двадцять років.",
+    },
+  ],
+  quiz: [
+    {
+      pos: 'noun',
+      translation: 'вікторина',
+      exEn: 'The teacher organised a fun quiz at the end of term.',
+      exUa: 'Вчителька організувала веселу вікторину наприкінці семестру.',
+    },
+    {
+      pos: 'v',
+      translation: 'ставити запитання',
+      exEn: 'Reporters quizzed the minister about the new policy.',
+      exUa: 'Журналісти закидали міністра запитаннями про нову політику.',
+    },
+  ],
+  quote: [
+    {
+      pos: 'v',
+      translation: 'цитувати',
+      exEn: 'She quoted a famous line from the poem.',
+      exUa: 'Вона процитувала відомий рядок із вірша.',
+    },
+    {
+      pos: 'noun',
+      translation: 'котирування',
+      exEn: 'The insurance company gave her a quote over the phone.',
+      exUa: 'Страхова компанія надала їй котирування по телефону.',
+    },
+  ],
+  rack: [
+    {
+      pos: 'noun',
+      translation: 'стелаж',
+      exEn: 'She hung her coat on the rack by the door.',
+      exUa: 'Вона повісила пальто на стелаж біля дверей.',
+    },
+    {
+      pos: 'v',
+      translation: 'мучити',
+      exEn: 'Guilt racked him for years after the accident.',
+      exUa: 'Провина мучила його роками після аварії.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
