@@ -9889,6 +9889,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Компанія вжила заходів, щоб охороняти дані своїх працівників.',
     },
   ],
+  'safety valve': [
+    {
+      pos: 'noun',
+      translation: 'клапан безпеки',
+      exEn: "The engineer checked the pressure cooker's safety valve.",
+      exUa: 'Інженер перевірив запобіжний клапан скороварки.',
+    },
+    {
+      pos: 'noun',
+      translation: 'спосіб зняти напруженість',
+      exEn: "Sport acts as a safety valve for the players' stress.",
+      exUa: 'Спорт слугує способом зняти напруженість для гравців.',
+    },
+  ],
+  sail: [
+    {
+      pos: 'v',
+      translation: 'плисти',
+      exEn: 'They sailed across the Atlantic in three weeks.',
+      exUa: 'Вони пропливли через Атлантику за три тижні.',
+    },
+    {
+      pos: 'noun',
+      translation: 'вітрило',
+      exEn: "The wind filled the ship's sail.",
+      exUa: 'Вітер наповнив вітрило корабля.',
+    },
+  ],
+  salt: [
+    {
+      pos: 'noun',
+      translation: 'сіль',
+      exEn: 'Add a pinch of salt to the soup.',
+      exUa: 'Додай щіпку солі до супу.',
+    },
+    {
+      pos: 'v',
+      translation: 'солити',
+      exEn: 'She salted the fish before cooking it.',
+      exUa: 'Вона посолила рибу перед приготуванням.',
+    },
+  ],
+  salvage: [
+    {
+      pos: 'v',
+      translation: 'рятувати',
+      exEn: 'She managed to salvage a few irreplaceable photographs from the flooded house.',
+      exUa: 'Їй вдалося врятувати кілька незамінних фотографій зі затопленого будинку.',
+    },
+    {
+      pos: 'noun',
+      translation: 'порятунок',
+      exEn: 'The salvage of the sunken ship took several months.',
+      exUa: 'Порятунок затонулого корабля зайняв кілька місяців.',
+    },
+  ],
+  sample: [
+    {
+      pos: 'noun',
+      translation: 'зразок',
+      exEn: 'The lab tested a sample of the water.',
+      exUa: 'Лабораторія перевірила зразок води.',
+    },
+    {
+      pos: 'v',
+      translation: 'пробувати',
+      exEn: 'Customers were invited to sample the new products.',
+      exUa: 'Клієнтів запросили спробувати нові продукти.',
+    },
+  ],
+  sanction: [
+    {
+      pos: 'noun',
+      translation: 'санкція',
+      exEn: 'The country faced international sanctions after the invasion.',
+      exUa: 'Країна зіткнулася з міжнародними санкціями після вторгнення.',
+    },
+    {
+      pos: 'v',
+      translation: 'санкціонувати',
+      exEn: 'The board sanctioned the new policy unanimously.',
+      exUa: 'Рада одноголосно санкціонувала нову політику.',
+    },
+  ],
+  sand: [
+    {
+      pos: 'noun',
+      translation: 'пісок',
+      exEn: 'The children built a castle out of sand.',
+      exUa: 'Діти збудували замок із піску.',
+    },
+    {
+      pos: 'v',
+      translation: 'шліфувати',
+      exEn: 'He sanded the wooden table before painting it.',
+      exUa: 'Він відшліфував дерев\'яний стіл, перш ніж пофарбувати його.',
+    },
+  ],
+  savoury: [
+    {
+      pos: 'adj',
+      translation: 'солоний (на смак)',
+      exEn: 'She prefers savoury snacks over sweet ones.',
+      exUa: 'Вона надає перевагу солоним закускам, а не солодким.',
+    },
+    {
+      pos: 'adj',
+      translation: 'пікантний',
+      exEn: 'The dish had a rich, savoury flavour.',
+      exUa: 'Страва мала насичений пікантний смак.',
+    },
+  ],
+  saw: [
+    {
+      pos: 'noun',
+      translation: 'пила',
+      exEn: 'He bought a new saw for the woodworking project.',
+      exUa: 'Він купив нову пилу для столярного проєкту.',
+    },
+    {
+      pos: 'v',
+      translation: 'пиляти',
+      exEn: 'She sawed the branch into smaller pieces.',
+      exUa: 'Вона розпиляла гілку на менші шматки.',
+    },
+  ],
+  scar: [
+    {
+      pos: 'noun',
+      translation: 'шрам',
+      exEn: 'He still has a small scar from the accident.',
+      exUa: 'У нього досі є невеликий шрам від аварії.',
+    },
+    {
+      pos: 'v',
+      translation: 'залишати слід',
+      exEn: 'The war scarred an entire generation.',
+      exUa: 'Війна залишила слід на цілому поколінні.',
+    },
+  ],
+  scare: [
+    {
+      pos: 'v',
+      translation: 'лякати',
+      exEn: 'The loud noise scared the cat under the bed.',
+      exUa: 'Гучний звук налякав кота під ліжко.',
+    },
+    {
+      pos: 'noun',
+      translation: 'переляк',
+      exEn: 'She had quite a scare when the car nearly hit her.',
+      exUa: 'Вона добряче перелякалася, коли машина мало не збила її.',
+    },
+  ],
+  schedule: [
+    {
+      pos: 'noun',
+      translation: 'розклад',
+      exEn: 'The train is running on schedule today.',
+      exUa: 'Сьогодні потяг рухається за розкладом.',
+    },
+    {
+      pos: 'v',
+      translation: 'планувати',
+      exEn: 'She scheduled all her meetings for Tuesday.',
+      exUa: 'Вона запланувала всі свої зустрічі на вівторок.',
+    },
+  ],
+  score: [
+    {
+      pos: 'noun',
+      translation: 'рахунок',
+      exEn: 'The final score was two to one.',
+      exUa: 'Фінальний рахунок був два до одного.',
+    },
+    {
+      pos: 'v',
+      translation: 'здобувати',
+      exEn: 'She scored the winning goal in the final minute.',
+      exUa: 'Вона забила переможний гол в останню хвилину.',
+    },
+  ],
+  scorn: [
+    {
+      pos: 'noun',
+      translation: 'зневага',
+      exEn: 'He looked at the proposal with obvious scorn.',
+      exUa: 'Він подивився на пропозицію з очевидною зневагою.',
+    },
+    {
+      pos: 'v',
+      translation: 'зневажати',
+      exEn: 'She scorned his attempts to apologise.',
+      exUa: 'Вона зневажливо поставилася до його спроб вибачитися.',
+    },
+  ],
+  scout: [
+    {
+      pos: 'noun',
+      translation: 'розвідник',
+      exEn: 'The army sent a scout ahead to check the terrain.',
+      exUa: 'Армія відправила розвідника вперед перевірити місцевість.',
+    },
+    {
+      pos: 'v',
+      translation: 'вивідувати',
+      exEn: 'Talent agents scout for young players at school matches.',
+      exUa: 'Агенти з пошуку талантів вивідують молодих гравців на шкільних матчах.',
+    },
+  ],
+  scrap: [
+    {
+      pos: 'noun',
+      translation: 'уривок, брухт',
+      exEn: 'The old car was sold for scrap after the accident.',
+      exUa: 'Стару машину продали на брухт після аварії.',
+    },
+    {
+      pos: 'v',
+      translation: 'відмовитися',
+      exEn: 'They decided to scrap the original plan entirely.',
+      exUa: 'Вони вирішили повністю відмовитися від початкового плану.',
+    },
+  ],
+  scratch: [
+    {
+      pos: 'v',
+      translation: 'подряпати',
+      exEn: 'The cat scratched the furniture again.',
+      exUa: 'Кіт знову подряпав меблі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'нуль',
+      exEn: 'She built the business from scratch with no outside help.',
+      exUa: 'Вона побудувала бізнес з нуля без сторонньої допомоги.',
+    },
+  ],
+  scream: [
+    {
+      pos: 'v',
+      translation: 'кричати',
+      exEn: 'She screamed when she saw the spider.',
+      exUa: 'Вона закричала, побачивши павука.',
+    },
+    {
+      pos: 'noun',
+      translation: 'кричання',
+      exEn: 'The scream echoed through the empty house.',
+      exUa: 'Крик луною пронісся порожнім будинком.',
+    },
+  ],
+  screen: [
+    {
+      pos: 'noun',
+      translation: 'екран',
+      exEn: 'The movie played on a huge outdoor screen.',
+      exUa: 'Фільм показували на величезному екрані просто неба.',
+    },
+    {
+      pos: 'v',
+      translation: 'відбирати',
+      exEn: 'The company screens all job applicants carefully.',
+      exUa: 'Компанія ретельно відбирає всіх кандидатів на роботу.',
+    },
+  ],
+  screw: [
+    {
+      pos: 'noun',
+      translation: 'гвинт',
+      exEn: 'She tightened the loose screw on the shelf.',
+      exUa: 'Вона затягнула розхитаний гвинт на полиці.',
+    },
+    {
+      pos: 'v',
+      translation: 'закручувати',
+      exEn: 'He screwed the lid tightly onto the jar.',
+      exUa: 'Він щільно закрутив кришку на банці.',
+    },
+  ],
+  scribble: [
+    {
+      pos: 'noun',
+      translation: 'каракулі',
+      exEn: 'The note was full of illegible scribble.',
+      exUa: 'Записка була повна нерозбірливих каракулів.',
+    },
+    {
+      pos: 'v',
+      translation: 'нашвидкуруч писати',
+      exEn: 'She scribbled a quick note before leaving.',
+      exUa: 'Вона нашвидкуруч написала коротку записку перед виходом.',
+    },
+  ],
+  scrub: [
+    {
+      pos: 'v',
+      translation: 'терти',
+      exEn: 'She scrubbed the pots until they shone.',
+      exUa: 'Вона терла каструлі, поки вони не заблищали.',
+    },
+    {
+      pos: 'noun',
+      translation: 'чагарник',
+      exEn: 'The trail cut through thick desert scrub.',
+      exUa: 'Стежка проходила через густий пустельний чагарник.',
+    },
+  ],
+  search: [
+    {
+      pos: 'v',
+      translation: 'шукати',
+      exEn: 'Police searched the house for evidence.',
+      exUa: 'Поліція обшукала будинок у пошуках доказів.',
+    },
+    {
+      pos: 'noun',
+      translation: 'обшук',
+      exEn: 'The officers conducted a thorough search of the property.',
+      exUa: 'Офіцери провели ретельний обшук території.',
+    },
+  ],
+  season: [
+    {
+      pos: 'v',
+      translation: 'приправляти',
+      exEn: 'Chefs season the soup with fresh herbs.',
+      exUa: 'Шеф-кухарі приправляють суп свіжими травами.',
+    },
+    {
+      pos: 'noun',
+      translation: 'сезон',
+      exEn: 'Autumn is her favourite season of the year.',
+      exUa: 'Осінь — її улюблена пора року.',
+    },
+  ],
+  seat: [
+    {
+      pos: 'noun',
+      translation: 'місце',
+      exEn: 'She reserved a seat near the window.',
+      exUa: 'Вона забронювала місце біля вікна.',
+    },
+    {
+      pos: 'v',
+      translation: 'посадити',
+      exEn: 'The waiter seated them at a table by the door.',
+      exUa: 'Офіціант посадив їх за столик біля дверей.',
+    },
+  ],
+  secure: [
+    {
+      pos: 'v',
+      translation: 'захищати',
+      exEn: 'She secured all the windows before leaving.',
+      exUa: 'Вона захистила всі вікна перед від\'їздом.',
+    },
+    {
+      pos: 'adj',
+      translation: 'безпечний',
+      exEn: 'This is a very secure neighbourhood to live in.',
+      exUa: 'Це дуже безпечний район для проживання.',
+    },
+  ],
+  seed: [
+    {
+      pos: 'noun',
+      translation: 'насіння',
+      exEn: 'She planted the seeds in early spring.',
+      exUa: 'Вона посадила насіння рано навесні.',
+    },
+    {
+      pos: 'v',
+      translation: 'засівати',
+      exEn: 'Farmers seeded the fields before the rainy season.',
+      exUa: 'Фермери засіяли поля перед сезоном дощів.',
+    },
+  ],
+  separate: [
+    {
+      pos: 'v',
+      translation: 'відділяти',
+      exEn: 'She separated the whites from the yolks.',
+      exUa: 'Вона відділила білки від жовтків.',
+    },
+    {
+      pos: 'adj',
+      translation: 'окремий',
+      exEn: 'They keep their finances completely separate.',
+      exUa: 'Вони тримають свої фінанси абсолютно окремо.',
+    },
+  ],
+  set: [
+    {
+      pos: 'v',
+      translation: 'ставити',
+      exEn: 'She set the vase carefully on the table.',
+      exUa: 'Вона обережно поставила вазу на стіл.',
+    },
+    {
+      pos: 'noun',
+      translation: 'набір',
+      exEn: 'He bought a new set of tools for the garage.',
+      exUa: 'Він купив новий набір інструментів для гаража.',
+    },
+  ],
+  'set (set, set)': [
+    {
+      pos: 'v',
+      translation: 'встановлювати',
+      exEn: 'They set new rules for the competition.',
+      exUa: 'Вони встановили нові правила для змагання.',
+    },
+    {
+      pos: 'noun',
+      translation: 'набір',
+      exEn: 'She received a chess set as a birthday present.',
+      exUa: 'Вона отримала шаховий набір у подарунок на день народження.',
+    },
+  ],
+  shadow: [
+    {
+      pos: 'noun',
+      translation: 'тінь',
+      exEn: 'A long shadow fell across the path at sunset.',
+      exUa: 'Довга тінь лягла на стежку на заході сонця.',
+    },
+    {
+      pos: 'v',
+      translation: 'слідкувати',
+      exEn: 'The detective shadowed the suspect for several days.',
+      exUa: 'Детектив слідкував за підозрюваним кілька днів.',
+    },
+  ],
+  shame: [
+    {
+      pos: 'noun',
+      translation: 'сором',
+      exEn: 'She felt deep shame after the argument.',
+      exUa: 'Вона відчувала глибокий сором після сварки.',
+    },
+    {
+      pos: 'v',
+      translation: 'соромити',
+      exEn: 'He was shamed publicly for his mistake.',
+      exUa: 'Його публічно засоромили за його помилку.',
+    },
+  ],
+  shape: [
+    {
+      pos: 'noun',
+      translation: 'форма',
+      exEn: 'The cookie was cut into the shape of a star.',
+      exUa: 'Печиво було вирізане у формі зірки.',
+    },
+    {
+      pos: 'v',
+      translation: 'формувати',
+      exEn: 'Her childhood experiences shaped her entire worldview.',
+      exUa: 'Досвід дитинства сформував увесь її світогляд.',
+    },
+  ],
+  share: [
+    {
+      pos: 'v',
+      translation: 'ділитися',
+      exEn: 'She shared her lunch with her classmate.',
+      exUa: 'Вона поділилася обідом зі своїм однокласником.',
+    },
+    {
+      pos: 'noun',
+      translation: 'частка',
+      exEn: 'He owns a small share in the company.',
+      exUa: 'Йому належить невелика частка в компанії.',
+    },
+  ],
+  shed: [
+    {
+      pos: 'v',
+      translation: 'проливати',
+      exEn: 'She shed tears of joy at the wedding.',
+      exUa: 'Вона проливала сльози радості на весіллі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'сарай',
+      exEn: 'He keeps his tools in the garden shed.',
+      exUa: 'Він тримає свої інструменти в садовому сараї.',
+    },
+  ],
+  shepherd: [
+    {
+      pos: 'noun',
+      translation: 'пастух',
+      exEn: 'The shepherd led his flock across the hills.',
+      exUa: 'Пастух вів своє стадо через пагорби.',
+    },
+    {
+      pos: 'v',
+      translation: 'пасти',
+      exEn: 'He shepherded the tourists safely through the busy market.',
+      exUa: 'Він провів туристів безпечно через людний ринок.',
+    },
+  ],
+  shield: [
+    {
+      pos: 'noun',
+      translation: 'щит',
+      exEn: 'The knight raised his shield to block the blow.',
+      exUa: 'Лицар підняв щит, щоб заблокувати удар.',
+    },
+    {
+      pos: 'v',
+      translation: 'захищати',
+      exEn: 'She shielded her eyes from the bright sun.',
+      exUa: 'Вона захистила очі від яскравого сонця.',
+    },
+  ],
+  shimmer: [
+    {
+      pos: 'v',
+      translation: 'мерехтіти',
+      exEn: 'The lake shimmered under the summer sun.',
+      exUa: 'Озеро мерехтіло під літнім сонцем.',
+    },
+    {
+      pos: 'noun',
+      translation: 'мерехтіння',
+      exEn: "The shimmer of the sequins caught everyone's eye.",
+      exUa: 'Мерехтіння пайєток привертало увагу всіх.',
+    },
+  ],
+  shin: [
+    {
+      pos: 'noun',
+      translation: 'гомілка',
+      exEn: 'She bruised her shin on the coffee table.',
+      exUa: 'Вона забила гомілку об журнальний столик.',
+    },
+    {
+      pos: 'v',
+      translation: 'дерти ноги',
+      exEn: 'The boy shinned up the tree to get his ball.',
+      exUa: 'Хлопчик поліз на дерево, щоб дістати м\'яч.',
+    },
+  ],
+  ship: [
+    {
+      pos: 'noun',
+      translation: 'корабель',
+      exEn: 'The ship arrived at the port early in the morning.',
+      exUa: 'Корабель прибув у порт рано вранці.',
+    },
+    {
+      pos: 'v',
+      translation: 'відвантажувати',
+      exEn: 'The company ships orders within two business days.',
+      exUa: 'Компанія відвантажує замовлення протягом двох робочих днів.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
