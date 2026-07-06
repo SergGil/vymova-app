@@ -1,0 +1,373 @@
+// Vymova — js/modes/odd-one-out.tsx
+// 🧐 Odd One Out: 5 words shown, one doesn't belong to the others' category
+import { useEffect, useState, type ReactElement } from 'react';
+import { _shuf } from '../core/srs.ts';
+import { getWordIndex } from '../core/word-index.ts';
+import { W } from '../../data/words.js';
+import { WORD_CATEGORIES, CATEGORY_LIST, getCategoriesForWord } from '../../data/categories.js';
+import type { WordEntry } from '../../src/types.js';
+import { entryFor } from '../features/mode-utils.ts';
+import { getLearnLang } from '../features/lang-pair-select.tsx';
+import { t, categoryName } from '../features/i18n.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
+import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+
+const ROUNDS = 8;
+const GROUP_SIZE = 4;
+const GENERIC_CATEGORY = '🔤 Загальна лексика';
+
+type Choice = { entry: WordEntry; label: string };
+type Round = {
+  choices: Choice[];
+  oddIndex: number;
+  mainCategory: string;
+  oddCategory: string;
+};
+
+function wordsForCategory(cat: string): WordEntry[] {
+  const idx = getWordIndex();
+  if (!idx) return [];
+  return (WORD_CATEGORIES[cat] ?? [])
+    .filter((w) => idx.has(w))
+    .map((w) => (W as unknown as WordEntry[])[idx.get(w)!])
+    .filter(Boolean);
+}
+
+function toChoice(w: WordEntry): Choice {
+  const learnLang = getLearnLang();
+  return { entry: w, label: entryFor(learnLang, w).word || w[0] };
+}
+
+function buildRoundForMain(mainCat: string): Round | null {
+  const mainWords = _shuf(wordsForCategory(mainCat));
+  if (mainWords.length < GROUP_SIZE) return null;
+  const group = mainWords.slice(0, GROUP_SIZE);
+  const groupHeads = new Set(group.map((w) => w[0].toLowerCase()));
+
+  const otherCats = _shuf(CATEGORY_LIST.filter((c) => c !== mainCat));
+  for (const oddCat of otherCats) {
+    const candidates = _shuf(wordsForCategory(oddCat)).filter(
+      (w) => !groupHeads.has(w[0].toLowerCase()) && !getCategoriesForWord(w[0]).includes(mainCat),
+    );
+    if (!candidates.length) continue;
+    const odd = candidates[0];
+    const choices = _shuf([...group, odd].map(toChoice));
+    const oddIndex = choices.findIndex((c) => c.entry[0] === odd[0]);
+    return { choices, oddIndex, mainCategory: mainCat, oddCategory: oddCat };
+  }
+  return null;
+}
+
+function buildDeck(): Round[] {
+  const rounds: Round[] = [];
+  const cats = _shuf(CATEGORY_LIST.filter((c) => c !== GENERIC_CATEGORY));
+  for (const mainCat of cats) {
+    if (rounds.length >= ROUNDS) break;
+    const round = buildRoundForMain(mainCat);
+    if (round) rounds.push(round);
+  }
+  return rounds;
+}
+
+let _open: (() => void) | null = null;
+let _close: (() => void) | null = null;
+
+function openOddOneOut(): void {
+  _open?.();
+}
+function closeOddOneOut(): void {
+  _close?.();
+}
+
+export function OddOneOutPage(): ReactElement {
+  const [isOpen, setIsOpen] = useState(false);
+  const [deck, setDeck] = useState<Round[]>([]);
+  const [idx, setIdx] = useState(0);
+  const [ok, setOk] = useState(0);
+  const [fail, setFail] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [completed, setCompleted] = useState(false);
+
+  const round: Round | null = deck[idx] ?? null;
+  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+
+  const startGame = (): void => {
+    setDeck(buildDeck());
+    setIdx(0);
+    setOk(0);
+    setFail(0);
+    setSelected(null);
+    setCompleted(false);
+  };
+
+  useEffect(() => {
+    _open = () => {
+      setIsOpen(true);
+      startGame();
+      const overlay = document.getElementById('oo-overlay');
+      if (overlay) overlay.style.display = 'flex';
+    };
+    _close = () => {
+      setIsOpen(false);
+      const overlay = document.getElementById('oo-overlay');
+      if (overlay) overlay.style.display = 'none';
+    };
+    return () => {
+      _open = null;
+      _close = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (showFinal && !completed) {
+      recordModeComplete('oddone');
+      setCompleted(true);
+    }
+  }, [showFinal, completed]);
+
+  useEffect(() => {
+    function onKeydown(e: KeyboardEvent): void {
+      const overlay = document.getElementById('oo-overlay');
+      if (overlay?.style.display !== 'flex') return;
+      if (e.key === 'Escape') closeOddOneOut();
+    }
+    document.addEventListener('keydown', onKeydown);
+    return () => document.removeEventListener('keydown', onKeydown);
+  }, []);
+
+  const checkAnswer = (i: number): void => {
+    if (!round || selected !== null) return;
+    setSelected(i);
+    const isOk = i === round.oddIndex;
+    if (isOk) setOk((o) => o + 1);
+    else {
+      setFail((f) => f + 1);
+      recordMistake(round.choices[round.oddIndex].entry[0]);
+    }
+    try {
+      if (isOk) {
+        addCombo();
+        awardXP(5);
+      } else {
+        breakCombo();
+      }
+    } catch (e) {}
+    recordModeAnswer('oddone', isOk);
+  };
+
+  const next = (): void => {
+    setIdx((i) => i + 1);
+    setSelected(null);
+  };
+
+  const pct = deck.length ? Math.round((ok / deck.length) * 100) : 0;
+  const finalEmoji = pct === 100 ? '🏆' : pct >= 80 ? '🎉' : pct >= 60 ? '👍' : '💪';
+  const finalTitle =
+    pct === 100
+      ? t('quiz.perfectTitle')
+      : pct >= 80
+        ? t('quiz.greatTitle')
+        : pct >= 60
+          ? t('quiz.goodTitle')
+          : t('tempo.practiceTitle');
+
+  if (!isOpen) return <></>;
+
+  return (
+    <>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 12,
+        }}
+      >
+        <div>
+          <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text)' }}>
+            🧐 {t('oddone.title')}
+          </div>
+          <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginTop: 2 }}>
+            {!showFinal && deck.length
+              ? `${t('oddone.round')} ${idx + 1} ${t('common.of')} ${deck.length}`
+              : showFinal
+                ? t('write.completed')
+                : ''}
+          </div>
+        </div>
+        <button
+          onClick={closeOddOneOut}
+          style={{
+            background: 'none',
+            border: 'none',
+            fontSize: '1.3rem',
+            cursor: 'pointer',
+            color: 'var(--text3)',
+          }}
+        >
+          ✕
+        </button>
+      </div>
+
+      <div
+        style={{
+          height: 4,
+          background: 'var(--border)',
+          borderRadius: 4,
+          marginBottom: 14,
+          overflow: 'hidden',
+        }}
+      >
+        <div
+          style={{
+            height: '100%',
+            background: 'var(--accent)',
+            borderRadius: 4,
+            width: showFinal ? '100%' : `${deck.length ? (idx / deck.length) * 100 : 0}%`,
+            transition: 'width .4s',
+          }}
+        />
+      </div>
+
+      {!showFinal && deck.length === 0 && (
+        <div style={{ textAlign: 'center', color: 'var(--text3)', padding: 16 }}>
+          {t('oddone.noWords')}
+        </div>
+      )}
+
+      {!showFinal && round && (
+        <>
+          <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 12 }}>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>
+              ✓ {ok}
+            </span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>
+              ✗ {fail}
+            </span>
+          </div>
+
+          <div
+            style={{
+              textAlign: 'center',
+              fontSize: '.85rem',
+              color: 'var(--text2)',
+              marginBottom: 12,
+            }}
+          >
+            {t('oddone.prompt')}
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginBottom: 8 }}>
+            {round.choices.map((c, i) => {
+              let cls = 'quiz-option';
+              if (selected !== null) {
+                if (i === selected) cls += i === round.oddIndex ? ' correct' : ' wrong';
+                else if (i === round.oddIndex) cls += ' reveal';
+              }
+              return (
+                <button
+                  key={c.entry[0]}
+                  className={cls}
+                  disabled={selected !== null}
+                  onClick={() => checkAnswer(i)}
+                >
+                  {c.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <div
+            style={{
+              textAlign: 'center',
+              fontSize: '.82rem',
+              minHeight: 22,
+              marginBottom: 8,
+              color: 'var(--text3)',
+            }}
+          >
+            {selected !== null &&
+              (selected === round.oddIndex ? (
+                <span style={{ color: 'var(--success)', fontWeight: 600 }}>
+                  {t('quiz.correctMsg')} — {categoryName(round.oddCategory)}
+                </span>
+              ) : (
+                <span>
+                  {t('oddone.oddCategoryLabel', { cat: categoryName(round.oddCategory) })}
+                </span>
+              ))}
+          </div>
+
+          {selected !== null && (
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <button
+                onClick={next}
+                style={{
+                  padding: '10px 28px',
+                  borderRadius: 10,
+                  border: 'none',
+                  background: 'var(--accent)',
+                  color: '#fff',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  fontSize: '.88rem',
+                }}
+              >
+                {idx >= deck.length - 1 ? t('quiz.finish') : t('quiz.next')}
+              </button>
+            </div>
+          )}
+        </>
+      )}
+
+      {showFinal && (
+        <div style={{ textAlign: 'center', padding: '10px 0 4px' }}>
+          <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>{finalEmoji}</div>
+          <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>
+            {finalTitle}
+          </div>
+          <div style={{ fontSize: '.9rem', color: 'var(--text2)', marginBottom: 16 }}>
+            {ok} {t('common.of')} {deck.length} ({pct}%)
+          </div>
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+            <button
+              onClick={startGame}
+              style={{
+                padding: '9px 20px',
+                borderRadius: 10,
+                border: '1.5px solid var(--accent)',
+                background: 'none',
+                color: 'var(--accent)',
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+                fontSize: '.85rem',
+              }}
+            >
+              {t('common.tryAgain')}
+            </button>
+            <button
+              onClick={closeOddOneOut}
+              style={{
+                padding: '9px 20px',
+                borderRadius: 10,
+                border: '1.5px solid var(--border)',
+                background: 'none',
+                color: 'var(--text2)',
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+                fontSize: '.85rem',
+              }}
+            >
+              {t('common.close')}
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
+bindOverlayOpenClose('btn-oddone', 'oo-overlay', openOddOneOut, closeOddOneOut);

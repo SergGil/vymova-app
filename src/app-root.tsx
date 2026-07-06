@@ -92,6 +92,7 @@ import { WritePage } from '../js/modes/write.tsx';
 import { CatPairsPage, CatPairsWiringInit } from '../js/modes/catpairs.tsx';
 import { QuizPage } from '../js/modes/quiz.tsx';
 import { AdaptiveQuizPage } from '../js/modes/adaptive-quiz.tsx';
+import { OddOneOutPage } from '../js/modes/odd-one-out.tsx';
 import { ScramblePage } from '../js/modes/scramble.tsx';
 import { WordLettersPage } from '../js/modes/word-letters.tsx';
 import { StatsPage } from '../js/features/stats-page.tsx';
@@ -328,6 +329,9 @@ function AppRoot(): ReactElement {
       </Portal>
       <Portal id="aq-page-mount">
         <AdaptiveQuizPage />
+      </Portal>
+      <Portal id="oo-page-mount">
+        <OddOneOutPage />
       </Portal>
       <Portal id="scr-page-mount">
         <ScramblePage />
