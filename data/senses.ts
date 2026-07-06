@@ -3727,6 +3727,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Скандал отримав масштабне медійне висвітлення протягом кількох днів.',
     },
   ],
+  fallout: [
+    {
+      pos: 'noun',
+      translation: 'наслідки',
+      exEn: 'The company is still dealing with the fallout from the scandal.',
+      exUa: 'Компанія досі має справу з наслідками скандалу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'радіоактивне опадання',
+      exEn: 'Radioactive fallout contaminated the area for decades.',
+      exUa: 'Радіоактивне опадання забруднювало територію протягом десятиліть.',
+    },
+  ],
+  fancy: [
+    {
+      pos: 'v',
+      translation: 'уявляти',
+      exEn: 'She fancied herself as a famous singer one day.',
+      exUa: 'Вона уявляла себе колись відомою співачкою.',
+    },
+    {
+      pos: 'adj',
+      translation: 'химерний',
+      exEn: 'The hotel lobby had a rather fancy chandelier.',
+      exUa: 'У вестибюлі готелю була доволі химерна люстра.',
+    },
+  ],
+  'far from': [
+    {
+      pos: 'adv',
+      translation: 'далеко від',
+      exEn: 'The village is far from the nearest hospital.',
+      exUa: 'Село знаходиться далеко від найближчої лікарні.',
+    },
+    {
+      pos: 'adv',
+      translation: 'аж ніяк не',
+      exEn: 'The results were far from perfect.',
+      exUa: 'Результати були аж ніяк не ідеальними.',
+    },
+  ],
+  fathom: [
+    {
+      pos: 'v',
+      translation: 'осягати, розуміти',
+      exEn: "I simply couldn't fathom why he would say such a thing.",
+      exUa: 'Я просто не міг осягнути, чому він сказав би таке.',
+    },
+    {
+      pos: 'noun',
+      translation: 'морська сажень',
+      exEn: 'The wreck lies twenty fathoms below the surface.',
+      exUa: 'Уламки корабля лежать на глибині двадцяти морських саженів.',
+    },
+  ],
+  fellowship: [
+    {
+      pos: 'noun',
+      translation: 'стипендія (для дослідника)',
+      exEn: 'She was awarded a research fellowship at a prestigious university.',
+      exUa: 'Їй призначили дослідницьку стипендію в престижному університеті.',
+    },
+    {
+      pos: 'noun',
+      translation: 'братерство',
+      exEn: 'The club offers a strong sense of fellowship among its members.',
+      exUa: 'Клуб пропонує міцне відчуття братерства між своїми членами.',
+    },
+  ],
+  ferment: [
+    {
+      pos: 'v',
+      translation: 'бродити',
+      exEn: 'Unrest had been fermenting among the workers for months.',
+      exUa: 'Серед робітників уже кілька місяців бродило невдоволення.',
+    },
+    {
+      pos: 'v',
+      translation: 'ферментувати',
+      exEn: 'The grapes are left to ferment for several weeks.',
+      exUa: 'Виноград залишають ферментуватися на кілька тижнів.',
+    },
+  ],
+  fiddle: [
+    {
+      pos: 'noun',
+      translation: 'скрипка',
+      exEn: 'He played a lively tune on his old fiddle.',
+      exUa: 'Він зіграв жваву мелодію на своїй старій скрипці.',
+    },
+    {
+      pos: 'v',
+      translation: 'метушитися',
+      exEn: 'She kept fiddling with her keys while waiting nervously.',
+      exUa: 'Вона нервово метушилася з ключами, чекаючи.',
+    },
+  ],
+  fight: [
+    {
+      pos: 'v',
+      translation: 'боротися',
+      exEn: 'She fought hard to keep her small business alive.',
+      exUa: 'Вона наполегливо боролася, щоб зберегти свій малий бізнес.',
+    },
+    {
+      pos: 'noun',
+      translation: 'бійка',
+      exEn: 'A fight broke out between two fans after the match.',
+      exUa: 'Після матчу між двома вболівальниками спалахнула бійка.',
+    },
+  ],
+  fillet: [
+    {
+      pos: 'noun',
+      translation: 'філе',
+      exEn: 'She ordered a grilled salmon fillet for dinner.',
+      exUa: 'Вона замовила на вечерю філе лосося на грилі.',
+    },
+    {
+      pos: 'v',
+      translation: 'нарізати на філе',
+      exEn: 'The chef filleted the fish quickly and skilfully.',
+      exUa: 'Шеф-кухар швидко і вправно нарізав рибу на філе.',
+    },
+  ],
+  film: [
+    {
+      pos: 'v',
+      translation: 'знімати',
+      exEn: 'They filmed the entire wedding from start to finish.',
+      exUa: 'Вони зняли все весілля від початку до кінця.',
+    },
+    {
+      pos: 'noun',
+      translation: 'фільм',
+      exEn: 'The new film received excellent reviews from critics.',
+      exUa: 'Новий фільм отримав відмінні відгуки критиків.',
+    },
+  ],
+  fire: [
+    {
+      pos: 'noun',
+      translation: 'вогонь, пожежа',
+      exEn: 'Firefighters battled the fire for nearly six hours.',
+      exUa: 'Пожежники боролися з вогнем майже шість годин.',
+    },
+    {
+      pos: 'v',
+      translation: 'звільняти',
+      exEn: 'The manager had to fire two employees due to budget cuts.',
+      exUa: 'Менеджеру довелося звільнити двох працівників через скорочення бюджету.',
+    },
+  ],
+  fit: [
+    {
+      pos: 'v',
+      translation: 'пристосовуватися',
+      exEn: 'It took her a while to fit into the new school.',
+      exUa: 'Їй знадобився час, щоб пристосуватися до нової школи.',
+    },
+    {
+      pos: 'adj',
+      translation: 'придатний',
+      exEn: 'He was declared fit to return to work after the injury.',
+      exUa: 'Його визнали придатним повернутися до роботи після травми.',
+    },
+  ],
+  flake: [
+    {
+      pos: 'noun',
+      translation: 'пластівець',
+      exEn: 'She added a few flakes of sea salt on top of the dish.',
+      exUa: 'Вона додала кілька пластівців морської солі зверху на страву.',
+    },
+    {
+      pos: 'v',
+      translation: 'лускатися',
+      exEn: 'The old paint began to flake off the wall.',
+      exUa: 'Стара фарба почала лущитися зі стіни.',
+    },
+  ],
+  flame: [
+    {
+      pos: 'noun',
+      translation: "полум'я",
+      exEn: 'A single candle flame flickered in the dark room.',
+      exUa: "Одне полум'я свічки мерехтіло в темній кімнаті.",
+    },
+    {
+      pos: 'v',
+      translation: 'горіти',
+      exEn: 'The campfire flamed brightly against the night sky.',
+      exUa: 'Багаття яскраво горіло на тлі нічного неба.',
+    },
+  ],
+  flap: [
+    {
+      pos: 'noun',
+      translation: 'клапан',
+      exEn: 'She closed the flap of the envelope carefully.',
+      exUa: 'Вона обережно закрила клапан конверта.',
+    },
+    {
+      pos: 'v',
+      translation: 'хлопати',
+      exEn: 'The bird flapped its wings frantically before taking off.',
+      exUa: 'Птах шалено хлопав крилами, перш ніж злетіти.',
+    },
+  ],
+  flare: [
+    {
+      pos: 'noun',
+      translation: 'спалах',
+      exEn: 'A flare was fired into the sky to signal their position.',
+      exUa: "У небо був випущений спалах, щоб позначити їхнє місцезнаходження.",
+    },
+    {
+      pos: 'v',
+      translation: 'спалахувати',
+      exEn: 'Tensions flared between the two neighbouring countries.',
+      exUa: 'Напруга спалахнула між двома сусідніми країнами.',
+    },
+  ],
+  flash: [
+    {
+      pos: 'noun',
+      translation: 'спалах',
+      exEn: 'A bright flash of lightning lit up the dark sky.',
+      exUa: 'Яскравий спалах блискавки освітив темне небо.',
+    },
+    {
+      pos: 'v',
+      translation: 'блискати',
+      exEn: 'Warning lights flashed at the railway crossing.',
+      exUa: 'На залізничному переїзді блискали попереджувальні вогні.',
+    },
+  ],
+  flood: [
+    {
+      pos: 'noun',
+      translation: 'повінь',
+      exEn: 'The flood destroyed dozens of homes along the river.',
+      exUa: 'Повінь знищила десятки будинків уздовж річки.',
+    },
+    {
+      pos: 'v',
+      translation: 'затопити',
+      exEn: 'Heavy rain flooded the basement overnight.',
+      exUa: 'Сильний дощ затопив підвал за ніч.',
+    },
+  ],
+  flop: [
+    {
+      pos: 'noun',
+      translation: 'провал',
+      exEn: 'The movie was a huge flop at the box office.',
+      exUa: 'Фільм став величезним провалом у прокаті.',
+    },
+    {
+      pos: 'v',
+      translation: 'звалюватися',
+      exEn: 'He flopped onto the sofa, exhausted after the long day.',
+      exUa: 'Він звалився на диван, знесилений після довгого дня.',
+    },
+  ],
+  flow: [
+    {
+      pos: 'noun',
+      translation: 'потік',
+      exEn: "The river's flow was much stronger after the heavy rain.",
+      exUa: 'Потік річки був набагато сильнішим після сильного дощу.',
+    },
+    {
+      pos: 'v',
+      translation: 'текти',
+      exEn: 'The river flows gently through the quiet valley.',
+      exUa: 'Річка тихо тече через спокійну долину.',
+    },
+  ],
+  foam: [
+    {
+      pos: 'noun',
+      translation: 'піна',
+      exEn: 'White foam covered the surface of the waves.',
+      exUa: 'Біла піна вкривала поверхню хвиль.',
+    },
+    {
+      pos: 'v',
+      translation: 'пінитися',
+      exEn: 'The soap foamed generously in her hands.',
+      exUa: 'Мило рясно пінилося в її руках.',
+    },
+  ],
+  foil: [
+    {
+      pos: 'v',
+      translation: 'розстроювати',
+      exEn: 'Police managed to foil the robbery before it happened.',
+      exUa: 'Поліції вдалося розстроїти пограбування до того, як воно сталося.',
+    },
+    {
+      pos: 'noun',
+      translation: 'фольга',
+      exEn: 'She wrapped the sandwich in aluminium foil.',
+      exUa: 'Вона загорнула бутерброд у алюмінієву фольгу.',
+    },
+  ],
+  fool: [
+    {
+      pos: 'noun',
+      translation: 'дурень',
+      exEn: 'Only a fool would ignore such an obvious warning.',
+      exUa: 'Лише дурень проігнорував би таке очевидне попередження.',
+    },
+    {
+      pos: 'v',
+      translation: 'дурити',
+      exEn: 'He tried to fool everyone with his fake accent.',
+      exUa: 'Він намагався всіх обдурити своїм фальшивим акцентом.',
+    },
+  ],
+  force: [
+    {
+      pos: 'noun',
+      translation: 'сила',
+      exEn: 'The force of the explosion shattered every window nearby.',
+      exUa: 'Сила вибуху розбила всі вікна поблизу.',
+    },
+    {
+      pos: 'v',
+      translation: 'змушувати',
+      exEn: 'Nobody can force you to sign the contract.',
+      exUa: 'Ніхто не може змусити тебе підписати контракт.',
+    },
+  ],
+  forecast: [
+    {
+      pos: 'noun',
+      translation: 'прогноз',
+      exEn: 'The weather forecast predicts heavy rain tomorrow.',
+      exUa: 'Прогноз погоди передбачає сильний дощ завтра.',
+    },
+    {
+      pos: 'v',
+      translation: 'передбачати',
+      exEn: 'Analysts forecast strong economic growth next year.',
+      exUa: 'Аналітики передбачають сильне економічне зростання наступного року.',
+    },
+  ],
+  form: [
+    {
+      pos: 'noun',
+      translation: 'форма',
+      exEn: 'Please fill out this form before your appointment.',
+      exUa: 'Будь ласка, заповніть цю форму перед прийомом.',
+    },
+    {
+      pos: 'v',
+      translation: 'утворювати',
+      exEn: 'Ice forms on the lake when the temperature drops.',
+      exUa: 'Лід утворюється на озері, коли температура падає.',
+    },
+  ],
+  forward: [
+    {
+      pos: 'adv',
+      translation: 'вперед',
+      exEn: 'She took a step forward to greet the guests.',
+      exUa: 'Вона зробила крок вперед, щоб привітати гостей.',
+    },
+    {
+      pos: 'v',
+      translation: 'подати',
+      exEn: 'Could you forward this email to the whole team?',
+      exUa: 'Чи не могли б ви переслати цей лист усій команді?',
+    },
+  ],
+  foster: [
+    {
+      pos: 'v',
+      translation: 'сприяти',
+      exEn: 'Good teachers foster curiosity and independent thinking.',
+      exUa: 'Хороші вчителі сприяють допитливості та самостійному мисленню.',
+    },
+    {
+      pos: 'adj',
+      translation: 'прийомний',
+      exEn: 'The couple decided to become foster parents.',
+      exUa: 'Подружжя вирішило стати прийомними батьками.',
+    },
+  ],
+  fray: [
+    {
+      pos: 'noun',
+      translation: 'бійка',
+      exEn: 'He jumped straight into the fray to help his friend.',
+      exUa: 'Він одразу кинувся в бійку, щоб допомогти другові.',
+    },
+    {
+      pos: 'v',
+      translation: 'потріпуватися',
+      exEn: 'The edges of the old rope had begun to fray.',
+      exUa: 'Краї старої мотузки почали потріпуватися.',
+    },
+  ],
+  frequent: [
+    {
+      pos: 'adj',
+      translation: 'частий',
+      exEn: 'Frequent breaks help you stay focused during long study sessions.',
+      exUa: 'Часті перерви допомагають зберігати концентрацію під час довгих занять.',
+    },
+    {
+      pos: 'v',
+      translation: 'відвідувати',
+      exEn: 'Tourists frequent this small café every summer.',
+      exUa: 'Туристи відвідують це маленьке кафе щоліта.',
+    },
+  ],
+  fuel: [
+    {
+      pos: 'noun',
+      translation: 'паливо',
+      exEn: 'The car ran out of fuel halfway through the trip.',
+      exUa: 'У машині закінчилося паливо на півдорозі.',
+    },
+    {
+      pos: 'v',
+      translation: 'підживлювати',
+      exEn: 'Rising prices fuelled public anger across the country.',
+      exUa: 'Зростання цін підживлювало суспільний гнів по всій країні.',
+    },
+  ],
+  function: [
+    {
+      pos: 'v',
+      translation: 'функціонувати',
+      exEn: 'The old machine still functions perfectly after decades of use.',
+      exUa: 'Стара машина досі бездоганно функціонує після десятиліть використання.',
+    },
+    {
+      pos: 'noun',
+      translation: 'функція',
+      exEn: 'The main function of the heart is to pump blood.',
+      exUa: 'Головна функція серця — перекачувати кров.',
+    },
+  ],
+  fund: [
+    {
+      pos: 'noun',
+      translation: 'фонд',
+      exEn: 'The charity relies on a fund set up by donors.',
+      exUa: 'Благодійна організація покладається на фонд, створений донорами.',
+    },
+    {
+      pos: 'v',
+      translation: 'фінансувати',
+      exEn: 'The government agreed to fund the new hospital.',
+      exUa: 'Уряд погодився фінансувати нову лікарню.',
+    },
+  ],
+  funnel: [
+    {
+      pos: 'noun',
+      translation: 'лійка',
+      exEn: 'She used a small funnel to pour the oil into the bottle.',
+      exUa: 'Вона використала маленьку лійку, щоб налити олію в пляшку.',
+    },
+    {
+      pos: 'v',
+      translation: 'спрямовувати',
+      exEn: 'The charity funnels donations directly to families in need.',
+      exUa: 'Благодійна організація спрямовує пожертви безпосередньо сім\'ям, які потребують допомоги.',
+    },
+  ],
+  fuse: [
+    {
+      pos: 'noun',
+      translation: 'запобіжник',
+      exEn: 'A blown fuse caused the lights to go out.',
+      exUa: 'Перегорілий запобіжник спричинив вимкнення світла.',
+    },
+    {
+      pos: 'v',
+      translation: 'зливати',
+      exEn: 'The two departments were fused into a single team.',
+      exUa: 'Два відділи були злиті в одну команду.',
+    },
+  ],
+  fuss: [
+    {
+      pos: 'noun',
+      translation: 'метушня',
+      exEn: 'There was a lot of fuss over such a small mistake.',
+      exUa: 'Було багато метушні через таку дрібну помилку.',
+    },
+    {
+      pos: 'v',
+      translation: 'метушитися',
+      exEn: 'Stop fussing and just sit down and relax.',
+      exUa: 'Перестань метушитися і просто сядь і розслабся.',
+    },
+  ],
+  gamble: [
+    {
+      pos: 'noun',
+      translation: 'азартна гра',
+      exEn: "Investing all his savings was a huge gamble.",
+      exUa: 'Вкласти всі свої заощадження було величезною азартною грою.',
+    },
+    {
+      pos: 'v',
+      translation: 'ризикувати',
+      exEn: 'She gambled on a risky new business idea.',
+      exUa: 'Вона ризикнула, взявшись за нову ризиковану бізнес-ідею.',
+    },
+  ],
+  garden: [
+    {
+      pos: 'noun',
+      translation: 'сад',
+      exEn: 'They spent the afternoon relaxing in the garden.',
+      exUa: 'Вони провели день, відпочиваючи в саду.',
+    },
+    {
+      pos: 'v',
+      translation: 'городити',
+      exEn: 'He loves to garden on weekends, growing his own vegetables.',
+      exUa: 'Він любить городити на вихідних, вирощуючи власні овочі.',
+    },
+  ],
+  gaze: [
+    {
+      pos: 'v',
+      translation: 'пильно дивитися',
+      exEn: 'She gazed out of the window at the falling snow.',
+      exUa: 'Вона пильно дивилася у вікно на падаючий сніг.',
+    },
+    {
+      pos: 'noun',
+      translation: 'погляд',
+      exEn: 'His gaze lingered on the old photograph for a long time.',
+      exUa: 'Його погляд надовго затримався на старій фотографії.',
+    },
+  ],
+  gesture: [
+    {
+      pos: 'noun',
+      translation: 'жест',
+      exEn: 'He made a small gesture of thanks with his hand.',
+      exUa: 'Він зробив невеликий жест подяки рукою.',
+    },
+    {
+      pos: 'v',
+      translation: 'робити жест',
+      exEn: 'She gestured toward the empty chair, inviting him to sit.',
+      exUa: 'Вона зробила жест у бік порожнього стільця, запрошуючи його сісти.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
