@@ -10449,6 +10449,566 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Компанія відвантажує замовлення протягом двох робочих днів.',
     },
   ],
+  shoes: [
+    {
+      pos: 'noun',
+      translation: 'туфлі',
+      exEn: 'She wore elegant black shoes to the party.',
+      exUa: 'Вона взула елегантні чорні туфлі на вечірку.',
+    },
+    {
+      pos: 'noun',
+      translation: 'взуття',
+      exEn: 'This shop sells all kinds of footwear for children.',
+      exUa: 'Цей магазин продає взуття всіх видів для дітей.',
+    },
+  ],
+  shortcut: [
+    {
+      pos: 'noun',
+      translation: 'скорочений шлях',
+      exEn: 'They took a shortcut through the park to save time.',
+      exUa: 'Вони пішли скороченим шляхом через парк, щоб заощадити час.',
+    },
+    {
+      pos: 'noun',
+      translation: 'спрощений метод',
+      exEn: 'There are no shortcuts to becoming fluent in a language.',
+      exUa: 'Немає спрощених методів, щоб вільно оволодіти мовою.',
+    },
+  ],
+  shortlist: [
+    {
+      pos: 'noun',
+      translation: 'список кандидатів',
+      exEn: 'She made it onto the shortlist for the position.',
+      exUa: 'Вона потрапила до списку кандидатів на цю посаду.',
+    },
+    {
+      pos: 'v',
+      translation: 'включати до списку',
+      exEn: 'The committee shortlisted five candidates for the final interview.',
+      exUa: "Комітет включив п'ятьох кандидатів до списку для фінальної співбесіди.",
+    },
+  ],
+  shoulder: [
+    {
+      pos: 'noun',
+      translation: 'плече',
+      exEn: 'He carried the heavy bag on his shoulder.',
+      exUa: 'Він ніс важку сумку на плечі.',
+    },
+    {
+      pos: 'v',
+      translation: 'нести тягар',
+      exEn: 'She had to shoulder the responsibility alone.',
+      exUa: 'Їй довелося самій нести тягар відповідальності.',
+    },
+  ],
+  shout: [
+    {
+      pos: 'v',
+      translation: 'кричати',
+      exEn: 'He shouted for help when he saw the fire.',
+      exUa: 'Він закричав про допомогу, побачивши вогонь.',
+    },
+    {
+      pos: 'noun',
+      translation: 'оклик',
+      exEn: 'A shout from the crowd startled the horse.',
+      exUa: 'Оклик з натовпу налякав коня.',
+    },
+  ],
+  shovel: [
+    {
+      pos: 'noun',
+      translation: 'лопата',
+      exEn: "He used a shovel to clear the snow from the driveway.",
+      exUa: "Він скористався лопатою, щоб прибрати сніг з під'їзної доріжки.",
+    },
+    {
+      pos: 'v',
+      translation: 'гребти лопатою',
+      exEn: 'They shovelled sand into the truck all morning.',
+      exUa: 'Вони весь ранок гребли лопатою пісок у вантажівку.',
+    },
+  ],
+  show: [
+    {
+      pos: 'v',
+      translation: 'показувати',
+      exEn: 'She showed him the photos from her trip.',
+      exUa: 'Вона показала йому фотографії зі своєї поїздки.',
+    },
+    {
+      pos: 'noun',
+      translation: 'шоу',
+      exEn: 'The talent show attracted thousands of viewers.',
+      exUa: 'Шоу талантів привабило тисячі глядачів.',
+    },
+  ],
+  showcase: [
+    {
+      pos: 'noun',
+      translation: 'вітрина',
+      exEn: 'The gallery is a showcase for local artists.',
+      exUa: 'Галерея — це вітрина для місцевих митців.',
+    },
+    {
+      pos: 'v',
+      translation: 'демонструвати',
+      exEn: 'The event showcased the latest technology.',
+      exUa: 'Захід продемонстрував найновіші технології.',
+    },
+  ],
+  shred: [
+    {
+      pos: 'noun',
+      translation: 'шматочок',
+      exEn: "There wasn't a shred of evidence against him.",
+      exUa: 'Не було жодного шматочка доказів проти нього.',
+    },
+    {
+      pos: 'v',
+      translation: 'шинкувати',
+      exEn: 'She shredded the cabbage for the salad.',
+      exUa: 'Вона нашинкувала капусту для салату.',
+    },
+  ],
+  shriek: [
+    {
+      pos: 'v',
+      translation: 'верещати',
+      exEn: 'She shrieked when the spider fell on her arm.',
+      exUa: 'Вона заверещала, коли павук впав їй на руку.',
+    },
+    {
+      pos: 'noun',
+      translation: 'пронизливий крик',
+      exEn: 'A shriek pierced the silence of the night.',
+      exUa: 'Пронизливий крик пронизав тишу ночі.',
+    },
+  ],
+  shroud: [
+    {
+      pos: 'noun',
+      translation: 'саван',
+      exEn: 'The body was wrapped in a white shroud.',
+      exUa: 'Тіло було загорнуте в білий саван.',
+    },
+    {
+      pos: 'v',
+      translation: 'окутувати',
+      exEn: 'Mist shrouded the entire valley at dawn.',
+      exUa: 'Туман окутав всю долину на світанку.',
+    },
+  ],
+  shy: [
+    {
+      pos: 'adj',
+      translation: "сором'язливий",
+      exEn: 'She was always shy around strangers.',
+      exUa: "Вона завжди була сором'язливою з незнайомцями.",
+    },
+    {
+      pos: 'v',
+      translation: 'соромитися',
+      exEn: 'He shied away from public speaking for years.',
+      exUa: 'Він роками соромився публічних виступів.',
+    },
+  ],
+  sideline: [
+    {
+      pos: 'noun',
+      translation: 'бічна лінія',
+      exEn: 'The coach shouted instructions from the sideline.',
+      exUa: 'Тренер вигукував інструкції з бічної лінії.',
+    },
+    {
+      pos: 'v',
+      translation: 'відсувати',
+      exEn: 'The injury sidelined him for the rest of the season.',
+      exUa: 'Травма відсунула його від гри до кінця сезону.',
+    },
+  ],
+  sideshow: [
+    {
+      pos: 'noun',
+      translation: 'другорядне шоу',
+      exEn: 'The main event was overshadowed by a strange sideshow.',
+      exUa: 'Головна подія була затьмарена дивним другорядним шоу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'відволікальний маневр',
+      exEn: 'The scandal became a sideshow distracting from the real issues.',
+      exUa: 'Скандал перетворився на відволікальний маневр від справжніх проблем.',
+    },
+  ],
+  sigh: [
+    {
+      pos: 'v',
+      translation: 'зітхати',
+      exEn: 'She sighed with relief when the exam finally ended.',
+      exUa: 'Вона зітхнула з полегшенням, коли іспит нарешті закінчився.',
+    },
+    {
+      pos: 'noun',
+      translation: 'зітхання',
+      exEn: 'A deep sigh escaped him as he sat down.',
+      exUa: 'Глибоке зітхання вирвалося в нього, коли він сів.',
+    },
+  ],
+  sign: [
+    {
+      pos: 'noun',
+      translation: 'знак',
+      exEn: 'She noticed a sign warning of the steep drop ahead.',
+      exUa: 'Вона помітила знак, що попереджав про крутий обрив попереду.',
+    },
+    {
+      pos: 'v',
+      translation: 'підписувати',
+      exEn: 'He signed the contract without reading it fully.',
+      exUa: 'Він підписав контракт, не прочитавши його повністю.',
+    },
+  ],
+  signal: [
+    {
+      pos: 'noun',
+      translation: 'сигнал',
+      exEn: 'The train signal turned red suddenly.',
+      exUa: 'Потяговий сигнал раптово став червоним.',
+    },
+    {
+      pos: 'v',
+      translation: 'сигналізувати',
+      exEn: 'She signalled her agreement with a quick nod.',
+      exUa: 'Вона сигналізувала про свою згоду швидким кивком.',
+    },
+  ],
+  sin: [
+    {
+      pos: 'noun',
+      translation: 'гріх',
+      exEn: 'In many religions, lying is considered a sin.',
+      exUa: 'У багатьох релігіях брехня вважається гріхом.',
+    },
+    {
+      pos: 'v',
+      translation: 'грішити',
+      exEn: 'He believes everyone sins at some point in their life.',
+      exUa: 'Він вважає, що кожен колись у житті грішить.',
+    },
+  ],
+  sip: [
+    {
+      pos: 'noun',
+      translation: 'маленький ковток',
+      exEn: 'She took a small sip of the hot tea.',
+      exUa: 'Вона зробила маленький ковток гарячого чаю.',
+    },
+    {
+      pos: 'v',
+      translation: 'потягувати',
+      exEn: 'He sipped his coffee slowly while reading the newspaper.',
+      exUa: 'Він повільно потягував каву, читаючи газету.',
+    },
+  ],
+  sketch: [
+    {
+      pos: 'noun',
+      translation: 'ескіз',
+      exEn: 'The architect drew a quick sketch of the building.',
+      exUa: 'Архітектор швидко намалював ескіз будівлі.',
+    },
+    {
+      pos: 'v',
+      translation: 'малювати',
+      exEn: 'She sketched the mountains from memory.',
+      exUa: "Вона намалювала гори по пам'яті.",
+    },
+  ],
+  skin: [
+    {
+      pos: 'noun',
+      translation: 'шкіра',
+      exEn: 'She applied sunscreen to protect her skin.',
+      exUa: 'Вона нанесла сонцезахисний крем, щоб захистити шкіру.',
+    },
+    {
+      pos: 'v',
+      translation: 'чистити',
+      exEn: 'He skinned the potatoes before boiling them.',
+      exUa: 'Він почистив картоплю, перш ніж варити.',
+    },
+  ],
+  skirt: [
+    {
+      pos: 'noun',
+      translation: 'спідниця',
+      exEn: 'She wore a long floral skirt to the party.',
+      exUa: 'Вона вдягла довгу квіткову спідницю на вечірку.',
+    },
+    {
+      pos: 'v',
+      translation: 'обходити',
+      exEn: 'The politician skirted the difficult question entirely.',
+      exUa: 'Політик повністю обійшов складне питання.',
+    },
+  ],
+  slack: [
+    {
+      pos: 'v',
+      translation: 'розслаблятися',
+      exEn: 'She decided to slack off after finishing the big project.',
+      exUa: 'Вона вирішила розслабитися після завершення великого проєкту.',
+    },
+    {
+      pos: 'adj',
+      translation: 'слабкий',
+      exEn: 'The rope went slack when he let go of it.',
+      exUa: 'Мотузка обвисла, коли він її відпустив.',
+    },
+  ],
+  slander: [
+    {
+      pos: 'noun',
+      translation: 'наклеп, обмова',
+      exEn: 'He sued the newspaper for slander.',
+      exUa: 'Він подав до суду на газету за наклеп.',
+    },
+    {
+      pos: 'v',
+      translation: 'наклепляти',
+      exEn: 'She accused him of slandering her reputation.',
+      exUa: 'Вона звинуватила його в наклепі на її репутацію.',
+    },
+  ],
+  slant: [
+    {
+      pos: 'noun',
+      translation: 'нахил',
+      exEn: 'The roof has a steep slant to let rain run off.',
+      exUa: 'Дах має крутий нахил, щоб дощ стікав.',
+    },
+    {
+      pos: 'v',
+      translation: 'подавати упереджено',
+      exEn: 'The article seemed to slant the facts in his favour.',
+      exUa: 'Стаття, здається, подавала факти упереджено на його користь.',
+    },
+  ],
+  slap: [
+    {
+      pos: 'v',
+      translation: 'ляскати',
+      exEn: 'He slapped the table in frustration.',
+      exUa: 'Він ляснув по столу від роздратування.',
+    },
+    {
+      pos: 'noun',
+      translation: 'ляпас',
+      exEn: 'She gave him a sharp slap across the face.',
+      exUa: 'Вона дала йому різкого ляпаса по обличчю.',
+    },
+  ],
+  slash: [
+    {
+      pos: 'v',
+      translation: 'різко скорочувати',
+      exEn: 'The company slashed its prices for the sale.',
+      exUa: 'Компанія різко скоротила ціни для розпродажу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'косий удар',
+      exEn: 'The fencer landed a quick slash with his sword.',
+      exUa: 'Фехтувальник завдав швидкого косого удару мечем.',
+    },
+  ],
+  slate: [
+    {
+      pos: 'noun',
+      translation: 'сланець',
+      exEn: 'The roof was covered in traditional grey slate.',
+      exUa: 'Дах був вкритий традиційним сірим сланцем.',
+    },
+    {
+      pos: 'v',
+      translation: 'критикувати',
+      exEn: 'Critics slated the film for its weak plot.',
+      exUa: 'Критики розкритикували фільм за слабкий сюжет.',
+    },
+  ],
+  slaughter: [
+    {
+      pos: 'noun',
+      translation: 'різня',
+      exEn: 'The battle turned into a senseless slaughter.',
+      exUa: 'Битва перетворилася на безглузду різню.',
+    },
+    {
+      pos: 'v',
+      translation: 'вбивати',
+      exEn: 'The farmer slaughtered the pig for the winter.',
+      exUa: 'Фермер забив свиню на зиму.',
+    },
+  ],
+  slave: [
+    {
+      pos: 'noun',
+      translation: 'раб',
+      exEn: 'The novel tells the story of a former slave.',
+      exUa: 'Роман розповідає історію колишнього раба.',
+    },
+    {
+      pos: 'v',
+      translation: 'горбатитися',
+      exEn: 'She slaved away at two jobs to support her family.',
+      exUa: 'Вона горбатилася на двох роботах, щоб утримувати родину.',
+    },
+  ],
+  sleep: [
+    {
+      pos: 'v',
+      translation: 'спати',
+      exEn: 'The baby finally fell asleep after hours of crying.',
+      exUa: 'Немовля нарешті заснуло після кількох годин плачу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'сон',
+      exEn: 'She needs at least eight hours of sleep every night.',
+      exUa: 'Їй потрібно щонайменше вісім годин сну щоночі.',
+    },
+  ],
+  slice: [
+    {
+      pos: 'noun',
+      translation: 'скибка',
+      exEn: 'She cut a thick slice of bread for breakfast.',
+      exUa: 'Вона відрізала товсту скибку хліба на сніданок.',
+    },
+    {
+      pos: 'v',
+      translation: 'нарізати',
+      exEn: 'He sliced the tomatoes for the salad.',
+      exUa: 'Він нарізав помідори для салату.',
+    },
+  ],
+  'slide (slid, slid)': [
+    {
+      pos: 'v',
+      translation: 'ковзати',
+      exEn: 'The children loved to slide down the icy hill.',
+      exUa: 'Діти любили ковзати з крижаного пагорба.',
+    },
+    {
+      pos: 'noun',
+      translation: 'слайд',
+      exEn: 'She added a new slide to her presentation.',
+      exUa: 'Вона додала новий слайд до своєї презентації.',
+    },
+  ],
+  slim: [
+    {
+      pos: 'adj',
+      translation: 'струнка',
+      exEn: 'She has always had a slim figure.',
+      exUa: 'У неї завжди була струнка фігура.',
+    },
+    {
+      pos: 'v',
+      translation: 'скорочувати',
+      exEn: 'The company slimmed down its workforce during the recession.',
+      exUa: 'Компанія скоротила штат під час рецесії.',
+    },
+  ],
+  slip: [
+    {
+      pos: 'v',
+      translation: 'ковзати',
+      exEn: 'She slipped on the icy pavement and fell.',
+      exUa: 'Вона посковзнулася на крижаному тротуарі й впала.',
+    },
+    {
+      pos: 'noun',
+      translation: 'помилка',
+      exEn: 'It was just a small slip in her otherwise perfect speech.',
+      exUa: 'Це була лише невелика помилка в її бездоганній в іншому промові.',
+    },
+  ],
+  slit: [
+    {
+      pos: 'noun',
+      translation: 'щілина',
+      exEn: 'Light came through a thin slit in the curtains.',
+      exUa: 'Світло проходило крізь тонку щілину у фіранках.',
+    },
+    {
+      pos: 'v',
+      translation: 'розрізати',
+      exEn: 'He slit the envelope open with a knife.',
+      exUa: 'Він розрізав конверт ножем.',
+    },
+  ],
+  slot: [
+    {
+      pos: 'noun',
+      translation: 'щілина',
+      exEn: 'Insert the coin into the slot.',
+      exUa: 'Вставте монету в щілину.',
+    },
+    {
+      pos: 'v',
+      translation: 'вставляти',
+      exEn: 'She slotted the new battery into the remote.',
+      exUa: 'Вона вставила нову батарейку в пульт.',
+    },
+  ],
+  sloth: [
+    {
+      pos: 'noun',
+      translation: 'лінощі, ледачість',
+      exEn: 'Sloth is considered one of the seven deadly sins.',
+      exUa: 'Ледачість вважається одним із семи смертних гріхів.',
+    },
+    {
+      pos: 'noun',
+      translation: 'лінивець',
+      exEn: "The zoo's newest resident is a slow-moving sloth.",
+      exUa: 'Найновіший мешканець зоопарку — повільний лінивець.',
+    },
+  ],
+  slump: [
+    {
+      pos: 'v',
+      translation: 'різко впасти',
+      exEn: 'Sales slumped dramatically after the scandal.',
+      exUa: 'Продажі різко впали після скандалу.',
+    },
+    {
+      pos: 'noun',
+      translation: 'занепад',
+      exEn: 'The economy entered a serious slump last year.',
+      exUa: 'Економіка увійшла в серйозний занепад минулого року.',
+    },
+  ],
+  slur: [
+    {
+      pos: 'noun',
+      translation: 'образливий натяк',
+      exEn: 'He was fired for making a racial slur.',
+      exUa: 'Його звільнили за образливий расистський натяк.',
+    },
+    {
+      pos: 'v',
+      translation: 'мовити нечітко',
+      exEn: 'He slurred his words after drinking too much.',
+      exUa: 'Він нечітко вимовляв слова, випивши забагато.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
