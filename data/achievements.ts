@@ -26,6 +26,13 @@ const ALL_MODE_KEYS = [
   'scramble',
   'letters',
   'adaptive-quiz',
+  'oddone',
+  'sentbuild',
+  'errorhunt',
+  'assoc',
+  'wordhint',
+  'shadow',
+  'ghost',
 ];
 
 export const ACHIEVEMENTS: Achievement[] = [
@@ -759,6 +766,97 @@ export const ACHIEVEMENTS: Achievement[] = [
     },
     check: function (k: number, g: GameData, m?: ModeStats) {
       return (m?.['adaptive-quiz'] || 0) >= 10;
+    },
+  },
+  {
+    id: 'mode_oddone1',
+    icon: '🧐',
+    name: 'Перше Зайве слово',
+    cat: '🎮 Режими',
+    hint: 'Заверши перший раунд режиму Зайве слово — знайди слово з іншої категорії',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.oddone || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.oddone || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_sentbuild1',
+    icon: '🧱',
+    name: 'Перша Побудова речення',
+    cat: '🎮 Режими',
+    hint: 'Склади своє перше речення з тайлів у режимі Побудова речення',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.sentbuild || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.sentbuild || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_errorhunt1',
+    icon: '🕵️',
+    name: 'Перший Мисливець',
+    cat: '🎮 Режими',
+    hint: 'Знайди підмінене слово в реченні в режимі Мисливець на помилку',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.errorhunt || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.errorhunt || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_assoc1',
+    icon: '🔗',
+    name: 'Перший Ланцюжок',
+    cat: '🎮 Режими',
+    hint: 'Заверши перший ланцюжок синонімів у режимі Асоціації',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.assoc || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.assoc || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_wordhint1',
+    icon: '💡',
+    name: 'Перша Підказка',
+    cat: '🎮 Режими',
+    hint: 'Вгадай своє перше слово в режимі Прогресивні підказки',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.wordhint || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.wordhint || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_shadow1',
+    icon: '🎙️',
+    name: 'Перший Диктант',
+    cat: '🎮 Режими',
+    hint: 'Заверши перший раунд режиму Диктант-переклад — почуй і повтори вголос',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.shadow || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.shadow || 0) >= 1;
+    },
+  },
+  {
+    id: 'mode_ghost1',
+    icon: '👻',
+    name: 'Перша Гонка',
+    cat: '🎮 Режими',
+    hint: 'Заверши свою першу Гонку з привидом',
+    progress: function (k: number, g: GameData, m?: ModeStats) {
+      return { cur: Math.min(m?.ghost || 0, 1), max: 1 };
+    },
+    check: function (k: number, g: GameData, m?: ModeStats) {
+      return (m?.ghost || 0) >= 1;
     },
   },
   {

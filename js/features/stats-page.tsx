@@ -237,6 +237,13 @@ function computeModeAccuracy(): ModeRow[] {
     { key: 'scramble', label: t('mode.scramble'), icon: '🔀' },
     { key: 'letters', label: t('mode.letters'), icon: '🔤' },
     { key: 'adaptive-quiz', label: t('mode.adaptiveQuiz'), icon: '🎯' },
+    { key: 'oddone', label: t('mode.oddone'), icon: '🧐' },
+    { key: 'sentbuild', label: t('mode.sentbuild'), icon: '🧱' },
+    { key: 'errorhunt', label: t('mode.errorhunt'), icon: '🕵️' },
+    { key: 'assoc', label: t('mode.assoc'), icon: '🔗' },
+    { key: 'wordhint', label: t('mode.wordhint'), icon: '💡' },
+    { key: 'shadow', label: t('mode.shadow'), icon: '🎙️' },
+    { key: 'ghost', label: t('mode.ghost'), icon: '👻' },
   ];
   const rows: ModeRow[] = [];
   modes.forEach((m) => {
