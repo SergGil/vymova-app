@@ -7631,6 +7631,572 @@ export const SENSES: Record<string, SenseEntry[]> = {
       exUa: 'Вам потрібна дійсна перепустка, щоб увійти до будівлі.',
     },
   ],
+  'pass on': [
+    {
+      pos: 'v',
+      translation: 'передавати',
+      exEn: 'Please pass on my regards to your family.',
+      exUa: 'Будь ласка, передай мої вітання своїй родині.',
+    },
+    {
+      pos: 'v',
+      translation: 'померти',
+      exEn: 'Her grandfather passed on peacefully last spring.',
+      exUa: 'Її дідусь тихо помер минулої весни.',
+    },
+  ],
+  paste: [
+    {
+      pos: 'noun',
+      translation: 'паста',
+      exEn: 'She spread tomato paste evenly over the dough.',
+      exUa: 'Вона рівномірно намазала томатну пасту на тісто.',
+    },
+    {
+      pos: 'v',
+      translation: 'вставляти',
+      exEn: 'Copy the text and paste it into the document.',
+      exUa: 'Скопіюй текст і встав його в документ.',
+    },
+  ],
+  pat: [
+    {
+      pos: 'v',
+      translation: 'погладжувати',
+      exEn: 'She patted the dog gently on the head.',
+      exUa: 'Вона ніжно погладила собаку по голові.',
+    },
+    {
+      pos: 'noun',
+      translation: 'тихенький удар',
+      exEn: 'He gave his friend a reassuring pat on the shoulder.',
+      exUa: 'Він заспокійливо поплескав друга по плечу.',
+    },
+  ],
+  patrol: [
+    {
+      pos: 'noun',
+      translation: 'патруль',
+      exEn: 'A police patrol passed by the building twice an hour.',
+      exUa: 'Поліцейський патруль проїжджав повз будівлю двічі на годину.',
+    },
+    {
+      pos: 'v',
+      translation: 'патрулювати',
+      exEn: 'Officers patrolled the neighbourhood after dark.',
+      exUa: 'Офіцери патрулювали район після настання темряви.',
+    },
+  ],
+  patronise: [
+    {
+      pos: 'v',
+      translation: 'поводитися зверхньо',
+      exEn: "Please don't patronise me — I understand the situation perfectly.",
+      exUa: 'Будь ласка, не поводься зі мною зверхньо — я чудово розумію ситуацію.',
+    },
+    {
+      pos: 'v',
+      translation: 'підтримувати',
+      exEn: 'She patronises several small local shops in her neighbourhood.',
+      exUa: 'Вона підтримує кілька невеликих місцевих магазинів у своєму районі.',
+    },
+  ],
+  patronize: [
+    {
+      pos: 'v',
+      translation: 'заступатися',
+      exEn: 'The duke patronized several young painters throughout his life.',
+      exUa: 'Герцог протягом усього життя заступався за кількох молодих художників.',
+    },
+    {
+      pos: 'v',
+      translation: 'ставитися зверхньо',
+      exEn: 'He hated being patronized by his older colleagues.',
+      exUa: 'Він ненавидів, коли старші колеги ставилися до нього зверхньо.',
+    },
+  ],
+  pause: [
+    {
+      pos: 'noun',
+      translation: 'пауза',
+      exEn: 'There was an awkward pause before she answered.',
+      exUa: 'Перед тим як вона відповіла, настала незручна пауза.',
+    },
+    {
+      pos: 'v',
+      translation: 'зупинятися',
+      exEn: 'He paused briefly before continuing his speech.',
+      exUa: 'Він на мить зупинився, перш ніж продовжити свою промову.',
+    },
+  ],
+  peck: [
+    {
+      pos: 'v',
+      translation: 'клювати',
+      exEn: 'The chicken pecked at the seeds on the ground.',
+      exUa: 'Курка клювала зерна на землі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'легкий поцілунок',
+      exEn: 'She gave him a quick peck on the cheek before leaving.',
+      exUa: 'Вона легенько поцілувала його в щоку перед від\'їздом.',
+    },
+  ],
+  pee: [
+    {
+      pos: 'v',
+      translation: 'писяти',
+      exEn: 'The puppy needs to pee before we leave the house.',
+      exUa: 'Цуценя мусить пописяти, перш ніж ми вийдемо з дому.',
+    },
+    {
+      pos: 'noun',
+      translation: 'сеча',
+      exEn: 'The doctor asked for a urine sample for testing.',
+      exUa: 'Лікар попросив зразок сечі для аналізу.',
+    },
+  ],
+  peek: [
+    {
+      pos: 'v',
+      translation: 'підглядати',
+      exEn: 'She peeked through the curtains to see who arrived.',
+      exUa: 'Вона підглянула крізь фіранки, щоб побачити, хто прийшов.',
+    },
+    {
+      pos: 'noun',
+      translation: 'швидкий погляд',
+      exEn: 'He took a quick peek at the answer key.',
+      exUa: 'Він кинув швидкий погляд на список правильних відповідей.',
+    },
+  ],
+  peer: [
+    {
+      pos: 'noun',
+      translation: 'однолітки',
+      exEn: 'Teenagers often care deeply about what their peers think.',
+      exUa: 'Підлітки часто дуже переймаються тим, що думають їхні однолітки.',
+    },
+    {
+      pos: 'v',
+      translation: 'вдивлятися',
+      exEn: 'She peered into the dark room, searching for the light switch.',
+      exUa: 'Вона вдивлялася в темну кімнату, шукаючи вимикач світла.',
+    },
+  ],
+  perfect: [
+    {
+      pos: 'adj',
+      translation: 'досконалий',
+      exEn: 'It was a perfect evening for a walk on the beach.',
+      exUa: 'Це був досконалий вечір для прогулянки на пляжі.',
+    },
+    {
+      pos: 'v',
+      translation: 'відпрацювати',
+      exEn: 'She perfected her recipe over many years of practice.',
+      exUa: 'Вона відпрацювала свій рецепт за багато років практики.',
+    },
+  ],
+  permit: [
+    {
+      pos: 'v',
+      translation: 'дозволяти',
+      exEn: 'The rules do not permit smoking inside the building.',
+      exUa: 'Правила не дозволяють курити всередині будівлі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'дозвіл',
+      exEn: 'You need a permit to build an extension on your house.',
+      exUa: 'Вам потрібен дозвіл, щоб добудувати прибудову до будинку.',
+    },
+  ],
+  person: [
+    {
+      pos: 'noun',
+      translation: 'людина',
+      exEn: 'Every person deserves respect regardless of background.',
+      exUa: 'Кожна людина заслуговує на повагу незалежно від походження.',
+    },
+    {
+      pos: 'noun',
+      translation: 'особа',
+      exEn: 'The document must be signed by an authorised person.',
+      exUa: 'Документ повинен підписати уповноважена особа.',
+    },
+  ],
+  pervert: [
+    {
+      pos: 'noun',
+      translation: 'збочена людина',
+      exEn: 'He was reported to the police as a suspected pervert.',
+      exUa: 'Про нього повідомили в поліцію як про підозрюваного збоченця.',
+    },
+    {
+      pos: 'v',
+      translation: 'спотворювати',
+      exEn: 'He was accused of perverting the course of justice.',
+      exUa: 'Його звинуватили у спотворенні перебігу правосуддя.',
+    },
+  ],
+  petition: [
+    {
+      pos: 'noun',
+      translation: 'петиція',
+      exEn: 'Thousands of people signed the online petition.',
+      exUa: 'Тисячі людей підписали онлайн-петицію.',
+    },
+    {
+      pos: 'v',
+      translation: 'подавати клопотання',
+      exEn: 'Residents petitioned the council to build a new park.',
+      exUa: 'Мешканці подали клопотання до ради про будівництво нового парку.',
+    },
+  ],
+  photograph: [
+    {
+      pos: 'v',
+      translation: 'фотографувати',
+      exEn: 'She photographed every moment of the trip.',
+      exUa: 'Вона фотографувала кожну мить подорожі.',
+    },
+    {
+      pos: 'noun',
+      translation: 'фотографія',
+      exEn: 'The old photograph showed her grandparents as young adults.',
+      exUa: 'Стара фотографія показувала її бабусю й дідуся молодими.',
+    },
+  ],
+  phrase: [
+    {
+      pos: 'noun',
+      translation: 'фраза',
+      exEn: 'She repeated the same phrase three times for emphasis.',
+      exUa: 'Вона повторила ту саму фразу тричі для наголосу.',
+    },
+    {
+      pos: 'v',
+      translation: 'формулювати',
+      exEn: 'Try to phrase your question more politely.',
+      exUa: 'Спробуй сформулювати своє питання ввічливіше.',
+    },
+  ],
+  pile: [
+    {
+      pos: 'noun',
+      translation: 'купа',
+      exEn: 'There was a huge pile of laundry waiting to be washed.',
+      exUa: 'Там була величезна купа білизни, яка чекала прання.',
+    },
+    {
+      pos: 'v',
+      translation: 'складати в купу',
+      exEn: 'She piled the dirty dishes in the sink.',
+      exUa: 'Вона склала брудний посуд купою в раковині.',
+    },
+  ],
+  pin: [
+    {
+      pos: 'noun',
+      translation: 'шпилька',
+      exEn: 'She fixed the fabric in place with a pin.',
+      exUa: 'Вона закріпила тканину на місці шпилькою.',
+    },
+    {
+      pos: 'v',
+      translation: 'прикріплювати',
+      exEn: 'He pinned the notice to the board.',
+      exUa: 'Він прикріпив оголошення до дошки.',
+    },
+  ],
+  pinch: [
+    {
+      pos: 'v',
+      translation: 'щипати',
+      exEn: 'The crab pinched her finger by accident.',
+      exUa: 'Краб випадково вщипнув її за палець.',
+    },
+    {
+      pos: 'noun',
+      translation: 'щіпка',
+      exEn: 'Add just a pinch of salt to the soup.',
+      exUa: 'Додай лише щіпку солі в суп.',
+    },
+  ],
+  pine: [
+    {
+      pos: 'noun',
+      translation: 'сосна',
+      exEn: 'The forest was full of tall pine trees.',
+      exUa: 'Ліс був повний високих сосен.',
+    },
+    {
+      pos: 'v',
+      translation: 'сумувати за',
+      exEn: 'She pined for her homeland after moving abroad.',
+      exUa: 'Вона сумувала за батьківщиною після переїзду за кордон.',
+    },
+  ],
+  pious: [
+    {
+      pos: 'adj',
+      translation: 'побожний',
+      exEn: 'She came from a deeply pious family.',
+      exUa: 'Вона походила з глибоко побожної родини.',
+    },
+    {
+      pos: 'adj',
+      translation: 'удавано доброчесний',
+      exEn: 'His pious speeches never matched his selfish actions.',
+      exUa: 'Його удавано доброчесні промови ніколи не відповідали його егоїстичним вчинкам.',
+    },
+  ],
+  pipe: [
+    {
+      pos: 'noun',
+      translation: 'труба',
+      exEn: 'Water flowed through the old metal pipe.',
+      exUa: 'Вода текла крізь стару металеву трубу.',
+    },
+    {
+      pos: 'v',
+      translation: 'курити трубку',
+      exEn: 'Her grandfather liked to pipe tobacco on the porch every evening.',
+      exUa: 'Її дідусь любив курити трубку на ганку щовечора.',
+    },
+  ],
+  pipeline: [
+    {
+      pos: 'noun',
+      translation: 'канал, конвеєр',
+      exEn: 'Oil flows through the pipeline across several countries.',
+      exUa: 'Нафта тече трубопроводом через кілька країн.',
+    },
+    {
+      pos: 'adj',
+      translation: 'у процесі розробки',
+      exEn: 'Several new products are currently in the pipeline.',
+      exUa: 'Кілька нових продуктів наразі перебувають у процесі розробки.',
+    },
+  ],
+  pivot: [
+    {
+      pos: 'noun',
+      translation: 'стрижень',
+      exEn: 'The door swings on a central pivot.',
+      exUa: 'Двері обертаються на центральному стрижні.',
+    },
+    {
+      pos: 'v',
+      translation: 'повертатися',
+      exEn: 'The company decided to pivot toward online sales.',
+      exUa: 'Компанія вирішила переорієнтуватися в бік онлайн-продажів.',
+    },
+  ],
+  plague: [
+    {
+      pos: 'noun',
+      translation: 'чума',
+      exEn: 'The plague killed millions of people in medieval Europe.',
+      exUa: 'Чума вбила мільйони людей у середньовічній Європі.',
+    },
+    {
+      pos: 'v',
+      translation: 'переслідувати',
+      exEn: 'Doubts continued to plague her long after the decision was made.',
+      exUa: 'Сумніви продовжували переслідувати її ще довго після ухвалення рішення.',
+    },
+  ],
+  plainly: [
+    {
+      pos: 'adv',
+      translation: 'ясно, чітко',
+      exEn: 'She spoke plainly so that everyone could understand.',
+      exUa: 'Вона говорила ясно, щоб усі могли зрозуміти.',
+    },
+    {
+      pos: 'adv',
+      translation: 'очевидно',
+      exEn: 'Plainly, the plan needs more work before it can succeed.',
+      exUa: 'Очевидно, план потребує доопрацювання, перш ніж він зможе спрацювати.',
+    },
+  ],
+  plan: [
+    {
+      pos: 'noun',
+      translation: 'план',
+      exEn: 'She wrote a detailed plan for the new project.',
+      exUa: 'Вона написала детальний план нового проєкту.',
+    },
+    {
+      pos: 'v',
+      translation: 'планувати',
+      exEn: 'They are planning a trip to Italy next summer.',
+      exUa: 'Вони планують поїздку до Італії наступного літа.',
+    },
+  ],
+  please: [
+    {
+      pos: 'noun',
+      translation: 'будь ласка',
+      exEn: 'Please close the door behind you.',
+      exUa: 'Будь ласка, зачини за собою двері.',
+    },
+    {
+      pos: 'v',
+      translation: 'задовольняти',
+      exEn: "It's impossible to please every single customer.",
+      exUa: 'Неможливо задовольнити кожного окремого клієнта.',
+    },
+  ],
+  plot: [
+    {
+      pos: 'noun',
+      translation: 'ділянка',
+      exEn: 'They bought a small plot of land near the river.',
+      exUa: 'Вони купили невелику ділянку землі біля річки.',
+    },
+    {
+      pos: 'noun',
+      translation: 'сюжет',
+      exEn: "The movie's plot twist surprised everyone in the cinema.",
+      exUa: 'Несподіваний поворот сюжету фільму здивував усіх у кінотеатрі.',
+    },
+    {
+      pos: 'v',
+      translation: 'змовляти',
+      exEn: 'The conspirators plotted to overthrow the government.',
+      exUa: 'Змовники змовлялися повалити уряд.',
+    },
+  ],
+  pluck: [
+    {
+      pos: 'v',
+      translation: 'зривати, смикати',
+      exEn: 'He plucked the loose thread from his sweater.',
+      exUa: 'Він висмикнув вільну нитку зі свого светра.',
+    },
+    {
+      pos: 'noun',
+      translation: 'сміливість',
+      exEn: 'It took real pluck to stand up to the bully.',
+      exUa: 'Знадобилася справжня сміливість, щоб протистояти хулігану.',
+    },
+  ],
+  plug: [
+    {
+      pos: 'noun',
+      translation: 'вилка',
+      exEn: 'She inserted the plug into the wall socket.',
+      exUa: 'Вона вставила вилку в розетку.',
+    },
+    {
+      pos: 'v',
+      translation: 'затикати',
+      exEn: 'He plugged the leak in the pipe with tape.',
+      exUa: 'Він заткнув витік у трубі стрічкою.',
+    },
+  ],
+  poach: [
+    {
+      pos: 'v',
+      translation: 'варити без шкаралупи (яйце)',
+      exEn: 'She poached two eggs for breakfast.',
+      exUa: 'Вона зварила два яйця-пашот на сніданок.',
+    },
+    {
+      pos: 'v',
+      translation: 'приготувати в рідині',
+      exEn: 'The chef poached the pears in spiced wine.',
+      exUa: 'Шеф-кухар приготував груші у прянім вині.',
+    },
+  ],
+  pocket: [
+    {
+      pos: 'noun',
+      translation: 'кишеня',
+      exEn: 'He kept his keys in his jacket pocket.',
+      exUa: 'Він тримав ключі в кишені куртки.',
+    },
+    {
+      pos: 'v',
+      translation: 'присвоювати',
+      exEn: 'The manager was accused of pocketing company funds.',
+      exUa: 'Керівника звинуватили у присвоєнні коштів компанії.',
+    },
+  ],
+  poison: [
+    {
+      pos: 'noun',
+      translation: 'отрута',
+      exEn: 'The detective found traces of poison in the wine.',
+      exUa: 'Детектив знайшов сліди отрути у вині.',
+    },
+    {
+      pos: 'v',
+      translation: 'отруювати',
+      exEn: 'Industrial waste poisoned the river for miles.',
+      exUa: 'Промислові відходи отруїли річку на багато кілометрів.',
+    },
+  ],
+  polish: [
+    {
+      pos: 'v',
+      translation: 'полірувати',
+      exEn: 'She polished the silver until it gleamed.',
+      exUa: 'Вона відполірувала срібло, поки воно не заблищало.',
+    },
+    {
+      pos: 'noun',
+      translation: 'польська мова',
+      exEn: 'He has been learning Polish for two years.',
+      exUa: 'Він вивчає польську мову вже два роки.',
+    },
+  ],
+  poll: [
+    {
+      pos: 'noun',
+      translation: 'опитування',
+      exEn: 'A recent poll showed strong support for the new policy.',
+      exUa: 'Нещодавнє опитування показало сильну підтримку нової політики.',
+    },
+    {
+      pos: 'v',
+      translation: 'голосувати',
+      exEn: 'Citizens polled overwhelmingly in favour of the reform.',
+      exUa: 'Громадяни переважно проголосували за реформу.',
+    },
+  ],
+  pool: [
+    {
+      pos: 'noun',
+      translation: 'басейн',
+      exEn: 'The children spent all afternoon in the swimming pool.',
+      exUa: 'Діти провели весь день у басейні.',
+    },
+    {
+      pos: 'v',
+      translation: "об'єднувати",
+      exEn: 'The neighbours pooled their money to fix the shared fence.',
+      exUa: "Сусіди об'єднали свої гроші, щоб полагодити спільний паркан.",
+    },
+  ],
+  pose: [
+    {
+      pos: 'v',
+      translation: 'поставати',
+      exEn: 'Climate change poses one of the greatest threats to global stability.',
+      exUa: 'Зміна клімату постає однією з найбільших загроз глобальній стабільності.',
+    },
+    {
+      pos: 'noun',
+      translation: 'загроза',
+      exEn: 'Wild animals can pose a real threat if approached carelessly.',
+      exUa: 'Дикі тварини можуть становити реальну загрозу, якщо до них необережно наближатися.',
+    },
+  ],
 };
 
 // ════════════════════════════════════════════════════════════════════════
