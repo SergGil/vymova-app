@@ -11,6 +11,7 @@ import { _speakWithLang } from './speech.ts';
 import { t } from './i18n.ts';
 import { useStateVersion } from '../../src/store.ts';
 import { bindOverlayDismiss } from './overlay-utils.ts';
+import { speechLangFor } from './speech-lang.ts';
 
 export type ScenarioId =
   | 'job-interview'
@@ -217,49 +218,6 @@ export const SCENARIOS: { id: ScenarioId; emoji: string; labelKey: string }[] = 
   { id: 'tax-office-visit', emoji: '🧾', labelKey: 'roleplay.scenarioTaxOffice' },
 ];
 
-const SPEECH_LANG: Record<string, string> = {
-  ua: 'uk-UA',
-  en: 'en-US',
-  es: 'es-ES',
-  fr: 'fr-FR',
-  it: 'it-IT',
-  pt: 'pt-PT',
-  de: 'de-DE',
-  he: 'he-IL',
-  ar: 'ar-SA',
-  pl: 'pl-PL',
-  zh: 'zh-CN',
-  el: 'el-GR',
-  ja: 'ja-JP',
-  tr: 'tr-TR',
-  nl: 'nl-NL',
-  vi: 'vi-VN',
-  hi: 'hi-IN',
-  bn: 'bn-BD',
-  id: 'id-ID',
-  pcm: 'pcm-NG',
-  ko: 'ko-KR',
-  fa: 'fa-IR',
-  sw: 'sw-TZ',
-  ms: 'ms-MY',
-  th: 'th-TH',
-  az: 'az-AZ',
-  ro: 'ro-RO',
-  hu: 'hu-HU',
-  cs: 'cs-CZ',
-  kk: 'kk-KZ',
-  sv: 'sv-SE',
-  ka: 'ka-GE',
-  hr: 'hr-HR',
-  sr: 'sr-RS',
-  bs: 'bs-BA',
-  bg: 'bg-BG',
-  sk: 'sk-SK',
-  hy: 'hy-AM',
-  da: 'da-DK',
-  fi: 'fi-FI',
-  no: 'nb-NO',
-};
 
 export interface RoleplayTurn {
   role: 'user' | 'assistant';
@@ -340,7 +298,7 @@ export function VoiceRoleplayPage(): ReactElement | null {
   }
 
   const speakReply = (text: string): void => {
-    const lang = SPEECH_LANG[getLearnLang()] ?? 'en-US';
+    const lang = speechLangFor(getLearnLang());
     _speakWithLang(text, lang, null);
   };
 
@@ -372,7 +330,7 @@ export function VoiceRoleplayPage(): ReactElement | null {
     const Ctor = getSpeechRecognition();
     if (!Ctor || !scenario) return;
     const rec = new Ctor();
-    rec.lang = SPEECH_LANG[getLearnLang()] ?? 'en-US';
+    rec.lang = speechLangFor(getLearnLang());
     rec.interimResults = false;
     rec.continuous = false;
     rec.onresult = (e) => {

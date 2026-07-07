@@ -13,52 +13,9 @@ import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { speechLangFor } from '../features/speech-lang.ts';
 
 const ROUNDS = 8;
-
-const SPEECH_LANG: Record<string, string> = {
-  ua: 'uk-UA',
-  en: 'en-US',
-  es: 'es-ES',
-  fr: 'fr-FR',
-  it: 'it-IT',
-  pt: 'pt-PT',
-  de: 'de-DE',
-  he: 'he-IL',
-  ar: 'ar-SA',
-  pl: 'pl-PL',
-  zh: 'zh-CN',
-  el: 'el-GR',
-  ja: 'ja-JP',
-  tr: 'tr-TR',
-  nl: 'nl-NL',
-  vi: 'vi-VN',
-  hi: 'hi-IN',
-  bn: 'bn-BD',
-  id: 'id-ID',
-  pcm: 'pcm-NG',
-  ko: 'ko-KR',
-  fa: 'fa-IR',
-  sw: 'sw-TZ',
-  ms: 'ms-MY',
-  th: 'th-TH',
-  az: 'az-AZ',
-  ro: 'ro-RO',
-  hu: 'hu-HU',
-  cs: 'cs-CZ',
-  kk: 'kk-KZ',
-  sv: 'sv-SE',
-  ka: 'ka-GE',
-  hr: 'hr-HR',
-  sr: 'sr-RS',
-  bs: 'bs-BA',
-  bg: 'bg-BG',
-  sk: 'sk-SK',
-  hy: 'hy-AM',
-  da: 'da-DK',
-  fi: 'fi-FI',
-  no: 'nb-NO',
-};
 
 interface SpeechRecognitionLike extends EventTarget {
   lang: string;
@@ -244,7 +201,7 @@ export function ShadowingPage(): ReactElement {
     const Ctor = getSpeechRecognitionCtor();
     if (!Ctor || !round) return;
     const rec = new Ctor();
-    rec.lang = SPEECH_LANG[getLearnLang()] ?? 'en-US';
+    rec.lang = speechLangFor(getLearnLang());
     rec.interimResults = false;
     rec.continuous = false;
     rec.maxAlternatives = 1;

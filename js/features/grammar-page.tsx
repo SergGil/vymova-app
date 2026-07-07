@@ -4,58 +4,15 @@ import { useEffect, useState, type ReactElement, type MouseEvent } from 'react';
 import { GRAMMAR_BY_LANG } from '../../data/grammar.ts';
 import type { GrammarRule, GSection, GrammarCategory } from '../../data/grammar.ts';
 import { getLang, t } from './i18n.ts';
-import { getLearnLang, type LangCode } from './lang-pair-select.tsx';
+import { getLearnLang } from './lang-pair-select.tsx';
 import { _speakWithLang } from './speech.ts';
 import { useStateVersion } from '../../src/store.ts';
+import { speechLangFor } from './speech-lang.ts';
 
 function _localizeSection(s: GSection): GSection {
   if (getLang() === 'en' && s.en) return { ...s, ...s.en };
   return s;
 }
-
-const SPEECH_LANG: Record<LangCode, string> = {
-  en: 'en-US',
-  ua: 'uk-UA',
-  es: 'es-ES',
-  fr: 'fr-FR',
-  it: 'it-IT',
-  pt: 'pt-PT',
-  de: 'de-DE',
-  he: 'he-IL',
-  ar: 'ar-SA',
-  pl: 'pl-PL',
-  zh: 'zh-CN',
-  el: 'el-GR',
-  ja: 'ja-JP',
-  tr: 'tr-TR',
-  nl: 'nl-NL',
-  vi: 'vi-VN',
-  hi: 'hi-IN',
-  bn: 'bn-BD',
-  id: 'id-ID',
-  pcm: 'pcm-NG',
-  ko: 'ko-KR',
-  fa: 'fa-IR',
-  sw: 'sw-TZ',
-  ms: 'ms-MY',
-  th: 'th-TH',
-  az: 'az-AZ',
-  ro: 'ro-RO',
-  hu: 'hu-HU',
-  cs: 'cs-CZ',
-  kk: 'kk-KZ',
-  sv: 'sv-SE',
-  ka: 'ka-GE',
-  hr: 'hr-HR',
-  sr: 'sr-RS',
-  bs: 'bs-BA',
-  bg: 'bg-BG',
-  sk: 'sk-SK',
-  hy: 'hy-AM',
-  da: 'da-DK',
-  fi: 'fi-FI',
-  no: 'nb-NO',
-};
 
 // ── Level sort ────────────────────────────────────────────────
 function _levelOrder(title: string): number {
@@ -153,7 +110,7 @@ function _onContentClick(e: MouseEvent<HTMLDivElement>): void {
   const btn = (e.target as HTMLElement).closest('.gr-ex-speak') as HTMLElement | null;
   if (!btn) return;
   const text = btn.previousElementSibling?.textContent ?? '';
-  _speakWithLang(text, SPEECH_LANG[getLearnLang()] ?? 'en-US', btn);
+  _speakWithLang(text, speechLangFor(getLearnLang()), btn);
 }
 
 // ── External hooks (sidebar openPage, learning-path jump, i18n refresh) ──

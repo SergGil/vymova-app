@@ -1,0 +1,51 @@
+// Vymova — js/features/speech-lang.ts
+// Maps our internal 2/3-letter language codes to the BCP-47 locale tags
+// SpeechRecognition/SpeechSynthesis expect. Was copy-pasted into
+// shadowing.tsx, voice-roleplay.tsx, and grammar-page.tsx.
+export const SPEECH_LANG: Record<string, string> = {
+  ua: 'uk-UA',
+  en: 'en-US',
+  es: 'es-ES',
+  fr: 'fr-FR',
+  it: 'it-IT',
+  pt: 'pt-PT',
+  de: 'de-DE',
+  he: 'he-IL',
+  ar: 'ar-SA',
+  pl: 'pl-PL',
+  zh: 'zh-CN',
+  el: 'el-GR',
+  ja: 'ja-JP',
+  tr: 'tr-TR',
+  nl: 'nl-NL',
+  vi: 'vi-VN',
+  hi: 'hi-IN',
+  bn: 'bn-BD',
+  id: 'id-ID',
+  pcm: 'pcm-NG',
+  ko: 'ko-KR',
+  fa: 'fa-IR',
+  sw: 'sw-TZ',
+  ms: 'ms-MY',
+  th: 'th-TH',
+  az: 'az-AZ',
+  ro: 'ro-RO',
+  hu: 'hu-HU',
+  cs: 'cs-CZ',
+  kk: 'kk-KZ',
+  sv: 'sv-SE',
+  ka: 'ka-GE',
+  hr: 'hr-HR',
+  sr: 'sr-RS',
+  bs: 'bs-BA',
+  bg: 'bg-BG',
+  sk: 'sk-SK',
+  hy: 'hy-AM',
+  da: 'da-DK',
+  fi: 'fi-FI',
+  no: 'nb-NO',
+};
+
+export function speechLangFor(code: string): string {
+  return SPEECH_LANG[code] ?? 'en-US';
+}
