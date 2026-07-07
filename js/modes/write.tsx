@@ -53,6 +53,7 @@ import {
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speakForCode } from '../features/speak-lang.ts';
+import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
 import type { WordEntry } from '../../src/types.js';
 
 const SIZE = 10;
@@ -460,17 +461,6 @@ export function WritePage(): ReactElement {
 
   if (!isOpen) return <></>;
 
-  const pct = deck.length > 0 ? Math.round((ok / deck.length) * 100) : 0;
-  const finalEmoji = pct === 100 ? '🏆' : pct >= 80 ? '🎉' : pct >= 60 ? '👍' : '💪';
-  const finalTitle =
-    pct === 100
-      ? t('quiz.perfectTitle')
-      : pct >= 80
-        ? t('quiz.greatTitle')
-        : pct >= 60
-          ? t('quiz.goodTitle')
-          : t('quiz.encourageTitle');
-
   return (
     <>
       <div
@@ -763,35 +753,14 @@ export function WritePage(): ReactElement {
       )}
 
       {showFinal && (
-        <div style={{ textAlign: 'center', padding: '10px 0 4px' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>{finalEmoji}</div>
-          <div
-            style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}
-          >
-            {finalTitle}
-          </div>
-          <div style={{ fontSize: '.9rem', color: 'var(--text2)', marginBottom: 18 }}>
-            {ok} {t('common.of')} {deck.length} ({pct}%)
-          </div>
-          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button
-              onClick={() => startGame(null)}
-              style={{
-                fontFamily: "'DM Sans',sans-serif",
-                fontSize: '.88rem',
-                fontWeight: 600,
-                padding: '10px 22px',
-                borderRadius: 10,
-                border: '1.5px solid var(--accent)',
-                background: 'none',
-                color: 'var(--accent)',
-                cursor: 'pointer',
-              }}
-              data-i18n="common.tryAgain"
-            >
-              {t('common.tryAgain')}
-            </button>
-            {wrong.length > 0 && (
+        <ModeFinalScreen
+          ok={ok}
+          total={deck.length}
+          keepGoingKey="quiz.encourageTitle"
+          onRetry={() => startGame(null)}
+          onClose={closeWrite}
+          extra={
+            wrong.length > 0 ? (
               <button
                 onClick={() => startGame(wrong)}
                 style={{
@@ -808,25 +777,9 @@ export function WritePage(): ReactElement {
               >
                 {t('write.mistakesBtn')} ({wrong.length})
               </button>
-            )}
-            <button
-              onClick={closeWrite}
-              style={{
-                fontFamily: "'DM Sans',sans-serif",
-                fontSize: '.88rem',
-                padding: '10px 22px',
-                borderRadius: 10,
-                border: '1.5px solid var(--border)',
-                background: 'none',
-                color: 'var(--text2)',
-                cursor: 'pointer',
-              }}
-              data-i18n="common.close"
-            >
-              {t('common.close')}
-            </button>
-          </div>
-        </div>
+            ) : null
+          }
+        />
       )}
     </>
   );

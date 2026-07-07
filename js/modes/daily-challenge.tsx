@@ -15,6 +15,7 @@ import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
+import { scoreEmoji } from '../features/mode-final-screen.tsx';
 
 const DC_SIZE = 10,
   DC_XP = 3;
@@ -231,7 +232,7 @@ export function DailyChallenge(): ReactElement | null {
       }
       const pct = Math.round((dcCorrect / DC_SIZE) * 100);
       const xp = dcCorrect * DC_XP * 10;
-      elFinalEmoji.textContent = pct === 100 ? '🏆' : pct >= 80 ? '🎉' : pct >= 60 ? '👍' : '💪';
+      elFinalEmoji.textContent = scoreEmoji(pct);
       elFinalTitle.textContent =
         (pct === 100
           ? t('daily.missionDone')

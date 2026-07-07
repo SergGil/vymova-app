@@ -11,6 +11,7 @@ import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
 
 const SIZE = 8;
 const HINTS = 3;
@@ -224,17 +225,6 @@ export function SentenceBuilderPage(): ReactElement {
   };
 
   if (!isOpen) return <></>;
-
-  const pct = deck.length > 0 ? Math.round((ok / deck.length) * 100) : 0;
-  const finalEmoji = pct === 100 ? '🏆' : pct >= 80 ? '🎉' : pct >= 60 ? '👍' : '💪';
-  const finalTitle =
-    pct === 100
-      ? t('quiz.perfectTitle')
-      : pct >= 80
-        ? t('quiz.greatTitle')
-        : pct >= 60
-          ? t('quiz.goodTitle')
-          : t('tempo.practiceTitle');
 
   const tileBtnStyle = (extra: Record<string, unknown> = {}): Record<string, unknown> => ({
     padding: '8px 12px',
@@ -501,50 +491,13 @@ export function SentenceBuilderPage(): ReactElement {
       )}
 
       {showFinal && (
-        <div style={{ textAlign: 'center', padding: '10px 0 4px' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>{finalEmoji}</div>
-          <div
-            style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}
-          >
-            {finalTitle}
-          </div>
-          <div style={{ fontSize: '.9rem', color: 'var(--text2)', marginBottom: 16 }}>
-            {ok} {t('common.of')} {deck.length} ({pct}%)
-          </div>
-          <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-            <button
-              onClick={startGame}
-              style={{
-                padding: '9px 20px',
-                borderRadius: 10,
-                border: '1.5px solid var(--accent)',
-                background: 'none',
-                color: 'var(--accent)',
-                fontWeight: 600,
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-                fontSize: '.85rem',
-              }}
-            >
-              {t('common.tryAgain')}
-            </button>
-            <button
-              onClick={closeSentenceBuilder}
-              style={{
-                padding: '9px 20px',
-                borderRadius: 10,
-                border: '1.5px solid var(--border)',
-                background: 'none',
-                color: 'var(--text2)',
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-                fontSize: '.85rem',
-              }}
-            >
-              {t('common.close')}
-            </button>
-          </div>
-        </div>
+        <ModeFinalScreen
+          ok={ok}
+          total={deck.length}
+          keepGoingKey="tempo.practiceTitle"
+          onRetry={startGame}
+          onClose={closeSentenceBuilder}
+        />
       )}
     </>
   );

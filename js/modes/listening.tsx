@@ -12,6 +12,7 @@ import { speak } from '../features/speech.ts';
 import type { WordEntry, Code } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
 
 const SIZE = 10;
 
@@ -183,17 +184,6 @@ export function ListeningPage(): ReactElement {
     }
   };
 
-  const pct = deck.length ? Math.round((ok / deck.length) * 100) : 0;
-  const finalEmoji = pct === 100 ? '🏆' : pct >= 80 ? '🎉' : pct >= 60 ? '👍' : '💪';
-  const finalTitle =
-    pct === 100
-      ? t('quiz.perfectTitle')
-      : pct >= 80
-        ? t('quiz.greatTitle')
-        : pct >= 60
-          ? t('quiz.goodTitle')
-          : t('listen.keepGoingTitle');
-
   return (
     <>
       <div
@@ -352,52 +342,13 @@ export function ListeningPage(): ReactElement {
       )}
 
       {showFinal && (
-        <div style={{ textAlign: 'center', padding: '10px 0 4px' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>{finalEmoji}</div>
-          <div
-            style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}
-          >
-            {finalTitle}
-          </div>
-          <div style={{ fontSize: '.9rem', color: 'var(--text2)', marginBottom: 18 }}>
-            {ok} {t('common.of')} {deck.length} ({pct}%)
-          </div>
-          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button
-              style={{
-                fontFamily: "'DM Sans',sans-serif",
-                fontSize: '.88rem',
-                fontWeight: 600,
-                padding: '10px 22px',
-                borderRadius: 10,
-                border: '1.5px solid var(--accent)',
-                background: 'none',
-                color: 'var(--accent)',
-                cursor: 'pointer',
-              }}
-              onClick={startGame}
-              data-i18n="common.tryAgain"
-            >
-              🔄 {t('common.tryAgain').replace(/^🔄\s*/, '')}
-            </button>
-            <button
-              style={{
-                fontFamily: "'DM Sans',sans-serif",
-                fontSize: '.88rem',
-                padding: '10px 22px',
-                borderRadius: 10,
-                border: '1.5px solid var(--border)',
-                background: 'none',
-                color: 'var(--text2)',
-                cursor: 'pointer',
-              }}
-              onClick={closeListening}
-              data-i18n="common.close"
-            >
-              {t('common.close')}
-            </button>
-          </div>
-        </div>
+        <ModeFinalScreen
+          ok={ok}
+          total={deck.length}
+          keepGoingKey="listen.keepGoingTitle"
+          onRetry={startGame}
+          onClose={closeListening}
+        />
       )}
     </>
   );

@@ -29,6 +29,7 @@ import {
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
+import { scoreEmoji } from '../features/mode-final-screen.tsx';
 
 type Question = {
   dir: string;
@@ -220,8 +221,7 @@ export function TempoPage(): ReactElement {
     const best = getBest(r.sec),
       isNew = r.score > best;
     setBest(r.sec, r.score);
-    const emoji =
-      r.score === 0 ? '😅' : pct === 100 ? '🏆' : pct >= 80 ? '🎉' : pct >= 60 ? '👍' : '💪';
+    const emoji = r.score === 0 ? '😅' : scoreEmoji(pct);
     const title =
       r.score === 0
         ? t('tempo.zeroTitle')
