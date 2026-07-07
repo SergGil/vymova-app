@@ -596,7 +596,7 @@ select:focus {
   display: block;
   font-size: 0.72rem;
   font-style: italic;
-  color: var(--text3);
+  color: var(--accent2);
   margin-bottom: 4px;
 }
 .transl {
@@ -5439,7 +5439,6 @@ body.hp .hamburger {
   min-height: 100% !important;
   max-height: none !important;
   box-shadow: none !important;
-  border-radius: 0 !important;
   background: var(--bg) !important;
 }
 @media (max-width: 900px) {
@@ -7174,7 +7173,7 @@ body.dark .usage-note-box.etymology-note {
 }
 .sense-pos {
   font-style: italic;
-  color: var(--text3);
+  color: var(--accent2);
   font-size: 0.72rem;
 }
 .sense-translation {
