@@ -28,19 +28,11 @@ const root = join(__dirname, '..');
 const read = (rel: string): string => readFileSync(join(root, rel), 'utf8');
 
 describe('Vietnamese is wired into every per-mode translation switch', () => {
-  // reading.tsx and story.tsx no longer have their own per-mode switch — both
-  // were rewritten to call mode-utils.ts's shared, type-safe `entryFor`
-  // (Record<TargetLang, ...>-backed) instead, which can't silently omit a
-  // language the way a copy-pasted `switch` could, so they're excluded here
-  // rather than exempted from the bug class this test guards against.
+  // spelling-bee.tsx and write.tsx still keep their own per-mode switch, but
+  // only for the example-sentence lookup (getLangSentence) — their word
+  // lookup switch (getWordInLang) was deleted in favor of entryFor(), same
+  // as the other 9 files below.
   const modeFilesWithOneSwitch = [
-    'js/modes/catpairs.tsx',
-    'js/modes/context.tsx',
-    'js/modes/daily-challenge.tsx',
-    'js/modes/lesson.tsx',
-    'js/modes/listening.tsx',
-    'js/modes/pairs.tsx',
-    'js/modes/scramble.tsx',
     'js/modes/spelling-bee.tsx',
     'js/modes/write.tsx',
     'js/features/duel-deck.ts',
@@ -53,23 +45,45 @@ describe('Vietnamese is wired into every per-mode translation switch', () => {
     expect(src).toContain("case 'vi':");
   });
 
-  it('quiz.tsx / tempo.tsx / adaptive-quiz.tsx have both the switch AND the wrong-option NL/VI branches', () => {
-    for (const file of ['js/modes/quiz.tsx', 'js/modes/tempo.tsx', 'js/modes/adaptive-quiz.tsx']) {
-      const src = read(file);
-      expect(src, file).toContain("case 'vi':");
-      expect(src, file).toContain("'VI'");
-    }
-  });
-
   it('fib.tsx has case vi: in both getLangWord and getLangSentence', () => {
     const src = read('js/modes/fib.tsx');
     const viCount = (src.match(/case 'vi':/g) ?? []).length;
     expect(viCount).toBe(2);
   });
 
-  it('reading.tsx and story.tsx both import entryFor from mode-utils.ts (shared dispatch, not a raw switch)', () => {
-    for (const file of ['js/modes/reading.tsx', 'js/modes/story.tsx']) {
+  // reading.tsx and story.tsx never had their own per-mode switch. quiz.tsx,
+  // tempo.tsx, adaptive-quiz.tsx, catpairs.tsx, context.tsx,
+  // daily-challenge.tsx, lesson.tsx, listening.tsx, pairs.tsx, and
+  // scramble.tsx had the same 86-line `getWordInLang` switch duplicated 12
+  // times across the codebase — all 12 were deleted in favor of calling
+  // mode-utils.ts's shared, type-safe `entryFor` (Record<TargetLang, ...>
+  // -backed), which can't silently omit a language the way a copy-pasted
+  // `switch` could.
+  it('previously-duplicated word-lookup switches now import entryFor from mode-utils.ts', () => {
+    for (const file of [
+      'js/modes/reading.tsx',
+      'js/modes/story.tsx',
+      'js/modes/quiz.tsx',
+      'js/modes/write.tsx',
+      'js/modes/context.tsx',
+      'js/modes/lesson.tsx',
+      'js/modes/tempo.tsx',
+      'js/modes/scramble.tsx',
+      'js/modes/catpairs.tsx',
+      'js/modes/spelling-bee.tsx',
+      'js/modes/listening.tsx',
+      'js/modes/pairs.tsx',
+      'js/modes/adaptive-quiz.tsx',
+      'js/modes/daily-challenge.tsx',
+    ]) {
       expect(read(file), file).toMatch(/entryFor/);
+      expect(read(file), file).not.toContain('function getWordInLang');
+    }
+  });
+
+  it('quiz.tsx / tempo.tsx / adaptive-quiz.tsx still generate VI wrong-answer options directly (separate from entryFor)', () => {
+    for (const file of ['js/modes/quiz.tsx', 'js/modes/tempo.tsx', 'js/modes/adaptive-quiz.tsx']) {
+      expect(read(file), file).toContain("'VI'");
     }
   });
 

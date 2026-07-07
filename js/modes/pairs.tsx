@@ -9,135 +9,8 @@ import { recordModeComplete } from '../features/game.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { playSound } from '../core/audio.ts';
 import type { WordEntry } from '../../src/types.js';
-import {
-  esEntry,
-  frEntry,
-  itEntry,
-  ptEntry,
-  deEntry,
-  heEntry,
-  arEntry,
-  plEntry,
-  zhEntry,
-  elEntry,
-  jaEntry,
-  trEntry,
-  nlEntry,
-  viEntry,
-  hiEntry,
-  bnEntry,
-  idEntry,
-  pcmEntry,
-  koEntry,
-  faEntry,
-  swEntry,
-  msEntry,
-  thEntry,
-  azEntry,
-  roEntry,
-  huEntry,
-  csEntry,
-  kkEntry,
-  svEntry,
-  kaEntry,
-  hrEntry,
-  srEntry,
-  bsEntry,
-  bgEntry,
-  skEntry,
-  hyEntry,
-  daEntry,
-  fiEntry,
-  noEntry,
-} from '../features/mode-utils.ts';
+import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
-
-function getWordInLang(w: WordEntry, lang: string): string {
-  switch (lang) {
-    case 'ua':
-      return w[1];
-    case 'es':
-      return esEntry(w[0])?.[0] ?? '';
-    case 'fr':
-      return frEntry(w[0])?.[0] ?? '';
-    case 'it':
-      return itEntry(w[0])?.[0] ?? '';
-    case 'pt':
-      return ptEntry(w[0])?.[0] ?? '';
-    case 'de':
-      return deEntry(w[0])?.[0] ?? '';
-    case 'he':
-      return heEntry(w[0])?.[0] ?? '';
-    case 'ar':
-      return arEntry(w[0])?.[0] ?? '';
-    case 'pl':
-      return plEntry(w[0])?.[0] ?? '';
-    case 'zh':
-      return zhEntry(w[0])?.[0] ?? '';
-    case 'el':
-      return elEntry(w[0])?.[0] ?? '';
-    case 'ja':
-      return jaEntry(w[0])?.[0] ?? '';
-    case 'tr':
-      return trEntry(w[0])?.[0] ?? '';
-    case 'nl':
-      return nlEntry(w[0])?.[0] ?? '';
-    case 'vi':
-      return viEntry(w[0])?.[0] ?? '';
-    case 'hi':
-      return hiEntry(w[0])?.[0] ?? '';
-    case 'bn':
-      return bnEntry(w[0])?.[0] ?? '';
-    case 'id':
-      return idEntry(w[0])?.[0] ?? '';
-    case 'pcm':
-      return pcmEntry(w[0])?.[0] ?? '';
-    case 'ko':
-      return koEntry(w[0])?.[0] ?? '';
-    case 'fa':
-      return faEntry(w[0])?.[0] ?? '';
-    case 'sw':
-      return swEntry(w[0])?.[0] ?? '';
-    case 'ms':
-      return msEntry(w[0])?.[0] ?? '';
-    case 'th':
-      return thEntry(w[0])?.[0] ?? '';
-    case 'az':
-      return azEntry(w[0])?.[0] ?? '';
-    case 'ro':
-      return roEntry(w[0])?.[0] ?? '';
-    case 'hu':
-      return huEntry(w[0])?.[0] ?? '';
-    case 'cs':
-      return csEntry(w[0])?.[0] ?? '';
-    case 'kk':
-      return kkEntry(w[0])?.[0] ?? '';
-    case 'sv':
-      return svEntry(w[0])?.[0] ?? '';
-    case 'ka':
-      return kaEntry(w[0])?.[0] ?? '';
-    case 'hr':
-      return hrEntry(w[0])?.[0] ?? '';
-    case 'sr':
-      return srEntry(w[0])?.[0] ?? '';
-    case 'bs':
-      return bsEntry(w[0])?.[0] ?? '';
-    case 'bg':
-      return bgEntry(w[0])?.[0] ?? '';
-    case 'sk':
-      return skEntry(w[0])?.[0] ?? '';
-    case 'hy':
-      return hyEntry(w[0])?.[0] ?? '';
-    case 'da':
-      return daEntry(w[0])?.[0] ?? '';
-    case 'fi':
-      return fiEntry(w[0])?.[0] ?? '';
-    case 'no':
-      return noEntry(w[0])?.[0] ?? '';
-    default:
-      return w[0];
-  }
-}
 
 const N = 6;
 
@@ -201,8 +74,8 @@ export function PairsMode(): ReactElement | null {
     function renderBoard(): void {
       const learnLang = getLearnLang();
       const knowLang = getKnowLang();
-      const en = _shuf(pDeck.map((w, i) => ({ text: getWordInLang(w, learnLang), id: i })));
-      const ua = _shuf(pDeck.map((w, i) => ({ text: getWordInLang(w, knowLang), id: i })));
+      const en = _shuf(pDeck.map((w, i) => ({ text: entryFor(learnLang, w).word, id: i })));
+      const ua = _shuf(pDeck.map((w, i) => ({ text: entryFor(knowLang, w).word, id: i })));
       pBoard!.innerHTML =
         '<div id="pairs-col-en" style="display:flex;flex-direction:column;gap:8px;"></div>' +
         '<div id="pairs-col-ua" style="display:flex;flex-direction:column;gap:8px;"></div>';

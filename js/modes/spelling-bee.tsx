@@ -12,6 +12,7 @@ import { speak as _speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import {
+  entryFor,
   esEntry,
   frEntry,
   itEntry,
@@ -59,93 +60,6 @@ const SIZE = 10;
 const HINTS = 3;
 
 type Result = 'ok' | 'almost' | 'wrong' | null;
-
-function getWordInLang(w: WordEntry, lang: string): string {
-  switch (lang) {
-    case 'ua':
-      return w[1];
-    case 'es':
-      return esEntry(w[0])?.[0] ?? '';
-    case 'fr':
-      return frEntry(w[0])?.[0] ?? '';
-    case 'it':
-      return itEntry(w[0])?.[0] ?? '';
-    case 'pt':
-      return ptEntry(w[0])?.[0] ?? '';
-    case 'de':
-      return deEntry(w[0])?.[0] ?? '';
-    case 'he':
-      return heEntry(w[0])?.[0] ?? '';
-    case 'ar':
-      return arEntry(w[0])?.[0] ?? '';
-    case 'pl':
-      return plEntry(w[0])?.[0] ?? '';
-    case 'zh':
-      return zhEntry(w[0])?.[0] ?? '';
-    case 'el':
-      return elEntry(w[0])?.[0] ?? '';
-    case 'ja':
-      return jaEntry(w[0])?.[0] ?? '';
-    case 'tr':
-      return trEntry(w[0])?.[0] ?? '';
-    case 'nl':
-      return nlEntry(w[0])?.[0] ?? '';
-    case 'vi':
-      return viEntry(w[0])?.[0] ?? '';
-    case 'hi':
-      return hiEntry(w[0])?.[0] ?? '';
-    case 'bn':
-      return bnEntry(w[0])?.[0] ?? '';
-    case 'id':
-      return idEntry(w[0])?.[0] ?? '';
-    case 'pcm':
-      return pcmEntry(w[0])?.[0] ?? '';
-    case 'ko':
-      return koEntry(w[0])?.[0] ?? '';
-    case 'fa':
-      return faEntry(w[0])?.[0] ?? '';
-    case 'sw':
-      return swEntry(w[0])?.[0] ?? '';
-    case 'ms':
-      return msEntry(w[0])?.[0] ?? '';
-    case 'th':
-      return thEntry(w[0])?.[0] ?? '';
-    case 'az':
-      return azEntry(w[0])?.[0] ?? '';
-    case 'ro':
-      return roEntry(w[0])?.[0] ?? '';
-    case 'hu':
-      return huEntry(w[0])?.[0] ?? '';
-    case 'cs':
-      return csEntry(w[0])?.[0] ?? '';
-    case 'kk':
-      return kkEntry(w[0])?.[0] ?? '';
-    case 'sv':
-      return svEntry(w[0])?.[0] ?? '';
-    case 'ka':
-      return kaEntry(w[0])?.[0] ?? '';
-    case 'hr':
-      return hrEntry(w[0])?.[0] ?? '';
-    case 'sr':
-      return srEntry(w[0])?.[0] ?? '';
-    case 'bs':
-      return bsEntry(w[0])?.[0] ?? '';
-    case 'bg':
-      return bgEntry(w[0])?.[0] ?? '';
-    case 'sk':
-      return skEntry(w[0])?.[0] ?? '';
-    case 'hy':
-      return hyEntry(w[0])?.[0] ?? '';
-    case 'da':
-      return daEntry(w[0])?.[0] ?? '';
-    case 'fi':
-      return fiEntry(w[0])?.[0] ?? '';
-    case 'no':
-      return noEntry(w[0])?.[0] ?? '';
-    default:
-      return w[0];
-  }
-}
 
 function getLangSentence(w: WordEntry, lang: string): string {
   switch (lang) {
@@ -243,7 +157,7 @@ function build(): WordEntry[] {
     learnLang === 'en'
       ? pool.filter((w) => w[0].length >= 4)
       : pool.filter((w) => {
-          const lw = getWordInLang(w, learnLang);
+          const lw = entryFor(learnLang, w).word;
           return lw.length >= 3;
         });
   return (filtered.length >= SIZE ? filtered : pool).slice(0, SIZE);
@@ -252,7 +166,7 @@ function build(): WordEntry[] {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openSpellingBee(): void {
+export function openSpellingBee(): void {
   _open?.();
 }
 function closeSpellingBee(): void {
@@ -322,7 +236,7 @@ export function SpellingBeePage(): ReactElement {
   // Auto-speak + focus on new question
   useEffect(() => {
     if (!isOpen || !w) return;
-    const learnWord = getWordInLang(w, getLearnLang()) || w[0];
+    const learnWord = entryFor(getLearnLang(), w).word || w[0];
     const t1 = setTimeout(() => speak(learnWord), 300);
     const t2 = setTimeout(() => {
       try {
@@ -364,7 +278,7 @@ export function SpellingBeePage(): ReactElement {
 
   const submit = (): void => {
     if (!w || result) return;
-    const learnWord = getWordInLang(w, getLearnLang()) || w[0];
+    const learnWord = entryFor(getLearnLang(), w).word || w[0];
     const answer = learnWord.toLowerCase().trim();
     const inp = input.toLowerCase().trim();
     if (!inp) {
@@ -403,7 +317,7 @@ export function SpellingBeePage(): ReactElement {
 
   const showHint = (): void => {
     if (result || hintsLeft <= 0 || !w) return;
-    const learnWord = getWordInLang(w, getLearnLang()) || w[0];
+    const learnWord = entryFor(getLearnLang(), w).word || w[0];
     const left = hintsLeft - 1;
     setHintsLeft(left);
     const revealCount = Math.ceil((learnWord.length * (HINTS - left)) / HINTS);
@@ -515,7 +429,7 @@ export function SpellingBeePage(): ReactElement {
             </div>
             <button
               ref={speakBtnRef}
-              onClick={() => speak(getWordInLang(w, getLearnLang()) || w[0])}
+              onClick={() => speak(entryFor(getLearnLang(), w).word || w[0])}
               title={t('bee.speakTitle')}
               data-i18n-title="bee.speakTitle"
               style={{
@@ -536,7 +450,7 @@ export function SpellingBeePage(): ReactElement {
             <div
               style={{ fontSize: '.95rem', fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}
             >
-              {getWordInLang(w, getKnowLang()) || w[1]}
+              {entryFor(getKnowLang(), w).word || w[1]}
             </div>
             {result && getLearnLang() === 'en' && (
               <div style={{ fontSize: '.8rem', color: 'var(--accent2)' }}>
@@ -633,7 +547,7 @@ export function SpellingBeePage(): ReactElement {
                 style={{ color: 'var(--accent2)' }}
                 dangerouslySetInnerHTML={{
                   __html: t('bee.almostMsg', {
-                    w: `<b>${getWordInLang(w, getLearnLang()) || w[0]}</b>`,
+                    w: `<b>${entryFor(getLearnLang(), w).word || w[0]}</b>`,
                   }),
                 }}
               />
@@ -643,7 +557,7 @@ export function SpellingBeePage(): ReactElement {
                 style={{ color: 'var(--danger)' }}
                 dangerouslySetInnerHTML={{
                   __html: t('bee.wrongMsg', {
-                    w: `<b>${getWordInLang(w, getLearnLang()) || w[0]}</b>`,
+                    w: `<b>${entryFor(getLearnLang(), w).word || w[0]}</b>`,
                   }),
                 }}
               />

@@ -8,137 +8,9 @@ import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
-import {
-  esEntry,
-  frEntry,
-  itEntry,
-  ptEntry,
-  deEntry,
-  heEntry,
-  arEntry,
-  plEntry,
-  zhEntry,
-  elEntry,
-  jaEntry,
-  trEntry,
-  nlEntry,
-  viEntry,
-  hiEntry,
-  bnEntry,
-  idEntry,
-  pcmEntry,
-  koEntry,
-  faEntry,
-  swEntry,
-  msEntry,
-  thEntry,
-  azEntry,
-  roEntry,
-  huEntry,
-  csEntry,
-  kkEntry,
-  svEntry,
-  kaEntry,
-  hrEntry,
-  srEntry,
-  bsEntry,
-  bgEntry,
-  skEntry,
-  hyEntry,
-  daEntry,
-  fiEntry,
-  noEntry,
-  entryFor,
-} from '../features/mode-utils.ts';
+import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang } from '../features/lang-pair-select.tsx';
 import { speak } from '../features/speech.ts';
-
-function getWordInLang(w: WordEntry, lang: string): string {
-  switch (lang) {
-    case 'ua':
-      return w[1];
-    case 'es':
-      return esEntry(w[0])?.[0] ?? '';
-    case 'fr':
-      return frEntry(w[0])?.[0] ?? '';
-    case 'it':
-      return itEntry(w[0])?.[0] ?? '';
-    case 'pt':
-      return ptEntry(w[0])?.[0] ?? '';
-    case 'de':
-      return deEntry(w[0])?.[0] ?? '';
-    case 'he':
-      return heEntry(w[0])?.[0] ?? '';
-    case 'ar':
-      return arEntry(w[0])?.[0] ?? '';
-    case 'pl':
-      return plEntry(w[0])?.[0] ?? '';
-    case 'zh':
-      return zhEntry(w[0])?.[0] ?? '';
-    case 'el':
-      return elEntry(w[0])?.[0] ?? '';
-    case 'ja':
-      return jaEntry(w[0])?.[0] ?? '';
-    case 'tr':
-      return trEntry(w[0])?.[0] ?? '';
-    case 'nl':
-      return nlEntry(w[0])?.[0] ?? '';
-    case 'vi':
-      return viEntry(w[0])?.[0] ?? '';
-    case 'hi':
-      return hiEntry(w[0])?.[0] ?? '';
-    case 'bn':
-      return bnEntry(w[0])?.[0] ?? '';
-    case 'id':
-      return idEntry(w[0])?.[0] ?? '';
-    case 'pcm':
-      return pcmEntry(w[0])?.[0] ?? '';
-    case 'ko':
-      return koEntry(w[0])?.[0] ?? '';
-    case 'fa':
-      return faEntry(w[0])?.[0] ?? '';
-    case 'sw':
-      return swEntry(w[0])?.[0] ?? '';
-    case 'ms':
-      return msEntry(w[0])?.[0] ?? '';
-    case 'th':
-      return thEntry(w[0])?.[0] ?? '';
-    case 'az':
-      return azEntry(w[0])?.[0] ?? '';
-    case 'ro':
-      return roEntry(w[0])?.[0] ?? '';
-    case 'hu':
-      return huEntry(w[0])?.[0] ?? '';
-    case 'cs':
-      return csEntry(w[0])?.[0] ?? '';
-    case 'kk':
-      return kkEntry(w[0])?.[0] ?? '';
-    case 'sv':
-      return svEntry(w[0])?.[0] ?? '';
-    case 'ka':
-      return kaEntry(w[0])?.[0] ?? '';
-    case 'hr':
-      return hrEntry(w[0])?.[0] ?? '';
-    case 'sr':
-      return srEntry(w[0])?.[0] ?? '';
-    case 'bs':
-      return bsEntry(w[0])?.[0] ?? '';
-    case 'bg':
-      return bgEntry(w[0])?.[0] ?? '';
-    case 'sk':
-      return skEntry(w[0])?.[0] ?? '';
-    case 'hy':
-      return hyEntry(w[0])?.[0] ?? '';
-    case 'da':
-      return daEntry(w[0])?.[0] ?? '';
-    case 'fi':
-      return fiEntry(w[0])?.[0] ?? '';
-    case 'no':
-      return noEntry(w[0])?.[0] ?? '';
-    default:
-      return w[0];
-  }
-}
 
 const SIZE = 8,
   NUM_OPTS = 4;
@@ -185,7 +57,7 @@ function buildQuestion(w: WordEntry): Question {
     : `${t('ctx.firstLetterColon')} ${w[0][0].toUpperCase()}`;
 
   const knowLang = getKnowLang();
-  const correct = getWordInLang(w, knowLang) || w[1];
+  const correct = entryFor(knowLang, w).word || w[1];
   const wrongs: string[] = [];
   const used = new Set([w[0].toLowerCase()]);
   const pool = _shuf(W.slice() as unknown as WordEntry[]);
@@ -193,7 +65,7 @@ function buildQuestion(w: WordEntry): Question {
     if (wrongs.length >= NUM_OPTS - 1) break;
     if (used.has(pw[0].toLowerCase())) continue;
     used.add(pw[0].toLowerCase());
-    const opt = getWordInLang(pw, knowLang);
+    const opt = entryFor(knowLang, pw).word;
     if (!opt || opt === correct) continue;
     wrongs.push(opt);
   }
@@ -204,7 +76,7 @@ function buildQuestion(w: WordEntry): Question {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openContext(): void {
+export function openContext(): void {
   _open?.();
 }
 function closeContext(): void {
@@ -501,7 +373,7 @@ export function ContextPage(): ReactElement {
                 {w[0]}
               </div>
               <div style={{ fontSize: '.78rem', color: 'var(--text2)' }}>
-                {getWordInLang(w, getKnowLang()) || w[1]}
+                {entryFor(getKnowLang(), w).word || w[1]}
               </div>
             </div>
           )}

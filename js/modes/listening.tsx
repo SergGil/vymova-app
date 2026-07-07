@@ -9,138 +9,11 @@ import { recordModeComplete, recordMistake, recordModeAnswer } from '../features
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
 import { speak } from '../features/speech.ts';
-import type { WordEntry } from '../../src/types.js';
-import {
-  esEntry,
-  frEntry,
-  itEntry,
-  ptEntry,
-  deEntry,
-  heEntry,
-  arEntry,
-  plEntry,
-  zhEntry,
-  elEntry,
-  jaEntry,
-  trEntry,
-  nlEntry,
-  viEntry,
-  hiEntry,
-  bnEntry,
-  idEntry,
-  pcmEntry,
-  koEntry,
-  faEntry,
-  swEntry,
-  msEntry,
-  thEntry,
-  azEntry,
-  roEntry,
-  huEntry,
-  csEntry,
-  kkEntry,
-  svEntry,
-  kaEntry,
-  hrEntry,
-  srEntry,
-  bsEntry,
-  bgEntry,
-  skEntry,
-  hyEntry,
-  daEntry,
-  fiEntry,
-  noEntry,
-} from '../features/mode-utils.ts';
+import type { WordEntry, Code } from '../../src/types.js';
+import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 
 const SIZE = 10;
-
-function getWordInLang(w: WordEntry, lang: string): string {
-  switch (lang) {
-    case 'ua':
-      return w[1];
-    case 'es':
-      return esEntry(w[0])?.[0] ?? '';
-    case 'fr':
-      return frEntry(w[0])?.[0] ?? '';
-    case 'it':
-      return itEntry(w[0])?.[0] ?? '';
-    case 'pt':
-      return ptEntry(w[0])?.[0] ?? '';
-    case 'de':
-      return deEntry(w[0])?.[0] ?? '';
-    case 'he':
-      return heEntry(w[0])?.[0] ?? '';
-    case 'ar':
-      return arEntry(w[0])?.[0] ?? '';
-    case 'pl':
-      return plEntry(w[0])?.[0] ?? '';
-    case 'zh':
-      return zhEntry(w[0])?.[0] ?? '';
-    case 'el':
-      return elEntry(w[0])?.[0] ?? '';
-    case 'ja':
-      return jaEntry(w[0])?.[0] ?? '';
-    case 'tr':
-      return trEntry(w[0])?.[0] ?? '';
-    case 'nl':
-      return nlEntry(w[0])?.[0] ?? '';
-    case 'vi':
-      return viEntry(w[0])?.[0] ?? '';
-    case 'hi':
-      return hiEntry(w[0])?.[0] ?? '';
-    case 'bn':
-      return bnEntry(w[0])?.[0] ?? '';
-    case 'id':
-      return idEntry(w[0])?.[0] ?? '';
-    case 'pcm':
-      return pcmEntry(w[0])?.[0] ?? '';
-    case 'ko':
-      return koEntry(w[0])?.[0] ?? '';
-    case 'fa':
-      return faEntry(w[0])?.[0] ?? '';
-    case 'sw':
-      return swEntry(w[0])?.[0] ?? '';
-    case 'ms':
-      return msEntry(w[0])?.[0] ?? '';
-    case 'th':
-      return thEntry(w[0])?.[0] ?? '';
-    case 'az':
-      return azEntry(w[0])?.[0] ?? '';
-    case 'ro':
-      return roEntry(w[0])?.[0] ?? '';
-    case 'hu':
-      return huEntry(w[0])?.[0] ?? '';
-    case 'cs':
-      return csEntry(w[0])?.[0] ?? '';
-    case 'kk':
-      return kkEntry(w[0])?.[0] ?? '';
-    case 'sv':
-      return svEntry(w[0])?.[0] ?? '';
-    case 'ka':
-      return kaEntry(w[0])?.[0] ?? '';
-    case 'hr':
-      return hrEntry(w[0])?.[0] ?? '';
-    case 'sr':
-      return srEntry(w[0])?.[0] ?? '';
-    case 'bs':
-      return bsEntry(w[0])?.[0] ?? '';
-    case 'bg':
-      return bgEntry(w[0])?.[0] ?? '';
-    case 'sk':
-      return skEntry(w[0])?.[0] ?? '';
-    case 'hy':
-      return hyEntry(w[0])?.[0] ?? '';
-    case 'da':
-      return daEntry(w[0])?.[0] ?? '';
-    case 'fi':
-      return fiEntry(w[0])?.[0] ?? '';
-    case 'no':
-      return noEntry(w[0])?.[0] ?? '';
-    default:
-      return w[0];
-  }
-}
 
 function build(): WordEntry[] {
   const pool = _shuf(
@@ -149,8 +22,8 @@ function build(): WordEntry[] {
   return pool.slice(0, SIZE);
 }
 
-function buildOptions(word: WordEntry, knowLang: string): string[] {
-  const correct = getWordInLang(word, knowLang);
+function buildOptions(word: WordEntry, knowLang: Code): string[] {
+  const correct = entryFor(knowLang, word).word;
   const pool = _shuf(W.slice() as unknown as WordEntry[]);
   const wrongs: string[] = [];
   const used: Record<string, boolean> = { [word[0].toLowerCase()]: true };
@@ -158,7 +31,7 @@ function buildOptions(word: WordEntry, knowLang: string): string[] {
     const k = pool[i][0].toLowerCase();
     if (used[k]) continue;
     used[k] = true;
-    const opt = getWordInLang(pool[i], knowLang);
+    const opt = entryFor(knowLang, pool[i]).word;
     if (!opt || opt === correct) continue;
     wrongs.push(opt);
   }
@@ -170,7 +43,7 @@ type Result = { correct: boolean; chosen: string; correctAnswer: string } | null
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openListening(): void {
+export function openListening(): void {
   _open?.();
 }
 function closeListening(): void {
@@ -201,7 +74,7 @@ export function ListeningPage(): ReactElement {
 
   const playWord = (): void => {
     if (!word) return;
-    const learnWord = getWordInLang(word, getLearnLang());
+    const learnWord = entryFor(getLearnLang(), word).word;
     try {
       speak(learnWord || word[0], playBtnRef.current as HTMLElement);
     } catch (e) {
@@ -288,7 +161,7 @@ export function ListeningPage(): ReactElement {
 
   const selectOption = (opt: string): void => {
     if (!word || result) return;
-    const correct = getWordInLang(word, getKnowLang());
+    const correct = entryFor(getKnowLang(), word).word;
     if (opt === correct) {
       setOk((o) => o + 1);
       setResult({ correct: true, chosen: opt, correctAnswer: correct });
@@ -446,12 +319,12 @@ export function ListeningPage(): ReactElement {
               word &&
               (result.correct ? (
                 <span style={{ color: 'var(--success)' }}>
-                  {t('quiz.correctMsg')} — <b>{getWordInLang(word, getLearnLang()) || word[0]}</b>
+                  {t('quiz.correctMsg')} — <b>{entryFor(getLearnLang(), word).word || word[0]}</b>
                 </span>
               ) : (
                 <span style={{ color: 'var(--danger)' }}>
                   ✗ {t('listen.wrongPrefix')}{' '}
-                  <b>{getWordInLang(word, getLearnLang()) || word[0]}</b> — «{result.correctAnswer}»
+                  <b>{entryFor(getLearnLang(), word).word || word[0]}</b> — «{result.correctAnswer}»
                 </span>
               ))}
           </div>

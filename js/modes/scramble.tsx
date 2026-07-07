@@ -10,47 +10,7 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
-import {
-  esEntry,
-  frEntry,
-  itEntry,
-  ptEntry,
-  deEntry,
-  heEntry,
-  arEntry,
-  plEntry,
-  zhEntry,
-  elEntry,
-  jaEntry,
-  trEntry,
-  nlEntry,
-  viEntry,
-  hiEntry,
-  bnEntry,
-  idEntry,
-  pcmEntry,
-  koEntry,
-  faEntry,
-  swEntry,
-  msEntry,
-  thEntry,
-  azEntry,
-  roEntry,
-  huEntry,
-  csEntry,
-  kkEntry,
-  svEntry,
-  kaEntry,
-  hrEntry,
-  srEntry,
-  bsEntry,
-  bgEntry,
-  skEntry,
-  hyEntry,
-  daEntry,
-  fiEntry,
-  noEntry,
-} from '../features/mode-utils.ts';
+import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 
 const SIZE = 10;
@@ -59,93 +19,6 @@ const HINTS = 3;
 interface Tile {
   ch: string;
   used: boolean;
-}
-
-function getWordInLang(w: WordEntry, lang: string): string {
-  switch (lang) {
-    case 'ua':
-      return w[1];
-    case 'es':
-      return esEntry(w[0])?.[0] ?? '';
-    case 'fr':
-      return frEntry(w[0])?.[0] ?? '';
-    case 'it':
-      return itEntry(w[0])?.[0] ?? '';
-    case 'pt':
-      return ptEntry(w[0])?.[0] ?? '';
-    case 'de':
-      return deEntry(w[0])?.[0] ?? '';
-    case 'he':
-      return heEntry(w[0])?.[0] ?? '';
-    case 'ar':
-      return arEntry(w[0])?.[0] ?? '';
-    case 'pl':
-      return plEntry(w[0])?.[0] ?? '';
-    case 'zh':
-      return zhEntry(w[0])?.[0] ?? '';
-    case 'el':
-      return elEntry(w[0])?.[0] ?? '';
-    case 'ja':
-      return jaEntry(w[0])?.[0] ?? '';
-    case 'tr':
-      return trEntry(w[0])?.[0] ?? '';
-    case 'nl':
-      return nlEntry(w[0])?.[0] ?? '';
-    case 'vi':
-      return viEntry(w[0])?.[0] ?? '';
-    case 'hi':
-      return hiEntry(w[0])?.[0] ?? '';
-    case 'bn':
-      return bnEntry(w[0])?.[0] ?? '';
-    case 'id':
-      return idEntry(w[0])?.[0] ?? '';
-    case 'pcm':
-      return pcmEntry(w[0])?.[0] ?? '';
-    case 'ko':
-      return koEntry(w[0])?.[0] ?? '';
-    case 'fa':
-      return faEntry(w[0])?.[0] ?? '';
-    case 'sw':
-      return swEntry(w[0])?.[0] ?? '';
-    case 'ms':
-      return msEntry(w[0])?.[0] ?? '';
-    case 'th':
-      return thEntry(w[0])?.[0] ?? '';
-    case 'az':
-      return azEntry(w[0])?.[0] ?? '';
-    case 'ro':
-      return roEntry(w[0])?.[0] ?? '';
-    case 'hu':
-      return huEntry(w[0])?.[0] ?? '';
-    case 'cs':
-      return csEntry(w[0])?.[0] ?? '';
-    case 'kk':
-      return kkEntry(w[0])?.[0] ?? '';
-    case 'sv':
-      return svEntry(w[0])?.[0] ?? '';
-    case 'ka':
-      return kaEntry(w[0])?.[0] ?? '';
-    case 'hr':
-      return hrEntry(w[0])?.[0] ?? '';
-    case 'sr':
-      return srEntry(w[0])?.[0] ?? '';
-    case 'bs':
-      return bsEntry(w[0])?.[0] ?? '';
-    case 'bg':
-      return bgEntry(w[0])?.[0] ?? '';
-    case 'sk':
-      return skEntry(w[0])?.[0] ?? '';
-    case 'hy':
-      return hyEntry(w[0])?.[0] ?? '';
-    case 'da':
-      return daEntry(w[0])?.[0] ?? '';
-    case 'fi':
-      return fiEntry(w[0])?.[0] ?? '';
-    case 'no':
-      return noEntry(w[0])?.[0] ?? '';
-    default:
-      return w[0];
-  }
 }
 
 function build(): WordEntry[] {
@@ -164,7 +37,7 @@ function build(): WordEntry[] {
     );
   }
   const filtered = pool.filter((w) => {
-    const lw = getWordInLang(w, learnLang);
+    const lw = entryFor(learnLang, w).word;
     return lw.length >= 3 && lw.length <= 12;
   });
   return (filtered.length >= SIZE ? filtered : pool).slice(0, SIZE);
@@ -185,7 +58,7 @@ function shuffleWord(word: string): string[] {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openScramble(): void {
+export function openScramble(): void {
   _open?.();
 }
 function closeScramble(): void {
@@ -214,7 +87,7 @@ export function ScramblePage(): ReactElement {
 
   const setupQuestion = (d: WordEntry[], i: number): void => {
     const word = d[i];
-    const learnWord = getWordInLang(word, getLearnLang()) || word[0];
+    const learnWord = entryFor(getLearnLang(), word).word || word[0];
     const chars = shuffleWord(learnWord);
     const lett = chars.map((ch) => ({ ch, used: false }));
     setLetters(lett);
@@ -275,7 +148,7 @@ export function ScramblePage(): ReactElement {
   const check = (lett: Tile[], ans: number[]): void => {
     if (!w) return;
     const a = ans.map((i) => lett[i].ch).join('');
-    const target = (getWordInLang(w, getLearnLang()) || w[0]).toLowerCase();
+    const target = (entryFor(getLearnLang(), w).word || w[0]).toLowerCase();
     if (a === target) {
       setAnswered(true);
       if (failedThis) {
@@ -341,7 +214,7 @@ export function ScramblePage(): ReactElement {
 
   const useHint = (): void => {
     if (answered || hintsLeft <= 0 || !w) return;
-    const target = (getWordInLang(w, getLearnLang()) || w[0]).toLowerCase();
+    const target = (entryFor(getLearnLang(), w).word || w[0]).toLowerCase();
     const nextCh = target[answer.length];
     const li = letters.findIndex((tile) => !tile.used && tile.ch === nextCh);
     if (li === -1) return;
@@ -460,7 +333,7 @@ export function ScramblePage(): ReactElement {
               ref={speakBtnRef}
               onClick={() => {
                 try {
-                  speak(getWordInLang(w, getLearnLang()) || w[0], speakBtnRef.current);
+                  speak(entryFor(getLearnLang(), w).word || w[0], speakBtnRef.current);
                 } catch (e) {}
               }}
               style={{
@@ -483,7 +356,7 @@ export function ScramblePage(): ReactElement {
             <div
               style={{ fontSize: '.95rem', fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}
             >
-              {getWordInLang(w, getKnowLang()) || w[1]}
+              {entryFor(getKnowLang(), w).word || w[1]}
             </div>
             {getLearnLang() === 'en' && (
               <div style={{ fontSize: '.8rem', color: 'var(--accent2)' }}>

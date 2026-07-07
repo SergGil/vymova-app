@@ -11,48 +11,8 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak as _speak } from '../features/speech.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
-import type { WordEntry } from '../../src/types.js';
-import {
-  esEntry,
-  frEntry,
-  itEntry,
-  ptEntry,
-  deEntry,
-  heEntry,
-  arEntry,
-  plEntry,
-  zhEntry,
-  elEntry,
-  jaEntry,
-  trEntry,
-  nlEntry,
-  viEntry,
-  hiEntry,
-  bnEntry,
-  idEntry,
-  pcmEntry,
-  koEntry,
-  faEntry,
-  swEntry,
-  msEntry,
-  thEntry,
-  azEntry,
-  roEntry,
-  huEntry,
-  csEntry,
-  kkEntry,
-  svEntry,
-  kaEntry,
-  hrEntry,
-  srEntry,
-  bsEntry,
-  bgEntry,
-  skEntry,
-  hyEntry,
-  daEntry,
-  fiEntry,
-  noEntry,
-} from '../features/mode-utils.ts';
+import type { WordEntry, Code } from '../../src/types.js';
+import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 
 const N = 5;
@@ -61,95 +21,8 @@ function phaseLabels(): string[] {
   return [t('lesson.phaseFlash'), t('lesson.phaseQuiz'), t('lesson.phaseWrite')];
 }
 
-function getWordInLang(w: WordEntry, lang: string): string {
-  switch (lang) {
-    case 'ua':
-      return w[1];
-    case 'es':
-      return esEntry(w[0])?.[0] ?? '';
-    case 'fr':
-      return frEntry(w[0])?.[0] ?? '';
-    case 'it':
-      return itEntry(w[0])?.[0] ?? '';
-    case 'pt':
-      return ptEntry(w[0])?.[0] ?? '';
-    case 'de':
-      return deEntry(w[0])?.[0] ?? '';
-    case 'he':
-      return heEntry(w[0])?.[0] ?? '';
-    case 'ar':
-      return arEntry(w[0])?.[0] ?? '';
-    case 'pl':
-      return plEntry(w[0])?.[0] ?? '';
-    case 'zh':
-      return zhEntry(w[0])?.[0] ?? '';
-    case 'el':
-      return elEntry(w[0])?.[0] ?? '';
-    case 'ja':
-      return jaEntry(w[0])?.[0] ?? '';
-    case 'tr':
-      return trEntry(w[0])?.[0] ?? '';
-    case 'nl':
-      return nlEntry(w[0])?.[0] ?? '';
-    case 'vi':
-      return viEntry(w[0])?.[0] ?? '';
-    case 'hi':
-      return hiEntry(w[0])?.[0] ?? '';
-    case 'bn':
-      return bnEntry(w[0])?.[0] ?? '';
-    case 'id':
-      return idEntry(w[0])?.[0] ?? '';
-    case 'pcm':
-      return pcmEntry(w[0])?.[0] ?? '';
-    case 'ko':
-      return koEntry(w[0])?.[0] ?? '';
-    case 'fa':
-      return faEntry(w[0])?.[0] ?? '';
-    case 'sw':
-      return swEntry(w[0])?.[0] ?? '';
-    case 'ms':
-      return msEntry(w[0])?.[0] ?? '';
-    case 'th':
-      return thEntry(w[0])?.[0] ?? '';
-    case 'az':
-      return azEntry(w[0])?.[0] ?? '';
-    case 'ro':
-      return roEntry(w[0])?.[0] ?? '';
-    case 'hu':
-      return huEntry(w[0])?.[0] ?? '';
-    case 'cs':
-      return csEntry(w[0])?.[0] ?? '';
-    case 'kk':
-      return kkEntry(w[0])?.[0] ?? '';
-    case 'sv':
-      return svEntry(w[0])?.[0] ?? '';
-    case 'ka':
-      return kaEntry(w[0])?.[0] ?? '';
-    case 'hr':
-      return hrEntry(w[0])?.[0] ?? '';
-    case 'sr':
-      return srEntry(w[0])?.[0] ?? '';
-    case 'bs':
-      return bsEntry(w[0])?.[0] ?? '';
-    case 'bg':
-      return bgEntry(w[0])?.[0] ?? '';
-    case 'sk':
-      return skEntry(w[0])?.[0] ?? '';
-    case 'hy':
-      return hyEntry(w[0])?.[0] ?? '';
-    case 'da':
-      return daEntry(w[0])?.[0] ?? '';
-    case 'fi':
-      return fiEntry(w[0])?.[0] ?? '';
-    case 'no':
-      return noEntry(w[0])?.[0] ?? '';
-    default:
-      return w[0];
-  }
-}
-
-function buildQuizOptions(w: WordEntry, learnLang: string): string[] {
-  const correct = getWordInLang(w, learnLang);
+function buildQuizOptions(w: WordEntry, learnLang: Code): string[] {
+  const correct = entryFor(learnLang, w).word;
   const pool = _shuf(W.slice() as unknown as WordEntry[]);
   const wrongs: string[] = [];
   const used: Record<string, boolean> = { [w[0].toLowerCase()]: true };
@@ -158,7 +31,7 @@ function buildQuizOptions(w: WordEntry, learnLang: string): string[] {
     const k = pw[0].toLowerCase();
     if (used[k]) continue;
     used[k] = true;
-    const opt = getWordInLang(pw, learnLang);
+    const opt = entryFor(learnLang, pw).word;
     if (!opt || opt === correct) continue;
     wrongs.push(opt);
   }
@@ -179,7 +52,7 @@ function buildEnExHtml(w: WordEntry): string {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openLesson(): void {
+export function openLesson(): void {
   _open?.();
 }
 function closeLesson(): void {
@@ -338,7 +211,7 @@ export function LessonPage(): ReactElement {
     if (answered || !w) return;
     setAnswered(true);
     setSelected(opt);
-    const correct = getWordInLang(w, getLearnLang());
+    const correct = entryFor(getLearnLang(), w).word;
     if (opt === correct) {
       setScores((s) => {
         const ns = [...s];
@@ -369,7 +242,7 @@ export function LessonPage(): ReactElement {
     if (phase !== 2 || answered || !w) return;
     const learnLang = getLearnLang();
     const inp = input.trim().toLowerCase();
-    const correctWord = getWordInLang(w, learnLang);
+    const correctWord = entryFor(learnLang, w).word;
     const correct = correctWord.toLowerCase();
     const ok = inp === correct || (correct.length > 3 && lev(inp, correct) <= 1);
     setAnswered(true);
@@ -540,7 +413,7 @@ export function LessonPage(): ReactElement {
                 wordBreak: 'break-word',
               }}
             >
-              {phase === 0 ? getWordInLang(w, learnLang) : getWordInLang(w, knowLang)}
+              {phase === 0 ? entryFor(learnLang, w).word : entryFor(knowLang, w).word}
               {phase === 0 && learnLang === 'en' && (
                 <button
                   className="mode-speak"
@@ -560,7 +433,7 @@ export function LessonPage(): ReactElement {
             {phase === 0 && flipped && (
               <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid var(--border)' }}>
                 <div style={{ fontSize: '1.15rem', fontWeight: 600, color: 'var(--accent)' }}>
-                  {getWordInLang(w, knowLang)}
+                  {entryFor(knowLang, w).word}
                 </div>
                 <div
                   className="ex-en"
@@ -590,7 +463,7 @@ export function LessonPage(): ReactElement {
           {phase === 1 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 10 }}>
               {options.map((opt, i) => {
-                const correctOpt = w ? getWordInLang(w, learnLang) : '';
+                const correctOpt = w ? entryFor(learnLang, w).word : '';
                 let cls = 'quiz-option';
                 if (selected) {
                   if (opt === selected) cls += opt === correctOpt ? ' correct' : ' wrong';
