@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { entryFor, ensureLangTableLoaded } from '../js/features/mode-utils.ts';
+import { ALL_TARGET_LANGS } from '../src/types.js';
 import type { WordEntry } from '../src/types.js';
 
 // Regression test for a real, confirmed gap found while documenting
@@ -100,10 +101,21 @@ describe('Vietnamese is wired into every per-mode translation switch', () => {
   });
 });
 
-describe("app.ts hydrates Vietnamese known-words at startup", () => {
-  it("imports loadKnownVi and calls setKnownWords('vi', loadKnownVi())", () => {
+describe('app.ts hydrates every TargetLang (incl. Vietnamese) known-words at startup', () => {
+  // Was previously a hand-maintained list of 39 setKnownWords('xx', loadKnownXx())
+  // calls in js/app.ts — the exact bug class that made 'vi' silently drop out
+  // (loadKnownVi() existed, but nobody added the matching setKnownWords call).
+  // Now app.ts loops over ALL_TARGET_LANGS with a single generic
+  // loadKnownLang(lang), so a new language only needs registering in
+  // src/types.ts (already type-checked elsewhere) to be hydrated correctly —
+  // there is no separate per-language call left to forget.
+  it('loops over ALL_TARGET_LANGS calling setKnownWords(lang, loadKnownLang(lang))', () => {
     const src = read('js/app.ts');
-    expect(src).toContain('loadKnownVi');
-    expect(src).toContain("setKnownWords('vi', loadKnownVi())");
+    expect(src).toContain('for (const lang of ALL_TARGET_LANGS)');
+    expect(src).toContain('setKnownWords(lang, loadKnownLang(lang))');
+  });
+
+  it("'vi' is registered in ALL_TARGET_LANGS, so the loop above covers it", () => {
+    expect(ALL_TARGET_LANGS).toContain('vi');
   });
 });

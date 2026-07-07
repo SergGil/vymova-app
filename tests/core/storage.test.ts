@@ -4,8 +4,8 @@ import {
   _lzLoad,
   saveKnown,
   loadKnown,
-  saveKnownEs,
-  loadKnownEs,
+  saveKnownLang,
+  loadKnownLang,
   saveSRS,
   loadSRS,
 } from '../../js/core/storage.ts';
@@ -127,12 +127,12 @@ describe('saveKnown() + loadKnown()', () => {
   });
 });
 
-// ── saveKnownEs / loadKnownEs ─────────────────────────────────
-describe('saveKnownEs() + loadKnownEs()', () => {
+// ── saveKnownLang / loadKnownLang ─────────────────────────────
+describe("saveKnownLang('es', ...) + loadKnownLang('es')", () => {
   it('round-trips a populated Set', () => {
     const known = new Set(['hablar', 'correr', 'vivir']);
-    saveKnownEs(known);
-    const loaded = loadKnownEs();
+    saveKnownLang('es', known);
+    const loaded = loadKnownLang('es');
     expect(loaded.size).toBe(3);
     expect(loaded.has('hablar')).toBe(true);
     expect(loaded.has('correr')).toBe(true);
@@ -140,23 +140,23 @@ describe('saveKnownEs() + loadKnownEs()', () => {
   });
 
   it('round-trips an empty Set', () => {
-    saveKnownEs(new Set());
-    const loaded = loadKnownEs();
+    saveKnownLang('es', new Set());
+    const loaded = loadKnownLang('es');
     expect(loaded.size).toBe(0);
   });
 
   it('returns empty Set when nothing is stored', () => {
-    const loaded = loadKnownEs();
+    const loaded = loadKnownLang('es');
     expect(loaded).toBeInstanceOf(Set);
     expect(loaded.size).toBe(0);
   });
 
   it('is stored independently from ew_known', () => {
     saveKnown(new Set(['apple', 'banana']));
-    saveKnownEs(new Set(['manzana', 'plátano']));
+    saveKnownLang('es', new Set(['manzana', 'plátano']));
 
     const en = loadKnown();
-    const es = loadKnownEs();
+    const es = loadKnownLang('es');
 
     expect(en.has('apple')).toBe(true);
     expect(en.has('manzana')).toBe(false);
@@ -166,11 +166,21 @@ describe('saveKnownEs() + loadKnownEs()', () => {
 
   it('clearing ew_known does not affect ew_known_es', () => {
     saveKnown(new Set(['apple']));
-    saveKnownEs(new Set(['manzana']));
+    saveKnownLang('es', new Set(['manzana']));
 
     saveKnown(new Set()); // clear EN known
     expect(loadKnown().size).toBe(0);
-    expect(loadKnownEs().has('manzana')).toBe(true); // ES untouched
+    expect(loadKnownLang('es').has('manzana')).toBe(true); // ES untouched
+  });
+
+  it('is stored independently per language (e.g. fr vs es)', () => {
+    saveKnownLang('es', new Set(['manzana']));
+    saveKnownLang('fr', new Set(['pomme']));
+
+    expect(loadKnownLang('es').has('manzana')).toBe(true);
+    expect(loadKnownLang('es').has('pomme')).toBe(false);
+    expect(loadKnownLang('fr').has('pomme')).toBe(true);
+    expect(loadKnownLang('fr').has('manzana')).toBe(false);
   });
 });
 

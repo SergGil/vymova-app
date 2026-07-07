@@ -4,8 +4,8 @@ import {
   _lzLoad,
   saveKnown,
   loadKnown,
-  saveKnownEs,
-  loadKnownEs,
+  saveKnownLang,
+  loadKnownLang,
 } from '../../js/core/storage.ts';
 
 // ── localStorage mock ─────────────────────────────────────────
@@ -96,16 +96,16 @@ describe('ew_known and ew_known_es are stored at separate keys', () => {
   });
 
   it('uses key ew_known_es for ES progress', () => {
-    saveKnownEs(new Set(['correr', 'caminar']));
+    saveKnownLang('es', new Set(['correr', 'caminar']));
     expect(lsMock.getItem('ew_known_es')).not.toBeNull();
   });
 
   it('both sets coexist without colliding', () => {
     saveKnown(new Set(['run', 'walk']));
-    saveKnownEs(new Set(['correr', 'caminar']));
+    saveKnownLang('es', new Set(['correr', 'caminar']));
 
     const en = loadKnown();
-    const es = loadKnownEs();
+    const es = loadKnownLang('es');
 
     expect(en.size).toBe(2);
     expect(es.size).toBe(2);
@@ -117,9 +117,9 @@ describe('ew_known and ew_known_es are stored at separate keys', () => {
 
   it('overwriting ew_known does not affect ew_known_es', () => {
     saveKnown(new Set(['a', 'b', 'c']));
-    saveKnownEs(new Set(['x', 'y']));
+    saveKnownLang('es', new Set(['x', 'y']));
     saveKnown(new Set(['only-one'])); // overwrite EN
     expect(loadKnown().size).toBe(1);
-    expect(loadKnownEs().size).toBe(2); // ES unchanged
+    expect(loadKnownLang('es').size).toBe(2); // ES unchanged
   });
 });
