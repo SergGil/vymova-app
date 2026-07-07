@@ -15,27 +15,27 @@ import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
 
 const ROUNDS = 8;
 
-function stripPunct(s: string): string {
+export function stripPunct(s: string): string {
   return s.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, '');
 }
 
-function tokenize(s: string): string[] {
+export function tokenize(s: string): string[] {
   return s.trim().split(/\s+/).filter(Boolean);
 }
 
-function findHeadwordIndex(tokens: string[], headword: string): number {
+export function findHeadwordIndex(tokens: string[], headword: string): number {
   const target = headword.toLowerCase();
   return tokens.findIndex((tok) => stripPunct(tok).toLowerCase() === target);
 }
 
-function matchCase(core: string, replacement: string): string {
+export function matchCase(core: string, replacement: string): string {
   if (core && core[0].toUpperCase() === core[0] && core[0].toLowerCase() !== core[0]) {
     return replacement.charAt(0).toUpperCase() + replacement.slice(1);
   }
   return replacement;
 }
 
-function buildToken(originalToken: string, replacementWord: string): string {
+export function buildToken(originalToken: string, replacementWord: string): string {
   const leading = originalToken.match(/^[^\p{L}\p{N}]*/u)?.[0] ?? '';
   const trailing = originalToken.match(/[^\p{L}\p{N}]*$/u)?.[0] ?? '';
   const core = originalToken.slice(leading.length, originalToken.length - trailing.length);

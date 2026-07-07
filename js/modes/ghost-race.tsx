@@ -16,13 +16,13 @@ const N = 10;
 const NUM_OPTS = 4;
 
 type Question = { w: WordEntry; prompt: string; options: string[]; correct: string };
-type GhostData = { checkpoints: number[]; total: number; ok: number };
+export type GhostData = { checkpoints: number[]; total: number; ok: number };
 
-function ghostKey(): string {
+export function ghostKey(): string {
   return `ew_ghost_best_${getLearnLang()}_${getKnowLang()}`;
 }
 
-function loadGhost(): GhostData | null {
+export function loadGhost(): GhostData | null {
   try {
     const raw = localStorage.getItem(ghostKey());
     if (!raw) return null;
@@ -40,21 +40,21 @@ function loadGhost(): GhostData | null {
 // correctly — otherwise racing to click through wrong answers as fast as
 // possible would "win", which defeats the point of a vocabulary quiz. Among
 // runs with equal accuracy, the faster one wins.
-function saveGhostIfBetter(current: GhostData, prev: GhostData | null): boolean {
+export function saveGhostIfBetter(current: GhostData, prev: GhostData | null): boolean {
   const better =
     !prev || current.ok > prev.ok || (current.ok === prev.ok && current.total < prev.total);
   if (better) localStorage.setItem(ghostKey(), JSON.stringify(current));
   return better;
 }
 
-function fmt(ms: number): string {
+export function fmt(ms: number): string {
   return (ms / 1000).toFixed(1) + t('common.secSuffix');
 }
 
 /** Fraction (0..1) of the race the ghost has covered by `elapsedMs`, based on
  * its own recorded per-question checkpoint times, linearly interpolated
  * between checkpoints so the ghost bar glides smoothly rather than jumping. */
-function ghostFraction(checkpoints: number[], elapsedMs: number): number {
+export function ghostFraction(checkpoints: number[], elapsedMs: number): number {
   const n = checkpoints.length;
   if (!n) return 0;
   if (elapsedMs >= checkpoints[n - 1]) return 1;

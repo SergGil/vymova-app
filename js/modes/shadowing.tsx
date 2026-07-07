@@ -29,7 +29,7 @@ interface SpeechRecognitionLike extends EventTarget {
   onend: (() => void) | null;
 }
 
-function getSpeechRecognitionCtor(): (new () => SpeechRecognitionLike) | null {
+export function getSpeechRecognitionCtor(): (new () => SpeechRecognitionLike) | null {
   const w = window as unknown as {
     SpeechRecognition?: new () => SpeechRecognitionLike;
     webkitSpeechRecognition?: new () => SpeechRecognitionLike;
@@ -37,11 +37,11 @@ function getSpeechRecognitionCtor(): (new () => SpeechRecognitionLike) | null {
   return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
 }
 
-function speechRecognitionSupported(): boolean {
+export function speechRecognitionSupported(): boolean {
   return getSpeechRecognitionCtor() !== null;
 }
 
-function normalizeWords(s: string): string[] {
+export function normalizeWords(s: string): string[] {
   return s
     .toLowerCase()
     .replace(/[^\p{L}\p{N}\s]/gu, '')
@@ -50,7 +50,7 @@ function normalizeWords(s: string): string[] {
     .filter(Boolean);
 }
 
-function sentenceSimilarity(target: string, spoken: string): number {
+export function sentenceSimilarity(target: string, spoken: string): number {
   const targetWords = normalizeWords(target);
   const spokenWords = new Set(normalizeWords(spoken));
   if (!targetWords.length) return 0;

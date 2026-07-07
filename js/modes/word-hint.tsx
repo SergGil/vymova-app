@@ -17,7 +17,7 @@ import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
 const ROUNDS = 8;
 const REVEAL_INTERVAL_MS = 3500;
 
-function countLetters(s: string): number {
+export function countLetters(s: string): number {
   return (s.match(/\p{L}/gu) ?? []).length;
 }
 
@@ -45,7 +45,7 @@ function buildDeck(): Round[] {
   return rounds;
 }
 
-function isAnswerCorrect(input: string, target: string): boolean {
+export function isAnswerCorrect(input: string, target: string): boolean {
   const a = input.trim().toLowerCase();
   const b = target.trim().toLowerCase();
   if (!a) return false;

@@ -16,12 +16,12 @@ import { recordModeComplete, recordModeAnswer, recordMistake } from '../features
 const NUM_OPTS = 4;
 const MAX_CHAIN = 20;
 
-type SynDict = Record<string, { word: string }[]>;
+export type SynDict = Record<string, { word: string }[]>;
 
-function getBest(lang: string): number {
+export function getBest(lang: string): number {
   return parseInt(localStorage.getItem('ew_assoc_best_' + lang) ?? '0', 10);
 }
-function setBest(lang: string, n: number): boolean {
+export function setBest(lang: string, n: number): boolean {
   if (n > getBest(lang)) {
     localStorage.setItem('ew_assoc_best_' + lang, String(n));
     return true;
@@ -33,7 +33,7 @@ function setBest(lang: string, n: number): boolean {
 // synonym words never appear as a dict key themselves. Left as-is, that made
 // the chain dead-end right after the first correct pick almost every time —
 // synonymy is symmetric, so we materialise the reverse edges once per game.
-function buildSymmetricDict(raw: SynDict): SynDict {
+export function buildSymmetricDict(raw: SynDict): SynDict {
   const out: Record<string, Map<string, { word: string }>> = {};
   const add = (key: string, val: { word: string }): void => {
     const k = key.toLowerCase();
@@ -52,7 +52,7 @@ function buildSymmetricDict(raw: SynDict): SynDict {
   return result;
 }
 
-function wordPoolFor(dict: SynDict): string[] {
+export function wordPoolFor(dict: SynDict): string[] {
   const set = new Set<string>();
   for (const [k, members] of Object.entries(dict)) {
     set.add(k);
@@ -75,9 +75,9 @@ function translationFor(word: string): string {
   return entryFor(getKnowLang(), entry).word || '';
 }
 
-type Step = { current: string; correct: string; options: string[] };
+export type Step = { current: string; correct: string; options: string[] };
 
-function buildStep(
+export function buildStep(
   dict: SynDict,
   pool: string[],
   current: string,

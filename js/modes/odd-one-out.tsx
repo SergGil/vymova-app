@@ -17,15 +17,15 @@ const ROUNDS = 8;
 const GROUP_SIZE = 4;
 const GENERIC_CATEGORY = '🔤 Загальна лексика';
 
-type Choice = { entry: WordEntry; label: string; translation: string };
-type Round = {
+export type Choice = { entry: WordEntry; label: string; translation: string };
+export type Round = {
   choices: Choice[];
   oddIndex: number;
   mainCategory: string;
   oddCategory: string;
 };
 
-function wordsForCategory(cat: string): WordEntry[] {
+export function wordsForCategory(cat: string): WordEntry[] {
   const idx = getWordIndex();
   if (!idx) return [];
   return (WORD_CATEGORIES[cat] ?? [])
@@ -34,7 +34,7 @@ function wordsForCategory(cat: string): WordEntry[] {
     .filter(Boolean);
 }
 
-function toChoice(w: WordEntry): Choice {
+export function toChoice(w: WordEntry): Choice {
   const learnLang = getLearnLang();
   const knowLang = getKnowLang();
   return {
@@ -44,7 +44,7 @@ function toChoice(w: WordEntry): Choice {
   };
 }
 
-function buildRoundForMain(mainCat: string): Round | null {
+export function buildRoundForMain(mainCat: string): Round | null {
   const mainWords = _shuf(wordsForCategory(mainCat));
   if (mainWords.length < GROUP_SIZE) return null;
   const group = mainWords.slice(0, GROUP_SIZE);
@@ -64,7 +64,7 @@ function buildRoundForMain(mainCat: string): Round | null {
   return null;
 }
 
-function buildDeck(): Round[] {
+export function buildDeck(): Round[] {
   const rounds: Round[] = [];
   const cats = _shuf(CATEGORY_LIST.filter((c) => c !== GENERIC_CATEGORY));
   for (const mainCat of cats) {

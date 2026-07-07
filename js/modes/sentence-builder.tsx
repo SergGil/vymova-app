@@ -21,15 +21,15 @@ interface Tile {
   used: boolean;
 }
 
-function tokenize(s: string): string[] {
+export function tokenize(s: string): string[] {
   return s.trim().split(/\s+/).filter(Boolean);
 }
 
-function getExample(w: WordEntry): string {
+export function getExample(w: WordEntry): string {
   return entryFor(getLearnLang(), w).ex || w[2];
 }
 
-function build(): WordEntry[] {
+export function build(): WordEntry[] {
   const pool = _shuf(
     (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[],
   );
@@ -42,7 +42,7 @@ function build(): WordEntry[] {
   );
 }
 
-function shuffleTokens(tokens: string[]): string[] {
+export function shuffleTokens(tokens: string[]): string[] {
   if (tokens.length <= 1) return tokens.slice();
   let shuffled = _shuf(tokens);
   let tries = 0;
