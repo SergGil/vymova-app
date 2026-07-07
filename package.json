@@ -1,6 +1,6 @@
 {
   "name": "vymova",
-  "version": "1.135.0",
+  "version": "1.136.0",
   "type": "module",
   "main": "public/sw.js",
   "engines": {
@@ -29,7 +29,6 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@anthropic-ai/sdk": "^0.104.2",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.60.0",
     "@types/react": "^19.2.17",
