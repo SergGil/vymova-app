@@ -55,7 +55,7 @@ function build(): RoundData[] {
 }
 
 function roundDuration(r: RoundData): number {
-  return Math.min(90, 20 + r.possible.length * 3);
+  return Math.min(120, 30 + r.possible.length * 6);
 }
 
 describe('word-letters-logic', () => {
@@ -131,10 +131,10 @@ describe('word-letters-logic', () => {
   });
 
   describe('roundDuration()', () => {
-    it('is 20 + 3 per possible word, capped at 90', () => {
-      expect(roundDuration({ base: 'x', possible: [] })).toBe(20);
-      expect(roundDuration({ base: 'x', possible: ['a', 'b', 'c'] })).toBe(29);
-      expect(roundDuration({ base: 'x', possible: new Array(50).fill('a') })).toBe(90);
+    it('is 30 + 6 per possible word, capped at 120', () => {
+      expect(roundDuration({ base: 'x', possible: [] })).toBe(30);
+      expect(roundDuration({ base: 'x', possible: ['a', 'b', 'c'] })).toBe(48);
+      expect(roundDuration({ base: 'x', possible: new Array(50).fill('a') })).toBe(120);
     });
   });
 });

@@ -65,7 +65,7 @@ function build(): RoundData[] {
 }
 
 function roundDuration(r: RoundData): number {
-  return Math.min(90, 20 + r.possible.length * 3);
+  return Math.min(120, 30 + r.possible.length * 6);
 }
 
 let _open: (() => void) | null = null;
