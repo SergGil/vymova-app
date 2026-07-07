@@ -122,10 +122,23 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
               <div className="mistake-review-back">
                 <div className="mistake-review-trans">{card!.entry[1]}</div>
                 {card!.entry[2] && (
-                  <div
-                    className="mistake-review-ex"
-                    dangerouslySetInnerHTML={{ __html: card!.entry[2] }}
-                  />
+                  <div className="mistake-review-ex-row">
+                    <div
+                      className="mistake-review-ex"
+                      dangerouslySetInnerHTML={{ __html: card!.entry[2] }}
+                    />
+                    <button
+                      type="button"
+                      className="mistake-review-speak mistake-review-speak-ex"
+                      title={t('cards.pronounce')}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        speak(card!.entry[2], e.currentTarget);
+                      }}
+                    >
+                      🔊
+                    </button>
+                  </div>
                 )}
               </div>
             </div>

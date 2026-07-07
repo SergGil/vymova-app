@@ -596,7 +596,7 @@ select:focus {
   display: block;
   font-size: 0.72rem;
   font-style: italic;
-  color: var(--accent2);
+  color: var(--text2);
   margin-bottom: 4px;
 }
 .transl {
@@ -2783,8 +2783,8 @@ body.dark .btn-quiz {
   line-height: 1.3;
 }
 .quiz-option:hover:not(:disabled) {
-  border-color: #7b5ea7;
-  background: #f9f5ff;
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--card));
 }
 body.dark .quiz-option:hover:not(:disabled) {
   background: rgba(155, 89, 182, 0.1);
@@ -3249,10 +3249,22 @@ body.dark .cat-select-btn:hover {
   color: var(--text, #222);
   margin-bottom: 8px;
 }
+.mistake-review-ex-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 6px;
+}
 .mistake-review-ex {
   font-size: .82rem;
   color: var(--text2, #666);
   line-height: 1.45;
+}
+.mistake-review-speak-ex {
+  flex-shrink: 0;
+  font-size: 1rem;
+  margin-bottom: 0;
+  margin-top: 1px;
 }
 .mistake-review-actions {
   display: flex;
@@ -7173,7 +7185,7 @@ body.dark .usage-note-box.etymology-note {
 }
 .sense-pos {
   font-style: italic;
-  color: var(--accent2);
+  color: var(--text2);
   font-size: 0.72rem;
 }
 .sense-translation {
