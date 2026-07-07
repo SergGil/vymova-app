@@ -73,21 +73,22 @@ describe('assoc-chain-logic', () => {
     };
     const pool = wordPoolFor(dict);
 
-    it('returns null when the current word has no synonyms in the dict', () => {
-      expect(buildStep(dict, pool, 'nonexistent', new Set())).toBeNull();
+    it('returns null when the current word has no synonyms or antonyms in the dict', () => {
+      expect(buildStep(dict, null, pool, 'nonexistent', new Set())).toBeNull();
     });
 
     it('picks a correct answer that is an actual synonym of the current word', () => {
-      const step = buildStep(dict, pool, 'big', new Set(['big']));
+      const step = buildStep(dict, null, pool, 'big', new Set(['big']));
       expect(step).not.toBeNull();
       expect(['large', 'huge']).toContain(step!.correct);
       expect(step!.options).toContain(step!.correct);
+      expect(step!.kind).toBe('syn');
     });
 
     it('prefers unvisited synonyms over ones already used in this chain', () => {
       // "big" has two synonyms; once "large" is visited, the only unvisited
       // option left is "huge" — the step must not loop back to "large".
-      const step = buildStep(dict, pool, 'big', new Set(['big', 'large']));
+      const step = buildStep(dict, null, pool, 'big', new Set(['big', 'large']));
       expect(step!.correct).toBe('huge');
     });
 
@@ -95,13 +96,27 @@ describe('assoc-chain-logic', () => {
       // Regression guard: an earlier version fell back to reusing a visited
       // synonym here, which let short chains (e.g. big <-> large/huge) cycle
       // the same 2-3 words indefinitely instead of ending as documented.
-      const step = buildStep(dict, pool, 'big', new Set(['big', 'large', 'huge']));
+      const step = buildStep(dict, null, pool, 'big', new Set(['big', 'large', 'huge']));
       expect(step).toBeNull();
     });
 
     it('never includes the current word itself among the wrong options', () => {
-      const step = buildStep(dict, pool, 'happy', new Set(['happy']));
+      const step = buildStep(dict, null, pool, 'happy', new Set(['happy']));
       expect(step!.options).not.toContain('happy');
+    });
+
+    it('falls back to an antonym when the synonym side is exhausted but an antonym is still available', () => {
+      const antDict: SynDict = { big: [{ word: 'small' }] };
+      const step = buildStep(dict, antDict, pool, 'big', new Set(['big', 'large', 'huge']));
+      expect(step).not.toBeNull();
+      expect(step!.kind).toBe('ant');
+      expect(step!.correct).toBe('small');
+    });
+
+    it('returns null once both synonyms and antonyms are exhausted', () => {
+      const antDict: SynDict = { big: [{ word: 'small' }] };
+      const step = buildStep(dict, antDict, pool, 'big', new Set(['big', 'large', 'huge', 'small']));
+      expect(step).toBeNull();
     });
   });
 

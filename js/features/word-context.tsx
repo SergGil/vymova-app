@@ -7,6 +7,7 @@ import { getWordIndex } from '../core/word-index.ts';
 import { searchCollocations } from '../../data/collocations.ts';
 import { WORD_FAMILIES_BY_LANG, WORD_FAMILY_REVERSE_BY_LANG } from '../../data/word-families.ts';
 import { SYNONYMS_BY_LANG, SYNONYM_REVERSE_BY_LANG } from '../../data/synonyms.ts';
+import { ANTONYMS_BY_LANG, ANTONYM_REVERSE_BY_LANG } from '../../data/antonyms.ts';
 import { getEtymologyFact } from '../../data/etymology.ts';
 import { USAGE_NOTES_BY_LANG } from '../../data/usage-notes.ts';
 import { W } from '../../data/words.js';
@@ -212,6 +213,75 @@ export function SynonymsChips(): ReactElement | null {
             <div
               key={c.word}
               className={'sim-chip syn-chip' + (isKnown ? ' known-chip' : '')}
+              style={clickable ? undefined : { cursor: 'default' }}
+              onClick={
+                clickable
+                  ? (e) => {
+                      e.stopPropagation();
+                      if (entry) openWordDetail(entry);
+                    }
+                  : undefined
+              }
+            >
+              <span className="sc-word">{c.word}</span>
+              {c.note ? (
+                <span className="sc-transl">{c.note}</span>
+              ) : transl ? (
+                <span className="sc-transl">{transl}</span>
+              ) : null}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export function AntonymsChips(): ReactElement | null {
+  useStateVersion();
+  const cw = getCwSnapshot() as WordEntry | null;
+  if (!cw || !getFlippedSnapshot()) return null;
+
+  const { front, back } = parsePair(getMode());
+  const dict = ANTONYMS_BY_LANG[front];
+  if (!dict) return null;
+  const frontWord = headwordFor(front, cw);
+  if (!frontWord) return null;
+  const word = frontWord.toLowerCase();
+
+  let members = dict[word];
+  let head = word;
+  if (!members) {
+    const base = ANTONYM_REVERSE_BY_LANG[front]?.get(word);
+    if (base) {
+      members = dict[base];
+      head = base;
+    }
+  }
+  if (!members) return null;
+
+  const chips = [{ word: head, note: undefined as string | undefined }, ...members].filter(
+    (c) => c.word !== word,
+  );
+  if (!chips.length) return null;
+
+  const wordIdx = getWordIndex();
+
+  return (
+    <div className="similar-section" id="cb-antonyms" style={{ margin: '14px 0 0' }}>
+      <div className="similar-title">{t('cards.antonymsTitle')}</div>
+      <div className="similar-chips" id="cb-antonym-chips">
+        {chips.slice(0, 6).map((c) => {
+          const headEn = _headEnFor(front, c.word);
+          const wi = headEn !== undefined && headEn !== null ? wordIdx?.get(headEn) : undefined;
+          const entry = wi !== undefined ? (W[wi] as unknown as WordEntry) : null;
+          const clickable = !!entry;
+          const transl = entry ? headwordFor(back, entry) : '';
+          const isKnown = headEn ? getKnownSnapshot('en').has(headEn) : false;
+          return (
+            <div
+              key={c.word}
+              className={'sim-chip ant-chip' + (isKnown ? ' known-chip' : '')}
               style={clickable ? undefined : { cursor: 'default' }}
               onClick={
                 clickable

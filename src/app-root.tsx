@@ -55,6 +55,7 @@ import {
   WordFamiliesChips,
   CollocationsSection,
   SynonymsChips,
+  AntonymsChips,
   EtymologyNote,
   UsageNoteBox,
 } from '../js/features/word-context.tsx';
@@ -238,6 +239,9 @@ function AppRoot(): ReactElement {
       </Portal>
       <Portal id="synonyms-mount">
         <SynonymsChips />
+      </Portal>
+      <Portal id="antonyms-mount">
+        <AntonymsChips />
       </Portal>
       <Portal id="etymology-mount">
         <EtymologyNote />

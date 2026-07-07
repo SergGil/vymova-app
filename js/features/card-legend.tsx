@@ -20,6 +20,7 @@ const ITEMS: { icon: string; key: string }[] = [
   { icon: '🧩', key: 'similar' },
   { icon: '🌱', key: 'family' },
   { icon: '🔄', key: 'synonyms' },
+  { icon: '↔️', key: 'antonyms' },
   { icon: '🔗', key: 'collocations' },
 ];
 

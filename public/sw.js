@@ -1,4 +1,4 @@
-﻿var CACHE = 'ew-v42';
+﻿var CACHE = 'ew-v43';
 
 self.addEventListener('install', function(e) {
   self.skipWaiting();

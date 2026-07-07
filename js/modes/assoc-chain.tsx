@@ -1,11 +1,14 @@
 // Vymova — js/modes/assoc-chain.tsx
-// 🔗🧠 Association Chain: pick a synonym, then a synonym of that, and so on —
-// one wrong pick (or running out of further synonyms) ends the chain.
+// 🔗🧠 Association Chain: pick a synonym OR an antonym (whichever the current
+// word has unvisited options for — chosen at random when both are
+// available), then do the same for that word, and so on — one wrong pick
+// (or running out of further synonyms/antonyms) ends the chain.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words.js';
 import { getWordIndex } from '../core/word-index.ts';
 import { SYNONYMS_BY_LANG } from '../../data/synonyms.ts';
+import { ANTONYMS_BY_LANG } from '../../data/antonyms.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor, isTargetLang, reverseHeadwordFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
@@ -75,19 +78,35 @@ function translationFor(word: string): string {
   return entryFor(getKnowLang(), entry).word || '';
 }
 
-export type Step = { current: string; correct: string; options: string[] };
+export type StepKind = 'syn' | 'ant';
+export type Step = { current: string; correct: string; options: string[]; kind: StepKind };
 
+// `antDict` may be null (language has no antonym data yet — see
+// data/antonyms.ts) — buildStep then behaves exactly as it always did,
+// synonym-only. When both dicts have unvisited options for `current`, the
+// kind is chosen at random each hop, so a chain naturally mixes "pick a
+// synonym" and "pick an antonym" steps.
 export function buildStep(
-  dict: SynDict,
+  synDict: SynDict,
+  antDict: SynDict | null,
   pool: string[],
   current: string,
   visited: Set<string>,
 ): Step | null {
-  const entries = dict[current.toLowerCase()];
-  if (!entries || !entries.length) return null;
-  const unvisited = entries.filter((e) => !visited.has(e.word.toLowerCase()));
-  if (!unvisited.length) return null;
-  const correct = _shuf(unvisited)[0].word;
+  const key = current.toLowerCase();
+  const synUnvisited = (synDict[key] ?? []).filter((e) => !visited.has(e.word.toLowerCase()));
+  const antUnvisited = (antDict?.[key] ?? []).filter((e) => !visited.has(e.word.toLowerCase()));
+  if (!synUnvisited.length && !antUnvisited.length) return null;
+
+  const kind: StepKind =
+    synUnvisited.length && antUnvisited.length
+      ? _shuf<StepKind>(['syn', 'ant'])[0]
+      : synUnvisited.length
+        ? 'syn'
+        : 'ant';
+  const candidates = kind === 'syn' ? synUnvisited : antUnvisited;
+  const correct = _shuf(candidates)[0].word;
+
   const used = new Set([current.toLowerCase(), correct.toLowerCase()]);
   const wrongs: string[] = [];
   for (const cand of _shuf(pool)) {
@@ -97,7 +116,7 @@ export function buildStep(
     wrongs.push(cand);
   }
   if (wrongs.length < NUM_OPTS - 1) return null;
-  return { current, correct, options: _shuf([correct, ...wrongs]) };
+  return { current, correct, options: _shuf([correct, ...wrongs]), kind };
 }
 
 let _open: (() => void) | null = null;
@@ -113,6 +132,7 @@ function closeAssocChain(): void {
 export function AssocChainPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [dict, setDict] = useState<SynDict | null>(null);
+  const [antDict, setAntDict] = useState<SynDict | null>(null);
   const [step, setStep] = useState<Step | null>(null);
   const [chain, setChain] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
@@ -133,19 +153,22 @@ export function AssocChainPage(): ReactElement {
   // silently ignoring every later language switch.
   const startGame = (): void => {
     const raw = SYNONYMS_BY_LANG[getLearnLang()] as SynDict | undefined;
+    const rawAnt = ANTONYMS_BY_LANG[getLearnLang()] as SynDict | undefined;
     const d = raw ? buildSymmetricDict(raw) : null;
+    const ad = rawAnt ? buildSymmetricDict(rawAnt) : null;
     setDict(d);
+    setAntDict(ad);
     setChain(0);
     setSelected(null);
     setOver(false);
     setIsNewBest(false);
     if (d) {
-      const pool = wordPoolFor(d);
+      const pool = [...wordPoolFor(d), ...(ad ? wordPoolFor(ad) : [])];
       const keys = Object.keys(d);
       let s: Step | null = null;
       for (const start of _shuf(keys)) {
         visitedRef.current = new Set([start.toLowerCase()]);
-        s = buildStep(d, pool, start, visitedRef.current);
+        s = buildStep(d, ad, pool, start, visitedRef.current);
         if (s) break;
       }
       setStep(s);
@@ -220,8 +243,8 @@ export function AssocChainPage(): ReactElement {
         return;
       }
       visitedRef.current.add(opt.toLowerCase());
-      const pool = wordPoolFor(dict);
-      const next = buildStep(dict, pool, opt, visitedRef.current);
+      const pool = [...wordPoolFor(dict), ...(antDict ? wordPoolFor(antDict) : [])];
+      const next = buildStep(dict, antDict, pool, opt, visitedRef.current);
       if (next) setStep(next);
       else finish(newChain, false);
     }, 700);
@@ -311,7 +334,7 @@ export function AssocChainPage(): ReactElement {
                 marginBottom: 6,
               }}
             >
-              {t('assoc.prompt')}
+              {step.kind === 'ant' ? t('assoc.promptAnt') : t('assoc.prompt')}
             </div>
             <div
               data-testid="assoc-current-word"
