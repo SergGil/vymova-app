@@ -119,11 +119,16 @@ export function AssocChainPage(): ReactElement {
   const [over, setOver] = useState(false);
   const [isNewBest, setIsNewBest] = useState(false);
 
-  const learnLang = getLearnLang();
   const visitedRef = useRef<Set<string>>(new Set());
 
+  // Read fresh on every call (not hoisted to a component-level const) —
+  // startGame() is only ever invoked through _open, which is assigned once
+  // in a mount-only effect below and never reassigned again for the
+  // lifetime of this (persistently-mounted) page. A hoisted `learnLang`
+  // would freeze this to whatever language was selected at first mount,
+  // silently ignoring every later language switch.
   const startGame = (): void => {
-    const raw = SYNONYMS_BY_LANG[learnLang] as SynDict | undefined;
+    const raw = SYNONYMS_BY_LANG[getLearnLang()] as SynDict | undefined;
     const d = raw ? buildSymmetricDict(raw) : null;
     setDict(d);
     setChain(0);
@@ -161,7 +166,6 @@ export function AssocChainPage(): ReactElement {
       _open = null;
       _close = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -176,7 +180,7 @@ export function AssocChainPage(): ReactElement {
 
   const finish = (finalChain: number): void => {
     setOver(true);
-    setIsNewBest(setBest(learnLang, finalChain));
+    setIsNewBest(setBest(getLearnLang(), finalChain));
     try {
       recordModeComplete('assoc');
     } catch (e) {}
@@ -235,7 +239,7 @@ export function AssocChainPage(): ReactElement {
             🔗 {t('assoc.title')}
           </div>
           <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginTop: 2 }}>
-            {t('assoc.best')}: {getBest(learnLang)}
+            {t('assoc.best')}: {getBest(getLearnLang())}
           </div>
         </div>
         <button
@@ -304,7 +308,10 @@ export function AssocChainPage(): ReactElement {
             >
               {t('assoc.prompt')}
             </div>
-            <div style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text)' }}>
+            <div
+              data-testid="assoc-current-word"
+              style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text)' }}
+            >
               {step.current}
             </div>
             {translationFor(step.current) && (
