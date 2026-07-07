@@ -336,6 +336,8 @@
   "mode.wordhint": "Indice du mot",
   "mode.shadow": "Répétition",
   "mode.ghost": "Course fantôme",
+  "mode.dictation": "Écoute et écris",
+  "mode.idiomQuiz": "Quiz d'expressions",
   "modesPg.header": "🎮 Mode d'apprentissage",
   "modesPg.groupCards": "Fiches",
   "modesPg.groupGames": "Jeux",

@@ -336,6 +336,8 @@
   "mode.wordhint": "Wortandeutung",
   "mode.shadow": "Nachsprechen",
   "mode.ghost": "Geisterrennen",
+  "mode.dictation": "Hören & Tippen",
+  "mode.idiomQuiz": "Redewendungs-Quiz",
   "modesPg.header": "🎮 Lernmodus",
   "modesPg.groupCards": "Karteikarten",
   "modesPg.groupGames": "Spiele",

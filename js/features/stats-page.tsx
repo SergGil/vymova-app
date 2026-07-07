@@ -251,6 +251,8 @@ function computeModeAccuracy(): ModeRow[] {
     { key: 'wordhint', label: t('mode.wordhint'), icon: '💡' },
     { key: 'shadow', label: t('mode.shadow'), icon: '🎙️' },
     { key: 'ghost', label: t('mode.ghost'), icon: '👻' },
+    { key: 'dictation', label: t('mode.dictation'), icon: '🎧' },
+    { key: 'idiom-quiz', label: t('mode.idiomQuiz'), icon: '💬' },
   ];
   const rows: ModeRow[] = [];
   modes.forEach((m) => {

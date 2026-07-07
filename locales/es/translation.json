@@ -336,6 +336,8 @@
   "mode.wordhint": "Pista de palabra",
   "mode.shadow": "Repetición",
   "mode.ghost": "Carrera fantasma",
+  "mode.dictation": "Escucha y escribe",
+  "mode.idiomQuiz": "Quiz de modismos",
   "modesPg.header": "🎮 Modo de aprendizaje",
   "modesPg.groupCards": "Tarjetas",
   "modesPg.groupGames": "Juegos",

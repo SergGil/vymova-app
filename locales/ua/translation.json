@@ -414,6 +414,8 @@
   "mode.wordhint": "Підказки",
   "mode.shadow": "Диктант",
   "mode.ghost": "Гонка",
+  "mode.dictation": "Слухай і пиши",
+  "mode.idiomQuiz": "Вікторина з ідіом",
   "modesPg.header": "🎮 Режим навчання",
   "modesPg.groupCards": "Картки",
   "modesPg.groupGames": "Ігри",

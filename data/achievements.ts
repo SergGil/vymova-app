@@ -33,6 +33,8 @@ const ALL_MODE_KEYS = [
   'wordhint',
   'shadow',
   'ghost',
+  'dictation',
+  'idiom-quiz',
 ];
 
 export const ACHIEVEMENTS: Achievement[] = [
