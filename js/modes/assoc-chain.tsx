@@ -118,6 +118,10 @@ export function AssocChainPage(): ReactElement {
   const [selected, setSelected] = useState<string | null>(null);
   const [over, setOver] = useState(false);
   const [isNewBest, setIsNewBest] = useState(false);
+  // Distinguishes "you picked a wrong synonym" from "you correctly used up
+  // every synonym in this cluster" (or hit MAX_CHAIN) — both end the round,
+  // but only the first is actually a mistake, so they need different titles.
+  const [endedByMistake, setEndedByMistake] = useState(true);
 
   const visitedRef = useRef<Set<string>>(new Set());
 
@@ -178,8 +182,9 @@ export function AssocChainPage(): ReactElement {
     return () => document.removeEventListener('keydown', onKeydown);
   }, []);
 
-  const finish = (finalChain: number): void => {
+  const finish = (finalChain: number, byMistake: boolean): void => {
     setOver(true);
+    setEndedByMistake(byMistake);
     setIsNewBest(setBest(getLearnLang(), finalChain));
     try {
       recordModeComplete('assoc');
@@ -202,7 +207,7 @@ export function AssocChainPage(): ReactElement {
     recordModeAnswer('assoc', isOk);
 
     if (!isOk) {
-      setTimeout(() => finish(chain), 900);
+      setTimeout(() => finish(chain, true), 900);
       return;
     }
 
@@ -211,14 +216,14 @@ export function AssocChainPage(): ReactElement {
       setChain(newChain);
       setSelected(null);
       if (!dict || newChain >= MAX_CHAIN) {
-        finish(newChain);
+        finish(newChain, false);
         return;
       }
       visitedRef.current.add(opt.toLowerCase());
       const pool = wordPoolFor(dict);
       const next = buildStep(dict, pool, opt, visitedRef.current);
       if (next) setStep(next);
-      else finish(newChain);
+      else finish(newChain, false);
     }, 700);
   };
 
@@ -344,7 +349,11 @@ export function AssocChainPage(): ReactElement {
           <div
             style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}
           >
-            {isNewBest ? t('assoc.newBestTitle') : t('assoc.chainEndedTitle')}
+            {isNewBest
+              ? t('assoc.newBestTitle')
+              : endedByMistake
+                ? t('assoc.chainEndedTitle')
+                : t('assoc.chainCompleteTitle')}
           </div>
           <div style={{ fontSize: '.9rem', color: 'var(--text2)', marginBottom: 16 }}>
             {t('assoc.finalChain', { n: chain })}

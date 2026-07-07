@@ -485,6 +485,7 @@
   "assoc.prompt": "Обери синонім до слова:",
   "assoc.newBestTitle": "Новий рекорд!",
   "assoc.chainEndedTitle": "Ланцюжок перервано",
+  "assoc.chainCompleteTitle": "Ланцюжок завершено!",
   "assoc.finalChain": "Довжина ланцюжка: {{n}}",
   "modesPg.wordhintName": "Підказки",
   "modesPg.wordhintDesc": "Вгадай слово",
