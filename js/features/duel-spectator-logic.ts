@@ -13,10 +13,9 @@ import { setDuelScreen, setDuelRoom, getDuelRoomSnapshot } from '../../src/duel-
 import { setDuelSpecRoom, getDuelSpecRoomSnapshot } from '../../src/duel-async-store.ts';
 import type { RoomData } from './duel.ts';
 import { _genCode } from './duel-deck.ts';
+import { _getMyName, _getMyAvatar } from './duel-profile-snap.ts';
 import {
   _askCode,
-  _getMyName,
-  _getMyAvatar,
   _showLobby,
   _cancelRoom,
   renderDuel,

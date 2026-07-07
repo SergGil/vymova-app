@@ -41,8 +41,8 @@ const {
   getSelPowerups: vi.fn(() => true),
   setSelPowerups: vi.fn(),
 }));
-vi.mock('../../js/features/duel.ts', async (importOriginal) => {
-  const orig = await importOriginal<typeof import('../../js/features/duel.ts')>();
+vi.mock('../../js/features/duel-lobby-logic.ts', async (importOriginal) => {
+  const orig = await importOriginal<typeof import('../../js/features/duel-lobby-logic.ts')>();
   return {
     ...orig,
     _showInfoTooltip: showInfoTooltip,

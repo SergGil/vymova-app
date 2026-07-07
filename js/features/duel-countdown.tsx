@@ -5,7 +5,7 @@
 import type { ReactElement } from 'react';
 import { useEffect, useRef } from 'react';
 import { t } from './i18n.ts';
-import { _getCountdownData } from './duel.ts';
+import { _getCountdownData } from './duel-lobby-logic.ts';
 import { useDuelRoomState } from '../../src/duel-room-store.ts';
 
 export function DuelCountdown(): ReactElement {

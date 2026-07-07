@@ -18,14 +18,8 @@ import {
 import { setDuelRoom, getDuelRoomSnapshot } from '../../src/duel-room-store.ts';
 import type { DuelMode, Difficulty, BestOf } from './duel.ts';
 import { _genCode, _fmtCode, _buildDeck } from './duel-deck.ts';
-import {
-  DUEL_MODES,
-  _getMyName,
-  _getMyAvatar,
-  _askCode,
-  _initGame,
-  _registerAsyncStartCancelHook,
-} from './duel.ts';
+import { _getMyName, _getMyAvatar } from './duel-profile-snap.ts';
+import { DUEL_MODES, _askCode, _initGame, _registerAsyncStartCancelHook } from './duel.ts';
 
 // Dynamic import: duel-tournament-logic.ts statically imports duel-
 // tournament.tsx (the whole tournament bracket UI), which is heavy and

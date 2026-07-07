@@ -15,7 +15,7 @@ const { getCountdownData } = vi.hoisted(() => ({
     num: 3,
   })),
 }));
-vi.mock('../../js/features/duel.ts', () => ({ _getCountdownData: getCountdownData }));
+vi.mock('../../js/features/duel-lobby-logic.ts', () => ({ _getCountdownData: getCountdownData }));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

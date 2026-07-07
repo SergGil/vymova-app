@@ -33,9 +33,15 @@ vi.mock('../../js/features/duel.ts', async (importOriginal) => {
   const orig = await importOriginal<typeof import('../../js/features/duel.ts')>();
   return {
     ...orig,
+    _cancelRoom: cancelRoom,
+  };
+});
+vi.mock('../../js/features/duel-lobby-logic.ts', async (importOriginal) => {
+  const orig = await importOriginal<typeof import('../../js/features/duel-lobby-logic.ts')>();
+  return {
+    ...orig,
     createRoom,
     joinRoom,
-    _cancelRoom: cancelRoom,
   };
 });
 vi.mock('../../js/features/duel-tournament-logic.ts', () => ({

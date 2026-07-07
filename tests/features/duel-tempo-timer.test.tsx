@@ -12,8 +12,8 @@ let tempo: { visible: boolean; num: number } = { visible: false, num: 4 };
 const { getTempoData } = vi.hoisted(() => ({
   getTempoData: vi.fn(() => ({ visible: false, num: 4 })),
 }));
-vi.mock('../../js/features/duel.ts', async (importOriginal) => {
-  const orig = await importOriginal<typeof import('../../js/features/duel.ts')>();
+vi.mock('../../js/features/duel-lobby-logic.ts', async (importOriginal) => {
+  const orig = await importOriginal<typeof import('../../js/features/duel-lobby-logic.ts')>();
   return { ...orig, _getTempoData: getTempoData };
 });
 

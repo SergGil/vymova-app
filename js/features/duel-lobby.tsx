@@ -16,7 +16,8 @@ import {
   DuelKnowLangPicker,
 } from './duel-lobby-options.tsx';
 import { DuelResume } from './duel-resume.tsx';
-import { _getLobbyUIData, createRoom, joinRoom, _cancelRoom } from './duel.ts';
+import { _cancelRoom } from './duel.ts';
+import { _getLobbyUIData, createRoom, joinRoom } from './duel-lobby-logic.ts';
 import { createTournament, joinTournament } from './duel-tournament-logic.ts';
 import { joinAsSpectator } from './duel-spectator-logic.ts';
 import { createAsyncChallenge, joinAsyncChallenge } from './duel-async-challenge.ts';

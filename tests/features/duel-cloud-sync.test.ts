@@ -49,10 +49,13 @@ function _mountCodeInputDom(): void {
 async function _answerCodePrompt(code: string): Promise<void> {
   await new Promise((r) => setTimeout(r, 0)); // let _askCode() render into the overlay
   (document.getElementById('code-input-field') as HTMLInputElement).value = code;
-  document.getElementById('code-input-ok')!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  document
+    .getElementById('code-input-ok')!
+    .dispatchEvent(new MouseEvent('click', { bubbles: true }));
 }
 
-import { createRoom, joinRoom, _cancelRoom } from '../../js/features/duel.ts';
+import { _cancelRoom } from '../../js/features/duel.ts';
+import { createRoom, joinRoom } from '../../js/features/duel-lobby-logic.ts';
 import { createAsyncChallenge, _cancelAsyncStart } from '../../js/features/duel-async-challenge.ts';
 import { createTournament, _cancelTournament } from '../../js/features/duel-tournament-logic.ts';
 import { joinAsSpectator } from '../../js/features/duel-spectator-logic.ts';
@@ -122,7 +125,9 @@ describe('duel cloud sync — real Firebase-facing functions after the module sp
     const del = _calls.find((c) => c.method === 'DELETE');
     expect(del?.path).toBe(`/duel_async/${roomId}`);
     // No stray /duel_rooms/ delete for an async challenge room.
-    expect(_calls.find((c) => c.method === 'DELETE' && c.path.startsWith('/duel_rooms/'))).toBeFalsy();
+    expect(
+      _calls.find((c) => c.method === 'DELETE' && c.path.startsWith('/duel_rooms/')),
+    ).toBeFalsy();
     _cancelAsyncStart();
   });
 

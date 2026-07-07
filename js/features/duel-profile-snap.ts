@@ -1,10 +1,15 @@
 // Vymova — js/features/duel-profile-snap.ts
 // Per-profile localStorage snapshot readers used by the local duel
-// leaderboard (duel-leaderboard.tsx) and by duel.ts's _getMyName/
-// _getMyAvatar. Dependency-free leaf module (like duel-firebase.ts) —
-// pure reads of localStorage, no shared mutable state.
+// leaderboard (duel-leaderboard.tsx), plus _getMyName/_getMyAvatar — used by
+// both duel.ts (game-header/finish screens) and duel-lobby-logic.ts
+// (create/join room), which is exactly why these live in this shared leaf
+// rather than either of those two files: both already depend on this
+// module, so adding them here can't create a new cycle between them.
+// Dependency-free otherwise — pure reads of localStorage, no shared
+// mutable state.
 import * as LZString from 'lz-string';
 import { localDateStr } from '../core/today.ts';
+import { t } from './i18n.ts';
 
 const LIST_KEY = 'ew_profiles',
   ACTIVE_KEY = 'ew_active_profile';
@@ -19,6 +24,24 @@ export function _getProfiles() {
 }
 export function _getActiveId() {
   return localStorage.getItem(ACTIVE_KEY) || '';
+}
+export function _getMyName(): string {
+  try {
+    const prfs = _getProfiles();
+    const id = _getActiveId();
+    return prfs.find((x: any) => x.id === id)?.name || t('duel.player');
+  } catch (e) {
+    return t('duel.player');
+  }
+}
+export function _getMyAvatar(): string {
+  try {
+    const prfs = _getProfiles();
+    const id = _getActiveId();
+    return prfs.find((x: any) => x.id === id)?.avatar || '🧑';
+  } catch (e) {
+    return '🧑';
+  }
 }
 export function _readSnap(id: string): Record<string, string> {
   const d: Record<string, string> = {};

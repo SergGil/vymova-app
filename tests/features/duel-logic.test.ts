@@ -4,9 +4,8 @@ import {
   _canForm,
   _shuffleLetters,
   _checkWriteAnswer,
-  CHARS,
-  ROOM_SIZE,
-} from '../../js/features/duel.ts';
+} from '../../js/features/duel-word-check.ts';
+import { CHARS, ROOM_SIZE } from '../../js/features/duel-types.ts';
 import { _genCode, _fmtCode, _rng, _buildDeck } from '../../js/features/duel-deck.ts';
 
 describe('_letterCounts()', () => {

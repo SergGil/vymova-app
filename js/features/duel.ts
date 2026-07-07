@@ -3,7 +3,15 @@
 
 import { useEffect, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
-import { CHARS, ROOM_SIZE } from './duel-types.ts';
+import {
+  CHARS,
+  ROOM_SIZE,
+  TEMPO_SEC,
+  REACTIONS,
+  POWERUPS,
+  DUEL_MODES,
+  DIFFICULTIES,
+} from './duel-types.ts';
 import type {
   DuelMode,
   Difficulty,
@@ -17,23 +25,22 @@ import type {
   ResumeSessionVM,
 } from './duel-types.ts';
 import { _shuf } from '../core/srs.ts';
-import { lev } from '../core/distance.ts';
-import type { WordEntry, DuelScreen, DuelLobbyUIState } from '../../src/types.js';
+import type { WordEntry } from '../../src/types.js';
 import { t } from './i18n.ts';
 import { notifyStateChange } from '../../src/store.ts';
-import { getDuelRating, recordDuelResult } from './duel-rating.ts';
-import { DB_URL, _fbGet, _fbPatch, _fbSet } from './duel-firebase.ts';
-import { _getProfiles, _getActiveId } from './duel-profile-snap.ts';
+import { recordDuelResult } from './duel-rating.ts';
+import { _addHistory } from './duel-history-log.ts';
 import {
-  DUEL_LANG_CODES,
-  _wordInLang,
-  _dateLocale,
-  _secUnit,
-  _genCode,
-  _fmtCode,
-  _buildDeck,
-  _SCRAMBLE_POOL,
-} from './duel-deck.ts';
+  _loadSessions,
+  _saveSession,
+  _clearSession,
+  type DuelSession,
+} from './duel-session-store.ts';
+import { _getDuelScreen, _showLobby, _showCountdown, _showResult } from './duel-screen.ts';
+import { DB_URL, _fbGet, _fbPatch, _fbSet } from './duel-firebase.ts';
+import { _getMyName, _getMyAvatar } from './duel-profile-snap.ts';
+import { _letterCounts, _canForm, _shuffleLetters, _checkWriteAnswer } from './duel-word-check.ts';
+import { _wordInLang, _dateLocale, _secUnit, _buildDeck, _SCRAMBLE_POOL } from './duel-deck.ts';
 import {
   getDuelQuestionSnapshot,
   setDuelQuestionFields,
@@ -43,14 +50,11 @@ import {
   setDuelShowNextBtn,
 } from '../../src/duel-question-store.ts';
 import {
-  getDuelSelSnapshot,
   getDuelLobbyUISnapshot,
-  setSelField,
   setLobbyMsg,
   setLobbyWaiting,
   setLobbyJoinRowVisible,
   setLobbyBtn,
-  resetLobbyUI,
 } from '../../src/duel-lobby-store.ts';
 import {
   getDuelScreenSnapshot,
@@ -88,7 +92,19 @@ export type {
   DuelResultData,
   ResumeSessionVM,
 };
-export { CHARS, ROOM_SIZE };
+export { CHARS, ROOM_SIZE, TEMPO_SEC, REACTIONS, POWERUPS, DUEL_MODES, DIFFICULTIES };
+// Same reasoning: _askCode's declaration now lives in duel-dialogs.ts, but
+// duel-async-challenge.ts/duel-spectator-logic.ts/duel-tournament-logic.ts
+// keep importing it from here.
+export { _askCode } from './duel-dialogs.ts';
+// Same reasoning: _getHistory/_getRating's declarations now live in
+// duel-history-log.ts, but duel-history.tsx/duel-leaderboard.tsx keep
+// importing them from here.
+export { _getHistory, _getRating } from './duel-history-log.ts';
+// Same reasoning: _getDuelScreen/_showLobby's declarations now live in
+// duel-screen.ts, but duel-overlay.tsx/duel-spectator*.ts(x)/
+// duel-tournament*.ts(x) keep importing them from here.
+export { _getDuelScreen, _showLobby } from './duel-screen.ts';
 
 // Динамічний імпорт: sidebar.tsx має DOM-side-effects на рівні модуля,
 // а sidebar.tsx сам статично імпортує цей файл (renderDuel) — статичний
@@ -141,126 +157,12 @@ export function _registerSpecLeaveHook(fn: (() => void) | null): void {
   _specLeaveHook = fn;
 }
 
-// word-letters.tsx's DICT export is a pure derivation of W (below) with no
-// dependency of its own on the rest of that file — but word-letters.tsx
-// transitively imports combo.ts, which imports game-bar-level.tsx, and
-// game-bar-level.tsx (via sidebar.tsx) statically imports duel.ts. Importing
-// DICT from word-letters.tsx here would close that game-bar-level <-> duel
-// cycle (rollup's "Circular chunk" warning in production builds), so this
-// recomputes the same filter directly from W instead of importing it.
-let _dictSet: Set<string> | null = null;
-function _getDictSet(): Set<string> {
-  if (!_dictSet) {
-    _dictSet = new Set(
-      (W as unknown as WordEntry[])
-        .filter((w) => /^[a-z]+$/i.test(w[0]) && w[0].length >= 3 && w[0].length <= 9)
-        .map((w) => w[0].toLowerCase()),
-    );
-  }
-  return _dictSet;
-}
-
-export function _letterCounts(word: string): Record<string, number> {
-  const c: Record<string, number> = {};
-  for (const ch of word) c[ch] = (c[ch] ?? 0) + 1;
-  return c;
-}
-
-export function _canForm(word: string, base: Record<string, number>): boolean {
-  const c: Record<string, number> = {};
-  for (const ch of word) {
-    c[ch] = (c[ch] ?? 0) + 1;
-    if (c[ch] > (base[ch] ?? 0)) return false;
-  }
-  return true;
-}
-
-export function _shuffleLetters(word: string): string {
-  const orig = word.toUpperCase().split('');
-  let shuffled: string[];
-  let tries = 0;
-  do {
-    shuffled = _shuf(orig.slice());
-    tries++;
-  } while (shuffled.join('') === orig.join('') && orig.length > 1 && tries < 10);
-  return shuffled.join(' ');
-}
-
-// Pure answer-check for write/anagram/letters modes (item 32 prep, Фаза 5).
-// `val`/`ans` мають бути вже trim()+toLowerCase().
-export function _checkWriteAnswer(mode: DuelMode, val: string, ans: string): boolean {
-  if (mode === 'letters')
-    return val.length >= 3 && _canForm(val, _letterCounts(ans)) && _getDictSet().has(val);
-  return val === ans || (ans.length > 3 && lev(val, ans) <= 1);
-}
-
 // ── Constants ─────────────────────────────────────────────────
-// CHARS/ROOM_SIZE now live in duel-types.ts (re-exported below) — see that
-// file's header comment for why (circular-chunk fix).
+// CHARS/ROOM_SIZE/TEMPO_SEC/REACTIONS/POWERUPS/DUEL_MODES/DIFFICULTIES now
+// live in duel-types.ts (re-exported above) — see that file's header
+// comment for why (circular-chunk fix). NUM_OPTS stays local: it's only
+// used by _renderChoiceQ() below and nothing outside this file reads it.
 const NUM_OPTS = 4;
-export const TEMPO_SEC = 4;
-const REACTIONS = ['👍', '😅', '🔥', '😂', '🤯', '😤', '🎉', '👏'];
-
-export const POWERUPS: { id: PowerupType; icon: string }[] = [
-  { id: 'double', icon: '🎯' },
-  { id: 'skip', icon: '⏩' },
-  { id: 'freeze', icon: '🧊' },
-];
-
-export const DUEL_MODES: { id: DuelMode; icon: string }[] = [
-  { id: 'quiz', icon: '🧠' },
-  { id: 'reverse', icon: '🔄' },
-  { id: 'write', icon: '✍️' },
-  { id: 'tempo', icon: '⚡' },
-  { id: 'anagram', icon: '🔀' },
-  { id: 'letters', icon: '🔤' },
-];
-// Same single-hue sequential ramp (off var(--accent)) as the Stats page and
-// Learning Path CEFR badges, instead of a third copy of the same six
-// hardcoded hex colors that ignored all 14 custom themes.
-export const DIFFICULTIES: { id: Difficulty; label: string; color: string }[] = [
-  { id: 'mixed', label: 'Мікс', color: 'var(--text3)' },
-  { id: 'A1', label: 'A1', color: 'color-mix(in srgb, var(--accent) 35%, var(--text3))' },
-  { id: 'A2', label: 'A2', color: 'color-mix(in srgb, var(--accent) 50%, var(--text3))' },
-  { id: 'B1', label: 'B1', color: 'color-mix(in srgb, var(--accent) 65%, var(--text3))' },
-  { id: 'B2', label: 'B2', color: 'color-mix(in srgb, var(--accent) 80%, var(--text3))' },
-  { id: 'C1', label: 'C1', color: 'color-mix(in srgb, var(--accent) 92%, var(--text3))' },
-  { id: 'C2', label: 'C2', color: 'var(--accent)' },
-];
-
-// ── History & Rating (localStorage) ──────────────────────────
-// Rating storage itself lives in duel-rating.ts (a dependency-free leaf
-// module) so achievements.ts can read it without importing this whole file.
-const HIST_KEY = 'ew_duel_history';
-
-interface HistEntry {
-  date: string;
-  mode: DuelMode;
-  myScore: number;
-  oppScore: number;
-  oppName: string;
-  won: boolean;
-  category: string;
-  lang?: string;
-  knowLang?: string;
-}
-
-export function _getHistory(): HistEntry[] {
-  try {
-    return JSON.parse(localStorage.getItem(HIST_KEY) || '[]');
-  } catch (e) {
-    return [];
-  }
-}
-function _addHistory(e: HistEntry): void {
-  const h = _getHistory();
-  h.unshift(e);
-  if (h.length > 100) h.length = 100;
-  try {
-    localStorage.setItem(HIST_KEY, JSON.stringify(h));
-  } catch (e) {}
-}
-export const _getRating = getDuelRating;
 
 // ── Room state ────────────────────────────────────────────────
 let _pollTimer: ReturnType<typeof setInterval> | null = null;
@@ -278,94 +180,8 @@ export function _getFeedbackData(): { html: string; speed: string } {
 // Room/deck params kept for session persistence & resume (esp. async duels,
 // whose /duel_rooms/ doc may only contain partial data pushed by _pushScore)
 
-// ── Session persistence ───────────────────────────────────────
-const SESSION_KEY = 'ew_duel_sessions';
-const SESSION_KEY_OLD = 'ew_duel_session';
 export function _getChatHistory(): { text: string; isMe: boolean }[] {
   return getDuelChatSnapshot();
-}
-interface DuelSession {
-  roomId: string;
-  slot: 'p1' | 'p2';
-  mode: DuelMode;
-  idx: number;
-  score: number;
-  correct?: number;
-  wrong?: number;
-  flags?: (boolean | 'skip' | 'double')[];
-  chat?: { text: string; isMe: boolean }[];
-  deckLen?: number;
-  createdAt?: number;
-  seed?: number;
-  category?: string;
-  difficulty?: Difficulty;
-  maxHints?: number;
-  bestOf?: BestOf;
-  powerupsEnabled?: boolean;
-  myPowerups?: Record<PowerupType, number>;
-  oppName?: string;
-  oppAvatar?: string;
-}
-function _loadSessions(): DuelSession[] {
-  try {
-    const r = localStorage.getItem(SESSION_KEY);
-    if (r) {
-      const arr = JSON.parse(r);
-      return Array.isArray(arr) ? arr : [];
-    }
-    // Migrate from the old single-session format
-    const old = localStorage.getItem(SESSION_KEY_OLD);
-    if (old) {
-      const sess = JSON.parse(old);
-      localStorage.removeItem(SESSION_KEY_OLD);
-      if (sess?.roomId) {
-        const list = [sess];
-        _saveSessions(list);
-        return list;
-      }
-    }
-    return [];
-  } catch (e) {
-    return [];
-  }
-}
-function _saveSessions(list: DuelSession[]): void {
-  try {
-    localStorage.setItem(SESSION_KEY, JSON.stringify(list));
-  } catch (e) {}
-}
-function _saveSession(): void {
-  const room = getDuelRoomSnapshot();
-  if (!room.roomId) return;
-  const list = _loadSessions().filter((s) => s.roomId !== room.roomId);
-  list.push({
-    roomId: room.roomId,
-    slot: room.mySlot,
-    mode: room.mode,
-    idx: room.quizIdx,
-    score: room.myScore,
-    correct: room.myCorrect,
-    wrong: room.myWrong,
-    flags: room.myFlags,
-    chat: getDuelChatSnapshot(),
-    deckLen: room.quizDeck.length,
-    createdAt: room.roomCreatedAt,
-    seed: room.roomSeed,
-    category: room.roomCategory,
-    difficulty: room.roomDifficulty,
-    maxHints: room.roomMaxHints,
-    bestOf: room.bestOf,
-    powerupsEnabled: room.powerupsEnabled,
-    myPowerups: { ...room.myPowerups },
-    oppName: room.oppName,
-    oppAvatar: room.oppAvatar,
-  });
-  _saveSessions(list);
-}
-function _clearSession(roomId?: string): void {
-  const id = roomId || getDuelRoomSnapshot().roomId;
-  if (!id) return;
-  _saveSessions(_loadSessions().filter((s) => s.roomId !== id));
 }
 
 // Append one extra word to the deck when Skip is used, so skipping doesn't shorten the round
@@ -378,25 +194,6 @@ function _extendDeckOnSkip(): void {
   const src = candidates.length ? candidates : pool;
   setDuelRoom({ quizDeck: [...room.quizDeck, src[Math.floor(Math.random() * src.length)]] });
   notifyStateChange();
-}
-
-export function _getMyName(): string {
-  try {
-    const prfs = _getProfiles();
-    const id = _getActiveId();
-    return prfs.find((x: any) => x.id === id)?.name || t('duel.player');
-  } catch (e) {
-    return t('duel.player');
-  }
-}
-export function _getMyAvatar(): string {
-  try {
-    const prfs = _getProfiles();
-    const id = _getActiveId();
-    return prfs.find((x: any) => x.id === id)?.avatar || '🧑';
-  } catch (e) {
-    return '🧑';
-  }
 }
 
 // Знімок даних для duel-game-header.tsx (item 32, Фаза 5): React читає
@@ -443,24 +240,7 @@ export function _getGameHeaderData(): GameHeaderData {
   };
 }
 
-// Який екран дуелі активний (item 36, Фаза 7.4-B, під-фаза 9) — дзеркалить
-// `_showLobby`/`_showCountdown`/`_showGame`/`_showResult`/`_showTournament`/
-// spectator-view.
-export function _getDuelScreen(): DuelScreen {
-  return getDuelScreenSnapshot();
-}
-
 // ── UI refs ───────────────────────────────────────────────────
-export function _showLobby() {
-  // Always reset waiting state so the create button is never stuck
-  resetLobbyUI();
-  setDuelScreen('lobby');
-  notifyStateChange();
-}
-function _showCountdown() {
-  setDuelScreen('countdown');
-  notifyStateChange();
-}
 function _showGame(clearChat = true) {
   setDuelScreen('game');
   if (clearChat) {
@@ -470,171 +250,26 @@ function _showGame(clearChat = true) {
   }
   notifyStateChange();
 }
-// Keep the chat panel visible/usable on the finish screen so players can keep chatting.
-function _showResult() {
-  setDuelScreen('result');
-  notifyStateChange();
-}
 
-// ── Lobby pickers ─────────────────────────────────────────────
-// Геттери/сеттери для React-пікерів (item 29, Фаза 5) — createRoom/joinRoom/
-// тощо й далі читають ці значення напряму через `getDuelSelSnapshot()`
-// (item 36, Фаза 7.4-B/1), React-компоненти синхронізують свій локальний
-// useState через ці функції.
-export function _getSelMode(): DuelMode {
-  return getDuelSelSnapshot().mode;
-}
-export function _setSelMode(m: DuelMode): void {
-  setSelField('mode', m);
-  notifyStateChange();
-}
-export function _getSelCategory(): string {
-  return getDuelSelSnapshot().category;
-}
-export function _setSelCategory(c: string): void {
-  setSelField('category', c);
-  notifyStateChange();
-}
-export function _getSelDifficulty(): Difficulty {
-  return getDuelSelSnapshot().difficulty;
-}
-export function _setSelDifficulty(d: Difficulty): void {
-  setSelField('difficulty', d);
-  notifyStateChange();
-}
-export function _getSelBestOf(): BestOf {
-  return getDuelSelSnapshot().bestOf;
-}
-export function _setSelBestOf(b: BestOf): void {
-  setSelField('bestOf', b);
-  notifyStateChange();
-}
-export function _getSelMaxHints(): number {
-  return getDuelSelSnapshot().maxHints;
-}
-export function _setSelMaxHints(h: number): void {
-  setSelField('maxHints', h);
-  notifyStateChange();
-}
-export function _getSelPowerups(): boolean {
-  return getDuelSelSnapshot().powerupsEnabled;
-}
-export function _setSelPowerups(p: boolean): void {
-  setSelField('powerupsEnabled', p);
-  notifyStateChange();
-}
-export function _getSelLang(): string {
-  return getDuelSelSnapshot().lang;
-}
-export function _setSelLang(l: string): void {
-  setSelField('lang', l);
-  if (getDuelSelSnapshot().knowLang === l) {
-    setSelField('knowLang', DUEL_LANG_CODES.find((x) => x !== l) ?? 'ua');
-  }
-  notifyStateChange();
-}
-export function _getSelKnowLang(): string {
-  return getDuelSelSnapshot().knowLang;
-}
-export function _setSelKnowLang(l: string): void {
-  setSelField('knowLang', l);
-  if (getDuelSelSnapshot().lang === l) {
-    setSelField('lang', DUEL_LANG_CODES.find((x) => x !== l) ?? 'en');
-  }
-  notifyStateChange();
-}
-
-export function _showInfoTooltip(anchor: HTMLElement, type: 'hints' | 'powerups'): void {
-  const existing = document.getElementById('duel-tooltip');
-  if (existing) {
-    existing.remove();
-    return;
-  }
-
-  const content =
-    type === 'hints'
-      ? `<div style="font-weight:700;margin-bottom:6px;">${t('duel.hint.info.title')}</div>
-       <div>${t('duel.hint.info.p1')}</div>
-       <ul style="margin:6px 0 0 14px;font-size:.78rem;color:var(--text3);">
-         <li>${t('duel.hint.info.ul')}</li>
-         <li>${t('duel.hint.info.3')}</li>
-         <li>${t('duel.hint.info.1')}</li>
-       </ul>`
-      : `<div style="font-weight:700;margin-bottom:6px;">${t('duel.pu.info.title')}</div>
-       <div style="font-size:.8rem;color:var(--text2);margin-bottom:8px;">${t('duel.pu.info.desc')}</div>
-       <div style="display:flex;flex-direction:column;gap:8px;">
-         <div style="padding:8px 10px;border-radius:9px;background:rgba(0,200,100,.08);border:1px solid rgba(0,200,100,.2);">
-           🎯 <b>×2 Double</b><br>
-           <span style="font-size:.76rem;color:var(--text2);">${t('duel.pu.double.info')}</span>
-         </div>
-         <div style="padding:8px 10px;border-radius:9px;background:rgba(52,152,219,.08);border:1px solid rgba(52,152,219,.2);">
-           ⏩ <b>Skip</b><br>
-           <span style="font-size:.76rem;color:var(--text2);">${t('duel.pu.skip.info')}</span>
-         </div>
-         <div style="padding:8px 10px;border-radius:9px;background:rgba(142,68,173,.08);border:1px solid rgba(142,68,173,.2);">
-           🧊 <b>Freeze</b> <span style="font-size:.7rem;padding:1px 5px;border-radius:5px;background:rgba(230,126,34,.15);color:#e67e22;">${t('duel.pu.freeze.tag')}</span><br>
-           <span style="font-size:.76rem;color:var(--text2);">${t('duel.pu.freeze.info')}</span>
-         </div>
-       </div>`;
-
-  const tip = document.createElement('div');
-  tip.id = 'duel-tooltip';
-  tip.style.cssText =
-    'position:fixed;z-index:99999;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;max-width:280px;box-shadow:0 8px 32px rgba(0,0,0,.25);font-size:.82rem;color:var(--text);line-height:1.45;';
-  tip.innerHTML = content;
-
-  // Position near anchor
-  const rect = anchor.getBoundingClientRect();
-  document.body.appendChild(tip);
-  const tRect = tip.getBoundingClientRect();
-  let top = rect.bottom + 8;
-  let left = rect.left - tRect.width / 2 + rect.width / 2;
-  if (left < 8) left = 8;
-  if (left + tRect.width > window.innerWidth - 8) left = window.innerWidth - tRect.width - 8;
-  if (top + tRect.height > window.innerHeight - 8) top = rect.top - tRect.height - 8;
-  tip.style.top = top + 'px';
-  tip.style.left = left + 'px';
-
-  // Close on outside click
-  const close = (e: MouseEvent) => {
-    if (!tip.contains(e.target as Node)) {
-      tip.remove();
-      document.removeEventListener('click', close);
-    }
-  };
-  setTimeout(() => document.addEventListener('click', close), 10);
-}
-
-// ── Countdown ─────────────────────────────────────────────────
-// Знімок даних для duel-countdown.tsx (Фаза 9/1).
-interface CountdownData {
-  oppAvatar: string;
-  oppName: string;
-  myAvatar: string;
-  myName: string;
-  roomCode: string | null;
-  num: number;
-}
-export function _getCountdownData(): CountdownData {
-  const room = getDuelRoomSnapshot();
-  return {
-    oppAvatar: room.oppAvatar,
-    oppName: room.oppName,
-    myAvatar: _getMyAvatar(),
-    myName: _getMyName(),
-    // Show room code so p1 still has time to share it during countdown
-    roomCode: room.roomId && room.mySlot === 'p1' ? room.roomId : null,
-    num: getDuelCountdownNumSnapshot(),
-  };
-}
-
-export function _getTempoData(): { visible: boolean; num: number } {
-  return getDuelTempoSnapshot();
-}
-
-// Знімок lobby UI (Фаза 9/6), читає duel-lobby.tsx.
-export function _getLobbyUIData(): DuelLobbyUIState {
-  return getDuelLobbyUISnapshot();
+// Lobby pickers, _showInfoTooltip, countdown/tempo/lobby-UI getters,
+// _getMyName/_getMyAvatar, and createRoom/joinRoom now live in
+// duel-lobby-logic.ts (that file imports _startWaitPoll/_initGame below
+// directly; the reverse dependency for rematch goes through
+// _registerCreateRoomHook further down).
+export function _startWaitPoll(): void {
+  _pollTimer = setInterval(async () => {
+    try {
+      const room = (await _fbGet(`/duel_rooms/${getDuelRoomSnapshot().roomId}`)) as RoomData | null;
+      if (!room) return;
+      if (room.started && room.p2) {
+        clearInterval(_pollTimer!);
+        _pollTimer = null;
+        setDuelRoom({ oppName: room.p2.name, oppAvatar: room.p2.avatar });
+        notifyStateChange();
+        _initGame(room.mode, room.maxHints, room.bestOf, room.series, room.powerupsEnabled);
+      }
+    } catch (e) {}
+  }, 2000);
 }
 
 function _runCountdown(cb: () => void): void {
@@ -649,151 +284,6 @@ function _runCountdown(cb: () => void): void {
       cb();
     }
   }, 1000);
-}
-
-// ── Create / Join ─────────────────────────────────────────────
-export async function createRoom(): Promise<void> {
-  setLobbyBtn('createBtn', true);
-  notifyStateChange();
-  try {
-    const sel = getDuelSelSnapshot();
-    const roomId = _genCode();
-    setDuelRoom({ roomId, mySlot: 'p1', isAsyncChallenge: false });
-    const seed = Date.now();
-    const room: RoomData = {
-      seed,
-      mode: sel.mode,
-      category: sel.category,
-      difficulty: sel.difficulty,
-      bestOf: sel.bestOf,
-      maxHints: sel.maxHints,
-      powerupsEnabled: sel.powerupsEnabled,
-      lang: sel.lang,
-      knowLang: sel.knowLang,
-      createdAt: Date.now(),
-      started: false,
-      finished: false,
-      series: { p1wins: 0, p2wins: 0, round: 1 },
-      p1: {
-        name: _getMyName(),
-        avatar: _getMyAvatar(),
-        score: 0,
-        idx: 0,
-        done: false,
-        hintsLeft: sel.maxHints,
-        powerups: {
-          double: sel.powerupsEnabled ? 1 : 0,
-          skip: sel.powerupsEnabled ? 1 : 0,
-          freeze: sel.powerupsEnabled ? 1 : 0,
-        },
-      },
-      p2: null,
-    };
-    await _fbSet(`/duel_rooms/${roomId}`, room);
-    setDuelRoom({
-      roomCreatedAt: room.createdAt,
-      roomSeed: seed,
-      roomCategory: sel.category,
-      roomDifficulty: sel.difficulty,
-      roomMaxHints: sel.maxHints,
-      roomLang: sel.lang,
-      roomKnowLang: sel.knowLang,
-      quizDeck: _buildDeck(seed, sel.category, sel.difficulty, sel.mode, sel.lang, sel.knowLang),
-    });
-    notifyStateChange();
-    const mInfo = DUEL_MODES.find((m) => m.id === sel.mode)!;
-    const catLabel = sel.category ? ` · ${sel.category.split(' ')[0]}` : '';
-    const diff = DIFFICULTIES.find((d) => d.id === sel.difficulty);
-    const diffLabel = diff ? (diff.id === 'mixed' ? t('duel.diff.mixed') : diff.label) : '';
-    const modeLabel = `${mInfo.icon} ${t('duel.mode.' + mInfo.id)}${catLabel} · ${diffLabel}${sel.bestOf === 3 ? ' · ' + t('duel.bestOf3') : ''}`;
-    setLobbyMsg({ visible: false, text: getDuelLobbyUISnapshot().msg.text, challenge: null });
-    setLobbyWaiting({ visible: true, roomCode: _fmtCode(roomId), modeLabel });
-    setLobbyJoinRowVisible(false);
-    notifyStateChange();
-    _startWaitPoll();
-  } catch (e) {
-    setLobbyBtn('createBtn', false);
-    setLobbyMsg({ visible: true, text: '❌ ' + (e as Error).message, challenge: null });
-    notifyStateChange();
-  }
-}
-
-export async function joinRoom(rawCode: string): Promise<void> {
-  const code = rawCode.replace(/[^A-Z0-9]/gi, '').toUpperCase();
-  if (code.length < 6) {
-    setLobbyMsg({ visible: true, text: t('duel.enterCode'), challenge: null });
-    notifyStateChange();
-    return;
-  }
-  setLobbyBtn('joinBtn', true);
-  notifyStateChange();
-  try {
-    const room = (await _fbGet(`/duel_rooms/${code}`)) as RoomData | null;
-    if (!room?.seed) throw new Error(t('duel.err.notFound'));
-    if (room.p2) throw new Error(t('duel.err.taken'));
-    if (room.finished) throw new Error(t('duel.err.finished'));
-    setDuelRoom({
-      roomId: code,
-      mySlot: 'p2',
-      isAsyncChallenge: false,
-      roomCreatedAt: room.createdAt || Date.now(),
-      roomSeed: room.seed,
-      roomCategory: room.category,
-      roomDifficulty: room.difficulty,
-      roomMaxHints: room.maxHints,
-      roomLang: room.lang || 'ua',
-      roomKnowLang: room.knowLang || 'en',
-      quizDeck: _buildDeck(
-        room.seed,
-        room.category,
-        room.difficulty,
-        room.mode,
-        room.lang,
-        room.knowLang,
-      ),
-      bestOf: room.bestOf || 1,
-      series: { ...room.series },
-    });
-    await _fbPatch(`/duel_rooms/${code}`, {
-      p2: {
-        name: _getMyName(),
-        avatar: _getMyAvatar(),
-        score: 0,
-        idx: 0,
-        done: false,
-        hintsLeft: room.maxHints,
-        powerups: {
-          double: room.powerupsEnabled ? 1 : 0,
-          skip: room.powerupsEnabled ? 1 : 0,
-          freeze: room.powerupsEnabled ? 1 : 0,
-        },
-      },
-      started: true,
-    });
-    setDuelRoom({ oppName: room.p1.name, oppAvatar: room.p1.avatar });
-    notifyStateChange();
-    _initGame(room.mode, room.maxHints, room.bestOf, room.series, room.powerupsEnabled);
-  } catch (e) {
-    setLobbyBtn('joinBtn', false);
-    setLobbyMsg({ visible: true, text: '❌ ' + (e as Error).message, challenge: null });
-    notifyStateChange();
-  }
-}
-
-function _startWaitPoll(): void {
-  _pollTimer = setInterval(async () => {
-    try {
-      const room = (await _fbGet(`/duel_rooms/${getDuelRoomSnapshot().roomId}`)) as RoomData | null;
-      if (!room) return;
-      if (room.started && room.p2) {
-        clearInterval(_pollTimer!);
-        _pollTimer = null;
-        setDuelRoom({ oppName: room.p2.name, oppAvatar: room.p2.avatar });
-        notifyStateChange();
-        _initGame(room.mode, room.maxHints, room.bestOf, room.series, room.powerupsEnabled);
-      }
-    } catch (e) {}
-  }, 2000);
 }
 
 export function _initGame(
@@ -1426,10 +916,18 @@ export function _getResultData(): DuelResultData {
 // own hook at module load (mirrors game.ts's registerCheckAchievements
 // pattern) and returns true when it handled routing back to the bracket.
 let _matchFinishHook: ((roomData: RoomData) => boolean) | null = null;
-export function _registerMatchFinishHook(
-  fn: ((roomData: RoomData) => boolean) | null,
-): void {
+export function _registerMatchFinishHook(fn: ((roomData: RoomData) => boolean) | null): void {
   _matchFinishHook = fn;
+}
+
+// Same indirection for the reverse edge into duel-lobby-logic.ts: that file
+// already imports _startWaitPoll/_initGame from here, so a static import
+// back for createRoom() (needed only by the rematch flow below) would close
+// a duel <-> duel-lobby-logic chunk cycle. duel-lobby-logic.ts registers
+// itself via this hook at module load instead.
+let _createRoomHook: (() => Promise<void>) | null = null;
+export function _registerCreateRoomHook(fn: (() => Promise<void>) | null): void {
+  _createRoomHook = fn;
 }
 
 function _showFinish(roomData: RoomData): void {
@@ -1523,7 +1021,6 @@ export function _onResultNewDuel(): void {
 export function _onResultReaction(emoji: string): void {
   _sendChatMsg(emoji);
 }
-export { REACTIONS };
 
 export function _cancelRoom(): void {
   _clearSession();
@@ -1561,60 +1058,13 @@ export function _cancelRoom(): void {
   notifyStateChange();
 }
 
-// ── Reusable styled code input (replaces ugly browser prompt) ─
-export function _askCode(title: string, desc: string): Promise<string | null> {
-  return new Promise((resolve) => {
-    const overlay = document.getElementById('code-input-overlay') as HTMLElement;
-    const titleEl = document.getElementById('code-input-title')!;
-    const descEl = document.getElementById('code-input-desc')!;
-    const inp = document.getElementById('code-input-field') as HTMLInputElement;
-    const okBtn = document.getElementById('code-input-ok')!;
-    const cancelBtn = document.getElementById('code-input-cancel')!;
-
-    titleEl.textContent = title;
-    descEl.textContent = desc;
-    inp.value = '';
-    inp.placeholder = 'ABC-123';
-    overlay.style.display = 'flex';
-    setTimeout(() => inp.focus(), 80);
-
-    function _close(val: string | null): void {
-      overlay.style.display = 'none';
-      okBtn.removeEventListener('click', _ok);
-      cancelBtn.removeEventListener('click', _cancel);
-      inp.removeEventListener('keydown', _key);
-      resolve(val);
-    }
-    function _ok(): void {
-      const v = inp.value.replace(/[-\s]/g, '').toUpperCase();
-      if (v.length >= 6) _close(v);
-      else inp.style.borderColor = 'var(--danger)';
-    }
-    function _cancel(): void {
-      _close(null);
-    }
-    function _key(e: KeyboardEvent): void {
-      inp.style.borderColor = '';
-      // Auto-format: insert dash after 3rd char
-      let v = inp.value.replace(/[^A-Z0-9]/gi, '').toUpperCase();
-      if (v.length > 3) v = v.slice(0, 3) + '-' + v.slice(3);
-      inp.value = v.slice(0, 7);
-      if (e.key === 'Enter') _ok();
-      if (e.key === 'Escape') _cancel();
-    }
-    okBtn.addEventListener('click', _ok);
-    cancelBtn.addEventListener('click', _cancel);
-    inp.addEventListener('keydown', _key);
-  });
-}
-
 function _doRematch(): void {
   if (getDuelRoomSnapshot().mySlot === 'p1') {
     // p1 creates a new room — show waiting screen
     _showLobby();
     renderDuel();
     _cancelRoom();
-    createRoom();
+    _createRoomHook?.();
   } else {
     // p2 gets new code to join
     _showLobby();
@@ -1775,58 +1225,6 @@ export function _onResumeDiscard(roomId: string): void {
 export function renderDuel(): void {
   notifyStateChange();
   _tryResumeSession();
-}
-
-// ── Styled confirm dialog (replaces browser confirm()) ────────
-function _showConfirm(title: string, message: string, okLabel: string): Promise<boolean> {
-  return new Promise((resolve) => {
-    const overlay = document.getElementById('confirm-overlay') as HTMLElement | null;
-    if (!overlay) {
-      resolve(window.confirm(message));
-      return;
-    }
-    const titleEl = document.getElementById('confirm-title');
-    const msgEl = document.getElementById('confirm-message');
-    const okBtn = document.getElementById('confirm-ok') as HTMLButtonElement | null;
-    const cancelBtn = document.getElementById('confirm-cancel') as HTMLButtonElement | null;
-    if (!okBtn || !cancelBtn) {
-      resolve(window.confirm(message));
-      return;
-    }
-    if (titleEl) titleEl.textContent = title;
-    if (msgEl) msgEl.textContent = message;
-    okBtn.textContent = okLabel;
-    overlay.style.display = 'flex';
-    const ovl = overlay!,
-      ok = okBtn!,
-      cancel = cancelBtn!;
-    function _close(val: boolean): void {
-      ovl.style.display = 'none';
-      ok.removeEventListener('click', _ok);
-      cancel.removeEventListener('click', _cancel);
-      resolve(val);
-    }
-    function _ok(): void {
-      _close(true);
-    }
-    function _cancel(): void {
-      _close(false);
-    }
-    ok.addEventListener('click', _ok);
-    cancel.addEventListener('click', _cancel);
-    // Escape = cancel
-    const _key = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        _cancel();
-        document.removeEventListener('keydown', _key);
-      }
-      if (e.key === 'Enter') {
-        _ok();
-        document.removeEventListener('keydown', _key);
-      }
-    };
-    document.addEventListener('keydown', _key);
-  });
 }
 
 // ── Module-level side effects (keyboard shortcuts, sidebar nav,

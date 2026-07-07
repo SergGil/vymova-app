@@ -5,10 +5,7 @@
 // pattern) instead of duel.ts reaching into tournament-private state directly.
 import { t } from './i18n.ts';
 import { notifyStateChange } from '../../src/store.ts';
-import {
-  getDuelSelSnapshot,
-  setLobbyTournBtn,
-} from '../../src/duel-lobby-store.ts';
+import { getDuelSelSnapshot, setLobbyTournBtn } from '../../src/duel-lobby-store.ts';
 import { setDuelScreen, setDuelRoom } from '../../src/duel-room-store.ts';
 import { setDuelTournView, getDuelTournViewSnapshot } from '../../src/duel-async-store.ts';
 import type {
@@ -25,9 +22,8 @@ import type {
 export type { TournMatchVM, TournRoundVM, TournamentData };
 import { DB_URL, _fbGet, _fbPatch, _fbSet } from './duel-firebase.ts';
 import { _genCode, _fmtCode, _buildDeck } from './duel-deck.ts';
+import { _getMyName, _getMyAvatar } from './duel-profile-snap.ts';
 import {
-  _getMyName,
-  _getMyAvatar,
   _showLobby,
   _initGame,
   _askCode,
