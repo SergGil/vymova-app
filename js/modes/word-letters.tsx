@@ -150,8 +150,18 @@ export function WordLettersPage(): ReactElement {
     setFoundTotal(0);
     setCompleted(false);
     setPossibleTotal(rs.reduce((s, rr) => s + rr.possible.length, 0));
-    setupRound(rs, 0);
   };
+
+  // Sets up the tiles/timer/found-set for whichever round `idx` currently
+  // points at. Runs on every round change (including the very first one,
+  // once `rounds` is populated by startGame) — advance() only bumps `idx`,
+  // it doesn't touch round state itself, so without this effect every round
+  // after the first kept showing round 1's frozen letters/timer forever.
+  useEffect(() => {
+    if (!isOpen || !rounds.length || idx >= rounds.length) return;
+    setupRound(rounds, idx);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, rounds, idx]);
 
   useEffect(() => {
     _open = () => {
