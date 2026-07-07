@@ -28,6 +28,24 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     target: 'esnext',
+    rollupOptions: {
+      output: {
+        // data/words.js (~2.5MB, the base EN/UA dictionary) is statically
+        // imported from ~45 files across js/modes and js/features, so it
+        // can't be made a lazy import() the way data/words_<lang>.js is
+        // (see mode-utils.ts's LANG_LOADERS) — the very first card the app
+        // renders needs it, so there's no "later" to defer it to. Left
+        // alone, Rollup bundles it into whichever chunk first reaches it,
+        // which means every app-code-only deploy reshuffles that chunk's
+        // hash and forces users to re-download the dictionary even though
+        // its content didn't change. Force it into its own chunk instead,
+        // so its content hash — and the browser/service-worker cache entry
+        // for it — stays stable across deploys that don't touch word data.
+        manualChunks(id) {
+          if (id.includes('/data/words.js')) return 'words-base';
+        },
+      },
+    },
   },
   server: {
     port: 5173,
