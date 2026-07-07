@@ -12,6 +12,7 @@ import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getLearnLang, getKnowLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { orderDeckPool } from '../core/srs.ts';
 
 const ROUNDS = 8;
 
@@ -79,7 +80,7 @@ function buildRound(w: WordEntry, allWords: WordEntry[]): Round | null {
 function buildDeck(): Round[] {
   const deckWords = getDeckSnapshot();
   const distractorPool = W.slice() as unknown as WordEntry[];
-  const mainPool = _shuf(
+  const mainPool = orderDeckPool(
     (deckWords.length ? deckWords.slice() : distractorPool.slice()) as unknown as WordEntry[],
   );
   const rounds: Round[] = [];

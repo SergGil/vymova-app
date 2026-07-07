@@ -1,7 +1,7 @@
 // Vymova — js/modes/listening.tsx
 // 🔊 LISTENING MODE
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
@@ -17,10 +17,8 @@ import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
 const SIZE = 10;
 
 function build(): WordEntry[] {
-  const pool = _shuf(
-    (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as WordEntry[],
-  );
-  return pool.slice(0, SIZE);
+  const base = (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as WordEntry[];
+  return orderDeckPool(base).slice(0, SIZE);
 }
 
 function buildOptions(word: WordEntry, knowLang: Code): string[] {

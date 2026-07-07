@@ -1,7 +1,7 @@
 // Vymova — js/modes/context.tsx
 // 🔍 Context Mode: guess word meaning from context sentence
 import { useEffect, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
@@ -34,9 +34,10 @@ function hasGoodExample(w: WordEntry): boolean {
 }
 
 function build(): WordEntry[] {
-  const pool = _shuf(
-    (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[],
-  );
+  const base = (getDeckSnapshot().length
+    ? getDeckSnapshot().slice()
+    : W.slice()) as unknown as WordEntry[];
+  const pool = orderDeckPool(base);
   let deck = pool.filter(hasGoodExample).slice(0, SIZE);
   if (deck.length < 4) {
     deck = _shuf((W as unknown as WordEntry[]).filter((w) => getExample(w).length >= 15)).slice(

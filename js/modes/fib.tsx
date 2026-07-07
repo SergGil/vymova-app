@@ -1,7 +1,7 @@
 // Vymova — js/modes/fib.tsx
 // ✏️ FILL IN BLANK MODE
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { orderDeckPool } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
@@ -262,9 +262,10 @@ function makeBlank(w: WordEntry, learnLang: string = 'en'): BlankItem | null {
 
 function build(): FibEntry[] {
   const learnLang = getLearnLang();
-  const pool = _shuf(
-    (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[],
-  );
+  const base = (getDeckSnapshot().length
+    ? getDeckSnapshot().slice()
+    : W.slice()) as unknown as WordEntry[];
+  const pool = orderDeckPool(base);
   const deck: FibEntry[] = [];
   for (let i = 0; i < pool.length && deck.length < SIZE; i++) {
     const b = makeBlank(pool[i], learnLang);

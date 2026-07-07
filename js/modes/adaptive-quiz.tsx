@@ -3,7 +3,7 @@
 // the user answers the previous question. Session-only — separate from the
 // long-term SM2 scheduler in core/srs.ts, which keeps running unchanged.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
@@ -49,7 +49,7 @@ function timeLimitFor(difficulty: number): number {
 
 function buildDeck(): WordEntry[] {
   const src = getDeckSnapshot().length ? getDeckSnapshot() : (W as unknown as WordEntry[]);
-  return _shuf(src.slice()).slice(0, Math.min(AQ_SIZE, src.length));
+  return orderDeckPool(src).slice(0, Math.min(AQ_SIZE, src.length));
 }
 
 function getWrongOptions(

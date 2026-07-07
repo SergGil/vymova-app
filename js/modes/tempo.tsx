@@ -1,7 +1,7 @@
 // Vymova — js/modes/tempo.tsx
 // ⚡ TEMPO MODE
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { W } from '../../data/words.js';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
@@ -199,9 +199,9 @@ export function TempoPage(): ReactElement {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const getBaseDeck = (): WordEntry[] =>
-    getDeckSnapshot().length
-      ? _shuf(getDeckSnapshot().slice())
-      : _shuf(W.slice() as unknown as WordEntry[]);
+    orderDeckPool(
+      getDeckSnapshot().length ? getDeckSnapshot().slice() : (W.slice() as unknown as WordEntry[]),
+    );
 
   const showQuestion = (): void => {
     const r = run.current;

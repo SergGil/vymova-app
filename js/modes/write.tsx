@@ -1,7 +1,7 @@
 // Vymova — js/modes/write.tsx
 // ✍️ WRITE MODE
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
@@ -181,13 +181,13 @@ function isCorrect(inp: string, raw: string): boolean {
 }
 
 function build(src?: WordEntry[] | null): WordEntry[] {
-  const pool = _shuf(
-    (src?.length
-      ? src
-      : getDeckSnapshot().length
-        ? getDeckSnapshot().slice()
-        : W.slice()) as unknown as WordEntry[],
-  );
+  if (src?.length) {
+    return _shuf(src.slice() as unknown as WordEntry[]).slice(0, Math.min(SIZE, src.length));
+  }
+  const base = (getDeckSnapshot().length
+    ? getDeckSnapshot().slice()
+    : W.slice()) as unknown as WordEntry[];
+  const pool = orderDeckPool(base);
   return pool.slice(0, Math.min(SIZE, pool.length));
 }
 

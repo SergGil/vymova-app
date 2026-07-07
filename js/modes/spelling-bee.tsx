@@ -1,7 +1,7 @@
 // Vymova — js/modes/spelling-bee.tsx
 // 🐝 Spelling Bee: hear the word via TTS → type its spelling
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { lev } from '../core/distance.ts';
@@ -151,9 +151,10 @@ function getLangSentence(w: WordEntry, lang: string): string {
 
 function build(): WordEntry[] {
   const learnLang = getLearnLang();
-  const pool = _shuf(
-    (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[],
-  );
+  const base = (getDeckSnapshot().length
+    ? getDeckSnapshot().slice()
+    : W.slice()) as unknown as WordEntry[];
+  const pool = orderDeckPool(base);
   const filtered =
     learnLang === 'en'
       ? pool.filter((w) => w[0].length >= 4)

@@ -2,7 +2,7 @@
 // 📦 CATEGORY PAIRS MODE + WOTD + MILESTONES + WEAK WORDS
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { getWordIndex } from '../core/word-index.ts';
-import { _shuf } from '../core/srs.ts';
+import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { loadSRS } from '../core/storage.ts';
 import { WORD_CATEGORIES, CATEGORY_LIST } from '../../data/categories.js';
 import { W } from '../../data/words.js';
@@ -130,7 +130,7 @@ export function CatPairsPage(): ReactElement {
 
   const startGame = (key: string, words: WordEntry[]): void => {
     stopTick();
-    const d = _shuf(words.slice()).slice(0, Math.min(CP, words.length));
+    const d = orderDeckPool(words).slice(0, Math.min(CP, words.length));
     startRef.current = null;
     setCatKey(key);
     setDeck(d);

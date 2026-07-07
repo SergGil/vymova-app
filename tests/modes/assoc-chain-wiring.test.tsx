@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
-import { buildSymmetricDict } from '../../js/modes/assoc-chain.tsx';
+import { AssocChainPage, openAssocChain, buildSymmetricDict } from '../../js/modes/assoc-chain.tsx';
 import { SYNONYMS, SYNONYMS_ES } from '../../data/synonyms.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -19,9 +19,8 @@ const ES_KEYS = new Set(Object.keys(buildSymmetricDict(SYNONYMS_ES)));
 // this test opens the game once per language and checks the *actual*
 // rendered word each time, so it fails again if that pattern regresses.
 describe('AssocChainPage picks up the current learn language on every open (not just at first mount)', () => {
-  it('starts a new game in the newly-selected language after switching learn language mid-session', async () => {
+  it('starts a new game in the newly-selected language after switching learn language mid-session', () => {
     localStorage.setItem('ew_learn_lang', 'en');
-    const { AssocChainPage, openAssocChain } = await import('../../js/modes/assoc-chain.tsx');
 
     document.body.innerHTML = '';
     const container = document.createElement('div');

@@ -1,7 +1,7 @@
 // Vymova — js/modes/quiz.tsx
 // 🧠 QUIZ MODE
 import { useEffect, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
@@ -34,12 +34,11 @@ const QUIZ_SIZE = 10,
   NUM_OPTIONS = 4;
 
 function buildDeck(sourceWords?: WordEntry[] | null, maxSize = QUIZ_SIZE): WordEntry[] {
-  const src = sourceWords?.length
-    ? sourceWords
-    : getDeckSnapshot().length
-      ? getDeckSnapshot()
-      : (W as unknown as WordEntry[]);
-  return _shuf(src.slice()).slice(0, Math.min(maxSize, src.length));
+  if (sourceWords?.length) {
+    return _shuf(sourceWords.slice()).slice(0, Math.min(maxSize, sourceWords.length));
+  }
+  const src = getDeckSnapshot().length ? getDeckSnapshot() : (W as unknown as WordEntry[]);
+  return orderDeckPool(src).slice(0, Math.min(maxSize, src.length));
 }
 
 function getWrongOptions(correctWord: WordEntry, answer: string, backLang: string): string[] {

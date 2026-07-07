@@ -2,7 +2,7 @@
 // 💡 Word Hint: guess the word from a translated sentence before all its
 // letters get progressively revealed — faster guesses earn more XP.
 import { useEffect, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { lev } from '../core/distance.ts';
@@ -33,9 +33,10 @@ function buildRound(w: WordEntry): Round | null {
 }
 
 function buildDeck(): Round[] {
-  const pool = _shuf(
-    (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[],
-  );
+  const base = (getDeckSnapshot().length
+    ? getDeckSnapshot().slice()
+    : W.slice()) as unknown as WordEntry[];
+  const pool = orderDeckPool(base);
   const rounds: Round[] = [];
   for (const w of pool) {
     if (rounds.length >= ROUNDS) break;

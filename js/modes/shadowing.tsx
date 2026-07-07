@@ -2,7 +2,7 @@
 // 🎙️ Shadowing: listen to the example sentence via TTS, repeat it aloud,
 // and get scored on how many of the words you actually said.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
@@ -70,9 +70,10 @@ function buildRound(w: WordEntry): Round | null {
 }
 
 function buildDeck(): Round[] {
-  const pool = _shuf(
-    (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[],
-  );
+  const base = (getDeckSnapshot().length
+    ? getDeckSnapshot().slice()
+    : W.slice()) as unknown as WordEntry[];
+  const pool = orderDeckPool(base);
   const rounds: Round[] = [];
   for (const w of pool) {
     if (rounds.length >= ROUNDS) break;

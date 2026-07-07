@@ -1,7 +1,7 @@
 // Vymova — js/modes/pairs.tsx
 // 🔗 PAIRS MODE
 import { useEffect, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { t } from '../features/i18n.ts';
@@ -41,7 +41,7 @@ export function PairsMode(): ReactElement | null {
     let pTick: ReturnType<typeof setInterval> | null = null;
 
     function open(): void {
-      const pool = _shuf(
+      const pool = orderDeckPool(
         (getDeckSnapshot()?.length >= N ? getDeckSnapshot() : W).slice() as WordEntry[],
       );
       pDeck = pool.slice(0, N);

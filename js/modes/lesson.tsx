@@ -1,7 +1,7 @@
 // Vymova — js/modes/lesson.tsx
 // 📚 LESSON MODE
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { lev } from '../core/distance.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
@@ -82,11 +82,10 @@ export function LessonPage(): ReactElement {
   const w: WordEntry | null = words[step] ?? null;
 
   const startLesson = (): void => {
-    const pool = _shuf(
-      (getDeckSnapshot().length >= N
-        ? getDeckSnapshot().slice()
-        : W.slice()) as unknown as WordEntry[],
-    );
+    const base = (getDeckSnapshot().length >= N
+      ? getDeckSnapshot().slice()
+      : W.slice()) as unknown as WordEntry[];
+    const pool = orderDeckPool(base);
     setWords(pool.slice(0, N));
     setPhase(0);
     setStep(0);

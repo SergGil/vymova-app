@@ -1,6 +1,6 @@
 // Vymova — js/features/settings.tsx
 import { useEffect, type ReactElement } from 'react';
-import { updateSrsUI } from '../core/srs.ts';
+import { updateSrsUI, isSrsPriorityEnabled } from '../core/srs.ts';
 import { _imgCache, loadWikiImage } from '../core/images.ts';
 import { W } from '../../data/words.js';
 import { openPage } from './sidebar.tsx';
@@ -79,12 +79,36 @@ export function SettingsInit(): ReactElement | null {
       hapticToggle.checked = hapticEnabled();
       const updateHapticLabel = () => {
         if (hapticStatusEl)
-          hapticStatusEl.textContent = t(hapticToggle.checked ? 'settings.hapticOn' : 'settings.hapticOff');
+          hapticStatusEl.textContent = t(
+            hapticToggle.checked ? 'settings.hapticOn' : 'settings.hapticOff',
+          );
       };
       updateHapticLabel();
       hapticToggle.addEventListener('change', () => {
         localStorage.setItem('ew_haptic', hapticToggle.checked ? '1' : '0');
         updateHapticLabel();
+      });
+    }
+
+    // ── SRS-priority toggle UI ──────────────────────────────────────
+    const srsPriorityToggle = document.getElementById(
+      'srs-priority-toggle',
+    ) as HTMLInputElement | null;
+    const srsPriorityStatusEl = document.getElementById(
+      'srs-priority-status',
+    ) as HTMLElement | null;
+    if (srsPriorityToggle) {
+      srsPriorityToggle.checked = isSrsPriorityEnabled();
+      const updateSrsPriorityLabel = () => {
+        if (srsPriorityStatusEl)
+          srsPriorityStatusEl.textContent = t(
+            srsPriorityToggle.checked ? 'settings.srsPriorityOn' : 'settings.srsPriorityOff',
+          );
+      };
+      updateSrsPriorityLabel();
+      srsPriorityToggle.addEventListener('change', () => {
+        localStorage.setItem('ew_srs_priority', srsPriorityToggle.checked ? '1' : '0');
+        updateSrsPriorityLabel();
       });
     }
 
@@ -193,9 +217,9 @@ export function SettingsInit(): ReactElement | null {
       openModes = (): void => {
         _modesOvl.className = 'modes-overlay open';
         const selMode = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value;
-        _modesOvl.querySelectorAll<HTMLElement>('.mode-card').forEach((c) =>
-          c.classList.remove('mode-card--active'),
-        );
+        _modesOvl
+          .querySelectorAll<HTMLElement>('.mode-card')
+          .forEach((c) => c.classList.remove('mode-card--active'));
         if (selMode) document.getElementById('btn-' + selMode)?.classList.add('mode-card--active');
       };
       const closeModes = (): void => {

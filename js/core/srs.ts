@@ -159,6 +159,19 @@ export function buildSRSDeck(words: WordEntry[]): WordEntry[] {
   return result;
 }
 
+export function isSrsPriorityEnabled(): boolean {
+  return localStorage.getItem('ew_srs_priority') !== '0';
+}
+
+// Drop-in replacement for `_shuf(pool)` in each game mode's deck builder.
+// When the toggle is on, due-for-review words are surfaced first (falling
+// back to new/unlearned/full-pool exactly like buildSRSDeck always has) —
+// so a word a mode just marked wrong via sm2Update() actually has a chance
+// to come back up instead of waiting on pure luck from a full-pool shuffle.
+export function orderDeckPool(pool: WordEntry[]): WordEntry[] {
+  return isSrsPriorityEnabled() ? buildSRSDeck(pool) : _shuf(pool.slice());
+}
+
 export function buildUnlearnedDeck(words: WordEntry[]): WordEntry[] {
   const filtered = _applyTagFilter(words);
   const known = getKnownSnapshot('en');

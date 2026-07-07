@@ -1,7 +1,7 @@
 // Vymova — js/modes/scramble.tsx
 // 🔀 Scramble: rearrange shuffled letter tiles to build the word
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
@@ -24,9 +24,10 @@ interface Tile {
 
 function build(): WordEntry[] {
   const learnLang = getLearnLang();
-  const pool = _shuf(
-    (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[],
-  );
+  const base = (getDeckSnapshot().length
+    ? getDeckSnapshot().slice()
+    : W.slice()) as unknown as WordEntry[];
+  const pool = orderDeckPool(base);
   if (learnLang === 'en') {
     const filtered = pool.filter(
       (w) => /^[A-Za-z]+$/.test(w[0]) && w[0].length >= 4 && w[0].length <= 9,

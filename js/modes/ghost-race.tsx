@@ -2,7 +2,7 @@
 // 👻 Ghost Race: answer 10 quiz questions while racing a "ghost" that moves
 // at the pace of your own best previous run.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
@@ -88,9 +88,10 @@ function buildQuestion(w: WordEntry, distractorPool: WordEntry[]): Question {
 
 function buildDeck(): Question[] {
   const distractorPool = W.slice() as unknown as WordEntry[];
-  const mainPool = _shuf(
-    (getDeckSnapshot().length ? getDeckSnapshot().slice() : distractorPool.slice()) as WordEntry[],
-  ).slice(0, N);
+  const base = (
+    getDeckSnapshot().length ? getDeckSnapshot().slice() : distractorPool.slice()
+  ) as WordEntry[];
+  const mainPool = orderDeckPool(base).slice(0, N);
   return mainPool.map((w) => buildQuestion(w, distractorPool));
 }
 

@@ -1,7 +1,7 @@
 // Vymova — js/modes/sentence-builder.tsx
 // 🧱 Sentence Builder: tap shuffled word-tiles in order to rebuild the example sentence
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { _shuf } from '../core/srs.ts';
+import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
@@ -30,9 +30,10 @@ export function getExample(w: WordEntry): string {
 }
 
 export function build(): WordEntry[] {
-  const pool = _shuf(
-    (getDeckSnapshot().length ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[],
-  );
+  const base = (getDeckSnapshot().length
+    ? getDeckSnapshot().slice()
+    : W.slice()) as unknown as WordEntry[];
+  const pool = orderDeckPool(base);
   const tokenCount = (w: WordEntry) => tokenize(getExample(w)).length;
   const filtered = pool.filter((w) => tokenCount(w) >= 4 && tokenCount(w) <= 9);
   const fallback = pool.filter((w) => tokenCount(w) >= 3);

@@ -6,6 +6,8 @@ import {
   buildUnlearnedDeck,
   updateSrsUI,
   sm2Update,
+  isSrsPriorityEnabled,
+  orderDeckPool,
 } from '../../js/core/srs.ts';
 import {
   getSrsNewRemaining,
@@ -178,6 +180,44 @@ describe('buildSRSDeck()', () => {
     setKnownWords('en', new Set(W.map((w) => w[0])));
     const deck = buildSRSDeck(W);
     expect(deck.length).toBe(W.length);
+  });
+});
+
+// ── isSrsPriorityEnabled() / orderDeckPool() ───────────────────
+// Game modes used to always call _shuf(pool) directly, ignoring SRS due
+// status entirely — a word that just got marked wrong via sm2Update() had
+// no better chance of reappearing than pure luck. orderDeckPool() is the
+// drop-in replacement each mode's deck builder now calls instead.
+describe('isSrsPriorityEnabled()', () => {
+  it('defaults to true when nothing is stored', () => {
+    localStorage.removeItem('ew_srs_priority');
+    expect(isSrsPriorityEnabled()).toBe(true);
+  });
+
+  it('is false only when explicitly set to "0"', () => {
+    localStorage.setItem('ew_srs_priority', '0');
+    expect(isSrsPriorityEnabled()).toBe(false);
+    localStorage.setItem('ew_srs_priority', '1');
+    expect(isSrsPriorityEnabled()).toBe(true);
+  });
+});
+
+describe('orderDeckPool()', () => {
+  it('prioritizes due words when the toggle is on (default)', () => {
+    localStorage.setItem('ew_srs_priority', '1');
+    setSrsEntry('apple', { ef: 2.5, reps: 1, interval: 1, due: '2024-05-31' }); // overdue
+    const deck = orderDeckPool(W);
+    expect(deck.some((w) => w[0] === 'apple')).toBe(true);
+  });
+
+  it('falls back to a plain shuffle of the full pool when the toggle is off', () => {
+    localStorage.setItem('ew_srs_priority', '0');
+    // Mark everything but one word known+not-due, so buildSRSDeck() would
+    // normally narrow the pool sharply — with the toggle off it must not.
+    setKnownWords('en', new Set(W.map((w) => w[0]).filter((w) => w !== 'apple')));
+    const deck = orderDeckPool(W);
+    expect(deck.length).toBe(W.length);
+    expect(deck.map((w) => w[0]).sort()).toEqual(W.map((w) => w[0]).sort());
   });
 });
 
