@@ -1,0 +1,388 @@
+// Vymova — js/modes/idiom-quiz.tsx
+// 💬 Idiom Quiz: turns the idioms reference page's data (previously browse-only,
+// no review loop) into a 4-option "guess the meaning" quiz.
+import { useEffect, useState, type ReactElement } from 'react';
+import { IDIOMS_BY_LANG, type Idiom } from '../../data/idioms.ts';
+import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
+import { recordModeComplete, recordModeAnswer } from '../features/game.ts';
+import { t } from '../features/i18n.ts';
+import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { speak } from '../features/voice/speech.ts';
+import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { _shuf } from '../core/srs.ts';
+
+const SIZE = 8,
+  NUM_OPTS = 4;
+const RTL_LANGS = new Set(['he', 'ar', 'fa']);
+
+// Prefers the language being learned (that's the point of the exercise);
+// falls back to the known language, then to English — every one of the 40
+// target languages has at least 5 idioms (see LANGUAGE_PROGRESS.md-adjacent
+// content notes), enough for a 4-option question. Exported (unlike most
+// per-mode build helpers in this codebase) so this fallback chain has a
+// direct unit test instead of a re-declared copy.
+export function pickPool(): { lang: string; idioms: Idiom[] } {
+  const learn = getLearnLang();
+  const know = getKnowLang();
+  const learnPool = IDIOMS_BY_LANG[learn as keyof typeof IDIOMS_BY_LANG];
+  if (learnPool && learnPool.length >= NUM_OPTS) return { lang: learn, idioms: learnPool };
+  const knowPool = IDIOMS_BY_LANG[know as keyof typeof IDIOMS_BY_LANG];
+  if (knowPool && knowPool.length >= NUM_OPTS) return { lang: know, idioms: knowPool };
+  return { lang: 'en', idioms: IDIOMS_BY_LANG.en ?? [] };
+}
+
+export type Question = { idiom: Idiom; options: string[]; correct: string };
+
+export function buildQuestion(idiom: Idiom, pool: Idiom[]): Question {
+  const correct = idiom.meaning;
+  const wrongs: string[] = [];
+  const used = new Set([correct]);
+  for (const other of _shuf(pool)) {
+    if (wrongs.length >= NUM_OPTS - 1) break;
+    if (used.has(other.meaning)) continue;
+    used.add(other.meaning);
+    wrongs.push(other.meaning);
+  }
+  return { idiom, options: _shuf([correct, ...wrongs]), correct };
+}
+
+function buildDeck(): { lang: string; deck: Idiom[] } {
+  const { lang, idioms } = pickPool();
+  return { lang, deck: _shuf(idioms).slice(0, Math.min(SIZE, idioms.length)) };
+}
+
+let _open: (() => void) | null = null;
+let _close: (() => void) | null = null;
+
+export function openIdiomQuiz(): void {
+  _open?.();
+}
+function closeIdiomQuiz(): void {
+  _close?.();
+}
+
+export function IdiomQuizPage(): ReactElement {
+  const [isOpen, setIsOpen] = useState(false);
+  const [lang, setLang] = useState('en');
+  const [deck, setDeck] = useState<Idiom[]>([]);
+  const [idx, setIdx] = useState(0);
+  const [ok, setOk] = useState(0);
+  const [fail, setFail] = useState(0);
+  const [question, setQuestion] = useState<Question | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [showHint, setShowHint] = useState(false);
+  const [completed, setCompleted] = useState(false);
+
+  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const rtl = RTL_LANGS.has(lang);
+
+  const startGame = (): void => {
+    const { lang: l, deck: d } = buildDeck();
+    setLang(l);
+    setDeck(d);
+    setIdx(0);
+    setOk(0);
+    setFail(0);
+    setSelected(null);
+    setShowHint(false);
+    setCompleted(false);
+    setQuestion(d.length ? buildQuestion(d[0], d) : null);
+  };
+
+  useEffect(() => {
+    _open = () => {
+      setIsOpen(true);
+      startGame();
+      const overlay = document.getElementById('idq-overlay');
+      if (overlay) overlay.style.display = 'flex';
+    };
+    _close = () => {
+      setIsOpen(false);
+      const overlay = document.getElementById('idq-overlay');
+      if (overlay) overlay.style.display = 'none';
+    };
+    return () => {
+      _open = null;
+      _close = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (showFinal && !completed) {
+      recordModeComplete('idiom-quiz');
+      setCompleted(true);
+    }
+  }, [showFinal, completed]);
+
+  const checkAnswer = (opt: string): void => {
+    if (!question || selected) return;
+    setSelected(opt);
+    const isOk = opt === question.correct;
+    if (isOk) setOk((o) => o + 1);
+    else setFail((f) => f + 1);
+    try {
+      if (isOk) {
+        addCombo();
+        awardXP(5);
+      } else {
+        breakCombo();
+      }
+    } catch (e) {}
+    // Not recordMistake() here — idiom phrases aren't dictionary headwords,
+    // so feeding them into the cross-mode mistake/SRS system (keyed by
+    // headword) would pollute "weak words" and the SRS due-count with
+    // entries the rest of the app can't look up.
+    recordModeAnswer('idiom-quiz', isOk);
+  };
+
+  const next = (): void => {
+    const ni = idx + 1;
+    setIdx(ni);
+    setSelected(null);
+    setShowHint(false);
+    setQuestion(ni < deck.length ? buildQuestion(deck[ni], deck) : null);
+  };
+
+  useEffect(() => {
+    function onKeydown(e: KeyboardEvent): void {
+      const overlay = document.getElementById('idq-overlay');
+      if (overlay?.style.display !== 'flex') return;
+      if (e.key === 'Escape') {
+        closeIdiomQuiz();
+        return;
+      }
+      if (['1', '2', '3', '4'].includes(e.key) && !selected && question) {
+        e.preventDefault();
+        const opt = question.options[parseInt(e.key, 10) - 1];
+        if (opt !== undefined) checkAnswer(opt);
+      }
+      if ((e.key === 'ArrowRight' || e.key === ' ') && selected) {
+        e.preventDefault();
+        next();
+      }
+    }
+    document.addEventListener('keydown', onKeydown);
+    return () => document.removeEventListener('keydown', onKeydown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [question, selected]);
+
+  return (
+    <>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 12,
+        }}
+      >
+        <div>
+          <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text)' }}>
+            {t('idq.title')}
+          </div>
+          <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginTop: 2 }}>
+            {!showFinal && deck.length
+              ? `${idx + 1} ${t('common.of')} ${deck.length}`
+              : showFinal
+                ? t('write.completed')
+                : ''}
+          </div>
+        </div>
+        <button
+          onClick={closeIdiomQuiz}
+          style={{
+            background: 'none',
+            border: 'none',
+            fontSize: '1.3rem',
+            cursor: 'pointer',
+            color: 'var(--text3)',
+          }}
+          aria-label={t('common.close')}
+        >
+          ✕
+        </button>
+      </div>
+
+      <div
+        style={{
+          height: 4,
+          background: 'var(--border)',
+          borderRadius: 4,
+          marginBottom: 14,
+          overflow: 'hidden',
+        }}
+      >
+        <div
+          style={{
+            height: '100%',
+            background: 'var(--accent)',
+            borderRadius: 4,
+            width: showFinal ? '100%' : `${deck.length ? (idx / deck.length) * 100 : 0}%`,
+            transition: 'width .4s',
+          }}
+        />
+      </div>
+
+      {!showFinal && deck.length === 0 && (
+        <div style={{ textAlign: 'center', color: 'var(--text3)', padding: 16 }}>
+          {t('idq.noWords')}
+        </div>
+      )}
+
+      {!showFinal && question && (
+        <>
+          <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 12 }}>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>
+              ✓ {ok}
+            </span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>
+              ✗ {fail}
+            </span>
+          </div>
+
+          <div
+            style={{
+              background: 'var(--bg)',
+              borderRadius: 12,
+              padding: 16,
+              marginBottom: 10,
+              minHeight: 70,
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: 10,
+            }}
+            dir={rtl ? 'rtl' : undefined}
+          >
+            <div style={{ flex: 1 }}>
+              <div
+                style={{
+                  fontWeight: 700,
+                  fontSize: '1.05rem',
+                  color: 'var(--text)',
+                  marginBottom: 4,
+                }}
+              >
+                {question.idiom.emoji ? `${question.idiom.emoji} ` : ''}
+                {question.idiom.phrase}
+              </div>
+              <div style={{ fontSize: '.8rem', color: 'var(--text3)' }}>{t('idq.question')}</div>
+            </div>
+            <button
+              className="mode-speak"
+              title={t('common.listen')}
+              onClick={(e) => {
+                try {
+                  speak(question.idiom.phrase, e.currentTarget);
+                } catch (err) {}
+              }}
+            >
+              🔊
+            </button>
+          </div>
+
+          {showHint && !selected && (
+            <div
+              style={{
+                fontSize: '.78rem',
+                color: 'var(--accent)',
+                marginBottom: 8,
+                textAlign: 'center',
+                fontStyle: 'italic',
+              }}
+              dir={rtl ? 'rtl' : undefined}
+            >
+              {t('idq.exampleLabel')}: "{question.idiom.exampleSrc}"
+            </div>
+          )}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+            {question.options.map((opt, i) => {
+              let cls = 'quiz-option';
+              if (selected) {
+                if (opt === selected) cls += opt === question.correct ? ' correct' : ' wrong';
+                else if (opt === question.correct) cls += ' reveal';
+              }
+              return (
+                <button
+                  key={opt}
+                  className={cls}
+                  disabled={!!selected}
+                  onClick={() => checkAnswer(opt)}
+                >
+                  <span className="opt-num">{i + 1}</span> {opt}
+                </button>
+              );
+            })}
+          </div>
+
+          <div
+            style={{
+              textAlign: 'center',
+              fontSize: '.88rem',
+              fontWeight: 600,
+              minHeight: 22,
+              marginTop: 8,
+            }}
+          >
+            {selected &&
+              (selected === question.correct ? (
+                <span style={{ color: 'var(--success)' }}>{t('quiz.correctMsg')}</span>
+              ) : (
+                <span style={{ color: 'var(--danger)' }}>✗ {question.correct}</span>
+              ))}
+          </div>
+
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 10 }}>
+            <button
+              onClick={() => setShowHint(true)}
+              disabled={!!selected}
+              style={{
+                padding: '8px 14px',
+                borderRadius: 10,
+                border: '1.5px solid var(--border)',
+                background: 'none',
+                color: 'var(--text3)',
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+                fontSize: '.8rem',
+              }}
+            >
+              {t('ctx.hintBtn')}
+            </button>
+            {selected && (
+              <button
+                onClick={next}
+                style={{
+                  padding: '10px 28px',
+                  borderRadius: 10,
+                  border: 'none',
+                  background: 'var(--accent)',
+                  color: '#fff',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  fontSize: '.88rem',
+                }}
+              >
+                {idx >= deck.length - 1 ? t('quiz.finish') : t('quiz.next')}
+              </button>
+            )}
+          </div>
+        </>
+      )}
+
+      {showFinal && (
+        <ModeFinalScreen
+          ok={ok}
+          total={deck.length}
+          keepGoingKey="listen.keepGoingTitle"
+          onRetry={startGame}
+          onClose={closeIdiomQuiz}
+        />
+      )}
+    </>
+  );
+}
+
+import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
+bindOverlayOpenClose('btn-idiom-quiz', 'idq-overlay', openIdiomQuiz, closeIdiomQuiz);

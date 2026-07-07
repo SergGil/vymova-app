@@ -1,1102 +1,2515 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Vymova">
-  <meta name="theme-color" content="#0a1628">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a1628'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='28' fill='%2300c8ff'%3EV%3C/text%3E%3C/svg%3E">
-  <link rel="manifest" href="manifest.webmanifest">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vymova — Vocabulary Trainer with Spaced Repetition</title>
-<meta name="description" content="Vymova is a free vocabulary trainer with spaced repetition (SRS), 16+ practice modes, and an AI tutor. Learn English or translate 10,000+ words into 30+ languages.">
-<link rel="canonical" href="https://serggil.github.io/vymova-app/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Vymova — Vocabulary Trainer with Spaced Repetition">
-<meta property="og:description" content="Free vocabulary trainer with spaced repetition, 16+ practice modes, and an AI tutor. 10,000+ words across 30+ languages.">
-<meta property="og:url" content="https://serggil.github.io/vymova-app/">
-<meta property="og:image" content="https://serggil.github.io/vymova-app/icon-512.png">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vymova — Vocabulary Trainer with Spaced Repetition">
-<meta name="twitter:description" content="Free vocabulary trainer with spaced repetition, 16+ practice modes, and an AI tutor. 10,000+ words across 30+ languages.">
-<meta name="twitter:image" content="https://serggil.github.io/vymova-app/icon-512.png">
-<link rel="stylesheet" href="css/styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Vymova" />
+    <meta name="theme-color" content="#0a1628" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a1628'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='28' fill='%2300c8ff'%3EV%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vymova — Vocabulary Trainer with Spaced Repetition</title>
+    <meta
+      name="description"
+      content="Vymova is a free vocabulary trainer with spaced repetition (SRS), 16+ practice modes, and an AI tutor. Learn English or translate 10,000+ words into 30+ languages."
+    />
+    <link rel="canonical" href="https://serggil.github.io/vymova-app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Vymova — Vocabulary Trainer with Spaced Repetition" />
+    <meta
+      property="og:description"
+      content="Free vocabulary trainer with spaced repetition, 16+ practice modes, and an AI tutor. 10,000+ words across 30+ languages."
+    />
+    <meta property="og:url" content="https://serggil.github.io/vymova-app/" />
+    <meta property="og:image" content="https://serggil.github.io/vymova-app/icon-512.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Vymova — Vocabulary Trainer with Spaced Repetition" />
+    <meta
+      name="twitter:description"
+      content="Free vocabulary trainer with spaced repetition, 16+ practice modes, and an AI tutor. 10,000+ words across 30+ languages."
+    />
+    <meta name="twitter:image" content="https://serggil.github.io/vymova-app/icon-512.png" />
+    <link rel="stylesheet" href="css/styles.css" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Cinzel+Decorative:wght@400;700;900&display=swap">
-<script>if('serviceWorker'in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){});});</script>
-<!-- Capture beforeinstallprompt as early as possible — Chrome can fire it
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Cinzel+Decorative:wght@400;700;900&display=swap"
+    />
+    <script>
+      if ('serviceWorker' in navigator)
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('./sw.js').catch(function () {});
+        });
+    </script>
+    <!-- Capture beforeinstallprompt as early as possible — Chrome can fire it
      before the app's JS bundle finishes loading, and if nobody calls
      preventDefault() in time, Chrome shows its own default install UI
      instead and the event is lost to the app. -->
-<script>(function(){window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__pwaDeferredPrompt=e;});})();</script>
-<!-- Restore path after GitHub Pages 404.html redirect -->
-<script>(function(){var r=sessionStorage.getItem('spa-redirect');if(r){sessionStorage.removeItem('spa-redirect');window.history.replaceState(null,null,r.replace(window.location.origin,''));}})();</script>
-</head>
-<body>
+    <script>
+      (function () {
+        window.addEventListener('beforeinstallprompt', function (e) {
+          e.preventDefault();
+          window.__pwaDeferredPrompt = e;
+        });
+      })();
+    </script>
+    <!-- Restore path after GitHub Pages 404.html redirect -->
+    <script>
+      (function () {
+        var r = sessionStorage.getItem('spa-redirect');
+        if (r) {
+          sessionStorage.removeItem('spa-redirect');
+          window.history.replaceState(null, null, r.replace(window.location.origin, ''));
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- ══ HAMBURGER (mobile) ══ -->
+    <button id="hamburger" class="hamburger" title="Меню">☰</button>
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
-<!-- ══ HAMBURGER (mobile) ══ -->
-<button id="hamburger" class="hamburger" title="Меню">☰</button>
-<div id="sidebar-overlay" class="sidebar-overlay"></div>
-
-<!-- ══ SIDEBAR ══ -->
-<nav id="sidebar" class="sidebar">
-  <div class="sidebar-logo" id="sb-home" title="На головну — картки" style="cursor:pointer;">
-    <span class="sidebar-logo-text">Vymova</span>
-  </div>
-
-  <!-- Profile section (React, profile-switcher.tsx) -->
-  <div class="sb-profile-section" id="profile-switcher-mount"></div>
-
-  <div class="sidebar-nav">
-    <a class="sb-btn sb-active" id="sb-cards"        href="#"><span class="sb-icon">🃏</span><span class="sb-label" data-i18n="nav.cards">Картки</span></a>
-    <a class="sb-btn" id="sb-stats"         href="#"><span class="sb-icon">📊</span><span class="sb-label" data-i18n="nav.stats">Статистика</span></a>
-    <a class="sb-btn" id="sb-achievements"  href="#"><span class="sb-icon">🏆</span><span class="sb-label" data-i18n="nav.achievements">Досягнення</span></a>
-    <a class="sb-btn" id="sb-modes"         href="#"><span class="sb-icon">🎮</span><span class="sb-label" data-i18n="nav.modes">Режими</span></a>
-    <a class="sb-btn" id="sb-learning-path" href="#"><span class="sb-icon">🎯</span><span class="sb-label" data-i18n="nav.learningPath">Шлях навчання</span></a>
-    <a class="sb-btn" id="sb-grammar"       href="#"><span class="sb-icon">📖</span><span class="sb-label" data-i18n="nav.grammar">Граматика</span></a>
-    <a class="sb-btn" id="sb-idioms"        href="#"><span class="sb-icon">💬</span><span class="sb-label" data-i18n="nav.idioms">Ідіоми</span></a>
-
-    <div class="sb-group" id="sb-group-ai" style="display:none;">
-      <button type="button" class="sb-btn sb-group-trigger" id="sb-group-ai-trigger"><span class="sb-icon">🤖</span><span class="sb-label" data-i18n="nav.aiGroup">ШІ навчання</span><span class="sb-caret">›</span></button>
-      <div class="sb-flyout" id="sb-group-ai-flyout">
-        <a class="sb-btn" id="sb-ai-tutor"      href="#"><span class="sb-icon">🤖</span><span class="sb-label" data-i18n="nav.aiTutor">ШІ-репетитор</span></a>
-        <a class="sb-btn" id="sb-voice-roleplay" href="#"><span class="sb-icon">🎤</span><span class="sb-label" data-i18n="nav.voiceRoleplay">Голосовий ролеплей</span></a>
+    <!-- ══ SIDEBAR ══ -->
+    <nav id="sidebar" class="sidebar">
+      <div class="sidebar-logo" id="sb-home" title="На головну — картки" style="cursor: pointer">
+        <span class="sidebar-logo-text">Vymova</span>
       </div>
-    </div>
 
-    <div class="sb-group" id="sb-group-video">
-      <button type="button" class="sb-btn sb-group-trigger" id="sb-group-video-trigger"><span class="sb-icon">🎬</span><span class="sb-label" data-i18n="nav.videoGroup">Відео навчання</span><span class="sb-caret">›</span></button>
-      <div class="sb-flyout" id="sb-group-video-flyout">
-        <a class="sb-btn" id="sb-youtube-player" href="#"><span class="sb-icon">📺</span><span class="sb-label" data-i18n="nav.ytPlayer">YouTube</span></a>
-        <a class="sb-btn" id="sb-video-player" href="#"><span class="sb-icon">🎬</span><span class="sb-label" data-i18n="nav.videoPlayer">Відео</span></a>
-      </div>
-    </div>
+      <!-- Profile section (React, profile-switcher.tsx) -->
+      <div class="sb-profile-section" id="profile-switcher-mount"></div>
 
-    <a class="sb-btn" id="sb-duel"          href="#"><span class="sb-icon">⚔️</span><span class="sb-label" data-i18n="nav.duel">Дуель</span></a>
-    <a class="sb-btn" id="sb-profile"       href="#"><span class="sb-icon">👤</span><span class="sb-label" data-i18n="nav.profile">Профіль</span></a>
-    <a class="sb-btn" id="sb-settings"      href="#"><span class="sb-icon">⚙️</span><span class="sb-label" data-i18n="nav.settings">Налаштування</span></a>
-  </div>
+      <div class="sidebar-nav">
+        <a class="sb-btn sb-active" id="sb-cards" href="#"
+          ><span class="sb-icon">🃏</span
+          ><span class="sb-label" data-i18n="nav.cards">Картки</span></a
+        >
+        <a class="sb-btn" id="sb-stats" href="#"
+          ><span class="sb-icon">📊</span
+          ><span class="sb-label" data-i18n="nav.stats">Статистика</span></a
+        >
+        <a class="sb-btn" id="sb-achievements" href="#"
+          ><span class="sb-icon">🏆</span
+          ><span class="sb-label" data-i18n="nav.achievements">Досягнення</span></a
+        >
+        <a class="sb-btn" id="sb-modes" href="#"
+          ><span class="sb-icon">🎮</span
+          ><span class="sb-label" data-i18n="nav.modes">Режими</span></a
+        >
+        <a class="sb-btn" id="sb-learning-path" href="#"
+          ><span class="sb-icon">🎯</span
+          ><span class="sb-label" data-i18n="nav.learningPath">Шлях навчання</span></a
+        >
+        <a class="sb-btn" id="sb-grammar" href="#"
+          ><span class="sb-icon">📖</span
+          ><span class="sb-label" data-i18n="nav.grammar">Граматика</span></a
+        >
+        <a class="sb-btn" id="sb-idioms" href="#"
+          ><span class="sb-icon">💬</span
+          ><span class="sb-label" data-i18n="nav.idioms">Ідіоми</span></a
+        >
 
-  <!-- Language switcher -->
-  <div class="sb-lang-section">
-    <div class="sb-lang-label" data-i18n="nav.language">🌐 Мова</div>
-    <div class="lang-toggle" title="Мова меню / Menu language / Idioma del menú">
-      <button class="lang-opt" data-lang="ua" title="Українська"><img src="data/countries/ua.svg" alt="UA" width="13" height="13"></button>
-      <button class="lang-opt" data-lang="en" title="English"><img src="data/countries/gb.svg" alt="EN" width="13" height="13"></button>
-      <button class="lang-opt" data-lang="es" title="Español"><img src="data/countries/es.svg" alt="ES" width="13" height="13"></button>
-      <button class="lang-opt" data-lang="fr" title="Français"><img src="data/countries/fr.svg" alt="FR" width="13" height="13"></button>
-      <button class="lang-opt" data-lang="it" title="Italiano"><img src="data/countries/it.svg" alt="IT" width="13" height="13"></button>
-      <button class="lang-opt" data-lang="pt" title="Português"><img src="data/countries/pt.svg" alt="PT" width="13" height="13"></button>
-      <button class="lang-opt" data-lang="de" title="Deutsch"><img src="data/countries/de.svg" alt="DE" width="13" height="13"></button>
-    </div>
-  </div>
-
-
-</nav>
-
-<div class="app">
-
-  <div class="header">
-    <div class="header-left">
-      <div class="title-row">
-        <div class="title">Vymova</div>
-        <button id="title-sw-toggle" class="title-sw-toggle" title="Зоряні Війни — швидке перемикання теми">⚔️</button>
-        <button id="title-hp-toggle" class="title-hp-toggle" title="Гаррі Поттер — швидке перемикання теми">🦁</button>
-      </div>
-      <div class="subtitle"><span data-i18n="cards.cardLabel">Картка</span> <span id="cidx-mount"></span> · <span data-i18n="cards.learnedLabel">Вивчено</span>: <span id="cknown-mount"></span></div>
-      <button id="profile-btn" class="profile-btn" style="display:none">🧑 <span>Гравець 1</span> ▾</button>
-    </div>
-    <div class="controls">
-      <div id="theme-toggle-mount"></div>
-      <button id="btn-sw" title="Star Wars режим" style="display:none"></button>
-      <button id="btn-hp" title="Гаррі Поттер режим" style="display:none"></button>
-      <button id="btn-cp" title="Кіберпанк режим" style="display:none"></button>
-      <button id="btn-lotr" title="Володар Перснів режим" style="display:none"></button>
-      <button id="btn-mcu" title="Марвел режим" style="display:none"></button>
-      <button id="btn-witcher" title="Відьмак режим" style="display:none"></button>
-      <button id="btn-mc" title="Майнкрафт режим" style="display:none"></button>
-      <button id="btn-dc" title="DC режим" style="display:none"></button>
-      <button id="btn-got" title="Гра Престолів режим" style="display:none"></button>
-      <button id="btn-dw" title="Дискосвіт режим" style="display:none"></button>
-      <button id="btn-dune" title="Дюна режим" style="display:none"></button>
-      <button id="btn-hg" title="Голодні Ігри режим" style="display:none"></button>
-      <button id="btn-avt" title="Аватар режим" style="display:none"></button>
-      <button id="btn-dt" title="Темна Вежа режим" style="display:none"></button>
-      <div id="lang-pair-select"></div>
-      <select id="sel-mode" style="display:none">
-        <option value="en">EN → UA</option>
-        <option value="ua">UA → EN</option>
-        <option value="mix" data-i18n="mode.mixed">Мішаний</option>
-        <option value="en-es">EN → ES</option>
-        <option value="es-en">ES → EN</option>
-        <option value="es-ua">ES → UA</option>
-        <option value="ua-es">UA → ES</option>
-        <option value="en-fr">EN → FR</option>
-        <option value="fr-en">FR → EN</option>
-        <option value="fr-ua">FR → UA</option>
-        <option value="ua-fr">UA → FR</option>
-        <option value="es-fr">ES → FR</option>
-        <option value="fr-es">FR → ES</option>
-        <option value="en-it">EN → IT</option>
-        <option value="it-en">IT → EN</option>
-        <option value="it-ua">IT → UA</option>
-        <option value="ua-it">UA → IT</option>
-        <option value="en-pt">EN → PT</option>
-        <option value="pt-en">PT → EN</option>
-        <option value="pt-ua">PT → UA</option>
-        <option value="ua-pt">UA → PT</option>
-        <option value="en-de">EN → DE</option>
-        <option value="de-en">DE → EN</option>
-        <option value="de-ua">DE → UA</option>
-        <option value="ua-de">UA → DE</option>
-        <option value="en-he">EN → HE</option>
-        <option value="he-en">HE → EN</option>
-        <option value="he-ua">HE → UA</option>
-        <option value="ua-he">UA → HE</option>
-        <option value="en-ar">EN → AR</option>
-        <option value="ar-en">AR → EN</option>
-        <option value="ar-ua">AR → UA</option>
-        <option value="ua-ar">UA → AR</option>
-        <option value="en-pl">EN → PL</option>
-        <option value="pl-en">PL → EN</option>
-        <option value="pl-ua">PL → UA</option>
-        <option value="ua-pl">UA → PL</option>
-        <option value="en-zh">EN → ZH</option>
-        <option value="zh-en">ZH → EN</option>
-        <option value="zh-ua">ZH → UA</option>
-        <option value="ua-zh">UA → ZH</option>
-        <option value="en-el">EN → EL</option>
-        <option value="el-en">EL → EN</option>
-        <option value="el-ua">EL → UA</option>
-        <option value="ua-el">UA → EL</option>
-        <option value="en-ja">EN → JA</option>
-        <option value="ja-en">JA → EN</option>
-        <option value="ja-ua">JA → UA</option>
-        <option value="ua-ja">UA → JA</option>
-        <option value="en-tr">EN → TR</option>
-        <option value="tr-en">TR → EN</option>
-        <option value="tr-ua">TR → UA</option>
-        <option value="ua-tr">UA → TR</option>
-        <option value="en-nl">EN → NL</option>
-        <option value="nl-en">NL → EN</option>
-        <option value="nl-ua">NL → UA</option>
-        <option value="ua-nl">UA → NL</option>
-      </select>
-      <select id="sel-tag" title="Фільтр по темі" data-i18n-title="cards.tagFilterTitle"></select>
-      <select id="sel-range">
-        <option value="0">Всі слова (10002)</option>
-        <option value="unlearned" data-i18n="range.unlearned">🔴 Тільки невивчені</option>
-        <option value="srs" data-i18n="range.srs">🔁 Spaced Repetition</option>
-        <option value="weak" data-i18n="range.weak">⚠️ Слабкі слова</option>
-        <option value="hard" data-i18n="range.hard">🔴 Важкі слова</option>
-        <optgroup label="📊 Рівень CEFR" data-i18n-label="range.cefrGroup">
-          <option value="cefr-A1" data-i18n="range.cefrA1">🟢 A1 — Початківець</option>
-          <option value="cefr-A2" data-i18n="range.cefrA2">🟩 A2 — Елементарний</option>
-          <option value="cefr-B1" data-i18n="range.cefrB1">🟡 B1 — Середній</option>
-          <option value="cefr-B2" data-i18n="range.cefrB2">🟠 B2 — Вище середнього</option>
-          <option value="cefr-C1" data-i18n="range.cefrC1">🔴 C1 — Просунутий</option>
-          <option value="cefr-C2" data-i18n="range.cefrC2">🟣 C2 — Майстерний</option>
-        </optgroup>
-        <optgroup label="📖 Частина мови" data-i18n-label="range.posGroup">
-          <option value="pos-n" data-i18n="range.posNoun">📦 Іменники</option>
-          <option value="pos-v" data-i18n="range.posVerb">🏃 Дієслова</option>
-          <option value="pos-adj" data-i18n="range.posAdj">🎨 Прикметники</option>
-          <option value="pos-adv" data-i18n="range.posAdv">⚡ Прислівники</option>
-          <option value="pos-phrase" data-i18n="range.posPhrase">💬 Фрази</option>
-          <option value="pos-other" data-i18n="range.posOther">🔤 Інше</option>
-        </optgroup>
-        <option value="stale7" data-i18n="range.stale7">🕰️ Не бачені 7 днів</option>
-        <option value="stale30" data-i18n="range.stale30">🕰️ Не бачені 30 днів</option>
-      </select>
-    </div>
-  </div>
-
-  
-  <!-- ── 3-block game bar ── -->
-  <div class="game-bar-3" id="game-bar">
-
-    <!-- Block 1: Streak + Combo (React, see game-bar-streak.tsx) -->
-    <div class="gb-block gb-streak-block">
-      <div id="streak-block-mount"></div>
-      <div id="combo-box-mount"></div>
-    </div>
-
-    <!-- Block 2: Daily goal (React, see game-bar-streak.tsx) -->
-    <div class="gb-block gb-goal-block">
-      <div class="gb-goal-header">
-        <span class="gb-label" data-i18n="cards.dailyGoal">Ціль на сьогодні</span>
-        <span class="goal-set" id="goal-set-btn" title="Змінити ціль">⚙️</span>
-      </div>
-      <div id="goal-block-mount"></div>
-    </div>
-
-    <!-- Block 2.5: Word of the day (React, see word-of-day.tsx) -->
-    <div class="gb-block gb-wotd-block">
-      <div id="wotd-mount"></div>
-    </div>
-
-    <!-- Block 3: Level XP progress (React, see game-bar-level.tsx) -->
-    <div class="gb-block gb-level-block" id="level-box" title="Прогрес рівня"></div>
-
-  </div>
-  <div id="combo-toast-mount"></div>
-  <div id="mode-complete-toast-mount"></div>
-  <div id="confetti-canvas-mount"></div>
-
-  <div id="srs-stats" class="srs-stats-bar" style="display:none">
-    <span>📚</span>
-    <span data-i18n="srs.statsToday">Сьогодні:</span>
-    <span id="srs-stat-due" class="srs-stat-num srs-stat-due">0</span><span data-i18n="srs.statsDue"> до повторення</span>
-    <span class="srs-stat-sep">·</span>
-    <span id="srs-stat-new" class="srs-stat-num srs-stat-new">0</span><span data-i18n="srs.statsNew"> нових</span>
-  </div>
-
-
-  <div class="search-wrap" id="search-inline-mount"></div>
-  <div style="display:none;" id="pbar-ring-wrap">
-    <div style="flex:1;">
-      <div class="progress-wrap"><div id="pbar-mount"></div></div>
-    </div>
-    <div id="level-ring-mount"></div>
-  </div>
-
-  <div class="card-scene">
-  <div class="card" id="card">
-    <span class="swipe-hint-right" id="sh-right" data-i18n="cards.know">✓ Знаю</span>
-    <span class="swipe-hint-left" id="sh-left" data-i18n="cards.next">Далі →</span>
-    <span class="swipe-hint-up" id="sh-up" data-i18n="cards.translation">👁 Переклад</span>
-    <div class="card-face" id="card-front">
-    <div id="card-meta-mount"></div>
-    <div class="card-body">
-      <div id="illus-mount"></div>
-      <div class="word-side">
-        <div class="word-row">
-          <span id="wword-mount"></span>
-          <div class="word-actions">
-            <button class="speak-btn" id="speak-word" title="Вимовити слово" data-i18n-title="cards.pronounce">🔊</button>
-            <button class="speak-btn" id="btn-mic" title="Перевір вимову" data-i18n-title="cards.checkPron" style="display:none">🎤</button>
-            <button class="speak-btn card-note-btn" id="btn-note" title="Нотатка/мнемоніка" data-i18n-title="cards.noteMnemonic">📝</button>
-            <button class="speak-btn card-bookmark-btn" id="btn-bookmark" title="Додати в закладки" data-i18n-title="cards.addBookmark">☆</button>
+        <div class="sb-group" id="sb-group-ai" style="display: none">
+          <button type="button" class="sb-btn sb-group-trigger" id="sb-group-ai-trigger">
+            <span class="sb-icon">🤖</span
+            ><span class="sb-label" data-i18n="nav.aiGroup">ШІ навчання</span
+            ><span class="sb-caret">›</span>
+          </button>
+          <div class="sb-flyout" id="sb-group-ai-flyout">
+            <a class="sb-btn" id="sb-ai-tutor" href="#"
+              ><span class="sb-icon">🤖</span
+              ><span class="sb-label" data-i18n="nav.aiTutor">ШІ-репетитор</span></a
+            >
+            <a class="sb-btn" id="sb-voice-roleplay" href="#"
+              ><span class="sb-icon">🎤</span
+              ><span class="sb-label" data-i18n="nav.voiceRoleplay">Голосовий ролеплей</span></a
+            >
           </div>
         </div>
-        <div id="card-note-mount"></div>
-        <div id="wtrans-mount"></div>
-        <div id="wpos-mount"></div>
-        <div id="usage-note-mount"></div>
-        <div id="srs-next-mount"></div>
-        <div id="wtransl-mount"></div>
-        <div id="senses-mount"></div>
-        <div class="divider"></div>
-        <div class="ex-label" data-i18n="cards.example">Приклад</div>
-        <div class="ex-row">
-          <div class="ex-texts">
-            <span id="exen-mount"></span><button class="speak-btn speak-ex-btn" id="speak-ex" title="Вимовити приклад">🔊</button>
-            <div id="exua-mount"></div>
+
+        <div class="sb-group" id="sb-group-video">
+          <button type="button" class="sb-btn sb-group-trigger" id="sb-group-video-trigger">
+            <span class="sb-icon">🎬</span
+            ><span class="sb-label" data-i18n="nav.videoGroup">Відео навчання</span
+            ><span class="sb-caret">›</span>
+          </button>
+          <div class="sb-flyout" id="sb-group-video-flyout">
+            <a class="sb-btn" id="sb-youtube-player" href="#"
+              ><span class="sb-icon">📺</span
+              ><span class="sb-label" data-i18n="nav.ytPlayer">YouTube</span></a
+            >
+            <a class="sb-btn" id="sb-video-player" href="#"
+              ><span class="sb-icon">🎬</span
+              ><span class="sb-label" data-i18n="nav.videoPlayer">Відео</span></a
+            >
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  </div><!-- /.card-face -->
-    <div id="etymology-mount"></div>
-    <div id="similar-words-mount"></div>
 
-  <!-- Word Families — above the action buttons -->
-  <div id="word-families-mount"></div>
-
-  <!-- Synonyms — above the action buttons -->
-  <div id="synonyms-mount"></div>
-
-  <!-- Collocations — below Synonyms -->
-  <div id="collocations-mount"></div>
-
-  <span id="card-hint-mount"></span>
-
-  <!-- Actions bar — immediately after hint, before extra info -->
-  <div class="actions-bar">
-    <div class="actions-bar-center">
-      <button class="btn" id="btn-prev" title="Попередня картка" data-i18n-title="cards.prevTitle"><span data-i18n="cards.back">← Назад</span></button>
-      <button class="btn btn-auto" id="btn-auto" title="Авто-режим" data-i18n-title="cards.autoTitle" data-i18n="cards.auto">▶ Авто</button>
-      <button class="btn" id="btn-shuf" title="Перемішати" data-i18n-title="cards.shuffleTitle" style="font-size:14px;">🔀</button>
-      <button class="btn" id="btn-search" title="Пошук по словнику (Ctrl+F)" data-i18n-title="cards.searchTitle" style="font-size:14px;">🔍</button>
-      <button class="btn" id="btn-stats" title="Статистика" data-i18n-title="cards.statsTitle" style="display:none"></button>
-      <button class="btn btn-achievements" id="btn-achievements" title="Досягнення" data-i18n-title="cards.achievementsTitle" style="display:none"></button>
-      <button class="btn btn-modes-open" id="btn-modes-open" title="Режими навчання" data-i18n-title="cards.modesTitle" style="display:none"></button>
-      <div id="quick-quiz-mount"></div>
-      <button class="btn" id="btn-next" title="Наступна картка" data-i18n-title="cards.nextTitle"><span data-i18n="cards.forward">→ Далі</span></button>
-    </div>
-    <div id="daily-mission-mount" class="actions-bar-mission"></div>
-  </div>
-  <div style="margin-top:8px;text-align:center;display:flex;gap:8px;justify-content:center;max-width:360px;margin-left:auto;margin-right:auto;">
-    <button class="btn btn-know" id="btn-know" style="flex:1;font-size:1.05rem;padding:14px 0;letter-spacing:.03em;"><span data-i18n="cards.know">✓ Знаю</span></button>
-    <button class="btn btn-dontknow" id="btn-dontknow" style="display:none;flex:1;font-size:1.05rem;padding:14px 0;letter-spacing:.03em;"><span data-i18n="cards.dontKnow">✗ Не знаю</span></button>
-  </div>
-
-  <div id="font-size-control" style="display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-bottom:4px;"></div>
-
-  <div class="kbd-hint">
-    <kbd data-i18n="kbd.space">Пробіл</kbd> <span data-i18n="kbd.next">далі</span> &nbsp;
-    <kbd>Enter</kbd> <span data-i18n="kbd.know">знаю</span> &nbsp;
-    <kbd>←</kbd><kbd>→</kbd> <span data-i18n="kbd.navigation">навігація</span> &nbsp;
-    <kbd>F</kbd> <span data-i18n="kbd.translation">переклад</span> &nbsp;
-    <kbd>Ctrl+F</kbd> <span data-i18n="kbd.search">пошук</span> &nbsp;
-    <kbd>?</kbd> <span style="cursor:pointer" id="btn-keys" data-i18n-title="kbd.allKeysTitle" data-i18n="kbd.allKeys" title="Всі клавіші">всі клавіші</span>
-  </div>
-
-
-
-  
-
-
-  <!-- Тост досягнення -->
-  <div id="achievement-toast-mount"></div>
-
-  <!-- Модал зміни цілі -->
-  <div id="goal-modal-mount">
-  </div>
-
-
-</div>
-
-  <!-- PWA install banner -->
-  <div id="pwa-banner-mount"></div>
-
-
-
-  <!-- Панель статистики -->
-  <!-- ══ STATS OVERLAY (React, stats-page.tsx) ══ -->
-  <div id="stats-overlay"></div>
-
-  <!-- ══ SETTINGS PAGE ══ -->
-  <div id="settings-overlay" class="page-overlay">
-    <div class="page-inner">
-      <div class="page-header">
-        <div class="page-title" data-i18n="settings.pageTitle">⚙️ Налаштування</div>
-        <button class="page-close-btn" data-close-page title="Закрити" data-i18n-title="common.close">✕</button>
+        <a class="sb-btn" id="sb-duel" href="#"
+          ><span class="sb-icon">⚔️</span
+          ><span class="sb-label" data-i18n="nav.duel">Дуель</span></a
+        >
+        <a class="sb-btn" id="sb-profile" href="#"
+          ><span class="sb-icon">👤</span
+          ><span class="sb-label" data-i18n="nav.profile">Профіль</span></a
+        >
+        <a class="sb-btn" id="sb-settings" href="#"
+          ><span class="sb-icon">⚙️</span
+          ><span class="sb-label" data-i18n="nav.settings">Налаштування</span></a
+        >
       </div>
 
-      <!-- Теми / зовнішній вигляд -->
-      <div class="settings-section">
-        <div class="settings-section-title" data-i18n="settings.themesTitle">🎨 Теми</div>
-        <div class="settings-desc" data-i18n="settings.themesDesc">Обери оформлення застосунку.</div>
-        <div style="margin-top:8px;display:flex;flex-direction:column;gap:2px;">
-          <div class="sb-toggle-row" id="set-theme" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">🌙</span>
-            <span class="sb-label" data-i18n="settings.darkTheme">Темна тема</span>
-            <span class="sb-toggle-pill" id="set-theme-pill"></span>
+      <!-- Language switcher -->
+      <div class="sb-lang-section">
+        <div class="sb-lang-label" data-i18n="nav.language">🌐 Мова</div>
+        <div class="lang-toggle" title="Мова меню / Menu language / Idioma del menú">
+          <button class="lang-opt" data-lang="ua" title="Українська">
+            <img src="data/countries/ua.svg" alt="UA" width="13" height="13" />
+          </button>
+          <button class="lang-opt" data-lang="en" title="English">
+            <img src="data/countries/gb.svg" alt="EN" width="13" height="13" />
+          </button>
+          <button class="lang-opt" data-lang="es" title="Español">
+            <img src="data/countries/es.svg" alt="ES" width="13" height="13" />
+          </button>
+          <button class="lang-opt" data-lang="fr" title="Français">
+            <img src="data/countries/fr.svg" alt="FR" width="13" height="13" />
+          </button>
+          <button class="lang-opt" data-lang="it" title="Italiano">
+            <img src="data/countries/it.svg" alt="IT" width="13" height="13" />
+          </button>
+          <button class="lang-opt" data-lang="pt" title="Português">
+            <img src="data/countries/pt.svg" alt="PT" width="13" height="13" />
+          </button>
+          <button class="lang-opt" data-lang="de" title="Deutsch">
+            <img src="data/countries/de.svg" alt="DE" width="13" height="13" />
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="app">
+      <div class="header">
+        <div class="header-left">
+          <div class="title-row">
+            <div class="title">Vymova</div>
+            <button
+              id="title-sw-toggle"
+              class="title-sw-toggle"
+              title="Зоряні Війни — швидке перемикання теми"
+            >
+              ⚔️
+            </button>
+            <button
+              id="title-hp-toggle"
+              class="title-hp-toggle"
+              title="Гаррі Поттер — швидке перемикання теми"
+            >
+              🦁
+            </button>
           </div>
-          <div class="sb-toggle-row" id="set-sw" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">⚔️</span>
-            <span class="sb-label" data-i18n="settings.starWars">Star Wars</span>
-            <span class="sb-toggle-pill" id="set-sw-pill"></span>
+          <div class="subtitle">
+            <span data-i18n="cards.cardLabel">Картка</span> <span id="cidx-mount"></span> ·
+            <span data-i18n="cards.learnedLabel">Вивчено</span>: <span id="cknown-mount"></span>
           </div>
-          <div class="sb-toggle-row" id="set-hp" style="background:var(--bg);border-radius:10px;">
-            <span class="sb-icon">🦁</span>
-            <span class="sb-label" data-i18n="settings.harryPotter">Гаррі Поттер</span>
-            <span class="sb-toggle-pill" id="set-hp-pill"></span>
-          </div>
-          <div id="theme-rows-extra" style="display:none;flex-direction:column;gap:2px;">
-            <div class="sb-toggle-row" id="set-cp" style="background:var(--bg);border-radius:10px;">
-              <span class="sb-icon">🤖</span>
-              <span class="sb-label" data-i18n="settings.cyberpunk">Кіберпанк</span>
-              <span class="sb-toggle-pill" id="set-cp-pill"></span>
-            </div>
-            <div class="sb-toggle-row" id="set-lotr" style="background:var(--bg);border-radius:10px;">
-              <span class="sb-icon">💍</span>
-              <span class="sb-label" data-i18n="settings.lotr">Володар Перснів</span>
-              <span class="sb-toggle-pill" id="set-lotr-pill"></span>
-            </div>
-            <div class="sb-toggle-row" id="set-mcu" style="background:var(--bg);border-radius:10px;">
-              <span class="sb-icon">🛡️</span>
-              <span class="sb-label" data-i18n="settings.marvel">Марвел</span>
-              <span class="sb-toggle-pill" id="set-mcu-pill"></span>
-            </div>
-            <div class="sb-toggle-row" id="set-witcher" style="background:var(--bg);border-radius:10px;">
-              <span class="sb-icon">🐺</span>
-              <span class="sb-label" data-i18n="settings.witcher">Відьмак</span>
-              <span class="sb-toggle-pill" id="set-witcher-pill"></span>
-            </div>
-            <div class="sb-toggle-row" id="set-mc" style="background:var(--bg);border-radius:10px;">
-              <span class="sb-icon">⛏️</span>
-              <span class="sb-label" data-i18n="settings.minecraft">Майнкрафт</span>
-              <span class="sb-toggle-pill" id="set-mc-pill"></span>
-            </div>
-            <div class="sb-toggle-row" id="set-dc" style="background:var(--bg);border-radius:10px;">
-              <span class="sb-icon">🦇</span>
-              <span class="sb-label" data-i18n="settings.dc">DC</span>
-              <span class="sb-toggle-pill" id="set-dc-pill"></span>
-            </div>
-            <div class="sb-toggle-row" id="set-got" style="background:var(--bg);border-radius:10px;">
-              <span class="sb-icon">🐉</span>
-              <span class="sb-label" data-i18n="settings.got">Гра Престолів</span>
-              <span class="sb-toggle-pill" id="set-got-pill"></span>
-            </div>
-            <div class="sb-toggle-row" id="set-dw" style="background:var(--bg);border-radius:10px;">
-              <span class="sb-icon">🐢</span>
-              <span class="sb-label" data-i18n="settings.discworld">Дискосвіт</span>
-              <span class="sb-toggle-pill" id="set-dw-pill"></span>
-            </div>
-            <div class="sb-toggle-row" id="set-dune" style="background:var(--bg);border-radius:10px;">
-              <span class="sb-icon">🏜️</span>
-              <span class="sb-label" data-i18n="settings.dune">Дюна</span>
-              <span class="sb-toggle-pill" id="set-dune-pill"></span>
-            </div>
-            <div class="sb-toggle-row" id="set-hg" style="background:var(--bg);border-radius:10px;">
-              <span class="sb-icon">🏹</span>
-              <span class="sb-label" data-i18n="settings.hungerGames">Голодні Ігри</span>
-              <span class="sb-toggle-pill" id="set-hg-pill"></span>
-            </div>
-            <div class="sb-toggle-row" id="set-avt" style="background:var(--bg);border-radius:10px;">
-              <span class="sb-icon">🌿</span>
-              <span class="sb-label" data-i18n="settings.avatar">Аватар</span>
-              <span class="sb-toggle-pill" id="set-avt-pill"></span>
-            </div>
-            <div class="sb-toggle-row" id="set-dt" style="background:var(--bg);border-radius:10px;">
-              <span class="sb-icon">🗼</span>
-              <span class="sb-label" data-i18n="settings.darkTower">Темна Вежа</span>
-              <span class="sb-toggle-pill" id="set-dt-pill"></span>
-            </div>
-          </div>
-          <button type="button" id="theme-rows-toggle" class="theme-rows-toggle-btn" data-i18n="settings.showMoreThemes">Показати більше тем ▾</button>
+          <button id="profile-btn" class="profile-btn" style="display: none">
+            🧑 <span>Гравець 1</span> ▾
+          </button>
         </div>
-      </div>
-
-      <!-- Пріоритет повторення в іграх -->
-      <div class="settings-section">
-        <div class="settings-section-title" data-i18n="settings.srsPriorityTitle">🔁 Пріоритет повторення</div>
-        <div class="settings-desc" data-i18n="settings.srsPriorityDesc">Ігрові режими спершу показують слова, які час повторити (SRS), а не випадкові.</div>
-        <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
-          <label class="notif-toggle-wrap">
-            <input type="checkbox" id="srs-priority-toggle" checked>
-            <span class="notif-toggle-pill-ui"></span>
-          </label>
-          <span id="srs-priority-status" style="font-size:.85rem;color:var(--text2);" data-i18n="settings.srsPriorityOn">Увімкнено</span>
-        </div>
-      </div>
-
-      <!-- Голос -->
-      <div class="settings-section">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-          <div class="settings-section-title" style="margin-bottom:0" data-i18n="settings.voiceTitle">🔊 Голос озвучення</div>
-          <button id="voices-reload-btn" class="backup-btn" style="flex:none;padding:3px 9px;font-size:.68rem;" data-i18n="settings.voiceReload" data-i18n-title="settings.voiceReloadTitle" title="Перезавантажити список голосів">🔄 Оновити</button>
-        </div>
-        <div id="fy-voices-list" style="margin-top:10px;"></div>
-      </div>
-
-      <!-- Зображення -->
-      <div class="settings-section">
-        <div class="settings-section-title" data-i18n="settings.imagesTitle">🖼️ Зображення на картках</div>
-        <div class="settings-desc"><span data-i18n="settings.imagesDesc1">Безкоштовний ключ Pixabay дає фото для ~90% слів.</span> <span data-i18n="settings.imagesDesc2">Отримай на</span> <b>pixabay.com/api/docs</b>.</div>
-        <div id="image-prefetch-mount"></div>
-      </div>
-
-      <!-- Збереження прогресу -->
-      <div class="settings-section">
-        <div class="settings-section-title" data-i18n="settings.backupTitle">💾 Збереження прогресу</div>
-        <div class="settings-desc" data-i18n="settings.backupDesc">Експортуй прогрес перед оновленням файлу — щоб не втратити вивчені слова.</div>
-        <div class="backup-row" style="margin-top:10px;">
-          <button class="backup-btn primary" id="btn-export" data-i18n="settings.export">📤 Експорт</button>
-          <button class="backup-btn" id="btn-import-open" data-i18n="settings.import">📥 Імпорт</button>
-        </div>
-        <div class="backup-row" style="margin-top:6px;">
-          <button class="backup-btn" id="btn-anki-export" data-i18n="settings.ankiCsv">🃏 Anki CSV</button>
-          <button class="backup-btn" id="btn-share" data-i18n="settings.share">📤 Поділитись</button>
-        </div>
-        <div class="backup-row" style="margin-top:6px;">
-          <span id="csv-export-mount" style="display:contents"></span>
-          <button class="backup-btn" id="btn-pdf-export" data-i18n="settings.pdfExport">🖨️ PDF / Друк</button>
-        </div>
-        <div style="font-size:.72rem;color:var(--text3);margin-top:6px;">
-          <label for="export-filter" style="margin-right:6px;" data-i18n="settings.exportLabel">Експортувати:</label>
-          <select id="export-filter" style="padding:3px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);font-size:.72rem;font-family:inherit;">
-            <option value="known" data-i18n="settings.exportKnown">✓ Тільки вивчені</option>
-            <option value="unknown" data-i18n="settings.exportUnknown">🔴 Тільки невивчені</option>
-            <option value="all" data-i18n="settings.exportAll">📚 Всі слова</option>
+        <div class="controls">
+          <div id="theme-toggle-mount"></div>
+          <button id="btn-sw" title="Star Wars режим" style="display: none"></button>
+          <button id="btn-hp" title="Гаррі Поттер режим" style="display: none"></button>
+          <button id="btn-cp" title="Кіберпанк режим" style="display: none"></button>
+          <button id="btn-lotr" title="Володар Перснів режим" style="display: none"></button>
+          <button id="btn-mcu" title="Марвел режим" style="display: none"></button>
+          <button id="btn-witcher" title="Відьмак режим" style="display: none"></button>
+          <button id="btn-mc" title="Майнкрафт режим" style="display: none"></button>
+          <button id="btn-dc" title="DC режим" style="display: none"></button>
+          <button id="btn-got" title="Гра Престолів режим" style="display: none"></button>
+          <button id="btn-dw" title="Дискосвіт режим" style="display: none"></button>
+          <button id="btn-dune" title="Дюна режим" style="display: none"></button>
+          <button id="btn-hg" title="Голодні Ігри режим" style="display: none"></button>
+          <button id="btn-avt" title="Аватар режим" style="display: none"></button>
+          <button id="btn-dt" title="Темна Вежа режим" style="display: none"></button>
+          <div id="lang-pair-select"></div>
+          <select id="sel-mode" style="display: none">
+            <option value="en">EN → UA</option>
+            <option value="ua">UA → EN</option>
+            <option value="mix" data-i18n="mode.mixed">Мішаний</option>
+            <option value="en-es">EN → ES</option>
+            <option value="es-en">ES → EN</option>
+            <option value="es-ua">ES → UA</option>
+            <option value="ua-es">UA → ES</option>
+            <option value="en-fr">EN → FR</option>
+            <option value="fr-en">FR → EN</option>
+            <option value="fr-ua">FR → UA</option>
+            <option value="ua-fr">UA → FR</option>
+            <option value="es-fr">ES → FR</option>
+            <option value="fr-es">FR → ES</option>
+            <option value="en-it">EN → IT</option>
+            <option value="it-en">IT → EN</option>
+            <option value="it-ua">IT → UA</option>
+            <option value="ua-it">UA → IT</option>
+            <option value="en-pt">EN → PT</option>
+            <option value="pt-en">PT → EN</option>
+            <option value="pt-ua">PT → UA</option>
+            <option value="ua-pt">UA → PT</option>
+            <option value="en-de">EN → DE</option>
+            <option value="de-en">DE → EN</option>
+            <option value="de-ua">DE → UA</option>
+            <option value="ua-de">UA → DE</option>
+            <option value="en-he">EN → HE</option>
+            <option value="he-en">HE → EN</option>
+            <option value="he-ua">HE → UA</option>
+            <option value="ua-he">UA → HE</option>
+            <option value="en-ar">EN → AR</option>
+            <option value="ar-en">AR → EN</option>
+            <option value="ar-ua">AR → UA</option>
+            <option value="ua-ar">UA → AR</option>
+            <option value="en-pl">EN → PL</option>
+            <option value="pl-en">PL → EN</option>
+            <option value="pl-ua">PL → UA</option>
+            <option value="ua-pl">UA → PL</option>
+            <option value="en-zh">EN → ZH</option>
+            <option value="zh-en">ZH → EN</option>
+            <option value="zh-ua">ZH → UA</option>
+            <option value="ua-zh">UA → ZH</option>
+            <option value="en-el">EN → EL</option>
+            <option value="el-en">EL → EN</option>
+            <option value="el-ua">EL → UA</option>
+            <option value="ua-el">UA → EL</option>
+            <option value="en-ja">EN → JA</option>
+            <option value="ja-en">JA → EN</option>
+            <option value="ja-ua">JA → UA</option>
+            <option value="ua-ja">UA → JA</option>
+            <option value="en-tr">EN → TR</option>
+            <option value="tr-en">TR → EN</option>
+            <option value="tr-ua">TR → UA</option>
+            <option value="ua-tr">UA → TR</option>
+            <option value="en-nl">EN → NL</option>
+            <option value="nl-en">NL → EN</option>
+            <option value="nl-ua">NL → UA</option>
+            <option value="ua-nl">UA → NL</option>
+          </select>
+          <select
+            id="sel-tag"
+            title="Фільтр по темі"
+            data-i18n-title="cards.tagFilterTitle"
+          ></select>
+          <select id="sel-range">
+            <option value="0">Всі слова (10002)</option>
+            <option value="unlearned" data-i18n="range.unlearned">🔴 Тільки невивчені</option>
+            <option value="srs" data-i18n="range.srs">🔁 Spaced Repetition</option>
+            <option value="weak" data-i18n="range.weak">⚠️ Слабкі слова</option>
+            <option value="hard" data-i18n="range.hard">🔴 Важкі слова</option>
+            <optgroup label="📊 Рівень CEFR" data-i18n-label="range.cefrGroup">
+              <option value="cefr-A1" data-i18n="range.cefrA1">🟢 A1 — Початківець</option>
+              <option value="cefr-A2" data-i18n="range.cefrA2">🟩 A2 — Елементарний</option>
+              <option value="cefr-B1" data-i18n="range.cefrB1">🟡 B1 — Середній</option>
+              <option value="cefr-B2" data-i18n="range.cefrB2">🟠 B2 — Вище середнього</option>
+              <option value="cefr-C1" data-i18n="range.cefrC1">🔴 C1 — Просунутий</option>
+              <option value="cefr-C2" data-i18n="range.cefrC2">🟣 C2 — Майстерний</option>
+            </optgroup>
+            <optgroup label="📖 Частина мови" data-i18n-label="range.posGroup">
+              <option value="pos-n" data-i18n="range.posNoun">📦 Іменники</option>
+              <option value="pos-v" data-i18n="range.posVerb">🏃 Дієслова</option>
+              <option value="pos-adj" data-i18n="range.posAdj">🎨 Прикметники</option>
+              <option value="pos-adv" data-i18n="range.posAdv">⚡ Прислівники</option>
+              <option value="pos-phrase" data-i18n="range.posPhrase">💬 Фрази</option>
+              <option value="pos-other" data-i18n="range.posOther">🔤 Інше</option>
+            </optgroup>
+            <option value="stale7" data-i18n="range.stale7">🕰️ Не бачені 7 днів</option>
+            <option value="stale30" data-i18n="range.stale30">🕰️ Не бачені 30 днів</option>
           </select>
         </div>
       </div>
 
-      <!-- Сповіщення -->
-      <div class="settings-section">
-        <div class="settings-section-title" data-i18n="settings.notifTitle">🔔 Сповіщення</div>
-        <div class="settings-desc" data-i18n="settings.notifDesc">Щоденне нагадування якщо ще не вчив сьогодні.</div>
-        <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
-          <label class="notif-toggle-wrap">
-            <input type="checkbox" id="notif-toggle">
-            <span class="notif-toggle-pill-ui"></span>
-          </label>
-          <span id="notif-status" style="font-size:.78rem;color:var(--text2);">Вимкнено</span>
-          <button onclick="window.requestNotifPermission&&window.requestNotifPermission()" class="backup-btn" style="padding:5px 12px;font-size:.75rem;margin-left:auto;" data-i18n="settings.notifAllow">Дозволити</button>
+      <!-- ── 3-block game bar ── -->
+      <div class="game-bar-3" id="game-bar">
+        <!-- Block 1: Streak + Combo (React, see game-bar-streak.tsx) -->
+        <div class="gb-block gb-streak-block">
+          <div id="streak-block-mount"></div>
+          <div id="combo-box-mount"></div>
         </div>
-        <div id="notif-time-row" style="display:none;margin-top:10px;align-items:center;gap:10px;flex-wrap:wrap;">
-          <span style="font-size:.8rem;color:var(--text2);" data-i18n="settings.notifTimeLabel">⏰ Нагадувати щодня о</span>
-          <div class="time-picker">
-            <select id="notif-time-h" class="time-select"></select>
-            <span class="time-sep">:</span>
-            <select id="notif-time-m" class="time-select"></select>
+
+        <!-- Block 2: Daily goal (React, see game-bar-streak.tsx) -->
+        <div class="gb-block gb-goal-block">
+          <div class="gb-goal-header">
+            <span class="gb-label" data-i18n="cards.dailyGoal">Ціль на сьогодні</span>
+            <span class="goal-set" id="goal-set-btn" title="Змінити ціль">⚙️</span>
           </div>
-          <span style="font-size:.75rem;color:var(--text3);" data-i18n="settings.notifTimeSuffix">якщо не вчив сьогодні</span>
+          <div id="goal-block-mount"></div>
         </div>
+
+        <!-- Block 2.5: Word of the day (React, see word-of-day.tsx) -->
+        <div class="gb-block gb-wotd-block">
+          <div id="wotd-mount"></div>
+        </div>
+
+        <!-- Block 3: Level XP progress (React, see game-bar-level.tsx) -->
+        <div class="gb-block gb-level-block" id="level-box" title="Прогрес рівня"></div>
+      </div>
+      <div id="combo-toast-mount"></div>
+      <div id="mode-complete-toast-mount"></div>
+      <div id="confetti-canvas-mount"></div>
+
+      <div id="srs-stats" class="srs-stats-bar" style="display: none">
+        <span>📚</span>
+        <span data-i18n="srs.statsToday">Сьогодні:</span>
+        <span id="srs-stat-due" class="srs-stat-num srs-stat-due">0</span
+        ><span data-i18n="srs.statsDue"> до повторення</span>
+        <span class="srs-stat-sep">·</span>
+        <span id="srs-stat-new" class="srs-stat-num srs-stat-new">0</span
+        ><span data-i18n="srs.statsNew"> нових</span>
       </div>
 
-      <!-- ── Haptic Feedback ── -->
-      <div class="settings-section">
-        <div class="settings-section-title" data-i18n="settings.hapticTitle">📳 Вібрація</div>
-        <div class="settings-desc" data-i18n="settings.hapticDesc">Тактильний відгук при відповідях на картках.</div>
-        <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
-          <label class="notif-toggle-wrap">
-            <input type="checkbox" id="haptic-toggle" checked>
-            <span class="notif-toggle-pill-ui"></span>
-          </label>
-          <span id="haptic-status" style="font-size:.85rem;color:var(--text2);" data-i18n="settings.hapticOn">Увімкнено</span>
+      <div class="search-wrap" id="search-inline-mount"></div>
+      <div style="display: none" id="pbar-ring-wrap">
+        <div style="flex: 1">
+          <div class="progress-wrap"><div id="pbar-mount"></div></div>
         </div>
-        <p id="haptic-ios-note" style="display:none;font-size:.78rem;color:var(--text3);margin-top:8px;" data-i18n="settings.hapticIosNote">⚠️ Safari/iOS не підтримує вібрацію — обмеження Apple.</p>
+        <div id="level-ring-mount"></div>
       </div>
 
-      <!-- ── PWA Install ── -->
-      <div class="settings-section">
-        <div class="settings-section-title" data-i18n="settings.pwaTitle">📱 Встановити застосунок</div>
-        <div class="settings-desc" data-i18n="settings.pwaDesc">Швидкий доступ з головного екрана, робота офлайн.</div>
-        <div style="margin-top:10px;">
-          <button id="btn-pwa-install" class="backup-btn" style="padding:7px 14px;font-size:.8rem;" data-i18n="pwa.installBtn">Встановити</button>
-          <span id="pwa-install-status" style="font-size:.78rem;color:var(--text2);"></span>
-          <div id="pwa-install-hint" style="font-size:.78rem;color:var(--text2);"></div>
-        </div>
-      </div>
-
-      <!-- Скидання прогресу -->
-      <!-- ── Cloud Sync ── -->
-      <div class="settings-section">
-        <div class="settings-section-title" data-i18n="settings.cloudTitle">☁️ Хмарний бекап</div>
-
-        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
-          <div id="cs-code" style="flex:1;font-family:monospace;font-size:.95rem;font-weight:700;color:var(--accent);background:rgba(255,255,255,.04);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;letter-spacing:.1em;text-align:center;">········</div>
-          <button id="cs-copy" style="padding:8px 12px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-size:.8rem;white-space:nowrap;" data-i18n="settings.cloudCopy">📋 Копія</button>
-        </div>
-
-        <button id="cs-save" style="width:100%;padding:10px;border-radius:12px;border:none;background:var(--accent);color:#0a1628;cursor:pointer;font-family:inherit;font-size:.88rem;font-weight:600;margin-bottom:10px;" data-i18n="settings.cloudSave">⬆️ Зберегти в хмару</button>
-
-        <div style="border-top:1px solid var(--border);margin:8px 0;padding-top:10px;">
-          <div style="font-size:.74rem;color:var(--text3);margin-bottom:7px;" data-i18n="settings.cloudAutoLabel">🔄 Авто-збереження:</div>
-          <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
-            <select id="cs-interval" style="flex:1;padding:9px 10px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:.85rem;cursor:pointer;outline:none;">
-              <option value="0" data-i18n="settings.intervalOff">Вимк</option>
-              <option value="30" data-i18n="settings.interval30">30 хв</option>
-              <option value="60" data-i18n="settings.interval60">1 год</option>
-              <option value="360" data-i18n="settings.interval360">6 год</option>
-              <option value="1440" data-i18n="settings.intervalDaily">Щодня</option>
-            </select>
-            <span id="cs-last" style="font-size:.7rem;color:var(--text3);white-space:nowrap;"></span>
+      <div class="card-scene">
+        <div class="card" id="card">
+          <span class="swipe-hint-right" id="sh-right" data-i18n="cards.know">✓ Знаю</span>
+          <span class="swipe-hint-left" id="sh-left" data-i18n="cards.next">Далі →</span>
+          <span class="swipe-hint-up" id="sh-up" data-i18n="cards.translation">👁 Переклад</span>
+          <div class="card-face" id="card-front">
+            <div id="card-meta-mount"></div>
+            <div class="card-body">
+              <div id="illus-mount"></div>
+              <div class="word-side">
+                <div class="word-row">
+                  <span id="wword-mount"></span>
+                  <div class="word-actions">
+                    <button
+                      class="speak-btn"
+                      id="speak-word"
+                      title="Вимовити слово"
+                      data-i18n-title="cards.pronounce"
+                    >
+                      🔊
+                    </button>
+                    <button
+                      class="speak-btn"
+                      id="btn-mic"
+                      title="Перевір вимову"
+                      data-i18n-title="cards.checkPron"
+                      style="display: none"
+                    >
+                      🎤
+                    </button>
+                    <button
+                      class="speak-btn card-note-btn"
+                      id="btn-note"
+                      title="Нотатка/мнемоніка"
+                      data-i18n-title="cards.noteMnemonic"
+                    >
+                      📝
+                    </button>
+                    <button
+                      class="speak-btn card-bookmark-btn"
+                      id="btn-bookmark"
+                      title="Додати в закладки"
+                      data-i18n-title="cards.addBookmark"
+                    >
+                      ☆
+                    </button>
+                  </div>
+                </div>
+                <div id="card-note-mount"></div>
+                <div id="wtrans-mount"></div>
+                <div id="wpos-mount"></div>
+                <div id="usage-note-mount"></div>
+                <div id="srs-next-mount"></div>
+                <div id="wtransl-mount"></div>
+                <div id="senses-mount"></div>
+                <div class="divider"></div>
+                <div class="ex-label" data-i18n="cards.example">Приклад</div>
+                <div class="ex-row">
+                  <div class="ex-texts">
+                    <span id="exen-mount"></span
+                    ><button class="speak-btn speak-ex-btn" id="speak-ex" title="Вимовити приклад">
+                      🔊
+                    </button>
+                    <div id="exua-mount"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        <!-- /.card-face -->
+        <div id="etymology-mount"></div>
+        <div id="similar-words-mount"></div>
 
-        <div style="border-top:1px solid var(--border);margin:4px 0 10px;padding-top:10px;">
-          <div style="font-size:.74rem;color:var(--text3);margin-bottom:7px;" data-i18n="settings.cloudRestoreLabel">Відновити на цьому пристрої:</div>
-          <div style="display:flex;gap:8px;">
-            <input id="cs-inp" placeholder="XXXX-XXXX-XXXX" maxlength="14"
-              style="flex:1;font-family:monospace;font-size:.88rem;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);outline:none;text-transform:uppercase;">
-            <button id="cs-restore" style="padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text);cursor:pointer;font-size:.85rem;font-weight:600;white-space:nowrap;" data-i18n="settings.cloudRestore">⬇️ Відновити</button>
+        <!-- Word Families — above the action buttons -->
+        <div id="word-families-mount"></div>
+
+        <!-- Synonyms — above the action buttons -->
+        <div id="synonyms-mount"></div>
+
+        <!-- Collocations — below Synonyms -->
+        <div id="collocations-mount"></div>
+
+        <span id="card-hint-mount"></span>
+
+        <!-- Actions bar — immediately after hint, before extra info -->
+        <div class="actions-bar">
+          <div class="actions-bar-center">
+            <button
+              class="btn"
+              id="btn-prev"
+              title="Попередня картка"
+              data-i18n-title="cards.prevTitle"
+            >
+              <span data-i18n="cards.back">← Назад</span>
+            </button>
+            <button
+              class="btn btn-auto"
+              id="btn-auto"
+              title="Авто-режим"
+              data-i18n-title="cards.autoTitle"
+              data-i18n="cards.auto"
+            >
+              ▶ Авто
+            </button>
+            <button
+              class="btn"
+              id="btn-shuf"
+              title="Перемішати"
+              data-i18n-title="cards.shuffleTitle"
+              style="font-size: 14px"
+            >
+              🔀
+            </button>
+            <button
+              class="btn"
+              id="btn-search"
+              title="Пошук по словнику (Ctrl+F)"
+              data-i18n-title="cards.searchTitle"
+              style="font-size: 14px"
+            >
+              🔍
+            </button>
+            <button
+              class="btn"
+              id="btn-stats"
+              title="Статистика"
+              data-i18n-title="cards.statsTitle"
+              style="display: none"
+            ></button>
+            <button
+              class="btn btn-achievements"
+              id="btn-achievements"
+              title="Досягнення"
+              data-i18n-title="cards.achievementsTitle"
+              style="display: none"
+            ></button>
+            <button
+              class="btn btn-modes-open"
+              id="btn-modes-open"
+              title="Режими навчання"
+              data-i18n-title="cards.modesTitle"
+              style="display: none"
+            ></button>
+            <div id="quick-quiz-mount"></div>
+            <button
+              class="btn"
+              id="btn-next"
+              title="Наступна картка"
+              data-i18n-title="cards.nextTitle"
+            >
+              <span data-i18n="cards.forward">→ Далі</span>
+            </button>
+          </div>
+          <div id="daily-mission-mount" class="actions-bar-mission"></div>
+        </div>
+        <div
+          style="
+            margin-top: 8px;
+            text-align: center;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            max-width: 360px;
+            margin-left: auto;
+            margin-right: auto;
+          "
+        >
+          <button
+            class="btn btn-know"
+            id="btn-know"
+            style="flex: 1; font-size: 1.05rem; padding: 14px 0; letter-spacing: 0.03em"
+          >
+            <span data-i18n="cards.know">✓ Знаю</span>
+          </button>
+          <button
+            class="btn btn-dontknow"
+            id="btn-dontknow"
+            style="
+              display: none;
+              flex: 1;
+              font-size: 1.05rem;
+              padding: 14px 0;
+              letter-spacing: 0.03em;
+            "
+          >
+            <span data-i18n="cards.dontKnow">✗ Не знаю</span>
+          </button>
+        </div>
+
+        <div
+          id="font-size-control"
+          style="
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+          "
+        ></div>
+
+        <div class="kbd-hint">
+          <kbd data-i18n="kbd.space">Пробіл</kbd> <span data-i18n="kbd.next">далі</span> &nbsp;
+          <kbd>Enter</kbd> <span data-i18n="kbd.know">знаю</span> &nbsp; <kbd>←</kbd><kbd>→</kbd>
+          <span data-i18n="kbd.navigation">навігація</span> &nbsp; <kbd>F</kbd>
+          <span data-i18n="kbd.translation">переклад</span> &nbsp; <kbd>Ctrl+F</kbd>
+          <span data-i18n="kbd.search">пошук</span> &nbsp; <kbd>?</kbd>
+          <span
+            style="cursor: pointer"
+            id="btn-keys"
+            data-i18n-title="kbd.allKeysTitle"
+            data-i18n="kbd.allKeys"
+            title="Всі клавіші"
+            >всі клавіші</span
+          >
+        </div>
+
+        <!-- Тост досягнення -->
+        <div id="achievement-toast-mount"></div>
+
+        <!-- Модал зміни цілі -->
+        <div id="goal-modal-mount"></div>
+      </div>
+
+      <!-- PWA install banner -->
+      <div id="pwa-banner-mount"></div>
+
+      <!-- Панель статистики -->
+      <!-- ══ STATS OVERLAY (React, stats-page.tsx) ══ -->
+      <div id="stats-overlay"></div>
+
+      <!-- ══ SETTINGS PAGE ══ -->
+      <div id="settings-overlay" class="page-overlay">
+        <div class="page-inner">
+          <div class="page-header">
+            <div class="page-title" data-i18n="settings.pageTitle">⚙️ Налаштування</div>
+            <button
+              class="page-close-btn"
+              data-close-page
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+
+          <!-- Теми / зовнішній вигляд -->
+          <div class="settings-section">
+            <div class="settings-section-title" data-i18n="settings.themesTitle">🎨 Теми</div>
+            <div class="settings-desc" data-i18n="settings.themesDesc">
+              Обери оформлення застосунку.
+            </div>
+            <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 2px">
+              <div
+                class="sb-toggle-row"
+                id="set-theme"
+                style="background: var(--bg); border-radius: 10px"
+              >
+                <span class="sb-icon">🌙</span>
+                <span class="sb-label" data-i18n="settings.darkTheme">Темна тема</span>
+                <span class="sb-toggle-pill" id="set-theme-pill"></span>
+              </div>
+              <div
+                class="sb-toggle-row"
+                id="set-sw"
+                style="background: var(--bg); border-radius: 10px"
+              >
+                <span class="sb-icon">⚔️</span>
+                <span class="sb-label" data-i18n="settings.starWars">Star Wars</span>
+                <span class="sb-toggle-pill" id="set-sw-pill"></span>
+              </div>
+              <div
+                class="sb-toggle-row"
+                id="set-hp"
+                style="background: var(--bg); border-radius: 10px"
+              >
+                <span class="sb-icon">🦁</span>
+                <span class="sb-label" data-i18n="settings.harryPotter">Гаррі Поттер</span>
+                <span class="sb-toggle-pill" id="set-hp-pill"></span>
+              </div>
+              <div id="theme-rows-extra" style="display: none; flex-direction: column; gap: 2px">
+                <div
+                  class="sb-toggle-row"
+                  id="set-cp"
+                  style="background: var(--bg); border-radius: 10px"
+                >
+                  <span class="sb-icon">🤖</span>
+                  <span class="sb-label" data-i18n="settings.cyberpunk">Кіберпанк</span>
+                  <span class="sb-toggle-pill" id="set-cp-pill"></span>
+                </div>
+                <div
+                  class="sb-toggle-row"
+                  id="set-lotr"
+                  style="background: var(--bg); border-radius: 10px"
+                >
+                  <span class="sb-icon">💍</span>
+                  <span class="sb-label" data-i18n="settings.lotr">Володар Перснів</span>
+                  <span class="sb-toggle-pill" id="set-lotr-pill"></span>
+                </div>
+                <div
+                  class="sb-toggle-row"
+                  id="set-mcu"
+                  style="background: var(--bg); border-radius: 10px"
+                >
+                  <span class="sb-icon">🛡️</span>
+                  <span class="sb-label" data-i18n="settings.marvel">Марвел</span>
+                  <span class="sb-toggle-pill" id="set-mcu-pill"></span>
+                </div>
+                <div
+                  class="sb-toggle-row"
+                  id="set-witcher"
+                  style="background: var(--bg); border-radius: 10px"
+                >
+                  <span class="sb-icon">🐺</span>
+                  <span class="sb-label" data-i18n="settings.witcher">Відьмак</span>
+                  <span class="sb-toggle-pill" id="set-witcher-pill"></span>
+                </div>
+                <div
+                  class="sb-toggle-row"
+                  id="set-mc"
+                  style="background: var(--bg); border-radius: 10px"
+                >
+                  <span class="sb-icon">⛏️</span>
+                  <span class="sb-label" data-i18n="settings.minecraft">Майнкрафт</span>
+                  <span class="sb-toggle-pill" id="set-mc-pill"></span>
+                </div>
+                <div
+                  class="sb-toggle-row"
+                  id="set-dc"
+                  style="background: var(--bg); border-radius: 10px"
+                >
+                  <span class="sb-icon">🦇</span>
+                  <span class="sb-label" data-i18n="settings.dc">DC</span>
+                  <span class="sb-toggle-pill" id="set-dc-pill"></span>
+                </div>
+                <div
+                  class="sb-toggle-row"
+                  id="set-got"
+                  style="background: var(--bg); border-radius: 10px"
+                >
+                  <span class="sb-icon">🐉</span>
+                  <span class="sb-label" data-i18n="settings.got">Гра Престолів</span>
+                  <span class="sb-toggle-pill" id="set-got-pill"></span>
+                </div>
+                <div
+                  class="sb-toggle-row"
+                  id="set-dw"
+                  style="background: var(--bg); border-radius: 10px"
+                >
+                  <span class="sb-icon">🐢</span>
+                  <span class="sb-label" data-i18n="settings.discworld">Дискосвіт</span>
+                  <span class="sb-toggle-pill" id="set-dw-pill"></span>
+                </div>
+                <div
+                  class="sb-toggle-row"
+                  id="set-dune"
+                  style="background: var(--bg); border-radius: 10px"
+                >
+                  <span class="sb-icon">🏜️</span>
+                  <span class="sb-label" data-i18n="settings.dune">Дюна</span>
+                  <span class="sb-toggle-pill" id="set-dune-pill"></span>
+                </div>
+                <div
+                  class="sb-toggle-row"
+                  id="set-hg"
+                  style="background: var(--bg); border-radius: 10px"
+                >
+                  <span class="sb-icon">🏹</span>
+                  <span class="sb-label" data-i18n="settings.hungerGames">Голодні Ігри</span>
+                  <span class="sb-toggle-pill" id="set-hg-pill"></span>
+                </div>
+                <div
+                  class="sb-toggle-row"
+                  id="set-avt"
+                  style="background: var(--bg); border-radius: 10px"
+                >
+                  <span class="sb-icon">🌿</span>
+                  <span class="sb-label" data-i18n="settings.avatar">Аватар</span>
+                  <span class="sb-toggle-pill" id="set-avt-pill"></span>
+                </div>
+                <div
+                  class="sb-toggle-row"
+                  id="set-dt"
+                  style="background: var(--bg); border-radius: 10px"
+                >
+                  <span class="sb-icon">🗼</span>
+                  <span class="sb-label" data-i18n="settings.darkTower">Темна Вежа</span>
+                  <span class="sb-toggle-pill" id="set-dt-pill"></span>
+                </div>
+              </div>
+              <button
+                type="button"
+                id="theme-rows-toggle"
+                class="theme-rows-toggle-btn"
+                data-i18n="settings.showMoreThemes"
+              >
+                Показати більше тем ▾
+              </button>
+            </div>
+          </div>
+
+          <!-- Пріоритет повторення в іграх -->
+          <div class="settings-section">
+            <div class="settings-section-title" data-i18n="settings.srsPriorityTitle">
+              🔁 Пріоритет повторення
+            </div>
+            <div class="settings-desc" data-i18n="settings.srsPriorityDesc">
+              Ігрові режими спершу показують слова, які час повторити (SRS), а не випадкові.
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px">
+              <label class="notif-toggle-wrap">
+                <input type="checkbox" id="srs-priority-toggle" checked />
+                <span class="notif-toggle-pill-ui"></span>
+              </label>
+              <span
+                id="srs-priority-status"
+                style="font-size: 0.85rem; color: var(--text2)"
+                data-i18n="settings.srsPriorityOn"
+                >Увімкнено</span
+              >
+            </div>
+          </div>
+
+          <!-- Голос -->
+          <div class="settings-section">
+            <div
+              style="display: flex; align-items: center; justify-content: space-between; gap: 8px"
+            >
+              <div
+                class="settings-section-title"
+                style="margin-bottom: 0"
+                data-i18n="settings.voiceTitle"
+              >
+                🔊 Голос озвучення
+              </div>
+              <button
+                id="voices-reload-btn"
+                class="backup-btn"
+                style="flex: none; padding: 3px 9px; font-size: 0.68rem"
+                data-i18n="settings.voiceReload"
+                data-i18n-title="settings.voiceReloadTitle"
+                title="Перезавантажити список голосів"
+              >
+                🔄 Оновити
+              </button>
+            </div>
+            <div id="fy-voices-list" style="margin-top: 10px"></div>
+          </div>
+
+          <!-- Зображення -->
+          <div class="settings-section">
+            <div class="settings-section-title" data-i18n="settings.imagesTitle">
+              🖼️ Зображення на картках
+            </div>
+            <div class="settings-desc">
+              <span data-i18n="settings.imagesDesc1"
+                >Безкоштовний ключ Pixabay дає фото для ~90% слів.</span
+              >
+              <span data-i18n="settings.imagesDesc2">Отримай на</span> <b>pixabay.com/api/docs</b>.
+            </div>
+            <div id="image-prefetch-mount"></div>
+          </div>
+
+          <!-- Збереження прогресу -->
+          <div class="settings-section">
+            <div class="settings-section-title" data-i18n="settings.backupTitle">
+              💾 Збереження прогресу
+            </div>
+            <div class="settings-desc" data-i18n="settings.backupDesc">
+              Експортуй прогрес перед оновленням файлу — щоб не втратити вивчені слова.
+            </div>
+            <div class="backup-row" style="margin-top: 10px">
+              <button class="backup-btn primary" id="btn-export" data-i18n="settings.export">
+                📤 Експорт
+              </button>
+              <button class="backup-btn" id="btn-import-open" data-i18n="settings.import">
+                📥 Імпорт
+              </button>
+            </div>
+            <div class="backup-row" style="margin-top: 6px">
+              <button class="backup-btn" id="btn-anki-export" data-i18n="settings.ankiCsv">
+                🃏 Anki CSV
+              </button>
+              <button class="backup-btn" id="btn-share" data-i18n="settings.share">
+                📤 Поділитись
+              </button>
+            </div>
+            <div class="backup-row" style="margin-top: 6px">
+              <span id="csv-export-mount" style="display: contents"></span>
+              <button class="backup-btn" id="btn-pdf-export" data-i18n="settings.pdfExport">
+                🖨️ PDF / Друк
+              </button>
+            </div>
+            <div style="font-size: 0.72rem; color: var(--text3); margin-top: 6px">
+              <label for="export-filter" style="margin-right: 6px" data-i18n="settings.exportLabel"
+                >Експортувати:</label
+              >
+              <select
+                id="export-filter"
+                style="
+                  padding: 3px 8px;
+                  border: 1px solid var(--border);
+                  border-radius: 6px;
+                  background: var(--bg);
+                  color: var(--text);
+                  font-size: 0.72rem;
+                  font-family: inherit;
+                "
+              >
+                <option value="known" data-i18n="settings.exportKnown">✓ Тільки вивчені</option>
+                <option value="unknown" data-i18n="settings.exportUnknown">
+                  🔴 Тільки невивчені
+                </option>
+                <option value="all" data-i18n="settings.exportAll">📚 Всі слова</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Сповіщення -->
+          <div class="settings-section">
+            <div class="settings-section-title" data-i18n="settings.notifTitle">🔔 Сповіщення</div>
+            <div class="settings-desc" data-i18n="settings.notifDesc">
+              Щоденне нагадування якщо ще не вчив сьогодні.
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px">
+              <label class="notif-toggle-wrap">
+                <input type="checkbox" id="notif-toggle" />
+                <span class="notif-toggle-pill-ui"></span>
+              </label>
+              <span id="notif-status" style="font-size: 0.78rem; color: var(--text2)"
+                >Вимкнено</span
+              >
+              <button
+                onclick="window.requestNotifPermission && window.requestNotifPermission()"
+                class="backup-btn"
+                style="padding: 5px 12px; font-size: 0.75rem; margin-left: auto"
+                data-i18n="settings.notifAllow"
+              >
+                Дозволити
+              </button>
+            </div>
+            <div
+              id="notif-time-row"
+              style="
+                display: none;
+                margin-top: 10px;
+                align-items: center;
+                gap: 10px;
+                flex-wrap: wrap;
+              "
+            >
+              <span
+                style="font-size: 0.8rem; color: var(--text2)"
+                data-i18n="settings.notifTimeLabel"
+                >⏰ Нагадувати щодня о</span
+              >
+              <div class="time-picker">
+                <select id="notif-time-h" class="time-select"></select>
+                <span class="time-sep">:</span>
+                <select id="notif-time-m" class="time-select"></select>
+              </div>
+              <span
+                style="font-size: 0.75rem; color: var(--text3)"
+                data-i18n="settings.notifTimeSuffix"
+                >якщо не вчив сьогодні</span
+              >
+            </div>
+          </div>
+
+          <!-- ── Haptic Feedback ── -->
+          <div class="settings-section">
+            <div class="settings-section-title" data-i18n="settings.hapticTitle">📳 Вібрація</div>
+            <div class="settings-desc" data-i18n="settings.hapticDesc">
+              Тактильний відгук при відповідях на картках.
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px">
+              <label class="notif-toggle-wrap">
+                <input type="checkbox" id="haptic-toggle" checked />
+                <span class="notif-toggle-pill-ui"></span>
+              </label>
+              <span
+                id="haptic-status"
+                style="font-size: 0.85rem; color: var(--text2)"
+                data-i18n="settings.hapticOn"
+                >Увімкнено</span
+              >
+            </div>
+            <p
+              id="haptic-ios-note"
+              style="display: none; font-size: 0.78rem; color: var(--text3); margin-top: 8px"
+              data-i18n="settings.hapticIosNote"
+            >
+              ⚠️ Safari/iOS не підтримує вібрацію — обмеження Apple.
+            </p>
+          </div>
+
+          <!-- ── PWA Install ── -->
+          <div class="settings-section">
+            <div class="settings-section-title" data-i18n="settings.pwaTitle">
+              📱 Встановити застосунок
+            </div>
+            <div class="settings-desc" data-i18n="settings.pwaDesc">
+              Швидкий доступ з головного екрана, робота офлайн.
+            </div>
+            <div style="margin-top: 10px">
+              <button
+                id="btn-pwa-install"
+                class="backup-btn"
+                style="padding: 7px 14px; font-size: 0.8rem"
+                data-i18n="pwa.installBtn"
+              >
+                Встановити
+              </button>
+              <span id="pwa-install-status" style="font-size: 0.78rem; color: var(--text2)"></span>
+              <div id="pwa-install-hint" style="font-size: 0.78rem; color: var(--text2)"></div>
+            </div>
+          </div>
+
+          <!-- Скидання прогресу -->
+          <!-- ── Cloud Sync ── -->
+          <div class="settings-section">
+            <div class="settings-section-title" data-i18n="settings.cloudTitle">
+              ☁️ Хмарний бекап
+            </div>
+
+            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 10px">
+              <div
+                id="cs-code"
+                style="
+                  flex: 1;
+                  font-family: monospace;
+                  font-size: 0.95rem;
+                  font-weight: 700;
+                  color: var(--accent);
+                  background: rgba(255, 255, 255, 0.04);
+                  border: 1.5px solid var(--border);
+                  border-radius: 10px;
+                  padding: 8px 12px;
+                  letter-spacing: 0.1em;
+                  text-align: center;
+                "
+              >
+                ········
+              </div>
+              <button
+                id="cs-copy"
+                style="
+                  padding: 8px 12px;
+                  border-radius: 10px;
+                  border: 1.5px solid var(--border);
+                  background: none;
+                  color: var(--text2);
+                  cursor: pointer;
+                  font-size: 0.8rem;
+                  white-space: nowrap;
+                "
+                data-i18n="settings.cloudCopy"
+              >
+                📋 Копія
+              </button>
+            </div>
+
+            <button
+              id="cs-save"
+              style="
+                width: 100%;
+                padding: 10px;
+                border-radius: 12px;
+                border: none;
+                background: var(--accent);
+                color: #0a1628;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 0.88rem;
+                font-weight: 600;
+                margin-bottom: 10px;
+              "
+              data-i18n="settings.cloudSave"
+            >
+              ⬆️ Зберегти в хмару
+            </button>
+
+            <div style="border-top: 1px solid var(--border); margin: 8px 0; padding-top: 10px">
+              <div
+                style="font-size: 0.74rem; color: var(--text3); margin-bottom: 7px"
+                data-i18n="settings.cloudAutoLabel"
+              >
+                🔄 Авто-збереження:
+              </div>
+              <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 10px">
+                <select
+                  id="cs-interval"
+                  style="
+                    flex: 1;
+                    padding: 9px 10px;
+                    border-radius: 10px;
+                    border: 1.5px solid var(--border);
+                    background: var(--bg);
+                    color: var(--text);
+                    font-family: inherit;
+                    font-size: 0.85rem;
+                    cursor: pointer;
+                    outline: none;
+                  "
+                >
+                  <option value="0" data-i18n="settings.intervalOff">Вимк</option>
+                  <option value="30" data-i18n="settings.interval30">30 хв</option>
+                  <option value="60" data-i18n="settings.interval60">1 год</option>
+                  <option value="360" data-i18n="settings.interval360">6 год</option>
+                  <option value="1440" data-i18n="settings.intervalDaily">Щодня</option>
+                </select>
+                <span
+                  id="cs-last"
+                  style="font-size: 0.7rem; color: var(--text3); white-space: nowrap"
+                ></span>
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid var(--border); margin: 4px 0 10px; padding-top: 10px">
+              <div
+                style="font-size: 0.74rem; color: var(--text3); margin-bottom: 7px"
+                data-i18n="settings.cloudRestoreLabel"
+              >
+                Відновити на цьому пристрої:
+              </div>
+              <div style="display: flex; gap: 8px">
+                <input
+                  id="cs-inp"
+                  placeholder="XXXX-XXXX-XXXX"
+                  maxlength="14"
+                  style="
+                    flex: 1;
+                    font-family: monospace;
+                    font-size: 0.88rem;
+                    padding: 10px 12px;
+                    border: 1.5px solid var(--border);
+                    border-radius: 10px;
+                    background: var(--bg);
+                    color: var(--text);
+                    outline: none;
+                    text-transform: uppercase;
+                  "
+                />
+                <button
+                  id="cs-restore"
+                  style="
+                    padding: 10px 14px;
+                    border-radius: 10px;
+                    border: 1.5px solid var(--border);
+                    background: none;
+                    color: var(--text);
+                    cursor: pointer;
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    white-space: nowrap;
+                  "
+                  data-i18n="settings.cloudRestore"
+                >
+                  ⬇️ Відновити
+                </button>
+              </div>
+            </div>
+
+            <div
+              id="cs-msg"
+              style="font-size: 0.75rem; min-height: 16px; text-align: center; margin-top: 4px"
+            ></div>
+            <div
+              style="
+                font-size: 0.7rem;
+                color: var(--text3);
+                margin-top: 8px;
+                text-align: center;
+                line-height: 1.5;
+              "
+            >
+              <span data-i18n="settings.cloudHintLine1"
+                >Збережи ключ — він потрібен для відновлення.</span
+              ><br /><span data-i18n="settings.cloudHintLine2">Дані доступні лише за ключем.</span>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <div class="settings-section-title" data-i18n="settings.bugTitle">
+              🐛 Повідомити про помилку
+            </div>
+            <div class="settings-desc" data-i18n="settings.bugDesc">
+              Знайшли помилку або є пропозиція?
+            </div>
+            <div id="bug-report-mount"></div>
+          </div>
+
+          <div class="settings-section settings-section-danger">
+            <div class="settings-section-title" data-i18n="settings.dangerTitle">
+              ⚠️ Небезпечна зона
+            </div>
+            <div class="settings-desc" data-i18n="settings.dangerDesc">
+              Незворотна дія — всі вивчені слова, серія днів та досягнення будуть видалені.
+            </div>
+            <button
+              id="btn-reset"
+              class="settings-reset-btn"
+              style="margin-top: 12px"
+              data-i18n="settings.resetBtn"
+            >
+              ↺ Скинути прогрес
+            </button>
+          </div>
+
+          <div class="settings-footer">
+            © 2026 Vymova · v1.139.0 ·
+            <a
+              href="./privacy.html"
+              target="_blank"
+              rel="noopener"
+              style="color: inherit; text-decoration: underline"
+              >Privacy Policy</a
+            >
           </div>
         </div>
-
-        <div id="cs-msg" style="font-size:.75rem;min-height:16px;text-align:center;margin-top:4px;"></div>
-        <div style="font-size:.7rem;color:var(--text3);margin-top:8px;text-align:center;line-height:1.5;"><span data-i18n="settings.cloudHintLine1">Збережи ключ — він потрібен для відновлення.</span><br><span data-i18n="settings.cloudHintLine2">Дані доступні лише за ключем.</span></div>
       </div>
 
-      <div class="settings-section">
-        <div class="settings-section-title" data-i18n="settings.bugTitle">🐛 Повідомити про помилку</div>
-        <div class="settings-desc" data-i18n="settings.bugDesc">Знайшли помилку або є пропозиція?</div>
-        <div id="bug-report-mount"></div>
-      </div>
+      <!-- Попап деталей досягнення — поза .app для коректного z-index (React, achievements-page.tsx) -->
+      <div id="ach-popup-overlay"></div>
 
-      <div class="settings-section settings-section-danger">
-        <div class="settings-section-title" data-i18n="settings.dangerTitle">⚠️ Небезпечна зона</div>
-        <div class="settings-desc" data-i18n="settings.dangerDesc">Незворотна дія — всі вивчені слова, серія днів та досягнення будуть видалені.</div>
-        <button id="btn-reset" class="settings-reset-btn" style="margin-top:12px;" data-i18n="settings.resetBtn">↺ Скинути прогрес</button>
-      </div>
+      <!-- ══ ACHIEVEMENTS PAGE ══ -->
+      <div id="ach-overlay" class="page-overlay">
+        <div class="page-inner">
+          <div class="page-header">
+            <div class="page-title" data-i18n="ach.pageTitle">🏆 Досягнення</div>
+            <button
+              class="page-close-btn"
+              data-close-page
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
 
-      <div class="settings-footer">© 2026 Vymova · v1.138.0 · <a href="./privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Privacy Policy</a></div>
+          <!-- Рівні -->
+          <div style="margin-bottom: 24px">
+            <div
+              class="stats-section-title"
+              style="margin-bottom: 12px"
+              data-i18n="ach.roadmapTitle"
+            >
+              🗺️ Шлях Джедая — всі рівні
+            </div>
+            <div id="levels-roadmap" class="levels-roadmap"></div>
+          </div>
 
-    </div>
-  </div>
-
-  <!-- Попап деталей досягнення — поза .app для коректного z-index (React, achievements-page.tsx) -->
-  <div id="ach-popup-overlay"></div>
-
-  <!-- ══ ACHIEVEMENTS PAGE ══ -->
-  <div id="ach-overlay" class="page-overlay">
-    <div class="page-inner">
-      <div class="page-header">
-        <div class="page-title" data-i18n="ach.pageTitle">🏆 Досягнення</div>
-        <button class="page-close-btn" data-close-page title="Закрити" data-i18n-title="common.close">✕</button>
-      </div>
-
-      <!-- Рівні -->
-      <div style="margin-bottom:24px;">
-        <div class="stats-section-title" style="margin-bottom:12px;" data-i18n="ach.roadmapTitle">🗺️ Шлях Джедая — всі рівні</div>
-        <div id="levels-roadmap" class="levels-roadmap"></div>
-      </div>
-
-      <!-- Досягнення -->
-      <div class="stats-section-title" style="margin-bottom:12px;" data-i18n="ach.awardsTitle">🏅 Нагороди</div>
-      <div class="achievements-grid" id="achievements-grid"></div>
-    </div>
-  </div>
-
-  <!-- ══ PROFILE PAGE ══ -->
-  <div id="profile-overlay" class="page-overlay">
-    <div class="page-inner">
-      <div class="page-header">
-        <div class="page-title" data-i18n="profile.pageTitle">👤 Профіль</div>
-        <button class="page-close-btn" data-close-page title="Закрити" data-i18n-title="common.close">✕</button>
-      </div>
-      <div id="profile-content"></div>
-    </div>
-  </div>
-
-  <!-- ══ EXPORT / IMPORT MODALS (outside .app) ══ -->
-  <div id="export-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;align-items:center;justify-content:center;padding:20px;">
-    <div class="import-panel">
-      <div class="import-title" data-i18n="modal.exportTitle">📤 Твій код прогресу</div>
-      <div class="import-sub" data-i18n="modal.exportSub">Виділи весь текст і скопіюй його. Збережи в нотатках або надішли собі.</div>
-      <textarea id="export-textarea" readonly style="width:100%;height:120px;border:1.5px solid var(--border);border-radius:10px;padding:10px;font-size:.7rem;font-family:monospace;background:var(--bg);color:var(--text);resize:none;box-sizing:border-box;margin-bottom:10px;"></textarea>
-      <div class="backup-row">
-        <button class="backup-btn" id="export-select-all" data-i18n="modal.selectAll">Виділити все</button>
-        <button class="backup-btn primary" id="export-modal-close" data-i18n="modal.done">Готово</button>
-      </div>
-    </div>
-  </div>
-  <div id="import-modal" style="position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;align-items:center;justify-content:center;padding:20px;">
-    <div class="import-panel">
-      <div class="import-title" data-i18n="modal.importTitle">📥 Імпорт прогресу</div>
-      <div class="import-sub" data-i18n="modal.importSub">Встав сюди код прогресу який ти скопіював раніше через «Експорт»</div>
-      <textarea id="import-textarea" placeholder="Встав код тут..." data-i18n-placeholder="modal.importPlaceholder"></textarea>
-      <div class="import-error" id="import-error"></div>
-      <div class="backup-row">
-        <button class="backup-btn" id="import-cancel" data-i18n="modal.cancel">Відміна</button>
-        <button class="backup-btn primary" id="import-confirm" data-i18n="modal.import">Імпортувати</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ RESET PROGRESS MODAL (outside .app) ══ -->
-  <div id="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;align-items:center;justify-content:center;padding:16px;">
-    <div class="prf-delete-panel">
-      <div class="prf-delete-icon">⚠️</div>
-      <div class="prf-delete-title" data-i18n="modal.resetTitle">Скинути прогрес?</div>
-      <div class="prf-delete-warn" data-i18n="modal.resetWarn">Вивчені слова, серія днів, денна ціль та досягнення будуть видалені безповоротно.</div>
-      <div class="prf-delete-btns">
-        <button id="modal-cancel"  class="prf-delete-btn prf-delete-btn-cancel" data-i18n="modal.cancel">Відміна</button>
-        <button id="modal-confirm" class="prf-delete-btn prf-delete-btn-confirm" data-i18n="modal.reset">Скинути</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ IMAGE CACHE CLEAR CONFIRM ══ -->
-  <div id="img-clear-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;align-items:center;justify-content:center;padding:16px;">
-    <div class="prf-delete-panel">
-      <div class="prf-delete-icon">🗑️</div>
-      <div class="prf-delete-title" data-i18n="modal.imgClearTitle">Очистити кеш зображень?</div>
-      <div class="prf-delete-warn" data-i18n="modal.imgClearWarn">Всі завантажені фото будуть видалені з кешу. Зображення завантажуватимуться знову при перегляді карток.</div>
-      <div class="prf-delete-btns">
-        <button id="img-clear-cancel"  class="prf-delete-btn prf-delete-btn-cancel" data-i18n="modal.cancelAlt">Скасувати</button>
-        <button id="img-clear-confirm" class="prf-delete-btn prf-delete-btn-confirm" data-i18n="modal.clear">Очистити</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ DAILY CHALLENGE OVERLAY ══ -->
-  <div id="dc-overlay" class="page-overlay">
-    <div class="page-inner" style="max-width:520px;">
-      <div class="dc-header">
-        <div id="dc-title" class="page-title">⚡ Місія дня</div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span id="dc-timer" style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--accent);">⏱</span>
-          <button id="dc-close" class="page-close-btn" title="Закрити" data-i18n-title="common.close">✕</button>
+          <!-- Досягнення -->
+          <div class="stats-section-title" style="margin-bottom: 12px" data-i18n="ach.awardsTitle">
+            🏅 Нагороди
+          </div>
+          <div class="achievements-grid" id="achievements-grid"></div>
         </div>
       </div>
-      <div class="dc-pbar-wrap"><div id="dc-pbar" class="dc-pbar-fill" style="width:0%"></div></div>
-      <div class="dc-word-area">
-        <div id="dc-word" class="dc-word"></div>
-        <div id="dc-ipa"  class="dc-ipa"></div>
-        <div id="dc-result" class="dc-result"></div>
-      </div>
-      <div id="dc-options" class="dc-options"></div>
-      <div id="dc-final" class="dc-final" style="display:none;text-align:center;padding:20px 0;">
-        <div id="dc-final-emoji" style="font-size:2.5rem;margin-bottom:10px;"></div>
-        <div id="dc-final-title" style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:6px;"></div>
-        <div id="dc-final-xp"   style="font-size:.88rem;color:var(--accent);margin-bottom:12px;"></div>
-        <div id="dc-final-cooldown" style="font-size:.8rem;color:var(--text3);"></div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ══ READING OVERLAY ══ -->
-  <div id="reading-overlay" class="page-overlay">
-    <div class="page-inner">
-      <div id="reading-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ DUEL OVERLAY ══ -->
-  <div id="duel-overlay" class="page-overlay">
-    <div class="page-inner" style="max-width:560px;">
-      <div class="page-header">
-        <div class="page-title">⚔️ <span data-i18n="nav.duel">Дуель</span></div>
-        <button class="page-close-btn" id="duel-page-close" title="Закрити" data-i18n-title="common.close">✕</button>
-      </div>
-
-      <div id="duel-overlay-mount"></div>
-
-    </div>
-  </div>
-
-  <!-- ══ LEARNING PATH PAGE ══ -->
-  <div id="lp-overlay" class="page-overlay">
-    <div class="page-inner" style="max-width:700px;">
-      <div class="page-header">
-        <div class="page-title" data-i18n="lp.pageTitle">🎯 Шлях навчання</div>
-        <button class="page-close-btn" data-close-page title="Закрити" data-i18n-title="common.close">✕</button>
-      </div>
-      <div id="lp-content" style="padding:16px 20px 32px;"></div>
-    </div>
-  </div>
-
-  <!-- ══ GRAMMAR PAGE ══ -->
-  <div id="grammar-overlay" class="page-overlay">
-    <div class="page-inner grammar-inner">
-      <div class="page-header">
-        <div class="page-title">📖 <span data-i18n="nav.grammar">Граматика</span></div>
-        <button class="page-close-btn" id="grammar-close" title="Закрити" data-i18n-title="common.close">✕</button>
-      </div>
-      <div class="grammar-layout" id="grammar-layout-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ IDIOMS PAGE ══ -->
-  <div id="idioms-overlay" class="page-overlay">
-    <div class="page-inner idioms-inner">
-      <div class="page-header">
-        <div class="page-title" data-i18n="idioms.pageTitle">💬 Ідіоми</div>
-        <button class="page-close-btn" id="idioms-close" title="Закрити" data-i18n-title="common.close">✕</button>
-      </div>
-      <div id="idioms-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ AI TUTOR PAGE ══ -->
-  <div id="ai-tutor-overlay" class="page-overlay">
-    <div class="page-inner">
-      <div class="page-header">
-        <div class="page-title">🤖 <span data-i18n="nav.aiTutor">ШІ-репетитор</span></div>
-        <button class="page-close-btn" id="ai-tutor-close" title="Закрити" data-i18n-title="common.close">✕</button>
-      </div>
-      <div id="ai-tutor-content"></div>
-    </div>
-  </div>
-
-  <!-- ══ VOICE ROLEPLAY PAGE ══ -->
-  <div id="voice-roleplay-overlay" class="page-overlay">
-    <div class="page-inner">
-      <div class="page-header">
-        <div class="page-title">🎤 <span data-i18n="nav.voiceRoleplay">Голосовий ролеплей</span></div>
-        <button class="page-close-btn" id="voice-roleplay-close" title="Закрити" data-i18n-title="common.close">✕</button>
-      </div>
-      <div id="voice-roleplay-content"></div>
-    </div>
-  </div>
-
-  <!-- ══ YOUTUBE PLAYER PAGE ══ -->
-  <div id="youtube-player-overlay" class="page-overlay">
-    <div class="page-inner" style="max-width:720px;">
-      <div class="page-header">
-        <div class="page-title">📺 <span data-i18n="nav.ytPlayer">YouTube</span></div>
-        <button class="page-close-btn" id="youtube-player-close" title="Закрити" data-i18n-title="common.close">✕</button>
-      </div>
-      <div id="youtube-player-content"></div>
-    </div>
-  </div>
-
-  <!-- ══ VIDEO PLAYER PAGE ══ -->
-  <div id="video-player-overlay" class="page-overlay">
-    <div class="page-inner" style="max-width:1100px;">
-      <div class="page-header">
-        <div class="page-title">🎬 <span data-i18n="nav.videoPlayer">Відео</span></div>
-        <button class="page-close-btn" id="video-player-close" title="Закрити" data-i18n-title="common.close">✕</button>
-      </div>
-      <div id="video-player-content"></div>
-    </div>
-  </div>
-
-  <!-- ══ PROFILE DELETE MODAL (outside .app — top z-index) ══ -->
-  <div id="prf-delete-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;align-items:center;justify-content:center;padding:16px;"></div>
-
-  <!-- ══ CONFIRM MODAL (replaces browser confirm()) ══ -->
-  <div id="confirm-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:30001;align-items:center;justify-content:center;padding:16px;">
-    <div style="background:var(--modal-bg,var(--card));border-radius:18px;padding:24px 22px;max-width:340px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.35);text-align:center;">
-      <div style="font-size:2rem;margin-bottom:8px;">⚠️</div>
-      <div id="confirm-title" style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;"></div>
-      <div id="confirm-message" style="font-size:.85rem;color:var(--text2);line-height:1.5;margin-bottom:20px;"></div>
-      <div style="display:flex;gap:10px;">
-        <button id="confirm-cancel" data-i18n="modal.cancelAlt" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.88rem;">Скасувати</button>
-        <button id="confirm-ok"     style="flex:1;padding:11px;border-radius:12px;border:none;background:#e74c3c;color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem;">Залишити</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ CODE INPUT MODAL (reusable prompt replacement) ══ -->
-  <div id="code-input-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:30000;align-items:center;justify-content:center;padding:16px;">
-    <div style="background:var(--modal-bg,var(--card));border-radius:18px;padding:24px 22px;max-width:360px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.35);">
-      <div id="code-input-title" style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;"></div>
-      <div id="code-input-desc"  style="font-size:.78rem;color:var(--text3);margin-bottom:14px;"></div>
-      <input id="code-input-field" type="text" autocomplete="off" spellcheck="false"
-        style="width:100%;padding:11px 14px;border:2px solid var(--border);border-radius:12px;font-family:monospace;font-size:1.1rem;background:var(--bg);color:var(--text);outline:none;box-sizing:border-box;text-align:center;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;">
-      <div style="display:flex;gap:8px;">
-        <button id="code-input-cancel" data-i18n="modal.cancelAlt" style="flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:.88rem;">Скасувати</button>
-        <button id="code-input-ok"     style="flex:2;padding:10px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem;">OK</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ WORD DETAIL MODAL ══ -->
-  <div id="wd-page-mount"></div>
-
-  <!-- ══ MILESTONE TOAST ══ -->
-  <div id="milestone-toast" class="milestone-toast"></div>
-
-  <!-- ══ SEARCH OVERLAY (React, search-overlay.tsx) ══ -->
-  <div id="search-overlay-mount"></div>
-
-  <!-- ══ ONBOARDING (React, onboarding.tsx) ══ -->
-  <div id="onboarding-mount"></div>
-
-  <!-- ══ MODES MODAL ══ -->
-  <div id="modes-overlay" class="modes-overlay">
-    <div class="modes-panel">
-      <div class="modes-panel-handle"></div>
-      <div class="modes-header">
-        <span data-i18n="modesPg.header">🎮 Режим навчання</span>
-        <button class="modes-close-btn" id="modes-close" title="Закрити" data-i18n-title="common.close">✕</button>
-      </div>
-      <div class="modes-grid">
-        <div class="modes-section-label" data-i18n="modesPg.groupCards">Картки</div>
-        <div class="modes-section-grid">
-          <button class="mode-card mc-quiz"   id="btn-quiz"   ><span class="mode-icon">🧠</span><span class="mode-name" data-i18n="modesPg.quizName">Тест</span>   <span class="mode-desc" data-i18n="modesPg.quizDesc">4 варіанти</span></button>
-          <button class="mode-card mc-write"  id="btn-write"  ><span class="mode-icon">✍️</span><span class="mode-name" data-i18n="modesPg.writeName">Письмо</span> <span class="mode-desc" id="write-mode-desc" data-i18n="modesPg.writeDesc">UA → EN</span></button>
-          <button class="mode-card mc-listen" id="btn-listen" ><span class="mode-icon">🔊</span><span class="mode-name" data-i18n="modesPg.listenName">Слухай</span> <span class="mode-desc" data-i18n="modesPg.listenDesc">Аудіо</span></button>
-          <button class="mode-card mc-fib"    id="btn-fib"    ><span class="mode-icon">✏️</span><span class="mode-name" data-i18n="modesPg.fibName">Пропуск</span> <span class="mode-desc" data-i18n="modesPg.fibDesc">Вставте слово</span></button>
-          <button class="mode-card mc-tempo"  id="btn-tempo"  ><span class="mode-icon">⚡</span><span class="mode-name" data-i18n="modesPg.tempoName">Темп</span>   <span class="mode-desc" data-i18n="modesPg.tempoDesc">На час</span></button>
-        </div>
-        <div class="modes-section-label" data-i18n="modesPg.groupGames">Ігри</div>
-        <div class="modes-section-grid">
-          <button class="mode-card mc-pairs"   id="btn-pairs"      ><span class="mode-icon">🔗</span><span class="mode-name" data-i18n="modesPg.pairsName">Пари</span>    <span class="mode-desc" data-i18n="modesPg.pairsDesc">6 пар</span></button>
-          <button class="mode-card mc-cat"     id="btn-catpairs"   ><span class="mode-icon">📦</span><span class="mode-name" data-i18n="modesPg.catName">Теми</span>    <span class="mode-desc" data-i18n="modesPg.catDesc">По темі</span></button>
-          <button class="mode-card mc-scramble" id="btn-scramble"  ><span class="mode-icon">🔀</span><span class="mode-name" data-i18n="modesPg.scrambleName">Анаграма</span><span class="mode-desc" data-i18n="modesPg.scrambleDesc">Збери слово</span></button>
-          <button class="mode-card mc-letters"  id="btn-letters"   ><span class="mode-icon">🔤</span><span class="mode-name" data-i18n="modesPg.lettersName">Букви</span>  <span class="mode-desc" data-i18n="modesPg.lettersDesc">Знайди слова</span></button>
-          <button class="mode-card mc-spelling" id="btn-spelling-bee"><span class="mode-icon">🐝</span><span class="mode-name" data-i18n="modesPg.beeName">Spelling Bee</span><span class="mode-desc" data-i18n="modesPg.beeDesc">Почуй і напиши</span></button>
-        </div>
-        <div class="modes-section-label" data-i18n="modesPg.groupPractice">Практика</div>
-        <div class="modes-section-grid">
-          <button class="mode-card mc-lesson"   id="btn-lesson"        ><span class="mode-icon">📚</span><span class="mode-name" data-i18n="modesPg.lessonName">Урок</span>           <span class="mode-desc" data-i18n="modesPg.lessonDesc">5×3 вправи</span></button>
-          <button class="mode-card mc-reading"  id="btn-reading"       ><span class="mode-icon">📖</span><span class="mode-name" data-i18n="modesPg.readingName">Читання</span>        <span class="mode-desc" data-i18n="modesPg.readingDesc">Текст зі словами</span></button>
-          <button class="mode-card mc-story"    id="btn-story"         ><span class="mode-icon">✨</span><span class="mode-name" data-i18n="modesPg.storyName">Історії</span>        <span class="mode-desc" data-i18n="modesPg.storyDesc">ШІ-історії та тексти</span></button>
-          <button class="mode-card mc-context"  id="btn-context"       ><span class="mode-icon">🔍</span><span class="mode-name" data-i18n="modesPg.contextName">Контекст</span>       <span class="mode-desc" data-i18n="modesPg.contextDesc">Вгадай з речення</span></button>
-          <button class="mode-card mc-daily"    id="btn-daily-challenge"><span class="mode-icon">🎯</span><span class="mode-name" data-i18n="modesPg.dailyName">Місія дня</span>      <span class="mode-desc" data-i18n="modesPg.dailyDesc">10 слів + таймер</span></button>
-          <button class="mode-card mc-adaptive" id="btn-adaptive-quiz" ><span class="mode-icon">🧩</span><span class="mode-name" data-i18n="modesPg.adaptiveName">Адаптивний</span>    <span class="mode-desc" data-i18n="modesPg.adaptiveDesc">Складність підлаштовується</span></button>
-        </div>
-        <div class="modes-section-label" data-i18n="modesPg.groupNew">Нові режими</div>
-        <div class="modes-section-grid">
-          <button class="mode-card mc-oddone" id="btn-oddone" ><span class="mode-icon">🧐</span><span class="mode-name" data-i18n="modesPg.oddoneName">Зайве слово</span><span class="mode-desc" data-i18n="modesPg.oddoneDesc">Знайди зайве</span></button>
-          <button class="mode-card mc-sentbuild" id="btn-sentbuild" ><span class="mode-icon">🧱</span><span class="mode-name" data-i18n="modesPg.sentbuildName">Речення</span><span class="mode-desc" data-i18n="modesPg.sentbuildDesc">Склади з тайлів</span></button>
-          <button class="mode-card mc-errorhunt" id="btn-error-hunt" ><span class="mode-icon">🕵️</span><span class="mode-name" data-i18n="modesPg.errorhuntName">Мисливець</span><span class="mode-desc" data-i18n="modesPg.errorhuntDesc">Знайди помилку</span></button>
-          <button class="mode-card mc-assoc" id="btn-assoc" ><span class="mode-icon">🔗🧠</span><span class="mode-name" data-i18n="modesPg.assocName">Асоціації</span><span class="mode-desc" data-i18n="modesPg.assocDesc">Ланцюжок синонімів</span></button>
-          <button class="mode-card mc-wordhint" id="btn-wordhint" ><span class="mode-icon">💡</span><span class="mode-name" data-i18n="modesPg.wordhintName">Підказки</span><span class="mode-desc" data-i18n="modesPg.wordhintDesc">Вгадай слово</span></button>
-          <button class="mode-card mc-shadow" id="btn-shadow" ><span class="mode-icon">🎙️</span><span class="mode-name" data-i18n="modesPg.shadowName">Диктант</span><span class="mode-desc" data-i18n="modesPg.shadowDesc">Почуй і повтори</span></button>
-          <button class="mode-card mc-ghost" id="btn-ghost" ><span class="mode-icon">👻</span><span class="mode-name" data-i18n="modesPg.ghostName">Гонка</span><span class="mode-desc" data-i18n="modesPg.ghostDesc">Обжени привида</span></button>
+      <!-- ══ PROFILE PAGE ══ -->
+      <div id="profile-overlay" class="page-overlay">
+        <div class="page-inner">
+          <div class="page-header">
+            <div class="page-title" data-i18n="profile.pageTitle">👤 Профіль</div>
+            <button
+              class="page-close-btn"
+              data-close-page
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+          <div id="profile-content"></div>
         </div>
       </div>
-    </div>
-  </div>
-  <!-- ══ SPELLING BEE MODAL ══ -->
-  <div id="bee-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="bee-page-mount"></div>
-    </div>
-  </div>
-  <!-- ══ SCRAMBLE MODAL ══ -->
-  <div id="scr-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="scr-page-mount"></div>
-    </div>
-  </div>
-  <!-- ══ LETTERS MODAL (anagram word search) ══ -->
-  <div id="wl-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="wl-page-mount"></div>
-    </div>
-  </div>
 
-  <!-- ══ STORY MODE OVERLAY ══ -->
-  <div id="story-mode-overlay" style="display:none;position:fixed;inset:0;background:var(--bg);z-index:9200;align-items:flex-start;justify-content:center;padding:8px;overflow-y:auto;">
-    <div class="page-inner" style="max-width:640px;max-height:calc(100vh - 16px);overflow-y:auto;position:relative;">
-      <div id="story-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ CONTEXT MODE MODAL ══ -->
-  <div id="ctx-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="ctx-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ FILL IN BLANK MODAL ══ -->
-  <div id="fib-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="fib-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ LISTENING MODAL ══ -->
-  <div id="listen-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="listen-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ CATEGORY PAIRS MODAL ══ -->
-  <div id="catpairs-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="pairs-panel">
-      <div id="catpairs-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ ODD ONE OUT MODAL ══ -->
-  <div id="oo-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="oo-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ SENTENCE BUILDER MODAL ══ -->
-  <div id="sb-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="sb-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ ERROR HUNT MODAL ══ -->
-  <div id="eh-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="eh-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ ASSOCIATION CHAIN MODAL ══ -->
-  <div id="assoc-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="assoc-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ WORD HINT MODAL ══ -->
-  <div id="hint-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="hint-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ SHADOWING MODAL ══ -->
-  <div id="shadow-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="shadow-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ GHOST RACE MODAL ══ -->
-  <div id="ghost-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="ghost-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ KEYBOARD OVERLAY ══ -->
-  <div id="keys-overlay-mount"></div>
-
-  <!-- ══ LESSON MODAL ══ -->
-  <div id="lesson-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9200;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="lesson-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ WRITE MODAL ══ -->
-  <div id="write-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="quiz-panel">
-      <div id="write-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ PAIRS MODAL ══ -->
-  <div id="pairs-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div class="pairs-panel">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-        <div>
-          <div style="font-size:1.05rem;font-weight:700;color:var(--text);" data-i18n="pairs.title">🔗 Знайди пару</div>
-          <div id="pairs-best-label" style="font-size:.72rem;color:var(--text3);margin-top:2px;"></div>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div id="pairs-timer" style="font-size:1.5rem;font-weight:700;color:var(--accent);min-width:56px;text-align:right;">0.0с</div>
-          <button id="pairs-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text3);" title="Закрити" data-i18n-title="common.close">✕</button>
+      <!-- ══ EXPORT / IMPORT MODALS (outside .app) ══ -->
+      <div
+        id="export-modal"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 99999;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+        "
+      >
+        <div class="import-panel">
+          <div class="import-title" data-i18n="modal.exportTitle">📤 Твій код прогресу</div>
+          <div class="import-sub" data-i18n="modal.exportSub">
+            Виділи весь текст і скопіюй його. Збережи в нотатках або надішли собі.
+          </div>
+          <textarea
+            id="export-textarea"
+            readonly
+            style="
+              width: 100%;
+              height: 120px;
+              border: 1.5px solid var(--border);
+              border-radius: 10px;
+              padding: 10px;
+              font-size: 0.7rem;
+              font-family: monospace;
+              background: var(--bg);
+              color: var(--text);
+              resize: none;
+              box-sizing: border-box;
+              margin-bottom: 10px;
+            "
+          ></textarea>
+          <div class="backup-row">
+            <button class="backup-btn" id="export-select-all" data-i18n="modal.selectAll">
+              Виділити все
+            </button>
+            <button class="backup-btn primary" id="export-modal-close" data-i18n="modal.done">
+              Готово
+            </button>
+          </div>
         </div>
       </div>
-      <div id="pairs-board" style="margin-bottom:14px;"></div>
-      <div id="pairs-final" style="display:none;text-align:center;padding:8px 0;">
-        <div style="font-size:2.5rem;margin-bottom:8px;" id="pf-emoji">⏱</div>
-        <div style="font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:4px;" id="pf-time"></div>
-        <div style="font-size:.88rem;color:var(--text2);margin-bottom:18px;" id="pf-best"></div>
-        <div style="display:flex;gap:10px;justify-content:center;">
-          <button id="pairs-again" style="font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:10px 22px;border-radius:10px;border:1.5px solid var(--accent);background:none;color:var(--accent);cursor:pointer;" data-i18n="pairs.again">🔄 Знову</button>
-          <button id="pairs-exit" style="font-family:'DM Sans',sans-serif;font-size:.88rem;padding:10px 22px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--text2);cursor:pointer;" data-i18n="common.close">Закрити</button>
+      <div
+        id="import-modal"
+        style="
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 99999;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+        "
+      >
+        <div class="import-panel">
+          <div class="import-title" data-i18n="modal.importTitle">📥 Імпорт прогресу</div>
+          <div class="import-sub" data-i18n="modal.importSub">
+            Встав сюди код прогресу який ти скопіював раніше через «Експорт»
+          </div>
+          <textarea
+            id="import-textarea"
+            placeholder="Встав код тут..."
+            data-i18n-placeholder="modal.importPlaceholder"
+          ></textarea>
+          <div class="import-error" id="import-error"></div>
+          <div class="backup-row">
+            <button class="backup-btn" id="import-cancel" data-i18n="modal.cancel">Відміна</button>
+            <button class="backup-btn primary" id="import-confirm" data-i18n="modal.import">
+              Імпортувати
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ RESET PROGRESS MODAL (outside .app) ══ -->
+      <div
+        id="modal-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 99999;
+          align-items: center;
+          justify-content: center;
+          padding: 16px;
+        "
+      >
+        <div class="prf-delete-panel">
+          <div class="prf-delete-icon">⚠️</div>
+          <div class="prf-delete-title" data-i18n="modal.resetTitle">Скинути прогрес?</div>
+          <div class="prf-delete-warn" data-i18n="modal.resetWarn">
+            Вивчені слова, серія днів, денна ціль та досягнення будуть видалені безповоротно.
+          </div>
+          <div class="prf-delete-btns">
+            <button
+              id="modal-cancel"
+              class="prf-delete-btn prf-delete-btn-cancel"
+              data-i18n="modal.cancel"
+            >
+              Відміна
+            </button>
+            <button
+              id="modal-confirm"
+              class="prf-delete-btn prf-delete-btn-confirm"
+              data-i18n="modal.reset"
+            >
+              Скинути
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ IMAGE CACHE CLEAR CONFIRM ══ -->
+      <div
+        id="img-clear-overlay"
+        style="
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.65);
+          z-index: 99999;
+          align-items: center;
+          justify-content: center;
+          padding: 16px;
+        "
+      >
+        <div class="prf-delete-panel">
+          <div class="prf-delete-icon">🗑️</div>
+          <div class="prf-delete-title" data-i18n="modal.imgClearTitle">
+            Очистити кеш зображень?
+          </div>
+          <div class="prf-delete-warn" data-i18n="modal.imgClearWarn">
+            Всі завантажені фото будуть видалені з кешу. Зображення завантажуватимуться знову при
+            перегляді карток.
+          </div>
+          <div class="prf-delete-btns">
+            <button
+              id="img-clear-cancel"
+              class="prf-delete-btn prf-delete-btn-cancel"
+              data-i18n="modal.cancelAlt"
+            >
+              Скасувати
+            </button>
+            <button
+              id="img-clear-confirm"
+              class="prf-delete-btn prf-delete-btn-confirm"
+              data-i18n="modal.clear"
+            >
+              Очистити
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ DAILY CHALLENGE OVERLAY ══ -->
+      <div id="dc-overlay" class="page-overlay">
+        <div class="page-inner" style="max-width: 520px">
+          <div class="dc-header">
+            <div id="dc-title" class="page-title">⚡ Місія дня</div>
+            <div style="display: flex; align-items: center; gap: 10px">
+              <span
+                id="dc-timer"
+                style="
+                  font-family: 'Orbitron', monospace;
+                  font-size: 1.1rem;
+                  font-weight: 700;
+                  color: var(--accent);
+                "
+                >⏱</span
+              >
+              <button
+                id="dc-close"
+                class="page-close-btn"
+                title="Закрити"
+                data-i18n-title="common.close"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+          <div class="dc-pbar-wrap">
+            <div id="dc-pbar" class="dc-pbar-fill" style="width: 0%"></div>
+          </div>
+          <div class="dc-word-area">
+            <div id="dc-word" class="dc-word"></div>
+            <div id="dc-ipa" class="dc-ipa"></div>
+            <div id="dc-result" class="dc-result"></div>
+          </div>
+          <div id="dc-options" class="dc-options"></div>
+          <div
+            id="dc-final"
+            class="dc-final"
+            style="display: none; text-align: center; padding: 20px 0"
+          >
+            <div id="dc-final-emoji" style="font-size: 2.5rem; margin-bottom: 10px"></div>
+            <div
+              id="dc-final-title"
+              style="font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 6px"
+            ></div>
+            <div
+              id="dc-final-xp"
+              style="font-size: 0.88rem; color: var(--accent); margin-bottom: 12px"
+            ></div>
+            <div id="dc-final-cooldown" style="font-size: 0.8rem; color: var(--text3)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ READING OVERLAY ══ -->
+      <div id="reading-overlay" class="page-overlay">
+        <div class="page-inner">
+          <div id="reading-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ DUEL OVERLAY ══ -->
+      <div id="duel-overlay" class="page-overlay">
+        <div class="page-inner" style="max-width: 560px">
+          <div class="page-header">
+            <div class="page-title">⚔️ <span data-i18n="nav.duel">Дуель</span></div>
+            <button
+              class="page-close-btn"
+              id="duel-page-close"
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+
+          <div id="duel-overlay-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ LEARNING PATH PAGE ══ -->
+      <div id="lp-overlay" class="page-overlay">
+        <div class="page-inner" style="max-width: 700px">
+          <div class="page-header">
+            <div class="page-title" data-i18n="lp.pageTitle">🎯 Шлях навчання</div>
+            <button
+              class="page-close-btn"
+              data-close-page
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+          <div id="lp-content" style="padding: 16px 20px 32px"></div>
+        </div>
+      </div>
+
+      <!-- ══ GRAMMAR PAGE ══ -->
+      <div id="grammar-overlay" class="page-overlay">
+        <div class="page-inner grammar-inner">
+          <div class="page-header">
+            <div class="page-title">📖 <span data-i18n="nav.grammar">Граматика</span></div>
+            <button
+              class="page-close-btn"
+              id="grammar-close"
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+          <div class="grammar-layout" id="grammar-layout-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ IDIOMS PAGE ══ -->
+      <div id="idioms-overlay" class="page-overlay">
+        <div class="page-inner idioms-inner">
+          <div class="page-header">
+            <div class="page-title" data-i18n="idioms.pageTitle">💬 Ідіоми</div>
+            <button
+              class="page-close-btn"
+              id="idioms-close"
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+          <div id="idioms-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ AI TUTOR PAGE ══ -->
+      <div id="ai-tutor-overlay" class="page-overlay">
+        <div class="page-inner">
+          <div class="page-header">
+            <div class="page-title">🤖 <span data-i18n="nav.aiTutor">ШІ-репетитор</span></div>
+            <button
+              class="page-close-btn"
+              id="ai-tutor-close"
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+          <div id="ai-tutor-content"></div>
+        </div>
+      </div>
+
+      <!-- ══ VOICE ROLEPLAY PAGE ══ -->
+      <div id="voice-roleplay-overlay" class="page-overlay">
+        <div class="page-inner">
+          <div class="page-header">
+            <div class="page-title">
+              🎤 <span data-i18n="nav.voiceRoleplay">Голосовий ролеплей</span>
+            </div>
+            <button
+              class="page-close-btn"
+              id="voice-roleplay-close"
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+          <div id="voice-roleplay-content"></div>
+        </div>
+      </div>
+
+      <!-- ══ YOUTUBE PLAYER PAGE ══ -->
+      <div id="youtube-player-overlay" class="page-overlay">
+        <div class="page-inner" style="max-width: 720px">
+          <div class="page-header">
+            <div class="page-title">📺 <span data-i18n="nav.ytPlayer">YouTube</span></div>
+            <button
+              class="page-close-btn"
+              id="youtube-player-close"
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+          <div id="youtube-player-content"></div>
+        </div>
+      </div>
+
+      <!-- ══ VIDEO PLAYER PAGE ══ -->
+      <div id="video-player-overlay" class="page-overlay">
+        <div class="page-inner" style="max-width: 1100px">
+          <div class="page-header">
+            <div class="page-title">🎬 <span data-i18n="nav.videoPlayer">Відео</span></div>
+            <button
+              class="page-close-btn"
+              id="video-player-close"
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+          <div id="video-player-content"></div>
+        </div>
+      </div>
+
+      <!-- ══ PROFILE DELETE MODAL (outside .app — top z-index) ══ -->
+      <div
+        id="prf-delete-overlay"
+        style="
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.65);
+          z-index: 99999;
+          align-items: center;
+          justify-content: center;
+          padding: 16px;
+        "
+      ></div>
+
+      <!-- ══ CONFIRM MODAL (replaces browser confirm()) ══ -->
+      <div
+        id="confirm-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.6);
+          z-index: 30001;
+          align-items: center;
+          justify-content: center;
+          padding: 16px;
+        "
+      >
+        <div
+          style="
+            background: var(--modal-bg, var(--card));
+            border-radius: 18px;
+            padding: 24px 22px;
+            max-width: 340px;
+            width: 100%;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+            text-align: center;
+          "
+        >
+          <div style="font-size: 2rem; margin-bottom: 8px">⚠️</div>
+          <div
+            id="confirm-title"
+            style="font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 6px"
+          ></div>
+          <div
+            id="confirm-message"
+            style="font-size: 0.85rem; color: var(--text2); line-height: 1.5; margin-bottom: 20px"
+          ></div>
+          <div style="display: flex; gap: 10px">
+            <button
+              id="confirm-cancel"
+              data-i18n="modal.cancelAlt"
+              style="
+                flex: 1;
+                padding: 11px;
+                border-radius: 12px;
+                border: 1.5px solid var(--border);
+                background: none;
+                color: var(--text2);
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 0.88rem;
+              "
+            >
+              Скасувати
+            </button>
+            <button
+              id="confirm-ok"
+              style="
+                flex: 1;
+                padding: 11px;
+                border-radius: 12px;
+                border: none;
+                background: #e74c3c;
+                color: #fff;
+                font-weight: 700;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 0.88rem;
+              "
+            >
+              Залишити
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ CODE INPUT MODAL (reusable prompt replacement) ══ -->
+      <div
+        id="code-input-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.6);
+          z-index: 30000;
+          align-items: center;
+          justify-content: center;
+          padding: 16px;
+        "
+      >
+        <div
+          style="
+            background: var(--modal-bg, var(--card));
+            border-radius: 18px;
+            padding: 24px 22px;
+            max-width: 360px;
+            width: 100%;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+          "
+        >
+          <div
+            id="code-input-title"
+            style="font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 6px"
+          ></div>
+          <div
+            id="code-input-desc"
+            style="font-size: 0.78rem; color: var(--text3); margin-bottom: 14px"
+          ></div>
+          <input
+            id="code-input-field"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            style="
+              width: 100%;
+              padding: 11px 14px;
+              border: 2px solid var(--border);
+              border-radius: 12px;
+              font-family: monospace;
+              font-size: 1.1rem;
+              background: var(--bg);
+              color: var(--text);
+              outline: none;
+              box-sizing: border-box;
+              text-align: center;
+              letter-spacing: 0.12em;
+              text-transform: uppercase;
+              margin-bottom: 14px;
+            "
+          />
+          <div style="display: flex; gap: 8px">
+            <button
+              id="code-input-cancel"
+              data-i18n="modal.cancelAlt"
+              style="
+                flex: 1;
+                padding: 10px;
+                border-radius: 10px;
+                border: 1.5px solid var(--border);
+                background: none;
+                color: var(--text2);
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 0.88rem;
+              "
+            >
+              Скасувати
+            </button>
+            <button
+              id="code-input-ok"
+              style="
+                flex: 2;
+                padding: 10px;
+                border-radius: 10px;
+                border: none;
+                background: var(--accent);
+                color: #fff;
+                font-weight: 700;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 0.88rem;
+              "
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ WORD DETAIL MODAL ══ -->
+      <div id="wd-page-mount"></div>
+
+      <!-- ══ MILESTONE TOAST ══ -->
+      <div id="milestone-toast" class="milestone-toast"></div>
+
+      <!-- ══ SEARCH OVERLAY (React, search-overlay.tsx) ══ -->
+      <div id="search-overlay-mount"></div>
+
+      <!-- ══ ONBOARDING (React, onboarding.tsx) ══ -->
+      <div id="onboarding-mount"></div>
+
+      <!-- ══ MODES MODAL ══ -->
+      <div id="modes-overlay" class="modes-overlay">
+        <div class="modes-panel">
+          <div class="modes-panel-handle"></div>
+          <div class="modes-header">
+            <span data-i18n="modesPg.header">🎮 Режим навчання</span>
+            <button
+              class="modes-close-btn"
+              id="modes-close"
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+          <div class="modes-grid">
+            <div class="modes-section-label" data-i18n="modesPg.groupCards">Картки</div>
+            <div class="modes-section-grid">
+              <button class="mode-card mc-quiz" id="btn-quiz">
+                <span class="mode-icon">🧠</span
+                ><span class="mode-name" data-i18n="modesPg.quizName">Тест</span>
+                <span class="mode-desc" data-i18n="modesPg.quizDesc">4 варіанти</span>
+              </button>
+              <button class="mode-card mc-write" id="btn-write">
+                <span class="mode-icon">✍️</span
+                ><span class="mode-name" data-i18n="modesPg.writeName">Письмо</span>
+                <span class="mode-desc" id="write-mode-desc" data-i18n="modesPg.writeDesc"
+                  >UA → EN</span
+                >
+              </button>
+              <button class="mode-card mc-listen" id="btn-listen">
+                <span class="mode-icon">🔊</span
+                ><span class="mode-name" data-i18n="modesPg.listenName">Слухай</span>
+                <span class="mode-desc" data-i18n="modesPg.listenDesc">Аудіо</span>
+              </button>
+              <button class="mode-card mc-fib" id="btn-fib">
+                <span class="mode-icon">✏️</span
+                ><span class="mode-name" data-i18n="modesPg.fibName">Пропуск</span>
+                <span class="mode-desc" data-i18n="modesPg.fibDesc">Вставте слово</span>
+              </button>
+              <button class="mode-card mc-tempo" id="btn-tempo">
+                <span class="mode-icon">⚡</span
+                ><span class="mode-name" data-i18n="modesPg.tempoName">Темп</span>
+                <span class="mode-desc" data-i18n="modesPg.tempoDesc">На час</span>
+              </button>
+            </div>
+            <div class="modes-section-label" data-i18n="modesPg.groupGames">Ігри</div>
+            <div class="modes-section-grid">
+              <button class="mode-card mc-pairs" id="btn-pairs">
+                <span class="mode-icon">🔗</span
+                ><span class="mode-name" data-i18n="modesPg.pairsName">Пари</span>
+                <span class="mode-desc" data-i18n="modesPg.pairsDesc">6 пар</span>
+              </button>
+              <button class="mode-card mc-cat" id="btn-catpairs">
+                <span class="mode-icon">📦</span
+                ><span class="mode-name" data-i18n="modesPg.catName">Теми</span>
+                <span class="mode-desc" data-i18n="modesPg.catDesc">По темі</span>
+              </button>
+              <button class="mode-card mc-scramble" id="btn-scramble">
+                <span class="mode-icon">🔀</span
+                ><span class="mode-name" data-i18n="modesPg.scrambleName">Анаграма</span
+                ><span class="mode-desc" data-i18n="modesPg.scrambleDesc">Збери слово</span>
+              </button>
+              <button class="mode-card mc-letters" id="btn-letters">
+                <span class="mode-icon">🔤</span
+                ><span class="mode-name" data-i18n="modesPg.lettersName">Букви</span>
+                <span class="mode-desc" data-i18n="modesPg.lettersDesc">Знайди слова</span>
+              </button>
+              <button class="mode-card mc-spelling" id="btn-spelling-bee">
+                <span class="mode-icon">🐝</span
+                ><span class="mode-name" data-i18n="modesPg.beeName">Spelling Bee</span
+                ><span class="mode-desc" data-i18n="modesPg.beeDesc">Почуй і напиши</span>
+              </button>
+            </div>
+            <div class="modes-section-label" data-i18n="modesPg.groupPractice">Практика</div>
+            <div class="modes-section-grid">
+              <button class="mode-card mc-lesson" id="btn-lesson">
+                <span class="mode-icon">📚</span
+                ><span class="mode-name" data-i18n="modesPg.lessonName">Урок</span>
+                <span class="mode-desc" data-i18n="modesPg.lessonDesc">5×3 вправи</span>
+              </button>
+              <button class="mode-card mc-reading" id="btn-reading">
+                <span class="mode-icon">📖</span
+                ><span class="mode-name" data-i18n="modesPg.readingName">Читання</span>
+                <span class="mode-desc" data-i18n="modesPg.readingDesc">Текст зі словами</span>
+              </button>
+              <button class="mode-card mc-story" id="btn-story">
+                <span class="mode-icon">✨</span
+                ><span class="mode-name" data-i18n="modesPg.storyName">Історії</span>
+                <span class="mode-desc" data-i18n="modesPg.storyDesc">ШІ-історії та тексти</span>
+              </button>
+              <button class="mode-card mc-context" id="btn-context">
+                <span class="mode-icon">🔍</span
+                ><span class="mode-name" data-i18n="modesPg.contextName">Контекст</span>
+                <span class="mode-desc" data-i18n="modesPg.contextDesc">Вгадай з речення</span>
+              </button>
+              <button class="mode-card mc-daily" id="btn-daily-challenge">
+                <span class="mode-icon">🎯</span
+                ><span class="mode-name" data-i18n="modesPg.dailyName">Місія дня</span>
+                <span class="mode-desc" data-i18n="modesPg.dailyDesc">10 слів + таймер</span>
+              </button>
+              <button class="mode-card mc-adaptive" id="btn-adaptive-quiz">
+                <span class="mode-icon">🧩</span
+                ><span class="mode-name" data-i18n="modesPg.adaptiveName">Адаптивний</span>
+                <span class="mode-desc" data-i18n="modesPg.adaptiveDesc"
+                  >Складність підлаштовується</span
+                >
+              </button>
+            </div>
+            <div class="modes-section-label" data-i18n="modesPg.groupNew">Нові режими</div>
+            <div class="modes-section-grid">
+              <button class="mode-card mc-oddone" id="btn-oddone">
+                <span class="mode-icon">🧐</span
+                ><span class="mode-name" data-i18n="modesPg.oddoneName">Зайве слово</span
+                ><span class="mode-desc" data-i18n="modesPg.oddoneDesc">Знайди зайве</span>
+              </button>
+              <button class="mode-card mc-sentbuild" id="btn-sentbuild">
+                <span class="mode-icon">🧱</span
+                ><span class="mode-name" data-i18n="modesPg.sentbuildName">Речення</span
+                ><span class="mode-desc" data-i18n="modesPg.sentbuildDesc">Склади з тайлів</span>
+              </button>
+              <button class="mode-card mc-errorhunt" id="btn-error-hunt">
+                <span class="mode-icon">🕵️</span
+                ><span class="mode-name" data-i18n="modesPg.errorhuntName">Мисливець</span
+                ><span class="mode-desc" data-i18n="modesPg.errorhuntDesc">Знайди помилку</span>
+              </button>
+              <button class="mode-card mc-assoc" id="btn-assoc">
+                <span class="mode-icon">🔗🧠</span
+                ><span class="mode-name" data-i18n="modesPg.assocName">Асоціації</span
+                ><span class="mode-desc" data-i18n="modesPg.assocDesc">Ланцюжок синонімів</span>
+              </button>
+              <button class="mode-card mc-wordhint" id="btn-wordhint">
+                <span class="mode-icon">💡</span
+                ><span class="mode-name" data-i18n="modesPg.wordhintName">Підказки</span
+                ><span class="mode-desc" data-i18n="modesPg.wordhintDesc">Вгадай слово</span>
+              </button>
+              <button class="mode-card mc-shadow" id="btn-shadow">
+                <span class="mode-icon">🎙️</span
+                ><span class="mode-name" data-i18n="modesPg.shadowName">Диктант</span
+                ><span class="mode-desc" data-i18n="modesPg.shadowDesc">Почуй і повтори</span>
+              </button>
+              <button class="mode-card mc-ghost" id="btn-ghost">
+                <span class="mode-icon">👻</span
+                ><span class="mode-name" data-i18n="modesPg.ghostName">Гонка</span
+                ><span class="mode-desc" data-i18n="modesPg.ghostDesc">Обжени привида</span>
+              </button>
+              <button class="mode-card mc-dictation" id="btn-dictation">
+                <span class="mode-icon">🎧</span
+                ><span class="mode-name" data-i18n="modesPg.dictName">Слухай і пиши</span
+                ><span class="mode-desc" data-i18n="modesPg.dictDesc">Надрукуй почуте речення</span>
+              </button>
+              <button class="mode-card mc-idiomquiz" id="btn-idiom-quiz">
+                <span class="mode-icon">💬</span
+                ><span class="mode-name" data-i18n="modesPg.idqName">Вікторина з ідіом</span
+                ><span class="mode-desc" data-i18n="modesPg.idqDesc">Вгадай значення</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ══ SPELLING BEE MODAL ══ -->
+      <div
+        id="bee-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="bee-page-mount"></div>
+        </div>
+      </div>
+      <!-- ══ SCRAMBLE MODAL ══ -->
+      <div
+        id="scr-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="scr-page-mount"></div>
+        </div>
+      </div>
+      <!-- ══ LETTERS MODAL (anagram word search) ══ -->
+      <div
+        id="wl-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="wl-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ STORY MODE OVERLAY ══ -->
+      <div
+        id="story-mode-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: var(--bg);
+          z-index: 9200;
+          align-items: flex-start;
+          justify-content: center;
+          padding: 8px;
+          overflow-y: auto;
+        "
+      >
+        <div
+          class="page-inner"
+          style="
+            max-width: 640px;
+            max-height: calc(100vh - 16px);
+            overflow-y: auto;
+            position: relative;
+          "
+        >
+          <div id="story-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ CONTEXT MODE MODAL ══ -->
+      <div
+        id="ctx-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="ctx-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ FILL IN BLANK MODAL ══ -->
+      <div
+        id="fib-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="fib-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ DICTATION MODAL ══ -->
+      <div
+        id="dict-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="dict-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ IDIOM QUIZ MODAL ══ -->
+      <div
+        id="idq-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="idq-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ LISTENING MODAL ══ -->
+      <div
+        id="listen-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="listen-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ CATEGORY PAIRS MODAL ══ -->
+      <div
+        id="catpairs-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="pairs-panel">
+          <div id="catpairs-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ ODD ONE OUT MODAL ══ -->
+      <div
+        id="oo-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="oo-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ SENTENCE BUILDER MODAL ══ -->
+      <div
+        id="sb-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="sb-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ ERROR HUNT MODAL ══ -->
+      <div
+        id="eh-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="eh-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ ASSOCIATION CHAIN MODAL ══ -->
+      <div
+        id="assoc-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="assoc-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ WORD HINT MODAL ══ -->
+      <div
+        id="hint-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="hint-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ SHADOWING MODAL ══ -->
+      <div
+        id="shadow-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="shadow-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ GHOST RACE MODAL ══ -->
+      <div
+        id="ghost-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="ghost-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ KEYBOARD OVERLAY ══ -->
+      <div id="keys-overlay-mount"></div>
+
+      <!-- ══ LESSON MODAL ══ -->
+      <div
+        id="lesson-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9200;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="lesson-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ WRITE MODAL ══ -->
+      <div
+        id="write-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="quiz-panel">
+          <div id="write-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ PAIRS MODAL ══ -->
+      <div
+        id="pairs-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div class="pairs-panel">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 6px;
+            "
+          >
+            <div>
+              <div
+                style="font-size: 1.05rem; font-weight: 700; color: var(--text)"
+                data-i18n="pairs.title"
+              >
+                🔗 Знайди пару
+              </div>
+              <div
+                id="pairs-best-label"
+                style="font-size: 0.72rem; color: var(--text3); margin-top: 2px"
+              ></div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px">
+              <div
+                id="pairs-timer"
+                style="
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  color: var(--accent);
+                  min-width: 56px;
+                  text-align: right;
+                "
+              >
+                0.0с
+              </div>
+              <button
+                id="pairs-close"
+                style="
+                  background: none;
+                  border: none;
+                  font-size: 1.3rem;
+                  cursor: pointer;
+                  color: var(--text3);
+                "
+                title="Закрити"
+                data-i18n-title="common.close"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+          <div id="pairs-board" style="margin-bottom: 14px"></div>
+          <div id="pairs-final" style="display: none; text-align: center; padding: 8px 0">
+            <div style="font-size: 2.5rem; margin-bottom: 8px" id="pf-emoji">⏱</div>
+            <div
+              style="font-size: 1.4rem; font-weight: 700; color: var(--text); margin-bottom: 4px"
+              id="pf-time"
+            ></div>
+            <div
+              style="font-size: 0.88rem; color: var(--text2); margin-bottom: 18px"
+              id="pf-best"
+            ></div>
+            <div style="display: flex; gap: 10px; justify-content: center">
+              <button
+                id="pairs-again"
+                style="
+                  font-family: 'DM Sans', sans-serif;
+                  font-size: 0.88rem;
+                  font-weight: 600;
+                  padding: 10px 22px;
+                  border-radius: 10px;
+                  border: 1.5px solid var(--accent);
+                  background: none;
+                  color: var(--accent);
+                  cursor: pointer;
+                "
+                data-i18n="pairs.again"
+              >
+                🔄 Знову
+              </button>
+              <button
+                id="pairs-exit"
+                style="
+                  font-family: 'DM Sans', sans-serif;
+                  font-size: 0.88rem;
+                  padding: 10px 22px;
+                  border-radius: 10px;
+                  border: 1.5px solid var(--border);
+                  background: none;
+                  color: var(--text2);
+                  cursor: pointer;
+                "
+                data-i18n="common.close"
+              >
+                Закрити
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ QUIZ MODAL ══ -->
+      <div id="quiz-overlay">
+        <div class="quiz-panel" id="quiz-panel">
+          <div id="quiz-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ ADAPTIVE QUIZ MODAL ══ -->
+      <div id="aq-overlay">
+        <div class="quiz-panel" id="aq-panel">
+          <div id="aq-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ TEMPO MODAL ══ -->
+      <div
+        id="tempo-overlay"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 9100;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+        "
+      >
+        <div
+          id="tempo-panel"
+          style="
+            background: var(--card);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 480px;
+            max-height: calc(100vh - 32px);
+            padding: 24px 20px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+            overflow-y: auto;
+            position: relative;
+          "
+        >
+          <div id="tempo-page-mount"></div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ══ QUIZ MODAL ══ -->
-  <div id="quiz-overlay">
-    <div class="quiz-panel" id="quiz-panel">
-      <div id="quiz-page-mount"></div>
-    </div>
-  </div>
-
-  <!-- ══ ADAPTIVE QUIZ MODAL ══ -->
-  <div id="aq-overlay">
-    <div class="quiz-panel" id="aq-panel">
-      <div id="aq-page-mount"></div>
-    </div>
-  </div>
-
-
-  <!-- ══ TEMPO MODAL ══ -->
-  <div id="tempo-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;padding:16px 12px;">
-    <div id="tempo-panel" style="background:var(--card);border-radius:20px;width:100%;max-width:480px;max-height:calc(100vh - 32px);padding:24px 20px;box-shadow:0 8px 40px rgba(0,0,0,.25);overflow-y:auto;position:relative;">
-      <div id="tempo-page-mount"></div>
-    </div>
-  </div>
-
-</div>
-
-<!-- Item 34: єдиний React-рут, рендерить усі компоненти через портали -->
-<div id="app-root" style="display:none"></div>
-<script type="module" src="/src/main.ts"></script>
-
-
-
-</body>
+    <!-- Item 34: єдиний React-рут, рендерить усі компоненти через портали -->
+    <div id="app-root" style="display: none"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>

@@ -286,30 +286,45 @@ function AppRoot(): ReactElement {
         btnId="btn-listen"
         mountId="listen-page-mount"
         loader={() =>
-          import('../js/modes/listening.tsx').then((m) => ({ Page: m.ListeningPage, open: m.openListening }))
+          import('../js/modes/listening.tsx').then((m) => ({
+            Page: m.ListeningPage,
+            open: m.openListening,
+          }))
         }
       />
       <LazyMode
         btnId="btn-fib"
         mountId="fib-page-mount"
-        loader={() => import('../js/modes/fib.tsx').then((m) => ({ Page: m.FibPage, open: m.openFib }))}
+        loader={() =>
+          import('../js/modes/fib.tsx').then((m) => ({ Page: m.FibPage, open: m.openFib }))
+        }
       />
       <LazyMode
         btnId="btn-tempo"
         mountId="tempo-page-mount"
-        loader={() => import('../js/modes/tempo.tsx').then((m) => ({ Page: m.TempoPage, open: m.openTempo }))}
+        loader={() =>
+          import('../js/modes/tempo.tsx').then((m) => ({ Page: m.TempoPage, open: m.openTempo }))
+        }
       />
       <LazyMode
         btnId="btn-spelling-bee"
         mountId="bee-page-mount"
         loader={() =>
-          import('../js/modes/spelling-bee.tsx').then((m) => ({ Page: m.SpellingBeePage, open: m.openSpellingBee }))
+          import('../js/modes/spelling-bee.tsx').then((m) => ({
+            Page: m.SpellingBeePage,
+            open: m.openSpellingBee,
+          }))
         }
       />
       <LazyMode
         btnId="btn-context"
         mountId="ctx-page-mount"
-        loader={() => import('../js/modes/context.tsx').then((m) => ({ Page: m.ContextPage, open: m.openContext }))}
+        loader={() =>
+          import('../js/modes/context.tsx').then((m) => ({
+            Page: m.ContextPage,
+            open: m.openContext,
+          }))
+        }
       />
       <Portal id="reading-page-mount">
         <ReadingPage />
@@ -317,18 +332,28 @@ function AppRoot(): ReactElement {
       <LazyMode
         btnId="btn-story"
         mountId="story-page-mount"
-        loader={() => import('../js/modes/story.tsx').then((m) => ({ Page: m.StoryPage, open: m.openStoryMode }))}
+        loader={() =>
+          import('../js/modes/story.tsx').then((m) => ({
+            Page: m.StoryPage,
+            open: m.openStoryMode,
+          }))
+        }
       />
       <LazyMode
         btnId="btn-lesson"
         mountId="lesson-page-mount"
-        loader={() => import('../js/modes/lesson.tsx').then((m) => ({ Page: m.LessonPage, open: m.openLesson }))}
+        loader={() =>
+          import('../js/modes/lesson.tsx').then((m) => ({ Page: m.LessonPage, open: m.openLesson }))
+        }
       />
       <LazyMode
         btnId="btn-write"
         mountId="write-page-mount"
         loader={() =>
-          import('../js/modes/write.tsx').then((m) => ({ Page: m.WritePage, open: () => m.openWrite(null) }))
+          import('../js/modes/write.tsx').then((m) => ({
+            Page: m.WritePage,
+            open: () => m.openWrite(null),
+          }))
         }
       />
       <Portal id="catpairs-page-mount">
@@ -352,7 +377,10 @@ function AppRoot(): ReactElement {
         btnId="btn-oddone"
         mountId="oo-page-mount"
         loader={() =>
-          import('../js/modes/odd-one-out.tsx').then((m) => ({ Page: m.OddOneOutPage, open: m.openOddOneOut }))
+          import('../js/modes/odd-one-out.tsx').then((m) => ({
+            Page: m.OddOneOutPage,
+            open: m.openOddOneOut,
+          }))
         }
       />
       <LazyMode
@@ -369,49 +397,90 @@ function AppRoot(): ReactElement {
         btnId="btn-error-hunt"
         mountId="eh-page-mount"
         loader={() =>
-          import('../js/modes/error-hunt.tsx').then((m) => ({ Page: m.ErrorHuntPage, open: m.openErrorHunt }))
+          import('../js/modes/error-hunt.tsx').then((m) => ({
+            Page: m.ErrorHuntPage,
+            open: m.openErrorHunt,
+          }))
         }
       />
       <LazyMode
         btnId="btn-assoc"
         mountId="assoc-page-mount"
         loader={() =>
-          import('../js/modes/assoc-chain.tsx').then((m) => ({ Page: m.AssocChainPage, open: m.openAssocChain }))
+          import('../js/modes/assoc-chain.tsx').then((m) => ({
+            Page: m.AssocChainPage,
+            open: m.openAssocChain,
+          }))
         }
       />
       <LazyMode
         btnId="btn-wordhint"
         mountId="hint-page-mount"
         loader={() =>
-          import('../js/modes/word-hint.tsx').then((m) => ({ Page: m.WordHintPage, open: m.openWordHint }))
+          import('../js/modes/word-hint.tsx').then((m) => ({
+            Page: m.WordHintPage,
+            open: m.openWordHint,
+          }))
         }
       />
       <LazyMode
         btnId="btn-shadow"
         mountId="shadow-page-mount"
         loader={() =>
-          import('../js/modes/shadowing.tsx').then((m) => ({ Page: m.ShadowingPage, open: m.openShadowing }))
+          import('../js/modes/shadowing.tsx').then((m) => ({
+            Page: m.ShadowingPage,
+            open: m.openShadowing,
+          }))
         }
       />
       <LazyMode
         btnId="btn-ghost"
         mountId="ghost-page-mount"
         loader={() =>
-          import('../js/modes/ghost-race.tsx').then((m) => ({ Page: m.GhostRacePage, open: m.openGhostRace }))
+          import('../js/modes/ghost-race.tsx').then((m) => ({
+            Page: m.GhostRacePage,
+            open: m.openGhostRace,
+          }))
+        }
+      />
+      <LazyMode
+        btnId="btn-dictation"
+        mountId="dict-page-mount"
+        loader={() =>
+          import('../js/modes/dictation.tsx').then((m) => ({
+            Page: m.DictationPage,
+            open: m.openDictation,
+          }))
+        }
+      />
+      <LazyMode
+        btnId="btn-idiom-quiz"
+        mountId="idq-page-mount"
+        loader={() =>
+          import('../js/modes/idiom-quiz.tsx').then((m) => ({
+            Page: m.IdiomQuizPage,
+            open: m.openIdiomQuiz,
+          }))
         }
       />
       <LazyMode
         btnId="btn-scramble"
         mountId="scr-page-mount"
         loader={() =>
-          import('../js/modes/scramble.tsx').then((m) => ({ Page: m.ScramblePage, open: m.openScramble }))
+          import('../js/modes/scramble.tsx').then((m) => ({
+            Page: m.ScramblePage,
+            open: m.openScramble,
+          }))
         }
       />
       <LazyMode
         btnId="btn-letters"
         mountId="wl-page-mount"
         loader={() =>
-          import('../js/modes/word-letters.tsx').then((m) => ({ Page: m.WordLettersPage, open: m.openWordLetters }))
+          import('../js/modes/word-letters.tsx').then((m) => ({
+            Page: m.WordLettersPage,
+            open: m.openWordLetters,
+          }))
         }
       />
       <Portal id="stats-overlay">
