@@ -71,7 +71,7 @@ function roundDuration(r: RoundData): number {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openWordLetters(): void {
+export function openWordLetters(): void {
   _open?.();
 }
 function closeWordLetters(): void {

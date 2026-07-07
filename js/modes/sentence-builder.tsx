@@ -55,7 +55,7 @@ function shuffleTokens(tokens: string[]): string[] {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openSentenceBuilder(): void {
+export function openSentenceBuilder(): void {
   _open?.();
 }
 function closeSentenceBuilder(): void {

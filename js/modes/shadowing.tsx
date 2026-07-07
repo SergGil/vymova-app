@@ -129,7 +129,7 @@ type Phase = 'ready' | 'listening' | 'result';
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openShadowing(): void {
+export function openShadowing(): void {
   _open?.();
 }
 function closeShadowing(): void {

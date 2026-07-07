@@ -54,7 +54,7 @@ function isAnswerCorrect(input: string, target: string): boolean {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openWordHint(): void {
+export function openWordHint(): void {
   _open?.();
 }
 function closeWordHint(): void {

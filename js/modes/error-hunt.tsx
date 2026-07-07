@@ -93,7 +93,7 @@ function buildDeck(): Round[] {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openErrorHunt(): void {
+export function openErrorHunt(): void {
   _open?.();
 }
 function closeErrorHunt(): void {

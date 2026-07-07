@@ -77,7 +77,7 @@ function buildDeck(): Round[] {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openOddOneOut(): void {
+export function openOddOneOut(): void {
   _open?.();
 }
 function closeOddOneOut(): void {

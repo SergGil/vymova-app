@@ -208,7 +208,7 @@ function getTranscription(cw: WordEntry, code: Code): string {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openStoryMode(): void {
+export function openStoryMode(): void {
   _open?.();
 }
 function closeStoryMode(): void {

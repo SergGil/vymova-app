@@ -103,7 +103,7 @@ function buildStep(
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openAssocChain(): void {
+export function openAssocChain(): void {
   _open?.();
 }
 function closeAssocChain(): void {

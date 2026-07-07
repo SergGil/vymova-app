@@ -286,7 +286,7 @@ function renderSentence(item: FibEntry, correct: boolean | null): string {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openFib(): void {
+export function openFib(): void {
   _open?.();
 }
 function closeFib(): void {

@@ -97,7 +97,7 @@ function buildDeck(): Question[] {
 let _open: (() => void) | null = null;
 let _close: (() => void) | null = null;
 
-function openGhostRace(): void {
+export function openGhostRace(): void {
   _open?.();
 }
 function closeGhostRace(): void {
