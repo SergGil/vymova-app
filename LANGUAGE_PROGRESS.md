@@ -2,7 +2,7 @@
 
 Tracks the word-count status of every language dictionary in Vymova (`data/words_<code>.js`), against the canonical English source list in `data/words.js` (currently **10403** headwords).
 
-Last updated: 2026-07-05 (v1.106.0)
+Last updated: 2026-07-07 (v1.158.0)
 
 ## Rule: every dictionary entry must include transcription
 
@@ -44,6 +44,7 @@ Every `data/words_<code>.js` entry must be a **3-element** tuple — `["translat
 | ar   | Arabic     | 2000  |
 | el   | Greek      | 2000  |
 | he   | Hebrew     | 2000  |
+| hr   | Croatian   | 2000  |
 | it   | Italian    | 2000  |
 | ja   | Japanese   | 2000  |
 | nl   | Dutch      | 2000  |
@@ -63,29 +64,30 @@ Every `data/words_<code>.js` entry must be a **3-element** tuple — `["translat
 | bn   | Bengali            | 2110  |
 | hi   | Hindi              | 2000  |
 
-## In progress — batch 1 done (160 words), need further batches to reach 2000+
+## In progress — batch 2 done (310 words), target 500+ (not 2000+)
 
 | Code | Language           | Words |
 |------|--------------------|-------|
-| bs   | Bosnian            | 160   |
-| cs   | Czech              | 160   |
-| da   | Danish             | 160   |
-| fa   | Persian            | 160   |
-| fi   | Finnish            | 160   |
-| hr   | Croatian           | 160   |
-| hu   | Hungarian          | 160   |
-| hy   | Armenian           | 160   |
-| id   | Indonesian         | 160   |
-| ka   | Georgian           | 160   |
-| kk   | Kazakh             | 160   |
-| ms   | Malay              | 160   |
-| no   | Norwegian          | 160   |
-| pcm  | Nigerian Pidgin    | 160   |
-| ro   | Romanian           | 160   |
-| sk   | Slovak             | 160   |
-| sr   | Serbian            | 160   |
-| sv   | Swedish            | 160   |
-| sw   | Swahili            | 160   |
-| th   | Thai               | 160   |
+| bs   | Bosnian            | 310   |
+| cs   | Czech              | 310   |
+| da   | Danish             | 310   |
+| fa   | Persian            | 310   |
+| fi   | Finnish            | 310   |
+| hu   | Hungarian          | 310   |
+| hy   | Armenian           | 310   |
+| id   | Indonesian         | 310   |
+| ka   | Georgian           | 310   |
+| kk   | Kazakh             | 310   |
+| ms   | Malay              | 310   |
+| no   | Norwegian          | 310   |
+| pcm  | Nigerian Pidgin    | 310   |
+| ro   | Romanian           | 310   |
+| sk   | Slovak             | 310   |
+| sr   | Serbian            | 310   |
+| sv   | Swedish            | 310   |
+| sw   | Swahili            | 310   |
+| th   | Thai               | 310   |
 
-**All 21 languages started with batch 1 (index 10-159, 160 words).** `hi` (Hindi) has since continued through batches 2-13 (index 160-1999) and reached 2000 words — moved to the complete table above. The other 20 remain at 160 pending their own batch 2. Continue similarly for each, following the same process, until each crosses 2000+.
+**Correction (2026-07-07):** `hr` (Croatian) was previously listed here at 160, but the actual file already has 2000 words (2-element format, no transcription — an earlier-phase expansion that predates this batch-1/2 system and was never logged). Moved to the "first wave" table below; excluded from the 500+ push.
+
+**Started with batch 1 (index 10-159, 160 words), now through batch 2 (index 160-309, 150 more words, 310 total).** `hi` (Hindi) continued further (batches 2-13, index 160-1999) and reached 2000 words — see complete table above. These 19 remain at 310, need one more batch (~190 words, index 310-499) each to cross the 500-word target set for this round (not the earlier 2000+ target used for hi/az/ko/etc).
