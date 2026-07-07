@@ -13,7 +13,7 @@ const speakFakeYou = vi.fn<(text: string, btn: HTMLElement | null) => boolean>()
 // module-level idle/timeout side effects across test runs.
 vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
 
-vi.mock('../../js/features/voice.tsx', () => ({
+vi.mock('../../js/features/voice/voice.tsx', () => ({
   getSelectedUkVoice: (...a: unknown[]) => getSelectedUkVoice(...(a as [])),
   getSelectedEsVoice: (...a: unknown[]) => getSelectedEsVoice(...(a as [])),
   speakFakeYou: (...a: unknown[]) => speakFakeYou(...(a as [string, HTMLElement | null])),
@@ -55,7 +55,7 @@ describe('speech.ts', () => {
   });
 
   async function load() {
-    return import('../../js/features/speech.ts');
+    return import('../../js/features/voice/speech.ts');
   }
 
   it('speak() defers to speakFakeYou and skips web speech when it handles the request', async () => {

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { splitFeedback } from '../../js/features/voice-roleplay.tsx';
+import { splitFeedback } from '../../js/features/voice/voice-roleplay.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -12,7 +12,7 @@ const configMock = vi.hoisted(() => ({
 vi.mock('../../js/config.ts', () => configMock);
 
 const { speakWithLang } = vi.hoisted(() => ({ speakWithLang: vi.fn() }));
-vi.mock('../../js/features/speech.ts', () => ({ _speakWithLang: speakWithLang }));
+vi.mock('../../js/features/voice/speech.ts', () => ({ _speakWithLang: speakWithLang }));
 
 async function flush(): Promise<void> {
   await act(async () => {
@@ -57,7 +57,7 @@ describe('voice-roleplay.tsx VoiceRoleplayPage', () => {
   });
 
   async function mount(): Promise<HTMLElement> {
-    const { VoiceRoleplayPage } = await import('../../js/features/voice-roleplay.tsx');
+    const { VoiceRoleplayPage } = await import('../../js/features/voice/voice-roleplay.tsx');
     const container = document.createElement('div');
     document.body.appendChild(container);
     root = createRoot(container);

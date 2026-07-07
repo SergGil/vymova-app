@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { getSrsDataSnapshot, deleteSrsEntry } from '../../src/srs-store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import { speakForCode } from './speak-lang.ts';
+import { speakForCode } from './voice/speak-lang.ts';
 import { saveKnown } from '../core/storage.ts';
 import { getSimilarWordsFor } from './similar-words.tsx';
 import { W } from '../../data/words.js';

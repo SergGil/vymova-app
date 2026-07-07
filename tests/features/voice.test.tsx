@@ -14,7 +14,7 @@ import {
   getSelectedDeVoice,
   getSelectedHeVoice,
   getSelectedArVoice,
-} from '../../js/features/voice.tsx';
+} from '../../js/features/voice/voice.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

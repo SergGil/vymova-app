@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildReadingPassages } from '../../js/features/reading-passages.ts';
+import { buildReadingPassages } from '../../js/features/reading/reading-passages.ts';
 import type { WordEntry } from '../../src/types.js';
 
 function makeWord(n: number, ex = true): WordEntry {

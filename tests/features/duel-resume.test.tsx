@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelResume, refreshDuelResume } from '../../js/features/duel-resume.tsx';
-import type { ResumeSessionVM } from '../../js/features/duel.ts';
+import { DuelResume, refreshDuelResume } from '../../js/features/duel/duel-resume.tsx';
+import type { ResumeSessionVM } from '../../js/features/duel/duel.ts';
 import { setDuelResumeSessions } from '../../src/duel-async-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -12,7 +12,7 @@ const { getResumeSessions, onResumeContinue, onResumeDiscard } = vi.hoisted(() =
   onResumeContinue: vi.fn(),
   onResumeDiscard: vi.fn(),
 }));
-vi.mock('../../js/features/duel.ts', () => ({
+vi.mock('../../js/features/duel/duel.ts', () => ({
   _getResumeSessions: getResumeSessions,
   _onResumeContinue: onResumeContinue,
   _onResumeDiscard: onResumeDiscard,

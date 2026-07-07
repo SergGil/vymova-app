@@ -60,16 +60,16 @@ vi.mock('../../js/features/notes.ts', () => ({
 vi.mock('../../js/features/bookmarks.ts', () => ({
   toggleBookmark: vi.fn(() => true),
 }));
-vi.mock('../../js/features/pronunciation.ts', () => ({
+vi.mock('../../js/features/voice/pronunciation.ts', () => ({
   isPronuncSupported: vi.fn(() => false),
   showPronuncResult: vi.fn(),
   startPronunciationCheck: vi.fn(),
 }));
-vi.mock('../../js/features/voice.ts', () => ({
+vi.mock('../../js/features/voice/voice.ts', () => ({
   getSelectedUkVoice: vi.fn(() => null),
   getSelectedEsVoice: vi.fn(() => null),
 }));
-vi.mock('../../js/features/speech.ts', () => ({
+vi.mock('../../js/features/voice/speech.ts', () => ({
   speak: vi.fn(),
   _speakWithLang: vi.fn(),
 }));

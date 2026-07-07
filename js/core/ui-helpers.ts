@@ -1,7 +1,7 @@
 // Vymova — js/core/ui-helpers.ts
 // Shared UI utilities used across modes
 import { t } from '../features/i18n.ts';
-import { speak, _speakWithLang } from '../features/speech.ts';
+import { speak, _speakWithLang } from '../features/voice/speech.ts';
 
 export function speakBtn(text: string, lang = 'en-US'): HTMLButtonElement {
   const btn = document.createElement('button');

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelSpectatorView } from '../../js/features/duel-spectator.tsx';
+import { DuelSpectatorView } from '../../js/features/duel/duel-spectator.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -10,14 +10,14 @@ const { getSpecRoom, getDuelScreen, leaveSpectator } = vi.hoisted(() => ({
   getDuelScreen: vi.fn(() => 'lobby' as string),
   leaveSpectator: vi.fn(),
 }));
-vi.mock('../../js/features/duel.ts', async (importOriginal) => {
-  const orig = await importOriginal<typeof import('../../js/features/duel.ts')>();
+vi.mock('../../js/features/duel/duel.ts', async (importOriginal) => {
+  const orig = await importOriginal<typeof import('../../js/features/duel/duel.ts')>();
   return {
     ...orig,
     _getDuelScreen: getDuelScreen,
   };
 });
-vi.mock('../../js/features/duel-spectator-logic.ts', () => ({
+vi.mock('../../js/features/duel/duel-spectator-logic.ts', () => ({
   _getSpecRoom: getSpecRoom,
   _leaveSpectator: leaveSpectator,
 }));

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseYoutubeId } from '../../js/features/youtube-player.tsx';
+import { parseYoutubeId } from '../../js/features/reading/youtube-player.tsx';
 
 describe('parseYoutubeId()', () => {
   it('extracts the id from a watch?v= URL', () => {

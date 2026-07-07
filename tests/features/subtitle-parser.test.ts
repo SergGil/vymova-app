@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseSubtitles, findActiveCue } from '../../js/features/subtitle-parser.ts';
+import { parseSubtitles, findActiveCue } from '../../js/features/reading/subtitle-parser.ts';
 
 describe('parseSubtitles() — SRT', () => {
   const srt = `1

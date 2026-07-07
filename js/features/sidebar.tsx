@@ -2,7 +2,7 @@
 // Sidebar wiring, page-view system, theme toggles, img-clear confirm
 import { useEffect, type ReactElement } from 'react';
 import { refreshAchievementsPage } from './achievements-page.tsx';
-import { renderDuel } from './duel.ts';
+import { renderDuel } from './duel/duel.ts';
 import { openGrammarContent } from './grammar-page.tsx';
 import { openIdiomsContent } from './idioms-page.tsx';
 import { AI_TUTOR_ENABLED } from '../config.ts';
@@ -14,7 +14,7 @@ import {
   useActivePage,
 } from '../../src/nav-store.tsx';
 import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
-import { _renderVoices } from './voice.tsx';
+import { _renderVoices } from './voice/voice.tsx';
 import { _updateUI as _refreshNotifUI } from './notifications.tsx';
 import { _refreshCloudSyncUI } from './cloud-sync.tsx';
 import { t } from './i18n.ts';

@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactElement, type MouseEventHandler } from 'react';
 import { IDIOMS_BY_LANG, type Idiom } from '../../data/idioms.ts';
 import { t } from './i18n.ts';
-import { _speakWithLang } from './speech.ts';
+import { _speakWithLang } from './voice/speech.ts';
 import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
 import { flagUrl } from '../core/flags.ts';
 import { FLAG_CODE } from '../core/flag-codes.ts';

@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { notifyStateChange } from '../../src/store.ts';
-import { DuelGameHeader } from '../../js/features/duel-game-header.tsx';
+import { DuelGameHeader } from '../../js/features/duel/duel-game-header.tsx';
 import { setDuelRoom } from '../../src/duel-room-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -28,8 +28,8 @@ const { getGameHeaderData } = vi.hoisted(() => ({
     roomCode: null as string | null,
   })),
 }));
-vi.mock('../../js/features/duel.ts', async (importOriginal) => {
-  const orig = await importOriginal<typeof import('../../js/features/duel.ts')>();
+vi.mock('../../js/features/duel/duel.ts', async (importOriginal) => {
+  const orig = await importOriginal<typeof import('../../js/features/duel/duel.ts')>();
   return { ...orig, _getGameHeaderData: getGameHeaderData };
 });
 

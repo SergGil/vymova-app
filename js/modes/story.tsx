@@ -9,7 +9,7 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
 import { recordModeComplete } from '../features/game.ts';
-import { speakForCode } from '../features/speak-lang.ts';
+import { speakForCode } from '../features/voice/speak-lang.ts';
 import { t } from '../features/i18n.ts';
 import { AI_PROXY_URL, AI_TUTOR_ENABLED } from '../config.ts';
 import type { WordEntry } from '../../src/types.js';

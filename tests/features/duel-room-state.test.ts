@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { _getGameHeaderData, _getPowerupsData, _getQuestionData } from '../../js/features/duel.ts';
+import { _getGameHeaderData, _getPowerupsData, _getQuestionData } from '../../js/features/duel/duel.ts';
 import { getDuelRoomSnapshot } from '../../src/duel-room-store.ts';
 
 describe('duel room/game core state (Фаза 7.4-B / 7, state.duelRoom)', () => {

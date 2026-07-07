@@ -7,13 +7,13 @@ import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
-import { speak } from '../features/speech.ts';
+import { speak } from '../features/voice/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
-import { speechLangFor } from '../features/speech-lang.ts';
+import { speechLangFor } from '../features/voice/speech-lang.ts';
 
 const ROUNDS = 8;
 

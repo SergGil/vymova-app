@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelLeaderboard, DuelRating } from '../../js/features/duel-leaderboard.tsx';
+import { DuelLeaderboard, DuelRating } from '../../js/features/duel/duel-leaderboard.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -24,10 +24,10 @@ const {
   weekWords: vi.fn(() => 0),
   getRating: vi.fn(() => ({ wins: 0, losses: 0, ties: 0 })),
 }));
-vi.mock('../../js/features/duel.ts', () => ({
+vi.mock('../../js/features/duel/duel.ts', () => ({
   _getRating: getRating,
 }));
-vi.mock('../../js/features/duel-profile-snap.ts', () => ({
+vi.mock('../../js/features/duel/duel-profile-snap.ts', () => ({
   _getProfiles: getProfiles,
   _getActiveId: getActiveId,
   _currentSnap: currentSnap,

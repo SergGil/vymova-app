@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelCountdown } from '../../js/features/duel-countdown.tsx';
+import { DuelCountdown } from '../../js/features/duel/duel-countdown.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -15,7 +15,7 @@ const { getCountdownData } = vi.hoisted(() => ({
     num: 3,
   })),
 }));
-vi.mock('../../js/features/duel-lobby-logic.ts', () => ({ _getCountdownData: getCountdownData }));
+vi.mock('../../js/features/duel/duel-lobby-logic.ts', () => ({ _getCountdownData: getCountdownData }));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

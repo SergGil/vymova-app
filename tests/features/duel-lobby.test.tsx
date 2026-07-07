@@ -6,7 +6,7 @@ import {
   setLobbyWaiting,
   setLobbyMsg,
 } from '../../src/duel-lobby-store.ts';
-import { DuelLobby } from '../../js/features/duel-lobby.tsx';
+import { DuelLobby } from '../../js/features/duel/duel-lobby.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -29,48 +29,48 @@ const {
   createTournament: vi.fn(),
   joinTournament: vi.fn(),
 }));
-vi.mock('../../js/features/duel.ts', async (importOriginal) => {
-  const orig = await importOriginal<typeof import('../../js/features/duel.ts')>();
+vi.mock('../../js/features/duel/duel.ts', async (importOriginal) => {
+  const orig = await importOriginal<typeof import('../../js/features/duel/duel.ts')>();
   return {
     ...orig,
     _cancelRoom: cancelRoom,
   };
 });
-vi.mock('../../js/features/duel-lobby-logic.ts', async (importOriginal) => {
-  const orig = await importOriginal<typeof import('../../js/features/duel-lobby-logic.ts')>();
+vi.mock('../../js/features/duel/duel-lobby-logic.ts', async (importOriginal) => {
+  const orig = await importOriginal<typeof import('../../js/features/duel/duel-lobby-logic.ts')>();
   return {
     ...orig,
     createRoom,
     joinRoom,
   };
 });
-vi.mock('../../js/features/duel-tournament-logic.ts', () => ({
+vi.mock('../../js/features/duel/duel-tournament-logic.ts', () => ({
   createTournament,
   joinTournament,
 }));
-vi.mock('../../js/features/duel-spectator-logic.ts', () => ({
+vi.mock('../../js/features/duel/duel-spectator-logic.ts', () => ({
   joinAsSpectator,
 }));
-vi.mock('../../js/features/duel-async-challenge.ts', () => ({
+vi.mock('../../js/features/duel/duel-async-challenge.ts', () => ({
   createAsyncChallenge,
   joinAsyncChallenge,
 }));
 
-vi.mock('../../js/features/duel-leaderboard.tsx', () => ({
+vi.mock('../../js/features/duel/duel-leaderboard.tsx', () => ({
   DuelLeaderboard: () => <div data-testid="leaderboard" />,
   DuelRating: () => <div data-testid="rating" />,
 }));
-vi.mock('../../js/features/duel-history.tsx', () => ({
+vi.mock('../../js/features/duel/duel-history.tsx', () => ({
   DuelHistory: () => <div data-testid="history" />,
 }));
-vi.mock('../../js/features/duel-lobby-options.tsx', () => ({
+vi.mock('../../js/features/duel/duel-lobby-options.tsx', () => ({
   DuelLangPicker: () => <div data-testid="lang-picker" />,
   DuelKnowLangPicker: () => <div data-testid="know-lang-picker" />,
   DuelModePicker: () => <div data-testid="mode-picker" />,
   DuelCategoryPicker: () => <div data-testid="cat-picker" />,
   DuelOptionsRow: () => <div data-testid="options-row" />,
 }));
-vi.mock('../../js/features/duel-resume.tsx', () => ({
+vi.mock('../../js/features/duel/duel-resume.tsx', () => ({
   DuelResume: () => <div data-testid="resume" />,
 }));
 

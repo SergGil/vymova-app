@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { _getFeedbackData, _getQuestionData, _onInputChange } from '../../js/features/duel.ts';
+import { _getFeedbackData, _getQuestionData, _onInputChange } from '../../js/features/duel/duel.ts';
 import { getDuelQuestionSnapshot } from '../../src/duel-question-store.ts';
 
 describe('duel question/feedback state (Фаза 7.4-B / 6, state.duelQuestion)', () => {

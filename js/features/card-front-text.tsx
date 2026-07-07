@@ -39,9 +39,9 @@ import {
   srEntry,
   thEntry,
 } from './mode-utils.ts';
-import { speakEnAccent, speakEsAccent, speakPtAccent, hasEsAccent, hasPtAccent } from './voice.tsx';
+import { speakEnAccent, speakEsAccent, speakPtAccent, hasEsAccent, hasPtAccent } from './voice/voice.tsx';
 import { flagUrl } from '../core/flags.ts';
-import { speakForCode } from './speak-lang.ts';
+import { speakForCode } from './voice/speak-lang.ts';
 import { SENSES_BY_LANG, type SenseEntry } from '../../data/senses.ts';
 import { InfoIcon, InfoNote } from './info-icon.tsx';
 import { TRANSCRIPTION_LEGEND } from './transcription-legend.ts';

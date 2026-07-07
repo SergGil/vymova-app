@@ -54,11 +54,11 @@ async function _answerCodePrompt(code: string): Promise<void> {
     .dispatchEvent(new MouseEvent('click', { bubbles: true }));
 }
 
-import { _cancelRoom } from '../../js/features/duel.ts';
-import { createRoom, joinRoom } from '../../js/features/duel-lobby-logic.ts';
-import { createAsyncChallenge, _cancelAsyncStart } from '../../js/features/duel-async-challenge.ts';
-import { createTournament, _cancelTournament } from '../../js/features/duel-tournament-logic.ts';
-import { joinAsSpectator } from '../../js/features/duel-spectator-logic.ts';
+import { _cancelRoom } from '../../js/features/duel/duel.ts';
+import { createRoom, joinRoom } from '../../js/features/duel/duel-lobby-logic.ts';
+import { createAsyncChallenge, _cancelAsyncStart } from '../../js/features/duel/duel-async-challenge.ts';
+import { createTournament, _cancelTournament } from '../../js/features/duel/duel-tournament-logic.ts';
+import { joinAsSpectator } from '../../js/features/duel/duel-spectator-logic.ts';
 import { getDuelRoomSnapshot } from '../../src/duel-room-store.ts';
 import { getDuelLobbyUISnapshot } from '../../src/duel-lobby-store.ts';
 

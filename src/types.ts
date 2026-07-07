@@ -222,14 +222,14 @@ export interface DuelRoomState {
   myWrong: number;
   myFlags: (boolean | 'skip' | 'double')[];
   answered: boolean;
-  mode: import('../js/features/duel.ts').DuelMode;
+  mode: import('../js/features/duel/duel.ts').DuelMode;
   finished: boolean;
   myDone: boolean;
   hintsLeft: number;
-  series: import('../js/features/duel.ts').SeriesData;
-  bestOf: import('../js/features/duel.ts').BestOf;
+  series: import('../js/features/duel/duel.ts').SeriesData;
+  bestOf: import('../js/features/duel/duel.ts').BestOf;
   answerStartMs: number;
-  myPowerups: Record<import('../js/features/duel.ts').PowerupType, number>;
+  myPowerups: Record<import('../js/features/duel/duel.ts').PowerupType, number>;
   doubleActive: boolean;
   powerupsEnabled: boolean;
   isAsyncChallenge: boolean;
@@ -241,7 +241,7 @@ export interface DuelRoomState {
   roomCreatedAt: number;
   roomSeed: number;
   roomCategory: string;
-  roomDifficulty: import('../js/features/duel.ts').Difficulty;
+  roomDifficulty: import('../js/features/duel/duel.ts').Difficulty;
   roomMaxHints: number;
   roomLang: string; // "learn" language (target being practiced)
   roomKnowLang: string; // "know" language (the other side of the pair)
@@ -268,10 +268,10 @@ export interface DuelQuestionState {
 // Дуель: вибір режиму/категорії/складності в лобі (item 36, Фаза 7.4-B,
 // під-фаза 1) — джерело правди для геттерів/сеттерів `duel.ts`.
 export interface DuelSelState {
-  mode: import('../js/features/duel.ts').DuelMode;
+  mode: import('../js/features/duel/duel.ts').DuelMode;
   category: string;
-  difficulty: import('../js/features/duel.ts').Difficulty;
-  bestOf: import('../js/features/duel.ts').BestOf;
+  difficulty: import('../js/features/duel/duel.ts').Difficulty;
+  bestOf: import('../js/features/duel/duel.ts').BestOf;
   maxHints: number;
   powerupsEnabled: boolean;
   lang: string; // "learn" language (target being practiced)

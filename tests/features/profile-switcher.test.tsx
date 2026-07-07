@@ -6,7 +6,7 @@ import { ProfileSwitcher } from '../../js/features/profile-switcher.tsx';
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const { renderDuel } = vi.hoisted(() => ({ renderDuel: vi.fn() }));
-vi.mock('../../js/features/duel.ts', () => ({ renderDuel }));
+vi.mock('../../js/features/duel/duel.ts', () => ({ renderDuel }));
 
 const LIST_KEY = 'ew_profiles';
 const ACTIVE_KEY = 'ew_active_profile';

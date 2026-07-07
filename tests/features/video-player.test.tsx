@@ -4,7 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
-import { VideoPlayerPage } from '../../js/features/video-player.tsx';
+import { VideoPlayerPage } from '../../js/features/reading/video-player.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

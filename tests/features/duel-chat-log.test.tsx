@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelChatLog, refreshDuelChatLog } from '../../js/features/duel-chat-log.tsx';
+import { DuelChatLog, refreshDuelChatLog } from '../../js/features/duel/duel-chat-log.tsx';
 import { setDuelChat } from '../../src/duel-async-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -10,7 +10,7 @@ let chatHistory: { text: string; isMe: boolean }[] = [];
 const { getChatHistory } = vi.hoisted(() => ({
   getChatHistory: vi.fn(() => [] as { text: string; isMe: boolean }[]),
 }));
-vi.mock('../../js/features/duel.ts', () => ({ _getChatHistory: getChatHistory }));
+vi.mock('../../js/features/duel/duel.ts', () => ({ _getChatHistory: getChatHistory }));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

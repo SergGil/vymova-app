@@ -11,7 +11,7 @@ import type {
   DuelResultData,
   ResumeSessionVM,
   TournamentData,
-} from '../js/features/duel-types.ts';
+} from '../js/features/duel/duel-types.ts';
 
 // ── Chat history ──────────────────────────────────────────────
 type ChatMsg = { text: string; isMe: boolean };

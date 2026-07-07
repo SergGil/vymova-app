@@ -2,8 +2,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { notifyStateChange } from '../../src/store.ts';
-import { DuelTempoTimer } from '../../js/features/duel-tempo-timer.tsx';
-import { TEMPO_SEC } from '../../js/features/duel.ts';
+import { DuelTempoTimer } from '../../js/features/duel/duel-tempo-timer.tsx';
+import { TEMPO_SEC } from '../../js/features/duel/duel.ts';
 import { setDuelRoom } from '../../src/duel-room-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -12,8 +12,8 @@ let tempo: { visible: boolean; num: number } = { visible: false, num: 4 };
 const { getTempoData } = vi.hoisted(() => ({
   getTempoData: vi.fn(() => ({ visible: false, num: 4 })),
 }));
-vi.mock('../../js/features/duel-lobby-logic.ts', async (importOriginal) => {
-  const orig = await importOriginal<typeof import('../../js/features/duel-lobby-logic.ts')>();
+vi.mock('../../js/features/duel/duel-lobby-logic.ts', async (importOriginal) => {
+  const orig = await importOriginal<typeof import('../../js/features/duel/duel-lobby-logic.ts')>();
   return { ...orig, _getTempoData: getTempoData };
 });
 

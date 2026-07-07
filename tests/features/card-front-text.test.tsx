@@ -19,7 +19,7 @@ import {
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const { speakEnAccent } = vi.hoisted(() => ({ speakEnAccent: vi.fn() }));
-vi.mock('../../js/features/voice.tsx', () => ({
+vi.mock('../../js/features/voice/voice.tsx', () => ({
   speakEnAccent,
   speakEsAccent: vi.fn(),
   speakPtAccent: vi.fn(),
@@ -68,7 +68,7 @@ vi.mock('../../js/features/voice.tsx', () => ({
 }));
 
 const { speak } = vi.hoisted(() => ({ speak: vi.fn() }));
-vi.mock('../../js/features/speech.ts', () => ({ speak }));
+vi.mock('../../js/features/voice/speech.ts', () => ({ speak }));
 
 const cw: WordEntry = [
   'abandon',

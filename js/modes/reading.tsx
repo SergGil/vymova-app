@@ -6,13 +6,13 @@
 // there, via the legacy stemming matcher below).
 import { useState, useEffect, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
-import { loadEpub } from '../features/epub.ts';
+import { loadEpub } from '../features/reading/epub.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { closePage, openPage } from '../features/sidebar.tsx';
 import { t, pluralLabel } from '../features/i18n.ts';
 import { onWordLearned } from '../core/card-engine.ts';
 import { checkMilestones } from '../features/milestones.ts';
-import { speakForCode } from '../features/speak-lang.ts';
+import { speakForCode } from '../features/voice/speak-lang.ts';
 import type { WordEntry } from '../../src/types.js';
 import {
   entryFor,
@@ -30,7 +30,7 @@ import {
   buildReadingPassages,
   type ReadingPassage,
   type PassageRun,
-} from '../features/reading-passages.ts';
+} from '../features/reading/reading-passages.ts';
 
 type TextEntry = { title: string; text: string; level: string };
 type EpubBook = { title: string; chapters: TextEntry[] };

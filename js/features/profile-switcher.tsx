@@ -3,7 +3,7 @@
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
-import { renderDuel } from './duel.ts';
+import { renderDuel } from './duel/duel.ts';
 import { CharacterAvatar, DEFAULT_APPEARANCE } from './character-avatar.tsx';
 import { appearanceOf } from '../core/storage.ts';
 import type { CharacterAppearance } from '../../src/types.js';

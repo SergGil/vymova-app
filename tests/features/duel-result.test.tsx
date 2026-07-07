@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelResult } from '../../js/features/duel-result.tsx';
+import { DuelResult } from '../../js/features/duel/duel-result.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -11,8 +11,8 @@ const { getResultData, onResultRematch, onResultNewDuel, onResultReaction } = vi
   onResultNewDuel: vi.fn(),
   onResultReaction: vi.fn(),
 }));
-vi.mock('../../js/features/duel.ts', async (importOriginal) => {
-  const orig = await importOriginal<typeof import('../../js/features/duel.ts')>();
+vi.mock('../../js/features/duel/duel.ts', async (importOriginal) => {
+  const orig = await importOriginal<typeof import('../../js/features/duel/duel.ts')>();
   return {
     ...orig,
     _getResultData: getResultData,

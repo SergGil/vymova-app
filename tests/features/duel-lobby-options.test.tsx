@@ -6,8 +6,8 @@ import {
   DuelModePicker,
   DuelCategoryPicker,
   DuelOptionsRow,
-} from '../../js/features/duel-lobby-options.tsx';
-import type { Difficulty, BestOf, DuelMode } from '../../js/features/duel.ts';
+} from '../../js/features/duel/duel-lobby-options.tsx';
+import type { Difficulty, BestOf, DuelMode } from '../../js/features/duel/duel.ts';
 import type { ReactElement } from 'react';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -41,8 +41,8 @@ const {
   getSelPowerups: vi.fn(() => true),
   setSelPowerups: vi.fn(),
 }));
-vi.mock('../../js/features/duel-lobby-logic.ts', async (importOriginal) => {
-  const orig = await importOriginal<typeof import('../../js/features/duel-lobby-logic.ts')>();
+vi.mock('../../js/features/duel/duel-lobby-logic.ts', async (importOriginal) => {
+  const orig = await importOriginal<typeof import('../../js/features/duel/duel-lobby-logic.ts')>();
   return {
     ...orig,
     _showInfoTooltip: showInfoTooltip,

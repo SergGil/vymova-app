@@ -52,7 +52,7 @@ import {
   noEntry,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
-import { speakForCode } from '../features/speak-lang.ts';
+import { speakForCode } from '../features/voice/speak-lang.ts';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
 import type { WordEntry } from '../../src/types.js';
 

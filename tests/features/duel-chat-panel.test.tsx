@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelChatPanel } from '../../js/features/duel-chat-panel.tsx';
+import { DuelChatPanel } from '../../js/features/duel/duel-chat-panel.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const { sendChatMsg } = vi.hoisted(() => ({ sendChatMsg: vi.fn() }));
-vi.mock('../../js/features/duel.ts', () => ({ _sendChatMsg: sendChatMsg }));
+vi.mock('../../js/features/duel/duel.ts', () => ({ _sendChatMsg: sendChatMsg }));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

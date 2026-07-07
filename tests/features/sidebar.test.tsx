@@ -29,10 +29,10 @@ const {
   refreshCloudSyncUI: vi.fn(),
 }));
 vi.mock('../../js/features/achievements-page.tsx', () => ({ refreshAchievementsPage }));
-vi.mock('../../js/features/duel.ts', () => ({ renderDuel }));
+vi.mock('../../js/features/duel/duel.ts', () => ({ renderDuel }));
 vi.mock('../../js/features/grammar-page.tsx', () => ({ openGrammarContent }));
 vi.mock('../../js/features/idioms-page.tsx', () => ({ openIdiomsContent }));
-vi.mock('../../js/features/voice.tsx', () => ({ _renderVoices: renderVoices }));
+vi.mock('../../js/features/voice/voice.tsx', () => ({ _renderVoices: renderVoices }));
 vi.mock('../../js/features/notifications.tsx', () => ({ _updateUI: updateNotifUI }));
 vi.mock('../../js/features/cloud-sync.tsx', () => ({ _refreshCloudSyncUI: refreshCloudSyncUI }));
 

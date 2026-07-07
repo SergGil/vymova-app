@@ -36,7 +36,7 @@ describe('Vietnamese is wired into every per-mode translation switch', () => {
   const modeFilesWithOneSwitch = [
     'js/modes/spelling-bee.tsx',
     'js/modes/write.tsx',
-    'js/features/duel-deck.ts',
+    'js/features/duel/duel-deck.ts',
     'js/features/learning-path.ts',
   ];
 

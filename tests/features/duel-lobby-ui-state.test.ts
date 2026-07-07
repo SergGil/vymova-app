@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { _cancelRoom } from '../../js/features/duel.ts';
-import { _getLobbyUIData } from '../../js/features/duel-lobby-logic.ts';
+import { _cancelRoom } from '../../js/features/duel/duel.ts';
+import { _getLobbyUIData } from '../../js/features/duel/duel-lobby-logic.ts';
 import {
   setLobbyWaiting,
   setLobbyJoinRowVisible,

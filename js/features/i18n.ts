@@ -239,7 +239,7 @@ function applyI18n(): void {
       .catch(() => {});
   }
   if (document.getElementById('duel-overlay')?.classList.contains('open')) {
-    import('./duel.ts').then(({ renderDuel }) => renderDuel()).catch(() => {});
+    import('./duel/duel.ts').then(({ renderDuel }) => renderDuel()).catch(() => {});
   }
   if (document.getElementById('grammar-overlay')?.classList.contains('open')) {
     import('./grammar-page.tsx')
@@ -256,7 +256,7 @@ function applyI18n(): void {
     import('./cloud-sync.tsx')
       .then(({ _refreshCloudSyncUI }) => _refreshCloudSyncUI())
       .catch(() => {});
-    import('./voice.tsx').then(({ _renderVoices }) => _renderVoices()).catch(() => {});
+    import('./voice/voice.tsx').then(({ _renderVoices }) => _renderVoices()).catch(() => {});
   }
   const statsOverlay = document.getElementById('stats-overlay') as HTMLElement | null;
   if (statsOverlay && statsOverlay.style.display === 'flex') {

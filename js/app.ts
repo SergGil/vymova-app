@@ -11,7 +11,7 @@ import { refreshGameBarLevel as renderLevelBadge } from './features/game-bar-lev
 import { checkAchievements } from './features/render-achievements.ts';
 import { render, setDeck } from './core/card-engine.ts';
 import { shuffle, updateSrsUI } from './core/srs.ts';
-import './features/speech.ts';
+import './features/voice/speech.ts';
 
 const savedKnown = _lzLoad('ew_known', []);
 

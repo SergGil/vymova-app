@@ -7,7 +7,7 @@ import { useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
 import { getWordIndex } from '../core/word-index.ts';
 import { getMistakes, clearMistake } from './game.ts';
-import { speak } from './speech.ts';
+import { speak } from './voice/speech.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { t } from './i18n.ts';
 import type { WordEntry } from '../../src/types.js';

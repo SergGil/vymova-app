@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelHistory } from '../../js/features/duel-history.tsx';
+import { DuelHistory } from '../../js/features/duel/duel-history.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -18,7 +18,7 @@ interface HistEntry {
 const { getHistory } = vi.hoisted(() => ({
   getHistory: vi.fn(() => [] as HistEntry[]),
 }));
-vi.mock('../../js/features/duel.ts', () => ({ _getHistory: getHistory }));
+vi.mock('../../js/features/duel/duel.ts', () => ({ _getHistory: getHistory }));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

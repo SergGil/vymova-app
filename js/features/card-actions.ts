@@ -10,11 +10,11 @@ import { today } from '../core/today.ts';
 import { addCombo, breakCombo, flashCard } from './combo.ts';
 import { openNoteModal } from './note-modal.tsx';
 import { toggleBookmark } from './bookmarks.ts';
-import { isPronuncSupported, startPronunciationCheck } from './pronunciation.ts';
-import { showPronuncResult } from './pronunciation-toast.tsx';
-import { getSelectedUkVoice } from './voice.tsx';
+import { isPronuncSupported, startPronunciationCheck } from './voice/pronunciation.ts';
+import { showPronuncResult } from './voice/pronunciation-toast.tsx';
+import { getSelectedUkVoice } from './voice/voice.tsx';
 import { checkMilestones } from './milestones.ts';
-import { speak, _speakWithLang } from './speech.ts';
+import { speak, _speakWithLang } from './voice/speech.ts';
 import { updateSimilarWords } from './similar-words.tsx';
 import {
   getMode,
@@ -30,7 +30,7 @@ import {
   clearAllKnown,
   type KnownLang,
 } from '../../src/known-words-store.ts';
-import { VOICE_GETTERS } from './speak-lang.ts';
+import { VOICE_GETTERS } from './voice/speak-lang.ts';
 import { playSound } from '../core/audio.ts';
 import { launchConfetti } from '../core/confetti.tsx';
 import { t } from './i18n.ts';

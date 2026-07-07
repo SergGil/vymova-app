@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { PronunciationToast, showPronuncResult } from '../../js/features/pronunciation-toast.tsx';
+import { PronunciationToast, showPronuncResult } from '../../js/features/voice/pronunciation-toast.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

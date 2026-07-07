@@ -14,7 +14,7 @@ import { IdiomsPageRoot, openIdiomsContent } from '../../js/features/idioms-page
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const { speakWithLang } = vi.hoisted(() => ({ speakWithLang: vi.fn() }));
-vi.mock('../../js/features/speech.ts', () => ({ _speakWithLang: speakWithLang }));
+vi.mock('../../js/features/voice/speech.ts', () => ({ _speakWithLang: speakWithLang }));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

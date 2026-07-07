@@ -9,7 +9,7 @@ import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const { speakForCode } = vi.hoisted(() => ({ speakForCode: vi.fn() }));
-vi.mock('../../js/features/speak-lang.ts', () => ({ speakForCode }));
+vi.mock('../../js/features/voice/speak-lang.ts', () => ({ speakForCode }));
 
 const abandon: WordEntry = [
   'abandon',

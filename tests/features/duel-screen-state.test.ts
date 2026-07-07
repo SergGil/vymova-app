@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { _getDuelScreen } from '../../js/features/duel.ts';
+import { _getDuelScreen } from '../../js/features/duel/duel.ts';
 import { getDuelScreenSnapshot } from '../../src/duel-room-store.ts';
 
 describe('duel screen state (Фаза 7.4-B / 9, state.duelScreen)', () => {

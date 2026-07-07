@@ -8,7 +8,7 @@ import { lev } from '../core/distance.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import { speak as _speak } from '../features/speech.ts';
+import { speak as _speak } from '../features/voice/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import {
@@ -54,7 +54,7 @@ import {
   noEntry,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
-import { speakForCode } from '../features/speak-lang.ts';
+import { speakForCode } from '../features/voice/speak-lang.ts';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
 
 const SIZE = 10;

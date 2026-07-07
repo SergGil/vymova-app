@@ -5,9 +5,9 @@ import { GRAMMAR_BY_LANG } from '../../data/grammar.ts';
 import type { GrammarRule, GSection, GrammarCategory } from '../../data/grammar.ts';
 import { getLang, t } from './i18n.ts';
 import { getLearnLang } from './lang-pair-select.tsx';
-import { _speakWithLang } from './speech.ts';
+import { _speakWithLang } from './voice/speech.ts';
 import { useStateVersion } from '../../src/store.ts';
-import { speechLangFor } from './speech-lang.ts';
+import { speechLangFor } from './voice/speech-lang.ts';
 
 function _localizeSection(s: GSection): GSection {
   if (getLang() === 'en' && s.en) return { ...s, ...s.en };

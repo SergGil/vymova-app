@@ -7,7 +7,7 @@ import { MistakeReview } from '../../js/features/mistake-review.tsx';
 
 // ── Mock speak ───────────────────────────────────────────────────
 const { speak } = vi.hoisted(() => ({ speak: vi.fn() }));
-vi.mock('../../js/features/speech.ts', () => ({ speak }));
+vi.mock('../../js/features/voice/speech.ts', () => ({ speak }));
 
 // ── Mock game.ts ─────────────────────────────────────────────────
 const { getMistakes, clearMistake } = vi.hoisted(() => ({

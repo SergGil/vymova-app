@@ -10,7 +10,7 @@ import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang } from '../features/lang-pair-select.tsx';
-import { speak } from '../features/speech.ts';
+import { speak } from '../features/voice/speech.ts';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
 
 const SIZE = 8,

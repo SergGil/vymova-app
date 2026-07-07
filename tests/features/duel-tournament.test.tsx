@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelTournament } from '../../js/features/duel-tournament.tsx';
+import { DuelTournament } from '../../js/features/duel/duel-tournament.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -20,10 +20,10 @@ const {
   onTournPlay: vi.fn(),
   onTournRejoin: vi.fn(),
 }));
-vi.mock('../../js/features/duel.ts', () => ({
+vi.mock('../../js/features/duel/duel.ts', () => ({
   _getDuelScreen: getDuelScreen,
 }));
-vi.mock('../../js/features/duel-tournament-logic.ts', () => ({
+vi.mock('../../js/features/duel/duel-tournament-logic.ts', () => ({
   _getTournamentData: getTournamentData,
   _onTournStart: onTournStart,
   _onTournCancel: onTournCancel,

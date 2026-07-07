@@ -45,7 +45,7 @@ describe('ai-tutor.tsx AiTutorPage', () => {
   });
 
   async function mount(): Promise<HTMLElement> {
-    const { AiTutorPage } = await import('../../js/features/ai-tutor.tsx');
+    const { AiTutorPage } = await import('../../js/features/voice/ai-tutor.tsx');
     const container = document.createElement('div');
     document.body.appendChild(container);
     root = createRoot(container);

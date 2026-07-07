@@ -3,7 +3,7 @@ import JSZip from 'jszip';
 
 vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
 
-import { loadEpub } from '../../js/features/epub.ts';
+import { loadEpub } from '../../js/features/reading/epub.ts';
 
 const CONTAINER_XML = `<?xml version="1.0"?>
 <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">

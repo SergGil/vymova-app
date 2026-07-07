@@ -7,7 +7,7 @@ import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import { speak, _speakWithLang } from '../features/speech.ts';
+import { speak, _speakWithLang } from '../features/voice/speech.ts';
 import { t, getLang } from '../features/i18n.ts';
 import {
   entryFor,

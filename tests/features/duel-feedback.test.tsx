@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelFeedback, refreshDuelFeedback } from '../../js/features/duel-feedback.tsx';
+import { DuelFeedback, refreshDuelFeedback } from '../../js/features/duel/duel-feedback.tsx';
 import { setDuelQuestionFields } from '../../src/duel-question-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -10,7 +10,7 @@ let feedback = { html: '', speed: '' };
 const { getFeedbackData } = vi.hoisted(() => ({
   getFeedbackData: vi.fn(() => ({ html: '', speed: '' })),
 }));
-vi.mock('../../js/features/duel.ts', () => ({ _getFeedbackData: getFeedbackData }));
+vi.mock('../../js/features/duel/duel.ts', () => ({ _getFeedbackData: getFeedbackData }));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

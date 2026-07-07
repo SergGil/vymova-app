@@ -28,12 +28,12 @@ describe('pronunciation.ts', () => {
     });
 
     it('isPronuncSupported() returns false', async () => {
-      const { isPronuncSupported } = await import('../../js/features/pronunciation.ts');
+      const { isPronuncSupported } = await import('../../js/features/voice/pronunciation.ts');
       expect(isPronuncSupported()).toBe(false);
     });
 
     it('startPronunciationCheck immediately reports "unsupported"', async () => {
-      const { startPronunciationCheck } = await import('../../js/features/pronunciation.ts');
+      const { startPronunciationCheck } = await import('../../js/features/voice/pronunciation.ts');
       const onResult = vi.fn();
       startPronunciationCheck('hello', null, onResult);
       expect(onResult).toHaveBeenCalledWith('unsupported', 0);
@@ -53,7 +53,7 @@ describe('pronunciation.ts', () => {
     });
 
     async function load() {
-      return import('../../js/features/pronunciation.ts');
+      return import('../../js/features/voice/pronunciation.ts');
     }
 
     it('isPronuncSupported() returns true', async () => {

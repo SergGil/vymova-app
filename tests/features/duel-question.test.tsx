@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelQuestion } from '../../js/features/duel-question.tsx';
+import { DuelQuestion } from '../../js/features/duel/duel-question.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -40,7 +40,7 @@ const { getQuestionData, onOptionClick, onInputChange, submitWrite, useHint, onN
     useHint: vi.fn(),
     onNextClick: vi.fn(),
   }));
-vi.mock('../../js/features/duel.ts', () => ({
+vi.mock('../../js/features/duel/duel.ts', () => ({
   _getQuestionData: getQuestionData,
   _onOptionClick: onOptionClick,
   _onInputChange: onInputChange,

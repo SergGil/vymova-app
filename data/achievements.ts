@@ -7,7 +7,7 @@ import { getMaxWordsForLearnLang, getStudiedLangCount } from '../js/features/mod
 // its own comments) and this file is imported almost everywhere, so a
 // static import of duel.ts here would risk reintroducing the TDZ bug fixed
 // earlier for duel-lobby-options.tsx.
-import { getDuelRating } from '../js/features/duel-rating.ts';
+import { getDuelRating } from '../js/features/duel/duel-rating.ts';
 
 // Every mode key recordModeComplete() is called with, across the whole app —
 // used by the "try every mode" achievement below.

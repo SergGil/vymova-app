@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelOverlay } from '../../js/features/duel-overlay.tsx';
+import { DuelOverlay } from '../../js/features/duel/duel-overlay.tsx';
 import type { DuelScreen } from '../../src/types.js';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -9,42 +9,42 @@ import type { DuelScreen } from '../../src/types.js';
 const { getDuelScreen } = vi.hoisted(() => ({
   getDuelScreen: vi.fn((): DuelScreen => 'lobby'),
 }));
-vi.mock('../../js/features/duel.ts', () => ({ _getDuelScreen: getDuelScreen }));
+vi.mock('../../js/features/duel/duel.ts', () => ({ _getDuelScreen: getDuelScreen }));
 
-vi.mock('../../js/features/duel-lobby.tsx', () => ({
+vi.mock('../../js/features/duel/duel-lobby.tsx', () => ({
   DuelLobby: () => <div data-testid="lobby" />,
 }));
-vi.mock('../../js/features/duel-countdown.tsx', () => ({
+vi.mock('../../js/features/duel/duel-countdown.tsx', () => ({
   DuelCountdown: () => <div data-testid="countdown" />,
 }));
-vi.mock('../../js/features/duel-game-header.tsx', () => ({
+vi.mock('../../js/features/duel/duel-game-header.tsx', () => ({
   DuelGameHeader: () => <div data-testid="game-header" />,
 }));
-vi.mock('../../js/features/duel-tempo-timer.tsx', () => ({
+vi.mock('../../js/features/duel/duel-tempo-timer.tsx', () => ({
   DuelTempoTimer: () => <div data-testid="tempo-timer" />,
 }));
-vi.mock('../../js/features/duel-question.tsx', () => ({
+vi.mock('../../js/features/duel/duel-question.tsx', () => ({
   DuelQuestion: () => <div data-testid="question" />,
 }));
-vi.mock('../../js/features/duel-feedback.tsx', () => ({
+vi.mock('../../js/features/duel/duel-feedback.tsx', () => ({
   DuelFeedback: () => <div data-testid="feedback" />,
 }));
-vi.mock('../../js/features/duel-powerups.tsx', () => ({
+vi.mock('../../js/features/duel/duel-powerups.tsx', () => ({
   DuelPowerups: () => <div data-testid="powerups" />,
 }));
-vi.mock('../../js/features/duel-chat-log.tsx', () => ({
+vi.mock('../../js/features/duel/duel-chat-log.tsx', () => ({
   DuelChatLog: () => <div data-testid="chat-log" />,
 }));
-vi.mock('../../js/features/duel-chat-panel.tsx', () => ({
+vi.mock('../../js/features/duel/duel-chat-panel.tsx', () => ({
   DuelChatPanel: () => <div data-testid="chat-panel" />,
 }));
-vi.mock('../../js/features/duel-result.tsx', () => ({
+vi.mock('../../js/features/duel/duel-result.tsx', () => ({
   DuelResult: () => <div data-testid="result" />,
 }));
-vi.mock('../../js/features/duel-spectator.tsx', () => ({
+vi.mock('../../js/features/duel/duel-spectator.tsx', () => ({
   DuelSpectatorView: () => <div data-testid="spectator" />,
 }));
-vi.mock('../../js/features/duel-tournament.tsx', () => ({
+vi.mock('../../js/features/duel/duel-tournament.tsx', () => ({
   DuelTournament: () => <div data-testid="tournament" />,
 }));
 
