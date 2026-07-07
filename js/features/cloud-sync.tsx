@@ -1,8 +1,11 @@
 // Vymova — js/features/cloud-sync.tsx
 // Firebase Realtime Database sync via REST API (no SDK)
 import { useEffect, type ReactElement } from 'react';
+import * as LZString from 'lz-string';
 import { t } from './i18n.ts';
 import { DYNAMIC_KEY_PREFIXES } from './profile-switcher.tsx';
+import { _lzSave, _lzLoad } from '../core/storage.ts';
+import type { SRSData } from '../../src/types.js';
 
 const DB_URL = 'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
 const KEY_LS = 'ew_sync_key';
@@ -94,6 +97,113 @@ function _dynamicBackupKeys(): string[] {
   }
 }
 
+// ── Merge (known words / SRS / achievements / daily activity) ──
+// Everything else in BACKUP_KEYS (settings, duel history, mistakes, notes,
+// ew_game, ...) is a plain "whichever sync happened last wins" overwrite —
+// fine for prefs, but for these four categories that used to mean syncing
+// from a second device could silently discard earned progress the first
+// device had that the second didn't (see the module-level bug this fixes).
+// These are merged (union) instead, both on push and on pull, so progress
+// only ever grows across devices sharing a sync key.
+type MergeKind = 'known' | 'srs' | 'ach' | 'daily' | 'lz-flag' | 'plain';
+
+function _mergeKind(rawKey: string): MergeKind {
+  const key = rawKey.replace(/^ew_p_[^_]+__/, ''); // strip an optional profile-snapshot prefix
+  if (key.endsWith('_lz')) return 'lz-flag'; // companion flag, handled alongside its data key
+  if (key === 'ew_known' || /^ew_known_[a-z]+$/.test(key)) return 'known';
+  if (key === 'ew_srs' || /^ew_srs_[a-z]+$/.test(key)) return 'srs';
+  if (key === 'ew_ach' || /^ew_ach_[a-z]+$/.test(key)) return 'ach';
+  if (key === 'ew_daily' || /^ew_daily_[a-z]+$/.test(key)) return 'daily';
+  return 'plain';
+}
+
+function _decodeRemoteJson(raw: unknown, lz: boolean): unknown {
+  if (typeof raw !== 'string') return undefined;
+  try {
+    const json = lz ? LZString.decompress(raw) : raw;
+    return json ? JSON.parse(json) : undefined;
+  } catch (e) {
+    return undefined;
+  }
+}
+
+function _unionStrings(local: string[] | undefined, remote: unknown): string[] {
+  const r = Array.isArray(remote) ? (remote as string[]) : [];
+  return [...new Set([...(local ?? []), ...r])];
+}
+
+function _mergeDaily(
+  local: Record<string, number> | undefined,
+  remote: unknown,
+): Record<string, number> {
+  const r = (remote ?? {}) as Record<string, number>;
+  const merged: Record<string, number> = { ...(local ?? {}) };
+  for (const k of Object.keys(r)) merged[k] = Math.max(merged[k] ?? 0, r[k] ?? 0);
+  return merged;
+}
+
+// Keeps whichever side of each word is further along (more successful
+// reviews; ties broken by the longer interval) — sm2Update() resets both
+// reps and interval to a low value on a failed review, so a higher reps
+// reliably means "more real study progress on this word," never a fluke.
+function _mergeSrs(local: SRSData | undefined, remote: unknown): SRSData {
+  const r = (remote ?? {}) as SRSData;
+  const merged: SRSData = { ...(local ?? {}) };
+  for (const w of Object.keys(r)) {
+    const a = merged[w];
+    const b = r[w];
+    if (!b) continue;
+    merged[w] = !a || b.reps > a.reps || (b.reps === a.reps && b.interval > a.interval) ? b : a;
+  }
+  return merged;
+}
+
+// Merges every known/srs/ach/daily key present in `remote` against this
+// device's current local value, writing the merged result back to local
+// storage. Pure side effect — callers re-read localStorage afterward to
+// build whatever payload (push body / restored state) they need.
+function _mergeProgressKeys(remote: Record<string, string>): void {
+  for (const rawKey of Object.keys(remote)) {
+    if (rawKey === '_ts' || rawKey === '_v') continue;
+    const kind = _mergeKind(rawKey);
+    if (kind === 'lz-flag' || kind === 'plain') continue;
+    const isLz = kind === 'known' || kind === 'srs';
+    const remoteVal = _decodeRemoteJson(remote[rawKey], remote[rawKey + '_lz'] === '1');
+    if (remoteVal === undefined) continue; // nothing usable to merge from this side
+    if (kind === 'known' || kind === 'ach') {
+      const local = isLz
+        ? (_lzLoad<string[]>(rawKey, []) as string[])
+        : ((): string[] => {
+            try {
+              return JSON.parse(localStorage.getItem(rawKey) ?? '[]') as string[];
+            } catch (e) {
+              return [];
+            }
+          })();
+      const merged = _unionStrings(local, remoteVal);
+      if (isLz) _lzSave(rawKey, merged);
+      else localStorage.setItem(rawKey, JSON.stringify(merged));
+    } else {
+      // 'srs' | 'daily'
+      const local = isLz
+        ? _lzLoad<SRSData>(rawKey, {})
+        : ((): Record<string, number> => {
+            try {
+              return JSON.parse(localStorage.getItem(rawKey) ?? '{}') as Record<string, number>;
+            } catch (e) {
+              return {};
+            }
+          })();
+      const merged =
+        kind === 'srs'
+          ? _mergeSrs(local as SRSData, remoteVal)
+          : _mergeDaily(local as Record<string, number>, remoteVal);
+      if (isLz) _lzSave(rawKey, merged);
+      else localStorage.setItem(rawKey, JSON.stringify(merged));
+    }
+  }
+}
+
 // ── Key ───────────────────────────────────────────────────────
 function _getKey(): string {
   let k = localStorage.getItem(KEY_LS);
@@ -114,6 +224,18 @@ function _fmt(k: string): string {
 // ── Firebase ──────────────────────────────────────────────────
 export async function saveToCloud(): Promise<void> {
   const key = _getKey();
+  // Merge against whatever's already on the cloud before overwriting it —
+  // without this, this device's auto-push could silently discard progress
+  // a second device already pushed under the same key (the two devices'
+  // known-words/SRS/achievements/daily-activity unions, not whichever
+  // pushed most recently). No-ops on the first-ever sync or while offline.
+  try {
+    const res = await fetch(DB_URL + '/sync/' + key + '.json');
+    if (res.ok) {
+      const remote = (await res.json()) as Record<string, string> | null;
+      if (remote && remote._ts) _mergeProgressKeys(remote);
+    }
+  } catch (e) {}
   const data: Record<string, string> = { _ts: String(Date.now()), _v: '3' };
   const allKeys = [...BACKUP_KEYS, ..._dynamicBackupKeys()];
   for (const k of allKeys) {
@@ -131,29 +253,31 @@ export async function saveToCloud(): Promise<void> {
 export async function loadFromCloud(raw: string): Promise<void> {
   const key = raw.replace(/[-\s]/g, '').toUpperCase();
   if (key.length < 12) throw new Error(t('settings.cloudKeyTooShort'));
-  // Restoring into the same key you'd save to (the common "just re-sync my
-  // own progress" case) would otherwise silently overwrite any local
-  // progress made since the last save/auto-push — push it first so nothing
-  // gets lost.
-  if (key === _getKey()) {
-    try {
-      await saveToCloud();
-    } catch (e) {}
-  }
   const res = await fetch(DB_URL + '/sync/' + key + '.json');
   if (!res.ok) throw new Error('HTTP ' + res.status);
   const data = (await res.json()) as Record<string, string> | null;
   if (!data || !data._ts) throw new Error(t('settings.cloudDataNotFound'));
-  // Restore every key the backup actually contains, not just a fixed
-  // allow-list — keeps this symmetric with whatever saveToCloud() wrote
-  // (BACKUP_KEYS + per-profile snapshots + per-language progress), so the
-  // two can't silently drift apart again.
+  // Known words / SRS / achievements / daily activity: merge (union) with
+  // what's already on this device, so restoring a backup — even one from a
+  // different device — never discards progress made locally since the last
+  // sync. Everything else (settings, duel history, mistakes, notes, ...)
+  // doesn't have a safe generic merge rule; Restore is the one explicit,
+  // user-confirmed action where "replace with the backup's value" is
+  // actually what's intended, so those still overwrite wholesale below.
+  _mergeProgressKeys(data);
   for (const k of Object.keys(data)) {
     if (k === '_ts' || k === '_v') continue;
     if (!k.startsWith('ew_')) continue; // ignore unexpected keys from server response
+    if (_mergeKind(k) !== 'plain') continue; // already merged above
     localStorage.setItem(k, data[k]);
   }
   localStorage.setItem(KEY_LS, key);
+  // Push the merged result back up so the cloud reflects it too — otherwise
+  // a third device (or this device's next auto-push) could still pull the
+  // pre-merge snapshot and the merge wouldn't actually stick.
+  try {
+    await saveToCloud();
+  } catch (e) {}
 }
 
 // ── Auto-sync ─────────────────────────────────────────────────
