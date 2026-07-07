@@ -4,51 +4,18 @@ import { useEffect, useState, type ReactElement, type MouseEventHandler } from '
 import { IDIOMS_BY_LANG, type Idiom } from '../../data/idioms.ts';
 import { t } from './i18n.ts';
 import { _speakWithLang } from './speech.ts';
-import { getKnowLang, getLearnLang, FLAG_CODE, type LangCode } from './lang-pair-select.tsx';
+import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
 import { flagUrl } from '../core/flags.ts';
+import { FLAG_CODE } from '../core/flag-codes.ts';
+import { ALL_TARGET_LANGS, type Code } from '../../src/types.js';
 
-type Tab =
-  | 'en'
-  | 'ua'
-  | 'es'
-  | 'fr'
-  | 'it'
-  | 'pt'
-  | 'de'
-  | 'he'
-  | 'ar'
-  | 'pl'
-  | 'zh'
-  | 'el'
-  | 'ja'
-  | 'tr'
-  | 'nl'
-  | 'vi'
-  | 'hi'
-  | 'bn'
-  | 'id'
-  | 'pcm'
-  | 'ko'
-  | 'fa'
-  | 'sw'
-  | 'ms'
-  | 'th'
-  | 'az'
-  | 'ro'
-  | 'hu'
-  | 'cs'
-  | 'kk'
-  | 'sv'
-  | 'ka'
-  | 'hr'
-  | 'sr'
-  | 'bs'
-  | 'bg'
-  | 'sk'
-  | 'hy'
-  | 'da'
-  | 'fi'
-  | 'no';
+// Derived from the canonical Code union (src/types.ts) instead of its own
+// hand-copied list — adding a language to ALL_TARGET_LANGS is now enough on
+// its own to make it a candidate tab (still needs LANG_BY_TAB/TAB_I18N_KEY
+// content below, but tsc now enforces that instead of a silent gap — see
+// docs/adding-a-language.md 7a.2 for the bug class this used to cause).
+type Tab = Code;
+const ALL_TABS: readonly Tab[] = ['en', 'ua', ...ALL_TARGET_LANGS];
 
 function _speak(text: string, lang: string, btn: HTMLElement | null): void {
   _speakWithLang(text, lang, btn);
@@ -143,49 +110,7 @@ const TAB_I18N_KEY: Record<Tab, string> = {
 const RTL_TABS = new Set<Tab>(['he', 'ar', 'fa']);
 
 function _isTab(l: string): l is Tab {
-  return (
-    l === 'en' ||
-    l === 'ua' ||
-    l === 'es' ||
-    l === 'fr' ||
-    l === 'it' ||
-    l === 'pt' ||
-    l === 'de' ||
-    l === 'he' ||
-    l === 'ar' ||
-    l === 'pl' ||
-    l === 'zh' ||
-    l === 'el' ||
-    l === 'ja' ||
-    l === 'tr' ||
-    l === 'nl' ||
-    l === 'vi' ||
-    l === 'hi' ||
-    l === 'bn' ||
-    l === 'id' ||
-    l === 'pcm' ||
-    l === 'ko' ||
-    l === 'fa' ||
-    l === 'sw' ||
-    l === 'ms' ||
-    l === 'th' ||
-    l === 'az' ||
-    l === 'ro' ||
-    l === 'hu' ||
-    l === 'cs' ||
-    l === 'kk' ||
-    l === 'sv' ||
-    l === 'ka' ||
-    l === 'hr' ||
-    l === 'sr' ||
-    l === 'bs' ||
-    l === 'bg' ||
-    l === 'sk' ||
-    l === 'hy' ||
-    l === 'da' ||
-    l === 'fi' ||
-    l === 'no'
-  );
+  return (ALL_TABS as readonly string[]).includes(l);
 }
 
 /** Tabs relevant to the current language pair (know/learn) that have idiom data. */
@@ -304,7 +229,7 @@ function IdiomsPage(): ReactElement {
     <>
       <div className="idioms-tabs">
         {tabs.map((tb) => {
-          const url = flagUrl(FLAG_CODE[tb as LangCode]);
+          const url = flagUrl(FLAG_CODE[tb]);
           return (
             <button
               key={tb}

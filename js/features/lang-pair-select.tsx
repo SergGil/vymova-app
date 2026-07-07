@@ -6,7 +6,10 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { t, getLang } from './i18n.ts';
 import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { flagUrl } from '../core/flags.ts';
+import { FLAG_CODE } from '../core/flag-codes.ts';
 import { ensureLangTableLoaded, areLangTablesReady } from './mode-utils.ts';
+
+export { FLAG_CODE };
 
 export type LangCode =
   | 'ua'
@@ -95,52 +98,6 @@ const ALL_LANGS: LangCode[] = [
   'fi',
   'no',
 ];
-
-// Flag shown for each language — picks the country most learners associate
-// with it, not necessarily the only place it's spoken.
-export const FLAG_CODE: Record<LangCode, string> = {
-  ua: 'ua',
-  en: 'gb',
-  es: 'es',
-  fr: 'fr',
-  it: 'it',
-  pt: 'pt',
-  de: 'de',
-  he: 'il',
-  ar: 'sa',
-  pl: 'pl',
-  zh: 'cn',
-  el: 'gr',
-  ja: 'jp',
-  tr: 'tr',
-  nl: 'nl',
-  vi: 'vn',
-  hi: 'in',
-  bn: 'bd',
-  id: 'id',
-  pcm: 'ng',
-  ko: 'kr',
-  fa: 'ir',
-  sw: 'tz',
-  ms: 'my',
-  th: 'th',
-  az: 'az',
-  ro: 'ro',
-  hu: 'hu',
-  cs: 'cz',
-  kk: 'kz',
-  sv: 'se',
-  ka: 'ge',
-  hr: 'hr',
-  sr: 'rs',
-  bs: 'ba',
-  bg: 'bg',
-  sk: 'sk',
-  hy: 'am',
-  da: 'dk',
-  fi: 'fi',
-  no: 'no',
-};
 
 function LangFlag({ lang }: { lang: LangCode }): ReactElement {
   const url = flagUrl(FLAG_CODE[lang]);
