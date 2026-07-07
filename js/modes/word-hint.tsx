@@ -225,6 +225,7 @@ export function WordHintPage(): ReactElement {
             cursor: 'pointer',
             color: 'var(--text3)',
           }}
+          aria-label={t('common.close')}
         >
           ✕
         </button>
@@ -419,7 +420,9 @@ export function WordHintPage(): ReactElement {
       {showFinal && (
         <div style={{ textAlign: 'center', padding: '10px 0 4px' }}>
           <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>{finalEmoji}</div>
-          <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>
+          <div
+            style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}
+          >
             {finalTitle}
           </div>
           <div style={{ fontSize: '.9rem', color: 'var(--text2)', marginBottom: 16 }}>

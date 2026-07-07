@@ -468,6 +468,7 @@ export function AdaptiveQuizPage(): ReactElement {
             color: 'var(--text3)',
             lineHeight: 1,
           }}
+          aria-label={t('common.close')}
         >
           ✕
         </button>
@@ -508,7 +509,9 @@ export function AdaptiveQuizPage(): ReactElement {
             <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>
               ✓ {correct}
             </span>
-            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>✗ {wrong}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>
+              ✗ {wrong}
+            </span>
             <span
               style={{
                 fontSize: '.82rem',

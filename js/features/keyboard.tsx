@@ -68,6 +68,7 @@ export function KeysOverlay(): ReactElement {
               color: 'var(--text3)',
             }}
             onClick={() => setOpen(false)}
+            aria-label={t('common.close')}
           >
             ✕
           </button>

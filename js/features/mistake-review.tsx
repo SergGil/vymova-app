@@ -39,7 +39,7 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
     return createPortal(
       <div className="mistake-review-overlay" onClick={onClose}>
         <div className="mistake-review-panel" onClick={(e) => e.stopPropagation()}>
-          <button className="mistake-review-close" onClick={onClose}>
+          <button className="mistake-review-close" onClick={onClose} aria-label={t('common.close')}>
             ✕
           </button>
           <div className="mistake-review-done-title">{t('mistakes.noMistakes')}</div>
@@ -68,7 +68,7 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
   return createPortal(
     <div className="mistake-review-overlay" onClick={!done ? undefined : onClose}>
       <div className="mistake-review-panel" onClick={(e) => e.stopPropagation()}>
-        <button className="mistake-review-close" onClick={onClose}>
+        <button className="mistake-review-close" onClick={onClose} aria-label={t('common.close')}>
           ✕
         </button>
         <div className="mistake-review-title">{t('mistakes.title')}</div>

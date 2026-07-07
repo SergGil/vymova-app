@@ -1195,6 +1195,7 @@
   "duel.resume.pts": "pts",
   "duel.resume.opp": "adversaire :",
   "duel.resume.continue": "Continuer",
+  "duel.resume.discard": "Ignorer",
   "duel.resume.expires": "⏳ {{time}} restant pour terminer",
   "duel.resume.expired": "⌛ Le délai pour terminer ce duel est écoulé",
   "duel.tourn.join.title": "🏟️ Rejoindre un tournoi",

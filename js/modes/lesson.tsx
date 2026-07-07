@@ -481,6 +481,7 @@ export function LessonPage(): ReactElement {
               cursor: 'pointer',
               color: 'var(--text3)',
             }}
+            aria-label={t('common.close')}
           >
             ✕
           </button>

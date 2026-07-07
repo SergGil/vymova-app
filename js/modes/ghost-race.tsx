@@ -28,7 +28,10 @@ function loadGhost(): GhostData | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw) as GhostData;
     if (Array.isArray(parsed.checkpoints) && typeof parsed.total === 'number')
-      return { ...parsed, ok: typeof parsed.ok === 'number' ? parsed.ok : parsed.checkpoints.length };
+      return {
+        ...parsed,
+        ok: typeof parsed.ok === 'number' ? parsed.ok : parsed.checkpoints.length,
+      };
   } catch (e) {}
   return null;
 }
@@ -38,7 +41,8 @@ function loadGhost(): GhostData | null {
 // possible would "win", which defeats the point of a vocabulary quiz. Among
 // runs with equal accuracy, the faster one wins.
 function saveGhostIfBetter(current: GhostData, prev: GhostData | null): boolean {
-  const better = !prev || current.ok > prev.ok || (current.ok === prev.ok && current.total < prev.total);
+  const better =
+    !prev || current.ok > prev.ok || (current.ok === prev.ok && current.total < prev.total);
   if (better) localStorage.setItem(ghostKey(), JSON.stringify(current));
   return better;
 }
@@ -251,6 +255,7 @@ export function GhostRacePage(): ReactElement {
             cursor: 'pointer',
             color: 'var(--text3)',
           }}
+          aria-label={t('common.close')}
         >
           ✕
         </button>
@@ -289,11 +294,29 @@ export function GhostRacePage(): ReactElement {
       {screen === 'playing' && q && (
         <>
           <div style={{ marginBottom: 14 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '.72rem', color: 'var(--text3)', marginBottom: 2 }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                fontSize: '.72rem',
+                color: 'var(--text3)',
+                marginBottom: 2,
+              }}
+            >
               <span>{t('ghost.youLabel')}</span>
-              <span>{checkpoints.length}/{deck.length}</span>
+              <span>
+                {checkpoints.length}/{deck.length}
+              </span>
             </div>
-            <div style={{ height: 8, background: 'var(--border)', borderRadius: 4, overflow: 'hidden', marginBottom: 8 }}>
+            <div
+              style={{
+                height: 8,
+                background: 'var(--border)',
+                borderRadius: 4,
+                overflow: 'hidden',
+                marginBottom: 8,
+              }}
+            >
               <div
                 style={{
                   height: '100%',
@@ -304,11 +327,26 @@ export function GhostRacePage(): ReactElement {
                 }}
               />
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '.72rem', color: 'var(--text3)', marginBottom: 2 }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                fontSize: '.72rem',
+                color: 'var(--text3)',
+                marginBottom: 2,
+              }}
+            >
               <span>👻 {t('ghost.ghostLabel')}</span>
               <span>{fmt(elapsedMs)}</span>
             </div>
-            <div style={{ height: 8, background: 'var(--border)', borderRadius: 4, overflow: 'hidden' }}>
+            <div
+              style={{
+                height: 8,
+                background: 'var(--border)',
+                borderRadius: 4,
+                overflow: 'hidden',
+              }}
+            >
               <div
                 style={{
                   height: '100%',
@@ -355,7 +393,9 @@ export function GhostRacePage(): ReactElement {
       {screen === 'result' && result && (
         <div style={{ textAlign: 'center', padding: '10px 0 4px' }}>
           <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>{result.isNew ? '🏆' : '🏁'}</div>
-          <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>
+          <div
+            style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}
+          >
             {result.isNew ? t('ghost.newBestTitle') : t('ghost.finishedTitle')}
           </div>
           <div style={{ fontSize: '.9rem', color: 'var(--text2)', marginBottom: 4 }}>

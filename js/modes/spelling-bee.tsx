@@ -454,6 +454,7 @@ export function SpellingBeePage(): ReactElement {
             cursor: 'pointer',
             color: 'var(--text3)',
           }}
+          aria-label={t('common.close')}
         >
           ✕
         </button>
@@ -482,8 +483,12 @@ export function SpellingBeePage(): ReactElement {
       {!showFinal && w && (
         <>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 12 }}>
-            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>✓ {ok}</span>
-            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>✗ {fail}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>
+              ✓ {ok}
+            </span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>
+              ✗ {fail}
+            </span>
           </div>
 
           <div
@@ -620,7 +625,9 @@ export function SpellingBeePage(): ReactElement {
               marginBottom: 8,
             }}
           >
-            {result === 'ok' && <span style={{ color: 'var(--success)' }}>{t('quiz.correctMsg')}</span>}
+            {result === 'ok' && (
+              <span style={{ color: 'var(--success)' }}>{t('quiz.correctMsg')}</span>
+            )}
             {result === 'almost' && (
               <span
                 style={{ color: 'var(--accent2)' }}

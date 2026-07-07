@@ -86,6 +86,7 @@ function ResumeCard({ s }: { s: ResumeSessionVM }): ReactElement {
             fontSize: '.78rem',
           }}
           onClick={() => _onResumeDiscard(s.roomId)}
+          aria-label={t('duel.resume.discard')}
         >
           ✕
         </button>

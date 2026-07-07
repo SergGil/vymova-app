@@ -510,6 +510,7 @@ export function QuizPage(): ReactElement {
             color: 'var(--text3)',
             lineHeight: 1,
           }}
+          aria-label={t('common.close')}
         >
           ✕
         </button>

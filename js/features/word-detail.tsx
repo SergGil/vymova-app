@@ -219,7 +219,8 @@ export function WordDetailPage(): ReactElement | null {
         : daysUntil === 1
           ? t('wd.tomorrow')
           : t('wd.inDays', { n: daysUntil });
-    const color = daysUntil <= 0 ? 'var(--danger)' : daysUntil <= 3 ? 'var(--accent2)' : 'var(--text3)';
+    const color =
+      daysUntil <= 0 ? 'var(--danger)' : daysUntil <= 3 ? 'var(--accent2)' : 'var(--text3)';
     chips.push(
       <span key="due" style={{ color }}>
         🔁 {label}
@@ -321,6 +322,7 @@ export function WordDetailPage(): ReactElement | null {
               padding: '2px 6px',
               flexShrink: 0,
             }}
+            aria-label={t('common.close')}
           >
             ✕
           </button>
@@ -356,9 +358,7 @@ export function WordDetailPage(): ReactElement | null {
               }}
             >
               <span dangerouslySetInnerHTML={{ __html: frontExHtml }} />
-              {frontExPlain && (
-                <SpeakBtn text={frontExPlain} code={front} fallback={enEx} />
-              )}
+              {frontExPlain && <SpeakBtn text={frontExPlain} code={front} fallback={enEx} />}
             </div>
             <div
               id="wd-ex-ua"

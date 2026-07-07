@@ -247,6 +247,7 @@ export function AssocChainPage(): ReactElement {
             cursor: 'pointer',
             color: 'var(--text3)',
           }}
+          aria-label={t('common.close')}
         >
           ✕
         </button>
@@ -321,12 +322,7 @@ export function AssocChainPage(): ReactElement {
                 else if (opt === step.correct) cls += ' reveal';
               }
               return (
-                <button
-                  key={opt}
-                  className={cls}
-                  disabled={!!selected}
-                  onClick={() => choose(opt)}
-                >
+                <button key={opt} className={cls} disabled={!!selected} onClick={() => choose(opt)}>
                   <span className="opt-num">{i + 1}</span> {opt}
                 </button>
               );
@@ -338,7 +334,9 @@ export function AssocChainPage(): ReactElement {
       {dict && over && (
         <div style={{ textAlign: 'center', padding: '10px 0 4px' }}>
           <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>{isNewBest ? '🏆' : '🔗'}</div>
-          <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>
+          <div
+            style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}
+          >
             {isNewBest ? t('assoc.newBestTitle') : t('assoc.chainEndedTitle')}
           </div>
           <div style={{ fontSize: '.9rem', color: 'var(--text2)', marginBottom: 16 }}>

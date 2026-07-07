@@ -228,6 +228,7 @@ export function SearchOverlay(): ReactElement | null {
               color: 'var(--text3)',
               padding: 4,
             }}
+            aria-label={t('common.close')}
           >
             ✕
           </button>

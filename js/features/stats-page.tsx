@@ -3,7 +3,14 @@
 // mode accuracy, CEFR progress, leaderboard.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { today as todayDateStr, localDateStr } from '../core/today.ts';
-import { getDailyStats, getGameData, getModeStats, getModeAccuracy, getMistakes, getWeeklyTotal } from './game.ts';
+import {
+  getDailyStats,
+  getGameData,
+  getModeStats,
+  getModeAccuracy,
+  getMistakes,
+  getWeeklyTotal,
+} from './game.ts';
 import { loadSRS } from '../core/storage.ts';
 import { t, getLang, wordsLabel, pluralLabel, monthNames, dowNames } from './i18n.ts';
 import { W } from '../../data/words.js';
@@ -479,7 +486,12 @@ export function StatsPage(): ReactElement {
         <div className="stats-title" data-i18n="stats.title">
           {t('stats.title')}
         </div>
-        <button className="stats-close" id="stats-close" onClick={closeStats}>
+        <button
+          className="stats-close"
+          id="stats-close"
+          onClick={closeStats}
+          aria-label={t('common.close')}
+        >
           ✕
         </button>
       </div>

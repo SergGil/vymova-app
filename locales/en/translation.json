@@ -1210,6 +1210,7 @@
   "duel.resume.pts": "pts",
   "duel.resume.opp": "opponent:",
   "duel.resume.continue": "Continue",
+  "duel.resume.discard": "Dismiss",
   "duel.resume.expires": "⏳ {{time}} left to finish",
   "duel.resume.expired": "⌛ Time to finish this duel has expired",
   "duel.tourn.join.title": "🏟️ Join a Tournament",

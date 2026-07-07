@@ -402,7 +402,10 @@ export function WritePage(): ReactElement {
       setWrong((ws) => [...ws, w]);
       setBorderColor('var(--danger)');
       const shown = ans.split(/[;,/]/)[0].trim();
-      setResult({ text: `✗ ${t('write.correctAnswerPrefix')} <b>${shown}</b>`, color: 'var(--danger)' });
+      setResult({
+        text: `✗ ${t('write.correctAnswerPrefix')} <b>${shown}</b>`,
+        color: 'var(--danger)',
+      });
       try {
         breakCombo();
         playSound('next');
@@ -588,6 +591,7 @@ export function WritePage(): ReactElement {
             cursor: 'pointer',
             color: 'var(--text3)',
           }}
+          aria-label={t('common.close')}
         >
           ✕
         </button>
@@ -616,8 +620,12 @@ export function WritePage(): ReactElement {
       {!showFinal && w && (
         <>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 16 }}>
-            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>✓ {ok}</span>
-            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>✗ {fail}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>
+              ✓ {ok}
+            </span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>
+              ✗ {fail}
+            </span>
           </div>
 
           <div

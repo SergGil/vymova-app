@@ -26,7 +26,11 @@ import {
   type TargetLang,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
-import { buildReadingPassages, type ReadingPassage, type PassageRun } from '../features/reading-passages.ts';
+import {
+  buildReadingPassages,
+  type ReadingPassage,
+  type PassageRun,
+} from '../features/reading-passages.ts';
 
 type TextEntry = { title: string; text: string; level: string };
 type EpubBook = { title: string; chapters: TextEntry[] };
@@ -212,7 +216,9 @@ export function ReadingPage(): ReactElement {
         modesOvl.style.display = 'none';
       }
       setEpubBook(null);
-      setPassages(buildReadingPassages(getWordsForPair(W as unknown as WordEntry[]), getLearnLang()));
+      setPassages(
+        buildReadingPassages(getWordsForPair(W as unknown as WordEntry[]), getLearnLang()),
+      );
       setView('picker');
       setSearch('');
       setPopup(null);
@@ -259,7 +265,10 @@ export function ReadingPage(): ReactElement {
     });
   };
 
-  const onEpubTextClick = (e: { target: EventTarget | null; stopPropagation: () => void }): void => {
+  const onEpubTextClick = (e: {
+    target: EventTarget | null;
+    stopPropagation: () => void;
+  }): void => {
     const target = (e.target as HTMLElement).closest<HTMLElement>('.rd-word');
     if (!target) return;
     e.stopPropagation();
@@ -379,7 +388,11 @@ export function ReadingPage(): ReactElement {
         statsUnknown = unknown;
         readerTitle = `${epubBook.title} — ${t('reading.chapterLabel', { n: currentIdx + 1 })}`;
         readerBody = (
-          <div className="rd-text" onClick={onEpubTextClick} dangerouslySetInnerHTML={{ __html: html }} />
+          <div
+            className="rd-text"
+            onClick={onEpubTextClick}
+            dangerouslySetInnerHTML={{ __html: html }}
+          />
         );
       }
     } else {
@@ -442,7 +455,7 @@ export function ReadingPage(): ReactElement {
               </button>
             </>
           )}
-          <button className="page-close-btn" onClick={closeReading}>
+          <button className="page-close-btn" onClick={closeReading} aria-label={t('common.close')}>
             ✕
           </button>
         </div>
@@ -451,7 +464,13 @@ export function ReadingPage(): ReactElement {
       {view === 'picker' && (
         <div style={{ padding: '14px 20px' }}>
           <div
-            style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              marginBottom: 12,
+              flexWrap: 'wrap',
+            }}
           >
             <input
               value={search}

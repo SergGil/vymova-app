@@ -353,6 +353,7 @@ export function ListeningPage(): ReactElement {
             cursor: 'pointer',
             color: 'var(--text3)',
           }}
+          aria-label={t('common.close')}
         >
           ✕
         </button>
@@ -381,8 +382,12 @@ export function ListeningPage(): ReactElement {
       {!showFinal && (
         <>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 18 }}>
-            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>✓ {ok}</span>
-            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>✗ {fail}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>
+              ✓ {ok}
+            </span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>
+              ✗ {fail}
+            </span>
           </div>
 
           <div style={{ textAlign: 'center', marginBottom: 16 }}>

@@ -70,7 +70,7 @@ export function NoteModal(): ReactElement | null {
           <div className="note-title" id="note-word-title">
             {t('note.title')}: {word}
           </div>
-          <button className="page-close-btn" onClick={close}>
+          <button className="page-close-btn" onClick={close} aria-label={t('common.close')}>
             ✕
           </button>
         </div>

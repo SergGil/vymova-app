@@ -298,7 +298,13 @@ export function ShadowingPage(): ReactElement {
   if (!isOpen) return <></>;
 
   const scoreColor =
-    score === null ? 'var(--text2)' : score >= 0.8 ? 'var(--success)' : score >= 0.5 ? 'var(--accent2)' : 'var(--danger)';
+    score === null
+      ? 'var(--text2)'
+      : score >= 0.8
+        ? 'var(--success)'
+        : score >= 0.5
+          ? 'var(--accent2)'
+          : 'var(--danger)';
   const scoreLabel =
     score === null
       ? ''
@@ -339,6 +345,7 @@ export function ShadowingPage(): ReactElement {
             cursor: 'pointer',
             color: 'var(--text3)',
           }}
+          aria-label={t('common.close')}
         >
           ✕
         </button>
@@ -441,7 +448,9 @@ export function ShadowingPage(): ReactElement {
                   </div>
                 )}
                 {score !== null && (
-                  <div style={{ fontSize: '.9rem', fontWeight: 700, color: scoreColor, marginTop: 8 }}>
+                  <div
+                    style={{ fontSize: '.9rem', fontWeight: 700, color: scoreColor, marginTop: 8 }}
+                  >
                     {scoreLabel} ({Math.round(score * 100)}%)
                   </div>
                 )}
@@ -491,7 +500,14 @@ export function ShadowingPage(): ReactElement {
 
           {phase === 'listening' && (
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '.9rem', color: 'var(--danger)', fontWeight: 600, marginBottom: 8 }}>
+              <div
+                style={{
+                  fontSize: '.9rem',
+                  color: 'var(--danger)',
+                  fontWeight: 600,
+                  marginBottom: 8,
+                }}
+              >
                 🔴 {t('shadow.listeningLabel')}
               </div>
               <button
@@ -538,7 +554,9 @@ export function ShadowingPage(): ReactElement {
       {showFinal && (
         <div style={{ textAlign: 'center', padding: '10px 0 4px' }}>
           <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>{finalEmoji}</div>
-          <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>
+          <div
+            style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}
+          >
             {finalTitle}
           </div>
           <div style={{ fontSize: '.9rem', color: 'var(--text2)', marginBottom: 16 }}>

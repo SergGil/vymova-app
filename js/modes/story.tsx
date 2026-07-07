@@ -50,7 +50,13 @@ const STORIES = [
   },
 ];
 
-type BuiltinStory = { id: string; title: string; level: CefrLevel; text: string; source: 'builtin' };
+type BuiltinStory = {
+  id: string;
+  title: string;
+  level: CefrLevel;
+  text: string;
+  source: 'builtin';
+};
 type AiStory = { id: 'ai'; title: string; level: CefrLevel; text: string; source: 'ai' };
 type Story = BuiltinStory | AiStory;
 
@@ -301,7 +307,13 @@ export function StoryPage(): ReactElement {
       };
       saveAiStoryCache(entry);
       setCachedAi(entry);
-      setStory({ id: 'ai', title: entry.title, level: entry.level, text: entry.text, source: 'ai' });
+      setStory({
+        id: 'ai',
+        title: entry.title,
+        level: entry.level,
+        text: entry.text,
+        source: 'ai',
+      });
       setPopup(null);
     } catch {
       setError(t('story.error'));
@@ -312,7 +324,13 @@ export function StoryPage(): ReactElement {
 
   const openCachedAi = (): void => {
     if (!cachedAi) return;
-    setStory({ id: 'ai', title: cachedAi.title, level: cachedAi.level, text: cachedAi.text, source: 'ai' });
+    setStory({
+      id: 'ai',
+      title: cachedAi.title,
+      level: cachedAi.level,
+      text: cachedAi.text,
+      source: 'ai',
+    });
     setPopup(null);
   };
 
@@ -364,7 +382,12 @@ export function StoryPage(): ReactElement {
 
   const speakPopup = (): void => {
     if (!popup) return;
-    speakForCode(popup.knownLang, popup.learnWord, popup.cw[0], document.getElementById('sm-popup-speak'));
+    speakForCode(
+      popup.knownLang,
+      popup.learnWord,
+      popup.cw[0],
+      document.getElementById('sm-popup-speak'),
+    );
   };
 
   if (!isOpen) return <></>;
@@ -413,7 +436,11 @@ export function StoryPage(): ReactElement {
               {t('cards.back')}
             </button>
           )}
-          <button className="page-close-btn" onClick={closeStoryMode}>
+          <button
+            className="page-close-btn"
+            onClick={closeStoryMode}
+            aria-label={t('common.close')}
+          >
             ✕
           </button>
         </div>
@@ -437,7 +464,14 @@ export function StoryPage(): ReactElement {
                 marginBottom: 14,
               }}
             >
-              <div style={{ fontWeight: 700, fontSize: '.85rem', color: 'var(--text)', marginBottom: 8 }}>
+              <div
+                style={{
+                  fontWeight: 700,
+                  fontSize: '.85rem',
+                  color: 'var(--text)',
+                  marginBottom: 8,
+                }}
+              >
                 {t('story.aiLabel')}
               </div>
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
@@ -504,7 +538,9 @@ export function StoryPage(): ReactElement {
                 {pending ? t('story.generating') : t('story.generateBtn')}
               </button>
               {error && (
-                <div style={{ fontSize: '.78rem', color: 'var(--danger)', marginTop: 8 }}>{error}</div>
+                <div style={{ fontSize: '.78rem', color: 'var(--danger)', marginTop: 8 }}>
+                  {error}
+                </div>
               )}
             </div>
           ) : (

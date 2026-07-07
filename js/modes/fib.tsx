@@ -484,6 +484,7 @@ export function FibPage(): ReactElement {
             cursor: 'pointer',
             color: 'var(--text3)',
           }}
+          aria-label={t('common.close')}
         >
           ✕
         </button>
@@ -516,8 +517,12 @@ export function FibPage(): ReactElement {
       {!noSentences && !showFinal && item && (
         <>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 14 }}>
-            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>✓ {ok}</span>
-            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>✗ {fail}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>
+              ✓ {ok}
+            </span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>
+              ✗ {fail}
+            </span>
           </div>
 
           <div
@@ -599,7 +604,9 @@ export function FibPage(): ReactElement {
               marginBottom: 10,
             }}
           >
-            {result === true && <span style={{ color: 'var(--success)' }}>{t('quiz.correctMsg')}</span>}
+            {result === true && (
+              <span style={{ color: 'var(--success)' }}>{t('quiz.correctMsg')}</span>
+            )}
             {result === false && (
               <>
                 <span style={{ color: 'var(--danger)' }}>{t('quiz.incorrectMsg')}</span>

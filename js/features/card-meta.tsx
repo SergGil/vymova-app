@@ -58,6 +58,7 @@ export function CardMeta() {
           className="unmark-btn"
           id="btn-unmark"
           title={t('cards.removeKnown')}
+          aria-label={t('cards.removeKnown')}
           onClick={(e) => {
             e.stopPropagation();
             _unmarkActiveKnownAndSave(cw[0]);

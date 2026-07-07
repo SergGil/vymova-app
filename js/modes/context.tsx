@@ -373,6 +373,7 @@ export function ContextPage(): ReactElement {
             cursor: 'pointer',
             color: 'var(--text3)',
           }}
+          aria-label={t('common.close')}
         >
           ✕
         </button>
@@ -415,8 +416,12 @@ export function ContextPage(): ReactElement {
               flexShrink: 0,
             }}
           >
-            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>✓ {ok}</span>
-            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>✗ {fail}</span>
+            <span style={{ fontSize: '.82rem', color: 'var(--success)', fontWeight: 600 }}>
+              ✓ {ok}
+            </span>
+            <span style={{ fontSize: '.82rem', color: 'var(--danger)', fontWeight: 600 }}>
+              ✗ {fail}
+            </span>
           </div>
 
           {!revealed && (
