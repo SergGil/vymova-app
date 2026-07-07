@@ -86,8 +86,8 @@ export function buildStep(
   const entries = dict[current.toLowerCase()];
   if (!entries || !entries.length) return null;
   const unvisited = entries.filter((e) => !visited.has(e.word.toLowerCase()));
-  const candidates = unvisited.length ? unvisited : entries;
-  const correct = _shuf(candidates)[0].word;
+  if (!unvisited.length) return null;
+  const correct = _shuf(unvisited)[0].word;
   const used = new Set([current.toLowerCase(), correct.toLowerCase()]);
   const wrongs: string[] = [];
   for (const cand of _shuf(pool)) {

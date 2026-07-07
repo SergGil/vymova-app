@@ -91,10 +91,12 @@ describe('assoc-chain-logic', () => {
       expect(step!.correct).toBe('huge');
     });
 
-    it('falls back to a visited synonym rather than failing when all are visited', () => {
+    it('returns null (dead end) once every synonym has already been visited, rather than looping back', () => {
+      // Regression guard: an earlier version fell back to reusing a visited
+      // synonym here, which let short chains (e.g. big <-> large/huge) cycle
+      // the same 2-3 words indefinitely instead of ending as documented.
       const step = buildStep(dict, pool, 'big', new Set(['big', 'large', 'huge']));
-      expect(step).not.toBeNull();
-      expect(['large', 'huge']).toContain(step!.correct);
+      expect(step).toBeNull();
     });
 
     it('never includes the current word itself among the wrong options', () => {
