@@ -3220,11 +3220,17 @@ body.dark .cat-select-btn:hover {
 }
 .mistake-review-card.flipped .mistake-review-front { display: none; }
 .mistake-review-card.flipped .mistake-review-back { display: block; }
+.mistake-review-word-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
 .mistake-review-word {
   font-size: 1.6rem;
   font-weight: 800;
   color: var(--text, #222);
-  margin-bottom: 4px;
 }
 .mistake-review-ipa {
   font-size: .82rem;
@@ -3236,7 +3242,7 @@ body.dark .cat-select-btn:hover {
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
-  margin-bottom: 6px;
+  flex-shrink: 0;
 }
 .mistake-review-btn.check {
   background: color-mix(in srgb, var(--accent) 15%, transparent);
@@ -3265,6 +3271,12 @@ body.dark .cat-select-btn:hover {
   font-size: 1rem;
   margin-bottom: 0;
   margin-top: 1px;
+}
+.mistake-review-ex-tr {
+  font-size: .78rem;
+  color: var(--text3, #aaa);
+  line-height: 1.45;
+  margin-top: 4px;
 }
 .mistake-review-actions {
   display: flex;

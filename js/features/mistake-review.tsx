@@ -94,19 +94,21 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
               onClick={() => setFlipped((f) => !f)}
             >
               <div className="mistake-review-front">
-                <div className="mistake-review-word">{card!.word}</div>
+                <div className="mistake-review-word-row">
+                  <div className="mistake-review-word">{card!.word}</div>
+                  <button
+                    className="mistake-review-speak"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      speak(card!.word, null);
+                    }}
+                  >
+                    🔊
+                  </button>
+                </div>
                 {card!.entry[4] && (
                   <div className="mistake-review-ipa">{decodeIpa(card!.entry[4])}</div>
                 )}
-                <button
-                  className="mistake-review-speak"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    speak(card!.word, null);
-                  }}
-                >
-                  🔊
-                </button>
                 {!flipped && (
                   <button
                     className="mistake-review-btn check"
@@ -140,6 +142,7 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
                     </button>
                   </div>
                 )}
+                {card!.entry[3] && <div className="mistake-review-ex-tr">{card!.entry[3]}</div>}
               </div>
             </div>
 
