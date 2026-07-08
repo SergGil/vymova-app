@@ -289,6 +289,16 @@ export function SidebarInit(): ReactElement | null {
     statsClose?.addEventListener('click', closePage);
     modesClose?.addEventListener('click', closePage);
 
+    // Escape closes whichever page is currently open (stats, achievements,
+    // duel, learning path, profile, settings, ...) — a few pages used to
+    // rely on their own individual Escape binding via bindOverlayDismiss()
+    // (grammar/idioms/ai-tutor/voice-roleplay/video-player), which left the
+    // rest without one. One listener here covers all of them uniformly.
+    const onEscapeClosePage = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && getActivePage() !== null) closePage();
+    };
+    document.addEventListener('keydown', onEscapeClosePage);
+
     // ── Sidebar nav ──────────────────────────────────────────────
     // Base path for hrefs ('' locally, '/vymova-app' on GitHub Pages).
     const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -554,6 +564,7 @@ export function SidebarInit(): ReactElement | null {
       closePageBtns.forEach((btn) => btn.removeEventListener('click', closePage));
       statsClose?.removeEventListener('click', closePage);
       modesClose?.removeEventListener('click', closePage);
+      document.removeEventListener('keydown', onEscapeClosePage);
       sbCards?.removeEventListener('click', onCardsClick);
       for (const [el, evt, fn] of _navListeners) el.removeEventListener(evt, fn);
       groupCleanups.forEach((fn) => fn());

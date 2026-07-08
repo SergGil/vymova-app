@@ -225,6 +225,32 @@ describe('sidebar.tsx', () => {
     expect(localStorage.getItem('ew_active_page')).toBeNull();
   });
 
+  it('Escape closes whichever page is currently open', () => {
+    const { root } = mount();
+    roots.push(root);
+    act(() => {
+      openPage('ach');
+    });
+    expect(getActivePage()).toBe('ach');
+
+    act(() => {
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    });
+    expect(getActivePage()).toBeNull();
+    expect(document.getElementById('ach-overlay')!.classList.contains('open')).toBe(false);
+  });
+
+  it('Escape does nothing when no page is open', () => {
+    const { root } = mount();
+    roots.push(root);
+    expect(getActivePage()).toBeNull();
+
+    act(() => {
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    });
+    expect(getActivePage()).toBeNull();
+  });
+
   it('sidebar nav buttons open the corresponding page', () => {
     const { root } = mount();
     roots.push(root);
