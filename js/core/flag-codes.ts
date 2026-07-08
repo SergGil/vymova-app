@@ -57,4 +57,5 @@ export const FLAG_CODE: Record<Code, string> = {
   da: 'dk',
   fi: 'fi',
   no: 'no',
+  la: 'spqr',
 };

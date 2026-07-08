@@ -44,6 +44,7 @@ export const SPEECH_LANG: Record<string, string> = {
   da: 'da-DK',
   fi: 'fi-FI',
   no: 'nb-NO',
+  la: 'la',
 };
 
 export function speechLangFor(code: string): string {

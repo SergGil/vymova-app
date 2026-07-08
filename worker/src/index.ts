@@ -27,7 +27,7 @@ const MAX_MESSAGES = 50;
 const MAX_PAYLOAD_CHARS = 20_000;
 const VALID_LANGS = new Set([
   'en', 'ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl', 'vi',
-  'hi', 'bn', 'id', 'pcm', 'ko', 'fa', 'sw', 'ms', 'th', 'az', 'ro', 'hu', 'cs', 'kk', 'sv', 'ka', 'hr', 'sr', 'bs', 'bg', 'sk', 'hy', 'da', 'fi', 'no',
+  'hi', 'bn', 'id', 'pcm', 'ko', 'fa', 'sw', 'ms', 'th', 'az', 'ro', 'hu', 'cs', 'kk', 'sv', 'ka', 'hr', 'sr', 'bs', 'bg', 'sk', 'hy', 'da', 'fi', 'no', 'la',
 ]);
 const VALID_LEVELS = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 const LANG_NAMES: Record<string, string> = {
@@ -37,7 +37,7 @@ const LANG_NAMES: Record<string, string> = {
   pcm: 'Nigerian Pidgin', ko: 'Korean', fa: 'Persian', sw: 'Swahili', ms: 'Malay', th: 'Thai',
   az: 'Azerbaijani', ro: 'Romanian', hu: 'Hungarian', cs: 'Czech', kk: 'Kazakh', sv: 'Swedish',
   ka: 'Georgian', hr: 'Croatian', sr: 'Serbian', bs: 'Bosnian', bg: 'Bulgarian', sk: 'Slovak',
-  hy: 'Armenian', da: 'Danish', fi: 'Finnish', no: 'Norwegian',
+  hy: 'Armenian', da: 'Danish', fi: 'Finnish', no: 'Norwegian', la: 'Latin',
 };
 
 const ROLEPLAY_SCENARIOS: Record<string, string> = {

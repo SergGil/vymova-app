@@ -49,6 +49,7 @@ import {
   daEntry,
   fiEntry,
   noEntry,
+  laEntry,
 } from '../mode-utils.ts';
 import type { DuelMode, Difficulty } from './duel.ts';
 import { CHARS, ROOM_SIZE } from './duel-types.ts';
@@ -154,6 +155,8 @@ export function _wordInLang(w: WordEntry, lang: string): string {
       return fiEntry(w[0])?.[0] ?? w[1];
     case 'no':
       return noEntry(w[0])?.[0] ?? w[1];
+    case 'la':
+      return laEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1]; // 'ua'
   }
@@ -243,6 +246,8 @@ export function _hasLangWord(w: WordEntry, lang: string): boolean {
       return fiEntry(w[0]) !== null;
     case 'no':
       return noEntry(w[0]) !== null;
+    case 'la':
+      return laEntry(w[0]) !== null;
     default:
       return true;
   }

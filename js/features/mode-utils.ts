@@ -65,6 +65,7 @@ const LANG_LOADERS: Record<TargetLang, () => Promise<Table>> = {
   da: () => import('../../data/words_da.js').then((m) => m.W_DA as Table),
   fi: () => import('../../data/words_fi.js').then((m) => m.W_FI as Table),
   no: () => import('../../data/words_no.js').then((m) => m.W_NO as Table),
+  la: () => import('../../data/words_la.js').then((m) => m.W_LA as Table),
 };
 
 // In-flight promises to avoid duplicate fetches for the same language.
@@ -374,6 +375,13 @@ const LANG_REGISTRY: Record<TargetLang, LangConfig> = {
     voiceLocale: 'nb-NO',
     rtl: false,
   },
+  la: {
+    entry: (w) => lookup(getTable('la'), w),
+    known: () => getKnownSnapshot('la'),
+    saveKnown: (known) => saveKnownLang('la', known),
+    voiceLocale: 'la',
+    rtl: false,
+  },
 };
 
 export function langConfig(code: TargetLang): LangConfig {
@@ -476,6 +484,7 @@ export const HY_MODES = modesFor('hy');
 export const DA_MODES = modesFor('da');
 export const FI_MODES = modesFor('fi');
 export const NO_MODES = modesFor('no');
+export const LA_MODES = modesFor('la');
 
 export function getMode(): string {
   const sel = document.getElementById('sel-mode') as HTMLSelectElement | null;
@@ -725,6 +734,9 @@ export function fiEntry(word: string): Entry {
 export function noEntry(word: string): Entry {
   return LANG_REGISTRY.no.entry(word);
 }
+export function laEntry(word: string): Entry {
+  return LANG_REGISTRY.la.entry(word);
+}
 
 function targetLangFromStorageKey(key: string): TargetLang | null {
   return isTargetLang(key) ? key : null;
@@ -871,6 +883,7 @@ const NO_TRANSLATIONS_KEY: Record<TargetLang, string> = {
   da: 'deck.noDaTranslations',
   fi: 'deck.noFiTranslations',
   no: 'deck.noNoTranslations',
+  la: 'deck.noLaTranslations',
 };
 
 function hasAnyEntries(lang: TargetLang, words: WordEntry[]): boolean {

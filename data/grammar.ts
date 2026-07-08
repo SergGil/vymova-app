@@ -20514,6 +20514,77 @@ export const GRAMMAR_NO: GrammarCategory[] = [
   },
 ];
 
+export const GRAMMAR_LA: GrammarCategory[] = [
+  {
+    id: 'basics',
+    title: 'Основи',
+    titleEn: 'Basics',
+    emoji: '🧩',
+    rules: [
+      {
+        id: 'pronouns',
+        title: 'Особові займенники — A1',
+        emoji: '🙋',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У латині особові займенники в називному відмінку часто опускаються, бо форма дієслова вже вказує на особу — ego/tu тощо додають лише для наголосу.',
+            en: { text: 'Latin personal pronouns in the nominative are often dropped, since the verb ending already marks the person — ego/tu etc. are added only for emphasis.' },
+          },
+          {
+            type: 'table',
+            title: 'Базові займенники',
+            rows: [
+              ['ego', 'я'],
+              ['tu', 'ти'],
+              ['is / ea / id', 'він / вона / воно'],
+              ['nos', 'ми'],
+              ['vos', 'ви'],
+              ['ii / eae / ea', 'вони'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Ego magister sum.', 'Я вчитель.']],
+          },
+        ],
+      },
+      {
+        id: 'to-be',
+        title: 'Дієслово "esse" (бути) — A1',
+        emoji: '🟢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дієслово "esse" (бути) — одне з небагатьох неправильних дієслів латини і відмінюється за особою та числом.',
+            en: { text: 'The verb "esse" (to be) is one of the few irregular Latin verbs and is conjugated by person and number.' },
+          },
+          {
+            type: 'table',
+            title: 'Теперішній час',
+            rows: [
+              ['sum', '(я) є'],
+              ['es', '(ти) є'],
+              ['est', '(він/вона/воно) є'],
+              ['sumus', '(ми) є'],
+              ['estis', '(ви) є'],
+              ['sunt', '(вони) є'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [['Puella laeta est.', 'Дівчинка щаслива.']],
+          },
+        ],
+      },
+    ],
+  },
+];
+
 // ── Grammar content per language being learned ─────────────────
 export const GRAMMAR_BY_LANG: Partial<
   Record<
@@ -20551,7 +20622,8 @@ export const GRAMMAR_BY_LANG: Partial<
     | 'hy'
     | 'da'
     | 'fi'
-    | 'no',
+    | 'no'
+    | 'la',
     GrammarCategory[]
   >
 > = {
@@ -20595,4 +20667,5 @@ export const GRAMMAR_BY_LANG: Partial<
   da: GRAMMAR_DA,
   fi: GRAMMAR_FI,
   no: GRAMMAR_NO,
+  la: GRAMMAR_LA,
 };

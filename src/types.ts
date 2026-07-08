@@ -46,7 +46,8 @@ export type TargetLang =
   | 'hy'
   | 'da'
   | 'fi'
-  | 'no';
+  | 'no'
+  | 'la';
 export type Code = TargetLang | 'en' | 'ua';
 export const ALL_TARGET_LANGS: TargetLang[] = [
   'es',
@@ -88,6 +89,7 @@ export const ALL_TARGET_LANGS: TargetLang[] = [
   'da',
   'fi',
   'no',
+  'la',
 ];
 
 // ── Word data ─────────────────────────────────────────────────

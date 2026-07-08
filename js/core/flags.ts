@@ -61,13 +61,17 @@ const modules = import.meta.glob(
     '../../data/countries/dk.svg',
     '../../data/countries/fi.svg',
     '../../data/countries/no.svg',
+    '../../data/countries/spqr.svg',
   ],
   { eager: true, query: '?url', import: 'default' },
 ) as Record<string, string>;
 
 const FLAGS: Record<string, string> = {};
 for (const path in modules) {
-  const code = path.match(/([a-z]{2})\.svg$/i)?.[1];
+  // Most codes are 2-letter ISO country codes, but a few (e.g. 'spqr' for
+  // Latin, which has no ISO country) are longer non-ISO identifiers — match
+  // any run of letters/digits before .svg, not just exactly two.
+  const code = path.match(/([a-z0-9]+)\.svg$/i)?.[1];
   if (code) FLAGS[code.toLowerCase()] = modules[path];
 }
 

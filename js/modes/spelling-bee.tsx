@@ -52,6 +52,7 @@ import {
   daEntry,
   fiEntry,
   noEntry,
+  laEntry,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speakForCode } from '../features/voice/speak-lang.ts';
@@ -144,6 +145,8 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return fiEntry(w[0])?.[1] ?? '';
     case 'no':
       return noEntry(w[0])?.[1] ?? '';
+    case 'la':
+      return laEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }

@@ -84,6 +84,7 @@ const LANG_META: Record<string, { name: string; country: string }> = {
   da: { name: "Dansk", country: 'dk' },
   fi: { name: "Suomi", country: 'fi' },
   no: { name: "Norsk", country: 'no' },
+  la: { name: "Latina", country: 'spqr' },
 };
 
 function FlagCircle({ lang, size = 44 }: { lang: string; size?: number }): ReactElement {

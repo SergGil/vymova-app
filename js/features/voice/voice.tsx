@@ -46,6 +46,7 @@ let _hyURI = localStorage.getItem('ew_ws_hy_voice') ?? '';
 let _daURI = localStorage.getItem('ew_ws_da_voice') ?? '';
 let _fiURI = localStorage.getItem('ew_ws_fi_voice') ?? '';
 let _noURI = localStorage.getItem('ew_ws_no_voice') ?? '';
+let _laURI = localStorage.getItem('ew_ws_la_voice') ?? '';
 
 type VoiceMapEntry = { match: string; label: string; gender: string; accent: string };
 
@@ -595,6 +596,13 @@ function _noVoices(): SpeechSynthesisVoice[] {
     return l.startsWith('nb') || n.includes('norwegian');
   });
 }
+function _laVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('la') || n.includes('latin');
+  });
+}
 function _findByURI(uri: string, voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
   return voices.find((v) => v.voiceURI === uri) ?? null;
 }
@@ -718,6 +726,9 @@ export function getSelectedFiVoice(): SpeechSynthesisVoice | null {
 }
 export function getSelectedNoVoice(): SpeechSynthesisVoice | null {
   return _findByURI(_noURI, _noVoices()) ?? _noVoices()[0] ?? null;
+}
+export function getSelectedLaVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_laURI, _laVoices()) ?? _laVoices()[0] ?? null;
 }
 
 // Speaks `text` with a voice tagged for `accent` (matched via VOICE_MAP first,
@@ -932,7 +943,8 @@ export function _renderVoices(): void {
     hyVoices = _sortVoices(_hyVoices()),
     daVoices = _sortVoices(_daVoices()),
     fiVoices = _sortVoices(_fiVoices()),
-    noVoices = _sortVoices(_noVoices());
+    noVoices = _sortVoices(_noVoices()),
+    laVoices = _sortVoices(_laVoices());
   if (
     !enVoices.length &&
     !ukVoices.length &&
@@ -974,7 +986,8 @@ export function _renderVoices(): void {
     !hyVoices.length &&
     !daVoices.length &&
     !fiVoices.length &&
-    !noVoices.length
+    !noVoices.length &&
+    !laVoices.length
   ) {
     container.innerHTML =
       '<span style="font-size:.78rem;color:var(--text3);">' +
@@ -1058,6 +1071,7 @@ export function _renderVoices(): void {
           else if (storageKey === 'ew_ws_da_voice') _daURI = uri;
           else if (storageKey === 'ew_ws_fi_voice') _fiURI = uri;
           else if (storageKey === 'ew_ws_no_voice') _noURI = uri;
+          else if (storageKey === 'ew_ws_la_voice') _laURI = uri;
           else _ukURI = uri;
           localStorage.setItem(storageKey, uri);
           _renderVoices();
@@ -1544,6 +1558,17 @@ export function _renderVoices(): void {
       "Hei! Hyggelig å møte deg.",
     );
   else addMissing('no', 'no', 'settings.noNoVoicesTitle', 'settings.noNoVoicesDesc');
+  if (laVoices.length)
+    addSection(
+      'la',
+      'spqr',
+      t('settings.laVoicesTitle'),
+      laVoices,
+      _laURI,
+      'ew_ws_la_voice',
+      "Salve! Gratum est te cognoscere.",
+    );
+  else addMissing('la', 'spqr', 'settings.noLaVoicesTitle', 'settings.noLaVoicesDesc');
   if (!_enURI && enVoices.length) {
     _enURI = (enVoices.find((v) => v.name.toLowerCase().includes('google')) ?? enVoices[0])
       .voiceURI;
@@ -1747,6 +1772,11 @@ export function _renderVoices(): void {
     _noURI = (noVoices.find((v) => v.name.toLowerCase().includes('google')) ?? noVoices[0])
       .voiceURI;
     localStorage.setItem('ew_ws_no_voice', _noURI);
+  }
+  if (!_laURI && laVoices.length) {
+    _laURI = (laVoices.find((v) => v.name.toLowerCase().includes('google')) ?? laVoices[0])
+      .voiceURI;
+    localStorage.setItem('ew_ws_la_voice', _laURI);
   }
 }
 

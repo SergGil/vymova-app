@@ -45,6 +45,7 @@ import {
   getSelectedDaVoice,
   getSelectedFiVoice,
   getSelectedNoVoice,
+  getSelectedLaVoice,
 } from './voice.tsx';
 import { speak, _speakWithLang } from './speech.ts';
 import { isTargetLang, langConfig, type TargetLang, type Code } from '../mode-utils.ts';
@@ -89,6 +90,7 @@ export const VOICE_GETTERS: Record<TargetLang, () => SpeechSynthesisVoice | null
   da: getSelectedDaVoice,
   fi: getSelectedFiVoice,
   no: getSelectedNoVoice,
+  la: getSelectedLaVoice,
 };
 
 export function speakForCode(

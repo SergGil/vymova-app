@@ -51,6 +51,7 @@ import {
   daEntry,
   fiEntry,
   noEntry,
+  laEntry,
 } from '../features/mode-utils.ts';
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
@@ -141,6 +142,8 @@ function getLangWord(w: WordEntry, lang: string): string {
       return fiEntry(w[0])?.[0] ?? '';
     case 'no':
       return noEntry(w[0])?.[0] ?? '';
+    case 'la':
+      return laEntry(w[0])?.[0] ?? '';
     default:
       return w[0];
   }
@@ -228,6 +231,8 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return fiEntry(w[0])?.[1] ?? '';
     case 'no':
       return noEntry(w[0])?.[1] ?? '';
+    case 'la':
+      return laEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }

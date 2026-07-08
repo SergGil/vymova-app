@@ -63,6 +63,7 @@ const LANG_BY_TAB: Record<Tab, string> = {
   da: 'da-DK',
   fi: 'fi-FI',
   no: 'nb-NO',
+  la: 'la',
 };
 const TAB_I18N_KEY: Record<Tab, string> = {
   en: 'idioms.tabEn',
@@ -106,6 +107,7 @@ const TAB_I18N_KEY: Record<Tab, string> = {
   da: 'idioms.tabDa',
   fi: 'idioms.tabFi',
   no: 'idioms.tabNo',
+  la: 'idioms.tabLa',
 };
 const RTL_TABS = new Set<Tab>(['he', 'ar', 'fa']);
 
