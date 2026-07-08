@@ -275,6 +275,147 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   often: [{ word: 'rarely' }],
   everywhere: [{ word: 'nowhere' }],
   together: [{ word: 'separately' }],
+
+  // ── Taste / food ─────────────────────────────────────────────────────────
+  sweet: [{ word: 'sour' }],
+  spicy: [{ word: 'bland' }],
+  bitter: [{ word: 'mild' }],
+  raw: [{ word: 'cooked' }],
+
+  // ── Weather / nature ─────────────────────────────────────────────────────
+  sunny: [{ word: 'cloudy' }],
+  windy: [{ word: 'still' }],
+  humid: [{ word: 'arid' }],
+  stormy: [{ word: 'serene' }],
+  wild: [{ word: 'tame' }],
+
+  // ── Body / health / state ────────────────────────────────────────────────
+  awake: [{ word: 'asleep' }],
+  alive: [{ word: 'dead' }],
+  fit: [{ word: 'unfit' }],
+  energetic: [{ word: 'exhausted' }],
+  conscious: [{ word: 'unconscious' }],
+  employed: [{ word: 'unemployed' }],
+  busy: [{ word: 'idle' }],
+
+  // ── Technology ───────────────────────────────────────────────────────────
+  digital: [{ word: 'analog' }],
+  online: [{ word: 'offline' }],
+  compatible: [{ word: 'incompatible' }],
+  secure: [{ word: 'insecure' }],
+
+  // ── Business / economy ───────────────────────────────────────────────────
+  wholesale: [{ word: 'retail' }],
+  debit: [{ word: 'credit' }],
+  income: [{ word: 'expense' }],
+  surplus: [{ word: 'deficit' }],
+  inflation: [{ word: 'deflation' }],
+
+  // ── Time ─────────────────────────────────────────────────────────────────
+  past: [{ word: 'future' }],
+  present: [{ word: 'absent' }],
+  before: [{ word: 'after' }],
+  now: [{ word: 'later' }],
+  recent: [{ word: 'outdated' }],
+
+  // ── Quantity ─────────────────────────────────────────────────────────────
+  many: [{ word: 'few' }],
+  much: [{ word: 'little' }],
+  maximum: [{ word: 'minimum' }],
+  whole: [{ word: 'partial' }],
+  entire: [{ word: 'partial' }],
+  individual: [{ word: 'collective' }],
+  singular: [{ word: 'plural' }],
+
+  // ── Position / geometry ──────────────────────────────────────────────────
+  central: [{ word: 'peripheral' }],
+  horizontal: [{ word: 'vertical' }],
+  parallel: [{ word: 'perpendicular' }],
+
+  // ── Color / sound ────────────────────────────────────────────────────────
+  colorful: [{ word: 'colorless' }],
+  audible: [{ word: 'inaudible' }],
+
+  // ── Emotions / mental states (extra) ─────────────────────────────────────
+  relaxed: [{ word: 'tense' }],
+  hopeful: [{ word: 'hopeless' }],
+  satisfied: [{ word: 'dissatisfied' }],
+  willing: [{ word: 'unwilling' }],
+  eager: [{ word: 'reluctant' }],
+  determined: [{ word: 'indecisive' }],
+  rational: [{ word: 'irrational' }],
+  sane: [{ word: 'insane' }],
+  anxious: [{ word: 'calm' }],
+  impulsive: [{ word: 'cautious' }],
+
+  // ── Communication ────────────────────────────────────────────────────────
+  clear: [{ word: 'vague' }],
+  fluent: [{ word: 'hesitant' }],
+  legible: [{ word: 'illegible' }],
+
+  // ── Nature / animals ─────────────────────────────────────────────────────
+  carnivore: [{ word: 'herbivore' }],
+  predator: [{ word: 'prey' }],
+
+  // ── Materials / science ──────────────────────────────────────────────────
+  synthetic: [{ word: 'organic' }],
+  organic: [{ word: 'inorganic' }],
+  liquid: [{ word: 'solid' }],
+
+  // ── Legal / social ───────────────────────────────────────────────────────
+  guilty: [{ word: 'innocent' }],
+  civilian: [{ word: 'military' }],
+
+  // ── Education ────────────────────────────────────────────────────────────
+  pass: [{ word: 'fail' }],
+  correct: [{ word: 'incorrect' }],
+
+  // ── Environment ──────────────────────────────────────────────────────────
+  polluted: [{ word: 'clean' }],
+  renewable: [{ word: 'nonrenewable' }],
+
+  // ── Movement ─────────────────────────────────────────────────────────────
+  ascend: [{ word: 'descend' }],
+  accelerate: [{ word: 'decelerate' }],
+  inhale: [{ word: 'exhale' }],
+
+  // ── Style / register ─────────────────────────────────────────────────────
+  casual: [{ word: 'formal' }],
+  literal: [{ word: 'figurative' }],
+  spoken: [{ word: 'written' }],
+
+  // ── Geography ────────────────────────────────────────────────────────────
+  coastal: [{ word: 'inland' }],
+  mountainous: [{ word: 'flat' }],
+
+  // ── Skill / competence ───────────────────────────────────────────────────
+  amateur: [{ word: 'professional' }],
+  skilled: [{ word: 'unskilled' }],
+  experienced: [{ word: 'inexperienced' }],
+  qualified: [{ word: 'unqualified' }],
+  competent: [{ word: 'incompetent' }],
+  capable: [{ word: 'incapable' }],
+
+  // ── Character / creativity (extra) ───────────────────────────────────────
+  straightforward: [{ word: 'complicated' }],
+  spontaneous: [{ word: 'planned' }],
+  creative: [{ word: 'unimaginative' }],
+  original: [{ word: 'unoriginal' }],
+  innovative: [{ word: 'conventional' }],
+  traditional: [{ word: 'modern' }],
+  dependent: [{ word: 'independent' }],
+  dominant: [{ word: 'subordinate' }],
+  luxurious: [{ word: 'modest' }],
+  elegant: [{ word: 'shabby' }],
+  neat: [{ word: 'sloppy' }],
+
+  // ── Nouns (extra 2) ──────────────────────────────────────────────────────
+  winner: [{ word: 'loser' }],
+  optimist: [{ word: 'pessimist' }],
+
+  // ── Interest ─────────────────────────────────────────────────────────────
+  dull: [{ word: 'exciting' }],
+  boring: [{ word: 'interesting' }],
 };
 
 export const ANTONYM_REVERSE: Map<string, string> = buildSynonymReverse(ANTONYMS);
