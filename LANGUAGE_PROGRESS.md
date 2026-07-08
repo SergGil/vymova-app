@@ -2,7 +2,7 @@
 
 Tracks the word-count status of every language dictionary in Vymova (`data/words_<code>.js`), against the canonical English source list in `data/words.js` (currently **10403** headwords).
 
-Last updated: 2026-07-07 (v1.158.0)
+Last updated: 2026-07-08 (v1.184.0)
 
 ## Rule: every dictionary entry must include transcription
 
@@ -64,30 +64,30 @@ Every `data/words_<code>.js` entry must be a **3-element** tuple — `["translat
 | bn   | Bengali            | 2110  |
 | hi   | Hindi              | 2000  |
 
-## In progress — batch 2 done (310 words), target 500+ (not 2000+)
+## Complete — 500+ target reached (2026-07-08)
 
 | Code | Language           | Words |
 |------|--------------------|-------|
-| bs   | Bosnian            | 310   |
-| cs   | Czech              | 310   |
-| da   | Danish             | 310   |
-| fa   | Persian            | 310   |
-| fi   | Finnish            | 310   |
-| hu   | Hungarian          | 310   |
-| hy   | Armenian           | 310   |
-| id   | Indonesian         | 310   |
-| ka   | Georgian           | 310   |
-| kk   | Kazakh             | 310   |
-| ms   | Malay              | 310   |
-| no   | Norwegian          | 310   |
-| pcm  | Nigerian Pidgin    | 310   |
-| ro   | Romanian           | 310   |
-| sk   | Slovak             | 310   |
-| sr   | Serbian            | 310   |
-| sv   | Swedish            | 310   |
-| sw   | Swahili            | 310   |
-| th   | Thai               | 310   |
+| bs   | Bosnian            | 510   |
+| cs   | Czech              | 510   |
+| da   | Danish             | 510   |
+| fa   | Persian            | 510   |
+| fi   | Finnish            | 510   |
+| hu   | Hungarian          | 510   |
+| hy   | Armenian           | 510   |
+| id   | Indonesian         | 510   |
+| ka   | Georgian           | 510   |
+| kk   | Kazakh             | 510   |
+| ms   | Malay              | 510   |
+| no   | Norwegian          | 510   |
+| pcm  | Nigerian Pidgin    | 510   |
+| ro   | Romanian           | 510   |
+| sk   | Slovak             | 510   |
+| sr   | Serbian            | 510   |
+| sv   | Swedish            | 510   |
+| sw   | Swahili            | 510   |
+| th   | Thai               | 510   |
 
 **Correction (2026-07-07):** `hr` (Croatian) was previously listed here at 160, but the actual file already has 2000 words (2-element format, no transcription — an earlier-phase expansion that predates this batch-1/2 system and was never logged). Moved to the "first wave" table below; excluded from the 500+ push.
 
-**Started with batch 1 (index 10-159, 160 words), now through batch 2 (index 160-309, 150 more words, 310 total).** `hi` (Hindi) continued further (batches 2-13, index 160-1999) and reached 2000 words — see complete table above. These 19 remain at 310, need one more batch (~190 words, index 310-499) each to cross the 500-word target set for this round (not the earlier 2000+ target used for hi/az/ko/etc).
+**Batch history:** batch 1 (index 10-159, 160 words) → batch 2 (index 160-309, 150 more words, 310 total) → batch 3 (index 310-509, 200 more words, 510 total, crossing the 500-word target). `hi` (Hindi) continued further (batches 2-13, index 160-1999) and reached 2000 words — see complete table above. All 19 of these languages now sit at 510 words and have reached the 500+ target set for this round (not the earlier 2000+ target used for hi/az/ko/etc). Every batch-3 entry was verified for exact key-order match against `data/words.js`, no duplicates, and non-empty translation/example/transcription fields before commit.
