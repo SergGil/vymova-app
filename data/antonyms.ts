@@ -22,8 +22,8 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   // ── Adjectives: feelings / character ──────────────────────────────────
   happy: [{ word: 'sad' }, { word: 'unhappy' }],
   excited: [{ word: 'bored' }, { word: 'indifferent' }],
-  brave: [{ word: 'cowardly' }],
-  calm: [{ word: 'nervous' }],
+  brave: [{ word: 'cowardly' }, { word: 'timid' }],
+  calm: [{ word: 'nervous' }, { word: 'worried' }],
   confident: [{ word: 'shy' }, { word: 'insecure' }],
   kind: [{ word: 'cruel' }, { word: 'unkind' }],
   generous: [{ word: 'stingy' }],
@@ -60,14 +60,14 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
 
   // ── Adjectives: quality / state ─────────────────────────────────────────
   easy: [{ word: 'difficult' }, { word: 'hard' }],
-  simple: [{ word: 'complex' }],
+  simple: [{ word: 'complex' }, { word: 'complicated' }],
   cheap: [{ word: 'expensive' }],
   rich: [{ word: 'poor' }],
   old: [{ word: 'young', note: 'про людину' }],
   new: [{ word: 'old', note: 'про предмет' }],
   modern: [{ word: 'ancient' }],
   safe: [{ word: 'dangerous' }, { word: 'unsafe' }],
-  healthy: [{ word: 'sick' }],
+  healthy: [{ word: 'sick' }, { word: 'ill' }],
   clever: [{ word: 'stupid' }, { word: 'foolish' }],
   beautiful: [{ word: 'ugly' }],
   formal: [{ word: 'informal' }],
@@ -83,7 +83,7 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   permanent: [{ word: 'temporary' }],
   similar: [{ word: 'different' }, { word: 'distinct' }],
   familiar: [{ word: 'unfamiliar' }],
-  common: [{ word: 'rare' }],
+  common: [{ word: 'rare' }, { word: 'unusual' }],
   ordinary: [{ word: 'extraordinary' }],
   careful: [{ word: 'careless' }],
   tidy: [{ word: 'messy' }],
@@ -115,17 +115,17 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   increase: [{ word: 'decrease' }, { word: 'reduce' }],
   accept: [{ word: 'reject' }, { word: 'refuse' }],
   agree: [{ word: 'disagree' }],
-  allow: [{ word: 'forbid' }],
+  allow: [{ word: 'forbid' }, { word: 'prohibit' }],
   remember: [{ word: 'forget' }],
   succeed: [{ word: 'fail' }],
   love: [{ word: 'hate' }, { word: 'dislike' }],
   attack: [{ word: 'defend' }],
   borrow: [{ word: 'lend' }],
   hire: [{ word: 'fire', note: 'звільнити з роботи' }],
-  praise: [{ word: 'criticize' }],
+  praise: [{ word: 'criticize' }, { word: 'condemn' }],
   encourage: [{ word: 'discourage' }],
   include: [{ word: 'exclude' }],
-  expand: [{ word: 'shrink' }],
+  expand: [{ word: 'shrink' }, { word: 'contract' }],
   rise: [{ word: 'fall' }],
   appear: [{ word: 'disappear' }],
   build: [{ word: 'destroy' }],
@@ -152,29 +152,29 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   // ── Adjectives: feelings / character (extra) ────────────────────────────
   proud: [{ word: 'ashamed' }],
   friendly: [{ word: 'hostile' }, { word: 'unfriendly' }],
-  loyal: [{ word: 'disloyal' }],
-  selfish: [{ word: 'selfless' }],
-  cheerful: [{ word: 'gloomy' }],
+  loyal: [{ word: 'disloyal' }, { word: 'unfaithful' }],
+  selfish: [{ word: 'selfless' }, { word: 'generous' }],
+  cheerful: [{ word: 'gloomy' }, { word: 'sad' }],
   curious: [{ word: 'indifferent' }],
   tolerant: [{ word: 'intolerant' }],
   gentle: [{ word: 'harsh' }, { word: 'rough' }],
   modest: [{ word: 'boastful' }],
   sincere: [{ word: 'insincere' }, { word: 'fake' }],
   faithful: [{ word: 'unfaithful' }],
-  graceful: [{ word: 'clumsy' }],
+  graceful: [{ word: 'clumsy' }, { word: 'awkward' }],
   wise: [{ word: 'foolish' }, { word: 'unwise' }],
   strict: [{ word: 'lenient' }],
   grateful: [{ word: 'ungrateful' }],
   punctual: [{ word: 'unpunctual' }],
-  serious: [{ word: 'playful' }],
-  talkative: [{ word: 'silent' }],
-  stubborn: [{ word: 'compliant' }],
+  serious: [{ word: 'playful' }, { word: 'silly' }],
+  talkative: [{ word: 'silent' }, { word: 'quiet' }],
+  stubborn: [{ word: 'compliant' }, { word: 'flexible' }],
 
   // ── Adjectives: size / physical (extra) ──────────────────────────────────
   solid: [{ word: 'hollow' }],
   dense: [{ word: 'sparse' }],
   steep: [{ word: 'flat' }],
-  crowded: [{ word: 'deserted' }],
+  crowded: [{ word: 'deserted' }, { word: 'empty' }],
   noisy: [{ word: 'quiet' }],
   spacious: [{ word: 'cramped' }],
   shiny: [{ word: 'dull' }],
@@ -184,14 +184,14 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   // ── Adjectives: quality / state (extra) ──────────────────────────────────
   useful: [{ word: 'useless' }],
   valuable: [{ word: 'worthless' }],
-  reliable: [{ word: 'unreliable' }],
+  reliable: [{ word: 'unreliable' }, { word: 'untrustworthy' }],
   efficient: [{ word: 'inefficient' }],
-  accurate: [{ word: 'inaccurate' }],
+  accurate: [{ word: 'inaccurate' }, { word: 'wrong' }],
   adequate: [{ word: 'inadequate' }],
   relevant: [{ word: 'irrelevant' }],
   logical: [{ word: 'illogical' }, { word: 'irrational' }],
   regular: [{ word: 'irregular' }],
-  optional: [{ word: 'mandatory' }],
+  optional: [{ word: 'mandatory' }, { word: 'compulsory' }],
   explicit: [{ word: 'implicit' }],
   abstract: [{ word: 'concrete' }],
   superior: [{ word: 'inferior' }],
@@ -205,7 +205,7 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   general: [{ word: 'specific' }],
   loose: [{ word: 'tight' }],
   superficial: [{ word: 'profound' }],
-  abundant: [{ word: 'scarce' }],
+  abundant: [{ word: 'scarce' }, { word: 'rare' }],
   fertile: [{ word: 'barren' }],
 
   // ── Directions / positions (extra) ───────────────────────────────────────
@@ -225,14 +225,14 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   raise: [{ word: 'lower' }],
   tighten: [{ word: 'loosen' }],
   gather: [{ word: 'scatter' }],
-  combine: [{ word: 'separate' }],
+  combine: [{ word: 'separate' }, { word: 'divide' }],
   create: [{ word: 'destroy' }],
   earn: [{ word: 'spend' }],
   teach: [{ word: 'learn' }],
   ask: [{ word: 'answer' }],
   import: [{ word: 'export' }],
   produce: [{ word: 'consume' }],
-  hide: [{ word: 'reveal' }],
+  hide: [{ word: 'reveal' }, { word: 'expose' }],
   whisper: [{ word: 'shout' }],
   smile: [{ word: 'frown' }],
   forgive: [{ word: 'blame' }],
@@ -242,19 +242,19 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   simplify: [{ word: 'complicate' }],
   approve: [{ word: 'disapprove' }],
   admit: [{ word: 'deny' }],
-  obey: [{ word: 'disobey' }],
+  obey: [{ word: 'disobey' }, { word: 'rebel' }],
   unite: [{ word: 'divide' }],
-  advance: [{ word: 'retreat' }],
+  advance: [{ word: 'retreat' }, { word: 'withdraw' }],
   promote: [{ word: 'demote' }],
   deposit: [{ word: 'withdraw' }],
   multiply: [{ word: 'divide' }],
 
   // ── Nouns (extra) ────────────────────────────────────────────────────────
-  joy: [{ word: 'sorrow' }],
-  courage: [{ word: 'fear' }],
+  joy: [{ word: 'sorrow' }, { word: 'sadness' }],
+  courage: [{ word: 'fear' }, { word: 'cowardice' }],
   wealth: [{ word: 'poverty' }],
   freedom: [{ word: 'slavery' }],
-  order: [{ word: 'chaos' }],
+  order: [{ word: 'chaos' }, { word: 'disorder' }],
   health: [{ word: 'illness' }],
   victory: [{ word: 'defeat' }],
   question: [{ word: 'answer' }],
@@ -292,7 +292,7 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   // ── Body / health / state ────────────────────────────────────────────────
   awake: [{ word: 'asleep' }],
   alive: [{ word: 'dead' }],
-  fit: [{ word: 'unfit' }],
+  fit: [{ word: 'unfit' }, { word: 'unhealthy' }],
   energetic: [{ word: 'exhausted' }],
   conscious: [{ word: 'unconscious' }],
   employed: [{ word: 'unemployed' }],
@@ -340,7 +340,7 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   relaxed: [{ word: 'tense' }, { word: 'anxious' }],
   hopeful: [{ word: 'hopeless' }, { word: 'pessimistic' }],
   satisfied: [{ word: 'dissatisfied' }, { word: 'unhappy' }],
-  willing: [{ word: 'unwilling' }],
+  willing: [{ word: 'unwilling' }, { word: 'reluctant' }],
   eager: [{ word: 'reluctant' }],
   determined: [{ word: 'indecisive' }],
   rational: [{ word: 'irrational' }],
@@ -368,7 +368,7 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
 
   // ── Education ────────────────────────────────────────────────────────────
   pass: [{ word: 'fail' }],
-  correct: [{ word: 'incorrect' }],
+  correct: [{ word: 'incorrect' }, { word: 'wrong' }],
 
   // ── Environment ──────────────────────────────────────────────────────────
   polluted: [{ word: 'clean' }],
@@ -422,7 +422,7 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   true: [{ word: 'false' }],
 
   // ── Adjectives: durability / condition ───────────────────────────────────
-  fragile: [{ word: 'durable' }],
+  fragile: [{ word: 'durable' }, { word: 'sturdy' }],
   flimsy: [{ word: 'sturdy' }],
   organized: [{ word: 'disorganized' }],
   fancy: [{ word: 'plain' }],
@@ -438,7 +438,7 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   // ── School / education (extra) ───────────────────────────────────────────
   literate: [{ word: 'illiterate' }],
   attentive: [{ word: 'distracted' }],
-  diligent: [{ word: 'lazy' }],
+  diligent: [{ word: 'lazy' }, { word: 'idle' }],
 
   // ── Workplace ────────────────────────────────────────────────────────────
   productive: [{ word: 'unproductive' }],
@@ -517,8 +517,75 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   producer: [{ word: 'consumer' }],
   creditor: [{ word: 'debtor' }],
   welcome: [{ word: 'farewell' }],
-  famous: [{ word: 'unknown' }],
+  famous: [{ word: 'unknown' }, { word: 'obscure' }],
   popular: [{ word: 'unpopular' }],
+
+  // ── Technology / systems ─────────────────────────────────────────────────
+  manual: [{ word: 'automatic' }],
+  centralized: [{ word: 'decentralized' }],
+
+  // ── Emotions / character (extra 2) ───────────────────────────────────────
+  jealous: [{ word: 'content' }],
+
+  // ── Education (extra 2) ──────────────────────────────────────────────────
+  educated: [{ word: 'uneducated' }],
+
+  // ── Communication (extra 2) ──────────────────────────────────────────────
+  verbal: [{ word: 'nonverbal' }],
+
+  // ── Weather (extra 2) ─────────────────────────────────────────────────────
+  freezing: [{ word: 'boiling' }],
+
+  // ── Priority / value ─────────────────────────────────────────────────────
+  urgent: [{ word: 'trivial' }],
+  luxury: [{ word: 'necessity' }],
+
+  // ── Verbs (extra 2) ───────────────────────────────────────────────────────
+  gain: [{ word: 'lose' }],
+
+  // ── Story / fiction ──────────────────────────────────────────────────────
+  blessing: [{ word: 'curse' }],
+  hero: [{ word: 'villain' }],
+  protagonist: [{ word: 'antagonist' }],
+  fiction: [{ word: 'nonfiction' }],
+  real: [{ word: 'imaginary' }],
+
+  // ── Abstract / philosophy ────────────────────────────────────────────────
+  objective: [{ word: 'subjective' }],
+  theory: [{ word: 'practice' }],
+
+  // ── Business / systems (extra) ───────────────────────────────────────────
+  input: [{ word: 'output' }],
+  gross: [{ word: 'net' }],
+
+  // ── Emotions: nouns ──────────────────────────────────────────────────────
+  tension: [{ word: 'relaxation' }],
+  anxiety: [{ word: 'relief' }],
+
+  // ── Life events / travel ─────────────────────────────────────────────────
+  birth: [{ word: 'death' }],
+  arrival: [{ word: 'departure' }],
+  entrance: [{ word: 'exit' }],
+
+  // ── Communication: nouns ─────────────────────────────────────────────────
+  request: [{ word: 'refusal' }],
+  offer: [{ word: 'rejection' }],
+
+  // ── Character: nouns ─────────────────────────────────────────────────────
+  wisdom: [{ word: 'ignorance' }],
+  innocence: [{ word: 'guilt' }],
+  justice: [{ word: 'injustice' }],
+  equality: [{ word: 'inequality' }],
+  unity: [{ word: 'division' }],
+  cooperation: [{ word: 'competition' }],
+  patience: [{ word: 'impatience' }],
+  kindness: [{ word: 'cruelty' }],
+  honesty: [{ word: 'dishonesty' }],
+  generosity: [{ word: 'stinginess' }],
+  simplicity: [{ word: 'complexity' }],
+  clarity: [{ word: 'confusion' }],
+  safety: [{ word: 'danger' }],
+  curiosity: [{ word: 'indifference' }],
 };
 
 export const ANTONYM_REVERSE: Map<string, string> = buildSynonymReverse(ANTONYMS);
@@ -530,8 +597,8 @@ export const ANTONYM_REVERSE: Map<string, string> = buildSynonymReverse(ANTONYMS
 
 export const ANTONYMS_UA: Record<string, AntonymEntry[]> = {
   щасливий: [{ word: 'сумний' }, { word: 'нещасний' }],
-  сміливий: [{ word: 'боягузливий' }],
-  спокійний: [{ word: 'нервовий' }],
+  сміливий: [{ word: 'боягузливий' }, { word: 'полохливий' }],
+  спокійний: [{ word: 'нервовий' }, { word: 'стурбований' }],
   впевнений: [{ word: 'сором’язливий' }],
   добрий: [{ word: 'жорстокий' }, { word: 'злий' }],
   щедрий: [{ word: 'скупий' }],
@@ -545,14 +612,14 @@ export const ANTONYMS_UA: Record<string, AntonymEntry[]> = {
   широкий: [{ word: 'вузький' }],
   товстий: [{ word: 'тонкий' }],
   важкий: [{ word: 'легкий', note: 'про вагу' }],
-  сильний: [{ word: 'слабкий' }],
+  сильний: [{ word: 'слабкий' }, { word: 'немічний' }],
   швидкий: [{ word: 'повільний' }],
   гарячий: [{ word: 'холодний' }, { word: 'прохолодний' }],
   мокрий: [{ word: 'сухий' }],
   гучний: [{ word: 'тихий' }],
   гострий: [{ word: 'тупий' }],
   'м’який': [{ word: 'твердий' }],
-  чистий: [{ word: 'брудний' }],
+  чистий: [{ word: 'брудний' }, { word: 'забруднений' }],
   повний: [{ word: 'порожній' }],
   світлий: [{ word: 'темний' }],
   глибокий: [{ word: 'мілкий' }],
@@ -565,7 +632,7 @@ export const ANTONYMS_UA: Record<string, AntonymEntry[]> = {
   новий: [{ word: 'старий', note: 'про предмет' }],
   сучасний: [{ word: 'стародавній' }],
   безпечний: [{ word: 'небезпечний' }, { word: 'ризикований' }],
-  здоровий: [{ word: 'хворий' }],
+  здоровий: [{ word: 'хворий' }, { word: 'нездоровий' }],
   розумний: [{ word: 'дурний' }, { word: 'тупий' }],
   гарний: [{ word: 'потворний' }],
   публічний: [{ word: 'приватний' }],
@@ -577,7 +644,7 @@ export const ANTONYMS_UA: Record<string, AntonymEntry[]> = {
   активний: [{ word: 'пасивний' }],
   позитивний: [{ word: 'негативний' }],
   постійний: [{ word: 'тимчасовий' }],
-  схожий: [{ word: 'різний' }],
+  схожий: [{ word: 'різний' }, { word: 'відмінний' }],
   знайомий: [{ word: 'незнайомий' }],
   звичайний: [{ word: 'незвичайний' }],
   охайний: [{ word: 'неохайний' }],
@@ -593,12 +660,12 @@ export const ANTONYMS_UA: Record<string, AntonymEntry[]> = {
   купувати: [{ word: 'продавати' }],
   вигравати: [{ word: 'програвати' }],
   збільшувати: [{ word: 'зменшувати' }],
-  приймати: [{ word: 'відхиляти' }],
-  дозволяти: [{ word: 'забороняти' }],
+  приймати: [{ word: 'відхиляти' }, { word: 'відмовляти' }],
+  дозволяти: [{ word: 'забороняти' }, { word: 'перешкоджати' }],
   'памʼятати': [{ word: 'забувати' }],
   любити: [{ word: 'ненавидіти' }, { word: 'недолюблювати' }],
   атакувати: [{ word: 'захищати' }],
-  хвалити: [{ word: 'критикувати' }],
+  хвалити: [{ word: 'критикувати' }, { word: 'засуджувати' }],
   будувати: [{ word: 'руйнувати' }],
   'зʼявлятися': [{ word: 'зникати' }],
 
@@ -614,7 +681,7 @@ export const ANTONYMS_UA: Record<string, AntonymEntry[]> = {
   дружній: [{ word: 'ворожий' }],
   вірний: [{ word: 'невірний' }],
   егоїстичний: [{ word: 'безкорисливий' }],
-  веселий: [{ word: 'похмурий' }],
+  веселий: [{ word: 'похмурий' }, { word: 'сумний' }],
   допитливий: [{ word: 'байдужий' }],
   терпимий: [{ word: 'нетерпимий' }],
   лагідний: [{ word: 'жорсткий' }],
@@ -631,7 +698,7 @@ export const ANTONYMS_UA: Record<string, AntonymEntry[]> = {
   суцільний: [{ word: 'порожнистий' }],
   густий: [{ word: 'рідкий', note: 'про густоту' }],
   стрімкий: [{ word: 'пологий' }],
-  переповнений: [{ word: 'безлюдний' }],
+  переповнений: [{ word: 'безлюдний' }, { word: 'порожній' }],
   гамірний: [{ word: 'тихий' }],
   просторий: [{ word: 'тісний' }],
   блискучий: [{ word: 'тьмяний' }],
@@ -640,7 +707,7 @@ export const ANTONYMS_UA: Record<string, AntonymEntry[]> = {
 
   корисний: [{ word: 'марний' }, { word: 'шкідливий' }],
   цінний: [{ word: 'нікчемний' }],
-  надійний: [{ word: 'ненадійний' }],
+  надійний: [{ word: 'ненадійний' }, { word: 'непевний' }],
   ефективний: [{ word: 'неефективний' }],
   точний: [{ word: 'неточний' }],
   доречний: [{ word: 'недоречний' }],
@@ -703,7 +770,7 @@ export const ANTONYMS_UA: Record<string, AntonymEntry[]> = {
   відвага: [{ word: 'страх' }],
   багатство: [{ word: 'бідність' }],
   свобода: [{ word: 'рабство' }],
-  порядок: [{ word: 'хаос' }],
+  порядок: [{ word: 'хаос' }, { word: 'безлад' }],
   'здоров’я': [{ word: 'хвороба' }],
   перемога: [{ word: 'поразка' }],
   запитання: [{ word: 'відповідь' }],
