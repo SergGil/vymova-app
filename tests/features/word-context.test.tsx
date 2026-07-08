@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, beforeAll } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setCwState, setFlippedState } from '../../src/deck-store.ts';
@@ -11,6 +11,7 @@ import {
   EtymologyNote,
   UsageNoteBox,
 } from '../../js/features/word-context.tsx';
+import { ensureSynonymsLoaded } from '../../js/features/lexicon-loader.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -35,6 +36,15 @@ function mount(Component: () => JSX.Element | null): { container: HTMLElement; r
 }
 
 describe('word-context.tsx', () => {
+  // SynonymsChips/AntonymsChips lazy-load data/synonyms.ts + data/antonyms.ts
+  // on first mount (js/features/lexicon-loader.ts) instead of a static
+  // top-level import — pre-warm the cache once so every test below sees
+  // getSynonymsModule() already non-null on its very first synchronous
+  // render, same as it would after the first real page visit in production.
+  beforeAll(async () => {
+    await ensureSynonymsLoaded();
+  });
+
   beforeEach(() => {
     document.body.innerHTML = '';
     setFlippedState(true);

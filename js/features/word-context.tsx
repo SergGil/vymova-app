@@ -1,13 +1,17 @@
 // Vymova — js/features/word-context.tsx
 // Word families + collocations shown on card back
-import type { ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import { useStateVersion } from '../../src/store.ts';
 import { getCwSnapshot, getFlippedSnapshot } from '../../src/deck-store.ts';
 import { getWordIndex } from '../core/word-index.ts';
 import { searchCollocations } from '../../data/collocations.ts';
 import { WORD_FAMILIES_BY_LANG, WORD_FAMILY_REVERSE_BY_LANG } from '../../data/word-families.ts';
-import { SYNONYMS_BY_LANG, SYNONYM_REVERSE_BY_LANG } from '../../data/synonyms.ts';
-import { ANTONYMS_BY_LANG, ANTONYM_REVERSE_BY_LANG } from '../../data/antonyms.ts';
+import {
+  getSynonymsModule,
+  getAntonymsModule,
+  ensureSynonymsLoaded,
+  ensureAntonymsLoaded,
+} from './lexicon-loader.ts';
 import { getEtymologyFact } from '../../data/etymology.ts';
 import { USAGE_NOTES_BY_LANG } from '../../data/usage-notes.ts';
 import { W } from '../../data/words.js';
@@ -170,11 +174,19 @@ export function WordFamiliesChips(): ReactElement | null {
 
 export function SynonymsChips(): ReactElement | null {
   useStateVersion();
+  const [, forceRender] = useState(0);
+  useEffect(() => {
+    if (getSynonymsModule()) return;
+    ensureSynonymsLoaded().then(() => forceRender((n) => n + 1));
+  }, []);
   const cw = getCwSnapshot() as WordEntry | null;
   if (!cw || !getFlippedSnapshot()) return null;
 
+  const mod = getSynonymsModule();
+  if (!mod) return null;
+
   const { front, back } = parsePair(getMode());
-  const dict = SYNONYMS_BY_LANG[front];
+  const dict = mod.SYNONYMS_BY_LANG[front];
   if (!dict) return null;
   const frontWord = headwordFor(front, cw);
   if (!frontWord) return null;
@@ -183,7 +195,7 @@ export function SynonymsChips(): ReactElement | null {
   let members = dict[word];
   let head = word;
   if (!members) {
-    const base = SYNONYM_REVERSE_BY_LANG[front]?.get(word);
+    const base = mod.SYNONYM_REVERSE_BY_LANG[front]?.get(word);
     if (base) {
       members = dict[base];
       head = base;
@@ -239,11 +251,19 @@ export function SynonymsChips(): ReactElement | null {
 
 export function AntonymsChips(): ReactElement | null {
   useStateVersion();
+  const [, forceRender] = useState(0);
+  useEffect(() => {
+    if (getAntonymsModule()) return;
+    ensureAntonymsLoaded().then(() => forceRender((n) => n + 1));
+  }, []);
   const cw = getCwSnapshot() as WordEntry | null;
   if (!cw || !getFlippedSnapshot()) return null;
 
+  const mod = getAntonymsModule();
+  if (!mod) return null;
+
   const { front, back } = parsePair(getMode());
-  const dict = ANTONYMS_BY_LANG[front];
+  const dict = mod.ANTONYMS_BY_LANG[front];
   if (!dict) return null;
   const frontWord = headwordFor(front, cw);
   if (!frontWord) return null;
@@ -252,7 +272,7 @@ export function AntonymsChips(): ReactElement | null {
   let members = dict[word];
   let head = word;
   if (!members) {
-    const base = ANTONYM_REVERSE_BY_LANG[front]?.get(word);
+    const base = mod.ANTONYM_REVERSE_BY_LANG[front]?.get(word);
     if (base) {
       members = dict[base];
       head = base;

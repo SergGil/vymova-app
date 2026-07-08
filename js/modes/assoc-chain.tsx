@@ -7,8 +7,11 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words.js';
 import { getWordIndex } from '../core/word-index.ts';
-import { SYNONYMS_BY_LANG } from '../../data/synonyms.ts';
-import { ANTONYMS_BY_LANG } from '../../data/antonyms.ts';
+import {
+  getSynonymsModule,
+  getAntonymsModule,
+  ensureLexiconLoaded,
+} from '../features/lexicon-loader.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor, isTargetLang, reverseHeadwordFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
@@ -131,6 +134,7 @@ function closeAssocChain(): void {
 
 export function AssocChainPage(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [dict, setDict] = useState<SynDict | null>(null);
   const [antDict, setAntDict] = useState<SynDict | null>(null);
   const [step, setStep] = useState<Step | null>(null);
@@ -151,9 +155,12 @@ export function AssocChainPage(): ReactElement {
   // lifetime of this (persistently-mounted) page. A hoisted `learnLang`
   // would freeze this to whatever language was selected at first mount,
   // silently ignoring every later language switch.
-  const startGame = (): void => {
-    const raw = SYNONYMS_BY_LANG[getLearnLang()] as SynDict | undefined;
-    const rawAnt = ANTONYMS_BY_LANG[getLearnLang()] as SynDict | undefined;
+  const startGame = async (): Promise<void> => {
+    setLoading(true);
+    await ensureLexiconLoaded();
+    setLoading(false);
+    const raw = getSynonymsModule()?.SYNONYMS_BY_LANG[getLearnLang()] as SynDict | undefined;
+    const rawAnt = getAntonymsModule()?.ANTONYMS_BY_LANG[getLearnLang()] as SynDict | undefined;
     const d = raw ? buildSymmetricDict(raw) : null;
     const ad = rawAnt ? buildSymmetricDict(rawAnt) : null;
     setDict(d);
@@ -285,7 +292,13 @@ export function AssocChainPage(): ReactElement {
         </button>
       </div>
 
-      {!dict && (
+      {loading && !dict && (
+        <div style={{ textAlign: 'center', color: 'var(--text3)', padding: 16 }}>
+          {t('lb.loading')}
+        </div>
+      )}
+
+      {!loading && !dict && (
         <div style={{ textAlign: 'center', color: 'var(--text3)', padding: 16 }}>
           {t('assoc.noData')}
         </div>
