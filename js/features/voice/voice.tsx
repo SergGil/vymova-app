@@ -2,7 +2,7 @@
 // Web Speech API voice picker: EN + UA
 import { useEffect, type ReactElement } from 'react';
 import { synth } from '../../core/srs.ts';
-import { t } from '../i18n.ts';
+import { t, getLang } from '../i18n.ts';
 import { flagUrl } from '../../core/flags.ts';
 
 let _enURI = localStorage.getItem('ew_ws_voice') ?? '';
@@ -995,6 +995,12 @@ export function _renderVoices(): void {
       '</span>';
     return;
   }
+  // Sections are collected here instead of appended directly, so they can be
+  // sorted alphabetically (by the localized language name) before being
+  // flushed to `container` in one pass — see the sort right after the last
+  // addSection/addMissing call below.
+  const sections: { key: string; el: HTMLElement }[] = [];
+  const langSortKey = (id: string): string => t(`lang.${id === 'uk' ? 'ua' : id}`);
   const addSection = (
     id: string,
     flagCode: string,
@@ -1085,7 +1091,7 @@ export function _renderVoices(): void {
       ),
     );
     details.appendChild(grid);
-    container.appendChild(details);
+    sections.push({ key: langSortKey(id), el: details });
   };
   const addMissing = (id: string, flagCode: string, titleKey: string, descKey: string): void => {
     const details = document.createElement('details');
@@ -1107,7 +1113,7 @@ export function _renderVoices(): void {
       'margin-top:6px;padding:12px 14px;border:1.5px dashed rgba(255,255,255,.12);border-radius:12px;font-size:.78rem;color:var(--text2);line-height:1.6;';
     noVoice.innerHTML = t(descKey);
     details.append(hdr, noVoice);
-    container.appendChild(details);
+    sections.push({ key: langSortKey(id), el: details });
   };
   addSection(
     'en',
@@ -1569,6 +1575,8 @@ export function _renderVoices(): void {
       "Salve! Gratum est te cognoscere.",
     );
   else addMissing('la', 'spqr', 'settings.noLaVoicesTitle', 'settings.noLaVoicesDesc');
+  sections.sort((a, b) => a.key.localeCompare(b.key, getLang()));
+  for (const s of sections) container.appendChild(s.el);
   if (!_enURI && enVoices.length) {
     _enURI = (enVoices.find((v) => v.name.toLowerCase().includes('google')) ?? enVoices[0])
       .voiceURI;
