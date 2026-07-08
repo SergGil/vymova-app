@@ -18,6 +18,7 @@ import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { t } from '../features/i18n.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+import { speakForCode } from '../features/voice/speak-lang.ts';
 
 const NUM_OPTS = 4;
 const MAX_CHAIN = 20;
@@ -349,11 +350,23 @@ export function AssocChainPage(): ReactElement {
             >
               {step.kind === 'ant' ? t('assoc.promptAnt') : t('assoc.prompt')}
             </div>
-            <div
-              data-testid="assoc-current-word"
-              style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text)' }}
-            >
-              {step.current}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span
+                data-testid="assoc-current-word"
+                style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text)' }}
+              >
+                {step.current}
+              </span>
+              <button
+                className="mode-speak"
+                title={t('common.listen')}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  speakForCode(getLearnLang(), step.current, step.current, e.currentTarget);
+                }}
+              >
+                🔊
+              </button>
             </div>
             {translationFor(step.current) && (
               <div style={{ fontSize: '.8rem', color: 'var(--text3)', marginTop: 2 }}>
