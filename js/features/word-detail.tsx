@@ -143,7 +143,7 @@ export function WordDetailPage(): ReactElement | null {
       ? decodeIpa(w[4] ?? '')
       : '';
 
-  const similar = getSimilarWordsFor(front, w[0], transl, 5);
+  const similar = getSimilarWordsFor(front, w[0], transl, 10);
   const frontExPlain = frontExHtml.replace(/<[^>]+>/g, '');
 
   function onKnow(): void {

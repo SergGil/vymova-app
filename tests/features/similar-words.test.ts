@@ -79,9 +79,9 @@ describe('getSimilarWords()', () => {
     expect(Array.isArray(result)).toBe(true);
   });
 
-  it('default maxCount is 5', () => {
+  it('default maxCount is 10', () => {
     const result = getSimilarWords('run', 'бігти');
-    expect(result.length).toBeLessThanOrEqual(5);
+    expect(result.length).toBeLessThanOrEqual(10);
   });
 });
 
@@ -144,9 +144,9 @@ describe('getSimilarWordsEs()', () => {
     expect(Array.isArray(result)).toBe(true);
   });
 
-  it('default maxCount is 5', () => {
+  it('default maxCount is 10', () => {
     const result = getSimilarWordsEs('run', 'correr');
-    expect(result.length).toBeLessThanOrEqual(5);
+    expect(result.length).toBeLessThanOrEqual(10);
   });
 
   it('caches result for repeated calls with same word', () => {

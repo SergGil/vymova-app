@@ -189,7 +189,7 @@ export function getSimilarWordsFor(
   code: Code,
   enWord: string,
   displayWord: string,
-  maxCount = 5,
+  maxCount = 10,
 ): WordEntry[] {
   const cacheKey = code + ':' + enWord;
   if (_cache[cacheKey]) return _cache[cacheKey];
@@ -226,17 +226,17 @@ export function getSimilarWordsFor(
 }
 
 /** @deprecated use getSimilarWordsFor('ua', ...) — kept for existing call sites. */
-export function getSimilarWords(word: string, transl: string, maxCount = 5): WordEntry[] {
+export function getSimilarWords(word: string, transl: string, maxCount = 10): WordEntry[] {
   return getSimilarWordsFor('ua', word, transl, maxCount);
 }
 
 /** @deprecated use getSimilarWordsFor('es', ...) — kept for existing call sites. */
-export function getSimilarWordsEs(word: string, esTransl: string, maxCount = 5): WordEntry[] {
+export function getSimilarWordsEs(word: string, esTransl: string, maxCount = 10): WordEntry[] {
   return getSimilarWordsFor('es', word, esTransl, maxCount);
 }
 
 /** @deprecated use getSimilarWordsFor('fr', ...) — kept for existing call sites. */
-export function getSimilarWordsFr(word: string, frTransl: string, maxCount = 5): WordEntry[] {
+export function getSimilarWordsFr(word: string, frTransl: string, maxCount = 10): WordEntry[] {
   return getSimilarWordsFor('fr', word, frTransl, maxCount);
 }
 
@@ -249,7 +249,7 @@ export function SimilarWordsChips(): ReactElement | null {
   const frontWord = headwordFor(front, cw);
   if (!frontWord) return null;
 
-  const similar = getSimilarWordsFor(front, cw[0], frontWord, 5);
+  const similar = getSimilarWordsFor(front, cw[0], frontWord, 10);
   if (!similar.length) return null;
 
   return (
