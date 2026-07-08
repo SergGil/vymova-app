@@ -416,6 +416,109 @@ export const ANTONYMS: Record<string, AntonymEntry[]> = {
   // ── Interest ─────────────────────────────────────────────────────────────
   dull: [{ word: 'exciting' }],
   boring: [{ word: 'interesting' }],
+
+  // ── Common basics ────────────────────────────────────────────────────────
+  black: [{ word: 'white' }],
+  true: [{ word: 'false' }],
+
+  // ── Adjectives: durability / condition ───────────────────────────────────
+  fragile: [{ word: 'durable' }],
+  flimsy: [{ word: 'sturdy' }],
+  organized: [{ word: 'disorganized' }],
+  fancy: [{ word: 'plain' }],
+
+  // ── Health / medical ─────────────────────────────────────────────────────
+  chronic: [{ word: 'acute' }],
+  benign: [{ word: 'malignant' }],
+
+  // ── Family ───────────────────────────────────────────────────────────────
+  parent: [{ word: 'child' }],
+  ancestor: [{ word: 'descendant' }],
+
+  // ── School / education (extra) ───────────────────────────────────────────
+  literate: [{ word: 'illiterate' }],
+  attentive: [{ word: 'distracted' }],
+  diligent: [{ word: 'lazy' }],
+
+  // ── Workplace ────────────────────────────────────────────────────────────
+  productive: [{ word: 'unproductive' }],
+  motivated: [{ word: 'unmotivated' }],
+  ambitious: [{ word: 'unambitious' }],
+  cooperative: [{ word: 'uncooperative' }],
+
+  // ── Clothing / fashion ───────────────────────────────────────────────────
+  fashionable: [{ word: 'outdated' }],
+
+  // ── Food (extra) ─────────────────────────────────────────────────────────
+  edible: [{ word: 'inedible' }],
+
+  // ── Sports / competition ─────────────────────────────────────────────────
+  offense: [{ word: 'defense' }],
+  competitive: [{ word: 'cooperative' }],
+
+  // ── Grammar (extra) ──────────────────────────────────────────────────────
+  masculine: [{ word: 'feminine' }],
+
+  // ── Nature / biology ─────────────────────────────────────────────────────
+  nocturnal: [{ word: 'diurnal' }],
+
+  // ── Science / chemistry ──────────────────────────────────────────────────
+  soluble: [{ word: 'insoluble' }],
+
+  // ── Legal (extra) ────────────────────────────────────────────────────────
+  plaintiff: [{ word: 'defendant' }],
+
+  // ── Math ─────────────────────────────────────────────────────────────────
+  odd: [{ word: 'even' }],
+  addition: [{ word: 'subtraction' }],
+  multiplication: [{ word: 'division' }],
+  plus: [{ word: 'minus' }],
+
+  // ── Music / arts ─────────────────────────────────────────────────────────
+  harmony: [{ word: 'discord' }],
+
+  // ── Direction (extra) ────────────────────────────────────────────────────
+  clockwise: [{ word: 'counterclockwise' }],
+
+  // ── Verbs: containers / packing ──────────────────────────────────────────
+  fill: [{ word: 'empty' }],
+  load: [{ word: 'unload' }],
+  pack: [{ word: 'unpack' }],
+  wrap: [{ word: 'unwrap' }],
+
+  // ── Verbs: technology / devices ──────────────────────────────────────────
+  charge: [{ word: 'discharge' }],
+  subscribe: [{ word: 'unsubscribe' }],
+  follow: [{ word: 'unfollow' }],
+
+  // ── Verbs: intensity ─────────────────────────────────────────────────────
+  inflate: [{ word: 'deflate' }],
+  widen: [{ word: 'narrow' }],
+  strengthen: [{ word: 'weaken' }],
+  soften: [{ word: 'harden' }],
+  brighten: [{ word: 'darken' }],
+
+  // ── Verbs: process control ───────────────────────────────────────────────
+  postpone: [{ word: 'expedite' }],
+  initiate: [{ word: 'terminate' }],
+  resume: [{ word: 'pause' }],
+  continue: [{ word: 'stop' }],
+  confirm: [{ word: 'cancel' }],
+
+  // ── Verbs: attitude ──────────────────────────────────────────────────────
+  like: [{ word: 'dislike' }],
+  support: [{ word: 'oppose' }],
+  compliment: [{ word: 'insult' }],
+
+  // ── Nouns: people / roles ────────────────────────────────────────────────
+  ally: [{ word: 'enemy' }],
+  doctor: [{ word: 'patient' }],
+  landlord: [{ word: 'tenant' }],
+  producer: [{ word: 'consumer' }],
+  creditor: [{ word: 'debtor' }],
+  welcome: [{ word: 'farewell' }],
+  famous: [{ word: 'unknown' }],
+  popular: [{ word: 'unpopular' }],
 };
 
 export const ANTONYM_REVERSE: Map<string, string> = buildSynonymReverse(ANTONYMS);
