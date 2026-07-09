@@ -41,10 +41,23 @@ import { loadWikiImage } from '../core/images.ts';
 import { closePage } from './sidebar.tsx';
 import { render, setIdx } from '../core/card-engine.ts';
 
+// Post-hash avalanche mix (Murmur3 finalizer) — without it, two dates that
+// differ by a single character (e.g. any two consecutive days) produce raw
+// hash values one apart, so wotdBaseIdx barely moved day to day and the
+// word list (roughly alphabetical) was walked one entry at a time instead
+// of jumping around. Mixing scatters even a 1-off input across the full
+// 32-bit range before the modulo.
+function mix32(x: number): number {
+  x = Math.imul(x ^ (x >>> 16), 0x85ebca6b);
+  x = Math.imul(x ^ (x >>> 13), 0xc2b2ae35);
+  x = x ^ (x >>> 16);
+  return x >>> 0;
+}
+
 const todayNum = today()
   .split('')
   .reduce((a, c) => a * 31 + c.charCodeAt(0), 0);
-const wotdBaseIdx = Math.abs(todayNum) % W.length;
+const wotdBaseIdx = mix32(todayNum) % W.length;
 
 // Pick the word-of-the-day word matching the currently selected language pair:
 // for ES/FR-involving modes, skip ahead to a word that has the needed translation(s).
