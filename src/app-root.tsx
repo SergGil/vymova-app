@@ -474,6 +474,16 @@ function AppRoot(): ReactElement {
         }
       />
       <LazyMode
+        btnId="btn-grammar-quiz"
+        mountId="grq-page-mount"
+        loader={() =>
+          import('../js/modes/grammar-quiz.tsx').then((m) => ({
+            Page: m.GrammarQuizPage,
+            open: m.openGrammarQuiz,
+          }))
+        }
+      />
+      <LazyMode
         btnId="btn-scramble"
         mountId="scr-page-mount"
         loader={() =>
