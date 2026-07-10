@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { localDateStr, today, msUntilNextLocalMidnight } from '../../js/core/today.ts';
 
 describe('localDateStr()', () => {
@@ -20,6 +20,10 @@ describe('today()', () => {
 });
 
 describe('msUntilNextLocalMidnight()', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it('returns a positive value no greater than 24 hours', () => {
     const ms = msUntilNextLocalMidnight();
     expect(ms).toBeGreaterThan(0);
@@ -27,6 +31,12 @@ describe('msUntilNextLocalMidnight()', () => {
   });
 
   it('lands exactly on the next local midnight', () => {
+    // Pinned via fake timers so the test's `now` and the function's internal
+    // `new Date()` read the identical instant — without this, two separate
+    // real-clock reads could straddle an actual local-midnight rollover
+    // (a ~1ms daily window) and throw the assertion off by a full day.
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2026, 2, 15, 13, 45, 30, 250));
     const now = new Date();
     const ms = msUntilNextLocalMidnight();
     const next = new Date(now.getTime() + ms);
