@@ -190,8 +190,9 @@ describe('sidebar.tsx', () => {
     const { root } = mount();
     roots.push(root);
 
-    act(() => {
+    await act(async () => {
       openPage('duel');
+      await new Promise((r) => setTimeout(r, 0));
     });
     expect(document.getElementById('duel-overlay')!.classList.contains('open')).toBe(true);
     expect(renderDuel).toHaveBeenCalled();

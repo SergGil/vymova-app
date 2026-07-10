@@ -1,7 +1,6 @@
 // Vymova — js/features/sidebar.tsx
 // Sidebar wiring, page-view system, theme toggles, img-clear confirm
 import { useEffect, type ReactElement } from 'react';
-import { renderDuel } from './duel/duel.ts';
 import { AI_TUTOR_ENABLED } from '../config.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import {
@@ -125,7 +124,9 @@ export function openPage(page: string): void {
     _refreshCloudSyncUI();
   } else if (page === 'duel') {
     document.getElementById('duel-overlay')?.classList.add('open');
-    renderDuel();
+    import('./duel/duel.ts')
+      .then(({ renderDuel }) => renderDuel())
+      .catch(() => {});
   } else if (page === 'grammar') {
     document.getElementById('grammar-overlay')?.classList.add('open');
     import('./grammar-page.tsx')

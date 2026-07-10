@@ -195,7 +195,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     expect(reloadSpy).toHaveBeenCalled();
   });
 
-  it('opens the edit modal, validates an empty name, and saves changes', () => {
+  it('opens the edit modal, validates an empty name, and saves changes', async () => {
     const { container, root } = mount();
     roots.push(root);
     act(() => {
@@ -235,8 +235,9 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     act(() => {
       avatarBtn.click();
     });
-    act(() => {
+    await act(async () => {
       saveBtn.click();
+      await new Promise((r) => setTimeout(r, 0));
     });
 
     expect(document.getElementById('prf-edit-overlay')).toBeNull();

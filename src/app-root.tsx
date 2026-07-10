@@ -98,8 +98,6 @@ import { NoteModal } from '../js/features/note-modal.tsx';
 import { CardLegendModal } from '../js/features/card-legend.tsx';
 import { PronunciationToast } from '../js/features/voice/pronunciation-toast.tsx';
 import { ConfettiCanvas } from '../js/core/confetti.tsx';
-import { DuelOverlay } from '../js/features/duel/duel-overlay.tsx';
-import { DuelInit } from '../js/features/duel/duel.ts';
 import { CardActionsInit } from '../js/features/card-actions.ts';
 import { StatsInit } from '../js/features/stats.ts';
 import { OfflineInit } from '../js/features/offline.ts';
@@ -578,10 +576,17 @@ function AppRoot(): ReactElement {
       <Portal id="confetti-canvas-mount">
         <ConfettiCanvas />
       </Portal>
-      <Portal id="duel-overlay-mount">
-        <DuelOverlay />
-      </Portal>
-      <DuelInit />
+      <LazyPage
+        page="duel"
+        mountId="duel-overlay-mount"
+        loader={() =>
+          import('../js/features/duel/duel-overlay.tsx').then((m) => ({ Page: m.DuelOverlay }))
+        }
+      />
+      <LazyPage
+        page="duel"
+        loader={() => import('../js/features/duel/duel.ts').then((m) => ({ Page: m.DuelInit }))}
+      />
       <CardActionsInit />
       <StatsInit />
       <OfflineInit />
