@@ -44,16 +44,6 @@ function _matchesPos(w: WordEntry, target: string): boolean {
   return pos.split('/').includes(target);
 }
 
-// Intersects deck with the current language word set when in a special mode.
-// Falls back to all language words if the intersection would be empty.
-function _applyLangFilter(deck: WordEntry[]): WordEntry[] {
-  const langDeck = _getLangDeck();
-  if (!langDeck) return deck;
-  const ids = new Set(langDeck.map((w) => w[0]));
-  const filtered = deck.filter((w) => ids.has(w[0]));
-  return filtered.length ? filtered : langDeck.slice();
-}
-
 function buildStaleDeck(
   days: number,
   base: WordEntry[] = W as unknown as WordEntry[],
