@@ -79,8 +79,8 @@ describe('progress-io.tsx ProgressIO', () => {
     const ta = document.getElementById('export-textarea') as HTMLTextAreaElement;
     expect(ta.value.length).toBeGreaterThan(0);
     const decoded = JSON.parse(decodeURIComponent(escape(atob(ta.value))));
-    expect(decoded.v).toBe(3);
-    expect(JSON.parse(decoded.known)).toEqual(['abandon']);
+    expect(decoded.v).toBe(4);
+    expect(JSON.parse(decoded.known.en)).toEqual(['abandon']);
 
     expect((document.getElementById('export-modal') as HTMLElement).style.display).toBe('flex');
 
@@ -162,6 +162,27 @@ describe('progress-io.tsx ProgressIO', () => {
       vi.advanceTimersByTime(3000);
     });
     expect(btn.textContent).toBe('📥 Імпорт');
+  });
+
+  it('round-trips known words for a non-English learn language too (regression: v3 export/import only ever touched the English bucket)', () => {
+    setKnownWords('es', new Set(['hola', 'gato']));
+    act(() => {
+      document
+        .getElementById('btn-export')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+    const code = (document.getElementById('export-textarea') as HTMLTextAreaElement).value;
+
+    setKnownWords('es', new Set());
+
+    (document.getElementById('import-textarea') as HTMLTextAreaElement).value = code;
+    act(() => {
+      document
+        .getElementById('import-confirm')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+
+    expect(getKnownSnapshot('es')).toEqual(new Set(['hola', 'gato']));
   });
 
   it('closing the export modal resets it and the select-all label', () => {
