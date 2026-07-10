@@ -18262,6 +18262,349 @@ export const GRAMMAR_HE: GrammarCategory[] = [
       },
     ],
   },
+
+  {
+    id: 'exceptions',
+    title: 'Винятки та слабкі корені',
+    titleEn: 'Exceptions & Weak Roots',
+    emoji: '⚠️',
+    rules: [
+      {
+        id: 'weak-roots-guttural-first',
+        title: 'שורש עם גרונית ראשונה (פ"א גרונית) — B1',
+        emoji: '🌀',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Коли перша приголосна кореня — гортанна (<span dir="rtl">א, ה, ח, ע</span>), вона не може приймати деякі голосні так само, як звичайні приголосні, тому голосні навколо неї трохи змінюються. Приклад: <span dir="rtl">לעמוד</span> (стояти), корінь ע-מ-ד.',
+            en: {
+              text: 'When a root\'s first consonant is guttural (א, ה, ח, ע), it can\'t take certain vowels the way regular consonants can, so the surrounding vowels shift slightly. Example: לעמוד (to stand), root ע-מ-ד.',
+            },
+          },
+          {
+            type: 'formula',
+            title: '<span dir="rtl">עמד</span> — минулий і майбутній час',
+            rows: [
+              ['я (мин.)', '<span dir="rtl">אני</span>', '<span dir="rtl">עמדתי</span>', 'amadti'],
+              ['він (мин.)', '<span dir="rtl">הוא</span>', '<span dir="rtl">עמד</span>', 'amad'],
+              ['я (майб.)', '<span dir="rtl">אני</span>', '<span dir="rtl">אעמוד</span>', "e'emod"],
+              ['ти (майб., ч.р.)', '<span dir="rtl">אתה</span>', '<span dir="rtl">תעמוד</span>', "ta'amod"],
+              ['він (майб.)', '<span dir="rtl">הוא</span>', '<span dir="rtl">יעמוד</span>', "ya'amod"],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני עומד ליד הדלת.</span>', 'Я стою біля дверей.'],
+              ['<span dir="rtl">מחר נעמוד בתור מוקדם.</span>', 'Завтра ми станемо в чергу рано.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Ще приклади цього класу',
+            text: 'Той самий шаблон мають дієслова <span dir="rtl">לחשוב</span> (думати), <span dir="rtl">לחלום</span> (мріяти), <span dir="rtl">לעבוד</span> (працювати) — усі починаються на гортанну приголосну.',
+            en: {
+              title: 'More verbs in this class',
+              text: 'The same pattern applies to לחשוב ("to think"), לחלום ("to dream"), לעבוד ("to work") — all starting with a guttural consonant.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'weak-roots-first-nun',
+        title: 'שורש עם נ ראשונה (פ"נ) — B1',
+        emoji: '🌀',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Коли перша приголосна кореня — <span dir="rtl">נ</span>, вона зазвичай ЗНИКАЄ в майбутньому часі й наказовому способі (асимілюється в наступну приголосну). Найвідоміший приклад: <span dir="rtl">לתת</span> (давати), корінь נ-ת-ן.',
+            en: {
+              text: 'When a root\'s first consonant is נ, it usually DISAPPEARS in the future tense and imperative (assimilates into the next consonant). The most famous example: לתת ("to give"), root נ-ת-ן.',
+            },
+          },
+          {
+            type: 'formula',
+            title: '<span dir="rtl">נתן</span> — усі часи',
+            rows: [
+              ['теп. (він)', '<span dir="rtl">הוא</span>', '<span dir="rtl">נותן</span>', 'noten'],
+              ['мин. (він)', '<span dir="rtl">הוא</span>', '<span dir="rtl">נתן</span>', 'natan'],
+              ['майб. (я)', '<span dir="rtl">אני</span>', '<span dir="rtl">אתן</span>', 'eten'],
+              ['майб. (він)', '<span dir="rtl">הוא</span>', '<span dir="rtl">ייתן</span>', 'yiten'],
+              ['наказ. (ти, ч.р.)', '<span dir="rtl">אתה</span>', '<span dir="rtl">תן!</span>', 'ten'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">תן לי בבקשה את הספר.</span>', 'Дай мені, будь ласка, книгу.'],
+              ['<span dir="rtl">אני אתן לך תשובה מחר.</span>', 'Я дам тобі відповідь завтра.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Той самий шаблон — <span dir="rtl">ליפול</span>',
+            text: '<span dir="rtl">ליפול</span> (падати, корінь נ-פ-ל) поводиться так само: <span dir="rtl">נופל</span> (теп.) → <span dir="rtl">נפל</span> (мин.) → <span dir="rtl">ייפול</span> (майб., <span dir="rtl">נ</span> зникає).',
+            en: {
+              title: 'Same pattern — ליפול',
+              text: 'ליפול ("to fall", root נ-פ-ל) behaves the same way: נופל (present) → נפל (past) → ייפול (future, the נ disappears).',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'weak-roots-hollow',
+        title: 'שורש חלול (ע"ו / ע"י) — B1',
+        emoji: '🌀',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У "порожніх" коренях середня приголосна — <span dir="rtl">ו</span> або <span dir="rtl">י</span> — зникає майже в усіх формах, залишаючи лише дві "видимі" приголосні. Приклад: <span dir="rtl">לבוא</span> (приходити), корінь ב-ו-א.',
+            en: {
+              text: 'In "hollow" roots, the middle consonant — ו or י — disappears in almost every form, leaving only two "visible" consonants. Example: לבוא ("to come"), root ב-ו-א.',
+            },
+          },
+          {
+            type: 'formula',
+            title: '<span dir="rtl">בוא</span> — усі часи',
+            rows: [
+              ['теп. (він)', '<span dir="rtl">הוא</span>', '<span dir="rtl">בא</span>', 'ba'],
+              ['мин. (я)', '<span dir="rtl">אני</span>', '<span dir="rtl">באתי</span>', 'bati'],
+              ['мин. (він)', '<span dir="rtl">הוא</span>', '<span dir="rtl">בא</span>', 'ba'],
+              ['майб. (я)', '<span dir="rtl">אני</span>', '<span dir="rtl">אבוא</span>', 'avo'],
+              ['наказ. (ти, ч.р.)', '<span dir="rtl">אתה</span>', '<span dir="rtl">בוא!</span>', 'bo'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">בוא הנה!</span>', 'Йди сюди! (ч.р.)'],
+              ['<span dir="rtl">היא באה מאוחר אתמול.</span>', 'Вона прийшла пізно вчора.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Ще приклад — <span dir="rtl">לקום</span>',
+            text: '<span dir="rtl">לקום</span> (вставати, корінь ק-ו-ם) той самий тип: <span dir="rtl">קם</span> (теп./мин., він) → <span dir="rtl">אקום</span> (майб., я) → <span dir="rtl">קום!</span> (наказ.).',
+            en: {
+              title: 'Another example — לקום',
+              text: 'לקום ("to get up", root ק-ו-ם) is the same type: קם (present/past, "he") → אקום (future, "I") → קום! (imperative).',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'weak-roots-final-heh',
+        title: 'שורש עם ה סופית (ל"ה) — B1',
+        emoji: '🌀',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Коли третя приголосна кореня історично була <span dir="rtl">י</span>, у сучасному слові вона стала <span dir="rtl">ה</span> в кінці словникової форми, але змінюється або зникає в інших формах. Приклад: <span dir="rtl">לקנות</span> (купувати), корінь ק-נ-ה.',
+            en: {
+              text: 'When a root\'s third consonant was historically י, in the modern word it surfaces as ה at the end of the dictionary form, but changes or drops in other forms. Example: לקנות ("to buy"), root ק-נ-ה.',
+            },
+          },
+          {
+            type: 'formula',
+            title: '<span dir="rtl">קנה</span> — усі часи',
+            rows: [
+              ['теп. (він)', '<span dir="rtl">הוא</span>', '<span dir="rtl">קונה</span>', 'koneh'],
+              ['мин. (я)', '<span dir="rtl">אני</span>', '<span dir="rtl">קניתי</span>', 'kaniti'],
+              ['мин. (він)', '<span dir="rtl">הוא</span>', '<span dir="rtl">קנה</span>', 'kana'],
+              ['майб. (я)', '<span dir="rtl">אני</span>', '<span dir="rtl">אקנה</span>', 'ekneh'],
+              ['наказ. (ти, ч.р.)', '<span dir="rtl">אתה</span>', '<span dir="rtl">קנה!</span>', 'kneh'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני קונה לחם כל בוקר.</span>', 'Я купую хліб щоранку.'],
+              ['<span dir="rtl">קניתי מתנה לאמא.</span>', 'Я купив(-ла) подарунок для мами.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Дуже продуктивний клас',
+            text: 'Багато частих дієслів належать сюди: <span dir="rtl">לראות</span> (бачити), <span dir="rtl">לעשות</span> (робити), <span dir="rtl">לרצות</span> (хотіти), <span dir="rtl">לבכות</span> (плакати) — усі закінчуються на <span dir="rtl">ה-</span> в словнику.',
+            en: {
+              title: 'A very productive class',
+              text: 'Many common verbs belong here: לראות ("to see"), לעשות ("to do"), לרצות ("to want"), לבכות ("to cry") — all end in ה- in the dictionary form.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'weak-roots-geminate',
+        title: 'שורש כפול (ע"ע) — B1',
+        emoji: '🌀',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У "подвоєних" коренях друга й третя приголосні однакові. У теперішньому й минулому часі вони можуть зливатись в одну. Приклад: <span dir="rtl">לחגוג</span> (святкувати), корінь ח-ג-ג.',
+            en: {
+              text: 'In "geminate" roots, the second and third consonants are identical. In the present and past tense they can merge into one. Example: לחגוג ("to celebrate"), root ח-ג-ג.',
+            },
+          },
+          {
+            type: 'formula',
+            title: '<span dir="rtl">חגג</span> — усі часи',
+            rows: [
+              ['теп. (він)', '<span dir="rtl">הוא</span>', '<span dir="rtl">חוגג</span>', 'choged'],
+              ['мин. (я)', '<span dir="rtl">אני</span>', '<span dir="rtl">חגגתי</span>', 'chagagti'],
+              ['мин. (він)', '<span dir="rtl">הוא</span>', '<span dir="rtl">חגג</span>', 'chagag'],
+              ['майб. (я)', '<span dir="rtl">אני</span>', '<span dir="rtl">אחגוג</span>', 'echgog'],
+              ['наказ. (ти, ч.р.)', '<span dir="rtl">אתה</span>', '<span dir="rtl">חגוג!</span>', 'chagog'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אנחנו חוגגים יום הולדת.</span>', 'Ми святкуємо день народження.'],
+              ['<span dir="rtl">בשנה שעברה חגגנו בפריז.</span>', 'Минулого року ми святкували в Парижі.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'irregular-common-verbs',
+        title: 'פעלים לא סדירים נפוצים — A2',
+        emoji: '🎲',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дієслово "бути" (<span dir="rtl">להיות</span>) — унікальне: воно НЕ має теперішнього часу взагалі (згадай правило про відсутність "є"), а існує лише в минулому й майбутньому.',
+            en: {
+              text: 'The verb "to be" (להיות) is unique: it has NO present tense at all (recall the rule about the missing "is/am/are") — it only exists in past and future.',
+            },
+          },
+          {
+            type: 'formula',
+            title: '<span dir="rtl">היה</span> — минулий і майбутній час',
+            rows: [
+              ['я (мин.)', '<span dir="rtl">אני</span>', '<span dir="rtl">הייתי</span>', 'hayiti'],
+              ['він (мин.)', '<span dir="rtl">הוא</span>', '<span dir="rtl">היה</span>', 'haya'],
+              ['вона (мин.)', '<span dir="rtl">היא</span>', '<span dir="rtl">הייתה</span>', 'hayta'],
+              ['я (майб.)', '<span dir="rtl">אני</span>', '<span dir="rtl">אהיה</span>', 'ehiye'],
+              ['він (майб.)', '<span dir="rtl">הוא</span>', '<span dir="rtl">יהיה</span>', 'yihiye'],
+            ],
+          },
+          {
+            type: 'table',
+            title: '<span dir="rtl">לקחת</span> (брати) — майбутній час губить <span dir="rtl">ל</span>',
+            rows: [
+              ['<span dir="rtl">אני אקח</span>', 'я візьму'],
+              ['<span dir="rtl">אתה תיקח</span>', 'ти візьмеш'],
+              ['<span dir="rtl">הוא ייקח</span>', 'він візьме'],
+              ['<span dir="rtl">קח!</span>', 'візьми! (наказ.)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אתמול הייתי עסוק.</span>', 'Вчора я був зайнятий.'],
+              ['<span dir="rtl">מחר יהיה יום חם.</span>', 'Завтра буде спекотний день.'],
+              ['<span dir="rtl">קח מטריה, יורד גשם.</span>', 'Візьми парасольку, йде дощ.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'irregular-plurals',
+        title: 'רבים לא סדירים — A2',
+        emoji: '🧩',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Деякі дуже вживані іменники мають множину, яка не слідує звичайним правилам <span dir="rtl">ים-</span>/<span dir="rtl">ות-</span> — їх варто просто запам\'ятати.',
+            en: {
+              text: 'Some very common nouns have plurals that don\'t follow the regular ים-/ות- rules — these are best simply memorized.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Неправильна множина',
+            rows: [
+              ['<span dir="rtl">איש</span> (чоловік)', '<span dir="rtl">אנשים</span> (люди/чоловіки)'],
+              ['<span dir="rtl">בית</span> (дім)', '<span dir="rtl">בתים</span> (доми)'],
+              ['<span dir="rtl">יום</span> (день)', '<span dir="rtl">ימים</span> (дні)'],
+              ['<span dir="rtl">עיר</span> (місто)', '<span dir="rtl">ערים</span> (міста)'],
+              ['<span dir="rtl">שנה</span> (рік)', '<span dir="rtl">שנים</span> (роки)'],
+              ['<span dir="rtl">אב</span> (батько)', '<span dir="rtl">אבות</span> (батьки, чол. рід із ות-!)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">יש הרבה אנשים ברחוב.</span>', 'На вулиці багато людей.'],
+              ['<span dir="rtl">גרתי בשלושה בתים שונים.</span>', 'Я жив(-ла) у трьох різних будинках.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Рід не завжди видно за закінченням',
+            text: '<span dir="rtl">אב</span> (батько) — чоловічого роду, але його множина закінчується на <span dir="rtl">ות-</span> (типово жіноче закінчення) — закінчення множини не завжди відображає рід слова в однині.',
+            en: {
+              title: 'Gender isn\'t always visible from the ending',
+              text: 'אב ("father") is masculine, yet its plural takes the ות- ending (typically feminine) — the plural ending doesn\'t always reflect the singular\'s gender.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'spelling-ktiv',
+        title: 'כתיב מלא וכתיב חסר — B2',
+        emoji: '✍️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У щоденному письмі нікуд (значки голосних) майже завжди пропускають. Щоб текст усе одно можна було прочитати, використовують "повне письмо" (<span dir="rtl">כתיב מלא</span>) — додаткові літери <span dir="rtl">ו</span> та <span dir="rtl">י</span>, які позначають голосні там, де в офіційному "неповному письмі" (<span dir="rtl">כתיב חסר</span>) стояв би лише нікуд.',
+            en: {
+              text: 'In everyday writing, niqqud (vowel points) is almost always omitted. To keep the text readable anyway, Hebrew uses "full spelling" (ktiv male) — extra ו and י letters marking vowels that, in the formal "defective spelling" (ktiv chaser) with niqqud, would be shown only by vowel points.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Неповне (з нікуд) vs повне (без нікуд)',
+            rows: [
+              ['<span dir="rtl">כֻּלָּם</span> (ktiv chaser)', '<span dir="rtl">כולם</span> (ktiv male) — "всі"'],
+              ['<span dir="rtl">דִּבֵּר</span> (ktiv chaser)', '<span dir="rtl">דיבר</span> (ktiv male) — "говорив"'],
+              ['<span dir="rtl">שִׁיר</span> (ktiv chaser)', '<span dir="rtl">שיר</span> (те саме) — "пісня"'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Що варто знати практично',
+            text: 'Майже все, що ти бачиш у книгах, на вивісках чи в новинах — написано без нікуд, у "повному письмі". Нікуд трапляється переважно в текстах для дітей, у молитовниках і в підручниках для початківців.',
+            en: {
+              title: 'Practical takeaway',
+              text: 'Nearly everything you see in books, on signs, or in the news is written without niqqud, in "full spelling". Niqqud mainly appears in children\'s books, prayer books, and beginner textbooks.',
+            },
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export const GRAMMAR_AR: GrammarCategory[] = [

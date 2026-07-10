@@ -101,10 +101,10 @@ describe('grammar-page.tsx GrammarPage', () => {
     expect(container.querySelector('.gr-empty')).toBeNull();
   });
 
-  it('shows Hebrew grammar (5 rules) when learning Hebrew', () => {
+  it('shows Hebrew grammar (72 rules) when learning Hebrew', () => {
     localStorage.setItem('ew_learn_lang', 'he');
     const { container } = mount();
-    expect(container.querySelectorAll('.gr-nav-btn').length).toBe(5);
+    expect(container.querySelectorAll('.gr-nav-btn').length).toBe(72);
     expect(container.querySelector('.gr-empty')).toBeNull();
   });
 

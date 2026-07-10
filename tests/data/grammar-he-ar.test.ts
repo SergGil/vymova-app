@@ -12,7 +12,7 @@ import {
 } from '../../data/grammar.ts';
 import type { GrammarCategory } from '../../data/grammar.ts';
 
-function checkGrammarShape(categories: GrammarCategory[], name: string) {
+function checkGrammarShape(categories: GrammarCategory[], name: string, expectedCount = 5) {
   it(`${name} is a non-empty array with required fields`, () => {
     expect(Array.isArray(categories)).toBe(true);
     expect(categories.length).toBeGreaterThan(0);
@@ -26,9 +26,9 @@ function checkGrammarShape(categories: GrammarCategory[], name: string) {
     }
   });
 
-  it(`${name} has exactly 5 rules`, () => {
+  it(`${name} has exactly ${expectedCount} rules`, () => {
     const total = categories.reduce((n, c) => n + c.rules.length, 0);
-    expect(total).toBe(5);
+    expect(total).toBe(expectedCount);
   });
 
   it(`${name} every rule has required fields and at least one section`, () => {
@@ -79,7 +79,7 @@ function checkGrammarShape(categories: GrammarCategory[], name: string) {
 }
 
 describe('GRAMMAR_HE', () => {
-  checkGrammarShape(GRAMMAR_HE, 'GRAMMAR_HE');
+  checkGrammarShape(GRAMMAR_HE, 'GRAMMAR_HE', 72);
 });
 
 describe('GRAMMAR_AR', () => {
