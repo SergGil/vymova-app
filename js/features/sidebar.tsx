@@ -1,10 +1,7 @@
 // Vymova — js/features/sidebar.tsx
 // Sidebar wiring, page-view system, theme toggles, img-clear confirm
 import { useEffect, type ReactElement } from 'react';
-import { refreshAchievementsPage } from './achievements-page.tsx';
 import { renderDuel } from './duel/duel.ts';
-import { openGrammarContent } from './grammar-page.tsx';
-import { openIdiomsContent } from './idioms-page.tsx';
 import { AI_TUTOR_ENABLED } from '../config.ts';
 import { notifyStateChange } from '../../src/store.ts';
 import {
@@ -113,7 +110,9 @@ export function openPage(page: string): void {
     document.getElementById('btn-stats')?.dispatchEvent(new Event('click'));
   } else if (page === 'ach') {
     document.getElementById('ach-overlay')?.classList.add('open');
-    refreshAchievementsPage();
+    import('./achievements-page.tsx')
+      .then(({ refreshAchievementsPage }) => refreshAchievementsPage())
+      .catch(() => {});
   } else if (page === 'modes') {
     const mo = document.getElementById('modes-overlay');
     mo?.classList.add('as-page', 'open');
@@ -129,10 +128,14 @@ export function openPage(page: string): void {
     renderDuel();
   } else if (page === 'grammar') {
     document.getElementById('grammar-overlay')?.classList.add('open');
-    openGrammarContent();
+    import('./grammar-page.tsx')
+      .then(({ openGrammarContent }) => openGrammarContent())
+      .catch(() => {});
   } else if (page === 'idioms') {
     document.getElementById('idioms-overlay')?.classList.add('open');
-    openIdiomsContent();
+    import('./idioms-page.tsx')
+      .then(({ openIdiomsContent }) => openIdiomsContent())
+      .catch(() => {});
   } else if (page === 'learning-path') {
     document.getElementById('lp-overlay')?.classList.add('open');
     import('./learning-path.ts').then(({ openLearningPath }) => openLearningPath()).catch(() => {});

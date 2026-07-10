@@ -161,11 +161,12 @@ describe('sidebar.tsx', () => {
     expect(localStorage.getItem('ew_active_page')).toBe('stats');
   });
 
-  it('openPage("ach") opens the achievements overlay and refreshes the page', () => {
+  it('openPage("ach") opens the achievements overlay and refreshes the page', async () => {
     const { root } = mount();
     roots.push(root);
-    act(() => {
+    await act(async () => {
       openPage('ach');
+      await new Promise((r) => setTimeout(r, 0));
     });
 
     expect(document.getElementById('ach-overlay')!.classList.contains('open')).toBe(true);
@@ -185,7 +186,7 @@ describe('sidebar.tsx', () => {
     expect(refreshCloudSyncUI).toHaveBeenCalled();
   });
 
-  it('openPage("duel"/"grammar"/"idioms") opens overlays and renders content', () => {
+  it('openPage("duel"/"grammar"/"idioms") opens overlays and renders content', async () => {
     const { root } = mount();
     roots.push(root);
 
@@ -195,14 +196,16 @@ describe('sidebar.tsx', () => {
     expect(document.getElementById('duel-overlay')!.classList.contains('open')).toBe(true);
     expect(renderDuel).toHaveBeenCalled();
 
-    act(() => {
+    await act(async () => {
       openPage('grammar');
+      await new Promise((r) => setTimeout(r, 0));
     });
     expect(document.getElementById('grammar-overlay')!.classList.contains('open')).toBe(true);
     expect(openGrammarContent).toHaveBeenCalled();
 
-    act(() => {
+    await act(async () => {
       openPage('idioms');
+      await new Promise((r) => setTimeout(r, 0));
     });
     expect(document.getElementById('idioms-overlay')!.classList.contains('open')).toBe(true);
     expect(openIdiomsContent).toHaveBeenCalled();

@@ -21,7 +21,7 @@ const {
   getModeAccuracy,
   getMistakes,
   getWeeklyTotal,
-  refreshAchievementsPage,
+  notifyStateChange,
   closePage,
 } = vi.hoisted(() => ({
   getDailyStats: vi.fn(() => ({}) as Record<string, number>),
@@ -30,7 +30,7 @@ const {
   getModeAccuracy: vi.fn(() => ({}) as Record<string, { ok: number; err: number }>),
   getMistakes: vi.fn(() => ({}) as Record<string, number>),
   getWeeklyTotal: vi.fn(() => 0),
-  refreshAchievementsPage: vi.fn(),
+  notifyStateChange: vi.fn(),
   closePage: vi.fn(),
 }));
 vi.mock('../../js/features/game.ts', () => ({
@@ -48,7 +48,10 @@ vi.mock('../../js/features/mistake-review.tsx', () => ({
     </div>
   ),
 }));
-vi.mock('../../js/features/achievements-page.tsx', () => ({ refreshAchievementsPage }));
+vi.mock('../../src/store.ts', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../src/store.ts')>();
+  return { ...actual, notifyStateChange };
+});
 vi.mock('../../js/features/sidebar.tsx', () => ({ closePage }));
 vi.mock('../../js/features/leaderboard.tsx', () => ({
   Leaderboard: ({ refreshKey }: { refreshKey: number }) => (
@@ -80,7 +83,7 @@ describe('stats-page.tsx StatsPage', () => {
     getModeAccuracy.mockClear().mockReturnValue({});
     getMistakes.mockClear().mockReturnValue({});
     getWeeklyTotal.mockClear().mockReturnValue(0);
-    refreshAchievementsPage.mockClear();
+    notifyStateChange.mockClear();
     closePage.mockClear();
   });
 
@@ -191,13 +194,13 @@ describe('stats-page.tsx StatsPage', () => {
     ).toBe('1');
   });
 
-  it('refreshStatsPage triggers a re-render and refreshes achievements', () => {
+  it('refreshStatsPage triggers a re-render and notifies global state (so lazy-loaded achievements pick it up too)', () => {
     const { root } = mount();
     roots.push(root);
     act(() => {
       refreshStatsPage();
     });
-    expect(refreshAchievementsPage).toHaveBeenCalled();
+    expect(notifyStateChange).toHaveBeenCalled();
   });
 
   it('refreshStatsPage does nothing when no StatsPage is mounted', () => {

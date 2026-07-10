@@ -85,15 +85,9 @@ import { WordDetailPage } from '../js/features/word-detail.tsx';
 import { CatPairsPage, CatPairsWiringInit } from '../js/modes/catpairs.tsx';
 import { QuizPage } from '../js/modes/quiz.tsx';
 import { LazyMode } from './lazy-mode.tsx';
+import { LazyPage } from './lazy-page.tsx';
 import { StatsPage } from '../js/features/stats-page.tsx';
-import { AchievementsPage } from '../js/features/achievements-page.tsx';
 import { ProfilePage } from '../js/features/profile-page.tsx';
-import { GrammarPage } from '../js/features/grammar-page.tsx';
-import { IdiomsPageRoot } from '../js/features/idioms-page.tsx';
-import { AiTutorPage } from '../js/features/voice/ai-tutor.tsx';
-import { VoiceRoleplayPage } from '../js/features/voice/voice-roleplay.tsx';
-import { YoutubePlayerPage } from '../js/features/reading/youtube-player.tsx';
-import { VideoPlayerPage } from '../js/features/reading/video-player.tsx';
 import { OnboardingPage } from '../js/features/onboarding.tsx';
 import { BugReportForm } from '../js/features/bug-report.tsx';
 import { AchievementToast } from '../js/features/achievement-toast.tsx';
@@ -500,20 +494,60 @@ function AppRoot(): ReactElement {
       <Portal id="stats-overlay">
         <StatsPage />
       </Portal>
-      <Portal id="achievements-grid">
-        <AchievementsPage />
-      </Portal>
+      <LazyPage
+        page="ach"
+        mountId="achievements-grid"
+        loader={() =>
+          import('../js/features/achievements-page.tsx').then((m) => ({
+            Page: m.AchievementsPage,
+          }))
+        }
+      />
       <ProfilePage />
-      <Portal id="grammar-layout-mount">
-        <GrammarPage />
-      </Portal>
-      <Portal id="idioms-page-mount">
-        <IdiomsPageRoot />
-      </Portal>
-      <AiTutorPage />
-      <VoiceRoleplayPage />
-      <YoutubePlayerPage />
-      <VideoPlayerPage />
+      <LazyPage
+        page="grammar"
+        mountId="grammar-layout-mount"
+        loader={() =>
+          import('../js/features/grammar-page.tsx').then((m) => ({ Page: m.GrammarPage }))
+        }
+      />
+      <LazyPage
+        page="idioms"
+        mountId="idioms-page-mount"
+        loader={() =>
+          import('../js/features/idioms-page.tsx').then((m) => ({ Page: m.IdiomsPageRoot }))
+        }
+      />
+      <LazyPage
+        page="ai-tutor"
+        loader={() =>
+          import('../js/features/voice/ai-tutor.tsx').then((m) => ({ Page: m.AiTutorPage }))
+        }
+      />
+      <LazyPage
+        page="voice-roleplay"
+        loader={() =>
+          import('../js/features/voice/voice-roleplay.tsx').then((m) => ({
+            Page: m.VoiceRoleplayPage,
+          }))
+        }
+      />
+      <LazyPage
+        page="youtube-player"
+        loader={() =>
+          import('../js/features/reading/youtube-player.tsx').then((m) => ({
+            Page: m.YoutubePlayerPage,
+          }))
+        }
+      />
+      <LazyPage
+        page="video-player"
+        loader={() =>
+          import('../js/features/reading/video-player.tsx').then((m) => ({
+            Page: m.VideoPlayerPage,
+          }))
+        }
+      />
       <Portal id="onboarding-mount">
         <OnboardingPage />
       </Portal>
