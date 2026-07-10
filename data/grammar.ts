@@ -17743,6 +17743,523 @@ export const GRAMMAR_HE: GrammarCategory[] = [
           },
         ],
       },
+
+      {
+        id: 'greetings-basic',
+        title: 'ברכות בסיסיות — A1',
+        emoji: '👋',
+        sections: [
+          {
+            type: 'intro',
+            text: '<span dir="rtl">שלום</span> означає і "привіт", і "до побачення", і буквально "мир" — універсальне слово на всі випадки.',
+            en: {
+              text: 'שלום means both "hello" and "goodbye", and literally "peace" — a universal word for every occasion.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Основні привітання',
+            rows: [
+              ['<span dir="rtl">שלום</span>', 'привіт / до побачення'],
+              ['<span dir="rtl">בוקר טוב</span>', 'доброго ранку'],
+              ['<span dir="rtl">ערב טוב</span>', 'доброго вечора'],
+              ['<span dir="rtl">לילה טוב</span>', 'на добраніч'],
+              ['<span dir="rtl">להתראות</span>', 'до побачення (нейтральне)'],
+              ['<span dir="rtl">מה שלומך?</span>', 'як справи?'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">שלום, מה שלומך?</span>', 'Привіт, як справи?'],
+              ['<span dir="rtl">בסדר, תודה. ואתה?</span>', 'Добре, дякую. А ти?'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'family-vocab-grammar',
+        title: 'משפחה + שייכות — A1',
+        emoji: '👨‍👩‍👧',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Родинні терміни — чудова практика для конструкції <span dir="rtl">של</span>: майже завжди говорять "мама моя", а не просто "мама", коли йдеться про конкретну людину.',
+            en: {
+              text: 'Family terms are great practice for the של construction: Hebrew almost always says "mom mine" rather than just "mom" when referring to a specific person.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Родина',
+            rows: [
+              ['<span dir="rtl">אמא / אמא שלי</span>', 'мама / моя мама'],
+              ['<span dir="rtl">אבא / אבא שלי</span>', 'тато / мій тато'],
+              ['<span dir="rtl">אח / אחות</span>', 'брат / сестра'],
+              ['<span dir="rtl">סבא / סבתא</span>', 'дідусь / бабуся'],
+              ['<span dir="rtl">בן / בת</span>', 'син / дочка'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אמא שלי מורה.</span>', 'Моя мама вчителька.'],
+              ['<span dir="rtl">יש לי שתי אחיות.</span>', 'У мене дві сестри.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'body-health-expr',
+        title: 'ביטויים עם כואב לי — A2',
+        emoji: '🤕',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Про біль в івриті кажуть не "я маю біль", а буквально "болить мені" — <span dir="rtl">כואב לי</span> + частина тіла, з дієсловом, що узгоджується з частиною тіла, а не з "я".',
+            en: {
+              text: 'Pain in Hebrew isn\'t "I have pain" — it\'s literally "it hurts to me": כואב לי + body part, where the verb agrees with the body part, not with "I".',
+            },
+          },
+          {
+            type: 'formula',
+            title: '<span dir="rtl">כואב/כואבת/כואבים</span> + <span dir="rtl">ל-</span>',
+            rows: [
+              [
+                '✅',
+                '<span dir="rtl">כואב לי</span> + одн.',
+                'мене болить',
+                '<span dir="rtl">כואב לי הראש.</span>',
+              ],
+              [
+                '✅',
+                '<span dir="rtl">כואבות לי</span> + мн.',
+                'мене болять',
+                '<span dir="rtl">כואבות לי הרגליים.</span>',
+              ],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">כואבת לי הבטן.</span>', 'У мене болить живіт. (ж.р. — בטן)'],
+              ['<span dir="rtl">כואבים לי השיניים.</span>', 'У мене болять зуби. (мн.)'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'kvar-adayin',
+        title: 'כבר / עדיין — B1',
+        emoji: '⏳',
+        sections: [
+          {
+            type: 'intro',
+            text: '<span dir="rtl">כבר</span> ("вже") і <span dir="rtl">עדיין</span> ("ще") дозволяють передати відтінки, схожі на англійський Present Perfect, без окремого граматичного часу.',
+            en: {
+              text: 'כבר ("already") and עדיין ("still/yet") let Hebrew express nuances similar to the English present perfect, without a dedicated grammatical tense.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Комбінації',
+            rows: [
+              ['<span dir="rtl">כבר אכלתי.</span>', 'Я вже поїв(-ла).'],
+              ['<span dir="rtl">עדיין לא אכלתי.</span>', 'Я ще не їв(-ла).'],
+              ['<span dir="rtl">היא עדיין ישנה.</span>', 'Вона ще спить.'],
+              ['<span dir="rtl">כבר לא גר כאן.</span>', 'Вже тут не живе.'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">ראית כבר את הסרט הזה?</span>', 'Ти вже бачив(-ла) цей фільм?'],
+              ['<span dir="rtl">אנחנו עדיין מחכים לאוטובוס.</span>', 'Ми все ще чекаємо на автобус.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'time-expressions-relative',
+        title: 'ביטויי זמן — A2',
+        emoji: '🕰️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Слова на кшталт "вчора/сьогодні/завтра" зазвичай ставляться на початку або в кінці речення і не потребують прийменника.',
+            en: {
+              text: 'Words like "yesterday/today/tomorrow" are usually placed at the start or end of the sentence and need no preposition.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Часові вирази',
+            rows: [
+              ['<span dir="rtl">עכשיו</span>', 'зараз'],
+              ['<span dir="rtl">היום</span>', 'сьогодні'],
+              ['<span dir="rtl">אתמול</span>', 'вчора'],
+              ['<span dir="rtl">מחר</span>', 'завтра'],
+              ['<span dir="rtl">אחר כך</span>', 'потім'],
+              ['<span dir="rtl">מייד</span>', 'негайно'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">מחר יש לי בחינה.</span>', 'Завтра у мене іспит.'],
+              ['<span dir="rtl">נדבר על זה אחר כך.</span>', 'Поговоримо про це потім.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'subject-pronoun-drop',
+        title: 'השמטת כינוי גוף — B1',
+        emoji: '🫥',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У минулому й майбутньому часі особовий займенник іноді можна опустити, бо особу вже видно з дієслівного закінчення — на відміну від теперішнього часу, де займенник обов\'язковий.',
+            en: {
+              text: 'In the past and future tenses, the personal pronoun can sometimes be dropped because the verb ending already shows the person — unlike the present tense, where the pronoun is mandatory.',
+            },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">(אני) הלכתי הביתה.</span>', '(Я) пішов(-шла) додому.'],
+              ['<span dir="rtl">(אנחנו) נגיע בעשר.</span>', '(Ми) прийдемо о десятій.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'У теперішньому — обов\'язково',
+            text: 'У теперішньому часі форма дієслова (<span dir="rtl">בינוני</span>) сама по собі не вказує на особу (лише рід/число), тому займенник тут ЗАВЖДИ потрібен: <span dir="rtl">אני הולך</span>, а не просто <span dir="rtl">הולך</span>.',
+            en: {
+              title: 'Mandatory in the present tense',
+              text: 'In the present tense, the verb form (beinoni) by itself doesn\'t mark person (only gender/number), so the pronoun is ALWAYS required: אני הולך, never just הולך.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'comparison-irregular',
+        title: 'השוואות לא סדירות — B1',
+        emoji: '⭐',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Кілька дуже вживаних прикметників мають окремі "особливі" слова для порівняння замість звичайного <span dir="rtl">יותר</span>.',
+            en: {
+              text: 'A handful of very common adjectives have their own special comparison words instead of the regular יותר pattern.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Особливі форми',
+            rows: [
+              ['<span dir="rtl">טוב</span> (добрий)', '<span dir="rtl">יותר טוב</span> / <span dir="rtl">הכי טוב</span>'],
+              ['<span dir="rtl">רע</span> (поганий)', '<span dir="rtl">יותר גרוע</span> / <span dir="rtl">הכי גרוע</span>'],
+              ['<span dir="rtl">הרבה</span> (багато)', '<span dir="rtl">יותר</span> / <span dir="rtl">הכי הרבה</span>'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">המצב יותר טוב עכשיו.</span>', 'Ситуація зараз краща.'],
+              ['<span dir="rtl">זה הכי גרוע יום שהיה לי.</span>', 'Це найгірший день у моєму житті.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'purpose-kedei',
+        title: 'כדי ל- — משפט תכלית — B1',
+        emoji: '🎯',
+        sections: [
+          {
+            type: 'intro',
+            text: '<span dir="rtl">כדי ל-</span> ("щоб, для того щоб") вводить речення мети й завжди супроводжується інфінітивом.',
+            en: {
+              text: 'כדי ל- ("in order to") introduces a purpose clause and is always followed by the infinitive.',
+            },
+          },
+          {
+            type: 'formula',
+            title: 'Речення мети',
+            rows: [
+              [
+                '✅',
+                'головне речення',
+                '<span dir="rtl">כדי ל-</span> + інфінітив',
+                '<span dir="rtl">למדתי כדי לעבור</span>',
+              ],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני עובד כדי להרוויח כסף.</span>', 'Я працюю, щоб заробляти гроші.'],
+              ['<span dir="rtl">היא למדה קשה כדי לעבור את המבחן.</span>', 'Вона важко вчилась, щоб скласти іспит.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'conditional-im',
+        title: 'משפטי תנאי עם אם — B1',
+        emoji: '🔀',
+        sections: [
+          {
+            type: 'intro',
+            text: '<span dir="rtl">אם</span> ("якщо") вводить умовне речення. Для реальних/можливих умов обидва дієслова зазвичай стоять у майбутньому часі — на відміну від англійської.',
+            en: {
+              text: 'אם ("if") introduces a conditional clause. For real/possible conditions, both verbs are usually in the future tense — unlike English.',
+            },
+          },
+          {
+            type: 'formula',
+            title: 'Реальна умова',
+            rows: [
+              [
+                '✅',
+                '<span dir="rtl">אם</span> + майбутній час',
+                'майбутній час',
+                '<span dir="rtl">אם תלמד, תצליח.</span>',
+              ],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אם ירד גשם, לא נצא.</span>', 'Якщо піде дощ, ми не підемо.'],
+              ['<span dir="rtl">אם יהיה לי זמן, אתקשר אליך.</span>', 'Якщо в мене буде час, я подзвоню тобі.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Нереальна умова',
+            text: 'Для нереальних/гіпотетичних умов ("якби я був...") використовується форма умовного способу <span dir="rtl">הייתי</span> + інфінітив: <span dir="rtl">אם הייתי עשיר, הייתי קונה בית</span>.',
+            en: {
+              title: 'Unreal conditions',
+              text: 'For unreal/hypothetical conditions ("if I were..."), Hebrew uses הייתי + infinitive: אם הייתי עשיר, הייתי קונה בית ("If I were rich, I would buy a house").',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'wishes-halevai',
+        title: 'הלוואי — משאלות — B2',
+        emoji: '🌠',
+        sections: [
+          {
+            type: 'intro',
+            text: '<span dir="rtl">הלוואי</span> ("якби ж, от би") виражає бажання чогось нереального або малоймовірного — емоційно забарвлене слово без прямого українського відповідника.',
+            en: {
+              text: 'הלוואי ("if only, I wish") expresses a wish for something unreal or unlikely — an emotionally loaded word with no direct one-word English equivalent.',
+            },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">הלוואי שהיה לי יותר זמן.</span>', 'От би у мене було більше часу.'],
+              ['<span dir="rtl">הלוואי שהיא תבוא.</span>', 'От би вона прийшла.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'common-idioms',
+        title: 'ניבים נפוצים — B1',
+        emoji: '💬',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Кілька дуже вживаних ідіом, які варто знати напам\'ять — дослівний переклад часто не має сенсу українською.',
+            en: {
+              text: 'A handful of very common idioms worth memorizing as whole chunks — a literal translation often makes no sense in English either.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Поширені ідіоми',
+            rows: [
+              ['<span dir="rtl">יאללה</span>', 'ну ж бо / гайда (розм.)'],
+              ['<span dir="rtl">אין בעיה</span>', 'без проблем'],
+              ['<span dir="rtl">סוף העולם</span>', 'кінець світу (перебільшено)'],
+              ['<span dir="rtl">על הפנים</span>', 'дуже погано (букв. "на обличчі")'],
+              ['<span dir="rtl">שיהיה בהצלחה</span>', 'хай щастить'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">יאללה, בואו נלך!</span>', 'Гайда, ходімо!'],
+              ['<span dir="rtl">המבחן היה על הפנים.</span>', 'Іспит був жахливий.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'register-formal-informal',
+        title: 'רישום — רשמי מול יומיומי — B1',
+        emoji: '🎩',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Розмовний іврит часто відрізняється від письмового/офіційного скороченими формами, сленгом і запозиченнями з арабської та англійської.',
+            en: {
+              text: 'Spoken Hebrew often differs from written/formal Hebrew through shortened forms, slang, and loanwords from Arabic and English.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Офіційне vs розмовне',
+            rows: [
+              ['<span dir="rtl">מה שלומך?</span> (офіц.)', '<span dir="rtl">מה נשמע?</span> (розм.)'],
+              ['<span dir="rtl">כן</span> (так)', '<span dir="rtl">אה-אה / בטח</span> (розм. "ага/звісно")'],
+              ['<span dir="rtl">תודה רבה</span>', '<span dir="rtl">תודה</span> (коротше, теж прийнятно)'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Коли важливо',
+            text: 'У листах, резюме та офіційних документах варто уникати розмовних скорочень і сленгу — використовуй повні граматичні форми.',
+            en: {
+              title: 'When it matters',
+              text: 'In letters, résumés, and official documents, avoid casual contractions and slang — use full grammatical forms instead.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'numbers-currency-prices',
+        title: 'מחירים ומטבע — A2',
+        emoji: '💰',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Валюта Ізраїлю — новий шекель (<span dir="rtl">שקל חדש</span>, скор. <span dir="rtl">ש"ח</span>). Ціни запитуються фразою <span dir="rtl">כמה זה עולה?</span>.',
+            en: {
+              text: 'Israel\'s currency is the New Israeli Shekel (שקל חדש, abbreviated ש"ח). Prices are asked with כמה זה עולה?',
+            },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">כמה זה עולה?</span>', 'Скільки це коштує?'],
+              ['<span dir="rtl">זה עולה חמישים שקל.</span>', 'Це коштує п\'ятдесят шекелів.'],
+              ['<span dir="rtl">יש הנחה?</span>', 'Є знижка?'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'weather-expressions',
+        title: 'מזג אוויר — A1',
+        emoji: '🌤️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Про погоду зазвичай говорять безособовою конструкцією <span dir="rtl">חם / קר / נעים</span> ("тепло/холодно/приємно") без слова "є".',
+            en: {
+              text: 'Weather is usually described with the impersonal construction חם / קר / נעים ("it\'s hot/cold/pleasant") without any word for "is".',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Погода',
+            rows: [
+              ['<span dir="rtl">חם</span>', 'спекотно'],
+              ['<span dir="rtl">קר</span>', 'холодно'],
+              ['<span dir="rtl">נעים</span>', 'приємно (тепло)'],
+              ['<span dir="rtl">יורד גשם</span>', 'йде дощ'],
+              ['<span dir="rtl">שמשי</span>', 'сонячно'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">היום חם מאוד.</span>', 'Сьогодні дуже спекотно.'],
+              ['<span dir="rtl">מחר יורד גשם.</span>', 'Завтра піде дощ.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'exclamations',
+        title: 'קריאות וביטויים — A1',
+        emoji: '❕',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Кілька дуже частих вигуків, які почуєш у щоденній розмові, — незамінні для природного звучання, навіть якщо їх немає в жодному підручнику граматики.',
+            en: {
+              text: 'A handful of very frequent exclamations you\'ll hear in daily conversation — essential for sounding natural, even though no grammar textbook covers them.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Вигуки',
+            rows: [
+              ['<span dir="rtl">וואלה</span>', 'справді? / овва (розм., здивування)'],
+              ['<span dir="rtl">אחלה</span>', 'клас, супер (розм., від араб.)'],
+              ['<span dir="rtl">חבל</span>', 'шкода'],
+              ['<span dir="rtl">כן / לא</span>', 'так / ні'],
+              ['<span dir="rtl">בסדר</span>', 'гаразд, окей'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">וואלה, זה מדהים!</span>', 'Овва, це дивовижно!'],
+              ['<span dir="rtl">חבל שלא באת.</span>', 'Шкода, що ти не прийшов.'],
+            ],
+          },
+        ],
+      },
     ],
   },
 ];
