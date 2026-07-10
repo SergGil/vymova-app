@@ -12,7 +12,7 @@ import { onWordLearned } from '../../core/card-engine.ts';
 import { checkMilestones } from '../milestones.ts';
 import { speak } from '../voice/speech.ts';
 import { t } from '../i18n.ts';
-import { lookupEnglishWord } from '../../modes/reading.tsx';
+import { lookupEnglishWord } from '../../modes/reading-lookup.ts';
 import { entryFor, markKnownForLang } from '../mode-utils.ts';
 import { getKnowLang } from '../lang-pair-select.tsx';
 import { parseSubtitles, findActiveCue, type Cue } from './subtitle-parser.ts';

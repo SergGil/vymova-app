@@ -82,7 +82,6 @@ import { ExportInit } from '../js/features/export.tsx';
 import { VoiceInit } from '../js/features/voice/voice.tsx';
 import { SidebarInit } from '../js/features/sidebar.tsx';
 import { WordDetailPage } from '../js/features/word-detail.tsx';
-import { ReadingPage } from '../js/modes/reading.tsx';
 import { CatPairsPage, CatPairsWiringInit } from '../js/modes/catpairs.tsx';
 import { QuizPage } from '../js/modes/quiz.tsx';
 import { LazyMode } from './lazy-mode.tsx';
@@ -334,9 +333,16 @@ function AppRoot(): ReactElement {
           }))
         }
       />
-      <Portal id="reading-page-mount">
-        <ReadingPage />
-      </Portal>
+      <LazyMode
+        btnId="btn-reading"
+        mountId="reading-page-mount"
+        loader={() =>
+          import('../js/modes/reading.tsx').then((m) => ({
+            Page: m.ReadingPage,
+            open: m.openReading,
+          }))
+        }
+      />
       <LazyMode
         btnId="btn-story"
         mountId="story-page-mount"
