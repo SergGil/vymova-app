@@ -17268,6 +17268,481 @@ export const GRAMMAR_HE: GrammarCategory[] = [
           },
         ],
       },
+
+      {
+        id: 'telling-time',
+        title: 'שעות — A2',
+        emoji: '🕐',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Час запитується виразом <span dir="rtl">מה השעה?</span> ("котра година?"), а відповідь завжди у жіночому роді, бо слово <span dir="rtl">שעה</span> (година) — жіночого роду.',
+            en: {
+              text: 'Time is asked with מה השעה? ("what time is it?"), and the answer is always in the feminine, because the word שעה ("hour") is feminine.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Основні вирази часу',
+            rows: [
+              ['<span dir="rtl">השעה שלוש.</span>', 'Третя година.'],
+              ['<span dir="rtl">השעה שלוש וחצי.</span>', 'Пів на четверту.'],
+              ['<span dir="rtl">השעה רבע לארבע.</span>', 'За чверть четверта.'],
+              ['<span dir="rtl">השעה עשר בבוקר.</span>', 'Десята ранку.'],
+              ['<span dir="rtl">השעה שמונה בערב.</span>', 'Восьма вечора.'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">באיזו שעה נפגשים?</span>', 'О котрій годині зустрічаємось?'],
+              ['<span dir="rtl">השיעור מתחיל בשעה תשע.</span>', 'Урок починається о дев\'ятій.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'months-dates',
+        title: 'חודשים ותאריכים — A2',
+        emoji: '🗓️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У повсякденному вжитку ізраїльтяни зазвичай користуються григоріанськими назвами місяців (запозичені слова), паралельно з єврейським календарем для свят.',
+            en: {
+              text: 'In everyday use, Israelis mostly use Gregorian month names (borrowed words), alongside the Hebrew calendar for holidays.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Кілька місяців (григоріанський календар)',
+            rows: [
+              ['січень', '<span dir="rtl">ינואר</span>'],
+              ['лютий', '<span dir="rtl">פברואר</span>'],
+              ['травень', '<span dir="rtl">מאי</span>'],
+              ['вересень', '<span dir="rtl">ספטמבר</span>'],
+              ['грудень', '<span dir="rtl">דצמבר</span>'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">היום התאריך חמישה במאי.</span>', 'Сьогодні п\'яте травня.'],
+              ['<span dir="rtl">נולדתי בחודש ינואר.</span>', 'Я народився(-лася) у січні.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'conjunctions-basic',
+        title: 'מילות חיבור בסיסיות — A1',
+        emoji: '🔗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Найпростіший сполучник — <span dir="rtl">ו-</span> ("і/та"), який теж приєднується як префікс до наступного слова, а не пишеться окремо.',
+            en: {
+              text: 'The simplest conjunction is ו- ("and"), which — like other one-letter particles — attaches as a prefix to the following word rather than standing alone.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Базові сполучники',
+            rows: [
+              ['<span dir="rtl">ו-</span>', 'і, та'],
+              ['<span dir="rtl">אבל</span>', 'але'],
+              ['<span dir="rtl">או</span>', 'або'],
+              ['<span dir="rtl">כי</span>', 'бо, тому що'],
+              ['<span dir="rtl">אז</span>', 'тоді, отже'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני ואתה</span>', 'я і ти'],
+              ['<span dir="rtl">אני עייף אבל שמח.</span>', 'Я втомлений, але щасливий.'],
+              ['<span dir="rtl">לא באתי כי הייתי חולה.</span>', 'Я не прийшов, бо був хворий.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'conjunctions-advanced',
+        title: 'מילות חיבור מתקדמות — B1',
+        emoji: '🧩',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Складніші сполучники вводять умову, час або поступку — часто з часткою <span dir="rtl">ש-</span> у складі.',
+            en: {
+              text: 'More advanced conjunctions introduce condition, time, or concession — often built around the particle ש-.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Складніші сполучники',
+            rows: [
+              ['<span dir="rtl">אם</span>', 'якщо'],
+              ['<span dir="rtl">כאשר / כש-</span>', 'коли'],
+              ['<span dir="rtl">למרות ש-</span>', 'незважаючи на те, що'],
+              ['<span dir="rtl">מכיוון ש- / כי</span>', 'оскільки'],
+              ['<span dir="rtl">לפני ש-</span>', 'перед тим, як'],
+              ['<span dir="rtl">אחרי ש-</span>', 'після того, як'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אם ירד גשם, נישאר בבית.</span>', 'Якщо піде дощ, ми залишимось вдома.'],
+              ['<span dir="rtl">כשהייתי קטן, גרתי בקייב.</span>', 'Коли я був маленьким, я жив у Києві.'],
+              ['<span dir="rtl">למרות שהיה קר, יצאנו לטייל.</span>', 'Незважаючи на холод, ми пішли гуляти.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'adverbs',
+        title: 'תארי פועל — A2',
+        emoji: '⚡',
+        sections: [
+          {
+            type: 'intro',
+            text: 'На відміну від прикметників, прислівники в івриті НЕ узгоджуються з дієсловом — вони мають одну незмінну форму.',
+            en: {
+              text: 'Unlike adjectives, Hebrew adverbs do NOT agree with the verb — they have a single unchanging form.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Поширені прислівники',
+            rows: [
+              ['<span dir="rtl">מהר</span>', 'швидко'],
+              ['<span dir="rtl">לאט</span>', 'повільно'],
+              ['<span dir="rtl">טוב</span>', 'добре'],
+              ['<span dir="rtl">היטב</span>', 'добре (формальніше)'],
+              ['<span dir="rtl">תמיד</span>', 'завжди'],
+              ['<span dir="rtl">אף פעם לא</span>', 'ніколи'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">היא רצה מהר.</span>', 'Вона бігає швидко.'],
+              ['<span dir="rtl">הוא אף פעם לא מאחר.</span>', 'Він ніколи не запізнюється.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'gam-rak',
+        title: 'גם / רק — A2',
+        emoji: '➕',
+        sections: [
+          {
+            type: 'intro',
+            text: '<span dir="rtl">גם</span> ("також") і <span dir="rtl">רק</span> ("тільки") — короткі, але дуже частотні слова, що стоять безпосередньо перед словом, до якого стосуються.',
+            en: {
+              text: 'גם ("also/too") and רק ("only") are short but very common words that stand right before the word they modify.',
+            },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">גם אני רוצה לבוא.</span>', 'Я теж хочу прийти.'],
+              ['<span dir="rtl">יש לי רק חמש דקות.</span>', 'У мене лише п\'ять хвилин.'],
+              ['<span dir="rtl">היא לא רק חכמה, גם אדיבה.</span>', 'Вона не лише розумна, а й добра.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'dual-number',
+        title: 'זוגי — הסיומת -יים — B1',
+        emoji: '👥',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Крім однини і множини, іврит має особливу форму для парних предметів або природних пар — суфікс <span dir="rtl">-יים</span>, який часто виражає "два" в одному слові.',
+            en: {
+              text: 'Besides singular and plural, Hebrew has a special dual form for naturally paired items or units of two — the -ayim suffix, which packs "two" into a single word.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Приклади подвійної форми',
+            rows: [
+              ['<span dir="rtl">יד</span> (рука)', '<span dir="rtl">ידיים</span> (дві руки, обидві руки)'],
+              ['<span dir="rtl">עין</span> (око)', '<span dir="rtl">עיניים</span> (два ока)'],
+              ['<span dir="rtl">יום</span> (день)', '<span dir="rtl">יומיים</span> (два дні)'],
+              ['<span dir="rtl">שבוע</span> (тиждень)', '<span dir="rtl">שבועיים</span> (два тижні)'],
+              ['<span dir="rtl">פעם</span> (раз)', '<span dir="rtl">פעמיים</span> (двічі)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני חוזר בעוד שבועיים.</span>', 'Я повернуся через два тижні.'],
+              ['<span dir="rtl">כאבו לי העיניים.</span>', 'У мене болять очі.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Не плутати зі звичайною множиною',
+            text: 'Форма на <span dir="rtl">-יים</span> означає САМЕ "два", а не просто множину: для "трьох днів" уже потрібна звичайна множина зі числівником — <span dir="rtl">שלושה ימים</span>.',
+            en: {
+              title: 'Not the same as regular plural',
+              text: 'The -ayim form specifically means "two", not just "plural": "three days" needs the regular plural with a numeral instead — שלושה ימים.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'root-pattern-system',
+        title: 'שורש ומשקל — B1',
+        emoji: '🧬',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Слова в івриті будуються з "кореня" (шореш, зазвичай 3 приголосні, що несуть основне значення) і "шаблону" (мішкаль, набір голосних і префіксів/суфіксів, що визначає граматичну функцію).',
+            en: {
+              text: 'Hebrew words are built from a "root" (shoresh, usually 3 consonants carrying the core meaning) and a "pattern" (mishkal, a template of vowels and affixes that defines the grammatical function).',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Один корінь — багато слів (ל-מ-ד = "вчити")',
+            rows: [
+              ['<span dir="rtl">למד</span>', 'він вчився (дієслово, Пааль)'],
+              ['<span dir="rtl">לימד</span>', 'він навчав (дієслово, Піель)'],
+              ['<span dir="rtl">תלמיד</span>', 'учень (іменник)'],
+              ['<span dir="rtl">מלומד</span>', 'вчений (прикметник)'],
+              ['<span dir="rtl">לימוד</span>', 'навчання (іменник)'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Практична користь',
+            text: 'Впізнавши корінь <span dir="rtl">ל-מ-ד</span> ("вчити"), можна вгадати значення багатьох незнайомих слів, які містять ті самі три приголосні в різних шаблонах.',
+            en: {
+              title: 'Why this is useful',
+              text: 'Once you recognize the root ל-מ-ד ("to learn"), you can guess the meaning of many unfamiliar words that contain the same three consonants in different patterns.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'passive-voice-overview',
+        title: 'סביל בעברית — B1',
+        emoji: '🔁',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Пасивний стан в івриті виражається не допоміжним дієсловом (як "бути + дієприкметник" в українській), а окремими пасивними біньянами: Ніфаль, Пуаль і Гуфаль.',
+            en: {
+              text: 'The passive voice in Hebrew is not formed with an auxiliary verb (like "to be + participle") — instead, it uses dedicated passive binyanim: Nifal, Pual, and Hufal.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Активний → пасивний',
+            rows: [
+              [
+                '<span dir="rtl">כתבתי מכתב.</span>',
+                '<span dir="rtl">המכתב נכתב.</span> (Ніфаль: лист написаний)',
+              ],
+              [
+                '<span dir="rtl">בישלתי אוכל.</span>',
+                '<span dir="rtl">האוכל מבושל.</span> (Пуаль: їжа зварена)',
+              ],
+              [
+                '<span dir="rtl">הזמנתי אותך.</span>',
+                '<span dir="rtl">אתה מוזמן.</span> (Гуфаль: тебе запрошено)',
+              ],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Немає окремого діяча',
+            text: 'На відміну від англійської ("by someone"), у пасивних реченнях івриту зазвичай НЕ вказують, хто виконав дію — це природна риса пасивного стану тут.',
+            en: {
+              title: 'No agent phrase',
+              text: 'Unlike English ("by someone"), Hebrew passive sentences typically do NOT specify who performed the action — that\'s a natural feature of the passive here.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'negation-nuances',
+        title: 'ניואנסים בשלילה — B1',
+        emoji: '🙅',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Окрім простого <span dir="rtl">לא</span>, іврит має кілька підсилених заперечних конструкцій для "ще ні", "взагалі ні" й "жоден".',
+            en: {
+              text: 'Beyond simple לא, Hebrew has several intensified negative constructions for "not yet", "not at all", and "none".',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Підсилені заперечення',
+            rows: [
+              ['<span dir="rtl">עדיין לא</span>', 'ще ні'],
+              ['<span dir="rtl">כבר לא</span>', 'вже ні'],
+              ['<span dir="rtl">בכלל לא</span>', 'взагалі ні'],
+              ['<span dir="rtl">אף פעם לא</span>', 'ніколи'],
+              ['<span dir="rtl">אף אחד לא</span>', 'ніхто'],
+              ['<span dir="rtl">כלום</span>', 'нічого'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">עדיין לא אכלתי.</span>', 'Я ще не їв(-ла).'],
+              ['<span dir="rtl">אף אחד לא בא.</span>', 'Ніхто не прийшов.'],
+              ['<span dir="rtl">לא אכלתי כלום.</span>', 'Я нічого не їв(-ла).'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'quantifiers',
+        title: 'כמתים — הרבה, מעט, כל — A2',
+        emoji: '📏',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Квантифікатори "багато/мало/весь/кожен" стоять ПЕРЕД іменником, а <span dir="rtl">כל</span> ("весь/кожен") приєднується безпосередньо, без прийменника.',
+            en: {
+              text: 'Quantifiers like "much/little/all/every" come BEFORE the noun, and כל ("all/every") attaches directly, without a linking word.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Основні квантифікатори',
+            rows: [
+              ['<span dir="rtl">הרבה</span>', 'багато'],
+              ['<span dir="rtl">מעט</span>', 'мало'],
+              ['<span dir="rtl">קצת</span>', 'трохи'],
+              ['<span dir="rtl">כל</span>', 'весь / кожен'],
+              ['<span dir="rtl">כמה</span>', 'декілька'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">יש לי הרבה עבודה.</span>', 'У мене багато роботи.'],
+              ['<span dir="rtl">כל יום אני קם מוקדם.</span>', 'Кожного дня я рано встаю.'],
+              ['<span dir="rtl">כל הילדים כאן.</span>', 'Усі діти тут.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'possessive-suffixes-attached',
+        title: 'כינויי קניין חבורים — B1',
+        emoji: '🧷',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Крім конструкції з <span dir="rtl">של</span>, деякі часто вживані іменники (особливо родинні терміни й частини тіла) можуть приєднувати займенникові суфікси прямо до себе — це формальніший, "злитий" спосіб виразити належність.',
+            en: {
+              text: 'Besides the של construction, some very common nouns (especially family terms and body parts) can attach pronoun suffixes directly to themselves — a more formal, "fused" way to express possession.',
+            },
+          },
+          {
+            type: 'table',
+            title: '<span dir="rtl">אב</span> (батько) з суфіксами',
+            rows: [
+              ['<span dir="rtl">אבי</span>', 'мій батько'],
+              ['<span dir="rtl">אביך</span>', 'твій батько'],
+              ['<span dir="rtl">אביו</span>', 'його батько'],
+              ['<span dir="rtl">אבינו</span>', 'наш батько'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אבי גר בחיפה.</span>', 'Мій батько живе в Хайфі.'],
+              ['<span dir="rtl">ביתי קטן אך נעים.</span>', 'Мій дім маленький, але затишний.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Розмовна норма — все ж <span dir="rtl">של</span>',
+            text: 'У щоденній розмовній мові конструкція з <span dir="rtl">של</span> (наприклад, <span dir="rtl">אבא שלי</span>) вживається набагато частіше за приєднані суфікси, які звучать формальніше або літературніше.',
+            en: {
+              title: 'Everyday speech still prefers של',
+              text: 'In daily spoken Hebrew, the של construction (e.g. אבא שלי) is used far more often than attached suffixes, which sound more formal or literary.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'imperative-politeness',
+        title: 'נימוס ובקשות — A2',
+        emoji: '🙏',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Ввічливі прохання зазвичай пом\'якшуються словом <span dir="rtl">בבקשה</span> ("будь ласка") або питальною формою з <span dir="rtl">אפשר</span> ("можна") замість прямого наказу.',
+            en: {
+              text: 'Polite requests are usually softened with בבקשה ("please") or a question form with אפשר ("may/can I") instead of a direct command.',
+            },
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אפשר כוס מים, בבקשה?</span>', 'Можна склянку води, будь ласка?'],
+              ['<span dir="rtl">סליחה, איפה השירותים?</span>', 'Вибачте, де туалет?'],
+              ['<span dir="rtl">תודה רבה!</span>', 'Дуже дякую!'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Майбутній час замість наказового',
+            text: 'У ввічливих проханнях замість наказового способу часто вживають майбутній час: <span dir="rtl">תסגור את הדלת, בבקשה</span> звучить м\'якше, ніж пряме <span dir="rtl">סגור!</span>.',
+            en: {
+              title: 'The future tense softens commands',
+              text: 'For polite requests, the future tense is often used instead of the imperative: תסגור את הדלת, בבקשה sounds softer than the blunt סגור! ("close!").',
+            },
+          },
+        ],
+      },
     ],
   },
 ];
