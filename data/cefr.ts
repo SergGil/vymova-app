@@ -4824,6 +4824,7 @@ const CEFR_MAP: Record<string, CefrLevel> = {
   lookout: 'B1',
   loosen: 'B1',
   loot: 'B1',
+  looter: 'B1',
   lopsided: 'B1',
   'lose touch': 'B1',
   loss: 'B1',

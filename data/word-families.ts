@@ -186,6 +186,7 @@ export const WORD_FAMILIES: Record<string, string[]> = {
   live: ['lively', 'livelihood', 'lifelong'],
   logic: ['logical', 'illogical', 'logically'],
   long: ['longing', 'longevity', 'prolong'],
+  loot: ['looter'],
   loyal: ['loyalty', 'disloyalty'],
   luck: ['lucky', 'unlucky', 'luckily'],
 
