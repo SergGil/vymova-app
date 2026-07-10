@@ -1534,6 +1534,57 @@ body.dark .ach-card {
   flex-shrink: 0;
 }
 
+/* ── SW update banner (top, unlike the PWA install banner at the bottom,
+   so the two never overlap if both happen to be relevant at once) ── */
+#sw-update-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #1a1a2e;
+  color: #fff;
+  padding: 14px 16px;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+.sw-update-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+.sw-update-text {
+  flex: 1;
+  font-size: 0.83rem;
+  line-height: 1.4;
+}
+.sw-update-text strong {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 2px;
+}
+.sw-update-btn {
+  background: #4ecca3;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 700;
+  font-size: 0.83rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.sw-update-close {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
+
 /* ── Категорії досягнень ── */
 .ach-category {
   margin-bottom: 18px;

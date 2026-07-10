@@ -1454,5 +1454,8 @@
   "pwa.installTitle": "Installa come app",
   "pwa.installDesc": "Funziona offline, sempre a portata di mano",
   "pwa.installBtn": "Installa",
+  "sw.updateTitle": "Nuova versione disponibile",
+  "sw.updateDesc": "Ricarica per ottenere gli ultimi miglioramenti",
+  "sw.reloadBtn": "Ricarica",
   "duel.lang": "Voglio competere:"
 }

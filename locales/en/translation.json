@@ -1469,5 +1469,8 @@
   "pwa.installTitle": "Install as an app",
   "pwa.installDesc": "Works offline, always at hand",
   "pwa.installBtn": "Install",
+  "sw.updateTitle": "New version available",
+  "sw.updateDesc": "Reload to get the latest improvements",
+  "sw.reloadBtn": "Reload",
   "duel.lang": "Want to compete:"
 }

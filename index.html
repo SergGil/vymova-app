@@ -46,7 +46,34 @@
     <script>
       if ('serviceWorker' in navigator)
         window.addEventListener('load', function () {
-          navigator.serviceWorker.register('./sw.js').catch(function () {});
+          navigator.serviceWorker
+            .register('./sw.js')
+            .then(function (reg) {
+              // Signals js/core/sw-update.tsx that a genuine UPDATE (not the
+              // very first install — that has no prior controller) finished
+              // installing and is waiting to take over. Captured on a global
+              // + a custom event, same "fire early, pick up late" pattern as
+              // __pwaDeferredPrompt below, since the React tree may not have
+              // mounted its listener yet when this fires.
+              function notifyIfWaiting() {
+                if (reg.waiting && navigator.serviceWorker.controller) {
+                  window.__swUpdateAvailable = true;
+                  window.dispatchEvent(new Event('ew-sw-update-available'));
+                }
+              }
+              notifyIfWaiting();
+              reg.addEventListener('updatefound', function () {
+                var newWorker = reg.installing;
+                if (!newWorker) return;
+                newWorker.addEventListener('statechange', function () {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    window.__swUpdateAvailable = true;
+                    window.dispatchEvent(new Event('ew-sw-update-available'));
+                  }
+                });
+              });
+            })
+            .catch(function () {});
         });
     </script>
     <!-- Capture beforeinstallprompt as early as possible — Chrome can fire it
@@ -608,6 +635,9 @@
 
       <!-- PWA install banner -->
       <div id="pwa-banner-mount"></div>
+
+      <!-- Service worker update banner -->
+      <div id="sw-update-banner-mount"></div>
 
       <!-- Панель статистики -->
       <!-- ══ STATS OVERLAY (React, stats-page.tsx) ══ -->
@@ -1192,7 +1222,7 @@
           </div>
 
           <div class="settings-footer">
-            © 2026 Vymova · v1.219.0 ·
+            © 2026 Vymova · v1.220.0 ·
             <a
               href="./privacy.html"
               target="_blank"

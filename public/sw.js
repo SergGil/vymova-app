@@ -1,7 +1,18 @@
-﻿var CACHE = 'ew-v69';
+﻿var CACHE = 'ew-v70';
 
 self.addEventListener('install', function(e) {
-  self.skipWaiting();
+  // Do NOT skipWaiting() unconditionally here. A brand new visitor (no
+  // prior controller for this scope) activates this worker immediately
+  // regardless, per spec — skipWaiting() only matters for an UPDATE, where
+  // it used to silently swap the controller under any already-open tab
+  // right after a deploy. That broke a lazy import() for any chunk not yet
+  // cached, since it'd request a content-hashed filename the new deploy no
+  // longer serves. Now it only skips waiting once the page explicitly asks
+  // (js/core/sw-update.tsx, after the user clicks "Reload" on the banner).
+});
+
+self.addEventListener('message', function(e) {
+  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('activate', function(e) {
