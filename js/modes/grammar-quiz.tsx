@@ -37,7 +37,13 @@ function flattenExamples(categories: GrammarCategory[]): GrammarQItem[] {
           const sentence = row[0];
           const translation = row[1];
           if (sentence && translation) {
-            out.push({ ruleId: rule.id, ruleTitle: rule.title, ruleEmoji: rule.emoji, sentence, translation });
+            out.push({
+              ruleId: rule.id,
+              ruleTitle: rule.title,
+              ruleEmoji: rule.emoji,
+              sentence,
+              translation,
+            });
           }
         }
       }
