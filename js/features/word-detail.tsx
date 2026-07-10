@@ -29,6 +29,9 @@ import { t, pluralLabel } from './i18n.ts';
 import { render, setIdx, onWordLearned as _onWordLearned } from '../core/card-engine.ts';
 import { checkMilestones } from './milestones.ts';
 import type { WordEntry } from '../../src/types.js';
+import { openWordDetail, closeWordDetail, useWordDetailTarget } from './word-detail-trigger.ts';
+
+export { openWordDetail };
 
 function SpeakBtn({
   text,
@@ -56,15 +59,8 @@ function SpeakBtn({
   );
 }
 
-let _open: ((w: WordEntry) => void) | null = null;
-
-export function openWordDetail(w: WordEntry): void {
-  _open?.(w);
-}
-
 export function WordDetailPage(): ReactElement | null {
-  const [cw, setCw] = useState<WordEntry | null>(null);
-  const [open, setOpen] = useState(false);
+  const cw = useWordDetailTarget();
   const [known, setKnown] = useState(false);
   const [bm, setBm] = useState(false);
   const [srsEntry, setSrsEntry] = useState<
@@ -73,50 +69,43 @@ export function WordDetailPage(): ReactElement | null {
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    _open = (w: WordEntry) => {
-      setCw(w);
-      const lang: KnownLang = getActiveTargetLang(getResolvedMode()) ?? 'en';
-      setKnown(getKnownSnapshot(lang).has(w[0]));
-      setBm(isBookmarked(w[0]));
-      setSrsEntry(
-        (getSrsDataSnapshot() as Record<string, { due?: string; ef?: number; reps?: number }>)[
-          w[0]
-        ],
-      );
-      setOpen(true);
-    };
-    return () => {
-      _open = null;
-    };
-  }, []);
+    if (!cw) return;
+    const lang: KnownLang = getActiveTargetLang(getResolvedMode()) ?? 'en';
+    setKnown(getKnownSnapshot(lang).has(cw[0]));
+    setBm(isBookmarked(cw[0]));
+    setSrsEntry(
+      (getSrsDataSnapshot() as Record<string, { due?: string; ef?: number; reps?: number }>)[
+        cw[0]
+      ],
+    );
+  }, [cw]);
 
   useEffect(() => {
-    if (open) {
+    if (cw) {
       if (panelRef.current) panelRef.current.scrollTop = 0;
       const overlay = document.getElementById('wd-overlay');
       requestAnimationFrame(() => {
         if (overlay) overlay.style.opacity = '1';
       });
     }
-  }, [open]);
+  }, [cw]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!cw) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close();
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [open]);
+  }, [cw]);
 
   function close(): void {
     const overlay = document.getElementById('wd-overlay');
     if (overlay) overlay.style.opacity = '0';
-    setOpen(false);
-    setCw(null);
+    closeWordDetail();
   }
 
-  if (!open || !cw) {
+  if (!cw) {
     return <div id="wd-overlay" style={{ display: 'none' }} />;
   }
 

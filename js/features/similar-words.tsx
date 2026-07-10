@@ -7,7 +7,7 @@ import type { ReactElement } from 'react';
 import { W } from '../../data/words.js';
 import { useStateVersion, notifyStateChange } from '../../src/store.ts';
 import { getCwSnapshot, getFlippedSnapshot } from '../../src/deck-store.ts';
-import { openWordDetail } from './word-detail.tsx';
+import { openWordDetail } from './word-detail-trigger.ts';
 import type { WordEntry } from '../../src/types.js';
 import {
   getMode as _getMode,

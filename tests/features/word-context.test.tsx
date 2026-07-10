@@ -22,7 +22,7 @@ import {
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const { openWordDetail } = vi.hoisted(() => ({ openWordDetail: vi.fn() }));
-vi.mock('../../js/features/word-detail.tsx', () => ({ openWordDetail }));
+vi.mock('../../js/features/word-detail-trigger.ts', () => ({ openWordDetail }));
 
 const makeEntry: WordEntry = ['make', 'робити', '', '', '', 'v'];
 const sustainEntry: WordEntry = ['sustain', 'підтримувати', '', '', '', 'v'];

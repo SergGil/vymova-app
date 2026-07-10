@@ -10,10 +10,10 @@ vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
 vi.mock('../../js/core/srs.ts', () => ({ updateSrsUI: vi.fn() }));
 vi.mock('../../js/features/render-game-bar.ts', () => ({ renderGameBar: vi.fn() }));
 vi.mock('../../js/features/game-bar-level.tsx', () => ({ refreshGameBarLevel: vi.fn() }));
-vi.mock('../../js/features/stats-page.tsx', () => ({ openStats: vi.fn(), closeStats: vi.fn() }));
+vi.mock('../../js/features/stats-trigger.ts', () => ({ openStats: vi.fn(), closeStats: vi.fn() }));
 
 import { ProgressIO } from '../../js/features/progress-io.tsx';
-import { closeStats, openStats } from '../../js/features/stats-page.tsx';
+import { closeStats, openStats } from '../../js/features/stats-trigger.ts';
 import { renderGameBar } from '../../js/features/render-game-bar.ts';
 import { refreshGameBarLevel } from '../../js/features/game-bar-level.tsx';
 import { render } from '../../js/core/card-engine.ts';

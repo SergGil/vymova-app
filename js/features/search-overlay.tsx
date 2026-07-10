@@ -6,7 +6,7 @@ import { W } from '../../data/words.js';
 import { useStateVersion } from '../../src/store.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import { openWordDetail } from './word-detail.tsx';
+import { openWordDetail } from './word-detail-trigger.ts';
 import { t } from './i18n.ts';
 import { render, setIdx } from '../core/card-engine.ts';
 import { getLearnLang, getKnowLang } from './lang-pair-select.tsx';

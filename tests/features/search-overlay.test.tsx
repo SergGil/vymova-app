@@ -15,7 +15,7 @@ const { render, setIdx, openWordDetail } = vi.hoisted(() => ({
   openWordDetail: vi.fn(),
 }));
 vi.mock('../../js/core/card-engine.ts', () => ({ render, setIdx }));
-vi.mock('../../js/features/word-detail.tsx', () => ({ openWordDetail }));
+vi.mock('../../js/features/word-detail-trigger.ts', () => ({ openWordDetail }));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

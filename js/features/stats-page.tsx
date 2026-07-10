@@ -17,12 +17,14 @@ import { W } from '../../data/words.js';
 import { getCefrLevel } from '../../data/cefr.ts';
 import { Leaderboard } from './leaderboard.tsx';
 import { notifyStateChange } from '../../src/store.ts';
-import { closePage } from './sidebar.tsx';
 import { getKnownInLang, getActiveKnownByLang, getWordsForLang } from './mode-utils.ts';
 import type { WordEntry } from '../../src/types.js';
 import { InfoIcon, InfoNote } from './info-icon.tsx';
 import { MistakeReview } from './mistake-review.tsx';
 import { renderWeakWords } from '../modes/catpairs.tsx';
+import { setStatsBumpTick, refreshStatsPage, openStats, closeStats } from './stats-trigger.ts';
+
+export { refreshStatsPage, openStats, closeStats };
 
 const _p2 = (n: number): string => (n < 10 ? '0' + n : '' + n);
 
@@ -350,36 +352,6 @@ function computeBlocks(): BlockRow[] {
   return blocks;
 }
 
-// ── Refresh hook (re-render trigger from outside) ───────────────
-let _bumpTick: (() => void) | null = null;
-
-export function refreshStatsPage(): void {
-  _bumpTick?.();
-}
-
-export function openStats(): void {
-  refreshStatsPage();
-  const overlay = document.getElementById('stats-overlay');
-  if (overlay) {
-    overlay.style.display = 'flex';
-    const panel = overlay.querySelector<HTMLElement>('.stats-panel');
-    if (panel) {
-      panel.classList.remove('slide-up');
-      void panel.offsetWidth;
-      panel.classList.add('slide-up');
-    }
-  }
-}
-
-export function closeStats(): void {
-  const overlay = document.getElementById('stats-overlay');
-  if (overlay && overlay.classList.contains('as-page')) {
-    closePage();
-    return;
-  }
-  if (overlay) overlay.style.display = 'none';
-}
-
 export function StatsPage(): ReactElement {
   const [chartDays, setChartDays] = useState(14);
   const [calYear, setCalYear] = useState(() => new Date().getFullYear());
@@ -391,7 +363,7 @@ export function StatsPage(): ReactElement {
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    _bumpTick = () => {
+    setStatsBumpTick(() => {
       setTick((x) => x + 1);
       try {
         notifyStateChange();
@@ -403,9 +375,9 @@ export function StatsPage(): ReactElement {
       try {
         renderWeakWords();
       } catch (e) {}
-    };
+    });
     return () => {
-      _bumpTick = null;
+      setStatsBumpTick(null);
     };
   }, []);
 

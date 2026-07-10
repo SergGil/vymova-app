@@ -81,12 +81,12 @@ import { CloudSyncInit } from '../js/features/cloud-sync.tsx';
 import { ExportInit } from '../js/features/export.tsx';
 import { VoiceInit } from '../js/features/voice/voice.tsx';
 import { SidebarInit } from '../js/features/sidebar.tsx';
-import { WordDetailPage } from '../js/features/word-detail.tsx';
+import { useWordDetailTarget } from '../js/features/word-detail-trigger.ts';
+import { useStatsShouldLoad } from '../js/features/stats-trigger.ts';
 import { CatPairsPage, CatPairsWiringInit } from '../js/modes/catpairs.tsx';
 import { QuizPage } from '../js/modes/quiz.tsx';
 import { LazyMode } from './lazy-mode.tsx';
 import { LazyPage } from './lazy-page.tsx';
-import { StatsPage } from '../js/features/stats-page.tsx';
 import { ProfilePage } from '../js/features/profile-page.tsx';
 import { OnboardingPage } from '../js/features/onboarding.tsx';
 import { BugReportForm } from '../js/features/bug-report.tsx';
@@ -280,9 +280,13 @@ function AppRoot(): ReactElement {
       <ExportInit />
       <VoiceInit />
       <SidebarInit />
-      <Portal id="wd-page-mount">
-        <WordDetailPage />
-      </Portal>
+      <LazyPage
+        active={useWordDetailTarget() !== null}
+        mountId="wd-page-mount"
+        loader={() =>
+          import('../js/features/word-detail.tsx').then((m) => ({ Page: m.WordDetailPage }))
+        }
+      />
       <LazyMode
         btnId="btn-listen"
         mountId="listen-page-mount"
@@ -491,9 +495,11 @@ function AppRoot(): ReactElement {
           }))
         }
       />
-      <Portal id="stats-overlay">
-        <StatsPage />
-      </Portal>
+      <LazyPage
+        active={useStatsShouldLoad()}
+        mountId="stats-overlay"
+        loader={() => import('../js/features/stats-page.tsx').then((m) => ({ Page: m.StatsPage }))}
+      />
       <LazyPage
         page="ach"
         mountId="achievements-grid"

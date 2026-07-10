@@ -6,7 +6,7 @@ import { createRoot, type Root } from 'react-dom/client';
 
 const openStats = vi.fn();
 const closeStats = vi.fn();
-vi.mock('../../js/features/stats-page.tsx', () => ({
+vi.mock('../../js/features/stats-trigger.ts', () => ({
   openStats: (...a: unknown[]) => openStats(...a),
   closeStats: (...a: unknown[]) => closeStats(...a),
 }));

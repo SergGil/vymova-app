@@ -20,7 +20,7 @@ import {
 } from './lexicon-loader.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
-import { openWordDetail } from './word-detail.tsx';
+import { openWordDetail } from './word-detail-trigger.ts';
 import {
   getMode,
   parsePair,

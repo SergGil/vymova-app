@@ -20,30 +20,36 @@
 // omit `mountId` and this just renders <Page/> directly once loaded. Others
 // (AchievementsPage, GrammarPage, ...) expect the caller to portal them
 // into a specific element — pass `mountId` for those.
+//
+// Two ways to say "load now": pass `page` (compares against nav-store's
+// activePage — the vast majority of callers) or `active` (a boolean the
+// caller computed itself from whatever reactive source makes sense for
+// pages that don't live behind nav-store, e.g. WordDetailPage/StatsPage —
+// see word-detail-trigger.ts/stats-trigger.ts's own small reactive stores,
+// built for exactly this because those two have multiple real trigger paths
+// that don't all go through nav-store's openPage()).
 import { useEffect, useState, type ComponentType, type ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 import { useActivePage } from './nav-store.tsx';
 
 type PageLoader = () => Promise<{ Page: ComponentType }>;
 
-export function LazyPage({
-  page,
-  mountId,
-  loader,
-}: {
-  page: string;
-  mountId?: string;
-  loader: PageLoader;
-}): ReactElement | null {
+type LazyPageProps = { mountId?: string; loader: PageLoader } & (
+  | { page: string; active?: undefined }
+  | { active: boolean; page?: undefined }
+);
+
+export function LazyPage({ page, active, mountId, loader }: LazyPageProps): ReactElement | null {
   const activePage = useActivePage();
+  const shouldLoad = page !== undefined ? activePage === page : active;
   const [Page, setPage] = useState<ComponentType | null>(null);
 
   useEffect(() => {
-    if (Page || activePage !== page) return;
+    if (Page || !shouldLoad) return;
     loader()
       .then((m) => setPage(() => m.Page))
       .catch(() => {});
-  }, [activePage, Page, page, loader]);
+  }, [shouldLoad, Page, loader]);
 
   if (!Page) return null;
   if (!mountId) return <Page />;

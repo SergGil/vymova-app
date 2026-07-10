@@ -13,7 +13,7 @@ import { t } from './i18n.ts';
 import { renderGameBar } from './render-game-bar.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
 import { render } from '../core/card-engine.ts';
-import { openStats, closeStats } from './stats-page.tsx';
+import { openStats, closeStats } from './stats-trigger.ts';
 import { getKnownSnapshot, setKnownWords, type KnownLang } from '../../src/known-words-store.ts';
 
 const ALL_KNOWN_LANGS: KnownLang[] = ['en', ...ALL_TARGET_LANGS];

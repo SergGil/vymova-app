@@ -3,7 +3,7 @@
 // SrsBadge (card-front-text.tsx). The stats overlay itself lives in
 // stats-page.tsx (React).
 import { useEffect, type ReactElement } from 'react';
-import { openStats, closeStats } from './stats-page.tsx';
+import { openStats, closeStats } from './stats-trigger.ts';
 
 // ── Stats open/close buttons ──────────────────────────────────
 export function StatsInit(): ReactElement | null {
