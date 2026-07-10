@@ -66,3 +66,34 @@ describe('AssocChainPage picks up the current learn language on every open (not 
     root.unmount();
   });
 });
+
+// Regression test: the current word's box used to unconditionally show a
+// Ukrainian translation gloss beneath the word (via translationFor()),
+// which effectively handed the player a free hint at guessing its
+// synonym/antonym in English — removed entirely, not gated behind a hint
+// button, since the whole point of the mode is picking the right word
+// without a meaning crutch.
+describe('AssocChainPage no longer shows a translation gloss under the current word', () => {
+  it('the word box only contains the prompt label and the word/speaker row — no extra translation node', async () => {
+    localStorage.setItem('ew_learn_lang', 'en');
+
+    document.body.innerHTML = '';
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const root = createRoot(container);
+    act(() => {
+      root.render(<AssocChainPage />);
+    });
+    await act(async () => {
+      openAssocChain();
+      await new Promise((r) => setTimeout(r, 0));
+    });
+
+    const wordEl = container.querySelector('[data-testid="assoc-current-word"]')!;
+    const wordBox = wordEl.parentElement!.parentElement!;
+    expect(wordBox.children.length).toBe(2);
+
+    root.unmount();
+    localStorage.removeItem('ew_learn_lang');
+  });
+});

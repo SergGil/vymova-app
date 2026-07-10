@@ -5,16 +5,12 @@
 // (or running out of further synonyms/antonyms) ends the chain.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
-import { W } from '../../data/words.js';
-import { getWordIndex } from '../core/word-index.ts';
 import {
   getSynonymsModule,
   getAntonymsModule,
   ensureLexiconLoaded,
 } from '../features/lexicon-loader.ts';
-import type { WordEntry } from '../../src/types.js';
-import { entryFor, isTargetLang, reverseHeadwordFor } from '../features/mode-utils.ts';
-import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { getLearnLang } from '../features/lang-pair-select.tsx';
 import { t } from '../features/i18n.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
@@ -66,20 +62,6 @@ export function wordPoolFor(dict: SynDict): string[] {
     for (const m of members) set.add(m.word);
   }
   return Array.from(set);
-}
-
-function translationFor(word: string): string {
-  const learnLang = getLearnLang();
-  const idx = getWordIndex();
-  if (!idx) return '';
-  let headwordEn: string | null = null;
-  if (learnLang === 'en') headwordEn = word;
-  else if (isTargetLang(learnLang)) headwordEn = reverseHeadwordFor(learnLang, word);
-  if (!headwordEn) return '';
-  const i = idx.get(headwordEn.toLowerCase());
-  if (i === undefined) return '';
-  const entry = (W as unknown as WordEntry[])[i];
-  return entryFor(getKnowLang(), entry).word || '';
 }
 
 export type StepKind = 'syn' | 'ant';
@@ -368,11 +350,6 @@ export function AssocChainPage(): ReactElement {
                 🔊
               </button>
             </div>
-            {translationFor(step.current) && (
-              <div style={{ fontSize: '.8rem', color: 'var(--text3)', marginTop: 2 }}>
-                {translationFor(step.current)}
-              </div>
-            )}
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>

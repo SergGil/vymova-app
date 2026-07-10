@@ -78,4 +78,24 @@ describe('GrammarQuizPage', () => {
     );
     expect(new Set(texts).size).toBe(texts.length);
   });
+
+  it('shows the sentence translation only after an option is picked, not before', () => {
+    act(() => {
+      root.render(<GrammarQuizPage />);
+    });
+    act(() => {
+      openGrammarQuiz();
+    });
+
+    expect(container.querySelector('[data-testid="grq-post-translation"]')).toBeNull();
+
+    const firstOption = container.querySelector<HTMLButtonElement>('.quiz-option')!;
+    act(() => {
+      firstOption.click();
+    });
+
+    const translationEl = container.querySelector('[data-testid="grq-post-translation"]');
+    expect(translationEl).toBeTruthy();
+    expect(translationEl!.textContent!.length).toBeGreaterThan(0);
+  });
 });

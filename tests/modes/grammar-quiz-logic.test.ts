@@ -49,6 +49,17 @@ describe('grammar-quiz-logic', () => {
         expect(item.ruleTitle.length).toBeGreaterThan(0);
       }
     });
+
+    it('most items carry a ruleExplanation sourced from the rule\'s own intro section', () => {
+      // Not a hard 100% guarantee (a rule could theoretically lack an intro
+      // section), but every rule in GRAMMAR (en) has one in practice — this
+      // is what powers the post-answer "why this rule" text.
+      localStorage.setItem('ew_learn_lang', 'en');
+      localStorage.setItem('ew_know_lang', 'ua');
+      const { items } = pickPool();
+      const withExplanation = items.filter((i) => i.ruleExplanation && i.ruleExplanation.length > 0);
+      expect(withExplanation.length).toBe(items.length);
+    });
   });
 
   describe('buildQuestion()', () => {

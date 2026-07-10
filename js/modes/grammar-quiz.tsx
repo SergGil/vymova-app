@@ -22,15 +22,20 @@ export type GrammarQItem = {
   ruleEmoji: string;
   sentence: string;
   translation: string;
+  ruleExplanation?: string;
 };
 
 // Every 'examples' section's rows are [target-language sentence, translation]
 // pairs — flatten every rule's examples across every category into one pool
-// so the quiz can ask "which rule does this sentence demonstrate?".
+// so the quiz can ask "which rule does this sentence demonstrate?". Each
+// rule's 'intro' section (same field GrammarPage itself renders as the
+// reference-page explanation) is attached to every example row from that
+// rule, so the quiz can show *why* the correct rule applies after answering.
 function flattenExamples(categories: GrammarCategory[]): GrammarQItem[] {
   const out: GrammarQItem[] = [];
   for (const cat of categories) {
     for (const rule of cat.rules) {
+      const ruleExplanation = rule.sections.find((s) => s.type === 'intro' && s.text)?.text;
       for (const sec of rule.sections) {
         if (sec.type !== 'examples' || !sec.rows) continue;
         for (const row of sec.rows) {
@@ -43,6 +48,7 @@ function flattenExamples(categories: GrammarCategory[]): GrammarQItem[] {
               ruleEmoji: rule.emoji,
               sentence,
               translation,
+              ruleExplanation,
             });
           }
         }
@@ -336,7 +342,6 @@ export function GrammarQuizPage(): ReactElement {
                 textAlign: 'center',
                 fontStyle: 'italic',
               }}
-              dir={rtl ? 'rtl' : undefined}
             >
               {question.item.translation}
             </div>
@@ -378,6 +383,37 @@ export function GrammarQuizPage(): ReactElement {
                 <span style={{ color: 'var(--danger)' }}>✗ {question.correct}</span>
               ))}
           </div>
+
+          {selected && (
+            // Both fields are always authored in Ukrainian in data/grammar.ts
+            // (same as GrammarPage's own reference rendering), regardless of
+            // whether the quizzed sentence itself is in an RTL language —
+            // no dir="rtl" here, unlike the sentence box above.
+            <div style={{ textAlign: 'center', marginTop: 4 }}>
+              <div
+                data-testid="grq-post-translation"
+                style={{
+                  fontSize: '.8rem',
+                  color: 'var(--text3)',
+                  fontStyle: 'italic',
+                }}
+              >
+                {question.item.translation}
+              </div>
+              {question.item.ruleExplanation && (
+                <div
+                  data-testid="grq-post-explanation"
+                  style={{
+                    fontSize: '.78rem',
+                    color: 'var(--text2)',
+                    marginTop: 6,
+                  }}
+                >
+                  💡 {question.item.ruleExplanation}
+                </div>
+              )}
+            </div>
+          )}
 
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 10 }}>
             <button
