@@ -46,6 +46,15 @@ function flattenExamples(categories: GrammarCategory[]): GrammarQItem[] {
   return out;
 }
 
+// A quiz option is a rule *title*, not an example sentence — a language
+// can have plenty of example rows while still only covering 2-3 grammar
+// rules (e.g. it/pt currently ship just 2 rules with several examples
+// each), which isn't enough to build a 4-option question. So the
+// fallback threshold below counts distinct rule titles, not raw items.
+function distinctTitleCount(items: GrammarQItem[]): number {
+  return new Set(items.map((i) => i.ruleTitle)).size;
+}
+
 // Prefers the language being learned (that's the point of the exercise);
 // falls back to the known language, then to English. Not every one of the
 // 40 target languages has a full grammar reference yet, hence the chain
@@ -56,10 +65,10 @@ export function pickPool(): { lang: string; items: GrammarQItem[] } {
   const know = getKnowLang();
   const learnCats = GRAMMAR_BY_LANG[learn as keyof typeof GRAMMAR_BY_LANG];
   const learnItems = learnCats ? flattenExamples(learnCats) : [];
-  if (learnItems.length >= NUM_OPTS) return { lang: learn, items: learnItems };
+  if (distinctTitleCount(learnItems) >= NUM_OPTS) return { lang: learn, items: learnItems };
   const knowCats = GRAMMAR_BY_LANG[know as keyof typeof GRAMMAR_BY_LANG];
   const knowItems = knowCats ? flattenExamples(knowCats) : [];
-  if (knowItems.length >= NUM_OPTS) return { lang: know, items: knowItems };
+  if (distinctTitleCount(knowItems) >= NUM_OPTS) return { lang: know, items: knowItems };
   const enCats = GRAMMAR_BY_LANG.en;
   return { lang: 'en', items: enCats ? flattenExamples(enCats) : [] };
 }

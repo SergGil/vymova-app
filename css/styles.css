@@ -839,15 +839,18 @@ body.reduced-motion *::after {
 }
 
 /* ── Accessibility: high contrast ──────────────────────────────── */
+/* Reuses the active theme's own --text (already contrastive against its
+   --bg, for every theme/dark-mode combination) for text2/text3/border,
+   so this works under any of the 14+ cosmetic body classes without
+   enumerating them. !important is required: body.high-contrast and every
+   theme class (body.sw, body.dark, ...) share the same specificity, and
+   several theme blocks are declared later in this file, so without it a
+   theme's own --text2/--text3/--border would silently win and cancel
+   high-contrast mode whenever a theme is also active. */
 body.high-contrast {
-  --text2: #000000;
-  --text3: #2a2a2a;
-  --border: #000000;
-}
-body.high-contrast.dark {
-  --text2: #ffffff;
-  --text3: #d5d5d5;
-  --border: #ffffff;
+  --text2: var(--text) !important;
+  --text3: var(--text) !important;
+  --border: var(--text) !important;
 }
 body.high-contrast :focus-visible {
   outline: 2px solid var(--accent);

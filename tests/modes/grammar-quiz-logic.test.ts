@@ -27,6 +27,18 @@ describe('grammar-quiz-logic', () => {
       expect(items.length).toBeGreaterThan(0);
     });
 
+    it('skips a learn language with too few distinct rules for a 4-option quiz, even if it has many example rows', () => {
+      // 'it' currently ships only 2 grammar rules (with several examples
+      // each) — plenty of raw rows, but not enough distinct answer options
+      // for a 4-choice quiz. 'ua' isn't in GRAMMAR_BY_LANG at all, so a
+      // typical Ukrainian-speaking learner of Italian must land on 'en'.
+      localStorage.setItem('ew_learn_lang', 'it');
+      localStorage.setItem('ew_know_lang', 'ua');
+      const { lang, items } = pickPool();
+      expect(lang).toBe('en');
+      expect(new Set(items.map((i) => i.ruleTitle)).size).toBeGreaterThanOrEqual(4);
+    });
+
     it('every returned item has a non-empty sentence and translation', () => {
       localStorage.setItem('ew_learn_lang', 'en');
       localStorage.setItem('ew_know_lang', 'ua');
