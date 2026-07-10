@@ -927,6 +927,8 @@
   "settings.showLessThemes": "Згорнути ▴",
   "settings.srsPriorityTitle": "🔁 Пріоритет повторення",
   "settings.srsPriorityDesc": "Ігрові режими спершу показують слова, які час повторити (SRS), а не випадкові.",
+  "settings.srsNewCapTitle": "🆕 Нових карток на день",
+  "settings.srsNewCapDesc": "Скільки нових слів SRS-колода вводить щодня, перш ніж перейде лише до повторення.",
   "settings.srsPriorityOn": "Увімкнено",
   "settings.srsPriorityOff": "Вимкнено",
   "settings.voiceTitle": "🔊 Голос озвучення",

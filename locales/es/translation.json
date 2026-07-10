@@ -844,6 +844,8 @@
   "settings.showLessThemes": "Mostrar menos ▴",
   "settings.srsPriorityTitle": "🔁 Prioridad de repaso",
   "settings.srsPriorityDesc": "Los modos de juego muestran primero las palabras pendientes de repaso (SRS), en vez de aleatorias.",
+  "settings.srsNewCapTitle": "🆕 Tarjetas nuevas por día",
+  "settings.srsNewCapDesc": "Cuántas palabras nunca vistas introduce el mazo SRS cada día antes de pasar solo a repaso.",
   "settings.srsPriorityOn": "Activado",
   "settings.srsPriorityOff": "Desactivado",
   "settings.voiceTitle": "🔊 Voz",

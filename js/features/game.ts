@@ -99,12 +99,27 @@ export function getGameData(): GameData {
 // ── SRS daily new-card quota ────────────────────────────────────
 // How many never-before-seen cards the SRS deck introduces per day —
 // matches the classic Anki-style "new cards/day" limit, tracked across
-// the whole day rather than just within one deck snapshot.
+// the whole day rather than just within one deck snapshot. Default value;
+// user-configurable via getSrsNewDailyCap()/setSrsNewDailyCap() below
+// (global, like font size — not per learn-language).
 export const SRS_NEW_DAILY_CAP = 10;
+const SRS_NEW_CAP_MIN = 5;
+const SRS_NEW_CAP_MAX = 50;
+
+export function getSrsNewDailyCap(): number {
+  const raw = parseInt(localStorage.getItem('ew_srs_new_cap') ?? '', 10);
+  if (!Number.isFinite(raw)) return SRS_NEW_DAILY_CAP;
+  return Math.min(SRS_NEW_CAP_MAX, Math.max(SRS_NEW_CAP_MIN, raw));
+}
+
+export function setSrsNewDailyCap(cap: number): void {
+  const clamped = Math.min(SRS_NEW_CAP_MAX, Math.max(SRS_NEW_CAP_MIN, cap));
+  localStorage.setItem('ew_srs_new_cap', String(clamped));
+}
 
 export function getSrsNewRemaining(): number {
   const d = getGameData();
-  return Math.max(0, SRS_NEW_DAILY_CAP - (d.srsNewToday || 0));
+  return Math.max(0, getSrsNewDailyCap() - (d.srsNewToday || 0));
 }
 
 export function recordSrsNewCard(): void {

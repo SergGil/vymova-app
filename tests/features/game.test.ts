@@ -6,6 +6,9 @@ import {
   getHardWords,
   getModeAccuracy,
   recordModeAnswer,
+  getSrsNewDailyCap,
+  setSrsNewDailyCap,
+  SRS_NEW_DAILY_CAP,
 } from '../../js/features/game.ts';
 
 // ── localStorage mock ─────────────────────────────────────────
@@ -137,5 +140,32 @@ describe('recordModeAnswer / getModeAccuracy', () => {
     const acc = getModeAccuracy();
     expect(acc['quiz']?.ok).toBe(1);
     expect(acc['tempo']?.err).toBe(1);
+  });
+});
+
+// ── SRS new-cards/day cap ────────────────────────────────────────
+describe('getSrsNewDailyCap / setSrsNewDailyCap', () => {
+  it('defaults to SRS_NEW_DAILY_CAP when unset', () => {
+    expect(getSrsNewDailyCap()).toBe(SRS_NEW_DAILY_CAP);
+  });
+
+  it('persists and returns a set value', () => {
+    setSrsNewDailyCap(25);
+    expect(getSrsNewDailyCap()).toBe(25);
+  });
+
+  it('clamps below the minimum (5)', () => {
+    setSrsNewDailyCap(1);
+    expect(getSrsNewDailyCap()).toBe(5);
+  });
+
+  it('clamps above the maximum (50)', () => {
+    setSrsNewDailyCap(999);
+    expect(getSrsNewDailyCap()).toBe(50);
+  });
+
+  it('falls back to the default on corrupt localStorage data', () => {
+    localStorage.setItem('ew_srs_new_cap', 'not-a-number');
+    expect(getSrsNewDailyCap()).toBe(SRS_NEW_DAILY_CAP);
   });
 });

@@ -859,6 +859,8 @@
   "settings.showLessThemes": "Show less ▴",
   "settings.srsPriorityTitle": "🔁 Review priority",
   "settings.srsPriorityDesc": "Game modes show words that are due for review (SRS) first, instead of random ones.",
+  "settings.srsNewCapTitle": "🆕 New cards per day",
+  "settings.srsNewCapDesc": "How many never-seen words the SRS deck introduces per day before switching to review-only.",
   "settings.srsPriorityOn": "On",
   "settings.srsPriorityOff": "Off",
   "settings.voiceTitle": "🔊 Voice",

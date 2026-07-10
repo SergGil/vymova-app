@@ -844,6 +844,8 @@
   "settings.showLessThemes": "Afficher moins ▴",
   "settings.srsPriorityTitle": "🔁 Priorité de révision",
   "settings.srsPriorityDesc": "Les modes de jeu affichent d'abord les mots à réviser (SRS), plutôt qu'aléatoirement.",
+  "settings.srsNewCapTitle": "🆕 Nouvelles cartes par jour",
+  "settings.srsNewCapDesc": "Combien de mots jamais vus le paquet SRS introduit chaque jour avant de ne faire que réviser.",
   "settings.srsPriorityOn": "Activé",
   "settings.srsPriorityOff": "Désactivé",
   "settings.voiceTitle": "🔊 Voix",

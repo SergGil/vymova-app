@@ -844,6 +844,8 @@
   "settings.showLessThemes": "Mostra meno ▴",
   "settings.srsPriorityTitle": "🔁 Priorità di ripasso",
   "settings.srsPriorityDesc": "Le modalità di gioco mostrano prima le parole da ripassare (SRS), invece che casuali.",
+  "settings.srsNewCapTitle": "🆕 Nuove carte al giorno",
+  "settings.srsNewCapDesc": "Quante parole mai viste il mazzo SRS introduce ogni giorno prima di passare al solo ripasso.",
   "settings.srsPriorityOn": "Attivo",
   "settings.srsPriorityOff": "Disattivo",
   "settings.voiceTitle": "🔊 Voci",

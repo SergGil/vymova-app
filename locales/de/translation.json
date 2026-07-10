@@ -844,6 +844,8 @@
   "settings.showLessThemes": "Weniger anzeigen ▴",
   "settings.srsPriorityTitle": "🔁 Wiederholungspriorität",
   "settings.srsPriorityDesc": "Spielmodi zeigen zuerst Wörter, die zur Wiederholung fällig sind (SRS), statt zufälliger Wörter.",
+  "settings.srsNewCapTitle": "🆕 Neue Karten pro Tag",
+  "settings.srsNewCapDesc": "Wie viele noch nie gesehene Wörter das SRS-Deck täglich einführt, bevor es nur noch wiederholt.",
   "settings.srsPriorityOn": "Aktiviert",
   "settings.srsPriorityOff": "Deaktiviert",
   "settings.voiceTitle": "🔊 Stimmen",

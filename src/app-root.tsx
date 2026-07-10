@@ -28,6 +28,7 @@ import { WordOfDay } from '../js/features/word-of-day.tsx';
 import { DailyMissionCard } from '../js/features/daily-mission-card.tsx';
 import { LangPairSelect } from '../js/features/lang-pair-select.tsx';
 import { FontSizeControl } from '../js/features/font-size-control.tsx';
+import { SrsNewCapControl } from '../js/features/srs-cap-control.tsx';
 import { TagFilterSelect } from '../js/features/tag-filter-select.tsx';
 import { SearchInline } from '../js/features/search-inline.tsx';
 import { SearchOverlay } from '../js/features/search-overlay.tsx';
@@ -149,6 +150,9 @@ function AppRoot(): ReactElement {
       </Portal>
       <Portal id="font-size-control">
         <FontSizeControl />
+      </Portal>
+      <Portal id="srs-new-cap-control">
+        <SrsNewCapControl />
       </Portal>
       <Portal id="sel-tag">
         <TagFilterSelect />

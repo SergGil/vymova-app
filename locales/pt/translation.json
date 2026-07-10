@@ -844,6 +844,8 @@
   "settings.showLessThemes": "Mostrar menos ▴",
   "settings.srsPriorityTitle": "🔁 Prioridade de revisão",
   "settings.srsPriorityDesc": "Os modos de jogo mostram primeiro as palavras pendentes de revisão (SRS), em vez de aleatórias.",
+  "settings.srsNewCapTitle": "🆕 Cartões novos por dia",
+  "settings.srsNewCapDesc": "Quantas palavras nunca vistas o baralho SRS introduz por dia antes de passar só a revisão.",
   "settings.srsPriorityOn": "Ativado",
   "settings.srsPriorityOff": "Desativado",
   "settings.voiceTitle": "🔊 Vozes",
