@@ -15803,6 +15803,1471 @@ export const GRAMMAR_HE: GrammarCategory[] = [
           },
         ],
       },
+
+      {
+        id: 'adjective-agreement',
+        title: 'הסכמת תואר עם שם עצם — A1',
+        emoji: '🎯',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Прикметник в івриті завжди узгоджується з іменником у роді (ч./ж.) та числі (одн./мн.) і стоїть ПІСЛЯ іменника, на відміну від української.',
+            en: {
+              text: 'In Hebrew, an adjective always agrees with the noun in gender (m./f.) and number (sg./pl.), and it comes AFTER the noun — unlike Ukrainian or English.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Форми прикметника <span dir="rtl">גדול</span> (великий)',
+            rows: [
+              ['ч.р. одн.', '<span dir="rtl">גדול</span>'],
+              ['ж.р. одн.', '<span dir="rtl">גדולה</span>'],
+              ['ч.р. мн.', '<span dir="rtl">גדולים</span>'],
+              ['ж.р. мн.', '<span dir="rtl">גדולות</span>'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">בית גדול</span>', 'великий дім (ч.р.)'],
+              ['<span dir="rtl">דירה גדולה</span>', 'велика квартира (ж.р.)'],
+              ['<span dir="rtl">ספרים גדולים</span>', 'великі книги (ч.р. мн.)'],
+              ['<span dir="rtl">מכוניות גדולות</span>', 'великі машини (ж.р. мн.)'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Означений артикль двічі',
+            text: 'Якщо іменник означений, артикль <span dir="rtl">ה-</span> додається і до іменника, і до прикметника: <span dir="rtl">הבית הגדול</span> (цей великий дім).',
+            en: {
+              title: 'The definite article appears twice',
+              text: 'If the noun is definite, ה- is added to BOTH the noun and the adjective: הבית הגדול ("the big house").',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'yesh-ein',
+        title: 'יש / אין — A1',
+        emoji: '📦',
+        sections: [
+          {
+            type: 'intro',
+            text: '<span dir="rtl">יש</span> означає "є/має", <span dir="rtl">אין</span> — "немає". Це не дієслова, а особливі слова існування, які не змінюються за особою.',
+            en: {
+              text: 'יש means "there is/are" or "has", אין means "there isn\'t/aren\'t" or "doesn\'t have". These are special existential words, not verbs — they don\'t conjugate by person.',
+            },
+          },
+          {
+            type: 'formula',
+            title: 'Наявність / відсутність',
+            rows: [
+              [
+                '✅',
+                '<span dir="rtl">יש</span> + іменник',
+                'є щось',
+                '<span dir="rtl">יש לי זמן.</span>',
+              ],
+              [
+                '❌',
+                '<span dir="rtl">אין</span> + іменник',
+                'немає щось',
+                '<span dir="rtl">אין לי זמן.</span>',
+              ],
+            ],
+          },
+          {
+            type: 'table',
+            title: '"Мати" через <span dir="rtl">יש ל-</span>',
+            rows: [
+              ['<span dir="rtl">יש לי</span>', 'я маю / у мене є'],
+              ['<span dir="rtl">יש לך</span>', 'ти маєш (ч.р.)'],
+              ['<span dir="rtl">יש לה</span>', 'вона має'],
+              ['<span dir="rtl">אין לו</span>', 'він не має'],
+              ['<span dir="rtl">אין לנו</span>', 'ми не маємо'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">יש לי כלב.</span>', 'У мене є собака.'],
+              ['<span dir="rtl">אין לה מכונית.</span>', 'У неї немає машини.'],
+              ['<span dir="rtl">יש כאן בית קפה?</span>', 'Тут є кав\'ярня?'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Немає теперішнього "бути"',
+            text: 'В іврит немає окремого дієслова "мати" — конструкція <span dir="rtl">יש ל-</span> буквально означає "є для мене", а не "я маю".',
+            en: {
+              title: 'No verb "to have"',
+              text: 'Hebrew has no separate verb "to have" — the construction יש ל- literally means "there is, to me", not "I have".',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'possession-shel',
+        title: 'שייכות עם של — A1',
+        emoji: '🔑',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Належність в івриті найчастіше виражається словом <span dir="rtl">של</span> (від, належить) між іменником і власником, або приєднанням займенникових суфіксів прямо до <span dir="rtl">של</span>.',
+            en: {
+              text: 'Possession in Hebrew is most often expressed with the word של ("of, belonging to") between the noun and the owner, or by attaching pronoun suffixes directly to של.',
+            },
+          },
+          {
+            type: 'formula',
+            title: 'Іменник + <span dir="rtl">של</span> + власник',
+            rows: [
+              [
+                '✅',
+                'іменник',
+                '<span dir="rtl">של</span> + власник',
+                '<span dir="rtl">הספר של דנה</span>',
+              ],
+            ],
+          },
+          {
+            type: 'table',
+            title: '<span dir="rtl">של</span> + займенникові суфікси',
+            rows: [
+              ['<span dir="rtl">שלי</span>', 'мій/моя'],
+              ['<span dir="rtl">שלך</span>', 'твій (ч.р.)'],
+              ['<span dir="rtl">שלה</span>', 'її'],
+              ['<span dir="rtl">שלו</span>', 'його'],
+              ['<span dir="rtl">שלנו</span>', 'наш'],
+              ['<span dir="rtl">שלהם</span>', 'їхній (ч.р. мн.)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">זה הבית שלי.</span>', 'Це мій дім.'],
+              ['<span dir="rtl">המכונית של אבא גדולה.</span>', 'Машина тата велика.'],
+              ['<span dir="rtl">איפה התיק שלך?</span>', 'Де твоя сумка?'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'negation-lo',
+        title: 'שלילה עם לא — A1',
+        emoji: '🚫',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Заперечення дієслів і прикметників у теперішньому часі утворюється за допомогою <span dir="rtl">לא</span> перед словом. Це найпростіший і найчастіший спосіб заперечення.',
+            en: {
+              text: 'Negation of verbs and adjectives in the present tense is formed by placing לא before the word. This is the simplest and most common form of negation.',
+            },
+          },
+          {
+            type: 'formula',
+            title: 'Заперечення з <span dir="rtl">לא</span>',
+            rows: [
+              [
+                '❌',
+                '<span dir="rtl">לא</span> + дієслово/прикметник',
+                'не...',
+                '<span dir="rtl">אני לא רוצה.</span>',
+              ],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני לא מבין.</span>', 'Я не розумію.'],
+              ['<span dir="rtl">היא לא רעבה.</span>', 'Вона не голодна.'],
+              ['<span dir="rtl">זה לא נכון.</span>', 'Це не правда.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: '<span dir="rtl">לא</span> vs <span dir="rtl">אין</span> vs <span dir="rtl">בלי</span>',
+            text: '<span dir="rtl">לא</span> заперечує дію/якість ("не роблю"), <span dir="rtl">אין</span> заперечує наявність ("немає"), а <span dir="rtl">בלי</span> означає "без" (прийменник).',
+            en: {
+              title: 'לא vs אין vs בלי',
+              text: 'לא negates an action or quality ("I don\'t..."), אין negates existence ("there isn\'t..."), and בלי means "without" (a preposition).',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'numbers-cardinal-basic',
+        title: 'מספרים 1–10 — A1',
+        emoji: '🔟',
+        sections: [
+          {
+            type: 'intro',
+            text: 'На відміну від більшості мов, числівники в івриті мають окрему форму чоловічого і жіночого роду, яка залежить від роду іменника, що рахується.',
+            en: {
+              text: 'Unlike most languages, Hebrew numerals have separate masculine and feminine forms, depending on the gender of the noun being counted.',
+            },
+          },
+          {
+            type: 'table',
+            title: '1–10 (ч.р. / ж.р.)',
+            rows: [
+              ['1', '<span dir="rtl">אחד</span> / <span dir="rtl">אחת</span>'],
+              ['2', '<span dir="rtl">שניים</span> / <span dir="rtl">שתיים</span>'],
+              ['3', '<span dir="rtl">שלושה</span> / <span dir="rtl">שלוש</span>'],
+              ['4', '<span dir="rtl">ארבעה</span> / <span dir="rtl">ארבע</span>'],
+              ['5', '<span dir="rtl">חמישה</span> / <span dir="rtl">חמש</span>'],
+              ['6', '<span dir="rtl">שישה</span> / <span dir="rtl">שש</span>'],
+              ['7', '<span dir="rtl">שבעה</span> / <span dir="rtl">שבע</span>'],
+              ['8', '<span dir="rtl">שמונה</span> / <span dir="rtl">שמונה</span>'],
+              ['9', '<span dir="rtl">תשעה</span> / <span dir="rtl">תשע</span>'],
+              ['10', '<span dir="rtl">עשרה</span> / <span dir="rtl">עשר</span>'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">שלושה ילדים</span>', 'троє дітей (ч.р.)'],
+              ['<span dir="rtl">שלוש בנות</span>', 'три дівчинки (ж.р.)'],
+              ['<span dir="rtl">יש לי שני אחים.</span>', 'У мене два брати.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Зворотне узгодження',
+            text: 'Незвично, але форма зі суфіксом <span dir="rtl">ה-</span> (напр. <span dir="rtl">שלושה</span>) використовується для ЧОЛОВІЧОГО роду, а коротша форма (<span dir="rtl">שלוש</span>) — для ЖІНОЧОГО.',
+            en: {
+              title: 'Reversed agreement pattern',
+              text: 'Counter-intuitively, the form with the ה- suffix (e.g. שלושה) is used for MASCULINE nouns, while the shorter form (שלוש) is used for FEMININE nouns.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: 'tenses',
+    title: 'Часи та біньяни',
+    titleEn: 'Tenses & Verb Patterns',
+    emoji: '⏰',
+    rules: [
+      {
+        id: 'binyanim-overview',
+        title: 'שבעת הבניינים — A2',
+        emoji: '🏛️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Майже кожне дієслово в івриті будується з трилітерного кореня (шореш), вставленого в один із 7 стандартних шаблонів — біньянів. Біньян визначає не лише форму слова, а й його заставу (активний/пасивний/зворотний).',
+            en: {
+              text: 'Almost every Hebrew verb is built from a three-letter root (shoresh) inserted into one of 7 standard patterns — binyanim. The binyan determines not only the word\'s shape but also its voice (active/passive/reflexive).',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Сім біньянів (корінь כ-ת-ב / ד-ב-ר / ז-מ-ן як приклад)',
+            rows: [
+              ['<span dir="rtl">קל / פָּעַל</span> (Пааль)', 'простий активний', '<span dir="rtl">כתב</span> (написав)'],
+              ['<span dir="rtl">נִפְעַל</span> (Ніфаль)', 'пасив/зворотний до Пааль', '<span dir="rtl">נכנס</span> (увійшов)'],
+              ['<span dir="rtl">פִּעֵל</span> (Піель)', 'посилений активний', '<span dir="rtl">דיבר</span> (говорив)'],
+              ['<span dir="rtl">פֻּעַל</span> (Пуаль)', 'пасив до Піель', '<span dir="rtl">בושל</span> (був зварений)'],
+              ['<span dir="rtl">הִפְעִיל</span> (Гіфіль)', 'каузатив ("змусити")', '<span dir="rtl">הזמין</span> (запросив)'],
+              ['<span dir="rtl">הֻפְעַל</span> (Гуфаль)', 'пасив до Гіфіль', '<span dir="rtl">הוזמן</span> (був запрошений)'],
+              ['<span dir="rtl">הִתְפַּעֵל</span> (Гітпаель)', 'зворотний/взаємний', '<span dir="rtl">התרחץ</span> (мився)'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Навіщо це знати',
+            text: 'Знання біньяну дозволяє передбачити всю парадигму дієвідмінювання нового слова, щойно ти впізнав шаблон голосних і префіксів — це найпотужніший інструмент для вивчення дієслів в івриті.',
+            en: {
+              title: 'Why this matters',
+              text: 'Recognizing the binyan lets you predict a new verb\'s entire conjugation pattern once you spot its vowel/prefix template — this is the single most powerful tool for learning Hebrew verbs.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'paal-past',
+        title: 'בניין קל — עבר — A1',
+        emoji: '📗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Минулий час у Пааль утворюється додаванням суфіксів до основи кореня. Приклад: <span dir="rtl">לכתוב</span> (писати), корінь כ-ת-ב.',
+            en: {
+              text: 'The past tense in Paal is formed by adding suffixes to the root base. Example: לכתוב (to write), root כ-ת-ב.',
+            },
+          },
+          {
+            type: 'formula',
+            title: '<span dir="rtl">כתב</span> — минулий час',
+            rows: [
+              ['אני', '<span dir="rtl">אני</span>', '<span dir="rtl">כתבתי</span>', 'katavti'],
+              ['אתה', '<span dir="rtl">אתה</span>', '<span dir="rtl">כתבת</span>', 'katavta'],
+              ['את', '<span dir="rtl">את</span>', '<span dir="rtl">כתבת</span>', 'katavt'],
+              ['הוא', '<span dir="rtl">הוא</span>', '<span dir="rtl">כתב</span>', 'katav'],
+              ['היא', '<span dir="rtl">היא</span>', '<span dir="rtl">כתבה</span>', 'katva'],
+              ['אנחנו', '<span dir="rtl">אנחנו</span>', '<span dir="rtl">כתבנו</span>', 'katavnu'],
+              ['אתם/אתן', '<span dir="rtl">אתם/אתן</span>', '<span dir="rtl">כתבתם / כתבתן</span>', 'ktavtem / ktavten'],
+              ['הם/הן', '<span dir="rtl">הם/הן</span>', '<span dir="rtl">כתבו</span>', 'katvu'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אתמול כתבתי מכתב.</span>', 'Вчора я написав(-ла) листа.'],
+              ['<span dir="rtl">הם כתבו שיעורי בית.</span>', 'Вони написали домашнє завдання.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Одна форма для двох осіб',
+            text: 'Форми "ти" (ч.р.) і "я" схожі лише голосними: <span dir="rtl">כתבת</span> (ти, ч.р.) vs <span dir="rtl">כתבתי</span> (я) — головне не переплутати суфікс.',
+            en: {
+              title: 'Watch the suffixes',
+              text: 'Second-person masculine and first-person forms look similar: כתבת ("you", m.) vs כתבתי ("I") — the suffix is what distinguishes them.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'paal-present-full',
+        title: 'בניין קל — הווה (הרחבה) — A1',
+        emoji: '📗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'У теперішньому часі Пааль дієслово змінюється лише за родом і числом (не за особою) — форма діє як прикметник-дієприкметник (בינוני).',
+            en: {
+              text: 'In the present tense, Paal verbs change only by gender and number (not by person) — the form functions as an active participle (beinoni).',
+            },
+          },
+          {
+            type: 'formula',
+            title: '<span dir="rtl">כותב</span> — теперішній час',
+            rows: [
+              ['ч.р. одн.', 'אני/אתה/הוא', '<span dir="rtl">כותב</span>', 'kotev'],
+              ['ж.р. одн.', 'אני/את/היא', '<span dir="rtl">כותבת</span>', 'kotevet'],
+              ['ч.р. мн.', 'אנחנו/אתם/הם', '<span dir="rtl">כותבים</span>', 'kotvim'],
+              ['ж.р. мн.', 'אנחנו/אתן/הן', '<span dir="rtl">כותבות</span>', 'kotvot'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני כותב עכשיו.</span>', 'Я пишу зараз. (ч.р.)'],
+              ['<span dir="rtl">הן כותבות מייל.</span>', 'Вони пишуть імейл. (ж.р.)'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Одна форма — 3 функції',
+            text: 'Форма теперішнього часу (<span dir="rtl">בינוני</span>) також працює як звичайний прикметник і як іменник: <span dir="rtl">כותב</span> може означати "пишу", "той, хто пише" або "письменник" залежно від контексту.',
+            en: {
+              title: 'One form, three functions',
+              text: 'The present-tense form (beinoni) also doubles as a plain adjective and as a noun: כותב can mean "writing", "one who writes", or "a writer" depending on context.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'paal-future',
+        title: 'בניין קל — עתיד — A2',
+        emoji: '📗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Майбутній час утворюється префіксами (א-, ת-, י-, נ-) перед основою кореня. Ці префікси однакові для всіх біньянів — лише голосні змінюються.',
+            en: {
+              text: 'The future tense is formed with prefixes (א-, ת-, י-, נ-) before the root base. These prefixes are the same across all binyanim — only the vowels change.',
+            },
+          },
+          {
+            type: 'formula',
+            title: '<span dir="rtl">יכתוב</span> — майбутній час',
+            rows: [
+              ['אני', '<span dir="rtl">אני</span>', '<span dir="rtl">אכתוב</span>', 'ekhtov'],
+              ['אתה', '<span dir="rtl">אתה</span>', '<span dir="rtl">תכתוב</span>', 'tikhtov'],
+              ['את', '<span dir="rtl">את</span>', '<span dir="rtl">תכתבי</span>', 'tikhtevi'],
+              ['הוא', '<span dir="rtl">הוא</span>', '<span dir="rtl">יכתוב</span>', 'yikhtov'],
+              ['היא', '<span dir="rtl">היא</span>', '<span dir="rtl">תכתוב</span>', 'tikhtov'],
+              ['אנחנו', '<span dir="rtl">אנחנו</span>', '<span dir="rtl">נכתוב</span>', 'nikhtov'],
+              ['אתם/אתן', '<span dir="rtl">אתם/אתן</span>', '<span dir="rtl">תכתבו</span>', 'tikhtevu'],
+              ['הם/הן', '<span dir="rtl">הם/הן</span>', '<span dir="rtl">יכתבו</span>', 'yikhtevu'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">מחר אכתוב לך.</span>', 'Завтра я напишу тобі.'],
+              ['<span dir="rtl">הם יכתבו מבחן.</span>', 'Вони писатимуть контрольну.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Мнемоніка א-ת-י-נ',
+            text: 'Запам\'ятай префікси майбутнього часу як слово <span dir="rtl">איתן</span> ("міцний"): א (я), ת (ти/вона), י (він/вони), נ (ми).',
+            en: {
+              title: 'The איתן mnemonic',
+              text: 'Remember the future-tense prefixes as spelling the word איתן ("sturdy"): א (I), ת (you/she), י (he/they), נ (we).',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'paal-imperative',
+        title: 'בניין קל — ציווי — A2',
+        emoji: '❗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Наказовий спосіб використовується лише у формах "ти" (2-а особа) і в розмовній мові часто замінюється майбутнім часом ("<span dir="rtl">תכתוב</span>!" замість "<span dir="rtl">כתוב</span>!").',
+            en: {
+              text: 'The imperative is used only in the 2nd person ("you") forms, and in casual speech is often replaced by the future tense ("תכתוב!" instead of "כתוב!").',
+            },
+          },
+          {
+            type: 'formula',
+            title: '<span dir="rtl">כתוב</span> — наказовий спосіб',
+            rows: [
+              ['ти (ч.р.)', 'אתה', '<span dir="rtl">כתוב!</span>', 'ktov'],
+              ['ти (ж.р.)', 'את', '<span dir="rtl">כתבי!</span>', 'kitvi'],
+              ['ви', 'אתם/אתן', '<span dir="rtl">כתבו!</span>', 'kitvu'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">סגור את הדלת!</span>', 'Зачини двері! (ч.р.)'],
+              ['<span dir="rtl">בואי הנה!</span>', 'Ходи сюди! (ж.р.)'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Заперечний наказ',
+            text: 'Заборону не можна виразити наказовим способом напряму — потрібно вжити <span dir="rtl">אל</span> + майбутній час: <span dir="rtl">אל תכתוב!</span> (Не пиши!).',
+            en: {
+              title: 'Negative commands',
+              text: 'You cannot negate the imperative directly — use אל + the future tense instead: אל תכתוב! ("Don\'t write!").',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'piel-conjugation',
+        title: 'בניין פיעל — A2',
+        emoji: '📘',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Піель — активний "посилений" біньян: часто виражає інтенсивну, повторювану або каузативну дію. Приклад: <span dir="rtl">לדבר</span> (говорити), корінь ד-ב-ר.',
+            en: {
+              text: 'Piel is an active, "intensive" binyan: it often expresses repeated, intensive, or causative action. Example: לדבר (to speak), root ד-ב-ר.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Теперішній час',
+            rows: [
+              ['ч.р. одн.', '<span dir="rtl">מדבר</span> (medaber)'],
+              ['ж.р. одн.', '<span dir="rtl">מדברת</span> (medaberet)'],
+              ['ч.р. мн.', '<span dir="rtl">מדברים</span> (medabrim)'],
+              ['ж.р. мн.', '<span dir="rtl">מדברות</span> (medabrot)'],
+            ],
+          },
+          {
+            type: 'formula',
+            title: 'Минулий час',
+            rows: [
+              ['אני', '<span dir="rtl">אני</span>', '<span dir="rtl">דיברתי</span>', 'dibarti'],
+              ['אתה', '<span dir="rtl">אתה</span>', '<span dir="rtl">דיברת</span>', 'dibarta'],
+              ['הוא', '<span dir="rtl">הוא</span>', '<span dir="rtl">דיבר</span>', 'diber'],
+              ['היא', '<span dir="rtl">היא</span>', '<span dir="rtl">דיברה</span>', 'dibra'],
+              ['אנחנו', '<span dir="rtl">אנחנו</span>', '<span dir="rtl">דיברנו</span>', 'dibarnu'],
+              ['הם/הן', '<span dir="rtl">הם/הן</span>', '<span dir="rtl">דיברו</span>', 'dibru'],
+            ],
+          },
+          {
+            type: 'formula',
+            title: 'Майбутній час',
+            rows: [
+              ['אני', '<span dir="rtl">אני</span>', '<span dir="rtl">אדבר</span>', 'adaber'],
+              ['אתה', '<span dir="rtl">אתה</span>', '<span dir="rtl">תדבר</span>', 'tedaber'],
+              ['הוא', '<span dir="rtl">הוא</span>', '<span dir="rtl">ידבר</span>', 'yedaber'],
+              ['אנחנו', '<span dir="rtl">אנחנו</span>', '<span dir="rtl">נדבר</span>', 'nedaber'],
+              ['הם/הן', '<span dir="rtl">הם/הן</span>', '<span dir="rtl">ידברו</span>', 'yedabru'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני מדבר עברית.</span>', 'Я розмовляю на івриті.'],
+              ['<span dir="rtl">היא דיברה איתו אתמול.</span>', 'Вона говорила з ним учора.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Впізнати Піель',
+            text: 'Піель легко впізнати за подвоєною середньою приголосною кореня у словнику (нескладно у вимові) та за префіксом <span dir="rtl">מ-</span> у теперішньому часі без додаткових голосних, як у Гіфіль.',
+            en: {
+              title: 'Spotting Piel',
+              text: 'Piel is recognizable by its "doubled" middle root consonant (in the dictionary form) and by the מ- prefix in the present tense without the extra vowel pattern Hifil has.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'hifil-conjugation',
+        title: 'בניין הפעיל — A2',
+        emoji: '📙',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Гіфіль — каузативний біньян: "змусити щось статися". Приклад: <span dir="rtl">להזמין</span> (запросити/замовити), корінь ז-מ-ן.',
+            en: {
+              text: 'Hifil is the causative binyan: "to make something happen". Example: להזמין (to invite / order), root ז-מ-ן.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Теперішній час',
+            rows: [
+              ['ч.р. одн.', '<span dir="rtl">מזמין</span> (mazmin)'],
+              ['ж.р. одн.', '<span dir="rtl">מזמינה</span> (mazmina)'],
+              ['ч.р. мн.', '<span dir="rtl">מזמינים</span> (mazminim)'],
+              ['ж.р. мн.', '<span dir="rtl">מזמינות</span> (mazminot)'],
+            ],
+          },
+          {
+            type: 'formula',
+            title: 'Минулий час',
+            rows: [
+              ['אני', '<span dir="rtl">אני</span>', '<span dir="rtl">הזמנתי</span>', 'hizmanti'],
+              ['אתה', '<span dir="rtl">אתה</span>', '<span dir="rtl">הזמנת</span>', 'hizmanta'],
+              ['הוא', '<span dir="rtl">הוא</span>', '<span dir="rtl">הזמין</span>', 'hizmin'],
+              ['היא', '<span dir="rtl">היא</span>', '<span dir="rtl">הזמינה</span>', 'hizmina'],
+              ['אנחנו', '<span dir="rtl">אנחנו</span>', '<span dir="rtl">הזמנו</span>', 'hizmanu'],
+              ['הם/הן', '<span dir="rtl">הם/הן</span>', '<span dir="rtl">הזמינו</span>', 'hizminu'],
+            ],
+          },
+          {
+            type: 'formula',
+            title: 'Майбутній час',
+            rows: [
+              ['אני', '<span dir="rtl">אני</span>', '<span dir="rtl">אזמין</span>', 'azmin'],
+              ['אתה', '<span dir="rtl">אתה</span>', '<span dir="rtl">תזמין</span>', 'tazmin'],
+              ['הוא', '<span dir="rtl">הוא</span>', '<span dir="rtl">יזמין</span>', 'yazmin'],
+              ['אנחנו', '<span dir="rtl">אנחנו</span>', '<span dir="rtl">נזמין</span>', 'nazmin'],
+              ['הם/הן', '<span dir="rtl">הם/הן</span>', '<span dir="rtl">יזמינו</span>', 'yazminu'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אנחנו מזמינים פיצה.</span>', 'Ми замовляємо піцу.'],
+              ['<span dir="rtl">הוא הזמין אותי למסיבה.</span>', 'Він запросив мене на вечірку.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Значення каузативу',
+            text: 'Багато дієслів Гіфіль виражають "змушування": <span dir="rtl">להכניס</span> (внести, букв. "змусити ввійти"), <span dir="rtl">להסביר</span> (пояснити, букв. "зробити зрозумілим").',
+            en: {
+              title: 'Causative meaning',
+              text: 'Many Hifil verbs express "causing": להכניס ("to bring in", lit. "to cause to enter"), להסביר ("to explain", lit. "to make clear").',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'nifal-conjugation',
+        title: 'בניין נפעל — A2',
+        emoji: '📕',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Ніфаль зазвичай виражає пасивний або зворотний стан щодо Пааль, але багато дієслів Ніфаль — самостійні, без активного відповідника. Приклад: <span dir="rtl">להיכנס</span> (увійти), корінь כ-נ-ס.',
+            en: {
+              text: 'Nifal usually expresses a passive or reflexive state relative to Paal, but many Nifal verbs stand alone without an active counterpart. Example: להיכנס (to enter), root כ-נ-ס.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Теперішній час',
+            rows: [
+              ['ч.р. одн.', '<span dir="rtl">נכנס</span> (nichnas)'],
+              ['ж.р. одн.', '<span dir="rtl">נכנסת</span> (nichneset)'],
+              ['ч.р. мн.', '<span dir="rtl">נכנסים</span> (nichnasim)'],
+              ['ж.р. мн.', '<span dir="rtl">נכנסות</span> (nichnasot)'],
+            ],
+          },
+          {
+            type: 'formula',
+            title: 'Минулий час',
+            rows: [
+              ['אני', '<span dir="rtl">אני</span>', '<span dir="rtl">נכנסתי</span>', 'nichnasti'],
+              ['אתה', '<span dir="rtl">אתה</span>', '<span dir="rtl">נכנסת</span>', 'nichnasta'],
+              ['הוא', '<span dir="rtl">הוא</span>', '<span dir="rtl">נכנס</span>', 'nichnas'],
+              ['היא', '<span dir="rtl">היא</span>', '<span dir="rtl">נכנסה</span>', 'nichnesa'],
+              ['אנחנו', '<span dir="rtl">אנחנו</span>', '<span dir="rtl">נכנסנו</span>', 'nichnasnu'],
+              ['הם/הן', '<span dir="rtl">הם/הן</span>', '<span dir="rtl">נכנסו</span>', 'nichnesu'],
+            ],
+          },
+          {
+            type: 'formula',
+            title: 'Майбутній час',
+            rows: [
+              ['אני', '<span dir="rtl">אני</span>', '<span dir="rtl">אכנס</span>', 'ekanes'],
+              ['אתה', '<span dir="rtl">אתה</span>', '<span dir="rtl">תיכנס</span>', 'tikanes'],
+              ['הוא', '<span dir="rtl">הוא</span>', '<span dir="rtl">ייכנס</span>', 'yikanes'],
+              ['אנחנו', '<span dir="rtl">אנחנו</span>', '<span dir="rtl">ניכנס</span>', 'nikanes'],
+              ['הם/הן', '<span dir="rtl">הם/הן</span>', '<span dir="rtl">ייכנסו</span>', 'yikanesu'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אנחנו נכנסים לבית.</span>', 'Ми заходимо в дім.'],
+              ['<span dir="rtl">הכוס נשברה.</span>', 'Склянка розбилась. (пасив)'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Впізнати Ніфаль',
+            text: 'У словнику (форма минулого часу, він) Ніфаль завжди починається на <span dir="rtl">נ-</span>: <span dir="rtl">נכנס</span>, <span dir="rtl">נשבר</span>, <span dir="rtl">נולד</span>.',
+            en: {
+              title: 'Spotting Nifal',
+              text: 'In the dictionary form (past tense, "he"), Nifal verbs always start with נ-: נכנס, נשבר, נולד.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'hitpael-conjugation',
+        title: 'בניין התפעל — A2',
+        emoji: '📔',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Гітпаель виражає зворотну, взаємну дію ("робити щось собі/один одному") або зміну стану. Приклад: <span dir="rtl">להתרחץ</span> (митися), корінь ר-ח-צ.',
+            en: {
+              text: 'Hitpael expresses reflexive or reciprocal action ("doing something to oneself / each other") or a change of state. Example: להתרחץ (to wash oneself/shower), root ר-ח-צ.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Теперішній час',
+            rows: [
+              ['ч.р. одн.', '<span dir="rtl">מתרחץ</span> (mitrachetz)'],
+              ['ж.р. одн.', '<span dir="rtl">מתרחצת</span> (mitrachetzet)'],
+              ['ч.р. мн.', '<span dir="rtl">מתרחצים</span> (mitrachatzim)'],
+              ['ж.р. мн.', '<span dir="rtl">מתרחצות</span> (mitrachatzot)'],
+            ],
+          },
+          {
+            type: 'formula',
+            title: 'Минулий час',
+            rows: [
+              ['אני', '<span dir="rtl">אני</span>', '<span dir="rtl">התרחצתי</span>', 'hitrachatzti'],
+              ['אתה', '<span dir="rtl">אתה</span>', '<span dir="rtl">התרחצת</span>', 'hitrachatzta'],
+              ['הוא', '<span dir="rtl">הוא</span>', '<span dir="rtl">התרחץ</span>', 'hitrachetz'],
+              ['היא', '<span dir="rtl">היא</span>', '<span dir="rtl">התרחצה</span>', 'hitrachatza'],
+              ['אנחנו', '<span dir="rtl">אנחנו</span>', '<span dir="rtl">התרחצנו</span>', 'hitrachatznu'],
+              ['הם/הן', '<span dir="rtl">הם/הן</span>', '<span dir="rtl">התרחצו</span>', 'hitrachatzu'],
+            ],
+          },
+          {
+            type: 'formula',
+            title: 'Майбутній час',
+            rows: [
+              ['אני', '<span dir="rtl">אני</span>', '<span dir="rtl">אתרחץ</span>', 'etrachetz'],
+              ['אתה', '<span dir="rtl">אתה</span>', '<span dir="rtl">תתרחץ</span>', 'titrachetz'],
+              ['הוא', '<span dir="rtl">הוא</span>', '<span dir="rtl">יתרחץ</span>', 'yitrachetz'],
+              ['אנחנו', '<span dir="rtl">אנחנו</span>', '<span dir="rtl">נתרחץ</span>', 'nitrachetz'],
+              ['הם/הן', '<span dir="rtl">הם/הן</span>', '<span dir="rtl">יתרחצו</span>', 'yitrachatzu'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני מתרחץ כל בוקר.</span>', 'Я приймаю душ щоранку.'],
+              ['<span dir="rtl">הם התכתבו כל הלילה.</span>', 'Вони листувалися всю ніч. (взаємно)'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Впізнати Гітпаель',
+            text: 'Гітпаель завжди починається з <span dir="rtl">הת-</span> (минулий/словникова форма) або <span dir="rtl">מת-</span> (теперішній час): <span dir="rtl">התלבש</span> (одягнувся), <span dir="rtl">מתאמן</span> (тренується).',
+            en: {
+              title: 'Spotting Hitpael',
+              text: 'Hitpael always starts with הת- (past/dictionary form) or מת- (present tense): התלבש ("got dressed"), מתאמן ("is training").',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'pual-hufal',
+        title: 'פועל וסביל — פֻּעַל והֻפְעַל — B1',
+        emoji: '🔄',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Пуаль і Гуфаль — пасивні пари до Піель і Гіфіль відповідно. Вони не мають наказового способу й найчастіше вживаються в теперішньому часі як дієприкметники стану.',
+            en: {
+              text: 'Pual and Hufal are the passive counterparts of Piel and Hifil respectively. They have no imperative and are most often used in the present tense as stative participles.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Активний → пасивний',
+            rows: [
+              ['<span dir="rtl">בישל</span> (Піель: зварив)', '<span dir="rtl">מבושל</span> (Пуаль: зварений)'],
+              ['<span dir="rtl">סידר</span> (Піель: прибрав)', '<span dir="rtl">מסודר</span> (Пуаль: прибраний)'],
+              ['<span dir="rtl">הזמין</span> (Гіфіль: запросив)', '<span dir="rtl">מוזמן</span> (Гуфаль: запрошений)'],
+              ['<span dir="rtl">הפעיל</span> (Гіфіль: увімкнув)', '<span dir="rtl">מופעל</span> (Гуфаль: увімкнений)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">האוכל כבר מבושל.</span>', 'Їжа вже зварена.'],
+              ['<span dir="rtl">החדר מסודר.</span>', 'Кімната прибрана.'],
+              ['<span dir="rtl">אתה מוזמן למסיבה.</span>', 'Тебе запрошено на вечірку.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Голосний "у" — маркер пасиву',
+            text: 'В обох пасивних біньянах характерний голосний "у" у першому складі: <span dir="rtl">מְבֻשָּׁל</span>, <span dir="rtl">מֻזְמָן</span> — це найшвидший спосіб впізнати пасивну форму.',
+            en: {
+              title: 'The "u" vowel marks the passive',
+              text: 'Both passive binyanim feature a characteristic "u" vowel in the first syllable — the fastest way to spot a passive form at a glance.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'infinitive-construct',
+        title: 'שם הפועל — A2',
+        emoji: '➡️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Інфінітив в івриті утворюється префіксом <span dir="rtl">ל-</span> перед основою кореня. Форма інфінітива залежить від біньяну і використовується після дієслів волі/можливості/обов\'язку.',
+            en: {
+              text: 'The infinitive in Hebrew is formed with the prefix ל- before the root base. Its shape depends on the binyan, and it\'s used after verbs of will, ability, or obligation.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Інфінітив за біньянами',
+            rows: [
+              ['Пааль', '<span dir="rtl">לכתוב</span> (писати)'],
+              ['Ніфаль', '<span dir="rtl">להיכנס</span> (входити)'],
+              ['Піель', '<span dir="rtl">לדבר</span> (говорити)'],
+              ['Гіфіль', '<span dir="rtl">להזמין</span> (запрошувати)'],
+              ['Гітпаель', '<span dir="rtl">להתרחץ</span> (митися)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади вживання',
+            en: { title: 'Usage examples' },
+            rows: [
+              ['<span dir="rtl">אני רוצה לכתוב לך.</span>', 'Я хочу написати тобі.'],
+              ['<span dir="rtl">היא צריכה להתרחץ.</span>', 'Їй потрібно помитися.'],
+              ['<span dir="rtl">אנחנו יכולים לדבר עכשיו?</span>', 'Ми можемо поговорити зараз?'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Слова, після яких завжди інфінітив',
+            text: '<span dir="rtl">רוצה</span> (хочу), <span dir="rtl">צריך</span> (потрібно), <span dir="rtl">יכול</span> (можу), <span dir="rtl">אוהב</span> (люблю [робити]), <span dir="rtl">מתחיל</span> (починаю) — всі вимагають інфінітива з <span dir="rtl">ל-</span> після себе.',
+            en: {
+              title: 'Words always followed by the infinitive',
+              text: 'רוצה (want), צריך (need to), יכול (can), אוהב (like [doing]), מתחיל (start to) — all require the ל- infinitive right after them.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: 'grammar',
+    title: 'Граматика',
+    titleEn: 'Grammar',
+    emoji: '📚',
+    rules: [
+      {
+        id: 'construct-state',
+        title: 'סמיכות — B1',
+        emoji: '🔗',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Сміхут (сполучений стан) — це спосіб з\'єднати два іменники в одне поняття без прийменника "з": "перший" іменник (нахід) часто трохи змінює форму, а означеність передається лише через "другий".',
+            en: {
+              text: 'Smichut (construct state) links two nouns into a single compound concept without a preposition: the first noun often shifts form slightly, and definiteness is marked only on the second noun.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Приклади сміхуту',
+            rows: [
+              [
+                '<span dir="rtl">בית</span> + <span dir="rtl">ספר</span>',
+                '<span dir="rtl">בית ספר</span> (школа, букв. "дім книги")',
+              ],
+              [
+                '<span dir="rtl">חדר</span> + <span dir="rtl">שינה</span>',
+                '<span dir="rtl">חדר שינה</span> (спальня)',
+              ],
+              [
+                '<span dir="rtl">בית</span> + <span dir="rtl">ה</span> + <span dir="rtl">ספר</span>',
+                '<span dir="rtl">בית הספר</span> (ця школа — артикль лише на другому слові)',
+              ],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני הולך לבית הספר.</span>', 'Я йду до школи.'],
+              ['<span dir="rtl">היא עובדת בבית חולים.</span>', 'Вона працює в лікарні.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: 'Артикль тільки один раз',
+            text: 'На відміну від узгодження прикметника (де <span dir="rtl">ה-</span> дублюється), у сміхуті <span dir="rtl">ה-</span> ставиться ТІЛЬКИ перед другим словом: <span dir="rtl">בית הספר</span>, а не <span dir="rtl">הבית הספר</span>.',
+            en: {
+              title: 'The article appears only once',
+              text: 'Unlike adjective agreement (where ה- is doubled), in smichut the ה- goes ONLY before the second word: בית הספר, never הבית הספר.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'direct-object-et',
+        title: 'מילית המושא הישיר את — A2',
+        emoji: '🎯',
+        sections: [
+          {
+            type: 'intro',
+            text: '<span dir="rtl">את</span> ставиться перед ОЗНАЧЕНИМ прямим додатком (означеним іменником, іменем або займенником) і не перекладається — це маркер, а не слово зі значенням.',
+            en: {
+              text: 'את is placed before a DEFINITE direct object (a definite noun, a name, or a pronoun) and has no translation — it\'s a grammatical marker, not a meaningful word.',
+            },
+          },
+          {
+            type: 'formula',
+            title: 'Коли ставити <span dir="rtl">את</span>',
+            rows: [
+              [
+                '✅',
+                'дієслово + <span dir="rtl">את</span> + означений додаток',
+                'бачу книгу (ЦЮ)',
+                '<span dir="rtl">אני רואה את הספר.</span>',
+              ],
+              [
+                '❌',
+                'дієслово + неозначений додаток',
+                'бачу (якусь) книгу',
+                '<span dir="rtl">אני רואה ספר.</span>',
+              ],
+            ],
+          },
+          {
+            type: 'table',
+            title: '<span dir="rtl">את</span> + займенникові суфікси',
+            rows: [
+              ['<span dir="rtl">אותי</span>', 'мене'],
+              ['<span dir="rtl">אותך</span>', 'тебе (ч.р.)'],
+              ['<span dir="rtl">אותה</span>', 'її'],
+              ['<span dir="rtl">אותו</span>', 'його'],
+              ['<span dir="rtl">אותנו</span>', 'нас'],
+              ['<span dir="rtl">אותם</span>', 'їх (ч.р.)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני אוהב את דנה.</span>', 'Я люблю Дану.'],
+              ['<span dir="rtl">היא ראתה אותי בעיר.</span>', 'Вона бачила мене в місті.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'prepositions-le',
+        title: 'מילת היחס ל- — A1',
+        emoji: '➡️',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Прийменник <span dir="rtl">ל-</span> ("до, для") приєднується прямо до слова як префікс. У поєднанні з займенниками він утворює окремі злиті форми.',
+            en: {
+              text: 'The preposition ל- ("to, for") is attached directly to the following word as a prefix. Combined with pronouns, it forms fused suffix words.',
+            },
+          },
+          {
+            type: 'table',
+            title: '<span dir="rtl">ל-</span> + займенники',
+            rows: [
+              ['<span dir="rtl">לי</span>', 'мені'],
+              ['<span dir="rtl">לך</span>', 'тобі (ч.р.) / (ж.р.)'],
+              ['<span dir="rtl">לו</span>', 'йому'],
+              ['<span dir="rtl">לה</span>', 'їй'],
+              ['<span dir="rtl">לנו</span>', 'нам'],
+              ['<span dir="rtl">להם</span>', 'їм (ч.р.)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני נותן לך מתנה.</span>', 'Я даю тобі подарунок.'],
+              ['<span dir="rtl">אנחנו נוסעים לתל אביב.</span>', 'Ми їдемо до Тель-Авіва.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'prepositions-be',
+        title: 'מילת היחס ב- — A1',
+        emoji: '📍',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Прийменник <span dir="rtl">ב-</span> ("в, за допомогою") також приєднується як префікс і означає місце, засіб або час.',
+            en: {
+              text: 'The preposition ב- ("in, at, by/with") also attaches as a prefix and expresses location, instrument, or time.',
+            },
+          },
+          {
+            type: 'table',
+            title: '<span dir="rtl">ב-</span> + займенники',
+            rows: [
+              ['<span dir="rtl">בי</span>', 'у мені'],
+              ['<span dir="rtl">בך</span>', 'у тобі'],
+              ['<span dir="rtl">בו</span>', 'у ньому'],
+              ['<span dir="rtl">בה</span>', 'у ній'],
+              ['<span dir="rtl">בנו</span>', 'у нас'],
+              ['<span dir="rtl">בהם</span>', 'у них (ч.р.)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני גר בתל אביב.</span>', 'Я живу в Тель-Авіві.'],
+              ['<span dir="rtl">היא כותבת בעט.</span>', 'Вона пише ручкою.'],
+              ['<span dir="rtl">נפגש ביום ראשון.</span>', 'Зустрінемось у неділю.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'prepositions-im-etzel',
+        title: 'עם / אצל — A2',
+        emoji: '🤝',
+        sections: [
+          {
+            type: 'intro',
+            text: '<span dir="rtl">עם</span> означає "з" (у супроводі), а <span dir="rtl">אצל</span> означає "у (когось), в домі/офісі когось" — обидва часто плутають новачки.',
+            en: {
+              text: 'עם means "with" (in the company of), while אצל means "at [someone\'s] place" — a preposition beginners often confuse.',
+            },
+          },
+          {
+            type: 'table',
+            title: '<span dir="rtl">עם</span> / <span dir="rtl">אצל</span> + займенники',
+            rows: [
+              ['<span dir="rtl">איתי</span>', 'зі мною'],
+              ['<span dir="rtl">איתך</span>', 'з тобою'],
+              ['<span dir="rtl">איתו</span>', 'з ним'],
+              ['<span dir="rtl">אצלי</span>', 'у мене (вдома)'],
+              ['<span dir="rtl">אצלה</span>', 'у неї (вдома)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני הולך איתך.</span>', 'Я йду з тобою.'],
+              ['<span dir="rtl">נפגשים אצלי בשמונה.</span>', 'Зустрічаємось у мене о восьмій.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'prepositions-al-min',
+        title: 'על / מ- — A2',
+        emoji: '📤',
+        sections: [
+          {
+            type: 'intro',
+            text: '<span dir="rtl">על</span> означає "на" або "про", а <span dir="rtl">מ-</span> (варіант <span dir="rtl">מן</span>) означає "з, від" (джерело/напрямок від).',
+            en: {
+              text: 'על means "on" or "about", while מ- (also מן) means "from" (source/direction away from).',
+            },
+          },
+          {
+            type: 'table',
+            title: '<span dir="rtl">על</span> / <span dir="rtl">מ-</span> + займенники',
+            rows: [
+              ['<span dir="rtl">עליי</span>', 'на мені / про мене'],
+              ['<span dir="rtl">עליו</span>', 'на ньому / про нього'],
+              ['<span dir="rtl">ממני</span>', 'від мене'],
+              ['<span dir="rtl">ממנו</span>', 'від нього'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">הספר על השולחן.</span>', 'Книга на столі.'],
+              ['<span dir="rtl">היא סיפרה לי עליך.</span>', 'Вона розповіла мені про тебе.'],
+              ['<span dir="rtl">אני מגיע מאוקראינה.</span>', 'Я приїхав з України.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'question-words',
+        title: 'מילות שאלה — A1',
+        emoji: '❓',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Питальні слова зазвичай стоять на початку речення. Порядок слів у решті речення після них — як у звичайному стверджувальному реченні.',
+            en: {
+              text: 'Question words usually stand at the start of the sentence. Word order in the rest of the sentence stays the same as in a normal statement.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Основні питальні слова',
+            rows: [
+              ['<span dir="rtl">מה</span>', 'що'],
+              ['<span dir="rtl">מי</span>', 'хто'],
+              ['<span dir="rtl">איפה</span>', 'де'],
+              ['<span dir="rtl">מתי</span>', 'коли'],
+              ['<span dir="rtl">למה</span>', 'чому'],
+              ['<span dir="rtl">איך</span>', 'як'],
+              ['<span dir="rtl">כמה</span>', 'скільки'],
+              ['<span dir="rtl">איזה / איזו</span>', 'який / яка'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">איפה אתה גר?</span>', 'Де ти живеш?'],
+              ['<span dir="rtl">כמה זה עולה?</span>', 'Скільки це коштує?'],
+              ['<span dir="rtl">למה את עצובה?</span>', 'Чому ти сумна?'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'word-order',
+        title: 'סדר מילים במשפט — A2',
+        emoji: '🧭',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Базовий порядок слів у сучасному івриті — підмет-присудок-додаток (SVO), як в українській. У формальному чи літературному стилі можливий інверсійний порядок VSO.',
+            en: {
+              text: 'The basic word order in modern Hebrew is subject-verb-object (SVO), just like in English. In formal or literary style, inverted VSO order is also possible.',
+            },
+          },
+          {
+            type: 'formula',
+            title: 'SVO — стандартний порядок',
+            rows: [
+              [
+                '✅',
+                'підмет + присудок + додаток',
+                'Дана читає книгу.',
+                '<span dir="rtl">דנה קוראת ספר.</span>',
+              ],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">הילד אוכל תפוח.</span>', 'Хлопчик їсть яблуко.'],
+              ['<span dir="rtl">אתמול הלכנו לים.</span>', '(обставина часу спереду) Вчора ми ходили на море.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Гнучкість порядку',
+            text: 'Обставини часу/місця часто виносяться на початок речення для акценту, без зміни значення: <span dir="rtl">היום אני עובד</span> = <span dir="rtl">אני עובד היום</span>.',
+            en: {
+              title: 'Flexible ordering',
+              text: 'Time/place adverbials are often fronted for emphasis, without changing the meaning: היום אני עובד = אני עובד היום ("Today I\'m working").',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'relative-clause-she',
+        title: 'משפט זיקה עם ש- — A2',
+        emoji: '🔀',
+        sections: [
+          {
+            type: 'intro',
+            text: '<span dir="rtl">ש-</span> — універсальний сполучник для підрядних речень: "що/який/яка/котрий". На відміну від англійської чи української, він ЗАВЖДИ один і той самий, незалежно від роду й числа.',
+            en: {
+              text: 'ש- is the universal relative-clause connector: "that / which / who". Unlike English or Ukrainian, it never changes — the same ש- is used regardless of gender or number.',
+            },
+          },
+          {
+            type: 'formula',
+            title: 'Головне речення + <span dir="rtl">ש-</span> + підрядне',
+            rows: [
+              [
+                '✅',
+                'іменник',
+                '<span dir="rtl">ש-</span> + речення',
+                '<span dir="rtl">הספר שקראתי</span>',
+              ],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">האיש שראיתי הוא המורה שלי.</span>', 'Чоловік, якого я бачив, — мій вчитель.'],
+              ['<span dir="rtl">אני חושב שזה נכון.</span>', 'Я думаю, що це правильно.'],
+              ['<span dir="rtl">היא יודעת שאתה עסוק.</span>', 'Вона знає, що ти зайнятий.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: '<span dir="rtl">ש-</span> і <span dir="rtl">אשר</span>',
+            text: '<span dir="rtl">אשר</span> — літературний/офіційний синонім <span dir="rtl">ש-</span>, але у розмовній мові майже завжди використовують коротшу форму <span dir="rtl">ש-</span>.',
+            en: {
+              title: 'ש- vs אשר',
+              text: 'אשר is a literary/formal synonym for ש-, but everyday spoken Hebrew almost always uses the shorter ש-.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'comparatives-superlatives',
+        title: 'השוואה — יותר, הכי — A2',
+        emoji: '📈',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Порівняльний ступінь утворюється словом <span dir="rtl">יותר</span> ("більш") перед/після прикметника, а найвищий — словом <span dir="rtl">הכי</span> ("найбільш") перед прикметником.',
+            en: {
+              text: 'The comparative is formed with יותר ("more") before/after the adjective, and the superlative with הכי ("most") before the adjective.',
+            },
+          },
+          {
+            type: 'formula',
+            title: 'Порівняльний і найвищий ступінь',
+            rows: [
+              [
+                '✅',
+                'прикметник + <span dir="rtl">יותר</span>',
+                'більш ...',
+                '<span dir="rtl">גדול יותר</span> (більший)',
+              ],
+              [
+                '✅',
+                '<span dir="rtl">הכי</span> + прикметник',
+                'най... ',
+                '<span dir="rtl">הכי גדול</span> (найбільший)',
+              ],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">הבית שלי גדול יותר משלך.</span>', 'Мій дім більший за твій.'],
+              ['<span dir="rtl">זה הספר הכי טוב שקראתי.</span>', 'Це найкраща книга, яку я читав.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: '"За/ніж" — <span dir="rtl">מ-</span>',
+            text: 'У порівнянні друга частина ("ніж X") вводиться прийменником <span dir="rtl">מ-</span>: <span dir="rtl">גדול יותר ממנו</span> (більший, ніж він).',
+            en: {
+              title: '"Than" is מ-',
+              text: 'In comparisons, the second element ("than X") is introduced with the preposition מ-: גדול יותר ממנו ("bigger than him").',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'modal-words',
+        title: 'מילות מודליות — צריך, יכול, רוצה — A1',
+        emoji: '🔧',
+        sections: [
+          {
+            type: 'intro',
+            text: 'В івриті немає модальних дієслів у звичному сенсі — замість цього використовуються прикметникоподібні слова, які узгоджуються з підметом за родом і числом і вимагають інфінітива.',
+            en: {
+              text: 'Hebrew has no modal verbs in the usual sense — instead it uses adjective-like words that agree with the subject in gender/number and take the infinitive.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Основні "модальні" слова',
+            rows: [
+              ['<span dir="rtl">צריך / צריכה</span>', 'потрібно, мусиш'],
+              ['<span dir="rtl">יכול / יכולה</span>', 'можу, можеш'],
+              ['<span dir="rtl">רוצה</span>', 'хочу, хочеш (одна форма для ч./ж.)'],
+              ['<span dir="rtl">מותר</span>', 'дозволено'],
+              ['<span dir="rtl">אסור</span>', 'заборонено'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">אני צריך ללכת.</span>', 'Мені потрібно йти.'],
+              ['<span dir="rtl">היא יכולה לעזור.</span>', 'Вона може допомогти.'],
+              ['<span dir="rtl">אסור לעשן כאן.</span>', 'Тут заборонено курити.'],
+            ],
+          },
+          {
+            type: 'tip',
+            title: '<span dir="rtl">מותר</span>/<span dir="rtl">אסור</span> — безособові',
+            text: 'На відміну від <span dir="rtl">צריך</span> і <span dir="rtl">יכול</span>, слова <span dir="rtl">מותר</span> і <span dir="rtl">אסור</span> НЕ узгоджуються за родом/числом — вони завжди в одній формі.',
+            en: {
+              title: 'מותר/אסור are impersonal',
+              text: 'Unlike צריך and יכול, the words מותר and אסור do NOT agree in gender/number — they always stay in one fixed form.',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'numbers-11-20',
+        title: 'מספרים 11–20 — A2',
+        emoji: '🔢',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Числа від 11 до 19 утворюються поєднанням одиниці з <span dir="rtl">עשר / עשרה</span> ("-надцять"), причому й тут зберігається узгодження за родом.',
+            en: {
+              text: 'Numbers 11–19 are formed by combining the unit digit with עשר/עשרה ("-teen"), and gender agreement still applies.',
+            },
+          },
+          {
+            type: 'table',
+            title: '11–20 (ч.р. / ж.р.)',
+            rows: [
+              ['11', '<span dir="rtl">אחד עשר</span> / <span dir="rtl">אחת עשרה</span>'],
+              ['12', '<span dir="rtl">שנים עשר</span> / <span dir="rtl">שתים עשרה</span>'],
+              ['13', '<span dir="rtl">שלושה עשר</span> / <span dir="rtl">שלוש עשרה</span>'],
+              ['15', '<span dir="rtl">חמישה עשר</span> / <span dir="rtl">חמש עשרה</span>'],
+              ['20', '<span dir="rtl">עשרים</span> (одна форма для обох родів)'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">יש לי שתים עשרה שאלות.</span>', 'У мене дванадцять питань.'],
+              ['<span dir="rtl">היא בת עשרים.</span>', 'Їй двадцять років.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'numbers-tens-hundreds',
+        title: 'עשרות ומאות — B1',
+        emoji: '💯',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Десятки (20-90) мають лише одну форму для обох родів. Сотні й тисячі узгоджуються з іменником, який вони рахують, за родом.',
+            en: {
+              text: 'The tens (20-90) have only a single form for both genders. Hundreds and thousands agree in gender with the noun being counted.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Десятки та сотні',
+            rows: [
+              ['30', '<span dir="rtl">שלושים</span>'],
+              ['40', '<span dir="rtl">ארבעים</span>'],
+              ['50', '<span dir="rtl">חמישים</span>'],
+              ['100', '<span dir="rtl">מאה</span>'],
+              ['200', '<span dir="rtl">מאתיים</span>'],
+              ['1000', '<span dir="rtl">אלף</span>'],
+              ['2000', '<span dir="rtl">אלפיים</span>'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">זה עולה מאה שקל.</span>', 'Це коштує сто шекелів.'],
+              ['<span dir="rtl">בעיר גרים אלפיים אנשים.</span>', 'У місті живуть дві тисячі людей.'],
+            ],
+          },
+          {
+            type: 'note',
+            title: 'Подвійна форма на "-іים"',
+            text: 'Так само як з іменниками, суфікс <span dir="rtl">-יים</span> означає "два": <span dir="rtl">מאתיים</span> (200 = "дві сотні"), <span dir="rtl">אלפיים</span> (2000 = "дві тисячі").',
+            en: {
+              title: 'The dual "-ayim" pattern',
+              text: 'Just like with nouns, the -ayim suffix means "two": מאתיים (200 = "two hundreds"), אלפיים (2000 = "two thousands").',
+            },
+          },
+        ],
+      },
+
+      {
+        id: 'ordinal-numbers',
+        title: 'מספרים סודרים — A2',
+        emoji: '🥇',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Порядкові числівники (перший, другий...) — це фактично прикметники, тому вони узгоджуються з іменником за родом і числом, як і будь-який інший прикметник.',
+            en: {
+              text: 'Ordinal numbers (first, second...) are essentially adjectives, so they agree with the noun in gender and number just like any other adjective.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Перші порядкові числівники',
+            rows: [
+              ['перший', '<span dir="rtl">ראשון</span> / <span dir="rtl">ראשונה</span>'],
+              ['другий', '<span dir="rtl">שני</span> / <span dir="rtl">שנייה</span>'],
+              ['третій', '<span dir="rtl">שלישי</span> / <span dir="rtl">שלישית</span>'],
+              ['четвертий', '<span dir="rtl">רביעי</span> / <span dir="rtl">רביעית</span>'],
+              ['п\'ятий', '<span dir="rtl">חמישי</span> / <span dir="rtl">חמישית</span>'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">זו הפעם הראשונה שלי כאן.</span>', 'Це мій перший раз тут.'],
+              ['<span dir="rtl">היום ראשון בשבוע.</span>', 'Неділя — перший день тижня.'],
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 'days-of-week',
+        title: 'ימות השבוע — A1',
+        emoji: '📅',
+        sections: [
+          {
+            type: 'intro',
+            text: 'Дні тижня в івриті названі просто числами (крім суботи) і починаються з неділі — першого робочого дня в Ізраїлі.',
+            en: {
+              text: 'Days of the week in Hebrew are simply named by number (except Saturday) and the week starts on Sunday — the first workday in Israel.',
+            },
+          },
+          {
+            type: 'table',
+            title: 'Дні тижня',
+            rows: [
+              ['неділя', '<span dir="rtl">יום ראשון</span>'],
+              ['понеділок', '<span dir="rtl">יום שני</span>'],
+              ['вівторок', '<span dir="rtl">יום שלישי</span>'],
+              ['середа', '<span dir="rtl">יום רביעי</span>'],
+              ['четвер', '<span dir="rtl">יום חמישי</span>'],
+              ["п'ятниця", '<span dir="rtl">יום שישי</span>'],
+              ['субота', '<span dir="rtl">שבת</span>'],
+            ],
+          },
+          {
+            type: 'examples',
+            title: 'Приклади',
+            en: { title: 'Examples' },
+            rows: [
+              ['<span dir="rtl">נתראה ביום שלישי.</span>', 'Побачимось у вівторок.'],
+              ['<span dir="rtl">בשבת אני נח.</span>', 'У суботу я відпочиваю.'],
+            ],
+          },
+        ],
+      },
     ],
   },
 ];
