@@ -112,6 +112,71 @@ export function SettingsInit(): ReactElement | null {
       });
     }
 
+    // ── Reduced motion (explicit toggle, falls back to OS preference) ──
+    const reducedMotionMq = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    function reducedMotionEnabled(): boolean {
+      const stored = localStorage.getItem('ew_reduced_motion');
+      if (stored === '1') return true;
+      if (stored === '0') return false;
+      return !!reducedMotionMq?.matches;
+    }
+    document.body.classList.toggle('reduced-motion', reducedMotionEnabled());
+    const onReducedMotionOsChange = () => {
+      if (!localStorage.getItem('ew_reduced_motion')) {
+        document.body.classList.toggle('reduced-motion', reducedMotionEnabled());
+      }
+    };
+    reducedMotionMq?.addEventListener('change', onReducedMotionOsChange);
+
+    const reducedMotionToggle = document.getElementById(
+      'reduced-motion-toggle',
+    ) as HTMLInputElement | null;
+    const reducedMotionStatusEl = document.getElementById(
+      'reduced-motion-status',
+    ) as HTMLElement | null;
+    if (reducedMotionToggle) {
+      reducedMotionToggle.checked = reducedMotionEnabled();
+      const updateReducedMotionLabel = () => {
+        if (reducedMotionStatusEl)
+          reducedMotionStatusEl.textContent = t(
+            reducedMotionToggle.checked ? 'settings.reducedMotionOn' : 'settings.reducedMotionOff',
+          );
+      };
+      updateReducedMotionLabel();
+      reducedMotionToggle.addEventListener('change', () => {
+        localStorage.setItem('ew_reduced_motion', reducedMotionToggle.checked ? '1' : '0');
+        document.body.classList.toggle('reduced-motion', reducedMotionToggle.checked);
+        updateReducedMotionLabel();
+      });
+    }
+
+    // ── High contrast toggle ────────────────────────────────────────
+    function highContrastEnabled(): boolean {
+      return localStorage.getItem('ew_high_contrast') === '1';
+    }
+    document.body.classList.toggle('high-contrast', highContrastEnabled());
+    const highContrastToggle = document.getElementById(
+      'high-contrast-toggle',
+    ) as HTMLInputElement | null;
+    const highContrastStatusEl = document.getElementById(
+      'high-contrast-status',
+    ) as HTMLElement | null;
+    if (highContrastToggle) {
+      highContrastToggle.checked = highContrastEnabled();
+      const updateHighContrastLabel = () => {
+        if (highContrastStatusEl)
+          highContrastStatusEl.textContent = t(
+            highContrastToggle.checked ? 'settings.highContrastOn' : 'settings.highContrastOff',
+          );
+      };
+      updateHighContrastLabel();
+      highContrastToggle.addEventListener('change', () => {
+        localStorage.setItem('ew_high_contrast', highContrastToggle.checked ? '1' : '0');
+        document.body.classList.toggle('high-contrast', highContrastToggle.checked);
+        updateHighContrastLabel();
+      });
+    }
+
     // ── Visibilitychange: auto-prefetch ────────────────────────────
     const onVisibilityChange = () => {
       if (document.visibilityState !== 'visible') return;
@@ -285,6 +350,7 @@ export function SettingsInit(): ReactElement | null {
 
     return () => {
       darkMq?.removeEventListener('change', onDarkChange);
+      reducedMotionMq?.removeEventListener('change', onReducedMotionOsChange);
       btnKnow?.removeEventListener('click', onKnow, true);
       btnNext?.removeEventListener('click', onNext, true);
       btnDontKnow?.removeEventListener('click', onDontKnow, true);

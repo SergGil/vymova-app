@@ -823,6 +823,37 @@ select:focus {
 }
 
 /* ── Темна тема ── */
+/* ── Accessibility: reduced motion (explicit toggle) ──────────────
+   Same intent as the existing @media (prefers-reduced-motion) rules
+   scattered through this file, but as a body class so it also applies
+   when the user overrides the OS-level preference from Settings. */
+body.reduced-motion,
+body.reduced-motion *,
+body.reduced-motion *::before,
+body.reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ── Accessibility: high contrast ──────────────────────────────── */
+body.high-contrast {
+  --text2: #000000;
+  --text3: #2a2a2a;
+  --border: #000000;
+}
+body.high-contrast.dark {
+  --text2: #ffffff;
+  --text3: #d5d5d5;
+  --border: #ffffff;
+}
+body.high-contrast :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 body.dark {
   --bg: #1a1a2e;
   --bg2: #1e2340;

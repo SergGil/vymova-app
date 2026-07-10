@@ -49,6 +49,7 @@ describe('confetti.tsx', () => {
         r.unmount();
       });
     });
+    document.body.classList.remove('reduced-motion');
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });
@@ -86,5 +87,14 @@ describe('confetti.tsx', () => {
     const queuedBefore = rafQueue.length;
     launchConfetti();
     expect(rafQueue.length).toBe(queuedBefore);
+  });
+
+  it('does nothing when reduced motion is active', () => {
+    const { root } = mount();
+    roots.push(root);
+    document.body.classList.add('reduced-motion');
+
+    launchConfetti();
+    expect(rafQueue.length).toBe(0);
   });
 });

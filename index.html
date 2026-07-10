@@ -1023,6 +1023,50 @@
             </p>
           </div>
 
+          <!-- ── Reduced motion ── -->
+          <div class="settings-section">
+            <div class="settings-section-title" data-i18n="settings.reducedMotionTitle">
+              🌀 Зменшена анімація
+            </div>
+            <div class="settings-desc" data-i18n="settings.reducedMotionDesc">
+              Вимикає анімації та переходи по всьому застосунку.
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px">
+              <label class="notif-toggle-wrap">
+                <input type="checkbox" id="reduced-motion-toggle" />
+                <span class="notif-toggle-pill-ui"></span>
+              </label>
+              <span
+                id="reduced-motion-status"
+                style="font-size: 0.85rem; color: var(--text2)"
+                data-i18n="settings.reducedMotionOff"
+                >Вимкнено</span
+              >
+            </div>
+          </div>
+
+          <!-- ── High contrast ── -->
+          <div class="settings-section">
+            <div class="settings-section-title" data-i18n="settings.highContrastTitle">
+              🔲 Високий контраст
+            </div>
+            <div class="settings-desc" data-i18n="settings.highContrastDesc">
+              Посилює контраст тексту та рамок для кращої читабельності.
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px">
+              <label class="notif-toggle-wrap">
+                <input type="checkbox" id="high-contrast-toggle" />
+                <span class="notif-toggle-pill-ui"></span>
+              </label>
+              <span
+                id="high-contrast-status"
+                style="font-size: 0.85rem; color: var(--text2)"
+                data-i18n="settings.highContrastOff"
+                >Вимкнено</span
+              >
+            </div>
+          </div>
+
           <!-- ── PWA Install ── -->
           <div class="settings-section">
             <div class="settings-section-title" data-i18n="settings.pwaTitle">
@@ -1237,7 +1281,7 @@
           </div>
 
           <div class="settings-footer">
-            © 2026 Vymova · v1.229.0 ·
+            © 2026 Vymova · v1.230.0 ·
             <a
               href="./privacy.html"
               target="_blank"

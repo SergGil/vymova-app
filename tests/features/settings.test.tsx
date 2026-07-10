@@ -45,8 +45,22 @@ describe('settings.tsx SettingsInit', () => {
         </label>
         <span id="haptic-status">Увімкнено</span>
       </div>
+      <div>
+        <label class="notif-toggle-wrap">
+          <input type="checkbox" id="reduced-motion-toggle">
+          <span class="notif-toggle-pill-ui"></span>
+        </label>
+        <span id="reduced-motion-status">Вимкнено</span>
+      </div>
+      <div>
+        <label class="notif-toggle-wrap">
+          <input type="checkbox" id="high-contrast-toggle">
+          <span class="notif-toggle-pill-ui"></span>
+        </label>
+        <span id="high-contrast-status">Вимкнено</span>
+      </div>
     `;
-    document.body.classList.remove('dark', 'sw');
+    document.body.classList.remove('dark', 'sw', 'reduced-motion', 'high-contrast');
     localStorage.clear();
     updateSrsUI.mockClear();
     loadWikiImage.mockClear();
@@ -187,6 +201,64 @@ describe('settings.tsx SettingsInit', () => {
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
     expect(openPage).toHaveBeenCalledWith('ach');
+  });
+
+  it('reduced-motion toggle defaults to off and applies the body class when checked', () => {
+    mount();
+    const toggle = document.getElementById('reduced-motion-toggle') as HTMLInputElement;
+    expect(toggle.checked).toBe(false);
+    expect(document.body.classList.contains('reduced-motion')).toBe(false);
+
+    act(() => {
+      toggle.checked = true;
+      toggle.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    expect(localStorage.getItem('ew_reduced_motion')).toBe('1');
+    expect(document.body.classList.contains('reduced-motion')).toBe(true);
+
+    act(() => {
+      toggle.checked = false;
+      toggle.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    expect(localStorage.getItem('ew_reduced_motion')).toBe('0');
+    expect(document.body.classList.contains('reduced-motion')).toBe(false);
+  });
+
+  it('reduced-motion toggle restores an explicit "on" from localStorage on mount', () => {
+    localStorage.setItem('ew_reduced_motion', '1');
+    mount();
+    const toggle = document.getElementById('reduced-motion-toggle') as HTMLInputElement;
+    expect(toggle.checked).toBe(true);
+    expect(document.body.classList.contains('reduced-motion')).toBe(true);
+  });
+
+  it('high-contrast toggle defaults to off and applies the body class when checked', () => {
+    mount();
+    const toggle = document.getElementById('high-contrast-toggle') as HTMLInputElement;
+    expect(toggle.checked).toBe(false);
+    expect(document.body.classList.contains('high-contrast')).toBe(false);
+
+    act(() => {
+      toggle.checked = true;
+      toggle.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    expect(localStorage.getItem('ew_high_contrast')).toBe('1');
+    expect(document.body.classList.contains('high-contrast')).toBe(true);
+
+    act(() => {
+      toggle.checked = false;
+      toggle.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    expect(localStorage.getItem('ew_high_contrast')).toBe('0');
+    expect(document.body.classList.contains('high-contrast')).toBe(false);
+  });
+
+  it('high-contrast toggle restores "on" from localStorage on mount', () => {
+    localStorage.setItem('ew_high_contrast', '1');
+    mount();
+    const toggle = document.getElementById('high-contrast-toggle') as HTMLInputElement;
+    expect(toggle.checked).toBe(true);
+    expect(document.body.classList.contains('high-contrast')).toBe(true);
   });
 
   it('removes listeners on unmount', () => {

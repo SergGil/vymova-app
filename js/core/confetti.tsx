@@ -33,6 +33,7 @@ export function ConfettiCanvas(): ReactElement {
 
 export function launchConfetti(): void {
   if (_done) return;
+  if (typeof document !== 'undefined' && document.body.classList.contains('reduced-motion')) return;
   const canvas = _canvas;
   if (!canvas) return;
   _done = true;
