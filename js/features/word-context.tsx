@@ -4,16 +4,20 @@ import { useEffect, useState, type ReactElement } from 'react';
 import { useStateVersion } from '../../src/store.ts';
 import { getCwSnapshot, getFlippedSnapshot } from '../../src/deck-store.ts';
 import { getWordIndex } from '../core/word-index.ts';
-import { searchCollocations } from '../../data/collocations.ts';
-import { WORD_FAMILIES_BY_LANG, WORD_FAMILY_REVERSE_BY_LANG } from '../../data/word-families.ts';
 import {
   getSynonymsModule,
   getAntonymsModule,
+  getCollocationsModule,
+  getWordFamiliesModule,
+  getEtymologyModule,
+  getUsageNotesModule,
   ensureSynonymsLoaded,
   ensureAntonymsLoaded,
+  ensureCollocationsLoaded,
+  ensureWordFamiliesLoaded,
+  ensureEtymologyLoaded,
+  ensureUsageNotesLoaded,
 } from './lexicon-loader.ts';
-import { getEtymologyFact } from '../../data/etymology.ts';
-import { USAGE_NOTES_BY_LANG } from '../../data/usage-notes.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { openWordDetail } from './word-detail.tsx';
@@ -49,13 +53,21 @@ function _collocationsLangAndWord(
 
 export function CollocationsSection(): ReactElement | null {
   useStateVersion();
+  const [, forceRender] = useState(0);
+  useEffect(() => {
+    if (getCollocationsModule()) return;
+    ensureCollocationsLoaded().then(() => forceRender((n) => n + 1));
+  }, []);
   const cw = getCwSnapshot() as WordEntry | null;
   if (!cw || !getFlippedSnapshot()) return null;
+
+  const mod = getCollocationsModule();
+  if (!mod) return null;
 
   const target = _collocationsLangAndWord(cw);
   if (!target) return null;
 
-  const colls = searchCollocations(target.word, target.lang);
+  const colls = mod.searchCollocations(target.word, target.lang);
   if (!colls.length) return null;
 
   const wordLow = target.word.toLowerCase();
@@ -111,11 +123,19 @@ function _headEnFor(front: Code, word: string): string | null {
 
 export function WordFamiliesChips(): ReactElement | null {
   useStateVersion();
+  const [, forceRender] = useState(0);
+  useEffect(() => {
+    if (getWordFamiliesModule()) return;
+    ensureWordFamiliesLoaded().then(() => forceRender((n) => n + 1));
+  }, []);
   const cw = getCwSnapshot() as WordEntry | null;
   if (!cw || !getFlippedSnapshot()) return null;
 
+  const mod = getWordFamiliesModule();
+  if (!mod) return null;
+
   const { front, back } = parsePair(getMode());
-  const dict = WORD_FAMILIES_BY_LANG[front];
+  const dict = mod.WORD_FAMILIES_BY_LANG[front];
   if (!dict) return null;
   const frontWord = headwordFor(front, cw);
   if (!frontWord) return null;
@@ -124,7 +144,7 @@ export function WordFamiliesChips(): ReactElement | null {
   let family: string[] | undefined = dict[word];
   let head = word;
   if (!family) {
-    const base = WORD_FAMILY_REVERSE_BY_LANG[front]?.get(word);
+    const base = mod.WORD_FAMILY_REVERSE_BY_LANG[front]?.get(word);
     if (base) {
       family = dict[base];
       head = base;
@@ -328,10 +348,18 @@ export function AntonymsChips(): ReactElement | null {
 
 export function EtymologyNote(): ReactElement | null {
   useStateVersion();
+  const [, forceRender] = useState(0);
+  useEffect(() => {
+    if (getEtymologyModule()) return;
+    ensureEtymologyLoaded().then(() => forceRender((n) => n + 1));
+  }, []);
   const cw = getCwSnapshot() as WordEntry | null;
   if (!cw || !getFlippedSnapshot()) return null;
 
-  const fact = getEtymologyFact(cw[0].toLowerCase(), getLang());
+  const mod = getEtymologyModule();
+  if (!mod) return null;
+
+  const fact = mod.getEtymologyFact(cw[0].toLowerCase(), getLang());
   if (!fact) return null;
 
   return (
@@ -344,11 +372,19 @@ export function EtymologyNote(): ReactElement | null {
 
 export function UsageNoteBox(): ReactElement | null {
   useStateVersion();
+  const [, forceRender] = useState(0);
+  useEffect(() => {
+    if (getUsageNotesModule()) return;
+    ensureUsageNotesLoaded().then(() => forceRender((n) => n + 1));
+  }, []);
   const cw = getCwSnapshot() as WordEntry | null;
   if (!cw) return null;
 
+  const mod = getUsageNotesModule();
+  if (!mod) return null;
+
   const { front } = parsePair(getMode());
-  const dict = USAGE_NOTES_BY_LANG[front];
+  const dict = mod.USAGE_NOTES_BY_LANG[front];
   if (!dict) return null;
   const frontWord = headwordFor(front, cw);
   if (!frontWord) return null;

@@ -11,7 +11,13 @@ import {
   EtymologyNote,
   UsageNoteBox,
 } from '../../js/features/word-context.tsx';
-import { ensureSynonymsLoaded } from '../../js/features/lexicon-loader.ts';
+import {
+  ensureSynonymsLoaded,
+  ensureCollocationsLoaded,
+  ensureWordFamiliesLoaded,
+  ensureEtymologyLoaded,
+  ensureUsageNotesLoaded,
+} from '../../js/features/lexicon-loader.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -36,13 +42,19 @@ function mount(Component: () => JSX.Element | null): { container: HTMLElement; r
 }
 
 describe('word-context.tsx', () => {
-  // SynonymsChips/AntonymsChips lazy-load data/synonyms.ts + data/antonyms.ts
-  // on first mount (js/features/lexicon-loader.ts) instead of a static
-  // top-level import — pre-warm the cache once so every test below sees
-  // getSynonymsModule() already non-null on its very first synchronous
-  // render, same as it would after the first real page visit in production.
+  // Every chip/section here lazy-loads its data file on first mount
+  // (js/features/lexicon-loader.ts) instead of a static top-level import —
+  // pre-warm the cache once so every test below sees the module already
+  // non-null on its very first synchronous render, same as it would after
+  // the first real page visit in production.
   beforeAll(async () => {
-    await ensureSynonymsLoaded();
+    await Promise.all([
+      ensureSynonymsLoaded(),
+      ensureCollocationsLoaded(),
+      ensureWordFamiliesLoaded(),
+      ensureEtymologyLoaded(),
+      ensureUsageNotesLoaded(),
+    ]);
   });
 
   beforeEach(() => {
