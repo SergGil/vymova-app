@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setActiveTagSet } from '../../src/deck-filter-store.ts';
-import { clearSrsData } from '../../src/srs-store.ts';
+import { clearSrsData, setSrsEntry } from '../../src/srs-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
@@ -65,6 +65,7 @@ describe('deck-filter.tsx DeckFilterInit', () => {
         <option value="unlearned">Unlearned</option>
         <option value="weak">Weak</option>
         <option value="hard">Hard</option>
+        <option value="leech">Leech</option>
         <option value="bookmarks">Bookmarks</option>
         <option value="cefr-A1">A1</option>
         <option value="pos-n">Nouns</option>
@@ -145,6 +146,22 @@ describe('deck-filter.tsx DeckFilterInit', () => {
   it('falls back to unlearned deck when no hard words exist', () => {
     mount();
     change('hard');
+    expect(buildUnlearnedDeck).toHaveBeenCalled();
+  });
+
+  it('filters to leech words (SRS lapses >= 4) on "leech" selection', () => {
+    const [leechWord, freshWord] = (W as unknown as WordEntry[]).slice(0, 2).map((w) => w[0]);
+    setSrsEntry(leechWord, { ef: 2.5, reps: 0, interval: 1, due: '2099-01-01', lapses: 4 });
+    setSrsEntry(freshWord, { ef: 2.5, reps: 3, interval: 6, due: '2099-01-01', lapses: 1 });
+    mount();
+    change('leech');
+    const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
+    expect(deck.map((w) => w[0])).toEqual([leechWord]);
+  });
+
+  it('falls back to unlearned deck when no leech words exist', () => {
+    mount();
+    change('leech');
     expect(buildUnlearnedDeck).toHaveBeenCalled();
   });
 

@@ -28,6 +28,11 @@ function _getLangDeck(): WordEntry[] | null {
   return filtered.length === all.length ? null : filtered;
 }
 
+// Matches Anki's default "leech" threshold — a word that's been marked
+// wrong (SM-2 lapse) this many times is treated as chronically difficult,
+// distinct from a plain review miscount.
+const LEECH_THRESHOLD = 4;
+
 // Word entries carry a compound POS tag for the rare dual-class words
 // ('n/v', 'adj/n', ...) — match against any constituent part. 'other'
 // buckets the low-frequency tags that don't get their own dropdown entry.
@@ -153,6 +158,29 @@ export function DeckFilterInit(): ReactElement | null {
           deck = buildUnlearnedDeck(langBase);
         } else {
           deck.sort((a, b) => _hardWords.indexOf(a[0]) - _hardWords.indexOf(b[0]));
+        }
+        setDeckFilter(langBase.slice(), null);
+        if (selTagEl) selTagEl.value = '';
+        setDeck(deck);
+        setIdx(0);
+        render();
+        return;
+      } else if (v === 'leech') {
+        // "Leech" = a word whose SRS lapse count (permanent, never reset by
+        // clearMistake()) has crossed the threshold — it keeps coming back
+        // wrong across many review cycles, unlike 'hard' which is a
+        // clearable cross-mode mistake tally.
+        const _srsAll = getSrsDataSnapshot() as Record<string, { lapses?: number }>;
+        const _leechEntries = Object.entries(_srsAll).filter(
+          ([, d]) => (d.lapses ?? 0) >= LEECH_THRESHOLD,
+        );
+        const _leechSet = new Set(_leechEntries.map(([k]) => k));
+        deck = langBase.filter((w) => _leechSet.has(w[0]));
+        if (!deck.length) {
+          _showToast(t('range.noLeechWords'));
+          deck = buildUnlearnedDeck(langBase);
+        } else {
+          deck.sort((a, b) => (_srsAll[b[0]]?.lapses ?? 0) - (_srsAll[a[0]]?.lapses ?? 0));
         }
         setDeckFilter(langBase.slice(), null);
         if (selTagEl) selTagEl.value = '';
