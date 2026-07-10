@@ -1,4 +1,4 @@
-﻿var CACHE = 'ew-v70';
+﻿var CACHE = 'ew-v71';
 
 self.addEventListener('install', function(e) {
   // Do NOT skipWaiting() unconditionally here. A brand new visitor (no
