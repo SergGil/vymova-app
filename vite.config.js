@@ -41,8 +41,25 @@ export default defineConfig({
         // its content didn't change. Force it into its own chunk instead,
         // so its content hash — and the browser/service-worker cache entry
         // for it — stays stable across deploys that don't touch word data.
+        //
+        // Same reasoning applies to these four: data/senses.ts (616KB),
+        // data/categories.js (519KB), and data/cefr.ts (182KB) are each
+        // eagerly reached from core card-rendering files (card-front-text.tsx,
+        // card-meta.tsx, tag-filter-select.tsx, ...) that run on the very
+        // first card too, so they're just as unavoidably eager as words.js
+        // itself. data/grammar.ts (642KB) is different — it's only reached
+        // via GrammarPage's dynamic import (src/lazy-page.tsx) — but pinning
+        // it here still matters for the SAME reason: without a stable chunk
+        // name, an unrelated app-code deploy still reshuffles its hash, so a
+        // returning user who already cached it pays for a re-download the
+        // very next time they open Grammar, even though the content they'd
+        // get is identical to what they already have.
         manualChunks(id) {
           if (id.includes('/data/words.js')) return 'words-base';
+          if (id.includes('/data/senses.ts')) return 'senses-data';
+          if (id.includes('/data/categories.js')) return 'categories-data';
+          if (id.includes('/data/cefr.ts')) return 'cefr-data';
+          if (id.includes('/data/grammar.ts')) return 'grammar-data';
         },
       },
     },
