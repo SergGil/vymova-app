@@ -3,7 +3,7 @@
 import { useEffect, type ReactElement } from 'react';
 import { sm2Update, buildSRSDeck, buildUnlearnedDeck, shuffle, updateSrsUI } from '../core/srs.ts';
 import { saveKnown, saveSRS } from '../core/storage.ts';
-import { getGameData, saveGameData, resetAllLangProgress } from './game.ts';
+import { getGameData, saveGameData, resetAllLangProgress, recordMistake } from './game.ts';
 import { getSrsDataSnapshot, deleteSrsEntry, clearSrsData } from '../../src/srs-store.ts';
 import { getBaseWordsSnapshot } from '../../src/deck-filter-store.ts';
 import { today } from '../core/today.ts';
@@ -155,6 +155,10 @@ export function CardActionsInit(): ReactElement | null {
       const cw = getCwSnapshot();
       if (!cw) return;
       startPronunciationCheck(cw[0], micBtn, (status, score, spoken, target) => {
+        // A poor attempt counts as a mistake too, so mispronounced words
+        // start surfacing via mistake-review the same way typing/quiz
+        // mistakes already do — not just a one-off toast the user forgets.
+        if (status === 'try_again') recordMistake(cw[0]);
         showPronuncResult(status, score, spoken ?? '', target ?? '');
       });
     };

@@ -238,6 +238,11 @@ export function StoryPage(): ReactElement {
   const [, setTick] = useState(0);
 
   const textRef = useRef<HTMLDivElement>(null);
+  // Bumped at the start of every generate() call — a late-resolving AI
+  // response (Worker latency, or the user closing/reopening the modal
+  // mid-request) checks this before applying its result, so a stale
+  // response can no longer clobber state from a newer/different request.
+  const genRef = useRef(0);
 
   const markCompleted = (): void => {
     if (story && !completed) {
@@ -292,12 +297,14 @@ export function StoryPage(): ReactElement {
   };
 
   const generate = async (): Promise<void> => {
+    const myGen = ++genRef.current;
     setError(null);
     setPending(true);
     try {
       const learnLang = getLearnLang();
       const knowLang = getKnowLang();
       const { text, title } = await sendStoryRequest(learnLang, knowLang, level);
+      if (genRef.current !== myGen) return; // a newer request superseded this one
       const entry: AiStoryCacheEntry = {
         title: title || t('story.untitled'),
         text,
@@ -316,9 +323,9 @@ export function StoryPage(): ReactElement {
       });
       setPopup(null);
     } catch {
-      setError(t('story.error'));
+      if (genRef.current === myGen) setError(t('story.error'));
     } finally {
-      setPending(false);
+      if (genRef.current === myGen) setPending(false);
     }
   };
 

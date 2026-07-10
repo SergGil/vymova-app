@@ -11,6 +11,7 @@ import { getModeSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
 import { ALL_TARGET_LANGS, type TargetLang, type Code } from '../../src/types.js';
 import { getKnownSnapshot, markKnown } from '../../src/known-words-store.ts';
+import { deleteSrsEntry } from '../../src/srs-store.ts';
 
 export type { TargetLang, Code };
 export { ALL_TARGET_LANGS };
@@ -780,6 +781,10 @@ export function getKnownSetForLang(lang: 'en' | TargetLang): Set<string> {
  * persisting via that language's own storage (or the plain 'en' store) — same
  * branch as the Know button in `card-actions.ts`. */
 export function markKnownForLang(lang: 'en' | TargetLang, word: string): void {
+  // Drop any prior SRS progress (ef/reps/lapses) so it doesn't re-enter the
+  // SRS queue with stale data — same reasoning as the flashcard "Know"
+  // button in card-actions.ts, which does this explicitly.
+  deleteSrsEntry(word);
   if (isTargetLang(lang)) {
     markKnown(lang, word);
     const cfg = LANG_REGISTRY[lang];

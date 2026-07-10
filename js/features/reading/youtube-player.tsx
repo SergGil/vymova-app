@@ -5,15 +5,14 @@
 import { createPortal } from 'react-dom';
 import { useState, useEffect, useRef, type FormEvent, type ReactElement } from 'react';
 import { useStateVersion } from '../../../src/store.ts';
-import { saveKnown } from '../../core/storage.ts';
-import { getKnownSnapshot, markKnown as _markKnown } from '../../../src/known-words-store.ts';
+import { getKnownSnapshot } from '../../../src/known-words-store.ts';
 import { decodeIpa } from '../../core/ui-helpers.ts';
 import { onWordLearned } from '../../core/card-engine.ts';
 import { checkMilestones } from '../milestones.ts';
 import { speak } from '../voice/speech.ts';
 import { t } from '../i18n.ts';
 import { lookupEnglishWord } from '../../modes/reading.tsx';
-import { entryFor } from '../mode-utils.ts';
+import { entryFor, markKnownForLang } from '../mode-utils.ts';
 import { getKnowLang } from '../lang-pair-select.tsx';
 import { parseSubtitles, findActiveCue, type Cue } from './subtitle-parser.ts';
 import { bindOverlayDismiss } from '../overlay-utils.ts';
@@ -275,8 +274,7 @@ export function YoutubePlayerPage(): ReactElement | null {
       setPopup(null);
       return;
     }
-    _markKnown('en', popup.word);
-    saveKnown(getKnownSnapshot('en'));
+    markKnownForLang('en', popup.word);
     onWordLearned();
     checkMilestones();
     setPopup(null);
