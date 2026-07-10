@@ -853,8 +853,11 @@ body.high-contrast {
   --border: var(--text) !important;
 }
 body.high-contrast :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  /* !important: several inputs (e.g. #search-input) set outline:none via an
+     ID selector, which would otherwise always outrank this rule regardless
+     of the extra .high-contrast class. */
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 2px !important;
 }
 
 body.dark {
