@@ -77,6 +77,7 @@ const LANG_BY_TAB: Record<Tab, string> = {
   mn: 'mn-MN',
   uz: 'uz-UZ',
   am: 'am-ET',
+  eo: 'eo',
 };
 const TAB_I18N_KEY: Record<Tab, string> = {
   en: 'idioms.tabEn',
@@ -134,6 +135,7 @@ const TAB_I18N_KEY: Record<Tab, string> = {
   mn: 'idioms.tabMn',
   uz: 'idioms.tabUz',
   am: 'idioms.tabAm',
+  eo: 'idioms.tabEo',
 };
 const RTL_TABS = new Set<Tab>(['he', 'ar', 'fa']);
 

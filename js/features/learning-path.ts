@@ -74,6 +74,7 @@ import {
   mnEntry,
   uzEntry,
   amEntry,
+  eoEntry,
   isTargetLang,
   headwordFor,
   type Code,
@@ -206,6 +207,8 @@ function _getTranslation(w: WordEntry, lang: string): string {
       return uzEntry(w[0])?.[0] ?? w[1];
     case 'am':
       return amEntry(w[0])?.[0] ?? w[1];
+    case 'eo':
+      return eoEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1];
   }
@@ -319,6 +322,8 @@ function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
       return words.filter((w) => uzEntry(w[0]) !== null);
     case 'am':
       return words.filter((w) => amEntry(w[0]) !== null);
+    case 'eo':
+      return words.filter((w) => eoEntry(w[0]) !== null);
     default:
       return words;
   }

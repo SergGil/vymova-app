@@ -60,6 +60,7 @@ let _tlURI = localStorage.getItem('ew_ws_tl_voice') ?? '';
 let _mnURI = localStorage.getItem('ew_ws_mn_voice') ?? '';
 let _uzURI = localStorage.getItem('ew_ws_uz_voice') ?? '';
 let _amURI = localStorage.getItem('ew_ws_am_voice') ?? '';
+let _eoURI = localStorage.getItem('ew_ws_eo_voice') ?? '';
 
 type VoiceMapEntry = { match: string; label: string; gender: string; accent: string };
 
@@ -707,6 +708,13 @@ function _amVoices(): SpeechSynthesisVoice[] {
     return l.startsWith('am') || n.includes('amharic');
   });
 }
+function _eoVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('eo') || n.includes('esperanto');
+  });
+}
 function _findByURI(uri: string, voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
   return voices.find((v) => v.voiceURI === uri) ?? null;
 }
@@ -872,6 +880,9 @@ export function getSelectedUzVoice(): SpeechSynthesisVoice | null {
 }
 export function getSelectedAmVoice(): SpeechSynthesisVoice | null {
   return _findByURI(_amURI, _amVoices()) ?? _amVoices()[0] ?? null;
+}
+export function getSelectedEoVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_eoURI, _eoVoices()) ?? _eoVoices()[0] ?? null;
 }
 
 // Speaks `text` with a voice tagged for `accent` (matched via VOICE_MAP first,
@@ -1100,7 +1111,8 @@ export function _renderVoices(): void {
     tlVoices = _sortVoices(_tlVoices()),
     mnVoices = _sortVoices(_mnVoices()),
     uzVoices = _sortVoices(_uzVoices()),
-    amVoices = _sortVoices(_amVoices());
+    amVoices = _sortVoices(_amVoices()),
+    eoVoices = _sortVoices(_eoVoices());
   if (
     !enVoices.length &&
     !ukVoices.length &&
@@ -1156,7 +1168,8 @@ export function _renderVoices(): void {
     !tlVoices.length &&
     !mnVoices.length &&
     !uzVoices.length &&
-    !amVoices.length
+    !amVoices.length &&
+    !eoVoices.length
   ) {
     container.innerHTML =
       '<span style="font-size:.78rem;color:var(--text3);">' +
@@ -1260,6 +1273,7 @@ export function _renderVoices(): void {
           else if (storageKey === 'ew_ws_mn_voice') _mnURI = uri;
           else if (storageKey === 'ew_ws_uz_voice') _uzURI = uri;
           else if (storageKey === 'ew_ws_am_voice') _amURI = uri;
+          else if (storageKey === 'ew_ws_eo_voice') _eoURI = uri;
           else _ukURI = uri;
           localStorage.setItem(storageKey, uri);
           _renderVoices();
@@ -1900,6 +1914,17 @@ export function _renderVoices(): void {
       "ሰላም! በመተዋወቃችን ደስ ብሎኛል።",
     );
   else addMissing('am', 'et', 'settings.noAmVoicesTitle', 'settings.noAmVoicesDesc');
+  if (eoVoices.length)
+    addSection(
+      'eo',
+      'eo',
+      t('settings.eoVoicesTitle'),
+      eoVoices,
+      _eoURI,
+      'ew_ws_eo_voice',
+      "Saluton! Mi ĝojas vin renkonti.",
+    );
+  else addMissing('eo', 'eo', 'settings.noEoVoicesTitle', 'settings.noEoVoicesDesc');
   sections.sort((a, b) => a.key.localeCompare(b.key, getLang()));
   for (const s of sections) container.appendChild(s.el);
   if (!_enURI && enVoices.length) {
@@ -2175,6 +2200,11 @@ export function _renderVoices(): void {
     _amURI = (amVoices.find((v) => v.name.toLowerCase().includes('google')) ?? amVoices[0])
       .voiceURI;
     localStorage.setItem('ew_ws_am_voice', _amURI);
+  }
+  if (!_eoURI && eoVoices.length) {
+    _eoURI = (eoVoices.find((v) => v.name.toLowerCase().includes('google')) ?? eoVoices[0])
+      .voiceURI;
+    localStorage.setItem('ew_ws_eo_voice', _eoURI);
   }
 }
 

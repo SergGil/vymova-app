@@ -60,7 +60,8 @@ export type TargetLang =
   | 'tl'
   | 'mn'
   | 'uz'
-  | 'am';
+  | 'am'
+  | 'eo';
 export type Code = TargetLang | 'en' | 'ua';
 export const ALL_TARGET_LANGS: TargetLang[] = [
   'es',
@@ -116,6 +117,7 @@ export const ALL_TARGET_LANGS: TargetLang[] = [
   'mn',
   'uz',
   'am',
+  'eo',
 ];
 
 // ── Word data ─────────────────────────────────────────────────

@@ -58,6 +58,7 @@ export const SPEECH_LANG: Record<string, string> = {
   mn: 'mn-MN',
   uz: 'uz-UZ',
   am: 'am-ET',
+  eo: 'eo',
 };
 
 export function speechLangFor(code: string): string {

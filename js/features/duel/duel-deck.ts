@@ -63,6 +63,7 @@ import {
   mnEntry,
   uzEntry,
   amEntry,
+  eoEntry,
 } from '../mode-utils.ts';
 import type { DuelMode, Difficulty } from './duel.ts';
 import { CHARS, ROOM_SIZE } from './duel-types.ts';
@@ -196,6 +197,8 @@ export function _wordInLang(w: WordEntry, lang: string): string {
       return uzEntry(w[0])?.[0] ?? w[1];
     case 'am':
       return amEntry(w[0])?.[0] ?? w[1];
+    case 'eo':
+      return eoEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1]; // 'ua'
   }
@@ -313,6 +316,8 @@ export function _hasLangWord(w: WordEntry, lang: string): boolean {
       return uzEntry(w[0]) !== null;
     case 'am':
       return amEntry(w[0]) !== null;
+    case 'eo':
+      return eoEntry(w[0]) !== null;
     default:
       return true;
   }

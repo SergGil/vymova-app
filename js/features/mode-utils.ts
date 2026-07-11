@@ -80,6 +80,7 @@ const LANG_LOADERS: Record<TargetLang, () => Promise<Table>> = {
   mn: () => import('../../data/words_mn.js').then((m) => m.W_MN as Table),
   uz: () => import('../../data/words_uz.js').then((m) => m.W_UZ as Table),
   am: () => import('../../data/words_am.js').then((m) => m.W_AM as Table),
+  eo: () => import('../../data/words_eo.js').then((m) => m.W_EO as Table),
 };
 
 // In-flight promises to avoid duplicate fetches for the same language.
@@ -487,6 +488,13 @@ const LANG_REGISTRY: Record<TargetLang, LangConfig> = {
     voiceLocale: 'am-ET',
     rtl: false,
   },
+  eo: {
+    entry: (w) => lookup(getTable('eo'), w),
+    known: () => getKnownSnapshot('eo'),
+    saveKnown: (known) => saveKnownLang('eo', known),
+    voiceLocale: 'eo',
+    rtl: false,
+  },
 };
 
 export function langConfig(code: TargetLang): LangConfig {
@@ -603,6 +611,7 @@ export const TL_MODES = modesFor('tl');
 export const MN_MODES = modesFor('mn');
 export const UZ_MODES = modesFor('uz');
 export const AM_MODES = modesFor('am');
+export const EO_MODES = modesFor('eo');
 
 export function getMode(): string {
   const sel = document.getElementById('sel-mode') as HTMLSelectElement | null;
@@ -894,6 +903,9 @@ export function uzEntry(word: string): Entry {
 export function amEntry(word: string): Entry {
   return LANG_REGISTRY.am.entry(word);
 }
+export function eoEntry(word: string): Entry {
+  return LANG_REGISTRY.eo.entry(word);
+}
 
 function targetLangFromStorageKey(key: string): TargetLang | null {
   return isTargetLang(key) ? key : null;
@@ -1058,6 +1070,7 @@ const NO_TRANSLATIONS_KEY: Record<TargetLang, string> = {
   mn: 'deck.noMnTranslations',
   uz: 'deck.noUzTranslations',
   am: 'deck.noAmTranslations',
+  eo: 'deck.noEoTranslations',
 };
 
 function hasAnyEntries(lang: TargetLang, words: WordEntry[]): boolean {

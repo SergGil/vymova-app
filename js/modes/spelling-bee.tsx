@@ -66,6 +66,7 @@ import {
   mnEntry,
   uzEntry,
   amEntry,
+  eoEntry,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speakForCode } from '../features/voice/speak-lang.ts';
@@ -186,6 +187,8 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return uzEntry(w[0])?.[1] ?? '';
     case 'am':
       return amEntry(w[0])?.[1] ?? '';
+    case 'eo':
+      return eoEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }

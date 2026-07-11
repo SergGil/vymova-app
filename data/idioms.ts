@@ -9066,6 +9066,30 @@ export const AMHARIC_IDIOMS: Idiom[] = [
   },
 ];
 
+export const ESPERANTO_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐺',
+    phrase: 'Kiam oni parolas pri la lupo, ĝi alproksimiĝas',
+    meaning: 'Про вовка промовка',
+    exampleSrc: 'Ni parolis pri li, kaj li aperis — kiam oni parolas pri la lupo, ĝi alproksimiĝas.',
+    exampleTr: 'Ми говорили про нього, і він з\'явився — про вовка промовка.',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'Prefere malfrue ol neniam',
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: 'Li komencis lerni je la kvindeka jaro — prefere malfrue ol neniam.',
+    exampleTr: 'Він почав навчання в п\'ятдесят років — краще пізно, ніж ніколи.',
+  },
+  {
+    emoji: '🐣',
+    phrase: 'Ne kalkulu la kokidojn antaŭ ol ili elkoviĝas',
+    meaning: 'Не рахуй курчат, поки не вилупились',
+    exampleSrc: 'Ni atendu la rezulton — ne kalkulu la kokidojn antaŭ ol ili elkoviĝas.',
+    exampleTr: 'Зачекаймо результату — не рахуй курчат, поки не вилупились.',
+  },
+];
+
 // ── Idioms per language ─────────────────────────────────────────
 export const IDIOMS_BY_LANG: Partial<
   Record<
@@ -9117,7 +9141,8 @@ export const IDIOMS_BY_LANG: Partial<
     | 'tl'
     | 'mn'
     | 'uz'
-    | 'am',
+    | 'am'
+    | 'eo',
     Idiom[]
   >
 > = {
@@ -9176,4 +9201,5 @@ export const IDIOMS_BY_LANG: Partial<
   mn: MONGOLIAN_IDIOMS,
   uz: UZBEK_IDIOMS,
   am: AMHARIC_IDIOMS,
+  eo: ESPERANTO_IDIOMS,
 };

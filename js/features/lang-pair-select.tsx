@@ -66,7 +66,8 @@ export type LangCode =
   | 'tl'
   | 'mn'
   | 'uz'
-  | 'am';
+  | 'am'
+  | 'eo';
 type Direction = 'fwd' | 'rev' | 'mix';
 
 const ALL_LANGS: LangCode[] = [
@@ -125,6 +126,7 @@ const ALL_LANGS: LangCode[] = [
   'mn',
   'uz',
   'am',
+  'eo',
 ];
 
 function LangFlag({ lang }: { lang: LangCode }): ReactElement {
@@ -232,7 +234,8 @@ function isLangCode(v: string | null): v is LangCode {
     v === 'tl' ||
     v === 'mn' ||
     v === 'uz' ||
-    v === 'am'
+    v === 'am' ||
+    v === 'eo'
   );
 }
 

@@ -65,6 +65,7 @@ import {
   mnEntry,
   uzEntry,
   amEntry,
+  eoEntry,
 } from '../features/mode-utils.ts';
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
@@ -183,6 +184,8 @@ function getLangWord(w: WordEntry, lang: string): string {
       return uzEntry(w[0])?.[0] ?? '';
     case 'am':
       return amEntry(w[0])?.[0] ?? '';
+    case 'eo':
+      return eoEntry(w[0])?.[0] ?? '';
     default:
       return w[0];
   }
@@ -298,6 +301,8 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return uzEntry(w[0])?.[1] ?? '';
     case 'am':
       return amEntry(w[0])?.[1] ?? '';
+    case 'eo':
+      return eoEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }

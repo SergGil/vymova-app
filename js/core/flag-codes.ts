@@ -71,4 +71,5 @@ export const FLAG_CODE: Record<Code, string> = {
   mn: 'mn',
   uz: 'uz',
   am: 'et',
+  eo: 'eo',
 };

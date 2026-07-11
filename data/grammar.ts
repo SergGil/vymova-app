@@ -23436,7 +23436,8 @@ export const GRAMMAR_BY_LANG: Partial<
     | 'tl'
     | 'mn'
     | 'uz'
-    | 'am',
+    | 'am'
+    | 'eo',
     GrammarCategory[]
   >
 > = {
@@ -23494,4 +23495,5 @@ export const GRAMMAR_BY_LANG: Partial<
   mn: [],
   uz: [],
   am: [],
+  eo: [],
 };

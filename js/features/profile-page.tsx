@@ -98,6 +98,7 @@ const LANG_META: Record<string, { name: string; country: string }> = {
   mn: { name: "Монгол", country: 'mn' },
   uz: { name: "Oʻzbekcha", country: 'uz' },
   am: { name: "አማርኛ", country: 'et' },
+  eo: { name: "Esperanto", country: 'eo' },
 };
 
 function FlagCircle({ lang, size = 44 }: { lang: string; size?: number }): ReactElement {
