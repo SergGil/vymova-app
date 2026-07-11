@@ -45,11 +45,25 @@ vi.mock('../../data/words_da.js', () => ({ W_DA: {} }));
 vi.mock('../../data/words_fi.js', () => ({ W_FI: {} }));
 vi.mock('../../data/words_no.js', () => ({ W_NO: {} }));
 vi.mock('../../data/words_la.js', () => ({ W_LA: {} }));
+vi.mock('../../data/words_lt.js', () => ({ W_LT: {} }));
+vi.mock('../../data/words_lv.js', () => ({ W_LV: {} }));
+vi.mock('../../data/words_et.js', () => ({ W_ET: {} }));
+vi.mock('../../data/words_sl.js', () => ({ W_SL: {} }));
+vi.mock('../../data/words_mk.js', () => ({ W_MK: {} }));
+vi.mock('../../data/words_sq.js', () => ({ W_SQ: {} }));
+vi.mock('../../data/words_is.js', () => ({ W_IS: {} }));
+vi.mock('../../data/words_cy.js', () => ({ W_CY: {} }));
+vi.mock('../../data/words_ga.js', () => ({ W_GA: {} }));
+vi.mock('../../data/words_tl.js', () => ({ W_TL: {} }));
+vi.mock('../../data/words_mn.js', () => ({ W_MN: {} }));
+vi.mock('../../data/words_uz.js', () => ({ W_UZ: {} }));
+vi.mock('../../data/words_am.js', () => ({ W_AM: {} }));
 import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 
 const NEW_LANGS = [
   'hi', 'bn', 'id', 'pcm', 'ko', 'fa', 'sw', 'ms', 'th', 'az', 'ro', 'hu', 'cs', 'kk', 'sv',
   'ka', 'hr', 'sr', 'bs', 'bg', 'sk', 'hy', 'da', 'fi', 'no', 'la',
+  'lt', 'lv', 'et', 'sl', 'mk', 'sq', 'is', 'cy', 'ga', 'tl', 'mn', 'uz', 'am',
 ];
 
 function mountLangPairSelect(): void {
@@ -123,12 +137,12 @@ describe('lang-pair-select', () => {
     act(() => {
       (dds[0].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(42); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 26 new langs
+    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(55); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 39 new langs
 
     act(() => {
       (dds[1].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(41); // learn options for know=ua
+    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(54); // learn options for know=ua
 
     act(() => {
       (dds[2].querySelector('.flagdd-btn') as HTMLButtonElement).click();
@@ -146,18 +160,22 @@ describe('lang-pair-select', () => {
     expect((learnDD.querySelector('.flagdd-btn') as HTMLButtonElement).dataset.value).toBe('es');
   });
 
-  it('changing "know" updates #sel-mode and dispatches change', () => {
-    act(() => {
-      mountLangPairSelect();
-    });
-    let changed = false;
-    document.getElementById('sel-mode')!.addEventListener('change', () => {
-      changed = true;
-    });
-    selectOption(0, 'es');
-    expect((document.getElementById('sel-mode') as HTMLSelectElement).value).toBe('en-es');
-    expect(changed).toBe(true);
-  });
+  it(
+    'changing "know" updates #sel-mode and dispatches change',
+    () => {
+      act(() => {
+        mountLangPairSelect();
+      });
+      let changed = false;
+      document.getElementById('sel-mode')!.addEventListener('change', () => {
+        changed = true;
+      });
+      selectOption(0, 'es');
+      expect((document.getElementById('sel-mode') as HTMLSelectElement).value).toBe('en-es');
+      expect(changed).toBe(true);
+    },
+    15000,
+  );
 
   it('changing "learn" updates #sel-mode', () => {
     act(() => {

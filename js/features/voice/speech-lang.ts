@@ -45,6 +45,19 @@ export const SPEECH_LANG: Record<string, string> = {
   fi: 'fi-FI',
   no: 'nb-NO',
   la: 'la',
+  lt: 'lt-LT',
+  lv: 'lv-LV',
+  et: 'et-EE',
+  sl: 'sl-SI',
+  mk: 'mk-MK',
+  sq: 'sq-AL',
+  is: 'is-IS',
+  cy: 'cy-GB',
+  ga: 'ga-IE',
+  tl: 'fil-PH',
+  mn: 'mn-MN',
+  uz: 'uz-UZ',
+  am: 'am-ET',
 };
 
 export function speechLangFor(code: string): string {

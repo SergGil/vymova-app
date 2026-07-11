@@ -53,7 +53,20 @@ export type LangCode =
   | 'da'
   | 'fi'
   | 'no'
-  | 'la';
+  | 'la'
+  | 'lt'
+  | 'lv'
+  | 'et'
+  | 'sl'
+  | 'mk'
+  | 'sq'
+  | 'is'
+  | 'cy'
+  | 'ga'
+  | 'tl'
+  | 'mn'
+  | 'uz'
+  | 'am';
 type Direction = 'fwd' | 'rev' | 'mix';
 
 const ALL_LANGS: LangCode[] = [
@@ -99,6 +112,19 @@ const ALL_LANGS: LangCode[] = [
   'fi',
   'no',
   'la',
+  'lt',
+  'lv',
+  'et',
+  'sl',
+  'mk',
+  'sq',
+  'is',
+  'cy',
+  'ga',
+  'tl',
+  'mn',
+  'uz',
+  'am',
 ];
 
 function LangFlag({ lang }: { lang: LangCode }): ReactElement {
@@ -193,7 +219,20 @@ function isLangCode(v: string | null): v is LangCode {
     v === 'da' ||
     v === 'fi' ||
     v === 'no' ||
-    v === 'la'
+    v === 'la' ||
+    v === 'lt' ||
+    v === 'lv' ||
+    v === 'et' ||
+    v === 'sl' ||
+    v === 'mk' ||
+    v === 'sq' ||
+    v === 'is' ||
+    v === 'cy' ||
+    v === 'ga' ||
+    v === 'tl' ||
+    v === 'mn' ||
+    v === 'uz' ||
+    v === 'am'
   );
 }
 

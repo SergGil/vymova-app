@@ -23423,7 +23423,20 @@ export const GRAMMAR_BY_LANG: Partial<
     | 'da'
     | 'fi'
     | 'no'
-    | 'la',
+    | 'la'
+    | 'lt'
+    | 'lv'
+    | 'et'
+    | 'sl'
+    | 'mk'
+    | 'sq'
+    | 'is'
+    | 'cy'
+    | 'ga'
+    | 'tl'
+    | 'mn'
+    | 'uz'
+    | 'am',
     GrammarCategory[]
   >
 > = {
@@ -23468,4 +23481,17 @@ export const GRAMMAR_BY_LANG: Partial<
   fi: GRAMMAR_FI,
   no: GRAMMAR_NO,
   la: GRAMMAR_LA,
+  lt: [],
+  lv: [],
+  et: [],
+  sl: [],
+  mk: [],
+  sq: [],
+  is: [],
+  cy: [],
+  ga: [],
+  tl: [],
+  mn: [],
+  uz: [],
+  am: [],
 };

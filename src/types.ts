@@ -47,7 +47,20 @@ export type TargetLang =
   | 'da'
   | 'fi'
   | 'no'
-  | 'la';
+  | 'la'
+  | 'lt'
+  | 'lv'
+  | 'et'
+  | 'sl'
+  | 'mk'
+  | 'sq'
+  | 'is'
+  | 'cy'
+  | 'ga'
+  | 'tl'
+  | 'mn'
+  | 'uz'
+  | 'am';
 export type Code = TargetLang | 'en' | 'ua';
 export const ALL_TARGET_LANGS: TargetLang[] = [
   'es',
@@ -90,6 +103,19 @@ export const ALL_TARGET_LANGS: TargetLang[] = [
   'fi',
   'no',
   'la',
+  'lt',
+  'lv',
+  'et',
+  'sl',
+  'mk',
+  'sq',
+  'is',
+  'cy',
+  'ga',
+  'tl',
+  'mn',
+  'uz',
+  'am',
 ];
 
 // ── Word data ─────────────────────────────────────────────────

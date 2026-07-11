@@ -61,6 +61,19 @@ import {
   fiEntry,
   noEntry,
   laEntry,
+  ltEntry,
+  lvEntry,
+  etEntry,
+  slEntry,
+  mkEntry,
+  sqEntry,
+  isEntry,
+  cyEntry,
+  gaEntry,
+  tlEntry,
+  mnEntry,
+  uzEntry,
+  amEntry,
   isTargetLang,
   headwordFor,
   type Code,
@@ -167,6 +180,32 @@ function _getTranslation(w: WordEntry, lang: string): string {
       return noEntry(w[0])?.[0] ?? w[1];
     case 'la':
       return laEntry(w[0])?.[0] ?? w[1];
+    case 'lt':
+      return ltEntry(w[0])?.[0] ?? w[1];
+    case 'lv':
+      return lvEntry(w[0])?.[0] ?? w[1];
+    case 'et':
+      return etEntry(w[0])?.[0] ?? w[1];
+    case 'sl':
+      return slEntry(w[0])?.[0] ?? w[1];
+    case 'mk':
+      return mkEntry(w[0])?.[0] ?? w[1];
+    case 'sq':
+      return sqEntry(w[0])?.[0] ?? w[1];
+    case 'is':
+      return isEntry(w[0])?.[0] ?? w[1];
+    case 'cy':
+      return cyEntry(w[0])?.[0] ?? w[1];
+    case 'ga':
+      return gaEntry(w[0])?.[0] ?? w[1];
+    case 'tl':
+      return tlEntry(w[0])?.[0] ?? w[1];
+    case 'mn':
+      return mnEntry(w[0])?.[0] ?? w[1];
+    case 'uz':
+      return uzEntry(w[0])?.[0] ?? w[1];
+    case 'am':
+      return amEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1];
   }
@@ -254,6 +293,32 @@ function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
       return words.filter((w) => noEntry(w[0]) !== null);
     case 'la':
       return words.filter((w) => laEntry(w[0]) !== null);
+    case 'lt':
+      return words.filter((w) => ltEntry(w[0]) !== null);
+    case 'lv':
+      return words.filter((w) => lvEntry(w[0]) !== null);
+    case 'et':
+      return words.filter((w) => etEntry(w[0]) !== null);
+    case 'sl':
+      return words.filter((w) => slEntry(w[0]) !== null);
+    case 'mk':
+      return words.filter((w) => mkEntry(w[0]) !== null);
+    case 'sq':
+      return words.filter((w) => sqEntry(w[0]) !== null);
+    case 'is':
+      return words.filter((w) => isEntry(w[0]) !== null);
+    case 'cy':
+      return words.filter((w) => cyEntry(w[0]) !== null);
+    case 'ga':
+      return words.filter((w) => gaEntry(w[0]) !== null);
+    case 'tl':
+      return words.filter((w) => tlEntry(w[0]) !== null);
+    case 'mn':
+      return words.filter((w) => mnEntry(w[0]) !== null);
+    case 'uz':
+      return words.filter((w) => uzEntry(w[0]) !== null);
+    case 'am':
+      return words.filter((w) => amEntry(w[0]) !== null);
     default:
       return words;
   }

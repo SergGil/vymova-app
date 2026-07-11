@@ -8754,6 +8754,318 @@ export const LATIN_IDIOMS: Idiom[] = [
   },
 ];
 
+export const LITHUANIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐺',
+    phrase: 'Vilką mini, vilkas čia',
+    meaning: 'Про вовка промовка',
+    exampleSrc: 'Kalbėjome apie jį, ir štai jis pats — vilką mini, vilkas čia!',
+    exampleTr: 'Ми говорили про нього, і ось він сам — про вовка промовка!',
+  },
+  {
+    emoji: '⏳',
+    phrase: 'Šaukštai po pietų',
+    meaning: 'Запізно, вже нема сенсу (букв. "ложки після обіду")',
+    exampleSrc: 'Dabar jau atsiprašinėti — šaukštai po pietų.',
+    exampleTr: 'Тепер вибачатися — вже пізно, як ложки після обіду.',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'Geriau vėliau negu niekada',
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: 'Jis pradėjo mokytis vairuoti tik penkiasdešimties — geriau vėliau negu niekada.',
+    exampleTr: 'Він почав вчитися водити лише в п\'ятдесят — краще пізно, ніж ніколи.',
+  },
+];
+
+export const LATVIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐺',
+    phrase: 'Kā vilku piemin, tā vilks klāt',
+    meaning: 'Про вовка промовка',
+    exampleSrc: 'Runājām par viņu, un viņš uzradās — kā vilku piemin, tā vilks klāt!',
+    exampleTr: 'Ми говорили про нього, і він з\'явився — про вовка промовка!',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'Labāk vēlu nekā nekad',
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: 'Viņš sāka mācīties spēlēt ģitāru tikai pēc pensijas — labāk vēlu nekā nekad.',
+    exampleTr: 'Він почав вчитися грати на гітарі лише на пенсії — краще пізно, ніж ніколи.',
+  },
+  {
+    emoji: '🐔',
+    phrase: 'Cāļus skaita rudenī',
+    meaning: 'Не рахуй курчат, поки не вилупились (букв. "курчат рахують восени")',
+    exampleSrc: 'Nesteidzies priecāties — cāļus skaita rudenī.',
+    exampleTr: 'Не поспішай радіти — курчат восени рахують.',
+  },
+];
+
+export const ESTONIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐺',
+    phrase: 'Kes hundist räägib, see hunt tuleb',
+    meaning: 'Про вовка промовка',
+    exampleSrc: 'Rääkisime temast ja ta tuligi kohale — kes hundist räägib, see hunt tuleb!',
+    exampleTr: 'Ми говорили про нього, і він з\'явився — про вовка промовка!',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'Parem hilja kui mitte kunagi',
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: 'Ta alustas ülikooli alles neljakümnendal eluaastal — parem hilja kui mitte kunagi.',
+    exampleTr: 'Вона почала навчання в університеті лише в сорок років — краще пізно, ніж ніколи.',
+  },
+  {
+    emoji: '🐣',
+    phrase: 'Ära hakka kanu enne lugema, kui nad on koorunud',
+    meaning: 'Не рахуй курчат, поки вони не вилупились',
+    exampleSrc: 'Ära hakka kanu enne lugema, kui nad on koorunud — oota tulemusi.',
+    exampleTr: 'Не рахуй курчат, поки не вилупились — зачекай на результати.',
+  },
+];
+
+export const SLOVENIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐺',
+    phrase: 'Ko o volku govoriš, volk že v vas leti',
+    meaning: 'Про вовка промовка',
+    exampleSrc: 'Ravno smo govorili o njem, pa je že tu — ko o volku govoriš, volk že v vas leti.',
+    exampleTr: 'Ми щойно говорили про нього, а він уже тут — про вовка промовка.',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'Bolje pozno kot nikoli',
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: 'Začel je študirati šele pri štiridesetih — bolje pozno kot nikoli.',
+    exampleTr: 'Він почав навчання лише в сорок років — краще пізно, ніж ніколи.',
+  },
+  {
+    emoji: '🐻',
+    phrase: 'Ne prodajaj kože, dokler medved še teče',
+    meaning: 'Не продавай шкуру, поки ведмідь ще біжить (не поспішай з висновками)',
+    exampleSrc: 'Počakajmo z načrti — ne prodajajmo kože, dokler medved še teče.',
+    exampleTr: 'Почекаймо з планами — не продавай шкуру, поки ведмідь ще біжить.',
+  },
+];
+
+export const MACEDONIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐺',
+    phrase: 'Кога ќе го спомнеш волкот, тој е на врата',
+    meaning: 'Про вовка промовка',
+    exampleSrc: 'Штотуку зборувавме за него, а тој дојде — кога ќе го спомнеш волкот, тој е на врата.',
+    exampleTr: 'Ми щойно говорили про нього, а він прийшов — про вовка промовка.',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'Подобро доцна отколку никогаш',
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: 'Почна да учи пливање дури на педесет години — подобро доцна отколку никогаш.',
+    exampleTr: 'Він почав вчитися плавати лише в п\'ятдесят років — краще пізно, ніж ніколи.',
+  },
+  {
+    emoji: '🐣',
+    phrase: 'Не си ги брои пилињата пред да се излупат',
+    meaning: 'Не рахуй курчат, поки не вилупились',
+    exampleSrc: 'Не сум сигурен во успехот — не си ги броиме пилињата пред да се излупат.',
+    exampleTr: 'Я не впевнений в успіху — не рахуймо курчат, поки не вилупились.',
+  },
+];
+
+export const ALBANIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐺',
+    phrase: 'Kur flet për ujkun, ai është pranë',
+    meaning: 'Про вовка промовка',
+    exampleSrc: 'Sapo folëm për të, dhe ai u shfaq — kur flet për ujkun, ai është pranë.',
+    exampleTr: 'Ми щойно говорили про нього, і він з\'явився — про вовка промовка.',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'Më mirë vonë se kurrë',
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: 'Filloi të mësonte pianon vetëm në moshën dyzet vjeç — më mirë vonë se kurrë.',
+    exampleTr: 'Вона почала вчитися грати на піаніно лише в сорок років — краще пізно, ніж ніколи.',
+  },
+  {
+    emoji: '🐣',
+    phrase: 'Mos i numëro zogjtë para se të çelin',
+    meaning: 'Не рахуй пташенят, поки не вилупились',
+    exampleSrc: 'Prit rezultatin — mos i numëro zogjtë para se të çelin.',
+    exampleTr: 'Зачекай результату — не рахуй пташенят, поки не вилупились.',
+  },
+];
+
+export const ICELANDIC_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐺',
+    phrase: 'Þegar úlfurinn er nefndur, er hann nálægur',
+    meaning: 'Про вовка промовка',
+    exampleSrc: 'Við vorum að tala um hann og þá birtist hann — þegar úlfurinn er nefndur, er hann nálægur.',
+    exampleTr: 'Ми говорили про нього, і він з\'явився — про вовка промовка.',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'Betra seint en aldrei',
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: 'Hann byrjaði að læra á gítar sextugur — betra seint en aldrei.',
+    exampleTr: 'Він почав вчитися грати на гітарі в шістдесят років — краще пізно, ніж ніколи.',
+  },
+  {
+    emoji: '🐻',
+    phrase: 'Selja ekki skinnið áður en björninn er skotinn',
+    meaning: 'Не продавай шкуру, поки ведмідь не вбитий',
+    exampleSrc: 'Bíðum með áætlanir — seljum ekki skinnið áður en björninn er skotinn.',
+    exampleTr: 'Почекаймо з планами — не продавай шкуру, поки ведмідь не вбитий.',
+  },
+];
+
+export const WELSH_IDIOMS: Idiom[] = [
+  {
+    emoji: '👿',
+    phrase: 'Sôn am gythraul...',
+    meaning: 'Про вовка промовка (букв. "згадай диявола...")',
+    exampleSrc: "Roedden ni'n sôn amdano a dyma fe'n cyrraedd — sôn am gythraul!",
+    exampleTr: 'Ми говорили про нього, і ось він з\'явився — про вовка промовка!',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'Gwell hwyr na hwyrach',
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: 'Dechreuodd ddysgu Cymraeg yn ei bumdegau — gwell hwyr na hwyrach.',
+    exampleTr: 'Вона почала вчити валлійську мову в п\'ятдесят років — краще пізно, ніж ніколи.',
+  },
+  {
+    emoji: '✨',
+    phrase: 'Nid aur yw popeth melyn',
+    meaning: 'Не все золото, що блищить',
+    exampleSrc: "Paid â thybio ei fod yn werthfawr — nid aur yw popeth melyn.",
+    exampleTr: 'Не думай, що воно цінне — не все золото, що блищить.',
+  },
+];
+
+export const IRISH_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐺',
+    phrase: 'Nuair a luaitear an mac tíre, bíonn sé láithreach',
+    meaning: 'Про вовка промовка',
+    exampleSrc: 'Bhíomar ag caint faoi agus tháinig sé — nuair a luaitear an mac tíre, bíonn sé láithreach.',
+    exampleTr: 'Ми говорили про нього, і він прийшов — про вовка промовка.',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'Is fearr go mall ná go brách',
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: 'Thosaigh sé ag foghlaim na Gaeilge agus é seasca bliain d\'aois — is fearr go mall ná go brách.',
+    exampleTr: 'Він почав вивчати ірландську мову в шістдесят років — краще пізно, ніж ніколи.',
+  },
+  {
+    emoji: '🐣',
+    phrase: 'Ná comhair do chuid sicíní roimh am',
+    meaning: 'Не рахуй курчат заздалегідь',
+    exampleSrc: 'Fanaimis go bhfeicimid an toradh — ná comhair do chuid sicíní roimh am.',
+    exampleTr: 'Зачекаймо результату — не рахуй курчат заздалегідь.',
+  },
+];
+
+export const FILIPINO_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐺',
+    phrase: 'Kung kanino ang usapan, siya ang dumarating',
+    meaning: 'Про вовка промовка',
+    exampleSrc: 'Kausap lang namin siya sa isip, biglang sumulpot — kung kanino ang usapan, siya ang dumarating!',
+    exampleTr: 'Ми щойно говорили про нього, і він раптом з\'явився — про вовка промовка!',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'Huli man daw at magaling, naihahabol din',
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: 'Nag-aral siyang mag-drive noong siya ay singkwenta anyos na — huli man daw at magaling, naihahabol din.',
+    exampleTr: 'Вона навчилася водити лише в п\'ятдесят років — краще пізно, ніж ніколи.',
+  },
+  {
+    emoji: '🐣',
+    phrase: 'Huwag mong bilangin ang sisiw hangga\'t hindi pa napipisa',
+    meaning: 'Не рахуй курчат, поки не вилупились',
+    exampleSrc: 'Maghintay muna tayo sa resulta — huwag mong bilangin ang sisiw hangga\'t hindi pa napipisa.',
+    exampleTr: 'Зачекаймо результату — не рахуй курчат, поки не вилупились.',
+  },
+];
+
+export const MONGOLIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐺',
+    phrase: 'Чоныг дурдвал ойрхон',
+    meaning: 'Про вовка промовка',
+    exampleSrc: 'Бид түүний тухай ярьж байтал тэр гарч ирэв — чоныг дурдвал ойрхон.',
+    exampleTr: 'Ми говорили про нього, і він з\'явився — про вовка промовка.',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'Оройтсон ч гэсэн байхгүйгээс дээр',
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: 'Тэрээр тавин настайдаа хөгжим сурч эхэлсэн — оройтсон ч гэсэн байхгүйгээс дээр.',
+    exampleTr: 'Він почав вчитися музики в п\'ятдесят років — краще пізно, ніж ніколи.',
+  },
+  {
+    emoji: '🐣',
+    phrase: 'Тахианы өндгийг гарахаас өмнө бүү тоол',
+    meaning: 'Не рахуй курчат, поки не вилупились',
+    exampleSrc: 'Үр дүнг хүлээцгээе — тахианы өндгийг гарахаас өмнө бүү тоол.',
+    exampleTr: 'Зачекаймо результату — не рахуй курчат, поки не вилупились.',
+  },
+];
+
+export const UZBEK_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐺',
+    phrase: "Bo'rini eslasang, bo'ri keladi",
+    meaning: 'Про вовка промовка',
+    exampleSrc: "Biz u haqida gapirayotgan edik, u paydo bo'ldi — bo'rini eslasang, bo'ri keladi.",
+    exampleTr: 'Ми говорили про нього, і він з\'явився — про вовка промовка.',
+  },
+  {
+    emoji: '🍀',
+    phrase: "Kech bo'lsa ham, hech bo'lgandan yaxshi",
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: "U ellik yoshida gitara chalishni o'rgana boshladi — kech bo'lsa ham, hech bo'lgandan yaxshi.",
+    exampleTr: 'Він почав вчитися грати на гітарі в п\'ятдесят років — краще пізно, ніж ніколи.',
+  },
+  {
+    emoji: '🐣',
+    phrase: "Jo'jani kuzda sanaydilar",
+    meaning: 'Курчат восени рахують (не поспішай радіти заздалегідь)',
+    exampleSrc: "Shoshilma xursand bo'lishga — jo'jani kuzda sanaydilar.",
+    exampleTr: 'Не поспішай радіти — курчат восени рахують.',
+  },
+];
+
+export const AMHARIC_IDIOMS: Idiom[] = [
+  {
+    emoji: '🐺',
+    phrase: 'ተኩላውን ካነሱ ተኩላው ይመጣል',
+    meaning: 'Про вовка промовка',
+    exampleSrc: 'ስለ እሱ እያወራን ሳለ መጣ — ተኩላውን ካነሱ ተኩላው ይመጣል።',
+    exampleTr: 'Ми говорили про нього, і він з\'явився — про вовка промовка.',
+  },
+  {
+    emoji: '🍀',
+    phrase: 'ዘግይቶ ከመቅረት ዘግይቶ ይሻላል',
+    meaning: 'Краще пізно, ніж ніколи',
+    exampleSrc: 'በሃምሳ ዓመቱ ማጥናት ጀመረ — ዘግይቶ ከመቅረት ዘግይቶ ይሻላል።',
+    exampleTr: 'Він почав навчання в п\'ятдесят років — краще пізно, ніж ніколи.',
+  },
+  {
+    emoji: '🐣',
+    phrase: 'ጫጩቶቹን ሳይፈለፈሉ አትቁጠር',
+    meaning: 'Не рахуй курчат, поки не вилупились',
+    exampleSrc: 'ውጤቱን እንጠብቅ — ጫጩቶቹን ሳይፈለፈሉ አትቁጠር።',
+    exampleTr: 'Зачекаймо результату — не рахуй курчат, поки не вилупились.',
+  },
+];
+
 // ── Idioms per language ─────────────────────────────────────────
 export const IDIOMS_BY_LANG: Partial<
   Record<
@@ -8792,7 +9104,20 @@ export const IDIOMS_BY_LANG: Partial<
     | 'da'
     | 'fi'
     | 'no'
-    | 'la',
+    | 'la'
+    | 'lt'
+    | 'lv'
+    | 'et'
+    | 'sl'
+    | 'mk'
+    | 'sq'
+    | 'is'
+    | 'cy'
+    | 'ga'
+    | 'tl'
+    | 'mn'
+    | 'uz'
+    | 'am',
     Idiom[]
   >
 > = {
@@ -8838,4 +9163,17 @@ export const IDIOMS_BY_LANG: Partial<
   fi: FINNISH_IDIOMS,
   no: NORWEGIAN_IDIOMS,
   la: LATIN_IDIOMS,
+  lt: LITHUANIAN_IDIOMS,
+  lv: LATVIAN_IDIOMS,
+  et: ESTONIAN_IDIOMS,
+  sl: SLOVENIAN_IDIOMS,
+  mk: MACEDONIAN_IDIOMS,
+  sq: ALBANIAN_IDIOMS,
+  is: ICELANDIC_IDIOMS,
+  cy: WELSH_IDIOMS,
+  ga: IRISH_IDIOMS,
+  tl: FILIPINO_IDIOMS,
+  mn: MONGOLIAN_IDIOMS,
+  uz: UZBEK_IDIOMS,
+  am: AMHARIC_IDIOMS,
 };

@@ -52,6 +52,19 @@ import {
   fiEntry,
   noEntry,
   laEntry,
+  ltEntry,
+  lvEntry,
+  etEntry,
+  slEntry,
+  mkEntry,
+  sqEntry,
+  isEntry,
+  cyEntry,
+  gaEntry,
+  tlEntry,
+  mnEntry,
+  uzEntry,
+  amEntry,
 } from '../features/mode-utils.ts';
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
@@ -144,6 +157,32 @@ function getLangWord(w: WordEntry, lang: string): string {
       return noEntry(w[0])?.[0] ?? '';
     case 'la':
       return laEntry(w[0])?.[0] ?? '';
+    case 'lt':
+      return ltEntry(w[0])?.[0] ?? '';
+    case 'lv':
+      return lvEntry(w[0])?.[0] ?? '';
+    case 'et':
+      return etEntry(w[0])?.[0] ?? '';
+    case 'sl':
+      return slEntry(w[0])?.[0] ?? '';
+    case 'mk':
+      return mkEntry(w[0])?.[0] ?? '';
+    case 'sq':
+      return sqEntry(w[0])?.[0] ?? '';
+    case 'is':
+      return isEntry(w[0])?.[0] ?? '';
+    case 'cy':
+      return cyEntry(w[0])?.[0] ?? '';
+    case 'ga':
+      return gaEntry(w[0])?.[0] ?? '';
+    case 'tl':
+      return tlEntry(w[0])?.[0] ?? '';
+    case 'mn':
+      return mnEntry(w[0])?.[0] ?? '';
+    case 'uz':
+      return uzEntry(w[0])?.[0] ?? '';
+    case 'am':
+      return amEntry(w[0])?.[0] ?? '';
     default:
       return w[0];
   }
@@ -233,6 +272,32 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return noEntry(w[0])?.[1] ?? '';
     case 'la':
       return laEntry(w[0])?.[1] ?? '';
+    case 'lt':
+      return ltEntry(w[0])?.[1] ?? '';
+    case 'lv':
+      return lvEntry(w[0])?.[1] ?? '';
+    case 'et':
+      return etEntry(w[0])?.[1] ?? '';
+    case 'sl':
+      return slEntry(w[0])?.[1] ?? '';
+    case 'mk':
+      return mkEntry(w[0])?.[1] ?? '';
+    case 'sq':
+      return sqEntry(w[0])?.[1] ?? '';
+    case 'is':
+      return isEntry(w[0])?.[1] ?? '';
+    case 'cy':
+      return cyEntry(w[0])?.[1] ?? '';
+    case 'ga':
+      return gaEntry(w[0])?.[1] ?? '';
+    case 'tl':
+      return tlEntry(w[0])?.[1] ?? '';
+    case 'mn':
+      return mnEntry(w[0])?.[1] ?? '';
+    case 'uz':
+      return uzEntry(w[0])?.[1] ?? '';
+    case 'am':
+      return amEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }

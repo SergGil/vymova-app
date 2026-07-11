@@ -85,6 +85,19 @@ const LANG_META: Record<string, { name: string; country: string }> = {
   fi: { name: "Suomi", country: 'fi' },
   no: { name: "Norsk", country: 'no' },
   la: { name: "Latina", country: 'spqr' },
+  lt: { name: "Lietuvių", country: 'lt' },
+  lv: { name: "Latviešu", country: 'lv' },
+  et: { name: "Eesti", country: 'ee' },
+  sl: { name: "Slovenščina", country: 'si' },
+  mk: { name: "Македонски", country: 'mk' },
+  sq: { name: "Shqip", country: 'al' },
+  is: { name: "Íslenska", country: 'is' },
+  cy: { name: "Cymraeg", country: 'wls' },
+  ga: { name: "Gaeilge", country: 'ie' },
+  tl: { name: "Filipino", country: 'ph' },
+  mn: { name: "Монгол", country: 'mn' },
+  uz: { name: "Oʻzbekcha", country: 'uz' },
+  am: { name: "አማርኛ", country: 'et' },
 };
 
 function FlagCircle({ lang, size = 44 }: { lang: string; size?: number }): ReactElement {
