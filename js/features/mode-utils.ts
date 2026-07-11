@@ -101,6 +101,16 @@ const LANG_LOADERS: Record<TargetLang, () => Promise<Table>> = {
   lo: () => import('../../data/words_lo.js').then((m) => m.W_LO as Table),
   ne: () => import('../../data/words_ne.js').then((m) => m.W_NE as Table),
   si: () => import('../../data/words_si.js').then((m) => m.W_SI as Table),
+  ur: () => import('../../data/words_ur.js').then((m) => m.W_UR as Table),
+  te: () => import('../../data/words_te.js').then((m) => m.W_TE as Table),
+  ml: () => import('../../data/words_ml.js').then((m) => m.W_ML as Table),
+  kn: () => import('../../data/words_kn.js').then((m) => m.W_KN as Table),
+  mr: () => import('../../data/words_mr.js').then((m) => m.W_MR as Table),
+  gu: () => import('../../data/words_gu.js').then((m) => m.W_GU as Table),
+  or: () => import('../../data/words_or.js').then((m) => m.W_OR as Table),
+  as: () => import('../../data/words_as.js').then((m) => m.W_AS as Table),
+  sd: () => import('../../data/words_sd.js').then((m) => m.W_SD as Table),
+  ps: () => import('../../data/words_ps.js').then((m) => m.W_PS as Table),
 };
 
 // In-flight promises to avoid duplicate fetches for the same language.
@@ -655,6 +665,76 @@ const LANG_REGISTRY: Record<TargetLang, LangConfig> = {
     voiceLocale: 'si-LK',
     rtl: false,
   },
+  ur: {
+    entry: (w) => lookup(getTable('ur'), w),
+    known: () => getKnownSnapshot('ur'),
+    saveKnown: (known) => saveKnownLang('ur', known),
+    voiceLocale: 'ur-PK',
+    rtl: true,
+  },
+  te: {
+    entry: (w) => lookup(getTable('te'), w),
+    known: () => getKnownSnapshot('te'),
+    saveKnown: (known) => saveKnownLang('te', known),
+    voiceLocale: 'te-IN',
+    rtl: false,
+  },
+  ml: {
+    entry: (w) => lookup(getTable('ml'), w),
+    known: () => getKnownSnapshot('ml'),
+    saveKnown: (known) => saveKnownLang('ml', known),
+    voiceLocale: 'ml-IN',
+    rtl: false,
+  },
+  kn: {
+    entry: (w) => lookup(getTable('kn'), w),
+    known: () => getKnownSnapshot('kn'),
+    saveKnown: (known) => saveKnownLang('kn', known),
+    voiceLocale: 'kn-IN',
+    rtl: false,
+  },
+  mr: {
+    entry: (w) => lookup(getTable('mr'), w),
+    known: () => getKnownSnapshot('mr'),
+    saveKnown: (known) => saveKnownLang('mr', known),
+    voiceLocale: 'mr-IN',
+    rtl: false,
+  },
+  gu: {
+    entry: (w) => lookup(getTable('gu'), w),
+    known: () => getKnownSnapshot('gu'),
+    saveKnown: (known) => saveKnownLang('gu', known),
+    voiceLocale: 'gu-IN',
+    rtl: false,
+  },
+  or: {
+    entry: (w) => lookup(getTable('or'), w),
+    known: () => getKnownSnapshot('or'),
+    saveKnown: (known) => saveKnownLang('or', known),
+    voiceLocale: 'or-IN',
+    rtl: false,
+  },
+  as: {
+    entry: (w) => lookup(getTable('as'), w),
+    known: () => getKnownSnapshot('as'),
+    saveKnown: (known) => saveKnownLang('as', known),
+    voiceLocale: 'as-IN',
+    rtl: false,
+  },
+  sd: {
+    entry: (w) => lookup(getTable('sd'), w),
+    known: () => getKnownSnapshot('sd'),
+    saveKnown: (known) => saveKnownLang('sd', known),
+    voiceLocale: 'sd-PK',
+    rtl: true,
+  },
+  ps: {
+    entry: (w) => lookup(getTable('ps'), w),
+    known: () => getKnownSnapshot('ps'),
+    saveKnown: (known) => saveKnownLang('ps', known),
+    voiceLocale: 'ps-AF',
+    rtl: true,
+  },
 };
 
 export function langConfig(code: TargetLang): LangConfig {
@@ -1146,6 +1226,36 @@ export function neEntry(word: string): Entry {
 export function siEntry(word: string): Entry {
   return LANG_REGISTRY.si.entry(word);
 }
+export function urEntry(word: string): Entry {
+  return LANG_REGISTRY.ur.entry(word);
+}
+export function teEntry(word: string): Entry {
+  return LANG_REGISTRY.te.entry(word);
+}
+export function mlEntry(word: string): Entry {
+  return LANG_REGISTRY.ml.entry(word);
+}
+export function knEntry(word: string): Entry {
+  return LANG_REGISTRY.kn.entry(word);
+}
+export function mrEntry(word: string): Entry {
+  return LANG_REGISTRY.mr.entry(word);
+}
+export function guEntry(word: string): Entry {
+  return LANG_REGISTRY.gu.entry(word);
+}
+export function orEntry(word: string): Entry {
+  return LANG_REGISTRY.or.entry(word);
+}
+export function asEntry(word: string): Entry {
+  return LANG_REGISTRY.as.entry(word);
+}
+export function sdEntry(word: string): Entry {
+  return LANG_REGISTRY.sd.entry(word);
+}
+export function psEntry(word: string): Entry {
+  return LANG_REGISTRY.ps.entry(word);
+}
 
 function targetLangFromStorageKey(key: string): TargetLang | null {
   return isTargetLang(key) ? key : null;
@@ -1331,6 +1441,16 @@ const NO_TRANSLATIONS_KEY: Record<TargetLang, string> = {
   lo: 'deck.noLoTranslations',
   ne: 'deck.noNeTranslations',
   si: 'deck.noSiTranslations',
+  ur: 'deck.noUrTranslations',
+  te: 'deck.noTeTranslations',
+  ml: 'deck.noMlTranslations',
+  kn: 'deck.noKnTranslations',
+  mr: 'deck.noMrTranslations',
+  gu: 'deck.noGuTranslations',
+  or: 'deck.noOrTranslations',
+  as: 'deck.noAsTranslations',
+  sd: 'deck.noSdTranslations',
+  ps: 'deck.noPsTranslations',
 };
 
 function hasAnyEntries(lang: TargetLang, words: WordEntry[]): boolean {

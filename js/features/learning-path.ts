@@ -95,6 +95,16 @@ import {
   loEntry,
   neEntry,
   siEntry,
+  urEntry,
+  teEntry,
+  mlEntry,
+  knEntry,
+  mrEntry,
+  guEntry,
+  orEntry,
+  asEntry,
+  sdEntry,
+  psEntry,
   isTargetLang,
   headwordFor,
   type Code,
@@ -269,6 +279,26 @@ function _getTranslation(w: WordEntry, lang: string): string {
       return neEntry(w[0])?.[0] ?? w[1];
     case 'si':
       return siEntry(w[0])?.[0] ?? w[1];
+    case 'ur':
+      return urEntry(w[0])?.[0] ?? w[1];
+    case 'te':
+      return teEntry(w[0])?.[0] ?? w[1];
+    case 'ml':
+      return mlEntry(w[0])?.[0] ?? w[1];
+    case 'kn':
+      return knEntry(w[0])?.[0] ?? w[1];
+    case 'mr':
+      return mrEntry(w[0])?.[0] ?? w[1];
+    case 'gu':
+      return guEntry(w[0])?.[0] ?? w[1];
+    case 'or':
+      return orEntry(w[0])?.[0] ?? w[1];
+    case 'as':
+      return asEntry(w[0])?.[0] ?? w[1];
+    case 'sd':
+      return sdEntry(w[0])?.[0] ?? w[1];
+    case 'ps':
+      return psEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1];
   }
@@ -424,6 +454,26 @@ function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
       return words.filter((w) => neEntry(w[0]) !== null);
     case 'si':
       return words.filter((w) => siEntry(w[0]) !== null);
+    case 'ur':
+      return words.filter((w) => urEntry(w[0]) !== null);
+    case 'te':
+      return words.filter((w) => teEntry(w[0]) !== null);
+    case 'ml':
+      return words.filter((w) => mlEntry(w[0]) !== null);
+    case 'kn':
+      return words.filter((w) => knEntry(w[0]) !== null);
+    case 'mr':
+      return words.filter((w) => mrEntry(w[0]) !== null);
+    case 'gu':
+      return words.filter((w) => guEntry(w[0]) !== null);
+    case 'or':
+      return words.filter((w) => orEntry(w[0]) !== null);
+    case 'as':
+      return words.filter((w) => asEntry(w[0]) !== null);
+    case 'sd':
+      return words.filter((w) => sdEntry(w[0]) !== null);
+    case 'ps':
+      return words.filter((w) => psEntry(w[0]) !== null);
     default:
       return words;
   }

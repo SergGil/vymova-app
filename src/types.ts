@@ -81,7 +81,17 @@ export type TargetLang =
   | 'km'
   | 'lo'
   | 'ne'
-  | 'si';
+  | 'si'
+  | 'ur'
+  | 'te'
+  | 'ml'
+  | 'kn'
+  | 'mr'
+  | 'gu'
+  | 'or'
+  | 'as'
+  | 'sd'
+  | 'ps';
 export type Code = TargetLang | 'en' | 'ua';
 export const ALL_TARGET_LANGS: TargetLang[] = [
   'es',
@@ -158,6 +168,16 @@ export const ALL_TARGET_LANGS: TargetLang[] = [
   'lo',
   'ne',
   'si',
+  'ur',
+  'te',
+  'ml',
+  'kn',
+  'mr',
+  'gu',
+  'or',
+  'as',
+  'sd',
+  'ps',
 ];
 
 // ── Word data ─────────────────────────────────────────────────

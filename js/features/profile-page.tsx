@@ -119,6 +119,16 @@ const LANG_META: Record<string, { name: string; country: string }> = {
   lo: { name: "ລາວ", country: 'la' },
   ne: { name: "नेपाली", country: 'np' },
   si: { name: "සිංහල", country: 'lk' },
+  ur: { name: "اردو", country: 'pk' },
+  te: { name: "తెలుగు", country: 'in' },
+  ml: { name: "മലയാളം", country: 'in' },
+  kn: { name: "ಕನ್ನಡ", country: 'in' },
+  mr: { name: "मराठी", country: 'in' },
+  gu: { name: "ગુજરાતી", country: 'in' },
+  or: { name: "ଓଡ଼ିଆ", country: 'in' },
+  as: { name: "অসমীয়া", country: 'in' },
+  sd: { name: "سنڌي", country: 'pk' },
+  ps: { name: "پښتو", country: 'af' },
 };
 
 function FlagCircle({ lang, size = 44 }: { lang: string; size?: number }): ReactElement {

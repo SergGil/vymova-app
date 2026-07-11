@@ -81,6 +81,16 @@ let _kmURI = localStorage.getItem('ew_ws_km_voice') ?? '';
 let _loURI = localStorage.getItem('ew_ws_lo_voice') ?? '';
 let _neURI = localStorage.getItem('ew_ws_ne_voice') ?? '';
 let _siURI = localStorage.getItem('ew_ws_si_voice') ?? '';
+let _urURI = localStorage.getItem('ew_ws_ur_voice') ?? '';
+let _teURI = localStorage.getItem('ew_ws_te_voice') ?? '';
+let _mlURI = localStorage.getItem('ew_ws_ml_voice') ?? '';
+let _knURI = localStorage.getItem('ew_ws_kn_voice') ?? '';
+let _mrURI = localStorage.getItem('ew_ws_mr_voice') ?? '';
+let _guURI = localStorage.getItem('ew_ws_gu_voice') ?? '';
+let _orURI = localStorage.getItem('ew_ws_or_voice') ?? '';
+let _asURI = localStorage.getItem('ew_ws_as_voice') ?? '';
+let _sdURI = localStorage.getItem('ew_ws_sd_voice') ?? '';
+let _psURI = localStorage.getItem('ew_ws_ps_voice') ?? '';
 
 type VoiceMapEntry = { match: string; label: string; gender: string; accent: string };
 
@@ -875,6 +885,76 @@ function _siVoices(): SpeechSynthesisVoice[] {
     return l.startsWith('si') || n.includes('sinhala');
   });
 }
+function _urVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('ur') || n.includes('urdu');
+  });
+}
+function _teVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('te') || n.includes('telugu');
+  });
+}
+function _mlVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('ml') || n.includes('malayalam');
+  });
+}
+function _knVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('kn') || n.includes('kannada');
+  });
+}
+function _mrVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('mr') || n.includes('marathi');
+  });
+}
+function _guVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('gu') || n.includes('gujarati');
+  });
+}
+function _orVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('or') || n.includes('odia');
+  });
+}
+function _asVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('as') || n.includes('assamese');
+  });
+}
+function _sdVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('sd') || n.includes('sindhi');
+  });
+}
+function _psVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('ps') || n.includes('pashto');
+  });
+}
 function _findByURI(uri: string, voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
   return voices.find((v) => v.voiceURI === uri) ?? null;
 }
@@ -1103,6 +1183,36 @@ export function getSelectedNeVoice(): SpeechSynthesisVoice | null {
 }
 export function getSelectedSiVoice(): SpeechSynthesisVoice | null {
   return _findByURI(_siURI, _siVoices()) ?? _siVoices()[0] ?? null;
+}
+export function getSelectedUrVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_urURI, _urVoices()) ?? _urVoices()[0] ?? null;
+}
+export function getSelectedTeVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_teURI, _teVoices()) ?? _teVoices()[0] ?? null;
+}
+export function getSelectedMlVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_mlURI, _mlVoices()) ?? _mlVoices()[0] ?? null;
+}
+export function getSelectedKnVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_knURI, _knVoices()) ?? _knVoices()[0] ?? null;
+}
+export function getSelectedMrVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_mrURI, _mrVoices()) ?? _mrVoices()[0] ?? null;
+}
+export function getSelectedGuVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_guURI, _guVoices()) ?? _guVoices()[0] ?? null;
+}
+export function getSelectedOrVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_orURI, _orVoices()) ?? _orVoices()[0] ?? null;
+}
+export function getSelectedAsVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_asURI, _asVoices()) ?? _asVoices()[0] ?? null;
+}
+export function getSelectedSdVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_sdURI, _sdVoices()) ?? _sdVoices()[0] ?? null;
+}
+export function getSelectedPsVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_psURI, _psVoices()) ?? _psVoices()[0] ?? null;
 }
 
 // Speaks `text` with a voice tagged for `accent` (matched via VOICE_MAP first,
@@ -1352,7 +1462,17 @@ export function _renderVoices(): void {
     kmVoices = _sortVoices(_kmVoices()),
     loVoices = _sortVoices(_loVoices()),
     neVoices = _sortVoices(_neVoices()),
-    siVoices = _sortVoices(_siVoices());
+    siVoices = _sortVoices(_siVoices()),
+    urVoices = _sortVoices(_urVoices()),
+    teVoices = _sortVoices(_teVoices()),
+    mlVoices = _sortVoices(_mlVoices()),
+    knVoices = _sortVoices(_knVoices()),
+    mrVoices = _sortVoices(_mrVoices()),
+    guVoices = _sortVoices(_guVoices()),
+    orVoices = _sortVoices(_orVoices()),
+    asVoices = _sortVoices(_asVoices()),
+    sdVoices = _sortVoices(_sdVoices()),
+    psVoices = _sortVoices(_psVoices());
   if (
     !enVoices.length &&
     !ukVoices.length &&
@@ -1429,7 +1549,17 @@ export function _renderVoices(): void {
     !kmVoices.length &&
     !loVoices.length &&
     !neVoices.length &&
-    !siVoices.length
+    !siVoices.length &&
+    !urVoices.length &&
+    !teVoices.length &&
+    !mlVoices.length &&
+    !knVoices.length &&
+    !mrVoices.length &&
+    !guVoices.length &&
+    !orVoices.length &&
+    !asVoices.length &&
+    !sdVoices.length &&
+    !psVoices.length
   ) {
     container.innerHTML =
       '<span style="font-size:.78rem;color:var(--text3);">' +
@@ -1554,6 +1684,16 @@ export function _renderVoices(): void {
           else if (storageKey === 'ew_ws_lo_voice') _loURI = uri;
           else if (storageKey === 'ew_ws_ne_voice') _neURI = uri;
           else if (storageKey === 'ew_ws_si_voice') _siURI = uri;
+          else if (storageKey === 'ew_ws_ur_voice') _urURI = uri;
+          else if (storageKey === 'ew_ws_te_voice') _teURI = uri;
+          else if (storageKey === 'ew_ws_ml_voice') _mlURI = uri;
+          else if (storageKey === 'ew_ws_kn_voice') _knURI = uri;
+          else if (storageKey === 'ew_ws_mr_voice') _mrURI = uri;
+          else if (storageKey === 'ew_ws_gu_voice') _guURI = uri;
+          else if (storageKey === 'ew_ws_or_voice') _orURI = uri;
+          else if (storageKey === 'ew_ws_as_voice') _asURI = uri;
+          else if (storageKey === 'ew_ws_sd_voice') _sdURI = uri;
+          else if (storageKey === 'ew_ws_ps_voice') _psURI = uri;
           else _ukURI = uri;
           localStorage.setItem(storageKey, uri);
           _renderVoices();
@@ -2424,6 +2564,116 @@ export function _renderVoices(): void {
       "Hello!",
     );
   else addMissing('si', 'lk', 'settings.noSiVoicesTitle', 'settings.noSiVoicesDesc');
+  if (urVoices.length)
+    addSection(
+      'ur',
+      'pk',
+      t('settings.urVoicesTitle'),
+      urVoices,
+      _urURI,
+      'ew_ws_ur_voice',
+      "Hello!",
+    );
+  else addMissing('ur', 'pk', 'settings.noUrVoicesTitle', 'settings.noUrVoicesDesc');
+  if (teVoices.length)
+    addSection(
+      'te',
+      'in',
+      t('settings.teVoicesTitle'),
+      teVoices,
+      _teURI,
+      'ew_ws_te_voice',
+      "Hello!",
+    );
+  else addMissing('te', 'in', 'settings.noTeVoicesTitle', 'settings.noTeVoicesDesc');
+  if (mlVoices.length)
+    addSection(
+      'ml',
+      'in',
+      t('settings.mlVoicesTitle'),
+      mlVoices,
+      _mlURI,
+      'ew_ws_ml_voice',
+      "Hello!",
+    );
+  else addMissing('ml', 'in', 'settings.noMlVoicesTitle', 'settings.noMlVoicesDesc');
+  if (knVoices.length)
+    addSection(
+      'kn',
+      'in',
+      t('settings.knVoicesTitle'),
+      knVoices,
+      _knURI,
+      'ew_ws_kn_voice',
+      "Hello!",
+    );
+  else addMissing('kn', 'in', 'settings.noKnVoicesTitle', 'settings.noKnVoicesDesc');
+  if (mrVoices.length)
+    addSection(
+      'mr',
+      'in',
+      t('settings.mrVoicesTitle'),
+      mrVoices,
+      _mrURI,
+      'ew_ws_mr_voice',
+      "Hello!",
+    );
+  else addMissing('mr', 'in', 'settings.noMrVoicesTitle', 'settings.noMrVoicesDesc');
+  if (guVoices.length)
+    addSection(
+      'gu',
+      'in',
+      t('settings.guVoicesTitle'),
+      guVoices,
+      _guURI,
+      'ew_ws_gu_voice',
+      "Hello!",
+    );
+  else addMissing('gu', 'in', 'settings.noGuVoicesTitle', 'settings.noGuVoicesDesc');
+  if (orVoices.length)
+    addSection(
+      'or',
+      'in',
+      t('settings.orVoicesTitle'),
+      orVoices,
+      _orURI,
+      'ew_ws_or_voice',
+      "Hello!",
+    );
+  else addMissing('or', 'in', 'settings.noOrVoicesTitle', 'settings.noOrVoicesDesc');
+  if (asVoices.length)
+    addSection(
+      'as',
+      'in',
+      t('settings.asVoicesTitle'),
+      asVoices,
+      _asURI,
+      'ew_ws_as_voice',
+      "Hello!",
+    );
+  else addMissing('as', 'in', 'settings.noAsVoicesTitle', 'settings.noAsVoicesDesc');
+  if (sdVoices.length)
+    addSection(
+      'sd',
+      'pk',
+      t('settings.sdVoicesTitle'),
+      sdVoices,
+      _sdURI,
+      'ew_ws_sd_voice',
+      "Hello!",
+    );
+  else addMissing('sd', 'pk', 'settings.noSdVoicesTitle', 'settings.noSdVoicesDesc');
+  if (psVoices.length)
+    addSection(
+      'ps',
+      'af',
+      t('settings.psVoicesTitle'),
+      psVoices,
+      _psURI,
+      'ew_ws_ps_voice',
+      "Hello!",
+    );
+  else addMissing('ps', 'af', 'settings.noPsVoicesTitle', 'settings.noPsVoicesDesc');
   sections.sort((a, b) => a.key.localeCompare(b.key, getLang()));
   for (const s of sections) container.appendChild(s.el);
   if (!_enURI && enVoices.length) {

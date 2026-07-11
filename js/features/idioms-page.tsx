@@ -98,6 +98,16 @@ const LANG_BY_TAB: Record<Tab, string> = {
   lo: 'lo-LA',
   ne: 'ne-NP',
   si: 'si-LK',
+  ur: 'ur-PK',
+  te: 'te-IN',
+  ml: 'ml-IN',
+  kn: 'kn-IN',
+  mr: 'mr-IN',
+  gu: 'gu-IN',
+  or: 'or-IN',
+  as: 'as-IN',
+  sd: 'sd-PK',
+  ps: 'ps-AF',
 };
 const TAB_I18N_KEY: Record<Tab, string> = {
   en: 'idioms.tabEn',
@@ -176,8 +186,18 @@ const TAB_I18N_KEY: Record<Tab, string> = {
   lo: 'idioms.tabLo',
   ne: 'idioms.tabNe',
   si: 'idioms.tabSi',
+  ur: 'idioms.tabUr',
+  te: 'idioms.tabTe',
+  ml: 'idioms.tabMl',
+  kn: 'idioms.tabKn',
+  mr: 'idioms.tabMr',
+  gu: 'idioms.tabGu',
+  or: 'idioms.tabOr',
+  as: 'idioms.tabAs',
+  sd: 'idioms.tabSd',
+  ps: 'idioms.tabPs',
 };
-const RTL_TABS = new Set<Tab>(['he', 'ar', 'fa', 'ug']);
+const RTL_TABS = new Set<Tab>(['he', 'ar', 'fa', 'ug', 'ur', 'sd', 'ps']);
 
 function _isTab(l: string): l is Tab {
   return (ALL_TABS as readonly string[]).includes(l);

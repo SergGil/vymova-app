@@ -23457,7 +23457,17 @@ export const GRAMMAR_BY_LANG: Partial<
     | 'km'
     | 'lo'
     | 'ne'
-    | 'si',
+    | 'si'
+    | 'ur'
+    | 'te'
+    | 'ml'
+    | 'kn'
+    | 'mr'
+    | 'gu'
+    | 'or'
+    | 'as'
+    | 'sd'
+    | 'ps',
     GrammarCategory[]
   >
 > = {
@@ -23536,4 +23546,14 @@ export const GRAMMAR_BY_LANG: Partial<
   lo: [],
   ne: [],
   si: [],
+  ur: [],
+  te: [],
+  ml: [],
+  kn: [],
+  mr: [],
+  gu: [],
+  or: [],
+  as: [],
+  sd: [],
+  ps: [],
 };
