@@ -23437,7 +23437,27 @@ export const GRAMMAR_BY_LANG: Partial<
     | 'mn'
     | 'uz'
     | 'am'
-    | 'eo',
+    | 'eo'
+    | 'ta'
+    | 'pa'
+    | 'zu'
+    | 'af'
+    | 'ky'
+    | 'tg'
+    | 'tk'
+    | 'ug'
+    | 'eu'
+    | 'ca'
+    | 'gl'
+    | 'mt'
+    | 'lb'
+    | 'ht'
+    | 'bo'
+    | 'my'
+    | 'km'
+    | 'lo'
+    | 'ne'
+    | 'si',
     GrammarCategory[]
   >
 > = {
@@ -23496,4 +23516,24 @@ export const GRAMMAR_BY_LANG: Partial<
   uz: [],
   am: [],
   eo: [],
+  ta: [],
+  pa: [],
+  zu: [],
+  af: [],
+  ky: [],
+  tg: [],
+  tk: [],
+  ug: [],
+  eu: [],
+  ca: [],
+  gl: [],
+  mt: [],
+  lb: [],
+  ht: [],
+  bo: [],
+  my: [],
+  km: [],
+  lo: [],
+  ne: [],
+  si: [],
 };

@@ -61,7 +61,27 @@ export type TargetLang =
   | 'mn'
   | 'uz'
   | 'am'
-  | 'eo';
+  | 'eo'
+  | 'ta'
+  | 'pa'
+  | 'zu'
+  | 'af'
+  | 'ky'
+  | 'tg'
+  | 'tk'
+  | 'ug'
+  | 'eu'
+  | 'ca'
+  | 'gl'
+  | 'mt'
+  | 'lb'
+  | 'ht'
+  | 'bo'
+  | 'my'
+  | 'km'
+  | 'lo'
+  | 'ne'
+  | 'si';
 export type Code = TargetLang | 'en' | 'ua';
 export const ALL_TARGET_LANGS: TargetLang[] = [
   'es',
@@ -118,6 +138,26 @@ export const ALL_TARGET_LANGS: TargetLang[] = [
   'uz',
   'am',
   'eo',
+  'ta',
+  'pa',
+  'zu',
+  'af',
+  'ky',
+  'tg',
+  'tk',
+  'ug',
+  'eu',
+  'ca',
+  'gl',
+  'mt',
+  'lb',
+  'ht',
+  'bo',
+  'my',
+  'km',
+  'lo',
+  'ne',
+  'si',
 ];
 
 // ── Word data ─────────────────────────────────────────────────

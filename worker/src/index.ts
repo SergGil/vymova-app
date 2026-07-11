@@ -29,6 +29,7 @@ const VALID_LANGS = new Set([
   'en', 'ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl', 'vi',
   'hi', 'bn', 'id', 'pcm', 'ko', 'fa', 'sw', 'ms', 'th', 'az', 'ro', 'hu', 'cs', 'kk', 'sv', 'ka', 'hr', 'sr', 'bs', 'bg', 'sk', 'hy', 'da', 'fi', 'no', 'la',
   'lt', 'lv', 'et', 'sl', 'mk', 'sq', 'is', 'cy', 'ga', 'tl', 'mn', 'uz', 'am', 'eo',
+  'ta', 'pa', 'zu', 'af', 'ky', 'tg', 'tk', 'ug', 'eu', 'ca', 'gl', 'mt', 'lb', 'ht', 'bo', 'my', 'km', 'lo', 'ne', 'si',
 ]);
 const VALID_LEVELS = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 const LANG_NAMES: Record<string, string> = {
@@ -42,6 +43,7 @@ const LANG_NAMES: Record<string, string> = {
   lt: 'Lithuanian', lv: 'Latvian', et: 'Estonian', sl: 'Slovenian', mk: 'Macedonian',
   sq: 'Albanian', is: 'Icelandic', cy: 'Welsh', ga: 'Irish', tl: 'Filipino',
   mn: 'Mongolian', uz: 'Uzbek', am: 'Amharic', eo: 'Esperanto',
+  ta: 'Tamil', pa: 'Punjabi', zu: 'Zulu', af: 'Afrikaans', ky: 'Kyrgyz', tg: 'Tajik', tk: 'Turkmen', ug: 'Uyghur', eu: 'Basque', ca: 'Catalan', gl: 'Galician', mt: 'Maltese', lb: 'Luxembourgish', ht: 'Haitian Creole', bo: 'Tibetan', my: 'Burmese', km: 'Khmer', lo: 'Lao', ne: 'Nepali', si: 'Sinhala',
 };
 
 const ROLEPLAY_SCENARIOS: Record<string, string> = {

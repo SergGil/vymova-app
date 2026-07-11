@@ -64,6 +64,26 @@ import {
   uzEntry,
   amEntry,
   eoEntry,
+  taEntry,
+  paEntry,
+  zuEntry,
+  afEntry,
+  kyEntry,
+  tgEntry,
+  tkEntry,
+  ugEntry,
+  euEntry,
+  caEntry,
+  glEntry,
+  mtEntry,
+  lbEntry,
+  htEntry,
+  boEntry,
+  myEntry,
+  kmEntry,
+  loEntry,
+  neEntry,
+  siEntry,
 } from '../mode-utils.ts';
 import type { DuelMode, Difficulty } from './duel.ts';
 import { CHARS, ROOM_SIZE } from './duel-types.ts';
@@ -199,6 +219,46 @@ export function _wordInLang(w: WordEntry, lang: string): string {
       return amEntry(w[0])?.[0] ?? w[1];
     case 'eo':
       return eoEntry(w[0])?.[0] ?? w[1];
+    case 'ta':
+      return taEntry(w[0])?.[0] ?? w[1];
+    case 'pa':
+      return paEntry(w[0])?.[0] ?? w[1];
+    case 'zu':
+      return zuEntry(w[0])?.[0] ?? w[1];
+    case 'af':
+      return afEntry(w[0])?.[0] ?? w[1];
+    case 'ky':
+      return kyEntry(w[0])?.[0] ?? w[1];
+    case 'tg':
+      return tgEntry(w[0])?.[0] ?? w[1];
+    case 'tk':
+      return tkEntry(w[0])?.[0] ?? w[1];
+    case 'ug':
+      return ugEntry(w[0])?.[0] ?? w[1];
+    case 'eu':
+      return euEntry(w[0])?.[0] ?? w[1];
+    case 'ca':
+      return caEntry(w[0])?.[0] ?? w[1];
+    case 'gl':
+      return glEntry(w[0])?.[0] ?? w[1];
+    case 'mt':
+      return mtEntry(w[0])?.[0] ?? w[1];
+    case 'lb':
+      return lbEntry(w[0])?.[0] ?? w[1];
+    case 'ht':
+      return htEntry(w[0])?.[0] ?? w[1];
+    case 'bo':
+      return boEntry(w[0])?.[0] ?? w[1];
+    case 'my':
+      return myEntry(w[0])?.[0] ?? w[1];
+    case 'km':
+      return kmEntry(w[0])?.[0] ?? w[1];
+    case 'lo':
+      return loEntry(w[0])?.[0] ?? w[1];
+    case 'ne':
+      return neEntry(w[0])?.[0] ?? w[1];
+    case 'si':
+      return siEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1]; // 'ua'
   }
@@ -318,6 +378,46 @@ export function _hasLangWord(w: WordEntry, lang: string): boolean {
       return amEntry(w[0]) !== null;
     case 'eo':
       return eoEntry(w[0]) !== null;
+    case 'ta':
+      return taEntry(w[0]) !== null;
+    case 'pa':
+      return paEntry(w[0]) !== null;
+    case 'zu':
+      return zuEntry(w[0]) !== null;
+    case 'af':
+      return afEntry(w[0]) !== null;
+    case 'ky':
+      return kyEntry(w[0]) !== null;
+    case 'tg':
+      return tgEntry(w[0]) !== null;
+    case 'tk':
+      return tkEntry(w[0]) !== null;
+    case 'ug':
+      return ugEntry(w[0]) !== null;
+    case 'eu':
+      return euEntry(w[0]) !== null;
+    case 'ca':
+      return caEntry(w[0]) !== null;
+    case 'gl':
+      return glEntry(w[0]) !== null;
+    case 'mt':
+      return mtEntry(w[0]) !== null;
+    case 'lb':
+      return lbEntry(w[0]) !== null;
+    case 'ht':
+      return htEntry(w[0]) !== null;
+    case 'bo':
+      return boEntry(w[0]) !== null;
+    case 'my':
+      return myEntry(w[0]) !== null;
+    case 'km':
+      return kmEntry(w[0]) !== null;
+    case 'lo':
+      return loEntry(w[0]) !== null;
+    case 'ne':
+      return neEntry(w[0]) !== null;
+    case 'si':
+      return siEntry(w[0]) !== null;
     default:
       return true;
   }

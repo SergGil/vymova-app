@@ -75,6 +75,26 @@ import {
   uzEntry,
   amEntry,
   eoEntry,
+  taEntry,
+  paEntry,
+  zuEntry,
+  afEntry,
+  kyEntry,
+  tgEntry,
+  tkEntry,
+  ugEntry,
+  euEntry,
+  caEntry,
+  glEntry,
+  mtEntry,
+  lbEntry,
+  htEntry,
+  boEntry,
+  myEntry,
+  kmEntry,
+  loEntry,
+  neEntry,
+  siEntry,
   isTargetLang,
   headwordFor,
   type Code,
@@ -209,6 +229,46 @@ function _getTranslation(w: WordEntry, lang: string): string {
       return amEntry(w[0])?.[0] ?? w[1];
     case 'eo':
       return eoEntry(w[0])?.[0] ?? w[1];
+    case 'ta':
+      return taEntry(w[0])?.[0] ?? w[1];
+    case 'pa':
+      return paEntry(w[0])?.[0] ?? w[1];
+    case 'zu':
+      return zuEntry(w[0])?.[0] ?? w[1];
+    case 'af':
+      return afEntry(w[0])?.[0] ?? w[1];
+    case 'ky':
+      return kyEntry(w[0])?.[0] ?? w[1];
+    case 'tg':
+      return tgEntry(w[0])?.[0] ?? w[1];
+    case 'tk':
+      return tkEntry(w[0])?.[0] ?? w[1];
+    case 'ug':
+      return ugEntry(w[0])?.[0] ?? w[1];
+    case 'eu':
+      return euEntry(w[0])?.[0] ?? w[1];
+    case 'ca':
+      return caEntry(w[0])?.[0] ?? w[1];
+    case 'gl':
+      return glEntry(w[0])?.[0] ?? w[1];
+    case 'mt':
+      return mtEntry(w[0])?.[0] ?? w[1];
+    case 'lb':
+      return lbEntry(w[0])?.[0] ?? w[1];
+    case 'ht':
+      return htEntry(w[0])?.[0] ?? w[1];
+    case 'bo':
+      return boEntry(w[0])?.[0] ?? w[1];
+    case 'my':
+      return myEntry(w[0])?.[0] ?? w[1];
+    case 'km':
+      return kmEntry(w[0])?.[0] ?? w[1];
+    case 'lo':
+      return loEntry(w[0])?.[0] ?? w[1];
+    case 'ne':
+      return neEntry(w[0])?.[0] ?? w[1];
+    case 'si':
+      return siEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1];
   }
@@ -324,6 +384,46 @@ function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
       return words.filter((w) => amEntry(w[0]) !== null);
     case 'eo':
       return words.filter((w) => eoEntry(w[0]) !== null);
+    case 'ta':
+      return words.filter((w) => taEntry(w[0]) !== null);
+    case 'pa':
+      return words.filter((w) => paEntry(w[0]) !== null);
+    case 'zu':
+      return words.filter((w) => zuEntry(w[0]) !== null);
+    case 'af':
+      return words.filter((w) => afEntry(w[0]) !== null);
+    case 'ky':
+      return words.filter((w) => kyEntry(w[0]) !== null);
+    case 'tg':
+      return words.filter((w) => tgEntry(w[0]) !== null);
+    case 'tk':
+      return words.filter((w) => tkEntry(w[0]) !== null);
+    case 'ug':
+      return words.filter((w) => ugEntry(w[0]) !== null);
+    case 'eu':
+      return words.filter((w) => euEntry(w[0]) !== null);
+    case 'ca':
+      return words.filter((w) => caEntry(w[0]) !== null);
+    case 'gl':
+      return words.filter((w) => glEntry(w[0]) !== null);
+    case 'mt':
+      return words.filter((w) => mtEntry(w[0]) !== null);
+    case 'lb':
+      return words.filter((w) => lbEntry(w[0]) !== null);
+    case 'ht':
+      return words.filter((w) => htEntry(w[0]) !== null);
+    case 'bo':
+      return words.filter((w) => boEntry(w[0]) !== null);
+    case 'my':
+      return words.filter((w) => myEntry(w[0]) !== null);
+    case 'km':
+      return words.filter((w) => kmEntry(w[0]) !== null);
+    case 'lo':
+      return words.filter((w) => loEntry(w[0]) !== null);
+    case 'ne':
+      return words.filter((w) => neEntry(w[0]) !== null);
+    case 'si':
+      return words.filter((w) => siEntry(w[0]) !== null);
     default:
       return words;
   }

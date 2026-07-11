@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
-  <rect width="900" height="600" fill="#00A550"/>
-  <rect x="0" y="0" width="296" height="296" fill="#ffffff"/>
-  <polygon points="148,38 172.69,114.02 252.62,114.01 187.95,160.98 212.66,236.99 148,190 83.34,236.99 108.05,160.98 43.38,114.01 123.31,114.02" fill="#00A550"/>
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_eo)">
+<circle cx="12" cy="12" r="12" fill="#00A550"/>
+<rect x="0" y="0" width="11" height="11" fill="#ffffff"/>
+<polygon points="5.5,2.9 6.09,4.69 7.97,4.70 6.45,5.81 7.03,7.60 5.5,6.5 3.97,7.60 4.55,5.81 3.03,4.70 4.91,4.69" fill="#00A550"/>
+</g>
+<defs><clipPath id="clip0_eo"><circle cx="12" cy="12" r="12"/></clipPath></defs>
 </svg>

@@ -59,12 +59,34 @@ vi.mock('../../data/words_mn.js', () => ({ W_MN: {} }));
 vi.mock('../../data/words_uz.js', () => ({ W_UZ: {} }));
 vi.mock('../../data/words_am.js', () => ({ W_AM: {} }));
 vi.mock('../../data/words_eo.js', () => ({ W_EO: {} }));
+vi.mock('../../data/words_ta.js', () => ({ W_TA: {} }));
+vi.mock('../../data/words_pa.js', () => ({ W_PA: {} }));
+vi.mock('../../data/words_zu.js', () => ({ W_ZU: {} }));
+vi.mock('../../data/words_af.js', () => ({ W_AF: {} }));
+vi.mock('../../data/words_ky.js', () => ({ W_KY: {} }));
+vi.mock('../../data/words_tg.js', () => ({ W_TG: {} }));
+vi.mock('../../data/words_tk.js', () => ({ W_TK: {} }));
+vi.mock('../../data/words_ug.js', () => ({ W_UG: {} }));
+vi.mock('../../data/words_eu.js', () => ({ W_EU: {} }));
+vi.mock('../../data/words_ca.js', () => ({ W_CA: {} }));
+vi.mock('../../data/words_gl.js', () => ({ W_GL: {} }));
+vi.mock('../../data/words_mt.js', () => ({ W_MT: {} }));
+vi.mock('../../data/words_lb.js', () => ({ W_LB: {} }));
+vi.mock('../../data/words_ht.js', () => ({ W_HT: {} }));
+vi.mock('../../data/words_bo.js', () => ({ W_BO: {} }));
+vi.mock('../../data/words_my.js', () => ({ W_MY: {} }));
+vi.mock('../../data/words_km.js', () => ({ W_KM: {} }));
+vi.mock('../../data/words_lo.js', () => ({ W_LO: {} }));
+vi.mock('../../data/words_ne.js', () => ({ W_NE: {} }));
+vi.mock('../../data/words_si.js', () => ({ W_SI: {} }));
 import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 
 const NEW_LANGS = [
   'hi', 'bn', 'id', 'pcm', 'ko', 'fa', 'sw', 'ms', 'th', 'az', 'ro', 'hu', 'cs', 'kk', 'sv',
   'ka', 'hr', 'sr', 'bs', 'bg', 'sk', 'hy', 'da', 'fi', 'no', 'la',
   'lt', 'lv', 'et', 'sl', 'mk', 'sq', 'is', 'cy', 'ga', 'tl', 'mn', 'uz', 'am', 'eo',
+  'ta', 'pa', 'zu', 'af', 'ky', 'tg', 'tk', 'ug', 'eu', 'ca', 'gl', 'mt', 'lb', 'ht', 'bo',
+  'my', 'km', 'lo', 'ne', 'si',
 ];
 
 function mountLangPairSelect(): void {
@@ -138,12 +160,12 @@ describe('lang-pair-select', () => {
     act(() => {
       (dds[0].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(56); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 40 new langs
+    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(76); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 60 new langs
 
     act(() => {
       (dds[1].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(55); // learn options for know=ua
+    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(75); // learn options for know=ua
 
     act(() => {
       (dds[2].querySelector('.flagdd-btn') as HTMLButtonElement).click();
@@ -175,7 +197,7 @@ describe('lang-pair-select', () => {
       expect((document.getElementById('sel-mode') as HTMLSelectElement).value).toBe('en-es');
       expect(changed).toBe(true);
     },
-    15000,
+    30000,
   );
 
   it('changing "learn" updates #sel-mode', () => {

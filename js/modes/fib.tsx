@@ -66,6 +66,26 @@ import {
   uzEntry,
   amEntry,
   eoEntry,
+  taEntry,
+  paEntry,
+  zuEntry,
+  afEntry,
+  kyEntry,
+  tgEntry,
+  tkEntry,
+  ugEntry,
+  euEntry,
+  caEntry,
+  glEntry,
+  mtEntry,
+  lbEntry,
+  htEntry,
+  boEntry,
+  myEntry,
+  kmEntry,
+  loEntry,
+  neEntry,
+  siEntry,
 } from '../features/mode-utils.ts';
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
@@ -186,6 +206,46 @@ function getLangWord(w: WordEntry, lang: string): string {
       return amEntry(w[0])?.[0] ?? '';
     case 'eo':
       return eoEntry(w[0])?.[0] ?? '';
+    case 'ta':
+      return taEntry(w[0])?.[0] ?? '';
+    case 'pa':
+      return paEntry(w[0])?.[0] ?? '';
+    case 'zu':
+      return zuEntry(w[0])?.[0] ?? '';
+    case 'af':
+      return afEntry(w[0])?.[0] ?? '';
+    case 'ky':
+      return kyEntry(w[0])?.[0] ?? '';
+    case 'tg':
+      return tgEntry(w[0])?.[0] ?? '';
+    case 'tk':
+      return tkEntry(w[0])?.[0] ?? '';
+    case 'ug':
+      return ugEntry(w[0])?.[0] ?? '';
+    case 'eu':
+      return euEntry(w[0])?.[0] ?? '';
+    case 'ca':
+      return caEntry(w[0])?.[0] ?? '';
+    case 'gl':
+      return glEntry(w[0])?.[0] ?? '';
+    case 'mt':
+      return mtEntry(w[0])?.[0] ?? '';
+    case 'lb':
+      return lbEntry(w[0])?.[0] ?? '';
+    case 'ht':
+      return htEntry(w[0])?.[0] ?? '';
+    case 'bo':
+      return boEntry(w[0])?.[0] ?? '';
+    case 'my':
+      return myEntry(w[0])?.[0] ?? '';
+    case 'km':
+      return kmEntry(w[0])?.[0] ?? '';
+    case 'lo':
+      return loEntry(w[0])?.[0] ?? '';
+    case 'ne':
+      return neEntry(w[0])?.[0] ?? '';
+    case 'si':
+      return siEntry(w[0])?.[0] ?? '';
     default:
       return w[0];
   }
@@ -303,6 +363,46 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return amEntry(w[0])?.[1] ?? '';
     case 'eo':
       return eoEntry(w[0])?.[1] ?? '';
+    case 'ta':
+      return taEntry(w[0])?.[1] ?? '';
+    case 'pa':
+      return paEntry(w[0])?.[1] ?? '';
+    case 'zu':
+      return zuEntry(w[0])?.[1] ?? '';
+    case 'af':
+      return afEntry(w[0])?.[1] ?? '';
+    case 'ky':
+      return kyEntry(w[0])?.[1] ?? '';
+    case 'tg':
+      return tgEntry(w[0])?.[1] ?? '';
+    case 'tk':
+      return tkEntry(w[0])?.[1] ?? '';
+    case 'ug':
+      return ugEntry(w[0])?.[1] ?? '';
+    case 'eu':
+      return euEntry(w[0])?.[1] ?? '';
+    case 'ca':
+      return caEntry(w[0])?.[1] ?? '';
+    case 'gl':
+      return glEntry(w[0])?.[1] ?? '';
+    case 'mt':
+      return mtEntry(w[0])?.[1] ?? '';
+    case 'lb':
+      return lbEntry(w[0])?.[1] ?? '';
+    case 'ht':
+      return htEntry(w[0])?.[1] ?? '';
+    case 'bo':
+      return boEntry(w[0])?.[1] ?? '';
+    case 'my':
+      return myEntry(w[0])?.[1] ?? '';
+    case 'km':
+      return kmEntry(w[0])?.[1] ?? '';
+    case 'lo':
+      return loEntry(w[0])?.[1] ?? '';
+    case 'ne':
+      return neEntry(w[0])?.[1] ?? '';
+    case 'si':
+      return siEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }

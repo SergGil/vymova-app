@@ -9142,7 +9142,27 @@ export const IDIOMS_BY_LANG: Partial<
     | 'mn'
     | 'uz'
     | 'am'
-    | 'eo',
+    | 'eo'
+    | 'ta'
+    | 'pa'
+    | 'zu'
+    | 'af'
+    | 'ky'
+    | 'tg'
+    | 'tk'
+    | 'ug'
+    | 'eu'
+    | 'ca'
+    | 'gl'
+    | 'mt'
+    | 'lb'
+    | 'ht'
+    | 'bo'
+    | 'my'
+    | 'km'
+    | 'lo'
+    | 'ne'
+    | 'si',
     Idiom[]
   >
 > = {
@@ -9202,4 +9222,24 @@ export const IDIOMS_BY_LANG: Partial<
   uz: UZBEK_IDIOMS,
   am: AMHARIC_IDIOMS,
   eo: ESPERANTO_IDIOMS,
+  ta: [],
+  pa: [],
+  zu: [],
+  af: [],
+  ky: [],
+  tg: [],
+  tk: [],
+  ug: [],
+  eu: [],
+  ca: [],
+  gl: [],
+  mt: [],
+  lb: [],
+  ht: [],
+  bo: [],
+  my: [],
+  km: [],
+  lo: [],
+  ne: [],
+  si: [],
 };

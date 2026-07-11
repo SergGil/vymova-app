@@ -81,6 +81,26 @@ const LANG_LOADERS: Record<TargetLang, () => Promise<Table>> = {
   uz: () => import('../../data/words_uz.js').then((m) => m.W_UZ as Table),
   am: () => import('../../data/words_am.js').then((m) => m.W_AM as Table),
   eo: () => import('../../data/words_eo.js').then((m) => m.W_EO as Table),
+  ta: () => import('../../data/words_ta.js').then((m) => m.W_TA as Table),
+  pa: () => import('../../data/words_pa.js').then((m) => m.W_PA as Table),
+  zu: () => import('../../data/words_zu.js').then((m) => m.W_ZU as Table),
+  af: () => import('../../data/words_af.js').then((m) => m.W_AF as Table),
+  ky: () => import('../../data/words_ky.js').then((m) => m.W_KY as Table),
+  tg: () => import('../../data/words_tg.js').then((m) => m.W_TG as Table),
+  tk: () => import('../../data/words_tk.js').then((m) => m.W_TK as Table),
+  ug: () => import('../../data/words_ug.js').then((m) => m.W_UG as Table),
+  eu: () => import('../../data/words_eu.js').then((m) => m.W_EU as Table),
+  ca: () => import('../../data/words_ca.js').then((m) => m.W_CA as Table),
+  gl: () => import('../../data/words_gl.js').then((m) => m.W_GL as Table),
+  mt: () => import('../../data/words_mt.js').then((m) => m.W_MT as Table),
+  lb: () => import('../../data/words_lb.js').then((m) => m.W_LB as Table),
+  ht: () => import('../../data/words_ht.js').then((m) => m.W_HT as Table),
+  bo: () => import('../../data/words_bo.js').then((m) => m.W_BO as Table),
+  my: () => import('../../data/words_my.js').then((m) => m.W_MY as Table),
+  km: () => import('../../data/words_km.js').then((m) => m.W_KM as Table),
+  lo: () => import('../../data/words_lo.js').then((m) => m.W_LO as Table),
+  ne: () => import('../../data/words_ne.js').then((m) => m.W_NE as Table),
+  si: () => import('../../data/words_si.js').then((m) => m.W_SI as Table),
 };
 
 // In-flight promises to avoid duplicate fetches for the same language.
@@ -495,6 +515,146 @@ const LANG_REGISTRY: Record<TargetLang, LangConfig> = {
     voiceLocale: 'eo',
     rtl: false,
   },
+  ta: {
+    entry: (w) => lookup(getTable('ta'), w),
+    known: () => getKnownSnapshot('ta'),
+    saveKnown: (known) => saveKnownLang('ta', known),
+    voiceLocale: 'ta-IN',
+    rtl: false,
+  },
+  pa: {
+    entry: (w) => lookup(getTable('pa'), w),
+    known: () => getKnownSnapshot('pa'),
+    saveKnown: (known) => saveKnownLang('pa', known),
+    voiceLocale: 'pa-IN',
+    rtl: false,
+  },
+  zu: {
+    entry: (w) => lookup(getTable('zu'), w),
+    known: () => getKnownSnapshot('zu'),
+    saveKnown: (known) => saveKnownLang('zu', known),
+    voiceLocale: 'zu-ZA',
+    rtl: false,
+  },
+  af: {
+    entry: (w) => lookup(getTable('af'), w),
+    known: () => getKnownSnapshot('af'),
+    saveKnown: (known) => saveKnownLang('af', known),
+    voiceLocale: 'af-ZA',
+    rtl: false,
+  },
+  ky: {
+    entry: (w) => lookup(getTable('ky'), w),
+    known: () => getKnownSnapshot('ky'),
+    saveKnown: (known) => saveKnownLang('ky', known),
+    voiceLocale: 'ky-KG',
+    rtl: false,
+  },
+  tg: {
+    entry: (w) => lookup(getTable('tg'), w),
+    known: () => getKnownSnapshot('tg'),
+    saveKnown: (known) => saveKnownLang('tg', known),
+    voiceLocale: 'tg-TJ',
+    rtl: false,
+  },
+  tk: {
+    entry: (w) => lookup(getTable('tk'), w),
+    known: () => getKnownSnapshot('tk'),
+    saveKnown: (known) => saveKnownLang('tk', known),
+    voiceLocale: 'tk-TM',
+    rtl: false,
+  },
+  ug: {
+    entry: (w) => lookup(getTable('ug'), w),
+    known: () => getKnownSnapshot('ug'),
+    saveKnown: (known) => saveKnownLang('ug', known),
+    voiceLocale: 'ug-CN',
+    rtl: true,
+  },
+  eu: {
+    entry: (w) => lookup(getTable('eu'), w),
+    known: () => getKnownSnapshot('eu'),
+    saveKnown: (known) => saveKnownLang('eu', known),
+    voiceLocale: 'eu-ES',
+    rtl: false,
+  },
+  ca: {
+    entry: (w) => lookup(getTable('ca'), w),
+    known: () => getKnownSnapshot('ca'),
+    saveKnown: (known) => saveKnownLang('ca', known),
+    voiceLocale: 'ca-ES',
+    rtl: false,
+  },
+  gl: {
+    entry: (w) => lookup(getTable('gl'), w),
+    known: () => getKnownSnapshot('gl'),
+    saveKnown: (known) => saveKnownLang('gl', known),
+    voiceLocale: 'gl-ES',
+    rtl: false,
+  },
+  mt: {
+    entry: (w) => lookup(getTable('mt'), w),
+    known: () => getKnownSnapshot('mt'),
+    saveKnown: (known) => saveKnownLang('mt', known),
+    voiceLocale: 'mt-MT',
+    rtl: false,
+  },
+  lb: {
+    entry: (w) => lookup(getTable('lb'), w),
+    known: () => getKnownSnapshot('lb'),
+    saveKnown: (known) => saveKnownLang('lb', known),
+    voiceLocale: 'lb-LU',
+    rtl: false,
+  },
+  ht: {
+    entry: (w) => lookup(getTable('ht'), w),
+    known: () => getKnownSnapshot('ht'),
+    saveKnown: (known) => saveKnownLang('ht', known),
+    voiceLocale: 'ht-HT',
+    rtl: false,
+  },
+  bo: {
+    entry: (w) => lookup(getTable('bo'), w),
+    known: () => getKnownSnapshot('bo'),
+    saveKnown: (known) => saveKnownLang('bo', known),
+    voiceLocale: 'bo-CN',
+    rtl: false,
+  },
+  my: {
+    entry: (w) => lookup(getTable('my'), w),
+    known: () => getKnownSnapshot('my'),
+    saveKnown: (known) => saveKnownLang('my', known),
+    voiceLocale: 'my-MM',
+    rtl: false,
+  },
+  km: {
+    entry: (w) => lookup(getTable('km'), w),
+    known: () => getKnownSnapshot('km'),
+    saveKnown: (known) => saveKnownLang('km', known),
+    voiceLocale: 'km-KH',
+    rtl: false,
+  },
+  lo: {
+    entry: (w) => lookup(getTable('lo'), w),
+    known: () => getKnownSnapshot('lo'),
+    saveKnown: (known) => saveKnownLang('lo', known),
+    voiceLocale: 'lo-LA',
+    rtl: false,
+  },
+  ne: {
+    entry: (w) => lookup(getTable('ne'), w),
+    known: () => getKnownSnapshot('ne'),
+    saveKnown: (known) => saveKnownLang('ne', known),
+    voiceLocale: 'ne-NP',
+    rtl: false,
+  },
+  si: {
+    entry: (w) => lookup(getTable('si'), w),
+    known: () => getKnownSnapshot('si'),
+    saveKnown: (known) => saveKnownLang('si', known),
+    voiceLocale: 'si-LK',
+    rtl: false,
+  },
 };
 
 export function langConfig(code: TargetLang): LangConfig {
@@ -612,6 +772,26 @@ export const MN_MODES = modesFor('mn');
 export const UZ_MODES = modesFor('uz');
 export const AM_MODES = modesFor('am');
 export const EO_MODES = modesFor('eo');
+export const TA_MODES = modesFor('ta');
+export const PA_MODES = modesFor('pa');
+export const ZU_MODES = modesFor('zu');
+export const AF_MODES = modesFor('af');
+export const KY_MODES = modesFor('ky');
+export const TG_MODES = modesFor('tg');
+export const TK_MODES = modesFor('tk');
+export const UG_MODES = modesFor('ug');
+export const EU_MODES = modesFor('eu');
+export const CA_MODES = modesFor('ca');
+export const GL_MODES = modesFor('gl');
+export const MT_MODES = modesFor('mt');
+export const LB_MODES = modesFor('lb');
+export const HT_MODES = modesFor('ht');
+export const BO_MODES = modesFor('bo');
+export const MY_MODES = modesFor('my');
+export const KM_MODES = modesFor('km');
+export const LO_MODES = modesFor('lo');
+export const NE_MODES = modesFor('ne');
+export const SI_MODES = modesFor('si');
 
 export function getMode(): string {
   const sel = document.getElementById('sel-mode') as HTMLSelectElement | null;
@@ -906,6 +1086,66 @@ export function amEntry(word: string): Entry {
 export function eoEntry(word: string): Entry {
   return LANG_REGISTRY.eo.entry(word);
 }
+export function taEntry(word: string): Entry {
+  return LANG_REGISTRY.ta.entry(word);
+}
+export function paEntry(word: string): Entry {
+  return LANG_REGISTRY.pa.entry(word);
+}
+export function zuEntry(word: string): Entry {
+  return LANG_REGISTRY.zu.entry(word);
+}
+export function afEntry(word: string): Entry {
+  return LANG_REGISTRY.af.entry(word);
+}
+export function kyEntry(word: string): Entry {
+  return LANG_REGISTRY.ky.entry(word);
+}
+export function tgEntry(word: string): Entry {
+  return LANG_REGISTRY.tg.entry(word);
+}
+export function tkEntry(word: string): Entry {
+  return LANG_REGISTRY.tk.entry(word);
+}
+export function ugEntry(word: string): Entry {
+  return LANG_REGISTRY.ug.entry(word);
+}
+export function euEntry(word: string): Entry {
+  return LANG_REGISTRY.eu.entry(word);
+}
+export function caEntry(word: string): Entry {
+  return LANG_REGISTRY.ca.entry(word);
+}
+export function glEntry(word: string): Entry {
+  return LANG_REGISTRY.gl.entry(word);
+}
+export function mtEntry(word: string): Entry {
+  return LANG_REGISTRY.mt.entry(word);
+}
+export function lbEntry(word: string): Entry {
+  return LANG_REGISTRY.lb.entry(word);
+}
+export function htEntry(word: string): Entry {
+  return LANG_REGISTRY.ht.entry(word);
+}
+export function boEntry(word: string): Entry {
+  return LANG_REGISTRY.bo.entry(word);
+}
+export function myEntry(word: string): Entry {
+  return LANG_REGISTRY.my.entry(word);
+}
+export function kmEntry(word: string): Entry {
+  return LANG_REGISTRY.km.entry(word);
+}
+export function loEntry(word: string): Entry {
+  return LANG_REGISTRY.lo.entry(word);
+}
+export function neEntry(word: string): Entry {
+  return LANG_REGISTRY.ne.entry(word);
+}
+export function siEntry(word: string): Entry {
+  return LANG_REGISTRY.si.entry(word);
+}
 
 function targetLangFromStorageKey(key: string): TargetLang | null {
   return isTargetLang(key) ? key : null;
@@ -1071,6 +1311,26 @@ const NO_TRANSLATIONS_KEY: Record<TargetLang, string> = {
   uz: 'deck.noUzTranslations',
   am: 'deck.noAmTranslations',
   eo: 'deck.noEoTranslations',
+  ta: 'deck.noTaTranslations',
+  pa: 'deck.noPaTranslations',
+  zu: 'deck.noZuTranslations',
+  af: 'deck.noAfTranslations',
+  ky: 'deck.noKyTranslations',
+  tg: 'deck.noTgTranslations',
+  tk: 'deck.noTkTranslations',
+  ug: 'deck.noUgTranslations',
+  eu: 'deck.noEuTranslations',
+  ca: 'deck.noCaTranslations',
+  gl: 'deck.noGlTranslations',
+  mt: 'deck.noMtTranslations',
+  lb: 'deck.noLbTranslations',
+  ht: 'deck.noHtTranslations',
+  bo: 'deck.noBoTranslations',
+  my: 'deck.noMyTranslations',
+  km: 'deck.noKmTranslations',
+  lo: 'deck.noLoTranslations',
+  ne: 'deck.noNeTranslations',
+  si: 'deck.noSiTranslations',
 };
 
 function hasAnyEntries(lang: TargetLang, words: WordEntry[]): boolean {
