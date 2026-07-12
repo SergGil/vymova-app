@@ -107,6 +107,13 @@ import {
   xhEntry,
   snEntry,
   nyEntry,
+  fjEntry,
+  smEntry,
+  toEntry,
+  miEntry,
+  hawEntry,
+  jvEntry,
+  suEntry,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speakForCode } from '../features/voice/speak-lang.ts';
@@ -309,6 +316,20 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return snEntry(w[0])?.[1] ?? '';
     case 'ny':
       return nyEntry(w[0])?.[1] ?? '';
+    case 'fj':
+      return fjEntry(w[0])?.[1] ?? '';
+    case 'sm':
+      return smEntry(w[0])?.[1] ?? '';
+    case 'to':
+      return toEntry(w[0])?.[1] ?? '';
+    case 'mi':
+      return miEntry(w[0])?.[1] ?? '';
+    case 'haw':
+      return hawEntry(w[0])?.[1] ?? '';
+    case 'jv':
+      return jvEntry(w[0])?.[1] ?? '';
+    case 'su':
+      return suEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }

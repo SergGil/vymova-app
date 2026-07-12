@@ -99,6 +99,13 @@ export const SPEECH_LANG: Record<string, string> = {
   xh: 'xh-ZA',
   sn: 'sn-ZW',
   ny: 'ny-MW',
+  fj: 'fj-FJ',
+  sm: 'sm-WS',
+  to: 'to-TO',
+  mi: 'mi-NZ',
+  haw: 'haw-US',
+  jv: 'jv-ID',
+  su: 'su-ID',
 };
 
 export function speechLangFor(code: string): string {

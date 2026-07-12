@@ -115,6 +115,13 @@ import {
   xhEntry,
   snEntry,
   nyEntry,
+  fjEntry,
+  smEntry,
+  toEntry,
+  miEntry,
+  hawEntry,
+  jvEntry,
+  suEntry,
   isTargetLang,
   headwordFor,
   type Code,
@@ -329,6 +336,20 @@ function _getTranslation(w: WordEntry, lang: string): string {
       return snEntry(w[0])?.[0] ?? w[1];
     case 'ny':
       return nyEntry(w[0])?.[0] ?? w[1];
+    case 'fj':
+      return fjEntry(w[0])?.[0] ?? w[1];
+    case 'sm':
+      return smEntry(w[0])?.[0] ?? w[1];
+    case 'to':
+      return toEntry(w[0])?.[0] ?? w[1];
+    case 'mi':
+      return miEntry(w[0])?.[0] ?? w[1];
+    case 'haw':
+      return hawEntry(w[0])?.[0] ?? w[1];
+    case 'jv':
+      return jvEntry(w[0])?.[0] ?? w[1];
+    case 'su':
+      return suEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1];
   }
@@ -524,6 +545,20 @@ function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
       return words.filter((w) => snEntry(w[0]) !== null);
     case 'ny':
       return words.filter((w) => nyEntry(w[0]) !== null);
+    case 'fj':
+      return words.filter((w) => fjEntry(w[0]) !== null);
+    case 'sm':
+      return words.filter((w) => smEntry(w[0]) !== null);
+    case 'to':
+      return words.filter((w) => toEntry(w[0]) !== null);
+    case 'mi':
+      return words.filter((w) => miEntry(w[0]) !== null);
+    case 'haw':
+      return words.filter((w) => hawEntry(w[0]) !== null);
+    case 'jv':
+      return words.filter((w) => jvEntry(w[0]) !== null);
+    case 'su':
+      return words.filter((w) => suEntry(w[0]) !== null);
     default:
       return words;
   }

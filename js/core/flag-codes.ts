@@ -112,4 +112,11 @@ export const FLAG_CODE: Record<Code, string> = {
   xh: 'za',
   sn: 'zw',
   ny: 'mw',
+  fj: 'fj',
+  sm: 'ws',
+  to: 'to',
+  mi: 'nz',
+  haw: 'us',
+  jv: 'id',
+  su: 'id',
 };

@@ -9182,7 +9182,14 @@ export const IDIOMS_BY_LANG: Partial<
     | 'mg'
     | 'xh'
     | 'sn'
-    | 'ny',
+    | 'ny'
+    | 'fj'
+    | 'sm'
+    | 'to'
+    | 'mi'
+    | 'haw'
+    | 'jv'
+    | 'su',
     Idiom[]
   >
 > = {
@@ -9282,4 +9289,11 @@ export const IDIOMS_BY_LANG: Partial<
   xh: [],
   sn: [],
   ny: [],
+  fj: [],
+  sm: [],
+  to: [],
+  mi: [],
+  haw: [],
+  jv: [],
+  su: [],
 };

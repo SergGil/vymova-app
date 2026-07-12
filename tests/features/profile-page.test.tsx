@@ -31,6 +31,7 @@ vi.mock('../../src/known-words-store.ts', () => ({
       'my', 'km', 'lo', 'ne', 'si',
       'ur', 'te', 'ml', 'kn', 'mr', 'gu', 'or', 'as', 'sd', 'ps',
       'so', 'ha', 'yo', 'ig', 'ti', 'wo', 'mg', 'xh', 'sn', 'ny',
+      'fj', 'sm', 'to', 'mi', 'haw', 'jv', 'su',
     ]) {
       state[lang] = knownSnapshots[lang] ?? new Set<string>();
     }

@@ -23477,7 +23477,14 @@ export const GRAMMAR_BY_LANG: Partial<
     | 'mg'
     | 'xh'
     | 'sn'
-    | 'ny',
+    | 'ny'
+    | 'fj'
+    | 'sm'
+    | 'to'
+    | 'mi'
+    | 'haw'
+    | 'jv'
+    | 'su',
     GrammarCategory[]
   >
 > = {
@@ -23576,4 +23583,11 @@ export const GRAMMAR_BY_LANG: Partial<
   xh: [],
   sn: [],
   ny: [],
+  fj: [],
+  sm: [],
+  to: [],
+  mi: [],
+  haw: [],
+  jv: [],
+  su: [],
 };

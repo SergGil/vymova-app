@@ -99,6 +99,13 @@ vi.mock('../../data/words_mg.js', () => ({ W_MG: {} }));
 vi.mock('../../data/words_xh.js', () => ({ W_XH: {} }));
 vi.mock('../../data/words_sn.js', () => ({ W_SN: {} }));
 vi.mock('../../data/words_ny.js', () => ({ W_NY: {} }));
+vi.mock('../../data/words_fj.js', () => ({ W_FJ: {} }));
+vi.mock('../../data/words_sm.js', () => ({ W_SM: {} }));
+vi.mock('../../data/words_to.js', () => ({ W_TO: {} }));
+vi.mock('../../data/words_mi.js', () => ({ W_MI: {} }));
+vi.mock('../../data/words_haw.js', () => ({ W_HAW: {} }));
+vi.mock('../../data/words_jv.js', () => ({ W_JV: {} }));
+vi.mock('../../data/words_su.js', () => ({ W_SU: {} }));
 import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 
 const NEW_LANGS = [
@@ -109,6 +116,7 @@ const NEW_LANGS = [
   'my', 'km', 'lo', 'ne', 'si',
   'ur', 'te', 'ml', 'kn', 'mr', 'gu', 'or', 'as', 'sd', 'ps',
   'so', 'ha', 'yo', 'ig', 'ti', 'wo', 'mg', 'xh', 'sn', 'ny',
+  'fj', 'sm', 'to', 'mi', 'haw', 'jv', 'su',
 ];
 
 function mountLangPairSelect(): void {
@@ -182,12 +190,12 @@ describe('lang-pair-select', () => {
     act(() => {
       (dds[0].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(96); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 80 new langs
+    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(103); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 87 new langs
 
     act(() => {
       (dds[1].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(95); // learn options for know=ua
+    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(102); // learn options for know=ua
 
     act(() => {
       (dds[2].querySelector('.flagdd-btn') as HTMLButtonElement).click();

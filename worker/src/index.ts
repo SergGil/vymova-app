@@ -32,6 +32,7 @@ const VALID_LANGS = new Set([
   'ta', 'pa', 'zu', 'af', 'ky', 'tg', 'tk', 'ug', 'eu', 'ca', 'gl', 'mt', 'lb', 'ht', 'bo', 'my', 'km', 'lo', 'ne', 'si',
   'ur', 'te', 'ml', 'kn', 'mr', 'gu', 'or', 'as', 'sd', 'ps',
   'so', 'ha', 'yo', 'ig', 'ti', 'wo', 'mg', 'xh', 'sn', 'ny',
+  'fj', 'sm', 'to', 'mi', 'haw', 'jv', 'su',
 ]);
 const VALID_LEVELS = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 const LANG_NAMES: Record<string, string> = {
@@ -48,6 +49,7 @@ const LANG_NAMES: Record<string, string> = {
   ta: 'Tamil', pa: 'Punjabi', zu: 'Zulu', af: 'Afrikaans', ky: 'Kyrgyz', tg: 'Tajik', tk: 'Turkmen', ug: 'Uyghur', eu: 'Basque', ca: 'Catalan', gl: 'Galician', mt: 'Maltese', lb: 'Luxembourgish', ht: 'Haitian Creole', bo: 'Tibetan', my: 'Burmese', km: 'Khmer', lo: 'Lao', ne: 'Nepali', si: 'Sinhala',
   ur: 'Urdu', te: 'Telugu', ml: 'Malayalam', kn: 'Kannada', mr: 'Marathi', gu: 'Gujarati', or: 'Odia', as: 'Assamese', sd: 'Sindhi', ps: 'Pashto',
   so: 'Somali', ha: 'Hausa', yo: 'Yoruba', ig: 'Igbo', ti: 'Tigrinya', wo: 'Wolof', mg: 'Malagasy', xh: 'Xhosa', sn: 'Shona', ny: 'Chewa',
+  fj: 'Fijian', sm: 'Samoan', to: 'Tongan', mi: 'Maori', haw: 'Hawaiian', jv: 'Javanese', su: 'Sundanese',
 };
 
 const ROLEPLAY_SCENARIOS: Record<string, string> = {

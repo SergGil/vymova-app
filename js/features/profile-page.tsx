@@ -139,6 +139,13 @@ const LANG_META: Record<string, { name: string; country: string }> = {
   xh: { name: "isiXhosa", country: 'za' },
   sn: { name: "chiShona", country: 'zw' },
   ny: { name: "Chichewa", country: 'mw' },
+  fj: { name: "Na Vosa Vakaviti", country: 'fj' },
+  sm: { name: "Gagana Sāmoa", country: 'ws' },
+  to: { name: "Lea Faka-Tonga", country: 'to' },
+  mi: { name: "Te Reo Māori", country: 'nz' },
+  haw: { name: "ʻŌlelo Hawaiʻi", country: 'us' },
+  jv: { name: "Basa Jawa", country: 'id' },
+  su: { name: "Basa Sunda", country: 'id' },
 };
 
 function FlagCircle({ lang, size = 44 }: { lang: string; size?: number }): ReactElement {

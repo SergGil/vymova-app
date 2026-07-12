@@ -120,6 +120,13 @@ vi.mock('../../js/features/voice/voice.tsx', () => ({
   getSelectedXhVoice: vi.fn(() => null),
   getSelectedSnVoice: vi.fn(() => null),
   getSelectedNyVoice: vi.fn(() => null),
+  getSelectedFjVoice: vi.fn(() => null),
+  getSelectedSmVoice: vi.fn(() => null),
+  getSelectedToVoice: vi.fn(() => null),
+  getSelectedMiVoice: vi.fn(() => null),
+  getSelectedHawVoice: vi.fn(() => null),
+  getSelectedJvVoice: vi.fn(() => null),
+  getSelectedSuVoice: vi.fn(() => null),
 }));
 
 const { speak } = vi.hoisted(() => ({ speak: vi.fn() }));
