@@ -96,6 +96,16 @@ import {
   asEntry,
   sdEntry,
   psEntry,
+  soEntry,
+  haEntry,
+  yoEntry,
+  igEntry,
+  tiEntry,
+  woEntry,
+  mgEntry,
+  xhEntry,
+  snEntry,
+  nyEntry,
 } from '../features/mode-utils.ts';
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
@@ -276,6 +286,26 @@ function getLangWord(w: WordEntry, lang: string): string {
       return sdEntry(w[0])?.[0] ?? '';
     case 'ps':
       return psEntry(w[0])?.[0] ?? '';
+    case 'so':
+      return soEntry(w[0])?.[0] ?? '';
+    case 'ha':
+      return haEntry(w[0])?.[0] ?? '';
+    case 'yo':
+      return yoEntry(w[0])?.[0] ?? '';
+    case 'ig':
+      return igEntry(w[0])?.[0] ?? '';
+    case 'ti':
+      return tiEntry(w[0])?.[0] ?? '';
+    case 'wo':
+      return woEntry(w[0])?.[0] ?? '';
+    case 'mg':
+      return mgEntry(w[0])?.[0] ?? '';
+    case 'xh':
+      return xhEntry(w[0])?.[0] ?? '';
+    case 'sn':
+      return snEntry(w[0])?.[0] ?? '';
+    case 'ny':
+      return nyEntry(w[0])?.[0] ?? '';
     default:
       return w[0];
   }
@@ -453,6 +483,26 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return sdEntry(w[0])?.[1] ?? '';
     case 'ps':
       return psEntry(w[0])?.[1] ?? '';
+    case 'so':
+      return soEntry(w[0])?.[1] ?? '';
+    case 'ha':
+      return haEntry(w[0])?.[1] ?? '';
+    case 'yo':
+      return yoEntry(w[0])?.[1] ?? '';
+    case 'ig':
+      return igEntry(w[0])?.[1] ?? '';
+    case 'ti':
+      return tiEntry(w[0])?.[1] ?? '';
+    case 'wo':
+      return woEntry(w[0])?.[1] ?? '';
+    case 'mg':
+      return mgEntry(w[0])?.[1] ?? '';
+    case 'xh':
+      return xhEntry(w[0])?.[1] ?? '';
+    case 'sn':
+      return snEntry(w[0])?.[1] ?? '';
+    case 'ny':
+      return nyEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }

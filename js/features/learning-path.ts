@@ -105,6 +105,16 @@ import {
   asEntry,
   sdEntry,
   psEntry,
+  soEntry,
+  haEntry,
+  yoEntry,
+  igEntry,
+  tiEntry,
+  woEntry,
+  mgEntry,
+  xhEntry,
+  snEntry,
+  nyEntry,
   isTargetLang,
   headwordFor,
   type Code,
@@ -299,6 +309,26 @@ function _getTranslation(w: WordEntry, lang: string): string {
       return sdEntry(w[0])?.[0] ?? w[1];
     case 'ps':
       return psEntry(w[0])?.[0] ?? w[1];
+    case 'so':
+      return soEntry(w[0])?.[0] ?? w[1];
+    case 'ha':
+      return haEntry(w[0])?.[0] ?? w[1];
+    case 'yo':
+      return yoEntry(w[0])?.[0] ?? w[1];
+    case 'ig':
+      return igEntry(w[0])?.[0] ?? w[1];
+    case 'ti':
+      return tiEntry(w[0])?.[0] ?? w[1];
+    case 'wo':
+      return woEntry(w[0])?.[0] ?? w[1];
+    case 'mg':
+      return mgEntry(w[0])?.[0] ?? w[1];
+    case 'xh':
+      return xhEntry(w[0])?.[0] ?? w[1];
+    case 'sn':
+      return snEntry(w[0])?.[0] ?? w[1];
+    case 'ny':
+      return nyEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1];
   }
@@ -474,6 +504,26 @@ function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
       return words.filter((w) => sdEntry(w[0]) !== null);
     case 'ps':
       return words.filter((w) => psEntry(w[0]) !== null);
+    case 'so':
+      return words.filter((w) => soEntry(w[0]) !== null);
+    case 'ha':
+      return words.filter((w) => haEntry(w[0]) !== null);
+    case 'yo':
+      return words.filter((w) => yoEntry(w[0]) !== null);
+    case 'ig':
+      return words.filter((w) => igEntry(w[0]) !== null);
+    case 'ti':
+      return words.filter((w) => tiEntry(w[0]) !== null);
+    case 'wo':
+      return words.filter((w) => woEntry(w[0]) !== null);
+    case 'mg':
+      return words.filter((w) => mgEntry(w[0]) !== null);
+    case 'xh':
+      return words.filter((w) => xhEntry(w[0]) !== null);
+    case 'sn':
+      return words.filter((w) => snEntry(w[0]) !== null);
+    case 'ny':
+      return words.filter((w) => nyEntry(w[0]) !== null);
     default:
       return words;
   }

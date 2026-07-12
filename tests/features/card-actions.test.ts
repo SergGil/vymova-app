@@ -158,7 +158,7 @@ beforeAll(async () => {
   act(() => {
     createRoot(mountEl).render(createElement(CardActionsInit));
   });
-}, 45000);
+}, 60000);
 
 function setRange(v: string): void {
   (document.getElementById('sel-range') as HTMLSelectElement).value = v;

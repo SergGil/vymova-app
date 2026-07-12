@@ -129,6 +129,16 @@ const LANG_META: Record<string, { name: string; country: string }> = {
   as: { name: "অসমীয়া", country: 'in' },
   sd: { name: "سنڌي", country: 'pk' },
   ps: { name: "پښتو", country: 'af' },
+  so: { name: "Soomaali", country: 'so' },
+  ha: { name: "Hausa", country: 'ng' },
+  yo: { name: "Yorùbá", country: 'ng' },
+  ig: { name: "Igbo", country: 'ng' },
+  ti: { name: "ትግርኛ", country: 'er' },
+  wo: { name: "Wolof", country: 'sn' },
+  mg: { name: "Malagasy", country: 'mg' },
+  xh: { name: "isiXhosa", country: 'za' },
+  sn: { name: "chiShona", country: 'zw' },
+  ny: { name: "Chichewa", country: 'mw' },
 };
 
 function FlagCircle({ lang, size = 44 }: { lang: string; size?: number }): ReactElement {

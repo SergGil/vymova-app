@@ -23467,7 +23467,17 @@ export const GRAMMAR_BY_LANG: Partial<
     | 'or'
     | 'as'
     | 'sd'
-    | 'ps',
+    | 'ps'
+    | 'so'
+    | 'ha'
+    | 'yo'
+    | 'ig'
+    | 'ti'
+    | 'wo'
+    | 'mg'
+    | 'xh'
+    | 'sn'
+    | 'ny',
     GrammarCategory[]
   >
 > = {
@@ -23556,4 +23566,14 @@ export const GRAMMAR_BY_LANG: Partial<
   as: [],
   sd: [],
   ps: [],
+  so: [],
+  ha: [],
+  yo: [],
+  ig: [],
+  ti: [],
+  wo: [],
+  mg: [],
+  xh: [],
+  sn: [],
+  ny: [],
 };

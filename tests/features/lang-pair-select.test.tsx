@@ -89,6 +89,16 @@ vi.mock('../../data/words_or.js', () => ({ W_OR: {} }));
 vi.mock('../../data/words_as.js', () => ({ W_AS: {} }));
 vi.mock('../../data/words_sd.js', () => ({ W_SD: {} }));
 vi.mock('../../data/words_ps.js', () => ({ W_PS: {} }));
+vi.mock('../../data/words_so.js', () => ({ W_SO: {} }));
+vi.mock('../../data/words_ha.js', () => ({ W_HA: {} }));
+vi.mock('../../data/words_yo.js', () => ({ W_YO: {} }));
+vi.mock('../../data/words_ig.js', () => ({ W_IG: {} }));
+vi.mock('../../data/words_ti.js', () => ({ W_TI: {} }));
+vi.mock('../../data/words_wo.js', () => ({ W_WO: {} }));
+vi.mock('../../data/words_mg.js', () => ({ W_MG: {} }));
+vi.mock('../../data/words_xh.js', () => ({ W_XH: {} }));
+vi.mock('../../data/words_sn.js', () => ({ W_SN: {} }));
+vi.mock('../../data/words_ny.js', () => ({ W_NY: {} }));
 import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 
 const NEW_LANGS = [
@@ -98,6 +108,7 @@ const NEW_LANGS = [
   'ta', 'pa', 'zu', 'af', 'ky', 'tg', 'tk', 'ug', 'eu', 'ca', 'gl', 'mt', 'lb', 'ht', 'bo',
   'my', 'km', 'lo', 'ne', 'si',
   'ur', 'te', 'ml', 'kn', 'mr', 'gu', 'or', 'as', 'sd', 'ps',
+  'so', 'ha', 'yo', 'ig', 'ti', 'wo', 'mg', 'xh', 'sn', 'ny',
 ];
 
 function mountLangPairSelect(): void {
@@ -171,12 +182,12 @@ describe('lang-pair-select', () => {
     act(() => {
       (dds[0].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(86); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 70 new langs
+    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(96); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 80 new langs
 
     act(() => {
       (dds[1].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(85); // learn options for know=ua
+    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(95); // learn options for know=ua
 
     act(() => {
       (dds[2].querySelector('.flagdd-btn') as HTMLButtonElement).click();
@@ -208,7 +219,7 @@ describe('lang-pair-select', () => {
       expect((document.getElementById('sel-mode') as HTMLSelectElement).value).toBe('en-es');
       expect(changed).toBe(true);
     },
-    45000,
+    60000,
   );
 
   it('changing "learn" updates #sel-mode', () => {

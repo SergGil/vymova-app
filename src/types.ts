@@ -91,7 +91,17 @@ export type TargetLang =
   | 'or'
   | 'as'
   | 'sd'
-  | 'ps';
+  | 'ps'
+  | 'so'
+  | 'ha'
+  | 'yo'
+  | 'ig'
+  | 'ti'
+  | 'wo'
+  | 'mg'
+  | 'xh'
+  | 'sn'
+  | 'ny';
 export type Code = TargetLang | 'en' | 'ua';
 export const ALL_TARGET_LANGS: TargetLang[] = [
   'es',
@@ -178,6 +188,16 @@ export const ALL_TARGET_LANGS: TargetLang[] = [
   'as',
   'sd',
   'ps',
+  'so',
+  'ha',
+  'yo',
+  'ig',
+  'ti',
+  'wo',
+  'mg',
+  'xh',
+  'sn',
+  'ny',
 ];
 
 // ── Word data ─────────────────────────────────────────────────
