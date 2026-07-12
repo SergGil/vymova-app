@@ -88,7 +88,8 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
-      include: ['js/core/**', 'js/features/**', 'data/**'],
+      include: ['js/core/**', 'js/features/**', 'js/modes/**', 'src/**', 'data/**'],
+      exclude: ['src/global.d.ts', 'src/main.ts', 'src/types.ts'],
     },
   },
 });
