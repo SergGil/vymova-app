@@ -38,6 +38,8 @@ import {
   kkEntry,
   srEntry,
   thEntry,
+  qyaEntry,
+  sjnEntry,
 } from './mode-utils.ts';
 import { speakEnAccent, speakEsAccent, speakPtAccent, hasEsAccent, hasPtAccent } from './voice/voice.tsx';
 import { flagUrl } from '../core/flags.ts';
@@ -70,7 +72,7 @@ export function WordText() {
 }
 
 const LOCAL_ENTRY_LOOKUP: Partial<
-  Record<string, (word: string) => readonly [string, string, string?] | null>
+  Record<string, (word: string) => readonly [string, string, string?, boolean?] | null>
 > = {
   ES: esEntry,
   FR: frEntry,
@@ -96,6 +98,8 @@ const LOCAL_ENTRY_LOOKUP: Partial<
   KK: kkEntry,
   SR: srEntry,
   TH: thEntry,
+  QYA: qyaEntry,
+  SJN: sjnEntry,
 };
 
 export function Transcription() {
@@ -126,6 +130,19 @@ export function Transcription() {
         style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
       >
         {trans && <span>{trans}</span>}
+        {((FRONT_LANG as string) === 'QYA' || (FRONT_LANG as string) === 'SJN') &&
+          (() => {
+            const isCanon = lookup ? lookup(cw[0])?.[3] : undefined;
+            if (isCanon === undefined) return null;
+            return (
+              <span
+                className={`canon-badge ${isCanon ? 'canon-badge-attested' : 'canon-badge-neo'}`}
+                title={isCanon ? t('cards.canonAttested') : t('cards.canonNeo')}
+              >
+                {isCanon ? '📜' : '🔧'}
+              </span>
+            );
+          })()}
         {FRONT_LANG === 'EN' && (
           <>
             <button

@@ -540,6 +540,14 @@ select:focus {
 .transcription-wrap {
   display: block;
 }
+.canon-badge {
+  font-size: 0.85rem;
+  cursor: help;
+  line-height: 1;
+}
+.canon-badge-neo {
+  opacity: 0.75;
+}
 .info-icon-btn {
   background: none;
   border: none;

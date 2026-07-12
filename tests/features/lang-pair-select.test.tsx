@@ -124,6 +124,8 @@ vi.mock('../../data/words_dz.js', () => ({ W_DZ: {} }));
 vi.mock('../../data/words_dv.js', () => ({ W_DV: {} }));
 vi.mock('../../data/words_tet.js', () => ({ W_TET: {} }));
 vi.mock('../../data/words_be.js', () => ({ W_BE: {} }));
+vi.mock('../../data/words_qya.js', () => ({ W_QYA: {} }));
+vi.mock('../../data/words_sjn.js', () => ({ W_SJN: {} }));
 import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 
 const NEW_LANGS = [
@@ -136,7 +138,7 @@ const NEW_LANGS = [
   'so', 'ha', 'yo', 'ig', 'ti', 'wo', 'mg', 'xh', 'sn', 'ny',
   'fj', 'sm', 'to', 'mi', 'haw', 'jv', 'su',
   'gd', 'br', 'kw', 'gv', 'fo', 'oc', 'co', 'sc', 'fy',
-  'yi', 'lad', 'qu', 'gn', 'ay', 'dz', 'dv', 'tet', 'be',
+  'yi', 'lad', 'qu', 'gn', 'ay', 'dz', 'dv', 'tet', 'be', 'qya', 'sjn',
 ];
 
 function mountLangPairSelect(): void {
@@ -210,12 +212,12 @@ describe('lang-pair-select', () => {
     act(() => {
       (dds[0].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(121); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 105 new langs
+    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(123); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 107 new langs
 
     act(() => {
       (dds[1].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(120); // learn options for know=ua
+    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(122); // learn options for know=ua
 
     act(() => {
       (dds[2].querySelector('.flagdd-btn') as HTMLButtonElement).click();

@@ -164,6 +164,8 @@ export const LANG_META: Record<string, { name: string; country: string }> = {
   dv: { name: "ދިވެހި", country: 'mv' },
   tet: { name: "Tetun", country: 'tl' },
   be: { name: "Беларуская", country: 'by' },
+  qya: { name: "Quenya", country: 'qya' },
+  sjn: { name: "Sindarin", country: 'sjn' },
 };
 
 function FlagCircle({ lang, size = 44 }: { lang: string; size?: number }): ReactElement {

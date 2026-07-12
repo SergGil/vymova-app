@@ -16,7 +16,11 @@ import { deleteSrsEntry } from '../../src/srs-store.ts';
 export type { TargetLang, Code };
 export { ALL_TARGET_LANGS };
 
-type Entry = readonly [string, string, string?] | null;
+// [4] optional attestation flag — used only by constructed languages like
+// Quenya/Sindarin to mark whether the word is genuinely Tolkien-attested
+// (true) or a grammatically-informed neo-construction (false); absent for
+// every natural language, where the distinction doesn't apply.
+type Entry = readonly [string, string, string?, boolean?] | null;
 type Table = Record<string, unknown>;
 
 function lookup(table: Table, word: string): Entry {
@@ -146,6 +150,8 @@ const LANG_LOADERS: Record<TargetLang, () => Promise<Table>> = {
   dv: () => import('../../data/words_dv.js').then((m) => m.W_DV as Table),
   tet: () => import('../../data/words_tet.js').then((m) => m.W_TET as Table),
   be: () => import('../../data/words_be.js').then((m) => m.W_BE as Table),
+  qya: () => import('../../data/words_qya.js').then((m) => m.W_QYA as Table),
+  sjn: () => import('../../data/words_sjn.js').then((m) => m.W_SJN as Table),
 };
 
 // In-flight promises to avoid duplicate fetches for the same language.
@@ -1015,6 +1021,24 @@ const LANG_REGISTRY: Record<TargetLang, LangConfig> = {
     voiceLocale: 'be-BY',
     rtl: false,
   },
+  qya: {
+    entry: (w) => lookup(getTable('qya'), w),
+    known: () => getKnownSnapshot('qya'),
+    saveKnown: (known) => saveKnownLang('qya', known),
+    // No browser ships a Quenya voice — Tolkien modeled its phonology on
+    // Finnish, so a Finnish voice is used as the closest approximation.
+    voiceLocale: 'fi-FI',
+    rtl: false,
+  },
+  sjn: {
+    entry: (w) => lookup(getTable('sjn'), w),
+    known: () => getKnownSnapshot('sjn'),
+    saveKnown: (known) => saveKnownLang('sjn', known),
+    // No browser ships a Sindarin voice — Tolkien modeled its phonology on
+    // Welsh, so a Welsh voice is used as the closest approximation.
+    voiceLocale: 'cy-GB',
+    rtl: false,
+  },
 };
 
 export function langConfig(code: TargetLang): LangConfig {
@@ -1641,6 +1665,12 @@ export function tetEntry(word: string): Entry {
 export function beEntry(word: string): Entry {
   return LANG_REGISTRY.be.entry(word);
 }
+export function qyaEntry(word: string): Entry {
+  return LANG_REGISTRY.qya.entry(word);
+}
+export function sjnEntry(word: string): Entry {
+  return LANG_REGISTRY.sjn.entry(word);
+}
 
 function targetLangFromStorageKey(key: string): TargetLang | null {
   return isTargetLang(key) ? key : null;
@@ -1871,6 +1901,8 @@ const NO_TRANSLATIONS_KEY: Record<TargetLang, string> = {
   dv: 'deck.noDvTranslations',
   tet: 'deck.noTetTranslations',
   be: 'deck.noBeTranslations',
+  qya: 'deck.noQyaTranslations',
+  sjn: 'deck.noSjnTranslations',
 };
 
 function hasAnyEntries(lang: TargetLang, words: WordEntry[]): boolean {

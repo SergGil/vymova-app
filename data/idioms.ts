@@ -9207,7 +9207,9 @@ export const IDIOMS_BY_LANG: Partial<
     | 'dz'
     | 'dv'
     | 'tet'
-    | 'be',
+    | 'be'
+    | 'qya'
+    | 'sjn',
     Idiom[]
   >
 > = {
@@ -9332,4 +9334,6 @@ export const IDIOMS_BY_LANG: Partial<
   dv: [],
   tet: [],
   be: [],
+  qya: [],
+  sjn: [],
 };

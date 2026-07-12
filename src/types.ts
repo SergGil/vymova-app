@@ -126,7 +126,9 @@ export type TargetLang =
   | 'dz'
   | 'dv'
   | 'tet'
-  | 'be';
+  | 'be'
+  | 'qya'
+  | 'sjn';
 export type Code = TargetLang | 'en' | 'ua';
 export const ALL_TARGET_LANGS: TargetLang[] = [
   'es',
@@ -248,6 +250,8 @@ export const ALL_TARGET_LANGS: TargetLang[] = [
   'dv',
   'tet',
   'be',
+  'qya',
+  'sjn',
 ];
 
 // ── Word data ─────────────────────────────────────────────────

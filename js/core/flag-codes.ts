@@ -137,4 +137,6 @@ export const FLAG_CODE: Record<Code, string> = {
   dv: 'mv',
   tet: 'tl',
   be: 'by',
+  qya: 'qya',
+  sjn: 'sjn',
 };

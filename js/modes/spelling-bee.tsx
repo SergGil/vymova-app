@@ -132,6 +132,8 @@ import {
   dvEntry,
   tetEntry,
   beEntry,
+  qyaEntry,
+  sjnEntry,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speakForCode } from '../features/voice/speak-lang.ts';
@@ -384,6 +386,10 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return tetEntry(w[0])?.[1] ?? '';
     case 'be':
       return beEntry(w[0])?.[1] ?? '';
+    case 'qya':
+      return qyaEntry(w[0])?.[1] ?? '';
+    case 'sjn':
+      return sjnEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }

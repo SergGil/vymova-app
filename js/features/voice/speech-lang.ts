@@ -124,6 +124,11 @@ export const SPEECH_LANG: Record<string, string> = {
   dv: 'dv-MV',
   tet: 'tet-TL',
   be: 'be-BY',
+  // No browser ships real Quenya/Sindarin voices — Tolkien modeled Quenya's
+  // phonology on Finnish and Sindarin's on Welsh, so those are used as the
+  // closest-sounding approximation rather than staying silent.
+  qya: 'fi-FI',
+  sjn: 'cy-GB',
 };
 
 export function speechLangFor(code: string): string {

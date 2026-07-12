@@ -140,6 +140,8 @@ import {
   dvEntry,
   tetEntry,
   beEntry,
+  qyaEntry,
+  sjnEntry,
   isTargetLang,
   headwordFor,
   type Code,
@@ -404,6 +406,10 @@ function _getTranslation(w: WordEntry, lang: string): string {
       return tetEntry(w[0])?.[0] ?? w[1];
     case 'be':
       return beEntry(w[0])?.[0] ?? w[1];
+    case 'qya':
+      return qyaEntry(w[0])?.[0] ?? w[1];
+    case 'sjn':
+      return sjnEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1];
   }
@@ -649,6 +655,10 @@ function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
       return words.filter((w) => tetEntry(w[0]) !== null);
     case 'be':
       return words.filter((w) => beEntry(w[0]) !== null);
+    case 'qya':
+      return words.filter((w) => qyaEntry(w[0]) !== null);
+    case 'sjn':
+      return words.filter((w) => sjnEntry(w[0]) !== null);
     default:
       return words;
   }

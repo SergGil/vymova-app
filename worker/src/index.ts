@@ -36,6 +36,7 @@ const VALID_LANGS = new Set([
   'fj', 'sm', 'to', 'mi', 'haw', 'jv', 'su',
   'gd', 'br', 'kw', 'gv', 'fo', 'oc', 'co', 'sc', 'fy',
   'yi', 'lad', 'qu', 'gn', 'ay', 'dz', 'dv', 'tet', 'be',
+  'qya', 'sjn',
 ]);
 const VALID_LEVELS = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 const LANG_NAMES: Record<string, string> = {
@@ -55,6 +56,7 @@ const LANG_NAMES: Record<string, string> = {
   fj: 'Fijian', sm: 'Samoan', to: 'Tongan', mi: 'Maori', haw: 'Hawaiian', jv: 'Javanese', su: 'Sundanese',
   gd: 'Scottish Gaelic', br: 'Breton', kw: 'Cornish', gv: 'Manx', fo: 'Faroese', oc: 'Occitan', co: 'Corsican', sc: 'Sardinian', fy: 'Frisian',
   yi: 'Yiddish', lad: 'Ladino', qu: 'Quechua', gn: 'Guarani', ay: 'Aymara', dz: 'Dzongkha', dv: 'Maldivian', tet: 'Tetum', be: 'Belarusian',
+  qya: 'Quenya (Tolkien\'s constructed Elvish language)', sjn: 'Sindarin (Tolkien\'s constructed Elvish language)',
 };
 
 const ROLEPLAY_SCENARIOS: Record<string, string> = {

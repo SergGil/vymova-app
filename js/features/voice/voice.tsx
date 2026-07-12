@@ -126,6 +126,8 @@ let _dzURI = localStorage.getItem('ew_ws_dz_voice') ?? '';
 let _dvURI = localStorage.getItem('ew_ws_dv_voice') ?? '';
 let _tetURI = localStorage.getItem('ew_ws_tet_voice') ?? '';
 let _beURI = localStorage.getItem('ew_ws_be_voice') ?? '';
+let _qyaURI = localStorage.getItem('ew_ws_qya_voice') ?? '';
+let _sjnURI = localStorage.getItem('ew_ws_sjn_voice') ?? '';
 
 type VoiceMapEntry = { match: string; label: string; gender: string; accent: string };
 
@@ -1235,6 +1237,15 @@ function _beVoices(): SpeechSynthesisVoice[] {
     return l.startsWith('be') || n.includes('belarusian');
   });
 }
+// No browser ships real Quenya/Sindarin voices — Tolkien modeled Quenya's
+// phonology on Finnish and Sindarin's on Welsh, so those voice pools are
+// reused as the closest-sounding approximation instead of staying silent.
+function _qyaVoices(): SpeechSynthesisVoice[] {
+  return _fiVoices();
+}
+function _sjnVoices(): SpeechSynthesisVoice[] {
+  return _cyVoices();
+}
 function _findByURI(uri: string, voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
   return voices.find((v) => v.voiceURI === uri) ?? null;
 }
@@ -1599,6 +1610,12 @@ export function getSelectedTetVoice(): SpeechSynthesisVoice | null {
 export function getSelectedBeVoice(): SpeechSynthesisVoice | null {
   return _findByURI(_beURI, _beVoices()) ?? _beVoices()[0] ?? null;
 }
+export function getSelectedQyaVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_qyaURI, _qyaVoices()) ?? _qyaVoices()[0] ?? null;
+}
+export function getSelectedSjnVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_sjnURI, _sjnVoices()) ?? _sjnVoices()[0] ?? null;
+}
 
 // Speaks `text` with a voice tagged for `accent` (matched via VOICE_MAP first,
 // falling back to a lang-prefix match, then any voice for the language),
@@ -1892,7 +1909,9 @@ export function _renderVoices(): void {
     dzVoices = _sortVoices(_dzVoices()),
     dvVoices = _sortVoices(_dvVoices()),
     tetVoices = _sortVoices(_tetVoices()),
-    beVoices = _sortVoices(_beVoices());
+    beVoices = _sortVoices(_beVoices()),
+    qyaVoices = _sortVoices(_qyaVoices()),
+    sjnVoices = _sortVoices(_sjnVoices());
   if (
     !enVoices.length &&
     !ukVoices.length &&
@@ -2014,7 +2033,9 @@ export function _renderVoices(): void {
     !dzVoices.length &&
     !dvVoices.length &&
     !tetVoices.length &&
-    !beVoices.length
+    !beVoices.length &&
+    !qyaVoices.length &&
+    !sjnVoices.length
   ) {
     container.innerHTML =
       '<span style="font-size:.78rem;color:var(--text3);">' +
@@ -2184,6 +2205,8 @@ export function _renderVoices(): void {
           else if (storageKey === 'ew_ws_dv_voice') _dvURI = uri;
           else if (storageKey === 'ew_ws_tet_voice') _tetURI = uri;
           else if (storageKey === 'ew_ws_be_voice') _beURI = uri;
+          else if (storageKey === 'ew_ws_qya_voice') _qyaURI = uri;
+          else if (storageKey === 'ew_ws_sjn_voice') _sjnURI = uri;
           else _ukURI = uri;
           localStorage.setItem(storageKey, uri);
           _renderVoices();
@@ -3549,6 +3572,28 @@ export function _renderVoices(): void {
       "Hello!",
     );
   else addMissing('be', 'by', 'settings.noBeVoicesTitle', 'settings.noBeVoicesDesc');
+  if (qyaVoices.length)
+    addSection(
+      'qya',
+      'qya',
+      t('settings.qyaVoicesTitle'),
+      qyaVoices,
+      _qyaURI,
+      'ew_ws_qya_voice',
+      "Elen síla lúmenn' omentielvo.",
+    );
+  else addMissing('qya', 'qya', 'settings.noQyaVoicesTitle', 'settings.noQyaVoicesDesc');
+  if (sjnVoices.length)
+    addSection(
+      'sjn',
+      'sjn',
+      t('settings.sjnVoicesTitle'),
+      sjnVoices,
+      _sjnURI,
+      'ew_ws_sjn_voice',
+      'Mae govannen.',
+    );
+  else addMissing('sjn', 'sjn', 'settings.noSjnVoicesTitle', 'settings.noSjnVoicesDesc');
   sections.sort((a, b) => a.key.localeCompare(b.key, getLang()));
   for (const s of sections) container.appendChild(s.el);
   if (!_enURI && enVoices.length) {
