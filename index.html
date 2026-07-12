@@ -142,6 +142,10 @@
           ><span class="sb-icon">💬</span
           ><span class="sb-label" data-i18n="nav.idioms">Ідіоми</span></a
         >
+        <a class="sb-btn" id="sb-translate" href="#" style="display: none"
+          ><span class="sb-icon">🌐</span
+          ><span class="sb-label" data-i18n="nav.translate">Переклад</span></a
+        >
 
         <div class="sb-group" id="sb-group-ai" style="display: none">
           <button type="button" class="sb-btn sb-group-trigger" id="sb-group-ai-trigger">
@@ -1281,7 +1285,7 @@
           </div>
 
           <div class="settings-footer">
-            © 2026 Vymova · v1.314.0 ·
+            © 2026 Vymova · v1.315.0 ·
             <a
               href="./privacy.html"
               target="_blank"
@@ -1639,6 +1643,24 @@
             </button>
           </div>
           <div id="idioms-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ TRANSLATE PAGE ══ -->
+      <div id="translate-overlay" class="page-overlay">
+        <div class="page-inner">
+          <div class="page-header">
+            <div class="page-title">🌐 <span data-i18n="nav.translate">Переклад</span></div>
+            <button
+              class="page-close-btn"
+              id="translate-close"
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+          <div id="translate-content"></div>
         </div>
       </div>
 

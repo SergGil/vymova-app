@@ -14,11 +14,12 @@ interface ChatTurn {
   text: string;
 }
 interface ChatRequestBody {
-  mode: 'tutor' | 'roleplay' | 'story';
+  mode: 'tutor' | 'roleplay' | 'story' | 'translate';
   lang: { know: string; learn: string };
-  messages?: ChatTurn[]; // absent/empty for 'story' — that mode is a one-shot generation, not a conversation
+  messages?: ChatTurn[]; // absent/empty for 'story'/'translate' — those are one-shot generations, not a conversation
   scenario?: string; // roleplay only, e.g. "job-interview" | "ordering-coffee"
   level?: string; // story only, a CEFR level like "A1".."C1"
+  text?: string; // translate only, the sentence to translate — target language is lang.learn
 }
 
 const GEMINI_MODEL = 'gemini-2.5-flash';
@@ -213,6 +214,15 @@ function buildSystemPrompt(body: ChatRequestBody): string {
       `Do not add any other commentary, headings, or markdown formatting — plain prose only.`,
     ].join(' ');
   }
+  if (body.mode === 'translate') {
+    const targetName = LANG_NAMES[learn] ?? learn;
+    return [
+      `Translate the user's next message into ${targetName}, no matter what language it is written in.`,
+      `Detect the source language automatically.`,
+      `Respond with ONLY the translation — no explanations, no quotes, no source language name, no extra commentary.`,
+      `Preserve the tone, register and meaning as closely as possible.`,
+    ].join(' ');
+  }
   return [
     `You are a friendly, patient language tutor helping someone learn ${learn} (their native language is ${know}).`,
     `Have a natural conversation in ${learn}. Gently correct mistakes inline and explain briefly in ${know} when useful.`,
@@ -256,9 +266,15 @@ export default {
         headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
       });
     }
-    // Story generation has no conversation turns to send — it's a single
-    // one-shot request driven entirely by lang/level, unlike tutor/roleplay.
-    if (body.mode !== 'story' && !body.messages?.length) {
+    // Story/translate have no conversation turns to send — they're single
+    // one-shot requests, unlike tutor/roleplay.
+    if (body.mode !== 'story' && body.mode !== 'translate' && !body.messages?.length) {
+      return new Response(JSON.stringify({ error: 'missing_fields' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      });
+    }
+    if (body.mode === 'translate' && !body.text?.trim()) {
       return new Response(JSON.stringify({ error: 'missing_fields' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
@@ -289,7 +305,10 @@ export default {
     if ((body.messages?.length ?? 0) > MAX_MESSAGES) {
       body.messages = body.messages!.slice(-MAX_MESSAGES);
     }
-    const totalChars = (body.messages ?? []).reduce((s, m) => s + (m.text?.length ?? 0), 0);
+    const totalChars =
+      body.mode === 'translate'
+        ? (body.text?.length ?? 0)
+        : (body.messages ?? []).reduce((s, m) => s + (m.text?.length ?? 0), 0);
     if (totalChars > MAX_PAYLOAD_CHARS) {
       return new Response(JSON.stringify({ error: 'payload_too_large' }), {
         status: 413,
@@ -303,10 +322,12 @@ export default {
     const contents =
       body.mode === 'story'
         ? [{ role: 'user', parts: [{ text: 'Generate the story now.' }] }]
-        : (body.messages ?? []).map((m) => ({
-            role: m.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: m.text }],
-          }));
+        : body.mode === 'translate'
+          ? [{ role: 'user', parts: [{ text: body.text ?? '' }] }]
+          : (body.messages ?? []).map((m) => ({
+              role: m.role === 'assistant' ? 'model' : 'user',
+              parts: [{ text: m.text }],
+            }));
 
     const geminiRes = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${env.GEMINI_API_KEY}`,

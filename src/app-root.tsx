@@ -537,6 +537,12 @@ function AppRoot(): ReactElement {
         }
       />
       <LazyPage
+        page="translate"
+        loader={() =>
+          import('../js/features/translate-page.tsx').then((m) => ({ Page: m.TranslatePage }))
+        }
+      />
+      <LazyPage
         page="ai-tutor"
         loader={() =>
           import('../js/features/voice/ai-tutor.tsx').then((m) => ({ Page: m.AiTutorPage }))

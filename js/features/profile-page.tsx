@@ -43,7 +43,7 @@ const PICKERS: { key: PickerKey; labelKey: string; len: number; names?: () => st
 
 // Language display names (native) + ISO 3166-1 alpha-2 country codes.
 // Uses the same flagUrl() / data/countries/*.svg system as lang-pair-select.
-const LANG_META: Record<string, { name: string; country: string }> = {
+export const LANG_META: Record<string, { name: string; country: string }> = {
   en: { name: 'English', country: 'gb' },
   es: { name: 'Español', country: 'es' },
   fr: { name: 'Français', country: 'fr' },

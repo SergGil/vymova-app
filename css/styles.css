@@ -2319,6 +2319,89 @@ body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):no
   opacity: 0.6;
   cursor: not-allowed;
 }
+.translate-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.translate-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  resize: vertical;
+  min-height: 90px;
+}
+.translate-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.translate-target-label {
+  font-size: 0.85rem;
+  color: var(--text3);
+}
+.translate-select {
+  flex: 1;
+  min-width: 140px;
+  box-sizing: border-box;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.translate-send {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+.translate-send:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.translate-error {
+  color: #e74c3c;
+  font-size: 0.8rem;
+  text-align: center;
+}
+.translate-result {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+}
+.translate-result-flag {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.translate-result-text {
+  flex: 1;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  color: var(--text);
+}
 .roleplay-panel {
   display: flex;
   flex-direction: column;

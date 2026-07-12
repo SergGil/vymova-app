@@ -52,6 +52,7 @@ const PAGE_TO_SIDEBAR: Record<string, string> = {
   duel: 'sb-duel',
   grammar: 'sb-grammar',
   idioms: 'sb-idioms',
+  translate: 'sb-translate',
   'learning-path': 'sb-learning-path',
   profile: 'sb-profile',
   'ai-tutor': 'sb-ai-tutor',
@@ -70,6 +71,7 @@ function _setSidebarActive(page: string | null): void {
     'sb-duel',
     'sb-grammar',
     'sb-idioms',
+    'sb-translate',
     'sb-learning-path',
     'sb-profile',
     'sb-ai-tutor',
@@ -142,6 +144,8 @@ export function openPage(page: string): void {
     import('./learning-path.ts').then(({ openLearningPath }) => openLearningPath()).catch(() => {});
   } else if (page === 'profile') {
     document.getElementById('profile-overlay')?.classList.add('open');
+  } else if (page === 'translate') {
+    document.getElementById('translate-overlay')?.classList.add('open');
   } else if (page === 'ai-tutor') {
     document.getElementById('ai-tutor-overlay')?.classList.add('open');
   } else if (page === 'voice-roleplay') {
@@ -194,6 +198,7 @@ export function closePage(): void {
   document.getElementById('duel-overlay')?.classList.remove('open');
   document.getElementById('grammar-overlay')?.classList.remove('open');
   document.getElementById('idioms-overlay')?.classList.remove('open');
+  document.getElementById('translate-overlay')?.classList.remove('open');
   document.getElementById('lp-overlay')?.classList.remove('open');
   document.getElementById('profile-overlay')?.classList.remove('open');
   document.getElementById('ai-tutor-overlay')?.classList.remove('open');
@@ -273,6 +278,8 @@ export function SidebarInit(): ReactElement | null {
     if (AI_TUTOR_ENABLED) {
       const aiGroup = document.getElementById('sb-group-ai') as HTMLElement | null;
       if (aiGroup) aiGroup.style.display = '';
+      const translateBtn = document.getElementById('sb-translate') as HTMLElement | null;
+      if (translateBtn) translateBtn.style.display = '';
     }
 
     // ── Sidebar wiring ─────────────────────────────────────────
@@ -339,6 +346,7 @@ export function SidebarInit(): ReactElement | null {
       ['sb-duel', '/duel', 'duel'],
       ['sb-grammar', '/grammar', 'grammar'],
       ['sb-idioms', '/idioms', 'idioms'],
+      ['sb-translate', '/translate', 'translate'],
       ['sb-learning-path', '/learning-path', 'learning-path'],
       ['sb-profile', '/profile', 'profile'],
       ['sb-ai-tutor', '/ai-tutor', 'ai-tutor'],
