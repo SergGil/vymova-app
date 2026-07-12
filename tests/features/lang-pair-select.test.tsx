@@ -115,6 +115,15 @@ vi.mock('../../data/words_oc.js', () => ({ W_OC: {} }));
 vi.mock('../../data/words_co.js', () => ({ W_CO: {} }));
 vi.mock('../../data/words_sc.js', () => ({ W_SC: {} }));
 vi.mock('../../data/words_fy.js', () => ({ W_FY: {} }));
+vi.mock('../../data/words_yi.js', () => ({ W_YI: {} }));
+vi.mock('../../data/words_lad.js', () => ({ W_LAD: {} }));
+vi.mock('../../data/words_qu.js', () => ({ W_QU: {} }));
+vi.mock('../../data/words_gn.js', () => ({ W_GN: {} }));
+vi.mock('../../data/words_ay.js', () => ({ W_AY: {} }));
+vi.mock('../../data/words_dz.js', () => ({ W_DZ: {} }));
+vi.mock('../../data/words_dv.js', () => ({ W_DV: {} }));
+vi.mock('../../data/words_tet.js', () => ({ W_TET: {} }));
+vi.mock('../../data/words_be.js', () => ({ W_BE: {} }));
 import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 
 const NEW_LANGS = [
@@ -127,6 +136,7 @@ const NEW_LANGS = [
   'so', 'ha', 'yo', 'ig', 'ti', 'wo', 'mg', 'xh', 'sn', 'ny',
   'fj', 'sm', 'to', 'mi', 'haw', 'jv', 'su',
   'gd', 'br', 'kw', 'gv', 'fo', 'oc', 'co', 'sc', 'fy',
+  'yi', 'lad', 'qu', 'gn', 'ay', 'dz', 'dv', 'tet', 'be',
 ];
 
 function mountLangPairSelect(): void {
@@ -200,12 +210,12 @@ describe('lang-pair-select', () => {
     act(() => {
       (dds[0].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(112); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 96 new langs
+    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(121); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 105 new langs
 
     act(() => {
       (dds[1].querySelector('.flagdd-btn') as HTMLButtonElement).click();
     });
-    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(111); // learn options for know=ua
+    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(120); // learn options for know=ua
 
     act(() => {
       (dds[2].querySelector('.flagdd-btn') as HTMLButtonElement).click();

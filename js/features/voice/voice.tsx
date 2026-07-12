@@ -117,6 +117,15 @@ let _ocURI = localStorage.getItem('ew_ws_oc_voice') ?? '';
 let _coURI = localStorage.getItem('ew_ws_co_voice') ?? '';
 let _scURI = localStorage.getItem('ew_ws_sc_voice') ?? '';
 let _fyURI = localStorage.getItem('ew_ws_fy_voice') ?? '';
+let _yiURI = localStorage.getItem('ew_ws_yi_voice') ?? '';
+let _ladURI = localStorage.getItem('ew_ws_lad_voice') ?? '';
+let _quURI = localStorage.getItem('ew_ws_qu_voice') ?? '';
+let _gnURI = localStorage.getItem('ew_ws_gn_voice') ?? '';
+let _ayURI = localStorage.getItem('ew_ws_ay_voice') ?? '';
+let _dzURI = localStorage.getItem('ew_ws_dz_voice') ?? '';
+let _dvURI = localStorage.getItem('ew_ws_dv_voice') ?? '';
+let _tetURI = localStorage.getItem('ew_ws_tet_voice') ?? '';
+let _beURI = localStorage.getItem('ew_ws_be_voice') ?? '';
 
 type VoiceMapEntry = { match: string; label: string; gender: string; accent: string };
 
@@ -1163,6 +1172,69 @@ function _fyVoices(): SpeechSynthesisVoice[] {
     return l.startsWith('fy') || n.includes('frisian');
   });
 }
+function _yiVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('yi') || n.includes('yiddish');
+  });
+}
+function _ladVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('lad') || n.includes('ladino');
+  });
+}
+function _quVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('qu') || n.includes('quechua');
+  });
+}
+function _gnVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('gn') || n.includes('guarani');
+  });
+}
+function _ayVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('ay') || n.includes('aymara');
+  });
+}
+function _dzVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('dz') || n.includes('dzongkha');
+  });
+}
+function _dvVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('dv') || n.includes('maldivian');
+  });
+}
+function _tetVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('tet') || n.includes('tetum');
+  });
+}
+function _beVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('be') || n.includes('belarusian');
+  });
+}
 function _findByURI(uri: string, voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
   return voices.find((v) => v.voiceURI === uri) ?? null;
 }
@@ -1500,6 +1572,33 @@ export function getSelectedScVoice(): SpeechSynthesisVoice | null {
 export function getSelectedFyVoice(): SpeechSynthesisVoice | null {
   return _findByURI(_fyURI, _fyVoices()) ?? _fyVoices()[0] ?? null;
 }
+export function getSelectedYiVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_yiURI, _yiVoices()) ?? _yiVoices()[0] ?? null;
+}
+export function getSelectedLadVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_ladURI, _ladVoices()) ?? _ladVoices()[0] ?? null;
+}
+export function getSelectedQuVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_quURI, _quVoices()) ?? _quVoices()[0] ?? null;
+}
+export function getSelectedGnVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_gnURI, _gnVoices()) ?? _gnVoices()[0] ?? null;
+}
+export function getSelectedAyVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_ayURI, _ayVoices()) ?? _ayVoices()[0] ?? null;
+}
+export function getSelectedDzVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_dzURI, _dzVoices()) ?? _dzVoices()[0] ?? null;
+}
+export function getSelectedDvVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_dvURI, _dvVoices()) ?? _dvVoices()[0] ?? null;
+}
+export function getSelectedTetVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_tetURI, _tetVoices()) ?? _tetVoices()[0] ?? null;
+}
+export function getSelectedBeVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_beURI, _beVoices()) ?? _beVoices()[0] ?? null;
+}
 
 // Speaks `text` with a voice tagged for `accent` (matched via VOICE_MAP first,
 // falling back to a lang-prefix match, then any voice for the language),
@@ -1784,7 +1883,16 @@ export function _renderVoices(): void {
     ocVoices = _sortVoices(_ocVoices()),
     coVoices = _sortVoices(_coVoices()),
     scVoices = _sortVoices(_scVoices()),
-    fyVoices = _sortVoices(_fyVoices());
+    fyVoices = _sortVoices(_fyVoices()),
+    yiVoices = _sortVoices(_yiVoices()),
+    ladVoices = _sortVoices(_ladVoices()),
+    quVoices = _sortVoices(_quVoices()),
+    gnVoices = _sortVoices(_gnVoices()),
+    ayVoices = _sortVoices(_ayVoices()),
+    dzVoices = _sortVoices(_dzVoices()),
+    dvVoices = _sortVoices(_dvVoices()),
+    tetVoices = _sortVoices(_tetVoices()),
+    beVoices = _sortVoices(_beVoices());
   if (
     !enVoices.length &&
     !ukVoices.length &&
@@ -1897,7 +2005,16 @@ export function _renderVoices(): void {
     !ocVoices.length &&
     !coVoices.length &&
     !scVoices.length &&
-    !fyVoices.length
+    !fyVoices.length &&
+    !yiVoices.length &&
+    !ladVoices.length &&
+    !quVoices.length &&
+    !gnVoices.length &&
+    !ayVoices.length &&
+    !dzVoices.length &&
+    !dvVoices.length &&
+    !tetVoices.length &&
+    !beVoices.length
   ) {
     container.innerHTML =
       '<span style="font-size:.78rem;color:var(--text3);">' +
@@ -2058,6 +2175,15 @@ export function _renderVoices(): void {
           else if (storageKey === 'ew_ws_co_voice') _coURI = uri;
           else if (storageKey === 'ew_ws_sc_voice') _scURI = uri;
           else if (storageKey === 'ew_ws_fy_voice') _fyURI = uri;
+          else if (storageKey === 'ew_ws_yi_voice') _yiURI = uri;
+          else if (storageKey === 'ew_ws_lad_voice') _ladURI = uri;
+          else if (storageKey === 'ew_ws_qu_voice') _quURI = uri;
+          else if (storageKey === 'ew_ws_gn_voice') _gnURI = uri;
+          else if (storageKey === 'ew_ws_ay_voice') _ayURI = uri;
+          else if (storageKey === 'ew_ws_dz_voice') _dzURI = uri;
+          else if (storageKey === 'ew_ws_dv_voice') _dvURI = uri;
+          else if (storageKey === 'ew_ws_tet_voice') _tetURI = uri;
+          else if (storageKey === 'ew_ws_be_voice') _beURI = uri;
           else _ukURI = uri;
           localStorage.setItem(storageKey, uri);
           _renderVoices();
@@ -3324,6 +3450,105 @@ export function _renderVoices(): void {
       "Hello!",
     );
   else addMissing('fy', 'nl', 'settings.noFyVoicesTitle', 'settings.noFyVoicesDesc');
+  if (yiVoices.length)
+    addSection(
+      'yi',
+      'il',
+      t('settings.yiVoicesTitle'),
+      yiVoices,
+      _yiURI,
+      'ew_ws_yi_voice',
+      "Hello!",
+    );
+  else addMissing('yi', 'il', 'settings.noYiVoicesTitle', 'settings.noYiVoicesDesc');
+  if (ladVoices.length)
+    addSection(
+      'lad',
+      'es',
+      t('settings.ladVoicesTitle'),
+      ladVoices,
+      _ladURI,
+      'ew_ws_lad_voice',
+      "Hello!",
+    );
+  else addMissing('lad', 'es', 'settings.noLadVoicesTitle', 'settings.noLadVoicesDesc');
+  if (quVoices.length)
+    addSection(
+      'qu',
+      'pe',
+      t('settings.quVoicesTitle'),
+      quVoices,
+      _quURI,
+      'ew_ws_qu_voice',
+      "Hello!",
+    );
+  else addMissing('qu', 'pe', 'settings.noQuVoicesTitle', 'settings.noQuVoicesDesc');
+  if (gnVoices.length)
+    addSection(
+      'gn',
+      'py',
+      t('settings.gnVoicesTitle'),
+      gnVoices,
+      _gnURI,
+      'ew_ws_gn_voice',
+      "Hello!",
+    );
+  else addMissing('gn', 'py', 'settings.noGnVoicesTitle', 'settings.noGnVoicesDesc');
+  if (ayVoices.length)
+    addSection(
+      'ay',
+      'bo',
+      t('settings.ayVoicesTitle'),
+      ayVoices,
+      _ayURI,
+      'ew_ws_ay_voice',
+      "Hello!",
+    );
+  else addMissing('ay', 'bo', 'settings.noAyVoicesTitle', 'settings.noAyVoicesDesc');
+  if (dzVoices.length)
+    addSection(
+      'dz',
+      'bt',
+      t('settings.dzVoicesTitle'),
+      dzVoices,
+      _dzURI,
+      'ew_ws_dz_voice',
+      "Hello!",
+    );
+  else addMissing('dz', 'bt', 'settings.noDzVoicesTitle', 'settings.noDzVoicesDesc');
+  if (dvVoices.length)
+    addSection(
+      'dv',
+      'mv',
+      t('settings.dvVoicesTitle'),
+      dvVoices,
+      _dvURI,
+      'ew_ws_dv_voice',
+      "Hello!",
+    );
+  else addMissing('dv', 'mv', 'settings.noDvVoicesTitle', 'settings.noDvVoicesDesc');
+  if (tetVoices.length)
+    addSection(
+      'tet',
+      'tl',
+      t('settings.tetVoicesTitle'),
+      tetVoices,
+      _tetURI,
+      'ew_ws_tet_voice',
+      "Hello!",
+    );
+  else addMissing('tet', 'tl', 'settings.noTetVoicesTitle', 'settings.noTetVoicesDesc');
+  if (beVoices.length)
+    addSection(
+      'be',
+      'by',
+      t('settings.beVoicesTitle'),
+      beVoices,
+      _beURI,
+      'ew_ws_be_voice',
+      "Hello!",
+    );
+  else addMissing('be', 'by', 'settings.noBeVoicesTitle', 'settings.noBeVoicesDesc');
   sections.sort((a, b) => a.key.localeCompare(b.key, getLang()));
   for (const s of sections) container.appendChild(s.el);
   if (!_enURI && enVoices.length) {

@@ -131,6 +131,15 @@ import {
   coEntry,
   scEntry,
   fyEntry,
+  yiEntry,
+  ladEntry,
+  quEntry,
+  gnEntry,
+  ayEntry,
+  dzEntry,
+  dvEntry,
+  tetEntry,
+  beEntry,
   isTargetLang,
   headwordFor,
   type Code,
@@ -377,6 +386,24 @@ function _getTranslation(w: WordEntry, lang: string): string {
       return scEntry(w[0])?.[0] ?? w[1];
     case 'fy':
       return fyEntry(w[0])?.[0] ?? w[1];
+    case 'yi':
+      return yiEntry(w[0])?.[0] ?? w[1];
+    case 'lad':
+      return ladEntry(w[0])?.[0] ?? w[1];
+    case 'qu':
+      return quEntry(w[0])?.[0] ?? w[1];
+    case 'gn':
+      return gnEntry(w[0])?.[0] ?? w[1];
+    case 'ay':
+      return ayEntry(w[0])?.[0] ?? w[1];
+    case 'dz':
+      return dzEntry(w[0])?.[0] ?? w[1];
+    case 'dv':
+      return dvEntry(w[0])?.[0] ?? w[1];
+    case 'tet':
+      return tetEntry(w[0])?.[0] ?? w[1];
+    case 'be':
+      return beEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1];
   }
@@ -604,6 +631,24 @@ function _filterWordsForLang(words: WordEntry[], lang: string): WordEntry[] {
       return words.filter((w) => scEntry(w[0]) !== null);
     case 'fy':
       return words.filter((w) => fyEntry(w[0]) !== null);
+    case 'yi':
+      return words.filter((w) => yiEntry(w[0]) !== null);
+    case 'lad':
+      return words.filter((w) => ladEntry(w[0]) !== null);
+    case 'qu':
+      return words.filter((w) => quEntry(w[0]) !== null);
+    case 'gn':
+      return words.filter((w) => gnEntry(w[0]) !== null);
+    case 'ay':
+      return words.filter((w) => ayEntry(w[0]) !== null);
+    case 'dz':
+      return words.filter((w) => dzEntry(w[0]) !== null);
+    case 'dv':
+      return words.filter((w) => dvEntry(w[0]) !== null);
+    case 'tet':
+      return words.filter((w) => tetEntry(w[0]) !== null);
+    case 'be':
+      return words.filter((w) => beEntry(w[0]) !== null);
     default:
       return words;
   }

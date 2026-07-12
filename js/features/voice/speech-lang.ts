@@ -115,6 +115,15 @@ export const SPEECH_LANG: Record<string, string> = {
   co: 'co-FR',
   sc: 'sc-IT',
   fy: 'fy-NL',
+  yi: 'yi',
+  lad: 'lad',
+  qu: 'qu-PE',
+  gn: 'gn-PY',
+  ay: 'ay-BO',
+  dz: 'dz-BT',
+  dv: 'dv-MV',
+  tet: 'tet-TL',
+  be: 'be-BY',
 };
 
 export function speechLangFor(code: string): string {

@@ -117,7 +117,16 @@ export type TargetLang =
   | 'oc'
   | 'co'
   | 'sc'
-  | 'fy';
+  | 'fy'
+  | 'yi'
+  | 'lad'
+  | 'qu'
+  | 'gn'
+  | 'ay'
+  | 'dz'
+  | 'dv'
+  | 'tet'
+  | 'be';
 export type Code = TargetLang | 'en' | 'ua';
 export const ALL_TARGET_LANGS: TargetLang[] = [
   'es',
@@ -230,6 +239,15 @@ export const ALL_TARGET_LANGS: TargetLang[] = [
   'co',
   'sc',
   'fy',
+  'yi',
+  'lad',
+  'qu',
+  'gn',
+  'ay',
+  'dz',
+  'dv',
+  'tet',
+  'be',
 ];
 
 // ── Word data ─────────────────────────────────────────────────

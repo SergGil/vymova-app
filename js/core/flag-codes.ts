@@ -128,4 +128,13 @@ export const FLAG_CODE: Record<Code, string> = {
   co: 'fr',
   sc: 'it',
   fy: 'nl',
+  yi: 'il',
+  lad: 'es',
+  qu: 'pe',
+  gn: 'py',
+  ay: 'bo',
+  dz: 'bt',
+  dv: 'mv',
+  tet: 'tl',
+  be: 'by',
 };

@@ -122,6 +122,15 @@ import {
   coEntry,
   scEntry,
   fyEntry,
+  yiEntry,
+  ladEntry,
+  quEntry,
+  gnEntry,
+  ayEntry,
+  dzEntry,
+  dvEntry,
+  tetEntry,
+  beEntry,
 } from '../features/mode-utils.ts';
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
@@ -354,6 +363,24 @@ function getLangWord(w: WordEntry, lang: string): string {
       return scEntry(w[0])?.[0] ?? '';
     case 'fy':
       return fyEntry(w[0])?.[0] ?? '';
+    case 'yi':
+      return yiEntry(w[0])?.[0] ?? '';
+    case 'lad':
+      return ladEntry(w[0])?.[0] ?? '';
+    case 'qu':
+      return quEntry(w[0])?.[0] ?? '';
+    case 'gn':
+      return gnEntry(w[0])?.[0] ?? '';
+    case 'ay':
+      return ayEntry(w[0])?.[0] ?? '';
+    case 'dz':
+      return dzEntry(w[0])?.[0] ?? '';
+    case 'dv':
+      return dvEntry(w[0])?.[0] ?? '';
+    case 'tet':
+      return tetEntry(w[0])?.[0] ?? '';
+    case 'be':
+      return beEntry(w[0])?.[0] ?? '';
     default:
       return w[0];
   }
@@ -583,6 +610,24 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return scEntry(w[0])?.[1] ?? '';
     case 'fy':
       return fyEntry(w[0])?.[1] ?? '';
+    case 'yi':
+      return yiEntry(w[0])?.[1] ?? '';
+    case 'lad':
+      return ladEntry(w[0])?.[1] ?? '';
+    case 'qu':
+      return quEntry(w[0])?.[1] ?? '';
+    case 'gn':
+      return gnEntry(w[0])?.[1] ?? '';
+    case 'ay':
+      return ayEntry(w[0])?.[1] ?? '';
+    case 'dz':
+      return dzEntry(w[0])?.[1] ?? '';
+    case 'dv':
+      return dvEntry(w[0])?.[1] ?? '';
+    case 'tet':
+      return tetEntry(w[0])?.[1] ?? '';
+    case 'be':
+      return beEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }

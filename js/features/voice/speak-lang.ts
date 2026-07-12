@@ -116,6 +116,15 @@ import {
   getSelectedCoVoice,
   getSelectedScVoice,
   getSelectedFyVoice,
+  getSelectedYiVoice,
+  getSelectedLadVoice,
+  getSelectedQuVoice,
+  getSelectedGnVoice,
+  getSelectedAyVoice,
+  getSelectedDzVoice,
+  getSelectedDvVoice,
+  getSelectedTetVoice,
+  getSelectedBeVoice,
 } from './voice.tsx';
 import { speak, _speakWithLang } from './speech.ts';
 import { isTargetLang, langConfig, type TargetLang, type Code } from '../mode-utils.ts';
@@ -231,6 +240,15 @@ export const VOICE_GETTERS: Record<TargetLang, () => SpeechSynthesisVoice | null
   co: getSelectedCoVoice,
   sc: getSelectedScVoice,
   fy: getSelectedFyVoice,
+  yi: getSelectedYiVoice,
+  lad: getSelectedLadVoice,
+  qu: getSelectedQuVoice,
+  gn: getSelectedGnVoice,
+  ay: getSelectedAyVoice,
+  dz: getSelectedDzVoice,
+  dv: getSelectedDvVoice,
+  tet: getSelectedTetVoice,
+  be: getSelectedBeVoice,
 };
 
 export function speakForCode(

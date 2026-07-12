@@ -9198,7 +9198,16 @@ export const IDIOMS_BY_LANG: Partial<
     | 'oc'
     | 'co'
     | 'sc'
-    | 'fy',
+    | 'fy'
+    | 'yi'
+    | 'lad'
+    | 'qu'
+    | 'gn'
+    | 'ay'
+    | 'dz'
+    | 'dv'
+    | 'tet'
+    | 'be',
     Idiom[]
   >
 > = {
@@ -9314,4 +9323,13 @@ export const IDIOMS_BY_LANG: Partial<
   co: [],
   sc: [],
   fy: [],
+  yi: [],
+  lad: [],
+  qu: [],
+  gn: [],
+  ay: [],
+  dz: [],
+  dv: [],
+  tet: [],
+  be: [],
 };

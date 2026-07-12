@@ -120,6 +120,15 @@ import {
   coEntry,
   scEntry,
   fyEntry,
+  yiEntry,
+  ladEntry,
+  quEntry,
+  gnEntry,
+  ayEntry,
+  dzEntry,
+  dvEntry,
+  tetEntry,
+  beEntry,
 } from '../mode-utils.ts';
 import type { DuelMode, Difficulty } from './duel.ts';
 import { CHARS, ROOM_SIZE } from './duel-types.ts';
@@ -367,6 +376,24 @@ export function _wordInLang(w: WordEntry, lang: string): string {
       return scEntry(w[0])?.[0] ?? w[1];
     case 'fy':
       return fyEntry(w[0])?.[0] ?? w[1];
+    case 'yi':
+      return yiEntry(w[0])?.[0] ?? w[1];
+    case 'lad':
+      return ladEntry(w[0])?.[0] ?? w[1];
+    case 'qu':
+      return quEntry(w[0])?.[0] ?? w[1];
+    case 'gn':
+      return gnEntry(w[0])?.[0] ?? w[1];
+    case 'ay':
+      return ayEntry(w[0])?.[0] ?? w[1];
+    case 'dz':
+      return dzEntry(w[0])?.[0] ?? w[1];
+    case 'dv':
+      return dvEntry(w[0])?.[0] ?? w[1];
+    case 'tet':
+      return tetEntry(w[0])?.[0] ?? w[1];
+    case 'be':
+      return beEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1]; // 'ua'
   }
@@ -598,6 +625,24 @@ export function _hasLangWord(w: WordEntry, lang: string): boolean {
       return scEntry(w[0]) !== null;
     case 'fy':
       return fyEntry(w[0]) !== null;
+    case 'yi':
+      return yiEntry(w[0]) !== null;
+    case 'lad':
+      return ladEntry(w[0]) !== null;
+    case 'qu':
+      return quEntry(w[0]) !== null;
+    case 'gn':
+      return gnEntry(w[0]) !== null;
+    case 'ay':
+      return ayEntry(w[0]) !== null;
+    case 'dz':
+      return dzEntry(w[0]) !== null;
+    case 'dv':
+      return dvEntry(w[0]) !== null;
+    case 'tet':
+      return tetEntry(w[0]) !== null;
+    case 'be':
+      return beEntry(w[0]) !== null;
     default:
       return true;
   }

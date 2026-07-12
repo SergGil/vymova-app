@@ -34,6 +34,7 @@ const VALID_LANGS = new Set([
   'so', 'ha', 'yo', 'ig', 'ti', 'wo', 'mg', 'xh', 'sn', 'ny',
   'fj', 'sm', 'to', 'mi', 'haw', 'jv', 'su',
   'gd', 'br', 'kw', 'gv', 'fo', 'oc', 'co', 'sc', 'fy',
+  'yi', 'lad', 'qu', 'gn', 'ay', 'dz', 'dv', 'tet', 'be',
 ]);
 const VALID_LEVELS = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 const LANG_NAMES: Record<string, string> = {
@@ -52,6 +53,7 @@ const LANG_NAMES: Record<string, string> = {
   so: 'Somali', ha: 'Hausa', yo: 'Yoruba', ig: 'Igbo', ti: 'Tigrinya', wo: 'Wolof', mg: 'Malagasy', xh: 'Xhosa', sn: 'Shona', ny: 'Chewa',
   fj: 'Fijian', sm: 'Samoan', to: 'Tongan', mi: 'Maori', haw: 'Hawaiian', jv: 'Javanese', su: 'Sundanese',
   gd: 'Scottish Gaelic', br: 'Breton', kw: 'Cornish', gv: 'Manx', fo: 'Faroese', oc: 'Occitan', co: 'Corsican', sc: 'Sardinian', fy: 'Frisian',
+  yi: 'Yiddish', lad: 'Ladino', qu: 'Quechua', gn: 'Guarani', ay: 'Aymara', dz: 'Dzongkha', dv: 'Maldivian', tet: 'Tetum', be: 'Belarusian',
 };
 
 const ROLEPLAY_SCENARIOS: Record<string, string> = {
