@@ -488,6 +488,16 @@ function AppRoot(): ReactElement {
         }
       />
       <LazyMode
+        btnId="btn-compare"
+        mountId="cmp-page-mount"
+        loader={() =>
+          import('../js/modes/compare.tsx').then((m) => ({
+            Page: m.ComparePage,
+            open: m.openCompare,
+          }))
+        }
+      />
+      <LazyMode
         btnId="btn-scramble"
         mountId="scr-page-mount"
         loader={() =>

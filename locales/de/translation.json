@@ -566,6 +566,8 @@
   "idq.noWords": "Noch nicht genug Redewendungen für diese Sprache.",
   "modesPg.grqName": "Grammatik-Quiz",
   "modesPg.grqDesc": "Errate die Regel",
+  "modesPg.compareName": "Vergleichen",
+  "modesPg.compareDesc": "Wort in mehreren Sprachen",
   "grq.title": "📐 Grammatik-Quiz",
   "grq.question": "Welche Regel zeigt dieser Satz?",
   "grq.noWords": "Noch nicht genug Grammatikbeispiele für diese Sprache.",
@@ -2063,5 +2065,11 @@
   "sw.updateTitle": "Neue Version verfügbar",
   "sw.updateDesc": "Lade neu, um die neuesten Verbesserungen zu erhalten",
   "sw.reloadBtn": "Neu laden",
-  "duel.lang": "Ich möchte antreten:"
+  "duel.lang": "Ich möchte antreten:",
+  "compare.title": "🌍 Wörter vergleichen",
+  "compare.placeholder": "Gib ein Wort in einer beliebigen Sprache ein…",
+  "compare.hint": "Beginne, ein Wort einzugeben, um Übersetzungen zu vergleichen",
+  "compare.addLanguage": "+ Sprache hinzufügen",
+  "compare.pickerPlaceholder": "Sprache suchen…",
+  "compare.removeLang": "Entfernen"
 }

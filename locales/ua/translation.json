@@ -742,6 +742,8 @@
   "idq.noWords": "Поки що недостатньо ідіом для цієї мови.",
   "modesPg.grqName": "Граматична вікторина",
   "modesPg.grqDesc": "Вгадай правило",
+  "modesPg.compareName": "Порівняння",
+  "modesPg.compareDesc": "Слово різними мовами",
   "grq.title": "📐 Граматична вікторина",
   "grq.question": "Яке правило демонструє це речення?",
   "grq.noWords": "Поки що недостатньо прикладів граматики для цієї мови.",
@@ -2258,5 +2260,11 @@
   "sw.updateTitle": "Доступна нова версія",
   "sw.updateDesc": "Онови сторінку, щоб отримати останні покращення",
   "sw.reloadBtn": "Оновити",
-  "duel.lang": "Хочу змагатись:"
+  "duel.lang": "Хочу змагатись:",
+  "compare.title": "🌍 Порівняння слів",
+  "compare.placeholder": "Введіть слово будь-якою мовою…",
+  "compare.hint": "Почніть вводити слово, щоб порівняти переклади",
+  "compare.addLanguage": "+ Додати мову",
+  "compare.pickerPlaceholder": "Пошук мови…",
+  "compare.removeLang": "Прибрати"
 }

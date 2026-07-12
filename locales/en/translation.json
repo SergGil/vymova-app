@@ -578,6 +578,8 @@
   "idq.noWords": "Not enough idioms for this language yet.",
   "modesPg.grqName": "Grammar Quiz",
   "modesPg.grqDesc": "Guess the rule",
+  "modesPg.compareName": "Compare",
+  "modesPg.compareDesc": "Word across languages",
   "grq.title": "📐 Grammar Quiz",
   "grq.question": "Which rule does this sentence demonstrate?",
   "grq.noWords": "Not enough grammar examples for this language yet.",
@@ -2078,5 +2080,11 @@
   "sw.updateTitle": "New version available",
   "sw.updateDesc": "Reload to get the latest improvements",
   "sw.reloadBtn": "Reload",
-  "duel.lang": "Want to compete:"
+  "duel.lang": "Want to compete:",
+  "compare.title": "🌍 Compare Words",
+  "compare.placeholder": "Type a word in any language…",
+  "compare.hint": "Start typing a word to compare its translations",
+  "compare.addLanguage": "+ Add language",
+  "compare.pickerPlaceholder": "Search language…",
+  "compare.removeLang": "Remove"
 }

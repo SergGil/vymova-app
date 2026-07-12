@@ -566,6 +566,8 @@
   "idq.noWords": "Ainda não há expressões suficientes para este idioma.",
   "modesPg.grqName": "Quiz de gramática",
   "modesPg.grqDesc": "Adivinha a regra",
+  "modesPg.compareName": "Comparar",
+  "modesPg.compareDesc": "Palavra em vários idiomas",
   "grq.title": "📐 Quiz de gramática",
   "grq.question": "Que regra esta frase demonstra?",
   "grq.noWords": "Ainda não há exemplos de gramática suficientes para este idioma.",
@@ -2063,5 +2065,11 @@
   "sw.updateTitle": "Nova versão disponível",
   "sw.updateDesc": "Recarregue para obter as últimas melhorias",
   "sw.reloadBtn": "Recarregar",
-  "duel.lang": "Quero competir:"
+  "duel.lang": "Quero competir:",
+  "compare.title": "🌍 Comparar palavras",
+  "compare.placeholder": "Digite uma palavra em qualquer idioma…",
+  "compare.hint": "Comece a digitar uma palavra para comparar as traduções",
+  "compare.addLanguage": "+ Adicionar idioma",
+  "compare.pickerPlaceholder": "Pesquisar idioma…",
+  "compare.removeLang": "Remover"
 }

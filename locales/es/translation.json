@@ -566,6 +566,8 @@
   "idq.noWords": "Aún no hay suficientes modismos para este idioma.",
   "modesPg.grqName": "Quiz de gramática",
   "modesPg.grqDesc": "Adivina la regla",
+  "modesPg.compareName": "Comparar",
+  "modesPg.compareDesc": "Palabra en varios idiomas",
   "grq.title": "📐 Quiz de gramática",
   "grq.question": "¿Qué regla demuestra esta frase?",
   "grq.noWords": "Aún no hay suficientes ejemplos de gramática para este idioma.",
@@ -2063,5 +2065,11 @@
   "sw.updateTitle": "Nueva versión disponible",
   "sw.updateDesc": "Recarga para obtener las últimas mejoras",
   "sw.reloadBtn": "Recargar",
-  "duel.lang": "Quiero competir:"
+  "duel.lang": "Quiero competir:",
+  "compare.title": "🌍 Comparar palabras",
+  "compare.placeholder": "Escribe una palabra en cualquier idioma…",
+  "compare.hint": "Empieza a escribir una palabra para comparar sus traducciones",
+  "compare.addLanguage": "+ Añadir idioma",
+  "compare.pickerPlaceholder": "Buscar idioma…",
+  "compare.removeLang": "Quitar"
 }
