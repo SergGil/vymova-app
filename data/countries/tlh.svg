@@ -1,0 +1,10 @@
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_tlh)">
+<circle cx="12" cy="12" r="12" fill="#5C0A0A"/>
+<polygon points="12,2 9,13 14,11" fill="#C0C0C8"/>
+<polygon points="12,2 9,13 14,11" fill="#C0C0C8" transform="rotate(120 12 12)"/>
+<polygon points="12,2 9,13 14,11" fill="#C0C0C8" transform="rotate(240 12 12)"/>
+<circle cx="12" cy="12" r="2" fill="#8A8A92"/>
+</g>
+<defs><clipPath id="clip0_tlh"><circle cx="12" cy="12" r="12"/></clipPath></defs>
+</svg>

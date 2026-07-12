@@ -40,6 +40,7 @@ import {
   thEntry,
   qyaEntry,
   sjnEntry,
+  tlhEntry,
 } from './mode-utils.ts';
 import { speakEnAccent, speakEsAccent, speakPtAccent, hasEsAccent, hasPtAccent } from './voice/voice.tsx';
 import { flagUrl } from '../core/flags.ts';
@@ -100,6 +101,7 @@ const LOCAL_ENTRY_LOOKUP: Partial<
   TH: thEntry,
   QYA: qyaEntry,
   SJN: sjnEntry,
+  TLH: tlhEntry,
 };
 
 export function Transcription() {
@@ -130,7 +132,9 @@ export function Transcription() {
         style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
       >
         {trans && <span>{trans}</span>}
-        {((FRONT_LANG as string) === 'QYA' || (FRONT_LANG as string) === 'SJN') &&
+        {((FRONT_LANG as string) === 'QYA' ||
+          (FRONT_LANG as string) === 'SJN' ||
+          (FRONT_LANG as string) === 'TLH') &&
           (() => {
             const isCanon = lookup ? lookup(cw[0])?.[3] : undefined;
             if (isCanon === undefined) return null;

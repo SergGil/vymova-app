@@ -37,6 +37,7 @@ const VALID_LANGS = new Set([
   'gd', 'br', 'kw', 'gv', 'fo', 'oc', 'co', 'sc', 'fy',
   'yi', 'lad', 'qu', 'gn', 'ay', 'dz', 'dv', 'tet', 'be',
   'qya', 'sjn',
+  'ku', 'om', 'ln', 'bho', 'ceb', 'rm', 'ty', 'ch', 'mh', 'pau', 'nah', 'nv', 'tlh',
 ]);
 const VALID_LEVELS = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 const LANG_NAMES: Record<string, string> = {
@@ -57,6 +58,9 @@ const LANG_NAMES: Record<string, string> = {
   gd: 'Scottish Gaelic', br: 'Breton', kw: 'Cornish', gv: 'Manx', fo: 'Faroese', oc: 'Occitan', co: 'Corsican', sc: 'Sardinian', fy: 'Frisian',
   yi: 'Yiddish', lad: 'Ladino', qu: 'Quechua', gn: 'Guarani', ay: 'Aymara', dz: 'Dzongkha', dv: 'Maldivian', tet: 'Tetum', be: 'Belarusian',
   qya: 'Quenya (Tolkien\'s constructed Elvish language)', sjn: 'Sindarin (Tolkien\'s constructed Elvish language)',
+  ku: 'Kurdish (Kurmanji)', om: 'Oromo', ln: 'Lingala', bho: 'Bhojpuri', ceb: 'Cebuano', rm: 'Romansh',
+  ty: 'Tahitian', ch: 'Chamorro', mh: 'Marshallese', pau: 'Palauan', nah: 'Nahuatl', nv: 'Navajo',
+  tlh: 'Klingon (constructed language from Star Trek)',
 };
 
 const ROLEPLAY_SCENARIOS: Record<string, string> = {

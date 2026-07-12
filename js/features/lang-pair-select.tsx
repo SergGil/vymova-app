@@ -134,7 +134,20 @@ export type LangCode =
   | 'tet'
   | 'be'
   | 'qya'
-  | 'sjn';
+  | 'sjn'
+  | 'ku'
+  | 'om'
+  | 'ln'
+  | 'bho'
+  | 'ceb'
+  | 'rm'
+  | 'ty'
+  | 'ch'
+  | 'mh'
+  | 'pau'
+  | 'nah'
+  | 'nv'
+  | 'tlh';
 type Direction = 'fwd' | 'rev' | 'mix';
 
 const ALL_LANGS: LangCode[] = [
@@ -261,6 +274,19 @@ const ALL_LANGS: LangCode[] = [
   'be',
   'qya',
   'sjn',
+  'ku',
+  'om',
+  'ln',
+  'bho',
+  'ceb',
+  'rm',
+  'ty',
+  'ch',
+  'mh',
+  'pau',
+  'nah',
+  'nv',
+  'tlh',
 ];
 
 function LangFlag({ lang }: { lang: LangCode }): ReactElement {
@@ -436,7 +462,20 @@ function isLangCode(v: string | null): v is LangCode {
     v === 'tet' ||
     v === 'be' ||
     v === 'qya' ||
-    v === 'sjn'
+    v === 'sjn' ||
+    v === 'ku' ||
+    v === 'om' ||
+    v === 'ln' ||
+    v === 'bho' ||
+    v === 'ceb' ||
+    v === 'rm' ||
+    v === 'ty' ||
+    v === 'ch' ||
+    v === 'mh' ||
+    v === 'pau' ||
+    v === 'nah' ||
+    v === 'nv' ||
+    v === 'tlh'
   );
 }
 

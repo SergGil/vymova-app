@@ -128,7 +128,20 @@ export type TargetLang =
   | 'tet'
   | 'be'
   | 'qya'
-  | 'sjn';
+  | 'sjn'
+  | 'ku'
+  | 'om'
+  | 'ln'
+  | 'bho'
+  | 'ceb'
+  | 'rm'
+  | 'ty'
+  | 'ch'
+  | 'mh'
+  | 'pau'
+  | 'nah'
+  | 'nv'
+  | 'tlh';
 export type Code = TargetLang | 'en' | 'ua';
 export const ALL_TARGET_LANGS: TargetLang[] = [
   'es',
@@ -252,6 +265,19 @@ export const ALL_TARGET_LANGS: TargetLang[] = [
   'be',
   'qya',
   'sjn',
+  'ku',
+  'om',
+  'ln',
+  'bho',
+  'ceb',
+  'rm',
+  'ty',
+  'ch',
+  'mh',
+  'pau',
+  'nah',
+  'nv',
+  'tlh',
 ];
 
 // ── Word data ─────────────────────────────────────────────────

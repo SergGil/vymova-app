@@ -152,6 +152,19 @@ const LANG_LOADERS: Record<TargetLang, () => Promise<Table>> = {
   be: () => import('../../data/words_be.js').then((m) => m.W_BE as Table),
   qya: () => import('../../data/words_qya.js').then((m) => m.W_QYA as Table),
   sjn: () => import('../../data/words_sjn.js').then((m) => m.W_SJN as Table),
+  ku: () => import('../../data/words_ku.js').then((m) => m.W_KU as Table),
+  om: () => import('../../data/words_om.js').then((m) => m.W_OM as Table),
+  ln: () => import('../../data/words_ln.js').then((m) => m.W_LN as Table),
+  bho: () => import('../../data/words_bho.js').then((m) => m.W_BHO as Table),
+  ceb: () => import('../../data/words_ceb.js').then((m) => m.W_CEB as Table),
+  rm: () => import('../../data/words_rm.js').then((m) => m.W_RM as Table),
+  ty: () => import('../../data/words_ty.js').then((m) => m.W_TY as Table),
+  ch: () => import('../../data/words_ch.js').then((m) => m.W_CH as Table),
+  mh: () => import('../../data/words_mh.js').then((m) => m.W_MH as Table),
+  pau: () => import('../../data/words_pau.js').then((m) => m.W_PAU as Table),
+  nah: () => import('../../data/words_nah.js').then((m) => m.W_NAH as Table),
+  nv: () => import('../../data/words_nv.js').then((m) => m.W_NV as Table),
+  tlh: () => import('../../data/words_tlh.js').then((m) => m.W_TLH as Table),
 };
 
 // In-flight promises to avoid duplicate fetches for the same language.
@@ -1039,6 +1052,97 @@ const LANG_REGISTRY: Record<TargetLang, LangConfig> = {
     voiceLocale: 'cy-GB',
     rtl: false,
   },
+  ku: {
+    entry: (w) => lookup(getTable('ku'), w),
+    known: () => getKnownSnapshot('ku'),
+    saveKnown: (known) => saveKnownLang('ku', known),
+    voiceLocale: 'ku',
+    rtl: false,
+  },
+  om: {
+    entry: (w) => lookup(getTable('om'), w),
+    known: () => getKnownSnapshot('om'),
+    saveKnown: (known) => saveKnownLang('om', known),
+    voiceLocale: 'om-ET',
+    rtl: false,
+  },
+  ln: {
+    entry: (w) => lookup(getTable('ln'), w),
+    known: () => getKnownSnapshot('ln'),
+    saveKnown: (known) => saveKnownLang('ln', known),
+    voiceLocale: 'ln-CD',
+    rtl: false,
+  },
+  bho: {
+    entry: (w) => lookup(getTable('bho'), w),
+    known: () => getKnownSnapshot('bho'),
+    saveKnown: (known) => saveKnownLang('bho', known),
+    voiceLocale: 'bho-IN',
+    rtl: false,
+  },
+  ceb: {
+    entry: (w) => lookup(getTable('ceb'), w),
+    known: () => getKnownSnapshot('ceb'),
+    saveKnown: (known) => saveKnownLang('ceb', known),
+    voiceLocale: 'ceb-PH',
+    rtl: false,
+  },
+  rm: {
+    entry: (w) => lookup(getTable('rm'), w),
+    known: () => getKnownSnapshot('rm'),
+    saveKnown: (known) => saveKnownLang('rm', known),
+    voiceLocale: 'rm-CH',
+    rtl: false,
+  },
+  ty: {
+    entry: (w) => lookup(getTable('ty'), w),
+    known: () => getKnownSnapshot('ty'),
+    saveKnown: (known) => saveKnownLang('ty', known),
+    voiceLocale: 'ty-PF',
+    rtl: false,
+  },
+  ch: {
+    entry: (w) => lookup(getTable('ch'), w),
+    known: () => getKnownSnapshot('ch'),
+    saveKnown: (known) => saveKnownLang('ch', known),
+    voiceLocale: 'ch-GU',
+    rtl: false,
+  },
+  mh: {
+    entry: (w) => lookup(getTable('mh'), w),
+    known: () => getKnownSnapshot('mh'),
+    saveKnown: (known) => saveKnownLang('mh', known),
+    voiceLocale: 'mh-MH',
+    rtl: false,
+  },
+  pau: {
+    entry: (w) => lookup(getTable('pau'), w),
+    known: () => getKnownSnapshot('pau'),
+    saveKnown: (known) => saveKnownLang('pau', known),
+    voiceLocale: 'pau-PW',
+    rtl: false,
+  },
+  nah: {
+    entry: (w) => lookup(getTable('nah'), w),
+    known: () => getKnownSnapshot('nah'),
+    saveKnown: (known) => saveKnownLang('nah', known),
+    voiceLocale: 'nah-MX',
+    rtl: false,
+  },
+  nv: {
+    entry: (w) => lookup(getTable('nv'), w),
+    known: () => getKnownSnapshot('nv'),
+    saveKnown: (known) => saveKnownLang('nv', known),
+    voiceLocale: 'nv-US',
+    rtl: false,
+  },
+  tlh: {
+    entry: (w) => lookup(getTable('tlh'), w),
+    known: () => getKnownSnapshot('tlh'),
+    saveKnown: (known) => saveKnownLang('tlh', known),
+    voiceLocale: 'tlh',
+    rtl: false,
+  },
 };
 
 export function langConfig(code: TargetLang): LangConfig {
@@ -1671,6 +1775,45 @@ export function qyaEntry(word: string): Entry {
 export function sjnEntry(word: string): Entry {
   return LANG_REGISTRY.sjn.entry(word);
 }
+export function kuEntry(word: string): Entry {
+  return LANG_REGISTRY.ku.entry(word);
+}
+export function omEntry(word: string): Entry {
+  return LANG_REGISTRY.om.entry(word);
+}
+export function lnEntry(word: string): Entry {
+  return LANG_REGISTRY.ln.entry(word);
+}
+export function bhoEntry(word: string): Entry {
+  return LANG_REGISTRY.bho.entry(word);
+}
+export function cebEntry(word: string): Entry {
+  return LANG_REGISTRY.ceb.entry(word);
+}
+export function rmEntry(word: string): Entry {
+  return LANG_REGISTRY.rm.entry(word);
+}
+export function tyEntry(word: string): Entry {
+  return LANG_REGISTRY.ty.entry(word);
+}
+export function chEntry(word: string): Entry {
+  return LANG_REGISTRY.ch.entry(word);
+}
+export function mhEntry(word: string): Entry {
+  return LANG_REGISTRY.mh.entry(word);
+}
+export function pauEntry(word: string): Entry {
+  return LANG_REGISTRY.pau.entry(word);
+}
+export function nahEntry(word: string): Entry {
+  return LANG_REGISTRY.nah.entry(word);
+}
+export function nvEntry(word: string): Entry {
+  return LANG_REGISTRY.nv.entry(word);
+}
+export function tlhEntry(word: string): Entry {
+  return LANG_REGISTRY.tlh.entry(word);
+}
 
 function targetLangFromStorageKey(key: string): TargetLang | null {
   return isTargetLang(key) ? key : null;
@@ -1903,6 +2046,19 @@ const NO_TRANSLATIONS_KEY: Record<TargetLang, string> = {
   be: 'deck.noBeTranslations',
   qya: 'deck.noQyaTranslations',
   sjn: 'deck.noSjnTranslations',
+  ku: 'deck.noKuTranslations',
+  om: 'deck.noOmTranslations',
+  ln: 'deck.noLnTranslations',
+  bho: 'deck.noBhoTranslations',
+  ceb: 'deck.noCebTranslations',
+  rm: 'deck.noRmTranslations',
+  ty: 'deck.noTyTranslations',
+  ch: 'deck.noChTranslations',
+  mh: 'deck.noMhTranslations',
+  pau: 'deck.noPauTranslations',
+  nah: 'deck.noNahTranslations',
+  nv: 'deck.noNvTranslations',
+  tlh: 'deck.noTlhTranslations',
 };
 
 function hasAnyEntries(lang: TargetLang, words: WordEntry[]): boolean {

@@ -131,6 +131,19 @@ import {
   beEntry,
   qyaEntry,
   sjnEntry,
+  kuEntry,
+  omEntry,
+  lnEntry,
+  bhoEntry,
+  cebEntry,
+  rmEntry,
+  tyEntry,
+  chEntry,
+  mhEntry,
+  pauEntry,
+  nahEntry,
+  nvEntry,
+  tlhEntry,
 } from '../mode-utils.ts';
 import type { DuelMode, Difficulty } from './duel.ts';
 import { CHARS, ROOM_SIZE } from './duel-types.ts';
@@ -400,6 +413,32 @@ export function _wordInLang(w: WordEntry, lang: string): string {
       return qyaEntry(w[0])?.[0] ?? w[1];
     case 'sjn':
       return sjnEntry(w[0])?.[0] ?? w[1];
+    case 'ku':
+      return kuEntry(w[0])?.[0] ?? w[1];
+    case 'om':
+      return omEntry(w[0])?.[0] ?? w[1];
+    case 'ln':
+      return lnEntry(w[0])?.[0] ?? w[1];
+    case 'bho':
+      return bhoEntry(w[0])?.[0] ?? w[1];
+    case 'ceb':
+      return cebEntry(w[0])?.[0] ?? w[1];
+    case 'rm':
+      return rmEntry(w[0])?.[0] ?? w[1];
+    case 'ty':
+      return tyEntry(w[0])?.[0] ?? w[1];
+    case 'ch':
+      return chEntry(w[0])?.[0] ?? w[1];
+    case 'mh':
+      return mhEntry(w[0])?.[0] ?? w[1];
+    case 'pau':
+      return pauEntry(w[0])?.[0] ?? w[1];
+    case 'nah':
+      return nahEntry(w[0])?.[0] ?? w[1];
+    case 'nv':
+      return nvEntry(w[0])?.[0] ?? w[1];
+    case 'tlh':
+      return tlhEntry(w[0])?.[0] ?? w[1];
     default:
       return w[1]; // 'ua'
   }
@@ -653,6 +692,32 @@ export function _hasLangWord(w: WordEntry, lang: string): boolean {
       return qyaEntry(w[0]) !== null;
     case 'sjn':
       return sjnEntry(w[0]) !== null;
+    case 'ku':
+      return kuEntry(w[0]) !== null;
+    case 'om':
+      return omEntry(w[0]) !== null;
+    case 'ln':
+      return lnEntry(w[0]) !== null;
+    case 'bho':
+      return bhoEntry(w[0]) !== null;
+    case 'ceb':
+      return cebEntry(w[0]) !== null;
+    case 'rm':
+      return rmEntry(w[0]) !== null;
+    case 'ty':
+      return tyEntry(w[0]) !== null;
+    case 'ch':
+      return chEntry(w[0]) !== null;
+    case 'mh':
+      return mhEntry(w[0]) !== null;
+    case 'pau':
+      return pauEntry(w[0]) !== null;
+    case 'nah':
+      return nahEntry(w[0]) !== null;
+    case 'nv':
+      return nvEntry(w[0]) !== null;
+    case 'tlh':
+      return tlhEntry(w[0]) !== null;
     default:
       return true;
   }

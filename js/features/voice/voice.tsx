@@ -128,6 +128,19 @@ let _tetURI = localStorage.getItem('ew_ws_tet_voice') ?? '';
 let _beURI = localStorage.getItem('ew_ws_be_voice') ?? '';
 let _qyaURI = localStorage.getItem('ew_ws_qya_voice') ?? '';
 let _sjnURI = localStorage.getItem('ew_ws_sjn_voice') ?? '';
+let _kuURI = localStorage.getItem('ew_ws_ku_voice') ?? '';
+let _omURI = localStorage.getItem('ew_ws_om_voice') ?? '';
+let _lnURI = localStorage.getItem('ew_ws_ln_voice') ?? '';
+let _bhoURI = localStorage.getItem('ew_ws_bho_voice') ?? '';
+let _cebURI = localStorage.getItem('ew_ws_ceb_voice') ?? '';
+let _rmURI = localStorage.getItem('ew_ws_rm_voice') ?? '';
+let _tyURI = localStorage.getItem('ew_ws_ty_voice') ?? '';
+let _chURI = localStorage.getItem('ew_ws_ch_voice') ?? '';
+let _mhURI = localStorage.getItem('ew_ws_mh_voice') ?? '';
+let _pauURI = localStorage.getItem('ew_ws_pau_voice') ?? '';
+let _nahURI = localStorage.getItem('ew_ws_nah_voice') ?? '';
+let _nvURI = localStorage.getItem('ew_ws_nv_voice') ?? '';
+let _tlhURI = localStorage.getItem('ew_ws_tlh_voice') ?? '';
 
 type VoiceMapEntry = { match: string; label: string; gender: string; accent: string };
 
@@ -1246,6 +1259,97 @@ function _qyaVoices(): SpeechSynthesisVoice[] {
 function _sjnVoices(): SpeechSynthesisVoice[] {
   return _cyVoices();
 }
+function _kuVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('ku') || n.includes('kurdish');
+  });
+}
+function _omVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('om') || n.includes('oromo');
+  });
+}
+function _lnVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('ln') || n.includes('lingala');
+  });
+}
+function _bhoVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('bho') || n.includes('bhojpuri');
+  });
+}
+function _cebVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('ceb') || n.includes('cebuano');
+  });
+}
+function _rmVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('rm') || n.includes('romansh');
+  });
+}
+function _tyVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('ty') || n.includes('tahitian');
+  });
+}
+function _chVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('ch') || n.includes('chamorro');
+  });
+}
+function _mhVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('mh') || n.includes('marshallese');
+  });
+}
+function _pauVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('pau') || n.includes('palauan');
+  });
+}
+function _nahVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('nah') || n.includes('nahuatl');
+  });
+}
+function _nvVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('nv') || n.includes('navajo');
+  });
+}
+function _tlhVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('tlh') || n.includes('klingon');
+  });
+}
 function _findByURI(uri: string, voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
   return voices.find((v) => v.voiceURI === uri) ?? null;
 }
@@ -1616,6 +1720,45 @@ export function getSelectedQyaVoice(): SpeechSynthesisVoice | null {
 export function getSelectedSjnVoice(): SpeechSynthesisVoice | null {
   return _findByURI(_sjnURI, _sjnVoices()) ?? _sjnVoices()[0] ?? null;
 }
+export function getSelectedKuVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_kuURI, _kuVoices()) ?? _kuVoices()[0] ?? null;
+}
+export function getSelectedOmVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_omURI, _omVoices()) ?? _omVoices()[0] ?? null;
+}
+export function getSelectedLnVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_lnURI, _lnVoices()) ?? _lnVoices()[0] ?? null;
+}
+export function getSelectedBhoVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_bhoURI, _bhoVoices()) ?? _bhoVoices()[0] ?? null;
+}
+export function getSelectedCebVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_cebURI, _cebVoices()) ?? _cebVoices()[0] ?? null;
+}
+export function getSelectedRmVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_rmURI, _rmVoices()) ?? _rmVoices()[0] ?? null;
+}
+export function getSelectedTyVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_tyURI, _tyVoices()) ?? _tyVoices()[0] ?? null;
+}
+export function getSelectedChVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_chURI, _chVoices()) ?? _chVoices()[0] ?? null;
+}
+export function getSelectedMhVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_mhURI, _mhVoices()) ?? _mhVoices()[0] ?? null;
+}
+export function getSelectedPauVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_pauURI, _pauVoices()) ?? _pauVoices()[0] ?? null;
+}
+export function getSelectedNahVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_nahURI, _nahVoices()) ?? _nahVoices()[0] ?? null;
+}
+export function getSelectedNvVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_nvURI, _nvVoices()) ?? _nvVoices()[0] ?? null;
+}
+export function getSelectedTlhVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_tlhURI, _tlhVoices()) ?? _tlhVoices()[0] ?? null;
+}
 
 // Speaks `text` with a voice tagged for `accent` (matched via VOICE_MAP first,
 // falling back to a lang-prefix match, then any voice for the language),
@@ -1911,7 +2054,20 @@ export function _renderVoices(): void {
     tetVoices = _sortVoices(_tetVoices()),
     beVoices = _sortVoices(_beVoices()),
     qyaVoices = _sortVoices(_qyaVoices()),
-    sjnVoices = _sortVoices(_sjnVoices());
+    sjnVoices = _sortVoices(_sjnVoices()),
+    kuVoices = _sortVoices(_kuVoices()),
+    omVoices = _sortVoices(_omVoices()),
+    lnVoices = _sortVoices(_lnVoices()),
+    bhoVoices = _sortVoices(_bhoVoices()),
+    cebVoices = _sortVoices(_cebVoices()),
+    rmVoices = _sortVoices(_rmVoices()),
+    tyVoices = _sortVoices(_tyVoices()),
+    chVoices = _sortVoices(_chVoices()),
+    mhVoices = _sortVoices(_mhVoices()),
+    pauVoices = _sortVoices(_pauVoices()),
+    nahVoices = _sortVoices(_nahVoices()),
+    nvVoices = _sortVoices(_nvVoices()),
+    tlhVoices = _sortVoices(_tlhVoices());
   if (
     !enVoices.length &&
     !ukVoices.length &&
@@ -2035,7 +2191,20 @@ export function _renderVoices(): void {
     !tetVoices.length &&
     !beVoices.length &&
     !qyaVoices.length &&
-    !sjnVoices.length
+    !sjnVoices.length &&
+    !kuVoices.length &&
+    !omVoices.length &&
+    !lnVoices.length &&
+    !bhoVoices.length &&
+    !cebVoices.length &&
+    !rmVoices.length &&
+    !tyVoices.length &&
+    !chVoices.length &&
+    !mhVoices.length &&
+    !pauVoices.length &&
+    !nahVoices.length &&
+    !nvVoices.length &&
+    !tlhVoices.length
   ) {
     container.innerHTML =
       '<span style="font-size:.78rem;color:var(--text3);">' +
@@ -2207,6 +2376,19 @@ export function _renderVoices(): void {
           else if (storageKey === 'ew_ws_be_voice') _beURI = uri;
           else if (storageKey === 'ew_ws_qya_voice') _qyaURI = uri;
           else if (storageKey === 'ew_ws_sjn_voice') _sjnURI = uri;
+          else if (storageKey === 'ew_ws_ku_voice') _kuURI = uri;
+          else if (storageKey === 'ew_ws_om_voice') _omURI = uri;
+          else if (storageKey === 'ew_ws_ln_voice') _lnURI = uri;
+          else if (storageKey === 'ew_ws_bho_voice') _bhoURI = uri;
+          else if (storageKey === 'ew_ws_ceb_voice') _cebURI = uri;
+          else if (storageKey === 'ew_ws_rm_voice') _rmURI = uri;
+          else if (storageKey === 'ew_ws_ty_voice') _tyURI = uri;
+          else if (storageKey === 'ew_ws_ch_voice') _chURI = uri;
+          else if (storageKey === 'ew_ws_mh_voice') _mhURI = uri;
+          else if (storageKey === 'ew_ws_pau_voice') _pauURI = uri;
+          else if (storageKey === 'ew_ws_nah_voice') _nahURI = uri;
+          else if (storageKey === 'ew_ws_nv_voice') _nvURI = uri;
+          else if (storageKey === 'ew_ws_tlh_voice') _tlhURI = uri;
           else _ukURI = uri;
           localStorage.setItem(storageKey, uri);
           _renderVoices();
@@ -3594,6 +3776,45 @@ export function _renderVoices(): void {
       'Mae govannen.',
     );
   else addMissing('sjn', 'sjn', 'settings.noSjnVoicesTitle', 'settings.noSjnVoicesDesc');
+  if (kuVoices.length)
+    addSection('ku', 'ku', t('settings.kuVoicesTitle'), kuVoices, _kuURI, 'ew_ws_ku_voice', 'Silav!');
+  else addMissing('ku', 'ku', 'settings.noKuVoicesTitle', 'settings.noKuVoicesDesc');
+  if (omVoices.length)
+    addSection('om', 'et', t('settings.omVoicesTitle'), omVoices, _omURI, 'ew_ws_om_voice', 'Akkam?');
+  else addMissing('om', 'et', 'settings.noOmVoicesTitle', 'settings.noOmVoicesDesc');
+  if (lnVoices.length)
+    addSection('ln', 'cd', t('settings.lnVoicesTitle'), lnVoices, _lnURI, 'ew_ws_ln_voice', 'Mbote!');
+  else addMissing('ln', 'cd', 'settings.noLnVoicesTitle', 'settings.noLnVoicesDesc');
+  if (bhoVoices.length)
+    addSection('bho', 'in', t('settings.bhoVoicesTitle'), bhoVoices, _bhoURI, 'ew_ws_bho_voice', 'प्रणाम!');
+  else addMissing('bho', 'in', 'settings.noBhoVoicesTitle', 'settings.noBhoVoicesDesc');
+  if (cebVoices.length)
+    addSection('ceb', 'ph', t('settings.cebVoicesTitle'), cebVoices, _cebURI, 'ew_ws_ceb_voice', 'Kumusta!');
+  else addMissing('ceb', 'ph', 'settings.noCebVoicesTitle', 'settings.noCebVoicesDesc');
+  if (rmVoices.length)
+    addSection('rm', 'ch', t('settings.rmVoicesTitle'), rmVoices, _rmURI, 'ew_ws_rm_voice', 'Allegra!');
+  else addMissing('rm', 'ch', 'settings.noRmVoicesTitle', 'settings.noRmVoicesDesc');
+  if (tyVoices.length)
+    addSection('ty', 'pf', t('settings.tyVoicesTitle'), tyVoices, _tyURI, 'ew_ws_ty_voice', 'Ia ora na!');
+  else addMissing('ty', 'pf', 'settings.noTyVoicesTitle', 'settings.noTyVoicesDesc');
+  if (chVoices.length)
+    addSection('ch', 'gu', t('settings.chVoicesTitle'), chVoices, _chURI, 'ew_ws_ch_voice', 'Håfa adai!');
+  else addMissing('ch', 'gu', 'settings.noChVoicesTitle', 'settings.noChVoicesDesc');
+  if (mhVoices.length)
+    addSection('mh', 'mh', t('settings.mhVoicesTitle'), mhVoices, _mhURI, 'ew_ws_mh_voice', 'Yokwe!');
+  else addMissing('mh', 'mh', 'settings.noMhVoicesTitle', 'settings.noMhVoicesDesc');
+  if (pauVoices.length)
+    addSection('pau', 'pw', t('settings.pauVoicesTitle'), pauVoices, _pauURI, 'ew_ws_pau_voice', 'Alii!');
+  else addMissing('pau', 'pw', 'settings.noPauVoicesTitle', 'settings.noPauVoicesDesc');
+  if (nahVoices.length)
+    addSection('nah', 'mx', t('settings.nahVoicesTitle'), nahVoices, _nahURI, 'ew_ws_nah_voice', 'Niltze!');
+  else addMissing('nah', 'mx', 'settings.noNahVoicesTitle', 'settings.noNahVoicesDesc');
+  if (nvVoices.length)
+    addSection('nv', 'us', t('settings.nvVoicesTitle'), nvVoices, _nvURI, 'ew_ws_nv_voice', "Yá'át'ééh!");
+  else addMissing('nv', 'us', 'settings.noNvVoicesTitle', 'settings.noNvVoicesDesc');
+  if (tlhVoices.length)
+    addSection('tlh', 'tlh', t('settings.tlhVoicesTitle'), tlhVoices, _tlhURI, 'ew_ws_tlh_voice', 'nuqneH!');
+  else addMissing('tlh', 'tlh', 'settings.noTlhVoicesTitle', 'settings.noTlhVoicesDesc');
   sections.sort((a, b) => a.key.localeCompare(b.key, getLang()));
   for (const s of sections) container.appendChild(s.el);
   if (!_enURI && enVoices.length) {

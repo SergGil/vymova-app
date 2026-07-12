@@ -134,6 +134,19 @@ import {
   beEntry,
   qyaEntry,
   sjnEntry,
+  kuEntry,
+  omEntry,
+  lnEntry,
+  bhoEntry,
+  cebEntry,
+  rmEntry,
+  tyEntry,
+  chEntry,
+  mhEntry,
+  pauEntry,
+  nahEntry,
+  nvEntry,
+  tlhEntry,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speakForCode } from '../features/voice/speak-lang.ts';
@@ -390,6 +403,32 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return qyaEntry(w[0])?.[1] ?? '';
     case 'sjn':
       return sjnEntry(w[0])?.[1] ?? '';
+    case 'ku':
+      return kuEntry(w[0])?.[1] ?? '';
+    case 'om':
+      return omEntry(w[0])?.[1] ?? '';
+    case 'ln':
+      return lnEntry(w[0])?.[1] ?? '';
+    case 'bho':
+      return bhoEntry(w[0])?.[1] ?? '';
+    case 'ceb':
+      return cebEntry(w[0])?.[1] ?? '';
+    case 'rm':
+      return rmEntry(w[0])?.[1] ?? '';
+    case 'ty':
+      return tyEntry(w[0])?.[1] ?? '';
+    case 'ch':
+      return chEntry(w[0])?.[1] ?? '';
+    case 'mh':
+      return mhEntry(w[0])?.[1] ?? '';
+    case 'pau':
+      return pauEntry(w[0])?.[1] ?? '';
+    case 'nah':
+      return nahEntry(w[0])?.[1] ?? '';
+    case 'nv':
+      return nvEntry(w[0])?.[1] ?? '';
+    case 'tlh':
+      return tlhEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }

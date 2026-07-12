@@ -166,6 +166,19 @@ export const LANG_META: Record<string, { name: string; country: string }> = {
   be: { name: "Беларуская", country: 'by' },
   qya: { name: "Quenya", country: 'qya' },
   sjn: { name: "Sindarin", country: 'sjn' },
+  ku: { name: "Kurdî", country: 'ku' },
+  om: { name: "Oromoo", country: 'et' },
+  ln: { name: "Lingála", country: 'cd' },
+  bho: { name: "भोजपुरी", country: 'in' },
+  ceb: { name: "Bisaya", country: 'ph' },
+  rm: { name: "Rumantsch", country: 'ch' },
+  ty: { name: "Reo Tahiti", country: 'pf' },
+  ch: { name: "Chamoru", country: 'gu' },
+  mh: { name: "Kajin M̧ajeļ", country: 'mh' },
+  pau: { name: "Tekoi er a Belau", country: 'pw' },
+  nah: { name: "Nāhuatl", country: 'mx' },
+  nv: { name: "Diné bizaad", country: 'us' },
+  tlh: { name: "tlhIngan Hol", country: 'tlh' },
 };
 
 function FlagCircle({ lang, size = 44 }: { lang: string; size?: number }): ReactElement {

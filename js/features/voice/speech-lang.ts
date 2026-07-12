@@ -129,6 +129,19 @@ export const SPEECH_LANG: Record<string, string> = {
   // closest-sounding approximation rather than staying silent.
   qya: 'fi-FI',
   sjn: 'cy-GB',
+  ku: 'ku-TR',
+  om: 'om-ET',
+  ln: 'ln-CD',
+  bho: 'bho-IN',
+  ceb: 'ceb-PH',
+  rm: 'rm-CH',
+  ty: 'ty-PF',
+  ch: 'ch-GU',
+  mh: 'mh-MH',
+  pau: 'pau-PW',
+  nah: 'nah-MX',
+  nv: 'nv-US',
+  tlh: 'tlh',
 };
 
 export function speechLangFor(code: string): string {

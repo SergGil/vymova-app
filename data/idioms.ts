@@ -9209,7 +9209,20 @@ export const IDIOMS_BY_LANG: Partial<
     | 'tet'
     | 'be'
     | 'qya'
-    | 'sjn',
+    | 'sjn'
+    | 'ku'
+    | 'om'
+    | 'ln'
+    | 'bho'
+    | 'ceb'
+    | 'rm'
+    | 'ty'
+    | 'ch'
+    | 'mh'
+    | 'pau'
+    | 'nah'
+    | 'nv'
+    | 'tlh',
     Idiom[]
   >
 > = {
@@ -9336,4 +9349,17 @@ export const IDIOMS_BY_LANG: Partial<
   be: [],
   qya: [],
   sjn: [],
+  ku: [],
+  om: [],
+  ln: [],
+  bho: [],
+  ceb: [],
+  rm: [],
+  ty: [],
+  ch: [],
+  mh: [],
+  pau: [],
+  nah: [],
+  nv: [],
+  tlh: [],
 };
