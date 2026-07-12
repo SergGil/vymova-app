@@ -543,6 +543,14 @@ function AppRoot(): ReactElement {
         }
       />
       <LazyPage
+        page="lang-history"
+        loader={() =>
+          import('../js/features/lang-history-page.tsx').then((m) => ({
+            Page: m.LangHistoryPage,
+          }))
+        }
+      />
+      <LazyPage
         page="ai-tutor"
         loader={() =>
           import('../js/features/voice/ai-tutor.tsx').then((m) => ({ Page: m.AiTutorPage }))

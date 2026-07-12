@@ -146,6 +146,10 @@
           ><span class="sb-icon">🌐</span
           ><span class="sb-label" data-i18n="nav.translate">Переклад</span></a
         >
+        <a class="sb-btn" id="sb-lang-history" href="#"
+          ><span class="sb-icon">📜</span
+          ><span class="sb-label" data-i18n="nav.langHistory">Історія мови</span></a
+        >
 
         <div class="sb-group" id="sb-group-ai" style="display: none">
           <button type="button" class="sb-btn sb-group-trigger" id="sb-group-ai-trigger">
@@ -1285,7 +1289,7 @@
           </div>
 
           <div class="settings-footer">
-            © 2026 Vymova · v1.315.0 ·
+            © 2026 Vymova · v1.316.0 ·
             <a
               href="./privacy.html"
               target="_blank"
@@ -1643,6 +1647,24 @@
             </button>
           </div>
           <div id="idioms-page-mount"></div>
+        </div>
+      </div>
+
+      <!-- ══ LANGUAGE HISTORY PAGE ══ -->
+      <div id="lang-history-overlay" class="page-overlay">
+        <div class="page-inner">
+          <div class="page-header">
+            <div class="page-title">📜 <span data-i18n="nav.langHistory">Історія мови</span></div>
+            <button
+              class="page-close-btn"
+              id="lang-history-close"
+              title="Закрити"
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+          <div id="lang-history-content"></div>
         </div>
       </div>
 

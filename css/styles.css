@@ -2402,6 +2402,49 @@ body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):no
   white-space: pre-wrap;
   color: var(--text);
 }
+.langhist-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.langhist-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.langhist-flag {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+.langhist-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.langhist-intro {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+.langhist-facts {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.langhist-fact {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text2);
+}
+.langhist-empty {
+  color: var(--text3);
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 24px;
+}
 .roleplay-panel {
   display: flex;
   flex-direction: column;
