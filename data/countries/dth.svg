@@ -1,0 +1,9 @@
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_dth)">
+<circle cx="12" cy="12" r="12" fill="#C2A66B"/>
+<rect x="-4" y="10.5" width="32" height="3" fill="#4A2E1D" transform="rotate(20 12 12)"/>
+<rect x="-4" y="10.5" width="32" height="3" fill="#4A2E1D"/>
+<rect x="-4" y="10.5" width="32" height="3" fill="#4A2E1D" transform="rotate(-20 12 12)"/>
+</g>
+<defs><clipPath id="clip0_dth"><circle cx="12" cy="12" r="12"/></clipPath></defs>
+</svg>

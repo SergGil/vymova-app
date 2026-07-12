@@ -152,4 +152,6 @@ export const FLAG_CODE: Record<Code, string> = {
   nah: 'mx',
   nv: 'us',
   tlh: 'tlh',
+  val: 'val',
+  dth: 'dth',
 };

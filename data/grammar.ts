@@ -23517,7 +23517,9 @@ export const GRAMMAR_BY_LANG: Partial<
     | 'pau'
     | 'nah'
     | 'nv'
-    | 'tlh',
+    | 'tlh'
+    | 'val'
+    | 'dth',
     GrammarCategory[]
   >
 > = {
@@ -23656,4 +23658,6 @@ export const GRAMMAR_BY_LANG: Partial<
   nah: [],
   nv: [],
   tlh: [],
+  val: [],
+  dth: [],
 };

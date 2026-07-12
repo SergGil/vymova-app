@@ -165,6 +165,8 @@ const LANG_LOADERS: Record<TargetLang, () => Promise<Table>> = {
   nah: () => import('../../data/words_nah.js').then((m) => m.W_NAH as Table),
   nv: () => import('../../data/words_nv.js').then((m) => m.W_NV as Table),
   tlh: () => import('../../data/words_tlh.js').then((m) => m.W_TLH as Table),
+  val: () => import('../../data/words_val.js').then((m) => m.W_VAL as Table),
+  dth: () => import('../../data/words_dth.js').then((m) => m.W_DTH as Table),
 };
 
 // In-flight promises to avoid duplicate fetches for the same language.
@@ -1143,6 +1145,20 @@ const LANG_REGISTRY: Record<TargetLang, LangConfig> = {
     voiceLocale: 'tlh',
     rtl: false,
   },
+  val: {
+    entry: (w) => lookup(getTable('val'), w),
+    known: () => getKnownSnapshot('val'),
+    saveKnown: (known) => saveKnownLang('val', known),
+    voiceLocale: 'val',
+    rtl: false,
+  },
+  dth: {
+    entry: (w) => lookup(getTable('dth'), w),
+    known: () => getKnownSnapshot('dth'),
+    saveKnown: (known) => saveKnownLang('dth', known),
+    voiceLocale: 'dth',
+    rtl: false,
+  },
 };
 
 export function langConfig(code: TargetLang): LangConfig {
@@ -1814,6 +1830,12 @@ export function nvEntry(word: string): Entry {
 export function tlhEntry(word: string): Entry {
   return LANG_REGISTRY.tlh.entry(word);
 }
+export function valEntry(word: string): Entry {
+  return LANG_REGISTRY.val.entry(word);
+}
+export function dthEntry(word: string): Entry {
+  return LANG_REGISTRY.dth.entry(word);
+}
 
 function targetLangFromStorageKey(key: string): TargetLang | null {
   return isTargetLang(key) ? key : null;
@@ -2059,6 +2081,8 @@ const NO_TRANSLATIONS_KEY: Record<TargetLang, string> = {
   nah: 'deck.noNahTranslations',
   nv: 'deck.noNvTranslations',
   tlh: 'deck.noTlhTranslations',
+  val: 'deck.noValTranslations',
+  dth: 'deck.noDthTranslations',
 };
 
 function hasAnyEntries(lang: TargetLang, words: WordEntry[]): boolean {

@@ -140,6 +140,8 @@ import {
   getSelectedNahVoice,
   getSelectedNvVoice,
   getSelectedTlhVoice,
+  getSelectedValVoice,
+  getSelectedDthVoice,
 } from './voice.tsx';
 import { speak, _speakWithLang } from './speech.ts';
 import { isTargetLang, langConfig, type TargetLang, type Code } from '../mode-utils.ts';
@@ -279,6 +281,8 @@ export const VOICE_GETTERS: Record<TargetLang, () => SpeechSynthesisVoice | null
   nah: getSelectedNahVoice,
   nv: getSelectedNvVoice,
   tlh: getSelectedTlhVoice,
+  val: getSelectedValVoice,
+  dth: getSelectedDthVoice,
 };
 
 export function speakForCode(

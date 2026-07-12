@@ -142,6 +142,8 @@ export const SPEECH_LANG: Record<string, string> = {
   nah: 'nah-MX',
   nv: 'nv-US',
   tlh: 'tlh',
+  val: 'val',
+  dth: 'dth',
 };
 
 export function speechLangFor(code: string): string {

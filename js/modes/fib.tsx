@@ -146,6 +146,8 @@ import {
   nahEntry,
   nvEntry,
   tlhEntry,
+  valEntry,
+  dthEntry,
 } from '../features/mode-utils.ts';
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
@@ -426,6 +428,10 @@ function getLangWord(w: WordEntry, lang: string): string {
       return nvEntry(w[0])?.[0] ?? '';
     case 'tlh':
       return tlhEntry(w[0])?.[0] ?? '';
+    case 'val':
+      return valEntry(w[0])?.[0] ?? '';
+    case 'dth':
+      return dthEntry(w[0])?.[0] ?? '';
     default:
       return w[0];
   }
@@ -703,6 +709,10 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return nvEntry(w[0])?.[1] ?? '';
     case 'tlh':
       return tlhEntry(w[0])?.[1] ?? '';
+    case 'val':
+      return valEntry(w[0])?.[1] ?? '';
+    case 'dth':
+      return dthEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }

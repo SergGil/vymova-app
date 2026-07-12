@@ -141,7 +141,9 @@ export type TargetLang =
   | 'pau'
   | 'nah'
   | 'nv'
-  | 'tlh';
+  | 'tlh'
+  | 'val'
+  | 'dth';
 export type Code = TargetLang | 'en' | 'ua';
 export const ALL_TARGET_LANGS: TargetLang[] = [
   'es',
@@ -278,6 +280,8 @@ export const ALL_TARGET_LANGS: TargetLang[] = [
   'nah',
   'nv',
   'tlh',
+  'val',
+  'dth',
 ];
 
 // ── Word data ─────────────────────────────────────────────────

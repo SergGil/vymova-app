@@ -179,6 +179,8 @@ export const LANG_META: Record<string, { name: string; country: string }> = {
   nah: { name: "Nāhuatl", country: 'mx' },
   nv: { name: "Diné bizaad", country: 'us' },
   tlh: { name: "tlhIngan Hol", country: 'tlh' },
+  val: { name: "Valyrio", country: 'val' },
+  dth: { name: "Lekh Dothraki", country: 'dth' },
 };
 
 function FlagCircle({ lang, size = 44 }: { lang: string; size?: number }): ReactElement {

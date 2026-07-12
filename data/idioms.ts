@@ -9222,7 +9222,9 @@ export const IDIOMS_BY_LANG: Partial<
     | 'pau'
     | 'nah'
     | 'nv'
-    | 'tlh',
+    | 'tlh'
+    | 'val'
+    | 'dth',
     Idiom[]
   >
 > = {
@@ -9362,4 +9364,6 @@ export const IDIOMS_BY_LANG: Partial<
   nah: [],
   nv: [],
   tlh: [],
+  val: [],
+  dth: [],
 };

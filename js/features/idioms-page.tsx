@@ -158,6 +158,8 @@ const LANG_BY_TAB: Record<Tab, string> = {
   nah: 'nah-MX',
   nv: 'nv-US',
   tlh: 'tlh',
+  val: 'val',
+  dth: 'dth',
 };
 const TAB_I18N_KEY: Record<Tab, string> = {
   en: 'idioms.tabEn',
@@ -296,6 +298,8 @@ const TAB_I18N_KEY: Record<Tab, string> = {
   nah: 'idioms.tabNah',
   nv: 'idioms.tabNv',
   tlh: 'idioms.tabTlh',
+  val: 'idioms.tabVal',
+  dth: 'idioms.tabDth',
 };
 const RTL_TABS = new Set<Tab>(['he', 'ar', 'fa', 'ug', 'ur', 'sd', 'ps', 'yi', 'dv']);
 

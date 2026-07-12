@@ -4,13 +4,15 @@
 // Worker proxy used by the AI tutor / story generator. Self-hides
 // (sidebar.tsx) when AI_PROXY_URL is unset.
 import { createPortal } from 'react-dom';
-import { useState, type ReactElement } from 'react';
+import { useState, type KeyboardEvent, type ReactElement } from 'react';
 import { AI_PROXY_URL, AI_TUTOR_ENABLED } from '../config.ts';
 import { getKnowLang } from './lang-pair-select.tsx';
 import { t } from './i18n.ts';
 import { bindOverlayDismiss } from './overlay-utils.ts';
 import { flagUrl } from '../core/flags.ts';
 import { LANG_META } from './profile-page.tsx';
+import { speakForCode } from './voice/speak-lang.ts';
+import type { Code } from '../../src/types.js';
 
 const META: Record<string, { name: string; country: string }> = {
   ...LANG_META,
@@ -55,19 +57,31 @@ export function TranslatePage(): ReactElement | null {
     );
   }
 
-  const submit = async (): Promise<void> => {
+  const submit = async (lang: string = targetLang): Promise<void> => {
     const value = text.trim();
     if (!value || pending) return;
     setError(null);
     setResult(null);
     setPending(true);
     try {
-      const translated = await sendTranslateRequest(value, targetLang);
+      const translated = await sendTranslateRequest(value, lang);
       setResult(translated);
     } catch {
       setError(t('translate.error'));
     } finally {
       setPending(false);
+    }
+  };
+
+  const onTargetLangChange = (lang: string): void => {
+    setTargetLang(lang);
+    if (text.trim()) submit(lang);
+  };
+
+  const onInputKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>): void => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      submit();
     }
   };
 
@@ -77,6 +91,7 @@ export function TranslatePage(): ReactElement | null {
         className="translate-input"
         value={text}
         onChange={(e) => setText(e.target.value)}
+        onKeyDown={onInputKeyDown}
         placeholder={t('translate.placeholder')}
         rows={4}
       />
@@ -88,7 +103,7 @@ export function TranslatePage(): ReactElement | null {
           id="translate-target-select"
           className="translate-select"
           value={targetLang}
-          onChange={(e) => setTargetLang(e.target.value)}
+          onChange={(e) => onTargetLangChange(e.target.value)}
         >
           {TARGET_LANGS.map((code) => (
             <option key={code} value={code}>
@@ -99,7 +114,7 @@ export function TranslatePage(): ReactElement | null {
         <button
           type="button"
           className="translate-send"
-          onClick={submit}
+          onClick={() => submit()}
           disabled={pending || !text.trim()}
         >
           {pending ? t('translate.translating') : t('translate.button')}
@@ -116,6 +131,14 @@ export function TranslatePage(): ReactElement | null {
             />
           )}
           <div className="translate-result-text">{result}</div>
+          <button
+            type="button"
+            className="speak-btn translate-result-speak"
+            title={t('translate.speak')}
+            onClick={(e) => speakForCode(targetLang as Code, result, result, e.currentTarget)}
+          >
+            🔊
+          </button>
         </div>
       )}
     </div>,

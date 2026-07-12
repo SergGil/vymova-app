@@ -38,6 +38,7 @@ const VALID_LANGS = new Set([
   'yi', 'lad', 'qu', 'gn', 'ay', 'dz', 'dv', 'tet', 'be',
   'qya', 'sjn',
   'ku', 'om', 'ln', 'bho', 'ceb', 'rm', 'ty', 'ch', 'mh', 'pau', 'nah', 'nv', 'tlh',
+  'val', 'dth',
 ]);
 const VALID_LEVELS = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 const LANG_NAMES: Record<string, string> = {
@@ -61,6 +62,8 @@ const LANG_NAMES: Record<string, string> = {
   ku: 'Kurdish (Kurmanji)', om: 'Oromo', ln: 'Lingala', bho: 'Bhojpuri', ceb: 'Cebuano', rm: 'Romansh',
   ty: 'Tahitian', ch: 'Chamorro', mh: 'Marshallese', pau: 'Palauan', nah: 'Nahuatl', nv: 'Navajo',
   tlh: 'Klingon (constructed language from Star Trek)',
+  val: 'High Valyrian (constructed language from Game of Thrones)',
+  dth: 'Dothraki (constructed language from Game of Thrones)',
 };
 
 const ROLEPLAY_SCENARIOS: Record<string, string> = {

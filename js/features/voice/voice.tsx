@@ -141,6 +141,8 @@ let _pauURI = localStorage.getItem('ew_ws_pau_voice') ?? '';
 let _nahURI = localStorage.getItem('ew_ws_nah_voice') ?? '';
 let _nvURI = localStorage.getItem('ew_ws_nv_voice') ?? '';
 let _tlhURI = localStorage.getItem('ew_ws_tlh_voice') ?? '';
+let _valURI = localStorage.getItem('ew_ws_val_voice') ?? '';
+let _dthURI = localStorage.getItem('ew_ws_dth_voice') ?? '';
 
 type VoiceMapEntry = { match: string; label: string; gender: string; accent: string };
 
@@ -1350,6 +1352,20 @@ function _tlhVoices(): SpeechSynthesisVoice[] {
     return l.startsWith('tlh') || n.includes('klingon');
   });
 }
+function _valVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('val') || n.includes('valyrian');
+  });
+}
+function _dthVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('dth') || n.includes('dothraki');
+  });
+}
 function _findByURI(uri: string, voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
   return voices.find((v) => v.voiceURI === uri) ?? null;
 }
@@ -1759,6 +1775,12 @@ export function getSelectedNvVoice(): SpeechSynthesisVoice | null {
 export function getSelectedTlhVoice(): SpeechSynthesisVoice | null {
   return _findByURI(_tlhURI, _tlhVoices()) ?? _tlhVoices()[0] ?? null;
 }
+export function getSelectedValVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_valURI, _valVoices()) ?? _valVoices()[0] ?? null;
+}
+export function getSelectedDthVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_dthURI, _dthVoices()) ?? _dthVoices()[0] ?? null;
+}
 
 // Speaks `text` with a voice tagged for `accent` (matched via VOICE_MAP first,
 // falling back to a lang-prefix match, then any voice for the language),
@@ -2067,7 +2089,9 @@ export function _renderVoices(): void {
     pauVoices = _sortVoices(_pauVoices()),
     nahVoices = _sortVoices(_nahVoices()),
     nvVoices = _sortVoices(_nvVoices()),
-    tlhVoices = _sortVoices(_tlhVoices());
+    tlhVoices = _sortVoices(_tlhVoices()),
+    valVoices = _sortVoices(_valVoices()),
+    dthVoices = _sortVoices(_dthVoices());
   if (
     !enVoices.length &&
     !ukVoices.length &&
@@ -2204,7 +2228,9 @@ export function _renderVoices(): void {
     !pauVoices.length &&
     !nahVoices.length &&
     !nvVoices.length &&
-    !tlhVoices.length
+    !tlhVoices.length &&
+    !valVoices.length &&
+    !dthVoices.length
   ) {
     container.innerHTML =
       '<span style="font-size:.78rem;color:var(--text3);">' +
@@ -2389,6 +2415,8 @@ export function _renderVoices(): void {
           else if (storageKey === 'ew_ws_nah_voice') _nahURI = uri;
           else if (storageKey === 'ew_ws_nv_voice') _nvURI = uri;
           else if (storageKey === 'ew_ws_tlh_voice') _tlhURI = uri;
+          else if (storageKey === 'ew_ws_val_voice') _valURI = uri;
+          else if (storageKey === 'ew_ws_dth_voice') _dthURI = uri;
           else _ukURI = uri;
           localStorage.setItem(storageKey, uri);
           _renderVoices();
@@ -3815,6 +3843,12 @@ export function _renderVoices(): void {
   if (tlhVoices.length)
     addSection('tlh', 'tlh', t('settings.tlhVoicesTitle'), tlhVoices, _tlhURI, 'ew_ws_tlh_voice', 'nuqneH!');
   else addMissing('tlh', 'tlh', 'settings.noTlhVoicesTitle', 'settings.noTlhVoicesDesc');
+  if (valVoices.length)
+    addSection('val', 'val', t('settings.valVoicesTitle'), valVoices, _valURI, 'ew_ws_val_voice', 'Rytsas!');
+  else addMissing('val', 'val', 'settings.noValVoicesTitle', 'settings.noValVoicesDesc');
+  if (dthVoices.length)
+    addSection('dth', 'dth', t('settings.dthVoicesTitle'), dthVoices, _dthURI, 'ew_ws_dth_voice', "M'athchomaroon!");
+  else addMissing('dth', 'dth', 'settings.noDthVoicesTitle', 'settings.noDthVoicesDesc');
   sections.sort((a, b) => a.key.localeCompare(b.key, getLang()));
   for (const s of sections) container.appendChild(s.el);
   if (!_enURI && enVoices.length) {

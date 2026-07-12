@@ -145,6 +145,8 @@ import {
   nahEntry,
   nvEntry,
   tlhEntry,
+  valEntry,
+  dthEntry,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speakForCode } from '../features/voice/speak-lang.ts';
@@ -450,6 +452,10 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return nvEntry(w[0])?.[1] ?? '';
     case 'tlh':
       return tlhEntry(w[0])?.[1] ?? '';
+    case 'val':
+      return valEntry(w[0])?.[1] ?? '';
+    case 'dth':
+      return dthEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }
