@@ -108,7 +108,16 @@ export type TargetLang =
   | 'mi'
   | 'haw'
   | 'jv'
-  | 'su';
+  | 'su'
+  | 'gd'
+  | 'br'
+  | 'kw'
+  | 'gv'
+  | 'fo'
+  | 'oc'
+  | 'co'
+  | 'sc'
+  | 'fy';
 export type Code = TargetLang | 'en' | 'ua';
 export const ALL_TARGET_LANGS: TargetLang[] = [
   'es',
@@ -212,6 +221,15 @@ export const ALL_TARGET_LANGS: TargetLang[] = [
   'haw',
   'jv',
   'su',
+  'gd',
+  'br',
+  'kw',
+  'gv',
+  'fo',
+  'oc',
+  'co',
+  'sc',
+  'fy',
 ];
 
 // ── Word data ─────────────────────────────────────────────────

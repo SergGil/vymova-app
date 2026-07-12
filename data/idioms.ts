@@ -9189,7 +9189,16 @@ export const IDIOMS_BY_LANG: Partial<
     | 'mi'
     | 'haw'
     | 'jv'
-    | 'su',
+    | 'su'
+    | 'gd'
+    | 'br'
+    | 'kw'
+    | 'gv'
+    | 'fo'
+    | 'oc'
+    | 'co'
+    | 'sc'
+    | 'fy',
     Idiom[]
   >
 > = {
@@ -9296,4 +9305,13 @@ export const IDIOMS_BY_LANG: Partial<
   haw: [],
   jv: [],
   su: [],
+  gd: [],
+  br: [],
+  kw: [],
+  gv: [],
+  fo: [],
+  oc: [],
+  co: [],
+  sc: [],
+  fy: [],
 };

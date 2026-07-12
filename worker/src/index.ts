@@ -33,6 +33,7 @@ const VALID_LANGS = new Set([
   'ur', 'te', 'ml', 'kn', 'mr', 'gu', 'or', 'as', 'sd', 'ps',
   'so', 'ha', 'yo', 'ig', 'ti', 'wo', 'mg', 'xh', 'sn', 'ny',
   'fj', 'sm', 'to', 'mi', 'haw', 'jv', 'su',
+  'gd', 'br', 'kw', 'gv', 'fo', 'oc', 'co', 'sc', 'fy',
 ]);
 const VALID_LEVELS = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 const LANG_NAMES: Record<string, string> = {
@@ -50,6 +51,7 @@ const LANG_NAMES: Record<string, string> = {
   ur: 'Urdu', te: 'Telugu', ml: 'Malayalam', kn: 'Kannada', mr: 'Marathi', gu: 'Gujarati', or: 'Odia', as: 'Assamese', sd: 'Sindhi', ps: 'Pashto',
   so: 'Somali', ha: 'Hausa', yo: 'Yoruba', ig: 'Igbo', ti: 'Tigrinya', wo: 'Wolof', mg: 'Malagasy', xh: 'Xhosa', sn: 'Shona', ny: 'Chewa',
   fj: 'Fijian', sm: 'Samoan', to: 'Tongan', mi: 'Maori', haw: 'Hawaiian', jv: 'Javanese', su: 'Sundanese',
+  gd: 'Scottish Gaelic', br: 'Breton', kw: 'Cornish', gv: 'Manx', fo: 'Faroese', oc: 'Occitan', co: 'Corsican', sc: 'Sardinian', fy: 'Frisian',
 };
 
 const ROLEPLAY_SCENARIOS: Record<string, string> = {

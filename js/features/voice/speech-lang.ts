@@ -106,6 +106,15 @@ export const SPEECH_LANG: Record<string, string> = {
   haw: 'haw-US',
   jv: 'jv-ID',
   su: 'su-ID',
+  gd: 'gd-GB',
+  br: 'br-FR',
+  kw: 'kw-GB',
+  gv: 'gv-IM',
+  fo: 'fo-FO',
+  oc: 'oc-FR',
+  co: 'co-FR',
+  sc: 'sc-IT',
+  fy: 'fy-NL',
 };
 
 export function speechLangFor(code: string): string {

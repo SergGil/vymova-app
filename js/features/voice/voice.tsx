@@ -108,6 +108,15 @@ let _miURI = localStorage.getItem('ew_ws_mi_voice') ?? '';
 let _hawURI = localStorage.getItem('ew_ws_haw_voice') ?? '';
 let _jvURI = localStorage.getItem('ew_ws_jv_voice') ?? '';
 let _suURI = localStorage.getItem('ew_ws_su_voice') ?? '';
+let _gdURI = localStorage.getItem('ew_ws_gd_voice') ?? '';
+let _brURI = localStorage.getItem('ew_ws_br_voice') ?? '';
+let _kwURI = localStorage.getItem('ew_ws_kw_voice') ?? '';
+let _gvURI = localStorage.getItem('ew_ws_gv_voice') ?? '';
+let _foURI = localStorage.getItem('ew_ws_fo_voice') ?? '';
+let _ocURI = localStorage.getItem('ew_ws_oc_voice') ?? '';
+let _coURI = localStorage.getItem('ew_ws_co_voice') ?? '';
+let _scURI = localStorage.getItem('ew_ws_sc_voice') ?? '';
+let _fyURI = localStorage.getItem('ew_ws_fy_voice') ?? '';
 
 type VoiceMapEntry = { match: string; label: string; gender: string; accent: string };
 
@@ -1091,6 +1100,69 @@ function _suVoices(): SpeechSynthesisVoice[] {
     return l.startsWith('su') || n.includes('sundanese');
   });
 }
+function _gdVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('gd') || n.includes('scottish gaelic');
+  });
+}
+function _brVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('br') || n.includes('breton');
+  });
+}
+function _kwVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('kw') || n.includes('cornish');
+  });
+}
+function _gvVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('gv') || n.includes('manx');
+  });
+}
+function _foVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('fo') || n.includes('faroese');
+  });
+}
+function _ocVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('oc') || n.includes('occitan');
+  });
+}
+function _coVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('co') || n.includes('corsican');
+  });
+}
+function _scVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('sc') || n.includes('sardinian');
+  });
+}
+function _fyVoices(): SpeechSynthesisVoice[] {
+  return _allVoices().filter((v) => {
+    const l = (v.lang ?? '').toLowerCase(),
+      n = (v.name ?? '').toLowerCase();
+    return l.startsWith('fy') || n.includes('frisian');
+  });
+}
 function _findByURI(uri: string, voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
   return voices.find((v) => v.voiceURI === uri) ?? null;
 }
@@ -1401,6 +1473,33 @@ export function getSelectedJvVoice(): SpeechSynthesisVoice | null {
 export function getSelectedSuVoice(): SpeechSynthesisVoice | null {
   return _findByURI(_suURI, _suVoices()) ?? _suVoices()[0] ?? null;
 }
+export function getSelectedGdVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_gdURI, _gdVoices()) ?? _gdVoices()[0] ?? null;
+}
+export function getSelectedBrVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_brURI, _brVoices()) ?? _brVoices()[0] ?? null;
+}
+export function getSelectedKwVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_kwURI, _kwVoices()) ?? _kwVoices()[0] ?? null;
+}
+export function getSelectedGvVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_gvURI, _gvVoices()) ?? _gvVoices()[0] ?? null;
+}
+export function getSelectedFoVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_foURI, _foVoices()) ?? _foVoices()[0] ?? null;
+}
+export function getSelectedOcVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_ocURI, _ocVoices()) ?? _ocVoices()[0] ?? null;
+}
+export function getSelectedCoVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_coURI, _coVoices()) ?? _coVoices()[0] ?? null;
+}
+export function getSelectedScVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_scURI, _scVoices()) ?? _scVoices()[0] ?? null;
+}
+export function getSelectedFyVoice(): SpeechSynthesisVoice | null {
+  return _findByURI(_fyURI, _fyVoices()) ?? _fyVoices()[0] ?? null;
+}
 
 // Speaks `text` with a voice tagged for `accent` (matched via VOICE_MAP first,
 // falling back to a lang-prefix match, then any voice for the language),
@@ -1676,7 +1775,16 @@ export function _renderVoices(): void {
     miVoices = _sortVoices(_miVoices()),
     hawVoices = _sortVoices(_hawVoices()),
     jvVoices = _sortVoices(_jvVoices()),
-    suVoices = _sortVoices(_suVoices());
+    suVoices = _sortVoices(_suVoices()),
+    gdVoices = _sortVoices(_gdVoices()),
+    brVoices = _sortVoices(_brVoices()),
+    kwVoices = _sortVoices(_kwVoices()),
+    gvVoices = _sortVoices(_gvVoices()),
+    foVoices = _sortVoices(_foVoices()),
+    ocVoices = _sortVoices(_ocVoices()),
+    coVoices = _sortVoices(_coVoices()),
+    scVoices = _sortVoices(_scVoices()),
+    fyVoices = _sortVoices(_fyVoices());
   if (
     !enVoices.length &&
     !ukVoices.length &&
@@ -1780,7 +1888,16 @@ export function _renderVoices(): void {
     !miVoices.length &&
     !hawVoices.length &&
     !jvVoices.length &&
-    !suVoices.length
+    !suVoices.length &&
+    !gdVoices.length &&
+    !brVoices.length &&
+    !kwVoices.length &&
+    !gvVoices.length &&
+    !foVoices.length &&
+    !ocVoices.length &&
+    !coVoices.length &&
+    !scVoices.length &&
+    !fyVoices.length
   ) {
     container.innerHTML =
       '<span style="font-size:.78rem;color:var(--text3);">' +
@@ -1932,6 +2049,15 @@ export function _renderVoices(): void {
           else if (storageKey === 'ew_ws_haw_voice') _hawURI = uri;
           else if (storageKey === 'ew_ws_jv_voice') _jvURI = uri;
           else if (storageKey === 'ew_ws_su_voice') _suURI = uri;
+          else if (storageKey === 'ew_ws_gd_voice') _gdURI = uri;
+          else if (storageKey === 'ew_ws_br_voice') _brURI = uri;
+          else if (storageKey === 'ew_ws_kw_voice') _kwURI = uri;
+          else if (storageKey === 'ew_ws_gv_voice') _gvURI = uri;
+          else if (storageKey === 'ew_ws_fo_voice') _foURI = uri;
+          else if (storageKey === 'ew_ws_oc_voice') _ocURI = uri;
+          else if (storageKey === 'ew_ws_co_voice') _coURI = uri;
+          else if (storageKey === 'ew_ws_sc_voice') _scURI = uri;
+          else if (storageKey === 'ew_ws_fy_voice') _fyURI = uri;
           else _ukURI = uri;
           localStorage.setItem(storageKey, uri);
           _renderVoices();
@@ -3099,6 +3225,105 @@ export function _renderVoices(): void {
       "Hello!",
     );
   else addMissing('su', 'id', 'settings.noSuVoicesTitle', 'settings.noSuVoicesDesc');
+  if (gdVoices.length)
+    addSection(
+      'gd',
+      'sct',
+      t('settings.gdVoicesTitle'),
+      gdVoices,
+      _gdURI,
+      'ew_ws_gd_voice',
+      "Hello!",
+    );
+  else addMissing('gd', 'sct', 'settings.noGdVoicesTitle', 'settings.noGdVoicesDesc');
+  if (brVoices.length)
+    addSection(
+      'br',
+      'fr',
+      t('settings.brVoicesTitle'),
+      brVoices,
+      _brURI,
+      'ew_ws_br_voice',
+      "Hello!",
+    );
+  else addMissing('br', 'fr', 'settings.noBrVoicesTitle', 'settings.noBrVoicesDesc');
+  if (kwVoices.length)
+    addSection(
+      'kw',
+      'corn',
+      t('settings.kwVoicesTitle'),
+      kwVoices,
+      _kwURI,
+      'ew_ws_kw_voice',
+      "Hello!",
+    );
+  else addMissing('kw', 'corn', 'settings.noKwVoicesTitle', 'settings.noKwVoicesDesc');
+  if (gvVoices.length)
+    addSection(
+      'gv',
+      'gb',
+      t('settings.gvVoicesTitle'),
+      gvVoices,
+      _gvURI,
+      'ew_ws_gv_voice',
+      "Hello!",
+    );
+  else addMissing('gv', 'gb', 'settings.noGvVoicesTitle', 'settings.noGvVoicesDesc');
+  if (foVoices.length)
+    addSection(
+      'fo',
+      'fo',
+      t('settings.foVoicesTitle'),
+      foVoices,
+      _foURI,
+      'ew_ws_fo_voice',
+      "Hello!",
+    );
+  else addMissing('fo', 'fo', 'settings.noFoVoicesTitle', 'settings.noFoVoicesDesc');
+  if (ocVoices.length)
+    addSection(
+      'oc',
+      'fr',
+      t('settings.ocVoicesTitle'),
+      ocVoices,
+      _ocURI,
+      'ew_ws_oc_voice',
+      "Hello!",
+    );
+  else addMissing('oc', 'fr', 'settings.noOcVoicesTitle', 'settings.noOcVoicesDesc');
+  if (coVoices.length)
+    addSection(
+      'co',
+      'fr',
+      t('settings.coVoicesTitle'),
+      coVoices,
+      _coURI,
+      'ew_ws_co_voice',
+      "Hello!",
+    );
+  else addMissing('co', 'fr', 'settings.noCoVoicesTitle', 'settings.noCoVoicesDesc');
+  if (scVoices.length)
+    addSection(
+      'sc',
+      'it',
+      t('settings.scVoicesTitle'),
+      scVoices,
+      _scURI,
+      'ew_ws_sc_voice',
+      "Hello!",
+    );
+  else addMissing('sc', 'it', 'settings.noScVoicesTitle', 'settings.noScVoicesDesc');
+  if (fyVoices.length)
+    addSection(
+      'fy',
+      'nl',
+      t('settings.fyVoicesTitle'),
+      fyVoices,
+      _fyURI,
+      'ew_ws_fy_voice',
+      "Hello!",
+    );
+  else addMissing('fy', 'nl', 'settings.noFyVoicesTitle', 'settings.noFyVoicesDesc');
   sections.sort((a, b) => a.key.localeCompare(b.key, getLang()));
   for (const s of sections) container.appendChild(s.el);
   if (!_enURI && enVoices.length) {

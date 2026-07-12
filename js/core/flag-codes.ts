@@ -119,4 +119,13 @@ export const FLAG_CODE: Record<Code, string> = {
   haw: 'us',
   jv: 'id',
   su: 'id',
+  gd: 'sct',
+  br: 'fr',
+  kw: 'corn',
+  gv: 'gb',
+  fo: 'fo',
+  oc: 'fr',
+  co: 'fr',
+  sc: 'it',
+  fy: 'nl',
 };

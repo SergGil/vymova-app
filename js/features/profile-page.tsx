@@ -146,6 +146,15 @@ const LANG_META: Record<string, { name: string; country: string }> = {
   haw: { name: "ʻŌlelo Hawaiʻi", country: 'us' },
   jv: { name: "Basa Jawa", country: 'id' },
   su: { name: "Basa Sunda", country: 'id' },
+  gd: { name: "Gàidhlig", country: 'sct' },
+  br: { name: "Brezhoneg", country: 'fr' },
+  kw: { name: "Kernewek", country: 'corn' },
+  gv: { name: "Gaelg", country: 'gb' },
+  fo: { name: "Føroyskt", country: 'fo' },
+  oc: { name: "Occitan", country: 'fr' },
+  co: { name: "Corsu", country: 'fr' },
+  sc: { name: "Sardu", country: 'it' },
+  fy: { name: "Frysk", country: 'nl' },
 };
 
 function FlagCircle({ lang, size = 44 }: { lang: string; size?: number }): ReactElement {

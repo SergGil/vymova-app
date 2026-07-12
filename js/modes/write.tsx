@@ -112,6 +112,15 @@ import {
   hawEntry,
   jvEntry,
   suEntry,
+  gdEntry,
+  brEntry,
+  kwEntry,
+  gvEntry,
+  foEntry,
+  ocEntry,
+  coEntry,
+  scEntry,
+  fyEntry,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speakForCode } from '../features/voice/speak-lang.ts';
@@ -351,6 +360,24 @@ function getLangSentence(w: WordEntry, lang: string): string {
       return jvEntry(w[0])?.[1] ?? '';
     case 'su':
       return suEntry(w[0])?.[1] ?? '';
+    case 'gd':
+      return gdEntry(w[0])?.[1] ?? '';
+    case 'br':
+      return brEntry(w[0])?.[1] ?? '';
+    case 'kw':
+      return kwEntry(w[0])?.[1] ?? '';
+    case 'gv':
+      return gvEntry(w[0])?.[1] ?? '';
+    case 'fo':
+      return foEntry(w[0])?.[1] ?? '';
+    case 'oc':
+      return ocEntry(w[0])?.[1] ?? '';
+    case 'co':
+      return coEntry(w[0])?.[1] ?? '';
+    case 'sc':
+      return scEntry(w[0])?.[1] ?? '';
+    case 'fy':
+      return fyEntry(w[0])?.[1] ?? '';
     default:
       return w[2] ?? '';
   }
