@@ -5,13 +5,14 @@ import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+import { recordModeAnswer, recordMistake } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang } from '../features/lang-pair-select.tsx';
 import { speak } from '../features/voice/speech.ts';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const SIZE = 8,
   NUM_OPTS = 4;
@@ -86,7 +87,6 @@ function closeContext(): void {
 }
 
 export function ContextPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
   const [ok, setOk] = useState(0);
@@ -95,9 +95,8 @@ export function ContextPage(): ReactElement {
   const [selected, setSelected] = useState<string | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [revealed, setRevealed] = useState(false);
-  const [completed, setCompleted] = useState(false);
 
-  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const showFinal = deck.length > 0 && idx >= deck.length;
 
   const startGame = (): void => {
     const d = build();
@@ -108,34 +107,25 @@ export function ContextPage(): ReactElement {
     setSelected(null);
     setShowHint(false);
     setRevealed(false);
-    setCompleted(false);
     setQuestion(d.length ? buildQuestion(d[0]) : null);
   };
 
+  const session = useModeSession({
+    overlayId: 'ctx-overlay',
+    modeId: 'context',
+    isFinal: showFinal,
+    onOpen: startGame,
+    closeOnEscape: false,
+  });
+
   useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      startGame();
-      const overlay = document.getElementById('ctx-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      setIsOpen(false);
-      const overlay = document.getElementById('ctx-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
     };
-  }, []);
-
-  useEffect(() => {
-    if (showFinal && !completed) {
-      recordModeComplete('context');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
+  }, [session.open, session.close]);
 
   const checkAnswer = (opt: string): void => {
     if (!question || selected) return;

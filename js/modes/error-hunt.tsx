@@ -6,12 +6,13 @@ import { _shuf } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+import { recordModeAnswer, recordMistake } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getLearnLang, getKnowLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 import { orderDeckPool } from '../core/srs.ts';
 
 const ROUNDS = 8;
@@ -103,16 +104,14 @@ function closeErrorHunt(): void {
 }
 
 export function ErrorHuntPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<Round[]>([]);
   const [idx, setIdx] = useState(0);
   const [ok, setOk] = useState(0);
   const [fail, setFail] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
-  const [completed, setCompleted] = useState(false);
 
   const round: Round | null = deck[idx] ?? null;
-  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const showFinal = deck.length > 0 && idx >= deck.length;
   const knowEx = round ? entryFor(getKnowLang(), round.w).ex : '';
 
   const startGame = (): void => {
@@ -121,43 +120,24 @@ export function ErrorHuntPage(): ReactElement {
     setOk(0);
     setFail(0);
     setSelected(null);
-    setCompleted(false);
   };
 
+  const session = useModeSession({
+    overlayId: 'eh-overlay',
+    modeId: 'errorhunt',
+    isFinal: showFinal,
+    onOpen: startGame,
+  });
+  const { isOpen } = session;
+
   useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      startGame();
-      const overlay = document.getElementById('eh-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      setIsOpen(false);
-      const overlay = document.getElementById('eh-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
     };
-  }, []);
-
-  useEffect(() => {
-    if (showFinal && !completed) {
-      recordModeComplete('errorhunt');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
-
-  useEffect(() => {
-    function onKeydown(e: KeyboardEvent): void {
-      const overlay = document.getElementById('eh-overlay');
-      if (overlay?.style.display !== 'flex') return;
-      if (e.key === 'Escape') closeErrorHunt();
-    }
-    document.addEventListener('keydown', onKeydown);
-    return () => document.removeEventListener('keydown', onKeydown);
-  }, []);
+  }, [session.open, session.close]);
 
   const checkAnswer = (i: number): void => {
     if (!round || selected !== null) return;

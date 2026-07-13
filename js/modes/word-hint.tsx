@@ -7,12 +7,13 @@ import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { lev } from '../core/distance.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+import { recordModeAnswer, recordMistake } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const ROUNDS = 8;
 const REVEAL_INTERVAL_MS = 3500;
@@ -64,7 +65,6 @@ function closeWordHint(): void {
 }
 
 export function WordHintPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<Round[]>([]);
   const [idx, setIdx] = useState(0);
   const [ok, setOk] = useState(0);
@@ -73,10 +73,9 @@ export function WordHintPage(): ReactElement {
   const [input, setInput] = useState('');
   const [answered, setAnswered] = useState(false);
   const [result, setResult] = useState<{ text: string; ok: boolean } | null>(null);
-  const [completed, setCompleted] = useState(false);
 
   const round: Round | null = deck[idx] ?? null;
-  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const showFinal = deck.length > 0 && idx >= deck.length;
 
   const startGame = (): void => {
     setDeck(buildDeck());
@@ -87,43 +86,24 @@ export function WordHintPage(): ReactElement {
     setInput('');
     setAnswered(false);
     setResult(null);
-    setCompleted(false);
   };
 
+  const session = useModeSession({
+    overlayId: 'hint-overlay',
+    modeId: 'wordhint',
+    isFinal: showFinal,
+    onOpen: startGame,
+  });
+  const { isOpen } = session;
+
   useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      startGame();
-      const overlay = document.getElementById('hint-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      setIsOpen(false);
-      const overlay = document.getElementById('hint-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
     };
-  }, []);
-
-  useEffect(() => {
-    if (showFinal && !completed) {
-      recordModeComplete('wordhint');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
-
-  useEffect(() => {
-    function onKeydown(e: KeyboardEvent): void {
-      const overlay = document.getElementById('hint-overlay');
-      if (overlay?.style.display !== 'flex') return;
-      if (e.key === 'Escape') closeWordHint();
-    }
-    document.addEventListener('keydown', onKeydown);
-    return () => document.removeEventListener('keydown', onKeydown);
-  }, []);
+  }, [session.open, session.close]);
 
   // Progressively reveal one more letter every REVEAL_INTERVAL_MS while the
   // round is still open.

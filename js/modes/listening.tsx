@@ -5,7 +5,7 @@ import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
+import { recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
 import { speak } from '../features/voice/speech.ts';
@@ -13,6 +13,7 @@ import type { WordEntry, Code } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const SIZE = 10;
 
@@ -50,14 +51,12 @@ function closeListening(): void {
 }
 
 export function ListeningPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
   const [ok, setOk] = useState(0);
   const [fail, setFail] = useState(0);
   const [options, setOptions] = useState<string[]>([]);
   const [result, setResult] = useState<Result>(null);
-  const [completed, setCompleted] = useState(false);
 
   const playBtnRef = useRef<HTMLButtonElement>(null);
   const stateRef = useRef({
@@ -69,7 +68,7 @@ export function ListeningPage(): ReactElement {
   stateRef.current = { answered: !!result, options, deck, idx };
 
   const word: WordEntry | null = deck[idx] ?? null;
-  const showFinal = isOpen && idx >= deck.length && deck.length > 0;
+  const showFinal = idx >= deck.length && deck.length > 0;
 
   const playWord = (): void => {
     if (!word) return;
@@ -88,29 +87,30 @@ export function ListeningPage(): ReactElement {
     setOk(0);
     setFail(0);
     setResult(null);
-    setCompleted(false);
   };
 
-  useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      startGame();
-      const overlay = document.getElementById('listen-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      setIsOpen(false);
-      const overlay = document.getElementById('listen-overlay');
-      if (overlay) overlay.style.display = 'none';
+  const session = useModeSession({
+    overlayId: 'listen-overlay',
+    modeId: 'listen',
+    isFinal: showFinal,
+    onOpen: startGame,
+    onClose: () => {
       try {
         window.speechSynthesis?.cancel();
       } catch (e) {}
-    };
+    },
+    closeOnEscape: false,
+  });
+  const { isOpen } = session;
+
+  useEffect(() => {
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
     };
-  }, []);
+  }, [session.open, session.close]);
 
   // Regenerate options + speak word when moving to a new question
   useEffect(() => {
@@ -122,20 +122,12 @@ export function ListeningPage(): ReactElement {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, idx, deck]);
 
-  // Record completion once when final screen is reached
-  useEffect(() => {
-    if (showFinal && !completed) {
-      recordModeComplete('listen');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
-
   // Keyboard shortcuts
   useEffect(() => {
     function onKeydown(e: KeyboardEvent): void {
       if (!isOpen) return;
       if (e.key === 'Escape') {
-        closeListening();
+        session.close();
         return;
       }
       const { answered, options: opts, idx: curIdx, deck: curDeck } = stateRef.current;

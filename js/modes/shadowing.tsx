@@ -6,13 +6,14 @@ import { orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+import { recordModeAnswer, recordMistake } from '../features/game.ts';
 import { speak } from '../features/voice/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 import { speechLangFor } from '../features/voice/speech-lang.ts';
 
 const ROUNDS = 8;
@@ -96,7 +97,6 @@ function closeShadowing(): void {
 }
 
 export function ShadowingPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<Round[]>([]);
   const [idx, setIdx] = useState(0);
   const [ok, setOk] = useState(0);
@@ -104,13 +104,12 @@ export function ShadowingPage(): ReactElement {
   const [phase, setPhase] = useState<Phase>('ready');
   const [transcript, setTranscript] = useState<string | null>(null);
   const [score, setScore] = useState<number | null>(null);
-  const [completed, setCompleted] = useState(false);
 
   const speakBtnRef = useRef<HTMLButtonElement>(null);
   const recRef = useRef<SpeechRecognitionLike | null>(null);
 
   const round: Round | null = deck[idx] ?? null;
-  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const showFinal = deck.length > 0 && idx >= deck.length;
   const supported = speechRecognitionSupported();
 
   const startGame = (): void => {
@@ -121,47 +120,30 @@ export function ShadowingPage(): ReactElement {
     setPhase('ready');
     setTranscript(null);
     setScore(null);
-    setCompleted(false);
   };
 
-  useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      startGame();
-      const overlay = document.getElementById('shadow-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
+  const session = useModeSession({
+    overlayId: 'shadow-overlay',
+    modeId: 'shadow',
+    isFinal: showFinal,
+    onOpen: startGame,
+    onClose: () => {
       try {
         recRef.current?.abort();
       } catch (e) {}
       recRef.current = null;
-      setIsOpen(false);
-      const overlay = document.getElementById('shadow-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    },
+  });
+  const { isOpen } = session;
+
+  useEffect(() => {
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
     };
-  }, []);
-
-  useEffect(() => {
-    if (showFinal && !completed) {
-      recordModeComplete('shadow');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
-
-  useEffect(() => {
-    function onKeydown(e: KeyboardEvent): void {
-      const overlay = document.getElementById('shadow-overlay');
-      if (overlay?.style.display !== 'flex') return;
-      if (e.key === 'Escape') closeShadowing();
-    }
-    document.addEventListener('keydown', onKeydown);
-    return () => document.removeEventListener('keydown', onKeydown);
-  }, []);
+  }, [session.open, session.close]);
 
   // Auto-play the sentence as soon as a round is ready, so the user doesn't
   // have to tap the speaker button just to hear it once.

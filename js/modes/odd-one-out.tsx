@@ -10,8 +10,9 @@ import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { t, categoryName } from '../features/i18n.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+import { recordModeAnswer, recordMistake } from '../features/game.ts';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const ROUNDS = 8;
 const GROUP_SIZE = 4;
@@ -86,16 +87,14 @@ function closeOddOneOut(): void {
 }
 
 export function OddOneOutPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<Round[]>([]);
   const [idx, setIdx] = useState(0);
   const [ok, setOk] = useState(0);
   const [fail, setFail] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
-  const [completed, setCompleted] = useState(false);
 
   const round: Round | null = deck[idx] ?? null;
-  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const showFinal = deck.length > 0 && idx >= deck.length;
 
   const startGame = (): void => {
     setDeck(buildDeck());
@@ -103,43 +102,24 @@ export function OddOneOutPage(): ReactElement {
     setOk(0);
     setFail(0);
     setSelected(null);
-    setCompleted(false);
   };
 
+  const session = useModeSession({
+    overlayId: 'oo-overlay',
+    modeId: 'oddone',
+    isFinal: showFinal,
+    onOpen: startGame,
+  });
+  const { isOpen } = session;
+
   useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      startGame();
-      const overlay = document.getElementById('oo-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      setIsOpen(false);
-      const overlay = document.getElementById('oo-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
     };
-  }, []);
-
-  useEffect(() => {
-    if (showFinal && !completed) {
-      recordModeComplete('oddone');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
-
-  useEffect(() => {
-    function onKeydown(e: KeyboardEvent): void {
-      const overlay = document.getElementById('oo-overlay');
-      if (overlay?.style.display !== 'flex') return;
-      if (e.key === 'Escape') closeOddOneOut();
-    }
-    document.addEventListener('keydown', onKeydown);
-    return () => document.removeEventListener('keydown', onKeydown);
-  }, []);
+  }, [session.open, session.close]);
 
   const checkAnswer = (i: number): void => {
     if (!round || selected !== null) return;

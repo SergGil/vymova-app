@@ -5,7 +5,7 @@ import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+import { recordModeAnswer, recordMistake } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak } from '../features/voice/speech.ts';
 import { t } from '../features/i18n.ts';
@@ -13,6 +13,7 @@ import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const SIZE = 10;
 const HINTS = 3;
@@ -68,7 +69,6 @@ function closeScramble(): void {
 }
 
 export function ScramblePage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
   const [ok, setOk] = useState(0);
@@ -80,12 +80,11 @@ export function ScramblePage(): ReactElement {
   const [answer, setAnswer] = useState<number[]>([]);
   const [tileOrder, setTileOrder] = useState<number[]>([]);
   const [result, setResult] = useState<{ text: string; ok: boolean } | null>(null);
-  const [completed, setCompleted] = useState(false);
 
   const speakBtnRef = useRef<HTMLButtonElement>(null);
 
   const w: WordEntry | null = deck[idx] ?? null;
-  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const showFinal = deck.length > 0 && idx >= deck.length;
 
   const setupQuestion = (d: WordEntry[], i: number): void => {
     const word = d[i];
@@ -107,45 +106,25 @@ export function ScramblePage(): ReactElement {
     setIdx(0);
     setOk(0);
     setFail(0);
-    setCompleted(false);
     setupQuestion(d, 0);
   };
 
+  const session = useModeSession({
+    overlayId: 'scr-overlay',
+    modeId: 'scramble',
+    isFinal: showFinal,
+    onOpen: startGame,
+  });
+  const { isOpen } = session;
+
   useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      startGame();
-      const overlay = document.getElementById('scr-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      setIsOpen(false);
-      const overlay = document.getElementById('scr-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (showFinal && !completed) {
-      recordModeComplete('scramble');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
-
-  useEffect(() => {
-    function onKeydown(e: KeyboardEvent): void {
-      const overlay = document.getElementById('scr-overlay');
-      if (overlay?.style.display !== 'flex') return;
-      if (e.key === 'Escape') closeScramble();
-    }
-    document.addEventListener('keydown', onKeydown);
-    return () => document.removeEventListener('keydown', onKeydown);
-  }, []);
+  }, [session.open, session.close]);
 
   const check = (lett: Tile[], ans: number[]): void => {
     if (!w) return;
