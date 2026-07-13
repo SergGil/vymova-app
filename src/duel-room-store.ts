@@ -82,6 +82,19 @@ export function useDuelRoomState(): DuelRoomStoreState {
   return duelRoomStore.useStore();
 }
 
+// Fine-grained variant of useDuelRoomState(): re-renders only when the
+// selected/derived value actually changes (shallow-equal by default), not on
+// every one of this store's 25+ fields. `selector` may ignore its argument
+// and read getDuelRoomSnapshot()/getDuelScreenSnapshot()/etc. directly — the
+// shape this codebase's existing `_getXxxData()` view-model helpers already
+// have (see duel-game-header.tsx, duel-powerups.tsx, duel-lobby-logic.ts).
+export function useDuelRoomSelector<T>(
+  selector: (state: DuelRoomStoreState) => T,
+  isEqual?: (a: T, b: T) => boolean,
+): T {
+  return duelRoomStore.useSelector(selector, isEqual);
+}
+
 export function getDuelRoomSnapshot(): DuelRoomState {
   return duelRoomStore.getSnapshot().room;
 }

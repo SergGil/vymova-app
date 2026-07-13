@@ -6,11 +6,10 @@ import type { ReactElement } from 'react';
 import { useEffect, useRef } from 'react';
 import { t } from '../i18n.ts';
 import { _getCountdownData } from './duel-lobby-logic.ts';
-import { useDuelRoomState } from '../../../src/duel-room-store.ts';
+import { useDuelRoomSelector } from '../../../src/duel-room-store.ts';
 
 export function DuelCountdown(): ReactElement {
-  useDuelRoomState();
-  const d = _getCountdownData();
+  const d = useDuelRoomSelector(_getCountdownData);
   const numRef = useRef<HTMLDivElement>(null);
 
   // Пульсація числа при кожному тіку (порт анімації з _runCountdown).

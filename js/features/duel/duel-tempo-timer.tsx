@@ -7,11 +7,10 @@ import { useEffect, useRef } from 'react';
 import { t } from '../i18n.ts';
 import { TEMPO_SEC } from './duel.ts';
 import { _getTempoData } from './duel-lobby-logic.ts';
-import { useDuelRoomState } from '../../../src/duel-room-store.ts';
+import { useDuelRoomSelector } from '../../../src/duel-room-store.ts';
 
 export function DuelTempoTimer(): ReactElement | null {
-  useDuelRoomState();
-  const d = _getTempoData();
+  const d = useDuelRoomSelector(_getTempoData);
   const barRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

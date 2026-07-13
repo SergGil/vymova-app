@@ -7,7 +7,7 @@ import type { ReactElement } from 'react';
 import { _getGameHeaderData, DUEL_MODES } from './duel.ts';
 import { t } from '../i18n.ts';
 import { notifyStateChange } from '../../../src/store.ts';
-import { useDuelRoomState } from '../../../src/duel-room-store.ts';
+import { useDuelRoomSelector } from '../../../src/duel-room-store.ts';
 
 function Dots({
   idx,
@@ -56,8 +56,7 @@ function Dots({
 }
 
 export function DuelGameHeader(): ReactElement {
-  useDuelRoomState();
-  const d = _getGameHeaderData();
+  const d = useDuelRoomSelector(_getGameHeaderData);
   const mInfo = DUEL_MODES.find((m) => m.id === d.mode) || DUEL_MODES[0];
   return (
     <div
