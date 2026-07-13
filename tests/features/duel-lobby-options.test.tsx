@@ -6,6 +6,8 @@ import {
   DuelModePicker,
   DuelCategoryPicker,
   DuelOptionsRow,
+  DuelKnowLangPicker,
+  DuelLangPicker,
 } from '../../js/features/duel/duel-lobby-options.tsx';
 import type { Difficulty, BestOf, DuelMode } from '../../js/features/duel/duel.ts';
 import type { ReactElement } from 'react';
@@ -26,6 +28,10 @@ const {
   setSelMaxHints,
   getSelPowerups,
   setSelPowerups,
+  getSelLang,
+  setSelLang,
+  getSelKnowLang,
+  setSelKnowLang,
 } = vi.hoisted(() => ({
   showInfoTooltip: vi.fn(),
   getSelMode: vi.fn((): DuelMode => 'quiz'),
@@ -40,6 +46,10 @@ const {
   setSelMaxHints: vi.fn(),
   getSelPowerups: vi.fn(() => true),
   setSelPowerups: vi.fn(),
+  getSelLang: vi.fn(() => 'en'),
+  setSelLang: vi.fn(),
+  getSelKnowLang: vi.fn(() => 'ua'),
+  setSelKnowLang: vi.fn(),
 }));
 vi.mock('../../js/features/duel/duel-lobby-logic.ts', async (importOriginal) => {
   const orig = await importOriginal<typeof import('../../js/features/duel/duel-lobby-logic.ts')>();
@@ -58,6 +68,10 @@ vi.mock('../../js/features/duel/duel-lobby-logic.ts', async (importOriginal) => 
     _setSelMaxHints: setSelMaxHints,
     _getSelPowerups: getSelPowerups,
     _setSelPowerups: setSelPowerups,
+    _getSelLang: getSelLang,
+    _setSelLang: setSelLang,
+    _getSelKnowLang: getSelKnowLang,
+    _setSelKnowLang: setSelKnowLang,
   };
 });
 
@@ -229,5 +243,81 @@ describe('duel-lobby-options.tsx DuelOptionsRow', () => {
       (infoButtons[0] as HTMLButtonElement).click();
     });
     expect(showInfoTooltip).toHaveBeenCalled();
+  });
+});
+
+describe('duel-lobby-options.tsx DuelKnowLangPicker / DuelLangPicker', () => {
+  let roots: Root[] = [];
+
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    roots = [];
+    setSelLang.mockClear();
+    setSelKnowLang.mockClear();
+    getSelLang.mockClear().mockReturnValue('en');
+    getSelKnowLang.mockClear().mockReturnValue('ua');
+  });
+
+  afterEach(() => {
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
+  });
+
+  it('renders a closed dropdown button showing the current know-language', () => {
+    const { container, root } = mount(<DuelKnowLangPicker />);
+    roots.push(root);
+    const btn = container.querySelector('.flagdd-btn') as HTMLButtonElement;
+    expect(btn).toBeTruthy();
+    expect(btn.getAttribute('data-value')).toBe('ua');
+    expect(container.querySelector('.flagdd-list')).toBeNull();
+  });
+
+  it('opens the list on click, excluding the currently-selected learn language', () => {
+    const { container, root } = mount(<DuelKnowLangPicker />);
+    roots.push(root);
+    const btn = container.querySelector('.flagdd-btn') as HTMLButtonElement;
+    act(() => {
+      btn.click();
+    });
+    const list = container.querySelector('.flagdd-list');
+    expect(list).toBeTruthy();
+    const items = Array.from(container.querySelectorAll('.flagdd-item'));
+    expect(items.some((el) => el.getAttribute('data-value') === 'en')).toBe(false);
+    expect(items.some((el) => el.getAttribute('data-value') === 'es')).toBe(true);
+  });
+
+  it('picking an option calls _setSelKnowLang and closes the list', () => {
+    const { container, root } = mount(<DuelKnowLangPicker />);
+    roots.push(root);
+    const btn = container.querySelector('.flagdd-btn') as HTMLButtonElement;
+    act(() => {
+      btn.click();
+    });
+    const item = container.querySelector('.flagdd-item[data-value="es"]') as HTMLButtonElement;
+    act(() => {
+      item.click();
+    });
+    expect(setSelKnowLang).toHaveBeenCalledWith('es');
+    expect(container.querySelector('.flagdd-list')).toBeNull();
+  });
+
+  it('DuelLangPicker excludes the currently-selected know language and calls _setSelLang', () => {
+    const { container, root } = mount(<DuelLangPicker />);
+    roots.push(root);
+    const btn = container.querySelector('.flagdd-btn') as HTMLButtonElement;
+    expect(btn.getAttribute('data-value')).toBe('en');
+    act(() => {
+      btn.click();
+    });
+    const items = Array.from(container.querySelectorAll('.flagdd-item'));
+    expect(items.some((el) => el.getAttribute('data-value') === 'ua')).toBe(false);
+    const item = container.querySelector('.flagdd-item[data-value="es"]') as HTMLButtonElement;
+    act(() => {
+      item.click();
+    });
+    expect(setSelLang).toHaveBeenCalledWith('es');
   });
 });

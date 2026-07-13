@@ -2,11 +2,12 @@
 // "Я знаю" / "Хочу вчити" / "Напрямок" language pair picker (first React component).
 // Drives the legacy #sel-mode <select> so all existing listeners
 // (deck-mode, tag-filter, word-detail, mode-utils, ...) keep working untouched.
-import { useEffect, useRef, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { t, getLang } from './i18n.ts';
 import { notifyStateChange, useStateVersion } from '../../src/store.ts';
 import { flagUrl } from '../core/flags.ts';
 import { FLAG_CODE } from '../core/flag-codes.ts';
+import { FlagDropdown } from '../core/flag-dropdown.tsx';
 import { ensureLangTableLoaded, areLangTablesReady } from './mode-utils.ts';
 
 export { FLAG_CODE };
@@ -573,82 +574,6 @@ function applyMode(learn: LangCode, know: LangCode, direction: Direction): void 
   if (sel.value === mode) return;
   sel.value = mode;
   sel.dispatchEvent(new Event('change'));
-}
-
-// A flag-icon dropdown standing in for a native <select> — browsers don't
-// render images inside <option>, so showing a flag per language/direction
-// means rolling our own button + popover list instead.
-function FlagDropdown<T extends string>({
-  value,
-  options,
-  renderOption,
-  onChange,
-  ariaLabel,
-  tag,
-}: {
-  value: T;
-  options: T[];
-  renderOption: (opt: T) => ReactElement;
-  onChange: (opt: T) => void;
-  ariaLabel: string;
-  // Short caption (e.g. "Я знаю") shown on the closed button only, so the
-  // two near-identical know/learn dropdowns stay distinguishable at a glance.
-  tag?: string;
-}): ReactElement {
-  const [open, setOpen] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function onDocClick(e: MouseEvent): void {
-      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
-    }
-    function onKeyDown(e: KeyboardEvent): void {
-      if (e.key === 'Escape') setOpen(false);
-    }
-    document.addEventListener('click', onDocClick);
-    document.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.removeEventListener('click', onDocClick);
-      document.removeEventListener('keydown', onKeyDown);
-    };
-  }, []);
-
-  return (
-    <div className="flagdd" ref={rootRef}>
-      <button
-        type="button"
-        className="flagdd-btn"
-        data-value={value}
-        aria-label={ariaLabel}
-        aria-expanded={open}
-        onClick={() => setOpen((o) => !o)}
-      >
-        {tag && <span className="flagdd-tag">{tag}</span>}
-        {renderOption(value)}
-        <span className="flagdd-arrow">{open ? '▴' : '▾'}</span>
-      </button>
-      {open && (
-        <div className="flagdd-list" role="listbox" aria-label={ariaLabel}>
-          {options.map((opt) => (
-            <button
-              type="button"
-              key={opt}
-              role="option"
-              data-value={opt}
-              aria-selected={opt === value}
-              className={'flagdd-item' + (opt === value ? ' flagdd-active' : '')}
-              onClick={() => {
-                onChange(opt);
-                setOpen(false);
-              }}
-            >
-              {renderOption(opt)}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
 }
 
 export function LangPairSelect(): ReactElement {
