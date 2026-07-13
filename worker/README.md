@@ -46,6 +46,13 @@ the `[[kv_namespaces]]` block in `wrangler.toml`:
 wrangler kv namespace create RATE_LIMIT
 ```
 
+Without this, the Worker still enforces the same per-minute cap using an
+in-memory counter local to whichever isolate handles the request — a real
+limit, just not a durable/cross-isolate one (a burst spread across isolates,
+or one that lands on a freshly-spun-up isolate, resets the count). KV gives
+you the stronger, shared version; this is the fallback so requests are never
+fully unthrottled.
+
 ## 4. Point the frontend at it
 
 Set `VITE_AI_PROXY_URL` to the Worker URL when building the app, e.g. in a

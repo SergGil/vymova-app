@@ -239,8 +239,46 @@ function buildSystemPrompt(body: ChatRequestBody): string {
   ].join(' ');
 }
 
+// Fallback used only when the RATE_LIMIT KV binding isn't configured (it's
+// documented as optional — see worker/README.md's "Optional: Rate limiting"
+// step). A Worker isolate stays warm across many requests, so this in-memory
+// map still catches sustained abuse from one IP even though it isn't
+// distributed/durable like KV (a burst that lands on a fresh isolate, or
+// traffic spread across isolates, resets the count) — the point is that
+// "KV not configured" degrades to "a weaker but real limit", never to "no
+// limit at all".
+const _memoryRateLimit = new Map<string, { count: number; resetAt: number }>();
+let _warnedMissingKv = false;
+
+function checkMemoryRateLimit(ip: string): boolean {
+  const now = Date.now();
+  if (_memoryRateLimit.size > 2000) {
+    for (const [k, v] of _memoryRateLimit) {
+      if (now >= v.resetAt) _memoryRateLimit.delete(k);
+    }
+  }
+  const bucket = _memoryRateLimit.get(ip);
+  if (!bucket || now >= bucket.resetAt) {
+    _memoryRateLimit.set(ip, { count: 1, resetAt: now + 60_000 });
+    return true;
+  }
+  if (bucket.count >= RATE_LIMIT_PER_MINUTE) return false;
+  bucket.count++;
+  return true;
+}
+
 async function checkRateLimit(env: Env, ip: string): Promise<boolean> {
-  if (!env.RATE_LIMIT) return true;
+  if (!env.RATE_LIMIT) {
+    if (!_warnedMissingKv) {
+      _warnedMissingKv = true;
+      console.warn(
+        '[vymova-ai-proxy] RATE_LIMIT KV binding is not configured — using a per-isolate ' +
+          'in-memory rate limit instead. See worker/README.md "Optional: Rate limiting" to ' +
+          'set up the durable, cross-isolate version.',
+      );
+    }
+    return checkMemoryRateLimit(ip);
+  }
   const key = `rl:${ip}:${Math.floor(Date.now() / 60000)}`;
   const current = parseInt((await env.RATE_LIMIT.get(key)) ?? '0', 10);
   if (current >= RATE_LIMIT_PER_MINUTE) return false;
@@ -256,6 +294,22 @@ export default {
     }
     if (request.method !== 'POST' || new URL(request.url).pathname !== '/chat') {
       return new Response('Not found', { status: 404, headers: corsHeaders(origin) });
+    }
+
+    // The CORS headers above only stop a *browser* from letting another
+    // site's JS read the response — they don't stop the browser from
+    // sending the request in the first place, and they do nothing at all
+    // for a non-browser client (curl, a script) that never checks CORS.
+    // Without this, the Worker still runs the (paid) Gemini call for any
+    // caller who finds the URL, regardless of Origin. Reject anything that
+    // doesn't claim to be the configured frontend — real browser fetches
+    // always send Origin on POST, so this only turns away spoofed/absent
+    // Origins, never a legitimate call from the app.
+    if (env.ALLOWED_ORIGIN && request.headers.get('Origin') !== env.ALLOWED_ORIGIN) {
+      return new Response(JSON.stringify({ error: 'forbidden_origin' }), {
+        status: 403,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      });
     }
 
     const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
