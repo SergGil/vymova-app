@@ -2,7 +2,7 @@
 // Лобі дуелі (Фаза 9/6). Обгортка над уже-існуючими React-пікерами
 // (leaderboard/rating/history/mode/category/options/resume) плюс
 // create/join/cancel/spectate/async/tournament-кнопки.
-// Читає _getLobbyUIData(); duel.ts викликає notifyStateChange().
+// Читає _getLobbyUIData(); реактивна через useDuelLobby().
 import { useState, type ReactElement } from 'react';
 import { t } from '../i18n.ts';
 import { useDuelLobby } from '../../../src/duel-lobby-store.ts';

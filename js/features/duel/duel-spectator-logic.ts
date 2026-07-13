@@ -6,7 +6,6 @@
 // lets this module own its state outright instead of reaching back into
 // duel.ts for it (same reasoning as duel-tournament-logic.ts).
 import { t } from '../i18n.ts';
-import { notifyStateChange } from '../../../src/store.ts';
 import { DB_URL, _fbGet, _fbPatch } from './duel-firebase.ts';
 import { setLobbyMsg } from '../../../src/duel-lobby-store.ts';
 import { setDuelScreen, setDuelRoom, getDuelRoomSnapshot } from '../../../src/duel-room-store.ts';
@@ -22,7 +21,6 @@ import {
   _registerSpecCancelHook,
   _registerSpecLeaveHook,
 } from './duel.ts';
-import { refreshDuelSpectator } from './duel-spectator.tsx';
 
 let _isSpectator = false;
 let _specId = '';
@@ -61,7 +59,6 @@ export async function joinAsSpectator(): Promise<void> {
     // force it to 'p2' so _cancelRoom()'s "I'm p1, delete the room" branch
     // never fires for a spectator, who never owns the room being watched.
     setDuelRoom({ roomId: code, mySlot: 'p2' });
-    notifyStateChange();
     await _fbPatch(`/duel_rooms/${code}/spectators/${_specId}`, {
       name: _getMyName(),
       avatar: _getMyAvatar(),
@@ -69,13 +66,11 @@ export async function joinAsSpectator(): Promise<void> {
     _startSpectatorView(room);
   } catch (e) {
     setLobbyMsg({ visible: true, text: '❌ ' + (e as Error).message, challenge: null });
-    notifyStateChange();
   }
 }
 
 function _startSpectatorView(room: RoomData): void {
   setDuelScreen('spectate');
-  notifyStateChange();
   _renderSpectatorView(room);
   _specPollTimer = setInterval(async () => {
     try {
@@ -103,8 +98,6 @@ function _startSpectatorView(room: RoomData): void {
 
 function _renderSpectatorView(room: RoomData): void {
   setDuelSpecRoom(room);
-  notifyStateChange();
-  refreshDuelSpectator();
 }
 
 // Покинути спостереження (item 33, Фаза 5) — викликається з React-кнопки

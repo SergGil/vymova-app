@@ -1,12 +1,9 @@
 // Vymova — js/features/duel-chat-log.tsx
 // Лог чату/реакцій дуелі (item 32, Фаза 5). Чисте відображення
-// `_getChatHistory()`; duel.ts викликає refreshDuelChatLog() при
-// кожному новому повідомленні/реакції (_appendChatMsg, _showGame,
-// відновлення сесії).
+// `_getChatHistory()`, реактивне через duel-async-store.
 import type { ReactElement } from 'react';
 import { useEffect, useRef } from 'react';
 import { _getChatHistory } from './duel.ts';
-import { notifyStateChange } from '../../../src/store.ts';
 import { useDuelChat } from '../../../src/duel-async-store.ts';
 
 export function DuelChatLog(): ReactElement {
@@ -25,8 +22,4 @@ export function DuelChatLog(): ReactElement {
       ))}
     </div>
   );
-}
-
-export function refreshDuelChatLog(): void {
-  notifyStateChange();
 }

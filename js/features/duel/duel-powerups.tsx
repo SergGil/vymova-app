@@ -5,7 +5,6 @@
 import type { ReactElement } from 'react';
 import { _getPowerupsData, _onPowerupClick, POWERUPS, type PowerupType } from './duel.ts';
 import { t } from '../i18n.ts';
-import { notifyStateChange } from '../../../src/store.ts';
 import { useDuelRoomSelector } from '../../../src/duel-room-store.ts';
 
 export function DuelPowerups(): ReactElement | null {
@@ -70,8 +69,4 @@ export function DuelPowerups(): ReactElement | null {
       })}
     </div>
   );
-}
-
-export function refreshDuelPowerups(): void {
-  notifyStateChange();
 }

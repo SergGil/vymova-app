@@ -1082,8 +1082,8 @@ export function openLearningPath(retriesLeft = 2): void {
     renderLearningPath();
   } catch (e) {
     console.error('[learning-path] render failed', e);
-    // App state (e.g. state.known) may not be wired up yet right after a
-    // page reload — retry shortly instead of leaving the overlay empty.
+    // known-words-store's data may not be hydrated yet right after a page
+    // reload — retry shortly instead of leaving the overlay empty.
     if (retriesLeft > 0) setTimeout(() => openLearningPath(retriesLeft - 1), 200);
   }
 }

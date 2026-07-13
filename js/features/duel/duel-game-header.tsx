@@ -1,12 +1,10 @@
 // Vymova — js/features/duel-game-header.tsx
 // Шапка екрану дуелі (item 32, Фаза 5): аватари, рахунок, прогрес-бари,
-// бейдж режиму, серія Best-of-3, код кімнати. Re-rendered on demand via
-// refreshDuelGameHeader(), яку викликає duel.ts після зміни стану гри
-// (polling/state-machine логіка лишається в duel.ts).
+// бейдж режиму, серія Best-of-3, код кімнати. Реактивна через
+// useDuelRoomSelector() (polling/state-machine логіка лишається в duel.ts).
 import type { ReactElement } from 'react';
 import { _getGameHeaderData, DUEL_MODES } from './duel.ts';
 import { t } from '../i18n.ts';
-import { notifyStateChange } from '../../../src/store.ts';
 import { useDuelRoomSelector } from '../../../src/duel-room-store.ts';
 
 function Dots({
@@ -138,8 +136,4 @@ export function DuelGameHeader(): ReactElement {
       </div>
     </div>
   );
-}
-
-export function refreshDuelGameHeader(): void {
-  notifyStateChange();
 }

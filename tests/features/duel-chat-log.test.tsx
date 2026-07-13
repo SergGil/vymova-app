@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelChatLog, refreshDuelChatLog } from '../../js/features/duel/duel-chat-log.tsx';
+import { DuelChatLog } from '../../js/features/duel/duel-chat-log.tsx';
 import { setDuelChat } from '../../src/duel-async-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -63,14 +63,13 @@ describe('duel-chat-log.tsx DuelChatLog', () => {
     expect(msgs[1].className).not.toContain('me');
   });
 
-  it('refreshDuelChatLog re-renders the log with new messages', () => {
+  it('re-renders the log with new messages', () => {
     const { container, root } = mount();
     roots.push(root);
     expect(container.querySelectorAll('.duel-chat-msg').length).toBe(0);
 
     chatHistory = [{ text: 'New message', isMe: true }];
     act(() => {
-      refreshDuelChatLog();
       setDuelChat(chatHistory);
     });
 
@@ -87,7 +86,6 @@ describe('duel-chat-log.tsx DuelChatLog', () => {
 
     chatHistory = [{ text: 'New message', isMe: true }];
     act(() => {
-      refreshDuelChatLog();
       setDuelChat(chatHistory);
     });
 

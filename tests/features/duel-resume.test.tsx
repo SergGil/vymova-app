@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelResume, refreshDuelResume } from '../../js/features/duel/duel-resume.tsx';
+import { DuelResume } from '../../js/features/duel/duel-resume.tsx';
 import type { ResumeSessionVM } from '../../js/features/duel/duel.ts';
 import { setDuelResumeSessions } from '../../src/duel-async-store.ts';
 
@@ -98,14 +98,13 @@ describe('duel-resume.tsx DuelResume', () => {
     expect(onResumeDiscard).toHaveBeenCalledWith('r42');
   });
 
-  it('refreshDuelResume re-renders with updated sessions', () => {
+  it('re-renders with updated sessions', () => {
     const { container, root } = mount();
     roots.push(root);
     expect(container.innerHTML).toBe('');
 
     getResumeSessions.mockReturnValue([makeSession()]);
     act(() => {
-      refreshDuelResume();
       setDuelResumeSessions([makeSession()]);
     });
     expect(container.textContent).toContain('🔄 Незавершена дуель');

@@ -11,7 +11,6 @@ import type { DuelMode, Difficulty, BestOf, RoomData } from './duel-types.ts';
 import { DUEL_MODES, DIFFICULTIES } from './duel-types.ts';
 import type { DuelLobbyUIState } from '../../../src/types.js';
 import { t } from '../i18n.ts';
-import { notifyStateChange } from '../../../src/store.ts';
 import { _fbGet, _fbPatch, _fbSet } from './duel-firebase.ts';
 import { _getMyName, _getMyAvatar } from './duel-profile-snap.ts';
 import { DUEL_LANG_CODES, _genCode, _fmtCode, _buildDeck } from './duel-deck.ts';
@@ -41,42 +40,36 @@ export function _getSelMode(): DuelMode {
 }
 export function _setSelMode(m: DuelMode): void {
   setSelField('mode', m);
-  notifyStateChange();
 }
 export function _getSelCategory(): string {
   return getDuelSelSnapshot().category;
 }
 export function _setSelCategory(c: string): void {
   setSelField('category', c);
-  notifyStateChange();
 }
 export function _getSelDifficulty(): Difficulty {
   return getDuelSelSnapshot().difficulty;
 }
 export function _setSelDifficulty(d: Difficulty): void {
   setSelField('difficulty', d);
-  notifyStateChange();
 }
 export function _getSelBestOf(): BestOf {
   return getDuelSelSnapshot().bestOf;
 }
 export function _setSelBestOf(b: BestOf): void {
   setSelField('bestOf', b);
-  notifyStateChange();
 }
 export function _getSelMaxHints(): number {
   return getDuelSelSnapshot().maxHints;
 }
 export function _setSelMaxHints(h: number): void {
   setSelField('maxHints', h);
-  notifyStateChange();
 }
 export function _getSelPowerups(): boolean {
   return getDuelSelSnapshot().powerupsEnabled;
 }
 export function _setSelPowerups(p: boolean): void {
   setSelField('powerupsEnabled', p);
-  notifyStateChange();
 }
 export function _getSelLang(): string {
   return getDuelSelSnapshot().lang;
@@ -86,7 +79,6 @@ export function _setSelLang(l: string): void {
   if (getDuelSelSnapshot().knowLang === l) {
     setSelField('knowLang', DUEL_LANG_CODES.find((x) => x !== l) ?? 'ua');
   }
-  notifyStateChange();
 }
 export function _getSelKnowLang(): string {
   return getDuelSelSnapshot().knowLang;
@@ -96,7 +88,6 @@ export function _setSelKnowLang(l: string): void {
   if (getDuelSelSnapshot().lang === l) {
     setSelField('lang', DUEL_LANG_CODES.find((x) => x !== l) ?? 'en');
   }
-  notifyStateChange();
 }
 
 export function _showInfoTooltip(anchor: HTMLElement, type: 'hints' | 'powerups'): void {
@@ -194,7 +185,6 @@ export function _getLobbyUIData(): DuelLobbyUIState {
 // ── Create / Join ─────────────────────────────────────────────
 export async function createRoom(): Promise<void> {
   setLobbyBtn('createBtn', true);
-  notifyStateChange();
   try {
     const sel = getDuelSelSnapshot();
     const roomId = _genCode();
@@ -240,7 +230,6 @@ export async function createRoom(): Promise<void> {
       roomKnowLang: sel.knowLang,
       quizDeck: _buildDeck(seed, sel.category, sel.difficulty, sel.mode, sel.lang, sel.knowLang),
     });
-    notifyStateChange();
     const mInfo = DUEL_MODES.find((m) => m.id === sel.mode)!;
     const catLabel = sel.category ? ` · ${sel.category.split(' ')[0]}` : '';
     const diff = DIFFICULTIES.find((d) => d.id === sel.difficulty);
@@ -249,12 +238,10 @@ export async function createRoom(): Promise<void> {
     setLobbyMsg({ visible: false, text: getDuelLobbyUISnapshot().msg.text, challenge: null });
     setLobbyWaiting({ visible: true, roomCode: _fmtCode(roomId), modeLabel });
     setLobbyJoinRowVisible(false);
-    notifyStateChange();
     _startWaitPoll();
   } catch (e) {
     setLobbyBtn('createBtn', false);
     setLobbyMsg({ visible: true, text: '❌ ' + (e as Error).message, challenge: null });
-    notifyStateChange();
   }
 }
 
@@ -262,11 +249,9 @@ export async function joinRoom(rawCode: string): Promise<void> {
   const code = rawCode.replace(/[^A-Z0-9]/gi, '').toUpperCase();
   if (code.length < 6) {
     setLobbyMsg({ visible: true, text: t('duel.enterCode'), challenge: null });
-    notifyStateChange();
     return;
   }
   setLobbyBtn('joinBtn', true);
-  notifyStateChange();
   try {
     const room = (await _fbGet(`/duel_rooms/${code}`)) as RoomData | null;
     if (!room?.seed) throw new Error(t('duel.err.notFound'));
@@ -311,12 +296,10 @@ export async function joinRoom(rawCode: string): Promise<void> {
       started: true,
     });
     setDuelRoom({ oppName: room.p1.name, oppAvatar: room.p1.avatar });
-    notifyStateChange();
     _initGame(room.mode, room.maxHints, room.bestOf, room.series, room.powerupsEnabled);
   } catch (e) {
     setLobbyBtn('joinBtn', false);
     setLobbyMsg({ visible: true, text: '❌ ' + (e as Error).message, challenge: null });
-    notifyStateChange();
   }
 }
 

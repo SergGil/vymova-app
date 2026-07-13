@@ -1,14 +1,13 @@
 // Vymova — js/features/duel-spectator.tsx
 // Екран спостерігача за дуеллю (item 33, Фаза 5). Чисте відображення
-// знімку кімнати `_getSpecRoom()`; polling/Firebase-логіка лишається в
-// duel-spectator-logic.ts (_startSpectatorView/_renderSpectatorView), яка
-// викликає refreshDuelSpectator() після кожного оновлення.
+// знімку кімнати `_getSpecRoom()`, реактивне через useDuelSpecRoom();
+// polling/Firebase-логіка лишається в duel-spectator-logic.ts
+// (_startSpectatorView/_renderSpectatorView).
 import type { ReactElement } from 'react';
 import { _getDuelScreen, DUEL_MODES } from './duel.ts';
 import { ROOM_SIZE } from './duel-types.ts';
 import { _getSpecRoom, _leaveSpectator } from './duel-spectator-logic.ts';
 import { t } from '../i18n.ts';
-import { notifyStateChange } from '../../../src/store.ts';
 import { useDuelSpecRoom } from '../../../src/duel-async-store.ts';
 import { useDuelRoomState } from '../../../src/duel-room-store.ts';
 
@@ -116,8 +115,4 @@ export function DuelSpectatorView(): ReactElement | null {
       </button>
     </div>
   );
-}
-
-export function refreshDuelSpectator(): void {
-  notifyStateChange();
 }

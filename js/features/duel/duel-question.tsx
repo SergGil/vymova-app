@@ -1,8 +1,7 @@
 // Vymova — js/features/duel-question.tsx
 // Ядро питання/відповіді/таймера дуелі (item 32, Фаза 5). Чисте
-// відображення `_getQuestionData()`; duel.ts викликає
-// refreshDuelQuestion() при кожній зміні (нове питання, вибір
-// відповіді, підказка, тайм-аут tempo, фінал гравця).
+// відображення `_getQuestionData()`, реактивне через duel-question-store
+// та duel-room-store.
 import type { ReactElement } from 'react';
 import { useEffect, useRef } from 'react';
 import { t } from '../i18n.ts';
@@ -14,7 +13,6 @@ import {
   _useHint,
   _onNextClick,
 } from './duel.ts';
-import { notifyStateChange } from '../../../src/store.ts';
 import { useDuelQuestion } from '../../../src/duel-question-store.ts';
 import { useDuelRoomState } from '../../../src/duel-room-store.ts';
 
@@ -239,8 +237,4 @@ export function DuelQuestion(): ReactElement {
       )}
     </>
   );
-}
-
-export function refreshDuelQuestion(): void {
-  notifyStateChange();
 }

@@ -1,8 +1,6 @@
 // Vymova — js/features/duel-resume.tsx
 // Картки "продовжити дуель" у лобі (item 33, Фаза 5). Чисте
-// відображення `_getResumeSessions()`; duel.ts викликає
-// refreshDuelResume() при кожній зміні (нова перевірка сесій,
-// продовження, відмова).
+// відображення `_getResumeSessions()`, реактивне через duel-async-store.
 import type { ReactElement } from 'react';
 import { useEffect, useState } from 'react';
 import { t } from '../i18n.ts';
@@ -12,7 +10,6 @@ import {
   _onResumeDiscard,
   type ResumeSessionVM,
 } from './duel.ts';
-import { notifyStateChange } from '../../../src/store.ts';
 import { useDuelResumeSessions } from '../../../src/duel-async-store.ts';
 
 function ResumeCard({ s }: { s: ResumeSessionVM }): ReactElement {
@@ -106,8 +103,4 @@ export function DuelResume(): ReactElement | null {
       ))}
     </>
   );
-}
-
-export function refreshDuelResume(): void {
-  notifyStateChange();
 }

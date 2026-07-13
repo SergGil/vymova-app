@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DuelFeedback, refreshDuelFeedback } from '../../js/features/duel/duel-feedback.tsx';
+import { DuelFeedback } from '../../js/features/duel/duel-feedback.tsx';
 import { setDuelQuestionFields } from '../../src/duel-question-store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -58,13 +58,12 @@ describe('duel-feedback.tsx DuelFeedback', () => {
     expect(divs[1].textContent).toBe('0.8s');
   });
 
-  it('refreshDuelFeedback re-renders with updated feedback', () => {
+  it('re-renders with updated feedback', () => {
     const { container, root } = mount();
     roots.push(root);
 
     feedback = { html: '<b>Невірно</b>', speed: '1.2s' };
     act(() => {
-      refreshDuelFeedback();
       setDuelQuestionFields({});
     });
 

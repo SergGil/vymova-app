@@ -1,7 +1,7 @@
 // Vymova — js/features/duel-tournament.tsx
 // Турнірна сітка (item 33, Фаза 5). Чисте відображення
-// `_getTournamentData()`; duel.ts викликає refreshDuelTournament()
-// при кожній зміні (полінг кімнати очікування / турнірного браунзера).
+// `_getTournamentData()`, реактивне через useDuelTournView()
+// (полінг кімнати очікування / турнірного браузера — в duel-tournament-logic.ts).
 import type { ReactElement } from 'react';
 import { t } from '../i18n.ts';
 import { _getDuelScreen } from './duel.ts';
@@ -13,7 +13,6 @@ import {
   _onTournRejoin,
   type TournRoundVM,
 } from './duel-tournament-logic.ts';
-import { notifyStateChange } from '../../../src/store.ts';
 import { useDuelTournView } from '../../../src/duel-async-store.ts';
 import { useDuelRoomState } from '../../../src/duel-room-store.ts';
 
@@ -275,8 +274,4 @@ export function DuelTournament(): ReactElement | null {
       <TournBracket />
     </>
   );
-}
-
-export function refreshDuelTournament(): void {
-  notifyStateChange();
 }

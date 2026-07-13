@@ -4,7 +4,6 @@
 // match-finish hook into duel.ts (mirrors game.ts's registerCheckAchievements
 // pattern) instead of duel.ts reaching into tournament-private state directly.
 import { t } from '../i18n.ts';
-import { notifyStateChange } from '../../../src/store.ts';
 import { getDuelSelSnapshot, setLobbyTournBtn } from '../../../src/duel-lobby-store.ts';
 import { setDuelScreen, setDuelRoom } from '../../../src/duel-room-store.ts';
 import { setDuelTournView, getDuelTournViewSnapshot } from '../../../src/duel-async-store.ts';
@@ -31,7 +30,6 @@ import {
   renderDuel,
   DUEL_MODES,
 } from './duel.ts';
-import { refreshDuelTournament } from './duel-tournament.tsx';
 
 interface TournMatch {
   p1: number;
@@ -68,7 +66,6 @@ let _tournFinishHook: ((r: RoomData) => void) | null = null;
 
 function _showTournament() {
   setDuelScreen('tournament');
-  notifyStateChange();
 }
 
 let _tournPlayCtx: { tourn: Tournament; round: number; matchIdx: number } | null = null;
@@ -124,7 +121,6 @@ function _tournRoundName(round: number, totalRounds: number): string {
 export async function createTournament(size: 4 | 8): Promise<void> {
   const tournBtnKey = size === 4 ? 'tournBtn4' : 'tournBtn8';
   setLobbyTournBtn(tournBtnKey, true, null);
-  notifyStateChange();
   try {
     _tournId = _genCode();
     const sel = getDuelSelSnapshot();
@@ -153,7 +149,6 @@ export async function createTournament(size: 4 | 8): Promise<void> {
     _startTournWaitPoll();
   } catch (e) {
     setLobbyTournBtn(tournBtnKey, false, '❌ ' + (e as Error).message);
-    notifyStateChange();
   }
 }
 
@@ -217,8 +212,6 @@ function _renderTournWaiting(tourn: Tournament): void {
     rounds: [],
     matchArea: { kind: 'none' },
   });
-  notifyStateChange();
-  refreshDuelTournament();
 }
 
 function _startTournWaitPoll(): void {
@@ -325,8 +318,6 @@ function _renderTournBracket(tourn: Tournament): void {
     rounds,
     matchArea,
   });
-  notifyStateChange();
-  refreshDuelTournament();
 }
 
 async function _startTournMatch(tourn: Tournament, round: number, matchIdx: number): Promise<void> {
@@ -379,7 +370,6 @@ async function _startTournMatch(tourn: Tournament, round: number, matchIdx: numb
       tourn.knowLang,
     ),
   });
-  notifyStateChange();
   _initGame(tourn.mode, 3, 1, { p1wins: 0, p2wins: 0, round: 1 }, false);
   // After game finishes, save result to tournament
   _tournFinishHook = async (roomData: RoomData) => {
@@ -437,7 +427,6 @@ async function _joinTournMatch(roomId: string): Promise<void> {
       oppName: room.p1.name,
       oppAvatar: room.p1.avatar,
     });
-    notifyStateChange();
     _initGame(room.mode, 3, 1, { p1wins: 0, p2wins: 0, round: 1 }, false);
   } catch (e) {}
 }

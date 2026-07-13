@@ -5,7 +5,6 @@
 // _specPollTimer: creating/joining a challenge and being mid-game are
 // mutually exclusive, so a dedicated timer var here is behavior-preserving.
 import { t } from '../i18n.ts';
-import { notifyStateChange } from '../../../src/store.ts';
 import { _fbGet, _fbSet, _fbPatch } from './duel-firebase.ts';
 import {
   getDuelSelSnapshot,
@@ -63,7 +62,6 @@ _registerAsyncStartCancelHook(_cancelAsyncStart);
 
 export async function createAsyncChallenge(): Promise<void> {
   setLobbyBtn('asyncBtn', true);
-  notifyStateChange();
   try {
     // Clear any stale tournament state so _showFinish doesn't route to tournament path
     await _clearTournamentState();
@@ -107,19 +105,16 @@ export async function createAsyncChallenge(): Promise<void> {
       modeLabel: `📬 ${t('duel.mode.' + sel.mode)} · ${t('duel.async.24h')}`,
     });
     setLobbyJoinRowVisible(false);
-    notifyStateChange();
     // Start playing immediately
     _cancelAsyncStart();
     _asyncStartTimer = setTimeout(() => {
       _asyncStartTimer = null;
       setLobbyWaiting({ ...getDuelLobbyUISnapshot().waiting, visible: false });
-      notifyStateChange();
       _initGame(sel.mode, sel.maxHints, 1, { p1wins: 0, p2wins: 0, round: 1 }, sel.powerupsEnabled);
     }, 2000);
   } catch (e) {
     setLobbyBtn('asyncBtn', false);
     setLobbyMsg({ visible: true, text: '❌ ' + (e as Error).message, challenge: null });
-    notifyStateChange();
   }
 }
 
@@ -154,7 +149,6 @@ export async function joinAsyncChallenge(): Promise<void> {
       oppName: challenge.challenger.name,
       oppAvatar: challenge.challenger.avatar,
     });
-    notifyStateChange();
     const mInfo = DUEL_MODES.find((m) => m.id === challenge.mode);
     setLobbyMsg({
       visible: true,
@@ -166,7 +160,6 @@ export async function joinAsyncChallenge(): Promise<void> {
         modeLabel: mInfo ? t('duel.mode.' + mInfo.id) : '',
       },
     });
-    notifyStateChange();
     // Let the challenger know who accepted, so resume cards can show "vs <opponent>"
     _fbPatch(`/duel_async/${code}`, {
       opponent: { name: _getMyName(), avatar: _getMyAvatar(), score: 0, done: false },
@@ -175,7 +168,6 @@ export async function joinAsyncChallenge(): Promise<void> {
     _asyncStartTimer = setTimeout(() => {
       _asyncStartTimer = null;
       setLobbyMsg({ ...getDuelLobbyUISnapshot().msg, visible: false });
-      notifyStateChange();
       _initGame(
         challenge.mode,
         getDuelRoomSnapshot().roomMaxHints,
@@ -186,6 +178,5 @@ export async function joinAsyncChallenge(): Promise<void> {
     }, 1800);
   } catch (e) {
     setLobbyMsg({ visible: true, text: '❌ ' + (e as Error).message, challenge: null });
-    notifyStateChange();
   }
 }
