@@ -11,7 +11,7 @@ import type { DuelMode, Difficulty, BestOf, RoomData } from './duel-types.ts';
 import { DUEL_MODES, DIFFICULTIES } from './duel-types.ts';
 import type { DuelLobbyUIState } from '../../../src/types.js';
 import { t } from '../i18n.ts';
-import { _fbGet, _fbPatch, _fbSet } from './duel-firebase.ts';
+import { _fbGet, _fbPatch, _fbSet, _fbClaim } from './duel-firebase.ts';
 import { _getMyName, _getMyAvatar } from './duel-profile-snap.ts';
 import { DUEL_LANG_CODES, _genCode, _fmtCode, _buildDeck } from './duel-deck.ts';
 import {
@@ -257,6 +257,26 @@ export async function joinRoom(rawCode: string): Promise<void> {
     if (!room?.seed) throw new Error(t('duel.err.notFound'));
     if (room.p2) throw new Error(t('duel.err.taken'));
     if (room.finished) throw new Error(t('duel.err.finished'));
+    // Atomic compare-and-swap on the p2 slot: two players tapping "join" on
+    // the same code within the same poll window can both pass the check
+    // above, but only one of them can win this conditional write (Firebase's
+    // if-match support) — the loser gets `false` here instead of silently
+    // clobbering the winner's p2 entry with a blind PATCH.
+    const claimed = await _fbClaim(`/duel_rooms/${code}/p2`, {
+      name: _getMyName(),
+      avatar: _getMyAvatar(),
+      score: 0,
+      idx: 0,
+      done: false,
+      hintsLeft: room.maxHints,
+      powerups: {
+        double: room.powerupsEnabled ? 1 : 0,
+        skip: room.powerupsEnabled ? 1 : 0,
+        freeze: room.powerupsEnabled ? 1 : 0,
+      },
+    });
+    if (!claimed) throw new Error(t('duel.err.taken'));
+    await _fbPatch(`/duel_rooms/${code}`, { started: true });
     setDuelRoom({
       roomId: code,
       mySlot: 'p2',
@@ -278,24 +298,9 @@ export async function joinRoom(rawCode: string): Promise<void> {
       ),
       bestOf: room.bestOf || 1,
       series: { ...room.series },
+      oppName: room.p1.name,
+      oppAvatar: room.p1.avatar,
     });
-    await _fbPatch(`/duel_rooms/${code}`, {
-      p2: {
-        name: _getMyName(),
-        avatar: _getMyAvatar(),
-        score: 0,
-        idx: 0,
-        done: false,
-        hintsLeft: room.maxHints,
-        powerups: {
-          double: room.powerupsEnabled ? 1 : 0,
-          skip: room.powerupsEnabled ? 1 : 0,
-          freeze: room.powerupsEnabled ? 1 : 0,
-        },
-      },
-      started: true,
-    });
-    setDuelRoom({ oppName: room.p1.name, oppAvatar: room.p1.avatar });
     _initGame(room.mode, room.maxHints, room.bestOf, room.series, room.powerupsEnabled);
   } catch (e) {
     setLobbyBtn('joinBtn', false);

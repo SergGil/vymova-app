@@ -2,23 +2,95 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 // ── Mock Firebase fetch (records every request so we can assert on
 // method/path/body, not just the resulting KV state) ──────────────
+// Modeled as a real nested tree (not a flat path→value map) — Firebase RTDB
+// is a tree, so a write to a child path (e.g. /duel_rooms/X/p2) must be
+// visible to a GET of its parent (/duel_rooms/X), which duel.ts's polling
+// and joinRoom()'s atomic p2 claim both rely on. Also models Firebase's
+// conditional-request support (X-Firebase-ETag / if-match) with a per-path
+// version counter, so _fbClaim()'s compare-and-swap can be tested for real.
 const DB_URL = 'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
-const _fbStore: Record<string, unknown> = {};
+const _fbRoot: Record<string, unknown> = {};
+const _fbVersion: Record<string, number> = {};
 const _calls: { method: string; path: string; body?: unknown }[] = [];
+
+function _fbSplit(path: string): string[] {
+  return path.split('/').filter(Boolean);
+}
+function _fbGetAt(path: string): unknown {
+  let node: unknown = _fbRoot;
+  for (const part of _fbSplit(path)) {
+    if (node === null || typeof node !== 'object') return null;
+    node = (node as Record<string, unknown>)[part];
+  }
+  return node === undefined ? null : node;
+}
+function _fbSetAt(path: string, value: unknown): void {
+  const parts = _fbSplit(path);
+  let node = _fbRoot;
+  for (let i = 0; i < parts.length - 1; i++) {
+    const part = parts[i];
+    if (typeof node[part] !== 'object' || node[part] === null) node[part] = {};
+    node = node[part] as Record<string, unknown>;
+  }
+  node[parts[parts.length - 1]] = value;
+}
+function _fbDeleteAt(path: string): void {
+  const parts = _fbSplit(path);
+  let node = _fbRoot;
+  for (let i = 0; i < parts.length - 1; i++) {
+    const part = parts[i];
+    if (typeof node[part] !== 'object' || node[part] === null) return;
+    node = node[part] as Record<string, unknown>;
+  }
+  delete node[parts[parts.length - 1]];
+}
+function _fbEtag(path: string): string {
+  return 'v' + (_fbVersion[path] ?? 0);
+}
+
 vi.stubGlobal(
   'fetch',
   vi.fn(async (url: string, opts?: RequestInit) => {
     const path = url.replace(DB_URL, '').replace('.json', '');
     const method = opts?.method ?? 'GET';
     const body = opts?.body ? JSON.parse(opts.body as string) : undefined;
+    const reqHeaders = (opts?.headers as Record<string, string>) ?? {};
     _calls.push({ method, path, body });
-    if (method === 'PUT') _fbStore[path] = body;
-    if (method === 'PATCH') {
-      const ex = (_fbStore[path] as Record<string, unknown>) ?? {};
-      _fbStore[path] = { ...ex, ...(body as Record<string, unknown>) };
+    if (method === 'PUT') {
+      const ifMatch = reqHeaders['if-match'];
+      if (ifMatch !== undefined && ifMatch !== _fbEtag(path)) {
+        return {
+          ok: false,
+          status: 412,
+          json: async () => null,
+          headers: { get: () => null },
+        } as unknown as Response;
+      }
+      _fbSetAt(path, body);
+      _fbVersion[path] = (_fbVersion[path] ?? 0) + 1;
     }
-    if (method === 'DELETE') delete _fbStore[path];
-    return { ok: true, json: async () => _fbStore[path] ?? null } as Response;
+    if (method === 'PATCH') {
+      const ex = (_fbGetAt(path) as Record<string, unknown>) ?? {};
+      _fbSetAt(path, { ...ex, ...(body as Record<string, unknown>) });
+      _fbVersion[path] = (_fbVersion[path] ?? 0) + 1;
+    }
+    if (method === 'DELETE') {
+      _fbDeleteAt(path);
+      _fbVersion[path] = (_fbVersion[path] ?? 0) + 1;
+    }
+    // Snapshot the ETag now, at response-construction time — a real HTTP
+    // response's headers are fixed the moment the server builds it. If this
+    // read the live `_fbVersion` lazily inside `.get()` instead, a racer
+    // whose GET landed before a concurrent write would still observe the
+    // *post-write* ETag once it got around to calling `.get()`, defeating
+    // the whole point of testing the if-match race.
+    const etagSnapshot = _fbEtag(path);
+    return {
+      ok: true,
+      status: 200,
+      json: async () => _fbGetAt(path),
+      headers: { get: (name: string) => (name.toLowerCase() === 'etag' ? etagSnapshot : null) },
+    } as unknown as Response;
   }),
 );
 
@@ -71,7 +143,8 @@ import { getDuelLobbyUISnapshot } from '../../src/duel-lobby-store.ts';
 // actually fires.
 describe('duel cloud sync — real Firebase-facing functions after the module split', () => {
   beforeEach(() => {
-    Object.keys(_fbStore).forEach((k) => delete _fbStore[k]);
+    Object.keys(_fbRoot).forEach((k) => delete _fbRoot[k]);
+    Object.keys(_fbVersion).forEach((k) => delete _fbVersion[k]);
     _calls.length = 0;
     document.body.innerHTML = '';
   });
@@ -90,8 +163,8 @@ describe('duel cloud sync — real Firebase-facing functions after the module sp
     expect(del).toBeTruthy();
   });
 
-  it('joinRoom() GETs the room then PATCHes p2 + started:true', async () => {
-    _fbStore['/duel_rooms/JOINME'] = {
+  it('joinRoom() claims p2 via a conditional PUT, then PATCHes started:true', async () => {
+    _fbSetAt('/duel_rooms/JOINME', {
       seed: 1,
       mode: 'quiz',
       category: '',
@@ -105,12 +178,54 @@ describe('duel cloud sync — real Firebase-facing functions after the module sp
       finished: false,
       createdAt: Date.now(),
       series: { p1wins: 0, p2wins: 0, round: 1 },
-    };
+    });
     await joinRoom('JOINME');
+    const claim = _calls.find((c) => c.method === 'PUT' && c.path === '/duel_rooms/JOINME/p2');
+    expect(claim).toBeTruthy();
+    expect((claim!.body as any).name).toBeTruthy();
     const patch = _calls.find((c) => c.method === 'PATCH' && c.path === '/duel_rooms/JOINME');
     expect(patch).toBeTruthy();
     expect((patch!.body as any).started).toBe(true);
-    expect((patch!.body as any).p2).toBeTruthy();
+    // The full room doc (a real Firebase tree, not a flat KV store) must
+    // reflect the child write — duel.ts's game/opponent polling reads the
+    // parent path and expects p2 to already be there.
+    expect((_fbGetAt('/duel_rooms/JOINME') as any).p2.name).toBeTruthy();
+    _cancelRoom();
+  });
+
+  it('joinRoom() race: only one of two concurrent joiners claims p2, the other sees duel.err.taken', async () => {
+    _fbSetAt('/duel_rooms/RACEME', {
+      seed: 1,
+      mode: 'quiz',
+      category: '',
+      difficulty: 'mixed',
+      bestOf: 1,
+      maxHints: 3,
+      powerupsEnabled: false,
+      p1: { name: 'Host', avatar: '🧑', score: 0, idx: 0, done: false, hintsLeft: 3, powerups: {} },
+      p2: null,
+      started: false,
+      finished: false,
+      createdAt: Date.now(),
+      series: { p1wins: 0, p2wins: 0, round: 1 },
+    });
+    // Both "players" read the room (p2 still null for both) and race to
+    // claim the slot — this is the exact window the bug report describes.
+    await Promise.all([joinRoom('RACEME'), joinRoom('RACEME')]);
+    const claimPuts = _calls.filter((c) => c.method === 'PUT' && c.path === '/duel_rooms/RACEME/p2');
+    // Both racers attempt the conditional claim...
+    expect(claimPuts.length).toBe(2);
+    // ...but the if-match check only lets one of them actually persist —
+    // the loser's PUT is rejected with 412, so the path's version (and thus
+    // its stored value) only advances once, not clobbered by a second write.
+    expect(_fbVersion['/duel_rooms/RACEME/p2']).toBe(1);
+    // Only the winner proceeds past the claim to mark the room started —
+    // the loser throws duel.err.taken before ever reaching that PATCH.
+    const startedPatches = _calls.filter(
+      (c) =>
+        c.method === 'PATCH' && c.path === '/duel_rooms/RACEME' && (c.body as any).started === true,
+    );
+    expect(startedPatches.length).toBe(1);
     _cancelRoom();
   });
 
@@ -144,7 +259,7 @@ describe('duel cloud sync — real Firebase-facing functions after the module sp
   });
 
   it('joinAsSpectator() PATCHes a spectator entry, and _cancelRoom() DELETEs it via the cross-module cleanup hook', async () => {
-    _fbStore['/duel_rooms/SPECROOM'] = {
+    _fbSetAt('/duel_rooms/SPECROOM', {
       seed: 1,
       mode: 'quiz',
       category: '',
@@ -155,7 +270,7 @@ describe('duel cloud sync — real Firebase-facing functions after the module sp
       finished: false,
       createdAt: Date.now(),
       series: { p1wins: 0, p2wins: 0, round: 1 },
-    };
+    });
     _mountCodeInputDom();
     const joined = joinAsSpectator();
     await _answerCodePrompt('SPECROOM');
