@@ -1,5 +1,5 @@
 // Vymova — js/features/combo.ts
-import { refreshComboBox } from './game-bar-streak.tsx';
+import { notifyStateChange } from '../../src/store.ts';
 import { getGameData, saveGameData } from './game.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
 import { playSound } from '../core/audio.ts';
@@ -63,7 +63,7 @@ export function awardXP(base: number): number {
   return xp;
 }
 function _renderCombo(): void {
-  refreshComboBox();
+  notifyStateChange();
 }
 export function flashCard(ok: boolean): void {
   const face = document.getElementById('card-front') as HTMLElement | null;

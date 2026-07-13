@@ -73,6 +73,21 @@ export default defineConfig({
     pool: 'forks',
     include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx'],
     setupFiles: ['./tests/setup.ts'],
+    // General safety net for ordinary flaky patterns (timing-sensitive
+    // assertions, async races) — a genuinely broken test still fails on
+    // every retry, so this can't hide a real bug.
+    //
+    // Note: this does NOT fix the known, currently-unresolved vitest/vite-node
+    // module-initialization flakiness (see vitest-dev/vitest#8815, #9249):
+    // in a full-suite run with hundreds of files, module load order can very
+    // rarely race such that a top-level binding (e.g. a `let` reachable via
+    // two different import paths) reads as uninitialized for one file, even
+    // though the exact same code passes on a rerun. Once that happens the
+    // binding stays broken for the rest of that worker process's life, so
+    // retrying the *test* doesn't help — only a fresh `npm test` invocation
+    // (a new process) does. Confirmed by re-running unchanged code
+    // back-to-back and getting different pass/fail results.
+    retry: 1,
     // happy-dom tears a test file's `window` down before some timer React's
     // scheduler queued internally (e.g. a toast's setTimeout/rAF chain) gets
     // to fire; the callback then throws "window is not defined" from deep
