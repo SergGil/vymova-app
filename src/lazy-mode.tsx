@@ -13,6 +13,7 @@
 // wrapper gets out of the way.
 import { useEffect, useRef, useState, type ComponentType, type ReactElement } from 'react';
 import { createPortal } from 'react-dom';
+import { getMountPoint } from './get-mount-point.ts';
 
 type LoadedMode = { Page: ComponentType; open: () => void };
 type ModeLoader = () => Promise<LoadedMode>;
@@ -55,7 +56,7 @@ export function LazyMode({
   }, [mod]);
 
   if (!mod) return null;
-  const el = document.getElementById(mountId);
+  const el = getMountPoint(mountId);
   if (!el) return null;
   const { Page } = mod;
   return createPortal(<Page />, el);

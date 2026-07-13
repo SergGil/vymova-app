@@ -5,6 +5,7 @@
 import { createRoot } from 'react-dom/client';
 import { createPortal } from 'react-dom';
 import { useEffect, type ReactElement, type ReactNode } from 'react';
+import { getMountPoint } from './get-mount-point.ts';
 import { HashRouter, useLocation, useNavigate } from 'react-router-dom';
 import { setRouterNavigate, ROUTE_TO_PAGE } from './router.ts';
 import { NavProvider, getActivePage } from './nav-store.tsx';
@@ -129,7 +130,7 @@ function RouterSync(): null {
 }
 
 function Portal({ id, children }: { id: string; children: ReactNode }): ReactElement | null {
-  const el = document.getElementById(id);
+  const el = getMountPoint(id);
   return el ? createPortal(children, el) : null;
 }
 

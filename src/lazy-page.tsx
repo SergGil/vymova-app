@@ -31,6 +31,7 @@
 import { useEffect, useState, type ComponentType, type ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 import { useActivePage } from './nav-store.tsx';
+import { getMountPoint } from './get-mount-point.ts';
 
 type PageLoader = () => Promise<{ Page: ComponentType }>;
 
@@ -53,6 +54,6 @@ export function LazyPage({ page, active, mountId, loader }: LazyPageProps): Reac
 
   if (!Page) return null;
   if (!mountId) return <Page />;
-  const el = document.getElementById(mountId);
+  const el = getMountPoint(mountId);
   return el ? createPortal(<Page />, el) : null;
 }
