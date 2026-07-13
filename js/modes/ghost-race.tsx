@@ -6,11 +6,12 @@ import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+import { recordModeAnswer, recordMistake } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const N = 10;
 const NUM_OPTS = 4;
@@ -106,7 +107,6 @@ function closeGhostRace(): void {
 }
 
 export function GhostRacePage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [screen, setScreen] = useState<'ready' | 'playing' | 'result'>('ready');
   const [ghost, setGhost] = useState<GhostData | null>(null);
   const [deck, setDeck] = useState<Question[]>([]);
@@ -116,7 +116,6 @@ export function GhostRacePage(): ReactElement {
   const [checkpoints, setCheckpoints] = useState<number[]>([]);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [result, setResult] = useState<{ total: number; isNew: boolean } | null>(null);
-  const [completed, setCompleted] = useState(false);
 
   const startRef = useRef<number | null>(null);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -134,36 +133,27 @@ export function GhostRacePage(): ReactElement {
     setGhost(loadGhost());
   };
 
+  const session = useModeSession({
+    overlayId: 'ghost-overlay',
+    modeId: 'ghost',
+    // Ghost Race's "done" state is the result screen reached from
+    // finishRace() (a setTimeout callback, not a per-render idx/deck.length
+    // check like other modes) — screen === 'result' mirrors that exactly.
+    isFinal: screen === 'result',
+    onOpen: goToReady,
+    onClose: stopTick,
+  });
+  const { isOpen } = session;
+
   useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      goToReady();
-      const overlay = document.getElementById('ghost-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      stopTick();
-      setIsOpen(false);
-      const overlay = document.getElementById('ghost-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
       stopTick();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    function onKeydown(e: KeyboardEvent): void {
-      const overlay = document.getElementById('ghost-overlay');
-      if (overlay?.style.display !== 'flex') return;
-      if (e.key === 'Escape') closeGhostRace();
-    }
-    document.addEventListener('keydown', onKeydown);
-    return () => document.removeEventListener('keydown', onKeydown);
-  }, []);
+  }, [session.open, session.close]);
 
   const startRace = (): void => {
     setDeck(buildDeck());
@@ -172,7 +162,6 @@ export function GhostRacePage(): ReactElement {
     setSelected(null);
     setCheckpoints([]);
     setResult(null);
-    setCompleted(false);
     setScreen('playing');
     startRef.current = Date.now();
     setElapsedMs(0);
@@ -188,12 +177,6 @@ export function GhostRacePage(): ReactElement {
     const isNew = saveGhostIfBetter({ checkpoints: finalCheckpoints, total, ok: finalOk }, ghost);
     setResult({ total, isNew });
     setScreen('result');
-    if (!completed) {
-      try {
-        recordModeComplete('ghost');
-      } catch (e) {}
-      setCompleted(true);
-    }
   };
 
   const choose = (opt: string): void => {

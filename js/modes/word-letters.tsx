@@ -4,10 +4,11 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordModeAnswer } from '../features/game.ts';
+import { recordModeAnswer } from '../features/game.ts';
 import { playSound } from '../core/audio.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const ROUNDS = 5;
 
@@ -79,7 +80,6 @@ function closeWordLetters(): void {
 }
 
 export function WordLettersPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [rounds, setRounds] = useState<RoundData[]>([]);
   const [idx, setIdx] = useState(0);
   const [foundTotal, setFoundTotal] = useState(0);
@@ -92,13 +92,12 @@ export function WordLettersPage(): ReactElement {
   const [hintsShown, setHintsShown] = useState<Set<string>>(new Set());
   const [timeLeft, setTimeLeft] = useState(0);
   const [result, setResult] = useState<{ text: string; color: string } | null>(null);
-  const [completed, setCompleted] = useState(false);
   const [done, setDone] = useState(false);
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const r: RoundData | null = rounds[idx] ?? null;
-  const showFinal = isOpen && rounds.length > 0 && idx >= rounds.length;
+  const showFinal = rounds.length > 0 && idx >= rounds.length;
 
   const stopTimer = (): void => {
     if (timerRef.current) {
@@ -148,9 +147,28 @@ export function WordLettersPage(): ReactElement {
     setRounds(rs);
     setIdx(0);
     setFoundTotal(0);
-    setCompleted(false);
     setPossibleTotal(rs.reduce((s, rr) => s + rr.possible.length, 0));
   };
+
+  const session = useModeSession({
+    overlayId: 'wl-overlay',
+    modeId: 'letters',
+    isFinal: showFinal,
+    onOpen: startGame,
+    onClose: stopTimer,
+    closeOnEscape: false,
+  });
+  const { isOpen } = session;
+
+  useEffect(() => {
+    _open = session.open;
+    _close = session.close;
+    return () => {
+      _open = null;
+      _close = null;
+      stopTimer();
+    };
+  }, [session.open, session.close]);
 
   // Sets up the tiles/timer/found-set for whichever round `idx` currently
   // points at. Runs on every round change (including the very first one,
@@ -162,35 +180,6 @@ export function WordLettersPage(): ReactElement {
     setupRound(rounds, idx);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, rounds, idx]);
-
-  useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      startGame();
-      const overlay = document.getElementById('wl-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      stopTimer();
-      setIsOpen(false);
-      const overlay = document.getElementById('wl-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
-    return () => {
-      _open = null;
-      _close = null;
-      stopTimer();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (showFinal && !completed) {
-      stopTimer();
-      recordModeComplete('letters');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
 
   // Time-up handling
   useEffect(() => {

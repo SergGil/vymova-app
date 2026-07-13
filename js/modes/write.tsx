@@ -6,7 +6,7 @@ import { lev } from '../core/distance.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
+import { recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
 import {
@@ -151,6 +151,7 @@ import {
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speakForCode } from '../features/voice/speak-lang.ts';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const SIZE = 10;
@@ -493,7 +494,6 @@ function closeWrite(): void {
 }
 
 export function WritePage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
   const [ok, setOk] = useState(0);
@@ -506,7 +506,6 @@ export function WritePage(): ReactElement {
   const [hint, setHint] = useState('');
   const [acItems, setAcItems] = useState<WordEntry[]>([]);
   const [acIdx, setAcIdx] = useState(-1);
-  const [completed, setCompleted] = useState(false);
   const [micActive, setMicActive] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -522,7 +521,7 @@ export function WritePage(): ReactElement {
   const frontSentence = w ? getLangSentence(w, knowLang) : '';
   const frontLang = knowLang;
   const backLang = learnLang;
-  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const showFinal = deck.length > 0 && idx >= deck.length;
 
   const acHide = (): void => {
     setAcItems([]);
@@ -544,29 +543,27 @@ export function WritePage(): ReactElement {
     setOk(0);
     setFail(0);
     setWrong([]);
-    setCompleted(false);
     resetQ();
   };
 
+  const session = useModeSession<WordEntry[] | null | undefined>({
+    overlayId: 'write-overlay',
+    modeId: 'write',
+    isFinal: showFinal,
+    onOpen: (src) => startGame(src),
+    onClose: acHide,
+    closeOnEscape: false,
+  });
+  const { isOpen } = session;
+
   useEffect(() => {
-    _open = (src) => {
-      setIsOpen(true);
-      startGame(src);
-      const overlay = document.getElementById('write-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      acHide();
-      setIsOpen(false);
-      const overlay = document.getElementById('write-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [session.open, session.close]);
 
   // Focus input on new question
   useEffect(() => {
@@ -578,14 +575,6 @@ export function WritePage(): ReactElement {
     }, 60);
     return () => clearTimeout(tmr);
   }, [isOpen, idx, w]);
-
-  // Record completion once
-  useEffect(() => {
-    if (showFinal && !completed) {
-      recordModeComplete('write');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
 
   const submit = (): void => {
     if (answered || !w) return;

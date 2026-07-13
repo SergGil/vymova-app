@@ -5,11 +5,12 @@
 import { useEffect, useState, type ReactElement } from 'react';
 import { GRAMMAR_BY_LANG, type GrammarCategory } from '../../data/grammar.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordModeAnswer } from '../features/game.ts';
+import { recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speak } from '../features/voice/speech.ts';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 import { _shuf } from '../core/srs.ts';
 
 const SIZE = 8,
@@ -116,7 +117,6 @@ function closeGrammarQuiz(): void {
 }
 
 export function GrammarQuizPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [lang, setLang] = useState('en');
   const [deck, setDeck] = useState<GrammarQItem[]>([]);
   const [idx, setIdx] = useState(0);
@@ -125,9 +125,8 @@ export function GrammarQuizPage(): ReactElement {
   const [question, setQuestion] = useState<Question | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [showHint, setShowHint] = useState(false);
-  const [completed, setCompleted] = useState(false);
 
-  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const showFinal = deck.length > 0 && idx >= deck.length;
   const rtl = RTL_LANGS.has(lang);
 
   const startGame = (): void => {
@@ -139,34 +138,25 @@ export function GrammarQuizPage(): ReactElement {
     setFail(0);
     setSelected(null);
     setShowHint(false);
-    setCompleted(false);
     setQuestion(d.length ? buildQuestion(d[0], d) : null);
   };
 
+  const session = useModeSession({
+    overlayId: 'grq-overlay',
+    modeId: 'grammar-quiz',
+    isFinal: showFinal,
+    onOpen: startGame,
+    closeOnEscape: false,
+  });
+
   useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      startGame();
-      const overlay = document.getElementById('grq-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      setIsOpen(false);
-      const overlay = document.getElementById('grq-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
     };
-  }, []);
-
-  useEffect(() => {
-    if (showFinal && !completed) {
-      recordModeComplete('grammar-quiz');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
+  }, [session.open, session.close]);
 
   const checkAnswer = (opt: string): void => {
     if (!question || selected) return;

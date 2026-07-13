@@ -12,13 +12,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { recordModeComplete } from './game.ts';
 
-export interface ModeSessionHandle {
+export interface ModeSessionHandle<TOpenArg = void> {
   isOpen: boolean;
-  open: () => void;
+  open: (arg?: TOpenArg) => void;
   close: () => void;
 }
 
-export function useModeSession({
+export function useModeSession<TOpenArg = void>({
   overlayId,
   modeId,
   isFinal,
@@ -32,8 +32,10 @@ export function useModeSession({
   // — each mode computes its own, shapes vary too much to standardize).
   isFinal: boolean;
   // Runs after isOpen flips true and the overlay is shown — typically the
-  // mode's own startGame()/deck-builder.
-  onOpen?: () => void;
+  // mode's own startGame()/deck-builder. Some modes' exported openXxx(arg)
+  // takes an argument (e.g. write.tsx's optional starting word list) that
+  // must reach startGame() — open()/onOpen() forward it through unchanged.
+  onOpen?: (arg?: TOpenArg) => void;
   // Runs after isOpen flips false and the overlay is hidden — e.g.
   // listening.tsx's speechSynthesis.cancel().
   onClose?: () => void;
@@ -41,7 +43,7 @@ export function useModeSession({
   // bundle Escape into their own combined keydown effect instead — pass
   // false there and call the returned close() from that effect.
   closeOnEscape?: boolean;
-}): ModeSessionHandle {
+}): ModeSessionHandle<TOpenArg> {
   const [isOpen, setIsOpen] = useState(false);
   const [completed, setCompleted] = useState(false);
 
@@ -55,12 +57,12 @@ export function useModeSession({
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
 
-  const open = useRef((): void => {
+  const open = useRef((arg?: TOpenArg): void => {
     setIsOpen(true);
     setCompleted(false);
     const overlay = document.getElementById(overlayId);
     if (overlay) overlay.style.display = 'flex';
-    onOpenRef.current?.();
+    onOpenRef.current?.(arg);
   }).current;
 
   const close = useRef((): void => {

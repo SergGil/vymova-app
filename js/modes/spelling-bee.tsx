@@ -6,7 +6,7 @@ import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { lev } from '../core/distance.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+import { recordModeAnswer, recordMistake } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak as _speak } from '../features/voice/speech.ts';
 import { t } from '../features/i18n.ts';
@@ -153,6 +153,7 @@ import {
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speakForCode } from '../features/voice/speak-lang.ts';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const SIZE = 10;
 const HINTS = 3;
@@ -467,7 +468,6 @@ function closeSpellingBee(): void {
 }
 
 export function SpellingBeePage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
   const [ok, setOk] = useState(0);
@@ -477,13 +477,12 @@ export function SpellingBeePage(): ReactElement {
   const [hintsLeft, setHintsLeft] = useState(HINTS);
   const [hint, setHint] = useState('');
   const [emptyWarn, setEmptyWarn] = useState(false);
-  const [completed, setCompleted] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const speakBtnRef = useRef<HTMLButtonElement>(null);
 
   const w: WordEntry | null = deck[idx] ?? null;
-  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const showFinal = deck.length > 0 && idx >= deck.length;
   const knowLang = getKnowLang();
   const learnLang = getLearnLang();
   const knowSentence = w ? getLangSentence(w, knowLang) : '';
@@ -505,26 +504,24 @@ export function SpellingBeePage(): ReactElement {
     setHintsLeft(HINTS);
     setHint('');
     setEmptyWarn(false);
-    setCompleted(false);
   };
 
+  const session = useModeSession({
+    overlayId: 'bee-overlay',
+    modeId: 'spelling',
+    isFinal: showFinal,
+    onOpen: startGame,
+  });
+  const { isOpen } = session;
+
   useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      startGame();
-      const overlay = document.getElementById('bee-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      setIsOpen(false);
-      const overlay = document.getElementById('bee-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
     };
-  }, []);
+  }, [session.open, session.close]);
 
   // Auto-speak + focus on new question
   useEffect(() => {
@@ -541,24 +538,6 @@ export function SpellingBeePage(): ReactElement {
       clearTimeout(t2);
     };
   }, [isOpen, idx, w]);
-
-  // Record completion once when final screen is reached
-  useEffect(() => {
-    if (showFinal && !completed) {
-      recordModeComplete('spelling');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
-
-  // Escape to close
-  useEffect(() => {
-    function onKeydown(e: KeyboardEvent): void {
-      const overlay = document.getElementById('bee-overlay');
-      if (e.key === 'Escape' && overlay?.style.display === 'flex') closeSpellingBee();
-    }
-    document.addEventListener('keydown', onKeydown);
-    return () => document.removeEventListener('keydown', onKeydown);
-  }, []);
 
   const advanceQ = (): void => {
     setIdx((i) => i + 1);

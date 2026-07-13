@@ -6,7 +6,7 @@ import { lev } from '../core/distance.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
+import { recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
 import { speak } from '../features/voice/speech.ts';
@@ -151,6 +151,7 @@ import {
 } from '../features/mode-utils.ts';
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const SIZE = 10;
 type BlankItem = { sentence: string; answer: string; base: string };
@@ -781,7 +782,6 @@ function closeFib(): void {
 }
 
 export function FibPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<FibEntry[]>([]);
   const [idx, setIdx] = useState(0);
   const [ok, setOk] = useState(0);
@@ -789,15 +789,14 @@ export function FibPage(): ReactElement {
   const [input, setInput] = useState('');
   const [result, setResult] = useState<boolean | null>(null); // null = unanswered, true/false = correct/incorrect
   const [hint, setHint] = useState('');
-  const [completed, setCompleted] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const stateRef = useRef({ result, idx, deck });
   stateRef.current = { result, idx, deck };
 
   const item: FibEntry | null = deck[idx] ?? null;
-  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
-  const noSentences = isOpen && deck.length === 0;
+  const showFinal = deck.length > 0 && idx >= deck.length;
+  const noSentences = deck.length === 0;
 
   const startGame = (): void => {
     const d = build();
@@ -808,26 +807,25 @@ export function FibPage(): ReactElement {
     setInput('');
     setResult(null);
     setHint('');
-    setCompleted(false);
   };
 
+  const session = useModeSession({
+    overlayId: 'fib-overlay',
+    modeId: 'fib',
+    isFinal: showFinal,
+    onOpen: startGame,
+    closeOnEscape: false,
+  });
+  const { isOpen } = session;
+
   useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      startGame();
-      const overlay = document.getElementById('fib-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      setIsOpen(false);
-      const overlay = document.getElementById('fib-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
     };
-  }, []);
+  }, [session.open, session.close]);
 
   // Focus input on new question
   useEffect(() => {
@@ -839,14 +837,6 @@ export function FibPage(): ReactElement {
     }, 60);
     return () => clearTimeout(tmr);
   }, [isOpen, idx, item]);
-
-  // Record completion once when final screen is reached
-  useEffect(() => {
-    if (showFinal && !completed) {
-      recordModeComplete('fib');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
 
   const advanceQ = (): void => {
     setIdx((i) => i + 1);
