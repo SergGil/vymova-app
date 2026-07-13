@@ -1,0 +1,107 @@
+{
+  "rules": {
+    "sync": {
+      ".read": true,
+      ".write": true
+    },
+    "duel_rooms": {
+      ".read": true,
+      ".write": true,
+      "$roomId": {
+        ".read": true,
+        ".write": true,
+
+        "seed": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "mode": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "category": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "difficulty": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "bestOf": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "maxHints": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "powerupsEnabled": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "lang": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "knowLang": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "createdAt": { ".validate": "!data.exists() || newData.val() == data.val()" },
+
+        "started": {
+          ".validate": "newData.isBoolean() && (!data.exists() || newData.val() == true || newData.val() == data.val())"
+        },
+        "finished": {
+          ".validate": "newData.isBoolean() && (!data.exists() || newData.val() == true || newData.val() == data.val())"
+        },
+        "p1_freeze": { ".validate": "newData.isNumber() && newData.val() <= now + 10000" },
+        "p2_freeze": { ".validate": "newData.isNumber() && newData.val() <= now + 10000" },
+
+        "series": {
+          "p1wins": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 2" },
+          "p2wins": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 2" },
+          "round": { ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 3" }
+        },
+
+        "p1": {
+          "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40 && (!data.exists() || newData.val() == data.val())" },
+          "avatar": { ".validate": "newData.isString() && newData.val().length <= 20 && (!data.exists() || newData.val() == data.val())" },
+          "score": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= newData.parent().child('idx').val() * 2 && (!data.exists() || newData.val() >= data.val())"
+          },
+          "idx": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10 && (!data.exists() || newData.val() >= data.val())"
+          },
+          "done": {
+            ".validate": "newData.isBoolean() && (!data.exists() || newData.val() == true || newData.val() == data.val())"
+          },
+          "hintsLeft": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 999 && (!data.exists() || newData.val() <= data.val())"
+          },
+          "powerups": {
+            "double": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 1) && (!data.exists() || newData.val() <= data.val())" },
+            "skip": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 1) && (!data.exists() || newData.val() <= data.val())" },
+            "freeze": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 1) && (!data.exists() || newData.val() <= data.val())" }
+          }
+        },
+
+        "p2": {
+          "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40 && (!data.exists() || newData.val() == data.val())" },
+          "avatar": { ".validate": "newData.isString() && newData.val().length <= 20 && (!data.exists() || newData.val() == data.val())" },
+          "score": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= newData.parent().child('idx').val() * 2 && (!data.exists() || newData.val() >= data.val())"
+          },
+          "idx": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10 && (!data.exists() || newData.val() >= data.val())"
+          },
+          "done": {
+            ".validate": "newData.isBoolean() && (!data.exists() || newData.val() == true || newData.val() == data.val())"
+          },
+          "hintsLeft": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 999 && (!data.exists() || newData.val() <= data.val())"
+          },
+          "powerups": {
+            "double": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 1) && (!data.exists() || newData.val() <= data.val())" },
+            "skip": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 1) && (!data.exists() || newData.val() <= data.val())" },
+            "freeze": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 1) && (!data.exists() || newData.val() <= data.val())" }
+          }
+        }
+      }
+    },
+    "leaderboard": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["xp"]
+    },
+    "tournaments": {
+      ".read": true,
+      ".write": true,
+      "$tournamentId": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "duel_async": {
+      ".read": true,
+      ".write": true,
+      "$gameId": {
+        ".read": true,
+        ".write": true
+      }
+    }
+  }
+}
