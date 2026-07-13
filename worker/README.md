@@ -39,19 +39,18 @@ Wrangler prints the deployed URL, e.g. `https://vymova-ai-proxy.<you>.workers.de
 
 ## 3. (Optional) Rate limiting
 
-To cap abuse of your shared Gemini quota, create a KV namespace and uncomment
-the `[[kv_namespaces]]` block in `wrangler.toml`:
-
-```sh
-wrangler kv namespace create RATE_LIMIT
-```
+To cap abuse of your shared Gemini quota, uncomment the `[[ratelimits]]`
+block in `wrangler.toml` and redeploy. No provisioning step needed —
+Cloudflare's Rate Limiting binding doesn't need a `wrangler ... create`
+command the way KV/D1/R2 do; `namespace_id` is just a number you pick
+yourself (has to be unique within your account, that's it).
 
 Without this, the Worker still enforces the same per-minute cap using an
 in-memory counter local to whichever isolate handles the request — a real
 limit, just not a durable/cross-isolate one (a burst spread across isolates,
-or one that lands on a freshly-spun-up isolate, resets the count). KV gives
-you the stronger, shared version; this is the fallback so requests are never
-fully unthrottled.
+or one that lands on a freshly-spun-up isolate, resets the count). The
+binding gives you the stronger, shared version; this is the fallback so
+requests are never fully unthrottled.
 
 ## 4. Point the frontend at it
 

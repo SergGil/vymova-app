@@ -6,9 +6,14 @@ workers_dev = true
 [vars]
 ALLOWED_ORIGIN = "https://serggil.github.io"
 
-# Optional: enables the per-IP rate limit. Create with:
-#   wrangler kv namespace create RATE_LIMIT
-# then paste the returned id below.
-# [[kv_namespaces]]
-# binding = "RATE_LIMIT"
-# id = "your-kv-namespace-id"
+# Optional: upgrades the per-IP rate limit from the in-memory fallback (real,
+# but per-isolate only) to Cloudflare's durable, cross-isolate Rate Limiting
+# binding — atomic by construction, unlike a hand-rolled KV read-then-write
+# counter (which two concurrent requests can both read before either writes,
+# letting a burst blow past the limit). No provisioning step needed — just
+# uncomment; `namespace_id` is a value you pick yourself (must be unique
+# within this account), not something `wrangler` generates for you.
+# [[ratelimits]]
+# name = "RATE_LIMITER"
+# namespace_id = "1001"
+# simple = { limit = 15, period = 60 }

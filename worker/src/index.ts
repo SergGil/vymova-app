@@ -2,11 +2,21 @@
 // Hides the Gemini API key from the client. Forwards chat turns to Gemini's
 // generateContent endpoint with a server-side system prompt (tutor or
 // roleplay persona) the client cannot override.
+// Not pulled from @cloudflare/workers-types (not a dependency here — see
+// KVNamespace below, which is only ever type-checked by wrangler's own
+// esbuild-based transpile, not this repo's tsc) — just the one method this
+// file actually calls.
+interface RateLimiterBinding {
+  limit(opts: { key: string }): Promise<{ success: boolean }>;
+}
+
 export interface Env {
   GEMINI_API_KEY: string;
   ALLOWED_ORIGIN: string; // e.g. "https://<user>.github.io"
-  // Simple per-IP rate limit, backed by a Workers KV namespace bound as RATE_LIMIT.
-  RATE_LIMIT?: KVNamespace;
+  // Simple per-IP rate limit, backed by Cloudflare's Rate Limiting binding
+  // (atomic, durable, cross-isolate) — see "Optional: Rate limiting" in
+  // worker/README.md.
+  RATE_LIMITER?: RateLimiterBinding;
 }
 
 interface ChatTurn {
@@ -239,16 +249,19 @@ function buildSystemPrompt(body: ChatRequestBody): string {
   ].join(' ');
 }
 
-// Fallback used only when the RATE_LIMIT KV binding isn't configured (it's
+// Fallback used only when the RATE_LIMITER binding isn't configured (it's
 // documented as optional — see worker/README.md's "Optional: Rate limiting"
 // step). A Worker isolate stays warm across many requests, so this in-memory
 // map still catches sustained abuse from one IP even though it isn't
-// distributed/durable like KV (a burst that lands on a fresh isolate, or
-// traffic spread across isolates, resets the count) — the point is that
-// "KV not configured" degrades to "a weaker but real limit", never to "no
-// limit at all".
+// distributed/durable (a burst that lands on a fresh isolate, or traffic
+// spread across isolates, resets the count) — the point is that "not
+// configured" degrades to "a weaker but real limit", never to "no limit at
+// all". Unlike the old KV-backed counter this replaces, this path was never
+// racy to begin with: a Worker isolate runs JS single-threaded and this
+// function has no `await`, so concurrent requests to the same isolate can't
+// interleave mid-check the way two `await`-separated KV get/put calls could.
 const _memoryRateLimit = new Map<string, { count: number; resetAt: number }>();
-let _warnedMissingKv = false;
+let _warnedMissingBinding = false;
 
 function checkMemoryRateLimit(ip: string): boolean {
   const now = Date.now();
@@ -268,22 +281,23 @@ function checkMemoryRateLimit(ip: string): boolean {
 }
 
 async function checkRateLimit(env: Env, ip: string): Promise<boolean> {
-  if (!env.RATE_LIMIT) {
-    if (!_warnedMissingKv) {
-      _warnedMissingKv = true;
+  if (!env.RATE_LIMITER) {
+    if (!_warnedMissingBinding) {
+      _warnedMissingBinding = true;
       console.warn(
-        '[vymova-ai-proxy] RATE_LIMIT KV binding is not configured — using a per-isolate ' +
+        '[vymova-ai-proxy] RATE_LIMITER binding is not configured — using a per-isolate ' +
           'in-memory rate limit instead. See worker/README.md "Optional: Rate limiting" to ' +
           'set up the durable, cross-isolate version.',
       );
     }
     return checkMemoryRateLimit(ip);
   }
-  const key = `rl:${ip}:${Math.floor(Date.now() / 60000)}`;
-  const current = parseInt((await env.RATE_LIMIT.get(key)) ?? '0', 10);
-  if (current >= RATE_LIMIT_PER_MINUTE) return false;
-  await env.RATE_LIMIT.put(key, String(current + 1), { expirationTtl: 90 });
-  return true;
+  // Cloudflare's Rate Limiting binding is atomic by construction (unlike a
+  // hand-rolled KV get-then-put counter, which two concurrent requests can
+  // both read *before* either writes, letting a burst blow past the limit
+  // entirely) — no read-compare-write dance needed here.
+  const { success } = await env.RATE_LIMITER.limit({ key: ip });
+  return success;
 }
 
 export default {
