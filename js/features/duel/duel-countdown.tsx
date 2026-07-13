@@ -1,7 +1,7 @@
 // Vymova — js/features/duel-countdown.tsx
 // Countdown-екран дуелі (Фаза 9/1). Чисте відображення
 // `_getCountdownData()`; `_runCountdown()` у duel.ts оновлює
-// `state.duelCountdownNum` кожну секунду через notifyStateChange().
+// duel-room-store's `duelCountdownNum` кожну секунду.
 import type { ReactElement } from 'react';
 import { useEffect, useRef } from 'react';
 import { t } from '../i18n.ts';

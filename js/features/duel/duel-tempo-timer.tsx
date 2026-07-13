@@ -1,7 +1,7 @@
 // Vymova — js/features/duel-tempo-timer.tsx
 // Tempo-таймер game-екрану дуелі (Фаза 9/4). Чисте відображення
 // `_getTempoData()`; `_startTempoTimer`/`_setupGameUI` у duel.ts
-// записують `state.duelTempo` замість прямого DOM (`dm-timer-bar`/`dm-timer-num`).
+// записують duel-room-store's `duelTempo` замість прямого DOM (`dm-timer-bar`/`dm-timer-num`).
 import type { ReactElement } from 'react';
 import { useEffect, useRef } from 'react';
 import { t } from '../i18n.ts';

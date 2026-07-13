@@ -27,7 +27,6 @@ import type {
 import { _shuf } from '../../core/srs.ts';
 import type { WordEntry } from '../../../src/types.js';
 import { t } from '../i18n.ts';
-import { notifyStateChange } from '../../../src/store.ts';
 import { recordDuelResult } from './duel-rating.ts';
 import { _addHistory } from './duel-history-log.ts';
 import {
@@ -116,13 +115,6 @@ async function _openPage(page: string): Promise<void> {
 async function _closePage(): Promise<void> {
   (await import('../sidebar.tsx')).closePage();
 }
-// No imports for duel-game-header.tsx/duel-powerups.tsx/duel-feedback.tsx/
-// duel-chat-log.tsx/duel-question.tsx/duel-resume.tsx's refreshDuelXxx()
-// functions: every one of them is a one-line `notifyStateChange()` wrapper
-// (React components re-render off the store, same as everywhere else in
-// this file) — calling notifyStateChange() directly here is identical
-// behavior without an import that would close a duel <-> duel-*.tsx chunk
-// cycle for zero benefit.
 
 // Динамічний імпорт (той самий прийом, що й для sidebar.tsx вище): duel-
 // tournament-logic.ts статично імпортує багато чого з duel.ts, тож
@@ -193,7 +185,6 @@ function _extendDeckOnSkip(): void {
   const candidates = pool.filter((w) => !used.has(w[0].toLowerCase()));
   const src = candidates.length ? candidates : pool;
   setDuelRoom({ quizDeck: [...room.quizDeck, src[Math.floor(Math.random() * src.length)]] });
-  notifyStateChange();
 }
 
 // Знімок даних для duel-game-header.tsx (item 32, Фаза 5): React читає
@@ -245,10 +236,8 @@ function _showGame(clearChat = true) {
   setDuelScreen('game');
   if (clearChat) {
     setDuelChat([]);
-    notifyStateChange();
     _lastReactionTs = 0;
   }
-  notifyStateChange();
 }
 
 // Lobby pickers, _showInfoTooltip, countdown/tempo/lobby-UI getters,
@@ -265,7 +254,6 @@ export function _startWaitPoll(): void {
         clearInterval(_pollTimer!);
         _pollTimer = null;
         setDuelRoom({ oppName: room.p2.name, oppAvatar: room.p2.avatar });
-        notifyStateChange();
         _initGame(room.mode, room.maxHints, room.bestOf, room.series, room.powerupsEnabled);
       }
     } catch (e) {}
@@ -275,10 +263,8 @@ export function _startWaitPoll(): void {
 function _runCountdown(cb: () => void): void {
   _showCountdown();
   setDuelCountdownNum(3);
-  notifyStateChange();
   const _timer = setInterval(() => {
     setDuelCountdownNum(getDuelCountdownNumSnapshot() - 1);
-    notifyStateChange();
     if (getDuelCountdownNumSnapshot() < 0) {
       clearInterval(_timer);
       cb();
@@ -317,7 +303,6 @@ export function _initGame(
     doubleActive: false,
   });
   setDuelChat([]);
-  notifyStateChange();
   _runCountdown(() => _startGameUI());
 }
 
@@ -331,16 +316,11 @@ function _setupGameUI(): void {
     clearInterval(_tempoTimer);
     _tempoTimer = null;
   }
-  notifyStateChange();
   setDuelTempo({ ...getDuelTempoSnapshot(), visible: getDuelRoomSnapshot().mode === 'tempo' });
-  notifyStateChange();
-  // Power-ups
-  _renderPowerups();
 }
 
 function _startGameUI(): void {
   setDuelRoom({ oppScore: 0, oppIdx: 0, oppFlags: [] });
-  notifyStateChange();
   _setupGameUI();
   _showGame();
   _renderQuestion();
@@ -374,19 +354,12 @@ export function _onPowerupClick(type: PowerupType): void {
   _usePowerup(type);
 }
 
-function _renderPowerups(): void {
-  notifyStateChange();
-}
-
 async function _usePowerup(type: PowerupType): Promise<void> {
   let room = getDuelRoomSnapshot();
   if (room.myPowerups[type] <= 0 || room.answered) return;
   setDuelRoom({ myPowerups: { ...room.myPowerups, [type]: room.myPowerups[type] - 1 } });
-  notifyStateChange();
-  _renderPowerups();
   if (type === 'double') {
     setDuelRoom({ doubleActive: true });
-    notifyStateChange();
     _showMiniToast(t('duel.toast.double'));
   } else if (type === 'skip') {
     // Skip current question without penalty
@@ -398,12 +371,9 @@ async function _usePowerup(type: PowerupType): Promise<void> {
     setDuelQuestionFields({
       feedbackHtml: `<span style="color:var(--accent)">${t('duel.toast.skip')}</span>`,
     });
-    notifyStateChange();
     _extendDeckOnSkip();
     room = getDuelRoomSnapshot();
     setDuelRoom({ myFlags: [...room.myFlags, 'skip'], quizIdx: room.quizIdx + 1 });
-    notifyStateChange();
-    _renderMyProgressBar();
     await _pushScore();
     if (_advanceTimer) clearTimeout(_advanceTimer);
     _advanceTimer = setTimeout(() => {
@@ -439,13 +409,9 @@ function _showMiniToast(msg: string): void {
 }
 
 // ── Animated dot progress bar (mine + opponent's) — rendered by
-// duel-game-header.tsx off notifyStateChange() ────────────────
+// duel-game-header.tsx off the duel-room-store ─────────────────
 function _renderOppProgressBar(idx: number, flags?: (boolean | 'skip' | 'double')[]): void {
   setDuelRoom({ oppIdx: idx, oppFlags: flags || [] });
-  notifyStateChange();
-}
-function _renderMyProgressBar(): void {
-  notifyStateChange();
 }
 
 function _startOpponentPoll(): void {
@@ -458,7 +424,6 @@ function _startOpponentPoll(): void {
       const opp = room0.mySlot === 'p1' ? room.p2 : room.p1;
       if (opp) {
         setDuelRoom({ oppScore: opp.score });
-        notifyStateChange();
         _renderOppProgressBar(opp.idx, opp.flags);
         if (opp.reaction) _showReactionReceived(opp.reaction, opp.reactionTs);
       }
@@ -477,7 +442,6 @@ function _startOpponentPoll(): void {
           setDuelQuestionFields({
             feedbackHtml: `<span style="color:var(--accent)">${t('duel.frozen')} ${remaining}${_secUnit()}!</span>`,
           });
-          notifyStateChange();
           if (_tempoTimer) {
             clearInterval(_tempoTimer);
             _tempoTimer = null;
@@ -485,7 +449,6 @@ function _startOpponentPoll(): void {
           _freezeTimer = setTimeout(() => {
             _freezeTimer = null;
             setDuelQuestionFields({ feedbackHtml: '' });
-            notifyStateChange();
             const r = getDuelRoomSnapshot();
             _startTempoTimer(r.quizDeck[r.quizIdx]);
           }, freezeUntil - Date.now());
@@ -511,10 +474,8 @@ let _lastReactionTs = 0;
 function _appendChatMsg(text: string, isMe: boolean, record = true): void {
   if (record) {
     appendDuelChat({ text, isMe });
-    notifyStateChange();
     _saveSession();
   }
-  notifyStateChange();
 }
 function _showReactionReceived(text: string, ts?: number): void {
   if (ts !== undefined) {
@@ -563,7 +524,6 @@ function _renderQuestion(): void {
   const w = room.quizDeck[room.quizIdx];
   setDuelRoom({ answered: false, answerStartMs: Date.now() });
   setDuelQuestionFields({ feedbackHtml: '', speedText: '' });
-  notifyStateChange();
   if (_tempoTimer) {
     clearInterval(_tempoTimer);
     _tempoTimer = null;
@@ -580,8 +540,6 @@ function _renderQuestion(): void {
   else if (room.mode === 'anagram') _renderAnagramQ(w);
   else if (room.mode === 'letters') _renderLettersQ(w);
   else _renderChoiceQ(w);
-  _renderPowerups();
-  notifyStateChange();
   if (room.mode === 'tempo') _startTempoTimer(w);
 }
 
@@ -645,11 +603,9 @@ function _renderLettersQ(w: WordEntry): void {
 function _startTempoTimer(_w: WordEntry): void {
   _tempoLeft = TEMPO_SEC;
   setDuelTempo({ ...getDuelTempoSnapshot(), num: TEMPO_SEC });
-  notifyStateChange();
   _tempoTimer = setInterval(() => {
     _tempoLeft--;
     setDuelTempo({ ...getDuelTempoSnapshot(), num: _tempoLeft });
-    notifyStateChange();
     if (_tempoLeft <= 0) {
       clearInterval(_tempoTimer!);
       _tempoTimer = null;
@@ -664,10 +620,7 @@ function _startTempoTimer(_w: WordEntry): void {
           myFlags: [...room.myFlags, false],
           quizIdx: room.quizIdx + 1,
         });
-        notifyStateChange();
-        _renderMyProgressBar();
         _pushScore();
-        notifyStateChange();
         if (_advanceTimer) clearTimeout(_advanceTimer);
         _advanceTimer = setTimeout(() => {
           _advanceTimer = null;
@@ -714,13 +667,8 @@ export async function _onOptionClick(chosen: string): Promise<void> {
     feedbackHtml,
     speedText: ok ? `⚡ ${(ms / 1000).toFixed(1)}${_secUnit()}` : '',
   });
-  notifyStateChange();
-  _renderPowerups();
-  notifyStateChange();
   room = getDuelRoomSnapshot();
   setDuelRoom({ quizIdx: room.quizIdx + 1 });
-  notifyStateChange();
-  _renderMyProgressBar();
   await _pushScore();
   if (_advanceTimer) clearTimeout(_advanceTimer);
   _advanceTimer = setTimeout(
@@ -736,7 +684,6 @@ export async function _onOptionClick(chosen: string): Promise<void> {
 
 export function _onInputChange(val: string): void {
   setDuelWriteInput(val);
-  notifyStateChange();
 }
 
 export function _submitWrite(): void {
@@ -773,19 +720,13 @@ export function _submitWrite(): void {
     speedText: ok ? `⚡ ${(ms / 1000).toFixed(1)}${_secUnit()}` : '',
     showNextBtn: true,
   });
-  notifyStateChange();
-  _renderPowerups();
-  notifyStateChange();
   room = getDuelRoomSnapshot();
   setDuelRoom({ quizIdx: room.quizIdx + 1 });
-  notifyStateChange();
-  _renderMyProgressBar();
   _pushScore();
 }
 
 export function _onNextClick(): void {
   setDuelShowNextBtn(false);
-  notifyStateChange();
   const room = getDuelRoomSnapshot();
   if (room.quizIdx < room.quizDeck.length) _renderQuestion();
   else _finishMyGame();
@@ -799,7 +740,6 @@ export function _useHint(): void {
   if (room.hintsLeft < 999) setDuelRoom({ hintsLeft: room.hintsLeft - 1 });
   const h = getDuelQuestionSnapshot().choiceAnswer || w[0];
   setDuelHintNote(`💡 ${h.slice(0, Math.ceil(h.length / 3))}...`);
-  notifyStateChange();
 }
 
 // Знімок даних для duel-question.tsx (item 32, Фаза 5).
@@ -884,7 +824,6 @@ async function _finishMyGame(): Promise<void> {
       done: true,
     });
     setDuelRoom({ myDone: true });
-    notifyStateChange();
     room = getDuelRoomSnapshot();
     const roomData = (await _fbGet(`/duel_rooms/${room.roomId}`)) as RoomData;
     const opp = room.mySlot === 'p1' ? roomData.p2 : roomData.p1;
@@ -898,8 +837,6 @@ async function _finishMyGame(): Promise<void> {
       } as RoomData);
     } else {
       setDuelQuestionFields({ waitingFinish: true, feedbackHtml: t('duel.waiting') });
-      notifyStateChange();
-      notifyStateChange();
     }
   } catch (e) {
     console.warn('[duel]', e);
@@ -934,7 +871,6 @@ function _showFinish(roomData: RoomData): void {
   const room = getDuelRoomSnapshot();
   if (room.finished) return;
   setDuelRoom({ finished: true });
-  notifyStateChange();
   if (_matchFinishHook?.(roomData)) return;
   const me = roomData[room.mySlot] as PlayerData;
   const opp = (room.mySlot === 'p1' ? roomData.p2 : roomData.p1) as PlayerData;
@@ -971,7 +907,6 @@ function _showFinish(roomData: RoomData): void {
     const myW = room.mySlot === 'p1' ? newSeries.p1wins : newSeries.p2wins;
     const oppW = room.mySlot === 'p1' ? newSeries.p2wins : newSeries.p1wins;
     setDuelRoom({ series: newSeries });
-    notifyStateChange();
     if (myW < 2 && oppW < 2 && newSeries.round <= 3) {
       // Series not decided — show next round
       const outcome: DuelResultOutcome = won ? 'win' : tie ? 'tie' : 'loss';
@@ -1055,7 +990,6 @@ export function _cancelRoom(): void {
   setLobbyBtn('createBtn', false);
   setLobbyBtn('asyncBtn', false);
   setLobbyMsg({ visible: false, text: getDuelLobbyUISnapshot().msg.text, challenge: null });
-  notifyStateChange();
 }
 
 function _doRematch(): void {
@@ -1070,7 +1004,6 @@ function _doRematch(): void {
     _showLobby();
     renderDuel();
     setLobbyMsg({ visible: true, text: t('duel.rematch.ask'), challenge: null });
-    notifyStateChange();
   }
 }
 
@@ -1086,7 +1019,6 @@ async function _tryResumeSession(): Promise<void> {
   if (!sessions.length) {
     _resumeValid = [];
     setDuelResumeSessions([]);
-    notifyStateChange();
     return;
   }
 
@@ -1111,7 +1043,6 @@ async function _tryResumeSession(): Promise<void> {
   if (!valid.length) {
     _resumeValid = [];
     setDuelResumeSessions([]);
-    notifyStateChange();
     return;
   }
 
@@ -1141,7 +1072,6 @@ async function _tryResumeSession(): Promise<void> {
       };
     }),
   );
-  notifyStateChange();
 }
 
 export function _onResumeContinue(roomId: string): void {
@@ -1150,7 +1080,6 @@ export function _onResumeContinue(roomId: string): void {
   const { sess, room } = found;
   _resumeValid = [];
   setDuelResumeSessions([]);
-  notifyStateChange();
   const seed = sess.seed ?? room.seed,
     category = sess.category ?? room.category,
     difficulty = sess.difficulty ?? room.difficulty;
@@ -1172,7 +1101,6 @@ export function _onResumeContinue(roomId: string): void {
     oppName: oppRoom?.name || sess.oppName || t('duel.opp'),
     oppAvatar: oppRoom?.avatar || sess.oppAvatar || '🧑',
   });
-  notifyStateChange();
   const savedIdx = sess.idx,
     savedScore = sess.score;
   // Restore saved state directly, bypassing _initGame's reset+countdown
@@ -1183,7 +1111,6 @@ export function _onResumeContinue(roomId: string): void {
     _advanceTimer = null;
   }
   setDuelChat(sess.chat ?? []);
-  notifyStateChange();
   const powerupsEnabled = sess.powerupsEnabled ?? !!room.powerupsEnabled;
   const savedPowerups = sess.myPowerups ?? room[sess.slot]?.powerups;
   setDuelRoom({
@@ -1207,11 +1134,8 @@ export function _onResumeContinue(roomId: string): void {
   });
   const savedDeckLen = sess.deckLen ?? ROOM_SIZE;
   while (getDuelRoomSnapshot().quizDeck.length < savedDeckLen) _extendDeckOnSkip();
-  notifyStateChange();
   _setupGameUI();
-  _renderMyProgressBar();
   _showGame(false);
-  notifyStateChange();
   _renderQuestion();
   _startOpponentPoll();
 }
@@ -1223,7 +1147,6 @@ export function _onResumeDiscard(roomId: string): void {
 
 // ── renderDuel (full page) ────────────────────────────────────
 export function renderDuel(): void {
-  notifyStateChange();
   _tryResumeSession();
 }
 
