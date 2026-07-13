@@ -1,8 +1,7 @@
 // Vymova — js/features/word-context.tsx
 // Word families + collocations shown on card back
 import { useEffect, useState, type ReactElement } from 'react';
-import { useStateVersion } from '../../src/store.ts';
-import { getCwSnapshot, getFlippedSnapshot } from '../../src/deck-store.ts';
+import { useDeckState } from '../../src/deck-store.ts';
 import { getWordIndex } from '../core/word-index.ts';
 import {
   getSynonymsModule,
@@ -52,14 +51,13 @@ function _collocationsLangAndWord(
 }
 
 export function CollocationsSection(): ReactElement | null {
-  useStateVersion();
+  const { cw, flipped } = useDeckState();
   const [, forceRender] = useState(0);
   useEffect(() => {
     if (getCollocationsModule()) return;
     ensureCollocationsLoaded().then(() => forceRender((n) => n + 1));
   }, []);
-  const cw = getCwSnapshot() as WordEntry | null;
-  if (!cw || !getFlippedSnapshot()) return null;
+  if (!cw || !flipped) return null;
 
   const mod = getCollocationsModule();
   if (!mod) return null;
@@ -122,14 +120,13 @@ function _headEnFor(front: Code, word: string): string | null {
 }
 
 export function WordFamiliesChips(): ReactElement | null {
-  useStateVersion();
+  const { cw, flipped } = useDeckState();
   const [, forceRender] = useState(0);
   useEffect(() => {
     if (getWordFamiliesModule()) return;
     ensureWordFamiliesLoaded().then(() => forceRender((n) => n + 1));
   }, []);
-  const cw = getCwSnapshot() as WordEntry | null;
-  if (!cw || !getFlippedSnapshot()) return null;
+  if (!cw || !flipped) return null;
 
   const mod = getWordFamiliesModule();
   if (!mod) return null;
@@ -193,14 +190,13 @@ export function WordFamiliesChips(): ReactElement | null {
 }
 
 export function SynonymsChips(): ReactElement | null {
-  useStateVersion();
+  const { cw, flipped } = useDeckState();
   const [, forceRender] = useState(0);
   useEffect(() => {
     if (getSynonymsModule()) return;
     ensureSynonymsLoaded().then(() => forceRender((n) => n + 1));
   }, []);
-  const cw = getCwSnapshot() as WordEntry | null;
-  if (!cw || !getFlippedSnapshot()) return null;
+  if (!cw || !flipped) return null;
 
   const mod = getSynonymsModule();
   if (!mod) return null;
@@ -270,14 +266,13 @@ export function SynonymsChips(): ReactElement | null {
 }
 
 export function AntonymsChips(): ReactElement | null {
-  useStateVersion();
+  const { cw, flipped } = useDeckState();
   const [, forceRender] = useState(0);
   useEffect(() => {
     if (getAntonymsModule()) return;
     ensureAntonymsLoaded().then(() => forceRender((n) => n + 1));
   }, []);
-  const cw = getCwSnapshot() as WordEntry | null;
-  if (!cw || !getFlippedSnapshot()) return null;
+  if (!cw || !flipped) return null;
 
   const mod = getAntonymsModule();
   if (!mod) return null;
@@ -347,14 +342,13 @@ export function AntonymsChips(): ReactElement | null {
 }
 
 export function EtymologyNote(): ReactElement | null {
-  useStateVersion();
+  const { cw, flipped } = useDeckState();
   const [, forceRender] = useState(0);
   useEffect(() => {
     if (getEtymologyModule()) return;
     ensureEtymologyLoaded().then(() => forceRender((n) => n + 1));
   }, []);
-  const cw = getCwSnapshot() as WordEntry | null;
-  if (!cw || !getFlippedSnapshot()) return null;
+  if (!cw || !flipped) return null;
 
   const mod = getEtymologyModule();
   if (!mod) return null;
@@ -371,13 +365,12 @@ export function EtymologyNote(): ReactElement | null {
 }
 
 export function UsageNoteBox(): ReactElement | null {
-  useStateVersion();
+  const { cw } = useDeckState();
   const [, forceRender] = useState(0);
   useEffect(() => {
     if (getUsageNotesModule()) return;
     ensureUsageNotesLoaded().then(() => forceRender((n) => n + 1));
   }, []);
-  const cw = getCwSnapshot() as WordEntry | null;
   if (!cw) return null;
 
   const mod = getUsageNotesModule();

@@ -207,7 +207,18 @@ export function achCatName(cat: string): string {
   return i18next.t(cat, { ns: 'achievements', defaultValue: cat });
 }
 
-function applyI18n(): void {
+// isBoot=true skips the two unconditional dynamic-import refreshes below —
+// at boot, js/app.ts's own explicit render() call (after this module's
+// dependents finish evaluating) already produces a fully-localized first
+// card, and RangeSelect's own mount effect already sets #sel-range's initial
+// text, so re-triggering them here would just be redundant work. It's also
+// a self-reference: i18n.ts is a static dependency of card-engine.ts, so this
+// boot call runs while card-engine.ts is still mid-evaluation — the dynamic
+// import only resolves once that finishes, deferring a redundant second
+// render to a later microtask for no benefit. Real language switches
+// (setLang()) still need both refreshes, since nothing else re-renders the
+// already-mounted card/dropdown then.
+function applyI18n(isBoot = false): void {
   const lang = getLang();
   document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => {
     const key = el.dataset.i18n;
@@ -229,10 +240,12 @@ function applyI18n(): void {
     btn.classList.toggle('lang-active', btn.dataset.lang === lang);
   });
   notifyStateChange();
-  import('./deck-filter.tsx')
-    .then(({ _refreshRangeOptions }) => _refreshRangeOptions())
-    .catch(() => {});
-  import('../core/card-engine.ts').then(({ render }) => render()).catch(() => {});
+  if (!isBoot) {
+    import('./deck-filter.tsx')
+      .then(({ _refreshRangeOptions }) => _refreshRangeOptions())
+      .catch(() => {});
+    import('../core/card-engine.ts').then(({ render }) => render()).catch(() => {});
+  }
   if (document.getElementById('lp-overlay')?.classList.contains('open')) {
     import('./learning-path.ts')
       .then(({ renderLearningPath }) => renderLearningPath())
@@ -267,7 +280,7 @@ function applyI18n(): void {
   }
 }
 
-applyI18n();
+applyI18n(true);
 
 export function I18nInit(): ReactElement | null {
   useEffect(() => {

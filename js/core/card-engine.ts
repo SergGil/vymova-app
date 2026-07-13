@@ -4,7 +4,6 @@
 import type { WordEntry } from '../../src/types.js';
 import { W } from '../../data/words.js';
 import { loadWikiImage, _imgCache } from './images.ts';
-import { notifyStateChange } from '../../src/store.ts';
 import { synth } from './srs.ts';
 import { awardXP } from '../features/combo.ts';
 import { showComboToast } from '../features/combo-toast.tsx';
@@ -137,7 +136,6 @@ export function render(): void {
     _safe(() => {
       updateRing();
     });
-    notifyStateChange();
     // Predictive prefetch: наступні картки (без дублів для малих дек)
     _idle(function () {
       _safe(() => {

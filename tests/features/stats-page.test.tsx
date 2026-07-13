@@ -40,6 +40,7 @@ vi.mock('../../js/features/game.ts', () => ({
   getModeAccuracy,
   getMistakes,
   getWeeklyTotal,
+  registerCheckAchievements: vi.fn(),
 }));
 vi.mock('../../js/features/mistake-review.tsx', () => ({
   MistakeReview: ({ onClose }: { onClose: () => void }) => (

@@ -5,8 +5,8 @@
 // any of the 13 target languages, plus EN/UA) — see getSimilarWordsFor.
 import type { ReactElement } from 'react';
 import { W } from '../../data/words.js';
-import { useStateVersion, notifyStateChange } from '../../src/store.ts';
-import { getCwSnapshot, getFlippedSnapshot } from '../../src/deck-store.ts';
+import { notifyStateChange } from '../../src/store.ts';
+import { useDeckState } from '../../src/deck-store.ts';
 import { openWordDetail } from './word-detail-trigger.ts';
 import type { WordEntry } from '../../src/types.js';
 import {
@@ -16,7 +16,7 @@ import {
   headwordFor,
   type Code,
 } from './mode-utils.ts';
-import { getKnownSnapshot } from '../../src/known-words-store.ts';
+import { getKnownSnapshot, useAllKnownWords } from '../../src/known-words-store.ts';
 import { t } from './i18n.ts';
 
 function _getActiveKnown(): Set<string> {
@@ -241,9 +241,9 @@ export function getSimilarWordsFr(word: string, frTransl: string, maxCount = 10)
 }
 
 export function SimilarWordsChips(): ReactElement | null {
-  useStateVersion();
-  const cw = getCwSnapshot() as WordEntry | null;
-  if (!cw || !getFlippedSnapshot()) return null;
+  const { cw, flipped } = useDeckState();
+  useAllKnownWords(); // re-render chip highlighting when any known-words set changes
+  if (!cw || !flipped) return null;
 
   const { front, back } = parsePair(_getMode());
   const frontWord = headwordFor(front, cw);

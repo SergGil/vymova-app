@@ -53,9 +53,6 @@ vi.mock('../../js/core/images.ts', () => ({
   _idb: null,
 }));
 
-const { notifyStateChange } = vi.hoisted(() => ({ notifyStateChange: vi.fn() }));
-vi.mock('../../src/store.ts', () => ({ notifyStateChange }));
-
 const word1: WordEntry = [
   'hello',
   'привіт',
@@ -166,7 +163,6 @@ describe('card-engine.ts', () => {
 
       expect(getFlippedSnapshot()).toBe(false);
       expect(getCwSnapshot()).toEqual(word1);
-      expect(notifyStateChange).toHaveBeenCalled();
       expect(updateRing).toHaveBeenCalled();
     });
 
