@@ -1619,6 +1619,7 @@
   "duel.err.notFound": "Stanza non trovata",
   "duel.err.taken": "La stanza è già occupata",
   "duel.err.finished": "Il duello è già terminato",
+  "duel.err.sync": "⚠️ Problema di connessione — nuovo tentativo…",
   "duel.rematch.ask": "🔄 Chiedi al tuo avversario di creare una nuova stanza",
   "duel.spectate.title": "👀 Osserva un duello",
   "duel.spectate.desc": "Inserisci il codice della stanza che vuoi guardare",

@@ -1619,6 +1619,7 @@
   "duel.err.notFound": "Salle introuvable",
   "duel.err.taken": "La salle est déjà prise",
   "duel.err.finished": "Le duel est déjà terminé",
+  "duel.err.sync": "⚠️ Problème de connexion — nouvelle tentative…",
   "duel.rematch.ask": "🔄 Demande à ton adversaire de créer une nouvelle salle",
   "duel.spectate.title": "👀 Observer un duel",
   "duel.spectate.desc": "Entre le code de la salle que tu veux regarder",

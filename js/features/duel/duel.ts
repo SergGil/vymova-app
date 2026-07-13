@@ -464,6 +464,16 @@ function _startOpponentPoll(): void {
         clearInterval(_pollTimer!);
         _pollTimer = null;
         _showFinish({ ...room, finished: true } as RoomData);
+      } else if (
+        !roomNow.myDone &&
+        roomNow.quizDeck.length > 0 &&
+        roomNow.quizIdx >= roomNow.quizDeck.length
+      ) {
+        // I finished my last question but _finishMyGame()'s write never
+        // landed (network blip), so `myDone` is still false — retry it here.
+        // Idempotent: same score/idx every time, so a redundant retry once
+        // the original attempt actually did land is harmless.
+        _finishMyGame();
       }
     } catch (e) {}
   }, 1500);
@@ -811,20 +821,37 @@ async function _pushScore(): Promise<void> {
       idx: room.quizIdx,
       flags: room.myFlags,
     });
-  } catch (e) {}
+  } catch (e) {
+    // Not fatal here — the next question's _pushScore() resends the (by then
+    // higher) score/idx anyway. _startOpponentPoll() below covers the one
+    // case this doesn't self-heal: this being the *last* question.
+    console.warn('[duel]', e);
+  }
 }
 
 async function _finishMyGame(): Promise<void> {
+  const room = getDuelRoomSnapshot();
   try {
-    let room = getDuelRoomSnapshot();
     await _fbPatch(`/duel_rooms/${room.roomId}/${room.mySlot}`, {
       score: room.myScore,
       idx: room.quizDeck.length,
       flags: room.myFlags,
       done: true,
     });
-    setDuelRoom({ myDone: true });
-    room = getDuelRoomSnapshot();
+  } catch (e) {
+    // Used to fail silently here and leave both players stuck forever: this
+    // client never sets myDone, so it never re-shows "waiting", and the
+    // opponent's poll never sees `done`. _startOpponentPoll()'s "not done
+    // and out of questions" branch retries this same call on its next tick,
+    // and the write is idempotent (same score/idx every retry), so this just
+    // needs to not look like a dead screen while that happens.
+    console.warn('[duel]', e);
+    _showMiniToast(t('duel.err.sync'));
+    setDuelQuestionFields({ waitingFinish: true, feedbackHtml: t('duel.waiting') });
+    return;
+  }
+  setDuelRoom({ myDone: true });
+  try {
     const roomData = (await _fbGet(`/duel_rooms/${room.roomId}`)) as RoomData;
     const opp = room.mySlot === 'p1' ? roomData.p2 : roomData.p1;
     if (opp?.done) {
@@ -839,7 +866,12 @@ async function _finishMyGame(): Promise<void> {
       setDuelQuestionFields({ waitingFinish: true, feedbackHtml: t('duel.waiting') });
     }
   } catch (e) {
+    // myDone is already true at this point, so _startOpponentPoll()'s
+    // existing "both done but finished unset" branch settles this — just
+    // don't leave the screen looking frozen while it does.
     console.warn('[duel]', e);
+    _showMiniToast(t('duel.err.sync'));
+    setDuelQuestionFields({ waitingFinish: true, feedbackHtml: t('duel.waiting') });
   }
 }
 

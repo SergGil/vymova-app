@@ -1619,6 +1619,7 @@
   "duel.err.notFound": "Raum nicht gefunden",
   "duel.err.taken": "Der Raum ist bereits belegt",
   "duel.err.finished": "Das Duell ist bereits beendet",
+  "duel.err.sync": "⚠️ Verbindungsproblem — wird erneut versucht…",
   "duel.rematch.ask": "🔄 Bitte deinen Gegner, einen neuen Raum zu erstellen",
   "duel.spectate.title": "👀 Duell beobachten",
   "duel.spectate.desc": "Gib den Code des Raums ein, den du beobachten möchtest",

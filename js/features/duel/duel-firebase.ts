@@ -5,20 +5,44 @@
 export const DB_URL =
   'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
 
+// Retries transient failures (network errors, 5xx) with backoff so a brief
+// blip doesn't silently drop a write — see _pushScore()/_finishMyGame() in
+// duel.ts, which used to treat a failed PATCH as a success and leave both
+// players desynced with no error and no retry. 4xx (bad request, or a
+// database.rules.json .validate rejection) is never retried — the request
+// is malformed/disallowed, so retrying it would just fail the same way.
+const _FB_RETRIES = 3;
+async function _fbFetch(p: string, opts?: RequestInit): Promise<Response> {
+  let lastErr: unknown;
+  for (let attempt = 0; attempt < _FB_RETRIES; attempt++) {
+    if (attempt > 0) await new Promise((res) => setTimeout(res, 300 * 2 ** (attempt - 1)));
+    let r: Response;
+    try {
+      r = await fetch(`${DB_URL}${p}.json`, opts);
+    } catch (e) {
+      lastErr = e;
+      continue;
+    }
+    if (r.ok) return r;
+    if (r.status >= 400 && r.status < 500) throw new Error('HTTP ' + r.status);
+    lastErr = new Error('HTTP ' + r.status);
+  }
+  throw lastErr;
+}
+
 export async function _fbGet(p: string): Promise<unknown> {
-  const r = await fetch(`${DB_URL}${p}.json`);
-  if (!r.ok) throw new Error('HTTP ' + r.status);
+  const r = await _fbFetch(p);
   return r.json();
 }
 export async function _fbPatch(p: string, d: unknown): Promise<void> {
-  await fetch(`${DB_URL}${p}.json`, {
+  await _fbFetch(p, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(d),
   });
 }
 export async function _fbSet(p: string, d: unknown): Promise<void> {
-  await fetch(`${DB_URL}${p}.json`, {
+  await _fbFetch(p, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(d),

@@ -1634,6 +1634,7 @@
   "duel.err.notFound": "Room not found",
   "duel.err.taken": "Room is already taken",
   "duel.err.finished": "Duel is already finished",
+  "duel.err.sync": "⚠️ Connection issue — retrying…",
   "duel.rematch.ask": "🔄 Ask your opponent to create a new room",
   "duel.spectate.title": "👀 Spectate a Duel",
   "duel.spectate.desc": "Enter the room code you want to watch",
