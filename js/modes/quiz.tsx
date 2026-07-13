@@ -5,7 +5,7 @@ import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
+import { recordMistake, recordModeAnswer } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak, _speakWithLang } from '../features/voice/speech.ts';
 import { t, getLang } from '../features/i18n.ts';
@@ -28,6 +28,7 @@ import {
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import type { WordEntry } from '../../src/types.js';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const QUIZ_SIZE = 10,
   QUICK_SIZE = 5,
@@ -192,8 +193,9 @@ export function openQuickQuiz(): void {
   openQuiz(null, QUICK_SIZE);
 }
 
+type StartArg = { src?: WordEntry[] | null; maxSize?: number; isRetry?: boolean };
+
 export function QuizPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
   const [correct, setCorrect] = useState(0);
@@ -203,45 +205,43 @@ export function QuizPage(): ReactElement {
   const [answered, setAnswered] = useState(false);
   const [chosen, setChosen] = useState<string | null>(null);
   const [isRetrySession, setIsRetrySession] = useState(false);
-  const [completed, setCompleted] = useState(false);
 
-  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const showFinal = deck.length > 0 && idx >= deck.length;
+
+  const startGame = (arg?: StartArg): void => {
+    setIsRetrySession(!!arg?.isRetry);
+    const d = buildDeck(arg?.src, arg?.maxSize ?? QUIZ_SIZE);
+    setDeck(d);
+    setIdx(0);
+    setCorrect(0);
+    setWrong(0);
+    setWrongWords([]);
+    setAnswered(false);
+    setChosen(null);
+    setQData(d.length ? buildQuestion(d[0]) : null);
+    const panel = document.getElementById('quiz-panel');
+    if (panel) panel.scrollTop = 0;
+  };
+
+  const session = useModeSession<StartArg>({
+    overlayId: 'quiz-overlay',
+    modeId: 'quiz',
+    isFinal: showFinal,
+    onOpen: startGame,
+    closeOnEscape: false,
+    showOverlay: (el) => el.classList.add('open'),
+    hideOverlay: (el) => el.classList.remove('open'),
+  });
+  const { isOpen, open: sessionOpen, close: sessionClose } = session;
 
   useEffect(() => {
-    _open = (src, maxSize) => {
-      setIsOpen(true);
-      setIsRetrySession(false);
-      const d = buildDeck(src, maxSize);
-      setDeck(d);
-      setIdx(0);
-      setCorrect(0);
-      setWrong(0);
-      setWrongWords([]);
-      setCompleted(false);
-      setAnswered(false);
-      setChosen(null);
-      setQData(d.length ? buildQuestion(d[0]) : null);
-      const overlay = document.getElementById('quiz-overlay');
-      overlay?.classList.add('open');
-      const panel = document.getElementById('quiz-panel');
-      if (panel) panel.scrollTop = 0;
-    };
-    _close = () => {
-      setIsOpen(false);
-      document.getElementById('quiz-overlay')?.classList.remove('open');
-    };
+    _open = (src, maxSize) => sessionOpen({ src, maxSize });
+    _close = sessionClose;
     return () => {
       _open = null;
       _close = null;
     };
-  }, []);
-
-  useEffect(() => {
-    if (showFinal && !completed) {
-      recordModeComplete('quiz');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
+  }, [sessionOpen, sessionClose]);
 
   const advance = (): void => {
     const newIdx = idx + 1;
@@ -273,34 +273,8 @@ export function QuizPage(): ReactElement {
     }
   };
 
-  const restart = (): void => {
-    setIsRetrySession(false);
-    const d = buildDeck(null);
-    setDeck(d);
-    setIdx(0);
-    setCorrect(0);
-    setWrong(0);
-    setWrongWords([]);
-    setCompleted(false);
-    setAnswered(false);
-    setChosen(null);
-    setQData(d.length ? buildQuestion(d[0]) : null);
-  };
-
-  const restartWrong = (): void => {
-    const wc = wrongWords.slice();
-    setIsRetrySession(true);
-    const d = buildDeck(wc);
-    setDeck(d);
-    setIdx(0);
-    setCorrect(0);
-    setWrong(0);
-    setWrongWords([]);
-    setCompleted(false);
-    setAnswered(false);
-    setChosen(null);
-    setQData(d.length ? buildQuestion(d[0]) : null);
-  };
+  const restart = (): void => sessionOpen();
+  const restartWrong = (): void => sessionOpen({ src: wrongWords.slice(), isRetry: true });
 
   // Keyboard shortcuts
   useEffect(() => {

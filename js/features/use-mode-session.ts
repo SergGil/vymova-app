@@ -18,6 +18,13 @@ export interface ModeSessionHandle<TOpenArg = void> {
   close: () => void;
 }
 
+function defaultShowOverlay(overlay: HTMLElement): void {
+  overlay.style.display = 'flex';
+}
+function defaultHideOverlay(overlay: HTMLElement): void {
+  overlay.style.display = 'none';
+}
+
 export function useModeSession<TOpenArg = void>({
   overlayId,
   modeId,
@@ -25,6 +32,8 @@ export function useModeSession<TOpenArg = void>({
   onOpen,
   onClose,
   closeOnEscape = true,
+  showOverlay = defaultShowOverlay,
+  hideOverlay = defaultHideOverlay,
 }: {
   overlayId: string;
   modeId: string;
@@ -43,6 +52,12 @@ export function useModeSession<TOpenArg = void>({
   // bundle Escape into their own combined keydown effect instead — pass
   // false there and call the returned close() from that effect.
   closeOnEscape?: boolean;
+  // Most modes' overlay is a plain `display:none`/`display:flex` toggle
+  // (the default above). A few (quiz.tsx, adaptive-quiz.tsx) show/hide via
+  // a `.open` CSS class instead, so a `#xxx-overlay.open .yyy-panel` rule
+  // can transition/animate the panel in — override both together there.
+  showOverlay?: (overlay: HTMLElement) => void;
+  hideOverlay?: (overlay: HTMLElement) => void;
 }): ModeSessionHandle<TOpenArg> {
   const [isOpen, setIsOpen] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -56,19 +71,23 @@ export function useModeSession<TOpenArg = void>({
   onOpenRef.current = onOpen;
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
+  const showOverlayRef = useRef(showOverlay);
+  showOverlayRef.current = showOverlay;
+  const hideOverlayRef = useRef(hideOverlay);
+  hideOverlayRef.current = hideOverlay;
 
   const open = useRef((arg?: TOpenArg): void => {
     setIsOpen(true);
     setCompleted(false);
     const overlay = document.getElementById(overlayId);
-    if (overlay) overlay.style.display = 'flex';
+    if (overlay) showOverlayRef.current(overlay);
     onOpenRef.current?.(arg);
   }).current;
 
   const close = useRef((): void => {
     setIsOpen(false);
     const overlay = document.getElementById(overlayId);
-    if (overlay) overlay.style.display = 'none';
+    if (overlay) hideOverlayRef.current(overlay);
     onCloseRef.current?.();
   }).current;
 

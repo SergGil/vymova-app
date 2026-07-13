@@ -1037,12 +1037,12 @@ export function WritePage(): ReactElement {
           ok={ok}
           total={deck.length}
           keepGoingKey="quiz.encourageTitle"
-          onRetry={() => startGame(null)}
+          onRetry={() => session.open(null)}
           onClose={closeWrite}
           extra={
             wrong.length > 0 ? (
               <button
-                onClick={() => startGame(wrong)}
+                onClick={() => session.open(wrong)}
                 style={{
                   fontFamily: "'DM Sans',sans-serif",
                   fontSize: '.88rem',

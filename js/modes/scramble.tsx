@@ -480,7 +480,7 @@ export function ScramblePage(): ReactElement {
           ok={ok}
           total={SIZE}
           keepGoingKey="tempo.practiceTitle"
-          onRetry={startGame}
+          onRetry={() => session.open()}
           onClose={closeScramble}
         />
       )}

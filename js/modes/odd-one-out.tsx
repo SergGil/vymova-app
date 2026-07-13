@@ -339,7 +339,7 @@ export function OddOneOutPage(): ReactElement {
           ok={ok}
           total={deck.length}
           keepGoingKey="tempo.practiceTitle"
-          onRetry={startGame}
+          onRetry={() => session.open()}
           onClose={closeOddOneOut}
         />
       )}

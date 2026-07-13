@@ -6,7 +6,7 @@ import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeAnswer, recordMistake } from '../features/game.ts';
+import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
@@ -116,6 +116,7 @@ export function GhostRacePage(): ReactElement {
   const [checkpoints, setCheckpoints] = useState<number[]>([]);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [result, setResult] = useState<{ total: number; isNew: boolean } | null>(null);
+  const [completed, setCompleted] = useState(false);
 
   const startRef = useRef<number | null>(null);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -136,10 +137,13 @@ export function GhostRacePage(): ReactElement {
   const session = useModeSession({
     overlayId: 'ghost-overlay',
     modeId: 'ghost',
-    // Ghost Race's "done" state is the result screen reached from
-    // finishRace() (a setTimeout callback, not a per-render idx/deck.length
-    // check like other modes) — screen === 'result' mirrors that exactly.
-    isFinal: screen === 'result',
+    // Completion is tracked locally below, not via isFinal: the "try
+    // again" button on the result screen calls startRace() directly
+    // (immediately racing again, not returning to the ready screen), which
+    // never goes through session.open() — so the hook's own open()-gated
+    // completed reset would never fire for a retried race. isFinal is
+    // fixed at false here purely to satisfy the hook's required prop.
+    isFinal: false,
     onOpen: goToReady,
     onClose: stopTick,
   });
@@ -162,6 +166,7 @@ export function GhostRacePage(): ReactElement {
     setSelected(null);
     setCheckpoints([]);
     setResult(null);
+    setCompleted(false);
     setScreen('playing');
     startRef.current = Date.now();
     setElapsedMs(0);
@@ -177,6 +182,12 @@ export function GhostRacePage(): ReactElement {
     const isNew = saveGhostIfBetter({ checkpoints: finalCheckpoints, total, ok: finalOk }, ghost);
     setResult({ total, isNew });
     setScreen('result');
+    if (!completed) {
+      try {
+        recordModeComplete('ghost');
+      } catch (e) {}
+      setCompleted(true);
+    }
   };
 
   const choose = (opt: string): void => {

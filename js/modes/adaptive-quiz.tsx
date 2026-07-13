@@ -7,7 +7,7 @@ import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
+import { recordMistake, recordModeAnswer } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { playSound } from '../core/audio.ts';
 import { speak, _speakWithLang } from '../features/voice/speech.ts';
@@ -32,6 +32,7 @@ import {
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import type { WordEntry } from '../../src/types.js';
 import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const AQ_SIZE = 10;
 const MIN_DIFF = 1,
@@ -189,7 +190,6 @@ export function closeAdaptiveQuiz(): void {
 }
 
 export function AdaptiveQuizPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
   const [correct, setCorrect] = useState(0);
@@ -199,11 +199,10 @@ export function AdaptiveQuizPage(): ReactElement {
   const [answered, setAnswered] = useState(false);
   const [chosen, setChosen] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(timeLimitFor(START_DIFF));
-  const [completed, setCompleted] = useState(false);
   const startedAt = useRef(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const showFinal = isOpen && deck.length > 0 && idx >= deck.length;
+  const showFinal = deck.length > 0 && idx >= deck.length;
 
   const stopTimer = (): void => {
     if (timerRef.current) {
@@ -241,33 +240,38 @@ export function AdaptiveQuizPage(): ReactElement {
     }
   };
 
+  const startGame = (): void => {
+    const d = buildDeck();
+    setDeck(d);
+    setIdx(0);
+    setCorrect(0);
+    setWrong(0);
+    setAnswered(false);
+    setChosen(null);
+    setDifficulty(START_DIFF);
+    setQData(d.length ? buildQuestion(d[0], START_DIFF) : null);
+  };
+
+  const session = useModeSession({
+    overlayId: 'aq-overlay',
+    modeId: 'adaptive-quiz',
+    isFinal: showFinal,
+    onOpen: startGame,
+    onClose: stopTimer,
+    showOverlay: (el) => el.classList.add('open'),
+    hideOverlay: (el) => el.classList.remove('open'),
+  });
+  const { isOpen } = session;
+
   useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      const d = buildDeck();
-      setDeck(d);
-      setIdx(0);
-      setCorrect(0);
-      setWrong(0);
-      setCompleted(false);
-      setAnswered(false);
-      setChosen(null);
-      setDifficulty(START_DIFF);
-      setQData(d.length ? buildQuestion(d[0], START_DIFF) : null);
-      const overlay = document.getElementById('aq-overlay');
-      overlay?.classList.add('open');
-    };
-    _close = () => {
-      stopTimer();
-      setIsOpen(false);
-      document.getElementById('aq-overlay')?.classList.remove('open');
-    };
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
       stopTimer();
     };
-  }, []);
+  }, [session.open, session.close]);
 
   // Per-question countdown timer; auto-submits as wrong when it hits zero.
   useEffect(() => {
@@ -294,32 +298,12 @@ export function AdaptiveQuizPage(): ReactElement {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qData, isOpen, showFinal]);
 
-  useEffect(() => {
-    if (showFinal && !completed) {
-      recordModeComplete('adaptive-quiz');
-      setCompleted(true);
-    }
-  }, [showFinal, completed]);
-
   const advance = (): void => {
     const newIdx = idx + 1;
     setIdx(newIdx);
     setAnswered(false);
     setChosen(null);
     if (newIdx < deck.length) setQData(buildQuestion(deck[newIdx], difficulty));
-  };
-
-  const restart = (): void => {
-    const d = buildDeck();
-    setDeck(d);
-    setIdx(0);
-    setCorrect(0);
-    setWrong(0);
-    setCompleted(false);
-    setAnswered(false);
-    setChosen(null);
-    setDifficulty(START_DIFF);
-    setQData(d.length ? buildQuestion(d[0], START_DIFF) : null);
   };
 
   if (!isOpen) return <></>;
@@ -532,7 +516,7 @@ export function AdaptiveQuizPage(): ReactElement {
           </div>
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
-              onClick={restart}
+              onClick={() => session.open()}
               style={{
                 fontFamily: "'DM Sans',sans-serif",
                 fontSize: '.88rem',

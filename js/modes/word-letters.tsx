@@ -569,7 +569,7 @@ export function WordLettersPage(): ReactElement {
           </div>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
             <button
-              onClick={startGame}
+              onClick={() => session.open()}
               style={{
                 padding: '9px 20px',
                 borderRadius: 10,

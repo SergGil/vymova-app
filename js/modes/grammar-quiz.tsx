@@ -449,7 +449,7 @@ export function GrammarQuizPage(): ReactElement {
           ok={ok}
           total={deck.length}
           keepGoingKey="listen.keepGoingTitle"
-          onRetry={startGame}
+          onRetry={() => session.open()}
           onClose={closeGrammarQuiz}
         />
       )}

@@ -336,7 +336,7 @@ export function ListeningPage(): ReactElement {
           ok={ok}
           total={deck.length}
           keepGoingKey="listen.keepGoingTitle"
-          onRetry={startGame}
+          onRetry={() => session.open()}
           onClose={closeListening}
         />
       )}

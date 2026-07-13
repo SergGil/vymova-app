@@ -12,6 +12,7 @@ import { playSound } from '../core/audio.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const CP = 6;
 const RANDOM_KEY = '🎲 Випадково';
@@ -75,7 +76,6 @@ function closeCatpairs(): void {
 type Selection = { id: number; side: string } | null;
 
 export function CatPairsPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [screen, setScreen] = useState<'select' | 'game'>('select');
   const [catKey, setCatKey] = useState('');
   const [deck, setDeck] = useState<WordEntry[]>([]);
@@ -98,35 +98,29 @@ export function CatPairsPage(): ReactElement {
     }
   };
 
-  useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
+  const session = useModeSession({
+    overlayId: 'catpairs-overlay',
+    modeId: 'catpairs',
+    // Never calls recordModeComplete — this mode tracks its own per-category
+    // best time (getBest/setBest) instead of the shared mode-stats system.
+    isFinal: false,
+    onOpen: () => {
       setScreen('select');
       setGridTick((x) => x + 1);
-      const overlay = document.getElementById('catpairs-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      stopTick();
-      setIsOpen(false);
-      const overlay = document.getElementById('catpairs-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    },
+    onClose: stopTick,
+  });
+  const { isOpen } = session;
+
+  useEffect(() => {
+    _open = session.open;
+    _close = session.close;
     return () => {
       _open = null;
       _close = null;
       stopTick();
     };
-  }, []);
-
-  useEffect(() => {
-    function onKeydown(e: KeyboardEvent): void {
-      const overlay = document.getElementById('catpairs-overlay');
-      if (e.key === 'Escape' && overlay?.style.display === 'flex') closeCatpairs();
-    }
-    document.addEventListener('keydown', onKeydown);
-    return () => document.removeEventListener('keydown', onKeydown);
-  }, []);
+  }, [session.open, session.close]);
 
   const startGame = (key: string, words: WordEntry[]): void => {
     stopTick();

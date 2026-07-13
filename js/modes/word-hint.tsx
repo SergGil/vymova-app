@@ -393,7 +393,7 @@ export function WordHintPage(): ReactElement {
           ok={ok}
           total={deck.length}
           keepGoingKey="tempo.practiceTitle"
-          onRetry={startGame}
+          onRetry={() => session.open()}
           onClose={closeWordHint}
         />
       )}

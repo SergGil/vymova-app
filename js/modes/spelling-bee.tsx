@@ -913,7 +913,7 @@ export function SpellingBeePage(): ReactElement {
           ok={ok}
           total={SIZE}
           keepGoingKey="tempo.practiceTitle"
-          onRetry={startGame}
+          onRetry={() => session.open()}
           onClose={closeSpellingBee}
         />
       )}
