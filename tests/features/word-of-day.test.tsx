@@ -3,6 +3,7 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { getDeckSnapshot, setDeckState, setModeState } from '../../src/deck-store.ts';
 import { WordOfDay } from '../../js/features/word-of-day.tsx';
+import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -119,5 +120,23 @@ describe('word-of-day.tsx WordOfDay', () => {
       sel.dispatchEvent(new Event('change'));
     });
     expect(container.querySelector('.wotd-word')!.textContent).toBeTruthy();
+  });
+
+  // frontWord()/pickWord() used to be a 13-language switch (es/fr/it/pt/de/
+  // he/ar/pl/zh/el/ja/tr/nl) — every language registered after that (123 of
+  // them) silently fell through to the raw English headword instead of its
+  // own translation. 'ko' (Korean, index 18 of ALL_TARGET_LANGS) is squarely
+  // in that unsupported range and uses a non-Latin script, so a real
+  // translation is trivially distinguishable from the English fallback.
+  it('shows a real translation (not the English fallback) for a language past the old 13-language switch', async () => {
+    await ensureLangTableLoaded('ko');
+    document.body.innerHTML =
+      '<select id="sel-mode"><option value="ko-en" selected>ko-en</option></select>';
+    setModeState('ko-en');
+    const { container } = mount();
+    const shown = container.querySelector('.wotd-word')!.textContent!;
+    expect(shown).toBeTruthy();
+    // A real Korean translation is Hangul, not the ASCII English headword.
+    expect(shown).not.toMatch(/^[a-zA-Z\s'-]+$/);
   });
 });
