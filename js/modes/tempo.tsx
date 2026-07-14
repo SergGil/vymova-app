@@ -9,24 +9,8 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { playSound } from '../core/audio.ts';
 import { speak } from '../features/voice/speech.ts';
 import { t } from '../features/i18n.ts';
-import {
-  entryFor,
-  esEntry,
-  frEntry,
-  itEntry,
-  ptEntry,
-  deEntry,
-  heEntry,
-  arEntry,
-  plEntry,
-  zhEntry,
-  elEntry,
-  jaEntry,
-  trEntry,
-  nlEntry,
-  viEntry,
-} from '../features/mode-utils.ts';
-import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { entryFor } from '../features/mode-utils.ts';
+import { getKnowLang, getLearnLang, type LangCode } from '../features/lang-pair-select.tsx';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
 import { scoreEmoji } from '../features/mode-final-screen.tsx';
@@ -60,72 +44,15 @@ function setBest(sec: number, val: number): void {
   if (val > getBest(sec)) localStorage.setItem(`ew_tempo_best_${sec}`, String(val));
 }
 
-function getWrongOption(pw: WordEntry, backLang: string): string | null {
-  if (backLang === 'UA') return pw[1];
-  if (backLang === 'ES') {
-    const e = esEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-  if (backLang === 'FR') {
-    const e = frEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-  if (backLang === 'IT') {
-    const e = itEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-  if (backLang === 'PT') {
-    const e = ptEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-  if (backLang === 'DE') {
-    const e = deEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-  if (backLang === 'HE') {
-    const e = heEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-  if (backLang === 'AR') {
-    const e = arEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-
-  if (backLang === 'PL') {
-    const e = plEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-
-  if (backLang === 'ZH') {
-    const e = zhEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-
-  if (backLang === 'EL') {
-    const e = elEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-
-  if (backLang === 'JA') {
-    const e = jaEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-
-  if (backLang === 'TR') {
-    const e = trEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-
-  if (backLang === 'NL') {
-    const e = nlEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-
-  if (backLang === 'VI') {
-    const e = viEntry(pw[0]);
-    return e ? e[0] : null;
-  }
-  return pw[0];
+// Was a per-language if/else chain that stopped at 'VI' (the 15th language
+// added) — every language added after that fell through to `return pw[0]`
+// and got the raw English word as a "distractor" instead of a real wrong
+// answer in the target language. entryFor() already handles every language
+// generically (it's what frontWord/backWord below already use for the
+// *correct* answer), so it covers new languages automatically too.
+function getWrongOption(pw: WordEntry, backLang: LangCode): string | null {
+  const word = entryFor(backLang, pw).word;
+  return word || null;
 }
 
 function buildQuestion(deck: WordEntry[], idx: number): Question {
@@ -136,7 +63,6 @@ function buildQuestion(deck: WordEntry[], idx: number): Question {
   const backLang = frontLang === learnLang ? knowLang : learnLang;
   const frontWord = entryFor(frontLang, w).word;
   const backWord = entryFor(backLang, w).word;
-  const backLangUp = backLang.toUpperCase();
 
   const pool = _shuf(W.slice() as unknown as WordEntry[]);
   const wrongs: string[] = [];
@@ -145,7 +71,7 @@ function buildQuestion(deck: WordEntry[], idx: number): Question {
     if (wrongs.length >= 3) break;
     if (used.has(pw[0].toLowerCase())) continue;
     used.add(pw[0].toLowerCase());
-    const opt = getWrongOption(pw, backLangUp);
+    const opt = getWrongOption(pw, backLang);
     if (!opt || opt === backWord) continue;
     wrongs.push(opt);
   }

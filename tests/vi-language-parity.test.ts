@@ -82,9 +82,27 @@ describe('Vietnamese is wired into every per-mode translation switch', () => {
     }
   });
 
-  it('quiz.tsx / tempo.tsx / adaptive-quiz.tsx still generate VI wrong-answer options directly (separate from entryFor)', () => {
+  // Was: 'quiz.tsx / tempo.tsx / adaptive-quiz.tsx still generate VI
+  // wrong-answer options directly (separate from entryFor)' — these three
+  // files' wrong-*answer* generator (as opposed to the correct-answer one,
+  // already on entryFor) was its own 86-line if/else chain that stopped at
+  // 'VI', the 15th language registered. Every one of the 122 languages
+  // registered after that fell through to a bare `w[0]`/`opt = w[0]`
+  // default and got the raw English headword as a "wrong answer" — not
+  // wrong in the *target* language, just not translated at all. Confirmed
+  // (2026-07-14) and replaced with a direct entryFor() call, same as the
+  // correct-answer side already used, so this class of gap can't reopen for
+  // language #137 either — there's no per-language branch left to forget.
+  it('quiz.tsx / tempo.tsx / adaptive-quiz.tsx generate wrong-answer options via entryFor(), with no leftover per-language branch', () => {
     for (const file of ['js/modes/quiz.tsx', 'js/modes/tempo.tsx', 'js/modes/adaptive-quiz.tsx']) {
-      expect(read(file), file).toContain("'VI'");
+      const src = read(file);
+      // The old chain's tell: a per-language uppercase code compared against
+      // backLang, immediately followed by a call to that language's own
+      // xxEntry() helper — gone once the whole chain is replaced by a
+      // single generic entryFor(backLang, w) call.
+      expect(src, file).not.toMatch(/backLang === '[A-Z]{2,3}'/);
+      expect(src, file).not.toMatch(/\b[a-z]{2}Entry\(/);
+      expect(src, file).toMatch(/entryFor\(backLang/);
     }
   });
 
@@ -97,6 +115,26 @@ describe('Vietnamese is wired into every per-mode translation switch', () => {
       'Вони мусили покинути корабель.',
     ];
     const { word } = entryFor('vi', abandon);
+    expect(word).not.toBe('abandon');
+  });
+
+  // 'ko' (Korean) sits at index 18 of ALL_TARGET_LANGS — well past 'vi'
+  // (index 13) and squarely inside the 122-language range the old
+  // quiz/tempo/adaptive-quiz wrong-answer chain silently didn't cover. This
+  // is the actual bug the fix above closes: not just "does entryFor know
+  // about language N" (already covered by the Vietnamese case above), but
+  // "do these three modes' *distractor* generators reach entryFor for a
+  // language nowhere near the old chain's cutoff."
+  it('entryFor resolves a language far past the old VI cutoff (Korean, index 18) without falling through to English', async () => {
+    await ensureLangTableLoaded('ko');
+    const abandon: WordEntry = [
+      'abandon',
+      'покинути',
+      'They had to abandon the ship.',
+      'Вони мусили покинути корабель.',
+    ];
+    const { word } = entryFor('ko', abandon);
+    expect(word).not.toBe('');
     expect(word).not.toBe('abandon');
   });
 });

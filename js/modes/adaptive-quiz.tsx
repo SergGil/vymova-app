@@ -12,24 +12,8 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { playSound } from '../core/audio.ts';
 import { speak, _speakWithLang } from '../features/voice/speech.ts';
 import { t } from '../features/i18n.ts';
-import {
-  entryFor,
-  esEntry,
-  frEntry,
-  itEntry,
-  ptEntry,
-  deEntry,
-  heEntry,
-  arEntry,
-  plEntry,
-  zhEntry,
-  elEntry,
-  jaEntry,
-  trEntry,
-  nlEntry,
-  viEntry,
-} from '../features/mode-utils.ts';
-import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { entryFor } from '../features/mode-utils.ts';
+import { getKnowLang, getLearnLang, type LangCode } from '../features/lang-pair-select.tsx';
 import type { WordEntry } from '../../src/types.js';
 import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
 import { useModeSession } from '../features/use-mode-session.ts';
@@ -53,10 +37,16 @@ function buildDeck(): WordEntry[] {
   return orderDeckPool(src).slice(0, Math.min(AQ_SIZE, src.length));
 }
 
+// Was a per-language if/else chain that stopped at 'VI' (the 15th language
+// added) — every language added after that fell through to the `else`
+// branch and got the raw English word as a "distractor" instead of a real
+// wrong answer in the target language. entryFor() already handles every
+// language generically (it's what frontWord/backWord below already use for
+// the *correct* answer), so it covers new languages automatically too.
 function getWrongOptions(
   correctWord: WordEntry,
   answer: string,
-  backLang: string,
+  backLang: LangCode,
   need: number,
 ): string[] {
   const shuffled = _shuf(W.slice() as unknown as WordEntry[]);
@@ -66,69 +56,8 @@ function getWrongOptions(
     if (options.length >= need) break;
     if (used.has(w[0].toLowerCase())) continue;
     used.add(w[0].toLowerCase());
-    let opt: string;
-    if (backLang === 'UA') {
-      opt = w[1];
-    } else if (backLang === 'ES') {
-      const e = esEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else if (backLang === 'FR') {
-      const e = frEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else if (backLang === 'IT') {
-      const e = itEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else if (backLang === 'PT') {
-      const e = ptEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else if (backLang === 'DE') {
-      const e = deEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else if (backLang === 'HE') {
-      const e = heEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else if (backLang === 'AR') {
-      const e = arEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else if (backLang === 'PL') {
-      const e = plEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else if (backLang === 'ZH') {
-      const e = zhEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else if (backLang === 'EL') {
-      const e = elEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else if (backLang === 'JA') {
-      const e = jaEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else if (backLang === 'TR') {
-      const e = trEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else if (backLang === 'NL') {
-      const e = nlEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else if (backLang === 'VI') {
-      const e = viEntry(w[0]);
-      if (!e) continue;
-      opt = e[0];
-    } else {
-      opt = w[0];
-    }
-    if (opt === answer) continue;
+    const opt = entryFor(backLang, w).word;
+    if (!opt || opt === answer) continue;
     options.push(opt);
   }
   return options;
@@ -151,7 +80,7 @@ function buildQuestion(w: WordEntry, difficulty: number): QData {
   const frontWord = entryFor(frontLang, w).word;
   const backWord = entryFor(backLang, w).word;
   const need = numOptionsFor(difficulty) - 1;
-  const opts = _shuf([backWord, ...getWrongOptions(w, backWord, backLang.toUpperCase(), need)]);
+  const opts = _shuf([backWord, ...getWrongOptions(w, backWord, backLang, need)]);
   return {
     w,
     frontLang: frontLang.toUpperCase(),
