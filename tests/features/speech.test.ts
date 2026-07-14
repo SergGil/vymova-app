@@ -6,7 +6,7 @@ const mockEnVoice = { name: 'Google US English', lang: 'en-US' } as SpeechSynthe
 
 const getSelectedUkVoice = vi.fn<() => SpeechSynthesisVoice | null>();
 const getSelectedEsVoice = vi.fn<() => SpeechSynthesisVoice | null>();
-const speakFakeYou = vi.fn<(text: string, btn: HTMLElement | null) => boolean>();
+const speakPreferredEnVoice = vi.fn<(text: string, btn: HTMLElement | null) => boolean>();
 
 // i18n.ts (transitively imported via srs.ts) dynamically imports card-engine
 // on language change; stub it out so resetModules() doesn't re-trigger its
@@ -16,7 +16,7 @@ vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
 vi.mock('../../js/features/voice/voice.tsx', () => ({
   getSelectedUkVoice: (...a: unknown[]) => getSelectedUkVoice(...(a as [])),
   getSelectedEsVoice: (...a: unknown[]) => getSelectedEsVoice(...(a as [])),
-  speakFakeYou: (...a: unknown[]) => speakFakeYou(...(a as [string, HTMLElement | null])),
+  speakPreferredEnVoice: (...a: unknown[]) => speakPreferredEnVoice(...(a as [string, HTMLElement | null])),
 }));
 
 class FakeUtterance {
@@ -47,7 +47,7 @@ describe('speech.ts', () => {
     vi.resetModules();
     getSelectedUkVoice.mockReset().mockReturnValue(null);
     getSelectedEsVoice.mockReset().mockReturnValue(null);
-    speakFakeYou.mockReset().mockReturnValue(false);
+    speakPreferredEnVoice.mockReset().mockReturnValue(false);
 
     synth = makeSynth([mockEnVoice, mockUkVoice, mockEsVoice]);
     vi.stubGlobal('speechSynthesis', synth);
@@ -58,15 +58,15 @@ describe('speech.ts', () => {
     return import('../../js/features/voice/speech.ts');
   }
 
-  it('speak() defers to speakFakeYou and skips web speech when it handles the request', async () => {
-    speakFakeYou.mockReturnValue(true);
+  it('speak() defers to speakPreferredEnVoice and skips web speech when it handles the request', async () => {
+    speakPreferredEnVoice.mockReturnValue(true);
     const { speak } = await load();
     speak('hello', null);
     expect(synth.speak).not.toHaveBeenCalled();
   });
 
-  it('speak() falls back to web speech synthesis when speakFakeYou returns false', async () => {
-    speakFakeYou.mockReturnValue(false);
+  it('speak() falls back to web speech synthesis when speakPreferredEnVoice returns false', async () => {
+    speakPreferredEnVoice.mockReturnValue(false);
     const { speak } = await load();
     speak('hello', null);
     expect(synth.cancel).toHaveBeenCalled();

@@ -4,7 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import {
   VoiceInit,
   _renderVoices,
-  speakFakeYou,
+  speakPreferredEnVoice,
   speakEnAccent,
   getSelectedUkVoice,
   getSelectedEsVoice,
@@ -141,17 +141,17 @@ describe('voice.tsx', () => {
     );
   });
 
-  it('speakFakeYou returns false when there are no EN voices', () => {
+  it('speakPreferredEnVoice returns false when there are no EN voices', () => {
     vi.stubGlobal('speechSynthesis', makeFakeSynth([]));
-    expect(speakFakeYou('hello', null)).toBe(false);
+    expect(speakPreferredEnVoice('hello', null)).toBe(false);
   });
 
-  it('speakFakeYou speaks the cleaned text via the EN voice and toggles the button "on" class', () => {
+  it('speakPreferredEnVoice speaks the cleaned text via the EN voice and toggles the button "on" class', () => {
     const voices = [makeVoice('Google US English', 'en-US')];
     vi.stubGlobal('speechSynthesis', makeFakeSynth(voices));
     const btn = document.createElement('button');
 
-    const ok = speakFakeYou('Hello (greeting) <b>world</b>', btn);
+    const ok = speakPreferredEnVoice('Hello (greeting) <b>world</b>', btn);
 
     expect(ok).toBe(true);
     expect(synth.cancel).toHaveBeenCalled();
@@ -166,10 +166,10 @@ describe('voice.tsx', () => {
     expect(btn.classList.contains('on')).toBe(false);
   });
 
-  it('speakFakeYou rejects Cyrillic-only text', () => {
+  it('speakPreferredEnVoice rejects Cyrillic-only text', () => {
     const voices = [makeVoice('Google US English', 'en-US')];
     vi.stubGlobal('speechSynthesis', makeFakeSynth(voices));
-    expect(speakFakeYou('Привіт', null)).toBe(false);
+    expect(speakPreferredEnVoice('Привіт', null)).toBe(false);
   });
 
   it('getSelected*Voice falls back to the first matching voice when nothing saved', () => {

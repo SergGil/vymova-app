@@ -1,7 +1,7 @@
 // Vymova — js/features/speech.ts
 // TTS: getVoice, speak, _speakWeb, _speakWithLang
 import { synth, hasSpeech } from '../../core/srs.ts';
-import { getSelectedUkVoice, getSelectedEsVoice, speakFakeYou } from './voice.tsx';
+import { getSelectedUkVoice, getSelectedEsVoice, speakPreferredEnVoice } from './voice.tsx';
 
 function getVoice(): SpeechSynthesisVoice | null {
   const v = synth.getVoices();
@@ -57,6 +57,6 @@ function _speakWeb(text: string, btn: HTMLElement | null): void {
 }
 
 export function speak(text: string, btn: HTMLElement | null): void {
-  if (speakFakeYou(text, btn)) return;
+  if (speakPreferredEnVoice(text, btn)) return;
   _speakWeb(text, btn);
 }

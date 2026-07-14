@@ -1854,7 +1854,15 @@ export function hasPtAccent(accent: 'PT' | 'BR'): boolean {
   return _hasAccent(_ptVoices(), accent, accent === 'PT' ? 'pt-PT' : 'pt-BR');
 }
 
-export const speakFakeYou = (text: string, btn: HTMLElement | null): boolean => {
+// Speaks non-Cyrillic text (returns false and does nothing for Cyrillic —
+// callers fall back to _speakWithLang with the right lang tag for that) via
+// the user's selected preferred English voice (_enURI, persisted as
+// 'ew_ws_voice'). Despite the old name, this has only ever been browser
+// SpeechSynthesis — there is no third-party TTS call anywhere in this file
+// or the app (see the "TTS server fallback" finding: the fakeyou.com/
+// elevenlabs.io/streamelements.com entries this name referenced were dead
+// config in public/sw.js's cache-exclusion list, never actually called).
+export const speakPreferredEnVoice = (text: string, btn: HTMLElement | null): boolean => {
   const enVoices = _enVoices();
   if (!enVoices.length) return false;
   const clean = text
