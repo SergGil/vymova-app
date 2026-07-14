@@ -130,7 +130,12 @@ export function parseYoutubeId(input: string): string | null {
 // ── Word-click rendering ──────────────────────────────────────
 
 function _esc(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function renderCueHtml(text: string): string {

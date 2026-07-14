@@ -41,7 +41,12 @@ type EpubBook = { title: string; chapters: TextEntry[] };
 const _lookupWord = lookupEnglishWord;
 
 function _esc(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 /** Legacy free-text highlighter — epub chapters only (see module comment).

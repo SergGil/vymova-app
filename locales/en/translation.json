@@ -1715,6 +1715,7 @@
   "modal.importPlaceholder": "Paste your code here...",
   "modal.cancel": "Cancel",
   "modal.import": "Import",
+  "modal.importConfirm": "This will replace ALL your current progress (known words, SRS, achievements) with the pasted code. Continue?",
   "modal.importEmpty": "Paste your progress code",
   "modal.importInvalid": "❌ Invalid code — check that you copied it in full",
   "modal.importedExcl": "✓ Imported!",

@@ -31,11 +31,25 @@ export function showMilestone(text: string): void {
 }
 
 export function checkMilestones(): void {
-  MILESTONES.forEach((m) => {
-    if (!_shown[m.id] && m.check()) {
-      _shown[m.id] = 1;
-      _jsonSave('ew_milestones', _shown);
-      showMilestone(t(m.key));
-    }
+  const newOnes = MILESTONES.filter((m) => !_shown[m.id] && m.check());
+  if (!newOnes.length) return;
+  newOnes.forEach((m) => {
+    _shown[m.id] = 1;
   });
+  _jsonSave('ew_milestones', _shown);
+  // Same show-next-after-a-delay queue as render-achievements.ts's
+  // checkAchievements() — without it, crossing two thresholds in the same
+  // check (e.g. a progress import jumping past both w500 and w1000) called
+  // showMilestone() synchronously twice in a row, and the second call
+  // overwrote the shared #milestone-toast element before the first was ever
+  // visually shown.
+  let i = 0;
+  function showNext(): void {
+    if (i < newOnes.length) {
+      showMilestone(t(newOnes[i].key));
+      i++;
+      if (i < newOnes.length) setTimeout(showNext, 4000);
+    }
+  }
+  showNext();
 }

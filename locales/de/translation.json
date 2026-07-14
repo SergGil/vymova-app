@@ -2073,5 +2073,22 @@
   "compare.hint": "Beginne, ein Wort einzugeben, um Übersetzungen zu vergleichen",
   "compare.addLanguage": "+ Sprache hinzufügen",
   "compare.pickerPlaceholder": "Sprache suchen…",
-  "compare.removeLang": "Entfernen"
+  "compare.removeLang": "Entfernen",
+  "duel.oppDisconnected": "⚠️ Der Gegner scheint die Verbindung verloren zu haben — du kannst das Duell verlassen und später fortsetzen.",
+  "mistakes.title": "🔴 Fehlerwiederholung",
+  "mistakes.reviewBtn": "🔄 Fehler wiederholen ({{n}})",
+  "mistakes.checkBtn": "Prüfen",
+  "mistakes.gotIt": "✓ Verstanden!",
+  "mistakes.stillHard": "✗ Noch schwer",
+  "mistakes.doneTitle": "Fertig! 🎉",
+  "mistakes.doneStats": "Erledigt: {{cleared}} von {{total}}",
+  "mistakes.noMistakes": "Keine Fehler! 🎉",
+  "modeComplete.today": "Heute: {{cur}} / {{max}}",
+  "modeComplete.streak": "🔥 {{n}}-Tage-Serie",
+  "hints.ytPlayer": "🎬 YouTube: Video-Link einfügen, Untertitel (.srt/.vtt) hochladen und auf ein Wort klicken, um die Übersetzung zu sehen.",
+  "hints.scramble": "🔀 Buchstabensalat: Ordne die durcheinandergewürfelten Buchstaben zum richtigen Wort. Eingabetaste zum Bestätigen, 💡 für einen Tipp.",
+  "hints.letters": "🔤 Buchstaben: Gib alle Buchstaben in der richtigen Reihenfolge ein. Ein Versuch pro Buchstabe.",
+  "common.loadFailed": "Laden fehlgeschlagen. Zum Wiederholen tippen.",
+  "stats.weekWords": "{{n}} diese Woche",
+  "stats.personalBest": "Rekord: {{n}} Tage"
 }

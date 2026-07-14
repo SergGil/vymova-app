@@ -2073,5 +2073,22 @@
   "compare.hint": "Empieza a escribir una palabra para comparar sus traducciones",
   "compare.addLanguage": "+ Añadir idioma",
   "compare.pickerPlaceholder": "Buscar idioma…",
-  "compare.removeLang": "Quitar"
+  "compare.removeLang": "Quitar",
+  "duel.oppDisconnected": "⚠️ Parece que el rival se ha desconectado — puedes salir y reanudar este duelo más tarde.",
+  "mistakes.title": "🔴 Repaso de errores",
+  "mistakes.reviewBtn": "🔄 Repasar errores ({{n}})",
+  "mistakes.checkBtn": "Comprobar",
+  "mistakes.gotIt": "✓ ¡Entendido!",
+  "mistakes.stillHard": "✗ Aún difícil",
+  "mistakes.doneTitle": "¡Listo! 🎉",
+  "mistakes.doneStats": "Resueltos: {{cleared}} de {{total}}",
+  "mistakes.noMistakes": "¡Sin errores! 🎉",
+  "modeComplete.today": "Hoy: {{cur}} / {{max}}",
+  "modeComplete.streak": "🔥 Racha de {{n}} días",
+  "hints.ytPlayer": "🎬 YouTube: pega un enlace de vídeo, sube subtítulos (.srt/.vtt) y haz clic en cualquier palabra para ver su traducción.",
+  "hints.scramble": "🔀 Desorden: ordena las letras mezcladas para formar la palabra correcta. Enter para confirmar, 💡 para una pista.",
+  "hints.letters": "🔤 Letras: escribe todas las letras en el orden correcto. Un intento por letra.",
+  "common.loadFailed": "Error al cargar. Toca para reintentar.",
+  "stats.weekWords": "{{n}} esta semana",
+  "stats.personalBest": "Récord: {{n}} días"
 }

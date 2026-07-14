@@ -4,7 +4,7 @@
 // the AI plays a scenario character and returns an in-character reply plus
 // a grammar-feedback note on the user's last turn.
 import { createPortal } from 'react-dom';
-import { useRef, useState, type ReactElement } from 'react';
+import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { AI_PROXY_URL, AI_TUTOR_ENABLED } from '../../config.ts';
 import { getKnowLang, getLearnLang } from '../lang-pair-select.tsx';
 import { _speakWithLang } from './speech.ts';
@@ -258,10 +258,12 @@ export function splitFeedback(raw: string): { reply: string; feedback: string | 
 export async function sendRoleplayMessage(
   scenario: ScenarioId,
   turns: RoleplayTurn[],
+  signal?: AbortSignal,
 ): Promise<{ reply: string; feedback: string | null }> {
   const res = await fetch(`${AI_PROXY_URL}/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    signal,
     body: JSON.stringify({
       mode: 'roleplay',
       scenario,
@@ -285,7 +287,20 @@ export function VoiceRoleplayPage(): ReactElement | null {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
   const supported = speechRecognitionSupported();
+
+  // Neither changing scenario nor closing the panel used to stop a running
+  // mic session or an in-flight AI request — the mic stayed lit in the
+  // background with no visible way to turn it off, and a slow reply could
+  // call setTurns()/speakReply() well after the user moved on to a
+  // different (or no) scenario.
+  useEffect(() => {
+    return () => {
+      recognitionRef.current?.stop();
+      abortRef.current?.abort();
+    };
+  }, []);
 
   if (!target) return null;
   if (!AI_TUTOR_ENABLED) {
@@ -310,8 +325,11 @@ export function VoiceRoleplayPage(): ReactElement | null {
     setTurns(next);
     setTextInput('');
     setPending(true);
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
     try {
-      const { reply, feedback } = await sendRoleplayMessage(scenario, next);
+      const { reply, feedback } = await sendRoleplayMessage(scenario, next, controller.signal);
       setTurns((t2) => {
         const updated = t2.map((turn, i) =>
           i === t2.length - 1 ? { ...turn, feedback: feedback ?? undefined } : turn,
@@ -319,10 +337,15 @@ export function VoiceRoleplayPage(): ReactElement | null {
         return [...updated, { role: 'assistant', text: reply }];
       });
       speakReply(reply);
-    } catch {
+    } catch (e) {
+      if ((e as { name?: string }).name === 'AbortError') return;
       setError(t('aiTutor.error'));
     } finally {
-      setPending(false);
+      // Only the still-current request should clear `pending` — a request
+      // superseded by a newer one (scenario changed mid-flight) already had
+      // its own abort fire this same catch/finally, and the newer request
+      // manages `pending` on its own from here on.
+      if (abortRef.current === controller) setPending(false);
     }
   };
 
@@ -350,6 +373,8 @@ export function VoiceRoleplayPage(): ReactElement | null {
   };
 
   const pickScenario = (id: ScenarioId): void => {
+    stopListening();
+    abortRef.current?.abort();
     setScenario(id);
     setTurns([]);
     setError(null);
@@ -379,7 +404,14 @@ export function VoiceRoleplayPage(): ReactElement | null {
               {SCENARIOS.find((s) => s.id === scenario)?.emoji}{' '}
               {t(SCENARIOS.find((s) => s.id === scenario)!.labelKey as any)}
             </span>
-            <button className="roleplay-change-btn" onClick={() => setScenario(null)}>
+            <button
+              className="roleplay-change-btn"
+              onClick={() => {
+                stopListening();
+                abortRef.current?.abort();
+                setScenario(null);
+              }}
+            >
               {t('roleplay.changeScenario')}
             </button>
           </div>

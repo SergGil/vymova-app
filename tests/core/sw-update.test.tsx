@@ -75,15 +75,30 @@ describe('sw-update.tsx SwUpdateBanner', () => {
 
   it('clicking reload posts SKIP_WAITING to the waiting worker and reloads on controllerchange', async () => {
     const postMessage = vi.fn();
-    const controllerChangeListeners: Array<() => void> = [];
+    // Mirrors real EventTarget `{ once: true }` semantics (sw-update.tsx
+    // relies on the browser auto-removing the listener after it fires,
+    // rather than a manual flag) — a plain array of callbacks that ignores
+    // the options param would make a `once` listener fire twice here.
+    const controllerChangeListeners: Array<{ cb: () => void; once?: boolean }> = [];
+    const fireControllerChange = (): void => {
+      const toFire = [...controllerChangeListeners];
+      for (const entry of toFire) {
+        if (entry.once) {
+          const idx = controllerChangeListeners.indexOf(entry);
+          if (idx !== -1) controllerChangeListeners.splice(idx, 1);
+        }
+        entry.cb();
+      }
+    };
     const reload = vi.fn();
 
     vi.stubGlobal('navigator', {
       ...navigator,
       serviceWorker: {
         getRegistration: vi.fn().mockResolvedValue({ waiting: { postMessage } }),
-        addEventListener: (event: string, cb: () => void) => {
-          if (event === 'controllerchange') controllerChangeListeners.push(cb);
+        addEventListener: (event: string, cb: () => void, options?: { once?: boolean }) => {
+          if (event === 'controllerchange')
+            controllerChangeListeners.push({ cb, once: options?.once });
         },
       },
     });
@@ -104,11 +119,11 @@ describe('sw-update.tsx SwUpdateBanner', () => {
     expect(postMessage).toHaveBeenCalledWith({ type: 'SKIP_WAITING' });
     expect(reload).not.toHaveBeenCalled();
 
-    controllerChangeListeners.forEach((cb) => cb());
+    fireControllerChange();
     expect(reload).toHaveBeenCalledTimes(1);
 
     // A second controllerchange must not trigger a second reload.
-    controllerChangeListeners.forEach((cb) => cb());
+    fireControllerChange();
     expect(reload).toHaveBeenCalledTimes(1);
   });
 

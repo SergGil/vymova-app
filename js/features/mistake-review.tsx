@@ -14,6 +14,22 @@ import type { WordEntry } from '../../src/types.js';
 
 type Card = { word: string; entry: WordEntry; count: number };
 
+// entry[2] (the example sentence) is always static bundled dictionary data
+// today — never live user input — but it can legitimately contain a literal
+// <b>...</b> highlight around the target word (see lesson.tsx's
+// buildEnExHtml). Escape everything else so this stays safe if a future
+// custom-word-import/edit feature ever lets a user write to this field,
+// without breaking the existing bold highlighting.
+function _escKeepBold(s: string): string {
+  const escaped = s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+  return escaped.replace(/&lt;(\/?)b&gt;/gi, '<$1b>');
+}
+
 function buildCards(): Card[] {
   const mistakes = getMistakes();
   const wordIdx = getWordIndex();
@@ -127,7 +143,7 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
                   <div className="mistake-review-ex-row">
                     <div
                       className="mistake-review-ex"
-                      dangerouslySetInnerHTML={{ __html: card!.entry[2] }}
+                      dangerouslySetInnerHTML={{ __html: _escKeepBold(card!.entry[2]) }}
                     />
                     <button
                       type="button"

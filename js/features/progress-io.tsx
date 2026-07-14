@@ -257,6 +257,13 @@ export function ProgressIO(): ReactElement | null {
         document.getElementById('import-error')!.textContent = t('modal.importEmpty');
         return;
       }
+      // Unlike cloud-sync.tsx's restore (which merges known-words/SRS/
+      // achievements and already gates on this same confirm pattern),
+      // importProgress() below fully overwrites every language's known
+      // words, SRS state, and game/daily/achievement data in one shot with
+      // no merge and no undo — a stale/wrong code pasted here silently
+      // wipes all current progress.
+      if (!confirm(t('modal.importConfirm'))) return;
       if (importProgress(code)) {
         document.getElementById('import-modal')!.className = '';
         _safe(() => renderGameBar());

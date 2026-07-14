@@ -60,7 +60,22 @@ self.addEventListener('fetch', function(e) {
         }
         return res;
       }).catch(function() {
-        return caches.match(e.request);
+        // If nothing is cached either (offline on a page never visited
+        // before, or the network fetch above was blocked by something
+        // other than being offline), resolving respondWith() with
+        // `undefined` makes the browser report the whole navigation as an
+        // opaque failed request — same as a real server error, with no way
+        // to tell the two apart from DevTools. Always resolve to a real
+        // Response instead.
+        return caches.match(e.request).then(function(cached) {
+          return cached || new Response(
+            '<!doctype html><meta charset="utf-8"><title>Offline</title>' +
+            '<body style="font-family:sans-serif;text-align:center;padding:3rem">' +
+            '<p>Немає з\'єднання з мережею, і ця сторінка ще не збережена офлайн.</p>' +
+            '<p><a href="/">Спробувати ще раз</a></p></body>',
+            { status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
+          );
+        });
       })
     );
     return;

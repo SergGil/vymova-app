@@ -419,6 +419,18 @@ import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
 bindOverlayOpenClose('btn-catpairs', 'catpairs-overlay', openCatpairs, closeCatpairs);
 
 // ════ WEAK WORDS ══════════════════════════════════════════════
+// item.w[0]/[1] are always static bundled dictionary data today — never
+// live user input — but escaping them before interpolation into innerHTML
+// below is cheap defense-in-depth against a future custom-word feature.
+function _esc(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 export function renderWeakWords(): void {
   const el = document.getElementById('weak-words-list');
   if (!el) return;
@@ -449,7 +461,7 @@ export function renderWeakWords(): void {
     .map(
       (item, i) =>
         `<div class="weak-word-row">` +
-        `<span>${i + 1}. <b>${item.w[0]}</b> — ${item.w[1]}</span>` +
+        `<span>${i + 1}. <b>${_esc(item.w[0])}</b> — ${_esc(item.w[1])}</span>` +
         `<span class="weak-word-ef">EF ${item.ef.toFixed(2)} · ✗${item.lapses}</span></div>`,
     )
     .join('');

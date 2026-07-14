@@ -48,6 +48,10 @@ describe('progress-io.tsx ProgressIO', () => {
       ...navigator,
       clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
     });
+    // onImportConfirm now gates the (destructive, no-merge) import behind a
+    // confirm() dialog — default the mock to "OK" so existing import tests
+    // keep exercising the actual import path.
+    vi.stubGlobal('confirm', vi.fn(() => true));
 
     setKnownWords('en', new Set(['abandon']));
     clearSrsData();
@@ -183,6 +187,36 @@ describe('progress-io.tsx ProgressIO', () => {
     });
 
     expect(getKnownSnapshot('es')).toEqual(new Set(['hola', 'gato']));
+  });
+
+  it('does not import when the user cancels the confirm() dialog', () => {
+    setKnownWords('en', new Set(['abandon', 'idiom']));
+    act(() => {
+      document
+        .getElementById('btn-export')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+    const code = (document.getElementById('export-textarea') as HTMLTextAreaElement).value;
+
+    setKnownWords('en', new Set());
+    vi.stubGlobal('confirm', vi.fn(() => false));
+
+    act(() => {
+      document
+        .getElementById('btn-import-open')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+    (document.getElementById('import-textarea') as HTMLTextAreaElement).value = code;
+    act(() => {
+      document
+        .getElementById('import-confirm')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+
+    // Import modal stays open and nothing was restored — cancelling the
+    // confirm() must leave current progress untouched.
+    expect(document.getElementById('import-modal')!.className).toBe('open');
+    expect(getKnownSnapshot('en')).toEqual(new Set());
   });
 
   it('closing the export modal resets it and the select-all label', () => {

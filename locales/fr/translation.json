@@ -2073,5 +2073,22 @@
   "compare.hint": "Commencez à taper un mot pour comparer ses traductions",
   "compare.addLanguage": "+ Ajouter une langue",
   "compare.pickerPlaceholder": "Rechercher une langue…",
-  "compare.removeLang": "Retirer"
+  "compare.removeLang": "Retirer",
+  "duel.oppDisconnected": "⚠️ L'adversaire semble déconnecté — vous pouvez quitter et reprendre ce duel plus tard.",
+  "mistakes.title": "🔴 Révision des erreurs",
+  "mistakes.reviewBtn": "🔄 Revoir les erreurs ({{n}})",
+  "mistakes.checkBtn": "Vérifier",
+  "mistakes.gotIt": "✓ Compris !",
+  "mistakes.stillHard": "✗ Encore difficile",
+  "mistakes.doneTitle": "Terminé ! 🎉",
+  "mistakes.doneStats": "Résolus : {{cleared}} sur {{total}}",
+  "mistakes.noMistakes": "Aucune erreur ! 🎉",
+  "modeComplete.today": "Aujourd'hui : {{cur}} / {{max}}",
+  "modeComplete.streak": "🔥 Série de {{n}} jours",
+  "hints.ytPlayer": "🎬 YouTube : collez un lien vidéo, importez des sous-titres (.srt/.vtt) et cliquez sur un mot pour voir sa traduction.",
+  "hints.scramble": "🔀 Anagramme : réorganisez les lettres mélangées pour former le bon mot. Entrée pour valider, 💡 pour un indice.",
+  "hints.letters": "🔤 Lettres : tapez toutes les lettres dans le bon ordre. Un essai par lettre.",
+  "common.loadFailed": "Échec du chargement. Appuyez pour réessayer.",
+  "stats.weekWords": "{{n}} cette semaine",
+  "stats.personalBest": "Record : {{n}} jours"
 }

@@ -22,7 +22,12 @@ import type { WordEntry } from '../../../src/types.js';
 type PopupWord = { word: string; trans: string; ipa: string; known: boolean };
 
 function _esc(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function renderCueHtml(text: string): string {

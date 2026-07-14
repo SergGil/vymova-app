@@ -45,13 +45,13 @@ export function SwUpdateBanner(): ReactElement | null {
       location.reload();
       return;
     }
-    // Guarded so a controllerchange that fires for some other reason (or a
-    // second one) doesn't trigger a repeat/unexpected reload.
-    let reloaded = false;
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (reloaded) return;
-      reloaded = true;
-      location.reload();
+    // `once: true` both guards against a repeat/unexpected reload AND — the
+    // point this differs from a plain flag-guarded listener — actually
+    // removes itself afterward, so clicking "Reload" more than once (e.g.
+    // before the first click's controllerchange has fired yet) doesn't
+    // accumulate listeners that never get cleaned up.
+    navigator.serviceWorker.addEventListener('controllerchange', () => location.reload(), {
+      once: true,
     });
     waiting.postMessage({ type: 'SKIP_WAITING' });
   };
