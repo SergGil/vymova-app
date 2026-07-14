@@ -23564,100 +23564,3605 @@ export const GRAMMAR_BY_LANG: Partial<
   fi: GRAMMAR_FI,
   no: GRAMMAR_NO,
   la: GRAMMAR_LA,
-  lt: [],
-  lv: [],
-  et: [],
-  sl: [],
-  mk: [],
-  sq: [],
-  is: [],
-  cy: [],
-  ga: [],
-  tl: [],
-  mn: [],
-  uz: [],
-  am: [],
-  eo: [],
-  ta: [],
-  pa: [],
-  zu: [],
-  af: [],
-  ky: [],
-  tg: [],
-  tk: [],
-  ug: [],
-  eu: [],
-  ca: [],
-  gl: [],
-  mt: [],
-  lb: [],
-  ht: [],
-  bo: [],
-  my: [],
-  km: [],
-  lo: [],
-  ne: [],
-  si: [],
-  ur: [],
-  te: [],
-  ml: [],
-  kn: [],
-  mr: [],
-  gu: [],
-  or: [],
-  as: [],
-  sd: [],
-  ps: [],
-  so: [],
-  ha: [],
-  yo: [],
-  ig: [],
-  ti: [],
-  wo: [],
-  mg: [],
-  xh: [],
-  sn: [],
-  ny: [],
-  fj: [],
-  sm: [],
-  to: [],
-  mi: [],
-  haw: [],
-  jv: [],
-  su: [],
-  gd: [],
-  br: [],
-  kw: [],
-  gv: [],
-  fo: [],
-  oc: [],
-  co: [],
-  sc: [],
-  fy: [],
-  yi: [],
-  lad: [],
-  qu: [],
-  gn: [],
-  ay: [],
-  dz: [],
-  dv: [],
-  tet: [],
-  be: [],
-  qya: [],
-  sjn: [],
-  ku: [],
-  om: [],
-  ln: [],
-  bho: [],
-  ceb: [],
-  rm: [],
-  ty: [],
-  ch: [],
-  mh: [],
-  pau: [],
-  nah: [],
-  nv: [],
-  tlh: [],
-  val: [],
-  dth: [],
+  lt: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Asmeniniai įvardžiai — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Особові займенники в литовській змінюються за особою й числом. У третій особі є окремі форми чоловічого й жіночого роду.',
+              en: {
+                text: 'Lithuanian personal pronouns vary by person and number. The third person has separate masculine and feminine forms.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'aš'],
+                ['ти', 'tu'],
+                ['він / вона', 'jis / ji'],
+                ['ми', 'mes'],
+                ['ви', 'jūs'],
+                ['вони (ч./ж.)', 'jie / jos'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  lv: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Personu vietniekvārdi — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Латиські особові займенники, як і в литовській, розрізняють рід лише в третій особі.',
+              en: {
+                text: 'Latvian personal pronouns, like Lithuanian, distinguish gender only in the third person.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'es'],
+                ['ти', 'tu'],
+                ['він / вона', 'viņš / viņa'],
+                ['ми', 'mēs'],
+                ['ви', 'jūs'],
+                ['вони (ч./ж.)', 'viņi / viņas'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  et: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Isikulised asesõnad — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'В естонській мові немає граматичного роду — той самий займенник "tema" означає і "він", і "вона".',
+              en: {
+                text: 'Estonian has no grammatical gender — the same pronoun "tema" means both "he" and "she".',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'mina (ma)'],
+                ['ти', 'sina (sa)'],
+                ['він / вона', 'tema (ta)'],
+                ['ми', 'meie (me)'],
+                ['ви', 'teie (te)'],
+                ['вони', 'nemad (nad)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+            {
+              type: 'note',
+              text: 'Коротші форми в дужках (ma, sa, ta, me, te, nad) частіше вживають у розмовній мові, повні — у писемній.',
+              en: {
+                text: 'The shorter forms in parentheses (ma, sa, ta, me, te, nad) are more common in spoken Estonian, the full forms in writing.',
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  sl: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Osebni zaimki — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Крім однини й множини, словенська зберегла ще й двоїну — окрему форму для рівно двох осіб (напр. "midva" — "ми двоє").',
+              en: {
+                text: 'Besides singular and plural, Slovenian also kept the dual number — a separate form for exactly two people (e.g. "midva" — "we two").',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники (однина/множина)',
+              rows: [
+                ['я', 'jaz'],
+                ['ти', 'ti'],
+                ['він / вона / воно', 'on / ona / ono'],
+                ['ми', 'mi'],
+                ['ви', 'vi'],
+                ['вони (ч./ж./с.р.)', 'oni / one / ona'],
+              ],
+              en: { title: 'Personal Pronouns (singular/plural)' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  mk: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Лични заменки — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Македонська, на відміну від більшості слов\'янських мов, майже втратила відмінки, тому ці форми практично не змінюються в побутовому мовленні.',
+              en: {
+                text: 'Unlike most Slavic languages, Macedonian has largely lost case endings, so these forms stay nearly unchanged in everyday speech.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'јас'],
+                ['ти', 'ти'],
+                ['він / вона / воно', 'тој / таа / тоа'],
+                ['ми', 'ние'],
+                ['ви', 'вие'],
+                ['вони', 'тие'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  sq: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Përemrat vetorë — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Албанська утворює окрему гілку індоєвропейської родини, тому її займенники не схожі на жодну сусідню мову.',
+              en: {
+                text: 'Albanian forms its own branch of the Indo-European family, so its pronouns don\'t resemble those of any neighboring language.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'unë'],
+                ['ти', 'ti'],
+                ['він / вона', 'ai / ajo'],
+                ['ми', 'ne'],
+                ['ви', 'ju'],
+                ['вони (ч./ж.)', 'ata / ato'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  is: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Persónufornöfn — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Ісландська зберегла давньоскандинавську систему займенників практично незмінною — вона виглядає майже так само, як тисячу років тому.',
+              en: {
+                text: 'Icelandic has preserved the Old Norse pronoun system almost unchanged — it looks nearly the same as it did a thousand years ago.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ég'],
+                ['ти', 'þú'],
+                ['він / вона / воно', 'hann / hún / það'],
+                ['ми', 'við'],
+                ['ви', 'þið'],
+                ['вони (ч./ж./с.р.)', 'þeir / þær / þau'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  cy: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Rhagenwau Personol — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У валлійській займенник "chi" водночас служить і ввічливим звертанням до однієї людини, і звичайною формою множини "ви".',
+              en: {
+                text: 'In Welsh, the pronoun "chi" serves both as a polite form of address to one person and as the ordinary plural "you".',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'fi / i'],
+                ['ти (звичайно / ввічливо)', 'ti / chi'],
+                ['він', 'fe / fo'],
+                ['вона', 'hi'],
+                ['ми', 'ni'],
+                ['ви', 'chi'],
+                ['вони', 'nhw'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ga: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Forainmneacha Pearsanta — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'В ірландській дієслово зазвичай стоїть на першому місці в реченні (порядок VSO), перед займенником-підметом.',
+              en: {
+                text: 'In Irish, the verb usually comes first in the sentence (VSO word order), before the pronoun subject.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'mé'],
+                ['ти', 'tú'],
+                ['він', 'sé'],
+                ['вона', 'sí'],
+                ['ми', 'muid'],
+                ['ви', 'sibh'],
+                ['вони', 'siad'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  tl: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Panghalip Panao — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У тагальській немає граматичного роду ("siya" означає і "він", і "вона"), а окремі "kami" й "tayo" розрізняють, чи входить співрозмовник у "ми".',
+              en: {
+                text: 'Tagalog has no grammatical gender ("siya" means both "he" and "she"), and separately distinguishes "kami" and "tayo" depending on whether the listener is included in "we".',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ako'],
+                ['ти', 'ikaw (ka)'],
+                ['він / вона', 'siya'],
+                ['ми (без вас)', 'kami'],
+                ['ми (з вами)', 'tayo'],
+                ['ви', 'kayo'],
+                ['вони', 'sila'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  mn: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Биеийн төлөөний үг — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У монгольській немає граматичного роду, тому "тэр" означає і "він", і "вона". Є розрізнення між звичайним "чи" та ввічливим "та" при зверненні.',
+              en: {
+                text: 'Mongolian has no grammatical gender, so "тэр" means both "he" and "she". There\'s a distinction between informal "чи" and polite "та" when addressing someone.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'би'],
+                ['ти (зв. / ввічл.)', 'чи / та'],
+                ['він / вона / воно', 'тэр'],
+                ['ми', 'бид'],
+                ['ви', 'та нар'],
+                ['вони', 'тэд'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  uz: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Kishilik olmoshlari — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'В узбецькій немає граматичного роду — займенник "u" однаково означає "він", "вона" й "воно". Є розрізнення між звичайним "sen" і ввічливим "siz".',
+              en: {
+                text: 'Uzbek has no grammatical gender — the pronoun "u" means "he", "she", and "it" alike. There\'s a distinction between informal "sen" and polite "siz".',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'men'],
+                ['ти (зв. / ввічл.)', 'sen / siz'],
+                ['він / вона / воно', 'u'],
+                ['ми', 'biz'],
+                ['ви', 'sizlar'],
+                ['вони', 'ular'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  am: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'የግል ተውላጠ ስም — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'В амхарській займенник "ти" має окремі форми залежно від того, звертаєшся ти до чоловіка чи до жінки.',
+              en: {
+                text: "In Amharic, the pronoun \"you\" has separate forms depending on whether you're addressing a man or a woman.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'እኔ (ənē)'],
+                ['ти (до чоловіка)', 'አንተ (antä)'],
+                ['ти (до жінки)', 'አንቺ (anchi)'],
+                ['він', 'እሱ (əssu)'],
+                ['вона', 'እሷ (əsswa)'],
+                ['ми', 'እኛ (ənya)'],
+                ['ви', 'እናንተ (ənantä)'],
+                ['вони', 'እነሱ (ənässu)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  eo: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Personaj pronomoj — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Есперанто має цілком регулярну систему без винятків: "vi" однаково означає і "ти", і "ви" — окремої форми множини не потрібно.',
+              en: {
+                text: 'Esperanto has a fully regular system with no exceptions: "vi" means both "you" (singular) and "you" (plural) — no separate plural form is needed.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'mi'],
+                ['ти / ви', 'vi'],
+                ['він / вона / воно', 'li / ŝi / ĝi'],
+                ['ми', 'ni'],
+                ['вони', 'ili'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ta: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'தன்மைப் பெயர்ச்சொற்கள் — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У тамільській ввічлива форма "நீங்கள்" (nīngaḷ) водночас служить і поважним звертанням до однієї людини, і звичайною множиною "ви".',
+              en: {
+                text: 'In Tamil, the polite form "நீங்கள்" (nīngaḷ) serves both as a respectful way to address one person and as the ordinary plural "you".',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'நான் (nān)'],
+                ['ти (зв. / ввічл.)', 'நீ (nī) / நீங்கள் (nīngaḷ)'],
+                ['він / вона', 'அவன் / அவள் (avan / avaḷ)'],
+                ['ми', 'நாங்கள் (nāngaḷ)'],
+                ['ви', 'நீங்கள் (nīngaḷ)'],
+                ['вони', 'அவர்கள் (avargaḷ)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  pa: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'ਨਿੱਜੀ ਪੜਨਾਂਵ — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У панджабі займенник третьої особи "ਉਹ" (oh) не змінюється за родом чи числом — "він", "вона" і "вони" різняться лише формою дієслова.',
+              en: {
+                text: 'In Punjabi, the third-person pronoun "ਉਹ" (oh) doesn\'t change for gender or number — "he", "she", and "they" are distinguished only by the verb form.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ਮੈਂ (maiṁ)'],
+                ['ти (зв. / ввічл.)', 'ਤੂੰ (tūṁ) / ਤੁਸੀਂ (tusīṁ)'],
+                ['він / вона', 'ਉਹ (oh)'],
+                ['ми', 'ਅਸੀਂ (asīṁ)'],
+                ['ви', 'ਤੁਸੀਂ (tusīṁ)'],
+                ['вони', 'ਉਹ (oh)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  zu: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Izabizwana Zomuntu — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У зулу немає граматичного роду — займенник "yena" однаково означає і "він", і "вона".',
+              en: {
+                text: 'Zulu has no grammatical gender — the pronoun "yena" means both "he" and "she".',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'mina'],
+                ['ти', 'wena'],
+                ['він / вона', 'yena'],
+                ['ми', 'thina'],
+                ['ви', 'nina'],
+                ['вони', 'bona'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  af: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Persoonlike Voornaamwoorde — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Африкаанс має спрощену граматику порівняно з нідерландською — дієслово майже не змінюється за особами, тому займенник завжди чітко вказує, хто діє.',
+              en: {
+                text: "Afrikaans has simplified grammar compared to Dutch — the verb barely changes by person, so the pronoun always makes clear who's acting.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ek'],
+                ['ти (зв. / ввічл.)', 'jy / u'],
+                ['він / вона / воно', 'hy / sy / dit'],
+                ['ми', 'ons'],
+                ['ви', 'julle'],
+                ['вони', 'hulle'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ky: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Жіктеме ат атоочтор — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У киргизькій немає граматичного роду — займенник "ал" однаково означає "він", "вона" й "воно".',
+              en: {
+                text: 'Kyrgyz has no grammatical gender — the pronoun "ал" means "he", "she", and "it" alike.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'мен'],
+                ['ти (зв. / ввічл.)', 'сен / сиз'],
+                ['він / вона / воно', 'ал'],
+                ['ми', 'биз'],
+                ['ви', 'силер'],
+                ['вони', 'алар'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  tg: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Ҷонишинҳои шахсӣ — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Таджицька — по суті персько-таджицький варіант перської мови, записаний кирилицею. Займенник "ӯ" не розрізняє роду.',
+              en: {
+                text: "Tajik is, in essence, a Persian-related variety of Persian written in Cyrillic. The pronoun \"ӯ\" doesn't distinguish gender.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ман'],
+                ['ти (зв. / ввічл.)', 'ту / шумо'],
+                ['він / вона', 'ӯ'],
+                ['ми', 'мо'],
+                ['ви', 'шумо'],
+                ['вони', 'онҳо'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  tk: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Şahs çalyşyklary — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У туркменській, як і в більшості тюркських мов, немає граматичного роду — "ol" означає і "він", і "вона", і "воно".',
+              en: {
+                text: 'Like most Turkic languages, Turkmen has no grammatical gender — "ol" means "he", "she", and "it" alike.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'men'],
+                ['ти (зв. / ввічл.)', 'sen / siz'],
+                ['він / вона / воно', 'ol'],
+                ['ми', 'biz'],
+                ['ви', 'siz'],
+                ['вони', 'olar'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ug: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: '<span dir="rtl">شەخس ئالماشلىرى</span> — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Уйгурська записується арабським письмом (справа наліво) і, як і інші тюркські мови, не має граматичного роду.',
+              en: {
+                text: 'Uyghur is written in the Arabic script (right to left) and, like other Turkic languages, has no grammatical gender.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', '<span dir="rtl">مەن</span> (män)'],
+                ['ти (зв. / ввічл.)', '<span dir="rtl">سەن / سىز</span> (sen / siz)'],
+                ['він / вона / воно', '<span dir="rtl">ئۇ</span> (u)'],
+                ['ми', '<span dir="rtl">بىز</span> (biz)'],
+                ['ви', '<span dir="rtl">سىلەر</span> (siler)'],
+                ['вони', '<span dir="rtl">ئۇلار</span> (ular)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  eu: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Izenordain pertsonalak — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Баскська — мовний ізолят, не споріднений із жодною іншою мовою світу, тому її займенники не схожі на сусідні романські мови.',
+              en: {
+                text: "Basque is a language isolate, unrelated to any other language in the world, so its pronouns don't resemble those of neighboring Romance languages.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ni'],
+                ['ти', 'zu'],
+                ['він / вона / воно', 'hura'],
+                ['ми', 'gu'],
+                ['ви', 'zuek'],
+                ['вони', 'haiek'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ca: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Pronoms personals — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Каталанська — окрема романська мова, близька до окситанської, а не діалект іспанської чи французької.',
+              en: {
+                text: 'Catalan is a distinct Romance language, close to Occitan, not a dialect of Spanish or French.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'jo'],
+                ['ти (зв. / ввічл.)', 'tu / vostè'],
+                ['він / вона', 'ell / ella'],
+                ['ми', 'nosaltres'],
+                ['ви', 'vosaltres'],
+                ['вони (ч./ж.)', 'ells / elles'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  gl: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Pronomes persoais — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Галісійська близько споріднена з португальською — обидві мови походять зі спільної середньовічної галісійсько-португальської.',
+              en: {
+                text: 'Galician is closely related to Portuguese — both descend from a shared medieval Galician-Portuguese.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'eu'],
+                ['ти', 'ti'],
+                ['він / вона', 'el / ela'],
+                ['ми', 'nós'],
+                ['ви', 'vós'],
+                ['вони (ч./ж.)', 'eles / elas'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  mt: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Pronomi Personali — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Мальтійська — єдина семітська мова, що офіційно записується латинською абеткою.',
+              en: {
+                text: 'Maltese is the only Semitic language officially written in the Latin alphabet.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'jien'],
+                ['ти', 'int'],
+                ['він / вона', 'huwa / hija'],
+                ['ми', 'aħna'],
+                ['ви', 'intom'],
+                ['вони', 'huma'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  lb: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Perséinlech Pronomen — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Люксембурзька — західногерманська мова, близька до діалектів прирейнської Німеччини.',
+              en: {
+                text: 'Luxembourgish is a West Germanic language, close to dialects of the German Rhineland.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ech'],
+                ['ти (зв. / ввічл.)', 'du / Dir'],
+                ['він / вона / воно', 'hie / si / hatt'],
+                ['ми', 'mir'],
+                ['ви', 'dir'],
+                ['вони', 'si'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ht: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Pwonon Pèsonèl — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Гаїтянська креольська має спрощену граматику — дієслово не змінюється за особами чи часом через закінчення, а часові маркери йдуть окремими словами перед дієсловом.',
+              en: {
+                text: "Haitian Creole has simplified grammar — verbs don't change form by person or tense; tense is instead marked by separate words placed before the verb.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'mwen'],
+                ['ти', 'ou'],
+                ['він / вона / воно', 'li'],
+                ['ми', 'nou'],
+                ['ви', 'nou'],
+                ['вони', 'yo'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  bo: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'གང་ཟག་གི་སྒྲ་མིང་ — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У тибетській множину зазвичай утворюють, додаючи частку "ཚོ་" (tsho) до займенника однини.',
+              en: {
+                text: 'In Tibetan, the plural is usually formed by adding the particle "ཚོ་" (tsho) to the singular pronoun.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ང་ (nga)'],
+                ['ти', 'ཁྱེད་རང་ (khyed rang)'],
+                ['він / вона', 'ཁོང་ (khong)'],
+                ['ми', 'ང་ཚོ་ (nga tsho)'],
+                ['ви', 'ཁྱེད་རང་ཚོ་ (khyed rang tsho)'],
+                ['вони', 'ཁོང་ཚོ་ (khong tsho)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  my: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'နာမ်စား — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У бірманській займенник "я" залежить від статі мовця: чоловіки кажуть "ကျွန်တော်" (kyanaw), жінки — "ကျွန်မ" (kyama).',
+              en: {
+                text: "In Burmese, the pronoun \"I\" depends on the speaker's gender: men say \"ကျွန်တော်\" (kyanaw), women say \"ကျွန်မ\" (kyama).",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я (чоловік / жінка)', 'ကျွန်တော် / ကျွန်မ (kyanaw / kyama)'],
+                ['ти', 'သင် (thin)'],
+                ['він / вона', 'သူ (thu)'],
+                ['ми', 'ကျွန်တော်တို့ (kyanaw-dó)'],
+                ['ви', 'သင်တို့ (thin-dó)'],
+                ['вони', 'သူတို့ (thu-dó)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  km: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'សព្វនាម — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У кхмерській немає окремих форм множини для займенників — число часто взагалі не позначають граматично, лише контекстом чи додатковими словами.',
+              en: {
+                text: "Khmer has no separate plural pronoun forms — number is often not marked grammatically at all, only by context or extra words.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ខ្ញុំ (khnhom)'],
+                ['ти', 'អ្នក (neak)'],
+                ['він / вона', 'គាត់ (koat)'],
+                ['ми', 'យើង (yerng)'],
+                ['ви', 'អ្នក (neak)'],
+                ['вони', 'ពួកគេ (puok ke)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  lo: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'ຄຳສັບພະນາມ — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У лаоській множину займенників зазвичай утворюють, додаючи слово "ພວກ" (phuak, "група") перед займенником однини.',
+              en: {
+                text: 'In Lao, the plural of pronouns is usually formed by adding the word "ພວກ" (phuak, "group") before the singular pronoun.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ຂ້ອຍ (khoy)'],
+                ['ти', 'ເຈົ້າ (chao)'],
+                ['він / вона', 'ລາວ (lao)'],
+                ['ми', 'ພວກເຮົາ (phuak hao)'],
+                ['ви', 'ພວກເຈົ້າ (phuak chao)'],
+                ['вони', 'ພວກເຂົາ (phuak khao)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ne: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'व्यक्तिवाचक सर्वनाम — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У непальській, як і в гінді, "तपाईं" (tapāī) — ввічлива форма звертання, а множину зазвичай утворюють суфіксом "-हरू" (-harū).',
+              en: {
+                text: 'In Nepali, as in Hindi, "तपाईं" (tapāī) is a polite form of address, and the plural is usually formed with the suffix "-हरू" (-harū).',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'म (ma)'],
+                ['ти (зв. / ввічл.)', 'तिमी / तपाईं (timi / tapāī)'],
+                ['він / вона', 'ऊ / उनी (u / uni)'],
+                ['ми', 'हामी (hāmī)'],
+                ['ви', 'तपाईंहरू (tapāī-harū)'],
+                ['вони', 'उनीहरू (uni-harū)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  si: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'නාම පද — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У сингальській дієслово не змінюється за особою — воно однакове для "я", "ти", "він" тощо, тому займенник є єдиним способом зрозуміти, хто діє.',
+              en: {
+                text: "In Sinhala, the verb doesn't change by person — it's the same for \"I\", \"you\", \"he\", etc., so the pronoun is the only way to tell who's acting.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'මම (mama)'],
+                ['ти (зв. / ввічл.)', 'ඔයා / ඔබ (oyā / oba)'],
+                ['він / вона', 'ඔහු / ඇය (ohu / æya)'],
+                ['ми', 'අපි (api)'],
+                ['ви', 'ඔයාලා (oyālā)'],
+                ['вони', 'එයාලා (eyālā)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ur: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: '<span dir="rtl">ذاتی ضمائر</span> — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Урду майже ідентична гінді за розмовною граматикою, але записується арабсько-перським письмом справа наліво.',
+              en: {
+                text: 'Urdu is nearly identical to Hindi in spoken grammar, but is written in the Perso-Arabic script, right to left.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', '<span dir="rtl">میں</span> (maiṅ)'],
+                ['ти (зв. / ввічл.)', '<span dir="rtl">تم / آپ</span> (tum / āp)'],
+                ['він / вона / воно', '<span dir="rtl">وہ</span> (voh)'],
+                ['ми', '<span dir="rtl">ہم</span> (ham)'],
+                ['ви', '<span dir="rtl">تم لوگ</span> (tum log)'],
+                ['вони', '<span dir="rtl">وہ</span> (voh)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  te: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'సర్వనామాలు — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У телугу ввічлива форма "మీరు" (mīru) водночас служить і поважним звертанням до однієї людини, і звичайною множиною.',
+              en: {
+                text: 'In Telugu, the polite form "మీరు" (mīru) serves both as a respectful way to address one person and as the ordinary plural "you".',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'నేను (nēnu)'],
+                ['ти (зв. / ввічл.)', 'నువ్వు / మీరు (nuvvu / mīru)'],
+                ['він / вона', 'అతను / ఆమె (atanu / āme)'],
+                ['ми', 'మేము (mēmu)'],
+                ['ви', 'మీరు (mīru)'],
+                ['вони', 'వాళ్ళు (vāḷḷu)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ml: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'സർവ്വനാമങ്ങൾ — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У малаялам, як і в тамільській, ввічлива форма "നിങ്ങൾ" (ningaḷ) служить і поважним звертанням, і звичайною множиною.',
+              en: {
+                text: 'In Malayalam, as in Tamil, the polite form "നിങ്ങൾ" (ningaḷ) serves both as a respectful address and as the ordinary plural.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ഞാൻ (njān)'],
+                ['ти (зв. / ввічл.)', 'നീ / നിങ്ങൾ (nī / ningaḷ)'],
+                ['він / вона', 'അവൻ / അവൾ (avan / avaḷ)'],
+                ['ми', 'ഞങ്ങൾ (njangaḷ)'],
+                ['ви', 'നിങ്ങൾ (ningaḷ)'],
+                ['вони', 'അവർ (avar)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  kn: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'ಸರ್ವನಾಮಗಳು — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У каннаді ввічлива форма "ನೀವು" (nīvu) водночас служить формою поваги до однієї людини й звичайною множиною.',
+              en: {
+                text: 'In Kannada, the polite form "ನೀವು" (nīvu) serves both as a respectful form and as the ordinary plural "you".',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ನಾನು (nānu)'],
+                ['ти (зв. / ввічл.)', 'ನೀನು / ನೀವು (nīnu / nīvu)'],
+                ['він / вона', 'ಅವನು / ಅವಳು (avanu / avaḷu)'],
+                ['ми', 'ನಾವು (nāvu)'],
+                ['ви', 'ನೀವು (nīvu)'],
+                ['вони', 'ಅವರು (avaru)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  mr: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'सर्वनामे — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У маратхі є граматичний рід не лише в іменниках, а й у формах дієслова минулого часу, узгоджених з підметом.',
+              en: {
+                text: 'Marathi has grammatical gender not just in nouns but also in past-tense verb forms, which agree with the subject.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'मी (mī)'],
+                ['ти (зв. / ввічл.)', 'तू / तुम्ही (tū / tumhī)'],
+                ['він / вона', 'तो / ती (to / tī)'],
+                ['ми', 'आम्ही (āmhī)'],
+                ['ви', 'तुम्ही (tumhī)'],
+                ['вони (ч./ж.)', 'ते / त्या (te / tyā)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  gu: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'સર્વનામ — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У гуджараті займенник третьої особи "તે" (te) не розрізняє роду — контекст або дієслово підказують, ідеться про чоловіка чи жінку.',
+              en: {
+                text: "In Gujarati, the third-person pronoun \"તે\" (te) doesn't distinguish gender — context or the verb form indicates whether it means \"he\" or \"she\".",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'હું (huṁ)'],
+                ['ти (зв. / ввічл.)', 'તું / તમે (tuṁ / tame)'],
+                ['він / вона', 'તે (te)'],
+                ['ми', 'અમે (ame)'],
+                ['ви', 'તમે (tame)'],
+                ['вони', 'તેઓ (teo)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  or: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'ସର୍ବନାମ — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'В одія множину зазвичай утворюють, додаючи суфікс "-ମାନେ" (-māne) до займенника однини.',
+              en: {
+                text: 'In Odia, the plural is usually formed by adding the suffix "-ମାନେ" (-māne) to the singular pronoun.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ମୁଁ (muñ)'],
+                ['ти (зв. / ввічл.)', 'ତୁମେ / ଆପଣ (tume / āpaṇa)'],
+                ['він / вона', 'ସେ (se)'],
+                ['ми', 'ଆମେ (āme)'],
+                ['ви', 'ଆପଣମାନେ (āpaṇamāne)'],
+                ['вони', 'ସେମାନେ (semāne)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  as: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'সৰ্বনাম — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Ассамська писемність майже ідентична бенгальській, хоча вимова й частина лексики — зокрема самі займенники — відрізняються.',
+              en: {
+                text: "Assamese script is nearly identical to Bengali's, though pronunciation and some vocabulary — including these very pronouns — differ.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'মই (moi)'],
+                ['ти (зв. / ввічл.)', 'তুমি / আপুনি (tumi / apuni)'],
+                ['він / вона', 'তেওঁ (teü̃)'],
+                ['ми', 'আমি (ami)'],
+                ['ви', 'তোমালোক (tomalük)'],
+                ['вони', 'তেওঁলোক (teü̃lük)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  sd: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: '<span dir="rtl">ذاتي ضمير</span> — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Сіндхі в Пакистані записують арабсько-перським письмом справа наліво, тоді як частина сіндхійської діаспори в Індії використовує деванагарі.',
+              en: {
+                text: 'Sindhi is written in Perso-Arabic script (right to left) in Pakistan, while part of the Sindhi diaspora in India uses Devanagari.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', '<span dir="rtl">مان</span> (mān)'],
+                ['ти (зв. / ввічл.)', '<span dir="rtl">تون / توهان</span> (tūn / tohān)'],
+                ['він / вона', '<span dir="rtl">هو / هوءَ</span> (hū / hoo)'],
+                ['ми', '<span dir="rtl">اسين</span> (asīn)'],
+                ['ви', '<span dir="rtl">توهان</span> (tohān)'],
+                ['вони', '<span dir="rtl">هو</span> (hū)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ps: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: '<span dir="rtl">شخصي ضمیرونه</span> — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У пушту займенник третьої особи "هغه" (haghá) не розрізняє роду в називному відмінку — стать підказує контекст або дієслово.',
+              en: {
+                text: 'In Pashto, the third-person pronoun "هغه" (haghá) has no gender distinction in the nominative case — context or the verb indicates gender.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', '<span dir="rtl">زه</span> (za)'],
+                ['ти (зв. / ввічл.)', '<span dir="rtl">ته / تاسو</span> (tā / tāso)'],
+                ['він / вона', '<span dir="rtl">هغه</span> (haghá)'],
+                ['ми', '<span dir="rtl">موږ</span> (muẓ̌)'],
+                ['ви', '<span dir="rtl">تاسو</span> (tāso)'],
+                ['вони', '<span dir="rtl">هغوی</span> (haghuwí)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  so: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Magac-u-yaalka Shakhsiga — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У сомалійській є короткі форми займенників (наприклад, "aan" замість "aniga"), які вживають разом із дієсловом у швидкому мовленні.',
+              en: {
+                text: 'Somali has short pronoun forms (e.g. "aan" instead of "aniga") that attach to the verb in fast speech.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'aniga'],
+                ['ти', 'adiga'],
+                ['він / вона', 'isaga / iyada'],
+                ['ми', 'annaga'],
+                ['ви', 'idinka'],
+                ['вони', 'iyaga'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ha: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Sunayen Suna — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У хауса займенник "ти" має окремі форми залежно від статі співрозмовника: "kai" (до чоловіка) і "ke" (до жінки).',
+              en: {
+                text: 'In Hausa, the pronoun "you" has separate forms depending on the listener\'s gender: "kai" (to a man) and "ke" (to a woman).',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ni'],
+                ['ти (до чоловіка / жінки)', 'kai / ke'],
+                ['він / вона', 'shi / ita'],
+                ['ми', 'mu'],
+                ['ви', 'ku'],
+                ['вони', 'su'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  yo: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Arọ́pò Orúkọ Ẹni — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У йоруба є короткі форми займенників, що приєднуються перед дієсловом, і повні наголошені форми — для виділення.',
+              en: {
+                text: 'Yoruba has short pronoun forms that attach before the verb, and full, stressed forms used for emphasis.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники (коротка / повна форма)',
+              rows: [
+                ['я', 'mo / èmi'],
+                ['ти', 'o / ìwọ'],
+                ['він / вона / воно', 'ó / òun'],
+                ['ми', 'a / àwa'],
+                ['ви', 'ẹ / ẹ̀yin'],
+                ['вони', 'wọ́n / àwọn'],
+              ],
+              en: { title: 'Personal Pronouns (short / full form)' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ig: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Nnọchi Aha Onwe — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'В ігбо займенник третьої особи однини "ọ" не розрізняє роду — "він", "вона" й "воно" звучать однаково.',
+              en: {
+                text: 'In Igbo, the third-person singular pronoun "ọ" has no gender distinction — "he", "she", and "it" all sound the same.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'm'],
+                ['ти', 'ị'],
+                ['він / вона / воно', 'ọ'],
+                ['ми', 'anyị'],
+                ['ви', 'unu'],
+                ['вони', 'ha'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ti: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'ናይ ውልቀ ቃላት ኣርእስቲ — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Тигринья, як і амхарська, має окремі форми звертання "ти" — одну для чоловіка, іншу для жінки.',
+              en: {
+                text: 'Tigrinya, like Amharic, has separate forms of "you" — one for addressing a man, another for a woman.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ኣነ (ane)'],
+                ['ти (до чоловіка / жінки)', 'ንስኻ / ንስኺ (nsxa / nsxi)'],
+                ['він / вона', 'ንሱ / ንሳ (nsu / nsa)'],
+                ['ми', 'ንሕና (nḥna)'],
+                ['ви', 'ንስኻትኩም (nsxatkum)'],
+                ['вони', 'ንሶም (nsom)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  wo: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Sant Wu Nit — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У волоф займенники мають дві форми: незалежну (як у таблиці нижче) і коротку, яка приєднується до дієслова як суфікс.',
+              en: {
+                text: 'Wolof pronouns have two forms: an independent one (shown below) and a short one that attaches to the verb as a suffix.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'man'],
+                ['ти', 'yow'],
+                ['він / вона / воно', 'moom'],
+                ['ми', 'nun'],
+                ['ви', 'yeen'],
+                ['вони', 'ñoom'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  mg: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Mpisolo Anarana — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У малагасійській є два слова для "ми": "izahay" (без співрозмовника) і "isika" (разом із співрозмовником).',
+              en: {
+                text: 'Malagasy has two words for "we": "izahay" (excluding the listener) and "isika" (including the listener).',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'izaho (aho)'],
+                ['ти', 'ianao'],
+                ['він / вона / воно', 'izy'],
+                ['ми (без вас)', 'izahay'],
+                ['ми (з вами)', 'isika'],
+                ['ви', 'ianareo'],
+                ['вони', 'izy ireo'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  xh: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Izabizwana Zobuqu — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Кхоса, як і зулу, не має граматичного роду — займенник "yena" однаково означає і "він", і "вона".',
+              en: {
+                text: 'Xhosa, like Zulu, has no grammatical gender — the pronoun "yena" means both "he" and "she".',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'mna'],
+                ['ти', 'wena'],
+                ['він / вона', 'yena'],
+                ['ми', 'thina'],
+                ['ви', 'nina'],
+                ['вони', 'bona'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  sn: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Mazita Emunhu — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У шона немає граматичного роду — займенник "iye" однаково означає і "він", і "вона".',
+              en: {
+                text: 'Shona has no grammatical gender — the pronoun "iye" means both "he" and "she".',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ini'],
+                ['ти', 'iwe'],
+                ['він / вона', 'iye'],
+                ['ми', 'isu'],
+                ['ви', 'imi'],
+                ['вони', 'ivo'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ny: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Maina a Anthu — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У чічева немає граматичного роду — займенник "iye" однаково означає і "він", і "вона".',
+              en: {
+                text: 'Chichewa has no grammatical gender — the pronoun "iye" means both "he" and "she".',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ine'],
+                ['ти', 'iwe'],
+                ['він / вона', 'iye'],
+                ['ми', 'ife'],
+                ['ви', 'inu'],
+                ['вони', 'iwo'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  fj: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Na Vosa Vakaviti — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У фіджійській займенники різняться не лише за особою, а й за числом — є окремі форми для двох, кількох і багатьох осіб (тут показано однину й загальну множину).',
+              en: {
+                text: 'Fijian pronouns vary not just by person but also by number — there are separate forms for two, a few, and many people (only singular and general plural are shown here).',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'au'],
+                ['ти', 'iko'],
+                ['він / вона / воно', 'o koya'],
+                ['ми (без вас)', 'keimami'],
+                ['ми (з вами)', 'eda'],
+                ['ви', 'kemuni'],
+                ['вони', 'ira'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  sm: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: "Suinauna Fa'aletagata — A1",
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У самоанській, як і в багатьох полінезійських мовах, розрізняють "ми без вас" (matou) і "ми з вами" (tatou).',
+              en: {
+                text: 'Samoan, like many Polynesian languages, distinguishes "we without you" (matou) from "we with you" (tatou).',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ["я", "a'u"],
+                ['ти', 'oe'],
+                ['він / вона', 'ia'],
+                ['ми (без вас)', 'matou'],
+                ['ми (з вами)', 'tatou'],
+                ['ви', 'outou'],
+                ['вони', 'latou'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  to: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Ngaahi Poloniva Fakafoʻituitui — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У тонганській є окремі форми числа для двох осіб (двоїна) і трьох та більше (множина) — тут наведено форми множини.',
+              en: {
+                text: 'Tongan has separate forms for two people (dual) and three or more (plural) — the plural forms are shown here.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ou'],
+                ['ти', 'koe'],
+                ['він / вона / воно', 'ia'],
+                ['ми (без вас)', 'kimautolu'],
+                ['ми (з вами)', 'kitautolu'],
+                ['ви', 'kimoutolu'],
+                ['вони', 'kinautolu'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  mi: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Kupu Whakakapi — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У мові маорі, як і в самоанській та гавайській, розрізняють "ми без вас" (matou) і "ми з вами" (tatou).',
+              en: {
+                text: 'Māori, like Samoan and Hawaiian, distinguishes "we without you" (matou) from "we with you" (tatou).',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ahau'],
+                ['ти', 'koe'],
+                ['він / вона', 'ia'],
+                ['ми (без вас)', 'matou'],
+                ['ми (з вами)', 'tatou'],
+                ['ви', 'koutou'],
+                ['вони', 'ratou'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  haw: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Nā Panonoʻī Pilikino — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У гавайській, як і в маорі та самоанській, розрізняють "ми без вас" (mākou) і "ми з вами" (kākou).',
+              en: {
+                text: 'Hawaiian, like Māori and Samoan, distinguishes "we without you" (mākou) from "we with you" (kākou).',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'au'],
+                ['ти', 'ʻoe'],
+                ['він / вона / воно', 'ia'],
+                ['ми (без вас)', 'mākou'],
+                ['ми (з вами)', 'kākou'],
+                ['ви', 'ʻoukou'],
+                ['вони', 'lākou'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  jv: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Tembung Sesulih — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У яванській є складна система мовних регістрів (нгоко — розмовний, крама — ввічливий); тут наведено розмовні (нгоко) форми.',
+              en: {
+                text: 'Javanese has a complex system of speech registers (ngoko — informal, krama — polite); the informal ngoko forms are shown here.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники (нгоко)',
+              rows: [
+                ['я', 'aku'],
+                ['ти', 'kowé'],
+                ['він / вона', 'dhèwèké'],
+                ['ми', 'kita'],
+                ['ви', 'kowé kabèh'],
+                ['вони', 'dhèwèké kabèh'],
+              ],
+              en: { title: 'Personal Pronouns (ngoko register)' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  su: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Kecap Ganti Jalma — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У сунданській, як і в яванській, є мовні регістри ввічливості — тут наведено нейтральні розмовні форми.',
+              en: {
+                text: 'Sundanese, like Javanese, has politeness registers — the neutral everyday forms are shown here.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'kuring'],
+                ['ти', 'anjeun'],
+                ['він / вона', 'manéhna'],
+                ['ми', 'urang'],
+                ['ви', 'aranjeun'],
+                ['вони', 'maranéhna'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  gd: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Riochdairean Pearsanta — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Шотландська гельська близько споріднена з ірландською, і так само дієслово в реченні зазвичай стоїть перед підметом-займенником.',
+              en: {
+                text: 'Scottish Gaelic is closely related to Irish, and likewise the verb usually comes before the pronoun subject in a sentence.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'mi'],
+                ['ти', 'thu'],
+                ['він / вона', 'e / i'],
+                ['ми', 'sinn'],
+                ['ви', 'sibh'],
+                ['вони', 'iad'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  br: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Rakverbioù Personel — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Бретонська — єдина кельтська мова, що збереглася на європейському континенті, а не на Британських островах.',
+              en: {
+                text: "Breton is the only Celtic language that survived on the European continent rather than the British Isles.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'me'],
+                ['ти', 'te'],
+                ['він / вона', "eñ / hi"],
+                ['ми', 'ni'],
+                ['ви', "c'hwi"],
+                ['вони', 'int'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  kw: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Personal Pronoun — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Корнська вважалася вимерлою мовою з кінця XVIII століття, аж поки рух відродження XX століття не повернув її до життя.',
+              en: {
+                text: 'Cornish was considered extinct from the late 18th century until a 20th-century revival movement brought it back to life.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'my'],
+                ['ти', 'ty'],
+                ['він / вона', 'ev / hi'],
+                ['ми', 'ni'],
+                ['ви', 'hwi'],
+                ['вони', 'i'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  gv: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Coadanyn Persoonagh — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Мангська вважалася вимерлою після смерті останнього природного носія 1974 року, але завдяки цілеспрямованому відродженню сьогодні має нове покоління носіїв.',
+              en: {
+                text: 'Manx was considered extinct after its last native speaker died in 1974, but a deliberate revival has given it a new generation of speakers today.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'mee'],
+                ['ти', 'oo'],
+                ['він / вона', 'eh / ee'],
+                ['ми', 'shin'],
+                ['ви', 'shiu'],
+                ['вони', 'ad'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  fo: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Persónlig Fornøvn — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Фарерська близько споріднена з ісландською — обидві мови походять від давньоскандинавської й досі мають подібну граматику.',
+              en: {
+                text: 'Faroese is closely related to Icelandic — both descend from Old Norse and still share similar grammar.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'eg'],
+                ['ти', 'tú'],
+                ['він / вона / воно', 'hann / hon / tað'],
+                ['ми', 'vit'],
+                ['ви', 'tit'],
+                ['вони (ч./ж./с.р.)', 'teir / tær / tey'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  oc: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Pronoms Personals — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Окситанська — мова середньовічних трубадурів, найближче споріднена з каталанською.',
+              en: {
+                text: 'Occitan is the language of the medieval troubadours, most closely related to Catalan.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ieu'],
+                ['ти (зв. / ввічл.)', 'tu / vos'],
+                ['він / вона', 'el / ela'],
+                ['ми', 'nosautres'],
+                ['ви', 'vosautres'],
+                ['вони (ч./ж.)', 'eles / elas'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  co: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Pronomi Persunali — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Корсиканська найближче споріднена з тосканським діалектом Італії, а не з французькою.',
+              en: {
+                text: 'Corsican is most closely related to the Tuscan dialect of Italy, not to French.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'eiu'],
+                ['ти', 'tù'],
+                ['він / вона', 'ellu / ella'],
+                ['ми', 'noi'],
+                ['ви', 'voi'],
+                ['вони (ч./ж.)', 'elli / elle'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  sc: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Pronòmines Personales — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Сардинська вважається найконсервативнішою романською мовою — вона зберегла найбільше рис латинської фонетики.',
+              en: {
+                text: 'Sardinian is considered the most conservative Romance language — it retains the most features of Latin phonetics.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'deu'],
+                ['ти', 'tue'],
+                ['він / вона', 'issu / issa'],
+                ['ми', 'nois'],
+                ['ви', 'bois'],
+                ['вони (ч./ж.)', 'issos / issas'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  fy: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Persoanlike Foarnamwurden — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Фризька вважається найближчою живою родичкою англійської мови серед континентальних мов.',
+              en: {
+                text: "Frisian is considered English's closest living relative among the continental languages.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ik'],
+                ['ти (зв. / ввічл.)', 'do / jo'],
+                ['він / вона', 'hy / sy'],
+                ['ми', 'wy'],
+                ['ви', 'jo'],
+                ['вони', 'sy'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  yi: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: '<span dir="rtl">פּערזענלעכע פּראָנאָמען</span> — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Їдиш ґрунтується на середньовічних німецьких діалектах, але записується гебрейським письмом справа наліво.',
+              en: {
+                text: 'Yiddish is based on medieval German dialects but is written in the Hebrew script, right to left.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', '<span dir="rtl">איך</span> (ikh)'],
+                ['ти', '<span dir="rtl">דו</span> (du)'],
+                ['він / вона', '<span dir="rtl">ער / זי</span> (er / zi)'],
+                ['ми', '<span dir="rtl">מיר</span> (mir)'],
+                ['ви', '<span dir="rtl">איר</span> (ir)'],
+                ['вони', '<span dir="rtl">זיי</span> (zey)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  lad: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Pronombres Personales — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Ладино зберігає риси середньовічної іспанської, втрачені в сучасній кастильській мові, і сьогодні часто записується латинкою.',
+              en: {
+                text: 'Ladino preserves features of medieval Spanish lost in modern Castilian, and is often written in the Latin alphabet today.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'yo'],
+                ['ти', 'tu'],
+                ['він / вона', 'el / eya'],
+                ['ми', 'mozotros'],
+                ['ви', 'vozotros'],
+                ['вони (ч./ж.)', 'eyos / eyas'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  qu: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Runasimipi Sutichaykuna — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У кечуа є два слова для "ми": "ñuqanchik" (з вами) і "ñuqayku" (без вас) — це розрізнення називають інклюзивністю/ексклюзивністю.',
+              en: {
+                text: 'Quechua has two words for "we": "ñuqanchik" (including you) and "ñuqayku" (excluding you) — known as the inclusive/exclusive distinction.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ñuqa'],
+                ['ти', 'qam'],
+                ['він / вона / воно', 'pay'],
+                ['ми (з вами)', 'ñuqanchik'],
+                ['ми (без вас)', 'ñuqayku'],
+                ['ви', 'qamkuna'],
+                ['вони', 'paykuna'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  gn: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: "Ta'anga Rérava — A1",
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У ґуарані, як і в кечуа, розрізняють "ми з вами" (ñande) і "ми без вас" (ore).',
+              en: {
+                text: 'Guarani, like Quechua, distinguishes "we including you" (ñande) from "we excluding you" (ore).',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'che'],
+                ['ти', 'nde'],
+                ["він / вона / воно", "ha'e"],
+                ['ми (з вами)', 'ñande'],
+                ['ми (без вас)', 'ore'],
+                ['ви', 'peẽ'],
+                ['вони', "ha'ekuéra"],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ay: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Jaqinakan Sutipa — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'В аймара, як і в сусідній кечуа, є розрізнення "ми з вами" (jiwasa) і "ми без вас" (nanaka).',
+              en: {
+                text: 'Aymara, like neighboring Quechua, distinguishes "we including you" (jiwasa) from "we excluding you" (nanaka).',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'naya'],
+                ['ти', 'juma'],
+                ['він / вона / воно', 'jupa'],
+                ['ми (з вами)', 'jiwasa'],
+                ['ми (без вас)', 'nanaka'],
+                ['ви', 'jumanaka'],
+                ['вони', 'jupanaka'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  dz: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'གང་ཟག་གི་མིང་ཚབ་ — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Дзонгха використовує те саме письмо, що й тибетська, і, подібно до неї, утворює множину, додаючи частку до займенника однини.',
+              en: {
+                text: 'Dzongkha uses the same script as Tibetan and, similarly, forms plurals by adding a particle to the singular pronoun.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ང་ (nga)'],
+                ['ти', 'ཁྱོད་ (khyö)'],
+                ['він / вона', 'ཁོང་ (khong)'],
+                ['ми', 'ང་བཅས་ (ngacé)'],
+                ['ви', 'ཁྱོད་ཚུ་ (khyö tshu)'],
+                ['вони', 'ཁོང་ཚུ་ (khong tshu)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  dv: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: '<span dir="rtl">ޒާތީ ގިނަވަންތަ</span> — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Дівехі пишеться письмом тана справа наліво і має ввічливу форму звертання, подібно до багатьох сусідніх південноазійських мов.',
+              en: {
+                text: 'Dhivehi is written in the Thaana script, right to left, and has a polite form of address, similar to many neighboring South Asian languages.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', '<span dir="rtl">އަހަރެން</span> (aharen)'],
+                ['ти', '<span dir="rtl">ތިޔަ</span> (thiya)'],
+                ['він / вона', '<span dir="rtl">އޭނާ</span> (eynaa)'],
+                ['ми', '<span dir="rtl">އަހަރެމެން</span> (aharemen)'],
+                ['ви', '<span dir="rtl">ތިޔަބޭފުޅުން</span> (thiyabeyfulhun)'],
+                ['вони', '<span dir="rtl">އެމީހުން</span> (emeehun)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  tet: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Pronomi Pesoál — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У тетум, як і в кечуа чи ґуарані, розрізняють "ми з вами" (ita) і "ми без вас" (ami).',
+              en: {
+                text: 'Tetum, like Quechua or Guarani, distinguishes "we including you" (ita) from "we excluding you" (ami).',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ["я", "ha'u"],
+                ['ти', 'o'],
+                ['він / вона / воно', 'nia'],
+                ['ми (з вами)', 'ita'],
+                ['ми (без вас)', 'ami'],
+                ['ви', 'imi'],
+                ['вони', 'sira'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  be: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Асабовыя займеннікі — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Білоруська, як і українська, походить від давньоруської мови й має дуже схожу систему займенників.',
+              en: {
+                text: 'Belarusian, like Ukrainian, descends from Old East Slavic and has a very similar pronoun system.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'я'],
+                ['ти', 'ты'],
+                ['він / вона / воно', 'ён / яна / яно'],
+                ['ми', 'мы'],
+                ['ви', 'вы'],
+                ['вони', 'яны'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  qya: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Nótesse Hínala — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У квеньї, мові, створеній Дж. Р. Р. Толкіном, займенники здебільшого не окремі слова, а суфікси, які додають до дієслова: наприклад, "-nyë" означає "я", а "-lyë" — "ти".',
+              en: {
+                text: 'In Quenya, one of J. R. R. Tolkien\'s Elvish languages, pronouns are mostly not separate words but verb suffixes: "-nyë" means "I", "-lyë" means "you".',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Займенникові суфікси дієслова',
+              rows: [
+                ['я', '-nyë'],
+                ['ти', '-lyë'],
+                ['він / вона / воно', '-s'],
+                ['ми', '-lmë'],
+                ['ви', '-llë'],
+                ['вони', '-ntë'],
+              ],
+              en: { title: 'Verb Pronominal Suffixes' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  sjn: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'soft-mutation',
+          title: 'Mutation — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Синдарин, ельфійська мова Дж. Р. Р. Толкіна, натхненна валлійською, має систему початкових мутацій приголосних — перший звук слова змінюється залежно від попереднього слова.',
+              en: {
+                text: "Sindarin, one of J. R. R. Tolkien's Elvish languages inspired by Welsh, has a system of initial consonant mutations — a word's first sound changes depending on the word before it.",
+              },
+            },
+            {
+              type: 'table',
+              title: "М'яка мутація (початкова → змутована)",
+              rows: [
+                ['p', 'b'],
+                ['t', 'd'],
+                ['c', 'g'],
+                ['b', 'v'],
+                ['d', 'dh'],
+                ['m', 'v'],
+              ],
+              en: { title: 'Soft Mutation (base → mutated)' },
+            },
+            {
+              type: 'note',
+              text: 'Ця система прямо повторює м\'яку мутацію валлійської мови, якою Толкін надихався, створюючи фонетику синдарину.',
+              en: {
+                text: "This system directly mirrors the soft mutation of Welsh, which Tolkien drew on when shaping Sindarin's phonology.",
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ku: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Cînavkên Kesane — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Курдська мова курманджі (Туреччина, Сирія) записується латинкою, тоді як сорані (Ірак, Іран) — арабицею; тут наведено курманджі.',
+              en: {
+                text: 'The Kurmanji dialect of Kurdish (Turkey, Syria) is written in Latin script, while Sorani (Iraq, Iran) uses Arabic script; Kurmanji is shown here.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ez'],
+                ['ти', 'tu'],
+                ['він / вона / воно', 'ew'],
+                ['ми', 'em'],
+                ['ви', 'hûn'],
+                ['вони', 'ew'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  om: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Maqaa Bakalchaa — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Оромо — мова найчисельнішого етносу Ефіопії, записується латинською абеткою кваалі з 1991 року.',
+              en: {
+                text: "Oromo, the language of Ethiopia's largest ethnic group, has been written in the Latin-based Qubee alphabet since 1991.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ani'],
+                ['ти', 'ati'],
+                ['він / вона', 'inni / isheen'],
+                ['ми', 'nu'],
+                ['ви', 'isin'],
+                ['вони', 'isaan'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ln: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Bankombo ya Moto — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Лінгала — торгова мова басейну річки Конго, що стала відомою по всій Африці завдяки конголезькій музиці румба.',
+              en: {
+                text: 'Lingala is a trade language of the Congo River basin that became famous across Africa through Congolese rumba music.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ngai'],
+                ['ти', 'yo'],
+                ['він / вона / воно', 'ye'],
+                ['ми', 'biso'],
+                ['ви', 'bino'],
+                ['вони', 'bango'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  bho: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'सर्वनाम — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У бходжпурі "я" часто позначають словом "हम" (ham), яке в гінді означає "ми" — одна з відмінностей між спорідненими мовами долини Гангу.',
+              en: {
+                text: 'In Bhojpuri, "I" is often "हम" (ham) — the same word that means "we" in Hindi, one of the differences among the related Ganges Valley languages.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'हम (ham)'],
+                ['ти (зв. / ввічл.)', 'तू / रउआ (tū / raua)'],
+                ['він / вона', 'ऊ (ū)'],
+                ['ми', 'हमनी (hamnī)'],
+                ['ви', 'रउआ सब (raua sab)'],
+                ['вони', 'ऊ लोग (ū log)'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ceb: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Personal Pronoun — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Себуанська, як і тагальська, розрізняє "ми без вас" (kami) і "ми з вами" (kita).',
+              en: {
+                text: 'Cebuano, like Tagalog, distinguishes "we without you" (kami) from "we with you" (kita).',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ako'],
+                ['ти', 'ikaw'],
+                ['він / вона', 'siya'],
+                ['ми (без вас)', 'kami'],
+                ['ми (з вами)', 'kita'],
+                ['ви', 'kamo'],
+                ['вони', 'sila'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  rm: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Pronoms Persunals — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Романш — четверта офіційна мова Швейцарії, хоча нею розмовляє менш ніж 1% населення країни.',
+              en: {
+                text: "Romansh is Switzerland's fourth official language, despite being spoken by less than 1% of the country's population.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'jau'],
+                ['ти', 'ti'],
+                ['він / вона', 'el / ella'],
+                ['ми', 'nus'],
+                ['ви', 'vus'],
+                ['вони (ч./ж.)', 'els / ellas'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ty: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Mau Parau Fa\'aea — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У таїтянській, як і в інших полінезійських мовах, розрізняють "ми без вас" (mātou) і "ми з вами" (tātou).',
+              en: {
+                text: 'Tahitian, like other Polynesian languages, distinguishes "we without you" (mātou) from "we with you" (tātou).',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'vau'],
+                ['ти', "ʻoe"],
+                ['він / вона', 'ōna'],
+                ['ми (без вас)', 'mātou'],
+                ['ми (з вами)', 'tātou'],
+                ['ви', "ʻoutou"],
+                ['вони', 'rātou'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  ch: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Pronombren Personåt — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Чаморро зазнало значного впливу іспанської мови через понад три століття іспанської колонізації Маріанських островів.',
+              en: {
+                text: 'Chamorro was heavily influenced by Spanish through over three centuries of Spanish colonization of the Mariana Islands.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'guahu'],
+                ['ти', 'hagu'],
+                ['він / вона / воно', 'guiya'],
+                ['ми (з вами)', 'hita'],
+                ['ми (без вас)', 'hami'],
+                ['ви', 'hamyu'],
+                ['вони', 'siha'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  mh: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Naan ko Armij — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Маршальська — мова атолового архіпелагу Тихого океану, чиї навігатори традиційно використовували плетені карти хвиль для орієнтування в морі.',
+              en: {
+                text: 'Marshallese is the language of a Pacific atoll archipelago whose navigators traditionally used woven stick charts to find their way at sea.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ña'],
+                ['ти', 'kwe'],
+                ['він / вона / воно', 'e'],
+                ['ми (без вас)', 'kōm'],
+                ['ми (з вами)', 'kōj'],
+                ['ви', 'koṃ'],
+                ['вони', 'er'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  pau: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Omesungel — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Палау за менш ніж століття пережила іспанське, німецьке, японське та американське колоніальне правління, кожне з яких залишило слід у мові.',
+              en: {
+                text: 'In under a century, Palau experienced Spanish, German, Japanese, and American colonial rule, each leaving a mark on the language.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'ngak'],
+                ['ти', 'kau'],
+                ['він / вона / воно', 'ngii'],
+                ['ми (з вами)', 'kid'],
+                ['ми (без вас)', 'kemam'],
+                ['ви', 'kemiu'],
+                ['вони', 'tir'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  nah: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Tētlahtōltiliztli — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Науатль була державною мовою ацтецької імперії; наведені тут повні форми займенників у розмовній мові часто скорочують.',
+              en: {
+                text: 'Nahuatl was the state language of the Aztec Empire; the full pronoun forms shown here are often shortened in everyday speech.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'nehuātl'],
+                ['ти', 'tehuātl'],
+                ['він / вона / воно', 'yehuātl'],
+                ['ми', 'tehuāntin'],
+                ['ви', 'amehuāntin'],
+                ['вони', 'yehuāntin'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  nv: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Personal Pronoun — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У навахо незалежні займенники часто збігаються за формою (наприклад, "nihí" означає і "ми", і "ви"-множина) — реальне розрізнення несе префікс дієслова, а не сам займенник.',
+              en: {
+                text: 'In Navajo, independent pronouns often share the same form (e.g. "nihí" means both "we" and plural "you") — the real distinction is carried by the verb prefix, not the pronoun itself.',
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'shí'],
+                ['ти', 'ni'],
+                ['він / вона / воно', 'bí'],
+                ['ми', 'nihí'],
+                ['ви', 'nihí'],
+                ['вони', 'bí'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+            {
+              type: 'note',
+              text: 'Дієслово в навахо несе основне граматичне навантаження — незалежний займенник часто взагалі можна опустити, оскільки особу й число вже показують префікси дієслова.',
+              en: {
+                text: "The verb in Navajo carries most of the grammatical load — the independent pronoun can often be dropped entirely, since person and number are already shown by verb prefixes.",
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  tlh: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'ghojmoHwI\' mu\'mey — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У клінгонській, мові, створеній лінгвістом Марком Окрандом для "Зоряного шляху", дієслово зазвичай має незвичний для людських мов порядок додаток-присудок-підмет, а займенник підмета часто пропускають, бо його показує префікс дієслова.',
+              en: {
+                text: "In Klingon, created by linguist Marc Okrand for Star Trek, the verb usually follows an object-verb-subject order rare among human languages, and the subject pronoun is often dropped since a verb prefix already marks it.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники',
+              rows: [
+                ['я', 'jIH'],
+                ['ти', 'SoH'],
+                ['він / вона (розумна істота)', 'ghaH'],
+                ['воно (нежива річ)', "'oH"],
+                ['ми', 'maH'],
+                ['ви', 'tlhIH'],
+                ['вони (розумні істоти)', 'chaH'],
+              ],
+              en: { title: 'Personal Pronouns' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  val: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Personal Pronoun — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'У високій валірійській, мові, розробленій лінгвістом Девідом Дж. Петерсоном для "Гри престолів", іменники та займенники відмінюються за чотирма родами — сонячним, місячним, земним і водним — а не за чоловічим/жіночим.',
+              en: {
+                text: "In High Valyrian, developed by linguist David J. Peterson for Game of Thrones, nouns and pronouns decline by four genders — solar, lunar, terrestrial, and aquatic — rather than masculine/feminine.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники (однина)',
+              rows: [
+                ['я', 'nyke'],
+                ['ти', 'kesy'],
+                ['він / вона / воно', 'ziry'],
+              ],
+              en: { title: 'Personal Pronouns (singular)' },
+            },
+            {
+              type: 'note',
+              text: 'Множину займенників у валірійській творять відмінковими закінченнями залежно від роду іменника, а не окремим словом, як в англійській чи українській.',
+              en: {
+                text: 'Valyrian forms the plural of pronouns through case endings that depend on noun gender, rather than a separate word as in English or Ukrainian.',
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  dth: [
+    {
+      id: 'basics',
+      title: 'Основи',
+      titleEn: 'Basics',
+      emoji: '🧩',
+      rules: [
+        {
+          id: 'personal-pronouns',
+          title: 'Personal Pronoun — A1',
+          emoji: '🔖',
+          sections: [
+            {
+              type: 'intro',
+              text: 'Дотракійська, мова, створена лінгвістом Девідом Дж. Петерсоном для "Гри престолів", відображає культуру кочового народу вершників — граматика й лексика тісно пов\'язані з життям у степу.',
+              en: {
+                text: "Dothraki, created by linguist David J. Peterson for Game of Thrones, reflects the culture of a nomadic horse-riding people — its grammar and vocabulary are closely tied to life on the steppe.",
+              },
+            },
+            {
+              type: 'table',
+              title: 'Особові займенники (однина)',
+              rows: [
+                ['я', 'anha'],
+                ['ти', 'yer'],
+                ['він / вона / воно', 'me'],
+              ],
+              en: { title: 'Personal Pronouns (singular)' },
+            },
+            {
+              type: 'note',
+              text: 'Дотракійці у творі не мають власної писемності — Джордж Р. Р. Мартін і Девід Дж. Петерсон свідомо розробляли дотракійську як усну мову.',
+              en: {
+                text: 'The Dothraki, in the story, have no writing system of their own — George R. R. Martin and David J. Peterson deliberately developed Dothraki as a purely oral language.',
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
 };
