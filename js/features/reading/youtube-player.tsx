@@ -4,8 +4,8 @@
 // mark as known — the same experience as video-player.tsx but for YouTube.
 import { createPortal } from 'react-dom';
 import { useState, useEffect, useRef, type FormEvent, type ReactElement } from 'react';
-import { useStateVersion } from '../../../src/store.ts';
-import { getKnownSnapshot } from '../../../src/known-words-store.ts';
+import { useLangVersion } from '../../../src/store.ts';
+import { getKnownSnapshot, useKnownWords } from '../../../src/known-words-store.ts';
 import { decodeIpa } from '../../core/ui-helpers.ts';
 import { onWordLearned } from '../../core/card-engine.ts';
 import { checkMilestones } from '../milestones.ts';
@@ -50,10 +50,18 @@ declare namespace YT {
 let _ytReady = false;
 const _ytCbs: (() => void)[] = [];
 
-function ensureYTApi(onReady: () => void): void {
+// Returns an unsubscribe function: if the API is still loading when the
+// caller no longer wants `onReady` fired (component unmounted, or videoId
+// changed and a new effect run superseded this one), the caller can pull its
+// closure back out of the queue. Without this, a queued callback that
+// outlived its effect would still fire once the API eventually loads —
+// harmless if the component unmounted by then (playerDivRef.current is
+// null), but if a *newer* effect run for a different videoId is now active,
+// the stale closure would create a player for the wrong (old) video.
+function ensureYTApi(onReady: () => void): () => void {
   if (_ytReady) {
     onReady();
-    return;
+    return () => {};
   }
   _ytCbs.push(onReady);
   if (!document.getElementById('yt-iframe-api')) {
@@ -67,6 +75,10 @@ function ensureYTApi(onReady: () => void): void {
     script.src = 'https://www.youtube.com/iframe_api';
     document.head.appendChild(script);
   }
+  return () => {
+    const i = _ytCbs.indexOf(onReady);
+    if (i !== -1) _ytCbs.splice(i, 1);
+  };
 }
 
 // ── History helpers ───────────────────────────────────────────
@@ -140,7 +152,12 @@ function renderCueHtml(text: string): string {
 type PopupWord = { word: string; trans: string; ipa: string; known: boolean };
 
 export function YoutubePlayerPage(): ReactElement | null {
-  useStateVersion();
+  // renderCueHtml() below reads getKnownSnapshot('en') during render (to
+  // highlight known/unknown words), and t() needs the UI-language channel —
+  // narrower than the global bus, which also wakes this on every unrelated
+  // card render/combo tick/duel poll elsewhere in the app.
+  useKnownWords('en');
+  useLangVersion();
   const target = document.getElementById('youtube-player-content');
 
   const [input, setInput] = useState('');
@@ -212,9 +229,10 @@ export function YoutubePlayerPage(): ReactElement | null {
       });
     };
 
-    ensureYTApi(createPlayer);
+    const unsubscribeYTApi = ensureYTApi(createPlayer);
 
     return () => {
+      unsubscribeYTApi();
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;

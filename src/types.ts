@@ -432,6 +432,11 @@ export interface DuelRoomState {
   oppScore: number;
   oppIdx: number;
   oppFlags: (boolean | 'skip' | 'double')[];
+  // Set once the opponent's Firebase-polled `lastSeen` heartbeat goes stale
+  // (see duel.ts's _startOpponentPoll) — the app has no real presence
+  // channel (raw REST polling, no Firebase SDK onDisconnect()), so this is
+  // the closest available signal that the other tab has gone away.
+  oppDisconnected: boolean;
   roomCreatedAt: number;
   roomSeed: number;
   roomCategory: string;

@@ -68,6 +68,12 @@ export interface PlayerData {
   powerups: Record<PowerupType, number>;
   frozenUntil?: number;
   flags?: (boolean | 'skip' | 'double')[];
+  // Refreshed every opponent-poll tick (~1.5s, see duel.ts's
+  // _startOpponentPoll) as a client-clock timestamp. There's no real
+  // presence channel here (raw REST polling, no Firebase SDK
+  // onDisconnect()) — a heartbeat gone stale for a few missed ticks is the
+  // closest available signal that the other player's tab has gone away.
+  lastSeen?: number;
 }
 export interface SeriesData {
   p1wins: number;

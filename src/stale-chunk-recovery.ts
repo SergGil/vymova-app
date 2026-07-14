@@ -16,18 +16,23 @@ export function isStaleChunkError(message: string): boolean {
   );
 }
 
+// Exported so any other dynamic-import call site (LazyPage, LazyMode) can
+// route a caught rejection through the same one-reload-per-session guard,
+// instead of swallowing it in a local `.catch()` — which would otherwise
+// prevent it from ever reaching the `unhandledrejection` listener below.
+export function reloadOnce(reload: () => void = () => location.reload()): void {
+  if (sessionStorage.getItem(RELOADED_KEY)) return;
+  sessionStorage.setItem(RELOADED_KEY, '1');
+  reload();
+}
+
 export function initStaleChunkRecovery(
   win: Window = window,
   reload: () => void = () => location.reload(),
 ): void {
-  function reloadOnce(): void {
-    if (sessionStorage.getItem(RELOADED_KEY)) return;
-    sessionStorage.setItem(RELOADED_KEY, '1');
-    reload();
-  }
-  win.addEventListener('vite:preloadError', reloadOnce);
+  win.addEventListener('vite:preloadError', () => reloadOnce(reload));
   win.addEventListener('unhandledrejection', (e) => {
     const msg = String((e.reason as { message?: string } | undefined)?.message ?? e.reason ?? '');
-    if (isStaleChunkError(msg)) reloadOnce();
+    if (isStaleChunkError(msg)) reloadOnce(reload);
   });
 }

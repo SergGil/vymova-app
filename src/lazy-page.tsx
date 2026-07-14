@@ -32,6 +32,8 @@ import { useEffect, useState, type ComponentType, type ReactElement } from 'reac
 import { createPortal } from 'react-dom';
 import { useActivePage } from './nav-store.tsx';
 import { getMountPoint } from './get-mount-point.ts';
+import { isStaleChunkError, reloadOnce } from './stale-chunk-recovery.ts';
+import { t } from '../js/features/i18n.ts';
 
 type PageLoader = () => Promise<{ Page: ComponentType }>;
 
@@ -40,19 +42,66 @@ type LazyPageProps = { mountId?: string; loader: PageLoader } & (
   | { active: boolean; page?: undefined }
 );
 
+const retryBtnStyle: React.CSSProperties = {
+  display: 'block',
+  margin: '2rem auto',
+  padding: '0.6rem 1.2rem',
+  cursor: 'pointer',
+};
+
 export function LazyPage({ page, active, mountId, loader }: LazyPageProps): ReactElement | null {
   const activePage = useActivePage();
   const shouldLoad = page !== undefined ? activePage === page : active;
   const [Page, setPage] = useState<ComponentType | null>(null);
+  // 0 = not tried, 1 = one silent auto-retry already used, 2+ = manual retries.
+  // A previous version swallowed every load failure via `.catch(() => {})`,
+  // which left the sidebar button permanently dead on a genuine failure AND
+  // (since the rejection was no longer unhandled) prevented
+  // stale-chunk-recovery.ts's `unhandledrejection` listener from ever firing
+  // on the classic post-deploy "this chunk hash no longer exists" 404.
+  const [attempt, setAttempt] = useState(0);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     if (Page || !shouldLoad) return;
+    let cancelled = false;
     loader()
-      .then((m) => setPage(() => m.Page))
-      .catch(() => {});
-  }, [shouldLoad, Page, loader]);
+      .then((m) => {
+        if (!cancelled) setPage(() => m.Page);
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        const msg = String((err as { message?: string } | undefined)?.message ?? err ?? '');
+        if (isStaleChunkError(msg)) {
+          reloadOnce();
+          return;
+        }
+        if (attempt === 0) {
+          setTimeout(() => setAttempt(1), 1200);
+        } else {
+          setFailed(true);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [shouldLoad, Page, loader, attempt]);
 
-  if (!Page) return null;
+  if (!Page) {
+    if (!failed || !shouldLoad) return null;
+    const retry = (): void => {
+      setFailed(false);
+      setAttempt((n) => n + 1);
+    };
+    const btn = (
+      <button type="button" style={retryBtnStyle} onClick={retry}>
+        {t('common.loadFailed')}
+      </button>
+    );
+    if (!mountId) return btn;
+    const el = getMountPoint(mountId);
+    return el ? createPortal(btn, el) : null;
+  }
   if (!mountId) return <Page />;
   const el = getMountPoint(mountId);
   return el ? createPortal(<Page />, el) : null;

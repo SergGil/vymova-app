@@ -1,7 +1,7 @@
 // Vymova — js/features/card-actions.ts
 // All flashcard interaction event listeners
 import { useEffect, type ReactElement } from 'react';
-import { sm2Update, buildSRSDeck, buildUnlearnedDeck, shuffle, updateSrsUI } from '../core/srs.ts';
+import { sm2Update, buildSRSDeck, buildUnlearnedDeck, _shuf, updateSrsUI } from '../core/srs.ts';
 import { saveKnown, saveSRS } from '../core/storage.ts';
 import { getGameData, saveGameData, resetAllLangProgress, recordMistake } from './game.ts';
 import { getSrsDataSnapshot, deleteSrsEntry, clearSrsData } from '../../src/srs-store.ts';
@@ -301,7 +301,11 @@ export function CardActionsInit(): ReactElement | null {
     const onShufClick = (e: MouseEvent) => {
       e.stopPropagation();
       stopAuto();
-      shuffle(getDeckSnapshot() as WordEntry[]);
+      // Shuffle a copy and swap it into the store — mutating the live
+      // deck array in place would silently corrupt any other reference
+      // to it (e.g. deck-mode.tsx's _preSpecialDeck restore snapshot)
+      // without notifying subscribers via a new array identity.
+      setDeck(_shuf(getDeckSnapshot() as WordEntry[]));
       setIdx(0);
       render();
     };

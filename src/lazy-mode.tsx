@@ -14,9 +14,18 @@
 import { useEffect, useRef, useState, type ComponentType, type ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 import { getMountPoint } from './get-mount-point.ts';
+import { isStaleChunkError, reloadOnce } from './stale-chunk-recovery.ts';
+import { t } from '../js/features/i18n.ts';
 
 type LoadedMode = { Page: ComponentType; open: () => void };
 type ModeLoader = () => Promise<LoadedMode>;
+
+const retryBtnStyle: React.CSSProperties = {
+  display: 'block',
+  margin: '2rem auto',
+  padding: '0.6rem 1.2rem',
+  cursor: 'pointer',
+};
 
 export function LazyMode({
   btnId,
@@ -29,6 +38,12 @@ export function LazyMode({
 }): ReactElement | null {
   const [mod, setMod] = useState<LoadedMode | null>(null);
   const openedRef = useRef(false);
+  // A previous version swallowed every load failure via `.catch(() => {})`,
+  // leaving the sidebar button permanently dead on a genuine failure and
+  // (since the rejection was no longer unhandled) preventing
+  // stale-chunk-recovery.ts's `unhandledrejection` listener from ever firing
+  // on the classic post-deploy "this chunk hash no longer exists" 404.
+  const [failed, setFailed] = useState(false);
 
   // Load the module the first time its button is clicked.
   useEffect(() => {
@@ -36,9 +51,17 @@ export function LazyMode({
     const btn = document.getElementById(btnId);
     if (!btn) return;
     const onClick = (): void => {
+      setFailed(false);
       loader()
         .then(setMod)
-        .catch(() => {});
+        .catch((err: unknown) => {
+          const msg = String((err as { message?: string } | undefined)?.message ?? err ?? '');
+          if (isStaleChunkError(msg)) {
+            reloadOnce();
+            return;
+          }
+          setFailed(true);
+        });
     };
     btn.addEventListener('click', onClick);
     return () => btn.removeEventListener('click', onClick);
@@ -55,7 +78,34 @@ export function LazyMode({
     }
   }, [mod]);
 
-  if (!mod) return null;
+  // The mount point lives inside the mode's overlay wrapper, which normally
+  // only gets the visibility-toggling 'open' class from the mode's own
+  // (not-yet-loaded) open()/close() — so on a load failure nothing has ever
+  // made it visible. Toggle 'open' on the nearest `*-overlay` ancestor
+  // ourselves so the retry button is actually seen instead of rendering
+  // into a display:none container.
+  useEffect(() => {
+    if (!failed) return;
+    const overlay = getMountPoint(mountId)?.closest<HTMLElement>('[id$="-overlay"]');
+    overlay?.classList.add('open');
+    return () => overlay?.classList.remove('open');
+  }, [failed, mountId]);
+
+  if (!mod) {
+    if (!failed) return null;
+    const el = getMountPoint(mountId);
+    if (!el) return null;
+    return createPortal(
+      <button
+        type="button"
+        style={retryBtnStyle}
+        onClick={() => document.getElementById(btnId)?.click()}
+      >
+        {t('common.loadFailed')}
+      </button>,
+      el,
+    );
+  }
   const el = getMountPoint(mountId);
   if (!el) return null;
   const { Page } = mod;

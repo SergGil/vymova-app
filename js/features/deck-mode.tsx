@@ -44,7 +44,11 @@ export function DeckModeInit(): ReactElement | null {
       const specialDeck = _getSpecialDeck(initMode);
       if (specialDeck.length) {
         if (!_preSpecialDeck) {
-          _preSpecialDeck = getDeckSnapshot();
+          // Snapshot a copy, not the live array reference — getDeckSnapshot()
+          // returns the store's actual deck array, so stashing it directly
+          // would let any future in-place mutation of "the current deck"
+          // silently corrupt this restore-point too.
+          _preSpecialDeck = getDeckSnapshot().slice();
           _preSpecialIdx = getIdxSnapshot();
         }
         const ats = getActiveTagSetSnapshot();
@@ -82,7 +86,11 @@ export function DeckModeInit(): ReactElement | null {
           return;
         }
         if (!_preSpecialDeck) {
-          _preSpecialDeck = getDeckSnapshot();
+          // Snapshot a copy, not the live array reference — getDeckSnapshot()
+          // returns the store's actual deck array, so stashing it directly
+          // would let any future in-place mutation of "the current deck"
+          // silently corrupt this restore-point too.
+          _preSpecialDeck = getDeckSnapshot().slice();
           _preSpecialIdx = getIdxSnapshot();
         }
         const ats = getActiveTagSetSnapshot();

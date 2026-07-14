@@ -47,6 +47,7 @@ const initialRoom: DuelRoomState = {
   oppScore: 0,
   oppIdx: 0,
   oppFlags: [],
+  oppDisconnected: false,
   roomCreatedAt: 0,
   roomSeed: 0,
   roomCategory: '',

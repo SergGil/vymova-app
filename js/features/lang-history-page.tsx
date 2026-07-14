@@ -10,10 +10,14 @@ import { getLang, t } from './i18n.ts';
 import { getLearnLang } from './lang-pair-select.tsx';
 import { LANG_META } from './profile-page.tsx';
 import { flagUrl } from '../core/flags.ts';
-import { useStateVersion } from '../../src/store.ts';
+import { useLangVersion } from '../../src/store.ts';
 
 export function LangHistoryPage(): ReactElement | null {
-  useStateVersion();
+  // Only reactive dependencies are the learn-language switch (getLearnLang())
+  // and t()'s UI-language string — the lang channel covers both, narrower
+  // than the global bus's per-card/combo/duel-poll churn this static
+  // content page has no actual dependency on.
+  useLangVersion();
   const target = document.getElementById('lang-history-content');
   if (!target) return null;
 

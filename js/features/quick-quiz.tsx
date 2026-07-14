@@ -3,13 +3,15 @@
 import type { ReactElement } from 'react';
 import { openQuickQuiz } from '../modes/quiz.tsx';
 import { t } from './i18n.ts';
-import { useStateVersion } from '../../src/store.ts';
+import { useLangVersion } from '../../src/store.ts';
 
 // Compact icon button living in the actions-bar-center row (next to
 // Назад/Авто/🔀/🔍/Далі) rather than its own full-width row below — the
 // label lives in the title tooltip, matching the 🔀/🔍 icon-only buttons.
 export function QuickQuizButton(): ReactElement {
-  useStateVersion();
+  // Only reactive dependency is t()'s title string — the UI-language channel
+  // is enough, no need for the global bus's per-card/combo/duel-poll churn.
+  useLangVersion();
   return (
     <button
       id="btn-quick-quiz"

@@ -3,7 +3,7 @@
 // Opened via #btn-search or Ctrl/Cmd+F.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
-import { useStateVersion } from '../../src/store.ts';
+import { useLangVersion } from '../../src/store.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { openWordDetail } from './word-detail-trigger.ts';
@@ -86,7 +86,11 @@ function jumpTo(w: WordEntry, close: () => void): void {
 }
 
 export function SearchOverlay(): ReactElement | null {
-  useStateVersion();
+  // Same channel search-inline.tsx already uses: t() plus the learn/know
+  // language-pair driving learnCode/knowCode below — narrower than the
+  // global bus's per-card/combo/duel-poll churn this modal has no actual
+  // dependency on.
+  useLangVersion();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [hits, setHits] = useState<WordEntry[]>([]);

@@ -164,6 +164,37 @@ let _advanceTimer: ReturnType<typeof setTimeout> | null = null;
 let _tempoLeft = TEMPO_SEC;
 // Freeze timer
 let _freezeTimer: ReturnType<typeof setTimeout> | null = null;
+
+// Stops every background Firebase-polling timer this module owns. The
+// in-duel close button already did this (see onCloseClick below) but
+// browser back/forward navigation and other sidebar-page switches go
+// through sidebar.tsx's generic closePage() instead, which never reached
+// this module — so leaving a duel via back-navigation left `_pollTimer`
+// (1.5s interval) hitting Firebase forever in the background until a full
+// page reload. Exported so closePage() can call it whenever the page being
+// left is 'duel', without needing to know these variables exist.
+export function stopDuelPolling(): void {
+  if (_pollTimer) {
+    clearInterval(_pollTimer);
+    _pollTimer = null;
+  }
+  if (_resultPollTimer) {
+    clearInterval(_resultPollTimer);
+    _resultPollTimer = null;
+  }
+  if (_tempoTimer) {
+    clearInterval(_tempoTimer);
+    _tempoTimer = null;
+  }
+  if (_advanceTimer) {
+    clearTimeout(_advanceTimer);
+    _advanceTimer = null;
+  }
+  if (_freezeTimer) {
+    clearTimeout(_freezeTimer);
+    _freezeTimer = null;
+  }
+}
 // Feedback / speed indicator under the question (item 32, Фаза 5)
 export function _getFeedbackData(): { html: string; speed: string } {
   const q = getDuelQuestionSnapshot();
@@ -418,6 +449,13 @@ function _startOpponentPoll(): void {
   _pollTimer = setInterval(async () => {
     try {
       const room0 = getDuelRoomSnapshot();
+      // Heartbeat: lets the opponent's own poll tick (below) know this tab
+      // is still alive. Fire-and-forget — a dropped write just means their
+      // staleness check runs one extra tick before flagging us, no need to
+      // block this tick on it.
+      _fbPatch(`/duel_rooms/${room0.roomId}/${room0.mySlot}`, { lastSeen: Date.now() }).catch(
+        () => {},
+      );
       const room = (await _fbGet(`/duel_rooms/${room0.roomId}`)) as
         (RoomData & Record<string, unknown>) | null;
       if (!room) return;
@@ -426,6 +464,13 @@ function _startOpponentPoll(): void {
         setDuelRoom({ oppScore: opp.score });
         _renderOppProgressBar(opp.idx, opp.flags);
         if (opp.reaction) _showReactionReceived(opp.reaction, opp.reactionTs);
+        // Presence: there's no Firebase SDK / onDisconnect() here (raw REST
+        // polling only), so a heartbeat gone stale for several missed ticks
+        // (generous vs. this loop's 1.5s cadence, to absorb normal network
+        // jitter) is the only signal available that the opponent left.
+        setDuelRoom({
+          oppDisconnected: opp.lastSeen != null && Date.now() - opp.lastSeen > 8000,
+        });
       }
       // Check if I'm frozen (opponent used freeze on me)
       const myFreezeKey = `${room0.mySlot}_freeze`;
@@ -762,6 +807,7 @@ interface QuestionData {
   mode: DuelMode;
   quizIdx: number;
   waiting: boolean;
+  oppDisconnected: boolean;
   myCorrect: number;
   myWrong: number;
   qPrimary: string;
@@ -786,6 +832,7 @@ export function _getQuestionData(): QuestionData {
     mode: room.mode,
     quizIdx: room.quizIdx,
     waiting: q.waitingFinish,
+    oppDisconnected: room.oppDisconnected,
     myCorrect: room.myCorrect,
     myWrong: room.myWrong,
     qPrimary: q.qPrimary,
@@ -1219,22 +1266,7 @@ export function DuelInit(): ReactElement | null {
       // never forfeits — the room stays alive, the session is saved, and the
       // player can resume the same question later from the lobby's resume banner.
       if ((gameVisible && !getDuelRoomSnapshot().finished) || countdownVisible) {
-        if (_pollTimer) {
-          clearInterval(_pollTimer);
-          _pollTimer = null;
-        }
-        if (_tempoTimer) {
-          clearInterval(_tempoTimer);
-          _tempoTimer = null;
-        }
-        if (_freezeTimer) {
-          clearTimeout(_freezeTimer);
-          _freezeTimer = null;
-        }
-        if (_advanceTimer) {
-          clearTimeout(_advanceTimer);
-          _advanceTimer = null;
-        }
+        stopDuelPolling();
         _saveSession();
         _showLobby();
         renderDuel();

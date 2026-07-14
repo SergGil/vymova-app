@@ -5,7 +5,7 @@
 // gate in js/modes/daily-challenge.tsx, which is the source of truth for
 // `dailyMissionDate`).
 import { useEffect, useState, type ReactElement } from 'react';
-import { useStateVersion } from '../../src/store.ts';
+import { useLangVersion, useGameBarVersion } from '../../src/store.ts';
 import { getGameData } from './game.ts';
 import { today, msUntilNextLocalMidnight } from '../core/today.ts';
 import { t } from './i18n.ts';
@@ -26,7 +26,12 @@ function openDailyMission(): void {
 }
 
 export function DailyMissionCard(): ReactElement {
-  useStateVersion();
+  // t() needs the UI-language channel; dailyMissionDate only ever changes
+  // alongside daily-challenge.tsx's refreshGameBarLevel() call, which fires
+  // the game-bar channel — narrower than the global bus's per-card/combo/
+  // duel-poll churn, which this component has no actual dependency on.
+  useLangVersion();
+  useGameBarVersion();
   const doneToday = getGameData().dailyMissionDate === today();
   const [countdown, setCountdown] = useState(() => formatCountdown(msUntilNextLocalMidnight()));
 

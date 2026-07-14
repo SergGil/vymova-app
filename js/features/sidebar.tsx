@@ -181,7 +181,19 @@ const MODE_OVERLAY_IDS = [
 ];
 
 export function closePage(): void {
-  if (getActivePage() !== null) dispatchClosePage();
+  const wasPage = getActivePage();
+  if (wasPage !== null) dispatchClosePage();
+  if (wasPage === 'duel') {
+    // Only reached (loading duel.ts is a no-op cache hit) when the duel page
+    // was actually open — stops the 1.5s Firebase polling that would
+    // otherwise keep running in the background forever, since this generic
+    // close path (used by browser back/forward via RouterSync, and by
+    // switching straight to another sidebar page) bypasses duel.ts's own
+    // close-button handler entirely.
+    import('./duel/duel.ts')
+      .then((m) => m.stopDuelPolling())
+      .catch(() => {});
+  }
   try {
     localStorage.removeItem(ACTIVE_PAGE_KEY);
   } catch (e) {}

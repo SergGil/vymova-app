@@ -44,31 +44,47 @@ export function DuelQuestion(): ReactElement {
 
   if (d.waiting) {
     return (
-      <div
-        style={{
-          display: 'flex',
-          gap: 24,
-          justifyContent: 'center',
-          alignItems: 'center',
-          background: 'var(--bg)',
-          borderRadius: 14,
-          padding: 18,
-          marginBottom: 12,
-          minHeight: 60,
-        }}
-      >
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--success)' }}>
-            {d.myCorrect}
+      <div>
+        <div
+          style={{
+            display: 'flex',
+            gap: 24,
+            justifyContent: 'center',
+            alignItems: 'center',
+            background: 'var(--bg)',
+            borderRadius: 14,
+            padding: 18,
+            marginBottom: 12,
+            minHeight: 60,
+          }}
+        >
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--success)' }}>
+              {d.myCorrect}
+            </div>
+            <div style={{ fontSize: '.78rem', color: 'var(--text3)' }}>
+              {t('duel.correctCount')}
+            </div>
           </div>
-          <div style={{ fontSize: '.78rem', color: 'var(--text3)' }}>{t('duel.correctCount')}</div>
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--danger)' }}>
-            {d.myWrong}
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--danger)' }}>
+              {d.myWrong}
+            </div>
+            <div style={{ fontSize: '.78rem', color: 'var(--text3)' }}>{t('duel.wrongCount')}</div>
           </div>
-          <div style={{ fontSize: '.78rem', color: 'var(--text3)' }}>{t('duel.wrongCount')}</div>
         </div>
+        {d.oppDisconnected && (
+          <div
+            style={{
+              textAlign: 'center',
+              color: 'var(--danger)',
+              fontSize: '.85rem',
+              marginBottom: 12,
+            }}
+          >
+            {t('duel.oppDisconnected')}
+          </div>
+        )}
       </div>
     );
   }

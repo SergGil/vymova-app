@@ -1,4 +1,5 @@
 {
+  "common.loadFailed": "Failed to load. Tap to retry.",
   "nav.cards": "Cards",
   "nav.stats": "Statistics",
   "nav.achievements": "Achievements",
@@ -1528,6 +1529,7 @@
   "settings.voicesFoundLabel": "Found",
   "settings.voicesLabel": "voices. UA voices:",
   "settings.notFound": "none found",
+  "duel.oppDisconnected": "⚠️ Opponent seems to have disconnected — you can leave and resume this duel later.",
   "duel.leaderboard": "📊 Profile Leaderboard",
   "duel.online": "⚡ Online Duel",
   "duel.mode": "Mode:",

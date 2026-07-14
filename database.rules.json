@@ -56,7 +56,8 @@
             "double": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 1) && (!data.exists() || newData.val() <= data.val())" },
             "skip": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 1) && (!data.exists() || newData.val() <= data.val())" },
             "freeze": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 1) && (!data.exists() || newData.val() <= data.val())" }
-          }
+          },
+          "lastSeen": { ".validate": "newData.isNumber()" }
         },
 
         "p2": {
@@ -78,7 +79,8 @@
             "double": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 1) && (!data.exists() || newData.val() <= data.val())" },
             "skip": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 1) && (!data.exists() || newData.val() <= data.val())" },
             "freeze": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 1) && (!data.exists() || newData.val() <= data.val())" }
-          }
+          },
+          "lastSeen": { ".validate": "newData.isNumber()" }
         }
       }
     },

@@ -13,6 +13,7 @@ import { getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
 import { today, localDateStr } from './today.ts';
 import { t } from '../features/i18n.ts';
 import { getSrsNewRemaining, recordSrsNewCard } from '../features/game.ts';
+import { getActiveKnown } from '../features/mode-utils.ts';
 
 // ── Shuffle ───────────────────────────────────────────────────
 export function shuffle<T>(a: T[]): T[] {
@@ -38,7 +39,9 @@ export function addDays(dateStr: string, n: number): string {
 }
 
 // ── SM-2 update ───────────────────────────────────────────────
-/** quality: 4 = correct, 1 = wrong */
+// quality: 1 = wrong (see onDontknowClick), 5 = "know" (see onKnowClick —
+// deliberately not 4, since 4 nets a zero EF delta under the formula below
+// and would let a lapsed word's ease drop but never recover).
 export function sm2Update(word: string, quality: number): void {
   const srsData = getSrsDataSnapshot();
   const wasNew = !srsData[word]; // first-ever SRS exposure → counts against today's new-card quota
@@ -78,7 +81,7 @@ let _srsStatsCache = { due: 0, newCards: 0, total: 0 };
 export function updateSrsUI(W: readonly WordEntry[]): void {
   const srsData = getSrsDataSnapshot();
   const TODAY = today();
-  const known = getKnownSnapshot('en');
+  const known = getActiveKnown(getKnownSnapshot('en'));
   if (!getSrsDirtySnapshot()) {
     _renderSrsUI(_srsStatsCache);
     return;
@@ -135,7 +138,7 @@ export function buildSRSDeck(words: WordEntry[]): WordEntry[] {
   const filteredWords = _applyTagFilter(words);
   const srsData = getSrsDataSnapshot();
   const TODAY = today();
-  const known = getKnownSnapshot('en');
+  const known = getActiveKnown(getKnownSnapshot('en'));
   const dueCards: WordEntry[] = [];
   const newCards: WordEntry[] = [];
   filteredWords.forEach((w) => {
@@ -174,7 +177,7 @@ export function orderDeckPool(pool: WordEntry[]): WordEntry[] {
 
 export function buildUnlearnedDeck(words: WordEntry[]): WordEntry[] {
   const filtered = _applyTagFilter(words);
-  const known = getKnownSnapshot('en');
+  const known = getActiveKnown(getKnownSnapshot('en'));
   let result = filtered.filter((w) => !known.has(w[0]));
   if (!result.length) result = filtered.slice();
   return shuffle(result);
