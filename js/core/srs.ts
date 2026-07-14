@@ -13,7 +13,37 @@ import { getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
 import { today, localDateStr } from './today.ts';
 import { t } from '../features/i18n.ts';
 import { getSrsNewRemaining, recordSrsNewCard } from '../features/game.ts';
-import { getActiveKnown } from '../features/mode-utils.ts';
+import { getModeSnapshot } from '../../src/deck-store.ts';
+import { ALL_TARGET_LANGS, type TargetLang } from '../../src/types.ts';
+
+// Mirrors mode-utils.ts's getActiveTargetLang()/getActiveKnown() without
+// importing that module directly: mode-utils.ts is a large shared hub
+// reachable from many lazily-loaded chunks (voice, notifications,
+// cloud-sync, ...), and this file is foundational enough (imported from
+// deep inside those chunks too) that a direct edge back into it produced a
+// genuine circular-chunk dependency at build time — Rollup warned "Circular
+// chunk: render-game-bar -> voice -> render-game-bar" and the resulting
+// chunk crashed at runtime with "Cannot access 'X' before initialization".
+// Duplicating this small amount of front/back-parsing logic against
+// lower-level, dependency-free modules (deck-store, types) avoids the cycle
+// entirely. getModeSnapshot() (not getMode()'s DOM-read + mix-mode fallback)
+// is enough here since every caller of the functions below only ever runs
+// after render() has already resolved and stored the current mode.
+function _activeTargetLangFromMode(mode: string): TargetLang | null {
+  const i = mode.indexOf('-');
+  const front = i > 0 ? mode.slice(0, i) : mode;
+  const back = i > 0 ? mode.slice(i + 1) : '';
+  const isTarget = (v: string): v is TargetLang =>
+    (ALL_TARGET_LANGS as readonly string[]).includes(v);
+  if (isTarget(front)) return front;
+  if (isTarget(back)) return back;
+  return null;
+}
+
+function _activeKnown(fallback: Set<string>): Set<string> {
+  const lang = _activeTargetLangFromMode(getModeSnapshot());
+  return lang ? getKnownSnapshot(lang) : fallback;
+}
 
 // ── Shuffle ───────────────────────────────────────────────────
 export function shuffle<T>(a: T[]): T[] {
@@ -81,7 +111,7 @@ let _srsStatsCache = { due: 0, newCards: 0, total: 0 };
 export function updateSrsUI(W: readonly WordEntry[]): void {
   const srsData = getSrsDataSnapshot();
   const TODAY = today();
-  const known = getActiveKnown(getKnownSnapshot('en'));
+  const known = _activeKnown(getKnownSnapshot('en'));
   if (!getSrsDirtySnapshot()) {
     _renderSrsUI(_srsStatsCache);
     return;
@@ -138,7 +168,7 @@ export function buildSRSDeck(words: WordEntry[]): WordEntry[] {
   const filteredWords = _applyTagFilter(words);
   const srsData = getSrsDataSnapshot();
   const TODAY = today();
-  const known = getActiveKnown(getKnownSnapshot('en'));
+  const known = _activeKnown(getKnownSnapshot('en'));
   const dueCards: WordEntry[] = [];
   const newCards: WordEntry[] = [];
   filteredWords.forEach((w) => {
@@ -177,7 +207,7 @@ export function orderDeckPool(pool: WordEntry[]): WordEntry[] {
 
 export function buildUnlearnedDeck(words: WordEntry[]): WordEntry[] {
   const filtered = _applyTagFilter(words);
-  const known = getActiveKnown(getKnownSnapshot('en'));
+  const known = _activeKnown(getKnownSnapshot('en'));
   let result = filtered.filter((w) => !known.has(w[0]));
   if (!result.length) result = filtered.slice();
   return shuffle(result);

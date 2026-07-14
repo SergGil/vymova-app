@@ -100,6 +100,18 @@ export default defineConfig({
           if (id.includes('/data/cefr.ts')) return 'cefr-data';
           if (id.includes('/data/grammar.ts')) return 'grammar-data';
         },
+        // Rollup defaults this to true once a custom manualChunks function is
+        // present, which forces every OTHER module (everything this function
+        // returns undefined for) through its own automatic splitting pass —
+        // that pass produced a genuine circular chunk dependency between an
+        // auto-generated "render-game-bar" chunk and the voice/notifications/
+        // cloud-sync chunks ("Circular chunk: render-game-bar -> voice ->
+        // render-game-bar"), which crashed at runtime with "Cannot access
+        // 'X' before initialization" since the two chunks' module-init order
+        // couldn't be resolved. false restores Rollup's normal
+        // (non-onlyExplicit) automatic chunking for everything not pinned
+        // above, which doesn't hit this failure mode.
+        onlyExplicitManualChunks: false,
       },
     },
   },
