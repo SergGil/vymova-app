@@ -36,10 +36,23 @@ window.addEventListener('ew-learn-lang-changed', function () {
 });
 
 setKnownWords('en', new Set<string>(savedKnown as string[]));
-// Hydrates every TargetLang's known-words from storage at once — adding a
-// new language to ALL_TARGET_LANGS (src/types.ts) is now enough on its own;
-// no separate call needs to be added here.
-for (const lang of ALL_TARGET_LANGS) {
+// Only the currently active learn/know target language (if either isn't the
+// base en/ua pool) needs its known-words hydrated before the very first
+// render() — render() checks whether the shown word is in that set to style
+// the card. The other ~134 target languages the app supports are pure boot
+// overhead for the (overwhelmingly common) case where the user has never
+// touched them: a synchronous localStorage read *and* a known-words-store
+// dispatch each, for nothing. Hydrating all of them still happens — just
+// deferred into the same _idle() callback as the word-table shuffle below —
+// since profile-page.tsx's "total XP across all languages" / "other
+// languages with known words" lists do need every language's data once that
+// page is actually opened, not at boot.
+const _activeLearnLang = localStorage.getItem('ew_learn_lang');
+const _activeKnowLang = localStorage.getItem('ew_know_lang');
+const _eagerLangs = ALL_TARGET_LANGS.filter(
+  (lang) => lang === _activeLearnLang || lang === _activeKnowLang,
+);
+for (const lang of _eagerLangs) {
   setKnownWords(lang, loadKnownLang(lang));
 }
 
@@ -67,4 +80,7 @@ _idle(() => {
   setBaseWords(W.slice() as unknown as WordEntry[]);
   setDeck(shuffle((W as unknown as WordEntry[]).slice()));
   render();
+  for (const lang of ALL_TARGET_LANGS) {
+    if (!_eagerLangs.includes(lang)) setKnownWords(lang, loadKnownLang(lang));
+  }
 });
