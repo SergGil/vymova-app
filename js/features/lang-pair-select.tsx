@@ -4,7 +4,7 @@
 // (deck-mode, tag-filter, word-detail, mode-utils, ...) keep working untouched.
 import { useState, type ReactElement } from 'react';
 import { t, getLang } from './i18n.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import { notifyStateChange, notifyLangChange, useStateVersion } from '../../src/store.ts';
 import { flagUrl } from '../core/flags.ts';
 import { FLAG_CODE } from '../core/flag-codes.ts';
 import { FlagDropdown } from '../core/flag-dropdown.tsx';
@@ -595,6 +595,7 @@ export function LangPairSelect(): ReactElement {
     if (areLangTablesReady(next.learnLang, next.knowLang)) {
       applyMode(next.learnLang, next.knowLang, next.direction);
       notifyStateChange();
+      notifyLangChange();
     } else {
       void Promise.all([
         ensureLangTableLoaded(next.learnLang),
@@ -602,6 +603,7 @@ export function LangPairSelect(): ReactElement {
       ]).then(() => {
         applyMode(next.learnLang, next.knowLang, next.direction);
         notifyStateChange();
+        notifyLangChange();
       });
     }
   }

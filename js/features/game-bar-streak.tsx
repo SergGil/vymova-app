@@ -6,10 +6,16 @@ import type { ReactElement } from 'react';
 import { getGameData } from './game.ts';
 import { _getSessionCombo, getComboMult } from './combo.ts';
 import { t } from './i18n.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import {
+  notifyStateChange,
+  notifyGameBarChange,
+  useGameBarVersion,
+  useLangVersion,
+} from '../../src/store.ts';
 
 export function GameBarStreak(): ReactElement {
-  useStateVersion();
+  useGameBarVersion();
+  useLangVersion();
   const d = getGameData();
   const n = d.shields ?? 0;
   const shLabel = t(n > 1 ? 'gamebar.shields' : 'gamebar.shield');
@@ -31,7 +37,7 @@ export function GameBarStreak(): ReactElement {
 }
 
 export function ComboBox(): ReactElement {
-  useStateVersion();
+  useGameBarVersion();
   const combo = _getSessionCombo();
   if (combo < 2) return <div className="combo-box" id="combo-box" style={{ display: 'none' }} />;
   const m = getComboMult();
@@ -50,7 +56,8 @@ const RING_STROKE = 4;
 const RING_C = 2 * Math.PI * RING_R;
 
 export function GameBarGoal(): ReactElement {
-  useStateVersion();
+  useGameBarVersion();
+  useLangVersion();
   const d = getGameData();
   const pct = Math.min((d.goalCur / d.goalMax) * 100, 100);
   const done = d.goalCur >= d.goalMax;
@@ -96,7 +103,9 @@ export function GameBarGoal(): ReactElement {
 
 export function refreshGameBarStreak(): void {
   notifyStateChange();
+  notifyGameBarChange();
 }
 export function refreshGameBarGoal(): void {
   notifyStateChange();
+  notifyGameBarChange();
 }

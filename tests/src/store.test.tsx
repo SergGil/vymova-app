@@ -1,7 +1,15 @@
 import { describe, it, expect, vi } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { notifyStateChange, useStateVersion, useAppState } from '../../src/store.ts';
+import {
+  notifyStateChange,
+  useStateVersion,
+  useAppState,
+  notifyLangChange,
+  useLangVersion,
+  notifyGameBarChange,
+  useGameBarVersion,
+} from '../../src/store.ts';
 import { state } from '../../src/state.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -78,5 +86,160 @@ describe('store.ts', () => {
       notifyStateChange();
     });
     expect(renders.mock.calls.length).toBe(callsAtUnmount);
+  });
+
+  // useLangVersion()/useGameBarVersion() exist specifically so consumers like
+  // the keyboard-shortcuts overlay, the inline search box, and the game bar
+  // don't re-render on every unrelated notifyStateChange() (a card render's
+  // updateRing(), a duel poll, ...) — see keyboard.tsx/search-inline.tsx/
+  // game-bar-streak.tsx/game-bar-level.tsx. The isolation these tests pin is
+  // the actual bug fix: without it, these channels would be no different
+  // from just calling useStateVersion().
+  describe('useLangVersion()/notifyLangChange() — narrow channel', () => {
+    it('re-renders on notifyLangChange()', () => {
+      const renders = vi.fn();
+      function Probe() {
+        const v = useLangVersion();
+        renders(v);
+        return null;
+      }
+      const { root } = mount(<Probe />);
+      const before = renders.mock.calls.length;
+      act(() => {
+        notifyLangChange();
+      });
+      expect(renders.mock.calls.length).toBeGreaterThan(before);
+      act(() => {
+        root.unmount();
+      });
+    });
+
+    it('does NOT re-render on a plain notifyStateChange() — the whole point of the channel', () => {
+      const renders = vi.fn();
+      function Probe() {
+        useLangVersion();
+        renders();
+        return null;
+      }
+      const { root } = mount(<Probe />);
+      const before = renders.mock.calls.length;
+      act(() => {
+        notifyStateChange();
+      });
+      expect(renders.mock.calls.length).toBe(before);
+      act(() => {
+        root.unmount();
+      });
+    });
+
+    it('does NOT re-render on notifyGameBarChange() — channels are independent of each other too', () => {
+      const renders = vi.fn();
+      function Probe() {
+        useLangVersion();
+        renders();
+        return null;
+      }
+      const { root } = mount(<Probe />);
+      const before = renders.mock.calls.length;
+      act(() => {
+        notifyGameBarChange();
+      });
+      expect(renders.mock.calls.length).toBe(before);
+      act(() => {
+        root.unmount();
+      });
+    });
+
+    it('unsubscribes on unmount', () => {
+      const renders = vi.fn();
+      function Probe() {
+        useLangVersion();
+        renders();
+        return null;
+      }
+      const { root } = mount(<Probe />);
+      const callsAtUnmount = renders.mock.calls.length;
+      act(() => {
+        root.unmount();
+      });
+      act(() => {
+        notifyLangChange();
+      });
+      expect(renders.mock.calls.length).toBe(callsAtUnmount);
+    });
+  });
+
+  describe('useGameBarVersion()/notifyGameBarChange() — narrow channel', () => {
+    it('re-renders on notifyGameBarChange()', () => {
+      const renders = vi.fn();
+      function Probe() {
+        const v = useGameBarVersion();
+        renders(v);
+        return null;
+      }
+      const { root } = mount(<Probe />);
+      const before = renders.mock.calls.length;
+      act(() => {
+        notifyGameBarChange();
+      });
+      expect(renders.mock.calls.length).toBeGreaterThan(before);
+      act(() => {
+        root.unmount();
+      });
+    });
+
+    it('does NOT re-render on a plain notifyStateChange() — the whole point of the channel', () => {
+      const renders = vi.fn();
+      function Probe() {
+        useGameBarVersion();
+        renders();
+        return null;
+      }
+      const { root } = mount(<Probe />);
+      const before = renders.mock.calls.length;
+      act(() => {
+        notifyStateChange();
+      });
+      expect(renders.mock.calls.length).toBe(before);
+      act(() => {
+        root.unmount();
+      });
+    });
+
+    it('does NOT re-render on notifyLangChange()', () => {
+      const renders = vi.fn();
+      function Probe() {
+        useGameBarVersion();
+        renders();
+        return null;
+      }
+      const { root } = mount(<Probe />);
+      const before = renders.mock.calls.length;
+      act(() => {
+        notifyLangChange();
+      });
+      expect(renders.mock.calls.length).toBe(before);
+      act(() => {
+        root.unmount();
+      });
+    });
+
+    it('unsubscribes on unmount', () => {
+      const renders = vi.fn();
+      function Probe() {
+        useGameBarVersion();
+        renders();
+        return null;
+      }
+      const { root } = mount(<Probe />);
+      const callsAtUnmount = renders.mock.calls.length;
+      act(() => {
+        root.unmount();
+      });
+      act(() => {
+        notifyGameBarChange();
+      });
+      expect(renders.mock.calls.length).toBe(callsAtUnmount);
+    });
   });
 });

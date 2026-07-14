@@ -5,12 +5,18 @@
 import type { ReactElement } from 'react';
 import { getLevel, getNextLevel, LEVELS } from './game.ts';
 import { t, levelName, wordsLabel } from './i18n.ts';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import {
+  notifyStateChange,
+  notifyGameBarChange,
+  useGameBarVersion,
+  useLangVersion,
+} from '../../src/store.ts';
 import { getKnownInLang } from './mode-utils.ts';
 import { openPage } from './sidebar.tsx';
 
 export function GameBarLevel(): ReactElement {
-  useStateVersion();
+  useGameBarVersion();
+  useLangVersion();
   const n = getKnownInLang();
   const lv = getLevel(n);
   const next = getNextLevel(n);
@@ -66,4 +72,5 @@ export function GameBarLevel(): ReactElement {
 
 export function refreshGameBarLevel(): void {
   notifyStateChange();
+  notifyGameBarChange();
 }

@@ -2,7 +2,7 @@
 // Inline search box (header) with debounce + keyboard navigation.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
-import { useStateVersion } from '../../src/store.ts';
+import { useLangVersion } from '../../src/store.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { getWordIndex } from '../core/word-index.ts';
 import { shuffle } from '../core/srs.ts';
@@ -13,7 +13,7 @@ import {
   computeCardView,
   getWordsForLang,
 } from './mode-utils.ts';
-import { getKnownSnapshot } from '../../src/known-words-store.ts';
+import { getKnownSnapshot, useKnownWords } from '../../src/known-words-store.ts';
 import { t } from './i18n.ts';
 import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -48,7 +48,12 @@ function goToWord(word: string, after: () => void): void {
 type Hit = { key: string; front: string; back: string; frontRtl: boolean };
 
 export function SearchInline(): ReactElement {
-  useStateVersion();
+  // Only needs to know about UI-language/learn-pair switches (for t() and
+  // which language's known-set applies) and that known-set's own content —
+  // not the global bus's per-card/per-answer churn, which used to re-render
+  // this on every flashcard advance even while the search box sat closed.
+  useLangVersion();
+  useKnownWords(getActiveTargetLang(getMode()) ?? 'en');
   const [query, setQuery] = useState('');
   const [hits, setHits] = useState<Hit[]>([]);
   const [activeIdx, setActiveIdx] = useState(-1);

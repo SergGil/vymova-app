@@ -5,7 +5,7 @@
 
 import { useEffect, type ReactElement } from 'react';
 import i18next from 'i18next';
-import { notifyStateChange } from '../../src/store.ts';
+import { notifyStateChange, notifyLangChange } from '../../src/store.ts';
 import ua from '../../locales/ua/translation.json';
 import uaDates from '../../locales/ua/dates.json';
 
@@ -240,6 +240,7 @@ function applyI18n(isBoot = false): void {
     btn.classList.toggle('lang-active', btn.dataset.lang === lang);
   });
   notifyStateChange();
+  notifyLangChange();
   if (!isBoot) {
     import('./deck-filter.tsx')
       .then(({ _refreshRangeOptions }) => _refreshRangeOptions())

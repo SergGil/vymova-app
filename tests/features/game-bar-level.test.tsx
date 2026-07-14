@@ -1,9 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { notifyStateChange } from '../../src/store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
-import { GameBarLevel } from '../../js/features/game-bar-level.tsx';
+import { GameBarLevel, refreshGameBarLevel } from '../../js/features/game-bar-level.tsx';
 import { getMaxWordsForLearnLang } from '../../js/features/mode-utils.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -53,14 +52,14 @@ describe('game-bar-level.tsx GameBarLevel', () => {
     expect(container.querySelector('.gb-level-next')!.textContent).toBe('');
   });
 
-  it('re-renders when notifyStateChange fires', () => {
+  it('re-renders when refreshGameBarLevel() fires (the narrow gamebar channel it now subscribes to, not the old global bus)', () => {
     setKnownWords('en', new Set());
     const { container } = mount();
     expect(container.querySelector('.gb-level-num')!.textContent).toBe('1');
 
     act(() => {
       setKnownWords('en', new Set(Array.from({ length: 65 }, (_, i) => `w${i}`)));
-      notifyStateChange();
+      refreshGameBarLevel();
     });
     expect((container.querySelector('.gb-level-fill') as HTMLElement).style.width).toBe('50%');
   });

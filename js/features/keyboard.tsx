@@ -2,10 +2,13 @@
 // ════════ KEYBOARD OVERLAY ════════
 import { useState, useEffect, type ReactElement } from 'react';
 import { t } from './i18n.ts';
-import { useStateVersion } from '../../src/store.ts';
+import { useLangVersion } from '../../src/store.ts';
 
 export function KeysOverlay(): ReactElement {
-  useStateVersion();
+  // Only t() calls in this whole panel need reactivity — the global bus
+  // would also re-render this on every flashcard advance/keystroke
+  // elsewhere, for a static shortcuts list that's usually not even open.
+  useLangVersion();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
