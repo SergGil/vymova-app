@@ -9090,6 +9090,826 @@ export const ESPERANTO_IDIOMS: Idiom[] = [
   },
 ];
 
+export const TAMIL_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'வார்த்தைகளை விட செயல்கள் உரக்கப் பேசும்',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'வெறும் வாக்குறுதி மட்டும் கொடுக்காதே — வார்த்தைகளை விட செயல்கள் உரக்கப் பேசும்.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const PUNJABI_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ਸ਼ਬਦਾਂ ਨਾਲੋਂ ਕਾਰਵਾਈਆਂ ਉੱਚੀ ਬੋਲਦੀਆਂ ਹਨ',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ਸਿਰਫ਼ ਵਾਅਦਾ ਨਾ ਕਰੋ — ਸ਼ਬਦਾਂ ਨਾਲੋਂ ਕਾਰਵਾਈਆਂ ਉੱਚੀ ਬੋਲਦੀਆਂ ਹਨ।',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const ZULU_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'izenzo zikhuluma ngamandla kunamagama',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Ungathembisi kuphela — izenzo zikhuluma ngamandla kunamagama.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const AFRIKAANS_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'dade praat harder as woorde',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Moenie net belowe nie — dade praat harder as woorde.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const KYRGYZ_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'иш сөздөн бекер',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Жөн эле убада бербе — иш сөздөн бекер.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const TAJIK_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'амал аз гуфтор беҳтар аст',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Танҳо ваъда надеҳ — амал аз гуфтор беҳтар аст.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const TURKMEN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'sözden hereket has güýçli gepleýär',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Diňe wada berme — sözden hereket has güýçli gepleýär.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const UYGHUR_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ھەرىكەت سۆزدىن كۈچلۈك سۆزلەيدۇ',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'پەقەت ۋەدە بەرمەڭ — ھەرىكەت سۆزدىن كۈچلۈك سۆزلەيدۇ.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const BASQUE_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ekintzek hitzek baino ozenago hitz egiten dute',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Ez agindu bakarrik — ekintzek hitzek baino ozenago hitz egiten dute.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const CATALAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'els fets parlen més que les paraules',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'No prometis només — els fets parlen més que les paraules.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const GALICIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'os feitos falan máis que as palabras',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Non prometas só — os feitos falan máis que as palabras.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const MALTESE_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'l-għemejjel jitkellmu aktar mill-kliem',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Tagħmilx wegħda biss — l-għemejjel jitkellmu aktar mill-kliem.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const LUXEMBOURGISH_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'Taten schwätze méi haart wéi Wierder',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Verspriech net just — Taten schwätze méi haart wéi Wierder.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const HAITIAN_CREOLE_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'aksyon pale pi fò pase pawòl',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Pa jis pwomèt — aksyon pale pi fò pase pawòl.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const TIBETAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'བྱ་བས་ཚིག་ལས་སྐད་ཆེར་སྨྲ།',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ཁས་ལེན་གཅིག་པུར་མ་ཟད། བྱ་བས་ཚིག་ལས་སྐད་ཆེར་སྨྲ།',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const BURMESE_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'စကားထက် လုပ်ရပ်က ပိုကျယ်လောင်စွာ ပြောသည်',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ကတိပေးရုံသက်သက်မလုပ်နဲ့ — စကားထက် လုပ်ရပ်က ပိုကျယ်လောင်စွာ ပြောတယ်။',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const KHMER_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'សកម្មភាពនិយាយខ្លាំងជាងពាក្យសំដី',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'កុំគ្រាន់តែសន្យា — សកម្មភាពនិយាយខ្លាំងជាងពាក្យសំដី។',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const LAO_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ການກະທຳເວົ້າດັງກວ່າຄຳເວົ້າ',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ຢ່າພຽງແຕ່ສັນຍາ — ການກະທຳເວົ້າດັງກວ່າຄຳເວົ້າ.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const NEPALI_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'शब्दभन्दा कार्य ठूलो बोल्छ',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'केवल वाचा नगर्नुहोस् — शब्दभन्दा कार्य ठूलो बोल्छ।',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const SINHALA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'වචනවලට වඩා ක්‍රියා ශබ්ද කරයි',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'බැහැරින් පොරොන්දු පමණක් නොදෙන්න — වචනවලට වඩා ක්‍රියා ශබ්ද කරයි.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const URDU_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'عمل الفاظ سے زیادہ بولتا ہے',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'صرف وعدہ نہ کرو — عمل الفاظ سے زیادہ بولتا ہے۔',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const TELUGU_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'మాటల కంటే చేతలు గొప్పవి',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'కేవలం వాగ్దానం చేయకండి — మాటల కంటే చేతలు గొప్పవి.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const MALAYALAM_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'വാക്കുകളെക്കാൾ പ്രവൃത്തികൾ ശക്തം',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'വെറും വാഗ്ദാനം നൽകരുത് — വാക്കുകളെക്കാൾ പ്രവൃത്തികൾ ശക്തം.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const KANNADA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ಮಾತಿಗಿಂತ ಕೃತಿ ಮಿಗಿಲು',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ಬರೀ ಭರವಸೆ ಕೊಡಬೇಡಿ — ಮಾತಿಗಿಂತ ಕೃತಿ ಮಿಗಿಲು.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const MARATHI_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'कृती शब्दांपेक्षा जास्त बोलते',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'फक्त वचन देऊ नका — कृती शब्दांपेक्षा जास्त बोलते.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const GUJARATI_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'શબ્દો કરતાં કાર્યો વધુ બોલે છે',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ફક્ત વચન ન આપો — શબ્દો કરતાં કાર્યો વધુ બોલે છે.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const ODIA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ଶବ୍ଦ ଅପେକ୍ଷା କାର୍ଯ୍ୟ ଅଧିକ ଶକ୍ତିଶାଳୀ',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'କେବଳ ପ୍ରତିଶ୍ରୁତି ଦିଅ ନାହିଁ — ଶବ୍ଦ ଅପେକ୍ଷା କାର୍ଯ୍ୟ ଅଧିକ ଶକ୍ତିଶାଳୀ।',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const ASSAMESE_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'কথাতকৈ কামেই বেছি কয়',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'কেৱল প্ৰতিশ্ৰুতি নিদিব — কথাতকৈ কামেই বেছি কয়।',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const SINDHI_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'عمل لفظن کان وڌيڪ ڳالهائيندو آهي',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'رڳو واعدو نه ڪريو — عمل لفظن کان وڌيڪ ڳالهائيندو آهي.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const PASHTO_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'عملونه له خبرو زیات ښکاره کوي',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'یوازې ژمنه مه کوه — عملونه له خبرو زیات ښکاره کوي.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const SOMALI_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'falku ka codsan yahay hadalka',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ha bixin ballan keliya — falku wuxuu ka codsan yahay hadalka.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const HAUSA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ayyuka sun fi magana ƙarfi',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'kada ka yi alkawari kawai — ayyuka sun fi magana ƙarfi.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const YORUBA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ise n ju oro lo',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ma se fun ileri lasan — ise n ju oro lo.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const IGBO_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'omume karịrị okwu',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ekwela naanị nkwa — omume karịrị okwu.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const TIGRINYA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ተግባር ካብ ቃል ይዛረብ',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ጥራይ ቃል ኣይትእቶ — ተግባር ካብ ቃል ይዛረብ.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const WOLOF_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'jëf gën na wax',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'bul may waxi kese — jëf gën na wax.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const MALAGASY_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ny asa no manaporofo mihoatra ny teny',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'aza mampanantena fotsiny — ny asa no manaporofo mihoatra ny teny.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const XHOSA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'izenzo zithetha ngokungqongqo kunamazwi',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ungathembisi nje — izenzo zithetha ngokungqongqo kunamazwi.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const SHONA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'zviito zvinotaura kupfuura mashoko',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'usangovimbisa chete — zviito zvinotaura kupfuura mashoko.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const CHICHEWA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'zochita ndizofunika kuposa mawu',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'musangolonjeza chabe — zochita ndizofunika kuposa mawu.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const FIJIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'na cakacaka e vosa cake mai na vosa',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'kua ni vakadonu ga — na cakacaka e vosa cake mai na vosa.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const SAMOAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'e sili gaoioiga i lo upu',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'aua neʻi na o le folafolaina — e sili gaoioiga i lo upu.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const TONGAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ʻoku leá lahi ange ʻa e ngaahi ngāue ʻi he ngaahi lea',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ʻoua naʻa ke fai pē ha talaʻofa — ʻoku leá lahi ange ʻa e ngaahi ngāue ʻi he ngaahi lea.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const MAORI_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'nui ake te kōrero a ngā mahi i ngā kupu',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'kaua e oati noa iho — nui ake te kōrero a ngā mahi i ngā kupu.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const HAWAIIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ua ʻoi aku ka leo o ka hana ma mua o ka ʻōlelo',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'mai hoʻohiki wale — ua ʻoi aku ka leo o ka hana ma mua o ka ʻōlelo.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const JAVANESE_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'tumindak luwih kuwat tinimbang tembung',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'aja mung janji — tumindak luwih kuwat tinimbang tembung.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const SUNDANESE_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'tindakan leuwih tarik tibatan kecap',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ulah ngan jangji wungkul — tindakan leuwih tarik tibatan kecap.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const SCOTTISH_GAELIC_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'tha gnìomhan nas làidire na faclan',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'na dèan ach geallaidhean — tha gnìomhan nas làidire na faclan.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const BRETON_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ar gwezhioù a gont muioc\'h eget ar gerioù',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'arabat prometiñ hepken — ar gwezhioù a gont muioc\'h eget ar gerioù.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const CORNISH_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'gwrians a lever moy es geryow',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'na behta gwitha rag kewsel geryow — gwrians a lever moy es geryow.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const MANX_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ta gniartyn loayrt ny sniessey na focklyn',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ny gell son gialdyn ynrican — ta gniartyn loayrt ny sniessey na focklyn.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const FAROESE_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'gerðir siga meira enn orð',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'lova ikki bert — gerðir siga meira enn orð.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const OCCITAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'los actes contan mai que las paraulas',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'prometètz pas solament — los actes contan mai que las paraulas.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const CORSICAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'l\'azzione parla più forte cà e parolle',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ùn prumettite micca solu — l\'azzione parla più forte cà e parolle.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const SARDINIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'is fatos fùeddant prus fortes de is peràulas',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'no promitades isceti — is fatos fùeddant prus fortes de is peràulas.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const FRISIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'dieden sizze mear as wurden',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'belove net allinnich — dieden sizze mear as wurden.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const YIDDISH_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'מעשׂים רעדן העכער ווי ווערטער',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'זאָג נישט נאָר צוזאָגן — מעשׂים רעדן העכער ווי ווערטער.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const LADINO_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'los echos avlan más fuerte ke las palavras',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'no promete solo — los echos avlan más fuerte ke las palavras.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const QUECHUA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ruwaykunam simikunamanta aswan rimanku',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'amaraq simiyta niychu — ruwaykunam simikunamanta aswan rimanku.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const GUARANI_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'tembiapo he\'i hetave ñe\'ẽgui',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ani eñe\'ẽ añónte — tembiapo he\'i hetave ñe\'ẽgui.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const AYMARA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'luräwinakax arunakat sipansa jila arst\'i',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'jan aru mayiwjjamaki — luräwinakax arunakat sipansa jila arst\'i.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const DZONGKHA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'བྱ་བ་གིས་ཚིག་ལས་ཡང་སྒྲ་ཆེ',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ཁཝ་བརྗོད་རྐྱངམ་ཅིག་མ་འབད — བྱ་བ་གིས་ཚིག་ལས་ཡང་སྒྲ་ཆེ།',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const DHIVEHI_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ބަހަށްވުރެ ޢަމަލު ބާރުދޭ',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'ހަމައެކަނި ވަޢުދު ނުވެ — ބަހަށްވުރެ ޢަމަލު ބާރުދޭ.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const TETUM_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'asaun ko\'alia liu palavra',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'keta promete deʼit — asaun ko\'alia liu palavra.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const BELARUSIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'учынкі гавораць гучней за словы',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'не толькі абяцайце — учынкі гавораць гучней за словы.',
+    exampleTr: 'Не просто обіцяй — вчинки говорять голосніше за слова.',
+  },
+];
+
+export const QUENYA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'carië quetë ambë lá quettar',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Carië quetë ambë lá quettar.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const SINDARIN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'cared peditha lend athan pith',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Cared peditha lend athan pith.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const KURDISH_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'kiryar ji peyvan bilindtir diaxive',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Kiryar ji peyvan bilindtir diaxive.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const OROMO_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'gochaan jecha caalaa dubbata',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Gochaan jecha caalaa dubbata.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const LINGALA_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'makambo eleki maloba',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Makambo eleki maloba na makasi.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const BHOJPURI_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'काम बात से बड़ बोलेला',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'काम बात से बड़ बोलेला।',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const CEBUANO_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'ang buhat mas kusog kay sa pulong',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Ang buhat mas kusog kay sa pulong.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const ROMANSH_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'acziuns valan dapli che pleds',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Acziuns valan dapli che pleds.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const TAHITIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'te ohipa e puai a\'e i te parau',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Te ohipa e puai a\'e i te parau.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const CHAMORRO_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'finatinas mas dangkolo ki sinangan',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Finatinas mas dangkolo ki sinangan.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const MARSHALLESE_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'kōṃṃan eḷap jān naan',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Kōṃṃan eḷap jān naan.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const PALAUAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'rolel a mo klou er a tekoi',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'A rolel a mo klou er a tekoi.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const NAHUATL_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'tlachihualiztli hueyi quihtoa tlahtolli',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Tlachihualiztli hueyi quihtoa tlahtolli.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const NAVAJO_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'naa\'ná\'áshjéé\' saad bilátah hólǫ́',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Naa\'ná\'áshjéé\' saad bilátah hólǫ́.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const KLINGON_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'wanI\' mu\' latlh HoS',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'wanI\' mu\' latlh HoS.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const VALYRIAN_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'kiryas ābra ossēnza',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Kiryas ābra ossēnza.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
+export const DOTHRAKI_IDIOMS: Idiom[] = [
+  {
+    emoji: '🗣️',
+    phrase: 'vezhen laqoy chiftak vekha',
+    meaning: 'Вчинки важать більше за слова',
+    exampleSrc: 'Vezhen laqoy chiftak vekha.',
+    exampleTr: 'Вчинки промовляють голосніше за слова.',
+  },
+];
+
 // ── Idioms per language ─────────────────────────────────────────
 export const IDIOMS_BY_LANG: Partial<
   Record<
@@ -9284,86 +10104,86 @@ export const IDIOMS_BY_LANG: Partial<
   uz: UZBEK_IDIOMS,
   am: AMHARIC_IDIOMS,
   eo: ESPERANTO_IDIOMS,
-  ta: [],
-  pa: [],
-  zu: [],
-  af: [],
-  ky: [],
-  tg: [],
-  tk: [],
-  ug: [],
-  eu: [],
-  ca: [],
-  gl: [],
-  mt: [],
-  lb: [],
-  ht: [],
-  bo: [],
-  my: [],
-  km: [],
-  lo: [],
-  ne: [],
-  si: [],
-  ur: [],
-  te: [],
-  ml: [],
-  kn: [],
-  mr: [],
-  gu: [],
-  or: [],
-  as: [],
-  sd: [],
-  ps: [],
-  so: [],
-  ha: [],
-  yo: [],
-  ig: [],
-  ti: [],
-  wo: [],
-  mg: [],
-  xh: [],
-  sn: [],
-  ny: [],
-  fj: [],
-  sm: [],
-  to: [],
-  mi: [],
-  haw: [],
-  jv: [],
-  su: [],
-  gd: [],
-  br: [],
-  kw: [],
-  gv: [],
-  fo: [],
-  oc: [],
-  co: [],
-  sc: [],
-  fy: [],
-  yi: [],
-  lad: [],
-  qu: [],
-  gn: [],
-  ay: [],
-  dz: [],
-  dv: [],
-  tet: [],
-  be: [],
-  qya: [],
-  sjn: [],
-  ku: [],
-  om: [],
-  ln: [],
-  bho: [],
-  ceb: [],
-  rm: [],
-  ty: [],
-  ch: [],
-  mh: [],
-  pau: [],
-  nah: [],
-  nv: [],
-  tlh: [],
-  val: [],
-  dth: [],
+  ta: TAMIL_IDIOMS,
+  pa: PUNJABI_IDIOMS,
+  zu: ZULU_IDIOMS,
+  af: AFRIKAANS_IDIOMS,
+  ky: KYRGYZ_IDIOMS,
+  tg: TAJIK_IDIOMS,
+  tk: TURKMEN_IDIOMS,
+  ug: UYGHUR_IDIOMS,
+  eu: BASQUE_IDIOMS,
+  ca: CATALAN_IDIOMS,
+  gl: GALICIAN_IDIOMS,
+  mt: MALTESE_IDIOMS,
+  lb: LUXEMBOURGISH_IDIOMS,
+  ht: HAITIAN_CREOLE_IDIOMS,
+  bo: TIBETAN_IDIOMS,
+  my: BURMESE_IDIOMS,
+  km: KHMER_IDIOMS,
+  lo: LAO_IDIOMS,
+  ne: NEPALI_IDIOMS,
+  si: SINHALA_IDIOMS,
+  ur: URDU_IDIOMS,
+  te: TELUGU_IDIOMS,
+  ml: MALAYALAM_IDIOMS,
+  kn: KANNADA_IDIOMS,
+  mr: MARATHI_IDIOMS,
+  gu: GUJARATI_IDIOMS,
+  or: ODIA_IDIOMS,
+  as: ASSAMESE_IDIOMS,
+  sd: SINDHI_IDIOMS,
+  ps: PASHTO_IDIOMS,
+  so: SOMALI_IDIOMS,
+  ha: HAUSA_IDIOMS,
+  yo: YORUBA_IDIOMS,
+  ig: IGBO_IDIOMS,
+  ti: TIGRINYA_IDIOMS,
+  wo: WOLOF_IDIOMS,
+  mg: MALAGASY_IDIOMS,
+  xh: XHOSA_IDIOMS,
+  sn: SHONA_IDIOMS,
+  ny: CHICHEWA_IDIOMS,
+  fj: FIJIAN_IDIOMS,
+  sm: SAMOAN_IDIOMS,
+  to: TONGAN_IDIOMS,
+  mi: MAORI_IDIOMS,
+  haw: HAWAIIAN_IDIOMS,
+  jv: JAVANESE_IDIOMS,
+  su: SUNDANESE_IDIOMS,
+  gd: SCOTTISH_GAELIC_IDIOMS,
+  br: BRETON_IDIOMS,
+  kw: CORNISH_IDIOMS,
+  gv: MANX_IDIOMS,
+  fo: FAROESE_IDIOMS,
+  oc: OCCITAN_IDIOMS,
+  co: CORSICAN_IDIOMS,
+  sc: SARDINIAN_IDIOMS,
+  fy: FRISIAN_IDIOMS,
+  yi: YIDDISH_IDIOMS,
+  lad: LADINO_IDIOMS,
+  qu: QUECHUA_IDIOMS,
+  gn: GUARANI_IDIOMS,
+  ay: AYMARA_IDIOMS,
+  dz: DZONGKHA_IDIOMS,
+  dv: DHIVEHI_IDIOMS,
+  tet: TETUM_IDIOMS,
+  be: BELARUSIAN_IDIOMS,
+  qya: QUENYA_IDIOMS,
+  sjn: SINDARIN_IDIOMS,
+  ku: KURDISH_IDIOMS,
+  om: OROMO_IDIOMS,
+  ln: LINGALA_IDIOMS,
+  bho: BHOJPURI_IDIOMS,
+  ceb: CEBUANO_IDIOMS,
+  rm: ROMANSH_IDIOMS,
+  ty: TAHITIAN_IDIOMS,
+  ch: CHAMORRO_IDIOMS,
+  mh: MARSHALLESE_IDIOMS,
+  pau: PALAUAN_IDIOMS,
+  nah: NAHUATL_IDIOMS,
+  nv: NAVAJO_IDIOMS,
+  tlh: KLINGON_IDIOMS,
+  val: VALYRIAN_IDIOMS,
+  dth: DOTHRAKI_IDIOMS,
 };
