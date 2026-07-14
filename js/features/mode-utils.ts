@@ -1236,6 +1236,24 @@ export const LATIN_TRANSLIT_LANGS: ReadonlySet<TargetLang> = new Set<TargetLang>
   'ti', 'tl', 'tlh', 'to', 'ty', 'ug', 'ur', 'uz', 'val', 'wo', 'xh', 'yi', 'yo', 'zh',
 ]);
 
+// Languages whose word-table has no separate Entry[2] transcription at all
+// (see docs/adding-a-language.md's "Rule: every dictionary entry must
+// include transcription") because the word/example (Entry[0]/Entry[1])
+// themselves are already plain Latin script — there was never a non-Latin
+// native form to romanize. That means, unlike LATIN_TRANSLIT_LANGS above,
+// speakForCode() doesn't need a dedicated transliteration field for these:
+// the target-language `text` it's already given (a word OR a full example
+// sentence — both call sites work) is close enough to speakable as-is, run
+// through latinizeForSpeech() (js/features/voice/latinize.ts) first to
+// strip diacritics an English voice tends to mishandle (č, ä, ø, ș, ř...).
+// Verified by inspecting every data/words_XX.js file: all entries for
+// these 16 are consistently 2-element (no Entry[2] at all, not just
+// missing for some words) — re-verify this when adding a new "Latin,
+// transcription optional" language (see docs/adding-a-language.md).
+export const NATIVE_LATIN_LANGS: ReadonlySet<TargetLang> = new Set<TargetLang>([
+  'az', 'bs', 'cs', 'da', 'fi', 'hr', 'hu', 'id', 'la', 'ms', 'no', 'pcm', 'ro', 'sk', 'sv', 'sw',
+]);
+
 // Backward-compat: each XX_MODES Set now contains every mode string where
 // that language appears as front or back (not just the historical EN/UA
 // pairs) — existing consumers that only check membership (not direction)

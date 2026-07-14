@@ -144,10 +144,12 @@ import {
   getSelectedDthVoice,
 } from './voice.tsx';
 import { speak, _speakWithLang } from './speech.ts';
+import { latinizeForSpeech } from './latinize.ts';
 import {
   isTargetLang,
   langConfig,
   LATIN_TRANSLIT_LANGS,
+  NATIVE_LATIN_LANGS,
   type TargetLang,
   type Code,
 } from '../mode-utils.ts';
@@ -312,6 +314,17 @@ export function speakForCode(
     if (translit && LATIN_TRANSLIT_LANGS.has(code)) {
       btn?.classList.add('approx');
       speak(translit, btn);
+      return;
+    }
+    // NATIVE_LATIN_LANGS have no separate Entry[2] translit field — the
+    // target-language `text` itself (word or full sentence, whichever the
+    // caller passed) is already plain Latin script, just possibly with
+    // diacritics an English voice mishandles. latinizeForSpeech() strips
+    // those live, working for words and sentences alike with no extra
+    // per-word data needed.
+    if (text && NATIVE_LATIN_LANGS.has(code)) {
+      btn?.classList.add('approx');
+      speak(latinizeForSpeech(text, code), btn);
       return;
     }
     speak(fallbackEnText, btn);

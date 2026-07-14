@@ -5,20 +5,24 @@ const mockUkVoice = { name: 'Ukrainian', lang: 'uk-UA' } as SpeechSynthesisVoice
 
 const getSelectedHeVoice = vi.fn<() => SpeechSynthesisVoice | null>();
 const getSelectedFrVoice = vi.fn<() => SpeechSynthesisVoice | null>();
+const getSelectedSvVoice = vi.fn<() => SpeechSynthesisVoice | null>();
 const getSelectedUkVoice = vi.fn<() => SpeechSynthesisVoice | null>();
 
 const speak = vi.fn<(text: string, btn: HTMLElement | null) => void>();
 const _speakWithLang = vi.fn<(text: string, lang: string, btn: HTMLElement | null) => void>();
 
-// he has a Latin-script Entry[2] transliteration (LATIN_TRANSLIT_LANGS member);
-// fr's Entry[2] is IPA (not in LATIN_TRANSLIT_LANGS) — chosen specifically to
-// exercise both sides of the translit-fallback gate in speakForCode().
+// he has a Latin-script Entry[2] transliteration (LATIN_TRANSLIT_LANGS
+// member); fr's Entry[2] is IPA (not in LATIN_TRANSLIT_LANGS); sv has no
+// Entry[2] at all (NATIVE_LATIN_LANGS member, already Latin-script) —
+// chosen specifically to exercise all three branches of speakForCode()'s
+// no-native-voice fallback.
 vi.mock('../../js/features/voice/voice.tsx', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../js/features/voice/voice.tsx')>();
   return {
     ...actual,
     getSelectedHeVoice: (...a: unknown[]) => getSelectedHeVoice(...(a as [])),
     getSelectedFrVoice: (...a: unknown[]) => getSelectedFrVoice(...(a as [])),
+    getSelectedSvVoice: (...a: unknown[]) => getSelectedSvVoice(...(a as [])),
     getSelectedUkVoice: (...a: unknown[]) => getSelectedUkVoice(...(a as [])),
   };
 });
@@ -34,6 +38,7 @@ describe('speak-lang.ts', () => {
     vi.resetModules();
     getSelectedHeVoice.mockReset().mockReturnValue(null);
     getSelectedFrVoice.mockReset().mockReturnValue(null);
+    getSelectedSvVoice.mockReset().mockReturnValue(null);
     getSelectedUkVoice.mockReset().mockReturnValue(null);
     speak.mockReset();
     _speakWithLang.mockReset();
@@ -92,6 +97,36 @@ describe('speak-lang.ts', () => {
 
     getSelectedHeVoice.mockReturnValue(mockHeVoice);
     speakForCode('he', 'שלום', 'hello', btn, 'shalom');
+    expect(btn.classList.contains('approx')).toBe(false);
+  });
+
+  it('falls back to reading the diacritic-stripped target-language text via the English voice for a NATIVE_LATIN_LANGS member with no native voice', async () => {
+    getSelectedSvVoice.mockReturnValue(null);
+    const { speakForCode } = await load();
+    const btn = document.createElement('button');
+    // No translit param — sv has no Entry[2], entryFor() would give ''.
+    // Uses a real diacritic (ä) to prove latinizeForSpeech() actually runs,
+    // not just that the raw word happens to pass through unchanged.
+    speakForCode('sv', 'välsignelse', 'blessing', btn);
+    expect(_speakWithLang).not.toHaveBeenCalled();
+    expect(speak).toHaveBeenCalledWith('valsignelse', btn);
+    expect(btn.classList.contains('approx')).toBe(true);
+  });
+
+  it('speaks a full sentence via the same NATIVE_LATIN_LANGS fallback, diacritics stripped, not just a single word', async () => {
+    getSelectedSvVoice.mockReturnValue(null);
+    const { speakForCode } = await load();
+    const btn = document.createElement('button');
+    speakForCode('sv', 'Hunden sprang över den vackra ängen.', 'The dog ran over the beautiful meadow.', btn);
+    expect(speak).toHaveBeenCalledWith('Hunden sprang over den vackra angen.', btn);
+  });
+
+  it('speaks natively for a NATIVE_LATIN_LANGS member when a browser voice exists', async () => {
+    getSelectedSvVoice.mockReturnValue({ name: 'Swedish', lang: 'sv-SE' } as SpeechSynthesisVoice);
+    const { speakForCode } = await load();
+    const btn = document.createElement('button');
+    speakForCode('sv', 'hund', 'dog', btn);
+    expect(_speakWithLang).toHaveBeenCalledWith('hund', 'sv-SE', btn);
     expect(btn.classList.contains('approx')).toBe(false);
   });
 
