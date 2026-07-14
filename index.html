@@ -39,10 +39,28 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      preconnect alone only shortens the connection, not the block: a plain
+      <link rel="stylesheet"> to a cross-origin URL still holds up first
+      paint until it loads (display=swap in the URL only controls how each
+      @font-face behaves once that CSS is already applied — it does nothing
+      about the link itself being render-blocking). Loaded as a non-blocking
+      preload instead, swapped to an active stylesheet once it arrives —
+      the standard pattern (web.dev "defer non-critical CSS"), same result
+      (Google Fonts CSS applied) without holding up the first paint on it.
+    -->
     <link
-      rel="stylesheet"
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Cinzel+Decorative:wght@400;700;900&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Cinzel+Decorative:wght@400;700;900&display=swap"
+      />
+    </noscript>
     <script>
       if ('serviceWorker' in navigator)
         window.addEventListener('load', function () {
@@ -1289,7 +1307,7 @@
           </div>
 
           <div class="settings-footer">
-            © 2026 Vymova · v1.322.14 ·
+            © 2026 Vymova · v1.322.15 ·
             <a
               href="./privacy.html"
               target="_blank"
