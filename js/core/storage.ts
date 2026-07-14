@@ -57,6 +57,33 @@ export function _lzLoad<T>(key: string, fallback: T): T {
   }
 }
 
+// ── Plain (uncompressed) JSON load/save ─────────────────────────
+// Same corruption guard as _lzLoad, for the many localStorage keys that
+// store plain JSON without LZ compression (game stats, caches, ...). A bare
+// try/catch around JSON.parse alone does NOT catch every corruption case:
+// JSON.parse succeeds (no throw) on a stored value like the literal string
+// "null" or "5", returning `null`/`5` instead of the expected object/array —
+// callers that then do `parsed.someField` or `parsed.some(...)` crash on
+// that, not on the parse itself. This checks the parsed shape too.
+export function _jsonLoad<T>(key: string, fallback: T): T {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    const parsed: unknown = JSON.parse(raw);
+    if (typeof parsed !== 'object' || parsed === null) return fallback;
+    if (Array.isArray(fallback) !== Array.isArray(parsed)) return fallback;
+    return parsed as T;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+export function _jsonSave(key: string, data: unknown): void {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch (e) {}
+}
+
 // ── Public API ────────────────────────────────────────────────
 
 export function saveKnown(known: Set<string>): void {

@@ -1,16 +1,11 @@
 ﻿// Vymova — js/features/bookmarks.ts
 import { t } from './i18n.ts';
+import { _jsonLoad, _jsonSave } from '../core/storage.ts';
 
-let _bm = new Set<string>();
-try {
-  const arr = JSON.parse(localStorage.getItem('ew_bookmarks') ?? '[]') as string[];
-  _bm = new Set(arr);
-} catch (e) {}
+const _bm = new Set<string>(_jsonLoad<string[]>('ew_bookmarks', []));
 
 function _save(): void {
-  try {
-    localStorage.setItem('ew_bookmarks', JSON.stringify([..._bm]));
-  } catch (e) {}
+  _jsonSave('ew_bookmarks', [..._bm]);
 }
 
 export function isBookmarked(w: string): boolean {

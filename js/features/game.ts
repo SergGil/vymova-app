@@ -2,6 +2,7 @@
 // Game data, progress tracking, levels & achievements data
 import { today, localDateStr } from '../core/today.ts';
 import { getMaxWordsForLearnLang, ALL_TARGET_LANGS } from './mode-utils.ts';
+import { _jsonLoad, _jsonSave } from '../core/storage.ts';
 import type { GameData, Level, ModeStats, ModeAccuracy, ModeAccEntry } from '../../src/types.js';
 
 // ── Session caches ─────────────────────────────────────────────
@@ -25,47 +26,27 @@ export function invalidateGameCaches(): void {
 }
 
 function loadGameDataRaw(): GameData {
-  try {
-    return JSON.parse(localStorage.getItem(_langKey('ew_game')) ?? '{}') as GameData;
-  } catch (e) {
-    return {} as GameData;
-  }
+  return _jsonLoad<GameData>(_langKey('ew_game'), {} as GameData);
 }
 
 export function getLangStreak(lang: string): number {
   const key = lang === 'en' ? 'ew_game' : `ew_game_${lang}`;
-  try {
-    const d = JSON.parse(localStorage.getItem(key) ?? '{}') as GameData;
-    return d.streak ?? 0;
-  } catch {
-    return 0;
-  }
+  return _jsonLoad<GameData>(key, {} as GameData).streak ?? 0;
 }
 
 export function getLangXp(lang: string): number {
   const key = lang === 'en' ? 'ew_game' : `ew_game_${lang}`;
-  try {
-    const d = JSON.parse(localStorage.getItem(key) ?? '{}') as GameData;
-    return d.xp ?? 0;
-  } catch {
-    return 0;
-  }
+  return _jsonLoad<GameData>(key, {} as GameData).xp ?? 0;
 }
 
 export function getLangAchCount(lang: string): number {
   const key = lang === 'en' || lang === 'ua' ? 'ew_ach' : `ew_ach_${lang}`;
-  try {
-    return (JSON.parse(localStorage.getItem(key) ?? '[]') as string[]).length;
-  } catch {
-    return 0;
-  }
+  return _jsonLoad<string[]>(key, []).length;
 }
 
 export function saveGameData(d: GameData): void {
   _gameCache = d;
-  try {
-    localStorage.setItem(_langKey('ew_game'), JSON.stringify(d));
-  } catch (e) {}
+  _jsonSave(_langKey('ew_game'), d);
 }
 
 export function getGameData(): GameData {
@@ -177,11 +158,7 @@ export function getWeeklyTotal(): number {
 export function getDailyStats(): Record<string, number> {
   const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
   if (!_dailyCache || _dailyCachedLang !== lang) {
-    try {
-      _dailyCache = JSON.parse(localStorage.getItem(_langKey('ew_daily')) ?? '{}');
-    } catch (e) {
-      _dailyCache = {};
-    }
+    _dailyCache = _jsonLoad<Record<string, unknown>>(_langKey('ew_daily'), {});
     _dailyCachedLang = lang;
   }
   return Object.assign({}, _dailyCache as Record<string, number>);
@@ -190,9 +167,7 @@ export function getDailyStats(): Record<string, number> {
 export function saveDailyStats(d: Record<string, number>): void {
   _dailyCache = Object.assign({}, d);
   _dailyCachedLang = localStorage.getItem('ew_learn_lang') ?? 'en';
-  try {
-    localStorage.setItem(_langKey('ew_daily'), JSON.stringify(d));
-  } catch (e) {}
+  _jsonSave(_langKey('ew_daily'), d);
 }
 
 export function recordDailyWord(): void {
@@ -212,21 +187,15 @@ let _modeStatsCachedLang: string | null = null;
 export function getModeStats(): ModeStats {
   const lang = localStorage.getItem('ew_learn_lang') ?? 'en';
   if (_modeStatsCache && _modeStatsCachedLang === lang) return Object.assign({}, _modeStatsCache);
-  try {
-    _modeStatsCache = JSON.parse(localStorage.getItem(_langKey('ew_modes')) ?? '{}') as ModeStats;
-    _modeStatsCachedLang = lang;
-    return Object.assign({}, _modeStatsCache);
-  } catch (e) {
-    return {};
-  }
+  _modeStatsCache = _jsonLoad<ModeStats>(_langKey('ew_modes'), {});
+  _modeStatsCachedLang = lang;
+  return Object.assign({}, _modeStatsCache);
 }
 
 export function saveModeStats(m: ModeStats): void {
   _modeStatsCache = Object.assign({}, m);
   _modeStatsCachedLang = localStorage.getItem('ew_learn_lang') ?? 'en';
-  try {
-    localStorage.setItem(_langKey('ew_modes'), JSON.stringify(m));
-  } catch (e) {}
+  _jsonSave(_langKey('ew_modes'), m);
 }
 
 export function invalidateModeStatsCache(): void {
@@ -252,23 +221,17 @@ const ACH_ID_ALIASES: Record<string, string> = {
 };
 
 export function loadUnlocked(): string[] {
-  try {
-    const raw = JSON.parse(localStorage.getItem(_achKey()) ?? '[]') as string[];
-    if (raw.some((id) => id in ACH_ID_ALIASES)) {
-      const migrated = Array.from(new Set(raw.map((id) => ACH_ID_ALIASES[id] ?? id)));
-      saveUnlocked(migrated);
-      return migrated;
-    }
-    return raw;
-  } catch (e) {
-    return [];
+  const raw = _jsonLoad<string[]>(_achKey(), []);
+  if (raw.some((id) => id in ACH_ID_ALIASES)) {
+    const migrated = Array.from(new Set(raw.map((id) => ACH_ID_ALIASES[id] ?? id)));
+    saveUnlocked(migrated);
+    return migrated;
   }
+  return raw;
 }
 
 export function saveUnlocked(arr: string[]): void {
-  try {
-    localStorage.setItem(_achKey(), JSON.stringify(arr));
-  } catch (e) {}
+  _jsonSave(_achKey(), arr);
 }
 
 // ── Achievement unlock timestamps (for the "NEW" badge) ────────
@@ -277,11 +240,7 @@ function _achTsKey(): string {
 }
 
 export function loadUnlockedTimestamps(): Record<string, number> {
-  try {
-    return JSON.parse(localStorage.getItem(_achTsKey()) ?? '{}') as Record<string, number>;
-  } catch (e) {
-    return {};
-  }
+  return _jsonLoad<Record<string, number>>(_achTsKey(), {});
 }
 
 export function markUnlockedNow(ids: string[]): void {
@@ -291,9 +250,7 @@ export function markUnlockedNow(ids: string[]): void {
   ids.forEach((id) => {
     ts[id] = now;
   });
-  try {
-    localStorage.setItem(_achTsKey(), JSON.stringify(ts));
-  } catch (e) {}
+  _jsonSave(_achTsKey(), ts);
 }
 
 // ── Full progress reset (every learn language) ──────────────────
@@ -417,11 +374,7 @@ export function recordModeComplete(mode: string): void {
 
 // ── Mode accuracy tracking ─────────────────────────────────────
 export function getModeAccuracy(): ModeAccuracy {
-  try {
-    return JSON.parse(localStorage.getItem(_langKey('ew_mode_acc')) ?? '{}') as ModeAccuracy;
-  } catch (e) {
-    return {};
-  }
+  return _jsonLoad<ModeAccuracy>(_langKey('ew_mode_acc'), {});
 }
 
 export function recordModeAnswer(mode: string, ok: boolean): void {
@@ -430,29 +383,18 @@ export function recordModeAnswer(mode: string, ok: boolean): void {
   if (ok) entry.ok++;
   else entry.err++;
   acc[mode] = entry;
-  try {
-    localStorage.setItem(_langKey('ew_mode_acc'), JSON.stringify(acc));
-  } catch (e) {}
+  _jsonSave(_langKey('ew_mode_acc'), acc);
 }
 
 // ── Mistake tracking (cross-mode "hard words") ─────────────────
 export function getMistakes(): Record<string, number> {
-  try {
-    return JSON.parse(localStorage.getItem(_langKey('ew_mistakes')) ?? '{}') as Record<
-      string,
-      number
-    >;
-  } catch (e) {
-    return {};
-  }
+  return _jsonLoad<Record<string, number>>(_langKey('ew_mistakes'), {});
 }
 
 export function recordMistake(word: string): Promise<void> {
   const m = getMistakes();
   m[word] = (m[word] ?? 0) + 1;
-  try {
-    localStorage.setItem(_langKey('ew_mistakes'), JSON.stringify(m));
-  } catch (e) {}
+  _jsonSave(_langKey('ew_mistakes'), m);
   // A wrong answer in any practice mode counts as an SRS lapse too, not
   // just "Не знаю" on the main flashcard — otherwise mode mistakes never
   // show up as due reviews or in the weak-words list. Dynamic import avoids
@@ -467,9 +409,7 @@ export function clearMistake(word: string): void {
   const m = getMistakes();
   if (!(word in m)) return;
   delete m[word];
-  try {
-    localStorage.setItem(_langKey('ew_mistakes'), JSON.stringify(m));
-  } catch (e) {}
+  _jsonSave(_langKey('ew_mistakes'), m);
   const d = getGameData();
   d.mistakesFixed = (d.mistakesFixed || 0) + 1;
   saveGameData(d);

@@ -318,6 +318,25 @@ describe('getGameData() + saveGameData()', () => {
     const d = getGameData();
     expect(d.goalMax).toBe(20); // default applied after corrupt read
   });
+
+  // A stored literal "null" is syntactically valid JSON — JSON.parse doesn't
+  // throw for it, so a bare try/catch around JSON.parse alone (what game.ts
+  // used to do before switching to _jsonLoad()) doesn't catch this: it
+  // parses to `null`, and `getGameData()` unconditionally does `d.goalMax`
+  // right after, which used to throw "Cannot read properties of null".
+  it('does not throw and applies defaults when the stored value is the literal "null"', () => {
+    lsMock.setItem('ew_game', 'null');
+    invalidateGameCaches();
+    expect(() => getGameData()).not.toThrow();
+    expect(getGameData().goalMax).toBe(20);
+  });
+
+  it('does not throw when the stored value is a bare number (valid JSON, wrong shape)', () => {
+    lsMock.setItem('ew_game', '5');
+    invalidateGameCaches();
+    expect(() => getGameData()).not.toThrow();
+    expect(getGameData().goalMax).toBe(20);
+  });
 });
 
 // ── loadUnlocked / saveUnlocked ───────────────────────────────
@@ -351,6 +370,16 @@ describe('loadUnlocked() + saveUnlocked()', () => {
 
   it('returns empty array on corrupted JSON', () => {
     lsMock.setItem('ew_ach', 'not-valid-json!!!');
+    expect(loadUnlocked()).toEqual([]);
+  });
+
+  // Same "valid JSON, wrong shape" case as getGameData() above: a stored
+  // literal "null" parses without throwing, and loadUnlocked() used to call
+  // `.some(...)` on it straight after — which throws on null, not caught by
+  // a bare JSON.parse try/catch.
+  it('returns empty array (not a throw) when the stored value is the literal "null"', () => {
+    lsMock.setItem('ew_ach', 'null');
+    expect(() => loadUnlocked()).not.toThrow();
     expect(loadUnlocked()).toEqual([]);
   });
 

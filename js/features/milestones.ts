@@ -4,11 +4,9 @@
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { getGameData } from './game.ts';
 import { t } from './i18n.ts';
+import { _jsonLoad, _jsonSave } from '../core/storage.ts';
 
-let _shown: Record<string, number> = {};
-try {
-  _shown = JSON.parse(localStorage.getItem('ew_milestones') ?? '{}');
-} catch (e) {}
+const _shown: Record<string, number> = _jsonLoad('ew_milestones', {});
 
 const MILESTONES = [
   { id: 'w100', check: () => getKnownSnapshot('en').size >= 100, key: 'milestone.w100' },
@@ -36,9 +34,7 @@ export function checkMilestones(): void {
   MILESTONES.forEach((m) => {
     if (!_shown[m.id] && m.check()) {
       _shown[m.id] = 1;
-      try {
-        localStorage.setItem('ew_milestones', JSON.stringify(_shown));
-      } catch (e) {}
+      _jsonSave('ew_milestones', _shown);
       showMilestone(t(m.key));
     }
   });

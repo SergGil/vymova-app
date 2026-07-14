@@ -2,6 +2,8 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   _lzSave,
   _lzLoad,
+  _jsonLoad,
+  _jsonSave,
   saveKnown,
   loadKnown,
   saveKnownLang,
@@ -57,6 +59,50 @@ describe('_lzLoad() — corruption fallback', () => {
   it('preserves _lz marker after successful save', () => {
     _lzSave('mykey', { a: 1 });
     expect(lsMock.getItem('mykey_lz')).toBe('1');
+  });
+});
+
+// ── _jsonLoad() — corruption fallback for uncompressed JSON keys ─
+// The many hand-rolled `JSON.parse(localStorage.getItem(k) ?? '{}')` call
+// sites this replaces (game.ts, images.ts, bookmarks.ts, milestones.ts) each
+// wrapped that in a try/catch of their own — which stops a SyntaxError from
+// a truncated/malformed write, but NOT a stored value that's syntactically
+// valid JSON yet the wrong shape (a literal "null", a bare number, ...).
+// JSON.parse doesn't throw for those, so callers that then do
+// `parsed.someField` crashed downstream instead. This suite pins that fix.
+describe('_jsonLoad() — corruption fallback', () => {
+  it('returns fallback on JSON.parse failure (malformed JSON)', () => {
+    lsMock.setItem('bad_json', '{not valid json}');
+    expect(_jsonLoad('bad_json', { default: 1 })).toEqual({ default: 1 });
+  });
+
+  it('returns fallback when the stored value parses to null (valid JSON, wrong shape)', () => {
+    lsMock.setItem('null_value', 'null');
+    expect(_jsonLoad('null_value', { streak: 0 })).toEqual({ streak: 0 });
+  });
+
+  it('returns fallback when the stored value parses to a bare number', () => {
+    lsMock.setItem('number_value', '5');
+    expect(_jsonLoad('number_value', [] as string[])).toEqual([]);
+  });
+
+  it('returns fallback when the stored value parses to a bare string', () => {
+    lsMock.setItem('string_value', '"hello"');
+    expect(_jsonLoad('string_value', {})).toEqual({});
+  });
+
+  it('returns fallback on an object/array shape mismatch', () => {
+    lsMock.setItem('shape_mismatch', '{"a":1}');
+    expect(_jsonLoad('shape_mismatch', [] as unknown[])).toEqual([]);
+  });
+
+  it('returns fallback when nothing is stored yet', () => {
+    expect(_jsonLoad('missing_key', { ok: true })).toEqual({ ok: true });
+  });
+
+  it('round-trips a real value written by _jsonSave', () => {
+    _jsonSave('round_trip', { xp: 42, streak: 3 });
+    expect(_jsonLoad('round_trip', {})).toEqual({ xp: 42, streak: 3 });
   });
 });
 

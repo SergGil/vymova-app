@@ -1,20 +1,13 @@
 // Vymova — js/core/images.ts
 // Image loading with TypeScript types
+import { _jsonLoad, _jsonSave } from './storage.ts';
 
 // ── In-memory cache ───────────────────────────────────────────
-export let _imgCache: Record<string, string | null> = {};
-try {
-  _imgCache = JSON.parse(localStorage.getItem('ew_wiki') ?? '{}');
-} catch (e) {
-  console.warn('[imgCache] Load failed:', (e as Error).message);
-}
+export const _imgCache: Record<string, string | null> = _jsonLoad('ew_wiki', {});
 
 const IMG_TTL_MS = 8 * 3600 * 1000;
 
-let _imgCacheTs: Record<string, number> = {};
-try {
-  _imgCacheTs = JSON.parse(localStorage.getItem('ew_wiki_ts') ?? '{}');
-} catch (e) {}
+const _imgCacheTs: Record<string, number> = _jsonLoad('ew_wiki_ts', {});
 
 function _saveImgTs(word: string): void {
   _imgCacheTs[word] = Date.now();
@@ -25,9 +18,7 @@ function _saveImgTs(word: string): void {
       .slice(0, 200)
       .forEach((k) => delete _imgCacheTs[k]);
   }
-  try {
-    localStorage.setItem('ew_wiki_ts', JSON.stringify(_imgCacheTs));
-  } catch (e) {}
+  _jsonSave('ew_wiki_ts', _imgCacheTs);
 }
 
 function _isImgExpired(word: string): boolean {
@@ -73,9 +64,7 @@ function _saveImgCache(): void {
   if (_idb) return;
   const keys = Object.keys(_imgCache);
   if (keys.length > 800) keys.slice(0, keys.length - 800).forEach((k) => delete _imgCache[k]);
-  try {
-    localStorage.setItem('ew_wiki', JSON.stringify(_imgCache));
-  } catch (e) {}
+  _jsonSave('ew_wiki', _imgCache);
 }
 
 // ── Public helpers ────────────────────────────────────────────
