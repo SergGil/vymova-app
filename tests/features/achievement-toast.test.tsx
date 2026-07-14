@@ -6,7 +6,20 @@ import type { Achievement } from '../../src/types.js';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const ach: Achievement = { id: 'first_word', icon: '🥇' } as Achievement;
+// name/hint are always real strings on a genuine Achievement (see
+// data/achievements.ts) — filled in here (not just id/icon) so this
+// fixture doesn't rely on i18next's "no translation found, show the raw
+// key" fallback behavior to produce non-empty toast text, which masked a
+// real bug: achName()/achHint() short-circuit for a 'ua'-active-language
+// caller and return a.name/a.hint directly, so those need to actually be
+// populated to render anything.
+const ach: Achievement = {
+  id: 'first_word',
+  icon: '🥇',
+  name: 'Перше слово',
+  cat: 'basics',
+  hint: 'Дізнайся своє перше слово',
+} as Achievement;
 
 let activeRoot: Root | null = null;
 

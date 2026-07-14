@@ -97,33 +97,58 @@ function applyHtmlLang(lang: Lang): void {
   document.documentElement.lang = HTML_LANG[lang] ?? 'en';
 }
 
-// ── Boot: pre-load the active locale before i18next.init() ────
+// ── Boot: pre-load the active locale (+ the fallback locale) before i18next.init() ────
 
 const initialLang = storedLang();
 
-if (initialLang !== 'ua') {
-  await ensureLocaleLoaded(initialLang);
+// 'en' must always be loaded before i18next.init() below, since it's the
+// fallback language (see fallbackLng) — otherwise, for any active language
+// other than English or Ukrainian, a missing key would have no fallback
+// resources to resolve against at all (i18next.exists() false, t() returns
+// the raw key) instead of falling through to readable English text.
+// Deduped via Set + loaded in parallel so an active language that isn't
+// English or Ukrainian doesn't wait for two sequential network fetches.
+const _localesToPreload = new Set<Lang>([initialLang, 'en']);
+_localesToPreload.delete('ua'); // always statically bundled below, never fetched
+await Promise.all([..._localesToPreload].map((l) => ensureLocaleLoaded(l)));
+
+function _bundleResources(b: LocaleBundle): Record<string, unknown> {
+  return {
+    translation: b.translation,
+    dates: b.dates,
+    levels: b.levels,
+    categories: b.categories,
+    skills: b.skills,
+    achievements: b.achievements,
+  };
 }
 
-// Build the initial resources object (ua always present; active lang if loaded)
+// Build the initial resources object: ua always present, plus the active
+// language and 'en' (the fallback) if either had to be loaded above.
 const _initResources: Record<string, Record<string, unknown>> = {
   ua: { translation: ua as Record<string, unknown>, dates: uaDates as Record<string, unknown> },
 };
-const _activeBundle = LOADED[initialLang as NonUaLang];
-if (_activeBundle) {
-  _initResources[initialLang] = {
-    translation: _activeBundle.translation,
-    dates: _activeBundle.dates,
-    levels: _activeBundle.levels,
-    categories: _activeBundle.categories,
-    skills: _activeBundle.skills,
-    achievements: _activeBundle.achievements,
-  };
+for (const l of new Set<Lang>([initialLang, 'en'])) {
+  const bundle = LOADED[l as NonUaLang];
+  if (bundle) _initResources[l] = _bundleResources(bundle);
 }
 
 i18next.init({
   lng: initialLang,
-  fallbackLng: 'ua',
+  // Ukrainian is this app's original/native language and has full coverage,
+  // but it's an unexpected fallback for the overwhelming majority of users:
+  // only 7 of the 136 dictionary languages have a matching UI locale, so
+  // most users studying, say, Hindi never see their own UI language at all
+  // — falling back to Ukrainian for a missing key was actively confusing
+  // for them (e.g. an English speaker learning Hindi, with UI set to
+  // English, seeing Ukrainian text for any gap). English is the more
+  // broadly understood default. Verified locales/ua's *extra* keys beyond
+  // English (accusative language-name forms, Ukrainian-specific plural
+  // categories) are only ever looked up while the active language literally
+  // is 'ua' (see langAcc() in lang-pair-select.tsx), so they're never
+  // reachable via fallback resolution from another active language anyway
+  // — switching the fallback target doesn't strand them.
+  fallbackLng: 'en',
   keySeparator: false,
   nsSeparator: false,
   ns: ['translation', 'dates', 'levels', 'categories', 'skills', 'achievements'],
@@ -183,27 +208,44 @@ export function dowNames(): string[] {
   return (i18next.getResource(lang, 'dates', 'dows') as string[] | undefined) ?? uaDates.dows;
 }
 
+// levels/categories/skills/achievements have no 'ua' resource bundle at all
+// (unlike translation/dates) — the Ukrainian text for these lives directly
+// in the source data (game.ts's LEVELS, data/achievements.ts, ...) and is
+// only ever reached via i18next.t()'s `defaultValue` fallback. That relied
+// on fallbackLng matching the active 'ua' language, so the lookup harmlessly
+// "failed" (no ua resources either way) and defaultValue kicked in. Now
+// that fallbackLng is 'en' (see i18next.init() above) and en DOES have real
+// translations for these namespaces, that same lookup would *succeed* via
+// the fallback — pre-empting defaultValue and showing English to a
+// Ukrainian-UI user instead of their own language. Guarded explicitly here,
+// same pattern as langAcc() in lang-pair-select.tsx for the same reason.
 export function levelName(name: string): string {
+  if (getLang() === 'ua') return name;
   return i18next.t(name, { ns: 'levels', defaultValue: name });
 }
 
 export function categoryName(name: string): string {
+  if (getLang() === 'ua') return name;
   return i18next.t(name, { ns: 'categories', defaultValue: name });
 }
 
 export function skillName(name: string): string {
+  if (getLang() === 'ua') return name;
   return i18next.t(name, { ns: 'skills', defaultValue: name });
 }
 
 export function achName(a: { id: string; name: string }): string {
+  if (getLang() === 'ua') return a.name;
   return i18next.t(`${a.id}_name`, { ns: 'achievements', defaultValue: a.name });
 }
 
 export function achHint(a: { id: string; hint: string }): string {
+  if (getLang() === 'ua') return a.hint;
   return i18next.t(`${a.id}_hint`, { ns: 'achievements', defaultValue: a.hint });
 }
 
 export function achCatName(cat: string): string {
+  if (getLang() === 'ua') return cat;
   return i18next.t(cat, { ns: 'achievements', defaultValue: cat });
 }
 
