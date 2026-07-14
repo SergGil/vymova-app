@@ -178,6 +178,97 @@ describe('ghost-race.tsx (GhostRacePage)', () => {
     vi.useRealTimers();
   });
 
+  it('a stale feedback timeout from a race closed-and-restarted mid-feedback does not skip the new race\'s first question', () => {
+    vi.useFakeTimers();
+    act(() => {
+      openGhostRace();
+    });
+    act(() => {
+      findButton(container, /старт|почати/i).click();
+    });
+    // Answer race #1's first question, but close and restart before its
+    // 350ms feedback timeout (which bumps qIdx) has a chance to fire.
+    const pair = currentPair(container);
+    const correctBtn = correctOptionBtn(container, pair);
+    act(() => {
+      correctBtn.click();
+    });
+    const closeBtn = container.querySelector<HTMLButtonElement>('button[aria-label]')!;
+    act(() => {
+      closeBtn.click();
+    });
+    act(() => {
+      openGhostRace();
+    });
+    act(() => {
+      findButton(container, /старт|почати/i).click();
+    });
+    // Race #2's first question, captured before the stale timeout can fire —
+    // this is the word qIdx must still point at afterward. (Not asserted via
+    // the "X/10" progress text: that's driven by checkpoints.length, which
+    // only grows on an actual answer, not by qIdx — so it can't tell an
+    // untouched question 0 apart from qIdx having silently skipped to 1.)
+    const race2Q0 = currentPair(container);
+    // Let race #1's now-stale timeout run.
+    act(() => {
+      vi.advanceTimersByTime(350);
+    });
+    // Race #2 must still be showing its first word, not silently bumped past
+    // it by the leaked timeout from race #1.
+    expect(currentPair(container)).toBe(race2Q0);
+    expect(container.textContent).toContain('0/10');
+    expect(container.querySelectorAll('.quiz-option')).toHaveLength(4);
+    vi.useRealTimers();
+  });
+
+  it('a stale feedback timeout from race #1\'s last question does not yank a restarted race #2 to the result screen', () => {
+    vi.useFakeTimers();
+    act(() => {
+      openGhostRace();
+    });
+    act(() => {
+      findButton(container, /старт|почати/i).click();
+    });
+    // Play race #1 through its first 9 questions normally.
+    for (let i = 0; i < 9; i++) {
+      const pair = currentPair(container);
+      const correctBtn = correctOptionBtn(container, pair);
+      act(() => {
+        correctBtn.click();
+      });
+      act(() => {
+        vi.advanceTimersByTime(350);
+      });
+    }
+    // Answer the 10th (last) question, then close and restart immediately —
+    // before the stale timeout (whose closure sees qIdx+1 >= deck.length,
+    // i.e. "finish the race") fires.
+    const lastPair = currentPair(container);
+    const lastCorrectBtn = correctOptionBtn(container, lastPair);
+    act(() => {
+      lastCorrectBtn.click();
+    });
+    const closeBtn = container.querySelector<HTMLButtonElement>('button[aria-label]')!;
+    act(() => {
+      closeBtn.click();
+    });
+    act(() => {
+      openGhostRace();
+    });
+    act(() => {
+      findButton(container, /старт|почати/i).click();
+    });
+    // Let race #1's stale "finish" timeout run.
+    act(() => {
+      vi.advanceTimersByTime(350);
+    });
+    // Race #2 must still be playing its first question — not yanked to the
+    // result screen by race #1's leaked finishRace() call.
+    expect(container.textContent).toContain('0/10');
+    expect(container.querySelectorAll('.quiz-option')).toHaveLength(4);
+    vi.useRealTimers();
+  });
+
   it('Escape closes the page', () => {
     act(() => {
       openGhostRace();

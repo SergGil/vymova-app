@@ -120,11 +120,21 @@ export function GhostRacePage(): ReactElement {
 
   const startRef = useRef<number | null>(null);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const feedbackRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const stopTick = (): void => {
     if (tickRef.current) {
       clearInterval(tickRef.current);
       tickRef.current = null;
+    }
+    // Also cancels choose()'s pending 350ms feedback timeout, so closing or
+    // restarting mid-feedback can't have it fire into the next session —
+    // stopTick() already runs at every one of those points (goToReady,
+    // session close, startRace's reset, unmount), so it's the one place
+    // that's guaranteed to catch all of them.
+    if (feedbackRef.current) {
+      clearTimeout(feedbackRef.current);
+      feedbackRef.current = null;
     }
   };
 
@@ -212,7 +222,8 @@ export function GhostRacePage(): ReactElement {
     const newCheckpoints = [...checkpoints, now];
     setCheckpoints(newCheckpoints);
 
-    setTimeout(() => {
+    feedbackRef.current = setTimeout(() => {
+      feedbackRef.current = null;
       setSelected(null);
       if (qIdx + 1 >= deck.length) {
         finishRace(newCheckpoints, newOk);
