@@ -838,6 +838,7 @@
   "story.levelLabel": "Niveau {{lvl}}",
   "story.statsLine": "{{n}} hervorgehobene Wörter · {{pct}}% bereits bekannt",
   "story.aiLabel": "✨ KI-Geschichte",
+  "story.savedLabel": "Gespeicherte KI-Geschichten",
   "story.builtinLabel": "Eingebaute Geschichten",
   "story.generateBtn": "✨ Neue Geschichte erstellen",
   "story.generating": "Geschichte wird erstellt…",

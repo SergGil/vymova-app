@@ -1014,6 +1014,7 @@
   "story.levelLabel": "Рівень {{lvl}}",
   "story.statsLine": "{{n}} слів підсвічено · {{pct}}% вже відомі",
   "story.aiLabel": "✨ ШІ-історія",
+  "story.savedLabel": "Збережені ШІ-історії",
   "story.builtinLabel": "Вбудовані історії",
   "story.generateBtn": "✨ Створити нову історію",
   "story.generating": "Створюємо історію…",

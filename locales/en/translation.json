@@ -850,6 +850,7 @@
   "story.levelLabel": "Level {{lvl}}",
   "story.statsLine": "{{n}} words highlighted · {{pct}}% already known",
   "story.aiLabel": "✨ AI story",
+  "story.savedLabel": "Saved AI stories",
   "story.builtinLabel": "Built-in stories",
   "story.generateBtn": "✨ Create a new story",
   "story.generating": "Creating story…",

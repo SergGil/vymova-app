@@ -838,6 +838,7 @@
   "story.levelLabel": "Nivel {{lvl}}",
   "story.statsLine": "{{n}} palabras resaltadas · {{pct}}% ya conocidas",
   "story.aiLabel": "✨ Historia de IA",
+  "story.savedLabel": "Historias de IA guardadas",
   "story.builtinLabel": "Historias integradas",
   "story.generateBtn": "✨ Crear una nueva historia",
   "story.generating": "Creando historia…",

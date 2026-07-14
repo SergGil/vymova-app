@@ -60,29 +60,70 @@ type BuiltinStory = {
 type AiStory = { id: 'ai'; title: string; level: CefrLevel; text: string; source: 'ai' };
 type Story = BuiltinStory | AiStory;
 
-interface AiStoryCacheEntry {
+export interface AiStoryCacheEntry {
+  id: string;
   title: string;
   text: string;
   level: CefrLevel;
   learnLang: string;
   knowLang: string;
+  createdAt: number;
 }
-const AI_STORY_CACHE_KEY = 'ew_ai_story_cache';
+// v2 stores every generated story (capped, oldest evicted first), not just
+// the most recent one — a fresh AI story used to silently overwrite the
+// previous one's cache entry, so it stopped being reachable offline (or
+// with AI_TUTOR_ENABLED off) the moment the user generated a new one.
+export const AI_STORY_CACHE_KEY = 'ew_ai_story_cache_v2';
+// v1's single-entry format — migrated into the v2 list transparently on
+// first read so an existing cached story isn't silently lost, then removed.
+export const AI_STORY_CACHE_KEY_V1 = 'ew_ai_story_cache';
+export const MAX_CACHED_STORIES = 30;
 
-function loadAiStoryCache(): AiStoryCacheEntry | null {
+export function loadAiStoryCacheList(): AiStoryCacheEntry[] {
   try {
     const raw = localStorage.getItem(AI_STORY_CACHE_KEY);
-    return raw ? (JSON.parse(raw) as AiStoryCacheEntry) : null;
+    if (raw) return JSON.parse(raw) as AiStoryCacheEntry[];
   } catch {
-    return null;
+    /* corrupt JSON — fall through to the empty-list default below */
   }
-}
-function saveAiStoryCache(entry: AiStoryCacheEntry): void {
   try {
-    localStorage.setItem(AI_STORY_CACHE_KEY, JSON.stringify(entry));
+    const oldRaw = localStorage.getItem(AI_STORY_CACHE_KEY_V1);
+    if (oldRaw) {
+      const old = JSON.parse(oldRaw) as Omit<AiStoryCacheEntry, 'id' | 'createdAt'>;
+      const migrated: AiStoryCacheEntry[] = [
+        { ...old, id: `${Date.now()}`, createdAt: Date.now() },
+      ];
+      saveAiStoryCacheList(migrated);
+      localStorage.removeItem(AI_STORY_CACHE_KEY_V1);
+      return migrated;
+    }
+  } catch {
+    /* ignore — no usable legacy cache to migrate */
+  }
+  return [];
+}
+
+function saveAiStoryCacheList(list: AiStoryCacheEntry[]): void {
+  try {
+    localStorage.setItem(AI_STORY_CACHE_KEY, JSON.stringify(list));
   } catch {
     /* localStorage unavailable (private mode / quota) — cache is best-effort */
   }
+}
+
+/** Prepends a freshly generated story to the cache list (newest first),
+ * evicting the oldest entries once MAX_CACHED_STORIES is exceeded. */
+export function addAiStoryToCache(
+  entry: Omit<AiStoryCacheEntry, 'id' | 'createdAt'>,
+): AiStoryCacheEntry[] {
+  const newEntry: AiStoryCacheEntry = {
+    ...entry,
+    id: `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+    createdAt: Date.now(),
+  };
+  const updated = [newEntry, ...loadAiStoryCacheList()].slice(0, MAX_CACHED_STORIES);
+  saveAiStoryCacheList(updated);
+  return updated;
 }
 
 /** Calls the same Cloudflare Worker `/chat` proxy as `sendTutorMessage`
@@ -234,7 +275,7 @@ export function StoryPage(): ReactElement {
   const [level, setLevel] = useState<CefrLevel>('A2');
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [cachedAi, setCachedAi] = useState<AiStoryCacheEntry | null>(null);
+  const [cachedList, setCachedList] = useState<AiStoryCacheEntry[]>([]);
   const [, setTick] = useState(0);
 
   const textRef = useRef<HTMLDivElement>(null);
@@ -258,11 +299,12 @@ export function StoryPage(): ReactElement {
       setPopup(null);
       setError(null);
       setCompleted(false);
-      const cache = loadAiStoryCache();
-      setCachedAi(
-        cache && cache.learnLang === getLearnLang() && cache.knowLang === getKnowLang()
-          ? cache
-          : null,
+      const learnLang = getLearnLang();
+      const knowLang = getKnowLang();
+      setCachedList(
+        loadAiStoryCacheList().filter(
+          (e) => e.learnLang === learnLang && e.knowLang === knowLang,
+        ),
       );
       const overlay = document.getElementById('story-mode-overlay');
       if (overlay) overlay.style.display = 'flex';
@@ -305,22 +347,15 @@ export function StoryPage(): ReactElement {
       const knowLang = getKnowLang();
       const { text, title } = await sendStoryRequest(learnLang, knowLang, level);
       if (genRef.current !== myGen) return; // a newer request superseded this one
-      const entry: AiStoryCacheEntry = {
+      const updated = addAiStoryToCache({
         title: title || t('story.untitled'),
         text,
         level,
         learnLang,
         knowLang,
-      };
-      saveAiStoryCache(entry);
-      setCachedAi(entry);
-      setStory({
-        id: 'ai',
-        title: entry.title,
-        level: entry.level,
-        text: entry.text,
-        source: 'ai',
       });
+      setCachedList(updated.filter((e) => e.learnLang === learnLang && e.knowLang === knowLang));
+      setStory({ id: 'ai', title: updated[0].title, level: updated[0].level, text: updated[0].text, source: 'ai' });
       setPopup(null);
     } catch {
       if (genRef.current === myGen) setError(t('story.error'));
@@ -329,15 +364,8 @@ export function StoryPage(): ReactElement {
     }
   };
 
-  const openCachedAi = (): void => {
-    if (!cachedAi) return;
-    setStory({
-      id: 'ai',
-      title: cachedAi.title,
-      level: cachedAi.level,
-      text: cachedAi.text,
-      source: 'ai',
-    });
+  const openCachedStory = (entry: AiStoryCacheEntry): void => {
+    setStory({ id: 'ai', title: entry.title, level: entry.level, text: entry.text, source: 'ai' });
     setPopup(null);
   };
 
@@ -462,6 +490,44 @@ export function StoryPage(): ReactElement {
             {t('story.pickerDesc')}
           </div>
 
+          {/* Previously-generated AI stories stay reachable even when
+              AI_TUTOR_ENABLED is off or the worker is unreachable right
+              now — they're already-fetched text, not a live request. */}
+          {cachedList.length > 0 && (
+            <div style={{ marginBottom: 14 }}>
+              <div
+                style={{ fontWeight: 700, fontSize: '.85rem', color: 'var(--text)', marginBottom: 8 }}
+              >
+                {t('story.savedLabel')}
+              </div>
+              {cachedList.map((entry) => (
+                <button
+                  key={entry.id}
+                  onClick={() => openCachedStory(entry)}
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    textAlign: 'left',
+                    padding: '10px 12px',
+                    marginBottom: 6,
+                    borderRadius: 10,
+                    border: '1.5px solid var(--border)',
+                    background: 'var(--bg)',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                  }}
+                >
+                  <div style={{ fontWeight: 700, fontSize: '.85rem', color: 'var(--text)' }}>
+                    {entry.title}
+                  </div>
+                  <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginTop: 2 }}>
+                    {t('story.levelLabel', { lvl: entry.level })}
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+
           {AI_TUTOR_ENABLED ? (
             <div
               style={{
@@ -502,30 +568,6 @@ export function StoryPage(): ReactElement {
                   </button>
                 ))}
               </div>
-              {cachedAi && (
-                <button
-                  onClick={openCachedAi}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    textAlign: 'left',
-                    padding: '10px 12px',
-                    marginBottom: 8,
-                    borderRadius: 10,
-                    border: '1.5px solid var(--border)',
-                    background: 'var(--bg)',
-                    cursor: 'pointer',
-                    fontFamily: 'inherit',
-                  }}
-                >
-                  <div style={{ fontWeight: 700, fontSize: '.85rem', color: 'var(--text)' }}>
-                    {cachedAi.title}
-                  </div>
-                  <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginTop: 2 }}>
-                    {t('story.levelLabel', { lvl: cachedAi.level })}
-                  </div>
-                </button>
-              )}
               <button
                 onClick={generate}
                 disabled={pending}
