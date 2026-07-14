@@ -1,8 +1,46 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { createHash } from 'node:crypto';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
 
 // In GitHub Actions the base is the repo subpath; locally assets load from root.
 const base = process.env.GITHUB_ACTIONS ? '/vymova-app/' : '/';
+
+// public/sw.js's cache-invalidation strategy hinges entirely on its own
+// `CACHE` version string changing between deploys: the SW-update algorithm
+// only reacts to sw.js's *bytes* differing from what's already registered,
+// and cache-first-with-background-refresh means an already-active SW with a
+// stale cache otherwise keeps serving old JS/CSS/data indefinitely (a
+// forgotten manual `CACHE` bump = no update ever detected). This plugin
+// removes the human "don't forget" step: it hashes every emitted chunk/asset
+// filename (which already carry Rollup's own content hashes, including the
+// pinned data chunks from build.rollupOptions.output.manualChunks below) and
+// writes that as sw.js's CACHE version — so ANY build output change forces a
+// genuinely new SW version, deterministically, with no bump to remember.
+// Exported (not just used below) so tests/build/sw-version-plugin.test.ts can
+// exercise writeBundle() directly against a scratch directory, instead of
+// only being provable via a full `vite build` (slow, and the version string
+// this plugin computes is otherwise never asserted on anywhere).
+export function swVersionPlugin() {
+  return {
+    name: 'sw-version',
+    apply: 'build',
+    writeBundle(options, bundle) {
+      const outDir = options.dir ?? 'dist';
+      const swPath = join(outDir, 'sw.js');
+      if (!existsSync(swPath)) return; // publicDir copy didn't happen (e.g. a partial/lib build)
+      const fileNames = Object.keys(bundle).sort();
+      const hash = createHash('sha256').update(fileNames.join('\n')).digest('hex').slice(0, 12);
+      const swSrc = readFileSync(swPath, 'utf8');
+      const versioned = swSrc.replace(/var CACHE = '[^']*';/, `var CACHE = 'ew-${hash}';`);
+      if (versioned === swSrc) {
+        this.error('sw-version plugin: "var CACHE = \'...\';" not found in public/sw.js — update the regex above if that line changed shape.');
+      }
+      writeFileSync(swPath, versioned);
+    },
+  };
+}
 
 export default defineConfig({
   root: '.',
@@ -24,6 +62,7 @@ export default defineConfig({
         });
       },
     },
+    swVersionPlugin(),
   ],
   build: {
     outDir: 'dist',

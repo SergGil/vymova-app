@@ -1,4 +1,9 @@
-﻿var CACHE = 'ew-v159';
+﻿// Overwritten at build time by the sw-version Vite plugin (vite.config.js)
+// with a hash of that build's output filenames — every deploy gets a
+// genuinely new value with nothing to remember to bump. This literal only
+// matters for `vite dev`/`vite preview` without a build, where it's never
+// rewritten.
+var CACHE = 'ew-dev';
 
 self.addEventListener('install', function(e) {
   // Do NOT skipWaiting() unconditionally here. A brand new visitor (no
@@ -37,10 +42,16 @@ self.addEventListener('fetch', function(e) {
                   'firebasedatabase.app'];
   if (EXTERNAL.some(function(d){ return url.includes(d); })) return;
 
-  // HTML — завжди мережа (свіжий контент), fallback на кеш якщо офлайн
+  // HTML — завжди мережа (свіжий контент), fallback на кеш якщо офлайн.
+  // cache: 'no-store' bypasses the browser's own HTTP cache (a layer this
+  // Cache-Storage-based SW logic can't see or control) — without it, a
+  // Cache-Control header from the host could silently satisfy this "always
+  // network" fetch from that HTTP cache instead of actually hitting the
+  // server, serving stale HTML (and the old hashed asset URLs it references)
+  // with nothing here able to tell the difference.
   if (e.request.mode === 'navigate' || url.includes('.html')) {
     e.respondWith(
-      fetch(e.request).then(function(res) {
+      fetch(e.request, { cache: 'no-store' }).then(function(res) {
         if (res && res.status === 200) {
           var clone = res.clone(); // клонуємо ДО повернення
           caches.open(CACHE).then(function(c) { c.put(e.request, clone); });
