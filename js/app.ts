@@ -11,6 +11,7 @@ import { refreshGameBarLevel as renderLevelBadge } from './features/game-bar-lev
 import { checkAchievements } from './features/render-achievements.ts';
 import { render, setDeck } from './core/card-engine.ts';
 import { shuffle, updateSrsUI } from './core/srs.ts';
+import { _idle } from './features/game.ts';
 import './features/voice/speech.ts';
 
 const savedKnown = _lzLoad('ew_known', []);
@@ -42,11 +43,6 @@ for (const lang of ALL_TARGET_LANGS) {
   setKnownWords(lang, loadKnownLang(lang));
 }
 
-setBaseWords(W.slice() as unknown as WordEntry[]);
-
-// Random card order on each load, so the deck doesn't always start at #1.
-setDeck(shuffle((W as unknown as WordEntry[]).slice()));
-
 try {
   renderGameBar();
 } catch (e) {
@@ -55,4 +51,20 @@ try {
 renderLevelBadge();
 checkAchievements();
 
+// First paint only needs the one word render() is about to show, already
+// sitting in the deck store from card-engine.ts's own module-level
+// setDeckState(W.slice()) — unshuffled, but real, so this is enough to
+// paint immediately.
 render();
+
+// Building the full base-words list and Fisher-Yates-shuffling all ~10k
+// entries is pure overhead on the critical path to that first paint —
+// deferred to right after it instead of blocking the initial render(). The
+// deferred render() swaps in the properly shuffled starting word once it's
+// ready (random card order on each load, so the deck doesn't always start
+// at #1 — the point of the shuffle in the first place).
+_idle(() => {
+  setBaseWords(W.slice() as unknown as WordEntry[]);
+  setDeck(shuffle((W as unknown as WordEntry[]).slice()));
+  render();
+});
