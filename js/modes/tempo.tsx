@@ -7,9 +7,9 @@ import { recordModeComplete, recordMistake, recordModeAnswer } from '../features
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { playSound } from '../core/audio.ts';
-import { speak } from '../features/voice/speech.ts';
+import { speakForCode } from '../features/voice/speak-lang.ts';
 import { t } from '../features/i18n.ts';
-import { entryFor } from '../features/mode-utils.ts';
+import { entryFor, type Code } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang, type LangCode } from '../features/lang-pair-select.tsx';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -20,6 +20,7 @@ type Question = {
   word: string;
   ipa: string;
   frontLang: string;
+  translit: string;
   options: string[];
   answer: string;
   base: string;
@@ -61,7 +62,8 @@ function buildQuestion(deck: WordEntry[], idx: number): Question {
   const learnLang = getLearnLang();
   const frontLang = Math.random() < 0.5 ? learnLang : knowLang;
   const backLang = frontLang === learnLang ? knowLang : learnLang;
-  const frontWord = entryFor(frontLang, w).word;
+  const frontEntry = entryFor(frontLang, w);
+  const frontWord = frontEntry.word;
   const backWord = entryFor(backLang, w).word;
 
   const pool = _shuf(W.slice() as unknown as WordEntry[]);
@@ -80,6 +82,7 @@ function buildQuestion(deck: WordEntry[], idx: number): Question {
     word: frontWord,
     ipa: frontLang === 'en' ? decodeIpa(w[4] ?? '') : '',
     frontLang,
+    translit: frontEntry.translit,
     options: _shuf([backWord, ...wrongs]),
     answer: backWord,
     base: w[0],
@@ -240,7 +243,13 @@ export function TempoPage(): ReactElement {
   const speakWord = (): void => {
     if (!question) return;
     try {
-      speak(question.word, wordRef.current as unknown as HTMLElement);
+      speakForCode(
+        question.frontLang as Code,
+        question.word,
+        question.base,
+        wordRef.current as unknown as HTMLElement,
+        question.translit,
+      );
     } catch (e) {}
   };
 
@@ -447,7 +456,7 @@ export function TempoPage(): ReactElement {
               }}
             >
               {question.word}
-              {question.frontLang === 'en' && (
+              {question.word && (
                 <button className="mode-speak" title={t('common.listen')} onClick={speakWord}>
                   🔊
                 </button>

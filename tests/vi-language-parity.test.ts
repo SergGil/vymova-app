@@ -29,16 +29,7 @@ const root = join(__dirname, '..');
 const read = (rel: string): string => readFileSync(join(root, rel), 'utf8');
 
 describe('Vietnamese is wired into every per-mode translation switch', () => {
-  // spelling-bee.tsx and write.tsx still keep their own per-mode switch, but
-  // only for the example-sentence lookup (getLangSentence) — their word
-  // lookup switch (getWordInLang) was deleted in favor of entryFor(), same
-  // as the other 9 files below.
-  const modeFilesWithOneSwitch = [
-    'js/modes/spelling-bee.tsx',
-    'js/modes/write.tsx',
-    'js/features/duel/duel-deck.ts',
-    'js/features/learning-path.ts',
-  ];
+  const modeFilesWithOneSwitch = ['js/features/duel/duel-deck.ts', 'js/features/learning-path.ts'];
 
   it.each(modeFilesWithOneSwitch)('%s has a case %s: branch alongside case %s:', (file) => {
     const src = read(file);
@@ -46,10 +37,19 @@ describe('Vietnamese is wired into every per-mode translation switch', () => {
     expect(src).toContain("case 'vi':");
   });
 
-  it('fib.tsx has case vi: in both getLangWord and getLangSentence', () => {
-    const src = read('js/modes/fib.tsx');
-    const viCount = (src.match(/case 'vi':/g) ?? []).length;
-    expect(viCount).toBe(2);
+  // fib.tsx/spelling-bee.tsx/write.tsx's getLangWord/getLangSentence used to
+  // each keep their own per-language switch (fib.tsx had both; spelling-bee/
+  // write kept one for the example-sentence lookup after their word-lookup
+  // switch was already deleted — see the "previously-duplicated" test
+  // below). Consolidated onto entryFor() 2026-07-14 alongside the
+  // transliteration-fallback TTS work (see LANGUAGE_PROGRESS.md) — same fix
+  // as the other 9 files, closing the last of this bug class in these 3.
+  it('fib.tsx / spelling-bee.tsx / write.tsx use entryFor() for getLangWord/getLangSentence, with no leftover per-language switch', () => {
+    for (const file of ['js/modes/fib.tsx', 'js/modes/spelling-bee.tsx', 'js/modes/write.tsx']) {
+      const src = read(file);
+      expect(src, file).not.toMatch(/case 'vi':/);
+      expect(src, file).toMatch(/entryFor/);
+    }
   });
 
   // reading.tsx and story.tsx never had their own per-mode switch. quiz.tsx,

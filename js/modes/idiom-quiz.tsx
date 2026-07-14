@@ -7,7 +7,8 @@ import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
-import { speak } from '../features/voice/speech.ts';
+import { speakForCode } from '../features/voice/speak-lang.ts';
+import type { Code } from '../features/mode-utils.ts';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
 import { useModeSession } from '../features/use-mode-session.ts';
 import { _shuf } from '../core/srs.ts';
@@ -262,7 +263,7 @@ export function IdiomQuizPage(): ReactElement {
               title={t('common.listen')}
               onClick={(e) => {
                 try {
-                  speak(question.idiom.phrase, e.currentTarget);
+                  speakForCode(lang as Code, question.idiom.phrase, question.idiom.phrase, e.currentTarget);
                 } catch (err) {}
               }}
             >

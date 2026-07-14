@@ -8,148 +8,9 @@ import { lev } from '../core/distance.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeAnswer, recordMistake } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import { speak as _speak } from '../features/voice/speech.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
-import {
-  entryFor,
-  esEntry,
-  frEntry,
-  itEntry,
-  ptEntry,
-  deEntry,
-  heEntry,
-  arEntry,
-  plEntry,
-  zhEntry,
-  elEntry,
-  jaEntry,
-  trEntry,
-  nlEntry,
-  viEntry,
-  hiEntry,
-  bnEntry,
-  idEntry,
-  pcmEntry,
-  koEntry,
-  faEntry,
-  swEntry,
-  msEntry,
-  thEntry,
-  azEntry,
-  roEntry,
-  huEntry,
-  csEntry,
-  kkEntry,
-  svEntry,
-  kaEntry,
-  hrEntry,
-  srEntry,
-  bsEntry,
-  bgEntry,
-  skEntry,
-  hyEntry,
-  daEntry,
-  fiEntry,
-  noEntry,
-  laEntry,
-  ltEntry,
-  lvEntry,
-  etEntry,
-  slEntry,
-  mkEntry,
-  sqEntry,
-  isEntry,
-  cyEntry,
-  gaEntry,
-  tlEntry,
-  mnEntry,
-  uzEntry,
-  amEntry,
-  eoEntry,
-  taEntry,
-  paEntry,
-  zuEntry,
-  afEntry,
-  kyEntry,
-  tgEntry,
-  tkEntry,
-  ugEntry,
-  euEntry,
-  caEntry,
-  glEntry,
-  mtEntry,
-  lbEntry,
-  htEntry,
-  boEntry,
-  myEntry,
-  kmEntry,
-  loEntry,
-  neEntry,
-  siEntry,
-  urEntry,
-  teEntry,
-  mlEntry,
-  knEntry,
-  mrEntry,
-  guEntry,
-  orEntry,
-  asEntry,
-  sdEntry,
-  psEntry,
-  soEntry,
-  haEntry,
-  yoEntry,
-  igEntry,
-  tiEntry,
-  woEntry,
-  mgEntry,
-  xhEntry,
-  snEntry,
-  nyEntry,
-  fjEntry,
-  smEntry,
-  toEntry,
-  miEntry,
-  hawEntry,
-  jvEntry,
-  suEntry,
-  gdEntry,
-  brEntry,
-  kwEntry,
-  gvEntry,
-  foEntry,
-  ocEntry,
-  coEntry,
-  scEntry,
-  fyEntry,
-  yiEntry,
-  ladEntry,
-  quEntry,
-  gnEntry,
-  ayEntry,
-  dzEntry,
-  dvEntry,
-  tetEntry,
-  beEntry,
-  qyaEntry,
-  sjnEntry,
-  kuEntry,
-  omEntry,
-  lnEntry,
-  bhoEntry,
-  cebEntry,
-  rmEntry,
-  tyEntry,
-  chEntry,
-  mhEntry,
-  pauEntry,
-  nahEntry,
-  nvEntry,
-  tlhEntry,
-  valEntry,
-  dthEntry,
-} from '../features/mode-utils.ts';
+import { entryFor, type Code } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speakForCode } from '../features/voice/speak-lang.ts';
 import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
@@ -161,284 +22,7 @@ const HINTS = 3;
 type Result = 'ok' | 'almost' | 'wrong' | null;
 
 function getLangSentence(w: WordEntry, lang: string): string {
-  switch (lang) {
-    case 'ua':
-      return w[3] ?? '';
-    case 'es':
-      return esEntry(w[0])?.[1] ?? '';
-    case 'fr':
-      return frEntry(w[0])?.[1] ?? '';
-    case 'it':
-      return itEntry(w[0])?.[1] ?? '';
-    case 'pt':
-      return ptEntry(w[0])?.[1] ?? '';
-    case 'de':
-      return deEntry(w[0])?.[1] ?? '';
-    case 'he':
-      return heEntry(w[0])?.[1] ?? '';
-    case 'ar':
-      return arEntry(w[0])?.[1] ?? '';
-    case 'pl':
-      return plEntry(w[0])?.[1] ?? '';
-    case 'zh':
-      return zhEntry(w[0])?.[1] ?? '';
-    case 'el':
-      return elEntry(w[0])?.[1] ?? '';
-    case 'ja':
-      return jaEntry(w[0])?.[1] ?? '';
-    case 'tr':
-      return trEntry(w[0])?.[1] ?? '';
-    case 'nl':
-      return nlEntry(w[0])?.[1] ?? '';
-    case 'vi':
-      return viEntry(w[0])?.[1] ?? '';
-    case 'hi':
-      return hiEntry(w[0])?.[1] ?? '';
-    case 'bn':
-      return bnEntry(w[0])?.[1] ?? '';
-    case 'id':
-      return idEntry(w[0])?.[1] ?? '';
-    case 'pcm':
-      return pcmEntry(w[0])?.[1] ?? '';
-    case 'ko':
-      return koEntry(w[0])?.[1] ?? '';
-    case 'fa':
-      return faEntry(w[0])?.[1] ?? '';
-    case 'sw':
-      return swEntry(w[0])?.[1] ?? '';
-    case 'ms':
-      return msEntry(w[0])?.[1] ?? '';
-    case 'th':
-      return thEntry(w[0])?.[1] ?? '';
-    case 'az':
-      return azEntry(w[0])?.[1] ?? '';
-    case 'ro':
-      return roEntry(w[0])?.[1] ?? '';
-    case 'hu':
-      return huEntry(w[0])?.[1] ?? '';
-    case 'cs':
-      return csEntry(w[0])?.[1] ?? '';
-    case 'kk':
-      return kkEntry(w[0])?.[1] ?? '';
-    case 'sv':
-      return svEntry(w[0])?.[1] ?? '';
-    case 'ka':
-      return kaEntry(w[0])?.[1] ?? '';
-    case 'hr':
-      return hrEntry(w[0])?.[1] ?? '';
-    case 'sr':
-      return srEntry(w[0])?.[1] ?? '';
-    case 'bs':
-      return bsEntry(w[0])?.[1] ?? '';
-    case 'bg':
-      return bgEntry(w[0])?.[1] ?? '';
-    case 'sk':
-      return skEntry(w[0])?.[1] ?? '';
-    case 'hy':
-      return hyEntry(w[0])?.[1] ?? '';
-    case 'da':
-      return daEntry(w[0])?.[1] ?? '';
-    case 'fi':
-      return fiEntry(w[0])?.[1] ?? '';
-    case 'no':
-      return noEntry(w[0])?.[1] ?? '';
-    case 'la':
-      return laEntry(w[0])?.[1] ?? '';
-    case 'lt':
-      return ltEntry(w[0])?.[1] ?? '';
-    case 'lv':
-      return lvEntry(w[0])?.[1] ?? '';
-    case 'et':
-      return etEntry(w[0])?.[1] ?? '';
-    case 'sl':
-      return slEntry(w[0])?.[1] ?? '';
-    case 'mk':
-      return mkEntry(w[0])?.[1] ?? '';
-    case 'sq':
-      return sqEntry(w[0])?.[1] ?? '';
-    case 'is':
-      return isEntry(w[0])?.[1] ?? '';
-    case 'cy':
-      return cyEntry(w[0])?.[1] ?? '';
-    case 'ga':
-      return gaEntry(w[0])?.[1] ?? '';
-    case 'tl':
-      return tlEntry(w[0])?.[1] ?? '';
-    case 'mn':
-      return mnEntry(w[0])?.[1] ?? '';
-    case 'uz':
-      return uzEntry(w[0])?.[1] ?? '';
-    case 'am':
-      return amEntry(w[0])?.[1] ?? '';
-    case 'eo':
-      return eoEntry(w[0])?.[1] ?? '';
-    case 'ta':
-      return taEntry(w[0])?.[1] ?? '';
-    case 'pa':
-      return paEntry(w[0])?.[1] ?? '';
-    case 'zu':
-      return zuEntry(w[0])?.[1] ?? '';
-    case 'af':
-      return afEntry(w[0])?.[1] ?? '';
-    case 'ky':
-      return kyEntry(w[0])?.[1] ?? '';
-    case 'tg':
-      return tgEntry(w[0])?.[1] ?? '';
-    case 'tk':
-      return tkEntry(w[0])?.[1] ?? '';
-    case 'ug':
-      return ugEntry(w[0])?.[1] ?? '';
-    case 'eu':
-      return euEntry(w[0])?.[1] ?? '';
-    case 'ca':
-      return caEntry(w[0])?.[1] ?? '';
-    case 'gl':
-      return glEntry(w[0])?.[1] ?? '';
-    case 'mt':
-      return mtEntry(w[0])?.[1] ?? '';
-    case 'lb':
-      return lbEntry(w[0])?.[1] ?? '';
-    case 'ht':
-      return htEntry(w[0])?.[1] ?? '';
-    case 'bo':
-      return boEntry(w[0])?.[1] ?? '';
-    case 'my':
-      return myEntry(w[0])?.[1] ?? '';
-    case 'km':
-      return kmEntry(w[0])?.[1] ?? '';
-    case 'lo':
-      return loEntry(w[0])?.[1] ?? '';
-    case 'ne':
-      return neEntry(w[0])?.[1] ?? '';
-    case 'si':
-      return siEntry(w[0])?.[1] ?? '';
-    case 'ur':
-      return urEntry(w[0])?.[1] ?? '';
-    case 'te':
-      return teEntry(w[0])?.[1] ?? '';
-    case 'ml':
-      return mlEntry(w[0])?.[1] ?? '';
-    case 'kn':
-      return knEntry(w[0])?.[1] ?? '';
-    case 'mr':
-      return mrEntry(w[0])?.[1] ?? '';
-    case 'gu':
-      return guEntry(w[0])?.[1] ?? '';
-    case 'or':
-      return orEntry(w[0])?.[1] ?? '';
-    case 'as':
-      return asEntry(w[0])?.[1] ?? '';
-    case 'sd':
-      return sdEntry(w[0])?.[1] ?? '';
-    case 'ps':
-      return psEntry(w[0])?.[1] ?? '';
-    case 'so':
-      return soEntry(w[0])?.[1] ?? '';
-    case 'ha':
-      return haEntry(w[0])?.[1] ?? '';
-    case 'yo':
-      return yoEntry(w[0])?.[1] ?? '';
-    case 'ig':
-      return igEntry(w[0])?.[1] ?? '';
-    case 'ti':
-      return tiEntry(w[0])?.[1] ?? '';
-    case 'wo':
-      return woEntry(w[0])?.[1] ?? '';
-    case 'mg':
-      return mgEntry(w[0])?.[1] ?? '';
-    case 'xh':
-      return xhEntry(w[0])?.[1] ?? '';
-    case 'sn':
-      return snEntry(w[0])?.[1] ?? '';
-    case 'ny':
-      return nyEntry(w[0])?.[1] ?? '';
-    case 'fj':
-      return fjEntry(w[0])?.[1] ?? '';
-    case 'sm':
-      return smEntry(w[0])?.[1] ?? '';
-    case 'to':
-      return toEntry(w[0])?.[1] ?? '';
-    case 'mi':
-      return miEntry(w[0])?.[1] ?? '';
-    case 'haw':
-      return hawEntry(w[0])?.[1] ?? '';
-    case 'jv':
-      return jvEntry(w[0])?.[1] ?? '';
-    case 'su':
-      return suEntry(w[0])?.[1] ?? '';
-    case 'gd':
-      return gdEntry(w[0])?.[1] ?? '';
-    case 'br':
-      return brEntry(w[0])?.[1] ?? '';
-    case 'kw':
-      return kwEntry(w[0])?.[1] ?? '';
-    case 'gv':
-      return gvEntry(w[0])?.[1] ?? '';
-    case 'fo':
-      return foEntry(w[0])?.[1] ?? '';
-    case 'oc':
-      return ocEntry(w[0])?.[1] ?? '';
-    case 'co':
-      return coEntry(w[0])?.[1] ?? '';
-    case 'sc':
-      return scEntry(w[0])?.[1] ?? '';
-    case 'fy':
-      return fyEntry(w[0])?.[1] ?? '';
-    case 'yi':
-      return yiEntry(w[0])?.[1] ?? '';
-    case 'lad':
-      return ladEntry(w[0])?.[1] ?? '';
-    case 'qu':
-      return quEntry(w[0])?.[1] ?? '';
-    case 'gn':
-      return gnEntry(w[0])?.[1] ?? '';
-    case 'ay':
-      return ayEntry(w[0])?.[1] ?? '';
-    case 'dz':
-      return dzEntry(w[0])?.[1] ?? '';
-    case 'dv':
-      return dvEntry(w[0])?.[1] ?? '';
-    case 'tet':
-      return tetEntry(w[0])?.[1] ?? '';
-    case 'be':
-      return beEntry(w[0])?.[1] ?? '';
-    case 'qya':
-      return qyaEntry(w[0])?.[1] ?? '';
-    case 'sjn':
-      return sjnEntry(w[0])?.[1] ?? '';
-    case 'ku':
-      return kuEntry(w[0])?.[1] ?? '';
-    case 'om':
-      return omEntry(w[0])?.[1] ?? '';
-    case 'ln':
-      return lnEntry(w[0])?.[1] ?? '';
-    case 'bho':
-      return bhoEntry(w[0])?.[1] ?? '';
-    case 'ceb':
-      return cebEntry(w[0])?.[1] ?? '';
-    case 'rm':
-      return rmEntry(w[0])?.[1] ?? '';
-    case 'ty':
-      return tyEntry(w[0])?.[1] ?? '';
-    case 'ch':
-      return chEntry(w[0])?.[1] ?? '';
-    case 'mh':
-      return mhEntry(w[0])?.[1] ?? '';
-    case 'pau':
-      return pauEntry(w[0])?.[1] ?? '';
-    case 'nah':
-      return nahEntry(w[0])?.[1] ?? '';
-    case 'nv':
-      return nvEntry(w[0])?.[1] ?? '';
-    case 'tlh':
-      return tlhEntry(w[0])?.[1] ?? '';
-    case 'val':
-      return valEntry(w[0])?.[1] ?? '';
-    case 'dth':
-      return dthEntry(w[0])?.[1] ?? '';
-    default:
-      return w[2] ?? '';
-  }
+  return entryFor(lang as Code, w).ex;
 }
 
 function build(): WordEntry[] {
@@ -488,9 +72,16 @@ export function SpellingBeePage(): ReactElement {
   const knowSentence = w ? getLangSentence(w, knowLang) : '';
   const learnSentence = w ? getLangSentence(w, learnLang) : '';
 
-  const speak = (word: string): void => {
+  const speak = (word: string, entryW: WordEntry): void => {
     try {
-      _speak(word, speakBtnRef.current);
+      const learnLangNow = getLearnLang();
+      speakForCode(
+        learnLangNow,
+        word,
+        entryW[0],
+        speakBtnRef.current,
+        entryFor(learnLangNow, entryW).translit,
+      );
     } catch (e) {}
   };
 
@@ -527,7 +118,7 @@ export function SpellingBeePage(): ReactElement {
   useEffect(() => {
     if (!isOpen || !w) return;
     const learnWord = entryFor(getLearnLang(), w).word || w[0];
-    const t1 = setTimeout(() => speak(learnWord), 300);
+    const t1 = setTimeout(() => speak(learnWord, w), 300);
     const t2 = setTimeout(() => {
       try {
         inputRef.current?.focus();
@@ -582,7 +173,7 @@ export function SpellingBeePage(): ReactElement {
       try {
         breakCombo();
       } catch (e) {}
-      setTimeout(() => speak(learnWord), 600);
+      setTimeout(() => speak(learnWord, w), 600);
     }
     recordModeAnswer('spelling', isOk || isClose);
   };
@@ -690,7 +281,7 @@ export function SpellingBeePage(): ReactElement {
             </div>
             <button
               ref={speakBtnRef}
-              onClick={() => speak(entryFor(getLearnLang(), w).word || w[0])}
+              onClick={() => speak(entryFor(getLearnLang(), w).word || w[0], w)}
               title={t('bee.speakTitle')}
               data-i18n-title="bee.speakTitle"
               style={{

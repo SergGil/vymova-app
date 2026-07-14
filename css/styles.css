@@ -467,6 +467,13 @@ select:focus {
   color: var(--accent);
   animation: pulse 0.7s ease-in-out infinite alternate;
 }
+/* Set by speakForCode() when no native voice exists and it falls back to
+   reading a Latin-script transliteration via an English voice, so learners
+   don't mistake the approximation for a native pronunciation. */
+.speak-btn.approx {
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
 @keyframes pulse {
   from {
     opacity: 0.5;

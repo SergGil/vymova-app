@@ -8,7 +8,7 @@ import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordMistake, recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
-import { speak } from '../features/voice/speech.ts';
+import { speakForCode } from '../features/voice/speak-lang.ts';
 import type { WordEntry, Code } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
@@ -72,9 +72,16 @@ export function ListeningPage(): ReactElement {
 
   const playWord = (): void => {
     if (!word) return;
-    const learnWord = entryFor(getLearnLang(), word).word;
+    const learnLang = getLearnLang();
+    const entry = entryFor(learnLang, word);
     try {
-      speak(learnWord || word[0], playBtnRef.current as HTMLElement);
+      speakForCode(
+        learnLang,
+        entry.word || word[0],
+        word[0],
+        playBtnRef.current as HTMLElement,
+        entry.translit,
+      );
     } catch (e) {
       playBtnRef.current?.classList.remove('on');
     }

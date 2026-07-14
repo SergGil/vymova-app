@@ -13,36 +13,10 @@ import {
   computeCardView,
   parsePair,
   headwordFor,
+  entryFor,
+  isTargetLang,
+  langConfig,
   type Code,
-  esEntry,
-  frEntry,
-  itEntry,
-  ptEntry,
-  deEntry,
-  heEntry,
-  arEntry,
-  plEntry,
-  zhEntry,
-  elEntry,
-  jaEntry,
-  trEntry,
-  nlEntry,
-  viEntry,
-  bgEntry,
-  koEntry,
-  bnEntry,
-  faEntry,
-  hiEntry,
-  hyEntry,
-  kaEntry,
-  kkEntry,
-  srEntry,
-  thEntry,
-  qyaEntry,
-  sjnEntry,
-  tlhEntry,
-  valEntry,
-  dthEntry,
 } from './mode-utils.ts';
 import { speakEnAccent, speakEsAccent, speakPtAccent, hasEsAccent, hasPtAccent } from './voice/voice.tsx';
 import { flagUrl } from '../core/flags.ts';
@@ -50,7 +24,6 @@ import { speakForCode } from './voice/speak-lang.ts';
 import { SENSES_BY_LANG, type SenseEntry } from '../../data/senses.ts';
 import { InfoIcon, InfoNote } from './info-icon.tsx';
 import { TRANSCRIPTION_LEGEND } from './transcription-legend.ts';
-import type { WordEntry } from '../../src/types.js';
 
 function getRangeVal(): string {
   return (document.getElementById('sel-range') as HTMLSelectElement | null)?.value ?? '';
@@ -74,40 +47,6 @@ export function WordText() {
   );
 }
 
-const LOCAL_ENTRY_LOOKUP: Partial<
-  Record<string, (word: string) => readonly [string, string, string?, boolean?] | null>
-> = {
-  ES: esEntry,
-  FR: frEntry,
-  IT: itEntry,
-  PT: ptEntry,
-  DE: deEntry,
-  HE: heEntry,
-  AR: arEntry,
-  PL: plEntry,
-  ZH: zhEntry,
-  EL: elEntry,
-  JA: jaEntry,
-  TR: trEntry,
-  NL: nlEntry,
-  VI: viEntry,
-  BG: bgEntry,
-  KO: koEntry,
-  BN: bnEntry,
-  FA: faEntry,
-  HI: hiEntry,
-  HY: hyEntry,
-  KA: kaEntry,
-  KK: kkEntry,
-  SR: srEntry,
-  TH: thEntry,
-  QYA: qyaEntry,
-  SJN: sjnEntry,
-  TLH: tlhEntry,
-  VAL: valEntry,
-  DTH: dthEntry,
-};
-
 export function Transcription() {
   const { cw } = useDeckState();
   const [legendOpen, setLegendOpen] = useState(false);
@@ -117,8 +56,8 @@ export function Transcription() {
   }, [cwHead]);
   if (!cw) return null;
   const { FRONT_LANG, frontWord } = computeCardView(cw, getResolvedMode());
-  const lookup = LOCAL_ENTRY_LOOKUP[FRONT_LANG];
-  const localTranscription = lookup ? lookup(cw[0])?.[2] : undefined;
+  const frontCode = FRONT_LANG.toLowerCase() as Code;
+  const localTranscription = entryFor(frontCode, cw).translit;
   const trans =
     FRONT_LANG === 'EN'
       ? decodeIpa(cw[4] || '')
@@ -142,7 +81,9 @@ export function Transcription() {
           (FRONT_LANG as string) === 'VAL' ||
           (FRONT_LANG as string) === 'DTH') &&
           (() => {
-            const isCanon = lookup ? lookup(cw[0])?.[3] : undefined;
+            const isCanon = isTargetLang(frontCode)
+              ? langConfig(frontCode).entry(cw[0])?.[3]
+              : undefined;
             if (isCanon === undefined) return null;
             return (
               <span
@@ -311,25 +252,18 @@ export function SrsBadge() {
   );
 }
 
-// Raw (non-highlighted) example text for `code`'s language — used to feed
-// the back-side speak buttons, mirroring entryFor()'s logic in mode-utils.ts.
-function exampleTextFor(code: Code, cw: WordEntry): string {
-  if (code === 'en') return cw[2] || '';
-  if (code === 'ua') return cw[3] || '';
-  const lookup = LOCAL_ENTRY_LOOKUP[code.toUpperCase()];
-  return lookup ? (lookup(cw[0])?.[1] ?? '') : '';
-}
-
 function BackSpeakBtn({
   code,
   text,
   fallbackEnText,
+  translit,
   className,
   style,
 }: {
   code: Code;
   text: string;
   fallbackEnText: string;
+  translit?: string;
   className: string;
   style?: React.CSSProperties;
 }) {
@@ -342,7 +276,7 @@ function BackSpeakBtn({
       title={t('cards.pronounce')}
       onClick={(e) => {
         e.stopPropagation();
-        speakForCode(code, text, fallbackEnText, e.currentTarget);
+        speakForCode(code, text, fallbackEnText, e.currentTarget, translit);
       }}
     >
       🔊
@@ -367,6 +301,7 @@ export function Translation() {
           code={back}
           text={backWord}
           fallbackEnText={cw[0]}
+          translit={entryFor(back, cw).translit}
           className="speak-btn"
           style={{ marginLeft: 6, width: 20, height: 20, fontSize: 11, verticalAlign: 'middle' }}
         />
@@ -394,7 +329,7 @@ export function ExUa() {
   if (!cw) return null;
   const { exuaHtml, backRtl } = computeCardView(cw, getResolvedMode());
   const back = parsePair(getResolvedMode()).back;
-  const backExText = exampleTextFor(back, cw);
+  const backExText = entryFor(back, cw).ex;
   return (
     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 5 }}>
       <div

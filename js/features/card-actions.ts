@@ -12,9 +12,7 @@ import { openNoteModal } from './note-modal.tsx';
 import { toggleBookmark } from './bookmarks.ts';
 import { isPronuncSupported, startPronunciationCheck } from './voice/pronunciation.ts';
 import { showPronuncResult } from './voice/pronunciation-toast.tsx';
-import { getSelectedUkVoice } from './voice/voice.tsx';
 import { checkMilestones } from './milestones.ts';
-import { speak, _speakWithLang } from './voice/speech.ts';
 import { updateSimilarWords } from './similar-words.tsx';
 import {
   getMode,
@@ -22,6 +20,7 @@ import {
   isTargetLang,
   langConfig,
   parsePair,
+  entryFor,
   ALL_TARGET_LANGS,
 } from './mode-utils.ts';
 import {
@@ -30,7 +29,7 @@ import {
   clearAllKnown,
   type KnownLang,
 } from '../../src/known-words-store.ts';
-import { VOICE_GETTERS } from './voice/speak-lang.ts';
+import { speakForCode } from './voice/speak-lang.ts';
 import { playSound } from '../core/audio.ts';
 import { launchConfetti } from '../core/confetti.tsx';
 import { t } from './i18n.ts';
@@ -88,15 +87,8 @@ export function CardActionsInit(): ReactElement | null {
       if (!cw) return;
       const modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
       const front = parsePair(modeVal).front;
-      if (isTargetLang(front)) {
-        const cfg = langConfig(front);
-        const entry = cfg.entry(cw[0]);
-        if (entry && VOICE_GETTERS[front]()) {
-          _speakWithLang(entry[0], cfg.voiceLocale, speakWordBtn);
-          return;
-        }
-      }
-      speak(cw[0], speakWordBtn);
+      const entry = entryFor(front, cw);
+      speakForCode(front, entry.word, cw[0], speakWordBtn, entry.translit);
     };
     speakWordBtn.addEventListener('click', onSpeakWordClick);
 
@@ -106,26 +98,15 @@ export function CardActionsInit(): ReactElement | null {
       const cw = getCwSnapshot();
       if (!cw) return;
       const exEn = cw[2] || '';
-      const exUa = cw[3] || '';
       const modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
       const front = parsePair(modeVal).front;
       // Speak the example in whichever language is on the card front: a
       // target language's example (if a voice is available), the Ukrainian
       // example (front === 'ua'), or fall back to the English example.
-      if (isTargetLang(front)) {
-        const cfg = langConfig(front);
-        const entry = cfg.entry(cw[0]);
-        const ex = entry ? entry[1] : '';
-        if (VOICE_GETTERS[front]() && ex) _speakWithLang(ex, cfg.voiceLocale, speakExBtn);
-        else speak(exEn, speakExBtn);
-        return;
-      }
-      if (front === 'ua') {
-        if (getSelectedUkVoice() && exUa) _speakWithLang(exUa, 'uk-UA', speakExBtn);
-        else speak(exEn, speakExBtn);
-        return;
-      }
-      speak(exEn, speakExBtn);
+      // speakForCode() already encodes this per-front-language fallback
+      // logic (and 'en'/'ua' handling) — no example transliteration exists,
+      // so no translit param here.
+      speakForCode(front, entryFor(front, cw).ex, exEn, speakExBtn);
     };
     speakExBtn.addEventListener('click', onSpeakExClick);
 

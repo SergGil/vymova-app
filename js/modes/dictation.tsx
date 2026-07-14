@@ -8,7 +8,7 @@ import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeAnswer, recordMistake } from '../features/game.ts';
-import { speak } from '../features/voice/speech.ts';
+import { speakForCode } from '../features/voice/speak-lang.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
@@ -105,7 +105,7 @@ export function DictationPage(): ReactElement {
     if (!round || phase !== 'listening') return;
     const id = setTimeout(() => {
       try {
-        speak(round.target, speakBtnRef.current);
+        speakForCode(getLearnLang(), round.target, round.w[2] || '', speakBtnRef.current);
       } catch (e) {}
       inputRef.current?.focus();
     }, 300);
@@ -260,7 +260,7 @@ export function DictationPage(): ReactElement {
               ref={speakBtnRef}
               onClick={() => {
                 try {
-                  speak(round.target, speakBtnRef.current);
+                  speakForCode(getLearnLang(), round.target, round.w[2] || '', speakBtnRef.current);
                 } catch (e) {}
               }}
               style={{

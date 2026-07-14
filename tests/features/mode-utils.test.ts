@@ -274,6 +274,7 @@ describe('mode-utils.ts', () => {
       expect(entryFor('en', abandon)).toEqual({
         word: 'abandon',
         ex: 'They had to <b>abandon</b> the ship.',
+        translit: '',
       });
     });
 
@@ -281,6 +282,7 @@ describe('mode-utils.ts', () => {
       expect(entryFor('ua', abandon)).toEqual({
         word: 'покинути',
         ex: 'Вони мусили <b>покинути</b> корабель.',
+        translit: '',
       });
     });
 
@@ -288,6 +290,16 @@ describe('mode-utils.ts', () => {
       const { word, ex } = entryFor('es', abandon);
       expect(word).toBe('abandonar');
       expect(typeof ex).toBe('string');
+    });
+
+    it('returns the Entry[2] transliteration for a target language that has one', () => {
+      expect(entryFor('he', abandon).translit).toBe(heEntry('abandon')?.[2]);
+      expect(entryFor('he', abandon).translit).toBeTruthy();
+    });
+
+    it('returns an empty translit when the target-language entry is missing', () => {
+      const noSuchWord: WordEntry = ['zzz_nope_zzz', 'zzz', '', ''];
+      expect(entryFor('he', noSuchWord).translit).toBe('');
     });
   });
 

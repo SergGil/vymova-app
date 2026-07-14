@@ -7,7 +7,7 @@ import { W } from '../../data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeAnswer, recordMistake } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import { speak } from '../features/voice/speech.ts';
+import { speakForCode } from '../features/voice/speak-lang.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
@@ -303,7 +303,15 @@ export function ScramblePage(): ReactElement {
               ref={speakBtnRef}
               onClick={() => {
                 try {
-                  speak(entryFor(getLearnLang(), w).word || w[0], speakBtnRef.current);
+                  const learnLang = getLearnLang();
+                  const entry = entryFor(learnLang, w);
+                  speakForCode(
+                    learnLang,
+                    entry.word || w[0],
+                    w[0],
+                    speakBtnRef.current,
+                    entry.translit,
+                  );
                 } catch (e) {}
               }}
               style={{

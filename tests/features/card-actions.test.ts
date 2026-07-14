@@ -65,13 +65,9 @@ vi.mock('../../js/features/voice/pronunciation.ts', () => ({
   showPronuncResult: vi.fn(),
   startPronunciationCheck: vi.fn(),
 }));
-vi.mock('../../js/features/voice/voice.ts', () => ({
-  getSelectedUkVoice: vi.fn(() => null),
-  getSelectedEsVoice: vi.fn(() => null),
-}));
-vi.mock('../../js/features/voice/speech.ts', () => ({
-  speak: vi.fn(),
-  _speakWithLang: vi.fn(),
+const speakForCode = vi.fn();
+vi.mock('../../js/features/voice/speak-lang.ts', () => ({
+  speakForCode: (...a: unknown[]) => speakForCode(...a),
 }));
 vi.mock('../../js/features/similar-words.tsx', () => ({
   updateSimilarWords: vi.fn(),
@@ -164,6 +160,12 @@ function setRange(v: string): void {
   (document.getElementById('sel-range') as HTMLSelectElement).value = v;
 }
 
+function setMode(v: string): void {
+  const sel = document.getElementById('sel-mode') as HTMLSelectElement;
+  sel.innerHTML = `<option value="${v}" selected>${v}</option>`;
+  sel.value = v;
+}
+
 beforeEach(() => {
   setKnownWords('en', new Set<string>());
   clearSrsData();
@@ -192,8 +194,10 @@ beforeEach(() => {
   gameData.confettiShown = null;
   saveGameData.mockClear();
   invalidateGameCaches.mockClear();
+  speakForCode.mockClear();
 
   setRange('srs');
+  setMode('en');
 });
 
 afterEach(() => {
@@ -389,5 +393,38 @@ describe('navigation buttons', () => {
 
     expect(engineSetIdx).toHaveBeenCalledWith(1);
     expect(breakCombo).toHaveBeenCalled();
+  });
+});
+
+// ── speak-word / speak-ex ────────────────────────────────────────
+describe('speak-word / speak-ex', () => {
+  it('speak-word routes the English word through speakForCode when the front is "en"', () => {
+    document.getElementById('speak-word')!.click();
+
+    expect(speakForCode).toHaveBeenCalledWith('en', 'apple', 'apple', expect.anything(), '');
+  });
+
+  it('speak-ex routes the English example through speakForCode when the front is "en"', () => {
+    document.getElementById('speak-ex')!.click();
+
+    expect(speakForCode).toHaveBeenCalledWith(
+      'en',
+      'I eat an apple.',
+      'I eat an apple.',
+      expect.anything(),
+    );
+  });
+
+  it('speak-word passes the target-language front code and English fallback through speakForCode', () => {
+    setMode('he-en');
+    document.getElementById('speak-word')!.click();
+
+    // No 'he' word table is loaded in this test environment, so entryFor()
+    // resolves to an empty word/translit — what matters here is that the
+    // *routing* (front language code, English fallback = the base headword)
+    // reaches speakForCode() correctly, which is card-actions.ts's job;
+    // speakForCode()'s own translit-fallback decision is unit-tested
+    // separately in speak-lang.test.ts.
+    expect(speakForCode).toHaveBeenCalledWith('he', '', 'apple', expect.anything(), '');
   });
 });

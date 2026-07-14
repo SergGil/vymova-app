@@ -1205,12 +1205,36 @@ export function parsePair(mode: string): { front: Code; back: Code; valid: boole
   return { front: 'en', back: 'ua', valid: false };
 }
 
-export function entryFor(code: Code, cw: WordEntry): { word: string; ex: string } {
-  if (code === 'en') return { word: cw[0], ex: cw[2] || '' };
-  if (code === 'ua') return { word: cw[1], ex: cw[3] || '' };
+export function entryFor(code: Code, cw: WordEntry): { word: string; ex: string; translit: string } {
+  if (code === 'en') return { word: cw[0], ex: cw[2] || '', translit: '' };
+  if (code === 'ua') return { word: cw[1], ex: cw[3] || '', translit: '' };
   const e = LANG_REGISTRY[code].entry(cw[0]);
-  return { word: e ? e[0] : '', ex: e ? e[1] : '' };
+  return { word: e ? e[0] : '', ex: e ? e[1] : '', translit: e?.[2] || '' };
 }
+
+// Languages whose word-table Entry[2] is a Latin-script romanization —
+// readable aloud with an English-biased voice as a rough approximation when
+// no native browser voice is installed (see speakForCode() in speak-lang.ts).
+// Excludes languages whose Entry[2] is IPA phonetic notation (would sound
+// garbled if spoken as literal text) and languages with no Entry[2] at all.
+// Hand-classified by inspecting each data/words_XX.js file's transcription
+// field; re-classify when adding a new language (see docs/adding-a-language.md).
+//
+// Also excludes 9 languages initially classified as "Latin romanization" that
+// tests/data/translit-classification.test.ts caught mixing in genuine IPA
+// glyphs (ʃ ʒ ŋ tʃ ɡ etc., not just plain Latin + ordinary diacritics) for a
+// meaningful share of entries — bo (0.6%), zu (3.1%), eu (11.9%), si (19.4%),
+// fo (20%), tg (31.3%), ky (35.6%), tk (33.1%), ht (42.5%). Not safe to read
+// literally via an English voice; falls back to the existing English-fallback
+// behavior like the true-IPA set instead.
+export const LATIN_TRANSLIT_LANGS: ReadonlySet<TargetLang> = new Set<TargetLang>([
+  'am', 'ar', 'as', 'ay', 'be', 'bg', 'bho', 'bn', 'br', 'ceb', 'ch', 'co', 'dth', 'dv', 'dz',
+  'el', 'fa', 'fj', 'fy', 'gd', 'gn', 'gu', 'gv', 'ha', 'haw', 'he', 'hi', 'hy',
+  'ig', 'ja', 'jv', 'ka', 'kk', 'kn', 'ko', 'ku', 'kw', 'lad', 'ln', 'lo', 'mg', 'mh', 'mi',
+  'mk', 'ml', 'mn', 'mr', 'my', 'nah', 'ne', 'nv', 'ny', 'oc', 'om', 'or', 'pa', 'pau', 'ps', 'qu',
+  'qya', 'rm', 'sc', 'sd', 'sjn', 'sm', 'sn', 'so', 'sr', 'su', 'ta', 'te', 'tet', 'th',
+  'ti', 'tl', 'tlh', 'to', 'ty', 'ug', 'ur', 'uz', 'val', 'wo', 'xh', 'yi', 'yo', 'zh',
+]);
 
 // Backward-compat: each XX_MODES Set now contains every mode string where
 // that language appears as front or back (not just the historical EN/UA

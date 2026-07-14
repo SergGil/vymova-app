@@ -144,7 +144,13 @@ import {
   getSelectedDthVoice,
 } from './voice.tsx';
 import { speak, _speakWithLang } from './speech.ts';
-import { isTargetLang, langConfig, type TargetLang, type Code } from '../mode-utils.ts';
+import {
+  isTargetLang,
+  langConfig,
+  LATIN_TRANSLIT_LANGS,
+  type TargetLang,
+  type Code,
+} from '../mode-utils.ts';
 
 export const VOICE_GETTERS: Record<TargetLang, () => SpeechSynthesisVoice | null> = {
   es: getSelectedEsVoice,
@@ -290,11 +296,22 @@ export function speakForCode(
   text: string,
   fallbackEnText: string,
   btn: HTMLElement | null,
+  translit?: string,
 ): void {
+  // Reset on every call (not just on the translit branch) so a button that
+  // previously used the approximate-pronunciation fallback doesn't keep
+  // showing that hint once a real voice becomes available (e.g. after the
+  // user installs a language pack) or for a different word on the same card.
+  btn?.classList.remove('approx');
   if (isTargetLang(code)) {
     const cfg = langConfig(code);
     if (text && VOICE_GETTERS[code]()) {
       _speakWithLang(text, cfg.voiceLocale, btn);
+      return;
+    }
+    if (translit && LATIN_TRANSLIT_LANGS.has(code)) {
+      btn?.classList.add('approx');
+      speak(translit, btn);
       return;
     }
     speak(fallbackEnText, btn);
