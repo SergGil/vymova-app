@@ -4088,7 +4088,24 @@ body.hp::before {
     radial-gradient(1px 1px at 38% 22%, rgba(240, 200, 100, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(220, 170, 80, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(240, 200, 100, 0.5) 0%, transparent 100%);
-  background-color: #1a0a0a;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
+   Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
+body.hp::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(26, 10, 10, 0.55), rgba(26, 10, 10, 0.55)),
+    url('/backgrounds/hp/hogwarts-burning-sunset.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   pointer-events: none;
 }
 
@@ -9901,7 +9918,24 @@ body.cp::before {
     radial-gradient(1px 1px at 38% 22%, rgba(255, 100, 167, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(255, 237, 150, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(255, 100, 167, 0.5) 0%, transparent 100%);
-  background-color: #1a070f;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
+   Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
+body.cp::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(26, 7, 15, 0.55), rgba(26, 7, 15, 0.55)),
+    url('/backgrounds/cp/retro-neon-city-street.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   pointer-events: none;
 }
 
@@ -10633,7 +10667,24 @@ body.lotr::before {
     radial-gradient(1px 1px at 38% 22%, rgba(100, 255, 161, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(150, 186, 255, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(100, 255, 161, 0.5) 0%, transparent 100%);
-  background-color: #071a0f;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
+   Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
+body.lotr::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(7, 26, 15, 0.55), rgba(7, 26, 15, 0.55)),
+    url('/backgrounds/lotr/minas-tirith-siege.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   pointer-events: none;
 }
 
@@ -11365,7 +11416,24 @@ body.mcu::before {
     radial-gradient(1px 1px at 38% 22%, rgba(255, 100, 105, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(231, 255, 150, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(255, 100, 105, 0.5) 0%, transparent 100%);
-  background-color: #1a0708;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
+   Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
+body.mcu::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(26, 7, 8, 0.55), rgba(26, 7, 8, 0.55)),
+    url('/backgrounds/mcu/captain-america-ruins-overlook.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   pointer-events: none;
 }
 
@@ -12097,7 +12165,24 @@ body.witcher::before {
     radial-gradient(1px 1px at 38% 22%, rgba(100, 255, 243, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(169, 150, 255, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(100, 255, 243, 0.5) 0%, transparent 100%);
-  background-color: #071a19;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
+   Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
+body.witcher::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(7, 26, 25, 0.55), rgba(7, 26, 25, 0.55)),
+    url('/backgrounds/witcher/geralt-hanged-tree-sunset.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   pointer-events: none;
 }
 
@@ -12829,7 +12914,24 @@ body.mc::before {
     radial-gradient(1px 1px at 38% 22%, rgba(163, 255, 100, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(150, 255, 239, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(163, 255, 100, 0.5) 0%, transparent 100%);
-  background-color: #0f1a07;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
+   Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
+body.mc::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(15, 26, 7, 0.55), rgba(15, 26, 7, 0.55)),
+    url('/backgrounds/mc/minecraft-village-castle.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   pointer-events: none;
 }
 
@@ -13561,7 +13663,24 @@ body.dc::before {
     radial-gradient(1px 1px at 38% 22%, rgba(100, 141, 255, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(254, 150, 255, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(100, 141, 255, 0.5) 0%, transparent 100%);
-  background-color: #070c1a;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
+   Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
+body.dc::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(7, 12, 26, 0.55), rgba(7, 12, 26, 0.55)),
+    url('/backgrounds/dc/batman-rooftop-rain-moon.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   pointer-events: none;
 }
 
@@ -14293,7 +14412,24 @@ body.got::before {
     radial-gradient(1px 1px at 38% 22%, rgba(255, 165, 100, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(184, 255, 150, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(255, 165, 100, 0.5) 0%, transparent 100%);
-  background-color: #1a0f07;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
+   Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
+body.got::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(26, 15, 7, 0.55), rgba(26, 15, 7, 0.55)),
+    url('/backgrounds/got/targaryen-sigil-dark.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   pointer-events: none;
 }
 
@@ -15025,7 +15161,24 @@ body.dw::before {
     radial-gradient(1px 1px at 38% 22%, rgba(212, 255, 100, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(150, 255, 206, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(212, 255, 100, 0.5) 0%, transparent 100%);
-  background-color: #151a07;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
+   Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
+body.dw::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(21, 26, 7, 0.55), rgba(21, 26, 7, 0.55)),
+    url('/backgrounds/dw/great-a-tuin-turtle.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   pointer-events: none;
 }
 
@@ -15757,7 +15910,24 @@ body.dune::before {
     radial-gradient(1px 1px at 38% 22%, rgba(255, 215, 100, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(150, 255, 151, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(255, 215, 100, 0.5) 0%, transparent 100%);
-  background-color: #1a1507;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
+   Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
+body.dune::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(26, 21, 7, 0.55), rgba(26, 21, 7, 0.55)),
+    url('/backgrounds/dune/sandworm-desert-dune.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   pointer-events: none;
 }
 
@@ -16489,7 +16659,24 @@ body.hg::before {
     radial-gradient(1px 1px at 38% 22%, rgba(181, 100, 255, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(255, 150, 173, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(181, 100, 255, 0.5) 0%, transparent 100%);
-  background-color: #11071a;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
+   Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
+body.hg::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(17, 7, 26, 0.55), rgba(17, 7, 26, 0.55)),
+    url('/backgrounds/hg/mockingjay-flame-emblem.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   pointer-events: none;
 }
 
@@ -17221,7 +17408,24 @@ body.avt::before {
     radial-gradient(1px 1px at 38% 22%, rgba(100, 255, 248, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(173, 150, 255, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(100, 255, 248, 0.5) 0%, transparent 100%);
-  background-color: #071a19;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
+   Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
+body.avt::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(7, 26, 25, 0.55), rgba(7, 26, 25, 0.55)),
+    url('/backgrounds/avt/navi-eye-closeup.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   pointer-events: none;
 }
 
@@ -17953,7 +18157,24 @@ body.dt::before {
     radial-gradient(1px 1px at 38% 22%, rgba(255, 100, 100, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(228, 255, 150, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(255, 100, 100, 0.5) 0%, transparent 100%);
-  background-color: #1a0707;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
+   Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
+body.dt::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(26, 7, 7, 0.55), rgba(26, 7, 7, 0.55)),
+    url('/backgrounds/dt/gunslinger-silhouette.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   pointer-events: none;
 }
 
