@@ -791,8 +791,18 @@ export function _buildDeck(
     else if (cefrPool.length > 0) pool = cefrPool;
   }
   if (pool.length < ROOM_SIZE) pool = scramble ? _SCRAMBLE_POOL : (W as unknown as WordEntry[]); // final fallback
-  return Array.from({ length: pool.length }, (_, i) => i)
-    .sort(() => rnd() - 0.5)
-    .slice(0, ROOM_SIZE)
-    .map((i) => pool[i]);
+  // Partial Fisher-Yates instead of sorting the whole pool by a random
+  // comparator: picking ROOM_SIZE (~8-10) words out of a pool that can be
+  // the full ~10,411-word dictionary doesn't need an O(n log n) sort over
+  // every word just to keep the first few — this only touches ROOM_SIZE
+  // positions. Still driven by the same seeded rnd(), so both players'
+  // clients independently compute the identical deck from the shared seed.
+  const n = pool.length;
+  const k = Math.min(ROOM_SIZE, n);
+  const idx = Array.from({ length: n }, (_, i) => i);
+  for (let i = 0; i < k; i++) {
+    const j = i + Math.floor(rnd() * (n - i));
+    [idx[i], idx[j]] = [idx[j], idx[i]];
+  }
+  return idx.slice(0, k).map((i) => pool[i]);
 }

@@ -7,6 +7,12 @@ import { DEFAULT_APPEARANCE } from '../features/character-avatar.tsx';
 
 // ── LZ compress / decompress ──────────────────────────────────
 
+// Written by _lzSaveDebounced() (below saveKnown()/saveKnownLang()/saveSRS())
+// before their actual localStorage write lands — _lzLoad() checks this first
+// so a read immediately after one of those save calls still sees its data,
+// even though the disk write itself is still debounced.
+const _pendingWrites = new Map<string, unknown>();
+
 export function _lzSave(key: string, data: unknown): void {
   try {
     const json = JSON.stringify(data);
@@ -24,6 +30,7 @@ export function _lzSave(key: string, data: unknown): void {
 }
 
 export function _lzLoad<T>(key: string, fallback: T): T {
+  if (_pendingWrites.has(key)) return _pendingWrites.get(key) as T;
   try {
     const raw = localStorage.getItem(key);
     if (!raw) return fallback;
@@ -84,10 +91,55 @@ export function _jsonSave(key: string, data: unknown): void {
   } catch (e) {}
 }
 
+// ── Debounced writes ─────────────────────────────────────────
+// saveKnown()/saveKnownLang()/saveSRS() are called on every single "Know"/
+// "Don't know" tap — the most frequent interaction in the app — and each
+// does a full JSON.stringify + LZ-compress + localStorage.setItem of the
+// ENTIRE known-words set or SRS object, not a delta. Debouncing the actual
+// write lets a burst of taps (auto-play, quick review) coalesce into one
+// write per key instead of one per tap; the pagehide/visibilitychange flush
+// below guarantees nothing is lost if the tab closes mid-debounce. Scoped to
+// just these three functions (not the shared _lzSave primitive) so
+// lower-frequency, less tap-adjacent callers — cloud-sync's merge writer,
+// progress-io's import/restore — keep their existing synchronous behavior.
+const _DEBOUNCE_MS = 400;
+const _debounceTimers = new Map<string, ReturnType<typeof setTimeout>>();
+
+function _lzSaveDebounced(key: string, data: unknown): void {
+  _pendingWrites.set(key, data);
+  const existing = _debounceTimers.get(key);
+  if (existing) clearTimeout(existing);
+  _debounceTimers.set(
+    key,
+    setTimeout(() => {
+      _debounceTimers.delete(key);
+      _pendingWrites.delete(key);
+      _lzSave(key, data);
+    }, _DEBOUNCE_MS),
+  );
+}
+
+// Exported so tests can force-settle debounced writes between cases instead
+// of leaking pending state (and fake/real timers) across test boundaries —
+// the same function pagehide/visibilitychange call in production, below.
+export function _flushPendingWrites(): void {
+  for (const timer of _debounceTimers.values()) clearTimeout(timer);
+  _debounceTimers.clear();
+  for (const [key, data] of _pendingWrites) _lzSave(key, data);
+  _pendingWrites.clear();
+}
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') _flushPendingWrites();
+  });
+  window.addEventListener('pagehide', _flushPendingWrites);
+}
+
 // ── Public API ────────────────────────────────────────────────
 
 export function saveKnown(known: Set<string>): void {
-  _lzSave('ew_known', [...known]);
+  _lzSaveDebounced('ew_known', [...known]);
 }
 
 export function loadKnown(): Set<string> {
@@ -101,7 +153,7 @@ export function loadKnown(): Set<string> {
 // vocabulary keeps its own saveKnown()/loadKnown() above (key `ew_known`,
 // no suffix) since it isn't a TargetLang.
 export function saveKnownLang(lang: TargetLang, known: Set<string>): void {
-  _lzSave(`ew_known_${lang}`, [...known]);
+  _lzSaveDebounced(`ew_known_${lang}`, [...known]);
 }
 
 export function loadKnownLang(lang: TargetLang): Set<string> {
@@ -115,7 +167,7 @@ function _srsLangKey(): string {
 }
 
 export function saveSRS(srsData: SRSData): void {
-  _lzSave(_srsLangKey(), srsData);
+  _lzSaveDebounced(_srsLangKey(), srsData);
 }
 
 export function loadSRS(): SRSData {

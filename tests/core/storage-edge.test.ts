@@ -4,6 +4,7 @@ import {
   _lzLoad,
   _jsonLoad,
   _jsonSave,
+  _flushPendingWrites,
   saveKnown,
   loadKnown,
   saveKnownLang,
@@ -34,6 +35,9 @@ beforeEach(() => {
   vi.stubGlobal('localStorage', lsMock);
 });
 afterEach(() => {
+  // saveKnown/saveKnownLang debounce their actual localStorage write —
+  // settle any pending ones now so they don't leak into the next test.
+  _flushPendingWrites();
   vi.unstubAllGlobals();
 });
 
@@ -138,11 +142,13 @@ describe('saveKnown / loadKnown — round-trip fidelity', () => {
 describe('ew_known and ew_known_es are stored at separate keys', () => {
   it('uses key ew_known for EN/UA progress', () => {
     saveKnown(new Set(['run', 'walk']));
+    _flushPendingWrites(); // saveKnown() debounces the actual disk write
     expect(lsMock.getItem('ew_known')).not.toBeNull();
   });
 
   it('uses key ew_known_es for ES progress', () => {
     saveKnownLang('es', new Set(['correr', 'caminar']));
+    _flushPendingWrites(); // saveKnownLang() debounces the actual disk write
     expect(lsMock.getItem('ew_known_es')).not.toBeNull();
   });
 

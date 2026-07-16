@@ -57,6 +57,7 @@ function search(q: string, codes: Code[]): WordEntry[] {
     }
     if (hitPrimary) primary.push(w);
     else if (hitContains) contains.push(w);
+    if (primary.length >= MAX_RESULTS) break;
   }
   return [...primary, ...contains].slice(0, MAX_RESULTS);
 }

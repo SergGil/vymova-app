@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   _lzSave,
   _lzLoad,
+  _flushPendingWrites,
   saveKnown,
   loadKnown,
   saveKnownLang,
@@ -34,6 +35,11 @@ beforeEach(() => {
   vi.stubGlobal('localStorage', lsMock);
 });
 afterEach(() => {
+  // saveKnown/saveKnownLang/saveSRS debounce their actual localStorage
+  // write — settle any pending ones now so they don't leak into the next
+  // test's module state (_lzLoad already sees pending writes immediately,
+  // this only matters for isolating tests from each other).
+  _flushPendingWrites();
   vi.unstubAllGlobals();
 });
 

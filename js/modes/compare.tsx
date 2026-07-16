@@ -1,7 +1,12 @@
 // Vymova — js/modes/compare.tsx
 // 🌍 Compare: type a word in any language, see it translated across a set of
-// languages side by side — first 15 target languages by default, plus any
-// the user adds via the "+" picker for the current session.
+// languages side by side — the user's active learn/know pair by default
+// (usually just 0-2 dictionaries, loaded on open), plus any the user adds
+// via the "+" picker for the current session. Used to eagerly Promise.all
+// the first 15 target languages (~8.6MB of dictionaries) on every open
+// regardless of what the user actually studies — the "+" picker already
+// loaded extras lazily on demand, this just applies the same discipline to
+// the starting set.
 import { useEffect, useMemo, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
@@ -21,8 +26,20 @@ import { speakForCode } from '../features/voice/speak-lang.ts';
 import { t } from '../features/i18n.ts';
 import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
 
-const DEFAULT_LANGS: TargetLang[] = ALL_TARGET_LANGS.slice(0, 15);
 const MAX_SUGGESTIONS = 12;
+
+// The target-language side(s) of the user's current learn/know pair (empty
+// for the common case of a plain en/ua pair, since neither is a TargetLang)
+// — recomputed on every open so switching pairs elsewhere in the app is
+// picked up next time Compare opens.
+function _pairDefaultLangs(): TargetLang[] {
+  const learn = localStorage.getItem('ew_learn_lang') ?? 'en';
+  const know = localStorage.getItem('ew_know_lang') ?? 'ua';
+  const out: TargetLang[] = [];
+  if (isTargetLang(learn)) out.push(learn);
+  if (isTargetLang(know) && know !== learn) out.push(know);
+  return out;
+}
 
 function rtlFor(code: Code): boolean {
   return isTargetLang(code) ? langConfig(code).rtl : false;
@@ -98,6 +115,7 @@ export function ComparePage(): ReactElement {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<WordEntry[]>([]);
   const [selected, setSelected] = useState<WordEntry | null>(null);
+  const [defaultLangs, setDefaultLangs] = useState<TargetLang[]>([]);
   const [extraLangs, setExtraLangs] = useState<TargetLang[]>([]);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerQuery, setPickerQuery] = useState('');
@@ -107,8 +125,8 @@ export function ComparePage(): ReactElement {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const searchCodes = useMemo<Code[]>(
-    () => ['en', 'ua', ...DEFAULT_LANGS, ...extraLangs],
-    [extraLangs],
+    () => ['en', 'ua', ...defaultLangs, ...extraLangs],
+    [defaultLangs, extraLangs],
   );
 
   useEffect(() => {
@@ -121,7 +139,9 @@ export function ComparePage(): ReactElement {
       setPickerOpen(false);
       setPickerQuery('');
       setTablesReady(false);
-      Promise.all(DEFAULT_LANGS.map(ensureLangTableLoaded)).then(() => setTablesReady(true));
+      const langs = _pairDefaultLangs();
+      setDefaultLangs(langs);
+      Promise.all(langs.map(ensureLangTableLoaded)).then(() => setTablesReady(true));
       const overlay = document.getElementById('cmp-overlay');
       if (overlay) overlay.style.display = 'flex';
       setTimeout(() => inputRef.current?.focus(), 60);
@@ -200,13 +220,13 @@ export function ComparePage(): ReactElement {
   if (!isOpen) return <></>;
 
   const pickerOptions = ALL_TARGET_LANGS.filter((l) => {
-    if (DEFAULT_LANGS.includes(l) || extraLangs.includes(l)) return false;
+    if (defaultLangs.includes(l) || extraLangs.includes(l)) return false;
     if (!pickerQuery) return true;
     const q = pickerQuery.toLowerCase();
     return t(`lang.${l}`).toLowerCase().includes(q) || l.includes(q);
   });
 
-  const displayCodes: Code[] = ['en', 'ua', ...DEFAULT_LANGS, ...extraLangs];
+  const displayCodes: Code[] = ['en', 'ua', ...defaultLangs, ...extraLangs];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>

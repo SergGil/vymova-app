@@ -178,8 +178,15 @@ export function SettingsInit(): ReactElement | null {
     }
 
     // ── Visibilitychange: auto-prefetch ────────────────────────────
+    // Runs the full W.filter() scan (10,411 words) at most once per page
+    // session, not on every single alt-tab back to this tab — on mobile,
+    // where app-switching is frequent, this used to re-scan the entire
+    // word list on every single return to the tab.
+    let prefetchScanDone = false;
     const onVisibilityChange = () => {
       if (document.visibilityState !== 'visible') return;
+      if (prefetchScanDone) return;
+      prefetchScanDone = true;
       const _idle = window._idle as ((fn: VoidFn) => void) | undefined;
       _idle?.(() => {
         const uncached = W.filter((w) => !Object.prototype.hasOwnProperty.call(_imgCache, w[0]));
