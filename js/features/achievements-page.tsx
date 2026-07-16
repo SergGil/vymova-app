@@ -1,9 +1,13 @@
 // Vymova — js/features/achievements-page.tsx
 // Achievements page: levels roadmap, achievements grid, achievement detail popup.
-// Re-rendered on demand via refreshAchievementsPage() / notifyStateChange().
+// Re-rendered on demand via refreshAchievementsPage() / notifyAchievementsChange().
 import { createPortal } from 'react-dom';
 import { useEffect, useState, type ReactElement } from 'react';
-import { notifyStateChange, useStateVersion } from '../../src/store.ts';
+import {
+  notifyAchievementsChange,
+  useAchievementsVersion,
+  useLangVersion,
+} from '../../src/store.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
 import {
   getGameData,
@@ -314,7 +318,8 @@ function AchievementPopup({
 }
 
 export function AchievementsPage(): ReactElement {
-  useStateVersion();
+  useAchievementsVersion();
+  useLangVersion();
   const [selected, setSelected] = useState<Achievement | null>(null);
   const [filter, setFilter] = useState<AchFilter>('all');
   const unlockedCount = loadUnlocked().length;
@@ -334,5 +339,5 @@ export function AchievementsPage(): ReactElement {
 }
 
 export function refreshAchievementsPage(): void {
-  notifyStateChange();
+  notifyAchievementsChange();
 }

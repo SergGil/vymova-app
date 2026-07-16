@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { act, Profiler, type ReactElement } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { KeysOverlay } from '../../js/features/keyboard.tsx';
-import { notifyStateChange, notifyLangChange } from '../../src/store.ts';
+import { notifyGameBarChange, notifyLangChange } from '../../src/store.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -102,7 +102,7 @@ describe('keyboard.tsx KeysOverlay', () => {
   // tick, a duel poll, anything. It now subscribes to the narrower
   // useLangVersion() channel instead. Profiler's onRender only fires on an
   // actual re-render, so this is a direct measurement, not an inference.
-  it('does not re-render on an unrelated notifyStateChange(), but does on notifyLangChange()', () => {
+  it('does not re-render on an unrelated notifyGameBarChange(), but does on notifyLangChange()', () => {
     const onRender = vi.fn();
     const container = document.createElement('div');
     document.body.appendChild(container);
@@ -119,7 +119,7 @@ describe('keyboard.tsx KeysOverlay', () => {
     const rendersAfterMount = onRender.mock.calls.length;
 
     act(() => {
-      notifyStateChange();
+      notifyGameBarChange();
     });
     expect(onRender.mock.calls.length).toBe(rendersAfterMount);
 

@@ -3,7 +3,7 @@
 import { type ReactElement } from 'react';
 import { W } from '../../data/words.js';
 import { t } from './i18n.ts';
-import { useStateVersion } from '../../src/store.ts';
+import { useLangVersion } from '../../src/store.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 
@@ -63,7 +63,7 @@ function exportCsv(): void {
 }
 
 export function CsvExportButton(): ReactElement {
-  useStateVersion();
+  useLangVersion();
   return (
     <button className="backup-btn" id="btn-csv-export" onClick={exportCsv}>
       {t('settings.sheetsCsv')}

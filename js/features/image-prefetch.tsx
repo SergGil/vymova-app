@@ -5,11 +5,11 @@ import { loadWikiImage, _imgCache, _getPixabayKey, resetImgCache } from '../core
 import { W } from '../../data/words.js';
 import { t, wordsLabel } from './i18n.ts';
 import { showImgClearConfirm } from './sidebar.tsx';
-import { useStateVersion, notifyStateChange } from '../../src/store.ts';
+import { useSettingsVersion, notifySettingsChange } from '../../src/store.ts';
 import type { WordEntry } from '../../src/types.js';
 
 export function ImagePrefetchSettings(): ReactElement {
-  useStateVersion();
+  useSettingsVersion();
   const [running, setRunning] = useState(false);
   const [, setTick] = useState(0);
   const posRef = useRef(0);
@@ -133,7 +133,7 @@ export function ImagePrefetchSettings(): ReactElement {
               resetImgCache();
             }
             setPixDraft(null);
-            notifyStateChange();
+            notifySettingsChange();
           }}
         >
           {t('settings.save')}

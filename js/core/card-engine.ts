@@ -19,7 +19,6 @@ import { renderGameBar } from '../features/render-game-bar.ts';
 import { refreshGameBarLevel as renderLevelBadge } from '../features/game-bar-level.tsx';
 import { checkAchievements } from '../features/render-achievements.ts';
 import { maybeSubmitScore } from '../features/leaderboard.tsx';
-import { updateRing } from '../features/ring.tsx';
 import { getMode, getActiveKnownSet } from '../features/mode-utils.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { safe as _safe } from './card-helpers.ts';
@@ -137,9 +136,6 @@ export function render(): void {
         const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
         dontKnowEl.style.display = rangeVal === 'srs' ? '' : 'none';
       }
-    });
-    _safe(() => {
-      updateRing();
     });
     // Predictive prefetch: наступні картки (без дублів для малих дек)
     _idle(function () {

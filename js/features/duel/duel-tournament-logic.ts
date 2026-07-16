@@ -94,7 +94,7 @@ export function _onTournRejoin(): void {
     );
 }
 
-function _buildBracket(size: 4 | 8): TournMatch[][] {
+export function _buildBracket(size: 4 | 8): TournMatch[][] {
   // Single-elimination bracket
   // Round 1: size/2 matches, then halve each round
   const rounds: TournMatch[][] = [];
@@ -342,7 +342,7 @@ function _renderTournBracket(tourn: Tournament): void {
 // ever registered a finish hook, so if their tab closed before the result
 // landed in the bracket, the match — and the whole tournament — was stuck
 // forever with no way for the other player to write the outcome themselves.
-function _finishHookFor(
+export function _finishHookFor(
   match: TournMatch,
   round: number,
   matchIdx: number,
@@ -384,7 +384,11 @@ function _finishHookFor(
   };
 }
 
-async function _startTournMatch(tourn: Tournament, round: number, matchIdx: number): Promise<void> {
+export async function _startTournMatch(
+  tourn: Tournament,
+  round: number,
+  matchIdx: number,
+): Promise<void> {
   const match = tourn.bracket[round][matchIdx];
   // Create a duel room for this match
   const roomId = _genCode();
@@ -439,7 +443,7 @@ async function _startTournMatch(tourn: Tournament, round: number, matchIdx: numb
   _tournFinishHook = _finishHookFor(match, round, matchIdx, mySlot);
 }
 
-async function _joinTournMatch(
+export async function _joinTournMatch(
   roomId: string,
   tourn: Tournament,
   round: number,
@@ -489,7 +493,7 @@ async function _joinTournMatch(
 // deterministic bracket update from the same room data, so duplicate writes are harmless.
 let _advanceLock = false;
 
-async function _advanceTournament(): Promise<void> {
+export async function _advanceTournament(): Promise<void> {
   if (_advanceLock) return;
   _advanceLock = true;
   try {

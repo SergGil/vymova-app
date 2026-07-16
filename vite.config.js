@@ -68,6 +68,25 @@ export default defineConfig({
     outDir: 'dist',
     target: 'esnext',
     rollupOptions: {
+      // Fails the build instead of just warning on Rollup's CIRCULAR_CHUNK —
+      // exactly the warning code behind the real "Circular chunk:
+      // render-game-bar -> voice -> render-game-bar" production crash the
+      // onlyExplicitManualChunks comment below describes (a hub module like
+      // mode-utils.ts/duel.ts/game.ts gaining a stray import back into it).
+      // Deliberately NOT the broader CIRCULAR_DEPENDENCY code: that one
+      // fires on ordinary ES-module import cycles (this codebase has
+      // several harmless ones, e.g. i18n.ts <-> deck-filter.tsx, that never
+      // reach the chunk-graph stage) and would make this tripwire fail on
+      // things that have never actually broken anything. CIRCULAR_CHUNK
+      // specifically means Rollup couldn't linearize two chunks' module-init
+      // order — that's the one that crashes at runtime with "Cannot access
+      // 'X' before initialization".
+      onwarn(warning, warn) {
+        if (warning.code === 'CIRCULAR_CHUNK') {
+          throw new Error(`Circular chunk dependency detected — this crashed prod before:\n${warning.message}`);
+        }
+        warn(warning);
+      },
       output: {
         // data/words.js (~2.5MB, the base EN/UA dictionary) is statically
         // imported from ~45 files across js/modes and js/features, so it

@@ -69,9 +69,6 @@ const speakForCode = vi.fn();
 vi.mock('../../js/features/voice/speak-lang.ts', () => ({
   speakForCode: (...a: unknown[]) => speakForCode(...a),
 }));
-vi.mock('../../js/features/similar-words.tsx', () => ({
-  updateSimilarWords: vi.fn(),
-}));
 vi.mock('../../js/core/audio.ts', () => ({
   playSound: vi.fn(),
 }));

@@ -1,7 +1,6 @@
 // Vymova — js/features/ring.tsx
 // SVG progress ring showing level completion
 import type { ReactElement } from 'react';
-import { notifyStateChange } from '../../src/store.ts';
 import { useKnownWords } from '../../src/known-words-store.ts';
 import { getLevel, getNextLevel } from './game.ts';
 
@@ -42,8 +41,4 @@ export function LevelRing(): ReactElement {
       </div>
     </div>
   );
-}
-
-export function updateRing(): void {
-  notifyStateChange();
 }

@@ -6,12 +6,7 @@ import type { ReactElement } from 'react';
 import { getGameData } from './game.ts';
 import { _getSessionCombo, getComboMult } from './combo.ts';
 import { t } from './i18n.ts';
-import {
-  notifyStateChange,
-  notifyGameBarChange,
-  useGameBarVersion,
-  useLangVersion,
-} from '../../src/store.ts';
+import { notifyGameBarChange, useGameBarVersion, useLangVersion } from '../../src/store.ts';
 
 export function GameBarStreak(): ReactElement {
   useGameBarVersion();
@@ -102,10 +97,8 @@ export function GameBarGoal(): ReactElement {
 }
 
 export function refreshGameBarStreak(): void {
-  notifyStateChange();
   notifyGameBarChange();
 }
 export function refreshGameBarGoal(): void {
-  notifyStateChange();
   notifyGameBarChange();
 }

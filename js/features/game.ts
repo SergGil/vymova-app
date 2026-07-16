@@ -1,5 +1,30 @@
 // Vymova — js/features/game.ts
-// Game data, progress tracking, levels & achievements data
+// Game data, progress tracking, levels & achievements data.
+//
+// Four similarly-named files split this subsystem — if you're looking for
+// something and landed here by mistake, it's probably one of these:
+//   game.ts             — THIS FILE. Data/persistence only: GameData shape,
+//                          XP/streak/level math, load/save. No rendering.
+//   render-game-bar.ts  — orchestrator: calls refreshGameBarLevel/Streak/Goal
+//                          together after a game-data-wide change; the two
+//                          .tsx files below are also called individually
+//                          from elsewhere (card-actions.ts, combo.ts, ...)
+//                          right after whatever specifically changed.
+//   game-bar-streak.tsx — React "Block 1" (streak/shields/combo) + "Block 2"
+//                          (daily goal) — reads GameData from this file.
+//   game-bar-level.tsx  — React "Block 3" (level badge/XP progress) — reads
+//                          GameData from this file.
+// This group has a documented history of circular-chunk build failures (see
+// vite.config.js's onwarn/CIRCULAR_CHUNK comment) — game-bar-level.tsx is
+// reachable from duel.ts (via sidebar.tsx), which is why
+// registerCheckAchievements() below is a runtime registration hook instead
+// of a direct import from achievement-checking code, and why
+// duel-word-check.ts recomputes a small word-filter locally instead of
+// importing it from word-letters.tsx (which transitively reaches
+// game-bar-level.tsx and would close that cycle — see duel-word-check.ts's
+// own comment). game.ts itself, unlike duel.ts, is a plain leaf module and
+// safe to import directly (duel-rating.ts does) — keep it that way: don't
+// give this file a static import back into duel.ts or sidebar.tsx.
 import { today, localDateStr } from '../core/today.ts';
 import { getMaxWordsForLearnLang, ALL_TARGET_LANGS } from './mode-utils.ts';
 import { _jsonLoad, _jsonSave } from '../core/storage.ts';

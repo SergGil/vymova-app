@@ -6,7 +6,7 @@ import type { GrammarRule, GSection, GrammarCategory } from '../../data/grammar.
 import { getLang, t } from './i18n.ts';
 import { getLearnLang } from './lang-pair-select.tsx';
 import { _speakWithLang } from './voice/speech.ts';
-import { useStateVersion } from '../../src/store.ts';
+import { useLangVersion } from '../../src/store.ts';
 import { speechLangFor } from './voice/speech-lang.ts';
 
 function _localizeSection(s: GSection): GSection {
@@ -134,7 +134,7 @@ export function jumpToGrammarRule(id: string): void {
 }
 
 export function GrammarPage(): ReactElement {
-  useStateVersion();
+  useLangVersion();
   const [activeId, setActiveId] = useState('');
   const [, setTick] = useState(0);
 

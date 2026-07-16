@@ -3,7 +3,7 @@
 // existing <select> element; selection handling stays imperative since
 // #sel-tag is read/written directly by deck-filter.ts and deck-mode.ts.
 import { useEffect, type ReactElement } from 'react';
-import { useStateVersion } from '../../src/store.ts';
+import { useLangVersion } from '../../src/store.ts';
 import { setActiveTagSet } from '../../src/deck-filter-store.ts';
 import { getWordIndex } from '../core/word-index.ts';
 import { WORD_CATEGORIES, CATEGORY_LIST } from '../../data/categories.js';
@@ -42,7 +42,7 @@ function applyTagFilter(selTag: HTMLSelectElement): void {
 }
 
 export function TagFilterSelect(): ReactElement {
-  useStateVersion();
+  useLangVersion();
 
   useEffect(() => {
     const selTag = document.getElementById('sel-tag') as HTMLSelectElement | null;

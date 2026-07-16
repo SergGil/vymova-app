@@ -9,7 +9,7 @@ import { AI_PROXY_URL, AI_TUTOR_ENABLED } from '../../config.ts';
 import { getKnowLang, getLearnLang } from '../lang-pair-select.tsx';
 import { _speakWithLang } from './speech.ts';
 import { t } from '../i18n.ts';
-import { useStateVersion } from '../../../src/store.ts';
+import { useLangVersion } from '../../../src/store.ts';
 import { bindOverlayDismiss } from '../overlay-utils.ts';
 import { speechLangFor } from './speech-lang.ts';
 
@@ -278,7 +278,7 @@ export async function sendRoleplayMessage(
 }
 
 export function VoiceRoleplayPage(): ReactElement | null {
-  useStateVersion();
+  useLangVersion();
   const target = document.getElementById('voice-roleplay-content');
   const [scenario, setScenario] = useState<ScenarioId | null>(null);
   const [turns, setTurns] = useState<RoleplayTurn[]>([]);

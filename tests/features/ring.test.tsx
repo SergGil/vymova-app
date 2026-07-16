@@ -50,7 +50,7 @@ describe('ring.tsx LevelRing', () => {
     expect(container.querySelector('#ring-fill')!.getAttribute('class')).toContain('done');
   });
 
-  it('re-renders when notifyStateChange fires', () => {
+  it('re-renders when known words change', () => {
     setKnownWords('en', new Set());
     const { container } = mount();
     expect(container.querySelector('#ring-center')!.textContent).toContain('0%');

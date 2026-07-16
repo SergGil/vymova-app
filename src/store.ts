@@ -1,64 +1,41 @@
-// src/store.ts — useSyncExternalStore-обгортка над мутабельним `state`.
-// Легасі-код продовжує мутувати `state` напряму і викликає notifyStateChange(),
-// щоб React-компоненти (Фаза 4+) могли підписатись і перерендеритись.
+// src/store.ts — narrow, per-concern re-render channels built on
+// useSyncExternalStore.
+//
+// This file used to also export a single global "notify everything" bus
+// (notifyStateChange/useStateVersion/useAppState over a shared, mutable
+// `state` object). Every notify() call — a card render's updateRing(), a
+// combo tick, a duel poll, a search keystroke's result count — woke all
+// ~25 of its subscribers regardless of what actually changed (the
+// keyboard-shortcuts overlay re-rendering its whole static panel on every
+// flashcard advance, the game bar re-rendering on every unrelated
+// keystroke elsewhere). That bus has been fully migrated away: every
+// consumer now subscribes to one of the channels below, or to a proper
+// per-domain store (src/create-domain-store.tsx — see
+// known-words-store.ts/srs-store.ts/deck-store.ts/nav-store.tsx).
+//
+// DO NOT resurrect a global "notify everything" channel here. New state
+// belongs in its own createDomainStore() instance; a new narrow channel
+// below is for the specific case of "some widget's t()-translated labels
+// (or similarly non-reactive display data) need to refresh on a specific,
+// infrequent event" — not a catch-all.
 import { useSyncExternalStore } from 'react';
-import { state } from './state.ts';
-import type { AppState } from './types.js';
 
 type Listener = () => void;
-const listeners = new Set<Listener>();
-let version = 0;
 
-export function notifyStateChange(): void {
-  version++;
-  listeners.forEach((l) => l());
-}
-
-function subscribe(listener: Listener): () => void {
-  listeners.add(listener);
-  return () => {
-    listeners.delete(listener);
-  };
-}
-
-function getVersion(): number {
-  return version;
-}
-
-export function useStateVersion(): number {
-  return useSyncExternalStore(subscribe, getVersion);
-}
-
-export function useAppState(): AppState {
-  useStateVersion();
-  return state;
-}
-
-// ── Narrower channels ────────────────────────────────────────────
-// useStateVersion() above is a single global bus: every notifyStateChange()
-// call — a card render's updateRing(), a combo tick, a duel poll, a search
-// keystroke's result count — wakes up all ~25 of its subscribers, including
-// ones with nothing to do with what actually changed (the keyboard-shortcuts
-// overlay re-rendering its whole static panel on every flashcard advance,
-// the game bar re-rendering on every unrelated keystroke elsewhere). These
-// two channels are purely additive escape hatches for the specific
-// consumers where that was measurably wasteful — existing notifyStateChange()
-// call sites are untouched, callers that also matter to one of these
-// channels just gained one more (cheap) notify() alongside it.
 function createVersionChannel(): { notify: () => void; useVersion: () => number } {
-  const chListeners = new Set<Listener>();
+  const listeners = new Set<Listener>();
   let v = 0;
   return {
     notify(): void {
       v++;
-      chListeners.forEach((l) => l());
+      listeners.forEach((l) => l());
     },
     useVersion(): number {
       return useSyncExternalStore(
         (listener) => {
-          chListeners.add(listener);
+          listeners.add(listener);
           return () => {
-            chListeners.delete(listener);
+            listeners.delete(listener);
           };
         },
         () => v,
@@ -68,19 +45,33 @@ function createVersionChannel(): { notify: () => void; useVersion: () => number 
 }
 
 // UI display-language switches (i18n.ts) and learn/know-language-pair
-// switches (lang-pair-select.tsx) — both comparatively rare, unlike the
-// global bus's per-card/per-keystroke churn. For consumers whose only
-// reason to subscribe to the global bus was "so my t() calls / active-known
-// lookups stay fresh," e.g. the keyboard-shortcuts overlay and the inline
-// search box.
+// switches (lang-pair-select.tsx) — both comparatively rare. For consumers
+// whose only reason to re-render is "so my t() calls / language-pair-
+// derived data stay fresh."
 const langChannel = createVersionChannel();
 export const notifyLangChange = langChannel.notify;
 export const useLangVersion = langChannel.useVersion;
 
 // Game-bar data (streak/goal/combo/level) — fired by the game bar's own
-// refreshGameBar*() functions and combo.ts, i.e. exactly the events the game
-// bar components care about, without the keyboard-overlay/search-box/duel
-// churn the global bus also carries.
+// refreshGameBar*() functions and combo.ts, i.e. exactly the events the
+// game bar (and other game-data-derived displays, e.g. profile-page.tsx)
+// care about.
 const gameBarChannel = createVersionChannel();
 export const notifyGameBarChange = gameBarChannel.notify;
 export const useGameBarVersion = gameBarChannel.useVersion;
+
+// Achievements page — achievement/level unlock data isn't itself a
+// reactive store (plain _jsonLoad/_jsonSave-backed GameData, like game.ts's
+// other fields), so refreshAchievementsPage() (sidebar.tsx, on opening the
+// achievements page; stats-page.tsx, after a progress-bumping action)
+// fires this explicitly instead.
+const achievementsChannel = createVersionChannel();
+export const notifyAchievementsChange = achievementsChannel.notify;
+export const useAchievementsVersion = achievementsChannel.useVersion;
+
+// Settings-page misc widgets (currently just the image-prefetch/Pixabay-key
+// panel) — fired when the settings page opens (sidebar.tsx) and after
+// saving a Pixabay key (image-prefetch.tsx).
+const settingsChannel = createVersionChannel();
+export const notifySettingsChange = settingsChannel.notify;
+export const useSettingsVersion = settingsChannel.useVersion;

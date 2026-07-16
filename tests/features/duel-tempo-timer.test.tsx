@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { notifyStateChange } from '../../src/store.ts';
 import { DuelTempoTimer } from '../../js/features/duel/duel-tempo-timer.tsx';
 import { TEMPO_SEC } from '../../js/features/duel/duel.ts';
 import { setDuelRoom } from '../../src/duel-room-store.ts';
@@ -76,7 +75,6 @@ describe('duel-tempo-timer.tsx DuelTempoTimer', () => {
 
     tempo = { visible: true, num: 2 };
     act(() => {
-      notifyStateChange();
       setDuelRoom({});
     });
 

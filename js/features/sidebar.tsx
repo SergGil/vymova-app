@@ -2,7 +2,7 @@
 // Sidebar wiring, page-view system, theme toggles, img-clear confirm
 import { useEffect, type ReactElement } from 'react';
 import { AI_TUTOR_ENABLED } from '../config.ts';
-import { notifyStateChange } from '../../src/store.ts';
+import { notifySettingsChange } from '../../src/store.ts';
 import {
   getActivePage,
   dispatchOpenPage,
@@ -124,7 +124,7 @@ export function openPage(page: string): void {
     document.getElementById('settings-overlay')?.classList.add('open');
     _renderVoices();
     _refreshNotifUI();
-    notifyStateChange();
+    notifySettingsChange();
     _refreshCloudSyncUI();
   } else if (page === 'duel') {
     document.getElementById('duel-overlay')?.classList.add('open');

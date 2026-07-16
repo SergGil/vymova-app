@@ -2,14 +2,14 @@
 // Історія останніх дуелей з пагінацією (#duel-history-list).
 // Частина item 30 (Фаза 5).
 import { useState } from 'react';
-import { useStateVersion } from '../../../src/store.ts';
+import { useLangVersion } from '../../../src/store.ts';
 import { t } from '../i18n.ts';
 import { _getHistory } from './duel.ts';
 
 const HIST_PAGE_SIZE = 10;
 
 export function DuelHistory() {
-  useStateVersion();
+  useLangVersion();
   const [page, setPage] = useState(0);
   const h = _getHistory();
   if (!h.length) {

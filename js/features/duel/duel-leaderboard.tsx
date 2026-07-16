@@ -1,7 +1,7 @@
 // Vymova — js/features/duel-leaderboard.tsx
 // Лідерборд профілів (#duel-leaderboard) і рядок W/L рейтингу (#duel-rating-row)
 // у лобі дуелі. Частина item 31 (Фаза 5).
-import { useStateVersion } from '../../../src/store.ts';
+import { useLangVersion } from '../../../src/store.ts';
 import { t, pluralLabel } from '../i18n.ts';
 import { _getRating } from './duel.ts';
 import {
@@ -49,7 +49,7 @@ function _computeStats(): ProfileStat[] {
 }
 
 export function DuelLeaderboard() {
-  useStateVersion();
+  useLangVersion();
   const stats = _computeStats();
   if (!stats.length) {
     return (
@@ -105,7 +105,7 @@ export function DuelLeaderboard() {
 }
 
 export function DuelRating() {
-  useStateVersion();
+  useLangVersion();
   const r = _getRating();
   return (
     <>

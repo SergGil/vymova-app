@@ -13,7 +13,6 @@ import { toggleBookmark } from './bookmarks.ts';
 import { isPronuncSupported, startPronunciationCheck } from './voice/pronunciation.ts';
 import { showPronuncResult } from './voice/pronunciation-toast.tsx';
 import { checkMilestones } from './milestones.ts';
-import { updateSimilarWords } from './similar-words.tsx';
 import {
   getMode,
   getActiveTargetLang,
@@ -35,7 +34,6 @@ import { launchConfetti } from '../core/confetti.tsx';
 import { t } from './i18n.ts';
 import { renderGameBar } from './render-game-bar.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
-import { updateRing } from './ring.tsx';
 import {
   render,
   setIdx,
@@ -74,7 +72,6 @@ export function CardActionsInit(): ReactElement | null {
     const onCardClick = () => {
       if (!getFlippedSnapshot()) {
         setFlipped(true);
-        _safe(() => updateSimilarWords());
       }
     };
     cardEl.addEventListener('click', onCardClick);
@@ -349,7 +346,6 @@ export function CardActionsInit(): ReactElement | null {
       }
       _safe(() => renderGameBar());
       _safe(() => refreshGameBarLevel());
-      _safe(() => updateRing());
       _safe(() => render());
       document.getElementById('modal-overlay')!.style.display = 'none';
     };

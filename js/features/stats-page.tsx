@@ -16,7 +16,7 @@ import { t, getLang, wordsLabel, pluralLabel, monthNames, dowNames } from './i18
 import { W } from '../../data/words.js';
 import { getCefrLevel } from '../../data/cefr.ts';
 import { Leaderboard } from './leaderboard.tsx';
-import { notifyStateChange } from '../../src/store.ts';
+import { notifyAchievementsChange } from '../../src/store.ts';
 import { getKnownInLang, getActiveKnownByLang, getWordsForLang } from './mode-utils.ts';
 import type { WordEntry } from '../../src/types.js';
 import { InfoIcon, InfoNote } from './info-icon.tsx';
@@ -367,7 +367,7 @@ export function StatsPage(): ReactElement {
     setStatsBumpTick(() => {
       setTick((x) => x + 1);
       try {
-        notifyStateChange();
+        notifyAchievementsChange();
       } catch (e) {}
       // Weak words is rendered via legacy imperative DOM writes (catpairs.tsx),
       // not React state, so it wouldn't otherwise pick up changes made

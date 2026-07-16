@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { notifyStateChange } from '../../src/store.ts';
 import { DuelGameHeader } from '../../js/features/duel/duel-game-header.tsx';
 import { setDuelRoom } from '../../src/duel-room-store.ts';
 
@@ -195,7 +194,6 @@ describe('duel-game-header.tsx DuelGameHeader', () => {
       roomCode: null,
     });
     act(() => {
-      notifyStateChange();
       setDuelRoom({});
     });
     expect(container.textContent).toContain('Foxy');

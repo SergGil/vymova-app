@@ -17,7 +17,7 @@ import { loadUnlocked, getLangStreak, getLangXp, getLangAchCount } from './game.
 import { getKnownInLang } from './mode-utils.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
 import { t, wordsLabel } from './i18n.ts';
-import { useStateVersion } from '../../src/store.ts';
+import { useLangVersion, useGameBarVersion } from '../../src/store.ts';
 import type { CharacterAppearance } from '../../src/types.js';
 import { useAllKnownWords, type KnownLang } from '../../src/known-words-store.ts';
 import { ALL_TARGET_LANGS } from '../../src/types.ts';
@@ -211,7 +211,8 @@ function getProfileName(): string {
 }
 
 export function ProfilePage(): ReactElement | null {
-  useStateVersion();
+  useLangVersion();
+  useGameBarVersion();
   const allKnownWords = useAllKnownWords();
   const target = document.getElementById('profile-content');
   const [savedAppearance, setSavedAppearance] = useState<CharacterAppearance>(() =>

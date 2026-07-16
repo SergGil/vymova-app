@@ -43,9 +43,6 @@ vi.mock('../../js/features/render-achievements.ts', () => ({ checkAchievements }
 const { maybeSubmitScore } = vi.hoisted(() => ({ maybeSubmitScore: vi.fn() }));
 vi.mock('../../js/features/leaderboard.tsx', () => ({ maybeSubmitScore }));
 
-const { updateRing } = vi.hoisted(() => ({ updateRing: vi.fn() }));
-vi.mock('../../js/features/ring.tsx', () => ({ updateRing }));
-
 const { loadWikiImage } = vi.hoisted(() => ({ loadWikiImage: vi.fn() }));
 vi.mock('../../js/core/images.ts', () => ({
   loadWikiImage,
@@ -163,7 +160,6 @@ describe('card-engine.ts', () => {
 
       expect(getFlippedSnapshot()).toBe(false);
       expect(getCwSnapshot()).toEqual(word1);
-      expect(updateRing).toHaveBeenCalled();
     });
 
     it('marks the card as known when the word is in the active known set', () => {

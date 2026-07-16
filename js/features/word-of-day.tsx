@@ -2,7 +2,7 @@
 // "Слово дня" header widget. Picks a word matching the currently selected
 // language pair, shows an illustrative image, and jumps to it on click.
 import { useEffect, useState, type ReactElement } from 'react';
-import { useStateVersion } from '../../src/store.ts';
+import { useLangVersion } from '../../src/store.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { today } from '../core/today.ts';
 import { W } from '../../data/words.js';
@@ -71,7 +71,7 @@ function goToWord(word: WordEntry): void {
 }
 
 export function WordOfDay(): ReactElement {
-  useStateVersion();
+  useLangVersion();
   const [mode, setMode] = useState(getMode);
   const [imgUrl, setImgUrl] = useState<string | null>(null);
   const [imgFailed, setImgFailed] = useState(false);

@@ -4,7 +4,7 @@
 // (deck-mode, tag-filter, word-detail, mode-utils, ...) keep working untouched.
 import { useState, type ReactElement } from 'react';
 import { t, getLang } from './i18n.ts';
-import { notifyStateChange, notifyLangChange, useStateVersion } from '../../src/store.ts';
+import { notifyLangChange, useLangVersion } from '../../src/store.ts';
 import { flagUrl } from '../core/flags.ts';
 import { FLAG_CODE } from '../core/flag-codes.ts';
 import { FlagDropdown } from '../core/flag-dropdown.tsx';
@@ -577,7 +577,7 @@ function applyMode(learn: LangCode, know: LangCode, direction: Direction): void 
 }
 
 export function LangPairSelect(): ReactElement {
-  useStateVersion();
+  useLangVersion();
   const [{ learnLang, knowLang, direction }, setState] = useState(initialState);
 
   function persist(next: { learnLang: LangCode; knowLang: LangCode; direction: Direction }): void {
@@ -594,7 +594,6 @@ export function LangPairSelect(): ReactElement {
     // first render isn't blocked by a network fetch.
     if (areLangTablesReady(next.learnLang, next.knowLang)) {
       applyMode(next.learnLang, next.knowLang, next.direction);
-      notifyStateChange();
       notifyLangChange();
     } else {
       void Promise.all([
@@ -602,7 +601,6 @@ export function LangPairSelect(): ReactElement {
         ensureLangTableLoaded(next.knowLang),
       ]).then(() => {
         applyMode(next.learnLang, next.knowLang, next.direction);
-        notifyStateChange();
         notifyLangChange();
       });
     }

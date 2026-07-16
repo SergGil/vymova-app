@@ -1,7 +1,7 @@
 // Vymova — js/core/pwa.tsx
 // PWA install banner (Chrome + iOS)
 import { useState, useEffect, type ReactElement } from 'react';
-import { useStateVersion } from '../../src/store.ts';
+import { useLangVersion } from '../../src/store.ts';
 import { t } from '../features/i18n.ts';
 
 // Module-level so the Settings page can trigger install independently of
@@ -50,7 +50,7 @@ export async function triggerPwaInstall(): Promise<boolean> {
 }
 
 export function PwaBanner(): ReactElement {
-  useStateVersion();
+  useLangVersion();
   const [visible, setVisible] = useState(false);
   const [iosHint, setIosHint] = useState(false);
 

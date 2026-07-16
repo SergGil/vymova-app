@@ -5,7 +5,7 @@
 // just synced to video playback instead of a static paragraph.
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { useStateVersion } from '../../../src/store.ts';
+import { useLangVersion } from '../../../src/store.ts';
 import { getKnownSnapshot } from '../../../src/known-words-store.ts';
 import { decodeIpa } from '../../core/ui-helpers.ts';
 import { onWordLearned } from '../../core/card-engine.ts';
@@ -45,7 +45,7 @@ function renderCueHtml(text: string): string {
 }
 
 export function VideoPlayerPage(): ReactElement | null {
-  useStateVersion();
+  useLangVersion();
   const target = document.getElementById('video-player-content');
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [cues, setCues] = useState<Cue[]>([]);

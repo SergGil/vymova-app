@@ -2,7 +2,7 @@
 // Bug / feedback report form — opens mailto: with pre-filled subject + body
 import { useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
-import { useStateVersion } from '../../src/store.ts';
+import { useLangVersion } from '../../src/store.ts';
 
 const RECIPIENT = 'beizmans@gmail.com';
 
@@ -15,7 +15,7 @@ const SUBJECT_KEYS = [
 ] as const;
 
 export function BugReportForm(): ReactElement {
-  useStateVersion();
+  useLangVersion();
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState(false);

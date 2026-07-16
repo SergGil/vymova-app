@@ -21,7 +21,7 @@ const {
   getModeAccuracy,
   getMistakes,
   getWeeklyTotal,
-  notifyStateChange,
+  notifyAchievementsChange,
   closePage,
 } = vi.hoisted(() => ({
   getDailyStats: vi.fn(() => ({}) as Record<string, number>),
@@ -30,7 +30,7 @@ const {
   getModeAccuracy: vi.fn(() => ({}) as Record<string, { ok: number; err: number }>),
   getMistakes: vi.fn(() => ({}) as Record<string, number>),
   getWeeklyTotal: vi.fn(() => 0),
-  notifyStateChange: vi.fn(),
+  notifyAchievementsChange: vi.fn(),
   closePage: vi.fn(),
 }));
 vi.mock('../../js/features/game.ts', () => ({
@@ -51,7 +51,7 @@ vi.mock('../../js/features/mistake-review.tsx', () => ({
 }));
 vi.mock('../../src/store.ts', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../src/store.ts')>();
-  return { ...actual, notifyStateChange };
+  return { ...actual, notifyAchievementsChange };
 });
 vi.mock('../../js/features/sidebar.tsx', () => ({ closePage }));
 vi.mock('../../js/features/leaderboard.tsx', () => ({
@@ -84,7 +84,7 @@ describe('stats-page.tsx StatsPage', () => {
     getModeAccuracy.mockClear().mockReturnValue({});
     getMistakes.mockClear().mockReturnValue({});
     getWeeklyTotal.mockClear().mockReturnValue(0);
-    notifyStateChange.mockClear();
+    notifyAchievementsChange.mockClear();
     closePage.mockClear();
   });
 
@@ -195,13 +195,13 @@ describe('stats-page.tsx StatsPage', () => {
     ).toBe('1');
   });
 
-  it('refreshStatsPage triggers a re-render and notifies global state (so lazy-loaded achievements pick it up too)', () => {
+  it('refreshStatsPage triggers a re-render and notifies the achievements channel (so lazy-loaded achievements pick it up too)', () => {
     const { root } = mount();
     roots.push(root);
     act(() => {
       refreshStatsPage();
     });
-    expect(notifyStateChange).toHaveBeenCalled();
+    expect(notifyAchievementsChange).toHaveBeenCalled();
   });
 
   it('refreshStatsPage does nothing when no StatsPage is mounted', () => {
