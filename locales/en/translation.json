@@ -34,6 +34,7 @@
   "cards.canonAttested": "A genuine canon word (officially attested)",
   "cards.canonNeo": "A reconstructed word (built on the language's grammar, not canon)",
   "cards.hint": "Tap the card to see the translation",
+  "cards.emptyDeck": "No words match this filter",
   "cards.example": "Example",
   "pos.n": "noun",
   "pos.v": "verb",

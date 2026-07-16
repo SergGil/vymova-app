@@ -97,6 +97,7 @@ export function sm2Update(word: string, quality: number): void {
     interval,
     due: addDays(today(), interval),
     lapses,
+    updatedAt: Date.now(),
   } satisfies SRSEntry);
   if (wasNew) recordSrsNewCard();
 }

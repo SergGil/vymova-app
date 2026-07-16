@@ -301,6 +301,13 @@ export interface SRSEntry {
   interval: number; // Days until next review
   due: string; // Due date YYYY-MM-DD
   lapses?: number; // Total count of "Don't know" presses
+  // epoch ms of the last sm2Update() call for this word — lets cloud-sync's
+  // merge break ties by actual recency instead of assuming higher reps is
+  // always fresher (a lapse resets reps/interval to a low value, so without
+  // this a stale high-reps entry from another device could wrongly win over
+  // a real, newer lapse). Optional: entries synced before this field existed
+  // won't have it, and merge falls back to the old reps-based heuristic for those.
+  updatedAt?: number;
 }
 
 export type SRSData = Record<string, SRSEntry>;

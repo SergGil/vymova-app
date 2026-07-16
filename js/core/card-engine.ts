@@ -103,8 +103,14 @@ export function animCard(dir: 'next' | 'prev' | 'fade'): void {
 export function render(): void {
   try {
     const deck = getDeckSnapshot();
+    const mode = getMode();
     if (!deck || !deck.length) {
-      console.error('render: deck empty');
+      // A tag/category filter narrowing the deck to zero words used to leave
+      // the previous card frozen on screen with no explanation (only a
+      // console.error nobody sees). Pushing cw:null through the store lets
+      // WordText render an actual "nothing found" state instead — every
+      // other card field already no-ops on cw:null (see card-front-text.tsx).
+      renderCardState(null, mode);
       return;
     }
     if (synth) {
@@ -116,7 +122,6 @@ export function render(): void {
       console.error('render: cw is null');
       return;
     }
-    const mode = getMode();
     renderCardState(cw, mode);
     const cardEl = $e('card');
     if (cardEl) {

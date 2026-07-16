@@ -19,7 +19,7 @@ import type {
   TournamentData,
 } from './duel-types.ts';
 export type { TournMatchVM, TournRoundVM, TournamentData };
-import { DB_URL, _fbGet, _fbPatch, _fbSet } from './duel-firebase.ts';
+import { DB_URL, _fbGet, _fbPatch, _fbSet, _fbClaim } from './duel-firebase.ts';
 import { _genCode, _fmtCode, _buildDeck } from './duel-deck.ts';
 import { _getMyName, _getMyAvatar } from './duel-profile-snap.ts';
 import {
@@ -70,6 +70,7 @@ function _showTournament() {
 
 let _tournPlayCtx: { tourn: Tournament; round: number; matchIdx: number } | null = null;
 let _tournRejoinRoomId: string | null = null;
+let _tournRejoinCtx: { tourn: Tournament; round: number; matchIdx: number } | null = null;
 export function _getTournamentData(): TournamentData | null {
   return getDuelTournViewSnapshot();
 }
@@ -84,7 +85,13 @@ export function _onTournPlay(): void {
     _startTournMatch(_tournPlayCtx.tourn, _tournPlayCtx.round, _tournPlayCtx.matchIdx);
 }
 export function _onTournRejoin(): void {
-  if (_tournRejoinRoomId) _joinTournMatch(_tournRejoinRoomId);
+  if (_tournRejoinRoomId && _tournRejoinCtx)
+    _joinTournMatch(
+      _tournRejoinRoomId,
+      _tournRejoinCtx.tourn,
+      _tournRejoinCtx.round,
+      _tournRejoinCtx.matchIdx,
+    );
 }
 
 function _buildBracket(size: 4 | 8): TournMatch[][] {
@@ -162,17 +169,25 @@ export async function joinTournament(): Promise<void> {
     if (tourn.finished) throw new Error(t('duel.tourn.err.finished'));
     const slots = Object.keys(tourn.players).map(Number);
     if (slots.length >= tourn.size) throw new Error(t('duel.tourn.err.noSlot'));
-    // Find first free slot
-    const mySlot = Array.from({ length: tourn.size }, (_, i) => i).find((i) => !tourn.players[i]);
+    // Atomic compare-and-swap per candidate slot (mirrors joinRoom()'s p2
+    // claim in duel-lobby-logic.ts) — two players tapping "join" on the same
+    // tournament code within the same poll window can both see the same
+    // slot as free, but only one of them wins each conditional write, so the
+    // loser moves on to the next free slot instead of silently overwriting
+    // the winner's claim while its own client still believes it holds that slot.
+    let mySlot: number | undefined;
+    for (let i = 0; i < tourn.size; i++) {
+      if (tourn.players[i]) continue;
+      const claimed = await _fbClaim(`/tournaments/${code}/players/${i}`, {
+        name: _getMyName(),
+        avatar: _getMyAvatar(),
+      });
+      if (claimed) {
+        mySlot = i;
+        break;
+      }
+    }
     if (mySlot === undefined) throw new Error(t('duel.tourn.err.noSlot'));
-    // Re-check the slot is still free right before claiming it, to narrow the race
-    // window where two players pick the same slot at nearly the same time.
-    const fresh = await _fbGet(`/tournaments/${code}/players/${mySlot}`);
-    if (fresh) throw new Error(t('duel.tourn.err.noSlot'));
-    await _fbPatch(`/tournaments/${code}/players/${mySlot}`, {
-      name: _getMyName(),
-      avatar: _getMyAvatar(),
-    });
     _tournId = code;
     _tournSlot = mySlot;
     _tournData = tourn;
@@ -281,6 +296,7 @@ function _renderTournBracket(tourn: Tournament): void {
   let matchArea: TournMatchArea;
   _tournPlayCtx = null;
   _tournRejoinRoomId = null;
+  _tournRejoinCtx = null;
   if (tourn.finished) {
     matchArea = { kind: 'champion' };
   } else {
@@ -295,6 +311,7 @@ function _renderTournBracket(tourn: Tournament): void {
       } else if (myTurn && curMatch.roomId) {
         matchArea = { kind: 'rejoin' };
         _tournRejoinRoomId = curMatch.roomId;
+        _tournRejoinCtx = { tourn, round: tourn.currentRound, matchIdx: tourn.currentMatch };
       } else {
         const opp =
           curMatch.p1 === _tournSlot ? tourn.players[curMatch.p2] : tourn.players[curMatch.p1];
@@ -318,6 +335,53 @@ function _renderTournBracket(tourn: Tournament): void {
     rounds,
     matchArea,
   });
+}
+
+// Shared by both sides of a match: the room creator (_startTournMatch) and
+// the player who joins it (_joinTournMatch). Previously only the creator
+// ever registered a finish hook, so if their tab closed before the result
+// landed in the bracket, the match — and the whole tournament — was stuck
+// forever with no way for the other player to write the outcome themselves.
+function _finishHookFor(
+  match: TournMatch,
+  round: number,
+  matchIdx: number,
+  mySlot: 'p1' | 'p2',
+): (roomData: RoomData) => Promise<void> {
+  return async (roomData: RoomData) => {
+    const me = roomData[mySlot] as PlayerData;
+    const opp = roomData[mySlot === 'p1' ? 'p2' : 'p1'] as PlayerData;
+    const myScore = me.score,
+      oppScore = opp?.score ?? 0;
+    // Tournament matches are hard-coded bestOf:1 (see _startTournMatch), so a
+    // tied score is a real outcome, not an edge case — the old myScore >
+    // oppScore / else split silently sent every tie to "not the winner",
+    // which always resolved to the room's opponent slot. Both clients must
+    // land on the same winner independently (they each PATCH this result —
+    // see _advanceTournament's comment on why duplicate writes are safe only
+    // when deterministic), so the tiebreak is derived from roomData.seed
+    // (shared, fixed once at room creation) rather than Math.random(), which
+    // would let the two clients disagree and race each other's writes.
+    const winner =
+      myScore === oppScore
+        ? roomData.seed % 2 === 0
+          ? match.p1
+          : match.p2
+        : myScore > oppScore
+          ? match.p1 === _tournSlot
+            ? match.p1
+            : match.p2
+          : match.p1 === _tournSlot
+            ? match.p2
+            : match.p1;
+    await _fbPatch(`/tournaments/${_tournId}/bracket/${round}/${matchIdx}`, {
+      p1score: match.p1 === _tournSlot ? myScore : oppScore,
+      p2score: match.p1 === _tournSlot ? oppScore : myScore,
+      winner,
+      done: true,
+    });
+    await _advanceTournament();
+  };
 }
 
 async function _startTournMatch(tourn: Tournament, round: number, matchIdx: number): Promise<void> {
@@ -372,31 +436,15 @@ async function _startTournMatch(tourn: Tournament, round: number, matchIdx: numb
   });
   _initGame(tourn.mode, 3, 1, { p1wins: 0, p2wins: 0, round: 1 }, false);
   // After game finishes, save result to tournament
-  _tournFinishHook = async (roomData: RoomData) => {
-    const me = roomData[mySlot] as PlayerData;
-    const opp = roomData[mySlot === 'p1' ? 'p2' : 'p1'] as PlayerData;
-    const myScore = me.score,
-      oppScore = opp?.score ?? 0;
-    const winner =
-      myScore > oppScore
-        ? match.p1 === _tournSlot
-          ? match.p1
-          : match.p2
-        : match.p1 === _tournSlot
-          ? match.p2
-          : match.p1;
-    await _fbPatch(`/tournaments/${_tournId}/bracket/${round}/${matchIdx}`, {
-      p1score: match.p1 === _tournSlot ? myScore : oppScore,
-      p2score: match.p1 === _tournSlot ? oppScore : myScore,
-      winner,
-      done: true,
-    });
-    // Advance tournament
-    await _advanceTournament();
-  };
+  _tournFinishHook = _finishHookFor(match, round, matchIdx, mySlot);
 }
 
-async function _joinTournMatch(roomId: string): Promise<void> {
+async function _joinTournMatch(
+  roomId: string,
+  tourn: Tournament,
+  round: number,
+  matchIdx: number,
+): Promise<void> {
   try {
     const room = (await _fbGet(`/duel_rooms/${roomId}`)) as RoomData | null;
     if (!room) return;
@@ -428,6 +476,11 @@ async function _joinTournMatch(roomId: string): Promise<void> {
       oppAvatar: room.p1.avatar,
     });
     _initGame(room.mode, 3, 1, { p1wins: 0, p2wins: 0, round: 1 }, false);
+    // Mirrors _startTournMatch's hook — the joiner is always room-slot 'p2'
+    // (set via setDuelRoom above), so if the room creator's tab dies before
+    // writing the result, this client can still finish the match itself.
+    const match = tourn.bracket[round][matchIdx];
+    _tournFinishHook = _finishHookFor(match, round, matchIdx, 'p2');
   } catch (e) {}
 }
 

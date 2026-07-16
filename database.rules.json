@@ -41,7 +41,7 @@
           "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40 && (!data.exists() || newData.val() == data.val())" },
           "avatar": { ".validate": "newData.isString() && newData.val().length <= 20 && (!data.exists() || newData.val() == data.val())" },
           "score": {
-            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= newData.parent().child('idx').val() * 2 && (!data.exists() || newData.val() >= data.val())"
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= newData.parent().child('idx').val() + 1 && (!data.exists() || newData.val() >= data.val())"
           },
           "idx": {
             ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10 && (!data.exists() || newData.val() >= data.val())"
@@ -64,7 +64,7 @@
           "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40 && (!data.exists() || newData.val() == data.val())" },
           "avatar": { ".validate": "newData.isString() && newData.val().length <= 20 && (!data.exists() || newData.val() == data.val())" },
           "score": {
-            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= newData.parent().child('idx').val() * 2 && (!data.exists() || newData.val() >= data.val())"
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= newData.parent().child('idx').val() + 1 && (!data.exists() || newData.val() >= data.val())"
           },
           "idx": {
             ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10 && (!data.exists() || newData.val() >= data.val())"

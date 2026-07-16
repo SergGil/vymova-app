@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
 import { ensureLocaleLoaded } from '../../js/features/i18n.ts';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { setCwState, setFlippedState, setModeState } from '../../src/deck-store.ts';
+import { setCwState, setFlippedState, setModeState, setDeckState } from '../../src/deck-store.ts';
 import { clearSrsData } from '../../src/srs-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 import {
@@ -202,10 +202,18 @@ describe('card-front-text.tsx', () => {
     speak.mockClear();
   });
 
-  it('WordText renders nothing when there is no current word', () => {
+  it('WordText renders nothing when cw is transiently null but the deck is not empty', () => {
+    setDeckState([cw]);
     setCwState(null);
     const { container } = mount(WordText);
     expect(container.innerHTML).toBe('');
+  });
+
+  it('WordText renders an empty-filter message when the deck itself is empty', () => {
+    setDeckState([]);
+    setCwState(null);
+    const { container } = mount(WordText);
+    expect(container.querySelector('.word-text-empty')).not.toBeNull();
   });
 
   it('WordText renders the front word for the current mode', () => {

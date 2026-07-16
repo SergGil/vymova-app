@@ -5,7 +5,7 @@ import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { getSrsDataSnapshot, deleteSrsEntry } from '../../src/srs-store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speakForCode } from './voice/speak-lang.ts';
-import { saveKnown } from '../core/storage.ts';
+import { saveKnown, saveSRS } from '../core/storage.ts';
 import { getSimilarWordsFor } from './similar-words.tsx';
 import { W } from '../../data/words.js';
 import { isBookmarked, toggleBookmark } from './bookmarks.ts';
@@ -160,8 +160,7 @@ export function WordDetailPage(): ReactElement | null {
       } else {
         saveKnown(getKnownSnapshot('en'));
       }
-      const { saveSRS } = window as Window & { saveSRS?: (d: unknown) => void };
-      saveSRS?.(getSrsDataSnapshot());
+      saveSRS(getSrsDataSnapshot());
     } catch (e) {}
     setKnown(false);
     setSrsEntry(undefined);

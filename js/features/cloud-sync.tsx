@@ -142,10 +142,14 @@ function _mergeDaily(
   return merged;
 }
 
-// Keeps whichever side of each word is further along (more successful
-// reviews; ties broken by the longer interval) — sm2Update() resets both
-// reps and interval to a low value on a failed review, so a higher reps
-// reliably means "more real study progress on this word," never a fluke.
+// Prefers whichever side of each word was actually reviewed more recently
+// (by updatedAt) when both entries carry that timestamp — sm2Update() resets
+// reps/interval to a low value on a failed review, so a fresher lapse must
+// win over a stale, higher-reps entry from before that lapse happened, or
+// the lapse silently disappears on merge (the word stays "mastered" and
+// never comes back up for review). Falls back to the old
+// higher-reps/longer-interval heuristic when either side predates the
+// updatedAt field (data synced before this migration).
 function _mergeSrs(local: SRSData | undefined, remote: unknown): SRSData {
   const r = (remote ?? {}) as SRSData;
   const merged: SRSData = { ...(local ?? {}) };
@@ -153,7 +157,13 @@ function _mergeSrs(local: SRSData | undefined, remote: unknown): SRSData {
     const a = merged[w];
     const b = r[w];
     if (!b) continue;
-    merged[w] = !a || b.reps > a.reps || (b.reps === a.reps && b.interval > a.interval) ? b : a;
+    if (!a) {
+      merged[w] = b;
+    } else if (typeof a.updatedAt === 'number' && typeof b.updatedAt === 'number') {
+      merged[w] = b.updatedAt > a.updatedAt ? b : a;
+    } else {
+      merged[w] = b.reps > a.reps || (b.reps === a.reps && b.interval > a.interval) ? b : a;
+    }
   }
   return merged;
 }

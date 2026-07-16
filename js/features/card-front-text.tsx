@@ -37,8 +37,22 @@ function AccentFlag({ code }: { code: string }) {
 }
 
 export function WordText() {
-  const { cw } = useDeckState();
-  if (!cw) return null;
+  const { cw, deck } = useDeckState();
+  if (!cw) {
+    // deck.length === 0 means a tag/category filter genuinely narrowed the
+    // deck to zero words (see card-engine.ts's render()) — surface that
+    // instead of leaving the card silently blank. Any other cw:null moment
+    // (e.g. before the very first render()) is transient and shows nothing,
+    // same as before.
+    if (deck.length === 0) {
+      return (
+        <span className="word-text word-text-empty" id="wword">
+          {t('cards.emptyDeck')}
+        </span>
+      );
+    }
+    return null;
+  }
   const { frontWord, frontRtl } = computeCardView(cw, getResolvedMode());
   return (
     <span className="word-text" id="wword" dir={frontRtl ? 'rtl' : undefined}>
