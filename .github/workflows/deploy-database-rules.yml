@@ -1,0 +1,47 @@
+name: Deploy Database Rules
+
+# Redeploys database.rules.json to Firebase Realtime Database on every push
+# to main that touches it (or via manual "Run workflow" in the Actions tab).
+# Needs one repo secret — GitHub repo → Settings → Secrets and variables →
+# Actions → New repository secret:
+#
+#   FIREBASE_SERVICE_ACCOUNT — a Google Cloud service-account key (JSON),
+#   created at console.firebase.google.com → Project Settings → Service
+#   accounts → Generate new private key, for the "english-words-trainer-557e8"
+#   project (see .firebaserc). Paste the whole JSON file content as the
+#   secret value.
+#
+# Without this secret the workflow fails (visible in the Actions tab) but
+# nothing else breaks — the rules just have to be applied by hand instead,
+# via the Firebase Console's Realtime Database → Rules tab.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'database.rules.json'
+      - 'firebase.json'
+      - '.firebaserc'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-database-rules
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate rules JSON
+        run: node -e "JSON.parse(require('fs').readFileSync('database.rules.json', 'utf8'))"
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          create_credentials_file: true
+
+      - name: Deploy Realtime Database rules
+        run: npx firebase-tools@13 deploy --only database --non-interactive
