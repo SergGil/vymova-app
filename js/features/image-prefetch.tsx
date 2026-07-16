@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, type ReactElement } from 'react';
 import { loadWikiImage, _imgCache, _getPixabayKey, resetImgCache } from '../core/images.ts';
 import { W } from '../../data/words.js';
 import { t, wordsLabel } from './i18n.ts';
-import { showImgClearConfirm } from './sidebar.tsx';
+import { showImgClearConfirm } from './img-clear-confirm.tsx';
 import { useSettingsVersion, notifySettingsChange } from '../../src/store.ts';
 import type { WordEntry } from '../../src/types.js';
 

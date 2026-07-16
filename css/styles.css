@@ -1,4 +1,4 @@
-﻿/* Vymova — styles.css
+/* Vymova — styles.css
  * Fonts завантажуються через <link> у <head>
  */
 
@@ -106,12 +106,6 @@ body {
   color: var(--text);
   outline: none;
 }
-body.sw .title-sw-toggle {
-  opacity: 1;
-  border-color: #00c8ff;
-  color: #00c8ff;
-  background: rgba(0, 200, 255, 0.1);
-}
 .title-hp-toggle {
   background: none;
   border: 1.5px solid var(--border);
@@ -177,10 +171,6 @@ body.hp .title-hp-toggle {
   color: var(--accent);
   font-weight: 800;
   background: rgba(45, 90, 61, 0.12);
-}
-body.sw .lang-opt.lang-active {
-  color: #00c8ff;
-  background: rgba(0, 200, 255, 0.12);
 }
 body.hp .lang-opt.lang-active {
   color: #d3a625;
@@ -1028,9 +1018,6 @@ body.dark .modal-inner {
 }
 body.dark .search-result-item.sr-known {
   background: #1a2e1f;
-}
-body.sw .search-result-item.sr-known {
-  background: #103024;
 }
 body.hp .search-result-item.sr-known {
   background: #2a1f0a;
@@ -2826,11 +2813,6 @@ body.dark .tempo-opt.wrong {
   background: transparent;
   box-sizing: border-box;
 }
-body.sw .scr-tile-placed {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #000;
-}
 body.hp .scr-tile-placed {
   background: var(--accent);
   border-color: var(--accent);
@@ -3917,24 +3899,12 @@ body.dark .pair-btn.matched {
 }
 
 /* ═══════════════════════════════════════════════════
-   ⚔️  STAR WARS THEME  —  body.sw
+   ⚔️  HARRY POTTER THEME  —  body.hp
+   (body.sw's rules live in css/themes/sw.css — see
+   legacy-modernization-roadmap.md item 2)
    ═══════════════════════════════════════════════════ */
 
 /* ── Змінні ── */
-body.sw {
-  --bg: #070d1a;
-  --card: #0c1830;
-  --text: #d4e8f8;
-  --text2: #6a9ab8;
-  --text3: #2d5878;
-  --accent: #00c8ff;
-  --accent2: #ff3355;
-  --border: #1a3d6b;
-  --shadow: 0 0 18px rgba(0, 200, 255, 0.12), 0 4px 24px rgba(0, 0, 0, 0.6);
-  /* Modal backgrounds — dark neon panels instead of white */
-  --modal-bg: #0e1f38;
-  --modal-av-bg: rgba(0, 200, 255, 0.08);
-}
 body.hp {
   --bg: #1a0a0a;
   --card: #2b0a0a;
@@ -3951,26 +3921,12 @@ body.hp {
 }
 
 /* ── Star Wars neon scrollbars ── */
-body.sw ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
 body.hp ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
-body.sw ::-webkit-scrollbar-track {
-  background: rgba(0, 5, 20, 0.7);
-}
 body.hp ::-webkit-scrollbar-track {
   background: rgba(20, 5, 5, 0.7);
-}
-body.sw ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #00c8ff 0%, #0066aa 100%);
-  border-radius: 10px;
-  box-shadow:
-    0 0 6px rgba(0, 200, 255, 0.6),
-    0 0 12px rgba(0, 200, 255, 0.25);
 }
 body.hp ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #d3a625 0%, #8a6d1f 100%);
@@ -3979,26 +3935,14 @@ body.hp ::-webkit-scrollbar-thumb {
     0 0 6px rgba(211, 166, 37, 0.6),
     0 0 12px rgba(211, 166, 37, 0.25);
 }
-body.sw ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #40d8ff 0%, #00aadd 100%);
-  box-shadow:
-    0 0 10px rgba(0, 200, 255, 0.9),
-    0 0 20px rgba(0, 200, 255, 0.4);
-}
 body.hp ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #f0c75e 0%, #8a6d1f 100%);
   box-shadow:
     0 0 10px rgba(211, 166, 37, 0.9),
     0 0 20px rgba(211, 166, 37, 0.4);
 }
-body.sw ::-webkit-scrollbar-corner {
-  background: rgba(0, 5, 20, 0.7);
-}
 body.hp ::-webkit-scrollbar-corner {
   background: rgba(20, 5, 5, 0.7);
-}
-body.sw * {
-  scrollbar-color: #00c8ff rgba(0, 5, 20, 0.7);
 }
 body.hp * {
   scrollbar-color: #d3a625 rgba(20, 5, 5, 0.7);
@@ -4016,52 +3960,9 @@ body.dark * {
 }
 
 /* ── Зіркове небо ── */
-body.sw::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(1px 1px at 10% 15%, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
-    radial-gradient(1px 1px at 25% 40%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
-    radial-gradient(1px 1px at 40% 8%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
-    radial-gradient(1px 1px at 55% 28%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
-    radial-gradient(1px 1px at 70% 5%, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
-    radial-gradient(1px 1px at 85% 18%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
-    radial-gradient(1px 1px at 95% 35%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
-    radial-gradient(1px 1px at 15% 60%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 30% 75%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
-    radial-gradient(1px 1px at 50% 55%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
-    radial-gradient(1px 1px at 65% 70%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
-    radial-gradient(1px 1px at 80% 85%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 92% 62%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
-    radial-gradient(2px 2px at 20% 90%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
-    radial-gradient(2px 2px at 45% 80%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
-    radial-gradient(2px 2px at 75% 45%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
-    radial-gradient(1px 1px at 5% 50%, rgba(100, 180, 255, 0.8) 0%, transparent 100%),
-    radial-gradient(1px 1px at 38% 22%, rgba(100, 180, 255, 0.7) 0%, transparent 100%),
-    radial-gradient(1px 1px at 60% 88%, rgba(200, 150, 255, 0.6) 0%, transparent 100%),
-    radial-gradient(1px 1px at 88% 50%, rgba(100, 180, 255, 0.5) 0%, transparent 100%);
-  background-color: transparent;
-  pointer-events: none;
-}
 
 /* ── Фонове зображення (напівпрозоре, під зоряним небом) ──
    Локальний експеримент: якщо не сподобається, просто видалити цей блок. */
-body.sw::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background:
-    linear-gradient(rgba(7, 13, 26, 0.55), rgba(7, 13, 26, 0.55)),
-    url('/backgrounds/sw/vader-helmet-minimalist.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  pointer-events: none;
-}
 body.hp::before {
   content: '';
   position: fixed;
@@ -4110,14 +4011,6 @@ body.hp::after {
 }
 
 /* ── Orbitron для заголовку ── */
-body.sw .title {
-  font-family: 'Orbitron', sans-serif;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 1.1rem;
-  color: var(--accent);
-  text-shadow: 0 0 12px rgba(0, 200, 255, 0.5);
-}
 body.hp .title {
   font-family: 'Cinzel Decorative', sans-serif;
   letter-spacing: 0.08em;
@@ -4128,22 +4021,8 @@ body.hp .title {
 }
 
 /* ── HUD куточки на картці ── */
-body.sw .card-face {
-  position: relative;
-}
 body.hp .card-face {
   position: relative;
-}
-body.sw .card-face::before,
-body.sw .card-face::after {
-  content: '';
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  border-color: rgba(0, 200, 255, 0.6);
-  border-style: solid;
-  pointer-events: none;
-  z-index: 3;
 }
 body.hp .card-face::before,
 body.hp .card-face::after {
@@ -4156,23 +4035,11 @@ body.hp .card-face::after {
   pointer-events: none;
   z-index: 3;
 }
-body.sw .card-face::before {
-  top: 8px;
-  left: 8px;
-  border-width: 2px 0 0 2px;
-  border-radius: 2px 0 0 0;
-}
 body.hp .card-face::before {
   top: 8px;
   left: 8px;
   border-width: 2px 0 0 2px;
   border-radius: 2px 0 0 0;
-}
-body.sw .card-face::after {
-  bottom: 8px;
-  right: 8px;
-  border-width: 0 2px 2px 0;
-  border-radius: 0 0 2px 0;
 }
 body.hp .card-face::after {
   bottom: 8px;
@@ -4182,15 +4049,6 @@ body.hp .card-face::after {
 }
 
 /* ── Scanlines (голограмний ефект) ── */
-body.sw .card-face {
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    transparent 3px,
-    rgba(0, 200, 255, 0.015) 3px,
-    rgba(0, 200, 255, 0.015) 4px
-  );
-}
 body.hp .card-face {
   background-image: repeating-linear-gradient(
     0deg,
@@ -4202,13 +4060,6 @@ body.hp .card-face {
 }
 
 /* ── Glow на картці ── */
-body.sw .card-face {
-  border-color: rgba(0, 200, 255, 0.25);
-  box-shadow:
-    0 0 20px rgba(0, 200, 255, 0.1),
-    0 4px 30px rgba(0, 0, 0, 0.7),
-    inset 0 0 40px rgba(0, 200, 255, 0.03);
-}
 body.hp .card-face {
   border-color: rgba(211, 166, 37, 0.25);
   box-shadow:
@@ -4218,12 +4069,6 @@ body.hp .card-face {
 }
 
 /* ── Відома картка — Jedi Green Lightsaber ── */
-body.sw .card.is-known .card-face {
-  border-color: rgba(57, 211, 83, 0.4) !important;
-  box-shadow:
-    0 0 25px rgba(57, 211, 83, 0.2),
-    0 4px 30px rgba(0, 0, 0, 0.7) !important;
-}
 body.hp .card.is-known .card-face {
   border-color: rgba(57, 211, 83, 0.4) !important;
   box-shadow:
@@ -4232,35 +4077,17 @@ body.hp .card.is-known .card-face {
 }
 
 /* ── Прогрес-бар — Lightsaber ── */
-body.sw .progress-fill {
-  background: linear-gradient(90deg, #0066ff, #00c8ff);
-  box-shadow:
-    0 0 8px #00c8ff,
-    0 0 16px rgba(0, 200, 255, 0.5);
-}
 body.hp .progress-fill {
   background: linear-gradient(90deg, #0066ff, #d3a625);
   box-shadow:
     0 0 8px #d3a625,
     0 0 16px rgba(211, 166, 37, 0.5);
 }
-body.sw .goal-fill {
-  background: linear-gradient(90deg, #00c8ff, #7df9ff) !important;
-  box-shadow:
-    0 0 8px #00c8ff,
-    0 0 20px rgba(0, 200, 255, 0.4) !important;
-}
 body.hp .goal-fill {
   background: linear-gradient(90deg, #d3a625, #f0c75e) !important;
   box-shadow:
     0 0 8px #d3a625,
     0 0 20px rgba(211, 166, 37, 0.4) !important;
-}
-body.sw .goal-fill.done {
-  background: linear-gradient(90deg, #ff6600, #ffd700) !important;
-  box-shadow:
-    0 0 8px #ffd700,
-    0 0 20px rgba(255, 215, 0, 0.4) !important;
 }
 body.hp .goal-fill.done {
   background: linear-gradient(90deg, #ff6600, #ffd700) !important;
@@ -4270,63 +4097,33 @@ body.hp .goal-fill.done {
 }
 
 /* ── Achievements progress ── */
-body.sw .ach-progress-fill {
-  background: linear-gradient(90deg, #00c8ff, #7df9ff);
-}
 body.hp .ach-progress-fill {
   background: linear-gradient(90deg, #d3a625, #f0c75e);
 }
 
 /* ── Кнопки ── */
-body.sw .btn {
-  background: rgba(10, 22, 44, 0.9);
-  border-color: rgba(0, 200, 255, 0.25);
-  color: var(--text2);
-  transition: all 0.2s;
-}
 body.hp .btn {
   background: rgba(40, 12, 10, 0.9);
   border-color: rgba(211, 166, 37, 0.25);
   color: var(--text2);
   transition: all 0.2s;
 }
-body.sw .btn:hover {
-  border-color: rgba(0, 200, 255, 0.6);
-  color: var(--accent);
-  box-shadow: 0 0 12px rgba(0, 200, 255, 0.2);
-}
 body.hp .btn:hover {
   border-color: rgba(211, 166, 37, 0.6);
   color: var(--accent);
   box-shadow: 0 0 12px rgba(211, 166, 37, 0.2);
 }
-body.sw .btn-know {
-  border-color: rgba(57, 211, 83, 0.5) !important;
-  color: #39d353 !important;
-}
 body.hp .btn-know {
   border-color: rgba(57, 211, 83, 0.5) !important;
   color: #39d353 !important;
-}
-body.sw .btn-know:hover {
-  background: rgba(57, 211, 83, 0.1) !important;
-  box-shadow: 0 0 15px rgba(57, 211, 83, 0.3) !important;
 }
 body.hp .btn-know:hover {
   background: rgba(57, 211, 83, 0.1) !important;
   box-shadow: 0 0 15px rgba(57, 211, 83, 0.3) !important;
 }
-body.sw .btn-dontknow {
-  border-color: rgba(255, 69, 58, 0.5) !important;
-  color: #ff453a !important;
-}
 body.hp .btn-dontknow {
   border-color: rgba(255, 69, 58, 0.5) !important;
   color: #ff453a !important;
-}
-body.sw .btn-dontknow:hover {
-  background: rgba(255, 69, 58, 0.1) !important;
-  box-shadow: 0 0 15px rgba(255, 69, 58, 0.3) !important;
 }
 body.hp .btn-dontknow:hover {
   background: rgba(255, 69, 58, 0.1) !important;
@@ -4334,19 +4131,10 @@ body.hp .btn-dontknow:hover {
 }
 
 /* ── Пошук ── */
-body.sw #search-input {
-  background: rgba(10, 22, 44, 0.9);
-  border-color: rgba(0, 200, 255, 0.2);
-  color: var(--text);
-}
 body.hp #search-input {
   background: rgba(40, 12, 10, 0.9);
   border-color: rgba(211, 166, 37, 0.2);
   color: var(--text);
-}
-body.sw #search-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 10px rgba(0, 200, 255, 0.2);
 }
 body.hp #search-input:focus {
   border-color: var(--accent);
@@ -4354,30 +4142,15 @@ body.hp #search-input:focus {
 }
 
 /* ── Слово ── */
-body.sw .word-text {
-  color: #e8f4fc;
-  text-shadow: 0 0 20px rgba(0, 200, 255, 0.1);
-}
 body.hp .word-text {
   color: #f5e6c8;
   text-shadow: 0 0 20px rgba(211, 166, 37, 0.1);
-}
-body.sw .transcription {
-  color: var(--accent2);
 }
 body.hp .transcription {
   color: var(--accent2);
 }
 
 /* ── Модальні вікна ── */
-body.sw .quiz-panel,
-body.sw .pairs-panel {
-  background: rgba(10, 22, 44, 0.97);
-  border: 1px solid rgba(0, 200, 255, 0.2);
-  box-shadow:
-    0 0 40px rgba(0, 200, 255, 0.15),
-    0 20px 60px rgba(0, 0, 0, 0.8);
-}
 body.hp .quiz-panel,
 body.hp .pairs-panel {
   background: rgba(40, 12, 10, 0.97);
@@ -4388,38 +4161,22 @@ body.hp .pairs-panel {
 }
 
 /* ── Теги/бейджі ── */
-body.sw .card-tag {
-  background: rgba(0, 200, 255, 0.12);
-  color: var(--accent);
-  border: 1px solid rgba(0, 200, 255, 0.3);
-}
 body.hp .card-tag {
   background: rgba(211, 166, 37, 0.12);
   color: var(--accent);
   border: 1px solid rgba(211, 166, 37, 0.3);
-}
-body.sw .level-badge {
-  box-shadow: 0 0 10px rgba(0, 200, 255, 0.2);
 }
 body.hp .level-badge {
   box-shadow: 0 0 10px rgba(211, 166, 37, 0.2);
 }
 
 /* ── SRS stats bar ── */
-body.sw .srs-stats-bar {
-  background: rgba(10, 22, 44, 0.9);
-  border-color: rgba(0, 200, 255, 0.15);
-}
 body.hp .srs-stats-bar {
   background: rgba(40, 12, 10, 0.9);
   border-color: rgba(211, 166, 37, 0.15);
 }
 
 /* ── Ring ── */
-body.sw .ring-fill {
-  stroke: #00c8ff;
-  filter: drop-shadow(0 0 4px #00c8ff);
-}
 body.hp .ring-fill {
   stroke: #d3a625;
   filter: drop-shadow(0 0 4px #d3a625);
@@ -4442,12 +4199,6 @@ body.hp .ring-fill {
   color: #00c8ff;
   box-shadow: 0 0 10px rgba(0, 200, 255, 0.2);
 }
-body.sw #btn-sw {
-  border-color: #00c8ff;
-  color: #00c8ff;
-  box-shadow: 0 0 8px rgba(0, 200, 255, 0.3);
-  text-shadow: 0 0 6px rgba(0, 200, 255, 0.6);
-}
 body.hp #btn-hp {
   border-color: #d3a625;
   color: #d3a625;
@@ -4465,27 +4216,15 @@ body.hp #btn-hp {
     opacity: 0.7;
   }
 }
-body.sw .progress-fill,
-body.sw .goal-fill {
-  animation: saberPulse 2.5s ease-in-out infinite;
-}
 body.hp .progress-fill,
 body.hp .goal-fill {
   animation: saberPulse 2.5s ease-in-out infinite;
 }
 
 /* ── Word of the day ── */
-body.sw .wotd-box {
-  background: rgba(10, 22, 44, 0.9);
-  border-color: rgba(0, 200, 255, 0.2);
-}
 body.hp .wotd-box {
   background: rgba(40, 12, 10, 0.9);
   border-color: rgba(211, 166, 37, 0.2);
-}
-body.sw .wotd-word {
-  color: var(--accent);
-  text-shadow: 0 0 8px rgba(0, 200, 255, 0.3);
 }
 body.hp .wotd-word {
   color: var(--accent);
@@ -4740,13 +4479,6 @@ body.dark .btn-modes-open:hover {
 }
 
 /* ── Star Wars mode enhancements for modes panel ── */
-body.sw .modes-panel {
-  background: rgba(10, 22, 44, 0.98);
-  border: 1px solid rgba(0, 200, 255, 0.2);
-  box-shadow:
-    0 0 40px rgba(0, 200, 255, 0.15),
-    0 -8px 40px rgba(0, 0, 0, 0.8);
-}
 body.hp .modes-panel {
   background: rgba(40, 12, 10, 0.98);
   border: 1px solid rgba(211, 166, 37, 0.2);
@@ -4754,26 +4486,14 @@ body.hp .modes-panel {
     0 0 40px rgba(211, 166, 37, 0.15),
     0 -8px 40px rgba(0, 0, 0, 0.8);
 }
-body.sw .mode-card {
-  background: rgba(7, 13, 26, 0.8);
-  border-color: rgba(0, 200, 255, 0.15);
-}
 body.hp .mode-card {
   background: rgba(7, 13, 26, 0.8);
   border-color: rgba(211, 166, 37, 0.15);
-}
-body.sw .mode-card:hover {
-  border-color: #00c8ff;
-  background: rgba(0, 200, 255, 0.05);
-  box-shadow: 0 0 12px rgba(0, 200, 255, 0.15);
 }
 body.hp .mode-card:hover {
   border-color: #d3a625;
   background: rgba(211, 166, 37, 0.05);
   box-shadow: 0 0 12px rgba(211, 166, 37, 0.15);
-}
-body.sw .mode-name {
-  color: #d4e8f8;
 }
 body.hp .mode-name {
   color: #f5e6c8;
@@ -4989,24 +4709,13 @@ body.hp .mode-name {
 }
 
 /* SW theme enhancements */
-body.sw .gb-block {
-  background: rgba(10, 22, 44, 0.9);
-  border-color: rgba(0, 200, 255, 0.15);
-}
 body.hp .gb-block {
   background: rgba(40, 12, 10, 0.9);
   border-color: rgba(211, 166, 37, 0.15);
 }
-body.sw .gb-level-fill {
-  background: linear-gradient(90deg, #00c8ff, #7df9ff);
-  box-shadow: 0 0 6px rgba(0, 200, 255, 0.4);
-}
 body.hp .gb-level-fill {
   background: linear-gradient(90deg, #d3a625, #f0c75e);
   box-shadow: 0 0 6px rgba(211, 166, 37, 0.4);
-}
-body.sw .gb-streak-num {
-  color: #00c8ff;
 }
 body.hp .gb-streak-num {
   color: #d3a625;
@@ -5245,20 +4954,11 @@ body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):no
 }
 
 /* ── SW theme: extra glow ── */
-body.sw .gb-streak-block {
-  border-color: rgba(0, 200, 255, 0.3);
-}
 body.hp .gb-streak-block {
   border-color: rgba(211, 166, 37, 0.3);
 }
-body.sw .gb-goal-block {
-  border-color: rgba(0, 200, 255, 0.3);
-}
 body.hp .gb-goal-block {
   border-color: rgba(211, 166, 37, 0.3);
-}
-body.sw .gb-level-block {
-  border-color: rgba(0, 200, 255, 0.3);
 }
 body.hp .gb-level-block {
   border-color: rgba(211, 166, 37, 0.3);
@@ -5276,11 +4976,6 @@ body.hp .gb-level-block {
 body.dark .btn-achievements {
   border-color: #ffd700;
   color: #ffd700;
-}
-body.sw .btn-achievements {
-  border-color: #ffd700;
-  color: #ffd700;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.25);
 }
 body.hp .btn-achievements {
   border-color: #ffd700;
@@ -5310,17 +5005,9 @@ body.hp .btn-achievements {
   border-color: var(--accent);
   color: var(--text);
 }
-body.sw .profile-btn {
-  border-color: rgba(0, 200, 255, 0.3);
-  color: #aad4e8;
-}
 body.hp .profile-btn {
   border-color: rgba(211, 166, 37, 0.3);
   color: #d9b86a;
-}
-body.sw .profile-btn:hover {
-  border-color: #00c8ff;
-  color: #fff;
 }
 body.hp .profile-btn:hover {
   border-color: #d3a625;
@@ -5354,10 +5041,6 @@ body.hp .profile-btn:hover {
   background: var(--card);
   box-shadow: 0 0 0 2px rgba(45, 90, 61, 0.2);
 }
-body.sw .prf-av-btn.prf-av-active {
-  border-color: #00c8ff;
-  box-shadow: 0 0 8px rgba(0, 200, 255, 0.2);
-}
 body.hp .prf-av-btn.prf-av-active {
   border-color: #d3a625;
   box-shadow: 0 0 8px rgba(211, 166, 37, 0.2);
@@ -5379,9 +5062,6 @@ body.hp .prf-av-btn.prf-av-active {
 }
 .prf-add-confirm:hover {
   opacity: 0.88;
-}
-body.sw .prf-add-confirm {
-  background: linear-gradient(90deg, #005580, #00c8ff);
 }
 body.hp .prf-add-confirm {
   background: linear-gradient(90deg, #005580, #d3a625);
@@ -5418,10 +5098,6 @@ body.dark .sidebar {
   background: #0e1c2e;
   border-color: rgba(255, 255, 255, 0.07);
 }
-body.sw .sidebar {
-  background: #080f1c;
-  border-color: rgba(0, 200, 255, 0.12);
-}
 body.hp .sidebar {
   background: #080f1c;
   border-color: rgba(211, 166, 37, 0.12);
@@ -5450,9 +5126,6 @@ body.hp .sidebar-logo {
   color: var(--accent);
   letter-spacing: 0.1em;
 }
-body.sw .sidebar-logo-text {
-  color: #00c8ff;
-}
 body.hp .sidebar-logo-text {
   color: #d3a625;
 }
@@ -5479,14 +5152,8 @@ body.hp .sidebar-logo-text {
   border-color: var(--accent);
   background: var(--card);
 }
-body.sw .sidebar-profile-btn {
-  border-color: rgba(0, 200, 255, 0.25);
-}
 body.hp .sidebar-profile-btn {
   border-color: rgba(211, 166, 37, 0.25);
-}
-body.sw .sidebar-profile-btn:hover {
-  border-color: #00c8ff;
 }
 body.hp .sidebar-profile-btn:hover {
   border-color: #d3a625;
@@ -5561,17 +5228,9 @@ body.hp .sidebar-profile-btn:hover {
 body.dark .sb-btn:hover {
   background: rgba(255, 255, 255, 0.06);
 }
-body.sw .sb-btn:hover {
-  background: rgba(0, 200, 255, 0.08);
-  color: #aad4e8;
-}
 body.hp .sb-btn:hover {
   background: rgba(211, 166, 37, 0.08);
   color: #d9b86a;
-}
-body.sw .sb-btn.sb-active {
-  background: rgba(0, 200, 255, 0.12);
-  color: #00c8ff;
 }
 body.hp .sb-btn.sb-active {
   background: rgba(211, 166, 37, 0.12);
@@ -5620,10 +5279,6 @@ body.dark .sb-flyout {
   background: #0e1c2e;
   border-color: rgba(255, 255, 255, 0.08);
 }
-body.sw .sb-flyout {
-  background: #080f1c;
-  border-color: rgba(0, 200, 255, 0.14);
-}
 body.hp .sb-flyout {
   background: #080f1c;
   border-color: rgba(211, 166, 37, 0.14);
@@ -5668,9 +5323,6 @@ body.hp .sb-flyout {
 }
 .hamburger:hover {
   border-color: var(--accent);
-}
-body.sw .hamburger {
-  border-color: rgba(0, 200, 255, 0.3);
 }
 body.hp .hamburger {
   border-color: rgba(211, 166, 37, 0.3);
@@ -6187,9 +5839,6 @@ body.hp .hamburger {
   color: var(--text3);
   white-space: nowrap;
 }
-body.sw .profile-save-btn {
-  background: linear-gradient(90deg, #005580, #00c8ff);
-}
 body.hp .profile-save-btn {
   background: linear-gradient(90deg, #005580, #d3a625);
 }
@@ -6572,16 +6221,9 @@ body.hp .sb-profile-section {
   border-color: var(--accent);
   background: var(--card);
 }
-body.sw .sb-add-btn {
-  color: #00c8ff;
-  border-color: rgba(0, 200, 255, 0.3);
-}
 body.hp .sb-add-btn {
   color: #d3a625;
   border-color: rgba(211, 166, 37, 0.3);
-}
-body.sw .sb-add-btn:hover {
-  border-color: #00c8ff;
 }
 body.hp .sb-add-btn:hover {
   border-color: #d3a625;
@@ -6626,9 +6268,6 @@ body.hp .sb-add-btn:hover {
   color: var(--accent);
   font-weight: 700;
 }
-body.sw .sb-dd-item.sb-dd-active {
-  color: #00c8ff;
-}
 body.hp .sb-dd-item.sb-dd-active {
   color: #d3a625;
 }
@@ -6636,9 +6275,6 @@ body.hp .sb-dd-item.sb-dd-active {
   font-size: 0.7rem;
   margin-left: auto;
   color: var(--accent);
-}
-body.sw .sb-dd-check {
-  color: #00c8ff;
 }
 body.hp .sb-dd-check {
   color: #d3a625;
@@ -6723,9 +6359,6 @@ body.hp .sb-dd-check {
 .sb-toggle-pill.on::after {
   transform: translateX(16px);
 }
-body.sw .sb-toggle-pill.on {
-  background: #00c8ff;
-}
 body.hp .sb-toggle-pill.on {
   background: #d3a625;
 }
@@ -6793,9 +6426,6 @@ body.hp .sb-toggle-pill.on {
   text-overflow: ellipsis;
   line-height: 1.25;
 }
-body.sw .header-wotd .wotd-word {
-  color: #00c8ff;
-}
 body.hp .header-wotd .wotd-word {
   color: #d3a625;
 }
@@ -6833,9 +6463,6 @@ body.hp .header-wotd .wotd-word {
   font-weight: 700;
   color: #e74c3c;
   margin-bottom: 10px;
-}
-body.sw .prf-delete-name {
-  color: #ff6b6b;
 }
 body.hp .prf-delete-name {
   color: #ff6b6b;
@@ -6877,9 +6504,6 @@ body.hp .prf-delete-name {
 .prf-delete-btn-confirm:hover {
   background: #c0392b;
 }
-body.sw .prf-delete-btn-confirm {
-  background: #c0392b;
-}
 body.hp .prf-delete-btn-confirm {
   background: #c0392b;
 }
@@ -6906,9 +6530,6 @@ body.hp .prf-delete-btn-confirm {
 .settings-section-danger {
   border-color: rgba(231, 76, 60, 0.3);
   background: rgba(231, 76, 60, 0.04);
-}
-body.sw .settings-section-danger {
-  border-color: rgba(255, 100, 80, 0.25);
 }
 body.hp .settings-section-danger {
   border-color: rgba(255, 100, 80, 0.25);
@@ -7020,15 +6641,8 @@ body.hp .settings-section-danger {
   background: var(--card);
   box-shadow: 0 0 0 3px rgba(45, 90, 61, 0.12);
 }
-body.sw .voice-card:hover {
-  border-color: #00c8ff;
-}
 body.hp .voice-card:hover {
   border-color: #d3a625;
-}
-body.sw .voice-card-active {
-  border-color: #00c8ff;
-  box-shadow: 0 0 10px rgba(0, 200, 255, 0.15);
 }
 body.hp .voice-card-active {
   border-color: #d3a625;
@@ -7115,22 +6729,12 @@ body.hp .voice-card-active {
 }
 
 /* ── Goal block centered overrides ── */
-body.sw .gb-goal-block .gb-goal-big {
-  color: #c8e6f5;
-  font-family: 'Orbitron', monospace;
-}
 body.hp .gb-goal-block .gb-goal-big {
   color: #e8d5a8;
   font-family: 'Cinzel Decorative', monospace;
 }
-body.sw .gb-goal-sep {
-  color: rgba(200, 230, 255, 0.4);
-}
 body.hp .gb-goal-sep {
   color: rgba(245, 230, 200, 0.4);
-}
-body.sw .gb-level-arrow {
-  color: rgba(200, 230, 255, 0.4);
 }
 body.hp .gb-level-arrow {
   color: rgba(245, 230, 200, 0.4);
@@ -7170,21 +6774,7 @@ body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):no
   justify-content: center;
 }
 
-#img-clear-overlay {
-  display: none;
-}
-#img-clear-overlay.open {
-  display: flex;
-}
-
 /* ══ Star Wars: Page Overlays ═══════════════════════════════════ */
-body.sw .page-overlay {
-  background: #060d1a;
-  background-image:
-    radial-gradient(ellipse at top, rgba(0, 30, 60, 0.6) 0%, transparent 70%),
-    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(0, 200, 255, 0.03) 60px),
-    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(0, 200, 255, 0.02) 60px);
-}
 body.hp .page-overlay {
   background: #060d1a;
   background-image:
@@ -7192,37 +6782,19 @@ body.hp .page-overlay {
     repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(211, 166, 37, 0.03) 60px),
     repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(211, 166, 37, 0.02) 60px);
 }
-body.sw .page-inner {
-  border-left: 1px solid rgba(0, 200, 255, 0.08);
-}
 body.hp .page-inner {
   border-left: 1px solid rgba(211, 166, 37, 0.08);
-}
-body.sw .page-title {
-  color: #00c8ff;
-  font-family: 'Orbitron', monospace;
-  letter-spacing: 0.05em;
 }
 body.hp .page-title {
   color: #d3a625;
   font-family: 'Cinzel Decorative', monospace;
   letter-spacing: 0.05em;
 }
-body.sw .page-header {
-  border-color: rgba(0, 200, 255, 0.15);
-}
 body.hp .page-header {
   border-color: rgba(211, 166, 37, 0.15);
 }
 
 /* ── SW Stats panel ── */
-body.sw .stats-panel {
-  background: #060d1a;
-  border: 1px solid rgba(0, 200, 255, 0.12);
-  box-shadow:
-    0 0 40px rgba(0, 200, 255, 0.06),
-    inset 0 0 60px rgba(0, 10, 30, 0.8);
-}
 body.hp .stats-panel {
   background: #060d1a;
   border: 1px solid rgba(211, 166, 37, 0.12);
@@ -7230,63 +6802,33 @@ body.hp .stats-panel {
     0 0 40px rgba(211, 166, 37, 0.06),
     inset 0 0 60px rgba(0, 10, 30, 0.8);
 }
-body.sw .stats-title {
-  color: #00c8ff;
-  font-family: 'Orbitron', monospace;
-}
 body.hp .stats-title {
   color: #d3a625;
   font-family: 'Cinzel Decorative', monospace;
-}
-body.sw .stats-section-title {
-  color: #5fa8c8;
-  letter-spacing: 0.04em;
 }
 body.hp .stats-section-title {
   color: #c9a86a;
   letter-spacing: 0.04em;
 }
-body.sw .stats-section {
-  border-bottom: 1px solid rgba(0, 200, 255, 0.07);
-}
 body.hp .stats-section {
   border-bottom: 1px solid rgba(211, 166, 37, 0.07);
-}
-body.sw .stat-card {
-  background: rgba(0, 20, 50, 0.6);
-  border: 1px solid rgba(0, 200, 255, 0.12);
-  border-radius: 12px;
 }
 body.hp .stat-card {
   background: rgba(40, 10, 10, 0.6);
   border: 1px solid rgba(211, 166, 37, 0.12);
   border-radius: 12px;
 }
-body.sw .sv {
-  color: #00c8ff;
-}
 body.hp .sv {
   color: #d3a625;
 }
 
 /* ── SW Settings sections ── */
-body.sw .settings-section {
-  background: rgba(0, 15, 35, 0.7);
-  border-color: rgba(0, 200, 255, 0.15);
-}
 body.hp .settings-section {
   background: rgba(35, 10, 10, 0.7);
   border-color: rgba(211, 166, 37, 0.15);
 }
-body.sw .settings-section-title {
-  color: #5fa8c8;
-}
 body.hp .settings-section-title {
   color: #c9a86a;
-}
-body.sw .settings-section-danger {
-  border-color: rgba(231, 76, 60, 0.3);
-  background: rgba(231, 76, 60, 0.04);
 }
 body.hp .settings-section-danger {
   border-color: rgba(231, 76, 60, 0.3);
@@ -7294,39 +6836,20 @@ body.hp .settings-section-danger {
 }
 
 /* ── SW Modals ── */
-body.sw .prf-delete-panel,
-body.sw .import-panel {
-  background: #090f1e;
-  border: 1px solid rgba(0, 200, 255, 0.2);
-  box-shadow: 0 0 60px rgba(0, 200, 255, 0.1);
-}
 body.hp .prf-delete-panel,
 body.hp .import-panel {
   background: #090f1e;
   border: 1px solid rgba(211, 166, 37, 0.2);
   box-shadow: 0 0 60px rgba(211, 166, 37, 0.1);
 }
-body.sw .prf-delete-title {
-  color: #e8f4ff;
-}
 body.hp .prf-delete-title {
   color: #f5e6c8;
-}
-body.sw .prf-delete-warn {
-  color: rgba(200, 230, 255, 0.5);
 }
 body.hp .prf-delete-warn {
   color: rgba(245, 230, 200, 0.5);
 }
 
 /* ── SW Achievement toast ── */
-body.sw #achievement-toast {
-  background: linear-gradient(135deg, #050d1a 0%, #0a1628 100%);
-  border: 1px solid rgba(0, 200, 255, 0.3);
-  box-shadow:
-    0 0 30px rgba(0, 200, 255, 0.2),
-    0 0 60px rgba(0, 200, 255, 0.08);
-}
 body.hp #achievement-toast {
   background: linear-gradient(135deg, #050d1a 0%, #0a1628 100%);
   border: 1px solid rgba(211, 166, 37, 0.3);
@@ -7334,57 +6857,30 @@ body.hp #achievement-toast {
     0 0 30px rgba(211, 166, 37, 0.2),
     0 0 60px rgba(211, 166, 37, 0.08);
 }
-body.sw #achievement-toast .toast-title {
-  color: #00c8ff;
-  font-family: 'Orbitron', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-}
 body.hp #achievement-toast .toast-title {
   color: #d3a625;
   font-family: 'Cinzel Decorative', monospace;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
 }
-body.sw #achievement-toast .toast-name {
-  color: #e8f4ff;
-}
 body.hp #achievement-toast .toast-name {
   color: #f5e6c8;
-}
-body.sw #achievement-toast .toast-icon {
-  text-shadow: 0 0 20px rgba(0, 200, 255, 0.6);
 }
 body.hp #achievement-toast .toast-icon {
   text-shadow: 0 0 20px rgba(211, 166, 37, 0.6);
 }
 
 /* ── SW Achievement popup ── */
-body.sw .ach-popup {
-  background: #080f1c;
-  border: 1px solid rgba(0, 200, 255, 0.25);
-  box-shadow: 0 0 50px rgba(0, 200, 255, 0.15);
-}
 body.hp .ach-popup {
   background: #080f1c;
   border: 1px solid rgba(211, 166, 37, 0.25);
   box-shadow: 0 0 50px rgba(211, 166, 37, 0.15);
 }
-body.sw .ach-popup-icon {
-  text-shadow: 0 0 30px rgba(0, 200, 255, 0.5);
-}
 body.hp .ach-popup-icon {
   text-shadow: 0 0 30px rgba(211, 166, 37, 0.5);
 }
-body.sw .ach-popup-name {
-  color: #00c8ff;
-}
 body.hp .ach-popup-name {
   color: #d3a625;
-}
-body.sw .ach-popup-prog-fill {
-  background: linear-gradient(90deg, #00c8ff, #7df9ff);
-  box-shadow: 0 0 8px rgba(0, 200, 255, 0.4);
 }
 body.hp .ach-popup-prog-fill {
   background: linear-gradient(90deg, #d3a625, #f0c75e);
@@ -7392,43 +6888,22 @@ body.hp .ach-popup-prog-fill {
 }
 
 /* ── SW Achievements grid (locked/unlocked) ── */
-body.sw .ach-card {
-  background: rgba(0, 15, 35, 0.6);
-  border-color: rgba(0, 200, 255, 0.1);
-}
 body.hp .ach-card {
   background: rgba(35, 10, 10, 0.6);
   border-color: rgba(211, 166, 37, 0.1);
-}
-body.sw .ach-card.unlocked {
-  border-color: rgba(0, 200, 255, 0.35);
-  box-shadow: 0 0 12px rgba(0, 200, 255, 0.1);
 }
 body.hp .ach-card.unlocked {
   border-color: rgba(211, 166, 37, 0.35);
   box-shadow: 0 0 12px rgba(211, 166, 37, 0.1);
 }
-body.sw .ach-card.unlocked .ach-icon {
-  text-shadow: 0 0 16px rgba(0, 200, 255, 0.5);
-}
 body.hp .ach-card.unlocked .ach-icon {
   text-shadow: 0 0 16px rgba(211, 166, 37, 0.5);
-}
-body.sw .ach-progress-fill {
-  background: linear-gradient(90deg, #00c8ff, #7df9ff);
 }
 body.hp .ach-progress-fill {
   background: linear-gradient(90deg, #d3a625, #f0c75e);
 }
 
 /* ── SW Combo toast ── */
-body.sw .combo-toast {
-  background: linear-gradient(90deg, #001428, #002244);
-  border: 1px solid rgba(0, 200, 255, 0.4);
-  color: #00c8ff;
-  text-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
-  box-shadow: 0 0 20px rgba(0, 200, 255, 0.2);
-}
 body.hp .combo-toast {
   background: linear-gradient(90deg, #001428, #002244);
   border: 1px solid rgba(211, 166, 37, 0.4);
@@ -7438,23 +6913,12 @@ body.hp .combo-toast {
 }
 
 /* ── SW Levels roadmap ── */
-body.sw .level-row {
-  background: rgba(0, 10, 25, 0.6);
-  border-color: rgba(0, 200, 255, 0.1);
-}
 body.hp .level-row {
   background: rgba(30, 8, 8, 0.6);
   border-color: rgba(211, 166, 37, 0.1);
 }
-body.sw .level-row.level-current {
-  border-width: 2px;
-}
 body.hp .level-row.level-current {
   border-width: 2px;
-}
-body.sw .level-row-name {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.75rem !important;
 }
 body.hp .level-row-name {
   font-family: 'Cinzel Decorative', monospace;
@@ -7597,16 +7061,9 @@ body.dark .usage-note-box.etymology-note {
 .note-textarea:focus {
   border-color: var(--accent);
 }
-body.sw .note-panel {
-  background: #090f1e;
-  border: 1px solid rgba(0, 200, 255, 0.2);
-}
 body.hp .note-panel {
   background: #090f1e;
   border: 1px solid rgba(211, 166, 37, 0.2);
-}
-body.sw .note-textarea {
-  border-color: rgba(0, 200, 255, 0.25);
 }
 body.hp .note-textarea {
   border-color: rgba(211, 166, 37, 0.25);
@@ -7645,15 +7102,8 @@ body.hp .note-textarea {
 .srs-fc-today {
   background: var(--accent) !important;
 }
-body.sw .srs-fc-bar {
-  background: rgba(0, 200, 255, 0.4);
-}
 body.hp .srs-fc-bar {
   background: rgba(211, 166, 37, 0.4);
-}
-body.sw .srs-fc-today {
-  background: #00c8ff !important;
-  box-shadow: 0 0 8px rgba(0, 200, 255, 0.4);
 }
 body.hp .srs-fc-today {
   background: #d3a625 !important;
@@ -7749,20 +7199,11 @@ body.hp .srs-fc-today {
   background: rgba(231, 76, 60, 0.1) !important;
   color: #e74c3c !important;
 }
-body.sw .dc-word {
-  color: #00c8ff;
-}
 body.hp .dc-word {
   color: #d3a625;
 }
-body.sw .dc-pbar-fill {
-  background: linear-gradient(90deg, #005580, #00c8ff);
-}
 body.hp .dc-pbar-fill {
   background: linear-gradient(90deg, #005580, #d3a625);
-}
-body.sw .dc-opt:hover:not(:disabled) {
-  border-color: #00c8ff;
 }
 body.hp .dc-opt:hover:not(:disabled) {
   border-color: #d3a625;
@@ -7817,24 +7258,13 @@ body.hp .dc-opt:hover:not(:disabled) {
   color: var(--text);
   margin-top: 4px;
 }
-body.sw .rd-unknown {
-  background: rgba(231, 76, 60, 0.15);
-  border-color: rgba(231, 76, 60, 0.4);
-}
 body.hp .rd-unknown {
   background: rgba(231, 76, 60, 0.15);
   border-color: rgba(231, 76, 60, 0.4);
 }
-body.sw .rd-known {
-  background: rgba(0, 200, 255, 0.1);
-  border-color: rgba(0, 200, 255, 0.3);
-}
 body.hp .rd-known {
   background: rgba(211, 166, 37, 0.1);
   border-color: rgba(211, 166, 37, 0.3);
-}
-body.sw .rd-popup-word {
-  color: #00c8ff;
 }
 body.hp .rd-popup-word {
   color: #d3a625;
@@ -7891,9 +7321,6 @@ body.hp .rd-popup-word {
   color: var(--text3);
   margin-top: 1px;
 }
-body.sw .duel-card-active {
-  border-color: #00c8ff;
-}
 body.hp .duel-card-active {
   border-color: #d3a625;
 }
@@ -7935,9 +7362,6 @@ body.hp .duel-card-active {
 }
 .notif-toggle-wrap input:checked + .notif-toggle-pill-ui::before {
   transform: translateX(18px);
-}
-body.sw .notif-toggle-wrap input:checked + .notif-toggle-pill-ui {
-  background: #00c8ff;
 }
 body.hp .notif-toggle-wrap input:checked + .notif-toggle-pill-ui {
   background: #d3a625;
@@ -7984,15 +7408,8 @@ body.hp .notif-toggle-wrap input:checked + .notif-toggle-pill-ui {
   color: var(--text2);
   font-weight: 700;
 }
-body.sw .time-picker {
-  border-color: rgba(0, 200, 255, 0.2);
-}
 body.hp .time-picker {
   border-color: rgba(211, 166, 37, 0.2);
-}
-body.sw .time-select:hover,
-body.sw .time-select:focus {
-  background: rgba(0, 200, 255, 0.1);
 }
 body.hp .time-select:hover,
 body.hp .time-select:focus {
@@ -8349,10 +7766,6 @@ body.dark .gr-tip {
   border-color: var(--accent);
   color: #fff;
 }
-body.sw .idioms-tab-active {
-  background: #00c8ff;
-  border-color: #00c8ff;
-}
 body.hp .idioms-tab-active {
   background: #d3a625;
   border-color: #d3a625;
@@ -8415,9 +7828,6 @@ body.hp .idioms-tab-active {
   font-size: 0.84rem;
   color: var(--accent);
   font-weight: 600;
-}
-body.sw .idiom-meaning {
-  color: #00c8ff;
 }
 body.hp .idiom-meaning {
   color: #d3a625;

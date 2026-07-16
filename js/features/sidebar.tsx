@@ -1,5 +1,8 @@
 // Vymova — js/features/sidebar.tsx
-// Sidebar wiring, page-view system, theme toggles, img-clear confirm
+// Sidebar wiring, page-view system, dark-mode pill sync. Nav-group hover
+// flyouts, fandom-theme rows, and the image-cache-clear confirm dialog have
+// moved to their own files — see sidebar-nav-flyout.tsx,
+// fandom-theme-rows.tsx, img-clear-confirm.tsx.
 import { useEffect, type ReactElement } from 'react';
 import { AI_TUTOR_ENABLED } from '../config.ts';
 import { notifySettingsChange } from '../../src/store.ts';
@@ -13,7 +16,6 @@ import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
 import { _renderVoices } from './voice/voice.tsx';
 import { _updateUI as _refreshNotifUI } from './notifications.tsx';
 import { _refreshCloudSyncUI } from './cloud-sync.tsx';
-import { t } from './i18n.ts';
 
 // The app uses HashRouter (see src/app-root.tsx) — the route lives in
 // location.hash, not window.location.pathname, which always reflects the
@@ -31,13 +33,9 @@ export function updateModesPageDesc(): void {
   el.textContent = `${know} → ${learn}`;
 }
 
-// ── Image cache clear confirm ──────────────────────────────────
-let _imgClearCb: (() => void) | null = null;
-
-export function showImgClearConfirm(cb: () => void): void {
-  _imgClearCb = cb;
-  document.getElementById('img-clear-overlay')?.classList.add('open');
-}
+// Image-cache-clear confirm moved to <ImgClearConfirmDialog/>
+// (img-clear-confirm.tsx, mounted via Portal in app-root.tsx);
+// image-prefetch.tsx now imports showImgClearConfirm from there directly.
 
 import { routerNavigate, PAGE_TO_ROUTE } from '../../src/router.ts';
 
@@ -228,24 +226,11 @@ export function closePage(): void {
   }
 }
 
-const FANDOM_THEME_KEYS = [
-  'sw',
-  'hp',
-  'cp',
-  'lotr',
-  'mcu',
-  'witcher',
-  'mc',
-  'dc',
-  'got',
-  'dw',
-  'dune',
-  'hg',
-  'avt',
-  'dt',
-];
-
-function _updateTogglePills(): void {
+// Fandom-theme rows (set-<key>/set-<key>-pill for the 14 skins) are wired by
+// <FandomThemeRowsController/> (fandom-theme-rows.tsx) against the shared
+// fandom-theme-store.ts — this function only handles the dark-mode pill,
+// which is a separate, independent toggle (js/core/theme.tsx's ThemeToggle).
+function _updateDarkPill(): void {
   // Dark theme pill reflects user preference (ew_theme), not a fandom-induced
   // body.dark — but when there's no explicit preference yet, settings.tsx's
   // system-color-scheme auto-detection may already have applied body.dark,
@@ -254,11 +239,6 @@ function _updateTogglePills(): void {
   const savedTheme = localStorage.getItem('ew_theme');
   const isDark = savedTheme ? savedTheme === 'dark' : document.body.classList.contains('dark');
   document.getElementById('set-theme-pill')?.classList.toggle('on', isDark);
-  for (const key of FANDOM_THEME_KEYS) {
-    document
-      .getElementById(`set-${key}-pill`)
-      ?.classList.toggle('on', document.body.classList.contains(key));
-  }
 }
 
 export function SidebarInit(): ReactElement | null {
@@ -268,28 +248,6 @@ export function SidebarInit(): ReactElement | null {
   }, [activePage]);
 
   useEffect(() => {
-    const imgClearOvl = document.getElementById('img-clear-overlay');
-    const imgClearCancel = document.getElementById('img-clear-cancel');
-    const imgClearConfirm = document.getElementById('img-clear-confirm');
-    const onImgClearCancel = () => {
-      imgClearOvl?.classList.remove('open');
-      _imgClearCb = null;
-    };
-    const onImgClearConfirm = () => {
-      imgClearOvl?.classList.remove('open');
-      _imgClearCb?.();
-      _imgClearCb = null;
-    };
-    const onImgClearOvlClick = (e: MouseEvent) => {
-      if (e.target === imgClearOvl) {
-        imgClearOvl?.classList.remove('open');
-        _imgClearCb = null;
-      }
-    };
-    imgClearCancel?.addEventListener('click', onImgClearCancel);
-    imgClearConfirm?.addEventListener('click', onImgClearConfirm);
-    imgClearOvl?.addEventListener('click', onImgClearOvlClick);
-
     // AI nav group is hidden by default (no backend configured) —
     // reveal it once the build-time proxy URL is set.
     if (AI_TUTOR_ENABLED) {
@@ -382,175 +340,20 @@ export function SidebarInit(): ReactElement | null {
       _navListeners.push([el, 'click', handler]);
     }
 
-    // ── Nav groups (hover flyout submenus) ───────────────────────
-    const groupCleanups: Array<() => void> = [];
-    const allFlyoutGroups: Array<{ group: HTMLElement; flyout: HTMLElement }> = [];
-    const closeOtherFlyouts = (except: HTMLElement) => {
-      allFlyoutGroups.forEach(({ group: g, flyout: f }) => {
-        if (f !== except) {
-          f.classList.remove('open');
-          g.classList.remove('open');
-        }
-      });
-    };
-    document.querySelectorAll<HTMLElement>('.sb-group').forEach((group) => {
-      const trigger = group.querySelector<HTMLElement>('.sb-group-trigger');
-      const flyout = group.querySelector<HTMLElement>('.sb-flyout');
-      if (!trigger || !flyout) return;
-      // .sidebar has its own z-index, which makes it a stacking context —
-      // any z-index on a fixed-position descendant only ranks against that
-      // context's siblings, so the flyout would stay pinned behind page
-      // overlays no matter how high its z-index goes. Move it to <body> so
-      // it competes in the top-level stacking order instead.
-      const flyoutPlaceholder = document.createComment('sb-flyout-slot');
-      flyout.before(flyoutPlaceholder);
-      document.body.appendChild(flyout);
-      let closeTimer: ReturnType<typeof setTimeout> | null = null;
-      const isMobile = () => window.innerWidth <= 900;
-      const positionFlyout = () => {
-        const r = trigger.getBoundingClientRect();
-        if (isMobile()) {
-          flyout.style.left = `${r.left}px`;
-          flyout.style.top = `${r.bottom + 2}px`;
-          flyout.style.width = `${r.width}px`;
-        } else {
-          flyout.style.left = `${r.right + 4}px`;
-          flyout.style.top = `${r.top}px`;
-          flyout.style.width = '';
-        }
-      };
-      const openFlyout = () => {
-        if (closeTimer) {
-          clearTimeout(closeTimer);
-          closeTimer = null;
-        }
-        if (isMobile()) return;
-        closeOtherFlyouts(flyout);
-        positionFlyout();
-        flyout.classList.add('open');
-      };
-      const scheduleClose = () => {
-        closeTimer = setTimeout(() => flyout.classList.remove('open'), 150);
-      };
-      const onTriggerEnter = () => openFlyout();
-      const onTriggerLeave = () => {
-        if (!isMobile()) scheduleClose();
-      };
-      const onFlyoutEnter = () => {
-        if (closeTimer) {
-          clearTimeout(closeTimer);
-          closeTimer = null;
-        }
-      };
-      const onFlyoutLeave = () => scheduleClose();
-      const onTriggerClick = (e: MouseEvent) => {
-        e.preventDefault();
-        const willOpen = !flyout.classList.contains('open');
-        if (willOpen) {
-          closeOtherFlyouts(flyout);
-          positionFlyout();
-        }
-        flyout.classList.toggle('open', willOpen);
-        group.classList.toggle('open', willOpen);
-      };
-      const onFlyoutItemClick = (e: MouseEvent) => {
-        if ((e.target as HTMLElement).closest('a.sb-btn')) {
-          flyout.classList.remove('open');
-          group.classList.remove('open');
-        }
-      };
-      trigger.addEventListener('mouseenter', onTriggerEnter);
-      trigger.addEventListener('mouseleave', onTriggerLeave);
-      flyout.addEventListener('mouseenter', onFlyoutEnter);
-      flyout.addEventListener('mouseleave', onFlyoutLeave);
-      trigger.addEventListener('click', onTriggerClick);
-      flyout.addEventListener('click', onFlyoutItemClick);
-      allFlyoutGroups.push({ group, flyout });
-      groupCleanups.push(() => {
-        trigger.removeEventListener('mouseenter', onTriggerEnter);
-        trigger.removeEventListener('mouseleave', onTriggerLeave);
-        flyout.removeEventListener('mouseenter', onFlyoutEnter);
-        flyout.removeEventListener('mouseleave', onFlyoutLeave);
-        trigger.removeEventListener('click', onTriggerClick);
-        flyout.removeEventListener('click', onFlyoutItemClick);
-        if (closeTimer) clearTimeout(closeTimer);
-        const idx = allFlyoutGroups.findIndex((x) => x.flyout === flyout);
-        if (idx !== -1) allFlyoutGroups.splice(idx, 1);
-        flyoutPlaceholder.replaceWith(flyout);
-      });
-    });
-    const onDocClickCloseGroups = (e: MouseEvent) => {
-      document.querySelectorAll<HTMLElement>('.sb-group').forEach((group) => {
-        // The flyout itself lives under <body> now (see the reparenting
-        // above), so it's no longer a descendant of .sb-group — look it up
-        // by id instead of group.querySelector.
-        const flyoutEl = document.getElementById(`${group.id}-flyout`);
-        const target = e.target as Node;
-        if (!group.contains(target) && !flyoutEl?.contains(target)) {
-          group.classList.remove('open');
-          flyoutEl?.classList.remove('open');
-        }
-      });
-    };
-    document.addEventListener('click', onDocClickCloseGroups);
+    // Nav-group hover flyouts moved to <NavFlyoutController/>
+    // (sidebar-nav-flyout.tsx, mounted directly in app-root.tsx).
 
-    // ── Theme toggles ──────────────────────────────────────────
+    // ── Dark-mode pill (fandom-theme rows/pills are now
+    // <FandomThemeRowsController/>, see fandom-theme-rows.tsx) ─────
     const setTheme = document.getElementById('set-theme');
     const onSetThemeClick = () => {
       document.getElementById('btn-theme')?.click();
-      setTimeout(_updateTogglePills, 50);
+      setTimeout(_updateDarkPill, 50);
     };
     setTheme?.addEventListener('click', onSetThemeClick);
-    const themeRowCleanups: Array<() => void> = [];
-    for (const key of FANDOM_THEME_KEYS) {
-      const setRow = document.getElementById(`set-${key}`);
-      const titleToggle = document.getElementById(`title-${key}-toggle`);
-      const onClick = () => {
-        document.getElementById(`btn-${key}`)?.click();
-        setTimeout(_updateTogglePills, 50);
-      };
-      setRow?.addEventListener('click', onClick);
-      titleToggle?.addEventListener('click', onClick);
-      themeRowCleanups.push(() => {
-        setRow?.removeEventListener('click', onClick);
-        titleToggle?.removeEventListener('click', onClick);
-      });
-    }
-    _updateTogglePills();
-    const mo = new MutationObserver(_updateTogglePills);
+    _updateDarkPill();
+    const mo = new MutationObserver(_updateDarkPill);
     mo.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-
-    // ── Show more/less fandom themes ─────────────────────────────
-    // Only the base 3 (dark/SW/HP) show by default; the rest sit behind a
-    // "show more" toggle so the Settings page doesn't open to a wall of
-    // rows — unless one of them is already the active theme, in which case
-    // start expanded so the user can see what's currently selected.
-    const EXTRA_THEME_KEYS = [
-      'cp',
-      'lotr',
-      'mcu',
-      'witcher',
-      'mc',
-      'dc',
-      'got',
-      'dw',
-      'dune',
-      'hg',
-      'avt',
-      'dt',
-    ];
-    const extraRows = document.getElementById('theme-rows-extra');
-    const toggleRowsBtn = document.getElementById('theme-rows-toggle');
-    const setThemeRowsExpanded = (expanded: boolean) => {
-      if (extraRows) extraRows.style.display = expanded ? 'flex' : 'none';
-      if (toggleRowsBtn)
-        toggleRowsBtn.textContent = t(
-          expanded ? 'settings.showLessThemes' : 'settings.showMoreThemes',
-        );
-    };
-    setThemeRowsExpanded(EXTRA_THEME_KEYS.some((k) => document.body.classList.contains(k)));
-    const onToggleRowsClick = () => setThemeRowsExpanded(extraRows?.style.display === 'none');
-    toggleRowsBtn?.addEventListener('click', onToggleRowsClick);
 
     // ── Restore last open page after a reload ───────────────────
     // Deferred via setTimeout: at module-eval time some page renderers
@@ -586,9 +389,6 @@ export function SidebarInit(): ReactElement | null {
     } catch (e) {}
 
     return () => {
-      imgClearCancel?.removeEventListener('click', onImgClearCancel);
-      imgClearConfirm?.removeEventListener('click', onImgClearConfirm);
-      imgClearOvl?.removeEventListener('click', onImgClearOvlClick);
       ham?.removeEventListener('click', onHamClick);
       sbOvl?.removeEventListener('click', closeSidebar);
       closePageBtns.forEach((btn) => btn.removeEventListener('click', closePage));
@@ -597,11 +397,7 @@ export function SidebarInit(): ReactElement | null {
       document.removeEventListener('keydown', onEscapeClosePage);
       sbCards?.removeEventListener('click', onCardsClick);
       for (const [el, evt, fn] of _navListeners) el.removeEventListener(evt, fn);
-      groupCleanups.forEach((fn) => fn());
-      document.removeEventListener('click', onDocClickCloseGroups);
       setTheme?.removeEventListener('click', onSetThemeClick);
-      themeRowCleanups.forEach((fn) => fn());
-      toggleRowsBtn?.removeEventListener('click', onToggleRowsClick);
       mo.disconnect();
       if (t1) clearTimeout(t1);
       if (t2) clearTimeout(t2);

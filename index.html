@@ -278,20 +278,6 @@
         </div>
         <div class="controls">
           <div id="theme-toggle-mount"></div>
-          <button id="btn-sw" title="Star Wars режим" style="display: none"></button>
-          <button id="btn-hp" title="Гаррі Поттер режим" style="display: none"></button>
-          <button id="btn-cp" title="Кіберпанк режим" style="display: none"></button>
-          <button id="btn-lotr" title="Володар Перснів режим" style="display: none"></button>
-          <button id="btn-mcu" title="Марвел режим" style="display: none"></button>
-          <button id="btn-witcher" title="Відьмак режим" style="display: none"></button>
-          <button id="btn-mc" title="Майнкрафт режим" style="display: none"></button>
-          <button id="btn-dc" title="DC режим" style="display: none"></button>
-          <button id="btn-got" title="Гра Престолів режим" style="display: none"></button>
-          <button id="btn-dw" title="Дискосвіт режим" style="display: none"></button>
-          <button id="btn-dune" title="Дюна режим" style="display: none"></button>
-          <button id="btn-hg" title="Голодні Ігри режим" style="display: none"></button>
-          <button id="btn-avt" title="Аватар режим" style="display: none"></button>
-          <button id="btn-dt" title="Темна Вежа режим" style="display: none"></button>
           <div id="lang-pair-select"></div>
           <select id="sel-mode" style="display: none">
             <option value="en">EN → UA</option>
@@ -848,18 +834,10 @@
             <div class="settings-desc" data-i18n="settings.srsPriorityDesc">
               Ігрові режими спершу показують слова, які час повторити (SRS), а не випадкові.
             </div>
-            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px">
-              <label class="notif-toggle-wrap">
-                <input type="checkbox" id="srs-priority-toggle" checked />
-                <span class="notif-toggle-pill-ui"></span>
-              </label>
-              <span
-                id="srs-priority-status"
-                style="font-size: 0.85rem; color: var(--text2)"
-                data-i18n="settings.srsPriorityOn"
-                >Увімкнено</span
-              >
-            </div>
+            <div
+              id="srs-priority-toggle-mount"
+              style="display: flex; align-items: center; gap: 10px; margin-top: 10px"
+            ></div>
           </div>
 
           <!-- Нових карток на день (SRS) -->
@@ -1028,18 +1006,10 @@
             <div class="settings-desc" data-i18n="settings.hapticDesc">
               Тактильний відгук при відповідях на картках.
             </div>
-            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px">
-              <label class="notif-toggle-wrap">
-                <input type="checkbox" id="haptic-toggle" checked />
-                <span class="notif-toggle-pill-ui"></span>
-              </label>
-              <span
-                id="haptic-status"
-                style="font-size: 0.85rem; color: var(--text2)"
-                data-i18n="settings.hapticOn"
-                >Увімкнено</span
-              >
-            </div>
+            <div
+              id="haptic-toggle-mount"
+              style="display: flex; align-items: center; gap: 10px; margin-top: 10px"
+            ></div>
             <p
               id="haptic-ios-note"
               style="display: none; font-size: 0.78rem; color: var(--text3); margin-top: 8px"
@@ -1057,18 +1027,10 @@
             <div class="settings-desc" data-i18n="settings.reducedMotionDesc">
               Вимикає анімації та переходи по всьому застосунку.
             </div>
-            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px">
-              <label class="notif-toggle-wrap">
-                <input type="checkbox" id="reduced-motion-toggle" />
-                <span class="notif-toggle-pill-ui"></span>
-              </label>
-              <span
-                id="reduced-motion-status"
-                style="font-size: 0.85rem; color: var(--text2)"
-                data-i18n="settings.reducedMotionOff"
-                >Вимкнено</span
-              >
-            </div>
+            <div
+              id="reduced-motion-toggle-mount"
+              style="display: flex; align-items: center; gap: 10px; margin-top: 10px"
+            ></div>
           </div>
 
           <!-- ── High contrast ── -->
@@ -1079,18 +1041,10 @@
             <div class="settings-desc" data-i18n="settings.highContrastDesc">
               Посилює контраст тексту та рамок для кращої читабельності.
             </div>
-            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px">
-              <label class="notif-toggle-wrap">
-                <input type="checkbox" id="high-contrast-toggle" />
-                <span class="notif-toggle-pill-ui"></span>
-              </label>
-              <span
-                id="high-contrast-status"
-                style="font-size: 0.85rem; color: var(--text2)"
-                data-i18n="settings.highContrastOff"
-                >Вимкнено</span
-              >
-            </div>
+            <div
+              id="high-contrast-toggle-mount"
+              style="display: flex; align-items: center; gap: 10px; margin-top: 10px"
+            ></div>
           </div>
 
           <!-- ── PWA Install ── -->
@@ -1101,18 +1055,7 @@
             <div class="settings-desc" data-i18n="settings.pwaDesc">
               Швидкий доступ з головного екрана, робота офлайн.
             </div>
-            <div style="margin-top: 10px">
-              <button
-                id="btn-pwa-install"
-                class="backup-btn"
-                style="padding: 7px 14px; font-size: 0.8rem"
-                data-i18n="pwa.installBtn"
-              >
-                Встановити
-              </button>
-              <span id="pwa-install-status" style="font-size: 0.78rem; color: var(--text2)"></span>
-              <div id="pwa-install-hint" style="font-size: 0.78rem; color: var(--text2)"></div>
-            </div>
+            <div id="pwa-install-mount" style="margin-top: 10px"></div>
           </div>
 
           <!-- Скидання прогресу -->
@@ -1307,7 +1250,7 @@
           </div>
 
           <div class="settings-footer">
-            © 2026 Vymova · v1.335.1 ·
+            © 2026 Vymova · v1.336.0 ·
             <a
               href="./privacy.html"
               target="_blank"
@@ -1493,46 +1436,8 @@
         </div>
       </div>
 
-      <!-- ══ IMAGE CACHE CLEAR CONFIRM ══ -->
-      <div
-        id="img-clear-overlay"
-        style="
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.65);
-          z-index: 99999;
-          align-items: center;
-          justify-content: center;
-          padding: 16px;
-        "
-      >
-        <div class="prf-delete-panel">
-          <div class="prf-delete-icon">🗑️</div>
-          <div class="prf-delete-title" data-i18n="modal.imgClearTitle">
-            Очистити кеш зображень?
-          </div>
-          <div class="prf-delete-warn" data-i18n="modal.imgClearWarn">
-            Всі завантажені фото будуть видалені з кешу. Зображення завантажуватимуться знову при
-            перегляді карток.
-          </div>
-          <div class="prf-delete-btns">
-            <button
-              id="img-clear-cancel"
-              class="prf-delete-btn prf-delete-btn-cancel"
-              data-i18n="modal.cancelAlt"
-            >
-              Скасувати
-            </button>
-            <button
-              id="img-clear-confirm"
-              class="prf-delete-btn prf-delete-btn-confirm"
-              data-i18n="modal.clear"
-            >
-              Очистити
-            </button>
-          </div>
-        </div>
-      </div>
+      <!-- ══ IMAGE CACHE CLEAR CONFIRM (React, img-clear-confirm.tsx) ══ -->
+      <div id="img-clear-mount"></div>
 
       <!-- ══ DAILY CHALLENGE OVERLAY ══ -->
       <div id="dc-overlay" class="page-overlay">
@@ -1792,171 +1697,8 @@
         "
       ></div>
 
-      <!-- ══ CONFIRM MODAL (replaces browser confirm()) ══ -->
-      <div
-        id="confirm-overlay"
-        style="
-          display: none;
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.6);
-          z-index: 30001;
-          align-items: center;
-          justify-content: center;
-          padding: 16px;
-        "
-      >
-        <div
-          style="
-            background: var(--modal-bg, var(--card));
-            border-radius: 18px;
-            padding: 24px 22px;
-            max-width: 340px;
-            width: 100%;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-            text-align: center;
-          "
-        >
-          <div style="font-size: 2rem; margin-bottom: 8px">⚠️</div>
-          <div
-            id="confirm-title"
-            style="font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 6px"
-          ></div>
-          <div
-            id="confirm-message"
-            style="font-size: 0.85rem; color: var(--text2); line-height: 1.5; margin-bottom: 20px"
-          ></div>
-          <div style="display: flex; gap: 10px">
-            <button
-              id="confirm-cancel"
-              data-i18n="modal.cancelAlt"
-              style="
-                flex: 1;
-                padding: 11px;
-                border-radius: 12px;
-                border: 1.5px solid var(--border);
-                background: none;
-                color: var(--text2);
-                cursor: pointer;
-                font-family: inherit;
-                font-size: 0.88rem;
-              "
-            >
-              Скасувати
-            </button>
-            <button
-              id="confirm-ok"
-              style="
-                flex: 1;
-                padding: 11px;
-                border-radius: 12px;
-                border: none;
-                background: #e74c3c;
-                color: #fff;
-                font-weight: 700;
-                cursor: pointer;
-                font-family: inherit;
-                font-size: 0.88rem;
-              "
-            >
-              Залишити
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ══ CODE INPUT MODAL (reusable prompt replacement) ══ -->
-      <div
-        id="code-input-overlay"
-        style="
-          display: none;
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.6);
-          z-index: 30000;
-          align-items: center;
-          justify-content: center;
-          padding: 16px;
-        "
-      >
-        <div
-          style="
-            background: var(--modal-bg, var(--card));
-            border-radius: 18px;
-            padding: 24px 22px;
-            max-width: 360px;
-            width: 100%;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-          "
-        >
-          <div
-            id="code-input-title"
-            style="font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 6px"
-          ></div>
-          <div
-            id="code-input-desc"
-            style="font-size: 0.78rem; color: var(--text3); margin-bottom: 14px"
-          ></div>
-          <input
-            id="code-input-field"
-            type="text"
-            autocomplete="off"
-            spellcheck="false"
-            style="
-              width: 100%;
-              padding: 11px 14px;
-              border: 2px solid var(--border);
-              border-radius: 12px;
-              font-family: monospace;
-              font-size: 1.1rem;
-              background: var(--bg);
-              color: var(--text);
-              outline: none;
-              box-sizing: border-box;
-              text-align: center;
-              letter-spacing: 0.12em;
-              text-transform: uppercase;
-              margin-bottom: 14px;
-            "
-          />
-          <div style="display: flex; gap: 8px">
-            <button
-              id="code-input-cancel"
-              data-i18n="modal.cancelAlt"
-              style="
-                flex: 1;
-                padding: 10px;
-                border-radius: 10px;
-                border: 1.5px solid var(--border);
-                background: none;
-                color: var(--text2);
-                cursor: pointer;
-                font-family: inherit;
-                font-size: 0.88rem;
-              "
-            >
-              Скасувати
-            </button>
-            <button
-              id="code-input-ok"
-              style="
-                flex: 2;
-                padding: 10px;
-                border-radius: 10px;
-                border: none;
-                background: var(--accent);
-                color: #fff;
-                font-weight: 700;
-                cursor: pointer;
-                font-family: inherit;
-                font-size: 0.88rem;
-              "
-            >
-              OK
-            </button>
-          </div>
-        </div>
-      </div>
+      <!-- ══ CODE INPUT MODAL (React, duel-dialogs.tsx) ══ -->
+      <div id="code-input-mount"></div>
 
       <!-- ══ WORD DETAIL MODAL ══ -->
       <div id="wd-page-mount"></div>

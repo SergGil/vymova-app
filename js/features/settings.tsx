@@ -1,19 +1,10 @@
 // Vymova — js/features/settings.tsx
 import { useEffect, type ReactElement } from 'react';
-import { updateSrsUI, isSrsPriorityEnabled } from '../core/srs.ts';
+import { updateSrsUI } from '../core/srs.ts';
 import { _imgCache, loadWikiImage } from '../core/images.ts';
 import { W } from '../../data/words.js';
 import { openPage } from './sidebar.tsx';
-import { t } from './i18n.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
-import { bindModalDismiss } from './overlay-utils.ts';
-import {
-  isPwaInstalled,
-  canTriggerPwaInstall,
-  needsPwaIosHint,
-  needsBrowserUiHint,
-  triggerPwaInstall,
-} from '../core/pwa.tsx';
 import type { WordEntry } from '../../src/types.js';
 
 type VoidFn = () => void;
@@ -58,10 +49,15 @@ export function SettingsInit(): ReactElement | null {
     btnNext?.addEventListener('click', onNext, true);
     btnDontKnow?.addEventListener('click', onDontKnow, true);
 
-    // ── Haptic toggle UI ───────────────────────────────────────────
+    // ── Haptic section visibility (touch-only; iOS shows disabled) ──
+    // Checked-state, status label, and persisting the choice are now owned
+    // by <HapticToggle/> (settings-toggles.tsx, mounted via Portal in
+    // app-root.tsx) — this block only handles the surrounding section's
+    // touch-device visibility, which is independent of the toggle's state.
+    // SRS-priority/reduced-motion/high-contrast toggles have likewise moved
+    // there in full (including reduced-motion's OS-preference listener and
+    // both toggles' body-class application).
     const hapticToggle = document.getElementById('haptic-toggle') as HTMLInputElement | null;
-    const hapticStatusEl = document.getElementById('haptic-status') as HTMLElement | null;
-    // Show haptic section only on touch devices; on iOS show disabled + explanation
     const hapticSection = hapticToggle?.closest('.settings-section') as HTMLElement | null;
     const isTouchDevice = navigator.maxTouchPoints > 0;
     const hasVibrationApi = 'vibrate' in navigator;
@@ -74,107 +70,6 @@ export function SettingsInit(): ReactElement | null {
         const iosNote = document.getElementById('haptic-ios-note');
         if (iosNote) iosNote.style.display = '';
       }
-    }
-    if (hapticToggle) {
-      hapticToggle.checked = hapticEnabled();
-      const updateHapticLabel = () => {
-        if (hapticStatusEl)
-          hapticStatusEl.textContent = t(
-            hapticToggle.checked ? 'settings.hapticOn' : 'settings.hapticOff',
-          );
-      };
-      updateHapticLabel();
-      hapticToggle.addEventListener('change', () => {
-        localStorage.setItem('ew_haptic', hapticToggle.checked ? '1' : '0');
-        updateHapticLabel();
-      });
-    }
-
-    // ── SRS-priority toggle UI ──────────────────────────────────────
-    const srsPriorityToggle = document.getElementById(
-      'srs-priority-toggle',
-    ) as HTMLInputElement | null;
-    const srsPriorityStatusEl = document.getElementById(
-      'srs-priority-status',
-    ) as HTMLElement | null;
-    if (srsPriorityToggle) {
-      srsPriorityToggle.checked = isSrsPriorityEnabled();
-      const updateSrsPriorityLabel = () => {
-        if (srsPriorityStatusEl)
-          srsPriorityStatusEl.textContent = t(
-            srsPriorityToggle.checked ? 'settings.srsPriorityOn' : 'settings.srsPriorityOff',
-          );
-      };
-      updateSrsPriorityLabel();
-      srsPriorityToggle.addEventListener('change', () => {
-        localStorage.setItem('ew_srs_priority', srsPriorityToggle.checked ? '1' : '0');
-        updateSrsPriorityLabel();
-      });
-    }
-
-    // ── Reduced motion (explicit toggle, falls back to OS preference) ──
-    const reducedMotionMq = window.matchMedia?.('(prefers-reduced-motion: reduce)');
-    function reducedMotionEnabled(): boolean {
-      const stored = localStorage.getItem('ew_reduced_motion');
-      if (stored === '1') return true;
-      if (stored === '0') return false;
-      return !!reducedMotionMq?.matches;
-    }
-    document.body.classList.toggle('reduced-motion', reducedMotionEnabled());
-    const onReducedMotionOsChange = () => {
-      if (!localStorage.getItem('ew_reduced_motion')) {
-        document.body.classList.toggle('reduced-motion', reducedMotionEnabled());
-      }
-    };
-    reducedMotionMq?.addEventListener('change', onReducedMotionOsChange);
-
-    const reducedMotionToggle = document.getElementById(
-      'reduced-motion-toggle',
-    ) as HTMLInputElement | null;
-    const reducedMotionStatusEl = document.getElementById(
-      'reduced-motion-status',
-    ) as HTMLElement | null;
-    if (reducedMotionToggle) {
-      reducedMotionToggle.checked = reducedMotionEnabled();
-      const updateReducedMotionLabel = () => {
-        if (reducedMotionStatusEl)
-          reducedMotionStatusEl.textContent = t(
-            reducedMotionToggle.checked ? 'settings.reducedMotionOn' : 'settings.reducedMotionOff',
-          );
-      };
-      updateReducedMotionLabel();
-      reducedMotionToggle.addEventListener('change', () => {
-        localStorage.setItem('ew_reduced_motion', reducedMotionToggle.checked ? '1' : '0');
-        document.body.classList.toggle('reduced-motion', reducedMotionToggle.checked);
-        updateReducedMotionLabel();
-      });
-    }
-
-    // ── High contrast toggle ────────────────────────────────────────
-    function highContrastEnabled(): boolean {
-      return localStorage.getItem('ew_high_contrast') === '1';
-    }
-    document.body.classList.toggle('high-contrast', highContrastEnabled());
-    const highContrastToggle = document.getElementById(
-      'high-contrast-toggle',
-    ) as HTMLInputElement | null;
-    const highContrastStatusEl = document.getElementById(
-      'high-contrast-status',
-    ) as HTMLElement | null;
-    if (highContrastToggle) {
-      highContrastToggle.checked = highContrastEnabled();
-      const updateHighContrastLabel = () => {
-        if (highContrastStatusEl)
-          highContrastStatusEl.textContent = t(
-            highContrastToggle.checked ? 'settings.highContrastOn' : 'settings.highContrastOff',
-          );
-      };
-      updateHighContrastLabel();
-      highContrastToggle.addEventListener('change', () => {
-        localStorage.setItem('ew_high_contrast', highContrastToggle.checked ? '1' : '0');
-        document.body.classList.toggle('high-contrast', highContrastToggle.checked);
-        updateHighContrastLabel();
-      });
     }
 
     // ── Visibilitychange: auto-prefetch ────────────────────────────
@@ -227,149 +122,29 @@ export function SettingsInit(): ReactElement | null {
       } catch (e) {}
     }, 200);
 
-    // ── Fandom theme skins (mutually exclusive body classes) ────────
-    const THEME_DEFS = [
-      { key: 'sw', titleOn: 'settings.swTitleOn', titleOff: 'settings.swTitle' },
-      { key: 'hp', titleOn: 'settings.hpTitleOn', titleOff: 'settings.hpTitle' },
-      { key: 'cp', titleOn: 'settings.cpTitleOn', titleOff: 'settings.cpTitle' },
-      { key: 'lotr', titleOn: 'settings.lotrTitleOn', titleOff: 'settings.lotrTitle' },
-      { key: 'mcu', titleOn: 'settings.mcuTitleOn', titleOff: 'settings.mcuTitle' },
-      { key: 'witcher', titleOn: 'settings.witcherTitleOn', titleOff: 'settings.witcherTitle' },
-      { key: 'mc', titleOn: 'settings.mcTitleOn', titleOff: 'settings.mcTitle' },
-      { key: 'dc', titleOn: 'settings.dcTitleOn', titleOff: 'settings.dcTitle' },
-      { key: 'got', titleOn: 'settings.gotTitleOn', titleOff: 'settings.gotTitle' },
-      { key: 'dw', titleOn: 'settings.dwTitleOn', titleOff: 'settings.dwTitle' },
-      { key: 'dune', titleOn: 'settings.duneTitleOn', titleOff: 'settings.duneTitle' },
-      { key: 'hg', titleOn: 'settings.hgTitleOn', titleOff: 'settings.hgTitle' },
-      { key: 'avt', titleOn: 'settings.avtTitleOn', titleOff: 'settings.avtTitle' },
-      { key: 'dt', titleOn: 'settings.dtTitleOn', titleOff: 'settings.dtTitle' },
-    ];
-    const themeBtns = THEME_DEFS.map((d) => ({
-      ...d,
-      el: document.getElementById(`btn-${d.key}`) as HTMLElement | null,
-    }));
-    const themeCleanups: VoidFn[] = [];
-    // Self-heal stale state from before mutual exclusivity was enforced (or
-    // any other way two `ew_<key>` flags ended up '1' at once) — apply only
-    // the first one found and clear the rest, so at most one skin is active.
-    let _themeAlreadyApplied = false;
-    themeBtns.forEach(({ key, el, titleOn, titleOff }) => {
-      if (!el) return;
-      if (localStorage.getItem(`ew_${key}`) === '1') {
-        if (_themeAlreadyApplied) {
-          localStorage.setItem(`ew_${key}`, '0');
-          el.title = t(titleOff);
-        } else {
-          document.body.classList.add(key);
-          _themeAlreadyApplied = true;
-        }
-      }
-      const onClick = () => {
-        const isOn = document.body.classList.toggle(key);
-        localStorage.setItem(`ew_${key}`, isOn ? '1' : '0');
-        el.title = isOn ? t(titleOn) : t(titleOff);
-        if (isOn) {
-          themeBtns.forEach((other) => {
-            if (other.key === key || !other.el) return;
-            document.body.classList.remove(other.key);
-            localStorage.setItem(`ew_${other.key}`, '0');
-            other.el.title = t(other.titleOff);
-          });
-        }
-      };
-      el.addEventListener('click', onClick);
-      themeCleanups.push(() => el.removeEventListener('click', onClick));
-    });
+    // Fandom theme skins moved to <FandomThemeRowsController/> +
+    // fandom-theme-store.ts (see legacy-modernization-roadmap.md item 4d) —
+    // no more hidden proxy buttons here.
 
-    // ── Modes Modal ────────────────────────────────────────────────
-    const _modesOvl = document.getElementById('modes-overlay');
-    const _openBtn = document.getElementById('btn-modes-open');
-    let openModes: (() => void) | null = null;
-    if (_modesOvl && _openBtn) {
-      openModes = (): void => {
-        _modesOvl.className = 'modes-overlay open';
-        const selMode = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value;
-        _modesOvl
-          .querySelectorAll<HTMLElement>('.mode-card')
-          .forEach((c) => c.classList.remove('mode-card--active'));
-        if (selMode) document.getElementById('btn-' + selMode)?.classList.add('mode-card--active');
-      };
-      const closeModes = (): void => {
-        _modesOvl.className = 'modes-overlay';
-      };
-      _openBtn.addEventListener('click', openModes);
-      bindModalDismiss('modes-overlay', 'modes-close', closeModes);
-    }
+    // Modes modal moved to <ModesModalController/>
+    // (modes-modal.tsx, mounted via Portal in app-root.tsx).
 
     // ── Achievements button ────────────────────────────────────────
     const onAchClick = () => openPage('ach');
     const btnAch = document.getElementById('btn-achievements');
     btnAch?.addEventListener('click', onAchClick);
 
-    // ── PWA install (manual re-trigger from Settings) ───────────────
-    const btnPwaInstall = document.getElementById('btn-pwa-install') as HTMLButtonElement | null;
-    const pwaStatus = document.getElementById('pwa-install-status');
-    const pwaHint = document.getElementById('pwa-install-hint');
-    let onPwaInstallClick: (() => void) | null = null;
-    function refreshPwaSection(): void {
-      if (!btnPwaInstall || !pwaStatus) return;
-      if (isPwaInstalled()) {
-        btnPwaInstall.style.display = 'none';
-        if (pwaHint) pwaHint.style.display = 'none';
-        pwaStatus.textContent = t('settings.pwaInstalled');
-        pwaStatus.style.display = '';
-      } else if (canTriggerPwaInstall()) {
-        btnPwaInstall.style.display = '';
-        if (pwaHint) pwaHint.style.display = 'none';
-        pwaStatus.style.display = 'none';
-      } else if (needsPwaIosHint()) {
-        btnPwaInstall.style.display = 'none';
-        if (pwaHint) {
-          pwaHint.style.display = '';
-          pwaHint.innerHTML = t('pwa.iosInstallHint');
-        }
-        pwaStatus.style.display = 'none';
-      } else if (needsBrowserUiHint()) {
-        btnPwaInstall.style.display = 'none';
-        if (pwaHint) {
-          pwaHint.style.display = '';
-          pwaHint.textContent = t('settings.pwaAddressBarHint');
-        }
-        pwaStatus.style.display = 'none';
-      } else {
-        btnPwaInstall.style.display = 'none';
-        if (pwaHint) pwaHint.style.display = 'none';
-        pwaStatus.textContent = t('settings.pwaUnavailable');
-        pwaStatus.style.display = '';
-      }
-    }
-    if (btnPwaInstall) {
-      refreshPwaSection();
-      onPwaInstallClick = () => {
-        triggerPwaInstall().then(refreshPwaSection);
-      };
-      btnPwaInstall.addEventListener('click', onPwaInstallClick);
-      // beforeinstallprompt can arrive after this page already rendered;
-      // appinstalled confirms the install actually completed
-      window.addEventListener('beforeinstallprompt', refreshPwaSection);
-      window.addEventListener('appinstalled', refreshPwaSection);
-    }
+    // PWA install section moved to <PwaInstallSection/>
+    // (pwa-install-section.tsx, mounted via Portal in app-root.tsx).
 
     return () => {
       darkMq?.removeEventListener('change', onDarkChange);
-      reducedMotionMq?.removeEventListener('change', onReducedMotionOsChange);
       btnKnow?.removeEventListener('click', onKnow, true);
       btnNext?.removeEventListener('click', onNext, true);
       btnDontKnow?.removeEventListener('click', onDontKnow, true);
       document.removeEventListener('visibilitychange', onVisibilityChange);
       clearTimeout(renderTimer);
-      themeCleanups.forEach((fn) => fn());
-      if (_openBtn && openModes) _openBtn.removeEventListener('click', openModes);
       btnAch?.removeEventListener('click', onAchClick);
-      if (btnPwaInstall && onPwaInstallClick)
-        btnPwaInstall.removeEventListener('click', onPwaInstallClick);
-      window.removeEventListener('beforeinstallprompt', refreshPwaSection);
-      window.removeEventListener('appinstalled', refreshPwaSection);
     };
   }, []);
 

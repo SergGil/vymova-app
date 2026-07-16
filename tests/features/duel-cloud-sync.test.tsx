@@ -1,4 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { act } from 'react';
+import { createRoot } from 'react-dom/client';
+
+(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 // ── Mock Firebase fetch (records every request so we can assert on
 // method/path/body, not just the resulting KV state) ──────────────
@@ -102,28 +106,36 @@ vi.stubGlobal('crypto', {
   },
 });
 
-// _askCode() drives a real DOM prompt (#code-input-*) rather than a plain
-// promise, so functions that use it (joinAsSpectator here) need those
-// elements present; this drives them for real instead of mocking duel.ts's
-// module (which — now that duel.ts statically imports from duel-spectator-
-// logic.ts — makes vi.mock's importOriginal() resolve _askCode ambiguously
-// across the two module instances).
+// _askCode() drives a real React-owned dialog (<CodeInputDialog/>, see
+// duel-dialogs.tsx) rather than a plain promise, so functions that use it
+// (joinAsSpectator here) need that component actually mounted; this mounts
+// it for real instead of mocking duel.ts's module (which — now that duel.ts
+// statically imports from duel-spectator-logic.ts — makes vi.mock's
+// importOriginal() resolve _askCode ambiguously across the two module
+// instances).
+import { CodeInputDialog } from '../../js/features/duel/duel-dialogs.tsx';
+
 function _mountCodeInputDom(): void {
-  document.body.innerHTML += `
-    <div id="code-input-overlay" style="display:none">
-      <span id="code-input-title"></span>
-      <span id="code-input-desc"></span>
-      <input id="code-input-field" />
-      <button id="code-input-ok"></button>
-      <button id="code-input-cancel"></button>
-    </div>`;
+  const container = document.createElement('div');
+  document.body.appendChild(container);
+  const root = createRoot(container);
+  act(() => {
+    root.render(<CodeInputDialog />);
+  });
 }
 async function _answerCodePrompt(code: string): Promise<void> {
-  await new Promise((r) => setTimeout(r, 0)); // let _askCode() render into the overlay
-  (document.getElementById('code-input-field') as HTMLInputElement).value = code;
-  document
-    .getElementById('code-input-ok')!
-    .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  await new Promise((r) => setTimeout(r, 0)); // let _askCode() render into the dialog
+  const inp = document.getElementById('code-input-field') as HTMLInputElement;
+  const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')!.set!;
+  act(() => {
+    setter.call(inp, code);
+    inp.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  act(() => {
+    document
+      .getElementById('code-input-ok')!
+      .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  });
 }
 
 import { _cancelRoom } from '../../js/features/duel/duel.ts';
@@ -259,7 +271,7 @@ describe('duel cloud sync — real Firebase-facing functions after the module sp
   });
 
   it('joinAsSpectator() PATCHes a spectator entry, and _cancelRoom() DELETEs it via the cross-module cleanup hook', async () => {
-    _fbSetAt('/duel_rooms/SPECROOM', {
+    _fbSetAt('/duel_rooms/SPECRM', {
       seed: 1,
       mode: 'quiz',
       category: '',
@@ -272,11 +284,16 @@ describe('duel cloud sync — real Firebase-facing functions after the module sp
       series: { p1wins: 0, p2wins: 0, round: 1 },
     });
     _mountCodeInputDom();
-    const joined = joinAsSpectator();
-    await _answerCodePrompt('SPECROOM');
+    // joinAsSpectator() synchronously calls _askCode(), which synchronously
+    // triggers a setState in the mounted <CodeInputDialog/> — needs act().
+    let joined!: ReturnType<typeof joinAsSpectator>;
+    act(() => {
+      joined = joinAsSpectator();
+    });
+    await _answerCodePrompt('SPECRM');
     await joined;
     const patch = _calls.find(
-      (c) => c.method === 'PATCH' && c.path.startsWith('/duel_rooms/SPECROOM/spectators/'),
+      (c) => c.method === 'PATCH' && c.path.startsWith('/duel_rooms/SPECRM/spectators/'),
     );
     expect(patch).toBeTruthy();
     const specPath = patch!.path;
@@ -295,7 +312,7 @@ describe('duel cloud sync — real Firebase-facing functions after the module sp
     // this suite: joinAsSpectator() never set mySlot, so it stayed 'p1'
     // from a prior game, and _cancelRoom()'s "I'm p1, delete the room"
     // branch fired for spectators too.)
-    const roomDel = _calls.find((c) => c.method === 'DELETE' && c.path === '/duel_rooms/SPECROOM');
+    const roomDel = _calls.find((c) => c.method === 'DELETE' && c.path === '/duel_rooms/SPECRM');
     expect(roomDel).toBeFalsy();
   });
 

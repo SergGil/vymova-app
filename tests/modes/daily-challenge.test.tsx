@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { DailyChallenge } from '../../js/modes/daily-challenge.tsx';
+import { today as localToday } from '../../js/core/today.ts';
 import type { GameData } from '../../src/types.ts';
 
 let mockGameData: GameData;
@@ -99,7 +100,7 @@ describe('daily-challenge.tsx (DailyChallenge)', () => {
   });
 
   it('shows the locked "already done today" screen when the mission is already completed', () => {
-    mockGameData.dailyMissionDate = new Date().toISOString().slice(0, 10);
+    mockGameData.dailyMissionDate = localToday();
     act(() => {
       document.getElementById('btn-daily-challenge')!.click();
     });
@@ -156,7 +157,7 @@ describe('daily-challenge.tsx (DailyChallenge)', () => {
     }
     expect(document.getElementById('dc-final')!.style.display).toBe('block');
     expect(recordModeComplete).toHaveBeenCalledWith('daily');
-    expect(getGameData().dailyMissionDate).toBe(new Date().toISOString().slice(0, 10));
+    expect(getGameData().dailyMissionDate).toBe(localToday());
     vi.useRealTimers();
   });
 

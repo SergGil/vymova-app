@@ -2,12 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { getActivePage, dispatchClosePage } from '../../src/nav-store.tsx';
-import {
-  SidebarInit,
-  openPage,
-  closePage,
-  showImgClearConfirm,
-} from '../../js/features/sidebar.tsx';
+import { SidebarInit, openPage, closePage } from '../../js/features/sidebar.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -82,15 +77,8 @@ describe('sidebar.tsx', () => {
       <button id="stats-close"></button>
       <button id="modes-close"></button>
       <button id="set-theme"></button>
-      <button id="set-sw"></button>
-      <button id="title-sw-toggle"></button>
       <button id="btn-theme"></button>
-      <button id="btn-sw"></button>
       <span id="set-theme-pill"></span>
-      <span id="set-sw-pill"></span>
-      <div id="img-clear-overlay"></div>
-      <button id="img-clear-cancel"></button>
-      <button id="img-clear-confirm"></button>
     `;
     document.body.classList.remove('dark', 'sw');
     dispatchClosePage();
@@ -271,38 +259,6 @@ describe('sidebar.tsx', () => {
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
     expect(getActivePage()).toBeNull();
-  });
-
-  it('shows and resolves the image-clear confirm dialog', () => {
-    const { root } = mount();
-    roots.push(root);
-    const cb = vi.fn();
-    showImgClearConfirm(cb);
-    const overlay = document.getElementById('img-clear-overlay')!;
-    expect(overlay.classList.contains('open')).toBe(true);
-
-    act(() => {
-      document
-        .getElementById('img-clear-confirm')!
-        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    });
-    expect(cb).toHaveBeenCalled();
-    expect(overlay.classList.contains('open')).toBe(false);
-  });
-
-  it('cancelling the image-clear confirm does not call the callback', () => {
-    const { root } = mount();
-    roots.push(root);
-    const cb = vi.fn();
-    showImgClearConfirm(cb);
-
-    act(() => {
-      document
-        .getElementById('img-clear-cancel')!
-        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    });
-    expect(cb).not.toHaveBeenCalled();
-    expect(document.getElementById('img-clear-overlay')!.classList.contains('open')).toBe(false);
   });
 
   it('toggles the theme pill when the theme toggle is clicked', async () => {

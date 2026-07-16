@@ -20,7 +20,7 @@ vi.mock('../../js/core/images.ts', () => ({
   _getPixabayKey: getPixabayKey,
   resetImgCache,
 }));
-vi.mock('../../js/features/sidebar.tsx', () => ({ showImgClearConfirm }));
+vi.mock('../../js/features/img-clear-confirm.tsx', () => ({ showImgClearConfirm }));
 
 let roots: Root[] = [];
 

@@ -1,4 +1,10 @@
 // Global test setup ─────────────────────────────────────────────
+// jest-dom matchers (toBeInTheDocument(), toHaveTextContent(), ...) for
+// @testing-library/react-based tests (legacy-modernization-roadmap.md item
+// 4 — new tests only; the existing react-dom/client+querySelector suites
+// are untouched and don't need this).
+import '@testing-library/jest-dom/vitest';
+
 // Tests must not hit the real network (e.g. <img> flag/illustration
 // requests, Firebase calls in duel/cloud-sync/leaderboard). Without
 // this, pending requests get aborted on window teardown and crash the

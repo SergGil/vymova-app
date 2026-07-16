@@ -12,6 +12,7 @@ import { NavProvider, getActivePage } from './nav-store.tsx';
 import { KnownWordsProvider } from './known-words-store.ts';
 import { SrsProvider } from './srs-store.ts';
 import { DeckFilterProvider } from './deck-filter-store.ts';
+import { FandomThemeProvider } from './fandom-theme-store.ts';
 import { DeckProvider } from './deck-store.ts';
 import { DuelLobbyProvider } from './duel-lobby-store.ts';
 import { DuelRoomProvider } from './duel-room-store.ts';
@@ -33,6 +34,18 @@ import { SrsNewCapControl } from '../js/features/srs-cap-control.tsx';
 import { TagFilterSelect } from '../js/features/tag-filter-select.tsx';
 import { SearchInline } from '../js/features/search-inline.tsx';
 import { SearchOverlay } from '../js/features/search-overlay.tsx';
+import { CodeInputDialog } from '../js/features/duel/duel-dialogs.tsx';
+import {
+  SrsPriorityToggle,
+  HapticToggle,
+  ReducedMotionToggle,
+  HighContrastToggle,
+} from '../js/features/settings-toggles.tsx';
+import { PwaInstallSection } from '../js/features/pwa-install-section.tsx';
+import { ModesModalController } from '../js/features/modes-modal.tsx';
+import { ImgClearConfirmDialog } from '../js/features/img-clear-confirm.tsx';
+import { NavFlyoutController } from '../js/features/sidebar-nav-flyout.tsx';
+import { FandomThemeRowsController } from '../js/features/fandom-theme-rows.tsx';
 import { GameBarLevel } from '../js/features/game-bar-level.tsx';
 import { GameBarStreak, ComboBox, GameBarGoal } from '../js/features/game-bar-streak.tsx';
 import { GoalModal } from '../js/features/goal-modal.tsx';
@@ -291,6 +304,27 @@ function AppRoot(): ReactElement {
       <Portal id="search-overlay-mount">
         <SearchOverlay />
       </Portal>
+      <Portal id="code-input-mount">
+        <CodeInputDialog />
+      </Portal>
+      <Portal id="srs-priority-toggle-mount">
+        <SrsPriorityToggle />
+      </Portal>
+      <Portal id="haptic-toggle-mount">
+        <HapticToggle />
+      </Portal>
+      <Portal id="reduced-motion-toggle-mount">
+        <ReducedMotionToggle />
+      </Portal>
+      <Portal id="high-contrast-toggle-mount">
+        <HighContrastToggle />
+      </Portal>
+      <Portal id="pwa-install-mount">
+        <PwaInstallSection />
+      </Portal>
+      <Portal id="img-clear-mount">
+        <ImgClearConfirmDialog />
+      </Portal>
       <Portal id="level-box">
         <GameBarLevel />
       </Portal>
@@ -400,6 +434,7 @@ function AppRoot(): ReactElement {
       </Portal>
       <FrontSpeakBtnsToggle />
       <SettingsInit />
+      <ModesModalController />
       <ProgressIO />
       <DeckModeInit />
       <DeckFilterInit />
@@ -410,6 +445,8 @@ function AppRoot(): ReactElement {
       <ExportInit />
       <VoiceInit />
       <SidebarInit />
+      <NavFlyoutController />
+      <FandomThemeRowsController />
       <LazyPage
         active={useWordDetailTarget() !== null}
         mountId="wd-page-mount"
@@ -501,27 +538,29 @@ export function mountAppRoot(): void {
         <KnownWordsProvider>
           <SrsProvider>
             <DeckFilterProvider>
-              <DeckProvider>
-                <DuelLobbyProvider>
-                  <DuelRoomProvider>
-                    <DuelQuestionProvider>
-                      <DuelChatProvider>
-                        <DuelSpecRoomProvider>
-                          <DuelTournViewProvider>
-                            <DuelResultProvider>
-                              <DuelResumeSessionsProvider>
-                                <NavigateBridge />
-                                <RouterSync />
-                                <AppRoot />
-                              </DuelResumeSessionsProvider>
-                            </DuelResultProvider>
-                          </DuelTournViewProvider>
-                        </DuelSpecRoomProvider>
-                      </DuelChatProvider>
-                    </DuelQuestionProvider>
-                  </DuelRoomProvider>
-                </DuelLobbyProvider>
-              </DeckProvider>
+              <FandomThemeProvider>
+                <DeckProvider>
+                  <DuelLobbyProvider>
+                    <DuelRoomProvider>
+                      <DuelQuestionProvider>
+                        <DuelChatProvider>
+                          <DuelSpecRoomProvider>
+                            <DuelTournViewProvider>
+                              <DuelResultProvider>
+                                <DuelResumeSessionsProvider>
+                                  <NavigateBridge />
+                                  <RouterSync />
+                                  <AppRoot />
+                                </DuelResumeSessionsProvider>
+                              </DuelResultProvider>
+                            </DuelTournViewProvider>
+                          </DuelSpecRoomProvider>
+                        </DuelChatProvider>
+                      </DuelQuestionProvider>
+                    </DuelRoomProvider>
+                  </DuelLobbyProvider>
+                </DeckProvider>
+              </FandomThemeProvider>
             </DeckFilterProvider>
           </SrsProvider>
         </KnownWordsProvider>

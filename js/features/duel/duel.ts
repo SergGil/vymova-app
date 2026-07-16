@@ -95,7 +95,7 @@ export { CHARS, ROOM_SIZE, TEMPO_SEC, REACTIONS, POWERUPS, DUEL_MODES, DIFFICULT
 // Same reasoning: _askCode's declaration now lives in duel-dialogs.ts, but
 // duel-async-challenge.ts/duel-spectator-logic.ts/duel-tournament-logic.ts
 // keep importing it from here.
-export { _askCode } from './duel-dialogs.ts';
+export { _askCode } from './duel-dialogs.tsx';
 // Same reasoning: _getHistory/_getRating's declarations now live in
 // duel-history-log.ts, but duel-history.tsx/duel-leaderboard.tsx keep
 // importing them from here.
