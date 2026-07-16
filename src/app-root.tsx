@@ -12,6 +12,7 @@ import { NavProvider, getActivePage } from './nav-store.tsx';
 import { KnownWordsProvider } from './known-words-store.ts';
 import { SrsProvider } from './srs-store.ts';
 import { DeckFilterProvider } from './deck-filter-store.ts';
+import { notifySettingsChange } from './store.ts';
 import { FandomThemeProvider } from './fandom-theme-store.ts';
 import { DeckProvider } from './deck-store.ts';
 import { DuelLobbyProvider } from './duel-lobby-store.ts';
@@ -46,6 +47,7 @@ import { ModesModalController } from '../js/features/modes-modal.tsx';
 import { ImgClearConfirmDialog } from '../js/features/img-clear-confirm.tsx';
 import { NavFlyoutController } from '../js/features/sidebar-nav-flyout.tsx';
 import { FandomThemeRowsController } from '../js/features/fandom-theme-rows.tsx';
+import { PageOverlayVisibility } from '../js/features/page-overlay-visibility.tsx';
 import { GameBarLevel } from '../js/features/game-bar-level.tsx';
 import { GameBarStreak, ComboBox, GameBarGoal } from '../js/features/game-bar-streak.tsx';
 import { GoalModal } from '../js/features/goal-modal.tsx';
@@ -91,10 +93,10 @@ import { DeckModeInit } from '../js/features/deck-mode.tsx';
 import { DeckFilterInit } from '../js/features/deck-filter.tsx';
 import { DailyChallenge } from '../js/modes/daily-challenge.tsx';
 import { PairsMode } from '../js/modes/pairs.tsx';
-import { NotificationsInit } from '../js/features/notifications.tsx';
-import { CloudSyncInit } from '../js/features/cloud-sync.tsx';
+import { NotificationsInit, _updateUI as _refreshNotifUI } from '../js/features/notifications.tsx';
+import { CloudSyncInit, _refreshCloudSyncUI } from '../js/features/cloud-sync.tsx';
 import { ExportInit } from '../js/features/export.tsx';
-import { VoiceInit } from '../js/features/voice/voice.tsx';
+import { VoiceInit, _renderVoices } from '../js/features/voice/voice.tsx';
 import { SidebarInit } from '../js/features/sidebar.tsx';
 import { useWordDetailTarget } from '../js/features/word-detail-trigger.ts';
 import { useStatsShouldLoad } from '../js/features/stats-trigger.ts';
@@ -447,6 +449,77 @@ function AppRoot(): ReactElement {
       <SidebarInit />
       <NavFlyoutController />
       <FandomThemeRowsController />
+      <PageOverlayVisibility page="modes" overlayId="modes-overlay" extraClass="as-page" />
+      <PageOverlayVisibility
+        page="stats"
+        overlayId="stats-overlay"
+        extraClass="as-page"
+        onActivate={() => {
+          document.getElementById('btn-stats')?.dispatchEvent(new Event('click'));
+        }}
+      />
+      <PageOverlayVisibility page="profile" overlayId="profile-overlay" />
+      <PageOverlayVisibility page="translate" overlayId="translate-overlay" />
+      <PageOverlayVisibility page="lang-history" overlayId="lang-history-overlay" />
+      <PageOverlayVisibility page="ai-tutor" overlayId="ai-tutor-overlay" />
+      <PageOverlayVisibility page="voice-roleplay" overlayId="voice-roleplay-overlay" />
+      <PageOverlayVisibility page="youtube-player" overlayId="youtube-player-overlay" />
+      <PageOverlayVisibility page="video-player" overlayId="video-player-overlay" />
+      <PageOverlayVisibility
+        page="grammar"
+        overlayId="grammar-overlay"
+        onActivate={() => {
+          import('../js/features/grammar-page.tsx')
+            .then((m) => m.openGrammarContent())
+            .catch(() => {});
+        }}
+      />
+      <PageOverlayVisibility
+        page="idioms"
+        overlayId="idioms-overlay"
+        onActivate={() => {
+          import('../js/features/idioms-page.tsx')
+            .then((m) => m.openIdiomsContent())
+            .catch(() => {});
+        }}
+      />
+      <PageOverlayVisibility
+        page="ach"
+        overlayId="ach-overlay"
+        onActivate={() => {
+          import('../js/features/achievements-page.tsx')
+            .then((m) => m.refreshAchievementsPage())
+            .catch(() => {});
+        }}
+      />
+      <PageOverlayVisibility
+        page="duel"
+        overlayId="duel-overlay"
+        onActivate={() => {
+          import('../js/features/duel/duel.ts')
+            .then((m) => m.renderDuel())
+            .catch(() => {});
+        }}
+      />
+      <PageOverlayVisibility
+        page="learning-path"
+        overlayId="lp-overlay"
+        onActivate={() => {
+          import('../js/features/learning-path.ts')
+            .then((m) => m.openLearningPath())
+            .catch(() => {});
+        }}
+      />
+      <PageOverlayVisibility
+        page="settings"
+        overlayId="settings-overlay"
+        onActivate={() => {
+          _renderVoices();
+          _refreshNotifUI();
+          notifySettingsChange();
+          _refreshCloudSyncUI();
+        }}
+      />
       <LazyPage
         active={useWordDetailTarget() !== null}
         mountId="wd-page-mount"

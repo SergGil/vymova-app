@@ -1,35 +1,10 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { getActivePage, dispatchClosePage } from '../../src/nav-store.tsx';
 import { SidebarInit, openPage, closePage } from '../../js/features/sidebar.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
-
-const {
-  refreshAchievementsPage,
-  renderDuel,
-  openGrammarContent,
-  openIdiomsContent,
-  renderVoices,
-  updateNotifUI,
-  refreshCloudSyncUI,
-} = vi.hoisted(() => ({
-  refreshAchievementsPage: vi.fn(),
-  renderDuel: vi.fn(),
-  openGrammarContent: vi.fn(),
-  openIdiomsContent: vi.fn(),
-  renderVoices: vi.fn(),
-  updateNotifUI: vi.fn(),
-  refreshCloudSyncUI: vi.fn(),
-}));
-vi.mock('../../js/features/achievements-page.tsx', () => ({ refreshAchievementsPage }));
-vi.mock('../../js/features/duel/duel.ts', () => ({ renderDuel }));
-vi.mock('../../js/features/grammar-page.tsx', () => ({ openGrammarContent }));
-vi.mock('../../js/features/idioms-page.tsx', () => ({ openIdiomsContent }));
-vi.mock('../../js/features/voice/voice.tsx', () => ({ _renderVoices: renderVoices }));
-vi.mock('../../js/features/notifications.tsx', () => ({ _updateUI: updateNotifUI }));
-vi.mock('../../js/features/cloud-sync.tsx', () => ({ _refreshCloudSyncUI: refreshCloudSyncUI }));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
@@ -73,6 +48,7 @@ describe('sidebar.tsx', () => {
       <div id="grammar-overlay"></div>
       <div id="idioms-overlay"></div>
       <div id="lp-overlay"></div>
+      <div id="write-mode-desc"></div>
       <button id="btn-stats"></button>
       <button id="stats-close"></button>
       <button id="modes-close"></button>
@@ -84,13 +60,6 @@ describe('sidebar.tsx', () => {
     dispatchClosePage();
     localStorage.clear();
     roots = [];
-    refreshAchievementsPage.mockClear();
-    renderDuel.mockClear();
-    openGrammarContent.mockClear();
-    openIdiomsContent.mockClear();
-    renderVoices.mockClear();
-    updateNotifUI.mockClear();
-    refreshCloudSyncUI.mockClear();
   });
 
   afterEach(() => {
@@ -129,13 +98,14 @@ describe('sidebar.tsx', () => {
     expect(overlay.classList.contains('open')).toBe(false);
   });
 
+  // The stats overlay's "as-page" class / #btn-stats synthetic click are no
+  // longer set directly by openPage() — they're owned reactively by
+  // <PageOverlayVisibility/> (see page-overlay-visibility.test.tsx's
+  // dedicated "stats" describe block), which isn't mounted in this test
+  // file. Only the shared nav-state side is exercised here.
   it('openPage("stats") activates the stats overlay and sidebar item', () => {
     const { root } = mount();
     roots.push(root);
-    let statsClicked = false;
-    document.getElementById('btn-stats')!.addEventListener('click', () => {
-      statsClicked = true;
-    });
 
     act(() => {
       openPage('stats');
@@ -144,92 +114,101 @@ describe('sidebar.tsx', () => {
     expect(getActivePage()).toBe('stats');
     expect(document.getElementById('sb-stats')!.classList.contains('sb-active')).toBe(true);
     expect(document.body.style.overflow).toBe('hidden');
-    expect(document.getElementById('stats-overlay')!.classList.contains('as-page')).toBe(true);
-    expect(statsClicked).toBe(true);
     expect(localStorage.getItem('ew_active_page')).toBe('stats');
   });
 
-  it('openPage("ach") opens the achievements overlay and refreshes the page', async () => {
-    const { root } = mount();
-    roots.push(root);
-    await act(async () => {
-      openPage('ach');
-      await new Promise((r) => setTimeout(r, 0));
-    });
-
-    expect(document.getElementById('ach-overlay')!.classList.contains('open')).toBe(true);
-    expect(refreshAchievementsPage).toHaveBeenCalled();
-  });
-
-  it('openPage("settings") opens settings and refreshes related UIs', () => {
+  // updateModesPageDesc() used to be called directly inside openPage()'s
+  // 'modes' branch too — that direct call was dropped as redundant when
+  // 'modes' overlay-visibility moved to <PageOverlayVisibility/>, because
+  // SidebarInit already has its own independent
+  // useEffect(() => { if (activePage === 'modes') updateModesPageDesc(); })
+  // reacting to the same activePage change. This confirms that reactive
+  // path alone is enough — dropping the direct call wasn't a regression.
+  it('updates the modes page language-pair label reactively when navigating to "modes"', () => {
     const { root } = mount();
     roots.push(root);
     act(() => {
-      openPage('settings');
+      openPage('modes');
     });
-
-    expect(document.getElementById('settings-overlay')!.classList.contains('open')).toBe(true);
-    expect(renderVoices).toHaveBeenCalled();
-    expect(updateNotifUI).toHaveBeenCalled();
-    expect(refreshCloudSyncUI).toHaveBeenCalled();
+    expect(document.getElementById('write-mode-desc')!.textContent).toMatch(/→/);
   });
 
-  it('openPage("duel"/"grammar"/"idioms") opens overlays and renders content', async () => {
+  // 'modes'/'ach'/'settings'/'duel'/'learning-path'/'profile'/'grammar'/
+  // 'idioms'/'translate'/'lang-history'/'ai-tutor'/'voice-roleplay'/
+  // 'youtube-player'/'video-player' — overlay-visibility (and any
+  // content-refresh call) all moved out of openPage()/closePage() into
+  // <PageOverlayVisibility/> (page-overlay-visibility.tsx, its own
+  // dedicated tests, including one per page's exact wiring in
+  // app-root.tsx). 'stats' joins them here on the open side (its
+  // "as-page" class add / #btn-stats dispatch are also reactive now) —
+  // but closePage() still directly force-clears it too, unconditionally,
+  // for the quick-view-modal case (see the dedicated test above).
+  it('openPage()/closePage() drive the shared nav state for pages whose overlay is handled elsewhere', () => {
     const { root } = mount();
     roots.push(root);
-
-    await act(async () => {
-      openPage('duel');
-      await new Promise((r) => setTimeout(r, 0));
+    for (const page of ['modes', 'profile', 'ach', 'settings', 'duel', 'grammar', 'idioms', 'stats']) {
+      act(() => {
+        openPage(page);
+      });
+      expect(getActivePage()).toBe(page);
+    }
+    act(() => {
+      closePage();
     });
-    expect(document.getElementById('duel-overlay')!.classList.contains('open')).toBe(true);
-    expect(renderDuel).toHaveBeenCalled();
-
-    await act(async () => {
-      openPage('grammar');
-      await new Promise((r) => setTimeout(r, 0));
-    });
-    expect(document.getElementById('grammar-overlay')!.classList.contains('open')).toBe(true);
-    expect(openGrammarContent).toHaveBeenCalled();
-
-    await act(async () => {
-      openPage('idioms');
-      await new Promise((r) => setTimeout(r, 0));
-    });
-    expect(document.getElementById('idioms-overlay')!.classList.contains('open')).toBe(true);
-    expect(openIdiomsContent).toHaveBeenCalled();
+    expect(getActivePage()).toBeNull();
   });
 
-  it('closePage clears active page state and closes overlays', () => {
+  it('closePage clears active page state', () => {
     const { root } = mount();
     roots.push(root);
     act(() => {
-      openPage('ach');
+      openPage('stats');
     });
-    expect(getActivePage()).toBe('ach');
+    expect(getActivePage()).toBe('stats');
 
     act(() => {
       closePage();
     });
     expect(getActivePage()).toBeNull();
-    expect(document.getElementById('ach-overlay')!.classList.contains('open')).toBe(false);
     expect(document.body.style.overflow).toBe('');
     expect(localStorage.getItem('ew_active_page')).toBeNull();
+  });
+
+  // closePage() force-clears the stats overlay's "as-page" class / display
+  // unconditionally — even when stats wasn't the page nav-store had open —
+  // because stats can also be showing as an independent floating quick-view
+  // modal (opened by clicking #btn-stats directly, entirely outside
+  // nav-store) that must not visually linger above whatever page is opened
+  // next. <PageOverlayVisibility/> only reacts to 'stats' itself
+  // becoming/leaving the active page, so it can't express this — this stays
+  // directly in closePage() by design (see the comment there).
+  it('closePage force-clears a stats quick-view overlay even when stats was never the active nav page', () => {
+    const { root } = mount();
+    roots.push(root);
+    const so = document.getElementById('stats-overlay')!;
+    so.classList.add('as-page');
+    so.style.display = 'flex';
+    expect(getActivePage()).toBeNull();
+
+    act(() => {
+      closePage();
+    });
+    expect(so.classList.contains('as-page')).toBe(false);
+    expect(so.style.display).toBe('none');
   });
 
   it('Escape closes whichever page is currently open', () => {
     const { root } = mount();
     roots.push(root);
     act(() => {
-      openPage('ach');
+      openPage('stats');
     });
-    expect(getActivePage()).toBe('ach');
+    expect(getActivePage()).toBe('stats');
 
     act(() => {
       document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     });
     expect(getActivePage()).toBeNull();
-    expect(document.getElementById('ach-overlay')!.classList.contains('open')).toBe(false);
   });
 
   it('Escape does nothing when no page is open', () => {
@@ -295,13 +274,12 @@ describe('sidebar.tsx', () => {
   });
 
   it('restores the last open page from localStorage on mount', async () => {
-    localStorage.setItem('ew_active_page', 'idioms');
+    localStorage.setItem('ew_active_page', 'stats');
     const { root } = mount();
     roots.push(root);
 
     await wait(10);
-    expect(document.getElementById('idioms-overlay')!.classList.contains('open')).toBe(true);
-    expect(openIdiomsContent).toHaveBeenCalled();
+    expect(getActivePage()).toBe('stats');
   });
 
   it('removes listeners on unmount', () => {
@@ -310,12 +288,11 @@ describe('sidebar.tsx', () => {
       root.unmount();
     });
 
-    refreshAchievementsPage.mockClear();
     act(() => {
       document
         .getElementById('sb-achievements')!
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect(refreshAchievementsPage).not.toHaveBeenCalled();
+    expect(getActivePage()).toBeNull();
   });
 });

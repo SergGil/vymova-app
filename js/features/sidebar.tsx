@@ -5,7 +5,6 @@
 // fandom-theme-rows.tsx, img-clear-confirm.tsx.
 import { useEffect, type ReactElement } from 'react';
 import { AI_TUTOR_ENABLED } from '../config.ts';
-import { notifySettingsChange } from '../../src/store.ts';
 import {
   getActivePage,
   dispatchOpenPage,
@@ -13,9 +12,6 @@ import {
   useActivePage,
 } from '../../src/nav-store.tsx';
 import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
-import { _renderVoices } from './voice/voice.tsx';
-import { _updateUI as _refreshNotifUI } from './notifications.tsx';
-import { _refreshCloudSyncUI } from './cloud-sync.tsx';
 
 // The app uses HashRouter (see src/app-root.tsx) — the route lives in
 // location.hash, not window.location.pathname, which always reflects the
@@ -102,61 +98,18 @@ export function openPage(page: string): void {
   if (route && !_currentHashRoute().endsWith(route)) routerNavigate(route);
   // Prevent body scroll when a page overlay is open
   document.body.style.overflow = 'hidden';
-  if (page === 'stats') {
-    const so = document.getElementById('stats-overlay');
-    if (so) {
-      so.classList.add('as-page');
-      so.style.display = 'flex';
-    }
-    document.getElementById('btn-stats')?.dispatchEvent(new Event('click'));
-  } else if (page === 'ach') {
-    document.getElementById('ach-overlay')?.classList.add('open');
-    import('./achievements-page.tsx')
-      .then(({ refreshAchievementsPage }) => refreshAchievementsPage())
-      .catch(() => {});
-  } else if (page === 'modes') {
-    const mo = document.getElementById('modes-overlay');
-    mo?.classList.add('as-page', 'open');
-    updateModesPageDesc();
-  } else if (page === 'settings') {
-    document.getElementById('settings-overlay')?.classList.add('open');
-    _renderVoices();
-    _refreshNotifUI();
-    notifySettingsChange();
-    _refreshCloudSyncUI();
-  } else if (page === 'duel') {
-    document.getElementById('duel-overlay')?.classList.add('open');
-    import('./duel/duel.ts')
-      .then(({ renderDuel }) => renderDuel())
-      .catch(() => {});
-  } else if (page === 'grammar') {
-    document.getElementById('grammar-overlay')?.classList.add('open');
-    import('./grammar-page.tsx')
-      .then(({ openGrammarContent }) => openGrammarContent())
-      .catch(() => {});
-  } else if (page === 'idioms') {
-    document.getElementById('idioms-overlay')?.classList.add('open');
-    import('./idioms-page.tsx')
-      .then(({ openIdiomsContent }) => openIdiomsContent())
-      .catch(() => {});
-  } else if (page === 'learning-path') {
-    document.getElementById('lp-overlay')?.classList.add('open');
-    import('./learning-path.ts').then(({ openLearningPath }) => openLearningPath()).catch(() => {});
-  } else if (page === 'profile') {
-    document.getElementById('profile-overlay')?.classList.add('open');
-  } else if (page === 'translate') {
-    document.getElementById('translate-overlay')?.classList.add('open');
-  } else if (page === 'lang-history') {
-    document.getElementById('lang-history-overlay')?.classList.add('open');
-  } else if (page === 'ai-tutor') {
-    document.getElementById('ai-tutor-overlay')?.classList.add('open');
-  } else if (page === 'voice-roleplay') {
-    document.getElementById('voice-roleplay-overlay')?.classList.add('open');
-  } else if (page === 'youtube-player') {
-    document.getElementById('youtube-player-overlay')?.classList.add('open');
-  } else if (page === 'video-player') {
-    document.getElementById('video-player-overlay')?.classList.add('open');
-  }
+  // 'stats' (as-page) and every other page's overlay class-toggle (and,
+  // where needed, an onActivate content-refresh call) are self-managed by
+  // <PageOverlayVisibility/> (page-overlay-visibility.tsx, mounted in
+  // app-root.tsx) off useActivePage() instead of being driven from here.
+  // ('modes' page's updateModesPageDesc() call already lived in its own
+  // reactive useActivePage()-driven effect below, independent of this
+  // dispatcher, so dropping the direct call here isn't a behavior change.)
+  // Stats specifically still dispatches a synthetic #btn-stats click from
+  // its onActivate (rather than calling openStats() directly) because that
+  // click is also listened to independently by CatPairsWiringInit
+  // (js/modes/catpairs.tsx) to refresh the weak-words widget — calling
+  // openStats() directly would silently drop that second listener's effect.
   if (window.innerWidth <= 900) closeSidebar();
 }
 
@@ -200,26 +153,26 @@ export function closePage(): void {
   _setSidebarActive(null);
   // Restore body scroll when page is closed
   document.body.style.overflow = '';
+  // Deliberately unconditional (runs on every closePage(), not just when
+  // 'stats' was the active page): stats can also be open as a floating
+  // quick-view modal (no "as-page" class, opened by clicking #btn-stats
+  // directly, entirely outside nav-store) which must still be force-closed
+  // when navigating to/closing any other page, or it'd visually stay on
+  // top (it sits above page overlays at z-index 8000). A purely
+  // useActivePage()-reactive <PageOverlayVisibility/> can't express that —
+  // it only reacts to 'stats' itself becoming/leaving the active page — so
+  // this stays here rather than moving out like the other overlays below.
   const so = document.getElementById('stats-overlay');
   if (so) {
     so.classList.remove('as-page');
     so.style.display = 'none';
   }
-  document.getElementById('ach-overlay')?.classList.remove('open');
-  const mo = document.getElementById('modes-overlay');
-  mo?.classList.remove('as-page', 'open');
-  document.getElementById('settings-overlay')?.classList.remove('open');
-  document.getElementById('duel-overlay')?.classList.remove('open');
-  document.getElementById('grammar-overlay')?.classList.remove('open');
-  document.getElementById('idioms-overlay')?.classList.remove('open');
-  document.getElementById('translate-overlay')?.classList.remove('open');
-  document.getElementById('lang-history-overlay')?.classList.remove('open');
-  document.getElementById('lp-overlay')?.classList.remove('open');
-  document.getElementById('profile-overlay')?.classList.remove('open');
-  document.getElementById('ai-tutor-overlay')?.classList.remove('open');
-  document.getElementById('voice-roleplay-overlay')?.classList.remove('open');
-  document.getElementById('youtube-player-overlay')?.classList.remove('open');
-  document.getElementById('video-player-overlay')?.classList.remove('open');
+  // 'modes-overlay'/'ach-overlay'/'settings-overlay'/'duel-overlay'/
+  // 'lp-overlay'/'translate-overlay'/'lang-history-overlay'/
+  // 'profile-overlay'/'grammar-overlay'/'idioms-overlay'/
+  // 'ai-tutor-overlay'/'voice-roleplay-overlay'/'youtube-player-overlay'/
+  // 'video-player-overlay' self-manage via <PageOverlayVisibility/> — see
+  // the matching note in openPage() above.
   for (const id of MODE_OVERLAY_IDS) {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';

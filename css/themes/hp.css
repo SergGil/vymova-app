@@ -1,0 +1,592 @@
+/* Vymova — css/themes/hp.css
+   Extracted from styles.css (legacy-modernization-roadmap.md, item 2) —
+   every rule scoped purely to body.hp. Loaded on demand (see
+   js/features/settings.tsx's theme toggle) instead of shipped to every
+   visitor regardless of which theme (if any) they use. */
+
+
+body.hp .title-hp-toggle {
+  opacity: 1;
+  border-color: #d3a625;
+  color: #d3a625;
+  background: rgba(211, 166, 37, 0.1);
+}
+body.hp .lang-opt.lang-active {
+  color: #d3a625;
+  background: rgba(211, 166, 37, 0.12);
+}
+body.hp .search-result-item.sr-known {
+  background: #2a1f0a;
+}
+body.hp .scr-tile-placed {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+}
+body.hp {
+  --bg: #1a0a0a;
+  --card: #2b0a0a;
+  --text: #f5e6c8;
+  --text2: #c9a86a;
+  --text3: #6b4423;
+  --accent: #d3a625;
+  --accent2: #ae0001;
+  --border: #5c1a1a;
+  --shadow: 0 0 18px rgba(211, 166, 37, 0.12), 0 4px 24px rgba(0, 0, 0, 0.6);
+  /* Modal backgrounds — dark neon panels instead of white */
+  --modal-bg: #2b0a0a;
+  --modal-av-bg: rgba(211, 166, 37, 0.08);
+}
+body.hp ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+body.hp ::-webkit-scrollbar-track {
+  background: rgba(20, 5, 5, 0.7);
+}
+body.hp ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #d3a625 0%, #8a6d1f 100%);
+  border-radius: 10px;
+  box-shadow:
+    0 0 6px rgba(211, 166, 37, 0.6),
+    0 0 12px rgba(211, 166, 37, 0.25);
+}
+body.hp ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #f0c75e 0%, #8a6d1f 100%);
+  box-shadow:
+    0 0 10px rgba(211, 166, 37, 0.9),
+    0 0 20px rgba(211, 166, 37, 0.4);
+}
+body.hp ::-webkit-scrollbar-corner {
+  background: rgba(20, 5, 5, 0.7);
+}
+body.hp * {
+  scrollbar-color: #d3a625 rgba(20, 5, 5, 0.7);
+}
+body.hp::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1px 1px at 10% 15%, rgba(245, 225, 180, 0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 40%, rgba(245, 225, 180, 0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 8%, rgba(245, 225, 180, 0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 28%, rgba(245, 225, 180, 0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 5%, rgba(245, 225, 180, 0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 18%, rgba(245, 225, 180, 0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 35%, rgba(245, 225, 180, 0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 60%, rgba(245, 225, 180, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 75%, rgba(245, 225, 180, 0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 55%, rgba(245, 225, 180, 0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 70%, rgba(245, 225, 180, 0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 85%, rgba(245, 225, 180, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 62%, rgba(245, 225, 180, 0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 20% 90%, rgba(245, 225, 180, 0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 45% 80%, rgba(245, 225, 180, 0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 75% 45%, rgba(245, 225, 180, 0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5% 50%, rgba(240, 200, 100, 0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38% 22%, rgba(240, 200, 100, 0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 88%, rgba(220, 170, 80, 0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 50%, rgba(240, 200, 100, 0.5) 0%, transparent 100%);
+  background-color: transparent;
+  pointer-events: none;
+}
+body.hp::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(26, 10, 10, 0.55), rgba(26, 10, 10, 0.55)),
+    url('/backgrounds/hp/hogwarts-burning-sunset.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  pointer-events: none;
+}
+body.hp .title {
+  font-family: 'Cinzel Decorative', sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(211, 166, 37, 0.5);
+}
+body.hp .card-face {
+  position: relative;
+}
+body.hp .card-face::before,
+body.hp .card-face::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(211, 166, 37, 0.6);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 3;
+}
+body.hp .card-face::before {
+  top: 8px;
+  left: 8px;
+  border-width: 2px 0 0 2px;
+  border-radius: 2px 0 0 0;
+}
+body.hp .card-face::after {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 2px 0;
+}
+body.hp .card-face {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(211, 166, 37, 0.015) 3px,
+    rgba(211, 166, 37, 0.015) 4px
+  );
+}
+body.hp .card-face {
+  border-color: rgba(211, 166, 37, 0.25);
+  box-shadow:
+    0 0 20px rgba(211, 166, 37, 0.1),
+    0 4px 30px rgba(0, 0, 0, 0.7),
+    inset 0 0 40px rgba(211, 166, 37, 0.03);
+}
+body.hp .card.is-known .card-face {
+  border-color: rgba(57, 211, 83, 0.4) !important;
+  box-shadow:
+    0 0 25px rgba(57, 211, 83, 0.2),
+    0 4px 30px rgba(0, 0, 0, 0.7) !important;
+}
+body.hp .progress-fill {
+  background: linear-gradient(90deg, #0066ff, #d3a625);
+  box-shadow:
+    0 0 8px #d3a625,
+    0 0 16px rgba(211, 166, 37, 0.5);
+}
+body.hp .goal-fill {
+  background: linear-gradient(90deg, #d3a625, #f0c75e) !important;
+  box-shadow:
+    0 0 8px #d3a625,
+    0 0 20px rgba(211, 166, 37, 0.4) !important;
+}
+body.hp .goal-fill.done {
+  background: linear-gradient(90deg, #ff6600, #ffd700) !important;
+  box-shadow:
+    0 0 8px #ffd700,
+    0 0 20px rgba(255, 215, 0, 0.4) !important;
+}
+body.hp .ach-progress-fill {
+  background: linear-gradient(90deg, #d3a625, #f0c75e);
+}
+body.hp .btn {
+  background: rgba(40, 12, 10, 0.9);
+  border-color: rgba(211, 166, 37, 0.25);
+  color: var(--text2);
+  transition: all 0.2s;
+}
+body.hp .btn:hover {
+  border-color: rgba(211, 166, 37, 0.6);
+  color: var(--accent);
+  box-shadow: 0 0 12px rgba(211, 166, 37, 0.2);
+}
+body.hp .btn-know {
+  border-color: rgba(57, 211, 83, 0.5) !important;
+  color: #39d353 !important;
+}
+body.hp .btn-know:hover {
+  background: rgba(57, 211, 83, 0.1) !important;
+  box-shadow: 0 0 15px rgba(57, 211, 83, 0.3) !important;
+}
+body.hp .btn-dontknow {
+  border-color: rgba(255, 69, 58, 0.5) !important;
+  color: #ff453a !important;
+}
+body.hp .btn-dontknow:hover {
+  background: rgba(255, 69, 58, 0.1) !important;
+  box-shadow: 0 0 15px rgba(255, 69, 58, 0.3) !important;
+}
+body.hp #search-input {
+  background: rgba(40, 12, 10, 0.9);
+  border-color: rgba(211, 166, 37, 0.2);
+  color: var(--text);
+}
+body.hp #search-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(211, 166, 37, 0.2);
+}
+body.hp .word-text {
+  color: #f5e6c8;
+  text-shadow: 0 0 20px rgba(211, 166, 37, 0.1);
+}
+body.hp .transcription {
+  color: var(--accent2);
+}
+body.hp .quiz-panel,
+body.hp .pairs-panel {
+  background: rgba(40, 12, 10, 0.97);
+  border: 1px solid rgba(211, 166, 37, 0.2);
+  box-shadow:
+    0 0 40px rgba(211, 166, 37, 0.15),
+    0 20px 60px rgba(0, 0, 0, 0.8);
+}
+body.hp .card-tag {
+  background: rgba(211, 166, 37, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(211, 166, 37, 0.3);
+}
+body.hp .level-badge {
+  box-shadow: 0 0 10px rgba(211, 166, 37, 0.2);
+}
+body.hp .srs-stats-bar {
+  background: rgba(40, 12, 10, 0.9);
+  border-color: rgba(211, 166, 37, 0.15);
+}
+body.hp .ring-fill {
+  stroke: #d3a625;
+  filter: drop-shadow(0 0 4px #d3a625);
+}
+body.hp #btn-hp {
+  border-color: #d3a625;
+  color: #d3a625;
+  box-shadow: 0 0 8px rgba(211, 166, 37, 0.3);
+  text-shadow: 0 0 6px rgba(211, 166, 37, 0.6);
+}
+body.hp .progress-fill,
+body.hp .goal-fill {
+  animation: saberPulse 2.5s ease-in-out infinite;
+}
+body.hp .wotd-box {
+  background: rgba(40, 12, 10, 0.9);
+  border-color: rgba(211, 166, 37, 0.2);
+}
+body.hp .wotd-word {
+  color: var(--accent);
+  text-shadow: 0 0 8px rgba(211, 166, 37, 0.3);
+}
+body.hp .modes-panel {
+  background: rgba(40, 12, 10, 0.98);
+  border: 1px solid rgba(211, 166, 37, 0.2);
+  box-shadow:
+    0 0 40px rgba(211, 166, 37, 0.15),
+    0 -8px 40px rgba(0, 0, 0, 0.8);
+}
+body.hp .mode-card {
+  background: rgba(7, 13, 26, 0.8);
+  border-color: rgba(211, 166, 37, 0.15);
+}
+body.hp .mode-card:hover {
+  border-color: #d3a625;
+  background: rgba(211, 166, 37, 0.05);
+  box-shadow: 0 0 12px rgba(211, 166, 37, 0.15);
+}
+body.hp .mode-name {
+  color: #f5e6c8;
+}
+body.hp .gb-block {
+  background: rgba(40, 12, 10, 0.9);
+  border-color: rgba(211, 166, 37, 0.15);
+}
+body.hp .gb-level-fill {
+  background: linear-gradient(90deg, #d3a625, #f0c75e);
+  box-shadow: 0 0 6px rgba(211, 166, 37, 0.4);
+}
+body.hp .gb-streak-num {
+  color: #d3a625;
+}
+body.hp .gb-streak-block {
+  border-color: rgba(211, 166, 37, 0.3);
+}
+body.hp .gb-goal-block {
+  border-color: rgba(211, 166, 37, 0.3);
+}
+body.hp .gb-level-block {
+  border-color: rgba(211, 166, 37, 0.3);
+}
+body.hp .btn-achievements {
+  border-color: #ffd700;
+  color: #ffd700;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.25);
+}
+body.hp .profile-btn {
+  border-color: rgba(211, 166, 37, 0.3);
+  color: #d9b86a;
+}
+body.hp .profile-btn:hover {
+  border-color: #d3a625;
+  color: #fff;
+}
+body.hp .prf-av-btn.prf-av-active {
+  border-color: #d3a625;
+  box-shadow: 0 0 8px rgba(211, 166, 37, 0.2);
+}
+body.hp .prf-add-confirm {
+  background: linear-gradient(90deg, #005580, #d3a625);
+}
+body.hp .sidebar {
+  background: #080f1c;
+  border-color: rgba(211, 166, 37, 0.12);
+}
+body.hp .sidebar-logo-text {
+  color: #d3a625;
+}
+body.hp .sidebar-profile-btn {
+  border-color: rgba(211, 166, 37, 0.25);
+}
+body.hp .sidebar-profile-btn:hover {
+  border-color: #d3a625;
+}
+body.hp .sb-btn:hover {
+  background: rgba(211, 166, 37, 0.08);
+  color: #d9b86a;
+}
+body.hp .sb-btn.sb-active {
+  background: rgba(211, 166, 37, 0.12);
+  color: #d3a625;
+}
+body.hp .sb-flyout {
+  background: #080f1c;
+  border-color: rgba(211, 166, 37, 0.14);
+}
+body.hp .hamburger {
+  border-color: rgba(211, 166, 37, 0.3);
+}
+body.hp .profile-save-btn {
+  background: linear-gradient(90deg, #005580, #d3a625);
+}
+body.hp .sb-add-btn {
+  color: #d3a625;
+  border-color: rgba(211, 166, 37, 0.3);
+}
+body.hp .sb-add-btn:hover {
+  border-color: #d3a625;
+}
+body.hp .sb-dd-item.sb-dd-active {
+  color: #d3a625;
+}
+body.hp .sb-dd-check {
+  color: #d3a625;
+}
+body.hp .sb-toggle-pill.on {
+  background: #d3a625;
+}
+body.hp .header-wotd .wotd-word {
+  color: #d3a625;
+}
+body.hp .prf-delete-name {
+  color: #ff6b6b;
+}
+body.hp .prf-delete-btn-confirm {
+  background: #c0392b;
+}
+body.hp .settings-section-danger {
+  border-color: rgba(255, 100, 80, 0.25);
+}
+body.hp .voice-card:hover {
+  border-color: #d3a625;
+}
+body.hp .voice-card-active {
+  border-color: #d3a625;
+  box-shadow: 0 0 10px rgba(211, 166, 37, 0.15);
+}
+body.hp .gb-goal-block .gb-goal-big {
+  color: #e8d5a8;
+  font-family: 'Cinzel Decorative', monospace;
+}
+body.hp .gb-goal-sep {
+  color: rgba(245, 230, 200, 0.4);
+}
+body.hp .gb-level-arrow {
+  color: rgba(245, 230, 200, 0.4);
+}
+body.hp .page-overlay {
+  background: #060d1a;
+  background-image:
+    radial-gradient(ellipse at top, rgba(0, 30, 60, 0.6) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(211, 166, 37, 0.03) 60px),
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(211, 166, 37, 0.02) 60px);
+}
+body.hp .page-inner {
+  border-left: 1px solid rgba(211, 166, 37, 0.08);
+}
+body.hp .page-title {
+  color: #d3a625;
+  font-family: 'Cinzel Decorative', monospace;
+  letter-spacing: 0.05em;
+}
+body.hp .page-header {
+  border-color: rgba(211, 166, 37, 0.15);
+}
+body.hp .stats-panel {
+  background: #060d1a;
+  border: 1px solid rgba(211, 166, 37, 0.12);
+  box-shadow:
+    0 0 40px rgba(211, 166, 37, 0.06),
+    inset 0 0 60px rgba(0, 10, 30, 0.8);
+}
+body.hp .stats-title {
+  color: #d3a625;
+  font-family: 'Cinzel Decorative', monospace;
+}
+body.hp .stats-section-title {
+  color: #c9a86a;
+  letter-spacing: 0.04em;
+}
+body.hp .stats-section {
+  border-bottom: 1px solid rgba(211, 166, 37, 0.07);
+}
+body.hp .stat-card {
+  background: rgba(40, 10, 10, 0.6);
+  border: 1px solid rgba(211, 166, 37, 0.12);
+  border-radius: 12px;
+}
+body.hp .sv {
+  color: #d3a625;
+}
+body.hp .settings-section {
+  background: rgba(35, 10, 10, 0.7);
+  border-color: rgba(211, 166, 37, 0.15);
+}
+body.hp .settings-section-title {
+  color: #c9a86a;
+}
+body.hp .settings-section-danger {
+  border-color: rgba(231, 76, 60, 0.3);
+  background: rgba(231, 76, 60, 0.04);
+}
+body.hp .prf-delete-panel,
+body.hp .import-panel {
+  background: #090f1e;
+  border: 1px solid rgba(211, 166, 37, 0.2);
+  box-shadow: 0 0 60px rgba(211, 166, 37, 0.1);
+}
+body.hp .prf-delete-title {
+  color: #f5e6c8;
+}
+body.hp .prf-delete-warn {
+  color: rgba(245, 230, 200, 0.5);
+}
+body.hp #achievement-toast {
+  background: linear-gradient(135deg, #050d1a 0%, #0a1628 100%);
+  border: 1px solid rgba(211, 166, 37, 0.3);
+  box-shadow:
+    0 0 30px rgba(211, 166, 37, 0.2),
+    0 0 60px rgba(211, 166, 37, 0.08);
+}
+body.hp #achievement-toast .toast-title {
+  color: #d3a625;
+  font-family: 'Cinzel Decorative', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+}
+body.hp #achievement-toast .toast-name {
+  color: #f5e6c8;
+}
+body.hp #achievement-toast .toast-icon {
+  text-shadow: 0 0 20px rgba(211, 166, 37, 0.6);
+}
+body.hp .ach-popup {
+  background: #080f1c;
+  border: 1px solid rgba(211, 166, 37, 0.25);
+  box-shadow: 0 0 50px rgba(211, 166, 37, 0.15);
+}
+body.hp .ach-popup-icon {
+  text-shadow: 0 0 30px rgba(211, 166, 37, 0.5);
+}
+body.hp .ach-popup-name {
+  color: #d3a625;
+}
+body.hp .ach-popup-prog-fill {
+  background: linear-gradient(90deg, #d3a625, #f0c75e);
+  box-shadow: 0 0 8px rgba(211, 166, 37, 0.4);
+}
+body.hp .ach-card {
+  background: rgba(35, 10, 10, 0.6);
+  border-color: rgba(211, 166, 37, 0.1);
+}
+body.hp .ach-card.unlocked {
+  border-color: rgba(211, 166, 37, 0.35);
+  box-shadow: 0 0 12px rgba(211, 166, 37, 0.1);
+}
+body.hp .ach-card.unlocked .ach-icon {
+  text-shadow: 0 0 16px rgba(211, 166, 37, 0.5);
+}
+body.hp .ach-progress-fill {
+  background: linear-gradient(90deg, #d3a625, #f0c75e);
+}
+body.hp .combo-toast {
+  background: linear-gradient(90deg, #001428, #002244);
+  border: 1px solid rgba(211, 166, 37, 0.4);
+  color: #d3a625;
+  text-shadow: 0 0 10px rgba(211, 166, 37, 0.5);
+  box-shadow: 0 0 20px rgba(211, 166, 37, 0.2);
+}
+body.hp .level-row {
+  background: rgba(30, 8, 8, 0.6);
+  border-color: rgba(211, 166, 37, 0.1);
+}
+body.hp .level-row.level-current {
+  border-width: 2px;
+}
+body.hp .level-row-name {
+  font-family: 'Cinzel Decorative', monospace;
+  font-size: 0.75rem !important;
+}
+body.hp .note-panel {
+  background: #090f1e;
+  border: 1px solid rgba(211, 166, 37, 0.2);
+}
+body.hp .note-textarea {
+  border-color: rgba(211, 166, 37, 0.25);
+}
+body.hp .srs-fc-bar {
+  background: rgba(211, 166, 37, 0.4);
+}
+body.hp .srs-fc-today {
+  background: #d3a625 !important;
+  box-shadow: 0 0 8px rgba(211, 166, 37, 0.4);
+}
+body.hp .dc-word {
+  color: #d3a625;
+}
+body.hp .dc-pbar-fill {
+  background: linear-gradient(90deg, #005580, #d3a625);
+}
+body.hp .dc-opt:hover:not(:disabled) {
+  border-color: #d3a625;
+}
+body.hp .rd-unknown {
+  background: rgba(231, 76, 60, 0.15);
+  border-color: rgba(231, 76, 60, 0.4);
+}
+body.hp .rd-known {
+  background: rgba(211, 166, 37, 0.1);
+  border-color: rgba(211, 166, 37, 0.3);
+}
+body.hp .rd-popup-word {
+  color: #d3a625;
+}
+body.hp .duel-card-active {
+  border-color: #d3a625;
+}
+body.hp .notif-toggle-wrap input:checked + .notif-toggle-pill-ui {
+  background: #d3a625;
+}
+body.hp .time-picker {
+  border-color: rgba(211, 166, 37, 0.2);
+}
+body.hp .time-select:hover,
+body.hp .time-select:focus {
+  background: rgba(211, 166, 37, 0.1);
+}
+body.hp .idioms-tab-active {
+  background: #d3a625;
+  border-color: #d3a625;
+}
+body.hp .idiom-meaning {
+  color: #d3a625;
+}
