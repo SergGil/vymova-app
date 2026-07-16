@@ -205,6 +205,38 @@ describe('tempo.tsx (TempoPage)', () => {
     expect(overlay.style.display).toBe('none');
   });
 
+  // Regression: the setTimeout that advances to the next question after an
+  // answer (selectOption's 400ms/900ms delay) was never stored in a ref, so
+  // closing the game (or restarting) while it was still pending left it
+  // scheduled. It was guarded by `isRunning`, so it wouldn't fire an old
+  // round's showQuestion() after a bare close — but restarting flips
+  // isRunning back to true on the *same* run.current object, so the stale
+  // timer would fire mid-fresh-round and re-trigger showQuestion()
+  // unexpectedly. Fixed by tracking it in nextQTimerRef and clearing it on
+  // close, on unmount, and before scheduling a new round.
+  it('closing while a next-question timer is pending cancels it instead of leaking', () => {
+    vi.useFakeTimers();
+    act(() => {
+      openTempo();
+    });
+    startGame(container);
+    act(() => {
+      vi.advanceTimersByTime(60); // let the progress-bar transition timeout elapse
+    });
+    const pair = currentPair(container);
+    act(() => {
+      wrongOptionBtn(container, pair).click();
+    });
+    // The countdown interval plus the pending next-question timeout.
+    expect(vi.getTimerCount()).toBe(2);
+
+    act(() => {
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    });
+    expect(vi.getTimerCount()).toBe(0);
+    vi.useRealTimers();
+  });
+
   it('closing from the start screen hides the overlay', () => {
     act(() => {
       openTempo();

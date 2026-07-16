@@ -4,6 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { GhostRacePage, openGhostRace, ghostKey } from '../../js/modes/ghost-race.tsx';
 import { setDeckState } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.ts';
+import { t } from '../../js/features/i18n.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -288,5 +289,98 @@ describe('ghost-race.tsx (GhostRacePage)', () => {
       closeBtn.click();
     });
     expect(overlay.style.display).toBe('none');
+  });
+});
+
+// Regression: the ready screen's "answer N questions" prompt and the saved
+// ghost's "(ok/N)" best label were hardcoded to N=10, even though buildDeck()
+// truncates to however many words are actually available — a deck smaller
+// than 10 (small custom deck, sparse language pair) plays fewer rounds than
+// the UI claimed. Fixed by deriving the displayed count from the actual
+// deck/ghost data instead of the N constant.
+describe('ghost-race.tsx (GhostRacePage) with a deck smaller than N=10', () => {
+  let root: Root;
+  let container: HTMLElement;
+  let overlay: HTMLElement;
+
+  const FIVE_WORDS: WordEntry[] = [
+    ['zqcloud', 'зхмара', '', ''],
+    ['zqnight', 'зніч', '', ''],
+    ['zqplant', 'зрослина', '', ''],
+    ['zqcover', 'зобкладинка', '', ''],
+    ['zqstone', 'закамінь', '', ''],
+  ];
+
+  beforeEach(() => {
+    localStorage.clear();
+    localStorage.setItem('ew_srs_priority', '0');
+    document.body.innerHTML = '';
+    overlay = document.createElement('div');
+    overlay.id = 'ghost-overlay';
+    overlay.style.display = 'none';
+    document.body.appendChild(overlay);
+    setDeckState(FIVE_WORDS);
+
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    root = createRoot(container);
+    act(() => {
+      root.render(<GhostRacePage />);
+    });
+  });
+
+  afterEach(() => {
+    act(() => {
+      root.unmount();
+    });
+    document.body.innerHTML = '';
+  });
+
+  it('the ready screen prompts for the actual deck size, not a hardcoded 10', () => {
+    act(() => {
+      openGhostRace();
+    });
+    expect(container.textContent).toContain(t('ghost.readyPrompt', { n: 5 }));
+  });
+
+  it('the playing screen tracks progress against the actual deck size', () => {
+    act(() => {
+      openGhostRace();
+    });
+    act(() => {
+      findButton(container, /старт|почати/i).click();
+    });
+    expect(container.textContent).toContain('0/5');
+  });
+
+  it("the saved ghost's best label shows its own recorded question count, not N", () => {
+    vi.useFakeTimers();
+    act(() => {
+      openGhostRace();
+    });
+    act(() => {
+      findButton(container, /старт|почати/i).click();
+    });
+    for (let i = 0; i < 5; i++) {
+      const pair = currentPair(container);
+      const correctBtn = correctOptionBtn(container, pair);
+      act(() => {
+        correctBtn.click();
+      });
+      act(() => {
+        vi.advanceTimersByTime(350);
+      });
+    }
+    // Close and reopen to land back on the ready screen with the just-saved
+    // ghost loaded.
+    const closeBtn = container.querySelector<HTMLButtonElement>('button[aria-label]')!;
+    act(() => {
+      closeBtn.click();
+    });
+    act(() => {
+      openGhostRace();
+    });
+    expect(container.textContent).toContain('5/5');
+    vi.useRealTimers();
   });
 });

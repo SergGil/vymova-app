@@ -117,6 +117,11 @@ export function GhostRacePage(): ReactElement {
   const [elapsedMs, setElapsedMs] = useState(0);
   const [result, setResult] = useState<{ total: number; isNew: boolean } | null>(null);
   const [completed, setCompleted] = useState(false);
+  // Actual question count for the *next* race, not the N=10 target — a deck
+  // smaller than N (e.g. a small custom deck or sparse language pair) yields
+  // fewer rounds than N, and the ready screen used to always claim "10"
+  // regardless, which then didn't match the race actually played.
+  const [readyN, setReadyN] = useState(N);
 
   const startRef = useRef<number | null>(null);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -142,6 +147,7 @@ export function GhostRacePage(): ReactElement {
     stopTick();
     setScreen('ready');
     setGhost(loadGhost());
+    setReadyN(buildDeck().length);
   };
 
   const session = useModeSession({
@@ -271,11 +277,11 @@ export function GhostRacePage(): ReactElement {
         <div style={{ textAlign: 'center', padding: '10px 0 4px' }}>
           <div style={{ fontSize: '2.5rem', marginBottom: 10 }}>🏁</div>
           <div style={{ fontSize: '.9rem', color: 'var(--text2)', marginBottom: 6 }}>
-            {t('ghost.readyPrompt', { n: N })}
+            {t('ghost.readyPrompt', { n: readyN })}
           </div>
           <div style={{ fontSize: '.85rem', color: 'var(--text3)', marginBottom: 20 }}>
             {ghost
-              ? `${t('ghost.bestLabel')}: ${fmt(ghost.total)} (${ghost.ok}/${N})`
+              ? `${t('ghost.bestLabel')}: ${fmt(ghost.total)} (${ghost.ok}/${ghost.checkpoints.length})`
               : t('ghost.noGhostYet')}
           </div>
           <button

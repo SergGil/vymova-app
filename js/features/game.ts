@@ -189,10 +189,27 @@ export function getDailyStats(): Record<string, number> {
   return Object.assign({}, _dailyCache as Record<string, number>);
 }
 
+// Registration hook (mirrors registerCheckAchievements below) so
+// notifications.tsx can keep its IndexedDB snapshot — the one the service
+// worker's periodicsync handler reads to decide whether to show the "come
+// study" reminder — in sync with actual progress. Without this, the
+// snapshot only ever refreshed on settings changes or a successful
+// foreground notification, so a user who studied enough to hit their daily
+// goal and then closed the tab without reopening it could still get a
+// spurious background reminder: the IndexedDB copy of daily[] never learned
+// about that session.
+let _dailyStatsChangedFn: (() => void) | null = null;
+export function registerDailyStatsChanged(fn: (() => void) | null): void {
+  _dailyStatsChangedFn = fn;
+}
+
 export function saveDailyStats(d: Record<string, number>): void {
   _dailyCache = Object.assign({}, d);
   _dailyCachedLang = localStorage.getItem('ew_learn_lang') ?? 'en';
   _jsonSave(_langKey('ew_daily'), d);
+  try {
+    _dailyStatsChangedFn?.();
+  } catch (e) {}
 }
 
 export function recordDailyWord(): void {

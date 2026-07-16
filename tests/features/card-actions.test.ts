@@ -47,6 +47,7 @@ vi.mock('../../js/features/game.ts', () => ({
   _idle: (fn: () => void) => fn(),
   getSrsNewRemaining: () => 10,
   recordSrsNewCard: vi.fn(),
+  registerDailyStatsChanged: vi.fn(),
 }));
 vi.mock('../../js/features/combo.ts', () => ({
   addCombo: vi.fn(),

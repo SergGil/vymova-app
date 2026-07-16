@@ -4,8 +4,19 @@
 // duel room/game state.
 
 // ── Reusable styled code input (replaces ugly browser prompt) ─
+// The dialog is a single shared set of DOM elements (#code-input-*), so two
+// overlapping _askCode() calls (join-tournament, reply-to-challenge, and
+// spectate can each trigger one) would otherwise stack a second set of
+// `_ok`/`_cancel`/`_key` listeners on top of the first's — one click on OK
+// would then fire both closures and resolve both callers' promises with the
+// same value, even though only the second dialog's title/desc was ever
+// visible. Tracking the currently-open call lets a new one cancel it first.
+let _activeCodeClose: ((val: string | null) => void) | null = null;
+
 export function _askCode(title: string, desc: string): Promise<string | null> {
   return new Promise((resolve) => {
+    _activeCodeClose?.(null);
+
     const overlay = document.getElementById('code-input-overlay') as HTMLElement;
     const titleEl = document.getElementById('code-input-title')!;
     const descEl = document.getElementById('code-input-desc')!;
@@ -25,6 +36,7 @@ export function _askCode(title: string, desc: string): Promise<string | null> {
       okBtn.removeEventListener('click', _ok);
       cancelBtn.removeEventListener('click', _cancel);
       inp.removeEventListener('keydown', _key);
+      if (_activeCodeClose === _close) _activeCodeClose = null;
       resolve(val);
     }
     function _ok(): void {
@@ -47,6 +59,7 @@ export function _askCode(title: string, desc: string): Promise<string | null> {
     okBtn.addEventListener('click', _ok);
     cancelBtn.addEventListener('click', _cancel);
     inp.addEventListener('keydown', _key);
+    _activeCodeClose = _close;
   });
 }
 

@@ -30,10 +30,7 @@ function buildRound(w: WordEntry): Round | null {
   return { w, target, translation };
 }
 
-function buildDeck(): Round[] {
-  const base = (getDeckSnapshot().length
-    ? getDeckSnapshot().slice()
-    : W.slice()) as unknown as WordEntry[];
+function collectRounds(base: WordEntry[]): Round[] {
   const pool = orderDeckPool(base);
   const rounds: Round[] = [];
   for (const w of pool) {
@@ -42,6 +39,17 @@ function buildDeck(): Round[] {
     if (r) rounds.push(r);
   }
   return rounds;
+}
+
+function buildDeck(): Round[] {
+  const usedSnapshot = getDeckSnapshot().length > 0;
+  const base = (usedSnapshot ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[];
+  const rounds = collectRounds(base);
+  if (rounds.length > 0 || !usedSnapshot) return rounds;
+  // The user's deck snapshot had words, but none had a target sentence in
+  // the 3-12 token range for the active language pair — fall back to the
+  // full word bank instead of showing "no words" while valid rounds exist.
+  return collectRounds(W.slice() as unknown as WordEntry[]);
 }
 
 type Phase = 'listening' | 'result';

@@ -129,6 +129,20 @@ function notifIdbSetLastShown(db, date) {
   } catch (e) {}
 }
 
+// Local calendar day, not UTC — mirrors js/core/today.ts's localDateStr(),
+// duplicated here since a service worker can't import app modules. Slicing
+// toISOString() directly rolls the "day" over at UTC midnight; for any
+// timezone east of UTC (e.g. Kyiv, UTC+2/+3) that's 2-3 AM local time, so a
+// periodic-sync check run in that window used to compare against yesterday's
+// UTC date while snap.daily/snap.lastShown are written with *local*-date
+// keys elsewhere (notifications.tsx) — the mismatch could suppress or
+// double-fire the daily reminder depending on exactly when the browser
+// invoked this handler.
+function localDateStr(d) {
+  var tzOffsetMs = d.getTimezoneOffset() * 60000;
+  return new Date(d.getTime() - tzOffsetMs).toISOString().slice(0, 10);
+}
+
 self.addEventListener('periodicsync', function(e) {
   if (e.tag !== 'ew-daily-reminder') return;
   e.waitUntil(notifIdbGet().then(function(res) {
@@ -136,7 +150,7 @@ self.addEventListener('periodicsync', function(e) {
     if (!snap || !snap.enabled) return;
 
     var now = new Date();
-    var today = now.toISOString().slice(0, 10);
+    var today = localDateStr(now);
     if (snap.lastShown === today) return;
     if (snap.daily && (snap.daily[today] || 0) > 0) return;
 

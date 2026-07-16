@@ -161,11 +161,17 @@ export function WritePage(): ReactElement {
     return () => clearTimeout(tmr);
   }, [isOpen, idx, w]);
 
-  const submit = (): void => {
+  // overrideInput lets startMic()'s recog.onend pass the just-recognized
+  // transcript directly instead of relying on the `submit` closure it
+  // captured back when startMic() was first called — that closure's own
+  // `input` was still the pre-recognition value (typically empty), so every
+  // voice answer was silently graded against '' regardless of what the
+  // input box displayed.
+  const submit = (overrideInput?: string): void => {
     if (answered || !w) return;
     acHide();
     const ans = backWord;
-    const correct = isCorrect(input, ans);
+    const correct = isCorrect(overrideInput ?? input, ans);
     setAnswered(true);
     if (correct) {
       setOk((o) => o + 1);
@@ -290,7 +296,7 @@ export function WritePage(): ReactElement {
     recog.onend = () => {
       setMicActive(false);
       setInput((curr) => {
-        if (curr.trim()) setTimeout(submit, 0);
+        if (curr.trim()) setTimeout(() => submit(curr), 0);
         return curr;
       });
     };
@@ -541,7 +547,7 @@ export function WritePage(): ReactElement {
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
             {!answered && (
               <button
-                onClick={submit}
+                onClick={() => submit()}
                 style={{
                   fontFamily: "'DM Sans',sans-serif",
                   fontSize: '.9rem',

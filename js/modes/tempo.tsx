@@ -126,6 +126,7 @@ export function TempoPage(): ReactElement {
     tLeft: 30,
   });
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const nextQTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const getBaseDeck = (): WordEntry[] =>
     orderDeckPool(
@@ -144,6 +145,10 @@ export function TempoPage(): ReactElement {
   const endTempo = (): void => {
     const r = run.current;
     if (timerRef.current) clearInterval(timerRef.current);
+    if (nextQTimerRef.current) {
+      clearTimeout(nextQTimerRef.current);
+      nextQTimerRef.current = null;
+    }
     r.isRunning = false;
     const total = r.score + r.miss;
     const pct = total > 0 ? Math.round((r.score / total) * 100) : 0;
@@ -175,6 +180,10 @@ export function TempoPage(): ReactElement {
   };
 
   const startTempo = (): void => {
+    if (nextQTimerRef.current) {
+      clearTimeout(nextQTimerRef.current);
+      nextQTimerRef.current = null;
+    }
     const r = run.current;
     r.score = 0;
     r.miss = 0;
@@ -232,8 +241,10 @@ export function TempoPage(): ReactElement {
       recordModeAnswer('tempo', false);
     }
     r.idx++;
-    setTimeout(
+    if (nextQTimerRef.current) clearTimeout(nextQTimerRef.current);
+    nextQTimerRef.current = setTimeout(
       () => {
+        nextQTimerRef.current = null;
         if (r.isRunning) showQuestion();
       },
       opt === question.answer ? 400 : 900,
@@ -261,6 +272,10 @@ export function TempoPage(): ReactElement {
     };
     _close = () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      if (nextQTimerRef.current) {
+        clearTimeout(nextQTimerRef.current);
+        nextQTimerRef.current = null;
+      }
       run.current.isRunning = false;
       const overlay = document.getElementById('tempo-overlay');
       if (overlay) overlay.style.display = 'none';
@@ -269,6 +284,7 @@ export function TempoPage(): ReactElement {
       _open = null;
       _close = null;
       if (timerRef.current) clearInterval(timerRef.current);
+      if (nextQTimerRef.current) clearTimeout(nextQTimerRef.current);
     };
   }, []);
 

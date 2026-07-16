@@ -123,6 +123,57 @@ describe('shadowing.tsx (ShadowingPage)', () => {
   });
 });
 
+// Regression: buildDeck() used to fall back to the full word bank (W) only
+// when the user's deck snapshot was itself empty. If the snapshot had words
+// but *none* of them produced a valid round (e.g. every example sentence is
+// outside the 3-12 token window for the active language pair), the round
+// list ended up empty too and the page showed "no words" even though the
+// full word bank had plenty of valid sentences. Fixed by retrying against W
+// whenever the snapshot-derived round list comes up empty.
+describe('shadowing.tsx (ShadowingPage) falls back to the full word bank', () => {
+  let root: Root;
+  let container: HTMLElement;
+  let overlay: HTMLElement;
+
+  const UNUSABLE_WORDS: WordEntry[] = [
+    ['hi', 'привіт', 'Hi.', 'Привіт.'], // 1 token — fails the 3-12 range
+    ['bye', 'бувай', '', 'Бувай.'], // empty target sentence
+  ];
+
+  beforeEach(() => {
+    localStorage.clear();
+    localStorage.setItem('ew_srs_priority', '0');
+    document.body.innerHTML = '';
+    overlay = document.createElement('div');
+    overlay.id = 'shadow-overlay';
+    overlay.style.display = 'none';
+    document.body.appendChild(overlay);
+    setDeckState(UNUSABLE_WORDS);
+
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    root = createRoot(container);
+    act(() => {
+      root.render(<ShadowingPage />);
+    });
+  });
+
+  afterEach(() => {
+    act(() => {
+      root.unmount();
+    });
+    document.body.innerHTML = '';
+  });
+
+  it('shows real rounds from the full word bank instead of "no words"', () => {
+    act(() => {
+      openShadowing();
+    });
+    expect(container.textContent).not.toContain('Поки що недостатньо речень для цієї мови');
+    expect(container.querySelector('button[title]')).not.toBeNull();
+  });
+});
+
 describe('shadowing.tsx (ShadowingPage) with SpeechRecognition support', () => {
   let root: Root;
   let container: HTMLElement;

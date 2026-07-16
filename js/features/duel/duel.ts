@@ -946,6 +946,35 @@ export function _registerCreateRoomHook(fn: (() => Promise<void>) | null): void 
   _createRoomHook = fn;
 }
 
+// Records history + rating for a match that finished while this client
+// wasn't around to see it end (see _tryResumeSession's `room.finished`
+// branch below) — deliberately NOT the full _showFinish flow, which also
+// drives interactive UI (result screen, best-of-3 round continuation) that
+// assumes the user is actively sitting on the duel screen right now, not
+// just reopening the app hours later to find an async challenge resolved.
+function _recordUnseenFinish(
+  roomData: RoomData,
+  mySlot: 'p1' | 'p2',
+  fallbackOppName: string,
+): void {
+  const me = roomData[mySlot] as PlayerData;
+  const opp = (mySlot === 'p1' ? roomData.p2 : roomData.p1) as PlayerData;
+  const won = me.score > (opp?.score ?? 0),
+    tie = me.score === (opp?.score ?? 0);
+  _addHistory({
+    date: `${new Date().toLocaleDateString(_dateLocale())} ${new Date().toLocaleTimeString(_dateLocale(), { hour: '2-digit', minute: '2-digit' })}`,
+    mode: roomData.mode,
+    myScore: me.score,
+    oppScore: opp?.score ?? 0,
+    oppName: opp?.name || fallbackOppName,
+    won,
+    category: roomData.category,
+    lang: roomData.lang || 'ua',
+    knowLang: roomData.knowLang || 'en',
+  });
+  recordDuelResult(won, tie);
+}
+
 function _showFinish(roomData: RoomData): void {
   const room = getDuelRoomSnapshot();
   if (room.finished) return;
@@ -1093,7 +1122,7 @@ export function _getResumeSessions(): ResumeSessionVM[] {
   return getDuelResumeSessionsSnapshot();
 }
 
-async function _tryResumeSession(): Promise<void> {
+export async function _tryResumeSession(): Promise<void> {
   const sessions = _loadSessions();
   if (!sessions.length) {
     _resumeValid = [];
@@ -1105,7 +1134,18 @@ async function _tryResumeSession(): Promise<void> {
   for (const sess of sessions) {
     try {
       const room = (await _fbGet(`/duel_rooms/${sess.roomId}`)) as RoomData | null;
-      if (!room || room.finished) {
+      if (!room) {
+        _clearSession(sess.roomId);
+        continue;
+      }
+      if (room.finished) {
+        // The other side finished after we last checked (typical for an
+        // async challenge answered while our tab was closed) — used to
+        // just delete the local session here, so our own history/rating
+        // never recorded a match that genuinely concluded. Same bug class
+        // as the tournament "only the room creator's client finishes the
+        // match" bug already fixed in duel-tournament-logic.ts.
+        _recordUnseenFinish(room, sess.slot, sess.oppName || t('duel.opp'));
         _clearSession(sess.roomId);
         continue;
       }

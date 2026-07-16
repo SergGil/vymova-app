@@ -51,11 +51,27 @@ export function normalizeWords(s: string): string[] {
     .filter(Boolean);
 }
 
+// Multiset overlap, not "is this word present at all" — a plain Set of
+// spokenWords let every repeated occurrence of a common word in `target`
+// count as a match even if the user said it only once (e.g. target "Do you
+// do that often?" has "do" twice; saying just "do" used to score 2/5
+// instead of the correct 1/5), inflating the score for weak/incomplete
+// answers in both Shadowing and Dictation (which imports this function).
 export function sentenceSimilarity(target: string, spoken: string): number {
   const targetWords = normalizeWords(target);
-  const spokenWords = new Set(normalizeWords(spoken));
   if (!targetWords.length) return 0;
-  const matched = targetWords.filter((w) => spokenWords.has(w)).length;
+  const spokenCounts = new Map<string, number>();
+  for (const w of normalizeWords(spoken)) {
+    spokenCounts.set(w, (spokenCounts.get(w) ?? 0) + 1);
+  }
+  let matched = 0;
+  for (const w of targetWords) {
+    const remaining = spokenCounts.get(w) ?? 0;
+    if (remaining > 0) {
+      matched++;
+      spokenCounts.set(w, remaining - 1);
+    }
+  }
   return matched / targetWords.length;
 }
 
@@ -70,10 +86,7 @@ function buildRound(w: WordEntry): Round | null {
   return { w, target, translation };
 }
 
-function buildDeck(): Round[] {
-  const base = (getDeckSnapshot().length
-    ? getDeckSnapshot().slice()
-    : W.slice()) as unknown as WordEntry[];
+function collectRounds(base: WordEntry[]): Round[] {
   const pool = orderDeckPool(base);
   const rounds: Round[] = [];
   for (const w of pool) {
@@ -82,6 +95,17 @@ function buildDeck(): Round[] {
     if (r) rounds.push(r);
   }
   return rounds;
+}
+
+function buildDeck(): Round[] {
+  const usedSnapshot = getDeckSnapshot().length > 0;
+  const base = (usedSnapshot ? getDeckSnapshot().slice() : W.slice()) as unknown as WordEntry[];
+  const rounds = collectRounds(base);
+  if (rounds.length > 0 || !usedSnapshot) return rounds;
+  // The user's deck snapshot had words, but none had a target sentence in
+  // the 3-12 token range for the active language pair — fall back to the
+  // full word bank instead of showing "no words" while valid rounds exist.
+  return collectRounds(W.slice() as unknown as WordEntry[]);
 }
 
 type Phase = 'ready' | 'listening' | 'result';

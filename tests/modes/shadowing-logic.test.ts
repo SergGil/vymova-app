@@ -42,6 +42,23 @@ describe('shadowing-logic', () => {
     it('returns 0 for an empty target sentence', () => {
       expect(sentenceSimilarity('', 'anything')).toBe(0);
     });
+
+    // Regression: sentenceSimilarity used to check word presence via a Set,
+    // so a single spoken word repeated in the target credited every
+    // occurrence — e.g. saying just "do" scored full marks against "do you
+    // do that often". Fixed by counting spoken words as a multiset consumed
+    // one match at a time.
+    it('does not let one spoken word credit multiple occurrences in the target', () => {
+      expect(sentenceSimilarity('do you do that often', 'do')).toBeCloseTo(1 / 5, 5);
+    });
+
+    it('credits repeated target words up to the number of times they were actually spoken', () => {
+      expect(sentenceSimilarity('do you do that often', 'do you do')).toBeCloseTo(3 / 5, 5);
+    });
+
+    it('still returns 1 when the spoken text repeats a word exactly as many times as the target', () => {
+      expect(sentenceSimilarity('do it again do it again', 'do it again do it again')).toBe(1);
+    });
   });
 
   describe('getSpeechRecognitionCtor() / speechRecognitionSupported()', () => {

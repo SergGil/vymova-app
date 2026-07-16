@@ -1,8 +1,8 @@
 // Vymova — js/features/notifications.tsx
 import { useEffect, type ReactElement } from 'react';
 import { t, pluralLabel } from './i18n.ts';
-import { today as localToday, localDateStr } from '../core/today.ts';
-import { getDailyStats, getGameData } from './game.ts';
+import { today as localToday, yesterday as localYesterday } from '../core/today.ts';
+import { getDailyStats, getGameData, registerDailyStatsChanged } from './game.ts';
 import { loadSRS } from '../core/storage.ts';
 
 const KEY_ENABLED = 'ew_notif_enabled';
@@ -56,6 +56,13 @@ async function _syncNotifSnapshot(): Promise<void> {
     db.transaction(NOTIF_STORE, 'readwrite').objectStore(NOTIF_STORE).put(snapshot, 'snapshot');
   } catch (e) {}
 }
+
+// Registered once at module load, not inside NotificationsInit's effect, so
+// the IndexedDB snapshot stays current even across a session where the
+// notifications settings panel itself is never opened.
+registerDailyStatsChanged(() => {
+  void _syncNotifSnapshot();
+});
 
 async function _registerPeriodicSync(): Promise<void> {
   try {
@@ -197,8 +204,7 @@ function _checkAndNotify(): void {
 
   try {
     const gd = getGameData();
-    const yesterday = localDateStr(new Date(Date.now() - 86_400_000));
-    if ((gd.streak ?? 0) > 1 && gd.streakDate === yesterday) {
+    if ((gd.streak ?? 0) > 1 && gd.streakDate === localYesterday()) {
       shown = _notify(
         t('notif.streak.title'),
         t('notif.streak.body', {

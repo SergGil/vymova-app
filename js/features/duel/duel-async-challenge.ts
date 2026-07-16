@@ -5,7 +5,7 @@
 // _specPollTimer: creating/joining a challenge and being mid-game are
 // mutually exclusive, so a dedicated timer var here is behavior-preserving.
 import { t } from '../i18n.ts';
-import { _fbGet, _fbSet, _fbPatch } from './duel-firebase.ts';
+import { _fbGet, _fbSet, _fbClaim } from './duel-firebase.ts';
 import {
   getDuelSelSnapshot,
   getDuelLobbyUISnapshot,
@@ -127,6 +127,21 @@ export async function joinAsyncChallenge(): Promise<void> {
     if (challenge.finished) throw new Error(t('duel.err.chal.finished'));
     if (Date.now() > challenge.expiresAt) throw new Error(t('duel.err.chal.expired'));
     if (challenge.opponent) throw new Error(t('duel.err.chal.taken'));
+    // Atomic compare-and-swap on the opponent slot — mirrors joinRoom()'s p2
+    // claim in duel-lobby-logic.ts. Two people replying to the same shared
+    // challenge code within the same poll window (or one person double-
+    // tapping "reply") can both pass the check above; only one may win the
+    // conditional write, so the loser gets a clear "taken" error instead of
+    // silently starting a local game against a challenge someone else
+    // already claimed — one that can never sync since only one `opponent`
+    // slot exists.
+    const claimed = await _fbClaim(`/duel_async/${code}/opponent`, {
+      name: _getMyName(),
+      avatar: _getMyAvatar(),
+      score: 0,
+      done: false,
+    });
+    if (!claimed) throw new Error(t('duel.err.chal.taken'));
     setDuelRoom({
       roomId: code,
       mySlot: 'p2',
@@ -160,10 +175,6 @@ export async function joinAsyncChallenge(): Promise<void> {
         modeLabel: mInfo ? t('duel.mode.' + mInfo.id) : '',
       },
     });
-    // Let the challenger know who accepted, so resume cards can show "vs <opponent>"
-    _fbPatch(`/duel_async/${code}`, {
-      opponent: { name: _getMyName(), avatar: _getMyAvatar(), score: 0, done: false },
-    }).catch(() => {});
     _cancelAsyncStart();
     _asyncStartTimer = setTimeout(() => {
       _asyncStartTimer = null;

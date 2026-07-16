@@ -8,12 +8,17 @@ import { createRoot, type Root } from 'react-dom/client';
 // was, say, Spanish. Verifies notifications.tsx now goes through
 // getDailyStats()/getGameData()/loadSRS() (which already resolve the
 // correct ew_*_<lang> key) instead of reading localStorage directly.
-const { getDailyStats, getGameData, loadSRS } = vi.hoisted(() => ({
+const { getDailyStats, getGameData, loadSRS, registerDailyStatsChanged } = vi.hoisted(() => ({
   getDailyStats: vi.fn(() => ({}) as Record<string, number>),
   getGameData: vi.fn(() => ({ streak: 0, streakDate: null }) as any),
   loadSRS: vi.fn(() => ({}) as Record<string, { due?: string }>),
+  registerDailyStatsChanged: vi.fn(),
 }));
-vi.mock('../../js/features/game.ts', () => ({ getDailyStats, getGameData }));
+vi.mock('../../js/features/game.ts', () => ({
+  getDailyStats,
+  getGameData,
+  registerDailyStatsChanged,
+}));
 vi.mock('../../js/core/storage.ts', () => ({ loadSRS }));
 vi.mock('../../js/features/i18n.ts', () => ({ t: (k: string) => k, pluralLabel: () => '' }));
 
@@ -73,5 +78,23 @@ describe('notifications.tsx uses language-aware data sources', () => {
     expect(getDailyStats).toHaveBeenCalled();
     expect(getGameData).toHaveBeenCalled();
     expect(loadSRS).toHaveBeenCalled();
+  });
+});
+
+// Regression test: the IndexedDB snapshot public/sw.js's periodicsync
+// handler reads used to only refresh on settings changes or a fired
+// notification, never when actual study progress happened — so a user who
+// hit their daily goal and closed the tab could still get a spurious
+// background reminder. Fixed via game.ts's registerDailyStatsChanged()
+// hook, registered once when notifications.tsx itself loads.
+describe('notifications.tsx registers a daily-stats-changed hook on module load', () => {
+  it('calls registerDailyStatsChanged() with a function (module already imported at file top)', () => {
+    expect(registerDailyStatsChanged).toHaveBeenCalledTimes(1);
+    expect(registerDailyStatsChanged).toHaveBeenCalledWith(expect.any(Function));
+  });
+
+  it('invoking the registered hook does not throw even without a real IndexedDB', () => {
+    const hook = registerDailyStatsChanged.mock.calls[0][0] as () => void;
+    expect(() => hook()).not.toThrow();
   });
 });

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { localDateStr, today, msUntilNextLocalMidnight } from '../../js/core/today.ts';
+import { localDateStr, today, yesterday, msUntilNextLocalMidnight } from '../../js/core/today.ts';
 
 describe('localDateStr()', () => {
   it('reflects the LOCAL calendar day of the given Date, not the UTC day', () => {
@@ -16,6 +16,40 @@ describe('today()', () => {
   it("returns today's date in YYYY-MM-DD form", () => {
     expect(today()).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     expect(today()).toBe(localDateStr(new Date()));
+  });
+});
+
+describe('yesterday()', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("returns the day before today's date", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2026, 2, 15, 13, 45));
+    expect(yesterday()).toBe('2026-03-14');
+  });
+
+  // Regression: yesterday() used to be computed as
+  // `localDateStr(new Date(Date.now() - 86_400_000))` — subtracting a flat
+  // 24h in real elapsed time. On a DST spring-forward day the clock skips an
+  // hour, so 24h of real time before "just after local midnight" lands two
+  // calendar days back instead of one. Fixed by subtracting 1 from the
+  // calendar date component directly (same approach as
+  // msUntilNextLocalMidnight below), which the Date constructor resolves
+  // correctly across DST transitions.
+  it('lands on the correct calendar day across a DST spring-forward boundary', () => {
+    const origTZ = process.env.TZ;
+    process.env.TZ = 'America/New_York'; // observes DST; 2026 spring-forward is 2026-03-08
+    try {
+      vi.useFakeTimers();
+      // Just after local midnight on the day after the clocks jumped forward.
+      vi.setSystemTime(new Date(2026, 2, 9, 0, 30));
+      expect(yesterday()).toBe('2026-03-08');
+    } finally {
+      if (origTZ === undefined) delete process.env.TZ;
+      else process.env.TZ = origTZ;
+    }
   });
 });
 

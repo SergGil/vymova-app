@@ -18,6 +18,17 @@ export function today(): string {
   return localDateStr(new Date());
 }
 
+// Calendar-day subtraction, not `Date.now() - 86_400_000` — on a DST
+// transition day the real elapsed time between "now" and "the same local
+// clock time yesterday" isn't exactly 24h (23h on spring-forward, 25h on
+// fall-back), so a flat ms subtraction can land on the wrong calendar day
+// right around local midnight. The Date constructor's day-rollover already
+// handles this correctly (same trick as msUntilNextLocalMidnight below).
+export function yesterday(): string {
+  const now = new Date();
+  return localDateStr(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1));
+}
+
 /** Milliseconds from now until the next local midnight (00:00) — used for
  * "resets tomorrow" countdowns (e.g. the once-per-day mission). */
 export function msUntilNextLocalMidnight(): number {
