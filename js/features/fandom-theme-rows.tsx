@@ -5,6 +5,17 @@
 // fandom-theme-store.ts's toggleFandomTheme() directly (no more proxying a
 // click onto a hidden settings.tsx button), and syncs each row's pill
 // 'on' class reactively off the store (no more MutationObserver).
+//
+// full-react-migration-roadmap.md Phase 6: the 14 rows themselves (previously
+// static markup in index.html, only wired imperatively here) are now
+// rendered directly by this component — className/onClick/data-i18n replace
+// the old getElementById+addEventListener+classList.toggle effects. The
+// "dark theme" row (#set-theme/#set-theme-pill) is NOT one of these 14 —
+// it's a separate, independent toggle owned by sidebar.tsx's
+// _updateDarkPill(), untouched. title-<key>-toggle (the header quick-toggle
+// buttons in header-left.tsx — only sw/hp actually exist there) stay wired
+// imperatively via useEffect, since they live in a different component's
+// static-id output, not this one's own render.
 import { useEffect, useState, type ReactElement } from 'react';
 import {
   FANDOM_THEME_KEYS,
@@ -14,9 +25,10 @@ import {
 } from '../../src/fandom-theme-store.ts';
 import { t } from './i18n.ts';
 
-// Only the base 3 rows (dark/SW/HP) show by default; the rest sit behind a
+// Only the base 2 rows (SW/HP) show by default; the rest sit behind a
 // "show more" toggle — unless one of them is already the active theme, in
 // which case start expanded so the user can see what's currently selected.
+const BASE_THEME_KEYS: FandomThemeKey[] = ['sw', 'hp'];
 const EXTRA_THEME_KEYS: FandomThemeKey[] = [
   'cp',
   'lotr',
@@ -32,30 +44,64 @@ const EXTRA_THEME_KEYS: FandomThemeKey[] = [
   'dt',
 ];
 
-export function FandomThemeRowsController(): ReactElement | null {
+const THEME_META: Record<FandomThemeKey, { icon: string; labelKey: string }> = {
+  sw: { icon: '⚔️', labelKey: 'settings.starWars' },
+  hp: { icon: '🦁', labelKey: 'settings.harryPotter' },
+  cp: { icon: '🤖', labelKey: 'settings.cyberpunk' },
+  lotr: { icon: '💍', labelKey: 'settings.lotr' },
+  mcu: { icon: '🛡️', labelKey: 'settings.marvel' },
+  witcher: { icon: '🐺', labelKey: 'settings.witcher' },
+  mc: { icon: '⛏️', labelKey: 'settings.minecraft' },
+  dc: { icon: '🦇', labelKey: 'settings.dc' },
+  got: { icon: '🐉', labelKey: 'settings.got' },
+  dw: { icon: '🐢', labelKey: 'settings.discworld' },
+  dune: { icon: '🏜️', labelKey: 'settings.dune' },
+  hg: { icon: '🏹', labelKey: 'settings.hungerGames' },
+  avt: { icon: '🌿', labelKey: 'settings.avatar' },
+  dt: { icon: '🗼', labelKey: 'settings.darkTower' },
+};
+
+function ThemeRow({
+  themeKey,
+  active,
+}: {
+  themeKey: FandomThemeKey;
+  active: FandomThemeKey | null;
+}): ReactElement {
+  const meta = THEME_META[themeKey];
+  return (
+    <div
+      className="sb-toggle-row"
+      id={`set-${themeKey}`}
+      style={{ background: 'var(--bg)', borderRadius: 10 }}
+      onClick={() => toggleFandomTheme(themeKey)}
+    >
+      <span className="sb-icon">{meta.icon}</span>
+      <span className="sb-label" data-i18n={meta.labelKey}>
+        {t(meta.labelKey)}
+      </span>
+      <span
+        className={themeKey === active ? 'sb-toggle-pill on' : 'sb-toggle-pill'}
+        id={`set-${themeKey}-pill`}
+      />
+    </div>
+  );
+}
+
+export function FandomThemeRowsController(): ReactElement {
   const { active } = useFandomTheme();
 
-  // Keep each row's pill in sync with the shared store.
-  useEffect(() => {
-    for (const key of FANDOM_THEME_KEYS) {
-      document.getElementById(`set-${key}-pill`)?.classList.toggle('on', key === active);
-    }
-  }, [active]);
-
-  // Click wiring, attached once — toggleFandomTheme() itself drives state,
-  // so the handlers never need to change.
+  // Header quick-toggle buttons (title-sw-toggle/title-hp-toggle in
+  // header-left.tsx) live in a sibling component's static-id output, so
+  // this wiring stays imperative — looping over all 14 keys is harmless,
+  // only sw/hp actually match an element.
   useEffect(() => {
     const cleanups: Array<() => void> = [];
     for (const key of FANDOM_THEME_KEYS) {
-      const setRow = document.getElementById(`set-${key}`);
       const titleToggle = document.getElementById(`title-${key}-toggle`);
       const onClick = () => toggleFandomTheme(key);
-      setRow?.addEventListener('click', onClick);
       titleToggle?.addEventListener('click', onClick);
-      cleanups.push(() => {
-        setRow?.removeEventListener('click', onClick);
-        titleToggle?.removeEventListener('click', onClick);
-      });
+      cleanups.push(() => titleToggle?.removeEventListener('click', onClick));
     }
     return () => cleanups.forEach((fn) => fn());
   }, []);
@@ -68,25 +114,28 @@ export function FandomThemeRowsController(): ReactElement | null {
     () => active !== null && EXTRA_THEME_KEYS.includes(active),
   );
 
-  // Reflects `expanded` onto the static DOM nodes — the source of truth is
-  // the React state above, not style.display read back from the element.
-  useEffect(() => {
-    const extraRows = document.getElementById('theme-rows-extra');
-    const toggleRowsBtn = document.getElementById('theme-rows-toggle');
-    if (extraRows) extraRows.style.display = expanded ? 'flex' : 'none';
-    if (toggleRowsBtn) {
-      toggleRowsBtn.textContent = t(
-        expanded ? 'settings.showLessThemes' : 'settings.showMoreThemes',
-      );
-    }
-  }, [expanded]);
-
-  useEffect(() => {
-    const toggleRowsBtn = document.getElementById('theme-rows-toggle');
-    const onToggleClick = () => setExpanded((e) => !e);
-    toggleRowsBtn?.addEventListener('click', onToggleClick);
-    return () => toggleRowsBtn?.removeEventListener('click', onToggleClick);
-  }, []);
-
-  return null;
+  return (
+    <>
+      {BASE_THEME_KEYS.map((key) => (
+        <ThemeRow key={key} themeKey={key} active={active} />
+      ))}
+      <div
+        id="theme-rows-extra"
+        style={{ display: expanded ? 'flex' : 'none', flexDirection: 'column', gap: 2 }}
+      >
+        {EXTRA_THEME_KEYS.map((key) => (
+          <ThemeRow key={key} themeKey={key} active={active} />
+        ))}
+      </div>
+      <button
+        type="button"
+        id="theme-rows-toggle"
+        className="theme-rows-toggle-btn"
+        data-i18n={expanded ? 'settings.showLessThemes' : 'settings.showMoreThemes'}
+        onClick={() => setExpanded((e) => !e)}
+      >
+        {t(expanded ? 'settings.showLessThemes' : 'settings.showMoreThemes')}
+      </button>
+    </>
+  );
 }

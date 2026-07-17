@@ -27,16 +27,12 @@ describe('fandom-theme-rows.tsx (FandomThemeRowsController)', () => {
     localStorage.clear();
     document.body.className = '';
 
+    // full-react-migration-roadmap.md Phase 6: the 14 rows/pills/extra-wrap/
+    // toggle-button are rendered by the component itself now — only
+    // title-sw-toggle (header-left.tsx's quick-toggle button, a sibling
+    // component's output) still needs a fixture.
     document.body.innerHTML = `
-      <div id="set-sw"></div>
-      <span id="set-sw-pill"></span>
       <button id="title-sw-toggle"></button>
-      <div id="set-hp"></div>
-      <span id="set-hp-pill"></span>
-      <div id="set-cp"></div>
-      <span id="set-cp-pill"></span>
-      <div id="theme-rows-extra" style="display:none"></div>
-      <button id="theme-rows-toggle"></button>
     `;
   });
 
@@ -133,14 +129,38 @@ describe('fandom-theme-rows.tsx (FandomThemeRowsController)', () => {
     expect(btn.textContent).toBe('Показати більше тем ▾');
   });
 
-  it('removes its click listeners on unmount', () => {
+  it('renders all 14 rows (2 base + 12 extra) with unique set-<key>/set-<key>-pill ids', () => {
+    mount();
+    const keys = [
+      'sw',
+      'hp',
+      'cp',
+      'lotr',
+      'mcu',
+      'witcher',
+      'mc',
+      'dc',
+      'got',
+      'dw',
+      'dune',
+      'hg',
+      'avt',
+      'dt',
+    ];
+    for (const key of keys) {
+      expect(document.getElementById(`set-${key}`)).not.toBeNull();
+      expect(document.getElementById(`set-${key}-pill`)).not.toBeNull();
+    }
+  });
+
+  it('removes the title-toggle click listener on unmount', () => {
     mount();
     act(() => {
       root.unmount();
     });
     act(() => {
       document
-        .getElementById('set-sw')!
+        .getElementById('title-sw-toggle')!
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
     expect(getActiveFandomTheme()).toBeNull();

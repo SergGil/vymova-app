@@ -92,14 +92,17 @@ import { QuickQuizButton } from '../js/features/quick-quiz.tsx';
 import { CardSwipe } from '../js/core/swipe.tsx';
 import { ImagePrefetchSettings } from '../js/features/image-prefetch.tsx';
 import { SettingsInit } from '../js/features/settings.tsx';
-import { ProgressIO } from '../js/features/progress-io.tsx';
 import { DeckModeInit } from '../js/features/deck-mode.tsx';
 import { DeckFilterInit } from '../js/features/deck-filter.tsx';
 import { DailyChallenge } from '../js/modes/daily-challenge.tsx';
 import { PairsMode } from '../js/modes/pairs.tsx';
-import { NotificationsInit, _updateUI as _refreshNotifUI } from '../js/features/notifications.tsx';
+import {
+  NotificationsInit,
+  NotificationsSection,
+  _updateUI as _refreshNotifUI,
+} from '../js/features/notifications.tsx';
 import { CloudSyncSection, _refreshCloudSyncUI } from '../js/features/cloud-sync.tsx';
-import { ExportInit } from '../js/features/export.tsx';
+import { ExportInit, BackupExportSection } from '../js/features/export.tsx';
 import { VoiceInit, _renderVoices } from '../js/features/voice/voice.tsx';
 import { SidebarInit } from '../js/features/sidebar.tsx';
 import { SidebarNav } from '../js/features/sidebar-nav.tsx';
@@ -113,7 +116,6 @@ import { ProfilePage } from '../js/features/profile-page.tsx';
 import { OnboardingPage } from '../js/features/onboarding.tsx';
 import { BugReportForm } from '../js/features/bug-report.tsx';
 import { AchievementToast } from '../js/features/achievement-toast.tsx';
-import { CsvExportButton } from '../js/features/csv-export-button.tsx';
 import { ComboToast } from '../js/features/combo-toast.tsx';
 import { ModeCompleteToast } from '../js/features/mode-complete-toast.tsx';
 import { NoteModal } from '../js/features/note-modal.tsx';
@@ -444,20 +446,25 @@ function AppRoot(): ReactElement {
       </Portal>
       <FrontSpeakBtnsToggle />
       <SettingsInit />
-      <Portal id="progress-io-buttons-mount">
-        <ProgressIO />
-      </Portal>
       <DeckModeInit />
       <DeckFilterInit />
       <DailyChallenge />
       <PairsMode />
       <NotificationsInit />
+      <Portal id="notifications-section-mount">
+        <NotificationsSection />
+      </Portal>
       <ExportInit />
+      <Portal id="backup-export-mount">
+        <BackupExportSection />
+      </Portal>
       <VoiceInit />
       <SidebarInit />
       <SidebarNav />
       <NavFlyoutController />
-      <FandomThemeRowsController />
+      <Portal id="fandom-theme-rows-mount">
+        <FandomThemeRowsController />
+      </Portal>
       <Portal id="settings-page-header-mount">
         <PageHeader titleKey="settings.pageTitle" />
       </Portal>
@@ -623,9 +630,6 @@ function AppRoot(): ReactElement {
       </Portal>
       <Portal id="achievement-toast-mount">
         <AchievementToast />
-      </Portal>
-      <Portal id="csv-export-mount">
-        <CsvExportButton />
       </Portal>
       <Portal id="combo-toast-mount">
         <ComboToast />

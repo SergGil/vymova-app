@@ -5,6 +5,8 @@ import { getWordIndex } from '../core/word-index.ts';
 import { W } from '../../data/words.js';
 import { t } from './i18n.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
+import { ProgressIO } from './progress-io.tsx';
+import { CsvExportButton } from './csv-export-button.tsx';
 
 type WordIdx = Map<string, number>;
 
@@ -148,4 +150,64 @@ export function ExportInit(): ReactElement | null {
   }, []);
 
   return null;
+}
+
+// full-react-migration-roadmap.md Phase 6: the settings-page "Збереження
+// прогресу" (backup/export) block's static markup — previously in
+// index.html. ExportInit's wiring above is untouched (still finds these
+// same ids via getElementById in its own effect, post-mount timing is
+// unaffected either way). progress-io-buttons-mount/csv-export-mount's
+// separate <Portal> wrappers in app-root.tsx are removed — nothing else
+// referenced those wrapper ids — ProgressIO/CsvExportButton now render
+// directly as children here instead (same simplification as HeaderLeft's
+// CardIdx/CardKnownCount in Phase 3).
+export function BackupExportSection(): ReactElement {
+  return (
+    <>
+      <div className="backup-row" style={{ marginTop: 10 }}>
+        <ProgressIO />
+      </div>
+      <div className="backup-row" style={{ marginTop: 6 }}>
+        <button className="backup-btn" id="btn-anki-export" data-i18n="settings.ankiCsv">
+          {t('settings.ankiCsv')}
+        </button>
+        <button className="backup-btn" id="btn-share" data-i18n="settings.share">
+          {t('settings.share')}
+        </button>
+      </div>
+      <div className="backup-row" style={{ marginTop: 6 }}>
+        <CsvExportButton />
+        <button className="backup-btn" id="btn-pdf-export" data-i18n="settings.pdfExport">
+          {t('settings.pdfExport')}
+        </button>
+      </div>
+      <div style={{ fontSize: '0.72rem', color: 'var(--text3)', marginTop: 6 }}>
+        <label htmlFor="export-filter" style={{ marginRight: 6 }} data-i18n="settings.exportLabel">
+          {t('settings.exportLabel')}
+        </label>
+        <select
+          id="export-filter"
+          style={{
+            padding: '3px 8px',
+            border: '1px solid var(--border)',
+            borderRadius: 6,
+            background: 'var(--bg)',
+            color: 'var(--text)',
+            fontSize: '0.72rem',
+            fontFamily: 'inherit',
+          }}
+        >
+          <option value="known" data-i18n="settings.exportKnown">
+            {t('settings.exportKnown')}
+          </option>
+          <option value="unknown" data-i18n="settings.exportUnknown">
+            {t('settings.exportUnknown')}
+          </option>
+          <option value="all" data-i18n="settings.exportAll">
+            {t('settings.exportAll')}
+          </option>
+        </select>
+      </div>
+    </>
+  );
 }

@@ -106,7 +106,7 @@ const setTime = (val: string): void => {
 export function _updateUI(): void {
   const tog = document.getElementById('notif-toggle') as HTMLInputElement | null;
   const status = document.getElementById('notif-status') as HTMLElement | null;
-  const permBtn = document.querySelector<HTMLButtonElement>('[onclick*="requestNotifPermission"]');
+  const permBtn = document.getElementById('notif-allow-btn') as HTMLButtonElement | null;
   const timeRow = document.getElementById('notif-time-row') as HTMLElement | null;
   const timeH = document.getElementById('notif-time-h') as HTMLSelectElement | null;
   const timeM = document.getElementById('notif-time-m') as HTMLSelectElement | null;
@@ -301,4 +301,56 @@ export function NotificationsInit(): ReactElement | null {
   }, []);
 
   return null;
+}
+
+// full-react-migration-roadmap.md Phase 6: the settings-page notifications
+// block's static markup — previously in index.html, all ids/logic above
+// unchanged (NotificationsInit still owns #notif-toggle/#notif-time-h/
+// #notif-time-m imperatively — kept uncontrolled on purpose, same as
+// tag-filter-select.tsx's documented reasoning). One real fix along the
+// way: the permission button used to be `id`-less with an inline
+// `onclick="window.requestNotifPermission && ..."` — but nothing in the
+// codebase ever assigned `window.requestNotifPermission`, so clicking it
+// was a silent no-op. Now `id="notif-allow-btn"` + a real onClick calling
+// the same requestNotifPermission() already defined above (also updated
+// _updateUI()'s lookup from a `[onclick*=...]` selector to this id).
+export function NotificationsSection(): ReactElement {
+  return (
+    <>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 10 }}>
+        <label className="notif-toggle-wrap">
+          <input type="checkbox" id="notif-toggle" />
+          <span className="notif-toggle-pill-ui" />
+        </label>
+        <span id="notif-status" style={{ fontSize: '0.78rem', color: 'var(--text2)' }}>
+          Вимкнено
+        </span>
+        <button
+          id="notif-allow-btn"
+          className="backup-btn"
+          style={{ padding: '5px 12px', fontSize: '0.75rem', marginLeft: 'auto' }}
+          data-i18n="settings.notifAllow"
+          onClick={requestNotifPermission}
+        >
+          {t('settings.notifAllow')}
+        </button>
+      </div>
+      <div
+        id="notif-time-row"
+        style={{ display: 'none', marginTop: 10, alignItems: 'center', gap: 10, flexWrap: 'wrap' }}
+      >
+        <span style={{ fontSize: '0.8rem', color: 'var(--text2)' }} data-i18n="settings.notifTimeLabel">
+          {t('settings.notifTimeLabel')}
+        </span>
+        <div className="time-picker">
+          <select id="notif-time-h" className="time-select" />
+          <span className="time-sep">:</span>
+          <select id="notif-time-m" className="time-select" />
+        </div>
+        <span style={{ fontSize: '0.75rem', color: 'var(--text3)' }} data-i18n="settings.notifTimeSuffix">
+          {t('settings.notifTimeSuffix')}
+        </span>
+      </div>
+    </>
+  );
 }
