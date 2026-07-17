@@ -45,6 +45,7 @@ import {
 } from '../js/features/settings-toggles.tsx';
 import { PwaInstallSection } from '../js/features/pwa-install-section.tsx';
 import { ModesOverlayShell } from '../js/features/modes-overlay-shell.tsx';
+import { QuizOverlayShell } from '../js/features/quiz-overlay-shell.tsx';
 import { ImgClearConfirmDialog } from '../js/features/img-clear-confirm.tsx';
 import { ResetConfirmDialog } from '../js/features/reset-confirm-dialog.tsx';
 import { NavFlyoutController } from '../js/features/sidebar-nav-flyout.tsx';
@@ -581,6 +582,7 @@ function AppRoot(): ReactElement {
         mountId="wd-page-mount"
         loader={_loadWordDetail}
       />
+      <QuizOverlayShell />
       <LazyMode btnId="btn-listen" mountId="listen-page-mount" loader={_loadListening} />
       <LazyMode btnId="btn-fib" mountId="fib-page-mount" loader={_loadFib} />
       <LazyMode btnId="btn-tempo" mountId="tempo-page-mount" loader={_loadTempo} />

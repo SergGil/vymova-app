@@ -19,6 +19,9 @@ import { join } from 'node:path';
 // btnId="btn-X" targets are no longer hand-authored in index.html — they're
 // now data-driven JSX in mode-card-grid.tsx — so this guard checks btnId/
 // mountId/Portal-id refs against the union of both files' ids now.
+//
+// Phase 8: 19 quiz-mode overlay/mount id pairs moved the same way, into
+// quiz-overlay-shell.tsx's data-driven ENTRIES — included below too.
 
 const root = join(__dirname, '..');
 const read = (rel: string): string => readFileSync(join(root, rel), 'utf8');
@@ -34,6 +37,18 @@ function extractHtmlIds(html: string): Set<string> {
 // just index.html, for those 27 btnId refs specifically.
 function extractModeCardGridIds(src: string): Set<string> {
   return new Set([...src.matchAll(/\bid: '([a-zA-Z0-9_-]+)'/g)].map((m) => `btn-${m[1]}`));
+}
+
+// full-react-migration-roadmap.md Phase 8: the 19 quiz-mode overlay/mount id
+// pairs moved out of index.html into quiz-overlay-shell.tsx's data-driven
+// ENTRIES (each `overlayId: '...'`/`mountId: '...'` field renders as
+// `id={overlayId}`/`id={mountId}`) — this guard's hand-synced-list check
+// needs to look there too now, not just index.html, for those ids.
+function extractQuizOverlayShellIds(src: string): Set<string> {
+  const ids = new Set<string>();
+  for (const m of src.matchAll(/\boverlayId: '([a-zA-Z0-9_-]+)'/g)) ids.add(m[1]);
+  for (const m of src.matchAll(/\bmountId: '([a-zA-Z0-9_-]+)'/g)) ids.add(m[1]);
+  return ids;
 }
 
 // Every id app-root.tsx expects to find already present in index.html:
@@ -52,7 +67,12 @@ describe('src/app-root.tsx mount points exist in index.html', () => {
   const html = read('index.html');
   const appRoot = read('src/app-root.tsx');
   const modeCardGrid = read('js/features/mode-card-grid.tsx');
-  const validIds = new Set([...extractHtmlIds(html), ...extractModeCardGridIds(modeCardGrid)]);
+  const quizOverlayShell = read('js/features/quiz-overlay-shell.tsx');
+  const validIds = new Set([
+    ...extractHtmlIds(html),
+    ...extractModeCardGridIds(modeCardGrid),
+    ...extractQuizOverlayShellIds(quizOverlayShell),
+  ]);
   const refs = extractAppRootRefs(appRoot);
 
   it('found a substantial number of references (guards against the regexes silently matching nothing)', () => {
@@ -60,11 +80,11 @@ describe('src/app-root.tsx mount points exist in index.html', () => {
   });
 
   it.each(refs.map(({ id, kind }): [string, string] => [`${kind}="${id}"`, id]))(
-    '%s has a matching id in index.html or mode-card-grid.tsx',
+    '%s has a matching id in index.html, mode-card-grid.tsx, or quiz-overlay-shell.tsx',
     (_label, id) => {
       expect(
         validIds.has(id),
-        `id="${id}" referenced from app-root.tsx but not found in index.html or mode-card-grid.tsx`,
+        `id="${id}" referenced from app-root.tsx but not found in index.html, mode-card-grid.tsx, or quiz-overlay-shell.tsx`,
       ).toBe(true);
     },
   );
