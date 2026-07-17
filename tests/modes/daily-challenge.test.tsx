@@ -32,6 +32,7 @@ import { getGameData, recordModeComplete } from '../../js/features/game.ts';
 function buildDom(): void {
   document.body.innerHTML = `
     <button id="btn-daily-challenge"></button>
+    <div id="modes-overlay" class="modes-overlay open as-page"></div>
     <div id="dc-overlay" class="page-overlay">
       <div id="dc-title"></div>
       <div id="dc-timer"></div>
@@ -87,6 +88,22 @@ describe('daily-challenge.tsx (DailyChallenge)', () => {
 
   it('renders no visible output itself (all DOM wiring is imperative)', () => {
     expect(container.innerHTML).toBe('');
+  });
+
+  // Regression: opening used to also set modes-overlay's style.display =
+  // 'none' directly, leaving a stale inline style that permanently beat any
+  // later classList.add('open') (inline style always wins over a
+  // non-!important class rule) — the Modes overlay could never be reopened
+  // again after visiting Daily Challenge once. classList.remove alone is
+  // enough since .modes-overlay's base CSS rule is already display:none.
+  it('opening closes the modes-overlay via class only, without leaving a stale inline display style', () => {
+    act(() => {
+      document.getElementById('btn-daily-challenge')!.click();
+    });
+    const modesOverlay = document.getElementById('modes-overlay')!;
+    expect(modesOverlay.classList.contains('open')).toBe(false);
+    expect(modesOverlay.classList.contains('as-page')).toBe(false);
+    expect(modesOverlay.style.display).toBe('');
   });
 
   it('opening the mission shows the first question with 4 options', () => {

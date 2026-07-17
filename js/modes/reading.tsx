@@ -117,11 +117,13 @@ export function ReadingPage(): ReactElement {
   useEffect(() => {
     _open = () => {
       closePage();
-      const modesOvl = document.getElementById('modes-overlay') as HTMLElement | null;
-      if (modesOvl) {
-        modesOvl.classList.remove('as-page', 'open');
-        modesOvl.style.display = 'none';
-      }
+      // classList.remove alone is enough — .modes-overlay's base CSS rule is
+      // already display:none, .open is what adds display:flex. Also setting
+      // style.display='none' here used to leave a stale inline override that
+      // permanently beat any later classList.add('open') (inline style always
+      // wins over a non-!important class rule), which meant the Modes overlay
+      // could never be reopened again after visiting this mode once.
+      document.getElementById('modes-overlay')?.classList.remove('as-page', 'open');
       setEpubBook(null);
       setPassages(
         buildReadingPassages(getWordsForPair(W as unknown as WordEntry[]), getLearnLang()),
