@@ -1,10 +1,11 @@
 // Vymova — js/features/sidebar.tsx
-// Sidebar wiring, page-view system, dark-mode pill sync. Nav-group hover
-// flyouts, fandom-theme rows, and the image-cache-clear confirm dialog have
-// moved to their own files — see sidebar-nav-flyout.tsx,
-// fandom-theme-rows.tsx, img-clear-confirm.tsx.
+// Sidebar wiring (hamburger, escape-closes-page, theme-pill sync, page
+// restore-on-reload), page-view system. Nav-group hover flyouts, fandom-theme
+// rows, the image-cache-clear confirm dialog, and (full-react-migration-
+// roadmap.md Phase 1) the nav-link list/logo/language-switcher markup itself
+// have moved to their own files — see sidebar-nav-flyout.tsx,
+// fandom-theme-rows.tsx, img-clear-confirm.tsx, sidebar-nav.tsx.
 import { useEffect, type ReactElement } from 'react';
-import { AI_TUTOR_ENABLED } from '../config.ts';
 import {
   getActivePage,
   dispatchOpenPage,
@@ -38,50 +39,12 @@ import { routerNavigate, PAGE_TO_ROUTE } from '../../src/router.ts';
 // ── Page view system ──────────────────────────────────────────
 const ACTIVE_PAGE_KEY = 'ew_active_page';
 
-const PAGE_TO_SIDEBAR: Record<string, string> = {
-  stats: 'sb-stats',
-  ach: 'sb-achievements',
-  modes: 'sb-modes',
-  settings: 'sb-settings',
-  duel: 'sb-duel',
-  grammar: 'sb-grammar',
-  idioms: 'sb-idioms',
-  translate: 'sb-translate',
-  'lang-history': 'sb-lang-history',
-  'learning-path': 'sb-learning-path',
-  profile: 'sb-profile',
-  'ai-tutor': 'sb-ai-tutor',
-  'voice-roleplay': 'sb-voice-roleplay',
-  'youtube-player': 'sb-youtube-player',
-  'video-player': 'sb-video-player',
-};
+// Sidebar active-link highlighting used to be driven imperatively from here
+// (_setSidebarActive's classList loop) — sidebar-nav.tsx's <NavLink/> now
+// derives its own active state reactively from useActivePage() instead, so
+// this file no longer needs to know the page→sidebar-id mapping at all.
 
-function _setSidebarActive(page: string | null): void {
-  [
-    'sb-cards',
-    'sb-stats',
-    'sb-achievements',
-    'sb-modes',
-    'sb-settings',
-    'sb-duel',
-    'sb-grammar',
-    'sb-idioms',
-    'sb-translate',
-    'sb-lang-history',
-    'sb-learning-path',
-    'sb-profile',
-    'sb-ai-tutor',
-    'sb-voice-roleplay',
-    'sb-youtube-player',
-    'sb-video-player',
-  ].forEach((id) => {
-    document.getElementById(id)?.classList.remove('sb-active');
-  });
-  const activeId = page ? (PAGE_TO_SIDEBAR[page] ?? 'sb-cards') : 'sb-cards';
-  document.getElementById(activeId)?.classList.add('sb-active');
-}
-
-function closeSidebar(): void {
+export function closeSidebar(): void {
   document.getElementById('sidebar')?.classList.remove('open');
   document.getElementById('sidebar-overlay')?.classList.remove('open');
 }
@@ -92,7 +55,6 @@ export function openPage(page: string): void {
   try {
     localStorage.setItem(ACTIVE_PAGE_KEY, page);
   } catch (e) {}
-  _setSidebarActive(page);
   // Sync URL — skip if already at this route (e.g. called from RouterSync)
   const route = PAGE_TO_ROUTE[page];
   if (route && !_currentHashRoute().endsWith(route)) routerNavigate(route);
@@ -150,7 +112,6 @@ export function closePage(): void {
   } catch (e) {}
   // Navigate to root only if we're currently on a page route
   if (_currentHashRoute() !== '/') routerNavigate('/');
-  _setSidebarActive(null);
   // Restore body scroll when page is closed
   document.body.style.overflow = '';
   // Deliberately unconditional (runs on every closePage(), not just when
@@ -201,14 +162,9 @@ export function SidebarInit(): ReactElement | null {
   }, [activePage]);
 
   useEffect(() => {
-    // AI nav group is hidden by default (no backend configured) —
-    // reveal it once the build-time proxy URL is set.
-    if (AI_TUTOR_ENABLED) {
-      const aiGroup = document.getElementById('sb-group-ai') as HTMLElement | null;
-      if (aiGroup) aiGroup.style.display = '';
-      const translateBtn = document.getElementById('sb-translate') as HTMLElement | null;
-      if (translateBtn) translateBtn.style.display = '';
-    }
+    // AI nav group / translate link visibility is now a conditional render
+    // in <SidebarNav/> (AI_TUTOR_ENABLED, a build-time constant) — no runtime
+    // reveal-effect needed here anymore.
 
     // ── Sidebar wiring ─────────────────────────────────────────
     const ham = document.getElementById('hamburger');
@@ -221,8 +177,10 @@ export function SidebarInit(): ReactElement | null {
     ham?.addEventListener('click', onHamClick);
     sbOvl?.addEventListener('click', closeSidebar);
 
-    const closePageBtns = document.querySelectorAll<HTMLElement>('[data-close-page]');
-    closePageBtns.forEach((btn) => btn.addEventListener('click', closePage));
+    // The settings/ach/profile/lp close buttons used to share a
+    // `[data-close-page]` querySelectorAll loop here — full-react-migration-
+    // roadmap.md Phase 4 moved them to <PageHeader/> (page-header.tsx),
+    // which now wires each one directly via onClick={closePage}.
     const statsClose = document.getElementById('stats-close');
     const modesClose = document.getElementById('modes-close');
     statsClose?.addEventListener('click', closePage);
@@ -238,60 +196,9 @@ export function SidebarInit(): ReactElement | null {
     };
     document.addEventListener('keydown', onEscapeClosePage);
 
-    // ── Sidebar nav ──────────────────────────────────────────────
-    // Base path for hrefs ('' locally, '/vymova-app' on GitHub Pages).
-    const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-
-    // Returns a click handler that prevents default navigation for plain
-    // left-clicks (React Router handles it) but allows Ctrl/Cmd/middle-click
-    // so the user can open pages in a new tab.
-    function _navHandler(action: () => void) {
-      return (e: MouseEvent) => {
-        if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
-        e.preventDefault();
-        action();
-      };
-    }
-
-    const sbCards = document.getElementById('sb-cards') as HTMLAnchorElement | null;
-    const sbHome = document.getElementById('sb-home');
-    if (sbCards) sbCards.href = base + '/';
-    const onCardsClick = _navHandler(() => {
-      closePage();
-      if (window.innerWidth <= 900) closeSidebar();
-    });
-    sbCards?.addEventListener('click', onCardsClick);
-    sbHome?.addEventListener('click', () => {
-      closePage();
-      if (window.innerWidth <= 900) closeSidebar();
-    });
-
-    const NAV_LINKS: [string, string, string][] = [
-      ['sb-stats', '/stats', 'stats'],
-      ['sb-achievements', '/achievements', 'ach'],
-      ['sb-modes', '/modes', 'modes'],
-      ['sb-settings', '/settings', 'settings'],
-      ['sb-duel', '/duel', 'duel'],
-      ['sb-grammar', '/grammar', 'grammar'],
-      ['sb-idioms', '/idioms', 'idioms'],
-      ['sb-translate', '/translate', 'translate'],
-      ['sb-lang-history', '/lang-history', 'lang-history'],
-      ['sb-learning-path', '/learning-path', 'learning-path'],
-      ['sb-profile', '/profile', 'profile'],
-      ['sb-ai-tutor', '/ai-tutor', 'ai-tutor'],
-      ['sb-voice-roleplay', '/voice-roleplay', 'voice-roleplay'],
-      ['sb-youtube-player', '/youtube', 'youtube-player'],
-      ['sb-video-player', '/video-player', 'video-player'],
-    ];
-    const _navListeners: [HTMLElement, string, EventListener][] = [];
-    for (const [id, route, page] of NAV_LINKS) {
-      const el = document.getElementById(id) as HTMLAnchorElement | null;
-      if (!el) continue;
-      el.href = base + route;
-      const handler = _navHandler(() => openPage(page)) as EventListener;
-      el.addEventListener('click', handler);
-      _navListeners.push([el, 'click', handler]);
-    }
+    // Sidebar nav-link href/onClick wiring (sb-cards/sb-home + the 15
+    // NAV_LINKS pages) moved to <SidebarNav/> (sidebar-nav.tsx) — it renders
+    // the links itself now, so there's no static markup left to reach into.
 
     // Nav-group hover flyouts moved to <NavFlyoutController/>
     // (sidebar-nav-flyout.tsx, mounted directly in app-root.tsx).
@@ -344,12 +251,9 @@ export function SidebarInit(): ReactElement | null {
     return () => {
       ham?.removeEventListener('click', onHamClick);
       sbOvl?.removeEventListener('click', closeSidebar);
-      closePageBtns.forEach((btn) => btn.removeEventListener('click', closePage));
       statsClose?.removeEventListener('click', closePage);
       modesClose?.removeEventListener('click', closePage);
       document.removeEventListener('keydown', onEscapeClosePage);
-      sbCards?.removeEventListener('click', onCardsClick);
-      for (const [el, evt, fn] of _navListeners) el.removeEventListener(evt, fn);
       setTheme?.removeEventListener('click', onSetThemeClick);
       mo.disconnect();
       if (t1) clearTimeout(t1);

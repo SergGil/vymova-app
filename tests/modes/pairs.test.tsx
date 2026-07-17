@@ -23,22 +23,12 @@ const SIX_WORDS: WordEntry[] = [
   ['house', 'дім', '', ''],
 ];
 
+// #pairs-overlay and its children are no longer static fixture markup —
+// PairsMode renders them itself (full-react-migration-roadmap.md Phase 2).
+// Only #btn-pairs (elsewhere, in modes-modal.tsx's grid) still needs one.
 function buildDom(): void {
   document.body.innerHTML = `
     <button id="btn-pairs"></button>
-    <div id="pairs-overlay" style="display:none">
-      <div id="pairs-best-label"></div>
-      <div id="pairs-timer"></div>
-      <button id="pairs-close"></button>
-      <div id="pairs-board"></div>
-      <div id="pairs-final" style="display:none">
-        <div id="pf-emoji"></div>
-        <div id="pf-time"></div>
-        <div id="pf-best"></div>
-        <button id="pairs-again"></button>
-        <button id="pairs-exit"></button>
-      </div>
-    </div>
   `;
 }
 
@@ -82,8 +72,9 @@ describe('pairs.tsx (PairsMode)', () => {
     localStorage.clear();
   });
 
-  it('renders no visible output itself (all DOM wiring is imperative)', () => {
-    expect(container.innerHTML).toBe('');
+  it('renders its own #pairs-overlay markup (imperative wiring still targets those same ids)', () => {
+    expect(container.querySelector('#pairs-overlay')).not.toBeNull();
+    expect(document.getElementById('pairs-overlay')).toBe(container.querySelector('#pairs-overlay'));
   });
 
   it('opening the mode fills the board with 6 EN/UA button pairs and shows the overlay', () => {

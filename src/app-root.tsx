@@ -6,6 +6,7 @@ import { createRoot } from 'react-dom/client';
 import { createPortal } from 'react-dom';
 import { useEffect, type ReactElement, type ReactNode } from 'react';
 import { getMountPoint } from './get-mount-point.ts';
+import { AppShell } from './app-shell.tsx';
 import { HashRouter, useLocation, useNavigate } from 'react-router-dom';
 import { setRouterNavigate, ROUTE_TO_PAGE } from './router.ts';
 import { NavProvider, getActivePage } from './nav-store.tsx';
@@ -45,9 +46,11 @@ import {
 import { PwaInstallSection } from '../js/features/pwa-install-section.tsx';
 import { ModesModalController } from '../js/features/modes-modal.tsx';
 import { ImgClearConfirmDialog } from '../js/features/img-clear-confirm.tsx';
+import { ResetConfirmDialog } from '../js/features/reset-confirm-dialog.tsx';
 import { NavFlyoutController } from '../js/features/sidebar-nav-flyout.tsx';
 import { FandomThemeRowsController } from '../js/features/fandom-theme-rows.tsx';
 import { PageOverlayVisibility } from '../js/features/page-overlay-visibility.tsx';
+import { PageHeader } from '../js/features/page-header.tsx';
 import { GameBarLevel } from '../js/features/game-bar-level.tsx';
 import { GameBarStreak, ComboBox, GameBarGoal } from '../js/features/game-bar-streak.tsx';
 import { GoalModal } from '../js/features/goal-modal.tsx';
@@ -66,7 +69,8 @@ import {
   OtherMeanings,
   FrontSpeakBtnsToggle,
 } from '../js/features/card-front-text.tsx';
-import { CardIdx, CardKnownCount, ProgressBar } from '../js/features/card-progress.tsx';
+import { ProgressBar } from '../js/features/card-progress.tsx';
+import { HeaderLeft } from '../js/features/header-left.tsx';
 import { SimilarWordsChips } from '../js/features/similar-words.tsx';
 import {
   WordFamiliesChips,
@@ -98,6 +102,7 @@ import { CloudSyncSection, _refreshCloudSyncUI } from '../js/features/cloud-sync
 import { ExportInit } from '../js/features/export.tsx';
 import { VoiceInit, _renderVoices } from '../js/features/voice/voice.tsx';
 import { SidebarInit } from '../js/features/sidebar.tsx';
+import { SidebarNav } from '../js/features/sidebar-nav.tsx';
 import { useWordDetailTarget } from '../js/features/word-detail-trigger.ts';
 import { useStatsShouldLoad } from '../js/features/stats-trigger.ts';
 import { CatPairsPage, CatPairsWiringInit } from '../js/modes/catpairs.tsx';
@@ -278,7 +283,7 @@ const _loadDuelInit = () =>
 
 function AppRoot(): ReactElement {
   return (
-    <>
+    <AppShell>
       <Portal id="profile-switcher-mount">
         <ProfileSwitcher />
       </Portal>
@@ -330,6 +335,9 @@ function AppRoot(): ReactElement {
       <Portal id="img-clear-mount">
         <ImgClearConfirmDialog />
       </Portal>
+      <Portal id="modal-mount">
+        <ResetConfirmDialog />
+      </Portal>
       <Portal id="level-box">
         <GameBarLevel />
       </Portal>
@@ -379,11 +387,8 @@ function AppRoot(): ReactElement {
       <Portal id="exua-mount">
         <ExUa />
       </Portal>
-      <Portal id="cidx-mount">
-        <CardIdx />
-      </Portal>
-      <Portal id="cknown-mount">
-        <CardKnownCount />
+      <Portal id="header-left-mount">
+        <HeaderLeft />
       </Portal>
       <Portal id="pbar-mount">
         <ProgressBar />
@@ -451,8 +456,48 @@ function AppRoot(): ReactElement {
       <ExportInit />
       <VoiceInit />
       <SidebarInit />
+      <SidebarNav />
       <NavFlyoutController />
       <FandomThemeRowsController />
+      <Portal id="settings-page-header-mount">
+        <PageHeader titleKey="settings.pageTitle" />
+      </Portal>
+      <Portal id="ach-page-header-mount">
+        <PageHeader titleKey="ach.pageTitle" />
+      </Portal>
+      <Portal id="profile-page-header-mount">
+        <PageHeader titleKey="profile.pageTitle" />
+      </Portal>
+      <Portal id="lp-page-header-mount">
+        <PageHeader titleKey="lp.pageTitle" />
+      </Portal>
+      <Portal id="idioms-page-header-mount">
+        <PageHeader titleKey="idioms.pageTitle" closeBtnId="idioms-close" />
+      </Portal>
+      <Portal id="duel-page-header-mount">
+        <PageHeader icon="⚔️" titleKey="nav.duel" closeBtnId="duel-page-close" />
+      </Portal>
+      <Portal id="grammar-page-header-mount">
+        <PageHeader icon="📖" titleKey="nav.grammar" closeBtnId="grammar-close" />
+      </Portal>
+      <Portal id="lang-history-page-header-mount">
+        <PageHeader icon="📜" titleKey="nav.langHistory" closeBtnId="lang-history-close" />
+      </Portal>
+      <Portal id="translate-page-header-mount">
+        <PageHeader icon="🌐" titleKey="nav.translate" closeBtnId="translate-close" />
+      </Portal>
+      <Portal id="ai-tutor-page-header-mount">
+        <PageHeader icon="🤖" titleKey="nav.aiTutor" closeBtnId="ai-tutor-close" />
+      </Portal>
+      <Portal id="voice-roleplay-page-header-mount">
+        <PageHeader icon="🎤" titleKey="nav.voiceRoleplay" closeBtnId="voice-roleplay-close" />
+      </Portal>
+      <Portal id="youtube-player-page-header-mount">
+        <PageHeader icon="📺" titleKey="nav.ytPlayer" closeBtnId="youtube-player-close" />
+      </Portal>
+      <Portal id="video-player-page-header-mount">
+        <PageHeader icon="🎬" titleKey="nav.videoPlayer" closeBtnId="video-player-close" />
+      </Portal>
       <PageOverlayVisibility page="modes" overlayId="modes-overlay" extraClass="as-page" />
       <PageOverlayVisibility
         page="stats"
@@ -600,7 +645,7 @@ function AppRoot(): ReactElement {
       <StatsInit />
       <OfflineInit />
       <I18nInit />
-    </>
+    </AppShell>
   );
 }
 

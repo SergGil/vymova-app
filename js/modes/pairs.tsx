@@ -187,5 +187,126 @@ export function PairsMode(): ReactElement | null {
     };
   }, []);
 
-  return null;
+  // full-react-migration-roadmap.md Phase 2: the wrapper markup itself
+  // (previously static in index.html) — the effect above still reads/writes
+  // these same ids via getElementById exactly as before, untouched
+  // (including #pairs-board's innerHTML/appendChild tile rendering, which
+  // stays imperative — only the wrapper moved). No Portal/mount-point
+  // needed: position:fixed escapes normal flow, same as DailyChallenge.
+  return (
+    <div
+      id="pairs-overlay"
+      style={{
+        display: 'none',
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(0,0,0,.55)',
+        zIndex: 9100,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '16px 12px',
+      }}
+    >
+      <div className="pairs-panel">
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 6,
+          }}
+        >
+          <div>
+            <div
+              style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text)' }}
+              data-i18n="pairs.title"
+            >
+              {t('pairs.title')}
+            </div>
+            <div
+              id="pairs-best-label"
+              style={{ fontSize: '0.72rem', color: 'var(--text3)', marginTop: 2 }}
+            />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div
+              id="pairs-timer"
+              style={{
+                fontSize: '1.5rem',
+                fontWeight: 700,
+                color: 'var(--accent)',
+                minWidth: 56,
+                textAlign: 'right',
+              }}
+            >
+              0.0с
+            </div>
+            <button
+              id="pairs-close"
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '1.3rem',
+                cursor: 'pointer',
+                color: 'var(--text3)',
+              }}
+              title={t('common.close')}
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+        <div id="pairs-board" style={{ marginBottom: 14 }} />
+        <div id="pairs-final" style={{ display: 'none', textAlign: 'center', padding: '8px 0' }}>
+          <div style={{ fontSize: '2.5rem', marginBottom: 8 }} id="pf-emoji">
+            ⏱
+          </div>
+          <div
+            style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text)', marginBottom: 4 }}
+            id="pf-time"
+          />
+          <div
+            style={{ fontSize: '0.88rem', color: 'var(--text2)', marginBottom: 18 }}
+            id="pf-best"
+          />
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+            <button
+              id="pairs-again"
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: '0.88rem',
+                fontWeight: 600,
+                padding: '10px 22px',
+                borderRadius: 10,
+                border: '1.5px solid var(--accent)',
+                background: 'none',
+                color: 'var(--accent)',
+                cursor: 'pointer',
+              }}
+              data-i18n="pairs.again"
+            >
+              {t('pairs.again')}
+            </button>
+            <button
+              id="pairs-exit"
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: '0.88rem',
+                padding: '10px 22px',
+                borderRadius: 10,
+                border: '1.5px solid var(--border)',
+                background: 'none',
+                color: 'var(--text2)',
+                cursor: 'pointer',
+              }}
+              data-i18n="common.close"
+            >
+              {t('common.close')}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

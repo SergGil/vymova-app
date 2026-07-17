@@ -32,6 +32,7 @@ import { speakForCode } from './voice/speak-lang.ts';
 import { playSound } from '../core/audio.ts';
 import { launchConfetti } from '../core/confetti.tsx';
 import { t } from './i18n.ts';
+import { openResetConfirm } from './reset-confirm-dialog.tsx';
 import { renderGameBar } from './render-game-bar.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
 import {
@@ -309,22 +310,7 @@ export function CardActionsInit(): ReactElement | null {
     shufBtn.addEventListener('click', onShufClick);
 
     const resetBtn = document.getElementById('btn-reset')!;
-    const onResetClick = (e: MouseEvent) => {
-      e.stopPropagation();
-      const modesOverlay = document.getElementById('modes-overlay');
-      if (modesOverlay) modesOverlay.classList.remove('open');
-      document.getElementById('modal-overlay')!.style.display = 'flex';
-    };
-    resetBtn.addEventListener('click', onResetClick);
-
-    const modalCancel = document.getElementById('modal-cancel')!;
-    const onModalCancelClick = () => {
-      document.getElementById('modal-overlay')!.style.display = 'none';
-    };
-    modalCancel.addEventListener('click', onModalCancelClick);
-
-    const modalConfirm = document.getElementById('modal-confirm')!;
-    const onModalConfirmClick = () => {
+    const runReset = () => {
       clearAllKnown();
       clearSrsData();
       saveKnown(getKnownSnapshot('en'));
@@ -351,9 +337,14 @@ export function CardActionsInit(): ReactElement | null {
       _safe(() => renderGameBar());
       _safe(() => refreshGameBarLevel());
       _safe(() => render());
-      document.getElementById('modal-overlay')!.style.display = 'none';
     };
-    modalConfirm.addEventListener('click', onModalConfirmClick);
+    const onResetClick = (e: MouseEvent) => {
+      e.stopPropagation();
+      const modesOverlay = document.getElementById('modes-overlay');
+      if (modesOverlay) modesOverlay.classList.remove('open');
+      openResetConfirm(runReset);
+    };
+    resetBtn.addEventListener('click', onResetClick);
 
     return () => {
       cardEl.removeEventListener('click', onCardClick);
@@ -369,8 +360,6 @@ export function CardActionsInit(): ReactElement | null {
       autoBtn.removeEventListener('click', onAutoClick);
       shufBtn.removeEventListener('click', onShufClick);
       resetBtn.removeEventListener('click', onResetClick);
-      modalCancel.removeEventListener('click', onModalCancelClick);
-      modalConfirm.removeEventListener('click', onModalConfirmClick);
     };
   }, []);
 

@@ -279,5 +279,70 @@ export function DailyChallenge(): ReactElement | null {
     };
   }, []);
 
-  return null;
+  // full-react-migration-roadmap.md Phase 2: the wrapper markup itself
+  // (previously static in index.html) — the effect above still reads/writes
+  // these same ids via getElementById exactly as before, untouched. No
+  // Portal/mount-point needed: .page-overlay is position:fixed (escapes
+  // normal flow), so — like NoteModal/CardLegendModal/PairsMode — it can
+  // render as a plain direct child wherever <DailyChallenge/> sits in
+  // AppRoot's tree.
+  return (
+    <div id="dc-overlay" className="page-overlay">
+      <div className="page-inner" style={{ maxWidth: 520 }}>
+        <div className="dc-header">
+          <div id="dc-title" className="page-title">
+            ⚡ Місія дня
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span
+              id="dc-timer"
+              style={{
+                fontFamily: "'Orbitron', monospace",
+                fontSize: '1.1rem',
+                fontWeight: 700,
+                color: 'var(--accent)',
+              }}
+            >
+              ⏱
+            </span>
+            <button
+              id="dc-close"
+              className="page-close-btn"
+              title={t('common.close')}
+              data-i18n-title="common.close"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+        <div className="dc-pbar-wrap">
+          <div id="dc-pbar" className="dc-pbar-fill" style={{ width: '0%' }} />
+        </div>
+        <div className="dc-word-area">
+          <div id="dc-word" className="dc-word" />
+          <div id="dc-ipa" className="dc-ipa" />
+          <div id="dc-result" className="dc-result" />
+        </div>
+        <div id="dc-options" className="dc-options" />
+        <div
+          id="dc-final"
+          className="dc-final"
+          style={{ display: 'none', textAlign: 'center', padding: '20px 0' }}
+        >
+          <div id="dc-final-emoji" style={{ fontSize: '2.5rem', marginBottom: 10 }} />
+          <div
+            id="dc-final-title"
+            style={{
+              fontSize: '1.1rem',
+              fontWeight: 700,
+              color: 'var(--text)',
+              marginBottom: 6,
+            }}
+          />
+          <div id="dc-final-xp" style={{ fontSize: '0.88rem', color: 'var(--accent)', marginBottom: 12 }} />
+          <div id="dc-final-cooldown" style={{ fontSize: '0.8rem', color: 'var(--text3)' }} />
+        </div>
+      </div>
+    </div>
+  );
 }

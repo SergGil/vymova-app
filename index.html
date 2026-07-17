@@ -124,158 +124,21 @@
 
     <!-- ══ SIDEBAR ══ -->
     <nav id="sidebar" class="sidebar">
-      <div class="sidebar-logo" id="sb-home" title="На головну — картки" style="cursor: pointer">
-        <span class="sidebar-logo-text">Vymova</span>
-      </div>
+      <div id="sidebar-logo-mount"></div>
 
       <!-- Profile section (React, profile-switcher.tsx) -->
       <div class="sb-profile-section" id="profile-switcher-mount"></div>
 
-      <div class="sidebar-nav">
-        <a class="sb-btn sb-active" id="sb-cards" href="#"
-          ><span class="sb-icon">🃏</span
-          ><span class="sb-label" data-i18n="nav.cards">Картки</span></a
-        >
-        <a class="sb-btn" id="sb-stats" href="#"
-          ><span class="sb-icon">📊</span
-          ><span class="sb-label" data-i18n="nav.stats">Статистика</span></a
-        >
-        <a class="sb-btn" id="sb-achievements" href="#"
-          ><span class="sb-icon">🏆</span
-          ><span class="sb-label" data-i18n="nav.achievements">Досягнення</span></a
-        >
-        <a class="sb-btn" id="sb-modes" href="#"
-          ><span class="sb-icon">🎮</span
-          ><span class="sb-label" data-i18n="nav.modes">Режими</span></a
-        >
-        <a class="sb-btn" id="sb-learning-path" href="#"
-          ><span class="sb-icon">🎯</span
-          ><span class="sb-label" data-i18n="nav.learningPath">Шлях навчання</span></a
-        >
-        <a class="sb-btn" id="sb-grammar" href="#"
-          ><span class="sb-icon">📖</span
-          ><span class="sb-label" data-i18n="nav.grammar">Граматика</span></a
-        >
-        <a class="sb-btn" id="sb-idioms" href="#"
-          ><span class="sb-icon">💬</span
-          ><span class="sb-label" data-i18n="nav.idioms">Ідіоми</span></a
-        >
-        <a class="sb-btn" id="sb-translate" href="#" style="display: none"
-          ><span class="sb-icon">🌐</span
-          ><span class="sb-label" data-i18n="nav.translate">Переклад</span></a
-        >
-        <a class="sb-btn" id="sb-lang-history" href="#"
-          ><span class="sb-icon">📜</span
-          ><span class="sb-label" data-i18n="nav.langHistory">Історія мови</span></a
-        >
-
-        <div class="sb-group" id="sb-group-ai" style="display: none">
-          <button type="button" class="sb-btn sb-group-trigger" id="sb-group-ai-trigger">
-            <span class="sb-icon">🤖</span
-            ><span class="sb-label" data-i18n="nav.aiGroup">ШІ навчання</span
-            ><span class="sb-caret">›</span>
-          </button>
-          <div class="sb-flyout" id="sb-group-ai-flyout">
-            <a class="sb-btn" id="sb-ai-tutor" href="#"
-              ><span class="sb-icon">🤖</span
-              ><span class="sb-label" data-i18n="nav.aiTutor">ШІ-репетитор</span></a
-            >
-            <a class="sb-btn" id="sb-voice-roleplay" href="#"
-              ><span class="sb-icon">🎤</span
-              ><span class="sb-label" data-i18n="nav.voiceRoleplay">Голосовий ролеплей</span></a
-            >
-          </div>
-        </div>
-
-        <div class="sb-group" id="sb-group-video">
-          <button type="button" class="sb-btn sb-group-trigger" id="sb-group-video-trigger">
-            <span class="sb-icon">🎬</span
-            ><span class="sb-label" data-i18n="nav.videoGroup">Відео навчання</span
-            ><span class="sb-caret">›</span>
-          </button>
-          <div class="sb-flyout" id="sb-group-video-flyout">
-            <a class="sb-btn" id="sb-youtube-player" href="#"
-              ><span class="sb-icon">📺</span
-              ><span class="sb-label" data-i18n="nav.ytPlayer">YouTube</span></a
-            >
-            <a class="sb-btn" id="sb-video-player" href="#"
-              ><span class="sb-icon">🎬</span
-              ><span class="sb-label" data-i18n="nav.videoPlayer">Відео</span></a
-            >
-          </div>
-        </div>
-
-        <a class="sb-btn" id="sb-duel" href="#"
-          ><span class="sb-icon">⚔️</span
-          ><span class="sb-label" data-i18n="nav.duel">Дуель</span></a
-        >
-        <a class="sb-btn" id="sb-profile" href="#"
-          ><span class="sb-icon">👤</span
-          ><span class="sb-label" data-i18n="nav.profile">Профіль</span></a
-        >
-        <a class="sb-btn" id="sb-settings" href="#"
-          ><span class="sb-icon">⚙️</span
-          ><span class="sb-label" data-i18n="nav.settings">Налаштування</span></a
-        >
-      </div>
+      <div class="sidebar-nav" id="sidebar-nav-mount"></div>
 
       <!-- Language switcher -->
-      <div class="sb-lang-section">
-        <div class="sb-lang-label" data-i18n="nav.language">🌐 Мова</div>
-        <div class="lang-toggle" title="Мова меню / Menu language / Idioma del menú">
-          <button class="lang-opt" data-lang="ua" title="Українська">
-            <img src="data/countries/ua.svg" alt="UA" width="13" height="13" />
-          </button>
-          <button class="lang-opt" data-lang="en" title="English">
-            <img src="data/countries/gb.svg" alt="EN" width="13" height="13" />
-          </button>
-          <button class="lang-opt" data-lang="es" title="Español">
-            <img src="data/countries/es.svg" alt="ES" width="13" height="13" />
-          </button>
-          <button class="lang-opt" data-lang="fr" title="Français">
-            <img src="data/countries/fr.svg" alt="FR" width="13" height="13" />
-          </button>
-          <button class="lang-opt" data-lang="it" title="Italiano">
-            <img src="data/countries/it.svg" alt="IT" width="13" height="13" />
-          </button>
-          <button class="lang-opt" data-lang="pt" title="Português">
-            <img src="data/countries/pt.svg" alt="PT" width="13" height="13" />
-          </button>
-          <button class="lang-opt" data-lang="de" title="Deutsch">
-            <img src="data/countries/de.svg" alt="DE" width="13" height="13" />
-          </button>
-        </div>
-      </div>
+      <div class="sb-lang-section" id="sb-lang-section-mount"></div>
     </nav>
 
     <div class="app">
       <div class="header">
-        <div class="header-left">
-          <div class="title-row">
-            <div class="title">Vymova</div>
-            <button
-              id="title-sw-toggle"
-              class="title-sw-toggle"
-              title="Зоряні Війни — швидке перемикання теми"
-            >
-              ⚔️
-            </button>
-            <button
-              id="title-hp-toggle"
-              class="title-hp-toggle"
-              title="Гаррі Поттер — швидке перемикання теми"
-            >
-              🦁
-            </button>
-          </div>
-          <div class="subtitle">
-            <span data-i18n="cards.cardLabel">Картка</span> <span id="cidx-mount"></span> ·
-            <span data-i18n="cards.learnedLabel">Вивчено</span>: <span id="cknown-mount"></span>
-          </div>
-          <button id="profile-btn" class="profile-btn" style="display: none">
-            🧑 <span>Гравець 1</span> ▾
-          </button>
-        </div>
+        <!-- ══ HEADER-LEFT (React, header-left.tsx) ══ -->
+        <div class="header-left" id="header-left-mount"></div>
         <div class="controls">
           <div id="theme-toggle-mount"></div>
           <div id="lang-pair-select"></div>
@@ -659,17 +522,7 @@
       <!-- ══ SETTINGS PAGE ══ -->
       <div id="settings-overlay" class="page-overlay">
         <div class="page-inner">
-          <div class="page-header">
-            <div class="page-title" data-i18n="settings.pageTitle">⚙️ Налаштування</div>
-            <button
-              class="page-close-btn"
-              data-close-page
-              title="Закрити"
-              data-i18n-title="common.close"
-            >
-              ✕
-            </button>
-          </div>
+          <div id="settings-page-header-mount"></div>
 
           <!-- Теми / зовнішній вигляд -->
           <div class="settings-section">
@@ -1088,7 +941,7 @@
           </div>
 
           <div class="settings-footer">
-            © 2026 Vymova · v1.338.0 ·
+            © 2026 Vymova · v1.339.0 ·
             <a
               href="./privacy.html"
               target="_blank"
@@ -1106,17 +959,7 @@
       <!-- ══ ACHIEVEMENTS PAGE ══ -->
       <div id="ach-overlay" class="page-overlay">
         <div class="page-inner">
-          <div class="page-header">
-            <div class="page-title" data-i18n="ach.pageTitle">🏆 Досягнення</div>
-            <button
-              class="page-close-btn"
-              data-close-page
-              title="Закрити"
-              data-i18n-title="common.close"
-            >
-              ✕
-            </button>
-          </div>
+          <div id="ach-page-header-mount"></div>
 
           <!-- Рівні -->
           <div style="margin-bottom: 24px">
@@ -1141,17 +984,7 @@
       <!-- ══ PROFILE PAGE ══ -->
       <div id="profile-overlay" class="page-overlay">
         <div class="page-inner">
-          <div class="page-header">
-            <div class="page-title" data-i18n="profile.pageTitle">👤 Профіль</div>
-            <button
-              class="page-close-btn"
-              data-close-page
-              title="Закрити"
-              data-i18n-title="common.close"
-            >
-              ✕
-            </button>
-          </div>
+          <div id="profile-page-header-mount"></div>
           <div id="profile-content"></div>
         </div>
       </div>
@@ -1160,101 +993,14 @@
            ProgressIO — self-contained backdrop + portal into document.body,
            same pattern as profile-switcher.tsx's edit/delete modals) ══ -->
 
-      <!-- ══ RESET PROGRESS MODAL (outside .app) ══ -->
-      <div
-        id="modal-overlay"
-        style="
-          display: none;
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.55);
-          z-index: 99999;
-          align-items: center;
-          justify-content: center;
-          padding: 16px;
-        "
-      >
-        <div class="prf-delete-panel">
-          <div class="prf-delete-icon">⚠️</div>
-          <div class="prf-delete-title" data-i18n="modal.resetTitle">Скинути прогрес?</div>
-          <div class="prf-delete-warn" data-i18n="modal.resetWarn">
-            Вивчені слова, серія днів, денна ціль та досягнення будуть видалені безповоротно.
-          </div>
-          <div class="prf-delete-btns">
-            <button
-              id="modal-cancel"
-              class="prf-delete-btn prf-delete-btn-cancel"
-              data-i18n="modal.cancel"
-            >
-              Відміна
-            </button>
-            <button
-              id="modal-confirm"
-              class="prf-delete-btn prf-delete-btn-confirm"
-              data-i18n="modal.reset"
-            >
-              Скинути
-            </button>
-          </div>
-        </div>
-      </div>
+      <!-- ══ RESET PROGRESS MODAL (React, reset-confirm-dialog.tsx) ══ -->
+      <div id="modal-mount"></div>
 
       <!-- ══ IMAGE CACHE CLEAR CONFIRM (React, img-clear-confirm.tsx) ══ -->
       <div id="img-clear-mount"></div>
 
-      <!-- ══ DAILY CHALLENGE OVERLAY ══ -->
-      <div id="dc-overlay" class="page-overlay">
-        <div class="page-inner" style="max-width: 520px">
-          <div class="dc-header">
-            <div id="dc-title" class="page-title">⚡ Місія дня</div>
-            <div style="display: flex; align-items: center; gap: 10px">
-              <span
-                id="dc-timer"
-                style="
-                  font-family: 'Orbitron', monospace;
-                  font-size: 1.1rem;
-                  font-weight: 700;
-                  color: var(--accent);
-                "
-                >⏱</span
-              >
-              <button
-                id="dc-close"
-                class="page-close-btn"
-                title="Закрити"
-                data-i18n-title="common.close"
-              >
-                ✕
-              </button>
-            </div>
-          </div>
-          <div class="dc-pbar-wrap">
-            <div id="dc-pbar" class="dc-pbar-fill" style="width: 0%"></div>
-          </div>
-          <div class="dc-word-area">
-            <div id="dc-word" class="dc-word"></div>
-            <div id="dc-ipa" class="dc-ipa"></div>
-            <div id="dc-result" class="dc-result"></div>
-          </div>
-          <div id="dc-options" class="dc-options"></div>
-          <div
-            id="dc-final"
-            class="dc-final"
-            style="display: none; text-align: center; padding: 20px 0"
-          >
-            <div id="dc-final-emoji" style="font-size: 2.5rem; margin-bottom: 10px"></div>
-            <div
-              id="dc-final-title"
-              style="font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 6px"
-            ></div>
-            <div
-              id="dc-final-xp"
-              style="font-size: 0.88rem; color: var(--accent); margin-bottom: 12px"
-            ></div>
-            <div id="dc-final-cooldown" style="font-size: 0.8rem; color: var(--text3)"></div>
-          </div>
-        </div>
-      </div>
+      <!-- ══ DAILY CHALLENGE OVERLAY (React, daily-challenge.tsx — renders
+           its own #dc-overlay directly, see that file's Phase 2 comment) ══ -->
 
       <!-- ══ READING OVERLAY ══ -->
       <div id="reading-overlay" class="page-overlay">
@@ -1266,17 +1012,7 @@
       <!-- ══ DUEL OVERLAY ══ -->
       <div id="duel-overlay" class="page-overlay">
         <div class="page-inner" style="max-width: 560px">
-          <div class="page-header">
-            <div class="page-title">⚔️ <span data-i18n="nav.duel">Дуель</span></div>
-            <button
-              class="page-close-btn"
-              id="duel-page-close"
-              title="Закрити"
-              data-i18n-title="common.close"
-            >
-              ✕
-            </button>
-          </div>
+          <div id="duel-page-header-mount"></div>
 
           <div id="duel-overlay-mount"></div>
         </div>
@@ -1285,17 +1021,7 @@
       <!-- ══ LEARNING PATH PAGE ══ -->
       <div id="lp-overlay" class="page-overlay">
         <div class="page-inner" style="max-width: 700px">
-          <div class="page-header">
-            <div class="page-title" data-i18n="lp.pageTitle">🎯 Шлях навчання</div>
-            <button
-              class="page-close-btn"
-              data-close-page
-              title="Закрити"
-              data-i18n-title="common.close"
-            >
-              ✕
-            </button>
-          </div>
+          <div id="lp-page-header-mount"></div>
           <div id="lp-content" style="padding: 16px 20px 32px"></div>
         </div>
       </div>
@@ -1303,17 +1029,7 @@
       <!-- ══ GRAMMAR PAGE ══ -->
       <div id="grammar-overlay" class="page-overlay">
         <div class="page-inner grammar-inner">
-          <div class="page-header">
-            <div class="page-title">📖 <span data-i18n="nav.grammar">Граматика</span></div>
-            <button
-              class="page-close-btn"
-              id="grammar-close"
-              title="Закрити"
-              data-i18n-title="common.close"
-            >
-              ✕
-            </button>
-          </div>
+          <div id="grammar-page-header-mount"></div>
           <div class="grammar-layout" id="grammar-layout-mount"></div>
         </div>
       </div>
@@ -1321,17 +1037,7 @@
       <!-- ══ IDIOMS PAGE ══ -->
       <div id="idioms-overlay" class="page-overlay">
         <div class="page-inner idioms-inner">
-          <div class="page-header">
-            <div class="page-title" data-i18n="idioms.pageTitle">💬 Ідіоми</div>
-            <button
-              class="page-close-btn"
-              id="idioms-close"
-              title="Закрити"
-              data-i18n-title="common.close"
-            >
-              ✕
-            </button>
-          </div>
+          <div id="idioms-page-header-mount"></div>
           <div id="idioms-page-mount"></div>
         </div>
       </div>
@@ -1339,17 +1045,7 @@
       <!-- ══ LANGUAGE HISTORY PAGE ══ -->
       <div id="lang-history-overlay" class="page-overlay">
         <div class="page-inner">
-          <div class="page-header">
-            <div class="page-title">📜 <span data-i18n="nav.langHistory">Історія мови</span></div>
-            <button
-              class="page-close-btn"
-              id="lang-history-close"
-              title="Закрити"
-              data-i18n-title="common.close"
-            >
-              ✕
-            </button>
-          </div>
+          <div id="lang-history-page-header-mount"></div>
           <div id="lang-history-content"></div>
         </div>
       </div>
@@ -1357,17 +1053,7 @@
       <!-- ══ TRANSLATE PAGE ══ -->
       <div id="translate-overlay" class="page-overlay">
         <div class="page-inner">
-          <div class="page-header">
-            <div class="page-title">🌐 <span data-i18n="nav.translate">Переклад</span></div>
-            <button
-              class="page-close-btn"
-              id="translate-close"
-              title="Закрити"
-              data-i18n-title="common.close"
-            >
-              ✕
-            </button>
-          </div>
+          <div id="translate-page-header-mount"></div>
           <div id="translate-content"></div>
         </div>
       </div>
@@ -1375,17 +1061,7 @@
       <!-- ══ AI TUTOR PAGE ══ -->
       <div id="ai-tutor-overlay" class="page-overlay">
         <div class="page-inner">
-          <div class="page-header">
-            <div class="page-title">🤖 <span data-i18n="nav.aiTutor">ШІ-репетитор</span></div>
-            <button
-              class="page-close-btn"
-              id="ai-tutor-close"
-              title="Закрити"
-              data-i18n-title="common.close"
-            >
-              ✕
-            </button>
-          </div>
+          <div id="ai-tutor-page-header-mount"></div>
           <div id="ai-tutor-content"></div>
         </div>
       </div>
@@ -1393,19 +1069,7 @@
       <!-- ══ VOICE ROLEPLAY PAGE ══ -->
       <div id="voice-roleplay-overlay" class="page-overlay">
         <div class="page-inner">
-          <div class="page-header">
-            <div class="page-title">
-              🎤 <span data-i18n="nav.voiceRoleplay">Голосовий ролеплей</span>
-            </div>
-            <button
-              class="page-close-btn"
-              id="voice-roleplay-close"
-              title="Закрити"
-              data-i18n-title="common.close"
-            >
-              ✕
-            </button>
-          </div>
+          <div id="voice-roleplay-page-header-mount"></div>
           <div id="voice-roleplay-content"></div>
         </div>
       </div>
@@ -1413,17 +1077,7 @@
       <!-- ══ YOUTUBE PLAYER PAGE ══ -->
       <div id="youtube-player-overlay" class="page-overlay">
         <div class="page-inner" style="max-width: 720px">
-          <div class="page-header">
-            <div class="page-title">📺 <span data-i18n="nav.ytPlayer">YouTube</span></div>
-            <button
-              class="page-close-btn"
-              id="youtube-player-close"
-              title="Закрити"
-              data-i18n-title="common.close"
-            >
-              ✕
-            </button>
-          </div>
+          <div id="youtube-player-page-header-mount"></div>
           <div id="youtube-player-content"></div>
         </div>
       </div>
@@ -1431,17 +1085,7 @@
       <!-- ══ VIDEO PLAYER PAGE ══ -->
       <div id="video-player-overlay" class="page-overlay">
         <div class="page-inner" style="max-width: 1100px">
-          <div class="page-header">
-            <div class="page-title">🎬 <span data-i18n="nav.videoPlayer">Відео</span></div>
-            <button
-              class="page-close-btn"
-              id="video-player-close"
-              title="Закрити"
-              data-i18n-title="common.close"
-            >
-              ✕
-            </button>
-          </div>
+          <div id="video-player-page-header-mount"></div>
           <div id="video-player-content"></div>
         </div>
       </div>
@@ -2040,119 +1684,8 @@
         </div>
       </div>
 
-      <!-- ══ PAIRS MODAL ══ -->
-      <div
-        id="pairs-overlay"
-        style="
-          display: none;
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.55);
-          z-index: 9100;
-          align-items: center;
-          justify-content: center;
-          padding: 16px 12px;
-        "
-      >
-        <div class="pairs-panel">
-          <div
-            style="
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              margin-bottom: 6px;
-            "
-          >
-            <div>
-              <div
-                style="font-size: 1.05rem; font-weight: 700; color: var(--text)"
-                data-i18n="pairs.title"
-              >
-                🔗 Знайди пару
-              </div>
-              <div
-                id="pairs-best-label"
-                style="font-size: 0.72rem; color: var(--text3); margin-top: 2px"
-              ></div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px">
-              <div
-                id="pairs-timer"
-                style="
-                  font-size: 1.5rem;
-                  font-weight: 700;
-                  color: var(--accent);
-                  min-width: 56px;
-                  text-align: right;
-                "
-              >
-                0.0с
-              </div>
-              <button
-                id="pairs-close"
-                style="
-                  background: none;
-                  border: none;
-                  font-size: 1.3rem;
-                  cursor: pointer;
-                  color: var(--text3);
-                "
-                title="Закрити"
-                data-i18n-title="common.close"
-              >
-                ✕
-              </button>
-            </div>
-          </div>
-          <div id="pairs-board" style="margin-bottom: 14px"></div>
-          <div id="pairs-final" style="display: none; text-align: center; padding: 8px 0">
-            <div style="font-size: 2.5rem; margin-bottom: 8px" id="pf-emoji">⏱</div>
-            <div
-              style="font-size: 1.4rem; font-weight: 700; color: var(--text); margin-bottom: 4px"
-              id="pf-time"
-            ></div>
-            <div
-              style="font-size: 0.88rem; color: var(--text2); margin-bottom: 18px"
-              id="pf-best"
-            ></div>
-            <div style="display: flex; gap: 10px; justify-content: center">
-              <button
-                id="pairs-again"
-                style="
-                  font-family: 'DM Sans', sans-serif;
-                  font-size: 0.88rem;
-                  font-weight: 600;
-                  padding: 10px 22px;
-                  border-radius: 10px;
-                  border: 1.5px solid var(--accent);
-                  background: none;
-                  color: var(--accent);
-                  cursor: pointer;
-                "
-                data-i18n="pairs.again"
-              >
-                🔄 Знову
-              </button>
-              <button
-                id="pairs-exit"
-                style="
-                  font-family: 'DM Sans', sans-serif;
-                  font-size: 0.88rem;
-                  padding: 10px 22px;
-                  border-radius: 10px;
-                  border: 1.5px solid var(--border);
-                  background: none;
-                  color: var(--text2);
-                  cursor: pointer;
-                "
-                data-i18n="common.close"
-              >
-                Закрити
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- ══ PAIRS MODAL (React, pairs.tsx — renders its own #pairs-overlay
+           directly, see that file's Phase 2 comment) ══ -->
 
       <!-- ══ QUIZ MODAL ══ -->
       <div id="quiz-overlay">

@@ -102,8 +102,10 @@ describe('sidebar.tsx', () => {
   // longer set directly by openPage() — they're owned reactively by
   // <PageOverlayVisibility/> (see page-overlay-visibility.test.tsx's
   // dedicated "stats" describe block), which isn't mounted in this test
-  // file. Only the shared nav-state side is exercised here.
-  it('openPage("stats") activates the stats overlay and sidebar item', () => {
+  // file. Sidebar active-link highlighting is likewise owned reactively by
+  // <SidebarNav/>'s <NavLink/> now (see sidebar-nav.test.tsx) — only the
+  // shared nav-state side is exercised here.
+  it('openPage("stats") activates the stats overlay state', () => {
     const { root } = mount();
     roots.push(root);
 
@@ -112,7 +114,6 @@ describe('sidebar.tsx', () => {
     });
 
     expect(getActivePage()).toBe('stats');
-    expect(document.getElementById('sb-stats')!.classList.contains('sb-active')).toBe(true);
     expect(document.body.style.overflow).toBe('hidden');
     expect(localStorage.getItem('ew_active_page')).toBe('stats');
   });
@@ -222,23 +223,9 @@ describe('sidebar.tsx', () => {
     expect(getActivePage()).toBeNull();
   });
 
-  it('sidebar nav buttons open the corresponding page', () => {
-    const { root } = mount();
-    roots.push(root);
-    act(() => {
-      document
-        .getElementById('sb-achievements')!
-        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    });
-    expect(getActivePage()).toBe('ach');
-
-    act(() => {
-      document
-        .getElementById('sb-cards')!
-        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    });
-    expect(getActivePage()).toBeNull();
-  });
+  // Sidebar nav-link click wiring itself (href/onClick) moved to
+  // <SidebarNav/> — see sidebar-nav.test.tsx's "opens the corresponding
+  // page on click" coverage.
 
   it('toggles the theme pill when the theme toggle is clicked', async () => {
     const { root } = mount();
@@ -288,11 +275,12 @@ describe('sidebar.tsx', () => {
       root.unmount();
     });
 
+    const sidebar = document.getElementById('sidebar')!;
     act(() => {
       document
-        .getElementById('sb-achievements')!
+        .getElementById('hamburger')!
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect(getActivePage()).toBeNull();
+    expect(sidebar.classList.contains('open')).toBe(false);
   });
 });

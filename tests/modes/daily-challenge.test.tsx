@@ -29,28 +29,15 @@ import { getGameData, recordModeComplete } from '../../js/features/game.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
+// #dc-overlay and its children are no longer static fixture markup —
+// DailyChallenge renders them itself (full-react-migration-roadmap.md
+// Phase 2). Only the two elements it doesn't own (the trigger button,
+// elsewhere in daily-mission-card.tsx, and modes-overlay, elsewhere in
+// modes-modal.tsx) still need a fixture.
 function buildDom(): void {
   document.body.innerHTML = `
     <button id="btn-daily-challenge"></button>
     <div id="modes-overlay" class="modes-overlay open as-page"></div>
-    <div id="dc-overlay" class="page-overlay">
-      <div id="dc-title"></div>
-      <div id="dc-timer"></div>
-      <button id="dc-close"></button>
-      <div class="dc-pbar-wrap"><div id="dc-pbar"></div></div>
-      <div class="dc-word-area">
-        <div id="dc-word"></div>
-        <div id="dc-ipa"></div>
-        <div id="dc-result"></div>
-      </div>
-      <div id="dc-options"></div>
-      <div id="dc-final" style="display:none">
-        <div id="dc-final-emoji"></div>
-        <div id="dc-final-title"></div>
-        <div id="dc-final-xp"></div>
-        <div id="dc-final-cooldown"></div>
-      </div>
-    </div>
   `;
 }
 
@@ -86,8 +73,9 @@ describe('daily-challenge.tsx (DailyChallenge)', () => {
     localStorage.clear();
   });
 
-  it('renders no visible output itself (all DOM wiring is imperative)', () => {
-    expect(container.innerHTML).toBe('');
+  it('renders its own #dc-overlay markup (imperative wiring still targets those same ids)', () => {
+    expect(container.querySelector('#dc-overlay')).not.toBeNull();
+    expect(document.getElementById('dc-overlay')).toBe(container.querySelector('#dc-overlay'));
   });
 
   // Regression: opening used to also set modes-overlay's style.display =

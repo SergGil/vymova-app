@@ -79,6 +79,13 @@ vi.mock('../../js/core/confetti.tsx', () => ({
 vi.mock('../../js/features/i18n.ts', () => ({
   t: (k: string) => k,
 }));
+// reset-confirm-dialog.tsx's real UI (open/cancel/confirm) is exercised by
+// its own test file — card-actions.ts only needs openResetConfirm(cb) to
+// eventually invoke cb(), so the mock invokes it immediately, letting these
+// tests exercise runReset()'s actual logic via a plain #btn-reset click.
+vi.mock('../../js/features/reset-confirm-dialog.tsx', () => ({
+  openResetConfirm: (cb: () => void) => cb(),
+}));
 
 const engineSetIdx = vi.fn((i: number) => {
   setIdxState(i);
@@ -132,10 +139,6 @@ beforeAll(async () => {
     <button id="btn-auto"></button>
     <button id="btn-shuf"></button>
     <button id="btn-reset"></button>
-    <div id="modal-overlay" style="display:none">
-      <button id="modal-cancel"></button>
-      <button id="modal-confirm"></button>
-    </div>
     <select id="sel-mode"><option value="en" selected>en</option></select>
     <select id="sel-range">
       <option value="all">all</option>
@@ -315,13 +318,17 @@ describe('btn-dontknow', () => {
   });
 });
 
-// ── modal-confirm (reset progress) ─────────────────────────────
-describe('modal-confirm (reset progress)', () => {
+// ── btn-reset (reset progress) ──────────────────────────────────
+// The confirm dialog itself (open/cancel/confirm UI) moved to
+// reset-confirm-dialog.tsx and is mocked above to confirm immediately — see
+// that file's own test for the dialog's open/cancel/confirm behavior. This
+// only exercises runReset()'s actual logic, still owned by card-actions.ts.
+describe('btn-reset (reset progress)', () => {
   it('clears known words and SRS data, both in memory and storage', () => {
     markKnown('en', 'apple');
     setSrsEntry('apple', { ef: 2.5, reps: 1, interval: 1, due: '2024-06-02' });
 
-    document.getElementById('modal-confirm')!.click();
+    document.getElementById('btn-reset')!.click();
 
     expect(getKnownSnapshot('en').size).toBe(0);
     expect(getSrsDataSnapshot()).toEqual({});
@@ -335,34 +342,11 @@ describe('modal-confirm (reset progress)', () => {
     localStorage.setItem('ew_daily', '{}');
     localStorage.setItem('ew_ach', '{}');
 
-    document.getElementById('modal-confirm')!.click();
+    document.getElementById('btn-reset')!.click();
 
     expect(localStorage.getItem('ew_game')).toBeNull();
     expect(localStorage.getItem('ew_daily')).toBeNull();
     expect(localStorage.getItem('ew_ach')).toBeNull();
-  });
-
-  it('hides the reset confirmation modal afterwards', () => {
-    const overlay = document.getElementById('modal-overlay')!;
-    overlay.style.display = 'flex';
-
-    document.getElementById('modal-confirm')!.click();
-
-    expect(overlay.style.display).toBe('none');
-  });
-});
-
-// ── modal-cancel ────────────────────────────────────────────────
-describe('modal-cancel', () => {
-  it('hides the reset confirmation modal without clearing progress', () => {
-    const overlay = document.getElementById('modal-overlay')!;
-    overlay.style.display = 'flex';
-    markKnown('en', 'apple');
-
-    document.getElementById('modal-cancel')!.click();
-
-    expect(overlay.style.display).toBe('none');
-    expect(getKnownSnapshot('en').has('apple')).toBe(true);
   });
 });
 
