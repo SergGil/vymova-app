@@ -1,6 +1,7 @@
 // Vymova — js/features/progress-io.tsx
 // Export / import progress + modal event listeners
-import { useEffect, type ReactElement } from 'react';
+import { useRef, useState, type ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 import { _lzSave, _lzLoad, saveKnown, saveKnownLang } from '../core/storage.ts';
 import { updateSrsUI } from '../core/srs.ts';
 import { getSrsDataSnapshot, loadSrsData } from '../../src/srs-store.ts';
@@ -166,138 +167,201 @@ function importProgress(code: string): boolean {
   }
 }
 
-export function ProgressIO(): ReactElement | null {
-  useEffect(() => {
-    const btnExport = document.getElementById('btn-export');
-    const onExportClick = function () {
-      closeStats();
-      const code = exportProgress();
-      const ta = document.getElementById('export-textarea') as HTMLTextAreaElement;
-      ta.value = code;
-      document.getElementById('export-modal')!.style.display = 'flex';
-      setTimeout(function () {
-        ta.focus();
-        ta.select();
-        try {
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard
-              .writeText(code)
-              .then(function () {
-                document.getElementById('export-select-all')!.textContent = t('modal.copiedExcl');
-              })
-              .catch(function () {
-                /* user copies manually */
-              });
-          } else {
-            document.execCommand('copy');
-            document.getElementById('export-select-all')!.textContent = t('modal.copiedExcl');
-          }
-        } catch (e) {}
-      }, 100);
-    };
-    btnExport?.addEventListener('click', onExportClick);
+const _backdropStyle = {
+  position: 'fixed',
+  inset: 0,
+  background: 'rgba(0, 0, 0, 0.55)',
+  zIndex: 99999,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: 20,
+} as const;
 
-    const exportSelectAll = document.getElementById('export-select-all');
-    const onExportSelectAll = function () {
-      const ta = document.getElementById('export-textarea') as HTMLTextAreaElement;
-      ta.focus();
-      ta.select();
+export function ProgressIO(): ReactElement {
+  const [exportOpen, setExportOpen] = useState(false);
+  const [exportCode, setExportCode] = useState('');
+  // 'idle' = "Виділити все", 'copied-no-revert' = the auto-copy-on-open
+  // label (original never scheduled a revert for this one — only the
+  // manual select-all click does), 'copied' = manual click, reverts after
+  // 2s.
+  const [selectAllLabel, setSelectAllLabel] = useState<'idle' | 'copied-no-revert' | 'copied'>(
+    'idle',
+  );
+  const exportTaRef = useRef<HTMLTextAreaElement>(null);
+  const selectAllRevertRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const [importOpen, setImportOpen] = useState(false);
+  const [importText, setImportText] = useState('');
+  const [importError, setImportError] = useState('');
+  const [importedLabel, setImportedLabel] = useState(false);
+  const importedRevertRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function copyToClipboard(text: string): Promise<void> {
+    if (navigator.clipboard?.writeText) return navigator.clipboard.writeText(text);
+    try {
+      document.execCommand('copy');
+    } catch (e) {}
+    return Promise.resolve();
+  }
+
+  function onExportClick(): void {
+    closeStats();
+    const code = exportProgress();
+    setExportCode(code);
+    setSelectAllLabel('idle');
+    setExportOpen(true);
+    setTimeout(() => {
+      const ta = exportTaRef.current;
+      ta?.focus();
+      ta?.select();
       try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(ta.value).then(function () {
-            document.getElementById('export-select-all')!.textContent = t('modal.copiedExcl');
-            setTimeout(function () {
-              document.getElementById('export-select-all')!.textContent = t('modal.selectAll');
-            }, 2000);
+        copyToClipboard(code)
+          .then(() => setSelectAllLabel('copied-no-revert'))
+          .catch(() => {
+            /* user copies manually */
           });
-        } else {
-          document.execCommand('copy');
-          document.getElementById('export-select-all')!.textContent = t('modal.copiedExcl');
-          setTimeout(function () {
-            document.getElementById('export-select-all')!.textContent = t('modal.selectAll');
-          }, 2000);
-        }
       } catch (e) {}
-    };
-    exportSelectAll?.addEventListener('click', onExportSelectAll);
+    }, 100);
+  }
 
-    const exportModalClose = document.getElementById('export-modal-close');
-    const onExportModalClose = function () {
-      document.getElementById('export-modal')!.style.display = 'none';
-      document.getElementById('export-select-all')!.textContent = t('modal.selectAll');
-    };
-    exportModalClose?.addEventListener('click', onExportModalClose);
+  function onExportSelectAll(): void {
+    const ta = exportTaRef.current;
+    ta?.focus();
+    ta?.select();
+    try {
+      copyToClipboard(exportCode).then(() => {
+        setSelectAllLabel('copied');
+        if (selectAllRevertRef.current) clearTimeout(selectAllRevertRef.current);
+        selectAllRevertRef.current = setTimeout(() => setSelectAllLabel('idle'), 2000);
+      });
+    } catch (e) {}
+  }
 
-    const exportModal = document.getElementById('export-modal');
-    const onExportModalClick = function (e: MouseEvent) {
-      if (e.target === exportModal) exportModal!.style.display = 'none';
-    };
-    exportModal?.addEventListener('click', onExportModalClick);
+  function closeExportModal(): void {
+    setExportOpen(false);
+    setSelectAllLabel('idle');
+  }
 
-    // ── Import modal ─────────────────────────────────────────────
-    const btnImportOpen = document.getElementById('btn-import-open');
-    const onImportOpenClick = function () {
-      (document.getElementById('import-textarea') as HTMLTextAreaElement).value = '';
-      document.getElementById('import-error')!.textContent = '';
-      closeStats();
-      document.getElementById('import-modal')!.className = 'open';
-    };
-    btnImportOpen?.addEventListener('click', onImportOpenClick);
+  function onImportOpenClick(): void {
+    setImportText('');
+    setImportError('');
+    closeStats();
+    setImportOpen(true);
+  }
 
-    const importCancel = document.getElementById('import-cancel');
-    const onImportCancel = function () {
-      document.getElementById('import-modal')!.className = '';
-    };
-    importCancel?.addEventListener('click', onImportCancel);
+  function onImportConfirm(): void {
+    const code = importText.trim();
+    if (!code) {
+      setImportError(t('modal.importEmpty'));
+      return;
+    }
+    // Unlike cloud-sync.tsx's restore (which merges known-words/SRS/
+    // achievements and already gates on this same confirm pattern),
+    // importProgress() below fully overwrites every language's known
+    // words, SRS state, and game/daily/achievement data in one shot with
+    // no merge and no undo — a stale/wrong code pasted here silently
+    // wipes all current progress.
+    if (!confirm(t('modal.importConfirm'))) return;
+    if (importProgress(code)) {
+      setImportOpen(false);
+      _safe(() => renderGameBar());
+      _safe(() => refreshGameBarLevel());
+      _safe(() => openStats());
+      _safe(() => render());
+      setImportedLabel(true);
+      if (importedRevertRef.current) clearTimeout(importedRevertRef.current);
+      importedRevertRef.current = setTimeout(() => setImportedLabel(false), 3000);
+    } else {
+      setImportError(t('modal.importInvalid'));
+    }
+  }
 
-    const importConfirm = document.getElementById('import-confirm');
-    const onImportConfirm = function () {
-      const code = (document.getElementById('import-textarea') as HTMLTextAreaElement).value.trim();
-      if (!code) {
-        document.getElementById('import-error')!.textContent = t('modal.importEmpty');
-        return;
-      }
-      // Unlike cloud-sync.tsx's restore (which merges known-words/SRS/
-      // achievements and already gates on this same confirm pattern),
-      // importProgress() below fully overwrites every language's known
-      // words, SRS state, and game/daily/achievement data in one shot with
-      // no merge and no undo — a stale/wrong code pasted here silently
-      // wipes all current progress.
-      if (!confirm(t('modal.importConfirm'))) return;
-      if (importProgress(code)) {
-        document.getElementById('import-modal')!.className = '';
-        _safe(() => renderGameBar());
-        _safe(() => refreshGameBarLevel());
-        _safe(() => openStats());
-        _safe(() => render());
-        const btn = document.getElementById('btn-import-open')!;
-        btn.textContent = t('modal.importedExcl');
-        setTimeout(function () {
-          btn.textContent = t('settings.import');
-        }, 3000);
-      } else {
-        document.getElementById('import-error')!.textContent = t('modal.importInvalid');
-      }
-    };
-    importConfirm?.addEventListener('click', onImportConfirm);
+  return (
+    <>
+      <button className="backup-btn primary" id="btn-export" onClick={onExportClick}>
+        {t('settings.export')}
+      </button>
+      <button className="backup-btn" id="btn-import-open" onClick={onImportOpenClick}>
+        {importedLabel ? t('modal.importedExcl') : t('settings.import')}
+      </button>
 
-    const importModal = document.getElementById('import-modal');
-    const onImportModalClick = function (e: MouseEvent) {
-      if (e.target === importModal) importModal!.className = '';
-    };
-    importModal?.addEventListener('click', onImportModalClick);
+      {exportOpen &&
+        createPortal(
+          <div
+            style={_backdropStyle}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) closeExportModal();
+            }}
+          >
+            <div className="import-panel">
+              <div className="import-title">{t('modal.exportTitle')}</div>
+              <div className="import-sub">{t('modal.exportSub')}</div>
+              <textarea
+                id="export-textarea"
+                ref={exportTaRef}
+                readOnly
+                value={exportCode}
+                style={{
+                  width: '100%',
+                  height: 120,
+                  border: '1.5px solid var(--border)',
+                  borderRadius: 10,
+                  padding: 10,
+                  fontSize: '0.7rem',
+                  fontFamily: 'monospace',
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                  resize: 'none',
+                  boxSizing: 'border-box',
+                  marginBottom: 10,
+                }}
+              />
+              <div className="backup-row">
+                <button className="backup-btn" onClick={onExportSelectAll}>
+                  {selectAllLabel === 'idle' ? t('modal.selectAll') : t('modal.copiedExcl')}
+                </button>
+                <button className="backup-btn primary" onClick={closeExportModal}>
+                  {t('modal.done')}
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )}
 
-    return () => {
-      btnExport?.removeEventListener('click', onExportClick);
-      exportSelectAll?.removeEventListener('click', onExportSelectAll);
-      exportModalClose?.removeEventListener('click', onExportModalClose);
-      exportModal?.removeEventListener('click', onExportModalClick);
-      btnImportOpen?.removeEventListener('click', onImportOpenClick);
-      importCancel?.removeEventListener('click', onImportCancel);
-      importConfirm?.removeEventListener('click', onImportConfirm);
-      importModal?.removeEventListener('click', onImportModalClick);
-    };
-  }, []);
-
-  return null;
+      {importOpen &&
+        createPortal(
+          <div
+            style={_backdropStyle}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setImportOpen(false);
+            }}
+          >
+            <div className="import-panel">
+              <div className="import-title">{t('modal.importTitle')}</div>
+              <div className="import-sub">{t('modal.importSub')}</div>
+              <textarea
+                id="import-textarea"
+                placeholder={t('modal.importPlaceholder')}
+                value={importText}
+                onChange={(e) => setImportText(e.target.value)}
+              />
+              <div className="import-error" id="import-error">
+                {importError}
+              </div>
+              <div className="backup-row">
+                <button className="backup-btn" onClick={() => setImportOpen(false)}>
+                  {t('modal.cancel')}
+                </button>
+                <button className="backup-btn primary" onClick={onImportConfirm}>
+                  {t('modal.import')}
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )}
+    </>
+  );
 }

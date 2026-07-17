@@ -118,6 +118,37 @@ describe('export.tsx ExportInit', () => {
     vi.unstubAllGlobals();
   });
 
+  it('picks up a filter change made after mount (via the change event, not a stale read)', () => {
+    setKnownWords('en', new Set());
+    const { root } = mount();
+    roots.push(root);
+    const sel = document.getElementById('export-filter') as HTMLSelectElement;
+    act(() => {
+      sel.value = 'all';
+      sel.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    const alertSpy = vi.fn();
+    vi.stubGlobal('alert', alertSpy);
+    const openSpy = vi.fn().mockReturnValue({ document: { write: vi.fn(), close: vi.fn() } });
+    window.open = openSpy as unknown as typeof window.open;
+
+    act(() => {
+      document
+        .getElementById('btn-pdf-export')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+
+    // 'all' includes every word in W regardless of known-state, so the
+    // no-words alert (which only fires for an empty export) must NOT fire —
+    // proves the click handler used the post-mount 'all' selection, not the
+    // 'known' value captured when the effect first ran.
+    expect(alertSpy).not.toHaveBeenCalled();
+    expect(openSpy).toHaveBeenCalled();
+    vi.unstubAllGlobals();
+    // @ts-expect-error restore stub
+    delete window.open;
+  });
+
   it('removes listeners on unmount', () => {
     const { root } = mount();
     act(() => {

@@ -94,7 +94,7 @@ import { DeckFilterInit } from '../js/features/deck-filter.tsx';
 import { DailyChallenge } from '../js/modes/daily-challenge.tsx';
 import { PairsMode } from '../js/modes/pairs.tsx';
 import { NotificationsInit, _updateUI as _refreshNotifUI } from '../js/features/notifications.tsx';
-import { CloudSyncInit, _refreshCloudSyncUI } from '../js/features/cloud-sync.tsx';
+import { CloudSyncSection, _refreshCloudSyncUI } from '../js/features/cloud-sync.tsx';
 import { ExportInit } from '../js/features/export.tsx';
 import { VoiceInit, _renderVoices } from '../js/features/voice/voice.tsx';
 import { SidebarInit } from '../js/features/sidebar.tsx';
@@ -324,6 +324,9 @@ function AppRoot(): ReactElement {
       <Portal id="pwa-install-mount">
         <PwaInstallSection />
       </Portal>
+      <Portal id="cloud-sync-mount">
+        <CloudSyncSection />
+      </Portal>
       <Portal id="img-clear-mount">
         <ImgClearConfirmDialog />
       </Portal>
@@ -437,13 +440,14 @@ function AppRoot(): ReactElement {
       <FrontSpeakBtnsToggle />
       <SettingsInit />
       <ModesModalController />
-      <ProgressIO />
+      <Portal id="progress-io-buttons-mount">
+        <ProgressIO />
+      </Portal>
       <DeckModeInit />
       <DeckFilterInit />
       <DailyChallenge />
       <PairsMode />
       <NotificationsInit />
-      <CloudSyncInit />
       <ExportInit />
       <VoiceInit />
       <SidebarInit />

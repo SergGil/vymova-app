@@ -1,6 +1,6 @@
 // Vymova — js/features/export.tsx
 // 🃏 ANKI/PDF EXPORT + SHARE
-import { useEffect, type ReactElement } from 'react';
+import { useEffect, useRef, type ReactElement } from 'react';
 import { getWordIndex } from '../core/word-index.ts';
 import { W } from '../../data/words.js';
 import { t } from './i18n.ts';
@@ -13,11 +13,22 @@ function _wi(): WordIdx | undefined {
 }
 
 export function ExportInit(): ReactElement | null {
+  // The static #export-filter <select> is the sole owner of "which filter is
+  // selected" (nothing else reads or renders it) — tracked via a ref updated
+  // on 'change' instead of re-querying the DOM at each export-button click.
+  const filterRef = useRef('known');
+
   useEffect(() => {
+    const filterSel = document.getElementById('export-filter') as HTMLSelectElement | null;
+    if (filterSel) filterRef.current = filterSel.value || 'known';
+    const onFilterChange = () => {
+      filterRef.current = filterSel!.value || 'known';
+    };
+    filterSel?.addEventListener('change', onFilterChange);
+
     // ── Export helpers ─────────────────────────────────────────────
     function _exportSrc(): (typeof W)[number][] {
-      const filter =
-        (document.getElementById('export-filter') as HTMLSelectElement)?.value ?? 'known';
+      const filter = filterRef.current;
       const wi = _wi();
       if (filter === 'known')
         return [...getKnownSnapshot('en')]
@@ -84,8 +95,7 @@ export function ExportInit(): ReactElement | null {
         </tr>`;
         })
         .join('');
-      const filter =
-        (document.getElementById('export-filter') as HTMLSelectElement)?.value ?? 'known';
+      const filter = filterRef.current;
       const filterLabel: Record<string, string> = {
         known: t('export.filter.known'),
         unknown: t('export.filter.unknown'),
@@ -130,6 +140,7 @@ export function ExportInit(): ReactElement | null {
     btnShare?.addEventListener('click', onShare);
 
     return () => {
+      filterSel?.removeEventListener('change', onFilterChange);
       btnAnkiExport?.removeEventListener('click', onAnkiExport);
       btnPdfExport?.removeEventListener('click', onPdfExport);
       btnShare?.removeEventListener('click', onShare);

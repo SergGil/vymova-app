@@ -902,14 +902,7 @@
             <div class="settings-desc" data-i18n="settings.backupDesc">
               Експортуй прогрес перед оновленням файлу — щоб не втратити вивчені слова.
             </div>
-            <div class="backup-row" style="margin-top: 10px">
-              <button class="backup-btn primary" id="btn-export" data-i18n="settings.export">
-                📤 Експорт
-              </button>
-              <button class="backup-btn" id="btn-import-open" data-i18n="settings.import">
-                📥 Імпорт
-              </button>
-            </div>
+            <div class="backup-row" style="margin-top: 10px" id="progress-io-buttons-mount"></div>
             <div class="backup-row" style="margin-top: 6px">
               <button class="backup-btn" id="btn-anki-export" data-i18n="settings.ankiCsv">
                 🃏 Anki CSV
@@ -1059,167 +1052,12 @@
           </div>
 
           <!-- Скидання прогресу -->
-          <!-- ── Cloud Sync ── -->
+          <!-- ── Cloud Sync (React, cloud-sync.tsx CloudSyncSection) ── -->
           <div class="settings-section">
             <div class="settings-section-title" data-i18n="settings.cloudTitle">
               ☁️ Хмарний бекап
             </div>
-
-            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 10px">
-              <div
-                id="cs-code"
-                style="
-                  flex: 1;
-                  font-family: monospace;
-                  font-size: 0.95rem;
-                  font-weight: 700;
-                  color: var(--accent);
-                  background: rgba(255, 255, 255, 0.04);
-                  border: 1.5px solid var(--border);
-                  border-radius: 10px;
-                  padding: 8px 12px;
-                  letter-spacing: 0.1em;
-                  text-align: center;
-                "
-              >
-                ········
-              </div>
-              <button
-                id="cs-copy"
-                style="
-                  padding: 8px 12px;
-                  border-radius: 10px;
-                  border: 1.5px solid var(--border);
-                  background: none;
-                  color: var(--text2);
-                  cursor: pointer;
-                  font-size: 0.8rem;
-                  white-space: nowrap;
-                "
-                data-i18n="settings.cloudCopy"
-              >
-                📋 Копія
-              </button>
-            </div>
-
-            <button
-              id="cs-save"
-              style="
-                width: 100%;
-                padding: 10px;
-                border-radius: 12px;
-                border: none;
-                background: var(--accent);
-                color: #0a1628;
-                cursor: pointer;
-                font-family: inherit;
-                font-size: 0.88rem;
-                font-weight: 600;
-                margin-bottom: 10px;
-              "
-              data-i18n="settings.cloudSave"
-            >
-              ⬆️ Зберегти в хмару
-            </button>
-
-            <div style="border-top: 1px solid var(--border); margin: 8px 0; padding-top: 10px">
-              <div
-                style="font-size: 0.74rem; color: var(--text3); margin-bottom: 7px"
-                data-i18n="settings.cloudAutoLabel"
-              >
-                🔄 Авто-збереження:
-              </div>
-              <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 10px">
-                <select
-                  id="cs-interval"
-                  style="
-                    flex: 1;
-                    padding: 9px 10px;
-                    border-radius: 10px;
-                    border: 1.5px solid var(--border);
-                    background: var(--bg);
-                    color: var(--text);
-                    font-family: inherit;
-                    font-size: 0.85rem;
-                    cursor: pointer;
-                    outline: none;
-                  "
-                >
-                  <option value="0" data-i18n="settings.intervalOff">Вимк</option>
-                  <option value="30" data-i18n="settings.interval30">30 хв</option>
-                  <option value="60" data-i18n="settings.interval60">1 год</option>
-                  <option value="360" data-i18n="settings.interval360">6 год</option>
-                  <option value="1440" data-i18n="settings.intervalDaily">Щодня</option>
-                </select>
-                <span
-                  id="cs-last"
-                  style="font-size: 0.7rem; color: var(--text3); white-space: nowrap"
-                ></span>
-              </div>
-            </div>
-
-            <div style="border-top: 1px solid var(--border); margin: 4px 0 10px; padding-top: 10px">
-              <div
-                style="font-size: 0.74rem; color: var(--text3); margin-bottom: 7px"
-                data-i18n="settings.cloudRestoreLabel"
-              >
-                Відновити на цьому пристрої:
-              </div>
-              <div style="display: flex; gap: 8px">
-                <input
-                  id="cs-inp"
-                  placeholder="XXXX-XXXX-XXXX"
-                  maxlength="14"
-                  style="
-                    flex: 1;
-                    font-family: monospace;
-                    font-size: 0.88rem;
-                    padding: 10px 12px;
-                    border: 1.5px solid var(--border);
-                    border-radius: 10px;
-                    background: var(--bg);
-                    color: var(--text);
-                    outline: none;
-                    text-transform: uppercase;
-                  "
-                />
-                <button
-                  id="cs-restore"
-                  style="
-                    padding: 10px 14px;
-                    border-radius: 10px;
-                    border: 1.5px solid var(--border);
-                    background: none;
-                    color: var(--text);
-                    cursor: pointer;
-                    font-size: 0.85rem;
-                    font-weight: 600;
-                    white-space: nowrap;
-                  "
-                  data-i18n="settings.cloudRestore"
-                >
-                  ⬇️ Відновити
-                </button>
-              </div>
-            </div>
-
-            <div
-              id="cs-msg"
-              style="font-size: 0.75rem; min-height: 16px; text-align: center; margin-top: 4px"
-            ></div>
-            <div
-              style="
-                font-size: 0.7rem;
-                color: var(--text3);
-                margin-top: 8px;
-                text-align: center;
-                line-height: 1.5;
-              "
-            >
-              <span data-i18n="settings.cloudHintLine1"
-                >Збережи ключ — він потрібен для відновлення.</span
-              ><br /><span data-i18n="settings.cloudHintLine2">Дані доступні лише за ключем.</span>
-            </div>
+            <div id="cloud-sync-mount"></div>
           </div>
 
           <div class="settings-section">
@@ -1250,7 +1088,7 @@
           </div>
 
           <div class="settings-footer">
-            © 2026 Vymova · v1.336.1 ·
+            © 2026 Vymova · v1.337.0 ·
             <a
               href="./privacy.html"
               target="_blank"
@@ -1318,84 +1156,9 @@
         </div>
       </div>
 
-      <!-- ══ EXPORT / IMPORT MODALS (outside .app) ══ -->
-      <div
-        id="export-modal"
-        style="
-          display: none;
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.55);
-          z-index: 99999;
-          align-items: center;
-          justify-content: center;
-          padding: 20px;
-        "
-      >
-        <div class="import-panel">
-          <div class="import-title" data-i18n="modal.exportTitle">📤 Твій код прогресу</div>
-          <div class="import-sub" data-i18n="modal.exportSub">
-            Виділи весь текст і скопіюй його. Збережи в нотатках або надішли собі.
-          </div>
-          <textarea
-            id="export-textarea"
-            readonly
-            style="
-              width: 100%;
-              height: 120px;
-              border: 1.5px solid var(--border);
-              border-radius: 10px;
-              padding: 10px;
-              font-size: 0.7rem;
-              font-family: monospace;
-              background: var(--bg);
-              color: var(--text);
-              resize: none;
-              box-sizing: border-box;
-              margin-bottom: 10px;
-            "
-          ></textarea>
-          <div class="backup-row">
-            <button class="backup-btn" id="export-select-all" data-i18n="modal.selectAll">
-              Виділити все
-            </button>
-            <button class="backup-btn primary" id="export-modal-close" data-i18n="modal.done">
-              Готово
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        id="import-modal"
-        style="
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.55);
-          z-index: 99999;
-          align-items: center;
-          justify-content: center;
-          padding: 20px;
-        "
-      >
-        <div class="import-panel">
-          <div class="import-title" data-i18n="modal.importTitle">📥 Імпорт прогресу</div>
-          <div class="import-sub" data-i18n="modal.importSub">
-            Встав сюди код прогресу який ти скопіював раніше через «Експорт»
-          </div>
-          <textarea
-            id="import-textarea"
-            placeholder="Встав код тут..."
-            data-i18n-placeholder="modal.importPlaceholder"
-          ></textarea>
-          <div class="import-error" id="import-error"></div>
-          <div class="backup-row">
-            <button class="backup-btn" id="import-cancel" data-i18n="modal.cancel">Відміна</button>
-            <button class="backup-btn primary" id="import-confirm" data-i18n="modal.import">
-              Імпортувати
-            </button>
-          </div>
-        </div>
-      </div>
+      <!-- ══ EXPORT / IMPORT MODALS moved to React (progress-io.tsx's
+           ProgressIO — self-contained backdrop + portal into document.body,
+           same pattern as profile-switcher.tsx's edit/delete modals) ══ -->
 
       <!-- ══ RESET PROGRESS MODAL (outside .app) ══ -->
       <div
@@ -1682,20 +1445,6 @@
           <div id="video-player-content"></div>
         </div>
       </div>
-
-      <!-- ══ PROFILE DELETE MODAL (outside .app — top z-index) ══ -->
-      <div
-        id="prf-delete-overlay"
-        style="
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.65);
-          z-index: 99999;
-          align-items: center;
-          justify-content: center;
-          padding: 16px;
-        "
-      ></div>
 
       <!-- ══ CODE INPUT MODAL (React, duel-dialogs.tsx) ══ -->
       <div id="code-input-mount"></div>

@@ -122,6 +122,11 @@ export function render(): void {
       return;
     }
     renderCardState(cw, mode);
+    // Sole owner of #card's 'is-known' class (card-actions.ts's reset-flow
+    // clears it once, right before calling render(), rather than owning it
+    // independently — see js/core/swipe.tsx's header comment for the full
+    // picture of #card's other writers, which touch disjoint classes/style
+    // properties and don't conflict with this).
     const cardEl = $e('card');
     if (cardEl) {
       if (_activeKnown().has(cw[0])) {

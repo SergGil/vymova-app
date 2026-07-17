@@ -1898,19 +1898,6 @@ body.dark .ach-popup-hint {
 }
 
 /* Модал імпорту */
-#import-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 9500;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-#import-modal.open {
-  display: flex;
-}
 .import-panel {
   background: var(--card);
   border-radius: 16px;
@@ -6059,13 +6046,6 @@ body.hp .sb-profile-section {
 }
 
 /* ── Profile delete modal ── */
-#prf-delete-overlay {
-  display: none;
-}
-#prf-delete-overlay.open {
-  display: flex;
-}
-
 .prf-delete-panel {
   background: var(--card);
   border-radius: 20px;

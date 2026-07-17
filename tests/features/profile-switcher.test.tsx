@@ -36,7 +36,6 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
   beforeEach(() => {
     document.body.innerHTML = `
       <div id="profile-btn"></div>
-      <div id="prf-delete-overlay"></div>
     `;
     localStorage.clear();
     setupProfiles(
@@ -291,11 +290,11 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
       delBtn.click();
     });
 
-    const overlay = document.getElementById('prf-delete-overlay') as HTMLElement;
-    expect(overlay.classList.contains('open')).toBe(true);
-    expect(overlay.querySelector('#prf-delete-name')!.textContent).toContain('Bob');
+    let panel = document.querySelector('.prf-delete-panel') as HTMLElement;
+    expect(panel).not.toBeNull();
+    expect(panel.querySelector('#prf-delete-name')!.textContent).toContain('Bob');
 
-    const confirmBtn = overlay.querySelector('.prf-delete-btn-confirm') as HTMLButtonElement;
+    const confirmBtn = panel.querySelector('.prf-delete-btn-confirm') as HTMLButtonElement;
     act(() => {
       confirmBtn.click();
     });
@@ -303,7 +302,8 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     const profiles = JSON.parse(localStorage.getItem(LIST_KEY)!);
     expect(profiles).toHaveLength(1);
     expect(profiles[0].id).toBe('p1');
-    expect(overlay.classList.contains('open')).toBe(false);
+    panel = document.querySelector('.prf-delete-panel') as HTMLElement;
+    expect(panel).toBeNull();
     expect(reloadSpy).not.toHaveBeenCalled();
   });
 
@@ -318,13 +318,13 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
       delBtn.click();
     });
 
-    const overlay = document.getElementById('prf-delete-overlay') as HTMLElement;
-    const cancelBtn = overlay.querySelector('.prf-delete-btn-cancel') as HTMLButtonElement;
+    const panel = document.querySelector('.prf-delete-panel') as HTMLElement;
+    const cancelBtn = panel.querySelector('.prf-delete-btn-cancel') as HTMLButtonElement;
     act(() => {
       cancelBtn.click();
     });
 
-    expect(overlay.classList.contains('open')).toBe(false);
+    expect(document.querySelector('.prf-delete-panel')).toBeNull();
     const profiles = JSON.parse(localStorage.getItem(LIST_KEY)!);
     expect(profiles).toHaveLength(2);
   });
@@ -340,8 +340,8 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
       delBtn.click();
     });
 
-    const overlay = document.getElementById('prf-delete-overlay') as HTMLElement;
-    const confirmBtn = overlay.querySelector('.prf-delete-btn-confirm') as HTMLButtonElement;
+    const panel = document.querySelector('.prf-delete-panel') as HTMLElement;
+    const confirmBtn = panel.querySelector('.prf-delete-btn-confirm') as HTMLButtonElement;
     act(() => {
       confirmBtn.click();
     });

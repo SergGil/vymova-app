@@ -5,7 +5,7 @@
 // fandom-theme-store.ts's toggleFandomTheme() directly (no more proxying a
 // click onto a hidden settings.tsx button), and syncs each row's pill
 // 'on' class reactively off the store (no more MutationObserver).
-import { useEffect, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import {
   FANDOM_THEME_KEYS,
   toggleFandomTheme,
@@ -62,23 +62,30 @@ export function FandomThemeRowsController(): ReactElement | null {
 
   // Show-more/less — expanded state is a one-time decision at mount
   // (matching the original behavior), not kept reactively in sync
-  // afterwards.
+  // afterwards, hence the lazy useState initializer instead of an effect
+  // keyed on `active`.
+  const [expanded, setExpanded] = useState(
+    () => active !== null && EXTRA_THEME_KEYS.includes(active),
+  );
+
+  // Reflects `expanded` onto the static DOM nodes — the source of truth is
+  // the React state above, not style.display read back from the element.
   useEffect(() => {
     const extraRows = document.getElementById('theme-rows-extra');
     const toggleRowsBtn = document.getElementById('theme-rows-toggle');
-    const setExpanded = (expanded: boolean): void => {
-      if (extraRows) extraRows.style.display = expanded ? 'flex' : 'none';
-      if (toggleRowsBtn) {
-        toggleRowsBtn.textContent = t(
-          expanded ? 'settings.showLessThemes' : 'settings.showMoreThemes',
-        );
-      }
-    };
-    setExpanded(active !== null && EXTRA_THEME_KEYS.includes(active));
-    const onToggleClick = () => setExpanded(extraRows?.style.display === 'none');
+    if (extraRows) extraRows.style.display = expanded ? 'flex' : 'none';
+    if (toggleRowsBtn) {
+      toggleRowsBtn.textContent = t(
+        expanded ? 'settings.showLessThemes' : 'settings.showMoreThemes',
+      );
+    }
+  }, [expanded]);
+
+  useEffect(() => {
+    const toggleRowsBtn = document.getElementById('theme-rows-toggle');
+    const onToggleClick = () => setExpanded((e) => !e);
     toggleRowsBtn?.addEventListener('click', onToggleClick);
     return () => toggleRowsBtn?.removeEventListener('click', onToggleClick);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-time decision at mount, see comment above
   }, []);
 
   return null;

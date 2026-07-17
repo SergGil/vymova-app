@@ -1,6 +1,7 @@
 // Vymova — js/features/voice.tsx
 // Web Speech API voice picker: EN + UA
-import { useEffect, type ReactElement } from 'react';
+import { useCallback, useEffect, useState, type ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 import { synth } from '../../core/srs.ts';
 import { t, getLang } from '../i18n.ts';
 import { flagUrl } from '../../core/flags.ts';
@@ -1893,2397 +1894,2119 @@ function _sortVoices(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice[] {
   });
 }
 
-function _makeCard(
-  v: SpeechSynthesisVoice,
-  activeURI: string,
-  onSelect: (uri: string) => void,
-): HTMLButtonElement {
-  const info = _getLabel(v);
-  const btn = document.createElement('button');
-  btn.className = 'voice-card' + (v.voiceURI === activeURI ? ' voice-card-active' : '');
-  const top = document.createElement('div');
-  top.style.cssText = 'display:flex;align-items:center;gap:6px;margin-bottom:3px;';
-  (['gender', 'accent', 'label'] as const).forEach((k, i) => {
-    if (k === 'accent') {
-      const url = flagUrl(info.accent);
-      if (url) {
-        const img = document.createElement('img');
-        img.src = url;
-        img.alt = info.accent;
-        img.width = 16;
-        img.height = 16;
-        img.style.cssText =
-          'border-radius:50%;box-shadow:0 0 0 1px var(--border);vertical-align:middle;';
-        top.appendChild(img);
-      } else {
-        top.appendChild(document.createTextNode(info.accent));
-      }
-      return;
-    }
-    const s = document.createElement('span');
-    if (i === 0) {
-      s.textContent = info.gender;
-      s.style.fontSize = '1rem';
-    } else {
-      s.textContent = info.label;
-      s.style.cssText = 'font-size:.82rem;font-weight:600;color:var(--text);';
-    }
-    top.appendChild(s);
-  });
-  const sub = document.createElement('div');
-  sub.style.cssText = 'font-size:.65rem;color:var(--text3);';
-  sub.textContent =
-    v.lang + ' · ' + (v.localService ? t('settings.voiceOffline') : t('settings.voiceOnline'));
-  btn.append(top, sub);
-  btn.addEventListener('click', () => onSelect(v.voiceURI));
-  return btn;
-}
+// Which per-language <details> section is expanded is no longer tracked
+// separately (used to be _openSectionIds, needed only because the old
+// implementation did container.innerHTML = '' and rebuilt every element
+// from scratch on every _renderVoices() call, which reset native
+// <details open> state along with everything else). With real React
+// reconciliation and a stable key={section.id} per <details>, the same DOM
+// node is reused across re-renders, so leaving `open` uncontrolled lets the
+// browser own it exactly like any other native disclosure widget.
 
-// Which per-language <details> sections are expanded, keyed by a stable id
-// (not the title text, which changes once a voice is picked) — re-rendering
-// rebuilds every <details> from scratch, so without this every dropdown
-// would snap shut each time a voice card is clicked.
-const _openSectionIds = new Set<string>();
+type VoiceDefaultSelect = 'google' | 'first' | null;
 
-function _sectionFlagImg(flagCode: string): HTMLImageElement | null {
+type LangSection = {
+  id: string;
+  flagCode: string;
+  titleKey: string;
+  noTitleKey: string | null; // null only for 'eo'
+  descKey: string | null; //   — matches the original, which never had an
+  //                             addMissing() branch for it
+  voicesFn: () => SpeechSynthesisVoice[];
+  getURI: () => string;
+  setURI: (uri: string) => void;
+  storageKey: string;
+  testText: string;
+  defaultSelect: VoiceDefaultSelect;
+};
+
+const LANG_SECTIONS: LangSection[] = [
+  {
+    id: "en",
+    flagCode: "gb",
+    titleKey: "settings.enVoicesTitle",
+    noTitleKey: null,
+    descKey: null,
+    voicesFn: _enVoices,
+    getURI: () => _enURI,
+    setURI: (u: string) => { _enURI = u; },
+    storageKey: "ew_ws_voice",
+    testText: "Hello there, general Kenobi",
+    defaultSelect: 'google',
+  },
+  {
+    id: "uk",
+    flagCode: "ua",
+    titleKey: "settings.ukVoicesTitle",
+    noTitleKey: "settings.noUkVoicesTitle",
+    descKey: "settings.noUkVoicesDesc",
+    voicesFn: _ukVoices,
+    getURI: () => _ukURI,
+    setURI: (u: string) => { _ukURI = u; },
+    storageKey: "ew_ws_uk_voice",
+    testText: "Привіт, як справи",
+    defaultSelect: 'first',
+  },
+  {
+    id: "es",
+    flagCode: "es",
+    titleKey: "settings.esVoicesTitle",
+    noTitleKey: "settings.noEsVoicesTitle",
+    descKey: "settings.noEsVoicesDesc",
+    voicesFn: _esVoices,
+    getURI: () => _esURI,
+    setURI: (u: string) => { _esURI = u; },
+    storageKey: "ew_ws_es_voice",
+    testText: "Hola, ¿cómo estás?",
+    defaultSelect: 'google',
+  },
+  {
+    id: "fr",
+    flagCode: "fr",
+    titleKey: "settings.frVoicesTitle",
+    noTitleKey: "settings.noFrVoicesTitle",
+    descKey: "settings.noFrVoicesDesc",
+    voicesFn: _frVoices,
+    getURI: () => _frURI,
+    setURI: (u: string) => { _frURI = u; },
+    storageKey: "ew_ws_fr_voice",
+    testText: "Bonjour, comment ça va ?",
+    defaultSelect: 'google',
+  },
+  {
+    id: "it",
+    flagCode: "it",
+    titleKey: "settings.itVoicesTitle",
+    noTitleKey: "settings.noItVoicesTitle",
+    descKey: "settings.noItVoicesDesc",
+    voicesFn: _itVoices,
+    getURI: () => _itURI,
+    setURI: (u: string) => { _itURI = u; },
+    storageKey: "ew_ws_it_voice",
+    testText: "Ciao, come stai?",
+    defaultSelect: 'google',
+  },
+  {
+    id: "pt",
+    flagCode: "pt",
+    titleKey: "settings.ptVoicesTitle",
+    noTitleKey: "settings.noPtVoicesTitle",
+    descKey: "settings.noPtVoicesDesc",
+    voicesFn: _ptVoices,
+    getURI: () => _ptURI,
+    setURI: (u: string) => { _ptURI = u; },
+    storageKey: "ew_ws_pt_voice",
+    testText: "Olá, como você está?",
+    defaultSelect: 'google',
+  },
+  {
+    id: "de",
+    flagCode: "de",
+    titleKey: "settings.deVoicesTitle",
+    noTitleKey: "settings.noDeVoicesTitle",
+    descKey: "settings.noDeVoicesDesc",
+    voicesFn: _deVoices,
+    getURI: () => _deURI,
+    setURI: (u: string) => { _deURI = u; },
+    storageKey: "ew_ws_de_voice",
+    testText: "Hallo, wie geht es dir?",
+    defaultSelect: 'google',
+  },
+  {
+    id: "he",
+    flagCode: "il",
+    titleKey: "settings.heVoicesTitle",
+    noTitleKey: "settings.noHeVoicesTitle",
+    descKey: "settings.noHeVoicesDesc",
+    voicesFn: _heVoices,
+    getURI: () => _heURI,
+    setURI: (u: string) => { _heURI = u; },
+    storageKey: "ew_ws_he_voice",
+    testText: "שלום, מה נשמע?",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ar",
+    flagCode: "sa",
+    titleKey: "settings.arVoicesTitle",
+    noTitleKey: "settings.noArVoicesTitle",
+    descKey: "settings.noArVoicesDesc",
+    voicesFn: _arVoices,
+    getURI: () => _arURI,
+    setURI: (u: string) => { _arURI = u; },
+    storageKey: "ew_ws_ar_voice",
+    testText: "مرحبا، كيف حالك؟",
+    defaultSelect: 'google',
+  },
+  {
+    id: "pl",
+    flagCode: "pl",
+    titleKey: "settings.plVoicesTitle",
+    noTitleKey: "settings.noPlVoicesTitle",
+    descKey: "settings.noPlVoicesDesc",
+    voicesFn: _plVoices,
+    getURI: () => _plURI,
+    setURI: (u: string) => { _plURI = u; },
+    storageKey: "ew_ws_pl_voice",
+    testText: "Cześć, jak się masz?",
+    defaultSelect: 'google',
+  },
+  {
+    id: "zh",
+    flagCode: "cn",
+    titleKey: "settings.zhVoicesTitle",
+    noTitleKey: "settings.noZhVoicesTitle",
+    descKey: "settings.noZhVoicesDesc",
+    voicesFn: _zhVoices,
+    getURI: () => _zhURI,
+    setURI: (u: string) => { _zhURI = u; },
+    storageKey: "ew_ws_zh_voice",
+    testText: "你好，你怎么样？",
+    defaultSelect: 'google',
+  },
+  {
+    id: "el",
+    flagCode: "gr",
+    titleKey: "settings.elVoicesTitle",
+    noTitleKey: "settings.noElVoicesTitle",
+    descKey: "settings.noElVoicesDesc",
+    voicesFn: _elVoices,
+    getURI: () => _elURI,
+    setURI: (u: string) => { _elURI = u; },
+    storageKey: "ew_ws_el_voice",
+    testText: "Γεια σου, τι κάνεις;",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ja",
+    flagCode: "jp",
+    titleKey: "settings.jaVoicesTitle",
+    noTitleKey: "settings.noJaVoicesTitle",
+    descKey: "settings.noJaVoicesDesc",
+    voicesFn: _jaVoices,
+    getURI: () => _jaURI,
+    setURI: (u: string) => { _jaURI = u; },
+    storageKey: "ew_ws_ja_voice",
+    testText: "こんにちは、お元気ですか？",
+    defaultSelect: 'google',
+  },
+  {
+    id: "tr",
+    flagCode: "tr",
+    titleKey: "settings.trVoicesTitle",
+    noTitleKey: "settings.noTrVoicesTitle",
+    descKey: "settings.noTrVoicesDesc",
+    voicesFn: _trVoices,
+    getURI: () => _trURI,
+    setURI: (u: string) => { _trURI = u; },
+    storageKey: "ew_ws_tr_voice",
+    testText: "Merhaba, nasılsın?",
+    defaultSelect: 'google',
+  },
+  {
+    id: "nl",
+    flagCode: "nl",
+    titleKey: "settings.nlVoicesTitle",
+    noTitleKey: "settings.noNlVoicesTitle",
+    descKey: "settings.noNlVoicesDesc",
+    voicesFn: _nlVoices,
+    getURI: () => _nlURI,
+    setURI: (u: string) => { _nlURI = u; },
+    storageKey: "ew_ws_nl_voice",
+    testText: "Hallo, hoe gaat het?",
+    defaultSelect: 'google',
+  },
+  {
+    id: "vi",
+    flagCode: "vn",
+    titleKey: "settings.viVoicesTitle",
+    noTitleKey: "settings.noViVoicesTitle",
+    descKey: "settings.noViVoicesDesc",
+    voicesFn: _viVoices,
+    getURI: () => _viURI,
+    setURI: (u: string) => { _viURI = u; },
+    storageKey: "ew_ws_vi_voice",
+    testText: "Xin chào, bạn khỏe không?",
+    defaultSelect: 'google',
+  },
+  {
+    id: "hi",
+    flagCode: "in",
+    titleKey: "settings.hiVoicesTitle",
+    noTitleKey: "settings.noHiVoicesTitle",
+    descKey: "settings.noHiVoicesDesc",
+    voicesFn: _hiVoices,
+    getURI: () => _hiURI,
+    setURI: (u: string) => { _hiURI = u; },
+    storageKey: "ew_ws_hi_voice",
+    testText: "नमस्ते! आपसे मिलकर खुशी हुई।",
+    defaultSelect: 'google',
+  },
+  {
+    id: "bn",
+    flagCode: "bd",
+    titleKey: "settings.bnVoicesTitle",
+    noTitleKey: "settings.noBnVoicesTitle",
+    descKey: "settings.noBnVoicesDesc",
+    voicesFn: _bnVoices,
+    getURI: () => _bnURI,
+    setURI: (u: string) => { _bnURI = u; },
+    storageKey: "ew_ws_bn_voice",
+    testText: "হ্যালো! আপনার সাথে দেখা করে ভালো লাগলো।",
+    defaultSelect: 'google',
+  },
+  {
+    id: "id",
+    flagCode: "id",
+    titleKey: "settings.idVoicesTitle",
+    noTitleKey: "settings.noIdVoicesTitle",
+    descKey: "settings.noIdVoicesDesc",
+    voicesFn: _idVoices,
+    getURI: () => _idURI,
+    setURI: (u: string) => { _idURI = u; },
+    storageKey: "ew_ws_id_voice",
+    testText: "Halo! Senang bertemu denganmu.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "pcm",
+    flagCode: "ng",
+    titleKey: "settings.pcmVoicesTitle",
+    noTitleKey: "settings.noPcmVoicesTitle",
+    descKey: "settings.noPcmVoicesDesc",
+    voicesFn: _pcmVoices,
+    getURI: () => _pcmURI,
+    setURI: (u: string) => { _pcmURI = u; },
+    storageKey: "ew_ws_pcm_voice",
+    testText: "Hello! E good to meet you.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ko",
+    flagCode: "kr",
+    titleKey: "settings.koVoicesTitle",
+    noTitleKey: "settings.noKoVoicesTitle",
+    descKey: "settings.noKoVoicesDesc",
+    voicesFn: _koVoices,
+    getURI: () => _koURI,
+    setURI: (u: string) => { _koURI = u; },
+    storageKey: "ew_ws_ko_voice",
+    testText: "안녕하세요! 만나서 반갑습니다.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "fa",
+    flagCode: "ir",
+    titleKey: "settings.faVoicesTitle",
+    noTitleKey: "settings.noFaVoicesTitle",
+    descKey: "settings.noFaVoicesDesc",
+    voicesFn: _faVoices,
+    getURI: () => _faURI,
+    setURI: (u: string) => { _faURI = u; },
+    storageKey: "ew_ws_fa_voice",
+    testText: "سلام! از آشنایی با شما خوشحالم.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "sw",
+    flagCode: "tz",
+    titleKey: "settings.swVoicesTitle",
+    noTitleKey: "settings.noSwVoicesTitle",
+    descKey: "settings.noSwVoicesDesc",
+    voicesFn: _swVoices,
+    getURI: () => _swURI,
+    setURI: (u: string) => { _swURI = u; },
+    storageKey: "ew_ws_sw_voice",
+    testText: "Habari! Nafurahi kukutana nawe.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ms",
+    flagCode: "my",
+    titleKey: "settings.msVoicesTitle",
+    noTitleKey: "settings.noMsVoicesTitle",
+    descKey: "settings.noMsVoicesDesc",
+    voicesFn: _msVoices,
+    getURI: () => _msURI,
+    setURI: (u: string) => { _msURI = u; },
+    storageKey: "ew_ws_ms_voice",
+    testText: "Helo! Gembira bertemu dengan awak.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "th",
+    flagCode: "th",
+    titleKey: "settings.thVoicesTitle",
+    noTitleKey: "settings.noThVoicesTitle",
+    descKey: "settings.noThVoicesDesc",
+    voicesFn: _thVoices,
+    getURI: () => _thURI,
+    setURI: (u: string) => { _thURI = u; },
+    storageKey: "ew_ws_th_voice",
+    testText: "สวัสดี! ยินดีที่ได้พบคุณ",
+    defaultSelect: 'google',
+  },
+  {
+    id: "az",
+    flagCode: "az",
+    titleKey: "settings.azVoicesTitle",
+    noTitleKey: "settings.noAzVoicesTitle",
+    descKey: "settings.noAzVoicesDesc",
+    voicesFn: _azVoices,
+    getURI: () => _azURI,
+    setURI: (u: string) => { _azURI = u; },
+    storageKey: "ew_ws_az_voice",
+    testText: "Salam! Sizinlə tanış olmağıma şadam.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ro",
+    flagCode: "ro",
+    titleKey: "settings.roVoicesTitle",
+    noTitleKey: "settings.noRoVoicesTitle",
+    descKey: "settings.noRoVoicesDesc",
+    voicesFn: _roVoices,
+    getURI: () => _roURI,
+    setURI: (u: string) => { _roURI = u; },
+    storageKey: "ew_ws_ro_voice",
+    testText: "Salut! Mă bucur să te cunosc.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "hu",
+    flagCode: "hu",
+    titleKey: "settings.huVoicesTitle",
+    noTitleKey: "settings.noHuVoicesTitle",
+    descKey: "settings.noHuVoicesDesc",
+    voicesFn: _huVoices,
+    getURI: () => _huURI,
+    setURI: (u: string) => { _huURI = u; },
+    storageKey: "ew_ws_hu_voice",
+    testText: "Szia! Örülök, hogy megismertelek.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "cs",
+    flagCode: "cz",
+    titleKey: "settings.csVoicesTitle",
+    noTitleKey: "settings.noCsVoicesTitle",
+    descKey: "settings.noCsVoicesDesc",
+    voicesFn: _csVoices,
+    getURI: () => _csURI,
+    setURI: (u: string) => { _csURI = u; },
+    storageKey: "ew_ws_cs_voice",
+    testText: "Ahoj! Těší mě, že tě poznávám.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "kk",
+    flagCode: "kz",
+    titleKey: "settings.kkVoicesTitle",
+    noTitleKey: "settings.noKkVoicesTitle",
+    descKey: "settings.noKkVoicesDesc",
+    voicesFn: _kkVoices,
+    getURI: () => _kkURI,
+    setURI: (u: string) => { _kkURI = u; },
+    storageKey: "ew_ws_kk_voice",
+    testText: "Сәлем! Танысқаныма қуаныштымын.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "sv",
+    flagCode: "se",
+    titleKey: "settings.svVoicesTitle",
+    noTitleKey: "settings.noSvVoicesTitle",
+    descKey: "settings.noSvVoicesDesc",
+    voicesFn: _svVoices,
+    getURI: () => _svURI,
+    setURI: (u: string) => { _svURI = u; },
+    storageKey: "ew_ws_sv_voice",
+    testText: "Hej! Trevligt att träffa dig.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ka",
+    flagCode: "ge",
+    titleKey: "settings.kaVoicesTitle",
+    noTitleKey: "settings.noKaVoicesTitle",
+    descKey: "settings.noKaVoicesDesc",
+    voicesFn: _kaVoices,
+    getURI: () => _kaURI,
+    setURI: (u: string) => { _kaURI = u; },
+    storageKey: "ew_ws_ka_voice",
+    testText: "გამარჯობა! სასიხარულოა შენი გაცნობა.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "hr",
+    flagCode: "hr",
+    titleKey: "settings.hrVoicesTitle",
+    noTitleKey: "settings.noHrVoicesTitle",
+    descKey: "settings.noHrVoicesDesc",
+    voicesFn: _hrVoices,
+    getURI: () => _hrURI,
+    setURI: (u: string) => { _hrURI = u; },
+    storageKey: "ew_ws_hr_voice",
+    testText: "Bok! Drago mi je upoznati te.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "sr",
+    flagCode: "rs",
+    titleKey: "settings.srVoicesTitle",
+    noTitleKey: "settings.noSrVoicesTitle",
+    descKey: "settings.noSrVoicesDesc",
+    voicesFn: _srVoices,
+    getURI: () => _srURI,
+    setURI: (u: string) => { _srURI = u; },
+    storageKey: "ew_ws_sr_voice",
+    testText: "Здраво! Драго ми је што сам те упознао.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "bs",
+    flagCode: "ba",
+    titleKey: "settings.bsVoicesTitle",
+    noTitleKey: "settings.noBsVoicesTitle",
+    descKey: "settings.noBsVoicesDesc",
+    voicesFn: _bsVoices,
+    getURI: () => _bsURI,
+    setURI: (u: string) => { _bsURI = u; },
+    storageKey: "ew_ws_bs_voice",
+    testText: "Zdravo! Drago mi je što smo se upoznali.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "bg",
+    flagCode: "bg",
+    titleKey: "settings.bgVoicesTitle",
+    noTitleKey: "settings.noBgVoicesTitle",
+    descKey: "settings.noBgVoicesDesc",
+    voicesFn: _bgVoices,
+    getURI: () => _bgURI,
+    setURI: (u: string) => { _bgURI = u; },
+    storageKey: "ew_ws_bg_voice",
+    testText: "Здравей! Приятно ми е да се запознаем.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "sk",
+    flagCode: "sk",
+    titleKey: "settings.skVoicesTitle",
+    noTitleKey: "settings.noSkVoicesTitle",
+    descKey: "settings.noSkVoicesDesc",
+    voicesFn: _skVoices,
+    getURI: () => _skURI,
+    setURI: (u: string) => { _skURI = u; },
+    storageKey: "ew_ws_sk_voice",
+    testText: "Ahoj! Teší ma, že ťa spoznávam.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "hy",
+    flagCode: "am",
+    titleKey: "settings.hyVoicesTitle",
+    noTitleKey: "settings.noHyVoicesTitle",
+    descKey: "settings.noHyVoicesDesc",
+    voicesFn: _hyVoices,
+    getURI: () => _hyURI,
+    setURI: (u: string) => { _hyURI = u; },
+    storageKey: "ew_ws_hy_voice",
+    testText: "Բարև! Ուրախ եմ ծանոթանալ ձեզ հետ.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "da",
+    flagCode: "dk",
+    titleKey: "settings.daVoicesTitle",
+    noTitleKey: "settings.noDaVoicesTitle",
+    descKey: "settings.noDaVoicesDesc",
+    voicesFn: _daVoices,
+    getURI: () => _daURI,
+    setURI: (u: string) => { _daURI = u; },
+    storageKey: "ew_ws_da_voice",
+    testText: "Hej! Rart at møde dig.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "fi",
+    flagCode: "fi",
+    titleKey: "settings.fiVoicesTitle",
+    noTitleKey: "settings.noFiVoicesTitle",
+    descKey: "settings.noFiVoicesDesc",
+    voicesFn: _fiVoices,
+    getURI: () => _fiURI,
+    setURI: (u: string) => { _fiURI = u; },
+    storageKey: "ew_ws_fi_voice",
+    testText: "Hei! Hauska tavata sinut.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "no",
+    flagCode: "no",
+    titleKey: "settings.noVoicesTitle",
+    noTitleKey: "settings.noNoVoicesTitle",
+    descKey: "settings.noNoVoicesDesc",
+    voicesFn: _noVoices,
+    getURI: () => _noURI,
+    setURI: (u: string) => { _noURI = u; },
+    storageKey: "ew_ws_no_voice",
+    testText: "Hei! Hyggelig å møte deg.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "la",
+    flagCode: "spqr",
+    titleKey: "settings.laVoicesTitle",
+    noTitleKey: "settings.noLaVoicesTitle",
+    descKey: "settings.noLaVoicesDesc",
+    voicesFn: _laVoices,
+    getURI: () => _laURI,
+    setURI: (u: string) => { _laURI = u; },
+    storageKey: "ew_ws_la_voice",
+    testText: "Salve! Gratum est te cognoscere.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "lt",
+    flagCode: "lt",
+    titleKey: "settings.ltVoicesTitle",
+    noTitleKey: "settings.noLtVoicesTitle",
+    descKey: "settings.noLtVoicesDesc",
+    voicesFn: _ltVoices,
+    getURI: () => _ltURI,
+    setURI: (u: string) => { _ltURI = u; },
+    storageKey: "ew_ws_lt_voice",
+    testText: "Sveiki! Malonu su jumis susipažinti.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "lv",
+    flagCode: "lv",
+    titleKey: "settings.lvVoicesTitle",
+    noTitleKey: "settings.noLvVoicesTitle",
+    descKey: "settings.noLvVoicesDesc",
+    voicesFn: _lvVoices,
+    getURI: () => _lvURI,
+    setURI: (u: string) => { _lvURI = u; },
+    storageKey: "ew_ws_lv_voice",
+    testText: "Sveiki! Prieks iepazīties.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "et",
+    flagCode: "ee",
+    titleKey: "settings.etVoicesTitle",
+    noTitleKey: "settings.noEtVoicesTitle",
+    descKey: "settings.noEtVoicesDesc",
+    voicesFn: _etVoices,
+    getURI: () => _etURI,
+    setURI: (u: string) => { _etURI = u; },
+    storageKey: "ew_ws_et_voice",
+    testText: "Tere! Meeldiv tutvuda.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "sl",
+    flagCode: "si",
+    titleKey: "settings.slVoicesTitle",
+    noTitleKey: "settings.noSlVoicesTitle",
+    descKey: "settings.noSlVoicesDesc",
+    voicesFn: _slVoices,
+    getURI: () => _slURI,
+    setURI: (u: string) => { _slURI = u; },
+    storageKey: "ew_ws_sl_voice",
+    testText: "Živjo! Lepo, da sva se spoznala.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "mk",
+    flagCode: "mk",
+    titleKey: "settings.mkVoicesTitle",
+    noTitleKey: "settings.noMkVoicesTitle",
+    descKey: "settings.noMkVoicesDesc",
+    voicesFn: _mkVoices,
+    getURI: () => _mkURI,
+    setURI: (u: string) => { _mkURI = u; },
+    storageKey: "ew_ws_mk_voice",
+    testText: "Здраво! Мило ми е што те запознав.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "sq",
+    flagCode: "al",
+    titleKey: "settings.sqVoicesTitle",
+    noTitleKey: "settings.noSqVoicesTitle",
+    descKey: "settings.noSqVoicesDesc",
+    voicesFn: _sqVoices,
+    getURI: () => _sqURI,
+    setURI: (u: string) => { _sqURI = u; },
+    storageKey: "ew_ws_sq_voice",
+    testText: "Përshëndetje! Gëzohem që të njoha.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "is",
+    flagCode: "is",
+    titleKey: "settings.isVoicesTitle",
+    noTitleKey: "settings.noIsVoicesTitle",
+    descKey: "settings.noIsVoicesDesc",
+    voicesFn: _isVoices,
+    getURI: () => _isURI,
+    setURI: (u: string) => { _isURI = u; },
+    storageKey: "ew_ws_is_voice",
+    testText: "Hæ! Gaman að kynnast þér.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "cy",
+    flagCode: "wls",
+    titleKey: "settings.cyVoicesTitle",
+    noTitleKey: "settings.noCyVoicesTitle",
+    descKey: "settings.noCyVoicesDesc",
+    voicesFn: _cyVoices,
+    getURI: () => _cyURI,
+    setURI: (u: string) => { _cyURI = u; },
+    storageKey: "ew_ws_cy_voice",
+    testText: "Helo! Braf cwrdd â chi.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ga",
+    flagCode: "ie",
+    titleKey: "settings.gaVoicesTitle",
+    noTitleKey: "settings.noGaVoicesTitle",
+    descKey: "settings.noGaVoicesDesc",
+    voicesFn: _gaVoices,
+    getURI: () => _gaURI,
+    setURI: (u: string) => { _gaURI = u; },
+    storageKey: "ew_ws_ga_voice",
+    testText: "Dia duit! Tá áthas orm bualadh leat.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "tl",
+    flagCode: "ph",
+    titleKey: "settings.tlVoicesTitle",
+    noTitleKey: "settings.noTlVoicesTitle",
+    descKey: "settings.noTlVoicesDesc",
+    voicesFn: _tlVoices,
+    getURI: () => _tlURI,
+    setURI: (u: string) => { _tlURI = u; },
+    storageKey: "ew_ws_tl_voice",
+    testText: "Kamusta! Ikinagagalak kitang makilala.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "mn",
+    flagCode: "mn",
+    titleKey: "settings.mnVoicesTitle",
+    noTitleKey: "settings.noMnVoicesTitle",
+    descKey: "settings.noMnVoicesDesc",
+    voicesFn: _mnVoices,
+    getURI: () => _mnURI,
+    setURI: (u: string) => { _mnURI = u; },
+    storageKey: "ew_ws_mn_voice",
+    testText: "Сайн байна уу! Танилцаж сайхан байна.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "uz",
+    flagCode: "uz",
+    titleKey: "settings.uzVoicesTitle",
+    noTitleKey: "settings.noUzVoicesTitle",
+    descKey: "settings.noUzVoicesDesc",
+    voicesFn: _uzVoices,
+    getURI: () => _uzURI,
+    setURI: (u: string) => { _uzURI = u; },
+    storageKey: "ew_ws_uz_voice",
+    testText: "Salom! Siz bilan tanishganimdan xursandman.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "am",
+    flagCode: "et",
+    titleKey: "settings.amVoicesTitle",
+    noTitleKey: "settings.noAmVoicesTitle",
+    descKey: "settings.noAmVoicesDesc",
+    voicesFn: _amVoices,
+    getURI: () => _amURI,
+    setURI: (u: string) => { _amURI = u; },
+    storageKey: "ew_ws_am_voice",
+    testText: "ሰላም! በመተዋወቃችን ደስ ብሎኛል።",
+    defaultSelect: 'google',
+  },
+  {
+    id: "eo",
+    flagCode: "eo",
+    titleKey: "settings.eoVoicesTitle",
+    noTitleKey: null,
+    descKey: null,
+    voicesFn: _eoVoices,
+    getURI: () => _eoURI,
+    setURI: (u: string) => { _eoURI = u; },
+    storageKey: "ew_ws_eo_voice",
+    testText: "Saluton! Mi ĝojas vin renkonti.",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ta",
+    flagCode: "in",
+    titleKey: "settings.taVoicesTitle",
+    noTitleKey: "settings.noTaVoicesTitle",
+    descKey: "settings.noTaVoicesDesc",
+    voicesFn: _taVoices,
+    getURI: () => _taURI,
+    setURI: (u: string) => { _taURI = u; },
+    storageKey: "ew_ws_ta_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "pa",
+    flagCode: "in",
+    titleKey: "settings.paVoicesTitle",
+    noTitleKey: "settings.noPaVoicesTitle",
+    descKey: "settings.noPaVoicesDesc",
+    voicesFn: _paVoices,
+    getURI: () => _paURI,
+    setURI: (u: string) => { _paURI = u; },
+    storageKey: "ew_ws_pa_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "zu",
+    flagCode: "za",
+    titleKey: "settings.zuVoicesTitle",
+    noTitleKey: "settings.noZuVoicesTitle",
+    descKey: "settings.noZuVoicesDesc",
+    voicesFn: _zuVoices,
+    getURI: () => _zuURI,
+    setURI: (u: string) => { _zuURI = u; },
+    storageKey: "ew_ws_zu_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "af",
+    flagCode: "za",
+    titleKey: "settings.afVoicesTitle",
+    noTitleKey: "settings.noAfVoicesTitle",
+    descKey: "settings.noAfVoicesDesc",
+    voicesFn: _afVoices,
+    getURI: () => _afURI,
+    setURI: (u: string) => { _afURI = u; },
+    storageKey: "ew_ws_af_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ky",
+    flagCode: "kg",
+    titleKey: "settings.kyVoicesTitle",
+    noTitleKey: "settings.noKyVoicesTitle",
+    descKey: "settings.noKyVoicesDesc",
+    voicesFn: _kyVoices,
+    getURI: () => _kyURI,
+    setURI: (u: string) => { _kyURI = u; },
+    storageKey: "ew_ws_ky_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "tg",
+    flagCode: "tj",
+    titleKey: "settings.tgVoicesTitle",
+    noTitleKey: "settings.noTgVoicesTitle",
+    descKey: "settings.noTgVoicesDesc",
+    voicesFn: _tgVoices,
+    getURI: () => _tgURI,
+    setURI: (u: string) => { _tgURI = u; },
+    storageKey: "ew_ws_tg_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "tk",
+    flagCode: "tm",
+    titleKey: "settings.tkVoicesTitle",
+    noTitleKey: "settings.noTkVoicesTitle",
+    descKey: "settings.noTkVoicesDesc",
+    voicesFn: _tkVoices,
+    getURI: () => _tkURI,
+    setURI: (u: string) => { _tkURI = u; },
+    storageKey: "ew_ws_tk_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ug",
+    flagCode: "cn",
+    titleKey: "settings.ugVoicesTitle",
+    noTitleKey: "settings.noUgVoicesTitle",
+    descKey: "settings.noUgVoicesDesc",
+    voicesFn: _ugVoices,
+    getURI: () => _ugURI,
+    setURI: (u: string) => { _ugURI = u; },
+    storageKey: "ew_ws_ug_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "eu",
+    flagCode: "eu",
+    titleKey: "settings.euVoicesTitle",
+    noTitleKey: "settings.noEuVoicesTitle",
+    descKey: "settings.noEuVoicesDesc",
+    voicesFn: _euVoices,
+    getURI: () => _euURI,
+    setURI: (u: string) => { _euURI = u; },
+    storageKey: "ew_ws_eu_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ca",
+    flagCode: "cat",
+    titleKey: "settings.caVoicesTitle",
+    noTitleKey: "settings.noCaVoicesTitle",
+    descKey: "settings.noCaVoicesDesc",
+    voicesFn: _caVoices,
+    getURI: () => _caURI,
+    setURI: (u: string) => { _caURI = u; },
+    storageKey: "ew_ws_ca_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "gl",
+    flagCode: "gal",
+    titleKey: "settings.glVoicesTitle",
+    noTitleKey: "settings.noGlVoicesTitle",
+    descKey: "settings.noGlVoicesDesc",
+    voicesFn: _glVoices,
+    getURI: () => _glURI,
+    setURI: (u: string) => { _glURI = u; },
+    storageKey: "ew_ws_gl_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "mt",
+    flagCode: "mt",
+    titleKey: "settings.mtVoicesTitle",
+    noTitleKey: "settings.noMtVoicesTitle",
+    descKey: "settings.noMtVoicesDesc",
+    voicesFn: _mtVoices,
+    getURI: () => _mtURI,
+    setURI: (u: string) => { _mtURI = u; },
+    storageKey: "ew_ws_mt_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "lb",
+    flagCode: "lu",
+    titleKey: "settings.lbVoicesTitle",
+    noTitleKey: "settings.noLbVoicesTitle",
+    descKey: "settings.noLbVoicesDesc",
+    voicesFn: _lbVoices,
+    getURI: () => _lbURI,
+    setURI: (u: string) => { _lbURI = u; },
+    storageKey: "ew_ws_lb_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ht",
+    flagCode: "ht",
+    titleKey: "settings.htVoicesTitle",
+    noTitleKey: "settings.noHtVoicesTitle",
+    descKey: "settings.noHtVoicesDesc",
+    voicesFn: _htVoices,
+    getURI: () => _htURI,
+    setURI: (u: string) => { _htURI = u; },
+    storageKey: "ew_ws_ht_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "bo",
+    flagCode: "cn",
+    titleKey: "settings.boVoicesTitle",
+    noTitleKey: "settings.noBoVoicesTitle",
+    descKey: "settings.noBoVoicesDesc",
+    voicesFn: _boVoices,
+    getURI: () => _boURI,
+    setURI: (u: string) => { _boURI = u; },
+    storageKey: "ew_ws_bo_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "my",
+    flagCode: "mm",
+    titleKey: "settings.myVoicesTitle",
+    noTitleKey: "settings.noMyVoicesTitle",
+    descKey: "settings.noMyVoicesDesc",
+    voicesFn: _myVoices,
+    getURI: () => _myURI,
+    setURI: (u: string) => { _myURI = u; },
+    storageKey: "ew_ws_my_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "km",
+    flagCode: "kh",
+    titleKey: "settings.kmVoicesTitle",
+    noTitleKey: "settings.noKmVoicesTitle",
+    descKey: "settings.noKmVoicesDesc",
+    voicesFn: _kmVoices,
+    getURI: () => _kmURI,
+    setURI: (u: string) => { _kmURI = u; },
+    storageKey: "ew_ws_km_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "lo",
+    flagCode: "la",
+    titleKey: "settings.loVoicesTitle",
+    noTitleKey: "settings.noLoVoicesTitle",
+    descKey: "settings.noLoVoicesDesc",
+    voicesFn: _loVoices,
+    getURI: () => _loURI,
+    setURI: (u: string) => { _loURI = u; },
+    storageKey: "ew_ws_lo_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ne",
+    flagCode: "np",
+    titleKey: "settings.neVoicesTitle",
+    noTitleKey: "settings.noNeVoicesTitle",
+    descKey: "settings.noNeVoicesDesc",
+    voicesFn: _neVoices,
+    getURI: () => _neURI,
+    setURI: (u: string) => { _neURI = u; },
+    storageKey: "ew_ws_ne_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "si",
+    flagCode: "lk",
+    titleKey: "settings.siVoicesTitle",
+    noTitleKey: "settings.noSiVoicesTitle",
+    descKey: "settings.noSiVoicesDesc",
+    voicesFn: _siVoices,
+    getURI: () => _siURI,
+    setURI: (u: string) => { _siURI = u; },
+    storageKey: "ew_ws_si_voice",
+    testText: "Hello!",
+    defaultSelect: 'google',
+  },
+  {
+    id: "ur",
+    flagCode: "pk",
+    titleKey: "settings.urVoicesTitle",
+    noTitleKey: "settings.noUrVoicesTitle",
+    descKey: "settings.noUrVoicesDesc",
+    voicesFn: _urVoices,
+    getURI: () => _urURI,
+    setURI: (u: string) => { _urURI = u; },
+    storageKey: "ew_ws_ur_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "te",
+    flagCode: "in",
+    titleKey: "settings.teVoicesTitle",
+    noTitleKey: "settings.noTeVoicesTitle",
+    descKey: "settings.noTeVoicesDesc",
+    voicesFn: _teVoices,
+    getURI: () => _teURI,
+    setURI: (u: string) => { _teURI = u; },
+    storageKey: "ew_ws_te_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "ml",
+    flagCode: "in",
+    titleKey: "settings.mlVoicesTitle",
+    noTitleKey: "settings.noMlVoicesTitle",
+    descKey: "settings.noMlVoicesDesc",
+    voicesFn: _mlVoices,
+    getURI: () => _mlURI,
+    setURI: (u: string) => { _mlURI = u; },
+    storageKey: "ew_ws_ml_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "kn",
+    flagCode: "in",
+    titleKey: "settings.knVoicesTitle",
+    noTitleKey: "settings.noKnVoicesTitle",
+    descKey: "settings.noKnVoicesDesc",
+    voicesFn: _knVoices,
+    getURI: () => _knURI,
+    setURI: (u: string) => { _knURI = u; },
+    storageKey: "ew_ws_kn_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "mr",
+    flagCode: "in",
+    titleKey: "settings.mrVoicesTitle",
+    noTitleKey: "settings.noMrVoicesTitle",
+    descKey: "settings.noMrVoicesDesc",
+    voicesFn: _mrVoices,
+    getURI: () => _mrURI,
+    setURI: (u: string) => { _mrURI = u; },
+    storageKey: "ew_ws_mr_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "gu",
+    flagCode: "in",
+    titleKey: "settings.guVoicesTitle",
+    noTitleKey: "settings.noGuVoicesTitle",
+    descKey: "settings.noGuVoicesDesc",
+    voicesFn: _guVoices,
+    getURI: () => _guURI,
+    setURI: (u: string) => { _guURI = u; },
+    storageKey: "ew_ws_gu_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "or",
+    flagCode: "in",
+    titleKey: "settings.orVoicesTitle",
+    noTitleKey: "settings.noOrVoicesTitle",
+    descKey: "settings.noOrVoicesDesc",
+    voicesFn: _orVoices,
+    getURI: () => _orURI,
+    setURI: (u: string) => { _orURI = u; },
+    storageKey: "ew_ws_or_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "as",
+    flagCode: "in",
+    titleKey: "settings.asVoicesTitle",
+    noTitleKey: "settings.noAsVoicesTitle",
+    descKey: "settings.noAsVoicesDesc",
+    voicesFn: _asVoices,
+    getURI: () => _asURI,
+    setURI: (u: string) => { _asURI = u; },
+    storageKey: "ew_ws_as_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "sd",
+    flagCode: "pk",
+    titleKey: "settings.sdVoicesTitle",
+    noTitleKey: "settings.noSdVoicesTitle",
+    descKey: "settings.noSdVoicesDesc",
+    voicesFn: _sdVoices,
+    getURI: () => _sdURI,
+    setURI: (u: string) => { _sdURI = u; },
+    storageKey: "ew_ws_sd_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "ps",
+    flagCode: "af",
+    titleKey: "settings.psVoicesTitle",
+    noTitleKey: "settings.noPsVoicesTitle",
+    descKey: "settings.noPsVoicesDesc",
+    voicesFn: _psVoices,
+    getURI: () => _psURI,
+    setURI: (u: string) => { _psURI = u; },
+    storageKey: "ew_ws_ps_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "so",
+    flagCode: "so",
+    titleKey: "settings.soVoicesTitle",
+    noTitleKey: "settings.noSoVoicesTitle",
+    descKey: "settings.noSoVoicesDesc",
+    voicesFn: _soVoices,
+    getURI: () => _soURI,
+    setURI: (u: string) => { _soURI = u; },
+    storageKey: "ew_ws_so_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "ha",
+    flagCode: "ng",
+    titleKey: "settings.haVoicesTitle",
+    noTitleKey: "settings.noHaVoicesTitle",
+    descKey: "settings.noHaVoicesDesc",
+    voicesFn: _haVoices,
+    getURI: () => _haURI,
+    setURI: (u: string) => { _haURI = u; },
+    storageKey: "ew_ws_ha_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "yo",
+    flagCode: "ng",
+    titleKey: "settings.yoVoicesTitle",
+    noTitleKey: "settings.noYoVoicesTitle",
+    descKey: "settings.noYoVoicesDesc",
+    voicesFn: _yoVoices,
+    getURI: () => _yoURI,
+    setURI: (u: string) => { _yoURI = u; },
+    storageKey: "ew_ws_yo_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "ig",
+    flagCode: "ng",
+    titleKey: "settings.igVoicesTitle",
+    noTitleKey: "settings.noIgVoicesTitle",
+    descKey: "settings.noIgVoicesDesc",
+    voicesFn: _igVoices,
+    getURI: () => _igURI,
+    setURI: (u: string) => { _igURI = u; },
+    storageKey: "ew_ws_ig_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "ti",
+    flagCode: "er",
+    titleKey: "settings.tiVoicesTitle",
+    noTitleKey: "settings.noTiVoicesTitle",
+    descKey: "settings.noTiVoicesDesc",
+    voicesFn: _tiVoices,
+    getURI: () => _tiURI,
+    setURI: (u: string) => { _tiURI = u; },
+    storageKey: "ew_ws_ti_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "wo",
+    flagCode: "sn",
+    titleKey: "settings.woVoicesTitle",
+    noTitleKey: "settings.noWoVoicesTitle",
+    descKey: "settings.noWoVoicesDesc",
+    voicesFn: _woVoices,
+    getURI: () => _woURI,
+    setURI: (u: string) => { _woURI = u; },
+    storageKey: "ew_ws_wo_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "mg",
+    flagCode: "mg",
+    titleKey: "settings.mgVoicesTitle",
+    noTitleKey: "settings.noMgVoicesTitle",
+    descKey: "settings.noMgVoicesDesc",
+    voicesFn: _mgVoices,
+    getURI: () => _mgURI,
+    setURI: (u: string) => { _mgURI = u; },
+    storageKey: "ew_ws_mg_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "xh",
+    flagCode: "za",
+    titleKey: "settings.xhVoicesTitle",
+    noTitleKey: "settings.noXhVoicesTitle",
+    descKey: "settings.noXhVoicesDesc",
+    voicesFn: _xhVoices,
+    getURI: () => _xhURI,
+    setURI: (u: string) => { _xhURI = u; },
+    storageKey: "ew_ws_xh_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "sn",
+    flagCode: "zw",
+    titleKey: "settings.snVoicesTitle",
+    noTitleKey: "settings.noSnVoicesTitle",
+    descKey: "settings.noSnVoicesDesc",
+    voicesFn: _snVoices,
+    getURI: () => _snURI,
+    setURI: (u: string) => { _snURI = u; },
+    storageKey: "ew_ws_sn_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "ny",
+    flagCode: "mw",
+    titleKey: "settings.nyVoicesTitle",
+    noTitleKey: "settings.noNyVoicesTitle",
+    descKey: "settings.noNyVoicesDesc",
+    voicesFn: _nyVoices,
+    getURI: () => _nyURI,
+    setURI: (u: string) => { _nyURI = u; },
+    storageKey: "ew_ws_ny_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "fj",
+    flagCode: "fj",
+    titleKey: "settings.fjVoicesTitle",
+    noTitleKey: "settings.noFjVoicesTitle",
+    descKey: "settings.noFjVoicesDesc",
+    voicesFn: _fjVoices,
+    getURI: () => _fjURI,
+    setURI: (u: string) => { _fjURI = u; },
+    storageKey: "ew_ws_fj_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "sm",
+    flagCode: "ws",
+    titleKey: "settings.smVoicesTitle",
+    noTitleKey: "settings.noSmVoicesTitle",
+    descKey: "settings.noSmVoicesDesc",
+    voicesFn: _smVoices,
+    getURI: () => _smURI,
+    setURI: (u: string) => { _smURI = u; },
+    storageKey: "ew_ws_sm_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "to",
+    flagCode: "to",
+    titleKey: "settings.toVoicesTitle",
+    noTitleKey: "settings.noToVoicesTitle",
+    descKey: "settings.noToVoicesDesc",
+    voicesFn: _toVoices,
+    getURI: () => _toURI,
+    setURI: (u: string) => { _toURI = u; },
+    storageKey: "ew_ws_to_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "mi",
+    flagCode: "nz",
+    titleKey: "settings.miVoicesTitle",
+    noTitleKey: "settings.noMiVoicesTitle",
+    descKey: "settings.noMiVoicesDesc",
+    voicesFn: _miVoices,
+    getURI: () => _miURI,
+    setURI: (u: string) => { _miURI = u; },
+    storageKey: "ew_ws_mi_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "haw",
+    flagCode: "us",
+    titleKey: "settings.hawVoicesTitle",
+    noTitleKey: "settings.noHawVoicesTitle",
+    descKey: "settings.noHawVoicesDesc",
+    voicesFn: _hawVoices,
+    getURI: () => _hawURI,
+    setURI: (u: string) => { _hawURI = u; },
+    storageKey: "ew_ws_haw_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "jv",
+    flagCode: "id",
+    titleKey: "settings.jvVoicesTitle",
+    noTitleKey: "settings.noJvVoicesTitle",
+    descKey: "settings.noJvVoicesDesc",
+    voicesFn: _jvVoices,
+    getURI: () => _jvURI,
+    setURI: (u: string) => { _jvURI = u; },
+    storageKey: "ew_ws_jv_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "su",
+    flagCode: "id",
+    titleKey: "settings.suVoicesTitle",
+    noTitleKey: "settings.noSuVoicesTitle",
+    descKey: "settings.noSuVoicesDesc",
+    voicesFn: _suVoices,
+    getURI: () => _suURI,
+    setURI: (u: string) => { _suURI = u; },
+    storageKey: "ew_ws_su_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "gd",
+    flagCode: "sct",
+    titleKey: "settings.gdVoicesTitle",
+    noTitleKey: "settings.noGdVoicesTitle",
+    descKey: "settings.noGdVoicesDesc",
+    voicesFn: _gdVoices,
+    getURI: () => _gdURI,
+    setURI: (u: string) => { _gdURI = u; },
+    storageKey: "ew_ws_gd_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "br",
+    flagCode: "fr",
+    titleKey: "settings.brVoicesTitle",
+    noTitleKey: "settings.noBrVoicesTitle",
+    descKey: "settings.noBrVoicesDesc",
+    voicesFn: _brVoices,
+    getURI: () => _brURI,
+    setURI: (u: string) => { _brURI = u; },
+    storageKey: "ew_ws_br_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "kw",
+    flagCode: "corn",
+    titleKey: "settings.kwVoicesTitle",
+    noTitleKey: "settings.noKwVoicesTitle",
+    descKey: "settings.noKwVoicesDesc",
+    voicesFn: _kwVoices,
+    getURI: () => _kwURI,
+    setURI: (u: string) => { _kwURI = u; },
+    storageKey: "ew_ws_kw_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "gv",
+    flagCode: "gb",
+    titleKey: "settings.gvVoicesTitle",
+    noTitleKey: "settings.noGvVoicesTitle",
+    descKey: "settings.noGvVoicesDesc",
+    voicesFn: _gvVoices,
+    getURI: () => _gvURI,
+    setURI: (u: string) => { _gvURI = u; },
+    storageKey: "ew_ws_gv_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "fo",
+    flagCode: "fo",
+    titleKey: "settings.foVoicesTitle",
+    noTitleKey: "settings.noFoVoicesTitle",
+    descKey: "settings.noFoVoicesDesc",
+    voicesFn: _foVoices,
+    getURI: () => _foURI,
+    setURI: (u: string) => { _foURI = u; },
+    storageKey: "ew_ws_fo_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "oc",
+    flagCode: "fr",
+    titleKey: "settings.ocVoicesTitle",
+    noTitleKey: "settings.noOcVoicesTitle",
+    descKey: "settings.noOcVoicesDesc",
+    voicesFn: _ocVoices,
+    getURI: () => _ocURI,
+    setURI: (u: string) => { _ocURI = u; },
+    storageKey: "ew_ws_oc_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "co",
+    flagCode: "fr",
+    titleKey: "settings.coVoicesTitle",
+    noTitleKey: "settings.noCoVoicesTitle",
+    descKey: "settings.noCoVoicesDesc",
+    voicesFn: _coVoices,
+    getURI: () => _coURI,
+    setURI: (u: string) => { _coURI = u; },
+    storageKey: "ew_ws_co_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "sc",
+    flagCode: "it",
+    titleKey: "settings.scVoicesTitle",
+    noTitleKey: "settings.noScVoicesTitle",
+    descKey: "settings.noScVoicesDesc",
+    voicesFn: _scVoices,
+    getURI: () => _scURI,
+    setURI: (u: string) => { _scURI = u; },
+    storageKey: "ew_ws_sc_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "fy",
+    flagCode: "nl",
+    titleKey: "settings.fyVoicesTitle",
+    noTitleKey: "settings.noFyVoicesTitle",
+    descKey: "settings.noFyVoicesDesc",
+    voicesFn: _fyVoices,
+    getURI: () => _fyURI,
+    setURI: (u: string) => { _fyURI = u; },
+    storageKey: "ew_ws_fy_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "yi",
+    flagCode: "il",
+    titleKey: "settings.yiVoicesTitle",
+    noTitleKey: "settings.noYiVoicesTitle",
+    descKey: "settings.noYiVoicesDesc",
+    voicesFn: _yiVoices,
+    getURI: () => _yiURI,
+    setURI: (u: string) => { _yiURI = u; },
+    storageKey: "ew_ws_yi_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "lad",
+    flagCode: "es",
+    titleKey: "settings.ladVoicesTitle",
+    noTitleKey: "settings.noLadVoicesTitle",
+    descKey: "settings.noLadVoicesDesc",
+    voicesFn: _ladVoices,
+    getURI: () => _ladURI,
+    setURI: (u: string) => { _ladURI = u; },
+    storageKey: "ew_ws_lad_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "qu",
+    flagCode: "pe",
+    titleKey: "settings.quVoicesTitle",
+    noTitleKey: "settings.noQuVoicesTitle",
+    descKey: "settings.noQuVoicesDesc",
+    voicesFn: _quVoices,
+    getURI: () => _quURI,
+    setURI: (u: string) => { _quURI = u; },
+    storageKey: "ew_ws_qu_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "gn",
+    flagCode: "py",
+    titleKey: "settings.gnVoicesTitle",
+    noTitleKey: "settings.noGnVoicesTitle",
+    descKey: "settings.noGnVoicesDesc",
+    voicesFn: _gnVoices,
+    getURI: () => _gnURI,
+    setURI: (u: string) => { _gnURI = u; },
+    storageKey: "ew_ws_gn_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "ay",
+    flagCode: "bo",
+    titleKey: "settings.ayVoicesTitle",
+    noTitleKey: "settings.noAyVoicesTitle",
+    descKey: "settings.noAyVoicesDesc",
+    voicesFn: _ayVoices,
+    getURI: () => _ayURI,
+    setURI: (u: string) => { _ayURI = u; },
+    storageKey: "ew_ws_ay_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "dz",
+    flagCode: "bt",
+    titleKey: "settings.dzVoicesTitle",
+    noTitleKey: "settings.noDzVoicesTitle",
+    descKey: "settings.noDzVoicesDesc",
+    voicesFn: _dzVoices,
+    getURI: () => _dzURI,
+    setURI: (u: string) => { _dzURI = u; },
+    storageKey: "ew_ws_dz_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "dv",
+    flagCode: "mv",
+    titleKey: "settings.dvVoicesTitle",
+    noTitleKey: "settings.noDvVoicesTitle",
+    descKey: "settings.noDvVoicesDesc",
+    voicesFn: _dvVoices,
+    getURI: () => _dvURI,
+    setURI: (u: string) => { _dvURI = u; },
+    storageKey: "ew_ws_dv_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "tet",
+    flagCode: "tl",
+    titleKey: "settings.tetVoicesTitle",
+    noTitleKey: "settings.noTetVoicesTitle",
+    descKey: "settings.noTetVoicesDesc",
+    voicesFn: _tetVoices,
+    getURI: () => _tetURI,
+    setURI: (u: string) => { _tetURI = u; },
+    storageKey: "ew_ws_tet_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "be",
+    flagCode: "by",
+    titleKey: "settings.beVoicesTitle",
+    noTitleKey: "settings.noBeVoicesTitle",
+    descKey: "settings.noBeVoicesDesc",
+    voicesFn: _beVoices,
+    getURI: () => _beURI,
+    setURI: (u: string) => { _beURI = u; },
+    storageKey: "ew_ws_be_voice",
+    testText: "Hello!",
+    defaultSelect: null,
+  },
+  {
+    id: "qya",
+    flagCode: "qya",
+    titleKey: "settings.qyaVoicesTitle",
+    noTitleKey: "settings.noQyaVoicesTitle",
+    descKey: "settings.noQyaVoicesDesc",
+    voicesFn: _qyaVoices,
+    getURI: () => _qyaURI,
+    setURI: (u: string) => { _qyaURI = u; },
+    storageKey: "ew_ws_qya_voice",
+    testText: "Elen síla lúmenn' omentielvo.",
+    defaultSelect: null,
+  },
+  {
+    id: "sjn",
+    flagCode: "sjn",
+    titleKey: "settings.sjnVoicesTitle",
+    noTitleKey: "settings.noSjnVoicesTitle",
+    descKey: "settings.noSjnVoicesDesc",
+    voicesFn: _sjnVoices,
+    getURI: () => _sjnURI,
+    setURI: (u: string) => { _sjnURI = u; },
+    storageKey: "ew_ws_sjn_voice",
+    testText: "Mae govannen.",
+    defaultSelect: null,
+  },
+  {
+    id: "ku",
+    flagCode: "ku",
+    titleKey: "settings.kuVoicesTitle",
+    noTitleKey: "settings.noKuVoicesTitle",
+    descKey: "settings.noKuVoicesDesc",
+    voicesFn: _kuVoices,
+    getURI: () => _kuURI,
+    setURI: (u: string) => { _kuURI = u; },
+    storageKey: "ew_ws_ku_voice",
+    testText: "Silav!",
+    defaultSelect: null,
+  },
+  {
+    id: "om",
+    flagCode: "et",
+    titleKey: "settings.omVoicesTitle",
+    noTitleKey: "settings.noOmVoicesTitle",
+    descKey: "settings.noOmVoicesDesc",
+    voicesFn: _omVoices,
+    getURI: () => _omURI,
+    setURI: (u: string) => { _omURI = u; },
+    storageKey: "ew_ws_om_voice",
+    testText: "Akkam?",
+    defaultSelect: null,
+  },
+  {
+    id: "ln",
+    flagCode: "cd",
+    titleKey: "settings.lnVoicesTitle",
+    noTitleKey: "settings.noLnVoicesTitle",
+    descKey: "settings.noLnVoicesDesc",
+    voicesFn: _lnVoices,
+    getURI: () => _lnURI,
+    setURI: (u: string) => { _lnURI = u; },
+    storageKey: "ew_ws_ln_voice",
+    testText: "Mbote!",
+    defaultSelect: null,
+  },
+  {
+    id: "bho",
+    flagCode: "in",
+    titleKey: "settings.bhoVoicesTitle",
+    noTitleKey: "settings.noBhoVoicesTitle",
+    descKey: "settings.noBhoVoicesDesc",
+    voicesFn: _bhoVoices,
+    getURI: () => _bhoURI,
+    setURI: (u: string) => { _bhoURI = u; },
+    storageKey: "ew_ws_bho_voice",
+    testText: "प्रणाम!",
+    defaultSelect: null,
+  },
+  {
+    id: "ceb",
+    flagCode: "ph",
+    titleKey: "settings.cebVoicesTitle",
+    noTitleKey: "settings.noCebVoicesTitle",
+    descKey: "settings.noCebVoicesDesc",
+    voicesFn: _cebVoices,
+    getURI: () => _cebURI,
+    setURI: (u: string) => { _cebURI = u; },
+    storageKey: "ew_ws_ceb_voice",
+    testText: "Kumusta!",
+    defaultSelect: null,
+  },
+  {
+    id: "rm",
+    flagCode: "ch",
+    titleKey: "settings.rmVoicesTitle",
+    noTitleKey: "settings.noRmVoicesTitle",
+    descKey: "settings.noRmVoicesDesc",
+    voicesFn: _rmVoices,
+    getURI: () => _rmURI,
+    setURI: (u: string) => { _rmURI = u; },
+    storageKey: "ew_ws_rm_voice",
+    testText: "Allegra!",
+    defaultSelect: null,
+  },
+  {
+    id: "ty",
+    flagCode: "pf",
+    titleKey: "settings.tyVoicesTitle",
+    noTitleKey: "settings.noTyVoicesTitle",
+    descKey: "settings.noTyVoicesDesc",
+    voicesFn: _tyVoices,
+    getURI: () => _tyURI,
+    setURI: (u: string) => { _tyURI = u; },
+    storageKey: "ew_ws_ty_voice",
+    testText: "Ia ora na!",
+    defaultSelect: null,
+  },
+  {
+    id: "ch",
+    flagCode: "gu",
+    titleKey: "settings.chVoicesTitle",
+    noTitleKey: "settings.noChVoicesTitle",
+    descKey: "settings.noChVoicesDesc",
+    voicesFn: _chVoices,
+    getURI: () => _chURI,
+    setURI: (u: string) => { _chURI = u; },
+    storageKey: "ew_ws_ch_voice",
+    testText: "Håfa adai!",
+    defaultSelect: null,
+  },
+  {
+    id: "mh",
+    flagCode: "mh",
+    titleKey: "settings.mhVoicesTitle",
+    noTitleKey: "settings.noMhVoicesTitle",
+    descKey: "settings.noMhVoicesDesc",
+    voicesFn: _mhVoices,
+    getURI: () => _mhURI,
+    setURI: (u: string) => { _mhURI = u; },
+    storageKey: "ew_ws_mh_voice",
+    testText: "Yokwe!",
+    defaultSelect: null,
+  },
+  {
+    id: "pau",
+    flagCode: "pw",
+    titleKey: "settings.pauVoicesTitle",
+    noTitleKey: "settings.noPauVoicesTitle",
+    descKey: "settings.noPauVoicesDesc",
+    voicesFn: _pauVoices,
+    getURI: () => _pauURI,
+    setURI: (u: string) => { _pauURI = u; },
+    storageKey: "ew_ws_pau_voice",
+    testText: "Alii!",
+    defaultSelect: null,
+  },
+  {
+    id: "nah",
+    flagCode: "mx",
+    titleKey: "settings.nahVoicesTitle",
+    noTitleKey: "settings.noNahVoicesTitle",
+    descKey: "settings.noNahVoicesDesc",
+    voicesFn: _nahVoices,
+    getURI: () => _nahURI,
+    setURI: (u: string) => { _nahURI = u; },
+    storageKey: "ew_ws_nah_voice",
+    testText: "Niltze!",
+    defaultSelect: null,
+  },
+  {
+    id: "nv",
+    flagCode: "us",
+    titleKey: "settings.nvVoicesTitle",
+    noTitleKey: "settings.noNvVoicesTitle",
+    descKey: "settings.noNvVoicesDesc",
+    voicesFn: _nvVoices,
+    getURI: () => _nvURI,
+    setURI: (u: string) => { _nvURI = u; },
+    storageKey: "ew_ws_nv_voice",
+    testText: "Yá'át'ééh!",
+    defaultSelect: null,
+  },
+  {
+    id: "tlh",
+    flagCode: "tlh",
+    titleKey: "settings.tlhVoicesTitle",
+    noTitleKey: "settings.noTlhVoicesTitle",
+    descKey: "settings.noTlhVoicesDesc",
+    voicesFn: _tlhVoices,
+    getURI: () => _tlhURI,
+    setURI: (u: string) => { _tlhURI = u; },
+    storageKey: "ew_ws_tlh_voice",
+    testText: "nuqneH!",
+    defaultSelect: null,
+  },
+  {
+    id: "val",
+    flagCode: "val",
+    titleKey: "settings.valVoicesTitle",
+    noTitleKey: "settings.noValVoicesTitle",
+    descKey: "settings.noValVoicesDesc",
+    voicesFn: _valVoices,
+    getURI: () => _valURI,
+    setURI: (u: string) => { _valURI = u; },
+    storageKey: "ew_ws_val_voice",
+    testText: "Rytsas!",
+    defaultSelect: null,
+  },
+  {
+    id: "dth",
+    flagCode: "dth",
+    titleKey: "settings.dthVoicesTitle",
+    noTitleKey: "settings.noDthVoicesTitle",
+    descKey: "settings.noDthVoicesDesc",
+    voicesFn: _dthVoices,
+    getURI: () => _dthURI,
+    setURI: (u: string) => { _dthURI = u; },
+    storageKey: "ew_ws_dth_voice",
+    testText: "M'athchomaroon!",
+    defaultSelect: null,
+  },
+];
+
+function VoiceFlagImg({ flagCode }: { flagCode: string }): ReactElement | null {
   const url = flagUrl(flagCode);
   if (!url) return null;
-  const img = document.createElement('img');
-  img.src = url;
-  img.alt = '';
-  img.width = 14;
-  img.height = 14;
-  img.style.cssText =
-    'border-radius:50%;vertical-align:middle;margin-right:6px;box-shadow:0 0 0 1px var(--border);';
-  return img;
+  return (
+    <img
+      src={url}
+      alt=""
+      width={14}
+      height={14}
+      style={{
+        borderRadius: '50%',
+        verticalAlign: 'middle',
+        marginRight: 6,
+        boxShadow: '0 0 0 1px var(--border)',
+      }}
+    />
+  );
 }
 
-export function _renderVoices(): void {
-  const container = document.getElementById('fy-voices-list');
-  if (!container) return;
-  container.innerHTML = '';
-  const enVoices = _sortVoices(_enVoices()),
-    ukVoices = _sortVoices(_ukVoices()),
-    esVoices = _sortVoices(_esVoices()),
-    frVoices = _sortVoices(_frVoices()),
-    itVoices = _sortVoices(_itVoices()),
-    ptVoices = _sortVoices(_ptVoices()),
-    deVoices = _sortVoices(_deVoices()),
-    heVoices = _sortVoices(_heVoices()),
-    arVoices = _sortVoices(_arVoices()),
-    plVoices = _sortVoices(_plVoices()),
-    zhVoices = _sortVoices(_zhVoices()),
-    elVoices = _sortVoices(_elVoices()),
-    jaVoices = _sortVoices(_jaVoices()),
-    trVoices = _sortVoices(_trVoices()),
-    nlVoices = _sortVoices(_nlVoices()),
-    viVoices = _sortVoices(_viVoices()),
-    hiVoices = _sortVoices(_hiVoices()),
-    bnVoices = _sortVoices(_bnVoices()),
-    idVoices = _sortVoices(_idVoices()),
-    pcmVoices = _sortVoices(_pcmVoices()),
-    koVoices = _sortVoices(_koVoices()),
-    faVoices = _sortVoices(_faVoices()),
-    swVoices = _sortVoices(_swVoices()),
-    msVoices = _sortVoices(_msVoices()),
-    thVoices = _sortVoices(_thVoices()),
-    azVoices = _sortVoices(_azVoices()),
-    roVoices = _sortVoices(_roVoices()),
-    huVoices = _sortVoices(_huVoices()),
-    csVoices = _sortVoices(_csVoices()),
-    kkVoices = _sortVoices(_kkVoices()),
-    svVoices = _sortVoices(_svVoices()),
-    kaVoices = _sortVoices(_kaVoices()),
-    hrVoices = _sortVoices(_hrVoices()),
-    srVoices = _sortVoices(_srVoices()),
-    bsVoices = _sortVoices(_bsVoices()),
-    bgVoices = _sortVoices(_bgVoices()),
-    skVoices = _sortVoices(_skVoices()),
-    hyVoices = _sortVoices(_hyVoices()),
-    daVoices = _sortVoices(_daVoices()),
-    fiVoices = _sortVoices(_fiVoices()),
-    noVoices = _sortVoices(_noVoices()),
-    laVoices = _sortVoices(_laVoices()),
-    ltVoices = _sortVoices(_ltVoices()),
-    lvVoices = _sortVoices(_lvVoices()),
-    etVoices = _sortVoices(_etVoices()),
-    slVoices = _sortVoices(_slVoices()),
-    mkVoices = _sortVoices(_mkVoices()),
-    sqVoices = _sortVoices(_sqVoices()),
-    isVoices = _sortVoices(_isVoices()),
-    cyVoices = _sortVoices(_cyVoices()),
-    gaVoices = _sortVoices(_gaVoices()),
-    tlVoices = _sortVoices(_tlVoices()),
-    mnVoices = _sortVoices(_mnVoices()),
-    uzVoices = _sortVoices(_uzVoices()),
-    amVoices = _sortVoices(_amVoices()),
-    eoVoices = _sortVoices(_eoVoices()),
-    taVoices = _sortVoices(_taVoices()),
-    paVoices = _sortVoices(_paVoices()),
-    zuVoices = _sortVoices(_zuVoices()),
-    afVoices = _sortVoices(_afVoices()),
-    kyVoices = _sortVoices(_kyVoices()),
-    tgVoices = _sortVoices(_tgVoices()),
-    tkVoices = _sortVoices(_tkVoices()),
-    ugVoices = _sortVoices(_ugVoices()),
-    euVoices = _sortVoices(_euVoices()),
-    caVoices = _sortVoices(_caVoices()),
-    glVoices = _sortVoices(_glVoices()),
-    mtVoices = _sortVoices(_mtVoices()),
-    lbVoices = _sortVoices(_lbVoices()),
-    htVoices = _sortVoices(_htVoices()),
-    boVoices = _sortVoices(_boVoices()),
-    myVoices = _sortVoices(_myVoices()),
-    kmVoices = _sortVoices(_kmVoices()),
-    loVoices = _sortVoices(_loVoices()),
-    neVoices = _sortVoices(_neVoices()),
-    siVoices = _sortVoices(_siVoices()),
-    urVoices = _sortVoices(_urVoices()),
-    teVoices = _sortVoices(_teVoices()),
-    mlVoices = _sortVoices(_mlVoices()),
-    knVoices = _sortVoices(_knVoices()),
-    mrVoices = _sortVoices(_mrVoices()),
-    guVoices = _sortVoices(_guVoices()),
-    orVoices = _sortVoices(_orVoices()),
-    asVoices = _sortVoices(_asVoices()),
-    sdVoices = _sortVoices(_sdVoices()),
-    psVoices = _sortVoices(_psVoices()),
-    soVoices = _sortVoices(_soVoices()),
-    haVoices = _sortVoices(_haVoices()),
-    yoVoices = _sortVoices(_yoVoices()),
-    igVoices = _sortVoices(_igVoices()),
-    tiVoices = _sortVoices(_tiVoices()),
-    woVoices = _sortVoices(_woVoices()),
-    mgVoices = _sortVoices(_mgVoices()),
-    xhVoices = _sortVoices(_xhVoices()),
-    snVoices = _sortVoices(_snVoices()),
-    nyVoices = _sortVoices(_nyVoices()),
-    fjVoices = _sortVoices(_fjVoices()),
-    smVoices = _sortVoices(_smVoices()),
-    toVoices = _sortVoices(_toVoices()),
-    miVoices = _sortVoices(_miVoices()),
-    hawVoices = _sortVoices(_hawVoices()),
-    jvVoices = _sortVoices(_jvVoices()),
-    suVoices = _sortVoices(_suVoices()),
-    gdVoices = _sortVoices(_gdVoices()),
-    brVoices = _sortVoices(_brVoices()),
-    kwVoices = _sortVoices(_kwVoices()),
-    gvVoices = _sortVoices(_gvVoices()),
-    foVoices = _sortVoices(_foVoices()),
-    ocVoices = _sortVoices(_ocVoices()),
-    coVoices = _sortVoices(_coVoices()),
-    scVoices = _sortVoices(_scVoices()),
-    fyVoices = _sortVoices(_fyVoices()),
-    yiVoices = _sortVoices(_yiVoices()),
-    ladVoices = _sortVoices(_ladVoices()),
-    quVoices = _sortVoices(_quVoices()),
-    gnVoices = _sortVoices(_gnVoices()),
-    ayVoices = _sortVoices(_ayVoices()),
-    dzVoices = _sortVoices(_dzVoices()),
-    dvVoices = _sortVoices(_dvVoices()),
-    tetVoices = _sortVoices(_tetVoices()),
-    beVoices = _sortVoices(_beVoices()),
-    qyaVoices = _sortVoices(_qyaVoices()),
-    sjnVoices = _sortVoices(_sjnVoices()),
-    kuVoices = _sortVoices(_kuVoices()),
-    omVoices = _sortVoices(_omVoices()),
-    lnVoices = _sortVoices(_lnVoices()),
-    bhoVoices = _sortVoices(_bhoVoices()),
-    cebVoices = _sortVoices(_cebVoices()),
-    rmVoices = _sortVoices(_rmVoices()),
-    tyVoices = _sortVoices(_tyVoices()),
-    chVoices = _sortVoices(_chVoices()),
-    mhVoices = _sortVoices(_mhVoices()),
-    pauVoices = _sortVoices(_pauVoices()),
-    nahVoices = _sortVoices(_nahVoices()),
-    nvVoices = _sortVoices(_nvVoices()),
-    tlhVoices = _sortVoices(_tlhVoices()),
-    valVoices = _sortVoices(_valVoices()),
-    dthVoices = _sortVoices(_dthVoices());
-  if (
-    !enVoices.length &&
-    !ukVoices.length &&
-    !esVoices.length &&
-    !frVoices.length &&
-    !itVoices.length &&
-    !ptVoices.length &&
-    !deVoices.length &&
-    !heVoices.length &&
-    !arVoices.length &&
-    !plVoices.length &&
-    !zhVoices.length &&
-    !elVoices.length &&
-    !jaVoices.length &&
-    !trVoices.length &&
-    !nlVoices.length &&
-    !viVoices.length &&
-    !hiVoices.length &&
-    !bnVoices.length &&
-    !idVoices.length &&
-    !pcmVoices.length &&
-    !koVoices.length &&
-    !faVoices.length &&
-    !swVoices.length &&
-    !msVoices.length &&
-    !thVoices.length &&
-    !azVoices.length &&
-    !roVoices.length &&
-    !huVoices.length &&
-    !csVoices.length &&
-    !kkVoices.length &&
-    !svVoices.length &&
-    !kaVoices.length &&
-    !hrVoices.length &&
-    !srVoices.length &&
-    !bsVoices.length &&
-    !bgVoices.length &&
-    !skVoices.length &&
-    !hyVoices.length &&
-    !daVoices.length &&
-    !fiVoices.length &&
-    !noVoices.length &&
-    !laVoices.length &&
-    !ltVoices.length &&
-    !lvVoices.length &&
-    !etVoices.length &&
-    !slVoices.length &&
-    !mkVoices.length &&
-    !sqVoices.length &&
-    !isVoices.length &&
-    !cyVoices.length &&
-    !gaVoices.length &&
-    !tlVoices.length &&
-    !mnVoices.length &&
-    !uzVoices.length &&
-    !amVoices.length &&
-    !eoVoices.length &&
-    !taVoices.length &&
-    !paVoices.length &&
-    !zuVoices.length &&
-    !afVoices.length &&
-    !kyVoices.length &&
-    !tgVoices.length &&
-    !tkVoices.length &&
-    !ugVoices.length &&
-    !euVoices.length &&
-    !caVoices.length &&
-    !glVoices.length &&
-    !mtVoices.length &&
-    !lbVoices.length &&
-    !htVoices.length &&
-    !boVoices.length &&
-    !myVoices.length &&
-    !kmVoices.length &&
-    !loVoices.length &&
-    !neVoices.length &&
-    !siVoices.length &&
-    !urVoices.length &&
-    !teVoices.length &&
-    !mlVoices.length &&
-    !knVoices.length &&
-    !mrVoices.length &&
-    !guVoices.length &&
-    !orVoices.length &&
-    !asVoices.length &&
-    !sdVoices.length &&
-    !psVoices.length &&
-    !soVoices.length &&
-    !haVoices.length &&
-    !yoVoices.length &&
-    !igVoices.length &&
-    !tiVoices.length &&
-    !woVoices.length &&
-    !mgVoices.length &&
-    !xhVoices.length &&
-    !snVoices.length &&
-    !nyVoices.length &&
-    !fjVoices.length &&
-    !smVoices.length &&
-    !toVoices.length &&
-    !miVoices.length &&
-    !hawVoices.length &&
-    !jvVoices.length &&
-    !suVoices.length &&
-    !gdVoices.length &&
-    !brVoices.length &&
-    !kwVoices.length &&
-    !gvVoices.length &&
-    !foVoices.length &&
-    !ocVoices.length &&
-    !coVoices.length &&
-    !scVoices.length &&
-    !fyVoices.length &&
-    !yiVoices.length &&
-    !ladVoices.length &&
-    !quVoices.length &&
-    !gnVoices.length &&
-    !ayVoices.length &&
-    !dzVoices.length &&
-    !dvVoices.length &&
-    !tetVoices.length &&
-    !beVoices.length &&
-    !qyaVoices.length &&
-    !sjnVoices.length &&
-    !kuVoices.length &&
-    !omVoices.length &&
-    !lnVoices.length &&
-    !bhoVoices.length &&
-    !cebVoices.length &&
-    !rmVoices.length &&
-    !tyVoices.length &&
-    !chVoices.length &&
-    !mhVoices.length &&
-    !pauVoices.length &&
-    !nahVoices.length &&
-    !nvVoices.length &&
-    !tlhVoices.length &&
-    !valVoices.length &&
-    !dthVoices.length
-  ) {
-    container.innerHTML =
-      '<span style="font-size:.78rem;color:var(--text3);">' +
-      t('settings.voicesNotFound') +
-      '</span>';
-    return;
-  }
-  // Sections are collected here instead of appended directly, so they can be
-  // sorted alphabetically (by the localized language name) before being
-  // flushed to `container` in one pass — see the sort right after the last
-  // addSection/addMissing call below.
-  const sections: { key: string; el: HTMLElement }[] = [];
-  const langSortKey = (id: string): string => t(`lang.${id === 'uk' ? 'ua' : id}`);
-  const addSection = (
-    id: string,
-    flagCode: string,
-    title: string,
-    voices: SpeechSynthesisVoice[],
-    activeURI: string,
-    storageKey: string,
-    testText: string,
-  ): void => {
-    if (!voices.length) return;
-    const details = document.createElement('details');
-    details.className = 'voice-section';
-    details.style.cssText = 'width:100%;margin:6px 0;';
-    details.open = _openSectionIds.has(id);
-    details.addEventListener('toggle', () => {
-      if (details.open) _openSectionIds.add(id);
-      else _openSectionIds.delete(id);
-    });
-    const hdr = document.createElement('summary');
-    hdr.style.cssText =
-      'font-size:.7rem;font-weight:700;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;padding:6px 0;cursor:pointer;';
-    const flagImg = _sectionFlagImg(flagCode);
-    if (flagImg) hdr.appendChild(flagImg);
-    const activeLabel = voices.find((v) => v.voiceURI === activeURI);
-    hdr.appendChild(
-      document.createTextNode(
-        title + ` (${voices.length})` + (activeLabel ? ` — ${_getLabel(activeLabel).label}` : ''),
-      ),
-    );
-    details.appendChild(hdr);
-    const grid = document.createElement('div');
-    grid.style.cssText =
-      'display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;width:100%;margin-top:6px;';
-    voices.forEach((v) =>
-      grid.appendChild(
-        _makeCard(v, activeURI, (uri) => {
-          if (storageKey === 'ew_ws_voice') _enURI = uri;
-          else if (storageKey === 'ew_ws_es_voice') _esURI = uri;
-          else if (storageKey === 'ew_ws_fr_voice') _frURI = uri;
-          else if (storageKey === 'ew_ws_it_voice') _itURI = uri;
-          else if (storageKey === 'ew_ws_pt_voice') _ptURI = uri;
-          else if (storageKey === 'ew_ws_de_voice') _deURI = uri;
-          else if (storageKey === 'ew_ws_he_voice') _heURI = uri;
-          else if (storageKey === 'ew_ws_ar_voice') _arURI = uri;
-          else if (storageKey === 'ew_ws_pl_voice') _plURI = uri;
-          else if (storageKey === 'ew_ws_zh_voice') _zhURI = uri;
-          else if (storageKey === 'ew_ws_el_voice') _elURI = uri;
-          else if (storageKey === 'ew_ws_ja_voice') _jaURI = uri;
-          else if (storageKey === 'ew_ws_tr_voice') _trURI = uri;
-          else if (storageKey === 'ew_ws_nl_voice') _nlURI = uri;
-          else if (storageKey === 'ew_ws_vi_voice') _viURI = uri;
-          else if (storageKey === 'ew_ws_hi_voice') _hiURI = uri;
-          else if (storageKey === 'ew_ws_bn_voice') _bnURI = uri;
-          else if (storageKey === 'ew_ws_id_voice') _idURI = uri;
-          else if (storageKey === 'ew_ws_pcm_voice') _pcmURI = uri;
-          else if (storageKey === 'ew_ws_ko_voice') _koURI = uri;
-          else if (storageKey === 'ew_ws_fa_voice') _faURI = uri;
-          else if (storageKey === 'ew_ws_sw_voice') _swURI = uri;
-          else if (storageKey === 'ew_ws_ms_voice') _msURI = uri;
-          else if (storageKey === 'ew_ws_th_voice') _thURI = uri;
-          else if (storageKey === 'ew_ws_az_voice') _azURI = uri;
-          else if (storageKey === 'ew_ws_ro_voice') _roURI = uri;
-          else if (storageKey === 'ew_ws_hu_voice') _huURI = uri;
-          else if (storageKey === 'ew_ws_cs_voice') _csURI = uri;
-          else if (storageKey === 'ew_ws_kk_voice') _kkURI = uri;
-          else if (storageKey === 'ew_ws_sv_voice') _svURI = uri;
-          else if (storageKey === 'ew_ws_ka_voice') _kaURI = uri;
-          else if (storageKey === 'ew_ws_hr_voice') _hrURI = uri;
-          else if (storageKey === 'ew_ws_sr_voice') _srURI = uri;
-          else if (storageKey === 'ew_ws_bs_voice') _bsURI = uri;
-          else if (storageKey === 'ew_ws_bg_voice') _bgURI = uri;
-          else if (storageKey === 'ew_ws_sk_voice') _skURI = uri;
-          else if (storageKey === 'ew_ws_hy_voice') _hyURI = uri;
-          else if (storageKey === 'ew_ws_da_voice') _daURI = uri;
-          else if (storageKey === 'ew_ws_fi_voice') _fiURI = uri;
-          else if (storageKey === 'ew_ws_no_voice') _noURI = uri;
-          else if (storageKey === 'ew_ws_la_voice') _laURI = uri;
-          else if (storageKey === 'ew_ws_lt_voice') _ltURI = uri;
-          else if (storageKey === 'ew_ws_lv_voice') _lvURI = uri;
-          else if (storageKey === 'ew_ws_et_voice') _etURI = uri;
-          else if (storageKey === 'ew_ws_sl_voice') _slURI = uri;
-          else if (storageKey === 'ew_ws_mk_voice') _mkURI = uri;
-          else if (storageKey === 'ew_ws_sq_voice') _sqURI = uri;
-          else if (storageKey === 'ew_ws_is_voice') _isURI = uri;
-          else if (storageKey === 'ew_ws_cy_voice') _cyURI = uri;
-          else if (storageKey === 'ew_ws_ga_voice') _gaURI = uri;
-          else if (storageKey === 'ew_ws_tl_voice') _tlURI = uri;
-          else if (storageKey === 'ew_ws_mn_voice') _mnURI = uri;
-          else if (storageKey === 'ew_ws_uz_voice') _uzURI = uri;
-          else if (storageKey === 'ew_ws_am_voice') _amURI = uri;
-          else if (storageKey === 'ew_ws_eo_voice') _eoURI = uri;
-          else if (storageKey === 'ew_ws_ta_voice') _taURI = uri;
-          else if (storageKey === 'ew_ws_pa_voice') _paURI = uri;
-          else if (storageKey === 'ew_ws_zu_voice') _zuURI = uri;
-          else if (storageKey === 'ew_ws_af_voice') _afURI = uri;
-          else if (storageKey === 'ew_ws_ky_voice') _kyURI = uri;
-          else if (storageKey === 'ew_ws_tg_voice') _tgURI = uri;
-          else if (storageKey === 'ew_ws_tk_voice') _tkURI = uri;
-          else if (storageKey === 'ew_ws_ug_voice') _ugURI = uri;
-          else if (storageKey === 'ew_ws_eu_voice') _euURI = uri;
-          else if (storageKey === 'ew_ws_ca_voice') _caURI = uri;
-          else if (storageKey === 'ew_ws_gl_voice') _glURI = uri;
-          else if (storageKey === 'ew_ws_mt_voice') _mtURI = uri;
-          else if (storageKey === 'ew_ws_lb_voice') _lbURI = uri;
-          else if (storageKey === 'ew_ws_ht_voice') _htURI = uri;
-          else if (storageKey === 'ew_ws_bo_voice') _boURI = uri;
-          else if (storageKey === 'ew_ws_my_voice') _myURI = uri;
-          else if (storageKey === 'ew_ws_km_voice') _kmURI = uri;
-          else if (storageKey === 'ew_ws_lo_voice') _loURI = uri;
-          else if (storageKey === 'ew_ws_ne_voice') _neURI = uri;
-          else if (storageKey === 'ew_ws_si_voice') _siURI = uri;
-          else if (storageKey === 'ew_ws_ur_voice') _urURI = uri;
-          else if (storageKey === 'ew_ws_te_voice') _teURI = uri;
-          else if (storageKey === 'ew_ws_ml_voice') _mlURI = uri;
-          else if (storageKey === 'ew_ws_kn_voice') _knURI = uri;
-          else if (storageKey === 'ew_ws_mr_voice') _mrURI = uri;
-          else if (storageKey === 'ew_ws_gu_voice') _guURI = uri;
-          else if (storageKey === 'ew_ws_or_voice') _orURI = uri;
-          else if (storageKey === 'ew_ws_as_voice') _asURI = uri;
-          else if (storageKey === 'ew_ws_sd_voice') _sdURI = uri;
-          else if (storageKey === 'ew_ws_ps_voice') _psURI = uri;
-          else if (storageKey === 'ew_ws_so_voice') _soURI = uri;
-          else if (storageKey === 'ew_ws_ha_voice') _haURI = uri;
-          else if (storageKey === 'ew_ws_yo_voice') _yoURI = uri;
-          else if (storageKey === 'ew_ws_ig_voice') _igURI = uri;
-          else if (storageKey === 'ew_ws_ti_voice') _tiURI = uri;
-          else if (storageKey === 'ew_ws_wo_voice') _woURI = uri;
-          else if (storageKey === 'ew_ws_mg_voice') _mgURI = uri;
-          else if (storageKey === 'ew_ws_xh_voice') _xhURI = uri;
-          else if (storageKey === 'ew_ws_sn_voice') _snURI = uri;
-          else if (storageKey === 'ew_ws_ny_voice') _nyURI = uri;
-          else if (storageKey === 'ew_ws_fj_voice') _fjURI = uri;
-          else if (storageKey === 'ew_ws_sm_voice') _smURI = uri;
-          else if (storageKey === 'ew_ws_to_voice') _toURI = uri;
-          else if (storageKey === 'ew_ws_mi_voice') _miURI = uri;
-          else if (storageKey === 'ew_ws_haw_voice') _hawURI = uri;
-          else if (storageKey === 'ew_ws_jv_voice') _jvURI = uri;
-          else if (storageKey === 'ew_ws_su_voice') _suURI = uri;
-          else if (storageKey === 'ew_ws_gd_voice') _gdURI = uri;
-          else if (storageKey === 'ew_ws_br_voice') _brURI = uri;
-          else if (storageKey === 'ew_ws_kw_voice') _kwURI = uri;
-          else if (storageKey === 'ew_ws_gv_voice') _gvURI = uri;
-          else if (storageKey === 'ew_ws_fo_voice') _foURI = uri;
-          else if (storageKey === 'ew_ws_oc_voice') _ocURI = uri;
-          else if (storageKey === 'ew_ws_co_voice') _coURI = uri;
-          else if (storageKey === 'ew_ws_sc_voice') _scURI = uri;
-          else if (storageKey === 'ew_ws_fy_voice') _fyURI = uri;
-          else if (storageKey === 'ew_ws_yi_voice') _yiURI = uri;
-          else if (storageKey === 'ew_ws_lad_voice') _ladURI = uri;
-          else if (storageKey === 'ew_ws_qu_voice') _quURI = uri;
-          else if (storageKey === 'ew_ws_gn_voice') _gnURI = uri;
-          else if (storageKey === 'ew_ws_ay_voice') _ayURI = uri;
-          else if (storageKey === 'ew_ws_dz_voice') _dzURI = uri;
-          else if (storageKey === 'ew_ws_dv_voice') _dvURI = uri;
-          else if (storageKey === 'ew_ws_tet_voice') _tetURI = uri;
-          else if (storageKey === 'ew_ws_be_voice') _beURI = uri;
-          else if (storageKey === 'ew_ws_qya_voice') _qyaURI = uri;
-          else if (storageKey === 'ew_ws_sjn_voice') _sjnURI = uri;
-          else if (storageKey === 'ew_ws_ku_voice') _kuURI = uri;
-          else if (storageKey === 'ew_ws_om_voice') _omURI = uri;
-          else if (storageKey === 'ew_ws_ln_voice') _lnURI = uri;
-          else if (storageKey === 'ew_ws_bho_voice') _bhoURI = uri;
-          else if (storageKey === 'ew_ws_ceb_voice') _cebURI = uri;
-          else if (storageKey === 'ew_ws_rm_voice') _rmURI = uri;
-          else if (storageKey === 'ew_ws_ty_voice') _tyURI = uri;
-          else if (storageKey === 'ew_ws_ch_voice') _chURI = uri;
-          else if (storageKey === 'ew_ws_mh_voice') _mhURI = uri;
-          else if (storageKey === 'ew_ws_pau_voice') _pauURI = uri;
-          else if (storageKey === 'ew_ws_nah_voice') _nahURI = uri;
-          else if (storageKey === 'ew_ws_nv_voice') _nvURI = uri;
-          else if (storageKey === 'ew_ws_tlh_voice') _tlhURI = uri;
-          else if (storageKey === 'ew_ws_val_voice') _valURI = uri;
-          else if (storageKey === 'ew_ws_dth_voice') _dthURI = uri;
-          else _ukURI = uri;
-          localStorage.setItem(storageKey, uri);
-          _renderVoices();
-          synth?.cancel();
-          const u = new SpeechSynthesisUtterance(testText);
-          u.voice = v;
-          u.lang = v.lang;
-          u.rate = 0.88;
-          synth?.speak(u);
-        }),
-      ),
-    );
-    details.appendChild(grid);
-    sections.push({ key: langSortKey(id), el: details });
-  };
-  const addMissing = (id: string, flagCode: string, titleKey: string, descKey: string): void => {
-    const details = document.createElement('details');
-    details.className = 'voice-section';
-    details.style.cssText = 'width:100%;margin:6px 0;';
-    details.open = _openSectionIds.has(id);
-    details.addEventListener('toggle', () => {
-      if (details.open) _openSectionIds.add(id);
-      else _openSectionIds.delete(id);
-    });
-    const hdr = document.createElement('summary');
-    hdr.style.cssText =
-      'font-size:.7rem;font-weight:700;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;padding:6px 0;cursor:pointer;';
-    const flagImg = _sectionFlagImg(flagCode);
-    if (flagImg) hdr.appendChild(flagImg);
-    hdr.appendChild(document.createTextNode(t(titleKey)));
-    const noVoice = document.createElement('div');
-    noVoice.style.cssText =
-      'margin-top:6px;padding:12px 14px;border:1.5px dashed rgba(255,255,255,.12);border-radius:12px;font-size:.78rem;color:var(--text2);line-height:1.6;';
-    noVoice.innerHTML = t(descKey);
-    details.append(hdr, noVoice);
-    sections.push({ key: langSortKey(id), el: details });
-  };
-  addSection(
-    'en',
-    'gb',
-    t('settings.enVoicesTitle'),
-    enVoices,
-    _enURI,
-    'ew_ws_voice',
-    'Hello there, general Kenobi',
+function VoiceCard({
+  voice,
+  active,
+  onSelect,
+}: {
+  voice: SpeechSynthesisVoice;
+  active: boolean;
+  onSelect: (uri: string) => void;
+}): ReactElement {
+  const info = _getLabel(voice);
+  const accentUrl = flagUrl(info.accent);
+  return (
+    <button
+      className={'voice-card' + (active ? ' voice-card-active' : '')}
+      onClick={() => onSelect(voice.voiceURI)}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
+        <span style={{ fontSize: '1rem' }}>{info.gender}</span>
+        {accentUrl ? (
+          <img
+            src={accentUrl}
+            alt={info.accent}
+            width={16}
+            height={16}
+            style={{
+              borderRadius: '50%',
+              boxShadow: '0 0 0 1px var(--border)',
+              verticalAlign: 'middle',
+            }}
+          />
+        ) : (
+          info.accent
+        )}
+        <span style={{ fontSize: '.82rem', fontWeight: 600, color: 'var(--text)' }}>
+          {info.label}
+        </span>
+      </div>
+      <div style={{ fontSize: '.65rem', color: 'var(--text3)' }}>
+        {voice.lang} · {voice.localService ? t('settings.voiceOffline') : t('settings.voiceOnline')}
+      </div>
+    </button>
   );
-  if (ukVoices.length)
-    addSection(
-      'uk',
-      'ua',
-      t('settings.ukVoicesTitle'),
-      ukVoices,
-      _ukURI,
-      'ew_ws_uk_voice',
-      'Привіт, як справи',
-    );
-  else addMissing('uk', 'ua', 'settings.noUkVoicesTitle', 'settings.noUkVoicesDesc');
-  if (esVoices.length)
-    addSection(
-      'es',
-      'es',
-      t('settings.esVoicesTitle'),
-      esVoices,
-      _esURI,
-      'ew_ws_es_voice',
-      'Hola, ¿cómo estás?',
-    );
-  else addMissing('es', 'es', 'settings.noEsVoicesTitle', 'settings.noEsVoicesDesc');
-  if (frVoices.length)
-    addSection(
-      'fr',
-      'fr',
-      t('settings.frVoicesTitle'),
-      frVoices,
-      _frURI,
-      'ew_ws_fr_voice',
-      'Bonjour, comment ça va ?',
-    );
-  else addMissing('fr', 'fr', 'settings.noFrVoicesTitle', 'settings.noFrVoicesDesc');
-  if (itVoices.length)
-    addSection(
-      'it',
-      'it',
-      t('settings.itVoicesTitle'),
-      itVoices,
-      _itURI,
-      'ew_ws_it_voice',
-      'Ciao, come stai?',
-    );
-  else addMissing('it', 'it', 'settings.noItVoicesTitle', 'settings.noItVoicesDesc');
-  if (ptVoices.length)
-    addSection(
-      'pt',
-      'pt',
-      t('settings.ptVoicesTitle'),
-      ptVoices,
-      _ptURI,
-      'ew_ws_pt_voice',
-      'Olá, como você está?',
-    );
-  else addMissing('pt', 'pt', 'settings.noPtVoicesTitle', 'settings.noPtVoicesDesc');
-  if (deVoices.length)
-    addSection(
-      'de',
-      'de',
-      t('settings.deVoicesTitle'),
-      deVoices,
-      _deURI,
-      'ew_ws_de_voice',
-      'Hallo, wie geht es dir?',
-    );
-  else addMissing('de', 'de', 'settings.noDeVoicesTitle', 'settings.noDeVoicesDesc');
-  if (heVoices.length)
-    addSection(
-      'he',
-      'il',
-      t('settings.heVoicesTitle'),
-      heVoices,
-      _heURI,
-      'ew_ws_he_voice',
-      'שלום, מה נשמע?',
-    );
-  else addMissing('he', 'il', 'settings.noHeVoicesTitle', 'settings.noHeVoicesDesc');
-  if (arVoices.length)
-    addSection(
-      'ar',
-      'sa',
-      t('settings.arVoicesTitle'),
-      arVoices,
-      _arURI,
-      'ew_ws_ar_voice',
-      'مرحبا، كيف حالك؟',
-    );
-  else addMissing('ar', 'sa', 'settings.noArVoicesTitle', 'settings.noArVoicesDesc');
-  if (plVoices.length)
-    addSection(
-      'pl',
-      'pl',
-      t('settings.plVoicesTitle'),
-      plVoices,
-      _plURI,
-      'ew_ws_pl_voice',
-      'Cześć, jak się masz?',
-    );
-  else addMissing('pl', 'pl', 'settings.noPlVoicesTitle', 'settings.noPlVoicesDesc');
-  if (zhVoices.length)
-    addSection(
-      'zh',
-      'cn',
-      t('settings.zhVoicesTitle'),
-      zhVoices,
-      _zhURI,
-      'ew_ws_zh_voice',
-      '你好，你怎么样？',
-    );
-  else addMissing('zh', 'cn', 'settings.noZhVoicesTitle', 'settings.noZhVoicesDesc');
-  if (elVoices.length)
-    addSection(
-      'el',
-      'gr',
-      t('settings.elVoicesTitle'),
-      elVoices,
-      _elURI,
-      'ew_ws_el_voice',
-      'Γεια σου, τι κάνεις;',
-    );
-  else addMissing('el', 'gr', 'settings.noElVoicesTitle', 'settings.noElVoicesDesc');
-  if (jaVoices.length)
-    addSection(
-      'ja',
-      'jp',
-      t('settings.jaVoicesTitle'),
-      jaVoices,
-      _jaURI,
-      'ew_ws_ja_voice',
-      'こんにちは、お元気ですか？',
-    );
-  else addMissing('ja', 'jp', 'settings.noJaVoicesTitle', 'settings.noJaVoicesDesc');
-  if (trVoices.length)
-    addSection(
-      'tr',
-      'tr',
-      t('settings.trVoicesTitle'),
-      trVoices,
-      _trURI,
-      'ew_ws_tr_voice',
-      'Merhaba, nasılsın?',
-    );
-  else addMissing('tr', 'tr', 'settings.noTrVoicesTitle', 'settings.noTrVoicesDesc');
-  if (nlVoices.length)
-    addSection(
-      'nl',
-      'nl',
-      t('settings.nlVoicesTitle'),
-      nlVoices,
-      _nlURI,
-      'ew_ws_nl_voice',
-      'Hallo, hoe gaat het?',
-    );
-  else addMissing('nl', 'nl', 'settings.noNlVoicesTitle', 'settings.noNlVoicesDesc');
-  if (viVoices.length)
-    addSection(
-      'vi',
-      'vn',
-      t('settings.viVoicesTitle'),
-      viVoices,
-      _viURI,
-      'ew_ws_vi_voice',
-      'Xin chào, bạn khỏe không?',
-    );
-  else addMissing('vi', 'vn', 'settings.noViVoicesTitle', 'settings.noViVoicesDesc');
-  if (hiVoices.length)
-    addSection(
-      'hi',
-      'in',
-      t('settings.hiVoicesTitle'),
-      hiVoices,
-      _hiURI,
-      'ew_ws_hi_voice',
-      "नमस्ते! आपसे मिलकर खुशी हुई।",
-    );
-  else addMissing('hi', 'in', 'settings.noHiVoicesTitle', 'settings.noHiVoicesDesc');
-  if (bnVoices.length)
-    addSection(
-      'bn',
-      'bd',
-      t('settings.bnVoicesTitle'),
-      bnVoices,
-      _bnURI,
-      'ew_ws_bn_voice',
-      "হ্যালো! আপনার সাথে দেখা করে ভালো লাগলো।",
-    );
-  else addMissing('bn', 'bd', 'settings.noBnVoicesTitle', 'settings.noBnVoicesDesc');
-  if (idVoices.length)
-    addSection(
-      'id',
-      'id',
-      t('settings.idVoicesTitle'),
-      idVoices,
-      _idURI,
-      'ew_ws_id_voice',
-      "Halo! Senang bertemu denganmu.",
-    );
-  else addMissing('id', 'id', 'settings.noIdVoicesTitle', 'settings.noIdVoicesDesc');
-  if (pcmVoices.length)
-    addSection(
-      'pcm',
-      'ng',
-      t('settings.pcmVoicesTitle'),
-      pcmVoices,
-      _pcmURI,
-      'ew_ws_pcm_voice',
-      "Hello! E good to meet you.",
-    );
-  else addMissing('pcm', 'ng', 'settings.noPcmVoicesTitle', 'settings.noPcmVoicesDesc');
-  if (koVoices.length)
-    addSection(
-      'ko',
-      'kr',
-      t('settings.koVoicesTitle'),
-      koVoices,
-      _koURI,
-      'ew_ws_ko_voice',
-      "안녕하세요! 만나서 반갑습니다.",
-    );
-  else addMissing('ko', 'kr', 'settings.noKoVoicesTitle', 'settings.noKoVoicesDesc');
-  if (faVoices.length)
-    addSection(
-      'fa',
-      'ir',
-      t('settings.faVoicesTitle'),
-      faVoices,
-      _faURI,
-      'ew_ws_fa_voice',
-      "سلام! از آشنایی با شما خوشحالم.",
-    );
-  else addMissing('fa', 'ir', 'settings.noFaVoicesTitle', 'settings.noFaVoicesDesc');
-  if (swVoices.length)
-    addSection(
-      'sw',
-      'tz',
-      t('settings.swVoicesTitle'),
-      swVoices,
-      _swURI,
-      'ew_ws_sw_voice',
-      "Habari! Nafurahi kukutana nawe.",
-    );
-  else addMissing('sw', 'tz', 'settings.noSwVoicesTitle', 'settings.noSwVoicesDesc');
-  if (msVoices.length)
-    addSection(
-      'ms',
-      'my',
-      t('settings.msVoicesTitle'),
-      msVoices,
-      _msURI,
-      'ew_ws_ms_voice',
-      "Helo! Gembira bertemu dengan awak.",
-    );
-  else addMissing('ms', 'my', 'settings.noMsVoicesTitle', 'settings.noMsVoicesDesc');
-  if (thVoices.length)
-    addSection(
-      'th',
-      'th',
-      t('settings.thVoicesTitle'),
-      thVoices,
-      _thURI,
-      'ew_ws_th_voice',
-      "สวัสดี! ยินดีที่ได้พบคุณ",
-    );
-  else addMissing('th', 'th', 'settings.noThVoicesTitle', 'settings.noThVoicesDesc');
-  if (azVoices.length)
-    addSection(
-      'az',
-      'az',
-      t('settings.azVoicesTitle'),
-      azVoices,
-      _azURI,
-      'ew_ws_az_voice',
-      "Salam! Sizinlə tanış olmağıma şadam.",
-    );
-  else addMissing('az', 'az', 'settings.noAzVoicesTitle', 'settings.noAzVoicesDesc');
-  if (roVoices.length)
-    addSection(
-      'ro',
-      'ro',
-      t('settings.roVoicesTitle'),
-      roVoices,
-      _roURI,
-      'ew_ws_ro_voice',
-      "Salut! Mă bucur să te cunosc.",
-    );
-  else addMissing('ro', 'ro', 'settings.noRoVoicesTitle', 'settings.noRoVoicesDesc');
-  if (huVoices.length)
-    addSection(
-      'hu',
-      'hu',
-      t('settings.huVoicesTitle'),
-      huVoices,
-      _huURI,
-      'ew_ws_hu_voice',
-      "Szia! Örülök, hogy megismertelek.",
-    );
-  else addMissing('hu', 'hu', 'settings.noHuVoicesTitle', 'settings.noHuVoicesDesc');
-  if (csVoices.length)
-    addSection(
-      'cs',
-      'cz',
-      t('settings.csVoicesTitle'),
-      csVoices,
-      _csURI,
-      'ew_ws_cs_voice',
-      "Ahoj! Těší mě, že tě poznávám.",
-    );
-  else addMissing('cs', 'cz', 'settings.noCsVoicesTitle', 'settings.noCsVoicesDesc');
-  if (kkVoices.length)
-    addSection(
-      'kk',
-      'kz',
-      t('settings.kkVoicesTitle'),
-      kkVoices,
-      _kkURI,
-      'ew_ws_kk_voice',
-      "Сәлем! Танысқаныма қуаныштымын.",
-    );
-  else addMissing('kk', 'kz', 'settings.noKkVoicesTitle', 'settings.noKkVoicesDesc');
-  if (svVoices.length)
-    addSection(
-      'sv',
-      'se',
-      t('settings.svVoicesTitle'),
-      svVoices,
-      _svURI,
-      'ew_ws_sv_voice',
-      "Hej! Trevligt att träffa dig.",
-    );
-  else addMissing('sv', 'se', 'settings.noSvVoicesTitle', 'settings.noSvVoicesDesc');
-  if (kaVoices.length)
-    addSection(
-      'ka',
-      'ge',
-      t('settings.kaVoicesTitle'),
-      kaVoices,
-      _kaURI,
-      'ew_ws_ka_voice',
-      "გამარჯობა! სასიხარულოა შენი გაცნობა.",
-    );
-  else addMissing('ka', 'ge', 'settings.noKaVoicesTitle', 'settings.noKaVoicesDesc');
-  if (hrVoices.length)
-    addSection(
-      'hr',
-      'hr',
-      t('settings.hrVoicesTitle'),
-      hrVoices,
-      _hrURI,
-      'ew_ws_hr_voice',
-      "Bok! Drago mi je upoznati te.",
-    );
-  else addMissing('hr', 'hr', 'settings.noHrVoicesTitle', 'settings.noHrVoicesDesc');
-  if (srVoices.length)
-    addSection(
-      'sr',
-      'rs',
-      t('settings.srVoicesTitle'),
-      srVoices,
-      _srURI,
-      'ew_ws_sr_voice',
-      "Здраво! Драго ми је што сам те упознао.",
-    );
-  else addMissing('sr', 'rs', 'settings.noSrVoicesTitle', 'settings.noSrVoicesDesc');
-  if (bsVoices.length)
-    addSection(
-      'bs',
-      'ba',
-      t('settings.bsVoicesTitle'),
-      bsVoices,
-      _bsURI,
-      'ew_ws_bs_voice',
-      "Zdravo! Drago mi je što smo se upoznali.",
-    );
-  else addMissing('bs', 'ba', 'settings.noBsVoicesTitle', 'settings.noBsVoicesDesc');
-  if (bgVoices.length)
-    addSection(
-      'bg',
-      'bg',
-      t('settings.bgVoicesTitle'),
-      bgVoices,
-      _bgURI,
-      'ew_ws_bg_voice',
-      "Здравей! Приятно ми е да се запознаем.",
-    );
-  else addMissing('bg', 'bg', 'settings.noBgVoicesTitle', 'settings.noBgVoicesDesc');
-  if (skVoices.length)
-    addSection(
-      'sk',
-      'sk',
-      t('settings.skVoicesTitle'),
-      skVoices,
-      _skURI,
-      'ew_ws_sk_voice',
-      "Ahoj! Teší ma, že ťa spoznávam.",
-    );
-  else addMissing('sk', 'sk', 'settings.noSkVoicesTitle', 'settings.noSkVoicesDesc');
-  if (hyVoices.length)
-    addSection(
-      'hy',
-      'am',
-      t('settings.hyVoicesTitle'),
-      hyVoices,
-      _hyURI,
-      'ew_ws_hy_voice',
-      "Բարև! Ուրախ եմ ծանոթանալ ձեզ հետ.",
-    );
-  else addMissing('hy', 'am', 'settings.noHyVoicesTitle', 'settings.noHyVoicesDesc');
-  if (daVoices.length)
-    addSection(
-      'da',
-      'dk',
-      t('settings.daVoicesTitle'),
-      daVoices,
-      _daURI,
-      'ew_ws_da_voice',
-      "Hej! Rart at møde dig.",
-    );
-  else addMissing('da', 'dk', 'settings.noDaVoicesTitle', 'settings.noDaVoicesDesc');
-  if (fiVoices.length)
-    addSection(
-      'fi',
-      'fi',
-      t('settings.fiVoicesTitle'),
-      fiVoices,
-      _fiURI,
-      'ew_ws_fi_voice',
-      "Hei! Hauska tavata sinut.",
-    );
-  else addMissing('fi', 'fi', 'settings.noFiVoicesTitle', 'settings.noFiVoicesDesc');
-  if (noVoices.length)
-    addSection(
-      'no',
-      'no',
-      t('settings.noVoicesTitle'),
-      noVoices,
-      _noURI,
-      'ew_ws_no_voice',
-      "Hei! Hyggelig å møte deg.",
-    );
-  else addMissing('no', 'no', 'settings.noNoVoicesTitle', 'settings.noNoVoicesDesc');
-  if (laVoices.length)
-    addSection(
-      'la',
-      'spqr',
-      t('settings.laVoicesTitle'),
-      laVoices,
-      _laURI,
-      'ew_ws_la_voice',
-      "Salve! Gratum est te cognoscere.",
-    );
-  else addMissing('la', 'spqr', 'settings.noLaVoicesTitle', 'settings.noLaVoicesDesc');
-  if (ltVoices.length)
-    addSection(
-      'lt',
-      'lt',
-      t('settings.ltVoicesTitle'),
-      ltVoices,
-      _ltURI,
-      'ew_ws_lt_voice',
-      "Sveiki! Malonu su jumis susipažinti.",
-    );
-  else addMissing('lt', 'lt', 'settings.noLtVoicesTitle', 'settings.noLtVoicesDesc');
-  if (lvVoices.length)
-    addSection(
-      'lv',
-      'lv',
-      t('settings.lvVoicesTitle'),
-      lvVoices,
-      _lvURI,
-      'ew_ws_lv_voice',
-      "Sveiki! Prieks iepazīties.",
-    );
-  else addMissing('lv', 'lv', 'settings.noLvVoicesTitle', 'settings.noLvVoicesDesc');
-  if (etVoices.length)
-    addSection(
-      'et',
-      'ee',
-      t('settings.etVoicesTitle'),
-      etVoices,
-      _etURI,
-      'ew_ws_et_voice',
-      "Tere! Meeldiv tutvuda.",
-    );
-  else addMissing('et', 'ee', 'settings.noEtVoicesTitle', 'settings.noEtVoicesDesc');
-  if (slVoices.length)
-    addSection(
-      'sl',
-      'si',
-      t('settings.slVoicesTitle'),
-      slVoices,
-      _slURI,
-      'ew_ws_sl_voice',
-      "Živjo! Lepo, da sva se spoznala.",
-    );
-  else addMissing('sl', 'si', 'settings.noSlVoicesTitle', 'settings.noSlVoicesDesc');
-  if (mkVoices.length)
-    addSection(
-      'mk',
-      'mk',
-      t('settings.mkVoicesTitle'),
-      mkVoices,
-      _mkURI,
-      'ew_ws_mk_voice',
-      "Здраво! Мило ми е што те запознав.",
-    );
-  else addMissing('mk', 'mk', 'settings.noMkVoicesTitle', 'settings.noMkVoicesDesc');
-  if (sqVoices.length)
-    addSection(
-      'sq',
-      'al',
-      t('settings.sqVoicesTitle'),
-      sqVoices,
-      _sqURI,
-      'ew_ws_sq_voice',
-      "Përshëndetje! Gëzohem që të njoha.",
-    );
-  else addMissing('sq', 'al', 'settings.noSqVoicesTitle', 'settings.noSqVoicesDesc');
-  if (isVoices.length)
-    addSection(
-      'is',
-      'is',
-      t('settings.isVoicesTitle'),
-      isVoices,
-      _isURI,
-      'ew_ws_is_voice',
-      "Hæ! Gaman að kynnast þér.",
-    );
-  else addMissing('is', 'is', 'settings.noIsVoicesTitle', 'settings.noIsVoicesDesc');
-  if (cyVoices.length)
-    addSection(
-      'cy',
-      'wls',
-      t('settings.cyVoicesTitle'),
-      cyVoices,
-      _cyURI,
-      'ew_ws_cy_voice',
-      "Helo! Braf cwrdd â chi.",
-    );
-  else addMissing('cy', 'wls', 'settings.noCyVoicesTitle', 'settings.noCyVoicesDesc');
-  if (gaVoices.length)
-    addSection(
-      'ga',
-      'ie',
-      t('settings.gaVoicesTitle'),
-      gaVoices,
-      _gaURI,
-      'ew_ws_ga_voice',
-      "Dia duit! Tá áthas orm bualadh leat.",
-    );
-  else addMissing('ga', 'ie', 'settings.noGaVoicesTitle', 'settings.noGaVoicesDesc');
-  if (tlVoices.length)
-    addSection(
-      'tl',
-      'ph',
-      t('settings.tlVoicesTitle'),
-      tlVoices,
-      _tlURI,
-      'ew_ws_tl_voice',
-      "Kamusta! Ikinagagalak kitang makilala.",
-    );
-  else addMissing('tl', 'ph', 'settings.noTlVoicesTitle', 'settings.noTlVoicesDesc');
-  if (mnVoices.length)
-    addSection(
-      'mn',
-      'mn',
-      t('settings.mnVoicesTitle'),
-      mnVoices,
-      _mnURI,
-      'ew_ws_mn_voice',
-      "Сайн байна уу! Танилцаж сайхан байна.",
-    );
-  else addMissing('mn', 'mn', 'settings.noMnVoicesTitle', 'settings.noMnVoicesDesc');
-  if (uzVoices.length)
-    addSection(
-      'uz',
-      'uz',
-      t('settings.uzVoicesTitle'),
-      uzVoices,
-      _uzURI,
-      'ew_ws_uz_voice',
-      "Salom! Siz bilan tanishganimdan xursandman.",
-    );
-  else addMissing('uz', 'uz', 'settings.noUzVoicesTitle', 'settings.noUzVoicesDesc');
-  if (amVoices.length)
-    addSection(
-      'am',
-      'et',
-      t('settings.amVoicesTitle'),
-      amVoices,
-      _amURI,
-      'ew_ws_am_voice',
-      "ሰላም! በመተዋወቃችን ደስ ብሎኛል።",
-    );
-  else addMissing('am', 'et', 'settings.noAmVoicesTitle', 'settings.noAmVoicesDesc');
-  if (eoVoices.length)
-    addSection(
-      'eo',
-      'eo',
-      t('settings.eoVoicesTitle'),
-      eoVoices,
-      _eoURI,
-      'ew_ws_eo_voice',
-      "Saluton! Mi ĝojas vin renkonti.",
-    );
-  if (taVoices.length)
-    addSection(
-      'ta',
-      'in',
-      t('settings.taVoicesTitle'),
-      taVoices,
-      _taURI,
-      'ew_ws_ta_voice',
-      "Hello!",
-    );
-  else addMissing('ta', 'in', 'settings.noTaVoicesTitle', 'settings.noTaVoicesDesc');
-  if (paVoices.length)
-    addSection(
-      'pa',
-      'in',
-      t('settings.paVoicesTitle'),
-      paVoices,
-      _paURI,
-      'ew_ws_pa_voice',
-      "Hello!",
-    );
-  else addMissing('pa', 'in', 'settings.noPaVoicesTitle', 'settings.noPaVoicesDesc');
-  if (zuVoices.length)
-    addSection(
-      'zu',
-      'za',
-      t('settings.zuVoicesTitle'),
-      zuVoices,
-      _zuURI,
-      'ew_ws_zu_voice',
-      "Hello!",
-    );
-  else addMissing('zu', 'za', 'settings.noZuVoicesTitle', 'settings.noZuVoicesDesc');
-  if (afVoices.length)
-    addSection(
-      'af',
-      'za',
-      t('settings.afVoicesTitle'),
-      afVoices,
-      _afURI,
-      'ew_ws_af_voice',
-      "Hello!",
-    );
-  else addMissing('af', 'za', 'settings.noAfVoicesTitle', 'settings.noAfVoicesDesc');
-  if (kyVoices.length)
-    addSection(
-      'ky',
-      'kg',
-      t('settings.kyVoicesTitle'),
-      kyVoices,
-      _kyURI,
-      'ew_ws_ky_voice',
-      "Hello!",
-    );
-  else addMissing('ky', 'kg', 'settings.noKyVoicesTitle', 'settings.noKyVoicesDesc');
-  if (tgVoices.length)
-    addSection(
-      'tg',
-      'tj',
-      t('settings.tgVoicesTitle'),
-      tgVoices,
-      _tgURI,
-      'ew_ws_tg_voice',
-      "Hello!",
-    );
-  else addMissing('tg', 'tj', 'settings.noTgVoicesTitle', 'settings.noTgVoicesDesc');
-  if (tkVoices.length)
-    addSection(
-      'tk',
-      'tm',
-      t('settings.tkVoicesTitle'),
-      tkVoices,
-      _tkURI,
-      'ew_ws_tk_voice',
-      "Hello!",
-    );
-  else addMissing('tk', 'tm', 'settings.noTkVoicesTitle', 'settings.noTkVoicesDesc');
-  if (ugVoices.length)
-    addSection(
-      'ug',
-      'cn',
-      t('settings.ugVoicesTitle'),
-      ugVoices,
-      _ugURI,
-      'ew_ws_ug_voice',
-      "Hello!",
-    );
-  else addMissing('ug', 'cn', 'settings.noUgVoicesTitle', 'settings.noUgVoicesDesc');
-  if (euVoices.length)
-    addSection(
-      'eu',
-      'eu',
-      t('settings.euVoicesTitle'),
-      euVoices,
-      _euURI,
-      'ew_ws_eu_voice',
-      "Hello!",
-    );
-  else addMissing('eu', 'eu', 'settings.noEuVoicesTitle', 'settings.noEuVoicesDesc');
-  if (caVoices.length)
-    addSection(
-      'ca',
-      'cat',
-      t('settings.caVoicesTitle'),
-      caVoices,
-      _caURI,
-      'ew_ws_ca_voice',
-      "Hello!",
-    );
-  else addMissing('ca', 'cat', 'settings.noCaVoicesTitle', 'settings.noCaVoicesDesc');
-  if (glVoices.length)
-    addSection(
-      'gl',
-      'gal',
-      t('settings.glVoicesTitle'),
-      glVoices,
-      _glURI,
-      'ew_ws_gl_voice',
-      "Hello!",
-    );
-  else addMissing('gl', 'gal', 'settings.noGlVoicesTitle', 'settings.noGlVoicesDesc');
-  if (mtVoices.length)
-    addSection(
-      'mt',
-      'mt',
-      t('settings.mtVoicesTitle'),
-      mtVoices,
-      _mtURI,
-      'ew_ws_mt_voice',
-      "Hello!",
-    );
-  else addMissing('mt', 'mt', 'settings.noMtVoicesTitle', 'settings.noMtVoicesDesc');
-  if (lbVoices.length)
-    addSection(
-      'lb',
-      'lu',
-      t('settings.lbVoicesTitle'),
-      lbVoices,
-      _lbURI,
-      'ew_ws_lb_voice',
-      "Hello!",
-    );
-  else addMissing('lb', 'lu', 'settings.noLbVoicesTitle', 'settings.noLbVoicesDesc');
-  if (htVoices.length)
-    addSection(
-      'ht',
-      'ht',
-      t('settings.htVoicesTitle'),
-      htVoices,
-      _htURI,
-      'ew_ws_ht_voice',
-      "Hello!",
-    );
-  else addMissing('ht', 'ht', 'settings.noHtVoicesTitle', 'settings.noHtVoicesDesc');
-  if (boVoices.length)
-    addSection(
-      'bo',
-      'cn',
-      t('settings.boVoicesTitle'),
-      boVoices,
-      _boURI,
-      'ew_ws_bo_voice',
-      "Hello!",
-    );
-  else addMissing('bo', 'cn', 'settings.noBoVoicesTitle', 'settings.noBoVoicesDesc');
-  if (myVoices.length)
-    addSection(
-      'my',
-      'mm',
-      t('settings.myVoicesTitle'),
-      myVoices,
-      _myURI,
-      'ew_ws_my_voice',
-      "Hello!",
-    );
-  else addMissing('my', 'mm', 'settings.noMyVoicesTitle', 'settings.noMyVoicesDesc');
-  if (kmVoices.length)
-    addSection(
-      'km',
-      'kh',
-      t('settings.kmVoicesTitle'),
-      kmVoices,
-      _kmURI,
-      'ew_ws_km_voice',
-      "Hello!",
-    );
-  else addMissing('km', 'kh', 'settings.noKmVoicesTitle', 'settings.noKmVoicesDesc');
-  if (loVoices.length)
-    addSection(
-      'lo',
-      'la',
-      t('settings.loVoicesTitle'),
-      loVoices,
-      _loURI,
-      'ew_ws_lo_voice',
-      "Hello!",
-    );
-  else addMissing('lo', 'la', 'settings.noLoVoicesTitle', 'settings.noLoVoicesDesc');
-  if (neVoices.length)
-    addSection(
-      'ne',
-      'np',
-      t('settings.neVoicesTitle'),
-      neVoices,
-      _neURI,
-      'ew_ws_ne_voice',
-      "Hello!",
-    );
-  else addMissing('ne', 'np', 'settings.noNeVoicesTitle', 'settings.noNeVoicesDesc');
-  if (siVoices.length)
-    addSection(
-      'si',
-      'lk',
-      t('settings.siVoicesTitle'),
-      siVoices,
-      _siURI,
-      'ew_ws_si_voice',
-      "Hello!",
-    );
-  else addMissing('si', 'lk', 'settings.noSiVoicesTitle', 'settings.noSiVoicesDesc');
-  if (urVoices.length)
-    addSection(
-      'ur',
-      'pk',
-      t('settings.urVoicesTitle'),
-      urVoices,
-      _urURI,
-      'ew_ws_ur_voice',
-      "Hello!",
-    );
-  else addMissing('ur', 'pk', 'settings.noUrVoicesTitle', 'settings.noUrVoicesDesc');
-  if (teVoices.length)
-    addSection(
-      'te',
-      'in',
-      t('settings.teVoicesTitle'),
-      teVoices,
-      _teURI,
-      'ew_ws_te_voice',
-      "Hello!",
-    );
-  else addMissing('te', 'in', 'settings.noTeVoicesTitle', 'settings.noTeVoicesDesc');
-  if (mlVoices.length)
-    addSection(
-      'ml',
-      'in',
-      t('settings.mlVoicesTitle'),
-      mlVoices,
-      _mlURI,
-      'ew_ws_ml_voice',
-      "Hello!",
-    );
-  else addMissing('ml', 'in', 'settings.noMlVoicesTitle', 'settings.noMlVoicesDesc');
-  if (knVoices.length)
-    addSection(
-      'kn',
-      'in',
-      t('settings.knVoicesTitle'),
-      knVoices,
-      _knURI,
-      'ew_ws_kn_voice',
-      "Hello!",
-    );
-  else addMissing('kn', 'in', 'settings.noKnVoicesTitle', 'settings.noKnVoicesDesc');
-  if (mrVoices.length)
-    addSection(
-      'mr',
-      'in',
-      t('settings.mrVoicesTitle'),
-      mrVoices,
-      _mrURI,
-      'ew_ws_mr_voice',
-      "Hello!",
-    );
-  else addMissing('mr', 'in', 'settings.noMrVoicesTitle', 'settings.noMrVoicesDesc');
-  if (guVoices.length)
-    addSection(
-      'gu',
-      'in',
-      t('settings.guVoicesTitle'),
-      guVoices,
-      _guURI,
-      'ew_ws_gu_voice',
-      "Hello!",
-    );
-  else addMissing('gu', 'in', 'settings.noGuVoicesTitle', 'settings.noGuVoicesDesc');
-  if (orVoices.length)
-    addSection(
-      'or',
-      'in',
-      t('settings.orVoicesTitle'),
-      orVoices,
-      _orURI,
-      'ew_ws_or_voice',
-      "Hello!",
-    );
-  else addMissing('or', 'in', 'settings.noOrVoicesTitle', 'settings.noOrVoicesDesc');
-  if (asVoices.length)
-    addSection(
-      'as',
-      'in',
-      t('settings.asVoicesTitle'),
-      asVoices,
-      _asURI,
-      'ew_ws_as_voice',
-      "Hello!",
-    );
-  else addMissing('as', 'in', 'settings.noAsVoicesTitle', 'settings.noAsVoicesDesc');
-  if (sdVoices.length)
-    addSection(
-      'sd',
-      'pk',
-      t('settings.sdVoicesTitle'),
-      sdVoices,
-      _sdURI,
-      'ew_ws_sd_voice',
-      "Hello!",
-    );
-  else addMissing('sd', 'pk', 'settings.noSdVoicesTitle', 'settings.noSdVoicesDesc');
-  if (psVoices.length)
-    addSection(
-      'ps',
-      'af',
-      t('settings.psVoicesTitle'),
-      psVoices,
-      _psURI,
-      'ew_ws_ps_voice',
-      "Hello!",
-    );
-  else addMissing('ps', 'af', 'settings.noPsVoicesTitle', 'settings.noPsVoicesDesc');
-  if (soVoices.length)
-    addSection(
-      'so',
-      'so',
-      t('settings.soVoicesTitle'),
-      soVoices,
-      _soURI,
-      'ew_ws_so_voice',
-      "Hello!",
-    );
-  else addMissing('so', 'so', 'settings.noSoVoicesTitle', 'settings.noSoVoicesDesc');
-  if (haVoices.length)
-    addSection(
-      'ha',
-      'ng',
-      t('settings.haVoicesTitle'),
-      haVoices,
-      _haURI,
-      'ew_ws_ha_voice',
-      "Hello!",
-    );
-  else addMissing('ha', 'ng', 'settings.noHaVoicesTitle', 'settings.noHaVoicesDesc');
-  if (yoVoices.length)
-    addSection(
-      'yo',
-      'ng',
-      t('settings.yoVoicesTitle'),
-      yoVoices,
-      _yoURI,
-      'ew_ws_yo_voice',
-      "Hello!",
-    );
-  else addMissing('yo', 'ng', 'settings.noYoVoicesTitle', 'settings.noYoVoicesDesc');
-  if (igVoices.length)
-    addSection(
-      'ig',
-      'ng',
-      t('settings.igVoicesTitle'),
-      igVoices,
-      _igURI,
-      'ew_ws_ig_voice',
-      "Hello!",
-    );
-  else addMissing('ig', 'ng', 'settings.noIgVoicesTitle', 'settings.noIgVoicesDesc');
-  if (tiVoices.length)
-    addSection(
-      'ti',
-      'er',
-      t('settings.tiVoicesTitle'),
-      tiVoices,
-      _tiURI,
-      'ew_ws_ti_voice',
-      "Hello!",
-    );
-  else addMissing('ti', 'er', 'settings.noTiVoicesTitle', 'settings.noTiVoicesDesc');
-  if (woVoices.length)
-    addSection(
-      'wo',
-      'sn',
-      t('settings.woVoicesTitle'),
-      woVoices,
-      _woURI,
-      'ew_ws_wo_voice',
-      "Hello!",
-    );
-  else addMissing('wo', 'sn', 'settings.noWoVoicesTitle', 'settings.noWoVoicesDesc');
-  if (mgVoices.length)
-    addSection(
-      'mg',
-      'mg',
-      t('settings.mgVoicesTitle'),
-      mgVoices,
-      _mgURI,
-      'ew_ws_mg_voice',
-      "Hello!",
-    );
-  else addMissing('mg', 'mg', 'settings.noMgVoicesTitle', 'settings.noMgVoicesDesc');
-  if (xhVoices.length)
-    addSection(
-      'xh',
-      'za',
-      t('settings.xhVoicesTitle'),
-      xhVoices,
-      _xhURI,
-      'ew_ws_xh_voice',
-      "Hello!",
-    );
-  else addMissing('xh', 'za', 'settings.noXhVoicesTitle', 'settings.noXhVoicesDesc');
-  if (snVoices.length)
-    addSection(
-      'sn',
-      'zw',
-      t('settings.snVoicesTitle'),
-      snVoices,
-      _snURI,
-      'ew_ws_sn_voice',
-      "Hello!",
-    );
-  else addMissing('sn', 'zw', 'settings.noSnVoicesTitle', 'settings.noSnVoicesDesc');
-  if (nyVoices.length)
-    addSection(
-      'ny',
-      'mw',
-      t('settings.nyVoicesTitle'),
-      nyVoices,
-      _nyURI,
-      'ew_ws_ny_voice',
-      "Hello!",
-    );
-  else addMissing('ny', 'mw', 'settings.noNyVoicesTitle', 'settings.noNyVoicesDesc');
-  if (fjVoices.length)
-    addSection(
-      'fj',
-      'fj',
-      t('settings.fjVoicesTitle'),
-      fjVoices,
-      _fjURI,
-      'ew_ws_fj_voice',
-      "Hello!",
-    );
-  else addMissing('fj', 'fj', 'settings.noFjVoicesTitle', 'settings.noFjVoicesDesc');
-  if (smVoices.length)
-    addSection(
-      'sm',
-      'ws',
-      t('settings.smVoicesTitle'),
-      smVoices,
-      _smURI,
-      'ew_ws_sm_voice',
-      "Hello!",
-    );
-  else addMissing('sm', 'ws', 'settings.noSmVoicesTitle', 'settings.noSmVoicesDesc');
-  if (toVoices.length)
-    addSection(
-      'to',
-      'to',
-      t('settings.toVoicesTitle'),
-      toVoices,
-      _toURI,
-      'ew_ws_to_voice',
-      "Hello!",
-    );
-  else addMissing('to', 'to', 'settings.noToVoicesTitle', 'settings.noToVoicesDesc');
-  if (miVoices.length)
-    addSection(
-      'mi',
-      'nz',
-      t('settings.miVoicesTitle'),
-      miVoices,
-      _miURI,
-      'ew_ws_mi_voice',
-      "Hello!",
-    );
-  else addMissing('mi', 'nz', 'settings.noMiVoicesTitle', 'settings.noMiVoicesDesc');
-  if (hawVoices.length)
-    addSection(
-      'haw',
-      'us',
-      t('settings.hawVoicesTitle'),
-      hawVoices,
-      _hawURI,
-      'ew_ws_haw_voice',
-      "Hello!",
-    );
-  else addMissing('haw', 'us', 'settings.noHawVoicesTitle', 'settings.noHawVoicesDesc');
-  if (jvVoices.length)
-    addSection(
-      'jv',
-      'id',
-      t('settings.jvVoicesTitle'),
-      jvVoices,
-      _jvURI,
-      'ew_ws_jv_voice',
-      "Hello!",
-    );
-  else addMissing('jv', 'id', 'settings.noJvVoicesTitle', 'settings.noJvVoicesDesc');
-  if (suVoices.length)
-    addSection(
-      'su',
-      'id',
-      t('settings.suVoicesTitle'),
-      suVoices,
-      _suURI,
-      'ew_ws_su_voice',
-      "Hello!",
-    );
-  else addMissing('su', 'id', 'settings.noSuVoicesTitle', 'settings.noSuVoicesDesc');
-  if (gdVoices.length)
-    addSection(
-      'gd',
-      'sct',
-      t('settings.gdVoicesTitle'),
-      gdVoices,
-      _gdURI,
-      'ew_ws_gd_voice',
-      "Hello!",
-    );
-  else addMissing('gd', 'sct', 'settings.noGdVoicesTitle', 'settings.noGdVoicesDesc');
-  if (brVoices.length)
-    addSection(
-      'br',
-      'fr',
-      t('settings.brVoicesTitle'),
-      brVoices,
-      _brURI,
-      'ew_ws_br_voice',
-      "Hello!",
-    );
-  else addMissing('br', 'fr', 'settings.noBrVoicesTitle', 'settings.noBrVoicesDesc');
-  if (kwVoices.length)
-    addSection(
-      'kw',
-      'corn',
-      t('settings.kwVoicesTitle'),
-      kwVoices,
-      _kwURI,
-      'ew_ws_kw_voice',
-      "Hello!",
-    );
-  else addMissing('kw', 'corn', 'settings.noKwVoicesTitle', 'settings.noKwVoicesDesc');
-  if (gvVoices.length)
-    addSection(
-      'gv',
-      'gb',
-      t('settings.gvVoicesTitle'),
-      gvVoices,
-      _gvURI,
-      'ew_ws_gv_voice',
-      "Hello!",
-    );
-  else addMissing('gv', 'gb', 'settings.noGvVoicesTitle', 'settings.noGvVoicesDesc');
-  if (foVoices.length)
-    addSection(
-      'fo',
-      'fo',
-      t('settings.foVoicesTitle'),
-      foVoices,
-      _foURI,
-      'ew_ws_fo_voice',
-      "Hello!",
-    );
-  else addMissing('fo', 'fo', 'settings.noFoVoicesTitle', 'settings.noFoVoicesDesc');
-  if (ocVoices.length)
-    addSection(
-      'oc',
-      'fr',
-      t('settings.ocVoicesTitle'),
-      ocVoices,
-      _ocURI,
-      'ew_ws_oc_voice',
-      "Hello!",
-    );
-  else addMissing('oc', 'fr', 'settings.noOcVoicesTitle', 'settings.noOcVoicesDesc');
-  if (coVoices.length)
-    addSection(
-      'co',
-      'fr',
-      t('settings.coVoicesTitle'),
-      coVoices,
-      _coURI,
-      'ew_ws_co_voice',
-      "Hello!",
-    );
-  else addMissing('co', 'fr', 'settings.noCoVoicesTitle', 'settings.noCoVoicesDesc');
-  if (scVoices.length)
-    addSection(
-      'sc',
-      'it',
-      t('settings.scVoicesTitle'),
-      scVoices,
-      _scURI,
-      'ew_ws_sc_voice',
-      "Hello!",
-    );
-  else addMissing('sc', 'it', 'settings.noScVoicesTitle', 'settings.noScVoicesDesc');
-  if (fyVoices.length)
-    addSection(
-      'fy',
-      'nl',
-      t('settings.fyVoicesTitle'),
-      fyVoices,
-      _fyURI,
-      'ew_ws_fy_voice',
-      "Hello!",
-    );
-  else addMissing('fy', 'nl', 'settings.noFyVoicesTitle', 'settings.noFyVoicesDesc');
-  if (yiVoices.length)
-    addSection(
-      'yi',
-      'il',
-      t('settings.yiVoicesTitle'),
-      yiVoices,
-      _yiURI,
-      'ew_ws_yi_voice',
-      "Hello!",
-    );
-  else addMissing('yi', 'il', 'settings.noYiVoicesTitle', 'settings.noYiVoicesDesc');
-  if (ladVoices.length)
-    addSection(
-      'lad',
-      'es',
-      t('settings.ladVoicesTitle'),
-      ladVoices,
-      _ladURI,
-      'ew_ws_lad_voice',
-      "Hello!",
-    );
-  else addMissing('lad', 'es', 'settings.noLadVoicesTitle', 'settings.noLadVoicesDesc');
-  if (quVoices.length)
-    addSection(
-      'qu',
-      'pe',
-      t('settings.quVoicesTitle'),
-      quVoices,
-      _quURI,
-      'ew_ws_qu_voice',
-      "Hello!",
-    );
-  else addMissing('qu', 'pe', 'settings.noQuVoicesTitle', 'settings.noQuVoicesDesc');
-  if (gnVoices.length)
-    addSection(
-      'gn',
-      'py',
-      t('settings.gnVoicesTitle'),
-      gnVoices,
-      _gnURI,
-      'ew_ws_gn_voice',
-      "Hello!",
-    );
-  else addMissing('gn', 'py', 'settings.noGnVoicesTitle', 'settings.noGnVoicesDesc');
-  if (ayVoices.length)
-    addSection(
-      'ay',
-      'bo',
-      t('settings.ayVoicesTitle'),
-      ayVoices,
-      _ayURI,
-      'ew_ws_ay_voice',
-      "Hello!",
-    );
-  else addMissing('ay', 'bo', 'settings.noAyVoicesTitle', 'settings.noAyVoicesDesc');
-  if (dzVoices.length)
-    addSection(
-      'dz',
-      'bt',
-      t('settings.dzVoicesTitle'),
-      dzVoices,
-      _dzURI,
-      'ew_ws_dz_voice',
-      "Hello!",
-    );
-  else addMissing('dz', 'bt', 'settings.noDzVoicesTitle', 'settings.noDzVoicesDesc');
-  if (dvVoices.length)
-    addSection(
-      'dv',
-      'mv',
-      t('settings.dvVoicesTitle'),
-      dvVoices,
-      _dvURI,
-      'ew_ws_dv_voice',
-      "Hello!",
-    );
-  else addMissing('dv', 'mv', 'settings.noDvVoicesTitle', 'settings.noDvVoicesDesc');
-  if (tetVoices.length)
-    addSection(
-      'tet',
-      'tl',
-      t('settings.tetVoicesTitle'),
-      tetVoices,
-      _tetURI,
-      'ew_ws_tet_voice',
-      "Hello!",
-    );
-  else addMissing('tet', 'tl', 'settings.noTetVoicesTitle', 'settings.noTetVoicesDesc');
-  if (beVoices.length)
-    addSection(
-      'be',
-      'by',
-      t('settings.beVoicesTitle'),
-      beVoices,
-      _beURI,
-      'ew_ws_be_voice',
-      "Hello!",
-    );
-  else addMissing('be', 'by', 'settings.noBeVoicesTitle', 'settings.noBeVoicesDesc');
-  if (qyaVoices.length)
-    addSection(
-      'qya',
-      'qya',
-      t('settings.qyaVoicesTitle'),
-      qyaVoices,
-      _qyaURI,
-      'ew_ws_qya_voice',
-      "Elen síla lúmenn' omentielvo.",
-    );
-  else addMissing('qya', 'qya', 'settings.noQyaVoicesTitle', 'settings.noQyaVoicesDesc');
-  if (sjnVoices.length)
-    addSection(
-      'sjn',
-      'sjn',
-      t('settings.sjnVoicesTitle'),
-      sjnVoices,
-      _sjnURI,
-      'ew_ws_sjn_voice',
-      'Mae govannen.',
-    );
-  else addMissing('sjn', 'sjn', 'settings.noSjnVoicesTitle', 'settings.noSjnVoicesDesc');
-  if (kuVoices.length)
-    addSection('ku', 'ku', t('settings.kuVoicesTitle'), kuVoices, _kuURI, 'ew_ws_ku_voice', 'Silav!');
-  else addMissing('ku', 'ku', 'settings.noKuVoicesTitle', 'settings.noKuVoicesDesc');
-  if (omVoices.length)
-    addSection('om', 'et', t('settings.omVoicesTitle'), omVoices, _omURI, 'ew_ws_om_voice', 'Akkam?');
-  else addMissing('om', 'et', 'settings.noOmVoicesTitle', 'settings.noOmVoicesDesc');
-  if (lnVoices.length)
-    addSection('ln', 'cd', t('settings.lnVoicesTitle'), lnVoices, _lnURI, 'ew_ws_ln_voice', 'Mbote!');
-  else addMissing('ln', 'cd', 'settings.noLnVoicesTitle', 'settings.noLnVoicesDesc');
-  if (bhoVoices.length)
-    addSection('bho', 'in', t('settings.bhoVoicesTitle'), bhoVoices, _bhoURI, 'ew_ws_bho_voice', 'प्रणाम!');
-  else addMissing('bho', 'in', 'settings.noBhoVoicesTitle', 'settings.noBhoVoicesDesc');
-  if (cebVoices.length)
-    addSection('ceb', 'ph', t('settings.cebVoicesTitle'), cebVoices, _cebURI, 'ew_ws_ceb_voice', 'Kumusta!');
-  else addMissing('ceb', 'ph', 'settings.noCebVoicesTitle', 'settings.noCebVoicesDesc');
-  if (rmVoices.length)
-    addSection('rm', 'ch', t('settings.rmVoicesTitle'), rmVoices, _rmURI, 'ew_ws_rm_voice', 'Allegra!');
-  else addMissing('rm', 'ch', 'settings.noRmVoicesTitle', 'settings.noRmVoicesDesc');
-  if (tyVoices.length)
-    addSection('ty', 'pf', t('settings.tyVoicesTitle'), tyVoices, _tyURI, 'ew_ws_ty_voice', 'Ia ora na!');
-  else addMissing('ty', 'pf', 'settings.noTyVoicesTitle', 'settings.noTyVoicesDesc');
-  if (chVoices.length)
-    addSection('ch', 'gu', t('settings.chVoicesTitle'), chVoices, _chURI, 'ew_ws_ch_voice', 'Håfa adai!');
-  else addMissing('ch', 'gu', 'settings.noChVoicesTitle', 'settings.noChVoicesDesc');
-  if (mhVoices.length)
-    addSection('mh', 'mh', t('settings.mhVoicesTitle'), mhVoices, _mhURI, 'ew_ws_mh_voice', 'Yokwe!');
-  else addMissing('mh', 'mh', 'settings.noMhVoicesTitle', 'settings.noMhVoicesDesc');
-  if (pauVoices.length)
-    addSection('pau', 'pw', t('settings.pauVoicesTitle'), pauVoices, _pauURI, 'ew_ws_pau_voice', 'Alii!');
-  else addMissing('pau', 'pw', 'settings.noPauVoicesTitle', 'settings.noPauVoicesDesc');
-  if (nahVoices.length)
-    addSection('nah', 'mx', t('settings.nahVoicesTitle'), nahVoices, _nahURI, 'ew_ws_nah_voice', 'Niltze!');
-  else addMissing('nah', 'mx', 'settings.noNahVoicesTitle', 'settings.noNahVoicesDesc');
-  if (nvVoices.length)
-    addSection('nv', 'us', t('settings.nvVoicesTitle'), nvVoices, _nvURI, 'ew_ws_nv_voice', "Yá'át'ééh!");
-  else addMissing('nv', 'us', 'settings.noNvVoicesTitle', 'settings.noNvVoicesDesc');
-  if (tlhVoices.length)
-    addSection('tlh', 'tlh', t('settings.tlhVoicesTitle'), tlhVoices, _tlhURI, 'ew_ws_tlh_voice', 'nuqneH!');
-  else addMissing('tlh', 'tlh', 'settings.noTlhVoicesTitle', 'settings.noTlhVoicesDesc');
-  if (valVoices.length)
-    addSection('val', 'val', t('settings.valVoicesTitle'), valVoices, _valURI, 'ew_ws_val_voice', 'Rytsas!');
-  else addMissing('val', 'val', 'settings.noValVoicesTitle', 'settings.noValVoicesDesc');
-  if (dthVoices.length)
-    addSection('dth', 'dth', t('settings.dthVoicesTitle'), dthVoices, _dthURI, 'ew_ws_dth_voice', "M'athchomaroon!");
-  else addMissing('dth', 'dth', 'settings.noDthVoicesTitle', 'settings.noDthVoicesDesc');
-  sections.sort((a, b) => a.key.localeCompare(b.key, getLang()));
-  for (const s of sections) container.appendChild(s.el);
-  if (!_enURI && enVoices.length) {
-    _enURI = (enVoices.find((v) => v.name.toLowerCase().includes('google')) ?? enVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_voice', _enURI);
-  }
-  if (!_ukURI && ukVoices.length) {
-    _ukURI = ukVoices[0].voiceURI;
-    localStorage.setItem('ew_ws_uk_voice', _ukURI);
-  }
-  if (!_esURI && esVoices.length) {
-    _esURI = (esVoices.find((v) => v.name.toLowerCase().includes('google')) ?? esVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_es_voice', _esURI);
-  }
-  if (!_frURI && frVoices.length) {
-    _frURI = (frVoices.find((v) => v.name.toLowerCase().includes('google')) ?? frVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_fr_voice', _frURI);
-  }
-  if (!_itURI && itVoices.length) {
-    _itURI = (itVoices.find((v) => v.name.toLowerCase().includes('google')) ?? itVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_it_voice', _itURI);
-  }
-  if (!_ptURI && ptVoices.length) {
-    _ptURI = (ptVoices.find((v) => v.name.toLowerCase().includes('google')) ?? ptVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_pt_voice', _ptURI);
-  }
-  if (!_deURI && deVoices.length) {
-    _deURI = (deVoices.find((v) => v.name.toLowerCase().includes('google')) ?? deVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_de_voice', _deURI);
-  }
-  if (!_heURI && heVoices.length) {
-    _heURI = (heVoices.find((v) => v.name.toLowerCase().includes('google')) ?? heVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_he_voice', _heURI);
-  }
-  if (!_arURI && arVoices.length) {
-    _arURI = (arVoices.find((v) => v.name.toLowerCase().includes('google')) ?? arVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_ar_voice', _arURI);
-  }
-  if (!_plURI && plVoices.length) {
-    _plURI = (plVoices.find((v) => v.name.toLowerCase().includes('google')) ?? plVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_pl_voice', _plURI);
-  }
-  if (!_zhURI && zhVoices.length) {
-    _zhURI = (zhVoices.find((v) => v.name.toLowerCase().includes('google')) ?? zhVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_zh_voice', _zhURI);
-  }
-  if (!_elURI && elVoices.length) {
-    _elURI = (elVoices.find((v) => v.name.toLowerCase().includes('google')) ?? elVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_el_voice', _elURI);
-  }
-  if (!_jaURI && jaVoices.length) {
-    _jaURI = (jaVoices.find((v) => v.name.toLowerCase().includes('google')) ?? jaVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_ja_voice', _jaURI);
-  }
-  if (!_trURI && trVoices.length) {
-    _trURI = (trVoices.find((v) => v.name.toLowerCase().includes('google')) ?? trVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_tr_voice', _trURI);
-  }
-  if (!_nlURI && nlVoices.length) {
-    _nlURI = (nlVoices.find((v) => v.name.toLowerCase().includes('google')) ?? nlVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_nl_voice', _nlURI);
-  }
-  if (!_viURI && viVoices.length) {
-    _viURI = (viVoices.find((v) => v.name.toLowerCase().includes('google')) ?? viVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_vi_voice', _viURI);
-  }
-  if (!_hiURI && hiVoices.length) {
-    _hiURI = (hiVoices.find((v) => v.name.toLowerCase().includes('google')) ?? hiVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_hi_voice', _hiURI);
-  }
-  if (!_bnURI && bnVoices.length) {
-    _bnURI = (bnVoices.find((v) => v.name.toLowerCase().includes('google')) ?? bnVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_bn_voice', _bnURI);
-  }
-  if (!_idURI && idVoices.length) {
-    _idURI = (idVoices.find((v) => v.name.toLowerCase().includes('google')) ?? idVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_id_voice', _idURI);
-  }
-  if (!_pcmURI && pcmVoices.length) {
-    _pcmURI = (pcmVoices.find((v) => v.name.toLowerCase().includes('google')) ?? pcmVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_pcm_voice', _pcmURI);
-  }
-  if (!_koURI && koVoices.length) {
-    _koURI = (koVoices.find((v) => v.name.toLowerCase().includes('google')) ?? koVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_ko_voice', _koURI);
-  }
-  if (!_faURI && faVoices.length) {
-    _faURI = (faVoices.find((v) => v.name.toLowerCase().includes('google')) ?? faVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_fa_voice', _faURI);
-  }
-  if (!_swURI && swVoices.length) {
-    _swURI = (swVoices.find((v) => v.name.toLowerCase().includes('google')) ?? swVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_sw_voice', _swURI);
-  }
-  if (!_msURI && msVoices.length) {
-    _msURI = (msVoices.find((v) => v.name.toLowerCase().includes('google')) ?? msVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_ms_voice', _msURI);
-  }
-  if (!_thURI && thVoices.length) {
-    _thURI = (thVoices.find((v) => v.name.toLowerCase().includes('google')) ?? thVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_th_voice', _thURI);
-  }
-  if (!_azURI && azVoices.length) {
-    _azURI = (azVoices.find((v) => v.name.toLowerCase().includes('google')) ?? azVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_az_voice', _azURI);
-  }
-  if (!_roURI && roVoices.length) {
-    _roURI = (roVoices.find((v) => v.name.toLowerCase().includes('google')) ?? roVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_ro_voice', _roURI);
-  }
-  if (!_huURI && huVoices.length) {
-    _huURI = (huVoices.find((v) => v.name.toLowerCase().includes('google')) ?? huVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_hu_voice', _huURI);
-  }
-  if (!_csURI && csVoices.length) {
-    _csURI = (csVoices.find((v) => v.name.toLowerCase().includes('google')) ?? csVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_cs_voice', _csURI);
-  }
-  if (!_kkURI && kkVoices.length) {
-    _kkURI = (kkVoices.find((v) => v.name.toLowerCase().includes('google')) ?? kkVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_kk_voice', _kkURI);
-  }
-  if (!_svURI && svVoices.length) {
-    _svURI = (svVoices.find((v) => v.name.toLowerCase().includes('google')) ?? svVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_sv_voice', _svURI);
-  }
-  if (!_kaURI && kaVoices.length) {
-    _kaURI = (kaVoices.find((v) => v.name.toLowerCase().includes('google')) ?? kaVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_ka_voice', _kaURI);
-  }
-  if (!_hrURI && hrVoices.length) {
-    _hrURI = (hrVoices.find((v) => v.name.toLowerCase().includes('google')) ?? hrVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_hr_voice', _hrURI);
-  }
-  if (!_srURI && srVoices.length) {
-    _srURI = (srVoices.find((v) => v.name.toLowerCase().includes('google')) ?? srVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_sr_voice', _srURI);
-  }
-  if (!_bsURI && bsVoices.length) {
-    _bsURI = (bsVoices.find((v) => v.name.toLowerCase().includes('google')) ?? bsVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_bs_voice', _bsURI);
-  }
-  if (!_bgURI && bgVoices.length) {
-    _bgURI = (bgVoices.find((v) => v.name.toLowerCase().includes('google')) ?? bgVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_bg_voice', _bgURI);
-  }
-  if (!_skURI && skVoices.length) {
-    _skURI = (skVoices.find((v) => v.name.toLowerCase().includes('google')) ?? skVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_sk_voice', _skURI);
-  }
-  if (!_hyURI && hyVoices.length) {
-    _hyURI = (hyVoices.find((v) => v.name.toLowerCase().includes('google')) ?? hyVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_hy_voice', _hyURI);
-  }
-  if (!_daURI && daVoices.length) {
-    _daURI = (daVoices.find((v) => v.name.toLowerCase().includes('google')) ?? daVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_da_voice', _daURI);
-  }
-  if (!_fiURI && fiVoices.length) {
-    _fiURI = (fiVoices.find((v) => v.name.toLowerCase().includes('google')) ?? fiVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_fi_voice', _fiURI);
-  }
-  if (!_noURI && noVoices.length) {
-    _noURI = (noVoices.find((v) => v.name.toLowerCase().includes('google')) ?? noVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_no_voice', _noURI);
-  }
-  if (!_laURI && laVoices.length) {
-    _laURI = (laVoices.find((v) => v.name.toLowerCase().includes('google')) ?? laVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_la_voice', _laURI);
-  }
-  if (!_ltURI && ltVoices.length) {
-    _ltURI = (ltVoices.find((v) => v.name.toLowerCase().includes('google')) ?? ltVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_lt_voice', _ltURI);
-  }
-  if (!_lvURI && lvVoices.length) {
-    _lvURI = (lvVoices.find((v) => v.name.toLowerCase().includes('google')) ?? lvVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_lv_voice', _lvURI);
-  }
-  if (!_etURI && etVoices.length) {
-    _etURI = (etVoices.find((v) => v.name.toLowerCase().includes('google')) ?? etVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_et_voice', _etURI);
-  }
-  if (!_slURI && slVoices.length) {
-    _slURI = (slVoices.find((v) => v.name.toLowerCase().includes('google')) ?? slVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_sl_voice', _slURI);
-  }
-  if (!_mkURI && mkVoices.length) {
-    _mkURI = (mkVoices.find((v) => v.name.toLowerCase().includes('google')) ?? mkVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_mk_voice', _mkURI);
-  }
-  if (!_sqURI && sqVoices.length) {
-    _sqURI = (sqVoices.find((v) => v.name.toLowerCase().includes('google')) ?? sqVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_sq_voice', _sqURI);
-  }
-  if (!_isURI && isVoices.length) {
-    _isURI = (isVoices.find((v) => v.name.toLowerCase().includes('google')) ?? isVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_is_voice', _isURI);
-  }
-  if (!_cyURI && cyVoices.length) {
-    _cyURI = (cyVoices.find((v) => v.name.toLowerCase().includes('google')) ?? cyVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_cy_voice', _cyURI);
-  }
-  if (!_gaURI && gaVoices.length) {
-    _gaURI = (gaVoices.find((v) => v.name.toLowerCase().includes('google')) ?? gaVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_ga_voice', _gaURI);
-  }
-  if (!_tlURI && tlVoices.length) {
-    _tlURI = (tlVoices.find((v) => v.name.toLowerCase().includes('google')) ?? tlVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_tl_voice', _tlURI);
-  }
-  if (!_mnURI && mnVoices.length) {
-    _mnURI = (mnVoices.find((v) => v.name.toLowerCase().includes('google')) ?? mnVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_mn_voice', _mnURI);
-  }
-  if (!_uzURI && uzVoices.length) {
-    _uzURI = (uzVoices.find((v) => v.name.toLowerCase().includes('google')) ?? uzVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_uz_voice', _uzURI);
-  }
-  if (!_amURI && amVoices.length) {
-    _amURI = (amVoices.find((v) => v.name.toLowerCase().includes('google')) ?? amVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_am_voice', _amURI);
-  }
-  if (!_eoURI && eoVoices.length) {
-    _eoURI = (eoVoices.find((v) => v.name.toLowerCase().includes('google')) ?? eoVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_eo_voice', _eoURI);
-  }
-  if (!_taURI && taVoices.length) {
-    _taURI = (taVoices.find((v) => v.name.toLowerCase().includes('google')) ?? taVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_ta_voice', _taURI);
-  }
-  if (!_paURI && paVoices.length) {
-    _paURI = (paVoices.find((v) => v.name.toLowerCase().includes('google')) ?? paVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_pa_voice', _paURI);
-  }
-  if (!_zuURI && zuVoices.length) {
-    _zuURI = (zuVoices.find((v) => v.name.toLowerCase().includes('google')) ?? zuVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_zu_voice', _zuURI);
-  }
-  if (!_afURI && afVoices.length) {
-    _afURI = (afVoices.find((v) => v.name.toLowerCase().includes('google')) ?? afVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_af_voice', _afURI);
-  }
-  if (!_kyURI && kyVoices.length) {
-    _kyURI = (kyVoices.find((v) => v.name.toLowerCase().includes('google')) ?? kyVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_ky_voice', _kyURI);
-  }
-  if (!_tgURI && tgVoices.length) {
-    _tgURI = (tgVoices.find((v) => v.name.toLowerCase().includes('google')) ?? tgVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_tg_voice', _tgURI);
-  }
-  if (!_tkURI && tkVoices.length) {
-    _tkURI = (tkVoices.find((v) => v.name.toLowerCase().includes('google')) ?? tkVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_tk_voice', _tkURI);
-  }
-  if (!_ugURI && ugVoices.length) {
-    _ugURI = (ugVoices.find((v) => v.name.toLowerCase().includes('google')) ?? ugVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_ug_voice', _ugURI);
-  }
-  if (!_euURI && euVoices.length) {
-    _euURI = (euVoices.find((v) => v.name.toLowerCase().includes('google')) ?? euVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_eu_voice', _euURI);
-  }
-  if (!_caURI && caVoices.length) {
-    _caURI = (caVoices.find((v) => v.name.toLowerCase().includes('google')) ?? caVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_ca_voice', _caURI);
-  }
-  if (!_glURI && glVoices.length) {
-    _glURI = (glVoices.find((v) => v.name.toLowerCase().includes('google')) ?? glVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_gl_voice', _glURI);
-  }
-  if (!_mtURI && mtVoices.length) {
-    _mtURI = (mtVoices.find((v) => v.name.toLowerCase().includes('google')) ?? mtVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_mt_voice', _mtURI);
-  }
-  if (!_lbURI && lbVoices.length) {
-    _lbURI = (lbVoices.find((v) => v.name.toLowerCase().includes('google')) ?? lbVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_lb_voice', _lbURI);
-  }
-  if (!_htURI && htVoices.length) {
-    _htURI = (htVoices.find((v) => v.name.toLowerCase().includes('google')) ?? htVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_ht_voice', _htURI);
-  }
-  if (!_boURI && boVoices.length) {
-    _boURI = (boVoices.find((v) => v.name.toLowerCase().includes('google')) ?? boVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_bo_voice', _boURI);
-  }
-  if (!_myURI && myVoices.length) {
-    _myURI = (myVoices.find((v) => v.name.toLowerCase().includes('google')) ?? myVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_my_voice', _myURI);
-  }
-  if (!_kmURI && kmVoices.length) {
-    _kmURI = (kmVoices.find((v) => v.name.toLowerCase().includes('google')) ?? kmVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_km_voice', _kmURI);
-  }
-  if (!_loURI && loVoices.length) {
-    _loURI = (loVoices.find((v) => v.name.toLowerCase().includes('google')) ?? loVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_lo_voice', _loURI);
-  }
-  if (!_neURI && neVoices.length) {
-    _neURI = (neVoices.find((v) => v.name.toLowerCase().includes('google')) ?? neVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_ne_voice', _neURI);
-  }
-  if (!_siURI && siVoices.length) {
-    _siURI = (siVoices.find((v) => v.name.toLowerCase().includes('google')) ?? siVoices[0])
-      .voiceURI;
-    localStorage.setItem('ew_ws_si_voice', _siURI);
-  }
+}
+
+function VoiceSectionView({
+  section,
+  onSelect,
+}: {
+  section: LangSection;
+  onSelect: (section: LangSection, voice: SpeechSynthesisVoice) => void;
+}): ReactElement | null {
+  const voices = _sortVoices(section.voicesFn());
+  if (!voices.length) {
+    // 'eo' has no missing-fallback config — matches the original, which
+    // simply never called addMissing() for it (nothing rendered).
+    if (!section.noTitleKey || !section.descKey) return null;
+    return (
+      <details className="voice-section" style={{ width: '100%', margin: '6px 0' }}>
+        <summary
+          style={{
+            fontSize: '.7rem',
+            fontWeight: 700,
+            color: 'var(--text3)',
+            letterSpacing: '.05em',
+            textTransform: 'uppercase',
+            padding: '6px 0',
+            cursor: 'pointer',
+          }}
+        >
+          <VoiceFlagImg flagCode={section.flagCode} />
+          {t(section.noTitleKey)}
+        </summary>
+        <div
+          style={{
+            marginTop: 6,
+            padding: '12px 14px',
+            border: '1.5px dashed rgba(255,255,255,.12)',
+            borderRadius: 12,
+            fontSize: '.78rem',
+            color: 'var(--text2)',
+            lineHeight: 1.6,
+          }}
+          dangerouslySetInnerHTML={{ __html: t(section.descKey) }}
+        />
+      </details>
+    );
+  }
+
+  const activeURI = section.getURI();
+  const activeVoice = voices.find((v) => v.voiceURI === activeURI);
+  return (
+    <details className="voice-section" style={{ width: '100%', margin: '6px 0' }}>
+      <summary
+        style={{
+          fontSize: '.7rem',
+          fontWeight: 700,
+          color: 'var(--text3)',
+          letterSpacing: '.05em',
+          textTransform: 'uppercase',
+          padding: '6px 0',
+          cursor: 'pointer',
+        }}
+      >
+        <VoiceFlagImg flagCode={section.flagCode} />
+        {t(section.titleKey)} ({voices.length})
+        {activeVoice ? ` — ${_getLabel(activeVoice).label}` : ''}
+      </summary>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr))',
+          gap: 6,
+          width: '100%',
+          marginTop: 6,
+        }}
+      >
+        {voices.map((v) => (
+          <VoiceCard
+            key={v.voiceURI}
+            voice={v}
+            active={v.voiceURI === activeURI}
+            onSelect={() => onSelect(section, v)}
+          />
+        ))}
+      </div>
+    </details>
+  );
+}
+
+// Applies each section's default-selection heuristic (only ~76 of 138
+// languages have one configured — a pre-existing asymmetry inherited
+// verbatim from the original file, not introduced here; getSelectedXxVoice()
+// already falls back to voices[0] for actual playback regardless, this only
+// affects whether the picker shows a highlighted card / persists a choice
+// before the user ever picks one manually). Deliberately called before
+// building the section list (not after, like the original) so a freshly
+// auto-picked voice is highlighted immediately instead of only on the next
+// re-render — the original's ordering was an accident of where the block
+// happened to sit, not a deliberate deferred-highlight design.
+function _applyDefaultSelections(): void {
+  for (const section of LANG_SECTIONS) {
+    if (section.getURI() || !section.defaultSelect) continue;
+    const voices = section.voicesFn();
+    if (!voices.length) continue;
+    const chosen =
+      section.defaultSelect === 'google'
+        ? (voices.find((v) => v.name.toLowerCase().includes('google')) ?? voices[0])
+        : voices[0];
+    section.setURI(chosen.voiceURI);
+    localStorage.setItem(section.storageKey, chosen.voiceURI);
+  }
+}
+
+function onVoiceCardSelect(section: LangSection, voice: SpeechSynthesisVoice): void {
+  section.setURI(voice.voiceURI);
+  localStorage.setItem(section.storageKey, voice.voiceURI);
+  _bumpVoicePicker?.();
+  synth?.cancel();
+  const u = new SpeechSynthesisUtterance(section.testText);
+  u.voice = voice;
+  u.lang = voice.lang;
+  u.rate = 0.88;
+  synth?.speak(u);
+}
+
+let _bumpVoicePicker: (() => void) | null = null;
+
+// External trigger — called from app-root.tsx (settings page onActivate)
+// and i18n.ts (on UI language change), same registration-hook pattern as
+// stats-trigger.ts's refreshStatsPage()/cloud-sync.tsx's
+// _refreshCloudSyncUI(). A no-op if the picker isn't mounted, matching the
+// original's `if (!container) return;` guard.
+export function _renderVoices(): void {
+  _bumpVoicePicker?.();
 }
 
 let _loaded = false;
-function _tryLoad(): void {
+function _tryLoad(bump: () => void): void {
   if (_loaded) return;
   const v = window.speechSynthesis?.getVoices() ?? [];
   if (v.length) {
     _loaded = true;
-    _renderVoices();
+    bump();
   }
 }
-function _forceReload(): void {
+function _forceReload(bump: () => void): void {
   _loaded = false;
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
   const v = window.speechSynthesis.getVoices();
   if (v.length) {
     _loaded = true;
-    _renderVoices();
+    bump();
   } else {
     const handler = (): void => {
       window.speechSynthesis.removeEventListener('voiceschanged', handler);
       _loaded = false;
-      _tryLoad();
+      _tryLoad(bump);
     };
     window.speechSynthesis.addEventListener('voiceschanged', handler);
   }
 }
 
+function VoicePickerList({ debugMsg }: { debugMsg: string | null }): ReactElement {
+  const allEmpty = LANG_SECTIONS.every((s) => !s.voicesFn().length);
+  if (allEmpty) {
+    return (
+      <span style={{ fontSize: '.78rem', color: 'var(--text3)' }}>
+        {t('settings.voicesNotFound')}
+      </span>
+    );
+  }
+
+  _applyDefaultSelections();
+
+  const langSortKey = (id: string): string => t(`lang.${id === 'uk' ? 'ua' : id}`);
+  const sorted = LANG_SECTIONS.slice().sort((a, b) =>
+    langSortKey(a.id).localeCompare(langSortKey(b.id), getLang()),
+  );
+
+  return (
+    <>
+      {sorted.map((section) => (
+        <VoiceSectionView key={section.id} section={section} onSelect={onVoiceCardSelect} />
+      ))}
+      {debugMsg && (
+        <div
+          className="voice-debug-msg"
+          style={{
+            fontSize: '.72rem',
+            color: 'var(--text3)',
+            marginTop: 8,
+            padding: 8,
+            background: 'rgba(255,255,255,.05)',
+            borderRadius: 8,
+            wordBreak: 'break-all',
+          }}
+        >
+          {debugMsg}
+        </div>
+      )}
+    </>
+  );
+}
+
 export function VoiceInit(): ReactElement | null {
+  const [, bump0] = useState(0);
+  const [debugMsg, setDebugMsg] = useState<string | null>(null);
+  const bump = useCallback(() => bump0((n) => n + 1), []);
+
   useEffect(() => {
+    _bumpVoicePicker = bump;
     const onVoicesChanged = () => {
       _loaded = false;
-      _tryLoad();
+      _tryLoad(bump);
     };
     if (window.speechSynthesis) {
-      _tryLoad();
+      _tryLoad(bump);
       window.speechSynthesis.addEventListener('voiceschanged', onVoicesChanged);
     }
 
     // Re-render once when the Settings page opens (so the list reflects
     // voices loaded since last time) — NOT on every click inside it, which
-    // would collapse the per-language <details> dropdowns right back up.
+    // used to collapse the per-language <details> dropdowns right back up
+    // under the old innerHTML-rebuild implementation. Real React
+    // reconciliation no longer needs this for state preservation, but it
+    // still catches a voice list that changed while settings was closed
+    // without 'voiceschanged' ever firing, so it stays.
     const settingsOverlay = document.getElementById('settings-overlay');
     const onOverlayClassChange = () => {
-      if (settingsOverlay?.classList.contains('open')) _renderVoices();
+      if (settingsOverlay?.classList.contains('open')) bump();
     };
     const overlayObserver = new MutationObserver(onOverlayClassChange);
     if (settingsOverlay)
@@ -4294,33 +4017,33 @@ export function VoiceInit(): ReactElement | null {
       console.group(`[Voice debug] Всі доступні голоси (${all.length})`);
       all.forEach((v) => console.log(`${v.lang} | ${v.name} | local:${v.localService}`));
       console.groupEnd();
-      const dbg = document.getElementById('fy-voices-list');
-      if (dbg && !_ukVoices().length) {
-        const msg = document.createElement('div');
-        msg.className = 'voice-debug-msg';
-        msg.style.cssText =
-          'font-size:.72rem;color:var(--text3);margin-top:8px;padding:8px;background:rgba(255,255,255,.05);border-radius:8px;word-break:break-all;';
+      if (!_ukVoices().length) {
         const ukFound = all.filter(
           (v) =>
             (v.lang ?? '').toLowerCase().includes('uk') ||
             (v.name ?? '').toLowerCase().includes('ukra'),
         );
-        msg.textContent = `${t('settings.voicesFoundLabel')} ${all.length} ${t('settings.voicesLabel')} ${ukFound.map((v) => `${v.name} (${v.lang})`).join(', ') || t('settings.notFound')}`;
-        dbg.querySelector('.voice-debug-msg')?.remove();
-        dbg.appendChild(msg);
+        setDebugMsg(
+          `${t('settings.voicesFoundLabel')} ${all.length} ${t('settings.voicesLabel')} ${ukFound.map((v) => `${v.name} (${v.lang})`).join(', ') || t('settings.notFound')}`,
+        );
+      } else {
+        setDebugMsg(null);
       }
-      _forceReload();
+      _forceReload(bump);
     };
     const reloadBtn = document.getElementById('voices-reload-btn');
     reloadBtn?.addEventListener('click', onReloadClick);
 
     return () => {
+      _bumpVoicePicker = null;
       if (window.speechSynthesis)
         window.speechSynthesis.removeEventListener('voiceschanged', onVoicesChanged);
       overlayObserver.disconnect();
       reloadBtn?.removeEventListener('click', onReloadClick);
     };
-  }, []);
+  }, [bump]);
 
-  return null;
+  const container = document.getElementById('fy-voices-list');
+  if (!container) return null;
+  return createPortal(<VoicePickerList debugMsg={debugMsg} />, container);
 }

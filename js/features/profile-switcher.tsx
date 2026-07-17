@@ -226,10 +226,6 @@ export function ProfileSwitcher(): ReactElement {
     hBtn.appendChild(document.createTextNode(' ▾'));
   }, [active]);
 
-  useEffect(() => {
-    document.getElementById('prf-delete-overlay')?.classList.toggle('open', deleteTarget !== null);
-  }, [deleteTarget]);
-
   // Close dropdown/add-form on outside click.
   useEffect(() => {
     function onClick(e: MouseEvent): void {
@@ -363,8 +359,6 @@ export function ProfileSwitcher(): ReactElement {
   }
 
   if (!active) return <div ref={rootRef} />;
-
-  const deleteOverlay = document.getElementById('prf-delete-overlay');
 
   return (
     <div ref={rootRef}>
@@ -630,34 +624,50 @@ export function ProfileSwitcher(): ReactElement {
         )}
 
       {deleteTarget &&
-        deleteOverlay &&
         createPortal(
-          <div className="prf-delete-panel">
-            <div className="prf-delete-icon">🗑️</div>
-            <div className="prf-delete-title">Видалити профіль?</div>
-            <div className="prf-delete-name" id="prf-delete-name">
-              <CharacterAvatar
-                appearance={appearanceOf(deleteTarget)}
-                size={20}
-                variant="head"
-                animated={false}
-              />{' '}
-              {deleteTarget.name}
-            </div>
-            <div className="prf-delete-warn">Весь прогрес буде видалено безповоротно.</div>
-            <div className="prf-delete-btns">
-              <button
-                className="prf-delete-btn prf-delete-btn-cancel"
-                onClick={() => setDeleteTarget(null)}
-              >
-                {t('modal.cancelAlt')}
-              </button>
-              <button className="prf-delete-btn prf-delete-btn-confirm" onClick={confirmDelete}>
-                Видалити
-              </button>
+          // No backdrop-click-to-close (unlike the edit modal above) —
+          // matches the original static #prf-delete-overlay, which never
+          // had a click listener attached; only the Cancel/Delete buttons
+          // closed it.
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(0,0,0,.65)',
+              zIndex: 99999,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 16,
+            }}
+          >
+            <div className="prf-delete-panel">
+              <div className="prf-delete-icon">🗑️</div>
+              <div className="prf-delete-title">Видалити профіль?</div>
+              <div className="prf-delete-name" id="prf-delete-name">
+                <CharacterAvatar
+                  appearance={appearanceOf(deleteTarget)}
+                  size={20}
+                  variant="head"
+                  animated={false}
+                />{' '}
+                {deleteTarget.name}
+              </div>
+              <div className="prf-delete-warn">Весь прогрес буде видалено безповоротно.</div>
+              <div className="prf-delete-btns">
+                <button
+                  className="prf-delete-btn prf-delete-btn-cancel"
+                  onClick={() => setDeleteTarget(null)}
+                >
+                  {t('modal.cancelAlt')}
+                </button>
+                <button className="prf-delete-btn prf-delete-btn-confirm" onClick={confirmDelete}>
+                  Видалити
+                </button>
+              </div>
             </div>
           </div>,
-          deleteOverlay,
+          document.body,
         )}
     </div>
   );

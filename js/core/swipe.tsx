@@ -1,5 +1,14 @@
 // Vymova — js/core/swipe.tsx
 // Touch swipe gestures on the flashcard
+//
+// #card's classList/style also has two other independent writers:
+// card-engine.ts's render() (owns the 'is-known' class, based on SRS/known
+// state) and card-actions.ts's reset-progress confirm (clears 'is-known'
+// once, right before calling render()). No active conflict today — this
+// file only ever touches 'swipe-right'/'swipe-left'/'swipe-up' plus
+// style.transform/transition, disjoint from 'is-known' — but a future
+// change that adds a class-list *replace* (vs add/remove) anywhere on
+// #card would silently clobber whichever of these ran last.
 import { useEffect } from 'react';
 import { getFlippedSnapshot } from '../../src/deck-store.ts';
 import { setFlipped } from './card-engine.ts';

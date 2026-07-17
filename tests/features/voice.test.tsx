@@ -29,6 +29,14 @@ function makeVoice(name: string, lang: string, localService = true): FakeVoice {
   return { name, lang, voiceURI: name, localService };
 }
 
+// mount() renders <VoiceInit/> — which portals the picker straight into the
+// real #fy-voices-list DOM node, so `container` (the react-root's own mount
+// div) always stays empty; assertions on the picker itself go through
+// document.getElementById('fy-voices-list') instead. Since the picker
+// recomputes everything fresh from speechSynthesis/localStorage on every
+// render (no cached props), stubbing voices BEFORE calling mount() is
+// enough to see them reflected immediately — no separate _renderVoices()
+// call needed afterward, unlike the old imperative implementation.
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
@@ -87,7 +95,7 @@ describe('voice.tsx', () => {
     vi.unstubAllGlobals();
   });
 
-  it('renders nothing', () => {
+  it('renders nothing into its own mount point (picker portals into #fy-voices-list instead)', () => {
     const { container, root } = mount();
     roots.push(root);
     expect(container.innerHTML).toBe('');
@@ -95,7 +103,9 @@ describe('voice.tsx', () => {
 
   it('shows the "not found" message when there are no voices', () => {
     vi.stubGlobal('speechSynthesis', makeFakeSynth([]));
-    _renderVoices();
+    const { root } = mount();
+    roots.push(root);
+
     const list = document.getElementById('fy-voices-list')!;
     expect(list.textContent).toContain('Голоси не знайдено');
   });
@@ -103,7 +113,8 @@ describe('voice.tsx', () => {
   it('renders EN voices and "missing" notices for languages without voices', () => {
     const voices = [makeVoice('Google US English', 'en-US'), makeVoice('Microsoft David', 'en-US')];
     vi.stubGlobal('speechSynthesis', makeFakeSynth(voices));
-    _renderVoices();
+    const { root } = mount();
+    roots.push(root);
 
     const list = document.getElementById('fy-voices-list')!;
     expect(list.textContent).toContain('Англійські голоси');
@@ -115,7 +126,8 @@ describe('voice.tsx', () => {
   it('renders Ukrainian voices when present', () => {
     const voices = [makeVoice('Google US English', 'en-US'), makeVoice('Microsoft Ostap', 'uk-UA')];
     vi.stubGlobal('speechSynthesis', makeFakeSynth(voices));
-    _renderVoices();
+    const { root } = mount();
+    roots.push(root);
 
     const list = document.getElementById('fy-voices-list')!;
     expect(list.textContent).toContain('Українські голоси (UA→EN картки)');
@@ -126,7 +138,8 @@ describe('voice.tsx', () => {
     const voices = [makeVoice('Google US English', 'en-US'), makeVoice('Microsoft David', 'en-US')];
     const fakeSynth = makeFakeSynth(voices);
     vi.stubGlobal('speechSynthesis', fakeSynth);
-    _renderVoices();
+    const { root } = mount();
+    roots.push(root);
 
     const cards = document.querySelectorAll<HTMLButtonElement>('.voice-card');
     act(() => {
@@ -198,7 +211,8 @@ describe('voice.tsx', () => {
   it('renders Hebrew/Arabic voice sections and "missing" notices when absent', () => {
     const voices = [makeVoice('Google US English', 'en-US')];
     vi.stubGlobal('speechSynthesis', makeFakeSynth(voices));
-    _renderVoices();
+    const { root } = mount();
+    roots.push(root);
 
     const list = document.getElementById('fy-voices-list')!;
     expect(list.textContent).toContain('Голосів івриту не знайдено');
@@ -212,7 +226,8 @@ describe('voice.tsx', () => {
       makeVoice('Microsoft Hamed', 'ar-SA'),
     ];
     vi.stubGlobal('speechSynthesis', makeFakeSynth(voices));
-    _renderVoices();
+    const { root } = mount();
+    roots.push(root);
 
     const list = document.getElementById('fy-voices-list')!;
     expect(list.textContent).not.toContain('Голосів івриту не знайдено');
@@ -230,23 +245,32 @@ describe('voice.tsx', () => {
     expect(list.querySelectorAll('.voice-card').length).toBe(1);
   });
 
+  // A plain click inside the (already open) overlay must NOT force a
+  // re-render — under the old innerHTML-rebuild implementation that would
+  // collapse any <details> dropdown the user just expanded. Verified here
+  // via a voice list that changes AFTER mount: a plain click must not pick
+  // the change up, only the overlay gaining the 'open' class should.
   it('opening the settings overlay re-renders voices, but clicking inside it does not', async () => {
-    const voices = [makeVoice('Google US English', 'en-US')];
-    vi.stubGlobal('speechSynthesis', makeFakeSynth(voices));
+    const fakeSynth = makeFakeSynth([makeVoice('Google US English', 'en-US')]);
+    vi.stubGlobal('speechSynthesis', fakeSynth);
     const { root } = mount();
     roots.push(root);
+    expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(
+      1,
+    );
 
-    // A plain click inside the (already open) overlay must NOT force a
-    // re-render — that would collapse any <details> dropdown the user just
-    // expanded. Only the overlay gaining the 'open' class re-renders.
-    document.getElementById('fy-voices-list')!.innerHTML = '';
+    fakeSynth.getVoices.mockReturnValue([
+      makeVoice('Google US English', 'en-US'),
+      makeVoice('Microsoft David', 'en-US'),
+    ]);
+
     act(() => {
       document
         .getElementById('settings-overlay')!
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
     expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(
-      0,
+      1,
     );
 
     await act(async () => {
@@ -254,7 +278,7 @@ describe('voice.tsx', () => {
       await Promise.resolve();
     });
     expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(
-      1,
+      2,
     );
   });
 
@@ -278,6 +302,50 @@ describe('voice.tsx', () => {
       1,
     );
     logSpy.mockRestore();
+  });
+
+  it('reload button shows a debug message listing found Ukrainian-ish voices when none pass the uk filter', () => {
+    const voices = [makeVoice('Google US English', 'en-US')];
+    const fakeSynth = makeFakeSynth(voices);
+    vi.stubGlobal('speechSynthesis', fakeSynth);
+    const { root } = mount();
+    roots.push(root);
+    vi.spyOn(console, 'log').mockImplementation(() => {});
+    vi.spyOn(console, 'group').mockImplementation(() => {});
+    vi.spyOn(console, 'groupEnd').mockImplementation(() => {});
+
+    act(() => {
+      document
+        .getElementById('voices-reload-btn')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+
+    expect(document.querySelector('.voice-debug-msg')).not.toBeNull();
+  });
+
+  // _renderVoices() is a registration-hook trigger — a no-op when nothing's
+  // mounted yet (matches the original's `if (!container) return;` guard),
+  // and forces a fresh re-render (from live speechSynthesis/localStorage
+  // state) once VoiceInit is mounted.
+  it('_renderVoices() is a no-op before VoiceInit mounts, and force-refreshes afterward', () => {
+    vi.stubGlobal('speechSynthesis', makeFakeSynth([]));
+    expect(() => _renderVoices()).not.toThrow();
+
+    const fakeSynth = makeFakeSynth([]);
+    vi.stubGlobal('speechSynthesis', fakeSynth);
+    const { root } = mount();
+    roots.push(root);
+    expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(
+      0,
+    );
+
+    fakeSynth.getVoices.mockReturnValue([makeVoice('Google US English', 'en-US')]);
+    act(() => {
+      _renderVoices();
+    });
+    expect(document.getElementById('fy-voices-list')!.querySelectorAll('.voice-card').length).toBe(
+      1,
+    );
   });
 
   it('speakEnAccent picks the voice matching the requested accent', () => {

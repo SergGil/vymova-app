@@ -1,6 +1,6 @@
 // Vymova — js/features/cloud-sync.tsx
 // Firebase Realtime Database sync via REST API (no SDK)
-import { useEffect, type ReactElement } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactElement } from 'react';
 import * as LZString from 'lz-string';
 import { t } from './i18n.ts';
 import { DYNAMIC_KEY_PREFIXES } from './profile-switcher.tsx';
@@ -309,17 +309,22 @@ function _fmtLast(): string {
   return Math.floor(hrs / 24) + ' ' + t('settings.cloudDayAgo');
 }
 
+// Auto-save runs from timers outside any component (interval, debounced
+// progress-push), so its result can't go through component state directly —
+// this flag is read by CloudSyncSection's render, and _bumpLastLabel (set
+// by the component's own effect) forces the re-render that picks it up.
+let _lastAutoSaveError = false;
+
 async function _autoSave(): Promise<void> {
   try {
     await saveToCloud();
     localStorage.setItem(LAST_LS, String(Date.now()));
-    const el = document.getElementById('cs-last');
-    if (el) el.textContent = t('settings.cloudAutoPrefix') + ' ' + _fmtLast();
+    _lastAutoSaveError = false;
   } catch (err) {
-    const el = document.getElementById('cs-last');
-    if (el) el.textContent = t('settings.cloudSyncError');
+    _lastAutoSaveError = true;
     console.warn('[cloud-sync] auto-save failed:', err);
   }
+  _bumpLastLabel?.();
 }
 
 function _startAutoSync(): void {
@@ -335,120 +340,36 @@ function _startAutoSync(): void {
   _autoTimer = setInterval(_autoSave, min * 60 * 1000);
 }
 
+// Registration-hook so the settings page's onActivate (app-root.tsx) can
+// force a re-render of the "last synced" label — CloudSyncSection is always
+// mounted (Portal into a static index.html node), so opening the settings
+// overlay only toggles CSS visibility, not mount/unmount; without this the
+// relative "X min ago" label would go stale for as long as the page stays
+// open. Same registration-hook pattern as stats-trigger.ts's _bumpTick.
+let _bumpLastLabel: (() => void) | null = null;
+
 export function _refreshCloudSyncUI(): void {
-  const lastEl = document.getElementById('cs-last');
-  if (lastEl && _fmtLast()) lastEl.textContent = t('settings.cloudAutoPrefix') + ' ' + _fmtLast();
+  _bumpLastLabel?.();
 }
 
-export function CloudSyncInit(): ReactElement | null {
+const _rowStyle: CSSProperties = { display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10 };
+const _sectionLabelStyle: CSSProperties = { fontSize: '0.74rem', color: 'var(--text3)', marginBottom: 7 };
+const _dividerStyle: CSSProperties = { borderTop: '1px solid var(--border)', paddingTop: 10 };
+
+export function CloudSyncSection(): ReactElement {
+  const [, bump] = useState(0);
+  const [copied, setCopied] = useState(false);
+  const [interval_, setInterval_] = useState(() => _getIntervalMin());
+  const [restoreKey, setRestoreKey] = useState('');
+  const [restoreBusy, setRestoreBusy] = useState(false);
+  const [msg, setMsg] = useState<{ text: string; color: string }>({ text: '', color: '' });
+  const [saving, setSaving] = useState(false);
+
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const msgClearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
-    // Show key
-    const codeEl = document.getElementById('cs-code');
-    if (codeEl) codeEl.textContent = _fmt(_getKey());
-
-    // Last sync label
-    const lastEl = document.getElementById('cs-last');
-    if (lastEl && _fmtLast()) lastEl.textContent = t('settings.cloudAutoPrefix') + ' ' + _fmtLast();
-
-    // Restore interval dropdown to saved value
-    const sel = document.getElementById('cs-interval') as HTMLSelectElement | null;
-    if (sel) sel.value = String(_getIntervalMin());
-
-    const msg = document.getElementById('cs-msg');
-    function setMsg(text: string, color: string): void {
-      if (!msg) return;
-      msg.textContent = text;
-      msg.style.color = color;
-    }
-
-    // Copy key
-    const copyBtn = document.getElementById('cs-copy');
-    const onCopy = () => {
-      navigator.clipboard
-        .writeText(_fmt(_getKey()))
-        .then(() => {
-          const btn = document.getElementById('cs-copy')!;
-          const orig = btn.textContent;
-          btn.textContent = t('settings.cloudCopied');
-          setTimeout(() => {
-            btn.textContent = orig ?? t('settings.cloudCopy');
-          }, 2000);
-        })
-        .catch(() => prompt(t('settings.cloudYourKey'), _fmt(_getKey())));
-    };
-    copyBtn?.addEventListener('click', onCopy);
-
-    // Save button
-    const saveBtn = document.getElementById('cs-save') as HTMLButtonElement | null;
-    const onSave = async () => {
-      if (saveBtn) saveBtn.disabled = true;
-      setMsg(t('settings.cloudSaving'), 'var(--text3)');
-      try {
-        await saveToCloud();
-        localStorage.setItem(LAST_LS, String(Date.now()));
-        if (lastEl) lastEl.textContent = t('settings.cloudAutoPrefix') + ' ' + _fmtLast();
-        setMsg(t('settings.cloudSaved'), 'var(--success)');
-      } catch (e) {
-        setMsg('❌ ' + (e as Error).message, 'var(--danger)');
-      } finally {
-        if (saveBtn) saveBtn.disabled = false;
-      }
-    };
-    saveBtn?.addEventListener('click', onSave);
-
-    // Interval dropdown
-    const onIntervalChange = () => {
-      const min = parseInt(sel!.value);
-      localStorage.setItem(INTERVAL_LS, String(min));
-      _startAutoSync();
-      setMsg(
-        min ? t('settings.cloudAutoOn') : t('settings.cloudAutoOff'),
-        min ? 'var(--success)' : 'var(--text3)',
-      );
-      setTimeout(() => setMsg('', ''), 2500);
-    };
-    sel?.addEventListener('change', onIntervalChange);
-
-    // Input auto-format
-    const inp = document.getElementById('cs-inp') as HTMLInputElement | null;
-    const onInpInput = () => {
-      let v = inp!.value.replace(/[^A-Z0-9]/gi, '').toUpperCase();
-      if (v.length > 4) v = v.slice(0, 4) + '-' + v.slice(4);
-      if (v.length > 9) v = v.slice(0, 9) + '-' + v.slice(9);
-      inp!.value = v.slice(0, 14);
-    };
-    inp?.addEventListener('input', onInpInput);
-
-    // Restore button
-    const restoreBtn = document.getElementById('cs-restore') as HTMLButtonElement | null;
-    const onRestore = async () => {
-      if (!inp?.value.trim()) {
-        setMsg(t('settings.cloudEnterKey'), 'var(--danger)');
-        return;
-      }
-      if (!confirm(t('settings.cloudRestoreConfirm'))) return;
-      if (restoreBtn) restoreBtn.disabled = true;
-      if (inp) inp.disabled = true;
-      setMsg(t('settings.cloudLoading'), 'var(--text3)');
-      try {
-        await loadFromCloud(inp.value);
-        // A successful restore means this device is now actively using cloud
-        // sync, even though it never pushed before — without this, the
-        // post-word-saved auto-push (gated on LAST_LS) would stay dormant on
-        // this device forever, silently discarding all progress made after
-        // the restore until someone happens to open Settings and hit Save.
-        localStorage.setItem(LAST_LS, String(Date.now()));
-        setMsg(t('settings.cloudRestoreSuccess'), 'var(--success)');
-        setTimeout(() => location.reload(), 1200);
-      } catch (e) {
-        setMsg('❌ ' + (e as Error).message, 'var(--danger)');
-        if (restoreBtn) restoreBtn.disabled = false;
-        if (inp) inp.disabled = false;
-      }
-    };
-    restoreBtn?.addEventListener('click', onRestore);
-
-    // Start auto-sync
+    _bumpLastLabel = () => bump((n) => n + 1);
     _startAutoSync();
 
     // Push to the cloud shortly after every known-word/SRS write (debounced,
@@ -466,19 +387,251 @@ export function CloudSyncInit(): ReactElement | null {
     window.addEventListener('ew-progress-saved', onProgressSaved);
 
     return () => {
+      _bumpLastLabel = null;
       if (_autoTimer) {
         clearInterval(_autoTimer);
         _autoTimer = null;
       }
       if (progressPushTimer) clearTimeout(progressPushTimer);
       window.removeEventListener('ew-progress-saved', onProgressSaved);
-      copyBtn?.removeEventListener('click', onCopy);
-      saveBtn?.removeEventListener('click', onSave);
-      sel?.removeEventListener('change', onIntervalChange);
-      inp?.removeEventListener('input', onInpInput);
-      restoreBtn?.removeEventListener('click', onRestore);
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+      if (msgClearTimerRef.current) clearTimeout(msgClearTimerRef.current);
     };
   }, []);
 
-  return null;
+  function showMsg(text: string, color: string, autoClearMs?: number): void {
+    if (msgClearTimerRef.current) clearTimeout(msgClearTimerRef.current);
+    setMsg({ text, color });
+    if (autoClearMs) msgClearTimerRef.current = setTimeout(() => setMsg({ text: '', color: '' }), autoClearMs);
+  }
+
+  const key = _fmt(_getKey());
+  const lastLabel = _fmtLast();
+
+  function onCopy(): void {
+    navigator.clipboard
+      .writeText(key)
+      .then(() => {
+        setCopied(true);
+        if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+        copyTimerRef.current = setTimeout(() => setCopied(false), 2000);
+      })
+      .catch(() => prompt(t('settings.cloudYourKey'), key));
+  }
+
+  async function onSave(): Promise<void> {
+    setSaving(true);
+    showMsg(t('settings.cloudSaving'), 'var(--text3)');
+    try {
+      await saveToCloud();
+      localStorage.setItem(LAST_LS, String(Date.now()));
+      _lastAutoSaveError = false;
+      showMsg(t('settings.cloudSaved'), 'var(--success)');
+    } catch (e) {
+      showMsg('❌ ' + (e as Error).message, 'var(--danger)');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  function onIntervalChange(next: number): void {
+    setInterval_(next);
+    localStorage.setItem(INTERVAL_LS, String(next));
+    _startAutoSync();
+    showMsg(
+      next ? t('settings.cloudAutoOn') : t('settings.cloudAutoOff'),
+      next ? 'var(--success)' : 'var(--text3)',
+      2500,
+    );
+  }
+
+  function onRestoreInputChange(raw: string): void {
+    let v = raw.replace(/[^A-Z0-9]/gi, '').toUpperCase();
+    if (v.length > 4) v = v.slice(0, 4) + '-' + v.slice(4);
+    if (v.length > 9) v = v.slice(0, 9) + '-' + v.slice(9);
+    setRestoreKey(v.slice(0, 14));
+  }
+
+  async function onRestore(): Promise<void> {
+    if (!restoreKey.trim()) {
+      showMsg(t('settings.cloudEnterKey'), 'var(--danger)');
+      return;
+    }
+    if (!confirm(t('settings.cloudRestoreConfirm'))) return;
+    setRestoreBusy(true);
+    showMsg(t('settings.cloudLoading'), 'var(--text3)');
+    try {
+      await loadFromCloud(restoreKey);
+      // A successful restore means this device is now actively using cloud
+      // sync, even though it never pushed before — without this, the
+      // post-word-saved auto-push (gated on LAST_LS) would stay dormant on
+      // this device forever, silently discarding all progress made after
+      // the restore until someone happens to open Settings and hit Save.
+      localStorage.setItem(LAST_LS, String(Date.now()));
+      showMsg(t('settings.cloudRestoreSuccess'), 'var(--success)');
+      setTimeout(() => location.reload(), 1200);
+    } catch (e) {
+      showMsg('❌ ' + (e as Error).message, 'var(--danger)');
+      setRestoreBusy(false);
+    }
+  }
+
+  return (
+    <>
+      <div style={_rowStyle}>
+        <div
+          id="cs-code"
+          style={{
+            flex: 1,
+            fontFamily: 'monospace',
+            fontSize: '0.95rem',
+            fontWeight: 700,
+            color: 'var(--accent)',
+            background: 'rgba(255, 255, 255, 0.04)',
+            border: '1.5px solid var(--border)',
+            borderRadius: 10,
+            padding: '8px 12px',
+            letterSpacing: '0.1em',
+            textAlign: 'center',
+          }}
+        >
+          {key}
+        </div>
+        <button
+          id="cs-copy"
+          style={{
+            padding: '8px 12px',
+            borderRadius: 10,
+            border: '1.5px solid var(--border)',
+            background: 'none',
+            color: 'var(--text2)',
+            cursor: 'pointer',
+            fontSize: '0.8rem',
+            whiteSpace: 'nowrap',
+          }}
+          onClick={onCopy}
+        >
+          {copied ? t('settings.cloudCopied') : t('settings.cloudCopy')}
+        </button>
+      </div>
+
+      <button
+        id="cs-save"
+        disabled={saving}
+        style={{
+          width: '100%',
+          padding: 10,
+          borderRadius: 12,
+          border: 'none',
+          background: 'var(--accent)',
+          color: '#0a1628',
+          cursor: 'pointer',
+          fontFamily: 'inherit',
+          fontSize: '0.88rem',
+          fontWeight: 600,
+          marginBottom: 10,
+        }}
+        onClick={onSave}
+      >
+        {t('settings.cloudSave')}
+      </button>
+
+      <div style={{ ..._dividerStyle, margin: '8px 0' }}>
+        <div style={_sectionLabelStyle}>{t('settings.cloudAutoLabel')}</div>
+        <div style={_rowStyle}>
+          <select
+            id="cs-interval"
+            value={interval_}
+            onChange={(e) => onIntervalChange(parseInt(e.target.value))}
+            style={{
+              flex: 1,
+              padding: '9px 10px',
+              borderRadius: 10,
+              border: '1.5px solid var(--border)',
+              background: 'var(--bg)',
+              color: 'var(--text)',
+              fontFamily: 'inherit',
+              fontSize: '0.85rem',
+              cursor: 'pointer',
+              outline: 'none',
+            }}
+          >
+            <option value={0}>{t('settings.intervalOff')}</option>
+            <option value={30}>{t('settings.interval30')}</option>
+            <option value={60}>{t('settings.interval60')}</option>
+            <option value={360}>{t('settings.interval360')}</option>
+            <option value={1440}>{t('settings.intervalDaily')}</option>
+          </select>
+          <span id="cs-last" style={{ fontSize: '0.7rem', color: 'var(--text3)', whiteSpace: 'nowrap' }}>
+            {_lastAutoSaveError
+              ? t('settings.cloudSyncError')
+              : lastLabel
+                ? `${t('settings.cloudAutoPrefix')} ${lastLabel}`
+                : ''}
+          </span>
+        </div>
+      </div>
+
+      <div style={{ ..._dividerStyle, margin: '4px 0 10px' }}>
+        <div style={_sectionLabelStyle}>{t('settings.cloudRestoreLabel')}</div>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input
+            id="cs-inp"
+            placeholder="XXXX-XXXX-XXXX"
+            maxLength={14}
+            value={restoreKey}
+            disabled={restoreBusy}
+            onChange={(e) => onRestoreInputChange(e.target.value)}
+            style={{
+              flex: 1,
+              fontFamily: 'monospace',
+              fontSize: '0.88rem',
+              padding: '10px 12px',
+              border: '1.5px solid var(--border)',
+              borderRadius: 10,
+              background: 'var(--bg)',
+              color: 'var(--text)',
+              outline: 'none',
+              textTransform: 'uppercase',
+            }}
+          />
+          <button
+            id="cs-restore"
+            disabled={restoreBusy}
+            style={{
+              padding: '10px 14px',
+              borderRadius: 10,
+              border: '1.5px solid var(--border)',
+              background: 'none',
+              color: 'var(--text)',
+              cursor: 'pointer',
+              fontSize: '0.85rem',
+              fontWeight: 600,
+              whiteSpace: 'nowrap',
+            }}
+            onClick={onRestore}
+          >
+            {t('settings.cloudRestore')}
+          </button>
+        </div>
+      </div>
+
+      <div id="cs-msg" style={{ fontSize: '0.75rem', minHeight: 16, textAlign: 'center', marginTop: 4, color: msg.color }}>
+        {msg.text}
+      </div>
+      <div
+        style={{
+          fontSize: '0.7rem',
+          color: 'var(--text3)',
+          marginTop: 8,
+          textAlign: 'center',
+          lineHeight: 1.5,
+        }}
+      >
+        <span>{t('settings.cloudHintLine1')}</span>
+        <br />
+        <span>{t('settings.cloudHintLine2')}</span>
+      </div>
+    </>
+  );
 }

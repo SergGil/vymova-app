@@ -76,4 +76,95 @@ describe('CardImage', () => {
     mount();
     expect(loadWikiImage).toHaveBeenCalledWith(word[0], expect.any(Function));
   });
+
+  it('does not request a fresh image when the cache already holds a negative (previously-not-found) result', () => {
+    getIllus.mockReturnValue('');
+    _imgCache[word[0]] = null;
+    mount();
+    expect(loadWikiImage).not.toHaveBeenCalled();
+  });
+
+  // A broken/placeholder cached image (Pixabay serves HTTP 200 with a tiny
+  // dark placeholder once its URL has expired) clears the cache entry and
+  // re-fetches via loadWikiImage — the "retry" validation path.
+  it('clears the cache and re-fetches when the cached image is too small on load', () => {
+    _imgCache[word[0]] = 'https://example.com/stale.jpg';
+    getIllus.mockReturnValue('<svg>local</svg>');
+    const { container } = mount();
+    const img = container.querySelector('img') as HTMLImageElement;
+    Object.defineProperty(img, 'naturalWidth', { value: 2, configurable: true });
+    Object.defineProperty(img, 'naturalHeight', { value: 2, configurable: true });
+
+    act(() => {
+      img.dispatchEvent(new Event('load'));
+    });
+
+    expect(_imgCache[word[0]]).toBeUndefined();
+    const illus = container.querySelector('#illus') as HTMLElement;
+    expect(illus.innerHTML).toBe('<svg>local</svg>');
+    expect(loadWikiImage).toHaveBeenCalledWith(word[0], expect.any(Function));
+  });
+
+  it('clears the cache and re-fetches when the cached image errors', () => {
+    _imgCache[word[0]] = 'https://example.com/broken.jpg';
+    getIllus.mockReturnValue('');
+    const { container } = mount();
+    const img = container.querySelector('img') as HTMLImageElement;
+
+    act(() => {
+      img.dispatchEvent(new Event('error'));
+    });
+
+    expect(_imgCache[word[0]]).toBeUndefined();
+    const illus = container.querySelector('#illus') as HTMLElement;
+    expect(illus.style.display).toBe('none');
+    expect(loadWikiImage).toHaveBeenCalledWith(word[0], expect.any(Function));
+  });
+
+  it('shows the re-fetched image after a retry, and hides (without looping) if that one also fails', () => {
+    _imgCache[word[0]] = 'https://example.com/broken.jpg';
+    getIllus.mockReturnValue('');
+    loadWikiImage.mockImplementation((w: string, cb: (w: string, u: string | null) => void) => {
+      cb(w, 'https://example.com/fresh.jpg');
+    });
+    const { container } = mount();
+    const firstImg = container.querySelector('img') as HTMLImageElement;
+    act(() => {
+      firstImg.dispatchEvent(new Event('error'));
+    });
+
+    const retriedImg = container.querySelector('img') as HTMLImageElement;
+    expect(retriedImg.src).toBe('https://example.com/fresh.jpg');
+
+    loadWikiImage.mockClear();
+    act(() => {
+      retriedImg.dispatchEvent(new Event('error'));
+    });
+
+    // hide-only: hides on failure, but does NOT trigger another retry loop.
+    expect(container.querySelector('img')).toBeNull();
+    expect(container.querySelector('#illus')!.style.display).toBe('none');
+    expect(loadWikiImage).not.toHaveBeenCalled();
+  });
+
+  it('ignores a stale loadWikiImage callback for a word the user has already navigated away from', () => {
+    getIllus.mockReturnValue('');
+    let capturedCallback: ((w: string, u: string | null) => void) | undefined;
+    loadWikiImage.mockImplementation((w: string, cb: (w: string, u: string | null) => void) => {
+      capturedCallback = cb;
+    });
+    const { container } = mount();
+
+    const otherWord: WordEntry = ['bye', 'бувай', '', '', '', ''] as unknown as WordEntry;
+    act(() => {
+      setDeckState([otherWord]);
+      renderCardState(otherWord, 'en');
+    });
+
+    act(() => {
+      capturedCallback?.(word[0], 'https://example.com/late.jpg');
+    });
+
+    expect(container.querySelector('img')).toBeNull();
+  });
 });

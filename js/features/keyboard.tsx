@@ -12,7 +12,6 @@ export function KeysOverlay(): ReactElement {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const overlay = document.getElementById('keys-overlay');
     const btnKeys = document.getElementById('btn-keys');
 
     function openKeys(): void {
@@ -20,9 +19,6 @@ export function KeysOverlay(): ReactElement {
     }
     function closeKeys(): void {
       setOpen(false);
-    }
-    function onOverlayClick(e: MouseEvent): void {
-      if (e.target === overlay) closeKeys();
     }
     function onKeydown(e: KeyboardEvent): void {
       const tag = (document.activeElement as HTMLElement).tagName;
@@ -38,17 +34,21 @@ export function KeysOverlay(): ReactElement {
     }
 
     btnKeys?.addEventListener('click', openKeys);
-    overlay?.addEventListener('click', onOverlayClick);
     document.addEventListener('keydown', onKeydown);
     return () => {
       btnKeys?.removeEventListener('click', openKeys);
-      overlay?.removeEventListener('click', onOverlayClick);
       document.removeEventListener('keydown', onKeydown);
     };
   }, []);
 
   return (
-    <div id="keys-overlay" className={open ? 'open' : ''}>
+    <div
+      id="keys-overlay"
+      className={open ? 'open' : ''}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) setOpen(false);
+      }}
+    >
       <div className="keys-panel">
         <div
           style={{

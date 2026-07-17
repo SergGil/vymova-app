@@ -67,6 +67,9 @@ export function WordDetailPage(): ReactElement | null {
     { due?: string; ef?: number; reps?: number } | undefined
   >(undefined);
   const panelRef = useRef<HTMLDivElement>(null);
+  // #wd-overlay is rendered by this component itself (both branches below),
+  // not a static index.html element — a ref instead of getElementById.
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!cw) return;
@@ -83,9 +86,8 @@ export function WordDetailPage(): ReactElement | null {
   useEffect(() => {
     if (cw) {
       if (panelRef.current) panelRef.current.scrollTop = 0;
-      const overlay = document.getElementById('wd-overlay');
       requestAnimationFrame(() => {
-        if (overlay) overlay.style.opacity = '1';
+        if (overlayRef.current) overlayRef.current.style.opacity = '1';
       });
     }
   }, [cw]);
@@ -100,13 +102,12 @@ export function WordDetailPage(): ReactElement | null {
   }, [cw]);
 
   function close(): void {
-    const overlay = document.getElementById('wd-overlay');
-    if (overlay) overlay.style.opacity = '0';
+    if (overlayRef.current) overlayRef.current.style.opacity = '0';
     closeWordDetail();
   }
 
   if (!cw) {
-    return <div id="wd-overlay" style={{ display: 'none' }} />;
+    return <div id="wd-overlay" ref={overlayRef} style={{ display: 'none' }} />;
   }
 
   const w = cw;
@@ -225,6 +226,7 @@ export function WordDetailPage(): ReactElement | null {
   return (
     <div
       id="wd-overlay"
+      ref={overlayRef}
       style={{
         display: 'flex',
         position: 'fixed',
