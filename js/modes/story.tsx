@@ -24,6 +24,7 @@ import {
   type TargetLang,
 } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 type CefrLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1';
 const LEVELS: CefrLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
@@ -273,7 +274,6 @@ type Popup = {
 };
 
 export function StoryPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [story, setStory] = useState<Story | null>(null);
   const [popup, setPopup] = useState<Popup | null>(null);
   const [completed, setCompleted] = useState(false);
@@ -297,9 +297,15 @@ export function StoryPage(): ReactElement {
     }
   };
 
-  useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
+  const session = useModeSession({
+    overlayId: 'story-mode-overlay',
+    modeId: 'story',
+    // Completion isn't a single "reached the end" render condition here —
+    // markCompleted() can fire multiple times per open session (once per
+    // story read, via goBack() or the close itself), so it's called
+    // manually from onClose/goBack rather than driven by isFinal.
+    isFinal: false,
+    onOpen: () => {
       setStory(null);
       setPopup(null);
       setError(null);
@@ -307,35 +313,21 @@ export function StoryPage(): ReactElement {
       const learnLang = getLearnLang();
       const knowLang = getKnowLang();
       setCachedList(
-        loadAiStoryCacheList().filter(
-          (e) => e.learnLang === learnLang && e.knowLang === knowLang,
-        ),
+        loadAiStoryCacheList().filter((e) => e.learnLang === learnLang && e.knowLang === knowLang),
       );
-      const overlay = document.getElementById('story-mode-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      markCompleted();
-      setIsOpen(false);
-      const overlay = document.getElementById('story-mode-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    },
+    onClose: markCompleted,
+  });
+  const { isOpen, open: sessionOpen, close: sessionClose } = session;
+
+  useEffect(() => {
+    _open = sessionOpen;
+    _close = sessionClose;
     return () => {
       _open = null;
       _close = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [story, completed]);
-
-  // Escape to close
-  useEffect(() => {
-    function onKeydown(e: KeyboardEvent): void {
-      const overlay = document.getElementById('story-mode-overlay');
-      if (e.key === 'Escape' && overlay?.style.display === 'flex') closeStoryMode();
-    }
-    document.addEventListener('keydown', onKeydown);
-    return () => document.removeEventListener('keydown', onKeydown);
-  }, []);
+  }, [sessionOpen, sessionClose]);
 
   const goBack = (): void => {
     markCompleted();

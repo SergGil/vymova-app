@@ -6,7 +6,7 @@ import { lev } from '../core/distance.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { addCombo, breakCombo, flashCard, getComboMult, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
+import { recordMistake, recordModeAnswer } from '../features/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speak as _speak } from '../features/voice/speech.ts';
 import { t } from '../features/i18n.ts';
@@ -14,6 +14,7 @@ import { playSound } from '../core/audio.ts';
 import type { WordEntry, Code } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const N = 5;
 const PHASE_COUNT = 3;
@@ -62,7 +63,6 @@ function closeLesson(): void {
 type Result = { text: string; color: string } | null;
 
 export function LessonPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [words, setWords] = useState<WordEntry[]>([]);
   const [phase, setPhase] = useState(0);
   const [step, setStep] = useState(0);
@@ -99,23 +99,23 @@ export function LessonPage(): ReactElement {
     setShowFinal(false);
   };
 
+  const session = useModeSession({
+    overlayId: 'lesson-overlay',
+    modeId: 'lesson',
+    isFinal: showFinal,
+    onOpen: startLesson,
+    closeOnEscape: false,
+  });
+  const { isOpen, open: sessionOpen, close: sessionClose } = session;
+
   useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      startLesson();
-      const overlay = document.getElementById('lesson-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      setIsOpen(false);
-      const overlay = document.getElementById('lesson-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    _open = sessionOpen;
+    _close = sessionClose;
     return () => {
       _open = null;
       _close = null;
     };
-  }, []);
+  }, [sessionOpen, sessionClose]);
 
   // Setup step-specific state (quiz options, write focus)
   useEffect(() => {
@@ -140,10 +140,10 @@ export function LessonPage(): ReactElement {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, phase, step]);
 
-  // Record completion once when final screen is shown
+  // Award XP once when the final screen is shown (completion itself is
+  // recorded by useModeSession via isFinal: showFinal above)
   useEffect(() => {
     if (!showFinal) return;
-    recordModeComplete('lesson');
     const total = scores[0] + scores[1] + scores[2];
     const pct = Math.round((total / (N * PHASE_COUNT)) * 100);
     if (pct >= 80)
@@ -274,10 +274,9 @@ export function LessonPage(): ReactElement {
   // Keyboard shortcuts
   useEffect(() => {
     function onKeydown(e: KeyboardEvent): void {
-      const overlay = document.getElementById('lesson-overlay');
-      if (overlay?.style.display !== 'flex') return;
+      if (!isOpen) return;
       if (e.key === 'Escape') {
-        closeLesson();
+        sessionClose();
         return;
       }
       if (
@@ -293,7 +292,7 @@ export function LessonPage(): ReactElement {
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [answered, phase, step]);
+  }, [isOpen, answered, phase, step, sessionClose]);
 
   if (!isOpen) return <></>;
 

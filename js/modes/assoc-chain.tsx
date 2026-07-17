@@ -13,8 +13,9 @@ import {
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 import { t } from '../features/i18n.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+import { recordModeAnswer, recordMistake } from '../features/game.ts';
 import { speakForCode } from '../features/voice/speak-lang.ts';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const NUM_OPTS = 4;
 const MAX_CHAIN = 20;
@@ -116,7 +117,6 @@ function closeAssocChain(): void {
 }
 
 export function AssocChainPage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dict, setDict] = useState<SynDict | null>(null);
   const [antDict, setAntDict] = useState<SynDict | null>(null);
@@ -133,11 +133,12 @@ export function AssocChainPage(): ReactElement {
   const visitedRef = useRef<Set<string>>(new Set());
 
   // Read fresh on every call (not hoisted to a component-level const) —
-  // startGame() is only ever invoked through _open, which is assigned once
-  // in a mount-only effect below and never reassigned again for the
-  // lifetime of this (persistently-mounted) page. A hoisted `learnLang`
-  // would freeze this to whatever language was selected at first mount,
-  // silently ignoring every later language switch.
+  // startGame() is passed to useModeSession as onOpen, which the hook reads
+  // through a ref rather than closing over any single render's version, so
+  // this always runs with whatever startGame identity the latest render
+  // produced. A hoisted `learnLang` would freeze this to whatever language
+  // was selected at first mount, silently ignoring every later language
+  // switch.
   const startGame = async (): Promise<void> => {
     setLoading(true);
     await ensureLexiconLoaded();
@@ -167,41 +168,27 @@ export function AssocChainPage(): ReactElement {
     }
   };
 
+  const session = useModeSession({
+    overlayId: 'assoc-overlay',
+    modeId: 'assoc',
+    isFinal: over,
+    onOpen: startGame,
+  });
+  const { isOpen, open: sessionOpen, close: sessionClose } = session;
+
   useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
-      startGame();
-      const overlay = document.getElementById('assoc-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
-      setIsOpen(false);
-      const overlay = document.getElementById('assoc-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    _open = sessionOpen;
+    _close = sessionClose;
     return () => {
       _open = null;
       _close = null;
     };
-  }, []);
-
-  useEffect(() => {
-    function onKeydown(e: KeyboardEvent): void {
-      const overlay = document.getElementById('assoc-overlay');
-      if (overlay?.style.display !== 'flex') return;
-      if (e.key === 'Escape') closeAssocChain();
-    }
-    document.addEventListener('keydown', onKeydown);
-    return () => document.removeEventListener('keydown', onKeydown);
-  }, []);
+  }, [sessionOpen, sessionClose]);
 
   const finish = (finalChain: number, byMistake: boolean): void => {
     setOver(true);
     setEndedByMistake(byMistake);
     setIsNewBest(setBest(getLearnLang(), finalChain));
-    try {
-      recordModeComplete('assoc');
-    } catch (e) {}
   };
 
   const choose = (opt: string): void => {
@@ -386,7 +373,7 @@ export function AssocChainPage(): ReactElement {
           </div>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
             <button
-              onClick={startGame}
+              onClick={() => sessionOpen()}
               style={{
                 padding: '9px 20px',
                 borderRadius: 10,

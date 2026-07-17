@@ -14,6 +14,7 @@ import { getKnowLang, getLearnLang, type LangCode } from '../features/lang-pair-
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
 import { scoreEmoji } from '../features/mode-final-screen.tsx';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 type Question = {
   dir: string;
@@ -264,36 +265,43 @@ export function TempoPage(): ReactElement {
     } catch (e) {}
   };
 
-  useEffect(() => {
-    _open = () => {
-      setScreen('start');
-      const overlay = document.getElementById('tempo-overlay');
-      if (overlay) overlay.style.display = 'flex';
-    };
-    _close = () => {
+  // recordModeComplete('tempo') fires once per round in endTempo() above —
+  // every "play again" ends a new round within the same open session, unlike
+  // the once-per-session completion most other modes track — so it stays a
+  // manual call instead of useModeSession's isFinal-driven one.
+  const session = useModeSession({
+    overlayId: 'tempo-overlay',
+    modeId: 'tempo',
+    isFinal: false,
+    closeOnEscape: false,
+    onOpen: () => setScreen('start'),
+    onClose: () => {
       if (timerRef.current) clearInterval(timerRef.current);
       if (nextQTimerRef.current) {
         clearTimeout(nextQTimerRef.current);
         nextQTimerRef.current = null;
       }
       run.current.isRunning = false;
-      const overlay = document.getElementById('tempo-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    },
+  });
+  const { isOpen, open: sessionOpen, close: sessionClose } = session;
+
+  useEffect(() => {
+    _open = sessionOpen;
+    _close = sessionClose;
     return () => {
       _open = null;
       _close = null;
       if (timerRef.current) clearInterval(timerRef.current);
       if (nextQTimerRef.current) clearTimeout(nextQTimerRef.current);
     };
-  }, []);
+  }, [sessionOpen, sessionClose]);
 
   // Keyboard shortcuts
   useEffect(() => {
     function onKeydown(e: KeyboardEvent): void {
-      const overlay = document.getElementById('tempo-overlay');
-      if (e.key === 'Escape' && overlay?.style.display === 'flex') {
-        closeTempo();
+      if (e.key === 'Escape' && isOpen) {
+        sessionClose();
         return;
       }
       if (
@@ -310,7 +318,7 @@ export function TempoPage(): ReactElement {
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [question]);
+  }, [question, isOpen, sessionClose]);
 
   const best = getBest(selectedSec);
   const bestLabel = best > 0 ? t('tempo.bestRecord', { n: best, s: selectedSec }) : '';

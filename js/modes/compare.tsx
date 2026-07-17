@@ -25,6 +25,7 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { speakForCode } from '../features/voice/speak-lang.ts';
 import { t } from '../features/i18n.ts';
 import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
+import { useModeSession } from '../features/use-mode-session.ts';
 
 const MAX_SUGGESTIONS = 12;
 
@@ -111,7 +112,6 @@ function SpeakBtn({ text, code, fallback }: { text: string; code: Code; fallback
 }
 
 export function ComparePage(): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<WordEntry[]>([]);
   const [selected, setSelected] = useState<WordEntry | null>(null);
@@ -129,9 +129,12 @@ export function ComparePage(): ReactElement {
     [defaultLangs, extraLangs],
   );
 
-  useEffect(() => {
-    _open = () => {
-      setIsOpen(true);
+  const session = useModeSession({
+    overlayId: 'cmp-overlay',
+    modeId: 'compare',
+    isFinal: false,
+    closeOnEscape: false,
+    onOpen: () => {
       setQuery('');
       setSuggestions([]);
       setSelected(null);
@@ -142,33 +145,31 @@ export function ComparePage(): ReactElement {
       const langs = _pairDefaultLangs();
       setDefaultLangs(langs);
       Promise.all(langs.map(ensureLangTableLoaded)).then(() => setTablesReady(true));
-      const overlay = document.getElementById('cmp-overlay');
-      if (overlay) overlay.style.display = 'flex';
       setTimeout(() => inputRef.current?.focus(), 60);
-    };
-    _close = () => {
-      setIsOpen(false);
-      const overlay = document.getElementById('cmp-overlay');
-      if (overlay) overlay.style.display = 'none';
-    };
+    },
+  });
+  const { isOpen, open: sessionOpen, close: sessionClose } = session;
+
+  useEffect(() => {
+    _open = sessionOpen;
+    _close = sessionClose;
     return () => {
       _open = null;
       _close = null;
     };
-  }, []);
+  }, [sessionOpen, sessionClose]);
 
   useEffect(() => {
     function onKeydown(e: KeyboardEvent): void {
-      const overlay = document.getElementById('cmp-overlay');
-      if (overlay?.style.display !== 'flex') return;
+      if (!isOpen) return;
       if (e.key === 'Escape') {
         if (pickerOpen) setPickerOpen(false);
-        else closeCompare();
+        else sessionClose();
       }
     }
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
-  }, [pickerOpen]);
+  }, [isOpen, pickerOpen, sessionClose]);
 
   useEffect(() => {
     function onDocClick(e: MouseEvent): void {
