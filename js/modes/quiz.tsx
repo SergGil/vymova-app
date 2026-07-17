@@ -13,6 +13,7 @@ import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang, type LangCode } from '../features/lang-pair-select.tsx';
 import type { WordEntry } from '../../src/types.js';
 import { useModeSession } from '../features/use-mode-session.ts';
+import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
 
 const QUIZ_SIZE = 10,
   QUICK_SIZE = 5,
@@ -171,6 +172,19 @@ export function QuizPage(): ReactElement {
       _close = null;
     };
   }, [sessionOpen, sessionClose]);
+
+  // full-react-migration-roadmap.md Phase 5a: quiz.tsx is one of the 4
+  // modes mounted directly in AppRoot (not behind <LazyMode/>), so its
+  // module evaluates as part of app-root.tsx's static import graph — before
+  // React's first commit (see the Phase 3 audit finding on sel-mode/
+  // sel-range's same-timing hazard). bindOverlayOpenClose used to run at
+  // module-eval time too, which only worked because #btn-quiz was static
+  // HTML present at that point; moving it here (QuizPage only ever mounts
+  // once, so this is a one-time effect exactly like the module-eval call it
+  // replaces) makes it safe once #btn-quiz is React-rendered.
+  useEffect(() => {
+    bindOverlayOpenClose('btn-quiz', 'quiz-overlay', () => openQuiz(null), closeQuiz);
+  }, []);
 
   const advance = (): void => {
     const newIdx = idx + 1;
@@ -547,6 +561,3 @@ export function QuizPage(): ReactElement {
     </>
   );
 }
-
-import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
-bindOverlayOpenClose('btn-quiz', 'quiz-overlay', () => openQuiz(null), closeQuiz);

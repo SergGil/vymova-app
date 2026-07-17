@@ -20,21 +20,20 @@ vi.mock('../../js/features/mode-utils.ts', async (importOriginal) => {
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 let CatPairsPage: (typeof import('../../js/modes/catpairs.tsx'))['CatPairsPage'];
+let CatPairsWiringInit: (typeof import('../../js/modes/catpairs.tsx'))['CatPairsWiringInit'];
 let btnCatpairs: HTMLButtonElement;
 
-// catpairs.tsx's open()/close() are only reachable through its module-level
-// bindOverlayOpenClose('btn-catpairs', ...), which attaches its click
-// listener to whatever #btn-catpairs element exists the moment the module
-// is first imported — so that button must exist *before* the dynamic
-// import below, and we keep a direct reference to click through later
-// (a direct listener still fires via .click() even once detached/rebuilt
-// around it each test).
+// catpairs.tsx's open()/close() are reachable through bindOverlayOpenClose
+// ('btn-catpairs', ...) — full-react-migration-roadmap.md Phase 5a moved
+// this from a module-eval-time call (which only worked because #btn-catpairs
+// was static HTML, present before React ever mounted) into
+// <CatPairsWiringInit/>'s own useEffect, so it must be mounted alongside
+// <CatPairsPage/> for the button click to do anything, matching how
+// app-root.tsx mounts both.
 beforeAll(async () => {
-  btnCatpairs = document.createElement('button');
-  btnCatpairs.id = 'btn-catpairs';
-  document.body.appendChild(btnCatpairs);
   const mod = await import('../../js/modes/catpairs.tsx');
   CatPairsPage = mod.CatPairsPage;
+  CatPairsWiringInit = mod.CatPairsWiringInit;
 });
 
 function openCatPairs(): void {
@@ -72,6 +71,8 @@ describe('catpairs.tsx (CatPairsPage)', () => {
   beforeEach(() => {
     localStorage.clear();
     document.body.innerHTML = '';
+    btnCatpairs = document.createElement('button');
+    btnCatpairs.id = 'btn-catpairs';
     document.body.appendChild(btnCatpairs);
     overlay = document.createElement('div');
     overlay.id = 'catpairs-overlay';
@@ -82,7 +83,12 @@ describe('catpairs.tsx (CatPairsPage)', () => {
     document.body.appendChild(container);
     root = createRoot(container);
     act(() => {
-      root.render(<CatPairsPage />);
+      root.render(
+        <>
+          <CatPairsPage />
+          <CatPairsWiringInit />
+        </>,
+      );
     });
   });
 

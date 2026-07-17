@@ -14,12 +14,26 @@ import { join } from 'node:path';
 // purpose: it needs to catch the drift at the exact two places a human edits
 // by hand, the same way vi-language-parity.test.ts guards a different
 // hand-synced-list bug class.
+//
+// full-react-migration-roadmap.md Phase 5a: the 27 mode-card buttons'
+// btnId="btn-X" targets are no longer hand-authored in index.html — they're
+// now data-driven JSX in mode-card-grid.tsx — so this guard checks btnId/
+// mountId/Portal-id refs against the union of both files' ids now.
 
 const root = join(__dirname, '..');
 const read = (rel: string): string => readFileSync(join(root, rel), 'utf8');
 
 function extractHtmlIds(html: string): Set<string> {
   return new Set([...html.matchAll(/\bid="([a-zA-Z0-9_-]+)"/g)].map((m) => m[1]));
+}
+
+// full-react-migration-roadmap.md Phase 5a: the 27 mode-card buttons'
+// btnId="btn-X" targets moved out of index.html into mode-card-grid.tsx's
+// data-driven GROUPS (each `id: '...'` field renders as `id={'btn-' + id}`)
+// — this guard's hand-synced-list check needs to look there too now, not
+// just index.html, for those 27 btnId refs specifically.
+function extractModeCardGridIds(src: string): Set<string> {
+  return new Set([...src.matchAll(/\bid: '([a-zA-Z0-9_-]+)'/g)].map((m) => `btn-${m[1]}`));
 }
 
 // Every id app-root.tsx expects to find already present in index.html:
@@ -37,7 +51,8 @@ function extractAppRootRefs(src: string): { id: string; kind: string }[] {
 describe('src/app-root.tsx mount points exist in index.html', () => {
   const html = read('index.html');
   const appRoot = read('src/app-root.tsx');
-  const htmlIds = extractHtmlIds(html);
+  const modeCardGrid = read('js/features/mode-card-grid.tsx');
+  const validIds = new Set([...extractHtmlIds(html), ...extractModeCardGridIds(modeCardGrid)]);
   const refs = extractAppRootRefs(appRoot);
 
   it('found a substantial number of references (guards against the regexes silently matching nothing)', () => {
@@ -45,11 +60,12 @@ describe('src/app-root.tsx mount points exist in index.html', () => {
   });
 
   it.each(refs.map(({ id, kind }): [string, string] => [`${kind}="${id}"`, id]))(
-    '%s has a matching id in index.html',
+    '%s has a matching id in index.html or mode-card-grid.tsx',
     (_label, id) => {
-      expect(htmlIds.has(id), `id="${id}" referenced from app-root.tsx but not found in index.html`).toBe(
-        true,
-      );
+      expect(
+        validIds.has(id),
+        `id="${id}" referenced from app-root.tsx but not found in index.html or mode-card-grid.tsx`,
+      ).toBe(true);
     },
   );
 });

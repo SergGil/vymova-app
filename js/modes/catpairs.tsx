@@ -13,6 +13,7 @@ import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { entryFor } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { useModeSession } from '../features/use-mode-session.ts';
+import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
 
 const CP = 6;
 const RANDOM_KEY = '🎲 Випадково';
@@ -415,9 +416,6 @@ export function CatPairsPage(): ReactElement {
   );
 }
 
-import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
-bindOverlayOpenClose('btn-catpairs', 'catpairs-overlay', openCatpairs, closeCatpairs);
-
 // ════ WEAK WORDS ══════════════════════════════════════════════
 // item.w[0]/[1] are always static bundled dictionary data today — never
 // live user input — but escaping them before interpolation into innerHTML
@@ -469,6 +467,18 @@ export function renderWeakWords(): void {
 
 export function CatPairsWiringInit(): ReactElement | null {
   useEffect(() => {
+    // full-react-migration-roadmap.md Phase 5a: catpairs.tsx is one of the 4
+    // modes mounted directly in AppRoot (not behind <LazyMode/>), so its
+    // module evaluates as part of app-root.tsx's static import graph —
+    // before React's first commit (see the Phase 3 audit finding on
+    // sel-mode/sel-range's same-timing hazard). bindOverlayOpenClose used to
+    // run at module-eval time too, which only worked because #btn-catpairs
+    // was static HTML present at that point; moving it here (this component
+    // only ever mounts once, so this is a one-time effect exactly like the
+    // module-eval call it replaces) makes it safe once #btn-catpairs is
+    // React-rendered.
+    bindOverlayOpenClose('btn-catpairs', 'catpairs-overlay', openCatpairs, closeCatpairs);
+
     const statsOverlay = document.getElementById('stats-overlay');
     const onStatsOverlayClick = () => {
       try {

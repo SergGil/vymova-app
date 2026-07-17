@@ -180,11 +180,10 @@ export function SidebarInit(): ReactElement | null {
     // The settings/ach/profile/lp close buttons used to share a
     // `[data-close-page]` querySelectorAll loop here — full-react-migration-
     // roadmap.md Phase 4 moved them to <PageHeader/> (page-header.tsx),
-    // which now wires each one directly via onClick={closePage}.
+    // which now wires each one directly via onClick={closePage}. Phase 5b
+    // did the same for modes-close — see modes-overlay-shell.tsx.
     const statsClose = document.getElementById('stats-close');
-    const modesClose = document.getElementById('modes-close');
     statsClose?.addEventListener('click', closePage);
-    modesClose?.addEventListener('click', closePage);
 
     // Escape closes whichever page is currently open (stats, achievements,
     // duel, learning path, profile, settings, ...) — a few pages used to
@@ -252,7 +251,6 @@ export function SidebarInit(): ReactElement | null {
       ham?.removeEventListener('click', onHamClick);
       sbOvl?.removeEventListener('click', closeSidebar);
       statsClose?.removeEventListener('click', closePage);
-      modesClose?.removeEventListener('click', closePage);
       document.removeEventListener('keydown', onEscapeClosePage);
       setTheme?.removeEventListener('click', onSetThemeClick);
       mo.disconnect();

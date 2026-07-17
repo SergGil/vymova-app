@@ -51,7 +51,6 @@ describe('sidebar.tsx', () => {
       <div id="write-mode-desc"></div>
       <button id="btn-stats"></button>
       <button id="stats-close"></button>
-      <button id="modes-close"></button>
       <button id="set-theme"></button>
       <button id="btn-theme"></button>
       <span id="set-theme-pill"></span>

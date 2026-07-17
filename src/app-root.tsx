@@ -44,7 +44,7 @@ import {
   HighContrastToggle,
 } from '../js/features/settings-toggles.tsx';
 import { PwaInstallSection } from '../js/features/pwa-install-section.tsx';
-import { ModesModalController } from '../js/features/modes-modal.tsx';
+import { ModesOverlayShell } from '../js/features/modes-overlay-shell.tsx';
 import { ImgClearConfirmDialog } from '../js/features/img-clear-confirm.tsx';
 import { ResetConfirmDialog } from '../js/features/reset-confirm-dialog.tsx';
 import { NavFlyoutController } from '../js/features/sidebar-nav-flyout.tsx';
@@ -444,7 +444,6 @@ function AppRoot(): ReactElement {
       </Portal>
       <FrontSpeakBtnsToggle />
       <SettingsInit />
-      <ModesModalController />
       <Portal id="progress-io-buttons-mount">
         <ProgressIO />
       </Portal>
@@ -498,6 +497,7 @@ function AppRoot(): ReactElement {
       <Portal id="video-player-page-header-mount">
         <PageHeader icon="🎬" titleKey="nav.videoPlayer" closeBtnId="video-player-close" />
       </Portal>
+      <ModesOverlayShell />
       <PageOverlayVisibility page="modes" overlayId="modes-overlay" extraClass="as-page" />
       <PageOverlayVisibility
         page="stats"
