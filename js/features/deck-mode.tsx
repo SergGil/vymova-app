@@ -7,7 +7,6 @@ import { getDeckSnapshot, getIdxSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
 import { getMode, getWordsForMode, isSpecialMode, noTranslationsKey } from './mode-utils.ts';
 import { t } from './i18n.ts';
-import { _refreshRangeOptions } from './deck-filter.tsx';
 import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';
 import { shuffle } from '../core/srs.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -58,7 +57,6 @@ export function DeckModeInit(): ReactElement | null {
         if (!deck.length) deck = specialDeck.slice();
         setDeck(shuffle(deck));
         setIdx(0);
-        _refreshRangeOptions();
         render();
       }
     }
@@ -100,13 +98,11 @@ export function DeckModeInit(): ReactElement | null {
         if (!deck.length) deck = specialDeck.slice();
         setDeck(shuffle(deck));
         setIdx(0);
-        _refreshRangeOptions();
       } else if (!isSpecial && _preSpecialDeck) {
         setDeck(_preSpecialDeck);
         const deckLen = getDeckSnapshot().length;
         setIdx(deckLen ? _preSpecialIdx % deckLen : 0);
         _preSpecialDeck = null;
-        _refreshRangeOptions();
       }
       render();
     };

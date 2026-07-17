@@ -19,8 +19,7 @@ import { renderGameBar } from '../features/render-game-bar.ts';
 import { refreshGameBarLevel as renderLevelBadge } from '../features/game-bar-level.tsx';
 import { checkAchievements } from '../features/render-achievements.ts';
 import { maybeSubmitScore } from '../features/leaderboard.tsx';
-import { getMode, getActiveKnownSet } from '../features/mode-utils.ts';
-import { getKnownSnapshot } from '../../src/known-words-store.ts';
+import { getMode } from '../features/mode-utils.ts';
 import { safe as _safe } from './card-helpers.ts';
 import {
   setDeckState,
@@ -35,10 +34,6 @@ let autoTimer: ReturnType<typeof setTimeout> | null = null;
 
 setDeckState(W.slice() as unknown as WordEntry[]);
 
-function _activeKnown(): Set<string> {
-  return getActiveKnownSet(getMode(), getKnownSnapshot('en'));
-}
-
 // ── Single-source helpers — call instead of dispatching to the store manually ──
 export function setDeck(d: WordEntry[]): void {
   setDeckState(d);
@@ -49,17 +44,6 @@ export function setIdx(i: number): void {
 export function setFlipped(v: boolean): void {
   setFlippedState(v);
 }
-
-// Helper: get cached element with null safety
-function $e(id: string): HTMLElement {
-  return $el[id] as HTMLElement;
-}
-
-// Кеш DOM-елементів: уникаємо getElementById на кожен render()
-const $el: Record<string, HTMLElement | null> = {};
-['card'].forEach(function (id: string) {
-  $el[id] = document.getElementById(id);
-});
 
 export function stopAuto(): void {
   if (autoTimer) {
@@ -122,26 +106,12 @@ export function render(): void {
       return;
     }
     renderCardState(cw, mode);
-    // Sole owner of #card's 'is-known' class (card-actions.ts's reset-flow
-    // clears it once, right before calling render(), rather than owning it
-    // independently — see js/core/swipe.tsx's header comment for the full
-    // picture of #card's other writers, which touch disjoint classes/style
-    // properties and don't conflict with this).
-    const cardEl = $e('card');
-    if (cardEl) {
-      if (_activeKnown().has(cw[0])) {
-        cardEl.classList.add('is-known');
-      } else {
-        cardEl.classList.remove('is-known');
-      }
-    }
-    _safe(() => {
-      const dontKnowEl = document.getElementById('btn-dontknow') as HTMLElement | null;
-      if (dontKnowEl) {
-        const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
-        dontKnowEl.style.display = rangeVal === 'srs' ? '' : 'none';
-      }
-    });
+    // #card's 'is-known' class and #btn-dontknow's visibility are owned
+    // reactively by CardKnownVisuals (js/features/card-known-visuals.tsx),
+    // which re-derives both from the same deck-store this dispatch just
+    // updated — see js/core/swipe.tsx's header comment for the full picture
+    // of #card's other writers, which touch disjoint classes/style
+    // properties and don't conflict with this.
     // Predictive prefetch: наступні картки (без дублів для малих дек)
     _idle(function () {
       _safe(() => {

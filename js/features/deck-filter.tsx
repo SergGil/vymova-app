@@ -67,14 +67,6 @@ function buildStaleDeck(
   return result.length ? result : _shuf(base).slice(0, 50);
 }
 
-export function _refreshRangeOptions(): void {
-  const sel = document.getElementById('sel-range') as HTMLSelectElement | null;
-  if (!sel) return;
-  const total = getWordsForPair(W as unknown as WordEntry[]).length;
-  const allOpt = sel.querySelector('option[value="0"]') as HTMLOptionElement | null;
-  if (allOpt) allOpt.textContent = t('cards.allWords') + ' (' + total + ')';
-}
-
 function _showToast(msg: string): void {
   const el = document.getElementById('milestone-toast');
   if (!el) return;
@@ -250,13 +242,6 @@ export function DeckFilterInit(): ReactElement | null {
       render();
     };
     selRange?.addEventListener('change', onChange as EventListener);
-
-    // Initialize options on load
-    try {
-      _refreshRangeOptions();
-    } catch (e) {
-      console.warn(e);
-    }
 
     return () => selRange?.removeEventListener('change', onChange as EventListener);
   }, []);

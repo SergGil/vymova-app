@@ -142,96 +142,13 @@
         <div class="controls">
           <div id="theme-toggle-mount"></div>
           <div id="lang-pair-select"></div>
-          <select id="sel-mode" style="display: none">
-            <option value="en">EN → UA</option>
-            <option value="ua">UA → EN</option>
-            <option value="mix" data-i18n="mode.mixed">Мішаний</option>
-            <option value="en-es">EN → ES</option>
-            <option value="es-en">ES → EN</option>
-            <option value="es-ua">ES → UA</option>
-            <option value="ua-es">UA → ES</option>
-            <option value="en-fr">EN → FR</option>
-            <option value="fr-en">FR → EN</option>
-            <option value="fr-ua">FR → UA</option>
-            <option value="ua-fr">UA → FR</option>
-            <option value="es-fr">ES → FR</option>
-            <option value="fr-es">FR → ES</option>
-            <option value="en-it">EN → IT</option>
-            <option value="it-en">IT → EN</option>
-            <option value="it-ua">IT → UA</option>
-            <option value="ua-it">UA → IT</option>
-            <option value="en-pt">EN → PT</option>
-            <option value="pt-en">PT → EN</option>
-            <option value="pt-ua">PT → UA</option>
-            <option value="ua-pt">UA → PT</option>
-            <option value="en-de">EN → DE</option>
-            <option value="de-en">DE → EN</option>
-            <option value="de-ua">DE → UA</option>
-            <option value="ua-de">UA → DE</option>
-            <option value="en-he">EN → HE</option>
-            <option value="he-en">HE → EN</option>
-            <option value="he-ua">HE → UA</option>
-            <option value="ua-he">UA → HE</option>
-            <option value="en-ar">EN → AR</option>
-            <option value="ar-en">AR → EN</option>
-            <option value="ar-ua">AR → UA</option>
-            <option value="ua-ar">UA → AR</option>
-            <option value="en-pl">EN → PL</option>
-            <option value="pl-en">PL → EN</option>
-            <option value="pl-ua">PL → UA</option>
-            <option value="ua-pl">UA → PL</option>
-            <option value="en-zh">EN → ZH</option>
-            <option value="zh-en">ZH → EN</option>
-            <option value="zh-ua">ZH → UA</option>
-            <option value="ua-zh">UA → ZH</option>
-            <option value="en-el">EN → EL</option>
-            <option value="el-en">EL → EN</option>
-            <option value="el-ua">EL → UA</option>
-            <option value="ua-el">UA → EL</option>
-            <option value="en-ja">EN → JA</option>
-            <option value="ja-en">JA → EN</option>
-            <option value="ja-ua">JA → UA</option>
-            <option value="ua-ja">UA → JA</option>
-            <option value="en-tr">EN → TR</option>
-            <option value="tr-en">TR → EN</option>
-            <option value="tr-ua">TR → UA</option>
-            <option value="ua-tr">UA → TR</option>
-            <option value="en-nl">EN → NL</option>
-            <option value="nl-en">NL → EN</option>
-            <option value="nl-ua">NL → UA</option>
-            <option value="ua-nl">UA → NL</option>
-          </select>
+          <select id="sel-mode" style="display: none"></select>
           <select
             id="sel-tag"
             title="Фільтр по темі"
             data-i18n-title="cards.tagFilterTitle"
           ></select>
-          <select id="sel-range">
-            <option value="0">Всі слова (10002)</option>
-            <option value="unlearned" data-i18n="range.unlearned">🔴 Тільки невивчені</option>
-            <option value="srs" data-i18n="range.srs">🔁 Spaced Repetition</option>
-            <option value="weak" data-i18n="range.weak">⚠️ Слабкі слова</option>
-            <option value="hard" data-i18n="range.hard">🔴 Важкі слова</option>
-            <option value="leech" data-i18n="range.leech">🩸 Слова-п'явки</option>
-            <optgroup label="📊 Рівень CEFR" data-i18n-label="range.cefrGroup">
-              <option value="cefr-A1" data-i18n="range.cefrA1">🟢 A1 — Початківець</option>
-              <option value="cefr-A2" data-i18n="range.cefrA2">🟩 A2 — Елементарний</option>
-              <option value="cefr-B1" data-i18n="range.cefrB1">🟡 B1 — Середній</option>
-              <option value="cefr-B2" data-i18n="range.cefrB2">🟠 B2 — Вище середнього</option>
-              <option value="cefr-C1" data-i18n="range.cefrC1">🔴 C1 — Просунутий</option>
-              <option value="cefr-C2" data-i18n="range.cefrC2">🟣 C2 — Майстерний</option>
-            </optgroup>
-            <optgroup label="📖 Частина мови" data-i18n-label="range.posGroup">
-              <option value="pos-n" data-i18n="range.posNoun">📦 Іменники</option>
-              <option value="pos-v" data-i18n="range.posVerb">🏃 Дієслова</option>
-              <option value="pos-adj" data-i18n="range.posAdj">🎨 Прикметники</option>
-              <option value="pos-adv" data-i18n="range.posAdv">⚡ Прислівники</option>
-              <option value="pos-phrase" data-i18n="range.posPhrase">💬 Фрази</option>
-              <option value="pos-other" data-i18n="range.posOther">🔤 Інше</option>
-            </optgroup>
-            <option value="stale7" data-i18n="range.stale7">🕰️ Не бачені 7 днів</option>
-            <option value="stale30" data-i18n="range.stale30">🕰️ Не бачені 30 днів</option>
-          </select>
+          <select id="sel-range"></select>
         </div>
       </div>
 
@@ -727,7 +644,7 @@
           </div>
 
           <div class="settings-footer">
-            © 2026 Vymova · v1.342.0 ·
+            © 2026 Vymova · v1.343.0 ·
             <a
               href="./privacy.html"
               target="_blank"

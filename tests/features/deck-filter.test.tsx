@@ -6,7 +6,7 @@ import { clearSrsData, setSrsEntry } from '../../src/srs-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
-import { DeckFilterInit, _refreshRangeOptions } from '../../js/features/deck-filter.tsx';
+import { DeckFilterInit } from '../../js/features/deck-filter.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -87,12 +87,6 @@ describe('deck-filter.tsx DeckFilterInit', () => {
     buildUnlearnedDeck.mockClear().mockImplementation((words: unknown[]) => words);
     getHardWords.mockClear().mockReturnValue([]);
     getBookmarks.mockClear().mockReturnValue(new Set());
-  });
-
-  it('updates the "all words" option label with the total word count', () => {
-    mount();
-    const allOpt = document.querySelector('#sel-range option[value="0"]') as HTMLOptionElement;
-    expect(allOpt.textContent).toContain(String(W.length));
   });
 
   it('builds the SRS deck on "srs" selection', () => {
@@ -240,30 +234,5 @@ describe('deck-filter.tsx DeckFilterInit', () => {
       sel.dispatchEvent(new Event('change'));
     });
     expect(buildSRSDeck).not.toHaveBeenCalled();
-  });
-});
-
-describe('deck-filter.tsx _refreshRangeOptions', () => {
-  beforeEach(() => {
-    document.body.innerHTML =
-      '<select id="sel-range"><option value="0">All</option><option value="3">old</option></select>';
-  });
-
-  it('does nothing when #sel-range is absent', () => {
-    document.body.innerHTML = '';
-    expect(() => _refreshRangeOptions()).not.toThrow();
-  });
-
-  it('updates the "all words" option label with the total word count', () => {
-    _refreshRangeOptions();
-    const sel = document.getElementById('sel-range') as HTMLSelectElement;
-    const allOpt = sel.querySelector('option[value="0"]') as HTMLOptionElement;
-    expect(allOpt.textContent).toContain(String(W.length));
-  });
-
-  it('does not remove other options', () => {
-    _refreshRangeOptions();
-    const sel = document.getElementById('sel-range') as HTMLSelectElement;
-    expect(sel.querySelector('option[value="3"]')).not.toBeNull();
   });
 });

@@ -5,7 +5,7 @@ import {
   getFlippedSnapshot,
   getCwSnapshot,
 } from '../../src/deck-store.ts';
-import { setKnownWords, markKnown, unmarkKnown } from '../../src/known-words-store.ts';
+import { setKnownWords } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const { getComboMult, awardXP } = vi.hoisted(() => ({
@@ -162,25 +162,6 @@ describe('card-engine.ts', () => {
       expect(getCwSnapshot()).toEqual(word1);
     });
 
-    it('marks the card as known when the word is in the active known set', () => {
-      markKnown('en', word1[0]);
-      engine.render();
-      expect(document.getElementById('card')!.classList.contains('is-known')).toBe(true);
-
-      unmarkKnown('en', word1[0]);
-      engine.render();
-      expect(document.getElementById('card')!.classList.contains('is-known')).toBe(false);
-    });
-
-    it("toggles the don't-know button based on sel-range value", () => {
-      (document.getElementById('sel-range') as HTMLSelectElement).value = 'srs';
-      engine.render();
-      expect(document.getElementById('btn-dontknow')!.style.display).toBe('');
-
-      (document.getElementById('sel-range') as HTMLSelectElement).value = 'all';
-      engine.render();
-      expect(document.getElementById('btn-dontknow')!.style.display).toBe('none');
-    });
   });
 
   describe('onWordLearned()', () => {

@@ -322,10 +322,11 @@ export function CardActionsInit(): ReactElement | null {
       // removeItem('ew_game') this replaced wasn't enough for anyone who'd
       // ever practiced more than one target language.
       _safe(() => resetAllLangProgress());
-      // Clears the stale 'is-known' class before render() (below) recomputes
-      // it from the now-wiped known-words state — card-engine.ts is the
-      // actual per-render owner of this class, this is just a one-off
-      // pre-clear so there's no flash of the old state.
+      // Clears the stale 'is-known' class before render() (below) triggers a
+      // deck-store dispatch that CardKnownVisuals (card-known-visuals.tsx)
+      // recomputes from — that component is the actual per-render owner of
+      // this class, this is just a one-off pre-clear so there's no flash of
+      // the old state.
       const cardEl2 = document.getElementById('card');
       if (cardEl2) cardEl2.classList.remove('is-known');
       const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;

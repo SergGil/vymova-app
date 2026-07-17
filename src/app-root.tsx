@@ -34,6 +34,7 @@ import { LangPairSelect } from '../js/features/lang-pair-select.tsx';
 import { FontSizeControl } from '../js/features/font-size-control.tsx';
 import { SrsNewCapControl } from '../js/features/srs-cap-control.tsx';
 import { TagFilterSelect } from '../js/features/tag-filter-select.tsx';
+import { RangeSelect } from '../js/features/range-select.tsx';
 import { SearchInline } from '../js/features/search-inline.tsx';
 import { SearchOverlay } from '../js/features/search-overlay.tsx';
 import { CodeInputDialog } from '../js/features/duel/duel-dialogs.tsx';
@@ -58,6 +59,7 @@ import { GoalModal } from '../js/features/goal-modal.tsx';
 import { CardMeta } from '../js/features/card-meta.tsx';
 import { CardImage } from '../js/features/card-image.tsx';
 import { CardNoteDisplay, CardBookmarkNoteVisuals } from '../js/features/card-indicators.tsx';
+import { CardKnownVisuals } from '../js/features/card-known-visuals.tsx';
 import {
   WordText,
   Transcription,
@@ -308,6 +310,9 @@ function AppRoot(): ReactElement {
       <Portal id="sel-tag">
         <TagFilterSelect />
       </Portal>
+      <Portal id="sel-range">
+        <RangeSelect />
+      </Portal>
       <Portal id="search-inline-mount">
         <SearchInline />
       </Portal>
@@ -366,6 +371,7 @@ function AppRoot(): ReactElement {
         <CardNoteDisplay />
       </Portal>
       <CardBookmarkNoteVisuals />
+      <CardKnownVisuals />
       <Portal id="wword-mount">
         <WordText />
       </Portal>
