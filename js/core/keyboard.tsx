@@ -3,10 +3,17 @@
 import { useEffect } from 'react';
 import { getFlippedSnapshot } from '../../src/deck-store.ts';
 import { setFlipped } from './card-engine.ts';
+import { getActivePage } from '../../src/nav-store.tsx';
 
 export function KeyboardShortcuts(): null {
   useEffect(() => {
     function onKeydown(e: KeyboardEvent): void {
+      // These shortcuts drive the flashcard (#btn-know/#btn-next/...), which
+      // is only reachable from the cards/home view — with no page overlay
+      // open (getActivePage() === null). Without this guard, e.g. Enter
+      // pressed while browsing Statistics or Settings would still click the
+      // (hidden, off-screen) #btn-know.
+      if (getActivePage() !== null) return;
       const tag = (document.activeElement as HTMLElement).tagName;
       if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
       if ((e.target as Element).closest('#modal-overlay')) return;

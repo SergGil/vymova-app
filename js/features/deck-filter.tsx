@@ -81,7 +81,12 @@ function _showToast(msg: string): void {
 
 export function DeckFilterInit(): ReactElement | null {
   useEffect(() => {
-    const selRange = document.getElementById('sel-range');
+    const selRange = document.getElementById('sel-range') as HTMLSelectElement | null;
+    // On reload, the browser's native <select> form-state restoration can
+    // leave a previously-selected option (e.g. "Закладки") visually selected
+    // even though the deck itself always boots with all words (see
+    // js/app.ts's _idle() seed) — force the control back in sync on mount.
+    if (selRange) selRange.value = '0';
     const onChange = function (this: HTMLSelectElement) {
       stopAuto();
       const v = this.value;

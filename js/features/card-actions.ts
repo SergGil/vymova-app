@@ -45,6 +45,7 @@ import {
   startAuto,
   isAutoRunning,
   onWordLearned,
+  incrementGoalProgress,
 } from '../core/card-engine.ts';
 import {
   getDeckSnapshot,
@@ -196,18 +197,22 @@ export function CardActionsInit(): ReactElement | null {
           addCombo();
           flashCard(true);
         });
+        // "Ціль на сьогодні" tracks words practiced this session, not just
+        // brand-new ones — otherwise the ring stops moving for the rest of a
+        // review-heavy session once the day's new words run out.
+        _safe(() => incrementGoalProgress());
+        _safe(() => {
+          const gd = getGameData();
+          if (gd.goalCur >= gd.goalMax && !gd.confettiShown) {
+            gd.confettiShown = today();
+            saveGameData(gd);
+            launchConfetti();
+            _safe(() => playSound('goal'));
+          }
+        });
         if (isNewlyKnown) {
           onWordLearned();
           _safe(() => checkMilestones());
-          _safe(() => {
-            const gd = getGameData();
-            if (gd.goalCur >= gd.goalMax && !gd.confettiShown) {
-              gd.confettiShown = today();
-              saveGameData(gd);
-              launchConfetti();
-              _safe(() => playSound('goal'));
-            }
-          });
         }
         if (rangeVal === 'srs') {
           setDeck(buildSRSDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));

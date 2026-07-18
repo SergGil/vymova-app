@@ -11,6 +11,7 @@ const configMock = vi.hoisted(() => ({
 vi.mock('../../js/config.ts', () => configMock);
 
 import { SidebarNav } from '../../js/features/sidebar-nav.tsx';
+import { flagUrl } from '../../js/core/flags.ts';
 
 // The exact static markup sidebar-nav-mount/sidebar-logo-mount/
 // sb-lang-section-mount replaced in index.html (Ukrainian is this app's
@@ -93,6 +94,11 @@ const ORIGINAL_NAV_HTML = `
   >
 `;
 
+// img src values are stripped before comparison (see stripImgSrc below) —
+// flags now resolve through flagUrl()'s bundler-processed, base-aware URL
+// (js/core/flags.ts) instead of the original hand-written relative path, so
+// they're covered by the dedicated flagUrl() assertion in the test below
+// instead of this structural fixture.
 const ORIGINAL_LANG_SECTION_HTML = `
   <div class="sb-lang-label" data-i18n="nav.language">🌐 Мова</div>
   <div class="lang-toggle" title="Мова меню / Menu language / Idioma del menú">
@@ -148,9 +154,10 @@ describe('<SidebarNav/>', () => {
       document.getElementById('sidebar-nav-mount')!.innerHTML,
       ORIGINAL_NAV_HTML,
     );
+    const stripImgSrc = (html: string) => html.replace(/\ssrc="[^"]*"/g, '');
     expectStructuralParity(
-      document.getElementById('sb-lang-section-mount')!.innerHTML,
-      ORIGINAL_LANG_SECTION_HTML,
+      stripImgSrc(document.getElementById('sb-lang-section-mount')!.innerHTML),
+      stripImgSrc(ORIGINAL_LANG_SECTION_HTML),
     );
   });
 
@@ -234,7 +241,7 @@ describe('<SidebarNav/>', () => {
     const btns = Array.from(document.querySelectorAll<HTMLButtonElement>('.lang-opt'));
     expect(btns.map((b) => b.dataset.lang)).toEqual(['ua', 'en', 'es', 'fr', 'it', 'pt', 'de']);
     const img = btns[1].querySelector('img')!;
-    expect(img.getAttribute('src')).toBe('data/countries/gb.svg');
+    expect(img.getAttribute('src')).toBe(flagUrl('gb'));
     expect(img.getAttribute('alt')).toBe('EN');
   });
 });

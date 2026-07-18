@@ -3,6 +3,7 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { KeyboardShortcuts } from '../../js/core/keyboard.tsx';
 import { getFlippedSnapshot, setFlippedState } from '../../src/deck-store.ts';
+import { dispatchOpenPage, dispatchClosePage } from '../../src/nav-store.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -58,6 +59,20 @@ describe('keyboard.tsx (KeyboardShortcuts)', () => {
     });
     document.body.innerHTML = '';
     setFlippedState(false);
+    dispatchClosePage();
+  });
+
+  // Regression: these shortcuts drive the flashcard, only reachable from the
+  // cards/home view — without this guard, Enter pressed while e.g.
+  // Statistics or Settings is open still clicked the hidden #btn-know.
+  it('does nothing while a sidebar page overlay is open (e.g. stats, settings)', () => {
+    dispatchOpenPage('stats');
+    press('Enter');
+    expect(knowClick).not.toHaveBeenCalled();
+    press('Space');
+    expect(getFlippedSnapshot()).toBe(false);
+    press('ArrowRight');
+    expect(nextClick).not.toHaveBeenCalled();
   });
 
   it('Space flips the card when not yet flipped, and prevents default', () => {

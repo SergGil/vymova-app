@@ -14,6 +14,7 @@ import { useActivePage } from '../../src/nav-store.tsx';
 import { useLangVersion } from '../../src/store.ts';
 import { t } from './i18n.ts';
 import { openPage, closePage, closeSidebar } from './sidebar.tsx';
+import { flagUrl } from '../core/flags.ts';
 
 function Portal({ id, children }: { id: string; children: ReactNode }): ReactElement | null {
   const el = document.getElementById(id);
@@ -134,6 +135,17 @@ const NAV_PAGES = new Set([
   ...VIDEO_GROUP_ITEMS.map((i) => i.page),
   ...TAIL_ITEMS.map((i) => i.page),
 ]);
+
+// sidebar-nav-flyout.tsx reparents .sb-flyout panels to <body> to escape
+// .sidebar's stacking context, which detaches them from the React root's DOM
+// subtree — React's synthetic onClick (delegated at the root container)
+// never fires for clicks inside a detached flyout, so that controller falls
+// back to native <a> navigation and needs this id→page map to call
+// openPage() itself instead of following href (which would full-reload the
+// app). Exported so that map can't drift from the real nav item list.
+export const FLYOUT_ID_TO_PAGE: Record<string, string> = Object.fromEntries(
+  [...AI_GROUP_ITEMS, ...VIDEO_GROUP_ITEMS].map((item) => [item.id, item.page]),
+);
 
 function NavLink({
   item,
@@ -268,7 +280,7 @@ export function SidebarNav(): ReactElement {
           {LANG_OPTS.map((opt) => (
             <button key={opt.code} className="lang-opt" data-lang={opt.code} title={opt.title}>
               <img
-                src={`data/countries/${opt.flag}.svg`}
+                src={flagUrl(opt.flag) ?? ''}
                 alt={opt.code.toUpperCase()}
                 width={13}
                 height={13}

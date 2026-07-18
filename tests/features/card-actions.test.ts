@@ -102,6 +102,7 @@ const engineStopAuto = vi.fn();
 const engineStartAuto = vi.fn();
 const engineIsAutoRunning = vi.fn(() => false);
 const engineOnWordLearned = vi.fn();
+const engineIncrementGoalProgress = vi.fn();
 vi.mock('../../js/core/card-engine.ts', () => ({
   setIdx: engineSetIdx,
   setDeck: engineSetDeck,
@@ -112,6 +113,7 @@ vi.mock('../../js/core/card-engine.ts', () => ({
   startAuto: engineStartAuto,
   isAutoRunning: engineIsAutoRunning,
   onWordLearned: engineOnWordLearned,
+  incrementGoalProgress: engineIncrementGoalProgress,
 }));
 
 const W: WordEntry[] = [

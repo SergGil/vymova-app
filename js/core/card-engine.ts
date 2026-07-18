@@ -131,8 +131,12 @@ export function render(): void {
   }
 }
 
-export function onWordLearned(): void {
-  let d = getGameData();
+// "Ціль на сьогодні" (today's goal) tracks words *practiced* this session —
+// called on every "Знаю" press, not just genuinely-new words (see
+// onWordLearned() below for the latter) — otherwise the ring stops moving
+// for the rest of a review-heavy session once the day's new words run out.
+export function incrementGoalProgress(): void {
+  const d = getGameData();
   d.goalCur = (d.goalCur || 0) + 1;
   // >= (not ===) so lowering the daily goal mid-session — after goalCur had
   // already passed the new, lower value — still credits the day; goalCounted
@@ -142,6 +146,12 @@ export function onWordLearned(): void {
     d.goalDays = (d.goalDays || 0) + 1;
     d.goalCounted = true;
   }
+  saveGameData(d);
+  renderGameBar();
+}
+
+export function onWordLearned(): void {
+  let d = getGameData();
   d = updateStreak(d);
   saveGameData(d);
   renderGameBar();

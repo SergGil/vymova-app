@@ -181,6 +181,23 @@ describe('card-engine.ts', () => {
       const secondCallArg = saveGameData.mock.calls[1][0];
       expect(secondCallArg.sessionWords).toBe(1);
     });
+  });
+
+  // "Ціль на сьогодні" (today's goal) — split out from onWordLearned() so it
+  // advances on every "Знаю" press (card-actions.ts's onKnowClick calls this
+  // unconditionally), not just genuinely-new words, otherwise the ring stops
+  // moving for the rest of a review-heavy session once the day's new words
+  // run out.
+  describe('incrementGoalProgress()', () => {
+    it('increments goalCur and saves/re-renders the game bar', () => {
+      getGameData.mockReturnValue({ goalCur: 0, goalMax: 20, goalDays: 0, sessionWords: 0, xp: 0 });
+      engine.incrementGoalProgress();
+
+      expect(saveGameData).toHaveBeenCalled();
+      expect(renderGameBar).toHaveBeenCalled();
+      const firstCallArg = saveGameData.mock.calls[0][0];
+      expect(firstCallArg.goalCur).toBe(1);
+    });
 
     it('increments goalDays when goalCur reaches goalMax', () => {
       getGameData.mockReturnValue({
@@ -190,7 +207,7 @@ describe('card-engine.ts', () => {
         sessionWords: 0,
         xp: 0,
       });
-      engine.onWordLearned();
+      engine.incrementGoalProgress();
       const firstCallArg = saveGameData.mock.calls[0][0];
       expect(firstCallArg.goalCur).toBe(20);
       expect(firstCallArg.goalDays).toBe(1);
@@ -208,7 +225,7 @@ describe('card-engine.ts', () => {
         sessionWords: 0,
         xp: 0,
       });
-      engine.onWordLearned();
+      engine.incrementGoalProgress();
       const firstCallArg = saveGameData.mock.calls[0][0];
       expect(firstCallArg.goalCur).toBe(16);
       expect(firstCallArg.goalDays).toBe(1);
@@ -224,7 +241,7 @@ describe('card-engine.ts', () => {
         sessionWords: 0,
         xp: 0,
       });
-      engine.onWordLearned();
+      engine.incrementGoalProgress();
       const firstCallArg = saveGameData.mock.calls[0][0];
       expect(firstCallArg.goalCur).toBe(21);
       expect(firstCallArg.goalDays).toBe(1);

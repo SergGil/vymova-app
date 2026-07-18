@@ -8,11 +8,17 @@
 // browser to visually verify against, so this keeps the original approach
 // and only moves it out of sidebar.tsx's giant effect.
 //
-// Navigation itself (openPage() on click) is NOT handled here — the
-// flyout's .sb-btn links are wired by sidebar.tsx's own NAV_LINKS loop;
-// this component only opens/closes/positions the flyout panel and closes
-// it once a link inside has been clicked.
+// Navigation: the flyout panel gets reparented to <body> below (to escape
+// .sidebar's stacking context), which detaches it from the React root's DOM
+// subtree. React delegates synthetic events at the root container, so once
+// detached, the .sb-btn links' own onClick={navClick(...)} (sidebar-nav.tsx)
+// no longer fires — the browser would instead follow the anchor's real href,
+// causing a full page reload. onFlyoutItemClick below is a plain DOM
+// listener (unaffected by the detachment) that intercepts the click itself
+// and calls openPage() directly instead.
 import { useEffect, type ReactElement } from 'react';
+import { openPage } from './sidebar.tsx';
+import { FLYOUT_ID_TO_PAGE } from './sidebar-nav.tsx';
 
 export function NavFlyoutController(): ReactElement | null {
   useEffect(() => {
@@ -88,9 +94,18 @@ export function NavFlyoutController(): ReactElement | null {
         group.classList.toggle('open', willOpen);
       };
       const onFlyoutItemClick = (e: MouseEvent) => {
-        if ((e.target as HTMLElement).closest('a.sb-btn')) {
-          flyout.classList.remove('open');
-          group.classList.remove('open');
+        const link = (e.target as HTMLElement).closest('a.sb-btn') as HTMLAnchorElement | null;
+        if (!link) return;
+        flyout.classList.remove('open');
+        group.classList.remove('open');
+        // Modified clicks (Ctrl/Cmd/Shift/middle) should still fall through
+        // to native anchor behavior (open in new tab, etc.) — mirrors
+        // navClick()'s own exemption in sidebar-nav.tsx.
+        if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
+        const page = FLYOUT_ID_TO_PAGE[link.id];
+        if (page) {
+          e.preventDefault();
+          openPage(page);
         }
       };
       trigger.addEventListener('mouseenter', onTriggerEnter);

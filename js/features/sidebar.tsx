@@ -50,7 +50,12 @@ export function closeSidebar(): void {
 }
 
 export function openPage(page: string): void {
-  closePage();
+  // Passing the target route lets _closePage() skip its own routerNavigate('/')
+  // when we're switching directly from one page to another — otherwise
+  // switching e.g. stats -> modes bounces the hash through '/' before landing
+  // on '/modes', a transient no-page state that RouterSync's location effect
+  // can observe independently of this call and race against.
+  _closePage(PAGE_TO_ROUTE[page]);
   dispatchOpenPage(page);
   try {
     localStorage.setItem(ACTIVE_PAGE_KEY, page);
@@ -93,7 +98,16 @@ const MODE_OVERLAY_IDS = [
   'tempo-overlay',
 ];
 
+// Public no-arg signature is kept so closePage can still be passed directly
+// as an event listener / onClick callback (addEventListener("click",
+// closePage), onClick={closePage}) without TS treating the click event as
+// an attempted `nextRoute` argument — openPage() calls the real,
+// route-aware implementation below directly instead.
 export function closePage(): void {
+  _closePage();
+}
+
+function _closePage(nextRoute?: string): void {
   const wasPage = getActivePage();
   if (wasPage !== null) dispatchClosePage();
   if (wasPage === 'duel') {
@@ -110,8 +124,12 @@ export function closePage(): void {
   try {
     localStorage.removeItem(ACTIVE_PAGE_KEY);
   } catch (e) {}
-  // Navigate to root only if we're currently on a page route
-  if (_currentHashRoute() !== '/') routerNavigate('/');
+  // Navigate to root only if we're currently on a page route, and only when
+  // the caller isn't about to navigate straight to a different page route
+  // itself (openPage() passes its own target route so this can skip the
+  // transient '/' hop entirely and go directly from e.g. '/stats' to
+  // '/modes' in one navigation).
+  if (!nextRoute && _currentHashRoute() !== '/') routerNavigate('/');
   // Restore body scroll when page is closed
   document.body.style.overflow = '';
   // Deliberately unconditional (runs on every closePage(), not just when
