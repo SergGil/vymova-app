@@ -67,16 +67,10 @@ export function QuizOverlayShell(): ReactElement {
         <div
           key={overlayId}
           id={overlayId}
-          style={{
-            display: 'none',
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(0, 0, 0, 0.55)',
-            zIndex,
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '16px 12px',
-          }}
+          className={`fixed inset-0 flex items-center justify-center bg-black/55 px-3 py-4 ${
+            zIndex === 9200 ? 'z-[9200]' : 'z-[9100]'
+          }`}
+          style={{ display: 'none' }}
         >
           <div className="quiz-panel">
             <div id={mountId} style={mountStyle} />

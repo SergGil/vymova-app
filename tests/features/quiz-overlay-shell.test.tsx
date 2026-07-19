@@ -3,56 +3,56 @@ import { act } from 'react';
 import { render } from '@testing-library/react';
 import { QuizOverlayShell } from '../../js/features/quiz-overlay-shell.tsx';
 import { LazyMode } from '../../src/lazy-mode.tsx';
-import { expectStructuralParity } from '../support/structural-parity.ts';
 
-// The exact static markup the 19 `#X-overlay` blocks in index.html were
-// replaced by (Phase 8) — same wrapper repeated 19 times, `cmp-page-mount`
-// carrying an extra flex style and `lesson-overlay` a different z-index.
-const wrapperStyle = (zIndex = 9100): string =>
-  `display:none;position:fixed;inset:0;background:rgba(0, 0, 0, 0.55);z-index:${zIndex};align-items:center;justify-content:center;padding:16px 12px;`;
-
-// cmp-page-mount's style is written in the normalized longhand React's own
-// inline-style serialization produces for the "flex: 1" shorthand
-// (flex-grow/flex-shrink/flex-basis) — same declarations, same visual
-// result as the original "flex: 1; min-height: 0; display: flex", see
-// structural-parity.ts's header comment on this exact class of difference.
-const ORIGINAL_HTML = `
-  <div id="bee-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="bee-page-mount"></div></div></div>
-  <div id="scr-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="scr-page-mount"></div></div></div>
-  <div id="wl-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="wl-page-mount"></div></div></div>
-  <div id="ctx-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="ctx-page-mount"></div></div></div>
-  <div id="fib-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="fib-page-mount"></div></div></div>
-  <div id="dict-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="dict-page-mount"></div></div></div>
-  <div id="idq-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="idq-page-mount"></div></div></div>
-  <div id="grq-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="grq-page-mount"></div></div></div>
-  <div id="cmp-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="cmp-page-mount" style="display: flex; flex-grow: 1; flex-shrink: 1; flex-basis: 0%; min-height: 0"></div></div></div>
-  <div id="listen-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="listen-page-mount"></div></div></div>
-  <div id="oo-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="oo-page-mount"></div></div></div>
-  <div id="sb-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="sb-page-mount"></div></div></div>
-  <div id="eh-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="eh-page-mount"></div></div></div>
-  <div id="assoc-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="assoc-page-mount"></div></div></div>
-  <div id="hint-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="hint-page-mount"></div></div></div>
-  <div id="shadow-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="shadow-page-mount"></div></div></div>
-  <div id="ghost-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="ghost-page-mount"></div></div></div>
-  <div id="lesson-overlay" style="${wrapperStyle(9200)}"><div class="quiz-panel"><div id="lesson-page-mount"></div></div></div>
-  <div id="write-overlay" style="${wrapperStyle()}"><div class="quiz-panel"><div id="write-page-mount"></div></div></div>
-`;
-
-// happy-dom (20.10.6, this project's test environment) silently drops
-// `style.inset = '0'` — the JS CSSOM property path React uses to apply
-// inline styles — while parsing the exact same `inset: 0` correctly when
-// it appears in a raw HTML string's `style="..."` attribute (verified with
-// a direct happy-dom repro). Real browsers apply `.style.inset` correctly
-// (baseline since 2021), so this is a test-environment gap, not a
-// production difference — stripped from both sides before comparing so the
-// parity check still verifies everything else byte-for-byte.
-const stripInset = (html: string): string => html.replace(/inset:\s*0;?\s*/g, '');
+// The 19 `#X-overlay` ids this component renders — one `.quiz-panel`
+// wrapper each, `cmp-overlay` carrying an extra flex mount style and
+// `lesson-overlay` a different (9200 vs 9100) z-index.
+const OVERLAY_IDS = [
+  'bee-overlay',
+  'scr-overlay',
+  'wl-overlay',
+  'ctx-overlay',
+  'fib-overlay',
+  'dict-overlay',
+  'idq-overlay',
+  'grq-overlay',
+  'cmp-overlay',
+  'listen-overlay',
+  'oo-overlay',
+  'sb-overlay',
+  'eh-overlay',
+  'assoc-overlay',
+  'hint-overlay',
+  'shadow-overlay',
+  'ghost-overlay',
+  'lesson-overlay',
+  'write-overlay',
+];
 
 describe('<QuizOverlayShell/>', () => {
-  it('renders 19 quiz-mode overlay wrappers, structurally identical to the original static markup', () => {
-    const { container } = render(<QuizOverlayShell />);
-    expect(container.querySelectorAll('.quiz-panel')).toHaveLength(19);
-    expectStructuralParity(stripInset(container.innerHTML), stripInset(ORIGINAL_HTML));
+  it('renders 19 quiz-mode overlay wrappers, each hidden by default with a .quiz-panel mount', () => {
+    render(<QuizOverlayShell />);
+    expect(document.querySelectorAll('.quiz-panel')).toHaveLength(19);
+    for (const id of OVERLAY_IDS) {
+      const overlay = document.getElementById(id)!;
+      expect(overlay).not.toBeNull();
+      expect(overlay.style.display).toBe('none');
+      expect(overlay.className).toContain('fixed');
+      expect(overlay.querySelector(':scope > .quiz-panel')).not.toBeNull();
+    }
+  });
+
+  it('gives lesson-overlay a higher z-index (9200) than the other 18 overlays (9100)', () => {
+    render(<QuizOverlayShell />);
+    expect(document.getElementById('lesson-overlay')!.className).toContain('z-[9200]');
+    expect(document.getElementById('bee-overlay')!.className).toContain('z-[9100]');
+  });
+
+  it("carries cmp-page-mount's flex layout style", () => {
+    render(<QuizOverlayShell />);
+    const mount = document.getElementById('cmp-page-mount')!;
+    expect(mount.style.display).toBe('flex');
+    expect(mount.style.flex).toBe('1 1 0%');
   });
 
   it('nests each mount div under its overlay ("[id$=\'-overlay\']" ancestor lookup in lazy-mode.tsx relies on this)', () => {
