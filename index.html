@@ -118,13 +118,25 @@
       })();
     </script>
   </head>
-  <body>
+  <body class="flex">
     <!-- ══ HAMBURGER (mobile) ══ -->
-    <button id="hamburger" class="hamburger" title="Меню">☰</button>
-    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+    <button
+      id="hamburger"
+      class="hamburger fixed left-3 top-3 z-[300] hidden h-10 w-10 cursor-pointer items-center justify-center rounded-[10px] border-[1.5px] border-border bg-card text-[1.1rem] shadow-app transition-all duration-150 hover:border-accent max-[900px]:flex"
+      title="Меню"
+    >
+      ☰
+    </button>
+    <div
+      id="sidebar-overlay"
+      class="sidebar-overlay fixed inset-0 z-[199] hidden bg-black/45 [&.open]:block min-[901px]:!hidden"
+    ></div>
 
     <!-- ══ SIDEBAR ══ -->
-    <nav id="sidebar" class="sidebar">
+    <nav
+      id="sidebar"
+      class="sidebar fixed left-0 top-0 z-[200] flex h-full min-h-screen w-[var(--sb-width)] flex-col overflow-x-hidden overflow-y-auto border-r border-border bg-card transition-transform duration-[280ms] ease-in-out max-[900px]:-translate-x-[calc(var(--sb-width)+4px)] max-[900px]:[&.open]:translate-x-0"
+    >
       <div id="sidebar-logo-mount"></div>
 
       <!-- Profile section (React, profile-switcher.tsx) -->
@@ -136,7 +148,9 @@
       <div class="sb-lang-section" id="sb-lang-section-mount"></div>
     </nav>
 
-    <div class="app">
+    <div
+      class="app ml-[var(--sb-width)] min-w-0 flex-1 px-[1.4rem] py-4 max-[900px]:ml-0 max-[900px]:py-4 max-[900px]:pr-4 max-[900px]:pl-[60px]"
+    >
       <div class="header">
         <!-- ══ HEADER-LEFT (React, header-left.tsx) ══ -->
         <div class="header-left" id="header-left-mount"></div>
@@ -645,7 +659,7 @@
           </div>
 
           <div class="settings-footer">
-            © 2026 Vymova · v1.348.0 ·
+            © 2026 Vymova · v1.349.0 ·
             <a
               href="./privacy.html"
               target="_blank"

@@ -21,6 +21,7 @@
   --danger-bg: #fdedec;
   --success: #27ae60;
   --success-bg: #e8f8f0;
+  --sb-width: 220px;
 }
 
 * {
@@ -58,12 +59,6 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  padding: 1rem;
-}
-
-.app {
-  max-width: 640px;
-  margin: 0 auto;
 }
 
 /* Header */
@@ -4733,36 +4728,17 @@ body.dark .btn-achievements {
 }
 
 /* ══ Sidebar Layout ═════════════════════════════════════════════ */
-:root {
-  --sb-width: 220px;
-}
-
-body {
-  display: flex;
-  padding: 0;
-}
-
-/* ── Sidebar ─────────────────────────────────────────────────── */
-.sidebar {
-  width: var(--sb-width);
-  min-height: 100vh;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  background: var(--card);
-  border-right: 1px solid var(--border);
-  z-index: 200;
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-body.dark .sidebar {
-  background: #0e1c2e;
-  border-color: rgba(255, 255, 255, 0.07);
-}
+/* :root { --sb-width } and the .sidebar/.hamburger/.sidebar-overlay/.app
+   shell rules that used to live here moved to Tailwind utility classes
+   directly on the elements in index.html (tailwind-shadcn-migration-
+   roadmap.md Phase 1). --sb-width itself stays the single source of truth
+   in the real :root block at the top of this file — both the legacy CSS
+   below (.sidebar-logo, .sb-*, the page-overlay system) and the new
+   Tailwind classes read the same variable, so nothing here needed to
+   change to keep working. body.dark/body.<theme> .sidebar overrides stay
+   in their own theme files — they still match because index.html keeps the
+   literal "sidebar" class name as a hook, even though its own layout rule
+   is gone. */
 
 .sidebar-logo {
   padding: 20px 18px 16px;
@@ -4933,77 +4909,19 @@ body.dark .sb-flyout {
   }
 }
 
-/* ── Main content ────────────────────────────────────────────── */
-.app {
-  margin-left: var(--sb-width);
-  flex: 1;
-  max-width: none;
-  padding: 1rem 1.4rem;
-  min-width: 0;
-}
-
-/* ── Hamburger ───────────────────────────────────────────────── */
-.hamburger {
-  display: none;
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  z-index: 300;
-  width: 40px;
-  height: 40px;
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  background: var(--card);
-  font-size: 1.1rem;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow);
-  transition: all 0.15s;
-}
-.hamburger:hover {
-  border-color: var(--accent);
-}
-
-.sidebar-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 199;
-}
-.sidebar-overlay.open {
-  display: block;
-}
-
-/* ── Mobile ──────────────────────────────────────────────────── */
+/* .app/.hamburger/.sidebar-overlay layout rules (and their max-900px
+   mobile-collapse variants) moved to Tailwind utility classes in
+   index.html — see the note above .sidebar-logo. The mobile
+   .sidebar-logo{padding-left:60px} rule stays: it's the one exception
+   still owned by a not-yet-migrated component (sidebar-logo lives outside
+   Phase 1's scope), so it's still declared here, independently of the
+   hamburger/overlay it makes room for. */
 @media (max-width: 900px) {
-  .hamburger {
-    display: flex;
-  }
-  .sidebar {
-    transform: translateX(calc(-1 * var(--sb-width) - 4px));
-  }
-  .sidebar.open {
-    transform: translateX(0);
-  }
-  .app {
-    margin-left: 0;
-    padding: 1rem 1rem 1rem 60px; /* space for hamburger */
-  }
   /* The hamburger sits fixed top-left above the sidebar (so it stays
      clickable to close), which otherwise overlaps the logo text in the
      same corner once the sidebar is open. */
   .sidebar-logo {
     padding-left: 60px;
-  }
-}
-@media (min-width: 901px) {
-  .hamburger {
-    display: none !important;
-  }
-  .sidebar-overlay {
-    display: none !important;
   }
 }
 
