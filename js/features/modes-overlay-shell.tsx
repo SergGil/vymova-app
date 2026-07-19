@@ -28,16 +28,30 @@
 // modes-grid-mount Portal, the same simplification made for HeaderLeft's
 // CardIdx/CardKnownCount in Phase 3.
 import type { MouseEvent, ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 import { t } from './i18n.ts';
 import { closePage } from './sidebar.tsx';
 import { ModeCardGrid } from './mode-card-grid.tsx';
 
-export function ModesOverlayShell(): ReactElement {
+export function ModesOverlayShell(): ReactElement | null {
   const onBackdropClick = (e: MouseEvent<HTMLDivElement>): void => {
     if (e.target === e.currentTarget) closePage();
   };
 
-  return (
+  // #app-root (the real React root — see src/app-root.tsx) is
+  // `display: none` in index.html by design: every other page overlay's
+  // *content* is mounted into its own static, visible container elsewhere in
+  // index.html via <LazyPage/> (page-overlay-visibility.tsx's overlayId
+  // lookup), so #app-root itself never needs to paint anything. This
+  // component renders #modes-overlay directly instead of relying on a
+  // pre-existing static container (see the Phase 5b comment above) — without
+  // a portal it's a literal DOM descendant of the invisible #app-root and
+  // never renders, even though PageOverlayVisibility still correctly toggles
+  // its "open"/"as-page" classes. Portaling to <body> escapes that (and,
+  // being a real createPortal — unlike sidebar-nav-flyout.tsx's raw
+  // appendChild — keeps React's synthetic event delegation intact).
+  if (typeof document === 'undefined') return null;
+  return createPortal(
     <div id="modes-overlay" className="modes-overlay" onClick={onBackdropClick}>
       <div className="modes-panel">
         <div className="modes-panel-handle" />
@@ -57,6 +71,7 @@ export function ModesOverlayShell(): ReactElement {
           <ModeCardGrid />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
