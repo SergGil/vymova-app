@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import { dispatchClosePage, dispatchOpenPage, getActivePage } from '../../src/nav-store.tsx';
 import { expectStructuralParity } from '../support/structural-parity.ts';
 
@@ -94,38 +94,6 @@ const ORIGINAL_NAV_HTML = `
   >
 `;
 
-// img src values are stripped before comparison (see stripImgSrc below) —
-// flags now resolve through flagUrl()'s bundler-processed, base-aware URL
-// (js/core/flags.ts) instead of the original hand-written relative path, so
-// they're covered by the dedicated flagUrl() assertion in the test below
-// instead of this structural fixture.
-const ORIGINAL_LANG_SECTION_HTML = `
-  <div class="sb-lang-label" data-i18n="nav.language">🌐 Мова</div>
-  <div class="lang-toggle" title="Мова меню / Menu language / Idioma del menú">
-    <button class="lang-opt" data-lang="ua" title="Українська">
-      <img src="data/countries/ua.svg" alt="UA" width="13" height="13" />
-    </button>
-    <button class="lang-opt" data-lang="en" title="English">
-      <img src="data/countries/gb.svg" alt="EN" width="13" height="13" />
-    </button>
-    <button class="lang-opt" data-lang="es" title="Español">
-      <img src="data/countries/es.svg" alt="ES" width="13" height="13" />
-    </button>
-    <button class="lang-opt" data-lang="fr" title="Français">
-      <img src="data/countries/fr.svg" alt="FR" width="13" height="13" />
-    </button>
-    <button class="lang-opt" data-lang="it" title="Italiano">
-      <img src="data/countries/it.svg" alt="IT" width="13" height="13" />
-    </button>
-    <button class="lang-opt" data-lang="pt" title="Português">
-      <img src="data/countries/pt.svg" alt="PT" width="13" height="13" />
-    </button>
-    <button class="lang-opt" data-lang="de" title="Deutsch">
-      <img src="data/countries/de.svg" alt="DE" width="13" height="13" />
-    </button>
-  </div>
-`;
-
 function mountFixture(): void {
   document.body.innerHTML = `
     <div id="sidebar-logo-mount"></div>
@@ -144,7 +112,7 @@ describe('<SidebarNav/>', () => {
     dispatchClosePage();
   });
 
-  it('renders the logo, nav links, and language switcher structurally identical to the original static markup (AI-tutor gated items excluded)', () => {
+  it('renders the logo and nav links structurally identical to the original static markup (AI-tutor gated items excluded)', () => {
     render(<SidebarNav />);
     expectStructuralParity(
       document.getElementById('sidebar-logo-mount')!.innerHTML,
@@ -153,11 +121,6 @@ describe('<SidebarNav/>', () => {
     expectStructuralParity(
       document.getElementById('sidebar-nav-mount')!.innerHTML,
       ORIGINAL_NAV_HTML,
-    );
-    const stripImgSrc = (html: string) => html.replace(/\ssrc="[^"]*"/g, '');
-    expectStructuralParity(
-      stripImgSrc(document.getElementById('sb-lang-section-mount')!.innerHTML),
-      stripImgSrc(ORIGINAL_LANG_SECTION_HTML),
     );
   });
 
@@ -236,10 +199,24 @@ describe('<SidebarNav/>', () => {
     expect(evt.defaultPrevented).toBe(false);
   });
 
-  it('renders 7 language-switcher buttons with the expected data-lang/flag/alt', () => {
+  it('renders 7 language-switcher buttons with the expected data-lang/flag/alt/title', () => {
     render(<SidebarNav />);
-    const btns = Array.from(document.querySelectorAll<HTMLButtonElement>('.lang-opt'));
+    const section = within(document.getElementById('sb-lang-section-mount')!);
+    const label = section.getByText('🌐 Мова');
+    expect(label).toHaveAttribute('data-i18n', 'nav.language');
+    const toggle = label.nextElementSibling as HTMLElement;
+    expect(toggle).toHaveAttribute('title', 'Мова меню / Menu language / Idioma del menú');
+    const btns = within(toggle).getAllByRole('button');
     expect(btns.map((b) => b.dataset.lang)).toEqual(['ua', 'en', 'es', 'fr', 'it', 'pt', 'de']);
+    expect(btns.map((b) => b.title)).toEqual([
+      'Українська',
+      'English',
+      'Español',
+      'Français',
+      'Italiano',
+      'Português',
+      'Deutsch',
+    ]);
     const img = btns[1].querySelector('img')!;
     expect(img.getAttribute('src')).toBe(flagUrl('gb'));
     expect(img.getAttribute('alt')).toBe('EN');

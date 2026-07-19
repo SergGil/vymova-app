@@ -273,17 +273,29 @@ export function SidebarNav(): ReactElement {
         ))}
       </Portal>
       <Portal id="sb-lang-section-mount">
-        <div className="sb-lang-label" data-i18n="nav.language">
+        <div
+          className="sb-lang-label mb-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.07em] text-text3"
+          data-i18n="nav.language"
+        >
           {t('nav.language')}
         </div>
-        <div className="lang-toggle" title="Мова меню / Menu language / Idioma del menú">
+        <div
+          className="lang-toggle flex w-full shrink-0 items-stretch overflow-hidden rounded-[8px] border-[1.5px] border-border"
+          title="Мова меню / Menu language / Idioma del menú"
+        >
           {LANG_OPTS.map((opt) => (
-            <button key={opt.code} className="lang-opt" data-lang={opt.code} title={opt.title}>
+            <button
+              key={opt.code}
+              className="lang-opt inline-flex flex-1 cursor-pointer items-center gap-1 border-none bg-transparent px-1 py-[7px] text-center text-[0.75rem] font-bold tracking-[0.03em] leading-none text-text3 opacity-[0.55] transition-all duration-150 hover:opacity-[0.85] hover:text-text [&.lang-active]:bg-[rgba(45,90,61,0.12)] [&.lang-active]:font-extrabold [&.lang-active]:text-accent [&.lang-active]:opacity-100"
+              data-lang={opt.code}
+              title={opt.title}
+            >
               <img
                 src={flagUrl(opt.flag) ?? ''}
                 alt={opt.code.toUpperCase()}
                 width={13}
                 height={13}
+                className="h-[13px] w-[13px] shrink-0 rounded-full"
               />
             </button>
           ))}

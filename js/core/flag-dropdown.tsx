@@ -44,21 +44,25 @@ export function FlagDropdown<T extends string>({
   }, []);
 
   return (
-    <div className="flagdd" ref={rootRef}>
+    <div className="flagdd relative" ref={rootRef}>
       <button
         type="button"
-        className="flagdd-btn"
+        className="flagdd-btn flex cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-[8px] border border-border bg-card px-2.5 py-1.5 font-['DM_Sans',sans-serif] text-xs text-text outline-none hover:border-accent focus-visible:border-accent"
         data-value={value}
         aria-label={ariaLabel}
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
       >
-        {tag && <span className="flagdd-tag">{tag}</span>}
+        {tag && <span className="flagdd-tag text-[0.62rem] font-bold uppercase tracking-[0.03em] text-text3">{tag}</span>}
         {renderOption(value)}
-        <span className="flagdd-arrow">{open ? '▴' : '▾'}</span>
+        <span className="flagdd-arrow ml-0.5 text-[0.65rem] text-text3">{open ? '▴' : '▾'}</span>
       </button>
       {open && (
-        <div className="flagdd-list" role="listbox" aria-label={ariaLabel}>
+        <div
+          className="flagdd-list absolute left-0 top-[calc(100%+4px)] z-50 flex max-h-[260px] min-w-full flex-col gap-0.5 overflow-y-auto rounded-[10px] border border-border bg-card p-1 shadow-[0_8px_24px_rgba(0,0,0,0.25)]"
+          role="listbox"
+          aria-label={ariaLabel}
+        >
           {options.map((opt) => (
             <button
               type="button"
@@ -66,7 +70,10 @@ export function FlagDropdown<T extends string>({
               role="option"
               data-value={opt}
               aria-selected={opt === value}
-              className={'flagdd-item' + (opt === value ? ' flagdd-active' : '')}
+              className={
+                'flagdd-item flex cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-[7px] border-none bg-transparent px-2 py-1.5 text-left font-[\'DM_Sans\',sans-serif] text-xs text-text hover:bg-border' +
+                (opt === value ? ' flagdd-active font-bold text-accent' : '')
+              }
               onClick={() => {
                 onChange(opt);
                 setOpen(false);

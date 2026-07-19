@@ -72,69 +72,16 @@ body {
    of source order. .lang-toggle/.lang-opt/.sb-lang-section/.flagdd* are a
    separate migration step (shared across 4 component files, 14 theme
    overrides on .lang-opt.lang-active) — untouched here. */
-.lang-toggle {
-  display: flex;
-  align-items: stretch;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.lang-opt {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  border: none;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  line-height: 1;
-  padding: 4px 7px;
-  cursor: pointer;
-  color: var(--text3);
-  opacity: 0.55;
-  transition: all 0.15s;
-}
-.lang-opt img {
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.lang-opt:hover {
-  opacity: 0.85;
-  color: var(--text);
-}
-.lang-opt.lang-active {
-  opacity: 1;
-  color: var(--accent);
-  font-weight: 800;
-  background: rgba(45, 90, 61, 0.12);
-}
-/* Sidebar language section */
-.sb-lang-section {
-  padding: 6px 12px 4px;
-  border-top: 1px solid var(--border);
-  margin-top: 4px;
-}
-.sb-lang-label {
-  font-size: 0.65rem;
-  color: var(--text3);
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  margin-bottom: 6px;
-  font-weight: 600;
-}
-.sb-lang-section .lang-toggle {
-  width: 100%;
-}
-.sb-lang-section .lang-opt {
-  flex: 1;
-  padding: 7px 4px;
-  font-size: 0.75rem;
-  text-align: center;
-}
+/* .lang-toggle/.lang-opt/.lang-opt.lang-active/.sb-lang-section/
+   .sb-lang-label (base + the sidebar-specific width/padding/font-size
+   overrides — sidebar-nav.tsx is their only consumer, so the two are
+   merged directly into one Tailwind class list there) moved to Tailwind
+   utility classes on sidebar-nav.tsx (tailwind-shadcn-migration-roadmap.md
+   Phase 1). "lang-opt"/"lang-active" stay as class names — all 14 fandom
+   themes override .lang-opt.lang-active (body.<theme> .lang-opt.lang-active
+   in css/themes/*.css), and js/features/i18n.ts still toggles "lang-active"
+   imperatively via classList — and being unlayered legacy CSS/JS-driven,
+   both keep working unchanged regardless of the new Tailwind utilities. */
 select {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
@@ -150,96 +97,15 @@ select:focus {
   border-color: var(--accent);
 }
 
-/* ── Flag dropdown (lang-pair-select) ── */
-.flagdd {
-  position: relative;
-}
-.flagdd-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--text);
-  cursor: pointer;
-  outline: none;
-  white-space: nowrap;
-}
-.flagdd-btn:focus-visible,
-.flagdd-btn:hover {
-  border-color: var(--accent);
-}
-.flagdd-arrow {
-  font-size: 0.65rem;
-  color: var(--text3);
-  margin-left: 2px;
-}
-.flagdd-tag {
-  font-size: 0.62rem;
-  font-weight: 700;
-  color: var(--text3);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-.flagdd-content {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.flagdd-content img {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.flagdd-mix-icon,
-.flagdd-arrow-icon {
-  font-size: 0.8rem;
-  color: var(--text3);
-}
-.flagdd-list {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 100%;
-  max-height: 260px;
-  overflow-y: auto;
-  padding: 4px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-}
-.flagdd-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  padding: 6px 8px;
-  border-radius: 7px;
-  border: none;
-  background: none;
-  color: var(--text);
-  cursor: pointer;
-  text-align: left;
-  white-space: nowrap;
-}
-.flagdd-item:hover {
-  background: var(--border);
-}
-.flagdd-item.flagdd-active {
-  color: var(--accent);
-  font-weight: 700;
-}
+/* .flagdd/.flagdd-btn/.flagdd-arrow/.flagdd-tag/.flagdd-content/
+   .flagdd-content img/.flagdd-mix-icon/.flagdd-arrow-icon/.flagdd-list/
+   .flagdd-item/.flagdd-item.flagdd-active moved to Tailwind utility
+   classes in js/core/flag-dropdown.tsx and js/features/lang-pair-select.tsx
+   (tailwind-shadcn-migration-roadmap.md Phase 1). No theme overrides target
+   any of these selectors, and .flagdd-active is applied via a real React
+   conditional (not imperative classList toggling like .lang-active above)
+   — class names are kept anyway, purely for continuity with existing
+   querySelector('.flagdd-*') test lookups. */
 
 /* Progress */
 .progress-wrap {

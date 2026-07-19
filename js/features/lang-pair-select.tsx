@@ -296,7 +296,11 @@ const ALL_LANGS: LangCode[] = [
 
 function LangFlag({ lang }: { lang: LangCode }): ReactElement {
   const url = flagUrl(FLAG_CODE[lang]);
-  return url ? <img src={url} alt="" width={16} height={16} /> : <span>{lang.toUpperCase()}</span>;
+  return url ? (
+    <img src={url} alt="" width={16} height={16} className="h-4 w-4 shrink-0 rounded-full" />
+  ) : (
+    <span>{lang.toUpperCase()}</span>
+  );
 }
 
 // Every language can pair with every other — all `data/words_XX.js` files
@@ -629,7 +633,7 @@ export function LangPairSelect(): ReactElement {
 
   function renderLangOption(l: LangCode): ReactElement {
     return (
-      <span className="flagdd-content">
+      <span className="flagdd-content inline-flex items-center gap-1.5">
         <LangFlag lang={l} />
         <span className="flagdd-label">{langAcc(l)}</span>
       </span>
@@ -639,9 +643,9 @@ export function LangPairSelect(): ReactElement {
   function renderDirectionOption(d: Direction): ReactElement {
     if (d === 'mix') {
       return (
-        <span className="flagdd-content">
+        <span className="flagdd-content inline-flex items-center gap-1.5">
           <LangFlag lang={learnLang} />
-          <span className="flagdd-mix-icon">⇄</span>
+          <span className="flagdd-mix-icon text-[0.8rem] text-text3">⇄</span>
           <LangFlag lang={knowLang} />
           <span className="flagdd-label">{t('mode.mixed')}</span>
         </span>
@@ -649,9 +653,9 @@ export function LangPairSelect(): ReactElement {
     }
     const [from, to] = d === 'fwd' ? [learnLang, knowLang] : [knowLang, learnLang];
     return (
-      <span className="flagdd-content">
+      <span className="flagdd-content inline-flex items-center gap-1.5">
         <LangFlag lang={from} />
-        <span className="flagdd-arrow-icon">→</span>
+        <span className="flagdd-arrow-icon text-[0.8rem] text-text3">→</span>
         <LangFlag lang={to} />
       </span>
     );
