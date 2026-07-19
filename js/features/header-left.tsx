@@ -29,20 +29,20 @@ export function HeaderLeft(): ReactElement {
         </div>
         <button
           id="title-sw-toggle"
-          className="title-sw-toggle shrink-0 cursor-pointer rounded-[8px] border-[1.5px] border-border bg-transparent px-[7px] py-1 text-[0.85rem] leading-none text-text3 opacity-[0.55] transition-all duration-150 hover:border-accent hover:text-text hover:opacity-100 focus-visible:border-accent focus-visible:text-text focus-visible:opacity-100 focus-visible:outline-none"
+          className="title-sw-toggle shrink-0 cursor-pointer rounded-[8px] border-[1.5px] border-border bg-transparent !px-[7px] !py-1 text-[0.85rem] leading-none text-text3 opacity-[0.55] transition-all duration-150 hover:border-accent hover:text-text hover:opacity-100 focus-visible:border-accent focus-visible:text-text focus-visible:opacity-100 focus-visible:outline-none"
           title="Зоряні Війни — швидке перемикання теми"
         >
           ⚔️
         </button>
         <button
           id="title-hp-toggle"
-          className="title-hp-toggle shrink-0 cursor-pointer rounded-[8px] border-[1.5px] border-border bg-transparent px-[7px] py-1 text-[0.85rem] leading-none text-text3 opacity-[0.55] transition-all duration-150 hover:border-accent hover:text-text hover:opacity-100 focus-visible:border-accent focus-visible:text-text focus-visible:opacity-100 focus-visible:outline-none"
+          className="title-hp-toggle shrink-0 cursor-pointer rounded-[8px] border-[1.5px] border-border bg-transparent !px-[7px] !py-1 text-[0.85rem] leading-none text-text3 opacity-[0.55] transition-all duration-150 hover:border-accent hover:text-text hover:opacity-100 focus-visible:border-accent focus-visible:text-text focus-visible:opacity-100 focus-visible:outline-none"
           title="Гаррі Поттер — швидке перемикання теми"
         >
           🦁
         </button>
       </div>
-      <div className="subtitle mt-0.5 text-xs text-text3">
+      <div className="subtitle !mt-0.5 text-xs text-text3">
         <span data-i18n="cards.cardLabel">{t('cards.cardLabel')}</span> <CardIdx /> ·{' '}
         <span data-i18n="cards.learnedLabel">{t('cards.learnedLabel')}</span>: <CardKnownCount />
       </div>
