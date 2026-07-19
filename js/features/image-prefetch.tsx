@@ -143,7 +143,10 @@ export function ImagePrefetchSettings(): ReactElement {
         {pixStatusText}
       </div>
       <div style={{ marginTop: '12px' }}>
-        <div className="settings-desc" style={{ marginBottom: '8px' }}>
+        <div
+          className="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]"
+          style={{ marginBottom: '8px' }}
+        >
           {t('settings.prefetchDesc')}
         </div>
         <div

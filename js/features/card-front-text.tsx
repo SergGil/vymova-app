@@ -424,8 +424,14 @@ export function OtherMeanings() {
   if (!senses || senses.length < 2) return null;
 
   return (
-    <div className="similar-section" id="cb-senses" style={{ margin: '8px 0' }}>
-      <div className="similar-title">{t('cards.sensesTitle')}</div>
+    <div
+      className="similar-section w-full text-left"
+      id="cb-senses"
+      style={{ margin: '8px 0' }}
+    >
+      <div className="similar-title mb-1.5 flex items-center gap-[5px] text-[.6rem] font-extrabold tracking-[0.1em] text-[var(--text3)] uppercase max-[480px]:text-[.58rem]">
+        {t('cards.sensesTitle')}
+      </div>
       <ol className="senses-list" id="cb-senses-list">
         {senses.map((s, i) => (
           <li key={i}>
