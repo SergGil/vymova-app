@@ -328,17 +328,16 @@ export function ReadingPage(): ReactElement {
             {t('reading.title')}
           </div>
           {view === 'reader' && (
-            <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginTop: 2 }}>
+            <div className="mt-0.5 text-[.72rem] text-[var(--text3)]">
               {t('reading.statsLine', { k: statsKnown, u: statsUnknown })}
             </div>
           )}
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div className="flex items-center gap-2">
           {view === 'reader' && (
             <>
               <button
-                className="backup-btn"
-                style={{ padding: '5px 12px' }}
+                className="backup-btn px-3 py-[5px]"
                 disabled={currentIdx === 0}
                 onClick={() => openItem(currentIdx - 1)}
                 data-i18n="reading.prevBtn"
@@ -346,8 +345,7 @@ export function ReadingPage(): ReactElement {
                 {t('reading.prevBtn')}
               </button>
               <button
-                className="backup-btn"
-                style={{ padding: '5px 12px' }}
+                className="backup-btn px-3 py-[5px]"
                 disabled={currentIdx === itemCount - 1}
                 onClick={() => openItem(currentIdx + 1)}
                 data-i18n="reading.nextBtn"
@@ -355,8 +353,7 @@ export function ReadingPage(): ReactElement {
                 {t('reading.nextBtn')}
               </button>
               <button
-                className="backup-btn"
-                style={{ padding: '5px 12px' }}
+                className="backup-btn px-3 py-[5px]"
                 onClick={() => setView('picker')}
                 data-i18n="cards.back"
               >
@@ -371,35 +368,16 @@ export function ReadingPage(): ReactElement {
       </div>
 
       {view === 'picker' && (
-        <div style={{ padding: '14px 20px' }}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-              marginBottom: 12,
-              flexWrap: 'wrap',
-            }}
-          >
+        <div className="px-5 py-3.5">
+          <div className="mb-3 flex flex-wrap items-center gap-2">
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t('reading.searchPlaceholder')}
-              style={{
-                flex: 1,
-                minWidth: 160,
-                padding: '8px 12px',
-                borderRadius: 10,
-                border: '1.5px solid var(--border)',
-                background: 'var(--bg)',
-                color: 'var(--text)',
-                fontFamily: 'inherit',
-                fontSize: '.85rem',
-              }}
+              className="min-w-[160px] flex-1 rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3 py-2 font-[inherit] text-[.85rem] text-[var(--text)]"
             />
             <button
-              className="backup-btn primary"
-              style={{ padding: '6px 14px', fontSize: '.78rem', flexShrink: 0 }}
+              className="backup-btn primary shrink-0 px-3.5 py-1.5 text-[.78rem]"
               onClick={() => document.getElementById('rd-epub-input')?.click()}
               data-i18n="reading.epubBtn"
             >
@@ -409,21 +387,12 @@ export function ReadingPage(): ReactElement {
               id="rd-epub-input"
               type="file"
               accept=".epub"
-              style={{ display: 'none' }}
+              className="hidden"
               onChange={handleEpubChange}
             />
           </div>
           {epubProgress && (
-            <div
-              style={{
-                fontSize: '.75rem',
-                color: 'var(--accent)',
-                marginBottom: 8,
-                padding: '6px 10px',
-                background: 'rgba(0,200,255,.07)',
-                borderRadius: 8,
-              }}
-            >
+            <div className="mb-2 rounded-lg bg-[rgba(0,200,255,.07)] px-2.5 py-1.5 text-[.75rem] text-[var(--accent)]">
               {epubProgress}
             </div>
           )}
@@ -432,26 +401,10 @@ export function ReadingPage(): ReactElement {
               <button
                 key={it.idx}
                 onClick={() => openItem(it.idx)}
-                style={{
-                  display: 'block',
-                  width: '100%',
-                  textAlign: 'left',
-                  padding: '12px 14px',
-                  marginBottom: 8,
-                  borderRadius: 12,
-                  border: '1.5px solid var(--border)',
-                  background: 'var(--bg)',
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
-                  transition: 'border-color .15s',
-                }}
+                className="mb-2 block w-full cursor-pointer rounded-xl border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3.5 py-3 text-left font-[inherit] transition-[border-color] duration-150"
               >
-                <div style={{ fontWeight: 700, fontSize: '.85rem', color: 'var(--accent)' }}>
-                  {it.title}
-                </div>
-                <div style={{ fontSize: '.78rem', color: 'var(--text3)', marginTop: 2 }}>
-                  {it.subtitle}
-                </div>
+                <div className="text-[.85rem] font-bold text-[var(--accent)]">{it.title}</div>
+                <div className="mt-0.5 text-[.78rem] text-[var(--text3)]">{it.subtitle}</div>
               </button>
             ))}
           </div>
@@ -459,35 +412,23 @@ export function ReadingPage(): ReactElement {
       )}
 
       {view === 'reader' && readerBody && (
-        <div style={{ padding: '14px 20px', position: 'relative' }}>
-          <h2
-            style={{
-              fontSize: '1rem',
-              fontWeight: 700,
-              color: 'var(--text)',
-              marginTop: 0,
-              marginBottom: 12,
-            }}
-          >
-            {readerTitle}
-          </h2>
+        <div className="relative px-5 py-3.5">
+          <h2 className="mt-0 mb-3 text-base font-bold text-[var(--text)]">{readerTitle}</h2>
           {readerBody}
           {popup && (
             <div
-              className="rd-word-popup"
-              style={{ display: 'block' }}
+              className="rd-word-popup block"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="rd-popup-word">{popup.learnWord}</div>
               {popup.transcription && <div className="rd-popup-ipa">{popup.transcription}</div>}
               <div className="rd-popup-trans">{popup.trans}</div>
-              <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
-                <button className="backup-btn" style={{ padding: '5px 12px' }} onClick={speakPopup}>
+              <div className="mt-2.5 flex gap-1.5">
+                <button className="backup-btn px-3 py-[5px]" onClick={speakPopup}>
                   🔊
                 </button>
                 <button
-                  className="backup-btn primary"
-                  style={{ flex: 1, padding: 5 }}
+                  className="backup-btn primary flex-1 p-[5px]"
                   onClick={markKnown}
                 >
                   {popup.known ? t('reading.popupKnow') : t('reading.popupLearn')}
