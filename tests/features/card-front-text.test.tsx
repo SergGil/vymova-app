@@ -314,7 +314,8 @@ describe('card-front-text.tsx', () => {
     (document.getElementById('sel-range') as HTMLSelectElement).value = 'srs';
     const { container } = mount(SrsBadge);
     const el = container.querySelector('#srs-next') as HTMLElement;
-    expect(el.className).toBe('srs-next new');
+    expect(el.classList.contains('srs-next')).toBe(true);
+    expect(el.classList.contains('new')).toBe(true);
     expect(el.textContent).toBe('🆕 Нове');
   });
 

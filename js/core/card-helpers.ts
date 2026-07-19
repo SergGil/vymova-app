@@ -123,9 +123,19 @@ export function srsStatusInfo(
   today: string,
   rangeVal: string,
 ): SrsBadgeInfo | null {
+  // Base .srs-next layout classes are repeated in every branch below (not
+  // factored into a shared constant) so each returned className stays a
+  // single self-contained string — SrsBadge() assigns it directly to a
+  // React className prop, and callers/tests match on the full string.
+  const BASE =
+    'srs-next mt-1 inline-flex items-center gap-[3px] rounded-[20px] px-2 py-0.5 text-[0.72rem] font-semibold';
   if (!sd || !sd.due) {
     if (rangeVal === 'srs' || rangeVal === 'weak') {
-      return { text: t('srs.badgeNew'), className: 'srs-next new', show: true };
+      return {
+        text: t('srs.badgeNew'),
+        className: BASE + ' new text-[#2980b9] bg-[rgba(41,128,185,0.1)]',
+        show: true,
+      };
     }
     return null;
   }
@@ -136,23 +146,27 @@ export function srsStatusInfo(
     const over = Math.abs(diffDays);
     return {
       text: t('srs.badgeOverdue', { n: over, unit: pluralLabel('common_day', over) }),
-      className: 'srs-next over',
+      className: BASE + ' over text-[#e74c3c] bg-[rgba(231,76,60,0.1)]',
       show: true,
     };
   }
   if (diffDays === 0) {
-    return { text: t('srs.badgeToday'), className: 'srs-next today', show: true };
+    return {
+      text: t('srs.badgeToday'),
+      className: BASE + ' today text-[#f39c12] bg-[rgba(243,156,18,0.12)]',
+      show: true,
+    };
   }
   if (diffDays <= 3) {
     return {
       text: t('srs.badgeSoon', { n: diffDays, unit: pluralLabel('common_day', diffDays) }),
-      className: 'srs-next soon',
+      className: BASE + ' soon text-[#e67e22] bg-[rgba(230,126,34,0.1)]',
       show: true,
     };
   }
   return {
     text: t('srs.badgeFuture', { n: diffDays, unit: pluralLabel('common_day', diffDays) }),
-    className: 'srs-next ok',
+    className: BASE + ' ok text-[#27ae60] bg-[rgba(39,174,96,0.1)]',
     show: true,
   };
 }

@@ -149,13 +149,19 @@ function _renderSrsUI({ due, newCards, total }: typeof _srsStatsCache): void {
     return;
   }
   _srsStatsEl.style.display = '';
+  // classList.toggle, not a full className reassignment — #srs-stat-due/
+  // #srs-stat-new carry static Tailwind utility classes in index.html
+  // (tailwind-shadcn-migration-roadmap.md Phase 2), and this function reruns
+  // on every stats update, so `.className = '...'` here would silently wipe
+  // them out each time. Only "zero" ever actually varies on #srs-stat-due;
+  // #srs-stat-new's classes never varied at all, so that reassignment was
+  // dropped outright instead of converted.
   if (_srsDueEl) {
     _srsDueEl.textContent = String(due);
-    _srsDueEl.className = 'srs-stat-num srs-stat-due' + (due === 0 ? ' zero' : '');
+    _srsDueEl.classList.toggle('zero', due === 0);
   }
   if (_srsNewEl) {
     _srsNewEl.textContent = String(Math.min(newCards, getSrsNewRemaining()));
-    _srsNewEl.className = 'srs-stat-num srs-stat-new';
   }
 }
 

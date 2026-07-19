@@ -2107,36 +2107,14 @@ body.dark .tempo-opt.wrong {
   box-sizing: border-box;
 }
 
-/* ── SRS статистика (game-bar → пошук) ── */
-.srs-stats-bar {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.78rem;
-  color: var(--text2);
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 7px 12px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
-}
-.srs-stat-num {
-  font-weight: 700;
-}
-.srs-stat-due {
-  color: #e74c3c;
-}
-.srs-stat-new {
-  color: #3498db;
-}
-.srs-stat-sep {
-  color: var(--text3);
-  margin: 0 2px;
-}
-.srs-stat-due.zero {
-  color: var(--accent);
-}
+/* .srs-stats-bar/.srs-stat-num/.srs-stat-due/.srs-stat-new/.srs-stat-sep
+   moved to Tailwind utility classes in index.html
+   (tailwind-shadcn-migration-roadmap.md Phase 2). The srs-stats-bar class
+   name stays — all 14 fandom themes override it — and being unlayered
+   legacy CSS it keeps winning over the new Tailwind utilities regardless
+   of source order, same guarantee used throughout this migration. The
+   srs-stat-due/zero and body.dark overrides below stay too, for the same
+   reason (only their own base color declaration moved). */
 body.dark .srs-stat-due {
   color: #e74c3c;
 }
@@ -2172,37 +2150,14 @@ body.dark .srs-stat-due.zero {
   display: none;
 }
 
-/* ── SRS: бейдж наступного повторення ── */
-.srs-next {
-  font-size: 0.72rem;
-  margin-top: 4px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  padding: 2px 8px;
-  border-radius: 20px;
-}
-.srs-next.new {
-  color: #2980b9;
-  background: rgba(41, 128, 185, 0.1);
-}
-.srs-next.ok {
-  color: #27ae60;
-  background: rgba(39, 174, 96, 0.1);
-}
-.srs-next.soon {
-  color: #e67e22;
-  background: rgba(230, 126, 34, 0.1);
-}
-.srs-next.today {
-  color: #f39c12;
-  background: rgba(243, 156, 18, 0.12);
-}
-.srs-next.over {
-  color: #e74c3c;
-  background: rgba(231, 76, 60, 0.1);
-}
+/* .srs-next base layout + its new/ok/soon/today/over color/background
+   variants moved to Tailwind utility classes baked directly into the
+   className strings srsStatusInfo() returns
+   (js/core/card-helpers.ts) — no bare .srs-next JSX className literal
+   exists anymore for the base rule to attach to. The variant token names
+   (new/ok/soon/today/over) stay as literal classes for the body.dark
+   overrides below, which keep winning over the new Tailwind utilities the
+   same way as everywhere else in this migration. */
 body.dark .srs-next.new {
   color: #5dade2;
   background: rgba(93, 173, 226, 0.1);

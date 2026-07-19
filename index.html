@@ -196,13 +196,20 @@
       <div id="mode-complete-toast-mount"></div>
       <div id="confetti-canvas-mount"></div>
 
-      <div id="srs-stats" class="srs-stats-bar" style="display: none">
+      <div
+        id="srs-stats"
+        class="srs-stats-bar mb-2 flex flex-wrap items-center gap-[5px] rounded-[10px] border border-border bg-card px-3 py-[7px] text-[0.78rem] text-text2"
+        style="display: none"
+      >
         <span>📚</span>
         <span data-i18n="srs.statsToday">Сьогодні:</span>
-        <span id="srs-stat-due" class="srs-stat-num srs-stat-due">0</span
+        <span
+          id="srs-stat-due"
+          class="srs-stat-num srs-stat-due font-bold text-[#e74c3c] [&.zero]:text-accent"
+          >0</span
         ><span data-i18n="srs.statsDue"> до повторення</span>
-        <span class="srs-stat-sep">·</span>
-        <span id="srs-stat-new" class="srs-stat-num srs-stat-new">0</span
+        <span class="srs-stat-sep mx-0.5 text-text3">·</span>
+        <span id="srs-stat-new" class="srs-stat-num srs-stat-new font-bold text-[#3498db]">0</span
         ><span data-i18n="srs.statsNew"> нових</span>
       </div>
 
@@ -659,7 +666,7 @@
           </div>
 
           <div class="settings-footer">
-            © 2026 Vymova · v1.357.0 ·
+            © 2026 Vymova · v1.358.0 ·
             <a
               href="./privacy.html"
               target="_blank"

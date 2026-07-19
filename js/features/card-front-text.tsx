@@ -258,7 +258,14 @@ export function SrsBadge() {
   if (!cw) return null;
   const sd = (srsData as Record<string, SrsEntry>)[cw[0]];
   const info = srsStatusInfo(sd, today(), getRangeVal());
-  if (!info) return <div id="srs-next" className="srs-next" style={{ display: 'none' }} />;
+  if (!info)
+    return (
+      <div
+        id="srs-next"
+        className="srs-next mt-1 inline-flex items-center gap-[3px] rounded-[20px] px-2 py-0.5 text-[0.72rem] font-semibold"
+        style={{ display: 'none' }}
+      />
+    );
   return (
     <div id="srs-next" className={info.className} title={forgettingCurveTooltip(sd)}>
       {info.text}

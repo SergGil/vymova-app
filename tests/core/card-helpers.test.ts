@@ -217,7 +217,7 @@ describe('srsStatusInfo()', () => {
       const r = srsStatusInfo(undefined, TODAY, 'srs');
       expect(r).not.toBeNull();
       expect(r!.text).toBe('🆕 Нове');
-      expect(r!.className).toBe('srs-next new');
+      expect(r!.className.split(' ')).toEqual(expect.arrayContaining(['srs-next', 'new']));
       expect(r!.show).toBe(true);
     });
 
@@ -235,7 +235,7 @@ describe('srsStatusInfo()', () => {
     it('1 day overdue → "день"', () => {
       const r = srsStatusInfo({ due: '2025-01-14' }, TODAY, 'all');
       expect(r!.text).toBe('🔴 Прострочено 1 день');
-      expect(r!.className).toBe('srs-next over');
+      expect(r!.className.split(' ')).toEqual(expect.arrayContaining(['srs-next', 'over']));
     });
 
     it('2 days overdue → "дні"', () => {
@@ -253,7 +253,7 @@ describe('srsStatusInfo()', () => {
     it('same day → "Повторити сьогодні"', () => {
       const r = srsStatusInfo({ due: TODAY }, TODAY, 'all');
       expect(r!.text).toBe('🟡 Повторити сьогодні');
-      expect(r!.className).toBe('srs-next today');
+      expect(r!.className.split(' ')).toEqual(expect.arrayContaining(['srs-next', 'today']));
     });
   });
 
@@ -261,7 +261,7 @@ describe('srsStatusInfo()', () => {
     it('1 day ahead → "Через 1 день"', () => {
       const r = srsStatusInfo({ due: '2025-01-16' }, TODAY, 'all');
       expect(r!.text).toBe('⏰ Через 1 день');
-      expect(r!.className).toBe('srs-next soon');
+      expect(r!.className.split(' ')).toEqual(expect.arrayContaining(['srs-next', 'soon']));
     });
 
     it('2 days ahead → "Через 2 дні"', () => {
@@ -279,7 +279,7 @@ describe('srsStatusInfo()', () => {
     it('4 days ahead → "Через 4 дні"', () => {
       const r = srsStatusInfo({ due: '2025-01-19' }, TODAY, 'all');
       expect(r!.text).toBe('✅ Через 4 дні');
-      expect(r!.className).toBe('srs-next ok');
+      expect(r!.className.split(' ')).toEqual(expect.arrayContaining(['srs-next', 'ok']));
     });
 
     it('5 days ahead → "Через 5 днів"', () => {
