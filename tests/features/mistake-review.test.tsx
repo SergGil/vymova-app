@@ -1,9 +1,7 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
-import { createRoot, type Root } from 'react-dom/client';
+import { render, screen } from '@testing-library/react';
 import { MistakeReview } from '../../js/features/mistake-review.tsx';
-
-(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 // ── Mock speak ───────────────────────────────────────────────────
 const { speak } = vi.hoisted(() => ({ speak: vi.fn() }));
@@ -29,22 +27,6 @@ vi.mock('../../data/words.js', () => ({
   ],
 }));
 
-// ── Helpers ──────────────────────────────────────────────────────
-let activeRoot: Root | null = null;
-
-function mount(ui: JSX.Element): { container: HTMLElement; root: Root } {
-  const container = document.createElement('div');
-  document.body.appendChild(container);
-  const root = createRoot(container);
-  act(() => { root.render(ui); });
-  activeRoot = root;
-  return { container, root };
-}
-
-function portalContent(): HTMLElement {
-  return document.body;
-}
-
 beforeEach(() => {
   document.body.innerHTML = '';
   getMistakes.mockClear();
@@ -53,114 +35,119 @@ beforeEach(() => {
   getMistakes.mockReturnValue({});
 });
 
-afterEach(() => {
-  if (activeRoot) {
-    act(() => { activeRoot!.unmount(); });
-    activeRoot = null;
-  }
-});
-
 describe('MistakeReview', () => {
   it('shows "no mistakes" message when getMistakes returns empty', () => {
     getMistakes.mockReturnValue({});
-    const onClose = vi.fn();
-    mount(<MistakeReview onClose={onClose} />);
-    expect(portalContent().textContent).toContain('Помилок немає');
+    render(<MistakeReview onClose={vi.fn()} />);
+    expect(screen.getByText('Помилок немає! 🎉')).toBeInTheDocument();
   });
 
   it('renders the first mistake word when mistakes exist', () => {
     getMistakes.mockReturnValue({ abandon: 3, book: 1 });
-    mount(<MistakeReview onClose={vi.fn()} />);
-    expect(portalContent().textContent).toContain('abandon');
+    render(<MistakeReview onClose={vi.fn()} />);
+    expect(screen.getByText('abandon', { selector: '.mistake-review-word' })).toBeInTheDocument();
   });
 
   it('shows progress counter "1 / N"', () => {
     getMistakes.mockReturnValue({ abandon: 2 });
-    mount(<MistakeReview onClose={vi.fn()} />);
-    expect(portalContent().textContent).toContain('1 / 1');
+    render(<MistakeReview onClose={vi.fn()} />);
+    expect(screen.getByText('1 / 1')).toBeInTheDocument();
   });
 
   it('flips the card when clicked', () => {
     getMistakes.mockReturnValue({ abandon: 1 });
-    mount(<MistakeReview onClose={vi.fn()} />);
-    const card = document.querySelector('.mistake-review-card') as HTMLElement;
-    expect(card.className).not.toContain('flipped');
-    act(() => { card.click(); });
-    expect(card.className).toContain('flipped');
+    render(<MistakeReview onClose={vi.fn()} />);
+    const card = document.querySelector('.mistake-review-card')!;
+    expect(card.classList.contains('flipped')).toBe(false);
+    act(() => {
+      (card as HTMLElement).click();
+    });
+    expect(card.classList.contains('flipped')).toBe(true);
   });
 
   it('hides Got it / Still hard until the card is checked, decodes the IPA without double brackets', () => {
     getMistakes.mockReturnValue({ abandon: 1 });
-    mount(<MistakeReview onClose={vi.fn()} />);
-    expect(document.querySelector('.mistake-review-ipa')!.textContent).toBe('[ˈæ]');
-    expect(document.querySelectorAll('.mistake-review-actions').length).toBe(0);
-    const checkBtn = document.querySelector('.mistake-review-btn.check') as HTMLElement;
-    act(() => { checkBtn.click(); });
-    expect(document.querySelector('.mistake-review-card')!.className).toContain('flipped');
-    expect(document.querySelectorAll('.mistake-review-actions').length).toBe(1);
+    render(<MistakeReview onClose={vi.fn()} />);
+    expect(screen.getByText('[ˈæ]')).toBeInTheDocument();
+    expect(document.querySelectorAll('.mistake-review-actions')).toHaveLength(0);
+
+    act(() => {
+      screen.getByRole('button', { name: /Перевірити/ }).click();
+    });
+
+    expect(document.querySelector('.mistake-review-card')!.classList.contains('flipped')).toBe(
+      true,
+    );
+    expect(document.querySelectorAll('.mistake-review-actions')).toHaveLength(1);
   });
 
   it('"Got it" advances to next card and calls clearMistake', () => {
     getMistakes.mockReturnValue({ abandon: 2 });
-    mount(<MistakeReview onClose={vi.fn()} />);
-    const card = document.querySelector('.mistake-review-card') as HTMLElement;
-    act(() => { card.click(); });
-    const gotBtn = Array.from(document.querySelectorAll('.mistake-review-btn')).find(
-      (b) => b.textContent?.includes('Знаю'),
-    ) as HTMLElement;
-    act(() => { gotBtn.click(); });
+    render(<MistakeReview onClose={vi.fn()} />);
+    act(() => {
+      document.querySelector<HTMLElement>('.mistake-review-card')!.click();
+    });
+    act(() => {
+      screen.getByRole('button', { name: '✓ Знаю!' }).click();
+    });
     expect(clearMistake).toHaveBeenCalledWith('abandon');
     // After clearing the only card, done screen appears
-    expect(portalContent().textContent).toContain('Готово');
+    expect(screen.getByText('Готово! 🎉')).toBeInTheDocument();
   });
 
   it('"Still hard" advances to next card without calling clearMistake', () => {
     getMistakes.mockReturnValue({ abandon: 2 });
-    mount(<MistakeReview onClose={vi.fn()} />);
-    const card = document.querySelector('.mistake-review-card') as HTMLElement;
-    act(() => { card.click(); });
-    const hardBtn = Array.from(document.querySelectorAll('.mistake-review-btn')).find(
-      (b) => b.textContent?.includes('Ще важко'),
-    ) as HTMLElement;
-    act(() => { hardBtn.click(); });
+    render(<MistakeReview onClose={vi.fn()} />);
+    act(() => {
+      document.querySelector<HTMLElement>('.mistake-review-card')!.click();
+    });
+    act(() => {
+      screen.getByRole('button', { name: '✗ Ще важко' }).click();
+    });
     expect(clearMistake).not.toHaveBeenCalled();
-    expect(portalContent().textContent).toContain('Готово');
+    expect(screen.getByText('Готово! 🎉')).toBeInTheDocument();
   });
 
   it('done screen shows correct cleared count', () => {
     getMistakes.mockReturnValue({ abandon: 1, book: 2 });
-    mount(<MistakeReview onClose={vi.fn()} />);
-    const card = () => document.querySelector('.mistake-review-card') as HTMLElement;
+    render(<MistakeReview onClose={vi.fn()} />);
     // click "got it" for abandon
-    const gotBtn = () =>
-      Array.from(document.querySelectorAll('.mistake-review-btn')).find(
-        (b) => b.textContent?.includes('Знаю'),
-      ) as HTMLElement;
-    act(() => { card().click(); });
-    act(() => { gotBtn().click(); }); // advance past abandon
+    act(() => {
+      document.querySelector<HTMLElement>('.mistake-review-card')!.click();
+    });
+    act(() => {
+      screen.getByRole('button', { name: '✓ Знаю!' }).click();
+    });
     // click "still hard" for book
-    act(() => { card().click(); });
-    const hardBtn = Array.from(document.querySelectorAll('.mistake-review-btn')).find(
-      (b) => b.textContent?.includes('Ще важко'),
-    ) as HTMLElement;
-    act(() => { hardBtn.click(); });
-    expect(portalContent().textContent).toContain('1 із 2');
+    act(() => {
+      document.querySelector<HTMLElement>('.mistake-review-card')!.click();
+    });
+    act(() => {
+      screen.getByRole('button', { name: '✗ Ще важко' }).click();
+    });
+    expect(screen.getByText(/1 із 2/)).toBeInTheDocument();
   });
 
   it('close button calls onClose', () => {
     getMistakes.mockReturnValue({});
     const onClose = vi.fn();
-    mount(<MistakeReview onClose={onClose} />);
-    const closeBtn = document.querySelector('.mistake-review-close') as HTMLElement;
-    act(() => { closeBtn.click(); });
+    render(<MistakeReview onClose={onClose} />);
+    act(() => {
+      screen.getByRole('button', { name: 'Закрити' }).click();
+    });
     expect(onClose).toHaveBeenCalled();
   });
 
   it('speak button calls speak() with the word', () => {
     getMistakes.mockReturnValue({ abandon: 1 });
-    mount(<MistakeReview onClose={vi.fn()} />);
-    const speakBtn = document.querySelector('.mistake-review-speak') as HTMLElement;
-    act(() => { speakBtn.click(); });
+    render(<MistakeReview onClose={vi.fn()} />);
+    // Two `.mistake-review-speak` buttons exist (front word + back example,
+    // the latter just visually hidden pre-flip) — not disambiguatable by
+    // accessible name (both are a bare 🔊), so this one stays a class query.
+    const speakBtn = document.querySelector<HTMLElement>('.mistake-review-speak')!;
+    act(() => {
+      speakBtn.click();
+    });
     expect(speak).toHaveBeenCalledWith('abandon', null);
   });
 });

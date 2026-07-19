@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
-import { createRoot, type Root } from 'react-dom/client';
+import { render, within } from '@testing-library/react';
 import { DailyChallenge } from '../../js/modes/daily-challenge.tsx';
 import { today as localToday } from '../../js/core/today.ts';
 import type { GameData } from '../../src/types.ts';
@@ -27,55 +27,50 @@ vi.mock('../../js/features/game-bar-level.tsx', () => ({
 
 import { getGameData, recordModeComplete } from '../../js/features/game.ts';
 
-(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
-
 // #dc-overlay and its children are no longer static fixture markup —
 // DailyChallenge renders them itself (full-react-migration-roadmap.md
 // Phase 2). Only the two elements it doesn't own (the trigger button,
 // elsewhere in daily-mission-card.tsx, and modes-overlay, elsewhere in
 // modes-modal.tsx) still need a fixture.
-function buildDom(): void {
-  document.body.innerHTML = `
+function buildFixture(): void {
+  const fixture = document.createElement('div');
+  fixture.innerHTML = `
     <button id="btn-daily-challenge"></button>
     <div id="modes-overlay" class="modes-overlay open as-page"></div>
   `;
+  document.body.appendChild(fixture);
+}
+
+// The 4 answer buttons carry real translated word text, so they're
+// queryable by role rather than by their .dc-opt marker class.
+function options(): HTMLElement[] {
+  return within(document.getElementById('dc-options')!).getAllByRole('button');
 }
 
 function answer(optionIndex: number): void {
-  const opts = document.querySelectorAll<HTMLButtonElement>('#dc-options .dc-opt');
   act(() => {
-    opts[optionIndex].click();
+    options()[optionIndex].click();
+  });
+}
+
+function openChallenge(): void {
+  act(() => {
+    document.getElementById('btn-daily-challenge')!.click();
   });
 }
 
 describe('daily-challenge.tsx (DailyChallenge)', () => {
-  let root: Root;
-  let container: HTMLElement;
-
   beforeEach(() => {
-    localStorage.clear();
-    mockGameData = { xp: 0, dailyMissionDate: null } as unknown as GameData;
-    buildDom();
-    vi.clearAllMocks();
-    container = document.createElement('div');
-    document.body.appendChild(container);
-    root = createRoot(container);
-    act(() => {
-      root.render(<DailyChallenge />);
-    });
-  });
-
-  afterEach(() => {
-    act(() => {
-      root.unmount();
-    });
     document.body.innerHTML = '';
     localStorage.clear();
+    mockGameData = { xp: 0, dailyMissionDate: null } as unknown as GameData;
+    buildFixture();
+    vi.clearAllMocks();
+    render(<DailyChallenge />);
   });
 
   it('renders its own #dc-overlay markup (imperative wiring still targets those same ids)', () => {
-    expect(container.querySelector('#dc-overlay')).not.toBeNull();
-    expect(document.getElementById('dc-overlay')).toBe(container.querySelector('#dc-overlay'));
+    expect(document.getElementById('dc-overlay')).not.toBeNull();
   });
 
   // Regression: opening used to also set modes-overlay's style.display =
@@ -85,9 +80,7 @@ describe('daily-challenge.tsx (DailyChallenge)', () => {
   // again after visiting Daily Challenge once. classList.remove alone is
   // enough since .modes-overlay's base CSS rule is already display:none.
   it('opening closes the modes-overlay via class only, without leaving a stale inline display style', () => {
-    act(() => {
-      document.getElementById('btn-daily-challenge')!.click();
-    });
+    openChallenge();
     const modesOverlay = document.getElementById('modes-overlay')!;
     expect(modesOverlay.classList.contains('open')).toBe(false);
     expect(modesOverlay.classList.contains('as-page')).toBe(false);
@@ -95,20 +88,16 @@ describe('daily-challenge.tsx (DailyChallenge)', () => {
   });
 
   it('opening the mission shows the first question with 4 options', () => {
-    act(() => {
-      document.getElementById('btn-daily-challenge')!.click();
-    });
+    openChallenge();
     expect(document.getElementById('dc-overlay')!.classList.contains('open')).toBe(true);
     expect(document.getElementById('dc-word')!.textContent).not.toBe('');
-    expect(document.querySelectorAll('#dc-options .dc-opt')).toHaveLength(4);
+    expect(options()).toHaveLength(4);
     expect(document.getElementById('dc-title')!.textContent).toContain('1');
   });
 
   it('shows the locked "already done today" screen when the mission is already completed', () => {
     mockGameData.dailyMissionDate = localToday();
-    act(() => {
-      document.getElementById('btn-daily-challenge')!.click();
-    });
+    openChallenge();
     // The locked screen replaces the question area and shows the final panel.
     expect(document.getElementById('dc-final')!.style.display).toBe('block');
     expect(document.getElementById('dc-options')!.innerHTML).toBe('');
@@ -116,15 +105,13 @@ describe('daily-challenge.tsx (DailyChallenge)', () => {
 
   it('answering marks the option, shows feedback, and starts the countdown timer', () => {
     vi.useFakeTimers();
-    act(() => {
-      document.getElementById('btn-daily-challenge')!.click();
-    });
+    openChallenge();
     const correctText = document.getElementById('dc-result');
-    const opts = document.querySelectorAll<HTMLButtonElement>('#dc-options .dc-opt');
+    const opts = options();
     act(() => {
       opts[0].click();
     });
-    expect(opts[0].disabled).toBe(true);
+    expect((opts[0] as HTMLButtonElement).disabled).toBe(true);
     expect(correctText!.textContent).not.toBe('');
     act(() => {
       vi.advanceTimersByTime(1000);
@@ -133,11 +120,9 @@ describe('daily-challenge.tsx (DailyChallenge)', () => {
     vi.useRealTimers();
   });
 
-  it('advances to the next question after answering', async () => {
+  it('advances to the next question after answering', () => {
     vi.useFakeTimers();
-    act(() => {
-      document.getElementById('btn-daily-challenge')!.click();
-    });
+    openChallenge();
     answer(0);
     act(() => {
       vi.advanceTimersByTime(900);
@@ -148,14 +133,9 @@ describe('daily-challenge.tsx (DailyChallenge)', () => {
 
   it('completing all 10 questions shows the final screen and records XP/completion', () => {
     vi.useFakeTimers();
-    act(() => {
-      document.getElementById('btn-daily-challenge')!.click();
-    });
+    openChallenge();
     for (let i = 0; i < 10; i++) {
-      const opts = document.querySelectorAll<HTMLButtonElement>('#dc-options .dc-opt');
-      act(() => {
-        opts[0].click();
-      });
+      answer(0);
       act(() => {
         vi.advanceTimersByTime(900);
       });
@@ -168,9 +148,7 @@ describe('daily-challenge.tsx (DailyChallenge)', () => {
 
   it('the countdown timer ends the round early if time runs out', () => {
     vi.useFakeTimers();
-    act(() => {
-      document.getElementById('btn-daily-challenge')!.click();
-    });
+    openChallenge();
     // Starting the timer requires answering the first question once.
     answer(0);
     act(() => {
@@ -184,9 +162,7 @@ describe('daily-challenge.tsx (DailyChallenge)', () => {
   });
 
   it('closing hides the overlay', () => {
-    act(() => {
-      document.getElementById('btn-daily-challenge')!.click();
-    });
+    openChallenge();
     act(() => {
       document.getElementById('dc-close')!.click();
     });
@@ -194,9 +170,7 @@ describe('daily-challenge.tsx (DailyChallenge)', () => {
   });
 
   it('clicking outside the panel closes the overlay', () => {
-    act(() => {
-      document.getElementById('btn-daily-challenge')!.click();
-    });
+    openChallenge();
     const overlay = document.getElementById('dc-overlay')!;
     act(() => {
       overlay.dispatchEvent(new MouseEvent('click', { bubbles: true }));

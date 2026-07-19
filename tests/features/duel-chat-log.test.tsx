@@ -1,10 +1,8 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
-import { createRoot, type Root } from 'react-dom/client';
+import { render, screen } from '@testing-library/react';
 import { DuelChatLog } from '../../js/features/duel/duel-chat-log.tsx';
 import { setDuelChat } from '../../src/duel-async-store.ts';
-
-(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 let chatHistory: { text: string; isMe: boolean }[] = [];
 const { getChatHistory } = vi.hoisted(() => ({
@@ -12,39 +10,15 @@ const { getChatHistory } = vi.hoisted(() => ({
 }));
 vi.mock('../../js/features/duel/duel.ts', () => ({ _getChatHistory: getChatHistory }));
 
-function mount(): { container: HTMLElement; root: Root } {
-  const container = document.createElement('div');
-  document.body.appendChild(container);
-  const root = createRoot(container);
-  act(() => {
-    root.render(<DuelChatLog />);
-  });
-  return { container, root };
-}
+beforeEach(() => {
+  chatHistory = [];
+  getChatHistory.mockClear().mockImplementation(() => chatHistory);
+});
 
 describe('duel-chat-log.tsx DuelChatLog', () => {
-  let roots: Root[] = [];
-
-  beforeEach(() => {
-    document.body.innerHTML = '';
-    chatHistory = [];
-    roots = [];
-    getChatHistory.mockClear().mockImplementation(() => chatHistory);
-  });
-
-  afterEach(() => {
-    roots.forEach((r) => {
-      act(() => {
-        r.unmount();
-      });
-    });
-  });
-
   it('renders an empty log when there is no chat history', () => {
-    const { container, root } = mount();
-    roots.push(root);
-    expect(container.querySelector('#duel-chat-log')).not.toBeNull();
-    expect(container.querySelectorAll('.duel-chat-msg').length).toBe(0);
+    render(<DuelChatLog />);
+    expect(document.getElementById('duel-chat-log')?.textContent).toBe('');
   });
 
   it('renders chat messages and marks own messages with the "me" class', () => {
@@ -52,35 +26,27 @@ describe('duel-chat-log.tsx DuelChatLog', () => {
       { text: 'Hello', isMe: true },
       { text: 'Hi there', isMe: false },
     ];
-    const { container, root } = mount();
-    roots.push(root);
+    render(<DuelChatLog />);
 
-    const msgs = container.querySelectorAll('.duel-chat-msg');
-    expect(msgs.length).toBe(2);
-    expect(msgs[0].textContent).toBe('Hello');
-    expect(msgs[0].className).toContain('me');
-    expect(msgs[1].textContent).toBe('Hi there');
-    expect(msgs[1].className).not.toContain('me');
+    expect(screen.getByText('Hello').classList.contains('me')).toBe(true);
+    expect(screen.getByText('Hi there').classList.contains('me')).toBe(false);
   });
 
   it('re-renders the log with new messages', () => {
-    const { container, root } = mount();
-    roots.push(root);
-    expect(container.querySelectorAll('.duel-chat-msg').length).toBe(0);
+    render(<DuelChatLog />);
+    expect(screen.queryByText('New message')).toBeNull();
 
     chatHistory = [{ text: 'New message', isMe: true }];
     act(() => {
       setDuelChat(chatHistory);
     });
 
-    expect(container.querySelectorAll('.duel-chat-msg').length).toBe(1);
-    expect(container.querySelector('.duel-chat-msg')!.textContent).toBe('New message');
+    expect(screen.getByText('New message')).toBeInTheDocument();
   });
 
   it('scrolls to the bottom when new messages arrive', () => {
-    const { container, root } = mount();
-    roots.push(root);
-    const log = container.querySelector('#duel-chat-log') as HTMLElement;
+    render(<DuelChatLog />);
+    const log = document.getElementById('duel-chat-log') as HTMLElement;
     Object.defineProperty(log, 'scrollHeight', { value: 500, configurable: true });
     log.scrollTop = 0;
 

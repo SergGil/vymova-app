@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
-import { createRoot, type Root } from 'react-dom/client';
+import { render } from '@testing-library/react';
 import { PairsMode } from '../../js/modes/pairs.tsx';
 import { setDeckState } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.ts';
@@ -11,8 +11,6 @@ vi.mock('../../js/features/game.ts', async (importOriginal) => {
 });
 
 import { recordModeComplete } from '../../js/features/game.ts';
-
-(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const SIX_WORDS: WordEntry[] = [
   ['apple', 'яблуко', '', ''],
@@ -26,19 +24,15 @@ const SIX_WORDS: WordEntry[] = [
 // #pairs-overlay and its children are no longer static fixture markup —
 // PairsMode renders them itself (full-react-migration-roadmap.md Phase 2).
 // Only #btn-pairs (elsewhere, in modes-modal.tsx's grid) still needs one.
-function buildDom(): void {
-  document.body.innerHTML = `
-    <button id="btn-pairs"></button>
-  `;
+function buildFixture(): void {
+  const fixture = document.createElement('div');
+  fixture.innerHTML = `<button id="btn-pairs"></button>`;
+  document.body.appendChild(fixture);
 }
 
 function clickPair(idx: number): void {
-  const enBtn = document.querySelector<HTMLButtonElement>(
-    `#pairs-col-en [data-id="${idx}"]`,
-  )!;
-  const uaBtn = document.querySelector<HTMLButtonElement>(
-    `#pairs-col-ua [data-id="${idx}"]`,
-  )!;
+  const enBtn = document.querySelector<HTMLButtonElement>(`#pairs-col-en [data-id="${idx}"]`)!;
+  const uaBtn = document.querySelector<HTMLButtonElement>(`#pairs-col-ua [data-id="${idx}"]`)!;
   act(() => {
     enBtn.click();
   });
@@ -47,40 +41,28 @@ function clickPair(idx: number): void {
   });
 }
 
-describe('pairs.tsx (PairsMode)', () => {
-  let root: Root;
-  let container: HTMLElement;
-
-  beforeEach(() => {
-    localStorage.clear();
-    buildDom();
-    setDeckState(SIX_WORDS);
-    vi.clearAllMocks();
-    container = document.createElement('div');
-    document.body.appendChild(container);
-    root = createRoot(container);
-    act(() => {
-      root.render(<PairsMode />);
-    });
+function openPairs(): void {
+  act(() => {
+    document.getElementById('btn-pairs')!.click();
   });
+}
 
-  afterEach(() => {
-    act(() => {
-      root.unmount();
-    });
+describe('pairs.tsx (PairsMode)', () => {
+  beforeEach(() => {
     document.body.innerHTML = '';
     localStorage.clear();
+    buildFixture();
+    setDeckState(SIX_WORDS);
+    vi.clearAllMocks();
+    render(<PairsMode />);
   });
 
   it('renders its own #pairs-overlay markup (imperative wiring still targets those same ids)', () => {
-    expect(container.querySelector('#pairs-overlay')).not.toBeNull();
-    expect(document.getElementById('pairs-overlay')).toBe(container.querySelector('#pairs-overlay'));
+    expect(document.getElementById('pairs-overlay')).not.toBeNull();
   });
 
   it('opening the mode fills the board with 6 EN/UA button pairs and shows the overlay', () => {
-    act(() => {
-      document.getElementById('btn-pairs')!.click();
-    });
+    openPairs();
     const overlay = document.getElementById('pairs-overlay')!;
     expect(overlay.style.display).toBe('flex');
     expect(document.querySelectorAll('#pairs-col-en .pair-btn')).toHaveLength(6);
@@ -88,9 +70,7 @@ describe('pairs.tsx (PairsMode)', () => {
   });
 
   it('clicking a matching EN/UA pair marks both as matched', () => {
-    act(() => {
-      document.getElementById('btn-pairs')!.click();
-    });
+    openPairs();
     clickPair(0);
     const enBtn = document.querySelector(`#pairs-col-en [data-id="0"]`)!;
     const uaBtn = document.querySelector(`#pairs-col-ua [data-id="0"]`)!;
@@ -98,11 +78,9 @@ describe('pairs.tsx (PairsMode)', () => {
     expect(uaBtn.classList.contains('matched')).toBe(true);
   });
 
-  it('clicking a non-matching pair flags both as wrong, then clears after the shake delay', async () => {
+  it('clicking a non-matching pair flags both as wrong, then clears after the shake delay', () => {
     vi.useFakeTimers();
-    act(() => {
-      document.getElementById('btn-pairs')!.click();
-    });
+    openPairs();
     const enBtn = document.querySelector<HTMLButtonElement>(`#pairs-col-en [data-id="0"]`)!;
     const uaBtn = document.querySelector<HTMLButtonElement>(`#pairs-col-ua [data-id="1"]`)!;
     act(() => {
@@ -122,9 +100,7 @@ describe('pairs.tsx (PairsMode)', () => {
   });
 
   it('clicking the same button twice deselects it instead of matching', () => {
-    act(() => {
-      document.getElementById('btn-pairs')!.click();
-    });
+    openPairs();
     const enBtn = document.querySelector<HTMLButtonElement>(`#pairs-col-en [data-id="0"]`)!;
     act(() => {
       enBtn.click();
@@ -137,9 +113,7 @@ describe('pairs.tsx (PairsMode)', () => {
   });
 
   it('clicking two buttons on the same side swaps the selection instead of matching', () => {
-    act(() => {
-      document.getElementById('btn-pairs')!.click();
-    });
+    openPairs();
     const first = document.querySelector<HTMLButtonElement>(`#pairs-col-en [data-id="0"]`)!;
     const second = document.querySelector<HTMLButtonElement>(`#pairs-col-en [data-id="1"]`)!;
     act(() => {
@@ -152,11 +126,9 @@ describe('pairs.tsx (PairsMode)', () => {
     expect(second.classList.contains('selected')).toBe(true);
   });
 
-  it('matching all 6 pairs finishes the round, records completion and a best time', async () => {
+  it('matching all 6 pairs finishes the round, records completion and a best time', () => {
     vi.useFakeTimers();
-    act(() => {
-      document.getElementById('btn-pairs')!.click();
-    });
+    openPairs();
     for (let i = 0; i < 6; i++) {
       clickPair(i);
     }
@@ -171,9 +143,7 @@ describe('pairs.tsx (PairsMode)', () => {
   });
 
   it('closing via the close button hides the overlay', () => {
-    act(() => {
-      document.getElementById('btn-pairs')!.click();
-    });
+    openPairs();
     act(() => {
       document.getElementById('pairs-close')!.click();
     });
@@ -181,9 +151,7 @@ describe('pairs.tsx (PairsMode)', () => {
   });
 
   it('Escape closes the overlay while open, but is a no-op while closed', () => {
-    act(() => {
-      document.getElementById('btn-pairs')!.click();
-    });
+    openPairs();
     act(() => {
       document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     });
@@ -191,9 +159,7 @@ describe('pairs.tsx (PairsMode)', () => {
   });
 
   it('"play again" rebuilds the board and clicking outside the panel closes it', () => {
-    act(() => {
-      document.getElementById('btn-pairs')!.click();
-    });
+    openPairs();
     act(() => {
       document.getElementById('pairs-again')!.click();
     });

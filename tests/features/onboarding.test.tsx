@@ -1,22 +1,11 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { act } from 'react';
-import { createRoot, type Root } from 'react-dom/client';
+import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { W } from '../../data/words.js';
 import { OnboardingPage } from '../../js/features/onboarding.tsx';
 
-(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
-
 const FLAG_KEY = 'ew_onboarding_needed';
-
-function mount(): { container: HTMLElement; root: Root } {
-  const container = document.createElement('div');
-  document.body.appendChild(container);
-  const root = createRoot(container);
-  act(() => {
-    root.render(<OnboardingPage />);
-  });
-  return { container, root };
-}
 
 async function wait(ms: number): Promise<void> {
   await act(async () => {
@@ -24,132 +13,98 @@ async function wait(ms: number): Promise<void> {
   });
 }
 
+beforeEach(() => {
+  document.body.innerHTML =
+    '<select id="sel-range"><option value="0">All</option><option value="srs">SRS</option><option value="unlearned">Unlearned</option></select><button id="btn-daily-challenge"></button>';
+  localStorage.clear();
+});
+
 describe('onboarding.tsx OnboardingPage', () => {
-  let roots: Root[] = [];
-
-  beforeEach(() => {
-    document.body.innerHTML =
-      '<select id="sel-range"><option value="0">All</option><option value="srs">SRS</option><option value="unlearned">Unlearned</option></select><button id="btn-daily-challenge"></button>';
-    localStorage.clear();
-    roots = [];
-  });
-
-  afterEach(() => {
-    roots.forEach((r) => {
-      act(() => {
-        r.unmount();
-      });
-    });
-  });
-
   it('renders nothing when the onboarding flag is not set', async () => {
-    const { container, root } = mount();
-    roots.push(root);
+    render(<OnboardingPage />);
     await wait(500);
-    expect(container.innerHTML).toBe('');
+    expect(screen.queryByText('Ласкаво просимо!')).toBeNull();
   });
 
   it('shows the onboarding overlay and clears the flag when needed', async () => {
     localStorage.setItem(FLAG_KEY, '1');
-    const { container, root } = mount();
-    roots.push(root);
+    render(<OnboardingPage />);
     await wait(500);
 
-    expect(container.querySelector('#ob-overlay')).not.toBeNull();
+    expect(screen.getByText('Ласкаво просимо!')).toBeInTheDocument();
     expect(localStorage.getItem(FLAG_KEY)).toBeNull();
   });
 
   it('interpolates the word count into slide 1 instead of leaving a literal placeholder', async () => {
     localStorage.setItem(FLAG_KEY, '1');
-    const { container, root } = mount();
-    roots.push(root);
+    render(<OnboardingPage />);
     await wait(500);
 
-    const slide1 = container.querySelectorAll('.ob-slide')[0];
-    expect(slide1.innerHTML).toContain(String(W.length));
-    expect(slide1.innerHTML).not.toContain('{n}');
-    expect(slide1.innerHTML).not.toContain('{{n}}');
+    const slide1 = screen.getByText('Ласкаво просимо!').closest('.ob-slide')!;
+    expect(within(slide1).getByText(new RegExp(String(W.length)))).toBeInTheDocument();
+    expect(within(slide1).queryByText(/\{n\}/)).toBeNull();
+    expect(within(slide1).queryByText(/\{\{n\}\}/)).toBeNull();
   });
 
   it('navigates through slides via the "next" button, updating dots', async () => {
     localStorage.setItem(FLAG_KEY, '1');
-    const { container, root } = mount();
-    roots.push(root);
+    render(<OnboardingPage />);
     await wait(500);
 
-    const slides = container.querySelectorAll('.ob-slide');
-    expect(slides.length).toBe(4);
-    expect(slides[0].className).toContain('ob-active');
+    // happy-dom doesn't load the compiled Tailwind stylesheet in tests, so
+    // toBeVisible()'s computed-style check can't see the `hidden` utility
+    // class actually hiding an element (it only takes effect once real CSS
+    // is loaded, e.g. in the browser/build) — check the class token instead.
+    const slide1 = screen.getByText('Ласкаво просимо!').closest('.ob-slide')!;
+    const slide2 = screen.getByText('Як вчити слова').closest('.ob-slide')!;
+    expect(slide1.classList.contains('hidden')).toBe(false);
+    expect(slide2.classList.contains('hidden')).toBe(true);
 
-    const nextBtn = container.querySelector('.ob-btn-next') as HTMLButtonElement;
-    act(() => {
-      nextBtn.click();
-    });
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button', { name: /Далі/ }));
 
-    expect(slides[0].className).not.toContain('ob-active');
-    expect(slides[1].className).toContain('ob-active');
-    expect(container.querySelectorAll('.ob-dot-active').length).toBe(1);
-    expect(container.querySelector('.ob-dots')!.children[1].className).toContain('ob-dot-active');
+    expect(slide1.classList.contains('hidden')).toBe(true);
+    expect(slide2.classList.contains('hidden')).toBe(false);
+    const dots = document.querySelectorAll('.ob-dot');
+    expect(dots[1].classList.contains('ob-dot-active')).toBe(true);
+    expect(Array.from(dots).filter((d) => d.classList.contains('ob-dot-active'))).toHaveLength(1);
   });
 
   it('shows the level picker with the SRS level pre-selected on the last slide', async () => {
     localStorage.setItem(FLAG_KEY, '1');
-    const { container, root } = mount();
-    roots.push(root);
+    render(<OnboardingPage />);
     await wait(500);
 
-    const nextBtn = container.querySelector('.ob-btn-next') as HTMLButtonElement;
-    act(() => {
-      nextBtn.click();
-    });
-    act(() => {
-      nextBtn.click();
-    });
-    act(() => {
-      nextBtn.click();
-    });
+    const user = userEvent.setup();
+    const nextBtn = screen.getByRole('button', { name: /Далі/ });
+    await user.click(nextBtn);
+    await user.click(nextBtn);
+    await user.click(nextBtn);
 
-    const levelBtns = container.querySelectorAll('.ob-level-btn');
-    expect(levelBtns.length).toBe(4);
-    const srsBtn = container.querySelector('.ob-level-btn[data-range="srs"]') as HTMLElement;
-    expect(srsBtn.className).toContain('ob-sel');
+    const srsBtn = screen.getByRole('button', { name: /SRS режим/ });
+    expect(srsBtn.classList.contains('ob-sel')).toBe(true);
 
-    const allBtn = container.querySelector('.ob-level-btn[data-range="0"]') as HTMLElement;
-    expect(allBtn.textContent).toContain(String(W.length));
+    const allBtn = screen.getByRole('button', { name: new RegExp(`Всі ${W.length} слів`) });
+    await user.click(allBtn);
+    expect(allBtn.classList.contains('ob-sel')).toBe(true);
+    expect(srsBtn.classList.contains('ob-sel')).toBe(false);
 
-    act(() => {
-      allBtn.click();
-    });
-    expect(allBtn.className).toContain('ob-sel');
-    expect(srsBtn.className).not.toContain('ob-sel');
-
-    expect(nextBtn.textContent).toBe('🚀 Почати навчання!');
-    expect(container.querySelector('.ob-btn-skip')).toBeNull();
+    expect(screen.getByRole('button', { name: '🚀 Почати навчання!' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Пропустити' })).toBeNull();
   });
 
   it('finishes onto the selected range and closes when "start" is clicked on the last slide', async () => {
     localStorage.setItem(FLAG_KEY, '1');
-    const { container, root } = mount();
-    roots.push(root);
+    render(<OnboardingPage />);
     await wait(500);
 
-    const nextBtn = container.querySelector('.ob-btn-next') as HTMLButtonElement;
-    act(() => {
-      nextBtn.click();
-    });
-    act(() => {
-      nextBtn.click();
-    });
-    act(() => {
-      nextBtn.click();
-    });
+    const user = userEvent.setup();
+    const nextBtn = screen.getByRole('button', { name: /Далі/ });
+    await user.click(nextBtn);
+    await user.click(nextBtn);
+    await user.click(nextBtn);
 
-    const unlearnedBtn = container.querySelector(
-      '.ob-level-btn[data-range="unlearned"]',
-    ) as HTMLElement;
-    act(() => {
-      unlearnedBtn.click();
-    });
+    await user.click(screen.getByRole('button', { name: /Тільки невивчені/ }));
 
     const selRange = document.getElementById('sel-range') as HTMLSelectElement;
     let changeFired = false;
@@ -157,38 +112,27 @@ describe('onboarding.tsx OnboardingPage', () => {
       changeFired = true;
     });
 
-    act(() => {
-      nextBtn.click();
-    });
+    await user.click(screen.getByRole('button', { name: '🚀 Почати навчання!' }));
 
     expect(selRange.value).toBe('unlearned');
     expect(changeFired).toBe(true);
 
     await wait(250);
-    expect(container.querySelector('#ob-overlay')).toBeNull();
+    expect(screen.queryByText('Ласкаво просимо!')).toBeNull();
   });
 
   it('triggers the daily challenge button when "daily" is selected and finished', async () => {
     localStorage.setItem(FLAG_KEY, '1');
-    const { container, root } = mount();
-    roots.push(root);
+    render(<OnboardingPage />);
     await wait(500);
 
-    const nextBtn = container.querySelector('.ob-btn-next') as HTMLButtonElement;
-    act(() => {
-      nextBtn.click();
-    });
-    act(() => {
-      nextBtn.click();
-    });
-    act(() => {
-      nextBtn.click();
-    });
+    const user = userEvent.setup();
+    const nextBtn = screen.getByRole('button', { name: /Далі/ });
+    await user.click(nextBtn);
+    await user.click(nextBtn);
+    await user.click(nextBtn);
 
-    const dailyBtn = container.querySelector('.ob-level-btn[data-range="daily"]') as HTMLElement;
-    act(() => {
-      dailyBtn.click();
-    });
+    await user.click(screen.getByRole('button', { name: /Місія дня/ }));
 
     const dailyChallengeBtn = document.getElementById('btn-daily-challenge') as HTMLButtonElement;
     let clicked = false;
@@ -196,20 +140,17 @@ describe('onboarding.tsx OnboardingPage', () => {
       clicked = true;
     });
 
-    act(() => {
-      nextBtn.click();
-    });
+    await user.click(screen.getByRole('button', { name: '🚀 Почати навчання!' }));
     expect(clicked).toBe(true);
   });
 
   it('finishes via the "skip" button on a non-last slide', async () => {
     localStorage.setItem(FLAG_KEY, '1');
-    const { container, root } = mount();
-    roots.push(root);
+    render(<OnboardingPage />);
     await wait(500);
 
-    const skipBtn = container.querySelector('.ob-btn-skip') as HTMLButtonElement;
-    expect(skipBtn).not.toBeNull();
+    const user = userEvent.setup();
+    const skipBtn = screen.getByRole('button', { name: 'Пропустити' });
 
     const selRange = document.getElementById('sel-range') as HTMLSelectElement;
     let changeFired = false;
@@ -217,14 +158,12 @@ describe('onboarding.tsx OnboardingPage', () => {
       changeFired = true;
     });
 
-    act(() => {
-      skipBtn.click();
-    });
+    await user.click(skipBtn);
 
     expect(selRange.value).toBe('srs');
     expect(changeFired).toBe(true);
 
     await wait(250);
-    expect(container.querySelector('#ob-overlay')).toBeNull();
+    expect(screen.queryByText('Ласкаво просимо!')).toBeNull();
   });
 });
