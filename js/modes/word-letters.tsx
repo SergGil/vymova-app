@@ -394,7 +394,7 @@ export function WordLettersPage(): ReactElement {
               {tileOrder
                 .filter((ti) => !tiles[ti].used)
                 .map((ti) => (
-                  <button key={'t' + ti} className="scr-tile" onClick={() => select(ti)}>
+                  <button key={'t' + ti} className="scr-tile min-w-[38px] h-[42px] cursor-pointer rounded-lg border-2 border-[var(--border)] bg-[var(--card)] px-1 font-[inherit] text-[1.1rem] font-bold text-[var(--text)] transition-[transform,background,border-color] duration-150 hover:-translate-y-0.5 hover:border-[var(--accent)] disabled:cursor-default disabled:opacity-85" onClick={() => select(ti)}>
                     {tiles[ti].ch.toUpperCase()}
                   </button>
                 ))}
@@ -416,13 +416,13 @@ export function WordLettersPage(): ReactElement {
             {guess.map((ti, pos) => (
               <button
                 key={'g' + pos}
-                className="scr-tile scr-tile-placed"
+                className="scr-tile scr-tile-placed min-w-[38px] h-[42px] cursor-pointer rounded-lg border-2 border-[var(--border)] bg-[var(--card)] px-1 font-[inherit] text-[1.1rem] font-bold text-[var(--text)] transition-[transform,background,border-color] duration-150 hover:-translate-y-0.5 hover:border-[var(--accent)] disabled:cursor-default disabled:opacity-85"
                 onClick={() => deselect(pos)}
               >
                 {tiles[ti].ch.toUpperCase()}
               </button>
             ))}
-            {!guess.length && <span className="scr-tile scr-tile-empty" />}
+            {!guess.length && <span className="scr-tile scr-tile-empty min-w-[38px] h-[42px] rounded-lg border-2 border-dashed border-[var(--border)] bg-transparent" />}
           </div>
 
           <div

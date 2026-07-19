@@ -5,7 +5,8 @@ import { speak, _speakWithLang } from '../features/voice/speech.ts';
 
 export function speakBtn(text: string, lang = 'en-US'): HTMLButtonElement {
   const btn = document.createElement('button');
-  btn.className = 'mode-speak';
+  btn.className =
+    'mode-speak ml-2 inline-flex h-[30px] w-[30px] shrink-0 cursor-pointer items-center justify-center rounded-lg border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150';
   btn.title = t('common.listen');
   btn.textContent = '🔊';
   btn.addEventListener('click', (e: MouseEvent) => {

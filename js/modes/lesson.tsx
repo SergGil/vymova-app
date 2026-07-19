@@ -414,7 +414,7 @@ export function LessonPage(): ReactElement {
               {phase === 0 ? entryFor(learnLang, w).word : entryFor(knowLang, w).word}
               {phase === 0 && learnLang === 'en' && (
                 <button
-                  className="mode-speak"
+                  className="mode-speak ml-2 inline-flex h-[30px] w-[30px] shrink-0 cursor-pointer items-center justify-center rounded-lg border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150"
                   title={t('common.listen')}
                   onClick={(e) => {
                     e.stopPropagation();
@@ -462,7 +462,8 @@ export function LessonPage(): ReactElement {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 10 }}>
               {options.map((opt, i) => {
                 const correctOpt = w ? entryFor(learnLang, w).word : '';
-                let cls = 'quiz-option';
+                let cls =
+                  "quiz-option relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 disabled:cursor-default";
                 if (selected) {
                   if (opt === selected) cls += opt === correctOpt ? ' correct' : ' wrong';
                   else if (opt === correctOpt) cls += ' reveal';
@@ -474,7 +475,7 @@ export function LessonPage(): ReactElement {
                     disabled={answered}
                     onClick={() => chooseOption(opt)}
                   >
-                    <span className="opt-num">{i + 1}</span> {opt}
+                    <span className="opt-num inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)]">{i + 1}</span> {opt}
                   </button>
                 );
               })}

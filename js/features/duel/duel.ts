@@ -840,7 +840,8 @@ export function _getQuestionData(): QuestionData {
     qTertiary: q.qTertiary,
     hintNote: q.hintNote,
     options: q.choiceOptions.map((opt, i) => {
-      let cls = 'quiz-option';
+      let cls =
+        "quiz-option relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 disabled:cursor-default";
       if (room.answered) {
         if (opt === q.chosenOption)
           cls += q.chosenOption === q.choiceAnswer ? ' correct' : ' wrong';

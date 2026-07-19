@@ -1983,25 +1983,10 @@ body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):no
   color: var(--accent);
   background: rgba(155, 89, 182, 0.1);
 }
-.tempo-opt {
-  width: 100%;
-  padding: 13px 16px;
-  border-radius: 12px;
-  border: 2px solid var(--border);
-  background: var(--card);
-  color: var(--text);
-  font-size: 0.92rem;
-  font-weight: 500;
-  cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  text-align: left;
-  transition:
-    border-color 0.12s,
-    background 0.12s;
-}
-.tempo-opt:disabled {
-  cursor: default;
-}
+/* .tempo-opt's own base box/typography + :disabled moved to Tailwind
+   utility classes in tempo.tsx (no fandom-theme or body.dark overrides
+   existed for either). .correct/.wrong/.reveal (all !important-heavy
+   hardcoded-color states, 2 with live body.dark variants) stay here. */
 .tempo-opt.correct {
   border-color: #27ae60 !important;
   background: #eafaf1 !important;
@@ -2068,43 +2053,14 @@ body.dark .tempo-opt.wrong {
 }
 
 /* ── Scramble: letter tiles ── */
-.scr-tile {
-  min-width: 38px;
-  height: 42px;
-  padding: 0 4px;
-  border-radius: 8px;
-  border: 2px solid var(--border);
-  background: var(--card);
-  color: var(--text);
-  font-size: 1.1rem;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-  transition:
-    transform 0.1s,
-    background 0.15s,
-    border-color 0.15s;
-}
-.scr-tile:hover:not(:disabled) {
-  transform: translateY(-2px);
-  border-color: var(--accent);
-}
-.scr-tile:disabled {
-  cursor: default;
-  opacity: 0.85;
-}
+/* .scr-tile/.scr-tile:hover/.scr-tile:disabled/.scr-tile-empty moved to
+   Tailwind utility classes in scramble.tsx/word-letters.tsx (no fandom-
+   theme or body.dark overrides existed for any of them). .scr-tile-placed
+   stays here: it has a live theme override (scripts/theme-template.css). */
 .scr-tile-placed {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
-}
-.scr-tile-empty {
-  min-width: 38px;
-  height: 42px;
-  border-radius: 8px;
-  border: 2px dashed var(--border);
-  background: transparent;
-  box-sizing: border-box;
 }
 
 /* .srs-stats-bar/.srs-stat-num/.srs-stat-due/.srs-stat-new/.srs-stat-sep
@@ -2125,22 +2081,12 @@ body.dark .srs-stat-due.zero {
   color: #4ecca3;
 }
 
-/* ── Quiz/Tempo: номер варіанту ── */
-.opt-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 5px;
-  background: var(--border);
-  color: var(--text2);
-  font-size: 0.68rem;
-  font-weight: 700;
-  flex-shrink: 0;
-  margin-right: 6px;
-  vertical-align: middle;
-}
+/* .opt-num's own box/typography moved to Tailwind utility classes in the
+   11 consuming files (no fandom-theme or body.dark overrides existed for
+   it). This compound parent-state selector stays as CSS — it hides the
+   badge only when the option is showing a correct/wrong/reveal state,
+   awkward to express any other way without threading a new prop through
+   11 files just for this. */
 .quiz-option.correct .opt-num,
 .quiz-option.wrong .opt-num,
 .quiz-option.reveal .opt-num,
@@ -2179,24 +2125,10 @@ body.dark .srs-next.over {
   background: rgba(231, 76, 60, 0.12);
 }
 
-/* ── Mode speak button ── */
-.mode-speak {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255, 255, 255, 0.07);
-  color: var(--text3);
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.15s;
-  vertical-align: middle;
-  margin-left: 8px;
-  flex-shrink: 0;
-}
+/* .mode-speak's own base box/typography moved to Tailwind utility classes
+   in its 14 consuming files + the js/core/ui-helpers.ts factory (no
+   fandom-theme or body.dark overrides existed for it). :hover/.on and the
+   480px-compact override further down this file stay here. */
 .mode-speak:hover {
   background: rgba(255, 255, 255, 0.15);
   color: var(--accent);
@@ -2207,24 +2139,11 @@ body.dark .srs-next.over {
 }
 
 /* ── Quiz: кнопки варіантів ── */
-.quiz-option {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.88rem;
-  padding: 10px 14px;
-  border-radius: 11px;
-  border: 1.5px solid var(--border);
-  background: var(--card);
-  color: var(--text);
-  cursor: pointer;
-  text-align: left;
-  transition:
-    border-color 0.15s,
-    background 0.15s,
-    transform 0.1s;
-  position: relative;
-  width: 100%;
-  line-height: 1.3;
-}
+/* .quiz-option's own base box/typography + :disabled moved to Tailwind
+   utility classes in the 11 consuming files (no fandom-theme or body.dark
+   overrides existed for either). :hover and .correct/.wrong/.reveal (all
+   with live body.dark variants, several !important-heavy hardcoded
+   colors) stay here. */
 .quiz-option:hover:not(:disabled) {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 10%, var(--card));
