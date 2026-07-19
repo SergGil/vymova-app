@@ -62,65 +62,16 @@ body {
 }
 
 /* Header */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.header-left .title {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.3rem;
-  color: var(--text);
-  line-height: 1.2;
-}
-.title-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.title-sw-toggle {
-  background: none;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  font-size: 0.85rem;
-  line-height: 1;
-  padding: 4px 7px;
-  cursor: pointer;
-  color: var(--text3);
-  opacity: 0.55;
-  transition: all 0.15s;
-  flex-shrink: 0;
-}
-.title-sw-toggle:hover,
-.title-sw-toggle:focus-visible {
-  opacity: 1;
-  border-color: var(--accent);
-  color: var(--text);
-  outline: none;
-}
-.title-hp-toggle {
-  background: none;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  font-size: 0.85rem;
-  line-height: 1;
-  padding: 4px 7px;
-  cursor: pointer;
-  color: var(--text3);
-  opacity: 0.55;
-  transition: all 0.15s;
-  flex-shrink: 0;
-}
-.title-hp-toggle:hover,
-.title-hp-toggle:focus-visible {
-  opacity: 1;
-  border-color: var(--accent);
-  color: var(--text);
-  outline: none;
-}
+/* .header/.header-left .title/.title-row/.title-sw-toggle/.title-hp-toggle/
+   .header-left .subtitle/.controls moved to Tailwind utility classes in
+   header-left.tsx and index.html (tailwind-shadcn-migration-roadmap.md
+   Phase 1). The "title-sw-toggle"/"title-hp-toggle" class names stay on the
+   buttons — themes/sw.css and themes/hp.css each override them
+   (body.sw .title-sw-toggle, body.hp .title-hp-toggle), and being unlayered
+   legacy CSS they keep winning over the new Tailwind utilities regardless
+   of source order. .lang-toggle/.lang-opt/.sb-lang-section/.flagdd* are a
+   separate migration step (shared across 4 component files, 14 theme
+   overrides on .lang-opt.lang-active) — untouched here. */
 .lang-toggle {
   display: flex;
   align-items: stretch;
@@ -183,17 +134,6 @@ body {
   padding: 7px 4px;
   font-size: 0.75rem;
   text-align: center;
-}
-.header-left .subtitle {
-  font-size: 12px;
-  color: var(--text3);
-  margin-top: 2px;
-}
-.controls {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  align-items: center;
 }
 select {
   font-family: 'DM Sans', sans-serif;
