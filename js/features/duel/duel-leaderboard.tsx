@@ -63,10 +63,16 @@ export function DuelLeaderboard() {
       {stats.map((s, i) => {
         const rank = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`;
         return (
-          <div className={'duel-card' + (s.isActive ? ' duel-card-active' : '')} key={s.name + i}>
-            <div className="duel-card-header">
-              <span className="duel-rank">{rank}</span>
-              <span className="duel-av">
+          <div
+            className={
+              'duel-card rounded-[14px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-4 py-3.5 transition-all duration-150 max-[480px]:px-3 max-[480px]:py-2.5' +
+              (s.isActive ? ' duel-card-active' : '')
+            }
+            key={s.name + i}
+          >
+            <div className="duel-card-header mb-3 flex items-center gap-2">
+              <span className="duel-rank min-w-[28px] text-[1.2rem]">{rank}</span>
+              <span className="duel-av text-[1.2rem]">
                 <CharacterAvatar
                   appearance={s.appearance}
                   size={24}
@@ -74,27 +80,41 @@ export function DuelLeaderboard() {
                   animated={false}
                 />
               </span>
-              <span className="duel-name">
+              <span className="duel-name text-[.9rem] font-bold text-[var(--text)]">
                 {s.name}
                 {s.isActive ? ` (${t('duel.you')})` : ''}
               </span>
             </div>
-            <div className="duel-stats">
-              <div className="duel-stat">
-                <div className="duel-sv">{s.known}</div>
-                <div className="duel-sl">{t('duel.stats.words')}</div>
+            <div className="duel-stats grid grid-cols-5 gap-1 text-center">
+              <div className="duel-stat max-[480px]:min-w-[44px]">
+                <div className="duel-sv text-[.9rem] font-bold text-[var(--text)] max-[480px]:text-base">
+                  {s.known}
+                </div>
+                <div className="duel-sl mt-px text-[.6rem] text-[var(--text3)]">
+                  {t('duel.stats.words')}
+                </div>
               </div>
-              <div className="duel-stat">
-                <div className="duel-sv">{s.xp}</div>
-                <div className="duel-sl">XP</div>
+              <div className="duel-stat max-[480px]:min-w-[44px]">
+                <div className="duel-sv text-[.9rem] font-bold text-[var(--text)] max-[480px]:text-base">
+                  {s.xp}
+                </div>
+                <div className="duel-sl mt-px text-[.6rem] text-[var(--text3)]">XP</div>
               </div>
-              <div className="duel-stat">
-                <div className="duel-sv">🔥{s.streak}</div>
-                <div className="duel-sl">{t('duel.stats.streak')}</div>
+              <div className="duel-stat max-[480px]:min-w-[44px]">
+                <div className="duel-sv text-[.9rem] font-bold text-[var(--text)] max-[480px]:text-base">
+                  🔥{s.streak}
+                </div>
+                <div className="duel-sl mt-px text-[.6rem] text-[var(--text3)]">
+                  {t('duel.stats.streak')}
+                </div>
               </div>
-              <div className="duel-stat">
-                <div className="duel-sv">{s.weekWords}</div>
-                <div className="duel-sl">{t('duel.stats.week')}</div>
+              <div className="duel-stat max-[480px]:min-w-[44px]">
+                <div className="duel-sv text-[.9rem] font-bold text-[var(--text)] max-[480px]:text-base">
+                  {s.weekWords}
+                </div>
+                <div className="duel-sl mt-px text-[.6rem] text-[var(--text3)]">
+                  {t('duel.stats.week')}
+                </div>
               </div>
             </div>
           </div>

@@ -471,12 +471,12 @@
             </div>
             <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 2px">
               <div
-                class="sb-toggle-row"
+                class="sb-toggle-row flex cursor-pointer items-center gap-2.5 rounded-[10px] px-3 py-[9px] transition-colors duration-[120ms] select-none hover:bg-[var(--bg)]"
                 id="set-theme"
                 style="background: var(--bg); border-radius: 10px"
               >
-                <span class="sb-icon">🌙</span>
-                <span class="sb-label" data-i18n="settings.darkTheme">Темна тема</span>
+                <span class="sb-icon w-[22px] shrink-0 text-center text-base">🌙</span>
+                <span class="sb-label flex-1" data-i18n="settings.darkTheme">Темна тема</span>
                 <span class="sb-toggle-pill" id="set-theme-pill"></span>
               </div>
               <div id="fandom-theme-rows-mount"></div>
@@ -666,7 +666,7 @@
           </div>
 
           <div class="settings-footer">
-            © 2026 Vymova · v1.363.0 ·
+            © 2026 Vymova · v1.364.0 ·
             <a
               href="./privacy.html"
               target="_blank"
@@ -750,21 +750,24 @@
       <div id="lp-overlay" class="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-bg [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]">
         <div class="page-inner mx-auto max-w-[760px] px-6 pt-5 pb-8" style="max-width: 700px">
           <div id="lp-page-header-mount"></div>
-          <div id="lp-content" style="padding: 16px 20px 32px"></div>
+          <div id="lp-content" class="px-5 pt-4 pb-8"></div>
         </div>
       </div>
 
       <!-- ══ GRAMMAR PAGE ══ -->
       <div id="grammar-overlay" class="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-bg [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]">
-        <div class="page-inner grammar-inner mx-auto max-w-[760px] px-6 pt-5 pb-8">
+        <div class="page-inner grammar-inner mx-auto flex h-[calc(100vh-40px)] max-w-[1000px] flex-col overflow-hidden p-0">
           <div id="grammar-page-header-mount"></div>
-          <div class="grammar-layout" id="grammar-layout-mount"></div>
+          <div
+            class="grammar-layout flex min-h-0 flex-1 overflow-hidden max-[640px]:flex-col"
+            id="grammar-layout-mount"
+          ></div>
         </div>
       </div>
 
       <!-- ══ IDIOMS PAGE ══ -->
       <div id="idioms-overlay" class="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-bg [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]">
-        <div class="page-inner idioms-inner mx-auto max-w-[760px] px-6 pt-5 pb-8">
+        <div class="page-inner mx-auto max-w-[820px] px-6 pt-5 pb-8">
           <div id="idioms-page-header-mount"></div>
           <div id="idioms-page-mount"></div>
         </div>

@@ -1,9 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { act } from 'react';
-import { createRoot, type Root } from 'react-dom/client';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import { DuelLeaderboard, DuelRating } from '../../js/features/duel/duel-leaderboard.tsx';
-
-(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const {
   getProfiles,
@@ -37,22 +34,8 @@ vi.mock('../../js/features/duel/duel-profile-snap.ts', () => ({
   _weekWords: weekWords,
 }));
 
-function mount(El: () => React.ReactElement | null): { container: HTMLElement; root: Root } {
-  const container = document.createElement('div');
-  document.body.appendChild(container);
-  const root = createRoot(container);
-  act(() => {
-    root.render(El());
-  });
-  return { container, root };
-}
-
 describe('duel-leaderboard.tsx DuelLeaderboard', () => {
-  let roots: Root[] = [];
-
   beforeEach(() => {
-    document.body.innerHTML = '';
-    roots = [];
     getProfiles.mockClear().mockReturnValue([]);
     getActiveId.mockClear().mockReturnValue('');
     currentSnap.mockClear().mockReturnValue({});
@@ -63,18 +46,9 @@ describe('duel-leaderboard.tsx DuelLeaderboard', () => {
     getRating.mockClear().mockReturnValue({ wins: 0, losses: 0, ties: 0 });
   });
 
-  afterEach(() => {
-    roots.forEach((r) => {
-      act(() => {
-        r.unmount();
-      });
-    });
-  });
-
   it('shows the "no profiles" message when there are no profiles', () => {
-    const { container, root } = mount(() => <DuelLeaderboard />);
-    roots.push(root);
-    expect(container.textContent).toContain('Немає профілів.');
+    render(<DuelLeaderboard />);
+    expect(screen.getByText('Немає профілів.')).toBeInTheDocument();
   });
 
   it('renders profile cards sorted by XP with rank medals', () => {
@@ -93,44 +67,30 @@ describe('duel-leaderboard.tsx DuelLeaderboard', () => {
     readSnap.mockReturnValue({ tag: 'p2' });
     weekWords.mockReturnValue(2);
 
-    const { container, root } = mount(() => <DuelLeaderboard />);
-    roots.push(root);
+    render(<DuelLeaderboard />);
 
-    const cards = container.querySelectorAll('.duel-card');
-    expect(cards.length).toBe(2);
+    const cards = document.querySelectorAll('.duel-card');
+    expect(cards).toHaveLength(2);
     expect(cards[0].querySelector('.duel-rank')!.textContent).toBe('🥇');
-    expect(cards[0].textContent).toContain('Alice');
-    expect(cards[0].textContent).toContain('Ти');
+    expect(screen.getByText(/Alice/)).toBeInTheDocument();
+    expect(screen.getByText(/Alice/).textContent).toContain('Ти');
     expect(cards[0].classList.contains('duel-card-active')).toBe(true);
     expect(cards[1].querySelector('.duel-rank')!.textContent).toBe('🥈');
-    expect(cards[1].textContent).toContain('Bob');
+    expect(screen.getByText('Bob')).toBeInTheDocument();
     expect(cards[1].classList.contains('duel-card-active')).toBe(false);
   });
 });
 
 describe('duel-leaderboard.tsx DuelRating', () => {
-  let roots: Root[] = [];
-
   beforeEach(() => {
-    document.body.innerHTML = '';
-    roots = [];
     getRating.mockClear();
-  });
-
-  afterEach(() => {
-    roots.forEach((r) => {
-      act(() => {
-        r.unmount();
-      });
-    });
   });
 
   it('renders win/loss/tie counts with correct plural labels', () => {
     getRating.mockReturnValue({ wins: 1, losses: 2, ties: 1 });
-    const { container, root } = mount(() => <DuelRating />);
-    roots.push(root);
-    expect(container.textContent).toContain('🏆 1 перемога');
-    expect(container.textContent).toContain('💀 2 поразки');
-    expect(container.textContent).toContain('🤝 1 нічия');
+    render(<DuelRating />);
+    expect(screen.getByText(/🏆 1 перемога/)).toBeInTheDocument();
+    expect(screen.getByText(/💀 2 поразки/)).toBeInTheDocument();
+    expect(screen.getByText(/🤝 1 нічия/)).toBeInTheDocument();
   });
 });

@@ -32,65 +32,65 @@ const ORIGINAL_LOGO_HTML = `
 // AI_TUTOR_ENABLED=true test below instead of this base parity fixture.
 const ORIGINAL_NAV_HTML = `
   <a class="sb-btn sb-active" id="sb-cards" href="/"
-    ><span class="sb-icon">🃏</span
-    ><span class="sb-label" data-i18n="nav.cards">Картки</span></a
+    ><span class="sb-icon w-[22px] shrink-0 text-center text-base">🃏</span
+    ><span class="sb-label flex-1" data-i18n="nav.cards">Картки</span></a
   >
   <a class="sb-btn" id="sb-stats" href="/stats"
-    ><span class="sb-icon">📊</span
-    ><span class="sb-label" data-i18n="nav.stats">Статистика</span></a
+    ><span class="sb-icon w-[22px] shrink-0 text-center text-base">📊</span
+    ><span class="sb-label flex-1" data-i18n="nav.stats">Статистика</span></a
   >
   <a class="sb-btn" id="sb-achievements" href="/achievements"
-    ><span class="sb-icon">🏆</span
-    ><span class="sb-label" data-i18n="nav.achievements">Досягнення</span></a
+    ><span class="sb-icon w-[22px] shrink-0 text-center text-base">🏆</span
+    ><span class="sb-label flex-1" data-i18n="nav.achievements">Досягнення</span></a
   >
   <a class="sb-btn" id="sb-modes" href="/modes"
-    ><span class="sb-icon">🎮</span
-    ><span class="sb-label" data-i18n="nav.modes">Режими</span></a
+    ><span class="sb-icon w-[22px] shrink-0 text-center text-base">🎮</span
+    ><span class="sb-label flex-1" data-i18n="nav.modes">Режими</span></a
   >
   <a class="sb-btn" id="sb-learning-path" href="/learning-path"
-    ><span class="sb-icon">🎯</span
-    ><span class="sb-label" data-i18n="nav.learningPath">Шлях навчання</span></a
+    ><span class="sb-icon w-[22px] shrink-0 text-center text-base">🎯</span
+    ><span class="sb-label flex-1" data-i18n="nav.learningPath">Шлях навчання</span></a
   >
   <a class="sb-btn" id="sb-grammar" href="/grammar"
-    ><span class="sb-icon">📖</span
-    ><span class="sb-label" data-i18n="nav.grammar">Граматика</span></a
+    ><span class="sb-icon w-[22px] shrink-0 text-center text-base">📖</span
+    ><span class="sb-label flex-1" data-i18n="nav.grammar">Граматика</span></a
   >
   <a class="sb-btn" id="sb-idioms" href="/idioms"
-    ><span class="sb-icon">💬</span
-    ><span class="sb-label" data-i18n="nav.idioms">Ідіоми</span></a
+    ><span class="sb-icon w-[22px] shrink-0 text-center text-base">💬</span
+    ><span class="sb-label flex-1" data-i18n="nav.idioms">Ідіоми</span></a
   >
   <a class="sb-btn" id="sb-lang-history" href="/lang-history"
-    ><span class="sb-icon">📜</span
-    ><span class="sb-label" data-i18n="nav.langHistory">Історія мови</span></a
+    ><span class="sb-icon w-[22px] shrink-0 text-center text-base">📜</span
+    ><span class="sb-label flex-1" data-i18n="nav.langHistory">Історія мови</span></a
   >
   <div class="sb-group" id="sb-group-video">
     <button type="button" class="sb-btn sb-group-trigger" id="sb-group-video-trigger">
-      <span class="sb-icon">🎬</span
-      ><span class="sb-label" data-i18n="nav.videoGroup">Відео навчання</span
+      <span class="sb-icon w-[22px] shrink-0 text-center text-base">🎬</span
+      ><span class="sb-label flex-1" data-i18n="nav.videoGroup">Відео навчання</span
       ><span class="sb-caret">›</span>
     </button>
     <div class="sb-flyout" id="sb-group-video-flyout">
       <a class="sb-btn" id="sb-youtube-player" href="/youtube"
-        ><span class="sb-icon">📺</span
-        ><span class="sb-label" data-i18n="nav.ytPlayer">YouTube</span></a
+        ><span class="sb-icon w-[22px] shrink-0 text-center text-base">📺</span
+        ><span class="sb-label flex-1" data-i18n="nav.ytPlayer">YouTube</span></a
       >
       <a class="sb-btn" id="sb-video-player" href="/video-player"
-        ><span class="sb-icon">🎬</span
-        ><span class="sb-label" data-i18n="nav.videoPlayer">Відео</span></a
+        ><span class="sb-icon w-[22px] shrink-0 text-center text-base">🎬</span
+        ><span class="sb-label flex-1" data-i18n="nav.videoPlayer">Відео</span></a
       >
     </div>
   </div>
   <a class="sb-btn" id="sb-duel" href="/duel"
-    ><span class="sb-icon">⚔️</span
-    ><span class="sb-label" data-i18n="nav.duel">Дуель</span></a
+    ><span class="sb-icon w-[22px] shrink-0 text-center text-base">⚔️</span
+    ><span class="sb-label flex-1" data-i18n="nav.duel">Дуель</span></a
   >
   <a class="sb-btn" id="sb-profile" href="/profile"
-    ><span class="sb-icon">👤</span
-    ><span class="sb-label" data-i18n="nav.profile">Профіль</span></a
+    ><span class="sb-icon w-[22px] shrink-0 text-center text-base">👤</span
+    ><span class="sb-label flex-1" data-i18n="nav.profile">Профіль</span></a
   >
   <a class="sb-btn" id="sb-settings" href="/settings"
-    ><span class="sb-icon">⚙️</span
-    ><span class="sb-label" data-i18n="nav.settings">Налаштування</span></a
+    ><span class="sb-icon w-[22px] shrink-0 text-center text-base">⚙️</span
+    ><span class="sb-label flex-1" data-i18n="nav.settings">Налаштування</span></a
   >
 `;
 

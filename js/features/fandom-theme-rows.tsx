@@ -71,13 +71,13 @@ function ThemeRow({
   const meta = THEME_META[themeKey];
   return (
     <div
-      className="sb-toggle-row"
+      className="sb-toggle-row flex cursor-pointer items-center gap-2.5 rounded-[10px] px-3 py-[9px] transition-colors duration-[120ms] select-none hover:bg-[var(--bg)]"
       id={`set-${themeKey}`}
       style={{ background: 'var(--bg)', borderRadius: 10 }}
       onClick={() => toggleFandomTheme(themeKey)}
     >
-      <span className="sb-icon">{meta.icon}</span>
-      <span className="sb-label" data-i18n={meta.labelKey}>
+      <span className="sb-icon w-[22px] shrink-0 text-center text-base">{meta.icon}</span>
+      <span className="sb-label flex-1" data-i18n={meta.labelKey}>
         {t(meta.labelKey)}
       </span>
       <span
@@ -130,7 +130,7 @@ export function FandomThemeRowsController(): ReactElement {
       <button
         type="button"
         id="theme-rows-toggle"
-        className="theme-rows-toggle-btn"
+        className="theme-rows-toggle-btn mt-1 cursor-pointer rounded-[10px] border border-dashed border-[var(--border)] bg-transparent px-3 py-[7px] text-center text-[.78rem] font-semibold text-[var(--text3)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)]"
         data-i18n={expanded ? 'settings.showLessThemes' : 'settings.showMoreThemes'}
         onClick={() => setExpanded((e) => !e)}
       >

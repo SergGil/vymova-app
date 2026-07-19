@@ -362,21 +362,21 @@ export function ProfileSwitcher(): ReactElement {
 
   return (
     <div ref={rootRef}>
-      <div className="sb-profile-row">
+      <div className="sb-profile-row mb-1 flex items-center gap-1.5">
         <button id="sb-profile-btn" className="sidebar-profile-btn" onClick={toggleDropdown}>
-          <span id="sb-profile-av" className="sb-av">
+          <span id="sb-profile-av" className="sb-av inline-flex text-[1.2rem] leading-none">
             <ProfileAvatarView profile={active} size={26} />
           </span>
-          <span id="sb-profile-name" className="sb-name">
+          <span id="sb-profile-name" className="sb-name flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
             {active.name}
           </span>
-          <span id="sb-profile-arrow" className="sb-arrow">
+          <span id="sb-profile-arrow" className="sb-arrow text-[.7rem] text-[var(--text3)]">
             {dropOpen ? '▴' : '▾'}
           </span>
         </button>
         <button
           id="sb-add-btn"
-          className="sb-add-btn"
+          className="sb-add-btn flex h-[28px] w-[28px] shrink-0 cursor-pointer items-center justify-center rounded-lg border-[1.5px] border-[var(--border)] bg-[var(--bg)] text-[1.1rem] leading-none font-bold text-[var(--accent)] transition-colors duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)]"
           title="Новий профіль"
           onClick={toggleAddForm}
         >
@@ -384,7 +384,13 @@ export function ProfileSwitcher(): ReactElement {
         </button>
       </div>
 
-      <div id="sb-dropdown" className={'sb-dropdown' + (dropOpen ? ' open' : '')}>
+      <div
+        id="sb-dropdown"
+        className={
+          'sb-dropdown mb-1.5 flex-col gap-[3px] overflow-hidden rounded-xl border-[1.5px] border-[var(--border)] bg-[var(--card)] shadow-[0_4px_16px_rgba(0,0,0,.1)] ' +
+          (dropOpen ? 'open flex' : 'hidden')
+        }
+      >
         {profiles.map((p) => (
           <div
             className="sb-dd-row"
@@ -392,17 +398,24 @@ export function ProfileSwitcher(): ReactElement {
             key={p.id}
           >
             <button
-              className={'sb-dd-item' + (p.id === activeId ? ' sb-dd-active' : '')}
+              className={
+                'sb-dd-item flex w-full cursor-pointer items-center gap-2 border-none bg-transparent px-3 py-[9px] text-left font-[inherit] text-[.82rem] text-[var(--text2)] transition-colors duration-[120ms] hover:bg-[var(--bg)] hover:text-[var(--text)]' +
+                (p.id === activeId
+                  ? ' sb-dd-active bg-[var(--bg)] font-bold text-[var(--accent)]'
+                  : '')
+              }
               style={{ flex: 1, minWidth: 0 }}
               onClick={() => switchProfile(p.id)}
             >
-              <span className="sb-dd-av">
+              <span className="sb-dd-av inline-flex align-middle">
                 <ProfileAvatarView profile={p} size={22} />
               </span>{' '}
               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {p.name}
               </span>
-              {p.id === activeId && <span className="sb-dd-check">✓</span>}
+              {p.id === activeId && (
+                <span className="sb-dd-check ml-auto text-[.7rem] text-[var(--accent)]">✓</span>
+              )}
             </button>
             <button
               className="prf-dd-edit"
@@ -430,7 +443,12 @@ export function ProfileSwitcher(): ReactElement {
         ))}
       </div>
 
-      <div id="sb-add-form" className={'sb-add-form' + (addOpen ? ' open' : '')}>
+      <div
+        id="sb-add-form"
+        className={
+          'sb-add-form px-1 pt-2 pb-1 ' + (addOpen ? 'open block' : 'hidden')
+        }
+      >
         <input
           id="sb-new-name"
           type="text"
@@ -454,7 +472,7 @@ export function ProfileSwitcher(): ReactElement {
             borderColor: newNameError ? 'var(--danger)' : 'var(--border)',
           }}
         />
-        <div className="prf-char-preview">
+        <div className="prf-char-preview mb-2.5 flex items-center gap-2.5">
           <ProfileAvatarView
             profile={{
               id: '',
@@ -465,17 +483,20 @@ export function ProfileSwitcher(): ReactElement {
             }}
             size={48}
           />
-          <span className="prf-char-hint">{t('profile.customizeHint')}</span>
+          <span className="prf-char-hint text-[.72rem] leading-[1.3] text-[var(--text3)]">
+            {t('profile.customizeHint')}
+          </span>
         </div>
         <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginBottom: 6 }}>
           {t('profile.avatarLabel')}
         </div>
-        <div className="prf-av-picker prf-av-mini">
+        <div className="prf-av-picker prf-av-mini mb-0 flex flex-wrap gap-1">
           {AVATARS.map((a) => (
             <button
               key={a}
               className={
-                'prf-av-btn' + (a === newAvatar && newAvatarTouched ? ' prf-av-active' : '')
+                'prf-av-btn flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-lg border-2 border-[var(--border)] bg-[var(--bg)] text-[.95rem] transition-colors duration-[120ms] hover:border-[var(--accent)]' +
+                (a === newAvatar && newAvatarTouched ? ' prf-av-active' : '')
               }
               onClick={() => {
                 setNewAvatar(a);
@@ -556,7 +577,7 @@ export function ProfileSwitcher(): ReactElement {
                   borderColor: editNameError ? 'var(--danger)' : 'var(--border)',
                 }}
               />
-              <div className="prf-char-preview" style={{ marginBottom: 14 }}>
+              <div className="prf-char-preview flex items-center gap-2.5" style={{ marginBottom: 14 }}>
                 <ProfileAvatarView
                   profile={{
                     ...editTarget,
@@ -565,17 +586,19 @@ export function ProfileSwitcher(): ReactElement {
                   }}
                   size={56}
                 />
-                <span className="prf-char-hint">{t('profile.customizeHint')}</span>
+                <span className="prf-char-hint text-[.72rem] leading-[1.3] text-[var(--text3)]">
+                  {t('profile.customizeHint')}
+                </span>
               </div>
               <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginBottom: 6 }}>
                 {t('profile.avatarLabel')}
               </div>
-              <div className="prf-av-picker" style={{ marginBottom: 14 }}>
+              <div className="prf-av-picker flex flex-wrap gap-1.5" style={{ marginBottom: 14 }}>
                 {AVATARS.map((a) => (
                   <button
                     key={a}
                     className={
-                      'prf-av-btn' +
+                      'prf-av-btn flex h-9 w-9 cursor-pointer items-center justify-center rounded-[10px] border-2 border-[var(--border)] bg-[var(--bg)] text-[1.1rem] transition-colors duration-[120ms] hover:border-[var(--accent)]' +
                       (a === editAvatar && (editAvatarTouched || editTarget.avatarMode === 'preset')
                         ? ' prf-av-active'
                         : '')

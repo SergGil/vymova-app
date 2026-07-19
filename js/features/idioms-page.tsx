@@ -353,10 +353,12 @@ function IdiomCard({
     };
 
   return (
-    <div className="idiom-card">
-      <div className="idiom-head">
-        <div className="idiom-num">{num}</div>
-        <div className="idiom-phrase" dir={rtl}>
+    <div className="idiom-card rounded-xl border border-[var(--border)] bg-[var(--card)] px-4 py-3.5">
+      <div className="idiom-head mb-1.5 flex flex-wrap items-baseline gap-2">
+        <div className="idiom-num min-w-[1.8em] shrink-0 self-center text-right text-[.72rem] font-bold text-[var(--text3)] opacity-70">
+          {num}
+        </div>
+        <div className="idiom-phrase text-[1.02rem] font-bold text-[var(--text)]" dir={rtl}>
           {idiom.emoji ? `${idiom.emoji} ` : ''}
           {idiom.phrase}
           <button className="speak-btn idiom-speak" title="🔊" onClick={speak(idiom.phrase, lang)}>
@@ -366,11 +368,15 @@ function IdiomCard({
         <div className="idiom-meaning">
           {meaning}
           {idiom.meaningEn && !tr ? (
-            <span className="idiom-meaning-en"> ({idiom.meaningEn})</span>
+            <span className="idiom-meaning-en text-[.84rem] font-medium text-[var(--text-muted)]">
+              {' ('}
+              {idiom.meaningEn}
+              {')'}
+            </span>
           ) : null}
         </div>
       </div>
-      <div className="idiom-example">
+      <div className="idiom-example mt-1.5 border-l-[3px] border-[var(--border)] pl-2.5 text-[.82rem] leading-[1.5] text-[var(--text2)]">
         <div className="idiom-ex-src" dir={rtl}>
           {idiom.exampleSrc}
           <button
@@ -381,7 +387,7 @@ function IdiomCard({
             🔊
           </button>
         </div>
-        <div className="idiom-ex-tr">
+        <div className="idiom-ex-tr text-[var(--text3)]">
           {exampleTr}
           <button className="speak-btn idiom-speak" title="🔊" onClick={speak(exampleTr, trLang)}>
             🔊
@@ -402,8 +408,10 @@ function IdiomsPage(): ReactElement {
 
   if (!activeTab) {
     return (
-      <div id="idioms-list" className="idioms-list">
-        <div className="idioms-empty">{t('idioms.notAvailable')}</div>
+      <div id="idioms-list" className="idioms-list flex flex-col gap-2.5">
+        <div className="idioms-empty py-8 text-center text-[.9rem] text-[var(--text3)]">
+          {t('idioms.notAvailable')}
+        </div>
       </div>
     );
   }
@@ -421,34 +429,47 @@ function IdiomsPage(): ReactElement {
 
   return (
     <>
-      <div className="idioms-tabs">
+      <div className="idioms-tabs mb-3.5 flex flex-wrap gap-2">
         {tabs.map((tb) => {
           const url = flagUrl(FLAG_CODE[tb]);
           return (
             <button
               key={tb}
-              className={'idioms-tab' + (tb === activeTab ? ' idioms-tab-active' : '')}
+              className={
+                'idioms-tab flex flex-1 min-w-[180px] cursor-pointer items-center justify-center gap-1.5 rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 font-[inherit] text-[.85rem] font-semibold text-[var(--text2)] transition-all duration-150 hover:border-[var(--accent)] hover:text-[var(--text)] max-[640px]:min-w-[140px] max-[640px]:px-2.5 max-[640px]:py-[9px] max-[640px]:text-[.78rem]' +
+                (tb === activeTab ? ' idioms-tab-active' : '')
+              }
               onClick={() => setTab(tb)}
             >
-              {url && <img src={url} alt="" width={14} height={14} />}
+              {url && (
+                <img
+                  src={url}
+                  alt=""
+                  width={14}
+                  height={14}
+                  className="h-[14px] w-[14px] shrink-0 rounded-full"
+                />
+              )}
               <span data-i18n={TAB_I18N_KEY[tb]}>{t(TAB_I18N_KEY[tb])}</span>
             </button>
           );
         })}
       </div>
-      <div className="idioms-search-wrap">
+      <div className="idioms-search-wrap mb-3.5">
         <input
           type="text"
-          className="idioms-search"
+          className="idioms-search w-full rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 font-[inherit] text-[.85rem] text-[var(--text)] outline-none transition-colors duration-150 focus:border-[var(--accent)]"
           placeholder={t('idioms.searchPlaceholder')}
           data-i18n-placeholder="idioms.searchPlaceholder"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
       </div>
-      <div id="idioms-list" className="idioms-list">
+      <div id="idioms-list" className="idioms-list flex flex-col gap-2.5">
         {filtered.length === 0 ? (
-          <div className="idioms-empty">{t('idioms.empty')}</div>
+          <div className="idioms-empty py-8 text-center text-[.9rem] text-[var(--text3)]">
+            {t('idioms.empty')}
+          </div>
         ) : (
           filtered.map((idiom, i) => (
             <IdiomCard

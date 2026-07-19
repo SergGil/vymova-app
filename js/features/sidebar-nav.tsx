@@ -162,8 +162,8 @@ function NavLink({
       href={BASE + item.route}
       onClick={navClick(() => openPage(item.page))}
     >
-      <span className="sb-icon">{item.icon}</span>
-      <span className="sb-label" data-i18n={item.labelKey}>
+      <span className="sb-icon w-[22px] shrink-0 text-center text-base">{item.icon}</span>
+      <span className="sb-label flex-1" data-i18n={item.labelKey}>
         {t(item.labelKey)}
       </span>
     </a>
@@ -190,8 +190,8 @@ function NavGroup({
   return (
     <div className="sb-group" id={groupId}>
       <button type="button" className="sb-btn sb-group-trigger" id={triggerId}>
-        <span className="sb-icon">{icon}</span>
-        <span className="sb-label" data-i18n={labelKey}>
+        <span className="sb-icon w-[22px] shrink-0 text-center text-base">{icon}</span>
+        <span className="sb-label flex-1" data-i18n={labelKey}>
           {t(labelKey)}
         </span>
         <span className="sb-caret">›</span>
@@ -240,8 +240,8 @@ export function SidebarNav(): ReactElement {
           href={BASE + '/'}
           onClick={navClick(goHome)}
         >
-          <span className="sb-icon">🃏</span>
-          <span className="sb-label" data-i18n="nav.cards">
+          <span className="sb-icon w-[22px] shrink-0 text-center text-base">🃏</span>
+          <span className="sb-label flex-1" data-i18n="nav.cards">
             {t('nav.cards')}
           </span>
         </a>

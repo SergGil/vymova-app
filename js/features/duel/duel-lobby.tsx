@@ -48,7 +48,10 @@ export function DuelLobby(): ReactElement {
       >
         {t('duel.leaderboard')}
       </div>
-      <div id="duel-leaderboard" className="duel-cards" style={{ marginBottom: 20 }}>
+      <div
+        id="duel-leaderboard"
+        className="duel-cards mb-5 flex flex-col gap-2.5 max-[480px]:gap-2"
+      >
         <DuelLeaderboard />
       </div>
 

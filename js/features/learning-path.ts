@@ -931,28 +931,28 @@ export function renderLearningPath(): void {
   const dailyChallengeHtml =
     todayWords.length > 0
       ? `
-    <div class="lp-section">
-      <div class="lp-section-title">📅 ${t('lp.todayPlan')} ${currentLevel}</div>
-      <div class="lp-day-words">
+    <div class="lp-section mb-5">
+      <div class="lp-section-title mb-2.5 text-[.78rem] font-bold uppercase tracking-[0.07em] text-[var(--text3)]">📅 ${t('lp.todayPlan')} ${currentLevel}</div>
+      <div class="lp-day-words mb-3 flex flex-wrap gap-1.5">
         ${todayWords
           .map(
             (w) => `
-          <div class="lp-word-chip">
-            <span class="lp-word">${headwordFor(learnCode, w) || w[0]}</span>
-            <span class="lp-transl">${headwordFor(knowCode, w) || _getTranslation(w, knownLang)}</span>
+          <div class="lp-word-chip flex min-w-[80px] flex-col cursor-default rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-2.5 py-1.5">
+            <span class="lp-word text-[.82rem] font-bold text-[var(--text)]">${headwordFor(learnCode, w) || w[0]}</span>
+            <span class="lp-transl mt-px text-[.7rem] text-[var(--text3)]">${headwordFor(knowCode, w) || _getTranslation(w, knownLang)}</span>
           </div>
         `,
           )
           .join('')}
       </div>
-      <button class="lp-start-btn" data-lp-level="${currentLevel}">
+      <button class="lp-start-btn w-full cursor-pointer rounded-xl border-none bg-[var(--accent)] p-3 font-[inherit] text-[.9rem] font-bold text-white transition-opacity duration-150 hover:opacity-[.88]" data-lp-level="${currentLevel}">
         📚 ${t('lp.learnWordsNow')} ${currentLevel} ${t('lp.now')}
       </button>
     </div>
   `
       : `
-    <div class="lp-section lp-complete">
-      <div class="lp-section-title">🏆 ${t('lp.levelWord')} ${currentLevel} ${t('lp.completedExcl')}</div>
+    <div class="lp-section lp-complete mb-5 rounded-[14px] border-[1.5px] border-[rgba(39,174,96,.25)] bg-[rgba(39,174,96,.08)] p-5 text-center">
+      <div class="lp-section-title mb-2.5 text-[.78rem] font-bold uppercase tracking-[0.07em] text-[#27ae60]">🏆 ${t('lp.levelWord')} ${currentLevel} ${t('lp.completedExcl')}</div>
       <p>${t('lp.allLearned')}</p>
     </div>
   `;
@@ -975,48 +975,51 @@ export function renderLearningPath(): void {
       .map((sk) => {
         const gid = plan.grammarLinks[sk];
         if (gid && _grammarRuleExists(gid, lang)) {
-          return `<span class="lp-skill-tag lp-skill-link" data-grammar="${gid}" title="${t('lp.openGrammar')}">✓ ${skillName(sk)} ↗</span>`;
+          return `<span class="lp-skill-tag lp-skill-link cursor-pointer rounded-[5px] border border-[rgba(0,200,100,.2)] bg-[rgba(0,200,100,.08)] px-[7px] py-0.5 text-[.68rem] text-[var(--accent)] transition-colors duration-150 hover:bg-[rgba(0,200,100,.18)]" data-grammar="${gid}" title="${t('lp.openGrammar')}">✓ ${skillName(sk)} ↗</span>`;
         }
-        return `<span class="lp-skill-tag">✓ ${skillName(sk)}</span>`;
+        return `<span class="lp-skill-tag rounded-[5px] bg-[var(--border)] px-[7px] py-0.5 text-[.68rem] text-[var(--text3)]">✓ ${skillName(sk)}</span>`;
       })
       .join('');
 
     const milestones = [25, 50, 75]
-      .map((m) => `<div class="lp-milestone" style="left:${m}%"></div>`)
+      .map(
+        (m) =>
+          `<div class="lp-milestone pointer-events-none absolute top-0 h-full w-px bg-white/35" style="left:${m}%"></div>`,
+      )
       .join('');
 
     const completionHtml =
       isComplete && compDate
-        ? `<div class="lp-completion-date">${t('lp.completed')} ${_formatDate(compDate)}</div>`
+        ? `<div class="lp-completion-date mb-1.5 text-[.68rem] font-semibold text-[#27ae60]">${t('lp.completed')} ${_formatDate(compDate)}</div>`
         : '';
 
     return `
-      <div class="lp-level-row${isCurrent ? ' lp-current' : ''}${isComplete ? ' lp-done' : ''}">
-        <div class="lp-level-header">
-          <span class="lp-level-badge" style="background:color-mix(in srgb, ${meta.color} 15%, transparent);color:${meta.color};border:1.5px solid color-mix(in srgb, ${meta.color} 35%, transparent);">
+      <div class="lp-level-row rounded-[14px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3.5 py-3 transition-colors duration-200${isCurrent ? ' lp-current border-[var(--accent)] bg-[rgba(0,200,100,.04)]' : ''}${isComplete ? ' lp-done opacity-75' : ''}">
+        <div class="lp-level-header mb-2 flex items-center gap-2.5">
+          <span class="lp-level-badge flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] text-[.85rem] font-black" style="background:color-mix(in srgb, ${meta.color} 15%, transparent);color:${meta.color};border:1.5px solid color-mix(in srgb, ${meta.color} 35%, transparent);">
             ${isComplete ? '✓' : plan.level}
           </span>
-          <div class="lp-level-info">
-            <div class="lp-level-name" style="color:${meta.color}">
+          <div class="lp-level-info min-w-0 flex-1">
+            <div class="lp-level-name flex items-center gap-1.5 text-[.85rem] font-bold" style="color:${meta.color}">
               ${plan.level} — ${t('cefr.' + plan.level)}
-              ${isCurrent ? `<span class="lp-current-badge">${t('lp.currentNow')}</span>` : ''}
+              ${isCurrent ? `<span class="lp-current-badge rounded-[10px] bg-[var(--accent)] px-1.5 py-px text-[.65rem] font-semibold text-white">${t('lp.currentNow')}</span>` : ''}
             </div>
-            <div class="lp-level-skills">${plan.skills.slice(0, 2).map(skillName).join(' · ')}</div>
+            <div class="lp-level-skills mt-0.5 text-[.72rem] text-[var(--text3)]">${plan.skills.slice(0, 2).map(skillName).join(' · ')}</div>
           </div>
-          <div class="lp-level-stat">
-            <div class="lp-stat-num" style="color:${meta.color}">${s.known}/${s.total}</div>
-            <div class="lp-stat-pct">${s.pct}%</div>
+          <div class="lp-level-stat shrink-0 text-right">
+            <div class="lp-stat-num text-[.82rem] font-bold" style="color:${meta.color}">${s.known}/${s.total}</div>
+            <div class="lp-stat-pct text-[.7rem] text-[var(--text3)]">${s.pct}%</div>
           </div>
-          ${!isComplete ? `<button class="lp-learn-btn" data-lp-level="${plan.level}" style="border-color:${meta.color};color:${meta.color}">${t('lp.learnArrow')}</button>` : ''}
+          ${!isComplete ? `<button class="lp-learn-btn shrink-0 cursor-pointer rounded-lg border-[1.5px] bg-transparent px-2.5 py-1 font-[inherit] text-[.72rem] font-bold transition-colors duration-150 hover:bg-[rgba(0,200,100,.1)] max-[480px]:hidden" data-lp-level="${plan.level}" style="border-color:${meta.color};color:${meta.color}">${t('lp.learnArrow')}</button>` : ''}
         </div>
-        <div class="lp-progress-bar">
-          <div class="lp-progress-fill" style="width:${s.pct}%;background:${meta.color};"></div>
+        <div class="lp-progress-bar relative mb-2 h-[5px] overflow-hidden rounded-[3px] bg-[var(--border)]">
+          <div class="lp-progress-fill h-full rounded-[3px] transition-[width] duration-[600ms]" style="width:${s.pct}%;background:${meta.color};"></div>
           ${milestones}
         </div>
         ${completionHtml}
-        <div class="lp-level-details">
+        <div class="lp-level-details flex flex-wrap items-center gap-1">
           ${skillsHtml}
-          <span class="lp-days-est">~${days} ${t('lp.daysApprox')} (${paceLabel})</span>
+          <span class="lp-days-est ml-auto text-[.68rem] text-[var(--text3)] max-[480px]:hidden">~${days} ${t('lp.daysApprox')} (${paceLabel})</span>
         </div>
       </div>
     `;
@@ -1032,30 +1035,30 @@ export function renderLearningPath(): void {
       : `📈 ${t('lp.startLearning')}`;
 
   el.innerHTML = `
-    <div class="lp-hero">
-      <div class="lp-hero-left">
-        <div class="lp-hero-level">${levelName(lv.name)}</div>
-        <div class="lp-hero-stats">
+    <div class="lp-hero mb-[18px] flex gap-4 rounded-2xl border-[1.5px] border-[var(--border)] bg-[var(--card)] px-5 py-4 max-[480px]:flex-col">
+      <div class="lp-hero-left min-w-0 flex-1">
+        <div class="lp-hero-level mb-1.5 text-[.9rem] font-bold text-[var(--text)]">${levelName(lv.name)}</div>
+        <div class="lp-hero-stats mb-2 flex flex-wrap gap-3 text-[.78rem] text-[var(--text2)]">
           <span>📚 ${totalKnown} / ${totalWords} ${t('lp.wordsCount')}</span>
           <span>📊 ${overallPct}% ${t('lp.completedPct')}</span>
-          <span class="lp-pace-display">${paceDisplay}</span>
+          <span class="lp-pace-display font-semibold text-[var(--accent)]">${paceDisplay}</span>
         </div>
-        <div class="lp-hero-bar">
-          <div class="lp-hero-fill" style="width:${overallPct}%"></div>
+        <div class="lp-hero-bar h-[6px] overflow-hidden rounded-[3px] bg-[var(--border)]">
+          <div class="lp-hero-fill h-full rounded-[3px] bg-[linear-gradient(90deg,#27ae60,#2ecc71)] transition-[width] duration-[600ms]" style="width:${overallPct}%"></div>
         </div>
       </div>
-      <div class="lp-hero-focus">
-        <div class="lp-focus-label">${t('lp.currentFocus')}</div>
-        <div class="lp-focus-level" style="color:${CEFR_META[currentLevel].color}">${currentLevel}</div>
-        <div class="lp-focus-desc">${t('cefr.' + currentLevel)}</div>
+      <div class="lp-hero-focus shrink-0 rounded-xl bg-[var(--bg)] px-4 py-2.5 text-center max-[480px]:flex max-[480px]:items-center max-[480px]:gap-3 max-[480px]:px-3 max-[480px]:py-2 max-[480px]:text-left">
+        <div class="lp-focus-label mb-1 text-[.68rem] text-[var(--text3)] uppercase tracking-[0.06em]">${t('lp.currentFocus')}</div>
+        <div class="lp-focus-level font-[Orbitron,monospace] text-[2rem] font-black max-[480px]:text-[1.5rem]" style="color:${CEFR_META[currentLevel].color}">${currentLevel}</div>
+        <div class="lp-focus-desc mt-0.5 text-[.75rem] text-[var(--text2)]">${t('cefr.' + currentLevel)}</div>
       </div>
     </div>
 
     ${dailyChallengeHtml}
 
-    <div class="lp-section">
-      <div class="lp-section-title">${t('lp.cefrProgress')}</div>
-      <div class="lp-levels-list">${progressHtml}</div>
+    <div class="lp-section mb-5">
+      <div class="lp-section-title mb-2.5 text-[.78rem] font-bold uppercase tracking-[0.07em] text-[var(--text3)]">${t('lp.cefrProgress')}</div>
+      <div class="lp-levels-list flex flex-col gap-2.5">${progressHtml}</div>
     </div>
   `;
 

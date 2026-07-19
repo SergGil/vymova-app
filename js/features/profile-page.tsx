@@ -183,19 +183,37 @@ export const LANG_META: Record<string, { name: string; country: string }> = {
   dth: { name: "Lekh Dothraki", country: 'dth' },
 };
 
-function FlagCircle({ lang, size = 44 }: { lang: string; size?: number }): ReactElement {
+function FlagCircle({
+  lang,
+  size = 44,
+  primary = false,
+}: {
+  lang: string;
+  size?: number;
+  primary?: boolean;
+}): ReactElement {
   const meta = LANG_META[lang];
   const src = meta ? (flagUrl(meta.country) ?? null) : null;
+  const border = primary
+    ? 'border-[var(--accent)] shadow-[0_0_0_1px_color-mix(in_srgb,var(--accent)_30%,transparent)]'
+    : 'border-[color-mix(in_srgb,var(--accent)_60%,transparent)]';
   return (
     <div
-      className="profile-flag-circle"
+      className={`profile-flag-circle flex shrink-0 items-center justify-center overflow-hidden rounded-full border-2 bg-[var(--bg)] ${border}`}
       style={{ width: size, height: size }}
       aria-label={meta?.name ?? lang}
     >
-      {src
-        ? <img src={src} alt={meta?.name ?? lang} className="profile-flag-circle-img" />
-        : <span className="profile-flag-circle-fb">{lang.slice(0, 2).toUpperCase()}</span>
-      }
+      {src ? (
+        <img
+          src={src}
+          alt={meta?.name ?? lang}
+          className="profile-flag-circle-img h-full w-full object-cover"
+        />
+      ) : (
+        <span className="profile-flag-circle-fb text-[.58rem] font-bold tracking-[0.04em] text-white">
+          {lang.slice(0, 2).toUpperCase()}
+        </span>
+      )}
     </div>
   );
 }
@@ -260,49 +278,74 @@ export function ProfilePage(): ReactElement | null {
   const xpNext = levelInfo.isMax ? null : LEVEL_XP[levelInfo.level];
 
   return createPortal(
-    <div className="profile-panel">
+    <div className="profile-panel flex flex-col items-center gap-[18px]">
 
       {/* ── Hero card ─────────────────────────────────────────────── */}
-      <div className="profile-hero">
-        <div className="profile-hero-banner" />
-        <div className="profile-hero-body">
-          <div className="profile-hero-avatar-ring">
+      <div className="profile-hero w-full max-w-[420px] overflow-visible rounded-[18px] border border-[var(--border)] bg-[var(--card)]">
+        <div className="profile-hero-banner h-[80px] rounded-t-[18px] bg-[linear-gradient(135deg,var(--accent)_0%,color-mix(in_srgb,var(--accent)_55%,#7c3aed_45%)_100%)]" />
+        <div className="profile-hero-body flex flex-col items-center gap-1.5 px-5 pb-[18px]">
+          <div className="profile-hero-avatar-ring -mt-[45px] flex h-[90px] w-[90px] shrink-0 items-start justify-center overflow-hidden rounded-2xl border-[3px] border-[var(--card)] bg-[var(--bg)] shadow-[0_0_0_2px_var(--accent),0_6px_20px_rgba(0,0,0,.35)]">
             <CharacterAvatar appearance={appearance} size={90} />
           </div>
           {profileName && (
-            <div className="profile-hero-name">{profileName}</div>
+            <div className="profile-hero-name mt-1 text-[1.05rem] font-bold tracking-[-0.2px] text-[var(--text)]">
+              {profileName}
+            </div>
           )}
-          <div className="profile-hero-level-row">
-            <span className="profile-hero-lvl-badge" aria-label={`${t('profile.level')} ${levelInfo.level}`}>
+          <div className="profile-hero-level-row flex w-full flex-nowrap items-center gap-2">
+            <span
+              className="profile-hero-lvl-badge shrink-0 whitespace-nowrap rounded-[20px] bg-[linear-gradient(135deg,var(--accent),color-mix(in_srgb,var(--accent)_60%,#7c3aed))] px-2.5 py-[3px] text-[.72rem] font-bold text-white"
+              aria-label={`${t('profile.level')} ${levelInfo.level}`}
+            >
               {t('profile.level')} {levelInfo.level}{levelInfo.isMax ? ' 🏅' : ''}
             </span>
             {!levelInfo.isMax && (
-              <div className="profile-hero-bar-wrap">
+              <div className="profile-hero-bar-wrap h-[5px] min-w-[30px] flex-1 overflow-hidden rounded-full bg-[var(--bg)]">
                 <div
-                  className="profile-hero-bar"
+                  className="profile-hero-bar h-full min-w-[5px] rounded-full bg-[linear-gradient(90deg,var(--accent),color-mix(in_srgb,var(--accent)_60%,#fff_40%))] transition-[width] duration-500 ease-in-out"
                   style={{ width: `${Math.round(levelInfo.progress * 100)}%` }}
                 />
               </div>
             )}
-            <span className="profile-hero-xp-text">
+            <span className="profile-hero-xp-text shrink-0 whitespace-nowrap text-[.68rem] text-[var(--text3)]">
               {levelInfo.isMax
                 ? t('profile.levelMax')
                 : `${totalXp.toLocaleString()} / ${(xpNext ?? 0).toLocaleString()} XP`}
             </span>
             {/* Info popup — click to toggle */}
-            <details className="level-info-wrap">
-              <summary className="level-info-btn" title={t('profile.xpInfo')}>ⓘ</summary>
-              <div className="level-info-popup">
-                <div className="level-info-title">{t('profile.xpInfo')}</div>
-                <div className="level-info-rule">{t('profile.xpWordRule')}</div>
-                <div className="level-info-rule">{t('profile.xpGameRule')}</div>
-                <div className="level-info-rule">{t('profile.xpComboRule')}</div>
-                <div className="level-info-divider" />
-                <div className="level-info-table-title">{t('profile.xpLevelTable')}</div>
+            <details className="level-info-wrap relative shrink-0 [&_summary]:list-none [&_summary::-webkit-details-marker]:hidden">
+              <summary
+                className="level-info-btn flex h-[26px] w-[26px] cursor-pointer items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg)] text-[.78rem] text-[var(--text3)] select-none transition-colors duration-150 hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
+                title={t('profile.xpInfo')}
+              >
+                ⓘ
+              </summary>
+              <div className="level-info-popup absolute top-[calc(100%+8px)] right-0 z-[200] w-[270px] rounded-[14px] border border-[var(--border)] bg-[var(--card)] px-4 py-3.5 shadow-[0_8px_28px_rgba(0,0,0,.35)]">
+                <div className="level-info-title mb-2 text-[.8rem] font-bold text-[var(--text)]">
+                  {t('profile.xpInfo')}
+                </div>
+                <div className="level-info-rule mb-1 text-[.75rem] leading-[1.4] text-[var(--text2)]">
+                  {t('profile.xpWordRule')}
+                </div>
+                <div className="level-info-rule mb-1 text-[.75rem] leading-[1.4] text-[var(--text2)]">
+                  {t('profile.xpGameRule')}
+                </div>
+                <div className="level-info-rule mb-1 text-[.75rem] leading-[1.4] text-[var(--text2)]">
+                  {t('profile.xpComboRule')}
+                </div>
+                <div className="level-info-divider my-2.5 border-0 border-t border-[var(--border)]" />
+                <div className="level-info-table-title mb-1.5 text-[.72rem] font-bold uppercase tracking-[0.06em] text-[var(--text3)]">
+                  {t('profile.xpLevelTable')}
+                </div>
                 {LEVEL_MILESTONES.map(([lv, xp]) => (
-                  <div key={lv} className="level-info-row">
+                  <div
+                    key={lv}
+                    className="level-info-row flex justify-between py-0.5 text-[.75rem] text-[var(--text2)]"
+                  >
                     <span>{t('profile.level')} {lv}</span>
-                    <span>{xp.toLocaleString()} XP</span>
+                    <span className="font-semibold text-[var(--accent)]">
+                      {xp.toLocaleString()} XP
+                    </span>
                   </div>
                 ))}
               </div>
@@ -312,30 +355,48 @@ export function ProfilePage(): ReactElement | null {
       </div>
 
       {/* ── Customize dropdown ───────────────────────────────────── */}
-      <div className="profile-customize">
+      <div className="profile-customize w-full max-w-[420px] overflow-hidden rounded-[14px] border border-[var(--border)] bg-[var(--card)]">
         <button
-          className="profile-customize-toggle"
+          className="profile-customize-toggle flex w-full cursor-pointer items-center justify-between gap-2 bg-transparent px-4 py-[13px] text-left font-[inherit] text-[.88rem] font-semibold text-[var(--text)] hover:bg-[var(--hover,rgba(255,255,255,.04))]"
           onClick={() => setCustomizeOpen((o) => !o)}
           aria-expanded={customizeOpen}
         >
           <span>{t('profile.customizeTitle')}</span>
-          <span className={`profile-customize-chevron${customizeOpen ? ' open' : ''}`}>▼</span>
+          <span
+            className={
+              'profile-customize-chevron shrink-0 text-[.7rem] text-[var(--text3)] transition-transform duration-200' +
+              (customizeOpen ? ' open rotate-180' : '')
+            }
+          >
+            ▼
+          </span>
         </button>
         {customizeOpen && (
-          <div className="profile-customize-body">
+          <div className="profile-customize-body border-t border-[var(--border)] px-4 pb-3.5">
             {PICKERS.map((p) => (
-              <div className="profile-picker-row" key={p.key}>
-                <span className="profile-picker-label">{t(p.labelKey)}</span>
-                <div className="profile-picker-controls">
-                  <button className="profile-picker-arrow" onClick={() => cycle(p.key, p.len, -1)}>
+              <div
+                className="profile-picker-row flex items-center justify-between border-b border-[var(--border)] py-2 last:border-b-0"
+                key={p.key}
+              >
+                <span className="profile-picker-label text-[.82rem] text-[var(--text2)]">
+                  {t(p.labelKey)}
+                </span>
+                <div className="profile-picker-controls flex items-center gap-2.5">
+                  <button
+                    className="profile-picker-arrow h-[28px] w-[28px] cursor-pointer rounded-lg border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white"
+                    onClick={() => cycle(p.key, p.len, -1)}
+                  >
                     ◀
                   </button>
-                  <span className="profile-picker-val">
+                  <span className="profile-picker-val min-w-[38px] text-center text-[.78rem] text-[var(--text3)]">
                     {p.names
                       ? p.names()[appearance[p.key] ?? 0]
                       : `${(appearance[p.key] ?? 0) + 1} / ${p.len}`}
                   </span>
-                  <button className="profile-picker-arrow" onClick={() => cycle(p.key, p.len, 1)}>
+                  <button
+                    className="profile-picker-arrow h-[28px] w-[28px] cursor-pointer rounded-lg border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white"
+                    onClick={() => cycle(p.key, p.len, 1)}
+                  >
                     ▶
                   </button>
                 </div>
@@ -349,34 +410,52 @@ export function ProfilePage(): ReactElement | null {
       </div>
 
       {/* ── Language stats ───────────────────────────────────────── */}
-      <div className="profile-lang-stats">
-        <div className="profile-lang-stats-title">{t('profile.langStatsTitle')}</div>
-        <div className="profile-lang-grid">
+      <div className="profile-lang-stats w-full max-w-[420px]">
+        <div className="profile-lang-stats-title mb-2.5 text-[.78rem] font-bold uppercase tracking-[0.07em] text-[var(--text3)]">
+          {t('profile.langStatsTitle')}
+        </div>
+        <div className="profile-lang-grid flex flex-col gap-2">
 
           {/* Primary card — current learn language */}
-          <div className="profile-lang-card profile-lang-card--primary">
-            <FlagCircle lang={learnLang} size={48} />
-            <div className="profile-lang-info">
-              <span className="profile-lang-name">{primaryMeta?.name ?? learnLang.toUpperCase()}</span>
-              <div className="profile-stat-row">
-                <span className="profile-stat-item">
-                  <span className="profile-stat-val">{getLangStreak(learnLang)}</span>
-                  <span className="profile-stat-lbl">{t('stats.daysStreak')}</span>
+          <div className="profile-lang-card profile-lang-card--primary flex items-center gap-3 rounded-2xl border border-[color-mix(in_srgb,var(--accent)_40%,transparent)] bg-[color-mix(in_srgb,var(--accent)_8%,transparent)] px-[18px] py-3.5 [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)]">
+            <FlagCircle lang={learnLang} size={48} primary />
+            <div className="profile-lang-info flex min-w-0 flex-1 flex-col gap-0.5">
+              <span className="profile-lang-name mb-1 text-base font-bold text-[var(--text)]">
+                {primaryMeta?.name ?? learnLang.toUpperCase()}
+              </span>
+              <div className="profile-stat-row mt-[5px] flex flex-wrap gap-x-3.5 gap-y-1.5">
+                <span className="profile-stat-item flex items-baseline gap-[3px]">
+                  <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                    {getLangStreak(learnLang)}
+                  </span>
+                  <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">
+                    {t('stats.daysStreak')}
+                  </span>
                 </span>
-                <span className="profile-stat-item">
-                  <span className="profile-stat-icon">📖</span>
-                  <span className="profile-stat-val">{knownCount}</span>
-                  <span className="profile-stat-lbl">{wordsLabel(knownCount)}</span>
+                <span className="profile-stat-item flex items-baseline gap-[3px]">
+                  <span className="profile-stat-icon text-[.8rem] leading-none">📖</span>
+                  <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                    {knownCount}
+                  </span>
+                  <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">
+                    {wordsLabel(knownCount)}
+                  </span>
                 </span>
-                <span className="profile-stat-item">
-                  <span className="profile-stat-icon">⭐</span>
-                  <span className="profile-stat-val">{(getLangXp(learnLang) + allKnownWords[learnLang].size * 5).toLocaleString()}</span>
-                  <span className="profile-stat-lbl">XP</span>
+                <span className="profile-stat-item flex items-baseline gap-[3px]">
+                  <span className="profile-stat-icon text-[.8rem] leading-none">⭐</span>
+                  <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                    {(getLangXp(learnLang) + allKnownWords[learnLang].size * 5).toLocaleString()}
+                  </span>
+                  <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">XP</span>
                 </span>
-                <span className="profile-stat-item">
-                  <span className="profile-stat-icon">🏆</span>
-                  <span className="profile-stat-val">{achCount}/{ACHIEVEMENTS.length}</span>
-                  <span className="profile-stat-lbl">{t('profile.achievements')}</span>
+                <span className="profile-stat-item flex items-baseline gap-[3px]">
+                  <span className="profile-stat-icon text-[.8rem] leading-none">🏆</span>
+                  <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                    {achCount}/{ACHIEVEMENTS.length}
+                  </span>
+                  <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">
+                    {t('profile.achievements')}
+                  </span>
                 </span>
               </div>
             </div>
@@ -384,29 +463,48 @@ export function ProfilePage(): ReactElement | null {
 
           {/* Secondary language cards */}
           {otherLangs.map(({ code, count }) => (
-            <div key={code} className="profile-lang-card">
+            <div
+              key={code}
+              className="profile-lang-card flex items-center gap-3 rounded-[14px] border border-[rgba(255,255,255,.07)] bg-[rgba(255,255,255,.04)] px-4 py-3 [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)]"
+            >
               <FlagCircle lang={code} size={38} />
-              <div className="profile-lang-info">
-                <span className="profile-lang-name">{LANG_META[code]?.name ?? code.toUpperCase()}</span>
-                <div className="profile-stat-row">
-                  <span className="profile-stat-item">
-                    <span className="profile-stat-val">{getLangStreak(code)}</span>
-                    <span className="profile-stat-lbl">{t('stats.daysStreak')}</span>
+              <div className="profile-lang-info flex min-w-0 flex-1 flex-col gap-0.5">
+                <span className="profile-lang-name text-[.9rem] font-bold text-[var(--text)]">
+                  {LANG_META[code]?.name ?? code.toUpperCase()}
+                </span>
+                <div className="profile-stat-row mt-[5px] flex flex-wrap gap-x-3.5 gap-y-1.5">
+                  <span className="profile-stat-item flex items-baseline gap-[3px]">
+                    <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                      {getLangStreak(code)}
+                    </span>
+                    <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">
+                      {t('stats.daysStreak')}
+                    </span>
                   </span>
-                  <span className="profile-stat-item">
-                    <span className="profile-stat-icon">📖</span>
-                    <span className="profile-stat-val">{count}</span>
-                    <span className="profile-stat-lbl">{wordsLabel(count)}</span>
+                  <span className="profile-stat-item flex items-baseline gap-[3px]">
+                    <span className="profile-stat-icon text-[.8rem] leading-none">📖</span>
+                    <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                      {count}
+                    </span>
+                    <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">
+                      {wordsLabel(count)}
+                    </span>
                   </span>
-                  <span className="profile-stat-item">
-                    <span className="profile-stat-icon">⭐</span>
-                    <span className="profile-stat-val">{(getLangXp(code) + count * 5).toLocaleString()}</span>
-                    <span className="profile-stat-lbl">XP</span>
+                  <span className="profile-stat-item flex items-baseline gap-[3px]">
+                    <span className="profile-stat-icon text-[.8rem] leading-none">⭐</span>
+                    <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                      {(getLangXp(code) + count * 5).toLocaleString()}
+                    </span>
+                    <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">XP</span>
                   </span>
-                  <span className="profile-stat-item">
-                    <span className="profile-stat-icon">🏆</span>
-                    <span className="profile-stat-val">{getLangAchCount(code)}/{ACHIEVEMENTS.length}</span>
-                    <span className="profile-stat-lbl">{t('profile.achievements')}</span>
+                  <span className="profile-stat-item flex items-baseline gap-[3px]">
+                    <span className="profile-stat-icon text-[.8rem] leading-none">🏆</span>
+                    <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                      {getLangAchCount(code)}/{ACHIEVEMENTS.length}
+                    </span>
+                    <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">
+                      {t('profile.achievements')}
+                    </span>
                   </span>
                 </div>
               </div>
