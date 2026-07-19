@@ -1129,92 +1129,12 @@ body.dark .chart-wrap {
 }
 
 /* ── Тост-повідомлення для досягнень ── */
-#achievement-toast {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.92);
-  background: #1a1a2e;
-  color: #fff;
-  border-radius: 14px;
-  padding: 18px 24px;
-  z-index: 2000;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  min-width: 240px;
-  max-width: 320px;
-  transition:
-    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    opacity 0.3s;
-  opacity: 0;
-  pointer-events: none;
-}
-#achievement-toast.show {
-  display: block;
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-}
-.toast-icon {
-  font-size: 1.8rem;
-  display: block;
-  margin-bottom: 4px;
-}
-.toast-title {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #a0a0b0;
-}
-.toast-name {
-  font-size: 1rem;
-  font-weight: 700;
-  margin: 2px 0;
-}
-.toast-desc {
-  font-size: 0.78rem;
-  color: #c0c0d0;
-}
-
-.ach-card {
-  background: var(--bg);
-  border-radius: 12px;
-  padding: 12px 10px;
-  text-align: center;
-  border: 1.5px solid var(--border);
-  transition:
-    border-color 0.2s,
-    opacity 0.2s;
-  position: relative;
-  overflow: hidden;
-}
-.ach-card.unlocked {
-  border-color: var(--accent);
-}
-.ach-card.locked {
-  opacity: 0.45;
-  filter: grayscale(0.6);
-}
-.ach-icon {
-  font-size: 1.8rem;
-  margin-bottom: 4px;
-  display: block;
-}
-.ach-name {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 2px;
-}
-.ach-card.unlocked::after {
-  content: '✓';
-  position: absolute;
-  top: 5px;
-  right: 7px;
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: var(--accent);
-}
+/* #achievement-toast/.toast-* moved to Tailwind utility classes in
+   achievement-toast.tsx (tailwind-shadcn-migration-roadmap.md Phase 2).
+   The "show" class and the toast-*/achievement-toast selectors stay —
+   all 14 fandom themes override #achievement-toast (+ .toast-title/
+   .toast-name/.toast-icon), and being unlayered legacy CSS they keep
+   winning over the new Tailwind utilities regardless of source order. */
 
 body.dark .card.is-known .card-face {
   background: linear-gradient(135deg, #0d2e1c 0%, #0a2318 100%) !important;
@@ -1434,254 +1354,31 @@ body.dark .ach-card {
   flex-shrink: 0;
 }
 
-/* ── Категорії досягнень ── */
-.ach-category {
-  margin-bottom: 18px;
-}
-.ach-cat-title {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text3);
-  margin-bottom: 8px;
-  padding-left: 2px;
-}
-.ach-grid-inner {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 8px;
-}
+/* .ach-category/.ach-cat-title/.ach-grid-inner/.ach-card (plus unlocked/
+   locked/hover/checkmark states)/.ach-progress-*/.ach-almost-badge/
+   .ach-new-badge/.ach-cat-count/.ach-empty-state/.ach-summary-*/
+   .ach-filter-tab/#ach-popup-overlay/.ach-popup (plus its sub-parts) moved
+   to Tailwind utility classes in achievements-page.tsx and index.html
+   (tailwind-shadcn-migration-roadmap.md Phase 2). Class names stay: all 14
+   fandom themes override .ach-card (plus its unlocked state and its icon
+   child)/.ach-progress-fill/.ach-popup (plus its icon/name/progress-fill
+   children), and being unlayered legacy CSS they keep winning over the new
+   Tailwind utilities regardless of source order — same guarantee used
+   throughout this migration. The popup overlay used to have its whole
+   className reassigned imperatively on open/close, which would have wiped
+   any static Tailwind classes every time it opened — switched to a
+   classList toggle of just the open class in achievements-page.tsx so the
+   static classes survive.
 
-/* ── Картка досягнення ── */
-.ach-card {
-  background: var(--bg);
-  border-radius: 12px;
-  padding: 12px 10px 10px;
-  text-align: center;
-  border: 1.5px solid var(--border);
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition:
-    border-color 0.2s,
-    transform 0.15s,
-    box-shadow 0.2s;
-}
-.ach-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
-.ach-card.unlocked {
-  border-color: var(--accent);
-}
-.ach-card.locked {
-  opacity: 0.5;
-  filter: grayscale(0.5);
-}
-.ach-card.unlocked::after {
-  content: '✓';
-  position: absolute;
-  top: 5px;
-  right: 7px;
-  font-size: 0.62rem;
-  font-weight: 700;
-  color: var(--accent);
-}
-.ach-progress-track {
-  height: 4px;
-  background: var(--border);
-  border-radius: 4px;
-  margin-top: 7px;
-  overflow: hidden;
-}
-.ach-progress-fill {
-  height: 100%;
-  border-radius: 4px;
-  background: var(--accent);
-  transition: width 0.4s;
-}
-.ach-progress-label {
-  font-size: 0.6rem;
-  color: var(--text3);
-  margin-top: 3px;
-}
-.ach-almost-badge {
-  position: absolute;
-  top: 5px;
-  left: 7px;
-  font-size: 0.56rem;
-  font-weight: 700;
-  color: var(--accent2, var(--accent));
-  background: color-mix(in srgb, var(--accent2, var(--accent)) 14%, transparent);
-  border-radius: 20px;
-  padding: 1px 6px;
-}
-
-.ach-new-badge {
-  position: absolute;
-  top: 5px;
-  left: 7px;
-  font-size: 0.56rem;
-  font-weight: 700;
-  color: var(--success);
-  background: color-mix(in srgb, var(--success) 14%, transparent);
-  border-radius: 20px;
-  padding: 1px 6px;
-}
-
-.ach-cat-count {
-  font-weight: 400;
-  color: var(--text3);
-}
-
-.ach-empty-state {
-  text-align: center;
-  padding: 32px 16px;
-  color: var(--text3);
-  font-size: 0.9rem;
-}
-
-/* ── Лічильник + фільтр над сіткою досягнень ── */
-.ach-summary-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-.ach-summary-count {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--text2);
-}
-.ach-summary-tabs {
-  display: flex;
-  gap: 6px;
-}
-.ach-filter-tab {
-  font-family: inherit;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 5px 12px;
-  border-radius: 20px;
-  border: 1.5px solid var(--border);
-  background: transparent;
-  color: var(--text2);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.ach-filter-tab:hover {
-  border-color: var(--accent);
-}
-.ach-filter-tab.active {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-  color: var(--accent);
-}
-
-/* ── Попап деталей ── */
-#ach-popup-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 2000;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-#ach-popup-overlay.open {
-  display: flex;
-}
-.ach-popup {
-  background: var(--card);
-  border-radius: 20px;
-  padding: 28px 24px;
-  max-width: 320px;
-  width: 100%;
-  text-align: center;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
-  position: relative;
-}
-.ach-popup-icon {
-  font-size: 3rem;
-  display: block;
-  margin-bottom: 8px;
-}
-.ach-popup-name {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-.ach-popup-cat {
-  font-size: 0.72rem;
-  color: var(--text3);
-  margin-bottom: 12px;
-}
-.ach-popup-hint {
-  font-size: 0.85rem;
-  color: var(--text2);
-  line-height: 1.5;
-  background: var(--bg);
-  border-radius: 10px;
-  padding: 12px 14px;
-  margin-bottom: 14px;
-}
-.ach-popup-progress {
-  margin-bottom: 16px;
-}
-.ach-popup-prog-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: var(--text2);
-  margin-bottom: 5px;
-}
-.ach-popup-prog-track {
-  height: 8px;
-  background: var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-}
-.ach-popup-prog-fill {
-  height: 100%;
-  border-radius: 8px;
-  background: linear-gradient(90deg, var(--accent), #2ecc71);
-  transition: width 0.5s ease;
-}
-.ach-popup-status {
-  display: inline-block;
-  padding: 5px 16px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-}
-.ach-popup-status.done {
-  background: rgba(39, 174, 96, 0.15);
-  color: #27ae60;
-}
-.ach-popup-status.todo {
-  background: rgba(189, 195, 199, 0.15);
-  color: var(--text2);
-}
-.ach-popup-close {
-  width: 100%;
-  padding: 10px;
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  background: none;
-  color: var(--text);
-  font-size: 0.9rem;
-  cursor: pointer;
-  font-family: inherit;
-}
-.ach-popup-close:hover {
-  background: var(--border);
-}
+   Note: an earlier duplicate, dead ach-card block (plus its unlocked/
+   locked states and checkmark) used to live right after the achievement
+   toast rule above (no markup ever referenced it, confirmed via a
+   repo-wide grep) and was deleted outright rather than migrated. The icon
+   and name styles were only ever defined once, inside that same
+   dead-looking block, but are actually used by the live grid — carried
+   forward into the Tailwind classes on the live grid markup in
+   achievements-page.tsx instead of being dropped with the rest of that
+   block. */
 body.dark .ach-popup {
   background: var(--card);
 }
@@ -7208,11 +6905,13 @@ body.dark .gr-tip {
     min-height: 38px;
   }
 
-  /* Achievement cards: 2 columns */
-  .ach-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
+  /* Achievement cards: compact.
+     Note: .ach-grid itself (grid-template-columns/gap) was a dead
+     selector — no markup ever had class="ach-grid" (the live grid is
+     .ach-grid-inner, which auto-fills columns responsively on its own via
+     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)), so no
+     column-count override is needed at this breakpoint either). Removed;
+     .ach-card/.ach-name here are real overrides for the live classes. */
   .ach-card {
     padding: 10px 8px;
   }
@@ -7285,10 +6984,6 @@ body.dark .gr-tip {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  /* Achievements: 3 columns */
-  .ach-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 /* ── Tablet 641–900px ───────────────────────────────────────── */

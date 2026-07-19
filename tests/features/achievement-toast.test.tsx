@@ -56,7 +56,7 @@ describe('achievement-toast.tsx', () => {
     const { container } = mount();
     const el = container.querySelector('#achievement-toast') as HTMLElement;
     expect(el.style.display).toBe('none');
-    expect(el.className).toBe('');
+    expect(el.classList.contains('show')).toBe(false);
   });
 
   it('shows the achievement icon, name and hint when showToast is called', async () => {
@@ -69,7 +69,7 @@ describe('achievement-toast.tsx', () => {
     });
     const el = container.querySelector('#achievement-toast') as HTMLElement;
     expect(el.style.display).toBe('block');
-    expect(el.className).toBe('show');
+    expect(el.classList.contains('show')).toBe(true);
     expect(container.querySelector('#toast-icon')!.textContent).toBe('🥇');
     expect(container.querySelector('#toast-name')!.textContent).toBeTruthy();
     expect(container.querySelector('#toast-desc')!.textContent).toBeTruthy();
@@ -83,12 +83,16 @@ describe('achievement-toast.tsx', () => {
       await rafTick();
       await rafTick();
     });
-    expect((container.querySelector('#achievement-toast') as HTMLElement).className).toBe('show');
+    expect(
+      (container.querySelector('#achievement-toast') as HTMLElement).classList.contains('show'),
+    ).toBe(true);
 
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 3500));
     });
-    expect((container.querySelector('#achievement-toast') as HTMLElement).className).toBe('');
+    expect(
+      (container.querySelector('#achievement-toast') as HTMLElement).classList.contains('show'),
+    ).toBe(false);
 
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 350));

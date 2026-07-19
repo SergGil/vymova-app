@@ -40,9 +40,15 @@ function mount(): { container: HTMLElement; root: Root } {
 
 describe('achievements-page.tsx AchievementsPage', () => {
   beforeEach(() => {
+    // ach-popup-overlay carries static Tailwind classes in real index.html
+    // (fixed/inset-0/bg-black/50/...); the fixture includes a stand-in
+    // static class here to guard against a regression back to the old
+    // `target.className = ach ? 'open' : ''` mechanism, which would wipe
+    // any static classes on every open/close instead of just toggling
+    // "open" alongside them.
     document.body.innerHTML = `
       <div id="levels-roadmap"></div>
-      <div id="ach-popup-overlay"></div>
+      <div id="ach-popup-overlay" class="static-overlay-class"></div>
     `;
     setKnownWords('en', new Set());
     getGameData.mockClear().mockReturnValue({ streak: 0, xp: 0 });
@@ -131,14 +137,16 @@ describe('achievements-page.tsx AchievementsPage', () => {
     });
 
     const overlay = document.getElementById('ach-popup-overlay') as HTMLElement;
-    expect(overlay.className).toBe('open');
+    expect(overlay.classList.contains('open')).toBe(true);
+    expect(overlay.classList.contains('static-overlay-class')).toBe(true);
     expect(overlay.querySelector('.ach-popup-name')!.textContent).toBe(ACHIEVEMENTS[0].name);
 
     const closeBtn = overlay.querySelector('.ach-popup-close') as HTMLButtonElement;
     act(() => {
       closeBtn.click();
     });
-    expect(overlay.className).toBe('');
+    expect(overlay.classList.contains('open')).toBe(false);
+    expect(overlay.classList.contains('static-overlay-class')).toBe(true);
   });
 
   it('closes the popup when clicking the overlay backdrop', () => {
@@ -149,11 +157,12 @@ describe('achievements-page.tsx AchievementsPage', () => {
     });
 
     const overlay = document.getElementById('ach-popup-overlay') as HTMLElement;
-    expect(overlay.className).toBe('open');
+    expect(overlay.classList.contains('open')).toBe(true);
     act(() => {
       overlay.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect(overlay.className).toBe('');
+    expect(overlay.classList.contains('open')).toBe(false);
+    expect(overlay.classList.contains('static-overlay-class')).toBe(true);
   });
 
   it('does not throw when refreshAchievementsPage is called', () => {

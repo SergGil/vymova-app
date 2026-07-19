@@ -659,7 +659,7 @@
           </div>
 
           <div class="settings-footer">
-            © 2026 Vymova · v1.355.0 ·
+            © 2026 Vymova · v1.356.0 ·
             <a
               href="./privacy.html"
               target="_blank"
@@ -672,7 +672,10 @@
       </div>
 
       <!-- Попап деталей досягнення — поза .app для коректного z-index (React, achievements-page.tsx) -->
-      <div id="ach-popup-overlay"></div>
+      <div
+        id="ach-popup-overlay"
+        class="hidden fixed inset-0 z-[2000] items-center justify-center bg-black/50 p-5 [&.open]:flex"
+      ></div>
 
       <!-- ══ ACHIEVEMENTS PAGE ══ -->
       <div id="ach-overlay" class="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-bg [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]">

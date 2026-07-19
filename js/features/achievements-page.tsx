@@ -131,16 +131,21 @@ function AchievementsSummaryBar({
     { id: 'locked', label: t('ach.filterLocked') },
   ];
   return (
-    <div className="ach-summary-bar">
-      <div className="ach-summary-count">
+    <div className="ach-summary-bar mb-[14px] flex flex-wrap items-center justify-between gap-2">
+      <div className="ach-summary-count text-[0.85rem] font-bold text-text2">
         {t('ach.summary', { unlocked: unlockedCount, total })}
       </div>
-      <div className="ach-summary-tabs">
+      <div className="ach-summary-tabs flex gap-1.5">
         {tabs.map((tb) => (
           <button
             key={tb.id}
             type="button"
-            className={'ach-filter-tab' + (filter === tb.id ? ' active' : '')}
+            className={
+              'ach-filter-tab cursor-pointer rounded-[20px] border-[1.5px] border-border bg-transparent px-3 py-[5px] text-[0.75rem] font-semibold text-text2 transition-all duration-150 hover:border-accent' +
+              (filter === tb.id
+                ? ' active border-accent bg-[color-mix(in_srgb,var(--accent)_14%,transparent)] text-accent'
+                : '')
+            }
             onClick={() => onFilterChange(tb.id)}
           >
             {tb.label}
@@ -194,21 +199,25 @@ function AchievementsGrid({
   );
 
   if (Object.keys(cats).length === 0) {
-    return <div className="ach-empty-state">{t('ach.emptyState')}</div>;
+    return (
+      <div className="ach-empty-state px-4 py-8 text-center text-[0.9rem] text-text3">
+        {t('ach.emptyState')}
+      </div>
+    );
   }
 
   return (
     <>
       {Object.keys(cats).map((cat) => (
-        <div className="ach-category" key={cat}>
-          <div className="ach-cat-title">
+        <div className="ach-category mb-[18px]" key={cat}>
+          <div className="ach-cat-title mb-2 pl-0.5 text-[0.68rem] font-bold uppercase tracking-[0.08em] text-text3">
             {achCatName(cat)}
-            <span className="ach-cat-count">
+            <span className="ach-cat-count font-normal text-text3">
               {' '}
               · {catStats[cat].unlocked}/{catStats[cat].total}
             </span>
           </div>
-          <div className="ach-grid-inner">
+          <div className="ach-grid-inner grid grid-cols-[repeat(auto-fill,minmax(130px,1fr))] gap-2">
             {cats[cat].map((a) => {
               const isUnlocked = unlocked.has(a.id);
               const prog = a.progress(k, g, m);
@@ -219,23 +228,38 @@ function AchievementsGrid({
               return (
                 <div
                   key={a.id}
-                  className={'ach-card ' + (isUnlocked ? 'unlocked' : 'locked')}
+                  className={
+                    'ach-card relative cursor-pointer overflow-hidden rounded-[12px] border-[1.5px] border-border bg-bg pb-2.5 pl-2.5 pr-2.5 pt-3 text-center transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] ' +
+                    (isUnlocked
+                      ? "unlocked border-accent after:absolute after:right-[7px] after:top-[5px] after:text-[0.62rem] after:font-bold after:text-accent after:content-['✓']"
+                      : 'locked opacity-50 grayscale-[50%]')
+                  }
                   onClick={(e) => {
                     e.stopPropagation();
                     onSelect(a);
                   }}
                 >
-                  {almostThere && <span className="ach-almost-badge">{t('ach.almostThere')}</span>}
-                  {isNew && <span className="ach-new-badge">{t('ach.new')}</span>}
-                  <span className="ach-icon">{a.icon}</span>
-                  <div className="ach-name">{achName(a)}</div>
-                  <div className="ach-progress-track">
+                  {almostThere && (
+                    <span className="ach-almost-badge absolute left-[7px] top-[5px] rounded-[20px] bg-[color-mix(in_srgb,var(--accent2,var(--accent))_14%,transparent)] px-1.5 py-px text-[0.56rem] font-bold text-[var(--accent2,var(--accent))]">
+                      {t('ach.almostThere')}
+                    </span>
+                  )}
+                  {isNew && (
+                    <span className="ach-new-badge absolute left-[7px] top-[5px] rounded-[20px] bg-[color-mix(in_srgb,var(--success)_14%,transparent)] px-1.5 py-px text-[0.56rem] font-bold text-success">
+                      {t('ach.new')}
+                    </span>
+                  )}
+                  <span className="ach-icon mb-1 block text-[1.8rem]">{a.icon}</span>
+                  <div className="ach-name mb-0.5 text-[0.75rem] font-bold text-text">
+                    {achName(a)}
+                  </div>
+                  <div className="ach-progress-track mt-[7px] h-1 overflow-hidden rounded-[4px] bg-border">
                     <div
-                      className="ach-progress-fill"
+                      className="ach-progress-fill h-full rounded-[4px] bg-accent transition-[width] duration-[400ms]"
                       style={{ width: fillPct + '%', background: isUnlocked ? 'var(--success)' : undefined }}
                     />
                   </div>
-                  <div className="ach-progress-label">
+                  <div className="ach-progress-label mt-[3px] text-[0.6rem] text-text3">
                     {isUnlocked ? t('ach.done') : `${prog.cur} / ${prog.max}`}
                   </div>
                 </div>
@@ -259,7 +283,7 @@ function AchievementPopup({
 
   useEffect(() => {
     if (!target) return;
-    target.className = ach ? 'open' : '';
+    target.classList.toggle('open', !!ach);
     function onOverlayClick(e: MouseEvent) {
       if (e.target === target) onClose();
     }
@@ -286,30 +310,42 @@ function AchievementPopup({
   const fillPct = isUnlocked ? pct : Math.max(pct, MIN_PROG_FILL_PCT);
 
   return createPortal(
-    <div className="ach-popup">
-      <span className="ach-popup-icon">{ach.icon}</span>
-      <div className="ach-popup-name">{achName(ach)}</div>
-      <div className="ach-popup-cat">{achCatName(ach.cat)}</div>
-      <div className="ach-popup-hint">{achHint(ach)}</div>
-      <div className="ach-popup-progress">
-        <div className="ach-popup-prog-row">
+    <div className="ach-popup relative w-full max-w-[320px] rounded-[20px] bg-card px-6 pb-7 pt-7 text-center shadow-[0_12px_48px_rgba(0,0,0,0.25)]">
+      <span className="ach-popup-icon mb-2 block text-5xl">{ach.icon}</span>
+      <div className="ach-popup-name mb-1 text-[1.15rem] font-bold text-text">{achName(ach)}</div>
+      <div className="ach-popup-cat mb-3 text-[0.72rem] text-text3">{achCatName(ach.cat)}</div>
+      <div className="ach-popup-hint mb-[14px] rounded-[10px] bg-bg px-[14px] py-3 text-[0.85rem] leading-[1.5] text-text2">
+        {achHint(ach)}
+      </div>
+      <div className="ach-popup-progress mb-4">
+        <div className="ach-popup-prog-row mb-[5px] flex justify-between text-[0.75rem] text-text2">
           <span>{t('ach.progress')}</span>
           <span>
             {prog.cur} / {prog.max}
           </span>
         </div>
-        <div className="ach-popup-prog-track">
+        <div className="ach-popup-prog-track h-2 overflow-hidden rounded-[8px] bg-border">
           <div
-            className="ach-popup-prog-fill"
+            className="ach-popup-prog-fill h-full rounded-[8px] bg-[linear-gradient(90deg,var(--accent),#2ecc71)] transition-[width] duration-500 ease-in-out"
             style={{ width: fillPct + '%', background: isUnlocked ? 'var(--success)' : undefined }}
           />
         </div>
       </div>
-      <div className={'ach-popup-status ' + (isUnlocked ? 'done' : 'todo')}>
+      <div
+        className={
+          'ach-popup-status mb-4 inline-block rounded-[20px] px-4 py-[5px] text-[0.8rem] font-semibold ' +
+          (isUnlocked
+            ? 'done bg-[rgba(39,174,96,0.15)] text-[#27ae60]'
+            : 'todo bg-[rgba(189,195,199,0.15)] text-text2')
+        }
+      >
         {isUnlocked ? t('ach.unlocked') : t('ach.notYet')}
       </div>
       <br />
-      <button className="ach-popup-close" onClick={onClose}>
+      <button
+        className="ach-popup-close w-full cursor-pointer rounded-[10px] border-[1.5px] border-border bg-transparent p-2.5 text-[0.9rem] text-text hover:bg-border"
+        onClick={onClose}
+      >
         {t('ach.close')}
       </button>
     </div>,
