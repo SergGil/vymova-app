@@ -24,10 +24,32 @@
   --sb-width: 220px;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* Wrapped in its own layer, registered here before css/tailwind.css
+   declares Tailwind's own layers (CSS layer order follows first
+   appearance across the whole document, and this stylesheet's link loads
+   before tailwind.css's), so this reset alone loses to Tailwind's spacing
+   utility classes on elements that carry both. Found the hard way: a
+   Tailwind migration commit lost every spacing utility to this exact
+   rule, since unlayered declarations always beat layered ones regardless
+   of specificity, and Tailwind utilities always live in a named layer;
+   background, border, and layout utilities kept working since this rule
+   never touches those properties. Everything else in this file stays
+   unlayered on purpose: theme overrides in css/themes/*.css must keep
+   winning over Tailwind's color utilities regardless of source order, and
+   moving them into a layer too would flip that priority and break every
+   fandom theme. Only this one rule conflicted with the new utilities,
+   since it is the sole legacy rule setting margin and padding on every
+   element, so only this one is scoped here. Keep this comment free of
+   glob-style hyphen-star sequences placed right before a closing paren
+   (Tailwind's bundler text-scans comments too, not just real code, and a
+   sequence like that broke the production build with a cryptic "Missing
+   opening (" error even though every paren here is balanced). */
+@layer legacy-reset {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 /* ── Custom scrollbars ── */
