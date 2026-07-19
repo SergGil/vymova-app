@@ -1,6 +1,7 @@
 // Vymova — js/modes/pairs.tsx
 // 🔗 PAIRS MODE
 import { useEffect, type ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
@@ -191,9 +192,18 @@ export function PairsMode(): ReactElement | null {
   // (previously static in index.html) — the effect above still reads/writes
   // these same ids via getElementById exactly as before, untouched
   // (including #pairs-board's innerHTML/appendChild tile rendering, which
-  // stays imperative — only the wrapper moved). No Portal/mount-point
-  // needed: position:fixed escapes normal flow, same as DailyChallenge.
-  return (
+  // stays imperative — only the wrapper moved).
+  //
+  // Correction: the "position:fixed escapes normal flow, no Portal needed"
+  // reasoning this comment used to give was wrong — #app-root (the real
+  // React root, see src/app-root.tsx) is `display: none` by design, and
+  // fixed positioning does NOT escape a display:none ancestor (the whole
+  // subtree is skipped from rendering, regardless of position). Rendered as
+  // a plain direct child, #pairs-overlay was a literal descendant of that
+  // invisible root and never painted. Portaling to <body> escapes it, same
+  // fix as modes-overlay-shell.tsx/quiz-overlay-shell.tsx/sidebar-nav.tsx.
+  if (typeof document === 'undefined') return null;
+  return createPortal(
     <div
       id="pairs-overlay"
       className="fixed inset-0 z-[9100] flex items-center justify-center bg-black/55 px-3 py-4"
@@ -249,6 +259,7 @@ export function PairsMode(): ReactElement | null {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

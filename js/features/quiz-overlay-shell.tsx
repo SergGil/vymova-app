@@ -26,6 +26,7 @@
 //   exceptions (roadmap "what NOT to touch" item 4), structurally distinct
 //   (different background/z-index/panel sizing).
 import type { CSSProperties, ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 
 type QuizOverlayEntry = {
   overlayId: string;
@@ -60,8 +61,17 @@ const ENTRIES: QuizOverlayEntry[] = [
   { overlayId: 'write-overlay', mountId: 'write-page-mount' },
 ];
 
-export function QuizOverlayShell(): ReactElement {
-  return (
+export function QuizOverlayShell(): ReactElement | null {
+  // #app-root (the real React root — see src/app-root.tsx) is `display:
+  // none` in index.html by design (every other page's content mounts into
+  // its own pre-existing, visible static container instead) — rendered as
+  // a plain direct child, this component's 19 overlay divs would be literal
+  // DOM descendants of that invisible root and never paint, no matter that
+  // they're `position:fixed` (fixed positioning does not escape a
+  // display:none ancestor — the whole subtree is skipped). Portaling to
+  // <body> escapes that, same fix as modes-overlay-shell.tsx/sidebar-nav.tsx.
+  if (typeof document === 'undefined') return null;
+  return createPortal(
     <>
       {ENTRIES.map(({ overlayId, mountId, zIndex = 9100, mountStyle }) => (
         <div
@@ -77,6 +87,7 @@ export function QuizOverlayShell(): ReactElement {
           </div>
         </div>
       ))}
-    </>
+    </>,
+    document.body,
   );
 }

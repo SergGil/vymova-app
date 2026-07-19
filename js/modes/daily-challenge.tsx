@@ -1,6 +1,7 @@
 // Vymova — js/modes/daily-challenge.tsx
 // ⚡ Daily Challenge: 10 seeded words + timer + bonus XP
 import { useEffect, type ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 import { _shuf } from '../core/srs.ts';
 import { today as localToday, msUntilNextLocalMidnight } from '../core/today.ts';
 import { W } from '../../data/words.js';
@@ -281,12 +282,18 @@ export function DailyChallenge(): ReactElement | null {
 
   // full-react-migration-roadmap.md Phase 2: the wrapper markup itself
   // (previously static in index.html) — the effect above still reads/writes
-  // these same ids via getElementById exactly as before, untouched. No
-  // Portal/mount-point needed: .page-overlay is position:fixed (escapes
-  // normal flow), so — like NoteModal/CardLegendModal/PairsMode — it can
-  // render as a plain direct child wherever <DailyChallenge/> sits in
-  // AppRoot's tree.
-  return (
+  // these same ids via getElementById exactly as before, untouched.
+  //
+  // Correction: the "position:fixed escapes normal flow, no Portal needed"
+  // reasoning this comment used to give was wrong — #app-root (the real
+  // React root, see src/app-root.tsx) is `display: none` by design, and
+  // fixed positioning does NOT escape a display:none ancestor (the whole
+  // subtree is skipped from rendering, regardless of position). Rendered as
+  // a plain direct child, #dc-overlay was a literal descendant of that
+  // invisible root and never painted. Portaling to <body> escapes it, same
+  // fix as modes-overlay-shell.tsx/quiz-overlay-shell.tsx/pairs.tsx.
+  if (typeof document === 'undefined') return null;
+  return createPortal(
     <div
       id="dc-overlay"
       className="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-bg [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]"
@@ -329,6 +336,7 @@ export function DailyChallenge(): ReactElement | null {
           <div id="dc-final-cooldown" className="text-[.8rem] text-[var(--text3)]" />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
