@@ -2443,23 +2443,6 @@ body.dark .btn-listen {
 }
 
 /* ── Category matching ── */
-.btn-catpairs {
-  border-color: #c0392b;
-  color: #c0392b;
-}
-.btn-catpairs:hover {
-  background: #fdedec;
-}
-body.dark .btn-catpairs {
-  border-color: #e74c3c;
-  color: #e74c3c;
-}
-.cat-select-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 8px;
-  margin-bottom: 16px;
-}
 .cat-select-btn {
   padding: 10px 8px;
   border-radius: 12px;
@@ -2567,21 +2550,6 @@ body.dark .cat-select-btn:hover {
 
 /* .stat-card-sub moved to Tailwind utility classes in stats-page.tsx
    (no theme overrides existed for it). */
-
-/* ── Weak words list (stats page) ── */
-.weak-word-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px 0;
-  border-bottom: 1px solid var(--border);
-}
-.weak-word-ef {
-  font-size: 0.72rem;
-  color: var(--danger);
-  white-space: nowrap;
-  margin-left: 8px;
-}
 
 /* Mistake review overlay: every rule that used to live in this section
    moved to Tailwind utility classes in js/features/mistake-review.tsx
@@ -2812,17 +2780,6 @@ body.dark .btn-write {
   color: #1abc9c;
 }
 /* ── Pairs mode ── */
-.btn-pairs {
-  border-color: #d35400;
-  color: #d35400;
-}
-.btn-pairs:hover {
-  background: #fef5ec;
-}
-body.dark .btn-pairs {
-  border-color: #e67e22;
-  color: #e67e22;
-}
 .pairs-panel {
   background: var(--card);
   border-radius: 20px;
@@ -4610,110 +4567,13 @@ body.dark .sb-flyout {
   }
 }
 
-/* ══ Duel chat / reactions panel ════════════════════════════════ */
-.duel-chat-panel {
-  margin-top: 14px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 10px 12px;
-  display: flex;
-  flex-direction: column;
-}
-.duel-chat-title {
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text3);
-  margin-bottom: 8px;
-}
-.duel-chat-log {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  overflow-y: auto;
-  max-height: 140px;
-  margin-bottom: 8px;
-}
-.duel-chat-msg {
-  max-width: 80%;
-  padding: 6px 10px;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  line-height: 1.2;
-  background: var(--bg);
-  align-self: flex-start;
-}
-.duel-chat-msg.me {
-  align-self: flex-end;
-  background: var(--accent);
-}
-.duel-chat-input-row {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-.duel-chat-input-row input {
-  flex: 1;
-  min-width: 0;
-  padding: 7px 10px;
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-family: inherit;
-  background: var(--bg);
-  color: var(--text);
-  outline: none;
-  box-sizing: border-box;
-}
-.duel-chat-input-row button {
-  padding: 7px 12px;
-  border: none;
-  border-radius: 10px;
-  background: var(--accent);
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-}
-.duel-chat-react-row {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.dm-react-btn {
-  background: var(--bg);
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-size: 1.2rem;
-  padding: 5px 9px;
-  cursor: pointer;
-  transition:
-    transform 0.12s ease,
-    border-color 0.12s ease;
-}
-.dm-react-btn:hover {
-  border-color: var(--accent);
-  transform: scale(1.1);
-}
-
-@media (min-width: 1400px) {
-  .duel-chat-panel {
-    position: fixed;
-    top: 90px;
-    right: 28px;
-    bottom: 28px;
-    width: 240px;
-    margin-top: 0;
-    z-index: 601;
-  }
-  .duel-chat-log {
-    flex: 1;
-    max-height: none;
-  }
-}
+/* Duel chat / reactions panel: moved to Tailwind utility classes in
+   duel-chat-panel.tsx/duel-chat-log.tsx/duel-overlay.tsx — no fandom-theme
+   or body.dark overrides existed for any of these class names, so nothing
+   needed to stay as a pure CSS hook. Class names are still present in the
+   JSX (harmless, and tests/features/duel-chat-log.test.tsx and
+   duel-chat-panel.test.tsx select by them), they just carry no CSS of
+   their own anymore. */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -5452,51 +5312,17 @@ body.dark .usage-note-box.etymology-note {
    throughout this migration. */
 
 /* ── Daily Challenge ── */
-.dc-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-.dc-pbar-wrap {
-  height: 5px;
-  background: var(--border);
-  border-radius: 5px;
-  margin-bottom: 20px;
-  overflow: hidden;
-}
 .dc-pbar-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--accent), #27ae60);
   border-radius: 5px;
   transition: width 0.4s;
 }
-.dc-word-area {
-  text-align: center;
-  margin-bottom: 20px;
-  min-height: 80px;
-}
 .dc-word {
   font-size: 1.8rem;
   font-weight: 800;
   color: var(--text);
   font-family: 'DM Serif Display', serif;
-}
-.dc-ipa {
-  font-size: 0.9rem;
-  color: var(--accent);
-  margin-top: 4px;
-}
-.dc-result {
-  font-size: 0.88rem;
-  font-weight: 600;
-  min-height: 22px;
-  margin-top: 8px;
-}
-.dc-options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
 }
 .dc-opt {
   padding: 12px;
@@ -7260,40 +7086,16 @@ body.hp .cefr-C2 {
   }
 }
 
-/* ── Story Mode ─────────────────────────────────────────────── */
-.sm-word {
-  cursor: pointer;
-  border-bottom: 1.5px dashed var(--accent2);
-  color: var(--accent2);
-  transition: background 0.1s;
-  border-radius: 3px;
-  padding: 0 1px;
-}
-.sm-word:hover {
-  background: rgba(196, 98, 45, 0.15);
-}
-.sm-word.sm-known {
-  border-bottom-color: var(--accent);
-  color: inherit;
-}
-.sm-word.sm-known:hover {
-  background: rgba(45, 90, 61, 0.12);
-}
+/* Story Mode: .sm-word/.sm-known moved to Tailwind utility classes baked
+   into the highlighter template strings in js/modes/story.tsx (no
+   fandom-theme or body.dark overrides existed for either class name).
+   Class names are still present in the generated HTML (harmless, and
+   tests/modes/story.test.tsx selects by them), they just carry no CSS of
+   their own anymore. */
 
 /* (mc-context / mc-spelling / mc-story --mi defined in main modes block above) */
 
 /* ── Onboarding (first-launch) ─────────────────────────────────*/
-#ob-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.72);
-  z-index: 999999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  animation: ob-fade-in 0.25s ease;
-}
 @keyframes ob-fade-in {
   from {
     opacity: 0;
@@ -7301,27 +7103,6 @@ body.hp .cefr-C2 {
   to {
     opacity: 1;
   }
-}
-#ob-card {
-  background: #1a2540;
-  border-radius: 24px;
-  padding: 32px 28px 24px;
-  max-width: 420px;
-  width: 100%;
-  box-shadow: 0 16px 60px rgba(0, 0, 0, 0.55);
-  display: flex;
-  flex-direction: column;
-  min-height: 400px;
-}
-.ob-slide {
-  display: none;
-  flex-direction: column;
-  flex: 1;
-  animation: none;
-}
-.ob-slide.ob-active {
-  display: flex;
-  animation: ob-slide-in 0.2s ease;
 }
 @keyframes ob-slide-in {
   from {
@@ -7333,59 +7114,11 @@ body.hp .cefr-C2 {
     transform: none;
   }
 }
-.ob-emoji {
-  font-size: 2.8rem;
-  margin-bottom: 14px;
-  text-align: center;
-  line-height: 1;
-}
-.ob-title {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 10px;
-  text-align: center;
-}
-.ob-desc {
-  font-size: 0.86rem;
-  color: rgba(255, 255, 255, 0.78);
-  line-height: 1.65;
-  text-align: center;
-  flex: 1;
-}
 .ob-desc b {
   color: #4ecca3;
 }
-.ob-tips {
-  margin-top: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-}
-.ob-tip {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.75);
-  background: rgba(255, 255, 255, 0.07);
-  border-radius: 10px;
-  padding: 8px 12px;
-}
 .ob-tip b {
   color: #fff;
-}
-.ob-tip-icon {
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  min-width: 22px;
-  text-align: center;
-}
-.ob-levels {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 10px;
 }
 .ob-level-btn {
   border: 2px solid rgba(255, 255, 255, 0.18);
@@ -7405,81 +7138,6 @@ body.hp .cefr-C2 {
 .ob-level-btn.ob-sel {
   border-color: #4ecca3;
   background: rgba(78, 204, 163, 0.15);
-}
-.ob-level-btn .ob-lv-emoji {
-  font-size: 1.6rem;
-  display: block;
-  margin-bottom: 4px;
-  line-height: 1;
-}
-.ob-level-btn .ob-lv-name {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #fff;
-}
-.ob-level-btn .ob-lv-words {
-  font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 2px;
-}
-.ob-level-btn .ob-lv-hint {
-  font-size: 0.63rem;
-  color: #4ecca3;
-  margin-top: 3px;
-  opacity: 0.9;
-}
-.ob-dots {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin: 16px 0 4px;
-}
-.ob-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-  transition: all 0.2s;
-}
-.ob-dot.ob-dot-active {
-  background: #4ecca3;
-  width: 18px;
-  border-radius: 4px;
-}
-.ob-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-.ob-btn-skip {
-  flex: 1;
-  padding: 12px;
-  border-radius: 12px;
-  border: 1.5px solid rgba(255, 255, 255, 0.22);
-  background: none;
-  color: rgba(255, 255, 255, 0.65);
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.85rem;
-}
-.ob-btn-skip:hover {
-  border-color: rgba(255, 255, 255, 0.5);
-  color: #fff;
-}
-.ob-btn-next {
-  flex: 2;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  background: #4ecca3;
-  color: #0a1628;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-.ob-btn-next:hover {
-  opacity: 0.88;
 }
 
 /* ── Profile dropdown row buttons ───────────────────────────────*/

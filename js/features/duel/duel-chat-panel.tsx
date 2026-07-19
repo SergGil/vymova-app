@@ -26,7 +26,7 @@ export function DuelChatPanel(): ReactElement {
 
   return (
     <>
-      <div className="duel-chat-input-row">
+      <div className="duel-chat-input-row mb-2 flex gap-1.5">
         <input
           id="duel-chat-input"
           type="text"
@@ -39,16 +39,25 @@ export function DuelChatPanel(): ReactElement {
           onKeyDown={(e) => {
             if (e.key === 'Enter') send();
           }}
+          className="min-w-0 flex-1 rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-2.5 py-[7px] font-[inherit] text-[.85rem] text-[var(--text)] outline-none"
         />
-        <button id="duel-chat-send" title={t('duel.send')} onClick={send}>
+        <button
+          id="duel-chat-send"
+          title={t('duel.send')}
+          onClick={send}
+          className="cursor-pointer rounded-[10px] border-none bg-[var(--accent)] px-3 py-[7px] font-[inherit] font-bold text-white"
+        >
           ➤
         </button>
       </div>
-      <div className="duel-chat-react-row" id="dm-react-row">
+      <div
+        className="duel-chat-react-row flex flex-wrap justify-center gap-1.5"
+        id="dm-react-row"
+      >
         {CHAT_REACTIONS.map((r) => (
           <button
             key={r.emoji}
-            className="dm-react-btn"
+            className="dm-react-btn cursor-pointer rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-[9px] py-[5px] text-[1.2rem] transition-[transform,border-color] duration-150 hover:scale-110 hover:border-[var(--accent)]"
             title={t(r.titleKey)}
             onClick={() => _sendChatMsg(r.emoji)}
           >

@@ -48,8 +48,13 @@ export function DuelOverlay(): ReactElement {
       )}
 
       {(screen === 'game' || screen === 'result') && (
-        <div id="duel-chat-panel" className="duel-chat-panel">
-          <div className="duel-chat-title">💬 {t('duel.chat')}</div>
+        <div
+          id="duel-chat-panel"
+          className="duel-chat-panel mt-3.5 flex flex-col rounded-[14px] border border-[var(--border)] bg-[var(--card)] px-3 py-2.5 min-[1400px]:fixed min-[1400px]:top-[90px] min-[1400px]:right-7 min-[1400px]:bottom-7 min-[1400px]:z-[601] min-[1400px]:mt-0 min-[1400px]:w-[240px]"
+        >
+          <div className="duel-chat-title mb-2 text-[.72rem] font-bold tracking-[0.05em] text-[var(--text3)] uppercase">
+            💬 {t('duel.chat')}
+          </div>
           <DuelChatLog />
           <DuelChatPanel />
         </div>

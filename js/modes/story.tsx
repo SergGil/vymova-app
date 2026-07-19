@@ -146,6 +146,15 @@ export async function sendStoryRequest(
   return { text: data.text, title: data.title };
 }
 
+function _smWordClass(isKnown: boolean): string {
+  return (
+    'sm-word cursor-pointer rounded-[3px] border-b-[1.5px] border-dashed px-[1px] transition-colors duration-100 ' +
+    (isKnown
+      ? 'sm-known border-[var(--accent)] text-inherit hover:bg-[rgba(45,90,61,.12)]'
+      : 'border-[var(--accent2)] text-[var(--accent2)] hover:bg-[rgba(196,98,45,.15)]')
+  );
+}
+
 function _esc(s: string): string {
   return s
     .replace(/&/g, '&amp;')
@@ -205,7 +214,7 @@ function highlightBuiltinText(text: string): { html: string; total: number; know
   for (const mk of markers) {
     const isKnown = known.has(mk.word);
     const matched = text.slice(mk.from, mk.to);
-    const cls = `sm-word${isKnown ? ' sm-known' : ''}`;
+    const cls = _smWordClass(isKnown);
     result =
       result.slice(0, mk.from) +
       `<span class="${cls}" data-word="${mk.word}">${matched}</span>` +
@@ -242,7 +251,7 @@ function highlightAiText(
       total++;
       const isKnown = known.has(headword);
       if (isKnown) knownCount++;
-      return `<span class="sm-word${isKnown ? ' sm-known' : ''}" data-word="${_esc(headword)}">${safe}</span>`;
+      return `<span class="${_smWordClass(isKnown)}" data-word="${_esc(headword)}">${safe}</span>`;
     })
     .join('');
   return { html, total, known: knownCount };
@@ -444,24 +453,15 @@ export function StoryPage(): ReactElement {
         <div>
           <div className="page-title">{story ? story.title : t('modesPg.storyName')}</div>
           {story && (
-            <div style={{ fontSize: '.72rem', color: 'var(--accent)', marginTop: 2 }}>
+            <div className="mt-0.5 text-[.72rem] text-[var(--accent)]">
               {t('story.levelLabel', { lvl: story.level })}
             </div>
           )}
         </div>
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div className="flex gap-2">
           {story && (
             <button
-              style={{
-                padding: '6px 12px',
-                borderRadius: 9,
-                border: '1.5px solid var(--border)',
-                background: 'none',
-                color: 'var(--text2)',
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-                fontSize: '.8rem',
-              }}
+              className="cursor-pointer rounded-[9px] border-[1.5px] border-[var(--border)] bg-transparent px-3 py-1.5 font-[inherit] text-[.8rem] text-[var(--text2)]"
               onClick={goBack}
               data-i18n="cards.back"
             >
@@ -479,11 +479,8 @@ export function StoryPage(): ReactElement {
       </div>
 
       {!story && (
-        <div style={{ padding: '14px 20px' }}>
-          <div
-            style={{ fontSize: '.82rem', color: 'var(--text2)', marginBottom: 12 }}
-            data-i18n="story.pickerDesc"
-          >
+        <div className="px-5 py-3.5">
+          <div className="mb-3 text-[.82rem] text-[var(--text2)]" data-i18n="story.pickerDesc">
             {t('story.pickerDesc')}
           </div>
 
@@ -491,33 +488,18 @@ export function StoryPage(): ReactElement {
               AI_TUTOR_ENABLED is off or the worker is unreachable right
               now — they're already-fetched text, not a live request. */}
           {cachedList.length > 0 && (
-            <div style={{ marginBottom: 14 }}>
-              <div
-                style={{ fontWeight: 700, fontSize: '.85rem', color: 'var(--text)', marginBottom: 8 }}
-              >
+            <div className="mb-3.5">
+              <div className="mb-2 text-[.85rem] font-bold text-[var(--text)]">
                 {t('story.savedLabel')}
               </div>
               {cachedList.map((entry) => (
                 <button
                   key={entry.id}
                   onClick={() => openCachedStory(entry)}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    textAlign: 'left',
-                    padding: '10px 12px',
-                    marginBottom: 6,
-                    borderRadius: 10,
-                    border: '1.5px solid var(--border)',
-                    background: 'var(--bg)',
-                    cursor: 'pointer',
-                    fontFamily: 'inherit',
-                  }}
+                  className="mb-1.5 block w-full cursor-pointer rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3 py-2.5 text-left font-[inherit]"
                 >
-                  <div style={{ fontWeight: 700, fontSize: '.85rem', color: 'var(--text)' }}>
-                    {entry.title}
-                  </div>
-                  <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginTop: 2 }}>
+                  <div className="text-[.85rem] font-bold text-[var(--text)]">{entry.title}</div>
+                  <div className="mt-0.5 text-[.75rem] text-[var(--text3)]">
                     {t('story.levelLabel', { lvl: entry.level })}
                   </div>
                 </button>
@@ -526,40 +508,20 @@ export function StoryPage(): ReactElement {
           )}
 
           {AI_TUTOR_ENABLED ? (
-            <div
-              style={{
-                border: '1.5px solid var(--border)',
-                borderRadius: 12,
-                padding: '12px 14px',
-                marginBottom: 14,
-              }}
-            >
-              <div
-                style={{
-                  fontWeight: 700,
-                  fontSize: '.85rem',
-                  color: 'var(--text)',
-                  marginBottom: 8,
-                }}
-              >
+            <div className="mb-3.5 rounded-xl border-[1.5px] border-[var(--border)] px-3.5 py-3">
+              <div className="mb-2 text-[.85rem] font-bold text-[var(--text)]">
                 {t('story.aiLabel')}
               </div>
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
+              <div className="mb-2.5 flex flex-wrap gap-1.5">
                 {LEVELS.map((lvl) => (
                   <button
                     key={lvl}
                     onClick={() => setLevel(lvl)}
-                    style={{
-                      padding: '5px 12px',
-                      borderRadius: 8,
-                      border: `1.5px solid ${level === lvl ? 'var(--accent)' : 'var(--border)'}`,
-                      background: level === lvl ? 'var(--accent)' : 'none',
-                      color: level === lvl ? '#fff' : 'var(--text2)',
-                      cursor: 'pointer',
-                      fontFamily: 'inherit',
-                      fontSize: '.8rem',
-                      fontWeight: 600,
-                    }}
+                    className={`cursor-pointer rounded-lg border-[1.5px] px-3 py-[5px] font-[inherit] text-[.8rem] font-semibold ${
+                      level === lvl
+                        ? 'border-[var(--accent)] bg-[var(--accent)] text-white'
+                        : 'border-[var(--border)] bg-transparent text-[var(--text2)]'
+                    }`}
                   >
                     {lvl}
                   </button>
@@ -568,45 +530,20 @@ export function StoryPage(): ReactElement {
               <button
                 onClick={generate}
                 disabled={pending}
-                style={{
-                  padding: '9px 16px',
-                  borderRadius: 10,
-                  border: 'none',
-                  background: 'var(--accent)',
-                  color: '#fff',
-                  fontWeight: 600,
-                  cursor: pending ? 'default' : 'pointer',
-                  opacity: pending ? 0.7 : 1,
-                  fontFamily: 'inherit',
-                  fontSize: '.85rem',
-                }}
+                className="rounded-[10px] border-none bg-[var(--accent)] px-4 py-[9px] font-[inherit] text-[.85rem] font-semibold text-white"
+                style={{ cursor: pending ? 'default' : 'pointer', opacity: pending ? 0.7 : 1 }}
               >
                 {pending ? t('story.generating') : t('story.generateBtn')}
               </button>
-              {error && (
-                <div style={{ fontSize: '.78rem', color: 'var(--danger)', marginTop: 8 }}>
-                  {error}
-                </div>
-              )}
+              {error && <div className="mt-2 text-[.78rem] text-[var(--danger)]">{error}</div>}
             </div>
           ) : (
-            <div
-              style={{
-                fontSize: '.78rem',
-                color: 'var(--text3)',
-                marginBottom: 14,
-                padding: '8px 12px',
-                background: 'rgba(255,255,255,.04)',
-                borderRadius: 10,
-              }}
-            >
+            <div className="mb-3.5 rounded-[10px] bg-white/4 px-3 py-2 text-[.78rem] text-[var(--text3)]">
               {t('story.aiDisabled')}
             </div>
           )}
 
-          <div
-            style={{ fontWeight: 700, fontSize: '.85rem', color: 'var(--text)', marginBottom: 8 }}
-          >
+          <div className="mb-2 text-[.85rem] font-bold text-[var(--text)]">
             {t('story.builtinLabel')}
           </div>
           <div>
@@ -614,24 +551,10 @@ export function StoryPage(): ReactElement {
               <button
                 key={s.id}
                 onClick={() => setStory({ ...s, source: 'builtin' })}
-                style={{
-                  display: 'block',
-                  width: '100%',
-                  textAlign: 'left',
-                  padding: '12px 14px',
-                  marginBottom: 8,
-                  borderRadius: 12,
-                  border: '1.5px solid var(--border)',
-                  background: 'var(--bg)',
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
-                  transition: 'border-color .15s',
-                }}
+                className="mb-2 block w-full cursor-pointer rounded-xl border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3.5 py-3 text-left font-[inherit] transition-[border-color] duration-150"
               >
-                <div style={{ fontWeight: 700, fontSize: '.9rem', color: 'var(--text)' }}>
-                  {s.title}
-                </div>
-                <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginTop: 2 }}>
+                <div className="text-[.9rem] font-bold text-[var(--text)]">{s.title}</div>
+                <div className="mt-0.5 text-[.75rem] text-[var(--text3)]">
                   {t('story.levelLabel', { lvl: s.level })}
                 </div>
               </button>
@@ -641,64 +564,40 @@ export function StoryPage(): ReactElement {
       )}
 
       {story && highlighted && (
-        <div style={{ padding: '14px 20px', position: 'relative' }}>
-          <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginBottom: 12 }}>
+        <div className="relative px-5 py-3.5">
+          <div className="mb-3 text-[.75rem] text-[var(--text3)]">
             {t('story.statsLine', { n: highlighted.total, pct })}
           </div>
           <div
             ref={textRef}
-            style={{ fontSize: '.9rem', lineHeight: 1.8, color: 'var(--text)' }}
+            className="text-[.9rem] leading-[1.8] text-[var(--text)]"
             onClick={onTextClick}
             dangerouslySetInnerHTML={{ __html: highlighted.html }}
           />
           {popup && (
             <div
-              style={{
-                display: 'flex',
-                position: 'absolute',
-                background: 'var(--card)',
-                border: '1.5px solid var(--border)',
-                borderRadius: 12,
-                padding: '10px 14px',
-                boxShadow: '0 8px 24px rgba(0,0,0,.25)',
-                zIndex: 10,
-                minWidth: 170,
-                flexDirection: 'column',
-                gap: 4,
-                top: popup.top,
-                left: popup.left,
-              }}
+              className="absolute z-10 flex min-w-[170px] flex-col gap-1 rounded-xl border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 shadow-[0_8px_24px_rgba(0,0,0,.25)]"
+              style={{ top: popup.top, left: popup.left }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontWeight: 700, fontSize: '.95rem', color: 'var(--text)' }}>
+              <div className="flex items-center gap-2">
+                <span className="text-[.95rem] font-bold text-[var(--text)]">
                   {popup.learnWord}
                 </span>
                 <button
                   id="sm-popup-speak"
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontSize: '1rem',
-                    padding: 2,
-                  }}
+                  className="cursor-pointer border-none bg-transparent p-0.5 text-base"
                   onClick={speakPopup}
                 >
                   🔊
                 </button>
               </div>
               {popup.transcription && (
-                <div style={{ fontSize: '.75rem', color: 'var(--accent2)' }}>
-                  {popup.transcription}
-                </div>
+                <div className="text-[.75rem] text-[var(--accent2)]">{popup.transcription}</div>
               )}
-              <div style={{ fontSize: '.82rem', color: 'var(--text2)', fontWeight: 600 }}>
-                {popup.trans}
-              </div>
+              <div className="text-[.82rem] font-semibold text-[var(--text2)]">{popup.trans}</div>
               <button
-                className="backup-btn primary"
-                style={{ padding: '5px 10px', marginTop: 4, fontSize: '.78rem' }}
+                className="backup-btn primary mt-1 px-2.5 py-[5px] text-[.78rem]"
                 onClick={markKnown}
               >
                 {popup.known ? t('reading.popupKnow') : t('reading.popupLearn')}

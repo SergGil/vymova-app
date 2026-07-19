@@ -59,8 +59,8 @@ export function DailyChallenge(): ReactElement | null {
     const elFinalTitle = document.getElementById('dc-final-title')!;
     const elFinalXP = document.getElementById('dc-final-xp')!;
     const elFinalCooldown = document.getElementById('dc-final-cooldown')!;
-    const elWordArea = overlay.querySelector<HTMLElement>('.dc-word-area')!;
-    const elPbarWrap = overlay.querySelector<HTMLElement>('.dc-pbar-wrap')!;
+    const elWordArea = document.getElementById('dc-word-area')!;
+    const elPbarWrap = document.getElementById('dc-pbar-wrap')!;
 
     function isDoneToday(): boolean {
       return getGameData().dailyMissionDate === localToday();
@@ -291,23 +291,15 @@ export function DailyChallenge(): ReactElement | null {
       id="dc-overlay"
       className="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-bg [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]"
     >
-      <div
-        className="page-inner mx-auto max-w-[760px] px-6 pt-5 pb-8"
-        style={{ maxWidth: 520 }}
-      >
-        <div className="dc-header">
+      <div className="page-inner mx-auto max-w-[520px] px-6 pt-5 pb-8">
+        <div className="mb-3 flex items-center justify-between">
           <div id="dc-title" className="page-title">
             ⚡ Місія дня
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div className="flex items-center gap-2.5">
             <span
               id="dc-timer"
-              style={{
-                fontFamily: "'Orbitron', monospace",
-                fontSize: '1.1rem',
-                fontWeight: 700,
-                color: 'var(--accent)',
-              }}
+              className="font-[Orbitron,monospace] text-[1.1rem] font-bold text-[var(--accent)]"
             >
               ⏱
             </span>
@@ -321,32 +313,20 @@ export function DailyChallenge(): ReactElement | null {
             </button>
           </div>
         </div>
-        <div className="dc-pbar-wrap">
+        <div id="dc-pbar-wrap" className="mb-5 h-[5px] overflow-hidden rounded-[5px] bg-[var(--border)]">
           <div id="dc-pbar" className="dc-pbar-fill" style={{ width: '0%' }} />
         </div>
-        <div className="dc-word-area">
+        <div id="dc-word-area" className="mb-5 min-h-[80px] text-center">
           <div id="dc-word" className="dc-word" />
-          <div id="dc-ipa" className="dc-ipa" />
-          <div id="dc-result" className="dc-result" />
+          <div id="dc-ipa" className="mt-1 text-[.9rem] text-[var(--accent)]" />
+          <div id="dc-result" className="mt-2 min-h-[22px] text-[.88rem] font-semibold" />
         </div>
-        <div id="dc-options" className="dc-options" />
-        <div
-          id="dc-final"
-          className="dc-final"
-          style={{ display: 'none', textAlign: 'center', padding: '20px 0' }}
-        >
-          <div id="dc-final-emoji" style={{ fontSize: '2.5rem', marginBottom: 10 }} />
-          <div
-            id="dc-final-title"
-            style={{
-              fontSize: '1.1rem',
-              fontWeight: 700,
-              color: 'var(--text)',
-              marginBottom: 6,
-            }}
-          />
-          <div id="dc-final-xp" style={{ fontSize: '0.88rem', color: 'var(--accent)', marginBottom: 12 }} />
-          <div id="dc-final-cooldown" style={{ fontSize: '0.8rem', color: 'var(--text3)' }} />
+        <div id="dc-options" className="grid grid-cols-2 gap-2" />
+        <div id="dc-final" className="py-5 text-center" style={{ display: 'none' }}>
+          <div id="dc-final-emoji" className="mb-2.5 text-[2.5rem]" />
+          <div id="dc-final-title" className="mb-1.5 text-[1.1rem] font-bold text-[var(--text)]" />
+          <div id="dc-final-xp" className="mb-3 text-[.88rem] text-[var(--accent)]" />
+          <div id="dc-final-cooldown" className="text-[.8rem] text-[var(--text3)]" />
         </div>
       </div>
     </div>

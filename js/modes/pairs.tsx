@@ -196,60 +196,27 @@ export function PairsMode(): ReactElement | null {
   return (
     <div
       id="pairs-overlay"
-      style={{
-        display: 'none',
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(0,0,0,.55)',
-        zIndex: 9100,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '16px 12px',
-      }}
+      className="fixed inset-0 z-[9100] flex items-center justify-center bg-black/55 px-3 py-4"
+      style={{ display: 'none' }}
     >
       <div className="pairs-panel">
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: 6,
-          }}
-        >
+        <div className="mb-1.5 flex items-center justify-between">
           <div>
-            <div
-              style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text)' }}
-              data-i18n="pairs.title"
-            >
+            <div className="text-[1.05rem] font-bold text-[var(--text)]" data-i18n="pairs.title">
               {t('pairs.title')}
             </div>
-            <div
-              id="pairs-best-label"
-              style={{ fontSize: '0.72rem', color: 'var(--text3)', marginTop: 2 }}
-            />
+            <div id="pairs-best-label" className="mt-0.5 text-[.72rem] text-[var(--text3)]" />
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div className="flex items-center gap-2.5">
             <div
               id="pairs-timer"
-              style={{
-                fontSize: '1.5rem',
-                fontWeight: 700,
-                color: 'var(--accent)',
-                minWidth: 56,
-                textAlign: 'right',
-              }}
+              className="min-w-[56px] text-right text-[1.5rem] font-bold text-[var(--accent)]"
             >
               0.0с
             </div>
             <button
               id="pairs-close"
-              style={{
-                background: 'none',
-                border: 'none',
-                fontSize: '1.3rem',
-                cursor: 'pointer',
-                color: 'var(--text3)',
-              }}
+              className="cursor-pointer border-none bg-transparent text-[1.3rem] text-[var(--text3)]"
               title={t('common.close')}
               data-i18n-title="common.close"
             >
@@ -257,49 +224,24 @@ export function PairsMode(): ReactElement | null {
             </button>
           </div>
         </div>
-        <div id="pairs-board" style={{ marginBottom: 14 }} />
-        <div id="pairs-final" style={{ display: 'none', textAlign: 'center', padding: '8px 0' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: 8 }} id="pf-emoji">
+        <div id="pairs-board" className="mb-3.5" />
+        <div id="pairs-final" className="py-2 text-center" style={{ display: 'none' }}>
+          <div className="mb-2 text-[2.5rem]" id="pf-emoji">
             ⏱
           </div>
-          <div
-            style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text)', marginBottom: 4 }}
-            id="pf-time"
-          />
-          <div
-            style={{ fontSize: '0.88rem', color: 'var(--text2)', marginBottom: 18 }}
-            id="pf-best"
-          />
-          <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+          <div className="mb-1 text-[1.4rem] font-bold text-[var(--text)]" id="pf-time" />
+          <div className="mb-[18px] text-[.88rem] text-[var(--text2)]" id="pf-best" />
+          <div className="flex justify-center gap-2.5">
             <button
               id="pairs-again"
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: '0.88rem',
-                fontWeight: 600,
-                padding: '10px 22px',
-                borderRadius: 10,
-                border: '1.5px solid var(--accent)',
-                background: 'none',
-                color: 'var(--accent)',
-                cursor: 'pointer',
-              }}
+              className="cursor-pointer rounded-[10px] border-[1.5px] border-[var(--accent)] bg-transparent px-[22px] py-2.5 font-['DM_Sans',sans-serif] text-[.88rem] font-semibold text-[var(--accent)]"
               data-i18n="pairs.again"
             >
               {t('pairs.again')}
             </button>
             <button
               id="pairs-exit"
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: '0.88rem',
-                padding: '10px 22px',
-                borderRadius: 10,
-                border: '1.5px solid var(--border)',
-                background: 'none',
-                color: 'var(--text2)',
-                cursor: 'pointer',
-              }}
+              className="cursor-pointer rounded-[10px] border-[1.5px] border-[var(--border)] bg-transparent px-[22px] py-2.5 font-['DM_Sans',sans-serif] text-[.88rem] text-[var(--text2)]"
               data-i18n="common.close"
             >
               {t('common.close')}

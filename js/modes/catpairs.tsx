@@ -205,56 +205,30 @@ export function CatPairsPage(): ReactElement {
 
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 14,
-        }}
-      >
+      <div className="mb-3.5 flex items-center justify-between">
         <div>
-          <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text)' }}>{title}</div>
-          <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginTop: 2 }}>
+          <div className="text-[1.05rem] font-bold text-[var(--text)]">{title}</div>
+          <div className="mt-0.5 text-[.72rem] text-[var(--text3)]">
             {screen === 'game' && best ? t('pairs.record', { t: fmt(best * 1000) }) : ''}
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div className="flex items-center gap-2.5">
           {screen === 'game' && !finished && (
-            <div
-              style={{
-                fontSize: '1.4rem',
-                fontWeight: 700,
-                color: 'var(--accent)',
-                minWidth: 52,
-                textAlign: 'right',
-              }}
-            >
+            <div className="min-w-[52px] text-right text-[1.4rem] font-bold text-[var(--accent)]">
               {fmt(elapsed)}
             </div>
           )}
           {finished && (
             <div
-              style={{
-                fontSize: '1.4rem',
-                fontWeight: 700,
-                color: finished.isNew ? 'var(--accent2)' : 'var(--accent)',
-                minWidth: 52,
-                textAlign: 'right',
-              }}
+              className="min-w-[52px] text-right text-[1.4rem] font-bold"
+              style={{ color: finished.isNew ? 'var(--accent2)' : 'var(--accent)' }}
             >
               {fmt(finished.ms)}
             </div>
           )}
           <button
             onClick={closeCatpairs}
-            style={{
-              background: 'none',
-              border: 'none',
-              fontSize: '1.3rem',
-              cursor: 'pointer',
-              color: 'var(--text3)',
-            }}
+            className="cursor-pointer border-none bg-transparent text-[1.3rem] text-[var(--text3)]"
             aria-label={t('common.close')}
           >
             ✕
@@ -264,17 +238,10 @@ export function CatPairsPage(): ReactElement {
 
       {screen === 'select' && (
         <div>
-          <div
-            style={{
-              fontSize: '.8rem',
-              color: 'var(--text2)',
-              marginBottom: 10,
-              textAlign: 'center',
-            }}
-          >
+          <div className="mb-2.5 text-center text-[.8rem] text-[var(--text2)]">
             {t('catpairs.selectPrompt')}
           </div>
-          <div className="cat-select-grid">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(130px,1fr))] gap-2 mb-4">
             {CATEGORY_LIST.map((cat) => {
               const words = getCatWords(cat, WORD_CATEGORIES[cat] ?? []);
               const b = getBest(cat);
@@ -308,10 +275,8 @@ export function CatPairsPage(): ReactElement {
       {screen === 'game' && (
         <div>
           {!finished && (
-            <div
-              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div className="mb-3 grid grid-cols-2 gap-2">
+              <div className="flex flex-col gap-2">
                 {enItems.map((item) => (
                   <button
                     key={'en' + item.id}
@@ -327,7 +292,7 @@ export function CatPairsPage(): ReactElement {
                   </button>
                 ))}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div className="flex flex-col gap-2">
                 {uaItems.map((item) => (
                   <button
                     key={'ua' + item.id}
@@ -347,26 +312,17 @@ export function CatPairsPage(): ReactElement {
           )}
 
           {finished && (
-            <div style={{ textAlign: 'center', padding: '8px 0' }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>
-                {finished.isNew ? '🏆' : '🎉'}
-              </div>
-              <div
-                style={{
-                  fontSize: '1.4rem',
-                  fontWeight: 700,
-                  color: 'var(--text)',
-                  marginBottom: 4,
-                }}
-              >
+            <div className="py-2 text-center">
+              <div className="mb-2 text-[2.5rem]">{finished.isNew ? '🏆' : '🎉'}</div>
+              <div className="mb-1 text-[1.4rem] font-bold text-[var(--text)]">
                 {fmt(finished.ms)}
               </div>
-              <div style={{ fontSize: '.88rem', color: 'var(--text2)', marginBottom: 18 }}>
+              <div className="mb-[18px] text-[.88rem] text-[var(--text2)]">
                 {finished.isNew
                   ? t('pairs.newRecord')
                   : t('pairs.record', { t: fmt(getBest(catKey) * 1000) })}
               </div>
-              <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <div className="flex flex-wrap justify-center gap-2.5">
                 <button
                   onClick={() =>
                     startGame(
@@ -376,33 +332,14 @@ export function CatPairsPage(): ReactElement {
                         : getCatWords(catKey, WORD_CATEGORIES[catKey] ?? []),
                     )
                   }
-                  style={{
-                    fontFamily: "'DM Sans',sans-serif",
-                    fontSize: '.88rem',
-                    fontWeight: 600,
-                    padding: '10px 22px',
-                    borderRadius: 10,
-                    border: '1.5px solid var(--accent)',
-                    background: 'none',
-                    color: 'var(--accent)',
-                    cursor: 'pointer',
-                  }}
+                  className="cursor-pointer rounded-[10px] border-[1.5px] border-[var(--accent)] bg-transparent px-[22px] py-2.5 font-['DM_Sans',sans-serif] text-[.88rem] font-semibold text-[var(--accent)]"
                   data-i18n="pairs.again"
                 >
                   {t('pairs.again')}
                 </button>
                 <button
                   onClick={() => setScreen('select')}
-                  style={{
-                    fontFamily: "'DM Sans',sans-serif",
-                    fontSize: '.88rem',
-                    padding: '10px 22px',
-                    borderRadius: 10,
-                    border: '1.5px solid var(--border)',
-                    background: 'none',
-                    color: 'var(--text2)',
-                    cursor: 'pointer',
-                  }}
+                  className="cursor-pointer rounded-[10px] border-[1.5px] border-[var(--border)] bg-transparent px-[22px] py-2.5 font-['DM_Sans',sans-serif] text-[.88rem] text-[var(--text2)]"
                   data-i18n="catpairs.backToThemes"
                 >
                   {t('catpairs.backToThemes')}
@@ -458,9 +395,9 @@ export function renderWeakWords(): void {
   el.innerHTML = top
     .map(
       (item, i) =>
-        `<div class="weak-word-row">` +
+        `<div class="flex items-center justify-between border-b border-[var(--border)] py-1">` +
         `<span>${i + 1}. <b>${_esc(item.w[0])}</b> — ${_esc(item.w[1])}</span>` +
-        `<span class="weak-word-ef">EF ${item.ef.toFixed(2)} · ✗${item.lapses}</span></div>`,
+        `<span class="ml-2 whitespace-nowrap text-[.72rem] text-[var(--danger)]">EF ${item.ef.toFixed(2)} · ✗${item.lapses}</span></div>`,
     )
     .join('');
 }
