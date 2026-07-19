@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 
 // In GitHub Actions the base is the repo subpath; locally assets load from root.
 const base = process.env.GITHUB_ACTIONS ? '/vymova-app/' : '/';
@@ -48,6 +49,7 @@ export default defineConfig({
   base,
   plugins: [
     react(),
+    tailwindcss(),
     // SPA fallback for dev server: rewrite unknown paths to the entry HTML so
     // React Router can handle client-side routes (e.g. /grammar) on page reload.
     {
@@ -64,6 +66,17 @@ export default defineConfig({
     },
     swVersionPlugin(),
   ],
+  resolve: {
+    alias: {
+      // process.cwd() rather than import.meta.url-derived __dirname: this
+      // config module is also imported directly by
+      // tests/build/sw-version-plugin.test.ts (to exercise swVersionPlugin
+      // without a full `vite build`), and under that loader import.meta.url
+      // isn't a valid file:// URL — cwd is always the project root for both
+      // real Vite invocations and vitest, so it's the reliable option here.
+      '@': resolve(process.cwd(), 'src'),
+    },
+  },
   build: {
     outDir: 'dist',
     target: 'esnext',

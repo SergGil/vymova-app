@@ -2,5 +2,7 @@
   "singleQuote": true,
   "semi": true,
   "printWidth": 100,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindStylesheet": "./css/tailwind.css"
 }
