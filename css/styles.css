@@ -4866,35 +4866,18 @@ body.dark .sb-flyout {
 }
 
 /* ══ Page Overlay System ════════════════════════════════════════ */
-.page-overlay {
-  display: none;
-  position: fixed;
-  left: var(--sb-width);
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: var(--bg);
-  z-index: 600;
-  overflow-y: auto;
-  overflow-x: hidden;
-  /* One scrollbar only — body scroll locked by JS when open */
-  overscroll-behavior: contain;
-}
-.page-overlay.open {
-  display: block;
-}
-
-@media (max-width: 900px) {
-  .page-overlay {
-    left: 0;
-    /* iOS Safari recomputes top:0/bottom:0 height against the resizing
-       viewport on every frame while its address bar shows/hides, making
-       fixed-position content visibly drift mid-transition. 100dvh tracks
-       the actual visible viewport instead — unsupported browsers simply
-       ignore this line and keep the top/bottom-based height above. */
-    height: 100dvh;
-  }
-}
+/* .page-overlay/.page-overlay.open (+ its max-900px left/height override)
+   and .page-inner below moved to Tailwind utility classes on the 14 static
+   containers in index.html and daily-challenge.tsx's dc-overlay
+   (tailwind-shadcn-migration-roadmap.md Phase 1). The class names stay on
+   every element — all 14 fandom themes override .page-overlay/.page-inner
+   (body.<theme> .page-overlay / .page-inner in css/themes/*.css), and being
+   unlayered legacy CSS they keep winning over the new Tailwind utilities
+   regardless of source order, same guarantee used for the sidebar/header
+   shells. #stats-overlay/#stats-overlay.as-page and #modes-overlay.as-page
+   below are a different, bespoke pattern (modal-style stats popup, and a
+   z-index/padding variant of this same page-overlay shape) — intentionally
+   untouched; they don't use the .page-overlay/.page-inner classes at all. */
 
 .modal-overlay {
   position: fixed;
@@ -4961,13 +4944,6 @@ body.dark .sb-flyout {
   #modes-overlay.as-page {
     left: 0 !important;
   }
-}
-
-/* Generic page inner */
-.page-inner {
-  padding: 20px 24px 32px;
-  max-width: 760px;
-  margin: 0 auto;
 }
 
 /* ══ Profile page (character avatar + customization) ═══════════ */

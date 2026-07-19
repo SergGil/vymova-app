@@ -287,8 +287,14 @@ export function DailyChallenge(): ReactElement | null {
   // render as a plain direct child wherever <DailyChallenge/> sits in
   // AppRoot's tree.
   return (
-    <div id="dc-overlay" className="page-overlay">
-      <div className="page-inner" style={{ maxWidth: 520 }}>
+    <div
+      id="dc-overlay"
+      className="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-bg [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]"
+    >
+      <div
+        className="page-inner mx-auto max-w-[760px] px-6 pt-5 pb-8"
+        style={{ maxWidth: 520 }}
+      >
         <div className="dc-header">
           <div id="dc-title" className="page-title">
             ⚡ Місія дня
