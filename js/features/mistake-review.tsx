@@ -53,12 +53,24 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
 
   if (cards.length === 0) {
     return createPortal(
-      <div className="mistake-review-overlay" onClick={onClose}>
-        <div className="mistake-review-panel" onClick={(e) => e.stopPropagation()}>
-          <button className="mistake-review-close" onClick={onClose} aria-label={t('common.close')}>
+      <div
+        className="mistake-review-overlay fixed inset-0 z-[9000] flex items-center justify-center bg-black/55 p-4"
+        onClick={onClose}
+      >
+        <div
+          className="mistake-review-panel relative w-full max-w-[400px] rounded-[18px] bg-card px-5 pb-5 pt-6 shadow-[0_8px_32px_rgba(0,0,0,0.25)]"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            className="mistake-review-close absolute right-[14px] top-3 cursor-pointer border-none bg-transparent text-[1.1rem] leading-none text-text2"
+            onClick={onClose}
+            aria-label={t('common.close')}
+          >
             ✕
           </button>
-          <div className="mistake-review-done-title">{t('mistakes.noMistakes')}</div>
+          <div className="mistake-review-done-title mb-1.5 text-[1.4rem] font-extrabold text-text">
+            {t('mistakes.noMistakes')}
+          </div>
         </div>
       </div>,
       document.body,
@@ -81,18 +93,37 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
 
   const card = done ? null : cards[idx];
 
+  // Shared by both flip faces — matches the original .mistake-review-front,
+  // .mistake-review-back CSS selector list.
+  const FACE_BASE =
+    'rounded-[12px] border-[1.5px] border-border bg-bg px-4 pb-3.5 pt-[18px] text-center transition-[opacity,transform] duration-[250ms] [backface-visibility:hidden]';
+
   return createPortal(
-    <div className="mistake-review-overlay" onClick={!done ? undefined : onClose}>
-      <div className="mistake-review-panel" onClick={(e) => e.stopPropagation()}>
-        <button className="mistake-review-close" onClick={onClose} aria-label={t('common.close')}>
+    <div
+      className="mistake-review-overlay fixed inset-0 z-[9000] flex items-center justify-center bg-black/55 p-4"
+      onClick={!done ? undefined : onClose}
+    >
+      <div
+        className="mistake-review-panel relative w-full max-w-[400px] rounded-[18px] bg-card px-5 pb-5 pt-6 shadow-[0_8px_32px_rgba(0,0,0,0.25)]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          className="mistake-review-close absolute right-[14px] top-3 cursor-pointer border-none bg-transparent text-[1.1rem] leading-none text-text2"
+          onClick={onClose}
+          aria-label={t('common.close')}
+        >
           ✕
         </button>
-        <div className="mistake-review-title">{t('mistakes.title')}</div>
+        <div className="mistake-review-title mb-2.5 text-center text-[1.05rem] font-bold text-text">
+          {t('mistakes.title')}
+        </div>
 
         {done ? (
-          <div className="mistake-review-done">
-            <div className="mistake-review-done-title">{t('mistakes.doneTitle')}</div>
-            <div className="mistake-review-done-stats">
+          <div className="mistake-review-done pb-1 pt-2.5 text-center">
+            <div className="mistake-review-done-title mb-1.5 text-[1.4rem] font-extrabold text-text">
+              {t('mistakes.doneTitle')}
+            </div>
+            <div className="mistake-review-done-stats text-[0.88rem] text-text2">
               {t('mistakes.doneStats', { cleared, total: cards.length })}
             </div>
             <button className="backup-btn primary" style={{ marginTop: 16 }} onClick={onClose}>
@@ -101,19 +132,24 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
           </div>
         ) : (
           <>
-            <div className="mistake-review-progress">
+            <div className="mistake-review-progress mb-2.5 text-center text-[0.8rem] text-text3">
               {idx + 1} / {cards.length}
             </div>
 
             <div
-              className={`mistake-review-card${flipped ? ' flipped' : ''}`}
+              className={
+                'mistake-review-card relative mb-[14px] min-h-[130px] cursor-pointer [perspective:800px]' +
+                (flipped ? ' flipped' : '')
+              }
               onClick={() => setFlipped((f) => !f)}
             >
-              <div className="mistake-review-front">
-                <div className="mistake-review-word-row">
-                  <div className="mistake-review-word">{card!.word}</div>
+              <div className={'mistake-review-front ' + FACE_BASE + (flipped ? ' hidden' : '')}>
+                <div className="mistake-review-word-row mb-1 flex items-center justify-center gap-2">
+                  <div className="mistake-review-word text-[1.6rem] font-extrabold text-text">
+                    {card!.word}
+                  </div>
                   <button
-                    className="mistake-review-speak"
+                    className="mistake-review-speak shrink-0 cursor-pointer border-none bg-transparent text-[1.2rem]"
                     onClick={(e) => {
                       e.stopPropagation();
                       speak(card!.word, null);
@@ -123,11 +159,13 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
                   </button>
                 </div>
                 {card!.entry[4] && (
-                  <div className="mistake-review-ipa">{decodeIpa(card!.entry[4])}</div>
+                  <div className="mistake-review-ipa mb-1.5 text-[0.82rem] text-text3">
+                    {decodeIpa(card!.entry[4])}
+                  </div>
                 )}
                 {!flipped && (
                   <button
-                    className="mistake-review-btn check"
+                    className="mistake-review-btn check mt-1 flex-1 cursor-pointer rounded-[10px] border-none bg-[color-mix(in_srgb,var(--accent)_15%,transparent)] p-2.5 text-[0.9rem] font-bold text-accent transition-opacity duration-150 hover:opacity-85"
                     onClick={(e) => {
                       e.stopPropagation();
                       setFlipped(true);
@@ -137,17 +175,23 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
                   </button>
                 )}
               </div>
-              <div className="mistake-review-back">
-                <div className="mistake-review-trans">{card!.entry[1]}</div>
+              <div
+                className={
+                  'mistake-review-back ' + FACE_BASE + (flipped ? ' block' : ' hidden')
+                }
+              >
+                <div className="mistake-review-trans mb-2 text-[1.3rem] font-bold text-text">
+                  {card!.entry[1]}
+                </div>
                 {card!.entry[2] && (
-                  <div className="mistake-review-ex-row">
+                  <div className="mistake-review-ex-row flex items-start justify-center gap-1.5">
                     <div
-                      className="mistake-review-ex"
+                      className="mistake-review-ex text-[0.82rem] leading-[1.45] text-text2"
                       dangerouslySetInnerHTML={{ __html: _escKeepBold(card!.entry[2]) }}
                     />
                     <button
                       type="button"
-                      className="mistake-review-speak mistake-review-speak-ex"
+                      className="mistake-review-speak mistake-review-speak-ex mb-0 mt-px shrink-0 cursor-pointer border-none bg-transparent text-base"
                       title={t('cards.pronounce')}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -158,16 +202,26 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
                     </button>
                   </div>
                 )}
-                {card!.entry[3] && <div className="mistake-review-ex-tr">{card!.entry[3]}</div>}
+                {card!.entry[3] && (
+                  <div className="mistake-review-ex-tr mt-1 text-[0.78rem] leading-[1.45] text-text3">
+                    {card!.entry[3]}
+                  </div>
+                )}
               </div>
             </div>
 
             {flipped && (
-              <div className="mistake-review-actions">
-                <button className="mistake-review-btn hard" onClick={stillHard}>
+              <div className="mistake-review-actions flex gap-2.5">
+                <button
+                  className="mistake-review-btn hard flex-1 cursor-pointer rounded-[10px] border-none bg-[color-mix(in_srgb,var(--danger)_15%,transparent)] p-2.5 text-[0.9rem] font-bold text-danger transition-opacity duration-150 hover:opacity-85"
+                  onClick={stillHard}
+                >
                   {t('mistakes.stillHard')}
                 </button>
-                <button className="mistake-review-btn got" onClick={gotIt}>
+                <button
+                  className="mistake-review-btn got flex-1 cursor-pointer rounded-[10px] border-none bg-[color-mix(in_srgb,var(--success)_15%,transparent)] p-2.5 text-[0.9rem] font-bold text-success transition-opacity duration-150 hover:opacity-85"
+                  onClick={gotIt}
+                >
                   {t('mistakes.gotIt')}
                 </button>
               </div>

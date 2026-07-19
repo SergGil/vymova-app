@@ -2583,183 +2583,26 @@ body.dark .cat-select-btn:hover {
   margin-left: 8px;
 }
 
-/* ── Mistake review overlay ── */
-.mistake-review-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 9000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-}
-.mistake-review-panel {
-  background: var(--card, #fff);
-  border-radius: 18px;
-  padding: 24px 20px 20px;
-  width: 100%;
-  max-width: 400px;
-  position: relative;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-}
-.mistake-review-close {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  background: none;
-  border: none;
-  font-size: 1.1rem;
-  cursor: pointer;
-  color: var(--text2, #888);
-  line-height: 1;
-}
-.mistake-review-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--text, #222);
-  margin-bottom: 10px;
-  text-align: center;
-}
-.mistake-review-progress {
-  text-align: center;
-  font-size: 0.8rem;
-  color: var(--text3, #aaa);
-  margin-bottom: 10px;
-}
-.mistake-review-card {
-  perspective: 800px;
-  cursor: pointer;
-  margin-bottom: 14px;
-  min-height: 130px;
-  position: relative;
-}
-.mistake-review-front,
-.mistake-review-back {
-  border-radius: 12px;
-  border: 1.5px solid var(--border, #e0e0e0);
-  padding: 18px 16px 14px;
-  text-align: center;
-  backface-visibility: hidden;
-  transition:
-    opacity 0.25s,
-    transform 0.25s;
-}
-.mistake-review-front {
-  background: var(--bg);
-}
-.mistake-review-back {
-  display: none;
-  background: var(--bg);
-}
-.mistake-review-card.flipped .mistake-review-front {
-  display: none;
-}
-.mistake-review-card.flipped .mistake-review-back {
-  display: block;
-}
-.mistake-review-word-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 4px;
-}
-.mistake-review-word {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--text, #222);
-}
-.mistake-review-ipa {
-  font-size: 0.82rem;
-  color: var(--text3, #aaa);
-  margin-bottom: 6px;
-}
-.mistake-review-speak {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-.mistake-review-btn.check {
-  background: color-mix(in srgb, var(--accent) 15%, transparent);
-  color: var(--accent);
-  margin-top: 4px;
-}
-.mistake-review-trans {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--text, #222);
-  margin-bottom: 8px;
-}
-.mistake-review-ex-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 6px;
-}
-.mistake-review-ex {
-  font-size: 0.82rem;
-  color: var(--text2, #666);
-  line-height: 1.45;
-}
-.mistake-review-speak-ex {
-  flex-shrink: 0;
-  font-size: 1rem;
-  margin-bottom: 0;
-  margin-top: 1px;
-}
-.mistake-review-ex-tr {
-  font-size: 0.78rem;
-  color: var(--text3, #aaa);
-  line-height: 1.45;
-  margin-top: 4px;
-}
-.mistake-review-actions {
-  display: flex;
-  gap: 10px;
-}
-.mistake-review-btn {
-  flex: 1;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  font-size: 0.9rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-.mistake-review-btn:hover {
-  opacity: 0.85;
-}
-/* --danger-bg/--success-bg are only defined by :root and body.dark, not by
-   the 14 custom color themes (hp, sw, cp, ...) — those would fall back to
-   the light-theme pastel values and clash against a dark theme card.
-   color-mix() derives a translucent tint straight from --danger/--success
-   (which every theme does define), so it's readable under any theme. */
-.mistake-review-btn.hard {
-  background: color-mix(in srgb, var(--danger) 15%, transparent);
-  color: var(--danger);
-}
-.mistake-review-btn.got {
-  background: color-mix(in srgb, var(--success) 15%, transparent);
-  color: var(--success);
-}
-.mistake-review-done {
-  text-align: center;
-  padding: 10px 0 4px;
-}
-.mistake-review-done-title {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--text, #222);
-  margin-bottom: 6px;
-}
-.mistake-review-done-stats {
-  font-size: 0.88rem;
-  color: var(--text2, #666);
-}
+/* Mistake review overlay: every rule that used to live in this section
+   moved to Tailwind utility classes in js/features/mistake-review.tsx
+   (tailwind-shadcn-migration-roadmap.md Phase 2) — none of these class
+   names have fandom-theme overrides (checked all 14 theme files), so
+   nothing here needed to stay as a pure hook the way it did for
+   Achievements/Stats/SRS. Class names are still present in the JSX
+   (harmless, and tests/features/mistake-review.test.tsx selects by them),
+   they just carry no CSS of their own anymore. The color-mix() rationale
+   that used to sit here — --danger-bg/--success-bg are only defined by
+   :root and body.dark, not by the 14 fandom themes, so a plain background
+   var() would clash against a themed card — is preserved by mixing
+   straight from --danger/--success inside the new Tailwind arbitrary
+   values instead. The flipped-card show/hide logic (previously
+   .mistake-review-card.flipped .mistake-review-front/back) is now a plain
+   React conditional (hidden/block classes chosen by the flipped state)
+   rather than a CSS descendant selector, since flipped was always
+   React-owned state, never something toggled outside React. body.dark
+   .mistake-review-panel/.mistake-review-done-stats stay further down this
+   file (a separate, disjoint block) since those two still apply real
+   overrides on top of the new utilities. */
 
 /* ── Flash анімація на картці ── */
 @keyframes flashOk {
