@@ -35,6 +35,20 @@ function getBlockColor(pct: number): string {
   return 'var(--text3)';
 }
 
+// One hue (the active theme's accent), ramped light→dark by activity level
+// — same technique as the CEFR badges — instead of a hardcoded GitHub-green
+// scale that only had a body.dark override and looked pasted-on under all
+// 14 custom themes. Self-adapts to light/dark since it's mixed with --bg.
+// Shared by the heatmap (below) and the monthly calendar, which reuses the
+// same hm-l0..hm-l4 level vocabulary for its own day cells.
+const HM_LEVEL_BG = [
+  'bg-border',
+  'bg-[color-mix(in_srgb,var(--accent)_30%,var(--bg))]',
+  'bg-[color-mix(in_srgb,var(--accent)_55%,var(--bg))]',
+  'bg-[color-mix(in_srgb,var(--accent)_78%,var(--bg))]',
+  'bg-accent',
+];
+
 // ── Heatmap ──────────────────────────────────────────────────────
 type HeatDay = { ds: string; n: number; lvl: number };
 
@@ -455,14 +469,21 @@ export function StatsPage(): ReactElement {
   }
 
   return (
-    <div className="stats-panel" ref={panelRef}>
-      {pulling && <div className="stats-pull-indicator">↻</div>}
-      <div className="stats-header">
-        <div className="stats-title" data-i18n="stats.title">
+    <div
+      className="stats-panel m-auto max-h-[calc(100vh-32px)] w-full max-w-[560px] overflow-y-auto overflow-x-hidden rounded-[16px] bg-card px-5 pb-6 pt-[22px] shadow-[0_8px_40px_rgba(0,0,0,0.25)]"
+      ref={panelRef}
+    >
+      {pulling && (
+        <div className="stats-pull-indicator animate-[spinOnce_0.6s_ease] pt-1.5 text-center text-[1.2rem] text-accent">
+          ↻
+        </div>
+      )}
+      <div className="stats-header mb-[18px] flex items-center justify-between">
+        <div className="stats-title text-[1.05rem] font-semibold text-text" data-i18n="stats.title">
           {t('stats.title')}
         </div>
         <button
-          className="stats-close"
+          className="stats-close cursor-pointer border-none bg-transparent text-[20px] leading-none text-text3 hover:text-text"
           id="stats-close"
           onClick={closeStats}
           aria-label={t('common.close')}
@@ -471,51 +492,58 @@ export function StatsPage(): ReactElement {
         </button>
       </div>
 
-      <div className="stats-section">
-        <div className="stats-section-title" data-i18n="stats.overallProgress">
+      <div className="stats-section mb-[22px]">
+        <div
+          className="stats-section-title mb-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.08em] text-text3"
+          data-i18n="stats.overallProgress"
+        >
           {t('stats.overallProgress')}
         </div>
-        <div className="stats-summary">
-          <div className="stat-card">
-            <span className="stat-card-icon ic-accent">📖</span>
-            <div className="sv" id="st-known">
+        <div className="stats-summary grid grid-cols-4 gap-2.5">
+          <div className="stat-card flex flex-col items-center justify-center rounded-[14px] border border-border bg-bg px-2.5 pb-3 pt-3.5 text-center">
+            <span className="stat-card-icon ic-accent mb-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--accent)_15%,transparent)] text-[0.86rem]">
+              📖
+            </span>
+            <div className="sv text-2xl font-bold leading-[1.15] text-text" id="st-known">
               {knownCount}
             </div>
-            <div className="sl" data-i18n="stats.wordsLearned">
+            <div className="sl mt-0.5 text-[0.7rem] text-text2" data-i18n="stats.wordsLearned">
               {t('stats.wordsLearned')}
             </div>
           </div>
-          <div className="stat-card">
-            <span className="stat-card-icon ic-success">🎯</span>
-            <div className="sv" id="st-pct">
+          <div className="stat-card flex flex-col items-center justify-center rounded-[14px] border border-border bg-bg px-2.5 pb-3 pt-3.5 text-center">
+            <span className="stat-card-icon ic-success mb-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--success)_15%,transparent)] text-[0.86rem]">
+              🎯
+            </span>
+            <div className="sv text-2xl font-bold leading-[1.15] text-text" id="st-pct">
               {pctKnown}%
             </div>
-            <div className="sl" data-i18n="stats.ofAllWords">
+            <div className="sl mt-0.5 text-[0.7rem] text-text2" data-i18n="stats.ofAllWords">
               {t('stats.ofAllWords')}
             </div>
           </div>
-          <div className="stat-card">
-            <div className="sv" id="st-streak">
+          <div className="stat-card flex flex-col items-center justify-center rounded-[14px] border border-border bg-bg px-2.5 pb-3 pt-3.5 text-center">
+            <div className="sv text-2xl font-bold leading-[1.15] text-text" id="st-streak">
               {gd.streak || 0}
             </div>
-            <div className="sl" data-i18n="stats.daysStreak">
+            <div className="sl mt-0.5 text-[0.7rem] text-text2" data-i18n="stats.daysStreak">
               {t('stats.daysStreak')}
             </div>
             {(gd.maxStreak ?? 0) > 0 && (
-              <div className="stat-card-sub">
+              <div className="stat-card-sub mt-0.5 text-[0.7rem] leading-[1.3] text-text3">
                 {t('stats.personalBest', { n: gd.maxStreak ?? 0 })}
               </div>
             )}
           </div>
-          <div className="stat-card">
-            <div className="sv" id="st-week">
+          <div className="stat-card flex flex-col items-center justify-center rounded-[14px] border border-border bg-bg px-2.5 pb-3 pt-3.5 text-center">
+            <div className="sv text-2xl font-bold leading-[1.15] text-text" id="st-week">
               {weeklyTotal}
             </div>
-            <div className="sl" data-i18n="stats.weekWordsLabel">
+            <div className="sl mt-0.5 text-[0.7rem] text-text2" data-i18n="stats.weekWordsLabel">
               {t('stats.weekWordsLabel')}
             </div>
             {weekCmpPct !== null && (
-              <div className="stat-card-sub">
+              <div className="stat-card-sub mt-0.5 text-[0.7rem] leading-[1.3] text-text3">
                 {t('stats.vsLastWeek', { pct: (weekCmpPct >= 0 ? '+' : '') + weekCmpPct + '%' })}
               </div>
             )}
@@ -523,18 +551,21 @@ export function StatsPage(): ReactElement {
         </div>
       </div>
 
-      <div className="stats-section">
-        <div className="stats-section-title">
+      <div className="stats-section mb-[22px]">
+        <div className="stats-section-title mb-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.08em] text-text3">
           <span data-i18n="stats.perDayTitle">{t('stats.perDayTitle')}</span>{' '}
           <span id="chart-period-label">
             {t('stats.perDayCount', { n: chartDays, unit: pluralLabel('common_day', chartDays) })}
           </span>
         </div>
-        <div className="chart-period-btns" id="chart-period-btns">
+        <div className="chart-period-btns mb-2.5 mt-2 flex w-full gap-1.5" id="chart-period-btns">
           {[14, 30, 90].map((d) => (
             <button
               key={d}
-              className={'chart-period-btn' + (chartDays === d ? ' active' : '')}
+              className={
+                'chart-period-btn flex-1 cursor-pointer rounded-[10px] border border-border bg-[var(--card-bg)] px-2 py-1.5 text-[0.8rem] text-text2 transition-[background,color] duration-150' +
+                (chartDays === d ? ' active border-accent bg-accent text-white' : '')
+              }
               data-days={d}
               onClick={() => setChartDays(d)}
             >
@@ -542,11 +573,14 @@ export function StatsPage(): ReactElement {
             </button>
           ))}
         </div>
-        <div className="chart-wrap">
-          <div className="chart-bars" id="chart-bars">
+        <div className="chart-wrap rounded-[10px] bg-bg px-2.5 pb-2 pt-3.5">
+          <div
+            className="chart-bars flex h-20 items-end justify-stretch gap-1"
+            id="chart-bars"
+          >
             {!hasChartData ? (
               <div
-                className="chart-empty"
+                className="chart-empty w-full self-center px-0 py-5 text-center text-[0.82rem] text-text3"
                 dangerouslySetInnerHTML={{ __html: t('stats.noData') }}
               />
             ) : (
@@ -562,22 +596,37 @@ export function StatsPage(): ReactElement {
                   d.isToday ||
                   d.date.endsWith('-01') ||
                   Number(d.date.slice(8, 10)) % (chartDays <= 30 ? 5 : 15) === 0;
+                const smallText = sm ? 'text-[7px]' : 'text-[9px]';
                 return (
-                  <div className={'chart-col' + (sm ? ' chart-col-sm' : '')} key={d.date}>
+                  <div
+                    className={
+                      'chart-col flex min-w-0 flex-1 flex-col items-center' +
+                      (sm ? ' chart-col-sm gap-px' : ' gap-[3px]')
+                    }
+                    key={d.date}
+                  >
                     {d.val > 0 ? (
-                      <div className="chart-val">{d.val}</div>
+                      <div className={'chart-val font-semibold text-text2 ' + smallText}>
+                        {d.val}
+                      </div>
                     ) : (
-                      <div className="chart-val" style={{ visibility: 'hidden' }}>
+                      <div
+                        className={'chart-val font-semibold text-text2 ' + smallText}
+                        style={{ visibility: 'hidden' }}
+                      >
                         0
                       </div>
                     )}
-                    <div className="chart-bar-wrap">
+                    <div className="chart-bar-wrap flex h-16 w-full items-end">
                       <div
-                        className={'chart-bar' + (d.isToday ? ' today' : '')}
+                        className={
+                          'chart-bar min-h-[2px] w-full rounded-t-[3px] bg-accent opacity-85 transition-[height] duration-300' +
+                          (d.isToday ? ' today bg-accent2 opacity-100' : '')
+                        }
                         style={{ height: h }}
                       />
                     </div>
-                    <div className="chart-label">
+                    <div className={'chart-label whitespace-nowrap text-center text-text3 ' + smallText}>
                       {d.isToday && !sm ? t('stats.today') : showLabel ? d.label : ''}
                     </div>
                   </div>
@@ -588,8 +637,11 @@ export function StatsPage(): ReactElement {
         </div>
       </div>
 
-      <div className="stats-section">
-        <div className="stats-section-title" data-i18n="stats.yearActivity">
+      <div className="stats-section mb-[22px]">
+        <div
+          className="stats-section-title mb-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.08em] text-text3"
+          data-i18n="stats.yearActivity"
+        >
           {t('stats.yearActivity')}
         </div>
         <div
@@ -601,11 +653,11 @@ export function StatsPage(): ReactElement {
         <div id="heatmap-wrap" style={{ overflowX: 'auto', paddingBottom: 4 }}>
           <div id="heatmap" style={{ display: 'flex', gap: 2, minWidth: 'max-content' }}>
             {heatmap.map((wk, wi) => (
-              <div className="hm-week" key={wi}>
+              <div className="hm-week flex flex-col gap-0.5" key={wi}>
                 {wk.map((day, di) => (
                   <div
                     key={di}
-                    className={`hm-day hm-l${day.lvl}`}
+                    className={`hm-day hm-l${day.lvl} h-[11px] w-[11px] cursor-default rounded-[2px] hover:opacity-70 ${HM_LEVEL_BG[day.lvl]}`}
                     title={`${day.ds}: ${day.n} ${wordsLabel(day.n)}`}
                   />
                 ))}
@@ -615,7 +667,7 @@ export function StatsPage(): ReactElement {
         </div>
       </div>
 
-      <div className="stats-section">
+      <div className="stats-section mb-[22px]">
         <div
           style={{
             display: 'flex',
@@ -625,7 +677,7 @@ export function StatsPage(): ReactElement {
           }}
         >
           <div
-            className="stats-section-title"
+            className="stats-section-title text-[0.72rem] font-semibold uppercase tracking-[0.08em] text-text3"
             style={{ marginBottom: 0 }}
             data-i18n="stats.monthlyView"
           >
@@ -662,25 +714,41 @@ export function StatsPage(): ReactElement {
             </button>
           </div>
         </div>
-        <div className="cal-header-grid" id="cal-headers">
+        <div
+          className="cal-header-grid mb-1 grid grid-cols-[repeat(7,minmax(0,48px))] justify-center gap-0.5"
+          id="cal-headers"
+        >
           {dowNames().map((d, i) => (
-            <div className="cal-dow" key={i}>
+            <div
+              className="cal-dow px-0 py-0.5 text-center text-[0.6rem] font-bold tracking-[0.04em] text-text3"
+              key={i}
+            >
               {d}
             </div>
           ))}
         </div>
-        <div className="cal-day-grid" id="cal-grid">
+        <div
+          className="cal-day-grid grid grid-cols-[repeat(7,minmax(0,48px))] justify-center gap-[3px]"
+          id="cal-grid"
+        >
           {calData.cells.map((c, i) =>
             c === null ? (
-              <div className="cal-day cal-empty" key={i} />
+              <div
+                className="cal-day cal-empty invisible relative flex aspect-square max-h-12 max-w-12 flex-col items-center justify-center pointer-events-none rounded-[6px] text-[0.7rem]"
+                key={i}
+              />
             ) : (
               <div
-                className={`cal-day hm-l${c.lvl}${c.isToday ? ' cal-today' : ''}`}
+                className={`cal-day hm-l${c.lvl}${c.isToday ? ' cal-today !shadow-[0_0_0_2px_var(--accent)]' : ''} relative flex aspect-square max-h-12 max-w-12 cursor-default flex-col items-center justify-center rounded-[6px] text-[0.7rem] transition-transform duration-100 hover:z-[1] hover:scale-[1.15] ${HM_LEVEL_BG[c.lvl]}`}
                 title={`${c.ds}: ${c.n} ${wordsLabel(c.n)}`}
                 key={i}
               >
-                <span className="cal-day-num">{c.d}</span>
-                {c.n > 0 && <span className="cal-day-cnt">{c.n}</span>}
+                <span className="cal-day-num font-semibold leading-none">{c.d}</span>
+                {c.n > 0 && (
+                  <span className="cal-day-cnt mt-px text-[0.52rem] leading-none opacity-85">
+                    {c.n}
+                  </span>
+                )}
               </div>
             ),
           )}
@@ -693,8 +761,11 @@ export function StatsPage(): ReactElement {
         </div>
       </div>
 
-      <div className="stats-section">
-        <div className="stats-section-title" data-i18n="stats.bestTimeTitle">
+      <div className="stats-section mb-[22px]">
+        <div
+          className="stats-section-title mb-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.08em] text-text3"
+          data-i18n="stats.bestTimeTitle"
+        >
           {t('stats.bestTimeTitle')}
         </div>
         <div
@@ -720,18 +791,27 @@ export function StatsPage(): ReactElement {
         </div>
       </div>
 
-      <div className="stats-section">
-        <div className="stats-section-title" data-i18n="stats.blockProgress">
+      <div className="stats-section mb-[22px]">
+        <div
+          className="stats-section-title mb-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.08em] text-text3"
+          data-i18n="stats.blockProgress"
+        >
           {t('stats.blockProgress')}
         </div>
-        <div className="blocks-list" id="blocks-list">
+        <div className="blocks-list flex flex-col gap-[7px]" id="blocks-list">
           {blocks.map((b) => (
-            <div className="block-row" key={b.label}>
-              <div className="block-label">{b.label}</div>
-              <div className="block-track">
-                <div className="block-fill" style={{ width: `${b.pct}%`, background: b.color }} />
+            <div className="block-row flex items-center gap-2" key={b.label}>
+              <div className="block-label w-20 shrink-0 text-[0.75rem] text-text2">{b.label}</div>
+              <div className="block-track h-2 flex-1 overflow-hidden rounded-[10px] bg-border">
+                <div
+                  className="block-fill h-full rounded-[10px] transition-[width] duration-[400ms]"
+                  style={{ width: `${b.pct}%`, background: b.color }}
+                />
               </div>
-              <div className="block-pct" style={{ color: b.color }}>
+              <div
+                className="block-pct w-9 shrink-0 text-right text-[0.72rem] font-semibold text-text2"
+                style={{ color: b.color }}
+              >
                 {b.pct}%
               </div>
             </div>
@@ -739,35 +819,45 @@ export function StatsPage(): ReactElement {
         </div>
       </div>
 
-      <div className="stats-section">
-        <div className="stats-section-title" data-i18n="stats.srsForecastTitle">
+      <div className="stats-section mb-[22px]">
+        <div
+          className="stats-section-title mb-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.08em] text-text3"
+          data-i18n="stats.srsForecastTitle"
+        >
           {t('stats.srsForecastTitle')}
         </div>
-        <div id="srs-forecast" className="srs-forecast">
+        <div id="srs-forecast" className="srs-forecast mt-1.5">
           <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginBottom: 8 }}>
             {t('stats.totalScheduled')}: {srsFc.totalDue} {t('stats.reviews')}
           </div>
-          <div className="srs-fc-bars">
+          <div className="srs-fc-bars flex h-20 items-end gap-[3px]">
             {srsFc.bars.map((c) => (
-              <div className="srs-fc-col" key={c.date}>
-                <div className="srs-fc-bar-wrap">
+              <div className="srs-fc-col flex min-w-0 flex-1 flex-col items-center" key={c.date}>
+                <div className="srs-fc-bar-wrap flex w-full flex-1 items-end">
                   <div
-                    className={'srs-fc-bar' + (c.isToday ? ' srs-fc-today' : '')}
+                    className={
+                      'srs-fc-bar min-h-[2px] w-full rounded-t-[3px] bg-[rgba(0,200,255,0.35)] transition-[height] duration-[400ms]' +
+                      (c.isToday ? ' srs-fc-today !bg-accent' : '')
+                    }
                     style={{ height: `${c.pct}%` }}
                   />
                 </div>
-                <div className="srs-fc-cnt">{c.cnt || ''}</div>
-                <div className="srs-fc-lbl">{c.label}</div>
+                <div className="srs-fc-cnt mt-0.5 min-h-[10px] text-[0.6rem] text-text3">
+                  {c.cnt || ''}
+                </div>
+                <div className="srs-fc-lbl mt-px max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-center text-[0.55rem] text-text3">
+                  {c.label}
+                </div>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="stats-section">
+      <div className="stats-section mb-[22px]">
         <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
           <div
-            className="stats-section-title"
+            className="stats-section-title text-[0.72rem] font-semibold uppercase tracking-[0.08em] text-text3"
             style={{ marginBottom: 0 }}
             data-i18n="stats.weakWordsTitle"
           >
@@ -806,8 +896,11 @@ export function StatsPage(): ReactElement {
         )}
       </div>
 
-      <div className="stats-section">
-        <div className="stats-section-title" data-i18n="stats.modeAccuracyTitle">
+      <div className="stats-section mb-[22px]">
+        <div
+          className="stats-section-title mb-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.08em] text-text3"
+          data-i18n="stats.modeAccuracyTitle"
+        >
           {t('stats.modeAccuracyTitle')}
         </div>
         <div id="mode-accuracy-list">
@@ -876,8 +969,11 @@ export function StatsPage(): ReactElement {
         </div>
       </div>
 
-      <div className="stats-section">
-        <div className="stats-section-title" data-i18n="stats.cefrProgressTitle">
+      <div className="stats-section mb-[22px]">
+        <div
+          className="stats-section-title mb-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.08em] text-text3"
+          data-i18n="stats.cefrProgressTitle"
+        >
           {t('stats.cefrProgressTitle')}
         </div>
         <div id="cefr-stats-list">
@@ -934,7 +1030,7 @@ export function StatsPage(): ReactElement {
         </div>
       </div>
 
-      <div className="stats-section">
+      <div className="stats-section mb-[22px]">
         <div
           style={{
             display: 'flex',
@@ -944,7 +1040,7 @@ export function StatsPage(): ReactElement {
           }}
         >
           <div
-            className="stats-section-title"
+            className="stats-section-title text-[0.72rem] font-semibold uppercase tracking-[0.08em] text-text3"
             style={{ margin: 0 }}
             data-i18n="stats.leaderboardTitle"
           >

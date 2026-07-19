@@ -878,231 +878,30 @@ body.dark .search-result-item.sr-known {
   overflow: hidden;
 }
 /* stats відкривається через style.display */
-.stats-panel {
-  background: var(--card);
-  border-radius: 16px;
-  width: 100%;
-  max-width: 560px;
-  max-height: calc(100vh - 32px);
-  padding: 22px 20px 24px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
-  margin: auto;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-.stats-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-}
-.stats-title {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--text);
-}
-.stats-close {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: var(--text3);
-  line-height: 1;
-}
-.stats-close:hover {
-  color: var(--text);
-}
+/* .stats-panel/.stats-header/.stats-title/.stats-close/.stats-section/
+   .stats-section-title/.stats-summary/.stat-card (+ its icon/sv/sl
+   children)/.chart-*/.blocks-list/.block-* moved to Tailwind utility
+   classes in js/features/stats-page.tsx
+   (tailwind-shadcn-migration-roadmap.md Phase 2). Class names stay: all 14
+   fandom themes override .stats-panel/.stats-title/.stats-section-title/
+   .stats-section/.stat-card, and being unlayered legacy CSS they keep
+   winning over the new Tailwind utilities regardless of source order —
+   same guarantee used throughout this migration. The responsive
+   (max-width:480px / 641-900px) overrides and the slide-up/stat-card-enter
+   animations further down this file are untouched on purpose — they still
+   target these same kept class names, so they keep applying correctly on
+   top of the new base Tailwind classes without needing to be reproduced as
+   Tailwind breakpoint variants.
 
-/* Секції */
-.stats-section {
-  margin-bottom: 22px;
-}
-.stats-section-title {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text3);
-  margin-bottom: 10px;
-}
-
-/* Загальна статистика */
-.stats-summary {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-.stat-card {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 14px 10px 12px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.stat-card-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.86rem;
-  margin-bottom: 6px;
-}
-.stat-card-icon.ic-accent {
-  background: color-mix(in srgb, var(--accent) 15%, transparent);
-}
-.stat-card-icon.ic-accent2 {
-  background: color-mix(in srgb, var(--accent2) 15%, transparent);
-}
-.stat-card-icon.ic-success {
-  background: color-mix(in srgb, var(--success) 15%, transparent);
-}
-.stat-card .sv {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.15;
-}
-.stat-card .sl {
-  font-size: 0.7rem;
-  color: var(--text2);
-  margin-top: 2px;
-}
-
-/* Графік */
-.chart-wrap {
-  background: var(--bg);
-  border-radius: 10px;
-  padding: 14px 10px 8px;
-}
-.chart-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 4px;
-  height: 80px;
-  justify-content: stretch;
-}
-.chart-col {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  min-width: 0;
-}
-.chart-bar-wrap {
-  width: 100%;
-  display: flex;
-  align-items: flex-end;
-  height: 64px;
-}
-.chart-bar {
-  width: 100%;
-  background: var(--accent);
-  border-radius: 3px 3px 0 0;
-  min-height: 2px;
-  transition: height 0.3s;
-  opacity: 0.85;
-}
-.chart-bar.today {
-  opacity: 1;
-  background: var(--accent2);
-}
-.chart-col-sm {
-  gap: 1px;
-}
-.chart-col-sm .chart-val {
-  font-size: 7px;
-}
-.chart-col-sm .chart-label {
-  font-size: 7px;
-}
-.chart-period-btns {
-  display: flex;
-  gap: 6px;
-  width: 100%;
-  margin: 8px 0 10px;
-}
-.chart-period-btn {
-  flex: 1;
-  font-size: 0.8rem;
-  padding: 6px 8px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--card-bg);
-  color: var(--text2);
-  cursor: pointer;
-  transition:
-    background 0.15s,
-    color 0.15s;
-}
-.chart-period-btn.active {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
-.chart-label {
-  font-size: 9px;
-  color: var(--text3);
-  text-align: center;
-  white-space: nowrap;
-}
-.chart-val {
-  font-size: 9px;
-  color: var(--text2);
-  font-weight: 600;
-}
-.chart-empty {
-  width: 100%;
-  align-self: center;
-  text-align: center;
-  color: var(--text3);
-  font-size: 0.82rem;
-  padding: 20px 0;
-}
-
-/* Блоки */
-.blocks-list {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-}
-.block-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.block-label {
-  font-size: 0.75rem;
-  color: var(--text2);
-  width: 80px;
-  flex-shrink: 0;
-}
-.block-track {
-  flex: 1;
-  height: 8px;
-  background: var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-}
-.block-fill {
-  height: 100%;
-  border-radius: 10px;
-  transition: width 0.4s;
-}
-.block-pct {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--text2);
-  width: 36px;
-  text-align: right;
-  flex-shrink: 0;
-}
+   Found but not silently fixed: the chart period button background used
+   to read var(--card-bg), a CSS custom property that is never defined
+   anywhere in this codebase (checked :root, body.dark, and all 14 theme
+   files) — the declaration has always been a no-op, so the button has
+   always rendered with no background from this rule. Reproduced as-is via
+   an arbitrary Tailwind value referencing that same undefined variable,
+   rather than quietly swapping it for the correctly-defined var(--card),
+   since that would be an unrelated, unreviewed behavior change bundled
+   into a pure CSS-migration commit. */
 body.dark .stats-panel {
   background: var(--card);
 }
@@ -2526,40 +2325,12 @@ body.dark .quiz-option.reveal {
   opacity: 0.85;
 }
 
-/* ── GitHub-style Heatmap ── */
-.hm-week {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.hm-day {
-  width: 11px;
-  height: 11px;
-  border-radius: 2px;
-  cursor: default;
-}
-/* One hue (the active theme's accent), ramped light→dark by activity level
-   — same technique as the CEFR badges — instead of a hardcoded GitHub-green
-   scale that only had a body.dark override and looked pasted-on under all
-   14 custom themes. Self-adapts to light/dark since it's mixed with --bg. */
-.hm-l0 {
-  background: var(--border);
-}
-.hm-l1 {
-  background: color-mix(in srgb, var(--accent) 30%, var(--bg));
-}
-.hm-l2 {
-  background: color-mix(in srgb, var(--accent) 55%, var(--bg));
-}
-.hm-l3 {
-  background: color-mix(in srgb, var(--accent) 78%, var(--bg));
-}
-.hm-l4 {
-  background: var(--accent);
-}
-.hm-day:hover {
-  opacity: 0.7;
-}
+/* .hm-week/.hm-day/.hm-l0..hm-l4 (GitHub-style heatmap, reused by the
+   monthly calendar day cells too) moved to Tailwind utility classes —
+   the level→color mapping now lives as a small HM_LEVEL_BG lookup array in
+   js/features/stats-page.tsx instead of these CSS classes
+   (tailwind-shadcn-migration-roadmap.md Phase 2). No theme overrides
+   existed for any of these selectors. */
 
 /* ── Word of the day ── */
 .wotd-box {
@@ -2839,13 +2610,8 @@ body.dark .cat-select-btn:hover {
   font-weight: 700;
 }
 
-/* ── Stat card sub-line ── */
-.stat-card-sub {
-  font-size: 0.7rem;
-  color: var(--text3, #aaa);
-  margin-top: 2px;
-  line-height: 1.3;
-}
+/* .stat-card-sub moved to Tailwind utility classes in stats-page.tsx
+   (no theme overrides existed for it). */
 
 /* ── Weak words list (stats page) ── */
 .weak-word-row {
@@ -3228,63 +2994,12 @@ body.dark .wac-item.wac-sel {
   flex-shrink: 0;
 }
 
-/* ── Monthly calendar ── */
-.cal-header-grid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 48px));
-  gap: 2px;
-  margin-bottom: 4px;
-  justify-content: center;
-}
-.cal-dow {
-  text-align: center;
-  font-size: 0.6rem;
-  font-weight: 700;
-  color: var(--text3);
-  letter-spacing: 0.04em;
-  padding: 2px 0;
-}
-.cal-day-grid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 48px));
-  gap: 3px;
-  justify-content: center;
-}
-.cal-day {
-  aspect-ratio: 1;
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.7rem;
-  cursor: default;
-  position: relative;
-  transition: transform 0.1s;
-  max-width: 48px;
-  max-height: 48px;
-}
-.cal-day:hover:not(.cal-empty) {
-  transform: scale(1.15);
-  z-index: 1;
-}
-.cal-day-num {
-  font-weight: 600;
-  line-height: 1;
-}
-.cal-day-cnt {
-  font-size: 0.52rem;
-  opacity: 0.85;
-  line-height: 1;
-  margin-top: 1px;
-}
-.cal-today {
-  box-shadow: 0 0 0 2px var(--accent) !important;
-}
-.cal-empty {
-  visibility: hidden;
-  pointer-events: none;
-}
+/* .cal-header-grid/.cal-dow/.cal-day-grid/.cal-day (+ hover/today/empty
+   states)/.cal-day-num/.cal-day-cnt moved to Tailwind utility classes in
+   stats-page.tsx (no theme overrides existed for any of these). The
+   :hover:not(.cal-empty) exclusion is now just a matter of which of the
+   two already-separate JSX branches (empty vs. real day cell) gets the
+   hover: utility classes at all, rather than a CSS :not() selector. */
 
 /* ── Write mode ── */
 .btn-write {
@@ -5930,55 +5645,13 @@ body.dark .usage-note-box.etymology-note {
   border-color: var(--accent);
 }
 
-/* ── SRS Forecast ── */
-.srs-forecast {
-  margin-top: 6px;
-}
-.srs-fc-bars {
-  display: flex;
-  gap: 3px;
-  align-items: flex-end;
-  height: 80px;
-}
-.srs-fc-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  min-width: 0;
-}
-.srs-fc-bar-wrap {
-  flex: 1;
-  width: 100%;
-  display: flex;
-  align-items: flex-end;
-}
-.srs-fc-bar {
-  width: 100%;
-  background: rgba(0, 200, 255, 0.35);
-  border-radius: 3px 3px 0 0;
-  min-height: 2px;
-  transition: height 0.4s;
-}
-.srs-fc-today {
-  background: var(--accent) !important;
-}
-.srs-fc-cnt {
-  font-size: 0.6rem;
-  color: var(--text3);
-  margin-top: 2px;
-  min-height: 10px;
-}
-.srs-fc-lbl {
-  font-size: 0.55rem;
-  color: var(--text3);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  text-align: center;
-  margin-top: 1px;
-}
+/* .srs-forecast/.srs-fc-bars/.srs-fc-col/.srs-fc-bar-wrap/.srs-fc-cnt/
+   .srs-fc-lbl moved to Tailwind utility classes in stats-page.tsx
+   (tailwind-shadcn-migration-roadmap.md Phase 2). The srs-fc-bar and
+   srs-fc-today class names stay — all 14 fandom themes override them
+   — and being unlayered legacy CSS they keep winning over the new
+   Tailwind utilities regardless of source order, same guarantee used
+   throughout this migration. */
 
 /* ── Daily Challenge ── */
 .dc-header {
@@ -9046,13 +8719,10 @@ body.hp .cefr-C2 {
 }
 
 /* ── B: Pull-to-refresh indicator ── */
-.stats-pull-indicator {
-  text-align: center;
-  font-size: 1.2rem;
-  color: var(--accent);
-  padding: 6px 0 0;
-  animation: spinOnce 0.6s ease;
-}
+/* The own declarations of .stats-pull-indicator moved to Tailwind utility
+   classes in stats-page.tsx (no theme overrides existed for it) — the
+   keyframes stay here as plain global CSS; the arbitrary Tailwind
+   animate-[spinOnce_0.6s_ease] utility references them by name. */
 @keyframes spinOnce {
   from {
     transform: rotate(0deg);
