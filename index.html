@@ -226,7 +226,10 @@
           <span class="swipe-hint-right" id="sh-right" data-i18n="cards.know">✓ Знаю</span>
           <span class="swipe-hint-left" id="sh-left" data-i18n="cards.next">Далі →</span>
           <span class="swipe-hint-up" id="sh-up" data-i18n="cards.translation">👁 Переклад</span>
-          <div class="card-face" id="card-front">
+          <div
+            class="card-face [animation-duration:.22s] [animation-timing-function:cubic-bezier(.25,.46,.45,.94)] [animation-fill-mode:both]"
+            id="card-front"
+          >
             <div id="card-meta-mount"></div>
             <div class="card-body">
               <div id="illus-mount"></div>
@@ -466,7 +469,7 @@
           <!-- Теми / зовнішній вигляд -->
           <div class="settings-section">
             <div class="settings-section-title" data-i18n="settings.themesTitle">🎨 Теми</div>
-            <div class="settings-desc" data-i18n="settings.themesDesc">
+            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.themesDesc">
               Обери оформлення застосунку.
             </div>
             <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 2px">
@@ -488,7 +491,7 @@
             <div class="settings-section-title" data-i18n="settings.srsPriorityTitle">
               🔁 Пріоритет повторення
             </div>
-            <div class="settings-desc" data-i18n="settings.srsPriorityDesc">
+            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.srsPriorityDesc">
               Ігрові режими спершу показують слова, які час повторити (SRS), а не випадкові.
             </div>
             <div
@@ -502,7 +505,7 @@
             <div class="settings-section-title" data-i18n="settings.srsNewCapTitle">
               🆕 Нових карток на день
             </div>
-            <div class="settings-desc" data-i18n="settings.srsNewCapDesc">
+            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.srsNewCapDesc">
               Скільки нових слів SRS-колода вводить щодня, перш ніж перейде лише до повторення.
             </div>
             <div
@@ -542,7 +545,7 @@
             <div class="settings-section-title" data-i18n="settings.imagesTitle">
               🖼️ Зображення на картках
             </div>
-            <div class="settings-desc">
+            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]">
               <span data-i18n="settings.imagesDesc1"
                 >Безкоштовний ключ Pixabay дає фото для ~90% слів.</span
               >
@@ -556,7 +559,7 @@
             <div class="settings-section-title" data-i18n="settings.backupTitle">
               💾 Збереження прогресу
             </div>
-            <div class="settings-desc" data-i18n="settings.backupDesc">
+            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.backupDesc">
               Експортуй прогрес перед оновленням файлу — щоб не втратити вивчені слова.
             </div>
             <div id="backup-export-mount"></div>
@@ -565,7 +568,7 @@
           <!-- Сповіщення -->
           <div class="settings-section">
             <div class="settings-section-title" data-i18n="settings.notifTitle">🔔 Сповіщення</div>
-            <div class="settings-desc" data-i18n="settings.notifDesc">
+            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.notifDesc">
               Щоденне нагадування якщо ще не вчив сьогодні.
             </div>
             <div id="notifications-section-mount"></div>
@@ -574,7 +577,7 @@
           <!-- ── Haptic Feedback ── -->
           <div class="settings-section">
             <div class="settings-section-title" data-i18n="settings.hapticTitle">📳 Вібрація</div>
-            <div class="settings-desc" data-i18n="settings.hapticDesc">
+            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.hapticDesc">
               Тактильний відгук при відповідях на картках.
             </div>
             <div
@@ -595,7 +598,7 @@
             <div class="settings-section-title" data-i18n="settings.reducedMotionTitle">
               🌀 Зменшена анімація
             </div>
-            <div class="settings-desc" data-i18n="settings.reducedMotionDesc">
+            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.reducedMotionDesc">
               Вимикає анімації та переходи по всьому застосунку.
             </div>
             <div
@@ -609,7 +612,7 @@
             <div class="settings-section-title" data-i18n="settings.highContrastTitle">
               🔲 Високий контраст
             </div>
-            <div class="settings-desc" data-i18n="settings.highContrastDesc">
+            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.highContrastDesc">
               Посилює контраст тексту та рамок для кращої читабельності.
             </div>
             <div
@@ -623,7 +626,7 @@
             <div class="settings-section-title" data-i18n="settings.pwaTitle">
               📱 Встановити застосунок
             </div>
-            <div class="settings-desc" data-i18n="settings.pwaDesc">
+            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.pwaDesc">
               Швидкий доступ з головного екрана, робота офлайн.
             </div>
             <div id="pwa-install-mount" style="margin-top: 10px"></div>
@@ -642,7 +645,7 @@
             <div class="settings-section-title" data-i18n="settings.bugTitle">
               🐛 Повідомити про помилку
             </div>
-            <div class="settings-desc" data-i18n="settings.bugDesc">
+            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.bugDesc">
               Знайшли помилку або є пропозиція?
             </div>
             <div id="bug-report-mount"></div>
@@ -652,21 +655,20 @@
             <div class="settings-section-title" data-i18n="settings.dangerTitle">
               ⚠️ Небезпечна зона
             </div>
-            <div class="settings-desc" data-i18n="settings.dangerDesc">
+            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.dangerDesc">
               Незворотна дія — всі вивчені слова, серія днів та досягнення будуть видалені.
             </div>
             <button
               id="btn-reset"
-              class="settings-reset-btn"
-              style="margin-top: 12px"
+              class="settings-reset-btn mt-3 cursor-pointer rounded-[10px] border-[1.5px] border-[rgba(231,76,60,.5)] bg-transparent px-5 py-2.5 font-[inherit] text-[.88rem] font-semibold text-[#e74c3c] transition-colors duration-150 hover:border-[#e74c3c] hover:bg-[rgba(231,76,60,.1)]"
               data-i18n="settings.resetBtn"
             >
               ↺ Скинути прогрес
             </button>
           </div>
 
-          <div class="settings-footer">
-            © 2026 Vymova · v1.365.0 ·
+          <div class="settings-footer mt-1 mb-2 text-center text-[.72rem] text-[var(--text3)]">
+            © 2026 Vymova · v1.366.0 ·
             <a
               href="./privacy.html"
               target="_blank"

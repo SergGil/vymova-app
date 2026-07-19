@@ -252,9 +252,11 @@ export function SimilarWordsChips(): ReactElement | null {
   if (!similar.length) return null;
 
   return (
-    <div className="similar-section" id="cb-similar">
-      <div className="similar-title">{t('cards.similarTitle')}</div>
-      <div className="similar-chips" id="cb-chips">
+    <div className="similar-section mt-2 w-full text-left" id="cb-similar">
+      <div className="similar-title mb-1.5 flex items-center gap-[5px] text-[.6rem] font-extrabold tracking-[0.1em] text-[var(--text3)] uppercase max-[480px]:text-[.58rem]">
+        {t('cards.similarTitle')}
+      </div>
+      <div className="similar-chips flex flex-wrap gap-[5px]" id="cb-chips">
         {similar.map((w) => {
           const isKnown = _getActiveKnown().has(w[0]);
           const displayWord = headwordFor(front, w) || w[0];
@@ -262,7 +264,10 @@ export function SimilarWordsChips(): ReactElement | null {
           return (
             <div
               key={w[0]}
-              className={'sim-chip' + (isKnown ? ' known-chip' : '')}
+              className={
+                'sim-chip flex min-w-14 cursor-pointer flex-col items-center gap-px rounded-[20px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-2.5 py-1 text-[.75rem] transition-[border-color,background] duration-150 max-[480px]:min-w-12 max-[480px]:px-2 max-[480px]:py-[3px] max-[480px]:text-[.7rem]' +
+                (isKnown ? ' known-chip' : '')
+              }
               onClick={(e) => {
                 e.stopPropagation();
                 openWordDetail(w);

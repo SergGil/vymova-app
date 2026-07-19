@@ -3798,6 +3798,7 @@ function VoiceSectionView({
     return (
       <details className="voice-section" style={{ width: '100%', margin: '6px 0' }}>
         <summary
+          className="select-none"
           style={{
             fontSize: '.7rem',
             fontWeight: 700,
@@ -3832,6 +3833,7 @@ function VoiceSectionView({
   return (
     <details className="voice-section" style={{ width: '100%', margin: '6px 0' }}>
       <summary
+        className="select-none"
         style={{
           fontSize: '.7rem',
           fontWeight: 700,

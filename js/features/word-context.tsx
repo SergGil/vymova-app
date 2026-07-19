@@ -72,8 +72,14 @@ export function CollocationsSection(): ReactElement | null {
   const re = new RegExp('\\b(' + wordLow + '\\w*)\\b', 'i');
 
   return (
-    <div className="similar-section" id="cb-collocations" style={{ margin: '8px 0 0' }}>
-      <div className="similar-title">{t('cards.collocationsTitle')}</div>
+    <div
+      className="similar-section w-full text-left"
+      id="cb-collocations"
+      style={{ margin: '8px 0 0' }}
+    >
+      <div className="similar-title mb-1.5 flex items-center gap-[5px] text-[.6rem] font-extrabold tracking-[0.1em] text-[var(--text3)] uppercase max-[480px]:text-[.58rem]">
+        {t('cards.collocationsTitle')}
+      </div>
       <div
         id="cb-collocation-list"
         style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
@@ -81,9 +87,18 @@ export function CollocationsSection(): ReactElement | null {
         {colls.slice(0, 10).map((c, i) => {
           const parts = c.phrase.split(re);
           return (
-            <span className="colloc-pill" key={i}>
+            <span
+              className="colloc-pill inline-flex cursor-default items-center gap-1.5 rounded-[20px] border-[1.5px] border-[rgba(52,152,219,.25)] bg-[rgba(52,152,219,.08)] px-[11px] py-1 text-[.75rem] text-[var(--text2)] whitespace-nowrap transition-[background] duration-[120ms] max-[480px]:px-[9px] max-[480px]:py-[3px] max-[480px]:text-[.7rem]"
+              key={i}
+            >
               {parts.map((part, j) =>
-                re.test(part) && j % 2 === 1 ? <b key={j}>{part}</b> : part,
+                re.test(part) && j % 2 === 1 ? (
+                  <b className="font-bold text-[#3498db]" key={j}>
+                    {part}
+                  </b>
+                ) : (
+                  part
+                ),
               )}
             </span>
           );
@@ -155,9 +170,15 @@ export function WordFamiliesChips(): ReactElement | null {
   const wordIdx = getWordIndex();
 
   return (
-    <div className="similar-section" id="cb-families" style={{ margin: '14px 0 0' }}>
-      <div className="similar-title">{t('cards.familyTitle')}</div>
-      <div className="similar-chips" id="cb-family-chips">
+    <div
+      className="similar-section w-full text-left"
+      id="cb-families"
+      style={{ margin: '14px 0 0' }}
+    >
+      <div className="similar-title mb-1.5 flex items-center gap-[5px] text-[.6rem] font-extrabold tracking-[0.1em] text-[var(--text3)] uppercase max-[480px]:text-[.58rem]">
+        {t('cards.familyTitle')}
+      </div>
+      <div className="similar-chips flex flex-wrap gap-[5px]" id="cb-family-chips">
         {chips.slice(0, 10).map((w) => {
           const headEn = _headEnFor(front, w);
           const wi = headEn !== undefined && headEn !== null ? wordIdx?.get(headEn) : undefined;
@@ -168,8 +189,11 @@ export function WordFamiliesChips(): ReactElement | null {
           return (
             <div
               key={w}
-              className={'sim-chip family-chip' + (isKnown ? ' known-chip' : '')}
-              style={clickable ? undefined : { cursor: 'default' }}
+              className={
+                'sim-chip family-chip flex min-w-14 flex-col items-center gap-px rounded-xl border-[1.5px] border-[rgba(var(--accent-rgb,45,90,61),.25)] bg-[rgba(var(--accent-rgb,45,90,61),.08)] px-2.5 py-1 text-[.75rem] transition-[background] duration-150 max-[480px]:min-w-12 max-[480px]:px-2 max-[480px]:py-[3px] max-[480px]:text-[.7rem]' +
+                (clickable ? ' cursor-pointer' : ' cursor-default') +
+                (isKnown ? ' known-chip' : '')
+              }
               onClick={
                 clickable
                   ? (e) => {
@@ -227,9 +251,15 @@ export function SynonymsChips(): ReactElement | null {
   const wordIdx = getWordIndex();
 
   return (
-    <div className="similar-section" id="cb-synonyms" style={{ margin: '14px 0 0' }}>
-      <div className="similar-title">{t('cards.synonymsTitle')}</div>
-      <div className="similar-chips" id="cb-synonym-chips">
+    <div
+      className="similar-section w-full text-left"
+      id="cb-synonyms"
+      style={{ margin: '14px 0 0' }}
+    >
+      <div className="similar-title mb-1.5 flex items-center gap-[5px] text-[.6rem] font-extrabold tracking-[0.1em] text-[var(--text3)] uppercase max-[480px]:text-[.58rem]">
+        {t('cards.synonymsTitle')}
+      </div>
+      <div className="similar-chips flex flex-wrap gap-[5px]" id="cb-synonym-chips">
         {chips.map((c) => {
           const headEn = _headEnFor(front, c.word);
           const wi = headEn !== undefined && headEn !== null ? wordIdx?.get(headEn) : undefined;
@@ -240,8 +270,11 @@ export function SynonymsChips(): ReactElement | null {
           return (
             <div
               key={c.word}
-              className={'sim-chip syn-chip' + (isKnown ? ' known-chip' : '')}
-              style={clickable ? undefined : { cursor: 'default' }}
+              className={
+                'sim-chip syn-chip flex min-w-14 flex-col items-center gap-px rounded-[20px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-2.5 py-1 text-[.75rem] transition-[border-color,background] duration-150 max-[480px]:min-w-12 max-[480px]:px-2 max-[480px]:py-[3px] max-[480px]:text-[.7rem]' +
+                (clickable ? ' cursor-pointer' : ' cursor-default') +
+                (isKnown ? ' known-chip' : '')
+              }
               onClick={
                 clickable
                   ? (e) => {
@@ -303,9 +336,15 @@ export function AntonymsChips(): ReactElement | null {
   const wordIdx = getWordIndex();
 
   return (
-    <div className="similar-section" id="cb-antonyms" style={{ margin: '14px 0 0' }}>
-      <div className="similar-title">{t('cards.antonymsTitle')}</div>
-      <div className="similar-chips" id="cb-antonym-chips">
+    <div
+      className="similar-section w-full text-left"
+      id="cb-antonyms"
+      style={{ margin: '14px 0 0' }}
+    >
+      <div className="similar-title mb-1.5 flex items-center gap-[5px] text-[.6rem] font-extrabold tracking-[0.1em] text-[var(--text3)] uppercase max-[480px]:text-[.58rem]">
+        {t('cards.antonymsTitle')}
+      </div>
+      <div className="similar-chips flex flex-wrap gap-[5px]" id="cb-antonym-chips">
         {chips.map((c) => {
           const headEn = _headEnFor(front, c.word);
           const wi = headEn !== undefined && headEn !== null ? wordIdx?.get(headEn) : undefined;
@@ -316,8 +355,11 @@ export function AntonymsChips(): ReactElement | null {
           return (
             <div
               key={c.word}
-              className={'sim-chip ant-chip' + (isKnown ? ' known-chip' : '')}
-              style={clickable ? undefined : { cursor: 'default' }}
+              className={
+                'sim-chip ant-chip flex min-w-14 flex-col items-center gap-px rounded-[20px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-2.5 py-1 text-[.75rem] transition-[border-color,background] duration-150 max-[480px]:min-w-12 max-[480px]:px-2 max-[480px]:py-[3px] max-[480px]:text-[.7rem]' +
+                (clickable ? ' cursor-pointer' : ' cursor-default') +
+                (isKnown ? ' known-chip' : '')
+              }
               onClick={
                 clickable
                   ? (e) => {

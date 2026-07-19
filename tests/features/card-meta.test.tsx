@@ -67,7 +67,8 @@ describe('card-meta.tsx CardMeta', () => {
   it('shows the CEFR level badge', () => {
     const { container } = mount();
     const badge = container.querySelector('#wcefr') as HTMLElement;
-    expect(badge.className).toMatch(/^cefr-badge cefr-/);
+    expect(badge.classList.contains('cefr-badge')).toBe(true);
+    expect([...badge.classList].some((c) => /^cefr-[A-C][12]$/.test(c))).toBe(true);
     expect(badge.textContent).toBeTruthy();
   });
 

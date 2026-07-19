@@ -68,7 +68,13 @@ export function CardMeta() {
           ✕
         </button>
       </span>
-      <span className={'cefr-badge cefr-' + level} id="wcefr">
+      <span
+        className={
+          'cefr-badge inline-flex shrink-0 items-center rounded-md border-[1.5px] px-[7px] py-0.5 text-[.68rem] font-extrabold tracking-[0.04em] max-[480px]:px-[5px] max-[480px]:py-px max-[480px]:text-[.62rem] cefr-' +
+          level
+        }
+        id="wcefr"
+      >
         {level}
       </span>
       {cats.map((cat, i) => (
