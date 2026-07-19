@@ -954,6 +954,8 @@
   "settings.darkTower": "A Torre Negra",
   "settings.showMoreThemes": "Mostrar mais temas ▾",
   "settings.showLessThemes": "Mostrar menos ▴",
+  "settings.showMoreVoices": "Mostrar mais vozes ▾",
+  "settings.showLessVoices": "Mostrar menos ▴",
   "settings.srsPriorityTitle": "🔁 Prioridade de revisão",
   "settings.srsPriorityDesc": "Os modos de jogo mostram primeiro as palavras pendentes de revisão (SRS), em vez de aleatórias.",
   "settings.srsNewCapTitle": "🆕 Cartões novos por dia",

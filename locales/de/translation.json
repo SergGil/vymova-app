@@ -954,6 +954,8 @@
   "settings.darkTower": "Der Dunkle Turm",
   "settings.showMoreThemes": "Mehr Themen anzeigen ▾",
   "settings.showLessThemes": "Weniger anzeigen ▴",
+  "settings.showMoreVoices": "Mehr Stimmen anzeigen ▾",
+  "settings.showLessVoices": "Weniger anzeigen ▴",
   "settings.srsPriorityTitle": "🔁 Wiederholungspriorität",
   "settings.srsPriorityDesc": "Spielmodi zeigen zuerst Wörter, die zur Wiederholung fällig sind (SRS), statt zufälliger Wörter.",
   "settings.srsNewCapTitle": "🆕 Neue Karten pro Tag",

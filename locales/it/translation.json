@@ -954,6 +954,8 @@
   "settings.darkTower": "La Torre Nera",
   "settings.showMoreThemes": "Mostra più temi ▾",
   "settings.showLessThemes": "Mostra meno ▴",
+  "settings.showMoreVoices": "Mostra più voci ▾",
+  "settings.showLessVoices": "Mostra meno ▴",
   "settings.srsPriorityTitle": "🔁 Priorità di ripasso",
   "settings.srsPriorityDesc": "Le modalità di gioco mostrano prima le parole da ripassare (SRS), invece che casuali.",
   "settings.srsNewCapTitle": "🆕 Nuove carte al giorno",

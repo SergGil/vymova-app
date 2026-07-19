@@ -954,6 +954,8 @@
   "settings.darkTower": "La Tour sombre",
   "settings.showMoreThemes": "Afficher plus de thèmes ▾",
   "settings.showLessThemes": "Afficher moins ▴",
+  "settings.showMoreVoices": "Afficher plus de voix ▾",
+  "settings.showLessVoices": "Afficher moins ▴",
   "settings.srsPriorityTitle": "🔁 Priorité de révision",
   "settings.srsPriorityDesc": "Les modes de jeu affichent d'abord les mots à réviser (SRS), plutôt qu'aléatoirement.",
   "settings.srsNewCapTitle": "🆕 Nouvelles cartes par jour",

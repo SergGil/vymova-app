@@ -1135,6 +1135,8 @@
   "settings.darkTower": "Темна Вежа",
   "settings.showMoreThemes": "Показати більше тем ▾",
   "settings.showLessThemes": "Згорнути ▴",
+  "settings.showMoreVoices": "Показати більше голосів ▾",
+  "settings.showLessVoices": "Згорнути ▴",
   "settings.srsPriorityTitle": "🔁 Пріоритет повторення",
   "settings.srsPriorityDesc": "Ігрові режими спершу показують слова, які час повторити (SRS), а не випадкові.",
   "settings.srsNewCapTitle": "🆕 Нових карток на день",

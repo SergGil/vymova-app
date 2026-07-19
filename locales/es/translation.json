@@ -954,6 +954,8 @@
   "settings.darkTower": "La Torre Oscura",
   "settings.showMoreThemes": "Mostrar más temas ▾",
   "settings.showLessThemes": "Mostrar menos ▴",
+  "settings.showMoreVoices": "Mostrar más voces ▾",
+  "settings.showLessVoices": "Mostrar menos ▴",
   "settings.srsPriorityTitle": "🔁 Prioridad de repaso",
   "settings.srsPriorityDesc": "Los modos de juego muestran primero las palabras pendientes de repaso (SRS), en vez de aleatorias.",
   "settings.srsNewCapTitle": "🆕 Tarjetas nuevas por día",

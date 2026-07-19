@@ -45,11 +45,14 @@ export function BugReportForm(): ReactElement {
     }, 2000);
   }
 
+  const inputCls =
+    "w-full rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3 py-2.5 font-[inherit] text-[.85rem] text-[var(--text)] outline-none transition-colors duration-150 focus:border-[var(--accent)]";
+
   return (
-    <div className="bug-form" id="bug-form">
+    <div className="bug-form mt-3 flex flex-col gap-2.5" id="bug-form">
       <select
         id="bug-subject"
-        className="bug-select"
+        className={`bug-select ${inputCls}`}
         value={subject}
         onChange={(e) => setSubject(e.target.value)}
       >
@@ -61,7 +64,7 @@ export function BugReportForm(): ReactElement {
       </select>
       <textarea
         id="bug-message"
-        className={`bug-textarea${error ? ' bug-error' : ''}`}
+        className={`bug-textarea ${inputCls} min-h-[90px] resize-y leading-[1.5]${error ? ' bug-error border-[#e74c3c]' : ''}`}
         rows={4}
         placeholder={t('settings.bugPlaceholder')}
         value={message}
@@ -70,13 +73,17 @@ export function BugReportForm(): ReactElement {
           setError(false);
         }}
       />
-      <div className="bug-row">
-        <button id="bug-send-btn" className="bug-send-btn" onClick={send}>
+      <div className="bug-row flex flex-wrap items-center gap-3">
+        <button
+          id="bug-send-btn"
+          className="bug-send-btn cursor-pointer rounded-[10px] border-[1.5px] border-[var(--accent)] bg-[var(--accent)] px-[22px] py-2.5 font-[inherit] text-[.88rem] font-semibold text-white transition-opacity duration-150 hover:opacity-85"
+          onClick={send}
+        >
           {t('settings.bugSendBtn')}
         </button>
         <span
           id="bug-sent-note"
-          className="bug-sent-note"
+          className="bug-sent-note text-[.8rem] text-[var(--text2)]"
           style={{ display: sent ? 'inline' : 'none' }}
         >
           {t('settings.bugSentNote')}

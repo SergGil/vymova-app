@@ -3749,7 +3749,10 @@ function VoiceCard({
   const accentUrl = flagUrl(info.accent);
   return (
     <button
-      className={'voice-card' + (active ? ' voice-card-active' : '')}
+      className={
+        'voice-card flex cursor-pointer flex-col rounded-xl border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3 py-2.5 text-left font-[inherit] transition-colors duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)]' +
+        (active ? ' voice-card-active' : '')
+      }
       onClick={() => onSelect(voice.voiceURI)}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
@@ -3939,6 +3942,48 @@ function _forceReload(bump: () => void): void {
   }
 }
 
+// Only the first VOICE_VISIBLE_COUNT sections (in the current sort order)
+// show by default — with 138 languages, rendering every <details> section
+// at once (mostly "not found" placeholders) made the list unusably long.
+// The rest sit behind a "show more" toggle, same pattern as
+// fandom-theme-rows.tsx's BASE_THEME_KEYS/EXTRA_THEME_KEYS split.
+const VOICE_VISIBLE_COUNT = 3;
+
+function VoiceSectionsList({ sorted }: { sorted: LangSection[] }): ReactElement {
+  const visible = sorted.slice(0, VOICE_VISIBLE_COUNT);
+  const hidden = sorted.slice(VOICE_VISIBLE_COUNT);
+  // Always starts collapsed — unlike fandom themes (BASE_THEME_KEYS is 2
+  // curated entries), _applyDefaultSelections() auto-picks a voice for
+  // ~76 of 138 sections on every render, so "has a URI" isn't a signal of
+  // a deliberate user choice here and would leave this permanently expanded.
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <>
+      {visible.map((section) => (
+        <VoiceSectionView key={section.id} section={section} onSelect={onVoiceCardSelect} />
+      ))}
+      {hidden.length > 0 && (
+        <>
+          <div id="voice-sections-extra" style={{ display: expanded ? 'block' : 'none' }}>
+            {hidden.map((section) => (
+              <VoiceSectionView key={section.id} section={section} onSelect={onVoiceCardSelect} />
+            ))}
+          </div>
+          <button
+            type="button"
+            id="voice-sections-toggle"
+            className="theme-rows-toggle-btn mt-1 cursor-pointer rounded-[10px] border border-dashed border-[var(--border)] bg-transparent px-3 py-[7px] text-center text-[.78rem] font-semibold text-[var(--text3)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+            onClick={() => setExpanded((e) => !e)}
+          >
+            {t(expanded ? 'settings.showLessVoices' : 'settings.showMoreVoices')}
+          </button>
+        </>
+      )}
+    </>
+  );
+}
+
 function VoicePickerList({ debugMsg }: { debugMsg: string | null }): ReactElement {
   const allEmpty = LANG_SECTIONS.every((s) => !s.voicesFn().length);
   if (allEmpty) {
@@ -3958,9 +4003,7 @@ function VoicePickerList({ debugMsg }: { debugMsg: string | null }): ReactElemen
 
   return (
     <>
-      {sorted.map((section) => (
-        <VoiceSectionView key={section.id} section={section} onSelect={onVoiceCardSelect} />
-      ))}
+      <VoiceSectionsList sorted={sorted} />
       {debugMsg && (
         <div
           className="voice-debug-msg"
