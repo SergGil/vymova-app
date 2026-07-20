@@ -1,6 +1,6 @@
 // Vymova — js/modes/scramble.tsx
 // 🔀 Scramble: rearrange shuffled letter tiles to build the word
-import { useEffect, useRef, useState, type ReactElement } from 'react';
+import { useRef, useState, type ReactElement } from 'react';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
@@ -114,17 +114,16 @@ export function ScramblePage(): ReactElement {
     modeId: 'scramble',
     isFinal: showFinal,
     onOpen: startGame,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
   const { isOpen } = session;
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [session.open, session.close]);
 
   const check = (lett: Tile[], ans: number[]): void => {
     if (!w) return;

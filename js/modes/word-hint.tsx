@@ -93,17 +93,16 @@ export function WordHintPage(): ReactElement {
     modeId: 'wordhint',
     isFinal: showFinal,
     onOpen: startGame,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
   const { isOpen } = session;
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [session.open, session.close]);
 
   // Progressively reveal one more letter every REVEAL_INTERVAL_MS while the
   // round is still open.

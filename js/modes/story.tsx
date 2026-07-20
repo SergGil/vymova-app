@@ -6,7 +6,7 @@
 // the AI tutor / voice roleplay features. Self-hides the AI half when the
 // worker isn't configured (AI_TUTOR_ENABLED === false), leaving the builtin
 // stories usable offline.
-import { useEffect, useRef, useState, type ReactElement } from 'react';
+import { useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words.js';
 import { recordModeComplete } from '../features/game.ts';
 import { speakForCode } from '../features/voice/speak-lang.ts';
@@ -326,17 +326,16 @@ export function StoryPage(): ReactElement {
       );
     },
     onClose: markCompleted,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
-  const { isOpen, open: sessionOpen, close: sessionClose } = session;
-
-  useEffect(() => {
-    _open = sessionOpen;
-    _close = sessionClose;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [sessionOpen, sessionClose]);
+  const { isOpen } = session;
 
   const goBack = (): void => {
     markCompleted();

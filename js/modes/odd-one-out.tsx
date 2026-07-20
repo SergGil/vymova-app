@@ -1,6 +1,6 @@
 // Vymova — js/modes/odd-one-out.tsx
 // 🧐 Odd One Out: 5 words shown, one doesn't belong to the others' category
-import { useEffect, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { getWordIndex } from '../core/word-index.ts';
 import { W } from '../../data/words.js';
@@ -109,17 +109,16 @@ export function OddOneOutPage(): ReactElement {
     modeId: 'oddone',
     isFinal: showFinal,
     onOpen: startGame,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
   const { isOpen } = session;
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [session.open, session.close]);
 
   const checkAnswer = (i: number): void => {
     if (!round || selected !== null) return;

@@ -157,18 +157,17 @@ export function WordLettersPage(): ReactElement {
     onOpen: startGame,
     onClose: stopTimer,
     closeOnEscape: false,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+        stopTimer();
+      };
+    },
   });
   const { isOpen } = session;
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-      stopTimer();
-    };
-  }, [session.open, session.close]);
 
   // Sets up the tiles/timer/found-set for whichever round `idx` currently
   // points at. Runs on every round change (including the very first one,

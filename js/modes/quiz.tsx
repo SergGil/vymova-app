@@ -161,17 +161,16 @@ export function QuizPage(): ReactElement {
     closeOnEscape: false,
     showOverlay: (el) => el.classList.add('open'),
     hideOverlay: (el) => el.classList.remove('open'),
+    bindExternal: (open, close) => {
+      _open = (src, maxSize) => open({ src, maxSize });
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
-  const { isOpen, open: sessionOpen, close: sessionClose } = session;
-
-  useEffect(() => {
-    _open = (src, maxSize) => sessionOpen({ src, maxSize });
-    _close = sessionClose;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [sessionOpen, sessionClose]);
+  const { isOpen, open: sessionOpen } = session;
 
   // full-react-migration-roadmap.md Phase 5a: quiz.tsx is one of the 4
   // modes mounted directly in AppRoot (not behind <LazyMode/>), so its

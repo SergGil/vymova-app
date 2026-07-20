@@ -107,17 +107,16 @@ export function ListeningPage(): ReactElement {
       } catch (e) {}
     },
     closeOnEscape: false,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
   const { isOpen } = session;
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [session.open, session.close]);
 
   // Regenerate options + speak word when moving to a new question
   useEffect(() => {

@@ -124,17 +124,16 @@ export function FibPage(): ReactElement {
     isFinal: showFinal,
     onOpen: startGame,
     closeOnEscape: false,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
   const { isOpen } = session;
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [session.open, session.close]);
 
   // Focus input on new question
   useEffect(() => {

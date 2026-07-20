@@ -110,18 +110,17 @@ export function CatPairsPage(): ReactElement {
       setGridTick((x) => x + 1);
     },
     onClose: stopTick,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+        stopTick();
+      };
+    },
   });
   const { isOpen } = session;
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-      stopTick();
-    };
-  }, [session.open, session.close]);
 
   const startGame = (key: string, words: WordEntry[]): void => {
     stopTick();

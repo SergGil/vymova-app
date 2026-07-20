@@ -157,17 +157,16 @@ export function ShadowingPage(): ReactElement {
       } catch (e) {}
       recRef.current = null;
     },
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
   const { isOpen } = session;
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [session.open, session.close]);
 
   // Auto-play the sentence as soon as a round is ready, so the user doesn't
   // have to tap the speaker button just to hear it once.

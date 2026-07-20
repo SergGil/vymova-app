@@ -1,7 +1,7 @@
 // Vymova — js/modes/ghost-race.tsx
 // 👻 Ghost Race: answer 10 quiz questions while racing a "ghost" that moves
 // at the pace of your own best previous run.
-import { useEffect, useRef, useState, type ReactElement } from 'react';
+import { useRef, useState, type ReactElement } from 'react';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
@@ -162,18 +162,17 @@ export function GhostRacePage(): ReactElement {
     isFinal: false,
     onOpen: goToReady,
     onClose: stopTick,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+        stopTick();
+      };
+    },
   });
   const { isOpen } = session;
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-      stopTick();
-    };
-  }, [session.open, session.close]);
 
   const startRace = (): void => {
     setDeck(buildDeck());

@@ -1,6 +1,6 @@
 // Vymova — js/modes/sentence-builder.tsx
 // 🧱 Sentence Builder: tap shuffled word-tiles in order to rebuild the example sentence
-import { useEffect, useRef, useState, type ReactElement } from 'react';
+import { useRef, useState, type ReactElement } from 'react';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
@@ -114,17 +114,16 @@ export function SentenceBuilderPage(): ReactElement {
     modeId: 'sentbuild',
     isFinal: showFinal,
     onOpen: startGame,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
   const { isOpen } = session;
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [session.open, session.close]);
 
   const check = (tls: Tile[], ans: number[]): void => {
     if (!w) return;

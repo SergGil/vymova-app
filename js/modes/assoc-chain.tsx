@@ -3,7 +3,7 @@
 // word has unvisited options for — chosen at random when both are
 // available), then do the same for that word, and so on — one wrong pick
 // (or running out of further synonyms/antonyms) ends the chain.
-import { useEffect, useRef, useState, type ReactElement } from 'react';
+import { useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import {
   getSynonymsModule,
@@ -173,17 +173,16 @@ export function AssocChainPage(): ReactElement {
     modeId: 'assoc',
     isFinal: over,
     onOpen: startGame,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
-  const { isOpen, open: sessionOpen, close: sessionClose } = session;
-
-  useEffect(() => {
-    _open = sessionOpen;
-    _close = sessionClose;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [sessionOpen, sessionClose]);
+  const { isOpen, open: sessionOpen } = session;
 
   const finish = (finalChain: number, byMistake: boolean): void => {
     setOver(true);

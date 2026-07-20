@@ -116,16 +116,15 @@ export function ContextPage(): ReactElement {
     isFinal: showFinal,
     onOpen: startGame,
     closeOnEscape: false,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [session.open, session.close]);
 
   const checkAnswer = (opt: string): void => {
     if (!question || selected) return;

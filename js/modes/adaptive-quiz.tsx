@@ -189,18 +189,17 @@ export function AdaptiveQuizPage(): ReactElement {
     onClose: stopTimer,
     showOverlay: (el) => el.classList.add('open'),
     hideOverlay: (el) => el.classList.remove('open'),
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+        stopTimer();
+      };
+    },
   });
   const { isOpen } = session;
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-      stopTimer();
-    };
-  }, [session.open, session.close]);
 
   // Per-question countdown timer; auto-submits as wrong when it hits zero.
   useEffect(() => {

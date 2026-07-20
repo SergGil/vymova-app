@@ -1,7 +1,7 @@
 // Vymova — js/modes/error-hunt.tsx
 // 🕵️ Error Hunt: one word in the example sentence has been swapped for a
 // wrong (but same part-of-speech) word — tap the word that doesn't belong.
-import { useEffect, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
@@ -127,17 +127,16 @@ export function ErrorHuntPage(): ReactElement {
     modeId: 'errorhunt',
     isFinal: showFinal,
     onOpen: startGame,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
   const { isOpen } = session;
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [session.open, session.close]);
 
   const checkAnswer = (i: number): void => {
     if (!round || selected !== null) return;

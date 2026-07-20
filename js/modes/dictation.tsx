@@ -93,18 +93,17 @@ export function DictationPage(): ReactElement {
     modeId: 'dictation',
     isFinal: deck.length > 0 && idx >= deck.length,
     onOpen: startGame,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
   const { isOpen } = session;
   const showFinal = deck.length > 0 && idx >= deck.length;
-
-  useEffect(() => {
-    _open = session.open;
-    _close = session.close;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [session.open, session.close]);
 
   // Auto-play the sentence as soon as a round is ready, mirroring
   // shadowing.tsx — the user shouldn't have to tap the speaker just to

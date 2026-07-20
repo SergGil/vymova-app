@@ -34,6 +34,7 @@ export function useModeSession<TOpenArg = void>({
   closeOnEscape = true,
   showOverlay = defaultShowOverlay,
   hideOverlay = defaultHideOverlay,
+  bindExternal,
 }: {
   overlayId: string;
   modeId: string;
@@ -58,6 +59,16 @@ export function useModeSession<TOpenArg = void>({
   // can transition/animate the panel in — override both together there.
   showOverlay?: (overlay: HTMLElement) => void;
   hideOverlay?: (overlay: HTMLElement) => void;
+  // Every mode file assigns this render's open()/close() to its own
+  // module-level `_open`/`_close` refs on mount (src/lazy-mode.tsx calls the
+  // exported openXxx()/closeXxx() wrappers before the mode has ever
+  // mounted — that contract has to stay module-scope, useModeSession can't
+  // own it directly). This just folds the small
+  // `useEffect(() => { assign; return unassign }, [open, close])` every mode
+  // file used to hand-roll around that assignment into the hook itself —
+  // return an optional extra cleanup (e.g. clearing a mode-specific timer
+  // that should stop on unmount even if close() was never explicitly called).
+  bindExternal?: (open: (arg?: TOpenArg) => void, close: () => void) => (() => void) | void;
 }): ModeSessionHandle<TOpenArg> {
   const [isOpen, setIsOpen] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -112,6 +123,14 @@ export function useModeSession<TOpenArg = void>({
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
   }, [isOpen, closeOnEscape, close]);
+
+  useEffect(() => {
+    const cleanup = bindExternal?.(open, close);
+    return () => {
+      cleanup?.();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- open/close are stable refs; bindExternal is expected to be a fresh inline closure every render, re-running it every render would defeat its own point
+  }, [open, close]);
 
   return { isOpen, open, close };
 }

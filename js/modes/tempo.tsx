@@ -283,25 +283,24 @@ export function TempoPage(): ReactElement {
       }
       run.current.isRunning = false;
     },
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+        if (timerRef.current) clearInterval(timerRef.current);
+        if (nextQTimerRef.current) clearTimeout(nextQTimerRef.current);
+      };
+    },
   });
-  const { isOpen, open: sessionOpen, close: sessionClose } = session;
-
-  useEffect(() => {
-    _open = sessionOpen;
-    _close = sessionClose;
-    return () => {
-      _open = null;
-      _close = null;
-      if (timerRef.current) clearInterval(timerRef.current);
-      if (nextQTimerRef.current) clearTimeout(nextQTimerRef.current);
-    };
-  }, [sessionOpen, sessionClose]);
+  const { isOpen } = session;
 
   // Keyboard shortcuts
   useEffect(() => {
     function onKeydown(e: KeyboardEvent): void {
       if (e.key === 'Escape' && isOpen) {
-        sessionClose();
+        session.close();
         return;
       }
       if (
@@ -318,7 +317,7 @@ export function TempoPage(): ReactElement {
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [question, isOpen, sessionClose]);
+  }, [question, isOpen, session.close]);
 
   const best = getBest(selectedSec);
   const bestLabel = best > 0 ? t('tempo.bestRecord', { n: best, s: selectedSec }) : '';

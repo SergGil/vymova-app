@@ -147,17 +147,16 @@ export function ComparePage(): ReactElement {
       Promise.all(langs.map(ensureLangTableLoaded)).then(() => setTablesReady(true));
       setTimeout(() => inputRef.current?.focus(), 60);
     },
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
-  const { isOpen, open: sessionOpen, close: sessionClose } = session;
-
-  useEffect(() => {
-    _open = sessionOpen;
-    _close = sessionClose;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [sessionOpen, sessionClose]);
+  const { isOpen, close: sessionClose } = session;
 
   useEffect(() => {
     function onKeydown(e: KeyboardEvent): void {

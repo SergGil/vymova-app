@@ -105,17 +105,16 @@ export function LessonPage(): ReactElement {
     isFinal: showFinal,
     onOpen: startLesson,
     closeOnEscape: false,
+    bindExternal: (open, close) => {
+      _open = open;
+      _close = close;
+      return () => {
+        _open = null;
+        _close = null;
+      };
+    },
   });
-  const { isOpen, open: sessionOpen, close: sessionClose } = session;
-
-  useEffect(() => {
-    _open = sessionOpen;
-    _close = sessionClose;
-    return () => {
-      _open = null;
-      _close = null;
-    };
-  }, [sessionOpen, sessionClose]);
+  const { isOpen, close: sessionClose } = session;
 
   // Setup step-specific state (quiz options, write focus)
   useEffect(() => {
