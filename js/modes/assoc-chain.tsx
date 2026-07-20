@@ -327,7 +327,7 @@ export function AssocChainPage(): ReactElement {
                 {step.current}
               </span>
               <button
-                className="mode-speak ml-2 inline-flex h-[30px] w-[30px] shrink-0 cursor-pointer items-center justify-center rounded-lg border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150"
+                className="mode-speak ml-2 inline-flex h-[30px] w-[30px] shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150"
                 title={t('common.listen')}
                 onClick={(e) => {
                   e.stopPropagation();

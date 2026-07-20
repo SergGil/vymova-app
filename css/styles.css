@@ -2975,11 +2975,9 @@ body.dark .btn-modes-open:hover {
 /* ═══════════════════════════════════════════
    3-BLOCK GAME BAR
    ═══════════════════════════════════════════ */
-.game-bar-3 {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 10px;
-}
+/* .game-bar-3's own display/gap/margin-bottom moved to Tailwind utility
+   classes on the wrapper in index.html (untouched by any theme/dark/mobile
+   rule); the landscape-mode padding override below stays. */
 .gb-block {
   background: var(--card);
   border: 1px solid var(--border);
@@ -3118,12 +3116,21 @@ body.dark .btn-modes-open:hover {
   margin-top: 2px;
 }
 
-/* Block 3: Level XP */
+/* Block 3: Level XP
+   This cluster has several classes with 2-4 overlapping unconditional
+   rule blocks below (an "always active" SW-styled section, a light-theme
+   reversion, and a mobile redesign block further down) plus, for
+   .level-badge/.level-badge-mobile, a hand-tuned specificity-matching
+   trick (see the mobile block's comment) — those stay fully bare rather
+   than risk a subtle regression. Only the genuinely untouched properties
+   below moved to Tailwind utility classes in game-bar-level.tsx:
+   .gb-level-clickable's cursor, .gb-level-name-row (all properties, incl.
+   the identical duplicate mobile rule which was deleted), .gb-level-fill's
+   height/border-radius/transition/background (box-shadow stays, SW-only),
+   and .gb-level-track's border-radius/overflow (height/background stay —
+   touched by the SW override and the mobile redesign). */
 .gb-level-block {
   flex: 1.5;
-}
-.gb-level-clickable {
-  cursor: pointer;
 }
 .gb-level-clickable:hover .level-badge {
   filter: brightness(1.08);
@@ -3132,15 +3139,6 @@ body.dark .btn-modes-open:hover {
   display: none;
 }
 
-/* Level name row: badge → next level → level number, all on one line */
-.gb-level-name-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  gap: 4px;
-  margin-bottom: 3px;
-  overflow: hidden;
-}
 .gb-level-num {
   font-size: 0.75rem;
   font-weight: 800;
@@ -3165,14 +3163,6 @@ body.dark .btn-modes-open:hover {
 .gb-level-track {
   height: 6px;
   background: var(--border);
-  border-radius: 6px;
-  overflow: hidden;
-}
-.gb-level-fill {
-  height: 100%;
-  border-radius: 6px;
-  transition: width 0.5s ease;
-  background: linear-gradient(90deg, #5dade2, #27ae60);
 }
 .gb-level-xp {
   font-size: 0.62rem;
@@ -5137,9 +5127,6 @@ body.dark .gr-tip {
   /* Compact but readable level block */
   .gb-level-block {
     flex: 1.5;
-  }
-  .gb-level-name-row {
-    margin-bottom: 3px;
   }
 
   /* The actual level name doesn't fit on narrow screens even abbreviated —

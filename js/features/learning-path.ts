@@ -945,7 +945,7 @@ export function renderLearningPath(): void {
           )
           .join('')}
       </div>
-      <button class="lp-start-btn w-full cursor-pointer rounded-xl border-none bg-[var(--accent)] p-3 font-[inherit] text-[.9rem] font-bold text-white transition-opacity duration-150 hover:opacity-[.88]" data-lp-level="${currentLevel}">
+      <button class="lp-start-btn w-full cursor-pointer rounded-[12px] border-none bg-[var(--accent)] p-3 font-[inherit] text-[.9rem] font-bold text-white transition-opacity duration-150 hover:opacity-[.88]" data-lp-level="${currentLevel}">
         📚 ${t('lp.learnWordsNow')} ${currentLevel} ${t('lp.now')}
       </button>
     </div>
@@ -1010,7 +1010,7 @@ export function renderLearningPath(): void {
             <div class="lp-stat-num text-[.82rem] font-bold" style="color:${meta.color}">${s.known}/${s.total}</div>
             <div class="lp-stat-pct text-[.7rem] text-[var(--text3)]">${s.pct}%</div>
           </div>
-          ${!isComplete ? `<button class="lp-learn-btn shrink-0 cursor-pointer rounded-lg border-[1.5px] bg-transparent px-2.5 py-1 font-[inherit] text-[.72rem] font-bold transition-colors duration-150 hover:bg-[rgba(0,200,100,.1)] max-[480px]:hidden" data-lp-level="${plan.level}" style="border-color:${meta.color};color:${meta.color}">${t('lp.learnArrow')}</button>` : ''}
+          ${!isComplete ? `<button class="lp-learn-btn shrink-0 cursor-pointer rounded-md border-[1.5px] bg-transparent px-2.5 py-1 font-[inherit] text-[.72rem] font-bold transition-colors duration-150 hover:bg-[rgba(0,200,100,.1)] max-[480px]:hidden" data-lp-level="${plan.level}" style="border-color:${meta.color};color:${meta.color}">${t('lp.learnArrow')}</button>` : ''}
         </div>
         <div class="lp-progress-bar relative mb-2 h-[5px] overflow-hidden rounded-[3px] bg-[var(--border)]">
           <div class="lp-progress-fill h-full rounded-[3px] transition-[width] duration-[600ms]" style="width:${s.pct}%;background:${meta.color};"></div>
@@ -1047,7 +1047,7 @@ export function renderLearningPath(): void {
           <div class="lp-hero-fill h-full rounded-[3px] bg-[linear-gradient(90deg,#27ae60,#2ecc71)] transition-[width] duration-[600ms]" style="width:${overallPct}%"></div>
         </div>
       </div>
-      <div class="lp-hero-focus shrink-0 rounded-xl bg-[var(--bg)] px-4 py-2.5 text-center max-[480px]:flex max-[480px]:items-center max-[480px]:gap-3 max-[480px]:px-3 max-[480px]:py-2 max-[480px]:text-left">
+      <div class="lp-hero-focus shrink-0 rounded-[12px] bg-[var(--bg)] px-4 py-2.5 text-center max-[480px]:flex max-[480px]:items-center max-[480px]:gap-3 max-[480px]:px-3 max-[480px]:py-2 max-[480px]:text-left">
         <div class="lp-focus-label mb-1 text-[.68rem] text-[var(--text3)] uppercase tracking-[0.06em]">${t('lp.currentFocus')}</div>
         <div class="lp-focus-level font-[Orbitron,monospace] text-[2rem] font-black max-[480px]:text-[1.5rem]" style="color:${CEFR_META[currentLevel].color}">${currentLevel}</div>
         <div class="lp-focus-desc mt-0.5 text-[.75rem] text-[var(--text2)]">${t('cefr.' + currentLevel)}</div>

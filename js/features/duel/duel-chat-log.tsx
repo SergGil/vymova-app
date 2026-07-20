@@ -22,7 +22,7 @@ export function DuelChatLog(): ReactElement {
       {msgs.map((m, i) => (
         <div
           key={i}
-          className={`duel-chat-msg${m.isMe ? ' me' : ''} max-w-[80%] rounded-xl px-2.5 py-1.5 text-[1.1rem] leading-[1.2] ${m.isMe ? 'self-end bg-[var(--accent)]' : 'self-start bg-[var(--bg)]'}`}
+          className={`duel-chat-msg${m.isMe ? ' me' : ''} max-w-[80%] rounded-[12px] px-2.5 py-1.5 text-[1.1rem] leading-[1.2] ${m.isMe ? 'self-end bg-[var(--accent)]' : 'self-start bg-[var(--bg)]'}`}
         >
           {m.text}
         </div>

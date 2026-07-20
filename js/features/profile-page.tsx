@@ -383,7 +383,7 @@ export function ProfilePage(): ReactElement | null {
                 </span>
                 <div className="profile-picker-controls flex items-center gap-2.5">
                   <button
-                    className="profile-picker-arrow h-[28px] w-[28px] cursor-pointer rounded-lg border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white"
+                    className="profile-picker-arrow h-[28px] w-[28px] cursor-pointer rounded-md border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white"
                     onClick={() => cycle(p.key, p.len, -1)}
                   >
                     ◀
@@ -394,7 +394,7 @@ export function ProfilePage(): ReactElement | null {
                       : `${(appearance[p.key] ?? 0) + 1} / ${p.len}`}
                   </span>
                   <button
-                    className="profile-picker-arrow h-[28px] w-[28px] cursor-pointer rounded-lg border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white"
+                    className="profile-picker-arrow h-[28px] w-[28px] cursor-pointer rounded-md border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white"
                     onClick={() => cycle(p.key, p.len, 1)}
                   >
                     ▶
@@ -417,7 +417,7 @@ export function ProfilePage(): ReactElement | null {
         <div className="profile-lang-grid flex flex-col gap-2">
 
           {/* Primary card — current learn language */}
-          <div className="profile-lang-card profile-lang-card--primary flex items-center gap-3 rounded-2xl border border-[color-mix(in_srgb,var(--accent)_40%,transparent)] bg-[color-mix(in_srgb,var(--accent)_8%,transparent)] px-[18px] py-3.5 [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)]">
+          <div className="profile-lang-card profile-lang-card--primary flex items-center gap-3 rounded-xl border border-[color-mix(in_srgb,var(--accent)_40%,transparent)] bg-[color-mix(in_srgb,var(--accent)_8%,transparent)] px-[18px] py-3.5 [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)]">
             <FlagCircle lang={learnLang} size={48} primary />
             <div className="profile-lang-info flex min-w-0 flex-1 flex-col gap-0.5">
               <span className="profile-lang-name mb-1 text-base font-bold text-[var(--text)]">

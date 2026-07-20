@@ -353,7 +353,7 @@ function IdiomCard({
     };
 
   return (
-    <div className="idiom-card rounded-xl border border-[var(--border)] bg-[var(--card)] px-4 py-3.5">
+    <div className="idiom-card rounded-[12px] border border-[var(--border)] bg-[var(--card)] px-4 py-3.5">
       <div className="idiom-head mb-1.5 flex flex-wrap items-baseline gap-2">
         <div className="idiom-num min-w-[1.8em] shrink-0 self-center text-right text-[.72rem] font-bold text-[var(--text3)] opacity-70">
           {num}

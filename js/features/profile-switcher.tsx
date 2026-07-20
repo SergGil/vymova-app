@@ -376,7 +376,7 @@ export function ProfileSwitcher(): ReactElement {
         </button>
         <button
           id="sb-add-btn"
-          className="sb-add-btn flex h-[28px] w-[28px] shrink-0 cursor-pointer items-center justify-center rounded-lg border-[1.5px] border-[var(--border)] bg-[var(--bg)] text-[1.1rem] leading-none font-bold text-[var(--accent)] transition-colors duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)]"
+          className="sb-add-btn flex h-[28px] w-[28px] shrink-0 cursor-pointer items-center justify-center rounded-md border-[1.5px] border-[var(--border)] bg-[var(--bg)] text-[1.1rem] leading-none font-bold text-[var(--accent)] transition-colors duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)]"
           title="Новий профіль"
           onClick={toggleAddForm}
         >
@@ -387,7 +387,7 @@ export function ProfileSwitcher(): ReactElement {
       <div
         id="sb-dropdown"
         className={
-          'sb-dropdown mb-1.5 flex-col gap-[3px] overflow-hidden rounded-xl border-[1.5px] border-[var(--border)] bg-[var(--card)] shadow-[0_4px_16px_rgba(0,0,0,.1)] ' +
+          'sb-dropdown mb-1.5 flex-col gap-[3px] overflow-hidden rounded-[12px] border-[1.5px] border-[var(--border)] bg-[var(--card)] shadow-[0_4px_16px_rgba(0,0,0,.1)] ' +
           (dropOpen ? 'open flex' : 'hidden')
         }
       >

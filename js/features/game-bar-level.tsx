@@ -32,7 +32,7 @@ export function GameBarLevel(): ReactElement {
 
   return (
     <div
-      className="gb-level-clickable"
+      className="gb-level-clickable cursor-pointer"
       role="button"
       tabIndex={0}
       title={t('levels.goToAchievements')}
@@ -41,7 +41,7 @@ export function GameBarLevel(): ReactElement {
         if (e.key === 'Enter' || e.key === ' ') openPage('ach');
       }}
     >
-      <div className="gb-level-name-row">
+      <div className="gb-level-name-row mb-[3px] flex flex-nowrap items-center gap-1 overflow-hidden">
         <span className="level-badge" style={{ background: lv.color + '22', color: lv.color }}>
           {levelName(lv.name)}
         </span>
@@ -57,8 +57,11 @@ export function GameBarLevel(): ReactElement {
           {lvIdx}
         </span>
       </div>
-      <div className="gb-level-track">
-        <div className="gb-level-fill" style={{ width: fillPct + '%', background: fillBg }} />
+      <div className="gb-level-track overflow-hidden rounded-sm">
+        <div
+          className="gb-level-fill h-full rounded-sm bg-[linear-gradient(90deg,#5dade2,#27ae60)] [transition:width_.5s_ease]"
+          style={{ width: fillPct + '%', background: fillBg }}
+        />
       </div>
       <div className="gb-level-xp">{xpText}</div>
     </div>

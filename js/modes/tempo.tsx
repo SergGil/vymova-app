@@ -482,7 +482,7 @@ export function TempoPage(): ReactElement {
               {question.word}
               {question.word && (
                 <button
-                className="mode-speak ml-2 inline-flex h-[30px] w-[30px] shrink-0 cursor-pointer items-center justify-center rounded-lg border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150"
+                className="mode-speak ml-2 inline-flex h-[30px] w-[30px] shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150"
                 title={t('common.listen')}
                 onClick={speakWord}
               >
@@ -497,7 +497,7 @@ export function TempoPage(): ReactElement {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
             {question.options.map((opt, i) => {
               let cls =
-                "tempo-opt w-full cursor-pointer rounded-xl border-2 border-[var(--border)] bg-[var(--card)] px-4 py-[13px] text-left font-['DM_Sans',sans-serif] text-[.92rem] font-medium text-[var(--text)] transition-[border-color,background] duration-[120ms] disabled:cursor-default";
+                "tempo-opt w-full cursor-pointer rounded-[12px] border-2 border-[var(--border)] bg-[var(--card)] px-4 py-[13px] text-left font-['DM_Sans',sans-serif] text-[.92rem] font-medium text-[var(--text)] transition-[border-color,background] duration-[120ms] disabled:cursor-default";
               if (question.selected) {
                 if (opt === question.selected)
                   cls += opt === question.answer ? ' correct' : ' wrong';

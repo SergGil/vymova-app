@@ -70,7 +70,7 @@ export function CardMeta() {
       </span>
       <span
         className={
-          'cefr-badge inline-flex shrink-0 items-center rounded-md border-[1.5px] px-[7px] py-0.5 text-[.68rem] font-extrabold tracking-[0.04em] max-[480px]:px-[5px] max-[480px]:py-px max-[480px]:text-[.62rem] cefr-' +
+          'cefr-badge inline-flex shrink-0 items-center rounded-sm border-[1.5px] px-[7px] py-0.5 text-[.68rem] font-extrabold tracking-[0.04em] max-[480px]:px-[5px] max-[480px]:py-px max-[480px]:text-[.62rem] cefr-' +
           level
         }
         id="wcefr"
@@ -79,7 +79,7 @@ export function CardMeta() {
       </span>
       {cats.map((cat, i) => (
         <span
-          className="category-badge inline-flex shrink-0 items-center whitespace-nowrap rounded-md border-[1.5px] border-[var(--border,rgba(127,127,127,.3))] bg-[rgba(127,127,127,.1)] px-2 py-0.5 text-[.68rem] font-bold text-[var(--text2,inherit)] max-[480px]:max-w-full max-[480px]:overflow-hidden max-[480px]:px-[5px] max-[480px]:py-px max-[480px]:text-[.62rem] max-[480px]:text-ellipsis"
+          className="category-badge inline-flex shrink-0 items-center whitespace-nowrap rounded-sm border-[1.5px] border-[var(--border,rgba(127,127,127,.3))] bg-[rgba(127,127,127,.1)] px-2 py-0.5 text-[.68rem] font-bold text-[var(--text2,inherit)] max-[480px]:max-w-full max-[480px]:overflow-hidden max-[480px]:px-[5px] max-[480px]:py-px max-[480px]:text-[.62rem] max-[480px]:text-ellipsis"
           id={i === 0 ? 'wcategory' : undefined}
           key={cat}
           title={categoryName(cat)}

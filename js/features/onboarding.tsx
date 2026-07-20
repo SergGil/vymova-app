@@ -221,14 +221,14 @@ function Onboarding({ onClose }: { onClose: () => void }): ReactElement {
         <div className="ob-actions mt-2.5 flex gap-2.5">
           {!isLast && (
             <button
-              className="ob-btn-skip flex-1 cursor-pointer rounded-xl border-[1.5px] border-white/22 bg-transparent p-3 font-[inherit] text-[.85rem] text-white/65 hover:border-white/50 hover:text-white"
+              className="ob-btn-skip flex-1 cursor-pointer rounded-[12px] border-[1.5px] border-white/22 bg-transparent p-3 font-[inherit] text-[.85rem] text-white/65 hover:border-white/50 hover:text-white"
               onClick={handleSkip}
             >
               {t('ob.skip')}
             </button>
           )}
           <button
-            className="ob-btn-next flex-[2] cursor-pointer rounded-xl border-none bg-[#4ecca3] p-3 font-[inherit] text-[.9rem] font-bold text-[#0a1628] hover:opacity-[.88]"
+            className="ob-btn-next flex-[2] cursor-pointer rounded-[12px] border-none bg-[#4ecca3] p-3 font-[inherit] text-[.9rem] font-bold text-[#0a1628] hover:opacity-[.88]"
             onClick={handleNext}
           >
             {isLast ? t('ob.start') : t('ob.next')}

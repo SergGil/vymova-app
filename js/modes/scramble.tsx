@@ -358,7 +358,7 @@ export function ScramblePage(): ReactElement {
             {answer.map((li, pos) => (
               <button
                 key={'a' + pos}
-                className="scr-tile scr-tile-placed min-w-[38px] h-[42px] cursor-pointer rounded-lg border-2 border-[var(--border)] bg-[var(--card)] px-1 font-[inherit] text-[1.1rem] font-bold text-[var(--text)] transition-[transform,background,border-color] duration-150 hover:-translate-y-0.5 hover:border-[var(--accent)] disabled:cursor-default disabled:opacity-85"
+                className="scr-tile scr-tile-placed min-w-[38px] h-[42px] cursor-pointer rounded-md border-2 border-[var(--border)] bg-[var(--card)] px-1 font-[inherit] text-[1.1rem] font-bold text-[var(--text)] transition-[transform,background,border-color] duration-150 hover:-translate-y-0.5 hover:border-[var(--accent)] disabled:cursor-default disabled:opacity-85"
                 disabled={answered}
                 onClick={() => deselectAt(pos)}
               >
@@ -366,7 +366,7 @@ export function ScramblePage(): ReactElement {
               </button>
             ))}
             {Array.from({ length: letters.length - answer.length }).map((_, i) => (
-              <span key={'e' + i} className="scr-tile scr-tile-empty min-w-[38px] h-[42px] rounded-lg border-2 border-dashed border-[var(--border)] bg-transparent" />
+              <span key={'e' + i} className="scr-tile scr-tile-empty min-w-[38px] h-[42px] rounded-md border-2 border-dashed border-[var(--border)] bg-transparent" />
             ))}
           </div>
 
@@ -384,7 +384,7 @@ export function ScramblePage(): ReactElement {
               .map((li) => (
                 <button
                   key={'t' + li}
-                  className="scr-tile min-w-[38px] h-[42px] cursor-pointer rounded-lg border-2 border-[var(--border)] bg-[var(--card)] px-1 font-[inherit] text-[1.1rem] font-bold text-[var(--text)] transition-[transform,background,border-color] duration-150 hover:-translate-y-0.5 hover:border-[var(--accent)] disabled:cursor-default disabled:opacity-85"
+                  className="scr-tile min-w-[38px] h-[42px] cursor-pointer rounded-md border-2 border-[var(--border)] bg-[var(--card)] px-1 font-[inherit] text-[1.1rem] font-bold text-[var(--text)] transition-[transform,background,border-color] duration-150 hover:-translate-y-0.5 hover:border-[var(--accent)] disabled:cursor-default disabled:opacity-85"
                   disabled={answered}
                   onClick={() => selectLetter(li)}
                 >
