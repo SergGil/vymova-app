@@ -210,6 +210,92 @@ function corsHeaders(origin: string): HeadersInit {
   };
 }
 
+function jsonError(origin: string, error: string, status: number): Response {
+  return new Response(JSON.stringify({ error }), {
+    status,
+    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+  });
+}
+
+const VALID_MODES = new Set(['tutor', 'roleplay', 'story', 'translate']);
+const MAX_SCENARIO_CHARS = 100;
+
+type ValidationResult =
+  | { ok: true; body: ChatRequestBody }
+  | { ok: false; error: string; status: number };
+
+// Single point of trust-boundary validation for the parsed JSON request —
+// consolidates what used to be five separate scattered `if` checks, and
+// closes gaps none of them covered: `mode` itself was never checked against
+// an allowlist (an unrecognized mode silently fell through to the tutor
+// prompt instead of being rejected), each message's `role`/`text` shape was
+// never checked (a non-string `text` would reach Gemini's request body
+// as-is), and `scenario` had no length cap at all — it's a free-form key
+// into ROLEPLAY_SCENARIOS with a safe fallback, but nothing stopped a
+// caller from sending a multi-megabyte string for it, since
+// MAX_PAYLOAD_CHARS below only ever counted `messages`/`text`, never
+// `scenario`.
+function validateBody(raw: unknown): ValidationResult {
+  if (typeof raw !== 'object' || raw === null) {
+    return { ok: false, error: 'missing_fields', status: 400 };
+  }
+  const b = raw as Record<string, unknown>;
+
+  if (typeof b.mode !== 'string' || !VALID_MODES.has(b.mode)) {
+    return { ok: false, error: 'invalid_mode', status: 400 };
+  }
+  const mode = b.mode as ChatRequestBody['mode'];
+
+  if (typeof b.lang !== 'object' || b.lang === null) {
+    return { ok: false, error: 'missing_fields', status: 400 };
+  }
+  const lang = b.lang as Record<string, unknown>;
+  if (typeof lang.know !== 'string' || typeof lang.learn !== 'string') {
+    return { ok: false, error: 'missing_fields', status: 400 };
+  }
+  // Validate lang codes against known set to prevent prompt injection.
+  if (!VALID_LANGS.has(lang.know) || !VALID_LANGS.has(lang.learn)) {
+    return { ok: false, error: 'invalid_lang', status: 400 };
+  }
+
+  // Story/translate have no conversation turns to send — they're single
+  // one-shot requests, unlike tutor/roleplay.
+  if (mode === 'translate') {
+    if (typeof b.text !== 'string' || !b.text.trim()) {
+      return { ok: false, error: 'missing_fields', status: 400 };
+    }
+  } else if (mode !== 'story') {
+    if (!Array.isArray(b.messages) || b.messages.length === 0) {
+      return { ok: false, error: 'missing_fields', status: 400 };
+    }
+    for (const m of b.messages as unknown[]) {
+      const turn = m as Record<string, unknown> | null;
+      if (
+        typeof turn !== 'object' ||
+        turn === null ||
+        (turn.role !== 'user' && turn.role !== 'assistant') ||
+        typeof turn.text !== 'string'
+      ) {
+        return { ok: false, error: 'invalid_message', status: 400 };
+      }
+    }
+  }
+
+  if (mode === 'story' && b.level !== undefined) {
+    if (typeof b.level !== 'string' || !VALID_LEVELS.has(b.level)) {
+      return { ok: false, error: 'invalid_level', status: 400 };
+    }
+  }
+
+  if (mode === 'roleplay' && b.scenario !== undefined) {
+    if (typeof b.scenario !== 'string' || b.scenario.length > MAX_SCENARIO_CHARS) {
+      return { ok: false, error: 'invalid_scenario', status: 400 };
+    }
+  }
+
+  return { ok: true, body: raw as ChatRequestBody };
+}
+
 function buildSystemPrompt(body: ChatRequestBody): string {
   const { know, learn } = body.lang;
   if (body.mode === 'roleplay') {
@@ -320,63 +406,25 @@ export default {
     // always send Origin on POST, so this only turns away spoofed/absent
     // Origins, never a legitimate call from the app.
     if (env.ALLOWED_ORIGIN && request.headers.get('Origin') !== env.ALLOWED_ORIGIN) {
-      return new Response(JSON.stringify({ error: 'forbidden_origin' }), {
-        status: 403,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-      });
+      return jsonError(origin, 'forbidden_origin', 403);
     }
 
     const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
     if (!(await checkRateLimit(env, ip))) {
-      return new Response(JSON.stringify({ error: 'rate_limited' }), {
-        status: 429,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-      });
+      return jsonError(origin, 'rate_limited', 429);
     }
 
-    let body: ChatRequestBody;
+    let rawBody: unknown;
     try {
-      body = await request.json();
+      rawBody = await request.json();
     } catch {
-      return new Response(JSON.stringify({ error: 'invalid_json' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-      });
+      return jsonError(origin, 'invalid_json', 400);
     }
-    // Story/translate have no conversation turns to send — they're single
-    // one-shot requests, unlike tutor/roleplay.
-    if (body.mode !== 'story' && body.mode !== 'translate' && !body.messages?.length) {
-      return new Response(JSON.stringify({ error: 'missing_fields' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-      });
+    const validated = validateBody(rawBody);
+    if (!validated.ok) {
+      return jsonError(origin, validated.error, validated.status);
     }
-    if (body.mode === 'translate' && !body.text?.trim()) {
-      return new Response(JSON.stringify({ error: 'missing_fields' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-      });
-    }
-    if (!body.lang) {
-      return new Response(JSON.stringify({ error: 'missing_fields' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-      });
-    }
-
-    // Validate lang codes against known set to prevent prompt injection.
-    if (!VALID_LANGS.has(body.lang.know) || !VALID_LANGS.has(body.lang.learn)) {
-      return new Response(JSON.stringify({ error: 'invalid_lang' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-      });
-    }
-    if (body.mode === 'story' && body.level !== undefined && !VALID_LEVELS.has(body.level)) {
-      return new Response(JSON.stringify({ error: 'invalid_level' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-      });
-    }
+    const body = validated.body;
 
     // Cap messages to prevent runaway Gemini costs.
     if ((body.messages?.length ?? 0) > MAX_MESSAGES) {
@@ -387,10 +435,7 @@ export default {
         ? (body.text?.length ?? 0)
         : (body.messages ?? []).reduce((s, m) => s + (m.text?.length ?? 0), 0);
     if (totalChars > MAX_PAYLOAD_CHARS) {
-      return new Response(JSON.stringify({ error: 'payload_too_large' }), {
-        status: 413,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-      });
+      return jsonError(origin, 'payload_too_large', 413);
     }
 
     const systemPrompt = buildSystemPrompt(body);

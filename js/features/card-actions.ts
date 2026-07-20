@@ -244,6 +244,66 @@ export function CardActionsInit(): ReactElement | null {
     };
     knowBtn.addEventListener('click', onKnowClick);
 
+    // ── Hard (SRS range only — see card-known-visuals.tsx's visibility toggle) ──
+    const hardBtn = document.getElementById('btn-hard')!;
+    const onHardClick = (e: MouseEvent) => {
+      e.stopPropagation();
+      const cw = getCwSnapshot();
+      if (cw) {
+        const _lang = _activeKnownLang();
+        const isNewlyKnown = !getKnownSnapshot(_lang).has(cw[0]);
+        markKnown(_lang, cw[0]);
+        // Quality 3 — SM-2's lowest passing grade ("recalled correctly, but
+        // with real difficulty"): still grows the interval, just by less
+        // than quality 5's "Знаю". Always applied unconditionally, unlike
+        // onKnowClick (which only calls sm2Update in the SRS range and
+        // otherwise deletes the entry as "mastered") — #btn-hard is only
+        // ever visible in the SRS range to begin with, so there's no
+        // "outside SRS" case to special-case here.
+        sm2Update(cw[0], 3);
+        if (isTargetLang(_lang)) {
+          const cfg = langConfig(_lang);
+          cfg.saveKnown(cfg.known());
+        } else {
+          saveKnown(getKnownSnapshot('en'));
+        }
+        saveSRS(getSrsDataSnapshot());
+        _safe(() => updateSrsUI(getBaseWordsSnapshot() as unknown as WordEntry[]));
+        _safe(() => playSound('know'));
+        _safe(() => {
+          addCombo();
+          flashCard(true);
+        });
+        _safe(() => incrementGoalProgress());
+        _safe(() => {
+          const gd = getGameData();
+          if (gd.goalCur >= gd.goalMax && !gd.confettiShown) {
+            gd.confettiShown = today();
+            saveGameData(gd);
+            launchConfetti();
+            _safe(() => playSound('goal'));
+          }
+        });
+        if (isNewlyKnown) {
+          onWordLearned();
+          _safe(() => checkMilestones());
+        }
+        setDeck(buildSRSDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));
+        setIdx(0);
+        render();
+        return;
+      }
+      const deckLen = getDeckSnapshot().length;
+      if (!deckLen) {
+        render();
+        return;
+      }
+      animCard('next');
+      setIdx((getIdxSnapshot() + 1) % deckLen);
+      render();
+    };
+    hardBtn.addEventListener('click', onHardClick);
+
     const nextBtn = document.getElementById('btn-next')!;
     const onNextClick = (e: MouseEvent) => {
       e.stopPropagation();
@@ -359,6 +419,7 @@ export function CardActionsInit(): ReactElement | null {
       micBtn.removeEventListener('click', onMicClick);
       prevBtn.removeEventListener('click', onPrevClick);
       knowBtn.removeEventListener('click', onKnowClick);
+      hardBtn.removeEventListener('click', onHardClick);
       nextBtn.removeEventListener('click', onNextClick);
       dontknowBtn.removeEventListener('click', onDontknowClick);
       autoBtn.removeEventListener('click', onAutoClick);

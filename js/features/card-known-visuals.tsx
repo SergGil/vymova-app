@@ -1,7 +1,8 @@
 // Vymova — js/features/card-known-visuals.tsx
-// Реактивні візуали картки: #card's 'is-known' class та #btn-dontknow's
-// видимість. Виділено з card-engine.ts's render() (item: card-engine React
-// migration) — той сам більше не торкається DOM напряму для цих двох речей.
+// Реактивні візуали картки: #card's 'is-known' class та #btn-dontknow's/
+// #btn-hard's видимість. Виділено з card-engine.ts's render() (item:
+// card-engine React migration) — той сам більше не торкається DOM напряму
+// для цих речей.
 import { useLayoutEffect } from 'react';
 import { useDeckState } from '../../src/deck-store.ts';
 import { useAllKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
@@ -31,10 +32,15 @@ export function CardKnownVisuals(): null {
   });
 
   useLayoutEffect(() => {
-    const dontKnowEl = document.getElementById('btn-dontknow');
-    if (!dontKnowEl) return;
+    // "Важко"/"Не знаю" only make sense while reviewing the SRS queue — outside
+    // it, onKnowClick() doesn't call sm2Update() at all (see card-actions.ts),
+    // so a quality rating from either button would have nothing to act on.
     const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement | null)?.value;
-    dontKnowEl.style.display = rangeVal === 'srs' ? '' : 'none';
+    const display = rangeVal === 'srs' ? '' : 'none';
+    const dontKnowEl = document.getElementById('btn-dontknow');
+    if (dontKnowEl) dontKnowEl.style.display = display;
+    const hardEl = document.getElementById('btn-hard');
+    if (hardEl) hardEl.style.display = display;
   });
 
   return null;

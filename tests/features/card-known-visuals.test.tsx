@@ -37,6 +37,7 @@ describe('CardKnownVisuals', () => {
     document.body.innerHTML = `
       <div id="card"></div>
       <button id="btn-dontknow"></button>
+      <button id="btn-hard"></button>
       <select id="sel-range"><option value="srs" selected>srs</option><option value="all">all</option></select>
     `;
     setKnownWords('en', new Set());
@@ -82,5 +83,17 @@ describe('CardKnownVisuals', () => {
     (document.getElementById('sel-range') as HTMLSelectElement).value = 'all';
     mount();
     expect(document.getElementById('btn-dontknow')!.style.display).toBe('none');
+  });
+
+  it('toggles the hard button based on sel-range value the same way as dontknow', () => {
+    (document.getElementById('sel-range') as HTMLSelectElement).value = 'srs';
+    mount();
+    expect(document.getElementById('btn-hard')!.style.display).toBe('');
+  });
+
+  it("hides the hard button when sel-range isn't srs", () => {
+    (document.getElementById('sel-range') as HTMLSelectElement).value = 'all';
+    mount();
+    expect(document.getElementById('btn-hard')!.style.display).toBe('none');
   });
 });

@@ -46,7 +46,8 @@ export interface LevelInfo {
 }
 
 export function getLevelInfo(totalXp: number): LevelInfo {
-  // Binary-search for the highest level whose threshold is ≤ totalXp
+  // Linear scan for the highest level whose threshold is ≤ totalXp — only
+  // ever 100 entries, so no need for binary search.
   let level = 1;
   for (let i = 1; i < LEVEL_XP.length; i++) {
     if (totalXp >= LEVEL_XP[i]) level = i + 1;

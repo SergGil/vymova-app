@@ -1,6 +1,6 @@
 {
   "name": "vymova",
-  "version": "1.377.0",
+  "version": "1.378.0",
   "type": "module",
   "main": "public/sw.js",
   "engines": {
@@ -69,6 +69,7 @@
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.0",
     "tailwind-merge": "^3.6.0",
-    "three": "^0.180.0"
+    "three": "^0.180.0",
+    "zod": "^4.4.3"
   }
 }

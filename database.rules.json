@@ -87,22 +87,116 @@
     "leaderboard": {
       ".read": true,
       ".write": true,
-      ".indexOn": ["xp"]
+      ".indexOn": ["xp"],
+      "$uid": {
+        "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40" },
+        "avatar": { ".validate": "newData.isString() && newData.val().length <= 20" },
+        "known": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 20000" },
+        "streak": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 3650" },
+        "xp": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 2000000" },
+        "updatedAt": { ".validate": "newData.isNumber() && newData.val() <= now + 60000" }
+      }
     },
     "tournaments": {
       ".read": true,
       ".write": true,
       "$tournamentId": {
         ".read": true,
-        ".write": true
+        ".write": true,
+
+        "code": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "size": { ".validate": "newData.isNumber() && (newData.val() == 4 || newData.val() == 8) && (!data.exists() || newData.val() == data.val())" },
+        "mode": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "category": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "difficulty": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "lang": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "knowLang": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "createdAt": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "champion": { ".validate": "newData.isString() && newData.val().length <= 80" },
+        "currentRound": {
+          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10 && (!data.exists() || newData.val() >= data.val())"
+        },
+        "currentMatch": {
+          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 999 && (!data.exists() || newData.val() >= data.val())"
+        },
+        "started": {
+          ".validate": "newData.isBoolean() && (!data.exists() || newData.val() == true || newData.val() == data.val())"
+        },
+        "finished": {
+          ".validate": "newData.isBoolean() && (!data.exists() || newData.val() == true || newData.val() == data.val())"
+        },
+
+        "players": {
+          "$slot": {
+            "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40 && (!data.exists() || newData.val() == data.val())" },
+            "avatar": { ".validate": "newData.isString() && newData.val().length <= 20 && (!data.exists() || newData.val() == data.val())" }
+          }
+        },
+
+        "bracket": {
+          "$round": {
+            "$match": {
+              "p1": { ".validate": "newData.isNumber() && newData.val() >= -20 && newData.val() <= 20" },
+              "p2": { ".validate": "newData.isNumber() && newData.val() >= -20 && newData.val() <= 20" },
+              "winner": { ".validate": "newData.isNumber() && newData.val() >= -20 && newData.val() <= 20" },
+              "p1score": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 50 && (!data.exists() || newData.val() >= data.val())"
+              },
+              "p2score": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 50 && (!data.exists() || newData.val() >= data.val())"
+              },
+              "done": {
+                ".validate": "newData.isBoolean() && (!data.exists() || newData.val() == true || newData.val() == data.val())"
+              },
+              "roomId": { ".validate": "newData.isString() && newData.val().length <= 20" }
+            }
+          }
+        }
       }
     },
     "duel_async": {
       ".read": true,
       ".write": true,
-      "$gameId": {
+      "$code": {
         ".read": true,
-        ".write": true
+        ".write": true,
+
+        "seed": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "mode": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "category": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "difficulty": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "lang": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "knowLang": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "createdAt": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "expiresAt": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "powerupsEnabled": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "maxHints": { ".validate": "!data.exists() || newData.val() == data.val()" },
+        "bestOf": { ".validate": "!data.exists() || newData.val() == data.val()" },
+
+        "finished": {
+          ".validate": "newData.isBoolean() && (!data.exists() || newData.val() == true || newData.val() == data.val())"
+        },
+
+        "challenger": {
+          "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40 && (!data.exists() || newData.val() == data.val())" },
+          "avatar": { ".validate": "newData.isString() && newData.val().length <= 20 && (!data.exists() || newData.val() == data.val())" },
+          "score": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10 && (!data.exists() || newData.val() >= data.val())"
+          },
+          "done": {
+            ".validate": "newData.isBoolean() && (!data.exists() || newData.val() == true || newData.val() == data.val())"
+          }
+        },
+        "opponent": {
+          "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40 && (!data.exists() || newData.val() == data.val())" },
+          "avatar": { ".validate": "newData.isString() && newData.val().length <= 20 && (!data.exists() || newData.val() == data.val())" },
+          "score": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10 && (!data.exists() || newData.val() >= data.val())"
+          },
+          "done": {
+            ".validate": "newData.isBoolean() && (!data.exists() || newData.val() == true || newData.val() == data.val())"
+          }
+        }
       }
     }
   }

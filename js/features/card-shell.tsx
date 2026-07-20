@@ -277,6 +277,21 @@ export function CardShell(): ReactElement {
           <span data-i18n="cards.know">✓ Знаю</span>
         </button>
         <button
+          className="btn btn-hard"
+          id="btn-hard"
+          title="Згадав(-ла) з труднощами"
+          data-i18n-title="cards.hardTitle"
+          style={{
+            display: 'none',
+            flex: 1,
+            fontSize: '1.05rem',
+            padding: '14px 0',
+            letterSpacing: '0.03em',
+          }}
+        >
+          <span data-i18n="cards.hard">🤔 Важко</span>
+        </button>
+        <button
           className="btn btn-dontknow"
           id="btn-dontknow"
           style={{

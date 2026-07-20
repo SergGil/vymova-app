@@ -2,10 +2,21 @@
 // Firebase Realtime Database sync via REST API (no SDK)
 import { useEffect, useRef, useState, type CSSProperties, type ReactElement } from 'react';
 import * as LZString from 'lz-string';
+import { z } from 'zod';
 import { t } from './i18n.ts';
 import { DYNAMIC_KEY_PREFIXES } from './profile-switcher.tsx';
 import { _lzSave, _lzLoad } from '../core/storage.ts';
 import type { SRSData } from '../../src/types.js';
+
+// Every value under /sync/<key> is a JSON-stringified string (saveToCloud()
+// writes `String(Date.now())`/JSON.stringify(...) for every key, never a
+// nested object/number) — this is a REST response from a database anyone can
+// write to (see database.rules.json's wide-open `sync` node), so a `Record<
+// string, string>` type-cast alone was trust, not verification. Runtime-check
+// the shape before merging it into local progress; a malformed response
+// (unexpected type from a tampered or corrupted entry) is treated the same
+// as "no remote data" rather than risking a crash partway through the merge.
+const SyncPayloadSchema = z.record(z.string(), z.string()).nullable();
 
 const DB_URL = 'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
 const KEY_LS = 'ew_sync_key';
@@ -242,7 +253,8 @@ export async function saveToCloud(): Promise<void> {
   try {
     const res = await fetch(DB_URL + '/sync/' + key + '.json');
     if (res.ok) {
-      const remote = (await res.json()) as Record<string, string> | null;
+      const parsed = SyncPayloadSchema.safeParse(await res.json());
+      const remote = parsed.success ? parsed.data : null;
       if (remote && remote._ts) _mergeProgressKeys(remote);
     }
   } catch (e) {}
@@ -265,7 +277,8 @@ export async function loadFromCloud(raw: string): Promise<void> {
   if (key.length < 12) throw new Error(t('settings.cloudKeyTooShort'));
   const res = await fetch(DB_URL + '/sync/' + key + '.json');
   if (!res.ok) throw new Error('HTTP ' + res.status);
-  const data = (await res.json()) as Record<string, string> | null;
+  const parsed = SyncPayloadSchema.safeParse(await res.json());
+  const data = parsed.success ? parsed.data : null;
   if (!data || !data._ts) throw new Error(t('settings.cloudDataNotFound'));
   // Known words / SRS / achievements / daily activity: merge (union) with
   // what's already on this device, so restoring a backup — even one from a

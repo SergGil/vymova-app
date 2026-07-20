@@ -136,6 +136,7 @@ beforeAll(async () => {
     <button id="btn-mic"></button>
     <button id="btn-prev"></button>
     <button id="btn-know"></button>
+    <button id="btn-hard"></button>
     <button id="btn-next"></button>
     <button id="btn-dontknow"></button>
     <button id="btn-auto"></button>
@@ -282,6 +283,73 @@ describe('btn-know', () => {
     setDeckState([] as unknown as WordEntry[]);
 
     document.getElementById('btn-know')!.click();
+
+    expect(getKnownSnapshot('en').size).toBe(0);
+    expect(engineRender).toHaveBeenCalled();
+  });
+});
+
+// ── btn-hard ─────────────────────────────────────────────────────
+describe('btn-hard', () => {
+  it('marks the current word as known and applies a quality-3 SM-2 update', () => {
+    document.getElementById('btn-hard')!.click();
+
+    expect(getKnownSnapshot('en').has('apple')).toBe(true);
+    expect(getSrsDataSnapshot()['apple']).toBeDefined();
+    expect(getSrsDataSnapshot()['apple'].reps).toBe(1);
+    expect(getSrsDataSnapshot()['apple'].interval).toBe(1);
+    expect(getSrsDataSnapshot()['apple'].due).toBe('2024-06-02');
+  });
+
+  it('grows the ease factor by less than a "Знаю" (quality 5) answer would', () => {
+    document.getElementById('btn-hard')!.click();
+    const hardEf = getSrsDataSnapshot()['apple'].ef;
+
+    clearSrsData();
+    setCwState(W[0]);
+    document.getElementById('btn-know')!.click();
+    const knowEf = getSrsDataSnapshot()['apple'].ef;
+
+    expect(hardEf).toBeLessThan(knowEf);
+  });
+
+  it('persists known + SRS state to localStorage', () => {
+    document.getElementById('btn-hard')!.click();
+
+    expect(loadKnown().has('apple')).toBe(true);
+    expect(loadSRS()['apple']).toBeDefined();
+  });
+
+  it('applies the SM-2 update even outside the SRS range (button is only ever shown there, but the handler does not special-case range)', () => {
+    setRange('all');
+
+    document.getElementById('btn-hard')!.click();
+
+    expect(getSrsDataSnapshot()['apple']).toBeDefined();
+  });
+
+  it('rebuilds the SRS deck and resets index', () => {
+    document.getElementById('btn-hard')!.click();
+
+    expect(engineSetDeck).toHaveBeenCalled();
+    expect(engineSetIdx).toHaveBeenCalledWith(0);
+    expect(engineRender).toHaveBeenCalled();
+  });
+
+  it('calls onWordLearned only the first time a word becomes known', () => {
+    document.getElementById('btn-hard')!.click();
+    expect(engineOnWordLearned).toHaveBeenCalledTimes(1);
+
+    setCwState(W[0]); // already known now
+    document.getElementById('btn-hard')!.click();
+    expect(engineOnWordLearned).toHaveBeenCalledTimes(1);
+  });
+
+  it('does nothing when there is no current word', () => {
+    setCwState(null);
+    setDeckState([] as unknown as WordEntry[]);
+
+    document.getElementById('btn-hard')!.click();
 
     expect(getKnownSnapshot('en').size).toBe(0);
     expect(engineRender).toHaveBeenCalled();
