@@ -68,7 +68,7 @@ describe('search-inline.tsx SearchInline', () => {
     });
 
     const results = container.querySelector('#search-results') as HTMLElement;
-    expect(results.className).toContain('open');
+    expect(results.classList.contains('block')).toBe(true);
     expect(results.querySelectorAll('.search-result-item').length).toBeGreaterThan(0);
   });
 
@@ -169,15 +169,17 @@ describe('search-inline.tsx SearchInline', () => {
       await new Promise((r) => setTimeout(r, 220));
     });
 
-    expect((container.querySelector('#search-results') as HTMLElement).className).toContain('open');
+    expect(
+      (container.querySelector('#search-results') as HTMLElement).classList.contains('block'),
+    ).toBe(true);
     act(() => {
       input.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
       );
     });
-    expect((container.querySelector('#search-results') as HTMLElement).className).not.toContain(
-      'open',
-    );
+    expect(
+      (container.querySelector('#search-results') as HTMLElement).classList.contains('hidden'),
+    ).toBe(true);
   });
 
   it('closes the results dropdown when clicking outside', async () => {
@@ -191,12 +193,14 @@ describe('search-inline.tsx SearchInline', () => {
       await new Promise((r) => setTimeout(r, 220));
     });
 
-    expect((container.querySelector('#search-results') as HTMLElement).className).toContain('open');
+    expect(
+      (container.querySelector('#search-results') as HTMLElement).classList.contains('block'),
+    ).toBe(true);
     act(() => {
       document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect((container.querySelector('#search-results') as HTMLElement).className).not.toContain(
-      'open',
-    );
+    expect(
+      (container.querySelector('#search-results') as HTMLElement).classList.contains('hidden'),
+    ).toBe(true);
   });
 });

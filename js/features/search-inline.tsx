@@ -111,11 +111,14 @@ export function SearchInline(): ReactElement {
 
   return (
     <div ref={wrapRef} className="search-wrap-inner" style={{ display: 'contents' }}>
-      <span className="search-icon">🔍</span>
+      <span className="search-icon absolute top-1/2 left-2.5 -translate-y-1/2 text-[13px] text-[var(--text3)] pointer-events-none">
+        🔍
+      </span>
       <input
         ref={inputRef}
         type="text"
         id="search-input"
+        className="w-full rounded-[10px] py-2 pr-3 pl-8 text-[.85rem] font-[inherit] outline-none transition-[border-color] duration-200"
         placeholder={t('cards.searchPlaceholder')}
         autoComplete="off"
         spellCheck={false}
@@ -137,10 +140,18 @@ export function SearchInline(): ReactElement {
           }
         }}
       />
-      <div className={'search-results' + (isOpen ? ' open' : '')} id="search-results">
+      <div
+        className={
+          'search-results absolute top-[calc(100%+4px)] right-0 left-0 max-h-[220px] overflow-y-auto rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--card)] shadow-[0_4px_16px_rgba(0,0,0,.1)] ' +
+          (isOpen ? 'block' : 'hidden')
+        }
+        id="search-results"
+      >
         {hits.length === 0 ? (
           query.trim() ? (
-            <div className="search-no-results">{t('search.noResults')}</div>
+            <div className="search-no-results px-3 py-2.5 text-center text-[.83rem] text-[var(--text3)]">
+              {t('search.noResults')}
+            </div>
           ) : null
         ) : (
           hits.map((h, i) => {
@@ -149,18 +160,25 @@ export function SearchInline(): ReactElement {
               <div
                 key={h.key}
                 className={
-                  'search-result-item' +
+                  'search-result-item flex cursor-pointer justify-between gap-2 px-3 py-2 text-[.85rem]' +
                   (isKnown ? ' sr-known' : '') +
                   (i === activeIdx ? ' active' : '')
                 }
                 onClick={() => goToWord(h.key, reset)}
                 onTouchEnd={() => goToWord(h.key, reset)}
               >
-                <span className="sr-word" dir={h.frontRtl ? 'rtl' : undefined}>
+                <span
+                  className="sr-word font-semibold text-[var(--text)]"
+                  dir={h.frontRtl ? 'rtl' : undefined}
+                >
                   {h.front}
                 </span>
-                <span className="sr-transl">{h.back}</span>
-                {isKnown && <span className="sr-known-badge">✓</span>}
+                <span className="sr-transl flex-1 text-[var(--text2)]">{h.back}</span>
+                {isKnown && (
+                  <span className="sr-known-badge shrink-0 text-[.72rem] font-bold text-[#27ae60]">
+                    ✓
+                  </span>
+                )}
               </div>
             );
           })

@@ -730,15 +730,10 @@ body.dark .btn-auto {
   border-color: #9b59b6;
   color: #9b59b6;
 }
-body.dark input#search-input {
-  background: var(--card);
-  color: var(--text);
-  border-color: var(--border);
-}
-body.dark .search-results {
-  background: var(--card);
-  border-color: var(--border);
-}
+/* body.dark input#search-input and body.dark .search-results (background/
+   border-color/color re-asserting the exact var(--card)/var(--border)/
+   var(--text) the base rules already resolve to in dark mode) deleted as
+   dead code — confirmed no visual effect. */
 body.dark .search-result-item:hover {
   background: var(--border);
 }
@@ -761,88 +756,34 @@ body.dark .modal-inner {
   border-color: var(--accent);
 }
 
-/* ── Пошук ── */
-.search-wrap {
-  position: relative;
-  margin-bottom: 10px;
-}
+/* ── Пошук ──
+   .search-wrap/.search-icon/.search-results' layout+chrome/.search-result-
+   item's box+typography/.sr-word/.sr-transl/.sr-known-badge/.search-no-
+   results moved to Tailwind utility classes in search-inline.tsx (no
+   fandom-theme or body.dark overrides existed for any of them — the
+   .search-results.open toggle became a plain block/hidden class swap).
+   #search-input's background/border/color and #search-input:focus's
+   border-color stay bare: all 14 fandom themes override them. .search-
+   results' z-index (unconditional !important override below) and its
+   mobile max-height, .search-result-item's mobile padding/gap/etc, .sr-
+   word/.sr-transl's mobile-only font-size, and .sr-known's theme/dark
+   background all stay bare too. */
 #search-input {
-  width: 100%;
-  padding: 8px 12px 8px 32px;
   border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-family: inherit;
   background: var(--card);
   color: var(--text);
-  outline: none;
-  transition: border-color 0.2s;
 }
 #search-input:focus {
   border-color: var(--accent);
 }
-.search-icon {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 13px;
-  color: var(--text3);
-  pointer-events: none;
-}
-.search-results {
-  display: none;
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-  background: var(--card);
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  max-height: 220px;
-  overflow-y: auto;
-  z-index: 100;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
-.search-results.open {
-  display: block;
-}
-.search-result-item {
-  padding: 8px 12px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-}
 .search-result-item:hover {
   background: var(--bg);
-}
-.search-result-item .sr-word {
-  font-weight: 600;
-  color: var(--text);
-}
-.search-result-item .sr-transl {
-  color: var(--text2);
-  flex: 1;
 }
 .search-result-item.sr-known {
   background: #f0fdf4;
 }
 body.dark .search-result-item.sr-known {
   background: #1a2e1f;
-}
-.search-result-item .sr-known-badge {
-  font-size: 0.72rem;
-  color: #27ae60;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-.search-no-results {
-  padding: 10px 12px;
-  font-size: 0.83rem;
-  color: var(--text3);
-  text-align: center;
 }
 
 /* ── Підказка клавіш ── */
@@ -4770,11 +4711,6 @@ body.dark .gr-tip {
   #btn-font-up {
     padding: 5px 10px;
     min-height: 36px;
-  }
-
-  /* Search bar */
-  #search-input {
-    font-size: 0.9rem;
   }
 
   /* Word detail: full height bottom sheet */
