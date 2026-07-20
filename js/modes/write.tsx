@@ -500,16 +500,24 @@ export function WritePage(): ReactElement {
               }}
             />
             {acItems.length > 0 && (
-              <div className="write-ac" style={{ display: 'block' }}>
+              <div
+                className="write-ac absolute top-[calc(100%-4px)] right-0 left-0 z-20 max-h-[220px] overflow-x-hidden overflow-y-auto rounded-b-[12px] border-[1.5px] border-t-0 border-[var(--accent)] bg-[var(--card)] shadow-[0_8px_20px_rgba(0,0,0,.15)]"
+                style={{ display: 'block' }}
+              >
                 {acItems.map((aw, i) => (
                   <div
                     key={aw[0]}
-                    className={'wac-item' + (i === acIdx ? ' wac-sel' : '')}
+                    className={
+                      'wac-item flex cursor-pointer items-center justify-between gap-2 border-b border-b-[var(--border)] px-4 py-2 text-[.88rem] transition-[background] duration-100 last:border-b-0' +
+                      (i === acIdx ? ' wac-sel' : '')
+                    }
                     onClick={() => pickAc(i)}
                   >
-                    <span className="wac-word">{aw[0]}</span>
-                    <span className="wac-ua">{aw[1]}</span>
-                    <span className="wac-n">{i + 1}</span>
+                    <span className="wac-word font-semibold text-[var(--text)]">{aw[0]}</span>
+                    <span className="wac-ua text-[.78rem] text-[var(--text2)]">{aw[1]}</span>
+                    <span className="wac-n shrink-0 rounded-[4px] bg-[var(--border)] px-[5px] py-px text-[.65rem] text-[var(--text3)]">
+                      {i + 1}
+                    </span>
                   </div>
                 ))}
               </div>

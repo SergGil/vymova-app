@@ -2025,90 +2025,17 @@ body.dark .btn-lesson {
   transition: width 0.15s;
 }
 
-/* ── Keyboard overlay ── */
-#keys-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 9600;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-#keys-overlay.open {
-  display: flex;
-}
-.keys-panel {
-  background: var(--card);
-  border-radius: 18px;
-  padding: 24px 22px;
-  max-width: 560px;
-  width: 100%;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-}
-.keys-section {
-  margin-bottom: 16px;
-}
-.keys-section-title {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--text3);
-  margin-bottom: 8px;
-}
-.keys-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 0.85rem;
-  color: var(--text);
-}
-.keys-row:last-child {
-  border-bottom: none;
-}
-.keys-kbds {
-  display: flex;
-  gap: 4px;
-  flex-shrink: 0;
-  margin-left: 12px;
-}
+/* ── Keyboard overlay ──
+   #keys-overlay/.keys-panel/.keys-section/.keys-section-title/.keys-row/
+   .keys-kbds moved to Tailwind utility classes in keyboard.tsx (no
+   fandom-theme or body.dark overrides existed for any of them — the
+   #keys-overlay.open toggle became a plain flex/hidden class swap). */
 
-/* ── Write autocomplete ── */
-.write-ac {
-  position: absolute;
-  top: calc(100% - 4px);
-  left: 0;
-  right: 0;
-  z-index: 20;
-  background: var(--card);
-  border: 1.5px solid var(--accent);
-  border-top: none;
-  border-radius: 0 0 12px 12px;
-  overflow: hidden;
-  max-height: 220px;
-  overflow-y: auto;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-.wac-item {
-  padding: 8px 16px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.88rem;
-  border-bottom: 1px solid var(--border);
-  transition: background 0.1s;
-}
-.wac-item:last-child {
-  border-bottom: none;
-}
+/* ── Write autocomplete ──
+   .write-ac/.wac-item's own box+typography/.wac-word/.wac-ua/.wac-n moved
+   to Tailwind utility classes in write.tsx (no fandom-theme overrides
+   existed for any of them). .wac-item:hover/.wac-item.wac-sel stay: their
+   background has a live body.dark override. */
 .wac-item:hover,
 .wac-item.wac-sel {
   background: var(--bg);
@@ -2116,22 +2043,6 @@ body.dark .btn-lesson {
 body.dark .wac-item:hover,
 body.dark .wac-item.wac-sel {
   background: rgba(255, 255, 255, 0.06);
-}
-.wac-word {
-  font-weight: 600;
-  color: var(--text);
-}
-.wac-ua {
-  color: var(--text2);
-  font-size: 0.78rem;
-}
-.wac-n {
-  font-size: 0.65rem;
-  background: var(--border);
-  border-radius: 4px;
-  padding: 1px 5px;
-  color: var(--text3);
-  flex-shrink: 0;
 }
 
 /* .cal-header-grid/.cal-dow/.cal-day-grid/.cal-day (+ hover/today/empty

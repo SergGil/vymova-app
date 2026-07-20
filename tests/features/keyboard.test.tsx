@@ -27,7 +27,9 @@ describe('keyboard.tsx KeysOverlay', () => {
 
   it('renders closed by default', () => {
     const { container } = mount();
-    expect(container.querySelector('#keys-overlay')!.className).toBe('');
+    expect(
+      container.querySelector('#keys-overlay')!.classList.contains('hidden'),
+    ).toBe(true);
   });
 
   it('opens when #btn-keys is clicked', () => {
@@ -36,7 +38,7 @@ describe('keyboard.tsx KeysOverlay', () => {
     act(() => {
       btn.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect(container.querySelector('#keys-overlay')!.className).toBe('open');
+    expect(container.querySelector('#keys-overlay')!.classList.contains('flex')).toBe(true);
   });
 
   it('opens with "?" and closes with Escape', () => {
@@ -44,12 +46,14 @@ describe('keyboard.tsx KeysOverlay', () => {
     act(() => {
       press('?');
     });
-    expect(container.querySelector('#keys-overlay')!.className).toBe('open');
+    expect(container.querySelector('#keys-overlay')!.classList.contains('flex')).toBe(true);
 
     act(() => {
       press('Escape');
     });
-    expect(container.querySelector('#keys-overlay')!.className).toBe('');
+    expect(
+      container.querySelector('#keys-overlay')!.classList.contains('hidden'),
+    ).toBe(true);
   });
 
   it('does not open with "?" when focus is in an input or textarea', () => {
@@ -59,7 +63,9 @@ describe('keyboard.tsx KeysOverlay', () => {
     act(() => {
       press('?');
     });
-    expect(container.querySelector('#keys-overlay')!.className).toBe('');
+    expect(
+      container.querySelector('#keys-overlay')!.classList.contains('hidden'),
+    ).toBe(true);
   });
 
   it('closes when clicking the close button', () => {
@@ -71,7 +77,9 @@ describe('keyboard.tsx KeysOverlay', () => {
     act(() => {
       closeBtn.click();
     });
-    expect(container.querySelector('#keys-overlay')!.className).toBe('');
+    expect(
+      container.querySelector('#keys-overlay')!.classList.contains('hidden'),
+    ).toBe(true);
   });
 
   it('closes when clicking directly on the overlay backdrop', () => {
@@ -83,7 +91,7 @@ describe('keyboard.tsx KeysOverlay', () => {
     act(() => {
       overlay.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect(overlay.className).toBe('');
+    expect(overlay.classList.contains('hidden')).toBe(true);
   });
 
   it('focuses #search-input on Ctrl+K', () => {
