@@ -89,7 +89,7 @@ body {
    header-left.tsx and index.html (tailwind-shadcn-migration-roadmap.md
    Phase 1). The "title-sw-toggle"/"title-hp-toggle" class names stay on the
    buttons — themes/sw.css and themes/hp.css each override them
-   (body.sw .title-sw-toggle, body.hp .title-hp-toggle), and being unlayered
+   (body[data-theme="sw"] .title-sw-toggle, body[data-theme="hp"] .title-hp-toggle), and being unlayered
    legacy CSS they keep winning over the new Tailwind utilities regardless
    of source order. .lang-toggle/.lang-opt/.sb-lang-section/.flagdd* are a
    separate migration step (shared across 4 component files, 14 theme
@@ -659,9 +659,9 @@ body.reduced-motion *::after {
 /* ── Accessibility: high contrast ──────────────────────────────── */
 /* Reuses the active theme's own --text (already contrastive against its
    --bg, for every theme/dark-mode combination) for text2/text3/border,
-   so this works under any of the 14+ cosmetic body classes without
+   so this works under any of the 14+ cosmetic body selectors without
    enumerating them. !important is required: body.high-contrast and every
-   theme class (body.sw, body.dark, ...) share the same specificity, and
+   theme selector (body[data-theme="sw"], body.dark, ...) share the same specificity, and
    several theme blocks are declared later in this file, so without it a
    theme's own --text2/--text3/--border would silently win and cancel
    high-contrast mode whenever a theme is also active. */
@@ -2952,11 +2952,11 @@ body.dark .btn-achievements {
   gap: 10px;
 }
 body.dark .sidebar-logo,
-body.sw .sidebar-logo {
+body[data-theme="sw"] .sidebar-logo {
   border-color: rgba(255, 255, 255, 0.07);
 }
 body.dark .sidebar-logo,
-body.hp .sidebar-logo {
+body[data-theme="hp"] .sidebar-logo {
   border-color: rgba(245, 225, 180, 0.07);
 }
 
@@ -3284,11 +3284,11 @@ body.dark .sb-flyout {
   margin-bottom: 4px;
 }
 body.dark .sb-profile-section,
-body.sw .sb-profile-section {
+body[data-theme="sw"] .sb-profile-section {
   border-color: rgba(255, 255, 255, 0.07);
 }
 body.dark .sb-profile-section,
-body.hp .sb-profile-section {
+body[data-theme="hp"] .sb-profile-section {
   border-color: rgba(245, 225, 180, 0.07);
 }
 
@@ -4642,8 +4642,8 @@ body.dark .gr-tip {
 
 /* .cefr-badge's own box/typography moved to Tailwind utility classes in
    card-meta.tsx (no fandom-theme or body.dark overrides existed for it).
-   The level color classes below (and their body.dark/body.sw/body.hp
-   variants) stay bare CSS — .cefr-badge's own `border: 1.5px solid`
+   The level color classes below (and their body.dark/body[data-theme="sw"]/
+   body[data-theme="hp"] variants) stay bare CSS — .cefr-badge's own `border: 1.5px solid`
    (color-less, so currentColor) plus Tailwind's border-[1.5px] width/
    style still compose correctly with these classes' border-color-only
    overrides, same cascade-layers precedence as everywhere else in this
@@ -4683,51 +4683,51 @@ body.dark .gr-tip {
 
 /* Dark / SW theme adjustments */
 body.dark .cefr-A1,
-body.sw .cefr-A1 {
+body[data-theme="sw"] .cefr-A1 {
   background: rgba(39, 174, 96, 0.18);
 }
 body.dark .cefr-A1,
-body.hp .cefr-A1 {
+body[data-theme="hp"] .cefr-A1 {
   background: rgba(39, 174, 96, 0.18);
 }
 body.dark .cefr-A2,
-body.sw .cefr-A2 {
+body[data-theme="sw"] .cefr-A2 {
   background: rgba(46, 204, 113, 0.15);
 }
 body.dark .cefr-A2,
-body.hp .cefr-A2 {
+body[data-theme="hp"] .cefr-A2 {
   background: rgba(46, 204, 113, 0.15);
 }
 body.dark .cefr-B1,
-body.sw .cefr-B1 {
+body[data-theme="sw"] .cefr-B1 {
   background: rgba(241, 196, 15, 0.18);
 }
 body.dark .cefr-B1,
-body.hp .cefr-B1 {
+body[data-theme="hp"] .cefr-B1 {
   background: rgba(241, 196, 15, 0.18);
 }
 body.dark .cefr-B2,
-body.sw .cefr-B2 {
+body[data-theme="sw"] .cefr-B2 {
   background: rgba(230, 126, 34, 0.18);
 }
 body.dark .cefr-B2,
-body.hp .cefr-B2 {
+body[data-theme="hp"] .cefr-B2 {
   background: rgba(230, 126, 34, 0.18);
 }
 body.dark .cefr-C1,
-body.sw .cefr-C1 {
+body[data-theme="sw"] .cefr-C1 {
   background: rgba(231, 76, 60, 0.18);
 }
 body.dark .cefr-C1,
-body.hp .cefr-C1 {
+body[data-theme="hp"] .cefr-C1 {
   background: rgba(231, 76, 60, 0.18);
 }
 body.dark .cefr-C2,
-body.sw .cefr-C2 {
+body[data-theme="sw"] .cefr-C2 {
   background: rgba(142, 68, 173, 0.18);
 }
 body.dark .cefr-C2,
-body.hp .cefr-C2 {
+body[data-theme="hp"] .cefr-C2 {
   background: rgba(142, 68, 173, 0.18);
 }
 

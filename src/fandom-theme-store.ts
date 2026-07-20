@@ -1,5 +1,5 @@
 // src/fandom-theme-store.ts — single source of truth for the "fandom skin"
-// (Star Wars, Harry Potter, ...) body-class theme, replacing a 3-layer
+// (Star Wars, Harry Potter, ...) body[data-theme] theme, replacing a 3-layer
 // system (legacy-modernization-roadmap.md item 4d): settings.tsx held
 // hidden `btn-<key>` buttons with the real toggle logic; sidebar.tsx's
 // visible `set-<key>` rows only proxy-clicked those hidden buttons; and a
@@ -63,7 +63,7 @@ function _loadThemeCss(key: string): void {
 // Self-heal stale state from before mutual exclusivity was enforced (or any
 // other way two `ew_<key>` flags ended up '1' at once) — apply only the
 // first one found and clear the rest, so at most one skin is active. Also
-// applies the body class + lazy-loads that theme's CSS for whichever key
+// applies body[data-theme] + lazy-loads that theme's CSS for whichever key
 // wins, mirroring what settings.tsx used to do on mount.
 function initAndSelfHeal(): FandomThemeKey | null {
   let found: FandomThemeKey | null = null;
@@ -77,7 +77,7 @@ function initAndSelfHeal(): FandomThemeKey | null {
     }
   }
   if (found) {
-    document.body.classList.add(found);
+    document.body.dataset.theme = found;
     _loadThemeCss(found);
   }
   return found;
@@ -95,7 +95,7 @@ export function getActiveFandomTheme(): FandomThemeKey | null {
 }
 
 /** Turn a fandom theme on (clearing whichever other one was active) or, if
- * it's already the active one, off. The single place body class,
+ * it's already the active one, off. The single place body[data-theme],
  * localStorage, CSS lazy-loading, and the shared store all update
  * together — every caller (settings page, sidebar quick rows, header
  * quick-toggle buttons) stays in sync automatically. */
@@ -104,11 +104,11 @@ export function toggleFandomTheme(key: string): void {
   const current = getActiveFandomTheme();
   const turningOn = current !== key;
   if (current) {
-    document.body.classList.remove(current);
+    delete document.body.dataset.theme;
     localStorage.setItem(`ew_${current}`, '0');
   }
   if (turningOn) {
-    document.body.classList.add(key);
+    document.body.dataset.theme = key;
     localStorage.setItem(`ew_${key}`, '1');
     _loadThemeCss(key);
   }

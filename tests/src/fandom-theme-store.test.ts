@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { FANDOM_THEME_KEYS } from '../../src/fandom-theme-store.ts';
 import type * as FandomThemeStoreModule from '../../src/fandom-theme-store.ts';
 
-// Module-init self-heals from localStorage and applies the body class/CSS
+// Module-init self-heals from localStorage and applies body[data-theme]/CSS
 // for whichever theme wins — needs a fresh module instance per test (via
 // vi.resetModules() + dynamic import) to control the starting conditions,
 // same pattern used elsewhere in this repo for module-init-driven stores.
@@ -15,19 +15,20 @@ describe('fandom-theme-store.ts', () => {
   beforeEach(() => {
     localStorage.clear();
     document.body.className = '';
+    delete document.body.dataset.theme;
   });
 
   it('starts with no active theme when nothing is saved', async () => {
     const { getActiveFandomTheme } = await freshModule();
     expect(getActiveFandomTheme()).toBeNull();
-    expect(document.body.classList.length).toBe(0);
+    expect(document.body.dataset.theme).toBeUndefined();
   });
 
-  it('restores a saved theme on module init, applying the body class', async () => {
+  it('restores a saved theme on module init, applying body[data-theme]', async () => {
     localStorage.setItem('ew_sw', '1');
     const { getActiveFandomTheme } = await freshModule();
     expect(getActiveFandomTheme()).toBe('sw');
-    expect(document.body.classList.contains('sw')).toBe(true);
+    expect(document.body.dataset.theme).toBe('sw');
   });
 
   it('self-heals stale state where two keys were both saved as "1" — first wins, rest cleared', async () => {
@@ -36,16 +37,15 @@ describe('fandom-theme-store.ts', () => {
     localStorage.setItem('ew_sw', '1');
     const { getActiveFandomTheme } = await freshModule();
     expect(getActiveFandomTheme()).toBe('sw');
-    expect(document.body.classList.contains('sw')).toBe(true);
-    expect(document.body.classList.contains('hp')).toBe(false);
+    expect(document.body.dataset.theme).toBe('sw');
     expect(localStorage.getItem('ew_hp')).toBe('0');
   });
 
-  it('toggleFandomTheme() turns a theme on: body class + localStorage + store', async () => {
+  it('toggleFandomTheme() turns a theme on: body[data-theme] + localStorage + store', async () => {
     const { toggleFandomTheme, getActiveFandomTheme } = await freshModule();
     toggleFandomTheme('hp');
     expect(getActiveFandomTheme()).toBe('hp');
-    expect(document.body.classList.contains('hp')).toBe(true);
+    expect(document.body.dataset.theme).toBe('hp');
     expect(localStorage.getItem('ew_hp')).toBe('1');
   });
 
@@ -54,7 +54,7 @@ describe('fandom-theme-store.ts', () => {
     toggleFandomTheme('hp');
     toggleFandomTheme('hp');
     expect(getActiveFandomTheme()).toBeNull();
-    expect(document.body.classList.contains('hp')).toBe(false);
+    expect(document.body.dataset.theme).toBeUndefined();
     expect(localStorage.getItem('ew_hp')).toBe('0');
   });
 
@@ -63,8 +63,7 @@ describe('fandom-theme-store.ts', () => {
     toggleFandomTheme('sw');
     toggleFandomTheme('hp');
     expect(getActiveFandomTheme()).toBe('hp');
-    expect(document.body.classList.contains('sw')).toBe(false);
-    expect(document.body.classList.contains('hp')).toBe(true);
+    expect(document.body.dataset.theme).toBe('hp');
     expect(localStorage.getItem('ew_sw')).toBe('0');
     expect(localStorage.getItem('ew_hp')).toBe('1');
   });
