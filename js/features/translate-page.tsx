@@ -86,22 +86,25 @@ export function TranslatePage(): ReactElement | null {
   };
 
   return createPortal(
-    <div className="translate-panel">
+    <div className="translate-panel flex flex-col gap-3">
       <textarea
-        className="translate-input"
+        className="translate-input box-border min-h-[90px] w-full resize-y rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3 py-2.5 font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.4] text-[var(--text)]"
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={onInputKeyDown}
         placeholder={t('translate.placeholder')}
         rows={4}
       />
-      <div className="translate-controls">
-        <label className="translate-target-label" htmlFor="translate-target-select">
+      <div className="translate-controls flex flex-wrap items-center gap-2">
+        <label
+          className="translate-target-label text-[.85rem] text-[var(--text3)]"
+          htmlFor="translate-target-select"
+        >
           {t('translate.targetLabel')}
         </label>
         <select
           id="translate-target-select"
-          className="translate-select"
+          className="translate-select box-border min-w-[140px] flex-1 rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3 py-2.5 font-[inherit] text-[.85rem] text-[var(--text)]"
           value={targetLang}
           onChange={(e) => onTargetLangChange(e.target.value)}
         >
@@ -113,24 +116,28 @@ export function TranslatePage(): ReactElement | null {
         </select>
         <button
           type="button"
-          className="translate-send"
+          className="translate-send cursor-pointer rounded-[10px] border-none bg-[var(--accent)] px-[18px] py-2.5 font-['DM_Sans',sans-serif] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
           onClick={() => submit()}
           disabled={pending || !text.trim()}
         >
           {pending ? t('translate.translating') : t('translate.button')}
         </button>
       </div>
-      {error && <div className="translate-error">{error}</div>}
+      {error && (
+        <div className="translate-error text-center text-[.8rem] text-[#e74c3c]">{error}</div>
+      )}
       {result && (
-        <div className="translate-result">
+        <div className="translate-result flex items-start gap-2.5 rounded-[12px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3.5 py-3">
           {flagUrl(META[targetLang]?.country ?? '') && (
             <img
-              className="translate-result-flag"
+              className="translate-result-flag mt-0.5 h-5 w-5 shrink-0 rounded-full"
               src={flagUrl(META[targetLang]?.country ?? '') ?? undefined}
               alt=""
             />
           )}
-          <div className="translate-result-text">{result}</div>
+          <div className="translate-result-text flex-1 text-[.92rem] leading-[1.5] whitespace-pre-wrap text-[var(--text)]">
+            {result}
+          </div>
           <button
             type="button"
             className="speak-btn translate-result-speak"

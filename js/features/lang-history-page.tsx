@@ -28,26 +28,33 @@ export function LangHistoryPage(): ReactElement | null {
   const flag = meta ? flagUrl(meta.country) : null;
 
   return createPortal(
-    <div className="langhist-panel">
-      <div className="langhist-header">
-        {flag && <img className="langhist-flag" src={flag} alt="" />}
-        <div className="langhist-name">{meta?.name ?? lang}</div>
+    <div className="langhist-panel flex flex-col gap-3.5">
+      <div className="langhist-header flex items-center gap-2.5">
+        {flag && <img className="langhist-flag h-8 w-8 rounded-full" src={flag} alt="" />}
+        <div className="langhist-name text-[1.1rem] font-bold text-[var(--text)]">
+          {meta?.name ?? lang}
+        </div>
       </div>
       {entry ? (
         <>
-          <div className="langhist-intro">
+          <div className="langhist-intro text-[.92rem] leading-[1.55] text-[var(--text)]">
             {useEn && entry.introEn ? entry.introEn : entry.intro}
           </div>
-          <ul className="langhist-facts">
+          <ul className="langhist-facts m-0 flex flex-col gap-2 pl-5">
             {(useEn && entry.factsEn ? entry.factsEn : entry.facts).map((fact, i) => (
-              <li key={i} className="langhist-fact">
+              <li
+                key={i}
+                className="langhist-fact text-[.88rem] leading-[1.5] text-[var(--text2)]"
+              >
                 {fact}
               </li>
             ))}
           </ul>
         </>
       ) : (
-        <div className="langhist-empty">{t('langHistory.notAvailable')}</div>
+        <div className="langhist-empty mt-6 text-center text-[.9rem] text-[var(--text3)]">
+          {t('langHistory.notAvailable')}
+        </div>
       )}
     </div>,
     target,

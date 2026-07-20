@@ -308,20 +308,25 @@ export function YoutubePlayerPage(): ReactElement | null {
   };
 
   return createPortal(
-    <div className="yt-player-panel">
+    <div className="yt-player-panel flex flex-col gap-2.5">
       {/* URL input */}
-      <form className="ai-tutor-form" onSubmit={submit}>
+      <form className="ai-tutor-form mt-2.5 flex shrink-0 gap-2" onSubmit={submit}>
         <input
-          className="ai-tutor-input"
+          className="ai-tutor-input flex-1 rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3 py-2.5 font-['DM_Sans',sans-serif] text-[.88rem] text-[var(--text)] disabled:cursor-not-allowed disabled:opacity-60"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={t('ytPlayer.placeholder')}
         />
-        <button type="submit" className="ai-tutor-send">
+        <button
+          type="submit"
+          className="ai-tutor-send cursor-pointer rounded-[10px] border-none bg-[var(--accent)] px-[18px] py-2.5 font-['DM_Sans',sans-serif] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+        >
           {t('ytPlayer.watch')}
         </button>
       </form>
-      {error && <div className="ai-tutor-error">{error}</div>}
+      {error && (
+        <div className="ai-tutor-error text-center text-[.8rem] text-[#e74c3c]">{error}</div>
+      )}
 
       {/* Subtitle upload row */}
       <div className="video-player-uploads">
@@ -339,7 +344,7 @@ export function YoutubePlayerPage(): ReactElement | null {
           onChange={onSubtitleFile}
         />
         {cues.length > 0 && (
-          <span className="video-player-cue-count">
+          <span className="video-player-cue-count text-[.8rem] text-[var(--text3)]">
             {t('videoPlayer.cueCount', { n: cues.length })}
           </span>
         )}
@@ -347,37 +352,48 @@ export function YoutubePlayerPage(): ReactElement | null {
 
       {/* Main stage: video | subtitle cue */}
       {videoId ? (
-        <div className="video-player-stage">
+        <div className="video-player-stage flex items-start gap-[18px] max-[760px]:flex-col">
           {/* YouTube player mounts into this div */}
-          <div className="video-player-video-col">
-            <div className="yt-player-frame-wrap">
-              <div ref={playerDivRef} className="yt-player-frame" />
+          <div className="video-player-video-col min-w-0 flex-[1_1_60%] max-[760px]:w-full max-[760px]:flex-[1_1_auto]">
+            <div className="yt-player-frame-wrap relative w-full overflow-hidden rounded-[12px] bg-black pt-[56.25%]">
+              <div
+                ref={playerDivRef}
+                className="yt-player-frame absolute inset-0 h-full w-full border-none"
+              />
             </div>
           </div>
 
           {/* Subtitle cue column */}
-          <div className="video-player-subs-col">
+          <div className="video-player-subs-col flex min-w-0 flex-[1_1_40%] flex-col max-[760px]:w-full max-[760px]:flex-[1_1_auto]">
             {cues.length === 0 ? (
-              <div className="ai-tutor-hint">{t('videoPlayer.noSubs')}</div>
+              <div className="ai-tutor-hint mt-6 text-center text-[.85rem] text-[var(--text3)]">
+                {t('videoPlayer.noSubs')}
+              </div>
             ) : activeCue ? (
               <div
-                className="rd-text video-player-cue"
+                className="rd-text video-player-cue mb-5 text-[.95rem] leading-[1.9] text-[var(--text)]"
                 onClick={onCueClick}
                 dangerouslySetInnerHTML={{ __html: renderCueHtml(activeCue.text) }}
               />
             ) : (
-              <div className="ai-tutor-hint">{t('videoPlayer.silentHint')}</div>
+              <div className="ai-tutor-hint mt-6 text-center text-[.85rem] text-[var(--text3)]">
+                {t('videoPlayer.silentHint')}
+              </div>
             )}
 
             {popup && (
               <div
-                className="rd-word-popup"
+                className="rd-word-popup sticky bottom-4 mt-5 rounded-[14px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-4 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,.2)]"
                 style={{ display: 'block' }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="rd-popup-word">{popup.word}</div>
-                <div className="rd-popup-ipa">{popup.ipa}</div>
-                <div className="rd-popup-trans">{popup.trans}</div>
+                <div className="rd-popup-word text-[1.1rem] font-extrabold">{popup.word}</div>
+                <div className="rd-popup-ipa mt-px text-[.8rem] text-[var(--text3)]">
+                  {popup.ipa}
+                </div>
+                <div className="rd-popup-trans mt-1 text-[.9rem] text-[var(--text)]">
+                  {popup.trans}
+                </div>
                 <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
                   <button
                     className="backup-btn"
@@ -399,22 +415,31 @@ export function YoutubePlayerPage(): ReactElement | null {
           </div>
         </div>
       ) : (
-        <div className="ai-tutor-hint">{t('ytPlayer.hint')}</div>
+        <div className="ai-tutor-hint mt-6 text-center text-[.85rem] text-[var(--text3)]">
+          {t('ytPlayer.hint')}
+        </div>
       )}
 
       {/* History thumbnails */}
       {history.length > 0 && (
         <div className="yt-player-history">
-          <div className="yt-player-history-title">{t('ytPlayer.recent')}</div>
-          <div className="yt-player-history-grid">
+          <div className="yt-player-history-title mb-1.5 text-[.7rem] font-bold tracking-[0.05em] text-[var(--text3)] uppercase">
+            {t('ytPlayer.recent')}
+          </div>
+          <div className="yt-player-history-grid flex flex-wrap gap-2">
             {history.map((id) => (
               <button
                 key={id}
-                className="yt-player-history-item"
+                className="yt-player-history-item cursor-pointer overflow-hidden rounded-md border-none bg-transparent p-0 leading-[0]"
                 onClick={() => load(id)}
                 title={id}
               >
-                <img src={`https://i.ytimg.com/vi/${id}/mqdefault.jpg`} alt="" loading="lazy" />
+                <img
+                  className="block h-[54px] w-24 rounded-md object-cover"
+                  src={`https://i.ytimg.com/vi/${id}/mqdefault.jpg`}
+                  alt=""
+                  loading="lazy"
+                />
               </button>
             ))}
           </div>

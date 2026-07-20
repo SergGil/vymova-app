@@ -381,17 +381,28 @@ export function VoiceRoleplayPage(): ReactElement | null {
   };
 
   return createPortal(
-    <div className="roleplay-panel">
+    <div className="roleplay-panel flex min-h-[320px] flex-col">
       {!scenario ? (
         <div className="roleplay-scenarios">
-          <div className="ai-tutor-hint">{t('roleplay.pickScenario')}</div>
-          <ol className="roleplay-scenario-list">
+          <div className="ai-tutor-hint mt-6 text-center text-[.85rem] text-[var(--text3)]">
+            {t('roleplay.pickScenario')}
+          </div>
+          <ol className="roleplay-scenario-list mt-3.5 mb-0 max-h-[56vh] list-none overflow-y-auto rounded-[14px] border-[1.5px] border-[var(--border)] p-0">
             {SCENARIOS.map((s, i) => (
-              <li key={s.id}>
-                <button className="roleplay-scenario-row" onClick={() => pickScenario(s.id)}>
-                  <span className="roleplay-scenario-num">{i + 1}</span>
-                  <span className="roleplay-scenario-emoji">{s.emoji}</span>
-                  <span className="roleplay-scenario-label">{t(s.labelKey as any)}</span>
+              <li key={s.id} className="group">
+                <button
+                  className="roleplay-scenario-row flex w-full cursor-pointer items-center gap-3 border-0 border-b border-b-[var(--border)] bg-[var(--bg)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.9rem] font-semibold text-[var(--text)] group-last:border-b-0 hover:bg-[rgba(155,89,182,.08)]"
+                  onClick={() => pickScenario(s.id)}
+                >
+                  <span className="roleplay-scenario-num shrink-0 grow-0 basis-7 text-right text-[.8rem] font-bold text-[var(--text3)]">
+                    {i + 1}
+                  </span>
+                  <span className="roleplay-scenario-emoji flex-none text-[1.2rem]">
+                    {s.emoji}
+                  </span>
+                  <span className="roleplay-scenario-label flex-auto">
+                    {t(s.labelKey as any)}
+                  </span>
                 </button>
               </li>
             ))}
@@ -399,13 +410,13 @@ export function VoiceRoleplayPage(): ReactElement | null {
         </div>
       ) : (
         <>
-          <div className="roleplay-header">
+          <div className="roleplay-header mb-2 flex items-center justify-between text-[.9rem] font-semibold">
             <span>
               {SCENARIOS.find((s) => s.id === scenario)?.emoji}{' '}
               {t(SCENARIOS.find((s) => s.id === scenario)!.labelKey as any)}
             </span>
             <button
-              className="roleplay-change-btn"
+              className="roleplay-change-btn cursor-pointer border-none bg-transparent font-['DM_Sans',sans-serif] text-[.8rem] text-[var(--accent)]"
               onClick={() => {
                 stopListening();
                 abortRef.current?.abort();
@@ -416,26 +427,54 @@ export function VoiceRoleplayPage(): ReactElement | null {
             </button>
           </div>
 
-          <div className="ai-tutor-messages roleplay-messages">
-            {turns.length === 0 && <div className="ai-tutor-hint">{t('roleplay.startHint')}</div>}
+          <div className="ai-tutor-messages roleplay-messages flex h-[48vh] max-h-[420px] flex-1 flex-col gap-2 overflow-y-auto px-0.5 py-1.5">
+            {turns.length === 0 && (
+              <div className="ai-tutor-hint mt-6 text-center text-[.85rem] text-[var(--text3)]">
+                {t('roleplay.startHint')}
+              </div>
+            )}
             {turns.map((turn, i) => (
               <div key={i}>
-                <div className={`ai-tutor-msg ai-tutor-msg-${turn.role}`}>{turn.text}</div>
-                {turn.feedback && <div className="roleplay-feedback">📝 {turn.feedback}</div>}
+                <div
+                  className={
+                    'ai-tutor-msg ai-tutor-msg-' +
+                    turn.role +
+                    ' max-w-[80%] rounded-[12px] px-3 py-2 text-[.88rem] leading-[1.4] whitespace-pre-wrap ' +
+                    (turn.role === 'user'
+                      ? 'self-end bg-[var(--accent)] text-white'
+                      : 'self-start bg-[var(--bg)] text-[var(--text)]')
+                  }
+                >
+                  {turn.text}
+                </div>
+                {turn.feedback && (
+                  <div className="roleplay-feedback mt-0.5 mb-1 max-w-[80%] rounded-md bg-[rgba(155,89,182,.08)] px-2.5 py-1.5 text-[.76rem] text-[var(--accent2)]">
+                    📝 {turn.feedback}
+                  </div>
+                )}
               </div>
             ))}
             {pending && (
-              <div className="ai-tutor-msg ai-tutor-msg-assistant ai-tutor-typing">
+              <div className="ai-tutor-msg ai-tutor-msg-assistant ai-tutor-typing max-w-[80%] self-start rounded-[12px] bg-[var(--bg)] px-3 py-2 text-[.88rem] leading-[1.4] text-[var(--text)] italic opacity-60">
                 {t('aiTutor.typing')}
               </div>
             )}
-            {error && <div className="ai-tutor-error">{error}</div>}
+            {error && (
+              <div className="ai-tutor-error text-center text-[.8rem] text-[#e74c3c]">
+                {error}
+              </div>
+            )}
           </div>
 
-          <div className="roleplay-controls">
+          <div className="roleplay-controls mt-2.5 flex shrink-0 justify-center">
             {supported ? (
               <button
-                className={`roleplay-mic-btn${listening ? ' listening' : ''}`}
+                className={
+                  'roleplay-mic-btn cursor-pointer rounded-[24px] border-none px-7 py-3 font-[\'DM_Sans\',sans-serif] text-[.92rem] font-bold text-white' +
+                  (listening
+                    ? ' listening'
+                    : ' bg-[var(--accent)]')
+                }
                 onClick={listening ? stopListening : startListening}
                 disabled={pending}
               >
@@ -443,14 +482,14 @@ export function VoiceRoleplayPage(): ReactElement | null {
               </button>
             ) : (
               <form
-                className="ai-tutor-form"
+                className="ai-tutor-form mt-2.5 flex shrink-0 gap-2"
                 onSubmit={(e) => {
                   e.preventDefault();
                   void send(textInput);
                 }}
               >
                 <input
-                  className="ai-tutor-input"
+                  className="ai-tutor-input flex-1 rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3 py-2.5 font-['DM_Sans',sans-serif] text-[.88rem] text-[var(--text)] disabled:cursor-not-allowed disabled:opacity-60"
                   value={textInput}
                   onChange={(e) => setTextInput(e.target.value)}
                   placeholder={t('roleplay.noMicPlaceholder')}
@@ -458,7 +497,7 @@ export function VoiceRoleplayPage(): ReactElement | null {
                 />
                 <button
                   type="submit"
-                  className="ai-tutor-send"
+                  className="ai-tutor-send cursor-pointer rounded-[10px] border-none bg-[var(--accent)] px-[18px] py-2.5 font-['DM_Sans',sans-serif] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
                   disabled={pending || !textInput.trim()}
                 >
                   {t('aiTutor.send')}

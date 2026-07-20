@@ -132,8 +132,8 @@ export function VideoPlayerPage(): ReactElement | null {
   };
 
   return createPortal(
-    <div className="video-player-panel">
-      <div className="video-player-uploads">
+    <div className="video-player-panel flex flex-col gap-3.5">
+      <div className="video-player-uploads flex flex-wrap items-center gap-2.5">
         <button
           className="backup-btn primary"
           onClick={() => document.getElementById('vp-video-input')?.click()}
@@ -161,46 +161,56 @@ export function VideoPlayerPage(): ReactElement | null {
           onChange={onSubtitleFile}
         />
         {cues.length > 0 && (
-          <span className="video-player-cue-count">
+          <span className="video-player-cue-count text-[.8rem] text-[var(--text3)]">
             {t('videoPlayer.cueCount', { n: cues.length })}
           </span>
         )}
       </div>
 
-      <div className="video-player-stage">
-        <div className="video-player-video-col">
+      <div className="video-player-stage flex items-start gap-[18px] max-[760px]:flex-col">
+        <div className="video-player-video-col min-w-0 flex-[1_1_60%] max-[760px]:w-full max-[760px]:flex-[1_1_auto]">
           {videoUrl ? (
             <video
-              className="video-player-el"
+              className="video-player-el block w-full max-h-[60vh] rounded-[12px] bg-black"
               src={videoUrl}
               controls
               onTimeUpdate={onTimeUpdate}
             />
           ) : (
-            <div className="video-player-placeholder">{t('videoPlayer.noVideo')}</div>
+            <div className="video-player-placeholder flex aspect-[16/9] items-center justify-center rounded-[12px] border-[1.5px] border-dashed border-[var(--border)] text-[.85rem] text-[var(--text3)]">
+              {t('videoPlayer.noVideo')}
+            </div>
           )}
         </div>
-        <div className="video-player-subs-col">
+        <div className="video-player-subs-col flex min-w-0 flex-[1_1_40%] flex-col max-[760px]:w-full max-[760px]:flex-[1_1_auto]">
           {cues.length === 0 ? (
-            <div className="ai-tutor-hint">{t('videoPlayer.noSubs')}</div>
+            <div className="ai-tutor-hint mt-6 text-center text-[.85rem] text-[var(--text3)]">
+              {t('videoPlayer.noSubs')}
+            </div>
           ) : activeCue ? (
             <div
-              className="rd-text video-player-cue"
+              className="rd-text video-player-cue mb-5 text-[.95rem] leading-[1.9] text-[var(--text)]"
               onClick={onCueClick}
               dangerouslySetInnerHTML={{ __html: renderCueHtml(activeCue.text) }}
             />
           ) : (
-            <div className="ai-tutor-hint">{t('videoPlayer.silentHint')}</div>
+            <div className="ai-tutor-hint mt-6 text-center text-[.85rem] text-[var(--text3)]">
+              {t('videoPlayer.silentHint')}
+            </div>
           )}
           {popup && (
             <div
-              className="rd-word-popup"
+              className="rd-word-popup sticky bottom-4 mt-5 rounded-[14px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-4 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,.2)]"
               style={{ display: 'block' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="rd-popup-word">{popup.word}</div>
-              <div className="rd-popup-ipa">{popup.ipa}</div>
-              <div className="rd-popup-trans">{popup.trans}</div>
+              <div className="rd-popup-word text-[1.1rem] font-extrabold">{popup.word}</div>
+              <div className="rd-popup-ipa mt-px text-[.8rem] text-[var(--text3)]">
+                {popup.ipa}
+              </div>
+              <div className="rd-popup-trans mt-1 text-[.9rem] text-[var(--text)]">
+                {popup.trans}
+              </div>
               <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
                 <button className="backup-btn" style={{ padding: '5px 12px' }} onClick={speakPopup}>
                   🔊

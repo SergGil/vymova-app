@@ -66,10 +66,10 @@ function _renderTextHtml(entry: TextEntry): { html: string; known: number; unkno
       const isKnown = known.has(w[0]);
       if (isKnown) {
         knownCount++;
-        return `<span class="rd-word rd-known" data-word="${_esc(w[0])}">${safe}</span>`;
+        return `<span class="rd-word rd-known cursor-pointer rounded-[3px] px-px transition-[background] duration-150 hover:opacity-75" data-word="${_esc(w[0])}">${safe}</span>`;
       }
       unknownCount++;
-      return `<span class="rd-word rd-unknown" data-word="${_esc(w[0])}">${safe}</span>`;
+      return `<span class="rd-word rd-unknown cursor-pointer rounded-[3px] px-px transition-[background] duration-150 hover:opacity-75" data-word="${_esc(w[0])}">${safe}</span>`;
     })
     .join('');
   return { html, known: knownCount, unknown: unknownCount };
@@ -270,7 +270,7 @@ export function ReadingPage(): ReactElement {
         ) : (
           <span
             key={i}
-            className={`rd-word ${known.has(run.cw[0]) ? 'rd-known' : 'rd-unknown'}`}
+            className={`rd-word cursor-pointer rounded-[3px] px-px transition-[background] duration-150 hover:opacity-75 ${known.has(run.cw[0]) ? 'rd-known' : 'rd-unknown'}`}
             onClick={(e) => {
               e.stopPropagation();
               showPopup(run.cw);
@@ -298,7 +298,7 @@ export function ReadingPage(): ReactElement {
         readerTitle = `${epubBook.title} — ${t('reading.chapterLabel', { n: currentIdx + 1 })}`;
         readerBody = (
           <div
-            className="rd-text"
+            className="rd-text mb-5 text-[.95rem] leading-[1.9] text-[var(--text)]"
             onClick={onEpubTextClick}
             dangerouslySetInnerHTML={{ __html: html }}
           />
@@ -312,7 +312,10 @@ export function ReadingPage(): ReactElement {
         statsUnknown = passage.runs.filter((r) => r.kind === 'word' && !known.has(r.cw[0])).length;
         readerTitle = t('reading.rangeLabel', { from: passage.from, to: passage.to });
         readerBody = (
-          <div className="rd-text" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="rd-text mb-5 text-[.95rem] leading-[1.9] text-[var(--text)]"
+            onClick={(e) => e.stopPropagation()}
+          >
             {renderPassageRuns(passage.runs, known)}
           </div>
         );
@@ -417,12 +420,20 @@ export function ReadingPage(): ReactElement {
           {readerBody}
           {popup && (
             <div
-              className="rd-word-popup block"
+              className="rd-word-popup sticky bottom-4 mt-5 block rounded-[14px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-4 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,.2)]"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="rd-popup-word">{popup.learnWord}</div>
-              {popup.transcription && <div className="rd-popup-ipa">{popup.transcription}</div>}
-              <div className="rd-popup-trans">{popup.trans}</div>
+              <div className="rd-popup-word text-[1.1rem] font-extrabold">
+                {popup.learnWord}
+              </div>
+              {popup.transcription && (
+                <div className="rd-popup-ipa mt-px text-[.8rem] text-[var(--text3)]">
+                  {popup.transcription}
+                </div>
+              )}
+              <div className="rd-popup-trans mt-1 text-[.9rem] text-[var(--text)]">
+                {popup.trans}
+              </div>
               <div className="mt-2.5 flex gap-1.5">
                 <button className="backup-btn px-3 py-[5px]" onClick={speakPopup}>
                   🔊
