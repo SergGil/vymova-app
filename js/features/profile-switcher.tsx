@@ -418,7 +418,7 @@ export function ProfileSwitcher(): ReactElement {
               )}
             </button>
             <button
-              className="prf-dd-edit"
+              className="prf-dd-edit cursor-pointer shrink-0 rounded-sm border-none bg-transparent px-1 py-0.5 text-[.85rem] opacity-50 hover:opacity-100"
               title={t('profile.editTooltip')}
               onClick={(e) => {
                 e.stopPropagation();
@@ -429,7 +429,7 @@ export function ProfileSwitcher(): ReactElement {
             </button>
             {profiles.length > 1 && (
               <button
-                className="prf-dd-del"
+                className="prf-dd-del cursor-pointer shrink-0 rounded-sm border-none bg-transparent px-[5px] py-0.5 text-base text-inherit opacity-35 hover:text-[#e74c3c] hover:opacity-100"
                 title={t('profile.deleteTooltip')}
                 onClick={(e) => {
                   e.stopPropagation();

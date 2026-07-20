@@ -4769,23 +4769,21 @@ body.hp .cefr-C2 {
     transform: none;
   }
 }
+/* .ob-desc b/.ob-tip b stay bare: the <b> tags come from
+   dangerouslySetInnerHTML translation strings, so they can never carry a
+   Tailwind className. */
 .ob-desc b {
   color: #4ecca3;
 }
 .ob-tip b {
   color: #fff;
 }
-.ob-level-btn {
-  border: 2px solid rgba(255, 255, 255, 0.18);
-  border-radius: 14px;
-  padding: 12px 8px;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.04);
-  color: #fff;
-  text-align: center;
-  transition: all 0.15s;
-  font-family: inherit;
-}
+/* .ob-level-btn's own base box/typography moved to Tailwind utility
+   classes in onboarding.tsx (no fandom-theme or body.dark overrides
+   existed for it). :hover/.ob-sel stay bare — .ob-sel must keep beating
+   :hover at equal specificity via source order (a selected+hovered
+   button stays visibly "selected"), which two independently-generated
+   Tailwind utility classes can't reliably guarantee. */
 .ob-level-btn:hover {
   border-color: #4ecca3;
   background: rgba(78, 204, 163, 0.1);
@@ -4795,35 +4793,9 @@ body.hp .cefr-C2 {
   background: rgba(78, 204, 163, 0.15);
 }
 
-/* ── Profile dropdown row buttons ───────────────────────────────*/
-.prf-dd-edit {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 2px 4px;
-  font-size: 0.85rem;
-  opacity: 0.5;
-  border-radius: 6px;
-  flex-shrink: 0;
-}
-.prf-dd-edit:hover {
-  opacity: 1;
-}
-.prf-dd-del {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 2px 5px;
-  font-size: 1rem;
-  opacity: 0.35;
-  border-radius: 6px;
-  flex-shrink: 0;
-  color: inherit;
-}
-.prf-dd-del:hover {
-  opacity: 1;
-  color: #e74c3c;
-}
+/* .prf-dd-edit/.prf-dd-del moved to Tailwind utility classes in
+   profile-switcher.tsx (no fandom-theme or body.dark overrides existed
+   for either). */
 
 /* Dead fandom-theme banner stubs (cp/lotr/mcu/witcher/mc/dc/got/dw/dune/hg/avt/dt) removed here — real CSS for each theme lives in the generated css/themes files, rendered from scripts/theme-template.css. */
 /* ═══════════════════════════════════════════════════════════════
@@ -4835,30 +4807,9 @@ body.hp .cefr-C2 {
    E — Dark mode polish (done via CSS vars above)
    ═══════════════════════════════════════════════════════════════ */
 
-/* ── D: Skeleton shimmer ── */
-@keyframes shimmer {
-  0% {
-    background-position: -400px 0;
-  }
-  100% {
-    background-position: 400px 0;
-  }
-}
-.skeleton {
-  background: linear-gradient(90deg, var(--border) 25%, var(--bg2) 50%, var(--border) 75%);
-  background-size: 800px 100%;
-  animation: shimmer 1.4s infinite linear;
-  border-radius: 6px;
-  display: block;
-}
-.skeleton-text {
-  height: 0.9em;
-  margin: 4px 0;
-  border-radius: 4px;
-}
-.skeleton-block {
-  border-radius: 10px;
-}
+/* ── D: Skeleton shimmer — deleted as dead code: .skeleton/.skeleton-text/
+   .skeleton-block and @keyframes shimmer had no consumer anywhere in
+   js/src/index.html (confirmed via repo-wide grep). */
 
 /* ── F: Slide-up overlay animation ── */
 @keyframes slideUpPanel {

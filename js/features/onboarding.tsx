@@ -178,7 +178,10 @@ function Onboarding({ onClose }: { onClose: () => void }): ReactElement {
                 {levels.map((lv) => (
                   <button
                     key={lv.range}
-                    className={'ob-level-btn' + (lv.range === selectedRange ? ' ob-sel' : '')}
+                    className={
+                      'ob-level-btn cursor-pointer rounded-[14px] border-2 border-[rgba(255,255,255,.18)] bg-[rgba(255,255,255,.04)] px-2 py-3 text-center font-[inherit] text-white transition-all duration-150' +
+                      (lv.range === selectedRange ? ' ob-sel' : '')
+                    }
                     data-range={lv.range}
                     onClick={() => setSelectedRange(lv.range)}
                   >
