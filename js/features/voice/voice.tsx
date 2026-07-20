@@ -3727,6 +3727,7 @@ function VoiceFlagImg({ flagCode }: { flagCode: string }): ReactElement | null {
       width={14}
       height={14}
       style={{
+        display: 'inline-block',
         borderRadius: '50%',
         verticalAlign: 'middle',
         marginRight: 6,
