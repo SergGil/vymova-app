@@ -14,7 +14,6 @@ import {
   updateStreak,
   _idle,
 } from '../features/game.ts';
-import { t } from '../features/i18n.ts';
 import { renderGameBar } from '../features/render-game-bar.ts';
 import { refreshGameBarLevel as renderLevelBadge } from '../features/game-bar-level.tsx';
 import { checkAchievements } from '../features/render-achievements.ts';
@@ -29,6 +28,7 @@ import {
   getDeckSnapshot,
   getIdxSnapshot,
 } from '../../src/deck-store.ts';
+import { dispatchAnimCard, setAutoRunningState } from './card-anim-store.ts';
 
 let autoTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -50,8 +50,7 @@ export function stopAuto(): void {
     clearInterval(autoTimer);
     autoTimer = null;
   }
-  const btnAuto = document.getElementById('btn-auto');
-  if (btnAuto) btnAuto.textContent = t('cards.auto');
+  setAutoRunningState(false);
 }
 
 export function isAutoRunning(): boolean {
@@ -59,6 +58,7 @@ export function isAutoRunning(): boolean {
 }
 
 export function startAuto(): void {
+  setAutoRunningState(true);
   autoTimer = setInterval(() => {
     animCard('next');
     const deck = getDeckSnapshot();
@@ -68,14 +68,11 @@ export function startAuto(): void {
 }
 
 // ── Card animation ─────────────────────────────────────────────────────────
+// The actual '.card-face' classList/reflow-restart trick lives in
+// js/features/card-face-anim.tsx's CardFaceAnim, reacting to the dispatch
+// below — this just requests it (docs/full-react-migration-roadmap.md item 1).
 export function animCard(dir: 'next' | 'prev' | 'fade'): void {
-  const face = document.querySelector<HTMLElement>('.card-face');
-  if (!face || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const cls = dir === 'next' ? 'anim-next' : dir === 'prev' ? 'anim-prev' : 'anim-fade';
-  face.classList.remove('anim-next', 'anim-prev', 'anim-fade');
-  void face.offsetWidth; // force reflow
-  face.classList.add(cls);
-  setTimeout(() => face.classList.remove(cls), 250);
+  dispatchAnimCard(dir);
 }
 
 // ── Main render ────────────────────────────────────────────────────────────

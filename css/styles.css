@@ -1292,6 +1292,22 @@ body.dark .card.is-known .card-face {
    overrides existed for any of them). :hover, .known-chip, the nested
    .sc-word/.sc-transl (color differs per parent chip type) and the
    light-theme background overrides below stay here. */
+/* .similar-section (shared by SimilarWordsChips/WordFamiliesChips/
+   SynonymsChips/AntonymsChips/CollocationsSection) used to have no
+   background at all — sat directly on .card-scene, which itself has none
+   either (intentionally, "3D контейнер, без візуальних стилів" above).
+   Invisible against the plain default background, but a fandom theme's
+   fixed full-bleed background image shows through in the gaps between chip
+   rows, distractingly so for busier images (e.g. dt.css's). Same boxed-card
+   look as .settings-section, using the same --card/--border tokens every
+   theme already defines, so this needs no per-theme override. */
+.similar-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
 .sim-chip:hover {
   border-color: var(--accent);
   background: rgba(0, 200, 100, 0.06);

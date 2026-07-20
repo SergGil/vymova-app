@@ -284,27 +284,7 @@
 
           <!-- Голос -->
           <div class="settings-section">
-            <div
-              style="display: flex; align-items: center; justify-content: space-between; gap: 8px"
-            >
-              <div
-                class="settings-section-title"
-                style="margin-bottom: 0"
-                data-i18n="settings.voiceTitle"
-              >
-                🔊 Голос озвучення
-              </div>
-              <button
-                id="voices-reload-btn"
-                class="backup-btn"
-                style="flex: none; padding: 3px 9px; font-size: 0.68rem"
-                data-i18n="settings.voiceReload"
-                data-i18n-title="settings.voiceReloadTitle"
-                title="Перезавантажити список голосів"
-              >
-                🔄 Оновити
-              </button>
-            </div>
+            <div id="voice-section-header-mount"></div>
             <div id="fy-voices-list" class="mt-2.5 flex flex-col gap-1"></div>
           </div>
 
@@ -436,7 +416,7 @@
           </div>
 
           <div class="settings-footer mt-1 mb-2 text-center text-[.72rem] text-[var(--text3)]">
-            © 2026 Vymova · v1.374.0 ·
+            © 2026 Vymova · v1.375.0 ·
             <a
               href="./privacy.html"
               target="_blank"

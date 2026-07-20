@@ -25,6 +25,9 @@
 // throughout this codebase (e.g. card-known-visuals.tsx). That's
 // unaffected by who authors the surrounding markup.
 import type { ReactElement } from 'react';
+import { useLangVersion } from '../../src/store.ts';
+import { useCardAnimState } from '../core/card-anim-store.ts';
+import { t } from './i18n.ts';
 import { CardMeta } from './card-meta.tsx';
 import { CardImage } from './card-image.tsx';
 import { CardNoteDisplay } from './card-indicators.tsx';
@@ -53,6 +56,18 @@ import { DailyMissionCard } from './daily-mission-card.tsx';
 import { FontSizeControl } from './font-size-control.tsx';
 import { AchievementToast } from './achievement-toast.tsx';
 import { GoalModal } from './goal-modal.tsx';
+
+// #btn-auto's label — reactive to card-anim-store's `autoRunning` (dispatched
+// by card-engine.ts's startAuto()/stopAuto()) instead of the two direct
+// `textContent` writes that used to live in card-actions.ts's onAutoClick and
+// card-engine.ts's stopAuto(). useLangVersion() re-renders this on a UI
+// language switch, matching t()'s reactivity elsewhere (tag-filter-select.tsx,
+// range-select.tsx).
+function AutoButtonLabel(): ReactElement {
+  useLangVersion();
+  const { autoRunning } = useCardAnimState();
+  return <>{autoRunning ? t('cards.stop') : t('cards.auto')}</>;
+}
 
 export function CardShell(): ReactElement {
   return (
@@ -189,14 +204,8 @@ export function CardShell(): ReactElement {
           <button className="btn" id="btn-prev" title="Попередня картка" data-i18n-title="cards.prevTitle">
             <span data-i18n="cards.back">← Назад</span>
           </button>
-          <button
-            className="btn btn-auto"
-            id="btn-auto"
-            title="Авто-режим"
-            data-i18n-title="cards.autoTitle"
-            data-i18n="cards.auto"
-          >
-            ▶ Авто
+          <button className="btn btn-auto" id="btn-auto" title="Авто-режим" data-i18n-title="cards.autoTitle">
+            <AutoButtonLabel />
           </button>
           <button
             className="btn"

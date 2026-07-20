@@ -5,6 +5,7 @@ import {
   getFlippedSnapshot,
   getCwSnapshot,
 } from '../../src/deck-store.ts';
+import { getCardAnimSnapshot } from '../../js/core/card-anim-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.js';
 
@@ -118,33 +119,24 @@ describe('card-engine.ts', () => {
 
       engine.stopAuto();
       expect(engine.isAutoRunning()).toBe(false);
-      expect(document.getElementById('btn-auto')!.textContent).toBe('cards.auto');
+      expect(getCardAnimSnapshot().autoRunning).toBe(false);
     });
   });
 
   describe('animCard', () => {
-    it('adds and then removes the animation class', () => {
-      vi.useFakeTimers();
-      const face = document.querySelector('.card-face') as HTMLElement;
+    // The actual '.card-face' classList/reflow-restart DOM work moved to
+    // js/features/card-face-anim.tsx's CardFaceAnim (a mounted React
+    // component elsewhere in the tree) — animCard() itself now only
+    // dispatches to card-anim-store; see tests/features/card-face-anim.test.tsx
+    // for the DOM-effect side.
+    it('dispatches an animRequest with a fresh seq each call, even for the same dir twice', () => {
       engine.animCard('next');
-      expect(face.classList.contains('anim-next')).toBe(true);
-      vi.advanceTimersByTime(250);
-      expect(face.classList.contains('anim-next')).toBe(false);
-    });
-
-    it('does nothing when reduced motion is preferred', () => {
-      vi.stubGlobal(
-        'matchMedia',
-        vi.fn(() => ({ matches: true })),
-      );
-      const face = document.querySelector('.card-face') as HTMLElement;
-      face.classList.remove('anim-fade');
-      engine.animCard('fade');
-      expect(face.classList.contains('anim-fade')).toBe(false);
-      vi.stubGlobal(
-        'matchMedia',
-        vi.fn(() => ({ matches: false })),
-      );
+      const first = getCardAnimSnapshot().animRequest;
+      expect(first?.dir).toBe('next');
+      engine.animCard('next');
+      const second = getCardAnimSnapshot().animRequest;
+      expect(second?.dir).toBe('next');
+      expect(second?.seq).not.toBe(first?.seq);
     });
   });
 

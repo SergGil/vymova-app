@@ -111,7 +111,7 @@ const ORIGINAL_CARD_SCENE_HTML = `
       <button class="btn" id="btn-prev" title="Попередня картка" data-i18n-title="cards.prevTitle">
         <span data-i18n="cards.back">← Назад</span>
       </button>
-      <button class="btn btn-auto" id="btn-auto" title="Авто-режим" data-i18n-title="cards.autoTitle" data-i18n="cards.auto">▶ Авто</button>
+      <button class="btn btn-auto" id="btn-auto" title="Авто-режим" data-i18n-title="cards.autoTitle">▶ Авто</button>
       <button class="btn" id="btn-shuf" title="Перемішати" data-i18n-title="cards.shuffleTitle" style="font-size: 14px">🔀</button>
       <button class="btn" id="btn-search" title="Пошук по словнику (Ctrl+F)" data-i18n-title="cards.searchTitle" style="font-size: 14px">🔍</button>
       <button class="btn" id="btn-stats" title="Статистика" data-i18n-title="cards.statsTitle" style="display: none"></button>

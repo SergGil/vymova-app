@@ -4027,6 +4027,35 @@ function VoicePickerList({ debugMsg }: { debugMsg: string | null }): ReactElemen
   );
 }
 
+// Settings' "🔊 Голос озвучення" section title + #voices-reload-btn — the
+// wrapping markup only (docs/full-react-migration-roadmap.md item 10);
+// #voices-reload-btn's click wiring stays exactly where it already was
+// (VoiceInit's useEffect below, getElementById + addEventListener) since
+// that's the same idiom every other mode/feature controller in this repo
+// uses. #fy-voices-list (VoiceInit's own createPortal target, read in its
+// render body rather than an effect) is deliberately NOT touched here —
+// converting it would need the same care as card-shell.tsx's Portal-into-
+// dynamically-created-node fix, not worth it for this section's title row.
+export function VoiceSectionHeader(): ReactElement {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+      <div className="settings-section-title" style={{ marginBottom: 0 }} data-i18n="settings.voiceTitle">
+        🔊 Голос озвучення
+      </div>
+      <button
+        id="voices-reload-btn"
+        className="backup-btn"
+        style={{ flex: 'none', padding: '3px 9px', fontSize: '0.68rem' }}
+        data-i18n="settings.voiceReload"
+        data-i18n-title="settings.voiceReloadTitle"
+        title="Перезавантажити список голосів"
+      >
+        🔄 Оновити
+      </button>
+    </div>
+  );
+}
+
 export function VoiceInit(): ReactElement | null {
   const [, bump0] = useState(0);
   const [debugMsg, setDebugMsg] = useState<string | null>(null);

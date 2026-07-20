@@ -31,7 +31,6 @@ import {
 import { speakForCode } from './voice/speak-lang.ts';
 import { playSound } from '../core/audio.ts';
 import { launchConfetti } from '../core/confetti.tsx';
-import { t } from './i18n.ts';
 import { openResetConfirm } from './reset-confirm-dialog.tsx';
 import { renderGameBar } from './render-game-bar.ts';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
@@ -294,7 +293,6 @@ export function CardActionsInit(): ReactElement | null {
       if (isAutoRunning()) {
         stopAuto();
       } else {
-        autoBtn.textContent = t('cards.stop');
         startAuto();
       }
     };

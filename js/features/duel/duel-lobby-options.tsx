@@ -79,7 +79,7 @@ function _sortedDuelLangs(exclude: string): Code[] {
 
 function _renderLangOption(l: Code): ReactElement {
   return (
-    <span className="flagdd-content">
+    <span className="flagdd-content inline-flex items-center gap-1.5">
       <LangFlag id={l} size={16} />
       <span className="flagdd-label">{t('lang.' + l)}</span>
     </span>

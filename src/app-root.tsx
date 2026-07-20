@@ -56,6 +56,7 @@ import { GameBarStreak, ComboBox, GameBarGoal } from '../js/features/game-bar-st
 import { CardShell } from '../js/features/card-shell.tsx';
 import { CardBookmarkNoteVisuals } from '../js/features/card-indicators.tsx';
 import { CardKnownVisuals } from '../js/features/card-known-visuals.tsx';
+import { CardFaceAnim } from '../js/features/card-face-anim.tsx';
 import { FrontSpeakBtnsToggle } from '../js/features/card-front-text.tsx';
 import { ProgressBar } from '../js/features/card-progress.tsx';
 import { HeaderLeft } from '../js/features/header-left.tsx';
@@ -81,7 +82,7 @@ import {
 } from '../js/features/notifications.tsx';
 import { CloudSyncSection, _refreshCloudSyncUI } from '../js/features/cloud-sync.tsx';
 import { ExportInit, BackupExportSection } from '../js/features/export.tsx';
-import { VoiceInit, _renderVoices } from '../js/features/voice/voice.tsx';
+import { VoiceInit, VoiceSectionHeader, _renderVoices } from '../js/features/voice/voice.tsx';
 import { SidebarInit } from '../js/features/sidebar.tsx';
 import { SidebarNav } from '../js/features/sidebar-nav.tsx';
 import { useWordDetailTarget } from '../js/features/word-detail-trigger.ts';
@@ -331,6 +332,7 @@ function AppRoot(): ReactElement {
       </Portal>
       <CardBookmarkNoteVisuals />
       <CardKnownVisuals />
+      <CardFaceAnim />
       <Portal id="header-left-mount">
         <HeaderLeft />
       </Portal>
@@ -374,6 +376,9 @@ function AppRoot(): ReactElement {
         <BackupExportSection />
       </Portal>
       <VoiceInit />
+      <Portal id="voice-section-header-mount">
+        <VoiceSectionHeader />
+      </Portal>
       <SidebarInit />
       <SidebarNav />
       <NavFlyoutController />
