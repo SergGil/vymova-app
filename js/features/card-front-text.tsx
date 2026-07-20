@@ -432,13 +432,15 @@ export function OtherMeanings() {
       <div className="similar-title mb-1.5 flex items-center gap-[5px] text-[.6rem] font-extrabold tracking-[0.1em] text-[var(--text3)] uppercase max-[480px]:text-[.58rem]">
         {t('cards.sensesTitle')}
       </div>
-      <ol className="senses-list" id="cb-senses-list">
+      <ol className="senses-list m-0 flex flex-col gap-1.5 pl-[1.1em]" id="cb-senses-list">
         {senses.map((s, i) => (
-          <li key={i}>
-            <span className="sense-pos">{s.pos}</span>{' '}
-            <span className="sense-translation">{s.translation}</span>
-            <div className="sense-example">
-              {s.exEn} {s.exUa ? <i>— {s.exUa}</i> : null}
+          <li key={i} className="text-[.82rem]">
+            <span className="sense-pos text-[.72rem] text-[var(--text2)] italic">{s.pos}</span>{' '}
+            <span className="sense-translation font-bold text-[var(--text)]">
+              {s.translation}
+            </span>
+            <div className="sense-example mt-px text-[.74rem] leading-[1.4] text-[var(--text3)]">
+              {s.exEn} {s.exUa ? <i className="italic">— {s.exUa}</i> : null}
               <button
                 type="button"
                 className="speak-btn sense-speak-btn"

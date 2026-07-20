@@ -10,13 +10,19 @@ import { useDeckState } from '../../src/deck-store.ts';
 export function CardNoteDisplay() {
   const { cw } = useDeckState();
   if (!cw)
-    return <div id="card-note-display" className="card-note-display" style={{ display: 'none' }} />;
+    return (
+      <div
+        id="card-note-display"
+        className="card-note-display mt-1 mb-1.5 rounded-md border-l-[3px] border-l-[var(--accent)] px-[9px] py-[5px] text-[.75rem] leading-[1.4] break-words text-[var(--text3)] italic"
+        style={{ display: 'none' }}
+      />
+    );
 
   const note = getNoteForWord(cw[0]);
   return (
     <div
       id="card-note-display"
-      className="card-note-display"
+      className="card-note-display mt-1 mb-1.5 rounded-md border-l-[3px] border-l-[var(--accent)] px-[9px] py-[5px] text-[.75rem] leading-[1.4] break-words text-[var(--text3)] italic"
       style={{ display: note ? '' : 'none' }}
     >
       {note ? `📝 ${note}` : ''}

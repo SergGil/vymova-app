@@ -65,9 +65,9 @@ export function NoteModal(): ReactElement | null {
         if (e.target === e.currentTarget) close();
       }}
     >
-      <div className="note-panel">
-        <div className="note-header">
-          <div className="note-title" id="note-word-title">
+      <div className="note-panel w-full max-w-[460px] rounded-2xl px-5 py-6 shadow-[0_12px_48px_rgba(0,0,0,.3)]">
+        <div className="note-header mb-2.5 flex items-center justify-between">
+          <div className="note-title text-[.95rem] font-bold text-[var(--text)]" id="note-word-title">
             {t('note.title')}: {word}
           </div>
           <button className="page-close-btn" onClick={close} aria-label={t('common.close')}>
@@ -78,7 +78,7 @@ export function NoteModal(): ReactElement | null {
           📝 {t('note.hint')}
         </div>
         <textarea
-          className="note-textarea"
+          className="note-textarea box-border w-full min-h-[100px] max-h-[200px] resize-y rounded-[10px] bg-[var(--bg)] px-3 py-2.5 font-[inherit] text-[.85rem] leading-[1.5] text-[var(--text)] outline-none"
           value={text}
           placeholder={t('note.placeholder')}
           autoFocus

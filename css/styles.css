@@ -3632,12 +3632,18 @@ body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):no
 
 /* ══ New Features CSS ═══════════════════════════════════════════ */
 
-/* ── Card action buttons ── */
-.word-actions {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
+/* ── Card action buttons ──
+   .word-actions stays bare — see the "gb-level cluster" comment
+   elsewhere in this file: it's part of a scattered set of overlapping
+   unconditional rule blocks (Safari/iOS fixes, layout patches) judged
+   too risky to decompose. .card-note-btn/.card-bookmark-btn stay bare
+   too, for a different reason: they're combined with .speak-btn
+   (itself theme-touched, bare) in index.html, and their font-size/
+   transition exist specifically to override .speak-btn's own bare
+   values — moving them to a layered Tailwind utility would make
+   .speak-btn's bare rule win instead, since unlayered always beats
+   layered regardless of source order. Same reasoning applies to
+   .sense-speak-btn below (combined with .speak-btn in card-front-text.tsx). */
 .card-note-btn,
 .card-bookmark-btn {
   font-size: 13px !important;
@@ -3650,36 +3656,20 @@ body:not(.dark):not(.sw):not(.hp):not(.cp):not(.lotr):not(.mcu):not(.witcher):no
 .card-bookmark-btn:hover {
   opacity: 1;
 }
+/* .card-note-display's own box/typography moved to Tailwind utility
+   classes in card-indicators.tsx; background stays (live body.dark
+   override). */
 .card-note-display {
-  font-size: 0.75rem;
-  color: var(--text3);
-  font-style: italic;
-  margin: 4px 0 6px;
-  padding: 5px 9px;
   background: rgba(0, 0, 0, 0.04);
-  border-radius: 8px;
-  border-left: 3px solid var(--accent);
-  line-height: 1.4;
-  word-break: break-word;
 }
 body.dark .card-note-display {
   background: rgba(255, 255, 255, 0.04);
 }
 
-.usage-note-box {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-  font-size: 0.75rem;
-  color: var(--text2);
-  margin: 4px 0 6px;
-  padding: 5px 9px;
-  background: rgba(230, 126, 34, 0.08);
-  border-radius: 8px;
-  border-left: 3px solid #e67e22;
-  line-height: 1.4;
-  word-break: break-word;
-}
+/* .usage-note-box's own box/typography (no fandom-theme or body.dark
+   overrides existed for it) and .usage-note-icon moved to Tailwind
+   utility classes in word-context.tsx. .usage-note-box.etymology-note
+   stays (live body.dark override on its background). */
 .usage-note-box.etymology-note {
   background: rgba(0, 0, 0, 0.04);
   border-left-color: var(--accent);
@@ -3688,80 +3678,30 @@ body.dark .card-note-display {
 body.dark .usage-note-box.etymology-note {
   background: rgba(255, 255, 255, 0.04);
 }
-.usage-note-icon {
-  flex-shrink: 0;
-}
 
-.senses-list {
-  margin: 0;
-  padding: 0 0 0 1.1em;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.senses-list li {
-  font-size: 0.82rem;
-}
-.sense-pos {
-  font-style: italic;
-  color: var(--text2);
-  font-size: 0.72rem;
-}
-.sense-translation {
-  font-weight: 700;
-  color: var(--text);
-}
-.sense-example {
-  font-size: 0.74rem;
-  color: var(--text3);
-  margin-top: 1px;
-  line-height: 1.4;
-}
-.sense-example i {
-  font-style: italic;
-}
+/* .senses-list/li/.sense-pos/.sense-translation/.sense-example/i moved to
+   Tailwind utility classes in card-front-text.tsx (no fandom-theme or
+   body.dark overrides existed for any of them). .sense-speak-btn stays:
+   see the .card-note-btn comment above. */
 .sense-speak-btn {
   font-size: 12px;
   padding: 1px 3px;
   vertical-align: middle;
 }
 
-/* ── Note modal ── */
+/* ── Note modal ──
+   .note-header/.note-title and .note-panel's/.note-textarea's own
+   box/typography moved to Tailwind utility classes in note-modal.tsx.
+   .note-panel's background and its @keyframes-driven animation stay
+   bare (live theme override across all 14 fandom themes; keyframes
+   can't become a Tailwind utility). .note-textarea's border (and
+   :focus's border-color) stay too — also theme-touched. */
 .note-panel {
   background: var(--card);
-  border-radius: 16px;
-  padding: 24px 20px;
-  width: 100%;
-  max-width: 460px;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
   animation: slideUpPanel 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.note-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.note-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--text);
-}
 .note-textarea {
-  width: 100%;
-  min-height: 100px;
-  max-height: 200px;
-  padding: 10px 12px;
   border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-family: inherit;
-  background: var(--bg);
-  color: var(--text);
-  outline: none;
-  resize: vertical;
-  box-sizing: border-box;
-  line-height: 1.5;
 }
 .note-textarea:focus {
   border-color: var(--accent);

@@ -399,8 +399,11 @@ export function EtymologyNote(): ReactElement | null {
   if (!fact) return null;
 
   return (
-    <div className="usage-note-box etymology-note" id="cb-etymology">
-      <span className="usage-note-icon">📜</span>
+    <div
+      className="usage-note-box etymology-note flex items-start gap-1.5 rounded-md border-l-[3px] px-[9px] py-[5px] text-[.75rem] leading-[1.4] break-words text-[var(--text2)]"
+      id="cb-etymology"
+    >
+      <span className="usage-note-icon shrink-0">📜</span>
       <span>{fact}</span>
     </div>
   );
@@ -427,8 +430,11 @@ export function UsageNoteBox(): ReactElement | null {
   if (!note) return null;
 
   return (
-    <div className="usage-note-box" id="cb-usage-note">
-      <span className="usage-note-icon">⚠️</span>
+    <div
+      className="usage-note-box flex items-start gap-1.5 rounded-md border-l-[3px] border-l-[#e67e22] bg-[rgba(230,126,34,.08)] px-[9px] py-[5px] text-[.75rem] leading-[1.4] break-words text-[var(--text2)]"
+      id="cb-usage-note"
+    >
+      <span className="usage-note-icon shrink-0">⚠️</span>
       <span>{note}</span>
     </div>
   );
