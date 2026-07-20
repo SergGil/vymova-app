@@ -13,12 +13,12 @@ const { getWordsForPair } = vi.hoisted(() => ({
 vi.mock('../../js/features/mode-utils.ts', () => ({ getWordsForPair }));
 
 function mount(): { selRange: HTMLSelectElement; root: Root } {
-  document.body.innerHTML = '<select id="sel-range"></select>';
-  const selRange = document.getElementById('sel-range') as HTMLSelectElement;
-  const root = createRoot(selRange);
+  document.body.innerHTML = '<div id="sel-range-mount"></div>';
+  const root = createRoot(document.getElementById('sel-range-mount')!);
   act(() => {
     root.render(<RangeSelect />);
   });
+  const selRange = document.getElementById('sel-range') as HTMLSelectElement;
   return { selRange, root };
 }
 

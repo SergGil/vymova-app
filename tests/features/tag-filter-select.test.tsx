@@ -22,12 +22,12 @@ vi.mock('../../js/features/deck-mode.tsx', () => ({ _rebuildEsDeck, _isSpecialMo
 
 function mount(): { selTag: HTMLSelectElement; root: Root } {
   document.body.innerHTML =
-    '<select id="sel-tag"></select><select id="sel-mode"><option value="en">en</option></select><select id="sel-range"><option value="all">all</option></select>';
-  const selTag = document.getElementById('sel-tag') as HTMLSelectElement;
-  const root = createRoot(selTag);
+    '<div id="sel-tag-mount"></div><select id="sel-mode"><option value="en">en</option></select><select id="sel-range"><option value="all">all</option></select>';
+  const root = createRoot(document.getElementById('sel-tag-mount')!);
   act(() => {
     root.render(<TagFilterSelect />);
   });
+  const selTag = document.getElementById('sel-tag') as HTMLSelectElement;
   return { selTag, root };
 }
 

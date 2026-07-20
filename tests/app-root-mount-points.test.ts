@@ -68,10 +68,16 @@ describe('src/app-root.tsx mount points exist in index.html', () => {
   const appRoot = read('src/app-root.tsx');
   const modeCardGrid = read('js/features/mode-card-grid.tsx');
   const quizOverlayShell = read('js/features/quiz-overlay-shell.tsx');
+  // docs/card-shell-migration-roadmap.md Phase 2: .card-scene's ~24
+  // mount-point ids (card-meta-mount, illus-mount, etymology-mount, ...)
+  // moved out of index.html into card-shell.tsx's JSX — same
+  // `id="..."` attribute syntax, so extractHtmlIds' regex works unchanged.
+  const cardShell = read('js/features/card-shell.tsx');
   const validIds = new Set([
     ...extractHtmlIds(html),
     ...extractModeCardGridIds(modeCardGrid),
     ...extractQuizOverlayShellIds(quizOverlayShell),
+    ...extractHtmlIds(cardShell),
   ]);
   const refs = extractAppRootRefs(appRoot);
 
@@ -80,11 +86,11 @@ describe('src/app-root.tsx mount points exist in index.html', () => {
   });
 
   it.each(refs.map(({ id, kind }): [string, string] => [`${kind}="${id}"`, id]))(
-    '%s has a matching id in index.html, mode-card-grid.tsx, or quiz-overlay-shell.tsx',
+    '%s has a matching id in index.html, mode-card-grid.tsx, quiz-overlay-shell.tsx, or card-shell.tsx',
     (_label, id) => {
       expect(
         validIds.has(id),
-        `id="${id}" referenced from app-root.tsx but not found in index.html, mode-card-grid.tsx, or quiz-overlay-shell.tsx`,
+        `id="${id}" referenced from app-root.tsx but not found in index.html, mode-card-grid.tsx, quiz-overlay-shell.tsx, or card-shell.tsx`,
       ).toBe(true);
     },
   );

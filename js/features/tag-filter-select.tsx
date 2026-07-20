@@ -1,7 +1,9 @@
 // Vymova — js/features/tag-filter-select.tsx
-// Topic/category filter dropdown (#sel-tag). Renders <option>s into the
-// existing <select> element; selection handling stays imperative since
-// #sel-tag is read/written directly by deck-filter.ts and deck-mode.ts.
+// Topic/category filter dropdown (#sel-tag). Renders the <select> itself
+// (docs/card-shell-migration-roadmap.md Phase 3 — previously portaled
+// <option>s into a pre-existing static <select>); selection handling stays
+// imperative since #sel-tag is read/written directly by deck-filter.ts and
+// deck-mode.ts.
 import { useEffect, type ReactElement } from 'react';
 import { useLangVersion } from '../../src/store.ts';
 import { setActiveTagSet } from '../../src/deck-filter-store.ts';
@@ -62,13 +64,13 @@ export function TagFilterSelect(): ReactElement {
   });
 
   return (
-    <>
+    <select id="sel-tag" title="Фільтр по темі" data-i18n-title="cards.tagFilterTitle">
       <option value="">{t('cards.allTopics')}</option>
       {CATEGORY_LIST.map((cat) => (
         <option key={cat} value={cat}>
           {categoryName(cat)}
         </option>
       ))}
-    </>
+    </select>
   );
 }

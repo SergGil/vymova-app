@@ -1,7 +1,8 @@
 // Vymova — js/features/range-select.tsx
-// Study-range filter dropdown (#sel-range). Renders <option>/<optgroup>s into
-// the existing static <select> element — same portal-into-plain-<select>
-// pattern as tag-filter-select.tsx's TagFilterSelect. Selection handling stays
+// Study-range filter dropdown (#sel-range). Renders the <select> itself
+// (docs/card-shell-migration-roadmap.md Phase 3 — previously portaled
+// <option>/<optgroup>s into a pre-existing static <select>, same pattern as
+// tag-filter-select.tsx's TagFilterSelect). Selection handling stays
 // imperative (deck-filter.tsx/deck-mode.tsx read/write #sel-range directly).
 //
 // The "srs" option's live due-count label is NOT owned here — js/core/srs.ts's
@@ -22,7 +23,7 @@ export function RangeSelect(): ReactElement {
   const total = getWordsForPair(W as unknown as WordEntry[]).length;
 
   return (
-    <>
+    <select id="sel-range">
       <option value="0">
         {t('cards.allWords')} ({total})
       </option>
@@ -51,6 +52,6 @@ export function RangeSelect(): ReactElement {
       </optgroup>
       <option value="stale7">{t('range.stale7')}</option>
       <option value="stale30">{t('range.stale30')}</option>
-    </>
+    </select>
   );
 }

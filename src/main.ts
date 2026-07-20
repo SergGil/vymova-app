@@ -11,6 +11,14 @@ import { initStaleChunkRecovery } from './stale-chunk-recovery.ts';
 initStaleChunkRecovery();
 
 // ── 8. App + modes + features ─────────────────────────────────
+// mountAppRoot() runs first (and its createRoot().render() commits the DOM
+// synchronously on this, the initial mount) so that js/app.ts's module-eval
+// — which reads #sel-mode/#sel-range via getElementById and calls render()
+// synchronously — always finds a DOM already populated by React, instead of
+// racing it. See docs/card-shell-migration-roadmap.md Phase 1.
+const { mountAppRoot } = await import('./app-root.tsx');
+mountAppRoot();
+
 await import('../js/app.ts');
 
 // combo/bookmarks/notes/pronunciation/voice статично імпортовані в app.ts.
@@ -34,6 +42,3 @@ await import('../js/app.ts');
 // simply dropping the import.
 await import('../js/features/learning-path.ts');
 await import('../js/features/reading/epub.ts');
-
-const { mountAppRoot } = await import('./app-root.tsx');
-mountAppRoot();

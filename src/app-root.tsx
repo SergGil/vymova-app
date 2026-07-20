@@ -29,9 +29,7 @@ import {
 
 import { ProfileSwitcher } from '../js/features/profile-switcher.tsx';
 import { WordOfDay } from '../js/features/word-of-day.tsx';
-import { DailyMissionCard } from '../js/features/daily-mission-card.tsx';
 import { LangPairSelect } from '../js/features/lang-pair-select.tsx';
-import { FontSizeControl } from '../js/features/font-size-control.tsx';
 import { SrsNewCapControl } from '../js/features/srs-cap-control.tsx';
 import { TagFilterSelect } from '../js/features/tag-filter-select.tsx';
 import { RangeSelect } from '../js/features/range-select.tsx';
@@ -55,34 +53,12 @@ import { PageOverlayVisibility } from '../js/features/page-overlay-visibility.ts
 import { PageHeader } from '../js/features/page-header.tsx';
 import { GameBarLevel } from '../js/features/game-bar-level.tsx';
 import { GameBarStreak, ComboBox, GameBarGoal } from '../js/features/game-bar-streak.tsx';
-import { GoalModal } from '../js/features/goal-modal.tsx';
-import { CardMeta } from '../js/features/card-meta.tsx';
-import { CardImage } from '../js/features/card-image.tsx';
-import { CardNoteDisplay, CardBookmarkNoteVisuals } from '../js/features/card-indicators.tsx';
+import { CardShell } from '../js/features/card-shell.tsx';
+import { CardBookmarkNoteVisuals } from '../js/features/card-indicators.tsx';
 import { CardKnownVisuals } from '../js/features/card-known-visuals.tsx';
-import {
-  WordText,
-  Transcription,
-  PosTag,
-  SrsBadge,
-  Translation,
-  ExEn,
-  ExUa,
-  CardHint,
-  OtherMeanings,
-  FrontSpeakBtnsToggle,
-} from '../js/features/card-front-text.tsx';
+import { FrontSpeakBtnsToggle } from '../js/features/card-front-text.tsx';
 import { ProgressBar } from '../js/features/card-progress.tsx';
 import { HeaderLeft } from '../js/features/header-left.tsx';
-import { SimilarWordsChips } from '../js/features/similar-words.tsx';
-import {
-  WordFamiliesChips,
-  CollocationsSection,
-  SynonymsChips,
-  AntonymsChips,
-  EtymologyNote,
-  UsageNoteBox,
-} from '../js/features/word-context.tsx';
 import { ModeHints } from '../js/features/mode-hints.tsx';
 import { LevelRing } from '../js/features/ring.tsx';
 import { ThemeToggle } from '../js/core/theme.tsx';
@@ -91,7 +67,6 @@ import { SwUpdateBanner } from '../js/core/sw-update.tsx';
 import { KeyboardShortcuts } from '../js/core/keyboard.tsx';
 import { KeysOverlay } from '../js/features/keyboard.tsx';
 import { QuizSwipe } from '../js/features/swipe.tsx';
-import { QuickQuizButton } from '../js/features/quick-quiz.tsx';
 import { CardSwipe } from '../js/core/swipe.tsx';
 import { ImagePrefetchSettings } from '../js/features/image-prefetch.tsx';
 import { SettingsInit } from '../js/features/settings.tsx';
@@ -118,7 +93,6 @@ import { LazyPage } from './lazy-page.tsx';
 import { ProfilePage } from '../js/features/profile-page.tsx';
 import { OnboardingPage } from '../js/features/onboarding.tsx';
 import { BugReportForm } from '../js/features/bug-report.tsx';
-import { AchievementToast } from '../js/features/achievement-toast.tsx';
 import { ComboToast } from '../js/features/combo-toast.tsx';
 import { ModeCompleteToast } from '../js/features/mode-complete-toast.tsx';
 import { NoteModal } from '../js/features/note-modal.tsx';
@@ -295,22 +269,16 @@ function AppRoot(): ReactElement {
       <Portal id="wotd-mount">
         <WordOfDay />
       </Portal>
-      <Portal id="daily-mission-mount">
-        <DailyMissionCard />
-      </Portal>
       <Portal id="lang-pair-select">
         <LangPairSelect />
-      </Portal>
-      <Portal id="font-size-control">
-        <FontSizeControl />
       </Portal>
       <Portal id="srs-new-cap-control">
         <SrsNewCapControl />
       </Portal>
-      <Portal id="sel-tag">
+      <Portal id="sel-tag-mount">
         <TagFilterSelect />
       </Portal>
-      <Portal id="sel-range">
+      <Portal id="sel-range-mount">
         <RangeSelect />
       </Portal>
       <Portal id="search-inline-mount">
@@ -358,73 +326,16 @@ function AppRoot(): ReactElement {
       <Portal id="goal-block-mount">
         <GameBarGoal />
       </Portal>
-      <Portal id="goal-modal-mount">
-        <GoalModal />
-      </Portal>
-      <Portal id="card-meta-mount">
-        <CardMeta />
-      </Portal>
-      <Portal id="illus-mount">
-        <CardImage />
-      </Portal>
-      <Portal id="card-note-mount">
-        <CardNoteDisplay />
+      <Portal id="card-scene-mount">
+        <CardShell />
       </Portal>
       <CardBookmarkNoteVisuals />
       <CardKnownVisuals />
-      <Portal id="wword-mount">
-        <WordText />
-      </Portal>
-      <Portal id="wtrans-mount">
-        <Transcription />
-      </Portal>
-      <Portal id="wpos-mount">
-        <PosTag />
-      </Portal>
-      <Portal id="srs-next-mount">
-        <SrsBadge />
-      </Portal>
-      <Portal id="wtransl-mount">
-        <Translation />
-      </Portal>
-      <Portal id="senses-mount">
-        <OtherMeanings />
-      </Portal>
-      <Portal id="exen-mount">
-        <ExEn />
-      </Portal>
-      <Portal id="exua-mount">
-        <ExUa />
-      </Portal>
       <Portal id="header-left-mount">
         <HeaderLeft />
       </Portal>
       <Portal id="pbar-mount">
         <ProgressBar />
-      </Portal>
-      <Portal id="card-hint-mount">
-        <CardHint />
-      </Portal>
-      <Portal id="similar-words-mount">
-        <SimilarWordsChips />
-      </Portal>
-      <Portal id="word-families-mount">
-        <WordFamiliesChips />
-      </Portal>
-      <Portal id="collocations-mount">
-        <CollocationsSection />
-      </Portal>
-      <Portal id="synonyms-mount">
-        <SynonymsChips />
-      </Portal>
-      <Portal id="antonyms-mount">
-        <AntonymsChips />
-      </Portal>
-      <Portal id="etymology-mount">
-        <EtymologyNote />
-      </Portal>
-      <Portal id="usage-note-mount">
-        <UsageNoteBox />
       </Portal>
       <ModeHints />
       <Portal id="level-ring-mount">
@@ -444,9 +355,6 @@ function AppRoot(): ReactElement {
         <KeysOverlay />
       </Portal>
       <QuizSwipe />
-      <Portal id="quick-quiz-mount">
-        <QuickQuizButton />
-      </Portal>
       <CardSwipe />
       <Portal id="image-prefetch-mount">
         <ImagePrefetchSettings />
@@ -635,9 +543,6 @@ function AppRoot(): ReactElement {
       </Portal>
       <Portal id="bug-report-mount">
         <BugReportForm />
-      </Portal>
-      <Portal id="achievement-toast-mount">
-        <AchievementToast />
       </Portal>
       <Portal id="combo-toast-mount">
         <ComboToast />
