@@ -13,18 +13,31 @@ import { t } from '../features/i18n.ts';
 import { refreshGameBarLevel } from '../features/game-bar-level.tsx';
 import { checkAchievements } from '../features/render-achievements.ts';
 import type { WordEntry } from '../../src/types.js';
-import { entryFor } from '../features/mode-utils.ts';
+import { entryFor, getKnownSetForLang, isTargetLang } from '../features/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
-import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { scoreEmoji } from '../features/mode-final-screen.tsx';
 
 const DC_SIZE = 10,
   DC_XP = 3;
 
-function _todayWords(): WordEntry[] {
+// Exported for direct testing (tests/modes/daily-challenge-logic.test.ts) —
+// same underscore-prefixed-but-exported convention as srs.ts's _shuf.
+export function _todayWords(): WordEntry[] {
   const today = localToday();
   let seed = today.split('').reduce((a, c) => a * 31 + c.charCodeAt(0), 0);
-  let pool = (W as unknown as WordEntry[]).filter((w) => !getKnownSnapshot('en').has(w[0]));
+  // getKnownSetForLang(learnLang) — not a hardcoded getKnownSnapshot('en') —
+  // so the "already known" exclusion actually looks at progress in whatever
+  // language is being learned. This mode already fully supports arbitrary
+  // language pairs for display (entryFor() below), but the pool exclusion
+  // was still checking the base English known-set, which stays empty for
+  // anyone not also studying the en/ua pair — so a Spanish learner, say,
+  // kept getting challenged on Spanish words they'd already long mastered.
+  // 'ua' maps to the same base 'en' bucket as isTargetLang() itself does
+  // elsewhere (mode-utils.ts's targetLangFromStorageKey) — the base en/ua
+  // pair shares one known-words store, not two.
+  const learnLang = getLearnLang();
+  const known = getKnownSetForLang(isTargetLang(learnLang) ? learnLang : 'en');
+  let pool = (W as unknown as WordEntry[]).filter((w) => !known.has(w[0]));
   if (pool.length < DC_SIZE) pool = W.slice(0) as unknown as WordEntry[];
   const arr = pool.slice();
   for (let i = arr.length - 1; i > 0; i--) {

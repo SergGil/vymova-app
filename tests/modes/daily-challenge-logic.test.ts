@@ -1,7 +1,9 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { state } from '../../src/state.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.js';
+import { _todayWords } from '../../js/modes/daily-challenge.tsx';
+import { setKnownWords, clearAllKnown } from '../../src/known-words-store.ts';
 
 const DC_SIZE = 10;
 
@@ -52,6 +54,50 @@ describe('daily-challenge-logic', () => {
       all.forEach((w) => state.known.add(w[0])); // mark everything known
       const words = todayWords();
       expect(words.length).toBe(DC_SIZE);
+    });
+  });
+
+  // ── Real _todayWords() — language-aware known-set routing ──────
+  // Regression: _todayWords() used to filter "already known" against a
+  // hardcoded getKnownSnapshot('en'), so the exclusion was blind to progress
+  // in every target language — a Spanish learner (say) kept getting
+  // challenged on Spanish words they'd already mastered, since their real
+  // progress lives in a separate per-language known-words bucket.
+  describe('_todayWords() — real implementation', () => {
+    afterEach(() => {
+      localStorage.removeItem('ew_learn_lang');
+      clearAllKnown();
+    });
+
+    it('excludes words known in the active target language, not just the base en/ua set', () => {
+      localStorage.setItem('ew_learn_lang', 'es');
+      const all = W as unknown as WordEntry[];
+      const knownEs = new Set(all.slice(DC_SIZE + 5).map((w) => w[0]));
+      setKnownWords('es', knownEs);
+
+      const words = _todayWords();
+      words.forEach((w) => expect(knownEs.has(w[0])).toBe(false));
+    });
+
+    it('does not exclude words only known in an unrelated target language', () => {
+      localStorage.setItem('ew_learn_lang', 'es');
+      const all = W as unknown as WordEntry[];
+      // Mark everything known in French — should have zero effect on a
+      // Spanish-learn-language run.
+      setKnownWords('fr', new Set(all.map((w) => w[0])));
+
+      const words = _todayWords();
+      expect(words.length).toBe(DC_SIZE);
+    });
+
+    it('falls back to the base en/ua known set when learn language is unset (or en/ua)', () => {
+      localStorage.removeItem('ew_learn_lang');
+      const all = W as unknown as WordEntry[];
+      const knownEn = new Set(all.slice(DC_SIZE + 5).map((w) => w[0]));
+      setKnownWords('en', knownEn);
+
+      const words = _todayWords();
+      words.forEach((w) => expect(knownEn.has(w[0])).toBe(false));
     });
   });
 
