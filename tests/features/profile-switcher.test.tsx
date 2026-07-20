@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { ProfileSwitcher } from '../../js/features/profile-switcher.tsx';
+import { saveKnown, _lzLoad } from '../../js/core/storage.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -126,6 +127,27 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     expect(localStorage.getItem('ew_p_p1__ew_known')).toBe('["hello"]');
     expect(localStorage.getItem(ACTIVE_KEY)).toBe('p2');
     expect(reloadSpy).toHaveBeenCalled();
+  });
+
+  it('flushes a still-pending debounced known-words write before snapshotting on switch (no silent data loss)', () => {
+    // saveKnown() (storage.ts) debounces its actual localStorage write by
+    // 400ms — switching profiles immediately after, with no timers advanced,
+    // used to snapshot whatever ew_known already held on disk (stale),
+    // silently dropping this write from the outgoing profile's snapshot.
+    saveKnown(new Set(['freshword']));
+    expect(localStorage.getItem('ew_known')).toBeNull(); // still pending, not yet flushed
+
+    const { container, root } = mount();
+    roots.push(root);
+    act(() => {
+      (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
+    });
+    const items = container.querySelectorAll('.sb-dd-item');
+    act(() => {
+      (items[1] as HTMLButtonElement).click();
+    });
+
+    expect(_lzLoad<string[]>('ew_p_p1__ew_known', [])).toEqual(['freshword']);
   });
 
   it('isolates leaderboard identity and Tempo best scores per profile', () => {

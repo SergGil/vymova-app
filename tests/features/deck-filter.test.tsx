@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setActiveTagSet } from '../../src/deck-filter-store.ts';
@@ -213,6 +213,36 @@ describe('deck-filter.tsx DeckFilterInit', () => {
     change('weak');
     const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
     expect(deck.length).toBeGreaterThan(0);
+  });
+
+  describe('"weak" fallback — active target language, not just base English', () => {
+    afterEach(() => {
+      localStorage.removeItem('ew_learn_lang');
+      setKnownWords('es', new Set());
+    });
+
+    // Regression: the "not enough SRS-weak words" fallback used to read
+    // getKnownSnapshot('en') unconditionally — for anyone learning a target
+    // language (not en/ua), their real known-words progress lives in a
+    // separate per-language bucket that check never saw, so this branch
+    // always looked empty and silently fell through to the plain
+    // unlearned-words fallback below it instead.
+    it("uses the active target language's known set, not the base English one", async () => {
+      const { ensureLangTableLoaded, entryFor } = await import('../../js/features/mode-utils.ts');
+      await ensureLangTableLoaded('es');
+      const all = W as unknown as WordEntry[];
+      const esWord = all.find((w) => entryFor('es', w).word)!;
+
+      localStorage.setItem('ew_learn_lang', 'es');
+      setKnownWords('en', new Set()); // no English progress at all
+      setKnownWords('es', new Set([esWord[0]]));
+
+      mount();
+      change('weak');
+
+      const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
+      expect(deck).toContainEqual(esWord);
+    });
   });
 
   it('builds a full shuffled deck for the "all words" selection', () => {

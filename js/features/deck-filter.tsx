@@ -3,8 +3,7 @@
 import { useEffect, type ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { W } from '../../data/words.js';
-import { getWordsForPair } from './mode-utils.ts';
-import { getKnownSnapshot } from '../../src/known-words-store.ts';
+import { getWordsForPair, getActiveKnownByLang } from './mode-utils.ts';
 import { getSrsDataSnapshot } from '../../src/srs-store.ts';
 import {
   setBaseWords,
@@ -118,8 +117,17 @@ export function DeckFilterInit(): ReactElement | null {
           const _weakSet = new Set(_srsWeak.map(([k]) => k));
           deck = langBase.filter((w) => _weakSet.has(w[0]));
           if (!deck.length) deck = langBase.slice();
-        } else if (getKnownSnapshot('en').size > 0) {
-          deck = Array.from(getKnownSnapshot('en'))
+        } else if (getActiveKnownByLang().size > 0) {
+          // getActiveKnownByLang() — not a hardcoded getKnownSnapshot('en') —
+          // resolves the known-words bucket for whatever language ew_learn_lang
+          // currently holds, the same source _getLangDeck() above already reads
+          // (via getWordsForPair) to build langBase. Reading the base English
+          // set here regardless of learn language meant this "recently known,
+          // reversed" refresher fallback silently never triggered for any
+          // target-language learner (their real known set stayed invisible to
+          // it), always falling straight through to the plain unlearned-words
+          // fallback below instead.
+          deck = Array.from(getActiveKnownByLang())
             .slice()
             .reverse()
             .map((k) => langBase.find((w) => w[0] === k))

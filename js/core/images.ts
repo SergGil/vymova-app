@@ -7,7 +7,7 @@ export const _imgCache: Record<string, string | null> = _jsonLoad('ew_wiki', {})
 
 const IMG_TTL_MS = 8 * 3600 * 1000;
 
-const _imgCacheTs: Record<string, number> = _jsonLoad('ew_wiki_ts', {});
+export const _imgCacheTs: Record<string, number> = _jsonLoad('ew_wiki_ts', {});
 
 function _saveImgTs(word: string): void {
   _imgCacheTs[word] = Date.now();
@@ -175,6 +175,14 @@ export function loadWikiImage(
       _imgCache[word] = url2;
       _idbSet(word, url2);
       _saveImgCache();
+      // Without this, only the Pixabay-success branch above ever got a
+      // timestamp — a word resolved via the Wikipedia fallback (or one where
+      // both APIs came up empty, cached here as `null` so it isn't retried
+      // every render) had no entry in _imgCacheTs at all. _isImgExpired()
+      // treats a missing timestamp as "never expires", so that cache entry —
+      // including a negative "no image found" one from a transient API
+      // hiccup — would never be retried again for the lifetime of the cache.
+      _saveImgTs(word);
       callback(word, url2);
     });
   });

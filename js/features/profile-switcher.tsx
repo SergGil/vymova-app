@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { CharacterAvatar, DEFAULT_APPEARANCE } from './character-avatar.tsx';
-import { appearanceOf } from '../core/storage.ts';
+import { appearanceOf, _flushPendingWrites } from '../core/storage.ts';
 import type { CharacterAppearance } from '../../src/types.js';
 
 const LIST_KEY = 'ew_profiles';
@@ -90,6 +90,7 @@ export const DYNAMIC_KEY_PREFIXES = [
   'ew_mistakes_',
   'ew_ws_',
   'ew_duel_',
+  'ew_milestones_',
 ];
 
 function _snapKeys(): string[] {
@@ -101,6 +102,13 @@ function _snapKeys(): string[] {
   return keys;
 }
 function _saveSnapshot(id: string): void {
+  // saveKnown()/saveSRS() (storage.ts) debounce their actual localStorage
+  // write by 400ms so a burst of "Know" taps coalesces into one write —
+  // without this, a snapshot taken inside that window (switching profiles,
+  // adding a profile, or the tab closing right after a tap) would read the
+  // *previous* ew_known/ew_srs value straight off localStorage, silently
+  // dropping the most recent tap from the profile being switched away from.
+  _flushPendingWrites();
   _snapKeys().forEach((k) => {
     const v = localStorage.getItem(k);
     if (v !== null) localStorage.setItem(`ew_p_${id}__${k}`, v);
