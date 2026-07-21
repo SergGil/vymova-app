@@ -48,6 +48,8 @@ describe('sidebar.tsx', () => {
       <div id="grammar-overlay"></div>
       <div id="idioms-overlay"></div>
       <div id="lp-overlay"></div>
+      <div id="story-mode-overlay"></div>
+      <div id="tempo-overlay"></div>
       <div id="write-mode-desc"></div>
       <button id="btn-stats"></button>
       <button id="stats-close"></button>
@@ -195,6 +197,31 @@ describe('sidebar.tsx', () => {
     });
     expect(so.classList.contains('as-page')).toBe(false);
     expect(so.style.display).toBe('none');
+  });
+
+  // Regression: story-mode-overlay/tempo-overlay used to be force-closed
+  // here via `el.style.display = 'none'`, same as the other mode overlays.
+  // They switched to a CSS `.open` class instead (matching quiz/aq-overlay —
+  // see use-mode-session.ts), and an inline style.display set anywhere
+  // permanently wins over that class's CSS rule forever after (nothing in
+  // useModeSession ever clears an inline style once set) — so closePage()
+  // must remove the class here, not set the inline style, or reopening the
+  // mode after visiting any other page would silently stay invisible.
+  it('closePage removes the .open class from story/tempo overlays, not an inline style', () => {
+    const { root } = mount();
+    roots.push(root);
+    const story = document.getElementById('story-mode-overlay')!;
+    const tempo = document.getElementById('tempo-overlay')!;
+    story.classList.add('open');
+    tempo.classList.add('open');
+
+    act(() => {
+      closePage();
+    });
+    expect(story.classList.contains('open')).toBe(false);
+    expect(story.style.display).toBe('');
+    expect(tempo.classList.contains('open')).toBe(false);
+    expect(tempo.style.display).toBe('');
   });
 
   it('Escape closes whichever page is currently open', () => {

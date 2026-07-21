@@ -315,6 +315,8 @@ export function StoryPage(): ReactElement {
     // story read, via goBack() or the close itself), so it's called
     // manually from onClose/goBack rather than driven by isFinal.
     isFinal: false,
+    showOverlay: (el) => el.classList.add('open'),
+    hideOverlay: (el) => el.classList.remove('open'),
     onOpen: () => {
       setStory(null);
       setPopup(null);

@@ -291,6 +291,8 @@ export function TempoPage(): ReactElement {
     modeId: 'tempo',
     isFinal: false,
     closeOnEscape: false,
+    showOverlay: (el) => el.classList.add('open'),
+    hideOverlay: (el) => el.classList.remove('open'),
     onOpen: () => setScreen('start'),
     onClose: () => {
       if (timerRef.current) clearInterval(timerRef.current);

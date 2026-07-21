@@ -81,13 +81,19 @@ export function openPage(page: string): void {
 }
 
 // Mode-game overlays (quiz, write, story, etc.) sit far above the page
-// overlays (z-index 9100+) and are toggled via style.display rather than
-// classes — close them too so they don't bleed through when switching pages.
+// overlays (z-index 9100+) — close them too so they don't bleed through when
+// switching pages. Most still toggle via style.display (no CSS fallback for
+// their closed state), but story-mode-overlay/tempo-overlay now show/hide via
+// a CSS `.open` class instead (matching quiz/aq-overlay — see
+// use-mode-session.ts's showOverlay/hideOverlay override in story.tsx/
+// tempo.tsx), so they're closed via CLASS_TOGGLED_MODE_OVERLAY_IDS below
+// instead: an inline style.display set here would permanently pin them
+// closed, since nothing in useModeSession ever clears an inline style once
+// one wins over the .open class's CSS rule.
 const MODE_OVERLAY_IDS = [
   'bee-overlay',
   'scr-overlay',
   'wl-overlay',
-  'story-mode-overlay',
   'ctx-overlay',
   'fib-overlay',
   'listen-overlay',
@@ -95,8 +101,8 @@ const MODE_OVERLAY_IDS = [
   'lesson-overlay',
   'write-overlay',
   'pairs-overlay',
-  'tempo-overlay',
 ];
+const CLASS_TOGGLED_MODE_OVERLAY_IDS = ['story-mode-overlay', 'tempo-overlay'];
 
 // Public no-arg signature is kept so closePage can still be passed directly
 // as an event listener / onClick callback (addEventListener("click",
@@ -155,6 +161,9 @@ function _closePage(nextRoute?: string): void {
   for (const id of MODE_OVERLAY_IDS) {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
+  }
+  for (const id of CLASS_TOGGLED_MODE_OVERLAY_IDS) {
+    document.getElementById(id)?.classList.remove('open');
   }
 }
 

@@ -1440,6 +1440,52 @@ body:not(.dark):not([data-theme]) .family-chip {
 #aq-overlay.open {
   display: flex;
 }
+/* ── Story mode ── */
+#story-mode-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 9200;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 8px;
+  overflow-y: auto;
+}
+#story-mode-overlay.open {
+  display: flex;
+}
+.story-mode-panel {
+  max-width: 640px;
+  max-height: calc(100vh - 16px);
+  overflow-y: auto;
+  position: relative;
+}
+/* ── Tempo ── */
+#tempo-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 9100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 12px;
+}
+#tempo-overlay.open {
+  display: flex;
+}
+.tempo-panel {
+  background: var(--card);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 32px);
+  padding: 24px 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+  overflow-y: auto;
+  position: relative;
+}
 /* .ai-tutor-* moved to Tailwind utility classes in ai-tutor.tsx (no
    fandom-theme or body.dark overrides existed for any of them). */
 /* .translate-* moved to Tailwind utility classes in translate-page.tsx (no
@@ -4880,6 +4926,8 @@ body[data-theme="hp"] .cefr-C2 {
 }
 @media (prefers-reduced-motion: reduce) {
   #quiz-overlay.open .quiz-panel,
+  #aq-overlay.open .quiz-panel,
+  #tempo-overlay.open #tempo-panel,
   .modes-overlay.open .modes-panel,
   .stats-panel.slide-up,
   .page-overlay.open .page-inner {

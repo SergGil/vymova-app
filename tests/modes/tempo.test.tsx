@@ -58,7 +58,6 @@ describe('tempo.tsx (TempoPage)', () => {
     document.body.innerHTML = '';
     overlay = document.createElement('div');
     overlay.id = 'tempo-overlay';
-    overlay.style.display = 'none';
     document.body.appendChild(overlay);
     setDeckState(TEN_WORDS);
 
@@ -81,7 +80,7 @@ describe('tempo.tsx (TempoPage)', () => {
     act(() => {
       openTempo();
     });
-    expect(overlay.style.display).toBe('flex');
+    expect(overlay.classList.contains('open')).toBe(true);
     expect(container.querySelectorAll('.tempo-time-btn')).toHaveLength(3);
     expect(container.querySelector('.tempo-time-btn.active')).not.toBeNull();
   });
@@ -202,7 +201,7 @@ describe('tempo.tsx (TempoPage)', () => {
     act(() => {
       document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     });
-    expect(overlay.style.display).toBe('none');
+    expect(overlay.classList.contains('open')).toBe(false);
   });
 
   // Regression: the setTimeout that advances to the next question after an
@@ -247,6 +246,6 @@ describe('tempo.tsx (TempoPage)', () => {
     act(() => {
       closeBtn.click();
     });
-    expect(overlay.style.display).toBe('none');
+    expect(overlay.classList.contains('open')).toBe(false);
   });
 });

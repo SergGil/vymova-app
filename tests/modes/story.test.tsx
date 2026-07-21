@@ -13,7 +13,6 @@ beforeEach(() => {
   document.body.innerHTML = '';
   overlay = document.createElement('div');
   overlay.id = 'story-mode-overlay';
-  overlay.style.display = 'none';
   document.body.appendChild(overlay);
 });
 
@@ -29,7 +28,7 @@ describe('story.tsx (StoryPage) — builtin stories (AI disabled in test env)', 
       openStoryMode();
     });
 
-    expect(overlay.style.display).toBe('flex');
+    expect(overlay.classList.contains('open')).toBe(true);
     expect(screen.getByText(/busy morning/i)).toBeInTheDocument();
     expect(screen.getByText(/the journey/i)).toBeInTheDocument();
     expect(screen.getByText(/scientific discovery/i)).toBeInTheDocument();
@@ -102,7 +101,7 @@ describe('story.tsx (StoryPage) — builtin stories (AI disabled in test env)', 
     act(() => {
       document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     });
-    expect(overlay.style.display).toBe('none');
+    expect(overlay.classList.contains('open')).toBe(false);
   });
 
   it('closing via the close button hides the overlay', async () => {
@@ -112,6 +111,6 @@ describe('story.tsx (StoryPage) — builtin stories (AI disabled in test env)', 
       openStoryMode();
     });
     await user.click(screen.getByRole('button', { name: 'Закрити' }));
-    expect(overlay.style.display).toBe('none');
+    expect(overlay.classList.contains('open')).toBe(false);
   });
 });

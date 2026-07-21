@@ -339,29 +339,8 @@
            blocks directly, see that file's Phase 8 comment) ══ -->
 
       <!-- ══ STORY MODE OVERLAY ══ -->
-      <div
-        id="story-mode-overlay"
-        style="
-          display: none;
-          position: fixed;
-          inset: 0;
-          background: var(--bg);
-          z-index: 9200;
-          align-items: flex-start;
-          justify-content: center;
-          padding: 8px;
-          overflow-y: auto;
-        "
-      >
-        <div
-          class="page-inner mx-auto max-w-[760px] px-6 pt-5 pb-8"
-          style="
-            max-width: 640px;
-            max-height: calc(100vh - 16px);
-            overflow-y: auto;
-            position: relative;
-          "
-        >
+      <div id="story-mode-overlay">
+        <div class="story-mode-panel page-inner mx-auto max-w-[760px] px-6 pt-5 pb-8">
           <div id="story-page-mount"></div>
         </div>
       </div>
@@ -398,33 +377,8 @@
       </div>
 
       <!-- ══ TEMPO MODAL ══ -->
-      <div
-        id="tempo-overlay"
-        style="
-          display: none;
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.55);
-          z-index: 9100;
-          align-items: center;
-          justify-content: center;
-          padding: 16px 12px;
-        "
-      >
-        <div
-          id="tempo-panel"
-          style="
-            background: var(--card);
-            border-radius: 20px;
-            width: 100%;
-            max-width: 480px;
-            max-height: calc(100vh - 32px);
-            padding: 24px 20px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
-            overflow-y: auto;
-            position: relative;
-          "
-        >
+      <div id="tempo-overlay">
+        <div class="tempo-panel" id="tempo-panel">
           <div id="tempo-page-mount"></div>
         </div>
       </div>
