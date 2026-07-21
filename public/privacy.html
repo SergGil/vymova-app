@@ -116,9 +116,10 @@
 
     <h2>Usage analytics</h2>
     <p>Some deployments of this app (including the one at
-    <code>serggil.github.io/vymova-app</code>) have Firebase Analytics — built on Google
-    Analytics — turned on to understand how the app is used. If it's active on the deployment
-    you're using, it automatically collects:</p>
+    <code>serggil.github.io/vymova-app</code>) offer Firebase Analytics — built on Google
+    Analytics — to understand how the app is used. Where it's offered, it <strong>only runs after
+    you accept a one-time prompt</strong> shown on first visit — declining, or simply not
+    responding, means nothing is ever sent. If accepted, it collects:</p>
     <ul>
       <li>Usage events (e.g. app opened, a practice mode started), approximate location
       (derived from IP, not stored precisely), device/browser type, and a Google-generated
@@ -127,8 +128,10 @@
     <p>This data goes to Google and is processed under
     <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's privacy
     policy</a>; Vymova doesn't combine it with your learning progress, sync code, or any other
-    data described on this page. It is not currently gated behind a cookie/consent prompt — if
-    you'd rather it not run, a browser extension like Google's own
+    data described on this page. You can change your mind later — clearing this site's local
+    storage (or your browser's site data for this address) resets the prompt so it asks again. If
+    you accepted and want it to stop without clearing other data, a browser extension like
+    Google's own
     <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Analytics
     opt-out add-on</a>, or a content/tracker blocker, will stop it. A self-hosted fork of this
     open-source app may have analytics off entirely, depending on how its owner configured it.</p>

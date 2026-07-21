@@ -1,17 +1,39 @@
 // Vymova — tests/core/analytics.test.ts
-import { describe, it, expect } from 'vitest';
-import { initAnalytics } from '../../js/core/analytics.ts';
+import { describe, it, expect, beforeEach } from 'vitest';
+import {
+  hasAnalyticsConfig,
+  getConsent,
+  setConsent,
+  initIfConsented,
+} from '../../js/core/analytics.ts';
 
-describe('initAnalytics', () => {
-  it('does not throw and stays inert when VITE_FIREBASE_CONFIG is unset (default state)', async () => {
-    // Same guarantee as app-check.ts: a build with no Firebase config set —
-    // the default for every deployment that hasn't opted in — must never
-    // attempt a dynamic import or network call here.
-    await expect(initAnalytics()).resolves.toBeUndefined();
+describe('analytics config/consent (VITE_FIREBASE_CONFIG unset — default state)', () => {
+  beforeEach(() => {
+    localStorage.clear();
   });
 
-  it('is safe to call more than once', async () => {
-    await initAnalytics();
-    await expect(initAnalytics()).resolves.toBeUndefined();
+  it('hasAnalyticsConfig() is false with no measurementId configured', () => {
+    expect(hasAnalyticsConfig()).toBe(false);
+  });
+
+  it('getConsent() is null before any decision is made', () => {
+    expect(getConsent()).toBeNull();
+  });
+
+  it('setConsent() persists the decision and does not throw even with no config', () => {
+    expect(() => setConsent(true)).not.toThrow();
+    expect(getConsent()).toBe(true);
+
+    setConsent(false);
+    expect(getConsent()).toBe(false);
+  });
+
+  it('initIfConsented() resolves without throwing, and without granted consent stays inert', async () => {
+    await expect(initIfConsented()).resolves.toBeUndefined();
+  });
+
+  it('initIfConsented() after a prior "granted" decision still resolves cleanly (no config to actually init)', async () => {
+    setConsent(true);
+    await expect(initIfConsented()).resolves.toBeUndefined();
   });
 });

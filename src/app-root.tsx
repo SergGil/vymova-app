@@ -64,6 +64,7 @@ import { ModeHints } from '../js/features/mode-hints.tsx';
 import { LevelRing } from '../js/features/ring.tsx';
 import { ThemeToggle } from '../js/core/theme.tsx';
 import { PwaBanner } from '../js/core/pwa.tsx';
+import { AnalyticsConsentBanner } from '../js/features/analytics-consent-banner.tsx';
 import { SwUpdateBanner } from '../js/core/sw-update.tsx';
 import { KeyboardShortcuts } from '../js/core/keyboard.tsx';
 import { KeysOverlay } from '../js/features/keyboard.tsx';
@@ -349,6 +350,7 @@ function AppRoot(): ReactElement {
       <Portal id="pwa-banner-mount">
         <PwaBanner />
       </Portal>
+      <AnalyticsConsentBanner />
       <Portal id="sw-update-banner-mount">
         <SwUpdateBanner />
       </Portal>

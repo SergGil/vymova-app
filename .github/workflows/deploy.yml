@@ -40,7 +40,20 @@ jobs:
         run: npm run lint
 
       - name: Run tests
-        run: npm test
+        # Standard npm test (`vitest run`, no flags) works fine locally and
+        # in most CI runs, but the full suite has intermittently OOM'd here
+        # on GitHub's runner (see vite.config.js's onUnhandledError/retry
+        # comment — a known, unresolved vitest/vite-node full-suite
+        # flakiness, not this repo's code). --poolOptions.forks.maxForks
+        # caps concurrent worker processes (default is one per CPU core,
+        # ~4 here) so peak memory stays well under the runner's ceiling,
+        # at some cost to wall-clock time; NODE_OPTIONS gives each of those
+        # processes more headroom before hitting V8's default heap limit.
+        # CI-only (this overrides `npm test`, not the local `npm test`
+        # script devs use day to day).
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: npx vitest run --poolOptions.forks.maxForks=2
 
       - name: Build
         env:

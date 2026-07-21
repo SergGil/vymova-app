@@ -1,22 +1,25 @@
 // Vymova — js/core/analytics.ts
-// Optional Firebase Analytics (Google Analytics 4 under the hood) init.
-// Inert by default: does nothing unless VITE_FIREBASE_CONFIG (see
-// firebase-app.ts) is set AND its parsed object includes a measurementId —
-// the same config used for App Check, so setting it up for App Check alone
-// does not silently turn analytics on too.
+// Optional Firebase Analytics (Google Analytics 4 under the hood). Inert by
+// default: does nothing unless VITE_FIREBASE_CONFIG (see firebase-app.ts) is
+// set AND its parsed object includes a measurementId — the same config used
+// for App Check, so setting it up for App Check alone does not silently
+// turn analytics on too.
+//
+// GDPR-style consent gate: the actual GA script/network request never
+// happens until the visitor explicitly accepts via
+// js/features/analytics-consent-banner.tsx's AnalyticsConsentBanner — see
+// getConsent()/setConsent() below. initIfConsented() (called at boot from
+// src/main.ts) only proceeds if a *previous* visit already granted consent;
+// the banner itself calls setConsent(true) directly on an in-session Accept
+// click, which also triggers init immediately.
 //
 // See public/privacy.html's "Usage analytics" section — that page must stay
 // accurate to whatever this module actually does on a given deployment; if
 // this file's behavior changes, that page needs the matching update.
-//
-// Known gap: this does not show a cookie/tracking consent prompt before
-// loading GA — if this deployment has EU visitors, standard practice (and in
-// many jurisdictions, a legal requirement) is consent before any such script
-// loads. No consent-management UI exists in this app yet; adding one is a
-// separate, larger feature, not something this module attempts.
 const FIREBASE_CONFIG_RAW = (import.meta.env.VITE_FIREBASE_CONFIG ?? '').trim();
+const CONSENT_KEY = 'ew_analytics_consent';
 
-function _hasMeasurementId(): boolean {
+export function hasAnalyticsConfig(): boolean {
   if (!FIREBASE_CONFIG_RAW) return false;
   try {
     const config = JSON.parse(FIREBASE_CONFIG_RAW) as Record<string, unknown>;
@@ -26,10 +29,18 @@ function _hasMeasurementId(): boolean {
   }
 }
 
+// null = no decision made yet (banner should show, if hasAnalyticsConfig()).
+export function getConsent(): boolean | null {
+  const raw = localStorage.getItem(CONSENT_KEY);
+  if (raw === '1') return true;
+  if (raw === '0') return false;
+  return null;
+}
+
 let _installed = false;
 
-export async function initAnalytics(): Promise<void> {
-  if (_installed || !_hasMeasurementId()) return;
+async function _doInit(): Promise<void> {
+  if (_installed || !hasAnalyticsConfig()) return;
   _installed = true;
   const { getFirebaseApp } = await import('./firebase-app.ts');
   const app = await getFirebaseApp();
@@ -44,4 +55,21 @@ export async function initAnalytics(): Promise<void> {
   } catch (e) {
     console.warn('[analytics] failed to initialize, continuing without it:', e);
   }
+}
+
+// Called by the consent banner's Accept/Decline buttons. granted=true starts
+// loading Analytics immediately (this session); granted=false permanently
+// records the decline (initIfConsented() below will keep no-op-ing on every
+// future visit until the user clears site data).
+export function setConsent(granted: boolean): void {
+  localStorage.setItem(CONSENT_KEY, granted ? '1' : '0');
+  if (granted) void _doInit();
+}
+
+// Boot-time entry point (src/main.ts) — only ever proceeds on a *returning*
+// visitor who already accepted on a prior visit. A first-time visitor (or
+// one who declined) gets no Analytics until/unless they accept via the
+// banner, which calls setConsent(true) directly instead of this function.
+export async function initIfConsented(): Promise<void> {
+  if (getConsent() === true) await _doInit();
 }

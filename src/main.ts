@@ -15,8 +15,8 @@ export {}; // make this a module
 // below). Both are no-ops unless their respective env vars are configured.
 import { initErrorReporting } from '../js/core/error-report.ts';
 initErrorReporting();
-import { initAnalytics } from '../js/core/analytics.ts';
-void initAnalytics();
+import { initIfConsented } from '../js/core/analytics.ts';
+void initIfConsented();
 
 import { initStaleChunkRecovery } from './stale-chunk-recovery.ts';
 initStaleChunkRecovery();
