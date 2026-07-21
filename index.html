@@ -103,6 +103,7 @@
       id="hamburger"
       class="hamburger fixed left-3 top-3 z-[300] hidden h-10 w-10 cursor-pointer items-center justify-center rounded-[10px] border-[1.5px] border-border bg-card text-[1.1rem] shadow-app transition-all duration-150 hover:border-accent max-[900px]:flex"
       title="Меню"
+      data-i18n-title="common.menuBtn"
     >
       ☰
     </button>
@@ -154,7 +155,13 @@
         <div class="gb-block gb-goal-block">
           <div class="gb-goal-header">
             <span class="gb-label" data-i18n="cards.dailyGoal">Ціль на сьогодні</span>
-            <span class="goal-set" id="goal-set-btn" title="Змінити ціль">⚙️</span>
+            <span
+              class="goal-set"
+              id="goal-set-btn"
+              title="Змінити ціль"
+              data-i18n-title="cards.dailyGoalEditTitle"
+              >⚙️</span
+            >
           </div>
           <div id="goal-block-mount"></div>
         </div>
@@ -165,7 +172,12 @@
         </div>
 
         <!-- Block 3: Level XP progress (React, see game-bar-level.tsx) -->
-        <div class="gb-block gb-level-block" id="level-box" title="Прогрес рівня"></div>
+        <div
+          class="gb-block gb-level-block"
+          id="level-box"
+          title="Прогрес рівня"
+          data-i18n-title="cards.levelProgressTitle"
+        ></div>
       </div>
       <div id="combo-toast-mount"></div>
       <div id="mode-complete-toast-mount"></div>
@@ -208,204 +220,11 @@
       <!-- ══ STATS OVERLAY (React, stats-page.tsx) ══ -->
       <div id="stats-overlay"></div>
 
-      <!-- ══ SETTINGS PAGE ══ -->
-      <div id="settings-overlay" class="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-bg [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]">
-        <div class="page-inner mx-auto max-w-[760px] px-6 pt-5 pb-8">
-          <div id="settings-page-header-mount"></div>
-
-          <!-- Теми / зовнішній вигляд -->
-          <div class="settings-section">
-            <div class="settings-section-title" data-i18n="settings.themesTitle">🎨 Теми</div>
-            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.themesDesc">
-              Обери оформлення застосунку.
-            </div>
-            <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 2px">
-              <div
-                class="sb-toggle-row flex cursor-pointer items-center gap-2.5 rounded-[10px] px-3 py-[9px] transition-colors duration-[120ms] select-none hover:bg-[var(--bg)]"
-                id="set-theme"
-                style="background: var(--bg); border-radius: 10px"
-              >
-                <span class="sb-icon w-[22px] shrink-0 text-center text-base">🌙</span>
-                <span class="sb-label flex-1" data-i18n="settings.darkTheme">Темна тема</span>
-                <span class="sb-toggle-pill" id="set-theme-pill"></span>
-              </div>
-              <div id="fandom-theme-rows-mount"></div>
-            </div>
-          </div>
-
-          <!-- Пріоритет повторення в іграх -->
-          <div class="settings-section">
-            <div class="settings-section-title" data-i18n="settings.srsPriorityTitle">
-              🔁 Пріоритет повторення
-            </div>
-            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.srsPriorityDesc">
-              Ігрові режими спершу показують слова, які час повторити (SRS), а не випадкові.
-            </div>
-            <div
-              id="srs-priority-toggle-mount"
-              style="display: flex; align-items: center; gap: 10px; margin-top: 10px"
-            ></div>
-          </div>
-
-          <!-- Нових карток на день (SRS) -->
-          <div class="settings-section">
-            <div class="settings-section-title" data-i18n="settings.srsNewCapTitle">
-              🆕 Нових карток на день
-            </div>
-            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.srsNewCapDesc">
-              Скільки нових слів SRS-колода вводить щодня, перш ніж перейде лише до повторення.
-            </div>
-            <div
-              id="srs-new-cap-control"
-              style="display: flex; align-items: center; gap: 8px; margin-top: 10px"
-            ></div>
-          </div>
-
-          <!-- Голос -->
-          <div class="settings-section">
-            <div id="voice-section-header-mount"></div>
-            <div id="fy-voices-list" class="mt-2.5 flex flex-col gap-1"></div>
-          </div>
-
-          <!-- Зображення -->
-          <div class="settings-section">
-            <div class="settings-section-title" data-i18n="settings.imagesTitle">
-              🖼️ Зображення на картках
-            </div>
-            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]">
-              <span data-i18n="settings.imagesDesc1"
-                >Безкоштовний ключ Pixabay дає фото для ~90% слів.</span
-              >
-              <span data-i18n="settings.imagesDesc2">Отримай на</span> <b>pixabay.com/api/docs</b>.
-            </div>
-            <div id="image-prefetch-mount"></div>
-          </div>
-
-          <!-- Збереження прогресу -->
-          <div class="settings-section">
-            <div class="settings-section-title" data-i18n="settings.backupTitle">
-              💾 Збереження прогресу
-            </div>
-            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.backupDesc">
-              Експортуй прогрес перед оновленням файлу — щоб не втратити вивчені слова.
-            </div>
-            <div id="backup-export-mount"></div>
-          </div>
-
-          <!-- Сповіщення -->
-          <div class="settings-section">
-            <div class="settings-section-title" data-i18n="settings.notifTitle">🔔 Сповіщення</div>
-            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.notifDesc">
-              Щоденне нагадування якщо ще не вчив сьогодні.
-            </div>
-            <div id="notifications-section-mount"></div>
-          </div>
-
-          <!-- ── Haptic Feedback ── -->
-          <div class="settings-section">
-            <div class="settings-section-title" data-i18n="settings.hapticTitle">📳 Вібрація</div>
-            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.hapticDesc">
-              Тактильний відгук при відповідях на картках.
-            </div>
-            <div
-              id="haptic-toggle-mount"
-              style="display: flex; align-items: center; gap: 10px; margin-top: 10px"
-            ></div>
-            <p
-              id="haptic-ios-note"
-              style="display: none; font-size: 0.78rem; color: var(--text3); margin-top: 8px"
-              data-i18n="settings.hapticIosNote"
-            >
-              ⚠️ Safari/iOS не підтримує вібрацію — обмеження Apple.
-            </p>
-          </div>
-
-          <!-- ── Reduced motion ── -->
-          <div class="settings-section">
-            <div class="settings-section-title" data-i18n="settings.reducedMotionTitle">
-              🌀 Зменшена анімація
-            </div>
-            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.reducedMotionDesc">
-              Вимикає анімації та переходи по всьому застосунку.
-            </div>
-            <div
-              id="reduced-motion-toggle-mount"
-              style="display: flex; align-items: center; gap: 10px; margin-top: 10px"
-            ></div>
-          </div>
-
-          <!-- ── High contrast ── -->
-          <div class="settings-section">
-            <div class="settings-section-title" data-i18n="settings.highContrastTitle">
-              🔲 Високий контраст
-            </div>
-            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.highContrastDesc">
-              Посилює контраст тексту та рамок для кращої читабельності.
-            </div>
-            <div
-              id="high-contrast-toggle-mount"
-              style="display: flex; align-items: center; gap: 10px; margin-top: 10px"
-            ></div>
-          </div>
-
-          <!-- ── PWA Install ── -->
-          <div class="settings-section">
-            <div class="settings-section-title" data-i18n="settings.pwaTitle">
-              📱 Встановити застосунок
-            </div>
-            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.pwaDesc">
-              Швидкий доступ з головного екрана, робота офлайн.
-            </div>
-            <div id="pwa-install-mount" style="margin-top: 10px"></div>
-          </div>
-
-          <!-- Скидання прогресу -->
-          <!-- ── Cloud Sync (React, cloud-sync.tsx CloudSyncSection) ── -->
-          <div class="settings-section">
-            <div class="settings-section-title" data-i18n="settings.cloudTitle">
-              ☁️ Хмарний бекап
-            </div>
-            <div id="cloud-sync-mount"></div>
-          </div>
-
-          <div class="settings-section">
-            <div class="settings-section-title" data-i18n="settings.bugTitle">
-              🐛 Повідомити про помилку
-            </div>
-            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.bugDesc">
-              Знайшли помилку або є пропозиція?
-            </div>
-            <div id="bug-report-mount"></div>
-          </div>
-
-          <div class="settings-section settings-section-danger">
-            <div class="settings-section-title" data-i18n="settings.dangerTitle">
-              ⚠️ Небезпечна зона
-            </div>
-            <div class="settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]" data-i18n="settings.dangerDesc">
-              Незворотна дія — всі вивчені слова, серія днів та досягнення будуть видалені.
-            </div>
-            <button
-              id="btn-reset"
-              class="settings-reset-btn mt-3 cursor-pointer rounded-[10px] border-[1.5px] border-[rgba(231,76,60,.5)] bg-transparent px-5 py-2.5 font-[inherit] text-[.88rem] font-semibold text-[#e74c3c] transition-colors duration-150 hover:border-[#e74c3c] hover:bg-[rgba(231,76,60,.1)]"
-              data-i18n="settings.resetBtn"
-            >
-              ↺ Скинути прогрес
-            </button>
-          </div>
-
-          <div class="settings-footer mt-1 mb-2 text-center text-[.72rem] text-[var(--text3)]">
-            © 2026 Vymova · v1.388.0 ·
-            <a
-              href="./privacy.html"
-              target="_blank"
-              rel="noopener"
-              style="color: inherit; text-decoration: underline"
-              >Privacy Policy</a
-            >
-          </div>
-        </div>
-      </div>
+      <!-- ══ SETTINGS PAGE (React, settings-page.tsx SettingsPage) ══ -->
+      <div
+        id="settings-overlay"
+        class="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-bg [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]"
+      ></div>
 
       <!-- Попап деталей досягнення — поза .app для коректного z-index (React, achievements-page.tsx) -->
       <div

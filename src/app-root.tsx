@@ -30,25 +30,16 @@ import {
 import { ProfileSwitcher } from '../js/features/profile-switcher.tsx';
 import { WordOfDay } from '../js/features/word-of-day.tsx';
 import { LangPairSelect } from '../js/features/lang-pair-select.tsx';
-import { SrsNewCapControl } from '../js/features/srs-cap-control.tsx';
 import { TagFilterSelect } from '../js/features/tag-filter-select.tsx';
 import { RangeSelect } from '../js/features/range-select.tsx';
 import { SearchInline } from '../js/features/search-inline.tsx';
 import { SearchOverlay } from '../js/features/search-overlay.tsx';
 import { CodeInputDialog } from '../js/features/duel/duel-dialogs.tsx';
-import {
-  SrsPriorityToggle,
-  HapticToggle,
-  ReducedMotionToggle,
-  HighContrastToggle,
-} from '../js/features/settings-toggles.tsx';
-import { PwaInstallSection } from '../js/features/pwa-install-section.tsx';
 import { ModesOverlayShell } from '../js/features/modes-overlay-shell.tsx';
 import { QuizOverlayShell } from '../js/features/quiz-overlay-shell.tsx';
 import { ImgClearConfirmDialog } from '../js/features/img-clear-confirm.tsx';
 import { ResetConfirmDialog } from '../js/features/reset-confirm-dialog.tsx';
 import { NavFlyoutController } from '../js/features/sidebar-nav-flyout.tsx';
-import { FandomThemeRowsController } from '../js/features/fandom-theme-rows.tsx';
 import { PageOverlayVisibility } from '../js/features/page-overlay-visibility.tsx';
 import { PageHeader } from '../js/features/page-header.tsx';
 import { GameBarLevel } from '../js/features/game-bar-level.tsx';
@@ -70,20 +61,16 @@ import { KeyboardShortcuts } from '../js/core/keyboard.tsx';
 import { KeysOverlay } from '../js/features/keyboard.tsx';
 import { QuizSwipe } from '../js/features/swipe.tsx';
 import { CardSwipe } from '../js/core/swipe.tsx';
-import { ImagePrefetchSettings } from '../js/features/image-prefetch.tsx';
 import { SettingsInit } from '../js/features/settings.tsx';
+import { SettingsPage } from '../js/features/settings-page.tsx';
 import { DeckModeInit } from '../js/features/deck-mode.tsx';
 import { DeckFilterInit } from '../js/features/deck-filter.tsx';
 import { DailyChallenge } from '../js/modes/daily-challenge.tsx';
 import { PairsMode } from '../js/modes/pairs.tsx';
-import {
-  NotificationsInit,
-  NotificationsSection,
-  _updateUI as _refreshNotifUI,
-} from '../js/features/notifications.tsx';
-import { CloudSyncSection, _refreshCloudSyncUI } from '../js/features/cloud-sync.tsx';
-import { ExportInit, BackupExportSection } from '../js/features/export.tsx';
-import { VoiceInit, VoiceSectionHeader, _renderVoices } from '../js/features/voice/voice.tsx';
+import { NotificationsInit, _updateUI as _refreshNotifUI } from '../js/features/notifications.tsx';
+import { _refreshCloudSyncUI } from '../js/features/cloud-sync.tsx';
+import { ExportInit } from '../js/features/export.tsx';
+import { VoiceInit, _renderVoices } from '../js/features/voice/voice.tsx';
 import { SidebarInit } from '../js/features/sidebar.tsx';
 import { SidebarNav } from '../js/features/sidebar-nav.tsx';
 import { useWordDetailTarget } from '../js/features/word-detail-trigger.ts';
@@ -94,7 +81,6 @@ import { LazyMode } from './lazy-mode.tsx';
 import { LazyPage } from './lazy-page.tsx';
 import { ProfilePage } from '../js/features/profile-page.tsx';
 import { OnboardingPage } from '../js/features/onboarding.tsx';
-import { BugReportForm } from '../js/features/bug-report.tsx';
 import { ComboToast } from '../js/features/combo-toast.tsx';
 import { ModeCompleteToast } from '../js/features/mode-complete-toast.tsx';
 import { NoteModal } from '../js/features/note-modal.tsx';
@@ -274,9 +260,6 @@ function AppRoot(): ReactElement {
       <Portal id="lang-pair-select">
         <LangPairSelect />
       </Portal>
-      <Portal id="srs-new-cap-control">
-        <SrsNewCapControl />
-      </Portal>
       <Portal id="sel-tag-mount">
         <TagFilterSelect />
       </Portal>
@@ -292,23 +275,8 @@ function AppRoot(): ReactElement {
       <Portal id="code-input-mount">
         <CodeInputDialog />
       </Portal>
-      <Portal id="srs-priority-toggle-mount">
-        <SrsPriorityToggle />
-      </Portal>
-      <Portal id="haptic-toggle-mount">
-        <HapticToggle />
-      </Portal>
-      <Portal id="reduced-motion-toggle-mount">
-        <ReducedMotionToggle />
-      </Portal>
-      <Portal id="high-contrast-toggle-mount">
-        <HighContrastToggle />
-      </Portal>
-      <Portal id="pwa-install-mount">
-        <PwaInstallSection />
-      </Portal>
-      <Portal id="cloud-sync-mount">
-        <CloudSyncSection />
+      <Portal id="settings-overlay">
+        <SettingsPage />
       </Portal>
       <Portal id="img-clear-mount">
         <ImgClearConfirmDialog />
@@ -360,9 +328,6 @@ function AppRoot(): ReactElement {
       </Portal>
       <QuizSwipe />
       <CardSwipe />
-      <Portal id="image-prefetch-mount">
-        <ImagePrefetchSettings />
-      </Portal>
       <FrontSpeakBtnsToggle />
       <SettingsInit />
       <DeckModeInit />
@@ -370,26 +335,11 @@ function AppRoot(): ReactElement {
       <DailyChallenge />
       <PairsMode />
       <NotificationsInit />
-      <Portal id="notifications-section-mount">
-        <NotificationsSection />
-      </Portal>
       <ExportInit />
-      <Portal id="backup-export-mount">
-        <BackupExportSection />
-      </Portal>
       <VoiceInit />
-      <Portal id="voice-section-header-mount">
-        <VoiceSectionHeader />
-      </Portal>
       <SidebarInit />
       <SidebarNav />
       <NavFlyoutController />
-      <Portal id="fandom-theme-rows-mount">
-        <FandomThemeRowsController />
-      </Portal>
-      <Portal id="settings-page-header-mount">
-        <PageHeader titleKey="settings.pageTitle" />
-      </Portal>
       <Portal id="ach-page-header-mount">
         <PageHeader titleKey="ach.pageTitle" />
       </Portal>
@@ -547,9 +497,6 @@ function AppRoot(): ReactElement {
       <LazyPage page="video-player" loader={_loadVideoPlayer} />
       <Portal id="onboarding-mount">
         <OnboardingPage />
-      </Portal>
-      <Portal id="bug-report-mount">
-        <BugReportForm />
       </Portal>
       <Portal id="combo-toast-mount">
         <ComboToast />
