@@ -50,10 +50,10 @@ const { CardShell } = await import('../../js/features/card-shell.tsx');
 //
 // #btn-dontknow/#btn-hard/#btn-easy are the deliberate exceptions: they never
 // existed (or existed hidden/SRS-only) in the pre-conversion static HTML —
-// all four grading buttons ("Не знаю"/"Важко"/"Знаю"/"Легко", quality
-// 1/3/4/5) are now always-visible siblings in severity order, not a
-// structural conversion — so this block is the current expected markup
-// rather than the literal original.
+// all four grading buttons ("Легко"/"Знаю"/"Важко"/"Не знаю", quality
+// 5/4/3/1) are now always-visible siblings in reverse-severity order (most
+// confident first), not a structural conversion — so this block is the
+// current expected markup rather than the literal original.
 //
 // The buttons' `flex: 1`/`padding: 14px 0` shorthands are written
 // here in their happy-dom-canonicalized longhand form (flex-grow/-shrink/
@@ -132,17 +132,17 @@ const ORIGINAL_CARD_SCENE_HTML = `
     <div id="daily-mission-mount" class="actions-bar-mission"></div>
   </div>
   <div style="margin-top: 8px; text-align: center; display: flex; gap: 8px; justify-content: center; max-width: 360px; margin-left: auto; margin-right: auto;">
-    <button class="btn btn-dontknow" id="btn-dontknow" style="flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-size: 1.05rem; padding: 14px 0px; letter-spacing: 0.03em">
-      <span data-i18n="cards.dontKnow">✗ Не знаю</span>
+    <button class="btn btn-easy" id="btn-easy" title="Миттєво, дуже легко — слово вважається вивченим" data-i18n-title="cards.easyTitle" style="flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-size: 1.05rem; padding: 14px 0px; letter-spacing: 0.03em; white-space: nowrap;">
+      <span data-i18n="cards.easy">⚡ Легко</span>
     </button>
-    <button class="btn btn-hard" id="btn-hard" title="Згадав(-ла) з труднощами" data-i18n-title="cards.hardTitle" style="flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-size: 1.05rem; padding: 14px 0px; letter-spacing: 0.03em">
-      <span data-i18n="cards.hard">🤔 Важко</span>
-    </button>
-    <button class="btn btn-know" id="btn-know" style="flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-size: 1.05rem; padding: 14px 0px; letter-spacing: 0.03em">
+    <button class="btn btn-know" id="btn-know" style="flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-size: 1.05rem; padding: 14px 0px; letter-spacing: 0.03em; white-space: nowrap;">
       <span data-i18n="cards.know">✓ Знаю</span>
     </button>
-    <button class="btn btn-easy" id="btn-easy" title="Миттєво, дуже легко — слово вважається вивченим" data-i18n-title="cards.easyTitle" style="flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-size: 1.05rem; padding: 14px 0px; letter-spacing: 0.03em">
-      <span data-i18n="cards.easy">⚡ Легко</span>
+    <button class="btn btn-hard" id="btn-hard" title="Згадав(-ла) з труднощами" data-i18n-title="cards.hardTitle" style="flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-size: 1.05rem; padding: 14px 0px; letter-spacing: 0.03em; white-space: nowrap;">
+      <span data-i18n="cards.hard">🤔 Важко</span>
+    </button>
+    <button class="btn btn-dontknow" id="btn-dontknow" style="flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-size: 1.05rem; padding: 14px 0px; letter-spacing: 0.03em; white-space: nowrap;">
+      <span data-i18n="cards.dontKnow">✗ Не знаю</span>
     </button>
   </div>
 
