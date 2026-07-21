@@ -12,6 +12,7 @@ import {
   _submitWrite,
   _useHint,
   _onNextClick,
+  _claimForfeitWin,
 } from './duel.ts';
 import { useDuelQuestion } from '../../../src/duel-question-store.ts';
 import { useDuelRoomState } from '../../../src/duel-room-store.ts';
@@ -83,6 +84,26 @@ export function DuelQuestion(): ReactElement {
             }}
           >
             {t('duel.oppDisconnected')}
+          </div>
+        )}
+        {d.canForfeit && (
+          <div style={{ textAlign: 'center' }}>
+            <button
+              onClick={() => void _claimForfeitWin()}
+              style={{
+                background: 'var(--danger)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 10,
+                padding: '10px 18px',
+                fontSize: '.85rem',
+                fontWeight: 700,
+                fontFamily: 'inherit',
+                cursor: 'pointer',
+              }}
+            >
+              {t('duel.forfeitWinBtn')}
+            </button>
           </div>
         )}
       </div>

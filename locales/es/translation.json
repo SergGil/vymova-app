@@ -2084,6 +2084,7 @@
   "compare.pickerPlaceholder": "Buscar idioma…",
   "compare.removeLang": "Quitar",
   "duel.oppDisconnected": "⚠️ Parece que el rival se ha desconectado — puedes salir y reanudar este duelo más tarde.",
+  "duel.forfeitWinBtn": "🏆 Reclamar la victoria",
   "mistakes.title": "🔴 Repaso de errores",
   "mistakes.reviewBtn": "🔄 Repasar errores ({{n}})",
   "mistakes.checkBtn": "Comprobar",

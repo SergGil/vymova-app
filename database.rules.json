@@ -184,23 +184,11 @@
 
         "challenger": {
           "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40 && (!data.exists() || newData.val() == data.val())" },
-          "avatar": { ".validate": "newData.isString() && newData.val().length <= 20 && (!data.exists() || newData.val() == data.val())" },
-          "score": {
-            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10 && (!data.exists() || newData.val() >= data.val())"
-          },
-          "done": {
-            ".validate": "newData.isBoolean() && (!data.exists() || newData.val() == true || newData.val() == data.val())"
-          }
+          "avatar": { ".validate": "newData.isString() && newData.val().length <= 20 && (!data.exists() || newData.val() == data.val())" }
         },
         "opponent": {
           "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40 && (!data.exists() || newData.val() == data.val())" },
-          "avatar": { ".validate": "newData.isString() && newData.val().length <= 20 && (!data.exists() || newData.val() == data.val())" },
-          "score": {
-            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10 && (!data.exists() || newData.val() >= data.val())"
-          },
-          "done": {
-            ".validate": "newData.isBoolean() && (!data.exists() || newData.val() == true || newData.val() == data.val())"
-          }
+          "avatar": { ".validate": "newData.isString() && newData.val().length <= 20 && (!data.exists() || newData.val() == data.val())" }
         }
       }
     }

@@ -39,8 +39,16 @@ interface AsyncDuel {
   bestOf?: BestOf;
   lang?: string;
   knowLang?: string;
-  challenger: { name: string; avatar: string; score: number; done: boolean };
-  opponent?: { name: string; avatar: string; score: number; done: boolean };
+  // No score/done here — actual gameplay state (score, idx, done) lives
+  // entirely in /duel_rooms/{roomId}, which reuses this same `code` as its
+  // roomId (see _initGame() below). A `score`/`done` on this record would
+  // be set once here and never touched again — a write-only field nothing
+  // ever reads, easy to mistake for live state. See git history for the
+  // pre-removal shape if a future feature (e.g. an async-challenge list
+  // showing "who's winning" without opening the room) needs one — it would
+  // need to be kept in sync with duel_rooms writes, not duplicated blindly.
+  challenger: { name: string; avatar: string };
+  opponent?: { name: string; avatar: string };
   finished: boolean;
 }
 
@@ -80,7 +88,7 @@ export async function createAsyncChallenge(): Promise<void> {
       bestOf: sel.bestOf,
       lang: sel.lang,
       knowLang: sel.knowLang,
-      challenger: { name: _getMyName(), avatar: _getMyAvatar(), score: 0, done: false },
+      challenger: { name: _getMyName(), avatar: _getMyAvatar() },
       finished: false,
     };
     await _fbSet(`/duel_async/${code}`, challenge);
@@ -138,8 +146,6 @@ export async function joinAsyncChallenge(): Promise<void> {
     const claimed = await _fbClaim(`/duel_async/${code}/opponent`, {
       name: _getMyName(),
       avatar: _getMyAvatar(),
-      score: 0,
-      done: false,
     });
     if (!claimed) throw new Error(t('duel.err.chal.taken'));
     setDuelRoom({

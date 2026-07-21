@@ -1535,6 +1535,7 @@
   "settings.voicesLabel": "voices. UA voices:",
   "settings.notFound": "none found",
   "duel.oppDisconnected": "⚠️ Opponent seems to have disconnected — you can leave and resume this duel later.",
+  "duel.forfeitWinBtn": "🏆 Claim victory",
   "duel.leaderboard": "📊 Profile Leaderboard",
   "duel.online": "⚡ Online Duel",
   "duel.mode": "Mode:",

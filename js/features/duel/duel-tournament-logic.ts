@@ -19,7 +19,15 @@ import type {
   TournamentData,
 } from './duel-types.ts';
 export type { TournMatchVM, TournRoundVM, TournamentData };
-import { DB_URL, _fbGet, _fbPatch, _fbSet, _fbClaim } from './duel-firebase.ts';
+import {
+  DB_URL,
+  _fbGet,
+  _fbPatch,
+  _fbSet,
+  _fbClaim,
+  _fbGetWithEtag,
+  _fbPatchIfMatch,
+} from './duel-firebase.ts';
 import { _genCode, _fmtCode, _buildDeck } from './duel-deck.ts';
 import { _getMyName, _getMyAvatar } from './duel-profile-snap.ts';
 import {
@@ -488,28 +496,42 @@ export async function _joinTournMatch(
   } catch (e) {}
 }
 
-// Guard: prevents this client from calling _advanceTournament concurrently with itself.
-// Both players' clients may still call this independently, but they compute the same
-// deterministic bracket update from the same room data, so duplicate writes are harmless.
+// Guard: prevents this client from calling _advanceTournament concurrently with itself
+// (e.g. a double-fire of whatever triggers it). Cross-client races — both players'
+// clients calling this around the same time, or two different matches in the same
+// round finishing close together — are handled below via an ETag-conditional write,
+// not by this lock: this alone can't stop a *different* client from racing in.
 let _advanceLock = false;
 
 export async function _advanceTournament(): Promise<void> {
   if (_advanceLock) return;
   _advanceLock = true;
   try {
-    const tourn = (await _fbGet(`/tournaments/${_tournId}`)) as Tournament;
+    // ETag'd read: the metadata write below is conditional on this exact
+    // version of the document, so a client that reads a stale `tourn` (e.g.
+    // because another match in the same round finished and got recorded a
+    // moment earlier, which this poll cycle hasn't picked up yet) has its
+    // write rejected (412) instead of silently overwriting whatever that
+    // other write already did with a decision based on old data — the kind
+    // of "two matches finish close together" case the old plain
+    // read-then-write couldn't tell apart from "nothing changed". A 412
+    // here just means some other client's call already advanced the state;
+    // this one bows out and the existing poll loop picks up the result on
+    // its next tick, same as if this call had never run.
+    const { data, etag } = await _fbGetWithEtag(`/tournaments/${_tournId}`);
+    const tourn = data as Tournament;
     const { currentRound, currentMatch, bracket, players } = tourn;
     const round = bracket[currentRound];
     const allDone = round.every((m) => m.done);
     if (!allDone) {
-      await _fbPatch(`/tournaments/${_tournId}`, { currentMatch: currentMatch + 1 });
+      await _fbPatchIfMatch(`/tournaments/${_tournId}`, etag, { currentMatch: currentMatch + 1 });
       return;
     }
     const nextRound = bracket[currentRound + 1];
     if (!nextRound) {
       const finalMatch = round[0];
       const champ = players[finalMatch.winner];
-      await _fbPatch(`/tournaments/${_tournId}`, {
+      await _fbPatchIfMatch(`/tournaments/${_tournId}`, etag, {
         finished: true,
         champion: `${champ.avatar} ${champ.name}`,
       });
@@ -522,8 +544,13 @@ export async function _advanceTournament(): Promise<void> {
       p1: winners[i * 2] ?? m.p1,
       p2: winners[i * 2 + 1] ?? m.p2,
     }));
-    // Use separate PATCH calls: one for metadata, one for the specific bracket round via URL path
-    await _fbPatch(`/tournaments/${_tournId}`, { currentRound: currentRound + 1, currentMatch: 0 });
+    // Metadata write is the CAS gate — only proceed to fill the next round's
+    // bracket data if this client's read was still current when it wrote.
+    const won = await _fbPatchIfMatch(`/tournaments/${_tournId}`, etag, {
+      currentRound: currentRound + 1,
+      currentMatch: 0,
+    });
+    if (!won) return;
     await _fbSet(`/tournaments/${_tournId}/bracket/${currentRound + 1}`, updatedNext);
   } finally {
     _advanceLock = false;

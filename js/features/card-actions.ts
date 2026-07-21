@@ -266,23 +266,19 @@ export function CardActionsInit(): ReactElement | null {
       e.stopPropagation();
       const cw = getCwSnapshot();
       if (cw) {
-        const _lang = _activeKnownLang();
-        const isNewlyKnown = !getKnownSnapshot(_lang).has(cw[0]);
-        markKnown(_lang, cw[0]);
-        // Quality 3 — SM-2's lowest passing grade ("recalled correctly, but
-        // with real difficulty"): still grows the interval, just by less
-        // than quality 5's "Знаю". Always applied unconditionally, unlike
-        // onKnowClick (which only calls sm2Update in the SRS range and
-        // otherwise deletes the entry as "mastered") — #btn-hard is only
-        // ever visible in the SRS range to begin with, so there's no
-        // "outside SRS" case to special-case here.
+        // Deliberately NOT markKnown(): "Hard" means "recalled it, but with
+        // real difficulty" — a review-continuation signal, not "I know
+        // this now, stop showing it to me" (that's onKnowClick's job).
+        // Quality 3 — SM-2's lowest passing grade: still grows the
+        // interval, just by less than quality 5's "Знаю". Always applied
+        // unconditionally, unlike onKnowClick (which only calls sm2Update
+        // in the SRS range and otherwise deletes the entry as "mastered")
+        // — #btn-hard is only ever visible in the SRS range to begin with,
+        // so there's no "outside SRS" case to special-case here. The word
+        // stays out of the known set, so it keeps reappearing via
+        // buildSRSDeck() below on its own due date, same as any other SRS
+        // card — sm2Update() already set that due date.
         sm2Update(cw[0], 3);
-        if (isTargetLang(_lang)) {
-          const cfg = langConfig(_lang);
-          cfg.saveKnown(cfg.known());
-        } else {
-          saveKnown(getKnownSnapshot('en'));
-        }
         saveSRS(getSrsDataSnapshot());
         _safe(() => updateSrsUI(getBaseWordsSnapshot() as unknown as WordEntry[]));
         _safe(() => playSound('know'));
@@ -300,10 +296,6 @@ export function CardActionsInit(): ReactElement | null {
             _safe(() => playSound('goal'));
           }
         });
-        if (isNewlyKnown) {
-          onWordLearned();
-          _safe(() => checkMilestones());
-        }
         setDeck(buildSRSDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));
         setIdx(0);
         render();

@@ -43,7 +43,16 @@ function _bumpEtag(path: string): string {
 function resetFirebaseMock(): void {
   _fbStore = {};
   _etags = {};
+  _raceAfterNextGet = null;
 }
+
+// Test-only hook: when set to a path, the *next* GET on that path bumps the
+// stored ETag right after building its response (so the response still
+// carries the pre-race etag, but the store has already moved on) —
+// simulates "another client's write landed in the gap between this client's
+// read and its own write", which a same-thread mock can't otherwise
+// reproduce without literally running two concurrent module instances.
+let _raceAfterNextGet: string | null = null;
 
 vi.stubGlobal('fetch', async (url: string, opts?: RequestInit) => {
   const parts = _pathParts(url);
@@ -53,6 +62,10 @@ vi.stubGlobal('fetch', async (url: string, opts?: RequestInit) => {
   if (method === 'GET') {
     const value = _getAtPath(parts);
     const etag = _etags[path] !== undefined ? String(_etags[path]) : _bumpEtag(path);
+    if (_raceAfterNextGet === path) {
+      _raceAfterNextGet = null;
+      _bumpEtag(path);
+    }
     return {
       ok: true,
       status: 200,
@@ -73,6 +86,13 @@ vi.stubGlobal('fetch', async (url: string, opts?: RequestInit) => {
     return { ok: true, status: 200, json: async () => null } as unknown as Response;
   }
   if (method === 'PATCH') {
+    const ifMatch = (opts?.headers as Record<string, string> | undefined)?.['if-match'];
+    if (ifMatch !== undefined) {
+      const current = _etags[path] !== undefined ? String(_etags[path]) : _bumpEtag(path);
+      if (ifMatch !== current) {
+        return { ok: false, status: 412, json: async () => null } as unknown as Response;
+      }
+    }
     const existing = (_getAtPath(parts) as Record<string, unknown>) ?? {};
     _setAtPath(parts, { ...existing, ...JSON.parse(opts!.body as string) });
     _bumpEtag(path);
@@ -434,5 +454,32 @@ describe('_advanceTournament', () => {
     // from that player's own profile snapshot (see duel-profile-snap.ts's
     // _getMyName()/_getMyAvatar() fallbacks with no profile configured).
     expect(updated.champion).toBe('🧑 duel.player');
+  });
+
+  it('does not apply a stale-read update when another write raced in between the read and the write', async () => {
+    // Simulates two different matches in the same round finishing close
+    // together: this client reads `tourn` (round not fully done from its
+    // point of view), but before it writes, some other write lands on the
+    // same tournament doc (e.g. the sibling match's own _advanceTournament
+    // call already recorded the round as complete and advanced it) — this
+    // client's now-stale "just bump currentMatch" write must be rejected
+    // (412) rather than silently overwriting that newer state.
+    const mod = await loadFreshModule();
+    await mod.createTournament(4);
+    const tournId = Object.keys((_fbStore as any).tournaments ?? {})[0];
+    const tourn = (_fbStore as any).tournaments[tournId];
+    tourn.bracket[0][0].done = true;
+    tourn.bracket[0][0].winner = 0;
+    // bracket[0][1] still not done, from this client's about-to-be-stale read.
+
+    // Arm the race: the ETag moves on right after _advanceTournament()'s own
+    // read, before its write — the write below must then be rejected (412).
+    _raceAfterNextGet = `/tournaments/${tournId}`;
+
+    await mod._advanceTournament();
+
+    // currentMatch must be untouched — the write was rejected, not applied.
+    const updated = (_fbStore as any).tournaments[tournId];
+    expect(updated.currentMatch).toBe(0);
   });
 });

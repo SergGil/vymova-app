@@ -444,6 +444,11 @@ export interface DuelRoomState {
   // channel (raw REST polling, no Firebase SDK onDisconnect()), so this is
   // the closest available signal that the other tab has gone away.
   oppDisconnected: boolean;
+  // Timestamp of the poll tick where oppDisconnected first flipped true (see
+  // _startOpponentPoll) — null while connected. Lets the UI offer a forfeit-
+  // win button only after this has been true for a while (FORFEIT_DELAY_MS
+  // in duel.ts), not the instant the 8s staleness threshold trips.
+  oppDisconnectedSince: number | null;
   roomCreatedAt: number;
   roomSeed: number;
   roomCategory: string;

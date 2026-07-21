@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { _getFeedbackData, _getQuestionData, _onInputChange } from '../../js/features/duel/duel.ts';
-import { getDuelQuestionSnapshot } from '../../src/duel-question-store.ts';
+import { getDuelQuestionSnapshot, setDuelQuestionFields } from '../../src/duel-question-store.ts';
+import { setDuelRoom } from '../../src/duel-room-store.ts';
 
 describe('duel question/feedback state (Фаза 7.4-B / 6, state.duelQuestion)', () => {
   it('_getFeedbackData() reflects state.duelQuestion defaults', () => {
@@ -31,5 +32,44 @@ describe('duel question/feedback state (Фаза 7.4-B / 6, state.duelQuestion)'
     expect(getDuelQuestionSnapshot().writeInputValue).toBe('hello');
     _onInputChange('');
     expect(getDuelQuestionSnapshot().writeInputValue).toBe('');
+  });
+
+  describe('_getQuestionData().canForfeit', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date('2024-06-01T12:00:00.000Z'));
+      setDuelQuestionFields({ waitingFinish: true });
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+      setDuelQuestionFields({ waitingFinish: false });
+      setDuelRoom({ oppDisconnected: false, oppDisconnectedSince: null });
+    });
+
+    it('is false while connected (oppDisconnectedSince unset)', () => {
+      setDuelRoom({ oppDisconnected: false, oppDisconnectedSince: null });
+      expect(_getQuestionData().canForfeit).toBe(false);
+    });
+
+    it('is false right after the opponent is first flagged disconnected (FORFEIT_DELAY_MS not elapsed)', () => {
+      setDuelRoom({ oppDisconnected: true, oppDisconnectedSince: Date.now() });
+      expect(_getQuestionData().canForfeit).toBe(false);
+    });
+
+    it('is false at just under the delay threshold', () => {
+      setDuelRoom({ oppDisconnected: true, oppDisconnectedSince: Date.now() - 11_999 });
+      expect(_getQuestionData().canForfeit).toBe(false);
+    });
+
+    it('is true once the opponent has been disconnected past FORFEIT_DELAY_MS', () => {
+      setDuelRoom({ oppDisconnected: true, oppDisconnectedSince: Date.now() - 12_001 });
+      expect(_getQuestionData().canForfeit).toBe(true);
+    });
+
+    it('is false when not actually waiting on the opponent, even if long disconnected', () => {
+      setDuelQuestionFields({ waitingFinish: false });
+      setDuelRoom({ oppDisconnected: true, oppDisconnectedSince: Date.now() - 60_000 });
+      expect(_getQuestionData().canForfeit).toBe(false);
+    });
   });
 });

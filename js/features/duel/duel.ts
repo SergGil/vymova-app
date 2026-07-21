@@ -156,6 +156,13 @@ export function _registerSpecLeaveHook(fn: (() => void) | null): void {
 // used by _renderChoiceQ() below and nothing outside this file reads it.
 const NUM_OPTS = 4;
 
+// How long oppDisconnected must stay true before the "waiting" screen
+// offers a forfeit-win button — on top of the 8s staleness threshold that
+// sets oppDisconnected itself, so ~20s of real silence total before a live
+// player can end the match unilaterally. Long enough that a brief
+// backgrounded-tab/network blip won't falsely offer it.
+const FORFEIT_DELAY_MS = 12_000;
+
 // ── Room state ────────────────────────────────────────────────
 let _pollTimer: ReturnType<typeof setInterval> | null = null;
 let _resultPollTimer: ReturnType<typeof setInterval> | null = null;
@@ -468,8 +475,17 @@ function _startOpponentPoll(): void {
         // polling only), so a heartbeat gone stale for several missed ticks
         // (generous vs. this loop's 1.5s cadence, to absorb normal network
         // jitter) is the only signal available that the opponent left.
+        const nowDisconnected = opp.lastSeen != null && Date.now() - opp.lastSeen > 8000;
+        const wasDisconnected = getDuelRoomSnapshot().oppDisconnected;
         setDuelRoom({
-          oppDisconnected: opp.lastSeen != null && Date.now() - opp.lastSeen > 8000,
+          oppDisconnected: nowDisconnected,
+          // Stamp the first tick this flips true, not every tick it stays
+          // true — this is what FORFEIT_DELAY_MS (_getQuestionData below)
+          // measures from. Cleared the moment a heartbeat comes back, so a
+          // reconnect-then-disconnect-again starts the delay over.
+          oppDisconnectedSince: nowDisconnected
+            ? (wasDisconnected ? getDuelRoomSnapshot().oppDisconnectedSince : Date.now())
+            : null,
         });
       }
       // Check if I'm frozen (opponent used freeze on me)
@@ -808,6 +824,7 @@ interface QuestionData {
   quizIdx: number;
   waiting: boolean;
   oppDisconnected: boolean;
+  canForfeit: boolean;
   myCorrect: number;
   myWrong: number;
   qPrimary: string;
@@ -833,6 +850,14 @@ export function _getQuestionData(): QuestionData {
     quizIdx: room.quizIdx,
     waiting: q.waitingFinish,
     oppDisconnected: room.oppDisconnected,
+    // Only offered once actually waiting on the opponent (mirrors the
+    // disconnect message itself, duel-question.tsx) — someone still mid-
+    // question of their own isn't blocked on the opponent yet, so there's
+    // nothing to forfeit out of.
+    canForfeit:
+      q.waitingFinish &&
+      room.oppDisconnectedSince != null &&
+      Date.now() - room.oppDisconnectedSince > FORFEIT_DELAY_MS,
     myCorrect: room.myCorrect,
     myWrong: room.myWrong,
     qPrimary: q.qPrimary,
@@ -976,15 +1001,20 @@ function _recordUnseenFinish(
   recordDuelResult(won, tie);
 }
 
-function _showFinish(roomData: RoomData): void {
+// forceWin: set by _claimForfeitWin() when the opponent disconnected and
+// the live player chose to end the match — a forfeit is a win regardless
+// of the score at the moment of disconnect (that's the point of a
+// forfeit), not just "whoever happened to be ahead". Also skips best-of-3
+// continuation below: there's no one left to play a next round against.
+function _showFinish(roomData: RoomData, forceWin = false): void {
   const room = getDuelRoomSnapshot();
   if (room.finished) return;
   setDuelRoom({ finished: true });
   if (_matchFinishHook?.(roomData)) return;
   const me = roomData[room.mySlot] as PlayerData;
   const opp = (room.mySlot === 'p1' ? roomData.p2 : roomData.p1) as PlayerData;
-  const won = me.score > (opp?.score ?? 0),
-    tie = me.score === (opp?.score ?? 0);
+  const won = forceWin || me.score > (opp?.score ?? 0),
+    tie = !forceWin && me.score === (opp?.score ?? 0);
   const mInfo = DUEL_MODES.find((m) => m.id === roomData.mode) || DUEL_MODES[0];
 
   // Save history + rating
@@ -1002,8 +1032,10 @@ function _showFinish(roomData: RoomData): void {
   recordDuelResult(won, tie);
   _clearSession();
 
-  // Best of 3 logic
-  if (roomData.bestOf === 3) {
+  // Best of 3 logic — skipped entirely on a forfeit (forceWin): the
+  // opponent is gone, so "show next round" would just strand the live
+  // player on a screen with no one to play against.
+  if (roomData.bestOf === 3 && !forceWin) {
     const newSeries = { ...roomData.series };
     if (won) {
       if (room.mySlot === 'p1') newSeries.p1wins++;
@@ -1051,6 +1083,27 @@ function _showFinish(roomData: RoomData): void {
   });
   _showResult();
   _startResultPoll();
+}
+
+// Triggered by the "Завершити перемогою" button (duel-question.tsx,
+// gated on _getQuestionData()'s canForfeit) once the opponent has been
+// disconnected long enough. Marks the room finished so the opponent's own
+// poll (if they ever reconnect) also sees the match as over rather than
+// resuming into a room the other side already left, then shows the result
+// screen with a forced win — see _showFinish()'s forceWin param.
+export async function _claimForfeitWin(): Promise<void> {
+  const room = getDuelRoomSnapshot();
+  try {
+    await _fbPatch(`/duel_rooms/${room.roomId}`, { finished: true });
+    const roomData = (await _fbGet(`/duel_rooms/${room.roomId}`)) as RoomData;
+    if (_pollTimer) {
+      clearInterval(_pollTimer);
+      _pollTimer = null;
+    }
+    _showFinish(roomData, true);
+  } catch (e) {
+    _showMiniToast(t('duel.err.sync'));
+  }
 }
 
 // ── Result screen actions (duel-result.tsx, Фаза 9/2) ──────────

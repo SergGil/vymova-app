@@ -1699,6 +1699,7 @@
   "settings.voicesLabel": "голосів. UA голоси:",
   "settings.notFound": "не знайдено",
   "duel.oppDisconnected": "⚠️ Схоже, суперник від'єднався — можете вийти і повернутися до цієї дуелі пізніше.",
+  "duel.forfeitWinBtn": "🏆 Завершити перемогою",
   "duel.leaderboard": "📊 Рейтинг профілів",
   "duel.online": "⚡ Онлайн дуель",
   "duel.mode": "Режим:",

@@ -5,7 +5,7 @@ import { setDeckState, setIdxState, setFlippedState, setCwState } from '../../sr
 import { setKnownWords, getKnownSnapshot, markKnown } from '../../src/known-words-store.ts';
 import { clearSrsData, getSrsDataSnapshot, setSrsEntry } from '../../src/srs-store.ts';
 import { setBaseWords, setActiveTagSet } from '../../src/deck-filter-store.ts';
-import { loadKnown, loadSRS } from '../../js/core/storage.ts';
+import { loadKnown, loadSRS, _flushPendingWrites } from '../../js/core/storage.ts';
 import type { WordEntry } from '../../src/types.js';
 import { startPronunciationCheck } from '../../js/features/voice/pronunciation.ts';
 import { W } from '../../data/words.js';
@@ -179,6 +179,16 @@ beforeEach(() => {
   setActiveTagSet(null);
   vi.useFakeTimers();
   vi.setSystemTime(new Date('2024-06-01T12:00:00.000Z'));
+  // A prior test's saveKnown()/saveSRS() call (storage.ts's debounced
+  // writes) can leave an unflushed entry in _pendingWrites — fake timers
+  // mean its setTimeout never actually fires within that test, so without
+  // this it silently leaks into the next test: _lzLoad() checks
+  // _pendingWrites before localStorage, so a stale pending write survives
+  // localStorage.clear() below and gets read back by *this* test as if it
+  // were real state. Real caught case: a "Знаю" click here leaving 'apple'
+  // pending, then a later "Важко" test (which no longer calls saveKnown)
+  // reading it back via loadKnown() as a false positive.
+  _flushPendingWrites();
   localStorage.clear();
 
   setCwState(W[0]);
@@ -294,10 +304,13 @@ describe('btn-know', () => {
 
 // ── btn-hard ─────────────────────────────────────────────────────
 describe('btn-hard', () => {
-  it('marks the current word as known and applies a quality-3 SM-2 update', () => {
+  it('applies a quality-3 SM-2 update without marking the word known', () => {
     document.getElementById('btn-hard')!.click();
 
-    expect(getKnownSnapshot('en').has('apple')).toBe(true);
+    // "Hard" is a review-continuation signal ("recalled it, but with
+    // difficulty"), not "I know this now" — unlike btn-know, it must never
+    // add the word to the known set (see card-actions.ts's onHardClick).
+    expect(getKnownSnapshot('en').has('apple')).toBe(false);
     expect(getSrsDataSnapshot()['apple']).toBeDefined();
     expect(getSrsDataSnapshot()['apple'].reps).toBe(1);
     expect(getSrsDataSnapshot()['apple'].interval).toBe(1);
@@ -316,10 +329,10 @@ describe('btn-hard', () => {
     expect(hardEf).toBeLessThan(knowEf);
   });
 
-  it('persists known + SRS state to localStorage', () => {
+  it('persists SRS state to localStorage without touching known state', () => {
     document.getElementById('btn-hard')!.click();
 
-    expect(loadKnown().has('apple')).toBe(true);
+    expect(loadKnown().has('apple')).toBe(false);
     expect(loadSRS()['apple']).toBeDefined();
   });
 
@@ -339,13 +352,10 @@ describe('btn-hard', () => {
     expect(engineRender).toHaveBeenCalled();
   });
 
-  it('calls onWordLearned only the first time a word becomes known', () => {
+  it('never calls onWordLearned — Hard does not mark the word known', () => {
     document.getElementById('btn-hard')!.click();
-    expect(engineOnWordLearned).toHaveBeenCalledTimes(1);
-
-    setCwState(W[0]); // already known now
     document.getElementById('btn-hard')!.click();
-    expect(engineOnWordLearned).toHaveBeenCalledTimes(1);
+    expect(engineOnWordLearned).not.toHaveBeenCalled();
   });
 
   it('does nothing when there is no current word', () => {
