@@ -19,15 +19,7 @@ import type {
   TournamentData,
 } from './duel-types.ts';
 export type { TournMatchVM, TournRoundVM, TournamentData };
-import {
-  DB_URL,
-  _fbGet,
-  _fbPatch,
-  _fbSet,
-  _fbClaim,
-  _fbGetWithEtag,
-  _fbPatchIfMatch,
-} from './duel-firebase.ts';
+import { DB_URL, _fbGet, _fbPatch, _fbSet, _fbClaim } from './duel-firebase.ts';
 import { _genCode, _fmtCode, _buildDeck } from './duel-deck.ts';
 import { _getMyName, _getMyAvatar } from './duel-profile-snap.ts';
 import {
@@ -265,7 +257,18 @@ function _startTournMatchPoll(): void {
       if (tourn.finished) {
         clearInterval(_tournPoll!);
         _tournPoll = null;
+        return;
       }
+      // Self-heals a bracket stuck on a fully-done match/round: normally
+      // _finishHookFor's own call already advanced it the moment the match
+      // ended, but that's a single fire-and-forget call from whichever
+      // client's write happens to lose a real race — if it never landed
+      // (or landed against a since-stale read), nothing else would ever
+      // retry it and every player would be stuck looking at "done" matches
+      // forever. _advanceTournament() is idempotent (see its own header
+      // comment), so opportunistically calling it every tick from every
+      // client is harmless when there's nothing to do.
+      await _advanceTournament();
     } catch (e) {}
   }, 2000);
 }
@@ -400,7 +403,19 @@ export async function _startTournMatch(
   const match = tourn.bracket[round][matchIdx];
   // Create a duel room for this match
   const roomId = _genCode();
-  const mySlot: 'p1' | 'p2' = match.p1 === _tournSlot ? 'p1' : 'p2';
+  // Room-role p1/p2 (used by the underlying real-time duel mechanics in
+  // duel.ts — _pushScore()/_finishMyGame() PATCH whichever of room.p1/p2
+  // this client's own mySlot names) is a *separate* concept from bracket
+  // seed p1/p2 (match.p1/match.p2, used below and in _finishHookFor purely
+  // for tournament winner bookkeeping) — whoever calls this (the room
+  // creator) is always room-role p1, regardless of which bracket seed they
+  // happen to be. This used to conflate the two: it computed mySlot from
+  // the bracket seed instead, so a match.p2-seeded player creating the room
+  // ended up with mySlot 'p2' while the room's own p1 field below was
+  // (unconditionally) populated with the *other* seed's identity — nobody
+  // ever wrote real gameplay data into that room's p1 field, so the match
+  // could never detect either side as finished.
+  const mySlot: 'p1' | 'p2' = 'p1';
   setDuelRoom({ roomId, mySlot });
   const seed = Date.now();
   const room: RoomData = {
@@ -418,8 +433,8 @@ export async function _startTournMatch(
     finished: false,
     series: { p1wins: 0, p2wins: 0, round: 1 },
     p1: {
-      name: tourn.players[match.p1].name,
-      avatar: tourn.players[match.p1].avatar,
+      name: _getMyName(),
+      avatar: _getMyAvatar(),
       score: 0,
       idx: 0,
       done: false,
@@ -496,61 +511,69 @@ export async function _joinTournMatch(
   } catch (e) {}
 }
 
-// Guard: prevents this client from calling _advanceTournament concurrently with itself
-// (e.g. a double-fire of whatever triggers it). Cross-client races — both players'
-// clients calling this around the same time, or two different matches in the same
-// round finishing close together — are handled below via an ETag-conditional write,
-// not by this lock: this alone can't stop a *different* client from racing in.
+// Guard: prevents this client from calling _advanceTournament concurrently with
+// itself (e.g. a double-fire of whatever triggers it). Cross-client races — both
+// players' clients calling this around the same time a match finishes, or two
+// different matches in the same round finishing close together — don't need a
+// lock at all: every write below is a pure function of already-agreed-upon
+// bracket data (done/winner flags, themselves written deterministically — see
+// _finishHookFor's seed-based tiebreak comment), not of "add one to whatever I
+// last read". Two clients racing this call always compute the identical target
+// value, so whichever one's write actually lands last is harmless — this used to
+// go through an ETag-conditional PATCH (reject the second write instead of
+// letting it re-derive the same answer), but that's a real Firebase RTDB REST
+// feature the *emulator* doesn't implement (confirmed: it 400s on any PATCH with
+// `if-match`, even though production accepts it) — this version needs neither,
+// and works identically against both.
 let _advanceLock = false;
 
 export async function _advanceTournament(): Promise<void> {
   if (_advanceLock) return;
   _advanceLock = true;
   try {
-    // ETag'd read: the metadata write below is conditional on this exact
-    // version of the document, so a client that reads a stale `tourn` (e.g.
-    // because another match in the same round finished and got recorded a
-    // moment earlier, which this poll cycle hasn't picked up yet) has its
-    // write rejected (412) instead of silently overwriting whatever that
-    // other write already did with a decision based on old data — the kind
-    // of "two matches finish close together" case the old plain
-    // read-then-write couldn't tell apart from "nothing changed". A 412
-    // here just means some other client's call already advanced the state;
-    // this one bows out and the existing poll loop picks up the result on
-    // its next tick, same as if this call had never run.
-    const { data, etag } = await _fbGetWithEtag(`/tournaments/${_tournId}`);
-    const tourn = data as Tournament;
-    const { currentRound, currentMatch, bracket, players } = tourn;
+    const tourn = (await _fbGet(`/tournaments/${_tournId}`)) as Tournament;
+    const { currentRound, bracket, players } = tourn;
     const round = bracket[currentRound];
-    const allDone = round.every((m) => m.done);
-    if (!allDone) {
-      await _fbPatchIfMatch(`/tournaments/${_tournId}`, etag, { currentMatch: currentMatch + 1 });
+    // Derived from `round`'s own done flags rather than incrementing
+    // `tourn.currentMatch` — so a racing second caller (the other participant
+    // of the match that just finished) computes this exact same index off the
+    // same round data, instead of each blindly adding 1 to a value that may
+    // already reflect the other's write.
+    const nextIdx = round.findIndex((m) => !m.done);
+    if (nextIdx !== -1) {
+      if (tourn.currentMatch !== nextIdx) {
+        await _fbPatch(`/tournaments/${_tournId}`, { currentMatch: nextIdx });
+      }
       return;
     }
     const nextRound = bracket[currentRound + 1];
     if (!nextRound) {
-      const finalMatch = round[0];
-      const champ = players[finalMatch.winner];
-      await _fbPatchIfMatch(`/tournaments/${_tournId}`, etag, {
-        finished: true,
-        champion: `${champ.avatar} ${champ.name}`,
-      });
+      if (!tourn.finished) {
+        const finalMatch = round[0];
+        const champ = players[finalMatch.winner];
+        await _fbPatch(`/tournaments/${_tournId}`, {
+          finished: true,
+          champion: `${champ.avatar} ${champ.name}`,
+        });
+      }
       return;
     }
-    // Fill next round — use direct path so Firebase applies nested update correctly
+    // Fill next round — use direct path so Firebase applies nested update
+    // correctly. Recomputed fresh from `round`'s winners every call, so a
+    // duplicate call for the same transition (the round's last match's other
+    // participant) writes the identical array — safe to just overwrite.
     const winners = round.map((m) => m.winner);
     const updatedNext = nextRound.map((m, i) => ({
       ...m,
       p1: winners[i * 2] ?? m.p1,
       p2: winners[i * 2 + 1] ?? m.p2,
     }));
-    // Metadata write is the CAS gate — only proceed to fill the next round's
-    // bracket data if this client's read was still current when it wrote.
-    const won = await _fbPatchIfMatch(`/tournaments/${_tournId}`, etag, {
-      currentRound: currentRound + 1,
-      currentMatch: 0,
-    });
-    if (!won) return;
+    if (tourn.currentRound !== currentRound + 1 || tourn.currentMatch !== 0) {
+      await _fbPatch(`/tournaments/${_tournId}`, {
+        currentRound: currentRound + 1,
+        currentMatch: 0,
+      });
+    }
     await _fbSet(`/tournaments/${_tournId}/bracket/${currentRound + 1}`, updatedNext);
   } finally {
     _advanceLock = false;

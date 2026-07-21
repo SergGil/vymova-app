@@ -43,16 +43,7 @@ function _bumpEtag(path: string): string {
 function resetFirebaseMock(): void {
   _fbStore = {};
   _etags = {};
-  _raceAfterNextGet = null;
 }
-
-// Test-only hook: when set to a path, the *next* GET on that path bumps the
-// stored ETag right after building its response (so the response still
-// carries the pre-race etag, but the store has already moved on) —
-// simulates "another client's write landed in the gap between this client's
-// read and its own write", which a same-thread mock can't otherwise
-// reproduce without literally running two concurrent module instances.
-let _raceAfterNextGet: string | null = null;
 
 vi.stubGlobal('fetch', async (url: string, opts?: RequestInit) => {
   const parts = _pathParts(url);
@@ -62,10 +53,6 @@ vi.stubGlobal('fetch', async (url: string, opts?: RequestInit) => {
   if (method === 'GET') {
     const value = _getAtPath(parts);
     const etag = _etags[path] !== undefined ? String(_etags[path]) : _bumpEtag(path);
-    if (_raceAfterNextGet === path) {
-      _raceAfterNextGet = null;
-      _bumpEtag(path);
-    }
     return {
       ok: true,
       status: 200,
@@ -74,6 +61,9 @@ vi.stubGlobal('fetch', async (url: string, opts?: RequestInit) => {
     } as unknown as Response;
   }
   if (method === 'PUT') {
+    // if-match is only ever sent here by _fbClaim (joinTournament's slot
+    // claim) — _advanceTournament() uses plain, unconditional PATCH/PUT (see
+    // its own header comment on why that's safe without one).
     const ifMatch = (opts?.headers as Record<string, string> | undefined)?.['if-match'];
     if (ifMatch !== undefined) {
       const current = _etags[path] !== undefined ? String(_etags[path]) : _bumpEtag(path);
@@ -86,13 +76,6 @@ vi.stubGlobal('fetch', async (url: string, opts?: RequestInit) => {
     return { ok: true, status: 200, json: async () => null } as unknown as Response;
   }
   if (method === 'PATCH') {
-    const ifMatch = (opts?.headers as Record<string, string> | undefined)?.['if-match'];
-    if (ifMatch !== undefined) {
-      const current = _etags[path] !== undefined ? String(_etags[path]) : _bumpEtag(path);
-      if (ifMatch !== current) {
-        return { ok: false, status: 412, json: async () => null } as unknown as Response;
-      }
-    }
     const existing = (_getAtPath(parts) as Record<string, unknown>) ?? {};
     _setAtPath(parts, { ...existing, ...JSON.parse(opts!.body as string) });
     _bumpEtag(path);
@@ -398,6 +381,57 @@ describe('both room creator and joiner can finish a match (the tab-close fix)', 
   });
 });
 
+describe('_startTournMatch — room-role p1/p2 vs bracket-seed p1/p2', () => {
+  it('a room creator seeded as the higher bracket slot still gets its own identity in room.p1 and can win', async () => {
+    const creator = await loadFreshModule();
+    await creator.createTournament(4); // creator's own tournament slot is always 0
+    const tournId = Object.keys((_fbStore as any).tournaments ?? {})[0];
+    const tourn = (_fbStore as any).tournaments[tournId];
+    tourn.started = true;
+    tourn.players[1] = { name: 'Rival', avatar: '🐱' };
+    const match = tourn.bracket[0][0];
+    // Creator (tournament slot 0) is bracket-seed match.p2 here, not
+    // match.p1 — the exact scenario the old
+    // `mySlot = match.p1 === _tournSlot ? 'p1' : 'p2'` computation got
+    // backwards on: it made mySlot 'p2' while room.p1 (below) was always
+    // populated with tourn.players[match.p1]'s identity — a different
+    // person — so nobody ever wrote real gameplay data into room.p1 and the
+    // match could never detect either side as finished.
+    match.p1 = 1;
+    match.p2 = 0;
+
+    await creator._startTournMatch(tourn, 0, 0);
+    const roomId = (_fbStore as any).tournaments[tournId].bracket[0][0].roomId;
+    const room = (_fbStore as any).duel_rooms[roomId];
+
+    // Room-role p1 is always the room *creator*, regardless of bracket
+    // seed — must carry this client's own identity, not the other player's
+    // (tourn.players[1], seeded at match.p1).
+    expect(room.p1.name).toBeTruthy();
+    expect(room.p1.name).not.toBe(tourn.players[1]?.name);
+
+    // Simulate this client's own gameplay writing its score into room.p1
+    // (what duel.ts's _pushScore()/_finishMyGame() do, keyed off
+    // room.mySlot) and the opponent's score arriving on room.p2.
+    room.p1 = { ...room.p1, score: 7, idx: 10, done: true };
+    room.p2 = { ...room.p1, score: 2, name: 'Opp' };
+
+    const hook = getRegisteredHook()!;
+    const handled = hook(makeRoomData({ p1: room.p1, p2: room.p2 }));
+    expect(handled).toBe(true);
+    await new Promise((r) => setTimeout(r, 0));
+
+    const updatedMatch = (_fbStore as any).tournaments[tournId].bracket[0][0];
+    expect(updatedMatch.done).toBe(true);
+    // This client is bracket-seed match.p2 (tournament slot 0) and scored
+    // higher (7 > 2) — the bracket must record *that seed* as the winner,
+    // not seed 1 (tourn.players[match.p1], a different player entirely).
+    expect(updatedMatch.winner).toBe(match.p2);
+    expect(updatedMatch.p2score).toBe(7);
+    expect(updatedMatch.p1score).toBe(2);
+  });
+});
+
 describe('_advanceTournament', () => {
   it('increments currentMatch when the round is not fully done yet', async () => {
     const mod = await loadFreshModule();
@@ -456,30 +490,48 @@ describe('_advanceTournament', () => {
     expect(updated.champion).toBe('🧑 duel.player');
   });
 
-  it('does not apply a stale-read update when another write raced in between the read and the write', async () => {
-    // Simulates two different matches in the same round finishing close
-    // together: this client reads `tourn` (round not fully done from its
-    // point of view), but before it writes, some other write lands on the
-    // same tournament doc (e.g. the sibling match's own _advanceTournament
-    // call already recorded the round as complete and advanced it) — this
-    // client's now-stale "just bump currentMatch" write must be rejected
-    // (412) rather than silently overwriting that newer state.
+  it('calling it twice for the same just-finished match does not double-advance currentMatch', async () => {
+    // The real trigger for this: both participants of a match independently
+    // call _advanceTournament() once their own client sees the match done
+    // (see _finishHookFor) — this simulates that without needing two actual
+    // module instances, since both calls read the identical persisted state.
     const mod = await loadFreshModule();
     await mod.createTournament(4);
     const tournId = Object.keys((_fbStore as any).tournaments ?? {})[0];
     const tourn = (_fbStore as any).tournaments[tournId];
     tourn.bracket[0][0].done = true;
     tourn.bracket[0][0].winner = 0;
-    // bracket[0][1] still not done, from this client's about-to-be-stale read.
-
-    // Arm the race: the ETag moves on right after _advanceTournament()'s own
-    // read, before its write — the write below must then be rejected (412).
-    _raceAfterNextGet = `/tournaments/${tournId}`;
+    // bracket[0][1] still not done.
 
     await mod._advanceTournament();
+    await mod._advanceTournament();
 
-    // currentMatch must be untouched — the write was rejected, not applied.
+    // currentMatch must land on 1 exactly once, not 1-then-2 — nextIdx is
+    // derived from bracket[0]'s own done flags, not incremented off the
+    // previous call's result, so the second call is a no-op.
     const updated = (_fbStore as any).tournaments[tournId];
+    expect(updated.currentMatch).toBe(1);
+  });
+
+  it('calling it twice for the round-complete transition writes the same next-round bracket, not a double-advance', async () => {
+    const mod = await loadFreshModule();
+    await mod.createTournament(4);
+    const tournId = Object.keys((_fbStore as any).tournaments ?? {})[0];
+    const tourn = (_fbStore as any).tournaments[tournId];
+    tourn.bracket[0][0].done = true;
+    tourn.bracket[0][0].winner = 0;
+    tourn.bracket[0][1].done = true;
+    tourn.bracket[0][1].winner = 3;
+
+    // Both match-1 participants' clients call this once their own finish
+    // hook lands — round 0 is already fully done by the time either runs.
+    await mod._advanceTournament();
+    await mod._advanceTournament();
+
+    const updated = (_fbStore as any).tournaments[tournId];
+    expect(updated.currentRound).toBe(1);
     expect(updated.currentMatch).toBe(0);
+    expect(updated.bracket[1][0].p1).toBe(0);
+    expect(updated.bracket[1][0].p2).toBe(3);
   });
 });

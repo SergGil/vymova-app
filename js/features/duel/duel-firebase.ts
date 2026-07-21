@@ -31,7 +31,15 @@ async function _fbFetch(p: string, opts?: RequestInit): Promise<Response> {
     if (attempt > 0) await new Promise((res) => setTimeout(res, 300 * 2 ** (attempt - 1)));
     let r: Response;
     try {
-      r = await fetch(`${DB_URL}${p}.json`, { ...opts, headers });
+      // no-store: a client reading a path it just wrote to itself (e.g.
+      // _advanceTournament()'s read-decide-write) needs a genuinely fresh
+      // response every time, not a browser-cached one — confirmed via a
+      // repro (tests-e2e/duel-tournament.spec.ts): without this, the
+      // immediate follow-up GET intermittently served a pre-write snapshot
+      // back to the very client that just wrote it, so _advanceTournament()
+      // computed its next-match/next-round index off stale data and the
+      // bracket got stuck.
+      r = await fetch(`${DB_URL}${p}.json`, { ...opts, headers, cache: 'no-store' });
     } catch (e) {
       lastErr = e;
       continue;
@@ -62,38 +70,6 @@ export async function _fbSet(p: string, d: unknown): Promise<void> {
   });
 }
 
-// Read + ETag together, for a caller that wants to make its next write
-// conditional on nothing else having changed this path since (see
-// _fbPatchIfMatch below) — e.g. _advanceTournament()'s read-decide-write
-// sequence, where two clients racing to advance the same round could
-// otherwise both compute their next-round update from the same *stale*
-// read and stomp each other's write with an equally-stale one.
-export async function _fbGetWithEtag(p: string): Promise<{ data: unknown; etag: string }> {
-  const appCheckHeaders = await getAppCheckHeaders();
-  const r = await fetch(`${DB_URL}${p}.json`, {
-    headers: { 'X-Firebase-ETag': 'true', ...appCheckHeaders },
-  });
-  if (!r.ok) throw new Error('HTTP ' + r.status);
-  return { data: await r.json(), etag: r.headers.get('ETag') ?? '' };
-}
-
-// Conditional PATCH — succeeds only if `p` still matches `etag` (from a
-// prior _fbGetWithEtag on the same path). Returns false on a lost race
-// (412) instead of throwing, since that's an expected, meaningful outcome
-// here (someone else already wrote first), not a transient failure to
-// retry past — same reasoning as _fbClaim, which this mirrors.
-export async function _fbPatchIfMatch(p: string, etag: string, d: unknown): Promise<boolean> {
-  const appCheckHeaders = await getAppCheckHeaders();
-  const r = await fetch(`${DB_URL}${p}.json`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', 'if-match': etag, ...appCheckHeaders },
-    body: JSON.stringify(d),
-  });
-  if (r.ok) return true;
-  if (r.status === 412) return false;
-  throw new Error('HTTP ' + r.status);
-}
-
 // Atomic "claim if empty" write via Firebase's conditional-request support
 // (X-Firebase-ETag / if-match). Used for slots two clients might race to
 // fill (e.g. joinRoom()'s p2) — returns false if the path was already
@@ -106,6 +82,7 @@ export async function _fbClaim(p: string, d: unknown): Promise<boolean> {
   const appCheckHeaders = await getAppCheckHeaders();
   const getRes = await fetch(`${DB_URL}${p}.json`, {
     headers: { 'X-Firebase-ETag': 'true', ...appCheckHeaders },
+    cache: 'no-store',
   });
   if (!getRes.ok) throw new Error('HTTP ' + getRes.status);
   const existing = await getRes.json();
