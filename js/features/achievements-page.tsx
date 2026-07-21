@@ -2,7 +2,7 @@
 // Achievements page: levels roadmap, achievements grid, achievement detail popup.
 // Re-rendered on demand via refreshAchievementsPage() / notifyAchievementsChange().
 import { createPortal } from 'react-dom';
-import { useEffect, useState, type ReactElement } from 'react';
+import { useEffect, useRef, useState, type ReactElement } from 'react';
 import {
   notifyAchievementsChange,
   useAchievementsVersion,
@@ -20,8 +20,8 @@ import { t, achName, achHint, achCatName, levelName, wordsLabel } from './i18n.t
 import { getKnownInLang } from './mode-utils.ts';
 import type { Achievement } from '../../src/types.js';
 
-function LevelsRoadmap(): ReactElement | null {
-  const target = document.getElementById('levels-roadmap');
+function LevelsRoadmap(): ReactElement {
+  const ref = useRef<HTMLDivElement>(null);
   const n = getKnownInLang();
   const wu = wordsLabel(2);
 
@@ -29,15 +29,12 @@ function LevelsRoadmap(): ReactElement | null {
   // an advanced learner would otherwise land at the top and have to scroll
   // past everything they've already unlocked.
   useEffect(() => {
-    if (!target) return;
-    const cur = target.querySelector('.level-current');
+    const cur = ref.current?.querySelector('.level-current');
     cur?.scrollIntoView({ block: 'center', behavior: 'auto' });
-  }, [target]);
+  }, []);
 
-  if (!target) return null;
-
-  return createPortal(
-    <>
+  return (
+    <div ref={ref} className="levels-roadmap">
       {LEVELS.map((lv, i) => {
         const next = LEVELS[i + 1];
         const isDone = next ? n >= next.min : n >= lv.min;
@@ -96,8 +93,7 @@ function LevelsRoadmap(): ReactElement | null {
           </div>
         );
       })}
-    </>,
-    target,
+    </div>
   );
 }
 
@@ -361,6 +357,16 @@ export function AchievementsPage(): ReactElement {
   const unlockedCount = loadUnlocked().length;
   return (
     <>
+      <div style={{ marginBottom: 24 }}>
+        <div className="stats-section-title" style={{ marginBottom: 12 }} data-i18n="ach.roadmapTitle">
+          {t('ach.roadmapTitle')}
+        </div>
+        <LevelsRoadmap />
+      </div>
+
+      <div className="stats-section-title" style={{ marginBottom: 12 }} data-i18n="ach.awardsTitle">
+        {t('ach.awardsTitle')}
+      </div>
       <AchievementsSummaryBar
         unlockedCount={unlockedCount}
         total={ACHIEVEMENTS.length}
@@ -368,7 +374,6 @@ export function AchievementsPage(): ReactElement {
         onFilterChange={setFilter}
       />
       <AchievementsGrid filter={filter} onSelect={setSelected} />
-      <LevelsRoadmap />
       <AchievementPopup ach={selected} onClose={() => setSelected(null)} />
     </>
   );

@@ -82,7 +82,11 @@ describe('src/app-root.tsx mount points exist in index.html', () => {
   const refs = extractAppRootRefs(appRoot);
 
   it('found a substantial number of references (guards against the regexes silently matching nothing)', () => {
-    expect(refs.length).toBeGreaterThan(90);
+    // Settings/achievements/game-bar page-shell consolidations (each folded
+    // several separate Portal ids into one owning component) have brought
+    // this down from ~93 over time — the exact number isn't meaningful, only
+    // that it's nowhere near 0 (a broken regex).
+    expect(refs.length).toBeGreaterThan(80);
   });
 
   it.each(refs.map(({ id, kind }): [string, string] => [`${kind}="${id}"`, id]))(

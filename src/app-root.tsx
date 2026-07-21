@@ -28,7 +28,6 @@ import {
 } from './duel-async-store.ts';
 
 import { ProfileSwitcher } from '../js/features/profile-switcher.tsx';
-import { WordOfDay } from '../js/features/word-of-day.tsx';
 import { LangPairSelect } from '../js/features/lang-pair-select.tsx';
 import { TagFilterSelect } from '../js/features/tag-filter-select.tsx';
 import { RangeSelect } from '../js/features/range-select.tsx';
@@ -42,8 +41,7 @@ import { ResetConfirmDialog } from '../js/features/reset-confirm-dialog.tsx';
 import { NavFlyoutController } from '../js/features/sidebar-nav-flyout.tsx';
 import { PageOverlayVisibility } from '../js/features/page-overlay-visibility.tsx';
 import { PageHeader } from '../js/features/page-header.tsx';
-import { GameBarLevel } from '../js/features/game-bar-level.tsx';
-import { GameBarStreak, ComboBox, GameBarGoal } from '../js/features/game-bar-streak.tsx';
+import { GameBar } from '../js/features/game-bar.tsx';
 import { CardShell } from '../js/features/card-shell.tsx';
 import { CardBookmarkNoteVisuals } from '../js/features/card-indicators.tsx';
 import { CardKnownVisuals } from '../js/features/card-known-visuals.tsx';
@@ -254,9 +252,6 @@ function AppRoot(): ReactElement {
       <Portal id="profile-switcher-mount">
         <ProfileSwitcher />
       </Portal>
-      <Portal id="wotd-mount">
-        <WordOfDay />
-      </Portal>
       <Portal id="lang-pair-select">
         <LangPairSelect />
       </Portal>
@@ -284,17 +279,8 @@ function AppRoot(): ReactElement {
       <Portal id="modal-mount">
         <ResetConfirmDialog />
       </Portal>
-      <Portal id="level-box">
-        <GameBarLevel />
-      </Portal>
-      <Portal id="streak-block-mount">
-        <GameBarStreak />
-      </Portal>
-      <Portal id="combo-box-mount">
-        <ComboBox />
-      </Portal>
-      <Portal id="goal-block-mount">
-        <GameBarGoal />
+      <Portal id="game-bar">
+        <GameBar />
       </Portal>
       <Portal id="card-scene-mount">
         <CardShell />
@@ -485,7 +471,7 @@ function AppRoot(): ReactElement {
       <LazyMode btnId="btn-scramble" mountId="scr-page-mount" loader={_loadScramble} />
       <LazyMode btnId="btn-letters" mountId="wl-page-mount" loader={_loadWordLetters} />
       <LazyPage active={useStatsShouldLoad()} mountId="stats-overlay" loader={_loadStats} />
-      <LazyPage page="ach" mountId="achievements-grid" loader={_loadAchievements} />
+      <LazyPage page="ach" mountId="ach-content-mount" loader={_loadAchievements} />
       <ProfilePage />
       <LazyPage page="grammar" mountId="grammar-layout-mount" loader={_loadGrammar} />
       <LazyPage page="idioms" mountId="idioms-page-mount" loader={_loadIdioms} />

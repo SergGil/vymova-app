@@ -143,42 +143,8 @@
         </div>
       </div>
 
-      <!-- ── 3-block game bar ── -->
-      <div class="game-bar-3 mb-2.5 flex gap-2" id="game-bar">
-        <!-- Block 1: Streak + Combo (React, see game-bar-streak.tsx) -->
-        <div class="gb-block gb-streak-block">
-          <div id="streak-block-mount"></div>
-          <div id="combo-box-mount"></div>
-        </div>
-
-        <!-- Block 2: Daily goal (React, see game-bar-streak.tsx) -->
-        <div class="gb-block gb-goal-block">
-          <div class="gb-goal-header">
-            <span class="gb-label" data-i18n="cards.dailyGoal">Ціль на сьогодні</span>
-            <span
-              class="goal-set"
-              id="goal-set-btn"
-              title="Змінити ціль"
-              data-i18n-title="cards.dailyGoalEditTitle"
-              >⚙️</span
-            >
-          </div>
-          <div id="goal-block-mount"></div>
-        </div>
-
-        <!-- Block 2.5: Word of the day (React, see word-of-day.tsx) -->
-        <div class="gb-block gb-wotd-block">
-          <div id="wotd-mount"></div>
-        </div>
-
-        <!-- Block 3: Level XP progress (React, see game-bar-level.tsx) -->
-        <div
-          class="gb-block gb-level-block"
-          id="level-box"
-          title="Прогрес рівня"
-          data-i18n-title="cards.levelProgressTitle"
-        ></div>
-      </div>
+      <!-- ── 3-block game bar (React, game-bar.tsx GameBar) ── -->
+      <div id="game-bar"></div>
       <div id="combo-toast-mount"></div>
       <div id="mode-complete-toast-mount"></div>
       <div id="confetti-canvas-mount"></div>
@@ -216,7 +182,6 @@
       <!-- Service worker update banner -->
       <div id="sw-update-banner-mount"></div>
 
-      <!-- Панель статистики -->
       <!-- ══ STATS OVERLAY (React, stats-page.tsx) ══ -->
       <div id="stats-overlay"></div>
 
@@ -232,28 +197,11 @@
         class="hidden fixed inset-0 z-[2000] items-center justify-center bg-black/50 p-5 [&.open]:flex"
       ></div>
 
-      <!-- ══ ACHIEVEMENTS PAGE ══ -->
+      <!-- ══ ACHIEVEMENTS PAGE (React, achievements-page.tsx AchievementsPage) ══ -->
       <div id="ach-overlay" class="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-bg [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]">
         <div class="page-inner mx-auto max-w-[760px] px-6 pt-5 pb-8">
           <div id="ach-page-header-mount"></div>
-
-          <!-- Рівні -->
-          <div style="margin-bottom: 24px">
-            <div
-              class="stats-section-title"
-              style="margin-bottom: 12px"
-              data-i18n="ach.roadmapTitle"
-            >
-              🗺️ Шлях Джедая — всі рівні
-            </div>
-            <div id="levels-roadmap" class="levels-roadmap"></div>
-          </div>
-
-          <!-- Досягнення -->
-          <div class="stats-section-title" style="margin-bottom: 12px" data-i18n="ach.awardsTitle">
-            🏅 Нагороди
-          </div>
-          <div class="achievements-grid" id="achievements-grid"></div>
+          <div id="ach-content-mount"></div>
         </div>
       </div>
 

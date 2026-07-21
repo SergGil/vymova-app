@@ -47,7 +47,6 @@ describe('achievements-page.tsx AchievementsPage', () => {
     // any static classes on every open/close instead of just toggling
     // "open" alongside them.
     document.body.innerHTML = `
-      <div id="levels-roadmap"></div>
       <div id="ach-popup-overlay" class="static-overlay-class"></div>
     `;
     setKnownWords('en', new Set());
@@ -78,9 +77,9 @@ describe('achievements-page.tsx AchievementsPage', () => {
     expect(card.querySelector('.ach-progress-label')!.textContent).toBe('✓ Виконано');
   });
 
-  it('renders the levels roadmap into #levels-roadmap', () => {
-    mount();
-    const roadmap = document.getElementById('levels-roadmap') as HTMLElement;
+  it('renders the levels roadmap inline', () => {
+    const { container } = mount();
+    const roadmap = container.querySelector('.levels-roadmap') as HTMLElement;
     expect(roadmap.querySelectorAll('.level-row').length).toBe(3);
     expect(roadmap.querySelector('.level-current')).not.toBeNull();
   });
@@ -122,8 +121,8 @@ describe('achievements-page.tsx AchievementsPage', () => {
         'ee',
       ]),
     );
-    mount();
-    const roadmap = document.getElementById('levels-roadmap') as HTMLElement;
+    const { container } = mount();
+    const roadmap = container.querySelector('.levels-roadmap') as HTMLElement;
     const rows = roadmap.querySelectorAll('.level-row');
     expect(rows[1].className).toContain('level-current');
     expect(rows[0].className).toContain('level-done');
