@@ -381,6 +381,7 @@ export function DuelLobby(): ReactElement {
       </div>
       <div style={{ display: 'flex', gap: 6 }}>
         <button
+          id="duel-tourn4-btn"
           disabled={d.tournBtn4.disabled}
           onClick={() => createTournament(4)}
           style={{
@@ -399,6 +400,7 @@ export function DuelLobby(): ReactElement {
           {d.tournBtn4.errorLabel ?? (d.tournBtn4.disabled ? t('duel.creating') : t('duel.tourn4'))}
         </button>
         <button
+          id="duel-tourn8-btn"
           disabled={d.tournBtn8.disabled}
           onClick={() => createTournament(8)}
           style={{
@@ -417,6 +419,7 @@ export function DuelLobby(): ReactElement {
           {d.tournBtn8.errorLabel ?? (d.tournBtn8.disabled ? t('duel.creating') : t('duel.tourn8'))}
         </button>
         <button
+          id="duel-tournjoin-btn"
           onClick={() => joinTournament()}
           style={{
             flex: 1,

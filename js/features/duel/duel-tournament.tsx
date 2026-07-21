@@ -26,6 +26,7 @@ function TournWaiting(): ReactElement | null {
           {t('duel.tournCode')}
         </div>
         <div
+          id="duel-tourn-code"
           style={{
             fontFamily: 'monospace',
             fontSize: '1.8rem',
@@ -67,6 +68,7 @@ function TournWaiting(): ReactElement | null {
       </div>
       {d.showStartBtn && (
         <button
+          id="duel-tourn-start-btn"
           style={{
             width: '100%',
             padding: 12,
@@ -190,7 +192,7 @@ function TournBracket(): ReactElement | null {
       </div>
       <div style={{ marginTop: 14 }}>
         {d.matchArea.kind === 'champion' && (
-          <div style={{ textAlign: 'center', padding: 16 }}>
+          <div id="duel-tourn-champion" style={{ textAlign: 'center', padding: 16 }}>
             <div style={{ fontSize: '3rem' }}>🏆</div>
             <div style={{ fontWeight: 700, fontSize: '1.1rem', color: 'var(--accent2)', marginTop: 8 }}>
               {d.champion} — {t('duel.tourn.champ.excl')}
@@ -215,6 +217,7 @@ function TournBracket(): ReactElement | null {
         )}
         {d.matchArea.kind === 'play' && (
           <button
+            id="duel-tourn-play-btn"
             style={{
               width: '100%',
               padding: 12,
@@ -234,6 +237,7 @@ function TournBracket(): ReactElement | null {
         )}
         {d.matchArea.kind === 'rejoin' && (
           <button
+            id="duel-tourn-rejoin-btn"
             style={{
               width: '100%',
               padding: 12,

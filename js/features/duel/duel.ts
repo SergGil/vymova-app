@@ -967,8 +967,10 @@ export function _registerMatchFinishHook(fn: ((roomData: RoomData) => boolean) |
 // back for createRoom() (needed only by the rematch flow below) would close
 // a duel <-> duel-lobby-logic chunk cycle. duel-lobby-logic.ts registers
 // itself via this hook at module load instead.
-let _createRoomHook: (() => Promise<void>) | null = null;
-export function _registerCreateRoomHook(fn: (() => Promise<void>) | null): void {
+let _createRoomHook: ((carriedSeries?: SeriesData) => Promise<void>) | null = null;
+export function _registerCreateRoomHook(
+  fn: ((carriedSeries?: SeriesData) => Promise<void>) | null,
+): void {
   _createRoomHook = fn;
 }
 
@@ -1155,12 +1157,18 @@ export function _cancelRoom(): void {
 }
 
 function _doRematch(): void {
+  // "Next round" (kind 'round', mid-series) and "rematch" (kind 'final', a
+  // fresh best-of-N) both land here via the same button/handler — only the
+  // former should carry the series' win tally into the new room; a rematch
+  // after a *decided* series starts a genuinely new one at 0-0/round 1.
+  const carriedSeries =
+    getDuelResultSnapshot()?.kind === 'round' ? getDuelRoomSnapshot().series : undefined;
   if (getDuelRoomSnapshot().mySlot === 'p1') {
     // p1 creates a new room — show waiting screen
     _showLobby();
     renderDuel();
     _cancelRoom();
-    _createRoomHook?.();
+    _createRoomHook?.(carriedSeries);
   } else {
     // p2 gets new code to join
     _showLobby();

@@ -66,7 +66,7 @@ export function DuelResult(): ReactElement | null {
           {t('duel.series.label')} {d.myName} {d.myWins} — {d.oppWins} {d.oppName}
         </div>
         <div style={btnRowStyle}>
-          <button style={rematchBtnStyle} onClick={_onResultRematch}>
+          <button id="duel-next-round-btn" style={rematchBtnStyle} onClick={_onResultRematch}>
             {t('duel.nextRound')}
           </button>
         </div>
@@ -116,10 +116,10 @@ export function DuelResult(): ReactElement | null {
       </div>
 
       <div style={btnRowStyle}>
-        <button style={rematchBtnStyle} onClick={_onResultRematch}>
+        <button id="duel-rematch-btn" style={rematchBtnStyle} onClick={_onResultRematch}>
           {t('duel.rematch')}
         </button>
-        <button style={againBtnStyle} onClick={_onResultNewDuel}>
+        <button id="duel-newduel-btn" style={againBtnStyle} onClick={_onResultNewDuel}>
           {t('duel.newDuel')}
         </button>
       </div>

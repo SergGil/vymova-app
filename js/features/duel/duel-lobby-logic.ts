@@ -7,7 +7,7 @@
 // goes through a registration hook instead of a static import back here
 // (mirrors the existing _registerMatchFinishHook pattern in duel.ts), so
 // this file and duel.ts don't close a circular chunk.
-import type { DuelMode, Difficulty, BestOf, RoomData } from './duel-types.ts';
+import type { DuelMode, Difficulty, BestOf, RoomData, SeriesData } from './duel-types.ts';
 import { DUEL_MODES, DIFFICULTIES } from './duel-types.ts';
 import type { DuelLobbyUIState } from '../../../src/types.js';
 import { t } from '../i18n.ts';
@@ -183,7 +183,13 @@ export function _getLobbyUIData(): DuelLobbyUIState {
 }
 
 // ── Create / Join ─────────────────────────────────────────────
-export async function createRoom(): Promise<void> {
+// carriedSeries: set only by duel.ts's _doRematch() when this is a bestOf-3
+// "next round" continuation (not a plain create or a fresh post-series
+// rematch) — this room is a brand-new Firebase document either way (a new
+// room code for the opponent to rejoin), so the win tally has to be written
+// into it explicitly or it's lost, same as everything else the two clients
+// only agree on via what's actually in that document.
+export async function createRoom(carriedSeries?: SeriesData): Promise<void> {
   setLobbyBtn('createBtn', true);
   try {
     const sel = getDuelSelSnapshot();
@@ -203,7 +209,7 @@ export async function createRoom(): Promise<void> {
       createdAt: Date.now(),
       started: false,
       finished: false,
-      series: { p1wins: 0, p2wins: 0, round: 1 },
+      series: carriedSeries ? { ...carriedSeries } : { p1wins: 0, p2wins: 0, round: 1 },
       p1: {
         name: _getMyName(),
         avatar: _getMyAvatar(),
