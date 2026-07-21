@@ -112,7 +112,6 @@ export function CardShell(): ReactElement {
                     id="btn-mic"
                     title="Перевір вимову"
                     data-i18n-title="cards.checkPron"
-                    style={{ display: 'none' }}
                   >
                     🎤
                   </button>

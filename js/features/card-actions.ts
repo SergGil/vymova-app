@@ -10,7 +10,7 @@ import { today } from '../core/today.ts';
 import { addCombo, breakCombo, flashCard } from './combo.ts';
 import { openNoteModal } from './note-modal.tsx';
 import { toggleBookmark } from './bookmarks.ts';
-import { isPronuncSupported, startPronunciationCheck } from './voice/pronunciation.ts';
+import { startPronunciationCheck } from './voice/pronunciation.ts';
 import { showPronuncResult } from './voice/pronunciation-toast.tsx';
 import { checkMilestones } from './milestones.ts';
 import {
@@ -158,9 +158,6 @@ export function CardActionsInit(): ReactElement | null {
       });
     };
     micBtn.addEventListener('click', onMicClick);
-    if (isPronuncSupported()) {
-      micBtn.style.display = '';
-    }
 
     // ── Navigation buttons ────────────────────────────────────────
     const prevBtn = document.getElementById('btn-prev')!;

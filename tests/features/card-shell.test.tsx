@@ -79,7 +79,7 @@ const ORIGINAL_CARD_SCENE_HTML = `
             <span id="wword-mount"></span>
             <div class="word-actions">
               <button class="speak-btn" id="speak-word" title="Вимовити слово" data-i18n-title="cards.pronounce">🔊</button>
-              <button class="speak-btn" id="btn-mic" title="Перевір вимову" data-i18n-title="cards.checkPron" style="display: none">🎤</button>
+              <button class="speak-btn" id="btn-mic" title="Перевір вимову" data-i18n-title="cards.checkPron">🎤</button>
               <button class="speak-btn card-note-btn" id="btn-note" title="Нотатка/мнемоніка" data-i18n-title="cards.noteMnemonic">📝</button>
               <button class="speak-btn card-bookmark-btn" id="btn-bookmark" title="Додати в закладки" data-i18n-title="cards.addBookmark">☆</button>
             </div>
