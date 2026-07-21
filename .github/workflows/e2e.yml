@@ -1,0 +1,57 @@
+name: E2E Tests
+
+# Playwright e2e suite (tests-e2e/) — separate from deploy.yml's unit-test
+# gate since this is much heavier (real Chromium instances, a Firebase RTDB
+# emulator, several real duel matches played end to end) and a few specs
+# (duel-room.spec.ts, duel-options.spec.ts's close-button test) hit the real
+# prod Firebase project directly rather than the emulator, so a transient
+# network hiccup here shouldn't block deploys. Doesn't need any repo
+# secrets: the prod RTDB these specs touch has open read/write rules
+# already (see database.rules.json), and the emulator-based specs run
+# fully offline against a "demo-" project (no GCP credentials needed).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run e2e tests
+        # --workers=1: several specs here each drive 2-4 real browser
+        # contexts through full duel matches at once (tournament, spectator,
+        # async-challenge, ...) — running multiple such specs concurrently
+        # (Playwright's default parallelism) causes CPU-contention-induced
+        # timeouts that don't reproduce when each spec runs alone. Serial is
+        # slower but reliable; these are heavy integration tests, not fast
+        # unit tests, so that trade is the right one here.
+        run: npx playwright test --reporter=list,html --workers=1
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

@@ -41,7 +41,7 @@ export function DuelSpectatorView(): ReactElement | null {
   const mInfo = DUEL_MODES.find((m) => m.id === room.mode) || DUEL_MODES[0];
   const specCount = Object.keys(room.spectators || {}).length;
   return (
-    <div style={{ textAlign: 'center', padding: '20px 10px' }}>
+    <div id="duel-spectator-view" style={{ textAlign: 'center', padding: '20px 10px' }}>
       <div style={{ fontSize: '.72rem', color: 'var(--accent)', marginBottom: 6 }}>
         {t('duel.spectate.mode')}
         {specCount > 0 ? ` · ${specCount} ${t('duel.spectate.viewers')}` : ''}
@@ -98,6 +98,7 @@ export function DuelSpectatorView(): ReactElement | null {
         </div>
       </div>
       <button
+        id="duel-spectate-leave-btn"
         style={{
           marginTop: 20,
           padding: '8px 18px',

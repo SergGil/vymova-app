@@ -305,6 +305,7 @@ export function DuelLobby(): ReactElement {
           {/* Secondary actions: Spectate + Reply to challenge */}
           <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
             <button
+              id="duel-spectate-btn"
               onClick={() => joinAsSpectator()}
               style={{
                 flex: 1,
@@ -322,6 +323,7 @@ export function DuelLobby(): ReactElement {
               {t('duel.spectate')}
             </button>
             <button
+              id="duel-async-reply-btn"
               onClick={() => joinAsyncChallenge()}
               style={{
                 flex: 1,
@@ -347,6 +349,7 @@ export function DuelLobby(): ReactElement {
 
       {/* Async challenge */}
       <button
+        id="duel-async-send-btn"
         disabled={d.asyncBtn.disabled}
         onClick={() => createAsyncChallenge()}
         style={{
