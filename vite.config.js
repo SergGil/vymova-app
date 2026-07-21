@@ -149,6 +149,21 @@ export default defineConfig({
   },
   server: {
     port: 5173,
+    proxy: {
+      // Lets duel-firebase.ts's DB_URL be set to the relative '/emu-db'
+      // (via VITE_FIREBASE_DB_URL) and still work with a plain fetch(): the
+      // app builds URLs as `${DB_URL}${path}.json` with no query string, but
+      // the RTDB emulator's REST API requires a `?ns=<project>` query param
+      // to pick a database — this rewrite appends it, so app code itself
+      // never needs to know it's talking to the emulator. Only intercepts
+      // requests actually prefixed '/emu-db' (only tests-e2e/duel-realtime.spec.ts
+      // sets that env var), so normal dev/build traffic against prod is untouched.
+      '/emu-db': {
+        target: 'http://127.0.0.1:9000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/emu-db/, '') + '?ns=demo-vymova-e2e',
+      },
+    },
   },
   test: {
     environment: 'happy-dom',

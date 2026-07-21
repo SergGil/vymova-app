@@ -13,6 +13,8 @@ tmp_*.json
 tmp_*.txt
 test-results/
 playwright-report/
+*-debug.log
+.firebase/
 .agents/
 skills-lock.json
 .claude/

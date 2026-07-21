@@ -8,7 +8,12 @@
 // anywhere" property this file relies on.
 import { getAppCheckHeaders } from '../../core/app-check.ts';
 
+// VITE_FIREBASE_DB_URL lets tests-e2e/duel-realtime.spec.ts (and nothing
+// else — unset everywhere else, including prod) redirect every duel/
+// leaderboard/cloud-sync REST call at the Firebase RTDB emulator instead of
+// prod, via vite.config.js's /emu-db proxy. See that spec's header comment.
 export const DB_URL =
+  (import.meta.env.VITE_FIREBASE_DB_URL as string | undefined)?.trim() ||
   'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
 
 // Retries transient failures (network errors, 5xx) with backoff so a brief
