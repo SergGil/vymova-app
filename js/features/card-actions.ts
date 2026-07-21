@@ -133,10 +133,26 @@ export function CardActionsInit(): ReactElement | null {
       e.stopPropagation();
       const cw = getCwSnapshot();
       if (!cw) return;
-      startPronunciationCheck(cw[0], micBtn, (status, score, spoken, target) => {
+      // Whichever language is on the card front — not always cw[0] (the
+      // English headword) — same front resolution as onSpeakWordClick above.
+      // Previously this always checked pronunciation of the English word
+      // with the recognizer hardcoded to 'en-US', regardless of what
+      // language the card was actually showing/learning: a Spanish learner
+      // saying the Spanish word perfectly still got compared against the
+      // English text using an English-tuned recognizer, guaranteeing a poor
+      // score no matter how correct the pronunciation actually was.
+      const modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
+      const front = parsePair(modeVal).front;
+      const entry = entryFor(front, cw);
+      const word = entry.word || cw[0];
+      const locale =
+        front === 'ua' ? 'uk-UA' : isTargetLang(front) ? langConfig(front).voiceLocale : 'en-US';
+      startPronunciationCheck(word, locale, micBtn, (status, score, spoken, target) => {
         // A poor attempt counts as a mistake too, so mispronounced words
         // start surfacing via mistake-review the same way typing/quiz
         // mistakes already do — not just a one-off toast the user forgets.
+        // Always keyed by the English headword (cw[0]) — mistake tracking is
+        // word-identity based, independent of which language was displayed.
         if (status === 'try_again') recordMistake(cw[0]);
         showPronuncResult(status, score, spoken ?? '', target ?? '');
       });

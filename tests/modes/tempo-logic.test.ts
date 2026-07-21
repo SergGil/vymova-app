@@ -4,6 +4,7 @@ import { W } from '../../data/words.js';
 import { decodeIpa } from '../../js/core/ui-helpers.ts';
 import { t } from '../../js/features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
+import { getBest as realGetBest, setBest as realSetBest } from '../../js/modes/tempo.tsx';
 
 // ── Re-declared pure helpers from js/modes/tempo.tsx ──
 function getBest(sec: number): number {
@@ -93,6 +94,42 @@ describe('tempo-logic', () => {
       localStorage.setItem('tempo_best_30', '18');
       expect(getBest(30)).toBe(18);
       expect(localStorage.getItem('ew_tempo_best_30')).toBe('18');
+    });
+  });
+
+  // Regression: getBest()/setBest() used to read/write a single global
+  // 'ew_tempo_best_<sec>' key regardless of learn language — a record set
+  // once in an easy/familiar language became the (nearly unbeatable, or
+  // trivially beaten) bar for every other language's runs too.
+  describe('real getBest()/setBest() — per-learn-language scoping', () => {
+    afterEach(() => {
+      localStorage.removeItem('ew_learn_lang');
+    });
+
+    it('keeps separate records per target learn language', () => {
+      localStorage.setItem('ew_learn_lang', 'es');
+      realSetBest(30, 12);
+      localStorage.setItem('ew_learn_lang', 'fr');
+      realSetBest(30, 7);
+
+      localStorage.setItem('ew_learn_lang', 'es');
+      expect(realGetBest(30)).toBe(12);
+      localStorage.setItem('ew_learn_lang', 'fr');
+      expect(realGetBest(30)).toBe(7);
+    });
+
+    it('shares one bucket between the base en/ua pair (not a TargetLang)', () => {
+      localStorage.removeItem('ew_learn_lang'); // defaults to 'en'
+      realSetBest(30, 9);
+      localStorage.setItem('ew_learn_lang', 'ua');
+      expect(realGetBest(30)).toBe(9);
+    });
+
+    it('does not migrate the legacy unprefixed key into a per-language bucket', () => {
+      localStorage.setItem('ew_learn_lang', 'es');
+      localStorage.setItem('tempo_best_30', '18');
+      expect(realGetBest(30)).toBe(0);
+      expect(localStorage.getItem('ew_tempo_best_30_es')).toBeNull();
     });
   });
 

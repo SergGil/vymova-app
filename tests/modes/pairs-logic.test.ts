@@ -1,5 +1,6 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { t } from '../../js/features/i18n.ts';
+import { getBest as realGetBest, setBest as realSetBest } from '../../js/modes/pairs.tsx';
 
 // ── Re-declared pure helpers from js/modes/pairs.tsx ──
 function getBest(): number {
@@ -48,6 +49,42 @@ describe('pairs-logic', () => {
       localStorage.setItem('ew_pairs_best', '0.0');
       setBest(99.9);
       expect(getBest()).toBe(99.9);
+    });
+  });
+
+  // Regression: getBest()/setBest() used to read/write a single global
+  // 'ew_pairs_best' key regardless of learn language — a record set once in
+  // an easy/familiar language became the (nearly unbeatable, or trivially
+  // beaten) bar for every other language's runs too.
+  describe('real getBest()/setBest() — per-learn-language scoping', () => {
+    afterEach(() => {
+      localStorage.removeItem('ew_learn_lang');
+    });
+
+    it('keeps separate records per target learn language', () => {
+      localStorage.setItem('ew_learn_lang', 'es');
+      realSetBest(6.2);
+      localStorage.setItem('ew_learn_lang', 'fr');
+      realSetBest(9.8);
+
+      localStorage.setItem('ew_learn_lang', 'es');
+      expect(realGetBest()).toBe(6.2);
+      localStorage.setItem('ew_learn_lang', 'fr');
+      expect(realGetBest()).toBe(9.8);
+    });
+
+    it('shares one bucket between the base en/ua pair (not a TargetLang)', () => {
+      localStorage.removeItem('ew_learn_lang'); // defaults to 'en'
+      realSetBest(4.4);
+      localStorage.setItem('ew_learn_lang', 'ua');
+      expect(realGetBest()).toBe(4.4);
+    });
+
+    it('does not let a target-language record leak into the base en/ua bucket', () => {
+      localStorage.setItem('ew_learn_lang', 'es');
+      realSetBest(3.0);
+      localStorage.removeItem('ew_learn_lang'); // back to base 'en'
+      expect(realGetBest()).toBe(0);
     });
   });
 });

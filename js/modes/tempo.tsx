@@ -34,16 +34,33 @@ type Question = {
 // that convention, so Tempo high scores were silently never included in a
 // cloud backup/restore. Migrate transparently from the old unprefixed key
 // the first time each is read, rather than losing existing best scores.
-function getBest(sec: number): number {
-  const key = `ew_tempo_best_${sec}`;
-  if (localStorage.getItem(key) === null) {
+//
+// Per-learn-language, same convention as assoc-chain.tsx's getBest(lang)/
+// ghost-race.tsx's ghostKey() — without it, a record set once (in whatever
+// language happened to be active first) silently became the "record" every
+// other language's runs were compared against forever, making "new record"
+// nearly unreachable in a harder target language and trivially easy in an
+// easier one. 'en'/'ua' share one bucket (the base dictionary, not a
+// TargetLang) — every other learn language gets its own suffixed key.
+// Exported for direct testing (tests/modes/tempo-logic.test.ts) — same
+// underscore-prefixed-but-exported convention as srs.ts's _shuf.
+export function _tempoBestKey(sec: number): string {
+  const lang = getLearnLang();
+  const base = `ew_tempo_best_${sec}`;
+  return lang === 'en' || lang === 'ua' ? base : `${base}_${lang}`;
+}
+export function getBest(sec: number): number {
+  const key = _tempoBestKey(sec);
+  // The legacy unprefixed key predates multi-language support entirely, so
+  // it only ever migrates into the base en/ua bucket, never a per-language one.
+  if (key === `ew_tempo_best_${sec}` && localStorage.getItem(key) === null) {
     const legacy = localStorage.getItem(`tempo_best_${sec}`);
     if (legacy !== null) localStorage.setItem(key, legacy);
   }
   return parseInt(localStorage.getItem(key) ?? '0');
 }
-function setBest(sec: number, val: number): void {
-  if (val > getBest(sec)) localStorage.setItem(`ew_tempo_best_${sec}`, String(val));
+export function setBest(sec: number, val: number): void {
+  if (val > getBest(sec)) localStorage.setItem(_tempoBestKey(sec), String(val));
 }
 
 // Was a per-language if/else chain that stopped at 'VI' (the 15th language

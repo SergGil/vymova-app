@@ -57,6 +57,7 @@ function _stop(btn: HTMLElement | null): void {
 
 export function startPronunciationCheck(
   targetWord: string,
+  locale: string,
   btn: HTMLElement | null,
   onResult: (status: string, score: number, spoken?: string, target?: string) => void,
 ): void {
@@ -69,7 +70,7 @@ export function startPronunciationCheck(
     return;
   }
   _rec = new SR();
-  _rec.lang = 'en-US';
+  _rec.lang = locale;
   _rec.interimResults = false;
   _rec.maxAlternatives = 3;
   if (btn) {

@@ -91,6 +91,8 @@ export const DYNAMIC_KEY_PREFIXES = [
   'ew_ws_',
   'ew_duel_',
   'ew_milestones_',
+  'ew_pairs_best_',
+  'ew_tempo_best_',
 ];
 
 function _snapKeys(): string[] {

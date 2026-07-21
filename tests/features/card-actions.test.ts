@@ -7,6 +7,8 @@ import { clearSrsData, getSrsDataSnapshot, setSrsEntry } from '../../src/srs-sto
 import { setBaseWords, setActiveTagSet } from '../../src/deck-filter-store.ts';
 import { loadKnown, loadSRS } from '../../js/core/storage.ts';
 import type { WordEntry } from '../../src/types.js';
+import { startPronunciationCheck } from '../../js/features/voice/pronunciation.ts';
+import { W } from '../../data/words.js';
 
 // card-actions.ts wires up real button click handlers for the flashcard UI.
 // It pulls in many feature modules (audio, voice, speech, pronunciation,
@@ -199,6 +201,7 @@ beforeEach(() => {
   saveGameData.mockClear();
   invalidateGameCaches.mockClear();
   speakForCode.mockClear();
+  vi.mocked(startPronunciationCheck).mockClear();
 
   setRange('srs');
   setMode('en');
@@ -478,5 +481,49 @@ describe('speak-word / speak-ex', () => {
     // speakForCode()'s own translit-fallback decision is unit-tested
     // separately in speak-lang.test.ts.
     expect(speakForCode).toHaveBeenCalledWith('he', '', 'apple', expect.anything(), '');
+  });
+});
+
+// ── mic (pronunciation check) ─────────────────────────────────────
+describe('mic (pronunciation check)', () => {
+  // Regression: this used to always check the English word with the
+  // recognizer hardcoded to 'en-US', regardless of the card's front
+  // language — same routing bug speak-word/speak-ex already had fixed.
+  it('checks the English word with an en-US locale when the front is "en"', () => {
+    document.getElementById('btn-mic')!.click();
+
+    expect(startPronunciationCheck).toHaveBeenCalledWith(
+      'apple',
+      'en-US',
+      expect.anything(),
+      expect.anything(),
+    );
+  });
+
+  it('checks pronunciation with the target-language front code and its own locale', () => {
+    setMode('es-en');
+    document.getElementById('btn-mic')!.click();
+
+    // No 'es' word table is loaded in this test environment, so entryFor()
+    // resolves to an empty word — falls back to the English headword, but
+    // the locale must still be the target language's, not 'en-US'.
+    expect(startPronunciationCheck).toHaveBeenCalledWith(
+      'apple',
+      'es-ES',
+      expect.anything(),
+      expect.anything(),
+    );
+  });
+
+  it('uses the Ukrainian locale when the front is "ua"', () => {
+    setMode('ua');
+    document.getElementById('btn-mic')!.click();
+
+    expect(startPronunciationCheck).toHaveBeenCalledWith(
+      (W as unknown as WordEntry[])[0][1],
+      'uk-UA',
+      expect.anything(),
+      expect.anything(),
+    );
   });
 });

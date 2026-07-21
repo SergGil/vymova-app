@@ -15,12 +15,24 @@ import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 
 const N = 6;
 
-function getBest(): number {
-  return parseFloat(localStorage.getItem('ew_pairs_best') ?? '0');
+// Per-learn-language, same convention as assoc-chain.tsx's getBest(lang)/
+// ghost-race.tsx's ghostKey() — a single shared 'ew_pairs_best' meant a
+// record set in one language silently became the bar every other language's
+// runs were compared against, regardless of how (un)familiar the vocabulary
+// actually was. 'en'/'ua' share one bucket (the base dictionary, not a
+// TargetLang) — every other learn language gets its own suffixed key.
+// Exported for direct testing (tests/modes/pairs-logic.test.ts) — same
+// underscore-prefixed-but-exported convention as srs.ts's _shuf.
+export function _pairsBestKey(): string {
+  const lang = getLearnLang();
+  return lang === 'en' || lang === 'ua' ? 'ew_pairs_best' : `ew_pairs_best_${lang}`;
 }
-function setBest(secs: number): void {
+export function getBest(): number {
+  return parseFloat(localStorage.getItem(_pairsBestKey()) ?? '0');
+}
+export function setBest(secs: number): void {
   const b = getBest();
-  if (!b || secs < b) localStorage.setItem('ew_pairs_best', secs.toFixed(1));
+  if (!b || secs < b) localStorage.setItem(_pairsBestKey(), secs.toFixed(1));
 }
 function fmt(ms: number): string {
   return (ms / 1000).toFixed(1) + t('common.secSuffix');

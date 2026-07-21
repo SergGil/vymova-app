@@ -35,7 +35,7 @@ describe('pronunciation.ts', () => {
     it('startPronunciationCheck immediately reports "unsupported"', async () => {
       const { startPronunciationCheck } = await import('../../js/features/voice/pronunciation.ts');
       const onResult = vi.fn();
-      startPronunciationCheck('hello', null, onResult);
+      startPronunciationCheck('hello', 'en-US', null, onResult);
       expect(onResult).toHaveBeenCalledWith('unsupported', 0);
     });
   });
@@ -64,17 +64,26 @@ describe('pronunciation.ts', () => {
     it('starts recognition and updates the button to listening state', async () => {
       const { startPronunciationCheck } = await load();
       const btn = document.createElement('button');
-      startPronunciationCheck('hello', btn, vi.fn());
+      startPronunciationCheck('hello', 'en-US', btn,vi.fn());
       expect(lastInstance.start).toHaveBeenCalled();
       expect(lastInstance.lang).toBe('en-US');
       expect(btn.classList.contains('on')).toBe(true);
       expect(btn.textContent).toBe('🔴');
     });
 
+    // Regression: the recognizer used to be hardcoded to 'en-US' regardless
+    // of what language was actually being checked — a caller-supplied locale
+    // must actually reach the SpeechRecognition instance.
+    it('uses the caller-supplied locale, not a hardcoded en-US', async () => {
+      const { startPronunciationCheck } = await load();
+      startPronunciationCheck('hola', 'es-ES', null, vi.fn());
+      expect(lastInstance.lang).toBe('es-ES');
+    });
+
     it('reports "perfect" for an exact transcript match', async () => {
       const { startPronunciationCheck } = await load();
       const onResult = vi.fn();
-      startPronunciationCheck('hello', null, onResult);
+      startPronunciationCheck('hello', 'en-US', null, onResult);
       lastInstance.onresult?.(resultEvent('hello'));
       expect(onResult).toHaveBeenCalledWith('perfect', 1, 'hello', 'hello');
     });
@@ -82,7 +91,7 @@ describe('pronunciation.ts', () => {
     it('reports "try_again" for a very different transcript', async () => {
       const { startPronunciationCheck } = await load();
       const onResult = vi.fn();
-      startPronunciationCheck('hello', null, onResult);
+      startPronunciationCheck('hello', 'en-US', null, onResult);
       lastInstance.onresult?.(resultEvent('xyz completely different phrase'));
       const [status, score] = onResult.mock.calls[0];
       expect(status).toBe('try_again');
@@ -93,7 +102,7 @@ describe('pronunciation.ts', () => {
       const { startPronunciationCheck } = await load();
       const btn = document.createElement('button');
       const onResult = vi.fn();
-      startPronunciationCheck('hello', btn, onResult);
+      startPronunciationCheck('hello', 'en-US', btn,onResult);
       lastInstance.onerror?.({});
       expect(onResult).toHaveBeenCalledWith('error', 0);
       expect(btn.classList.contains('on')).toBe(false);
@@ -103,7 +112,7 @@ describe('pronunciation.ts', () => {
     it('resets the button on end', async () => {
       const { startPronunciationCheck } = await load();
       const btn = document.createElement('button');
-      startPronunciationCheck('hello', btn, vi.fn());
+      startPronunciationCheck('hello', 'en-US', btn,vi.fn());
       lastInstance.onend?.();
       expect(btn.classList.contains('on')).toBe(false);
       expect(btn.textContent).toBe('🎤');
@@ -112,9 +121,9 @@ describe('pronunciation.ts', () => {
     it('calling startPronunciationCheck again while listening stops the previous session', async () => {
       const { startPronunciationCheck } = await load();
       const btn = document.createElement('button');
-      startPronunciationCheck('hello', btn, vi.fn());
+      startPronunciationCheck('hello', 'en-US', btn,vi.fn());
       const firstInstance = lastInstance;
-      startPronunciationCheck('hello', btn, vi.fn());
+      startPronunciationCheck('hello', 'en-US', btn,vi.fn());
       expect(firstInstance.abort).toHaveBeenCalled();
     });
   });
