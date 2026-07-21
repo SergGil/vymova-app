@@ -1,5 +1,7 @@
 // Vymova — Bosnian translations (subset)
 // Format: "english_word": ["bs_translation","bs_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_BS = {
   "a blessing in disguise": ["prikriveni blagoslov", "Gubitak tog posla je zapravo bio prikriveni blagoslov — doveo je do nečeg boljeg."],
   "a piece of cake": ["mačji kašalj", "Ispit je bio mačji kašalj — završio sam ga za pola vremena."],

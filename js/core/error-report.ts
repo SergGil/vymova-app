@@ -6,6 +6,7 @@
 // (AI_PROXY_URL unset) — same gate js/config.ts already uses for the AI
 // tutor, since /error lives on that same Worker.
 import { AI_PROXY_URL } from '../config.ts';
+import { getWorkerClientId } from './worker-client-id.ts';
 
 // Caps total reports per page load — a script stuck in a retry loop that
 // throws every tick shouldn't be able to turn one bug into thousands of
@@ -25,7 +26,7 @@ function report(message: string, stack?: string): void {
   try {
     fetch(`${AI_PROXY_URL}/error`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-Client-Id': getWorkerClientId() },
       keepalive: true,
       body: JSON.stringify({
         message: message.slice(0, 2000),

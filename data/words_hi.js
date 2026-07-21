@@ -1,5 +1,7 @@
 // Vymova — Hindi translations (subset)
 // Format: "english_word": ["hi_translation","hi_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_HI = {
   "a blessing in disguise": ["छिपा हुआ वरदान", "वह नौकरी खोना छिपा हुआ वरदान साबित हुआ — इसने कुछ बेहतर की ओर अग्रसर किया।"],
   "a piece of cake": ["बहुत आसान काम", "परीक्षा बहुत आसान थी — मैंने आधे समय में ही पूरी कर ली।"],

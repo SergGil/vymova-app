@@ -12,6 +12,7 @@ import { recordModeComplete } from '../features/game.ts';
 import { speakForCode } from '../features/voice/speak-lang.ts';
 import { t } from '../features/i18n.ts';
 import { AI_PROXY_URL, AI_TUTOR_ENABLED } from '../config.ts';
+import { getWorkerClientId } from '../core/worker-client-id.ts';
 import type { WordEntry } from '../../src/types.js';
 import {
   entryFor,
@@ -137,7 +138,7 @@ export async function sendStoryRequest(
 ): Promise<{ text: string; title?: string }> {
   const res = await fetch(`${AI_PROXY_URL}/chat`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'X-Client-Id': getWorkerClientId() },
     body: JSON.stringify({ mode: 'story', lang: { know: knowLang, learn: learnLang }, level }),
   });
   if (!res.ok) throw new Error(`AI proxy responded ${res.status}`);

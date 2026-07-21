@@ -1,5 +1,7 @@
 // Vymova — Malay translations (subset)
 // Format: "english_word": ["ms_translation","ms_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_MS = {
   "a blessing in disguise": ["rahmat tersembunyi", "Kehilangan kerja itu sebenarnya rahmat tersembunyi — ia membawa kepada sesuatu yang lebih baik."],
   "a piece of cake": ["mudah seperti makan cili", "Peperiksaan itu sangat mudah — saya selesai dalam separuh masa."],

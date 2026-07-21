@@ -1,5 +1,7 @@
 // Vymova — Croatian translations (subset)
 // Format: "english_word": ["hr_translation","hr_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_HR = {
   "a blessing in disguise": ["skriveni blagoslov", "Gubitak tog posla zapravo je bio skriveni blagoslov — doveo je do nečeg boljeg."],
   "a piece of cake": ["mačji kašalj", "Ispit je bio mačji kašalj — završio sam ga u pola vremena."],

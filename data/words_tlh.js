@@ -16,6 +16,8 @@
 // verb) to fill a gap, in the same spirit as the fan neo-Klingon community
 // (KLI — Klingon Language Institute) — not official Paramount/CBS material.
 // card-front-text.tsx renders this as a 📜/🔧 badge on the flashcard.
+// @ts-check
+/** @type {Record<string, readonly [string, string, string, boolean?]>} */
 export const W_TLH = {
   "a blessing in disguise": ["Soq buSuvbe'bogh maj wa'", "Hegh Soq maj wa' 'oH.", "sokh boo-SOOV-beh-bokh mahj wah", false],
   "a piece of cake": ["Qatlh'be'", "Qatlh'be' ghu' vam.", "kaht-lh-BEH", true],

@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_PA = {
   "a blessing in disguise": ["ਭੇਸ ਵਿੱਚ ਬਖਸ਼ਿਸ਼", "ਉਹ ਨੌਕਰੀ ਗੁਆਉਣਾ ਭੇਸ ਵਿੱਚ ਬਖਸ਼ਿਸ਼ ਸਾਬਤ ਹੋਇਆ।", "bhēsa vica bakhaśiśa"],
   "a piece of cake": ["ਬਹੁਤ ਆਸਾਨ ਕੰਮ", "ਪ੍ਰੀਖਿਆ ਬਹੁਤ ਆਸਾਨ ਸੀ — ਮੈਂ ਅੱਧੇ ਸਮੇਂ ਵਿੱਚ ਖਤਮ ਕਰ ਲਈ।", "bahuta āsāna kama"],

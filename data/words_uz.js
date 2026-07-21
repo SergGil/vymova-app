@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_UZ = {
   "a blessing in disguise": ["yashirin ne'mat", "O'sha ishni yo'qotish yashirin ne'mat bo'lib chiqdi.", "yashirin ne'mat"],
   "a piece of cake": ["juda oson ish", "Imtihon juda oson ish edi — men yarim vaqtda tugatdim.", "juda oson ish"],

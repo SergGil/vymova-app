@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_AS = {
   "a blessing in disguise": ["ছদ্মবেশী আশীৰ্বাদ", "চাকৰি হেৰুৱাটো এক ছদ্মবেশী আশীৰ্বাদ হৈ পৰিল।", "chhodmobeshi aashirbaad"],
   "a piece of cake": ["অতি সহজ কাম", "পৰীক্ষাটো বহুত সহজ আছিল।", "oti sohoj kaam"],

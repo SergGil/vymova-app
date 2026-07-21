@@ -16,6 +16,8 @@
 // regular sound patterns to fill a gap — not official HBO material.
 // No TTS voice fallback (unlike Quenya/Sindarin) since Valyrian's
 // phonology wasn't modeled on one specific real language.
+// @ts-check
+/** @type {Record<string, readonly [string, string, string, boolean?]>} */
 export const W_VAL = {
   "a blessing in disguise": ["zūgagon issa morghot", "Ossēnātās issa zūgagon morghot.", "ZOO-ga-gon EE-sa MOR-ghot", false],
   "a piece of cake": ["gīs vēttrī", "Riña issa gīs vēttrī.", "gees VET-tree", false],

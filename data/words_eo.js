@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_EO = {
   "a blessing in disguise": ["kaŝita beno", "Perdi tiun laboron montriĝis kaŝita beno.", "kaˈʃita ˈbeno"],
   "a piece of cake": ["facilega afero", "La ekzameno estis facilega afero — mi finis en duono de la tempo.", "faciˈleɡa aˈfero"],

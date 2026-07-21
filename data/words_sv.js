@@ -1,5 +1,7 @@
 // Vymova — Swedish translations (subset)
 // Format: "english_word": ["sv_translation","sv_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_SV = {
   "a blessing in disguise": ["en dold välsignelse", "Att förlora det jobbet var faktiskt en dold välsignelse — det ledde till något bättre."],
   "a piece of cake": ["en baggis", "Provet var en baggis — jag var klar på halva tiden."],

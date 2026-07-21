@@ -1,5 +1,7 @@
 // Vymova — Kazakh translations (subset)
 // Format: "english_word": ["kk_translation","kk_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_KK = {
   "a blessing in disguise": ["жасырын бата", "Сол жұмыстан айырылу шын мәнінде жасырын бата болды — ол жақсырақ нәрсеге әкелді."],
   "a piece of cake": ["өте оңай іс", "Емтихан өте оңай болды — мен жарты уақытта аяқтадым."],

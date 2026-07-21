@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_MK = {
   "a blessing in disguise": ["прикриен благослов", "Губењето на таа работа се покажа како прикриен благослов.", "prikrien blagoslov"],
   "a piece of cake": ["мала работа", "Испитот беше мала работа — завршив за половина време.", "mala rabota"],

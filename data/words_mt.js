@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_MT = {
   "a blessing in disguise": ["barka moħbija", "It-telfa ta' dak ix-xogħol kienet barka moħbija.", "barka moħbija"],
   "a piece of cake": ["ħafna ħafif", "L-eżami kien ħafna ħafif — spiċċajt f'nofs il-ħin.", "ħafna ħafif"],

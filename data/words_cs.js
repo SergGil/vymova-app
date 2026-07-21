@@ -1,5 +1,7 @@
 // Vymova — Czech translations (subset)
 // Format: "english_word": ["cs_translation","cs_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_CS = {
   "a blessing in disguise": ["skryté požehnání", "Ztráta té práce byla ve skutečnosti skryté požehnání — vedla k něčemu lepšímu."],
   "a piece of cake": ["hračka", "Zkouška byla hračka — dokončil jsem ji za polovinu času."],

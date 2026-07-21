@@ -5,6 +5,7 @@
 import { createPortal } from 'react-dom';
 import { useRef, useState, type FormEvent, type ReactElement } from 'react';
 import { AI_PROXY_URL, AI_TUTOR_ENABLED } from '../../config.ts';
+import { getWorkerClientId } from '../../core/worker-client-id.ts';
 import { getKnowLang, getLearnLang } from '../lang-pair-select.tsx';
 import { t } from '../i18n.ts';
 import { useLangVersion } from '../../../src/store.ts';
@@ -18,7 +19,7 @@ export interface ChatMessage {
 export async function sendTutorMessage(messages: ChatMessage[]): Promise<string> {
   const res = await fetch(`${AI_PROXY_URL}/chat`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'X-Client-Id': getWorkerClientId() },
     body: JSON.stringify({
       mode: 'tutor',
       lang: { know: getKnowLang(), learn: getLearnLang() },

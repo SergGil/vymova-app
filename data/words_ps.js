@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_PS = {
   "a blessing in disguise": ["پټه نعمت", "دنده له لاسه ورکول یوه پټه نعمت ثابته شوه.", "pata ne'mat"],
   "a piece of cake": ["ډېر اسانه کار", "امتحان ډېر اسانه و.", "der aasaan kaar"],

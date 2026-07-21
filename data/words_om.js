@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_OM = {
   "a blessing in disguise": ["eebba dhokataa", "Dhabuun kun eebba dhokataa ture.", "eeb-ba dho-ka-TA-a"],
   "a piece of cake": ["waan salphaa", "Qormaanni kun waan baay'ee salphaa ture.", "wa-an sal-PHA-a"],

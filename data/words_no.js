@@ -1,5 +1,7 @@
 // Vymova — Norwegian translations (subset)
 // Format: "english_word": ["no_translation","no_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_NO = {
   "a blessing in disguise": ["en velsignelse i forkledning", "Å miste den jobben var faktisk en velsignelse i forkledning — det førte til noe bedre."],
   "a piece of cake": ["en lek", "Prøven var en lek — jeg var ferdig på halve tiden."],

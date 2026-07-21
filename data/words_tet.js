@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_TET = {
   "a blessing in disguise": ["bensaun neʼebé kuza", "servisu lakon sai bensaun neʼebé kuza.", "bensaun neʼebé kuza"],
   "a piece of cake": ["buat facilmente demais", "ezame ida facilmente demais.", "buat facilmente demais"],

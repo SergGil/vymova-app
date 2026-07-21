@@ -1,5 +1,7 @@
 // Vymova — Korean translations (subset)
 // Format: "english_word": ["ko_translation","ko_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_KO = {
   "a blessing in disguise": ["뜻밖의 축복","그 직장을 잃은 것은 뜻밖의 축복이었다 — 더 나은 일로 이어졌다.","tteutbakkui chukbok"],
   "a piece of cake": ["식은 죽 먹기","시험은 식은 죽 먹기였다 — 나는 절반의 시간에 끝냈다.","sigeun juk meokgi"],

@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_OC = {
   "a blessing in disguise": ["una benediccion amagada", "la pèrda del trabalh venguèt una benediccion amagada.", "una benediccion amagada"],
   "a piece of cake": ["una causa fòrça aisida", "l'examèn èra fòrça aisit.", "una causa fòrça aisida"],

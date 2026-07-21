@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_CA = {
   "a blessing in disguise": ["una benedicció amagada", "Perdre aquella feina va resultar ser una benedicció amagada.", "unə bənəðiksiˈo əməˈɣaðə"],
   "a piece of cake": ["bufar i fer ampolles", "L'examen va ser bufar i fer ampolles — vaig acabar en la meitat del temps.", "bu'fa i 'fe əmˈpoʎəs"],

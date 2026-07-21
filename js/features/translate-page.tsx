@@ -6,6 +6,7 @@
 import { createPortal } from 'react-dom';
 import { useState, type KeyboardEvent, type ReactElement } from 'react';
 import { AI_PROXY_URL, AI_TUTOR_ENABLED } from '../config.ts';
+import { getWorkerClientId } from '../core/worker-client-id.ts';
 import { getKnowLang } from './lang-pair-select.tsx';
 import { t } from './i18n.ts';
 import { bindOverlayDismiss } from './overlay-utils.ts';
@@ -23,7 +24,7 @@ const TARGET_LANGS: string[] = ['ua', ...Object.keys(LANG_META)];
 export async function sendTranslateRequest(text: string, targetLang: string): Promise<string> {
   const res = await fetch(`${AI_PROXY_URL}/chat`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'X-Client-Id': getWorkerClientId() },
     body: JSON.stringify({
       mode: 'translate',
       lang: { know: targetLang, learn: targetLang },

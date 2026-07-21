@@ -1,5 +1,7 @@
 // Vymova — Hungarian translations (subset)
 // Format: "english_word": ["hu_translation","hu_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_HU = {
   "a blessing in disguise": ["álcázott áldás", "Az állás elvesztése valójában álcázott áldás volt — valami jobbhoz vezetett."],
   "a piece of cake": ["gyerekjáték", "A vizsga gyerekjáték volt — fél idő alatt végeztem."],

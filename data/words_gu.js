@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_GU = {
   "a blessing in disguise": ["છૂપું આશીર્વાદ", "નોકરી ગુમાવવી એ છૂપું આશીર્વાદ સાબિત થયું.", "chhupu aashirvaad"],
   "a piece of cake": ["ખૂબ સરળ કામ", "પરીક્ષા ખૂબ સરળ હતી.", "khoob saraḷ kaam"],

@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_IS = {
   "a blessing in disguise": ["dulin blessun", "Að missa það starf reyndist vera dulin blessun.", "ˈtulɪn ˈplɛsːʏn"],
   "a piece of cake": ["barnaleikur", "Prófið var hreinn barnaleikur — ég kláraði á hálfum tíma.", "ˈparnaˌleikʏr"],

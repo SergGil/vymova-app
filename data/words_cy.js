@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_CY = {
   "a blessing in disguise": ["bendith wedi'i chuddio", "Trodd colli'r swydd honno'n fendith wedi'i chuddio.", "ˈbɛndɪθ wɛdi hɪðjo"],
   "a piece of cake": ["hawdd fel baw", "Roedd yr arholiad yn hawdd fel baw — gorffennais mewn hanner yr amser.", "hauð vɛl bau"],

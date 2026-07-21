@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_TY = {
   "a blessing in disguise": ["haamaitai huna", "Te ereraa i te ohipa, e haamaitai huna ïa.", "ha-a-ma-i-TAI hu-NA"],
   "a piece of cake": ["mea ohie roa", "Ohie roa taua tapura ra.", "me-a o-hi-E ro-a"],

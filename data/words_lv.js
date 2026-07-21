@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_LV = {
   "a blessing in disguise": ["apslēpta svētība", "Tā darba zaudēšana bija apslēpta svētība — tā noveda pie kaut kā labāka.", "ɐpˈslɛːpta ˈsvɛːtiːba"],
   "a piece of cake": ["ļoti viegli", "Eksāmens bija ļoti viegli — es pabeidzu uz pusi ātrāk.", "ʎuɔti viˈɛgli"],

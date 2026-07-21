@@ -17,6 +17,8 @@
 // in the canon corpus, in the same spirit as the fan neo-Quenya tradition
 // (Ardalambion, Eldamo, etc.) — not official Tolkien Estate material.
 // card-front-text.tsx renders this flag as a 📜/🔧 badge on the flashcard.
+// @ts-check
+/** @type {Record<string, readonly [string, string, string, boolean?]>} */
 export const W_QYA = {
   "a blessing in disguise": ["nurtaina alma", "I hehtië ná nurtaina alma.", "NUR-tai-na AL-ma", false],
   "a piece of cake": ["ita lávëa carë", "Sina carë ná ita lávëa carë.", "I-ta LA-ve-a KAR-e", false],

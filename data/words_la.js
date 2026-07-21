@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_LA = {
   "a blessing in disguise": ["occultum bonum","Amissio illius operis occultum bonum fuit — ad meliora duxit."],
   "a piece of cake": ["res facillima","Examen res facillima fuit — dimidio tempore id perfeci."],

@@ -456,7 +456,13 @@ function corsHeaders(origin: string): HeadersInit {
   return {
     'Access-Control-Allow-Origin': origin,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, X-Client-Id',
+    // Every response here is either an error or freshly generated from a
+    // live Gemini call / a one-off log line — nothing is ever meant to be
+    // reused from a cache (browser or intermediate), so make that explicit
+    // rather than relying on the absence of Cache-Control defaulting the
+    // same way everywhere.
+    'Cache-Control': 'no-store',
   };
 }
 
@@ -645,6 +651,41 @@ async function checkRateLimit(
   return success;
 }
 
+// Optional X-Client-Id header (js/core/worker-client-id.ts) — a random
+// per-browser identifier persisted in localStorage. NOT a security/auth
+// boundary: nothing stops a client from omitting it or generating a fresh
+// one per request, so it can't be relied on to *identify* an abuser. What
+// it does add: a second, independent rate-limit bucket alongside the
+// per-IP one below, so one heavy legitimate user behind a shared/NAT'd IP
+// (an office, a university network) gets throttled on their own usage
+// instead of exhausting the limit for everyone on that IP. Validated
+// (length + charset) only to bound how much key-space a malformed value
+// could claim in the in-memory fallback's Map, not as a trust check.
+function _getClientId(request: Request): string | null {
+  const id = request.headers.get('X-Client-Id');
+  if (!id || id.length < 8 || id.length > 64 || !/^[A-Za-z0-9]+$/.test(id)) return null;
+  return id;
+}
+
+// Combines the mandatory per-IP check with an optional per-client-id one —
+// both must have room. See _getClientId()'s comment for why this is a
+// fairness improvement, not an additional security layer, over the plain
+// per-IP limit alone.
+async function checkRateLimits(
+  env: Env,
+  request: Request,
+  ip: string,
+  prefix: string,
+  limitPerMinute: number,
+): Promise<boolean> {
+  if (!(await checkRateLimit(env, `${prefix}:${ip}`, limitPerMinute))) return false;
+  const clientId = _getClientId(request);
+  if (clientId && !(await checkRateLimit(env, `${prefix}:c:${clientId}`, limitPerMinute))) {
+    return false;
+  }
+  return true;
+}
+
 // ── Client error reporting ──────────────────────────────────────
 // Read-side companion to /chat: forwards uncaught client-side errors
 // (window.onerror / unhandledrejection, wired in js/core/error-report.ts) so
@@ -680,7 +721,7 @@ async function handleError(
   origin: string,
   ip: string,
 ): Promise<Response> {
-  if (!(await checkRateLimit(env, `err:${ip}`, ERROR_RATE_LIMIT_PER_MINUTE))) {
+  if (!(await checkRateLimits(env, request, ip, 'err', ERROR_RATE_LIMIT_PER_MINUTE))) {
     return jsonError(origin, 'rate_limited', 429);
   }
   let rawBody: unknown;
@@ -706,7 +747,7 @@ async function handleChat(
   origin: string,
   ip: string,
 ): Promise<Response> {
-  if (!(await checkRateLimit(env, `chat:${ip}`))) {
+  if (!(await checkRateLimits(env, request, ip, 'chat', RATE_LIMIT_PER_MINUTE))) {
     return jsonError(origin, 'rate_limited', 429);
   }
 

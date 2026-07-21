@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_IG = {
   "a blessing in disguise": ["ngọzi zoro ezo", "ọfụfụ ọrụ ghọrọ ngọzi zoro ezo.", "ngọzi zoro ezo"],
   "a piece of cake": ["ihe dị mfe nnọọ", "ule ahụ dị mfe nnọọ.", "ihe dị mfe nnọọ"],

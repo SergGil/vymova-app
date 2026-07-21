@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_HA = {
   "a blessing in disguise": ["albarka a asirce", "rasa aikin ya zama albarka a asirce.", "albarka a asirce"],
   "a piece of cake": ["abu mai sauƙi", "jarrabawar ta yi sauƙi ƙwarai.", "abu mai sauƙi"],

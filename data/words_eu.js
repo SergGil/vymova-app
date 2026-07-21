@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_EU = {
   "a blessing in disguise": ["ezkutuko bedeinkazioa", "Lan hura galtzea ezkutuko bedeinkazioa izan zen.", "ezkutuko bedeinkasioa"],
   "a piece of cake": ["oso erraza", "Azterketa oso erraza izan zen — denbora erdian amaitu nuen.", "oso errasa"],

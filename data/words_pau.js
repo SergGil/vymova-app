@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_PAU = {
   "a blessing in disguise": ["klengeltengat el di mla", "A dilubech el di mla klengeltengat.", "kle-ngel-te-ngat el di mla"],
   "a piece of cake": ["mengal el tekoi", "A tesing el mla mengal.", "me-ngal el te-koi"],

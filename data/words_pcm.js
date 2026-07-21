@@ -1,5 +1,7 @@
 // Vymova — Nigerian Pidgin translations (subset)
 // Format: "english_word": ["pcm_translation","pcm_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_PCM = {
   "a blessing in disguise": ["blessing wey hide", "Losing dat job na blessing wey hide — e lead am to something better."],
   "a piece of cake": ["correct easy work", "Di exam correct easy — I finish am for half di time."],

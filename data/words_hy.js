@@ -1,5 +1,7 @@
 // Vymova — Armenian translations (subset)
 // Format: "english_word": ["hy_translation","hy_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_HY = {
   "a blessing in disguise": ["թաքնված օրհնություն", "Այդ աշխատանքը կորցնելը իրականում թաքնված օրհնություն էր — այն հանգեցրեց ավելի լավ բանի։"],
   "a piece of cake": ["շատ հեշտ գործ", "Քննությունը շատ հեշտ էր — ես ավարտեցի կես ժամանակում։"],

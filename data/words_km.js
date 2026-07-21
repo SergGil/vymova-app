@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_KM = {
   "a blessing in disguise": ["ពរជ័យលាក់កំបាំង", "ការបាត់បង់ការងារនោះក្លាយជាពរជ័យលាក់កំបាំង។", "puə cei leak kɑmbaŋ"],
   "a piece of cake": ["ងាយស្រួលណាស់", "ការប្រឡងនោះងាយស្រួលណាស់ — ខ្ញុំបានបញ្ចប់ក្នុងពាក់កណ្តាលពេលវេលា។", "ngiə sruəl nah"],

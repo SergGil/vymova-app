@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_SI = {
   "a blessing in disguise": ["සැඟවුණු ආශිර්වාදයක්", "එම රැකියාව අහිමි වීම සැඟවුණු ආශිර්වාදයක් බවට පත් විය.", "sæn̆gavuṇu āshirvādayak"],
   "a piece of cake": ["ඉතාම පහසුයි", "විභාගය ඉතාම පහසුයි — මම කාලයෙන් අඩක් තුළ අවසන් කළෙමි.", "itāma pahasuyi"],

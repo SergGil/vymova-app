@@ -15,6 +15,8 @@
 // regular sound patterns to fill a gap — not official HBO material.
 // No TTS voice fallback (unlike Quenya/Sindarin) since Dothraki's
 // phonology wasn't modeled on one specific real language.
+// @ts-check
+/** @type {Record<string, readonly [string, string, string, boolean?]>} */
 export const W_DTH = {
   "a blessing in disguise": ["asavva vezhvena", "Vosecchi disha asavva vezhvena adakhataan.", "a-SAV-va vezh-VE-na", false],
   "a piece of cake": ["hazi chek", "Rasha hazi chek.", "HA-zi chek", false],

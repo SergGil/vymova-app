@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_SM = {
   "a blessing in disguise": ["se faamanuiaga natia", "o le leiloa o le galuega na avea ma faamanuiaga natia.", "se faamanuiaga natia"],
   "a piece of cake": ["se mea e faigofie tele", "sa faigofie tele le suega.", "se mea e faigofie tele"],

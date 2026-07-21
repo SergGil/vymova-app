@@ -1,5 +1,7 @@
 // Vymova — Romanian translations (subset)
 // Format: "english_word": ["ro_translation","ro_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_RO = {
   "a blessing in disguise": ["o binecuvântare ascunsă", "Pierderea acelui loc de muncă a fost de fapt o binecuvântare ascunsă — a dus la ceva mai bun."],
   "a piece of cake": ["floare la ureche", "Examenul a fost floare la ureche — am terminat în jumătate din timp."],

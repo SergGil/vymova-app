@@ -1,5 +1,7 @@
 // Vymova — Finnish translations (subset)
 // Format: "english_word": ["fi_translation","fi_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_FI = {
   "a blessing in disguise": ["naamioitu siunaus", "Työn menettäminen oli itse asiassa naamioitu siunaus — se johti johonkin parempaan."],
   "a piece of cake": ["helppo nakki", "Koe oli helppo nakki — sain sen valmiiksi puolessa ajassa."],

@@ -1,5 +1,7 @@
 // Vymova — Thai translations (subset)
 // Format: "english_word": ["th_translation","th_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_TH = {
   "a blessing in disguise": ["พรที่แฝงมา", "การเสียงานนั้นกลายเป็นพรที่แฝงมา — มันนำไปสู่สิ่งที่ดีกว่า"],
   "a piece of cake": ["ง่ายเหมือนปอกกล้วยเข้าปาก", "ข้อสอบง่ายมาก ฉันทำเสร็จในครึ่งเดียวของเวลา"],

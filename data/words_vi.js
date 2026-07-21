@@ -1,5 +1,7 @@
 // Vymova — Vietnamese translations (subset)
 // Format: "english_word": ["vietnamese_translation","vietnamese_example_sentence","ipa"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_VI = {
   "a blessing in disguise": ["cái rủi hóa cái may","Mất công việc đó hóa ra lại là cái rủi hóa cái may — nó dẫn đến điều tốt đẹp hơn.","kaj˧˥ zuj˧˩"],
   "a piece of cake": ["chuyện nhỏ như con thỏ","Kỳ thi rất dễ — tôi làm xong chỉ trong nửa thời gian.","tɕwiən˨˨ ɲɔ˧˩"],

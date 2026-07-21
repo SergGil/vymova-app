@@ -1,5 +1,7 @@
 // Vymova — Bengali translations (subset)
 // Format: "english_word": ["bn_translation","bn_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_BN = {
   "a blessing in disguise": ["লুকানো আশীর্বাদ","চাকরি হারানো লুকানো আশীর্বাদ হয়ে দাঁড়াল — এটি আরও ভালো কিছুর দিকে নিয়ে গেল।","lukano ashirbado"],
   "a piece of cake": ["খুবই সহজ কাজ","পরীক্ষাটি খুব সহজ ছিল — আমি অর্ধেক সময়ে শেষ করেছি।","khuboi sohojo kajo"],

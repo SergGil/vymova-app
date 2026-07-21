@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_SQ = {
   "a blessing in disguise": ["bekim i fshehur", "Humbja e asaj pune doli të ishte një bekim i fshehur.", "beˈkim i fʃeˈhur"],
   "a piece of cake": ["punë e lehtë", "Provimi ishte punë e lehtë — e mbarova në gjysmën e kohës.", "ˈpunə e ˈlehtə"],

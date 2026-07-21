@@ -44,16 +44,18 @@ jobs:
         # in most CI runs, but the full suite has intermittently OOM'd here
         # on GitHub's runner (see vite.config.js's onUnhandledError/retry
         # comment — a known, unresolved vitest/vite-node full-suite
-        # flakiness, not this repo's code). --poolOptions.forks.maxForks
-        # caps concurrent worker processes (default is one per CPU core,
-        # ~4 here) so peak memory stays well under the runner's ceiling,
-        # at some cost to wall-clock time; NODE_OPTIONS gives each of those
-        # processes more headroom before hitting V8's default heap limit.
-        # CI-only (this overrides `npm test`, not the local `npm test`
-        # script devs use day to day).
+        # flakiness, not this repo's code). --maxWorkers caps concurrent
+        # worker processes (default is one per CPU core, ~4 here) so peak
+        # memory stays well under the runner's ceiling, at some cost to
+        # wall-clock time; NODE_OPTIONS gives each of those processes more
+        # headroom before hitting V8's default heap limit. CI-only (this
+        # overrides `npm test`, not the local `npm test` script devs use
+        # day to day). Verified locally against vitest's actual CLI flags
+        # (`vitest run --help`) before pushing, after --poolOptions.* (a
+        # guess, not a real flag) failed the previous attempt at this fix.
         env:
           NODE_OPTIONS: --max-old-space-size=4096
-        run: npx vitest run --poolOptions.forks.maxForks=2
+        run: npx vitest run --maxWorkers=2
 
       - name: Build
         env:

@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_SU = {
   "a blessing in disguise": ["berkah nu disumputkeun", "kaleungitan gawe jadi berkah nu disumputkeun.", "berkah nu disumputkeun"],
   "a piece of cake": ["perkara nu gampil pisan", "ujianna gampil pisan.", "perkara nu gampil pisan"],

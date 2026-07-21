@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_BO = {
   "a blessing in disguise": ["སྦས་པའི་བྱིན་རླབས།", "ལས་ཀ་དེ་ཤོར་བ་ནི་སྦས་པའི་བྱིན་རླབས་ཤིག་ཏུ་གྱུར་སོང༌།", "bä pä jinlap"],
   "a piece of cake": ["ཧ་ཅང་སླ་པོ།", "རྒྱུགས་ཤོག་དེ་ཧ་ཅང་སླ་པོ་བྱུང༌། དུས་ཚོད་ཕྱེད་ཀར་ལེགས་གྲུབ་བྱས།", "ha tsang lawo"],

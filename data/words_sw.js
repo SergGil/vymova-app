@@ -1,5 +1,7 @@
 // Vymova — Swahili translations (subset)
 // Format: "english_word": ["sw_translation","sw_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_SW = {
   "a blessing in disguise": ["baraka iliyofichika", "Kupoteza kazi hiyo kulikuwa baraka iliyofichika — kilimpeleka kwenye kitu bora zaidi."],
   "a piece of cake": ["kazi rahisi sana", "Mtihani ulikuwa rahisi sana — nilimaliza kwa nusu ya muda."],

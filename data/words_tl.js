@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_TL = {
   "a blessing in disguise": ["pagpapalang nakatago", "Ang pagkawala ng trabahong iyon ay naging pagpapalang nakatago.", "pag-pa-PA-lang na-ka-TA-go"],
   "a piece of cake": ["madaling-madali", "Madaling-madali lang ang eksam — natapos ko sa kalahati ng oras.", "ma-DA-ling ma-DA-li"],

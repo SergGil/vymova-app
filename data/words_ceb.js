@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_CEB = {
   "a blessing in disguise": ["tinagoan nga panalangin", "Ang pagkawala niini usa ka tinagoan nga panalangin.", "ti-na-go-AN nga pa-na-LANG-in"],
   "a piece of cake": ["sayon kaayo", "Sayon kaayo kadto nga eksamen.", "sa-YON ka-A-yo"],

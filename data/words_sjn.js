@@ -19,6 +19,8 @@
 // Mutation is simplified/citation-form throughout, as in published
 // Sindarin word-lists. card-front-text.tsx renders the flag as a 📜/🔧
 // badge on the flashcard.
+// @ts-check
+/** @type {Record<string, readonly [string, string, string, boolean?]>} */
 export const W_SJN = {
   "a blessing in disguise": ["dolen velui", "I vellui vain dolen velui.", "DO-len VEL-oo-ee", false],
   "a piece of cake": ["lagen dan", "I annad lagen dan.", "LA-gen dan", false],

@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_ML = {
   "a blessing in disguise": ["മറഞ്ഞിരിക്കുന്ന അനുഗ്രഹം", "ജോലി നഷ്ടപ്പെട്ടത് ഒരു മറഞ്ഞിരിക്കുന്ന അനുഗ്രഹമായി മാറി.", "maṟaññirikkunna anugraham"],
   "a piece of cake": ["വളരെ എളുപ്പമുള്ള കാര്യം", "പരീക്ഷ വളരെ എളുപ്പമായിരുന്നു.", "vaḷare eḷuppamuḷḷa kaaryam"],

@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_GA = {
   "a blessing in disguise": ["beannacht i bhfolach", "Ba bheannacht i bhfolach é an post sin a chailleadh.", "ˈbʲanˠaxt ə ˈwolˠəx"],
   "a piece of cake": ["chomh héasca le pancóg", "Bhí an scrúdú chomh héasca le pancóg — chríochnaigh mé i leath an ama.", "xoː heːskə lʲe panˈkoːɡ"],

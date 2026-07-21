@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_FY = {
   "a blessing in disguise": ["in segen yn ferklaaiïng", "it ferliezen fan de baan waard in segen yn ferklaaiïng.", "in segen yn ferklaaiïng"],
   "a piece of cake": ["in tige maklik ding", "it eksamen wie tige maklik.", "in tige maklik ding"],

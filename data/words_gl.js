@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_GL = {
   "a blessing in disguise": ["unha bendición agochada", "Perder ese traballo resultou ser unha bendición agochada.", "uɲa bendiˈθjon aɣoˈtʃaða"],
   "a piece of cake": ["moi doado", "O exame foi moi doado — rematei na metade do tempo.", "moj doˈaðo"],

@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_ZU = {
   "a blessing in disguise": ["isibusiso esifihliwe", "Ukulahlekelwa yileyo msebenzi kwaba isibusiso esifihliwe.", "isiɓusiso esifihliwe"],
   "a piece of cake": ["into elula kakhulu", "Ukuhlolwa kwakuyinto elula kakhulu — ngiqedile ngesikhathi esiphakathi.", "into elula kakhulu"],

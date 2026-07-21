@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_TE = {
   "a blessing in disguise": ["మారువేషంలో వరం", "ఉద్యోగం పోవడం మారువేషంలో వరంగా మారింది.", "maaruveshamlo varam"],
   "a piece of cake": ["చాలా సులభమైన పని", "పరీక్ష చాలా సులభంగా ఉంది — సగం సమయంలో ముగించాను.", "chaala sulabhamaina pani"],

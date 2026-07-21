@@ -1,5 +1,7 @@
 // Vymova — Serbian translations (subset)
 // Format: "english_word": ["sr_translation","sr_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_SR = {
   "a blessing in disguise": ["прикривени благослов", "Губитак тог посла заправо је био прикривени благослов — довео је до нечег бољег."],
   "a piece of cake": ["мачји кашаљ", "Испит је био мачји кашаљ — завршио сам га за пола времена."],

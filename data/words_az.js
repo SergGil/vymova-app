@@ -1,5 +1,7 @@
 // Vymova — Azerbaijani translations (subset)
 // Format: "english_word": ["az_translation","az_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_AZ = {
   "a blessing in disguise": ["gizli xeyir", "O işi itirmək əslində gizli xeyir oldu — bu daha yaxşı bir şeyə gətirib çıxardı."],
   "a piece of cake": ["çox asan iş", "İmtahan çox asan idi — mən yarım vaxtda bitirdim."],

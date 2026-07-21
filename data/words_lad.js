@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_LAD = {
   "a blessing in disguise": ["una berahá eskondida", "la pedrida del lavoro se izo una berahá eskondida.", "una berahá eskondida"],
   "a piece of cake": ["una koza muy fasil", "el egzamen fue muy fasil.", "una koza muy fasil"],

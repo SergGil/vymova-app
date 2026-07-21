@@ -1,5 +1,7 @@
 // Vymova — Indonesian translations (subset)
 // Format: "english_word": ["id_translation","id_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_ID = {
   "a blessing in disguise": ["berkah tersembunyi", "Kehilangan pekerjaan itu ternyata berkah tersembunyi — itu membawanya ke sesuatu yang lebih baik."],
   "a piece of cake": ["semudah membalik telapak tangan", "Ujiannya sangat mudah — saya selesai dalam setengah waktu."],

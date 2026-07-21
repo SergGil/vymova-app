@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_LO = {
   "a blessing in disguise": ["ພອນທີ່ເຊື່ອງໄວ້", "ການເສຍວຽກນັ້ນກາຍເປັນພອນທີ່ເຊື່ອງໄວ້.", "phon thii sueang vai"],
   "a piece of cake": ["ງ່າຍຫຼາຍ", "ການສອບເສັງນັ້ນງ່າຍຫຼາຍ — ຂ້ອຍແລ້ວໃນເຄິ່ງໜຶ່ງຂອງເວລາ.", "ngai lai"],

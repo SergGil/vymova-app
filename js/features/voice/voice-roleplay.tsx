@@ -6,6 +6,7 @@
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { AI_PROXY_URL, AI_TUTOR_ENABLED } from '../../config.ts';
+import { getWorkerClientId } from '../../core/worker-client-id.ts';
 import { getKnowLang, getLearnLang } from '../lang-pair-select.tsx';
 import { _speakWithLang } from './speech.ts';
 import { t } from '../i18n.ts';
@@ -262,7 +263,7 @@ export async function sendRoleplayMessage(
 ): Promise<{ reply: string; feedback: string | null }> {
   const res = await fetch(`${AI_PROXY_URL}/chat`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'X-Client-Id': getWorkerClientId() },
     signal,
     body: JSON.stringify({
       mode: 'roleplay',

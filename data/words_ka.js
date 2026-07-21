@@ -1,5 +1,7 @@
 // Vymova — Georgian translations (subset)
 // Format: "english_word": ["ka_translation","ka_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_KA = {
   "a blessing in disguise": ["შენიღბული კურთხევა", "სამსახურის დაკარგვა ფაქტობრივად შენიღბული კურთხევა აღმოჩნდა — ის უკეთესისკენ მიგვიყვანა."],
   "a piece of cake": ["ძალიან იოლი საქმე", "გამოცდა ძალიან იოლი იყო — ნახევარ დროში დავამთავრე."],

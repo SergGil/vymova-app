@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_HT = {
   "a blessing in disguise": ["yon benediksyon kache", "Pèdi travay sa a te vin yon benediksyon kache.", "yon benediksyon kaʃe"],
   "a piece of cake": ["fasil anpil", "Egzamen an te fasil anpil — mwen te fini nan mwatye tan an.", "fasil ãpil"],

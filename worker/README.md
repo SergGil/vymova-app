@@ -52,6 +52,15 @@ or one that lands on a freshly-spun-up isolate, resets the count). The
 binding gives you the stronger, shared version; this is the fallback so
 requests are never fully unthrottled.
 
+The frontend also sends an `X-Client-Id` header (a random ID generated once
+per browser, `js/core/worker-client-id.ts`) — the Worker checks it as a
+second, independent rate-limit bucket alongside the per-IP one, so one heavy
+user behind a shared/NAT'd IP (an office, a university) gets throttled on
+their own usage instead of exhausting the limit for everyone on that IP.
+It's not an auth/security mechanism — nothing stops a client from omitting
+or regenerating it — the per-IP limit above is still what actually bounds
+abuse.
+
 ## 4. Point the frontend at it
 
 Set `VITE_AI_PROXY_URL` to the Worker URL when building the app, e.g. in a

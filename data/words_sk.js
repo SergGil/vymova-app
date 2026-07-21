@@ -1,5 +1,7 @@
 // Vymova — Slovak translations (subset)
 // Format: "english_word": ["sk_translation","sk_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_SK = {
   "a blessing in disguise": ["skryté požehnanie", "Strata tej práce bola v skutočnosti skryté požehnanie — viedla k niečomu lepšiemu."],
   "a piece of cake": ["hračka", "Skúška bola hračka — dokončil som ju za polovicu času."],

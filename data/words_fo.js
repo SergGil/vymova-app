@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_FO = {
   "a blessing in disguise": ["ein signing í dulnavni", "at missa arbeiðið gjørdist ein signing í dulnavni.", "ein signing í dulnavni"],
   "a piece of cake": ["ein sera lættur lut", "próvið var sera lætt.", "ein sera lættur lut"],

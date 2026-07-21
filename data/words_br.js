@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_BR = {
   "a blessing in disguise": ["ur vennozh kuzhet", "koll al labour a zeuas da vezañ ur vennozh kuzhet.", "ur vennozh kuzhet"],
   "a piece of cake": ["un dra aes-tre", "aes-tre e voe an arnodenn.", "un dra aes-tre"],

@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_NY = {
   "a blessing in disguise": ["dalitso lobisika", "kutaya ntchito kunakhala dalitso lobisika.", "dalitso lobisika"],
   "a piece of cake": ["chinthu chosavuta kwambiri", "mayeso anali osavuta kwambiri.", "chinthu chosavuta kwambiri"],

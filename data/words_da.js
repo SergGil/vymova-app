@@ -1,5 +1,7 @@
 // Vymova — Danish translations (subset)
 // Format: "english_word": ["da_translation","da_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_DA = {
   "a blessing in disguise": ["en velsignelse i forklædning", "At miste det job var faktisk en velsignelse i forklædning — det førte til noget bedre."],
   "a piece of cake": ["en leg", "Prøven var en leg — jeg blev færdig på halve tiden."],

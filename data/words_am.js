@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_AM = {
   "a blessing in disguise": ["የተሸፈነ በረከት", "ያንን ስራ ማጣት የተሸፈነ በረከት ሆኖ ተገኘ።", "yätäshäfänä bäräkät"],
   "a piece of cake": ["በጣም ቀላል ነገር", "ፈተናው በጣም ቀላል ነበር — በግማሽ ሰዓት ጨረስኩት።", "bät'am qälal negär"],

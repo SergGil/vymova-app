@@ -1,5 +1,7 @@
 // Vymova — Persian translations (subset)
 // Format: "english_word": ["fa_translation","fa_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_FA = {
   "a blessing in disguise": ["نعمتی پنهان","از دست دادن آن شغل در واقع نعمتی پنهان بود — او را به چیزی بهتر رساند.","n'mti pnhan"],
   "a piece of cake": ["کار بسیار ساده","امتحان بسیار ساده بود — من در نصف زمان تمامش کردم.","kar bsiar sadeh"],

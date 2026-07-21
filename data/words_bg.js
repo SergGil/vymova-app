@@ -1,5 +1,7 @@
 // Vymova — Bulgarian translations (subset)
 // Format: "english_word": ["bg_translation","bg_example_sentence"]
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_BG = {
   "a blessing in disguise": ["скрита благословия","Загубата на тази работа всъщност беше скрита благословия — доведе до нещо по-добро.","skrita blagosloviya"],
   "a piece of cake": ["лесна работа","Изпитът беше много лесен — приключих за половината време.","lesna rabota"],

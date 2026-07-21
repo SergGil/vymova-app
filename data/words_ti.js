@@ -1,3 +1,5 @@
+// @ts-check
+/** @type {Record<string, readonly [string, string, string?]>} */
 export const W_TI = {
   "a blessing in disguise": ["ተሰዊጣ ዘላ በረኸት", "ስራሕ ምስኣን ተሰዊጣ ዘላ በረኸት ኮነት.", "teseweta zela berekhet"],
   "a piece of cake": ["ኣዝዩ ቀሊል ነገር", "ፈተና ኣዝዩ ቀሊል ነበረ.", "azyu qelil neger"],
