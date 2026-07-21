@@ -1,7 +1,13 @@
 // Vymova — js/features/duel-firebase.ts
 // Thin Firebase REST wrappers used by duel.ts, duel-tournament-logic.ts,
-// duel-async-challenge.ts, duel-spectator-logic.ts. Dependency-free leaf
-// module (mirrors duel-rating.ts) so nothing importing it can create a cycle.
+// duel-async-challenge.ts, duel-spectator-logic.ts. Otherwise dependency-free
+// leaf module (mirrors duel-rating.ts) so nothing importing it can create a
+// cycle — the one exception is app-check.ts, itself a dependency-free leaf
+// that no-ops with zero network/import cost unless App Check is configured
+// (see its own header comment), so it carries the same "safe to import from
+// anywhere" property this file relies on.
+import { getAppCheckHeaders } from '../../core/app-check.ts';
+
 export const DB_URL =
   'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';
 
@@ -13,12 +19,14 @@ export const DB_URL =
 // is malformed/disallowed, so retrying it would just fail the same way.
 const _FB_RETRIES = 3;
 async function _fbFetch(p: string, opts?: RequestInit): Promise<Response> {
+  const appCheckHeaders = await getAppCheckHeaders();
+  const headers = { ...opts?.headers, ...appCheckHeaders };
   let lastErr: unknown;
   for (let attempt = 0; attempt < _FB_RETRIES; attempt++) {
     if (attempt > 0) await new Promise((res) => setTimeout(res, 300 * 2 ** (attempt - 1)));
     let r: Response;
     try {
-      r = await fetch(`${DB_URL}${p}.json`, opts);
+      r = await fetch(`${DB_URL}${p}.json`, { ...opts, headers });
     } catch (e) {
       lastErr = e;
       continue;
@@ -53,10 +61,14 @@ export async function _fbSet(p: string, d: unknown): Promise<void> {
 // (X-Firebase-ETag / if-match). Used for slots two clients might race to
 // fill (e.g. joinRoom()'s p2) — returns false if the path was already
 // non-null, either before this call or because a concurrent claim won the
-// if-match race, so the loser never silently overwrites the winner.
+// if-match race, so the loser never silently overwrites the winner. Doesn't
+// go through _fbFetch (no retry — a 412 here is a meaningful "lost the
+// race", not a transient failure to retry past), so it fetches its own
+// App Check header directly.
 export async function _fbClaim(p: string, d: unknown): Promise<boolean> {
+  const appCheckHeaders = await getAppCheckHeaders();
   const getRes = await fetch(`${DB_URL}${p}.json`, {
-    headers: { 'X-Firebase-ETag': 'true' },
+    headers: { 'X-Firebase-ETag': 'true', ...appCheckHeaders },
   });
   if (!getRes.ok) throw new Error('HTTP ' + getRes.status);
   const existing = await getRes.json();
@@ -64,7 +76,7 @@ export async function _fbClaim(p: string, d: unknown): Promise<boolean> {
   const etag = getRes.headers.get('ETag') ?? '';
   const putRes = await fetch(`${DB_URL}${p}.json`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json', 'if-match': etag },
+    headers: { 'Content-Type': 'application/json', 'if-match': etag, ...appCheckHeaders },
     body: JSON.stringify(d),
   });
   if (putRes.ok) return true;

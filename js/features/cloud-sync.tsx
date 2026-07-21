@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { t } from './i18n.ts';
 import { DYNAMIC_KEY_PREFIXES } from './profile-switcher.tsx';
 import { _lzSave, _lzLoad } from '../core/storage.ts';
+import { getAppCheckHeaders } from '../core/app-check.ts';
 import type { SRSData } from '../../src/types.js';
 
 // Every value under /sync/<key> is a JSON-stringified string (saveToCloud()
@@ -245,13 +246,14 @@ function _fmt(k: string): string {
 // ── Firebase ──────────────────────────────────────────────────
 export async function saveToCloud(): Promise<void> {
   const key = _getKey();
+  const appCheckHeaders = await getAppCheckHeaders();
   // Merge against whatever's already on the cloud before overwriting it —
   // without this, this device's auto-push could silently discard progress
   // a second device already pushed under the same key (the two devices'
   // known-words/SRS/achievements/daily-activity unions, not whichever
   // pushed most recently). No-ops on the first-ever sync or while offline.
   try {
-    const res = await fetch(DB_URL + '/sync/' + key + '.json');
+    const res = await fetch(DB_URL + '/sync/' + key + '.json', { headers: appCheckHeaders });
     if (res.ok) {
       const parsed = SyncPayloadSchema.safeParse(await res.json());
       const remote = parsed.success ? parsed.data : null;
@@ -266,7 +268,7 @@ export async function saveToCloud(): Promise<void> {
   }
   const res = await fetch(DB_URL + '/sync/' + key + '.json', {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...appCheckHeaders },
     body: JSON.stringify(data),
   });
   if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -275,7 +277,7 @@ export async function saveToCloud(): Promise<void> {
 export async function loadFromCloud(raw: string): Promise<void> {
   const key = raw.replace(/[-\s]/g, '').toUpperCase();
   if (key.length < 12) throw new Error(t('settings.cloudKeyTooShort'));
-  const res = await fetch(DB_URL + '/sync/' + key + '.json');
+  const res = await fetch(DB_URL + '/sync/' + key + '.json', { headers: await getAppCheckHeaders() });
   if (!res.ok) throw new Error('HTTP ' + res.status);
   const parsed = SyncPayloadSchema.safeParse(await res.json());
   const data = parsed.success ? parsed.data : null;

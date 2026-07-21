@@ -7,6 +7,13 @@
 
 export {}; // make this a module
 
+// First thing, ahead of everything else below: a dependency-free leaf module
+// (only imports js/config.ts, itself dependency-free) so it can't disturb
+// the chunk graph the way removing/reordering the imports further down has
+// in the past (see the comment on the learning-path/epub imports below).
+import { initErrorReporting } from '../js/core/error-report.ts';
+initErrorReporting();
+
 import { initStaleChunkRecovery } from './stale-chunk-recovery.ts';
 initStaleChunkRecovery();
 

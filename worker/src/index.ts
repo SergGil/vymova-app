@@ -36,41 +36,291 @@ const GEMINI_MODEL = 'gemini-2.5-flash';
 const RATE_LIMIT_PER_MINUTE = 15;
 const MAX_MESSAGES = 50;
 const MAX_PAYLOAD_CHARS = 20_000;
+// /error: no Gemini call behind it (just a console.log the deploy owner reads
+// via `wrangler tail`), so a higher cap than /chat's is fine — the thing this
+// guards against is log-spam volume, not cost.
+const ERROR_RATE_LIMIT_PER_MINUTE = 30;
+const MAX_ERROR_MESSAGE_CHARS = 2_000;
+const MAX_ERROR_STACK_CHARS = 8_000;
+const MAX_ERROR_URL_CHARS = 500;
+const MAX_ERROR_UA_CHARS = 300;
 const VALID_LANGS = new Set([
-  'en', 'ua', 'es', 'fr', 'it', 'pt', 'de', 'he', 'ar', 'pl', 'zh', 'el', 'ja', 'tr', 'nl', 'vi',
-  'hi', 'bn', 'id', 'pcm', 'ko', 'fa', 'sw', 'ms', 'th', 'az', 'ro', 'hu', 'cs', 'kk', 'sv', 'ka', 'hr', 'sr', 'bs', 'bg', 'sk', 'hy', 'da', 'fi', 'no', 'la',
-  'lt', 'lv', 'et', 'sl', 'mk', 'sq', 'is', 'cy', 'ga', 'tl', 'mn', 'uz', 'am', 'eo',
-  'ta', 'pa', 'zu', 'af', 'ky', 'tg', 'tk', 'ug', 'eu', 'ca', 'gl', 'mt', 'lb', 'ht', 'bo', 'my', 'km', 'lo', 'ne', 'si',
-  'ur', 'te', 'ml', 'kn', 'mr', 'gu', 'or', 'as', 'sd', 'ps',
-  'so', 'ha', 'yo', 'ig', 'ti', 'wo', 'mg', 'xh', 'sn', 'ny',
-  'fj', 'sm', 'to', 'mi', 'haw', 'jv', 'su',
-  'gd', 'br', 'kw', 'gv', 'fo', 'oc', 'co', 'sc', 'fy',
-  'yi', 'lad', 'qu', 'gn', 'ay', 'dz', 'dv', 'tet', 'be',
-  'qya', 'sjn',
-  'ku', 'om', 'ln', 'bho', 'ceb', 'rm', 'ty', 'ch', 'mh', 'pau', 'nah', 'nv', 'tlh',
-  'val', 'dth',
+  'en',
+  'ua',
+  'es',
+  'fr',
+  'it',
+  'pt',
+  'de',
+  'he',
+  'ar',
+  'pl',
+  'zh',
+  'el',
+  'ja',
+  'tr',
+  'nl',
+  'vi',
+  'hi',
+  'bn',
+  'id',
+  'pcm',
+  'ko',
+  'fa',
+  'sw',
+  'ms',
+  'th',
+  'az',
+  'ro',
+  'hu',
+  'cs',
+  'kk',
+  'sv',
+  'ka',
+  'hr',
+  'sr',
+  'bs',
+  'bg',
+  'sk',
+  'hy',
+  'da',
+  'fi',
+  'no',
+  'la',
+  'lt',
+  'lv',
+  'et',
+  'sl',
+  'mk',
+  'sq',
+  'is',
+  'cy',
+  'ga',
+  'tl',
+  'mn',
+  'uz',
+  'am',
+  'eo',
+  'ta',
+  'pa',
+  'zu',
+  'af',
+  'ky',
+  'tg',
+  'tk',
+  'ug',
+  'eu',
+  'ca',
+  'gl',
+  'mt',
+  'lb',
+  'ht',
+  'bo',
+  'my',
+  'km',
+  'lo',
+  'ne',
+  'si',
+  'ur',
+  'te',
+  'ml',
+  'kn',
+  'mr',
+  'gu',
+  'or',
+  'as',
+  'sd',
+  'ps',
+  'so',
+  'ha',
+  'yo',
+  'ig',
+  'ti',
+  'wo',
+  'mg',
+  'xh',
+  'sn',
+  'ny',
+  'fj',
+  'sm',
+  'to',
+  'mi',
+  'haw',
+  'jv',
+  'su',
+  'gd',
+  'br',
+  'kw',
+  'gv',
+  'fo',
+  'oc',
+  'co',
+  'sc',
+  'fy',
+  'yi',
+  'lad',
+  'qu',
+  'gn',
+  'ay',
+  'dz',
+  'dv',
+  'tet',
+  'be',
+  'qya',
+  'sjn',
+  'ku',
+  'om',
+  'ln',
+  'bho',
+  'ceb',
+  'rm',
+  'ty',
+  'ch',
+  'mh',
+  'pau',
+  'nah',
+  'nv',
+  'tlh',
+  'val',
+  'dth',
 ]);
 const VALID_LEVELS = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 const LANG_NAMES: Record<string, string> = {
-  en: 'English', ua: 'Ukrainian', es: 'Spanish', fr: 'French', it: 'Italian', pt: 'Portuguese',
-  de: 'German', he: 'Hebrew', ar: 'Arabic', pl: 'Polish', zh: 'Chinese', el: 'Greek', ja: 'Japanese',
-  tr: 'Turkish', nl: 'Dutch', vi: 'Vietnamese', hi: 'Hindi', bn: 'Bengali', id: 'Indonesian',
-  pcm: 'Nigerian Pidgin', ko: 'Korean', fa: 'Persian', sw: 'Swahili', ms: 'Malay', th: 'Thai',
-  az: 'Azerbaijani', ro: 'Romanian', hu: 'Hungarian', cs: 'Czech', kk: 'Kazakh', sv: 'Swedish',
-  ka: 'Georgian', hr: 'Croatian', sr: 'Serbian', bs: 'Bosnian', bg: 'Bulgarian', sk: 'Slovak',
-  hy: 'Armenian', da: 'Danish', fi: 'Finnish', no: 'Norwegian', la: 'Latin',
-  lt: 'Lithuanian', lv: 'Latvian', et: 'Estonian', sl: 'Slovenian', mk: 'Macedonian',
-  sq: 'Albanian', is: 'Icelandic', cy: 'Welsh', ga: 'Irish', tl: 'Filipino',
-  mn: 'Mongolian', uz: 'Uzbek', am: 'Amharic', eo: 'Esperanto',
-  ta: 'Tamil', pa: 'Punjabi', zu: 'Zulu', af: 'Afrikaans', ky: 'Kyrgyz', tg: 'Tajik', tk: 'Turkmen', ug: 'Uyghur', eu: 'Basque', ca: 'Catalan', gl: 'Galician', mt: 'Maltese', lb: 'Luxembourgish', ht: 'Haitian Creole', bo: 'Tibetan', my: 'Burmese', km: 'Khmer', lo: 'Lao', ne: 'Nepali', si: 'Sinhala',
-  ur: 'Urdu', te: 'Telugu', ml: 'Malayalam', kn: 'Kannada', mr: 'Marathi', gu: 'Gujarati', or: 'Odia', as: 'Assamese', sd: 'Sindhi', ps: 'Pashto',
-  so: 'Somali', ha: 'Hausa', yo: 'Yoruba', ig: 'Igbo', ti: 'Tigrinya', wo: 'Wolof', mg: 'Malagasy', xh: 'Xhosa', sn: 'Shona', ny: 'Chewa',
-  fj: 'Fijian', sm: 'Samoan', to: 'Tongan', mi: 'Maori', haw: 'Hawaiian', jv: 'Javanese', su: 'Sundanese',
-  gd: 'Scottish Gaelic', br: 'Breton', kw: 'Cornish', gv: 'Manx', fo: 'Faroese', oc: 'Occitan', co: 'Corsican', sc: 'Sardinian', fy: 'Frisian',
-  yi: 'Yiddish', lad: 'Ladino', qu: 'Quechua', gn: 'Guarani', ay: 'Aymara', dz: 'Dzongkha', dv: 'Maldivian', tet: 'Tetum', be: 'Belarusian',
-  qya: 'Quenya (Tolkien\'s constructed Elvish language)', sjn: 'Sindarin (Tolkien\'s constructed Elvish language)',
-  ku: 'Kurdish (Kurmanji)', om: 'Oromo', ln: 'Lingala', bho: 'Bhojpuri', ceb: 'Cebuano', rm: 'Romansh',
-  ty: 'Tahitian', ch: 'Chamorro', mh: 'Marshallese', pau: 'Palauan', nah: 'Nahuatl', nv: 'Navajo',
+  en: 'English',
+  ua: 'Ukrainian',
+  es: 'Spanish',
+  fr: 'French',
+  it: 'Italian',
+  pt: 'Portuguese',
+  de: 'German',
+  he: 'Hebrew',
+  ar: 'Arabic',
+  pl: 'Polish',
+  zh: 'Chinese',
+  el: 'Greek',
+  ja: 'Japanese',
+  tr: 'Turkish',
+  nl: 'Dutch',
+  vi: 'Vietnamese',
+  hi: 'Hindi',
+  bn: 'Bengali',
+  id: 'Indonesian',
+  pcm: 'Nigerian Pidgin',
+  ko: 'Korean',
+  fa: 'Persian',
+  sw: 'Swahili',
+  ms: 'Malay',
+  th: 'Thai',
+  az: 'Azerbaijani',
+  ro: 'Romanian',
+  hu: 'Hungarian',
+  cs: 'Czech',
+  kk: 'Kazakh',
+  sv: 'Swedish',
+  ka: 'Georgian',
+  hr: 'Croatian',
+  sr: 'Serbian',
+  bs: 'Bosnian',
+  bg: 'Bulgarian',
+  sk: 'Slovak',
+  hy: 'Armenian',
+  da: 'Danish',
+  fi: 'Finnish',
+  no: 'Norwegian',
+  la: 'Latin',
+  lt: 'Lithuanian',
+  lv: 'Latvian',
+  et: 'Estonian',
+  sl: 'Slovenian',
+  mk: 'Macedonian',
+  sq: 'Albanian',
+  is: 'Icelandic',
+  cy: 'Welsh',
+  ga: 'Irish',
+  tl: 'Filipino',
+  mn: 'Mongolian',
+  uz: 'Uzbek',
+  am: 'Amharic',
+  eo: 'Esperanto',
+  ta: 'Tamil',
+  pa: 'Punjabi',
+  zu: 'Zulu',
+  af: 'Afrikaans',
+  ky: 'Kyrgyz',
+  tg: 'Tajik',
+  tk: 'Turkmen',
+  ug: 'Uyghur',
+  eu: 'Basque',
+  ca: 'Catalan',
+  gl: 'Galician',
+  mt: 'Maltese',
+  lb: 'Luxembourgish',
+  ht: 'Haitian Creole',
+  bo: 'Tibetan',
+  my: 'Burmese',
+  km: 'Khmer',
+  lo: 'Lao',
+  ne: 'Nepali',
+  si: 'Sinhala',
+  ur: 'Urdu',
+  te: 'Telugu',
+  ml: 'Malayalam',
+  kn: 'Kannada',
+  mr: 'Marathi',
+  gu: 'Gujarati',
+  or: 'Odia',
+  as: 'Assamese',
+  sd: 'Sindhi',
+  ps: 'Pashto',
+  so: 'Somali',
+  ha: 'Hausa',
+  yo: 'Yoruba',
+  ig: 'Igbo',
+  ti: 'Tigrinya',
+  wo: 'Wolof',
+  mg: 'Malagasy',
+  xh: 'Xhosa',
+  sn: 'Shona',
+  ny: 'Chewa',
+  fj: 'Fijian',
+  sm: 'Samoan',
+  to: 'Tongan',
+  mi: 'Maori',
+  haw: 'Hawaiian',
+  jv: 'Javanese',
+  su: 'Sundanese',
+  gd: 'Scottish Gaelic',
+  br: 'Breton',
+  kw: 'Cornish',
+  gv: 'Manx',
+  fo: 'Faroese',
+  oc: 'Occitan',
+  co: 'Corsican',
+  sc: 'Sardinian',
+  fy: 'Frisian',
+  yi: 'Yiddish',
+  lad: 'Ladino',
+  qu: 'Quechua',
+  gn: 'Guarani',
+  ay: 'Aymara',
+  dz: 'Dzongkha',
+  dv: 'Maldivian',
+  tet: 'Tetum',
+  be: 'Belarusian',
+  qya: "Quenya (Tolkien's constructed Elvish language)",
+  sjn: "Sindarin (Tolkien's constructed Elvish language)",
+  ku: 'Kurdish (Kurmanji)',
+  om: 'Oromo',
+  ln: 'Lingala',
+  bho: 'Bhojpuri',
+  ceb: 'Cebuano',
+  rm: 'Romansh',
+  ty: 'Tahitian',
+  ch: 'Chamorro',
+  mh: 'Marshallese',
+  pau: 'Palauan',
+  nah: 'Nahuatl',
+  nv: 'Navajo',
   tlh: 'Klingon (constructed language from Star Trek)',
   val: 'High Valyrian (constructed language from Game of Thrones)',
   dth: 'Dothraki (constructed language from Game of Thrones)',
@@ -221,8 +471,7 @@ const VALID_MODES = new Set(['tutor', 'roleplay', 'story', 'translate']);
 const MAX_SCENARIO_CHARS = 100;
 
 type ValidationResult =
-  | { ok: true; body: ChatRequestBody }
-  | { ok: false; error: string; status: number };
+  { ok: true; body: ChatRequestBody } | { ok: false; error: string; status: number };
 
 // Single point of trust-boundary validation for the parsed JSON request —
 // consolidates what used to be five separate scattered `if` checks, and
@@ -349,24 +598,32 @@ function buildSystemPrompt(body: ChatRequestBody): string {
 const _memoryRateLimit = new Map<string, { count: number; resetAt: number }>();
 let _warnedMissingBinding = false;
 
-function checkMemoryRateLimit(ip: string): boolean {
+// `key` distinguishes buckets — /chat and /error track separate counts per
+// IP (via distinct key prefixes at the call site) so a burst of client error
+// reports can't eat into a user's ability to use the AI tutor in the same
+// minute, or vice versa.
+function checkMemoryRateLimit(key: string, limitPerMinute: number): boolean {
   const now = Date.now();
   if (_memoryRateLimit.size > 2000) {
     for (const [k, v] of _memoryRateLimit) {
       if (now >= v.resetAt) _memoryRateLimit.delete(k);
     }
   }
-  const bucket = _memoryRateLimit.get(ip);
+  const bucket = _memoryRateLimit.get(key);
   if (!bucket || now >= bucket.resetAt) {
-    _memoryRateLimit.set(ip, { count: 1, resetAt: now + 60_000 });
+    _memoryRateLimit.set(key, { count: 1, resetAt: now + 60_000 });
     return true;
   }
-  if (bucket.count >= RATE_LIMIT_PER_MINUTE) return false;
+  if (bucket.count >= limitPerMinute) return false;
   bucket.count++;
   return true;
 }
 
-async function checkRateLimit(env: Env, ip: string): Promise<boolean> {
+async function checkRateLimit(
+  env: Env,
+  key: string,
+  limitPerMinute: number = RATE_LIMIT_PER_MINUTE,
+): Promise<boolean> {
   if (!env.RATE_LIMITER) {
     if (!_warnedMissingBinding) {
       _warnedMissingBinding = true;
@@ -376,14 +633,157 @@ async function checkRateLimit(env: Env, ip: string): Promise<boolean> {
           'set up the durable, cross-isolate version.',
       );
     }
-    return checkMemoryRateLimit(ip);
+    return checkMemoryRateLimit(key, limitPerMinute);
   }
   // Cloudflare's Rate Limiting binding is atomic by construction (unlike a
   // hand-rolled KV get-then-put counter, which two concurrent requests can
   // both read *before* either writes, letting a burst blow past the limit
-  // entirely) — no read-compare-write dance needed here.
-  const { success } = await env.RATE_LIMITER.limit({ key: ip });
+  // entirely) — no read-compare-write dance needed here. The binding's own
+  // configured limit (wrangler.toml) applies regardless of limitPerMinute —
+  // that parameter only affects the in-memory fallback above.
+  const { success } = await env.RATE_LIMITER.limit({ key });
   return success;
+}
+
+// ── Client error reporting ──────────────────────────────────────
+// Read-side companion to /chat: forwards uncaught client-side errors
+// (window.onerror / unhandledrejection, wired in js/core/error-report.ts) so
+// they're visible in `wrangler tail`/Cloudflare's Workers Logs dashboard
+// instead of only ever reaching the team via a user's bug report. No
+// storage, no third-party service — this Worker already exists for /chat,
+// console.log/console.error here is the entire "backend".
+interface ErrorReportBody {
+  message: string;
+  stack?: string;
+  url?: string;
+  userAgent?: string;
+}
+
+function validateErrorBody(raw: unknown): ErrorReportBody | null {
+  if (typeof raw !== 'object' || raw === null) return null;
+  const b = raw as Record<string, unknown>;
+  if (typeof b.message !== 'string' || !b.message.trim()) return null;
+  if (b.stack !== undefined && typeof b.stack !== 'string') return null;
+  if (b.url !== undefined && typeof b.url !== 'string') return null;
+  if (b.userAgent !== undefined && typeof b.userAgent !== 'string') return null;
+  return {
+    message: b.message.slice(0, MAX_ERROR_MESSAGE_CHARS),
+    stack: (b.stack as string | undefined)?.slice(0, MAX_ERROR_STACK_CHARS),
+    url: (b.url as string | undefined)?.slice(0, MAX_ERROR_URL_CHARS),
+    userAgent: (b.userAgent as string | undefined)?.slice(0, MAX_ERROR_UA_CHARS),
+  };
+}
+
+async function handleError(
+  request: Request,
+  env: Env,
+  origin: string,
+  ip: string,
+): Promise<Response> {
+  if (!(await checkRateLimit(env, `err:${ip}`, ERROR_RATE_LIMIT_PER_MINUTE))) {
+    return jsonError(origin, 'rate_limited', 429);
+  }
+  let rawBody: unknown;
+  try {
+    rawBody = await request.json();
+  } catch {
+    return jsonError(origin, 'invalid_json', 400);
+  }
+  const report = validateErrorBody(rawBody);
+  if (!report) {
+    return jsonError(origin, 'invalid_report', 400);
+  }
+  // Deliberately just a log line, not a store/queue/email — see the comment
+  // above this section for why. Structured so `wrangler tail --format=json`
+  // (or `| jq`) can filter/aggregate by message.
+  console.error('[vymova-client-error]', JSON.stringify(report));
+  return new Response(null, { status: 204, headers: corsHeaders(origin) });
+}
+
+async function handleChat(
+  request: Request,
+  env: Env,
+  origin: string,
+  ip: string,
+): Promise<Response> {
+  if (!(await checkRateLimit(env, `chat:${ip}`))) {
+    return jsonError(origin, 'rate_limited', 429);
+  }
+
+  let rawBody: unknown;
+  try {
+    rawBody = await request.json();
+  } catch {
+    return jsonError(origin, 'invalid_json', 400);
+  }
+  const validated = validateBody(rawBody);
+  if (!validated.ok) {
+    return jsonError(origin, validated.error, validated.status);
+  }
+  const body = validated.body;
+
+  // Cap messages to prevent runaway Gemini costs.
+  if ((body.messages?.length ?? 0) > MAX_MESSAGES) {
+    body.messages = body.messages!.slice(-MAX_MESSAGES);
+  }
+  const totalChars =
+    body.mode === 'translate'
+      ? (body.text?.length ?? 0)
+      : (body.messages ?? []).reduce((s, m) => s + (m.text?.length ?? 0), 0);
+  if (totalChars > MAX_PAYLOAD_CHARS) {
+    return jsonError(origin, 'payload_too_large', 413);
+  }
+
+  const systemPrompt = buildSystemPrompt(body);
+  // Gemini's generateContent needs at least one content turn even when the
+  // whole request is really driven by the system prompt (story mode).
+  const contents =
+    body.mode === 'story'
+      ? [{ role: 'user', parts: [{ text: 'Generate the story now.' }] }]
+      : body.mode === 'translate'
+        ? [{ role: 'user', parts: [{ text: body.text ?? '' }] }]
+        : (body.messages ?? []).map((m) => ({
+            role: m.role === 'assistant' ? 'model' : 'user',
+            parts: [{ text: m.text }],
+          }));
+
+  const geminiRes = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${env.GEMINI_API_KEY}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents,
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+      }),
+    },
+  );
+
+  if (!geminiRes.ok) {
+    return new Response(JSON.stringify({ error: 'upstream_error', status: geminiRes.status }), {
+      status: 502,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    });
+  }
+
+  const data = (await geminiRes.json()) as {
+    candidates?: { content?: { parts?: { text?: string }[] } }[];
+  };
+  const raw = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('') ?? '';
+
+  let text = raw;
+  let title: string | undefined;
+  if (body.mode === 'story') {
+    const m = raw.match(/^TITLE:\s*(.+?)\s*\n+([\s\S]*)$/);
+    if (m) {
+      title = m[1].trim();
+      text = m[2].trim();
+    }
+  }
+
+  return new Response(JSON.stringify({ text, ...(title ? { title } : {}) }), {
+    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+  });
 }
 
 export default {
@@ -392,7 +792,7 @@ export default {
     if (request.method === 'OPTIONS') {
       return new Response(null, { headers: corsHeaders(origin) });
     }
-    if (request.method !== 'POST' || new URL(request.url).pathname !== '/chat') {
+    if (request.method !== 'POST') {
       return new Response('Not found', { status: 404, headers: corsHeaders(origin) });
     }
 
@@ -410,83 +810,9 @@ export default {
     }
 
     const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
-    if (!(await checkRateLimit(env, ip))) {
-      return jsonError(origin, 'rate_limited', 429);
-    }
-
-    let rawBody: unknown;
-    try {
-      rawBody = await request.json();
-    } catch {
-      return jsonError(origin, 'invalid_json', 400);
-    }
-    const validated = validateBody(rawBody);
-    if (!validated.ok) {
-      return jsonError(origin, validated.error, validated.status);
-    }
-    const body = validated.body;
-
-    // Cap messages to prevent runaway Gemini costs.
-    if ((body.messages?.length ?? 0) > MAX_MESSAGES) {
-      body.messages = body.messages!.slice(-MAX_MESSAGES);
-    }
-    const totalChars =
-      body.mode === 'translate'
-        ? (body.text?.length ?? 0)
-        : (body.messages ?? []).reduce((s, m) => s + (m.text?.length ?? 0), 0);
-    if (totalChars > MAX_PAYLOAD_CHARS) {
-      return jsonError(origin, 'payload_too_large', 413);
-    }
-
-    const systemPrompt = buildSystemPrompt(body);
-    // Gemini's generateContent needs at least one content turn even when the
-    // whole request is really driven by the system prompt (story mode).
-    const contents =
-      body.mode === 'story'
-        ? [{ role: 'user', parts: [{ text: 'Generate the story now.' }] }]
-        : body.mode === 'translate'
-          ? [{ role: 'user', parts: [{ text: body.text ?? '' }] }]
-          : (body.messages ?? []).map((m) => ({
-              role: m.role === 'assistant' ? 'model' : 'user',
-              parts: [{ text: m.text }],
-            }));
-
-    const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${env.GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents,
-          systemInstruction: { parts: [{ text: systemPrompt }] },
-        }),
-      },
-    );
-
-    if (!geminiRes.ok) {
-      return new Response(JSON.stringify({ error: 'upstream_error', status: geminiRes.status }), {
-        status: 502,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-      });
-    }
-
-    const data = (await geminiRes.json()) as {
-      candidates?: { content?: { parts?: { text?: string }[] } }[];
-    };
-    const raw = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('') ?? '';
-
-    let text = raw;
-    let title: string | undefined;
-    if (body.mode === 'story') {
-      const m = raw.match(/^TITLE:\s*(.+?)\s*\n+([\s\S]*)$/);
-      if (m) {
-        title = m[1].trim();
-        text = m[2].trim();
-      }
-    }
-
-    return new Response(JSON.stringify({ text, ...(title ? { title } : {}) }), {
-      headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-    });
+    const pathname = new URL(request.url).pathname;
+    if (pathname === '/chat') return handleChat(request, env, origin, ip);
+    if (pathname === '/error') return handleError(request, env, origin, ip);
+    return new Response('Not found', { status: 404, headers: corsHeaders(origin) });
   },
 };

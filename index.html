@@ -2,6 +2,31 @@
 <html lang="uk">
   <head>
     <meta charset="UTF-8" />
+    <!--
+      GitHub Pages serves static files with no custom-header support, so this
+      <meta> tag is the only place a CSP can live here — `frame-ancestors`/
+      `sandbox`/`report-uri` are silently ignored when delivered this way
+      (spec requirement), hence their absence below; this is defense-in-depth
+      against a future dangerouslySetInnerHTML/escaping regression, not a
+      clickjacking control.
+      style-src needs 'unsafe-inline': React's style={{...}} props render as
+      inline style="" attributes throughout the app, and style-src-attr falls
+      back to style-src with no nonce/hash mechanism practical for
+      per-element inline styles — tightening this would require moving every
+      inline style to a class, out of scope here.
+      connect-src's https://*.workers.dev covers the AI-tutor proxy
+      (js/config.ts's AI_PROXY_URL, set at build time from the
+      VITE_AI_PROXY_URL repo variable) — narrow this to the exact deployed
+      Worker domain if/when it's pinned to a custom domain instead.
+      The google.com/gstatic.com/googleapis.com entries are for Firebase App
+      Check's reCAPTCHA v3 provider (js/core/app-check.ts) — inert (no
+      network calls at all) until VITE_FIREBASE_APPCHECK_SITE_KEY is set,
+      included now so turning that on later doesn't also require a CSP edit.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://www.youtube.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://pixabay.com https://*.pixabay.com https://*.wikimedia.org https://*.wikipedia.org https://i.ytimg.com; media-src 'self' blob:; connect-src 'self' https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app https://pixabay.com https://en.wikipedia.org https://*.workers.dev https://content-firebaseappcheck.googleapis.com https://firebaseappcheck.googleapis.com; frame-src https://www.youtube.com https://www.google.com/recaptcha/; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -51,10 +76,10 @@
       (Google Fonts CSS applied) without holding up the first paint on it.
     -->
     <link
+      id="font-preload"
       rel="preload"
       as="style"
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Cinzel+Decorative:wght@400;700;900&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'"
     />
     <noscript>
       <link
@@ -62,61 +87,11 @@
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Cinzel+Decorative:wght@400;700;900&display=swap"
       />
     </noscript>
-    <script>
-      if ('serviceWorker' in navigator)
-        window.addEventListener('load', function () {
-          navigator.serviceWorker
-            .register('./sw.js')
-            .then(function (reg) {
-              // Signals js/core/sw-update.tsx that a genuine UPDATE (not the
-              // very first install — that has no prior controller) finished
-              // installing and is waiting to take over. Captured on a global
-              // + a custom event, same "fire early, pick up late" pattern as
-              // __pwaDeferredPrompt below, since the React tree may not have
-              // mounted its listener yet when this fires.
-              function notifyIfWaiting() {
-                if (reg.waiting && navigator.serviceWorker.controller) {
-                  window.__swUpdateAvailable = true;
-                  window.dispatchEvent(new Event('ew-sw-update-available'));
-                }
-              }
-              notifyIfWaiting();
-              reg.addEventListener('updatefound', function () {
-                var newWorker = reg.installing;
-                if (!newWorker) return;
-                newWorker.addEventListener('statechange', function () {
-                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                    window.__swUpdateAvailable = true;
-                    window.dispatchEvent(new Event('ew-sw-update-available'));
-                  }
-                });
-              });
-            })
-            .catch(function () {});
-        });
-    </script>
-    <!-- Capture beforeinstallprompt as early as possible — Chrome can fire it
-     before the app's JS bundle finishes loading, and if nobody calls
-     preventDefault() in time, Chrome shows its own default install UI
-     instead and the event is lost to the app. -->
-    <script>
-      (function () {
-        window.addEventListener('beforeinstallprompt', function (e) {
-          e.preventDefault();
-          window.__pwaDeferredPrompt = e;
-        });
-      })();
-    </script>
-    <!-- Restore path after GitHub Pages 404.html redirect -->
-    <script>
-      (function () {
-        var r = sessionStorage.getItem('spa-redirect');
-        if (r) {
-          sessionStorage.removeItem('spa-redirect');
-          window.history.replaceState(null, null, r.replace(window.location.origin, ''));
-        }
-      })();
-    </script>
+    <!-- SW registration, beforeinstallprompt capture, GH-Pages redirect
+         restore, and the font-preload swap above — see public/boot.js.
+         Externalized (not inlined) so the CSP script-src below can stay
+         'self'-only, no inline-script hash to keep in sync by hand. -->
+    <script src="./boot.js"></script>
   </head>
   <body class="flex">
     <!-- ══ HAMBURGER (mobile) ══ -->
@@ -416,7 +391,7 @@
           </div>
 
           <div class="settings-footer mt-1 mb-2 text-center text-[.72rem] text-[var(--text3)]">
-            © 2026 Vymova · v1.378.6 ·
+            © 2026 Vymova · v1.379.0 ·
             <a
               href="./privacy.html"
               target="_blank"
