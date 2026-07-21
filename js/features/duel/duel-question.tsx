@@ -89,6 +89,7 @@ export function DuelQuestion(): ReactElement {
         {d.canForfeit && (
           <div style={{ textAlign: 'center' }}>
             <button
+              id="duel-forfeit-btn"
               onClick={() => void _claimForfeitWin()}
               style={{
                 background: 'var(--danger)',

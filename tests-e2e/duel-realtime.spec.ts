@@ -1,5 +1,5 @@
-import { test, expect, type Page } from '@playwright/test';
-import { openEmuApp } from './helpers.ts';
+import { test, expect } from '@playwright/test';
+import { openEmuApp, answerAllQuestions } from './helpers.ts';
 
 // Every other duel-*.spec.ts here drives a single tab (duel-room.spec.ts
 // even hits the real prod Firebase project to do it — fine for "does the
@@ -13,18 +13,6 @@ import { openEmuApp } from './helpers.ts';
 // what only a real two-client round-trip can catch is the sync itself:
 // room-code join, both sides' countdown/game start, and both sides actually
 // reaching the result screen instead of one getting stuck on "waiting".
-const ROOM_SIZE = 10;
-
-async function answerAllQuestions(page: Page): Promise<void> {
-  for (let i = 0; i < ROOM_SIZE; i++) {
-    const option = page.locator('.quiz-option').first();
-    await option.waitFor({ state: 'visible', timeout: 15_000 });
-    await option.click();
-    // Advance timer is 600ms (correct) or 1200ms (wrong) before the next
-    // question renders — pad past the slower case.
-    await page.waitForTimeout(1400);
-  }
-}
 
 test.describe('Duel realtime match (RTDB emulator)', () => {
   test('two tabs create/join a room and both reach the result screen', async ({ browser }) => {
