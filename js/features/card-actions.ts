@@ -4,7 +4,7 @@ import { useEffect, type ReactElement } from 'react';
 import { sm2Update, buildSRSDeck, buildUnlearnedDeck, _shuf, updateSrsUI } from '../core/srs.ts';
 import { saveKnown, saveSRS } from '../core/storage.ts';
 import { getGameData, saveGameData, resetAllLangProgress, recordMistake } from './game.ts';
-import { getSrsDataSnapshot, deleteSrsEntry, clearSrsData } from '../../src/srs-store.ts';
+import { getSrsDataSnapshot, clearSrsData } from '../../src/srs-store.ts';
 import { getBaseWordsSnapshot } from '../../src/deck-filter-store.ts';
 import { today } from '../core/today.ts';
 import { addCombo, breakCombo, flashCard } from './combo.ts';
@@ -178,35 +178,56 @@ export function CardActionsInit(): ReactElement | null {
     };
     prevBtn.addEventListener('click', onPrevClick);
 
+    // Shared by onKnowClick/onHardClick/onDontknowClick/onEasyClick: apply an
+    // SM-2 grade, then only rebuild the deck when the active filter's
+    // membership can actually change from that grade — 'srs' reorders around
+    // the due date every sm2Update() call touches, everything else (incl.
+    // 'unlearned', whose membership only moves on a markKnown()) just
+    // advances to the next card in place.
+    function _afterGrade(rebuildUnlearned: boolean): void {
+      saveSRS(getSrsDataSnapshot());
+      _safe(() => updateSrsUI(getBaseWordsSnapshot() as unknown as WordEntry[]));
+      const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
+      if (rangeVal === 'srs') {
+        setDeck(buildSRSDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));
+        setIdx(0);
+        render();
+        return;
+      }
+      if (rangeVal === 'unlearned' && rebuildUnlearned) {
+        const newDeck = buildUnlearnedDeck(getBaseWordsSnapshot() as unknown as WordEntry[]);
+        setDeck(newDeck);
+        const dl = getDeckSnapshot().length;
+        if (!dl) {
+          render();
+          return;
+        }
+        setIdx(getIdxSnapshot() % dl);
+        animCard('fade');
+        render();
+        return;
+      }
+      const deckLen = getDeckSnapshot().length;
+      if (!deckLen) {
+        render();
+        return;
+      }
+      animCard('next');
+      setIdx((getIdxSnapshot() + 1) % deckLen);
+      render();
+    }
+
     const knowBtn = document.getElementById('btn-know')!;
     const onKnowClick = (e: MouseEvent) => {
       e.stopPropagation();
       const cw = getCwSnapshot();
       if (cw) {
-        const _lang = _activeKnownLang();
-        const isNewlyKnown = !getKnownSnapshot(_lang).has(cw[0]);
-        markKnown(_lang, cw[0]);
-        const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
-        if (rangeVal === 'srs') {
-          // Quality 5 ("perfect recall") — the binary Know/Don't-know UI has no
-          // hesitation signal, and quality 4 nets a zero EF delta under SM-2,
-          // so EF could drop on a miss but never recover on repeated correct
-          // answers. Know should actually grow the interval over time.
-          sm2Update(cw[0], 5);
-        } else {
-          // Marking "know" outside the SRS deck means the user already masters this
-          // word — drop any prior SRS progress (ef/reps/lapses) so it doesn't
-          // re-enter the SRS queue with stale data.
-          deleteSrsEntry(cw[0]);
-        }
-        if (isTargetLang(_lang)) {
-          const cfg = langConfig(_lang);
-          cfg.saveKnown(cfg.known());
-        } else {
-          saveKnown(getKnownSnapshot('en'));
-        }
-        saveSRS(getSrsDataSnapshot());
-        _safe(() => updateSrsUI(getBaseWordsSnapshot() as unknown as WordEntry[]));
+        // Quality 4 — recalled correctly, no special difficulty and no
+        // "trivially easy" either (that's #btn-easy's job, quality 5). Doesn't
+        // touch the known-words set at all: mastery is now #btn-easy's signal
+        // only, so a plain "Знаю" leaves the word in its filter's rotation and
+        // simply lets its SRS interval grow.
+        sm2Update(cw[0], 4);
         _safe(() => playSound('know'));
         _safe(() => {
           addCombo();
@@ -225,29 +246,8 @@ export function CardActionsInit(): ReactElement | null {
             _safe(() => playSound('goal'));
           }
         });
-        if (isNewlyKnown) {
-          onWordLearned();
-          _safe(() => checkMilestones());
-        }
-        if (rangeVal === 'srs') {
-          setDeck(buildSRSDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));
-          setIdx(0);
-          render();
-          return;
-        }
-        if (rangeVal === 'unlearned') {
-          const newDeck = buildUnlearnedDeck(getBaseWordsSnapshot() as unknown as WordEntry[]);
-          setDeck(newDeck);
-          const dl = getDeckSnapshot().length;
-          if (!dl) {
-            render();
-            return;
-          }
-          setIdx(getIdxSnapshot() % dl);
-          animCard('fade');
-          render();
-          return;
-        }
+        _afterGrade(false);
+        return;
       }
       const deckLen = getDeckSnapshot().length;
       if (!deckLen) {
@@ -260,27 +260,25 @@ export function CardActionsInit(): ReactElement | null {
     };
     knowBtn.addEventListener('click', onKnowClick);
 
-    // ── Hard (SRS range only — see card-known-visuals.tsx's visibility toggle) ──
-    const hardBtn = document.getElementById('btn-hard')!;
-    const onHardClick = (e: MouseEvent) => {
+    // ── Easy (mastery signal — the only button that still marks "known") ──
+    const easyBtn = document.getElementById('btn-easy')!;
+    const onEasyClick = (e: MouseEvent) => {
       e.stopPropagation();
       const cw = getCwSnapshot();
       if (cw) {
-        // Deliberately NOT markKnown(): "Hard" means "recalled it, but with
-        // real difficulty" — a review-continuation signal, not "I know
-        // this now, stop showing it to me" (that's onKnowClick's job).
-        // Quality 3 — SM-2's lowest passing grade: still grows the
-        // interval, just by less than quality 5's "Знаю". Always applied
-        // unconditionally, unlike onKnowClick (which only calls sm2Update
-        // in the SRS range and otherwise deletes the entry as "mastered")
-        // — #btn-hard is only ever visible in the SRS range to begin with,
-        // so there's no "outside SRS" case to special-case here. The word
-        // stays out of the known set, so it keeps reappearing via
-        // buildSRSDeck() below on its own due date, same as any other SRS
-        // card — sm2Update() already set that due date.
-        sm2Update(cw[0], 3);
-        saveSRS(getSrsDataSnapshot());
-        _safe(() => updateSrsUI(getBaseWordsSnapshot() as unknown as WordEntry[]));
+        const _lang = _activeKnownLang();
+        const isNewlyKnown = !getKnownSnapshot(_lang).has(cw[0]);
+        markKnown(_lang, cw[0]);
+        // Quality 5 ("perfect, trivial recall") — the one grade that also
+        // grows EF (see srs.ts's sm2Update comment), matching this button's
+        // "so easy it's basically mastered" meaning.
+        sm2Update(cw[0], 5);
+        if (isTargetLang(_lang)) {
+          const cfg = langConfig(_lang);
+          cfg.saveKnown(cfg.known());
+        } else {
+          saveKnown(getKnownSnapshot('en'));
+        }
         _safe(() => playSound('know'));
         _safe(() => {
           addCombo();
@@ -296,9 +294,52 @@ export function CardActionsInit(): ReactElement | null {
             _safe(() => playSound('goal'));
           }
         });
-        setDeck(buildSRSDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));
-        setIdx(0);
+        if (isNewlyKnown) {
+          onWordLearned();
+          _safe(() => checkMilestones());
+        }
+        _afterGrade(true);
+        return;
+      }
+      const deckLen = getDeckSnapshot().length;
+      if (!deckLen) {
         render();
+        return;
+      }
+      animCard('next');
+      setIdx((getIdxSnapshot() + 1) % deckLen);
+      render();
+    };
+    easyBtn.addEventListener('click', onEasyClick);
+
+    // ── Hard ──────────────────────────────────────────────────────
+    const hardBtn = document.getElementById('btn-hard')!;
+    const onHardClick = (e: MouseEvent) => {
+      e.stopPropagation();
+      const cw = getCwSnapshot();
+      if (cw) {
+        // Deliberately NOT markKnown(): "Hard" means "recalled it, but with
+        // real difficulty" — a review-continuation signal, not "I know this
+        // now, stop showing it to me" (that's #btn-easy's job). Quality 3 —
+        // SM-2's lowest passing grade: still grows the interval, just by less
+        // than "Знаю"/"Легко" would.
+        sm2Update(cw[0], 3);
+        _safe(() => playSound('know'));
+        _safe(() => {
+          addCombo();
+          flashCard(true);
+        });
+        _safe(() => incrementGoalProgress());
+        _safe(() => {
+          const gd = getGameData();
+          if (gd.goalCur >= gd.goalMax && !gd.confettiShown) {
+            gd.confettiShown = today();
+            saveGameData(gd);
+            launchConfetti();
+            _safe(() => playSound('goal'));
+          }
+        });
+        _afterGrade(false);
         return;
       }
       const deckLen = getDeckSnapshot().length;
@@ -427,6 +468,7 @@ export function CardActionsInit(): ReactElement | null {
       micBtn.removeEventListener('click', onMicClick);
       prevBtn.removeEventListener('click', onPrevClick);
       knowBtn.removeEventListener('click', onKnowClick);
+      easyBtn.removeEventListener('click', onEasyClick);
       hardBtn.removeEventListener('click', onHardClick);
       nextBtn.removeEventListener('click', onNextClick);
       dontknowBtn.removeEventListener('click', onDontknowClick);

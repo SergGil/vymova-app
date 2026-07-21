@@ -542,6 +542,13 @@ select:focus {
 .btn-dontknow:hover {
   background: #fbeae8;
 }
+.btn-easy {
+  border-color: #3d7ab5;
+  color: #3d7ab5;
+}
+.btn-easy:hover {
+  background: #e8f1f9;
+}
 .btn-auto {
   border-color: #7b5ea7;
   color: #7b5ea7;
@@ -739,6 +746,13 @@ body.dark .btn-dontknow {
 }
 body.dark .btn-dontknow:hover {
   background: rgba(231, 76, 60, 0.12);
+}
+body.dark .btn-easy {
+  border-color: #5aa9e6;
+  color: #5aa9e6;
+}
+body.dark .btn-easy:hover {
+  background: rgba(90, 169, 230, 0.12);
 }
 body.dark .btn-auto {
   border-color: #9b59b6;
@@ -4071,7 +4085,9 @@ body.dark .gr-tip {
     font-size: 12px;
   }
   .btn-know,
-  .btn-hard {
+  .btn-hard,
+  .btn-dontknow,
+  .btn-easy {
     min-height: 48px !important;
     font-size: 0.95rem !important;
   }
@@ -4368,7 +4384,9 @@ body.dark .gr-tip {
     padding: 7px 10px;
   }
   .btn-know,
-  .btn-hard {
+  .btn-hard,
+  .btn-dontknow,
+  .btn-easy {
     padding: 10px 0 !important;
   }
 }

@@ -69,9 +69,14 @@ export function addDays(dateStr: string, n: number): string {
 }
 
 // ── SM-2 update ───────────────────────────────────────────────
-// quality: 1 = wrong (see onDontknowClick), 5 = "know" (see onKnowClick —
-// deliberately not 4, since 4 nets a zero EF delta under the formula below
-// and would let a lapsed word's ease drop but never recover).
+// quality: 1 = "Не знаю" (lapse), 3 = "Важко" (recalled with real
+// difficulty), 4 = "Знаю" (recalled cleanly, no special ease), 5 = "Легко"
+// (trivial recall — the only grade that actually grows EF under the formula
+// below, so it's also the only one of the four that doubles as the app's
+// mastery signal — see card-actions.ts's onEasyClick). Quality 2 is unused:
+// this app's recall is self-reported via four fixed buttons, not a
+// continuous 0-5 scale, and there's no meaningful UI gesture between
+// "Не знаю" and "Важко" to hang it on.
 export function sm2Update(word: string, quality: number): void {
   const srsData = getSrsDataSnapshot();
   const wasNew = !srsData[word]; // first-ever SRS exposure → counts against today's new-card quota

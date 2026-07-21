@@ -138,6 +138,7 @@ beforeAll(async () => {
     <button id="btn-mic"></button>
     <button id="btn-prev"></button>
     <button id="btn-know"></button>
+    <button id="btn-easy"></button>
     <button id="btn-hard"></button>
     <button id="btn-next"></button>
     <button id="btn-dontknow"></button>
@@ -222,21 +223,25 @@ afterEach(() => {
 });
 
 // ── btn-know ──────────────────────────────────────────────────
+// "Знаю" is quality 4 ("recalled cleanly, no special difficulty") — it does
+// NOT touch the known-words set at all anymore; mastery is #btn-easy's job
+// alone (see card-actions.ts's onKnowClick/onEasyClick and srs.ts's quality
+// mapping comment).
 describe('btn-know', () => {
-  it('marks the current word as known and applies a correct SM-2 update (srs range)', () => {
+  it('applies a quality-4 SM-2 update without marking the word known', () => {
     document.getElementById('btn-know')!.click();
 
-    expect(getKnownSnapshot('en').has('apple')).toBe(true);
+    expect(getKnownSnapshot('en').has('apple')).toBe(false);
     expect(getSrsDataSnapshot()['apple']).toBeDefined();
     expect(getSrsDataSnapshot()['apple'].reps).toBe(1);
     expect(getSrsDataSnapshot()['apple'].interval).toBe(1);
     expect(getSrsDataSnapshot()['apple'].due).toBe('2024-06-02');
   });
 
-  it('persists known + SRS state to localStorage', () => {
+  it('persists SRS state to localStorage without touching known state', () => {
     document.getElementById('btn-know')!.click();
 
-    expect(loadKnown().has('apple')).toBe(true);
+    expect(loadKnown().has('apple')).toBe(false);
     expect(loadSRS()['apple']).toBeDefined();
   });
 
@@ -248,21 +253,84 @@ describe('btn-know', () => {
     expect(engineRender).toHaveBeenCalled();
   });
 
-  it('drops stale SRS progress when marking known outside the SRS range', () => {
-    setSrsEntry('apple', { ef: 2.0, reps: 3, interval: 10, due: '2024-05-01', lapses: 1 });
+  it('applies the SM-2 update in every filter, not just srs', () => {
     setRange('all');
 
     document.getElementById('btn-know')!.click();
 
+    expect(getSrsDataSnapshot()['apple']).toBeDefined();
+  });
+
+  it('advances to the next card without rebuilding the deck when range != srs', () => {
+    setRange('all');
+    setIdxState(0);
+
+    document.getElementById('btn-know')!.click();
+
+    expect(engineSetDeck).not.toHaveBeenCalled();
+    expect(engineSetIdx).toHaveBeenCalledWith(1);
+  });
+
+  it('never calls onWordLearned — Know does not mark the word known', () => {
+    document.getElementById('btn-know')!.click();
+    document.getElementById('btn-know')!.click();
+    expect(engineOnWordLearned).not.toHaveBeenCalled();
+  });
+
+  it('does nothing when there is no current word', () => {
+    setCwState(null);
+    setDeckState([] as unknown as WordEntry[]);
+
+    document.getElementById('btn-know')!.click();
+
+    expect(getKnownSnapshot('en').size).toBe(0);
+    expect(engineRender).toHaveBeenCalled();
+  });
+});
+
+// ── btn-easy ──────────────────────────────────────────────────
+// "Легко" is quality 5 ("trivial recall") — the one grade that also grows EF
+// (see srs.ts), and the only button that still marks the word known.
+describe('btn-easy', () => {
+  it('marks the current word as known and applies a correct SM-2 update (srs range)', () => {
+    document.getElementById('btn-easy')!.click();
+
     expect(getKnownSnapshot('en').has('apple')).toBe(true);
-    expect(getSrsDataSnapshot()['apple']).toBeUndefined();
+    expect(getSrsDataSnapshot()['apple']).toBeDefined();
+    expect(getSrsDataSnapshot()['apple'].reps).toBe(1);
+    expect(getSrsDataSnapshot()['apple'].interval).toBe(1);
+    expect(getSrsDataSnapshot()['apple'].due).toBe('2024-06-02');
+  });
+
+  it('persists known + SRS state to localStorage', () => {
+    document.getElementById('btn-easy')!.click();
+
+    expect(loadKnown().has('apple')).toBe(true);
+    expect(loadSRS()['apple']).toBeDefined();
+  });
+
+  it('rebuilds the SRS deck and resets index when range = srs', () => {
+    document.getElementById('btn-easy')!.click();
+
+    expect(engineSetDeck).toHaveBeenCalled();
+    expect(engineSetIdx).toHaveBeenCalledWith(0);
+    expect(engineRender).toHaveBeenCalled();
+  });
+
+  it('rebuilds the unlearned deck when range = unlearned (word just left it)', () => {
+    setRange('unlearned');
+
+    document.getElementById('btn-easy')!.click();
+
+    expect(getKnownSnapshot('en').has('apple')).toBe(true);
+    expect(engineSetDeck).toHaveBeenCalled();
   });
 
   it('advances to the next card when range = all', () => {
     setRange('all');
     setIdxState(0);
 
-    document.getElementById('btn-know')!.click();
+    document.getElementById('btn-easy')!.click();
 
     expect(engineSetIdx).toHaveBeenCalledWith(1);
     expect(engineRender).toHaveBeenCalled();
@@ -270,11 +338,11 @@ describe('btn-know', () => {
 
   it('calls onWordLearned only the first time a word becomes known', () => {
     setRange('all');
-    document.getElementById('btn-know')!.click();
+    document.getElementById('btn-easy')!.click();
     expect(engineOnWordLearned).toHaveBeenCalledTimes(1);
 
     setCwState(W[0]); // already known now
-    document.getElementById('btn-know')!.click();
+    document.getElementById('btn-easy')!.click();
     expect(engineOnWordLearned).toHaveBeenCalledTimes(1);
   });
 
@@ -284,7 +352,7 @@ describe('btn-know', () => {
     gameData.goalCur = 20;
     gameData.goalMax = 20;
 
-    document.getElementById('btn-know')!.click();
+    document.getElementById('btn-easy')!.click();
 
     expect(launchConfetti).toHaveBeenCalled();
     expect(gameData.confettiShown).toBe('2024-06-01');
@@ -295,7 +363,7 @@ describe('btn-know', () => {
     setCwState(null);
     setDeckState([] as unknown as WordEntry[]);
 
-    document.getElementById('btn-know')!.click();
+    document.getElementById('btn-easy')!.click();
 
     expect(getKnownSnapshot('en').size).toBe(0);
     expect(engineRender).toHaveBeenCalled();
@@ -317,7 +385,7 @@ describe('btn-hard', () => {
     expect(getSrsDataSnapshot()['apple'].due).toBe('2024-06-02');
   });
 
-  it('grows the ease factor by less than a "Знаю" (quality 5) answer would', () => {
+  it('grows the ease factor by less than a "Знаю" (quality 4) answer would', () => {
     document.getElementById('btn-hard')!.click();
     const hardEf = getSrsDataSnapshot()['apple'].ef;
 
@@ -336,7 +404,7 @@ describe('btn-hard', () => {
     expect(loadSRS()['apple']).toBeDefined();
   });
 
-  it('applies the SM-2 update even outside the SRS range (button is only ever shown there, but the handler does not special-case range)', () => {
+  it('applies the SM-2 update in every filter, not just srs', () => {
     setRange('all');
 
     document.getElementById('btn-hard')!.click();
@@ -344,12 +412,22 @@ describe('btn-hard', () => {
     expect(getSrsDataSnapshot()['apple']).toBeDefined();
   });
 
-  it('rebuilds the SRS deck and resets index', () => {
+  it('rebuilds the SRS deck and resets index when range = srs', () => {
     document.getElementById('btn-hard')!.click();
 
     expect(engineSetDeck).toHaveBeenCalled();
     expect(engineSetIdx).toHaveBeenCalledWith(0);
     expect(engineRender).toHaveBeenCalled();
+  });
+
+  it('advances to the next card without rebuilding the deck when range != srs', () => {
+    setRange('all');
+    setIdxState(0);
+
+    document.getElementById('btn-hard')!.click();
+
+    expect(engineSetDeck).not.toHaveBeenCalled();
+    expect(engineSetIdx).toHaveBeenCalledWith(1);
   });
 
   it('never calls onWordLearned — Hard does not mark the word known', () => {

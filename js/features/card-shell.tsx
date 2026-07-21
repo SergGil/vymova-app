@@ -270,6 +270,22 @@ export function CardShell(): ReactElement {
         }}
       >
         <button
+          className="btn btn-dontknow"
+          id="btn-dontknow"
+          style={{ flex: 1, fontSize: '1.05rem', padding: '14px 0', letterSpacing: '0.03em' }}
+        >
+          <span data-i18n="cards.dontKnow">✗ Не знаю</span>
+        </button>
+        <button
+          className="btn btn-hard"
+          id="btn-hard"
+          title="Згадав(-ла) з труднощами"
+          data-i18n-title="cards.hardTitle"
+          style={{ flex: 1, fontSize: '1.05rem', padding: '14px 0', letterSpacing: '0.03em' }}
+        >
+          <span data-i18n="cards.hard">🤔 Важко</span>
+        </button>
+        <button
           className="btn btn-know"
           id="btn-know"
           style={{ flex: 1, fontSize: '1.05rem', padding: '14px 0', letterSpacing: '0.03em' }}
@@ -277,32 +293,13 @@ export function CardShell(): ReactElement {
           <span data-i18n="cards.know">✓ Знаю</span>
         </button>
         <button
-          className="btn btn-hard"
-          id="btn-hard"
-          title="Згадав(-ла) з труднощами"
-          data-i18n-title="cards.hardTitle"
-          style={{
-            display: 'none',
-            flex: 1,
-            fontSize: '1.05rem',
-            padding: '14px 0',
-            letterSpacing: '0.03em',
-          }}
+          className="btn btn-easy"
+          id="btn-easy"
+          title="Миттєво, дуже легко — слово вважається вивченим"
+          data-i18n-title="cards.easyTitle"
+          style={{ flex: 1, fontSize: '1.05rem', padding: '14px 0', letterSpacing: '0.03em' }}
         >
-          <span data-i18n="cards.hard">🤔 Важко</span>
-        </button>
-        <button
-          className="btn btn-dontknow"
-          id="btn-dontknow"
-          style={{
-            display: 'none',
-            flex: 1,
-            fontSize: '1.05rem',
-            padding: '14px 0',
-            letterSpacing: '0.03em',
-          }}
-        >
-          <span data-i18n="cards.dontKnow">✗ Не знаю</span>
+          <span data-i18n="cards.easy">⚡ Легко</span>
         </button>
       </div>
 
