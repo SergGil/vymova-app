@@ -16,32 +16,28 @@
 // Firebase Console setup this depends on (parallel to worker/README.md's
 // /chat setup, but for App Check instead of the Gemini key):
 //   1. Project settings → General → Add app → Web — copy the resulting
-//      firebaseConfig object.
-//   2. App Check → register the web app → reCAPTCHA v3 → copy the site key.
-//   3. Set VITE_FIREBASE_CONFIG (the JSON from step 1, as one stringified
-//      value) and VITE_FIREBASE_APPCHECK_SITE_KEY (the key from step 2) at
-//      build time, the same way VITE_AI_PROXY_URL is set today.
-//   4. App Check → APIs → Realtime Database → Enforce.
-// Steps 1, 2, and 4 can only be done by whoever owns the Firebase project —
+//      firebaseConfig object into VITE_FIREBASE_CONFIG (see firebase-app.ts).
+//   2. App Check → register the web app → reCAPTCHA v3 → copy the site key
+//      into VITE_FIREBASE_APPCHECK_SITE_KEY.
+//   3. App Check → APIs → Realtime Database → Enforce.
+// Steps 1, 2, and 3 can only be done by whoever owns the Firebase project —
 // nothing in this codebase can complete them.
-const SITE_KEY = (import.meta.env.VITE_FIREBASE_APPCHECK_SITE_KEY ?? '').trim();
-const FIREBASE_CONFIG_RAW = (import.meta.env.VITE_FIREBASE_CONFIG ?? '').trim();
+import { getFirebaseApp } from './firebase-app.ts';
 
-// Cached across calls — initializeApp()/initializeAppCheck() aren't meant to
-// run per-request, unlike getToken() below (which the SDK itself caches and
-// silently refreshes, so calling it again per RTDB request is the intended,
-// cheap usage once the instance exists).
+const SITE_KEY = (import.meta.env.VITE_FIREBASE_APPCHECK_SITE_KEY ?? '').trim();
+
+// Cached across calls — initializeAppCheck() isn't meant to run per-request,
+// unlike getToken() below (which the SDK itself caches and silently
+// refreshes, so calling it again per RTDB request is the intended, cheap
+// usage once the instance exists).
 let _appCheckPromise: Promise<import('firebase/app-check').AppCheck | null> | null = null;
 
 async function _initAppCheck(): Promise<import('firebase/app-check').AppCheck | null> {
-  if (!SITE_KEY || !FIREBASE_CONFIG_RAW) return null;
+  if (!SITE_KEY) return null;
+  const app = await getFirebaseApp();
+  if (!app) return null;
   try {
-    const config = JSON.parse(FIREBASE_CONFIG_RAW) as Record<string, string>;
-    const [{ initializeApp }, { initializeAppCheck, ReCaptchaV3Provider }] = await Promise.all([
-      import('firebase/app'),
-      import('firebase/app-check'),
-    ]);
-    const app = initializeApp(config);
+    const { initializeAppCheck, ReCaptchaV3Provider } = await import('firebase/app-check');
     return initializeAppCheck(app, {
       provider: new ReCaptchaV3Provider(SITE_KEY),
       isTokenAutoRefreshEnabled: true,
@@ -62,7 +58,7 @@ function _getAppCheck(): Promise<import('firebase/app-check').AppCheck | null> {
 // always a safe, silent fallback to today's behavior (no App Check at all),
 // never a thrown error blocking a real duel/sync/leaderboard request.
 export async function getAppCheckHeaders(): Promise<Record<string, string>> {
-  if (!SITE_KEY || !FIREBASE_CONFIG_RAW) return {};
+  if (!SITE_KEY) return {};
   const appCheck = await _getAppCheck();
   if (!appCheck) return {};
   try {

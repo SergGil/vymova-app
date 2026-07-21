@@ -114,6 +114,25 @@
     session. If the AI backend isn't available, these features are simply hidden, or (for
     stories) fall back to built-in offline text.</p>
 
+    <h2>Usage analytics</h2>
+    <p>Some deployments of this app (including the one at
+    <code>serggil.github.io/vymova-app</code>) have Firebase Analytics — built on Google
+    Analytics — turned on to understand how the app is used. If it's active on the deployment
+    you're using, it automatically collects:</p>
+    <ul>
+      <li>Usage events (e.g. app opened, a practice mode started), approximate location
+      (derived from IP, not stored precisely), device/browser type, and a Google-generated
+      analytics identifier</li>
+    </ul>
+    <p>This data goes to Google and is processed under
+    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's privacy
+    policy</a>; Vymova doesn't combine it with your learning progress, sync code, or any other
+    data described on this page. It is not currently gated behind a cookie/consent prompt — if
+    you'd rather it not run, a browser extension like Google's own
+    <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Analytics
+    opt-out add-on</a>, or a content/tracker blocker, will stop it. A self-hosted fork of this
+    open-source app may have analytics off entirely, depending on how its owner configured it.</p>
+
     <h2>Duels and leaderboards</h2>
     <p>Real-time duels and leaderboard rankings use the same database as cloud sync. The display
     name you choose in-app is visible to your opponent and on the leaderboard — use a nickname
@@ -127,9 +146,11 @@
     <h2>What Vymova does <em>not</em> do</h2>
     <ul>
       <li>No ads, no ad networks, no ad-tracking pixels</li>
-      <li>No analytics or usage-tracking scripts of any kind</li>
-      <li>No cookies used for tracking (only browser local storage, described above)</li>
-      <li>No selling or sharing of data with third parties</li>
+      <li>No analytics beyond the Google Analytics usage described above — no other
+      usage-tracking scripts</li>
+      <li>No cookies used for tracking beyond what Google Analytics itself sets (see above);
+      everything else is browser local storage, described earlier on this page</li>
+      <li>No selling of data with third parties, and no sharing beyond what's described above</li>
     </ul>
     <p>If any of this changes in the future, this page will be updated accordingly before the
     change ships.</p>

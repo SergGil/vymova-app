@@ -7,12 +7,16 @@
 
 export {}; // make this a module
 
-// First thing, ahead of everything else below: a dependency-free leaf module
-// (only imports js/config.ts, itself dependency-free) so it can't disturb
-// the chunk graph the way removing/reordering the imports further down has
-// in the past (see the comment on the learning-path/epub imports below).
+// First thing, ahead of everything else below: dependency-free leaf modules
+// (error-report.ts only imports js/config.ts; analytics.ts imports nothing
+// eagerly, its own firebase/analytics import is dynamic) so neither can
+// disturb the chunk graph the way removing/reordering the imports further
+// down has in the past (see the comment on the learning-path/epub imports
+// below). Both are no-ops unless their respective env vars are configured.
 import { initErrorReporting } from '../js/core/error-report.ts';
 initErrorReporting();
+import { initAnalytics } from '../js/core/analytics.ts';
+void initAnalytics();
 
 import { initStaleChunkRecovery } from './stale-chunk-recovery.ts';
 initStaleChunkRecovery();

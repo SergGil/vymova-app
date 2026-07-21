@@ -22,10 +22,14 @@
       Check's reCAPTCHA v3 provider (js/core/app-check.ts) — inert (no
       network calls at all) until VITE_FIREBASE_APPCHECK_SITE_KEY is set,
       included now so turning that on later doesn't also require a CSP edit.
+      googletagmanager.com/google-analytics.com/analytics.google.com are for
+      Firebase Analytics (js/core/analytics.ts) — same inert-until-configured
+      story, gated on VITE_FIREBASE_CONFIG's measurementId; see
+      public/privacy.html's "Usage analytics" section.
     -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://www.youtube.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://pixabay.com https://*.pixabay.com https://*.wikimedia.org https://*.wikipedia.org https://i.ytimg.com; media-src 'self' blob:; connect-src 'self' https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app https://pixabay.com https://en.wikipedia.org https://*.workers.dev https://content-firebaseappcheck.googleapis.com https://firebaseappcheck.googleapis.com; frame-src https://www.youtube.com https://www.google.com/recaptcha/; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+      content="default-src 'self'; script-src 'self' https://www.youtube.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://pixabay.com https://*.pixabay.com https://*.wikimedia.org https://*.wikipedia.org https://i.ytimg.com; media-src 'self' blob:; connect-src 'self' https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app https://pixabay.com https://en.wikipedia.org https://*.workers.dev https://content-firebaseappcheck.googleapis.com https://firebaseappcheck.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-src https://www.youtube.com https://www.google.com/recaptcha/; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
     />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -391,7 +395,7 @@
           </div>
 
           <div class="settings-footer mt-1 mb-2 text-center text-[.72rem] text-[var(--text3)]">
-            © 2026 Vymova · v1.379.0 ·
+            © 2026 Vymova · v1.380.0 ·
             <a
               href="./privacy.html"
               target="_blank"

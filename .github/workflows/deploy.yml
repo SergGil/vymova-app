@@ -45,6 +45,15 @@ jobs:
       - name: Build
         env:
           VITE_AI_PROXY_URL: ${{ vars.VITE_AI_PROXY_URL }}
+          # Both optional. VITE_FIREBASE_CONFIG feeds both App Check
+          # (js/core/app-check.ts, needs the site key below too) and
+          # Analytics (js/core/analytics.ts, activates on its own once the
+          # config's measurementId is present — see public/privacy.html's
+          # "Usage analytics" section, which must stay accurate to this).
+          # Unset = both stay inert, same as today. Repo → Settings → Secrets
+          # and variables → Actions → Variables → New repository variable.
+          VITE_FIREBASE_CONFIG: ${{ vars.VITE_FIREBASE_CONFIG }}
+          VITE_FIREBASE_APPCHECK_SITE_KEY: ${{ vars.VITE_FIREBASE_APPCHECK_SITE_KEY }}
         run: npm run build
 
       - name: Upload artifact
