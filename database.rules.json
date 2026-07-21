@@ -2,7 +2,12 @@
   "rules": {
     "sync": {
       ".read": true,
-      ".write": true
+      ".write": true,
+      "$syncKey": {
+        "$field": {
+          ".validate": "newData.isString() && newData.val().length <= 800000"
+        }
+      }
     },
     "duel_rooms": {
       ".read": true,
