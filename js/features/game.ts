@@ -27,7 +27,8 @@
 // give this file a static import back into duel.ts or sidebar.tsx.
 import { today, localDateStr } from '../core/today.ts';
 import { getMaxWordsForLearnLang, ALL_TARGET_LANGS } from './mode-utils.ts';
-import { _jsonLoad, _jsonSave } from '../core/storage.ts';
+import { _jsonLoad, _jsonSave, saveSRS } from '../core/storage.ts';
+import { getSrsDataSnapshot } from '../../src/srs-store.ts';
 import type { GameData, Level, ModeStats, ModeAccuracy, ModeAccEntry } from '../../src/types.js';
 
 // ── Session caches ─────────────────────────────────────────────
@@ -443,7 +444,15 @@ export function recordMistake(word: string): Promise<void> {
   // a static circular dependency (srs.ts already imports from game.ts).
   // Callers don't need the returned promise; it exists so tests can await it.
   return import('../core/srs.ts')
-    .then((m) => m.sm2Update(word, 1))
+    .then((m) => {
+      m.sm2Update(word, 1);
+      // sm2Update() only dispatches into the in-memory srs-store — unlike
+      // card-actions.ts's Know/Don't-know/Hard/Reset handlers, nothing else
+      // in the ~18 non-flashcard modes that call recordMistake() ever
+      // persists that store to localStorage, so a lapse recorded here was
+      // silently discarded on tab close/reload until this call was added.
+      saveSRS(getSrsDataSnapshot());
+    })
     .catch(() => {});
 }
 
