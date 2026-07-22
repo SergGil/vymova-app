@@ -13,7 +13,9 @@ export default defineConfig({
       command: 'npx vite --port 5183 --strictPort',
       url: 'http://localhost:5183/index.html',
       reuseExistingServer: !process.env.CI,
-      timeout: 30_000,
+      // All 3 webServer entries here start concurrently, and CI runners are
+      // slower/more contended than a dev machine — 30s was too tight there.
+      timeout: 60_000,
     },
     // tests-e2e/duel-realtime.spec.ts drives two real tabs through an actual
     // duel over Firebase — the RTDB emulator gives it a real read/write/rules
@@ -24,7 +26,7 @@ export default defineConfig({
       command: 'npx firebase-tools emulators:start --only database --project demo-vymova-e2e',
       url: 'http://127.0.0.1:9000/.json?ns=demo-vymova-e2e',
       reuseExistingServer: !process.env.CI,
-      timeout: 60_000,
+      timeout: 90_000,
     },
     // Separate port/instance from the 5183 server above (which stays pointed
     // at prod), so a dev running `npm run test:e2e` never has to toggle a
@@ -34,7 +36,7 @@ export default defineConfig({
       command: 'npx vite --port 5184 --strictPort',
       url: 'http://localhost:5184/index.html',
       reuseExistingServer: !process.env.CI,
-      timeout: 30_000,
+      timeout: 60_000,
       env: {
         VITE_FIREBASE_DB_URL: '/emu-db',
       },
