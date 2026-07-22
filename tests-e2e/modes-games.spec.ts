@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { captureErrors, openApp, playTypedModeToCompletion } from './helpers.ts';
+import { captureErrors, openApp, playTypedModeToCompletion, primaryButton } from './helpers.ts';
 
 // Deeper gameplay coverage for the "Games" mode group (see
 // js/features/mode-card-grid.tsx). Tier 1 smoke coverage (open/close, no
@@ -125,6 +125,34 @@ test.describe('Games modes gameplay', () => {
     await expect(overlay.locator('[data-i18n="common.tryAgain"]')).toBeVisible();
     await overlay.locator('[data-i18n="common.close"]').click();
     await expect(overlay).toBeHidden();
+
+    expect(errors).toEqual([]);
+  });
+
+  // spelling-bee.tsx has its own richer 3-state result (ok/almost/wrong,
+  // border-colored) instead of fib.tsx/write.tsx's plain right-or-wrong, plus
+  // a 💡 hint button that reveals letters progressively — worth its own
+  // edge-case test, mirroring modes-cards-edgecases.spec.ts's fib/write ones.
+  test('spelling-bee: wrong answer highlights the input in red, and hint reveals letters', async ({
+    page,
+  }) => {
+    const errors = captureErrors(page);
+    await openApp(page);
+    await page.click('#sb-modes');
+    await page.click('#btn-spelling-bee');
+
+    const overlay = page.locator('#bee-overlay');
+    await expect(overlay).toBeVisible();
+
+    const hintBtn = overlay.getByRole('button', { name: /💡/ });
+    await hintBtn.click();
+    await expect(overlay).toContainText(/💡 .+/);
+
+    const input = overlay.locator('input[type="text"]');
+    await input.fill('zzznotaword');
+    await primaryButton(overlay).click(); // submit
+
+    await expect(input).toHaveAttribute('style', /danger/);
 
     expect(errors).toEqual([]);
   });

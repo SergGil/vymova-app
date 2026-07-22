@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { captureErrors, openApp, playOptionModeToCompletion } from './helpers.ts';
+import {
+  captureErrors,
+  openApp,
+  playOptionModeToCompletion,
+  expectConsistentFeedback,
+} from './helpers.ts';
 
 // Deeper gameplay coverage for the "Practice" mode group (see
 // js/features/mode-card-grid.tsx). Tier 1 smoke coverage (open/close, no
@@ -7,7 +12,10 @@ import { captureErrors, openApp, playOptionModeToCompletion } from './helpers.ts
 //
 // context and adaptive-quiz reuse the Cards batch's .quiz-option helper —
 // same shape as quiz.tsx (js/modes/context.tsx, js/modes/adaptive-quiz.tsx
-// both render the same quiz-option/ModeFinalScreen pair). lesson.tsx mixes
+// both render the same quiz-option/ModeFinalScreen pair) — including its
+// correct/wrong/reveal feedback classes, checked via expectConsistentFeedback
+// on every answer (see modes-cards-edgecases.spec.ts for the same check on
+// quiz.tsx/listening.tsx). lesson.tsx mixes
 // three different mechanics in one session and its final screen has no
 // common.tryAgain button, so it's driven manually. daily-challenge.tsx
 // auto-advances after each answer (like duel, not the other Cards modes) so
@@ -27,7 +35,7 @@ test.describe('Practice modes gameplay', () => {
     const overlay = page.locator('#ctx-overlay');
     await expect(overlay).toBeVisible();
 
-    await playOptionModeToCompletion(overlay);
+    await playOptionModeToCompletion(overlay, '.quiz-option', expectConsistentFeedback);
 
     await expect(overlay.locator('[data-i18n="common.tryAgain"]')).toBeVisible();
     await overlay.locator('[data-i18n="common.close"]').click();
@@ -45,7 +53,7 @@ test.describe('Practice modes gameplay', () => {
     const overlay = page.locator('#aq-overlay');
     await expect(overlay).toBeVisible();
 
-    await playOptionModeToCompletion(overlay);
+    await playOptionModeToCompletion(overlay, '.quiz-option', expectConsistentFeedback);
 
     await expect(overlay.locator('[data-i18n="common.tryAgain"]')).toBeVisible();
     await overlay.locator('[data-i18n="common.close"]').click();

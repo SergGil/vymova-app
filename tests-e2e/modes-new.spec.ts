@@ -5,6 +5,7 @@ import {
   playOptionModeToCompletion,
   playTypedModeToCompletion,
   primaryButton,
+  expectConsistentFeedback,
 } from './helpers.ts';
 
 // Deeper gameplay coverage for the "New" mode group (see
@@ -12,8 +13,12 @@ import {
 // errors) already exists in tests-e2e/modes-smoke.spec.ts.
 //
 // oddone, idiom-quiz, and grammar-quiz are plain .quiz-option/ModeFinalScreen
-// modes — same shape as quiz.tsx, reuse the Cards batch's helper unchanged.
-// error-hunt and word-hint also reuse it but with a different answerSelector
+// modes — same shape as quiz.tsx, including its correct/wrong/reveal
+// feedback classes, checked via expectConsistentFeedback on every answer
+// (see modes-cards-edgecases.spec.ts for the same check on
+// quiz.tsx/listening.tsx) — as is ghost-race's own auto-advancing loop below.
+// error-hunt and word-hint also reuse the completion helper but with a
+// different answerSelector
 // (see helpers.ts's playOptionModeToCompletion doc comment): both advance on
 // ANY tap/give-up regardless of correctness, so no dictionary knowledge is
 // needed to drive them to completion. dictation reuses the typed-answer
@@ -45,7 +50,7 @@ test.describe('New modes gameplay', () => {
     const overlay = page.locator('#oo-overlay');
     await expect(overlay).toBeVisible();
 
-    await playOptionModeToCompletion(overlay);
+    await playOptionModeToCompletion(overlay, '.quiz-option', expectConsistentFeedback);
 
     await expect(overlay.locator('[data-i18n="common.tryAgain"]')).toBeVisible();
     await overlay.locator('[data-i18n="common.close"]').click();
@@ -63,7 +68,7 @@ test.describe('New modes gameplay', () => {
     const overlay = page.locator('#idq-overlay');
     await expect(overlay).toBeVisible();
 
-    await playOptionModeToCompletion(overlay);
+    await playOptionModeToCompletion(overlay, '.quiz-option', expectConsistentFeedback);
 
     await expect(overlay.locator('[data-i18n="common.tryAgain"]')).toBeVisible();
     await overlay.locator('[data-i18n="common.close"]').click();
@@ -81,7 +86,7 @@ test.describe('New modes gameplay', () => {
     const overlay = page.locator('#grq-overlay');
     await expect(overlay).toBeVisible();
 
-    await playOptionModeToCompletion(overlay);
+    await playOptionModeToCompletion(overlay, '.quiz-option', expectConsistentFeedback);
 
     await expect(overlay.locator('[data-i18n="common.tryAgain"]')).toBeVisible();
     await overlay.locator('[data-i18n="common.close"]').click();
@@ -204,11 +209,14 @@ test.describe('New modes gameplay', () => {
 
     await primaryButton(overlay).click(); // "start race"
 
-    // Auto-advances ~350ms after each click, no explicit Next button.
+    // Auto-advances ~350ms after each click, no explicit Next button — the
+    // feedback classes must be checked before that timeout fires the next
+    // question's render.
     for (let i = 0; i < 10; i++) {
       const option = overlay.locator('.quiz-option').first();
       await option.waitFor({ state: 'visible' });
       await option.click();
+      await expectConsistentFeedback(overlay);
       await page.waitForTimeout(500);
     }
 

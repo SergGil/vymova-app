@@ -1,4 +1,4 @@
-import type { Locator, Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 
 /** Collects thrown errors and console.error output for a page, filtering out
  * the browser's own "Failed to load resource" network-log lines — those fire
@@ -107,6 +107,26 @@ async function isFinalScreen(overlay: Locator): Promise<boolean> {
   return overlay.locator('[data-i18n="common.tryAgain"]').isVisible();
 }
 
+// quiz.tsx/listening.tsx and every mode that reuses their exact question
+// shape (context, adaptive-quiz, odd-one-out, idiom-quiz, grammar-quiz,
+// ghost-race, tempo, ...) mark the chosen `.quiz-option` 'correct' or
+// 'wrong', and (only on a wrong choice) tag the actual answer 'reveal' — the
+// same three-class model everywhere, checked once here instead of per-file.
+// Call right after an answer is clicked, before advancing to the next
+// question — correctness doesn't need to be known in advance, this only
+// checks the *rendered feedback* is internally consistent.
+export async function expectConsistentFeedback(overlay: Locator): Promise<void> {
+  const wrongCount = await overlay.locator('.quiz-option.wrong').count();
+  const correctCount = await overlay.locator('.quiz-option.correct').count();
+  const revealCount = await overlay.locator('.quiz-option.reveal').count();
+  expect(wrongCount + correctCount).toBe(1); // exactly one option got a verdict
+  if (wrongCount === 1) {
+    expect(revealCount).toBe(1); // wrong answer -> the real one is revealed
+  } else {
+    expect(revealCount).toBe(0); // right answer -> nothing else to reveal
+  }
+}
+
 /** Drives a "click an answer, then click Next/Finish" solo mode — the ones
  * that render an explicit Next click, unlike duel's auto-advancing version —
  * to its final screen. Defaults to `.quiz-option` (quiz, listen, context,
@@ -114,16 +134,20 @@ async function isFinalScreen(overlay: Locator): Promise<boolean> {
  * for modes whose "answer" isn't a multiple-choice option — error-hunt.tsx's
  * tap-the-wrong-token buttons have no shared class
  * (`'button:not([aria-label])'`), word-hint.tsx's "give up" link always ends
- * the round regardless of the guess (`'button[style*="underline"]'`). */
+ * the round regardless of the guess (`'button[style*="underline"]'`).
+ * `onAnswered` (e.g. expectConsistentFeedback above) runs right after each
+ * answer, before the Next/Finish click. */
 export async function playOptionModeToCompletion(
   overlay: Locator,
   answerSelector = '.quiz-option',
+  onAnswered?: (overlay: Locator) => Promise<void>,
 ): Promise<void> {
   for (let i = 0; i < MAX_QUESTIONS; i++) {
     if (await isFinalScreen(overlay)) return;
     const option = overlay.locator(answerSelector).first();
     await option.waitFor({ state: 'visible' });
     await option.click();
+    if (onAnswered) await onAnswered(overlay);
     await primaryButton(overlay).click();
   }
 }

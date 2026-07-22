@@ -1,5 +1,5 @@
 import { test, expect, type Locator, type Page } from '@playwright/test';
-import { captureErrors, openApp, primaryButton } from './helpers.ts';
+import { captureErrors, openApp, primaryButton, expectConsistentFeedback } from './helpers.ts';
 
 // Deeper-than-completion coverage for the "Cards" mode group (see
 // tests-e2e/modes-cards.spec.ts for the happy-path full-session tests):
@@ -12,21 +12,6 @@ import { captureErrors, openApp, primaryButton } from './helpers.ts';
 
 async function isFinalScreen(overlay: Locator): Promise<boolean> {
   return overlay.locator('[data-i18n="common.tryAgain"]').isVisible();
-}
-
-// quiz.tsx/listening.tsx both mark the chosen `.quiz-option` 'correct' or
-// 'wrong', and (only on a wrong choice) tag the actual answer 'reveal' — the
-// same three-class model, asserted identically for both modes below.
-async function expectConsistentFeedback(overlay: Locator): Promise<void> {
-  const wrongCount = await overlay.locator('.quiz-option.wrong').count();
-  const correctCount = await overlay.locator('.quiz-option.correct').count();
-  const revealCount = await overlay.locator('.quiz-option.reveal').count();
-  expect(wrongCount + correctCount).toBe(1); // exactly one option got a verdict
-  if (wrongCount === 1) {
-    expect(revealCount).toBe(1); // wrong answer -> the real one is revealed
-  } else {
-    expect(revealCount).toBe(0); // right answer -> nothing else to reveal
-  }
 }
 
 test.describe('Cards modes — answer feedback', () => {
