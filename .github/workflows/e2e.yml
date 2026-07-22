@@ -38,6 +38,13 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
+      - name: Pre-download Firebase RTDB emulator
+        # Downloads the emulator's Java binary up front. Without this, the
+        # first download happens inside config.webServer at test-run time,
+        # racing the two Vite servers for CPU/network and blowing their 30s
+        # startup timeout (this is what was failing every run).
+        run: npx firebase-tools setup:emulators:database
+
       - name: Run e2e tests
         # --workers=1: several specs here each drive 2-4 real browser
         # contexts through full duel matches at once (tournament, spectator,

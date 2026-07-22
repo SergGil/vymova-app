@@ -21,7 +21,7 @@ export default defineConfig({
     // other spec here talks to (see duel-room.spec.ts, which does hit prod).
     // "demo-" project id = offline mode, no GCP credentials needed, works in CI.
     {
-      command: 'npx firebase-tools@13 emulators:start --only database --project demo-vymova-e2e',
+      command: 'npx firebase-tools emulators:start --only database --project demo-vymova-e2e',
       url: 'http://127.0.0.1:9000/.json?ns=demo-vymova-e2e',
       reuseExistingServer: !process.env.CI,
       timeout: 60_000,
