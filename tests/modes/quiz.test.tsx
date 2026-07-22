@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { act } from 'react';
-import { createRoot, type Root } from 'react-dom/client';
+import { render } from '@testing-library/react';
 import { QuizPage, openQuickQuiz } from '../../js/modes/quiz.tsx';
 import { setDeckState } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.ts';
@@ -47,7 +47,6 @@ function answerAndAdvance(container: HTMLElement, correct: boolean): void {
 }
 
 describe('quiz.tsx (QuizPage)', () => {
-  let root: Root;
   let container: HTMLElement;
   let overlay: HTMLElement;
 
@@ -55,24 +54,15 @@ describe('quiz.tsx (QuizPage)', () => {
     localStorage.clear();
     localStorage.setItem('ew_srs_priority', '0');
     document.body.innerHTML = '';
-    overlay = document.createElement('div');
-    overlay.id = 'quiz-overlay';
-    document.body.appendChild(overlay);
     setDeckState(FIVE_WORDS);
 
-    container = document.createElement('div');
-    document.body.appendChild(container);
-    root = createRoot(container);
-    act(() => {
-      root.render(<QuizPage />);
-    });
-  });
-
-  afterEach(() => {
-    act(() => {
-      root.unmount();
-    });
-    document.body.innerHTML = '';
+    render(<QuizPage />);
+    // QuizPage now renders its own #quiz-overlay/#quiz-panel directly
+    // (portaled to document.body), rather than portaling into a static
+    // fixture — both exist unconditionally so useModeSession's open()/
+    // close() can always find #quiz-overlay by id.
+    overlay = document.getElementById('quiz-overlay')!;
+    container = document.getElementById('quiz-panel')!;
   });
 
   it('renders nothing until opened', () => {

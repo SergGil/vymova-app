@@ -13,6 +13,7 @@ import { NavProvider, getActivePage } from './nav-store.tsx';
 import { KnownWordsProvider } from './known-words-store.ts';
 import { SrsProvider } from './srs-store.ts';
 import { DeckFilterProvider } from './deck-filter-store.ts';
+import { ModeProvider } from './mode-store.ts';
 import { notifySettingsChange } from './store.ts';
 import { FandomThemeProvider } from './fandom-theme-store.ts';
 import { DeckProvider } from './deck-store.ts';
@@ -449,13 +450,9 @@ function AppRoot(): ReactElement {
       <LazyMode btnId="btn-story" mountId="story-page-mount" loader={_loadStory} />
       <LazyMode btnId="btn-lesson" mountId="lesson-page-mount" loader={_loadLesson} />
       <LazyMode btnId="btn-write" mountId="write-page-mount" loader={_loadWrite} />
-      <Portal id="catpairs-page-mount">
-        <CatPairsPage />
-      </Portal>
+      <CatPairsPage />
       <CatPairsWiringInit />
-      <Portal id="quiz-page-mount">
-        <QuizPage />
-      </Portal>
+      <QuizPage />
       <LazyMode btnId="btn-adaptive-quiz" mountId="aq-page-mount" loader={_loadAdaptiveQuiz} />
       <LazyMode btnId="btn-oddone" mountId="oo-page-mount" loader={_loadOddOneOut} />
       <LazyMode btnId="btn-sentbuild" mountId="sb-page-mount" loader={_loadSentenceBuilder} />
@@ -517,29 +514,31 @@ export function mountAppRoot(): void {
         <KnownWordsProvider>
           <SrsProvider>
             <DeckFilterProvider>
-              <FandomThemeProvider>
-                <DeckProvider>
-                  <DuelLobbyProvider>
-                    <DuelRoomProvider>
-                      <DuelQuestionProvider>
-                        <DuelChatProvider>
-                          <DuelSpecRoomProvider>
-                            <DuelTournViewProvider>
-                              <DuelResultProvider>
-                                <DuelResumeSessionsProvider>
-                                  <NavigateBridge />
-                                  <RouterSync />
-                                  <AppRoot />
-                                </DuelResumeSessionsProvider>
-                              </DuelResultProvider>
-                            </DuelTournViewProvider>
-                          </DuelSpecRoomProvider>
-                        </DuelChatProvider>
-                      </DuelQuestionProvider>
-                    </DuelRoomProvider>
-                  </DuelLobbyProvider>
-                </DeckProvider>
-              </FandomThemeProvider>
+              <ModeProvider>
+                <FandomThemeProvider>
+                  <DeckProvider>
+                    <DuelLobbyProvider>
+                      <DuelRoomProvider>
+                        <DuelQuestionProvider>
+                          <DuelChatProvider>
+                            <DuelSpecRoomProvider>
+                              <DuelTournViewProvider>
+                                <DuelResultProvider>
+                                  <DuelResumeSessionsProvider>
+                                    <NavigateBridge />
+                                    <RouterSync />
+                                    <AppRoot />
+                                  </DuelResumeSessionsProvider>
+                                </DuelResultProvider>
+                              </DuelTournViewProvider>
+                            </DuelSpecRoomProvider>
+                          </DuelChatProvider>
+                        </DuelQuestionProvider>
+                      </DuelRoomProvider>
+                    </DuelLobbyProvider>
+                  </DeckProvider>
+                </FandomThemeProvider>
+              </ModeProvider>
             </DeckFilterProvider>
           </SrsProvider>
         </KnownWordsProvider>

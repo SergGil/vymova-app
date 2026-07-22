@@ -22,9 +22,19 @@ import { initStaleChunkRecovery } from './stale-chunk-recovery.ts';
 initStaleChunkRecovery();
 
 // ── 8. App + modes + features ─────────────────────────────────
-// mountAppRoot() runs first (and its createRoot().render() commits the DOM
+// preloadInitialMode() runs first, and is awaited directly here (not via a
+// module-level top-level `await` inside lang-pair-select.tsx anymore) so it
+// can populate src/mode-store.ts *before* mountAppRoot() exists to commit
+// anything — the old approach relied on a static `#sel-mode` <select>
+// existing in index.html independent of React; that select is gone now, so
+// the store must be seeded directly instead. See
+// docs/full-react-migration-roadmap.md's "sel-mode" exception.
+const { preloadInitialMode } = await import('../js/features/lang-pair-select.tsx');
+await preloadInitialMode();
+
+// mountAppRoot() runs next (and its createRoot().render() commits the DOM
 // synchronously on this, the initial mount) so that js/app.ts's module-eval
-// — which reads #sel-mode/#sel-range via getElementById and calls render()
+// — which reads #sel-range via getElementById and calls render()
 // synchronously — always finds a DOM already populated by React, instead of
 // racing it. See docs/card-shell-migration-roadmap.md Phase 1.
 const { mountAppRoot } = await import('./app-root.tsx');

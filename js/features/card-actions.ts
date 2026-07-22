@@ -15,6 +15,7 @@ import { showPronuncResult } from './voice/pronunciation-toast.tsx';
 import { checkMilestones } from './milestones.ts';
 import {
   getMode,
+  getRawMode,
   getActiveTargetLang,
   isTargetLang,
   langConfig,
@@ -83,7 +84,7 @@ export function CardActionsInit(): ReactElement | null {
       e.stopPropagation();
       const cw = getCwSnapshot();
       if (!cw) return;
-      const modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
+      const modeVal = getRawMode();
       const front = parsePair(modeVal).front;
       const entry = entryFor(front, cw);
       speakForCode(front, entry.word, cw[0], speakWordBtn, entry.translit);
@@ -96,7 +97,7 @@ export function CardActionsInit(): ReactElement | null {
       const cw = getCwSnapshot();
       if (!cw) return;
       const exEn = cw[2] || '';
-      const modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
+      const modeVal = getRawMode();
       const front = parsePair(modeVal).front;
       // Speak the example in whichever language is on the card front: a
       // target language's example (if a voice is available), the Ukrainian
@@ -141,7 +142,7 @@ export function CardActionsInit(): ReactElement | null {
       // saying the Spanish word perfectly still got compared against the
       // English text using an English-tuned recognizer, guaranteeing a poor
       // score no matter how correct the pronunciation actually was.
-      const modeVal = (document.getElementById('sel-mode') as HTMLSelectElement)!.value;
+      const modeVal = getRawMode();
       const front = parsePair(modeVal).front;
       const entry = entryFor(front, cw);
       const word = entry.word || cw[0];

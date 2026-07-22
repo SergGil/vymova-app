@@ -1,11 +1,14 @@
 // Vymova — js/features/header-left.tsx
 // full-react-migration-roadmap.md Phase 3 (safe half — the header's
-// `.controls` <select> trio, sel-mode/sel-tag/sel-range, stays static; an
-// audit found several pre-mount reads of them via card-engine.ts's boot-time
-// render() and app-root.tsx's own static import graph that would silently
-// misbehave if those elements didn't exist until React's first commit — the
-// same class of boot-order hazard already documented for #card. `.header-left`
-// has no such dependency, so it's safe to convert).
+// `.controls` <select> trio originally stayed static: an audit found several
+// pre-mount reads of them via card-engine.ts's boot-time render() and
+// app-root.tsx's own static import graph that would silently misbehave if
+// those elements didn't exist until React's first commit — the same class
+// of boot-order hazard already documented for #card. sel-tag/sel-range were
+// converted to JSX in card-shell-migration-roadmap.md's Phase 3; sel-mode
+// was later replaced entirely by src/mode-store.ts (no DOM element left at
+// all — see the roadmap's "sel-mode" exception). `.header-left` has no such
+// dependency, so it was safe to convert from the start).
 //
 // title-sw-toggle/title-hp-toggle are wired by FandomThemeRowsController's
 // useEffect (fandom-theme-rows.tsx), profile-btn by ProfileSwitcher's

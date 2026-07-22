@@ -142,6 +142,7 @@ vi.mock('../../data/words_tlh.js', () => ({ W_TLH: {} }));
 vi.mock('../../data/words_val.js', () => ({ W_VAL: {} }));
 vi.mock('../../data/words_dth.js', () => ({ W_DTH: {} }));
 import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
+import { getModeStateSnapshot, subscribeMode } from '../../src/mode-store.ts';
 
 const NEW_LANGS = [
   'hi', 'bn', 'id', 'pcm', 'ko', 'fa', 'sw', 'ms', 'th', 'az', 'ro', 'hu', 'cs', 'kk', 'sv',
@@ -167,25 +168,8 @@ function mountLangPairSelect(): void {
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-function setupDom(selModeValue = 'en'): void {
-  document.body.innerHTML = `
-    <span id="lang-pair-select"></span>
-    <select id="sel-mode">
-      <option value="en">EN → UA</option>
-      <option value="ua">UA → EN</option>
-      <option value="en-es">EN → ES</option>
-      <option value="es-en">ES → EN</option>
-      <option value="es-ua">ES → UA</option>
-      <option value="ua-es">UA → ES</option>
-      <option value="en-fr">EN → FR</option>
-      <option value="fr-en">FR → EN</option>
-      <option value="fr-ua">FR → UA</option>
-      <option value="ua-fr">UA → FR</option>
-      <option value="es-fr">ES → FR</option>
-      <option value="fr-es">FR → ES</option>
-      <option value="mix">Mixed</option>
-    </select>`;
-  (document.getElementById('sel-mode') as HTMLSelectElement).value = selModeValue;
+function setupDom(): void {
+  document.body.innerHTML = `<span id="lang-pair-select"></span>`;
 }
 
 function dropdowns(): HTMLDivElement[] {
@@ -216,7 +200,7 @@ describe('lang-pair-select', () => {
 
   beforeEach(() => {
     localStorage.clear();
-    setupDom('en');
+    setupDom();
   });
 
   it('renders three flag dropdowns with options', () => {
@@ -242,8 +226,10 @@ describe('lang-pair-select', () => {
     expect(dds[2].querySelectorAll('.flagdd-item').length).toBe(3); // direction: fwd/rev/mix
   });
 
-  it('restores pair from existing #sel-mode value', () => {
-    setupDom('es-ua');
+  it('restores pair from localStorage', () => {
+    localStorage.setItem('ew_know_lang', 'ua');
+    localStorage.setItem('ew_learn_lang', 'es');
+    localStorage.setItem('ew_direction', 'fwd');
     act(() => {
       mountLangPairSelect();
     });
@@ -253,28 +239,29 @@ describe('lang-pair-select', () => {
   });
 
   it(
-    'changing "know" updates #sel-mode and dispatches change',
+    'changing "know" updates the mode store and notifies subscribers',
     () => {
       act(() => {
         mountLangPairSelect();
       });
       let changed = false;
-      document.getElementById('sel-mode')!.addEventListener('change', () => {
+      const unsubscribe = subscribeMode(() => {
         changed = true;
       });
       selectOption(0, 'es');
-      expect((document.getElementById('sel-mode') as HTMLSelectElement).value).toBe('en-es');
+      expect(getModeStateSnapshot().mode).toBe('en-es');
       expect(changed).toBe(true);
+      unsubscribe();
     },
     300000,
   );
 
-  it('changing "learn" updates #sel-mode', () => {
+  it('changing "learn" updates the mode store', () => {
     act(() => {
       mountLangPairSelect();
     });
     selectOption(1, 'fr');
-    expect((document.getElementById('sel-mode') as HTMLSelectElement).value).toBe('fr-ua');
+    expect(getModeStateSnapshot().mode).toBe('fr-ua');
   });
 
   it('selecting a value closes the dropdown', () => {

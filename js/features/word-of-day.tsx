@@ -9,6 +9,7 @@ import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { t } from './i18n.ts';
 import { getMode, entryFor, parsePair } from './mode-utils.ts';
+import { subscribeMode } from '../../src/mode-store.ts';
 import { loadWikiImage } from '../core/images.ts';
 import { closePage } from './sidebar.tsx';
 import { render, setIdx } from '../core/card-engine.ts';
@@ -81,10 +82,7 @@ export function WordOfDay(): ReactElement {
   const wordHead = word[0];
 
   useEffect(() => {
-    const sel = document.getElementById('sel-mode');
-    const onChange = () => setMode(getMode());
-    sel?.addEventListener('change', onChange);
-    return () => sel?.removeEventListener('change', onChange);
+    return subscribeMode(() => setMode(getMode()));
   }, []);
 
   useEffect(() => {

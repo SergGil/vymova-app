@@ -26,8 +26,9 @@ loadSrsData(_loadedSrs);
 window.addEventListener('ew-learn-lang-changed', function () {
   loadSrsData(loadSRS());
   // Deferred: lang-pair-select.tsx dispatches this event *before* it rebuilds
-  // the base-words store for the new language (via the legacy sel-mode 'change'
-  // chain), so updateSrsUI must run after that synchronous chain finishes.
+  // the base-words store for the new language (via src/mode-store.ts's
+  // setMode()/subscribeMode() chain), so updateSrsUI must run after that
+  // synchronous chain finishes.
   setTimeout(function () {
     try {
       updateSrsUI((getBaseWordsSnapshot() ?? W) as unknown as WordEntry[]);

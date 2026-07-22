@@ -27,4 +27,19 @@ describe('src/main.ts boot order', () => {
     expect(appImportIdx).toBeGreaterThan(-1);
     expect(mountCallIdx).toBeLessThan(appImportIdx);
   });
+
+  // full-react-migration-roadmap.md's "sel-mode" exception: preloadInitialMode()
+  // (js/features/lang-pair-select.tsx) must be awaited before mountAppRoot()
+  // is called, since it seeds src/mode-store.ts — the only source of truth
+  // for the current mode now that the legacy `#sel-mode` <select> is gone —
+  // and non-React callers (e.g. card-engine.ts's render(), also called
+  // during js/app.ts's module-eval) must see a populated store immediately.
+  it('awaits preloadInitialMode() before calling mountAppRoot()', () => {
+    const src = readFileSync(join(__dirname, '..', 'src', 'main.ts'), 'utf8');
+    const preloadCallIdx = src.indexOf('await preloadInitialMode();');
+    const mountCallIdx = src.indexOf('mountAppRoot();');
+    expect(preloadCallIdx).toBeGreaterThan(-1);
+    expect(mountCallIdx).toBeGreaterThan(-1);
+    expect(preloadCallIdx).toBeLessThan(mountCallIdx);
+  });
 });

@@ -1,6 +1,7 @@
 // Vymova — js/modes/quiz.tsx
 // 🧠 QUIZ MODE
 import { useEffect, useState, type ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words.js';
@@ -125,7 +126,7 @@ export function openQuickQuiz(): void {
 
 type StartArg = { src?: WordEntry[] | null; maxSize?: number; isRetry?: boolean };
 
-export function QuizPage(): ReactElement {
+export function QuizPage(): ReactElement | null {
   const [deck, setDeck] = useState<WordEntry[]>([]);
   const [idx, setIdx] = useState(0);
   const [correct, setCorrect] = useState(0);
@@ -243,44 +244,43 @@ export function QuizPage(): ReactElement {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answered, qData, idx, deck]);
 
-  if (!isOpen) return <></>;
+  function renderContent(): ReactElement {
+    const pct = deck.length > 0 ? Math.round((correct / deck.length) * 100) : 0;
+    let finalEmoji: string, finalTitle: string, finalDesc: string;
+    const scoreLine = `${_answerCount(correct)} ${t('common.of')} ${deck.length} (${pct}%)`;
+    if (isRetrySession && pct === 100) {
+      finalEmoji = '🎯';
+      finalTitle = t('quiz.fixedTitle');
+      finalDesc =
+        deck.length === 1
+          ? t('quiz.fixedDescSingle')
+          : t('quiz.fixedDescAll', { n: _answerCount(deck.length) });
+    } else if (pct === 100) {
+      finalEmoji = '🏆';
+      finalTitle = t('quiz.perfectTitle');
+      finalDesc =
+        deck.length === 1
+          ? t('quiz.perfectDescSingle')
+          : t('quiz.perfectDescAll', { n: _answerCount(deck.length) });
+    } else if (pct >= 80) {
+      finalEmoji = '🎉';
+      finalTitle = t('quiz.greatTitle');
+      finalDesc = scoreLine;
+    } else if (pct >= 60) {
+      finalEmoji = '👍';
+      finalTitle = t('quiz.goodTitle');
+      finalDesc = scoreLine;
+    } else if (pct >= 40) {
+      finalEmoji = '📚';
+      finalTitle = t('quiz.keepTitle');
+      finalDesc = `${scoreLine}. ${t('quiz.keepDescSuffix')}`;
+    } else {
+      finalEmoji = '💪';
+      finalTitle = t('quiz.encourageTitle');
+      finalDesc = `${scoreLine}. ${t('quiz.encourageDescSuffix')}`;
+    }
 
-  const pct = deck.length > 0 ? Math.round((correct / deck.length) * 100) : 0;
-  let finalEmoji: string, finalTitle: string, finalDesc: string;
-  const scoreLine = `${_answerCount(correct)} ${t('common.of')} ${deck.length} (${pct}%)`;
-  if (isRetrySession && pct === 100) {
-    finalEmoji = '🎯';
-    finalTitle = t('quiz.fixedTitle');
-    finalDesc =
-      deck.length === 1
-        ? t('quiz.fixedDescSingle')
-        : t('quiz.fixedDescAll', { n: _answerCount(deck.length) });
-  } else if (pct === 100) {
-    finalEmoji = '🏆';
-    finalTitle = t('quiz.perfectTitle');
-    finalDesc =
-      deck.length === 1
-        ? t('quiz.perfectDescSingle')
-        : t('quiz.perfectDescAll', { n: _answerCount(deck.length) });
-  } else if (pct >= 80) {
-    finalEmoji = '🎉';
-    finalTitle = t('quiz.greatTitle');
-    finalDesc = scoreLine;
-  } else if (pct >= 60) {
-    finalEmoji = '👍';
-    finalTitle = t('quiz.goodTitle');
-    finalDesc = scoreLine;
-  } else if (pct >= 40) {
-    finalEmoji = '📚';
-    finalTitle = t('quiz.keepTitle');
-    finalDesc = `${scoreLine}. ${t('quiz.keepDescSuffix')}`;
-  } else {
-    finalEmoji = '💪';
-    finalTitle = t('quiz.encourageTitle');
-    finalDesc = `${scoreLine}. ${t('quiz.encourageDescSuffix')}`;
-  }
-
-  return (
+    return (
     <>
       <div
         style={{
@@ -559,5 +559,16 @@ export function QuizPage(): ReactElement {
         </div>
       )}
     </>
+    );
+  }
+
+  if (typeof document === 'undefined') return null;
+  return createPortal(
+    <div id="quiz-overlay" className={isOpen ? 'open' : undefined}>
+      <div className="quiz-panel" id="quiz-panel">
+        {isOpen && renderContent()}
+      </div>
+    </div>,
+    document.body,
   );
 }

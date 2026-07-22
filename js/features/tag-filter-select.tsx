@@ -10,6 +10,7 @@ import { setActiveTagSet } from '../../src/deck-filter-store.ts';
 import { getWordIndex } from '../core/word-index.ts';
 import { WORD_CATEGORIES, CATEGORY_LIST } from '../../data/categories.js';
 import { categoryName, t } from './i18n.ts';
+import { getRawMode } from './mode-utils.ts';
 import { _rebuildEsDeck, _isSpecialMode } from './deck-mode.tsx';
 
 function fitSelTag(selTag: HTMLSelectElement): void {
@@ -35,8 +36,7 @@ function applyTagFilter(selTag: HTMLSelectElement): void {
       .filter((w) => (wordIdx ? wordIdx.has(w) : true));
     setActiveTagSet(new Set(words));
   }
-  const selMode = document.getElementById('sel-mode') as HTMLSelectElement | null;
-  if (selMode && _isSpecialMode(selMode.value)) {
+  if (_isSpecialMode(getRawMode())) {
     _rebuildEsDeck();
   } else {
     document.getElementById('sel-range')?.dispatchEvent(new Event('change'));

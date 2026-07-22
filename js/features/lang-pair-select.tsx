@@ -9,6 +9,7 @@ import { flagUrl } from '../core/flags.ts';
 import { FLAG_CODE } from '../core/flag-codes.ts';
 import { FlagDropdown } from '../core/flag-dropdown.tsx';
 import { ensureLangTableLoaded, areLangTablesReady } from './mode-utils.ts';
+import { getModeStateSnapshot, setMode as dispatchMode } from '../../src/mode-store.ts';
 
 export { FLAG_CODE };
 
@@ -319,19 +320,6 @@ function modeForPair(front: LangCode, back: LangCode): string {
   return `${front}-${back}`;
 }
 
-// #sel-mode value -> (learnLang, knowLang) i.e. (front, back) — inverse of modeForPair.
-function pairForMode(mode: string): [LangCode, LangCode] {
-  if (mode === 'en') return ['en', 'ua'];
-  if (mode === 'ua') return ['ua', 'en'];
-  const i = mode.indexOf('-');
-  if (i > 0) {
-    const f = mode.slice(0, i),
-      b = mode.slice(i + 1);
-    if (isLangCode(f) && isLangCode(b)) return [f, b];
-  }
-  return ['en', 'ua'];
-}
-
 const KNOW_KEY = 'ew_know_lang';
 const LEARN_KEY = 'ew_learn_lang';
 const DIR_KEY = 'ew_direction';
@@ -521,63 +509,25 @@ function initialState(): { learnLang: LangCode; knowLang: LangCode; direction: D
       direction: isDirection(storedDir) ? storedDir : 'fwd',
     };
   }
-  const current = (document.getElementById('sel-mode') as HTMLSelectElement | null)?.value ?? 'en';
-  const [learnLang, knowLang] = pairForMode(current);
-  return { learnLang, knowLang, direction: 'fwd' };
+  return { learnLang: 'en', knowLang: 'ua', direction: 'fwd' };
 }
 
-// #sel-mode (index.html) only ships hardcoded <option>s for the historical
-// EN/UA-hub pairs (~62 of the 210 possible). Setting .value to a mode string
-// with no matching <option> silently resets it to '' (per the <select>
-// spec), so any pair without a pre-existing <option> would otherwise revert
-// to the 'en' fallback. Lazily create the missing ones — the element is
-// display:none, used purely as shared state, so the generated label text
-// is never seen.
-let _optionsEnsured = false;
-function _ensureModeOptions(sel: HTMLSelectElement): void {
-  if (_optionsEnsured) return;
-  _optionsEnsured = true;
-  // Collect existing values once instead of a querySelector scan per pair —
-  // with ALL_LANGS this large, the O(n) DOM scan inside an O(n²) pair loop
-  // made this O(n³) and measurably slow (see lang-pair-select.test.tsx).
-  const existing = new Set(Array.from(sel.options).map((o) => o.value));
-  const frag = document.createDocumentFragment();
-  for (const front of ALL_LANGS) {
-    for (const back of ALL_LANGS) {
-      if (front === back) continue;
-      const mode = modeForPair(front, back);
-      if (existing.has(mode)) continue;
-      existing.add(mode);
-      const opt = document.createElement('option');
-      opt.value = mode;
-      opt.textContent = `${front.toUpperCase()} → ${back.toUpperCase()}`;
-      frag.appendChild(opt);
-    }
-  }
-  sel.appendChild(frag);
-}
-
-// Applies the chosen pair + direction to the legacy #sel-mode select.
+// Applies the chosen pair + direction to the shared mode store (src/mode-store.ts).
 function applyMode(learn: LangCode, know: LangCode, direction: Direction): void {
   const fwdMode = modeForPair(learn, know);
   const revMode = modeForPair(know, learn);
-  const sel = document.getElementById('sel-mode') as HTMLSelectElement | null;
-  if (!sel) return;
-  _ensureModeOptions(sel);
+  const current = getModeStateSnapshot();
   let mode: string;
+  let mixA: string | null = null;
+  let mixB: string | null = null;
   if (direction === 'rev' && revMode) mode = revMode;
-  else if (direction === 'mix' && fwdMode && revMode) mode = 'mix';
-  else mode = fwdMode || revMode || sel.value;
-  if (direction === 'mix' && fwdMode && revMode) {
-    sel.dataset.mixA = fwdMode;
-    sel.dataset.mixB = revMode;
-  } else {
-    delete sel.dataset.mixA;
-    delete sel.dataset.mixB;
-  }
-  if (sel.value === mode) return;
-  sel.value = mode;
-  sel.dispatchEvent(new Event('change'));
+  else if (direction === 'mix' && fwdMode && revMode) {
+    mode = 'mix';
+    mixA = fwdMode;
+    mixB = revMode;
+  } else mode = fwdMode || revMode || current.mode;
+  if (current.mode === mode && current.mixA === mixA && current.mixB === mixB) return;
+  dispatchMode(mode, mixA, mixB);
 }
 
 export function LangPairSelect(): ReactElement {
@@ -690,11 +640,15 @@ export function LangPairSelect(): ReactElement {
   );
 }
 
-// Preload the active pair's word tables before wiring up #sel-mode so that
-// entry lookups (deck filter, computeCardView) are synchronously available
-// from the first render. top-level await is safe: this file is a module
-// (type="module") and Vite targets esnext.
-{
+// Preloads the active pair's word tables and applies the initial mode to
+// the shared store, so entry lookups (deck filter, computeCardView) are
+// synchronously available from the first render. Called explicitly from
+// src/main.ts *before* mountAppRoot() — not a module-level top-level
+// `await` (as this used to be): that ran during app-root.tsx's static
+// import graph, which today would run before the JSX tree (and the store's
+// Provider) even exists. See docs/full-react-migration-roadmap.md's
+// "sel-mode" exception.
+export async function preloadInitialMode(): Promise<void> {
   const { learnLang, knowLang, direction } = initialState();
   await Promise.all([ensureLangTableLoaded(learnLang), ensureLangTableLoaded(knowLang)]);
   applyMode(learnLang, knowLang, direction);

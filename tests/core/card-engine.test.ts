@@ -7,6 +7,7 @@ import {
 } from '../../src/deck-store.ts';
 import { getCardAnimSnapshot } from '../../js/core/card-anim-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
+import { setMode } from '../../src/mode-store.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const { getComboMult, awardXP } = vi.hoisted(() => ({
@@ -75,9 +76,9 @@ beforeAll(async () => {
     <div id="card"><div class="card-face"></div></div>
     <button id="btn-dontknow"></button>
     <select id="sel-range"><option value="srs" selected>srs</option></select>
-    <select id="sel-mode"><option value="en-ua" selected>en-ua</option></select>
     <button id="btn-auto"></button>
   `;
+  setMode('en-ua');
   vi.stubGlobal(
     'matchMedia',
     vi.fn(() => ({ matches: false })),

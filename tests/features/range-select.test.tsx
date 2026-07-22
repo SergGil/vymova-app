@@ -36,6 +36,7 @@ describe('range-select.tsx RangeSelect', () => {
       '0',
       'unlearned',
       'srs',
+      'bookmarks',
       'weak',
       'hard',
       'leech',
@@ -55,6 +56,15 @@ describe('range-select.tsx RangeSelect', () => {
       'stale30',
     ]);
     expect(selRange.querySelectorAll('optgroup').length).toBe(2);
+  });
+
+  it('renders a "bookmarks" option right after "srs"', () => {
+    const { selRange } = mount();
+    const values = Array.from(selRange.querySelectorAll('option')).map((o) => o.value);
+    expect(values.indexOf('bookmarks')).toBe(values.indexOf('srs') + 1);
+    expect(
+      (selRange.querySelector('option[value="bookmarks"]') as HTMLOptionElement).textContent,
+    ).toBeTruthy();
   });
 
   it('labels the "0" option with the total word count', () => {

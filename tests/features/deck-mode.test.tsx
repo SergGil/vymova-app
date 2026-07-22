@@ -3,6 +3,7 @@ import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { getDeckSnapshot, setDeckState, setIdxState } from '../../src/deck-store.ts';
 import { setActiveTagSet } from '../../src/deck-filter-store.ts';
+import { setMode, getModeStateSnapshot } from '../../src/mode-store.ts';
 import { W } from '../../data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
@@ -25,10 +26,8 @@ vi.mock('../../data/words_pt.js', () => ({ W_PT: {} }));
 vi.mock('../../data/words_de.js', () => ({ W_DE: {} }));
 
 function changeMode(value: string): void {
-  const sel = document.getElementById('sel-mode') as HTMLSelectElement;
-  sel.value = value;
   act(() => {
-    sel.dispatchEvent(new Event('change'));
+    setMode(value);
   });
 }
 
@@ -38,16 +37,11 @@ describe('deck-mode.tsx DeckModeInit', () => {
     await Promise.all(['es', 'fr', 'it', 'pt', 'de'].map(ensureLangTableLoaded));
 
     document.body.innerHTML = `
-      <select id="sel-mode">
-        <option value="en" selected>en</option>
-        <option value="es-en">es-en</option>
-        <option value="fr-en">fr-en</option>
-        <option value="es-fr">es-fr</option>
-      </select>
       <select id="sel-range"><option value="0">All</option></select>
       <select id="sel-tag"><option value="">All tags</option></select>
       <div id="milestone-toast"></div>
     `;
+    setMode('en');
     setActiveTagSet(null);
     setDeckState((W as unknown as WordEntry[]).slice(0, 5));
     setIdxState(0);
@@ -114,8 +108,7 @@ describe('deck-mode.tsx DeckModeInit', () => {
 
     changeMode('fr-en');
 
-    const sel = document.getElementById('sel-mode') as HTMLSelectElement;
-    expect(sel.value).toBe('en');
+    expect(getModeStateSnapshot().mode).toBe('en');
     const toast = document.getElementById('milestone-toast') as HTMLElement;
     expect(toast.textContent).toContain('Французьких перекладів');
     expect(toast.className).toContain('show');

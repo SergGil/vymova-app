@@ -1,5 +1,4 @@
 ﻿// Vymova — js/features/bookmarks.ts
-import { t } from './i18n.ts';
 import { _jsonLoad, _jsonSave } from '../core/storage.ts';
 
 const _bm = new Set<string>(_jsonLoad<string[]>('ew_bookmarks', []));
@@ -19,17 +18,4 @@ export function toggleBookmark(w: string): boolean {
   else _bm.add(w);
   _save();
   return _bm.has(w);
-}
-
-// #sel-range itself is legacy (Phase 4 of REACT_MIGRATION_PLAN.md), so this
-// option is inserted imperatively until that select becomes a component.
-const sel = document.getElementById('sel-range') as HTMLSelectElement | null;
-if (sel && !sel.querySelector('option[value="bookmarks"]')) {
-  const opt = document.createElement('option');
-  opt.value = 'bookmarks';
-  opt.dataset.i18n = 'range.bookmarks';
-  opt.textContent = t('range.bookmarks');
-  const srsOpt = sel.querySelector('option[value="srs"]');
-  if (srsOpt) srsOpt.after(opt);
-  else sel.appendChild(opt);
 }

@@ -25,8 +25,7 @@ function mount(): HTMLElement {
 
 describe('<GameBar/>', () => {
   beforeEach(() => {
-    document.body.innerHTML =
-      '<select id="sel-mode"><option value="en" selected>en</option></select>';
+    document.body.innerHTML = '';
   });
 
   it('renders the daily-goal label and preserves the ids external modules reach into', () => {

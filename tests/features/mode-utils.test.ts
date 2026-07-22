@@ -1,5 +1,6 @@
 import { describe, it, expect, afterEach, beforeAll } from 'vitest';
 import { setModeState } from '../../src/deck-store.ts';
+import { setMode } from '../../src/mode-store.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 import {
@@ -42,25 +43,21 @@ describe('mode-utils.ts', () => {
   afterEach(() => {
     document.body.innerHTML = '';
     setModeState('en');
+    setMode('en');
   });
 
   describe('getMode', () => {
-    it('returns "en" when #sel-mode is absent', () => {
+    it('returns "en" when the mode store is at its default', () => {
       expect(getMode()).toBe('en');
     });
 
     it('returns the selected value', () => {
-      document.body.innerHTML = `<select id="sel-mode"><option value="en-es" selected>x</option></select>`;
-      (document.getElementById('sel-mode') as HTMLSelectElement).value = 'en-es';
+      setMode('en-es');
       expect(getMode()).toBe('en-es');
     });
 
-    it('resolves "mix" mode to either mixA or mixB based on data attributes', () => {
-      document.body.innerHTML = `<select id="sel-mode"><option value="mix">mix</option></select>`;
-      const sel = document.getElementById('sel-mode') as HTMLSelectElement;
-      sel.value = 'mix';
-      sel.dataset.mixA = 'en-es';
-      sel.dataset.mixB = 'es-en';
+    it('resolves "mix" mode to either mixA or mixB based on the store', () => {
+      setMode('mix', 'en-es', 'es-en');
       const results = new Set<string>();
       for (let i = 0; i < 30; i++) results.add(getMode());
       expect(results).toEqual(new Set(['en-es', 'es-en']));

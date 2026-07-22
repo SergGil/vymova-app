@@ -3,6 +3,7 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { renderCardState, setDeckState, setIdxState, setCwState } from '../../src/deck-store.ts';
 import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
+import { setMode } from '../../src/mode-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 
 vi.mock('../../js/core/card-engine.ts', () => ({
@@ -110,9 +111,7 @@ describe('card-meta.tsx CardMeta', () => {
   });
 
   it('the unmark button removes the word from the active language-specific known set', () => {
-    document.body.innerHTML =
-      '<select id="sel-mode"><option value="he-ua" selected>x</option></select>';
-    (document.getElementById('sel-mode') as HTMLSelectElement).value = 'he-ua';
+    setMode('he-ua');
     setKnownWords('he', new Set(['abandon']));
     const { container } = mount();
     const btn = container.querySelector('#btn-unmark') as HTMLButtonElement;

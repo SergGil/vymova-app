@@ -31,6 +31,7 @@ export function RangeSelect(): ReactElement {
       <option key="srs" value="srs">
         {t('range.srs')}
       </option>
+      <option value="bookmarks">{t('range.bookmarks')}</option>
       <option value="weak">{t('range.weak')}</option>
       <option value="hard">{t('range.hard')}</option>
       <option value="leech">{t('range.leech')}</option>

@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { getDeckSnapshot, setDeckState, setModeState } from '../../src/deck-store.ts';
+import { setMode } from '../../src/mode-store.ts';
 import { WordOfDay } from '../../js/features/word-of-day.tsx';
 import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 
@@ -31,8 +32,8 @@ function mount(): { container: HTMLElement; root: Root } {
 
 describe('word-of-day.tsx WordOfDay', () => {
   beforeEach(() => {
-    document.body.innerHTML =
-      '<select id="sel-mode"><option value="en" selected>en</option></select>';
+    document.body.innerHTML = '';
+    setMode('en');
     setModeState('en');
     setDeckState([]);
     closePage.mockClear();
@@ -111,13 +112,10 @@ describe('word-of-day.tsx WordOfDay', () => {
     void word;
   });
 
-  it('updates the displayed word when the mode select changes', () => {
+  it('updates the displayed word when the mode changes', () => {
     const { container } = mount();
-    const sel = document.getElementById('sel-mode') as HTMLSelectElement;
-    sel.innerHTML += '<option value="ua">ua</option>';
-    sel.value = 'ua';
     act(() => {
-      sel.dispatchEvent(new Event('change'));
+      setMode('ua');
     });
     expect(container.querySelector('.wotd-word')!.textContent).toBeTruthy();
   });
@@ -130,8 +128,7 @@ describe('word-of-day.tsx WordOfDay', () => {
   // translation is trivially distinguishable from the English fallback.
   it('shows a real translation (not the English fallback) for a language past the old 13-language switch', async () => {
     await ensureLangTableLoaded('ko');
-    document.body.innerHTML =
-      '<select id="sel-mode"><option value="ko-en" selected>ko-en</option></select>';
+    setMode('ko-en');
     setModeState('ko-en');
     const { container } = mount();
     const shown = container.querySelector('.wotd-word')!.textContent!;

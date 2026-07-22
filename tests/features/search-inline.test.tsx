@@ -39,7 +39,7 @@ function setInputValue(input: HTMLInputElement, value: string): void {
 describe('search-inline.tsx SearchInline', () => {
   beforeEach(() => {
     document.body.innerHTML =
-      '<select id="sel-mode"><option value="en" selected>en</option></select><select id="sel-range"><option value="0">All</option></select>';
+      '<select id="sel-range"><option value="0">All</option></select>';
     setDeckState((W as unknown as WordEntry[]).slice(0, 5));
     setKnownWords('en', new Set());
     render.mockClear();

@@ -137,7 +137,6 @@
         <div class="controls flex flex-wrap items-center gap-1.5">
           <div id="theme-toggle-mount"></div>
           <div id="lang-pair-select"></div>
-          <select id="sel-mode" style="display: none"></select>
           <div id="sel-tag-mount"></div>
           <div id="sel-range-mount"></div>
         </div>
@@ -345,16 +344,8 @@
         </div>
       </div>
 
-      <!-- ══ CATEGORY PAIRS MODAL ══ -->
-      <div
-        id="catpairs-overlay"
-        class="fixed inset-0 z-[9100] flex items-center justify-center bg-black/55 px-3 py-4"
-        style="display: none"
-      >
-        <div class="pairs-panel">
-          <div id="catpairs-page-mount"></div>
-        </div>
-      </div>
+      <!-- ══ CATEGORY PAIRS MODAL (React, catpairs.tsx — renders its own
+           #catpairs-overlay directly, see that file's comment) ══ -->
 
       <!-- ══ KEYBOARD OVERLAY ══ -->
       <div id="keys-overlay-mount"></div>
@@ -362,12 +353,8 @@
       <!-- ══ PAIRS MODAL (React, pairs.tsx — renders its own #pairs-overlay
            directly, see that file's Phase 2 comment) ══ -->
 
-      <!-- ══ QUIZ MODAL ══ -->
-      <div id="quiz-overlay">
-        <div class="quiz-panel" id="quiz-panel">
-          <div id="quiz-page-mount"></div>
-        </div>
-      </div>
+      <!-- ══ QUIZ MODAL (React, quiz.tsx — renders its own #quiz-overlay
+           directly, see that file's comment) ══ -->
 
       <!-- ══ ADAPTIVE QUIZ MODAL ══ -->
       <div id="aq-overlay">

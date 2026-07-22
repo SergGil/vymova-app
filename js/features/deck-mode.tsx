@@ -4,8 +4,9 @@
 import { useEffect, type ReactElement } from 'react';
 import { getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
 import { getDeckSnapshot, getIdxSnapshot } from '../../src/deck-store.ts';
+import { subscribeMode, setMode } from '../../src/mode-store.ts';
 import { W } from '../../data/words.js';
-import { getMode, getWordsForMode, isSpecialMode, noTranslationsKey } from './mode-utils.ts';
+import { getMode, getRawMode, getWordsForMode, isSpecialMode, noTranslationsKey } from './mode-utils.ts';
 import { t } from './i18n.ts';
 import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';
 import { shuffle } from '../core/srs.ts';
@@ -34,11 +35,9 @@ export function _rebuildEsDeck(): void {
 
 export function DeckModeInit(): ReactElement | null {
   useEffect(() => {
-    const selMode = document.getElementById('sel-mode');
-
     // On mount: if a special mode was already set (restored from localStorage
-    // before this listener registered), apply the filtered deck immediately.
-    const initMode = (selMode as HTMLSelectElement | null)?.value ?? '';
+    // before this subscription registered), apply the filtered deck immediately.
+    const initMode = getRawMode();
     if (_isSpecialMode(initMode)) {
       const specialDeck = _getSpecialDeck(initMode);
       if (specialDeck.length) {
@@ -61,9 +60,9 @@ export function DeckModeInit(): ReactElement | null {
       }
     }
 
-    const onChange = function (this: HTMLSelectElement) {
+    const onModeChange = (): void => {
       stopAuto();
-      const m = this.value;
+      const m = getRawMode();
       const isSpecial = _isSpecialMode(m);
 
       if (isSpecial) {
@@ -79,7 +78,7 @@ export function DeckModeInit(): ReactElement | null {
               _mt.className = 'milestone-toast';
             }, 3500);
           }
-          this.value = 'en';
+          setMode('en');
           render();
           return;
         }
@@ -106,8 +105,7 @@ export function DeckModeInit(): ReactElement | null {
       }
       render();
     };
-    selMode?.addEventListener('change', onChange as EventListener);
-    return () => selMode?.removeEventListener('change', onChange as EventListener);
+    return subscribeMode(onModeChange);
   }, []);
 
   return null;

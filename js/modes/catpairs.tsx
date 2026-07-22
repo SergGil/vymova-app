@@ -1,6 +1,7 @@
 // Vymova — js/modes/catpairs.tsx
 // 📦 CATEGORY PAIRS MODE + WOTD + MILESTONES + WEAK WORDS
 import { useEffect, useRef, useState, type ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 import { getWordIndex } from '../core/word-index.ts';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { loadSRS } from '../core/storage.ts';
@@ -76,7 +77,7 @@ function closeCatpairs(): void {
 
 type Selection = { id: number; side: string } | null;
 
-export function CatPairsPage(): ReactElement {
+export function CatPairsPage(): ReactElement | null {
   const [screen, setScreen] = useState<'select' | 'game'>('select');
   const [catKey, setCatKey] = useState('');
   const [deck, setDeck] = useState<WordEntry[]>([]);
@@ -188,22 +189,21 @@ export function CatPairsPage(): ReactElement {
     }
   };
 
-  if (!isOpen) return <></>;
+  function renderContent(): ReactElement {
+    const best = getBest(catKey);
+    const title =
+      screen === 'select'
+        ? t('catpairs.themes')
+        : catKey === RANDOM_KEY
+          ? t('catpairs.random')
+          : categoryName(catKey);
+    const isWrong = (id: number, side: string): boolean =>
+      wrongIds.some((w) => w.id === id && w.side === side);
+    const isSelected = (id: number, side: string): boolean =>
+      !!sel && sel.id === id && sel.side === side;
 
-  const best = getBest(catKey);
-  const title =
-    screen === 'select'
-      ? t('catpairs.themes')
-      : catKey === RANDOM_KEY
-        ? t('catpairs.random')
-        : categoryName(catKey);
-  const isWrong = (id: number, side: string): boolean =>
-    wrongIds.some((w) => w.id === id && w.side === side);
-  const isSelected = (id: number, side: string): boolean =>
-    !!sel && sel.id === id && sel.side === side;
-
-  return (
-    <>
+    return (
+      <>
       <div className="mb-3.5 flex items-center justify-between">
         <div>
           <div className="text-[1.05rem] font-bold text-[var(--text)]">{title}</div>
@@ -348,7 +348,20 @@ export function CatPairsPage(): ReactElement {
           )}
         </div>
       )}
-    </>
+      </>
+    );
+  }
+
+  if (typeof document === 'undefined') return null;
+  return createPortal(
+    <div
+      id="catpairs-overlay"
+      className="fixed inset-0 z-[9100] flex items-center justify-center bg-black/55 px-3 py-4"
+      style={{ display: isOpen ? 'flex' : 'none' }}
+    >
+      <div className="pairs-panel">{isOpen && renderContent()}</div>
+    </div>,
+    document.body,
   );
 }
 

@@ -2,9 +2,10 @@
 // Each domain (nav, known-words, ...) gets its own listener set/snapshot, so a
 // mutation in one domain never re-renders components subscribed to another
 // (unlike the single global `version` counter in src/store.ts). `dispatch`/
-// `getSnapshot` are also exported as plain module-scope functions so vanilla
-// non-component code (e.g. js/app.ts's pre-mount seeding) can read/write the
-// store without needing to be inside the React tree.
+// `getSnapshot`/`subscribe` are also exported as plain module-scope functions
+// so vanilla non-component code (e.g. js/app.ts's pre-mount seeding, or a
+// useEffect that wants a side effect on change rather than a re-render) can
+// read/write/react-to the store without needing to be inside the React tree.
 import { createContext, useContext, useRef, useSyncExternalStore, type ReactNode } from 'react';
 
 export interface DomainStore<S, A> {
@@ -85,5 +86,5 @@ export function createDomainStore<S, A>(reducer: (state: S, action: A) => S, ini
     return useSyncExternalStore(ctx.subscribe, getSelection);
   }
 
-  return { Provider, useStore, useSelector, dispatch, getSnapshot };
+  return { Provider, useStore, useSelector, dispatch, getSnapshot, subscribe };
 }

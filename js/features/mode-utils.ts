@@ -8,6 +8,7 @@ import { W } from '../../data/words.js';
 import { boldEn, boldUa, boldHead } from '../core/card-helpers.ts';
 import { saveKnown, saveKnownLang } from '../core/storage.ts';
 import { getModeSnapshot } from '../../src/deck-store.ts';
+import { getModeStateSnapshot } from '../../src/mode-store.ts';
 import type { WordEntry } from '../../src/types.js';
 import { ALL_TARGET_LANGS, type TargetLang, type Code } from '../../src/types.js';
 import { getKnownSnapshot, markKnown } from '../../src/known-words-store.ts';
@@ -1340,14 +1341,19 @@ export const NE_MODES = modesFor('ne');
 export const SI_MODES = modesFor('si');
 
 export function getMode(): string {
-  const sel = document.getElementById('sel-mode') as HTMLSelectElement | null;
-  const m = sel?.value ?? 'en';
-  if (m === 'mix') {
-    const a = sel?.dataset.mixA || 'en';
-    const b = sel?.dataset.mixB || 'ua';
-    return Math.random() > 0.5 ? a : b;
+  const { mode, mixA, mixB } = getModeStateSnapshot();
+  if (mode === 'mix') {
+    return Math.random() > 0.5 ? mixA || 'en' : mixB || 'ua';
   }
-  return m || 'en';
+  return mode || 'en';
+}
+
+// Raw/unresolved current mode string (e.g. the literal 'mix', not a
+// randomly-resolved language) — for the handful of call sites that used to
+// read the legacy `#sel-mode` <select>'s raw `.value` directly instead of
+// going through getMode()'s "mix" resolution.
+export function getRawMode(): string {
+  return getModeStateSnapshot().mode || 'en';
 }
 
 export type FrontLang =

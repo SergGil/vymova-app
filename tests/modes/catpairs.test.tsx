@@ -71,10 +71,6 @@ describe('catpairs.tsx (CatPairsPage)', () => {
     btnCatpairs = document.createElement('button');
     btnCatpairs.id = 'btn-catpairs';
     document.body.appendChild(btnCatpairs);
-    overlay = document.createElement('div');
-    overlay.id = 'catpairs-overlay';
-    overlay.style.display = 'none';
-    document.body.appendChild(overlay);
 
     container = render(
       <>
@@ -82,6 +78,9 @@ describe('catpairs.tsx (CatPairsPage)', () => {
         <CatPairsWiringInit />
       </>,
     ).container;
+    // CatPairsPage now renders its own #catpairs-overlay directly (portaled
+    // to document.body), rather than portaling into a static fixture.
+    overlay = document.getElementById('catpairs-overlay')!;
   });
 
   it('renders nothing until opened', () => {
