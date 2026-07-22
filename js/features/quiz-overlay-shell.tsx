@@ -20,11 +20,18 @@
 //   same tree — Portal's getMountPoint() runs in the render phase, before
 //   anything commits, so a sibling shell creating the div in the same pass
 //   wouldn't be visible to it yet (the exact lesson documented in Phase 3).
-// - aq-overlay: LazyMode-driven but has no inline display:none wrapper at
-//   all (CSS-selector-driven instead) — doesn't fit this shape.
 // - tempo-overlay / story-mode-overlay: already-documented bespoke
 //   exceptions (roadmap "what NOT to touch" item 4), structurally distinct
 //   (different background/z-index/panel sizing).
+//
+// aq-overlay was added later (its own follow-up cleanup): also
+// LazyMode-driven, same no-boot-order-risk reasoning as the 19 above, but
+// styled entirely via #aq-overlay/#aq-overlay.open rules in css/styles.css
+// (no Tailwind utility classes, no inline display style) — the `bare` flag
+// below skips this component's shared className/style for that one entry so
+// its markup stays byte-identical to the original static block, and
+// `panelId` preserves its panel div's (otherwise-unused, but kept for
+// parity) `id="aq-panel"`.
 import type { CSSProperties, ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -33,6 +40,8 @@ type QuizOverlayEntry = {
   mountId: string;
   zIndex?: number; // default 9100 — lesson-overlay alone uses 9200
   mountStyle?: CSSProperties; // cmp-page-mount alone carries flex layout
+  panelId?: string; // aq-panel alone has an id on its .quiz-panel wrapper
+  bare?: boolean; // aq-overlay alone: no className/style, pure CSS-id-driven
 };
 
 const ENTRIES: QuizOverlayEntry[] = [
@@ -59,6 +68,7 @@ const ENTRIES: QuizOverlayEntry[] = [
   { overlayId: 'ghost-overlay', mountId: 'ghost-page-mount' },
   { overlayId: 'lesson-overlay', mountId: 'lesson-page-mount', zIndex: 9200 },
   { overlayId: 'write-overlay', mountId: 'write-page-mount' },
+  { overlayId: 'aq-overlay', mountId: 'aq-page-mount', panelId: 'aq-panel', bare: true },
 ];
 
 export function QuizOverlayShell(): ReactElement | null {
@@ -73,16 +83,20 @@ export function QuizOverlayShell(): ReactElement | null {
   if (typeof document === 'undefined') return null;
   return createPortal(
     <>
-      {ENTRIES.map(({ overlayId, mountId, zIndex = 9100, mountStyle }) => (
+      {ENTRIES.map(({ overlayId, mountId, zIndex = 9100, mountStyle, panelId, bare }) => (
         <div
           key={overlayId}
           id={overlayId}
-          className={`fixed inset-0 flex items-center justify-center bg-black/55 px-3 py-4 ${
-            zIndex === 9200 ? 'z-[9200]' : 'z-[9100]'
-          }`}
-          style={{ display: 'none' }}
+          className={
+            bare
+              ? undefined
+              : `fixed inset-0 flex items-center justify-center bg-black/55 px-3 py-4 ${
+                  zIndex === 9200 ? 'z-[9200]' : 'z-[9100]'
+                }`
+          }
+          style={bare ? undefined : { display: 'none' }}
         >
-          <div className="quiz-panel">
+          <div id={panelId} className="quiz-panel">
             <div id={mountId} style={mountStyle} />
           </div>
         </div>

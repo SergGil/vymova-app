@@ -32,7 +32,7 @@ const OVERLAY_IDS = [
 describe('<QuizOverlayShell/>', () => {
   it('renders 19 quiz-mode overlay wrappers, each hidden by default with a .quiz-panel mount', () => {
     render(<QuizOverlayShell />);
-    expect(document.querySelectorAll('.quiz-panel')).toHaveLength(19);
+    expect(document.querySelectorAll('.quiz-panel')).toHaveLength(20); // 19 + aq-overlay
     for (const id of OVERLAY_IDS) {
       const overlay = document.getElementById(id)!;
       expect(overlay).not.toBeNull();
@@ -40,6 +40,21 @@ describe('<QuizOverlayShell/>', () => {
       expect(overlay.className).toContain('fixed');
       expect(overlay.querySelector(':scope > .quiz-panel')).not.toBeNull();
     }
+  });
+
+  // aq-overlay is a 20th, structurally distinct entry (the `bare` flag):
+  // no Tailwind className/inline style at all — visibility comes entirely
+  // from #aq-overlay/#aq-overlay.open rules already in css/styles.css, and
+  // its .quiz-panel wrapper carries an id ("aq-panel") the other 19 don't.
+  it('renders aq-overlay bare (no className/inline style) with its panel id preserved', () => {
+    render(<QuizOverlayShell />);
+    const overlay = document.getElementById('aq-overlay')!;
+    expect(overlay).not.toBeNull();
+    expect(overlay.getAttribute('class')).toBeNull();
+    expect(overlay.getAttribute('style')).toBeNull();
+    const panel = overlay.querySelector(':scope > .quiz-panel')!;
+    expect(panel.id).toBe('aq-panel');
+    expect(panel.querySelector('#aq-page-mount')).not.toBeNull();
   });
 
   it('gives lesson-overlay a higher z-index (9200) than the other 18 overlays (9100)', () => {
