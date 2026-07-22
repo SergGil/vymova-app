@@ -1,5 +1,21 @@
 import type { Locator, Page } from '@playwright/test';
 
+/** Collects thrown errors and console.error output for a page, filtering out
+ * the browser's own "Failed to load resource" network-log lines — those fire
+ * for any non-2xx response (e.g. js/core/images.ts's loadWikiImage() hitting
+ * a rate-limited public API under test concurrency) and aren't a thrown app
+ * error. Call `expect(errors).toEqual([])` at the end of a test. */
+export function captureErrors(page: Page): string[] {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  page.on('console', (msg) => {
+    if (msg.type() === 'error' && !msg.text().includes('Failed to load resource')) {
+      errors.push(msg.text());
+    }
+  });
+  return errors;
+}
+
 /** Open the app and dismiss the first-run onboarding overlay. */
 export async function openApp(page: Page): Promise<void> {
   await page.goto('/index.html', { waitUntil: 'networkidle' });
@@ -44,11 +60,13 @@ export async function answerAllQuestions(page: Page): Promise<void> {
 // hint button in fib/write) that any "first enabled button" heuristic would
 // snag on instead. What IS shared is the inline `background: var(--accent)`
 // fill style every mode uses only for its one primary CTA — the "✕" close
-// button, hint, and speak buttons all use a transparent/bordered style
-// instead — so this is a reliable style-based selector, not a text match
-// that would break per-locale.
+// button and hint button use a transparent/bordered style instead — so this
+// is a reliable style-based selector, not a text match that would break
+// per-locale. scramble.tsx/spelling-bee.tsx's big circular 🔊 speak button
+// also happens to use an accent fill though, so it has to be excluded by
+// content too (it's the one accent button that's always emoji-only).
 function primaryButton(overlay: Locator): Locator {
-  return overlay.locator('button:not([disabled])[style*="var(--accent)"]');
+  return overlay.locator('button:not([disabled])[style*="var(--accent)"]:not(:has-text("🔊"))');
 }
 
 // Upper bound on questions to drive through, not the expected deck size —

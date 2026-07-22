@@ -1,26 +1,19 @@
 import { test, expect } from '@playwright/test';
-import { openApp, playOptionModeToCompletion, playTypedModeToCompletion } from './helpers.ts';
+import {
+  captureErrors,
+  openApp,
+  playOptionModeToCompletion,
+  playTypedModeToCompletion,
+} from './helpers.ts';
 
 // Deeper gameplay-completion coverage for the "Cards" mode group (see
 // js/features/mode-card-grid.tsx). Tier 1 smoke coverage (open/close, no
 // errors) already exists in tests-e2e/modes-smoke.spec.ts — these drive each
 // mode through a full session to its final screen instead.
 
-function setupErrorCapture(page: import('@playwright/test').Page): string[] {
-  const errors: string[] = [];
-  page.on('pageerror', (e) => errors.push(e.message));
-  page.on('console', (msg) => {
-    // See modes-smoke.spec.ts: browser network-log noise, not a thrown error.
-    if (msg.type() === 'error' && !msg.text().includes('Failed to load resource')) {
-      errors.push(msg.text());
-    }
-  });
-  return errors;
-}
-
 test.describe('Cards modes gameplay', () => {
   test('quiz: full session reaches the final screen', async ({ page }) => {
-    const errors = setupErrorCapture(page);
+    const errors = captureErrors(page);
     await openApp(page);
     await page.click('#sb-modes');
     await page.click('#btn-quiz');
@@ -38,7 +31,7 @@ test.describe('Cards modes gameplay', () => {
   });
 
   test('listen: full session reaches the final screen', async ({ page }) => {
-    const errors = setupErrorCapture(page);
+    const errors = captureErrors(page);
     await openApp(page);
     await page.click('#sb-modes');
     await page.click('#btn-listen');
@@ -56,7 +49,7 @@ test.describe('Cards modes gameplay', () => {
   });
 
   test('fib: full session reaches the final screen', async ({ page }) => {
-    const errors = setupErrorCapture(page);
+    const errors = captureErrors(page);
     await openApp(page);
     await page.click('#sb-modes');
     await page.click('#btn-fib');
@@ -74,7 +67,7 @@ test.describe('Cards modes gameplay', () => {
   });
 
   test('write: full session reaches the final screen', async ({ page }) => {
-    const errors = setupErrorCapture(page);
+    const errors = captureErrors(page);
     await openApp(page);
     await page.click('#sb-modes');
     await page.click('#btn-write');
@@ -92,7 +85,7 @@ test.describe('Cards modes gameplay', () => {
   });
 
   test('tempo: answering a question registers and Escape closes mid-game', async ({ page }) => {
-    const errors = setupErrorCapture(page);
+    const errors = captureErrors(page);
     await openApp(page);
     await page.click('#sb-modes');
     await page.click('#btn-tempo');
