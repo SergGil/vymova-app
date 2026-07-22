@@ -457,6 +457,7 @@ export function AdaptiveQuizPage(): ReactElement {
                 color: 'var(--accent)',
                 cursor: 'pointer',
               }}
+              data-i18n="common.tryAgain"
             >
               {t('common.tryAgain')}
             </button>
@@ -472,6 +473,7 @@ export function AdaptiveQuizPage(): ReactElement {
                 color: 'var(--text2)',
                 cursor: 'pointer',
               }}
+              data-i18n="common.close"
             >
               {t('common.close')}
             </button>

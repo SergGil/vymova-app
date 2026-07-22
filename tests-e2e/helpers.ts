@@ -65,7 +65,14 @@ export async function answerAllQuestions(page: Page): Promise<void> {
 // per-locale. scramble.tsx/spelling-bee.tsx's big circular 🔊 speak button
 // also happens to use an accent fill though, so it has to be excluded by
 // content too (it's the one accent button that's always emoji-only).
-function primaryButton(overlay: Locator): Locator {
+// Exported (not just used internally by the two completion helpers below) —
+// lesson.tsx mixes three different per-step mechanics in one session (a
+// flash-card phase, a .quiz-option phase, a typed-answer phase) and its final
+// screen only has a "done" button, not the shared common.tryAgain/close pair
+// isFinalScreen() below checks for, so its test drives each phase manually
+// with a fixed step count instead of going through playOptionModeToCompletion/
+// playTypedModeToCompletion.
+export function primaryButton(overlay: Locator): Locator {
   return overlay.locator('button:not([disabled])[style*="var(--accent)"]:not(:has-text("🔊"))');
 }
 
