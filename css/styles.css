@@ -524,6 +524,7 @@ select:focus {
 .btn-know {
   border-color: var(--accent);
   color: var(--accent);
+  background: rgba(78, 204, 163, 0.08);
 }
 .btn-know:hover {
   background: #ebf3ee;
@@ -531,6 +532,7 @@ select:focus {
 .btn-hard {
   border-color: #e0a72e;
   color: #b5820a;
+  background: rgba(224, 167, 46, 0.08);
 }
 .btn-hard:hover {
   background: #fbf2df;
@@ -538,6 +540,7 @@ select:focus {
 .btn-dontknow {
   border-color: #e74c3c;
   color: #e74c3c;
+  background: rgba(231, 76, 60, 0.06);
 }
 .btn-dontknow:hover {
   background: #fbeae8;
@@ -545,9 +548,37 @@ select:focus {
 .btn-easy {
   border-color: #3d7ab5;
   color: #3d7ab5;
+  background: rgba(61, 122, 181, 0.06);
 }
 .btn-easy:hover {
   background: #e8f1f9;
+}
+.btn-easy,
+.btn-know,
+.btn-hard,
+.btn-dontknow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 600;
+  border-width: 1.5px;
+  border-radius: 12px;
+  transition: all 0.15s, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-easy:hover,
+.btn-know:hover,
+.btn-hard:hover,
+.btn-dontknow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.btn-easy:active,
+.btn-know:active,
+.btn-hard:active,
+.btn-dontknow:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: none;
 }
 .btn-auto {
   border-color: #7b5ea7;
@@ -729,6 +760,7 @@ body.dark .btn:hover {
 body.dark .btn-know {
   border-color: var(--accent);
   color: var(--accent);
+  background: rgba(78, 204, 163, 0.1);
 }
 body.dark .btn-know:hover {
   background: rgba(78, 204, 163, 0.12);
@@ -736,6 +768,7 @@ body.dark .btn-know:hover {
 body.dark .btn-hard {
   border-color: #e0a72e;
   color: #e0a72e;
+  background: rgba(224, 167, 46, 0.1);
 }
 body.dark .btn-hard:hover {
   background: rgba(224, 167, 46, 0.12);
@@ -743,6 +776,7 @@ body.dark .btn-hard:hover {
 body.dark .btn-dontknow {
   border-color: #e74c3c;
   color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
 }
 body.dark .btn-dontknow:hover {
   background: rgba(231, 76, 60, 0.12);
@@ -750,9 +784,16 @@ body.dark .btn-dontknow:hover {
 body.dark .btn-easy {
   border-color: #5aa9e6;
   color: #5aa9e6;
+  background: rgba(90, 169, 230, 0.1);
 }
 body.dark .btn-easy:hover {
   background: rgba(90, 169, 230, 0.12);
+}
+body.dark .btn-easy:hover,
+body.dark .btn-know:hover,
+body.dark .btn-hard:hover,
+body.dark .btn-dontknow:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 body.dark .btn-auto {
   border-color: #9b59b6;

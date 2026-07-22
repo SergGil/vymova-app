@@ -342,10 +342,9 @@ export function CardShell(): ReactElement {
       <div className="kbd-hint">
         <kbd data-i18n="kbd.space">Пробіл</kbd> <span data-i18n="kbd.next">далі</span> &nbsp;
         <kbd>Enter</kbd> <span data-i18n="kbd.know">знаю</span> &nbsp; <kbd>←</kbd>
-        <kbd>→</kbd>
-        <span data-i18n="kbd.navigation">навігація</span> &nbsp; <kbd>F</kbd>
-        <span data-i18n="kbd.translation">переклад</span> &nbsp; <kbd>Ctrl+F</kbd>
-        <span data-i18n="kbd.search">пошук</span> &nbsp; <kbd>?</kbd>
+        <kbd>→</kbd> <span data-i18n="kbd.navigation">навігація</span> &nbsp; <kbd>F</kbd>{' '}
+        <span data-i18n="kbd.translation">переклад</span> &nbsp; <kbd>Ctrl+F</kbd>{' '}
+        <span data-i18n="kbd.search">пошук</span> &nbsp; <kbd>?</kbd>{' '}
         <span
           style={{ cursor: 'pointer' }}
           id="btn-keys"
