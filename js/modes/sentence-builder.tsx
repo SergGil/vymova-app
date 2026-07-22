@@ -428,6 +428,7 @@ export function SentenceBuilderPage(): ReactElement {
                 fontFamily: 'inherit',
                 fontSize: '.8rem',
               }}
+              data-i18n="scramble.shuffleBtn"
             >
               {t('scramble.shuffleBtn')}
             </button>
@@ -444,6 +445,7 @@ export function SentenceBuilderPage(): ReactElement {
                 fontFamily: 'inherit',
                 fontSize: '.8rem',
               }}
+              data-i18n="scramble.clearBtn"
             >
               {t('scramble.clearBtn')}
             </button>

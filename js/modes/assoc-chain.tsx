@@ -385,6 +385,7 @@ export function AssocChainPage(): ReactElement {
                 fontFamily: 'inherit',
                 fontSize: '.85rem',
               }}
+              data-i18n="common.tryAgain"
             >
               {t('common.tryAgain')}
             </button>
@@ -400,6 +401,7 @@ export function AssocChainPage(): ReactElement {
                 fontFamily: 'inherit',
                 fontSize: '.85rem',
               }}
+              data-i18n="common.close"
             >
               {t('common.close')}
             </button>

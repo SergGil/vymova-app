@@ -88,13 +88,21 @@ async function isFinalScreen(overlay: Locator): Promise<boolean> {
   return overlay.locator('[data-i18n="common.tryAgain"]').isVisible();
 }
 
-/** Drives a multiple-choice solo mode (quiz, listen, ...) — the ones that
- * render `.quiz-option` answer buttons plus an explicit Next/Finish click,
- * unlike duel's auto-advancing version — to its final screen. */
-export async function playOptionModeToCompletion(overlay: Locator): Promise<void> {
+/** Drives a "click an answer, then click Next/Finish" solo mode — the ones
+ * that render an explicit Next click, unlike duel's auto-advancing version —
+ * to its final screen. Defaults to `.quiz-option` (quiz, listen, context,
+ * oddone, idiom-quiz, grammar-quiz, ...); pass a different `answerSelector`
+ * for modes whose "answer" isn't a multiple-choice option — error-hunt.tsx's
+ * tap-the-wrong-token buttons have no shared class
+ * (`'button:not([aria-label])'`), word-hint.tsx's "give up" link always ends
+ * the round regardless of the guess (`'button[style*="underline"]'`). */
+export async function playOptionModeToCompletion(
+  overlay: Locator,
+  answerSelector = '.quiz-option',
+): Promise<void> {
   for (let i = 0; i < MAX_QUESTIONS; i++) {
     if (await isFinalScreen(overlay)) return;
-    const option = overlay.locator('.quiz-option').first();
+    const option = overlay.locator(answerSelector).first();
     await option.waitFor({ state: 'visible' });
     await option.click();
     await primaryButton(overlay).click();
