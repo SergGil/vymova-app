@@ -5,9 +5,6 @@ import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-// In GitHub Actions the base is the repo subpath; locally assets load from root.
-const base = process.env.GITHUB_ACTIONS ? '/vymova-app/' : '/';
-
 // public/sw.js's cache-invalidation strategy hinges entirely on its own
 // `CACHE` version string changing between deploys: the SW-update algorithm
 // only reacts to sw.js's *bytes* differing from what's already registered,
@@ -43,10 +40,17 @@ export function swVersionPlugin() {
   };
 }
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   root: '.',
   publicDir: 'public',
-  base,
+  // Only the production build is deployed under the /vymova-app/ GitHub
+  // Pages subpath — the dev server (used locally and by the e2e webServers
+  // in CI) always serves from root. This must key off Vite's own `command`,
+  // not a GITHUB_ACTIONS env check: that var is set for every Actions job,
+  // including the e2e job's `vite` dev servers, which made them serve
+  // everything under /vymova-app/ and 302 on the `/index.html` health-check
+  // Playwright polls — the dev server never looked "ready" in CI.
+  base: command === 'build' ? '/vymova-app/' : '/',
   plugins: [
     react(),
     tailwindcss(),
@@ -205,4 +209,4 @@ export default defineConfig({
       exclude: ['src/global.d.ts', 'src/main.ts', 'src/types.ts'],
     },
   },
-});
+}));
