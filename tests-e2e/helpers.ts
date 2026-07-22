@@ -16,12 +16,33 @@ export function captureErrors(page: Page): string[] {
   return errors;
 }
 
+// onboarding.tsx's OnboardingPage can insert #ob-overlay up to ~300ms after
+// mount — a setTimeout gated behind a first-ever-launch flag that
+// profile-switcher.tsx's _ensureInit() sets on any fresh (no stored
+// profiles) localStorage, which every test context starts with. A one-shot
+// removal right after `goto()` can win or lose that race depending on
+// scheduling (more likely to lose under parallel-worker load), so a test
+// that interacts with the page immediately can click through to the still-
+// hidden app underneath the overlay instead of the app itself. An observer
+// installed before any app script runs strips the overlay the instant it's
+// ever inserted, for the page's whole lifetime, instead of a single
+// point-in-time check.
+async function dismissOnboardingForever(page: Page): Promise<void> {
+  await page.addInitScript(() => {
+    // Observing `document` itself (not document.documentElement) — an
+    // init script runs before HTML parsing starts, so <html> may not exist
+    // yet; `document` is a Node from the very first instant and needs no
+    // readiness check.
+    new MutationObserver(() => {
+      document.getElementById('ob-overlay')?.remove();
+    }).observe(document, { childList: true, subtree: true });
+  });
+}
+
 /** Open the app and dismiss the first-run onboarding overlay. */
 export async function openApp(page: Page): Promise<void> {
+  await dismissOnboardingForever(page);
   await page.goto('/index.html', { waitUntil: 'networkidle' });
-  await page.evaluate(() => {
-    document.getElementById('ob-overlay')?.remove();
-  });
 }
 
 // Separate vite instance (playwright.config.ts's 5184 webServer) built with
@@ -30,10 +51,8 @@ export async function openApp(page: Page): Promise<void> {
 // duel-forfeit.spec.ts, the only specs that need a real two-client Firebase
 // round-trip.
 export async function openEmuApp(page: Page): Promise<void> {
+  await dismissOnboardingForever(page);
   await page.goto('http://localhost:5184/index.html', { waitUntil: 'networkidle' });
-  await page.evaluate(() => {
-    document.getElementById('ob-overlay')?.remove();
-  });
 }
 
 // duel-types.ts's ROOM_SIZE (kept as a plain literal here rather than
