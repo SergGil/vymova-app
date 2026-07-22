@@ -281,7 +281,10 @@ export function CardShell(): ReactElement {
             whiteSpace: 'nowrap',
           }}
         >
-          <span data-i18n="cards.easy">⚡ Легко</span>
+          <span className="btn-icon" aria-hidden="true">
+            😌
+          </span>
+          <span data-i18n="cards.easy">Легко</span>
         </button>
         <button
           className="btn btn-know"
@@ -309,7 +312,10 @@ export function CardShell(): ReactElement {
             whiteSpace: 'nowrap',
           }}
         >
-          <span data-i18n="cards.hard">🤔 Важко</span>
+          <span className="btn-icon" aria-hidden="true">
+            🤔
+          </span>
+          <span data-i18n="cards.hard">Важко</span>
         </button>
         <button
           className="btn btn-dontknow"
@@ -322,7 +328,10 @@ export function CardShell(): ReactElement {
             whiteSpace: 'nowrap',
           }}
         >
-          <span data-i18n="cards.dontKnow">✗ Не знаю</span>
+          <span className="btn-icon" aria-hidden="true">
+            ✗
+          </span>
+          <span data-i18n="cards.dontKnow">Не знаю</span>
         </button>
       </div>
 

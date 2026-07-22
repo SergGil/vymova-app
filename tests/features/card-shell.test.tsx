@@ -133,16 +133,19 @@ const ORIGINAL_CARD_SCENE_HTML = `
   </div>
   <div style="margin-top: 8px; text-align: center; display: flex; gap: 8px; justify-content: center; max-width: 360px; margin-left: auto; margin-right: auto;">
     <button class="btn btn-easy" id="btn-easy" title="Миттєво, дуже легко — слово вважається вивченим" data-i18n-title="cards.easyTitle" style="flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-size: 1.05rem; padding: 14px 0px; letter-spacing: 0.03em; white-space: nowrap;">
-      <span data-i18n="cards.easy">⚡ Легко</span>
+      <span class="btn-icon" aria-hidden="true">😌</span>
+      <span data-i18n="cards.easy">Легко</span>
     </button>
     <button class="btn btn-know" id="btn-know" style="flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-size: 1.05rem; padding: 14px 0px; letter-spacing: 0.03em; white-space: nowrap;">
       <span data-i18n="cards.know">✓ Знаю</span>
     </button>
     <button class="btn btn-hard" id="btn-hard" title="Згадав(-ла) з труднощами" data-i18n-title="cards.hardTitle" style="flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-size: 1.05rem; padding: 14px 0px; letter-spacing: 0.03em; white-space: nowrap;">
-      <span data-i18n="cards.hard">🤔 Важко</span>
+      <span class="btn-icon" aria-hidden="true">🤔</span>
+      <span data-i18n="cards.hard">Важко</span>
     </button>
     <button class="btn btn-dontknow" id="btn-dontknow" style="flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-size: 1.05rem; padding: 14px 0px; letter-spacing: 0.03em; white-space: nowrap;">
-      <span data-i18n="cards.dontKnow">✗ Не знаю</span>
+      <span class="btn-icon" aria-hidden="true">✗</span>
+      <span data-i18n="cards.dontKnow">Не знаю</span>
     </button>
   </div>
 
