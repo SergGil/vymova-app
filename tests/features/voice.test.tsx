@@ -14,7 +14,9 @@ import {
   getSelectedDeVoice,
   getSelectedHeVoice,
   getSelectedArVoice,
+  LANG_VOICE_CONFIG,
 } from '../../js/features/voice/voice.tsx';
+import * as voiceModule from '../../js/features/voice/voice.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -402,5 +404,54 @@ describe('voice.tsx', () => {
     });
 
     expect(fakeSynth.removeEventListener).toHaveBeenCalled();
+  });
+
+  // Generic regression guard for all 137 target-language voice getters (see
+  // the "data-drive voice.tsx" refactor) — replaces hand-picking a handful
+  // of languages with a check that runs against every entry in
+  // LANG_VOICE_CONFIG, so a future language addition/edit is covered
+  // automatically instead of needing a new hand-written test each time.
+  describe('generic per-language voice resolution (all LANG_VOICE_CONFIG entries)', () => {
+    function exportNameFor(id: string): string {
+      return `getSelected${id.charAt(0).toUpperCase()}${id.slice(1)}Voice`;
+    }
+
+    it('every config entry has a corresponding exported getter', () => {
+      for (const cfg of LANG_VOICE_CONFIG) {
+        expect(typeof (voiceModule as Record<string, unknown>)[exportNameFor(cfg.id)]).toBe(
+          'function',
+        );
+      }
+    });
+
+    it('resolves a voice matched purely by lang-prefix, for every language', () => {
+      for (const cfg of LANG_VOICE_CONFIG) {
+        const voice = makeVoice(`prefix voice for ${cfg.id}`, `${cfg.langPrefixes[0]}-XX`);
+        vi.stubGlobal('speechSynthesis', makeFakeSynth([voice]));
+        const getter = (voiceModule as Record<string, () => { voiceURI: string } | null>)[
+          exportNameFor(cfg.id)
+        ];
+        expect(getter()?.voiceURI, `lang-prefix match failed for ${cfg.id}`).toBe(voice.voiceURI);
+      }
+    });
+
+    it('resolves a voice matched purely by name, for every language', () => {
+      for (const cfg of LANG_VOICE_CONFIG) {
+        const voice = makeVoice(`${cfg.nameIncludes[0]} Voice`, 'zz-ZZ');
+        vi.stubGlobal('speechSynthesis', makeFakeSynth([voice]));
+        const getter = (voiceModule as Record<string, () => { voiceURI: string } | null>)[
+          exportNameFor(cfg.id)
+        ];
+        expect(getter()?.voiceURI, `name-includes match failed for ${cfg.id}`).toBe(voice.voiceURI);
+      }
+    });
+
+    it('returns null when no voice matches, for every language', () => {
+      vi.stubGlobal('speechSynthesis', makeFakeSynth([makeVoice('Unrelated Voice', 'zz-ZZ')]));
+      for (const cfg of LANG_VOICE_CONFIG) {
+        const getter = (voiceModule as Record<string, () => unknown>)[exportNameFor(cfg.id)];
+        expect(getter(), `expected no match for ${cfg.id}`).toBeNull();
+      }
+    });
   });
 });

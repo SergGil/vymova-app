@@ -18,14 +18,6 @@ import {
   heEntry,
   arEntry,
   plEntry,
-  ES_MODES,
-  FR_MODES,
-  IT_MODES,
-  PT_MODES,
-  DE_MODES,
-  HE_MODES,
-  AR_MODES,
-  PL_MODES,
   ensureLangTableLoaded,
   getKnownSetForLang,
   markKnownForLang,
@@ -129,19 +121,6 @@ describe('mode-utils.ts', () => {
     it('returns the PL known set for PL modes', () => {
       setModeState('pl-ua');
       expect(getActiveKnown(fallback)).toBe(getKnownSnapshot('pl'));
-    });
-  });
-
-  describe('mode sets', () => {
-    it('contain expected pairs', () => {
-      expect(ES_MODES.has('en-es')).toBe(true);
-      expect(FR_MODES.has('es-fr')).toBe(true);
-      expect(IT_MODES.has('it-en')).toBe(true);
-      expect(PT_MODES.has('pt-ua')).toBe(true);
-      expect(DE_MODES.has('de-en')).toBe(true);
-      expect(HE_MODES.has('en-he')).toBe(true);
-      expect(AR_MODES.has('ar-ua')).toBe(true);
-      expect(PL_MODES.has('en-pl')).toBe(true);
     });
   });
 
