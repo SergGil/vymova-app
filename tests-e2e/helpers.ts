@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 /** Open the app and dismiss the first-run onboarding overlay. */
 export async function openApp(page: Page): Promise<void> {
@@ -35,5 +35,61 @@ export async function answerAllQuestions(page: Page): Promise<void> {
     // Advance timer is 600ms (correct) or 1200ms (wrong) before the next
     // question renders — pad past the slower case.
     await page.waitForTimeout(1400);
+  }
+}
+
+// The primary-action button (submit/Next/Finish across quiz.tsx, fib.tsx,
+// write.tsx, listening.tsx, ...) has no shared id, class, or data-i18n —
+// several also carry decorative unlabelled buttons (a 🔊 speak button, a 💡
+// hint button in fib/write) that any "first enabled button" heuristic would
+// snag on instead. What IS shared is the inline `background: var(--accent)`
+// fill style every mode uses only for its one primary CTA — the "✕" close
+// button, hint, and speak buttons all use a transparent/bordered style
+// instead — so this is a reliable style-based selector, not a text match
+// that would break per-locale.
+function primaryButton(overlay: Locator): Locator {
+  return overlay.locator('button:not([disabled])[style*="var(--accent)"]');
+}
+
+// Upper bound on questions to drive through, not the expected deck size —
+// several modes (fib.tsx in particular) build their deck from however many
+// words happen to qualify (e.g. have a usable example sentence), which can
+// land under the requested 10. Both loops below stop as soon as the shared
+// ModeFinalScreen's [data-i18n="common.tryAgain"] button appears rather than
+// counting a fixed number of questions.
+const MAX_QUESTIONS = 15;
+
+async function isFinalScreen(overlay: Locator): Promise<boolean> {
+  return overlay.locator('[data-i18n="common.tryAgain"]').isVisible();
+}
+
+/** Drives a multiple-choice solo mode (quiz, listen, ...) — the ones that
+ * render `.quiz-option` answer buttons plus an explicit Next/Finish click,
+ * unlike duel's auto-advancing version — to its final screen. */
+export async function playOptionModeToCompletion(overlay: Locator): Promise<void> {
+  for (let i = 0; i < MAX_QUESTIONS; i++) {
+    if (await isFinalScreen(overlay)) return;
+    const option = overlay.locator('.quiz-option').first();
+    await option.waitFor({ state: 'visible' });
+    await option.click();
+    await primaryButton(overlay).click();
+  }
+}
+
+/** Drives a typed-answer solo mode (fib, write, ...) — text input, submit,
+ * then Next/Finish — to its final screen. Correctness doesn't matter: both
+ * modes advance on any submitted answer, right or wrong. */
+export async function playTypedModeToCompletion(overlay: Locator): Promise<void> {
+  for (let i = 0; i < MAX_QUESTIONS; i++) {
+    if (await isFinalScreen(overlay)) return;
+    const input = overlay.locator('input[type="text"]');
+    await input.waitFor({ state: 'visible' });
+    // Not "test" — write.tsx's autocomplete dropdown (js/modes/write.tsx's
+    // onInputChange) prefix-matches real dictionary words 120ms after typing
+    // and can render on top of the submit button below, intercepting the
+    // click. This prefix matches nothing in data/words.js.
+    await input.fill('zzznotaword');
+    await primaryButton(overlay).click(); // submit
+    await primaryButton(overlay).click(); // Next/Finish
   }
 }
