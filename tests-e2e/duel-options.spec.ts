@@ -65,10 +65,14 @@ test.describe('Duel page navigation', () => {
   test('close button exits the duel page', async ({ page }) => {
     await openApp(page);
     await page.click('#sb-duel');
-    await expect(page.locator('#duel-overlay')).toHaveClass(/open/);
+    // Can't match on /open/ via toHaveClass: #duel-overlay's static Tailwind
+    // classes include the arbitrary variant "[&.open]:block", which contains
+    // the literal substring "open" whether or not the .open state class is
+    // actually toggled on. A class-token CSS selector avoids that collision.
+    await expect(page.locator('#duel-overlay.open')).toHaveCount(1);
 
     await page.click('#duel-page-close');
 
-    await expect(page.locator('#duel-overlay')).not.toHaveClass(/open/);
+    await expect(page.locator('#duel-overlay.open')).toHaveCount(0);
   });
 });

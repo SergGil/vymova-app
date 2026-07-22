@@ -2,13 +2,16 @@ name: E2E Tests
 
 # Playwright e2e suite (tests-e2e/) — separate from deploy.yml's unit-test
 # gate since this is much heavier (real Chromium instances, a Firebase RTDB
-# emulator, several real duel matches played end to end) and a few specs
-# (duel-room.spec.ts, duel-options.spec.ts's close-button test) hit the real
-# prod Firebase project directly rather than the emulator, so a transient
-# network hiccup here shouldn't block deploys. Doesn't need any repo
-# secrets: the prod RTDB these specs touch has open read/write rules
-# already (see database.rules.json), and the emulator-based specs run
-# fully offline against a "demo-" project (no GCP credentials needed).
+# emulator, several real duel matches played end to end). Every duel spec
+# that actually writes to Firebase (room creation, tournaments, spectator,
+# realtime matches) runs against the RTDB emulator, not prod — prod now
+# enforces an App Check token (see js/core/app-check.ts) that a headless CI
+# browser can't produce, so a prod write here would just fail every time
+# with 401 "Missing appcheck token". Doesn't need any repo secrets: the
+# emulator-based specs run fully offline against a "demo-" project (no GCP
+# credentials needed). A few non-duel specs still load pages that touch
+# prod incidentally (e.g. the duel lobby's resume-session check) — those
+# reads failing is harmless and not asserted on.
 on:
   push:
     branches: [main]

@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test';
-import { openApp } from './helpers.ts';
+import { openEmuApp } from './helpers.ts';
 
+// Against the RTDB emulator (playwright.config.ts's 9000/5184 webServers),
+// not prod: creating a room is a real Firebase write, and prod now enforces
+// an App Check token (see js/core/app-check.ts) that a headless CI browser
+// can't produce, so hitting prod here just fails every write with 401
+// "Missing appcheck token". The emulator doesn't enforce App Check.
 test.describe('Duel room creation', () => {
   test('creating a room shows the waiting screen with a room code, no crash', async ({ page }) => {
     const errors: string[] = [];
@@ -9,7 +14,7 @@ test.describe('Duel room creation', () => {
       if (msg.type() === 'error') errors.push(msg.text());
     });
 
-    await openApp(page);
+    await openEmuApp(page);
     await page.click('#sb-duel');
 
     await page.click('#duel-create-btn');
@@ -29,7 +34,7 @@ test.describe('Duel room creation', () => {
       if (msg.type() === 'error') errors.push(msg.text());
     });
 
-    await openApp(page);
+    await openEmuApp(page);
     await page.click('#sb-duel');
 
     await page.click('#duel-create-btn');

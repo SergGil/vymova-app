@@ -2,9 +2,9 @@ import { test, expect } from '@playwright/test';
 import { openEmuApp, answerAllQuestions } from './helpers.ts';
 
 // Every other duel-*.spec.ts here drives a single tab (duel-room.spec.ts
-// even hits the real prod Firebase project to do it — fine for "does the
-// waiting screen render", not something to do 10x per question for two
-// simultaneous players). This spec is the one place that actually plays a
+// also runs against the emulator, just to check "does the waiting screen
+// render" — not something to do 10x per question for two simultaneous
+// players). This spec is the one place that actually plays a
 // duel to completion across two independent tabs/contexts, against the RTDB
 // emulator (playwright.config.ts's 9000/5184 webServers) so it can write and
 // poll as much as a real match needs without touching prod data. It doesn't
