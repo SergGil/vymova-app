@@ -1,6 +1,6 @@
 // Vymova — js/features/reading-passages.ts
 // Assembles "Читання" reading passages directly from the dictionary's own
-// example sentences (data/words.js + data/words_<code>.js), instead of a
+// example sentences (data/words-data/words.js + data/words-data/words_<code>.js), instead of a
 // fixed set of hand-written English paragraphs. Scales automatically with
 // each language's current translation coverage (see LANGUAGE_PROGRESS.md)
 // and works for whichever language the user is currently learning, not

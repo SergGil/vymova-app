@@ -2,7 +2,7 @@
 // Ядро картки: deck/idx/flipped/cw/autoTimer + render()/анімації/auto-play/onWordLearned.
 // Перенесено з js/app.ts (Фаза 7.5, Під-фаза D).
 import type { WordEntry } from '../../src/types.js';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { loadWikiImage, _imgCache } from './images.ts';
 import { synth } from './srs.ts';
 import { awardXP } from '../features/combo.ts';

@@ -3,7 +3,7 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setModeState, setDeckState, setIdxState } from '../../src/deck-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { CardIdx, CardKnownCount, ProgressBar } from '../../js/features/card-progress.tsx';
 

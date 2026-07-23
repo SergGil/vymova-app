@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { _shuf } from '../../js/core/srs.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { decodeIpa } from '../../js/core/ui-helpers.ts';
 import { t } from '../../js/features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';

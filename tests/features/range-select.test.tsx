@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { notifyLangChange } from '../../src/store.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { RangeSelect } from '../../js/features/range-select.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;

@@ -7,7 +7,7 @@ import { decodeIpa } from '../core/ui-helpers.ts';
 import { speakForCode } from './voice/speak-lang.ts';
 import { saveKnown, saveSRS } from '../core/storage.ts';
 import { getSimilarWordsFor } from './similar-words.tsx';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { isBookmarked, toggleBookmark } from './bookmarks.ts';
 import {
   isTargetLang,

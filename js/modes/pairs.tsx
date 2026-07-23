@@ -4,7 +4,7 @@ import { useEffect, type ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { t } from '../features/i18n.ts';
 import { recordModeComplete } from '../features/game.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';

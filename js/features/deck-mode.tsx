@@ -5,7 +5,7 @@ import { useEffect, type ReactElement } from 'react';
 import { getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
 import { getDeckSnapshot, getIdxSnapshot } from '../../src/deck-store.ts';
 import { subscribeMode, setMode } from '../../src/mode-store.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { getMode, getRawMode, getWordsForMode, isSpecialMode, noTranslationsKey } from './mode-utils.ts';
 import { t } from './i18n.ts';
 import { render, setDeck, setIdx, stopAuto } from '../core/card-engine.ts';

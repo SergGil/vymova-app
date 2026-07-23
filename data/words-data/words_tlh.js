@@ -1,4 +1,4 @@
-// Vymova — data/words_tlh.js
+// Vymova — data/words-data/words_tlh.js
 // Klingon (tlhIngan Hol) word bank. A constructed language created by
 // linguist Marc Okrand for Star Trek (Paramount/CBS); ISO 639-2/3 has
 // assigned it the real code "tlh". Its attested vocabulary (~3,000 words,

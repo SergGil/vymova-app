@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { state } from '../../src/state.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { _todayWords } from '../../js/modes/daily-challenge.tsx';
 import { setKnownWords, clearAllKnown } from '../../src/known-words-store.ts';

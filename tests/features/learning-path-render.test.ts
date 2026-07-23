@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, beforeAll } from 'vitest';
 import { setKnownWords } from '../../src/known-words-store.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { today as localToday } from '../../js/core/today.ts';
 import { ensureGrammarLoaded } from '../../js/features/grammar-loader.ts';
 

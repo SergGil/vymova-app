@@ -7,7 +7,7 @@
 // worker isn't configured (AI_TUTOR_ENABLED === false), leaving the builtin
 // stories usable offline.
 import { useRef, useState, type ReactElement } from 'react';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { recordModeComplete } from '../features/game.ts';
 import { speakForCode } from '../features/voice/speak-lang.ts';
 import { t } from '../features/i18n.ts';

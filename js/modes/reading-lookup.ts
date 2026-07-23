@@ -8,9 +8,9 @@
 // heavier) ReadingPage component and its JSX along too, silently defeating
 // reading.tsx's own LazyMode conversion (nothing was actually saved, since
 // Rollup keeps a module in the eager graph if ANY eager entry point reaches
-// it, dynamic-import elsewhere or not). Only depends on data/words.js,
+// it, dynamic-import elsewhere or not). Only depends on data/words-data/words.js,
 // which is already eager everywhere regardless.
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.js';
 
 let _dictIndex: Map<string, WordEntry> | null = null;

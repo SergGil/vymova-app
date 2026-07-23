@@ -17,7 +17,7 @@ import {
   ensureEtymologyLoaded,
   ensureUsageNotesLoaded,
 } from './lexicon-loader.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { openWordDetail } from './word-detail-trigger.ts';
 import {

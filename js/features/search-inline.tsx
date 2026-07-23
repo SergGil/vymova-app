@@ -1,7 +1,7 @@
 // Vymova — js/features/search-inline.tsx
 // Inline search box (header) with debounce + keyboard navigation.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { useLangVersion } from '../../src/store.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { getWordIndex } from '../core/word-index.ts';

@@ -6,7 +6,7 @@ import {
 } from '../../js/features/similar-words.tsx';
 import { vi } from 'vitest';
 
-vi.mock('../../data/words.js', () => ({
+vi.mock('../../data/words-data/words.js', () => ({
   W: [
     ['run', 'бігти', '/rʌn/', 'He runs fast.', 'Він бігає швидко.'],
     ['running', 'бег', '/ˈrʌnɪŋ/', 'She is running.', 'Вона бігає.'],
@@ -23,7 +23,7 @@ vi.mock('../../data/words.js', () => ({
 }));
 
 // W_ES mock: 'work', 'worker', 'labor' all share the token 'trabajar' → good for token-match tests
-vi.mock('../../data/words_es.js', () => ({
+vi.mock('../../data/words-data/words_es.js', () => ({
   W_ES: {
     run: ['correr', 'Corre rápido.'],
     running: ['corriendo', 'Ella está corriendo.'],

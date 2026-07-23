@@ -2,7 +2,7 @@
 // ⚔️ Full-featured Duel: leaderboard + live multiplayer quiz
 
 import { useEffect, type ReactElement } from 'react';
-import { W } from '../../../data/words.js';
+import { W } from '../../../data/words-data/words.js';
 import {
   CHARS,
   ROOM_SIZE,

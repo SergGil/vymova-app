@@ -2,7 +2,7 @@
 import type { WordEntry } from '../src/types.js';
 import { ALL_TARGET_LANGS } from '../src/types.js';
 import { _lzLoad, loadKnownLang, loadSRS } from './core/storage.ts';
-import { W } from '../data/words.js';
+import { W } from '../data/words-data/words.js';
 import { setKnownWords } from '../src/known-words-store.ts';
 import { loadSrsData } from '../src/srs-store.ts';
 import { setBaseWords, getBaseWordsSnapshot } from '../src/deck-filter-store.ts';

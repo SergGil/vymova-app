@@ -4,7 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { setActiveTagSet } from '../../src/deck-filter-store.ts';
 import { clearSrsData, setSrsEntry } from '../../src/srs-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { DeckFilterInit } from '../../js/features/deck-filter.tsx';
 

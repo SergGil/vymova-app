@@ -5,7 +5,7 @@
 // imports an .epub, that book's chapters instead (English-only highlighting
 // there, via the legacy stemming matcher below).
 import { useState, useEffect, type ReactElement } from 'react';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { loadEpub } from '../features/reading/epub.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { closePage, openPage } from '../features/sidebar.tsx';

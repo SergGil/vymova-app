@@ -1,6 +1,6 @@
 // Vymova — js/features/card-progress.tsx
 // #cidx/#cknown (підзаголовок) і #pbar (progress bar) — частина item 28e (Фаза 4).
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { getActiveKnown } from './mode-utils.ts';
 import { useKnownWords } from '../../src/known-words-store.ts';
 import { useDeckState } from '../../src/deck-store.ts';

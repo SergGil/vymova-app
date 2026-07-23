@@ -1,4 +1,4 @@
-// Vymova — data/words_qya.js
+// Vymova — data/words-data/words_qya.js
 // Quenya ("High-elven") word bank. Quenya is one of the constructed
 // languages J.R.R. Tolkien devised for his legendarium; ISO 639-3 has
 // assigned it the real code "qya". Its attested vocabulary (a few thousand

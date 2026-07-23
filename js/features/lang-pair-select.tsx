@@ -304,7 +304,7 @@ function LangFlag({ lang }: { lang: LangCode }): ReactElement {
   );
 }
 
-// Every language can pair with every other — all `data/words_XX.js` files
+// Every language can pair with every other — all `data/words-data/words_XX.js` files
 // share the same English-headword keys (the 13 target-language files share
 // an identical 2000-word key set; ES additionally covers the full 10002),
 // so any pair yields a real, non-empty deck.

@@ -2,7 +2,7 @@
 import { useEffect, type ReactElement } from 'react';
 import { updateSrsUI } from '../core/srs.ts';
 import { _imgCache, loadWikiImage } from '../core/images.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { openPage } from './sidebar.tsx';
 import { refreshGameBarLevel } from './game-bar-level.tsx';
 import type { WordEntry } from '../../src/types.js';

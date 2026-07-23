@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setDeckState } from '../../src/deck-store.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { SearchOverlay } from '../../js/features/search-overlay.tsx';
 import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';

@@ -6,7 +6,7 @@ import { _lzSave, _lzLoad, saveKnown, saveKnownLang } from '../core/storage.ts';
 import { updateSrsUI } from '../core/srs.ts';
 import { getSrsDataSnapshot, loadSrsData } from '../../src/srs-store.ts';
 import { invalidateGameCaches } from './game.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import * as LZString from 'lz-string';
 import type { WordEntry, SRSData } from '../../src/types.js';
 import { ALL_TARGET_LANGS, type TargetLang } from '../../src/types.js';

@@ -1,4 +1,4 @@
-// Vymova — data/words_dth.js
+// Vymova — data/words-data/words_dth.js
 // Dothraki word bank. A constructed language created by linguist David
 // J. Peterson for HBO's Game of Thrones (based on George R.R. Martin's
 // novels). It has no official ISO 639 code — "dth" is an unofficial

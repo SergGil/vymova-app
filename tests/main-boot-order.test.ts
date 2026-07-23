@@ -8,7 +8,7 @@
 // the same approach tests/app-root-mount-points.test.ts already uses for a
 // different hand-synced-order bug class: actually booting the full app
 // (mountAppRoot() + importing js/app.ts, which eagerly pulls in
-// data/words.js and ~40 other modules) in a single vitest run is real,
+// data/words-data/words.js and ~40 other modules) in a single vitest run is real,
 // first-time module-init work that took ~170s and tripped vitest's global
 // `retry: 1` into calling createRoot() twice on a torn-down container
 // (React's "already passed to createRoot()" warning) — not something worth

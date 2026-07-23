@@ -4,7 +4,7 @@ import { useEffect, type ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 import { _shuf } from '../core/srs.ts';
 import { today as localToday, msUntilNextLocalMidnight } from '../core/today.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { getGameData, saveGameData, recordModeComplete } from '../features/game.ts';
 import { closePage, openPage } from '../features/sidebar.tsx';
 import { speakBtn, decodeIpa } from '../core/ui-helpers.ts';

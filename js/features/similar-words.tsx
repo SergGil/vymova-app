@@ -4,7 +4,7 @@
 // matching, mirroring the historical ES/FR-only behaviour generalized to
 // any of the 13 target languages, plus EN/UA) — see getSimilarWordsFor.
 import type { ReactElement } from 'react';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { useDeckState } from '../../src/deck-store.ts';
 import { openWordDetail } from './word-detail-trigger.ts';
 import type { WordEntry } from '../../src/types.js';

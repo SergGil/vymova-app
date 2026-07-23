@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { W } from '../../data/words.js';
-import { W_DE } from '../../data/words_de.js';
-import { W_ES } from '../../data/words_es.js';
-import { W_FR } from '../../data/words_fr.js';
-import { W_IT } from '../../data/words_it.js';
-import { W_PT } from '../../data/words_pt.js';
+import { W } from '../../data/words-data/words.js';
+import { W_DE } from '../../data/words-data/words_de.js';
+import { W_ES } from '../../data/words-data/words_es.js';
+import { W_FR } from '../../data/words-data/words_fr.js';
+import { W_IT } from '../../data/words-data/words_it.js';
+import { W_PT } from '../../data/words-data/words_pt.js';
 import type { WordEntry } from '../../src/types.js';
 
 const headwords = new Set((W as unknown as WordEntry[]).map((e) => e[0]));

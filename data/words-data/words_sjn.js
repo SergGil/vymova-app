@@ -1,4 +1,4 @@
-// Vymova — data/words_sjn.js
+// Vymova — data/words-data/words_sjn.js
 // Sindarin ("Grey-elven") word bank. Sindarin is one of the constructed
 // languages J.R.R. Tolkien devised for his legendarium; ISO 639-3 has
 // assigned it the real code "sjn". Its attested vocabulary (drawn from

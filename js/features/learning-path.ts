@@ -3,7 +3,7 @@
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { CEFR_META } from '../../data/cefr.ts';
 import type { CefrLevel } from '../../data/cefr.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { getLevel } from './game.ts';
 import { openPage, closePage } from './sidebar.tsx';
 import { jumpToGrammarRule } from './grammar-page.tsx';

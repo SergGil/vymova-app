@@ -8,7 +8,7 @@
 // loaded extras lazily on demand, this just applies the same discipline to
 // the starting set.
 import { useEffect, useMemo, useRef, useState, type ReactElement } from 'react';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import {
   ALL_TARGET_LANGS,

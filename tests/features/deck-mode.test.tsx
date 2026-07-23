@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { getDeckSnapshot, setDeckState, setIdxState } from '../../src/deck-store.ts';
 import { setActiveTagSet } from '../../src/deck-filter-store.ts';
 import { setMode, getModeStateSnapshot } from '../../src/mode-store.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
 
@@ -19,11 +19,11 @@ const { render, setDeck, setIdx, stopAuto } = vi.hoisted(() => ({
 vi.mock('../../js/core/card-engine.ts', () => ({ render, setDeck, setIdx, stopAuto }));
 
 const esWord = (W as unknown as WordEntry[])[0][0];
-vi.mock('../../data/words_es.js', () => ({ W_ES: { [esWord]: ['x'] } }));
-vi.mock('../../data/words_fr.js', () => ({ W_FR: {} }));
-vi.mock('../../data/words_it.js', () => ({ W_IT: {} }));
-vi.mock('../../data/words_pt.js', () => ({ W_PT: {} }));
-vi.mock('../../data/words_de.js', () => ({ W_DE: {} }));
+vi.mock('../../data/words-data/words_es.js', () => ({ W_ES: { [esWord]: ['x'] } }));
+vi.mock('../../data/words-data/words_fr.js', () => ({ W_FR: {} }));
+vi.mock('../../data/words-data/words_it.js', () => ({ W_IT: {} }));
+vi.mock('../../data/words-data/words_pt.js', () => ({ W_PT: {} }));
+vi.mock('../../data/words-data/words_de.js', () => ({ W_DE: {} }));
 
 function changeMode(value: string): void {
   act(() => {

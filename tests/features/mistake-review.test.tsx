@@ -20,7 +20,7 @@ const { getWordIndex } = vi.hoisted(() => ({
 }));
 vi.mock('../../js/core/word-index.ts', () => ({ getWordIndex }));
 
-vi.mock('../../data/words.js', () => ({
+vi.mock('../../data/words-data/words.js', () => ({
   W: [
     ['abandon', 'покинути', 'He will <b>abandon</b> it.', 'Він покине.', 'ˈæ', 'v'],
     ['book', 'книга', 'Read a <b>book</b>.', 'Читай книгу.', 'bʊk', 'n'],

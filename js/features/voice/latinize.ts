@@ -17,7 +17,7 @@
 // generate or maintain, unlike Entry[2] which only ever covers the word.
 //
 // Character inventories verified by scanning every word/example in each
-// data/words_XX.js file directly (not guessed) — re-verify and extend this
+// data/words-data/words_XX.js file directly (not guessed) — re-verify and extend this
 // map if a later batch introduces a character not listed here for its
 // language (an unmapped character just passes through unchanged, so
 // gaps degrade gracefully rather than erroring).

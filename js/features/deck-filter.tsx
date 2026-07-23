@@ -2,7 +2,7 @@
 // Range selector: _refreshRangeOptions + sel-range change handler
 import { useEffect, type ReactElement } from 'react';
 import { t } from './i18n.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { getWordsForPair, getActiveKnownByLang } from './mode-utils.ts';
 import { getSrsDataSnapshot } from '../../src/srs-store.ts';
 import {

@@ -6,7 +6,7 @@ import { getWordIndex } from '../core/word-index.ts';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { loadSRS } from '../core/storage.ts';
 import { WORD_CATEGORIES, CATEGORY_LIST } from '../../data/categories.js';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { t, wordsLabel, categoryName } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';

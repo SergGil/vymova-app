@@ -13,7 +13,7 @@ import {
 } from './game.ts';
 import { loadSRS } from '../core/storage.ts';
 import { t, getLang, wordsLabel, pluralLabel, monthNames, dowNames } from './i18n.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { getCefrLevel } from '../../data/cefr.ts';
 import { Leaderboard } from './leaderboard.tsx';
 import { notifyAchievementsChange } from '../../src/store.ts';

@@ -2,7 +2,7 @@
 // ⚡ TEMPO MODE
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';

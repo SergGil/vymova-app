@@ -4,7 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { clearSrsData } from '../../src/srs-store.ts';
 import { today } from '../../js/core/today.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import {
   StatsPage,
   refreshStatsPage,

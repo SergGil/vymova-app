@@ -4,7 +4,7 @@
 import { useEffect, useState, type ReactElement } from 'react';
 import { orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { lev } from '../core/distance.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeAnswer, recordMistake } from '../features/game.ts';

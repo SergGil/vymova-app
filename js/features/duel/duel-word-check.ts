@@ -1,7 +1,7 @@
 // Vymova — js/features/duel-word-check.ts
 // Pure word/letter helpers for the write/anagram/letters duel modes —
 // answer-checking logic with zero dependency on duel room/game state.
-import { W } from '../../../data/words.js';
+import { W } from '../../../data/words-data/words.js';
 import { _shuf } from '../../core/srs.ts';
 import { lev } from '../../core/distance.ts';
 import type { WordEntry } from '../../../src/types.js';

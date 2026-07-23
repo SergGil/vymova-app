@@ -9,7 +9,7 @@ import { setMode as dispatchModeStore } from '../../src/mode-store.ts';
 import { loadKnown, loadSRS, _flushPendingWrites } from '../../js/core/storage.ts';
 import type { WordEntry } from '../../src/types.js';
 import { startPronunciationCheck } from '../../js/features/voice/pronunciation.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 
 // card-actions.ts wires up real button click handlers for the flashcard UI.
 // It pulls in many feature modules (audio, voice, speech, pronunciation,

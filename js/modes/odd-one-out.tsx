@@ -3,7 +3,7 @@
 import { useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { getWordIndex } from '../core/word-index.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { WORD_CATEGORIES, CATEGORY_LIST, getCategoriesForWord } from '../../data/categories.js';
 import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode-utils.ts';

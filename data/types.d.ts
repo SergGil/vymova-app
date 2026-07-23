@@ -15,9 +15,9 @@
 // unconnected implicit-any two files away, in card-meta.tsx.
 export {};
 
-// Every `data/words.js` and `data/words_*.js` file now opts into
+// Every `data/words-data/words.js` and `data/words-data/words_*.js` file now opts into
 // type-checking itself via a `// @ts-check` pragma + inline `@type` JSDoc
-// annotation on its own exports (see e.g. data/words_es.js) — declaring the
+// annotation on its own exports (see e.g. data/words-data/words_es.js) — declaring the
 // same shape again here would conflict ("Cannot redeclare block-scoped
 // variable") rather than help, so those are no longer listed below.
 //

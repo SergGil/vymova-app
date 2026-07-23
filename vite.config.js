@@ -105,9 +105,9 @@ export default defineConfig(({ command }) => ({
         warn(warning);
       },
       output: {
-        // data/words.js (~2.5MB, the base EN/UA dictionary) is statically
+        // data/words-data/words.js (~2.5MB, the base EN/UA dictionary) is statically
         // imported from ~45 files across js/modes and js/features, so it
-        // can't be made a lazy import() the way data/words_<lang>.js is
+        // can't be made a lazy import() the way data/words-data/words_<lang>.js is
         // (see mode-utils.ts's LANG_LOADERS) — the very first card the app
         // renders needs it, so there's no "later" to defer it to. Left
         // alone, Rollup bundles it into whichever chunk first reaches it,
@@ -132,12 +132,12 @@ export default defineConfig(({ command }) => ({
         // pin at all. The actual per-language data lives in
         // data/senses-data/senses_XX.ts and data/grammar-data/grammar_XX.ts,
         // lazy `import()`-ed via js/features/senses-loader.ts and
-        // grammar-loader.ts (mirroring data/words_XX.js's existing pattern
+        // grammar-loader.ts (mirroring data/words-data/words_XX.js's existing pattern
         // in mode-utils.ts) — Rollup already content-hashes those per-file,
         // same stable-cache benefit as manualChunks gives the four below,
         // without needing to be listed here.
         manualChunks(id) {
-          if (id.includes('/data/words.js')) return 'words-base';
+          if (id.includes('/data/words-data/words.js')) return 'words-base';
           if (id.includes('/data/categories.js')) return 'categories-data';
           if (id.includes('/data/cefr.ts')) return 'cefr-data';
         },

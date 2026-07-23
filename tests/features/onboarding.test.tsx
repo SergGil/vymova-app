@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { act } from 'react';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { OnboardingPage } from '../../js/features/onboarding.tsx';
 
 const FLAG_KEY = 'ew_onboarding_needed';

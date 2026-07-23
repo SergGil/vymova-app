@@ -4,7 +4,7 @@
 // both by duel.ts's own core (question rendering, history) and by the other
 // extracted duel-*-logic.ts modules (tournament/async-challenge/spectator),
 // which no longer need to import duel.ts itself just for deck-building.
-import { W } from '../../../data/words.js';
+import { W } from '../../../data/words-data/words.js';
 import { WORD_CATEGORIES } from '../../../data/categories.js';
 import { getCefrLevel } from '../../../data/cefr.ts';
 import type { WordEntry } from '../../../src/types.js';

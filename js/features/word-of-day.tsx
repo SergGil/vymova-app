@@ -5,7 +5,7 @@ import { useEffect, useState, type ReactElement } from 'react';
 import { useLangVersion } from '../../src/store.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { today } from '../core/today.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.ts';
 import { t } from './i18n.ts';
 import { getMode, entryFor, parsePair } from './mode-utils.ts';

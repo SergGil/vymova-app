@@ -2,7 +2,7 @@
 // First-launch onboarding for new profiles
 import { useEffect, useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 
 const FLAG_KEY = 'ew_onboarding_needed';
 

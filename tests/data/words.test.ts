@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.js';
 
 const entries = W as unknown as WordEntry[];

@@ -1,6 +1,6 @@
 // Vymova — tests/data/translit-classification.test.ts
 // LATIN_TRANSLIT_LANGS (js/features/mode-utils.ts) is a hand-classified list
-// of languages whose data/words_XX.js Entry[2] field is a Latin-script
+// of languages whose data/words-data/words_XX.js Entry[2] field is a Latin-script
 // romanization — safe for speakForCode() to read aloud with an English
 // voice as an approximation when no native browser voice exists. It
 // deliberately excludes languages whose Entry[2] is real IPA phonetic
@@ -19,7 +19,7 @@ import { LATIN_TRANSLIT_LANGS, NATIVE_LATIN_LANGS } from '../../js/features/mode
 const IPA_MARKERS = /[ˈˌʃʒθðŋɪʊɛɔæʌɑɡʔɾɲ]/;
 
 async function loadDict(code: string) {
-  const mod = (await import(`../../data/words_${code}.js`)) as Record<
+  const mod = (await import(`../../data/words-data/words_${code}.js`)) as Record<
     string,
     Record<string, readonly [string, string, string?, boolean?]>
   >;
@@ -30,7 +30,7 @@ async function loadDict(code: string) {
 
 describe('LATIN_TRANSLIT_LANGS classification', () => {
   it.each([...LATIN_TRANSLIT_LANGS].sort())(
-    "data/words_%s.js's Entry[2] values contain no IPA-only marker characters",
+    "data/words-data/words_%s.js's Entry[2] values contain no IPA-only marker characters",
     async (code) => {
       const dict = await loadDict(code);
       const offenders: string[] = [];
@@ -59,7 +59,7 @@ describe('NATIVE_LATIN_LANGS classification', () => {
   // currently wired — a signal the language should graduate to
   // LATIN_TRANSLIT_LANGS instead).
   it.each([...NATIVE_LATIN_LANGS].sort())(
-    'data/words_%s.js has no Entry[2] (still genuinely 2-element)',
+    'data/words-data/words_%s.js has no Entry[2] (still genuinely 2-element)',
     async (code) => {
       const dict = await loadDict(code);
       const withEntry2 = Object.entries(dict)

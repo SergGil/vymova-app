@@ -163,7 +163,7 @@ export async function playTypedModeToCompletion(overlay: Locator): Promise<void>
     // Not "test" — write.tsx's autocomplete dropdown (js/modes/write.tsx's
     // onInputChange) prefix-matches real dictionary words 120ms after typing
     // and can render on top of the submit button below, intercepting the
-    // click. This prefix matches nothing in data/words.js.
+    // click. This prefix matches nothing in data/words-data/words.js.
     await input.fill('zzznotaword');
     await primaryButton(overlay).click(); // submit
     await primaryButton(overlay).click(); // Next/Finish

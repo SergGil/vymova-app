@@ -1,4 +1,4 @@
-// Vymova — data/words_val.js
+// Vymova — data/words-data/words_val.js
 // High Valyrian word bank. A constructed language created by linguist
 // David J. Peterson for HBO's Game of Thrones (based on George R.R.
 // Martin's novels), with a substantial published vocabulary (Duolingo

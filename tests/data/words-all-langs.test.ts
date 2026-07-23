@@ -1,29 +1,29 @@
-// Structural sanity check for every per-language word table (data/words_<code>.js),
+// Structural sanity check for every per-language word table (data/words-data/words_<code>.js),
 // not just the 5 "flagship" languages already covered by words-localized.test.ts.
 // A previous audit found these files clean by direct script inspection, but nothing
 // enforced that going forward — this is the permanent version of that one-time check.
 import { describe, it, expect } from 'vitest';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { ALL_TARGET_LANGS } from '../../src/types.js';
 import type { WordEntry } from '../../src/types.js';
 
 const headwords = new Set((W as unknown as WordEntry[]).map((e) => e[0]));
 
 // The constructed languages intentionally use a 4th tuple element — see
-// data/words_tlh.js's header comment — instead of the
+// data/words-data/words_tlh.js's header comment — instead of the
 // [translation, example, transcription?] shape every natural language uses.
 const CONLANGS = new Set(['tlh', 'qya', 'val', 'sjn', 'dth']);
 
 function loadWordTable(code: string): Promise<Record<string, unknown>> {
-  return import(`../../data/words_${code}.js`).then(
+  return import(`../../data/words-data/words_${code}.js`).then(
     (m) => (m as Record<string, unknown>)[`W_${code.toUpperCase()}`] as Record<string, unknown>,
   );
 }
 
-describe.each(ALL_TARGET_LANGS)('data/words_%s.js (structural sanity)', (code) => {
+describe.each(ALL_TARGET_LANGS)('data/words-data/words_%s.js (structural sanity)', (code) => {
   it('exports a non-empty table of valid [translation, example, transcription?] tuples', async () => {
     const dict = await loadWordTable(code);
-    expect(dict, `data/words_${code}.js has no W_${code.toUpperCase()} export`).toBeTruthy();
+    expect(dict, `data/words-data/words_${code}.js has no W_${code.toUpperCase()} export`).toBeTruthy();
 
     const keys = Object.keys(dict);
     expect(keys.length, `${code}: empty word table`).toBeGreaterThan(0);

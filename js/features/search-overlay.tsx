@@ -2,7 +2,7 @@
 // 🔍 Dictionary search overlay: find any EN or UA word, jump to card or open detail.
 // Opened via #btn-search or Ctrl/Cmd+F.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { useLangVersion } from '../../src/store.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';

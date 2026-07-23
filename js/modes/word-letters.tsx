@@ -2,7 +2,7 @@
 // 🔤 Letters: from a set of letters, find as many valid words as possible
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeAnswer } from '../features/game.ts';
 import { playSound } from '../core/audio.ts';

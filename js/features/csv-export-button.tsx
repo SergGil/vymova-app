@@ -1,7 +1,7 @@
 // Vymova — js/features/csv-export-button.tsx
 // "Google Sheets CSV" export button (settings → backup section).
 import { type ReactElement } from 'react';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { t } from './i18n.ts';
 import { useLangVersion } from '../../src/store.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';

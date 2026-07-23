@@ -2,7 +2,7 @@
 // 🃏 ANKI/PDF EXPORT + SHARE
 import { useEffect, useRef, type ReactElement } from 'react';
 import { getWordIndex } from '../core/word-index.ts';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import { t } from './i18n.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { ProgressIO } from './progress-io.tsx';

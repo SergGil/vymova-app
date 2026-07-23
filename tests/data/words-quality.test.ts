@@ -1,5 +1,5 @@
 // Vymova — tests/data/words-quality.test.ts
-// Semantic content-quality checks for data/words.js, distinct from
+// Semantic content-quality checks for data/words-data/words.js, distinct from
 // words.test.ts's purely structural checks (shape, non-empty fields,
 // unique headwords). Added after manually finding and fixing several
 // real content bugs by inspection: a word tagged with the wrong part of
@@ -10,7 +10,7 @@
 // for the fix commit) — this test exists so that class of bug can't creep
 // back in unnoticed.
 import { describe, it, expect } from 'vitest';
-import { W } from '../../data/words.js';
+import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.js';
 
 const entries = W as unknown as WordEntry[];
