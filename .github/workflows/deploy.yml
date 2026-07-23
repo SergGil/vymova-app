@@ -33,6 +33,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Audit dependencies
+        # Dependabot (.github/dependabot.yml) catches known-vulnerable deps
+        # on a weekly cycle via PRs; this catches one the moment it lands
+        # (a new dependency, or an existing one whose advisory just got
+        # published) instead of waiting for the next scheduled run.
+        # --omit=dev: scoped to production deps only, i.e. what actually
+        # ships in dist/ and reaches end users. Dev-only CLI tooling
+        # (firebase-tools, wrangler, shadcn) drags in known-vulnerable
+        # transitive deps (tar, sharp, @hono/node-server) that never leave
+        # a contributor's machine — gating the deploy on those would just
+        # be noise, not a real user-facing risk.
+        # --audit-level=high: low/moderate advisories are common enough
+        # that gating on them would add friction without much real
+        # protection; high/critical still block the deploy.
+        run: npm audit --omit=dev --audit-level=high
+
       - name: Typecheck
         run: npm run typecheck
 
