@@ -23,11 +23,15 @@ function modeReducer(state: ModeState, action: ModeAction): ModeState {
   }
 }
 
-const modeStore = createDomainStore<ModeState, ModeAction>(modeReducer, {
-  mode: 'en',
-  mixA: null,
-  mixB: null,
-});
+const modeStore = createDomainStore<ModeState, ModeAction>(
+  modeReducer,
+  {
+    mode: 'en',
+    mixA: null,
+    mixB: null,
+  },
+  'mode',
+);
 
 export const ModeProvider = modeStore.Provider;
 export const useModeStore = modeStore.useStore;

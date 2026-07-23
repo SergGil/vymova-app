@@ -30,10 +30,14 @@ function cardAnimReducer(state: CardAnimState, action: CardAnimAction): CardAnim
   }
 }
 
-const cardAnimStore = createDomainStore<CardAnimState, CardAnimAction>(cardAnimReducer, {
-  animRequest: null,
-  autoRunning: false,
-});
+const cardAnimStore = createDomainStore<CardAnimState, CardAnimAction>(
+  cardAnimReducer,
+  {
+    animRequest: null,
+    autoRunning: false,
+  },
+  'card-anim',
+);
 
 export function useCardAnimState(): CardAnimState {
   return cardAnimStore.useStore();

@@ -70,10 +70,14 @@ function duelLobbyReducer(state: DuelLobbyState, action: DuelLobbyAction): DuelL
   }
 }
 
-const duelLobbyStore = createDomainStore<DuelLobbyState, DuelLobbyAction>(duelLobbyReducer, {
-  sel: initialSel,
-  ui: initialUi,
-});
+const duelLobbyStore = createDomainStore<DuelLobbyState, DuelLobbyAction>(
+  duelLobbyReducer,
+  {
+    sel: initialSel,
+    ui: initialUi,
+  },
+  'duel-lobby',
+);
 
 export const DuelLobbyProvider = duelLobbyStore.Provider;
 

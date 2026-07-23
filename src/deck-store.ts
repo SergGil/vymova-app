@@ -39,13 +39,17 @@ function deckReducer(state: DeckState, action: DeckAction): DeckState {
   }
 }
 
-const deckStore = createDomainStore<DeckState, DeckAction>(deckReducer, {
-  deck: [],
-  idx: 0,
-  flipped: false,
-  cw: null,
-  mode: 'en',
-});
+const deckStore = createDomainStore<DeckState, DeckAction>(
+  deckReducer,
+  {
+    deck: [],
+    idx: 0,
+    flipped: false,
+    cw: null,
+    mode: 'en',
+  },
+  'deck',
+);
 
 export const DeckProvider = deckStore.Provider;
 

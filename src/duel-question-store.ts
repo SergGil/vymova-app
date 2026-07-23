@@ -61,6 +61,7 @@ function duelQuestionReducer(
 const duelQuestionStore = createDomainStore<DuelQuestionState, DuelQuestionAction>(
   duelQuestionReducer,
   initialQuestion,
+  'duel-question',
 );
 
 export const DuelQuestionProvider = duelQuestionStore.Provider;

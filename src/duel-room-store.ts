@@ -71,12 +71,16 @@ function duelRoomReducer(state: DuelRoomStoreState, action: DuelRoomAction): Due
   }
 }
 
-const duelRoomStore = createDomainStore<DuelRoomStoreState, DuelRoomAction>(duelRoomReducer, {
-  room: initialRoom,
-  screen: 'lobby',
-  countdownNum: 3,
-  tempo: { visible: false, num: 4 },
-});
+const duelRoomStore = createDomainStore<DuelRoomStoreState, DuelRoomAction>(
+  duelRoomReducer,
+  {
+    room: initialRoom,
+    screen: 'lobby',
+    countdownNum: 3,
+    tempo: { visible: false, num: 4 },
+  },
+  'duel-room',
+);
 
 export const DuelRoomProvider = duelRoomStore.Provider;
 

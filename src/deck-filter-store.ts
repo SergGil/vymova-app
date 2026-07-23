@@ -27,10 +27,14 @@ function deckFilterReducer(state: DeckFilterState, action: DeckFilterAction): De
   }
 }
 
-const deckFilterStore = createDomainStore<DeckFilterState, DeckFilterAction>(deckFilterReducer, {
-  baseWords: [],
-  activeTagSet: null,
-});
+const deckFilterStore = createDomainStore<DeckFilterState, DeckFilterAction>(
+  deckFilterReducer,
+  {
+    baseWords: [],
+    activeTagSet: null,
+  },
+  'deck-filter',
+);
 
 export const DeckFilterProvider = deckFilterStore.Provider;
 

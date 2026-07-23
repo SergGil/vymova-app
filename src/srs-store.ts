@@ -37,7 +37,11 @@ function srsReducer(state: SrsState, action: SrsAction): SrsState {
   }
 }
 
-const srsStore = createDomainStore<SrsState, SrsAction>(srsReducer, { data: {}, dirty: true });
+const srsStore = createDomainStore<SrsState, SrsAction>(
+  srsReducer,
+  { data: {}, dirty: true },
+  'srs',
+);
 
 export const SrsProvider = srsStore.Provider;
 

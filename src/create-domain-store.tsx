@@ -28,12 +28,51 @@ function shallowEqual<T>(a: T, b: T): boolean {
   return true;
 }
 
-export function createDomainStore<S, A>(reducer: (state: S, action: A) => S, initial: S) {
+interface DevtoolsConnection {
+  init(state: unknown): void;
+  send(action: unknown, state: unknown): void;
+}
+
+// Dev-only bridge to the browser's Redux DevTools extension, if installed —
+// gives every domain store time-travel/action-log for free, no runtime
+// dependency (the extension itself provides window.__REDUX_DEVTOOLS_EXTENSION__).
+// `name` is what labels this store's instance in the extension's store picker;
+// stores that don't pass one just don't show up (harmless, not an error).
+// Wrapped defensively (try/catch) because devtools connectivity must never be
+// able to break the app — the extension isn't installed for most users, and
+// even when it is, a store's state may contain values (e.g. known-words-store's
+// Set<string>) the extension's serializer wasn't built to expect.
+function connectDevtools(name: string | undefined, initial: unknown): DevtoolsConnection | null {
+  if (!name || !import.meta.env.DEV || typeof window === 'undefined') return null;
+  const ext = window.__REDUX_DEVTOOLS_EXTENSION__ as
+    | { connect(options: { name: string }): DevtoolsConnection }
+    | undefined;
+  if (!ext) return null;
+  try {
+    const connection = ext.connect({ name });
+    connection.init(initial);
+    return connection;
+  } catch {
+    return null;
+  }
+}
+
+export function createDomainStore<S, A>(
+  reducer: (state: S, action: A) => S,
+  initial: S,
+  name?: string,
+) {
   let snapshot = initial;
   const listeners = new Set<() => void>();
+  const devtools = connectDevtools(name, initial);
 
   function dispatch(action: A): void {
     snapshot = reducer(snapshot, action);
+    try {
+      devtools?.send(action, snapshot);
+    } catch {
+      // devtools-side serialization issue — never let it affect the app.
+    }
     listeners.forEach((l) => l());
   }
 
@@ -69,6 +108,11 @@ export function createDomainStore<S, A>(reducer: (state: S, action: A) => S, ini
   // its argument and read module-scope snapshot getters instead (the common
   // shape for this codebase's existing `_getXxxData()` helpers); it's called
   // on every dispatch regardless, so keep it cheap and pure.
+  // Caches only the *last* {input, output} pair per hook call-site — enough
+  // for React's one-snapshot-per-render usage below, but not a general
+  // memoization cache (no TTL, no multi-entry LRU, no cross-component
+  // sharing like reselect). Don't lean on this for anything beyond "don't
+  // recompute if the store didn't change since my last render."
   function useSelector<T>(selector: (state: S) => T, isEqual: (a: T, b: T) => boolean = shallowEqual): T {
     const ctx = useContext(StoreContext);
     const cache = useRef<{ input: S; output: T } | null>(null);

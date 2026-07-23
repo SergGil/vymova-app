@@ -83,9 +83,13 @@ function initAndSelfHeal(): FandomThemeKey | null {
   return found;
 }
 
-const fandomThemeStore = createDomainStore<FandomThemeState, FandomThemeAction>(reducer, {
-  active: initAndSelfHeal(),
-});
+const fandomThemeStore = createDomainStore<FandomThemeState, FandomThemeAction>(
+  reducer,
+  {
+    active: initAndSelfHeal(),
+  },
+  'fandom-theme',
+);
 
 export const FandomThemeProvider = fandomThemeStore.Provider;
 export const useFandomTheme = fandomThemeStore.useStore;

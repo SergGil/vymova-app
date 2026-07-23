@@ -29,7 +29,7 @@ function chatReducer(state: ChatMsg[], action: ChatAction): ChatMsg[] {
   }
 }
 
-const chatStore = createDomainStore<ChatMsg[], ChatAction>(chatReducer, []);
+const chatStore = createDomainStore<ChatMsg[], ChatAction>(chatReducer, [], 'duel-chat');
 export const DuelChatProvider = chatStore.Provider;
 export function useDuelChat(): ChatMsg[] {
   return chatStore.useStore();
@@ -54,7 +54,11 @@ function specReducer(_state: RoomData | null, action: SpecAction): RoomData | nu
   return action.room;
 }
 
-const specStore = createDomainStore<RoomData | null, SpecAction>(specReducer, null);
+const specStore = createDomainStore<RoomData | null, SpecAction>(
+  specReducer,
+  null,
+  'duel-spec-room',
+);
 export const DuelSpecRoomProvider = specStore.Provider;
 export function useDuelSpecRoom(): RoomData | null {
   return specStore.useStore();
@@ -73,7 +77,11 @@ function tournReducer(_state: TournamentData | null, action: TournAction): Tourn
   return action.view;
 }
 
-const tournStore = createDomainStore<TournamentData | null, TournAction>(tournReducer, null);
+const tournStore = createDomainStore<TournamentData | null, TournAction>(
+  tournReducer,
+  null,
+  'duel-tourn-view',
+);
 export const DuelTournViewProvider = tournStore.Provider;
 export function useDuelTournView(): TournamentData | null {
   return tournStore.useStore();
@@ -92,7 +100,11 @@ function resultReducer(_state: DuelResultData, action: ResultAction): DuelResult
   return action.result;
 }
 
-const resultStore = createDomainStore<DuelResultData, ResultAction>(resultReducer, null);
+const resultStore = createDomainStore<DuelResultData, ResultAction>(
+  resultReducer,
+  null,
+  'duel-result',
+);
 export const DuelResultProvider = resultStore.Provider;
 export function useDuelResult(): DuelResultData {
   return resultStore.useStore();
@@ -111,7 +123,11 @@ function resumeReducer(_state: ResumeSessionVM[], action: ResumeAction): ResumeS
   return action.sessions;
 }
 
-const resumeStore = createDomainStore<ResumeSessionVM[], ResumeAction>(resumeReducer, []);
+const resumeStore = createDomainStore<ResumeSessionVM[], ResumeAction>(
+  resumeReducer,
+  [],
+  'duel-resume-sessions',
+);
 export const DuelResumeSessionsProvider = resumeStore.Provider;
 export function useDuelResumeSessions(): ResumeSessionVM[] {
   return resumeStore.useStore();

@@ -19,7 +19,11 @@ function navReducer(state: NavState, action: NavAction): NavState {
   }
 }
 
-const navStore = createDomainStore<NavState, NavAction>(navReducer, { activePage: null });
+const navStore = createDomainStore<NavState, NavAction>(
+  navReducer,
+  { activePage: null },
+  'nav',
+);
 
 export const NavProvider = navStore.Provider;
 
