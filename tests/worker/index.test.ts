@@ -414,6 +414,16 @@ describe('default export fetch()', () => {
     expect((await res.json()).error).toBe('invalid_report');
   });
 
+  it('/error: uses its own ERROR_RATE_LIMITER binding, independent of RATE_LIMITER', async () => {
+    const chatLimiter = vi.fn(async () => ({ success: true }));
+    const errorLimiter = vi.fn(async () => ({ success: false }));
+    const env: Env = { ...baseEnv, RATE_LIMITER: { limit: chatLimiter }, ERROR_RATE_LIMITER: { limit: errorLimiter } };
+    const res = await worker.fetch(chatRequest({ message: 'boom' }, { path: '/error' }), env);
+    expect(res.status).toBe(429);
+    expect(errorLimiter).toHaveBeenCalled();
+    expect(chatLimiter).not.toHaveBeenCalled();
+  });
+
   it('/error: the in-memory fallback rate-limits the 31st report from the same IP within a minute', async () => {
     const ip = uniqueIp();
     const req = () => chatRequest({ message: 'boom' }, { ip, path: '/error' });

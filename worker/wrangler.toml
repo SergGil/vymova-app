@@ -6,14 +6,25 @@ workers_dev = true
 [vars]
 ALLOWED_ORIGIN = "https://serggil.github.io"
 
-# Optional: upgrades the per-IP rate limit from the in-memory fallback (real,
-# but per-isolate only) to Cloudflare's durable, cross-isolate Rate Limiting
+# Upgrades the per-IP rate limit from the in-memory fallback (real, but
+# per-isolate only) to Cloudflare's durable, cross-isolate Rate Limiting
 # binding — atomic by construction, unlike a hand-rolled KV read-then-write
 # counter (which two concurrent requests can both read before either writes,
-# letting a burst blow past the limit). No provisioning step needed — just
-# uncomment; `namespace_id` is a value you pick yourself (must be unique
-# within this account), not something `wrangler` generates for you.
-# [[ratelimits]]
-# name = "RATE_LIMITER"
-# namespace_id = "1001"
-# simple = { limit = 15, period = 60 }
+# letting a burst blow past the limit). No provisioning step needed —
+# `namespace_id` is just a value picked here (must be unique within this
+# account), not something `wrangler` generates for you.
+#
+# Two separate bindings, not one shared between /chat and /error: a Rate
+# Limiting binding enforces the single limit/period configured here for
+# every key passed to it, so one binding used for both endpoints would
+# silently force /error's higher, log-spam-only budget down to /chat's
+# Gemini-cost-driven one.
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 15, period = 60 }
+
+[[ratelimits]]
+name = "ERROR_RATE_LIMITER"
+namespace_id = "1002"
+simple = { limit = 30, period = 60 }

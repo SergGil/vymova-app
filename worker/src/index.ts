@@ -18,8 +18,15 @@ export interface Env {
   ALLOWED_ORIGIN: string; // e.g. "https://<user>.github.io"
   // Simple per-IP rate limit, backed by Cloudflare's Rate Limiting binding
   // (atomic, durable, cross-isolate) — see "Optional: Rate limiting" in
-  // worker/README.md.
+  // worker/README.md. Two independent bindings, not one shared between
+  // /chat and /error: a Rate Limiting binding enforces the single
+  // limit/period baked into its own wrangler.toml config for every key
+  // passed to it, regardless of the `limitPerMinute` argument callers pass
+  // to checkRateLimit() below — so one binding used for both endpoints
+  // would silently force /error's (deliberately higher, log-spam-only)
+  // budget down to /chat's Gemini-cost-driven one.
   RATE_LIMITER?: RateLimiterBinding;
+  ERROR_RATE_LIMITER?: RateLimiterBinding;
 }
 
 interface ChatTurn {
@@ -215,7 +222,10 @@ export function buildSystemPrompt(body: ChatRequestBody): string {
 // function has no `await`, so concurrent requests to the same isolate can't
 // interleave mid-check the way two `await`-separated KV get/put calls could.
 const _memoryRateLimit = new Map<string, { count: number; resetAt: number }>();
-let _warnedMissingBinding = false;
+// Keyed by binding name (RATE_LIMITER / ERROR_RATE_LIMITER) so each missing
+// binding gets its own one-time warning instead of the first one seen
+// silencing the other.
+const _warnedMissingBinding = new Set<string>();
 // Throttles the sweep below to once per interval instead of once per request
 // once the map crosses SWEEP_SIZE_THRESHOLD — without this, a sustained burst
 // that keeps the map above the threshold re-scans the *entire* map on every
@@ -247,15 +257,16 @@ function checkMemoryRateLimit(key: string, limitPerMinute: number): boolean {
 }
 
 async function checkRateLimit(
-  env: Env,
+  binding: RateLimiterBinding | undefined,
+  bindingName: string,
   key: string,
-  limitPerMinute: number = RATE_LIMIT_PER_MINUTE,
+  limitPerMinute: number,
 ): Promise<boolean> {
-  if (!env.RATE_LIMITER) {
-    if (!_warnedMissingBinding) {
-      _warnedMissingBinding = true;
+  if (!binding) {
+    if (!_warnedMissingBinding.has(bindingName)) {
+      _warnedMissingBinding.add(bindingName);
       console.warn(
-        '[vymova-ai-proxy] RATE_LIMITER binding is not configured — using a per-isolate ' +
+        `[vymova-ai-proxy] ${bindingName} binding is not configured — using a per-isolate ` +
           'in-memory rate limit instead. See worker/README.md "Optional: Rate limiting" to ' +
           'set up the durable, cross-isolate version.',
       );
@@ -268,7 +279,7 @@ async function checkRateLimit(
   // entirely) — no read-compare-write dance needed here. The binding's own
   // configured limit (wrangler.toml) applies regardless of limitPerMinute —
   // that parameter only affects the in-memory fallback above.
-  const { success } = await env.RATE_LIMITER.limit({ key });
+  const { success } = await binding.limit({ key });
   return success;
 }
 
@@ -296,15 +307,18 @@ export function _getClientId(request: Request): string | null {
 // before starting the other would double this function's latency on every
 // request that carries an X-Client-Id, for no benefit.
 async function checkRateLimits(
-  env: Env,
+  binding: RateLimiterBinding | undefined,
+  bindingName: string,
   request: Request,
   ip: string,
   prefix: string,
   limitPerMinute: number,
 ): Promise<boolean> {
   const clientId = _getClientId(request);
-  const checks = [checkRateLimit(env, `${prefix}:${ip}`, limitPerMinute)];
-  if (clientId) checks.push(checkRateLimit(env, `${prefix}:c:${clientId}`, limitPerMinute));
+  const checks = [checkRateLimit(binding, bindingName, `${prefix}:${ip}`, limitPerMinute)];
+  if (clientId) {
+    checks.push(checkRateLimit(binding, bindingName, `${prefix}:c:${clientId}`, limitPerMinute));
+  }
   const results = await Promise.all(checks);
   return results.every(Boolean);
 }
@@ -344,7 +358,16 @@ async function handleError(
   origin: string,
   ip: string,
 ): Promise<Response> {
-  if (!(await checkRateLimits(env, request, ip, 'err', ERROR_RATE_LIMIT_PER_MINUTE))) {
+  if (
+    !(await checkRateLimits(
+      env.ERROR_RATE_LIMITER,
+      'ERROR_RATE_LIMITER',
+      request,
+      ip,
+      'err',
+      ERROR_RATE_LIMIT_PER_MINUTE,
+    ))
+  ) {
     return jsonError(origin, 'rate_limited', 429);
   }
   let rawBody: unknown;
@@ -370,7 +393,16 @@ async function handleChat(
   origin: string,
   ip: string,
 ): Promise<Response> {
-  if (!(await checkRateLimits(env, request, ip, 'chat', RATE_LIMIT_PER_MINUTE))) {
+  if (
+    !(await checkRateLimits(
+      env.RATE_LIMITER,
+      'RATE_LIMITER',
+      request,
+      ip,
+      'chat',
+      RATE_LIMIT_PER_MINUTE,
+    ))
+  ) {
     return jsonError(origin, 'rate_limited', 429);
   }
 

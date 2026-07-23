@@ -37,20 +37,31 @@ wrangler deploy
 
 Wrangler prints the deployed URL, e.g. `https://vymova-ai-proxy.<you>.workers.dev`.
 
-## 3. (Optional) Rate limiting
+## 3. Rate limiting
 
-To cap abuse of your shared Gemini quota, uncomment the `[[ratelimits]]`
-block in `wrangler.toml` and redeploy. No provisioning step needed —
-Cloudflare's Rate Limiting binding doesn't need a `wrangler ... create`
-command the way KV/D1/R2 do; `namespace_id` is just a number you pick
-yourself (has to be unique within your account, that's it).
+`wrangler.toml` ships with two `[[ratelimits]]` blocks enabled by default —
+Cloudflare's durable, cross-isolate Rate Limiting binding, atomic by
+construction (unlike a hand-rolled KV read-then-write counter, where two
+concurrent requests could both read before either writes and let a burst
+blow past the limit). No provisioning step was needed to turn these on —
+the binding doesn't need a `wrangler ... create` command the way KV/D1/R2
+do; `namespace_id` is just a number picked to be unique within the account.
 
-Without this, the Worker still enforces the same per-minute cap using an
-in-memory counter local to whichever isolate handles the request — a real
-limit, just not a durable/cross-isolate one (a burst spread across isolates,
-or one that lands on a freshly-spun-up isolate, resets the count). The
-binding gives you the stronger, shared version; this is the fallback so
-requests are never fully unthrottled.
+There are two bindings, not one — `RATE_LIMITER` for `/chat` and
+`ERROR_RATE_LIMITER` for `/error` — because a Rate Limiting binding enforces
+a single limit/period for every key passed to it. Sharing one binding
+between both endpoints would silently force `/error`'s deliberately higher,
+log-spam-only budget down to `/chat`'s Gemini-cost-driven one. If you fork
+this and want to disable one (or both), comment the corresponding block
+back out and redeploy; that endpoint falls back to its in-memory limiter
+below instead of failing.
+
+Without a binding, the Worker still enforces the same per-minute cap using
+an in-memory counter local to whichever isolate handles the request — a
+real limit, just not a durable/cross-isolate one (a burst spread across
+isolates, or one that lands on a freshly-spun-up isolate, resets the
+count). The binding gives you the stronger, shared version; this is the
+fallback so requests are never fully unthrottled.
 
 The frontend also sends an `X-Client-Id` header (a random ID generated once
 per browser, `js/core/worker-client-id.ts`) — the Worker checks it as a
