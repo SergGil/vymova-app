@@ -1,7 +1,12 @@
 // Vymova — js/features/idioms-page.tsx
 // Idioms reference page: EN/UA/ES tabs, search, speak buttons
 import { useEffect, useState, type ReactElement, type MouseEventHandler } from 'react';
-import { IDIOMS_BY_LANG, type Idiom } from '../../data/idioms.ts';
+import {
+  hasIdiomsForLang,
+  getIdiomsForLang,
+  ensureIdiomsLoaded,
+  type Idiom,
+} from './idioms-loader.ts';
 import { t } from './i18n.ts';
 import { _speakWithLang } from './voice/speech.ts';
 import { getKnowLang, getLearnLang } from './lang-pair-select.tsx';
@@ -312,7 +317,7 @@ function _relevantTabs(): Tab[] {
   const langs = [getLearnLang(), getKnowLang()];
   const tabs: Tab[] = [];
   for (const l of langs) {
-    if (_isTab(l) && IDIOMS_BY_LANG[l] && !tabs.includes(l)) tabs.push(l);
+    if (_isTab(l) && hasIdiomsForLang(l) && !tabs.includes(l)) tabs.push(l);
   }
   return tabs;
 }
@@ -406,6 +411,21 @@ function IdiomsPage(): ReactElement {
 
   const activeTab = tabs.includes(tab as Tab) ? (tab as Tab) : tabs[0];
 
+  // Idiom data loads lazily per tab (js/features/idioms-loader.ts) — this
+  // page is itself only opened on demand, so the brief load gap here
+  // reuses the empty-list state already shown when a search matches nothing.
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    if (!activeTab) return;
+    let cancelled = false;
+    ensureIdiomsLoaded(activeTab).then(() => {
+      if (!cancelled) setTick((x) => x + 1);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [activeTab]);
+
   if (!activeTab) {
     return (
       <div id="idioms-list" className="idioms-list flex flex-col gap-2.5">
@@ -416,7 +436,7 @@ function IdiomsPage(): ReactElement {
     );
   }
 
-  const source = IDIOMS_BY_LANG[activeTab] ?? [];
+  const source = getIdiomsForLang(activeTab) ?? [];
   const q = query.trim().toLowerCase();
   const filtered = q
     ? source.filter(

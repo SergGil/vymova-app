@@ -1,0 +1,5621 @@
+// Vymova — data/antonyms-data/antonyms_en.ts
+// Auto-split from the former data/antonyms.ts's ANTONYMS_BY_LANG (scripts/split-by-lang.js)
+// — one file per language so it can be dynamically imported on demand.
+import type { AntonymEntry } from '../antonyms.ts';
+
+export const ANTONYMS_EN: Record<string, AntonymEntry[]> = {
+  "happy": [
+    {
+      "word": "sad"
+    },
+    {
+      "word": "unhappy"
+    }
+  ],
+  "excited": [
+    {
+      "word": "bored"
+    },
+    {
+      "word": "indifferent"
+    }
+  ],
+  "brave": [
+    {
+      "word": "cowardly"
+    },
+    {
+      "word": "timid"
+    }
+  ],
+  "calm": [
+    {
+      "word": "nervous"
+    },
+    {
+      "word": "worried"
+    }
+  ],
+  "confident": [
+    {
+      "word": "shy"
+    },
+    {
+      "word": "insecure"
+    }
+  ],
+  "kind": [
+    {
+      "word": "cruel"
+    },
+    {
+      "word": "unkind"
+    }
+  ],
+  "generous": [
+    {
+      "word": "stingy"
+    }
+  ],
+  "patient": [
+    {
+      "word": "impatient"
+    }
+  ],
+  "honest": [
+    {
+      "word": "dishonest"
+    },
+    {
+      "word": "deceitful"
+    }
+  ],
+  "polite": [
+    {
+      "word": "rude"
+    },
+    {
+      "word": "impolite"
+    }
+  ],
+  "optimistic": [
+    {
+      "word": "pessimistic"
+    }
+  ],
+  "humble": [
+    {
+      "word": "arrogant"
+    },
+    {
+      "word": "boastful"
+    }
+  ],
+  "sociable": [
+    {
+      "word": "reserved"
+    },
+    {
+      "word": "shy"
+    }
+  ],
+  "cautious": [
+    {
+      "word": "reckless"
+    },
+    {
+      "word": "careless"
+    }
+  ],
+  "big": [
+    {
+      "word": "small"
+    },
+    {
+      "word": "little"
+    }
+  ],
+  "large": [
+    {
+      "word": "tiny"
+    },
+    {
+      "word": "small"
+    }
+  ],
+  "tall": [
+    {
+      "word": "short"
+    }
+  ],
+  "wide": [
+    {
+      "word": "narrow"
+    }
+  ],
+  "thick": [
+    {
+      "word": "thin"
+    }
+  ],
+  "heavy": [
+    {
+      "word": "light",
+      "note": "про вагу"
+    }
+  ],
+  "strong": [
+    {
+      "word": "weak"
+    },
+    {
+      "word": "feeble"
+    }
+  ],
+  "fast": [
+    {
+      "word": "slow"
+    }
+  ],
+  "hot": [
+    {
+      "word": "cold"
+    },
+    {
+      "word": "cool"
+    }
+  ],
+  "wet": [
+    {
+      "word": "dry"
+    }
+  ],
+  "loud": [
+    {
+      "word": "quiet"
+    }
+  ],
+  "sharp": [
+    {
+      "word": "blunt"
+    },
+    {
+      "word": "dull"
+    }
+  ],
+  "smooth": [
+    {
+      "word": "rough"
+    }
+  ],
+  "soft": [
+    {
+      "word": "hard"
+    }
+  ],
+  "clean": [
+    {
+      "word": "dirty"
+    }
+  ],
+  "full": [
+    {
+      "word": "empty"
+    }
+  ],
+  "bright": [
+    {
+      "word": "dim"
+    },
+    {
+      "word": "dark"
+    }
+  ],
+  "light": [
+    {
+      "word": "dark",
+      "note": "про колір/освітлення"
+    }
+  ],
+  "deep": [
+    {
+      "word": "shallow"
+    }
+  ],
+  "straight": [
+    {
+      "word": "crooked"
+    },
+    {
+      "word": "curved"
+    }
+  ],
+  "fat": [
+    {
+      "word": "thin",
+      "note": "про статуру"
+    }
+  ],
+  "easy": [
+    {
+      "word": "difficult"
+    },
+    {
+      "word": "hard"
+    }
+  ],
+  "simple": [
+    {
+      "word": "complex"
+    },
+    {
+      "word": "complicated"
+    }
+  ],
+  "cheap": [
+    {
+      "word": "expensive"
+    }
+  ],
+  "rich": [
+    {
+      "word": "poor"
+    }
+  ],
+  "old": [
+    {
+      "word": "young",
+      "note": "про людину"
+    }
+  ],
+  "new": [
+    {
+      "word": "old",
+      "note": "про предмет"
+    }
+  ],
+  "modern": [
+    {
+      "word": "ancient"
+    }
+  ],
+  "safe": [
+    {
+      "word": "dangerous"
+    },
+    {
+      "word": "unsafe"
+    }
+  ],
+  "healthy": [
+    {
+      "word": "sick"
+    },
+    {
+      "word": "ill"
+    }
+  ],
+  "clever": [
+    {
+      "word": "stupid"
+    },
+    {
+      "word": "foolish"
+    }
+  ],
+  "beautiful": [
+    {
+      "word": "ugly"
+    }
+  ],
+  "formal": [
+    {
+      "word": "informal"
+    }
+  ],
+  "public": [
+    {
+      "word": "private"
+    }
+  ],
+  "legal": [
+    {
+      "word": "illegal"
+    }
+  ],
+  "visible": [
+    {
+      "word": "invisible"
+    }
+  ],
+  "possible": [
+    {
+      "word": "impossible"
+    }
+  ],
+  "comfortable": [
+    {
+      "word": "uncomfortable"
+    },
+    {
+      "word": "awkward"
+    }
+  ],
+  "sufficient": [
+    {
+      "word": "insufficient"
+    }
+  ],
+  "active": [
+    {
+      "word": "passive"
+    }
+  ],
+  "positive": [
+    {
+      "word": "negative"
+    }
+  ],
+  "direct": [
+    {
+      "word": "indirect"
+    }
+  ],
+  "permanent": [
+    {
+      "word": "temporary"
+    }
+  ],
+  "similar": [
+    {
+      "word": "different"
+    },
+    {
+      "word": "distinct"
+    }
+  ],
+  "familiar": [
+    {
+      "word": "unfamiliar"
+    }
+  ],
+  "common": [
+    {
+      "word": "rare"
+    },
+    {
+      "word": "unusual"
+    }
+  ],
+  "ordinary": [
+    {
+      "word": "extraordinary"
+    },
+    {
+      "word": "unusual"
+    }
+  ],
+  "careful": [
+    {
+      "word": "careless"
+    }
+  ],
+  "tidy": [
+    {
+      "word": "messy"
+    },
+    {
+      "word": "disorganized"
+    }
+  ],
+  "mature": [
+    {
+      "word": "immature"
+    }
+  ],
+  "flexible": [
+    {
+      "word": "rigid"
+    },
+    {
+      "word": "stiff"
+    }
+  ],
+  "transparent": [
+    {
+      "word": "opaque"
+    }
+  ],
+  "genuine": [
+    {
+      "word": "fake"
+    }
+  ],
+  "natural": [
+    {
+      "word": "artificial"
+    }
+  ],
+  "voluntary": [
+    {
+      "word": "compulsory"
+    }
+  ],
+  "urban": [
+    {
+      "word": "rural"
+    }
+  ],
+  "single": [
+    {
+      "word": "married"
+    }
+  ],
+  "early": [
+    {
+      "word": "late"
+    }
+  ],
+  "right": [
+    {
+      "word": "left"
+    }
+  ],
+  "up": [
+    {
+      "word": "down"
+    }
+  ],
+  "inside": [
+    {
+      "word": "outside"
+    }
+  ],
+  "above": [
+    {
+      "word": "below"
+    }
+  ],
+  "north": [
+    {
+      "word": "south"
+    }
+  ],
+  "east": [
+    {
+      "word": "west"
+    }
+  ],
+  "open": [
+    {
+      "word": "close"
+    },
+    {
+      "word": "shut"
+    }
+  ],
+  "begin": [
+    {
+      "word": "end"
+    },
+    {
+      "word": "finish"
+    }
+  ],
+  "start": [
+    {
+      "word": "finish"
+    }
+  ],
+  "arrive": [
+    {
+      "word": "depart"
+    }
+  ],
+  "buy": [
+    {
+      "word": "sell"
+    }
+  ],
+  "win": [
+    {
+      "word": "lose"
+    }
+  ],
+  "increase": [
+    {
+      "word": "decrease"
+    },
+    {
+      "word": "reduce"
+    }
+  ],
+  "accept": [
+    {
+      "word": "reject"
+    },
+    {
+      "word": "refuse"
+    }
+  ],
+  "agree": [
+    {
+      "word": "disagree"
+    }
+  ],
+  "allow": [
+    {
+      "word": "forbid"
+    },
+    {
+      "word": "prohibit"
+    }
+  ],
+  "remember": [
+    {
+      "word": "forget"
+    }
+  ],
+  "succeed": [
+    {
+      "word": "fail"
+    }
+  ],
+  "love": [
+    {
+      "word": "hate"
+    },
+    {
+      "word": "dislike"
+    }
+  ],
+  "attack": [
+    {
+      "word": "defend"
+    }
+  ],
+  "borrow": [
+    {
+      "word": "lend"
+    }
+  ],
+  "hire": [
+    {
+      "word": "fire",
+      "note": "звільнити з роботи"
+    }
+  ],
+  "praise": [
+    {
+      "word": "criticize"
+    },
+    {
+      "word": "condemn"
+    }
+  ],
+  "encourage": [
+    {
+      "word": "discourage"
+    },
+    {
+      "word": "deter"
+    }
+  ],
+  "include": [
+    {
+      "word": "exclude"
+    }
+  ],
+  "expand": [
+    {
+      "word": "shrink"
+    },
+    {
+      "word": "contract"
+    }
+  ],
+  "rise": [
+    {
+      "word": "fall"
+    },
+    {
+      "word": "decline"
+    }
+  ],
+  "appear": [
+    {
+      "word": "disappear"
+    },
+    {
+      "word": "vanish"
+    }
+  ],
+  "build": [
+    {
+      "word": "destroy"
+    }
+  ],
+  "push": [
+    {
+      "word": "pull"
+    }
+  ],
+  "give": [
+    {
+      "word": "take"
+    }
+  ],
+  "save": [
+    {
+      "word": "spend"
+    }
+  ],
+  "freeze": [
+    {
+      "word": "melt"
+    }
+  ],
+  "laugh": [
+    {
+      "word": "cry"
+    }
+  ],
+  "friend": [
+    {
+      "word": "enemy"
+    },
+    {
+      "word": "foe"
+    }
+  ],
+  "war": [
+    {
+      "word": "peace"
+    }
+  ],
+  "success": [
+    {
+      "word": "failure"
+    }
+  ],
+  "truth": [
+    {
+      "word": "lie"
+    }
+  ],
+  "day": [
+    {
+      "word": "night"
+    }
+  ],
+  "life": [
+    {
+      "word": "death"
+    }
+  ],
+  "beginning": [
+    {
+      "word": "end"
+    }
+  ],
+  "majority": [
+    {
+      "word": "minority"
+    }
+  ],
+  "advantage": [
+    {
+      "word": "disadvantage"
+    },
+    {
+      "word": "drawback"
+    }
+  ],
+  "strength": [
+    {
+      "word": "weakness"
+    }
+  ],
+  "profit": [
+    {
+      "word": "loss"
+    }
+  ],
+  "supply": [
+    {
+      "word": "demand"
+    }
+  ],
+  "proud": [
+    {
+      "word": "ashamed"
+    },
+    {
+      "word": "humble"
+    }
+  ],
+  "friendly": [
+    {
+      "word": "hostile"
+    },
+    {
+      "word": "unfriendly"
+    }
+  ],
+  "loyal": [
+    {
+      "word": "disloyal"
+    },
+    {
+      "word": "unfaithful"
+    }
+  ],
+  "selfish": [
+    {
+      "word": "selfless"
+    },
+    {
+      "word": "generous"
+    }
+  ],
+  "cheerful": [
+    {
+      "word": "gloomy"
+    },
+    {
+      "word": "sad"
+    }
+  ],
+  "curious": [
+    {
+      "word": "indifferent"
+    },
+    {
+      "word": "uninterested"
+    }
+  ],
+  "tolerant": [
+    {
+      "word": "intolerant"
+    }
+  ],
+  "gentle": [
+    {
+      "word": "harsh"
+    },
+    {
+      "word": "rough"
+    }
+  ],
+  "modest": [
+    {
+      "word": "boastful"
+    },
+    {
+      "word": "arrogant"
+    }
+  ],
+  "sincere": [
+    {
+      "word": "insincere"
+    },
+    {
+      "word": "fake"
+    }
+  ],
+  "faithful": [
+    {
+      "word": "unfaithful"
+    }
+  ],
+  "graceful": [
+    {
+      "word": "clumsy"
+    },
+    {
+      "word": "awkward"
+    }
+  ],
+  "wise": [
+    {
+      "word": "foolish"
+    },
+    {
+      "word": "unwise"
+    }
+  ],
+  "strict": [
+    {
+      "word": "lenient"
+    },
+    {
+      "word": "permissive"
+    }
+  ],
+  "grateful": [
+    {
+      "word": "ungrateful"
+    }
+  ],
+  "punctual": [
+    {
+      "word": "unpunctual"
+    }
+  ],
+  "serious": [
+    {
+      "word": "playful"
+    },
+    {
+      "word": "silly"
+    }
+  ],
+  "talkative": [
+    {
+      "word": "silent"
+    },
+    {
+      "word": "quiet"
+    }
+  ],
+  "stubborn": [
+    {
+      "word": "compliant"
+    },
+    {
+      "word": "flexible"
+    }
+  ],
+  "solid": [
+    {
+      "word": "hollow"
+    }
+  ],
+  "dense": [
+    {
+      "word": "sparse"
+    }
+  ],
+  "steep": [
+    {
+      "word": "flat"
+    }
+  ],
+  "crowded": [
+    {
+      "word": "deserted"
+    },
+    {
+      "word": "empty"
+    }
+  ],
+  "noisy": [
+    {
+      "word": "quiet"
+    }
+  ],
+  "spacious": [
+    {
+      "word": "cramped"
+    },
+    {
+      "word": "tight"
+    }
+  ],
+  "shiny": [
+    {
+      "word": "dull"
+    }
+  ],
+  "fresh": [
+    {
+      "word": "stale"
+    }
+  ],
+  "ripe": [
+    {
+      "word": "unripe"
+    }
+  ],
+  "useful": [
+    {
+      "word": "useless"
+    },
+    {
+      "word": "worthless"
+    }
+  ],
+  "valuable": [
+    {
+      "word": "worthless"
+    }
+  ],
+  "reliable": [
+    {
+      "word": "unreliable"
+    },
+    {
+      "word": "untrustworthy"
+    }
+  ],
+  "efficient": [
+    {
+      "word": "inefficient"
+    }
+  ],
+  "accurate": [
+    {
+      "word": "inaccurate"
+    },
+    {
+      "word": "wrong"
+    }
+  ],
+  "adequate": [
+    {
+      "word": "inadequate"
+    }
+  ],
+  "relevant": [
+    {
+      "word": "irrelevant"
+    }
+  ],
+  "logical": [
+    {
+      "word": "illogical"
+    },
+    {
+      "word": "irrational"
+    }
+  ],
+  "regular": [
+    {
+      "word": "irregular"
+    },
+    {
+      "word": "occasional"
+    }
+  ],
+  "optional": [
+    {
+      "word": "mandatory"
+    },
+    {
+      "word": "compulsory"
+    }
+  ],
+  "explicit": [
+    {
+      "word": "implicit"
+    }
+  ],
+  "abstract": [
+    {
+      "word": "concrete"
+    }
+  ],
+  "superior": [
+    {
+      "word": "inferior"
+    }
+  ],
+  "major": [
+    {
+      "word": "minor"
+    }
+  ],
+  "senior": [
+    {
+      "word": "junior"
+    }
+  ],
+  "domestic": [
+    {
+      "word": "foreign"
+    },
+    {
+      "word": "international"
+    }
+  ],
+  "official": [
+    {
+      "word": "unofficial"
+    },
+    {
+      "word": "informal"
+    }
+  ],
+  "constant": [
+    {
+      "word": "variable"
+    }
+  ],
+  "gradual": [
+    {
+      "word": "sudden"
+    },
+    {
+      "word": "abrupt"
+    }
+  ],
+  "vague": [
+    {
+      "word": "precise"
+    }
+  ],
+  "general": [
+    {
+      "word": "specific"
+    }
+  ],
+  "loose": [
+    {
+      "word": "tight"
+    }
+  ],
+  "superficial": [
+    {
+      "word": "profound"
+    }
+  ],
+  "abundant": [
+    {
+      "word": "scarce"
+    },
+    {
+      "word": "rare"
+    }
+  ],
+  "fertile": [
+    {
+      "word": "barren"
+    },
+    {
+      "word": "infertile"
+    }
+  ],
+  "forward": [
+    {
+      "word": "backward"
+    }
+  ],
+  "front": [
+    {
+      "word": "back"
+    }
+  ],
+  "top": [
+    {
+      "word": "bottom"
+    }
+  ],
+  "near": [
+    {
+      "word": "far"
+    }
+  ],
+  "inner": [
+    {
+      "word": "outer"
+    }
+  ],
+  "enter": [
+    {
+      "word": "exit"
+    }
+  ],
+  "lock": [
+    {
+      "word": "unlock"
+    }
+  ],
+  "tie": [
+    {
+      "word": "untie"
+    }
+  ],
+  "connect": [
+    {
+      "word": "disconnect"
+    }
+  ],
+  "attach": [
+    {
+      "word": "detach"
+    }
+  ],
+  "wake": [
+    {
+      "word": "sleep"
+    }
+  ],
+  "raise": [
+    {
+      "word": "lower"
+    },
+    {
+      "word": "drop"
+    }
+  ],
+  "tighten": [
+    {
+      "word": "loosen"
+    }
+  ],
+  "gather": [
+    {
+      "word": "scatter"
+    },
+    {
+      "word": "disperse"
+    }
+  ],
+  "combine": [
+    {
+      "word": "separate"
+    },
+    {
+      "word": "divide"
+    }
+  ],
+  "create": [
+    {
+      "word": "destroy"
+    },
+    {
+      "word": "demolish"
+    }
+  ],
+  "earn": [
+    {
+      "word": "spend"
+    }
+  ],
+  "teach": [
+    {
+      "word": "learn"
+    }
+  ],
+  "ask": [
+    {
+      "word": "answer"
+    }
+  ],
+  "import": [
+    {
+      "word": "export"
+    }
+  ],
+  "produce": [
+    {
+      "word": "consume"
+    }
+  ],
+  "hide": [
+    {
+      "word": "reveal"
+    },
+    {
+      "word": "expose"
+    }
+  ],
+  "whisper": [
+    {
+      "word": "shout"
+    },
+    {
+      "word": "yell"
+    }
+  ],
+  "smile": [
+    {
+      "word": "frown"
+    }
+  ],
+  "forgive": [
+    {
+      "word": "blame"
+    },
+    {
+      "word": "condemn"
+    }
+  ],
+  "protect": [
+    {
+      "word": "harm"
+    },
+    {
+      "word": "endanger"
+    }
+  ],
+  "heal": [
+    {
+      "word": "hurt"
+    },
+    {
+      "word": "injure"
+    }
+  ],
+  "improve": [
+    {
+      "word": "worsen"
+    },
+    {
+      "word": "deteriorate"
+    }
+  ],
+  "simplify": [
+    {
+      "word": "complicate"
+    }
+  ],
+  "approve": [
+    {
+      "word": "disapprove"
+    }
+  ],
+  "admit": [
+    {
+      "word": "deny"
+    }
+  ],
+  "obey": [
+    {
+      "word": "disobey"
+    },
+    {
+      "word": "rebel"
+    }
+  ],
+  "unite": [
+    {
+      "word": "divide"
+    },
+    {
+      "word": "separate"
+    }
+  ],
+  "advance": [
+    {
+      "word": "retreat"
+    },
+    {
+      "word": "withdraw"
+    }
+  ],
+  "promote": [
+    {
+      "word": "demote"
+    }
+  ],
+  "deposit": [
+    {
+      "word": "withdraw"
+    }
+  ],
+  "multiply": [
+    {
+      "word": "divide"
+    }
+  ],
+  "joy": [
+    {
+      "word": "sorrow"
+    },
+    {
+      "word": "sadness"
+    }
+  ],
+  "courage": [
+    {
+      "word": "fear"
+    },
+    {
+      "word": "cowardice"
+    }
+  ],
+  "wealth": [
+    {
+      "word": "poverty"
+    }
+  ],
+  "freedom": [
+    {
+      "word": "slavery"
+    }
+  ],
+  "order": [
+    {
+      "word": "chaos"
+    },
+    {
+      "word": "disorder"
+    }
+  ],
+  "health": [
+    {
+      "word": "illness"
+    },
+    {
+      "word": "sickness"
+    }
+  ],
+  "victory": [
+    {
+      "word": "defeat"
+    },
+    {
+      "word": "loss"
+    }
+  ],
+  "question": [
+    {
+      "word": "answer"
+    }
+  ],
+  "cause": [
+    {
+      "word": "effect"
+    },
+    {
+      "word": "consequence"
+    }
+  ],
+  "problem": [
+    {
+      "word": "solution"
+    }
+  ],
+  "host": [
+    {
+      "word": "guest"
+    }
+  ],
+  "teacher": [
+    {
+      "word": "student"
+    }
+  ],
+  "buyer": [
+    {
+      "word": "seller"
+    }
+  ],
+  "employer": [
+    {
+      "word": "employee"
+    }
+  ],
+  "husband": [
+    {
+      "word": "wife"
+    }
+  ],
+  "male": [
+    {
+      "word": "female"
+    }
+  ],
+  "adult": [
+    {
+      "word": "child"
+    }
+  ],
+  "summer": [
+    {
+      "word": "winter"
+    }
+  ],
+  "sunrise": [
+    {
+      "word": "sunset"
+    }
+  ],
+  "always": [
+    {
+      "word": "never"
+    }
+  ],
+  "often": [
+    {
+      "word": "rarely"
+    },
+    {
+      "word": "seldom"
+    }
+  ],
+  "everywhere": [
+    {
+      "word": "nowhere"
+    }
+  ],
+  "together": [
+    {
+      "word": "separately"
+    }
+  ],
+  "sweet": [
+    {
+      "word": "sour"
+    },
+    {
+      "word": "bitter"
+    }
+  ],
+  "spicy": [
+    {
+      "word": "bland"
+    }
+  ],
+  "bitter": [
+    {
+      "word": "mild"
+    }
+  ],
+  "raw": [
+    {
+      "word": "cooked"
+    }
+  ],
+  "sunny": [
+    {
+      "word": "cloudy"
+    },
+    {
+      "word": "overcast"
+    }
+  ],
+  "windy": [
+    {
+      "word": "still"
+    }
+  ],
+  "humid": [
+    {
+      "word": "arid"
+    }
+  ],
+  "stormy": [
+    {
+      "word": "serene"
+    }
+  ],
+  "wild": [
+    {
+      "word": "tame"
+    }
+  ],
+  "awake": [
+    {
+      "word": "asleep"
+    }
+  ],
+  "alive": [
+    {
+      "word": "dead"
+    }
+  ],
+  "fit": [
+    {
+      "word": "unfit"
+    },
+    {
+      "word": "unhealthy"
+    }
+  ],
+  "energetic": [
+    {
+      "word": "exhausted"
+    }
+  ],
+  "conscious": [
+    {
+      "word": "unconscious"
+    }
+  ],
+  "employed": [
+    {
+      "word": "unemployed"
+    }
+  ],
+  "busy": [
+    {
+      "word": "idle"
+    },
+    {
+      "word": "free"
+    }
+  ],
+  "digital": [
+    {
+      "word": "analog"
+    }
+  ],
+  "online": [
+    {
+      "word": "offline"
+    }
+  ],
+  "compatible": [
+    {
+      "word": "incompatible"
+    }
+  ],
+  "secure": [
+    {
+      "word": "insecure"
+    },
+    {
+      "word": "vulnerable"
+    }
+  ],
+  "wholesale": [
+    {
+      "word": "retail"
+    }
+  ],
+  "debit": [
+    {
+      "word": "credit"
+    }
+  ],
+  "income": [
+    {
+      "word": "expense"
+    }
+  ],
+  "surplus": [
+    {
+      "word": "deficit"
+    }
+  ],
+  "inflation": [
+    {
+      "word": "deflation"
+    }
+  ],
+  "past": [
+    {
+      "word": "future"
+    }
+  ],
+  "present": [
+    {
+      "word": "absent"
+    }
+  ],
+  "before": [
+    {
+      "word": "after"
+    }
+  ],
+  "now": [
+    {
+      "word": "later"
+    }
+  ],
+  "recent": [
+    {
+      "word": "outdated"
+    }
+  ],
+  "many": [
+    {
+      "word": "few"
+    }
+  ],
+  "much": [
+    {
+      "word": "little"
+    }
+  ],
+  "maximum": [
+    {
+      "word": "minimum"
+    }
+  ],
+  "whole": [
+    {
+      "word": "partial"
+    }
+  ],
+  "entire": [
+    {
+      "word": "partial"
+    }
+  ],
+  "individual": [
+    {
+      "word": "collective"
+    }
+  ],
+  "singular": [
+    {
+      "word": "plural"
+    }
+  ],
+  "central": [
+    {
+      "word": "peripheral"
+    }
+  ],
+  "horizontal": [
+    {
+      "word": "vertical"
+    }
+  ],
+  "parallel": [
+    {
+      "word": "perpendicular"
+    }
+  ],
+  "colorful": [
+    {
+      "word": "colorless"
+    }
+  ],
+  "audible": [
+    {
+      "word": "inaudible"
+    }
+  ],
+  "relaxed": [
+    {
+      "word": "tense"
+    },
+    {
+      "word": "anxious"
+    }
+  ],
+  "hopeful": [
+    {
+      "word": "hopeless"
+    },
+    {
+      "word": "pessimistic"
+    }
+  ],
+  "satisfied": [
+    {
+      "word": "dissatisfied"
+    },
+    {
+      "word": "unhappy"
+    }
+  ],
+  "willing": [
+    {
+      "word": "unwilling"
+    },
+    {
+      "word": "reluctant"
+    }
+  ],
+  "eager": [
+    {
+      "word": "reluctant"
+    }
+  ],
+  "determined": [
+    {
+      "word": "indecisive"
+    }
+  ],
+  "rational": [
+    {
+      "word": "irrational"
+    }
+  ],
+  "sane": [
+    {
+      "word": "insane"
+    }
+  ],
+  "anxious": [
+    {
+      "word": "calm"
+    },
+    {
+      "word": "relaxed"
+    }
+  ],
+  "impulsive": [
+    {
+      "word": "cautious"
+    }
+  ],
+  "clear": [
+    {
+      "word": "vague"
+    },
+    {
+      "word": "confusing"
+    }
+  ],
+  "fluent": [
+    {
+      "word": "hesitant"
+    }
+  ],
+  "legible": [
+    {
+      "word": "illegible"
+    }
+  ],
+  "carnivore": [
+    {
+      "word": "herbivore"
+    }
+  ],
+  "predator": [
+    {
+      "word": "prey"
+    }
+  ],
+  "synthetic": [
+    {
+      "word": "organic"
+    }
+  ],
+  "organic": [
+    {
+      "word": "inorganic"
+    }
+  ],
+  "liquid": [
+    {
+      "word": "solid"
+    }
+  ],
+  "guilty": [
+    {
+      "word": "innocent"
+    }
+  ],
+  "civilian": [
+    {
+      "word": "military"
+    }
+  ],
+  "pass": [
+    {
+      "word": "fail"
+    }
+  ],
+  "correct": [
+    {
+      "word": "incorrect"
+    },
+    {
+      "word": "wrong"
+    }
+  ],
+  "polluted": [
+    {
+      "word": "clean"
+    }
+  ],
+  "renewable": [
+    {
+      "word": "nonrenewable"
+    }
+  ],
+  "ascend": [
+    {
+      "word": "descend"
+    }
+  ],
+  "accelerate": [
+    {
+      "word": "decelerate"
+    }
+  ],
+  "inhale": [
+    {
+      "word": "exhale"
+    }
+  ],
+  "casual": [
+    {
+      "word": "formal"
+    }
+  ],
+  "literal": [
+    {
+      "word": "figurative"
+    }
+  ],
+  "spoken": [
+    {
+      "word": "written"
+    }
+  ],
+  "coastal": [
+    {
+      "word": "inland"
+    }
+  ],
+  "mountainous": [
+    {
+      "word": "flat"
+    }
+  ],
+  "amateur": [
+    {
+      "word": "professional"
+    }
+  ],
+  "skilled": [
+    {
+      "word": "unskilled"
+    },
+    {
+      "word": "incompetent"
+    }
+  ],
+  "experienced": [
+    {
+      "word": "inexperienced"
+    }
+  ],
+  "qualified": [
+    {
+      "word": "unqualified"
+    }
+  ],
+  "competent": [
+    {
+      "word": "incompetent"
+    }
+  ],
+  "capable": [
+    {
+      "word": "incapable"
+    },
+    {
+      "word": "unable"
+    }
+  ],
+  "straightforward": [
+    {
+      "word": "complicated"
+    }
+  ],
+  "spontaneous": [
+    {
+      "word": "planned"
+    }
+  ],
+  "creative": [
+    {
+      "word": "unimaginative"
+    },
+    {
+      "word": "unoriginal"
+    }
+  ],
+  "original": [
+    {
+      "word": "unoriginal"
+    },
+    {
+      "word": "derivative"
+    }
+  ],
+  "innovative": [
+    {
+      "word": "conventional"
+    }
+  ],
+  "traditional": [
+    {
+      "word": "modern"
+    }
+  ],
+  "dependent": [
+    {
+      "word": "independent"
+    }
+  ],
+  "dominant": [
+    {
+      "word": "subordinate"
+    }
+  ],
+  "luxurious": [
+    {
+      "word": "modest"
+    }
+  ],
+  "elegant": [
+    {
+      "word": "shabby"
+    }
+  ],
+  "neat": [
+    {
+      "word": "sloppy"
+    }
+  ],
+  "winner": [
+    {
+      "word": "loser"
+    }
+  ],
+  "optimist": [
+    {
+      "word": "pessimist"
+    }
+  ],
+  "dull": [
+    {
+      "word": "exciting"
+    }
+  ],
+  "boring": [
+    {
+      "word": "interesting"
+    }
+  ],
+  "black": [
+    {
+      "word": "white"
+    }
+  ],
+  "true": [
+    {
+      "word": "false"
+    }
+  ],
+  "fragile": [
+    {
+      "word": "durable"
+    },
+    {
+      "word": "sturdy"
+    }
+  ],
+  "flimsy": [
+    {
+      "word": "sturdy"
+    }
+  ],
+  "organized": [
+    {
+      "word": "disorganized"
+    },
+    {
+      "word": "messy"
+    }
+  ],
+  "fancy": [
+    {
+      "word": "plain"
+    }
+  ],
+  "chronic": [
+    {
+      "word": "acute"
+    }
+  ],
+  "benign": [
+    {
+      "word": "malignant"
+    }
+  ],
+  "parent": [
+    {
+      "word": "child"
+    }
+  ],
+  "ancestor": [
+    {
+      "word": "descendant"
+    }
+  ],
+  "literate": [
+    {
+      "word": "illiterate"
+    }
+  ],
+  "attentive": [
+    {
+      "word": "distracted"
+    }
+  ],
+  "diligent": [
+    {
+      "word": "lazy"
+    },
+    {
+      "word": "idle"
+    }
+  ],
+  "productive": [
+    {
+      "word": "unproductive"
+    }
+  ],
+  "motivated": [
+    {
+      "word": "unmotivated"
+    }
+  ],
+  "ambitious": [
+    {
+      "word": "unambitious"
+    },
+    {
+      "word": "unmotivated"
+    }
+  ],
+  "cooperative": [
+    {
+      "word": "uncooperative"
+    }
+  ],
+  "fashionable": [
+    {
+      "word": "outdated"
+    },
+    {
+      "word": "unfashionable"
+    }
+  ],
+  "edible": [
+    {
+      "word": "inedible"
+    }
+  ],
+  "offense": [
+    {
+      "word": "defense"
+    }
+  ],
+  "competitive": [
+    {
+      "word": "cooperative"
+    }
+  ],
+  "masculine": [
+    {
+      "word": "feminine"
+    }
+  ],
+  "nocturnal": [
+    {
+      "word": "diurnal"
+    }
+  ],
+  "soluble": [
+    {
+      "word": "insoluble"
+    }
+  ],
+  "plaintiff": [
+    {
+      "word": "defendant"
+    }
+  ],
+  "odd": [
+    {
+      "word": "even"
+    }
+  ],
+  "addition": [
+    {
+      "word": "subtraction"
+    }
+  ],
+  "multiplication": [
+    {
+      "word": "division"
+    }
+  ],
+  "plus": [
+    {
+      "word": "minus"
+    }
+  ],
+  "harmony": [
+    {
+      "word": "discord"
+    }
+  ],
+  "clockwise": [
+    {
+      "word": "counterclockwise"
+    }
+  ],
+  "fill": [
+    {
+      "word": "empty"
+    }
+  ],
+  "load": [
+    {
+      "word": "unload"
+    }
+  ],
+  "pack": [
+    {
+      "word": "unpack"
+    }
+  ],
+  "wrap": [
+    {
+      "word": "unwrap"
+    }
+  ],
+  "charge": [
+    {
+      "word": "discharge"
+    }
+  ],
+  "subscribe": [
+    {
+      "word": "unsubscribe"
+    }
+  ],
+  "follow": [
+    {
+      "word": "unfollow"
+    }
+  ],
+  "inflate": [
+    {
+      "word": "deflate"
+    }
+  ],
+  "widen": [
+    {
+      "word": "narrow"
+    }
+  ],
+  "strengthen": [
+    {
+      "word": "weaken"
+    }
+  ],
+  "soften": [
+    {
+      "word": "harden"
+    }
+  ],
+  "brighten": [
+    {
+      "word": "darken"
+    }
+  ],
+  "postpone": [
+    {
+      "word": "expedite"
+    }
+  ],
+  "initiate": [
+    {
+      "word": "terminate"
+    }
+  ],
+  "resume": [
+    {
+      "word": "pause"
+    }
+  ],
+  "continue": [
+    {
+      "word": "stop"
+    },
+    {
+      "word": "pause"
+    }
+  ],
+  "confirm": [
+    {
+      "word": "cancel"
+    }
+  ],
+  "like": [
+    {
+      "word": "dislike"
+    },
+    {
+      "word": "hate"
+    }
+  ],
+  "support": [
+    {
+      "word": "oppose"
+    }
+  ],
+  "compliment": [
+    {
+      "word": "insult"
+    }
+  ],
+  "ally": [
+    {
+      "word": "enemy"
+    }
+  ],
+  "doctor": [
+    {
+      "word": "patient"
+    }
+  ],
+  "landlord": [
+    {
+      "word": "tenant"
+    }
+  ],
+  "producer": [
+    {
+      "word": "consumer"
+    }
+  ],
+  "creditor": [
+    {
+      "word": "debtor"
+    }
+  ],
+  "welcome": [
+    {
+      "word": "farewell"
+    }
+  ],
+  "famous": [
+    {
+      "word": "unknown"
+    },
+    {
+      "word": "obscure"
+    }
+  ],
+  "popular": [
+    {
+      "word": "unpopular"
+    }
+  ],
+  "manual": [
+    {
+      "word": "automatic"
+    }
+  ],
+  "centralized": [
+    {
+      "word": "decentralized"
+    }
+  ],
+  "jealous": [
+    {
+      "word": "content"
+    }
+  ],
+  "educated": [
+    {
+      "word": "uneducated"
+    }
+  ],
+  "verbal": [
+    {
+      "word": "nonverbal"
+    }
+  ],
+  "freezing": [
+    {
+      "word": "boiling"
+    }
+  ],
+  "urgent": [
+    {
+      "word": "trivial"
+    }
+  ],
+  "luxury": [
+    {
+      "word": "necessity"
+    }
+  ],
+  "gain": [
+    {
+      "word": "lose"
+    }
+  ],
+  "blessing": [
+    {
+      "word": "curse"
+    }
+  ],
+  "hero": [
+    {
+      "word": "villain"
+    }
+  ],
+  "protagonist": [
+    {
+      "word": "antagonist"
+    }
+  ],
+  "fiction": [
+    {
+      "word": "nonfiction"
+    }
+  ],
+  "real": [
+    {
+      "word": "imaginary"
+    },
+    {
+      "word": "fake"
+    }
+  ],
+  "objective": [
+    {
+      "word": "subjective"
+    }
+  ],
+  "theory": [
+    {
+      "word": "practice"
+    }
+  ],
+  "input": [
+    {
+      "word": "output"
+    }
+  ],
+  "gross": [
+    {
+      "word": "net"
+    }
+  ],
+  "tension": [
+    {
+      "word": "relaxation"
+    }
+  ],
+  "anxiety": [
+    {
+      "word": "relief"
+    }
+  ],
+  "birth": [
+    {
+      "word": "death"
+    }
+  ],
+  "arrival": [
+    {
+      "word": "departure"
+    }
+  ],
+  "entrance": [
+    {
+      "word": "exit"
+    }
+  ],
+  "request": [
+    {
+      "word": "refusal"
+    }
+  ],
+  "offer": [
+    {
+      "word": "rejection"
+    }
+  ],
+  "wisdom": [
+    {
+      "word": "ignorance"
+    }
+  ],
+  "innocence": [
+    {
+      "word": "guilt"
+    }
+  ],
+  "justice": [
+    {
+      "word": "injustice"
+    }
+  ],
+  "equality": [
+    {
+      "word": "inequality"
+    }
+  ],
+  "unity": [
+    {
+      "word": "division"
+    }
+  ],
+  "cooperation": [
+    {
+      "word": "competition"
+    }
+  ],
+  "patience": [
+    {
+      "word": "impatience"
+    }
+  ],
+  "kindness": [
+    {
+      "word": "cruelty"
+    }
+  ],
+  "honesty": [
+    {
+      "word": "dishonesty"
+    }
+  ],
+  "generosity": [
+    {
+      "word": "stinginess"
+    }
+  ],
+  "simplicity": [
+    {
+      "word": "complexity"
+    }
+  ],
+  "clarity": [
+    {
+      "word": "confusion"
+    }
+  ],
+  "safety": [
+    {
+      "word": "danger"
+    },
+    {
+      "word": "risk"
+    }
+  ],
+  "curiosity": [
+    {
+      "word": "indifference"
+    }
+  ],
+  "champion": [
+    {
+      "word": "loser"
+    }
+  ],
+  "spectator": [
+    {
+      "word": "participant"
+    }
+  ],
+  "novice": [
+    {
+      "word": "expert"
+    }
+  ],
+  "rookie": [
+    {
+      "word": "veteran"
+    }
+  ],
+  "captive": [
+    {
+      "word": "free"
+    }
+  ],
+  "leader": [
+    {
+      "word": "follower"
+    }
+  ],
+  "chief": [
+    {
+      "word": "subordinate"
+    }
+  ],
+  "boss": [
+    {
+      "word": "employee"
+    }
+  ],
+  "mentor": [
+    {
+      "word": "student"
+    }
+  ],
+  "mainland": [
+    {
+      "word": "island"
+    }
+  ],
+  "valley": [
+    {
+      "word": "peak"
+    }
+  ],
+  "summit": [
+    {
+      "word": "base"
+    }
+  ],
+  "tropical": [
+    {
+      "word": "arctic"
+    }
+  ],
+  "vertebrate": [
+    {
+      "word": "invertebrate"
+    }
+  ],
+  "biodegradable": [
+    {
+      "word": "nonbiodegradable"
+    }
+  ],
+  "handmade": [
+    {
+      "word": "manufactured"
+    }
+  ],
+  "authentic": [
+    {
+      "word": "fake"
+    }
+  ],
+  "legitimate": [
+    {
+      "word": "illegitimate"
+    }
+  ],
+  "moral": [
+    {
+      "word": "immoral"
+    }
+  ],
+  "virtue": [
+    {
+      "word": "vice"
+    }
+  ],
+  "saint": [
+    {
+      "word": "sinner"
+    }
+  ],
+  "coherent": [
+    {
+      "word": "incoherent"
+    }
+  ],
+  "consistent": [
+    {
+      "word": "inconsistent"
+    }
+  ],
+  "stable": [
+    {
+      "word": "unstable"
+    }
+  ],
+  "balanced": [
+    {
+      "word": "unbalanced"
+    }
+  ],
+  "aggressive": [
+    {
+      "word": "passive"
+    }
+  ],
+  "assertive": [
+    {
+      "word": "submissive"
+    }
+  ],
+  "outgoing": [
+    {
+      "word": "introverted"
+    }
+  ],
+  "adaptable": [
+    {
+      "word": "rigid"
+    }
+  ],
+  "inbound": [
+    {
+      "word": "outbound"
+    }
+  ],
+  "upstream": [
+    {
+      "word": "downstream"
+    }
+  ],
+  "onshore": [
+    {
+      "word": "offshore"
+    }
+  ],
+  "indoor": [
+    {
+      "word": "outdoor"
+    }
+  ],
+  "local": [
+    {
+      "word": "international"
+    }
+  ],
+  "anonymous": [
+    {
+      "word": "known"
+    }
+  ],
+  "tangible": [
+    {
+      "word": "intangible"
+    }
+  ],
+  "finite": [
+    {
+      "word": "infinite"
+    }
+  ],
+  "eternal": [
+    {
+      "word": "temporary"
+    }
+  ],
+  "mortal": [
+    {
+      "word": "immortal"
+    }
+  ],
+  "feral": [
+    {
+      "word": "domesticated"
+    }
+  ],
+  "restricted": [
+    {
+      "word": "unrestricted"
+    }
+  ],
+  "limited": [
+    {
+      "word": "unlimited"
+    }
+  ],
+  "exclusive": [
+    {
+      "word": "inclusive"
+    }
+  ],
+  "confidential": [
+    {
+      "word": "public"
+    }
+  ],
+  "verified": [
+    {
+      "word": "unverified"
+    }
+  ],
+  "suspicious": [
+    {
+      "word": "trustworthy"
+    }
+  ],
+  "faulty": [
+    {
+      "word": "functional"
+    }
+  ],
+  "broken": [
+    {
+      "word": "fixed"
+    }
+  ],
+  "damaged": [
+    {
+      "word": "intact"
+    }
+  ],
+  "complete": [
+    {
+      "word": "incomplete"
+    }
+  ],
+  "perfect": [
+    {
+      "word": "imperfect"
+    }
+  ],
+  "pure": [
+    {
+      "word": "impure"
+    }
+  ],
+  "contaminated": [
+    {
+      "word": "sterile"
+    }
+  ],
+  "hygienic": [
+    {
+      "word": "unhygienic"
+    }
+  ],
+  "poisonous": [
+    {
+      "word": "harmless"
+    }
+  ],
+  "hazardous": [
+    {
+      "word": "safe"
+    }
+  ],
+  "beneficial": [
+    {
+      "word": "harmful"
+    }
+  ],
+  "vintage": [
+    {
+      "word": "contemporary"
+    }
+  ],
+  "daily": [
+    {
+      "word": "occasional"
+    }
+  ],
+  "brief": [
+    {
+      "word": "lengthy"
+    }
+  ],
+  "concise": [
+    {
+      "word": "verbose"
+    }
+  ],
+  "detailed": [
+    {
+      "word": "vague"
+    }
+  ],
+  "thorough": [
+    {
+      "word": "superficial"
+    }
+  ],
+  "comprehensive": [
+    {
+      "word": "partial"
+    }
+  ],
+  "picky": [
+    {
+      "word": "easygoing"
+    }
+  ],
+  "resilient": [
+    {
+      "word": "fragile"
+    }
+  ],
+  "daring": [
+    {
+      "word": "cautious"
+    }
+  ],
+  "meticulous": [
+    {
+      "word": "careless"
+    }
+  ],
+  "exact": [
+    {
+      "word": "approximate"
+    }
+  ],
+  "deliberate": [
+    {
+      "word": "accidental"
+    }
+  ],
+  "obligatory": [
+    {
+      "word": "optional"
+    }
+  ],
+  "essential": [
+    {
+      "word": "unnecessary"
+    }
+  ],
+  "crucial": [
+    {
+      "word": "trivial"
+    }
+  ],
+  "vital": [
+    {
+      "word": "unimportant"
+    }
+  ],
+  "significant": [
+    {
+      "word": "insignificant"
+    }
+  ],
+  "remarkable": [
+    {
+      "word": "unremarkable"
+    }
+  ],
+  "notable": [
+    {
+      "word": "forgettable"
+    }
+  ],
+  "delighted": [
+    {
+      "word": "disappointed"
+    }
+  ],
+  "disappointed": [
+    {
+      "word": "satisfied"
+    }
+  ],
+  "pleased": [
+    {
+      "word": "displeased"
+    }
+  ],
+  "grumpy": [
+    {
+      "word": "cheerful"
+    }
+  ],
+  "moody": [
+    {
+      "word": "stable"
+    }
+  ],
+  "passionate": [
+    {
+      "word": "indifferent"
+    }
+  ],
+  "apathetic": [
+    {
+      "word": "enthusiastic"
+    }
+  ],
+  "devoted": [
+    {
+      "word": "indifferent"
+    }
+  ],
+  "committed": [
+    {
+      "word": "uncommitted"
+    }
+  ],
+  "reluctant": [
+    {
+      "word": "willing"
+    }
+  ],
+  "sympathetic": [
+    {
+      "word": "unsympathetic"
+    }
+  ],
+  "compassionate": [
+    {
+      "word": "callous"
+    }
+  ],
+  "callous": [
+    {
+      "word": "compassionate"
+    }
+  ],
+  "forgiving": [
+    {
+      "word": "vengeful"
+    }
+  ],
+  "vengeful": [
+    {
+      "word": "forgiving"
+    }
+  ],
+  "humorous": [
+    {
+      "word": "humorless"
+    }
+  ],
+  "cheeky": [
+    {
+      "word": "respectful"
+    }
+  ],
+  "diplomatic": [
+    {
+      "word": "blunt"
+    }
+  ],
+  "tactful": [
+    {
+      "word": "tactless"
+    }
+  ],
+  "considerate": [
+    {
+      "word": "inconsiderate"
+    }
+  ],
+  "thoughtful": [
+    {
+      "word": "thoughtless"
+    }
+  ],
+  "selfless": [
+    {
+      "word": "selfish"
+    }
+  ],
+  "charitable": [
+    {
+      "word": "greedy"
+    }
+  ],
+  "greedy": [
+    {
+      "word": "generous"
+    }
+  ],
+  "possessive": [
+    {
+      "word": "sharing"
+    }
+  ],
+  "climb": [
+    {
+      "word": "descend"
+    }
+  ],
+  "soar": [
+    {
+      "word": "plummet"
+    }
+  ],
+  "contract": [
+    {
+      "word": "expand"
+    }
+  ],
+  "grow": [
+    {
+      "word": "shrink"
+    }
+  ],
+  "flourish": [
+    {
+      "word": "decline"
+    }
+  ],
+  "thrive": [
+    {
+      "word": "struggle"
+    }
+  ],
+  "collapse": [
+    {
+      "word": "thrive"
+    }
+  ],
+  "persist": [
+    {
+      "word": "quit"
+    }
+  ],
+  "cease": [
+    {
+      "word": "continue"
+    }
+  ],
+  "maintain": [
+    {
+      "word": "abandon"
+    }
+  ],
+  "preserve": [
+    {
+      "word": "destroy"
+    }
+  ],
+  "shield": [
+    {
+      "word": "expose"
+    }
+  ],
+  "conceal": [
+    {
+      "word": "expose"
+    }
+  ],
+  "unveil": [
+    {
+      "word": "conceal"
+    }
+  ],
+  "emerge": [
+    {
+      "word": "submerge"
+    }
+  ],
+  "submerge": [
+    {
+      "word": "emerge"
+    }
+  ],
+  "float": [
+    {
+      "word": "sink"
+    }
+  ],
+  "sink": [
+    {
+      "word": "float"
+    }
+  ],
+  "drift": [
+    {
+      "word": "anchor"
+    }
+  ],
+  "glide": [
+    {
+      "word": "crash"
+    }
+  ],
+  "childhood": [
+    {
+      "word": "adulthood"
+    }
+  ],
+  "infancy": [
+    {
+      "word": "maturity"
+    }
+  ],
+  "youth": [
+    {
+      "word": "maturity"
+    }
+  ],
+  "morning": [
+    {
+      "word": "evening"
+    }
+  ],
+  "noon": [
+    {
+      "word": "midnight"
+    }
+  ],
+  "dawn": [
+    {
+      "word": "dusk"
+    }
+  ],
+  "weekday": [
+    {
+      "word": "weekend"
+    }
+  ],
+  "workday": [
+    {
+      "word": "holiday"
+    }
+  ],
+  "vacation": [
+    {
+      "word": "work"
+    }
+  ],
+  "weekend": [
+    {
+      "word": "weekday"
+    }
+  ],
+  "tasty": [
+    {
+      "word": "tasteless"
+    }
+  ],
+  "flavorful": [
+    {
+      "word": "bland"
+    }
+  ],
+  "savory": [
+    {
+      "word": "sweet"
+    }
+  ],
+  "crunchy": [
+    {
+      "word": "soggy"
+    }
+  ],
+  "crispy": [
+    {
+      "word": "soggy"
+    }
+  ],
+  "juicy": [
+    {
+      "word": "dry"
+    }
+  ],
+  "tender": [
+    {
+      "word": "tough"
+    }
+  ],
+  "nutritious": [
+    {
+      "word": "unhealthy"
+    }
+  ],
+  "homemade": [
+    {
+      "word": "store-bought"
+    }
+  ],
+  "seasoned": [
+    {
+      "word": "bland"
+    }
+  ],
+  "overcooked": [
+    {
+      "word": "undercooked"
+    }
+  ],
+  "balmy": [
+    {
+      "word": "harsh"
+    }
+  ],
+  "temperate": [
+    {
+      "word": "extreme"
+    }
+  ],
+  "seasonal": [
+    {
+      "word": "constant"
+    }
+  ],
+  "clear-skied": [
+    {
+      "word": "overcast"
+    }
+  ],
+  "drizzly": [
+    {
+      "word": "torrential"
+    }
+  ],
+  "virtual": [
+    {
+      "word": "real"
+    }
+  ],
+  "automated": [
+    {
+      "word": "manual"
+    }
+  ],
+  "synchronous": [
+    {
+      "word": "asynchronous"
+    }
+  ],
+  "static": [
+    {
+      "word": "dynamic"
+    }
+  ],
+  "encrypted": [
+    {
+      "word": "unencrypted"
+    }
+  ],
+  "wireless": [
+    {
+      "word": "wired"
+    }
+  ],
+  "open-source": [
+    {
+      "word": "proprietary"
+    }
+  ],
+  "scalable": [
+    {
+      "word": "limited"
+    }
+  ],
+  "compressed": [
+    {
+      "word": "expanded"
+    }
+  ],
+  "victorious": [
+    {
+      "word": "defeated"
+    }
+  ],
+  "undefeated": [
+    {
+      "word": "defeated"
+    }
+  ],
+  "offensive": [
+    {
+      "word": "defensive"
+    }
+  ],
+  "attacking": [
+    {
+      "word": "defending"
+    }
+  ],
+  "professional": [
+    {
+      "word": "amateur"
+    }
+  ],
+  "elite": [
+    {
+      "word": "ordinary"
+    }
+  ],
+  "injured": [
+    {
+      "word": "healthy"
+    }
+  ],
+  "minimalist": [
+    {
+      "word": "elaborate"
+    }
+  ],
+  "classical": [
+    {
+      "word": "modern"
+    }
+  ],
+  "contemporary": [
+    {
+      "word": "traditional"
+    }
+  ],
+  "avant-garde": [
+    {
+      "word": "conventional"
+    }
+  ],
+  "imaginative": [
+    {
+      "word": "unimaginative"
+    }
+  ],
+  "inspired": [
+    {
+      "word": "uninspired"
+    }
+  ],
+  "lawful": [
+    {
+      "word": "unlawful"
+    }
+  ],
+  "constitutional": [
+    {
+      "word": "unconstitutional"
+    }
+  ],
+  "ethical": [
+    {
+      "word": "unethical"
+    }
+  ],
+  "just": [
+    {
+      "word": "unjust"
+    }
+  ],
+  "impartial": [
+    {
+      "word": "biased"
+    }
+  ],
+  "democratic": [
+    {
+      "word": "authoritarian"
+    }
+  ],
+  "inclusive": [
+    {
+      "word": "exclusive"
+    }
+  ],
+  "contagious": [
+    {
+      "word": "noncontagious"
+    }
+  ],
+  "curable": [
+    {
+      "word": "incurable"
+    }
+  ],
+  "treatable": [
+    {
+      "word": "untreatable"
+    }
+  ],
+  "fatal": [
+    {
+      "word": "harmless"
+    }
+  ],
+  "diagnosed": [
+    {
+      "word": "undiagnosed"
+    }
+  ],
+  "vaccinated": [
+    {
+      "word": "unvaccinated"
+    }
+  ],
+  "immune": [
+    {
+      "word": "susceptible"
+    }
+  ],
+  "sterile": [
+    {
+      "word": "infected"
+    }
+  ],
+  "flammable": [
+    {
+      "word": "nonflammable"
+    }
+  ],
+  "reversible": [
+    {
+      "word": "irreversible"
+    }
+  ],
+  "recoverable": [
+    {
+      "word": "unrecoverable"
+    }
+  ],
+  "measurable": [
+    {
+      "word": "immeasurable"
+    }
+  ],
+  "predictable": [
+    {
+      "word": "unpredictable"
+    }
+  ],
+  "expected": [
+    {
+      "word": "unexpected"
+    }
+  ],
+  "anticipated": [
+    {
+      "word": "unanticipated"
+    }
+  ],
+  "scheduled": [
+    {
+      "word": "unscheduled"
+    }
+  ],
+  "subconscious": [
+    {
+      "word": "conscious"
+    }
+  ],
+  "rested": [
+    {
+      "word": "exhausted"
+    }
+  ],
+  "refreshed": [
+    {
+      "word": "tired"
+    }
+  ],
+  "attract": [
+    {
+      "word": "repel"
+    }
+  ],
+  "magnetize": [
+    {
+      "word": "demagnetize"
+    }
+  ],
+  "ignite": [
+    {
+      "word": "extinguish"
+    }
+  ],
+  "illuminate": [
+    {
+      "word": "darken"
+    }
+  ],
+  "confuse": [
+    {
+      "word": "clarify"
+    }
+  ],
+  "undermine": [
+    {
+      "word": "strengthen"
+    }
+  ],
+  "bolster": [
+    {
+      "word": "weaken"
+    }
+  ],
+  "reinforce": [
+    {
+      "word": "weaken"
+    }
+  ],
+  "northern": [
+    {
+      "word": "southern"
+    }
+  ],
+  "eastern": [
+    {
+      "word": "western"
+    }
+  ],
+  "metropolitan": [
+    {
+      "word": "rural"
+    }
+  ],
+  "urbanized": [
+    {
+      "word": "rural"
+    }
+  ],
+  "inland": [
+    {
+      "word": "coastal"
+    }
+  ],
+  "highland": [
+    {
+      "word": "lowland"
+    }
+  ],
+  "upland": [
+    {
+      "word": "lowland"
+    }
+  ],
+  "populated": [
+    {
+      "word": "deserted"
+    }
+  ],
+  "cultivated": [
+    {
+      "word": "wild"
+    }
+  ],
+  "profitable": [
+    {
+      "word": "unprofitable"
+    }
+  ],
+  "solvent": [
+    {
+      "word": "insolvent"
+    }
+  ],
+  "thriving": [
+    {
+      "word": "failing"
+    }
+  ],
+  "booming": [
+    {
+      "word": "declining"
+    }
+  ],
+  "bullish": [
+    {
+      "word": "bearish"
+    }
+  ],
+  "bearish": [
+    {
+      "word": "bullish"
+    }
+  ],
+  "inflated": [
+    {
+      "word": "deflated"
+    }
+  ],
+  "taxable": [
+    {
+      "word": "tax-exempt"
+    }
+  ],
+  "salaried": [
+    {
+      "word": "unpaid"
+    }
+  ],
+  "funded": [
+    {
+      "word": "unfunded"
+    }
+  ],
+  "sponsored": [
+    {
+      "word": "independent"
+    }
+  ],
+  "outsourced": [
+    {
+      "word": "in-house"
+    }
+  ],
+  "diversified": [
+    {
+      "word": "concentrated"
+    }
+  ],
+  "married": [
+    {
+      "word": "divorced"
+    }
+  ],
+  "engaged": [
+    {
+      "word": "single"
+    }
+  ],
+  "related": [
+    {
+      "word": "unrelated"
+    }
+  ],
+  "biological": [
+    {
+      "word": "adoptive"
+    }
+  ],
+  "adoptive": [
+    {
+      "word": "biological"
+    }
+  ],
+  "maternal": [
+    {
+      "word": "paternal"
+    }
+  ],
+  "paternal": [
+    {
+      "word": "maternal"
+    }
+  ],
+  "nuclear": [
+    {
+      "word": "extended"
+    }
+  ],
+  "aquatic": [
+    {
+      "word": "terrestrial"
+    }
+  ],
+  "terrestrial": [
+    {
+      "word": "aquatic"
+    }
+  ],
+  "migratory": [
+    {
+      "word": "resident"
+    }
+  ],
+  "venomous": [
+    {
+      "word": "harmless"
+    }
+  ],
+  "extinct": [
+    {
+      "word": "living"
+    }
+  ],
+  "endangered": [
+    {
+      "word": "thriving"
+    }
+  ],
+  "native": [
+    {
+      "word": "foreign"
+    }
+  ],
+  "indigenous": [
+    {
+      "word": "foreign"
+    }
+  ],
+  "invasive": [
+    {
+      "word": "native"
+    }
+  ],
+  "deciduous": [
+    {
+      "word": "evergreen"
+    }
+  ],
+  "evergreen": [
+    {
+      "word": "deciduous"
+    }
+  ],
+  "functional": [
+    {
+      "word": "dysfunctional"
+    }
+  ],
+  "operative": [
+    {
+      "word": "inoperative"
+    }
+  ],
+  "dormant": [
+    {
+      "word": "active"
+    }
+  ],
+  "muted": [
+    {
+      "word": "loud"
+    }
+  ],
+  "vocal": [
+    {
+      "word": "silent"
+    }
+  ],
+  "articulate": [
+    {
+      "word": "inarticulate"
+    }
+  ],
+  "eloquent": [
+    {
+      "word": "inarticulate"
+    }
+  ],
+  "precise": [
+    {
+      "word": "sloppy"
+    }
+  ],
+  "orderly": [
+    {
+      "word": "chaotic"
+    }
+  ],
+  "chaotic": [
+    {
+      "word": "orderly"
+    }
+  ],
+  "systematic": [
+    {
+      "word": "haphazard"
+    }
+  ],
+  "methodical": [
+    {
+      "word": "haphazard"
+    }
+  ],
+  "haphazard": [
+    {
+      "word": "methodical"
+    }
+  ],
+  "stretch": [
+    {
+      "word": "shrink"
+    }
+  ],
+  "speed up": [
+    {
+      "word": "slow down"
+    }
+  ],
+  "constrict": [
+    {
+      "word": "expand"
+    }
+  ],
+  "compress": [
+    {
+      "word": "decompress"
+    }
+  ],
+  "decompress": [
+    {
+      "word": "compress"
+    }
+  ],
+  "concentrate": [
+    {
+      "word": "dilute"
+    }
+  ],
+  "dilute": [
+    {
+      "word": "concentrate"
+    }
+  ],
+  "intensify": [
+    {
+      "word": "ease"
+    }
+  ],
+  "ease": [
+    {
+      "word": "intensify"
+    }
+  ],
+  "escalate": [
+    {
+      "word": "de-escalate"
+    }
+  ],
+  "de-escalate": [
+    {
+      "word": "escalate"
+    }
+  ],
+  "aggravate": [
+    {
+      "word": "alleviate"
+    }
+  ],
+  "alleviate": [
+    {
+      "word": "aggravate"
+    }
+  ],
+  "exacerbate": [
+    {
+      "word": "ease"
+    }
+  ],
+  "soothe": [
+    {
+      "word": "irritate"
+    }
+  ],
+  "irritate": [
+    {
+      "word": "soothe"
+    }
+  ],
+  "agitate": [
+    {
+      "word": "calm"
+    }
+  ],
+  "pacify": [
+    {
+      "word": "provoke"
+    }
+  ],
+  "provoke": [
+    {
+      "word": "pacify"
+    }
+  ],
+  "appease": [
+    {
+      "word": "antagonize"
+    }
+  ],
+  "antagonize": [
+    {
+      "word": "appease"
+    }
+  ],
+  "dispute": [
+    {
+      "word": "agreement"
+    }
+  ],
+  "conflict": [
+    {
+      "word": "harmony"
+    }
+  ],
+  "controversy": [
+    {
+      "word": "consensus"
+    }
+  ],
+  "disagreement": [
+    {
+      "word": "agreement"
+    }
+  ],
+  "discord": [
+    {
+      "word": "accord"
+    }
+  ],
+  "hostility": [
+    {
+      "word": "friendliness"
+    }
+  ],
+  "rivalry": [
+    {
+      "word": "alliance"
+    }
+  ],
+  "feud": [
+    {
+      "word": "friendship"
+    }
+  ],
+  "truce": [
+    {
+      "word": "conflict"
+    }
+  ],
+  "ceasefire": [
+    {
+      "word": "war"
+    }
+  ],
+  "reconciliation": [
+    {
+      "word": "estrangement"
+    }
+  ],
+  "estrangement": [
+    {
+      "word": "reconciliation"
+    }
+  ],
+  "taught": [
+    {
+      "word": "self-taught"
+    }
+  ],
+  "graduate": [
+    {
+      "word": "dropout"
+    }
+  ],
+  "enrolled": [
+    {
+      "word": "withdrawn"
+    }
+  ],
+  "tutored": [
+    {
+      "word": "unsupervised"
+    }
+  ],
+  "gifted": [
+    {
+      "word": "struggling"
+    }
+  ],
+  "advanced": [
+    {
+      "word": "remedial"
+    }
+  ],
+  "theoretical": [
+    {
+      "word": "applied"
+    }
+  ],
+  "academic": [
+    {
+      "word": "vocational"
+    }
+  ],
+  "baked": [
+    {
+      "word": "fried"
+    }
+  ],
+  "grilled": [
+    {
+      "word": "boiled"
+    }
+  ],
+  "homegrown": [
+    {
+      "word": "imported"
+    }
+  ],
+  "low-fat": [
+    {
+      "word": "high-fat"
+    }
+  ],
+  "sugary": [
+    {
+      "word": "sugar-free"
+    }
+  ],
+  "caffeinated": [
+    {
+      "word": "decaffeinated"
+    }
+  ],
+  "alcoholic": [
+    {
+      "word": "nonalcoholic"
+    }
+  ],
+  "vegetarian": [
+    {
+      "word": "meat-based"
+    }
+  ],
+  "nonstop": [
+    {
+      "word": "connecting"
+    }
+  ],
+  "occupied": [
+    {
+      "word": "vacant"
+    }
+  ],
+  "boarding": [
+    {
+      "word": "disembarking"
+    }
+  ],
+  "electric": [
+    {
+      "word": "gas-powered"
+    }
+  ],
+  "furnished": [
+    {
+      "word": "unfurnished"
+    }
+  ],
+  "renovated": [
+    {
+      "word": "dilapidated"
+    }
+  ],
+  "heated": [
+    {
+      "word": "unheated"
+    }
+  ],
+  "insulated": [
+    {
+      "word": "drafty"
+    }
+  ],
+  "carpeted": [
+    {
+      "word": "bare"
+    }
+  ],
+  "detached": [
+    {
+      "word": "attached"
+    }
+  ],
+  "prime": [
+    {
+      "word": "composite"
+    }
+  ],
+  "linear": [
+    {
+      "word": "nonlinear"
+    }
+  ],
+  "symmetric": [
+    {
+      "word": "asymmetric"
+    }
+  ],
+  "asymmetric": [
+    {
+      "word": "symmetric"
+    }
+  ],
+  "convex": [
+    {
+      "word": "concave"
+    }
+  ],
+  "concave": [
+    {
+      "word": "convex"
+    }
+  ],
+  "acidic": [
+    {
+      "word": "alkaline"
+    }
+  ],
+  "alkaline": [
+    {
+      "word": "acidic"
+    }
+  ],
+  "radioactive": [
+    {
+      "word": "stable"
+    }
+  ],
+  "conductive": [
+    {
+      "word": "insulating"
+    }
+  ],
+  "insulating": [
+    {
+      "word": "conductive"
+    }
+  ],
+  "magnetic": [
+    {
+      "word": "nonmagnetic"
+    }
+  ],
+  "verbose": [
+    {
+      "word": "terse"
+    }
+  ],
+  "terse": [
+    {
+      "word": "verbose"
+    }
+  ],
+  "blunt": [
+    {
+      "word": "diplomatic"
+    }
+  ],
+  "candid": [
+    {
+      "word": "evasive"
+    }
+  ],
+  "evasive": [
+    {
+      "word": "candid"
+    }
+  ],
+  "forthcoming": [
+    {
+      "word": "secretive"
+    }
+  ],
+  "secretive": [
+    {
+      "word": "forthcoming"
+    }
+  ],
+  "outspoken": [
+    {
+      "word": "reserved"
+    }
+  ],
+  "lucid": [
+    {
+      "word": "confused"
+    }
+  ],
+  "grounded": [
+    {
+      "word": "delusional"
+    }
+  ],
+  "erratic": [
+    {
+      "word": "stable"
+    }
+  ],
+  "composed": [
+    {
+      "word": "frantic"
+    }
+  ],
+  "frantic": [
+    {
+      "word": "composed"
+    }
+  ],
+  "collected": [
+    {
+      "word": "flustered"
+    }
+  ],
+  "flustered": [
+    {
+      "word": "collected"
+    }
+  ],
+  "serene": [
+    {
+      "word": "agitated"
+    }
+  ],
+  "agitated": [
+    {
+      "word": "serene"
+    }
+  ],
+  "embrace": [
+    {
+      "word": "release"
+    }
+  ],
+  "grip": [
+    {
+      "word": "release"
+    }
+  ],
+  "clutch": [
+    {
+      "word": "release"
+    }
+  ],
+  "squeeze": [
+    {
+      "word": "loosen"
+    }
+  ],
+  "flex": [
+    {
+      "word": "relax"
+    }
+  ],
+  "bend": [
+    {
+      "word": "straighten"
+    }
+  ],
+  "straighten": [
+    {
+      "word": "bend"
+    }
+  ],
+  "twist": [
+    {
+      "word": "untwist"
+    }
+  ],
+  "knot": [
+    {
+      "word": "unravel"
+    }
+  ],
+  "unravel": [
+    {
+      "word": "knot"
+    }
+  ],
+  "weave": [
+    {
+      "word": "unravel"
+    }
+  ],
+  "stitch": [
+    {
+      "word": "unstitch"
+    }
+  ],
+  "glue": [
+    {
+      "word": "unglue"
+    }
+  ],
+  "seal": [
+    {
+      "word": "unseal"
+    }
+  ],
+  "bolt": [
+    {
+      "word": "unbolt"
+    }
+  ],
+  "screw": [
+    {
+      "word": "unscrew"
+    }
+  ],
+  "plug": [
+    {
+      "word": "unplug"
+    }
+  ],
+  "button": [
+    {
+      "word": "unbutton"
+    }
+  ],
+  "zip": [
+    {
+      "word": "unzip"
+    }
+  ],
+  "sighted": [
+    {
+      "word": "blind"
+    }
+  ],
+  "hearing": [
+    {
+      "word": "deaf"
+    }
+  ],
+  "mobile": [
+    {
+      "word": "immobile"
+    }
+  ],
+  "muscular": [
+    {
+      "word": "frail"
+    }
+  ],
+  "frail": [
+    {
+      "word": "muscular"
+    }
+  ],
+  "agile": [
+    {
+      "word": "clumsy"
+    }
+  ],
+  "nimble": [
+    {
+      "word": "clumsy"
+    }
+  ],
+  "coordinated": [
+    {
+      "word": "clumsy"
+    }
+  ],
+  "left-handed": [
+    {
+      "word": "right-handed"
+    }
+  ],
+  "barefoot": [
+    {
+      "word": "shod"
+    }
+  ],
+  "clothed": [
+    {
+      "word": "naked"
+    }
+  ],
+  "manager": [
+    {
+      "word": "subordinate"
+    }
+  ],
+  "supervisor": [
+    {
+      "word": "trainee"
+    }
+  ],
+  "veteran": [
+    {
+      "word": "rookie"
+    }
+  ],
+  "freelance": [
+    {
+      "word": "employed"
+    }
+  ],
+  "self-employed": [
+    {
+      "word": "employed"
+    }
+  ],
+  "full-time": [
+    {
+      "word": "part-time"
+    }
+  ],
+  "part-time": [
+    {
+      "word": "full-time"
+    }
+  ],
+  "unionized": [
+    {
+      "word": "nonunionized"
+    }
+  ],
+  "certainty": [
+    {
+      "word": "doubt"
+    }
+  ],
+  "stability": [
+    {
+      "word": "instability"
+    }
+  ],
+  "instability": [
+    {
+      "word": "stability"
+    }
+  ],
+  "continuity": [
+    {
+      "word": "disruption"
+    }
+  ],
+  "disruption": [
+    {
+      "word": "continuity"
+    }
+  ],
+  "progress": [
+    {
+      "word": "regression"
+    }
+  ],
+  "regression": [
+    {
+      "word": "progress"
+    }
+  ],
+  "growth": [
+    {
+      "word": "decline"
+    }
+  ],
+  "expansion": [
+    {
+      "word": "contraction"
+    }
+  ],
+  "contraction": [
+    {
+      "word": "expansion"
+    }
+  ],
+  "abundance": [
+    {
+      "word": "deficiency"
+    }
+  ],
+  "prosperity": [
+    {
+      "word": "poverty"
+    }
+  ],
+  "scarcity": [
+    {
+      "word": "abundance"
+    }
+  ],
+  "excess": [
+    {
+      "word": "shortage"
+    }
+  ],
+  "moderation": [
+    {
+      "word": "excess"
+    }
+  ],
+  "restraint": [
+    {
+      "word": "indulgence"
+    }
+  ],
+  "indulgence": [
+    {
+      "word": "restraint"
+    }
+  ],
+  "discipline": [
+    {
+      "word": "chaos"
+    }
+  ],
+  "structure": [
+    {
+      "word": "disorder"
+    }
+  ],
+  "disorder": [
+    {
+      "word": "structure"
+    }
+  ],
+  "comprehend": [
+    {
+      "word": "misunderstand"
+    }
+  ],
+  "misunderstand": [
+    {
+      "word": "comprehend"
+    }
+  ],
+  "clarify": [
+    {
+      "word": "obscure"
+    }
+  ],
+  "obscure": [
+    {
+      "word": "clarify"
+    }
+  ],
+  "reveal": [
+    {
+      "word": "obscure"
+    }
+  ],
+  "expose": [
+    {
+      "word": "shelter"
+    }
+  ],
+  "shelter": [
+    {
+      "word": "expose"
+    }
+  ],
+  "integrate": [
+    {
+      "word": "segregate"
+    }
+  ],
+  "segregate": [
+    {
+      "word": "integrate"
+    }
+  ],
+  "unify": [
+    {
+      "word": "fragment"
+    }
+  ],
+  "fragment": [
+    {
+      "word": "unify"
+    }
+  ],
+  "centralize": [
+    {
+      "word": "disperse"
+    }
+  ],
+  "disperse": [
+    {
+      "word": "centralize"
+    }
+  ],
+  "assemble": [
+    {
+      "word": "disperse"
+    }
+  ],
+  "convene": [
+    {
+      "word": "adjourn"
+    }
+  ],
+  "adjourn": [
+    {
+      "word": "convene"
+    }
+  ],
+  "commence": [
+    {
+      "word": "conclude"
+    }
+  ],
+  "conclude": [
+    {
+      "word": "commence"
+    }
+  ],
+  "launch": [
+    {
+      "word": "terminate"
+    }
+  ],
+  "activate": [
+    {
+      "word": "deactivate"
+    }
+  ],
+  "deactivate": [
+    {
+      "word": "activate"
+    }
+  ],
+  "enable": [
+    {
+      "word": "disable"
+    }
+  ],
+  "disable": [
+    {
+      "word": "enable"
+    }
+  ],
+  "authorize": [
+    {
+      "word": "prohibit"
+    }
+  ],
+  "sanction": [
+    {
+      "word": "ban"
+    }
+  ],
+  "ban": [
+    {
+      "word": "sanction"
+    }
+  ],
+  "legalize": [
+    {
+      "word": "criminalize"
+    }
+  ],
+  "criminalize": [
+    {
+      "word": "legalize"
+    }
+  ],
+  "legitimize": [
+    {
+      "word": "delegitimize"
+    }
+  ],
+  "delegitimize": [
+    {
+      "word": "legitimize"
+    }
+  ],
+  "triumph": [
+    {
+      "word": "catastrophe"
+    }
+  ],
+  "catastrophe": [
+    {
+      "word": "triumph"
+    }
+  ],
+  "disaster": [
+    {
+      "word": "success"
+    }
+  ],
+  "miracle": [
+    {
+      "word": "tragedy"
+    }
+  ],
+  "tragedy": [
+    {
+      "word": "miracle"
+    }
+  ],
+  "fortune": [
+    {
+      "word": "misfortune"
+    }
+  ],
+  "misfortune": [
+    {
+      "word": "fortune"
+    }
+  ],
+  "windfall": [
+    {
+      "word": "loss"
+    }
+  ],
+  "bonanza": [
+    {
+      "word": "shortfall"
+    }
+  ],
+  "shortfall": [
+    {
+      "word": "bonanza"
+    }
+  ],
+  "clean-shaven": [
+    {
+      "word": "bearded"
+    }
+  ],
+  "bearded": [
+    {
+      "word": "clean-shaven"
+    }
+  ],
+  "long-haired": [
+    {
+      "word": "short-haired"
+    }
+  ],
+  "tanned": [
+    {
+      "word": "pale"
+    }
+  ],
+  "freckled": [
+    {
+      "word": "clear-skinned"
+    }
+  ],
+  "wrinkled": [
+    {
+      "word": "smooth-skinned"
+    }
+  ],
+  "gray-haired": [
+    {
+      "word": "dark-haired"
+    }
+  ],
+  "bald": [
+    {
+      "word": "hairy"
+    }
+  ],
+  "hairy": [
+    {
+      "word": "bald"
+    }
+  ],
+  "stocky": [
+    {
+      "word": "lanky"
+    }
+  ],
+  "lanky": [
+    {
+      "word": "stocky"
+    }
+  ],
+  "burly": [
+    {
+      "word": "slight"
+    }
+  ],
+  "slight": [
+    {
+      "word": "burly"
+    }
+  ],
+  "crisp": [
+    {
+      "word": "wilted"
+    }
+  ],
+  "wilted": [
+    {
+      "word": "crisp"
+    }
+  ],
+  "blooming": [
+    {
+      "word": "withered"
+    }
+  ],
+  "withered": [
+    {
+      "word": "blooming"
+    }
+  ],
+  "dying": [
+    {
+      "word": "thriving"
+    }
+  ],
+  "flourishing": [
+    {
+      "word": "wilting"
+    }
+  ],
+  "budding": [
+    {
+      "word": "declining"
+    }
+  ],
+  "nascent": [
+    {
+      "word": "mature"
+    }
+  ],
+  "embryonic": [
+    {
+      "word": "developed"
+    }
+  ],
+  "rudimentary": [
+    {
+      "word": "sophisticated"
+    }
+  ],
+  "primitive": [
+    {
+      "word": "sophisticated"
+    }
+  ],
+  "archaic": [
+    {
+      "word": "contemporary"
+    }
+  ],
+  "obsolete": [
+    {
+      "word": "current"
+    }
+  ],
+  "outmoded": [
+    {
+      "word": "fashionable"
+    }
+  ],
+  "cutting-edge": [
+    {
+      "word": "outdated"
+    }
+  ],
+  "state-of-the-art": [
+    {
+      "word": "obsolete"
+    }
+  ],
+  "groundbreaking": [
+    {
+      "word": "conventional"
+    }
+  ],
+  "revolutionary": [
+    {
+      "word": "conventional"
+    }
+  ],
+  "radical": [
+    {
+      "word": "conservative"
+    }
+  ],
+  "conservative": [
+    {
+      "word": "radical"
+    }
+  ],
+  "progressive": [
+    {
+      "word": "conservative"
+    }
+  ],
+  "liberal": [
+    {
+      "word": "conservative"
+    }
+  ],
+  "orthodox": [
+    {
+      "word": "unorthodox"
+    }
+  ],
+  "unorthodox": [
+    {
+      "word": "orthodox"
+    }
+  ],
+  "conventional": [
+    {
+      "word": "unconventional"
+    }
+  ],
+  "mainstream": [
+    {
+      "word": "niche"
+    }
+  ],
+  "niche": [
+    {
+      "word": "mainstream"
+    }
+  ],
+  "generic": [
+    {
+      "word": "specialized"
+    }
+  ],
+  "specialized": [
+    {
+      "word": "generic"
+    }
+  ],
+  "universal": [
+    {
+      "word": "particular"
+    }
+  ],
+  "particular": [
+    {
+      "word": "universal"
+    }
+  ],
+  "broad": [
+    {
+      "word": "narrow"
+    }
+  ],
+  "exhaustive": [
+    {
+      "word": "partial"
+    }
+  ],
+  "selective": [
+    {
+      "word": "indiscriminate"
+    }
+  ],
+  "indiscriminate": [
+    {
+      "word": "selective"
+    }
+  ],
+  "discerning": [
+    {
+      "word": "indiscriminate"
+    }
+  ],
+  "fastidious": [
+    {
+      "word": "careless"
+    }
+  ],
+  "finicky": [
+    {
+      "word": "undemanding"
+    }
+  ],
+  "undemanding": [
+    {
+      "word": "finicky"
+    }
+  ],
+  "lenient": [
+    {
+      "word": "demanding"
+    }
+  ],
+  "embellish": [
+    {
+      "word": "simplify"
+    }
+  ],
+  "exaggerate": [
+    {
+      "word": "understate"
+    }
+  ],
+  "understate": [
+    {
+      "word": "exaggerate"
+    }
+  ],
+  "amplify": [
+    {
+      "word": "dampen"
+    }
+  ],
+  "dampen": [
+    {
+      "word": "amplify"
+    }
+  ],
+  "heighten": [
+    {
+      "word": "diminish"
+    }
+  ],
+  "diminish": [
+    {
+      "word": "heighten"
+    }
+  ],
+  "magnify": [
+    {
+      "word": "minimize"
+    }
+  ],
+  "minimize": [
+    {
+      "word": "magnify"
+    }
+  ],
+  "maximize": [
+    {
+      "word": "minimize"
+    }
+  ],
+  "optimize": [
+    {
+      "word": "degrade"
+    }
+  ],
+  "degrade": [
+    {
+      "word": "optimize"
+    }
+  ],
+  "upgrade": [
+    {
+      "word": "downgrade"
+    }
+  ],
+  "downgrade": [
+    {
+      "word": "upgrade"
+    }
+  ],
+  "elevate": [
+    {
+      "word": "lower"
+    }
+  ],
+  "exalt": [
+    {
+      "word": "demean"
+    }
+  ],
+  "demean": [
+    {
+      "word": "exalt"
+    }
+  ],
+  "glorify": [
+    {
+      "word": "demean"
+    }
+  ],
+  "dignify": [
+    {
+      "word": "humiliate"
+    }
+  ],
+  "humiliate": [
+    {
+      "word": "dignify"
+    }
+  ],
+  "vindicate": [
+    {
+      "word": "incriminate"
+    }
+  ],
+  "incriminate": [
+    {
+      "word": "vindicate"
+    }
+  ],
+  "exonerate": [
+    {
+      "word": "convict"
+    }
+  ],
+  "convict": [
+    {
+      "word": "exonerate"
+    }
+  ],
+  "acquit": [
+    {
+      "word": "convict"
+    }
+  ],
+  "pride": [
+    {
+      "word": "humiliation"
+    }
+  ],
+  "dignity": [
+    {
+      "word": "shame"
+    }
+  ],
+  "honor": [
+    {
+      "word": "disgrace"
+    }
+  ],
+  "disgrace": [
+    {
+      "word": "honor"
+    }
+  ],
+  "glory": [
+    {
+      "word": "shame"
+    }
+  ],
+  "prestige": [
+    {
+      "word": "disgrace"
+    }
+  ],
+  "reputation": [
+    {
+      "word": "infamy"
+    }
+  ],
+  "infamy": [
+    {
+      "word": "reputation"
+    }
+  ],
+  "renown": [
+    {
+      "word": "obscurity"
+    }
+  ],
+  "obscurity": [
+    {
+      "word": "renown"
+    }
+  ],
+  "fame": [
+    {
+      "word": "obscurity"
+    }
+  ],
+  "distinction": [
+    {
+      "word": "mediocrity"
+    }
+  ],
+  "mediocrity": [
+    {
+      "word": "distinction"
+    }
+  ],
+  "excellence": [
+    {
+      "word": "mediocrity"
+    }
+  ],
+  "perfection": [
+    {
+      "word": "flaw"
+    }
+  ],
+  "flaw": [
+    {
+      "word": "perfection"
+    }
+  ],
+  "merit": [
+    {
+      "word": "defect"
+    }
+  ],
+  "defect": [
+    {
+      "word": "merit"
+    }
+  ],
+  "sunlit": [
+    {
+      "word": "shaded"
+    }
+  ],
+  "shaded": [
+    {
+      "word": "sunlit"
+    }
+  ],
+  "sheltered": [
+    {
+      "word": "exposed"
+    }
+  ],
+  "exposed": [
+    {
+      "word": "sheltered"
+    }
+  ],
+  "guarded": [
+    {
+      "word": "unguarded"
+    }
+  ],
+  "unguarded": [
+    {
+      "word": "guarded"
+    }
+  ],
+  "fortified": [
+    {
+      "word": "vulnerable"
+    }
+  ],
+  "armored": [
+    {
+      "word": "unarmed"
+    }
+  ],
+  "unarmed": [
+    {
+      "word": "armed"
+    }
+  ],
+  "armed": [
+    {
+      "word": "unarmed"
+    }
+  ],
+  "loaded": [
+    {
+      "word": "unloaded"
+    }
+  ],
+  "charged": [
+    {
+      "word": "discharged"
+    }
+  ],
+  "powered": [
+    {
+      "word": "unpowered"
+    }
+  ],
+  "activated": [
+    {
+      "word": "deactivated"
+    }
+  ],
+  "switched on": [
+    {
+      "word": "switched off"
+    }
+  ],
+  "plugged in": [
+    {
+      "word": "unplugged"
+    }
+  ],
+  "connected": [
+    {
+      "word": "offline"
+    }
+  ],
+  "synced": [
+    {
+      "word": "unsynced"
+    }
+  ],
+  "linked": [
+    {
+      "word": "unlinked"
+    }
+  ],
+  "bonded": [
+    {
+      "word": "separated"
+    }
+  ],
+  "attached": [
+    {
+      "word": "detached"
+    }
+  ],
+  "fastened": [
+    {
+      "word": "loose"
+    }
+  ],
+  "secured": [
+    {
+      "word": "loose"
+    }
+  ],
+  "anchored": [
+    {
+      "word": "adrift"
+    }
+  ],
+  "airborne": [
+    {
+      "word": "grounded"
+    }
+  ],
+  "docked": [
+    {
+      "word": "sailing"
+    }
+  ],
+  "moored": [
+    {
+      "word": "adrift"
+    }
+  ],
+  "parked": [
+    {
+      "word": "moving"
+    }
+  ],
+  "stationary": [
+    {
+      "word": "moving"
+    }
+  ],
+  "idle": [
+    {
+      "word": "operating"
+    }
+  ],
+  "operating": [
+    {
+      "word": "idle"
+    }
+  ],
+  "running": [
+    {
+      "word": "stopped"
+    }
+  ],
+  "paused": [
+    {
+      "word": "running"
+    }
+  ],
+  "suspended": [
+    {
+      "word": "active"
+    }
+  ],
+  "hibernating": [
+    {
+      "word": "active"
+    }
+  ],
+  "sleeping": [
+    {
+      "word": "awake"
+    }
+  ],
+  "published": [
+    {
+      "word": "unpublished"
+    }
+  ],
+  "censored": [
+    {
+      "word": "uncensored"
+    }
+  ],
+  "biased": [
+    {
+      "word": "objective"
+    }
+  ],
+  "sensational": [
+    {
+      "word": "factual"
+    }
+  ],
+  "credible": [
+    {
+      "word": "dubious"
+    }
+  ],
+  "peer-reviewed": [
+    {
+      "word": "unreviewed"
+    }
+  ],
+  "plagiarized": [
+    {
+      "word": "original"
+    }
+  ],
+  "cited": [
+    {
+      "word": "uncited"
+    }
+  ],
+  "tenured": [
+    {
+      "word": "untenured"
+    }
+  ],
+  "accredited": [
+    {
+      "word": "unaccredited"
+    }
+  ],
+  "marinated": [
+    {
+      "word": "plain"
+    }
+  ],
+  "garnished": [
+    {
+      "word": "plain"
+    }
+  ],
+  "glazed": [
+    {
+      "word": "matte"
+    }
+  ],
+  "unbeaten": [
+    {
+      "word": "beaten"
+    }
+  ],
+  "relegated": [
+    {
+      "word": "promoted"
+    }
+  ],
+  "promoted": [
+    {
+      "word": "relegated"
+    }
+  ],
+  "benched": [
+    {
+      "word": "starting"
+    }
+  ],
+  "drafted": [
+    {
+      "word": "undrafted"
+    }
+  ],
+  "nostalgic": [
+    {
+      "word": "indifferent"
+    }
+  ],
+  "euphoric": [
+    {
+      "word": "despondent"
+    }
+  ],
+  "despondent": [
+    {
+      "word": "euphoric"
+    }
+  ],
+  "carefree": [
+    {
+      "word": "burdened"
+    }
+  ],
+  "burdened": [
+    {
+      "word": "carefree"
+    }
+  ],
+  "remorseful": [
+    {
+      "word": "unrepentant"
+    }
+  ],
+  "unrepentant": [
+    {
+      "word": "remorseful"
+    }
+  ],
+  "indignant": [
+    {
+      "word": "content"
+    }
+  ],
+  "homesick": [
+    {
+      "word": "settled"
+    }
+  ],
+  "gusty": [
+    {
+      "word": "still-aired"
+    }
+  ],
+  "audited": [
+    {
+      "word": "unaudited"
+    }
+  ],
+  "insured": [
+    {
+      "word": "uninsured"
+    }
+  ],
+  "collateralized": [
+    {
+      "word": "unsecured"
+    }
+  ],
+  "unsecured": [
+    {
+      "word": "collateralized"
+    }
+  ],
+  "reusable": [
+    {
+      "word": "disposable"
+    }
+  ],
+  "disposable": [
+    {
+      "word": "reusable"
+    }
+  ],
+  "recyclable": [
+    {
+      "word": "nonrecyclable"
+    }
+  ],
+  "durable": [
+    {
+      "word": "disposable"
+    }
+  ],
+  "handcrafted": [
+    {
+      "word": "mass-produced"
+    }
+  ],
+  "bespoke": [
+    {
+      "word": "off-the-shelf"
+    }
+  ],
+  "guided": [
+    {
+      "word": "self-guided"
+    }
+  ],
+  "chartered": [
+    {
+      "word": "scheduled"
+    }
+  ],
+  "refundable": [
+    {
+      "word": "nonrefundable"
+    }
+  ],
+  "transferable": [
+    {
+      "word": "nontransferable"
+    }
+  ],
+  "fragrant": [
+    {
+      "word": "foul-smelling"
+    }
+  ],
+  "glossy": [
+    {
+      "word": "matte"
+    }
+  ],
+  "translucent": [
+    {
+      "word": "opaque"
+    }
+  ],
+  "pungent": [
+    {
+      "word": "mild-smelling"
+    }
+  ],
+  "reconcile": [
+    {
+      "word": "alienate"
+    }
+  ],
+  "compensate": [
+    {
+      "word": "shortchange"
+    }
+  ],
+  "delegate": [
+    {
+      "word": "micromanage"
+    }
+  ],
+  "supervise": [
+    {
+      "word": "neglect"
+    }
+  ],
+  "streamline": [
+    {
+      "word": "complicate"
+    }
+  ],
+  "negotiate": [
+    {
+      "word": "dictate"
+    }
+  ]
+};

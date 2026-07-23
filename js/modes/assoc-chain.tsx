@@ -5,11 +5,8 @@
 // (or running out of further synonyms/antonyms) ends the chain.
 import { useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
-import {
-  getSynonymsModule,
-  getAntonymsModule,
-  ensureLexiconLoaded,
-} from '../features/lexicon-loader.ts';
+import { ensureSynonymsLoaded, getSynonymsForLang } from '../features/synonyms-loader.ts';
+import { ensureAntonymsLoaded, getAntonymsForLang } from '../features/antonyms-loader.ts';
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 import { t } from '../features/i18n.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
@@ -141,10 +138,11 @@ export function AssocChainPage(): ReactElement {
   // switch.
   const startGame = async (): Promise<void> => {
     setLoading(true);
-    await ensureLexiconLoaded();
+    const learnLang = getLearnLang();
+    await Promise.all([ensureSynonymsLoaded(learnLang), ensureAntonymsLoaded(learnLang)]);
     setLoading(false);
-    const raw = getSynonymsModule()?.SYNONYMS_BY_LANG[getLearnLang()] as SynDict | undefined;
-    const rawAnt = getAntonymsModule()?.ANTONYMS_BY_LANG[getLearnLang()] as SynDict | undefined;
+    const raw = getSynonymsForLang(learnLang) as SynDict | undefined;
+    const rawAnt = getAntonymsForLang(learnLang) as SynDict | undefined;
     const d = raw ? buildSymmetricDict(raw) : null;
     const ad = rawAnt ? buildSymmetricDict(rawAnt) : null;
     setDict(d);

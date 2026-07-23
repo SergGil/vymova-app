@@ -1,8 +1,17 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, beforeAll } from 'vitest';
 import { pickPool, buildQuestion } from '../../js/modes/idiom-quiz.tsx';
-import { IDIOMS_BY_LANG } from '../../data/idioms.ts';
+import { ensureIdiomsLoaded, getIdiomsForLang } from '../../js/features/idioms-loader.ts';
 
 describe('idiom-quiz-logic', () => {
+  // pickPool() itself stays synchronous, reading whatever's already in
+  // idioms-loader's cache — every language it might land on across the
+  // tests below needs to be preloaded first.
+  beforeAll(async () => {
+    await Promise.all(
+      ['es', 'th', 'fr', 'en', 'ua'].map((lang) => ensureIdiomsLoaded(lang)),
+    );
+  });
+
   afterEach(() => {
     localStorage.removeItem('ew_learn_lang');
     localStorage.removeItem('ew_know_lang');
@@ -14,7 +23,7 @@ describe('idiom-quiz-logic', () => {
       localStorage.setItem('ew_know_lang', 'ua');
       const { lang, idioms } = pickPool();
       expect(lang).toBe('es');
-      expect(idioms).toBe(IDIOMS_BY_LANG.es);
+      expect(idioms).toBe(getIdiomsForLang('es'));
     });
 
     it('falls back to the know language when every target language still has >= 4 idioms', () => {
@@ -42,7 +51,15 @@ describe('idiom-quiz-logic', () => {
   });
 
   describe('buildQuestion()', () => {
-    const pool = IDIOMS_BY_LANG.en!;
+    // Set up in beforeAll, not directly in the describe body: the outer
+    // beforeAll above (which preloads the idiom data pickPool()/this reads)
+    // only runs before the suite's first `it`, i.e. *after* describe bodies
+    // finish collecting — reading getIdiomsForLang() here directly would
+    // run too early.
+    let pool: NonNullable<ReturnType<typeof getIdiomsForLang>>;
+    beforeAll(() => {
+      pool = getIdiomsForLang('en')!;
+    });
 
     it('produces 4 unique options including the correct meaning', () => {
       const q = buildQuestion(pool[0], pool);

@@ -1,18 +1,16 @@
 import { describe, it, expect } from 'vitest';
-import {
-  ENGLISH_IDIOMS,
-  UKRAINIAN_IDIOMS,
-  SPANISH_IDIOMS,
-  HEBREW_IDIOMS,
-  ARABIC_IDIOMS,
-  POLISH_IDIOMS,
-  CHINESE_IDIOMS,
-  GREEK_IDIOMS,
-  JAPANESE_IDIOMS,
-  TURKISH_IDIOMS,
-  DUTCH_IDIOMS,
-  IDIOMS_BY_LANG,
-} from '../../data/idioms.ts';
+import { IDIOMS_EN as ENGLISH_IDIOMS } from '../../data/idioms-data/idioms_en.ts';
+import { IDIOMS_UA as UKRAINIAN_IDIOMS } from '../../data/idioms-data/idioms_ua.ts';
+import { IDIOMS_ES as SPANISH_IDIOMS } from '../../data/idioms-data/idioms_es.ts';
+import { IDIOMS_HE as HEBREW_IDIOMS } from '../../data/idioms-data/idioms_he.ts';
+import { IDIOMS_AR as ARABIC_IDIOMS } from '../../data/idioms-data/idioms_ar.ts';
+import { IDIOMS_PL as POLISH_IDIOMS } from '../../data/idioms-data/idioms_pl.ts';
+import { IDIOMS_ZH as CHINESE_IDIOMS } from '../../data/idioms-data/idioms_zh.ts';
+import { IDIOMS_EL as GREEK_IDIOMS } from '../../data/idioms-data/idioms_el.ts';
+import { IDIOMS_JA as JAPANESE_IDIOMS } from '../../data/idioms-data/idioms_ja.ts';
+import { IDIOMS_TR as TURKISH_IDIOMS } from '../../data/idioms-data/idioms_tr.ts';
+import { IDIOMS_NL as DUTCH_IDIOMS } from '../../data/idioms-data/idioms_nl.ts';
+import { ensureIdiomsLoaded, getIdiomsForLang } from '../../js/features/idioms-loader.ts';
 import type { Idiom } from '../../data/idioms.ts';
 
 function checkIdiomShape(list: Idiom[], name: string) {
@@ -175,18 +173,25 @@ describe('DUTCH_IDIOMS', () => {
   });
 });
 
-describe('IDIOMS_BY_LANG', () => {
-  it('includes Hebrew and Arabic entries', () => {
-    expect(IDIOMS_BY_LANG.he).toBe(HEBREW_IDIOMS);
-    expect(IDIOMS_BY_LANG.ar).toBe(ARABIC_IDIOMS);
+// Former IDIOMS_BY_LANG aggregation is gone (js/features/idioms-loader.ts
+// lazy-imports each language's own file instead — see
+// docs/architecture-assessment.md p.6) — this now checks the loader
+// resolves the same data these direct imports above see.
+describe('idioms-loader', () => {
+  it('resolves Hebrew and Arabic to the same data as their direct import', async () => {
+    await ensureIdiomsLoaded('he');
+    await ensureIdiomsLoaded('ar');
+    expect(getIdiomsForLang('he')).toBe(HEBREW_IDIOMS);
+    expect(getIdiomsForLang('ar')).toBe(ARABIC_IDIOMS);
   });
 
-  it('includes Polish, Chinese, Greek, Japanese, Turkish, and Dutch entries', () => {
-    expect(IDIOMS_BY_LANG.pl).toBe(POLISH_IDIOMS);
-    expect(IDIOMS_BY_LANG.zh).toBe(CHINESE_IDIOMS);
-    expect(IDIOMS_BY_LANG.el).toBe(GREEK_IDIOMS);
-    expect(IDIOMS_BY_LANG.ja).toBe(JAPANESE_IDIOMS);
-    expect(IDIOMS_BY_LANG.tr).toBe(TURKISH_IDIOMS);
-    expect(IDIOMS_BY_LANG.nl).toBe(DUTCH_IDIOMS);
+  it('resolves Polish, Chinese, Greek, Japanese, Turkish, and Dutch entries', async () => {
+    await Promise.all(['pl', 'zh', 'el', 'ja', 'tr', 'nl'].map((lang) => ensureIdiomsLoaded(lang)));
+    expect(getIdiomsForLang('pl')).toBe(POLISH_IDIOMS);
+    expect(getIdiomsForLang('zh')).toBe(CHINESE_IDIOMS);
+    expect(getIdiomsForLang('el')).toBe(GREEK_IDIOMS);
+    expect(getIdiomsForLang('ja')).toBe(JAPANESE_IDIOMS);
+    expect(getIdiomsForLang('tr')).toBe(TURKISH_IDIOMS);
+    expect(getIdiomsForLang('nl')).toBe(DUTCH_IDIOMS);
   });
 });

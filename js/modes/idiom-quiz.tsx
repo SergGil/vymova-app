@@ -2,7 +2,8 @@
 // 💬 Idiom Quiz: turns the idioms reference page's data (previously browse-only,
 // no review loop) into a 4-option "guess the meaning" quiz.
 import { useEffect, useState, type ReactElement } from 'react';
-import { IDIOMS_BY_LANG, type Idiom } from '../../data/idioms.ts';
+import { ensureIdiomsLoaded, getIdiomsForLang } from '../features/idioms-loader.ts';
+import type { Idiom } from '../../data/idioms.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
@@ -22,15 +23,18 @@ const RTL_LANGS = new Set(['he', 'ar', 'fa']);
 // target languages has at least 5 idioms (see LANGUAGE_PROGRESS.md-adjacent
 // content notes), enough for a 4-option question. Exported (unlike most
 // per-mode build helpers in this codebase) so this fallback chain has a
-// direct unit test instead of a re-declared copy.
+// direct unit test instead of a re-declared copy. Stays synchronous —
+// reads whatever's already in idioms-loader.ts's cache; callers must
+// ensureIdiomsLoaded() the learn/know/'en' candidates first (see
+// startGame() below).
 export function pickPool(): { lang: string; idioms: Idiom[] } {
   const learn = getLearnLang();
   const know = getKnowLang();
-  const learnPool = IDIOMS_BY_LANG[learn as keyof typeof IDIOMS_BY_LANG];
+  const learnPool = getIdiomsForLang(learn);
   if (learnPool && learnPool.length >= NUM_OPTS) return { lang: learn, idioms: learnPool };
-  const knowPool = IDIOMS_BY_LANG[know as keyof typeof IDIOMS_BY_LANG];
+  const knowPool = getIdiomsForLang(know);
   if (knowPool && knowPool.length >= NUM_OPTS) return { lang: know, idioms: knowPool };
-  return { lang: 'en', idioms: IDIOMS_BY_LANG.en ?? [] };
+  return { lang: 'en', idioms: getIdiomsForLang('en') ?? [] };
 }
 
 export type Question = { idiom: Idiom; options: string[]; correct: string };
@@ -77,15 +81,29 @@ export function IdiomQuizPage(): ReactElement {
   const rtl = RTL_LANGS.has(lang);
 
   const startGame = (): void => {
-    const { lang: l, deck: d } = buildDeck();
-    setLang(l);
-    setDeck(d);
-    setIdx(0);
-    setOk(0);
-    setFail(0);
-    setSelected(null);
-    setShowHint(false);
-    setQuestion(d.length ? buildQuestion(d[0], d) : null);
+    // Idiom data loads lazily per language (js/features/idioms-loader.ts).
+    // pickPool()/buildDeck() stay synchronous (reading whatever's already
+    // cached) — preload every candidate pickPool() might land on (learn,
+    // know, its 'en' fallback) before calling them.
+    const learn = getLearnLang();
+    const know = getKnowLang();
+    setDeck([]);
+    setQuestion(null);
+    Promise.all([
+      ensureIdiomsLoaded(learn),
+      ensureIdiomsLoaded(know),
+      ensureIdiomsLoaded('en'),
+    ]).then(() => {
+      const { lang: l, deck: d } = buildDeck();
+      setLang(l);
+      setDeck(d);
+      setIdx(0);
+      setOk(0);
+      setFail(0);
+      setSelected(null);
+      setShowHint(false);
+      setQuestion(d.length ? buildQuestion(d[0], d) : null);
+    });
   };
 
   const session = useModeSession({

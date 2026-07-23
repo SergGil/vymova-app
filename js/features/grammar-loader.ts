@@ -305,4 +305,5 @@ export async function ensureGrammarLoaded(lang: string): Promise<void> {
   await LOADING[lang];
 }
 
+
 export type { GrammarCategory, GrammarRule, GSection } from '../../data/grammar.ts';

@@ -1,7 +1,11 @@
-import { describe, it, expect } from 'vitest';
-import { searchCollocations } from '../../data/collocations.ts';
+import { describe, it, expect, beforeAll } from 'vitest';
+import { searchCollocations, ensureCollocationsLoaded } from '../../js/features/collocations-loader.ts';
 
 describe('searchCollocations()', () => {
+  beforeAll(async () => {
+    await ensureCollocationsLoaded('en');
+  });
+
   it('finds collocations containing the given word', () => {
     const results = searchCollocations('decision');
     expect(results.length).toBeGreaterThan(0);

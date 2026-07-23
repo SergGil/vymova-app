@@ -11,13 +11,11 @@ import {
   EtymologyNote,
   UsageNoteBox,
 } from '../../js/features/word-context.tsx';
-import {
-  ensureSynonymsLoaded,
-  ensureCollocationsLoaded,
-  ensureWordFamiliesLoaded,
-  ensureEtymologyLoaded,
-  ensureUsageNotesLoaded,
-} from '../../js/features/lexicon-loader.ts';
+import { ensureSynonymsLoaded } from '../../js/features/synonyms-loader.ts';
+import { ensureCollocationsLoaded } from '../../js/features/collocations-loader.ts';
+import { ensureWordFamiliesLoaded } from '../../js/features/word-families-loader.ts';
+import { ensureEtymologyLoaded } from '../../js/features/etymology-loader.ts';
+import { ensureUsageNotesLoaded } from '../../js/features/usage-notes-loader.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -42,18 +40,21 @@ function mount(Component: () => JSX.Element | null): { container: HTMLElement; r
 }
 
 describe('word-context.tsx', () => {
-  // Every chip/section here lazy-loads its data file on first mount
-  // (js/features/lexicon-loader.ts) instead of a static top-level import —
-  // pre-warm the cache once so every test below sees the module already
-  // non-null on its very first synchronous render, same as it would after
-  // the first real page visit in production.
+  // Every chip/section here lazy-loads its data per language on first mount
+  // (js/features/{synonyms,antonyms,collocations,word-families,etymology,
+  // usage-notes}-loader.ts) instead of a static top-level import — pre-warm
+  // the cache for 'en' (every test word here is English, and the default
+  // front/UI language) once so every test below sees the data already
+  // cached on its very first synchronous render, same as it would after
+  // the first real page visit in production. Etymology is keyed by UI
+  // locale, not target language — 'ua' is this app's default.
   beforeAll(async () => {
     await Promise.all([
-      ensureSynonymsLoaded(),
-      ensureCollocationsLoaded(),
-      ensureWordFamiliesLoaded(),
-      ensureEtymologyLoaded(),
-      ensureUsageNotesLoaded(),
+      ensureSynonymsLoaded('en'),
+      ensureCollocationsLoaded('en'),
+      ensureWordFamiliesLoaded('en'),
+      ensureEtymologyLoaded('ua'),
+      ensureUsageNotesLoaded('en'),
     ]);
   });
 

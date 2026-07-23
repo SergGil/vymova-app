@@ -1,0 +1,1451 @@
+// Vymova — data/collocations-data/collocations_en.ts
+// Auto-split from the former data/collocations.ts (scripts/split-collocations.js)
+// — one file per language so it can be dynamically imported on demand.
+import type { Collocation } from '../collocations.ts';
+
+export const COLLOCATIONS_EN: Record<string, Collocation[]> = {
+  "make": [
+    {
+      "phrase": "make a decision",
+      "category": "make/do",
+      "note": "NOT \"do a decision\""
+    },
+    {
+      "phrase": "make an effort",
+      "category": "make/do",
+      "note": "NOT \"do an effort\""
+    },
+    {
+      "phrase": "make a mistake",
+      "category": "make/do",
+      "note": "NOT \"do a mistake\""
+    },
+    {
+      "phrase": "make progress",
+      "category": "make/do",
+      "note": "NOT \"do progress\""
+    },
+    {
+      "phrase": "make money",
+      "category": "make/do",
+      "note": "NOT \"do money\""
+    },
+    {
+      "phrase": "make a phone call",
+      "category": "make/do",
+      "note": "NOT \"do a phone call\""
+    },
+    {
+      "phrase": "make a plan",
+      "category": "make/do",
+      "note": "NOT \"do a plan\""
+    },
+    {
+      "phrase": "make an appointment",
+      "category": "make/do",
+      "note": "NOT \"do an appointment\""
+    },
+    {
+      "phrase": "make a difference",
+      "category": "make/do",
+      "note": "NOT \"do a difference\""
+    },
+    {
+      "phrase": "make sense",
+      "category": "make/do",
+      "note": "NOT \"do sense\""
+    },
+    {
+      "phrase": "make friends",
+      "category": "make/do",
+      "note": "NOT \"do friends\""
+    },
+    {
+      "phrase": "make a noise",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a point",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a suggestion",
+      "category": "make/do",
+      "note": "NOT \"do a suggestion\""
+    },
+    {
+      "phrase": "make peace",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a complaint",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make an offer",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a request",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make use of",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make an excuse",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a discovery",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a speech",
+      "category": "make/do",
+      "note": "NOT \"do a speech\""
+    },
+    {
+      "phrase": "make an exception",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a choice",
+      "category": "make/do",
+      "note": "NOT \"do a choice\""
+    },
+    {
+      "phrase": "make a comment",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a profit",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a loss",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a promise",
+      "category": "make/do",
+      "note": "NOT \"do a promise\""
+    },
+    {
+      "phrase": "make a living",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make an impression",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make an investment",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a reservation",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make an assumption",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a contribution",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a connection",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make an arrangement",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a statement",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make an announcement",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a confession",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a list",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a bed",
+      "category": "make/do",
+      "note": "tidy the bed after sleeping"
+    },
+    {
+      "phrase": "make a mess",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a joke",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make an argument",
+      "category": "make/do",
+      "note": "\"make an argument\" = present reasoning; \"have an argument\" = quarrel"
+    },
+    {
+      "phrase": "make a deal",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a note",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a recommendation",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a prediction",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make contact",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a call",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a demand",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make an observation",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a sound",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make a booking",
+      "category": "make/do"
+    },
+    {
+      "phrase": "make an accusation",
+      "category": "make/do"
+    }
+  ],
+  "do": [
+    {
+      "phrase": "do homework",
+      "category": "make/do",
+      "note": "NOT \"make homework\""
+    },
+    {
+      "phrase": "do research",
+      "category": "make/do",
+      "note": "NOT \"make research\""
+    },
+    {
+      "phrase": "do exercise",
+      "category": "make/do",
+      "note": "NOT \"make exercise\""
+    },
+    {
+      "phrase": "do business",
+      "category": "make/do",
+      "note": "NOT \"make business\""
+    },
+    {
+      "phrase": "do damage",
+      "category": "make/do",
+      "note": "NOT \"make damage\""
+    },
+    {
+      "phrase": "do good",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do harm",
+      "category": "make/do",
+      "note": "NOT \"make harm\""
+    },
+    {
+      "phrase": "do a favour",
+      "category": "make/do",
+      "note": "NOT \"make a favour\""
+    },
+    {
+      "phrase": "do the shopping",
+      "category": "make/do",
+      "note": "NOT \"make the shopping\""
+    },
+    {
+      "phrase": "do your best",
+      "category": "make/do",
+      "note": "NOT \"make your best\""
+    },
+    {
+      "phrase": "do laundry",
+      "category": "make/do",
+      "note": "NOT \"make laundry\""
+    },
+    {
+      "phrase": "do the dishes",
+      "category": "make/do",
+      "note": "NOT \"make the dishes\""
+    },
+    {
+      "phrase": "do sport",
+      "category": "make/do",
+      "note": "NOT \"make sport\""
+    },
+    {
+      "phrase": "do a course",
+      "category": "make/do",
+      "note": "NOT \"make a course\""
+    },
+    {
+      "phrase": "do a job",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do the cooking",
+      "category": "make/do",
+      "note": "\"make dinner/lunch\" but \"do the cooking\""
+    },
+    {
+      "phrase": "do the cleaning",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do the ironing",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do the gardening",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do well",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do badly",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do a test",
+      "category": "make/do",
+      "note": "also \"take a test\" — both used"
+    },
+    {
+      "phrase": "do an exam",
+      "category": "make/do",
+      "note": "also \"take an exam\" — both used"
+    },
+    {
+      "phrase": "do work",
+      "category": "make/do",
+      "note": "NOT \"make work\""
+    },
+    {
+      "phrase": "do yoga",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do aerobics",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do justice to",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do a report",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do a project",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do a survey",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do the right thing",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do the math",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do a deal",
+      "category": "make/do",
+      "note": "also \"make a deal\" — both used"
+    },
+    {
+      "phrase": "do time",
+      "category": "make/do",
+      "note": "informal: serve a prison sentence"
+    },
+    {
+      "phrase": "do your hair",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do your nails",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do the housework",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do overtime",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do the washing up",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do without",
+      "category": "make/do",
+      "note": "manage in the absence of something"
+    },
+    {
+      "phrase": "do a double-take",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do an interview",
+      "category": "make/do",
+      "note": "NOT \"make an interview\""
+    },
+    {
+      "phrase": "do the trick",
+      "category": "make/do",
+      "note": "informal: achieve the desired result"
+    },
+    {
+      "phrase": "do wonders",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do the rounds",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do damage control",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do a favour for someone",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do military service",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do volunteer work",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do an experiment",
+      "category": "make/do",
+      "note": "NOT \"make an experiment\""
+    },
+    {
+      "phrase": "do the accounts",
+      "category": "make/do"
+    },
+    {
+      "phrase": "do battle",
+      "category": "make/do"
+    }
+  ],
+  "take": [
+    {
+      "phrase": "take a photo",
+      "category": "take"
+    },
+    {
+      "phrase": "take a picture",
+      "category": "take"
+    },
+    {
+      "phrase": "take a break",
+      "category": "take"
+    },
+    {
+      "phrase": "take care",
+      "category": "take"
+    },
+    {
+      "phrase": "take care of",
+      "category": "take"
+    },
+    {
+      "phrase": "take a risk",
+      "category": "take"
+    },
+    {
+      "phrase": "take a seat",
+      "category": "take"
+    },
+    {
+      "phrase": "take an exam",
+      "category": "take"
+    },
+    {
+      "phrase": "take a test",
+      "category": "take"
+    },
+    {
+      "phrase": "take notes",
+      "category": "take"
+    },
+    {
+      "phrase": "take action",
+      "category": "take"
+    },
+    {
+      "phrase": "take part in",
+      "category": "take"
+    },
+    {
+      "phrase": "take responsibility",
+      "category": "take"
+    },
+    {
+      "phrase": "take turns",
+      "category": "take"
+    },
+    {
+      "phrase": "take advantage of",
+      "category": "take"
+    },
+    {
+      "phrase": "take place",
+      "category": "take",
+      "note": "happen; NOT \"make place\""
+    },
+    {
+      "phrase": "take a taxi",
+      "category": "take"
+    },
+    {
+      "phrase": "take medicine",
+      "category": "take",
+      "note": "NOT \"drink medicine\""
+    },
+    {
+      "phrase": "take a step",
+      "category": "take"
+    },
+    {
+      "phrase": "take a decision",
+      "category": "take",
+      "note": "British English variant of \"make a decision\""
+    },
+    {
+      "phrase": "take a shower",
+      "category": "take",
+      "note": "also \"have a shower\""
+    },
+    {
+      "phrase": "take a bath",
+      "category": "take",
+      "note": "also \"have a bath\""
+    },
+    {
+      "phrase": "take a walk",
+      "category": "take"
+    },
+    {
+      "phrase": "take a trip",
+      "category": "take"
+    },
+    {
+      "phrase": "take a chance",
+      "category": "take"
+    },
+    {
+      "phrase": "take an opportunity",
+      "category": "take"
+    },
+    {
+      "phrase": "take offence",
+      "category": "take"
+    },
+    {
+      "phrase": "take interest in",
+      "category": "take"
+    },
+    {
+      "phrase": "take control",
+      "category": "take"
+    },
+    {
+      "phrase": "take charge",
+      "category": "take"
+    },
+    {
+      "phrase": "take effect",
+      "category": "take"
+    },
+    {
+      "phrase": "take pride in",
+      "category": "take"
+    },
+    {
+      "phrase": "take time",
+      "category": "take"
+    },
+    {
+      "phrase": "take a look",
+      "category": "take"
+    },
+    {
+      "phrase": "take a nap",
+      "category": "take"
+    },
+    {
+      "phrase": "take a breath",
+      "category": "take"
+    },
+    {
+      "phrase": "take a pill",
+      "category": "take"
+    },
+    {
+      "phrase": "take a message",
+      "category": "take"
+    },
+    {
+      "phrase": "take a course",
+      "category": "take"
+    },
+    {
+      "phrase": "take a position",
+      "category": "take"
+    },
+    {
+      "phrase": "take sides",
+      "category": "take"
+    }
+  ],
+  "have": [
+    {
+      "phrase": "have a meeting",
+      "category": "have"
+    },
+    {
+      "phrase": "have lunch",
+      "category": "have",
+      "note": "also breakfast, dinner, a meal"
+    },
+    {
+      "phrase": "have a problem",
+      "category": "have"
+    },
+    {
+      "phrase": "have fun",
+      "category": "have"
+    },
+    {
+      "phrase": "have a rest",
+      "category": "have"
+    },
+    {
+      "phrase": "have a conversation",
+      "category": "have"
+    },
+    {
+      "phrase": "have an argument",
+      "category": "have",
+      "note": "\"have an argument\" = quarrel; \"make an argument\" = present reasoning"
+    },
+    {
+      "phrase": "have an experience",
+      "category": "have"
+    },
+    {
+      "phrase": "have a look",
+      "category": "have"
+    },
+    {
+      "phrase": "have a dream",
+      "category": "have"
+    },
+    {
+      "phrase": "have a headache",
+      "category": "have"
+    },
+    {
+      "phrase": "have a shower",
+      "category": "have"
+    },
+    {
+      "phrase": "have a drink",
+      "category": "have"
+    },
+    {
+      "phrase": "have a relationship",
+      "category": "have"
+    },
+    {
+      "phrase": "have a chat",
+      "category": "have"
+    },
+    {
+      "phrase": "have a discussion",
+      "category": "have"
+    },
+    {
+      "phrase": "have a party",
+      "category": "have"
+    },
+    {
+      "phrase": "have a baby",
+      "category": "have"
+    },
+    {
+      "phrase": "have a cold",
+      "category": "have",
+      "note": "NOT \"catch a cold\" is incorrect; \"catch\" = get it, \"have\" = currently sick"
+    },
+    {
+      "phrase": "have doubts",
+      "category": "have"
+    },
+    {
+      "phrase": "have a word with",
+      "category": "have",
+      "note": "have a brief conversation with someone"
+    },
+    {
+      "phrase": "have trouble",
+      "category": "have"
+    },
+    {
+      "phrase": "have difficulty",
+      "category": "have"
+    },
+    {
+      "phrase": "have a go",
+      "category": "have",
+      "note": "British: try something"
+    },
+    {
+      "phrase": "have a point",
+      "category": "have",
+      "note": "\"you have a point\" = your argument is valid"
+    },
+    {
+      "phrase": "have a bite",
+      "category": "have"
+    },
+    {
+      "phrase": "have an impact on",
+      "category": "have"
+    },
+    {
+      "phrase": "have an effect on",
+      "category": "have"
+    },
+    {
+      "phrase": "have a say",
+      "category": "have",
+      "note": "have the right or opportunity to express an opinion"
+    },
+    {
+      "phrase": "have access to",
+      "category": "have"
+    },
+    {
+      "phrase": "have a chance",
+      "category": "have"
+    },
+    {
+      "phrase": "have an idea",
+      "category": "have"
+    },
+    {
+      "phrase": "have in mind",
+      "category": "have"
+    },
+    {
+      "phrase": "have a feeling",
+      "category": "have"
+    },
+    {
+      "phrase": "have a good time",
+      "category": "have"
+    },
+    {
+      "phrase": "have a bad day",
+      "category": "have"
+    },
+    {
+      "phrase": "have a knowledge of",
+      "category": "have"
+    },
+    {
+      "phrase": "have second thoughts",
+      "category": "have"
+    }
+  ],
+  "give": [
+    {
+      "phrase": "give advice",
+      "category": "give",
+      "note": "NOT \"make advice\""
+    },
+    {
+      "phrase": "give a speech",
+      "category": "give"
+    },
+    {
+      "phrase": "give permission",
+      "category": "give"
+    },
+    {
+      "phrase": "give birth",
+      "category": "give"
+    },
+    {
+      "phrase": "give a presentation",
+      "category": "give"
+    },
+    {
+      "phrase": "give support",
+      "category": "give"
+    },
+    {
+      "phrase": "give an answer",
+      "category": "give"
+    },
+    {
+      "phrase": "give an example",
+      "category": "give"
+    },
+    {
+      "phrase": "give a warning",
+      "category": "give"
+    },
+    {
+      "phrase": "give a description",
+      "category": "give"
+    },
+    {
+      "phrase": "give a reason",
+      "category": "give"
+    },
+    {
+      "phrase": "give an explanation",
+      "category": "give"
+    },
+    {
+      "phrase": "give a lecture",
+      "category": "give"
+    },
+    {
+      "phrase": "give a demonstration",
+      "category": "give"
+    },
+    {
+      "phrase": "give a tour",
+      "category": "give"
+    },
+    {
+      "phrase": "give a ride",
+      "category": "give"
+    },
+    {
+      "phrase": "give a thought to",
+      "category": "give"
+    },
+    {
+      "phrase": "give a hand",
+      "category": "give",
+      "note": "help someone; NOT \"make a hand\""
+    },
+    {
+      "phrase": "give feedback",
+      "category": "give"
+    },
+    {
+      "phrase": "give credit to",
+      "category": "give"
+    },
+    {
+      "phrase": "give notice",
+      "category": "give",
+      "note": "formally inform of something, e.g. resignation"
+    },
+    {
+      "phrase": "give evidence",
+      "category": "give"
+    },
+    {
+      "phrase": "give instructions",
+      "category": "give"
+    },
+    {
+      "phrase": "give a signal",
+      "category": "give"
+    }
+  ],
+  "get": [
+    {
+      "phrase": "get permission",
+      "category": "get"
+    },
+    {
+      "phrase": "get divorced",
+      "category": "get"
+    },
+    {
+      "phrase": "get dressed",
+      "category": "get"
+    },
+    {
+      "phrase": "get lost",
+      "category": "get"
+    },
+    {
+      "phrase": "get ready",
+      "category": "get"
+    },
+    {
+      "phrase": "get started",
+      "category": "get"
+    },
+    {
+      "phrase": "get married",
+      "category": "get"
+    },
+    {
+      "phrase": "get tired",
+      "category": "get"
+    },
+    {
+      "phrase": "get angry",
+      "category": "get"
+    },
+    {
+      "phrase": "get bored",
+      "category": "get"
+    },
+    {
+      "phrase": "get a job",
+      "category": "get"
+    },
+    {
+      "phrase": "get a promotion",
+      "category": "get"
+    },
+    {
+      "phrase": "get an idea",
+      "category": "get"
+    },
+    {
+      "phrase": "get a chance",
+      "category": "get"
+    },
+    {
+      "phrase": "get experience",
+      "category": "get"
+    },
+    {
+      "phrase": "get in touch",
+      "category": "get"
+    },
+    {
+      "phrase": "get rid of",
+      "category": "get"
+    },
+    {
+      "phrase": "get involved",
+      "category": "get"
+    },
+    {
+      "phrase": "get used to",
+      "category": "get"
+    },
+    {
+      "phrase": "get along with",
+      "category": "get"
+    },
+    {
+      "phrase": "get confused",
+      "category": "get"
+    },
+    {
+      "phrase": "get hurt",
+      "category": "get"
+    },
+    {
+      "phrase": "get excited",
+      "category": "get"
+    },
+    {
+      "phrase": "get better",
+      "category": "get",
+      "note": "recover from illness or improve"
+    },
+    {
+      "phrase": "get worse",
+      "category": "get"
+    }
+  ],
+  "come": [
+    {
+      "phrase": "come to a conclusion",
+      "category": "come"
+    },
+    {
+      "phrase": "come to an end",
+      "category": "come"
+    },
+    {
+      "phrase": "come into contact",
+      "category": "come"
+    },
+    {
+      "phrase": "come under pressure",
+      "category": "come"
+    },
+    {
+      "phrase": "come to an agreement",
+      "category": "come"
+    },
+    {
+      "phrase": "come to a decision",
+      "category": "come"
+    },
+    {
+      "phrase": "come into effect",
+      "category": "come",
+      "note": "a law or rule starts to apply"
+    },
+    {
+      "phrase": "come to terms with",
+      "category": "come",
+      "note": "accept a difficult situation"
+    },
+    {
+      "phrase": "come to light",
+      "category": "come",
+      "note": "become known"
+    },
+    {
+      "phrase": "come into play",
+      "category": "come"
+    },
+    {
+      "phrase": "come into existence",
+      "category": "come"
+    },
+    {
+      "phrase": "come into power",
+      "category": "come"
+    },
+    {
+      "phrase": "come under attack",
+      "category": "come"
+    },
+    {
+      "phrase": "come under scrutiny",
+      "category": "come"
+    },
+    {
+      "phrase": "come to mind",
+      "category": "come"
+    },
+    {
+      "phrase": "come to fruition",
+      "category": "come",
+      "note": "a plan or project is finally achieved"
+    },
+    {
+      "phrase": "come across as",
+      "category": "come",
+      "note": "give a certain impression"
+    },
+    {
+      "phrase": "come up with",
+      "category": "come",
+      "note": "think of an idea or solution"
+    }
+  ],
+  "adjective+noun": [
+    {
+      "phrase": "heavy rain",
+      "category": "adjective+noun",
+      "note": "NOT \"strong rain\""
+    },
+    {
+      "phrase": "heavy traffic",
+      "category": "adjective+noun",
+      "note": "NOT \"strong traffic\""
+    },
+    {
+      "phrase": "heavy smoker",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "heavy workload",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "strong coffee",
+      "category": "adjective+noun",
+      "note": "NOT \"heavy coffee\""
+    },
+    {
+      "phrase": "strong opinion",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "strong evidence",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "strong accent",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "high price",
+      "category": "adjective+noun",
+      "note": "NOT \"big price\""
+    },
+    {
+      "phrase": "high speed",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "high risk",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "deep sleep",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "deep breath",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "deep thought",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "hard work",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "hard evidence",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "bright idea",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "common sense",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "great deal",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "quick decision",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "close friend",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "great success",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "major problem",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "serious mistake",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "wide range",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "strong wind",
+      "category": "adjective+noun",
+      "note": "NOT \"heavy wind\""
+    },
+    {
+      "phrase": "fast food",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "sharp pain",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "blind spot",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "burning desire",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "bitter disappointment",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "golden opportunity",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "mixed feelings",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "vague memory",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "rough idea",
+      "category": "adjective+noun",
+      "note": "a general, approximate idea"
+    },
+    {
+      "phrase": "heated debate",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "tight budget",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "narrow escape",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "dark secret",
+      "category": "adjective+noun"
+    },
+    {
+      "phrase": "key factor",
+      "category": "adjective+noun"
+    }
+  ],
+  "verb+noun": [
+    {
+      "phrase": "achieve a goal",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "reach an agreement",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "solve a problem",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "raise awareness",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "meet requirements",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "build confidence",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "develop skills",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "cause damage",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "waste time",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "miss an opportunity",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "break a record",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "face challenges",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "pay attention",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "lose weight",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "gain experience",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "catch a cold",
+      "category": "verb+noun",
+      "note": "get infected with a cold; \"have a cold\" = be sick"
+    },
+    {
+      "phrase": "keep a secret",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "lose control",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "draw a conclusion",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "hold a meeting",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "run a business",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "run a risk",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "launch a campaign",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "provide support",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "express an opinion",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "reach a conclusion",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "overcome obstacles",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "raise a question",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "answer a question",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "meet a deadline",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "break a habit",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "set a goal",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "achieve success",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "bear responsibility",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "attract attention",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "spark interest",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "strengthen ties",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "seize an opportunity",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "fulfil a promise",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "raise funds",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "spread awareness",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "create opportunities",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "carry out research",
+      "category": "verb+noun",
+      "note": "also \"conduct research\""
+    },
+    {
+      "phrase": "conduct an experiment",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "establish a connection",
+      "category": "verb+noun"
+    },
+    {
+      "phrase": "maintain contact",
+      "category": "verb+noun"
+    }
+  ]
+};

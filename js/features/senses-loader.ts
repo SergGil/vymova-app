@@ -55,4 +55,5 @@ export async function ensureSensesLoaded(lang: string): Promise<void> {
   await LOADING[lang];
 }
 
+
 export type { SenseEntry } from '../../data/senses.ts';

@@ -2,20 +2,28 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AssocChainPage, openAssocChain, buildSymmetricDict } from '../../js/modes/assoc-chain.tsx';
-import { SYNONYMS, SYNONYMS_ES } from '../../data/synonyms.ts';
-import { ensureLexiconLoaded } from '../../js/features/lexicon-loader.ts';
+import { SYNONYMS_EN } from '../../data/synonyms-data/synonyms_en.ts';
+import { SYNONYMS_ES } from '../../data/synonyms-data/synonyms_es.ts';
+import { ensureSynonymsLoaded } from '../../js/features/synonyms-loader.ts';
+import { ensureAntonymsLoaded } from '../../js/features/antonyms-loader.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const EN_KEYS = new Set(Object.keys(buildSymmetricDict(SYNONYMS)));
+const EN_KEYS = new Set(Object.keys(buildSymmetricDict(SYNONYMS_EN)));
 const ES_KEYS = new Set(Object.keys(buildSymmetricDict(SYNONYMS_ES)));
 
-// startGame() lazily loads data/synonyms.ts + data/antonyms.ts (see
-// js/features/lexicon-loader.ts) — pre-warm the cache once so openAssocChain()
-// below can populate dict/step synchronously within a single act(), same as
-// this test did before the lazy-load migration.
+// startGame() lazily loads synonyms/antonyms per language (see
+// js/features/synonyms-loader.ts, antonyms-loader.ts) — pre-warm the cache
+// for both languages this file exercises once so openAssocChain() below
+// can populate dict/step synchronously within a single act(), same as this
+// test did before the lazy-load migration.
 beforeAll(async () => {
-  await ensureLexiconLoaded();
+  await Promise.all([
+    ensureSynonymsLoaded('en'),
+    ensureSynonymsLoaded('es'),
+    ensureAntonymsLoaded('en'),
+    ensureAntonymsLoaded('es'),
+  ]);
 });
 
 // Regression test for a real bug found during a react-hooks/exhaustive-deps

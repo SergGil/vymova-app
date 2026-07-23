@@ -4,8 +4,8 @@
 // AI/network dependency) — languages without a hand-written entry yet show
 // a "coming soon" placeholder.
 import { createPortal } from 'react-dom';
-import type { ReactElement } from 'react';
-import { LANG_HISTORY } from '../../data/lang-history.ts';
+import { useEffect, useState, type ReactElement } from 'react';
+import { ensureLangHistoryLoaded, getLangHistoryForLang } from './lang-history-loader.ts';
 import { getLang, t } from './i18n.ts';
 import { getLearnLang } from './lang-pair-select.tsx';
 import { LANG_META } from './profile-page.tsx';
@@ -18,11 +18,26 @@ export function LangHistoryPage(): ReactElement | null {
   // than the global bus's per-card/combo/duel-poll churn this static
   // content page has no actual dependency on.
   useLangVersion();
+  const lang = getLearnLang();
+  // History data loads lazily per language (js/features/lang-history-loader.ts)
+  // — this page is itself only opened on demand, so the brief load gap here
+  // reuses the same "not available" empty state already shown for a
+  // language with no history entry at all.
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    let cancelled = false;
+    ensureLangHistoryLoaded(lang).then(() => {
+      if (!cancelled) setTick((x) => x + 1);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [lang]);
+
   const target = document.getElementById('lang-history-content');
   if (!target) return null;
 
-  const lang = getLearnLang();
-  const entry = LANG_HISTORY[lang];
+  const entry = getLangHistoryForLang(lang);
   const meta = LANG_META[lang];
   const useEn = getLang() === 'en';
   const flag = meta ? flagUrl(meta.country) : null;
