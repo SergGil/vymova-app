@@ -205,7 +205,7 @@ export default defineConfig(({ command }) => ({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
-      include: ['js/core/**', 'js/features/**', 'js/modes/**', 'src/**', 'data/**'],
+      include: ['js/core/**', 'js/features/**', 'js/modes/**', 'src/**', 'data/**', 'worker/src/**'],
       exclude: ['src/global.d.ts', 'src/main.ts', 'src/types.ts'],
     },
   },
