@@ -746,19 +746,11 @@ body.dark {
   --success: #2ecc71;
   --success-bg: rgba(46, 204, 113, 0.12);
 }
-body.dark .game-bar {
-  background: var(--card);
-}
-body.dark select {
-  background: var(--card);
-  color: var(--text);
-  border-color: var(--border);
-}
-body.dark .btn {
-  background: var(--card);
-  color: var(--text);
-  border-color: var(--border);
-}
+/* body.dark .game-bar/select/.btn (background/color/border-color
+   re-asserting the exact var(--card)/var(--text)/var(--border) the base
+   rules already resolve to in dark mode) deleted as dead code — confirmed
+   no visual effect. .game-bar itself is additionally an orphaned selector:
+   the mount div now renders className="game-bar-3", not "game-bar". */
 body.dark .btn:hover {
   background: var(--border);
 }
@@ -811,9 +803,10 @@ body.dark .btn-auto {
 body.dark .search-result-item:hover {
   background: var(--border);
 }
-body.dark .modal-inner {
-  background: var(--card);
-}
+/* body.dark .modal-inner deleted as dead code: it was the only CSS rule
+   ever targeting .modal-inner, and both consumers (card-legend.tsx,
+   goal-modal.tsx) already set background via an inline style prop, which
+   always wins over any class-based rule — this never applied. */
 
 /* ── Кнопка теми ── */
 #btn-theme {
@@ -1915,10 +1908,8 @@ body.dark .btn-fib {
 .btn-listen:hover {
   background: #e8faf5;
 }
-body.dark .btn-listen {
-  border-color: #1abc9c;
-  color: #1abc9c;
-}
+/* body.dark .btn-listen deleted as dead code: values identical to the
+   light-mode base rule above. */
 .listen-play-btn {
   width: 90px;
   height: 90px;
@@ -2213,9 +2204,10 @@ body.dark .btn-write {
   max-height: calc(100vh - 32px);
   overflow-y: auto;
 }
-body.dark .pairs-panel {
-  background: var(--card);
-}
+/* body.dark .pairs-panel deleted as dead code: value identical to the
+   base rule above (both var(--card)). .pairs-panel is still legitimately
+   fandom-theme-touched (theme-template.css, unrelated body[data-theme]
+   selector, not this body.dark one) — not affected by this deletion. */
 .pair-btn {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.85rem;
