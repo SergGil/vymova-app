@@ -4745,95 +4745,35 @@ body.dark .gr-tip {
    📊 CEFR LEVEL BADGES
    ══════════════════════════════════════════ */
 
-/* .cefr-badge's own box/typography moved to Tailwind utility classes in
-   card-meta.tsx (no fandom-theme or body.dark overrides existed for it).
-   The level color classes below (and their body.dark/body[data-theme="sw"]/
-   body[data-theme="hp"] variants) stay bare CSS — .cefr-badge's own `border: 1.5px solid`
-   (color-less, so currentColor) plus Tailwind's border-[1.5px] width/
-   style still compose correctly with these classes' border-color-only
-   overrides, same cascade-layers precedence as everywhere else in this
-   migration. */
-
-/* Level colors */
-.cefr-A1 {
-  background: rgba(39, 174, 96, 0.12);
-  color: #27ae60;
-  border-color: rgba(39, 174, 96, 0.3);
+/* .cefr-badge's own box/typography, and each level's color/border-color
+   (never theme-touched — only the background alpha changes), are Tailwind
+   utility classes in card-meta.tsx's CEFR_STYLES map. The *background* only
+   is still driven by CSS custom properties here, one per level, because its
+   value differs between the default and dark/sw/hp variants: components
+   read them via a plain (non-important) `bg-[var(--cefr-a1-bg)]` utility —
+   there's no unlayered-vs-layered conflict to fight, since the `background`
+   property itself is only ever declared once (by Tailwind); only the custom
+   property's *value* changes per theme, resolved by the normal cascade like
+   any other custom property. Pilot for the broader "theme-touched CSS via
+   custom-property indirection" pattern discussed in
+   docs/tailwind-shadcn-migration-roadmap.md's "Cascade layers correction". */
+:root {
+  --cefr-a1-bg: rgba(39, 174, 96, 0.12);
+  --cefr-a2-bg: rgba(46, 204, 113, 0.1);
+  --cefr-b1-bg: rgba(241, 196, 15, 0.12);
+  --cefr-b2-bg: rgba(230, 126, 34, 0.12);
+  --cefr-c1-bg: rgba(231, 76, 60, 0.1);
+  --cefr-c2-bg: rgba(142, 68, 173, 0.1);
 }
-.cefr-A2 {
-  background: rgba(46, 204, 113, 0.1);
-  color: #2ecc71;
-  border-color: rgba(46, 204, 113, 0.3);
-}
-.cefr-B1 {
-  background: rgba(241, 196, 15, 0.12);
-  color: #d4ac0d;
-  border-color: rgba(241, 196, 15, 0.3);
-}
-.cefr-B2 {
-  background: rgba(230, 126, 34, 0.12);
-  color: #e67e22;
-  border-color: rgba(230, 126, 34, 0.3);
-}
-.cefr-C1 {
-  background: rgba(231, 76, 60, 0.1);
-  color: #e74c3c;
-  border-color: rgba(231, 76, 60, 0.3);
-}
-.cefr-C2 {
-  background: rgba(142, 68, 173, 0.1);
-  color: #8e44ad;
-  border-color: rgba(142, 68, 173, 0.3);
-}
-
-/* Dark / SW theme adjustments */
-body.dark .cefr-A1,
-body[data-theme="sw"] .cefr-A1 {
-  background: rgba(39, 174, 96, 0.18);
-}
-body.dark .cefr-A1,
-body[data-theme="hp"] .cefr-A1 {
-  background: rgba(39, 174, 96, 0.18);
-}
-body.dark .cefr-A2,
-body[data-theme="sw"] .cefr-A2 {
-  background: rgba(46, 204, 113, 0.15);
-}
-body.dark .cefr-A2,
-body[data-theme="hp"] .cefr-A2 {
-  background: rgba(46, 204, 113, 0.15);
-}
-body.dark .cefr-B1,
-body[data-theme="sw"] .cefr-B1 {
-  background: rgba(241, 196, 15, 0.18);
-}
-body.dark .cefr-B1,
-body[data-theme="hp"] .cefr-B1 {
-  background: rgba(241, 196, 15, 0.18);
-}
-body.dark .cefr-B2,
-body[data-theme="sw"] .cefr-B2 {
-  background: rgba(230, 126, 34, 0.18);
-}
-body.dark .cefr-B2,
-body[data-theme="hp"] .cefr-B2 {
-  background: rgba(230, 126, 34, 0.18);
-}
-body.dark .cefr-C1,
-body[data-theme="sw"] .cefr-C1 {
-  background: rgba(231, 76, 60, 0.18);
-}
-body.dark .cefr-C1,
-body[data-theme="hp"] .cefr-C1 {
-  background: rgba(231, 76, 60, 0.18);
-}
-body.dark .cefr-C2,
-body[data-theme="sw"] .cefr-C2 {
-  background: rgba(142, 68, 173, 0.18);
-}
-body.dark .cefr-C2,
-body[data-theme="hp"] .cefr-C2 {
-  background: rgba(142, 68, 173, 0.18);
+body.dark,
+body[data-theme="sw"],
+body[data-theme="hp"] {
+  --cefr-a1-bg: rgba(39, 174, 96, 0.18);
+  --cefr-a2-bg: rgba(46, 204, 113, 0.15);
+  --cefr-b1-bg: rgba(241, 196, 15, 0.18);
+  --cefr-b2-bg: rgba(230, 126, 34, 0.18);
+  --cefr-c1-bg: rgba(231, 76, 60, 0.18);
+  --cefr-c2-bg: rgba(142, 68, 173, 0.18);
 }
 
 /* .category-badge moved to Tailwind utility classes in card-meta.tsx (no
