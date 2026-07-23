@@ -8,42 +8,42 @@ export const SENSES_NL: Record<string, SenseEntry[]> = {
     {
       "pos": "noun",
       "translation": "годинник (настінний)",
-      "exEn": "De klok aan de muur toont de verkeerde tijd.",
-      "exUa": "Годинник на стіні показує неправильний час."
+      "exTarget": "De klok aan de muur toont de verkeerde tijd.",
+      "exKnow": "Годинник на стіні показує неправильний час."
     },
     {
       "pos": "noun",
       "translation": "дзвін (церковний)",
-      "exEn": "De kerkklok luidde luid elk uur door de dag.",
-      "exUa": "Церковний дзвін голосно дзвонив щогодини протягом дня."
+      "exTarget": "De kerkklok luidde luid elk uur door de dag.",
+      "exKnow": "Церковний дзвін голосно дзвонив щогодини протягом дня."
     }
   ],
   "band": [
     {
       "pos": "noun",
       "translation": "емоційний звʼязок",
-      "exEn": "Kinderen ontwikkelen sterke gehechtheid en een hechte band met hun verzorgers.",
-      "exUa": "Діти розвивають міцну прив'язаність і тісний звʼязок зі своїми опікунами."
+      "exTarget": "Kinderen ontwikkelen sterke gehechtheid en een hechte band met hun verzorgers.",
+      "exKnow": "Діти розвивають міцну прив'язаність і тісний звʼязок зі своїми опікунами."
     },
     {
       "pos": "noun",
       "translation": "музичний гурт",
-      "exEn": "De rockband speelde drie toegiften voor het enthousiaste publiek.",
-      "exUa": "Рок-гурт зіграв три біси для захопленої публіки."
+      "exTarget": "De rockband speelde drie toegiften voor het enthousiaste publiek.",
+      "exKnow": "Рок-гурт зіграв три біси для захопленої публіки."
     }
   ],
   "bot": [
     {
       "pos": "noun",
       "translation": "кістка",
-      "exEn": "De hond begroef zijn favoriete bot in de tuin.",
-      "exUa": "Пес закопав свою улюблену кістку в саду."
+      "exTarget": "De hond begroef zijn favoriete bot in de tuin.",
+      "exKnow": "Пес закопав свою улюблену кістку в саду."
     },
     {
       "pos": "adj",
       "translation": "грубий, нечемний",
-      "exEn": "Zijn botte manieren stootten veel mensen af.",
-      "exUa": "Його грубі манери відштовхували багатьох людей."
+      "exTarget": "Zijn botte manieren stootten veel mensen af.",
+      "exKnow": "Його грубі манери відштовхували багатьох людей."
     }
   ]
 };

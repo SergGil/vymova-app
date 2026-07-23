@@ -8,14 +8,14 @@ export const SENSES_IT: Record<string, SenseEntry[]> = {
     {
       "pos": "noun",
       "translation": "книжкова шафа (меблі)",
-      "exEn": "La vecchia libreria di legno era piena di romanzi classici.",
-      "exUa": "Стара деревʼяна книжкова шафа була повна класичних романів."
+      "exTarget": "La vecchia libreria di legno era piena di romanzi classici.",
+      "exKnow": "Стара деревʼяна книжкова шафа була повна класичних романів."
     },
     {
       "pos": "noun",
       "translation": "книгарня (магазин)",
-      "exEn": "Ha passato ore a curiosare nella libreria locale.",
-      "exUa": "Він провів години, розглядаючи книжки в місцевій книгарні."
+      "exTarget": "Ha passato ore a curiosare nella libreria locale.",
+      "exKnow": "Він провів години, розглядаючи книжки в місцевій книгарні."
     }
   ]
 };

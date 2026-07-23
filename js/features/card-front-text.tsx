@@ -457,14 +457,14 @@ export function OtherMeanings() {
               {s.translation}
             </span>
             <div className="sense-example mt-px text-[.74rem] leading-[1.4] text-[var(--text3)]">
-              {s.exEn} {s.exUa ? <i className="italic">— {s.exUa}</i> : null}
+              {s.exTarget} {s.exKnow ? <i className="italic">— {s.exKnow}</i> : null}
               <button
                 type="button"
                 className="speak-btn sense-speak-btn"
                 title="Вимовити приклад"
                 onClick={(e) => {
                   e.stopPropagation();
-                  speakForCode(front, s.exEn, '', e.currentTarget);
+                  speakForCode(front, s.exTarget, '', e.currentTarget);
                 }}
               >
                 🔊

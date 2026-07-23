@@ -8,14 +8,14 @@ export const SENSES_PL: Record<string, SenseEntry[]> = {
     {
       "pos": "noun",
       "translation": "коло (геометрична фігура)",
-      "exEn": "Dzieci usiadły w kole na podłodze klasy.",
-      "exUa": "Діти сіли колом на підлозі класу."
+      "exTarget": "Dzieci usiadły w kole na podłodze klasy.",
+      "exKnow": "Діти сіли колом на підлозі класу."
     },
     {
       "pos": "prep",
       "translation": "біля, поруч",
-      "exEn": "Siedziała spokojnie koło niego przez całą długą podróż.",
-      "exUa": "Вона спокійно сиділа біля нього протягом усієї довгої подорожі."
+      "exTarget": "Siedziała spokojnie koło niego przez całą długą podróż.",
+      "exKnow": "Вона спокійно сиділа біля нього протягом усієї довгої подорожі."
     }
   ]
 };

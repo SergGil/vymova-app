@@ -8,28 +8,28 @@ export const SENSES_DE: Record<string, SenseEntry[]> = {
     {
       "pos": "noun",
       "translation": "берег (річки)",
-      "exEn": "Sie saßen am grasbewachsenen Flussufer und angelten, nahe der alten Bank.",
-      "exUa": "Вони сиділи на трав'янистому березі річки і рибалили, біля старої лавки."
+      "exTarget": "Sie saßen am grasbewachsenen Flussufer und angelten, nahe der alten Bank.",
+      "exKnow": "Вони сиділи на трав'янистому березі річки і рибалили, біля старої лавки."
     },
     {
       "pos": "noun",
       "translation": "лавка, скамія",
-      "exEn": "Ein alter Mann saß allein auf einer hölzernen Parkbank.",
-      "exUa": "Старий чоловік сидів сам на деревʼяній лавці в парку."
+      "exTarget": "Ein alter Mann saß allein auf einer hölzernen Parkbank.",
+      "exKnow": "Старий чоловік сидів сам на деревʼяній лавці в парку."
     }
   ],
   "decke": [
     {
       "pos": "noun",
       "translation": "ковдра",
-      "exEn": "Sie zog sich die warme weiche Decke um die Schultern.",
-      "exUa": "Вона накинула теплу м'яку ковдру на плечі."
+      "exTarget": "Sie zog sich die warme weiche Decke um die Schultern.",
+      "exKnow": "Вона накинула теплу м'яку ковдру на плечі."
     },
     {
       "pos": "noun",
       "translation": "стеля",
-      "exEn": "Der hohe alte Raum hatte eine kunstvoll bemalte Decke.",
-      "exUa": "У високій старій кімнаті була майстерно розписана стеля."
+      "exTarget": "Der hohe alte Raum hatte eine kunstvoll bemalte Decke.",
+      "exKnow": "У високій старій кімнаті була майстерно розписана стеля."
     }
   ]
 };
