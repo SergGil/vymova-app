@@ -1,8 +1,15 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, beforeAll } from 'vitest';
 import { pickPool, buildQuestion } from '../../js/modes/grammar-quiz.tsx';
-import { GRAMMAR_BY_LANG } from '../../data/grammar.ts';
+import { ensureGrammarLoaded, getGrammarForLang } from '../../js/features/grammar-loader.ts';
 
 describe('grammar-quiz-logic', () => {
+  // pickPool() itself stays synchronous, reading whatever's already in
+  // grammar-loader's cache (js/features/grammar-loader.ts) — every language
+  // it might land on across the tests below needs to be preloaded first.
+  beforeAll(async () => {
+    await Promise.all(['en', 'es', 'ua', 'it'].map((lang) => ensureGrammarLoaded(lang)));
+  });
+
   afterEach(() => {
     localStorage.removeItem('ew_learn_lang');
     localStorage.removeItem('ew_know_lang');
@@ -30,7 +37,7 @@ describe('grammar-quiz-logic', () => {
     it('skips a learn language with too few distinct rules for a 4-option quiz, even if it has many example rows', () => {
       // 'it' currently ships only 2 grammar rules (with several examples
       // each) — plenty of raw rows, but not enough distinct answer options
-      // for a 4-choice quiz. 'ua' isn't in GRAMMAR_BY_LANG at all, so a
+      // for a 4-choice quiz. 'ua' has no grammar data at all, so a
       // typical Ukrainian-speaking learner of Italian must land on 'en'.
       localStorage.setItem('ew_learn_lang', 'it');
       localStorage.setItem('ew_know_lang', 'ua');
@@ -63,13 +70,20 @@ describe('grammar-quiz-logic', () => {
   });
 
   describe('buildQuestion()', () => {
-    // GRAMMAR_BY_LANG.en is the largest, richest pool — flatten it the same
-    // way pickPool() does by going through the public API instead.
-    localStorage.setItem('ew_learn_lang', 'en');
-    localStorage.setItem('ew_know_lang', 'ua');
-    const { items: pool } = pickPool();
-    localStorage.removeItem('ew_learn_lang');
-    localStorage.removeItem('ew_know_lang');
+    // GRAMMAR (en) is the largest, richest pool — flatten it the same
+    // way pickPool() does by going through the public API instead. Set up
+    // in beforeAll, not directly in the describe body: the outer beforeAll
+    // above (which preloads the grammar data pickPool() reads) only runs
+    // before the suite's first `it`, i.e. *after* describe bodies finish
+    // collecting — calling pickPool() here directly would run too early.
+    let pool: ReturnType<typeof pickPool>['items'];
+    beforeAll(() => {
+      localStorage.setItem('ew_learn_lang', 'en');
+      localStorage.setItem('ew_know_lang', 'ua');
+      pool = pickPool().items;
+      localStorage.removeItem('ew_learn_lang');
+      localStorage.removeItem('ew_know_lang');
+    });
 
     it('produces up to 4 unique options including the correct rule title', () => {
       const q = buildQuestion(pool[0], pool);
@@ -80,9 +94,9 @@ describe('grammar-quiz-logic', () => {
       expect(q.correct).toBe(pool[0].ruleTitle);
     });
 
-    it('GRAMMAR_BY_LANG.en resolves and is non-empty (sanity check on the data source)', () => {
-      expect(GRAMMAR_BY_LANG.en).toBeTruthy();
-      expect(GRAMMAR_BY_LANG.en!.length).toBeGreaterThan(0);
+    it("grammar-loader resolves 'en' and is non-empty (sanity check on the data source)", () => {
+      expect(getGrammarForLang('en')).toBeTruthy();
+      expect(getGrammarForLang('en')!.length).toBeGreaterThan(0);
     });
   });
 });

@@ -21,7 +21,7 @@ import {
 import { speakEnAccent, speakEsAccent, speakPtAccent, hasEsAccent, hasPtAccent } from './voice/voice.tsx';
 import { flagUrl } from '../core/flags.ts';
 import { speakForCode } from './voice/speak-lang.ts';
-import { SENSES_BY_LANG, type SenseEntry } from '../../data/senses.ts';
+import { ensureSensesLoaded, getSensesForLang, type SenseEntry } from './senses-loader.ts';
 import { InfoIcon, InfoNote } from './info-icon.tsx';
 import { TRANSCRIPTION_LEGEND } from './transcription-legend.ts';
 
@@ -414,9 +414,26 @@ function findSenses(
 
 export function OtherMeanings() {
   const { cw, flipped } = useDeckState();
-  if (!cw || !flipped) return null;
   const { front } = parsePair(getResolvedMode());
-  const dict = SENSES_BY_LANG[front];
+  // "Other meanings" is bonus, flip-side-only content — loaded lazily per
+  // front language (see js/features/senses-loader.ts) instead of eagerly
+  // shipping every language's sense data to every user. Silently shows
+  // nothing until loaded, same as the existing "no data for this word"
+  // fallback below — no spinner needed for a supplementary section.
+  const [, forceUpdate] = useState(0);
+  useEffect(() => {
+    if (!flipped) return;
+    let cancelled = false;
+    ensureSensesLoaded(front).then(() => {
+      if (!cancelled) forceUpdate((x) => x + 1);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [flipped, front]);
+
+  if (!cw || !flipped) return null;
+  const dict = getSensesForLang(front);
   if (!dict) return null;
   const frontWord = headwordFor(front, cw);
   if (!frontWord) return null;

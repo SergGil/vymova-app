@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
 import { ensureLocaleLoaded } from '../../js/features/i18n.ts';
+import { ensureSensesLoaded } from '../../js/features/senses-loader.ts';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setCwState, setFlippedState, setModeState, setDeckState } from '../../src/deck-store.ts';
@@ -350,6 +351,15 @@ describe('card-front-text.tsx', () => {
   });
 
   describe('OtherMeanings', () => {
+    // Senses data now loads lazily per front language
+    // (js/features/senses-loader.ts) — preload 'en' (every test below uses
+    // the outer beforeEach's setModeState('en')) so it's already in the
+    // loader's cache before OtherMeanings's first render, same as
+    // ensureLocaleLoaded('en') above for i18n data.
+    beforeAll(async () => {
+      await ensureSensesLoaded('en');
+    });
+
     it('renders nothing when the card is not flipped', () => {
       setFlippedState(false);
       setCwState(['light', 'світло', '', '', '', 'n'] as unknown as WordEntry);

@@ -1,7 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, beforeAll } from 'vitest';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words.js';
 import { today as localToday } from '../../js/core/today.ts';
+import { ensureGrammarLoaded } from '../../js/features/grammar-loader.ts';
 
 vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
 
@@ -16,6 +17,15 @@ vi.mock('../../js/features/grammar-page.tsx', () => ({ jumpToGrammarRule }));
 import { renderLearningPath, openLearningPath } from '../../js/features/learning-path.ts';
 
 describe('learning-path.ts renderLearningPath/openLearningPath', () => {
+  // Grammar data (used by the "✓ skill" → grammar-rule links) now loads
+  // lazily per language (js/features/grammar-loader.ts) — preload 'en' (the
+  // default learn language when localStorage is cleared, as every test
+  // below does) so renderLearningPath()'s first synchronous call already
+  // sees it cached, matching this suite's previous eager-data assumption.
+  beforeAll(async () => {
+    await ensureGrammarLoaded('en');
+  });
+
   beforeEach(() => {
     document.body.innerHTML = '';
     localStorage.clear();

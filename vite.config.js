@@ -117,24 +117,29 @@ export default defineConfig(({ command }) => ({
         // so its content hash — and the browser/service-worker cache entry
         // for it — stays stable across deploys that don't touch word data.
         //
-        // Same reasoning applies to these four: data/senses.ts (616KB),
-        // data/categories.js (519KB), and data/cefr.ts (182KB) are each
-        // eagerly reached from core card-rendering files (card-front-text.tsx,
-        // card-meta.tsx, tag-filter-select.tsx, ...) that run on the very
-        // first card too, so they're just as unavoidably eager as words.js
-        // itself. data/grammar.ts (642KB) is different — it's only reached
-        // via GrammarPage's dynamic import (src/lazy-page.tsx) — but pinning
-        // it here still matters for the SAME reason: without a stable chunk
-        // name, an unrelated app-code deploy still reshuffles its hash, so a
-        // returning user who already cached it pays for a re-download the
-        // very next time they open Grammar, even though the content they'd
-        // get is identical to what they already have.
+        // Same reasoning applies to these two: data/categories.js (519KB)
+        // and data/cefr.ts (182KB) are each eagerly reached from core
+        // card-rendering files (card-meta.tsx, tag-filter-select.tsx, ...)
+        // that run on the very first card too, so they're just as
+        // unavoidably eager as words.js itself.
+        //
+        // data/senses.ts and data/grammar.ts used to need the same
+        // treatment (they held the actual per-language data), but as of
+        // docs/architecture-assessment.md p.6's per-language split, both
+        // are now type-only (SenseEntry / GSection·GrammarRule·GrammarCategory)
+        // — every remaining reference to them is an `import type`, which
+        // Vite/esbuild erases entirely, so they no longer produce a chunk to
+        // pin at all. The actual per-language data lives in
+        // data/senses-data/senses_XX.ts and data/grammar-data/grammar_XX.ts,
+        // lazy `import()`-ed via js/features/senses-loader.ts and
+        // grammar-loader.ts (mirroring data/words_XX.js's existing pattern
+        // in mode-utils.ts) — Rollup already content-hashes those per-file,
+        // same stable-cache benefit as manualChunks gives the four below,
+        // without needing to be listed here.
         manualChunks(id) {
           if (id.includes('/data/words.js')) return 'words-base';
-          if (id.includes('/data/senses.ts')) return 'senses-data';
           if (id.includes('/data/categories.js')) return 'categories-data';
           if (id.includes('/data/cefr.ts')) return 'cefr-data';
-          if (id.includes('/data/grammar.ts')) return 'grammar-data';
         },
         // Rollup defaults this to true once a custom manualChunks function is
         // present, which forces every OTHER module (everything this function

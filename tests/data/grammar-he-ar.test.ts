@@ -1,15 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import {
-  GRAMMAR_HE,
-  GRAMMAR_AR,
-  GRAMMAR_PL,
-  GRAMMAR_ZH,
-  GRAMMAR_EL,
-  GRAMMAR_JA,
-  GRAMMAR_TR,
-  GRAMMAR_NL,
-  GRAMMAR_BY_LANG,
-} from '../../data/grammar.ts';
+import { GRAMMAR_HE } from '../../data/grammar-data/grammar_he.ts';
+import { GRAMMAR_AR } from '../../data/grammar-data/grammar_ar.ts';
+import { GRAMMAR_PL } from '../../data/grammar-data/grammar_pl.ts';
+import { GRAMMAR_ZH } from '../../data/grammar-data/grammar_zh.ts';
+import { GRAMMAR_EL } from '../../data/grammar-data/grammar_el.ts';
+import { GRAMMAR_JA } from '../../data/grammar-data/grammar_ja.ts';
+import { GRAMMAR_TR } from '../../data/grammar-data/grammar_tr.ts';
+import { GRAMMAR_NL } from '../../data/grammar-data/grammar_nl.ts';
+import { ensureGrammarLoaded, getGrammarForLang } from '../../js/features/grammar-loader.ts';
 import type { GrammarCategory } from '../../data/grammar.ts';
 
 function checkGrammarShape(categories: GrammarCategory[], name: string, expectedCount = 5) {
@@ -110,18 +108,27 @@ describe('GRAMMAR_NL', () => {
   checkGrammarShape(GRAMMAR_NL, 'GRAMMAR_NL');
 });
 
-describe('GRAMMAR_BY_LANG', () => {
-  it('includes Hebrew and Arabic entries', () => {
-    expect(GRAMMAR_BY_LANG.he).toBe(GRAMMAR_HE);
-    expect(GRAMMAR_BY_LANG.ar).toBe(GRAMMAR_AR);
+// Former GRAMMAR_BY_LANG aggregation is gone (js/features/grammar-loader.ts
+// lazy-imports each language's own file instead — see
+// docs/architecture-assessment.md p.6) — this now checks the loader
+// resolves the same data these direct imports above see.
+describe('grammar-loader', () => {
+  it('resolves Hebrew and Arabic to the same data as their direct import', async () => {
+    await ensureGrammarLoaded('he');
+    await ensureGrammarLoaded('ar');
+    expect(getGrammarForLang('he')).toBe(GRAMMAR_HE);
+    expect(getGrammarForLang('ar')).toBe(GRAMMAR_AR);
   });
 
-  it('includes Polish, Chinese, Greek, Japanese, Turkish, and Dutch entries', () => {
-    expect(GRAMMAR_BY_LANG.pl).toBe(GRAMMAR_PL);
-    expect(GRAMMAR_BY_LANG.zh).toBe(GRAMMAR_ZH);
-    expect(GRAMMAR_BY_LANG.el).toBe(GRAMMAR_EL);
-    expect(GRAMMAR_BY_LANG.ja).toBe(GRAMMAR_JA);
-    expect(GRAMMAR_BY_LANG.tr).toBe(GRAMMAR_TR);
-    expect(GRAMMAR_BY_LANG.nl).toBe(GRAMMAR_NL);
+  it('resolves Polish, Chinese, Greek, Japanese, Turkish, and Dutch entries', async () => {
+    await Promise.all(
+      ['pl', 'zh', 'el', 'ja', 'tr', 'nl'].map((lang) => ensureGrammarLoaded(lang)),
+    );
+    expect(getGrammarForLang('pl')).toBe(GRAMMAR_PL);
+    expect(getGrammarForLang('zh')).toBe(GRAMMAR_ZH);
+    expect(getGrammarForLang('el')).toBe(GRAMMAR_EL);
+    expect(getGrammarForLang('ja')).toBe(GRAMMAR_JA);
+    expect(getGrammarForLang('tr')).toBe(GRAMMAR_TR);
+    expect(getGrammarForLang('nl')).toBe(GRAMMAR_NL);
   });
 });

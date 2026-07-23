@@ -7,7 +7,7 @@ import { W } from '../../data/words.js';
 import { getLevel } from './game.ts';
 import { openPage, closePage } from './sidebar.tsx';
 import { jumpToGrammarRule } from './grammar-page.tsx';
-import { GRAMMAR_BY_LANG } from '../../data/grammar.ts';
+import { ensureGrammarLoaded, getGrammarForLang } from './grammar-loader.ts';
 import type { WordEntry } from '../../src/types.js';
 import type { PaceSnapshot } from './learning-path-logic.ts';
 import {
@@ -873,15 +873,16 @@ function _formatDate(iso: string): string {
 
 // ── Grammar link availability ────────────────────────────────
 // PLANS' grammarLinks ids (greetings-intro, past-simple, ...) are only
-// defined in the English grammar set (data/grammar.ts's GRAMMAR) — the
-// per-target-language sets (GRAMMAR_ES, GRAMMAR_DE, ...) use their own,
-// unrelated rule ids (and several target languages only have a handful of
+// defined in the English grammar set (data/grammar-data/grammar_en.ts's
+// GRAMMAR_EN) — the per-target-language sets (grammar_es.ts, grammar_de.ts,
+// ...) use their own, unrelated rule ids (and several target languages
+// only have a handful of
 // rules at all so far). Blindly rendering every skill as a "↗ open
 // grammar" link meant clicking it for any non-English target language
 // silently landed on the empty "select a topic" state instead of the
 // intended rule. Only offer the link where it actually resolves.
 function _grammarRuleExists(gid: string, lang: string): boolean {
-  const grammar = (GRAMMAR_BY_LANG as Record<string, { rules: { id: string }[] }[]>)[lang] ?? [];
+  const grammar = getGrammarForLang(lang) ?? [];
   return grammar.some((cat) => cat.rules.some((r) => r.id === gid));
 }
 
@@ -907,6 +908,19 @@ export function renderLearningPath(): void {
   const knownLang = _knowLang();
   const learnCode: Code = _isCode(lang) ? lang : 'en';
   const knowCode: Code = _isCode(knownLang) ? knownLang : 'ua';
+
+  // Grammar data (used below by _grammarRuleExists, for the "✓ skill" tags
+  // that link to their grammar rule) loads lazily per language
+  // (js/features/grammar-loader.ts). Render proceeds immediately either way
+  // — a not-yet-loaded language just means those tags render as plain,
+  // non-clickable checkmarks this pass (same graceful fallback as a
+  // language with no matching grammar data at all) — then re-renders once
+  // loaded so the links pick up.
+  if (!getGrammarForLang(lang)) {
+    ensureGrammarLoaded(lang).then(() => {
+      if (document.getElementById('lp-content')) renderLearningPath();
+    });
+  }
   const knownSet = _activeKnownSet();
   const allWords = W as unknown as WordEntry[];
   const words = _filterWordsForLang(allWords, lang);

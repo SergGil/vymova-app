@@ -1,8 +1,8 @@
 // Vymova — js/features/grammar-page.tsx
 // Grammar reference page: renders structured rules from data/grammar.ts
 import { useEffect, useState, type ReactElement, type MouseEvent } from 'react';
-import { GRAMMAR_BY_LANG } from '../../data/grammar.ts';
-import type { GrammarRule, GSection, GrammarCategory } from '../../data/grammar.ts';
+import { ensureGrammarLoaded, getGrammarForLang } from './grammar-loader.ts';
+import type { GrammarRule, GSection } from '../../data/grammar.ts';
 import { getLang, t } from './i18n.ts';
 import { getLearnLang } from './lang-pair-select.tsx';
 import { _speakWithLang } from './voice/speech.ts';
@@ -166,7 +166,23 @@ export function GrammarPage(): ReactElement {
     };
   }, []);
 
-  const grammar = (GRAMMAR_BY_LANG as Record<string, GrammarCategory[]>)[getLearnLang()] ?? [];
+  const learnLang = getLearnLang();
+  // Grammar data loads lazily per learn-language (js/features/grammar-loader.ts)
+  // instead of shipping every language's rules to every user. This page is
+  // itself only opened on demand (see openGrammar()'s dynamic import below),
+  // so the brief load gap here reuses the same "not available" empty state
+  // the page already shows for a language with no grammar data at all.
+  useEffect(() => {
+    let cancelled = false;
+    ensureGrammarLoaded(learnLang).then(() => {
+      if (!cancelled) setTick((x) => x + 1);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [learnLang]);
+
+  const grammar = getGrammarForLang(learnLang) ?? [];
 
   if (!grammar.length) {
     return (

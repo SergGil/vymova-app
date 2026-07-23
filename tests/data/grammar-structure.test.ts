@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { GRAMMAR } from '../../data/grammar.ts';
+import { GRAMMAR_EN as GRAMMAR } from '../../data/grammar-data/grammar_en.ts';
 
 // ── Category structure ────────────────────────────────────────
 describe('GRAMMAR — category structure', () => {

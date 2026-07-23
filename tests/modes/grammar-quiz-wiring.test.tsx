@@ -1,9 +1,22 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { GrammarQuizPage, openGrammarQuiz } from '../../js/modes/grammar-quiz.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
+
+// startGame() (grammar-quiz.tsx) now preloads grammar data lazily
+// (js/features/grammar-loader.ts) before building the deck — waits for that
+// dynamic import (and the state update it triggers) to settle before the
+// quiz overlay actually has questions in it.
+async function openAndAwaitDeck(): Promise<void> {
+  act(() => {
+    openGrammarQuiz();
+  });
+  await act(async () => {
+    await vi.dynamicImportSettled();
+  });
+}
 
 describe('GrammarQuizPage', () => {
   let container: HTMLElement;
@@ -24,13 +37,11 @@ describe('GrammarQuizPage', () => {
     localStorage.removeItem('ew_know_lang');
   });
 
-  it('opens with a question and reveals the overlay', () => {
+  it('opens with a question and reveals the overlay', async () => {
     act(() => {
       root.render(<GrammarQuizPage />);
     });
-    act(() => {
-      openGrammarQuiz();
-    });
+    await openAndAwaitDeck();
 
     const overlay = document.getElementById('grq-overlay')!;
     expect(overlay.style.display).toBe('flex');
@@ -39,7 +50,7 @@ describe('GrammarQuizPage', () => {
     expect(options.length).toBeGreaterThan(0);
   });
 
-  it('picking the correct option marks it correct and shows the success message', () => {
+  it('picking the correct option marks it correct and shows the success message', async () => {
     // Same rationale as idiom-quiz-wiring.test.tsx: no DOM hook exposing the
     // correct option ahead of a click, so retry fresh remounts until one
     // happens to land on it.
@@ -52,9 +63,7 @@ describe('GrammarQuizPage', () => {
       act(() => {
         root.render(<GrammarQuizPage />);
       });
-      act(() => {
-        openGrammarQuiz();
-      });
+      await openAndAwaitDeck();
       const firstOption = container.querySelector<HTMLButtonElement>('.quiz-option')!;
       act(() => {
         firstOption.click();
@@ -65,27 +74,24 @@ describe('GrammarQuizPage', () => {
     expect(container.querySelector('.quiz-option.correct')).toBeTruthy();
   });
 
-  it('all rendered options are unique rule titles', () => {
+  it('all rendered options are unique rule titles', async () => {
     act(() => {
       root.render(<GrammarQuizPage />);
     });
-    act(() => {
-      openGrammarQuiz();
-    });
+    await openAndAwaitDeck();
 
     const texts = Array.from(container.querySelectorAll('.quiz-option')).map((el) =>
       (el.textContent ?? '').replace(/^\d+/, '').trim(),
     );
+    expect(texts.length).toBeGreaterThan(0);
     expect(new Set(texts).size).toBe(texts.length);
   });
 
-  it('shows the sentence translation only after an option is picked, not before', () => {
+  it('shows the sentence translation only after an option is picked, not before', async () => {
     act(() => {
       root.render(<GrammarQuizPage />);
     });
-    act(() => {
-      openGrammarQuiz();
-    });
+    await openAndAwaitDeck();
 
     expect(container.querySelector('[data-testid="grq-post-translation"]')).toBeNull();
 

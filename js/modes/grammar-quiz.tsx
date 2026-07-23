@@ -3,7 +3,8 @@
 // (previously browse-only, no review loop) into a 4-option "which rule is
 // this?" quiz. Structural mirror of idiom-quiz.tsx.
 import { useEffect, useState, type ReactElement } from 'react';
-import { GRAMMAR_BY_LANG, type GrammarCategory } from '../../data/grammar.ts';
+import { ensureGrammarLoaded, getGrammarForLang } from '../features/grammar-loader.ts';
+import type { GrammarCategory } from '../../data/grammar.ts';
 import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
 import { recordModeAnswer } from '../features/game.ts';
 import { t } from '../features/i18n.ts';
@@ -73,17 +74,21 @@ function distinctTitleCount(items: GrammarQItem[]): number {
 // falls back to the known language, then to English. Not every one of the
 // 40 target languages has a full grammar reference yet, hence the chain
 // (mirrors idiom-quiz.tsx's pickPool, which has the same shape for the
-// same reason). Exported for a direct unit test.
+// same reason). Exported for a direct unit test — callers must
+// ensureGrammarLoaded() the learn/know/'en' candidates first (see
+// startGame() below); this stays synchronous and just reads whatever's
+// already in the loader's cache (js/features/grammar-loader.ts), same
+// pattern as mode-utils.ts's getTable().
 export function pickPool(): { lang: string; items: GrammarQItem[] } {
   const learn = getLearnLang();
   const know = getKnowLang();
-  const learnCats = GRAMMAR_BY_LANG[learn as keyof typeof GRAMMAR_BY_LANG];
+  const learnCats = getGrammarForLang(learn);
   const learnItems = learnCats ? flattenExamples(learnCats) : [];
   if (distinctTitleCount(learnItems) >= NUM_OPTS) return { lang: learn, items: learnItems };
-  const knowCats = GRAMMAR_BY_LANG[know as keyof typeof GRAMMAR_BY_LANG];
+  const knowCats = getGrammarForLang(know);
   const knowItems = knowCats ? flattenExamples(knowCats) : [];
   if (distinctTitleCount(knowItems) >= NUM_OPTS) return { lang: know, items: knowItems };
-  const enCats = GRAMMAR_BY_LANG.en;
+  const enCats = getGrammarForLang('en');
   return { lang: 'en', items: enCats ? flattenExamples(enCats) : [] };
 }
 
@@ -131,15 +136,30 @@ export function GrammarQuizPage(): ReactElement {
   const rtl = RTL_LANGS.has(lang);
 
   const startGame = (): void => {
-    const { lang: l, deck: d } = buildDeck();
-    setLang(l);
-    setDeck(d);
-    setIdx(0);
-    setOk(0);
-    setFail(0);
-    setSelected(null);
-    setShowHint(false);
-    setQuestion(d.length ? buildQuestion(d[0], d) : null);
+    // Grammar data loads lazily per language (js/features/grammar-loader.ts).
+    // pickPool()/buildDeck() stay synchronous (reading whatever's already
+    // cached) — preload every candidate pickPool() might land on (learn,
+    // know, its 'en' fallback) before calling them. Clears the deck first so
+    // a stale previous session's cards can't flash before the new one loads.
+    const learn = getLearnLang();
+    const know = getKnowLang();
+    setDeck([]);
+    setQuestion(null);
+    Promise.all([
+      ensureGrammarLoaded(learn),
+      ensureGrammarLoaded(know),
+      ensureGrammarLoaded('en'),
+    ]).then(() => {
+      const { lang: l, deck: d } = buildDeck();
+      setLang(l);
+      setDeck(d);
+      setIdx(0);
+      setOk(0);
+      setFail(0);
+      setSelected(null);
+      setShowHint(false);
+      setQuestion(d.length ? buildQuestion(d[0], d) : null);
+    });
   };
 
   const session = useModeSession({

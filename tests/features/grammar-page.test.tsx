@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { GRAMMAR } from '../../data/grammar.ts';
+import { GRAMMAR_EN as GRAMMAR } from '../../data/grammar-data/grammar_en.ts';
 import {
   GrammarPage,
   jumpToGrammarRule,
@@ -16,12 +16,19 @@ vi.mock('../../js/features/sidebar.tsx', () => ({ openPage }));
 const { speakWithLang } = vi.hoisted(() => ({ speakWithLang: vi.fn() }));
 vi.mock('../../js/features/voice/speech.ts', () => ({ _speakWithLang: speakWithLang }));
 
-function mount(): { container: HTMLElement; root: Root } {
+// Grammar data now loads lazily per learn-language (js/features/grammar-loader.ts)
+// instead of being eagerly available the instant GrammarPage renders — mount()
+// waits for that dynamic import (and the re-render it triggers) to settle
+// before returning, so callers see the fully-loaded content, same as before.
+async function mount(): Promise<{ container: HTMLElement; root: Root }> {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
   act(() => {
     root.render(<GrammarPage />);
+  });
+  await act(async () => {
+    await vi.dynamicImportSettled();
   });
   return { container, root };
 }
@@ -34,23 +41,23 @@ describe('grammar-page.tsx GrammarPage', () => {
     localStorage.removeItem('ew_learn_lang');
   });
 
-  it('renders a navigation button for every grammar rule', () => {
-    const { container } = mount();
+  it('renders a navigation button for every grammar rule', async () => {
+    const { container } = await mount();
     const totalRules = GRAMMAR.reduce((n, cat) => n + cat.rules.length, 0);
     expect(container.querySelectorAll('.gr-nav-btn').length).toBe(totalRules);
     expect(container.querySelectorAll('.gr-cat').length).toBe(GRAMMAR.length);
   });
 
-  it('shows the first rule active and rendered by default', () => {
-    const { container } = mount();
+  it('shows the first rule active and rendered by default', async () => {
+    const { container } = await mount();
     const firstRule = GRAMMAR[0].rules[0];
     const activeBtn = container.querySelector('.gr-nav-active') as HTMLElement;
     expect(activeBtn.dataset.id).toBe(firstRule.id);
     expect(container.querySelector('.grammar-content')!.innerHTML).toContain(firstRule.title);
   });
 
-  it('switches the displayed rule when a nav button is clicked', () => {
-    const { container } = mount();
+  it('switches the displayed rule when a nav button is clicked', async () => {
+    const { container } = await mount();
     const secondRule = GRAMMAR[0].rules[1] ?? GRAMMAR[1].rules[0];
     const btn = Array.from(container.querySelectorAll('.gr-nav-btn')).find(
       (b) => (b as HTMLElement).dataset.id === secondRule.id,
@@ -64,7 +71,7 @@ describe('grammar-page.tsx GrammarPage', () => {
   });
 
   it('jumpToGrammarRule sets the active rule and opens the grammar page', async () => {
-    const { container } = mount();
+    const { container } = await mount();
     const targetRule = GRAMMAR[GRAMMAR.length - 1].rules[0];
     act(() => {
       jumpToGrammarRule(targetRule.id);
@@ -76,47 +83,47 @@ describe('grammar-page.tsx GrammarPage', () => {
     expect(activeBtn.dataset.id).toBe(targetRule.id);
   });
 
-  it('does not throw when openGrammarContent is called', () => {
-    mount();
+  it('does not throw when openGrammarContent is called', async () => {
+    await mount();
     expect(() => openGrammarContent()).not.toThrow();
   });
 
-  it('shows English grammar by default (learn language = en)', () => {
-    const { container } = mount();
+  it('shows English grammar by default (learn language = en)', async () => {
+    const { container } = await mount();
     expect(container.querySelectorAll('.gr-nav-btn').length).toBeGreaterThan(0);
     expect(container.querySelector('.gr-empty')).toBeNull();
   });
 
-  it('shows a "not available" placeholder when learning a language without grammar data', () => {
+  it('shows a "not available" placeholder when learning a language without grammar data', async () => {
     localStorage.setItem('ew_learn_lang', 'ua');
-    const { container } = mount();
+    const { container } = await mount();
     expect(container.querySelectorAll('.gr-nav-btn').length).toBe(0);
     expect(container.querySelector('.gr-empty')).not.toBeNull();
   });
 
-  it('shows French grammar when learning French', () => {
+  it('shows French grammar when learning French', async () => {
     localStorage.setItem('ew_learn_lang', 'fr');
-    const { container } = mount();
+    const { container } = await mount();
     expect(container.querySelectorAll('.gr-nav-btn').length).toBeGreaterThan(0);
     expect(container.querySelector('.gr-empty')).toBeNull();
   });
 
-  it('shows Hebrew grammar (72 rules) when learning Hebrew', () => {
+  it('shows Hebrew grammar (72 rules) when learning Hebrew', async () => {
     localStorage.setItem('ew_learn_lang', 'he');
-    const { container } = mount();
+    const { container } = await mount();
     expect(container.querySelectorAll('.gr-nav-btn').length).toBe(72);
     expect(container.querySelector('.gr-empty')).toBeNull();
   });
 
-  it('shows Arabic grammar (5 rules) when learning Arabic', () => {
+  it('shows Arabic grammar (5 rules) when learning Arabic', async () => {
     localStorage.setItem('ew_learn_lang', 'ar');
-    const { container } = mount();
+    const { container } = await mount();
     expect(container.querySelectorAll('.gr-nav-btn').length).toBe(5);
     expect(container.querySelector('.gr-empty')).toBeNull();
   });
 
-  it('speaks the example sentence when the speak button is clicked', () => {
-    const { container } = mount();
+  it('speaks the example sentence when the speak button is clicked', async () => {
+    const { container } = await mount();
     const btn = container.querySelector('.gr-ex-speak') as HTMLButtonElement;
     const text = (container.querySelector('.gr-ex-text') as HTMLElement).textContent;
     act(() => {
