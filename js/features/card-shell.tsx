@@ -116,7 +116,7 @@ export function CardShell(): ReactElement {
                     🎤
                   </button>
                   <button
-                    className="speak-btn card-note-btn"
+                    className="speak-btn card-note-btn !text-[13px] !transition-[opacity,color] !duration-150 opacity-55 hover:opacity-100"
                     id="btn-note"
                     title="Нотатка/мнемоніка"
                     data-i18n-title="cards.noteMnemonic"
@@ -124,7 +124,7 @@ export function CardShell(): ReactElement {
                     📝
                   </button>
                   <button
-                    className="speak-btn card-bookmark-btn"
+                    className="speak-btn card-bookmark-btn !text-[13px] !transition-[opacity,color] !duration-150 opacity-55 hover:opacity-100"
                     id="btn-bookmark"
                     title="Додати в закладки"
                     data-i18n-title="cards.addBookmark"

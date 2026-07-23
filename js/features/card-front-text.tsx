@@ -460,7 +460,7 @@ export function OtherMeanings() {
               {s.exTarget} {s.exKnow ? <i className="italic">— {s.exKnow}</i> : null}
               <button
                 type="button"
-                className="speak-btn sense-speak-btn"
+                className="speak-btn sense-speak-btn !px-[3px] !py-px !text-[12px] align-middle"
                 title="Вимовити приклад"
                 onClick={(e) => {
                   e.stopPropagation();

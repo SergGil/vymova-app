@@ -3747,26 +3747,17 @@ body:not(.dark):not([data-theme])
    .word-actions stays bare — see the "gb-level cluster" comment
    elsewhere in this file: it's part of a scattered set of overlapping
    unconditional rule blocks (Safari/iOS fixes, layout patches) judged
-   too risky to decompose. .card-note-btn/.card-bookmark-btn stay bare
-   too, for a different reason: they're combined with .speak-btn
-   (itself theme-touched, bare) in index.html, and their font-size/
-   transition exist specifically to override .speak-btn's own bare
-   values — moving them to a layered Tailwind utility would make
-   .speak-btn's bare rule win instead, since unlayered always beats
-   layered regardless of source order. Same reasoning applies to
-   .sense-speak-btn below (combined with .speak-btn in card-front-text.tsx). */
-.card-note-btn,
-.card-bookmark-btn {
-  font-size: 13px !important;
-  opacity: 0.55;
-  transition:
-    opacity 0.15s,
-    color 0.15s;
-}
-.card-note-btn:hover,
-.card-bookmark-btn:hover {
-  opacity: 1;
-}
+   too risky to decompose. .card-note-btn/.card-bookmark-btn moved to
+   Tailwind utility classes in card-shell.tsx, using the `!` important
+   modifier for font-size/transition (both of which .speak-btn, itself
+   theme-touched and staying bare, also sets) — verified empirically with
+   Playwright that a layered `!important` utility beats an unlayered
+   normal-importance rule (importance is resolved before layer order in
+   the CSS Cascade Layers spec). opacity/hover:opacity don't need the
+   modifier — .speak-btn never sets opacity, so there's no bare rule to
+   beat. See docs/tailwind-shadcn-migration-roadmap.md's "Cascade layers
+   correction" note. */
+
 /* .card-note-display's own box/typography moved to Tailwind utility
    classes in card-indicators.tsx; background stays (live body.dark
    override). */
@@ -3792,13 +3783,10 @@ body.dark .usage-note-box.etymology-note {
 
 /* .senses-list/li/.sense-pos/.sense-translation/.sense-example/i moved to
    Tailwind utility classes in card-front-text.tsx (no fandom-theme or
-   body.dark overrides existed for any of them). .sense-speak-btn stays:
-   see the .card-note-btn comment above. */
-.sense-speak-btn {
-  font-size: 12px;
-  padding: 1px 3px;
-  vertical-align: middle;
-}
+   body.dark overrides existed for any of them). .sense-speak-btn moved too,
+   using Tailwind's `!` important modifier to beat .speak-btn's own bare
+   font-size — see the "Card action buttons" comment above for why this
+   works (cascade-layers correction). */
 
 /* ── Note modal ──
    .note-header/.note-title and .note-panel's/.note-textarea's own

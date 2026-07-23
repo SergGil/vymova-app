@@ -80,8 +80,8 @@ const ORIGINAL_CARD_SCENE_HTML = `
             <div class="word-actions">
               <button class="speak-btn" id="speak-word" title="Вимовити слово" data-i18n-title="cards.pronounce">🔊</button>
               <button class="speak-btn" id="btn-mic" title="Перевір вимову" data-i18n-title="cards.checkPron">🎤</button>
-              <button class="speak-btn card-note-btn" id="btn-note" title="Нотатка/мнемоніка" data-i18n-title="cards.noteMnemonic">📝</button>
-              <button class="speak-btn card-bookmark-btn" id="btn-bookmark" title="Додати в закладки" data-i18n-title="cards.addBookmark">☆</button>
+              <button class="speak-btn card-note-btn !text-[13px] !transition-[opacity,color] !duration-150 opacity-55 hover:opacity-100" id="btn-note" title="Нотатка/мнемоніка" data-i18n-title="cards.noteMnemonic">📝</button>
+              <button class="speak-btn card-bookmark-btn !text-[13px] !transition-[opacity,color] !duration-150 opacity-55 hover:opacity-100" id="btn-bookmark" title="Додати в закладки" data-i18n-title="cards.addBookmark">☆</button>
             </div>
           </div>
           <div id="card-note-mount"></div>
