@@ -2119,18 +2119,14 @@ body.dark .cat-select-btn:hover {
   font-size: 0.78rem;
 }
 
-/* ── Урок: фаза-тег ── */
-.lesson-phase-tag {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  padding: 3px 9px;
-  border-radius: 20px;
-  background: #ebf3ee;
-  color: var(--accent);
+/* .lesson-phase-tag moved to Tailwind utility classes in lesson.tsx —
+   background reads a custom property the body.dark override sets
+   (docs/theme-css-migration-roadmap.md Фаза 1). */
+:root {
+  --lesson-tag-bg: #ebf3ee;
 }
-body.dark .lesson-phase-tag {
-  background: rgba(78, 204, 163, 0.15);
+body.dark {
+  --lesson-tag-bg: rgba(78, 204, 163, 0.15);
 }
 
 /* ── Урок: кнопка ── */
@@ -3751,26 +3747,26 @@ body:not(.dark):not([data-theme])
    correction" note. */
 
 /* .card-note-display's own box/typography moved to Tailwind utility
-   classes in card-indicators.tsx; background stays (live body.dark
-   override). */
-.card-note-display {
-  background: rgba(0, 0, 0, 0.04);
+   classes in card-indicators.tsx; background too now, via a custom
+   property the body.dark override sets (see docs/theme-css-migration-
+   roadmap.md Фаза 1) — component reads it with bg-[var(--note-display-bg)]. */
+:root {
+  --note-display-bg: rgba(0, 0, 0, 0.04);
 }
-body.dark .card-note-display {
-  background: rgba(255, 255, 255, 0.04);
+body.dark {
+  --note-display-bg: rgba(255, 255, 255, 0.04);
 }
 
 /* .usage-note-box's own box/typography (no fandom-theme or body.dark
    overrides existed for it) and .usage-note-icon moved to Tailwind
-   utility classes in word-context.tsx. .usage-note-box.etymology-note
-   stays (live body.dark override on its background). */
-.usage-note-box.etymology-note {
-  background: rgba(0, 0, 0, 0.04);
-  border-left-color: var(--accent);
-  margin-top: 14px;
+   utility classes in word-context.tsx. .usage-note-box.etymology-note's
+   border-left-color/margin-top too — background reads a custom property
+   the body.dark override sets (docs/theme-css-migration-roadmap.md Фаза 1). */
+:root {
+  --etymology-note-bg: rgba(0, 0, 0, 0.04);
 }
-body.dark .usage-note-box.etymology-note {
-  background: rgba(255, 255, 255, 0.04);
+body.dark {
+  --etymology-note-bg: rgba(255, 255, 255, 0.04);
 }
 
 /* .senses-list/li/.sense-pos/.sense-translation/.sense-example/i moved to
@@ -5011,9 +5007,14 @@ body.dark .mct-streak {
 }
 
 /* ── E: Dark mode — mistake-review ── */
-body.dark .mistake-review-panel {
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+/* .mistake-review-panel's box-shadow now reads a custom property the
+   body.dark override sets (docs/theme-css-migration-roadmap.md Фаза 1).
+   .mistake-review-done-stats's body.dark rule deleted as dead code: the
+   component already renders Tailwind's text-text2 unconditionally, which
+   resolves to the exact same var(--text2) this rule re-asserted. */
+:root {
+  --mistake-panel-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
-body.dark .mistake-review-done-stats {
-  color: var(--text2);
+body.dark {
+  --mistake-panel-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
 }

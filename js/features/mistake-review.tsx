@@ -58,7 +58,7 @@ export function MistakeReview({ onClose }: Props): ReactElement | null {
         onClick={onClose}
       >
         <div
-          className="mistake-review-panel relative w-full max-w-[400px] rounded-[18px] bg-card px-5 pb-5 pt-6 shadow-[0_8px_32px_rgba(0,0,0,0.25)]"
+          className="mistake-review-panel relative w-full max-w-[400px] rounded-[18px] bg-card px-5 pb-5 pt-6 shadow-[var(--mistake-panel-shadow)]"
           onClick={(e) => e.stopPropagation()}
         >
           <button

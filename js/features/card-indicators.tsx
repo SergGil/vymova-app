@@ -13,7 +13,7 @@ export function CardNoteDisplay() {
     return (
       <div
         id="card-note-display"
-        className="card-note-display mt-1 mb-1.5 rounded-md border-l-[3px] border-l-[var(--accent)] px-[9px] py-[5px] text-[.75rem] leading-[1.4] break-words text-[var(--text3)] italic"
+        className="card-note-display mt-1 mb-1.5 rounded-md border-l-[3px] border-l-[var(--accent)] bg-[var(--note-display-bg)] px-[9px] py-[5px] text-[.75rem] leading-[1.4] break-words text-[var(--text3)] italic"
         style={{ display: 'none' }}
       />
     );

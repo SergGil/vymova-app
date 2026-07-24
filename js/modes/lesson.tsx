@@ -341,7 +341,11 @@ export function LessonPage(): ReactElement {
           <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginTop: 2 }}>{subtitle}</div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          {!showFinal && <span className="lesson-phase-tag">{phaseTag}</span>}
+          {!showFinal && (
+            <span className="lesson-phase-tag rounded-[20px] bg-[var(--lesson-tag-bg)] px-[9px] py-[3px] text-[.68rem] font-bold tracking-[.07em] text-[var(--accent)]">
+              {phaseTag}
+            </span>
+          )}
           <button
             onClick={closeLesson}
             style={{

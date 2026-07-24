@@ -420,7 +420,7 @@ export function EtymologyNote(): ReactElement | null {
 
   return (
     <div
-      className="usage-note-box etymology-note flex items-start gap-1.5 rounded-md border-l-[3px] px-[9px] py-[5px] text-[.75rem] leading-[1.4] break-words text-[var(--text2)]"
+      className="usage-note-box etymology-note flex items-start gap-1.5 rounded-md border-l-[3px] border-l-[var(--accent)] bg-[var(--etymology-note-bg)] mt-3.5 px-[9px] py-[5px] text-[.75rem] leading-[1.4] break-words text-[var(--text2)]"
       id="cb-etymology"
     >
       <span className="usage-note-icon shrink-0">📜</span>
