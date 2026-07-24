@@ -22,6 +22,19 @@
   --success: #27ae60;
   --success-bg: #e8f8f0;
   --sb-width: 220px;
+  /* Real RGB-triplet siblings of the colors above, for rgba(var(--x-rgb),
+     alpha) in Tailwind arbitrary values — mirrors what scripts/theme-
+     template.css now assigns per fandom theme
+     (docs/theme-css-migration-roadmap.md Фаза 2). Pre-existing
+     rgba(var(--accent-rgb, 45,90,61), ...) call sites elsewhere in this
+     file relied on that exact fallback matching this value — now it's a
+     real assignment too, so the fallback becomes redundant (harmless,
+     not cleaned up here — out of scope for this phase). */
+  --accent-rgb: 45, 90, 61;
+  --accent2-rgb: 196, 98, 45;
+  --bg-rgb: 247, 244, 239;
+  --card-rgb: 255, 255, 255;
+  --border-rgb: 232, 227, 220;
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -768,6 +781,11 @@ body.dark {
   --danger-bg: rgba(231, 76, 60, 0.15);
   --success: #2ecc71;
   --success-bg: rgba(46, 204, 113, 0.12);
+  --accent-rgb: 78, 204, 163;
+  --accent2-rgb: 233, 69, 96;
+  --bg-rgb: 26, 26, 46;
+  --card-rgb: 22, 33, 62;
+  --border-rgb: 42, 42, 74;
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base

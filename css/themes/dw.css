@@ -32,6 +32,19 @@ body[data-theme="dw"] {
   --shadow: 0 0 18px rgba(185, 255, 0, 0.12), 0 4px 24px rgba(0, 0, 0, 0.6);
   --modal-bg: #2c380e;
   --modal-av-bg: rgba(185, 255, 0, 0.08);
+  /* Real runtime custom properties for the *_RGB tokens below — added so
+     components can express rgba(var(--accent-rgb), alpha) via a plain
+     Tailwind arbitrary value instead of needing per-selector custom-
+     property indirection for every alpha-blended color (see
+     docs/theme-css-migration-roadmap.md Фаза 2). Unlike css/styles.css's
+     --accent-rgb (referenced with a hardcoded light-theme fallback but
+     never actually assigned anywhere — a pre-existing, separate,
+     un-fixed limitation, not touched here), these ARE real assignments. */
+  --accent-rgb: 185, 255, 0;
+  --accent2-rgb: 51, 73, 255;
+  --bg-rgb: 21, 26, 7;
+  --card-rgb: 38, 48, 12;
+  --border-rgb: 85, 107, 26;
 }
 
 body[data-theme="dw"] ::-webkit-scrollbar {
