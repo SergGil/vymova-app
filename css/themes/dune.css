@@ -274,7 +274,6 @@ body[data-theme="dune"] #search-input {
 }
 
 body[data-theme="dune"] #search-input:focus {
-  border-color: var(--accent);
   box-shadow: 0 0 10px rgba(255, 190, 0, 0.2);
 }
 
@@ -291,12 +290,6 @@ body[data-theme="dune"] .pairs-panel {
     0 20px 60px rgba(0, 0, 0, 0.8);
 }
 
-body[data-theme="dune"] .card-tag {
-  background: rgba(255, 190, 0, 0.12);
-  color: var(--accent);
-  border: 1px solid rgba(255, 190, 0, 0.3);
-}
-
 body[data-theme="dune"] .level-badge {
   box-shadow: 0 0 10px rgba(255, 190, 0, 0.2);
 }
@@ -304,18 +297,6 @@ body[data-theme="dune"] .level-badge {
 body[data-theme="dune"] .srs-stats-bar {
   background: rgba(44, 35, 10, 0.9);
   border-color: rgba(255, 190, 0, 0.15);
-}
-
-body[data-theme="dune"] .ring-fill {
-  stroke: #ffbe00;
-  filter: drop-shadow(0 0 4px #ffbe00);
-}
-
-body[data-theme="dune"] #btn-dune {
-  border-color: #ffbe00;
-  color: #ffbe00;
-  box-shadow: 0 0 8px rgba(255, 190, 0, 0.3);
-  text-shadow: 0 0 6px rgba(255, 190, 0, 0.6);
 }
 
 body[data-theme="dune"] .progress-fill,
@@ -326,11 +307,6 @@ body[data-theme="dune"] .goal-fill {
 body[data-theme="dune"] .wotd-box {
   background: rgba(44, 35, 10, 0.9);
   border-color: rgba(255, 190, 0, 0.2);
-}
-
-body[data-theme="dune"] .wotd-word {
-  color: var(--accent);
-  text-shadow: 0 0 8px rgba(255, 190, 0, 0.3);
 }
 
 body[data-theme="dune"] .modes-panel {
@@ -371,12 +347,6 @@ body[data-theme="dune"] .gb-goal-block {
 
 body[data-theme="dune"] .gb-level-block {
   border-color: rgba(255, 190, 0, 0.3);
-}
-
-body[data-theme="dune"] .btn-achievements {
-  border-color: #ffd700;
-  color: #ffd700;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.25);
 }
 
 body[data-theme="dune"] .profile-btn {
@@ -457,10 +427,6 @@ body[data-theme="dune"] .sb-dd-check {
 
 body[data-theme="dune"] .sb-toggle-pill.on {
   background: #ffbe00;
-}
-
-body[data-theme="dune"] .header-wotd .wotd-word {
-  color: #ffbe00;
 }
 
 body[data-theme="dune"] .prf-delete-name {
@@ -686,17 +652,5 @@ body[data-theme="dune"] .rd-known {
   border-color: rgba(255, 190, 0, 0.3);
 }
 
-body[data-theme="dune"] .notif-toggle-wrap input:checked + .notif-toggle-pill-ui {
-  background: #ffbe00;
-}
-
-body[data-theme="dune"] .time-picker {
-  border-color: rgba(255, 190, 0, 0.2);
-}
-
-body[data-theme="dune"] .time-select:hover,
-body[data-theme="dune"] .time-select:focus {
-  background: rgba(255, 190, 0, 0.1);
-}
 
 

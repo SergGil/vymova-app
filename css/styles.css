@@ -193,6 +193,10 @@ select:focus {
   padding: 2px 8px;
   border-radius: 20px;
 }
+body[data-theme] .card-tag {
+  background: rgba(var(--accent-rgb), 0.12);
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+}
 .card-legend-btn {
   width: 18px;
   height: 18px;
@@ -884,6 +888,9 @@ body.dark .search-result-item:hover {
 #search-input:focus {
   border-color: var(--accent);
 }
+body[data-theme] #search-input:focus {
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.2);
+}
 .search-result-item:hover {
   background: var(--bg);
 }
@@ -1325,6 +1332,9 @@ body.dark .card.is-known .card-face {
   stroke-width: 4;
   stroke-linecap: round;
   transition: stroke-dashoffset 0.5s ease;
+}
+body[data-theme] .ring-fill {
+  filter: drop-shadow(0 0 4px var(--accent));
 }
 .ring-fill.done {
   stroke: #e67e22;
@@ -1838,6 +1848,10 @@ body.dark .quiz-option.reveal {
   font-family: 'DM Serif Display', serif;
   font-size: 1.05rem;
   color: var(--text);
+}
+body[data-theme] .wotd-word {
+  color: var(--accent);
+  text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.3);
 }
 .wotd-tr {
   font-size: 0.78rem;
@@ -2973,6 +2987,15 @@ body:not(.dark):not([data-theme])
   background: rgba(212, 172, 13, 0.08);
   box-shadow: 0 0 10px rgba(212, 172, 13, 0.2);
 }
+/* Constant across all 14 fandom themes (not per-theme accent — this one's
+   gold regardless of which theme is active), so no --accent needed, just
+   a literal value in the single replacement rule
+   (docs/theme-css-migration-roadmap.md Фаза 2). */
+body[data-theme] .btn-achievements {
+  border-color: #ffd700;
+  color: #ffd700;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.25);
+}
 body.dark .btn-achievements {
   border-color: #ffd700;
   color: #ffd700;
@@ -3925,6 +3948,9 @@ body[data-theme] .dc-word {
   border-radius: 8px;
   background: var(--bg);
 }
+body[data-theme] .time-picker {
+  border-color: rgba(var(--accent-rgb), 0.2);
+}
 .time-select {
   appearance: none;
   -webkit-appearance: none;
@@ -3943,6 +3969,10 @@ body[data-theme] .dc-word {
 .time-select:hover,
 .time-select:focus {
   background: var(--card);
+}
+body[data-theme] .time-select:hover,
+body[data-theme] .time-select:focus {
+  background: rgba(var(--accent-rgb), 0.1);
 }
 .time-select option {
   background: var(--card);

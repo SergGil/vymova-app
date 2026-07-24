@@ -274,7 +274,6 @@ body[data-theme="dw"] #search-input {
 }
 
 body[data-theme="dw"] #search-input:focus {
-  border-color: var(--accent);
   box-shadow: 0 0 10px rgba(185, 255, 0, 0.2);
 }
 
@@ -291,12 +290,6 @@ body[data-theme="dw"] .pairs-panel {
     0 20px 60px rgba(0, 0, 0, 0.8);
 }
 
-body[data-theme="dw"] .card-tag {
-  background: rgba(185, 255, 0, 0.12);
-  color: var(--accent);
-  border: 1px solid rgba(185, 255, 0, 0.3);
-}
-
 body[data-theme="dw"] .level-badge {
   box-shadow: 0 0 10px rgba(185, 255, 0, 0.2);
 }
@@ -304,18 +297,6 @@ body[data-theme="dw"] .level-badge {
 body[data-theme="dw"] .srs-stats-bar {
   background: rgba(35, 44, 10, 0.9);
   border-color: rgba(185, 255, 0, 0.15);
-}
-
-body[data-theme="dw"] .ring-fill {
-  stroke: #b9ff00;
-  filter: drop-shadow(0 0 4px #b9ff00);
-}
-
-body[data-theme="dw"] #btn-dw {
-  border-color: #b9ff00;
-  color: #b9ff00;
-  box-shadow: 0 0 8px rgba(185, 255, 0, 0.3);
-  text-shadow: 0 0 6px rgba(185, 255, 0, 0.6);
 }
 
 body[data-theme="dw"] .progress-fill,
@@ -326,11 +307,6 @@ body[data-theme="dw"] .goal-fill {
 body[data-theme="dw"] .wotd-box {
   background: rgba(35, 44, 10, 0.9);
   border-color: rgba(185, 255, 0, 0.2);
-}
-
-body[data-theme="dw"] .wotd-word {
-  color: var(--accent);
-  text-shadow: 0 0 8px rgba(185, 255, 0, 0.3);
 }
 
 body[data-theme="dw"] .modes-panel {
@@ -371,12 +347,6 @@ body[data-theme="dw"] .gb-goal-block {
 
 body[data-theme="dw"] .gb-level-block {
   border-color: rgba(185, 255, 0, 0.3);
-}
-
-body[data-theme="dw"] .btn-achievements {
-  border-color: #ffd700;
-  color: #ffd700;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.25);
 }
 
 body[data-theme="dw"] .profile-btn {
@@ -457,10 +427,6 @@ body[data-theme="dw"] .sb-dd-check {
 
 body[data-theme="dw"] .sb-toggle-pill.on {
   background: #b9ff00;
-}
-
-body[data-theme="dw"] .header-wotd .wotd-word {
-  color: #b9ff00;
 }
 
 body[data-theme="dw"] .prf-delete-name {
@@ -686,17 +652,5 @@ body[data-theme="dw"] .rd-known {
   border-color: rgba(185, 255, 0, 0.3);
 }
 
-body[data-theme="dw"] .notif-toggle-wrap input:checked + .notif-toggle-pill-ui {
-  background: #b9ff00;
-}
-
-body[data-theme="dw"] .time-picker {
-  border-color: rgba(185, 255, 0, 0.2);
-}
-
-body[data-theme="dw"] .time-select:hover,
-body[data-theme="dw"] .time-select:focus {
-  background: rgba(185, 255, 0, 0.1);
-}
 
 
