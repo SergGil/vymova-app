@@ -601,43 +601,66 @@ select:focus {
   background: #27ae60;
   color: #fff;
 }
-/* Темний читабельний текст на зеленому фоні */
+/* Темний читабельний текст на зеленому фоні.
+   .wtrans deleted as dead code — no element carries class "wtrans"
+   anywhere (the #wtrans element's real class is "transcription"; this
+   selector stopped matching whenever that JSX conversion happened and
+   nobody removed the now-dead CSS). .ex-label has no body.dark override
+   (out of Фаза 1 scope, left as-is). The rest consolidate their light+dark
+   pair into one declaration reading a custom property scoped to
+   .card.is-known/body.dark .card.is-known below
+   (docs/theme-css-migration-roadmap.md Фаза 1) — kept as real CSS
+   selectors rather than moved to component Tailwind classes: .speak-btn
+   matches several different buttons inside .card.is-known (not a 1:1
+   component), .ex-en b targets a <b> inside dangerouslySetInnerHTML
+   content (can never carry a className), and .known-badge's display:none/
+   inline toggle is a separate, non-theme mechanism tied to the same
+   selector that Фаза 1 doesn't touch. */
+.card.is-known {
+  --known-c1: #133524; /* word-text, transl, sense-translation */
+  --known-c2: #1f5233; /* ex-en, ex-ua, sense-example(+i) */
+  --known-c3: #2e7a4a; /* speak-btn, card-num, sense-pos */
+  --known-c4: #0e6632; /* ex-en b, known-badge */
+}
+body.dark .card.is-known {
+  --known-c1: #b8f0cc;
+  --known-c2: #8fd4a8;
+  --known-c3: #4ecca3;
+  --known-c4: #4ecca3;
+}
 .card.is-known .word-text {
-  color: #133524;
+  color: var(--known-c1);
 }
 .card.is-known .transl {
-  color: #133524;
+  color: var(--known-c1);
 }
 .card.is-known .ex-en {
-  color: #1f5233;
+  color: var(--known-c2);
 }
 .card.is-known .ex-ua {
-  color: #1f5233;
-}
-.card.is-known .wtrans {
-  color: #2e7a4a;
+  color: var(--known-c2);
 }
 .card.is-known .ex-en b {
-  color: #0e6632;
+  color: var(--known-c4);
 }
 .card.is-known .ex-label {
   color: #2e7a4a;
 }
 .card.is-known .speak-btn {
-  color: #2e7a4a;
+  color: var(--known-c3);
 }
 .card.is-known .card-num {
-  color: #2e7a4a;
+  color: var(--known-c3);
 }
 .card.is-known .sense-pos {
-  color: #2e7a4a;
+  color: var(--known-c3);
 }
 .card.is-known .sense-translation {
-  color: #133524;
+  color: var(--known-c1);
 }
 .card.is-known .sense-example,
 .card.is-known .sense-example i {
-  color: #1f5233;
+  color: var(--known-c2);
 }
 .known-badge {
   display: none;
@@ -649,7 +672,7 @@ select:focus {
 }
 .card.is-known .known-badge {
   display: inline;
-  color: #0e6632;
+  color: var(--known-c4);
 }
 
 /* ── Геймфікація ── */
@@ -946,43 +969,6 @@ body.dark .chart-wrap {
 body.dark .card.is-known .card-face {
   background: linear-gradient(135deg, #0d2e1c 0%, #0a2318 100%) !important;
   border-color: #2d8a52 !important;
-}
-body.dark .card.is-known .word-text {
-  color: #b8f0cc;
-}
-body.dark .card.is-known .transl {
-  color: #b8f0cc;
-}
-body.dark .card.is-known .ex-en {
-  color: #8fd4a8;
-}
-body.dark .card.is-known .ex-ua {
-  color: #8fd4a8;
-}
-body.dark .card.is-known .ex-en b {
-  color: #4ecca3;
-}
-body.dark .card.is-known .speak-btn {
-  color: #4ecca3;
-}
-body.dark .card.is-known .wtrans {
-  color: #6abf8a;
-}
-body.dark .card.is-known .known-badge {
-  color: #4ecca3;
-}
-body.dark .card.is-known .card-num {
-  color: #4ecca3;
-}
-body.dark .card.is-known .sense-pos {
-  color: #4ecca3;
-}
-body.dark .card.is-known .sense-translation {
-  color: #b8f0cc;
-}
-body.dark .card.is-known .sense-example,
-body.dark .card.is-known .sense-example i {
-  color: #8fd4a8;
 }
 body.dark .ach-card {
   background: rgba(255, 255, 255, 0.04);
