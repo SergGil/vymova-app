@@ -55,6 +55,11 @@ body[data-theme="dw"] {
   --bg-rgb: 21, 26, 7;
   --card-rgb: 38, 48, 12;
   --border-rgb: 85, 107, 26;
+  /* Just the font name (no fallback baked in) — consuming selectors append
+     their own generic fallback (`var(--theme-font), sans-serif` vs
+     `..., monospace`), matching what each one used before this became a
+     real property. */
+  --theme-font: 'Cinzel Decorative';
 }
 
 body[data-theme="dw"] ::-webkit-scrollbar {
@@ -128,15 +133,6 @@ body[data-theme="dw"]::after {
   background-repeat: no-repeat;
   background-attachment: fixed;
   pointer-events: none;
-}
-
-body[data-theme="dw"] .title {
-  font-family: 'Cinzel Decorative', sans-serif;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 1.1rem;
-  color: var(--accent);
-  text-shadow: 0 0 12px rgba(185, 255, 0, 0.5);
 }
 
 body[data-theme="dw"] .card-face {
@@ -468,20 +464,6 @@ body[data-theme="dw"] .page-overlay {
   background-image: radial-gradient(ellipse at top, rgba(43, 60, 0, 0.6) 0%, transparent 70%),
     repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(185, 255, 0, 0.03) 60px),
     repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(185, 255, 0, 0.02) 60px);
-}
-
-body[data-theme="dw"] .page-inner {
-  border-left: 1px solid rgba(185, 255, 0, 0.08);
-}
-
-body[data-theme="dw"] .page-title {
-  color: #b9ff00;
-  font-family: 'Cinzel Decorative', monospace;
-  letter-spacing: 0.05em;
-}
-
-body[data-theme="dw"] .page-header {
-  border-color: rgba(185, 255, 0, 0.15);
 }
 
 body[data-theme="dw"] .stats-panel {

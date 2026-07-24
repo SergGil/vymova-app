@@ -55,6 +55,11 @@ body[data-theme="mc"] {
   --bg-rgb: 15, 26, 7;
   --card-rgb: 27, 48, 12;
   --border-rgb: 59, 107, 26;
+  /* Just the font name (no fallback baked in) — consuming selectors append
+     their own generic fallback (`var(--theme-font), sans-serif` vs
+     `..., monospace`), matching what each one used before this became a
+     real property. */
+  --theme-font: 'Courier New';
 }
 
 body[data-theme="mc"] ::-webkit-scrollbar {
@@ -128,15 +133,6 @@ body[data-theme="mc"]::after {
   background-repeat: no-repeat;
   background-attachment: fixed;
   pointer-events: none;
-}
-
-body[data-theme="mc"] .title {
-  font-family: 'Courier New', sans-serif;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 1.1rem;
-  color: var(--accent);
-  text-shadow: 0 0 12px rgba(104, 255, 0, 0.5);
 }
 
 body[data-theme="mc"] .card-face {
@@ -468,20 +464,6 @@ body[data-theme="mc"] .page-overlay {
   background-image: radial-gradient(ellipse at top, rgba(25, 60, 0, 0.6) 0%, transparent 70%),
     repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(104, 255, 0, 0.03) 60px),
     repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(104, 255, 0, 0.02) 60px);
-}
-
-body[data-theme="mc"] .page-inner {
-  border-left: 1px solid rgba(104, 255, 0, 0.08);
-}
-
-body[data-theme="mc"] .page-title {
-  color: #68ff00;
-  font-family: 'Courier New', monospace;
-  letter-spacing: 0.05em;
-}
-
-body[data-theme="mc"] .page-header {
-  border-color: rgba(104, 255, 0, 0.15);
 }
 
 body[data-theme="mc"] .stats-panel {

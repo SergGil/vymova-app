@@ -63,6 +63,11 @@ body[data-theme="sw"] {
   --bg-rgb: 7, 13, 26;
   --card-rgb: 12, 24, 48;
   --border-rgb: 26, 61, 107;
+  /* Just the font name (no fallback baked in) — consuming selectors append
+     their own generic fallback (`var(--theme-font), sans-serif` vs
+     `..., monospace`), matching what each one used before this became a
+     real property. */
+  --theme-font: 'Orbitron';
 }
 
 body[data-theme="sw"] ::-webkit-scrollbar {
@@ -136,15 +141,6 @@ body[data-theme="sw"]::after {
   background-repeat: no-repeat;
   background-attachment: fixed;
   pointer-events: none;
-}
-
-body[data-theme="sw"] .title {
-  font-family: 'Orbitron', sans-serif;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 1.1rem;
-  color: var(--accent);
-  text-shadow: 0 0 12px rgba(0, 200, 255, 0.5);
 }
 
 body[data-theme="sw"] .card-face {
@@ -476,20 +472,6 @@ body[data-theme="sw"] .page-overlay {
   background-image: radial-gradient(ellipse at top, rgba(0, 30, 60, 0.6) 0%, transparent 70%),
     repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(0, 200, 255, 0.03) 60px),
     repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(0, 200, 255, 0.02) 60px);
-}
-
-body[data-theme="sw"] .page-inner {
-  border-left: 1px solid rgba(0, 200, 255, 0.08);
-}
-
-body[data-theme="sw"] .page-title {
-  color: #00c8ff;
-  font-family: 'Orbitron', monospace;
-  letter-spacing: 0.05em;
-}
-
-body[data-theme="sw"] .page-header {
-  border-color: rgba(0, 200, 255, 0.15);
 }
 
 body[data-theme="sw"] .stats-panel {

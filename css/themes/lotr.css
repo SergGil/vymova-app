@@ -55,6 +55,11 @@ body[data-theme="lotr"] {
   --bg-rgb: 7, 26, 15;
   --card-rgb: 12, 48, 26;
   --border-rgb: 26, 107, 58;
+  /* Just the font name (no fallback baked in) — consuming selectors append
+     their own generic fallback (`var(--theme-font), sans-serif` vs
+     `..., monospace`), matching what each one used before this became a
+     real property. */
+  --theme-font: 'Cinzel Decorative';
 }
 
 body[data-theme="lotr"] ::-webkit-scrollbar {
@@ -128,15 +133,6 @@ body[data-theme="lotr"]::after {
   background-repeat: no-repeat;
   background-attachment: fixed;
   pointer-events: none;
-}
-
-body[data-theme="lotr"] .title {
-  font-family: 'Cinzel Decorative', sans-serif;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 1.1rem;
-  color: var(--accent);
-  text-shadow: 0 0 12px rgba(0, 255, 101, 0.5);
 }
 
 body[data-theme="lotr"] .card-face {
@@ -468,20 +464,6 @@ body[data-theme="lotr"] .page-overlay {
   background-image: radial-gradient(ellipse at top, rgba(0, 60, 24, 0.6) 0%, transparent 70%),
     repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(0, 255, 101, 0.03) 60px),
     repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(0, 255, 101, 0.02) 60px);
-}
-
-body[data-theme="lotr"] .page-inner {
-  border-left: 1px solid rgba(0, 255, 101, 0.08);
-}
-
-body[data-theme="lotr"] .page-title {
-  color: #00ff65;
-  font-family: 'Cinzel Decorative', monospace;
-  letter-spacing: 0.05em;
-}
-
-body[data-theme="lotr"] .page-header {
-  border-color: rgba(0, 255, 101, 0.15);
 }
 
 body[data-theme="lotr"] .stats-panel {

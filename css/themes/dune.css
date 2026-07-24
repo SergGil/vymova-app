@@ -55,6 +55,11 @@ body[data-theme="dune"] {
   --bg-rgb: 26, 21, 7;
   --card-rgb: 48, 39, 12;
   --border-rgb: 107, 86, 26;
+  /* Just the font name (no fallback baked in) — consuming selectors append
+     their own generic fallback (`var(--theme-font), sans-serif` vs
+     `..., monospace`), matching what each one used before this became a
+     real property. */
+  --theme-font: 'Cinzel Decorative';
 }
 
 body[data-theme="dune"] ::-webkit-scrollbar {
@@ -128,15 +133,6 @@ body[data-theme="dune"]::after {
   background-repeat: no-repeat;
   background-attachment: fixed;
   pointer-events: none;
-}
-
-body[data-theme="dune"] .title {
-  font-family: 'Cinzel Decorative', sans-serif;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 1.1rem;
-  color: var(--accent);
-  text-shadow: 0 0 12px rgba(255, 190, 0, 0.5);
 }
 
 body[data-theme="dune"] .card-face {
@@ -468,20 +464,6 @@ body[data-theme="dune"] .page-overlay {
   background-image: radial-gradient(ellipse at top, rgba(60, 45, 0, 0.6) 0%, transparent 70%),
     repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255, 190, 0, 0.03) 60px),
     repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255, 190, 0, 0.02) 60px);
-}
-
-body[data-theme="dune"] .page-inner {
-  border-left: 1px solid rgba(255, 190, 0, 0.08);
-}
-
-body[data-theme="dune"] .page-title {
-  color: #ffbe00;
-  font-family: 'Cinzel Decorative', monospace;
-  letter-spacing: 0.05em;
-}
-
-body[data-theme="dune"] .page-header {
-  border-color: rgba(255, 190, 0, 0.15);
 }
 
 body[data-theme="dune"] .stats-panel {

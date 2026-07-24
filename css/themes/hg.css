@@ -55,6 +55,11 @@ body[data-theme="hg"] {
   --bg-rgb: 17, 7, 26;
   --card-rgb: 31, 12, 48;
   --border-rgb: 68, 26, 107;
+  /* Just the font name (no fallback baked in) — consuming selectors append
+     their own generic fallback (`var(--theme-font), sans-serif` vs
+     `..., monospace`), matching what each one used before this became a
+     real property. */
+  --theme-font: 'Cinzel Decorative';
 }
 
 body[data-theme="hg"] ::-webkit-scrollbar {
@@ -128,15 +133,6 @@ body[data-theme="hg"]::after {
   background-repeat: no-repeat;
   background-attachment: fixed;
   pointer-events: none;
-}
-
-body[data-theme="hg"] .title {
-  font-family: 'Cinzel Decorative', sans-serif;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 1.1rem;
-  color: var(--accent);
-  text-shadow: 0 0 12px rgba(133, 0, 255, 0.5);
 }
 
 body[data-theme="hg"] .card-face {
@@ -468,20 +464,6 @@ body[data-theme="hg"] .page-overlay {
   background-image: radial-gradient(ellipse at top, rgba(31, 0, 60, 0.6) 0%, transparent 70%),
     repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(133, 0, 255, 0.03) 60px),
     repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(133, 0, 255, 0.02) 60px);
-}
-
-body[data-theme="hg"] .page-inner {
-  border-left: 1px solid rgba(133, 0, 255, 0.08);
-}
-
-body[data-theme="hg"] .page-title {
-  color: #8500ff;
-  font-family: 'Cinzel Decorative', monospace;
-  letter-spacing: 0.05em;
-}
-
-body[data-theme="hg"] .page-header {
-  border-color: rgba(133, 0, 255, 0.15);
 }
 
 body[data-theme="hg"] .stats-panel {
