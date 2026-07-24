@@ -1664,17 +1664,19 @@ body.dark .tempo-opt.wrong {
    (tailwind-shadcn-migration-roadmap.md Phase 2). The srs-stats-bar class
    name stays — all 14 fandom themes override it — and being unlayered
    legacy CSS it keeps winning over the new Tailwind utilities regardless
-   of source order, same guarantee used throughout this migration. The
-   srs-stat-due/zero and body.dark overrides below stay too, for the same
-   reason (only their own base color declaration moved). */
-body.dark .srs-stat-due {
-  color: #e74c3c;
+   of source order, same guarantee used throughout this migration.
+   body.dark .srs-stat-due/.srs-stat-due.zero deleted as dead code
+   (docs/theme-css-migration-roadmap.md Фаза 1): #e74c3c/#4ecca3 are
+   exactly what the light-mode Tailwind classes (text-[#e74c3c],
+   [&.zero]:text-accent) already resolve to in dark mode too — the literal
+   hex is theme-independent, and --accent is already redefined by
+   body.dark's own root block. .srs-stat-new's #5dade2 genuinely differs
+   from light's #3498db — reads a custom property instead. */
+:root {
+  --srs-new-color: #3498db;
 }
-body.dark .srs-stat-new {
-  color: #5dade2;
-}
-body.dark .srs-stat-due.zero {
-  color: #4ecca3;
+body.dark {
+  --srs-new-color: #5dade2;
 }
 
 /* .opt-num's own box/typography moved to Tailwind utility classes in the
@@ -2007,29 +2009,12 @@ body.dark .cat-select-btn:hover {
 }
 
 /* ── Mode complete toast ── */
-.mode-complete-toast {
-  position: fixed;
-  bottom: -80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--card, #fff);
-  border: 1.5px solid var(--border, #e0e0e0);
-  border-radius: 14px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 9998;
-  pointer-events: none;
-  transition: bottom 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-  white-space: nowrap;
-  font-size: 0.93rem;
-  font-weight: 600;
-  color: var(--text, #222);
-}
+/* .mode-complete-toast's box/typography, and .mct-icon/.mct-today's, moved
+   to Tailwind utility classes in mode-complete-toast.tsx. .show's slide-out
+   still needs @keyframes (can't be a utility), so the class stays for just
+   that; the slide-in (bottom + transition) is expressed as a Tailwind
+   conditional className instead. */
 .mode-complete-toast.show {
-  bottom: 28px;
   animation: mctOut 0.4s ease 2.2s forwards;
 }
 @keyframes mctOut {
@@ -2037,17 +2022,6 @@ body.dark .cat-select-btn:hover {
     bottom: -80px;
     opacity: 0;
   }
-}
-.mct-icon {
-  font-size: 1.3rem;
-}
-.mct-today {
-  color: var(--text2, #555);
-  font-weight: 500;
-}
-.mct-streak {
-  color: #e67e22;
-  font-weight: 700;
 }
 
 /* .stat-card-sub moved to Tailwind utility classes in stats-page.tsx
@@ -2156,17 +2130,15 @@ body.dark .btn-lesson {
    #keys-overlay.open toggle became a plain flex/hidden class swap). */
 
 /* ── Write autocomplete ──
-   .write-ac/.wac-item's own box+typography/.wac-word/.wac-ua/.wac-n moved
-   to Tailwind utility classes in write.tsx (no fandom-theme overrides
-   existed for any of them). .wac-item:hover/.wac-item.wac-sel stay: their
-   background has a live body.dark override. */
-.wac-item:hover,
-.wac-item.wac-sel {
-  background: var(--bg);
+   .write-ac/.wac-item's own box+typography/.wac-word/.wac-ua/.wac-n, and
+   now its :hover/.wac-sel background too, moved to Tailwind utility
+   classes in write.tsx — the background reads a custom property the
+   body.dark override sets (docs/theme-css-migration-roadmap.md Фаза 1). */
+:root {
+  --wac-hover-bg: var(--bg);
 }
-body.dark .wac-item:hover,
-body.dark .wac-item.wac-sel {
-  background: rgba(255, 255, 255, 0.06);
+body.dark {
+  --wac-hover-bg: rgba(255, 255, 255, 0.06);
 }
 
 /* .cal-header-grid/.cal-dow/.cal-day-grid/.cal-day (+ hover/today/empty
@@ -4006,69 +3978,28 @@ body.dark {
   font-weight: 600;
 }
 
-/* Formula rows color coding: stays bare CSS (body.dark overrides below) */
-.gr-plus td {
-  background: rgba(39, 174, 96, 0.06);
+/* Formula rows color coding, .gr-chip, .gr-note/.gr-tip: all moved to
+   Tailwind utility classes in grammar-page.tsx. Each background reads a
+   custom property the body.dark override sets below
+   (docs/theme-css-migration-roadmap.md Фаза 1) — .gr-chip's dark
+   border-color re-assertion was dead code (identical var(--accent), which
+   body.dark's own root block already redefines). .gr-note-title/
+   .gr-tip-title were already on Tailwind (no overrides existed for them). */
+:root {
+  --gr-plus-bg: rgba(39, 174, 96, 0.06);
+  --gr-minus-bg: rgba(231, 76, 60, 0.06);
+  --gr-ques-bg: rgba(52, 152, 219, 0.07);
+  --gr-chip-bg: rgba(var(--accent-rgb, 45, 90, 61), 0.1);
+  --gr-note-bg: rgba(231, 76, 60, 0.07);
+  --gr-tip-bg: rgba(243, 156, 18, 0.08);
 }
-.gr-minus td {
-  background: rgba(231, 76, 60, 0.06);
-}
-.gr-ques td {
-  background: rgba(52, 152, 219, 0.07);
-}
-/* Time markers: .gr-chip stays bare CSS (body.dark override below) */
-.gr-chip {
-  display: inline-block;
-  background: rgba(var(--accent-rgb, 45, 90, 61), 0.1);
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  border-radius: 20px;
-  padding: 3px 10px;
-  font-size: 0.78rem;
-  font-weight: 500;
-}
-
-/* Note + Tip blocks */
-.gr-note,
-.gr-tip {
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-size: 0.84rem;
-  line-height: 1.55;
-  margin-bottom: 4px;
-  color: var(--text2);
-}
-.gr-note {
-  background: rgba(231, 76, 60, 0.07);
-  border-left: 3px solid #e74c3c;
-}
-.gr-tip {
-  background: rgba(243, 156, 18, 0.08);
-  border-left: 3px solid #f39c12;
-}
-/* .gr-note-title/.gr-tip-title moved to Tailwind utility classes in
-   grammar-page.tsx (no fandom-theme or body.dark overrides existed for
-   either — only .gr-note/.gr-tip's own background+border-left below do). */
-
-/* Dark theme tweaks */
-body.dark .gr-plus td {
-  background: rgba(39, 174, 96, 0.1);
-}
-body.dark .gr-minus td {
-  background: rgba(231, 76, 60, 0.1);
-}
-body.dark .gr-ques td {
-  background: rgba(52, 152, 219, 0.1);
-}
-body.dark .gr-chip {
-  background: rgba(78, 204, 163, 0.12);
-  border-color: var(--accent);
-}
-body.dark .gr-note {
-  background: rgba(231, 76, 60, 0.1);
-}
-body.dark .gr-tip {
-  background: rgba(243, 156, 18, 0.1);
+body.dark {
+  --gr-plus-bg: rgba(39, 174, 96, 0.1);
+  --gr-minus-bg: rgba(231, 76, 60, 0.1);
+  --gr-ques-bg: rgba(52, 152, 219, 0.1);
+  --gr-chip-bg: rgba(78, 204, 163, 0.12);
+  --gr-note-bg: rgba(231, 76, 60, 0.1);
+  --gr-tip-bg: rgba(243, 156, 18, 0.1);
 }
 
 /* ── Mobile: .gr-nav-btn only (its base/:hover/.gr-nav-active siblings
@@ -4999,11 +4930,16 @@ body[data-theme="hp"] {
 }
 
 /* ── E: Dark mode — mode-complete-toast ── */
-body.dark .mode-complete-toast {
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+/* .mode-complete-toast's box-shadow and .mct-streak's color now read
+   custom properties the body.dark override sets
+   (docs/theme-css-migration-roadmap.md Фаза 1). */
+:root {
+  --mct-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  --mct-streak-color: #e67e22;
 }
-body.dark .mct-streak {
-  color: #f39c12;
+body.dark {
+  --mct-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --mct-streak-color: #f39c12;
 }
 
 /* ── E: Dark mode — mistake-review ── */

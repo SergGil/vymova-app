@@ -25,7 +25,8 @@ function _levelOrder(title: string): number {
 // Shared by every <td>/<th> across the 3 table types below — mirrors the
 // original combined `.gr-formula-table td, .gr-data-table td, .gr-data-table
 // th, .gr-ex-table td` selector.
-const GR_TD = 'border border-[var(--border)] px-2.5 py-[7px] align-top leading-[1.4]';
+const GR_TD =
+  'border border-[var(--border)] px-2.5 py-[7px] align-top leading-[1.4] [.gr-plus_&]:bg-[var(--gr-plus-bg)] [.gr-minus_&]:bg-[var(--gr-minus-bg)] [.gr-ques_&]:bg-[var(--gr-ques-bg)]';
 const GR_TABLE = 'w-full border-collapse text-[.84rem]';
 
 function _renderSection(s: GSection): string {
@@ -95,19 +96,22 @@ function _renderSection(s: GSection): string {
         ? `<div class="gr-section-title mt-5 mb-2 text-[.78rem] font-bold uppercase tracking-[0.06em] text-[var(--text3)]">⏰ ${s.title}</div>`
         : '';
       const chips = (s.items ?? [])
-        .map((m) => `<span class="gr-chip">${m}</span>`)
+        .map(
+          (m) =>
+            `<span class="gr-chip inline-block rounded-[20px] border border-[var(--accent)] bg-[var(--gr-chip-bg)] px-2.5 py-[3px] text-[.78rem] font-medium text-[var(--accent)]">${m}</span>`,
+        )
         .join('');
       return `${title}<div class="gr-chips mb-1 flex flex-wrap gap-1.5">${chips}</div>`;
     }
 
     case 'note':
-      return `<div class="gr-note">
+      return `<div class="gr-note rounded-[10px] border-l-[3px] border-l-[#e74c3c] bg-[var(--gr-note-bg)] px-3.5 py-3 mb-1 text-[.84rem] leading-[1.55] text-[var(--text2)]">
         ${s.title ? `<div class="gr-note-title mb-[5px] text-[.86rem] font-bold text-[var(--text)]">📌 ${s.title}</div>` : ''}
         <div>${(s.text ?? '').replace(/\n/g, '<br>')}</div>
       </div>`;
 
     case 'tip':
-      return `<div class="gr-tip">
+      return `<div class="gr-tip rounded-[10px] border-l-[3px] border-l-[#f39c12] bg-[var(--gr-tip-bg)] px-3.5 py-3 mb-1 text-[.84rem] leading-[1.55] text-[var(--text2)]">
         ${s.title ? `<div class="gr-tip-title mb-[5px] text-[.86rem] font-bold text-[var(--text)]">💡 ${s.title}</div>` : ''}
         <div>${(s.text ?? '').replace(/\n/g, '<br>')}</div>
       </div>`;

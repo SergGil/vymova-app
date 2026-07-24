@@ -74,14 +74,21 @@ export function ModeCompleteToast(): ReactElement {
     return onModeComplete(showModeCompleteToast);
   }, []);
 
-  if (!data) return <div className="mode-complete-toast" />;
+  const boxClass =
+    'mode-complete-toast fixed left-1/2 z-[9998] flex -translate-x-1/2 items-center gap-2.5 rounded-[14px] border-[1.5px] border-[var(--border,#e0e0e0)] bg-[var(--card,#fff)] px-5 py-2.5 whitespace-nowrap pointer-events-none text-[.93rem] font-semibold text-[var(--text,#222)] shadow-[var(--mct-shadow)] transition-[bottom] duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]';
+
+  if (!data) return <div className={`${boxClass} bottom-[-80px]`} />;
 
   return (
-    <div className={`mode-complete-toast${show ? ' show' : ''}`}>
-      <span className="mct-icon">{data.icon}</span>
-      <span className="mct-today">{t('modeComplete.today', { cur: data.goalCur, max: data.goalMax })}</span>
+    <div className={`${boxClass} ${show ? 'bottom-[28px] show' : 'bottom-[-80px]'}`}>
+      <span className="mct-icon text-[1.3rem]">{data.icon}</span>
+      <span className="mct-today font-medium text-[var(--text2,#555)]">
+        {t('modeComplete.today', { cur: data.goalCur, max: data.goalMax })}
+      </span>
       {data.streak > 0 && (
-        <span className="mct-streak">{t('modeComplete.streak', { n: data.streak })}</span>
+        <span className="mct-streak font-bold text-[var(--mct-streak-color)]">
+          {t('modeComplete.streak', { n: data.streak })}
+        </span>
       )}
     </div>
   );

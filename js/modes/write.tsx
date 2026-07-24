@@ -507,7 +507,7 @@ export function WritePage(): ReactElement {
                   <div
                     key={aw[0]}
                     className={
-                      'wac-item flex cursor-pointer items-center justify-between gap-2 border-b border-b-[var(--border)] px-4 py-2 text-[.88rem] transition-[background] duration-100 last:border-b-0' +
+                      'wac-item flex cursor-pointer items-center justify-between gap-2 border-b border-b-[var(--border)] px-4 py-2 text-[.88rem] transition-[background] duration-100 last:border-b-0 hover:bg-[var(--wac-hover-bg)] [&.wac-sel]:bg-[var(--wac-hover-bg)]' +
                       (i === acIdx ? ' wac-sel' : '')
                     }
                     onClick={() => pickAc(i)}
