@@ -1682,6 +1682,18 @@ body.dark .tempo-opt.wrong {
 body.dark {
   --srs-new-color: #5dade2;
 }
+/* .srs-fc-bar/.srs-fc-today (stats-page.tsx, forecast chart bars) are
+   already Tailwind-authored in the component (bg-[rgba(0,200,255,.35)]/
+   !bg-accent) — .srs-fc-today's fandom background override was dead code
+   (already matches !bg-accent's live var(--accent) in every state); only
+   the bar tint + today's glow genuinely differ under a fandom theme
+   (docs/theme-css-migration-roadmap.md Фаза 2). */
+body[data-theme] .srs-fc-bar {
+  background: rgba(var(--accent-rgb), 0.4);
+}
+body[data-theme] .srs-fc-today {
+  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
+}
 
 /* .opt-num's own box/typography moved to Tailwind utility classes in the
    11 consuming files (no fandom-theme or body.dark overrides existed for
@@ -2562,6 +2574,13 @@ body.dark .btn-modes-open:hover {
   font-weight: 800;
   color: #e67e22;
   line-height: 1;
+}
+/* Replaces a 14x-repeated scripts/theme-template.css block: one
+   attribute-exists selector matches whichever fandom theme is active and
+   reads its own --accent, instead of 14 identical `body[data-theme="x"]`
+   rules (docs/theme-css-migration-roadmap.md Фаза 2). */
+body[data-theme] .gb-streak-num {
+  color: var(--accent);
 }
 .gb-streak-label {
   font-size: 0.65rem;
@@ -3769,6 +3788,9 @@ body.dark {
 .note-textarea:focus {
   border-color: var(--accent);
 }
+body[data-theme] .note-textarea {
+  border-color: rgba(var(--accent-rgb), 0.25);
+}
 
 /* .srs-forecast/.srs-fc-bars/.srs-fc-col/.srs-fc-bar-wrap/.srs-fc-cnt/
    .srs-fc-lbl moved to Tailwind utility classes in stats-page.tsx
@@ -3790,6 +3812,9 @@ body.dark {
   font-weight: 800;
   color: var(--text);
   font-family: 'DM Serif Display', serif;
+}
+body[data-theme] .dc-word {
+  color: var(--accent);
 }
 .dc-opt {
   padding: 12px;

@@ -3,7 +3,17 @@
    scripts/theme-template.css + scripts/theme-tokens.json — every rule
    scoped purely to body[data-theme="hp"], loaded on demand (see fandom-theme-store.ts)
    instead of shipped to every visitor. Do not edit css/themes/*.css
-   directly — edit the template/tokens and regenerate. */
+   directly — edit the template/tokens and regenerate.
+   docs/theme-css-migration-roadmap.md Фаза 2: 6 blocks removed as dead
+   code (.transcription/.mode-name/.rd-popup-word/.duel-card-active/
+   .idioms-tab-active/.idiom-meaning) — each set a var()/token that the
+   app's own base rule for that class already resolves to identically, so
+   the per-theme override changed nothing. Other Фаза 2 clusters (single
+   var(--accent)-style value, no AUX) got a single hand-written
+   `body[data-theme] .selector {...}` rule in css/styles.css instead of a
+   template block repeated 14 times — same runtime effect (the attribute
+   selector matches any active theme and reads the theme's own --accent),
+   less to regenerate. */
 
 body[data-theme="hp"] .title-hp-toggle {
   opacity: 1;
@@ -281,10 +291,6 @@ body[data-theme="hp"] .word-text {
   text-shadow: 0 0 20px rgba(211, 166, 37, 0.1);
 }
 
-body[data-theme="hp"] .transcription {
-  color: var(--accent2);
-}
-
 body[data-theme="hp"] .quiz-panel,
 body[data-theme="hp"] .pairs-panel {
   background: rgba(40, 12, 10, 0.97);
@@ -353,10 +359,6 @@ body[data-theme="hp"] .mode-card:hover {
   box-shadow: 0 0 12px rgba(211, 166, 37, 0.15);
 }
 
-body[data-theme="hp"] .mode-name {
-  color: #f5e6c8;
-}
-
 body[data-theme="hp"] .gb-block {
   background: rgba(40, 12, 10, 0.9);
   border-color: rgba(211, 166, 37, 0.15);
@@ -365,10 +367,6 @@ body[data-theme="hp"] .gb-block {
 body[data-theme="hp"] .gb-level-fill {
   background: linear-gradient(90deg, #d3a625, #f0c75e);
   box-shadow: 0 0 6px rgba(211, 166, 37, 0.4);
-}
-
-body[data-theme="hp"] .gb-streak-num {
-  color: #d3a625;
 }
 
 body[data-theme="hp"] .gb-streak-block {
@@ -674,21 +672,8 @@ body[data-theme="hp"] .note-panel {
   border: 1px solid rgba(211, 166, 37, 0.2);
 }
 
-body[data-theme="hp"] .note-textarea {
-  border-color: rgba(211, 166, 37, 0.25);
-}
-
-body[data-theme="hp"] .srs-fc-bar {
-  background: rgba(211, 166, 37, 0.4);
-}
-
 body[data-theme="hp"] .srs-fc-today {
-  background: #d3a625 !important;
   box-shadow: 0 0 8px rgba(211, 166, 37, 0.4);
-}
-
-body[data-theme="hp"] .dc-word {
-  color: #d3a625;
 }
 
 body[data-theme="hp"] .dc-pbar-fill {
@@ -709,14 +694,6 @@ body[data-theme="hp"] .rd-known {
   border-color: rgba(211, 166, 37, 0.3);
 }
 
-body[data-theme="hp"] .rd-popup-word {
-  color: #d3a625;
-}
-
-body[data-theme="hp"] .duel-card-active {
-  border-color: #d3a625;
-}
-
 body[data-theme="hp"] .notif-toggle-wrap input:checked + .notif-toggle-pill-ui {
   background: #d3a625;
 }
@@ -730,12 +707,4 @@ body[data-theme="hp"] .time-select:focus {
   background: rgba(211, 166, 37, 0.1);
 }
 
-body[data-theme="hp"] .idioms-tab-active {
-  background: #d3a625;
-  border-color: #d3a625;
-}
-
-body[data-theme="hp"] .idiom-meaning {
-  color: #d3a625;
-}
 

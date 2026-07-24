@@ -3,7 +3,17 @@
    scripts/theme-template.css + scripts/theme-tokens.json — every rule
    scoped purely to body[data-theme="mcu"], loaded on demand (see fandom-theme-store.ts)
    instead of shipped to every visitor. Do not edit css/themes/*.css
-   directly — edit the template/tokens and regenerate. */
+   directly — edit the template/tokens and regenerate.
+   docs/theme-css-migration-roadmap.md Фаза 2: 6 blocks removed as dead
+   code (.transcription/.mode-name/.rd-popup-word/.duel-card-active/
+   .idioms-tab-active/.idiom-meaning) — each set a var()/token that the
+   app's own base rule for that class already resolves to identically, so
+   the per-theme override changed nothing. Other Фаза 2 clusters (single
+   var(--accent)-style value, no AUX) got a single hand-written
+   `body[data-theme] .selector {...}` rule in css/styles.css instead of a
+   template block repeated 14 times — same runtime effect (the attribute
+   selector matches any active theme and reads the theme's own --accent),
+   less to regenerate. */
 
 body[data-theme="mcu"] .lang-opt.lang-active {
   color: #ff0009;
@@ -273,10 +283,6 @@ body[data-theme="mcu"] .word-text {
   text-shadow: 0 0 20px rgba(255, 0, 9, 0.1);
 }
 
-body[data-theme="mcu"] .transcription {
-  color: var(--accent2);
-}
-
 body[data-theme="mcu"] .quiz-panel,
 body[data-theme="mcu"] .pairs-panel {
   background: rgba(44, 10, 11, 0.97);
@@ -345,10 +351,6 @@ body[data-theme="mcu"] .mode-card:hover {
   box-shadow: 0 0 12px rgba(255, 0, 9, 0.15);
 }
 
-body[data-theme="mcu"] .mode-name {
-  color: #f8d4d5;
-}
-
 body[data-theme="mcu"] .gb-block {
   background: rgba(44, 10, 11, 0.9);
   border-color: rgba(255, 0, 9, 0.15);
@@ -357,10 +359,6 @@ body[data-theme="mcu"] .gb-block {
 body[data-theme="mcu"] .gb-level-fill {
   background: linear-gradient(90deg, #ff0009, #ff7d81);
   box-shadow: 0 0 6px rgba(255, 0, 9, 0.4);
-}
-
-body[data-theme="mcu"] .gb-streak-num {
-  color: #ff0009;
 }
 
 body[data-theme="mcu"] .gb-streak-block {
@@ -666,21 +664,8 @@ body[data-theme="mcu"] .note-panel {
   border: 1px solid rgba(255, 0, 9, 0.2);
 }
 
-body[data-theme="mcu"] .note-textarea {
-  border-color: rgba(255, 0, 9, 0.25);
-}
-
-body[data-theme="mcu"] .srs-fc-bar {
-  background: rgba(255, 0, 9, 0.4);
-}
-
 body[data-theme="mcu"] .srs-fc-today {
-  background: #ff0009 !important;
   box-shadow: 0 0 8px rgba(255, 0, 9, 0.4);
-}
-
-body[data-theme="mcu"] .dc-word {
-  color: #ff0009;
 }
 
 body[data-theme="mcu"] .dc-pbar-fill {
@@ -701,14 +686,6 @@ body[data-theme="mcu"] .rd-known {
   border-color: rgba(255, 0, 9, 0.3);
 }
 
-body[data-theme="mcu"] .rd-popup-word {
-  color: #ff0009;
-}
-
-body[data-theme="mcu"] .duel-card-active {
-  border-color: #ff0009;
-}
-
 body[data-theme="mcu"] .notif-toggle-wrap input:checked + .notif-toggle-pill-ui {
   background: #ff0009;
 }
@@ -722,12 +699,4 @@ body[data-theme="mcu"] .time-select:focus {
   background: rgba(255, 0, 9, 0.1);
 }
 
-body[data-theme="mcu"] .idioms-tab-active {
-  background: #ff0009;
-  border-color: #ff0009;
-}
-
-body[data-theme="mcu"] .idiom-meaning {
-  color: #ff0009;
-}
 

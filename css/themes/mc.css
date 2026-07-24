@@ -3,7 +3,17 @@
    scripts/theme-template.css + scripts/theme-tokens.json — every rule
    scoped purely to body[data-theme="mc"], loaded on demand (see fandom-theme-store.ts)
    instead of shipped to every visitor. Do not edit css/themes/*.css
-   directly — edit the template/tokens and regenerate. */
+   directly — edit the template/tokens and regenerate.
+   docs/theme-css-migration-roadmap.md Фаза 2: 6 blocks removed as dead
+   code (.transcription/.mode-name/.rd-popup-word/.duel-card-active/
+   .idioms-tab-active/.idiom-meaning) — each set a var()/token that the
+   app's own base rule for that class already resolves to identically, so
+   the per-theme override changed nothing. Other Фаза 2 clusters (single
+   var(--accent)-style value, no AUX) got a single hand-written
+   `body[data-theme] .selector {...}` rule in css/styles.css instead of a
+   template block repeated 14 times — same runtime effect (the attribute
+   selector matches any active theme and reads the theme's own --accent),
+   less to regenerate. */
 
 body[data-theme="mc"] .lang-opt.lang-active {
   color: #68ff00;
@@ -273,10 +283,6 @@ body[data-theme="mc"] .word-text {
   text-shadow: 0 0 20px rgba(104, 255, 0, 0.1);
 }
 
-body[data-theme="mc"] .transcription {
-  color: var(--accent2);
-}
-
 body[data-theme="mc"] .quiz-panel,
 body[data-theme="mc"] .pairs-panel {
   background: rgba(24, 44, 10, 0.97);
@@ -345,10 +351,6 @@ body[data-theme="mc"] .mode-card:hover {
   box-shadow: 0 0 12px rgba(104, 255, 0, 0.15);
 }
 
-body[data-theme="mc"] .mode-name {
-  color: #e3f8d4;
-}
-
 body[data-theme="mc"] .gb-block {
   background: rgba(24, 44, 10, 0.9);
   border-color: rgba(104, 255, 0, 0.15);
@@ -357,10 +359,6 @@ body[data-theme="mc"] .gb-block {
 body[data-theme="mc"] .gb-level-fill {
   background: linear-gradient(90deg, #68ff00, #b2ff7d);
   box-shadow: 0 0 6px rgba(104, 255, 0, 0.4);
-}
-
-body[data-theme="mc"] .gb-streak-num {
-  color: #68ff00;
 }
 
 body[data-theme="mc"] .gb-streak-block {
@@ -666,21 +664,8 @@ body[data-theme="mc"] .note-panel {
   border: 1px solid rgba(104, 255, 0, 0.2);
 }
 
-body[data-theme="mc"] .note-textarea {
-  border-color: rgba(104, 255, 0, 0.25);
-}
-
-body[data-theme="mc"] .srs-fc-bar {
-  background: rgba(104, 255, 0, 0.4);
-}
-
 body[data-theme="mc"] .srs-fc-today {
-  background: #68ff00 !important;
   box-shadow: 0 0 8px rgba(104, 255, 0, 0.4);
-}
-
-body[data-theme="mc"] .dc-word {
-  color: #68ff00;
 }
 
 body[data-theme="mc"] .dc-pbar-fill {
@@ -701,14 +686,6 @@ body[data-theme="mc"] .rd-known {
   border-color: rgba(104, 255, 0, 0.3);
 }
 
-body[data-theme="mc"] .rd-popup-word {
-  color: #68ff00;
-}
-
-body[data-theme="mc"] .duel-card-active {
-  border-color: #68ff00;
-}
-
 body[data-theme="mc"] .notif-toggle-wrap input:checked + .notif-toggle-pill-ui {
   background: #68ff00;
 }
@@ -722,12 +699,4 @@ body[data-theme="mc"] .time-select:focus {
   background: rgba(104, 255, 0, 0.1);
 }
 
-body[data-theme="mc"] .idioms-tab-active {
-  background: #68ff00;
-  border-color: #68ff00;
-}
-
-body[data-theme="mc"] .idiom-meaning {
-  color: #68ff00;
-}
 

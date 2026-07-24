@@ -3,7 +3,17 @@
    scripts/theme-template.css + scripts/theme-tokens.json — every rule
    scoped purely to body[data-theme="got"], loaded on demand (see fandom-theme-store.ts)
    instead of shipped to every visitor. Do not edit css/themes/*.css
-   directly — edit the template/tokens and regenerate. */
+   directly — edit the template/tokens and regenerate.
+   docs/theme-css-migration-roadmap.md Фаза 2: 6 blocks removed as dead
+   code (.transcription/.mode-name/.rd-popup-word/.duel-card-active/
+   .idioms-tab-active/.idiom-meaning) — each set a var()/token that the
+   app's own base rule for that class already resolves to identically, so
+   the per-theme override changed nothing. Other Фаза 2 clusters (single
+   var(--accent)-style value, no AUX) got a single hand-written
+   `body[data-theme] .selector {...}` rule in css/styles.css instead of a
+   template block repeated 14 times — same runtime effect (the attribute
+   selector matches any active theme and reads the theme's own --accent),
+   less to regenerate. */
 
 body[data-theme="got"] .lang-opt.lang-active {
   color: #ff6b00;
@@ -273,10 +283,6 @@ body[data-theme="got"] .word-text {
   text-shadow: 0 0 20px rgba(255, 107, 0, 0.1);
 }
 
-body[data-theme="got"] .transcription {
-  color: var(--accent2);
-}
-
 body[data-theme="got"] .quiz-panel,
 body[data-theme="got"] .pairs-panel {
   background: rgba(44, 24, 10, 0.97);
@@ -345,10 +351,6 @@ body[data-theme="got"] .mode-card:hover {
   box-shadow: 0 0 12px rgba(255, 107, 0, 0.15);
 }
 
-body[data-theme="got"] .mode-name {
-  color: #f8e3d4;
-}
-
 body[data-theme="got"] .gb-block {
   background: rgba(44, 24, 10, 0.9);
   border-color: rgba(255, 107, 0, 0.15);
@@ -357,10 +359,6 @@ body[data-theme="got"] .gb-block {
 body[data-theme="got"] .gb-level-fill {
   background: linear-gradient(90deg, #ff6b00, #ffb37d);
   box-shadow: 0 0 6px rgba(255, 107, 0, 0.4);
-}
-
-body[data-theme="got"] .gb-streak-num {
-  color: #ff6b00;
 }
 
 body[data-theme="got"] .gb-streak-block {
@@ -666,21 +664,8 @@ body[data-theme="got"] .note-panel {
   border: 1px solid rgba(255, 107, 0, 0.2);
 }
 
-body[data-theme="got"] .note-textarea {
-  border-color: rgba(255, 107, 0, 0.25);
-}
-
-body[data-theme="got"] .srs-fc-bar {
-  background: rgba(255, 107, 0, 0.4);
-}
-
 body[data-theme="got"] .srs-fc-today {
-  background: #ff6b00 !important;
   box-shadow: 0 0 8px rgba(255, 107, 0, 0.4);
-}
-
-body[data-theme="got"] .dc-word {
-  color: #ff6b00;
 }
 
 body[data-theme="got"] .dc-pbar-fill {
@@ -701,14 +686,6 @@ body[data-theme="got"] .rd-known {
   border-color: rgba(255, 107, 0, 0.3);
 }
 
-body[data-theme="got"] .rd-popup-word {
-  color: #ff6b00;
-}
-
-body[data-theme="got"] .duel-card-active {
-  border-color: #ff6b00;
-}
-
 body[data-theme="got"] .notif-toggle-wrap input:checked + .notif-toggle-pill-ui {
   background: #ff6b00;
 }
@@ -722,12 +699,4 @@ body[data-theme="got"] .time-select:focus {
   background: rgba(255, 107, 0, 0.1);
 }
 
-body[data-theme="got"] .idioms-tab-active {
-  background: #ff6b00;
-  border-color: #ff6b00;
-}
-
-body[data-theme="got"] .idiom-meaning {
-  color: #ff6b00;
-}
 
