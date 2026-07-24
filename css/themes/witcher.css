@@ -473,11 +473,6 @@ body[data-theme="witcher"] .stats-panel {
     inset 0 0 60px rgba(0, 30, 28, 0.8);
 }
 
-body[data-theme="witcher"] .stats-title {
-  color: #00ffeb;
-  font-family: 'Cinzel Decorative', monospace;
-}
-
 body[data-theme="witcher"] .stats-section-title {
   color: #5fc8c0;
   letter-spacing: 0.04em;
@@ -491,10 +486,6 @@ body[data-theme="witcher"] .stat-card {
   background: rgba(0, 50, 46, 0.6);
   border: 1px solid rgba(0, 255, 235, 0.12);
   border-radius: 12px;
-}
-
-body[data-theme="witcher"] .sv {
-  color: #00ffeb;
 }
 
 body[data-theme="witcher"] .settings-section {
@@ -533,33 +524,14 @@ body[data-theme="witcher"] #achievement-toast {
     0 0 60px rgba(0, 255, 235, 0.08);
 }
 
-body[data-theme="witcher"] #achievement-toast .toast-title {
-  color: #00ffeb;
-  font-family: 'Cinzel Decorative', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-}
-
 body[data-theme="witcher"] #achievement-toast .toast-name {
   color: #e8fffd;
-}
-
-body[data-theme="witcher"] #achievement-toast .toast-icon {
-  text-shadow: 0 0 20px rgba(0, 255, 235, 0.6);
 }
 
 body[data-theme="witcher"] .ach-popup {
   background: #081c1a;
   border: 1px solid rgba(0, 255, 235, 0.25);
   box-shadow: 0 0 50px rgba(0, 255, 235, 0.15);
-}
-
-body[data-theme="witcher"] .ach-popup-icon {
-  text-shadow: 0 0 30px rgba(0, 255, 235, 0.5);
-}
-
-body[data-theme="witcher"] .ach-popup-name {
-  color: #00ffeb;
 }
 
 body[data-theme="witcher"] .ach-popup-prog-fill {
@@ -570,15 +542,6 @@ body[data-theme="witcher"] .ach-popup-prog-fill {
 body[data-theme="witcher"] .ach-card {
   background: rgba(0, 35, 32, 0.6);
   border-color: rgba(0, 255, 235, 0.1);
-}
-
-body[data-theme="witcher"] .ach-card.unlocked {
-  border-color: rgba(0, 255, 235, 0.35);
-  box-shadow: 0 0 12px rgba(0, 255, 235, 0.1);
-}
-
-body[data-theme="witcher"] .ach-card.unlocked .ach-icon {
-  text-shadow: 0 0 16px rgba(0, 255, 235, 0.5);
 }
 
 body[data-theme="witcher"] .ach-progress-fill {
@@ -596,10 +559,6 @@ body[data-theme="witcher"] .combo-toast {
 body[data-theme="witcher"] .level-row {
   background: rgba(0, 25, 23, 0.6);
   border-color: rgba(0, 255, 235, 0.1);
-}
-
-body[data-theme="witcher"] .level-row.level-current {
-  border-width: 2px;
 }
 
 body[data-theme="witcher"] .level-row-name {

@@ -473,11 +473,6 @@ body[data-theme="dune"] .stats-panel {
     inset 0 0 60px rgba(30, 22, 0, 0.8);
 }
 
-body[data-theme="dune"] .stats-title {
-  color: #ffbe00;
-  font-family: 'Cinzel Decorative', monospace;
-}
-
 body[data-theme="dune"] .stats-section-title {
   color: #c8ad5f;
   letter-spacing: 0.04em;
@@ -491,10 +486,6 @@ body[data-theme="dune"] .stat-card {
   background: rgba(50, 37, 0, 0.6);
   border: 1px solid rgba(255, 190, 0, 0.12);
   border-radius: 12px;
-}
-
-body[data-theme="dune"] .sv {
-  color: #ffbe00;
 }
 
 body[data-theme="dune"] .settings-section {
@@ -533,33 +524,14 @@ body[data-theme="dune"] #achievement-toast {
     0 0 60px rgba(255, 190, 0, 0.08);
 }
 
-body[data-theme="dune"] #achievement-toast .toast-title {
-  color: #ffbe00;
-  font-family: 'Cinzel Decorative', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-}
-
 body[data-theme="dune"] #achievement-toast .toast-name {
   color: #fff9e8;
-}
-
-body[data-theme="dune"] #achievement-toast .toast-icon {
-  text-shadow: 0 0 20px rgba(255, 190, 0, 0.6);
 }
 
 body[data-theme="dune"] .ach-popup {
   background: #1c1708;
   border: 1px solid rgba(255, 190, 0, 0.25);
   box-shadow: 0 0 50px rgba(255, 190, 0, 0.15);
-}
-
-body[data-theme="dune"] .ach-popup-icon {
-  text-shadow: 0 0 30px rgba(255, 190, 0, 0.5);
-}
-
-body[data-theme="dune"] .ach-popup-name {
-  color: #ffbe00;
 }
 
 body[data-theme="dune"] .ach-popup-prog-fill {
@@ -570,15 +542,6 @@ body[data-theme="dune"] .ach-popup-prog-fill {
 body[data-theme="dune"] .ach-card {
   background: rgba(35, 26, 0, 0.6);
   border-color: rgba(255, 190, 0, 0.1);
-}
-
-body[data-theme="dune"] .ach-card.unlocked {
-  border-color: rgba(255, 190, 0, 0.35);
-  box-shadow: 0 0 12px rgba(255, 190, 0, 0.1);
-}
-
-body[data-theme="dune"] .ach-card.unlocked .ach-icon {
-  text-shadow: 0 0 16px rgba(255, 190, 0, 0.5);
 }
 
 body[data-theme="dune"] .ach-progress-fill {
@@ -596,10 +559,6 @@ body[data-theme="dune"] .combo-toast {
 body[data-theme="dune"] .level-row {
   background: rgba(25, 19, 0, 0.6);
   border-color: rgba(255, 190, 0, 0.1);
-}
-
-body[data-theme="dune"] .level-row.level-current {
-  border-width: 2px;
 }
 
 body[data-theme="dune"] .level-row-name {

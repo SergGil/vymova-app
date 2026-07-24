@@ -473,11 +473,6 @@ body[data-theme="got"] .stats-panel {
     inset 0 0 60px rgba(30, 13, 0, 0.8);
 }
 
-body[data-theme="got"] .stats-title {
-  color: #ff6b00;
-  font-family: 'Cinzel Decorative', monospace;
-}
-
 body[data-theme="got"] .stats-section-title {
   color: #c88b5f;
   letter-spacing: 0.04em;
@@ -491,10 +486,6 @@ body[data-theme="got"] .stat-card {
   background: rgba(50, 21, 0, 0.6);
   border: 1px solid rgba(255, 107, 0, 0.12);
   border-radius: 12px;
-}
-
-body[data-theme="got"] .sv {
-  color: #ff6b00;
 }
 
 body[data-theme="got"] .settings-section {
@@ -533,33 +524,14 @@ body[data-theme="got"] #achievement-toast {
     0 0 60px rgba(255, 107, 0, 0.08);
 }
 
-body[data-theme="got"] #achievement-toast .toast-title {
-  color: #ff6b00;
-  font-family: 'Cinzel Decorative', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-}
-
 body[data-theme="got"] #achievement-toast .toast-name {
   color: #fff2e8;
-}
-
-body[data-theme="got"] #achievement-toast .toast-icon {
-  text-shadow: 0 0 20px rgba(255, 107, 0, 0.6);
 }
 
 body[data-theme="got"] .ach-popup {
   background: #1c1008;
   border: 1px solid rgba(255, 107, 0, 0.25);
   box-shadow: 0 0 50px rgba(255, 107, 0, 0.15);
-}
-
-body[data-theme="got"] .ach-popup-icon {
-  text-shadow: 0 0 30px rgba(255, 107, 0, 0.5);
-}
-
-body[data-theme="got"] .ach-popup-name {
-  color: #ff6b00;
 }
 
 body[data-theme="got"] .ach-popup-prog-fill {
@@ -570,15 +542,6 @@ body[data-theme="got"] .ach-popup-prog-fill {
 body[data-theme="got"] .ach-card {
   background: rgba(35, 15, 0, 0.6);
   border-color: rgba(255, 107, 0, 0.1);
-}
-
-body[data-theme="got"] .ach-card.unlocked {
-  border-color: rgba(255, 107, 0, 0.35);
-  box-shadow: 0 0 12px rgba(255, 107, 0, 0.1);
-}
-
-body[data-theme="got"] .ach-card.unlocked .ach-icon {
-  text-shadow: 0 0 16px rgba(255, 107, 0, 0.5);
 }
 
 body[data-theme="got"] .ach-progress-fill {
@@ -596,10 +559,6 @@ body[data-theme="got"] .combo-toast {
 body[data-theme="got"] .level-row {
   background: rgba(25, 10, 0, 0.6);
   border-color: rgba(255, 107, 0, 0.1);
-}
-
-body[data-theme="got"] .level-row.level-current {
-  border-width: 2px;
 }
 
 body[data-theme="got"] .level-row-name {

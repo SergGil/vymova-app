@@ -473,11 +473,6 @@ body[data-theme="lotr"] .stats-panel {
     inset 0 0 60px rgba(0, 30, 12, 0.8);
 }
 
-body[data-theme="lotr"] .stats-title {
-  color: #00ff65;
-  font-family: 'Cinzel Decorative', monospace;
-}
-
 body[data-theme="lotr"] .stats-section-title {
   color: #5fc889;
   letter-spacing: 0.04em;
@@ -491,10 +486,6 @@ body[data-theme="lotr"] .stat-card {
   background: rgba(0, 50, 20, 0.6);
   border: 1px solid rgba(0, 255, 101, 0.12);
   border-radius: 12px;
-}
-
-body[data-theme="lotr"] .sv {
-  color: #00ff65;
 }
 
 body[data-theme="lotr"] .settings-section {
@@ -533,33 +524,14 @@ body[data-theme="lotr"] #achievement-toast {
     0 0 60px rgba(0, 255, 101, 0.08);
 }
 
-body[data-theme="lotr"] #achievement-toast .toast-title {
-  color: #00ff65;
-  font-family: 'Cinzel Decorative', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-}
-
 body[data-theme="lotr"] #achievement-toast .toast-name {
   color: #e8fff1;
-}
-
-body[data-theme="lotr"] #achievement-toast .toast-icon {
-  text-shadow: 0 0 20px rgba(0, 255, 101, 0.6);
 }
 
 body[data-theme="lotr"] .ach-popup {
   background: #081c10;
   border: 1px solid rgba(0, 255, 101, 0.25);
   box-shadow: 0 0 50px rgba(0, 255, 101, 0.15);
-}
-
-body[data-theme="lotr"] .ach-popup-icon {
-  text-shadow: 0 0 30px rgba(0, 255, 101, 0.5);
-}
-
-body[data-theme="lotr"] .ach-popup-name {
-  color: #00ff65;
 }
 
 body[data-theme="lotr"] .ach-popup-prog-fill {
@@ -570,15 +542,6 @@ body[data-theme="lotr"] .ach-popup-prog-fill {
 body[data-theme="lotr"] .ach-card {
   background: rgba(0, 35, 14, 0.6);
   border-color: rgba(0, 255, 101, 0.1);
-}
-
-body[data-theme="lotr"] .ach-card.unlocked {
-  border-color: rgba(0, 255, 101, 0.35);
-  box-shadow: 0 0 12px rgba(0, 255, 101, 0.1);
-}
-
-body[data-theme="lotr"] .ach-card.unlocked .ach-icon {
-  text-shadow: 0 0 16px rgba(0, 255, 101, 0.5);
 }
 
 body[data-theme="lotr"] .ach-progress-fill {
@@ -596,10 +559,6 @@ body[data-theme="lotr"] .combo-toast {
 body[data-theme="lotr"] .level-row {
   background: rgba(0, 25, 10, 0.6);
   border-color: rgba(0, 255, 101, 0.1);
-}
-
-body[data-theme="lotr"] .level-row.level-current {
-  border-width: 2px;
 }
 
 body[data-theme="lotr"] .level-row-name {

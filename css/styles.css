@@ -3764,11 +3764,41 @@ body:not(.dark):not([data-theme])
 
 /* ── SW Modals ── */
 
-/* ── SW Achievement toast ── */
-
-/* ── SW Achievement popup ── */
-
-/* ── SW Achievements grid (locked/unlocked) ── */
+/* ── Fandom-theme additions (docs/theme-css-migration-roadmap.md Фаза 2) ──
+   None of these have a bare CSS counterpart (all pure Tailwind classNames
+   in their components already) — single `body[data-theme]` rule each,
+   same pattern as elsewhere in this phase. */
+body[data-theme] .stats-title {
+  color: var(--accent);
+  font-family: var(--theme-font), monospace;
+}
+body[data-theme] .sv {
+  color: var(--accent);
+}
+body[data-theme] #achievement-toast .toast-title {
+  color: var(--accent);
+  font-family: var(--theme-font), monospace;
+  font-size: 0.7rem;
+}
+body[data-theme] #achievement-toast .toast-icon {
+  text-shadow: 0 0 20px rgba(var(--accent-rgb), 0.6);
+}
+body[data-theme] .ach-popup-icon {
+  text-shadow: 0 0 30px rgba(var(--accent-rgb), 0.5);
+}
+body[data-theme] .ach-popup-name {
+  color: var(--accent);
+}
+body[data-theme] .ach-card.unlocked {
+  border-color: rgba(var(--accent-rgb), 0.35);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.1);
+}
+body[data-theme] .ach-card.unlocked .ach-icon {
+  text-shadow: 0 0 16px rgba(var(--accent-rgb), 0.5);
+}
+body[data-theme] .level-row.level-current {
+  border-width: 2px;
+}
 
 /* ── SW Combo toast ── */
 

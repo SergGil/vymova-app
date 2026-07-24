@@ -473,11 +473,6 @@ body[data-theme="cp"] .stats-panel {
     inset 0 0 60px rgba(30, 0, 13, 0.8);
 }
 
-body[data-theme="cp"] .stats-title {
-  color: #ff006e;
-  font-family: 'Orbitron', monospace;
-}
-
 body[data-theme="cp"] .stats-section-title {
   color: #c85f8c;
   letter-spacing: 0.04em;
@@ -491,10 +486,6 @@ body[data-theme="cp"] .stat-card {
   background: rgba(50, 0, 22, 0.6);
   border: 1px solid rgba(255, 0, 110, 0.12);
   border-radius: 12px;
-}
-
-body[data-theme="cp"] .sv {
-  color: #ff006e;
 }
 
 body[data-theme="cp"] .settings-section {
@@ -533,33 +524,14 @@ body[data-theme="cp"] #achievement-toast {
     0 0 60px rgba(255, 0, 110, 0.08);
 }
 
-body[data-theme="cp"] #achievement-toast .toast-title {
-  color: #ff006e;
-  font-family: 'Orbitron', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-}
-
 body[data-theme="cp"] #achievement-toast .toast-name {
   color: #ffe8f2;
-}
-
-body[data-theme="cp"] #achievement-toast .toast-icon {
-  text-shadow: 0 0 20px rgba(255, 0, 110, 0.6);
 }
 
 body[data-theme="cp"] .ach-popup {
   background: #1c0811;
   border: 1px solid rgba(255, 0, 110, 0.25);
   box-shadow: 0 0 50px rgba(255, 0, 110, 0.15);
-}
-
-body[data-theme="cp"] .ach-popup-icon {
-  text-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
-}
-
-body[data-theme="cp"] .ach-popup-name {
-  color: #ff006e;
 }
 
 body[data-theme="cp"] .ach-popup-prog-fill {
@@ -570,15 +542,6 @@ body[data-theme="cp"] .ach-popup-prog-fill {
 body[data-theme="cp"] .ach-card {
   background: rgba(35, 0, 15, 0.6);
   border-color: rgba(255, 0, 110, 0.1);
-}
-
-body[data-theme="cp"] .ach-card.unlocked {
-  border-color: rgba(255, 0, 110, 0.35);
-  box-shadow: 0 0 12px rgba(255, 0, 110, 0.1);
-}
-
-body[data-theme="cp"] .ach-card.unlocked .ach-icon {
-  text-shadow: 0 0 16px rgba(255, 0, 110, 0.5);
 }
 
 body[data-theme="cp"] .ach-progress-fill {
@@ -596,10 +559,6 @@ body[data-theme="cp"] .combo-toast {
 body[data-theme="cp"] .level-row {
   background: rgba(25, 0, 11, 0.6);
   border-color: rgba(255, 0, 110, 0.1);
-}
-
-body[data-theme="cp"] .level-row.level-current {
-  border-width: 2px;
 }
 
 body[data-theme="cp"] .level-row-name {
