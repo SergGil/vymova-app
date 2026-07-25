@@ -42,6 +42,24 @@ export function getSensesForLang(lang: string): Record<string, SenseEntry[]> | u
   return CACHE[lang];
 }
 
+// Translation fields often list several variants ("orilla; banco", "vela
+// (будівля)") — a homonym key like "banco" only ever matches one variant
+// of one headword's display, so look it up by trying each comma/
+// semicolon-separated, parenthetical-stripped token rather than the whole string.
+export function findSenses(
+  dict: Record<string, SenseEntry[]>,
+  frontWord: string,
+): SenseEntry[] | undefined {
+  const tokens = frontWord
+    .toLowerCase()
+    .split(/[,;]/)
+    .map((s) => s.replace(/\s*\([^)]*\)\s*$/, '').trim());
+  for (const tok of tokens) {
+    if (tok && dict[tok]) return dict[tok];
+  }
+  return undefined;
+}
+
 /** Loads (and caches) `lang`'s data on first call; a no-op if already loaded/loading/unavailable. */
 export async function ensureSensesLoaded(lang: string): Promise<void> {
   if (CACHE[lang]) return;

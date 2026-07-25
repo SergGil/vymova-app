@@ -1,9 +1,10 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeAll, beforeEach, vi } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { renderCardState, setDeckState, setIdxState, setCwState } from '../../src/deck-store.ts';
 import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts';
 import { setMode } from '../../src/mode-store.ts';
+import { ensureSensesLoaded } from '../../js/features/word-data/senses-loader.ts';
 import type { WordEntry } from '../../src/types.ts';
 
 vi.mock('../../js/core/card-engine.ts', () => ({
@@ -39,6 +40,10 @@ function mount(): { container: HTMLElement; root: Root } {
 }
 
 describe('card-meta.tsx CardMeta', () => {
+  beforeAll(async () => {
+    await ensureSensesLoaded('en');
+  });
+
   beforeEach(() => {
     document.body.innerHTML = '';
     setDeckState([cw, cw, cw]);
@@ -71,6 +76,18 @@ describe('card-meta.tsx CardMeta', () => {
     expect(badge.classList.contains('cefr-badge')).toBe(true);
     expect([...badge.classList].some((c) => /^cefr-[A-C][12]$/.test(c))).toBe(true);
     expect(badge.textContent).toBeTruthy();
+  });
+
+  it('shows one badge per distinct sense level for a word with multiple senses', () => {
+    const meanCw: WordEntry = ['mean', 'означати', '', '', '', 'v'];
+    setDeckState([meanCw]);
+    setIdxState(0);
+    renderCardState(meanCw, 'en');
+    const { container } = mount();
+    const badges = [...container.querySelectorAll('.cefr-badge')];
+    expect(badges.map((b) => b.textContent)).toEqual(['A1', 'B1']);
+    // only the first badge keeps the #wcefr id other code/CSS may hook into
+    expect(container.querySelector('#wcefr')!.textContent).toBe('A1');
   });
 
   it('shows a category badge for known words', () => {

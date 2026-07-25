@@ -4229,6 +4229,24 @@ body.dark {
   font-weight: 600;
 }
 
+/* .sense-translation/.sense-gloss/.sense-example .know are the "answer"
+   parts of each Other-meanings entry (translation, English gloss, known-
+   language example) — the list itself now renders as soon as the card
+   shows (card-meta.tsx's per-sense CEFR badges need the same data at the
+   same time), so these three are masked with opacity like .transl/.ex-ua
+   instead of the whole section waiting for a flip. */
+.sense-translation,
+.sense-gloss,
+.sense-example .know {
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.sense-translation.show,
+.sense-gloss.show,
+.sense-example .know.show {
+  opacity: 1;
+}
+
 /* ── Note modal ──
    .note-header/.note-title and .note-panel's/.note-textarea's own
    box/typography moved to Tailwind utility classes in note-modal.tsx.

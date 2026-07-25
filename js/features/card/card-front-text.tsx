@@ -21,7 +21,7 @@ import {
 import { speakEnAccent, speakEsAccent, speakPtAccent, hasEsAccent, hasPtAccent } from '../voice/voice.tsx';
 import { flagUrl } from '../../core/flags.ts';
 import { speakForCode } from '../voice/speak-lang.ts';
-import { ensureSensesLoaded, getSensesForLang, type SenseEntry } from '../word-data/senses-loader.ts';
+import { ensureSensesLoaded, getSensesForLang, findSenses } from '../word-data/senses-loader.ts';
 import { InfoIcon, InfoNote } from '../info-icon.tsx';
 import { TRANSCRIPTION_LEGEND } from '../transcription-legend.ts';
 
@@ -394,35 +394,17 @@ export function CardHint() {
   return <p className="hint">{t('cards.hint')}</p>;
 }
 
-// Translation fields often list several variants ("orilla; banco", "vela
-// (будівля)") — a homonym key like "banco" only ever matches one variant
-// of one headword's display, so look it up by trying each comma/
-// semicolon-separated, parenthetical-stripped token rather than the whole string.
-function findSenses(
-  dict: Record<string, SenseEntry[]>,
-  frontWord: string,
-): SenseEntry[] | undefined {
-  const tokens = frontWord
-    .toLowerCase()
-    .split(/[,;]/)
-    .map((s) => s.replace(/\s*\([^)]*\)\s*$/, '').trim());
-  for (const tok of tokens) {
-    if (tok && dict[tok]) return dict[tok];
-  }
-  return undefined;
-}
-
 export function OtherMeanings() {
   const { cw, flipped } = useDeckState();
   const { front } = parsePair(getResolvedMode());
-  // "Other meanings" is bonus, flip-side-only content — loaded lazily per
-  // front language (see js/features/senses-loader.ts) instead of eagerly
-  // shipping every language's sense data to every user. Silently shows
-  // nothing until loaded, same as the existing "no data for this word"
-  // fallback below — no spinner needed for a supplementary section.
+  // "Other meanings" data is loaded lazily per front language (see
+  // js/features/word-data/senses-loader.ts) instead of eagerly shipping
+  // every language's sense data to every user. Loading is triggered as soon
+  // as the card shows (not gated on `flipped` — card-meta.tsx's CEFR badges
+  // need this same data at the same time, to show one badge per distinct
+  // sense level instead of always cefr.ts's single word-level badge).
   const [, forceUpdate] = useState(0);
   useEffect(() => {
-    if (!flipped) return;
     let cancelled = false;
     ensureSensesLoaded(front).then(() => {
       if (!cancelled) forceUpdate((x) => x + 1);
@@ -430,9 +412,9 @@ export function OtherMeanings() {
     return () => {
       cancelled = true;
     };
-  }, [flipped, front]);
+  }, [front]);
 
-  if (!cw || !flipped) return null;
+  if (!cw) return null;
   const dict = getSensesForLang(front);
   if (!dict) return null;
   const frontWord = headwordFor(front, cw);
@@ -453,12 +435,23 @@ export function OtherMeanings() {
         {senses.map((s, i) => (
           <li key={i} className="text-[.82rem]">
             <span className="sense-pos text-[.72rem] text-[var(--text2)] italic">{s.pos}</span>{' '}
-            <span className="sense-translation font-bold text-[var(--text)]">
+            {/* sense-translation is the "answer" for this meaning, same as
+                the main word's #wtransl — masked via .show like .transl,
+                not gated out of the DOM, so it fades in on flip instead of
+                popping in once senses finish loading. */}
+            <span className={'sense-translation font-bold text-[var(--text)]' + (flipped ? ' show' : '')}>
               {s.translation}
             </span>
+            {s.gloss && (
+              <div className={'sense-gloss mt-px text-[.74rem] leading-[1.4] text-[var(--text2)]' + (flipped ? ' show' : '')}>
+                {s.gloss}
+              </div>
+            )}
             <div className="sense-example mt-px text-[.74rem] leading-[1.4] text-[var(--text3)]">
               <span dangerouslySetInnerHTML={{ __html: boldHead(s.exTarget, frontWord) }} />{' '}
-              {s.exKnow ? <i className="italic">— {s.exKnow}</i> : null}
+              {s.exKnow ? (
+                <i className={'italic know' + (flipped ? ' show' : '')}>— {s.exKnow}</i>
+              ) : null}
               <button
                 type="button"
                 className="speak-btn sense-speak-btn !px-[3px] !py-px !text-[12px] align-middle"

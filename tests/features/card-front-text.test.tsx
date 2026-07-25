@@ -360,11 +360,39 @@ describe('card-front-text.tsx', () => {
       await ensureSensesLoaded('en');
     });
 
-    it('renders nothing when the card is not flipped', () => {
+    it('renders the sense list even when the card is not flipped, with translations masked', () => {
       setFlippedState(false);
       setCwState(['light', 'світло', '', '', '', 'n'] as unknown as WordEntry);
       const { container } = mount(OtherMeanings);
-      expect(container.innerHTML).toBe('');
+      const items = container.querySelectorAll('#cb-senses-list li');
+      expect(items.length).toBe(2);
+      // pos + example (the front-language content) render unconditionally...
+      expect(items[0].querySelector('.sense-example')!.textContent).toContain('turn on the light');
+      // ...but the translation/gloss/known-example ("answer") stay in the DOM
+      // without the 'show' class, matching #wtransl's own .transl/.show gate.
+      expect(items[0].querySelector('.sense-translation')!.className).not.toContain('show');
+      expect(items[0].querySelector('.sense-gloss')!.className).not.toContain('show');
+      expect(items[0].querySelector('.sense-example .know')!.className).not.toContain('show');
+    });
+
+    it('adds the "show" class to translation/gloss/known-example once flipped', () => {
+      setFlippedState(true);
+      setCwState(['light', 'світло', '', '', '', 'n'] as unknown as WordEntry);
+      const { container } = mount(OtherMeanings);
+      const first = container.querySelectorAll('#cb-senses-list li')[0];
+      expect(first.querySelector('.sense-translation')!.className).toContain('show');
+      expect(first.querySelector('.sense-gloss')!.className).toContain('show');
+      expect(first.querySelector('.sense-example .know')!.className).toContain('show');
+    });
+
+    it('renders the English gloss when the sense entry has one', () => {
+      setFlippedState(true);
+      setCwState(['light', 'світло', '', '', '', 'n'] as unknown as WordEntry);
+      const { container } = mount(OtherMeanings);
+      const items = container.querySelectorAll('#cb-senses-list li');
+      expect(items[0].querySelector('.sense-gloss')!.textContent).toBe(
+        'the natural energy that lets you see things around you',
+      );
     });
 
     it('renders nothing when the word has no sense list', () => {
