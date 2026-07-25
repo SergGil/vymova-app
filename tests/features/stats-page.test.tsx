@@ -10,7 +10,7 @@ import {
   refreshStatsPage,
   openStats,
   closeStats,
-} from '../../js/features/stats-page.tsx';
+} from '../../js/features/stats/stats-page.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -33,7 +33,7 @@ const {
   notifyAchievementsChange: vi.fn(),
   closePage: vi.fn(),
 }));
-vi.mock('../../js/features/game.ts', () => ({
+vi.mock('../../js/features/game/game.ts', () => ({
   getDailyStats,
   getGameData,
   getModeStats,
@@ -53,7 +53,7 @@ vi.mock('../../src/store.ts', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../src/store.ts')>();
   return { ...actual, notifyAchievementsChange };
 });
-vi.mock('../../js/features/sidebar.tsx', () => ({ closePage }));
+vi.mock('../../js/features/sidebar/sidebar.tsx', () => ({ closePage }));
 vi.mock('../../js/features/leaderboard.tsx', () => ({
   Leaderboard: ({ refreshKey }: { refreshKey: number }) => (
     <div data-testid="leaderboard" data-refresh-key={refreshKey} />

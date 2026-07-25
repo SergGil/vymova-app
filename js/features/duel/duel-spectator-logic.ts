@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-spectator-logic.ts
+// Vymova — js/features/duel/duel-spectator-logic.ts
 // Spectator-mode state/logic, extracted out of duel.ts. Owns its own poll
 // timer (_specPollTimer) rather than reusing duel.ts's game-opponent
 // `_pollTimer` — play and spectate are mutually exclusive at runtime, so

@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-tournament-logic.ts
+// Vymova — js/features/duel/duel-tournament-logic.ts
 // Tournament state/logic, extracted out of duel.ts (a ~2950-line file) so
 // that file only carries the solo/spectator/async duel core. Registers a
 // match-finish hook into duel.ts (mirrors game.ts's registerCheckAchievements

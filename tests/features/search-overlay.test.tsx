@@ -4,8 +4,8 @@ import { createRoot, type Root } from 'react-dom/client';
 import { setDeckState } from '../../src/deck-store.ts';
 import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.ts';
-import { SearchOverlay } from '../../js/features/search-overlay.tsx';
-import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
+import { SearchOverlay } from '../../js/features/search/search-overlay.tsx';
+import { ensureLangTableLoaded } from '../../js/features/mode/mode-utils.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -15,7 +15,7 @@ const { render, setIdx, openWordDetail } = vi.hoisted(() => ({
   openWordDetail: vi.fn(),
 }));
 vi.mock('../../js/core/card-engine.ts', () => ({ render, setIdx }));
-vi.mock('../../js/features/word-detail-trigger.ts', () => ({ openWordDetail }));
+vi.mock('../../js/features/word-data/word-detail-trigger.ts', () => ({ openWordDetail }));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

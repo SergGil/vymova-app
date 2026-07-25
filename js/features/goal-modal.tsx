@@ -1,9 +1,9 @@
 // Vymova — js/features/goal-modal.tsx
 // "Daily goal" modal, opened via the gear icon (#goal-set-btn) in the game bar.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { getGameData, saveGameData } from './game.ts';
+import { getGameData, saveGameData } from './game/game.ts';
 import { t } from './i18n.ts';
-import { renderGameBar } from './render-game-bar.ts';
+import { renderGameBar } from './game/render-game-bar.ts';
 
 export function GoalModal(): ReactElement | null {
   const [open, setOpen] = useState(false);

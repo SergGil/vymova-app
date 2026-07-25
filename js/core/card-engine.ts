@@ -5,20 +5,20 @@ import type { WordEntry } from '../../src/types.js';
 import { W } from '../../data/words-data/words.js';
 import { loadWikiImage, _imgCache } from './images.ts';
 import { synth } from './srs.ts';
-import { awardXP } from '../features/combo.ts';
-import { showComboToast } from '../features/combo-toast.tsx';
+import { awardXP } from '../features/game/combo.ts';
+import { showComboToast } from '../features/game/combo-toast.tsx';
 import {
   getGameData,
   saveGameData,
   recordDailyWord,
   updateStreak,
   _idle,
-} from '../features/game.ts';
-import { renderGameBar } from '../features/render-game-bar.ts';
-import { refreshGameBarLevel as renderLevelBadge } from '../features/game-bar-level.tsx';
-import { checkAchievements } from '../features/render-achievements.ts';
+} from '../features/game/game.ts';
+import { renderGameBar } from '../features/game/render-game-bar.ts';
+import { refreshGameBarLevel as renderLevelBadge } from '../features/game/game-bar-level.tsx';
+import { checkAchievements } from '../features/achievements/render-achievements.ts';
 import { maybeSubmitScore } from '../features/leaderboard.tsx';
-import { getMode } from '../features/mode-utils.ts';
+import { getMode } from '../features/mode/mode-utils.ts';
 import { safe as _safe } from './card-helpers.ts';
 import {
   setDeckState,

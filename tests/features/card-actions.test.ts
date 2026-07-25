@@ -37,7 +37,7 @@ const resetAllLangProgress = vi.fn(() => {
   }
 });
 
-vi.mock('../../js/features/game.ts', () => ({
+vi.mock('../../js/features/game/game.ts', () => ({
   getGameData: () => gameData,
   saveGameData,
   invalidateGameCaches,
@@ -52,12 +52,12 @@ vi.mock('../../js/features/game.ts', () => ({
   recordSrsNewCard: vi.fn(),
   registerDailyStatsChanged: vi.fn(),
 }));
-vi.mock('../../js/features/combo.ts', () => ({
+vi.mock('../../js/features/game/combo.ts', () => ({
   addCombo: vi.fn(),
   breakCombo: vi.fn(),
   flashCard: vi.fn(),
 }));
-vi.mock('../../js/features/notes.ts', () => ({
+vi.mock('../../js/features/notes/notes.ts', () => ({
   openNoteModal: vi.fn(),
   hasNote: vi.fn(() => false),
 }));
@@ -156,7 +156,7 @@ beforeAll(async () => {
 
   (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-  const { CardActionsInit } = await import('../../js/features/card-actions.ts');
+  const { CardActionsInit } = await import('../../js/features/card/card-actions.ts');
   const mountEl = document.createElement('div');
   document.body.appendChild(mountEl);
   act(() => {
@@ -529,7 +529,7 @@ describe('navigation buttons', () => {
   });
 
   it('btn-next advances the index and breaks the combo', async () => {
-    const { breakCombo } = await import('../../js/features/combo.ts');
+    const { breakCombo } = await import('../../js/features/game/combo.ts');
     setIdxState(0);
     document.getElementById('btn-next')!.click();
 

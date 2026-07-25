@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-vi.mock('../../js/features/game.ts', () => ({
+vi.mock('../../js/features/game/game.ts', () => ({
   runCheckAchievements: vi.fn(),
 }));
 
 import { getDuelRating, recordDuelResult } from '../../js/features/duel/duel-rating.ts';
-import { runCheckAchievements } from '../../js/features/game.ts';
+import { runCheckAchievements } from '../../js/features/game/game.ts';
 
 const RATING_KEY = 'ew_duel_rating';
 

@@ -1,10 +1,10 @@
 // Vymova — js/features/milestones.ts
 // Milestone-toast system: checks user progress thresholds and shows a toast
 // when a threshold is first crossed. Called after marking any word known.
-import { getGameData } from './game.ts';
+import { getGameData } from './game/game.ts';
 import { t } from './i18n.ts';
 import { _jsonLoad, _jsonSave } from '../core/storage.ts';
-import { getKnownInLang } from './mode-utils.ts';
+import { getKnownInLang } from './mode/mode-utils.ts';
 
 // Per-learn-language, same pattern as game.ts's _achKey() — 'ew_milestones'
 // for the base en/ua pair, 'ew_milestones_<lang>' for every target language.

@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-deck.ts
+// Vymova — js/features/duel/duel-deck.ts
 // Pure language/deck-building helpers, extracted out of duel.ts. Dependency-
 // free leaf module (like duel-firebase.ts / duel-profile-snap.ts) — used
 // both by duel.ts's own core (question rendering, history) and by the other
@@ -146,7 +146,7 @@ import {
   tlhEntry,
   valEntry,
   dthEntry,
-} from '../mode-utils.ts';
+} from '../mode/mode-utils.ts';
 import type { DuelMode, Difficulty } from './duel.ts';
 import { CHARS, ROOM_SIZE } from './duel-types.ts';
 

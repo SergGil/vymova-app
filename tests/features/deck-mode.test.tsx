@@ -6,7 +6,7 @@ import { setActiveTagSet } from '../../src/deck-filter-store.ts';
 import { setMode, getModeStateSnapshot } from '../../src/mode-store.ts';
 import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.ts';
-import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
+import { ensureLangTableLoaded } from '../../js/features/mode/mode-utils.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -52,14 +52,14 @@ describe('deck-mode.tsx DeckModeInit', () => {
   });
 
   it('reports special modes via _isSpecialMode', async () => {
-    const { _isSpecialMode } = await import('../../js/features/deck-mode.tsx');
+    const { _isSpecialMode } = await import('../../js/features/deck/deck-mode.tsx');
     expect(_isSpecialMode('en')).toBe(false);
     expect(_isSpecialMode('es-en')).toBe(true);
     expect(_isSpecialMode('fr-en')).toBe(true);
   });
 
   it('switches to the ES-filtered deck when es-en is selected', async () => {
-    const { DeckModeInit } = await import('../../js/features/deck-mode.tsx');
+    const { DeckModeInit } = await import('../../js/features/deck/deck-mode.tsx');
     const container = document.createElement('div');
     document.body.appendChild(container);
     const root = createRoot(container);
@@ -80,7 +80,7 @@ describe('deck-mode.tsx DeckModeInit', () => {
   });
 
   it('restores the previous deck when switching back to a non-special mode', async () => {
-    const { DeckModeInit } = await import('../../js/features/deck-mode.tsx');
+    const { DeckModeInit } = await import('../../js/features/deck/deck-mode.tsx');
     const container = document.createElement('div');
     document.body.appendChild(container);
     const root = createRoot(container);
@@ -98,7 +98,7 @@ describe('deck-mode.tsx DeckModeInit', () => {
   });
 
   it('shows a toast and resets to "en" when the special deck has no translations', async () => {
-    const { DeckModeInit } = await import('../../js/features/deck-mode.tsx');
+    const { DeckModeInit } = await import('../../js/features/deck/deck-mode.tsx');
     const container = document.createElement('div');
     document.body.appendChild(container);
     const root = createRoot(container);
@@ -115,7 +115,7 @@ describe('deck-mode.tsx DeckModeInit', () => {
   });
 
   it('filters the special deck by the active tag set when present', async () => {
-    const { DeckModeInit } = await import('../../js/features/deck-mode.tsx');
+    const { DeckModeInit } = await import('../../js/features/deck/deck-mode.tsx');
     const container = document.createElement('div');
     document.body.appendChild(container);
     const root = createRoot(container);

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { entryFor, ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
+import { entryFor, ensureLangTableLoaded } from '../../js/features/mode/mode-utils.ts';
 import type { WordEntry } from '../../src/types.js';
 
 const abandon: WordEntry = [

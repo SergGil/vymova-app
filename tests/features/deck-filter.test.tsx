@@ -6,7 +6,7 @@ import { clearSrsData, setSrsEntry } from '../../src/srs-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.ts';
-import { DeckFilterInit } from '../../js/features/deck-filter.tsx';
+import { DeckFilterInit } from '../../js/features/deck/deck-filter.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -35,7 +35,7 @@ const {
 }));
 vi.mock('../../js/core/card-engine.ts', () => ({ render, setDeck, setIdx, stopAuto }));
 vi.mock('../../js/core/srs.ts', () => ({ shuffle, _shuf, buildSRSDeck, buildUnlearnedDeck }));
-vi.mock('../../js/features/game.ts', () => ({ getHardWords }));
+vi.mock('../../js/features/game/game.ts', () => ({ getHardWords }));
 vi.mock('../../js/features/bookmarks.ts', () => ({ getBookmarks }));
 
 function mount(): { container: HTMLElement; root: Root } {
@@ -228,7 +228,7 @@ describe('deck-filter.tsx DeckFilterInit', () => {
     // always looked empty and silently fell through to the plain
     // unlearned-words fallback below it instead.
     it("uses the active target language's known set, not the base English one", async () => {
-      const { ensureLangTableLoaded, entryFor } = await import('../../js/features/mode-utils.ts');
+      const { ensureLangTableLoaded, entryFor } = await import('../../js/features/mode/mode-utils.ts');
       await ensureLangTableLoaded('es');
       const all = W as unknown as WordEntry[];
       const esWord = all.find((w) => entryFor('es', w).word)!;

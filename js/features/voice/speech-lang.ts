@@ -1,4 +1,4 @@
-// Vymova — js/features/speech-lang.ts
+// Vymova — js/features/voice/speech-lang.ts
 // Maps our internal 2/3-letter language codes to the BCP-47 locale tags
 // SpeechRecognition/SpeechSynthesis expect. Was copy-pasted into
 // shadowing.tsx, voice-roleplay.tsx, and grammar-page.tsx.

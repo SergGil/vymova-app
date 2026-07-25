@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-lobby-logic.ts
+// Vymova — js/features/duel/duel-lobby-logic.ts
 // Lobby pickers, tooltip, countdown/tempo/lobby-UI view-model getters,
 // profile display helpers, and room create/join. Imports _startWaitPoll/
 // _initGame from duel.ts directly (this file already depends on duel.ts for

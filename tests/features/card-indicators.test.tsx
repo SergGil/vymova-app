@@ -3,7 +3,7 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { renderCardState, setDeckState } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.ts';
-import { CardNoteDisplay, CardBookmarkNoteVisuals } from '../../js/features/card-indicators.tsx';
+import { CardNoteDisplay, CardBookmarkNoteVisuals } from '../../js/features/card/card-indicators.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -14,7 +14,7 @@ const { getNoteForWord, hasNote } = vi.hoisted(() => ({
   getNoteForWord: vi.fn(() => ''),
   hasNote: vi.fn(() => false),
 }));
-vi.mock('../../js/features/notes.ts', () => ({ getNoteForWord, hasNote }));
+vi.mock('../../js/features/notes/notes.ts', () => ({ getNoteForWord, hasNote }));
 
 const word1: WordEntry = ['hello', 'привіт', '', '', '', ''] as unknown as WordEntry;
 const word2: WordEntry = ['world', 'світ', '', '', '', ''] as unknown as WordEntry;

@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-chat-log.tsx
+// Vymova — js/features/duel/duel-chat-log.tsx
 // Лог чату/реакцій дуелі (item 32, Фаза 5). Чисте відображення
 // `_getChatHistory()`, реактивне через duel-async-store.
 import type { ReactElement } from 'react';

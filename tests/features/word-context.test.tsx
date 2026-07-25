@@ -10,17 +10,17 @@ import {
   SynonymsChips,
   EtymologyNote,
   UsageNoteBox,
-} from '../../js/features/word-context.tsx';
-import { ensureSynonymsLoaded } from '../../js/features/synonyms-loader.ts';
-import { ensureCollocationsLoaded } from '../../js/features/collocations-loader.ts';
-import { ensureWordFamiliesLoaded } from '../../js/features/word-families-loader.ts';
-import { ensureEtymologyLoaded } from '../../js/features/etymology-loader.ts';
-import { ensureUsageNotesLoaded } from '../../js/features/usage-notes-loader.ts';
+} from '../../js/features/word-data/word-context.tsx';
+import { ensureSynonymsLoaded } from '../../js/features/word-data/synonyms-loader.ts';
+import { ensureCollocationsLoaded } from '../../js/features/word-data/collocations-loader.ts';
+import { ensureWordFamiliesLoaded } from '../../js/features/word-data/word-families-loader.ts';
+import { ensureEtymologyLoaded } from '../../js/features/word-data/etymology-loader.ts';
+import { ensureUsageNotesLoaded } from '../../js/features/word-data/usage-notes-loader.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const { openWordDetail } = vi.hoisted(() => ({ openWordDetail: vi.fn() }));
-vi.mock('../../js/features/word-detail-trigger.ts', () => ({ openWordDetail }));
+vi.mock('../../js/features/word-data/word-detail-trigger.ts', () => ({ openWordDetail }));
 
 const makeEntry: WordEntry = ['make', 'робити', '', '', '', 'v'];
 const sustainEntry: WordEntry = ['sustain', 'підтримувати', '', '', '', 'v'];

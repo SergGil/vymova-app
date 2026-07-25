@@ -1,0 +1,2064 @@
+// Vymova — js/features/mode/mode-utils.ts
+// Generic N×N language-pair dispatcher: any of the 13 target languages can
+// pair with any other (or with EN/UA) — see plan "Full N×N language-pair
+// matrix" for the rationale. Mode strings stay `${front}-${back}` (or the
+// bare 'en'/'ua' for the EN↔UA pair) exactly as before; we just stopped
+// hand-enumerating which pairs are constructible.
+import { W } from '../../../data/words-data/words.js';
+import { boldEn, boldUa, boldHead } from '../../core/card-helpers.ts';
+import { saveKnown, saveKnownLang } from '../../core/storage.ts';
+import { getModeSnapshot } from '../../../src/deck-store.ts';
+import { getModeStateSnapshot } from '../../../src/mode-store.ts';
+import type { WordEntry } from '../../../src/types.js';
+import { ALL_TARGET_LANGS, type TargetLang, type Code } from '../../../src/types.js';
+import { getKnownSnapshot, markKnown } from '../../../src/known-words-store.ts';
+import { deleteSrsEntry } from '../../../src/srs-store.ts';
+
+export type { TargetLang, Code };
+export { ALL_TARGET_LANGS };
+
+// [4] optional attestation flag — used only by constructed languages like
+// Quenya/Sindarin to mark whether the word is genuinely Tolkien-attested
+// (true) or a grammatically-informed neo-construction (false); absent for
+// every natural language, where the distinction doesn't apply.
+type Entry = readonly [string, string, string?, boolean?] | null;
+type Table = Record<string, unknown>;
+
+function lookup(table: Table, word: string): Entry {
+  return (table as Record<string, Entry>)[word] ?? null;
+}
+
+// Per-language word tables are loaded on first use (dynamic import) to keep
+// the initial bundle small. Only words.js (EN/UA base) is eager.
+const TABLES: Partial<Record<TargetLang, Table>> = {};
+const LANG_LOADERS: Record<TargetLang, () => Promise<Table>> = {
+  es: () => import('../../../data/words-data/words_es.js').then((m) => m.W_ES as Table),
+  fr: () => import('../../../data/words-data/words_fr.js').then((m) => m.W_FR as Table),
+  it: () => import('../../../data/words-data/words_it.js').then((m) => m.W_IT as Table),
+  pt: () => import('../../../data/words-data/words_pt.js').then((m) => m.W_PT as Table),
+  de: () => import('../../../data/words-data/words_de.js').then((m) => m.W_DE as Table),
+  he: () => import('../../../data/words-data/words_he.js').then((m) => m.W_HE as Table),
+  ar: () => import('../../../data/words-data/words_ar.js').then((m) => m.W_AR as Table),
+  pl: () => import('../../../data/words-data/words_pl.js').then((m) => m.W_PL as Table),
+  zh: () => import('../../../data/words-data/words_zh.js').then((m) => m.W_ZH as Table),
+  el: () => import('../../../data/words-data/words_el.js').then((m) => m.W_EL as Table),
+  ja: () => import('../../../data/words-data/words_ja.js').then((m) => m.W_JA as Table),
+  tr: () => import('../../../data/words-data/words_tr.js').then((m) => m.W_TR as Table),
+  nl: () => import('../../../data/words-data/words_nl.js').then((m) => m.W_NL as Table),
+  vi: () => import('../../../data/words-data/words_vi.js').then((m) => m.W_VI as Table),
+  hi: () => import('../../../data/words-data/words_hi.js').then((m) => m.W_HI as Table),
+  bn: () => import('../../../data/words-data/words_bn.js').then((m) => m.W_BN as Table),
+  id: () => import('../../../data/words-data/words_id.js').then((m) => m.W_ID as Table),
+  pcm: () => import('../../../data/words-data/words_pcm.js').then((m) => m.W_PCM as Table),
+  ko: () => import('../../../data/words-data/words_ko.js').then((m) => m.W_KO as Table),
+  fa: () => import('../../../data/words-data/words_fa.js').then((m) => m.W_FA as Table),
+  sw: () => import('../../../data/words-data/words_sw.js').then((m) => m.W_SW as Table),
+  ms: () => import('../../../data/words-data/words_ms.js').then((m) => m.W_MS as Table),
+  th: () => import('../../../data/words-data/words_th.js').then((m) => m.W_TH as Table),
+  az: () => import('../../../data/words-data/words_az.js').then((m) => m.W_AZ as Table),
+  ro: () => import('../../../data/words-data/words_ro.js').then((m) => m.W_RO as Table),
+  hu: () => import('../../../data/words-data/words_hu.js').then((m) => m.W_HU as Table),
+  cs: () => import('../../../data/words-data/words_cs.js').then((m) => m.W_CS as Table),
+  kk: () => import('../../../data/words-data/words_kk.js').then((m) => m.W_KK as Table),
+  sv: () => import('../../../data/words-data/words_sv.js').then((m) => m.W_SV as Table),
+  ka: () => import('../../../data/words-data/words_ka.js').then((m) => m.W_KA as Table),
+  hr: () => import('../../../data/words-data/words_hr.js').then((m) => m.W_HR as Table),
+  sr: () => import('../../../data/words-data/words_sr.js').then((m) => m.W_SR as Table),
+  bs: () => import('../../../data/words-data/words_bs.js').then((m) => m.W_BS as Table),
+  bg: () => import('../../../data/words-data/words_bg.js').then((m) => m.W_BG as Table),
+  sk: () => import('../../../data/words-data/words_sk.js').then((m) => m.W_SK as Table),
+  hy: () => import('../../../data/words-data/words_hy.js').then((m) => m.W_HY as Table),
+  da: () => import('../../../data/words-data/words_da.js').then((m) => m.W_DA as Table),
+  fi: () => import('../../../data/words-data/words_fi.js').then((m) => m.W_FI as Table),
+  no: () => import('../../../data/words-data/words_no.js').then((m) => m.W_NO as Table),
+  la: () => import('../../../data/words-data/words_la.js').then((m) => m.W_LA as Table),
+  lt: () => import('../../../data/words-data/words_lt.js').then((m) => m.W_LT as Table),
+  lv: () => import('../../../data/words-data/words_lv.js').then((m) => m.W_LV as Table),
+  et: () => import('../../../data/words-data/words_et.js').then((m) => m.W_ET as Table),
+  sl: () => import('../../../data/words-data/words_sl.js').then((m) => m.W_SL as Table),
+  mk: () => import('../../../data/words-data/words_mk.js').then((m) => m.W_MK as Table),
+  sq: () => import('../../../data/words-data/words_sq.js').then((m) => m.W_SQ as Table),
+  is: () => import('../../../data/words-data/words_is.js').then((m) => m.W_IS as Table),
+  cy: () => import('../../../data/words-data/words_cy.js').then((m) => m.W_CY as Table),
+  ga: () => import('../../../data/words-data/words_ga.js').then((m) => m.W_GA as Table),
+  tl: () => import('../../../data/words-data/words_tl.js').then((m) => m.W_TL as Table),
+  mn: () => import('../../../data/words-data/words_mn.js').then((m) => m.W_MN as Table),
+  uz: () => import('../../../data/words-data/words_uz.js').then((m) => m.W_UZ as Table),
+  am: () => import('../../../data/words-data/words_am.js').then((m) => m.W_AM as Table),
+  eo: () => import('../../../data/words-data/words_eo.js').then((m) => m.W_EO as Table),
+  ta: () => import('../../../data/words-data/words_ta.js').then((m) => m.W_TA as Table),
+  pa: () => import('../../../data/words-data/words_pa.js').then((m) => m.W_PA as Table),
+  zu: () => import('../../../data/words-data/words_zu.js').then((m) => m.W_ZU as Table),
+  af: () => import('../../../data/words-data/words_af.js').then((m) => m.W_AF as Table),
+  ky: () => import('../../../data/words-data/words_ky.js').then((m) => m.W_KY as Table),
+  tg: () => import('../../../data/words-data/words_tg.js').then((m) => m.W_TG as Table),
+  tk: () => import('../../../data/words-data/words_tk.js').then((m) => m.W_TK as Table),
+  ug: () => import('../../../data/words-data/words_ug.js').then((m) => m.W_UG as Table),
+  eu: () => import('../../../data/words-data/words_eu.js').then((m) => m.W_EU as Table),
+  ca: () => import('../../../data/words-data/words_ca.js').then((m) => m.W_CA as Table),
+  gl: () => import('../../../data/words-data/words_gl.js').then((m) => m.W_GL as Table),
+  mt: () => import('../../../data/words-data/words_mt.js').then((m) => m.W_MT as Table),
+  lb: () => import('../../../data/words-data/words_lb.js').then((m) => m.W_LB as Table),
+  ht: () => import('../../../data/words-data/words_ht.js').then((m) => m.W_HT as Table),
+  bo: () => import('../../../data/words-data/words_bo.js').then((m) => m.W_BO as Table),
+  my: () => import('../../../data/words-data/words_my.js').then((m) => m.W_MY as Table),
+  km: () => import('../../../data/words-data/words_km.js').then((m) => m.W_KM as Table),
+  lo: () => import('../../../data/words-data/words_lo.js').then((m) => m.W_LO as Table),
+  ne: () => import('../../../data/words-data/words_ne.js').then((m) => m.W_NE as Table),
+  si: () => import('../../../data/words-data/words_si.js').then((m) => m.W_SI as Table),
+  ur: () => import('../../../data/words-data/words_ur.js').then((m) => m.W_UR as Table),
+  te: () => import('../../../data/words-data/words_te.js').then((m) => m.W_TE as Table),
+  ml: () => import('../../../data/words-data/words_ml.js').then((m) => m.W_ML as Table),
+  kn: () => import('../../../data/words-data/words_kn.js').then((m) => m.W_KN as Table),
+  mr: () => import('../../../data/words-data/words_mr.js').then((m) => m.W_MR as Table),
+  gu: () => import('../../../data/words-data/words_gu.js').then((m) => m.W_GU as Table),
+  or: () => import('../../../data/words-data/words_or.js').then((m) => m.W_OR as Table),
+  as: () => import('../../../data/words-data/words_as.js').then((m) => m.W_AS as Table),
+  sd: () => import('../../../data/words-data/words_sd.js').then((m) => m.W_SD as Table),
+  ps: () => import('../../../data/words-data/words_ps.js').then((m) => m.W_PS as Table),
+  so: () => import('../../../data/words-data/words_so.js').then((m) => m.W_SO as Table),
+  ha: () => import('../../../data/words-data/words_ha.js').then((m) => m.W_HA as Table),
+  yo: () => import('../../../data/words-data/words_yo.js').then((m) => m.W_YO as Table),
+  ig: () => import('../../../data/words-data/words_ig.js').then((m) => m.W_IG as Table),
+  ti: () => import('../../../data/words-data/words_ti.js').then((m) => m.W_TI as Table),
+  wo: () => import('../../../data/words-data/words_wo.js').then((m) => m.W_WO as Table),
+  mg: () => import('../../../data/words-data/words_mg.js').then((m) => m.W_MG as Table),
+  xh: () => import('../../../data/words-data/words_xh.js').then((m) => m.W_XH as Table),
+  sn: () => import('../../../data/words-data/words_sn.js').then((m) => m.W_SN as Table),
+  ny: () => import('../../../data/words-data/words_ny.js').then((m) => m.W_NY as Table),
+  fj: () => import('../../../data/words-data/words_fj.js').then((m) => m.W_FJ as Table),
+  sm: () => import('../../../data/words-data/words_sm.js').then((m) => m.W_SM as Table),
+  to: () => import('../../../data/words-data/words_to.js').then((m) => m.W_TO as Table),
+  mi: () => import('../../../data/words-data/words_mi.js').then((m) => m.W_MI as Table),
+  haw: () => import('../../../data/words-data/words_haw.js').then((m) => m.W_HAW as Table),
+  jv: () => import('../../../data/words-data/words_jv.js').then((m) => m.W_JV as Table),
+  su: () => import('../../../data/words-data/words_su.js').then((m) => m.W_SU as Table),
+  gd: () => import('../../../data/words-data/words_gd.js').then((m) => m.W_GD as Table),
+  br: () => import('../../../data/words-data/words_br.js').then((m) => m.W_BR as Table),
+  kw: () => import('../../../data/words-data/words_kw.js').then((m) => m.W_KW as Table),
+  gv: () => import('../../../data/words-data/words_gv.js').then((m) => m.W_GV as Table),
+  fo: () => import('../../../data/words-data/words_fo.js').then((m) => m.W_FO as Table),
+  oc: () => import('../../../data/words-data/words_oc.js').then((m) => m.W_OC as Table),
+  co: () => import('../../../data/words-data/words_co.js').then((m) => m.W_CO as Table),
+  sc: () => import('../../../data/words-data/words_sc.js').then((m) => m.W_SC as Table),
+  fy: () => import('../../../data/words-data/words_fy.js').then((m) => m.W_FY as Table),
+  yi: () => import('../../../data/words-data/words_yi.js').then((m) => m.W_YI as Table),
+  lad: () => import('../../../data/words-data/words_lad.js').then((m) => m.W_LAD as Table),
+  qu: () => import('../../../data/words-data/words_qu.js').then((m) => m.W_QU as Table),
+  gn: () => import('../../../data/words-data/words_gn.js').then((m) => m.W_GN as Table),
+  ay: () => import('../../../data/words-data/words_ay.js').then((m) => m.W_AY as Table),
+  dz: () => import('../../../data/words-data/words_dz.js').then((m) => m.W_DZ as Table),
+  dv: () => import('../../../data/words-data/words_dv.js').then((m) => m.W_DV as Table),
+  tet: () => import('../../../data/words-data/words_tet.js').then((m) => m.W_TET as Table),
+  be: () => import('../../../data/words-data/words_be.js').then((m) => m.W_BE as Table),
+  qya: () => import('../../../data/words-data/words_qya.js').then((m) => m.W_QYA as Table),
+  sjn: () => import('../../../data/words-data/words_sjn.js').then((m) => m.W_SJN as Table),
+  ku: () => import('../../../data/words-data/words_ku.js').then((m) => m.W_KU as Table),
+  om: () => import('../../../data/words-data/words_om.js').then((m) => m.W_OM as Table),
+  ln: () => import('../../../data/words-data/words_ln.js').then((m) => m.W_LN as Table),
+  bho: () => import('../../../data/words-data/words_bho.js').then((m) => m.W_BHO as Table),
+  ceb: () => import('../../../data/words-data/words_ceb.js').then((m) => m.W_CEB as Table),
+  rm: () => import('../../../data/words-data/words_rm.js').then((m) => m.W_RM as Table),
+  ty: () => import('../../../data/words-data/words_ty.js').then((m) => m.W_TY as Table),
+  ch: () => import('../../../data/words-data/words_ch.js').then((m) => m.W_CH as Table),
+  mh: () => import('../../../data/words-data/words_mh.js').then((m) => m.W_MH as Table),
+  pau: () => import('../../../data/words-data/words_pau.js').then((m) => m.W_PAU as Table),
+  nah: () => import('../../../data/words-data/words_nah.js').then((m) => m.W_NAH as Table),
+  nv: () => import('../../../data/words-data/words_nv.js').then((m) => m.W_NV as Table),
+  tlh: () => import('../../../data/words-data/words_tlh.js').then((m) => m.W_TLH as Table),
+  val: () => import('../../../data/words-data/words_val.js').then((m) => m.W_VAL as Table),
+  dth: () => import('../../../data/words-data/words_dth.js').then((m) => m.W_DTH as Table),
+};
+
+// In-flight promises to avoid duplicate fetches for the same language.
+const LOADING: Partial<Record<TargetLang, Promise<void>>> = {};
+
+/** True when both lang codes have their word tables in cache (en/ua are always ready). */
+export function areLangTablesReady(a: string, b: string): boolean {
+  const ready = (c: string) => !isTargetLang(c) || !!TABLES[c];
+  return ready(a) && ready(b);
+}
+
+/** Ensures the word table for `code` is loaded. Safe to call multiple times. */
+export async function ensureLangTableLoaded(code: string): Promise<void> {
+  if (!isTargetLang(code)) return;
+  if (TABLES[code]) return;
+  if (!LOADING[code]) {
+    LOADING[code] = LANG_LOADERS[code]().then((t) => {
+      TABLES[code] = t;
+    });
+  }
+  await LOADING[code];
+}
+
+function getTable(code: TargetLang): Table {
+  return TABLES[code] ?? {};
+}
+
+interface LangConfig {
+  entry: (word: string) => Entry;
+  known: () => Set<string>;
+  saveKnown: (s: Set<string>) => void;
+  voiceLocale: string;
+  rtl: boolean;
+}
+
+const LANG_REGISTRY: Record<TargetLang, LangConfig> = {
+  es: {
+    entry: (w) => lookup(getTable('es'), w),
+    known: () => getKnownSnapshot('es'),
+    saveKnown: (known) => saveKnownLang('es', known),
+    voiceLocale: 'es-ES',
+    rtl: false,
+  },
+  fr: {
+    entry: (w) => lookup(getTable('fr'), w),
+    known: () => getKnownSnapshot('fr'),
+    saveKnown: (known) => saveKnownLang('fr', known),
+    voiceLocale: 'fr-FR',
+    rtl: false,
+  },
+  it: {
+    entry: (w) => lookup(getTable('it'), w),
+    known: () => getKnownSnapshot('it'),
+    saveKnown: (known) => saveKnownLang('it', known),
+    voiceLocale: 'it-IT',
+    rtl: false,
+  },
+  pt: {
+    entry: (w) => lookup(getTable('pt'), w),
+    known: () => getKnownSnapshot('pt'),
+    saveKnown: (known) => saveKnownLang('pt', known),
+    voiceLocale: 'pt-PT',
+    rtl: false,
+  },
+  de: {
+    entry: (w) => lookup(getTable('de'), w),
+    known: () => getKnownSnapshot('de'),
+    saveKnown: (known) => saveKnownLang('de', known),
+    voiceLocale: 'de-DE',
+    rtl: false,
+  },
+  he: {
+    entry: (w) => lookup(getTable('he'), w),
+    known: () => getKnownSnapshot('he'),
+    saveKnown: (known) => saveKnownLang('he', known),
+    voiceLocale: 'he-IL',
+    rtl: true,
+  },
+  ar: {
+    entry: (w) => lookup(getTable('ar'), w),
+    known: () => getKnownSnapshot('ar'),
+    saveKnown: (known) => saveKnownLang('ar', known),
+    voiceLocale: 'ar-SA',
+    rtl: true,
+  },
+  pl: {
+    entry: (w) => lookup(getTable('pl'), w),
+    known: () => getKnownSnapshot('pl'),
+    saveKnown: (known) => saveKnownLang('pl', known),
+    voiceLocale: 'pl-PL',
+    rtl: false,
+  },
+  zh: {
+    entry: (w) => lookup(getTable('zh'), w),
+    known: () => getKnownSnapshot('zh'),
+    saveKnown: (known) => saveKnownLang('zh', known),
+    voiceLocale: 'zh-CN',
+    rtl: false,
+  },
+  el: {
+    entry: (w) => lookup(getTable('el'), w),
+    known: () => getKnownSnapshot('el'),
+    saveKnown: (known) => saveKnownLang('el', known),
+    voiceLocale: 'el-GR',
+    rtl: false,
+  },
+  ja: {
+    entry: (w) => lookup(getTable('ja'), w),
+    known: () => getKnownSnapshot('ja'),
+    saveKnown: (known) => saveKnownLang('ja', known),
+    voiceLocale: 'ja-JP',
+    rtl: false,
+  },
+  tr: {
+    entry: (w) => lookup(getTable('tr'), w),
+    known: () => getKnownSnapshot('tr'),
+    saveKnown: (known) => saveKnownLang('tr', known),
+    voiceLocale: 'tr-TR',
+    rtl: false,
+  },
+  nl: {
+    entry: (w) => lookup(getTable('nl'), w),
+    known: () => getKnownSnapshot('nl'),
+    saveKnown: (known) => saveKnownLang('nl', known),
+    voiceLocale: 'nl-NL',
+    rtl: false,
+  },
+  vi: {
+    entry: (w) => lookup(getTable('vi'), w),
+    known: () => getKnownSnapshot('vi'),
+    saveKnown: (known) => saveKnownLang('vi', known),
+    voiceLocale: 'vi-VN',
+    rtl: false,
+  },
+  hi: {
+    entry: (w) => lookup(getTable('hi'), w),
+    known: () => getKnownSnapshot('hi'),
+    saveKnown: (known) => saveKnownLang('hi', known),
+    voiceLocale: 'hi-IN',
+    rtl: false,
+  },
+  bn: {
+    entry: (w) => lookup(getTable('bn'), w),
+    known: () => getKnownSnapshot('bn'),
+    saveKnown: (known) => saveKnownLang('bn', known),
+    voiceLocale: 'bn-BD',
+    rtl: false,
+  },
+  id: {
+    entry: (w) => lookup(getTable('id'), w),
+    known: () => getKnownSnapshot('id'),
+    saveKnown: (known) => saveKnownLang('id', known),
+    voiceLocale: 'id-ID',
+    rtl: false,
+  },
+  pcm: {
+    entry: (w) => lookup(getTable('pcm'), w),
+    known: () => getKnownSnapshot('pcm'),
+    saveKnown: (known) => saveKnownLang('pcm', known),
+    voiceLocale: 'pcm-NG',
+    rtl: false,
+  },
+  ko: {
+    entry: (w) => lookup(getTable('ko'), w),
+    known: () => getKnownSnapshot('ko'),
+    saveKnown: (known) => saveKnownLang('ko', known),
+    voiceLocale: 'ko-KR',
+    rtl: false,
+  },
+  fa: {
+    entry: (w) => lookup(getTable('fa'), w),
+    known: () => getKnownSnapshot('fa'),
+    saveKnown: (known) => saveKnownLang('fa', known),
+    voiceLocale: 'fa-IR',
+    rtl: true,
+  },
+  sw: {
+    entry: (w) => lookup(getTable('sw'), w),
+    known: () => getKnownSnapshot('sw'),
+    saveKnown: (known) => saveKnownLang('sw', known),
+    voiceLocale: 'sw-TZ',
+    rtl: false,
+  },
+  ms: {
+    entry: (w) => lookup(getTable('ms'), w),
+    known: () => getKnownSnapshot('ms'),
+    saveKnown: (known) => saveKnownLang('ms', known),
+    voiceLocale: 'ms-MY',
+    rtl: false,
+  },
+  th: {
+    entry: (w) => lookup(getTable('th'), w),
+    known: () => getKnownSnapshot('th'),
+    saveKnown: (known) => saveKnownLang('th', known),
+    voiceLocale: 'th-TH',
+    rtl: false,
+  },
+  az: {
+    entry: (w) => lookup(getTable('az'), w),
+    known: () => getKnownSnapshot('az'),
+    saveKnown: (known) => saveKnownLang('az', known),
+    voiceLocale: 'az-AZ',
+    rtl: false,
+  },
+  ro: {
+    entry: (w) => lookup(getTable('ro'), w),
+    known: () => getKnownSnapshot('ro'),
+    saveKnown: (known) => saveKnownLang('ro', known),
+    voiceLocale: 'ro-RO',
+    rtl: false,
+  },
+  hu: {
+    entry: (w) => lookup(getTable('hu'), w),
+    known: () => getKnownSnapshot('hu'),
+    saveKnown: (known) => saveKnownLang('hu', known),
+    voiceLocale: 'hu-HU',
+    rtl: false,
+  },
+  cs: {
+    entry: (w) => lookup(getTable('cs'), w),
+    known: () => getKnownSnapshot('cs'),
+    saveKnown: (known) => saveKnownLang('cs', known),
+    voiceLocale: 'cs-CZ',
+    rtl: false,
+  },
+  kk: {
+    entry: (w) => lookup(getTable('kk'), w),
+    known: () => getKnownSnapshot('kk'),
+    saveKnown: (known) => saveKnownLang('kk', known),
+    voiceLocale: 'kk-KZ',
+    rtl: false,
+  },
+  sv: {
+    entry: (w) => lookup(getTable('sv'), w),
+    known: () => getKnownSnapshot('sv'),
+    saveKnown: (known) => saveKnownLang('sv', known),
+    voiceLocale: 'sv-SE',
+    rtl: false,
+  },
+  ka: {
+    entry: (w) => lookup(getTable('ka'), w),
+    known: () => getKnownSnapshot('ka'),
+    saveKnown: (known) => saveKnownLang('ka', known),
+    voiceLocale: 'ka-GE',
+    rtl: false,
+  },
+  hr: {
+    entry: (w) => lookup(getTable('hr'), w),
+    known: () => getKnownSnapshot('hr'),
+    saveKnown: (known) => saveKnownLang('hr', known),
+    voiceLocale: 'hr-HR',
+    rtl: false,
+  },
+  sr: {
+    entry: (w) => lookup(getTable('sr'), w),
+    known: () => getKnownSnapshot('sr'),
+    saveKnown: (known) => saveKnownLang('sr', known),
+    voiceLocale: 'sr-RS',
+    rtl: false,
+  },
+  bs: {
+    entry: (w) => lookup(getTable('bs'), w),
+    known: () => getKnownSnapshot('bs'),
+    saveKnown: (known) => saveKnownLang('bs', known),
+    voiceLocale: 'bs-BA',
+    rtl: false,
+  },
+  bg: {
+    entry: (w) => lookup(getTable('bg'), w),
+    known: () => getKnownSnapshot('bg'),
+    saveKnown: (known) => saveKnownLang('bg', known),
+    voiceLocale: 'bg-BG',
+    rtl: false,
+  },
+  sk: {
+    entry: (w) => lookup(getTable('sk'), w),
+    known: () => getKnownSnapshot('sk'),
+    saveKnown: (known) => saveKnownLang('sk', known),
+    voiceLocale: 'sk-SK',
+    rtl: false,
+  },
+  hy: {
+    entry: (w) => lookup(getTable('hy'), w),
+    known: () => getKnownSnapshot('hy'),
+    saveKnown: (known) => saveKnownLang('hy', known),
+    voiceLocale: 'hy-AM',
+    rtl: false,
+  },
+  da: {
+    entry: (w) => lookup(getTable('da'), w),
+    known: () => getKnownSnapshot('da'),
+    saveKnown: (known) => saveKnownLang('da', known),
+    voiceLocale: 'da-DK',
+    rtl: false,
+  },
+  fi: {
+    entry: (w) => lookup(getTable('fi'), w),
+    known: () => getKnownSnapshot('fi'),
+    saveKnown: (known) => saveKnownLang('fi', known),
+    voiceLocale: 'fi-FI',
+    rtl: false,
+  },
+  no: {
+    entry: (w) => lookup(getTable('no'), w),
+    known: () => getKnownSnapshot('no'),
+    saveKnown: (known) => saveKnownLang('no', known),
+    voiceLocale: 'nb-NO',
+    rtl: false,
+  },
+  la: {
+    entry: (w) => lookup(getTable('la'), w),
+    known: () => getKnownSnapshot('la'),
+    saveKnown: (known) => saveKnownLang('la', known),
+    voiceLocale: 'la',
+    rtl: false,
+  },
+  lt: {
+    entry: (w) => lookup(getTable('lt'), w),
+    known: () => getKnownSnapshot('lt'),
+    saveKnown: (known) => saveKnownLang('lt', known),
+    voiceLocale: 'lt-LT',
+    rtl: false,
+  },
+  lv: {
+    entry: (w) => lookup(getTable('lv'), w),
+    known: () => getKnownSnapshot('lv'),
+    saveKnown: (known) => saveKnownLang('lv', known),
+    voiceLocale: 'lv-LV',
+    rtl: false,
+  },
+  et: {
+    entry: (w) => lookup(getTable('et'), w),
+    known: () => getKnownSnapshot('et'),
+    saveKnown: (known) => saveKnownLang('et', known),
+    voiceLocale: 'et-EE',
+    rtl: false,
+  },
+  sl: {
+    entry: (w) => lookup(getTable('sl'), w),
+    known: () => getKnownSnapshot('sl'),
+    saveKnown: (known) => saveKnownLang('sl', known),
+    voiceLocale: 'sl-SI',
+    rtl: false,
+  },
+  mk: {
+    entry: (w) => lookup(getTable('mk'), w),
+    known: () => getKnownSnapshot('mk'),
+    saveKnown: (known) => saveKnownLang('mk', known),
+    voiceLocale: 'mk-MK',
+    rtl: false,
+  },
+  sq: {
+    entry: (w) => lookup(getTable('sq'), w),
+    known: () => getKnownSnapshot('sq'),
+    saveKnown: (known) => saveKnownLang('sq', known),
+    voiceLocale: 'sq-AL',
+    rtl: false,
+  },
+  is: {
+    entry: (w) => lookup(getTable('is'), w),
+    known: () => getKnownSnapshot('is'),
+    saveKnown: (known) => saveKnownLang('is', known),
+    voiceLocale: 'is-IS',
+    rtl: false,
+  },
+  cy: {
+    entry: (w) => lookup(getTable('cy'), w),
+    known: () => getKnownSnapshot('cy'),
+    saveKnown: (known) => saveKnownLang('cy', known),
+    voiceLocale: 'cy-GB',
+    rtl: false,
+  },
+  ga: {
+    entry: (w) => lookup(getTable('ga'), w),
+    known: () => getKnownSnapshot('ga'),
+    saveKnown: (known) => saveKnownLang('ga', known),
+    voiceLocale: 'ga-IE',
+    rtl: false,
+  },
+  tl: {
+    entry: (w) => lookup(getTable('tl'), w),
+    known: () => getKnownSnapshot('tl'),
+    saveKnown: (known) => saveKnownLang('tl', known),
+    voiceLocale: 'fil-PH',
+    rtl: false,
+  },
+  mn: {
+    entry: (w) => lookup(getTable('mn'), w),
+    known: () => getKnownSnapshot('mn'),
+    saveKnown: (known) => saveKnownLang('mn', known),
+    voiceLocale: 'mn-MN',
+    rtl: false,
+  },
+  uz: {
+    entry: (w) => lookup(getTable('uz'), w),
+    known: () => getKnownSnapshot('uz'),
+    saveKnown: (known) => saveKnownLang('uz', known),
+    voiceLocale: 'uz-UZ',
+    rtl: false,
+  },
+  am: {
+    entry: (w) => lookup(getTable('am'), w),
+    known: () => getKnownSnapshot('am'),
+    saveKnown: (known) => saveKnownLang('am', known),
+    voiceLocale: 'am-ET',
+    rtl: false,
+  },
+  eo: {
+    entry: (w) => lookup(getTable('eo'), w),
+    known: () => getKnownSnapshot('eo'),
+    saveKnown: (known) => saveKnownLang('eo', known),
+    voiceLocale: 'eo',
+    rtl: false,
+  },
+  ta: {
+    entry: (w) => lookup(getTable('ta'), w),
+    known: () => getKnownSnapshot('ta'),
+    saveKnown: (known) => saveKnownLang('ta', known),
+    voiceLocale: 'ta-IN',
+    rtl: false,
+  },
+  pa: {
+    entry: (w) => lookup(getTable('pa'), w),
+    known: () => getKnownSnapshot('pa'),
+    saveKnown: (known) => saveKnownLang('pa', known),
+    voiceLocale: 'pa-IN',
+    rtl: false,
+  },
+  zu: {
+    entry: (w) => lookup(getTable('zu'), w),
+    known: () => getKnownSnapshot('zu'),
+    saveKnown: (known) => saveKnownLang('zu', known),
+    voiceLocale: 'zu-ZA',
+    rtl: false,
+  },
+  af: {
+    entry: (w) => lookup(getTable('af'), w),
+    known: () => getKnownSnapshot('af'),
+    saveKnown: (known) => saveKnownLang('af', known),
+    voiceLocale: 'af-ZA',
+    rtl: false,
+  },
+  ky: {
+    entry: (w) => lookup(getTable('ky'), w),
+    known: () => getKnownSnapshot('ky'),
+    saveKnown: (known) => saveKnownLang('ky', known),
+    voiceLocale: 'ky-KG',
+    rtl: false,
+  },
+  tg: {
+    entry: (w) => lookup(getTable('tg'), w),
+    known: () => getKnownSnapshot('tg'),
+    saveKnown: (known) => saveKnownLang('tg', known),
+    voiceLocale: 'tg-TJ',
+    rtl: false,
+  },
+  tk: {
+    entry: (w) => lookup(getTable('tk'), w),
+    known: () => getKnownSnapshot('tk'),
+    saveKnown: (known) => saveKnownLang('tk', known),
+    voiceLocale: 'tk-TM',
+    rtl: false,
+  },
+  ug: {
+    entry: (w) => lookup(getTable('ug'), w),
+    known: () => getKnownSnapshot('ug'),
+    saveKnown: (known) => saveKnownLang('ug', known),
+    voiceLocale: 'ug-CN',
+    rtl: true,
+  },
+  eu: {
+    entry: (w) => lookup(getTable('eu'), w),
+    known: () => getKnownSnapshot('eu'),
+    saveKnown: (known) => saveKnownLang('eu', known),
+    voiceLocale: 'eu-ES',
+    rtl: false,
+  },
+  ca: {
+    entry: (w) => lookup(getTable('ca'), w),
+    known: () => getKnownSnapshot('ca'),
+    saveKnown: (known) => saveKnownLang('ca', known),
+    voiceLocale: 'ca-ES',
+    rtl: false,
+  },
+  gl: {
+    entry: (w) => lookup(getTable('gl'), w),
+    known: () => getKnownSnapshot('gl'),
+    saveKnown: (known) => saveKnownLang('gl', known),
+    voiceLocale: 'gl-ES',
+    rtl: false,
+  },
+  mt: {
+    entry: (w) => lookup(getTable('mt'), w),
+    known: () => getKnownSnapshot('mt'),
+    saveKnown: (known) => saveKnownLang('mt', known),
+    voiceLocale: 'mt-MT',
+    rtl: false,
+  },
+  lb: {
+    entry: (w) => lookup(getTable('lb'), w),
+    known: () => getKnownSnapshot('lb'),
+    saveKnown: (known) => saveKnownLang('lb', known),
+    voiceLocale: 'lb-LU',
+    rtl: false,
+  },
+  ht: {
+    entry: (w) => lookup(getTable('ht'), w),
+    known: () => getKnownSnapshot('ht'),
+    saveKnown: (known) => saveKnownLang('ht', known),
+    voiceLocale: 'ht-HT',
+    rtl: false,
+  },
+  bo: {
+    entry: (w) => lookup(getTable('bo'), w),
+    known: () => getKnownSnapshot('bo'),
+    saveKnown: (known) => saveKnownLang('bo', known),
+    voiceLocale: 'bo-CN',
+    rtl: false,
+  },
+  my: {
+    entry: (w) => lookup(getTable('my'), w),
+    known: () => getKnownSnapshot('my'),
+    saveKnown: (known) => saveKnownLang('my', known),
+    voiceLocale: 'my-MM',
+    rtl: false,
+  },
+  km: {
+    entry: (w) => lookup(getTable('km'), w),
+    known: () => getKnownSnapshot('km'),
+    saveKnown: (known) => saveKnownLang('km', known),
+    voiceLocale: 'km-KH',
+    rtl: false,
+  },
+  lo: {
+    entry: (w) => lookup(getTable('lo'), w),
+    known: () => getKnownSnapshot('lo'),
+    saveKnown: (known) => saveKnownLang('lo', known),
+    voiceLocale: 'lo-LA',
+    rtl: false,
+  },
+  ne: {
+    entry: (w) => lookup(getTable('ne'), w),
+    known: () => getKnownSnapshot('ne'),
+    saveKnown: (known) => saveKnownLang('ne', known),
+    voiceLocale: 'ne-NP',
+    rtl: false,
+  },
+  si: {
+    entry: (w) => lookup(getTable('si'), w),
+    known: () => getKnownSnapshot('si'),
+    saveKnown: (known) => saveKnownLang('si', known),
+    voiceLocale: 'si-LK',
+    rtl: false,
+  },
+  ur: {
+    entry: (w) => lookup(getTable('ur'), w),
+    known: () => getKnownSnapshot('ur'),
+    saveKnown: (known) => saveKnownLang('ur', known),
+    voiceLocale: 'ur-PK',
+    rtl: true,
+  },
+  te: {
+    entry: (w) => lookup(getTable('te'), w),
+    known: () => getKnownSnapshot('te'),
+    saveKnown: (known) => saveKnownLang('te', known),
+    voiceLocale: 'te-IN',
+    rtl: false,
+  },
+  ml: {
+    entry: (w) => lookup(getTable('ml'), w),
+    known: () => getKnownSnapshot('ml'),
+    saveKnown: (known) => saveKnownLang('ml', known),
+    voiceLocale: 'ml-IN',
+    rtl: false,
+  },
+  kn: {
+    entry: (w) => lookup(getTable('kn'), w),
+    known: () => getKnownSnapshot('kn'),
+    saveKnown: (known) => saveKnownLang('kn', known),
+    voiceLocale: 'kn-IN',
+    rtl: false,
+  },
+  mr: {
+    entry: (w) => lookup(getTable('mr'), w),
+    known: () => getKnownSnapshot('mr'),
+    saveKnown: (known) => saveKnownLang('mr', known),
+    voiceLocale: 'mr-IN',
+    rtl: false,
+  },
+  gu: {
+    entry: (w) => lookup(getTable('gu'), w),
+    known: () => getKnownSnapshot('gu'),
+    saveKnown: (known) => saveKnownLang('gu', known),
+    voiceLocale: 'gu-IN',
+    rtl: false,
+  },
+  or: {
+    entry: (w) => lookup(getTable('or'), w),
+    known: () => getKnownSnapshot('or'),
+    saveKnown: (known) => saveKnownLang('or', known),
+    voiceLocale: 'or-IN',
+    rtl: false,
+  },
+  as: {
+    entry: (w) => lookup(getTable('as'), w),
+    known: () => getKnownSnapshot('as'),
+    saveKnown: (known) => saveKnownLang('as', known),
+    voiceLocale: 'as-IN',
+    rtl: false,
+  },
+  sd: {
+    entry: (w) => lookup(getTable('sd'), w),
+    known: () => getKnownSnapshot('sd'),
+    saveKnown: (known) => saveKnownLang('sd', known),
+    voiceLocale: 'sd-PK',
+    rtl: true,
+  },
+  ps: {
+    entry: (w) => lookup(getTable('ps'), w),
+    known: () => getKnownSnapshot('ps'),
+    saveKnown: (known) => saveKnownLang('ps', known),
+    voiceLocale: 'ps-AF',
+    rtl: true,
+  },
+  so: {
+    entry: (w) => lookup(getTable('so'), w),
+    known: () => getKnownSnapshot('so'),
+    saveKnown: (known) => saveKnownLang('so', known),
+    voiceLocale: 'so-SO',
+    rtl: false,
+  },
+  ha: {
+    entry: (w) => lookup(getTable('ha'), w),
+    known: () => getKnownSnapshot('ha'),
+    saveKnown: (known) => saveKnownLang('ha', known),
+    voiceLocale: 'ha-NG',
+    rtl: false,
+  },
+  yo: {
+    entry: (w) => lookup(getTable('yo'), w),
+    known: () => getKnownSnapshot('yo'),
+    saveKnown: (known) => saveKnownLang('yo', known),
+    voiceLocale: 'yo-NG',
+    rtl: false,
+  },
+  ig: {
+    entry: (w) => lookup(getTable('ig'), w),
+    known: () => getKnownSnapshot('ig'),
+    saveKnown: (known) => saveKnownLang('ig', known),
+    voiceLocale: 'ig-NG',
+    rtl: false,
+  },
+  ti: {
+    entry: (w) => lookup(getTable('ti'), w),
+    known: () => getKnownSnapshot('ti'),
+    saveKnown: (known) => saveKnownLang('ti', known),
+    voiceLocale: 'ti-ER',
+    rtl: false,
+  },
+  wo: {
+    entry: (w) => lookup(getTable('wo'), w),
+    known: () => getKnownSnapshot('wo'),
+    saveKnown: (known) => saveKnownLang('wo', known),
+    voiceLocale: 'wo-SN',
+    rtl: false,
+  },
+  mg: {
+    entry: (w) => lookup(getTable('mg'), w),
+    known: () => getKnownSnapshot('mg'),
+    saveKnown: (known) => saveKnownLang('mg', known),
+    voiceLocale: 'mg-MG',
+    rtl: false,
+  },
+  xh: {
+    entry: (w) => lookup(getTable('xh'), w),
+    known: () => getKnownSnapshot('xh'),
+    saveKnown: (known) => saveKnownLang('xh', known),
+    voiceLocale: 'xh-ZA',
+    rtl: false,
+  },
+  sn: {
+    entry: (w) => lookup(getTable('sn'), w),
+    known: () => getKnownSnapshot('sn'),
+    saveKnown: (known) => saveKnownLang('sn', known),
+    voiceLocale: 'sn-ZW',
+    rtl: false,
+  },
+  ny: {
+    entry: (w) => lookup(getTable('ny'), w),
+    known: () => getKnownSnapshot('ny'),
+    saveKnown: (known) => saveKnownLang('ny', known),
+    voiceLocale: 'ny-MW',
+    rtl: false,
+  },
+  fj: {
+    entry: (w) => lookup(getTable('fj'), w),
+    known: () => getKnownSnapshot('fj'),
+    saveKnown: (known) => saveKnownLang('fj', known),
+    voiceLocale: 'fj-FJ',
+    rtl: false,
+  },
+  sm: {
+    entry: (w) => lookup(getTable('sm'), w),
+    known: () => getKnownSnapshot('sm'),
+    saveKnown: (known) => saveKnownLang('sm', known),
+    voiceLocale: 'sm-WS',
+    rtl: false,
+  },
+  to: {
+    entry: (w) => lookup(getTable('to'), w),
+    known: () => getKnownSnapshot('to'),
+    saveKnown: (known) => saveKnownLang('to', known),
+    voiceLocale: 'to-TO',
+    rtl: false,
+  },
+  mi: {
+    entry: (w) => lookup(getTable('mi'), w),
+    known: () => getKnownSnapshot('mi'),
+    saveKnown: (known) => saveKnownLang('mi', known),
+    voiceLocale: 'mi-NZ',
+    rtl: false,
+  },
+  haw: {
+    entry: (w) => lookup(getTable('haw'), w),
+    known: () => getKnownSnapshot('haw'),
+    saveKnown: (known) => saveKnownLang('haw', known),
+    voiceLocale: 'haw-US',
+    rtl: false,
+  },
+  jv: {
+    entry: (w) => lookup(getTable('jv'), w),
+    known: () => getKnownSnapshot('jv'),
+    saveKnown: (known) => saveKnownLang('jv', known),
+    voiceLocale: 'jv-ID',
+    rtl: false,
+  },
+  su: {
+    entry: (w) => lookup(getTable('su'), w),
+    known: () => getKnownSnapshot('su'),
+    saveKnown: (known) => saveKnownLang('su', known),
+    voiceLocale: 'su-ID',
+    rtl: false,
+  },
+  gd: {
+    entry: (w) => lookup(getTable('gd'), w),
+    known: () => getKnownSnapshot('gd'),
+    saveKnown: (known) => saveKnownLang('gd', known),
+    voiceLocale: 'gd-GB',
+    rtl: false,
+  },
+  br: {
+    entry: (w) => lookup(getTable('br'), w),
+    known: () => getKnownSnapshot('br'),
+    saveKnown: (known) => saveKnownLang('br', known),
+    voiceLocale: 'br-FR',
+    rtl: false,
+  },
+  kw: {
+    entry: (w) => lookup(getTable('kw'), w),
+    known: () => getKnownSnapshot('kw'),
+    saveKnown: (known) => saveKnownLang('kw', known),
+    voiceLocale: 'kw-GB',
+    rtl: false,
+  },
+  gv: {
+    entry: (w) => lookup(getTable('gv'), w),
+    known: () => getKnownSnapshot('gv'),
+    saveKnown: (known) => saveKnownLang('gv', known),
+    voiceLocale: 'gv-IM',
+    rtl: false,
+  },
+  fo: {
+    entry: (w) => lookup(getTable('fo'), w),
+    known: () => getKnownSnapshot('fo'),
+    saveKnown: (known) => saveKnownLang('fo', known),
+    voiceLocale: 'fo-FO',
+    rtl: false,
+  },
+  oc: {
+    entry: (w) => lookup(getTable('oc'), w),
+    known: () => getKnownSnapshot('oc'),
+    saveKnown: (known) => saveKnownLang('oc', known),
+    voiceLocale: 'oc-FR',
+    rtl: false,
+  },
+  co: {
+    entry: (w) => lookup(getTable('co'), w),
+    known: () => getKnownSnapshot('co'),
+    saveKnown: (known) => saveKnownLang('co', known),
+    voiceLocale: 'co-FR',
+    rtl: false,
+  },
+  sc: {
+    entry: (w) => lookup(getTable('sc'), w),
+    known: () => getKnownSnapshot('sc'),
+    saveKnown: (known) => saveKnownLang('sc', known),
+    voiceLocale: 'sc-IT',
+    rtl: false,
+  },
+  fy: {
+    entry: (w) => lookup(getTable('fy'), w),
+    known: () => getKnownSnapshot('fy'),
+    saveKnown: (known) => saveKnownLang('fy', known),
+    voiceLocale: 'fy-NL',
+    rtl: false,
+  },
+  yi: {
+    entry: (w) => lookup(getTable('yi'), w),
+    known: () => getKnownSnapshot('yi'),
+    saveKnown: (known) => saveKnownLang('yi', known),
+    voiceLocale: 'yi',
+    rtl: true,
+  },
+  lad: {
+    entry: (w) => lookup(getTable('lad'), w),
+    known: () => getKnownSnapshot('lad'),
+    saveKnown: (known) => saveKnownLang('lad', known),
+    voiceLocale: 'lad',
+    rtl: false,
+  },
+  qu: {
+    entry: (w) => lookup(getTable('qu'), w),
+    known: () => getKnownSnapshot('qu'),
+    saveKnown: (known) => saveKnownLang('qu', known),
+    voiceLocale: 'qu-PE',
+    rtl: false,
+  },
+  gn: {
+    entry: (w) => lookup(getTable('gn'), w),
+    known: () => getKnownSnapshot('gn'),
+    saveKnown: (known) => saveKnownLang('gn', known),
+    voiceLocale: 'gn-PY',
+    rtl: false,
+  },
+  ay: {
+    entry: (w) => lookup(getTable('ay'), w),
+    known: () => getKnownSnapshot('ay'),
+    saveKnown: (known) => saveKnownLang('ay', known),
+    voiceLocale: 'ay-BO',
+    rtl: false,
+  },
+  dz: {
+    entry: (w) => lookup(getTable('dz'), w),
+    known: () => getKnownSnapshot('dz'),
+    saveKnown: (known) => saveKnownLang('dz', known),
+    voiceLocale: 'dz-BT',
+    rtl: false,
+  },
+  dv: {
+    entry: (w) => lookup(getTable('dv'), w),
+    known: () => getKnownSnapshot('dv'),
+    saveKnown: (known) => saveKnownLang('dv', known),
+    voiceLocale: 'dv-MV',
+    rtl: true,
+  },
+  tet: {
+    entry: (w) => lookup(getTable('tet'), w),
+    known: () => getKnownSnapshot('tet'),
+    saveKnown: (known) => saveKnownLang('tet', known),
+    voiceLocale: 'tet-TL',
+    rtl: false,
+  },
+  be: {
+    entry: (w) => lookup(getTable('be'), w),
+    known: () => getKnownSnapshot('be'),
+    saveKnown: (known) => saveKnownLang('be', known),
+    voiceLocale: 'be-BY',
+    rtl: false,
+  },
+  qya: {
+    entry: (w) => lookup(getTable('qya'), w),
+    known: () => getKnownSnapshot('qya'),
+    saveKnown: (known) => saveKnownLang('qya', known),
+    // No browser ships a Quenya voice — Tolkien modeled its phonology on
+    // Finnish, so a Finnish voice is used as the closest approximation.
+    voiceLocale: 'fi-FI',
+    rtl: false,
+  },
+  sjn: {
+    entry: (w) => lookup(getTable('sjn'), w),
+    known: () => getKnownSnapshot('sjn'),
+    saveKnown: (known) => saveKnownLang('sjn', known),
+    // No browser ships a Sindarin voice — Tolkien modeled its phonology on
+    // Welsh, so a Welsh voice is used as the closest approximation.
+    voiceLocale: 'cy-GB',
+    rtl: false,
+  },
+  ku: {
+    entry: (w) => lookup(getTable('ku'), w),
+    known: () => getKnownSnapshot('ku'),
+    saveKnown: (known) => saveKnownLang('ku', known),
+    voiceLocale: 'ku',
+    rtl: false,
+  },
+  om: {
+    entry: (w) => lookup(getTable('om'), w),
+    known: () => getKnownSnapshot('om'),
+    saveKnown: (known) => saveKnownLang('om', known),
+    voiceLocale: 'om-ET',
+    rtl: false,
+  },
+  ln: {
+    entry: (w) => lookup(getTable('ln'), w),
+    known: () => getKnownSnapshot('ln'),
+    saveKnown: (known) => saveKnownLang('ln', known),
+    voiceLocale: 'ln-CD',
+    rtl: false,
+  },
+  bho: {
+    entry: (w) => lookup(getTable('bho'), w),
+    known: () => getKnownSnapshot('bho'),
+    saveKnown: (known) => saveKnownLang('bho', known),
+    voiceLocale: 'bho-IN',
+    rtl: false,
+  },
+  ceb: {
+    entry: (w) => lookup(getTable('ceb'), w),
+    known: () => getKnownSnapshot('ceb'),
+    saveKnown: (known) => saveKnownLang('ceb', known),
+    voiceLocale: 'ceb-PH',
+    rtl: false,
+  },
+  rm: {
+    entry: (w) => lookup(getTable('rm'), w),
+    known: () => getKnownSnapshot('rm'),
+    saveKnown: (known) => saveKnownLang('rm', known),
+    voiceLocale: 'rm-CH',
+    rtl: false,
+  },
+  ty: {
+    entry: (w) => lookup(getTable('ty'), w),
+    known: () => getKnownSnapshot('ty'),
+    saveKnown: (known) => saveKnownLang('ty', known),
+    voiceLocale: 'ty-PF',
+    rtl: false,
+  },
+  ch: {
+    entry: (w) => lookup(getTable('ch'), w),
+    known: () => getKnownSnapshot('ch'),
+    saveKnown: (known) => saveKnownLang('ch', known),
+    voiceLocale: 'ch-GU',
+    rtl: false,
+  },
+  mh: {
+    entry: (w) => lookup(getTable('mh'), w),
+    known: () => getKnownSnapshot('mh'),
+    saveKnown: (known) => saveKnownLang('mh', known),
+    voiceLocale: 'mh-MH',
+    rtl: false,
+  },
+  pau: {
+    entry: (w) => lookup(getTable('pau'), w),
+    known: () => getKnownSnapshot('pau'),
+    saveKnown: (known) => saveKnownLang('pau', known),
+    voiceLocale: 'pau-PW',
+    rtl: false,
+  },
+  nah: {
+    entry: (w) => lookup(getTable('nah'), w),
+    known: () => getKnownSnapshot('nah'),
+    saveKnown: (known) => saveKnownLang('nah', known),
+    voiceLocale: 'nah-MX',
+    rtl: false,
+  },
+  nv: {
+    entry: (w) => lookup(getTable('nv'), w),
+    known: () => getKnownSnapshot('nv'),
+    saveKnown: (known) => saveKnownLang('nv', known),
+    voiceLocale: 'nv-US',
+    rtl: false,
+  },
+  tlh: {
+    entry: (w) => lookup(getTable('tlh'), w),
+    known: () => getKnownSnapshot('tlh'),
+    saveKnown: (known) => saveKnownLang('tlh', known),
+    voiceLocale: 'tlh',
+    rtl: false,
+  },
+  val: {
+    entry: (w) => lookup(getTable('val'), w),
+    known: () => getKnownSnapshot('val'),
+    saveKnown: (known) => saveKnownLang('val', known),
+    voiceLocale: 'val',
+    rtl: false,
+  },
+  dth: {
+    entry: (w) => lookup(getTable('dth'), w),
+    known: () => getKnownSnapshot('dth'),
+    saveKnown: (known) => saveKnownLang('dth', known),
+    voiceLocale: 'dth',
+    rtl: false,
+  },
+};
+
+export function langConfig(code: TargetLang): LangConfig {
+  return LANG_REGISTRY[code];
+}
+
+export function isTargetLang(v: string): v is TargetLang {
+  return Object.prototype.hasOwnProperty.call(LANG_REGISTRY, v);
+}
+
+// word (in `code`'s own language) → English headword — built lazily, once
+// per language, by inverting that language's translation table. Lets UI
+// that only has a foreign-language word string (e.g. a hand-curated
+// synonym) find the flashcard it belongs to, if any.
+const REVERSE_HEADWORD_CACHE: Partial<Record<TargetLang, Map<string, string>>> = {};
+
+export function reverseHeadwordFor(code: TargetLang, word: string): string | null {
+  let map = REVERSE_HEADWORD_CACHE[code];
+  if (!map) {
+    map = new Map();
+    for (const [en, entry] of Object.entries(getTable(code))) {
+      const translated = (entry as Entry)?.[0];
+      if (translated && !map.has(translated.toLowerCase())) map.set(translated.toLowerCase(), en);
+    }
+    REVERSE_HEADWORD_CACHE[code] = map;
+  }
+  return map.get(word.toLowerCase()) ?? null;
+}
+
+function isCode(v: string): v is Code {
+  return v === 'en' || v === 'ua' || isTargetLang(v);
+}
+
+/** Parses a mode string (`'en'`, `'ua'`, or `'${front}-${back}'`) into its front/back language codes. */
+export function parsePair(mode: string): { front: Code; back: Code; valid: boolean } {
+  if (mode === 'en') return { front: 'en', back: 'ua', valid: true };
+  if (mode === 'ua') return { front: 'ua', back: 'en', valid: true };
+  const i = mode.indexOf('-');
+  if (i > 0) {
+    const f = mode.slice(0, i),
+      b = mode.slice(i + 1);
+    if (isCode(f) && isCode(b)) return { front: f, back: b, valid: true };
+  }
+  return { front: 'en', back: 'ua', valid: false };
+}
+
+export function entryFor(code: Code, cw: WordEntry): { word: string; ex: string; translit: string } {
+  if (code === 'en') return { word: cw[0], ex: cw[2] || '', translit: '' };
+  if (code === 'ua') return { word: cw[1], ex: cw[3] || '', translit: '' };
+  const e = LANG_REGISTRY[code].entry(cw[0]);
+  return { word: e ? e[0] : '', ex: e ? e[1] : '', translit: e?.[2] || '' };
+}
+
+// Languages whose word-table Entry[2] is a Latin-script romanization —
+// readable aloud with an English-biased voice as a rough approximation when
+// no native browser voice is installed (see speakForCode() in speak-lang.ts).
+// Excludes languages whose Entry[2] is IPA phonetic notation (would sound
+// garbled if spoken as literal text) and languages with no Entry[2] at all.
+// Hand-classified by inspecting each data/words-data/words_XX.js file's transcription
+// field; re-classify when adding a new language (see docs/adding-a-language.md).
+//
+// Also excludes 9 languages initially classified as "Latin romanization" that
+// tests/data/translit-classification.test.ts caught mixing in genuine IPA
+// glyphs (ʃ ʒ ŋ tʃ ɡ etc., not just plain Latin + ordinary diacritics) for a
+// meaningful share of entries — bo (0.6%), zu (3.1%), eu (11.9%), si (19.4%),
+// fo (20%), tg (31.3%), ky (35.6%), tk (33.1%), ht (42.5%). Not safe to read
+// literally via an English voice; falls back to the existing English-fallback
+// behavior like the true-IPA set instead.
+export const LATIN_TRANSLIT_LANGS: ReadonlySet<TargetLang> = new Set<TargetLang>([
+  'am', 'ar', 'as', 'ay', 'be', 'bg', 'bho', 'bn', 'br', 'ceb', 'ch', 'co', 'dth', 'dv', 'dz',
+  'el', 'fa', 'fj', 'fy', 'gd', 'gn', 'gu', 'gv', 'ha', 'haw', 'he', 'hi', 'hy',
+  'ig', 'ja', 'jv', 'ka', 'kk', 'kn', 'ko', 'ku', 'kw', 'lad', 'ln', 'lo', 'mg', 'mh', 'mi',
+  'mk', 'ml', 'mn', 'mr', 'my', 'nah', 'ne', 'nv', 'ny', 'oc', 'om', 'or', 'pa', 'pau', 'ps', 'qu',
+  'qya', 'rm', 'sc', 'sd', 'sjn', 'sm', 'sn', 'so', 'sr', 'su', 'ta', 'te', 'tet', 'th',
+  'ti', 'tl', 'tlh', 'to', 'ty', 'ug', 'ur', 'uz', 'val', 'wo', 'xh', 'yi', 'yo', 'zh',
+]);
+
+// Languages whose word-table has no separate Entry[2] transcription at all
+// (see docs/adding-a-language.md's "Rule: every dictionary entry must
+// include transcription") because the word/example (Entry[0]/Entry[1])
+// themselves are already plain Latin script — there was never a non-Latin
+// native form to romanize. That means, unlike LATIN_TRANSLIT_LANGS above,
+// speakForCode() doesn't need a dedicated transliteration field for these:
+// the target-language `text` it's already given (a word OR a full example
+// sentence — both call sites work) is close enough to speakable as-is, run
+// through latinizeForSpeech() (js/features/voice/latinize.ts) first to
+// strip diacritics an English voice tends to mishandle (č, ä, ø, ș, ř...).
+// Verified by inspecting every data/words-data/words_XX.js file: all entries for
+// these 16 are consistently 2-element (no Entry[2] at all, not just
+// missing for some words) — re-verify this when adding a new "Latin,
+// transcription optional" language (see docs/adding-a-language.md).
+export const NATIVE_LATIN_LANGS: ReadonlySet<TargetLang> = new Set<TargetLang>([
+  'az', 'bs', 'cs', 'da', 'fi', 'hr', 'hu', 'id', 'la', 'ms', 'no', 'pcm', 'ro', 'sk', 'sv', 'sw',
+]);
+
+export function getMode(): string {
+  const { mode, mixA, mixB } = getModeStateSnapshot();
+  if (mode === 'mix') {
+    return Math.random() > 0.5 ? mixA || 'en' : mixB || 'ua';
+  }
+  return mode || 'en';
+}
+
+// Raw/unresolved current mode string (e.g. the literal 'mix', not a
+// randomly-resolved language) — for the handful of call sites that used to
+// read the legacy `#sel-mode` <select>'s raw `.value` directly instead of
+// going through getMode()'s "mix" resolution.
+export function getRawMode(): string {
+  return getModeStateSnapshot().mode || 'en';
+}
+
+export type FrontLang =
+  | 'EN'
+  | 'UA'
+  | 'ES'
+  | 'FR'
+  | 'IT'
+  | 'PT'
+  | 'DE'
+  | 'HE'
+  | 'AR'
+  | 'PL'
+  | 'ZH'
+  | 'EL'
+  | 'JA'
+  | 'TR'
+  | 'NL'
+  | 'VI'
+  | 'HI'
+  | 'BN'
+  | 'ID'
+  | 'PCM'
+  | 'KO'
+  | 'FA'
+  | 'SW'
+  | 'MS'
+  | 'TH'
+  | 'AZ'
+  | 'RO'
+  | 'HU'
+  | 'CS'
+  | 'KK'
+  | 'SV'
+  | 'KA'
+  | 'HR'
+  | 'SR'
+  | 'BS'
+  | 'BG'
+  | 'SK'
+  | 'HY'
+  | 'DA'
+  | 'FI'
+  | 'NO';
+
+// FRONT_LANG залежить лише від обраного режиму (не від конкретного слова) —
+// чисто обчислюється з `mode`, тому винесено окремо для CardMeta (item 28a).
+export function getFrontLang(mode: string): FrontLang {
+  return parsePair(mode).front.toUpperCase() as FrontLang;
+}
+
+// Для 'mix'-режиму getMode() обирає випадкове значення (a чи b) при кожному
+// викликові. render() резолвить його раз на оновлення картки і кладе в
+// deck-store, щоб усі React-компоненти картки (item 28a/28b) бачили той
+// самий резолвлений режим, а не кожен своє випадкове значення.
+export function getResolvedMode(): string {
+  return getModeSnapshot() || getMode();
+}
+
+/**
+ * Whichever side of the pair is a target language (front takes priority
+ * when both front and back are target languages, as can now happen with
+ * target↔target pairs) — null when the pair is plain EN↔UA. Mirrors the
+ * legacy behaviour where e.g. both 'es-en' and 'en-es' tracked ES regardless
+ * of which side ES was on.
+ */
+export function getActiveTargetLang(mode: string): TargetLang | null {
+  const { front, back } = parsePair(mode);
+  if (isTargetLang(front)) return front;
+  if (isTargetLang(back)) return back;
+  return null;
+}
+
+/** The active known-Set for the active target language of `mode` (see getActiveTargetLang), or `fallback`. */
+export function getActiveKnownSet(mode: string, fallback: Set<string>): Set<string> {
+  const lang = getActiveTargetLang(mode);
+  return lang ? LANG_REGISTRY[lang].known() : fallback;
+}
+
+// Той самий вибір активного набору "вивчених" слів, що й `_activeKnown()`
+// в app.ts/card-actions.ts — за поточним резолвленим режимом.
+export function getActiveKnown(known: Set<string>): Set<string> {
+  return getActiveKnownSet(getResolvedMode(), known);
+}
+
+interface CardView {
+  FRONT_LANG: FrontLang;
+  frontWord: string;
+  backWord: string;
+  exenHtml: string;
+  exuaHtml: string;
+  frontRtl: boolean;
+  backRtl: boolean;
+}
+
+// Чисте обчислення FRONT_LANG/frontWord/backWord/прикладів для item 28b.
+export function computeCardView(cw: WordEntry, mode: string): CardView {
+  const { front, back, valid } = parsePair(mode);
+  const frontE = entryFor(front, cw);
+  const backE = entryFor(back, cw);
+  const FRONT_LANG = front.toUpperCase() as FrontLang;
+  const frontWord = frontE.word,
+    backWord = backE.word;
+  const frontRtl = isTargetLang(front) && LANG_REGISTRY[front].rtl;
+  const backRtl = isTargetLang(back) && LANG_REGISTRY[back].rtl;
+
+  let exenHtml = '',
+    exuaHtml = '';
+  if (mode === 'en') {
+    exenHtml = boldEn(frontE.ex, cw);
+    exuaHtml = backE.ex;
+  } else if (mode === 'ua') {
+    exenHtml = boldUa(frontE.ex, cw) || frontE.ex;
+    exuaHtml = boldEn(backE.ex, cw);
+  } else if (valid) {
+    exenHtml = boldHead(frontE.ex, frontWord) || frontE.ex;
+    exuaHtml = boldHead(backE.ex, backWord) || backE.ex;
+  }
+
+  return { FRONT_LANG, frontWord, backWord, exenHtml, exuaHtml, frontRtl, backRtl };
+}
+
+export function esEntry(word: string): Entry {
+  return LANG_REGISTRY.es.entry(word);
+}
+export function frEntry(word: string): Entry {
+  return LANG_REGISTRY.fr.entry(word);
+}
+export function itEntry(word: string): Entry {
+  return LANG_REGISTRY.it.entry(word);
+}
+export function ptEntry(word: string): Entry {
+  return LANG_REGISTRY.pt.entry(word);
+}
+export function deEntry(word: string): Entry {
+  return LANG_REGISTRY.de.entry(word);
+}
+export function heEntry(word: string): Entry {
+  return LANG_REGISTRY.he.entry(word);
+}
+export function arEntry(word: string): Entry {
+  return LANG_REGISTRY.ar.entry(word);
+}
+export function plEntry(word: string): Entry {
+  return LANG_REGISTRY.pl.entry(word);
+}
+export function zhEntry(word: string): Entry {
+  return LANG_REGISTRY.zh.entry(word);
+}
+export function elEntry(word: string): Entry {
+  return LANG_REGISTRY.el.entry(word);
+}
+export function jaEntry(word: string): Entry {
+  return LANG_REGISTRY.ja.entry(word);
+}
+export function trEntry(word: string): Entry {
+  return LANG_REGISTRY.tr.entry(word);
+}
+export function nlEntry(word: string): Entry {
+  return LANG_REGISTRY.nl.entry(word);
+}
+export function viEntry(word: string): Entry {
+  return LANG_REGISTRY.vi.entry(word);
+}
+export function hiEntry(word: string): Entry {
+  return LANG_REGISTRY.hi.entry(word);
+}
+export function bnEntry(word: string): Entry {
+  return LANG_REGISTRY.bn.entry(word);
+}
+export function idEntry(word: string): Entry {
+  return LANG_REGISTRY.id.entry(word);
+}
+export function pcmEntry(word: string): Entry {
+  return LANG_REGISTRY.pcm.entry(word);
+}
+export function koEntry(word: string): Entry {
+  return LANG_REGISTRY.ko.entry(word);
+}
+export function faEntry(word: string): Entry {
+  return LANG_REGISTRY.fa.entry(word);
+}
+export function swEntry(word: string): Entry {
+  return LANG_REGISTRY.sw.entry(word);
+}
+export function msEntry(word: string): Entry {
+  return LANG_REGISTRY.ms.entry(word);
+}
+export function thEntry(word: string): Entry {
+  return LANG_REGISTRY.th.entry(word);
+}
+export function azEntry(word: string): Entry {
+  return LANG_REGISTRY.az.entry(word);
+}
+export function roEntry(word: string): Entry {
+  return LANG_REGISTRY.ro.entry(word);
+}
+export function huEntry(word: string): Entry {
+  return LANG_REGISTRY.hu.entry(word);
+}
+export function csEntry(word: string): Entry {
+  return LANG_REGISTRY.cs.entry(word);
+}
+export function kkEntry(word: string): Entry {
+  return LANG_REGISTRY.kk.entry(word);
+}
+export function svEntry(word: string): Entry {
+  return LANG_REGISTRY.sv.entry(word);
+}
+export function kaEntry(word: string): Entry {
+  return LANG_REGISTRY.ka.entry(word);
+}
+export function hrEntry(word: string): Entry {
+  return LANG_REGISTRY.hr.entry(word);
+}
+export function srEntry(word: string): Entry {
+  return LANG_REGISTRY.sr.entry(word);
+}
+export function bsEntry(word: string): Entry {
+  return LANG_REGISTRY.bs.entry(word);
+}
+export function bgEntry(word: string): Entry {
+  return LANG_REGISTRY.bg.entry(word);
+}
+export function skEntry(word: string): Entry {
+  return LANG_REGISTRY.sk.entry(word);
+}
+export function hyEntry(word: string): Entry {
+  return LANG_REGISTRY.hy.entry(word);
+}
+export function daEntry(word: string): Entry {
+  return LANG_REGISTRY.da.entry(word);
+}
+export function fiEntry(word: string): Entry {
+  return LANG_REGISTRY.fi.entry(word);
+}
+export function noEntry(word: string): Entry {
+  return LANG_REGISTRY.no.entry(word);
+}
+export function laEntry(word: string): Entry {
+  return LANG_REGISTRY.la.entry(word);
+}
+export function ltEntry(word: string): Entry {
+  return LANG_REGISTRY.lt.entry(word);
+}
+export function lvEntry(word: string): Entry {
+  return LANG_REGISTRY.lv.entry(word);
+}
+export function etEntry(word: string): Entry {
+  return LANG_REGISTRY.et.entry(word);
+}
+export function slEntry(word: string): Entry {
+  return LANG_REGISTRY.sl.entry(word);
+}
+export function mkEntry(word: string): Entry {
+  return LANG_REGISTRY.mk.entry(word);
+}
+export function sqEntry(word: string): Entry {
+  return LANG_REGISTRY.sq.entry(word);
+}
+export function isEntry(word: string): Entry {
+  return LANG_REGISTRY.is.entry(word);
+}
+export function cyEntry(word: string): Entry {
+  return LANG_REGISTRY.cy.entry(word);
+}
+export function gaEntry(word: string): Entry {
+  return LANG_REGISTRY.ga.entry(word);
+}
+export function tlEntry(word: string): Entry {
+  return LANG_REGISTRY.tl.entry(word);
+}
+export function mnEntry(word: string): Entry {
+  return LANG_REGISTRY.mn.entry(word);
+}
+export function uzEntry(word: string): Entry {
+  return LANG_REGISTRY.uz.entry(word);
+}
+export function amEntry(word: string): Entry {
+  return LANG_REGISTRY.am.entry(word);
+}
+export function eoEntry(word: string): Entry {
+  return LANG_REGISTRY.eo.entry(word);
+}
+export function taEntry(word: string): Entry {
+  return LANG_REGISTRY.ta.entry(word);
+}
+export function paEntry(word: string): Entry {
+  return LANG_REGISTRY.pa.entry(word);
+}
+export function zuEntry(word: string): Entry {
+  return LANG_REGISTRY.zu.entry(word);
+}
+export function afEntry(word: string): Entry {
+  return LANG_REGISTRY.af.entry(word);
+}
+export function kyEntry(word: string): Entry {
+  return LANG_REGISTRY.ky.entry(word);
+}
+export function tgEntry(word: string): Entry {
+  return LANG_REGISTRY.tg.entry(word);
+}
+export function tkEntry(word: string): Entry {
+  return LANG_REGISTRY.tk.entry(word);
+}
+export function ugEntry(word: string): Entry {
+  return LANG_REGISTRY.ug.entry(word);
+}
+export function euEntry(word: string): Entry {
+  return LANG_REGISTRY.eu.entry(word);
+}
+export function caEntry(word: string): Entry {
+  return LANG_REGISTRY.ca.entry(word);
+}
+export function glEntry(word: string): Entry {
+  return LANG_REGISTRY.gl.entry(word);
+}
+export function mtEntry(word: string): Entry {
+  return LANG_REGISTRY.mt.entry(word);
+}
+export function lbEntry(word: string): Entry {
+  return LANG_REGISTRY.lb.entry(word);
+}
+export function htEntry(word: string): Entry {
+  return LANG_REGISTRY.ht.entry(word);
+}
+export function boEntry(word: string): Entry {
+  return LANG_REGISTRY.bo.entry(word);
+}
+export function myEntry(word: string): Entry {
+  return LANG_REGISTRY.my.entry(word);
+}
+export function kmEntry(word: string): Entry {
+  return LANG_REGISTRY.km.entry(word);
+}
+export function loEntry(word: string): Entry {
+  return LANG_REGISTRY.lo.entry(word);
+}
+export function neEntry(word: string): Entry {
+  return LANG_REGISTRY.ne.entry(word);
+}
+export function siEntry(word: string): Entry {
+  return LANG_REGISTRY.si.entry(word);
+}
+export function urEntry(word: string): Entry {
+  return LANG_REGISTRY.ur.entry(word);
+}
+export function teEntry(word: string): Entry {
+  return LANG_REGISTRY.te.entry(word);
+}
+export function mlEntry(word: string): Entry {
+  return LANG_REGISTRY.ml.entry(word);
+}
+export function knEntry(word: string): Entry {
+  return LANG_REGISTRY.kn.entry(word);
+}
+export function mrEntry(word: string): Entry {
+  return LANG_REGISTRY.mr.entry(word);
+}
+export function guEntry(word: string): Entry {
+  return LANG_REGISTRY.gu.entry(word);
+}
+export function orEntry(word: string): Entry {
+  return LANG_REGISTRY.or.entry(word);
+}
+export function asEntry(word: string): Entry {
+  return LANG_REGISTRY.as.entry(word);
+}
+export function sdEntry(word: string): Entry {
+  return LANG_REGISTRY.sd.entry(word);
+}
+export function psEntry(word: string): Entry {
+  return LANG_REGISTRY.ps.entry(word);
+}
+export function soEntry(word: string): Entry {
+  return LANG_REGISTRY.so.entry(word);
+}
+export function haEntry(word: string): Entry {
+  return LANG_REGISTRY.ha.entry(word);
+}
+export function yoEntry(word: string): Entry {
+  return LANG_REGISTRY.yo.entry(word);
+}
+export function igEntry(word: string): Entry {
+  return LANG_REGISTRY.ig.entry(word);
+}
+export function tiEntry(word: string): Entry {
+  return LANG_REGISTRY.ti.entry(word);
+}
+export function woEntry(word: string): Entry {
+  return LANG_REGISTRY.wo.entry(word);
+}
+export function mgEntry(word: string): Entry {
+  return LANG_REGISTRY.mg.entry(word);
+}
+export function xhEntry(word: string): Entry {
+  return LANG_REGISTRY.xh.entry(word);
+}
+export function snEntry(word: string): Entry {
+  return LANG_REGISTRY.sn.entry(word);
+}
+export function nyEntry(word: string): Entry {
+  return LANG_REGISTRY.ny.entry(word);
+}
+export function fjEntry(word: string): Entry {
+  return LANG_REGISTRY.fj.entry(word);
+}
+export function smEntry(word: string): Entry {
+  return LANG_REGISTRY.sm.entry(word);
+}
+export function toEntry(word: string): Entry {
+  return LANG_REGISTRY.to.entry(word);
+}
+export function miEntry(word: string): Entry {
+  return LANG_REGISTRY.mi.entry(word);
+}
+export function hawEntry(word: string): Entry {
+  return LANG_REGISTRY.haw.entry(word);
+}
+export function jvEntry(word: string): Entry {
+  return LANG_REGISTRY.jv.entry(word);
+}
+export function suEntry(word: string): Entry {
+  return LANG_REGISTRY.su.entry(word);
+}
+export function gdEntry(word: string): Entry {
+  return LANG_REGISTRY.gd.entry(word);
+}
+export function brEntry(word: string): Entry {
+  return LANG_REGISTRY.br.entry(word);
+}
+export function kwEntry(word: string): Entry {
+  return LANG_REGISTRY.kw.entry(word);
+}
+export function gvEntry(word: string): Entry {
+  return LANG_REGISTRY.gv.entry(word);
+}
+export function foEntry(word: string): Entry {
+  return LANG_REGISTRY.fo.entry(word);
+}
+export function ocEntry(word: string): Entry {
+  return LANG_REGISTRY.oc.entry(word);
+}
+export function coEntry(word: string): Entry {
+  return LANG_REGISTRY.co.entry(word);
+}
+export function scEntry(word: string): Entry {
+  return LANG_REGISTRY.sc.entry(word);
+}
+export function fyEntry(word: string): Entry {
+  return LANG_REGISTRY.fy.entry(word);
+}
+export function yiEntry(word: string): Entry {
+  return LANG_REGISTRY.yi.entry(word);
+}
+export function ladEntry(word: string): Entry {
+  return LANG_REGISTRY.lad.entry(word);
+}
+export function quEntry(word: string): Entry {
+  return LANG_REGISTRY.qu.entry(word);
+}
+export function gnEntry(word: string): Entry {
+  return LANG_REGISTRY.gn.entry(word);
+}
+export function ayEntry(word: string): Entry {
+  return LANG_REGISTRY.ay.entry(word);
+}
+export function dzEntry(word: string): Entry {
+  return LANG_REGISTRY.dz.entry(word);
+}
+export function dvEntry(word: string): Entry {
+  return LANG_REGISTRY.dv.entry(word);
+}
+export function tetEntry(word: string): Entry {
+  return LANG_REGISTRY.tet.entry(word);
+}
+export function beEntry(word: string): Entry {
+  return LANG_REGISTRY.be.entry(word);
+}
+export function qyaEntry(word: string): Entry {
+  return LANG_REGISTRY.qya.entry(word);
+}
+export function sjnEntry(word: string): Entry {
+  return LANG_REGISTRY.sjn.entry(word);
+}
+export function kuEntry(word: string): Entry {
+  return LANG_REGISTRY.ku.entry(word);
+}
+export function omEntry(word: string): Entry {
+  return LANG_REGISTRY.om.entry(word);
+}
+export function lnEntry(word: string): Entry {
+  return LANG_REGISTRY.ln.entry(word);
+}
+export function bhoEntry(word: string): Entry {
+  return LANG_REGISTRY.bho.entry(word);
+}
+export function cebEntry(word: string): Entry {
+  return LANG_REGISTRY.ceb.entry(word);
+}
+export function rmEntry(word: string): Entry {
+  return LANG_REGISTRY.rm.entry(word);
+}
+export function tyEntry(word: string): Entry {
+  return LANG_REGISTRY.ty.entry(word);
+}
+export function chEntry(word: string): Entry {
+  return LANG_REGISTRY.ch.entry(word);
+}
+export function mhEntry(word: string): Entry {
+  return LANG_REGISTRY.mh.entry(word);
+}
+export function pauEntry(word: string): Entry {
+  return LANG_REGISTRY.pau.entry(word);
+}
+export function nahEntry(word: string): Entry {
+  return LANG_REGISTRY.nah.entry(word);
+}
+export function nvEntry(word: string): Entry {
+  return LANG_REGISTRY.nv.entry(word);
+}
+export function tlhEntry(word: string): Entry {
+  return LANG_REGISTRY.tlh.entry(word);
+}
+export function valEntry(word: string): Entry {
+  return LANG_REGISTRY.val.entry(word);
+}
+export function dthEntry(word: string): Entry {
+  return LANG_REGISTRY.dth.entry(word);
+}
+
+function targetLangFromStorageKey(key: string): TargetLang | null {
+  return isTargetLang(key) ? key : null;
+}
+
+/** The headword for `code` (en/ua/target language) from a WordEntry — '' if no translation exists for that language. */
+export function headwordFor(code: Code, w: WordEntry): string {
+  if (code === 'en') return w[0];
+  if (code === 'ua') return w[1];
+  return LANG_REGISTRY[code].entry(w[0])?.[0] ?? '';
+}
+
+/** Count of "known" words in the currently selected learn language. */
+export function getKnownInLang(): number {
+  return getActiveKnownByLang().size;
+}
+
+/** Total vocabulary size available for the currently selected learn language (full dictionary for en/ua, that language's own table otherwise). */
+export function getMaxWordsForLearnLang(): number {
+  const lang = targetLangFromStorageKey(localStorage.getItem('ew_learn_lang') ?? 'en');
+  return lang ? Object.keys(getTable(lang)).length : W.length;
+}
+
+/** The active known Set for the currently selected learn language. */
+export function getActiveKnownByLang(): Set<string> {
+  const lang = targetLangFromStorageKey(localStorage.getItem('ew_learn_lang') ?? 'en');
+  return lang ? LANG_REGISTRY[lang].known() : getKnownSnapshot('en');
+}
+
+/** The known Set for an explicit language bucket (target language, or 'en'
+ * for the plain English store) — unlike `getActiveKnownByLang`, this doesn't
+ * read the currently-selected learn language, for callers that need a
+ * specific bucket regardless of it (e.g. English-only content like epub
+ * imports or builtin story text, which stay English no matter what language
+ * the user happens to be learning right now). */
+export function getKnownSetForLang(lang: 'en' | TargetLang): Set<string> {
+  return isTargetLang(lang) ? LANG_REGISTRY[lang].known() : getKnownSnapshot('en');
+}
+
+/** Marks `word` (English headword) as known in an explicit language bucket,
+ * persisting via that language's own storage (or the plain 'en' store) — same
+ * branch as the Know button in `card-actions.ts`. */
+export function markKnownForLang(lang: 'en' | TargetLang, word: string): void {
+  // Drop any prior SRS progress (ef/reps/lapses) so it doesn't re-enter the
+  // SRS queue with stale data — same reasoning as the flashcard "Know"
+  // button in card-actions.ts, which does this explicitly.
+  deleteSrsEntry(word);
+  if (isTargetLang(lang)) {
+    markKnown(lang, word);
+    const cfg = LANG_REGISTRY[lang];
+    cfg.saveKnown(cfg.known());
+  } else {
+    markKnown('en', word);
+    saveKnown(getKnownSnapshot('en'));
+  }
+}
+
+/** Marks `word` (English headword) as known for whichever language is
+ * currently selected to learn — extracted here so other modes don't
+ * hardcode 'en' regardless of the active learn language. */
+export function markLearnLangKnown(word: string): void {
+  const lang = targetLangFromStorageKey(localStorage.getItem('ew_learn_lang') ?? 'en');
+  markKnownForLang(lang ?? 'en', word);
+}
+
+/** Count of target languages (beyond en/ua) with at least one known word — for "polyglot" achievements. */
+export function getStudiedLangCount(): number {
+  return ALL_TARGET_LANGS.filter((l) => LANG_REGISTRY[l].known().size > 0).length;
+}
+
+/**
+ * Filter word list to only those available in the current pair — the
+ * intersection of whichever of (learn language, know language) are target
+ * languages (EN/UA always cover every word, so they never restrict).
+ */
+export function getWordsForPair(words: WordEntry[]): WordEntry[] {
+  const learn = targetLangFromStorageKey(localStorage.getItem('ew_learn_lang') ?? 'en');
+  const know = targetLangFromStorageKey(localStorage.getItem('ew_know_lang') ?? 'ua');
+  if (!learn && !know) return words;
+  return words.filter(
+    (w) =>
+      (!learn || LANG_REGISTRY[learn].entry(w[0]) !== null) &&
+      (!know || LANG_REGISTRY[know].entry(w[0]) !== null),
+  );
+}
+
+/** @deprecated use getWordsForPair — kept as an alias for existing call sites. */
+export function getWordsForLang(words: WordEntry[]): WordEntry[] {
+  return getWordsForPair(words);
+}
+
+/** True when `mode` involves a target language on either side (i.e. needs deck filtering, unlike plain EN↔UA). */
+export function isSpecialMode(mode: string): boolean {
+  const { front, back } = parsePair(mode);
+  return isTargetLang(front) || isTargetLang(back);
+}
+
+/** Words matching both target-language sides of `mode` (en/ua sides never restrict). */
+export function getWordsForMode(mode: string, words: WordEntry[]): WordEntry[] {
+  const { front, back } = parsePair(mode);
+  const frontT = isTargetLang(front) ? front : null;
+  const backT = isTargetLang(back) ? back : null;
+  if (!frontT && !backT) return words;
+  return words.filter(
+    (w) =>
+      (!frontT || LANG_REGISTRY[frontT].entry(w[0]) !== null) &&
+      (!backT || LANG_REGISTRY[backT].entry(w[0]) !== null),
+  );
+}
+
+const NO_TRANSLATIONS_KEY: Record<TargetLang, string> = {
+  es: 'deck.noEsTranslations',
+  fr: 'deck.noFrTranslations',
+  it: 'deck.noItTranslations',
+  pt: 'deck.noPtTranslations',
+  de: 'deck.noDeTranslations',
+  he: 'deck.noHeTranslations',
+  ar: 'deck.noArTranslations',
+  pl: 'deck.noPlTranslations',
+  zh: 'deck.noZhTranslations',
+  el: 'deck.noElTranslations',
+  ja: 'deck.noJaTranslations',
+  tr: 'deck.noTrTranslations',
+  nl: 'deck.noNlTranslations',
+  vi: 'deck.noViTranslations',
+  hi: 'deck.noHiTranslations',
+  bn: 'deck.noBnTranslations',
+  id: 'deck.noIdTranslations',
+  pcm: 'deck.noPcmTranslations',
+  ko: 'deck.noKoTranslations',
+  fa: 'deck.noFaTranslations',
+  sw: 'deck.noSwTranslations',
+  ms: 'deck.noMsTranslations',
+  th: 'deck.noThTranslations',
+  az: 'deck.noAzTranslations',
+  ro: 'deck.noRoTranslations',
+  hu: 'deck.noHuTranslations',
+  cs: 'deck.noCsTranslations',
+  kk: 'deck.noKkTranslations',
+  sv: 'deck.noSvTranslations',
+  ka: 'deck.noKaTranslations',
+  hr: 'deck.noHrTranslations',
+  sr: 'deck.noSrTranslations',
+  bs: 'deck.noBsTranslations',
+  bg: 'deck.noBgTranslations',
+  sk: 'deck.noSkTranslations',
+  hy: 'deck.noHyTranslations',
+  da: 'deck.noDaTranslations',
+  fi: 'deck.noFiTranslations',
+  no: 'deck.noNoTranslations',
+  la: 'deck.noLaTranslations',
+  lt: 'deck.noLtTranslations',
+  lv: 'deck.noLvTranslations',
+  et: 'deck.noEtTranslations',
+  sl: 'deck.noSlTranslations',
+  mk: 'deck.noMkTranslations',
+  sq: 'deck.noSqTranslations',
+  is: 'deck.noIsTranslations',
+  cy: 'deck.noCyTranslations',
+  ga: 'deck.noGaTranslations',
+  tl: 'deck.noTlTranslations',
+  mn: 'deck.noMnTranslations',
+  uz: 'deck.noUzTranslations',
+  am: 'deck.noAmTranslations',
+  eo: 'deck.noEoTranslations',
+  ta: 'deck.noTaTranslations',
+  pa: 'deck.noPaTranslations',
+  zu: 'deck.noZuTranslations',
+  af: 'deck.noAfTranslations',
+  ky: 'deck.noKyTranslations',
+  tg: 'deck.noTgTranslations',
+  tk: 'deck.noTkTranslations',
+  ug: 'deck.noUgTranslations',
+  eu: 'deck.noEuTranslations',
+  ca: 'deck.noCaTranslations',
+  gl: 'deck.noGlTranslations',
+  mt: 'deck.noMtTranslations',
+  lb: 'deck.noLbTranslations',
+  ht: 'deck.noHtTranslations',
+  bo: 'deck.noBoTranslations',
+  my: 'deck.noMyTranslations',
+  km: 'deck.noKmTranslations',
+  lo: 'deck.noLoTranslations',
+  ne: 'deck.noNeTranslations',
+  si: 'deck.noSiTranslations',
+  ur: 'deck.noUrTranslations',
+  te: 'deck.noTeTranslations',
+  ml: 'deck.noMlTranslations',
+  kn: 'deck.noKnTranslations',
+  mr: 'deck.noMrTranslations',
+  gu: 'deck.noGuTranslations',
+  or: 'deck.noOrTranslations',
+  as: 'deck.noAsTranslations',
+  sd: 'deck.noSdTranslations',
+  ps: 'deck.noPsTranslations',
+  so: 'deck.noSoTranslations',
+  ha: 'deck.noHaTranslations',
+  yo: 'deck.noYoTranslations',
+  ig: 'deck.noIgTranslations',
+  ti: 'deck.noTiTranslations',
+  wo: 'deck.noWoTranslations',
+  mg: 'deck.noMgTranslations',
+  xh: 'deck.noXhTranslations',
+  sn: 'deck.noSnTranslations',
+  ny: 'deck.noNyTranslations',
+  fj: 'deck.noFjTranslations',
+  sm: 'deck.noSmTranslations',
+  to: 'deck.noToTranslations',
+  mi: 'deck.noMiTranslations',
+  haw: 'deck.noHawTranslations',
+  jv: 'deck.noJvTranslations',
+  su: 'deck.noSuTranslations',
+  gd: 'deck.noGdTranslations',
+  br: 'deck.noBrTranslations',
+  kw: 'deck.noKwTranslations',
+  gv: 'deck.noGvTranslations',
+  fo: 'deck.noFoTranslations',
+  oc: 'deck.noOcTranslations',
+  co: 'deck.noCoTranslations',
+  sc: 'deck.noScTranslations',
+  fy: 'deck.noFyTranslations',
+  yi: 'deck.noYiTranslations',
+  lad: 'deck.noLadTranslations',
+  qu: 'deck.noQuTranslations',
+  gn: 'deck.noGnTranslations',
+  ay: 'deck.noAyTranslations',
+  dz: 'deck.noDzTranslations',
+  dv: 'deck.noDvTranslations',
+  tet: 'deck.noTetTranslations',
+  be: 'deck.noBeTranslations',
+  qya: 'deck.noQyaTranslations',
+  sjn: 'deck.noSjnTranslations',
+  ku: 'deck.noKuTranslations',
+  om: 'deck.noOmTranslations',
+  ln: 'deck.noLnTranslations',
+  bho: 'deck.noBhoTranslations',
+  ceb: 'deck.noCebTranslations',
+  rm: 'deck.noRmTranslations',
+  ty: 'deck.noTyTranslations',
+  ch: 'deck.noChTranslations',
+  mh: 'deck.noMhTranslations',
+  pau: 'deck.noPauTranslations',
+  nah: 'deck.noNahTranslations',
+  nv: 'deck.noNvTranslations',
+  tlh: 'deck.noTlhTranslations',
+  val: 'deck.noValTranslations',
+  dth: 'deck.noDthTranslations',
+};
+
+function hasAnyEntries(lang: TargetLang, words: WordEntry[]): boolean {
+  return words.some((w) => LANG_REGISTRY[lang].entry(w[0]) !== null);
+}
+
+/** i18n key for the "no translations available" toast shown when getWordsForMode(mode, words) is empty. */
+export function noTranslationsKey(mode: string, words: WordEntry[]): string {
+  if (mode === 'es-fr' || mode === 'fr-es') return 'deck.noEsFrTranslations';
+  const { front, back } = parsePair(mode);
+  const frontT = isTargetLang(front) ? front : null;
+  const backT = isTargetLang(back) ? back : null;
+  if (frontT && !hasAnyEntries(frontT, words)) return NO_TRANSLATIONS_KEY[frontT];
+  if (backT && !hasAnyEntries(backT, words)) return NO_TRANSLATIONS_KEY[backT];
+  return NO_TRANSLATIONS_KEY[(frontT ?? backT ?? 'de') as TargetLang];
+}

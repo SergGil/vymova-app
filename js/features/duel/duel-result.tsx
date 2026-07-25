@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-result.tsx
+// Vymova — js/features/duel/duel-result.tsx
 // Result-екран дуелі (Фаза 9/2). Чисте відображення `_getResultData()`;
 // `_showFinish()` у duel.ts записує duel-async-store's `duelResult` замість innerHTML.
 import type { ReactElement } from 'react';

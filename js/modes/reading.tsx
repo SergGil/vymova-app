@@ -8,7 +8,7 @@ import { useState, useEffect, type ReactElement } from 'react';
 import { W } from '../../data/words-data/words.js';
 import { loadEpub } from '../features/reading/epub.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
-import { closePage, openPage } from '../features/sidebar.tsx';
+import { closePage, openPage } from '../features/sidebar/sidebar.tsx';
 import { t, pluralLabel } from '../features/i18n.ts';
 import { onWordLearned } from '../core/card-engine.ts';
 import { checkMilestones } from '../features/milestones.ts';
@@ -24,7 +24,7 @@ import {
   langConfig,
   type Code,
   type TargetLang,
-} from '../features/mode-utils.ts';
+} from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import {
   buildReadingPassages,

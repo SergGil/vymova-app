@@ -12,7 +12,7 @@ import {
   recordDailyWord,
   saveDailyStats,
   registerDailyStatsChanged,
-} from '../../js/features/game.ts';
+} from '../../js/features/game/game.ts';
 
 // ── localStorage mock ─────────────────────────────────────────
 const _store: Record<string, string> = {};

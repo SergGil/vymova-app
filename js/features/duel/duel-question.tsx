@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-question.tsx
+// Vymova — js/features/duel/duel-question.tsx
 // Ядро питання/відповіді/таймера дуелі (item 32, Фаза 5). Чисте
 // відображення `_getQuestionData()`, реактивне через duel-question-store
 // та duel-room-store.

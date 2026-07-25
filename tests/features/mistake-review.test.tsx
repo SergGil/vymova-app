@@ -12,7 +12,7 @@ const { getMistakes, clearMistake } = vi.hoisted(() => ({
   getMistakes: vi.fn<[], Record<string, number>>(() => ({})),
   clearMistake: vi.fn<[string], void>(),
 }));
-vi.mock('../../js/features/game.ts', () => ({ getMistakes, clearMistake }));
+vi.mock('../../js/features/game/game.ts', () => ({ getMistakes, clearMistake }));
 
 // ── Mock word index & word list ──────────────────────────────────
 const { getWordIndex } = vi.hoisted(() => ({

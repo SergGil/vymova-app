@@ -7,7 +7,7 @@ import { GRAMMAR_EL } from '../../data/grammar-data/grammar_el.ts';
 import { GRAMMAR_JA } from '../../data/grammar-data/grammar_ja.ts';
 import { GRAMMAR_TR } from '../../data/grammar-data/grammar_tr.ts';
 import { GRAMMAR_NL } from '../../data/grammar-data/grammar_nl.ts';
-import { ensureGrammarLoaded, getGrammarForLang } from '../../js/features/grammar-loader.ts';
+import { ensureGrammarLoaded, getGrammarForLang } from '../../js/features/word-data/grammar-loader.ts';
 import type { GrammarCategory } from '../../data/grammar.ts';
 
 function checkGrammarShape(categories: GrammarCategory[], name: string, expectedCount = 5) {

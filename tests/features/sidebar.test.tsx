@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { getActivePage, dispatchClosePage } from '../../src/nav-store.tsx';
-import { SidebarInit, openPage, closePage } from '../../js/features/sidebar.tsx';
+import { SidebarInit, openPage, closePage } from '../../js/features/sidebar/sidebar.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

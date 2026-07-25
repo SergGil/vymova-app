@@ -3,7 +3,7 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { renderCardState, setDeckState } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.ts';
-import { CardImage } from '../../js/features/card-image.tsx';
+import { CardImage } from '../../js/features/card/card-image.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

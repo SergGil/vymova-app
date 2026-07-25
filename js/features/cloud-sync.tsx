@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactElement } fr
 import * as LZString from 'lz-string';
 import { z } from 'zod';
 import { t } from './i18n.ts';
-import { DYNAMIC_KEY_PREFIXES } from './profile-switcher.tsx';
+import { DYNAMIC_KEY_PREFIXES } from './profile/profile-switcher.tsx';
 import { _lzSave, _lzLoad } from '../core/storage.ts';
 import { getAppCheckHeaders } from '../core/app-check.ts';
 import type { SRSData } from '../../src/types.js';

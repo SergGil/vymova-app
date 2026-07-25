@@ -2,8 +2,8 @@
 // 🏆 Global leaderboard via Firebase Realtime Database
 import { useEffect, useState, type ReactElement } from 'react';
 import { t, wordsLabel } from './i18n.ts';
-import { getGameData } from './game.ts';
-import { getKnownInLang } from './mode-utils.ts';
+import { getGameData } from './game/game.ts';
+import { getKnownInLang } from './mode/mode-utils.ts';
 import { getAppCheckHeaders } from '../core/app-check.ts';
 
 const DB_URL = 'https://english-words-trainer-557e8-default-rtdb.europe-west1.firebasedatabase.app';

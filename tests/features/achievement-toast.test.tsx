@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { AchievementToast, showToast } from '../../js/features/achievement-toast.tsx';
+import { AchievementToast, showToast } from '../../js/features/achievements/achievement-toast.tsx';
 import type { Achievement } from '../../src/types.js';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;

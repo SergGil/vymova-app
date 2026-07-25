@@ -10,7 +10,7 @@ import { RangeSelect } from '../../js/features/range-select.tsx';
 const { getWordsForPair } = vi.hoisted(() => ({
   getWordsForPair: vi.fn((words: unknown[]) => words),
 }));
-vi.mock('../../js/features/mode-utils.ts', () => ({ getWordsForPair }));
+vi.mock('../../js/features/mode/mode-utils.ts', () => ({ getWordsForPair }));
 
 function mount(): { selRange: HTMLSelectElement; root: Root } {
   document.body.innerHTML = '<div id="sel-range-mount"></div>';

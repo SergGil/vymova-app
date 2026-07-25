@@ -7,7 +7,7 @@ import {
   onModeComplete,
   recordModeComplete,
   invalidateModeStatsCache,
-} from '../../js/features/game.ts';
+} from '../../js/features/game/game.ts';
 import type { GameData } from '../../src/types.js';
 
 const _store: Record<string, string> = {};

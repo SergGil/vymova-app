@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { openModesModal } from '../../js/features/modes-modal.tsx';
+import { openModesModal } from '../../js/features/mode/modes-modal.tsx';
 import { dispatchClosePage, getActivePage } from '../../src/nav-store.tsx';
 
 // full-react-migration-roadmap.md Phase 5b: the overlay itself (markup,

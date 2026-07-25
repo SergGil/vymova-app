@@ -3,8 +3,8 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { getDeckSnapshot, setDeckState, setModeState } from '../../src/deck-store.ts';
 import { setMode } from '../../src/mode-store.ts';
-import { WordOfDay } from '../../js/features/word-of-day.tsx';
-import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
+import { WordOfDay } from '../../js/features/word-data/word-of-day.tsx';
+import { ensureLangTableLoaded } from '../../js/features/mode/mode-utils.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -16,7 +16,7 @@ const { closePage, render, setIdx, loadWikiImage } = vi.hoisted(() => ({
     cb(_word, null),
   ),
 }));
-vi.mock('../../js/features/sidebar.tsx', () => ({ closePage }));
+vi.mock('../../js/features/sidebar/sidebar.tsx', () => ({ closePage }));
 vi.mock('../../js/core/card-engine.ts', () => ({ render, setIdx }));
 vi.mock('../../js/core/images.ts', () => ({ loadWikiImage }));
 

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { act } from 'react';
 import { render } from '@testing-library/react';
-import { QuizOverlayShell } from '../../js/features/quiz-overlay-shell.tsx';
+import { QuizOverlayShell } from '../../js/features/mode/quiz-overlay-shell.tsx';
 import { LazyMode } from '../../src/lazy-mode.tsx';
 
 // The 19 `#X-overlay` ids this component renders — one `.quiz-panel`

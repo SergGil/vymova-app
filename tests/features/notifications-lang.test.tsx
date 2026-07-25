@@ -14,7 +14,7 @@ const { getDailyStats, getGameData, loadSRS, registerDailyStatsChanged } = vi.ho
   loadSRS: vi.fn(() => ({}) as Record<string, { due?: string }>),
   registerDailyStatsChanged: vi.fn(),
 }));
-vi.mock('../../js/features/game.ts', () => ({
+vi.mock('../../js/features/game/game.ts', () => ({
   getDailyStats,
   getGameData,
   registerDailyStatsChanged,

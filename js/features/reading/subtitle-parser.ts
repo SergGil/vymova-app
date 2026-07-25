@@ -1,4 +1,4 @@
-// Vymova — js/features/subtitle-parser.ts
+// Vymova — js/features/reading/subtitle-parser.ts
 // Pure .srt/.vtt → cue-list parser. No DOM access — safe to unit-test and
 // safe to call before the video element even exists.
 export interface Cue {

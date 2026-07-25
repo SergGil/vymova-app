@@ -1,4 +1,4 @@
-// Vymova — js/features/speak-lang.ts
+// Vymova — js/features/voice/speak-lang.ts
 // Shared "speak text in the right language's voice, falling back to
 // English" helper. Kept in its own small module (rather than living in
 // card-actions.ts) so that card-front-text.tsx — a presentational component
@@ -152,7 +152,7 @@ import {
   NATIVE_LATIN_LANGS,
   type TargetLang,
   type Code,
-} from '../mode-utils.ts';
+} from '../mode/mode-utils.ts';
 
 export const VOICE_GETTERS: Record<TargetLang, () => SpeechSynthesisVoice | null> = {
   es: getSelectedEsVoice,

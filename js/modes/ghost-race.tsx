@@ -5,13 +5,13 @@ import { useRef, useState, type ReactElement } from 'react';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words-data/words.js';
-import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game.ts';
+import { addCombo, breakCombo, awardXP } from '../features/game/combo.ts';
+import { recordModeComplete, recordModeAnswer, recordMistake } from '../features/game/game.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
-import { entryFor } from '../features/mode-utils.ts';
+import { entryFor } from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
-import { useModeSession } from '../features/use-mode-session.ts';
+import { useModeSession } from '../features/mode/use-mode-session.ts';
 
 const N = 10;
 const NUM_OPTS = 4;

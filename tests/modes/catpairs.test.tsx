@@ -8,8 +8,8 @@ import type { WordEntry } from '../../src/types.ts';
 // deterministic/known ahead of time, but catpairs.tsx always draws its 6
 // words from the real dictionary's categories, so this keeps pairing logic
 // testable without guessing actual Ukrainian text.
-vi.mock('../../js/features/mode-utils.ts', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../../js/features/mode-utils.ts')>();
+vi.mock('../../js/features/mode/mode-utils.ts', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../js/features/mode/mode-utils.ts')>();
   return {
     ...actual,
     entryFor: (code: string, cw: WordEntry) =>

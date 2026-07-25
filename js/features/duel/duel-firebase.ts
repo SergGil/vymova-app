@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-firebase.ts
+// Vymova — js/features/duel/duel-firebase.ts
 // Thin Firebase REST wrappers used by duel.ts, duel-tournament-logic.ts,
 // duel-async-challenge.ts, duel-spectator-logic.ts. Otherwise dependency-free
 // leaf module (mirrors duel-rating.ts) so nothing importing it can create a

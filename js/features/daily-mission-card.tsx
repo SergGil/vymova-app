@@ -6,7 +6,7 @@
 // `dailyMissionDate`).
 import { useEffect, useState, type ReactElement } from 'react';
 import { useLangVersion, useGameBarVersion } from '../../src/store.ts';
-import { getGameData } from './game.ts';
+import { getGameData } from './game/game.ts';
 import { today, msUntilNextLocalMidnight } from '../core/today.ts';
 import { t } from './i18n.ts';
 

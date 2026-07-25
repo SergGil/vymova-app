@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-lobby-options.tsx
+// Vymova — js/features/duel/duel-lobby-options.tsx
 // Лобі дуелі: вибір режиму (#duel-mode-picker), категорії (#duel-cat-picker)
 // і опцій (#duel-options-row). Частина item 29 (Фаза 5).
 import { useEffect, useState, type ReactElement } from 'react';

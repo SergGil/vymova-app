@@ -18,7 +18,7 @@ const { _rebuildEsDeck, _isSpecialMode } = vi.hoisted(() => ({
   _rebuildEsDeck: vi.fn(),
   _isSpecialMode: vi.fn(() => false),
 }));
-vi.mock('../../js/features/deck-mode.tsx', () => ({ _rebuildEsDeck, _isSpecialMode }));
+vi.mock('../../js/features/deck/deck-mode.tsx', () => ({ _rebuildEsDeck, _isSpecialMode }));
 
 function mount(): { selTag: HTMLSelectElement; root: Root } {
   document.body.innerHTML =

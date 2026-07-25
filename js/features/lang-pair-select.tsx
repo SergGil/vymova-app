@@ -8,7 +8,7 @@ import { notifyLangChange, useLangVersion } from '../../src/store.ts';
 import { flagUrl } from '../core/flags.ts';
 import { FLAG_CODE } from '../core/flag-codes.ts';
 import { FlagDropdown } from '../core/flag-dropdown.tsx';
-import { ensureLangTableLoaded, areLangTablesReady } from './mode-utils.ts';
+import { ensureLangTableLoaded, areLangTablesReady } from './mode/mode-utils.ts';
 import { getModeStateSnapshot, setMode as dispatchMode } from '../../src/mode-store.ts';
 
 export { FLAG_CODE };

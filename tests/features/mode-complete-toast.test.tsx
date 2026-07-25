@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { act } from 'react';
 import { render } from '@testing-library/react';
-import { ModeCompleteToast, showModeCompleteToast } from '../../js/features/mode-complete-toast.tsx';
+import { ModeCompleteToast, showModeCompleteToast } from '../../js/features/mode/mode-complete-toast.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

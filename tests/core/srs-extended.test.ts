@@ -13,7 +13,7 @@ import {
   getSrsNewRemaining,
   SRS_NEW_DAILY_CAP,
   invalidateGameCaches,
-} from '../../js/features/game.ts';
+} from '../../js/features/game/game.ts';
 import {
   clearSrsData,
   getSrsDataSnapshot,

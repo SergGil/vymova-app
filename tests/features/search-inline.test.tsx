@@ -5,7 +5,7 @@ import { setDeckState } from '../../src/deck-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.ts';
-import { SearchInline } from '../../js/features/search-inline.tsx';
+import { SearchInline } from '../../js/features/search/search-inline.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

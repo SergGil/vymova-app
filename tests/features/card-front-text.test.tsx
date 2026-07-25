@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
 import { ensureLocaleLoaded } from '../../js/features/i18n.ts';
-import { ensureSensesLoaded } from '../../js/features/senses-loader.ts';
+import { ensureSensesLoaded } from '../../js/features/word-data/senses-loader.ts';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setCwState, setFlippedState, setModeState, setDeckState } from '../../src/deck-store.ts';
@@ -15,7 +15,7 @@ import {
   ExEn,
   ExUa,
   OtherMeanings,
-} from '../../js/features/card-front-text.tsx';
+} from '../../js/features/card/card-front-text.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

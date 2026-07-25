@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { entryFor, ensureLangTableLoaded } from '../js/features/mode-utils.ts';
+import { entryFor, ensureLangTableLoaded } from '../js/features/mode/mode-utils.ts';
 import { ALL_TARGET_LANGS } from '../src/types.js';
 import type { WordEntry } from '../src/types.js';
 
@@ -29,7 +29,7 @@ const root = join(__dirname, '..');
 const read = (rel: string): string => readFileSync(join(root, rel), 'utf8');
 
 describe('Vietnamese is wired into every per-mode translation switch', () => {
-  const modeFilesWithOneSwitch = ['js/features/duel/duel-deck.ts', 'js/features/learning-path.ts'];
+  const modeFilesWithOneSwitch = ['js/features/duel/duel-deck.ts', 'js/features/learning-path/learning-path.ts'];
 
   it.each(modeFilesWithOneSwitch)('%s has a case %s: branch alongside case %s:', (file) => {
     const src = read(file);

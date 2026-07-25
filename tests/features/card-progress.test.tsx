@@ -5,7 +5,7 @@ import { setModeState, setDeckState, setIdxState } from '../../src/deck-store.ts
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.ts';
-import { CardIdx, CardKnownCount, ProgressBar } from '../../js/features/card-progress.tsx';
+import { CardIdx, CardKnownCount, ProgressBar } from '../../js/features/card/card-progress.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

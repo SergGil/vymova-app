@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { act } from 'react';
 import { render } from '@testing-library/react';
-import { ModeCardGrid } from '../../js/features/mode-card-grid.tsx';
+import { ModeCardGrid } from '../../js/features/mode/mode-card-grid.tsx';
 import { LazyMode } from '../../src/lazy-mode.tsx';
 import { expectStructuralParity } from '../support/structural-parity.ts';
 

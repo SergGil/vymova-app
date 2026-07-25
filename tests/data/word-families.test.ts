@@ -3,7 +3,7 @@ import {
   ensureWordFamiliesLoaded,
   getWordFamiliesForLang,
   getWordFamilyReverseForLang,
-} from '../../js/features/word-families-loader.ts';
+} from '../../js/features/word-data/word-families-loader.ts';
 
 describe('WORD_FAMILIES', () => {
   beforeAll(async () => {

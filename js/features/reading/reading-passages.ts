@@ -1,4 +1,4 @@
-// Vymova — js/features/reading-passages.ts
+// Vymova — js/features/reading/reading-passages.ts
 // Assembles "Читання" reading passages directly from the dictionary's own
 // example sentences (data/words-data/words.js + data/words-data/words_<code>.js), instead of a
 // fixed set of hand-written English paragraphs. Scales automatically with
@@ -7,7 +7,7 @@
 // just English — the caller is expected to pass a pool already filtered to
 // the current learn/know pair (see `getWordsForPair` in mode-utils.ts).
 import type { WordEntry } from '../../../src/types.js';
-import { entryFor, type Code } from '../mode-utils.ts';
+import { entryFor, type Code } from '../mode/mode-utils.ts';
 import { boldHead } from '../../core/card-helpers.ts';
 
 export type PassageRun = { kind: 'text'; text: string } | { kind: 'word'; text: string; cw: WordEntry };

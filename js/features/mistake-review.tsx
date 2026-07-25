@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 import { useState, type ReactElement } from 'react';
 import { W } from '../../data/words-data/words.js';
 import { getWordIndex } from '../core/word-index.ts';
-import { getMistakes, clearMistake } from './game.ts';
+import { getMistakes, clearMistake } from './game/game.ts';
 import { speak } from './voice/speech.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { t } from './i18n.ts';

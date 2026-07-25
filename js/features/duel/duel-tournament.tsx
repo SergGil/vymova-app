@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-tournament.tsx
+// Vymova — js/features/duel/duel-tournament.tsx
 // Турнірна сітка (item 33, Фаза 5). Чисте відображення
 // `_getTournamentData()`, реактивне через useDuelTournView()
 // (полінг кімнати очікування / турнірного браузера — в duel-tournament-logic.ts).

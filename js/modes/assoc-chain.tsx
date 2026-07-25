@@ -5,14 +5,14 @@
 // (or running out of further synonyms/antonyms) ends the chain.
 import { useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
-import { ensureSynonymsLoaded, getSynonymsForLang } from '../features/synonyms-loader.ts';
-import { ensureAntonymsLoaded, getAntonymsForLang } from '../features/antonyms-loader.ts';
+import { ensureSynonymsLoaded, getSynonymsForLang } from '../features/word-data/synonyms-loader.ts';
+import { ensureAntonymsLoaded, getAntonymsForLang } from '../features/word-data/antonyms-loader.ts';
 import { getLearnLang } from '../features/lang-pair-select.tsx';
 import { t } from '../features/i18n.ts';
-import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeAnswer, recordMistake } from '../features/game.ts';
+import { addCombo, breakCombo, awardXP } from '../features/game/combo.ts';
+import { recordModeAnswer, recordMistake } from '../features/game/game.ts';
 import { speakForCode } from '../features/voice/speak-lang.ts';
-import { useModeSession } from '../features/use-mode-session.ts';
+import { useModeSession } from '../features/mode/use-mode-session.ts';
 
 const NUM_OPTS = 4;
 const MAX_CHAIN = 20;

@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-history-log.ts
+// Vymova — js/features/duel/duel-history-log.ts
 // Match history (localStorage) + rating re-export — pure persistence with
 // zero dependency on duel room/game state, read by duel-history.tsx and
 // duel-leaderboard.tsx. Rating storage itself lives in duel-rating.ts (a

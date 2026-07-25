@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { ProfileSwitcher } from '../../js/features/profile-switcher.tsx';
+import { ProfileSwitcher } from '../../js/features/profile/profile-switcher.tsx';
 import { saveKnown, _lzLoad } from '../../js/core/storage.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;

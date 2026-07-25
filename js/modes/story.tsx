@@ -8,7 +8,7 @@
 // stories usable offline.
 import { useRef, useState, type ReactElement } from 'react';
 import { W } from '../../data/words-data/words.js';
-import { recordModeComplete } from '../features/game.ts';
+import { recordModeComplete } from '../features/game/game.ts';
 import { speakForCode } from '../features/voice/speak-lang.ts';
 import { t } from '../features/i18n.ts';
 import { AI_PROXY_URL, AI_TUTOR_ENABLED } from '../config.ts';
@@ -23,9 +23,9 @@ import {
   reverseHeadwordFor,
   type Code,
   type TargetLang,
-} from '../features/mode-utils.ts';
+} from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
-import { useModeSession } from '../features/use-mode-session.ts';
+import { useModeSession } from '../features/mode/use-mode-session.ts';
 
 type CefrLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1';
 const LEVELS: CefrLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];

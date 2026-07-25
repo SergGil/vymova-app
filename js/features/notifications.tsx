@@ -2,7 +2,7 @@
 import { useEffect, type ReactElement } from 'react';
 import { t, pluralLabel } from './i18n.ts';
 import { today as localToday, yesterday as localYesterday } from '../core/today.ts';
-import { getDailyStats, getGameData, registerDailyStatsChanged } from './game.ts';
+import { getDailyStats, getGameData, registerDailyStatsChanged } from './game/game.ts';
 import { loadSRS } from '../core/storage.ts';
 
 const KEY_ENABLED = 'ew_notif_enabled';

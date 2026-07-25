@@ -16,7 +16,7 @@ import {
   loadUnlocked,
   saveUnlocked,
   invalidateGameCaches,
-} from '../../js/features/game.ts';
+} from '../../js/features/game/game.ts';
 import type { GameData } from '../../src/types.js';
 
 // ── localStorage + date mock ──────────────────────────────────

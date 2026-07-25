@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const closePage = vi.fn();
-vi.mock('../../js/features/sidebar.tsx', () => ({
+vi.mock('../../js/features/sidebar/sidebar.tsx', () => ({
   closePage: (...a: unknown[]) => closePage(...a),
 }));
 

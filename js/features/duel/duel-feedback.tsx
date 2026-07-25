@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-feedback.tsx
+// Vymova — js/features/duel/duel-feedback.tsx
 // Текст фідбеку + швидкість відповіді під питанням дуелі (item 32, Фаза 5).
 // Чисте відображення `_getFeedbackData()`, реактивне через duel-question-store.
 import type { ReactElement } from 'react';

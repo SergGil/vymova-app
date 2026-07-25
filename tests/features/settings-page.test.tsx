@@ -11,7 +11,7 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { SettingsPage } from '../../js/features/settings-page.tsx';
+import { SettingsPage } from '../../js/features/settings/settings-page.tsx';
 import { getActiveFandomTheme, toggleFandomTheme } from '../../src/fandom-theme-store.ts';
 
 afterEach(() => {

@@ -5,17 +5,17 @@ import { createPortal } from 'react-dom';
 import { _shuf } from '../core/srs.ts';
 import { today as localToday, msUntilNextLocalMidnight } from '../core/today.ts';
 import { W } from '../../data/words-data/words.js';
-import { getGameData, saveGameData, recordModeComplete } from '../features/game.ts';
-import { closePage, openPage } from '../features/sidebar.tsx';
+import { getGameData, saveGameData, recordModeComplete } from '../features/game/game.ts';
+import { closePage, openPage } from '../features/sidebar/sidebar.tsx';
 import { speakBtn, decodeIpa } from '../core/ui-helpers.ts';
 import { playSound } from '../core/audio.ts';
 import { t } from '../features/i18n.ts';
-import { refreshGameBarLevel } from '../features/game-bar-level.tsx';
-import { checkAchievements } from '../features/render-achievements.ts';
+import { refreshGameBarLevel } from '../features/game/game-bar-level.tsx';
+import { checkAchievements } from '../features/achievements/render-achievements.ts';
 import type { WordEntry } from '../../src/types.js';
-import { entryFor, getKnownSetForLang, isTargetLang } from '../features/mode-utils.ts';
+import { entryFor, getKnownSetForLang, isTargetLang } from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
-import { scoreEmoji } from '../features/mode-final-screen.tsx';
+import { scoreEmoji } from '../features/mode/mode-final-screen.tsx';
 
 const DC_SIZE = 10,
   DC_XP = 3;

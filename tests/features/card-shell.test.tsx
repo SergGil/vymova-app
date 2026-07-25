@@ -10,10 +10,10 @@ import { expectStructuralParity } from '../support/structural-parity.ts';
 // test's job is only CardShell's own wrapper markup (ids/classes/nesting/
 // static buttons), not what each nested component renders — those already
 // have their own tests.
-vi.mock('../../js/features/card-meta.tsx', () => ({ CardMeta: () => null }));
-vi.mock('../../js/features/card-image.tsx', () => ({ CardImage: () => null }));
-vi.mock('../../js/features/card-indicators.tsx', () => ({ CardNoteDisplay: () => null }));
-vi.mock('../../js/features/card-front-text.tsx', () => ({
+vi.mock('../../js/features/card/card-meta.tsx', () => ({ CardMeta: () => null }));
+vi.mock('../../js/features/card/card-image.tsx', () => ({ CardImage: () => null }));
+vi.mock('../../js/features/card/card-indicators.tsx', () => ({ CardNoteDisplay: () => null }));
+vi.mock('../../js/features/card/card-front-text.tsx', () => ({
   WordText: () => null,
   Transcription: () => null,
   PosTag: () => null,
@@ -24,8 +24,8 @@ vi.mock('../../js/features/card-front-text.tsx', () => ({
   CardHint: () => null,
   OtherMeanings: () => null,
 }));
-vi.mock('../../js/features/similar-words.tsx', () => ({ SimilarWordsChips: () => null }));
-vi.mock('../../js/features/word-context.tsx', () => ({
+vi.mock('../../js/features/word-data/similar-words.tsx', () => ({ SimilarWordsChips: () => null }));
+vi.mock('../../js/features/word-data/word-context.tsx', () => ({
   WordFamiliesChips: () => null,
   CollocationsSection: () => null,
   SynonymsChips: () => null,
@@ -36,10 +36,10 @@ vi.mock('../../js/features/word-context.tsx', () => ({
 vi.mock('../../js/features/quick-quiz.tsx', () => ({ QuickQuizButton: () => null }));
 vi.mock('../../js/features/daily-mission-card.tsx', () => ({ DailyMissionCard: () => null }));
 vi.mock('../../js/features/font-size-control.tsx', () => ({ FontSizeControl: () => null }));
-vi.mock('../../js/features/achievement-toast.tsx', () => ({ AchievementToast: () => null }));
+vi.mock('../../js/features/achievements/achievement-toast.tsx', () => ({ AchievementToast: () => null }));
 vi.mock('../../js/features/goal-modal.tsx', () => ({ GoalModal: () => null }));
 
-const { CardShell } = await import('../../js/features/card-shell.tsx');
+const { CardShell } = await import('../../js/features/card/card-shell.tsx');
 
 // The exact static markup index.html's .card-scene block replaced
 // (docs/card-shell-migration-roadmap.md Phase 2) — copied verbatim from the

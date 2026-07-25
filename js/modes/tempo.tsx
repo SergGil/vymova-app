@@ -3,18 +3,18 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { W } from '../../data/words-data/words.js';
-import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game.ts';
-import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
+import { recordModeComplete, recordMistake, recordModeAnswer } from '../features/game/game.ts';
+import { addCombo, breakCombo, awardXP } from '../features/game/combo.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { playSound } from '../core/audio.ts';
 import { speakForCode } from '../features/voice/speak-lang.ts';
 import { t } from '../features/i18n.ts';
-import { entryFor, type Code } from '../features/mode-utils.ts';
+import { entryFor, type Code } from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang, type LangCode } from '../features/lang-pair-select.tsx';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
-import { scoreEmoji } from '../features/mode-final-screen.tsx';
-import { useModeSession } from '../features/use-mode-session.ts';
+import { scoreEmoji } from '../features/mode/mode-final-screen.tsx';
+import { useModeSession } from '../features/mode/use-mode-session.ts';
 
 type Question = {
   dir: string;

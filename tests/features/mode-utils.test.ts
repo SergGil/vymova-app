@@ -22,7 +22,7 @@ import {
   getKnownSetForLang,
   markKnownForLang,
   markLearnLangKnown,
-} from '../../js/features/mode-utils.ts';
+} from '../../js/features/mode/mode-utils.ts';
 
 const abandon: WordEntry = [
   'abandon',

@@ -13,7 +13,7 @@
 import { type ReactElement } from 'react';
 import { useLangVersion } from '../../src/store.ts';
 import { W } from '../../data/words-data/words.js';
-import { getWordsForPair } from './mode-utils.ts';
+import { getWordsForPair } from './mode/mode-utils.ts';
 import { t } from './i18n.ts';
 import type { WordEntry } from '../../src/types.js';
 

@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { dispatchAnimCard } from '../../js/core/card-anim-store.ts';
-import { CardFaceAnim } from '../../js/features/card-face-anim.tsx';
+import { CardFaceAnim } from '../../js/features/card/card-face-anim.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

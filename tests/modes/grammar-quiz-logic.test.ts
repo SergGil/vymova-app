@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach, beforeAll } from 'vitest';
 import { pickPool, buildQuestion } from '../../js/modes/grammar-quiz.tsx';
-import { ensureGrammarLoaded, getGrammarForLang } from '../../js/features/grammar-loader.ts';
+import { ensureGrammarLoaded, getGrammarForLang } from '../../js/features/word-data/grammar-loader.ts';
 
 describe('grammar-quiz-logic', () => {
   // pickPool() itself stays synchronous, reading whatever's already in

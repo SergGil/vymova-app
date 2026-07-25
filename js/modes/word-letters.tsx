@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf } from '../core/srs.ts';
 import { W } from '../../data/words-data/words.js';
-import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeAnswer } from '../features/game.ts';
+import { addCombo, breakCombo, awardXP } from '../features/game/combo.ts';
+import { recordModeAnswer } from '../features/game/game.ts';
 import { playSound } from '../core/audio.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
-import { useModeSession } from '../features/use-mode-session.ts';
+import { useModeSession } from '../features/mode/use-mode-session.ts';
 
 const ROUNDS = 5;
 

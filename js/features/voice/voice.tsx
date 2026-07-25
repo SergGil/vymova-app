@@ -1,4 +1,4 @@
-// Vymova — js/features/voice.tsx
+// Vymova — js/features/voice/voice.tsx
 // Web Speech API voice picker: EN + UA
 import { useCallback, useEffect, useState, type ReactElement } from 'react';
 import { createPortal } from 'react-dom';

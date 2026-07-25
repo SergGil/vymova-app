@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-resume.tsx
+// Vymova — js/features/duel/duel-resume.tsx
 // Картки "продовжити дуель" у лобі (item 33, Фаза 5). Чисте
 // відображення `_getResumeSessions()`, реактивне через duel-async-store.
 import type { ReactElement } from 'react';

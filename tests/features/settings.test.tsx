@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { SettingsInit } from '../../js/features/settings.tsx';
+import { SettingsInit } from '../../js/features/settings/settings.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -13,8 +13,8 @@ const { updateSrsUI, loadWikiImage, openPage, refreshGameBarLevel } = vi.hoisted
 }));
 vi.mock('../../js/core/srs.ts', () => ({ updateSrsUI }));
 vi.mock('../../js/core/images.ts', () => ({ _imgCache: {}, loadWikiImage }));
-vi.mock('../../js/features/sidebar.tsx', () => ({ openPage }));
-vi.mock('../../js/features/game-bar-level.tsx', () => ({ refreshGameBarLevel }));
+vi.mock('../../js/features/sidebar/sidebar.tsx', () => ({ openPage }));
+vi.mock('../../js/features/game/game-bar-level.tsx', () => ({ refreshGameBarLevel }));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

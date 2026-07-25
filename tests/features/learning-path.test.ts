@@ -7,7 +7,7 @@ import {
   estimateDays,
   updateCompletionDates,
   type PaceSnapshot,
-} from '../../js/features/learning-path-logic.ts';
+} from '../../js/features/learning-path/learning-path-logic.ts';
 import type { WordEntry } from '../../src/types.js';
 import type { CefrLevel } from '../../data/cefr.ts';
 

@@ -2,7 +2,7 @@
 // SVG progress ring showing level completion
 import type { ReactElement } from 'react';
 import { useKnownWords } from '../../src/known-words-store.ts';
-import { getLevel, getNextLevel } from './game.ts';
+import { getLevel, getNextLevel } from './game/game.ts';
 
 export function LevelRing(): ReactElement {
   const n = useKnownWords('en').size;

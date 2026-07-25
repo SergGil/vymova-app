@@ -4,7 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { renderCardState, setDeckState } from '../../src/deck-store.ts';
 import { setKnownWords, markKnown, unmarkKnown } from '../../src/known-words-store.ts';
 import type { WordEntry } from '../../src/types.ts';
-import { CardKnownVisuals } from '../../js/features/card-known-visuals.tsx';
+import { CardKnownVisuals } from '../../js/features/card/card-known-visuals.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

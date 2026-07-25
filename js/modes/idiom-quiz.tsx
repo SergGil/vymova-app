@@ -2,16 +2,16 @@
 // 💬 Idiom Quiz: turns the idioms reference page's data (previously browse-only,
 // no review loop) into a 4-option "guess the meaning" quiz.
 import { useEffect, useState, type ReactElement } from 'react';
-import { ensureIdiomsLoaded, getIdiomsForLang } from '../features/idioms-loader.ts';
+import { ensureIdiomsLoaded, getIdiomsForLang } from '../features/word-data/idioms-loader.ts';
 import type { Idiom } from '../../data/idioms.ts';
-import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeAnswer } from '../features/game.ts';
+import { addCombo, breakCombo, awardXP } from '../features/game/combo.ts';
+import { recordModeAnswer } from '../features/game/game.ts';
 import { t } from '../features/i18n.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speakForCode } from '../features/voice/speak-lang.ts';
-import type { Code } from '../features/mode-utils.ts';
-import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
-import { useModeSession } from '../features/use-mode-session.ts';
+import type { Code } from '../features/mode/mode-utils.ts';
+import { ModeFinalScreen } from '../features/mode/mode-final-screen.tsx';
+import { useModeSession } from '../features/mode/use-mode-session.ts';
 import { _shuf } from '../core/srs.ts';
 
 const SIZE = 8,

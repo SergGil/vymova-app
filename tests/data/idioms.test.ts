@@ -10,7 +10,7 @@ import { IDIOMS_EL as GREEK_IDIOMS } from '../../data/idioms-data/idioms_el.ts';
 import { IDIOMS_JA as JAPANESE_IDIOMS } from '../../data/idioms-data/idioms_ja.ts';
 import { IDIOMS_TR as TURKISH_IDIOMS } from '../../data/idioms-data/idioms_tr.ts';
 import { IDIOMS_NL as DUTCH_IDIOMS } from '../../data/idioms-data/idioms_nl.ts';
-import { ensureIdiomsLoaded, getIdiomsForLang } from '../../js/features/idioms-loader.ts';
+import { ensureIdiomsLoaded, getIdiomsForLang } from '../../js/features/word-data/idioms-loader.ts';
 import type { Idiom } from '../../data/idioms.ts';
 
 function checkIdiomShape(list: Idiom[], name: string) {

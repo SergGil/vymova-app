@@ -3,16 +3,16 @@
 // (previously browse-only, no review loop) into a 4-option "which rule is
 // this?" quiz. Structural mirror of idiom-quiz.tsx.
 import { useEffect, useState, type ReactElement } from 'react';
-import { ensureGrammarLoaded, getGrammarForLang } from '../features/grammar-loader.ts';
+import { ensureGrammarLoaded, getGrammarForLang } from '../features/word-data/grammar-loader.ts';
 import type { GrammarCategory } from '../../data/grammar.ts';
-import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeAnswer } from '../features/game.ts';
+import { addCombo, breakCombo, awardXP } from '../features/game/combo.ts';
+import { recordModeAnswer } from '../features/game/game.ts';
 import { t } from '../features/i18n.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { speakForCode } from '../features/voice/speak-lang.ts';
-import type { Code } from '../features/mode-utils.ts';
-import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
-import { useModeSession } from '../features/use-mode-session.ts';
+import type { Code } from '../features/mode/mode-utils.ts';
+import { ModeFinalScreen } from '../features/mode/mode-final-screen.tsx';
+import { useModeSession } from '../features/mode/use-mode-session.ts';
 import { _shuf } from '../core/srs.ts';
 
 const SIZE = 8,

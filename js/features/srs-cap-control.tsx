@@ -2,7 +2,7 @@
 // −/+ control for the SRS daily new-card cap (#srs-new-cap-control),
 // persisted to localStorage. Structural mirror of font-size-control.tsx.
 import { useState, type ReactElement } from 'react';
-import { getSrsNewDailyCap, setSrsNewDailyCap } from './game.ts';
+import { getSrsNewDailyCap, setSrsNewDailyCap } from './game/game.ts';
 
 const STEP = 5;
 const MIN = 5;

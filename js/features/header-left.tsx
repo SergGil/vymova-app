@@ -18,7 +18,7 @@
 // CSS, no other .ts/.tsx file), so CardIdx/CardKnownCount now render
 // directly as children here instead.
 import type { ReactElement } from 'react';
-import { CardIdx, CardKnownCount } from './card-progress.tsx';
+import { CardIdx, CardKnownCount } from './card/card-progress.tsx';
 import { useLangVersion } from '../../src/store.ts';
 import { t } from './i18n.ts';
 

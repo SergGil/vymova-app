@@ -10,7 +10,7 @@ import { createRoot, type Root } from 'react-dom/client';
 // Pre-loading game-bar-level.tsx settles the ordering up front. Doesn't
 // happen in the real app, where app-root.tsx's eager imports already settle
 // this before any lazy-loaded mode runs.
-import '../../js/features/game-bar-level.tsx';
+import '../../js/features/game/game-bar-level.tsx';
 import { LessonPage, openLesson } from '../../js/modes/lesson.tsx';
 import { setDeckState } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.ts';

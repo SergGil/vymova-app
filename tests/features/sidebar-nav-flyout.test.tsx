@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { NavFlyoutController } from '../../js/features/sidebar-nav-flyout.tsx';
+import { NavFlyoutController } from '../../js/features/sidebar/sidebar-nav-flyout.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

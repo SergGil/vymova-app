@@ -1,7 +1,7 @@
 // Vymova — data/achievements.ts
 // Static achievements definition (pure data, no side effects)
 import type { Achievement, GameData, ModeStats } from '../src/types.js';
-import { getMaxWordsForLearnLang, getStudiedLangCount } from '../js/features/mode-utils.ts';
+import { getMaxWordsForLearnLang, getStudiedLangCount } from '../js/features/mode/mode-utils.ts';
 // getDuelRating comes from the small dependency-free duel-rating.ts, NOT
 // duel.ts itself — duel.ts is a large, import-fragile module (documented in
 // its own comments) and this file is imported almost everywhere, so a

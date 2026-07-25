@@ -6,12 +6,12 @@ import { W } from '../data/words-data/words.js';
 import { setKnownWords } from '../src/known-words-store.ts';
 import { loadSrsData } from '../src/srs-store.ts';
 import { setBaseWords, getBaseWordsSnapshot } from '../src/deck-filter-store.ts';
-import { renderGameBar } from './features/render-game-bar.ts';
-import { refreshGameBarLevel as renderLevelBadge } from './features/game-bar-level.tsx';
-import { checkAchievements } from './features/render-achievements.ts';
+import { renderGameBar } from './features/game/render-game-bar.ts';
+import { refreshGameBarLevel as renderLevelBadge } from './features/game/game-bar-level.tsx';
+import { checkAchievements } from './features/achievements/render-achievements.ts';
 import { render, setDeck } from './core/card-engine.ts';
 import { shuffle, updateSrsUI } from './core/srs.ts';
-import { _idle } from './features/game.ts';
+import { _idle } from './features/game/game.ts';
 import './features/voice/speech.ts';
 
 const savedKnown = _lzLoad('ew_known', []);

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { getComboMult, addCombo, breakCombo, awardXP } from '../../js/features/combo.ts';
+import { getComboMult, addCombo, breakCombo, awardXP } from '../../js/features/game/combo.ts';
 
 // combo.ts uses document.getElementById (safely — returns early if null)
 // and window.getGameData / window.saveGameData / window.checkAchievements (all optional-chained)

@@ -14,7 +14,7 @@ const { getComboMult, awardXP } = vi.hoisted(() => ({
   getComboMult: vi.fn(() => 1),
   awardXP: vi.fn(() => 10),
 }));
-vi.mock('../../js/features/combo.ts', () => ({ getComboMult, awardXP }));
+vi.mock('../../js/features/game/combo.ts', () => ({ getComboMult, awardXP }));
 
 const { getGameData, saveGameData, recordDailyWord, updateStreak, idleFn } = vi.hoisted(() => ({
   getGameData: vi.fn(() => ({ goalCur: 0, goalMax: 20, goalDays: 0, sessionWords: 0, xp: 0 })),
@@ -23,7 +23,7 @@ const { getGameData, saveGameData, recordDailyWord, updateStreak, idleFn } = vi.
   updateStreak: vi.fn((d: any) => d),
   idleFn: vi.fn((fn: () => void) => fn()),
 }));
-vi.mock('../../js/features/game.ts', () => ({
+vi.mock('../../js/features/game/game.ts', () => ({
   getGameData,
   saveGameData,
   recordDailyWord,
@@ -34,13 +34,13 @@ vi.mock('../../js/features/game.ts', () => ({
 vi.mock('../../js/features/i18n.ts', () => ({ t: (k: string) => k }));
 
 const { renderGameBar } = vi.hoisted(() => ({ renderGameBar: vi.fn() }));
-vi.mock('../../js/features/render-game-bar.ts', () => ({ renderGameBar }));
+vi.mock('../../js/features/game/render-game-bar.ts', () => ({ renderGameBar }));
 
 const { refreshGameBarLevel } = vi.hoisted(() => ({ refreshGameBarLevel: vi.fn() }));
-vi.mock('../../js/features/game-bar-level.tsx', () => ({ refreshGameBarLevel }));
+vi.mock('../../js/features/game/game-bar-level.tsx', () => ({ refreshGameBarLevel }));
 
 const { checkAchievements } = vi.hoisted(() => ({ checkAchievements: vi.fn() }));
-vi.mock('../../js/features/render-achievements.ts', () => ({ checkAchievements }));
+vi.mock('../../js/features/achievements/render-achievements.ts', () => ({ checkAchievements }));
 
 const { maybeSubmitScore } = vi.hoisted(() => ({ maybeSubmitScore: vi.fn() }));
 vi.mock('../../js/features/leaderboard.tsx', () => ({ maybeSubmitScore }));

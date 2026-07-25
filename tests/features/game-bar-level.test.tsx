@@ -2,8 +2,8 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setKnownWords } from '../../src/known-words-store.ts';
-import { GameBarLevel, refreshGameBarLevel } from '../../js/features/game-bar-level.tsx';
-import { getMaxWordsForLearnLang } from '../../js/features/mode-utils.ts';
+import { GameBarLevel, refreshGameBarLevel } from '../../js/features/game/game-bar-level.tsx';
+import { getMaxWordsForLearnLang } from '../../js/features/mode/mode-utils.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

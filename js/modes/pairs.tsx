@@ -6,11 +6,11 @@ import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words-data/words.js';
 import { t } from '../features/i18n.ts';
-import { recordModeComplete } from '../features/game.ts';
-import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
+import { recordModeComplete } from '../features/game/game.ts';
+import { addCombo, breakCombo, awardXP } from '../features/game/combo.ts';
 import { playSound } from '../core/audio.ts';
 import type { WordEntry } from '../../src/types.js';
-import { entryFor } from '../features/mode-utils.ts';
+import { entryFor } from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 
 const N = 6;

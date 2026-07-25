@@ -1,4 +1,4 @@
-// Vymova — js/features/voice-roleplay.tsx
+// Vymova — js/features/voice/voice-roleplay.tsx
 // Голосовий ШІ-ролеплей: browser-native speech recognition (free, no API key)
 // + the same Cloudflare Worker proxy as ai-tutor.tsx, in "roleplay" mode —
 // the AI plays a scenario character and returns an in-character reply plus

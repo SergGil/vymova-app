@@ -1,4 +1,4 @@
-// Vymova — js/features/ai-tutor.tsx
+// Vymova — js/features/voice/ai-tutor.tsx
 // Free AI conversation tutor: a thin chat UI calling the user-deployed
 // Cloudflare Worker proxy (see worker/) which holds the Gemini API key
 // server-side. Self-hides (sidebar.tsx) when AI_PROXY_URL is unset.

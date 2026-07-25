@@ -28,29 +28,29 @@ import {
   DuelResumeSessionsProvider,
 } from './duel-async-store.ts';
 
-import { ProfileSwitcher } from '../js/features/profile-switcher.tsx';
+import { ProfileSwitcher } from '../js/features/profile/profile-switcher.tsx';
 import { LangPairSelect } from '../js/features/lang-pair-select.tsx';
 import { TagFilterSelect } from '../js/features/tag-filter-select.tsx';
 import { RangeSelect } from '../js/features/range-select.tsx';
-import { SearchInline } from '../js/features/search-inline.tsx';
-import { SearchOverlay } from '../js/features/search-overlay.tsx';
+import { SearchInline } from '../js/features/search/search-inline.tsx';
+import { SearchOverlay } from '../js/features/search/search-overlay.tsx';
 import { CodeInputDialog } from '../js/features/duel/duel-dialogs.tsx';
-import { ModesOverlayShell } from '../js/features/modes-overlay-shell.tsx';
-import { QuizOverlayShell } from '../js/features/quiz-overlay-shell.tsx';
+import { ModesOverlayShell } from '../js/features/mode/modes-overlay-shell.tsx';
+import { QuizOverlayShell } from '../js/features/mode/quiz-overlay-shell.tsx';
 import { ImgClearConfirmDialog } from '../js/features/img-clear-confirm.tsx';
 import { ResetConfirmDialog } from '../js/features/reset-confirm-dialog.tsx';
-import { NavFlyoutController } from '../js/features/sidebar-nav-flyout.tsx';
+import { NavFlyoutController } from '../js/features/sidebar/sidebar-nav-flyout.tsx';
 import { PageOverlayVisibility } from '../js/features/page-overlay-visibility.tsx';
 import { PageHeader } from '../js/features/page-header.tsx';
-import { GameBar } from '../js/features/game-bar.tsx';
-import { CardShell } from '../js/features/card-shell.tsx';
-import { CardBookmarkNoteVisuals } from '../js/features/card-indicators.tsx';
-import { CardKnownVisuals } from '../js/features/card-known-visuals.tsx';
-import { CardFaceAnim } from '../js/features/card-face-anim.tsx';
-import { FrontSpeakBtnsToggle } from '../js/features/card-front-text.tsx';
-import { ProgressBar } from '../js/features/card-progress.tsx';
+import { GameBar } from '../js/features/game/game-bar.tsx';
+import { CardShell } from '../js/features/card/card-shell.tsx';
+import { CardBookmarkNoteVisuals } from '../js/features/card/card-indicators.tsx';
+import { CardKnownVisuals } from '../js/features/card/card-known-visuals.tsx';
+import { CardFaceAnim } from '../js/features/card/card-face-anim.tsx';
+import { FrontSpeakBtnsToggle } from '../js/features/card/card-front-text.tsx';
+import { ProgressBar } from '../js/features/card/card-progress.tsx';
 import { HeaderLeft } from '../js/features/header-left.tsx';
-import { ModeHints } from '../js/features/mode-hints.tsx';
+import { ModeHints } from '../js/features/mode/mode-hints.tsx';
 import { LevelRing } from '../js/features/ring.tsx';
 import { ThemeToggle } from '../js/core/theme.tsx';
 import { PwaBanner } from '../js/core/pwa.tsx';
@@ -60,34 +60,34 @@ import { KeyboardShortcuts } from '../js/core/keyboard.tsx';
 import { KeysOverlay } from '../js/features/keyboard.tsx';
 import { QuizSwipe } from '../js/features/swipe.tsx';
 import { CardSwipe } from '../js/core/swipe.tsx';
-import { SettingsInit } from '../js/features/settings.tsx';
-import { SettingsPage } from '../js/features/settings-page.tsx';
-import { DeckModeInit } from '../js/features/deck-mode.tsx';
-import { DeckFilterInit } from '../js/features/deck-filter.tsx';
+import { SettingsInit } from '../js/features/settings/settings.tsx';
+import { SettingsPage } from '../js/features/settings/settings-page.tsx';
+import { DeckModeInit } from '../js/features/deck/deck-mode.tsx';
+import { DeckFilterInit } from '../js/features/deck/deck-filter.tsx';
 import { DailyChallenge } from '../js/modes/daily-challenge.tsx';
 import { PairsMode } from '../js/modes/pairs.tsx';
 import { NotificationsInit, _updateUI as _refreshNotifUI } from '../js/features/notifications.tsx';
 import { _refreshCloudSyncUI } from '../js/features/cloud-sync.tsx';
 import { ExportInit } from '../js/features/export.tsx';
 import { VoiceInit, _renderVoices } from '../js/features/voice/voice.tsx';
-import { SidebarInit } from '../js/features/sidebar.tsx';
-import { SidebarNav } from '../js/features/sidebar-nav.tsx';
-import { useWordDetailTarget } from '../js/features/word-detail-trigger.ts';
-import { useStatsShouldLoad } from '../js/features/stats-trigger.ts';
+import { SidebarInit } from '../js/features/sidebar/sidebar.tsx';
+import { SidebarNav } from '../js/features/sidebar/sidebar-nav.tsx';
+import { useWordDetailTarget } from '../js/features/word-data/word-detail-trigger.ts';
+import { useStatsShouldLoad } from '../js/features/stats/stats-trigger.ts';
 import { CatPairsPage, CatPairsWiringInit } from '../js/modes/catpairs.tsx';
 import { QuizPage } from '../js/modes/quiz.tsx';
 import { LazyMode } from './lazy-mode.tsx';
 import { LazyPage } from './lazy-page.tsx';
-import { ProfilePage } from '../js/features/profile-page.tsx';
+import { ProfilePage } from '../js/features/profile/profile-page.tsx';
 import { OnboardingPage } from '../js/features/onboarding.tsx';
-import { ComboToast } from '../js/features/combo-toast.tsx';
-import { ModeCompleteToast } from '../js/features/mode-complete-toast.tsx';
-import { NoteModal } from '../js/features/note-modal.tsx';
-import { CardLegendModal } from '../js/features/card-legend.tsx';
+import { ComboToast } from '../js/features/game/combo-toast.tsx';
+import { ModeCompleteToast } from '../js/features/mode/mode-complete-toast.tsx';
+import { NoteModal } from '../js/features/notes/note-modal.tsx';
+import { CardLegendModal } from '../js/features/card/card-legend.tsx';
 import { PronunciationToast } from '../js/features/voice/pronunciation-toast.tsx';
 import { ConfettiCanvas } from '../js/core/confetti.tsx';
-import { CardActionsInit } from '../js/features/card-actions.ts';
-import { StatsInit } from '../js/features/stats.ts';
+import { CardActionsInit } from '../js/features/card/card-actions.ts';
+import { StatsInit } from '../js/features/stats/stats.ts';
 import { OfflineInit } from '../js/features/offline.ts';
 import { I18nInit } from '../js/features/i18n.ts';
 
@@ -107,9 +107,9 @@ function RouterSync(): null {
   useEffect(() => {
     const page = ROUTE_TO_PAGE[location.pathname] ?? null;
     if (page && getActivePage() !== page) {
-      import('../js/features/sidebar.tsx').then(({ openPage }) => openPage(page));
+      import('../js/features/sidebar/sidebar.tsx').then(({ openPage }) => openPage(page));
     } else if (!page && location.pathname === '/' && getActivePage() !== null) {
-      import('../js/features/sidebar.tsx').then(({ closePage }) => closePage());
+      import('../js/features/sidebar/sidebar.tsx').then(({ closePage }) => closePage());
     }
   }, [location.pathname]);
   return null;
@@ -128,7 +128,7 @@ function Portal({ id, children }: { id: string; children: ReactNode }): ReactEle
 // down and re-attaching every not-yet-loaded mode's click listener on every
 // card click. None of these close over props/state, so hoisting is safe.
 const _loadWordDetail = () =>
-  import('../js/features/word-detail.tsx').then((m) => ({ Page: m.WordDetailPage }));
+  import('../js/features/word-data/word-detail.tsx').then((m) => ({ Page: m.WordDetailPage }));
 const _loadListening = () =>
   import('../js/modes/listening.tsx').then((m) => ({
     Page: m.ListeningPage,
@@ -221,17 +221,17 @@ const _loadWordLetters = () =>
     open: m.openWordLetters,
   }));
 const _loadStats = () =>
-  import('../js/features/stats-page.tsx').then((m) => ({ Page: m.StatsPage }));
+  import('../js/features/stats/stats-page.tsx').then((m) => ({ Page: m.StatsPage }));
 const _loadAchievements = () =>
-  import('../js/features/achievements-page.tsx').then((m) => ({ Page: m.AchievementsPage }));
+  import('../js/features/achievements/achievements-page.tsx').then((m) => ({ Page: m.AchievementsPage }));
 const _loadGrammar = () =>
-  import('../js/features/grammar-page.tsx').then((m) => ({ Page: m.GrammarPage }));
+  import('../js/features/word-data/grammar-page.tsx').then((m) => ({ Page: m.GrammarPage }));
 const _loadIdioms = () =>
-  import('../js/features/idioms-page.tsx').then((m) => ({ Page: m.IdiomsPageRoot }));
+  import('../js/features/word-data/idioms-page.tsx').then((m) => ({ Page: m.IdiomsPageRoot }));
 const _loadTranslate = () =>
   import('../js/features/translate-page.tsx').then((m) => ({ Page: m.TranslatePage }));
 const _loadLangHistory = () =>
-  import('../js/features/lang-history-page.tsx').then((m) => ({ Page: m.LangHistoryPage }));
+  import('../js/features/word-data/lang-history-page.tsx').then((m) => ({ Page: m.LangHistoryPage }));
 const _loadAiTutor = () =>
   import('../js/features/voice/ai-tutor.tsx').then((m) => ({ Page: m.AiTutorPage }));
 const _loadVoiceRoleplay = () =>
@@ -384,7 +384,7 @@ function AppRoot(): ReactElement {
         page="grammar"
         overlayId="grammar-overlay"
         onActivate={() => {
-          import('../js/features/grammar-page.tsx')
+          import('../js/features/word-data/grammar-page.tsx')
             .then((m) => m.openGrammarContent())
             .catch(() => {});
         }}
@@ -393,7 +393,7 @@ function AppRoot(): ReactElement {
         page="idioms"
         overlayId="idioms-overlay"
         onActivate={() => {
-          import('../js/features/idioms-page.tsx')
+          import('../js/features/word-data/idioms-page.tsx')
             .then((m) => m.openIdiomsContent())
             .catch(() => {});
         }}
@@ -402,7 +402,7 @@ function AppRoot(): ReactElement {
         page="ach"
         overlayId="ach-overlay"
         onActivate={() => {
-          import('../js/features/achievements-page.tsx')
+          import('../js/features/achievements/achievements-page.tsx')
             .then((m) => m.refreshAchievementsPage())
             .catch(() => {});
         }}
@@ -420,7 +420,7 @@ function AppRoot(): ReactElement {
         page="learning-path"
         overlayId="lp-overlay"
         onActivate={() => {
-          import('../js/features/learning-path.ts')
+          import('../js/features/learning-path/learning-path.ts')
             .then((m) => m.openLearningPath())
             .catch(() => {});
         }}

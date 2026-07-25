@@ -1,4 +1,4 @@
-// Vymova — js/features/video-player.tsx
+// Vymova — js/features/reading/video-player.tsx
 // Dual-screen local video player: video on one side, the live subtitle
 // cue on the other, every word clickable for an instant translation —
 // reuses reading.tsx's English-keyed dictionary lookup and popup pattern,
@@ -13,7 +13,7 @@ import { checkMilestones } from '../milestones.ts';
 import { speak } from '../voice/speech.ts';
 import { t } from '../i18n.ts';
 import { lookupEnglishWord } from '../../modes/reading-lookup.ts';
-import { entryFor, markKnownForLang } from '../mode-utils.ts';
+import { entryFor, markKnownForLang } from '../mode/mode-utils.ts';
 import { getKnowLang } from '../lang-pair-select.tsx';
 import { parseSubtitles, findActiveCue, type Cue } from './subtitle-parser.ts';
 import { bindOverlayDismiss } from '../overlay-utils.ts';

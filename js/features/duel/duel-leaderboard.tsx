@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-leaderboard.tsx
+// Vymova — js/features/duel/duel-leaderboard.tsx
 // Лідерборд профілів (#duel-leaderboard) і рядок W/L рейтингу (#duel-rating-row)
 // у лобі дуелі. Частина item 31 (Фаза 5).
 import { useLangVersion } from '../../../src/store.ts';

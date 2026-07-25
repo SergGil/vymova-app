@@ -61,5 +61,5 @@ await import('../js/app.ts');
 // manualChunks pin, or deferring via requestIdleCallback instead of
 // removing the static reachability Rollup relies on here) rather than
 // simply dropping the import.
-await import('../js/features/learning-path.ts');
+await import('../js/features/learning-path/learning-path.ts');
 await import('../js/features/reading/epub.ts');

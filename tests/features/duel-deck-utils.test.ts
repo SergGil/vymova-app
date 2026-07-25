@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.ts';
-import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
+import { ensureLangTableLoaded } from '../../js/features/mode/mode-utils.ts';
 import {
   DUEL_LANG_CODES,
   _wordInLang,

@@ -3,7 +3,7 @@ import { setKnownWords } from '../../src/known-words-store.ts';
 
 const { getGameData } = vi.hoisted(() => ({ getGameData: vi.fn() }));
 
-vi.mock('../../js/features/game.ts', () => ({
+vi.mock('../../js/features/game/game.ts', () => ({
   getGameData: (...a: unknown[]) => getGameData(...a),
 }));
 vi.mock('../../js/features/i18n.ts', () => ({

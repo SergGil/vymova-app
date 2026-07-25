@@ -1,4 +1,4 @@
-// Vymova — js/features/youtube-player.tsx
+// Vymova — js/features/reading/youtube-player.tsx
 // YouTube player with interactive subtitle cues: paste a video URL, upload a
 // .srt/.vtt file, and click any word in the active cue to see translation +
 // mark as known — the same experience as video-player.tsx but for YouTube.
@@ -12,7 +12,7 @@ import { checkMilestones } from '../milestones.ts';
 import { speak } from '../voice/speech.ts';
 import { t } from '../i18n.ts';
 import { lookupEnglishWord } from '../../modes/reading-lookup.ts';
-import { entryFor, markKnownForLang } from '../mode-utils.ts';
+import { entryFor, markKnownForLang } from '../mode/mode-utils.ts';
 import { getKnowLang } from '../lang-pair-select.tsx';
 import { parseSubtitles, findActiveCue, type Cue } from './subtitle-parser.ts';
 import { bindOverlayDismiss } from '../overlay-utils.ts';

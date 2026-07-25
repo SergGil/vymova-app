@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-profile-snap.ts
+// Vymova — js/features/duel/duel-profile-snap.ts
 // Per-profile localStorage snapshot readers used by the local duel
 // leaderboard (duel-leaderboard.tsx), plus _getMyName/_getMyAvatar — used by
 // both duel.ts (game-header/finish screens) and duel-lobby-logic.ts

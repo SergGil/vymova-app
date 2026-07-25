@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, beforeAll } from 'vitest';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words-data/words.js';
 import { today as localToday } from '../../js/core/today.ts';
-import { ensureGrammarLoaded } from '../../js/features/grammar-loader.ts';
+import { ensureGrammarLoaded } from '../../js/features/word-data/grammar-loader.ts';
 
 vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
 
@@ -11,10 +11,10 @@ const { openPage, closePage, jumpToGrammarRule } = vi.hoisted(() => ({
   closePage: vi.fn(),
   jumpToGrammarRule: vi.fn(),
 }));
-vi.mock('../../js/features/sidebar.tsx', () => ({ openPage, closePage }));
-vi.mock('../../js/features/grammar-page.tsx', () => ({ jumpToGrammarRule }));
+vi.mock('../../js/features/sidebar/sidebar.tsx', () => ({ openPage, closePage }));
+vi.mock('../../js/features/word-data/grammar-page.tsx', () => ({ jumpToGrammarRule }));
 
-import { renderLearningPath, openLearningPath } from '../../js/features/learning-path.ts';
+import { renderLearningPath, openLearningPath } from '../../js/features/learning-path/learning-path.ts';
 
 describe('learning-path.ts renderLearningPath/openLearningPath', () => {
   // Grammar data (used by the "✓ skill" → grammar-rule links) now loads

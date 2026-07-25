@@ -15,7 +15,7 @@ vi.mock('../../js/core/word-index.ts', () => ({
   getWordIndex: () => _mockWordIdx,
 }));
 
-const { CardMeta } = await import('../../js/features/card-meta.tsx');
+const { CardMeta } = await import('../../js/features/card/card-meta.tsx');
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

@@ -3,7 +3,7 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
-import { AchievementsPage, refreshAchievementsPage } from '../../js/features/achievements-page.tsx';
+import { AchievementsPage, refreshAchievementsPage } from '../../js/features/achievements/achievements-page.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -20,7 +20,7 @@ const { getGameData, getModeStats, loadUnlocked, loadUnlockedTimestamps, LEVELS 
     ],
   }),
 );
-vi.mock('../../js/features/game.ts', () => ({
+vi.mock('../../js/features/game/game.ts', () => ({
   getGameData,
   getModeStats,
   loadUnlocked,

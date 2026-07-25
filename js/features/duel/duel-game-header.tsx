@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-game-header.tsx
+// Vymova — js/features/duel/duel-game-header.tsx
 // Шапка екрану дуелі (item 32, Фаза 5): аватари, рахунок, прогрес-бари,
 // бейдж режиму, серія Best-of-3, код кімнати. Реактивна через
 // useDuelRoomSelector() (polling/state-machine логіка лишається в duel.ts).

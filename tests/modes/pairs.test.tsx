@@ -5,12 +5,12 @@ import { PairsMode } from '../../js/modes/pairs.tsx';
 import { setDeckState } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 
-vi.mock('../../js/features/game.ts', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../../js/features/game.ts')>();
+vi.mock('../../js/features/game/game.ts', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../js/features/game/game.ts')>();
   return { ...actual, recordModeComplete: vi.fn() };
 });
 
-import { recordModeComplete } from '../../js/features/game.ts';
+import { recordModeComplete } from '../../js/features/game/game.ts';
 
 const SIX_WORDS: WordEntry[] = [
   ['apple', 'яблуко', '', ''],

@@ -4,15 +4,15 @@ const refreshGameBarLevel = vi.fn();
 const refreshGameBarStreak = vi.fn();
 const refreshGameBarGoal = vi.fn();
 
-vi.mock('../../js/features/game-bar-level.tsx', () => ({
+vi.mock('../../js/features/game/game-bar-level.tsx', () => ({
   refreshGameBarLevel: (...a: unknown[]) => refreshGameBarLevel(...a),
 }));
-vi.mock('../../js/features/game-bar-streak.tsx', () => ({
+vi.mock('../../js/features/game/game-bar-streak.tsx', () => ({
   refreshGameBarStreak: (...a: unknown[]) => refreshGameBarStreak(...a),
   refreshGameBarGoal: (...a: unknown[]) => refreshGameBarGoal(...a),
 }));
 
-import { renderGameBar } from '../../js/features/render-game-bar.ts';
+import { renderGameBar } from '../../js/features/game/render-game-bar.ts';
 
 describe('renderGameBar', () => {
   it('calls all three refresh functions', () => {

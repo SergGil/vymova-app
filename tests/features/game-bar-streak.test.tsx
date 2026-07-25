@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { saveGameData, getGameData } from '../../js/features/game.ts';
-import { GameBarStreak, ComboBox, GameBarGoal } from '../../js/features/game-bar-streak.tsx';
+import { saveGameData, getGameData } from '../../js/features/game/game.ts';
+import { GameBarStreak, ComboBox, GameBarGoal } from '../../js/features/game/game-bar-streak.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -10,7 +10,7 @@ const { _getSessionCombo, getComboMult } = vi.hoisted(() => ({
   _getSessionCombo: vi.fn(() => 0),
   getComboMult: vi.fn(() => 1),
 }));
-vi.mock('../../js/features/combo.ts', () => ({ _getSessionCombo, getComboMult }));
+vi.mock('../../js/features/game/combo.ts', () => ({ _getSessionCombo, getComboMult }));
 
 function mount(Component: () => JSX.Element): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

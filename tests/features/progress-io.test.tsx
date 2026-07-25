@@ -13,14 +13,14 @@ import { clearSrsData } from '../../src/srs-store.ts';
 
 vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
 vi.mock('../../js/core/srs.ts', () => ({ updateSrsUI: vi.fn() }));
-vi.mock('../../js/features/render-game-bar.ts', () => ({ renderGameBar: vi.fn() }));
-vi.mock('../../js/features/game-bar-level.tsx', () => ({ refreshGameBarLevel: vi.fn() }));
-vi.mock('../../js/features/stats-trigger.ts', () => ({ openStats: vi.fn(), closeStats: vi.fn() }));
+vi.mock('../../js/features/game/render-game-bar.ts', () => ({ renderGameBar: vi.fn() }));
+vi.mock('../../js/features/game/game-bar-level.tsx', () => ({ refreshGameBarLevel: vi.fn() }));
+vi.mock('../../js/features/stats/stats-trigger.ts', () => ({ openStats: vi.fn(), closeStats: vi.fn() }));
 
 import { ProgressIO } from '../../js/features/progress-io.tsx';
-import { closeStats, openStats } from '../../js/features/stats-trigger.ts';
-import { renderGameBar } from '../../js/features/render-game-bar.ts';
-import { refreshGameBarLevel } from '../../js/features/game-bar-level.tsx';
+import { closeStats, openStats } from '../../js/features/stats/stats-trigger.ts';
+import { renderGameBar } from '../../js/features/game/render-game-bar.ts';
+import { refreshGameBarLevel } from '../../js/features/game/game-bar-level.tsx';
 import { render as renderCard } from '../../js/core/card-engine.ts';
 import { updateSrsUI } from '../../js/core/srs.ts';
 

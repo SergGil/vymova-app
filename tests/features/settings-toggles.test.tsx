@@ -10,7 +10,7 @@ import {
   HapticToggle,
   ReducedMotionToggle,
   HighContrastToggle,
-} from '../../js/features/settings-toggles.tsx';
+} from '../../js/features/settings/settings-toggles.tsx';
 
 beforeEach(() => {
   localStorage.clear();

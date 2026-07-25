@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { render } from '@testing-library/react';
 import { dispatchClosePage, dispatchOpenPage, getActivePage } from '../../src/nav-store.tsx';
-import { ModesOverlayShell } from '../../js/features/modes-overlay-shell.tsx';
+import { ModesOverlayShell } from '../../js/features/mode/modes-overlay-shell.tsx';
 
 describe('<ModesOverlayShell/>', () => {
   beforeEach(() => {

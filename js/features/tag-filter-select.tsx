@@ -10,8 +10,8 @@ import { setActiveTagSet } from '../../src/deck-filter-store.ts';
 import { getWordIndex } from '../core/word-index.ts';
 import { WORD_CATEGORIES, CATEGORY_LIST } from '../../data/categories.js';
 import { categoryName, t } from './i18n.ts';
-import { getRawMode } from './mode-utils.ts';
-import { _rebuildEsDeck, _isSpecialMode } from './deck-mode.tsx';
+import { getRawMode } from './mode/mode-utils.ts';
+import { _rebuildEsDeck, _isSpecialMode } from './deck/deck-mode.tsx';
 
 function fitSelTag(selTag: HTMLSelectElement): void {
   const tmp = document.createElement('select');

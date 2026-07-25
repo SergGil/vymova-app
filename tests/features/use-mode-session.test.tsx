@@ -2,10 +2,10 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { useState, type ReactElement } from 'react';
-import { useModeSession } from '../../js/features/use-mode-session.ts';
+import { useModeSession } from '../../js/features/mode/use-mode-session.ts';
 
 const { recordModeComplete } = vi.hoisted(() => ({ recordModeComplete: vi.fn() }));
-vi.mock('../../js/features/game.ts', () => ({ recordModeComplete }));
+vi.mock('../../js/features/game/game.ts', () => ({ recordModeComplete }));
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

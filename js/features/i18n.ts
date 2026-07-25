@@ -287,7 +287,7 @@ function applyI18n(isBoot = false): void {
     import('../core/card-engine.ts').then(({ render }) => render()).catch(() => {});
   }
   if (document.getElementById('lp-overlay')?.classList.contains('open')) {
-    import('./learning-path.ts')
+    import('./learning-path/learning-path.ts')
       .then(({ renderLearningPath }) => renderLearningPath())
       .catch(() => {});
   }
@@ -295,12 +295,12 @@ function applyI18n(isBoot = false): void {
     import('./duel/duel.ts').then(({ renderDuel }) => renderDuel()).catch(() => {});
   }
   if (document.getElementById('grammar-overlay')?.classList.contains('open')) {
-    import('./grammar-page.tsx')
+    import('./word-data/grammar-page.tsx')
       .then(({ openGrammarContent }) => openGrammarContent())
       .catch(() => {});
   }
   if (document.getElementById('idioms-overlay')?.classList.contains('open')) {
-    import('./idioms-page.tsx')
+    import('./word-data/idioms-page.tsx')
       .then(({ openIdiomsContent }) => openIdiomsContent())
       .catch(() => {});
   }
@@ -313,7 +313,7 @@ function applyI18n(isBoot = false): void {
   }
   const statsOverlay = document.getElementById('stats-overlay') as HTMLElement | null;
   if (statsOverlay && statsOverlay.style.display === 'flex') {
-    import('./stats-page.tsx').then(({ refreshStatsPage }) => refreshStatsPage()).catch(() => {});
+    import('./stats/stats-page.tsx').then(({ refreshStatsPage }) => refreshStatsPage()).catch(() => {});
     import('../modes/catpairs.tsx')
       .then(({ renderWeakWords }) => renderWeakWords())
       .catch(() => {});

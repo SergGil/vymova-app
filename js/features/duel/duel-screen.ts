@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-screen.ts
+// Vymova — js/features/duel/duel-screen.ts
 // Which duel screen is active (lobby/countdown/result — see duel.ts's
 // _showGame for the "game" screen, which stays there since it also resets
 // the chat-reaction dedup timestamp that lives alongside the rest of the

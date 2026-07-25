@@ -6,12 +6,12 @@ import {
   GrammarPage,
   jumpToGrammarRule,
   openGrammarContent,
-} from '../../js/features/grammar-page.tsx';
+} from '../../js/features/word-data/grammar-page.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const { openPage } = vi.hoisted(() => ({ openPage: vi.fn() }));
-vi.mock('../../js/features/sidebar.tsx', () => ({ openPage }));
+vi.mock('../../js/features/sidebar/sidebar.tsx', () => ({ openPage }));
 
 const { speakWithLang } = vi.hoisted(() => ({ speakWithLang: vi.fn() }));
 vi.mock('../../js/features/voice/speech.ts', () => ({ _speakWithLang: speakWithLang }));

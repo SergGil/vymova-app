@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { NoteModal, openNoteModal } from '../../js/features/note-modal.tsx';
-import { getNoteForWord, setNoteForWord } from '../../js/features/notes.ts';
+import { NoteModal, openNoteModal } from '../../js/features/notes/note-modal.tsx';
+import { getNoteForWord, setNoteForWord } from '../../js/features/notes/notes.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

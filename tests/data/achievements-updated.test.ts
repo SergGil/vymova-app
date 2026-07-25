@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { ACHIEVEMENTS } from '../../data/achievements.ts';
-import { getMaxWordsForLearnLang } from '../../js/features/mode-utils.ts';
+import { getMaxWordsForLearnLang } from '../../js/features/mode/mode-utils.ts';
 import type { GameData, ModeStats } from '../../src/types.js';
 
 function g(o: Partial<GameData> = {}): GameData {

@@ -8,7 +8,7 @@ const { getGameData, getModeStats, registerCheckAchievements, showToast } = vi.h
   showToast: vi.fn(),
 }));
 
-vi.mock('../../js/features/game.ts', () => ({
+vi.mock('../../js/features/game/game.ts', () => ({
   getGameData: (...a: unknown[]) => getGameData(...a),
   getModeStats: (...a: unknown[]) => getModeStats(...a),
   loadUnlocked: () => JSON.parse(localStorage.getItem('ew_ach') ?? '[]'),
@@ -17,7 +17,7 @@ vi.mock('../../js/features/game.ts', () => ({
   registerCheckAchievements: (...a: unknown[]) => registerCheckAchievements(...a),
 }));
 
-vi.mock('../../js/features/achievement-toast.tsx', () => ({
+vi.mock('../../js/features/achievements/achievement-toast.tsx', () => ({
   showToast: (...a: unknown[]) => showToast(...a),
 }));
 
@@ -28,7 +28,7 @@ vi.mock('../../data/achievements.ts', () => ({
   ],
 }));
 
-import { checkAchievements } from '../../js/features/render-achievements.ts';
+import { checkAchievements } from '../../js/features/achievements/render-achievements.ts';
 
 describe('checkAchievements', () => {
   beforeEach(() => {

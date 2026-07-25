@@ -6,10 +6,10 @@ import { setKnownWords, getKnownSnapshot } from '../../src/known-words-store.ts'
 import type { WordEntry } from '../../src/types.ts';
 
 vi.mock('../../js/core/card-engine.ts', () => ({ render: vi.fn() }));
-vi.mock('../../js/features/render-game-bar.ts', () => ({ renderGameBar: vi.fn() }));
+vi.mock('../../js/features/game/render-game-bar.ts', () => ({ renderGameBar: vi.fn() }));
 vi.mock('../../js/core/audio.ts', () => ({ playSound: vi.fn() }));
 
-const { CardMeta } = await import('../../js/features/card-meta.tsx');
+const { CardMeta } = await import('../../js/features/card/card-meta.tsx');
 const { CatPairsWiringInit } = await import('../../js/modes/catpairs.tsx');
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { ProfilePage } from '../../js/features/profile-page.tsx';
+import { ProfilePage } from '../../js/features/profile/profile-page.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -11,10 +11,10 @@ const { loadUnlocked, getLangStreak, getLangXp, getLangAchCount } = vi.hoisted((
   getLangXp: vi.fn((_lang: string) => 0),
   getLangAchCount: vi.fn((_lang: string) => 0),
 }));
-vi.mock('../../js/features/game.ts', () => ({ loadUnlocked, getLangStreak, getLangXp, getLangAchCount }));
+vi.mock('../../js/features/game/game.ts', () => ({ loadUnlocked, getLangStreak, getLangXp, getLangAchCount }));
 
 const { getKnownInLang } = vi.hoisted(() => ({ getKnownInLang: vi.fn(() => 20) }));
-vi.mock('../../js/features/mode-utils.ts', () => ({ getKnownInLang }));
+vi.mock('../../js/features/mode/mode-utils.ts', () => ({ getKnownInLang }));
 
 // Known-words store: default to empty; override per-test via knownSnapshots.
 // useAllKnownWords() must return a full state object for all 14 languages.

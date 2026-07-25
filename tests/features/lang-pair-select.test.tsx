@@ -141,7 +141,7 @@ vi.mock('../../data/words-data/words_nv.js', () => ({ W_NV: {} }));
 vi.mock('../../data/words-data/words_tlh.js', () => ({ W_TLH: {} }));
 vi.mock('../../data/words-data/words_val.js', () => ({ W_VAL: {} }));
 vi.mock('../../data/words-data/words_dth.js', () => ({ W_DTH: {} }));
-import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
+import { ensureLangTableLoaded } from '../../js/features/mode/mode-utils.ts';
 import { getModeStateSnapshot, subscribeMode } from '../../src/mode-store.ts';
 
 const NEW_LANGS = [

@@ -7,7 +7,7 @@ import { IDIOMS_ES as SPANISH_IDIOMS } from '../../data/idioms-data/idioms_es.ts
 import { IDIOMS_HE as HEBREW_IDIOMS } from '../../data/idioms-data/idioms_he.ts';
 import { IDIOMS_AR as ARABIC_IDIOMS } from '../../data/idioms-data/idioms_ar.ts';
 import { IDIOMS_PL as POLISH_IDIOMS } from '../../data/idioms-data/idioms_pl.ts';
-import { IdiomsPageRoot, openIdiomsContent } from '../../js/features/idioms-page.tsx';
+import { IdiomsPageRoot, openIdiomsContent } from '../../js/features/word-data/idioms-page.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

@@ -1,13 +1,13 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { getGameData, saveGameData } from '../../js/features/game.ts';
+import { getGameData, saveGameData } from '../../js/features/game/game.ts';
 import { GoalModal } from '../../js/features/goal-modal.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const { renderGameBar } = vi.hoisted(() => ({ renderGameBar: vi.fn() }));
-vi.mock('../../js/features/render-game-bar.ts', () => ({ renderGameBar }));
+vi.mock('../../js/features/game/render-game-bar.ts', () => ({ renderGameBar }));
 
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');

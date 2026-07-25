@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-async-challenge.ts
+// Vymova — js/features/duel/duel-async-challenge.ts
 // 24h async-challenge creation/join, extracted out of duel.ts. Owns its own
 // "start playing" timer (_asyncStartTimer) instead of duel.ts's game-poll
 // timer — same reasoning as duel-spectator-logic.ts's dedicated

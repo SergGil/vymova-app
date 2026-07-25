@@ -11,7 +11,7 @@ import { getKnowLang } from './lang-pair-select.tsx';
 import { t } from './i18n.ts';
 import { bindOverlayDismiss } from './overlay-utils.ts';
 import { flagUrl } from '../core/flags.ts';
-import { LANG_META } from './profile-page.tsx';
+import { LANG_META } from './profile/profile-page.tsx';
 import { speakForCode } from './voice/speak-lang.ts';
 import type { Code } from '../../src/types.js';
 

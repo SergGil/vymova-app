@@ -3,8 +3,8 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setModeState } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.ts';
-import { WordDetailPage, openWordDetail } from '../../js/features/word-detail.tsx';
-import { ensureLangTableLoaded } from '../../js/features/mode-utils.ts';
+import { WordDetailPage, openWordDetail } from '../../js/features/word-data/word-detail.tsx';
+import { ensureLangTableLoaded } from '../../js/features/mode/mode-utils.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

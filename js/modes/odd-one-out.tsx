@@ -6,13 +6,13 @@ import { getWordIndex } from '../core/word-index.ts';
 import { W } from '../../data/words-data/words.js';
 import { WORD_CATEGORIES, CATEGORY_LIST, getCategoriesForWord } from '../../data/categories.js';
 import type { WordEntry } from '../../src/types.js';
-import { entryFor } from '../features/mode-utils.ts';
+import { entryFor } from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { t, categoryName } from '../features/i18n.ts';
-import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeAnswer, recordMistake } from '../features/game.ts';
-import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
-import { useModeSession } from '../features/use-mode-session.ts';
+import { addCombo, breakCombo, awardXP } from '../features/game/combo.ts';
+import { recordModeAnswer, recordMistake } from '../features/game/game.ts';
+import { ModeFinalScreen } from '../features/mode/mode-final-screen.tsx';
+import { useModeSession } from '../features/mode/use-mode-session.ts';
 
 const ROUNDS = 8;
 const GROUP_SIZE = 4;

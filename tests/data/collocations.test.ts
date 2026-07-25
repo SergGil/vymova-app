@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { searchCollocations, ensureCollocationsLoaded } from '../../js/features/collocations-loader.ts';
+import { searchCollocations, ensureCollocationsLoaded } from '../../js/features/word-data/collocations-loader.ts';
 
 describe('searchCollocations()', () => {
   beforeAll(async () => {

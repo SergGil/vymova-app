@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-types.ts
+// Vymova — js/features/duel/duel-types.ts
 // Pure type/interface declarations (plus two tiny constants — see CHARS/
 // ROOM_SIZE below) shared between duel.ts, duel-deck.ts, duel-spectator.tsx,
 // duel-tournament-logic.ts, and src/duel-async-store.ts. Extracted so this

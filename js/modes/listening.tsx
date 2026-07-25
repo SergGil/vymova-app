@@ -4,16 +4,16 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words-data/words.js';
-import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordMistake, recordModeAnswer } from '../features/game.ts';
+import { addCombo, breakCombo, awardXP } from '../features/game/combo.ts';
+import { recordMistake, recordModeAnswer } from '../features/game/game.ts';
 import { t } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
 import { speakForCode } from '../features/voice/speak-lang.ts';
 import type { WordEntry, Code } from '../../src/types.js';
-import { entryFor } from '../features/mode-utils.ts';
+import { entryFor } from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
-import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
-import { useModeSession } from '../features/use-mode-session.ts';
+import { ModeFinalScreen } from '../features/mode/mode-final-screen.tsx';
+import { useModeSession } from '../features/mode/use-mode-session.ts';
 
 const SIZE = 10;
 

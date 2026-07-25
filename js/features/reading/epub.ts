@@ -1,4 +1,4 @@
-// Vymova — js/features/epub.ts
+// Vymova — js/features/reading/epub.ts
 // EPUB import for Reading mode
 import JSZip from 'jszip';
 import { t, pluralLabel } from '../i18n.ts';

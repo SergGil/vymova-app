@@ -21,7 +21,7 @@
 // map if a later batch introduces a character not listed here for its
 // language (an unmapped character just passes through unchanged, so
 // gaps degrade gracefully rather than erroring).
-import type { TargetLang } from '../mode-utils.ts';
+import type { TargetLang } from '../mode/mode-utils.ts';
 
 const DIACRITIC_MAPS: Partial<Record<TargetLang, Record<string, string>>> = {
   az: {

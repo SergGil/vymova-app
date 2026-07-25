@@ -66,13 +66,13 @@ function extractAppRootRefs(src: string): { id: string; kind: string }[] {
 describe('src/app-root.tsx mount points exist in index.html', () => {
   const html = read('index.html');
   const appRoot = read('src/app-root.tsx');
-  const modeCardGrid = read('js/features/mode-card-grid.tsx');
-  const quizOverlayShell = read('js/features/quiz-overlay-shell.tsx');
+  const modeCardGrid = read('js/features/mode/mode-card-grid.tsx');
+  const quizOverlayShell = read('js/features/mode/quiz-overlay-shell.tsx');
   // docs/card-shell-migration-roadmap.md Phase 2: .card-scene's ~24
   // mount-point ids (card-meta-mount, illus-mount, etymology-mount, ...)
   // moved out of index.html into card-shell.tsx's JSX — same
   // `id="..."` attribute syntax, so extractHtmlIds' regex works unchanged.
-  const cardShell = read('js/features/card-shell.tsx');
+  const cardShell = read('js/features/card/card-shell.tsx');
   const validIds = new Set([
     ...extractHtmlIds(html),
     ...extractModeCardGridIds(modeCardGrid),

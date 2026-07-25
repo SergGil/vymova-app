@@ -1,4 +1,4 @@
-// Vymova — js/features/pronunciation.ts
+// Vymova — js/features/voice/pronunciation.ts
 // Speech-recognition based pronunciation check.
 // Result toast lives in pronunciation-toast.tsx (React).
 

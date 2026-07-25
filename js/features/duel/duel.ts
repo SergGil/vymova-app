@@ -1,4 +1,4 @@
-// Vymova — js/features/duel.ts
+// Vymova — js/features/duel/duel.ts
 // ⚔️ Full-featured Duel: leaderboard + live multiplayer quiz
 
 import { useEffect, type ReactElement } from 'react';
@@ -110,10 +110,10 @@ export { _getDuelScreen, _showLobby } from './duel-screen.ts';
 // імпорт тут створив би цикл і тягнув би sidebar.tsx у кожен тест, що
 // імпортує duel.ts.
 async function _openPage(page: string): Promise<void> {
-  (await import('../sidebar.tsx')).openPage(page);
+  (await import('../sidebar/sidebar.tsx')).openPage(page);
 }
 async function _closePage(): Promise<void> {
-  (await import('../sidebar.tsx')).closePage();
+  (await import('../sidebar/sidebar.tsx')).closePage();
 }
 
 // Динамічний імпорт (той самий прийом, що й для sidebar.tsx вище): duel-

@@ -6,17 +6,17 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words-data/words.js';
-import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordMistake, recordModeAnswer } from '../features/game.ts';
+import { addCombo, breakCombo, awardXP } from '../features/game/combo.ts';
+import { recordMistake, recordModeAnswer } from '../features/game/game.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { playSound } from '../core/audio.ts';
 import { speak, _speakWithLang } from '../features/voice/speech.ts';
 import { t } from '../features/i18n.ts';
-import { entryFor } from '../features/mode-utils.ts';
+import { entryFor } from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang, type LangCode } from '../features/lang-pair-select.tsx';
 import type { WordEntry } from '../../src/types.js';
 import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
-import { useModeSession } from '../features/use-mode-session.ts';
+import { useModeSession } from '../features/mode/use-mode-session.ts';
 
 const AQ_SIZE = 10;
 const MIN_DIFF = 1,

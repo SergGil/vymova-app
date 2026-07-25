@@ -4,15 +4,15 @@ import { useEffect, useState, type ReactElement } from 'react';
 import { _shuf, orderDeckPool } from '../core/srs.ts';
 import { getDeckSnapshot } from '../../src/deck-store.ts';
 import { W } from '../../data/words-data/words.js';
-import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { recordModeAnswer, recordMistake } from '../features/game.ts';
+import { addCombo, breakCombo, awardXP } from '../features/game/combo.ts';
+import { recordModeAnswer, recordMistake } from '../features/game/game.ts';
 import { t } from '../features/i18n.ts';
 import type { WordEntry } from '../../src/types.js';
-import { entryFor } from '../features/mode-utils.ts';
+import { entryFor } from '../features/mode/mode-utils.ts';
 import { getKnowLang } from '../features/lang-pair-select.tsx';
 import { speak } from '../features/voice/speech.ts';
-import { ModeFinalScreen } from '../features/mode-final-screen.tsx';
-import { useModeSession } from '../features/use-mode-session.ts';
+import { ModeFinalScreen } from '../features/mode/mode-final-screen.tsx';
+import { useModeSession } from '../features/mode/use-mode-session.ts';
 
 const SIZE = 8,
   NUM_OPTS = 4;

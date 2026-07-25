@@ -42,7 +42,7 @@ export function bindOverlayDismiss(overlayId: string, closeBtnId?: string): void
   // (querySelector сайдбару тощо), тож статичний імпорт сюди тягнув би їх
   // у кожен файл, що використовує bindOverlayDismiss (включно з тестами).
   const close = (): void => {
-    import('./sidebar.tsx').then((m) => m.closePage());
+    import('./sidebar/sidebar.tsx').then((m) => m.closePage());
   };
   if (closeBtnId) document.getElementById(closeBtnId)?.addEventListener('click', close);
   overlay.addEventListener('click', (e: MouseEvent) => {

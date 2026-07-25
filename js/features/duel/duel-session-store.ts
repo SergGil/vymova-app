@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-session-store.ts
+// Vymova — js/features/duel/duel-session-store.ts
 // Session persistence (localStorage) for resuming an in-progress duel —
 // pure read/write over room/chat store snapshots, no dependency on the
 // game-runtime logic in duel.ts (which imports these, not the other way

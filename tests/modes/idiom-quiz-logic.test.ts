@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach, beforeAll } from 'vitest';
 import { pickPool, buildQuestion } from '../../js/modes/idiom-quiz.tsx';
-import { ensureIdiomsLoaded, getIdiomsForLang } from '../../js/features/idioms-loader.ts';
+import { ensureIdiomsLoaded, getIdiomsForLang } from '../../js/features/word-data/idioms-loader.ts';
 
 describe('idiom-quiz-logic', () => {
   // pickPool() itself stays synchronous, reading whatever's already in

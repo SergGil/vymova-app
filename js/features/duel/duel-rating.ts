@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-rating.ts
+// Vymova — js/features/duel/duel-rating.ts
 // Standalone duel rating storage. Kept separate from duel.ts — a large
 // module with a documented, fragile circular-import graph (see duel.ts's
 // own comments) — so achievements.ts and other broadly imported files can
@@ -6,7 +6,7 @@
 // graph, which has previously caused non-deterministic TDZ ReferenceErrors
 // across the full test suite. game.ts (unlike duel.ts) is already a plain,
 // broadly-imported leaf module, so depending on it here is safe.
-import { runCheckAchievements } from '../game.ts';
+import { runCheckAchievements } from '../game/game.ts';
 
 const RATING_KEY = 'ew_duel_rating';
 

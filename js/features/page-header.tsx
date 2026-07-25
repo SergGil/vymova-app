@@ -27,7 +27,7 @@
 //   its own listener).
 import type { ReactElement } from 'react';
 import { t } from './i18n.ts';
-import { closePage } from './sidebar.tsx';
+import { closePage } from './sidebar/sidebar.tsx';
 
 export function PageHeader({
   icon,

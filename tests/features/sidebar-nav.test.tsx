@@ -10,7 +10,7 @@ const configMock = vi.hoisted(() => ({
 }));
 vi.mock('../../js/config.ts', () => configMock);
 
-import { SidebarNav } from '../../js/features/sidebar-nav.tsx';
+import { SidebarNav } from '../../js/features/sidebar/sidebar-nav.tsx';
 import { flagUrl } from '../../js/core/flags.ts';
 
 // The exact static markup sidebar-nav-mount/sidebar-logo-mount/

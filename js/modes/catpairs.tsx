@@ -10,10 +10,10 @@ import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import { t, wordsLabel, categoryName } from '../features/i18n.ts';
 import { playSound } from '../core/audio.ts';
-import { addCombo, breakCombo, awardXP } from '../features/combo.ts';
-import { entryFor } from '../features/mode-utils.ts';
+import { addCombo, breakCombo, awardXP } from '../features/game/combo.ts';
+import { entryFor } from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
-import { useModeSession } from '../features/use-mode-session.ts';
+import { useModeSession } from '../features/mode/use-mode-session.ts';
 import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
 
 const CP = 6;

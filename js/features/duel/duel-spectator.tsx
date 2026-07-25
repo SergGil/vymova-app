@@ -1,4 +1,4 @@
-// Vymova — js/features/duel-spectator.tsx
+// Vymova — js/features/duel/duel-spectator.tsx
 // Екран спостерігача за дуеллю (item 33, Фаза 5). Чисте відображення
 // знімку кімнати `_getSpecRoom()`, реактивне через useDuelSpecRoom();
 // polling/Firebase-логіка лишається в duel-spectator-logic.ts

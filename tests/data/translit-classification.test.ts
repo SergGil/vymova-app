@@ -11,7 +11,7 @@
 // marker characters, to catch a future batch accidentally reintroducing IPA
 // for a language classified as Latin-script.
 import { describe, it, expect } from 'vitest';
-import { LATIN_TRANSLIT_LANGS, NATIVE_LATIN_LANGS } from '../../js/features/mode-utils.ts';
+import { LATIN_TRANSLIT_LANGS, NATIVE_LATIN_LANGS } from '../../js/features/mode/mode-utils.ts';
 
 // Characters that only ever appear in IPA transcription, never in ordinary
 // Latin-script romanization (which uses plain Latin letters + common

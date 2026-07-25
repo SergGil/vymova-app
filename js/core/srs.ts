@@ -12,7 +12,7 @@ import {
 import { getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
 import { today, localDateStr } from './today.ts';
 import { t } from '../features/i18n.ts';
-import { getSrsNewRemaining, recordSrsNewCard } from '../features/game.ts';
+import { getSrsNewRemaining, recordSrsNewCard } from '../features/game/game.ts';
 import { getModeSnapshot } from '../../src/deck-store.ts';
 import { ALL_TARGET_LANGS, type TargetLang } from '../../src/types.ts';
 

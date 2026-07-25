@@ -7,8 +7,8 @@ import type { GameData } from '../../src/types.ts';
 
 let mockGameData: GameData;
 
-vi.mock('../../js/features/game.ts', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../../js/features/game.ts')>();
+vi.mock('../../js/features/game/game.ts', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../js/features/game/game.ts')>();
   return {
     ...actual,
     getGameData: vi.fn(() => mockGameData),
@@ -18,14 +18,14 @@ vi.mock('../../js/features/game.ts', async (importOriginal) => {
     recordModeComplete: vi.fn(),
   };
 });
-vi.mock('../../js/features/render-achievements.ts', () => ({
+vi.mock('../../js/features/achievements/render-achievements.ts', () => ({
   checkAchievements: vi.fn(),
 }));
-vi.mock('../../js/features/game-bar-level.tsx', () => ({
+vi.mock('../../js/features/game/game-bar-level.tsx', () => ({
   refreshGameBarLevel: vi.fn(),
 }));
 
-import { getGameData, recordModeComplete } from '../../js/features/game.ts';
+import { getGameData, recordModeComplete } from '../../js/features/game/game.ts';
 
 // #dc-overlay and its children are no longer static fixture markup —
 // DailyChallenge renders them itself (full-react-migration-roadmap.md

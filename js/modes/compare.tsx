@@ -18,14 +18,14 @@ import {
   langConfig,
   type Code,
   type TargetLang,
-} from '../features/mode-utils.ts';
+} from '../features/mode/mode-utils.ts';
 import { FLAG_CODE } from '../core/flag-codes.ts';
 import { flagUrl } from '../core/flags.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { speakForCode } from '../features/voice/speak-lang.ts';
 import { t } from '../features/i18n.ts';
 import { bindOverlayOpenClose } from '../features/overlay-utils.ts';
-import { useModeSession } from '../features/use-mode-session.ts';
+import { useModeSession } from '../features/mode/use-mode-session.ts';
 
 const MAX_SUGGESTIONS = 12;
 

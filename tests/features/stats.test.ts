@@ -6,12 +6,12 @@ import { createRoot, type Root } from 'react-dom/client';
 
 const openStats = vi.fn();
 const closeStats = vi.fn();
-vi.mock('../../js/features/stats-trigger.ts', () => ({
+vi.mock('../../js/features/stats/stats-trigger.ts', () => ({
   openStats: (...a: unknown[]) => openStats(...a),
   closeStats: (...a: unknown[]) => closeStats(...a),
 }));
 
-import { StatsInit } from '../../js/features/stats.ts';
+import { StatsInit } from '../../js/features/stats/stats.ts';
 
 describe('stats.ts StatsInit', () => {
   let container: HTMLElement;

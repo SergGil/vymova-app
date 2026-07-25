@@ -1,4 +1,4 @@
-// Vymova — js/features/speech.ts
+// Vymova — js/features/voice/speech.ts
 // TTS: getVoice, speak, _speakWeb, _speakWithLang
 import { synth, hasSpeech } from '../../core/srs.ts';
 import { getSelectedUkVoice, getSelectedEsVoice, speakPreferredEnVoice } from './voice.tsx';

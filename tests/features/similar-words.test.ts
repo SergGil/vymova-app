@@ -3,7 +3,7 @@ import {
   getSimilarWords,
   getSimilarWordsEs,
   invalidateSimilarCache,
-} from '../../js/features/similar-words.tsx';
+} from '../../js/features/word-data/similar-words.tsx';
 import { vi } from 'vitest';
 
 vi.mock('../../data/words-data/words.js', () => ({

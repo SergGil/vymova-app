@@ -4,8 +4,8 @@ import { createRoot } from 'react-dom/client';
 import { AssocChainPage, openAssocChain, buildSymmetricDict } from '../../js/modes/assoc-chain.tsx';
 import { SYNONYMS_EN } from '../../data/synonyms-data/synonyms_en.ts';
 import { SYNONYMS_ES } from '../../data/synonyms-data/synonyms_es.ts';
-import { ensureSynonymsLoaded } from '../../js/features/synonyms-loader.ts';
-import { ensureAntonymsLoaded } from '../../js/features/antonyms-loader.ts';
+import { ensureSynonymsLoaded } from '../../js/features/word-data/synonyms-loader.ts';
+import { ensureAntonymsLoaded } from '../../js/features/word-data/antonyms-loader.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
