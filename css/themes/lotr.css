@@ -4,16 +4,16 @@
    scoped purely to body[data-theme="lotr"], loaded on demand (see fandom-theme-store.ts)
    instead of shipped to every visitor. Do not edit css/themes/*.css
    directly — edit the template/tokens and regenerate.
-   docs/theme-css-migration-roadmap.md Фаза 2: 6 blocks removed as dead
-   code (.transcription/.mode-name/.rd-popup-word/.duel-card-active/
-   .idioms-tab-active/.idiom-meaning) — each set a var()/token that the
-   app's own base rule for that class already resolves to identically, so
-   the per-theme override changed nothing. Other Фаза 2 clusters (single
-   var(--accent)-style value, no AUX) got a single hand-written
-   `body[data-theme] .selector {...}` rule in css/styles.css instead of a
-   template block repeated 14 times — same runtime effect (the attribute
-   selector matches any active theme and reads the theme's own --accent),
-   less to regenerate. */
+   docs/theme-css-migration-roadmap.md Фаза 2/3: most single/simple
+   overrides (var(--accent)-style in Фаза 2, named AUX custom properties in
+   Фаза 3) got a single hand-written `body[data-theme] .selector {...}`
+   rule in css/styles.css instead of a template block repeated 14 times —
+   same runtime effect, less to regenerate. What's left here is either
+   structural (can't be a single rule: the root token block itself,
+   scrollbar/pseudo-element decoration), or deliberately deferred to a
+   later phase (multi-AUX, `!important`, touched by body.dark too, or
+   part of an already-documented risky cluster) — see the roadmap doc for
+   the specific reasoning per case. */
 
 body[data-theme="lotr"] .search-result-item.sr-known {
   background: #10301d;
@@ -49,6 +49,28 @@ body[data-theme="lotr"] {
      `..., monospace`), matching what each one used before this became a
      real property. */
   --theme-font: 'Cinzel Decorative';
+  /* Фаза 3: named custom properties for the AUX (composite,
+     non-derivable-from-accent) tokens, so the single
+     `body[data-theme] .selector {...}` pattern from Фаза 2 extends to
+     these too. Shared names where multiple selectors use the exact same
+     AUX token in this template (documented per name below). */
+  --progress-fill-bg: linear-gradient(90deg, #00ff65, #00ff65);
+  --fill-glow-bg: linear-gradient(90deg, #00ff65, #7dffb1); /* .ach-progress-fill, .ach-popup-prog-fill */
+  --panel-glow-bg: rgba(10, 44, 23, 0.9); /* .btn, #search-input, .srs-stats-bar, .wotd-box, .gb-block */
+  --word-text-color: #e8fcf0;
+  --quiz-panel-bg: rgba(10, 44, 23, 0.97); /* .quiz-panel, .pairs-panel */
+  --modes-panel-bg: rgba(10, 44, 23, 0.98);
+  --profile-name-color: #aae8c3;
+  --confirm-btn-bg: linear-gradient(90deg, #008033, #00ff65); /* .prf-add-confirm, .profile-save-btn, .dc-pbar-fill */
+  --sidebar-bg: #081c10;
+  --section-title-color: #5fc889; /* .stats-section-title, .settings-section-title */
+  --settings-section-bg: rgba(0, 35, 14, 0.7);
+  --delete-panel-bg: #091e11; /* .prf-delete-panel, .import-panel, .note-panel */
+  --delete-title-color: #e8fff1; /* .prf-delete-title, #achievement-toast .toast-name */
+  --delete-warn-color: rgba(200, 255, 222, 0.5);
+  --achievement-toast-bg: linear-gradient(135deg, #051a0d 0%, #0a2816 100%);
+  --combo-toast-bg: linear-gradient(90deg, #002810, #00441b);
+  --level-row-bg: rgba(0, 25, 10, 0.6);
 }
 
 body[data-theme="lotr"] ::-webkit-scrollbar {
@@ -177,12 +199,6 @@ body[data-theme="lotr"] .card.is-known .card-face {
     0 4px 30px rgba(0, 0, 0, 0.7) !important;
 }
 
-body[data-theme="lotr"] .progress-fill {
-  background: linear-gradient(90deg, #00ff65, #00ff65);
-  box-shadow: 0 0 8px #00ff65,
-    0 0 16px rgba(0, 255, 101, 0.5);
-}
-
 body[data-theme="lotr"] .goal-fill {
   background: linear-gradient(90deg, #00ff65, #7dffb1) !important;
   box-shadow: 0 0 8px #00ff65,
@@ -193,23 +209,6 @@ body[data-theme="lotr"] .goal-fill.done {
   background: linear-gradient(90deg, #ff6600, #ffd700) !important;
   box-shadow: 0 0 8px #ffd700,
     0 0 20px rgba(255, 215, 0, 0.4) !important;
-}
-
-body[data-theme="lotr"] .ach-progress-fill {
-  background: linear-gradient(90deg, #00ff65, #7dffb1);
-}
-
-body[data-theme="lotr"] .btn {
-  background: rgba(10, 44, 23, 0.9);
-  border-color: rgba(0, 255, 101, 0.25);
-  color: var(--text2);
-  transition: all 0.2s;
-}
-
-body[data-theme="lotr"] .btn:hover {
-  border-color: rgba(0, 255, 101, 0.6);
-  color: var(--accent);
-  box-shadow: 0 0 12px rgba(0, 255, 101, 0.2);
 }
 
 body[data-theme="lotr"] .btn-know {
@@ -252,53 +251,8 @@ body[data-theme="lotr"] .btn-easy:hover {
   box-shadow: 0 0 15px rgba(90, 169, 230, 0.3) !important;
 }
 
-body[data-theme="lotr"] #search-input {
-  background: rgba(10, 44, 23, 0.9);
-  border-color: rgba(0, 255, 101, 0.2);
-  color: var(--text);
-}
-
-body[data-theme="lotr"] #search-input:focus {
-  box-shadow: 0 0 10px rgba(0, 255, 101, 0.2);
-}
-
-body[data-theme="lotr"] .word-text {
-  color: #e8fcf0;
-  text-shadow: 0 0 20px rgba(0, 255, 101, 0.1);
-}
-
-body[data-theme="lotr"] .quiz-panel,
-body[data-theme="lotr"] .pairs-panel {
-  background: rgba(10, 44, 23, 0.97);
-  border: 1px solid rgba(0, 255, 101, 0.2);
-  box-shadow: 0 0 40px rgba(0, 255, 101, 0.15),
-    0 20px 60px rgba(0, 0, 0, 0.8);
-}
-
 body[data-theme="lotr"] .level-badge {
   box-shadow: 0 0 10px rgba(0, 255, 101, 0.2);
-}
-
-body[data-theme="lotr"] .srs-stats-bar {
-  background: rgba(10, 44, 23, 0.9);
-  border-color: rgba(0, 255, 101, 0.15);
-}
-
-body[data-theme="lotr"] .progress-fill,
-body[data-theme="lotr"] .goal-fill {
-  animation: saberPulse 2.5s ease-in-out infinite;
-}
-
-body[data-theme="lotr"] .wotd-box {
-  background: rgba(10, 44, 23, 0.9);
-  border-color: rgba(0, 255, 101, 0.2);
-}
-
-body[data-theme="lotr"] .modes-panel {
-  background: rgba(10, 44, 23, 0.98);
-  border: 1px solid rgba(0, 255, 101, 0.2);
-  box-shadow: 0 0 40px rgba(0, 255, 101, 0.15),
-    0 -8px 40px rgba(0, 0, 0, 0.8);
 }
 
 body[data-theme="lotr"] .mode-card {
@@ -310,11 +264,6 @@ body[data-theme="lotr"] .mode-card:hover {
   border-color: #00ff65;
   background: rgba(0, 255, 101, 0.05);
   box-shadow: 0 0 12px rgba(0, 255, 101, 0.15);
-}
-
-body[data-theme="lotr"] .gb-block {
-  background: rgba(10, 44, 23, 0.9);
-  border-color: rgba(0, 255, 101, 0.15);
 }
 
 body[data-theme="lotr"] .gb-level-fill {
@@ -334,20 +283,6 @@ body[data-theme="lotr"] .gb-level-block {
   border-color: rgba(0, 255, 101, 0.3);
 }
 
-body[data-theme="lotr"] .profile-btn {
-  border-color: rgba(0, 255, 101, 0.3);
-  color: #aae8c3;
-}
-
-body[data-theme="lotr"] .prf-add-confirm {
-  background: linear-gradient(90deg, #008033, #00ff65);
-}
-
-body[data-theme="lotr"] .sidebar {
-  background: #081c10;
-  border-color: rgba(0, 255, 101, 0.12);
-}
-
 body[data-theme="lotr"] .sb-btn:hover {
   background: rgba(0, 255, 101, 0.08);
   color: #aae8c3;
@@ -356,14 +291,6 @@ body[data-theme="lotr"] .sb-btn:hover {
 body[data-theme="lotr"] .sb-flyout {
   background: #081c10;
   border-color: rgba(0, 255, 101, 0.14);
-}
-
-body[data-theme="lotr"] .profile-save-btn {
-  background: linear-gradient(90deg, #008033, #00ff65);
-}
-
-body[data-theme="lotr"] .voice-card-active {
-  box-shadow: 0 0 10px rgba(0, 255, 101, 0.15);
 }
 
 body[data-theme="lotr"] .gb-goal-block .gb-goal-big {
@@ -393,54 +320,10 @@ body[data-theme="lotr"] .stats-panel {
     inset 0 0 60px rgba(0, 30, 12, 0.8);
 }
 
-body[data-theme="lotr"] .stats-section-title {
-  color: #5fc889;
-  letter-spacing: 0.04em;
-}
-
-body[data-theme="lotr"] .stats-section {
-  border-bottom: 1px solid rgba(0, 255, 101, 0.07);
-}
-
 body[data-theme="lotr"] .stat-card {
   background: rgba(0, 50, 20, 0.6);
   border: 1px solid rgba(0, 255, 101, 0.12);
   border-radius: 12px;
-}
-
-body[data-theme="lotr"] .settings-section {
-  background: rgba(0, 35, 14, 0.7);
-  border-color: rgba(0, 255, 101, 0.15);
-}
-
-body[data-theme="lotr"] .settings-section-title {
-  color: #5fc889;
-}
-
-body[data-theme="lotr"] .prf-delete-panel,
-body[data-theme="lotr"] .import-panel {
-  background: #091e11;
-  border: 1px solid rgba(0, 255, 101, 0.2);
-  box-shadow: 0 0 60px rgba(0, 255, 101, 0.1);
-}
-
-body[data-theme="lotr"] .prf-delete-title {
-  color: #e8fff1;
-}
-
-body[data-theme="lotr"] .prf-delete-warn {
-  color: rgba(200, 255, 222, 0.5);
-}
-
-body[data-theme="lotr"] #achievement-toast {
-  background: linear-gradient(135deg, #051a0d 0%, #0a2816 100%);
-  border: 1px solid rgba(0, 255, 101, 0.3);
-  box-shadow: 0 0 30px rgba(0, 255, 101, 0.2),
-    0 0 60px rgba(0, 255, 101, 0.08);
-}
-
-body[data-theme="lotr"] #achievement-toast .toast-name {
-  color: #e8fff1;
 }
 
 body[data-theme="lotr"] .ach-popup {
@@ -449,30 +332,8 @@ body[data-theme="lotr"] .ach-popup {
   box-shadow: 0 0 50px rgba(0, 255, 101, 0.15);
 }
 
-body[data-theme="lotr"] .ach-popup-prog-fill {
-  background: linear-gradient(90deg, #00ff65, #7dffb1);
-  box-shadow: 0 0 8px rgba(0, 255, 101, 0.4);
-}
-
 body[data-theme="lotr"] .ach-card {
   background: rgba(0, 35, 14, 0.6);
-  border-color: rgba(0, 255, 101, 0.1);
-}
-
-body[data-theme="lotr"] .ach-progress-fill {
-  background: linear-gradient(90deg, #00ff65, #7dffb1);
-}
-
-body[data-theme="lotr"] .combo-toast {
-  background: linear-gradient(90deg, #002810, #00441b);
-  border: 1px solid rgba(0, 255, 101, 0.4);
-  color: #00ff65;
-  text-shadow: 0 0 10px rgba(0, 255, 101, 0.5);
-  box-shadow: 0 0 20px rgba(0, 255, 101, 0.2);
-}
-
-body[data-theme="lotr"] .level-row {
-  background: rgba(0, 25, 10, 0.6);
   border-color: rgba(0, 255, 101, 0.1);
 }
 
@@ -480,29 +341,3 @@ body[data-theme="lotr"] .level-row-name {
   font-family: 'Cinzel Decorative', monospace;
   font-size: 0.75rem !important;
 }
-
-body[data-theme="lotr"] .note-panel {
-  background: #091e11;
-  border: 1px solid rgba(0, 255, 101, 0.2);
-}
-
-body[data-theme="lotr"] .srs-fc-today {
-  box-shadow: 0 0 8px rgba(0, 255, 101, 0.4);
-}
-
-body[data-theme="lotr"] .dc-pbar-fill {
-  background: linear-gradient(90deg, #008033, #00ff65);
-}
-
-body[data-theme="lotr"] .rd-unknown {
-  background: rgba(231, 76, 60, 0.15);
-  border-color: rgba(231, 76, 60, 0.4);
-}
-
-body[data-theme="lotr"] .rd-known {
-  background: rgba(0, 255, 101, 0.1);
-  border-color: rgba(0, 255, 101, 0.3);
-}
-
-
-

@@ -4,16 +4,16 @@
    scoped purely to body[data-theme="dw"], loaded on demand (see fandom-theme-store.ts)
    instead of shipped to every visitor. Do not edit css/themes/*.css
    directly — edit the template/tokens and regenerate.
-   docs/theme-css-migration-roadmap.md Фаза 2: 6 blocks removed as dead
-   code (.transcription/.mode-name/.rd-popup-word/.duel-card-active/
-   .idioms-tab-active/.idiom-meaning) — each set a var()/token that the
-   app's own base rule for that class already resolves to identically, so
-   the per-theme override changed nothing. Other Фаза 2 clusters (single
-   var(--accent)-style value, no AUX) got a single hand-written
-   `body[data-theme] .selector {...}` rule in css/styles.css instead of a
-   template block repeated 14 times — same runtime effect (the attribute
-   selector matches any active theme and reads the theme's own --accent),
-   less to regenerate. */
+   docs/theme-css-migration-roadmap.md Фаза 2/3: most single/simple
+   overrides (var(--accent)-style in Фаза 2, named AUX custom properties in
+   Фаза 3) got a single hand-written `body[data-theme] .selector {...}`
+   rule in css/styles.css instead of a template block repeated 14 times —
+   same runtime effect, less to regenerate. What's left here is either
+   structural (can't be a single rule: the root token block itself,
+   scrollbar/pseudo-element decoration), or deliberately deferred to a
+   later phase (multi-AUX, `!important`, touched by body.dark too, or
+   part of an already-documented risky cluster) — see the roadmap doc for
+   the specific reasoning per case. */
 
 body[data-theme="dw"] .search-result-item.sr-known {
   background: #273010;
@@ -49,6 +49,28 @@ body[data-theme="dw"] {
      `..., monospace`), matching what each one used before this became a
      real property. */
   --theme-font: 'Cinzel Decorative';
+  /* Фаза 3: named custom properties for the AUX (composite,
+     non-derivable-from-accent) tokens, so the single
+     `body[data-theme] .selector {...}` pattern from Фаза 2 extends to
+     these too. Shared names where multiple selectors use the exact same
+     AUX token in this template (documented per name below). */
+  --progress-fill-bg: linear-gradient(90deg, #b9ff00, #b9ff00);
+  --fill-glow-bg: linear-gradient(90deg, #b9ff00, #dbff7d); /* .ach-progress-fill, .ach-popup-prog-fill */
+  --panel-glow-bg: rgba(35, 44, 10, 0.9); /* .btn, #search-input, .srs-stats-bar, .wotd-box, .gb-block */
+  --word-text-color: #f6fce8;
+  --quiz-panel-bg: rgba(35, 44, 10, 0.97); /* .quiz-panel, .pairs-panel */
+  --modes-panel-bg: rgba(35, 44, 10, 0.98);
+  --profile-name-color: #d7e8aa;
+  --confirm-btn-bg: linear-gradient(90deg, #5d8000, #b9ff00); /* .prf-add-confirm, .profile-save-btn, .dc-pbar-fill */
+  --sidebar-bg: #171c08;
+  --section-title-color: #abc85f; /* .stats-section-title, .settings-section-title */
+  --settings-section-bg: rgba(25, 35, 0, 0.7);
+  --delete-panel-bg: #181e09; /* .prf-delete-panel, .import-panel, .note-panel */
+  --delete-title-color: #f9ffe8; /* .prf-delete-title, #achievement-toast .toast-name */
+  --delete-warn-color: rgba(240, 255, 200, 0.5);
+  --achievement-toast-bg: linear-gradient(135deg, #141a05 0%, #20280a 100%);
+  --combo-toast-bg: linear-gradient(90deg, #1d2800, #314400);
+  --level-row-bg: rgba(18, 25, 0, 0.6);
 }
 
 body[data-theme="dw"] ::-webkit-scrollbar {
@@ -177,12 +199,6 @@ body[data-theme="dw"] .card.is-known .card-face {
     0 4px 30px rgba(0, 0, 0, 0.7) !important;
 }
 
-body[data-theme="dw"] .progress-fill {
-  background: linear-gradient(90deg, #b9ff00, #b9ff00);
-  box-shadow: 0 0 8px #b9ff00,
-    0 0 16px rgba(185, 255, 0, 0.5);
-}
-
 body[data-theme="dw"] .goal-fill {
   background: linear-gradient(90deg, #b9ff00, #dbff7d) !important;
   box-shadow: 0 0 8px #b9ff00,
@@ -193,23 +209,6 @@ body[data-theme="dw"] .goal-fill.done {
   background: linear-gradient(90deg, #ff6600, #ffd700) !important;
   box-shadow: 0 0 8px #ffd700,
     0 0 20px rgba(255, 215, 0, 0.4) !important;
-}
-
-body[data-theme="dw"] .ach-progress-fill {
-  background: linear-gradient(90deg, #b9ff00, #dbff7d);
-}
-
-body[data-theme="dw"] .btn {
-  background: rgba(35, 44, 10, 0.9);
-  border-color: rgba(185, 255, 0, 0.25);
-  color: var(--text2);
-  transition: all 0.2s;
-}
-
-body[data-theme="dw"] .btn:hover {
-  border-color: rgba(185, 255, 0, 0.6);
-  color: var(--accent);
-  box-shadow: 0 0 12px rgba(185, 255, 0, 0.2);
 }
 
 body[data-theme="dw"] .btn-know {
@@ -252,53 +251,8 @@ body[data-theme="dw"] .btn-easy:hover {
   box-shadow: 0 0 15px rgba(90, 169, 230, 0.3) !important;
 }
 
-body[data-theme="dw"] #search-input {
-  background: rgba(35, 44, 10, 0.9);
-  border-color: rgba(185, 255, 0, 0.2);
-  color: var(--text);
-}
-
-body[data-theme="dw"] #search-input:focus {
-  box-shadow: 0 0 10px rgba(185, 255, 0, 0.2);
-}
-
-body[data-theme="dw"] .word-text {
-  color: #f6fce8;
-  text-shadow: 0 0 20px rgba(185, 255, 0, 0.1);
-}
-
-body[data-theme="dw"] .quiz-panel,
-body[data-theme="dw"] .pairs-panel {
-  background: rgba(35, 44, 10, 0.97);
-  border: 1px solid rgba(185, 255, 0, 0.2);
-  box-shadow: 0 0 40px rgba(185, 255, 0, 0.15),
-    0 20px 60px rgba(0, 0, 0, 0.8);
-}
-
 body[data-theme="dw"] .level-badge {
   box-shadow: 0 0 10px rgba(185, 255, 0, 0.2);
-}
-
-body[data-theme="dw"] .srs-stats-bar {
-  background: rgba(35, 44, 10, 0.9);
-  border-color: rgba(185, 255, 0, 0.15);
-}
-
-body[data-theme="dw"] .progress-fill,
-body[data-theme="dw"] .goal-fill {
-  animation: saberPulse 2.5s ease-in-out infinite;
-}
-
-body[data-theme="dw"] .wotd-box {
-  background: rgba(35, 44, 10, 0.9);
-  border-color: rgba(185, 255, 0, 0.2);
-}
-
-body[data-theme="dw"] .modes-panel {
-  background: rgba(35, 44, 10, 0.98);
-  border: 1px solid rgba(185, 255, 0, 0.2);
-  box-shadow: 0 0 40px rgba(185, 255, 0, 0.15),
-    0 -8px 40px rgba(0, 0, 0, 0.8);
 }
 
 body[data-theme="dw"] .mode-card {
@@ -310,11 +264,6 @@ body[data-theme="dw"] .mode-card:hover {
   border-color: #b9ff00;
   background: rgba(185, 255, 0, 0.05);
   box-shadow: 0 0 12px rgba(185, 255, 0, 0.15);
-}
-
-body[data-theme="dw"] .gb-block {
-  background: rgba(35, 44, 10, 0.9);
-  border-color: rgba(185, 255, 0, 0.15);
 }
 
 body[data-theme="dw"] .gb-level-fill {
@@ -334,20 +283,6 @@ body[data-theme="dw"] .gb-level-block {
   border-color: rgba(185, 255, 0, 0.3);
 }
 
-body[data-theme="dw"] .profile-btn {
-  border-color: rgba(185, 255, 0, 0.3);
-  color: #d7e8aa;
-}
-
-body[data-theme="dw"] .prf-add-confirm {
-  background: linear-gradient(90deg, #5d8000, #b9ff00);
-}
-
-body[data-theme="dw"] .sidebar {
-  background: #171c08;
-  border-color: rgba(185, 255, 0, 0.12);
-}
-
 body[data-theme="dw"] .sb-btn:hover {
   background: rgba(185, 255, 0, 0.08);
   color: #d7e8aa;
@@ -356,14 +291,6 @@ body[data-theme="dw"] .sb-btn:hover {
 body[data-theme="dw"] .sb-flyout {
   background: #171c08;
   border-color: rgba(185, 255, 0, 0.14);
-}
-
-body[data-theme="dw"] .profile-save-btn {
-  background: linear-gradient(90deg, #5d8000, #b9ff00);
-}
-
-body[data-theme="dw"] .voice-card-active {
-  box-shadow: 0 0 10px rgba(185, 255, 0, 0.15);
 }
 
 body[data-theme="dw"] .gb-goal-block .gb-goal-big {
@@ -393,54 +320,10 @@ body[data-theme="dw"] .stats-panel {
     inset 0 0 60px rgba(22, 30, 0, 0.8);
 }
 
-body[data-theme="dw"] .stats-section-title {
-  color: #abc85f;
-  letter-spacing: 0.04em;
-}
-
-body[data-theme="dw"] .stats-section {
-  border-bottom: 1px solid rgba(185, 255, 0, 0.07);
-}
-
 body[data-theme="dw"] .stat-card {
   background: rgba(36, 50, 0, 0.6);
   border: 1px solid rgba(185, 255, 0, 0.12);
   border-radius: 12px;
-}
-
-body[data-theme="dw"] .settings-section {
-  background: rgba(25, 35, 0, 0.7);
-  border-color: rgba(185, 255, 0, 0.15);
-}
-
-body[data-theme="dw"] .settings-section-title {
-  color: #abc85f;
-}
-
-body[data-theme="dw"] .prf-delete-panel,
-body[data-theme="dw"] .import-panel {
-  background: #181e09;
-  border: 1px solid rgba(185, 255, 0, 0.2);
-  box-shadow: 0 0 60px rgba(185, 255, 0, 0.1);
-}
-
-body[data-theme="dw"] .prf-delete-title {
-  color: #f9ffe8;
-}
-
-body[data-theme="dw"] .prf-delete-warn {
-  color: rgba(240, 255, 200, 0.5);
-}
-
-body[data-theme="dw"] #achievement-toast {
-  background: linear-gradient(135deg, #141a05 0%, #20280a 100%);
-  border: 1px solid rgba(185, 255, 0, 0.3);
-  box-shadow: 0 0 30px rgba(185, 255, 0, 0.2),
-    0 0 60px rgba(185, 255, 0, 0.08);
-}
-
-body[data-theme="dw"] #achievement-toast .toast-name {
-  color: #f9ffe8;
 }
 
 body[data-theme="dw"] .ach-popup {
@@ -449,30 +332,8 @@ body[data-theme="dw"] .ach-popup {
   box-shadow: 0 0 50px rgba(185, 255, 0, 0.15);
 }
 
-body[data-theme="dw"] .ach-popup-prog-fill {
-  background: linear-gradient(90deg, #b9ff00, #dbff7d);
-  box-shadow: 0 0 8px rgba(185, 255, 0, 0.4);
-}
-
 body[data-theme="dw"] .ach-card {
   background: rgba(25, 35, 0, 0.6);
-  border-color: rgba(185, 255, 0, 0.1);
-}
-
-body[data-theme="dw"] .ach-progress-fill {
-  background: linear-gradient(90deg, #b9ff00, #dbff7d);
-}
-
-body[data-theme="dw"] .combo-toast {
-  background: linear-gradient(90deg, #1d2800, #314400);
-  border: 1px solid rgba(185, 255, 0, 0.4);
-  color: #b9ff00;
-  text-shadow: 0 0 10px rgba(185, 255, 0, 0.5);
-  box-shadow: 0 0 20px rgba(185, 255, 0, 0.2);
-}
-
-body[data-theme="dw"] .level-row {
-  background: rgba(18, 25, 0, 0.6);
   border-color: rgba(185, 255, 0, 0.1);
 }
 
@@ -480,29 +341,3 @@ body[data-theme="dw"] .level-row-name {
   font-family: 'Cinzel Decorative', monospace;
   font-size: 0.75rem !important;
 }
-
-body[data-theme="dw"] .note-panel {
-  background: #181e09;
-  border: 1px solid rgba(185, 255, 0, 0.2);
-}
-
-body[data-theme="dw"] .srs-fc-today {
-  box-shadow: 0 0 8px rgba(185, 255, 0, 0.4);
-}
-
-body[data-theme="dw"] .dc-pbar-fill {
-  background: linear-gradient(90deg, #5d8000, #b9ff00);
-}
-
-body[data-theme="dw"] .rd-unknown {
-  background: rgba(231, 76, 60, 0.15);
-  border-color: rgba(231, 76, 60, 0.4);
-}
-
-body[data-theme="dw"] .rd-known {
-  background: rgba(185, 255, 0, 0.1);
-  border-color: rgba(185, 255, 0, 0.3);
-}
-
-
-

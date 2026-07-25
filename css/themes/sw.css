@@ -4,16 +4,16 @@
    scoped purely to body[data-theme="sw"], loaded on demand (see fandom-theme-store.ts)
    instead of shipped to every visitor. Do not edit css/themes/*.css
    directly — edit the template/tokens and regenerate.
-   docs/theme-css-migration-roadmap.md Фаза 2: 6 blocks removed as dead
-   code (.transcription/.mode-name/.rd-popup-word/.duel-card-active/
-   .idioms-tab-active/.idiom-meaning) — each set a var()/token that the
-   app's own base rule for that class already resolves to identically, so
-   the per-theme override changed nothing. Other Фаза 2 clusters (single
-   var(--accent)-style value, no AUX) got a single hand-written
-   `body[data-theme] .selector {...}` rule in css/styles.css instead of a
-   template block repeated 14 times — same runtime effect (the attribute
-   selector matches any active theme and reads the theme's own --accent),
-   less to regenerate. */
+   docs/theme-css-migration-roadmap.md Фаза 2/3: most single/simple
+   overrides (var(--accent)-style in Фаза 2, named AUX custom properties in
+   Фаза 3) got a single hand-written `body[data-theme] .selector {...}`
+   rule in css/styles.css instead of a template block repeated 14 times —
+   same runtime effect, less to regenerate. What's left here is either
+   structural (can't be a single rule: the root token block itself,
+   scrollbar/pseudo-element decoration), or deliberately deferred to a
+   later phase (multi-AUX, `!important`, touched by body.dark too, or
+   part of an already-documented risky cluster) — see the roadmap doc for
+   the specific reasoning per case. */
 
 body[data-theme="sw"] .title-sw-toggle {
   opacity: 1;
@@ -57,6 +57,28 @@ body[data-theme="sw"] {
      `..., monospace`), matching what each one used before this became a
      real property. */
   --theme-font: 'Orbitron';
+  /* Фаза 3: named custom properties for the AUX (composite,
+     non-derivable-from-accent) tokens, so the single
+     `body[data-theme] .selector {...}` pattern from Фаза 2 extends to
+     these too. Shared names where multiple selectors use the exact same
+     AUX token in this template (documented per name below). */
+  --progress-fill-bg: linear-gradient(90deg, #0066ff, #00c8ff);
+  --fill-glow-bg: linear-gradient(90deg, #00c8ff, #7df9ff); /* .ach-progress-fill, .ach-popup-prog-fill */
+  --panel-glow-bg: rgba(10, 22, 44, 0.9); /* .btn, #search-input, .srs-stats-bar, .wotd-box, .gb-block */
+  --word-text-color: #e8f4fc;
+  --quiz-panel-bg: rgba(10, 22, 44, 0.97); /* .quiz-panel, .pairs-panel */
+  --modes-panel-bg: rgba(10, 22, 44, 0.98);
+  --profile-name-color: #aad4e8;
+  --confirm-btn-bg: linear-gradient(90deg, #005580, #00c8ff); /* .prf-add-confirm, .profile-save-btn, .dc-pbar-fill */
+  --sidebar-bg: #080f1c;
+  --section-title-color: #5fa8c8; /* .stats-section-title, .settings-section-title */
+  --settings-section-bg: rgba(0, 15, 35, 0.7);
+  --delete-panel-bg: #090f1e; /* .prf-delete-panel, .import-panel, .note-panel */
+  --delete-title-color: #e8f4ff; /* .prf-delete-title, #achievement-toast .toast-name */
+  --delete-warn-color: rgba(200, 230, 255, 0.5);
+  --achievement-toast-bg: linear-gradient(135deg, #050d1a 0%, #0a1628 100%);
+  --combo-toast-bg: linear-gradient(90deg, #001428, #002244);
+  --level-row-bg: rgba(0, 10, 25, 0.6);
 }
 
 body[data-theme="sw"] ::-webkit-scrollbar {
@@ -185,12 +207,6 @@ body[data-theme="sw"] .card.is-known .card-face {
     0 4px 30px rgba(0, 0, 0, 0.7) !important;
 }
 
-body[data-theme="sw"] .progress-fill {
-  background: linear-gradient(90deg, #0066ff, #00c8ff);
-  box-shadow: 0 0 8px #00c8ff,
-    0 0 16px rgba(0, 200, 255, 0.5);
-}
-
 body[data-theme="sw"] .goal-fill {
   background: linear-gradient(90deg, #00c8ff, #7df9ff) !important;
   box-shadow: 0 0 8px #00c8ff,
@@ -201,23 +217,6 @@ body[data-theme="sw"] .goal-fill.done {
   background: linear-gradient(90deg, #ff6600, #ffd700) !important;
   box-shadow: 0 0 8px #ffd700,
     0 0 20px rgba(255, 215, 0, 0.4) !important;
-}
-
-body[data-theme="sw"] .ach-progress-fill {
-  background: linear-gradient(90deg, #00c8ff, #7df9ff);
-}
-
-body[data-theme="sw"] .btn {
-  background: rgba(10, 22, 44, 0.9);
-  border-color: rgba(0, 200, 255, 0.25);
-  color: var(--text2);
-  transition: all 0.2s;
-}
-
-body[data-theme="sw"] .btn:hover {
-  border-color: rgba(0, 200, 255, 0.6);
-  color: var(--accent);
-  box-shadow: 0 0 12px rgba(0, 200, 255, 0.2);
 }
 
 body[data-theme="sw"] .btn-know {
@@ -260,53 +259,8 @@ body[data-theme="sw"] .btn-easy:hover {
   box-shadow: 0 0 15px rgba(90, 169, 230, 0.3) !important;
 }
 
-body[data-theme="sw"] #search-input {
-  background: rgba(10, 22, 44, 0.9);
-  border-color: rgba(0, 200, 255, 0.2);
-  color: var(--text);
-}
-
-body[data-theme="sw"] #search-input:focus {
-  box-shadow: 0 0 10px rgba(0, 200, 255, 0.2);
-}
-
-body[data-theme="sw"] .word-text {
-  color: #e8f4fc;
-  text-shadow: 0 0 20px rgba(0, 200, 255, 0.1);
-}
-
-body[data-theme="sw"] .quiz-panel,
-body[data-theme="sw"] .pairs-panel {
-  background: rgba(10, 22, 44, 0.97);
-  border: 1px solid rgba(0, 200, 255, 0.2);
-  box-shadow: 0 0 40px rgba(0, 200, 255, 0.15),
-    0 20px 60px rgba(0, 0, 0, 0.8);
-}
-
 body[data-theme="sw"] .level-badge {
   box-shadow: 0 0 10px rgba(0, 200, 255, 0.2);
-}
-
-body[data-theme="sw"] .srs-stats-bar {
-  background: rgba(10, 22, 44, 0.9);
-  border-color: rgba(0, 200, 255, 0.15);
-}
-
-body[data-theme="sw"] .progress-fill,
-body[data-theme="sw"] .goal-fill {
-  animation: saberPulse 2.5s ease-in-out infinite;
-}
-
-body[data-theme="sw"] .wotd-box {
-  background: rgba(10, 22, 44, 0.9);
-  border-color: rgba(0, 200, 255, 0.2);
-}
-
-body[data-theme="sw"] .modes-panel {
-  background: rgba(10, 22, 44, 0.98);
-  border: 1px solid rgba(0, 200, 255, 0.2);
-  box-shadow: 0 0 40px rgba(0, 200, 255, 0.15),
-    0 -8px 40px rgba(0, 0, 0, 0.8);
 }
 
 body[data-theme="sw"] .mode-card {
@@ -318,11 +272,6 @@ body[data-theme="sw"] .mode-card:hover {
   border-color: #00c8ff;
   background: rgba(0, 200, 255, 0.05);
   box-shadow: 0 0 12px rgba(0, 200, 255, 0.15);
-}
-
-body[data-theme="sw"] .gb-block {
-  background: rgba(10, 22, 44, 0.9);
-  border-color: rgba(0, 200, 255, 0.15);
 }
 
 body[data-theme="sw"] .gb-level-fill {
@@ -342,20 +291,6 @@ body[data-theme="sw"] .gb-level-block {
   border-color: rgba(0, 200, 255, 0.3);
 }
 
-body[data-theme="sw"] .profile-btn {
-  border-color: rgba(0, 200, 255, 0.3);
-  color: #aad4e8;
-}
-
-body[data-theme="sw"] .prf-add-confirm {
-  background: linear-gradient(90deg, #005580, #00c8ff);
-}
-
-body[data-theme="sw"] .sidebar {
-  background: #080f1c;
-  border-color: rgba(0, 200, 255, 0.12);
-}
-
 body[data-theme="sw"] .sb-btn:hover {
   background: rgba(0, 200, 255, 0.08);
   color: #aad4e8;
@@ -364,14 +299,6 @@ body[data-theme="sw"] .sb-btn:hover {
 body[data-theme="sw"] .sb-flyout {
   background: #080f1c;
   border-color: rgba(0, 200, 255, 0.14);
-}
-
-body[data-theme="sw"] .profile-save-btn {
-  background: linear-gradient(90deg, #005580, #00c8ff);
-}
-
-body[data-theme="sw"] .voice-card-active {
-  box-shadow: 0 0 10px rgba(0, 200, 255, 0.15);
 }
 
 body[data-theme="sw"] .gb-goal-block .gb-goal-big {
@@ -401,54 +328,10 @@ body[data-theme="sw"] .stats-panel {
     inset 0 0 60px rgba(0, 10, 30, 0.8);
 }
 
-body[data-theme="sw"] .stats-section-title {
-  color: #5fa8c8;
-  letter-spacing: 0.04em;
-}
-
-body[data-theme="sw"] .stats-section {
-  border-bottom: 1px solid rgba(0, 200, 255, 0.07);
-}
-
 body[data-theme="sw"] .stat-card {
   background: rgba(0, 20, 50, 0.6);
   border: 1px solid rgba(0, 200, 255, 0.12);
   border-radius: 12px;
-}
-
-body[data-theme="sw"] .settings-section {
-  background: rgba(0, 15, 35, 0.7);
-  border-color: rgba(0, 200, 255, 0.15);
-}
-
-body[data-theme="sw"] .settings-section-title {
-  color: #5fa8c8;
-}
-
-body[data-theme="sw"] .prf-delete-panel,
-body[data-theme="sw"] .import-panel {
-  background: #090f1e;
-  border: 1px solid rgba(0, 200, 255, 0.2);
-  box-shadow: 0 0 60px rgba(0, 200, 255, 0.1);
-}
-
-body[data-theme="sw"] .prf-delete-title {
-  color: #e8f4ff;
-}
-
-body[data-theme="sw"] .prf-delete-warn {
-  color: rgba(200, 230, 255, 0.5);
-}
-
-body[data-theme="sw"] #achievement-toast {
-  background: linear-gradient(135deg, #050d1a 0%, #0a1628 100%);
-  border: 1px solid rgba(0, 200, 255, 0.3);
-  box-shadow: 0 0 30px rgba(0, 200, 255, 0.2),
-    0 0 60px rgba(0, 200, 255, 0.08);
-}
-
-body[data-theme="sw"] #achievement-toast .toast-name {
-  color: #e8f4ff;
 }
 
 body[data-theme="sw"] .ach-popup {
@@ -457,30 +340,8 @@ body[data-theme="sw"] .ach-popup {
   box-shadow: 0 0 50px rgba(0, 200, 255, 0.15);
 }
 
-body[data-theme="sw"] .ach-popup-prog-fill {
-  background: linear-gradient(90deg, #00c8ff, #7df9ff);
-  box-shadow: 0 0 8px rgba(0, 200, 255, 0.4);
-}
-
 body[data-theme="sw"] .ach-card {
   background: rgba(0, 15, 35, 0.6);
-  border-color: rgba(0, 200, 255, 0.1);
-}
-
-body[data-theme="sw"] .ach-progress-fill {
-  background: linear-gradient(90deg, #00c8ff, #7df9ff);
-}
-
-body[data-theme="sw"] .combo-toast {
-  background: linear-gradient(90deg, #001428, #002244);
-  border: 1px solid rgba(0, 200, 255, 0.4);
-  color: #00c8ff;
-  text-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
-  box-shadow: 0 0 20px rgba(0, 200, 255, 0.2);
-}
-
-body[data-theme="sw"] .level-row {
-  background: rgba(0, 10, 25, 0.6);
   border-color: rgba(0, 200, 255, 0.1);
 }
 
@@ -488,29 +349,3 @@ body[data-theme="sw"] .level-row-name {
   font-family: 'Orbitron', monospace;
   font-size: 0.75rem !important;
 }
-
-body[data-theme="sw"] .note-panel {
-  background: #090f1e;
-  border: 1px solid rgba(0, 200, 255, 0.2);
-}
-
-body[data-theme="sw"] .srs-fc-today {
-  box-shadow: 0 0 8px rgba(0, 200, 255, 0.4);
-}
-
-body[data-theme="sw"] .dc-pbar-fill {
-  background: linear-gradient(90deg, #005580, #00c8ff);
-}
-
-body[data-theme="sw"] .rd-unknown {
-  background: rgba(231, 76, 60, 0.15);
-  border-color: rgba(231, 76, 60, 0.4);
-}
-
-body[data-theme="sw"] .rd-known {
-  background: rgba(0, 200, 255, 0.1);
-  border-color: rgba(0, 200, 255, 0.3);
-}
-
-
-

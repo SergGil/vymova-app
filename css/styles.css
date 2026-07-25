@@ -161,6 +161,16 @@ select:focus {
   border-radius: 3px;
   transition: width 0.4s ease;
 }
+body[data-theme] .progress-fill {
+  background: var(--progress-fill-bg);
+  box-shadow:
+    0 0 8px var(--accent),
+    0 0 16px rgba(var(--accent-rgb), 0.5);
+}
+body[data-theme] .progress-fill,
+body[data-theme] .goal-fill {
+  animation: saberPulse 2.5s ease-in-out infinite;
+}
 
 /* Card */
 .card {
@@ -269,6 +279,10 @@ body[data-theme] .card-tag {
   word-break: normal;
   -webkit-hyphens: none;
   hyphens: none;
+}
+body[data-theme] .word-text {
+  color: var(--word-text-color);
+  text-shadow: 0 0 20px rgba(var(--accent-rgb), 0.1);
 }
 .speak-btn {
   background: none;
@@ -536,9 +550,20 @@ body[data-theme] .card-tag {
   cursor: pointer;
   transition: all 0.15s;
 }
+body[data-theme] .btn {
+  background: var(--panel-glow-bg);
+  border-color: rgba(var(--accent-rgb), 0.25);
+  color: var(--text2);
+  transition: all 0.2s;
+}
 .btn:hover {
   background: var(--bg);
   border-color: #ccc;
+}
+body[data-theme] .btn:hover {
+  border-color: rgba(var(--accent-rgb), 0.6);
+  color: var(--accent);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.2);
 }
 .btn:active {
   transform: scale(0.97);
@@ -892,6 +917,10 @@ body.dark .search-result-item:hover {
   border: 1.5px solid var(--border);
   background: var(--card);
   color: var(--text);
+}
+body[data-theme] #search-input {
+  background: var(--panel-glow-bg);
+  border-color: rgba(var(--accent-rgb), 0.2);
 }
 #search-input:focus {
   border-color: var(--accent);
@@ -1629,6 +1658,16 @@ body.dark .tempo-opt.wrong {
   background: rgba(39, 174, 96, 0.08) !important;
   opacity: 0.7;
 }
+/* .pairs-panel shares this exact fandom override (same AUX11 value in
+   scripts/theme-template.css) — one combined rule covers both. */
+body[data-theme] .quiz-panel,
+body[data-theme] .pairs-panel {
+  background: var(--quiz-panel-bg);
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  box-shadow:
+    0 0 40px rgba(var(--accent-rgb), 0.15),
+    0 20px 60px rgba(0, 0, 0, 0.8);
+}
 .quiz-panel {
   background: var(--card);
   border-radius: 20px;
@@ -1831,6 +1870,10 @@ body.dark .quiz-option.reveal {
    existed for any of these selectors. */
 
 /* ── Word of the day ── */
+body[data-theme] .wotd-box {
+  background: var(--panel-glow-bg);
+  border-color: rgba(var(--accent-rgb), 0.2);
+}
 .wotd-box {
   display: flex;
   align-items: center;
@@ -2017,6 +2060,13 @@ body.dark .cat-select-btn:hover {
 }
 
 /* ── Combo toast ── */
+body[data-theme] .combo-toast {
+  background: var(--combo-toast-bg);
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
+  box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.2);
+}
 .combo-toast {
   position: fixed;
   top: 42%;
@@ -2388,6 +2438,13 @@ body.dark .btn-modes-open:hover {
 }
 
 /* ── Modes panel (bottom sheet style) ── */
+body[data-theme] .modes-panel {
+  background: var(--modes-panel-bg);
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  box-shadow:
+    0 0 40px rgba(var(--accent-rgb), 0.15),
+    0 -8px 40px rgba(0, 0, 0, 0.8);
+}
 .modes-panel {
   background: var(--card);
   border-radius: 20px 20px 16px 16px;
@@ -2582,6 +2639,10 @@ body.dark .btn-modes-open:hover {
   padding: 10px 14px;
   box-shadow: var(--shadow);
   min-width: 0;
+}
+body[data-theme] .gb-block {
+  background: var(--panel-glow-bg);
+  border-color: rgba(var(--accent-rgb), 0.15);
 }
 
 /* Block 1: Streak */
@@ -3013,6 +3074,10 @@ body.dark .btn-achievements {
 }
 
 /* ══ Profile System ══════════════════════════════════════════════ */
+body[data-theme] .profile-btn {
+  border-color: rgba(var(--accent-rgb), 0.3);
+  color: var(--profile-name-color);
+}
 .profile-btn {
   display: inline-flex;
   align-items: center;
@@ -3051,6 +3116,9 @@ body[data-theme] .prf-av-btn.prf-av-active {
   box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.2);
 }
 
+body[data-theme] .prf-add-confirm {
+  background: var(--confirm-btn-bg);
+}
 .prf-add-confirm {
   width: 100%;
   padding: 10px;
@@ -3330,6 +3398,9 @@ body.dark .sb-flyout {
    .profile-lang-count/-mini-stats and siblings, plus a fully-shadowed
    duplicate .profile-lang-card definition) — none had any consumer left
    in js/ or src/. */
+body[data-theme] .profile-save-btn {
+  background: var(--confirm-btn-bg);
+}
 .profile-save-btn {
   width: 100%;
   padding: 10px;
@@ -3568,6 +3639,14 @@ body[data-theme="hp"] .sb-profile-section {
 }
 
 /* ── Profile delete modal ── */
+/* .import-panel shares this exact fandom override (same AUX25 value in
+   scripts/theme-template.css) — one combined rule covers both. */
+body[data-theme] .prf-delete-panel,
+body[data-theme] .import-panel {
+  background: var(--delete-panel-bg);
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  box-shadow: 0 0 60px rgba(var(--accent-rgb), 0.1);
+}
 .prf-delete-panel {
   background: var(--card);
   border-radius: 20px;
@@ -3581,6 +3660,9 @@ body[data-theme="hp"] .sb-profile-section {
 .prf-delete-icon {
   font-size: 2.4rem;
   margin-bottom: 12px;
+}
+body[data-theme] .prf-delete-title {
+  color: var(--delete-title-color);
 }
 .prf-delete-title {
   font-size: 1.1rem;
@@ -3598,6 +3680,9 @@ body[data-theme="hp"] .sb-profile-section {
    .btn-achievements — a different red, not per-theme accent. */
 body[data-theme] .prf-delete-name {
   color: #ff6b6b;
+}
+body[data-theme] .prf-delete-warn {
+  color: var(--delete-warn-color);
 }
 .prf-delete-warn {
   font-size: 0.82rem;
@@ -3641,12 +3726,19 @@ body[data-theme] .prf-delete-btn-confirm {
 }
 
 /* ══ Settings Page ══════════════════════════════════════════════ */
+body[data-theme] .settings-section {
+  background: var(--settings-section-bg);
+  border-color: rgba(var(--accent-rgb), 0.15);
+}
 .settings-section {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 18px 20px;
   margin-bottom: 14px;
+}
+body[data-theme] .settings-section-title {
+  color: var(--section-title-color);
 }
 .settings-section-title {
   font-size: 0.9rem;
@@ -3657,7 +3749,8 @@ body[data-theme] .prf-delete-btn-confirm {
 /* .settings-desc/.settings-reset-btn/:hover/.settings-footer moved to
    Tailwind utility classes directly in index.html (no fandom-theme or
    body.dark overrides existed for any of them). .settings-section-danger
-   stays: it has a live theme override (scripts/theme-template.css). */
+   turned out to be dead code, both occurrences (docs/theme-css-migration-
+   roadmap.md Фаза 2) — removed, not migrated. */
 .settings-section-danger {
   border-color: rgba(231, 76, 60, 0.3);
   background: rgba(231, 76, 60, 0.04);
@@ -3706,6 +3799,10 @@ body[data-theme] .voice-card-active {
   transition: all 0.15s;
   position: relative;
   overflow: hidden;
+}
+body[data-theme] .level-row {
+  background: var(--level-row-bg);
+  border-color: rgba(var(--accent-rgb), 0.1);
 }
 .level-row.level-current {
   border-width: 2px;
@@ -3793,10 +3890,42 @@ body:not(.dark):not([data-theme])
 
 /* ── SW Modals ── */
 
-/* ── Fandom-theme additions (docs/theme-css-migration-roadmap.md Фаза 2) ──
+/* ── Fandom-theme additions (docs/theme-css-migration-roadmap.md Фаза 2/3) ──
    None of these have a bare CSS counterpart (all pure Tailwind classNames
    in their components already) — single `body[data-theme]` rule each,
-   same pattern as elsewhere in this phase. */
+   same pattern as elsewhere in these phases. */
+body[data-theme] .ach-progress-fill {
+  background: var(--fill-glow-bg);
+}
+body[data-theme] .ach-popup-prog-fill {
+  background: var(--fill-glow-bg);
+  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
+}
+body[data-theme] .sidebar {
+  background: var(--sidebar-bg);
+  border-color: rgba(var(--accent-rgb), 0.12);
+}
+body[data-theme] #achievement-toast {
+  background: var(--achievement-toast-bg);
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  box-shadow:
+    0 0 30px rgba(var(--accent-rgb), 0.2),
+    0 0 60px rgba(var(--accent-rgb), 0.08);
+}
+body[data-theme] #achievement-toast .toast-name {
+  color: var(--delete-title-color);
+}
+body[data-theme] .srs-stats-bar {
+  background: var(--panel-glow-bg);
+  border-color: rgba(var(--accent-rgb), 0.15);
+}
+body[data-theme] .stats-section {
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.07);
+}
+body[data-theme] .stats-section-title {
+  color: var(--section-title-color);
+  letter-spacing: 0.04em;
+}
 body[data-theme] .stats-title {
   color: var(--accent);
   font-family: var(--theme-font), monospace;
@@ -3903,6 +4032,10 @@ body.dark {
    bare (live theme override across all 14 fandom themes; keyframes
    can't become a Tailwind utility). .note-textarea's border (and
    :focus's border-color) stay too — also theme-touched. */
+body[data-theme] .note-panel {
+  background: var(--delete-panel-bg);
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+}
 .note-panel {
   background: var(--card);
   animation: slideUpPanel 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -3926,6 +4059,9 @@ body[data-theme] .note-textarea {
    throughout this migration. */
 
 /* ── Daily Challenge ── */
+body[data-theme] .dc-pbar-fill {
+  background: var(--confirm-btn-bg);
+}
 .dc-pbar-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--accent), #27ae60);
