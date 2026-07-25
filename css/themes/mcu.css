@@ -149,59 +149,6 @@ body[data-theme="mcu"]::after {
   pointer-events: none;
 }
 
-body[data-theme="mcu"] .card-face {
-  position: relative;
-}
-
-body[data-theme="mcu"] .card-face::before,
-body[data-theme="mcu"] .card-face::after {
-  content: '';
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  border-color: rgba(255, 0, 9, 0.6);
-  border-style: solid;
-  pointer-events: none;
-  z-index: 3;
-}
-
-body[data-theme="mcu"] .card-face::before {
-  top: 8px;
-  left: 8px;
-  border-width: 2px 0 0 2px;
-  border-radius: 2px 0 0 0;
-}
-
-body[data-theme="mcu"] .card-face::after {
-  bottom: 8px;
-  right: 8px;
-  border-width: 0 2px 2px 0;
-  border-radius: 0 0 2px 0;
-}
-
-body[data-theme="mcu"] .card-face {
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    transparent 3px,
-    rgba(255, 0, 9, 0.015) 3px,
-    rgba(255, 0, 9, 0.015) 4px
-  );
-}
-
-body[data-theme="mcu"] .card-face {
-  border-color: rgba(255, 0, 9, 0.25);
-  box-shadow: 0 0 20px rgba(255, 0, 9, 0.1),
-    0 4px 30px rgba(0, 0, 0, 0.7),
-    inset 0 0 40px rgba(255, 0, 9, 0.03);
-}
-
-body[data-theme="mcu"] .card.is-known .card-face {
-  border-color: rgba(57, 211, 83, 0.4) !important;
-  box-shadow: 0 0 25px rgba(57, 211, 83, 0.2),
-    0 4px 30px rgba(0, 0, 0, 0.7) !important;
-}
-
 body[data-theme="mcu"] .goal-fill {
   background: linear-gradient(90deg, #ff0009, #ff7d81) !important;
   box-shadow: 0 0 8px #ff0009,

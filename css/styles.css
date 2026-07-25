@@ -1078,10 +1078,6 @@ body.dark .chart-wrap {
    .toast-name/.toast-icon), and being unlayered legacy CSS they keep
    winning over the new Tailwind utilities regardless of source order. */
 
-body.dark .card.is-known .card-face {
-  background: linear-gradient(135deg, #0d2e1c 0%, #0a2318 100%) !important;
-  border-color: #2d8a52 !important;
-}
 body.dark .ach-card {
   background: rgba(255, 255, 255, 0.04);
 }
@@ -1405,9 +1401,76 @@ body.dark .ach-popup-hint {
   user-select: text;
   -webkit-user-select: text;
 }
+/* Corner-bracket decoration + subtle scanline texture + glow border, all
+   derived purely from --accent-rgb (no per-theme custom property needed,
+   it already exists) — collapsed from 5 separate 14x-repeated
+   scripts/theme-template.css blocks into 2 rules. No body.dark
+   counterpart for the non-known state, so no source-order constraint
+   here (unlike the is-known rule below). */
+body[data-theme] .card-face::before,
+body[data-theme] .card-face::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(var(--accent-rgb), 0.6);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 3;
+}
+body[data-theme] .card-face::before {
+  top: 8px;
+  left: 8px;
+  border-width: 2px 0 0 2px;
+  border-radius: 2px 0 0 0;
+}
+body[data-theme] .card-face::after {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 2px 0;
+}
+body[data-theme] .card-face {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(var(--accent-rgb), 0.015) 3px,
+    rgba(var(--accent-rgb), 0.015) 4px
+  );
+  border-color: rgba(var(--accent-rgb), 0.25);
+  box-shadow:
+    0 0 20px rgba(var(--accent-rgb), 0.1),
+    0 4px 30px rgba(0, 0, 0, 0.7),
+    inset 0 0 40px rgba(var(--accent-rgb), 0.03);
+}
 body.dark .card.is-known .card-face {
   background: linear-gradient(135deg, #0d2e1c, #0a2318) !important;
   border-color: #2d8a52 !important;
+}
+/* Fixed neon green across all 14 themes (not per-theme accent), same
+   shape as the .btn-know cluster (docs/theme-css-migration-roadmap.md
+   Фаза 5) — but unlike .btn-know, `!important` genuinely IS load-bearing
+   on border-color here: the LIGHT-mode base `.card.is-known .card-face`
+   rule above (line ~643) also uses `!important` on its `border`
+   shorthand, not just body.dark, so a plain border-color here loses to
+   it regardless of specificity (verified via Playwright — removing
+   !important left every combination showing the base/dark border color,
+   never the fandom green). box-shadow has no competing !important rule
+   anywhere for this selector, confirmed safe without it. Also MUST stay
+   physically after the body.dark rule above: body[data-theme]
+   .card.is-known .card-face and body.dark .card.is-known .card-face tie
+   at equal specificity (0,4,1) once both are !important, so the winner
+   is still decided by source order (see the .btn-know commit for the
+   same lesson). Doesn't touch `background` at all — known cards in
+   fandom mode keep the regular themed .card-face texture above, just
+   with a green glow border instead of dark mode's green background
+   gradient. */
+body[data-theme] .card.is-known .card-face {
+  border-color: rgba(57, 211, 83, 0.4) !important;
+  box-shadow:
+    0 0 25px rgba(57, 211, 83, 0.2),
+    0 4px 30px rgba(0, 0, 0, 0.7);
 }
 
 /* ── Прогрес-кільце ── */
