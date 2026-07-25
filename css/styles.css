@@ -684,6 +684,9 @@ body.dark .card.is-known {
 .card.is-known .sense-example i {
   color: var(--known-c2);
 }
+.card.is-known .sense-example b {
+  color: var(--known-c4);
+}
 .known-badge {
   display: none;
   font-size: 11px;
@@ -3671,6 +3674,9 @@ body[data-theme] .prf-delete-btn-confirm {
   background: var(--card);
   box-shadow: 0 0 0 3px rgba(45, 90, 61, 0.12);
 }
+body[data-theme] .voice-card-active {
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.15);
+}
 
 /* .voice-section summary/:hover/::marker/[open] deleted rather than
    migrated: fully dead code — the <summary> elements in voice.tsx already
@@ -3875,7 +3881,14 @@ body.dark {
    body.dark overrides existed for any of them). .sense-speak-btn moved too,
    using Tailwind's `!` important modifier to beat .speak-btn's own bare
    font-size — see the "Card action buttons" comment above for why this
-   works (cascade-layers correction). */
+   works (cascade-layers correction). .sense-example's own <b> (the learned
+   word, bolded via boldHead() same as .ex-en/.ex-ua) stays bare CSS — same
+   dangerouslySetInnerHTML limitation as .ex-en b, can never carry a
+   className. Mirrors .ex-en b's styling exactly. */
+.sense-example b {
+  color: var(--accent2);
+  font-weight: 600;
+}
 
 /* ── Note modal ──
    .note-header/.note-title and .note-panel's/.note-textarea's own
@@ -3960,9 +3973,19 @@ body[data-theme] .dc-word {
   background: rgba(231, 76, 60, 0.18);
   border-bottom: 2px solid rgba(231, 76, 60, 0.5);
 }
+/* Constant across all 14 fandom themes (still "red", just different
+   alpha values from the light-mode base) — literal, not accent-based. */
+body[data-theme] .rd-unknown {
+  background: rgba(231, 76, 60, 0.15);
+  border-color: rgba(231, 76, 60, 0.4);
+}
 .rd-known {
   background: rgba(39, 174, 96, 0.12);
   border-bottom: 2px solid rgba(39, 174, 96, 0.4);
+}
+body[data-theme] .rd-known {
+  background: rgba(var(--accent-rgb), 0.1);
+  border-color: rgba(var(--accent-rgb), 0.3);
 }
 .rd-popup-word {
   color: var(--accent);

@@ -373,16 +373,7 @@ body[data-theme="lotr"] .profile-save-btn {
   background: linear-gradient(90deg, #008033, #00ff65);
 }
 
-body[data-theme="lotr"] .settings-section-danger {
-  border-color: rgba(255, 100, 80, 0.25);
-}
-
-body[data-theme="lotr"] .voice-card:hover {
-  border-color: #00ff65;
-}
-
 body[data-theme="lotr"] .voice-card-active {
-  border-color: #00ff65;
   box-shadow: 0 0 10px rgba(0, 255, 101, 0.15);
 }
 
@@ -435,11 +426,6 @@ body[data-theme="lotr"] .settings-section {
 
 body[data-theme="lotr"] .settings-section-title {
   color: #5fc889;
-}
-
-body[data-theme="lotr"] .settings-section-danger {
-  border-color: rgba(231, 76, 60, 0.3);
-  background: rgba(231, 76, 60, 0.04);
 }
 
 body[data-theme="lotr"] .prf-delete-panel,

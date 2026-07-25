@@ -381,16 +381,7 @@ body[data-theme="hp"] .profile-save-btn {
   background: linear-gradient(90deg, #005580, #d3a625);
 }
 
-body[data-theme="hp"] .settings-section-danger {
-  border-color: rgba(255, 100, 80, 0.25);
-}
-
-body[data-theme="hp"] .voice-card:hover {
-  border-color: #d3a625;
-}
-
 body[data-theme="hp"] .voice-card-active {
-  border-color: #d3a625;
   box-shadow: 0 0 10px rgba(211, 166, 37, 0.15);
 }
 
@@ -443,11 +434,6 @@ body[data-theme="hp"] .settings-section {
 
 body[data-theme="hp"] .settings-section-title {
   color: #c9a86a;
-}
-
-body[data-theme="hp"] .settings-section-danger {
-  border-color: rgba(231, 76, 60, 0.3);
-  background: rgba(231, 76, 60, 0.04);
 }
 
 body[data-theme="hp"] .prf-delete-panel,

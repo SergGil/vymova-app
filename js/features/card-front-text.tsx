@@ -7,7 +7,7 @@ import { useSrsData } from '../../src/srs-store.ts';
 import { today } from '../core/today.ts';
 import { decodeIpa } from '../core/ui-helpers.ts';
 import { t, tLang, type Lang } from './i18n.ts';
-import { srsStatusInfo, forgettingCurveTooltip, type SrsEntry } from '../core/card-helpers.ts';
+import { srsStatusInfo, forgettingCurveTooltip, boldHead, type SrsEntry } from '../core/card-helpers.ts';
 import {
   getResolvedMode,
   computeCardView,
@@ -457,7 +457,8 @@ export function OtherMeanings() {
               {s.translation}
             </span>
             <div className="sense-example mt-px text-[.74rem] leading-[1.4] text-[var(--text3)]">
-              {s.exTarget} {s.exKnow ? <i className="italic">— {s.exKnow}</i> : null}
+              <span dangerouslySetInnerHTML={{ __html: boldHead(s.exTarget, frontWord) }} />{' '}
+              {s.exKnow ? <i className="italic">— {s.exKnow}</i> : null}
               <button
                 type="button"
                 className="speak-btn sense-speak-btn !px-[3px] !py-px !text-[12px] align-middle"

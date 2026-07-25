@@ -373,16 +373,7 @@ body[data-theme="witcher"] .profile-save-btn {
   background: linear-gradient(90deg, #008076, #00ffeb);
 }
 
-body[data-theme="witcher"] .settings-section-danger {
-  border-color: rgba(255, 100, 80, 0.25);
-}
-
-body[data-theme="witcher"] .voice-card:hover {
-  border-color: #00ffeb;
-}
-
 body[data-theme="witcher"] .voice-card-active {
-  border-color: #00ffeb;
   box-shadow: 0 0 10px rgba(0, 255, 235, 0.15);
 }
 
@@ -435,11 +426,6 @@ body[data-theme="witcher"] .settings-section {
 
 body[data-theme="witcher"] .settings-section-title {
   color: #5fc8c0;
-}
-
-body[data-theme="witcher"] .settings-section-danger {
-  border-color: rgba(231, 76, 60, 0.3);
-  background: rgba(231, 76, 60, 0.04);
 }
 
 body[data-theme="witcher"] .prf-delete-panel,

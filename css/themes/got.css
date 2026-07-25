@@ -373,16 +373,7 @@ body[data-theme="got"] .profile-save-btn {
   background: linear-gradient(90deg, #803600, #ff6b00);
 }
 
-body[data-theme="got"] .settings-section-danger {
-  border-color: rgba(255, 100, 80, 0.25);
-}
-
-body[data-theme="got"] .voice-card:hover {
-  border-color: #ff6b00;
-}
-
 body[data-theme="got"] .voice-card-active {
-  border-color: #ff6b00;
   box-shadow: 0 0 10px rgba(255, 107, 0, 0.15);
 }
 
@@ -435,11 +426,6 @@ body[data-theme="got"] .settings-section {
 
 body[data-theme="got"] .settings-section-title {
   color: #c88b5f;
-}
-
-body[data-theme="got"] .settings-section-danger {
-  border-color: rgba(231, 76, 60, 0.3);
-  background: rgba(231, 76, 60, 0.04);
 }
 
 body[data-theme="got"] .prf-delete-panel,

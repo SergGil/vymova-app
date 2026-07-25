@@ -373,16 +373,7 @@ body[data-theme="dune"] .profile-save-btn {
   background: linear-gradient(90deg, #805f00, #ffbe00);
 }
 
-body[data-theme="dune"] .settings-section-danger {
-  border-color: rgba(255, 100, 80, 0.25);
-}
-
-body[data-theme="dune"] .voice-card:hover {
-  border-color: #ffbe00;
-}
-
 body[data-theme="dune"] .voice-card-active {
-  border-color: #ffbe00;
   box-shadow: 0 0 10px rgba(255, 190, 0, 0.15);
 }
 
@@ -435,11 +426,6 @@ body[data-theme="dune"] .settings-section {
 
 body[data-theme="dune"] .settings-section-title {
   color: #c8ad5f;
-}
-
-body[data-theme="dune"] .settings-section-danger {
-  border-color: rgba(231, 76, 60, 0.3);
-  background: rgba(231, 76, 60, 0.04);
 }
 
 body[data-theme="dune"] .prf-delete-panel,
