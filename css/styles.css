@@ -1680,6 +1680,9 @@ body.dark .tempo-opt.wrong {
   border-color: var(--accent);
   color: #fff;
 }
+body[data-theme] .scr-tile-placed {
+  color: #000;
+}
 
 /* .srs-stats-bar/.srs-stat-num/.srs-stat-due/.srs-stat-new/.srs-stat-sep
    moved to Tailwind utility classes in index.html
@@ -3830,6 +3833,9 @@ body[data-theme] .hamburger {
 }
 body[data-theme] .sb-add-btn {
   border-color: rgba(var(--accent-rgb), 0.3);
+}
+body[data-theme] .lang-opt.lang-active {
+  background: rgba(var(--accent-rgb), 0.12);
 }
 
 /* ── SW Combo toast ── */

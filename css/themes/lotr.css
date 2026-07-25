@@ -15,19 +15,8 @@
    selector matches any active theme and reads the theme's own --accent),
    less to regenerate. */
 
-body[data-theme="lotr"] .lang-opt.lang-active {
-  color: #00ff65;
-  background: rgba(0, 255, 101, 0.12);
-}
-
 body[data-theme="lotr"] .search-result-item.sr-known {
   background: #10301d;
-}
-
-body[data-theme="lotr"] .scr-tile-placed {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #000;
 }
 
 body[data-theme="lotr"] {
@@ -503,10 +492,6 @@ body[data-theme="lotr"] .srs-fc-today {
 
 body[data-theme="lotr"] .dc-pbar-fill {
   background: linear-gradient(90deg, #008033, #00ff65);
-}
-
-body[data-theme="lotr"] .dc-opt:hover:not(:disabled) {
-  border-color: #00ff65;
 }
 
 body[data-theme="lotr"] .rd-unknown {

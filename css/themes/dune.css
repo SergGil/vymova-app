@@ -15,19 +15,8 @@
    selector matches any active theme and reads the theme's own --accent),
    less to regenerate. */
 
-body[data-theme="dune"] .lang-opt.lang-active {
-  color: #ffbe00;
-  background: rgba(255, 190, 0, 0.12);
-}
-
 body[data-theme="dune"] .search-result-item.sr-known {
   background: #302810;
-}
-
-body[data-theme="dune"] .scr-tile-placed {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #000;
 }
 
 body[data-theme="dune"] {
@@ -503,10 +492,6 @@ body[data-theme="dune"] .srs-fc-today {
 
 body[data-theme="dune"] .dc-pbar-fill {
   background: linear-gradient(90deg, #805f00, #ffbe00);
-}
-
-body[data-theme="dune"] .dc-opt:hover:not(:disabled) {
-  border-color: #ffbe00;
 }
 
 body[data-theme="dune"] .rd-unknown {

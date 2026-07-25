@@ -23,19 +23,8 @@ body[data-theme="sw"] .title-sw-toggle {
 }
 
 
-body[data-theme="sw"] .lang-opt.lang-active {
-  color: #00c8ff;
-  background: rgba(0, 200, 255, 0.12);
-}
-
 body[data-theme="sw"] .search-result-item.sr-known {
   background: #103024;
-}
-
-body[data-theme="sw"] .scr-tile-placed {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #000;
 }
 
 body[data-theme="sw"] {
@@ -511,10 +500,6 @@ body[data-theme="sw"] .srs-fc-today {
 
 body[data-theme="sw"] .dc-pbar-fill {
   background: linear-gradient(90deg, #005580, #00c8ff);
-}
-
-body[data-theme="sw"] .dc-opt:hover:not(:disabled) {
-  border-color: #00c8ff;
 }
 
 body[data-theme="sw"] .rd-unknown {

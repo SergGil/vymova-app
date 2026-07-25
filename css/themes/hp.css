@@ -23,19 +23,8 @@ body[data-theme="hp"] .title-hp-toggle {
 }
 
 
-body[data-theme="hp"] .lang-opt.lang-active {
-  color: #d3a625;
-  background: rgba(211, 166, 37, 0.12);
-}
-
 body[data-theme="hp"] .search-result-item.sr-known {
   background: #2a1f0a;
-}
-
-body[data-theme="hp"] .scr-tile-placed {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #000;
 }
 
 body[data-theme="hp"] {
@@ -511,10 +500,6 @@ body[data-theme="hp"] .srs-fc-today {
 
 body[data-theme="hp"] .dc-pbar-fill {
   background: linear-gradient(90deg, #005580, #d3a625);
-}
-
-body[data-theme="hp"] .dc-opt:hover:not(:disabled) {
-  border-color: #d3a625;
 }
 
 body[data-theme="hp"] .rd-unknown {

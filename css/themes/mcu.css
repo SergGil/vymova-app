@@ -15,19 +15,8 @@
    selector matches any active theme and reads the theme's own --accent),
    less to regenerate. */
 
-body[data-theme="mcu"] .lang-opt.lang-active {
-  color: #ff0009;
-  background: rgba(255, 0, 9, 0.12);
-}
-
 body[data-theme="mcu"] .search-result-item.sr-known {
   background: #301011;
-}
-
-body[data-theme="mcu"] .scr-tile-placed {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #000;
 }
 
 body[data-theme="mcu"] {
@@ -503,10 +492,6 @@ body[data-theme="mcu"] .srs-fc-today {
 
 body[data-theme="mcu"] .dc-pbar-fill {
   background: linear-gradient(90deg, #800004, #ff0009);
-}
-
-body[data-theme="mcu"] .dc-opt:hover:not(:disabled) {
-  border-color: #ff0009;
 }
 
 body[data-theme="mcu"] .rd-unknown {

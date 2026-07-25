@@ -15,19 +15,8 @@
    selector matches any active theme and reads the theme's own --accent),
    less to regenerate. */
 
-body[data-theme="cp"] .lang-opt.lang-active {
-  color: #ff006e;
-  background: rgba(255, 0, 110, 0.12);
-}
-
 body[data-theme="cp"] .search-result-item.sr-known {
   background: #30101e;
-}
-
-body[data-theme="cp"] .scr-tile-placed {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #000;
 }
 
 body[data-theme="cp"] {
@@ -503,10 +492,6 @@ body[data-theme="cp"] .srs-fc-today {
 
 body[data-theme="cp"] .dc-pbar-fill {
   background: linear-gradient(90deg, #800037, #ff006e);
-}
-
-body[data-theme="cp"] .dc-opt:hover:not(:disabled) {
-  border-color: #ff006e;
 }
 
 body[data-theme="cp"] .rd-unknown {

@@ -15,19 +15,8 @@
    selector matches any active theme and reads the theme's own --accent),
    less to regenerate. */
 
-body[data-theme="witcher"] .lang-opt.lang-active {
-  color: #00ffeb;
-  background: rgba(0, 255, 235, 0.12);
-}
-
 body[data-theme="witcher"] .search-result-item.sr-known {
   background: #10302e;
-}
-
-body[data-theme="witcher"] .scr-tile-placed {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #000;
 }
 
 body[data-theme="witcher"] {
@@ -503,10 +492,6 @@ body[data-theme="witcher"] .srs-fc-today {
 
 body[data-theme="witcher"] .dc-pbar-fill {
   background: linear-gradient(90deg, #008076, #00ffeb);
-}
-
-body[data-theme="witcher"] .dc-opt:hover:not(:disabled) {
-  border-color: #00ffeb;
 }
 
 body[data-theme="witcher"] .rd-unknown {
