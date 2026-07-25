@@ -1,6 +1,6 @@
 {
   "name": "vymova",
-  "version": "1.401.22",
+  "version": "1.401.23",
   "type": "module",
   "main": "public/sw.js",
   "engines": {
@@ -32,12 +32,12 @@
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.60.0",
     "@tailwindcss/vite": "^4.3.3",
-    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@types/three": "^0.184.1",
+    "@types/three": "^0.185.1",
     "@vitejs/plugin-react": "^4.7.0",
     "@vitest/coverage-v8": "^4.1.8",
     "@vitest/ui": "^4.1.8",
@@ -45,7 +45,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
-    "firebase-tools": "^13.35.1",
+    "firebase-tools": "^15.24.0",
     "globals": "^17.7.0",
     "happy-dom": "^20.9.0",
     "prettier": "^3.9.4",
@@ -71,7 +71,7 @@
     "react-dom": "^19.2.7",
     "react-router": "^8.3.0",
     "tailwind-merge": "^3.6.0",
-    "three": "^0.180.0",
+    "three": "^0.185.1",
     "zod": "^4.4.3"
   }
 }
