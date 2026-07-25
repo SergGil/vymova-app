@@ -3841,6 +3841,13 @@ body[data-theme] .level-row {
   background: var(--level-row-bg);
   border-color: rgba(var(--accent-rgb), 0.1);
 }
+/* font-size is identical across all 14 themes (never a token) — no
+   !important needed, body[data-theme] .level-row-name already
+   out-specifies the plain .level-row-name base rule above. */
+body[data-theme] .level-row-name {
+  font-family: var(--theme-font), monospace;
+  font-size: 0.75rem;
+}
 .level-row.level-current {
   border-width: 2px;
   background: transparent;

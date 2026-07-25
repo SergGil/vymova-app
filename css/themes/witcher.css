@@ -313,7 +313,3 @@ body[data-theme="witcher"] .stats-panel {
 }
 
 
-body[data-theme="witcher"] .level-row-name {
-  font-family: 'Cinzel Decorative', monospace;
-  font-size: 0.75rem !important;
-}

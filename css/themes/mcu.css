@@ -313,7 +313,3 @@ body[data-theme="mcu"] .stats-panel {
 }
 
 
-body[data-theme="mcu"] .level-row-name {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.75rem !important;
-}

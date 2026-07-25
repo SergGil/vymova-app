@@ -313,7 +313,3 @@ body[data-theme="mc"] .stats-panel {
 }
 
 
-body[data-theme="mc"] .level-row-name {
-  font-family: 'Courier New', monospace;
-  font-size: 0.75rem !important;
-}

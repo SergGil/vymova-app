@@ -321,7 +321,3 @@ body[data-theme="sw"] .stats-panel {
 }
 
 
-body[data-theme="sw"] .level-row-name {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.75rem !important;
-}
