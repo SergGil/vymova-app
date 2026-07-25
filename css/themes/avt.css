@@ -15,10 +15,6 @@
    part of an already-documented risky cluster) — see the roadmap doc for
    the specific reasoning per case. */
 
-body[data-theme="avt"] .search-result-item.sr-known {
-  background: #10302f;
-}
-
 body[data-theme="avt"] {
   --bg: #071a19;
   --card: #0c302e;
@@ -71,6 +67,12 @@ body[data-theme="avt"] {
   --achievement-toast-bg: linear-gradient(135deg, #051a19 0%, #0a2827 100%);
   --combo-toast-bg: linear-gradient(90deg, #002826, #004441);
   --level-row-bg: rgba(0, 25, 24, 0.6);
+  /* Фаза 4: AUX tokens for selectors also touched by body.dark (a real
+     body.dark override stays a separate literal rule — it's just one
+     value, not 14, so it doesn't need this indirection itself). */
+  --sr-known-bg: #10302f;
+  --stat-card-bg: rgba(0, 50, 48, 0.6);
+  --ach-card-bg: rgba(0, 35, 33, 0.6);
 }
 
 body[data-theme="avt"] ::-webkit-scrollbar {
@@ -283,16 +285,6 @@ body[data-theme="avt"] .gb-level-block {
   border-color: rgba(0, 255, 244, 0.3);
 }
 
-body[data-theme="avt"] .sb-btn:hover {
-  background: rgba(0, 255, 244, 0.08);
-  color: #aae8e5;
-}
-
-body[data-theme="avt"] .sb-flyout {
-  background: #081c1b;
-  border-color: rgba(0, 255, 244, 0.14);
-}
-
 body[data-theme="avt"] .gb-goal-block .gb-goal-big {
   color: #c8f5f3;
   font-family: 'Orbitron', monospace;
@@ -320,22 +312,6 @@ body[data-theme="avt"] .stats-panel {
     inset 0 0 60px rgba(0, 30, 29, 0.8);
 }
 
-body[data-theme="avt"] .stat-card {
-  background: rgba(0, 50, 48, 0.6);
-  border: 1px solid rgba(0, 255, 244, 0.12);
-  border-radius: 12px;
-}
-
-body[data-theme="avt"] .ach-popup {
-  background: #081c1b;
-  border: 1px solid rgba(0, 255, 244, 0.25);
-  box-shadow: 0 0 50px rgba(0, 255, 244, 0.15);
-}
-
-body[data-theme="avt"] .ach-card {
-  background: rgba(0, 35, 33, 0.6);
-  border-color: rgba(0, 255, 244, 0.1);
-}
 
 body[data-theme="avt"] .level-row-name {
   font-family: 'Orbitron', monospace;

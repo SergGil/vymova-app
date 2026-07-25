@@ -937,6 +937,9 @@ body[data-theme] #search-input:focus {
 body.dark .search-result-item.sr-known {
   background: #1a2e1f;
 }
+body[data-theme] .search-result-item.sr-known {
+  background: var(--sr-known-bg);
+}
 
 /* ── Підказка клавіш ── */
 .kbd-hint {
@@ -998,8 +1001,13 @@ body.dark .search-result-item.sr-known {
 body.dark .stats-panel {
   background: var(--card);
 }
-body.dark .stat-card {
-  background: var(--bg);
+/* body.dark .stat-card deleted as dead code: identical to the base
+   bg-bg Tailwind class already on the component
+   (docs/theme-css-migration-roadmap.md Фаза 4). */
+body[data-theme] .stat-card {
+  background: var(--stat-card-bg);
+  border: 1px solid rgba(var(--accent-rgb), 0.12);
+  border-radius: 12px;
 }
 body.dark .chart-wrap {
   background: var(--bg);
@@ -1034,6 +1042,10 @@ body.dark .card.is-known .card-face {
 }
 body.dark .ach-card {
   background: rgba(255, 255, 255, 0.04);
+}
+body[data-theme] .ach-card {
+  background: var(--ach-card-bg);
+  border-color: rgba(var(--accent-rgb), 0.1);
 }
 
 /* ── Свайп анімація ── */
@@ -1234,8 +1246,14 @@ body.dark .ach-card {
    forward into the Tailwind classes on the live grid markup in
    achievements-page.tsx instead of being dropped with the rest of that
    block. */
-body.dark .ach-popup {
-  background: var(--card);
+/* body.dark .ach-popup deleted as dead code: identical to the base
+   bg-card Tailwind class already on the component
+   (docs/theme-css-migration-roadmap.md Фаза 4). Background reuses the
+   same AUX16 value as .sidebar/.sb-flyout. */
+body[data-theme] .ach-popup {
+  background: var(--sidebar-bg);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
+  box-shadow: 0 0 50px rgba(var(--accent-rgb), 0.15);
 }
 body.dark .ach-popup-hint {
   background: rgba(255, 255, 255, 0.05);
@@ -3157,11 +3175,20 @@ body[data-theme] .prf-add-confirm {
   align-items: center;
   gap: 10px;
 }
-body.dark .sidebar-logo,
+/* Was two overlapping rules that both included `body.dark` in their
+   selector group — for plain dark mode (no fandom theme), the second
+   rule's value always won by source order (equal specificity), making
+   the first rule's body.dark inclusion dead weight. Verified with
+   Playwright which value was actually rendered before rewriting these as
+   3 non-overlapping rules with identical real-world behavior
+   (docs/theme-css-migration-roadmap.md Фаза 4). Narrow, sw/hp-only —
+   not part of the general 14-theme token system. */
+body.dark .sidebar-logo {
+  border-color: rgba(245, 225, 180, 0.07);
+}
 body[data-theme="sw"] .sidebar-logo {
   border-color: rgba(255, 255, 255, 0.07);
 }
-body.dark .sidebar-logo,
 body[data-theme="hp"] .sidebar-logo {
   border-color: rgba(245, 225, 180, 0.07);
 }
@@ -3245,6 +3272,10 @@ body[data-theme] .sb-btn.sb-active {
 body.dark .sb-btn:hover {
   background: rgba(255, 255, 255, 0.06);
 }
+body[data-theme] .sb-btn:hover {
+  background: rgba(var(--accent-rgb), 0.08);
+  color: var(--profile-name-color); /* same AUX14 value as .profile-btn */
+}
 /* .sb-icon/.sb-label moved to Tailwind utility classes in
    sidebar-nav.tsx/fandom-theme-rows.tsx/index.html's #set-theme row (no
    fandom-theme or body.dark overrides existed for either). */
@@ -3281,6 +3312,10 @@ body.dark .sb-btn:hover {
 body.dark .sb-flyout {
   background: #0e1c2e;
   border-color: rgba(255, 255, 255, 0.08);
+}
+body[data-theme] .sb-flyout {
+  background: var(--sidebar-bg); /* same AUX16 value as .sidebar/.ach-popup */
+  border-color: rgba(var(--accent-rgb), 0.14);
 }
 
 @media (max-width: 900px) {
@@ -3520,11 +3555,13 @@ body[data-theme] .title {
   border-bottom: 1px solid var(--border);
   margin-bottom: 4px;
 }
-body.dark .sb-profile-section,
+/* Same overlapping-rule fix as .sidebar-logo above — see that comment. */
+body.dark .sb-profile-section {
+  border-color: rgba(245, 225, 180, 0.07);
+}
 body[data-theme="sw"] .sb-profile-section {
   border-color: rgba(255, 255, 255, 0.07);
 }
-body.dark .sb-profile-section,
 body[data-theme="hp"] .sb-profile-section {
   border-color: rgba(245, 225, 180, 0.07);
 }

@@ -15,10 +15,6 @@
    part of an already-documented risky cluster) — see the roadmap doc for
    the specific reasoning per case. */
 
-body[data-theme="witcher"] .search-result-item.sr-known {
-  background: #10302e;
-}
-
 body[data-theme="witcher"] {
   --bg: #071a19;
   --card: #0c302d;
@@ -71,6 +67,12 @@ body[data-theme="witcher"] {
   --achievement-toast-bg: linear-gradient(135deg, #051a18 0%, #0a2826 100%);
   --combo-toast-bg: linear-gradient(90deg, #002825, #00443f);
   --level-row-bg: rgba(0, 25, 23, 0.6);
+  /* Фаза 4: AUX tokens for selectors also touched by body.dark (a real
+     body.dark override stays a separate literal rule — it's just one
+     value, not 14, so it doesn't need this indirection itself). */
+  --sr-known-bg: #10302e;
+  --stat-card-bg: rgba(0, 50, 46, 0.6);
+  --ach-card-bg: rgba(0, 35, 32, 0.6);
 }
 
 body[data-theme="witcher"] ::-webkit-scrollbar {
@@ -283,16 +285,6 @@ body[data-theme="witcher"] .gb-level-block {
   border-color: rgba(0, 255, 235, 0.3);
 }
 
-body[data-theme="witcher"] .sb-btn:hover {
-  background: rgba(0, 255, 235, 0.08);
-  color: #aae8e3;
-}
-
-body[data-theme="witcher"] .sb-flyout {
-  background: #081c1a;
-  border-color: rgba(0, 255, 235, 0.14);
-}
-
 body[data-theme="witcher"] .gb-goal-block .gb-goal-big {
   color: #c8f5f1;
   font-family: 'Cinzel Decorative', monospace;
@@ -320,22 +312,6 @@ body[data-theme="witcher"] .stats-panel {
     inset 0 0 60px rgba(0, 30, 28, 0.8);
 }
 
-body[data-theme="witcher"] .stat-card {
-  background: rgba(0, 50, 46, 0.6);
-  border: 1px solid rgba(0, 255, 235, 0.12);
-  border-radius: 12px;
-}
-
-body[data-theme="witcher"] .ach-popup {
-  background: #081c1a;
-  border: 1px solid rgba(0, 255, 235, 0.25);
-  box-shadow: 0 0 50px rgba(0, 255, 235, 0.15);
-}
-
-body[data-theme="witcher"] .ach-card {
-  background: rgba(0, 35, 32, 0.6);
-  border-color: rgba(0, 255, 235, 0.1);
-}
 
 body[data-theme="witcher"] .level-row-name {
   font-family: 'Cinzel Decorative', monospace;

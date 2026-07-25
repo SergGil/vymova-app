@@ -15,10 +15,6 @@
    part of an already-documented risky cluster) — see the roadmap doc for
    the specific reasoning per case. */
 
-body[data-theme="got"] .search-result-item.sr-known {
-  background: #301d10;
-}
-
 body[data-theme="got"] {
   --bg: #1a0f07;
   --card: #301b0c;
@@ -71,6 +67,12 @@ body[data-theme="got"] {
   --achievement-toast-bg: linear-gradient(135deg, #1a0e05 0%, #28170a 100%);
   --combo-toast-bg: linear-gradient(90deg, #281100, #441d00);
   --level-row-bg: rgba(25, 10, 0, 0.6);
+  /* Фаза 4: AUX tokens for selectors also touched by body.dark (a real
+     body.dark override stays a separate literal rule — it's just one
+     value, not 14, so it doesn't need this indirection itself). */
+  --sr-known-bg: #301d10;
+  --stat-card-bg: rgba(50, 21, 0, 0.6);
+  --ach-card-bg: rgba(35, 15, 0, 0.6);
 }
 
 body[data-theme="got"] ::-webkit-scrollbar {
@@ -283,16 +285,6 @@ body[data-theme="got"] .gb-level-block {
   border-color: rgba(255, 107, 0, 0.3);
 }
 
-body[data-theme="got"] .sb-btn:hover {
-  background: rgba(255, 107, 0, 0.08);
-  color: #e8c4aa;
-}
-
-body[data-theme="got"] .sb-flyout {
-  background: #1c1008;
-  border-color: rgba(255, 107, 0, 0.14);
-}
-
 body[data-theme="got"] .gb-goal-block .gb-goal-big {
   color: #f5dbc8;
   font-family: 'Cinzel Decorative', monospace;
@@ -320,22 +312,6 @@ body[data-theme="got"] .stats-panel {
     inset 0 0 60px rgba(30, 13, 0, 0.8);
 }
 
-body[data-theme="got"] .stat-card {
-  background: rgba(50, 21, 0, 0.6);
-  border: 1px solid rgba(255, 107, 0, 0.12);
-  border-radius: 12px;
-}
-
-body[data-theme="got"] .ach-popup {
-  background: #1c1008;
-  border: 1px solid rgba(255, 107, 0, 0.25);
-  box-shadow: 0 0 50px rgba(255, 107, 0, 0.15);
-}
-
-body[data-theme="got"] .ach-card {
-  background: rgba(35, 15, 0, 0.6);
-  border-color: rgba(255, 107, 0, 0.1);
-}
 
 body[data-theme="got"] .level-row-name {
   font-family: 'Cinzel Decorative', monospace;

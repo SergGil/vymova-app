@@ -23,10 +23,6 @@ body[data-theme="hp"] .title-hp-toggle {
 }
 
 
-body[data-theme="hp"] .search-result-item.sr-known {
-  background: #2a1f0a;
-}
-
 body[data-theme="hp"] {
   --bg: #1a0a0a;
   --card: #2b0a0a;
@@ -79,6 +75,12 @@ body[data-theme="hp"] {
   --achievement-toast-bg: linear-gradient(135deg, #050d1a 0%, #0a1628 100%);
   --combo-toast-bg: linear-gradient(90deg, #001428, #002244);
   --level-row-bg: rgba(30, 8, 8, 0.6);
+  /* Фаза 4: AUX tokens for selectors also touched by body.dark (a real
+     body.dark override stays a separate literal rule — it's just one
+     value, not 14, so it doesn't need this indirection itself). */
+  --sr-known-bg: #2a1f0a;
+  --stat-card-bg: rgba(40, 10, 10, 0.6);
+  --ach-card-bg: rgba(35, 10, 10, 0.6);
 }
 
 body[data-theme="hp"] ::-webkit-scrollbar {
@@ -291,16 +293,6 @@ body[data-theme="hp"] .gb-level-block {
   border-color: rgba(211, 166, 37, 0.3);
 }
 
-body[data-theme="hp"] .sb-btn:hover {
-  background: rgba(211, 166, 37, 0.08);
-  color: #d9b86a;
-}
-
-body[data-theme="hp"] .sb-flyout {
-  background: #080f1c;
-  border-color: rgba(211, 166, 37, 0.14);
-}
-
 body[data-theme="hp"] .gb-goal-block .gb-goal-big {
   color: #e8d5a8;
   font-family: 'Cinzel Decorative', monospace;
@@ -328,22 +320,6 @@ body[data-theme="hp"] .stats-panel {
     inset 0 0 60px rgba(0, 10, 30, 0.8);
 }
 
-body[data-theme="hp"] .stat-card {
-  background: rgba(40, 10, 10, 0.6);
-  border: 1px solid rgba(211, 166, 37, 0.12);
-  border-radius: 12px;
-}
-
-body[data-theme="hp"] .ach-popup {
-  background: #080f1c;
-  border: 1px solid rgba(211, 166, 37, 0.25);
-  box-shadow: 0 0 50px rgba(211, 166, 37, 0.15);
-}
-
-body[data-theme="hp"] .ach-card {
-  background: rgba(35, 10, 10, 0.6);
-  border-color: rgba(211, 166, 37, 0.1);
-}
 
 body[data-theme="hp"] .level-row-name {
   font-family: 'Cinzel Decorative', monospace;
