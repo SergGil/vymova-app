@@ -4030,10 +4030,6 @@ body[data-theme] .level-row-name {
 
 /* ── Goal block centered overrides ── */
 body:not(.dark):not([data-theme])
-  .gb-goal-big {
-  color: var(--text);
-}
-body:not(.dark):not([data-theme])
   .gb-goal-sep {
   color: var(--text3);
 }
