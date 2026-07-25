@@ -74,44 +74,19 @@ body[data-theme="dc"] {
   --sr-known-bg: #101930;
   --stat-card-bg: rgba(0, 13, 50, 0.6);
   --ach-card-bg: rgba(0, 9, 35, 0.6);
-}
-
-body[data-theme="dc"] ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-body[data-theme="dc"] ::-webkit-scrollbar-track {
-  background: rgba(0, 5, 20, 0.7);
-}
-
-body[data-theme="dc"] ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #0044ff 0%, #002daa 100%);
-  border-radius: 10px;
-  box-shadow: 0 0 6px rgba(0, 68, 255, 0.6),
-    0 0 12px rgba(0, 68, 255, 0.25);
-}
-
-body[data-theme="dc"] ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #4073ff 0%, #003bdd 100%);
-  box-shadow: 0 0 10px rgba(0, 68, 255, 0.9),
-    0 0 20px rgba(0, 68, 255, 0.4);
-}
-
-body[data-theme="dc"] ::-webkit-scrollbar-corner {
-  background: rgba(0, 5, 20, 0.7);
-}
-
-body[data-theme="dc"] * {
-  scrollbar-color: #0044ff rgba(0, 5, 20, 0.7);
-}
-
-body[data-theme="dc"]::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background: radial-gradient(1px 1px at 10% 15%, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
+  /* Фаза 6: scrollbar + whole-page background pseudo-elements — these
+     used to be filed as "structural, can never be a single rule" since
+     the pattern was first designed around real elements getting Tailwind
+     classNames. Turns out that reasoning doesn't apply here: this
+     consolidation never touches components at all, it just needs each
+     varying value exposed as a named custom property like everything
+     above, then one body[data-theme] rule per pseudo-element/selector in
+     css/styles.css instead of 14 near-identical template blocks. */
+  --scrollbar-track-bg: rgba(0, 5, 20, 0.7); /* also ::-webkit-scrollbar-corner */
+  --scrollbar-thumb-bg: linear-gradient(180deg, #0044ff 0%, #002daa 100%);
+  --scrollbar-thumb-hover-bg: linear-gradient(180deg, #4073ff 0%, #003bdd 100%);
+  --scrollbar-color: #0044ff rgba(0, 5, 20, 0.7);
+  --bg-stars: radial-gradient(1px 1px at 10% 15%, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
     radial-gradient(1px 1px at 25% 40%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 40% 8%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
     radial-gradient(1px 1px at 55% 28%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
@@ -131,22 +106,14 @@ body[data-theme="dc"]::before {
     radial-gradient(1px 1px at 38% 22%, rgba(100, 141, 255, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(254, 150, 255, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(100, 141, 255, 0.5) 0%, transparent 100%);
-  background-color: transparent;
-  pointer-events: none;
-}
-
-body[data-theme="dc"]::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background: linear-gradient(rgba(7, 12, 26, 0.55), rgba(7, 12, 26, 0.55)),
-    url('/backgrounds/dc/batman-rooftop-rain-moon.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  pointer-events: none;
+  /* url()'s argument can't itself be a var() substitution (that specific
+     nesting silently fails to load in every browser) — but a custom
+     property whose ENTIRE value is a url(...) works fine as one of
+     `background`'s comma-separated image layers, since that's a plain
+     value substitution, not var() nested inside url(). Every BG_IMAGE
+     path is root-relative (leading /), so it resolves identically
+     regardless of which stylesheet declares vs. consumes it. */
+  --bg-image: url('/backgrounds/dc/batman-rooftop-rain-moon.jpg');
 }
 
 body[data-theme="dc"] .goal-fill {

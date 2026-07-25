@@ -74,44 +74,19 @@ body[data-theme="dune"] {
   --sr-known-bg: #302810;
   --stat-card-bg: rgba(50, 37, 0, 0.6);
   --ach-card-bg: rgba(35, 26, 0, 0.6);
-}
-
-body[data-theme="dune"] ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-body[data-theme="dune"] ::-webkit-scrollbar-track {
-  background: rgba(20, 15, 0, 0.7);
-}
-
-body[data-theme="dune"] ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ffbe00 0%, #aa7f00 100%);
-  border-radius: 10px;
-  box-shadow: 0 0 6px rgba(255, 190, 0, 0.6),
-    0 0 12px rgba(255, 190, 0, 0.25);
-}
-
-body[data-theme="dune"] ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #ffce40 0%, #dda500 100%);
-  box-shadow: 0 0 10px rgba(255, 190, 0, 0.9),
-    0 0 20px rgba(255, 190, 0, 0.4);
-}
-
-body[data-theme="dune"] ::-webkit-scrollbar-corner {
-  background: rgba(20, 15, 0, 0.7);
-}
-
-body[data-theme="dune"] * {
-  scrollbar-color: #ffbe00 rgba(20, 15, 0, 0.7);
-}
-
-body[data-theme="dune"]::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background: radial-gradient(1px 1px at 10% 15%, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
+  /* Фаза 6: scrollbar + whole-page background pseudo-elements — these
+     used to be filed as "structural, can never be a single rule" since
+     the pattern was first designed around real elements getting Tailwind
+     classNames. Turns out that reasoning doesn't apply here: this
+     consolidation never touches components at all, it just needs each
+     varying value exposed as a named custom property like everything
+     above, then one body[data-theme] rule per pseudo-element/selector in
+     css/styles.css instead of 14 near-identical template blocks. */
+  --scrollbar-track-bg: rgba(20, 15, 0, 0.7); /* also ::-webkit-scrollbar-corner */
+  --scrollbar-thumb-bg: linear-gradient(180deg, #ffbe00 0%, #aa7f00 100%);
+  --scrollbar-thumb-hover-bg: linear-gradient(180deg, #ffce40 0%, #dda500 100%);
+  --scrollbar-color: #ffbe00 rgba(20, 15, 0, 0.7);
+  --bg-stars: radial-gradient(1px 1px at 10% 15%, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
     radial-gradient(1px 1px at 25% 40%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 40% 8%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
     radial-gradient(1px 1px at 55% 28%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
@@ -131,22 +106,14 @@ body[data-theme="dune"]::before {
     radial-gradient(1px 1px at 38% 22%, rgba(255, 215, 100, 0.7) 0%, transparent 100%),
     radial-gradient(1px 1px at 60% 88%, rgba(150, 255, 151, 0.6) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 50%, rgba(255, 215, 100, 0.5) 0%, transparent 100%);
-  background-color: transparent;
-  pointer-events: none;
-}
-
-body[data-theme="dune"]::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background: linear-gradient(rgba(26, 21, 7, 0.55), rgba(26, 21, 7, 0.55)),
-    url('/backgrounds/dune/sandworm-desert-dune.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  pointer-events: none;
+  /* url()'s argument can't itself be a var() substitution (that specific
+     nesting silently fails to load in every browser) — but a custom
+     property whose ENTIRE value is a url(...) works fine as one of
+     `background`'s comma-separated image layers, since that's a plain
+     value substitution, not var() nested inside url(). Every BG_IMAGE
+     path is root-relative (leading /), so it resolves identically
+     regardless of which stylesheet declares vs. consumes it. */
+  --bg-image: url('/backgrounds/dune/sandworm-desert-dune.jpg');
 }
 
 body[data-theme="dune"] .goal-fill {

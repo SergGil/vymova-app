@@ -2463,6 +2463,33 @@ body.dark ::-webkit-scrollbar-thumb:hover {
 body.dark * {
   scrollbar-color: #2a2a4a transparent;
 }
+/* Fandom scrollbar — collapsed from 14x-repeated scripts/theme-template.css
+   blocks. No !important anywhere in this cluster (base or body.dark), so
+   body[data-theme]'s specificity tie with body.dark on
+   ::-webkit-scrollbar-thumb(:hover) and `* { scrollbar-color }` is
+   resolved purely by source order — MUST stay physically after the
+   body.dark block above (same lesson as .btn-know/.card-face). Track and
+   corner have no body.dark override at all, so their placement doesn't
+   matter, but kept together here for readability. */
+body[data-theme] ::-webkit-scrollbar-track,
+body[data-theme] ::-webkit-scrollbar-corner {
+  background: var(--scrollbar-track-bg);
+}
+body[data-theme] ::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-bg);
+  box-shadow:
+    0 0 6px rgba(var(--accent-rgb), 0.6),
+    0 0 12px rgba(var(--accent-rgb), 0.25);
+}
+body[data-theme] ::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover-bg);
+  box-shadow:
+    0 0 10px rgba(var(--accent-rgb), 0.9),
+    0 0 20px rgba(var(--accent-rgb), 0.4);
+}
+body[data-theme] * {
+  scrollbar-color: var(--scrollbar-color);
+}
 
 /* ── Кнопка SW Mode ── */
 #btn-sw {
@@ -4064,6 +4091,32 @@ body:not(.dark):not([data-theme])
    None of these have a bare CSS counterpart (all pure Tailwind classNames
    in their components already) — single `body[data-theme]` rule each,
    same pattern as elsewhere in these phases. */
+/* Whole-page background layer (twinkling-stars overlay + theme photo) —
+   entirely fandom-only, no body/body.dark counterpart exists at all, so
+   no cascade tie to worry about (Фаза 6). */
+body[data-theme]::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--bg-stars);
+  background-color: transparent;
+  pointer-events: none;
+}
+body[data-theme]::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(var(--bg-rgb), 0.55), rgba(var(--bg-rgb), 0.55)),
+    var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  pointer-events: none;
+}
 body[data-theme] .ach-progress-fill {
   background: var(--fill-glow-bg);
 }
