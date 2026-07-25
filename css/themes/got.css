@@ -213,46 +213,6 @@ body[data-theme="got"] .goal-fill.done {
     0 0 20px rgba(255, 215, 0, 0.4) !important;
 }
 
-body[data-theme="got"] .btn-know {
-  border-color: rgba(57, 211, 83, 0.5) !important;
-  color: #39d353 !important;
-}
-
-body[data-theme="got"] .btn-know:hover {
-  background: rgba(57, 211, 83, 0.1) !important;
-  box-shadow: 0 0 15px rgba(57, 211, 83, 0.3) !important;
-}
-
-body[data-theme="got"] .btn-dontknow {
-  border-color: rgba(255, 69, 58, 0.5) !important;
-  color: #ff453a !important;
-}
-
-body[data-theme="got"] .btn-dontknow:hover {
-  background: rgba(255, 69, 58, 0.1) !important;
-  box-shadow: 0 0 15px rgba(255, 69, 58, 0.3) !important;
-}
-
-body[data-theme="got"] .btn-hard {
-  border-color: rgba(224, 167, 46, 0.5) !important;
-  color: #e0a72e !important;
-}
-
-body[data-theme="got"] .btn-hard:hover {
-  background: rgba(224, 167, 46, 0.1) !important;
-  box-shadow: 0 0 15px rgba(224, 167, 46, 0.3) !important;
-}
-
-body[data-theme="got"] .btn-easy {
-  border-color: rgba(90, 169, 230, 0.5) !important;
-  color: #5aa9e6 !important;
-}
-
-body[data-theme="got"] .btn-easy:hover {
-  background: rgba(90, 169, 230, 0.1) !important;
-  box-shadow: 0 0 15px rgba(90, 169, 230, 0.3) !important;
-}
-
 body[data-theme="got"] .level-badge {
   box-shadow: 0 0 10px rgba(255, 107, 0, 0.2);
 }

@@ -870,6 +870,48 @@ body.dark .btn-hard:hover,
 body.dark .btn-dontknow:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
+/* Fandom themes push these to fixed neon colors, identical across all 14
+   themes (never derived from --accent) — collapsed from a 14x-repeated
+   per-theme block into one rule. No !important: specificity of
+   body[data-theme] .btn-know (0,3,1 with :hover) ties body.dark .btn-know
+   (also 0,3,1) — MUST stay physically after the body.dark block above so
+   the tie breaks by source order in the fandom rule's favor (moving this
+   earlier in the file flips which one wins even though both are still
+   "before" css/themes/*.css). Verified via Playwright with dark mode + a
+   fandom theme active simultaneously, before and after stripping
+   !important from the live stylesheet. */
+body[data-theme] .btn-know {
+  border-color: rgba(57, 211, 83, 0.5);
+  color: #39d353;
+}
+body[data-theme] .btn-know:hover {
+  background: rgba(57, 211, 83, 0.1);
+  box-shadow: 0 0 15px rgba(57, 211, 83, 0.3);
+}
+body[data-theme] .btn-dontknow {
+  border-color: rgba(255, 69, 58, 0.5);
+  color: #ff453a;
+}
+body[data-theme] .btn-dontknow:hover {
+  background: rgba(255, 69, 58, 0.1);
+  box-shadow: 0 0 15px rgba(255, 69, 58, 0.3);
+}
+body[data-theme] .btn-hard {
+  border-color: rgba(224, 167, 46, 0.5);
+  color: #e0a72e;
+}
+body[data-theme] .btn-hard:hover {
+  background: rgba(224, 167, 46, 0.1);
+  box-shadow: 0 0 15px rgba(224, 167, 46, 0.3);
+}
+body[data-theme] .btn-easy {
+  border-color: rgba(90, 169, 230, 0.5);
+  color: #5aa9e6;
+}
+body[data-theme] .btn-easy:hover {
+  background: rgba(90, 169, 230, 0.1);
+  box-shadow: 0 0 15px rgba(90, 169, 230, 0.3);
+}
 body.dark .btn-auto {
   border-color: #9b59b6;
   color: #9b59b6;
