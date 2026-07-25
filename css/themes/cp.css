@@ -120,16 +120,14 @@ body[data-theme="cp"] {
     repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255, 0, 110, 0.02) 60px);
   --stats-panel-shadow: 0 0 40px rgba(255, 0, 110, 0.06),
     inset 0 0 60px rgba(30, 0, 13, 0.8);
-}
-
-body[data-theme="cp"] .mode-card {
-  background: rgba(26, 7, 15, 0.8);
-  border-color: rgba(255, 0, 110, 0.15);
-}
-
-body[data-theme="cp"] .mode-card:hover {
-  border-color: #ff006e;
-  background: rgba(255, 0, 110, 0.05);
-  box-shadow: 0 0 12px rgba(255, 0, 110, 0.15);
+  /* Фаза 6 cont'd: .mode-card/.mode-card:hover — previously deferred
+     alongside the .mode-card:hover color-mix() mechanism out of caution,
+     but on inspection the fandom override doesn't touch color-mix() at
+     all: it replaces the whole hover formula with a flat accent-tinted
+     background, same shape as every other single-value override here.
+     No !important, no body.dark counterpart — plain Фаза-2-style
+     consolidation, the color-mix() base behavior itself stays
+     untouched. */
+  --mode-card-bg: rgba(26, 7, 15, 0.8);
 }
 

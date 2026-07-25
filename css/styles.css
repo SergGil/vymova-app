@@ -2694,6 +2694,19 @@ body[data-theme] .modes-panel {
   transform: translateY(-2px);
   box-shadow: 0 4px 16px color-mix(in srgb, var(--mi, var(--accent)) 28%, transparent);
 }
+/* Fandom themes replace the whole hover formula with a flat
+   accent-tinted background (ignores the per-mode --mi color entirely,
+   unlike the color-mix() base above) — same shape as every other
+   Фаза-2 override, no !important, no body.dark counterpart. */
+body[data-theme] .mode-card {
+  background: var(--mode-card-bg);
+  border-color: rgba(var(--accent-rgb), 0.15);
+}
+body[data-theme] .mode-card:hover {
+  border-color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.05);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.15);
+}
 .mode-card:active {
   transform: scale(0.96);
 }
