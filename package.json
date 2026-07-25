@@ -1,6 +1,6 @@
 {
   "name": "vymova",
-  "version": "1.401.24",
+  "version": "1.401.25",
   "type": "module",
   "main": "public/sw.js",
   "engines": {
@@ -45,7 +45,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
-    "firebase-tools": "^15.24.0",
+    "firebase-tools": "^13.35.1",
     "globals": "^17.7.0",
     "happy-dom": "^20.9.0",
     "prettier": "^3.9.4",
