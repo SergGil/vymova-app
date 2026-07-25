@@ -3028,6 +3028,9 @@ body.dark .btn-achievements {
   border-color: var(--accent);
   color: var(--text);
 }
+body[data-theme] .profile-btn:hover {
+  color: #fff;
+}
 
 /* .prf-av-picker/.prf-av-btn/:hover moved to Tailwind utility classes in
    profile-switcher.tsx (no fandom-theme or body.dark overrides existed
@@ -3037,6 +3040,9 @@ body.dark .btn-achievements {
   border-color: var(--accent);
   background: var(--card);
   box-shadow: 0 0 0 2px rgba(45, 90, 61, 0.2);
+}
+body[data-theme] .prf-av-btn.prf-av-active {
+  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.2);
 }
 
 .prf-add-confirm {
@@ -3116,6 +3122,9 @@ body[data-theme="hp"] .sidebar-logo {
   border-color: var(--accent);
   background: var(--card);
 }
+body[data-theme] .sidebar-profile-btn {
+  border-color: rgba(var(--accent-rgb), 0.25);
+}
 /* .sb-av/.sb-name/.sb-arrow/.sb-dd-av/.prf-char-preview/.prf-char-hint
    moved to Tailwind utility classes in profile-switcher.tsx (no
    fandom-theme or body.dark overrides existed for any of them). */
@@ -3155,6 +3164,9 @@ body[data-theme="hp"] .sidebar-logo {
   background: rgba(45, 90, 61, 0.12);
   color: var(--accent);
   font-weight: 600;
+}
+body[data-theme] .sb-btn.sb-active {
+  background: rgba(var(--accent-rgb), 0.12);
 }
 body.dark .sb-btn:hover {
   background: rgba(255, 255, 255, 0.06);
@@ -3576,6 +3588,11 @@ body[data-theme="hp"] .sb-profile-section {
   color: #e74c3c;
   margin-bottom: 10px;
 }
+/* Constant across all 14 fandom themes, same reasoning as
+   .btn-achievements — a different red, not per-theme accent. */
+body[data-theme] .prf-delete-name {
+  color: #ff6b6b;
+}
 .prf-delete-warn {
   font-size: 0.82rem;
   color: var(--text3);
@@ -3611,6 +3628,9 @@ body[data-theme="hp"] .sb-profile-section {
   color: #fff;
 }
 .prf-delete-btn-confirm:hover {
+  background: #c0392b;
+}
+body[data-theme] .prf-delete-btn-confirm {
   background: #c0392b;
 }
 
@@ -3798,6 +3818,12 @@ body[data-theme] .ach-card.unlocked .ach-icon {
 }
 body[data-theme] .level-row.level-current {
   border-width: 2px;
+}
+body[data-theme] .hamburger {
+  border-color: rgba(var(--accent-rgb), 0.3);
+}
+body[data-theme] .sb-add-btn {
+  border-color: rgba(var(--accent-rgb), 0.3);
 }
 
 /* ── SW Combo toast ── */

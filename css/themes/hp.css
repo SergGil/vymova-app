@@ -358,16 +358,6 @@ body[data-theme="hp"] .profile-btn {
   color: #d9b86a;
 }
 
-body[data-theme="hp"] .profile-btn:hover {
-  border-color: #d3a625;
-  color: #fff;
-}
-
-body[data-theme="hp"] .prf-av-btn.prf-av-active {
-  border-color: #d3a625;
-  box-shadow: 0 0 8px rgba(211, 166, 37, 0.2);
-}
-
 body[data-theme="hp"] .prf-add-confirm {
   background: linear-gradient(90deg, #005580, #d3a625);
 }
@@ -377,26 +367,9 @@ body[data-theme="hp"] .sidebar {
   border-color: rgba(211, 166, 37, 0.12);
 }
 
-body[data-theme="hp"] .sidebar-logo-text {
-  color: #d3a625;
-}
-
-body[data-theme="hp"] .sidebar-profile-btn {
-  border-color: rgba(211, 166, 37, 0.25);
-}
-
-body[data-theme="hp"] .sidebar-profile-btn:hover {
-  border-color: #d3a625;
-}
-
 body[data-theme="hp"] .sb-btn:hover {
   background: rgba(211, 166, 37, 0.08);
   color: #d9b86a;
-}
-
-body[data-theme="hp"] .sb-btn.sb-active {
-  background: rgba(211, 166, 37, 0.12);
-  color: #d3a625;
 }
 
 body[data-theme="hp"] .sb-flyout {
@@ -404,41 +377,8 @@ body[data-theme="hp"] .sb-flyout {
   border-color: rgba(211, 166, 37, 0.14);
 }
 
-body[data-theme="hp"] .hamburger {
-  border-color: rgba(211, 166, 37, 0.3);
-}
-
 body[data-theme="hp"] .profile-save-btn {
   background: linear-gradient(90deg, #005580, #d3a625);
-}
-
-body[data-theme="hp"] .sb-add-btn {
-  color: #d3a625;
-  border-color: rgba(211, 166, 37, 0.3);
-}
-
-body[data-theme="hp"] .sb-add-btn:hover {
-  border-color: #d3a625;
-}
-
-body[data-theme="hp"] .sb-dd-item.sb-dd-active {
-  color: #d3a625;
-}
-
-body[data-theme="hp"] .sb-dd-check {
-  color: #d3a625;
-}
-
-body[data-theme="hp"] .sb-toggle-pill.on {
-  background: #d3a625;
-}
-
-body[data-theme="hp"] .prf-delete-name {
-  color: #ff6b6b;
-}
-
-body[data-theme="hp"] .prf-delete-btn-confirm {
-  background: #c0392b;
 }
 
 body[data-theme="hp"] .settings-section-danger {

@@ -350,16 +350,6 @@ body[data-theme="avt"] .profile-btn {
   color: #aae8e5;
 }
 
-body[data-theme="avt"] .profile-btn:hover {
-  border-color: #00fff4;
-  color: #fff;
-}
-
-body[data-theme="avt"] .prf-av-btn.prf-av-active {
-  border-color: #00fff4;
-  box-shadow: 0 0 8px rgba(0, 255, 244, 0.2);
-}
-
 body[data-theme="avt"] .prf-add-confirm {
   background: linear-gradient(90deg, #00807a, #00fff4);
 }
@@ -369,26 +359,9 @@ body[data-theme="avt"] .sidebar {
   border-color: rgba(0, 255, 244, 0.12);
 }
 
-body[data-theme="avt"] .sidebar-logo-text {
-  color: #00fff4;
-}
-
-body[data-theme="avt"] .sidebar-profile-btn {
-  border-color: rgba(0, 255, 244, 0.25);
-}
-
-body[data-theme="avt"] .sidebar-profile-btn:hover {
-  border-color: #00fff4;
-}
-
 body[data-theme="avt"] .sb-btn:hover {
   background: rgba(0, 255, 244, 0.08);
   color: #aae8e5;
-}
-
-body[data-theme="avt"] .sb-btn.sb-active {
-  background: rgba(0, 255, 244, 0.12);
-  color: #00fff4;
 }
 
 body[data-theme="avt"] .sb-flyout {
@@ -396,41 +369,8 @@ body[data-theme="avt"] .sb-flyout {
   border-color: rgba(0, 255, 244, 0.14);
 }
 
-body[data-theme="avt"] .hamburger {
-  border-color: rgba(0, 255, 244, 0.3);
-}
-
 body[data-theme="avt"] .profile-save-btn {
   background: linear-gradient(90deg, #00807a, #00fff4);
-}
-
-body[data-theme="avt"] .sb-add-btn {
-  color: #00fff4;
-  border-color: rgba(0, 255, 244, 0.3);
-}
-
-body[data-theme="avt"] .sb-add-btn:hover {
-  border-color: #00fff4;
-}
-
-body[data-theme="avt"] .sb-dd-item.sb-dd-active {
-  color: #00fff4;
-}
-
-body[data-theme="avt"] .sb-dd-check {
-  color: #00fff4;
-}
-
-body[data-theme="avt"] .sb-toggle-pill.on {
-  background: #00fff4;
-}
-
-body[data-theme="avt"] .prf-delete-name {
-  color: #ff6b6b;
-}
-
-body[data-theme="avt"] .prf-delete-btn-confirm {
-  background: #c0392b;
 }
 
 body[data-theme="avt"] .settings-section-danger {

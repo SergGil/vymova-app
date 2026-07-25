@@ -350,16 +350,6 @@ body[data-theme="got"] .profile-btn {
   color: #e8c4aa;
 }
 
-body[data-theme="got"] .profile-btn:hover {
-  border-color: #ff6b00;
-  color: #fff;
-}
-
-body[data-theme="got"] .prf-av-btn.prf-av-active {
-  border-color: #ff6b00;
-  box-shadow: 0 0 8px rgba(255, 107, 0, 0.2);
-}
-
 body[data-theme="got"] .prf-add-confirm {
   background: linear-gradient(90deg, #803600, #ff6b00);
 }
@@ -369,26 +359,9 @@ body[data-theme="got"] .sidebar {
   border-color: rgba(255, 107, 0, 0.12);
 }
 
-body[data-theme="got"] .sidebar-logo-text {
-  color: #ff6b00;
-}
-
-body[data-theme="got"] .sidebar-profile-btn {
-  border-color: rgba(255, 107, 0, 0.25);
-}
-
-body[data-theme="got"] .sidebar-profile-btn:hover {
-  border-color: #ff6b00;
-}
-
 body[data-theme="got"] .sb-btn:hover {
   background: rgba(255, 107, 0, 0.08);
   color: #e8c4aa;
-}
-
-body[data-theme="got"] .sb-btn.sb-active {
-  background: rgba(255, 107, 0, 0.12);
-  color: #ff6b00;
 }
 
 body[data-theme="got"] .sb-flyout {
@@ -396,41 +369,8 @@ body[data-theme="got"] .sb-flyout {
   border-color: rgba(255, 107, 0, 0.14);
 }
 
-body[data-theme="got"] .hamburger {
-  border-color: rgba(255, 107, 0, 0.3);
-}
-
 body[data-theme="got"] .profile-save-btn {
   background: linear-gradient(90deg, #803600, #ff6b00);
-}
-
-body[data-theme="got"] .sb-add-btn {
-  color: #ff6b00;
-  border-color: rgba(255, 107, 0, 0.3);
-}
-
-body[data-theme="got"] .sb-add-btn:hover {
-  border-color: #ff6b00;
-}
-
-body[data-theme="got"] .sb-dd-item.sb-dd-active {
-  color: #ff6b00;
-}
-
-body[data-theme="got"] .sb-dd-check {
-  color: #ff6b00;
-}
-
-body[data-theme="got"] .sb-toggle-pill.on {
-  background: #ff6b00;
-}
-
-body[data-theme="got"] .prf-delete-name {
-  color: #ff6b6b;
-}
-
-body[data-theme="got"] .prf-delete-btn-confirm {
-  background: #c0392b;
 }
 
 body[data-theme="got"] .settings-section-danger {

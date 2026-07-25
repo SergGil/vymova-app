@@ -350,16 +350,6 @@ body[data-theme="witcher"] .profile-btn {
   color: #aae8e3;
 }
 
-body[data-theme="witcher"] .profile-btn:hover {
-  border-color: #00ffeb;
-  color: #fff;
-}
-
-body[data-theme="witcher"] .prf-av-btn.prf-av-active {
-  border-color: #00ffeb;
-  box-shadow: 0 0 8px rgba(0, 255, 235, 0.2);
-}
-
 body[data-theme="witcher"] .prf-add-confirm {
   background: linear-gradient(90deg, #008076, #00ffeb);
 }
@@ -369,26 +359,9 @@ body[data-theme="witcher"] .sidebar {
   border-color: rgba(0, 255, 235, 0.12);
 }
 
-body[data-theme="witcher"] .sidebar-logo-text {
-  color: #00ffeb;
-}
-
-body[data-theme="witcher"] .sidebar-profile-btn {
-  border-color: rgba(0, 255, 235, 0.25);
-}
-
-body[data-theme="witcher"] .sidebar-profile-btn:hover {
-  border-color: #00ffeb;
-}
-
 body[data-theme="witcher"] .sb-btn:hover {
   background: rgba(0, 255, 235, 0.08);
   color: #aae8e3;
-}
-
-body[data-theme="witcher"] .sb-btn.sb-active {
-  background: rgba(0, 255, 235, 0.12);
-  color: #00ffeb;
 }
 
 body[data-theme="witcher"] .sb-flyout {
@@ -396,41 +369,8 @@ body[data-theme="witcher"] .sb-flyout {
   border-color: rgba(0, 255, 235, 0.14);
 }
 
-body[data-theme="witcher"] .hamburger {
-  border-color: rgba(0, 255, 235, 0.3);
-}
-
 body[data-theme="witcher"] .profile-save-btn {
   background: linear-gradient(90deg, #008076, #00ffeb);
-}
-
-body[data-theme="witcher"] .sb-add-btn {
-  color: #00ffeb;
-  border-color: rgba(0, 255, 235, 0.3);
-}
-
-body[data-theme="witcher"] .sb-add-btn:hover {
-  border-color: #00ffeb;
-}
-
-body[data-theme="witcher"] .sb-dd-item.sb-dd-active {
-  color: #00ffeb;
-}
-
-body[data-theme="witcher"] .sb-dd-check {
-  color: #00ffeb;
-}
-
-body[data-theme="witcher"] .sb-toggle-pill.on {
-  background: #00ffeb;
-}
-
-body[data-theme="witcher"] .prf-delete-name {
-  color: #ff6b6b;
-}
-
-body[data-theme="witcher"] .prf-delete-btn-confirm {
-  background: #c0392b;
 }
 
 body[data-theme="witcher"] .settings-section-danger {
