@@ -1018,7 +1018,7 @@ body[data-theme] .search-result-item.sr-known {
 /* stats відкривається через style.display */
 /* .stats-panel/.stats-header/.stats-title/.stats-close/.stats-section/
    .stats-section-title/.stats-summary/.stat-card (+ its icon/sv/sl
-   children)/.chart-*/.blocks-list/.block-* moved to Tailwind utility
+   children)/.chart-*, .blocks-list/.block-* moved to Tailwind utility
    classes in js/features/stats-page.tsx
    (tailwind-shadcn-migration-roadmap.md Phase 2). Class names stay: all 14
    fandom themes override .stats-panel/.stats-title/.stats-section-title/
@@ -1073,7 +1073,7 @@ body.dark .chart-wrap {
 /* ── Тост-повідомлення для досягнень ── */
 /* #achievement-toast/.toast-* moved to Tailwind utility classes in
    achievement-toast.tsx (tailwind-shadcn-migration-roadmap.md Phase 2).
-   The "show" class and the toast-*/achievement-toast selectors stay —
+   The "show" class and the toast-*, achievement-toast selectors stay —
    all 14 fandom themes override #achievement-toast (+ .toast-title/
    .toast-name/.toast-icon), and being unlayered legacy CSS they keep
    winning over the new Tailwind utilities regardless of source order. */
@@ -1264,8 +1264,8 @@ body[data-theme] .ach-card {
 }
 
 /* .ach-category/.ach-cat-title/.ach-grid-inner/.ach-card (plus unlocked/
-   locked/hover/checkmark states)/.ach-progress-*/.ach-almost-badge/
-   .ach-new-badge/.ach-cat-count/.ach-empty-state/.ach-summary-*/
+   locked/hover/checkmark states)/.ach-progress-*, .ach-almost-badge/
+   .ach-new-badge/.ach-cat-count/.ach-empty-state/.ach-summary-*,
    .ach-filter-tab/#ach-popup-overlay/.ach-popup (plus its sub-parts) moved
    to Tailwind utility classes in achievements-page.tsx and index.html
    (tailwind-shadcn-migration-roadmap.md Phase 2). Class names stay: all 14
@@ -1660,7 +1660,7 @@ body:not(.dark):not([data-theme]) .family-chip {
     opacity: 0.6;
   }
 }
-/* .yt-player-*/.video-player-* moved to Tailwind utility classes (incl.
+/* .yt-player-*, .video-player-* moved to Tailwind utility classes (incl.
    responsive max-[760px]: variants replacing the old mobile media query)
    in youtube-player.tsx/video-player.tsx — no fandom-theme or body.dark
    overrides existed for any of them. .yt-player-frame iframe stays: the

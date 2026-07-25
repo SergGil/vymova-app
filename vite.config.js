@@ -100,7 +100,7 @@ export default defineConfig(({ command }) => ({
       // Fails the build instead of just warning on Rollup's CIRCULAR_CHUNK —
       // exactly the warning code behind the real "Circular chunk:
       // render-game-bar -> voice -> render-game-bar" production crash the
-      // onlyExplicitManualChunks comment below describes (a hub module like
+      // manualChunks comment below describes (a hub module like
       // mode-utils.ts/duel.ts/game.ts gaining a stray import back into it).
       // Deliberately NOT the broader CIRCULAR_DEPENDENCY code: that one
       // fires on ordinary ES-module import cycles (this codebase has
@@ -110,6 +110,17 @@ export default defineConfig(({ command }) => ({
       // specifically means Rollup couldn't linearize two chunks' module-init
       // order — that's the one that crashes at runtime with "Cannot access
       // 'X' before initialization".
+      //
+      // Since the Vite 8 (Rolldown) upgrade, this is inert: Rolldown's own
+      // warning vocabulary has no CIRCULAR_CHUNK-equivalent code (only the
+      // ordinary CIRCULAR_DEPENDENCY), so this branch never fires under the
+      // current bundler. Left in place — harmless, and would immediately
+      // start protecting again if Rolldown ever grows an equivalent code, or
+      // if the project ever moves back to plain Rollup. The exact scenario
+      // it used to catch was re-verified by hand instead (built + served
+      // dist/, opened a mode that renders the game-bar together with the
+      // voice/speak feature, confirmed no console/page errors) since the
+      // build-time tripwire can no longer do it.
       onwarn(warning, warn) {
         if (warning.code === 'CIRCULAR_CHUNK') {
           throw new Error(`Circular chunk dependency detected — this crashed prod before:\n${warning.message}`);
@@ -148,23 +159,32 @@ export default defineConfig(({ command }) => ({
         // in mode-utils.ts) — Rollup already content-hashes those per-file,
         // same stable-cache benefit as manualChunks gives the four below,
         // without needing to be listed here.
+        // Rollup used to default onlyExplicitManualChunks to true once a
+        // custom manualChunks function was present here, which forced every
+        // OTHER module (everything this function returns undefined for)
+        // through its own automatic splitting pass — that pass produced a
+        // genuine circular chunk dependency between an auto-generated
+        // "render-game-bar" chunk and the voice/notifications/cloud-sync
+        // chunks ("Circular chunk: render-game-bar -> voice ->
+        // render-game-bar"), which crashed at runtime with "Cannot access
+        // 'X' before initialization". Explicitly setting it to false used to
+        // restore Rollup's normal (non-onlyExplicit) automatic chunking for
+        // everything not pinned above, avoiding that failure mode.
+        //
+        // Rolldown (the Vite 8 bundler) has no onlyExplicitManualChunks key
+        // at all — passing it now only produces an "Invalid output options"
+        // build warning, so it's dropped here. Its own manualChunks handling
+        // already behaves like the old false setting: modules this function
+        // returns undefined for still go through normal automatic chunking
+        // (confirmed by dist/ still containing many auto-split per-language
+        // chunks alongside the four pinned ones below) — re-verified by hand
+        // that the render-game-bar/voice combination in particular still
+        // works (see the onwarn comment above).
         manualChunks(id) {
           if (id.includes('/data/words-data/words.js')) return 'words-base';
           if (id.includes('/data/categories.js')) return 'categories-data';
           if (id.includes('/data/cefr.ts')) return 'cefr-data';
         },
-        // Rollup defaults this to true once a custom manualChunks function is
-        // present, which forces every OTHER module (everything this function
-        // returns undefined for) through its own automatic splitting pass —
-        // that pass produced a genuine circular chunk dependency between an
-        // auto-generated "render-game-bar" chunk and the voice/notifications/
-        // cloud-sync chunks ("Circular chunk: render-game-bar -> voice ->
-        // render-game-bar"), which crashed at runtime with "Cannot access
-        // 'X' before initialization" since the two chunks' module-init order
-        // couldn't be resolved. false restores Rollup's normal
-        // (non-onlyExplicit) automatic chunking for everything not pinned
-        // above, which doesn't hit this failure mode.
-        onlyExplicitManualChunks: false,
       },
     },
   },
