@@ -41,6 +41,20 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
+      - name: Setup Java 21
+        # firebase-tools 15 raised the RTDB emulator's minimum Java runtime
+        # to 21 ("firebase-tools no longer supports Java version before 21");
+        # ubuntu-latest's default `java` on PATH is older than that, so
+        # `emulators:start` in the webServer step below refused to start at
+        # all (instant "Could not spawn `java -version`" / minimum-version
+        # exit, before Playwright's readiness check ever got a chance to
+        # time out). Reproduced and confirmed locally via a Node 24 Debian
+        # container matching this job's Node version.
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
       - name: Pre-download Firebase RTDB emulator
         # Downloads the emulator's Java binary up front. Without this, the
         # first download happens inside config.webServer at test-run time,
