@@ -7,7 +7,7 @@ import { createPortal } from 'react-dom';
 import { useEffect, type ReactElement, type ReactNode } from 'react';
 import { getMountPoint } from './get-mount-point.ts';
 import { AppShell } from './app-shell.tsx';
-import { HashRouter, useLocation, useNavigate } from 'react-router-dom';
+import { HashRouter, useLocation, useNavigate } from 'react-router';
 import { setRouterNavigate, ROUTE_TO_PAGE } from './router.ts';
 import { NavProvider, getActivePage } from './nav-store.tsx';
 import { KnownWordsProvider } from './known-words-store.ts';

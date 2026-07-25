@@ -81,6 +81,18 @@ export default defineConfig(({ command }) => ({
       '@': resolve(process.cwd(), 'src'),
     },
   },
+  optimizeDeps: {
+    // react-router@8's package.json lists a `react-server` export condition
+    // before its plain browser one; Vite's dev-time esbuild pre-bundler
+    // picks the wrong variant when it optimizes this package, producing a
+    // module whose internal `useRef` import resolves to null (crashes
+    // HashRouter's first render with "Cannot read properties of null
+    // (reading 'useRef')" — only in `npm run dev`, never in `npm run
+    // build`, which goes through Rollup instead of esbuild and resolves it
+    // correctly). Excluding it from pre-bundling makes Vite serve it as
+    // native ESM instead, which picks the right condition.
+    exclude: ['react-router'],
+  },
   build: {
     outDir: 'dist',
     target: 'esnext',
