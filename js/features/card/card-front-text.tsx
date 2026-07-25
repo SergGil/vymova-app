@@ -24,6 +24,21 @@ import { speakForCode } from '../voice/speak-lang.ts';
 import { ensureSensesLoaded, getSensesForLang, findSenses } from '../word-data/senses-loader.ts';
 import { InfoIcon, InfoNote } from '../info-icon.tsx';
 import { TRANSCRIPTION_LEGEND } from '../transcription-legend.ts';
+import { CefrBadge } from './cefr-badge.tsx';
+
+// senses_*.ts data uses "noun" (spelled out) where the pos.* locale keys use
+// the same abbreviation as the main word table's pos column ("n") — every
+// other value (adj/adv/prep/v) already matches its locale key directly.
+const SENSE_POS_KEY: Record<string, string> = { noun: 'n' };
+
+// Mirrors PosTag's FRONT_LANG ternary below, just keyed off the lowercase
+// `front` code (from parsePair) instead of the uppercase display code —
+// HE/AR and other target languages with no dedicated UI locale fall back to
+// English pos labels, same as PosTag.
+const SENSE_POS_LANGS: readonly Lang[] = ['en', 'ua', 'es', 'fr', 'it', 'pt', 'de'];
+function posLangForFront(front: string): Lang {
+  return (SENSE_POS_LANGS as readonly string[]).includes(front) ? (front as Lang) : 'en';
+}
 
 function getRangeVal(): string {
   return (document.getElementById('sel-range') as HTMLSelectElement | null)?.value ?? '';
@@ -421,6 +436,7 @@ export function OtherMeanings() {
   if (!frontWord) return null;
   const senses = findSenses(dict, frontWord);
   if (!senses || senses.length < 2) return null;
+  const posLang = posLangForFront(front);
 
   return (
     <div
@@ -434,7 +450,12 @@ export function OtherMeanings() {
       <ol className="senses-list m-0 flex flex-col gap-1.5 pl-[1.1em]" id="cb-senses-list">
         {senses.map((s, i) => (
           <li key={i} className="text-[.82rem]">
-            <span className="sense-pos text-[.72rem] text-[var(--text2)] italic">{s.pos}</span>{' '}
+            <span className="sense-pos-row inline-flex items-center gap-1">
+              <span className="sense-pos text-[.72rem] text-[var(--text2)] italic">
+                {tLang('pos.' + (SENSE_POS_KEY[s.pos] ?? s.pos), posLang)}
+              </span>
+              {s.level && <CefrBadge level={s.level} small />}
+            </span>{' '}
             {/* sense-translation is the "answer" for this meaning, same as
                 the main word's #wtransl — masked via .show like .transl,
                 not gated out of the DOM, so it fades in on flip instead of
@@ -449,9 +470,6 @@ export function OtherMeanings() {
             )}
             <div className="sense-example mt-px text-[.74rem] leading-[1.4] text-[var(--text3)]">
               <span dangerouslySetInnerHTML={{ __html: boldHead(s.exTarget, frontWord) }} />{' '}
-              {s.exKnow ? (
-                <i className={'italic know' + (flipped ? ' show' : '')}>— {s.exKnow}</i>
-              ) : null}
               <button
                 type="button"
                 className="speak-btn sense-speak-btn !px-[3px] !py-px !text-[12px] align-middle"
@@ -462,7 +480,10 @@ export function OtherMeanings() {
                 }}
               >
                 🔊
-              </button>
+              </button>{' '}
+              {s.exKnow ? (
+                <i className={'italic know' + (flipped ? ' show' : '')}>— {s.exKnow}</i>
+              ) : null}
             </div>
           </li>
         ))}

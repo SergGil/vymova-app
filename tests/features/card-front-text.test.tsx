@@ -395,6 +395,36 @@ describe('card-front-text.tsx', () => {
       );
     });
 
+    it('shows the full part-of-speech word, not the raw data code', () => {
+      setFlippedState(false);
+      setCwState(['mean', 'означати', '', '', '', 'v'] as unknown as WordEntry);
+      const { container } = mount(OtherMeanings);
+      const items = container.querySelectorAll('#cb-senses-list li');
+      expect(items[0].querySelector('.sense-pos')!.textContent).toBe('adjective');
+      expect(items[1].querySelector('.sense-pos')!.textContent).toBe('verb');
+    });
+
+    it('shows a small CEFR badge next to the part of speech for each sense', () => {
+      setFlippedState(false);
+      setCwState(['mean', 'означати', '', '', '', 'v'] as unknown as WordEntry);
+      const { container } = mount(OtherMeanings);
+      const items = container.querySelectorAll('#cb-senses-list li');
+      expect(items[0].querySelector('.sense-pos-row .cefr-badge')!.textContent).toBe('B1');
+      expect(items[1].querySelector('.sense-pos-row .cefr-badge')!.textContent).toBe('A1');
+    });
+
+    it('places the speak button right after the example sentence, before the masked translation', () => {
+      setFlippedState(false);
+      setCwState(['light', 'світло', '', '', '', 'n'] as unknown as WordEntry);
+      const { container } = mount(OtherMeanings);
+      const example = container.querySelectorAll('#cb-senses-list li')[0].querySelector('.sense-example')!;
+      const children = [...example.children];
+      const btnIndex = children.findIndex((el) => el.classList.contains('sense-speak-btn'));
+      const knowIndex = children.findIndex((el) => el.classList.contains('know'));
+      expect(btnIndex).toBeGreaterThan(-1);
+      expect(btnIndex).toBeLessThan(knowIndex);
+    });
+
     it('renders nothing when the word has no sense list', () => {
       setFlippedState(true);
       const { container } = mount(OtherMeanings);
