@@ -48,12 +48,17 @@ const { CardShell } = await import('../../js/features/card/card-shell.tsx');
 // of silently breaking card-actions.ts/swipe.tsx's getElementById wiring or
 // app-root.tsx's other Portal targets that live inside this subtree.
 //
-// #btn-dontknow/#btn-hard/#btn-easy are the deliberate exceptions: they never
+// #btn-dontknow/#btn-hard/#btn-easy are a deliberate exception: they never
 // existed (or existed hidden/SRS-only) in the pre-conversion static HTML —
 // all four grading buttons ("Легко"/"Знаю"/"Важко"/"Не знаю", quality
 // 5/4/3/1) are now always-visible siblings in reverse-severity order (most
 // confident first), not a structural conversion — so this block is the
 // current expected markup rather than the literal original.
+//
+// #senses-mount is a second deliberate exception: it now sits AFTER
+// .ex-row/.ex-label instead of before — "Усі значення" used to render above
+// "Приклад", but users read the single canonical example first, so it was
+// moved below it. Intentional reorder, not a regression.
 //
 // The buttons' `flex: 1`/`padding: 14px 0` shorthands are written
 // here in their happy-dom-canonicalized longhand form (flex-grow/-shrink/
@@ -90,7 +95,6 @@ const ORIGINAL_CARD_SCENE_HTML = `
           <div id="usage-note-mount"></div>
           <div id="srs-next-mount"></div>
           <div id="wtransl-mount"></div>
-          <div id="senses-mount"></div>
           <div class="divider"></div>
           <div class="ex-label" data-i18n="cards.example">Приклад</div>
           <div class="ex-row">
@@ -100,6 +104,7 @@ const ORIGINAL_CARD_SCENE_HTML = `
               <div id="exua-mount"></div>
             </div>
           </div>
+          <div id="senses-mount"></div>
         </div>
       </div>
     </div>

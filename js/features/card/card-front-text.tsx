@@ -474,7 +474,18 @@ export function OtherMeanings() {
                 type="button"
                 className="speak-btn sense-speak-btn !px-[3px] !py-px !text-[12px] align-middle"
                 title="Вимовити приклад"
-                onClick={(e) => {
+                // onClickCapture, not onClick: #card's own click-to-flip
+                // listener is a plain addEventListener('click', ...) bound
+                // directly to #card (card-actions.ts), which sits BELOW
+                // React's root in the DOM and so fires during the real
+                // bubble phase before React's delegated onClick ever gets a
+                // chance to run stopPropagation() — too late by then. React
+                // does attach a real capture-phase listener at its root,
+                // which fires before the event reaches #card at all, so
+                // doing the stopPropagation (and the action) in the capture
+                // handler pre-empts the flip. Same trick would be needed for
+                // any other button rendered inside #card via React.
+                onClickCapture={(e) => {
                   e.stopPropagation();
                   speakForCode(front, s.exTarget, '', e.currentTarget);
                 }}

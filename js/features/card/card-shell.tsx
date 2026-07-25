@@ -151,9 +151,6 @@ export function CardShell(): ReactElement {
               <div id="wtransl-mount">
                 <Translation />
               </div>
-              <div id="senses-mount">
-                <OtherMeanings />
-              </div>
               <div className="divider"></div>
               <div className="ex-label" data-i18n="cards.example">
                 Приклад
@@ -170,6 +167,9 @@ export function CardShell(): ReactElement {
                     <ExUa />
                   </div>
                 </div>
+              </div>
+              <div id="senses-mount">
+                <OtherMeanings />
               </div>
             </div>
           </div>
