@@ -122,22 +122,12 @@ body[data-theme="sw"] {
      path is root-relative (leading /), so it resolves identically
      regardless of which stylesheet declares vs. consumes it. */
   --bg-image: url('/backgrounds/sw/vader-helmet-minimalist.jpg');
-}
-
-body[data-theme="sw"] .goal-fill {
-  background: linear-gradient(90deg, #00c8ff, #7df9ff) !important;
-  box-shadow: 0 0 8px #00c8ff,
-    0 0 20px rgba(0, 200, 255, 0.4) !important;
-}
-
-body[data-theme="sw"] .goal-fill.done {
-  background: linear-gradient(90deg, #ff6600, #ffd700) !important;
-  box-shadow: 0 0 8px #ffd700,
-    0 0 20px rgba(255, 215, 0, 0.4) !important;
-}
-
-body[data-theme="sw"] .level-badge {
-  box-shadow: 0 0 10px rgba(0, 200, 255, 0.2);
+  --stats-panel-bg: #060d1a; /* also .page-overlay's background */
+  --page-overlay-bg-image: radial-gradient(ellipse at top, rgba(0, 30, 60, 0.6) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(0, 200, 255, 0.03) 60px),
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(0, 200, 255, 0.02) 60px);
+  --stats-panel-shadow: 0 0 40px rgba(0, 200, 255, 0.06),
+    inset 0 0 60px rgba(0, 10, 30, 0.8);
 }
 
 body[data-theme="sw"] .mode-card {
@@ -150,19 +140,4 @@ body[data-theme="sw"] .mode-card:hover {
   background: rgba(0, 200, 255, 0.05);
   box-shadow: 0 0 12px rgba(0, 200, 255, 0.15);
 }
-
-body[data-theme="sw"] .page-overlay {
-  background: #060d1a;
-  background-image: radial-gradient(ellipse at top, rgba(0, 30, 60, 0.6) 0%, transparent 70%),
-    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(0, 200, 255, 0.03) 60px),
-    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(0, 200, 255, 0.02) 60px);
-}
-
-body[data-theme="sw"] .stats-panel {
-  background: #060d1a;
-  border: 1px solid rgba(0, 200, 255, 0.12);
-  box-shadow: 0 0 40px rgba(0, 200, 255, 0.06),
-    inset 0 0 60px rgba(0, 10, 30, 0.8);
-}
-
 

@@ -167,8 +167,7 @@ body[data-theme] .progress-fill {
     0 0 8px var(--accent),
     0 0 16px rgba(var(--accent-rgb), 0.5);
 }
-body[data-theme] .progress-fill,
-body[data-theme] .goal-fill {
+body[data-theme] .progress-fill {
   animation: saberPulse 2.5s ease-in-out infinite;
 }
 
@@ -726,21 +725,6 @@ body.dark .card.is-known {
 }
 
 /* ── Геймфікація ── */
-.goal-track {
-  height: 7px;
-  background: var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-}
-.goal-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #27ae60, #2ecc71);
-  border-radius: 10px;
-  transition: width 0.4s ease;
-}
-.goal-fill.done {
-  background: linear-gradient(90deg, #f39c12, #e67e22);
-}
 .goal-set {
   display: flex;
   align-items: center;
@@ -1043,6 +1027,21 @@ body[data-theme] .search-result-item.sr-known {
 body.dark .stats-panel {
   background: var(--card);
 }
+/* .page-overlay has no bare CSS rule at all (moved to Tailwind
+   classNames on the component, see the comment further down) and no
+   body.dark override, so no conflict. .stats-panel's `background` ties
+   body.dark's rule above at equal specificity (0,0,2,1) — no !important
+   either side, so MUST stay physically after it, same lesson as
+   .btn-know/.card-face/scrollbar. */
+body[data-theme] .page-overlay {
+  background: var(--stats-panel-bg);
+  background-image: var(--page-overlay-bg-image);
+}
+body[data-theme] .stats-panel {
+  background: var(--stats-panel-bg);
+  border: 1px solid rgba(var(--accent-rgb), 0.12);
+  box-shadow: var(--stats-panel-shadow);
+}
 /* body.dark .stat-card deleted as dead code: identical to the base
    bg-bg Tailwind class already on the component
    (docs/theme-css-migration-roadmap.md Фаза 4). */
@@ -1068,6 +1067,12 @@ body.dark .chart-wrap {
   padding: 3px 9px;
   border-radius: 20px;
   letter-spacing: 0.02em;
+}
+/* No other rule anywhere sets box-shadow on .level-badge (the SW-cockpit
+   "always active" .gb-level-block .level-badge block only touches
+   layout properties), so no !important or ordering concern here. */
+body[data-theme] .level-badge {
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.2);
 }
 
 /* ── Тост-повідомлення для досягнень ── */
@@ -3074,26 +3079,6 @@ body[data-theme] .gb-level-fill {
   text-transform: uppercase;
 }
 
-/* Goal progress bar: lightsaber */
-.gb-goal-block .goal-track {
-  background: rgba(0, 50, 80, 0.6);
-  border-radius: 4px;
-  height: 7px;
-}
-.gb-goal-block .goal-fill {
-  background: linear-gradient(90deg, #0066cc, #00c8ff, #7df9ff);
-  box-shadow:
-    0 0 8px #00c8ff,
-    0 0 20px rgba(0, 200, 255, 0.3);
-  border-radius: 4px;
-}
-.gb-goal-block .goal-fill.done {
-  background: linear-gradient(90deg, #f39c12, #ffd700) !important;
-  box-shadow:
-    0 0 8px #ffd700,
-    0 0 20px rgba(255, 215, 0, 0.3) !important;
-}
-
 /* Goal done badge: rebel victory */
 .goal-done-badge {
   background: linear-gradient(90deg, #1a5c2a, #27ae60);
@@ -3180,23 +3165,6 @@ body:not(.dark):not([data-theme])
   .gb-streak-num {
   color: #e67e22;
   text-shadow: none;
-}
-body:not(.dark):not([data-theme])
-  .gb-goal-block
-  .goal-track {
-  background: var(--border);
-}
-body:not(.dark):not([data-theme])
-  .gb-goal-block
-  .goal-fill {
-  background: linear-gradient(90deg, #27ae60, #2ecc71);
-  box-shadow: none;
-}
-body:not(.dark):not([data-theme])
-  .gb-goal-block
-  .goal-fill.done {
-  background: linear-gradient(90deg, #f39c12, #e67e22) !important;
-  box-shadow: none !important;
 }
 body:not(.dark):not([data-theme])
   .goal-done-badge {

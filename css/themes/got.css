@@ -114,22 +114,12 @@ body[data-theme="got"] {
      path is root-relative (leading /), so it resolves identically
      regardless of which stylesheet declares vs. consumes it. */
   --bg-image: url('/backgrounds/got/targaryen-sigil-dark.jpg');
-}
-
-body[data-theme="got"] .goal-fill {
-  background: linear-gradient(90deg, #ff6b00, #ffb37d) !important;
-  box-shadow: 0 0 8px #ff6b00,
-    0 0 20px rgba(255, 107, 0, 0.4) !important;
-}
-
-body[data-theme="got"] .goal-fill.done {
-  background: linear-gradient(90deg, #ff6600, #ffd700) !important;
-  box-shadow: 0 0 8px #ffd700,
-    0 0 20px rgba(255, 215, 0, 0.4) !important;
-}
-
-body[data-theme="got"] .level-badge {
-  box-shadow: 0 0 10px rgba(255, 107, 0, 0.2);
+  --stats-panel-bg: #1a0e06; /* also .page-overlay's background */
+  --page-overlay-bg-image: radial-gradient(ellipse at top, rgba(60, 25, 0, 0.6) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255, 107, 0, 0.03) 60px),
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255, 107, 0, 0.02) 60px);
+  --stats-panel-shadow: 0 0 40px rgba(255, 107, 0, 0.06),
+    inset 0 0 60px rgba(30, 13, 0, 0.8);
 }
 
 body[data-theme="got"] .mode-card {
@@ -142,19 +132,4 @@ body[data-theme="got"] .mode-card:hover {
   background: rgba(255, 107, 0, 0.05);
   box-shadow: 0 0 12px rgba(255, 107, 0, 0.15);
 }
-
-body[data-theme="got"] .page-overlay {
-  background: #1a0e06;
-  background-image: radial-gradient(ellipse at top, rgba(60, 25, 0, 0.6) 0%, transparent 70%),
-    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255, 107, 0, 0.03) 60px),
-    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255, 107, 0, 0.02) 60px);
-}
-
-body[data-theme="got"] .stats-panel {
-  background: #1a0e06;
-  border: 1px solid rgba(255, 107, 0, 0.12);
-  box-shadow: 0 0 40px rgba(255, 107, 0, 0.06),
-    inset 0 0 60px rgba(30, 13, 0, 0.8);
-}
-
 

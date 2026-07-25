@@ -114,22 +114,12 @@ body[data-theme="hg"] {
      path is root-relative (leading /), so it resolves identically
      regardless of which stylesheet declares vs. consumes it. */
   --bg-image: url('/backgrounds/hg/mockingjay-flame-emblem.jpg');
-}
-
-body[data-theme="hg"] .goal-fill {
-  background: linear-gradient(90deg, #8500ff, #c17dff) !important;
-  box-shadow: 0 0 8px #8500ff,
-    0 0 20px rgba(133, 0, 255, 0.4) !important;
-}
-
-body[data-theme="hg"] .goal-fill.done {
-  background: linear-gradient(90deg, #ff6600, #ffd700) !important;
-  box-shadow: 0 0 8px #ffd700,
-    0 0 20px rgba(255, 215, 0, 0.4) !important;
-}
-
-body[data-theme="hg"] .level-badge {
-  box-shadow: 0 0 10px rgba(133, 0, 255, 0.2);
+  --stats-panel-bg: #10061a; /* also .page-overlay's background */
+  --page-overlay-bg-image: radial-gradient(ellipse at top, rgba(31, 0, 60, 0.6) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(133, 0, 255, 0.03) 60px),
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(133, 0, 255, 0.02) 60px);
+  --stats-panel-shadow: 0 0 40px rgba(133, 0, 255, 0.06),
+    inset 0 0 60px rgba(16, 0, 30, 0.8);
 }
 
 body[data-theme="hg"] .mode-card {
@@ -142,19 +132,4 @@ body[data-theme="hg"] .mode-card:hover {
   background: rgba(133, 0, 255, 0.05);
   box-shadow: 0 0 12px rgba(133, 0, 255, 0.15);
 }
-
-body[data-theme="hg"] .page-overlay {
-  background: #10061a;
-  background-image: radial-gradient(ellipse at top, rgba(31, 0, 60, 0.6) 0%, transparent 70%),
-    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(133, 0, 255, 0.03) 60px),
-    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(133, 0, 255, 0.02) 60px);
-}
-
-body[data-theme="hg"] .stats-panel {
-  background: #10061a;
-  border: 1px solid rgba(133, 0, 255, 0.12);
-  box-shadow: 0 0 40px rgba(133, 0, 255, 0.06),
-    inset 0 0 60px rgba(16, 0, 30, 0.8);
-}
-
 

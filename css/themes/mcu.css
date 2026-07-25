@@ -114,22 +114,12 @@ body[data-theme="mcu"] {
      path is root-relative (leading /), so it resolves identically
      regardless of which stylesheet declares vs. consumes it. */
   --bg-image: url('/backgrounds/mcu/captain-america-ruins-overlook.jpg');
-}
-
-body[data-theme="mcu"] .goal-fill {
-  background: linear-gradient(90deg, #ff0009, #ff7d81) !important;
-  box-shadow: 0 0 8px #ff0009,
-    0 0 20px rgba(255, 0, 9, 0.4) !important;
-}
-
-body[data-theme="mcu"] .goal-fill.done {
-  background: linear-gradient(90deg, #ff6600, #ffd700) !important;
-  box-shadow: 0 0 8px #ffd700,
-    0 0 20px rgba(255, 215, 0, 0.4) !important;
-}
-
-body[data-theme="mcu"] .level-badge {
-  box-shadow: 0 0 10px rgba(255, 0, 9, 0.2);
+  --stats-panel-bg: #1a0607; /* also .page-overlay's background */
+  --page-overlay-bg-image: radial-gradient(ellipse at top, rgba(60, 0, 2, 0.6) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255, 0, 9, 0.03) 60px),
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255, 0, 9, 0.02) 60px);
+  --stats-panel-shadow: 0 0 40px rgba(255, 0, 9, 0.06),
+    inset 0 0 60px rgba(30, 0, 1, 0.8);
 }
 
 body[data-theme="mcu"] .mode-card {
@@ -142,19 +132,4 @@ body[data-theme="mcu"] .mode-card:hover {
   background: rgba(255, 0, 9, 0.05);
   box-shadow: 0 0 12px rgba(255, 0, 9, 0.15);
 }
-
-body[data-theme="mcu"] .page-overlay {
-  background: #1a0607;
-  background-image: radial-gradient(ellipse at top, rgba(60, 0, 2, 0.6) 0%, transparent 70%),
-    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255, 0, 9, 0.03) 60px),
-    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255, 0, 9, 0.02) 60px);
-}
-
-body[data-theme="mcu"] .stats-panel {
-  background: #1a0607;
-  border: 1px solid rgba(255, 0, 9, 0.12);
-  box-shadow: 0 0 40px rgba(255, 0, 9, 0.06),
-    inset 0 0 60px rgba(30, 0, 1, 0.8);
-}
-
 
