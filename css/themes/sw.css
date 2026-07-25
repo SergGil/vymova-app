@@ -75,6 +75,7 @@ body[data-theme="sw"] {
   --achievement-toast-bg: linear-gradient(135deg, #050d1a 0%, #0a1628 100%);
   --combo-toast-bg: linear-gradient(90deg, #001428, #002244);
   --level-row-bg: rgba(0, 10, 25, 0.6);
+  --gb-goal-sep-color: rgba(200, 230, 255, 0.4); /* .gb-goal-sep, .gb-level-arrow */
   /* Фаза 4: AUX tokens for selectors also touched by body.dark (a real
      body.dark override stays a separate literal rule — it's just one
      value, not 14, so it doesn't need this indirection itself). */
@@ -234,36 +235,6 @@ body[data-theme="sw"] .mode-card:hover {
   border-color: #00c8ff;
   background: rgba(0, 200, 255, 0.05);
   box-shadow: 0 0 12px rgba(0, 200, 255, 0.15);
-}
-
-body[data-theme="sw"] .gb-level-fill {
-  background: linear-gradient(90deg, #00c8ff, #7df9ff);
-  box-shadow: 0 0 6px rgba(0, 200, 255, 0.4);
-}
-
-body[data-theme="sw"] .gb-streak-block {
-  border-color: rgba(0, 200, 255, 0.3);
-}
-
-body[data-theme="sw"] .gb-goal-block {
-  border-color: rgba(0, 200, 255, 0.3);
-}
-
-body[data-theme="sw"] .gb-level-block {
-  border-color: rgba(0, 200, 255, 0.3);
-}
-
-body[data-theme="sw"] .gb-goal-block .gb-goal-big {
-  color: #c8e6f5;
-  font-family: 'Orbitron', monospace;
-}
-
-body[data-theme="sw"] .gb-goal-sep {
-  color: rgba(200, 230, 255, 0.4);
-}
-
-body[data-theme="sw"] .gb-level-arrow {
-  color: rgba(200, 230, 255, 0.4);
 }
 
 body[data-theme="sw"] .page-overlay {

@@ -67,6 +67,7 @@ body[data-theme="dune"] {
   --achievement-toast-bg: linear-gradient(135deg, #1a1505 0%, #28200a 100%);
   --combo-toast-bg: linear-gradient(90deg, #281e00, #443300);
   --level-row-bg: rgba(25, 19, 0, 0.6);
+  --gb-goal-sep-color: rgba(255, 241, 200, 0.4); /* .gb-goal-sep, .gb-level-arrow */
   /* Фаза 4: AUX tokens for selectors also touched by body.dark (a real
      body.dark override stays a separate literal rule — it's just one
      value, not 14, so it doesn't need this indirection itself). */
@@ -226,36 +227,6 @@ body[data-theme="dune"] .mode-card:hover {
   border-color: #ffbe00;
   background: rgba(255, 190, 0, 0.05);
   box-shadow: 0 0 12px rgba(255, 190, 0, 0.15);
-}
-
-body[data-theme="dune"] .gb-level-fill {
-  background: linear-gradient(90deg, #ffbe00, #ffde7d);
-  box-shadow: 0 0 6px rgba(255, 190, 0, 0.4);
-}
-
-body[data-theme="dune"] .gb-streak-block {
-  border-color: rgba(255, 190, 0, 0.3);
-}
-
-body[data-theme="dune"] .gb-goal-block {
-  border-color: rgba(255, 190, 0, 0.3);
-}
-
-body[data-theme="dune"] .gb-level-block {
-  border-color: rgba(255, 190, 0, 0.3);
-}
-
-body[data-theme="dune"] .gb-goal-block .gb-goal-big {
-  color: #f5eac8;
-  font-family: 'Cinzel Decorative', monospace;
-}
-
-body[data-theme="dune"] .gb-goal-sep {
-  color: rgba(255, 241, 200, 0.4);
-}
-
-body[data-theme="dune"] .gb-level-arrow {
-  color: rgba(255, 241, 200, 0.4);
 }
 
 body[data-theme="dune"] .page-overlay {
