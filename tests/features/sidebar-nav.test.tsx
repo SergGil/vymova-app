@@ -119,13 +119,19 @@ describe('<SidebarNav/>', () => {
       ORIGINAL_LOGO_HTML,
     );
     // docs/component-tailwind-conversion-roadmap.md Batch 4 added theme-
-    // driven Tailwind classes (.sb-btn's hover:.../.sb-flyout's bg-.../
-    // border-...) — a deliberate, later change unrelated to the original
-    // static-markup-to-JSX port this test guards. Stripped before
-    // comparing, same approach as mode-card-grid.test.tsx.
+    // driven Tailwind classes (.sb-btn's base bg-transparent/text-.../
+    // hover:.../.sb-flyout's bg-.../border-...) — a deliberate, later
+    // change unrelated to the original static-markup-to-JSX port this test
+    // guards. Stripped before comparing, same approach as
+    // mode-card-grid.test.tsx. The base bg-transparent/text-[var(--text2)]
+    // pair was added during the post-session masking-bug audit (audit
+    // issue #1): .sb-btn's own unconditional bare background/color rule
+    // was masking the hover: variant even during an actual hover, so the
+    // base state had to move to Tailwind too, not just :hover.
     const actualNavHtml = document
       .getElementById('sidebar-nav-mount')!
-      .innerHTML.replace(
+      .innerHTML.replace(/ bg-transparent text-\[var\(--text2\)\]/g, '')
+      .replace(
         / (?:hover:bg|hover:text|bg|border)-\[var\(--sb-(?:btn-hover|flyout)-[a-z-]*\)\]/g,
         '',
       );

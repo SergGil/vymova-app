@@ -51,7 +51,7 @@ export function HeaderLeft(): ReactElement {
       </div>
       <button
         id="profile-btn"
-        className="profile-btn hover:text-[var(--profile-hover-color)]"
+        className="profile-btn text-[var(--profile-base-color)] hover:text-[var(--profile-hover-color)]"
         style={{ display: 'none' }}
       >
         🧑 <span>Гравець 1</span> ▾

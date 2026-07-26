@@ -159,7 +159,7 @@ function NavLink({
     <a
       className={
         (isActive ? 'sb-btn sb-active' : 'sb-btn') +
-        ' hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]'
+        ' bg-transparent text-[var(--text2)] hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]'
       }
       id={item.id}
       href={BASE + item.route}
@@ -194,7 +194,7 @@ function NavGroup({
     <div className="sb-group" id={groupId}>
       <button
         type="button"
-        className="sb-btn sb-group-trigger hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]"
+        className="sb-btn sb-group-trigger bg-transparent text-[var(--text2)] hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]"
         id={triggerId}
       >
         <span className="sb-icon w-[22px] shrink-0 text-center text-base">{icon}</span>
@@ -247,7 +247,7 @@ export function SidebarNav(): ReactElement {
         <a
           className={
             (cardsActive ? 'sb-btn sb-active' : 'sb-btn') +
-            ' hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]'
+            ' bg-transparent text-[var(--text2)] hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]'
           }
           id="sb-cards"
           href={BASE + '/'}

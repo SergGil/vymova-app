@@ -140,6 +140,7 @@ body[data-theme="mc"] {
   --sb-add-btn-border: rgba(var(--accent-rgb), 0.3);
   --sidebar-profile-btn-border: rgba(var(--accent-rgb), 0.25);
   --profile-hover-color: #fff;
+  --profile-base-color: var(--profile-name-color);
   --prf-av-active-shadow: 0 0 8px rgba(var(--accent-rgb), 0.2);
   --prf-delete-title-color: var(--delete-title-color);
   /* Constant across all 14 themes (a different red, not per-theme accent

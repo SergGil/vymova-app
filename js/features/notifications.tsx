@@ -345,12 +345,12 @@ export function NotificationsSection(): ReactElement {
         <div className="time-picker border-[var(--time-picker-border)]">
           <select
             id="notif-time-h"
-            className="time-select hover:bg-[var(--time-select-hover-bg)] focus:bg-[var(--time-select-hover-bg)]"
+            className="time-select bg-transparent hover:bg-[var(--time-select-hover-bg)] focus:bg-[var(--time-select-hover-bg)]"
           />
           <span className="time-sep">:</span>
           <select
             id="notif-time-m"
-            className="time-select hover:bg-[var(--time-select-hover-bg)] focus:bg-[var(--time-select-hover-bg)]"
+            className="time-select bg-transparent hover:bg-[var(--time-select-hover-bg)] focus:bg-[var(--time-select-hover-bg)]"
           />
         </div>
         <span style={{ fontSize: '0.75rem', color: 'var(--text3)' }} data-i18n="settings.notifTimeSuffix">

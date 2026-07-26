@@ -329,9 +329,12 @@ export function ReadingPage(): ReactElement {
 
   return (
     <>
-      <div className="page-header">
+      <div className="page-header border-b-[var(--page-header-border)]">
         <div>
-          <div className="page-title" data-i18n="reading.title">
+          <div
+            className="page-title text-[var(--page-title-color)] [font-family:var(--page-title-font)] [letter-spacing:var(--page-title-tracking)]"
+            data-i18n="reading.title"
+          >
             {t('reading.title')}
           </div>
           {view === 'reader' && (

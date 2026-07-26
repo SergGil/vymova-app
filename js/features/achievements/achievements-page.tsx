@@ -369,13 +369,21 @@ export function AchievementsPage(): ReactElement {
   return (
     <>
       <div style={{ marginBottom: 24 }}>
-        <div className="stats-section-title" style={{ marginBottom: 12 }} data-i18n="ach.roadmapTitle">
+        <div
+          className="stats-section-title text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))]"
+          style={{ marginBottom: 12 }}
+          data-i18n="ach.roadmapTitle"
+        >
           {t('ach.roadmapTitle')}
         </div>
         <LevelsRoadmap />
       </div>
 
-      <div className="stats-section-title" style={{ marginBottom: 12 }} data-i18n="ach.awardsTitle">
+      <div
+        className="stats-section-title text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))]"
+        style={{ marginBottom: 12 }}
+        data-i18n="ach.awardsTitle"
+      >
         {t('ach.awardsTitle')}
       </div>
       <AchievementsSummaryBar

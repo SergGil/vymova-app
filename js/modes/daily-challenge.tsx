@@ -313,7 +313,10 @@ export function DailyChallenge(): ReactElement | null {
     >
       <div className="page-inner border-l-[var(--page-inner-border)] mx-auto max-w-[520px] px-6 pt-5 pb-8">
         <div className="mb-3 flex items-center justify-between">
-          <div id="dc-title" className="page-title">
+          <div
+            id="dc-title"
+            className="page-title text-[var(--page-title-color)] [font-family:var(--page-title-font)] [letter-spacing:var(--page-title-tracking)]"
+          >
             ⚡ Місія дня
           </div>
           <div className="flex items-center gap-2.5">

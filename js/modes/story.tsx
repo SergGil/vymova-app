@@ -451,9 +451,11 @@ export function StoryPage(): ReactElement {
 
   return (
     <>
-      <div className="page-header">
+      <div className="page-header border-b-[var(--page-header-border)]">
         <div>
-          <div className="page-title">{story ? story.title : t('modesPg.storyName')}</div>
+          <div className="page-title text-[var(--page-title-color)] [font-family:var(--page-title-font)] [letter-spacing:var(--page-title-tracking)]">
+            {story ? story.title : t('modesPg.storyName')}
+          </div>
           {story && (
             <div className="mt-0.5 text-[.72rem] text-[var(--accent)]">
               {t('story.levelLabel', { lvl: story.level })}
