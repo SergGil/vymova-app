@@ -344,6 +344,21 @@
   --btn-achievements-hover-color: var(--btn-achievements-color);
   --btn-auto-hover-color: var(--btn-auto-color);
   --btn-modes-open-hover-color: var(--btn-modes-open-color);
+  /* .tempo-opt.correct/.wrong/.reveal (Batch 6) — no fandom override ever
+     existed for this cluster, so :root+body.dark is the whole story
+     (unlike .btn-know/.hard/.dontknow/.easy above). Applied via the `!`
+     modifier since .tempo-opt's own base border/background/color are
+     already Tailwind classes (layered) too — a plain override class isn't
+     guaranteed to win over them regardless of generation order, the same
+     reason the original bare CSS used !important here. */
+  --tempo-correct-border: #27ae60;
+  --tempo-correct-bg: #eafaf1;
+  --tempo-correct-color: #1a5e34;
+  --tempo-wrong-border: #e74c3c;
+  --tempo-wrong-bg: #fdecea;
+  --tempo-wrong-color: #922b21;
+  --tempo-reveal-border: #27ae60;
+  --tempo-reveal-bg: rgba(39, 174, 96, 0.08);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -1229,6 +1244,10 @@ body.dark {
   --btn-achievements-hover-color: var(--btn-achievements-color);
   --btn-auto-hover-color: var(--btn-auto-color);
   --btn-modes-open-hover-color: var(--btn-modes-open-color);
+  --tempo-correct-bg: rgba(39, 174, 96, 0.15);
+  --tempo-correct-color: #4ecca3;
+  --tempo-wrong-bg: rgba(231, 76, 60, 0.12);
+  --tempo-wrong-color: #e74c3c;
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -2009,32 +2028,15 @@ body:not(.dark):not([data-theme]) .family-chip {
 }
 /* .tempo-opt's own base box/typography + :disabled moved to Tailwind
    utility classes in tempo.tsx (no fandom-theme or body.dark overrides
-   existed for either). .correct/.wrong/.reveal (all !important-heavy
-   hardcoded-color states, 2 with live body.dark variants) stay here. */
-.tempo-opt.correct {
-  border-color: #27ae60 !important;
-  background: #eafaf1 !important;
-  color: #1a5e34 !important;
-  font-weight: 600;
-}
-body.dark .tempo-opt.correct {
-  background: rgba(39, 174, 96, 0.15) !important;
-  color: #4ecca3 !important;
-}
-.tempo-opt.wrong {
-  border-color: #e74c3c !important;
-  background: #fdecea !important;
-  color: #922b21 !important;
-}
-body.dark .tempo-opt.wrong {
-  background: rgba(231, 76, 60, 0.12) !important;
-  color: #e74c3c !important;
-}
-.tempo-opt.reveal {
-  border-color: #27ae60 !important;
-  background: rgba(39, 174, 96, 0.08) !important;
-  opacity: 0.7;
-}
+   existed for either). .correct/.wrong/.reveal's border-color/background/
+   color fully converted too (docs/component-tailwind-conversion-
+   roadmap.md Batch 6), applied via the `!` modifier for the same reason
+   they were !important here: .tempo-opt's own base border/background/
+   color are already Tailwind classes, so a plain override isn't
+   guaranteed to win regardless of class generation order. font-weight/
+   opacity moved to plain Tailwind classes (font-semibold/opacity-70)
+   directly in tempo.tsx alongside the theme-driven ones — they were
+   never theme-touched, just co-located in the same bare rule. */
 /* .pairs-panel shares this exact fandom override (same AUX11 value in
    scripts/theme-template.css) — one combined rule covers both. */
 body[data-theme] .quiz-panel,

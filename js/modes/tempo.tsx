@@ -517,9 +517,15 @@ export function TempoPage(): ReactElement {
               let cls =
                 "tempo-opt w-full cursor-pointer rounded-[12px] border-2 border-[var(--border)] bg-[var(--card)] px-4 py-[13px] text-left font-['DM_Sans',sans-serif] text-[.92rem] font-medium text-[var(--text)] transition-[border-color,background] duration-[120ms] disabled:cursor-default";
               if (question.selected) {
-                if (opt === question.selected)
-                  cls += opt === question.answer ? ' correct' : ' wrong';
-                else if (opt === question.answer) cls += ' reveal';
+                if (opt === question.selected) {
+                  cls +=
+                    opt === question.answer
+                      ? ' correct !border-[var(--tempo-correct-border)] !bg-[var(--tempo-correct-bg)] !text-[var(--tempo-correct-color)] font-semibold'
+                      : ' wrong !border-[var(--tempo-wrong-border)] !bg-[var(--tempo-wrong-bg)] !text-[var(--tempo-wrong-color)]';
+                } else if (opt === question.answer) {
+                  cls +=
+                    ' reveal !border-[var(--tempo-reveal-border)] !bg-[var(--tempo-reveal-bg)] opacity-70';
+                }
               }
               return (
                 <button
