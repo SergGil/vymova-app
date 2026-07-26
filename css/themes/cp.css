@@ -152,5 +152,36 @@ body[data-theme="cp"] {
   --voice-card-active-shadow: 0 0 10px rgba(var(--accent-rgb), 0.15);
   --time-picker-border: rgba(var(--accent-rgb), 0.2);
   --time-select-hover-bg: rgba(var(--accent-rgb), 0.1);
+  --srs-fc-bar-bg: rgba(var(--accent-rgb), 0.4);
+  --srs-fc-today-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
+  --stats-panel-border: 1px solid rgba(var(--accent-rgb), 0.12);
+  --stat-card-border: rgba(var(--accent-rgb), 0.12);
+  --stat-card-radius: 12px;
+  --stats-section-border: 1px solid rgba(var(--accent-rgb), 0.07);
+  --stats-section-title-tracking: 0.04em;
+  --stats-title-color: var(--accent);
+  --stats-title-font: var(--theme-font), monospace;
+  --sv-color: var(--accent);
+  --ach-popup-icon-shadow: 0 0 30px rgba(var(--accent-rgb), 0.5);
+  --ach-popup-name-color: var(--accent);
+  --ach-card-unlocked-border: rgba(var(--accent-rgb), 0.35);
+  --ach-card-unlocked-shadow: 0 0 12px rgba(var(--accent-rgb), 0.1);
+  --ach-card-unlocked-icon-shadow: 0 0 16px rgba(var(--accent-rgb), 0.5);
+  --achievement-toast-title-color: var(--accent);
+  --achievement-toast-title-font: var(--theme-font), monospace;
+  --achievement-toast-icon-shadow: 0 0 20px rgba(var(--accent-rgb), 0.6);
+  --achievement-toast-title-size: 0.7rem;
+  --achievement-toast-container-bg: var(--achievement-toast-bg);
+  --achievement-toast-container-border: 1px solid rgba(var(--accent-rgb), 0.3);
+  --achievement-toast-container-shadow: 0 0 30px rgba(var(--accent-rgb), 0.2),
+    0 0 60px rgba(var(--accent-rgb), 0.08);
+  --srs-stats-bar-bg: var(--panel-glow-bg);
+  --srs-stats-bar-border: rgba(var(--accent-rgb), 0.15);
+  /* Reuses --sidebar-bg (AUX16), already shared with .sidebar/.sb-flyout —
+     same background per the pre-existing "body.dark .ach-popup deleted as
+     dead code" comment in css/styles.css. */
+  --ach-popup-bg: var(--sidebar-bg);
+  --ach-popup-border: 1px solid rgba(var(--accent-rgb), 0.25);
+  --ach-popup-shadow: 0 0 50px rgba(var(--accent-rgb), 0.15);
 }
 

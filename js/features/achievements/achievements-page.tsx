@@ -225,10 +225,10 @@ function AchievementsGrid({
                 <div
                   key={a.id}
                   className={
-                    'ach-card relative cursor-pointer overflow-hidden rounded-[12px] border-[1.5px] border-border bg-bg pb-2.5 pl-2.5 pr-2.5 pt-3 text-center transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] ' +
+                    'ach-card relative cursor-pointer overflow-hidden rounded-[12px] border-[1.5px] bg-bg pb-2.5 pl-2.5 pr-2.5 pt-3 text-center transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] ' +
                     (isUnlocked
-                      ? "unlocked border-accent after:absolute after:right-[7px] after:top-[5px] after:text-[0.62rem] after:font-bold after:text-accent after:content-['✓']"
-                      : 'locked opacity-50 grayscale-[50%]')
+                      ? "unlocked border-[var(--ach-card-unlocked-border)] shadow-[var(--ach-card-unlocked-shadow)] after:absolute after:right-[7px] after:top-[5px] after:text-[0.62rem] after:font-bold after:text-accent after:content-['✓']"
+                      : 'locked border-border opacity-50 grayscale-[50%]')
                   }
                   onClick={(e) => {
                     e.stopPropagation();
@@ -245,7 +245,14 @@ function AchievementsGrid({
                       {t('ach.new')}
                     </span>
                   )}
-                  <span className="ach-icon mb-1 block text-[1.8rem]">{a.icon}</span>
+                  <span
+                    className={
+                      'ach-icon mb-1 block text-[1.8rem]' +
+                      (isUnlocked ? ' [text-shadow:var(--ach-card-unlocked-icon-shadow)]' : '')
+                    }
+                  >
+                    {a.icon}
+                  </span>
                   <div className="ach-name mb-0.5 text-[0.75rem] font-bold text-text">
                     {achName(a)}
                   </div>
@@ -306,11 +313,15 @@ function AchievementPopup({
   const fillPct = isUnlocked ? pct : Math.max(pct, MIN_PROG_FILL_PCT);
 
   return createPortal(
-    <div className="ach-popup relative w-full max-w-[320px] rounded-[20px] bg-card px-6 pb-7 pt-7 text-center shadow-[0_12px_48px_rgba(0,0,0,0.25)]">
-      <span className="ach-popup-icon mb-2 block text-5xl">{ach.icon}</span>
-      <div className="ach-popup-name mb-1 text-[1.15rem] font-bold text-text">{achName(ach)}</div>
+    <div className="ach-popup relative w-full max-w-[320px] rounded-[20px] bg-[var(--ach-popup-bg)] px-6 pb-7 pt-7 text-center shadow-[var(--ach-popup-shadow)] [border:var(--ach-popup-border)]">
+      <span className="ach-popup-icon mb-2 block text-5xl [text-shadow:var(--ach-popup-icon-shadow)]">
+        {ach.icon}
+      </span>
+      <div className="ach-popup-name mb-1 text-[1.15rem] font-bold text-[var(--ach-popup-name-color)]">
+        {achName(ach)}
+      </div>
       <div className="ach-popup-cat mb-3 text-[0.72rem] text-text3">{achCatName(ach.cat)}</div>
-      <div className="ach-popup-hint mb-[14px] rounded-[10px] bg-bg px-[14px] py-3 text-[0.85rem] leading-[1.5] text-text2">
+      <div className="ach-popup-hint mb-[14px] rounded-[10px] bg-[var(--ach-popup-hint-bg)] px-[14px] py-3 text-[0.85rem] leading-[1.5] text-text2">
         {achHint(ach)}
       </div>
       <div className="ach-popup-progress mb-4">

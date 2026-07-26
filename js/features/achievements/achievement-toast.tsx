@@ -60,18 +60,24 @@ export function AchievementToast(): ReactElement {
     <div
       id="achievement-toast"
       className={
-        'fixed left-1/2 top-1/2 z-[2000] min-w-[240px] max-w-[320px] -translate-x-1/2 -translate-y-1/2 rounded-[14px] bg-[#1a1a2e] px-6 py-[18px] pointer-events-none text-center text-white shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-[transform_0.35s_cubic-bezier(0.34,1.56,0.64,1),opacity_0.3s] ' +
+        'fixed left-1/2 top-1/2 z-[2000] min-w-[240px] max-w-[320px] -translate-x-1/2 -translate-y-1/2 rounded-[14px] px-6 py-[18px] pointer-events-none text-center text-white shadow-[var(--achievement-toast-container-shadow)] [background:var(--achievement-toast-container-bg)] [border:var(--achievement-toast-container-border)] transition-[transform_0.35s_cubic-bezier(0.34,1.56,0.64,1),opacity_0.3s] ' +
         (animate ? 'show scale-100 opacity-100' : 'scale-[0.92] opacity-0')
       }
       style={{ display: visible ? 'block' : 'none' }}
     >
-      <span className="toast-icon mb-1 block text-[1.8rem]" id="toast-icon">
+      <span
+        className="toast-icon mb-1 block text-[1.8rem] [text-shadow:var(--achievement-toast-icon-shadow)]"
+        id="toast-icon"
+      >
         {ach?.icon ?? '🏆'}
       </span>
-      <div className="toast-title text-[0.72rem] uppercase tracking-[0.1em] text-[#a0a0b0]">
+      <div className="toast-title text-[length:var(--achievement-toast-title-size)] uppercase tracking-[0.1em] text-[var(--achievement-toast-title-color)] [font-family:var(--achievement-toast-title-font)]">
         Нове досягнення!
       </div>
-      <div className="toast-name my-0.5 text-base font-bold" id="toast-name">
+      <div
+        className="toast-name my-0.5 text-base font-bold text-[var(--delete-title-color,#fff)]"
+        id="toast-name"
+      >
         {ach ? achName(ach) : ''}
       </div>
       <div className="toast-desc text-[0.78rem] text-[#c0c0d0]" id="toast-desc">

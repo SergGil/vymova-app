@@ -79,6 +79,61 @@
   --voice-card-active-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.12);
   --time-picker-border: var(--border);
   --time-select-hover-bg: var(--card);
+  /* Stats-area fandom clusters (Batch 2). --srs-fc-bar-bg's literal
+     default matches the component's pre-existing hardcoded value
+     (rgba(0,200,255,.35) — not accent-derived, predates this migration,
+     not touched here). --srs-fc-today-shadow has no base box-shadow at
+     all (only fandom adds a glow), so defaults to none. */
+  --srs-fc-bar-bg: rgba(0, 200, 255, 0.35);
+  --srs-fc-today-shadow: none;
+  /* .stats-panel/.stat-card/.page-overlay/.stats-section/.stats-title/
+     .sv/.ach-* (Batch 2) — --stats-panel-bg/--stats-panel-shadow/
+     --page-overlay-bg-image/--stat-card-bg reuse existing AUX19/21/20 +
+     stat-card fandom-only names (already in scripts/theme-template.css's
+     root block from an earlier phase); defaults here match each
+     component's current base value exactly. --stats-panel-border is new
+     (no base border exists at all today — fandom-only, like --ring-glow). */
+  --stats-panel-bg: var(--card);
+  --stats-panel-border: none;
+  --stats-panel-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+  --stat-card-bg: var(--bg);
+  --stat-card-border: var(--border);
+  --stat-card-radius: 14px;
+  --page-overlay-bg-image: none;
+  --stats-section-border: none;
+  --stats-section-title-tracking: 0.08em;
+  --srs-stats-bar-bg: var(--card);
+  --srs-stats-bar-border: var(--border);
+  --achievement-toast-container-bg: #1a1a2e;
+  --achievement-toast-container-border: none;
+  --achievement-toast-container-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --achievement-toast-title-size: 0.72rem;
+  --ach-popup-bg: var(--card);
+  --ach-popup-border: none;
+  --ach-popup-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
+  --ach-popup-hint-bg: var(--bg);
+  --stats-title-color: var(--text);
+  --stats-title-font: var(--theme-font), sans-serif;
+  --sv-color: var(--text);
+  --ach-popup-icon-shadow: none;
+  --ach-popup-name-color: var(--text);
+  /* .ach-card.unlocked already used the border-accent Tailwind utility for
+     border-color — default here matches that exact value so it can be
+     removed from the className string (never two utilities for the same
+     property, per the roadmap's established rule). */
+  --ach-card-unlocked-border: var(--accent);
+  --ach-card-unlocked-shadow: none;
+  --ach-card-unlocked-icon-shadow: none;
+  /* #achievement-toast is deliberately always dark-styled regardless of
+     light/dark mode (bg-[#1a1a2e]/text-white container, a fixed "trophy
+     popup" identity, not a light/dark bug) — literal default matches that
+     fixed look exactly, not var(--text2). .toast-name's fandom color
+     reuses --delete-title-color (AUX26, shared with .prf-delete-title per
+     scripts/theme-template.css's own comment) via a per-consumer fallback
+     instead of a new token, same reasoning as --confirm-btn-bg. */
+  --achievement-toast-title-color: #a0a0b0;
+  --achievement-toast-title-font: var(--theme-font), sans-serif;
+  --achievement-toast-icon-shadow: none;
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -864,6 +919,20 @@ body.dark {
   --voice-card-active-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.12);
   --time-picker-border: var(--border);
   --time-select-hover-bg: var(--card);
+  --stats-panel-bg: var(--card);
+  --stat-card-bg: var(--bg);
+  --stat-card-border: var(--border);
+  --stats-title-color: var(--text);
+  --sv-color: var(--text);
+  --ach-popup-name-color: var(--text);
+  --ach-card-unlocked-border: var(--accent);
+  --srs-stats-bar-bg: var(--card);
+  --srs-stats-bar-border: var(--border);
+  --ach-popup-bg: var(--card);
+  /* Literal, not a var(--bg)-derived formula — this is the pre-existing
+     dedicated body.dark .ach-popup-hint value, distinct from dark mode's
+     own --bg. */
+  --ach-popup-hint-bg: rgba(255, 255, 255, 0.05);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -1081,27 +1150,11 @@ body[data-theme] .search-result-item.sr-known {
    rather than quietly swapping it for the correctly-defined var(--card),
    since that would be an unrelated, unreviewed behavior change bundled
    into a pure CSS-migration commit. */
-/* body.dark .stats-panel deleted as dead code: identical to the bg-card
-   Tailwind class already on the component (stats-page.tsx). .page-overlay
-   has no bare CSS rule at all (moved to Tailwind classNames on the
-   component) and no body.dark override, so no conflict either. */
-body[data-theme] .page-overlay {
-  background: var(--stats-panel-bg);
-  background-image: var(--page-overlay-bg-image);
-}
-body[data-theme] .stats-panel {
-  background: var(--stats-panel-bg);
-  border: 1px solid rgba(var(--accent-rgb), 0.12);
-  box-shadow: var(--stats-panel-shadow);
-}
-/* body.dark .stat-card deleted as dead code: identical to the base
-   bg-bg Tailwind class already on the component
-   (docs/theme-css-migration-roadmap.md Фаза 4). */
-body[data-theme] .stat-card {
-  background: var(--stat-card-bg);
-  border: 1px solid rgba(var(--accent-rgb), 0.12);
-  border-radius: 12px;
-}
+/* body.dark .stats-panel/.stat-card were dead code (identical to the base
+   bg-card/bg-bg Tailwind classes already on the components) — deleted in
+   an earlier phase. .page-overlay/.stats-panel/.stat-card now fully
+   converted to Tailwind (docs/component-tailwind-conversion-roadmap.md
+   Batch 2). */
 /* ── Рівень у game-bar ── */
 .level-box {
   display: flex;
@@ -1337,18 +1390,8 @@ body[data-theme] .ach-card {
    forward into the Tailwind classes on the live grid markup in
    achievements-page.tsx instead of being dropped with the rest of that
    block. */
-/* body.dark .ach-popup deleted as dead code: identical to the base
-   bg-card Tailwind class already on the component
-   (docs/theme-css-migration-roadmap.md Фаза 4). Background reuses the
-   same AUX16 value as .sidebar/.sb-flyout. */
-body[data-theme] .ach-popup {
-  background: var(--sidebar-bg);
-  border: 1px solid rgba(var(--accent-rgb), 0.25);
-  box-shadow: 0 0 50px rgba(var(--accent-rgb), 0.15);
-}
-body.dark .ach-popup-hint {
-  background: rgba(255, 255, 255, 0.05);
-}
+/* .ach-popup/.ach-popup-hint fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md Batch 2). */
 
 /* ── Експорт/Імпорт ── */
 .backup-row {
@@ -1915,18 +1958,10 @@ body[data-theme] .scr-tile-placed {
 body.dark {
   --srs-new-color: #5dade2;
 }
-/* .srs-fc-bar/.srs-fc-today (stats-page.tsx, forecast chart bars) are
-   already Tailwind-authored in the component (bg-[rgba(0,200,255,.35)]/
-   !bg-accent) — .srs-fc-today's fandom background override was dead code
-   (already matches !bg-accent's live var(--accent) in every state); only
-   the bar tint + today's glow genuinely differ under a fandom theme
-   (docs/theme-css-migration-roadmap.md Фаза 2). */
-body[data-theme] .srs-fc-bar {
-  background: rgba(var(--accent-rgb), 0.4);
-}
-body[data-theme] .srs-fc-today {
-  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
-}
+/* .srs-fc-bar/.srs-fc-today (stats-page.tsx, forecast chart bars) fully
+   converted to Tailwind (docs/component-tailwind-conversion-roadmap.md
+   Batch 2) — background/box-shadow now read --srs-fc-bar-bg/
+   --srs-fc-today-shadow directly on the component. */
 
 /* .opt-num's own box/typography moved to Tailwind utility classes in the
    11 consuming files (no fandom-theme or body.dark overrides existed for
@@ -4107,55 +4142,10 @@ body[data-theme] .sidebar {
   background: var(--sidebar-bg);
   border-color: rgba(var(--accent-rgb), 0.12);
 }
-body[data-theme] #achievement-toast {
-  background: var(--achievement-toast-bg);
-  border: 1px solid rgba(var(--accent-rgb), 0.3);
-  box-shadow:
-    0 0 30px rgba(var(--accent-rgb), 0.2),
-    0 0 60px rgba(var(--accent-rgb), 0.08);
-}
-body[data-theme] #achievement-toast .toast-name {
-  color: var(--delete-title-color);
-}
-body[data-theme] .srs-stats-bar {
-  background: var(--panel-glow-bg);
-  border-color: rgba(var(--accent-rgb), 0.15);
-}
-body[data-theme] .stats-section {
-  border-bottom: 1px solid rgba(var(--accent-rgb), 0.07);
-}
-body[data-theme] .stats-section-title {
-  color: var(--section-title-color);
-  letter-spacing: 0.04em;
-}
-body[data-theme] .stats-title {
-  color: var(--accent);
-  font-family: var(--theme-font), monospace;
-}
-body[data-theme] .sv {
-  color: var(--accent);
-}
-body[data-theme] #achievement-toast .toast-title {
-  color: var(--accent);
-  font-family: var(--theme-font), monospace;
-  font-size: 0.7rem;
-}
-body[data-theme] #achievement-toast .toast-icon {
-  text-shadow: 0 0 20px rgba(var(--accent-rgb), 0.6);
-}
-body[data-theme] .ach-popup-icon {
-  text-shadow: 0 0 30px rgba(var(--accent-rgb), 0.5);
-}
-body[data-theme] .ach-popup-name {
-  color: var(--accent);
-}
-body[data-theme] .ach-card.unlocked {
-  border-color: rgba(var(--accent-rgb), 0.35);
-  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.1);
-}
-body[data-theme] .ach-card.unlocked .ach-icon {
-  text-shadow: 0 0 16px rgba(var(--accent-rgb), 0.5);
-}
+/* #achievement-toast(+.toast-name/.toast-title/.toast-icon)/.srs-stats-bar/
+   .stats-section/.stats-section-title/.stats-title/.sv/.ach-popup-icon/
+   .ach-popup-name/.ach-card.unlocked(+.ach-icon) all fully converted to
+   Tailwind (docs/component-tailwind-conversion-roadmap.md Batch 2). */
 /* body[data-theme] .level-row.level-current deleted as dead code:
    border-width: 2px was byte-identical to the plain .level-row.level-current
    base rule already at higher specificity — no-op regardless of theme

@@ -403,7 +403,7 @@ export function ProfilePage(): ReactElement | null {
               </div>
             ))}
             <button
-              className="profile-save-btn bg-[var(--confirm-btn-bg,var(--accent))]"
+              className="profile-save-btn [background:var(--confirm-btn-bg,var(--accent))]"
               disabled={!dirty}
               onClick={saveChanges}
             >

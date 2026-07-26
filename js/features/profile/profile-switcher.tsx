@@ -525,7 +525,7 @@ export function ProfileSwitcher(): ReactElement {
         </div>
         <button
           id="sb-new-confirm"
-          className="prf-add-confirm bg-[var(--confirm-btn-bg,var(--accent))]"
+          className="prf-add-confirm [background:var(--confirm-btn-bg,var(--accent))]"
           style={{ marginTop: 8 }}
           onClick={confirmAdd}
         >
