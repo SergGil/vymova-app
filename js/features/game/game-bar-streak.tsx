@@ -86,7 +86,7 @@ export function GameBarGoal(): ReactElement {
       </svg>
       <div className="gb-goal-ring-text">
         <span id="goal-cur">{d.goalCur || 0}</span>
-        <span className="gb-goal-sep">/</span>
+        <span className="gb-goal-sep text-[var(--gb-goal-sep-color)]">/</span>
         <span id="goal-max">{d.goalMax}</span>
       </div>
       {done && (

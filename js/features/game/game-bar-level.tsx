@@ -42,11 +42,14 @@ export function GameBarLevel(): ReactElement {
       }}
     >
       <div className="gb-level-name-row mb-[3px] flex flex-nowrap items-center gap-1 overflow-hidden">
-        <span className="level-badge" style={{ background: lv.color + '22', color: lv.color }}>
+        <span
+          className="level-badge shadow-[var(--level-badge-shadow)]"
+          style={{ background: lv.color + '22', color: lv.color }}
+        >
           {levelName(lv.name)}
         </span>
         <span
-          className="level-badge level-badge-mobile"
+          className="level-badge level-badge-mobile shadow-[var(--level-badge-shadow)]"
           style={{ background: lv.color + '22', color: lv.color }}
         >
           {t('levels.mobileLabel')}
@@ -59,7 +62,7 @@ export function GameBarLevel(): ReactElement {
       </div>
       <div className="gb-level-track overflow-hidden rounded-sm">
         <div
-          className="gb-level-fill h-full rounded-sm bg-[linear-gradient(90deg,#5dade2,#27ae60)] [transition:width_.5s_ease]"
+          className="gb-level-fill h-full rounded-sm [background:var(--fill-glow-bg,linear-gradient(90deg,#5dade2,#27ae60))] [transition:width_.5s_ease]"
           style={{ width: fillPct + '%', background: fillBg }}
         />
       </div>

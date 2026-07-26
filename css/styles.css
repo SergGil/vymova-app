@@ -170,6 +170,11 @@
   --search-input-border: var(--border);
   --search-input-focus-shadow: none;
   --search-result-hover-bg: var(--bg);
+  /* Game-bar clusters confirmed SAFE (only base+fandom, no "always active"
+     SW-cockpit or light-reversion layer competing for the same property —
+     see docs/component-tailwind-conversion-roadmap.md's game-bar map). */
+  --gb-goal-sep-color: var(--text3);
+  --level-badge-shadow: none;
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -990,6 +995,7 @@ body.dark {
   /* Real dark-specific value (not the light formula restated) — matches
      the pre-existing dedicated body.dark .search-result-item:hover rule. */
   --search-result-hover-bg: var(--border);
+  --gb-goal-sep-color: var(--text3);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -1216,12 +1222,11 @@ body[data-theme] .search-result-item.sr-known {
   border-radius: 20px;
   letter-spacing: 0.02em;
 }
-/* No other rule anywhere sets box-shadow on .level-badge (the SW-cockpit
-   "always active" .gb-level-block .level-badge block only touches
-   layout properties), so no !important or ordering concern here. */
-body[data-theme] .level-badge {
-  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.2);
-}
+/* box-shadow fully converted to Tailwind (docs/component-tailwind-
+   conversion-roadmap.md Batch 2/game-bar-safe) — confirmed no other rule
+   anywhere sets box-shadow on .level-badge (the SW-cockpit "always
+   active" .gb-level-block .level-badge block only touches layout
+   properties), so no atomic-conversion concern here. */
 
 /* ── Тост-повідомлення для досягнень ── */
 /* #achievement-toast/.toast-* moved to Tailwind utility classes in
@@ -3037,13 +3042,15 @@ body[data-theme] .gb-goal-block {
 .goal-set:hover {
   color: var(--text);
 }
+/* color fully converted to Tailwind (docs/component-tailwind-conversion-
+   roadmap.md game-bar-safe list) — this base rule's font-size/margin are
+   dead code today (the element is always inside .gb-goal-ring-text,
+   whose higher-specificity compound rule wins those two properties too),
+   kept as-is since that's a pre-existing, unrelated fact not touched by
+   this migration. */
 .gb-goal-sep {
   font-size: 0.9rem;
-  color: var(--text3);
   margin: 0 1px;
-}
-body[data-theme] .gb-goal-sep {
-  color: var(--gb-goal-sep-color);
 }
 .gb-goal-footer {
   text-align: center;
@@ -3105,13 +3112,11 @@ body[data-theme] .gb-level-arrow {
   height: 6px;
   background: var(--border);
 }
-/* No plain base rule for .gb-level-fill — height/border-radius/transition/
-   background moved to Tailwind in game-bar-level.tsx, box-shadow is
-   SW-cockpit-only (see the "always active" block further down). Beats
-   that unconditional rule purely on specificity, same as before this
-   consolidation replaced 14 near-identical body[data-theme="x"] blocks. */
+/* background fully converted to Tailwind (docs/component-tailwind-
+   conversion-roadmap.md game-bar-safe list). box-shadow stays bare and
+   deferred — it's part of the game-bar "always active" SW-cockpit trap
+   (needs atomic multi-layer conversion, not this simple pattern). */
 body[data-theme] .gb-level-fill {
-  background: var(--fill-glow-bg);
   box-shadow: 0 0 6px rgba(var(--accent-rgb), 0.4);
 }
 .gb-level-xp {
@@ -5333,9 +5338,17 @@ body[data-theme="hp"] {
   white-space: nowrap;
   pointer-events: none;
 }
+/* color removed: this compound selector is the element's ONLY consumer
+   (game-bar-streak.tsx always nests .gb-goal-sep inside .gb-goal-ring-
+   text), so its color competed directly with the plain .gb-goal-sep/
+   body[data-theme] .gb-goal-sep rules at (0,2,0) vs (0,1,0)/(0,2,1) —
+   fandom used to win purely on specificity, but converting fandom to a
+   Tailwind class (layered) would have let this unlayered compound rule
+   win instead, silently losing the fandom accent color. Same value
+   (var(--text3)) as the base rule anyway, so removing it here is a pure
+   no-op for every non-fandom state. */
 .gb-goal-ring-text .gb-goal-sep {
   font-size: 0.6rem;
-  color: var(--text3);
   margin: 0 1px;
 }
 .goal-done-badge {

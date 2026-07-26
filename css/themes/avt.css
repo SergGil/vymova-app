@@ -218,5 +218,6 @@ body[data-theme="avt"] {
   --search-input-bg: var(--panel-glow-bg);
   --search-input-border: rgba(var(--accent-rgb), 0.2);
   --search-input-focus-shadow: 0 0 10px rgba(var(--accent-rgb), 0.2);
+  --level-badge-shadow: 0 0 10px rgba(var(--accent-rgb), 0.2);
 }
 
