@@ -150,6 +150,26 @@
   --rd-unknown-border: rgba(231, 76, 60, 0.5);
   --rd-known-bg: rgba(39, 174, 96, 0.12);
   --rd-known-border: rgba(39, 174, 96, 0.4);
+  /* Misc-area fandom clusters (Batch 2). */
+  --page-header-border: var(--border);
+  --page-inner-border: none;
+  --page-title-color: var(--text);
+  --page-title-font: inherit;
+  --page-title-tracking: normal;
+  --title-font: 'DM Serif Display', serif;
+  --title-size: 1.3rem;
+  --title-tracking: normal;
+  --title-transform: none;
+  --title-color: var(--text);
+  --title-shadow: none;
+  --wotd-box-bg: var(--card);
+  --wotd-box-border: var(--border);
+  --wotd-word-color: var(--text);
+  --wotd-word-shadow: none;
+  --search-input-bg: var(--card);
+  --search-input-border: var(--border);
+  --search-input-focus-shadow: none;
+  --search-result-hover-bg: var(--bg);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -959,6 +979,17 @@ body.dark {
   --mode-card-hover-bg: color-mix(in srgb, var(--mi, var(--accent)) 8%, var(--card));
   --mode-card-hover-shadow: 0 4px 16px color-mix(in srgb, var(--mi, var(--accent)) 28%, transparent);
   --modes-panel-bg: var(--card);
+  --page-header-border: var(--border);
+  --page-title-color: var(--text);
+  --title-color: var(--text);
+  --wotd-box-bg: var(--card);
+  --wotd-box-border: var(--border);
+  --wotd-word-color: var(--text);
+  --search-input-bg: var(--card);
+  --search-input-border: var(--border);
+  /* Real dark-specific value (not the light formula restated) — matches
+     the pre-existing dedicated body.dark .search-result-item:hover rule. */
+  --search-result-hover-bg: var(--border);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -1055,10 +1086,9 @@ body.dark .btn-auto {
 /* body.dark input#search-input and body.dark .search-results (background/
    border-color/color re-asserting the exact var(--card)/var(--border)/
    var(--text) the base rules already resolve to in dark mode) deleted as
-   dead code — confirmed no visual effect. */
-body.dark .search-result-item:hover {
-  background: var(--border);
-}
+   dead code — confirmed no visual effect. .search-result-item:hover's
+   background fully converted to Tailwind (docs/component-tailwind-
+   conversion-roadmap.md Batch 2). */
 /* body.dark .modal-inner deleted as dead code: it was the only CSS rule
    ever targeting .modal-inner, and both consumers (card-legend.tsx,
    goal-modal.tsx) already set background via an inline style prop, which
@@ -1085,29 +1115,20 @@ body.dark .search-result-item:hover {
    results moved to Tailwind utility classes in search-inline.tsx (no
    fandom-theme or body.dark overrides existed for any of them — the
    .search-results.open toggle became a plain block/hidden class swap).
-   #search-input's background/border/color and #search-input:focus's
-   border-color stay bare: all 14 fandom themes override them. .search-
-   results' z-index (unconditional !important override below) and its
-   mobile max-height, .search-result-item's mobile padding/gap/etc, .sr-
-   word/.sr-transl's mobile-only font-size, and .sr-known's theme/dark
+   #search-input's background/border-color and #search-input:focus's
+   box-shadow fully converted too (docs/component-tailwind-conversion-
+   roadmap.md Batch 2) — border-width/style stay bare (theme-independent).
+   .search-results' z-index (unconditional !important override below) and
+   its mobile max-height, .search-result-item's mobile padding/gap/etc,
+   .sr-word/.sr-transl's mobile-only font-size, and .sr-known's theme/dark
    background all stay bare too. */
 #search-input {
-  border: 1.5px solid var(--border);
-  background: var(--card);
+  border-width: 1.5px;
+  border-style: solid;
   color: var(--text);
-}
-body[data-theme] #search-input {
-  background: var(--panel-glow-bg);
-  border-color: rgba(var(--accent-rgb), 0.2);
 }
 #search-input:focus {
   border-color: var(--accent);
-}
-body[data-theme] #search-input:focus {
-  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.2);
-}
-.search-result-item:hover {
-  background: var(--bg);
 }
 .search-result-item.sr-known {
   background: #f0fdf4;
@@ -2099,17 +2120,15 @@ body.dark .quiz-option.reveal {
    (tailwind-shadcn-migration-roadmap.md Phase 2). No theme overrides
    existed for any of these selectors. */
 
-/* ── Word of the day ── */
-body[data-theme] .wotd-box {
-  background: var(--panel-glow-bg);
-  border-color: rgba(var(--accent-rgb), 0.2);
-}
+/* ── Word of the day ── background/border-color/color/text-shadow fully
+   converted to Tailwind (docs/component-tailwind-conversion-roadmap.md
+   Batch 2). */
 .wotd-box {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--card);
-  border: 1px solid var(--border);
+  border-width: 1px;
+  border-style: solid;
   border-radius: 10px;
   padding: 8px 14px;
   margin-bottom: 8px;
@@ -2131,11 +2150,6 @@ body[data-theme] .wotd-box {
 .wotd-word {
   font-family: 'DM Serif Display', serif;
   font-size: 1.05rem;
-  color: var(--text);
-}
-body[data-theme] .wotd-word {
-  color: var(--accent);
-  text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.3);
 }
 .wotd-tr {
   font-size: 0.78rem;
@@ -3696,40 +3710,20 @@ body[data-theme] .sb-flyout {
    JSX (harmless, and tests/features/duel-chat-log.test.tsx and
    duel-chat-panel.test.tsx select by them), they just carry no CSS of
    their own anymore. */
+/* .page-header/.page-inner/.page-title/.title fully converted to Tailwind
+   (docs/component-tailwind-conversion-roadmap.md Batch 2). */
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 14px;
-  border-bottom: 1px solid var(--border);
-}
-body[data-theme] .page-header {
-  border-color: rgba(var(--accent-rgb), 0.15);
-}
-body[data-theme] .page-inner {
-  border-left: 1px solid rgba(var(--accent-rgb), 0.08);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
 }
 .page-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--text);
-}
-body[data-theme] .page-title {
-  color: var(--accent);
-  font-family: var(--theme-font), monospace;
-  letter-spacing: 0.05em;
-}
-/* .title (header-left.tsx's app title) is entirely Tailwind-authored in
-   the component, no bare CSS counterpart to attach to — same single-rule
-   pattern regardless (docs/theme-css-migration-roadmap.md Фаза 2). */
-body[data-theme] .title {
-  font-family: var(--theme-font), sans-serif;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 1.1rem;
-  color: var(--accent);
-  text-shadow: 0 0 12px rgba(var(--accent-rgb), 0.5);
 }
 .page-close-btn {
   background: none;

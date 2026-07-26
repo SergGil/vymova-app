@@ -96,7 +96,7 @@ export function WordOfDay(): ReactElement {
 
   return (
     <div
-      className="wotd-box header-wotd"
+      className="wotd-box header-wotd bg-[var(--wotd-box-bg)] border-[var(--wotd-box-border)]"
       title={t('cards.wotdTitle')}
       onClick={() => goToWord(word)}
     >
@@ -106,7 +106,9 @@ export function WordOfDay(): ReactElement {
           {imgUrl && <img src={imgUrl} alt={word[0]} onError={() => setImgFailed(true)} />}
         </div>
         <div className="wotd-text">
-          <span className="wotd-word">{front}</span>
+          <span className="wotd-word text-[var(--wotd-word-color)] [text-shadow:var(--wotd-word-shadow)]">
+            {front}
+          </span>
         </div>
       </div>
     </div>

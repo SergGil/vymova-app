@@ -39,14 +39,17 @@ export function PageHeader({
   closeBtnId?: string;
 }): ReactElement {
   return (
-    <div className="page-header">
+    <div className="page-header border-b-[var(--page-header-border)]">
       {icon ? (
-        <div className="page-title">
+        <div className="page-title text-[var(--page-title-color)] [font-family:var(--page-title-font)] [letter-spacing:var(--page-title-tracking)]">
           {icon}{' '}
           <span data-i18n={titleKey}>{t(titleKey)}</span>
         </div>
       ) : (
-        <div className="page-title" data-i18n={titleKey}>
+        <div
+          className="page-title text-[var(--page-title-color)] [font-family:var(--page-title-font)] [letter-spacing:var(--page-title-tracking)]"
+          data-i18n={titleKey}
+        >
           {t(titleKey)}
         </div>
       )}

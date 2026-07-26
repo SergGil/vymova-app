@@ -118,7 +118,7 @@ export function SearchInline(): ReactElement {
         ref={inputRef}
         type="text"
         id="search-input"
-        className="w-full rounded-[10px] py-2 pr-3 pl-8 text-[.85rem] font-[inherit] outline-none transition-[border-color] duration-200"
+        className="w-full rounded-[10px] py-2 pr-3 pl-8 text-[.85rem] font-[inherit] outline-none transition-[border-color] duration-200 bg-[var(--search-input-bg)] border-[var(--search-input-border)] focus:shadow-[var(--search-input-focus-shadow)]"
         placeholder={t('cards.searchPlaceholder')}
         autoComplete="off"
         spellCheck={false}
@@ -160,7 +160,7 @@ export function SearchInline(): ReactElement {
               <div
                 key={h.key}
                 className={
-                  'search-result-item flex cursor-pointer justify-between gap-2 px-3 py-2 text-[.85rem]' +
+                  'search-result-item flex cursor-pointer justify-between gap-2 px-3 py-2 text-[.85rem] hover:bg-[var(--search-result-hover-bg)]' +
                   (isKnown ? ' sr-known' : '') +
                   (i === activeIdx ? ' active' : '')
                 }

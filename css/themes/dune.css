@@ -199,5 +199,24 @@ body[data-theme="dune"] {
   --rd-unknown-border: rgba(231, 76, 60, 0.4);
   --rd-known-bg: rgba(var(--accent-rgb), 0.1);
   --rd-known-border: rgba(var(--accent-rgb), 0.3);
+  --page-header-border: rgba(var(--accent-rgb), 0.15);
+  --page-inner-border: 1px solid rgba(var(--accent-rgb), 0.08);
+  --page-title-color: var(--accent);
+  --page-title-font: var(--theme-font), monospace;
+  --page-title-tracking: 0.05em;
+  --title-font: var(--theme-font), sans-serif;
+  --title-size: 1.1rem;
+  --title-tracking: 0.08em;
+  --title-transform: uppercase;
+  --title-color: var(--accent);
+  --title-shadow: 0 0 12px rgba(var(--accent-rgb), 0.5);
+  /* Reuses --panel-glow-bg (AUX9), already shared with .btn/.gb-block. */
+  --wotd-box-bg: var(--panel-glow-bg);
+  --wotd-box-border: rgba(var(--accent-rgb), 0.2);
+  --wotd-word-color: var(--accent);
+  --wotd-word-shadow: 0 0 8px rgba(var(--accent-rgb), 0.3);
+  --search-input-bg: var(--panel-glow-bg);
+  --search-input-border: rgba(var(--accent-rgb), 0.2);
+  --search-input-focus-shadow: 0 0 10px rgba(var(--accent-rgb), 0.2);
 }
 

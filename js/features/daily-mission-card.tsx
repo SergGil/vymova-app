@@ -45,7 +45,7 @@ export function DailyMissionCard(): ReactElement {
 
   return (
     <div
-      className="wotd-box"
+      className="wotd-box bg-[var(--wotd-box-bg)] border-[var(--wotd-box-border)]"
       title={doneToday ? t('daily.nextIn', { time: countdown }) : t('modesPg.dailyName')}
       onClick={doneToday ? undefined : openDailyMission}
       style={{ cursor: doneToday ? 'default' : 'pointer' }}

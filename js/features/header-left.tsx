@@ -27,7 +27,7 @@ export function HeaderLeft(): ReactElement {
   return (
     <>
       <div className="title-row flex items-center gap-2">
-        <div className="title font-['DM_Serif_Display',serif] text-[1.3rem] leading-[1.2] text-text">
+        <div className="title text-[length:var(--title-size)] leading-[1.2] text-[var(--title-color)] [font-family:var(--title-font)] [letter-spacing:var(--title-tracking)] [text-transform:var(--title-transform)] [text-shadow:var(--title-shadow)]">
           Vymova
         </div>
         <button

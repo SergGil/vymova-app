@@ -311,7 +311,7 @@ export function DailyChallenge(): ReactElement | null {
       id="dc-overlay"
       className="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-bg [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]"
     >
-      <div className="page-inner mx-auto max-w-[520px] px-6 pt-5 pb-8">
+      <div className="page-inner border-l-[var(--page-inner-border)] mx-auto max-w-[520px] px-6 pt-5 pb-8">
         <div className="mb-3 flex items-center justify-between">
           <div id="dc-title" className="page-title">
             ⚡ Місія дня

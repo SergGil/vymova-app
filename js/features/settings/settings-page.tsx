@@ -40,7 +40,7 @@ const sectionTitleCls = 'settings-section-title text-[var(--section-title-color,
 
 export function SettingsPage(): ReactElement {
   return (
-    <div className="page-inner mx-auto max-w-[760px] px-6 pt-5 pb-8">
+    <div className="page-inner border-l-[var(--page-inner-border)] mx-auto max-w-[760px] px-6 pt-5 pb-8">
       <PageHeader titleKey="settings.pageTitle" />
 
       {/* Теми / зовнішній вигляд */}
@@ -228,7 +228,7 @@ export function SettingsPage(): ReactElement {
       </div>
 
       <div className="settings-footer mt-1 mb-2 text-center text-[.72rem] text-[var(--text3)]">
-        © 2026 Vymova · v1.401.42 ·{' '}
+        © 2026 Vymova · v1.401.43 ·{' '}
         <a
           href="./privacy.html"
           target="_blank"
