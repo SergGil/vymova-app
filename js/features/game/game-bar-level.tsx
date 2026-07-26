@@ -54,19 +54,19 @@ export function GameBarLevel(): ReactElement {
         >
           {t('levels.mobileLabel')}
         </span>
-        <span className="gb-level-arrow">→</span>
-        <span className="gb-level-next">{nextText}</span>
+        <span className="gb-level-arrow text-[var(--gb-level-arrow-color)]">→</span>
+        <span className="gb-level-next text-[var(--gb-level-next-color)]">{nextText}</span>
         <span className="gb-level-num" style={{ color: lv.color }}>
           {lvIdx}
         </span>
       </div>
-      <div className="gb-level-track overflow-hidden rounded-sm">
+      <div className="gb-level-track overflow-hidden rounded-sm bg-[var(--gb-level-track-bg)]">
         <div
-          className="gb-level-fill h-full rounded-sm [background:var(--fill-glow-bg,linear-gradient(90deg,#5dade2,#27ae60))] [transition:width_.5s_ease]"
+          className="gb-level-fill h-full rounded-sm [background:var(--fill-glow-bg,linear-gradient(90deg,#5dade2,#27ae60))] shadow-[var(--gb-level-fill-shadow)] [transition:width_.5s_ease]"
           style={{ width: fillPct + '%', background: fillBg }}
         />
       </div>
-      <div className="gb-level-xp">{xpText}</div>
+      <div className="gb-level-xp text-[var(--gb-level-xp-color)]">{xpText}</div>
     </div>
   );
 }

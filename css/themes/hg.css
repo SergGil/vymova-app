@@ -237,5 +237,18 @@ body[data-theme="hg"] {
      .gb-label, needs the SW value restated here too. */
   --gb-streak-num-color: var(--accent);
   --gb-streak-num-shadow: 0 0 8px rgba(255, 159, 67, 0.6);
+  --gb-goal-block-border: rgba(var(--accent-rgb), 0.3);
+  --gb-level-block-border: rgba(var(--accent-rgb), 0.3);
+  /* No distinct fandom box-shadow rule exists for .gb-level-block (only
+     border-color does) — restate the SW value, same 4th-bug-class shape
+     as .gb-streak-num-shadow above. */
+  --gb-level-block-shadow: 0 0 12px rgba(255, 215, 0, 0.06), inset 0 0 20px
+      rgba(0, 0, 0, 0.3);
+  --gb-level-arrow-color: var(--gb-goal-sep-color);
+  /* No distinct fandom rule for .gb-level-next/.gb-level-xp color either
+     — same 4th-bug-class shape. */
+  --gb-level-next-color: rgba(200, 230, 255, 0.5);
+  --gb-level-xp-color: #6a8fa8;
+  --gb-level-fill-shadow: 0 0 6px rgba(var(--accent-rgb), 0.4);
 }
 

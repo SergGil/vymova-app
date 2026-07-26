@@ -184,6 +184,9 @@
      game-bar map for the full layer analysis. */
   --gb-block-bg: var(--card);
   --gb-block-border: var(--border);
+  /* Not itself theme/dark-touched — same value everywhere except on the
+     .gb-level-block instance, which overrides it with its own token. */
+  --gb-block-shadow: var(--shadow);
   /* No distinct fandom rule exists for .gb-label — the "always active"
      SW value already applies unconditionally whenever light-reversion
      doesn't (i.e. in BOTH dark-no-fandom AND fandom states alike). */
@@ -196,6 +199,27 @@
   --gb-streak-block-border: rgba(230, 126, 34, 0.35);
   --gb-streak-num-color: #e67e22;
   --gb-streak-num-shadow: none;
+  /* No light-reversion for .gb-goal-block's border-color either — same
+     2-state shape as .gb-streak-block. */
+  --gb-goal-block-border: rgba(0, 200, 255, 0.25);
+  --gb-level-block-border: var(--border);
+  --gb-level-block-shadow: var(--shadow);
+  /* .gb-level-arrow's base var(--text3) never actually wins in any real
+     state (SW-always ties it on specificity and wins by source order,
+     even in plain light/default — a pre-existing quirk, not introduced
+     by this migration), so :root's default is the SW literal directly,
+     not var(--text3). */
+  --gb-level-arrow-color: rgba(200, 230, 255, 0.35);
+  --gb-level-next-color: var(--text3);
+  --gb-level-xp-color: var(--text3);
+  /* .gb-level-track's base var(--border) never wins either (same
+     specificity-tie-by-order shape) — SW-always's literal is the only
+     value that ever actually renders, in every theme/dark state, so it's
+     just one value everywhere, not a real 3-state split. */
+  --gb-level-track-bg: rgba(0, 30, 60, 0.6);
+  /* No light-reversion exists for .gb-level-fill's box-shadow either —
+     same 2-state shape (fandom vs everywhere-else) as .gb-goal-block. */
+  --gb-level-fill-shadow: 0 0 6px currentColor, 0 0 12px rgba(255, 215, 0, 0.2);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -1017,6 +1041,7 @@ body.dark {
      the pre-existing dedicated body.dark .search-result-item:hover rule. */
   --search-result-hover-bg: var(--border);
   --gb-goal-sep-color: var(--text3);
+  --gb-block-shadow: var(--shadow);
   /* Dark-no-fandom shows the "always active" SW-cockpit look — a
      pre-existing quirk, not something this migration introduces (dark
      mode never had its own game-bar override; the SW-always bare rule
@@ -1028,6 +1053,11 @@ body.dark {
   --gb-label-size: 0.7rem;
   --gb-streak-num-color: #ff9f43;
   --gb-streak-num-shadow: 0 0 8px rgba(255, 159, 67, 0.6);
+  --gb-level-block-border: rgba(255, 215, 0, 0.2);
+  --gb-level-block-shadow: 0 0 12px rgba(255, 215, 0, 0.06), inset 0 0 20px
+      rgba(0, 0, 0, 0.3);
+  --gb-level-next-color: rgba(200, 230, 255, 0.5);
+  --gb-level-xp-color: #6a8fa8;
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -2938,12 +2968,18 @@ body.dark .btn-modes-open:hover {
    SW-cockpit and light-reversion layers for these two properties were
    deleted together with this rule and the fandom one below, so no
    unlayered layer is left competing with the new Tailwind class. */
+/* box-shadow ALSO moved to Tailwind (--gb-block-shadow) even though it's
+   not itself theme-touched — kept as bare var(--shadow) here would
+   permanently mask .gb-level-block's own theme-touched box-shadow
+   conversion on the shared element (unlayered bare CSS always beats a
+   layered Tailwind class regardless of specificity), the same masking
+   .gb-streak-block/.gb-goal-block/.gb-level-block's border-color already
+   needed a per-instance class swap for. */
 .gb-block {
   border-width: 1px;
   border-style: solid;
   border-radius: 12px;
   padding: 10px 14px;
-  box-shadow: var(--shadow);
   min-width: 0;
 }
 
@@ -2981,13 +3017,11 @@ body.dark .btn-modes-open:hover {
   min-height: 14px;
 }
 
-/* Block 2: Daily Goal */
+/* Block 2: Daily Goal — border-color fully converted to Tailwind
+   (docs/component-tailwind-conversion-roadmap.md, game-bar atomic pass). */
 .gb-goal-block {
   flex: 1.3;
   text-align: center;
-}
-body[data-theme] .gb-goal-block {
-  border-color: rgba(var(--accent-rgb), 0.3);
 }
 
 /* Block 2.5: Word of the day — reuses .header-wotd markup, but strips its
@@ -3096,11 +3130,10 @@ body[data-theme] .gb-goal-block {
    height/border-radius/transition/background (box-shadow stays, SW-only),
    and .gb-level-track's border-radius/overflow (height/background stay —
    touched by the SW override and the mobile redesign). */
+/* border-color/box-shadow fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md, game-bar atomic pass). */
 .gb-level-block {
   flex: 1.5;
-}
-body[data-theme] .gb-level-block {
-  border-color: rgba(var(--accent-rgb), 0.3);
 }
 .gb-level-clickable:hover .level-badge {
   filter: brightness(1.08);
@@ -3116,37 +3149,28 @@ body[data-theme] .gb-level-block {
   opacity: 0.7;
   margin-left: auto;
 }
+/* color fully converted to Tailwind (docs/component-tailwind-conversion-
+   roadmap.md, game-bar atomic pass). */
 .gb-level-arrow {
   font-size: 0.62rem;
-  color: var(--text3);
   flex-shrink: 0;
-}
-body[data-theme] .gb-level-arrow {
-  color: var(--gb-goal-sep-color);
 }
 .gb-level-next {
   font-size: 0.68rem;
-  color: var(--text3);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   flex: 1;
   min-width: 0;
 }
+/* background fully converted to Tailwind too (same pass). */
 .gb-level-track {
   height: 6px;
-  background: var(--border);
 }
-/* background fully converted to Tailwind (docs/component-tailwind-
-   conversion-roadmap.md game-bar-safe list). box-shadow stays bare and
-   deferred — it's part of the game-bar "always active" SW-cockpit trap
-   (needs atomic multi-layer conversion, not this simple pattern). */
-body[data-theme] .gb-level-fill {
-  box-shadow: 0 0 6px rgba(var(--accent-rgb), 0.4);
-}
+/* .gb-level-fill's background moved earlier (game-bar-safe list);
+   box-shadow moved here too, same pass as .gb-level-block's. */
 .gb-level-xp {
   font-size: 0.62rem;
-  color: var(--text3);
   text-align: right;
   margin-top: 2px;
 }
@@ -3201,9 +3225,9 @@ body[data-theme] .gb-level-fill {
     inset 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Goal block: teal/rebel accent */
+/* Goal block: teal/rebel accent — border-color moved to
+   --gb-goal-block-border (docs/component-tailwind-conversion-roadmap.md). */
 .gb-goal-block {
-  border-color: rgba(0, 200, 255, 0.25);
   box-shadow:
     0 0 12px rgba(0, 200, 255, 0.06),
     inset 0 0 20px rgba(0, 0, 0, 0.3);
@@ -3226,13 +3250,9 @@ body[data-theme] .gb-level-fill {
   box-shadow: 0 0 8px rgba(57, 211, 83, 0.25);
 }
 
-/* Level block: gold/force theme */
-.gb-level-block {
-  border-color: rgba(255, 215, 0, 0.2);
-  box-shadow:
-    0 0 12px rgba(255, 215, 0, 0.06),
-    inset 0 0 20px rgba(0, 0, 0, 0.3);
-}
+/* Level block: gold/force theme — border-color/box-shadow moved to
+   --gb-level-block-border/-shadow (docs/component-tailwind-conversion-
+   roadmap.md). */
 
 /* Level badge: SW style */
 .gb-level-block .level-badge {
@@ -3249,26 +3269,16 @@ body[data-theme] .gb-level-fill {
   max-width: 55%;
 }
 
+/* .gb-level-next/.gb-level-arrow color, .gb-level-track background,
+   .gb-level-fill box-shadow, .gb-level-xp color — all moved to their
+   respective custom properties (docs/component-tailwind-conversion-
+   roadmap.md, game-bar atomic pass). */
 .gb-level-next {
-  color: rgba(200, 230, 255, 0.5);
   font-size: 0.7rem;
-}
-.gb-level-arrow {
-  color: rgba(200, 230, 255, 0.35);
 }
 
 /* Level XP bar */
-.gb-level-track {
-  background: rgba(0, 30, 60, 0.6);
-  height: 6px;
-}
-.gb-level-fill {
-  box-shadow:
-    0 0 6px currentColor,
-    0 0 12px rgba(255, 215, 0, 0.2);
-}
 .gb-level-xp {
-  color: #6a8fa8;
   font-size: 0.62rem;
   font-family: 'DM Sans', sans-serif;
 }
@@ -3294,19 +3304,6 @@ body:not(.dark):not([data-theme])
   color: #fff;
   border: none;
   box-shadow: none;
-}
-body:not(.dark):not([data-theme])
-  .gb-level-block {
-  border-color: var(--border);
-  box-shadow: var(--shadow);
-}
-body:not(.dark):not([data-theme])
-  .gb-level-next {
-  color: var(--text3);
-}
-body:not(.dark):not([data-theme])
-  .gb-level-xp {
-  color: var(--text3);
 }
 
 /* ── SW theme: extra glow ── */

@@ -15,12 +15,12 @@ import { WordOfDay } from '../word-data/word-of-day.tsx';
 export function GameBar(): ReactElement {
   return (
     <div className="game-bar-3 mb-2.5 flex gap-2" id="game-bar">
-      <div className="gb-block gb-streak-block [background:var(--gb-block-bg)] border-[var(--gb-streak-block-border)]">
+      <div className="gb-block gb-streak-block [background:var(--gb-block-bg)] border-[var(--gb-streak-block-border)] shadow-[var(--gb-block-shadow)]">
         <GameBarStreak />
         <ComboBox />
       </div>
 
-      <div className="gb-block gb-goal-block [background:var(--gb-block-bg)] border-[var(--gb-block-border)]">
+      <div className="gb-block gb-goal-block [background:var(--gb-block-bg)] border-[var(--gb-goal-block-border)] shadow-[var(--gb-block-shadow)]">
         <div className="gb-goal-header">
           <span
             className="gb-label text-[var(--gb-label-color)] [text-transform:var(--gb-label-transform)] text-[length:var(--gb-label-size)]"
@@ -40,12 +40,12 @@ export function GameBar(): ReactElement {
         <GameBarGoal />
       </div>
 
-      <div className="gb-block gb-wotd-block [background:var(--gb-block-bg)] border-[var(--gb-block-border)]">
+      <div className="gb-block gb-wotd-block [background:var(--gb-block-bg)] border-[var(--gb-block-border)] shadow-[var(--gb-block-shadow)]">
         <WordOfDay />
       </div>
 
       <div
-        className="gb-block gb-level-block [background:var(--gb-block-bg)] border-[var(--gb-block-border)]"
+        className="gb-block gb-level-block [background:var(--gb-block-bg)] border-[var(--gb-level-block-border)] shadow-[var(--gb-level-block-shadow)]"
         id="level-box"
         title={t('cards.levelProgressTitle')}
         data-i18n-title="cards.levelProgressTitle"
