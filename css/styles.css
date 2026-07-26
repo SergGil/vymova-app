@@ -236,6 +236,23 @@
   --goal-done-badge-bg: #27ae60;
   --goal-done-badge-border: none;
   --goal-done-badge-shadow: none;
+  /* Batch 4 (dual-system clusters). --ach-card-bg (AUX29) already existed
+     fandom-side only — adding the missing light/dark defaults here rather
+     than a new token name. Its border-color rule applied to EVERY
+     .ach-card (locked and unlocked alike), including in fandom mode,
+     which was still bare CSS until now — meaning it was silently masking
+     .ach-card.unlocked's own border conversion from the earlier
+     achievements-page.tsx pass (unlayered always wins regardless of
+     specificity), a bug not caught then because the test profile had no
+     unlocked achievements to render. */
+  --ach-card-bg: var(--bg);
+  --ach-card-border: var(--border);
+  --btn-achievements-color: #d4ac0d;
+  --btn-achievements-shadow: none;
+  --sb-btn-hover-bg: var(--bg);
+  --sb-btn-hover-color: var(--text);
+  --sb-flyout-bg: var(--card);
+  --sb-flyout-border: var(--border);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -1084,6 +1101,19 @@ body.dark {
   --goal-done-badge-bg: linear-gradient(90deg, #1a5c2a, #27ae60);
   --goal-done-badge-border: 1px solid rgba(57, 211, 83, 0.4);
   --goal-done-badge-shadow: 0 0 8px rgba(57, 211, 83, 0.25);
+  /* Real dark-specific value, not the light formula restated — matches
+     the pre-existing dedicated body.dark .ach-card rule. */
+  --ach-card-bg: rgba(255, 255, 255, 0.04);
+  --ach-card-border: var(--border);
+  --btn-achievements-color: #ffd700;
+  --sb-btn-hover-bg: rgba(255, 255, 255, 0.06);
+  /* :hover's color isn't touched by body.dark specifically (only fandom
+     touches it) — still needs restating here so the base var(--text)
+     formula recomputes using body.dark's own --text (formula-staleness
+     rule). */
+  --sb-btn-hover-color: var(--text);
+  --sb-flyout-bg: #0e1c2e;
+  --sb-flyout-border: rgba(255, 255, 255, 0.08);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -1324,13 +1354,8 @@ body[data-theme] .search-result-item.sr-known {
    .toast-name/.toast-icon), and being unlayered legacy CSS they keep
    winning over the new Tailwind utilities regardless of source order. */
 
-body.dark .ach-card {
-  background: rgba(255, 255, 255, 0.04);
-}
-body[data-theme] .ach-card {
-  background: var(--ach-card-bg);
-  border-color: rgba(var(--accent-rgb), 0.1);
-}
+/* background/border-color fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md, Batch 4 dual-system). */
 
 /* ── Свайп анімація ── */
 #card {
@@ -3328,27 +3353,13 @@ body:not(.dark):not([data-theme])
 
 /* ── SW theme: extra glow ── */
 
-/* ── Achievements button ── */
-.btn-achievements {
-  border-color: #d4ac0d;
-  color: #d4ac0d;
-}
+/* ── Achievements button ── border-color/color fully converted to
+   Tailwind (docs/component-tailwind-conversion-roadmap.md, Batch 4) —
+   both properties always share the same value at every state, so one
+   token (--btn-achievements-color) drives both. */
 .btn-achievements:hover {
   background: rgba(212, 172, 13, 0.08);
   box-shadow: 0 0 10px rgba(212, 172, 13, 0.2);
-}
-/* Constant across all 14 fandom themes (not per-theme accent — this one's
-   gold regardless of which theme is active), so no --accent needed, just
-   a literal value in the single replacement rule
-   (docs/theme-css-migration-roadmap.md Фаза 2). */
-body[data-theme] .btn-achievements {
-  border-color: #ffd700;
-  color: #ffd700;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.25);
-}
-body.dark .btn-achievements {
-  border-color: #ffd700;
-  color: #ffd700;
 }
 
 /* ══ Profile System ══════════════════════════════════════════════ */
@@ -3503,21 +3514,12 @@ body[data-theme="hp"] .sidebar-logo {
   text-decoration: none;
   transition: all 0.15s;
 }
-.sb-btn:hover {
-  background: var(--bg);
-  color: var(--text);
-}
+/* :hover's background/color fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md, Batch 4). */
 .sb-btn.sb-active {
   background: rgba(var(--accent-rgb), 0.12);
   color: var(--accent);
   font-weight: 600;
-}
-body.dark .sb-btn:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-body[data-theme] .sb-btn:hover {
-  background: rgba(var(--accent-rgb), 0.08);
-  color: var(--profile-name-color); /* same AUX14 value as .profile-btn */
 }
 /* .sb-icon/.sb-label moved to Tailwind utility classes in
    sidebar-nav.tsx/fandom-theme-rows.tsx/index.html's #set-theme row (no
@@ -3536,11 +3538,13 @@ body[data-theme] .sb-btn:hover {
   flex-shrink: 0;
 }
 
+/* background/border-color fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md, Batch 4). */
 .sb-flyout {
   position: fixed;
   min-width: 210px;
-  background: var(--card);
-  border: 1px solid var(--border);
+  border-width: 1px;
+  border-style: solid;
   border-radius: 10px;
   padding: 6px;
   display: none;
@@ -3551,14 +3555,6 @@ body[data-theme] .sb-btn:hover {
 }
 .sb-flyout.open {
   display: flex;
-}
-body.dark .sb-flyout {
-  background: #0e1c2e;
-  border-color: rgba(255, 255, 255, 0.08);
-}
-body[data-theme] .sb-flyout {
-  background: var(--sidebar-bg); /* same AUX16 value as .sidebar/.ach-popup */
-  border-color: rgba(var(--accent-rgb), 0.14);
 }
 
 @media (max-width: 900px) {

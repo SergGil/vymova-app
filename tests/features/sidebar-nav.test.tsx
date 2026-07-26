@@ -118,10 +118,18 @@ describe('<SidebarNav/>', () => {
       document.getElementById('sidebar-logo-mount')!.innerHTML,
       ORIGINAL_LOGO_HTML,
     );
-    expectStructuralParity(
-      document.getElementById('sidebar-nav-mount')!.innerHTML,
-      ORIGINAL_NAV_HTML,
-    );
+    // docs/component-tailwind-conversion-roadmap.md Batch 4 added theme-
+    // driven Tailwind classes (.sb-btn's hover:.../.sb-flyout's bg-.../
+    // border-...) — a deliberate, later change unrelated to the original
+    // static-markup-to-JSX port this test guards. Stripped before
+    // comparing, same approach as mode-card-grid.test.tsx.
+    const actualNavHtml = document
+      .getElementById('sidebar-nav-mount')!
+      .innerHTML.replace(
+        / (?:hover:bg|hover:text|bg|border)-\[var\(--sb-(?:btn-hover|flyout)-[a-z-]*\)\]/g,
+        '',
+      );
+    expectStructuralParity(actualNavHtml, ORIGINAL_NAV_HTML);
   });
 
   it('does not render the AI-tutor-gated items when AI_TUTOR_ENABLED is false', () => {

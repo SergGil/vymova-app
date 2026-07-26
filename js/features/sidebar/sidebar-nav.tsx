@@ -157,7 +157,10 @@ function NavLink({
   const isActive = activePage === item.page;
   return (
     <a
-      className={isActive ? 'sb-btn sb-active' : 'sb-btn'}
+      className={
+        (isActive ? 'sb-btn sb-active' : 'sb-btn') +
+        ' hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]'
+      }
       id={item.id}
       href={BASE + item.route}
       onClick={navClick(() => openPage(item.page))}
@@ -189,14 +192,21 @@ function NavGroup({
 }): ReactElement {
   return (
     <div className="sb-group" id={groupId}>
-      <button type="button" className="sb-btn sb-group-trigger" id={triggerId}>
+      <button
+        type="button"
+        className="sb-btn sb-group-trigger hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]"
+        id={triggerId}
+      >
         <span className="sb-icon w-[22px] shrink-0 text-center text-base">{icon}</span>
         <span className="sb-label flex-1" data-i18n={labelKey}>
           {t(labelKey)}
         </span>
         <span className="sb-caret">›</span>
       </button>
-      <div className="sb-flyout" id={flyoutId}>
+      <div
+        className="sb-flyout bg-[var(--sb-flyout-bg)] border-[var(--sb-flyout-border)]"
+        id={flyoutId}
+      >
         {items.map((item) => (
           <NavLink key={item.id} item={item} activePage={activePage} />
         ))}
@@ -235,7 +245,10 @@ export function SidebarNav(): ReactElement {
       </Portal>
       <Portal id="sidebar-nav-mount">
         <a
-          className={cardsActive ? 'sb-btn sb-active' : 'sb-btn'}
+          className={
+            (cardsActive ? 'sb-btn sb-active' : 'sb-btn') +
+            ' hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]'
+          }
           id="sb-cards"
           href={BASE + '/'}
           onClick={navClick(goHome)}

@@ -232,7 +232,7 @@ export function CardShell(): ReactElement {
             style={{ display: 'none' }}
           ></button>
           <button
-            className="btn btn-achievements"
+            className="btn btn-achievements !text-[var(--btn-achievements-color)] !border-[var(--btn-achievements-color)] shadow-[var(--btn-achievements-shadow)]"
             id="btn-achievements"
             title="Досягнення"
             data-i18n-title="cards.achievementsTitle"

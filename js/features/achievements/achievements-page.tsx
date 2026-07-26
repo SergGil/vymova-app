@@ -225,10 +225,10 @@ function AchievementsGrid({
                 <div
                   key={a.id}
                   className={
-                    'ach-card relative cursor-pointer overflow-hidden rounded-[12px] border-[1.5px] bg-bg pb-2.5 pl-2.5 pr-2.5 pt-3 text-center transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] ' +
+                    'ach-card relative cursor-pointer overflow-hidden rounded-[12px] border-[1.5px] bg-[var(--ach-card-bg)] pb-2.5 pl-2.5 pr-2.5 pt-3 text-center transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] ' +
                     (isUnlocked
                       ? "unlocked border-[var(--ach-card-unlocked-border)] shadow-[var(--ach-card-unlocked-shadow)] after:absolute after:right-[7px] after:top-[5px] after:text-[0.62rem] after:font-bold after:text-accent after:content-['✓']"
-                      : 'locked border-border opacity-50 grayscale-[50%]')
+                      : 'locked border-[var(--ach-card-border)] opacity-50 grayscale-[50%]')
                   }
                   onClick={(e) => {
                     e.stopPropagation();
