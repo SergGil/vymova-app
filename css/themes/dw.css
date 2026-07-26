@@ -151,6 +151,14 @@ body[data-theme="dw"] {
     0 0 20px rgba(var(--accent-rgb), 0.1),
     0 4px 30px rgba(0, 0, 0, 0.7),
     inset 0 0 40px rgba(var(--accent-rgb), 0.03);
+  /* .card.is-known .card-face's non-is-known-specific defaults (Batch 6)
+     — formula restatement so they recompute from this theme's own
+     --card-face-bg-image/--card/--card-face-shadow instead of :root's
+     already-resolved light value. The actual is-known override lives in
+     the dedicated body[data-theme="dw"] .card.is-known block below. */
+  --known-face-border: var(--card-face-border);
+  --known-face-bg: var(--card-face-bg-image) var(--card);
+  --known-face-shadow: var(--card-face-shadow);
   /* .btn-know/.hard/.dontknow/.easy (Batch 6) — fixed neon colors,
      identical across all 14 themes (never derived from --accent), same
      as the pre-existing css/styles.css comment on this cluster said
@@ -316,5 +324,19 @@ body[data-theme="dw"] {
   --sb-btn-hover-color: var(--profile-name-color); /* same AUX14 value as .profile-btn */
   --sb-flyout-bg: var(--sidebar-bg); /* same AUX16 value as .sidebar/.ach-popup */
   --sb-flyout-border: rgba(var(--accent-rgb), 0.14);
+}
+
+/* .card.is-known .card-face's fandom override (Batch 6) — fixed neon
+   green across all 14 themes (never derived from --accent), same shape
+   as .btn-know above. Doesn't touch background/shadow with a real
+   override value — reverts them to the ambient (non-known) composed/
+   self-referencing default instead, so known cards in fandom mode keep
+   the regular themed .card-face texture/glow, just with a green border. */
+body[data-theme="dw"] .card.is-known {
+  --known-face-border: rgba(57, 211, 83, 0.4);
+  --known-face-bg: var(--card-face-bg-image) var(--card);
+  --known-face-shadow:
+    0 0 25px rgba(57, 211, 83, 0.2),
+    0 4px 30px rgba(0, 0, 0, 0.7);
 }
 

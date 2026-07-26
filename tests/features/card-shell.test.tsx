@@ -182,13 +182,16 @@ describe('<CardShell/>', () => {
     // (text-.../border-.../shadow-...) — a deliberate, later change
     // unrelated to the original static-markup-to-JSX port this test
     // guards. Stripped before comparing, same approach as
-    // mode-card-grid.test.tsx. Batch 5 similarly added .card-face's
-    // border-[...]/shadow-[...]/[background-image:...] and before:/after:
+    // mode-card-grid.test.tsx. Batch 5 added .card-face's before:/after:
     // corner-bracket classes. Batch 6 added the same shape of classes to
     // #btn-know/#btn-hard/#btn-dontknow/#btn-easy, plus a shared
     // --btn-hover-border-fallback token reused by all of them (including
     // the earlier Batch 4 buttons, retrofitted at the same time — see the
-    // roadmap doc for why the hover-scoped override was needed).
+    // roadmap doc for why the hover-scoped override was needed). Batch 6
+    // also replaced .card-face's plain border-[...]/shadow-[...]/
+    // [background-image:...] classes with !-important --known-face-*
+    // ones (self-referencing/composed defaults reproduce the exact same
+    // values when the card isn't known — see the roadmap doc).
     const actualHtml = document
       .getElementById('card-scene-mount')!
       .innerHTML.replace(
@@ -196,9 +199,11 @@ describe('<CardShell/>', () => {
         '',
       )
       .replace(/ (?:before|after):\S+/g, '')
-      .replace(/ border-\[var\(--card-face-border\)\]/g, '')
-      .replace(/ shadow-\[var\(--card-face-shadow\)\]/g, '')
-      .replace(/ \[background-image:var\(--card-face-bg-image\)\]/g, '');
+      .replace(/ !border-solid/g, '')
+      .replace(/ !border-\[length:var\(--known-face-border-width\)\]/g, '')
+      .replace(/ !border-\[var\(--known-face-border\)\]/g, '')
+      .replace(/ !\[background:var\(--known-face-bg\)\]/g, '')
+      .replace(/ !shadow-\[var\(--known-face-shadow\)\]/g, '');
     expectStructuralParity(actualHtml, `<div class="card-scene">${ORIGINAL_CARD_SCENE_HTML}</div>`);
   });
 });

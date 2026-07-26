@@ -378,6 +378,24 @@
   --pair-matched-bg: #eafaf1;
   --pair-matched-color: #1a5e34;
   --pair-wrong-border: #e74c3c;
+  /* .card.is-known .card-face (Batch 6, last cluster) — the trickiest
+     conversion this session: unlike every other cluster, the KNOWN state
+     must NOT touch background/shadow at all in fandom mode (known cards
+     there keep the ambient .card-face texture/glow, just a green border).
+     Solved with self-referencing / composed defaults instead of JS: each
+     token defaults to whatever .card-face's own (already Tailwind-owned)
+     value is, so applying these classes unconditionally is a no-op until
+     .card.is-known's cascade layer actually overrides them — no need for
+     CardShell to know about "is known" at all, same as it never needed
+     to know about "is fandom active" for any earlier cluster.
+     --known-face-bg's default composes --card-face-bg-image (the
+     Batch-5 scanline token) with --card, reproducing .card-face's own
+     background exactly — since there's no single unified token for that
+     background to just self-reference the way shadow/border-color can. */
+  --known-face-border-width: 1px;
+  --known-face-border: var(--card-face-border);
+  --known-face-bg: var(--card-face-bg-image) var(--card);
+  --known-face-shadow: var(--card-face-shadow);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -949,10 +967,11 @@ body[data-theme] .btn:hover {
   background: #f3eef9;
 }
 
-.card.is-known .card-face {
-  background: linear-gradient(135deg, #f0faf4 0%, #e8f5ed 100%) !important;
-  border: 1.5px solid #6dbf8a !important;
-}
+/* .card-face's border-width/border-color/background/box-shadow while
+   known (light+dark+fandom) fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md Batch 6, last cluster) — see the
+   --known-face-* token comments in the :root block for how fandom mode
+   avoids inheriting the light/dark gradient. */
 .card.is-known .card-tag {
   background: #27ae60;
   color: #fff;
@@ -977,12 +996,17 @@ body[data-theme] .btn:hover {
   --known-c2: #1f5233; /* ex-en, ex-ua, sense-example(+i) */
   --known-c3: #2e7a4a; /* speak-btn, card-num, sense-pos */
   --known-c4: #0e6632; /* ex-en b, known-badge */
+  --known-face-border-width: 1.5px;
+  --known-face-border: #6dbf8a;
+  --known-face-bg: linear-gradient(135deg, #f0faf4 0%, #e8f5ed 100%);
 }
 body.dark .card.is-known {
   --known-c1: #b8f0cc;
   --known-c2: #8fd4a8;
   --known-c3: #4ecca3;
   --known-c4: #4ecca3;
+  --known-face-border: #2d8a52;
+  --known-face-bg: linear-gradient(135deg, #0d2e1c, #0a2318);
 }
 .card.is-known .word-text {
   color: var(--known-c1);
@@ -1275,6 +1299,9 @@ body.dark {
   --quiz-reveal-color: #4ecca3;
   --pair-matched-bg: rgba(39, 174, 96, 0.15);
   --pair-matched-color: #4ecca3;
+  --known-face-border: var(--card-face-border);
+  --known-face-bg: var(--card-face-bg-image) var(--card);
+  --known-face-shadow: var(--card-face-shadow);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -1725,18 +1752,14 @@ body.dark .btn:hover {
   border-radius: 0 !important;
 }
 /* .card-face — лицьовий бік картки */
-/* background-color (not the `background` shorthand) — the shorthand form
-   unconditionally resets background-image to `none` for any sub-property
-   it doesn't mention, which silently masked the new Tailwind
-   [background-image:var(--card-face-bg-image)] class below (caught via
-   Playwright showing background-image: none even in fandom mode, where
-   the custom property itself correctly held the scanline gradient). */
+/* background-color/border-width fully superseded by the Batch 6
+   --known-face-* Tailwind classes on the component (their :root defaults
+   self-reference/compose to reproduce these exact values when the card
+   isn't known, so removing the bare declarations here is a pure no-op
+   for the non-known case — see the JSX className for the full story). */
 .card-face {
   position: relative;
-  background-color: var(--card);
   border-radius: 16px;
-  border-width: 1px;
-  border-style: solid;
   padding: 18px;
   min-height: 200px;
   user-select: text;
@@ -1744,37 +1767,12 @@ body.dark .btn:hover {
 }
 /* Corner-bracket decoration + subtle scanline texture + glow border fully
    converted to Tailwind before:/after: variants on .card-face itself
-   (docs/component-tailwind-conversion-roadmap.md Batch 5) — no body.dark
-   counterpart for the non-known state, so no source-order constraint
-   here (unlike the is-known rule below). */
-body.dark .card.is-known .card-face {
-  background: linear-gradient(135deg, #0d2e1c, #0a2318) !important;
-  border-color: #2d8a52 !important;
-}
-/* Fixed neon green across all 14 themes (not per-theme accent), same
-   shape as the .btn-know cluster (docs/theme-css-migration-roadmap.md
-   Фаза 5) — but unlike .btn-know, `!important` genuinely IS load-bearing
-   on border-color here: the LIGHT-mode base `.card.is-known .card-face`
-   rule above (line ~643) also uses `!important` on its `border`
-   shorthand, not just body.dark, so a plain border-color here loses to
-   it regardless of specificity (verified via Playwright — removing
-   !important left every combination showing the base/dark border color,
-   never the fandom green). box-shadow has no competing !important rule
-   anywhere for this selector, confirmed safe without it. Also MUST stay
-   physically after the body.dark rule above: body[data-theme]
-   .card.is-known .card-face and body.dark .card.is-known .card-face tie
-   at equal specificity (0,4,1) once both are !important, so the winner
-   is still decided by source order (see the .btn-know commit for the
-   same lesson). Doesn't touch `background` at all — known cards in
-   fandom mode keep the regular themed .card-face texture above, just
-   with a green glow border instead of dark mode's green background
-   gradient. */
-body[data-theme] .card.is-known .card-face {
-  border-color: rgba(57, 211, 83, 0.4) !important;
-  box-shadow:
-    0 0 25px rgba(57, 211, 83, 0.2),
-    0 4px 30px rgba(0, 0, 0, 0.7);
-}
+   (docs/component-tailwind-conversion-roadmap.md Batch 5). The is-known
+   state's dark/fandom border-color/background/box-shadow overrides (this
+   used to be the trickiest source-order-tie spot in the whole file) are
+   now driven entirely by the --known-face-* tokens set on .card.is-known/
+   body.dark .card.is-known/body[data-theme] .card.is-known (Batch 6) —
+   no bare CSS left here at all. */
 
 /* ── Прогрес-кільце ── */
 .ring-wrap {
