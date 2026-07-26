@@ -184,11 +184,15 @@ describe('<CardShell/>', () => {
     // guards. Stripped before comparing, same approach as
     // mode-card-grid.test.tsx. Batch 5 similarly added .card-face's
     // border-[...]/shadow-[...]/[background-image:...] and before:/after:
-    // corner-bracket classes.
+    // corner-bracket classes. Batch 6 added the same shape of classes to
+    // #btn-know/#btn-hard/#btn-dontknow/#btn-easy, plus a shared
+    // --btn-hover-border-fallback token reused by all of them (including
+    // the earlier Batch 4 buttons, retrofitted at the same time — see the
+    // roadmap doc for why the hover-scoped override was needed).
     const actualHtml = document
       .getElementById('card-scene-mount')!
       .innerHTML.replace(
-        / !?(?:hover:)?!?(?:text|border|shadow|bg)-\[var\(--(?:btn-achievements|btn-auto|btn-modes-open)-[a-z-]*\)\]/g,
+        / !?(?:hover:)?!?(?:text|border|shadow|bg)-\[var\(--(?:btn-achievements|btn-auto|btn-modes-open|btn-know|btn-hard|btn-dontknow|btn-easy|btn-hover-border-fallback)[a-z-]*\)\]/g,
         '',
       )
       .replace(/ (?:before|after):\S+/g, '')

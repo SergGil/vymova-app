@@ -297,6 +297,53 @@
   --card-face-bg-image: none;
   --card-face-border: var(--border);
   --card-face-shadow: var(--shadow);
+  /* Batch 6: .btn-know/.hard/.dontknow/.easy (docs/component-tailwind-
+     conversion-roadmap.md) — light+dark+fandom trio per property, same
+     shape as Batch 4's clusters. The old bare-CSS version's highest risk
+     was a source-order specificity TIE between body.dark's and
+     body[data-theme]'s hover box-shadow rules; centralizing into one
+     token per property removes that fragility entirely — there's no
+     longer two bare rules that need to stay in a particular order, just
+     one custom property with three well-defined context values. */
+  /* .btn:hover/body[data-theme] .btn:hover's own border-color (always)
+     and color (fandom only) are generic, unconditional, and apply to
+     EVERY .btn on hover — including .btn-achievements/.btn-auto/
+     .btn-modes-open above, which found this the hard way: their
+     unconditional `!border-[...]`/`!text-[...]` classes made the per-
+     button color persist THROUGH hover instead of correctly reverting to
+     this generic fallback, a real regression caught only once this
+     cluster's more elaborate hover story forced a full re-derivation of
+     the cascade. Fixed retroactively for all of them via a hover-scoped
+     `!`-important override that wins the specificity fight against the
+     unconditional one (same layer, hover-scoped is more specific). */
+  --btn-hover-border-fallback: #ccc;
+  --btn-know-border: var(--accent);
+  --btn-know-color: var(--accent);
+  --btn-know-hover-color: var(--btn-know-color);
+  --btn-know-bg: rgba(78, 204, 163, 0.08);
+  --btn-know-hover-bg: #ebf3ee;
+  --btn-know-hover-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --btn-hard-border: #e0a72e;
+  --btn-hard-color: #b5820a;
+  --btn-hard-hover-color: var(--btn-hard-color);
+  --btn-hard-bg: rgba(224, 167, 46, 0.08);
+  --btn-hard-hover-bg: #fbf2df;
+  --btn-hard-hover-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --btn-dontknow-border: #e74c3c;
+  --btn-dontknow-color: #e74c3c;
+  --btn-dontknow-hover-color: var(--btn-dontknow-color);
+  --btn-dontknow-bg: rgba(231, 76, 60, 0.06);
+  --btn-dontknow-hover-bg: #fbeae8;
+  --btn-dontknow-hover-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --btn-easy-border: #3d7ab5;
+  --btn-easy-color: #3d7ab5;
+  --btn-easy-hover-color: var(--btn-easy-color);
+  --btn-easy-bg: rgba(61, 122, 181, 0.06);
+  --btn-easy-hover-bg: #e8f1f9;
+  --btn-easy-hover-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --btn-achievements-hover-color: var(--btn-achievements-color);
+  --btn-auto-hover-color: var(--btn-auto-color);
+  --btn-modes-open-hover-color: var(--btn-modes-open-color);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -821,38 +868,13 @@ body[data-theme] .btn:hover {
 .btn:active {
   transform: scale(0.97);
 }
-.btn-know {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: rgba(78, 204, 163, 0.08);
-}
-.btn-know:hover {
-  background: #ebf3ee;
-}
-.btn-hard {
-  border-color: #e0a72e;
-  color: #b5820a;
-  background: rgba(224, 167, 46, 0.08);
-}
-.btn-hard:hover {
-  background: #fbf2df;
-}
-.btn-dontknow {
-  border-color: #e74c3c;
-  color: #e74c3c;
-  background: rgba(231, 76, 60, 0.06);
-}
-.btn-dontknow:hover {
-  background: #fbeae8;
-}
-.btn-easy {
-  border-color: #3d7ab5;
-  color: #3d7ab5;
-  background: rgba(61, 122, 181, 0.06);
-}
-.btn-easy:hover {
-  background: #e8f1f9;
-}
+/* border-color/color/background (base+:hover) and :hover's box-shadow
+   for .btn-know/.hard/.dontknow/.easy all fully converted to Tailwind via
+   the `!` modifier (docs/component-tailwind-conversion-roadmap.md
+   Batch 6) — same .btn-masking reasoning as .btn-auto/.btn-modes-open
+   above (base+fandom .btn rules both set border/background/color
+   unconditionally). box-shadow doesn't need `!`: .btn itself never
+   touches it. */
 .btn-easy,
 .btn-know,
 .btn-hard,
@@ -876,7 +898,6 @@ body[data-theme] .btn:hover {
 .btn-hard:hover,
 .btn-dontknow:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 .btn-easy:active,
 .btn-know:active,
@@ -1181,6 +1202,33 @@ body.dark {
   --srs-next-ok-bg: rgba(78, 204, 163, 0.1);
   --card-face-border: var(--border);
   --card-face-shadow: var(--shadow);
+  --btn-know-border: var(--accent);
+  --btn-know-color: var(--accent);
+  --btn-know-hover-color: var(--btn-know-color);
+  --btn-know-bg: rgba(78, 204, 163, 0.1);
+  --btn-know-hover-bg: rgba(78, 204, 163, 0.12);
+  --btn-know-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --btn-hard-border: #e0a72e;
+  --btn-hard-color: #e0a72e;
+  --btn-hard-hover-color: var(--btn-hard-color);
+  --btn-hard-bg: rgba(224, 167, 46, 0.1);
+  --btn-hard-hover-bg: rgba(224, 167, 46, 0.12);
+  --btn-hard-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --btn-dontknow-border: #e74c3c;
+  --btn-dontknow-color: #e74c3c;
+  --btn-dontknow-hover-color: var(--btn-dontknow-color);
+  --btn-dontknow-bg: rgba(231, 76, 60, 0.1);
+  --btn-dontknow-hover-bg: rgba(231, 76, 60, 0.12);
+  --btn-dontknow-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --btn-easy-border: #5aa9e6;
+  --btn-easy-color: #5aa9e6;
+  --btn-easy-hover-color: var(--btn-easy-color);
+  --btn-easy-bg: rgba(90, 169, 230, 0.1);
+  --btn-easy-hover-bg: rgba(90, 169, 230, 0.12);
+  --btn-easy-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --btn-achievements-hover-color: var(--btn-achievements-color);
+  --btn-auto-hover-color: var(--btn-auto-color);
+  --btn-modes-open-hover-color: var(--btn-modes-open-color);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -1189,86 +1237,6 @@ body.dark {
    the mount div now renders className="game-bar-3", not "game-bar". */
 body.dark .btn:hover {
   background: var(--border);
-}
-body.dark .btn-know {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: rgba(78, 204, 163, 0.1);
-}
-body.dark .btn-know:hover {
-  background: rgba(78, 204, 163, 0.12);
-}
-body.dark .btn-hard {
-  border-color: #e0a72e;
-  color: #e0a72e;
-  background: rgba(224, 167, 46, 0.1);
-}
-body.dark .btn-hard:hover {
-  background: rgba(224, 167, 46, 0.12);
-}
-body.dark .btn-dontknow {
-  border-color: #e74c3c;
-  color: #e74c3c;
-  background: rgba(231, 76, 60, 0.1);
-}
-body.dark .btn-dontknow:hover {
-  background: rgba(231, 76, 60, 0.12);
-}
-body.dark .btn-easy {
-  border-color: #5aa9e6;
-  color: #5aa9e6;
-  background: rgba(90, 169, 230, 0.1);
-}
-body.dark .btn-easy:hover {
-  background: rgba(90, 169, 230, 0.12);
-}
-body.dark .btn-easy:hover,
-body.dark .btn-know:hover,
-body.dark .btn-hard:hover,
-body.dark .btn-dontknow:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-}
-/* Fandom themes push these to fixed neon colors, identical across all 14
-   themes (never derived from --accent) — collapsed from a 14x-repeated
-   per-theme block into one rule. No !important: specificity of
-   body[data-theme] .btn-know (0,3,1 with :hover) ties body.dark .btn-know
-   (also 0,3,1) — MUST stay physically after the body.dark block above so
-   the tie breaks by source order in the fandom rule's favor (moving this
-   earlier in the file flips which one wins even though both are still
-   "before" css/themes/*.css). Verified via Playwright with dark mode + a
-   fandom theme active simultaneously, before and after stripping
-   !important from the live stylesheet. */
-body[data-theme] .btn-know {
-  border-color: rgba(57, 211, 83, 0.5);
-  color: #39d353;
-}
-body[data-theme] .btn-know:hover {
-  background: rgba(57, 211, 83, 0.1);
-  box-shadow: 0 0 15px rgba(57, 211, 83, 0.3);
-}
-body[data-theme] .btn-dontknow {
-  border-color: rgba(255, 69, 58, 0.5);
-  color: #ff453a;
-}
-body[data-theme] .btn-dontknow:hover {
-  background: rgba(255, 69, 58, 0.1);
-  box-shadow: 0 0 15px rgba(255, 69, 58, 0.3);
-}
-body[data-theme] .btn-hard {
-  border-color: rgba(224, 167, 46, 0.5);
-  color: #e0a72e;
-}
-body[data-theme] .btn-hard:hover {
-  background: rgba(224, 167, 46, 0.1);
-  box-shadow: 0 0 15px rgba(224, 167, 46, 0.3);
-}
-body[data-theme] .btn-easy {
-  border-color: rgba(90, 169, 230, 0.5);
-  color: #5aa9e6;
-}
-body[data-theme] .btn-easy:hover {
-  background: rgba(90, 169, 230, 0.1);
-  box-shadow: 0 0 15px rgba(90, 169, 230, 0.3);
 }
 /* body.dark input#search-input and body.dark .search-results (background/
    border-color/color re-asserting the exact var(--card)/var(--border)/

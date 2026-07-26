@@ -151,6 +151,42 @@ body[data-theme="avt"] {
     0 0 20px rgba(var(--accent-rgb), 0.1),
     0 4px 30px rgba(0, 0, 0, 0.7),
     inset 0 0 40px rgba(var(--accent-rgb), 0.03);
+  /* .btn-know/.hard/.dontknow/.easy (Batch 6) — fixed neon colors,
+     identical across all 14 themes (never derived from --accent), same
+     as the pre-existing css/styles.css comment on this cluster said
+     before conversion. Base (non-hover) background is deliberately NOT
+     overridden here — fandom never touched it, matches original
+     behavior exactly (falls through to :root/body.dark's value). */
+  --btn-know-border: rgba(57, 211, 83, 0.5);
+  --btn-know-color: #39d353;
+  --btn-know-hover-bg: rgba(57, 211, 83, 0.1);
+  --btn-know-hover-shadow: 0 0 15px rgba(57, 211, 83, 0.3);
+  --btn-hard-border: rgba(224, 167, 46, 0.5);
+  --btn-hard-color: #e0a72e;
+  --btn-hard-hover-bg: rgba(224, 167, 46, 0.1);
+  --btn-hard-hover-shadow: 0 0 15px rgba(224, 167, 46, 0.3);
+  --btn-dontknow-border: rgba(255, 69, 58, 0.5);
+  --btn-dontknow-color: #ff453a;
+  --btn-dontknow-hover-bg: rgba(255, 69, 58, 0.1);
+  --btn-dontknow-hover-shadow: 0 0 15px rgba(255, 69, 58, 0.3);
+  --btn-easy-border: rgba(90, 169, 230, 0.5);
+  --btn-easy-color: #5aa9e6;
+  --btn-easy-hover-bg: rgba(90, 169, 230, 0.1);
+  --btn-easy-hover-shadow: 0 0 15px rgba(90, 169, 230, 0.3);
+  /* .btn:hover/body[data-theme] .btn:hover's generic border-color/color
+     fallback (css/styles.css's :root comment explains why this exists) —
+     in fandom mode this generic hover color/border always wins over any
+     single .btn-variant's own color, even variants with their own fandom-
+     specific base color, since the button never had its own :hover-scoped
+     color override either. */
+  --btn-hover-border-fallback: rgba(var(--accent-rgb), 0.6);
+  --btn-know-hover-color: var(--accent);
+  --btn-hard-hover-color: var(--accent);
+  --btn-dontknow-hover-color: var(--accent);
+  --btn-easy-hover-color: var(--accent);
+  --btn-achievements-hover-color: var(--accent);
+  --btn-auto-hover-color: var(--accent);
+  --btn-modes-open-hover-color: var(--accent);
   --note-textarea-border: rgba(var(--accent-rgb), 0.25);
   --hamburger-border: rgba(var(--accent-rgb), 0.3);
   --sb-add-btn-border: rgba(var(--accent-rgb), 0.3);
