@@ -359,6 +359,18 @@
   --tempo-wrong-color: #922b21;
   --tempo-reveal-border: #27ae60;
   --tempo-reveal-bg: rgba(39, 174, 96, 0.08);
+  /* .quiz-option.correct/.wrong/.reveal (Batch 6) — same shape as
+     .tempo-opt above, just 11 consuming files instead of 1. No fandom
+     override ever existed for this cluster either. */
+  --quiz-correct-border: #27ae60;
+  --quiz-correct-bg: #eafaf1;
+  --quiz-correct-color: #1a5e34;
+  --quiz-wrong-border: #e74c3c;
+  --quiz-wrong-bg: #fdecea;
+  --quiz-wrong-color: #922b21;
+  --quiz-reveal-border: #27ae60;
+  --quiz-reveal-bg: #eafaf1;
+  --quiz-reveal-color: #1a5e34;
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -1248,6 +1260,12 @@ body.dark {
   --tempo-correct-color: #4ecca3;
   --tempo-wrong-bg: rgba(231, 76, 60, 0.12);
   --tempo-wrong-color: #e74c3c;
+  --quiz-correct-bg: rgba(39, 174, 96, 0.15);
+  --quiz-correct-color: #4ecca3;
+  --quiz-wrong-bg: rgba(231, 76, 60, 0.12);
+  --quiz-wrong-color: #e74c3c;
+  --quiz-reveal-bg: rgba(39, 174, 96, 0.08);
+  --quiz-reveal-color: #4ecca3;
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -2174,35 +2192,11 @@ body.dark {
 .quiz-option:disabled {
   cursor: default;
 }
-.quiz-option.correct {
-  border-color: #27ae60 !important;
-  background: #eafaf1 !important;
-  color: #1a5e34 !important;
-  font-weight: 600;
-}
-body.dark .quiz-option.correct {
-  background: rgba(39, 174, 96, 0.15) !important;
-  color: #4ecca3 !important;
-}
-.quiz-option.wrong {
-  border-color: #e74c3c !important;
-  background: #fdecea !important;
-  color: #922b21 !important;
-}
-body.dark .quiz-option.wrong {
-  background: rgba(231, 76, 60, 0.12) !important;
-  color: #e74c3c !important;
-}
-.quiz-option.reveal {
-  border-color: #27ae60 !important;
-  background: #eafaf1 !important;
-  color: #1a5e34 !important;
-  opacity: 0.7;
-}
-body.dark .quiz-option.reveal {
-  background: rgba(39, 174, 96, 0.08) !important;
-  color: #4ecca3 !important;
-}
+/* .correct/.wrong/.reveal's border-color/background/color fully converted
+   to Tailwind via the `!` modifier (docs/component-tailwind-conversion-
+   roadmap.md Batch 6) — same reasoning as .tempo-opt above. font-weight/
+   opacity moved to plain Tailwind classes in each of the 11 consuming
+   files, alongside the theme-driven ones. */
 #quiz-next:hover {
   opacity: 0.85;
 }
