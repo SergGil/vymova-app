@@ -436,9 +436,8 @@
      var() pass-throughs don't re-resolve per element post-build, see the
      body.dark comment). border/shadow default to none/their own pre-
      existing literal (no var() ref, safe as :root-only) since fandom is the
-     only state that ever added a glow. .note-panel shares --delete-panel-bg/
-     -border (AUX25 in scripts/theme-template.css) but keeps its own bare
-     CSS for now — that's cluster 13, not yet converted. */
+     only state that ever added a glow. .note-panel also reads these same
+     two tokens (AUX25 in scripts/theme-template.css) — Batch 7 cluster 13. */
   --delete-panel-bg: var(--card);
   --delete-panel-border: none;
   --prf-delete-panel-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
@@ -3840,8 +3839,8 @@ body[data-theme="hp"] .sb-profile-section {
 /* .prf-delete-panel/.import-panel's background/border/box-shadow fully
    converted to Tailwind (docs/component-tailwind-conversion-roadmap.md,
    Batch 7 cluster 7) — --delete-panel-bg/-border/--prf-delete-panel-shadow/
-   --import-panel-shadow. .note-panel still reads --delete-panel-bg/-border
-   here too but keeps its own bare CSS rule below — cluster 13. */
+   --import-panel-shadow. .note-panel reads the same --delete-panel-bg/
+   -border pair too (Batch 7 cluster 13, see the note-modal section below). */
 .prf-delete-panel {
   border-radius: 20px;
   padding: 32px 28px 24px;
@@ -4187,15 +4186,11 @@ body.dark {
    .note-header/.note-title and .note-panel's/.note-textarea's own
    box/typography moved to Tailwind utility classes in note-modal.tsx.
    .note-textarea's border fully converted (docs/component-tailwind-
-   conversion-roadmap.md). .note-panel's background and its
-   @keyframes-driven animation stay bare (live theme override across all
-   14 fandom themes; keyframes can't become a Tailwind utility). */
-body[data-theme] .note-panel {
-  background: var(--delete-panel-bg);
-  border: 1px solid rgba(var(--accent-rgb), 0.2);
-}
+   conversion-roadmap.md). .note-panel's background/border fully converted
+   (Batch 7 cluster 13, final) — reuses --delete-panel-bg/-border, the
+   same AUX25 pair as .prf-delete-panel/.import-panel. animation stays bare
+   (keyframes can't become a Tailwind utility). */
 .note-panel {
-  background: var(--card);
   animation: slideUpPanel 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 /* .srs-forecast/.srs-fc-bars/.srs-fc-col/.srs-fc-bar-wrap/.srs-fc-cnt/
