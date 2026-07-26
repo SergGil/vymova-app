@@ -175,6 +175,21 @@
      see docs/component-tailwind-conversion-roadmap.md's game-bar map). */
   --gb-goal-sep-color: var(--text3);
   --level-badge-shadow: none;
+  /* Game-bar atomic-conversion clusters — 3 real value-states each
+     (light-default from the light-reversion block, dark-no-fandom from
+     the "always active" SW-cockpit block, fandom from the fandom block),
+     base+SW-always+light-reversion bare rules all deleted together per
+     property so no unlayered layer is left to silently out-rank the new
+     Tailwind class. See docs/component-tailwind-conversion-roadmap.md's
+     game-bar map for the full layer analysis. */
+  --gb-block-bg: var(--card);
+  --gb-block-border: var(--border);
+  /* No distinct fandom rule exists for .gb-label — the "always active"
+     SW value already applies unconditionally whenever light-reversion
+     doesn't (i.e. in BOTH dark-no-fandom AND fandom states alike). */
+  --gb-label-color: var(--text3);
+  --gb-label-transform: none;
+  --gb-label-size: 0.72rem;
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -996,6 +1011,15 @@ body.dark {
      the pre-existing dedicated body.dark .search-result-item:hover rule. */
   --search-result-hover-bg: var(--border);
   --gb-goal-sep-color: var(--text3);
+  /* Dark-no-fandom shows the "always active" SW-cockpit look — a
+     pre-existing quirk, not something this migration introduces (dark
+     mode never had its own game-bar override; the SW-always bare rule
+     was already unconditionally winning here before any conversion). */
+  --gb-block-bg: linear-gradient(135deg, #0a1628 0%, #0d1f3a 100%);
+  --gb-block-border: #1e3a5a;
+  --gb-label-color: #5fa8c8;
+  --gb-label-transform: uppercase;
+  --gb-label-size: 0.7rem;
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -2900,18 +2924,19 @@ body.dark .btn-modes-open:hover {
    ═══════════════════════════════════════════ */
 /* .game-bar-3's own display/gap/margin-bottom moved to Tailwind utility
    classes on the wrapper in index.html (untouched by any theme/dark/mobile
-   rule); the landscape-mode padding override below stays. */
+   rule); the landscape-mode padding override below stays. background/
+   border-color fully converted to Tailwind (docs/component-tailwind-
+   conversion-roadmap.md, game-bar atomic pass) — the "always active"
+   SW-cockpit and light-reversion layers for these two properties were
+   deleted together with this rule and the fandom one below, so no
+   unlayered layer is left competing with the new Tailwind class. */
 .gb-block {
-  background: var(--card);
-  border: 1px solid var(--border);
+  border-width: 1px;
+  border-style: solid;
   border-radius: 12px;
   padding: 10px 14px;
   box-shadow: var(--shadow);
   min-width: 0;
-}
-body[data-theme] .gb-block {
-  background: var(--panel-glow-bg);
-  border-color: rgba(var(--accent-rgb), 0.15);
 }
 
 /* Block 1: Streak */
@@ -3026,10 +3051,13 @@ body[data-theme] .gb-goal-block {
   align-items: center;
   margin-bottom: 2px;
 }
+/* font-size/color/text-transform fully converted to Tailwind
+   (docs/component-tailwind-conversion-roadmap.md, game-bar atomic pass).
+   letter-spacing stays bare — untouched by any theme layer, and the
+   "always active" SW rule below already permanently wins it by source
+   order regardless (a pre-existing fact, not something this migration
+   changes). */
 .gb-label {
-  font-size: 0.68rem;
-  color: var(--text3);
-  text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 .goal-set {
@@ -3144,10 +3172,9 @@ body[data-theme] .gb-level-fill {
    Always active — dark metallic panels
    ═══════════════════════════════════════════ */
 
-/* Base: always dark cockpit aesthetic */
+/* Base: always dark cockpit aesthetic — background/border-color moved to
+   --gb-block-bg/-border (docs/component-tailwind-conversion-roadmap.md). */
 .gb-block {
-  background: linear-gradient(135deg, #0a1628 0%, #0d1f3a 100%);
-  border-color: #1e3a5a;
   position: relative;
   overflow: hidden;
 }
@@ -3186,11 +3213,10 @@ body[data-theme] .gb-level-fill {
     0 0 12px rgba(0, 200, 255, 0.06),
     inset 0 0 20px rgba(0, 0, 0, 0.3);
 }
+/* color/font-size/text-transform moved to --gb-label-color/-size/
+   -transform (docs/component-tailwind-conversion-roadmap.md). */
 .gb-label {
-  color: #5fa8c8;
-  font-size: 0.7rem;
   letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
 /* Goal done badge: rebel victory */
@@ -3258,21 +3284,14 @@ body[data-theme] .gb-level-fill {
   text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
 }
 
-/* ── Light theme: keep game-bar readable ── */
-body:not(.dark):not([data-theme])
-  .gb-block {
-  background: var(--card);
-  border-color: var(--border);
-}
+/* ── Light theme: keep game-bar readable ──
+   .gb-block's background/border-color and .gb-label's color/text-
+   transform/font-size fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md, game-bar atomic pass). .gb-block::after
+   stays bare (pseudo-element, out of scope — Batch 5 territory). */
 body:not(.dark):not([data-theme])
   .gb-block::after {
   display: none;
-}
-body:not(.dark):not([data-theme])
-  .gb-label {
-  color: var(--text3);
-  text-transform: none;
-  font-size: 0.72rem;
 }
 body:not(.dark):not([data-theme])
   .gb-streak-block

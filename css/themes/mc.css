@@ -219,5 +219,17 @@ body[data-theme="mc"] {
   --search-input-border: rgba(var(--accent-rgb), 0.2);
   --search-input-focus-shadow: 0 0 10px rgba(var(--accent-rgb), 0.2);
   --level-badge-shadow: 0 0 10px rgba(var(--accent-rgb), 0.2);
+  --gb-block-bg: var(--panel-glow-bg);
+  --gb-block-border: rgba(var(--accent-rgb), 0.15);
+  /* Same "always active" SW values as body.dark below — no distinct
+     fandom-specific look exists for .gb-label, but custom properties
+     don't fall through from an unconditional bare rule the way the old
+     selector-based version did, so this needs its own explicit entry
+     here too (not just body.dark), or fandom+non-dark would incorrectly
+     inherit :root's light-default value instead. Caught by Playwright
+     testing fandom-without-dark specifically, not just fandom+dark. */
+  --gb-label-color: #5fa8c8;
+  --gb-label-transform: uppercase;
+  --gb-label-size: 0.7rem;
 }
 
