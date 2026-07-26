@@ -118,6 +118,14 @@ export function PairsMode(): ReactElement | null {
         'border-[var(--pair-btn-selected-border)]',
         'bg-[var(--pair-btn-selected-bg)]',
       ];
+      const MATCHED_CLASSES = [
+        'matched',
+        'cursor-default',
+        '!border-[var(--pair-matched-border)]',
+        '!bg-[var(--pair-matched-bg)]',
+        '!text-[var(--pair-matched-color)]',
+      ];
+      const WRONG_CLASSES = ['wrong', '!border-[var(--pair-wrong-border)]'];
       if (!pSel) {
         pSel = { el: btn, id: item.id, side };
         btn.classList.add(...SELECTED_CLASSES);
@@ -130,8 +138,8 @@ export function PairsMode(): ReactElement | null {
         btn.classList.add(...SELECTED_CLASSES);
       } else if (pSel.id === item.id) {
         pSel.el.classList.remove(...SELECTED_CLASSES);
-        pSel.el.classList.add('matched');
-        btn.classList.add('matched');
+        pSel.el.classList.add(...MATCHED_CLASSES);
+        btn.classList.add(...MATCHED_CLASSES);
         pSel = null;
         pMatched++;
         try {
@@ -143,16 +151,16 @@ export function PairsMode(): ReactElement | null {
       } else {
         const wrongA = pSel.el;
         wrongA.classList.remove(...SELECTED_CLASSES);
-        wrongA.classList.add('wrong');
-        btn.classList.add('wrong');
+        wrongA.classList.add(...WRONG_CLASSES);
+        btn.classList.add(...WRONG_CLASSES);
         pSel = null;
         try {
           playSound('next');
           breakCombo();
         } catch (e) {}
         setTimeout(() => {
-          wrongA.classList.remove('wrong');
-          btn.classList.remove('wrong');
+          wrongA.classList.remove(...WRONG_CLASSES);
+          btn.classList.remove(...WRONG_CLASSES);
         }, 420);
       }
     }

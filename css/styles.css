@@ -371,6 +371,13 @@
   --quiz-reveal-border: #27ae60;
   --quiz-reveal-bg: #eafaf1;
   --quiz-reveal-color: #1a5e34;
+  /* .pair-btn.matched/.wrong (Batch 6) — same shape again. .wrong only
+     ever touched border-color (+ a theme-independent shake animation),
+     no fandom override for either state. */
+  --pair-matched-border: #27ae60;
+  --pair-matched-bg: #eafaf1;
+  --pair-matched-color: #1a5e34;
+  --pair-wrong-border: #e74c3c;
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -1266,6 +1273,8 @@ body.dark {
   --quiz-wrong-color: #e74c3c;
   --quiz-reveal-bg: rgba(39, 174, 96, 0.08);
   --quiz-reveal-color: #4ecca3;
+  --pair-matched-bg: rgba(39, 174, 96, 0.15);
+  --pair-matched-color: #4ecca3;
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -2600,19 +2609,15 @@ body.dark {
     border-color 0.12s,
     background 0.12s;
 }
-.pair-btn.matched {
-  border-color: #27ae60 !important;
-  background: #eafaf1 !important;
-  color: #1a5e34 !important;
-  cursor: default;
-}
-body.dark .pair-btn.matched {
-  background: rgba(39, 174, 96, 0.15) !important;
-  color: #4ecca3 !important;
-}
+/* .matched's border-color/background/color and .wrong's border-color
+   fully converted to Tailwind via the `!` modifier (docs/component-
+   tailwind-conversion-roadmap.md Batch 6) — .pair-btn's own base border/
+   background/color are already Tailwind classes (Batch 4), so a plain
+   override isn't guaranteed to win regardless of class generation order.
+   cursor/animation aren't theme-touched, moved to plain Tailwind classes
+   alongside the new ones. */
 .pair-btn.wrong {
   animation: pairShake 0.38s ease;
-  border-color: #e74c3c !important;
 }
 @keyframes pairShake {
   0%,
