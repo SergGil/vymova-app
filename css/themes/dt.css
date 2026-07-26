@@ -250,5 +250,11 @@ body[data-theme="dt"] {
   --gb-level-next-color: rgba(200, 230, 255, 0.5);
   --gb-level-xp-color: #6a8fa8;
   --gb-level-fill-shadow: 0 0 6px rgba(var(--accent-rgb), 0.4);
+  /* No fandom-specific rule ever existed for .goal-done-badge — restate
+     the dark/SW-cockpit values, same 4th-bug-class shape. */
+  --goal-done-badge-color: #f39c12;
+  --goal-done-badge-bg: linear-gradient(90deg, #1a5c2a, #27ae60);
+  --goal-done-badge-border: 1px solid rgba(57, 211, 83, 0.4);
+  --goal-done-badge-shadow: 0 0 8px rgba(57, 211, 83, 0.25);
 }
 

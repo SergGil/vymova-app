@@ -220,6 +220,22 @@
   /* No light-reversion exists for .gb-level-fill's box-shadow either —
      same 2-state shape (fandom vs everywhere-else) as .gb-goal-block. */
   --gb-level-fill-shadow: 0 0 6px currentColor, 0 0 12px rgba(255, 215, 0, 0.2);
+  /* .goal-done-badge — the trickiest game-bar cluster: 4 same-specificity
+     (0,1,0) bare rules exist for color (base #fff, "always active" SW
+     #7dffb0, and a THIRD, separate "goal progress ring" section's
+     #f39c12), resolved by pure source order among the tied ones. The SW
+     value is confirmed dead code today (the goal-ring rule is physically
+     later in the file and wins the tie) — not migrated, since reviving
+     it would be a behavior change, not a faithful conversion. No fandom-
+     specific rule ever existed either, so fandom shows the same resolved
+     value as dark-no-fandom (4th-bug-class shape). font-size/font-weight
+     turned out NOT theme-dependent at all (light-reversion never touches
+     them, so the same source-order-tie winner applies in every state) —
+     left as bare CSS, untouched. */
+  --goal-done-badge-color: #fff;
+  --goal-done-badge-bg: #27ae60;
+  --goal-done-badge-border: none;
+  --goal-done-badge-shadow: none;
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -914,11 +930,14 @@ body.dark .card.is-known {
 .goal-set:hover {
   color: var(--accent);
 }
+/* background/color fully converted to Tailwind (docs/component-tailwind-
+   conversion-roadmap.md, game-bar atomic pass) — font-size/font-weight
+   turned out not theme-dependent (see the :root token comment), stay
+   bare. display:none is dead code (React conditionally renders this
+   element instead), not touched. */
 .goal-done-badge {
   display: none;
   font-size: 0.75rem;
-  background: #27ae60;
-  color: #fff;
   padding: 2px 8px;
   border-radius: 20px;
   font-weight: 600;
@@ -1058,6 +1077,13 @@ body.dark {
       rgba(0, 0, 0, 0.3);
   --gb-level-next-color: rgba(200, 230, 255, 0.5);
   --gb-level-xp-color: #6a8fa8;
+  /* color reuses the "goal progress ring" section's #f39c12 — confirmed
+     the live winner over the "always active" SW value (#7dffb0, dead
+     code) by source order, per the roadmap's detailed analysis. */
+  --goal-done-badge-color: #f39c12;
+  --goal-done-badge-bg: linear-gradient(90deg, #1a5c2a, #27ae60);
+  --goal-done-badge-border: 1px solid rgba(57, 211, 83, 0.4);
+  --goal-done-badge-shadow: 0 0 8px rgba(57, 211, 83, 0.25);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -3238,16 +3264,17 @@ body.dark .btn-modes-open:hover {
   letter-spacing: 0.04em;
 }
 
-/* Goal done badge: rebel victory */
+/* Goal done badge: rebel victory — background/color/border/box-shadow
+   moved to Tailwind (docs/component-tailwind-conversion-roadmap.md).
+   color here (#7dffb0) is confirmed dead code (the separate "goal
+   progress ring" section's #f39c12 wins the source-order tie), not
+   migrated. padding/font-size/font-weight aren't theme-dependent (no
+   light-reversion ever touches them), stay bare. */
 .goal-done-badge {
-  background: linear-gradient(90deg, #1a5c2a, #27ae60);
-  color: #7dffb0;
-  border: 1px solid rgba(57, 211, 83, 0.4);
   padding: 3px 10px;
   border-radius: 20px;
   font-size: 0.72rem;
   font-weight: 700;
-  box-shadow: 0 0 8px rgba(57, 211, 83, 0.25);
 }
 
 /* Level block: gold/force theme — border-color/box-shadow moved to
@@ -3297,13 +3324,6 @@ body.dark .btn-modes-open:hover {
 body:not(.dark):not([data-theme])
   .gb-block::after {
   display: none;
-}
-body:not(.dark):not([data-theme])
-  .goal-done-badge {
-  background: #27ae60;
-  color: #fff;
-  border: none;
-  box-shadow: none;
 }
 
 /* ── SW theme: extra glow ── */
@@ -5356,9 +5376,12 @@ body[data-theme="hp"] {
   font-size: 0.6rem;
   margin: 0 1px;
 }
+/* color moved to --goal-done-badge-color (this was the actual live
+   winner over the "always active" SW rule's #7dffb0, dead code — see
+   the :root token comment). font-size/font-weight aren't theme-
+   dependent, stay bare. */
 .goal-done-badge {
   font-size: 0.65rem;
-  color: #f39c12;
   font-weight: 700;
   text-align: center;
   white-space: nowrap;

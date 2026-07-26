@@ -90,7 +90,12 @@ export function GameBarGoal(): ReactElement {
         <span id="goal-max">{d.goalMax}</span>
       </div>
       {done && (
-        <div className="goal-done-badge" id="goal-done">{t('cards.goalDone')}</div>
+        <div
+          className="goal-done-badge text-[var(--goal-done-badge-color)] shadow-[var(--goal-done-badge-shadow)] [background:var(--goal-done-badge-bg)] [border:var(--goal-done-badge-border)]"
+          id="goal-done"
+        >
+          {t('cards.goalDone')}
+        </div>
       )}
     </div>
   );
