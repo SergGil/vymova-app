@@ -121,7 +121,18 @@ describe('<ModeCardGrid/>', () => {
   it('renders 27 mode-card buttons, structurally identical to the original static markup', () => {
     const { container } = render(<ModeCardGrid />);
     expect(container.querySelectorAll('.mode-card')).toHaveLength(27);
-    expectStructuralParity(container.innerHTML, ORIGINAL_GRID_HTML);
+    // docs/component-tailwind-conversion-roadmap.md Batch 2 added theme-
+    // driven Tailwind classes to every .mode-card button (bg-[var(--mode-
+    // card-bg)] etc.) — a deliberate, later change unrelated to the
+    // original static-markup-to-JSX port this test guards. Stripped before
+    // comparing so the test keeps checking what it was built for (ids/
+    // data-i18n/text/nesting/the original mc-*/mode-card classes), not
+    // fighting a legitimate subsequent addition.
+    const actualHtml = container.innerHTML.replace(
+      / (?:bg|border|hover:bg|hover:border|hover:shadow)-\[var\(--mode-card[a-z-]*\)\]/g,
+      '',
+    );
+    expectStructuralParity(actualHtml, ORIGINAL_GRID_HTML);
   });
 
   it('keeps "write-mode-desc" id on the write card\'s desc span (updateModesPageDesc() target)', () => {

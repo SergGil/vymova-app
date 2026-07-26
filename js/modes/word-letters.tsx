@@ -415,7 +415,7 @@ export function WordLettersPage(): ReactElement {
             {guess.map((ti, pos) => (
               <button
                 key={'g' + pos}
-                className="scr-tile scr-tile-placed min-w-[38px] h-[42px] cursor-pointer rounded-md border-2 border-[var(--border)] bg-[var(--card)] px-1 font-[inherit] text-[1.1rem] font-bold text-[var(--text)] transition-[transform,background,border-color] duration-150 hover:-translate-y-0.5 hover:border-[var(--accent)] disabled:cursor-default disabled:opacity-85"
+                className="scr-tile scr-tile-placed min-w-[38px] h-[42px] cursor-pointer rounded-md border-2 border-[var(--border)] bg-[var(--card)] px-1 font-[inherit] text-[1.1rem] font-bold text-[var(--scr-tile-placed-color)] transition-[transform,background,border-color] duration-150 hover:-translate-y-0.5 hover:border-[var(--accent)] disabled:cursor-default disabled:opacity-85"
                 onClick={() => deselect(pos)}
               >
                 {tiles[ti].ch.toUpperCase()}

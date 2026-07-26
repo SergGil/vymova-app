@@ -39,7 +39,10 @@ function renderCueHtml(text: string): string {
       const w = lookupEnglishWord(chunk);
       if (!w) return safe;
       const isKnown = getKnownSnapshot('en').has(w[0]);
-      return `<span class="rd-word ${isKnown ? 'rd-known' : 'rd-unknown'}" data-word="${_esc(w[0])}">${safe}</span>`;
+      const stateCls = isKnown
+        ? 'rd-known bg-[var(--rd-known-bg)] border-b-[var(--rd-known-border)]'
+        : 'rd-unknown bg-[var(--rd-unknown-bg)] border-b-[var(--rd-unknown-border)]';
+      return `<span class="rd-word ${stateCls}" data-word="${_esc(w[0])}">${safe}</span>`;
     })
     .join('');
 }

@@ -183,5 +183,21 @@ body[data-theme="dw"] {
   --ach-popup-bg: var(--sidebar-bg);
   --ach-popup-border: 1px solid rgba(var(--accent-rgb), 0.25);
   --ach-popup-shadow: 0 0 50px rgba(var(--accent-rgb), 0.15);
+  --dc-word-color: var(--accent);
+  --scr-tile-placed-color: #000;
+  /* --mode-card-bg/--modes-panel-bg already exist above (AUX13/AUX12) —
+     the css/styles.css :root/body.dark defaults just supply the missing
+     non-fandom fallback for those two, no redeclaration needed here. */
+  --mode-card-border: rgba(var(--accent-rgb), 0.15);
+  --mode-card-hover-border: var(--accent);
+  --mode-card-hover-bg: rgba(var(--accent-rgb), 0.05);
+  --mode-card-hover-shadow: 0 0 12px rgba(var(--accent-rgb), 0.15);
+  --modes-panel-border: 1px solid rgba(var(--accent-rgb), 0.2);
+  --modes-panel-shadow: 0 0 40px rgba(var(--accent-rgb), 0.15),
+    0 -8px 40px rgba(0, 0, 0, 0.8);
+  --rd-unknown-bg: rgba(231, 76, 60, 0.15);
+  --rd-unknown-border: rgba(231, 76, 60, 0.4);
+  --rd-known-bg: rgba(var(--accent-rgb), 0.1);
+  --rd-known-border: rgba(var(--accent-rgb), 0.3);
 }
 

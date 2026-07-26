@@ -186,7 +186,10 @@ const GROUPS: ModeCardGroup[] = [
 
 function ModeCardButton({ card }: { card: ModeCard }): ReactElement {
   return (
-    <button className={`mode-card mc-${card.cls ?? card.id}`} id={`btn-${card.id}`}>
+    <button
+      className={`mode-card mc-${card.cls ?? card.id} bg-[var(--mode-card-bg)] border-[var(--mode-card-border)] hover:border-[var(--mode-card-hover-border)] hover:bg-[var(--mode-card-hover-bg)] hover:shadow-[var(--mode-card-hover-shadow)]`}
+      id={`btn-${card.id}`}
+    >
       <span className="mode-icon">{card.icon}</span>
       <span className="mode-name" data-i18n={card.nameKey}>
         {t(card.nameKey)}

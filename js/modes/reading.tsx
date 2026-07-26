@@ -66,10 +66,10 @@ function _renderTextHtml(entry: TextEntry): { html: string; known: number; unkno
       const isKnown = known.has(w[0]);
       if (isKnown) {
         knownCount++;
-        return `<span class="rd-word rd-known cursor-pointer rounded-[3px] px-px transition-[background] duration-150 hover:opacity-75" data-word="${_esc(w[0])}">${safe}</span>`;
+        return `<span class="rd-word rd-known cursor-pointer rounded-[3px] px-px transition-[background] duration-150 hover:opacity-75 bg-[var(--rd-known-bg)] border-b-[var(--rd-known-border)]" data-word="${_esc(w[0])}">${safe}</span>`;
       }
       unknownCount++;
-      return `<span class="rd-word rd-unknown cursor-pointer rounded-[3px] px-px transition-[background] duration-150 hover:opacity-75" data-word="${_esc(w[0])}">${safe}</span>`;
+      return `<span class="rd-word rd-unknown cursor-pointer rounded-[3px] px-px transition-[background] duration-150 hover:opacity-75 bg-[var(--rd-unknown-bg)] border-b-[var(--rd-unknown-border)]" data-word="${_esc(w[0])}">${safe}</span>`;
     })
     .join('');
   return { html, known: knownCount, unknown: unknownCount };
@@ -270,7 +270,11 @@ export function ReadingPage(): ReactElement {
         ) : (
           <span
             key={i}
-            className={`rd-word cursor-pointer rounded-[3px] px-px transition-[background] duration-150 hover:opacity-75 ${known.has(run.cw[0]) ? 'rd-known' : 'rd-unknown'}`}
+            className={`rd-word cursor-pointer rounded-[3px] px-px transition-[background] duration-150 hover:opacity-75 ${
+              known.has(run.cw[0])
+                ? 'rd-known bg-[var(--rd-known-bg)] border-b-[var(--rd-known-border)]'
+                : 'rd-unknown bg-[var(--rd-unknown-bg)] border-b-[var(--rd-unknown-border)]'
+            }`}
             onClick={(e) => {
               e.stopPropagation();
               showPopup(run.cw);

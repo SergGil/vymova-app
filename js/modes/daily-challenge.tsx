@@ -341,7 +341,7 @@ export function DailyChallenge(): ReactElement | null {
           />
         </div>
         <div id="dc-word-area" className="mb-5 min-h-[80px] text-center">
-          <div id="dc-word" className="dc-word" />
+          <div id="dc-word" className="dc-word text-[var(--dc-word-color)]" />
           <div id="dc-ipa" className="mt-1 text-[.9rem] text-[var(--accent)]" />
           <div id="dc-result" className="mt-2 min-h-[22px] text-[.88rem] font-semibold" />
         </div>

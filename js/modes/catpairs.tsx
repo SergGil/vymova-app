@@ -248,7 +248,7 @@ export function CatPairsPage(): ReactElement | null {
               return (
                 <button
                   key={cat}
-                  className="cat-select-btn"
+                  className="cat-select-btn hover:bg-[var(--cat-select-hover-bg)]"
                   disabled={disabled}
                   style={disabled ? { opacity: 0.4 } : undefined}
                   onClick={() => {
@@ -261,7 +261,7 @@ export function CatPairsPage(): ReactElement | null {
               );
             })}
             <button
-              className="cat-select-btn"
+              className="cat-select-btn hover:bg-[var(--cat-select-hover-bg)]"
               onClick={() => startGame(RANDOM_KEY, getRandomWords())}
               dangerouslySetInnerHTML={{
                 __html: `${t('catpairs.random')}<span class="cat-count">${t('catpairs.randomDesc')}</span>`,

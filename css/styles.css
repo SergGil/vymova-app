@@ -134,6 +134,22 @@
   --achievement-toast-title-color: #a0a0b0;
   --achievement-toast-title-font: var(--theme-font), sans-serif;
   --achievement-toast-icon-shadow: none;
+  /* Quiz/reading/duel-area fandom clusters (Batch 2). */
+  --dc-word-color: var(--text);
+  --scr-tile-placed-color: #fff;
+  --cat-select-hover-bg: var(--bg);
+  --mode-card-bg: var(--bg);
+  --mode-card-border: var(--border);
+  --mode-card-hover-border: var(--mi, var(--accent));
+  --mode-card-hover-bg: color-mix(in srgb, var(--mi, var(--accent)) 8%, var(--card));
+  --mode-card-hover-shadow: 0 4px 16px color-mix(in srgb, var(--mi, var(--accent)) 28%, transparent);
+  --modes-panel-bg: var(--card);
+  --modes-panel-border: none;
+  --modes-panel-shadow: 0 -4px 40px rgba(0, 0, 0, 0.25);
+  --rd-unknown-bg: rgba(231, 76, 60, 0.18);
+  --rd-unknown-border: rgba(231, 76, 60, 0.5);
+  --rd-known-bg: rgba(39, 174, 96, 0.12);
+  --rd-known-border: rgba(39, 174, 96, 0.4);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -933,6 +949,16 @@ body.dark {
      dedicated body.dark .ach-popup-hint value, distinct from dark mode's
      own --bg. */
   --ach-popup-hint-bg: rgba(255, 255, 255, 0.05);
+  --dc-word-color: var(--text);
+  /* Real dark-specific value (not the light formula restated) — matches
+     the pre-existing dedicated body.dark .cat-select-btn:hover rule. */
+  --cat-select-hover-bg: var(--border);
+  --mode-card-bg: var(--bg);
+  --mode-card-border: var(--border);
+  --mode-card-hover-border: var(--mi, var(--accent));
+  --mode-card-hover-bg: color-mix(in srgb, var(--mi, var(--accent)) 8%, var(--card));
+  --mode-card-hover-shadow: 0 4px 16px color-mix(in srgb, var(--mi, var(--accent)) 28%, transparent);
+  --modes-panel-bg: var(--card);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -1933,10 +1959,6 @@ body[data-theme] .pairs-panel {
 .scr-tile-placed {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
-}
-body[data-theme] .scr-tile-placed {
-  color: #000;
 }
 
 /* .srs-stats-bar/.srs-stat-num/.srs-stat-due/.srs-stat-new/.srs-stat-sep
@@ -2255,16 +2277,12 @@ body.dark .btn-fib {
 }
 .cat-select-btn:hover {
   border-color: var(--accent);
-  background: var(--bg);
 }
 .cat-select-btn .cat-count {
   font-size: 0.68rem;
   color: var(--text3);
   display: block;
   margin-top: 2px;
-}
-body.dark .cat-select-btn:hover {
-  background: var(--border);
 }
 
 /* ── Combo toast ── */
@@ -2672,16 +2690,10 @@ body.dark .btn-modes-open:hover {
   display: flex;
 }
 
-/* ── Modes panel (bottom sheet style) ── */
-body[data-theme] .modes-panel {
-  background: var(--modes-panel-bg);
-  border: 1px solid rgba(var(--accent-rgb), 0.2);
-  box-shadow:
-    0 0 40px rgba(var(--accent-rgb), 0.15),
-    0 -8px 40px rgba(0, 0, 0, 0.8);
-}
+/* ── Modes panel (bottom sheet style) ── background/border/box-shadow
+   fully converted to Tailwind (docs/component-tailwind-conversion-
+   roadmap.md Batch 2). */
 .modes-panel {
-  background: var(--card);
   border-radius: 20px 20px 16px 16px;
   width: 100%;
   max-width: 500px;
@@ -2750,9 +2762,15 @@ body[data-theme] .modes-panel {
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
 }
+/* background/border-color (+:hover's border-color/background/box-shadow)
+   fully converted to Tailwind (docs/component-tailwind-conversion-
+   roadmap.md Batch 2) — fandom replaces the whole :hover formula with a
+   flat accent-tinted background (ignores the per-mode --mi color
+   entirely, unlike the color-mix() base), same shape as every other
+   Фаза-2 override, no !important, no body.dark counterpart. */
 .mode-card {
-  background: var(--bg);
-  border: 1.5px solid var(--border);
+  border-width: 1.5px;
+  border-style: solid;
   border-radius: 14px;
   padding: 14px 6px 12px;
   cursor: pointer;
@@ -2769,23 +2787,7 @@ body[data-theme] .modes-panel {
   font-family: 'DM Sans', sans-serif;
 }
 .mode-card:hover {
-  border-color: var(--mi, var(--accent));
-  background: color-mix(in srgb, var(--mi, var(--accent)) 8%, var(--card));
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px color-mix(in srgb, var(--mi, var(--accent)) 28%, transparent);
-}
-/* Fandom themes replace the whole hover formula with a flat
-   accent-tinted background (ignores the per-mode --mi color entirely,
-   unlike the color-mix() base above) — same shape as every other
-   Фаза-2 override, no !important, no body.dark counterpart. */
-body[data-theme] .mode-card {
-  background: var(--mode-card-bg);
-  border-color: rgba(var(--accent-rgb), 0.15);
-}
-body[data-theme] .mode-card:hover {
-  border-color: var(--accent);
-  background: rgba(var(--accent-rgb), 0.05);
-  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.15);
 }
 .mode-card:active {
   transform: scale(0.96);
@@ -4266,14 +4268,12 @@ body[data-theme] .note-panel {
   border-radius: 5px;
   transition: width 0.4s;
 }
+/* color fully converted to Tailwind (docs/component-tailwind-conversion-
+   roadmap.md Batch 2). */
 .dc-word {
   font-size: 1.8rem;
   font-weight: 800;
-  color: var(--text);
   font-family: 'DM Serif Display', serif;
-}
-body[data-theme] .dc-word {
-  color: var(--accent);
 }
 .dc-opt {
   padding: 12px;
@@ -4306,26 +4306,15 @@ body[data-theme] .dc-word {
    .rd-text/.rd-word/:hover/.rd-word-popup/.rd-popup-ipa/.rd-popup-trans
    moved to Tailwind utility classes in reading.tsx/video-player.tsx/
    youtube-player.tsx (no fandom-theme or body.dark overrides existed for
-   any of them). .rd-unknown/.rd-known stay: all 14 fandom themes override
-   their background/border-color. .rd-popup-word's font-size/font-weight
-   moved to Tailwind; color stays (theme-touched). */
-.rd-unknown {
-  background: rgba(231, 76, 60, 0.18);
-  border-bottom: 2px solid rgba(231, 76, 60, 0.5);
-}
-/* Constant across all 14 fandom themes (still "red", just different
-   alpha values from the light-mode base) — literal, not accent-based. */
-body[data-theme] .rd-unknown {
-  background: rgba(231, 76, 60, 0.15);
-  border-color: rgba(231, 76, 60, 0.4);
-}
+   any of them). .rd-unknown/.rd-known's background+border-bottom-color
+   fully converted too (docs/component-tailwind-conversion-roadmap.md
+   Batch 2) — border-bottom-width/style stay bare (theme-independent).
+   .rd-popup-word's font-size/font-weight moved to Tailwind; color stays
+   (already directly var(--accent), no separate override needed). */
+.rd-unknown,
 .rd-known {
-  background: rgba(39, 174, 96, 0.12);
-  border-bottom: 2px solid rgba(39, 174, 96, 0.4);
-}
-body[data-theme] .rd-known {
-  background: rgba(var(--accent-rgb), 0.1);
-  border-color: rgba(var(--accent-rgb), 0.3);
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
 }
 .rd-popup-word {
   color: var(--accent);

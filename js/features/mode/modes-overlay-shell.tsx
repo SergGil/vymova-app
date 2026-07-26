@@ -53,7 +53,7 @@ export function ModesOverlayShell(): ReactElement | null {
   if (typeof document === 'undefined') return null;
   return createPortal(
     <div id="modes-overlay" className="modes-overlay" onClick={onBackdropClick}>
-      <div className="modes-panel">
+      <div className="modes-panel bg-[var(--modes-panel-bg)] shadow-[var(--modes-panel-shadow)] [border:var(--modes-panel-border)]">
         <div className="modes-panel-handle" />
         <div className="modes-header">
           <span data-i18n="modesPg.header">{t('modesPg.header')}</span>
