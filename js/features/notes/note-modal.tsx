@@ -78,7 +78,7 @@ export function NoteModal(): ReactElement | null {
           📝 {t('note.hint')}
         </div>
         <textarea
-          className="note-textarea box-border w-full min-h-[100px] max-h-[200px] resize-y rounded-[10px] bg-[var(--bg)] px-3 py-2.5 font-[inherit] text-[.85rem] leading-[1.5] text-[var(--text)] outline-none"
+          className="note-textarea box-border w-full min-h-[100px] max-h-[200px] resize-y rounded-[10px] border-[1.5px] border-solid border-[var(--note-textarea-border)] bg-[var(--bg)] px-3 py-2.5 font-[inherit] text-[.85rem] leading-[1.5] text-[var(--text)] outline-none focus:border-[var(--accent)]"
           value={text}
           placeholder={t('note.placeholder')}
           autoFocus

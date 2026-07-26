@@ -20,7 +20,7 @@ export function LevelRing(): ReactElement {
         <svg width="52" height="52" viewBox="0 0 52 52">
           <circle className="ring-bg" cx="26" cy="26" r="22" />
           <circle
-            className={'ring-fill' + (pct >= 1 ? ' done' : '')}
+            className={'ring-fill [filter:var(--ring-glow)]' + (pct >= 1 ? ' done' : '')}
             id="ring-fill"
             cx="26"
             cy="26"

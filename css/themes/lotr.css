@@ -129,5 +129,12 @@ body[data-theme="lotr"] {
      consolidation, the color-mix() base behavior itself stays
      untouched. */
   --mode-card-bg: rgba(7, 26, 15, 0.8);
+  /* Full Tailwind-component-conversion pass (docs/component-tailwind-
+     conversion-roadmap.md): identical --accent-based formula for every
+     theme, not a per-theme AUX value, so no template placeholder needed
+     — just overrides css/styles.css's `:root { --ring-glow: none; }`
+     default. */
+  --ring-glow: drop-shadow(0 0 4px var(--accent));
+  --note-textarea-border: rgba(var(--accent-rgb), 0.25);
 }
 

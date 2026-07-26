@@ -40,6 +40,16 @@
      fonts can read one property regardless of which theme (or no theme)
      is active. */
   --theme-font: 'DM Sans';
+  /* .ring-fill's glow only ever appears when a fandom theme is active (no
+     body.dark variant exists) — defaults to none here so the Tailwind
+     arbitrary-value class on the component can stay unconditional; the
+     fandom root block (scripts/theme-template.css) overrides this with
+     the actual drop-shadow formula. Same --accent-based formula for every
+     theme, so no per-theme AUX token needed, just this one override. */
+  --ring-glow: none;
+  /* .note-textarea's non-focus border-color — real default (not "none"),
+     fandom overrides to an accent-tinted formula (same for every theme). */
+  --note-textarea-border: var(--border);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -1488,9 +1498,6 @@ body[data-theme] .card.is-known .card-face {
   stroke-width: 4;
   stroke-linecap: round;
   transition: stroke-dashoffset 0.5s ease;
-}
-body[data-theme] .ring-fill {
-  filter: drop-shadow(0 0 4px var(--accent));
 }
 .ring-fill.done {
   stroke: #e67e22;
@@ -4237,10 +4244,10 @@ body.dark {
 /* ── Note modal ──
    .note-header/.note-title and .note-panel's/.note-textarea's own
    box/typography moved to Tailwind utility classes in note-modal.tsx.
-   .note-panel's background and its @keyframes-driven animation stay
-   bare (live theme override across all 14 fandom themes; keyframes
-   can't become a Tailwind utility). .note-textarea's border (and
-   :focus's border-color) stay too — also theme-touched. */
+   .note-textarea's border fully converted (docs/component-tailwind-
+   conversion-roadmap.md). .note-panel's background and its
+   @keyframes-driven animation stay bare (live theme override across all
+   14 fandom themes; keyframes can't become a Tailwind utility). */
 body[data-theme] .note-panel {
   background: var(--delete-panel-bg);
   border: 1px solid rgba(var(--accent-rgb), 0.2);
@@ -4249,16 +4256,6 @@ body[data-theme] .note-panel {
   background: var(--card);
   animation: slideUpPanel 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.note-textarea {
-  border: 1.5px solid var(--border);
-}
-.note-textarea:focus {
-  border-color: var(--accent);
-}
-body[data-theme] .note-textarea {
-  border-color: rgba(var(--accent-rgb), 0.25);
-}
-
 /* .srs-forecast/.srs-fc-bars/.srs-fc-col/.srs-fc-bar-wrap/.srs-fc-cnt/
    .srs-fc-lbl moved to Tailwind utility classes in stats-page.tsx
    (tailwind-shadcn-migration-roadmap.md Phase 2). The srs-fc-bar and
