@@ -265,7 +265,7 @@ export function SimilarWordsChips(): ReactElement | null {
             <div
               key={w[0]}
               className={
-                'sim-chip flex min-w-14 cursor-pointer flex-col items-center gap-px rounded-[20px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-2.5 py-1 text-[.75rem] transition-[border-color,background] duration-150 max-[480px]:min-w-12 max-[480px]:px-2 max-[480px]:py-[3px] max-[480px]:text-[.7rem]' +
+                'sim-chip flex min-w-14 cursor-pointer flex-col items-center gap-px rounded-[20px] border-[1.5px] border-[var(--border)] bg-[var(--sim-chip-bg)] hover:bg-[var(--sim-chip-hover-bg)] px-2.5 py-1 text-[.75rem] transition-[border-color,background] duration-150 max-[480px]:min-w-12 max-[480px]:px-2 max-[480px]:py-[3px] max-[480px]:text-[.7rem]' +
                 (isKnown ? ' known-chip' : '')
               }
               onClick={(e) => {

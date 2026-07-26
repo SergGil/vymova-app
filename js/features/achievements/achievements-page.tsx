@@ -47,7 +47,7 @@ function LevelsRoadmap(): ReactElement {
           <div
             key={lv.name}
             className={
-              'level-row' +
+              'level-row bg-[var(--level-row-bg)] border-[var(--level-row-border-color)]' +
               (isCurrent ? ' level-current' : '') +
               (isDone && !isCurrent ? ' level-done' : '')
             }

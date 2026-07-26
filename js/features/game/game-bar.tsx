@@ -12,15 +12,34 @@ import { GameBarStreak, ComboBox, GameBarGoal } from './game-bar-streak.tsx';
 import { GameBarLevel } from './game-bar-level.tsx';
 import { WordOfDay } from '../word-data/word-of-day.tsx';
 
+// .gb-block's scanline pseudo-element (docs/component-tailwind-conversion-
+// roadmap.md, post-project audit cluster 6) — content defaults to `none` at
+// :root (light theme), which fully suppresses the pseudo-element there; it's
+// restated to '' in body.dark and every fandom root block, matching the old
+// `body:not(.dark):not([data-theme]) .gb-block::after { display: none }`
+// override exactly (visible whenever dark and/or fandom is active).
+const GB_BLOCK_AFTER =
+  " after:content-[var(--gb-block-after-content)] after:absolute after:inset-0 after:pointer-events-none after:[background:repeating-linear-gradient(0deg,transparent_0px,transparent_3px,rgba(0,180,255,.025)_3px,rgba(0,180,255,.025)_4px)]";
+
 export function GameBar(): ReactElement {
   return (
     <div className="game-bar-3 mb-2.5 flex gap-2" id="game-bar">
-      <div className="gb-block gb-streak-block [background:var(--gb-block-bg)] border-[var(--gb-streak-block-border)] shadow-[var(--gb-block-shadow)]">
+      <div
+        className={
+          'gb-block gb-streak-block [background:var(--gb-block-bg)] border-[var(--gb-streak-block-border)] shadow-[var(--gb-block-shadow)]' +
+          GB_BLOCK_AFTER
+        }
+      >
         <GameBarStreak />
         <ComboBox />
       </div>
 
-      <div className="gb-block gb-goal-block [background:var(--gb-block-bg)] border-[var(--gb-goal-block-border)] shadow-[var(--gb-block-shadow)]">
+      <div
+        className={
+          'gb-block gb-goal-block [background:var(--gb-block-bg)] border-[var(--gb-goal-block-border)] shadow-[var(--gb-block-shadow)]' +
+          GB_BLOCK_AFTER
+        }
+      >
         <div className="gb-goal-header">
           <span
             className="gb-label text-[var(--gb-label-color)] [text-transform:var(--gb-label-transform)] text-[length:var(--gb-label-size)]"
@@ -40,12 +59,20 @@ export function GameBar(): ReactElement {
         <GameBarGoal />
       </div>
 
-      <div className="gb-block gb-wotd-block [background:var(--gb-block-bg)] border-[var(--gb-block-border)] shadow-[var(--gb-block-shadow)]">
+      <div
+        className={
+          'gb-block gb-wotd-block [background:var(--gb-block-bg)] border-[var(--gb-block-border)] shadow-[var(--gb-block-shadow)]' +
+          GB_BLOCK_AFTER
+        }
+      >
         <WordOfDay />
       </div>
 
       <div
-        className="gb-block gb-level-block [background:var(--gb-block-bg)] border-[var(--gb-level-block-border)] shadow-[var(--gb-level-block-shadow)]"
+        className={
+          'gb-block gb-level-block [background:var(--gb-block-bg)] border-[var(--gb-level-block-border)] shadow-[var(--gb-level-block-shadow)]' +
+          GB_BLOCK_AFTER
+        }
         id="level-box"
         title={t('cards.levelProgressTitle')}
         data-i18n-title="cards.levelProgressTitle"

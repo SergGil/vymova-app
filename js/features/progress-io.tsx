@@ -294,7 +294,7 @@ export function ProgressIO(): ReactElement {
               if (e.target === e.currentTarget) closeExportModal();
             }}
           >
-            <div className="import-panel">
+            <div className="import-panel bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--import-panel-shadow)]">
               <div className="import-title">{t('modal.exportTitle')}</div>
               <div className="import-sub">{t('modal.exportSub')}</div>
               <textarea
@@ -338,7 +338,7 @@ export function ProgressIO(): ReactElement {
               if (e.target === e.currentTarget) setImportOpen(false);
             }}
           >
-            <div className="import-panel">
+            <div className="import-panel bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--import-panel-shadow)]">
               <div className="import-title">{t('modal.importTitle')}</div>
               <div className="import-sub">{t('modal.importSub')}</div>
               <textarea

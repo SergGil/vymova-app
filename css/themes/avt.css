@@ -62,11 +62,15 @@ body[data-theme="avt"] {
   --section-title-color: #5fc8c3; /* .stats-section-title, .settings-section-title */
   --settings-section-bg: rgba(0, 35, 33, 0.7);
   --delete-panel-bg: #091e1d; /* .prf-delete-panel, .import-panel, .note-panel */
+  --delete-panel-border: 1px solid rgba(var(--accent-rgb), 0.2); /* .prf-delete-panel, .import-panel */
+  --prf-delete-panel-shadow: 0 0 60px rgba(var(--accent-rgb), 0.1);
+  --import-panel-shadow: 0 0 60px rgba(var(--accent-rgb), 0.1);
   --delete-title-color: #e8fffe; /* .prf-delete-title, #achievement-toast .toast-name */
   --delete-warn-color: rgba(200, 255, 253, 0.5);
   --achievement-toast-bg: linear-gradient(135deg, #051a19 0%, #0a2827 100%);
   --combo-toast-bg: linear-gradient(90deg, #002826, #004441);
   --level-row-bg: rgba(0, 25, 24, 0.6);
+  --level-row-border-color: rgba(var(--accent-rgb), 0.1);
   --gb-goal-sep-color: rgba(200, 255, 253, 0.4); /* .gb-goal-sep, .gb-level-arrow */
   /* Фаза 4: AUX tokens for selectors also touched by body.dark (a real
      body.dark override stays a separate literal rule — it's just one
@@ -181,6 +185,12 @@ body[data-theme="avt"] {
   --combo-toast-color: var(--accent);
   --combo-toast-text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
   --combo-toast-shadow: 0 0 20px rgba(var(--accent-rgb), 0.2);
+  /* .sim-chip/.family-chip (Batch 7 cluster 5) — same var(--card)
+     restatement as body.dark, so the light-only reversion rule's absence
+     is a no-op here too (matches --quiz-panel-bg's shape). */
+  --sim-chip-bg: var(--card);
+  --sim-chip-hover-bg: rgba(0, 200, 100, 0.06);
+  --family-chip-bg: var(--card);
   /* .btn-know/.hard/.dontknow/.easy (Batch 6) — fixed neon colors,
      identical across all 14 themes (never derived from --accent), same
      as the pre-existing css/styles.css comment on this cluster said
@@ -304,6 +314,7 @@ body[data-theme="avt"] {
   --level-badge-shadow: 0 0 10px rgba(var(--accent-rgb), 0.2);
   --gb-block-bg: var(--panel-glow-bg);
   --gb-block-border: rgba(var(--accent-rgb), 0.15);
+  --gb-block-after-content: '';
   /* Same "always active" SW values as body.dark below — no distinct
      fandom-specific look exists for .gb-label, but custom properties
      don't fall through from an unconditional bare rule the way the old

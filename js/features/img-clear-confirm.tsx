@@ -46,7 +46,7 @@ export function ImgClearConfirmDialog(): ReactElement | null {
         if (e.target === e.currentTarget) close();
       }}
     >
-      <div className="prf-delete-panel">
+      <div className="prf-delete-panel bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--prf-delete-panel-shadow)]">
         <div className="prf-delete-icon">🗑️</div>
         <div className="prf-delete-title text-[var(--prf-delete-title-color)]">
           {t('modal.imgClearTitle')}

@@ -192,6 +192,11 @@
   /* Not itself theme/dark-touched — same value everywhere except on the
      .gb-level-block instance, which overrides it with its own token. */
   --gb-block-shadow: var(--shadow);
+  /* .gb-block::after scanline (Batch 7 cluster 6) — `none` fully suppresses
+     pseudo-element generation in light theme; restated to '' (empty string,
+     i.e. content: "") in body.dark and every fandom root block below,
+     matching the old body:not(.dark):not([data-theme]) override exactly. */
+  --gb-block-after-content: none;
   /* No distinct fandom rule exists for .gb-label — the "always active"
      SW value already applies unconditionally whenever light-reversion
      doesn't (i.e. in BOTH dark-no-fandom AND fandom states alike). */
@@ -419,6 +424,31 @@
   --combo-toast-color: #fff;
   --combo-toast-text-shadow: none;
   --combo-toast-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  /* .sim-chip/.family-chip (Batch 7 cluster 5) — light-specific literals
+     at :root, restated to var(--card) in body.dark/fandom to match what
+     the base Tailwind bg-[var(--card)] class already showed there before
+     this bare-CSS reversion rule masked it in light mode only. */
+  --sim-chip-bg: #f5f5f5;
+  --sim-chip-hover-bg: #e8f8f0;
+  --family-chip-bg: rgba(45, 90, 61, 0.06);
+  /* .prf-delete-panel/.import-panel (Batch 7 cluster 7) — background is a
+     var(--card) pass-through, restated in body.dark below (bare :root-only
+     var() pass-throughs don't re-resolve per element post-build, see the
+     body.dark comment). border/shadow default to none/their own pre-
+     existing literal (no var() ref, safe as :root-only) since fandom is the
+     only state that ever added a glow. .note-panel shares --delete-panel-bg/
+     -border (AUX25 in scripts/theme-template.css) but keeps its own bare
+     CSS for now — that's cluster 13, not yet converted. */
+  --delete-panel-bg: var(--card);
+  --delete-panel-border: none;
+  --prf-delete-panel-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  --import-panel-shadow: none;
+  /* .level-row (Batch 7 cluster 8) — pure var(--bg)/var(--border) pass-
+     throughs; restated in body.dark below (see comment there — a bare
+     :root-only var() pass-through doesn't re-resolve per element once
+     Tailwind's build step processes the stylesheet). */
+  --level-row-bg: var(--bg);
+  --level-row-border-color: var(--border);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -1182,6 +1212,20 @@ body.dark {
      was already unconditionally winning here before any conversion). */
   --gb-block-bg: linear-gradient(135deg, #0a1628 0%, #0d1f3a 100%);
   --gb-block-border: #1e3a5a;
+  --gb-block-after-content: '';
+  /* .level-row (Batch 7 cluster 8) — must be restated here even though the
+     formula is identical to :root's (var(--bg)/var(--border)): a bare
+     :root-only custom property whose value is itself another var()
+     reference does NOT re-resolve per element the way plain CSS properties
+     do once Tailwind's build step processes the stylesheet — verified via
+     Playwright showing the LIGHT --bg/--border baked in even under
+     body.dark. Restating inside this same rule (alongside dark's own --bg/
+     --border) fixes it, matching the working --sim-chip-bg precedent. */
+  --level-row-bg: var(--bg);
+  --level-row-border-color: var(--border);
+  /* .prf-delete-panel/.import-panel (Batch 7 cluster 7) — same var()
+     pass-through re-resolution issue as --level-row-bg above. */
+  --delete-panel-bg: var(--card);
   --gb-label-color: #5fa8c8;
   --gb-label-transform: uppercase;
   --gb-label-size: 0.7rem;
@@ -1278,6 +1322,9 @@ body.dark {
   --progress-fill-bg: var(--accent);
   --word-text-color: var(--text);
   --quiz-panel-bg: var(--card);
+  --sim-chip-bg: var(--card);
+  --sim-chip-hover-bg: rgba(0, 200, 100, 0.06);
+  --family-chip-bg: var(--card);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -1668,7 +1715,6 @@ body.dark .btn:hover {
 
 /* Модал імпорту */
 .import-panel {
-  background: var(--card);
   border-radius: 16px;
   padding: 22px 20px;
   max-width: 340px;
@@ -1823,9 +1869,14 @@ body.dark .btn:hover {
   padding: 12px 14px;
   margin-bottom: 10px;
 }
+/* background (base + :hover) fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md, post-project audit follow-up) — the
+   light-only reversion rules below (body:not(.dark):not([data-theme]))
+   are gone entirely, folded into --sim-chip-bg/--sim-chip-hover-bg's
+   :root default. border-color stays bare (var(--accent) already resolves
+   correctly per-theme on its own, no override ever competed with it). */
 .sim-chip:hover {
   border-color: var(--accent);
-  background: rgba(0, 200, 100, 0.06);
 }
 .sim-chip .sc-word {
   font-weight: 700;
@@ -1870,27 +1921,14 @@ body.dark .btn:hover {
   background: rgba(52, 152, 219, 0.14);
 }
 
-/* Light theme overrides — was `body:not(.dark):not(.sw):not(.hp)...:not(.dt)`,
-   a hand-enumerated list of the old body.<key> theme classes. The fandom
-   themes → body[data-theme=] refactor (9be29fd, before this file's own
-   .similar-section fix) dropped those classes entirely — body never gets
-   .sw/.dt/etc. anymore, only the data-theme attribute — so every one of
-   those :not(.sw):not(.dt)... checks was vacuously true from that commit
-   on, and this "light theme only" override fired unconditionally for every
-   fandom theme too (not just the true light/default theme), forcing chips
-   back to a light-gray/white background regardless of the active theme.
-   :not([data-theme]) is the one check that actually distinguishes "no
-   fandom theme active" now. */
-body:not(.dark):not([data-theme]) .sim-chip {
-  background: #f5f5f5;
-}
-body:not(.dark):not([data-theme]) .sim-chip:hover {
-  background: #e8f8f0;
-  border-color: var(--accent);
-}
-body:not(.dark):not([data-theme]) .family-chip {
-  background: rgba(45, 90, 61, 0.06);
-}
+/* The former light-only reversion rules here (`body:not(.dark):
+   not([data-theme]) .selector` — already the correct, fixed form by the
+   time this file last touched them, see the git history for the earlier
+   `:not(.sw):not(.hp)...` enumeration bug this replaced) are now fully
+   gone: --sim-chip-bg/--sim-chip-hover-bg/--family-chip-bg's :root
+   defaults hold the exact values that used to live here, restated back
+   to var(--card) in body.dark/fandom (docs/component-tailwind-
+   conversion-roadmap.md, post-project audit follow-up). */
 
 /* ── Тест (Quiz) ── */
 #quiz-overlay {
@@ -3147,21 +3185,6 @@ body[data-theme] * {
   overflow: hidden;
 }
 
-/* Subtle scanline on each block */
-.gb-block::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    transparent 3px,
-    rgba(0, 180, 255, 0.025) 3px,
-    rgba(0, 180, 255, 0.025) 4px
-  );
-  pointer-events: none;
-}
-
 /* Streak block: orange/fire theme — border-color moved to
    --gb-streak-block-border, .gb-streak-num's color/text-shadow moved to
    --gb-streak-num-color/-shadow (docs/component-tailwind-conversion-
@@ -3238,14 +3261,9 @@ body[data-theme] * {
 }
 
 /* ── Light theme: keep game-bar readable ──
-   .gb-block's background/border-color and .gb-label's color/text-
-   transform/font-size fully converted to Tailwind (docs/component-
-   tailwind-conversion-roadmap.md, game-bar atomic pass). .gb-block::after
-   stays bare (pseudo-element, out of scope — Batch 5 territory). */
-body:not(.dark):not([data-theme])
-  .gb-block::after {
-  display: none;
-}
+   .gb-block's background/border-color, .gb-label's color/text-transform/
+   font-size, and .gb-block::after's content (Batch 7 cluster 6) all fully
+   converted to Tailwind (docs/component-tailwind-conversion-roadmap.md). */
 
 /* ── SW theme: extra glow ── */
 
@@ -3797,22 +3815,17 @@ body[data-theme="hp"] .sb-profile-section {
 }
 
 /* ── Profile delete modal ── */
-/* .import-panel shares this exact fandom override (same AUX25 value in
-   scripts/theme-template.css) — one combined rule covers both. */
-body[data-theme] .prf-delete-panel,
-body[data-theme] .import-panel {
-  background: var(--delete-panel-bg);
-  border: 1px solid rgba(var(--accent-rgb), 0.2);
-  box-shadow: 0 0 60px rgba(var(--accent-rgb), 0.1);
-}
+/* .prf-delete-panel/.import-panel's background/border/box-shadow fully
+   converted to Tailwind (docs/component-tailwind-conversion-roadmap.md,
+   Batch 7 cluster 7) — --delete-panel-bg/-border/--prf-delete-panel-shadow/
+   --import-panel-shadow. .note-panel still reads --delete-panel-bg/-border
+   here too but keeps its own bare CSS rule below — cluster 13. */
 .prf-delete-panel {
-  background: var(--card);
   border-radius: 20px;
   padding: 32px 28px 24px;
   max-width: 340px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
   animation: slideUpPanel 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .prf-delete-icon {
@@ -3922,21 +3935,21 @@ body[data-theme] .import-panel {
   gap: 6px;
   margin-top: 6px;
 }
+/* .level-row's background/border-color fully converted to Tailwind
+   (docs/component-tailwind-conversion-roadmap.md, Batch 7 cluster 8) —
+   --level-row-bg/--level-row-border-color. border-width/style stay bare
+   (never theme-touched, always 1.5px solid). */
 .level-row {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
   border-radius: 12px;
-  border: 1.5px solid var(--border);
-  background: var(--bg);
+  border-width: 1.5px;
+  border-style: solid;
   transition: all 0.15s;
   position: relative;
   overflow: hidden;
-}
-body[data-theme] .level-row {
-  background: var(--level-row-bg);
-  border-color: rgba(var(--accent-rgb), 0.1);
 }
 /* font-size is identical across all 14 themes (never a token) — no
    !important needed, body[data-theme] .level-row-name already
