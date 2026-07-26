@@ -449,6 +449,20 @@
      Tailwind's build step processes the stylesheet). */
   --level-row-bg: var(--bg);
   --level-row-border-color: var(--border);
+  /* .level-row-name (Batch 7 cluster 9) — literal values, no var() ref,
+     safe as :root-only. */
+  --level-row-name-font: inherit;
+  --level-row-name-size: 0.88rem;
+  /* .ach-progress-fill/.ach-popup-prog-fill (Batch 7 clusters 10-11) —
+     var(--accent) pass-throughs, restated in body.dark below (same
+     re-resolution issue as --level-row-bg). */
+  --ach-progress-fill-bg: var(--accent);
+  --ach-popup-prog-fill-bg: linear-gradient(90deg, var(--accent), #2ecc71);
+  --ach-popup-prog-fill-shadow: none;
+  /* .sidebar (Batch 7 cluster 12) — var(--card)/var(--border) pass-
+     throughs, restated in body.dark below. */
+  --sidebar-bg: var(--card);
+  --sidebar-border-color: var(--border);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -1226,6 +1240,14 @@ body.dark {
   /* .prf-delete-panel/.import-panel (Batch 7 cluster 7) — same var()
      pass-through re-resolution issue as --level-row-bg above. */
   --delete-panel-bg: var(--card);
+  /* .ach-progress-fill/.ach-popup-prog-fill (Batch 7 clusters 10-11) —
+     same var() pass-through re-resolution issue. */
+  --ach-progress-fill-bg: var(--accent);
+  --ach-popup-prog-fill-bg: linear-gradient(90deg, var(--accent), #2ecc71);
+  /* .sidebar (Batch 7 cluster 12) — same var() pass-through
+     re-resolution issue. */
+  --sidebar-bg: var(--card);
+  --sidebar-border-color: var(--border);
   --gb-label-color: #5fa8c8;
   --gb-label-transform: uppercase;
   --gb-label-size: 0.7rem;
@@ -3951,13 +3973,6 @@ body[data-theme="hp"] .sb-profile-section {
   position: relative;
   overflow: hidden;
 }
-/* font-size is identical across all 14 themes (never a token) — no
-   !important needed, body[data-theme] .level-row-name already
-   out-specifies the plain .level-row-name base rule above. */
-body[data-theme] .level-row-name {
-  font-family: var(--theme-font), monospace;
-  font-size: 0.75rem;
-}
 .level-row.level-current {
   border-width: 2px;
   background: transparent;
@@ -3985,8 +4000,11 @@ body[data-theme] .level-row-name {
   flex: 1;
   min-width: 0;
 }
+/* font-family/font-size fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md, Batch 7 cluster 9) —
+   --level-row-name-font/-size. Both literal (no var() ref), safe as
+   :root-only (no body.dark restatement needed). */
 .level-row-name {
-  font-size: 0.88rem;
   font-weight: 700;
   color: var(--text);
 }
@@ -4064,17 +4082,16 @@ body[data-theme]::after {
   background-attachment: fixed;
   pointer-events: none;
 }
-body[data-theme] .ach-progress-fill {
-  background: var(--fill-glow-bg);
-}
-body[data-theme] .ach-popup-prog-fill {
-  background: var(--fill-glow-bg);
-  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
-}
-body[data-theme] .sidebar {
-  background: var(--sidebar-bg);
-  border-color: rgba(var(--accent-rgb), 0.12);
-}
+/* .ach-progress-fill/.ach-popup-prog-fill's background/box-shadow fully
+   converted to Tailwind (docs/component-tailwind-conversion-roadmap.md,
+   Batch 7 clusters 10-11) — --ach-progress-fill-bg/--ach-popup-prog-fill-bg
+   (both gradients in fandom — AUX8 — so consumed via [background:var(...)]
+   shorthand, not bg-[var(...)], to avoid the known bg-[var(x)]-compiles-to-
+   background-color-and-drops-the-gradient bug)/-shadow. */
+/* .sidebar's background/border-color fully converted to Tailwind
+   (docs/component-tailwind-conversion-roadmap.md, Batch 7 cluster 12) —
+   --sidebar-bg/--sidebar-border-color, applied directly on index.html's
+   static <nav id="sidebar"> markup (not yet a React component). */
 /* #achievement-toast(+.toast-name/.toast-title/.toast-icon)/.srs-stats-bar/
    .stats-section/.stats-section-title/.stats-title/.sv/.ach-popup-icon/
    .ach-popup-name/.ach-card.unlocked(+.ach-icon) all fully converted to

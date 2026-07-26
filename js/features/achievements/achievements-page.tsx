@@ -75,7 +75,10 @@ function LevelsRoadmap(): ReactElement {
               {i + 1}
             </div>
             <div className="level-row-info">
-              <div className="level-row-name" style={{ color: isCurrent ? lv.color : '' }}>
+              <div
+                className="level-row-name font-[family-name:var(--level-row-name-font)] text-[length:var(--level-row-name-size)]"
+                style={{ color: isCurrent ? lv.color : '' }}
+              >
                 {levelName(lv.name)}
               </div>
               <div className="level-row-range">
@@ -258,7 +261,7 @@ function AchievementsGrid({
                   </div>
                   <div className="ach-progress-track mt-[7px] h-1 overflow-hidden rounded-[4px] bg-border">
                     <div
-                      className="ach-progress-fill h-full rounded-[4px] bg-accent transition-[width] duration-[400ms]"
+                      className="ach-progress-fill h-full rounded-[4px] [background:var(--ach-progress-fill-bg)] transition-[width] duration-[400ms]"
                       style={{ width: fillPct + '%', background: isUnlocked ? 'var(--success)' : undefined }}
                     />
                   </div>
@@ -333,7 +336,7 @@ function AchievementPopup({
         </div>
         <div className="ach-popup-prog-track h-2 overflow-hidden rounded-[8px] bg-border">
           <div
-            className="ach-popup-prog-fill h-full rounded-[8px] bg-[linear-gradient(90deg,var(--accent),#2ecc71)] transition-[width] duration-500 ease-in-out"
+            className="ach-popup-prog-fill h-full rounded-[8px] [background:var(--ach-popup-prog-fill-bg)] shadow-[var(--ach-popup-prog-fill-shadow)] transition-[width] duration-500 ease-in-out"
             style={{ width: fillPct + '%', background: isUnlocked ? 'var(--success)' : undefined }}
           />
         </div>

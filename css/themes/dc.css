@@ -52,6 +52,9 @@ body[data-theme="dc"] {
      AUX token in this template (documented per name below). */
   --progress-fill-bg: linear-gradient(90deg, #0044ff, #0044ff);
   --fill-glow-bg: linear-gradient(90deg, #0044ff, #7da0ff); /* .ach-progress-fill, .ach-popup-prog-fill */
+  --ach-progress-fill-bg: var(--fill-glow-bg);
+  --ach-popup-prog-fill-bg: var(--fill-glow-bg);
+  --ach-popup-prog-fill-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
   --panel-glow-bg: rgba(10, 19, 44, 0.9); /* .btn, #search-input, .srs-stats-bar, .wotd-box, .gb-block */
   --word-text-color: #e8edfc;
   --quiz-panel-bg: rgba(10, 19, 44, 0.97); /* .quiz-panel, .pairs-panel */
@@ -59,6 +62,7 @@ body[data-theme="dc"] {
   --profile-name-color: #aabbe8;
   --confirm-btn-bg: linear-gradient(90deg, #002280, #0044ff); /* .prf-add-confirm, .profile-save-btn, .dc-pbar-fill */
   --sidebar-bg: #080d1c;
+  --sidebar-border-color: rgba(var(--accent-rgb), 0.12);
   --section-title-color: #5f7bc8; /* .stats-section-title, .settings-section-title */
   --settings-section-bg: rgba(0, 9, 35, 0.7);
   --delete-panel-bg: #090f1e; /* .prf-delete-panel, .import-panel, .note-panel */
@@ -315,6 +319,8 @@ body[data-theme="dc"] {
   --gb-block-bg: var(--panel-glow-bg);
   --gb-block-border: rgba(var(--accent-rgb), 0.15);
   --gb-block-after-content: '';
+  --level-row-name-font: var(--theme-font), monospace;
+  --level-row-name-size: 0.75rem;
   /* Same "always active" SW values as body.dark below — no distinct
      fandom-specific look exists for .gb-label, but custom properties
      don't fall through from an unconditional bare rule the way the old
