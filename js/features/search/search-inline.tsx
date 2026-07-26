@@ -161,7 +161,7 @@ export function SearchInline(): ReactElement {
                 key={h.key}
                 className={
                   'search-result-item flex cursor-pointer justify-between gap-2 px-3 py-2 text-[.85rem] hover:bg-[var(--search-result-hover-bg)]' +
-                  (isKnown ? ' sr-known' : '') +
+                  (isKnown ? ' sr-known bg-[var(--sr-known-bg)]' : '') +
                   (i === activeIdx ? ' active' : '')
                 }
                 onClick={() => goToWord(h.key, reset)}

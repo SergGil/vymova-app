@@ -203,7 +203,12 @@ export function CardShell(): ReactElement {
           <button className="btn" id="btn-prev" title="Попередня картка" data-i18n-title="cards.prevTitle">
             <span data-i18n="cards.back">← Назад</span>
           </button>
-          <button className="btn btn-auto" id="btn-auto" title="Авто-режим" data-i18n-title="cards.autoTitle">
+          <button
+            className="btn btn-auto !border-[var(--btn-auto-color)] !text-[var(--btn-auto-color)]"
+            id="btn-auto"
+            title="Авто-режим"
+            data-i18n-title="cards.autoTitle"
+          >
             <AutoButtonLabel />
           </button>
           <button
@@ -239,7 +244,7 @@ export function CardShell(): ReactElement {
             style={{ display: 'none' }}
           ></button>
           <button
-            className="btn btn-modes-open"
+            className="btn btn-modes-open !border-[var(--btn-modes-open-color)] !text-[var(--btn-modes-open-color)] hover:!bg-[var(--btn-modes-open-hover-bg)]"
             id="btn-modes-open"
             title="Режими навчання"
             data-i18n-title="cards.modesTitle"

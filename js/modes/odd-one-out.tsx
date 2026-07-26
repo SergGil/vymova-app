@@ -235,7 +235,7 @@ export function OddOneOutPage(): ReactElement {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginBottom: 8 }}>
             {round.choices.map((c, i) => {
               let cls =
-                "quiz-option relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 disabled:cursor-default";
+                "quiz-option relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 not-disabled:hover:border-[var(--quiz-option-hover-border)] not-disabled:hover:bg-[var(--quiz-option-hover-bg)] disabled:cursor-default";
               if (selected !== null) {
                 if (i === selected) cls += i === round.oddIndex ? ' correct' : ' wrong';
                 else if (i === round.oddIndex) cls += ' reveal';

@@ -234,7 +234,7 @@ export function SidebarNav(): ReactElement {
     <>
       <Portal id="sidebar-logo-mount">
         <div
-          className="sidebar-logo"
+          className="sidebar-logo border-b-[var(--sidebar-logo-border)]"
           id="sb-home"
           title="На головну — картки"
           style={{ cursor: 'pointer' }}

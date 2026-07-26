@@ -339,7 +339,7 @@ export function AssocChainPage(): ReactElement {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
             {step.options.map((opt, i) => {
               let cls =
-                "quiz-option relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 disabled:cursor-default";
+                "quiz-option relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 not-disabled:hover:border-[var(--quiz-option-hover-border)] not-disabled:hover:bg-[var(--quiz-option-hover-bg)] disabled:cursor-default";
               if (selected) {
                 if (opt === selected) cls += opt === step.correct ? ' correct' : ' wrong';
                 else if (opt === step.correct) cls += ' reveal';

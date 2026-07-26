@@ -114,10 +114,12 @@ describe('<SidebarNav/>', () => {
 
   it('renders the logo and nav links structurally identical to the original static markup (AI-tutor gated items excluded)', () => {
     render(<SidebarNav />);
-    expectStructuralParity(
-      document.getElementById('sidebar-logo-mount')!.innerHTML,
-      ORIGINAL_LOGO_HTML,
-    );
+    // Batch 4 also added .sidebar-logo's border-b-[var(--sidebar-logo-border)]
+    // — same stripping approach as sidebar-nav-mount below.
+    const actualLogoHtml = document
+      .getElementById('sidebar-logo-mount')!
+      .innerHTML.replace(/ border-b-\[var\(--sidebar-logo-border\)\]/g, '');
+    expectStructuralParity(actualLogoHtml, ORIGINAL_LOGO_HTML);
     // docs/component-tailwind-conversion-roadmap.md Batch 4 added theme-
     // driven Tailwind classes (.sb-btn's base bg-transparent/text-.../
     // hover:.../.sb-flyout's bg-.../border-...) — a deliberate, later

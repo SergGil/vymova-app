@@ -101,7 +101,8 @@ export function PairsMode(): ReactElement | null {
 
     function makeBtn(item: { text: string; id: number }, side: string): HTMLButtonElement {
       const btn = document.createElement('button');
-      btn.className = 'pair-btn';
+      btn.className =
+        'pair-btn border-2 border-[var(--border)] bg-[var(--card)] text-[var(--text)] hover:border-[var(--pair-btn-hover-border)] hover:bg-[var(--pair-btn-hover-bg)]';
       btn.textContent = item.text;
       btn.dataset.id = String(item.id);
       btn.dataset.side = side;
@@ -112,18 +113,23 @@ export function PairsMode(): ReactElement | null {
     function onClick(btn: HTMLElement, item: { text: string; id: number }, side: string): void {
       if (btn.classList.contains('matched')) return;
       startTimer();
+      const SELECTED_CLASSES = [
+        'selected',
+        'border-[var(--pair-btn-selected-border)]',
+        'bg-[var(--pair-btn-selected-bg)]',
+      ];
       if (!pSel) {
         pSel = { el: btn, id: item.id, side };
-        btn.classList.add('selected');
+        btn.classList.add(...SELECTED_CLASSES);
       } else if (pSel.el === btn) {
-        btn.classList.remove('selected');
+        btn.classList.remove(...SELECTED_CLASSES);
         pSel = null;
       } else if (pSel.side === side) {
-        pSel.el.classList.remove('selected');
+        pSel.el.classList.remove(...SELECTED_CLASSES);
         pSel = { el: btn, id: item.id, side };
-        btn.classList.add('selected');
+        btn.classList.add(...SELECTED_CLASSES);
       } else if (pSel.id === item.id) {
-        pSel.el.classList.remove('selected');
+        pSel.el.classList.remove(...SELECTED_CLASSES);
         pSel.el.classList.add('matched');
         btn.classList.add('matched');
         pSel = null;
@@ -136,7 +142,7 @@ export function PairsMode(): ReactElement | null {
         if (pMatched === N) setTimeout(finish, 350);
       } else {
         const wrongA = pSel.el;
-        wrongA.classList.remove('selected');
+        wrongA.classList.remove(...SELECTED_CLASSES);
         wrongA.classList.add('wrong');
         btn.classList.add('wrong');
         pSel = null;

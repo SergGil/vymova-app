@@ -258,6 +258,34 @@
   --sb-btn-hover-color: var(--text);
   --sb-flyout-bg: var(--card);
   --sb-flyout-border: var(--border);
+  /* Batch 4 dual-system clusters (docs/component-tailwind-conversion-
+     roadmap.md) — light+dark literal pairs with no fandom override of
+     their own, so they need only a :root/body.dark pair, not a third
+     fandom value. Applied via Tailwind's `!` modifier on the component
+     (not a plain arbitrary-value class): each of these shares the .btn
+     base class, whose own unconditional bare border/color rule would
+     otherwise mask a plain (unlayered-beats-layered) Tailwind class the
+     same way .btn-achievements's did (6th bug class). */
+  --btn-auto-color: #7b5ea7;
+  --btn-modes-open-color: #7b5ea7;
+  --btn-modes-open-hover-bg: #f3eef9;
+  --sidebar-logo-border: var(--border);
+  --sb-profile-section-border: var(--border);
+  --sr-known-bg: #f0fdf4;
+  --quiz-option-hover-border: var(--accent);
+  --quiz-option-hover-bg: color-mix(in srgb, var(--accent) 10%, var(--card));
+  --pair-btn-hover-border: #7b5ea7;
+  --pair-btn-hover-bg: #f9f5ff;
+  --pair-btn-selected-border: #3498db;
+  --pair-btn-selected-bg: rgba(52, 152, 219, 0.1);
+  --srs-next-new-color: #2980b9;
+  --srs-next-new-bg: rgba(41, 128, 185, 0.1);
+  --srs-next-over-color: #e74c3c;
+  --srs-next-over-bg: rgba(231, 76, 60, 0.1);
+  --srs-next-soon-color: #e67e22;
+  --srs-next-soon-bg: rgba(230, 126, 34, 0.1);
+  --srs-next-ok-color: #27ae60;
+  --srs-next-ok-bg: rgba(39, 174, 96, 0.1);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -846,10 +874,11 @@ body[data-theme] .btn:hover {
   transform: translateY(0) scale(0.97);
   box-shadow: none;
 }
-.btn-auto {
-  border-color: #7b5ea7;
-  color: #7b5ea7;
-}
+/* border-color/color fully converted to Tailwind, applied via the `!`
+   modifier (docs/component-tailwind-conversion-roadmap.md Batch 4) — .btn
+   shares the same properties in its own unconditional bare rule, which
+   would otherwise mask a plain (unlayered-beats-layered) Tailwind class,
+   same as .btn-achievements (6th bug class). */
 .btn-auto:hover {
   background: #f3eef9;
 }
@@ -1120,6 +1149,25 @@ body.dark {
   --sb-btn-hover-color: var(--text);
   --sb-flyout-bg: #0e1c2e;
   --sb-flyout-border: rgba(255, 255, 255, 0.08);
+  --btn-auto-color: #9b59b6;
+  --btn-modes-open-color: #9b59b6;
+  --btn-modes-open-hover-bg: rgba(155, 89, 182, 0.1);
+  --sidebar-logo-border: rgba(245, 225, 180, 0.07);
+  --sb-profile-section-border: rgba(245, 225, 180, 0.07);
+  --sr-known-bg: #1a2e1f;
+  --quiz-option-hover-border: #9b59b6;
+  --quiz-option-hover-bg: rgba(155, 89, 182, 0.1);
+  --pair-btn-hover-border: #9b59b6;
+  --pair-btn-hover-bg: rgba(155, 89, 182, 0.1);
+  --pair-btn-selected-border: #5dade2;
+  --pair-btn-selected-bg: rgba(52, 152, 219, 0.12);
+  --srs-next-new-color: #5dade2;
+  --srs-next-new-bg: rgba(93, 173, 226, 0.1);
+  --srs-next-over-bg: rgba(231, 76, 60, 0.12);
+  --srs-next-soon-color: #f0a500;
+  --srs-next-soon-bg: rgba(240, 165, 0, 0.1);
+  --srs-next-ok-color: #4ecca3;
+  --srs-next-ok-bg: rgba(78, 204, 163, 0.1);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -1209,10 +1257,6 @@ body[data-theme] .btn-easy:hover {
   background: rgba(90, 169, 230, 0.1);
   box-shadow: 0 0 15px rgba(90, 169, 230, 0.3);
 }
-body.dark .btn-auto {
-  border-color: #9b59b6;
-  color: #9b59b6;
-}
 /* body.dark input#search-input and body.dark .search-results (background/
    border-color/color re-asserting the exact var(--card)/var(--border)/
    var(--text) the base rules already resolve to in dark mode) deleted as
@@ -1260,15 +1304,12 @@ body.dark .btn-auto {
 #search-input:focus {
   border-color: var(--accent);
 }
-.search-result-item.sr-known {
-  background: #f0fdf4;
-}
-body.dark .search-result-item.sr-known {
-  background: #1a2e1f;
-}
-body[data-theme] .search-result-item.sr-known {
-  background: var(--sr-known-bg);
-}
+/* background fully converted to Tailwind (docs/component-tailwind-
+   conversion-roadmap.md Batch 4) — light+dark literals centralized into
+   --sr-known-bg alongside the fandom side that already read it, so one
+   plain bg-[var(--sr-known-bg)] class resolves correctly in all 3 states
+   with no bare CSS left at all (the textbook dual-system case named in
+   this roadmap's own plan). */
 
 /* ── Підказка клавіш ── */
 .kbd-hint {
@@ -2147,32 +2188,14 @@ body.dark {
 
 /* .srs-next base layout + its new/ok/soon/today/over color/background
    variants moved to Tailwind utility classes baked directly into the
-   className strings srsStatusInfo() returns
-   (js/core/card-helpers.ts) — no bare .srs-next JSX className literal
-   exists anymore for the base rule to attach to. The variant token names
-   (new/ok/soon/today/over) stay as literal classes for the body.dark
-   overrides below, which keep winning over the new Tailwind utilities the
-   same way as everywhere else in this migration. */
-body.dark .srs-next.new {
-  color: #5dade2;
-  background: rgba(93, 173, 226, 0.1);
-}
-body.dark .srs-next.ok {
-  color: #4ecca3;
-  background: rgba(78, 204, 163, 0.1);
-}
-body.dark .srs-next.soon {
-  color: #f0a500;
-  background: rgba(240, 165, 0, 0.1);
-}
-body.dark .srs-next.today {
-  color: #f39c12;
-  background: rgba(243, 156, 18, 0.12);
-}
-body.dark .srs-next.over {
-  color: #e74c3c;
-  background: rgba(231, 76, 60, 0.12);
-}
+   className strings srsStatusInfo() returns (js/core/card-helpers.ts),
+   now reading --srs-next-<state>-color/-bg tokens instead of hardcoded
+   light literals (docs/component-tailwind-conversion-roadmap.md Batch 4)
+   — the former body.dark bare-CSS overrides for new/ok/soon/over are
+   folded into those tokens' body.dark values below. .today's body.dark
+   override is gone entirely: it was byte-identical to the light value
+   (#f39c12/rgba(243,156,18,.12) both sides), a dead no-op rule, not a
+   real dark-mode difference. */
 
 /* .mode-speak's own base box/typography moved to Tailwind utility classes
    in its 14 consuming files + the js/core/ui-helpers.ts factory (no
@@ -2193,14 +2216,10 @@ body.dark .srs-next.over {
    overrides existed for either). :hover and .correct/.wrong/.reveal (all
    with live body.dark variants, several !important-heavy hardcoded
    colors) stay here. */
-.quiz-option:hover:not(:disabled) {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, var(--card));
-}
-body.dark .quiz-option:hover:not(:disabled) {
-  background: rgba(155, 89, 182, 0.1);
-  border-color: #9b59b6;
-}
+/* :hover:not(:disabled) fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md Batch 4) — .quiz-option's own base box
+   properties are already Tailwind classes (layered), so no masking risk
+   from an unlayered base rule here, unlike the .sb-btn-style cases. */
 .quiz-option:disabled {
   cursor: default;
 }
@@ -2326,17 +2345,11 @@ body.dark .quiz-option.reveal {
 }
 
 /* ── Fill in blank ── */
-.btn-fib {
-  border-color: #2980b9;
-  color: #2980b9;
-}
-.btn-fib:hover {
-  background: #eaf4fc;
-}
-body.dark .btn-fib {
-  border-color: #5dade2;
-  color: #5dade2;
-}
+/* .btn-fib (base/:hover/body.dark) removed as dead code (docs/component-
+   tailwind-conversion-roadmap.md Batch 4, dead-code sweep): the
+   className is never applied in JSX anymore — mode-card-grid.tsx renders
+   this button via mode-card/mc-<id> classes, only id="btn-fib" survives
+   (used solely by fib.tsx's bindOverlayOpenClose getElementById call). */
 .fib-sentence {
   font-size: 1rem;
   line-height: 1.7;
@@ -2561,17 +2574,9 @@ body.dark {
 }
 
 /* ── Урок: кнопка ── */
-.btn-lesson {
-  border-color: #8e44ad;
-  color: #8e44ad;
-}
-.btn-lesson:hover {
-  background: #f5eefa;
-}
-body.dark .btn-lesson {
-  border-color: #9b59b6;
-  color: #9b59b6;
-}
+/* .btn-lesson (base/:hover/body.dark) removed as dead code — same
+   situation as .btn-fib above (lesson.tsx only uses id="btn-lesson" via
+   bindOverlayOpenClose). */
 
 /* ── Tag filter ── */
 #sel-tag {
@@ -2606,17 +2611,9 @@ body.dark {
    hover: utility classes at all, rather than a CSS :not() selector. */
 
 /* ── Write mode ── */
-.btn-write {
-  border-color: #16a085;
-  color: #16a085;
-}
-.btn-write:hover {
-  background: #e8f8f5;
-}
-body.dark .btn-write {
-  border-color: #1abc9c;
-  color: #1abc9c;
-}
+/* .btn-write (base/:hover/body.dark) removed as dead code — same
+   situation as .btn-fib above (write.tsx only uses id="btn-write" via
+   bindOverlayOpenClose). */
 /* ── Pairs mode ── */
 .pairs-panel {
   background: var(--card);
@@ -2633,6 +2630,14 @@ body.dark .btn-write {
    base rule above (both var(--card)). .pairs-panel is still legitimately
    fandom-theme-touched (theme-template.css, unrelated body[data-theme]
    selector, not this body.dark one) — not affected by this deletion. */
+/* border/background/color (base), :hover:not(.matched):not(.wrong), and
+   .selected all fully converted to Tailwind (docs/component-tailwind-
+   conversion-roadmap.md Batch 4) — the base had to move too, not just the
+   hover/selected states, since its own bare border/background/color would
+   otherwise mask them (same masking reasoning as .sb-btn's audit fix).
+   .matched/.wrong stay bare CSS (`!important`-heavy, Batch 6 territory);
+   their !important already outranks the new hover/selected Tailwind
+   classes correctly regardless of source order. */
 .pair-btn {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.85rem;
@@ -2640,9 +2645,6 @@ body.dark .btn-write {
   padding: 10px 8px;
   min-height: 52px;
   border-radius: 12px;
-  border: 2px solid var(--border);
-  background: var(--card);
-  color: var(--text);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -2652,22 +2654,6 @@ body.dark .btn-write {
   transition:
     border-color 0.12s,
     background 0.12s;
-}
-.pair-btn:hover:not(.matched):not(.wrong) {
-  border-color: #7b5ea7;
-  background: #f9f5ff;
-}
-body.dark .pair-btn:hover:not(.matched):not(.wrong) {
-  background: rgba(155, 89, 182, 0.1);
-  border-color: #9b59b6;
-}
-.pair-btn.selected {
-  border-color: #3498db;
-  background: rgba(52, 152, 219, 0.1);
-}
-body.dark .pair-btn.selected {
-  border-color: #5dade2;
-  background: rgba(52, 152, 219, 0.12);
 }
 .pair-btn.matched {
   border-color: #27ae60 !important;
@@ -2797,22 +2783,17 @@ body[data-theme] * {
   justify-content: center;
 }
 
+/* border-color/color (base) and background (:hover) fully converted to
+   Tailwind via the `!` modifier (docs/component-tailwind-conversion-
+   roadmap.md Batch 4) — .btn/.btn:hover both carry their own unconditional
+   bare rules for these same properties, which would otherwise mask a
+   plain Tailwind class (6th bug class), including during an actual hover
+   (same reasoning as .sb-btn's audit fix above, just via `!` here since
+   the masking class is the shared .btn, not .btn-modes-open's own base). */
 .btn-modes-open {
-  border-color: #7b5ea7;
-  color: #7b5ea7;
   font-weight: 600;
   padding: 7px 14px;
   font-size: 13px;
-}
-.btn-modes-open:hover {
-  background: #f3eef9;
-}
-body.dark .btn-modes-open {
-  border-color: #9b59b6;
-  color: #9b59b6;
-}
-body.dark .btn-modes-open:hover {
-  background: rgba(155, 89, 182, 0.1);
 }
 
 /* ── Modes overlay ── */
@@ -3432,9 +3413,17 @@ body[data-theme] .profile-btn {
    literal "sidebar" class name as a hook, even though its own layout rule
    is gone. */
 
+/* border-bottom-color (light+dark only) fully converted to Tailwind
+   (docs/component-tailwind-conversion-roadmap.md Batch 4) via
+   --sidebar-logo-border. The sw/hp overrides below stay bare CSS
+   unconverted on purpose: narrow, 2-of-14-themes-only values (not part
+   of the general AUX token system used by the other clusters), and
+   unlayered bare CSS keeps winning over the new Tailwind class exactly
+   as it did over the old bare base rule, so no behavior changes. */
 .sidebar-logo {
   padding: 20px 18px 16px;
-  border-bottom: 1px solid var(--border);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -3447,9 +3436,6 @@ body[data-theme] .profile-btn {
    3 non-overlapping rules with identical real-world behavior
    (docs/theme-css-migration-roadmap.md Фаза 4). Narrow, sw/hp-only —
    not part of the general 14-theme token system. */
-body.dark .sidebar-logo {
-  border-color: rgba(245, 225, 180, 0.07);
-}
 body[data-theme="sw"] .sidebar-logo {
   border-color: rgba(255, 255, 255, 0.07);
 }
@@ -3775,15 +3761,17 @@ body[data-theme="hp"] .sidebar-logo {
 }
 
 /* ══ Sidebar Profile Dropdown ═══════════════════════════════════ */
+/* border-bottom-color (light+dark only) fully converted to Tailwind
+   (docs/component-tailwind-conversion-roadmap.md Batch 4) via
+   --sb-profile-section-border — same reasoning as .sidebar-logo above
+   (narrow sw/hp overrides stay bare CSS, unlayered still wins). */
 .sb-profile-section {
   padding: 10px 12px 4px;
-  border-bottom: 1px solid var(--border);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
   margin-bottom: 4px;
 }
 /* Same overlapping-rule fix as .sidebar-logo above — see that comment. */
-body.dark .sb-profile-section {
-  border-color: rgba(245, 225, 180, 0.07);
-}
 body[data-theme="sw"] .sb-profile-section {
   border-color: rgba(255, 255, 255, 0.07);
 }

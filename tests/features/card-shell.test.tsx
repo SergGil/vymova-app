@@ -178,13 +178,17 @@ describe('<CardShell/>', () => {
     mountFixture();
     render(<CardShell />, { container: document.getElementById('card-scene-mount')! });
     // docs/component-tailwind-conversion-roadmap.md Batch 4 added theme-
-    // driven Tailwind classes to #btn-achievements (text-.../border-.../
-    // shadow-...) — a deliberate, later change unrelated to the original
-    // static-markup-to-JSX port this test guards. Stripped before
-    // comparing, same approach as mode-card-grid.test.tsx.
+    // driven Tailwind classes to #btn-achievements/#btn-auto/#btn-modes-open
+    // (text-.../border-.../shadow-...) — a deliberate, later change
+    // unrelated to the original static-markup-to-JSX port this test
+    // guards. Stripped before comparing, same approach as
+    // mode-card-grid.test.tsx.
     const actualHtml = document
       .getElementById('card-scene-mount')!
-      .innerHTML.replace(/ !?(?:text|border|shadow)-\[var\(--btn-achievements-[a-z-]*\)\]/g, '');
+      .innerHTML.replace(
+        / !?(?:hover:)?!?(?:text|border|shadow|bg)-\[var\(--(?:btn-achievements|btn-auto|btn-modes-open)-[a-z-]*\)\]/g,
+        '',
+      );
     expectStructuralParity(actualHtml, `<div class="card-scene">${ORIGINAL_CARD_SCENE_HTML}</div>`);
   });
 });

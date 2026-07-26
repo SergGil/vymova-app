@@ -133,7 +133,7 @@ export function srsStatusInfo(
     if (rangeVal === 'srs' || rangeVal === 'weak') {
       return {
         text: t('srs.badgeNew'),
-        className: BASE + ' new text-[#2980b9] bg-[rgba(41,128,185,0.1)]',
+        className: BASE + ' new text-[var(--srs-next-new-color)] bg-[var(--srs-next-new-bg)]',
         show: true,
       };
     }
@@ -146,7 +146,7 @@ export function srsStatusInfo(
     const over = Math.abs(diffDays);
     return {
       text: t('srs.badgeOverdue', { n: over, unit: pluralLabel('common_day', over) }),
-      className: BASE + ' over text-[#e74c3c] bg-[rgba(231,76,60,0.1)]',
+      className: BASE + ' over text-[var(--srs-next-over-color)] bg-[var(--srs-next-over-bg)]',
       show: true,
     };
   }
@@ -160,13 +160,13 @@ export function srsStatusInfo(
   if (diffDays <= 3) {
     return {
       text: t('srs.badgeSoon', { n: diffDays, unit: pluralLabel('common_day', diffDays) }),
-      className: BASE + ' soon text-[#e67e22] bg-[rgba(230,126,34,0.1)]',
+      className: BASE + ' soon text-[var(--srs-next-soon-color)] bg-[var(--srs-next-soon-bg)]',
       show: true,
     };
   }
   return {
     text: t('srs.badgeFuture', { n: diffDays, unit: pluralLabel('common_day', diffDays) }),
-    className: BASE + ' ok text-[#27ae60] bg-[rgba(39,174,96,0.1)]',
+    className: BASE + ' ok text-[var(--srs-next-ok-color)] bg-[var(--srs-next-ok-bg)]',
     show: true,
   };
 }

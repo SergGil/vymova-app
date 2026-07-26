@@ -280,10 +280,15 @@ export function CatPairsPage(): ReactElement | null {
                   <button
                     key={'en' + item.id}
                     className={
-                      'pair-btn' +
+                      'pair-btn border-2 border-[var(--border)] bg-[var(--card)] text-[var(--text)]' +
                       (matched.has(item.id) ? ' matched' : '') +
-                      (isSelected(item.id, 'en') ? ' selected' : '') +
-                      (isWrong(item.id, 'en') ? ' wrong' : '')
+                      (isSelected(item.id, 'en')
+                        ? ' selected border-[var(--pair-btn-selected-border)] bg-[var(--pair-btn-selected-bg)]'
+                        : '') +
+                      (isWrong(item.id, 'en') ? ' wrong' : '') +
+                      (!matched.has(item.id) && !isWrong(item.id, 'en')
+                        ? ' hover:border-[var(--pair-btn-hover-border)] hover:bg-[var(--pair-btn-hover-bg)]'
+                        : '')
                     }
                     onClick={() => onClick(item, 'en')}
                   >
@@ -296,10 +301,15 @@ export function CatPairsPage(): ReactElement | null {
                   <button
                     key={'ua' + item.id}
                     className={
-                      'pair-btn' +
+                      'pair-btn border-2 border-[var(--border)] bg-[var(--card)] text-[var(--text)]' +
                       (matched.has(item.id) ? ' matched' : '') +
-                      (isSelected(item.id, 'ua') ? ' selected' : '') +
-                      (isWrong(item.id, 'ua') ? ' wrong' : '')
+                      (isSelected(item.id, 'ua')
+                        ? ' selected border-[var(--pair-btn-selected-border)] bg-[var(--pair-btn-selected-bg)]'
+                        : '') +
+                      (isWrong(item.id, 'ua') ? ' wrong' : '') +
+                      (!matched.has(item.id) && !isWrong(item.id, 'ua')
+                        ? ' hover:border-[var(--pair-btn-hover-border)] hover:bg-[var(--pair-btn-hover-bg)]'
+                        : '')
                     }
                     onClick={() => onClick(item, 'ua')}
                   >
