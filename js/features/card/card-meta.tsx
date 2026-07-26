@@ -121,7 +121,13 @@ export function CardMeta() {
           {categoryName(cat)}
         </span>
       ))}
-      <span className="card-tag" id="wlang">
+      <span
+        className={
+          'card-tag [border:var(--card-tag-border)] ' +
+          (isKnown ? 'bg-[#27ae60] text-white' : 'bg-[var(--card-tag-bg)] text-[var(--accent)]')
+        }
+        id="wlang"
+      >
         {frontFlagUrl ? (
           <img src={frontFlagUrl} alt={frontLang} width={14} height={14} />
         ) : (

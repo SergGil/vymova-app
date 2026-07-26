@@ -396,6 +396,11 @@
   --known-face-border: var(--card-face-border);
   --known-face-bg: var(--card-face-bg-image) var(--card);
   --known-face-shadow: var(--card-face-shadow);
+  /* .card-tag (Batch 6 follow-up) — no body.dark override ever existed
+     (the base #ebf3ee light literal stays as-is in dark mode too,
+     matching original behavior exactly), only a fandom one. */
+  --card-tag-bg: #ebf3ee;
+  --card-tag-border: none;
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -551,18 +556,19 @@ body[data-theme] .progress-fill {
   color: var(--text3);
   letter-spacing: 0.05em;
 }
+/* background/border fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md Batch 6 follow-up) — the is-known
+   background/color override (below, in the .card.is-known block) already
+   wins by plain specificity in the original bare CSS (.card.is-known
+   .card-tag's 3 classes beat body[data-theme] .card-tag's element+
+   attribute+class), so no `!` modifier is needed once there's no
+   competing bare CSS left to out-rank via layering. */
 .card-tag {
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.08em;
-  color: var(--accent);
-  background: #ebf3ee;
   padding: 2px 8px;
   border-radius: 20px;
-}
-body[data-theme] .card-tag {
-  background: rgba(var(--accent-rgb), 0.12);
-  border: 1px solid rgba(var(--accent-rgb), 0.3);
 }
 .card-legend-btn {
   width: 18px;
@@ -972,14 +978,10 @@ body[data-theme] .btn:hover {
    tailwind-conversion-roadmap.md Batch 6, last cluster) — see the
    --known-face-* token comments in the :root block for how fandom mode
    avoids inheriting the light/dark gradient.
-   .card-tag deliberately NOT touched here: unlike everything else in this
-   cluster it has its OWN fandom override too (body[data-theme] .card-tag
-   above), a genuinely separate, self-contained mini-cluster — left as a
-   follow-up, not silently skipped. */
-.card.is-known .card-tag {
-  background: #27ae60;
-  color: #fff;
-}
+   .card-tag's own background/color while known — fixed literals in every
+   theme (never derived from --accent, same shape as .btn-know), applied
+   directly in card-meta.tsx via useIsCardKnown() alongside its base
+   background/color, so no separate token needed here. */
 /* Темний читабельний текст на зеленому фоні. .wtrans deleted as dead code
    — no element carries class "wtrans" anywhere (the #wtrans element's
    real class is "transcription"; this selector stopped matching whenever

@@ -159,6 +159,10 @@ body[data-theme="mc"] {
   --known-face-border: var(--card-face-border);
   --known-face-bg: var(--card-face-bg-image) var(--card);
   --known-face-shadow: var(--card-face-shadow);
+  /* .card-tag (Batch 6 follow-up) — accent-derived formula, same shape as
+     --card-face-border above. */
+  --card-tag-bg: rgba(var(--accent-rgb), 0.12);
+  --card-tag-border: 1px solid rgba(var(--accent-rgb), 0.3);
   /* .btn-know/.hard/.dontknow/.easy (Batch 6) — fixed neon colors,
      identical across all 14 themes (never derived from --accent), same
      as the pre-existing css/styles.css comment on this cluster said
