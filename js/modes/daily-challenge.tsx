@@ -334,7 +334,11 @@ export function DailyChallenge(): ReactElement | null {
           </div>
         </div>
         <div id="dc-pbar-wrap" className="mb-5 h-[5px] overflow-hidden rounded-[5px] bg-[var(--border)]">
-          <div id="dc-pbar" className="dc-pbar-fill" style={{ width: '0%' }} />
+          <div
+            id="dc-pbar"
+            className="dc-pbar-fill bg-[image:var(--confirm-btn-bg,linear-gradient(90deg,var(--accent),#27ae60))]"
+            style={{ width: '0%' }}
+          />
         </div>
         <div id="dc-word-area" className="mb-5 min-h-[80px] text-center">
           <div id="dc-word" className="dc-word" />

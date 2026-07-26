@@ -373,7 +373,11 @@ export function ProfileSwitcher(): ReactElement {
   return (
     <div ref={rootRef}>
       <div className="sb-profile-row mb-1 flex items-center gap-1.5">
-        <button id="sb-profile-btn" className="sidebar-profile-btn" onClick={toggleDropdown}>
+        <button
+          id="sb-profile-btn"
+          className="sidebar-profile-btn border-[var(--sidebar-profile-btn-border)]"
+          onClick={toggleDropdown}
+        >
           <span id="sb-profile-av" className="sb-av inline-flex text-[1.2rem] leading-none">
             <ProfileAvatarView profile={active} size={26} />
           </span>
@@ -386,7 +390,7 @@ export function ProfileSwitcher(): ReactElement {
         </button>
         <button
           id="sb-add-btn"
-          className="sb-add-btn flex h-[28px] w-[28px] shrink-0 cursor-pointer items-center justify-center rounded-md border-[1.5px] border-[var(--border)] bg-[var(--bg)] text-[1.1rem] leading-none font-bold text-[var(--accent)] transition-colors duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)]"
+          className="sb-add-btn flex h-[28px] w-[28px] shrink-0 cursor-pointer items-center justify-center rounded-md border-[1.5px] border-[var(--sb-add-btn-border)] bg-[var(--bg)] text-[1.1rem] leading-none font-bold text-[var(--accent)] transition-colors duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)]"
           title="Новий профіль"
           onClick={toggleAddForm}
         >
@@ -506,7 +510,9 @@ export function ProfileSwitcher(): ReactElement {
               key={a}
               className={
                 'prf-av-btn flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-lg border-2 border-[var(--border)] bg-[var(--bg)] text-[.95rem] transition-colors duration-[120ms] hover:border-[var(--accent)]' +
-                (a === newAvatar && newAvatarTouched ? ' prf-av-active' : '')
+                (a === newAvatar && newAvatarTouched
+                  ? ' prf-av-active shadow-[var(--prf-av-active-shadow)]'
+                  : '')
               }
               onClick={() => {
                 setNewAvatar(a);
@@ -519,7 +525,7 @@ export function ProfileSwitcher(): ReactElement {
         </div>
         <button
           id="sb-new-confirm"
-          className="prf-add-confirm"
+          className="prf-add-confirm bg-[var(--confirm-btn-bg,var(--accent))]"
           style={{ marginTop: 8 }}
           onClick={confirmAdd}
         >
@@ -610,7 +616,7 @@ export function ProfileSwitcher(): ReactElement {
                     className={
                       'prf-av-btn flex h-9 w-9 cursor-pointer items-center justify-center rounded-[10px] border-2 border-[var(--border)] bg-[var(--bg)] text-[1.1rem] transition-colors duration-[120ms] hover:border-[var(--accent)]' +
                       (a === editAvatar && (editAvatarTouched || editTarget.avatarMode === 'preset')
-                        ? ' prf-av-active'
+                        ? ' prf-av-active shadow-[var(--prf-av-active-shadow)]'
                         : '')
                     }
                     onClick={() => {
@@ -676,8 +682,13 @@ export function ProfileSwitcher(): ReactElement {
           >
             <div className="prf-delete-panel">
               <div className="prf-delete-icon">🗑️</div>
-              <div className="prf-delete-title">Видалити профіль?</div>
-              <div className="prf-delete-name" id="prf-delete-name">
+              <div className="prf-delete-title text-[var(--prf-delete-title-color)]">
+                Видалити профіль?
+              </div>
+              <div
+                className="prf-delete-name text-[var(--prf-delete-name-color)]"
+                id="prf-delete-name"
+              >
                 <CharacterAvatar
                   appearance={appearanceOf(deleteTarget)}
                   size={20}
@@ -686,7 +697,9 @@ export function ProfileSwitcher(): ReactElement {
                 />{' '}
                 {deleteTarget.name}
               </div>
-              <div className="prf-delete-warn">Весь прогрес буде видалено безповоротно.</div>
+              <div className="prf-delete-warn text-[var(--prf-delete-warn-color)]">
+                Весь прогрес буде видалено безповоротно.
+              </div>
               <div className="prf-delete-btns">
                 <button
                   className="prf-delete-btn prf-delete-btn-cancel"
@@ -694,7 +707,10 @@ export function ProfileSwitcher(): ReactElement {
                 >
                   {t('modal.cancelAlt')}
                 </button>
-                <button className="prf-delete-btn prf-delete-btn-confirm" onClick={confirmDelete}>
+                <button
+                  className="prf-delete-btn prf-delete-btn-confirm bg-[var(--prf-delete-btn-confirm-bg)]"
+                  onClick={confirmDelete}
+                >
                   Видалити
                 </button>
               </div>

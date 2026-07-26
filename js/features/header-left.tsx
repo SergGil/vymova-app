@@ -49,7 +49,11 @@ export function HeaderLeft(): ReactElement {
         <span data-i18n="cards.cardLabel">{t('cards.cardLabel')}</span> <CardIdx /> ·{' '}
         <span data-i18n="cards.learnedLabel">{t('cards.learnedLabel')}</span>: <CardKnownCount />
       </div>
-      <button id="profile-btn" className="profile-btn" style={{ display: 'none' }}>
+      <button
+        id="profile-btn"
+        className="profile-btn hover:text-[var(--profile-hover-color)]"
+        style={{ display: 'none' }}
+      >
         🧑 <span>Гравець 1</span> ▾
       </button>
     </>

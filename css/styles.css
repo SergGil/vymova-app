@@ -50,6 +50,19 @@
   /* .note-textarea's non-focus border-color — real default (not "none"),
      fandom overrides to an accent-tinted formula (same for every theme). */
   --note-textarea-border: var(--border);
+  /* Sidebar/profile single-property fandom clusters (docs/component-
+     tailwind-conversion-roadmap.md Batch 2) — each verified to have no
+     second/competing bare CSS rule for the same property before adding
+     here (the game-bar area's "always active" duplicate-selector trap). */
+  --hamburger-border: var(--border);
+  --sb-add-btn-border: var(--border);
+  --sidebar-profile-btn-border: var(--border);
+  --profile-hover-color: var(--text);
+  --prf-av-active-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.2);
+  --prf-delete-title-color: var(--text);
+  --prf-delete-name-color: #e74c3c;
+  --prf-delete-warn-color: var(--text3);
+  --prf-delete-btn-confirm-bg: #e74c3c;
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -119,19 +132,16 @@ body {
    buttons — themes/sw.css and themes/hp.css each override them
    (body[data-theme="sw"] .title-sw-toggle, body[data-theme="hp"] .title-hp-toggle), and being unlayered
    legacy CSS they keep winning over the new Tailwind utilities regardless
-   of source order. .lang-toggle/.lang-opt/.sb-lang-section/.flagdd* are a
-   separate migration step (shared across 4 component files, 14 theme
-   overrides on .lang-opt.lang-active) — untouched here. */
-/* .lang-toggle/.lang-opt/.lang-opt.lang-active/.sb-lang-section/
-   .sb-lang-label (base + the sidebar-specific width/padding/font-size
-   overrides — sidebar-nav.tsx is their only consumer, so the two are
-   merged directly into one Tailwind class list there) moved to Tailwind
-   utility classes on sidebar-nav.tsx (tailwind-shadcn-migration-roadmap.md
-   Phase 1). "lang-opt"/"lang-active" stay as class names — all 14 fandom
-   themes override .lang-opt.lang-active (body.<theme> .lang-opt.lang-active
-   in css/themes/*.css), and js/features/i18n.ts still toggles "lang-active"
-   imperatively via classList — and being unlayered legacy CSS/JS-driven,
-   both keep working unchanged regardless of the new Tailwind utilities. */
+   of source order. .lang-toggle/.lang-opt/.lang-opt.lang-active/.sb-lang-
+   section/.sb-lang-label (base + sidebar-specific overrides — sidebar-
+   nav.tsx is their only consumer, merged into one Tailwind class list
+   there) moved to Tailwind utility classes (tailwind-shadcn-migration-
+   roadmap.md Phase 1). "lang-opt"/"lang-active" stay as class names —
+   js/features/i18n.ts still toggles "lang-active" imperatively via
+   classList. The fandom accent-tint on .lang-active fully converted too
+   (docs/component-tailwind-conversion-roadmap.md Batch 2): sidebar-nav.tsx
+   reads rgba(var(--accent-rgb),0.12) directly instead of a separate
+   body[data-theme] rule. */
 select {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
@@ -817,6 +827,22 @@ body.dark {
   --bg-rgb: 26, 26, 46;
   --card-rgb: 22, 33, 62;
   --border-rgb: 42, 42, 74;
+  /* Same formulas as :root's Batch 2 tokens, re-declared here so they
+     recompute using body.dark's own --border/--text/--text3/--accent-rgb
+     instead of inheriting :root's already-resolved light value — custom
+     properties resolve var() references at declaration time, not lazily
+     per-descendant, so a formula (not a literal) needs restating anywhere
+     a token it references changes. Same reasoning as --accent-rgb/
+     --theme-font above, just newly relevant now that Batch 2 introduced
+     the first formulas referencing --border/--text/--text3. */
+  --note-textarea-border: var(--border);
+  --hamburger-border: var(--border);
+  --sb-add-btn-border: var(--border);
+  --sidebar-profile-btn-border: var(--border);
+  --profile-hover-color: var(--text);
+  --prf-av-active-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.2);
+  --prf-delete-title-color: var(--text);
+  --prf-delete-warn-color: var(--text3);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -3247,10 +3273,6 @@ body[data-theme] .profile-btn {
 }
 .profile-btn:hover {
   border-color: var(--accent);
-  color: var(--text);
-}
-body[data-theme] .profile-btn:hover {
-  color: #fff;
 }
 
 /* .prf-av-picker/.prf-av-btn/:hover moved to Tailwind utility classes in
@@ -3260,21 +3282,13 @@ body[data-theme] .profile-btn:hover {
 .prf-av-btn.prf-av-active {
   border-color: var(--accent);
   background: var(--card);
-  box-shadow: 0 0 0 2px rgba(45, 90, 61, 0.2);
-}
-body[data-theme] .prf-av-btn.prf-av-active {
-  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.2);
 }
 
-body[data-theme] .prf-add-confirm {
-  background: var(--confirm-btn-bg);
-}
 .prf-add-confirm {
   width: 100%;
   padding: 10px;
   border: none;
   border-radius: 10px;
-  background: var(--accent);
   color: #fff;
   font-family: inherit;
   font-size: 0.9rem;
@@ -3340,7 +3354,8 @@ body[data-theme="hp"] .sidebar-logo {
   gap: 8px;
   width: 100%;
   padding: 9px 11px;
-  border: 1.5px solid var(--border);
+  border-width: 1.5px;
+  border-style: solid;
   border-radius: 12px;
   background: var(--bg);
   color: var(--text);
@@ -3354,9 +3369,6 @@ body[data-theme="hp"] .sidebar-logo {
 .sidebar-profile-btn:hover {
   border-color: var(--accent);
   background: var(--card);
-}
-body[data-theme] .sidebar-profile-btn {
-  border-color: rgba(var(--accent-rgb), 0.25);
 }
 /* .sb-av/.sb-name/.sb-arrow/.sb-dd-av/.prf-char-preview/.prf-char-hint
    moved to Tailwind utility classes in profile-switcher.tsx (no
@@ -3394,12 +3406,9 @@ body[data-theme] .sidebar-profile-btn {
   color: var(--text);
 }
 .sb-btn.sb-active {
-  background: rgba(45, 90, 61, 0.12);
+  background: rgba(var(--accent-rgb), 0.12);
   color: var(--accent);
   font-weight: 600;
-}
-body[data-theme] .sb-btn.sb-active {
-  background: rgba(var(--accent-rgb), 0.12);
 }
 body.dark .sb-btn:hover {
   background: rgba(255, 255, 255, 0.06);
@@ -3564,17 +3573,15 @@ body[data-theme] .sb-flyout {
    .profile-level-card and siblings, .profile-lang-flag-img/-fb,
    .profile-lang-count/-mini-stats and siblings, plus a fully-shadowed
    duplicate .profile-lang-card definition) — none had any consumer left
-   in js/ or src/. */
-body[data-theme] .profile-save-btn {
-  background: var(--confirm-btn-bg);
-}
+   in js/ or src/. background fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md Batch 2) — reads --confirm-btn-bg with a
+   var(--accent) fallback, same token .prf-add-confirm/.dc-pbar-fill share. */
 .profile-save-btn {
   width: 100%;
   padding: 10px;
   margin-top: 14px;
   border: none;
   border-radius: 10px;
-  background: var(--accent);
   color: #fff;
   font-family: inherit;
   font-size: 0.9rem;
@@ -3830,32 +3837,18 @@ body[data-theme] .import-panel {
   font-size: 2.4rem;
   margin-bottom: 12px;
 }
-body[data-theme] .prf-delete-title {
-  color: var(--delete-title-color);
-}
 .prf-delete-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--text);
   margin-bottom: 6px;
 }
 .prf-delete-name {
   font-size: 1rem;
   font-weight: 700;
-  color: #e74c3c;
   margin-bottom: 10px;
-}
-/* Constant across all 14 fandom themes, same reasoning as
-   .btn-achievements — a different red, not per-theme accent. */
-body[data-theme] .prf-delete-name {
-  color: #ff6b6b;
-}
-body[data-theme] .prf-delete-warn {
-  color: var(--delete-warn-color);
 }
 .prf-delete-warn {
   font-size: 0.82rem;
-  color: var(--text3);
   margin-bottom: 24px;
   line-height: 1.4;
 }
@@ -3884,13 +3877,9 @@ body[data-theme] .prf-delete-warn {
 }
 .prf-delete-btn-confirm {
   border: none;
-  background: #e74c3c;
   color: #fff;
 }
 .prf-delete-btn-confirm:hover {
-  background: #c0392b;
-}
-body[data-theme] .prf-delete-btn-confirm {
   background: #c0392b;
 }
 
@@ -4152,18 +4141,16 @@ body[data-theme] .ach-card.unlocked {
 body[data-theme] .ach-card.unlocked .ach-icon {
   text-shadow: 0 0 16px rgba(var(--accent-rgb), 0.5);
 }
-body[data-theme] .level-row.level-current {
-  border-width: 2px;
-}
-body[data-theme] .hamburger {
-  border-color: rgba(var(--accent-rgb), 0.3);
-}
-body[data-theme] .sb-add-btn {
-  border-color: rgba(var(--accent-rgb), 0.3);
-}
-body[data-theme] .lang-opt.lang-active {
-  background: rgba(var(--accent-rgb), 0.12);
-}
+/* body[data-theme] .level-row.level-current deleted as dead code:
+   border-width: 2px was byte-identical to the plain .level-row.level-current
+   base rule already at higher specificity — no-op regardless of theme
+   (found during docs/component-tailwind-conversion-roadmap.md Batch 2). */
+/* body[data-theme] .lang-opt.lang-active deleted: docs/component-tailwind-
+   conversion-roadmap.md Batch 2 — sidebar-nav.tsx's [&.lang-active]:bg-[...]
+   arbitrary-variant now reads rgba(var(--accent-rgb),0.12) directly, which
+   already resolves correctly for light/dark/fandom without a separate
+   theme rule (previously hardcoded to the light-mode accent-rgb literal,
+   so this is also a latent-bug fix, not just a migration). */
 
 /* ── SW Combo toast ── */
 
@@ -4264,13 +4251,13 @@ body[data-theme] .note-panel {
    Tailwind utilities regardless of source order, same guarantee used
    throughout this migration. */
 
-/* ── Daily Challenge ── */
-body[data-theme] .dc-pbar-fill {
-  background: var(--confirm-btn-bg);
-}
+/* ── Daily Challenge ──
+   background fully converted to Tailwind (docs/component-tailwind-
+   conversion-roadmap.md Batch 2) — reads the same --confirm-btn-bg token
+   as .prf-add-confirm/.profile-save-btn, with this selector's own
+   gradient as the non-fandom fallback. */
 .dc-pbar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), #27ae60);
   border-radius: 5px;
   transition: width 0.4s;
 }

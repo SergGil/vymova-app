@@ -48,10 +48,16 @@ export function ResetConfirmDialog(): ReactElement | null {
     >
       <div className="prf-delete-panel">
         <div className="prf-delete-icon">⚠️</div>
-        <div className="prf-delete-title" data-i18n="modal.resetTitle">
+        <div
+          className="prf-delete-title text-[var(--prf-delete-title-color)]"
+          data-i18n="modal.resetTitle"
+        >
           {t('modal.resetTitle')}
         </div>
-        <div className="prf-delete-warn" data-i18n="modal.resetWarn">
+        <div
+          className="prf-delete-warn text-[var(--prf-delete-warn-color)]"
+          data-i18n="modal.resetWarn"
+        >
           {t('modal.resetWarn')}
         </div>
         <div className="prf-delete-btns">
@@ -65,7 +71,7 @@ export function ResetConfirmDialog(): ReactElement | null {
           </button>
           <button
             id="modal-confirm"
-            className="prf-delete-btn prf-delete-btn-confirm"
+            className="prf-delete-btn prf-delete-btn-confirm bg-[var(--prf-delete-btn-confirm-bg)]"
             data-i18n="modal.reset"
             onClick={() => {
               onConfirm();

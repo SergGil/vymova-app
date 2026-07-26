@@ -286,7 +286,7 @@ export function SidebarNav(): ReactElement {
           {LANG_OPTS.map((opt) => (
             <button
               key={opt.code}
-              className="lang-opt inline-flex flex-1 cursor-pointer items-center gap-1 border-none bg-transparent px-1 py-[7px] text-center text-[0.75rem] font-bold tracking-[0.03em] leading-none text-text3 opacity-[0.55] transition-all duration-150 hover:opacity-[0.85] hover:text-text [&.lang-active]:bg-[rgba(45,90,61,0.12)] [&.lang-active]:font-extrabold [&.lang-active]:text-accent [&.lang-active]:opacity-100"
+              className="lang-opt inline-flex flex-1 cursor-pointer items-center gap-1 border-none bg-transparent px-1 py-[7px] text-center text-[0.75rem] font-bold tracking-[0.03em] leading-none text-text3 opacity-[0.55] transition-all duration-150 hover:opacity-[0.85] hover:text-text [&.lang-active]:bg-[rgba(var(--accent-rgb),0.12)] [&.lang-active]:font-extrabold [&.lang-active]:text-accent [&.lang-active]:opacity-100"
               data-lang={opt.code}
               title={opt.title}
             >

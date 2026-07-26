@@ -48,15 +48,19 @@ export function ImgClearConfirmDialog(): ReactElement | null {
     >
       <div className="prf-delete-panel">
         <div className="prf-delete-icon">🗑️</div>
-        <div className="prf-delete-title">{t('modal.imgClearTitle')}</div>
-        <div className="prf-delete-warn">{t('modal.imgClearWarn')}</div>
+        <div className="prf-delete-title text-[var(--prf-delete-title-color)]">
+          {t('modal.imgClearTitle')}
+        </div>
+        <div className="prf-delete-warn text-[var(--prf-delete-warn-color)]">
+          {t('modal.imgClearWarn')}
+        </div>
         <div className="prf-delete-btns">
           <button id="img-clear-cancel" className="prf-delete-btn prf-delete-btn-cancel" onClick={close}>
             {t('modal.cancelAlt')}
           </button>
           <button
             id="img-clear-confirm"
-            className="prf-delete-btn prf-delete-btn-confirm"
+            className="prf-delete-btn prf-delete-btn-confirm bg-[var(--prf-delete-btn-confirm-bg)]"
             onClick={() => {
               onConfirm();
               close();
