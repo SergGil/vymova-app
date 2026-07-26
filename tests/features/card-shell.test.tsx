@@ -191,13 +191,18 @@ describe('<CardShell/>', () => {
     // also replaced .card-face's plain border-[...]/shadow-[...]/
     // [background-image:...] classes with !-important --known-face-*
     // ones (self-referencing/composed defaults reproduce the exact same
-    // values when the card isn't known — see the roadmap doc).
+    // values when the card isn't known — see the roadmap doc). The
+    // newly-found 14th cluster (.btn's own base/:hover styling) added
+    // BTN_BASE's plain (non-!) bg-.../border-.../text-.../hover:.../
+    // [transition:...] classes to every #btn-* button, including the ones
+    // above that already had their own !-important overrides.
     const actualHtml = document
       .getElementById('card-scene-mount')!
       .innerHTML.replace(
-        / !?(?:hover:)?!?(?:text|border|shadow|bg)-\[var\(--(?:btn-achievements|btn-auto|btn-modes-open|btn-know|btn-hard|btn-dontknow|btn-easy|btn-hover-border-fallback)[a-z-]*\)\]/g,
+        / !?(?:hover:)?!?(?:text|border|shadow|bg)-\[var\(--(?:btn-achievements|btn-auto|btn-modes-open|btn-know|btn-hard|btn-dontknow|btn-easy|btn-hover-border-fallback|btn-bg|btn-border-color|btn-color|btn-hover-bg|btn-hover-color|btn-hover-shadow)[a-z-]*\)\]/g,
         '',
       )
+      .replace(/ \[transition:var\(--btn-transition\)\]/g, '')
       .replace(/ (?:before|after):\S+/g, '')
       .replace(/ !border-solid/g, '')
       .replace(/ !border-\[length:var\(--known-face-border-width\)\]/g, '')

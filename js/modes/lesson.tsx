@@ -16,6 +16,12 @@ import { entryFor } from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { useModeSession } from '../features/mode/use-mode-session.ts';
 
+// .btn's own base/:hover styling (docs/component-tailwind-conversion-
+// roadmap.md, newly-found 14th cluster) — see card-shell.tsx's BTN_BASE
+// for the full explanation.
+const BTN_BASE =
+  'bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)]';
+
 const N = 5;
 const PHASE_COUNT = 3;
 function phaseLabels(): string[] {
@@ -540,7 +546,7 @@ export function LessonPage(): ReactElement {
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
             {phase === 0 && !flipped && (
               <button
-                className="btn btn-know"
+                className={'btn btn-know ' + BTN_BASE}
                 style={{ padding: '10px 22px' }}
                 onClick={reveal}
                 data-i18n="lesson.revealBtn"
@@ -551,7 +557,7 @@ export function LessonPage(): ReactElement {
             {phase === 0 && flipped && (
               <>
                 <button
-                  className="btn btn-know"
+                  className={'btn btn-know ' + BTN_BASE}
                   style={{ padding: '10px 22px' }}
                   onClick={know}
                   data-i18n="lesson.knowBtn"
@@ -559,7 +565,7 @@ export function LessonPage(): ReactElement {
                   {t('lesson.knowBtn')}
                 </button>
                 <button
-                  className="btn"
+                  className={'btn ' + BTN_BASE}
                   style={{ padding: '10px 22px' }}
                   onClick={skip}
                   data-i18n="lesson.skipBtn"
@@ -570,7 +576,7 @@ export function LessonPage(): ReactElement {
             )}
             {phase === 2 && !answered && (
               <button
-                className="btn btn-know"
+                className={'btn btn-know ' + BTN_BASE}
                 style={{ padding: '10px 22px' }}
                 onClick={submitWrite}
                 data-i18n="write.checkBtn"
@@ -579,7 +585,11 @@ export function LessonPage(): ReactElement {
               </button>
             )}
             {(phase === 1 || phase === 2) && answered && (
-              <button className="btn btn-know" style={{ padding: '10px 22px' }} onClick={advance}>
+              <button
+                className={'btn btn-know ' + BTN_BASE}
+                style={{ padding: '10px 22px' }}
+                onClick={advance}
+              >
                 {nextLabel}
               </button>
             )}

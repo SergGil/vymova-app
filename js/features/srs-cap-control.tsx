@@ -23,7 +23,7 @@ export function SrsNewCapControl(): ReactElement {
     <>
       <button
         id="btn-srs-cap-down"
-        className="btn"
+        className="btn bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)]"
         style={{ fontSize: 13, padding: '3px 10px', color: 'var(--text2)' }}
         onClick={() => change(-STEP)}
         disabled={cap <= MIN}
@@ -38,7 +38,7 @@ export function SrsNewCapControl(): ReactElement {
       </span>
       <button
         id="btn-srs-cap-up"
-        className="btn"
+        className="btn bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)]"
         style={{ fontSize: 13, padding: '3px 10px', color: 'var(--text2)' }}
         onClick={() => change(STEP)}
         disabled={cap >= MAX}

@@ -232,6 +232,13 @@ body[data-theme="sw"] {
      specific base color, since the button never had its own :hover-scoped
      color override either. */
   --btn-hover-border-fallback: rgba(var(--accent-rgb), 0.6);
+  --btn-bg: var(--panel-glow-bg);
+  --btn-border-color: rgba(var(--accent-rgb), 0.25);
+  --btn-color: var(--text2);
+  --btn-transition: all 0.2s;
+  --btn-hover-color: var(--accent);
+  --btn-hover-shadow: 0 0 12px rgba(var(--accent-rgb), 0.2);
+  --profile-btn-border-color: rgba(var(--accent-rgb), 0.3);
   --btn-know-hover-color: var(--accent);
   --btn-hard-hover-color: var(--accent);
   --btn-dontknow-hover-color: var(--accent);

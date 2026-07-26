@@ -15,7 +15,7 @@ export function QuickQuizButton(): ReactElement {
   return (
     <button
       id="btn-quick-quiz"
-      className="btn"
+      className="btn bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)]"
       title={t('cards.quickQuizTitle')}
       style={{
         fontSize: '14px',

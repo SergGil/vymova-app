@@ -322,6 +322,25 @@
      `!`-important override that wins the specificity fight against the
      unconditional one (same layer, hover-scoped is more specific). */
   --btn-hover-border-fallback: #ccc;
+  /* .btn's own base/:hover styling (newly-found 14th cluster, flagged in
+     the post-Batch-7 re-audit) — --btn-hover-border-fallback above was
+     already built for exactly this (shared with the action-button
+     overrides below) but .btn itself never consumed it. --btn-bg/-border-
+     color/-color/-hover-bg are var() pass-throughs, restated in body.dark
+     below. --btn-transition/-hover-color/-hover-shadow are literal, no
+     var() ref, safe as :root-only. */
+  --btn-bg: var(--card);
+  --btn-border-color: var(--border);
+  --btn-color: var(--text);
+  --btn-transition: all 0.15s;
+  --btn-hover-bg: var(--bg);
+  --btn-hover-color: inherit;
+  --btn-hover-shadow: none;
+  /* .profile-btn (newly-found 15th cluster) — var(--border) pass-through,
+     restated in body.dark below. :hover's border-color stays bare (var(--
+     accent) already resolves correctly per-theme on its own, no override
+     ever competed with it — same reasoning as .sim-chip:hover). */
+  --profile-btn-border-color: var(--border);
   --btn-know-border: var(--accent);
   --btn-know-color: var(--accent);
   --btn-know-hover-color: var(--btn-know-color);
@@ -949,32 +968,20 @@ select:focus {
   justify-content: center;
   flex-wrap: wrap;
 }
+/* .btn's background/border-color/color/transition (base+:hover) and
+   :hover's box-shadow fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md, newly-found 14th cluster) —
+   --btn-bg/-border-color/-color/-transition/-hover-bg/-hover-color/
+   -hover-shadow, plus the already-existing --btn-hover-border-fallback. */
 .btn {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 500;
   padding: 8px 16px;
   border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--text);
+  border-width: 1px;
+  border-style: solid;
   cursor: pointer;
-  transition: all 0.15s;
-}
-body[data-theme] .btn {
-  background: var(--panel-glow-bg);
-  border-color: rgba(var(--accent-rgb), 0.25);
-  color: var(--text2);
-  transition: all 0.2s;
-}
-.btn:hover {
-  background: var(--bg);
-  border-color: #ccc;
-}
-body[data-theme] .btn:hover {
-  border-color: rgba(var(--accent-rgb), 0.6);
-  color: var(--accent);
-  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.2);
 }
 .btn:active {
   transform: scale(0.97);
@@ -1247,6 +1254,18 @@ body.dark {
      re-resolution issue. */
   --sidebar-bg: var(--card);
   --sidebar-border-color: var(--border);
+  /* .btn (newly-found 14th cluster) — --btn-bg/-border-color/-color are
+     the same var() pass-through re-resolution issue. --btn-hover-bg is a
+     REAL distinct dark value (var(--border), not var(--bg) restated) —
+     matches the original body.dark .btn:hover { background: var(--border) }
+     rule exactly. */
+  --btn-bg: var(--card);
+  --btn-border-color: var(--border);
+  --btn-color: var(--text);
+  --btn-hover-bg: var(--border);
+  /* .profile-btn (newly-found 15th cluster) — same var() pass-through
+     re-resolution issue. */
+  --profile-btn-border-color: var(--border);
   --gb-label-color: #5fa8c8;
   --gb-label-transform: uppercase;
   --gb-label-size: 0.7rem;
@@ -1352,9 +1371,6 @@ body.dark {
    rules already resolve to in dark mode) deleted as dead code — confirmed
    no visual effect. .game-bar itself is additionally an orphaned selector:
    the mount div now renders className="game-bar-3", not "game-bar". */
-body.dark .btn:hover {
-  background: var(--border);
-}
 /* body.dark input#search-input and body.dark .search-results (background/
    border-color/color re-asserting the exact var(--card)/var(--border)/
    var(--text) the base rules already resolve to in dark mode) deleted as
@@ -3298,16 +3314,17 @@ body[data-theme] * {
 }
 
 /* ══ Profile System ══════════════════════════════════════════════ */
-body[data-theme] .profile-btn {
-  border-color: rgba(var(--accent-rgb), 0.3);
-}
+/* .profile-btn's border-color fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md, newly-found 15th cluster) —
+   --profile-btn-border-color. */
 .profile-btn {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   margin-top: 5px;
   padding: 3px 10px 3px 7px;
-  border: 1.5px solid var(--border);
+  border-width: 1.5px;
+  border-style: solid;
   border-radius: 20px;
   background: var(--card);
   font-family: inherit;

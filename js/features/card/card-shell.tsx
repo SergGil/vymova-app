@@ -70,6 +70,16 @@ function AutoButtonLabel(): ReactElement {
   return <>{autoRunning ? t('cards.stop') : t('cards.auto')}</>;
 }
 
+// .btn's own base/:hover background/border-color/color/transition/box-shadow
+// (docs/component-tailwind-conversion-roadmap.md, newly-found 14th cluster).
+// Every .btn-know/.hard/.dontknow/.easy/.auto/.achievements/.modes-open
+// button below still needs this too — their own `!`-prefixed classes only
+// override SOME properties (e.g. .btn-auto never touched background at
+// all), so they rely on these plain ones for the rest, same as before this
+// conversion when they relied on .btn's bare CSS for the same properties.
+const BTN_BASE =
+  'bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)]';
+
 export function CardShell(): ReactElement {
   const isKnown = useIsCardKnown();
   const speakBtnKnownCls = isKnown ? ' !text-[var(--known-c3)]' : '';
@@ -216,11 +226,20 @@ export function CardShell(): ReactElement {
 
       <div className="actions-bar">
         <div className="actions-bar-center">
-          <button className="btn" id="btn-prev" title="Попередня картка" data-i18n-title="cards.prevTitle">
+          <button
+            className={'btn ' + BTN_BASE}
+            id="btn-prev"
+            title="Попередня картка"
+            data-i18n-title="cards.prevTitle"
+          >
             <span data-i18n="cards.back">← Назад</span>
           </button>
           <button
-            className="btn btn-auto !border-[var(--btn-auto-color)] !text-[var(--btn-auto-color)] hover:!text-[var(--btn-auto-hover-color)] hover:!border-[var(--btn-hover-border-fallback)]"
+            className={
+              'btn btn-auto ' +
+              BTN_BASE +
+              ' !border-[var(--btn-auto-color)] !text-[var(--btn-auto-color)] hover:!text-[var(--btn-auto-hover-color)] hover:!border-[var(--btn-hover-border-fallback)]'
+            }
             id="btn-auto"
             title="Авто-режим"
             data-i18n-title="cards.autoTitle"
@@ -228,7 +247,7 @@ export function CardShell(): ReactElement {
             <AutoButtonLabel />
           </button>
           <button
-            className="btn"
+            className={'btn ' + BTN_BASE}
             id="btn-shuf"
             title="Перемішати"
             data-i18n-title="cards.shuffleTitle"
@@ -237,7 +256,7 @@ export function CardShell(): ReactElement {
             🔀
           </button>
           <button
-            className="btn"
+            className={'btn ' + BTN_BASE}
             id="btn-search"
             title="Пошук по словнику (Ctrl+F)"
             data-i18n-title="cards.searchTitle"
@@ -246,21 +265,29 @@ export function CardShell(): ReactElement {
             🔍
           </button>
           <button
-            className="btn"
+            className={'btn ' + BTN_BASE}
             id="btn-stats"
             title="Статистика"
             data-i18n-title="cards.statsTitle"
             style={{ display: 'none' }}
           ></button>
           <button
-            className="btn btn-achievements !text-[var(--btn-achievements-color)] !border-[var(--btn-achievements-color)] shadow-[var(--btn-achievements-shadow)] hover:!text-[var(--btn-achievements-hover-color)] hover:!border-[var(--btn-hover-border-fallback)]"
+            className={
+              'btn btn-achievements ' +
+              BTN_BASE +
+              ' !text-[var(--btn-achievements-color)] !border-[var(--btn-achievements-color)] shadow-[var(--btn-achievements-shadow)] hover:!text-[var(--btn-achievements-hover-color)] hover:!border-[var(--btn-hover-border-fallback)]'
+            }
             id="btn-achievements"
             title="Досягнення"
             data-i18n-title="cards.achievementsTitle"
             style={{ display: 'none' }}
           ></button>
           <button
-            className="btn btn-modes-open !border-[var(--btn-modes-open-color)] !text-[var(--btn-modes-open-color)] hover:!bg-[var(--btn-modes-open-hover-bg)] hover:!text-[var(--btn-modes-open-hover-color)] hover:!border-[var(--btn-hover-border-fallback)]"
+            className={
+              'btn btn-modes-open ' +
+              BTN_BASE +
+              ' !border-[var(--btn-modes-open-color)] !text-[var(--btn-modes-open-color)] hover:!bg-[var(--btn-modes-open-hover-bg)] hover:!text-[var(--btn-modes-open-hover-color)] hover:!border-[var(--btn-hover-border-fallback)]'
+            }
             id="btn-modes-open"
             title="Режими навчання"
             data-i18n-title="cards.modesTitle"
@@ -269,7 +296,12 @@ export function CardShell(): ReactElement {
           <div id="quick-quiz-mount">
             <QuickQuizButton />
           </div>
-          <button className="btn" id="btn-next" title="Наступна картка" data-i18n-title="cards.nextTitle">
+          <button
+            className={'btn ' + BTN_BASE}
+            id="btn-next"
+            title="Наступна картка"
+            data-i18n-title="cards.nextTitle"
+          >
             <span data-i18n="cards.forward">→ Далі</span>
           </button>
         </div>
@@ -290,7 +322,11 @@ export function CardShell(): ReactElement {
         }}
       >
         <button
-          className="btn btn-easy !border-[var(--btn-easy-border)] !text-[var(--btn-easy-color)] !bg-[var(--btn-easy-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-easy-hover-color)] hover:!bg-[var(--btn-easy-hover-bg)] hover:!shadow-[var(--btn-easy-hover-shadow)]"
+          className={
+            'btn btn-easy ' +
+            BTN_BASE +
+            ' !border-[var(--btn-easy-border)] !text-[var(--btn-easy-color)] !bg-[var(--btn-easy-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-easy-hover-color)] hover:!bg-[var(--btn-easy-hover-bg)] hover:!shadow-[var(--btn-easy-hover-shadow)]'
+          }
           id="btn-easy"
           title="Миттєво, дуже легко — слово вважається вивченим"
           data-i18n-title="cards.easyTitle"
@@ -308,7 +344,11 @@ export function CardShell(): ReactElement {
           <span data-i18n="cards.easy">Легко</span>
         </button>
         <button
-          className="btn btn-know !border-[var(--btn-know-border)] !text-[var(--btn-know-color)] !bg-[var(--btn-know-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-know-hover-color)] hover:!bg-[var(--btn-know-hover-bg)] hover:!shadow-[var(--btn-know-hover-shadow)]"
+          className={
+            'btn btn-know ' +
+            BTN_BASE +
+            ' !border-[var(--btn-know-border)] !text-[var(--btn-know-color)] !bg-[var(--btn-know-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-know-hover-color)] hover:!bg-[var(--btn-know-hover-bg)] hover:!shadow-[var(--btn-know-hover-shadow)]'
+          }
           id="btn-know"
           style={{
             flex: 1,
@@ -321,7 +361,11 @@ export function CardShell(): ReactElement {
           <span data-i18n="cards.know">✓ Знаю</span>
         </button>
         <button
-          className="btn btn-hard !border-[var(--btn-hard-border)] !text-[var(--btn-hard-color)] !bg-[var(--btn-hard-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-hard-hover-color)] hover:!bg-[var(--btn-hard-hover-bg)] hover:!shadow-[var(--btn-hard-hover-shadow)]"
+          className={
+            'btn btn-hard ' +
+            BTN_BASE +
+            ' !border-[var(--btn-hard-border)] !text-[var(--btn-hard-color)] !bg-[var(--btn-hard-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-hard-hover-color)] hover:!bg-[var(--btn-hard-hover-bg)] hover:!shadow-[var(--btn-hard-hover-shadow)]'
+          }
           id="btn-hard"
           title="Згадав(-ла) з труднощами"
           data-i18n-title="cards.hardTitle"
@@ -339,7 +383,11 @@ export function CardShell(): ReactElement {
           <span data-i18n="cards.hard">Важко</span>
         </button>
         <button
-          className="btn btn-dontknow !border-[var(--btn-dontknow-border)] !text-[var(--btn-dontknow-color)] !bg-[var(--btn-dontknow-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-dontknow-hover-color)] hover:!bg-[var(--btn-dontknow-hover-bg)] hover:!shadow-[var(--btn-dontknow-hover-shadow)]"
+          className={
+            'btn btn-dontknow ' +
+            BTN_BASE +
+            ' !border-[var(--btn-dontknow-border)] !text-[var(--btn-dontknow-color)] !bg-[var(--btn-dontknow-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-dontknow-hover-color)] hover:!bg-[var(--btn-dontknow-hover-bg)] hover:!shadow-[var(--btn-dontknow-hover-shadow)]'
+          }
           id="btn-dontknow"
           style={{
             flex: 1,

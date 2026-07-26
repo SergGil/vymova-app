@@ -695,7 +695,7 @@ export function StatsPage(): ReactElement {
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <button
               id="cal-prev"
-              className="btn"
+              className="btn bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)]"
               style={{ padding: '3px 10px', fontSize: 13 }}
               onClick={() => changeMonth(-1)}
             >
@@ -715,7 +715,7 @@ export function StatsPage(): ReactElement {
             </span>
             <button
               id="cal-next"
-              className="btn"
+              className="btn bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)]"
               style={{ padding: '3px 10px', fontSize: 13 }}
               onClick={() => changeMonth(1)}
             >

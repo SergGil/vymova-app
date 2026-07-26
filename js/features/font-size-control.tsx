@@ -25,7 +25,7 @@ export function FontSizeControl(): ReactElement {
     <>
       <button
         id="btn-font-down"
-        className="btn"
+        className="btn bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)]"
         style={{ fontSize: 11, padding: '3px 8px', color: 'var(--text2)' }}
         onClick={() => change(-10)}
       >
@@ -39,7 +39,7 @@ export function FontSizeControl(): ReactElement {
       </span>
       <button
         id="btn-font-up"
-        className="btn"
+        className="btn bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)]"
         style={{ fontSize: 13, padding: '3px 8px', color: 'var(--text2)' }}
         onClick={() => change(10)}
       >
