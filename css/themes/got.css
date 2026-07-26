@@ -135,6 +135,22 @@ body[data-theme="got"] {
      — just overrides css/styles.css's `:root { --ring-glow: none; }`
      default. */
   --ring-glow: drop-shadow(0 0 4px var(--accent));
+  /* .card-face's corner-bracket pseudo-elements + scanline texture
+     (Batch 5) — same --accent-rgb-derived-formula-for-every-theme shape
+     as --ring-glow above, no per-theme AUX placeholder needed. */
+  --card-face-corner-content: '';
+  --card-face-bg-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(var(--accent-rgb), 0.015) 3px,
+    rgba(var(--accent-rgb), 0.015) 4px
+  );
+  --card-face-border: rgba(var(--accent-rgb), 0.25);
+  --card-face-shadow:
+    0 0 20px rgba(var(--accent-rgb), 0.1),
+    0 4px 30px rgba(0, 0, 0, 0.7),
+    inset 0 0 40px rgba(var(--accent-rgb), 0.03);
   --note-textarea-border: rgba(var(--accent-rgb), 0.25);
   --hamburger-border: rgba(var(--accent-rgb), 0.3);
   --sb-add-btn-border: rgba(var(--accent-rgb), 0.3);

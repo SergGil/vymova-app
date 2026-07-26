@@ -286,6 +286,17 @@
   --srs-next-soon-bg: rgba(230, 126, 34, 0.1);
   --srs-next-ok-color: #27ae60;
   --srs-next-ok-bg: rgba(39, 174, 96, 0.1);
+  /* Batch 5: .card-face's fandom-only corner-bracket pseudo-elements +
+     scanline texture (docs/component-tailwind-conversion-roadmap.md).
+     --card-face-corner-content: none suppresses ::before/::after
+     generation entirely outside fandom mode (CSS `content: none` means
+     no pseudo-element box exists at all — so the other before:/after:
+     Tailwind classes on the component are inert by default, no separate
+     "off" state needed for them). */
+  --card-face-corner-content: none;
+  --card-face-bg-image: none;
+  --card-face-border: var(--border);
+  --card-face-shadow: var(--shadow);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -1168,6 +1179,8 @@ body.dark {
   --srs-next-soon-bg: rgba(240, 165, 0, 0.1);
   --srs-next-ok-color: #4ecca3;
   --srs-next-ok-bg: rgba(78, 204, 163, 0.1);
+  --card-face-border: var(--border);
+  --card-face-shadow: var(--shadow);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -1698,60 +1711,28 @@ body[data-theme] .btn-easy:hover {
   border-radius: 0 !important;
 }
 /* .card-face — лицьовий бік картки */
+/* background-color (not the `background` shorthand) — the shorthand form
+   unconditionally resets background-image to `none` for any sub-property
+   it doesn't mention, which silently masked the new Tailwind
+   [background-image:var(--card-face-bg-image)] class below (caught via
+   Playwright showing background-image: none even in fandom mode, where
+   the custom property itself correctly held the scanline gradient). */
 .card-face {
   position: relative;
-  background: var(--card);
+  background-color: var(--card);
   border-radius: 16px;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
+  border-width: 1px;
+  border-style: solid;
   padding: 18px;
   min-height: 200px;
   user-select: text;
   -webkit-user-select: text;
 }
-/* Corner-bracket decoration + subtle scanline texture + glow border, all
-   derived purely from --accent-rgb (no per-theme custom property needed,
-   it already exists) — collapsed from 5 separate 14x-repeated
-   scripts/theme-template.css blocks into 2 rules. No body.dark
+/* Corner-bracket decoration + subtle scanline texture + glow border fully
+   converted to Tailwind before:/after: variants on .card-face itself
+   (docs/component-tailwind-conversion-roadmap.md Batch 5) — no body.dark
    counterpart for the non-known state, so no source-order constraint
    here (unlike the is-known rule below). */
-body[data-theme] .card-face::before,
-body[data-theme] .card-face::after {
-  content: '';
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  border-color: rgba(var(--accent-rgb), 0.6);
-  border-style: solid;
-  pointer-events: none;
-  z-index: 3;
-}
-body[data-theme] .card-face::before {
-  top: 8px;
-  left: 8px;
-  border-width: 2px 0 0 2px;
-  border-radius: 2px 0 0 0;
-}
-body[data-theme] .card-face::after {
-  bottom: 8px;
-  right: 8px;
-  border-width: 0 2px 2px 0;
-  border-radius: 0 0 2px 0;
-}
-body[data-theme] .card-face {
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    transparent 3px,
-    rgba(var(--accent-rgb), 0.015) 3px,
-    rgba(var(--accent-rgb), 0.015) 4px
-  );
-  border-color: rgba(var(--accent-rgb), 0.25);
-  box-shadow:
-    0 0 20px rgba(var(--accent-rgb), 0.1),
-    0 4px 30px rgba(0, 0, 0, 0.7),
-    inset 0 0 40px rgba(var(--accent-rgb), 0.03);
-}
 body.dark .card.is-known .card-face {
   background: linear-gradient(135deg, #0d2e1c, #0a2318) !important;
   border-color: #2d8a52 !important;

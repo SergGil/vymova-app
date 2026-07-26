@@ -182,13 +182,19 @@ describe('<CardShell/>', () => {
     // (text-.../border-.../shadow-...) — a deliberate, later change
     // unrelated to the original static-markup-to-JSX port this test
     // guards. Stripped before comparing, same approach as
-    // mode-card-grid.test.tsx.
+    // mode-card-grid.test.tsx. Batch 5 similarly added .card-face's
+    // border-[...]/shadow-[...]/[background-image:...] and before:/after:
+    // corner-bracket classes.
     const actualHtml = document
       .getElementById('card-scene-mount')!
       .innerHTML.replace(
         / !?(?:hover:)?!?(?:text|border|shadow|bg)-\[var\(--(?:btn-achievements|btn-auto|btn-modes-open)-[a-z-]*\)\]/g,
         '',
-      );
+      )
+      .replace(/ (?:before|after):\S+/g, '')
+      .replace(/ border-\[var\(--card-face-border\)\]/g, '')
+      .replace(/ shadow-\[var\(--card-face-shadow\)\]/g, '')
+      .replace(/ \[background-image:var\(--card-face-bg-image\)\]/g, '');
     expectStructuralParity(actualHtml, `<div class="card-scene">${ORIGINAL_CARD_SCENE_HTML}</div>`);
   });
 });

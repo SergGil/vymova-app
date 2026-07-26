@@ -83,7 +83,7 @@ export function CardShell(): ReactElement {
           👁 Переклад
         </span>
         <div
-          className="card-face [animation-duration:.22s] [animation-timing-function:cubic-bezier(.25,.46,.45,.94)] [animation-fill-mode:both]"
+          className="card-face border-[var(--card-face-border)] shadow-[var(--card-face-shadow)] [background-image:var(--card-face-bg-image)] before:content-[var(--card-face-corner-content)] before:absolute before:left-2 before:top-2 before:z-[3] before:h-[18px] before:w-[18px] before:border-solid before:border-[rgba(var(--accent-rgb),0.6)] before:[border-width:2px_0_0_2px] before:[border-radius:2px_0_0_0] before:pointer-events-none after:content-[var(--card-face-corner-content)] after:absolute after:bottom-2 after:right-2 after:z-[3] after:h-[18px] after:w-[18px] after:border-solid after:border-[rgba(var(--accent-rgb),0.6)] after:[border-width:0_2px_2px_0] after:[border-radius:0_0_2px_0] after:pointer-events-none [animation-duration:.22s] [animation-timing-function:cubic-bezier(.25,.46,.45,.94)] [animation-fill-mode:both]"
           id="card-front"
         >
           <div id="card-meta-mount">
