@@ -971,31 +971,35 @@ body[data-theme] .btn:hover {
    known (light+dark+fandom) fully converted to Tailwind (docs/component-
    tailwind-conversion-roadmap.md Batch 6, last cluster) — see the
    --known-face-* token comments in the :root block for how fandom mode
-   avoids inheriting the light/dark gradient. */
+   avoids inheriting the light/dark gradient.
+   .card-tag deliberately NOT touched here: unlike everything else in this
+   cluster it has its OWN fandom override too (body[data-theme] .card-tag
+   above), a genuinely separate, self-contained mini-cluster — left as a
+   follow-up, not silently skipped. */
 .card.is-known .card-tag {
   background: #27ae60;
   color: #fff;
 }
-/* Темний читабельний текст на зеленому фоні.
-   .wtrans deleted as dead code — no element carries class "wtrans"
-   anywhere (the #wtrans element's real class is "transcription"; this
-   selector stopped matching whenever that JSX conversion happened and
-   nobody removed the now-dead CSS). .ex-label has no body.dark override
-   (out of Фаза 1 scope, left as-is). The rest consolidate their light+dark
-   pair into one declaration reading a custom property scoped to
-   .card.is-known/body.dark .card.is-known below
-   (docs/theme-css-migration-roadmap.md Фаза 1) — kept as real CSS
-   selectors rather than moved to component Tailwind classes: .speak-btn
-   matches several different buttons inside .card.is-known (not a 1:1
-   component), .ex-en b targets a <b> inside dangerouslySetInnerHTML
-   content (can never carry a className), and .known-badge's display:none/
-   inline toggle is a separate, non-theme mechanism tied to the same
-   selector that Фаза 1 doesn't touch. */
+/* Темний читабельний текст на зеленому фоні. .wtrans deleted as dead code
+   — no element carries class "wtrans" anywhere (the #wtrans element's
+   real class is "transcription"; this selector stopped matching whenever
+   that JSX conversion happened and nobody removed the now-dead CSS).
+   Every OTHER --known-c1..4 consumer below (docs/theme-css-migration-
+   roadmap.md Фаза 1's token names) is now fully converted to Tailwind
+   classes owned by the component itself, applied via useIsCardKnown()
+   (js/features/card/card-known-visuals.tsx) — the same computation
+   CardKnownVisuals already used to toggle #card's is-known class
+   imperatively. .known-badge went further: its display:none/inline
+   toggle (a separate, non-theme mechanism) is now JSX-conditional
+   rendering instead of CSS, so its base rule is dead too (only ever
+   rendered when known, so it can just always use --known-c4 directly).
+   Two genuinely can't move: .ex-en b/.sense-example b target a <b> inside
+   dangerouslySetInnerHTML content, which can never carry a className. */
 .card.is-known {
   --known-c1: #133524; /* word-text, transl, sense-translation */
   --known-c2: #1f5233; /* ex-en, ex-ua, sense-example(+i) */
   --known-c3: #2e7a4a; /* speak-btn, card-num, sense-pos */
-  --known-c4: #0e6632; /* ex-en b, known-badge */
+  --known-c4: #0e6632; /* ex-en b, sense-example b, known-badge */
   --known-face-border-width: 1.5px;
   --known-face-border: #6dbf8a;
   --known-face-bg: linear-gradient(135deg, #f0faf4 0%, #e8f5ed 100%);
@@ -1008,53 +1012,10 @@ body.dark .card.is-known {
   --known-face-border: #2d8a52;
   --known-face-bg: linear-gradient(135deg, #0d2e1c, #0a2318);
 }
-.card.is-known .word-text {
-  color: var(--known-c1);
-}
-.card.is-known .transl {
-  color: var(--known-c1);
-}
-.card.is-known .ex-en {
-  color: var(--known-c2);
-}
-.card.is-known .ex-ua {
-  color: var(--known-c2);
-}
 .card.is-known .ex-en b {
   color: var(--known-c4);
 }
-.card.is-known .ex-label {
-  color: #2e7a4a;
-}
-.card.is-known .speak-btn {
-  color: var(--known-c3);
-}
-.card.is-known .card-num {
-  color: var(--known-c3);
-}
-.card.is-known .sense-pos {
-  color: var(--known-c3);
-}
-.card.is-known .sense-translation {
-  color: var(--known-c1);
-}
-.card.is-known .sense-example,
-.card.is-known .sense-example i {
-  color: var(--known-c2);
-}
 .card.is-known .sense-example b {
-  color: var(--known-c4);
-}
-.known-badge {
-  display: none;
-  font-size: 11px;
-  color: #27ae60;
-  font-weight: 600;
-  margin-left: 6px;
-  letter-spacing: 0.03em;
-}
-.card.is-known .known-badge {
-  display: inline;
   color: var(--known-c4);
 }
 

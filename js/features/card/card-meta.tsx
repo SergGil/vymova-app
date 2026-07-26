@@ -25,6 +25,7 @@ import { FLAG_CODE, type LangCode } from '../lang-pair-select.tsx';
 import type { CefrLevel } from '../../../data/cefr.ts';
 import { ensureSensesLoaded, getSensesForLang, findSenses } from '../word-data/senses-loader.ts';
 import { CEFR_ORDER, CefrBadge } from './cefr-badge.tsx';
+import { useIsCardKnown } from './card-known-visuals.tsx';
 
 function _flagCode(v: string): LangCode | null {
   const l = v.toLowerCase();
@@ -40,6 +41,7 @@ function _unmarkActiveKnownAndSave(word: string): void {
 
 export function CardMeta() {
   const { deck, idx, cw } = useDeckState();
+  const isKnown = useIsCardKnown();
   const wordIdx = getWordIndex();
   const { front } = parsePair(getResolvedMode());
   // Same lazy per-language sense data OtherMeanings uses (card-front-text.tsx)
@@ -85,25 +87,27 @@ export function CardMeta() {
 
   return (
     <div className="card-meta">
-      <span className="card-num" id="wnum">
+      <span className={'card-num' + (isKnown ? ' !text-[var(--known-c3)]' : '')} id="wnum">
         {'#' + num}
       </span>
-      <span className="known-badge">
-        <span>{t('cards.know')}</span>{' '}
-        <button
-          className="unmark-btn"
-          id="btn-unmark"
-          title={t('cards.removeKnown')}
-          aria-label={t('cards.removeKnown')}
-          onClick={(e) => {
-            e.stopPropagation();
-            _unmarkActiveKnownAndSave(cw[0]);
-            render();
-          }}
-        >
-          ✕
-        </button>
-      </span>
+      {isKnown && (
+        <span className="known-badge ml-1.5 text-[11px] font-semibold tracking-[0.03em] text-[var(--known-c4)]">
+          <span>{t('cards.know')}</span>{' '}
+          <button
+            className="unmark-btn"
+            id="btn-unmark"
+            title={t('cards.removeKnown')}
+            aria-label={t('cards.removeKnown')}
+            onClick={(e) => {
+              e.stopPropagation();
+              _unmarkActiveKnownAndSave(cw[0]);
+              render();
+            }}
+          >
+            ✕
+          </button>
+        </span>
+      )}
       {displayLevels.map((lvl, i) => (
         <CefrBadge key={lvl} level={lvl} id={i === 0 ? 'wcefr' : undefined} />
       ))}

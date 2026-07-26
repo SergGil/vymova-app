@@ -105,6 +105,11 @@ describe('card-meta.tsx CardMeta', () => {
   });
 
   it('the unmark button stops click propagation', () => {
+    // docs/component-tailwind-conversion-roadmap.md Batch 6: .known-badge
+    // (and #btn-unmark inside it) is now JSX-conditional on isKnown rather
+    // than always-rendered-but-CSS-hidden, so this test needs the word
+    // actually marked known for the button to exist in the DOM at all.
+    setKnownWords('en', new Set(['abandon']));
     const { container } = mount();
     let outerClicked = false;
     document.body.addEventListener('click', () => {
@@ -129,6 +134,15 @@ describe('card-meta.tsx CardMeta', () => {
 
   it('the unmark button removes the word from the active language-specific known set', () => {
     setMode('he-ua');
+    // setMode (mode-store.ts) and deck-store's own `mode` field (what
+    // useIsCardKnown/CardKnownVisuals actually reads) are separate state —
+    // the real app always pairs a mode change with renderCardState, so
+    // this test needs to too, or is-known's target-language resolution
+    // still sees beforeEach's 'en' and checks the wrong known set. This
+    // was invisible before docs/component-tailwind-conversion-roadmap.md
+    // Batch 6 made .known-badge's DOM presence itself depend on isKnown
+    // (previously always rendered, just CSS-hidden).
+    renderCardState(cw, 'he-ua');
     setKnownWords('he', new Set(['abandon']));
     const { container } = mount();
     const btn = container.querySelector('#btn-unmark') as HTMLButtonElement;

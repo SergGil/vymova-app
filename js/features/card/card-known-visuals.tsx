@@ -7,13 +7,23 @@ import { useDeckState } from '../../../src/deck-store.ts';
 import { useAllKnownWords, getKnownSnapshot } from '../../../src/known-words-store.ts';
 import { getActiveKnownSet } from '../mode/mode-utils.ts';
 
-export function CardKnownVisuals(): null {
+/** Same computation CardKnownVisuals uses to imperatively toggle #card's
+ * 'is-known' class — extracted so the descendant components that used to
+ * read var(--known-c1..4) via a bare `.card.is-known .selector` CSS rule
+ * (docs/component-tailwind-conversion-roadmap.md Batch 6) can read it
+ * directly and own their own conditional Tailwind color class instead. */
+export function useIsCardKnown(): boolean {
   const { cw, mode } = useDeckState();
   // Subscribes to every known-words dispatch (any language) — is-known must
   // recompute on a mark/unmark/reset even when cw itself doesn't change
   // (e.g. card-actions.ts's reset-progress flow calls clearAllKnown() before
   // the deck/idx it also resets settle on a genuinely new cw).
   useAllKnownWords();
+  return !!cw && getActiveKnownSet(mode, getKnownSnapshot('en')).has(cw[0]);
+}
+
+export function CardKnownVisuals(): null {
+  const isKnown = useIsCardKnown();
 
   // No dependency array on purpose, same as card-indicators.tsx's
   // CardBookmarkNoteVisuals — every render of this component (driven by a
@@ -26,7 +36,6 @@ export function CardKnownVisuals(): null {
   useLayoutEffect(() => {
     const cardEl = document.getElementById('card');
     if (!cardEl) return;
-    const isKnown = !!cw && getActiveKnownSet(mode, getKnownSnapshot('en')).has(cw[0]);
     cardEl.classList.toggle('is-known', isKnown);
   });
 

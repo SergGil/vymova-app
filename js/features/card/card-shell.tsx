@@ -56,6 +56,7 @@ import { DailyMissionCard } from '../daily-mission-card.tsx';
 import { FontSizeControl } from '../font-size-control.tsx';
 import { AchievementToast } from '../achievements/achievement-toast.tsx';
 import { GoalModal } from '../goal-modal.tsx';
+import { useIsCardKnown } from './card-known-visuals.tsx';
 
 // #btn-auto's label — reactive to card-anim-store's `autoRunning` (dispatched
 // by card-engine.ts's startAuto()/stopAuto()) instead of the two direct
@@ -70,6 +71,8 @@ function AutoButtonLabel(): ReactElement {
 }
 
 export function CardShell(): ReactElement {
+  const isKnown = useIsCardKnown();
+  const speakBtnKnownCls = isKnown ? ' !text-[var(--known-c3)]' : '';
   return (
     <div className="card-scene">
       <div className="card" id="card">
@@ -100,7 +103,7 @@ export function CardShell(): ReactElement {
                 </span>
                 <div className="word-actions">
                   <button
-                    className="speak-btn"
+                    className={'speak-btn' + speakBtnKnownCls}
                     id="speak-word"
                     title="Вимовити слово"
                     data-i18n-title="cards.pronounce"
@@ -108,7 +111,7 @@ export function CardShell(): ReactElement {
                     🔊
                   </button>
                   <button
-                    className="speak-btn"
+                    className={'speak-btn' + speakBtnKnownCls}
                     id="btn-mic"
                     title="Перевір вимову"
                     data-i18n-title="cards.checkPron"
@@ -116,7 +119,10 @@ export function CardShell(): ReactElement {
                     🎤
                   </button>
                   <button
-                    className="speak-btn card-note-btn !text-[13px] !transition-[opacity,color] !duration-150 opacity-55 hover:opacity-100"
+                    className={
+                      'speak-btn card-note-btn !text-[13px] !transition-[opacity,color] !duration-150 opacity-55 hover:opacity-100' +
+                      speakBtnKnownCls
+                    }
                     id="btn-note"
                     title="Нотатка/мнемоніка"
                     data-i18n-title="cards.noteMnemonic"
@@ -124,7 +130,10 @@ export function CardShell(): ReactElement {
                     📝
                   </button>
                   <button
-                    className="speak-btn card-bookmark-btn !text-[13px] !transition-[opacity,color] !duration-150 opacity-55 hover:opacity-100"
+                    className={
+                      'speak-btn card-bookmark-btn !text-[13px] !transition-[opacity,color] !duration-150 opacity-55 hover:opacity-100' +
+                      speakBtnKnownCls
+                    }
                     id="btn-bookmark"
                     title="Додати в закладки"
                     data-i18n-title="cards.addBookmark"
@@ -152,7 +161,10 @@ export function CardShell(): ReactElement {
                 <Translation />
               </div>
               <div className="divider"></div>
-              <div className="ex-label" data-i18n="cards.example">
+              <div
+                className={'ex-label' + (isKnown ? ' !text-[#2e7a4a]' : '')}
+                data-i18n="cards.example"
+              >
                 Приклад
               </div>
               <div className="ex-row">
@@ -160,7 +172,11 @@ export function CardShell(): ReactElement {
                   <span id="exen-mount">
                     <ExEn />
                   </span>
-                  <button className="speak-btn speak-ex-btn" id="speak-ex" title="Вимовити приклад">
+                  <button
+                    className={'speak-btn speak-ex-btn' + speakBtnKnownCls}
+                    id="speak-ex"
+                    title="Вимовити приклад"
+                  >
                     🔊
                   </button>
                   <div id="exua-mount">

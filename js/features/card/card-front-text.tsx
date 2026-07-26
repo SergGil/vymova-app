@@ -25,6 +25,7 @@ import { ensureSensesLoaded, getSensesForLang, findSenses } from '../word-data/s
 import { InfoIcon, InfoNote } from '../info-icon.tsx';
 import { TRANSCRIPTION_LEGEND } from '../transcription-legend.ts';
 import { CefrBadge } from './cefr-badge.tsx';
+import { useIsCardKnown } from './card-known-visuals.tsx';
 
 // senses_*.ts data uses "noun" (spelled out) where the pos.* locale keys use
 // the same abbreviation as the main word table's pos column ("n") — every
@@ -53,6 +54,7 @@ function AccentFlag({ code }: { code: string }) {
 
 export function WordText() {
   const { cw, deck } = useDeckState();
+  const isKnown = useIsCardKnown();
   if (!cw) {
     // deck.length === 0 means a tag/category filter genuinely narrowed the
     // deck to zero words (see card-engine.ts's render()) — surface that
@@ -70,7 +72,11 @@ export function WordText() {
   }
   const { frontWord, frontRtl } = computeCardView(cw, getResolvedMode());
   return (
-    <span className="word-text" id="wword" dir={frontRtl ? 'rtl' : undefined}>
+    <span
+      className={'word-text' + (isKnown ? ' !text-[var(--known-c1)]' : '')}
+      id="wword"
+      dir={frontRtl ? 'rtl' : undefined}
+    >
       {frontWord}
     </span>
   );
@@ -322,12 +328,13 @@ function BackSpeakBtn({
 
 export function Translation() {
   const { cw, flipped } = useDeckState();
+  const isKnown = useIsCardKnown();
   if (!cw) return null;
   const { backWord, backRtl } = computeCardView(cw, getResolvedMode());
   const back = parsePair(getResolvedMode()).back;
   return (
     <div
-      className={'transl' + (flipped ? ' show' : '')}
+      className={'transl' + (flipped ? ' show' : '') + (isKnown ? ' !text-[var(--known-c1)]' : '')}
       id="wtransl"
       dir={backRtl ? 'rtl' : undefined}
     >
@@ -338,7 +345,7 @@ export function Translation() {
           text={backWord}
           fallbackEnText={cw[0]}
           translit={entryFor(back, cw).translit}
-          className="speak-btn"
+          className={'speak-btn' + (isKnown ? ' !text-[var(--known-c3)]' : '')}
           style={{ marginLeft: 6, width: 20, height: 20, fontSize: 11, verticalAlign: 'middle' }}
         />
       )}
@@ -348,11 +355,12 @@ export function Translation() {
 
 export function ExEn() {
   const { cw } = useDeckState();
+  const isKnown = useIsCardKnown();
   if (!cw) return null;
   const { exenHtml, frontRtl } = computeCardView(cw, getResolvedMode());
   return (
     <span
-      className="ex-en"
+      className={'ex-en' + (isKnown ? ' !text-[var(--known-c2)]' : '')}
       id="exen"
       dir={frontRtl ? 'rtl' : undefined}
       dangerouslySetInnerHTML={{ __html: exenHtml }}
@@ -362,6 +370,7 @@ export function ExEn() {
 
 export function ExUa() {
   const { cw, flipped } = useDeckState();
+  const isKnown = useIsCardKnown();
   if (!cw) return null;
   const { exuaHtml, backRtl } = computeCardView(cw, getResolvedMode());
   const back = parsePair(getResolvedMode()).back;
@@ -369,7 +378,7 @@ export function ExUa() {
   return (
     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 5 }}>
       <div
-        className={'ex-ua' + (flipped ? ' show' : '')}
+        className={'ex-ua' + (flipped ? ' show' : '') + (isKnown ? ' !text-[var(--known-c2)]' : '')}
         id="exua"
         dir={backRtl ? 'rtl' : undefined}
         dangerouslySetInnerHTML={{ __html: exuaHtml }}
@@ -379,7 +388,7 @@ export function ExUa() {
           code={back}
           text={backExText}
           fallbackEnText={cw[2] || ''}
-          className="speak-btn speak-ex-btn"
+          className={'speak-btn speak-ex-btn' + (isKnown ? ' !text-[var(--known-c3)]' : '')}
           style={{ marginTop: 2, flexShrink: 0 }}
         />
       )}
@@ -411,6 +420,7 @@ export function CardHint() {
 
 export function OtherMeanings() {
   const { cw, flipped } = useDeckState();
+  const isKnown = useIsCardKnown();
   const { front } = parsePair(getResolvedMode());
   // "Other meanings" data is loaded lazily per front language (see
   // js/features/word-data/senses-loader.ts) instead of eagerly shipping
@@ -451,7 +461,12 @@ export function OtherMeanings() {
         {senses.map((s, i) => (
           <li key={i} className="text-[.82rem]">
             <span className="sense-pos-row inline-flex items-center gap-1">
-              <span className="sense-pos text-[.72rem] text-[var(--text2)] italic">
+              <span
+                className={
+                  'sense-pos text-[.72rem] italic ' +
+                  (isKnown ? 'text-[var(--known-c3)]' : 'text-[var(--text2)]')
+                }
+              >
                 {tLang('pos.' + (SENSE_POS_KEY[s.pos] ?? s.pos), posLang)}
               </span>
               {s.level && <CefrBadge level={s.level} small />}
@@ -460,7 +475,13 @@ export function OtherMeanings() {
                 the main word's #wtransl — masked via .show like .transl,
                 not gated out of the DOM, so it fades in on flip instead of
                 popping in once senses finish loading. */}
-            <span className={'sense-translation font-bold text-[var(--text)]' + (flipped ? ' show' : '')}>
+            <span
+              className={
+                'sense-translation font-bold ' +
+                (isKnown ? 'text-[var(--known-c1)]' : 'text-[var(--text)]') +
+                (flipped ? ' show' : '')
+              }
+            >
               {s.translation}
             </span>
             {s.gloss && (
@@ -468,11 +489,19 @@ export function OtherMeanings() {
                 {s.gloss}
               </div>
             )}
-            <div className="sense-example mt-px text-[.74rem] leading-[1.4] text-[var(--text3)]">
+            <div
+              className={
+                'sense-example mt-px text-[.74rem] leading-[1.4] ' +
+                (isKnown ? 'text-[var(--known-c2)]' : 'text-[var(--text3)]')
+              }
+            >
               <span dangerouslySetInnerHTML={{ __html: boldHead(s.exTarget, frontWord) }} />{' '}
               <button
                 type="button"
-                className="speak-btn sense-speak-btn !px-[3px] !py-px !text-[12px] align-middle"
+                className={
+                  'speak-btn sense-speak-btn !px-[3px] !py-px !text-[12px] align-middle' +
+                  (isKnown ? ' !text-[var(--known-c3)]' : '')
+                }
                 title="Вимовити приклад"
                 // onClickCapture, not onClick: #card's own click-to-flip
                 // listener is a plain addEventListener('click', ...) bound
