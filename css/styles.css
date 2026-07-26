@@ -1024,15 +1024,10 @@ body[data-theme] .search-result-item.sr-known {
    rather than quietly swapping it for the correctly-defined var(--card),
    since that would be an unrelated, unreviewed behavior change bundled
    into a pure CSS-migration commit. */
-body.dark .stats-panel {
-  background: var(--card);
-}
-/* .page-overlay has no bare CSS rule at all (moved to Tailwind
-   classNames on the component, see the comment further down) and no
-   body.dark override, so no conflict. .stats-panel's `background` ties
-   body.dark's rule above at equal specificity (0,0,2,1) — no !important
-   either side, so MUST stay physically after it, same lesson as
-   .btn-know/.card-face/scrollbar. */
+/* body.dark .stats-panel deleted as dead code: identical to the bg-card
+   Tailwind class already on the component (stats-page.tsx). .page-overlay
+   has no bare CSS rule at all (moved to Tailwind classNames on the
+   component) and no body.dark override, so no conflict either. */
 body[data-theme] .page-overlay {
   background: var(--stats-panel-bg);
   background-image: var(--page-overlay-bg-image);
@@ -1050,10 +1045,6 @@ body[data-theme] .stat-card {
   border: 1px solid rgba(var(--accent-rgb), 0.12);
   border-radius: 12px;
 }
-body.dark .chart-wrap {
-  background: var(--bg);
-}
-
 /* ── Рівень у game-bar ── */
 .level-box {
   display: flex;
