@@ -63,6 +63,22 @@
   --prf-delete-name-color: #e74c3c;
   --prf-delete-warn-color: var(--text3);
   --prf-delete-btn-confirm-bg: #e74c3c;
+  /* Settings-area single/multi-property fandom clusters (Batch 2).
+     --settings-section-bg reuses the AUX24 name an earlier phase already
+     gave the fandom side — no :root/body.dark entry existed since the
+     base rule used to be a separate literal, not this token.
+     --section-title-color (AUX22) deliberately has NO :root/body.dark
+     entry here: it's shared by .settings-section-title (base var(--text))
+     AND .stats-section-title (base var(--text3)) with different base
+     colors, so each consumer reads it with its own CSS fallback
+     (var(--section-title-color,var(--text)) /
+     var(--section-title-color,var(--text3))) instead of one shared
+     default — same reasoning as --confirm-btn-bg above. */
+  --settings-section-bg: var(--card);
+  --settings-section-border: var(--border);
+  --voice-card-active-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.12);
+  --time-picker-border: var(--border);
+  --time-select-hover-bg: var(--card);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -843,6 +859,11 @@ body.dark {
   --prf-av-active-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.2);
   --prf-delete-title-color: var(--text);
   --prf-delete-warn-color: var(--text3);
+  --settings-section-bg: var(--card);
+  --settings-section-border: var(--border);
+  --voice-card-active-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.12);
+  --time-picker-border: var(--border);
+  --time-select-hover-bg: var(--card);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -3883,25 +3904,23 @@ body[data-theme] .import-panel {
   background: #c0392b;
 }
 
-/* ══ Settings Page ══════════════════════════════════════════════ */
-body[data-theme] .settings-section {
-  background: var(--settings-section-bg);
-  border-color: rgba(var(--accent-rgb), 0.15);
-}
+/* ══ Settings Page ══════════════════════════════════════════════
+   .settings-section's background/border-color and .settings-section-
+   title's color fully converted to Tailwind (docs/component-tailwind-
+   conversion-roadmap.md Batch 2) — --settings-section-bg/-border and
+   --section-title-color now have :root/body.dark defaults too (the
+   latter reused from an existing fandom-only AUX token also shared by
+   .stats-section-title). */
 .settings-section {
-  background: var(--card);
-  border: 1px solid var(--border);
+  border-width: 1px;
+  border-style: solid;
   border-radius: 14px;
   padding: 18px 20px;
   margin-bottom: 14px;
 }
-body[data-theme] .settings-section-title {
-  color: var(--section-title-color);
-}
 .settings-section-title {
   font-size: 0.9rem;
   font-weight: 700;
-  color: var(--text);
   margin-bottom: 6px;
 }
 /* .settings-desc/.settings-reset-btn/:hover/.settings-footer moved to
@@ -3921,15 +3940,11 @@ body[data-theme] .settings-section-title {
 /* ── Voice cards ── */
 /* #fy-voices-list/.voice-card/:hover moved to Tailwind utility classes in
    voice.tsx (no fandom-theme or body.dark overrides existed for either).
-   .voice-card-active stays: it has a live theme override
-   (scripts/theme-template.css). */
+   .voice-card-active's box-shadow fully converted (docs/component-
+   tailwind-conversion-roadmap.md Batch 2). */
 .voice-card-active {
   border-color: var(--accent);
   background: var(--card);
-  box-shadow: 0 0 0 3px rgba(45, 90, 61, 0.12);
-}
-body[data-theme] .voice-card-active {
-  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.15);
 }
 
 /* .voice-section summary/:hover/::marker/[open] deleted rather than
@@ -4379,18 +4394,17 @@ body[data-theme] .rd-known {
   cursor: not-allowed;
 }
 
-/* Time picker for daily reminder */
+/* Time picker for daily reminder — border-color fully converted to
+   Tailwind (docs/component-tailwind-conversion-roadmap.md Batch 2). */
 .time-picker {
   display: flex;
   align-items: center;
   gap: 4px;
   padding: 5px 10px;
-  border: 1.5px solid var(--border);
+  border-width: 1.5px;
+  border-style: solid;
   border-radius: 8px;
   background: var(--bg);
-}
-body[data-theme] .time-picker {
-  border-color: rgba(var(--accent-rgb), 0.2);
 }
 .time-select {
   appearance: none;
@@ -4407,14 +4421,8 @@ body[data-theme] .time-picker {
   border-radius: 6px;
   transition: background 0.15s;
 }
-.time-select:hover,
-.time-select:focus {
-  background: var(--card);
-}
-body[data-theme] .time-select:hover,
-body[data-theme] .time-select:focus {
-  background: rgba(var(--accent-rgb), 0.1);
-}
+/* :hover/:focus background fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md Batch 2). */
 .time-select option {
   background: var(--card);
   color: var(--text);

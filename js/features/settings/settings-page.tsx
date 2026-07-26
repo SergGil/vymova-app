@@ -35,6 +35,8 @@ import { FandomThemeRowsController } from '../fandom-theme-rows.tsx';
 
 const descCls = 'settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]';
 const toggleRowStyle = { display: 'flex', alignItems: 'center', gap: 10, marginTop: 10 } as const;
+const sectionCls = 'settings-section bg-[var(--settings-section-bg)] border-[var(--settings-section-border)]';
+const sectionTitleCls = 'settings-section-title text-[var(--section-title-color,var(--text))]';
 
 export function SettingsPage(): ReactElement {
   return (
@@ -42,8 +44,8 @@ export function SettingsPage(): ReactElement {
       <PageHeader titleKey="settings.pageTitle" />
 
       {/* Теми / зовнішній вигляд */}
-      <div className="settings-section">
-        <div className="settings-section-title" data-i18n="settings.themesTitle">
+      <div className={sectionCls}>
+        <div className={sectionTitleCls} data-i18n="settings.themesTitle">
           {t('settings.themesTitle')}
         </div>
         <div className={descCls} data-i18n="settings.themesDesc">
@@ -66,8 +68,8 @@ export function SettingsPage(): ReactElement {
       </div>
 
       {/* Пріоритет повторення в іграх */}
-      <div className="settings-section">
-        <div className="settings-section-title" data-i18n="settings.srsPriorityTitle">
+      <div className={sectionCls}>
+        <div className={sectionTitleCls} data-i18n="settings.srsPriorityTitle">
           {t('settings.srsPriorityTitle')}
         </div>
         <div className={descCls} data-i18n="settings.srsPriorityDesc">
@@ -79,8 +81,8 @@ export function SettingsPage(): ReactElement {
       </div>
 
       {/* Нових карток на день (SRS) */}
-      <div className="settings-section">
-        <div className="settings-section-title" data-i18n="settings.srsNewCapTitle">
+      <div className={sectionCls}>
+        <div className={sectionTitleCls} data-i18n="settings.srsNewCapTitle">
           {t('settings.srsNewCapTitle')}
         </div>
         <div className={descCls} data-i18n="settings.srsNewCapDesc">
@@ -92,14 +94,14 @@ export function SettingsPage(): ReactElement {
       </div>
 
       {/* Голос */}
-      <div className="settings-section">
+      <div className={sectionCls}>
         <VoiceSectionHeader />
         <div id="fy-voices-list" className="mt-2.5 flex flex-col gap-1" />
       </div>
 
       {/* Зображення */}
-      <div className="settings-section">
-        <div className="settings-section-title" data-i18n="settings.imagesTitle">
+      <div className={sectionCls}>
+        <div className={sectionTitleCls} data-i18n="settings.imagesTitle">
           {t('settings.imagesTitle')}
         </div>
         <div className={descCls}>
@@ -111,8 +113,8 @@ export function SettingsPage(): ReactElement {
       </div>
 
       {/* Збереження прогресу */}
-      <div className="settings-section">
-        <div className="settings-section-title" data-i18n="settings.backupTitle">
+      <div className={sectionCls}>
+        <div className={sectionTitleCls} data-i18n="settings.backupTitle">
           {t('settings.backupTitle')}
         </div>
         <div className={descCls} data-i18n="settings.backupDesc">
@@ -122,8 +124,8 @@ export function SettingsPage(): ReactElement {
       </div>
 
       {/* Сповіщення */}
-      <div className="settings-section">
-        <div className="settings-section-title" data-i18n="settings.notifTitle">
+      <div className={sectionCls}>
+        <div className={sectionTitleCls} data-i18n="settings.notifTitle">
           {t('settings.notifTitle')}
         </div>
         <div className={descCls} data-i18n="settings.notifDesc">
@@ -133,8 +135,8 @@ export function SettingsPage(): ReactElement {
       </div>
 
       {/* ── Haptic Feedback ── */}
-      <div className="settings-section">
-        <div className="settings-section-title" data-i18n="settings.hapticTitle">
+      <div className={sectionCls}>
+        <div className={sectionTitleCls} data-i18n="settings.hapticTitle">
           {t('settings.hapticTitle')}
         </div>
         <div className={descCls} data-i18n="settings.hapticDesc">
@@ -153,8 +155,8 @@ export function SettingsPage(): ReactElement {
       </div>
 
       {/* ── Reduced motion ── */}
-      <div className="settings-section">
-        <div className="settings-section-title" data-i18n="settings.reducedMotionTitle">
+      <div className={sectionCls}>
+        <div className={sectionTitleCls} data-i18n="settings.reducedMotionTitle">
           {t('settings.reducedMotionTitle')}
         </div>
         <div className={descCls} data-i18n="settings.reducedMotionDesc">
@@ -166,8 +168,8 @@ export function SettingsPage(): ReactElement {
       </div>
 
       {/* ── High contrast ── */}
-      <div className="settings-section">
-        <div className="settings-section-title" data-i18n="settings.highContrastTitle">
+      <div className={sectionCls}>
+        <div className={sectionTitleCls} data-i18n="settings.highContrastTitle">
           {t('settings.highContrastTitle')}
         </div>
         <div className={descCls} data-i18n="settings.highContrastDesc">
@@ -179,8 +181,8 @@ export function SettingsPage(): ReactElement {
       </div>
 
       {/* ── PWA Install ── */}
-      <div className="settings-section">
-        <div className="settings-section-title" data-i18n="settings.pwaTitle">
+      <div className={sectionCls}>
+        <div className={sectionTitleCls} data-i18n="settings.pwaTitle">
           {t('settings.pwaTitle')}
         </div>
         <div className={descCls} data-i18n="settings.pwaDesc">
@@ -192,15 +194,15 @@ export function SettingsPage(): ReactElement {
       </div>
 
       {/* ── Cloud Sync ── */}
-      <div className="settings-section">
-        <div className="settings-section-title" data-i18n="settings.cloudTitle">
+      <div className={sectionCls}>
+        <div className={sectionTitleCls} data-i18n="settings.cloudTitle">
           {t('settings.cloudTitle')}
         </div>
         <CloudSyncSection />
       </div>
 
-      <div className="settings-section">
-        <div className="settings-section-title" data-i18n="settings.bugTitle">
+      <div className={sectionCls}>
+        <div className={sectionTitleCls} data-i18n="settings.bugTitle">
           {t('settings.bugTitle')}
         </div>
         <div className={descCls} data-i18n="settings.bugDesc">
@@ -209,8 +211,8 @@ export function SettingsPage(): ReactElement {
         <BugReportForm />
       </div>
 
-      <div className="settings-section settings-section-danger">
-        <div className="settings-section-title" data-i18n="settings.dangerTitle">
+      <div className={`${sectionCls} settings-section-danger`}>
+        <div className={sectionTitleCls} data-i18n="settings.dangerTitle">
           {t('settings.dangerTitle')}
         </div>
         <div className={descCls} data-i18n="settings.dangerDesc">
@@ -226,7 +228,7 @@ export function SettingsPage(): ReactElement {
       </div>
 
       <div className="settings-footer mt-1 mb-2 text-center text-[.72rem] text-[var(--text3)]">
-        © 2026 Vymova · v1.401.39 ·{' '}
+        © 2026 Vymova · v1.401.40 ·{' '}
         <a
           href="./privacy.html"
           target="_blank"

@@ -2591,7 +2591,7 @@ function VoiceCard({
     <button
       className={
         'voice-card flex cursor-pointer flex-col rounded-[12px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3 py-2.5 text-left font-[inherit] transition-colors duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)]' +
-        (active ? ' voice-card-active' : '')
+        (active ? ' voice-card-active shadow-[var(--voice-card-active-shadow)]' : '')
       }
       onClick={() => onSelect(voice.voiceURI)}
     >

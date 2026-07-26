@@ -342,10 +342,16 @@ export function NotificationsSection(): ReactElement {
         <span style={{ fontSize: '0.8rem', color: 'var(--text2)' }} data-i18n="settings.notifTimeLabel">
           {t('settings.notifTimeLabel')}
         </span>
-        <div className="time-picker">
-          <select id="notif-time-h" className="time-select" />
+        <div className="time-picker border-[var(--time-picker-border)]">
+          <select
+            id="notif-time-h"
+            className="time-select hover:bg-[var(--time-select-hover-bg)] focus:bg-[var(--time-select-hover-bg)]"
+          />
           <span className="time-sep">:</span>
-          <select id="notif-time-m" className="time-select" />
+          <select
+            id="notif-time-m"
+            className="time-select hover:bg-[var(--time-select-hover-bg)] focus:bg-[var(--time-select-hover-bg)]"
+          />
         </div>
         <span style={{ fontSize: '0.75rem', color: 'var(--text3)' }} data-i18n="settings.notifTimeSuffix">
           {t('settings.notifTimeSuffix')}

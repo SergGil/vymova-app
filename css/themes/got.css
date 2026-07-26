@@ -148,5 +148,9 @@ body[data-theme="got"] {
   --prf-delete-name-color: #ff6b6b;
   --prf-delete-warn-color: var(--delete-warn-color);
   --prf-delete-btn-confirm-bg: #c0392b;
+  --settings-section-border: rgba(var(--accent-rgb), 0.15);
+  --voice-card-active-shadow: 0 0 10px rgba(var(--accent-rgb), 0.15);
+  --time-picker-border: rgba(var(--accent-rgb), 0.2);
+  --time-select-hover-bg: rgba(var(--accent-rgb), 0.1);
 }
 
