@@ -96,7 +96,10 @@ export function QuizOverlayShell(): ReactElement | null {
           }
           style={bare ? undefined : { display: 'none' }}
         >
-          <div id={panelId} className="quiz-panel">
+          <div
+            id={panelId}
+            className="quiz-panel bg-[var(--quiz-panel-bg)] [border:var(--quiz-panel-border)] shadow-[var(--quiz-panel-shadow)]"
+          >
             <div id={mountId} style={mountStyle} />
           </div>
         </div>

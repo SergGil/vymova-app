@@ -24,5 +24,11 @@ export function CardKnownCount() {
 export function ProgressBar() {
   const known = useKnownWords('en');
   const pct = (getActiveKnown(known).size / (W as unknown as WordEntry[]).length) * 100;
-  return <div className="progress-fill" id="pbar" style={{ width: pct + '%' }} />;
+  return (
+    <div
+      className="progress-fill [background:var(--progress-fill-bg)] shadow-[var(--progress-fill-shadow)] [animation:var(--progress-fill-anim)]"
+      id="pbar"
+      style={{ width: pct + '%' }}
+    />
+  );
 }

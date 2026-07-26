@@ -235,7 +235,7 @@ export function PairsMode(): ReactElement | null {
       className="fixed inset-0 z-[9100] flex items-center justify-center bg-black/55 px-3 py-4"
       style={{ display: 'none' }}
     >
-      <div className="pairs-panel">
+      <div className="pairs-panel bg-[var(--quiz-panel-bg)] [border:var(--quiz-panel-border)] shadow-[var(--quiz-panel-shadow)]">
         <div className="mb-1.5 flex items-center justify-between">
           <div>
             <div className="text-[1.05rem] font-bold text-[var(--text)]" data-i18n="pairs.title">

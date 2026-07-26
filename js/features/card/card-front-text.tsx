@@ -63,7 +63,10 @@ export function WordText() {
     // same as before.
     if (deck.length === 0) {
       return (
-        <span className="word-text word-text-empty" id="wword">
+        <span
+          className="word-text word-text-empty text-[var(--word-text-color)] [text-shadow:var(--word-text-glow-shadow)]"
+          id="wword"
+        >
           {t('cards.emptyDeck')}
         </span>
       );
@@ -73,7 +76,10 @@ export function WordText() {
   const { frontWord, frontRtl } = computeCardView(cw, getResolvedMode());
   return (
     <span
-      className={'word-text' + (isKnown ? ' !text-[var(--known-c1)]' : '')}
+      className={
+        'word-text [text-shadow:var(--word-text-glow-shadow)]' +
+        (isKnown ? ' !text-[var(--known-c1)]' : ' text-[var(--word-text-color)]')
+      }
       id="wword"
       dir={frontRtl ? 'rtl' : undefined}
     >

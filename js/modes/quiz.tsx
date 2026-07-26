@@ -565,7 +565,10 @@ export function QuizPage(): ReactElement | null {
   if (typeof document === 'undefined') return null;
   return createPortal(
     <div id="quiz-overlay" className={isOpen ? 'open' : undefined}>
-      <div className="quiz-panel" id="quiz-panel">
+      <div
+        className="quiz-panel bg-[var(--quiz-panel-bg)] [border:var(--quiz-panel-border)] shadow-[var(--quiz-panel-shadow)]"
+        id="quiz-panel"
+      >
         {isOpen && renderContent()}
       </div>
     </div>,

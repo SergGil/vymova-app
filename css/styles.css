@@ -401,6 +401,24 @@
      matching original behavior exactly), only a fandom one. */
   --card-tag-bg: #ebf3ee;
   --card-tag-border: none;
+  /* Post-project audit follow-up clusters (docs/component-tailwind-
+     conversion-roadmap.md) — never in the original inventory at all,
+     found by re-grepping the whole file for every remaining body.dark/
+     data-theme selector after the roadmap was (incorrectly) declared
+     complete. */
+  --progress-fill-bg: var(--accent);
+  --progress-fill-shadow: none;
+  --progress-fill-anim: none;
+  --word-text-color: var(--text);
+  --word-text-glow-shadow: none;
+  --quiz-panel-bg: var(--card);
+  --quiz-panel-border: none;
+  --quiz-panel-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+  --combo-toast-bg: #e67e22;
+  --combo-toast-border: none;
+  --combo-toast-color: #fff;
+  --combo-toast-text-shadow: none;
+  --combo-toast-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -513,20 +531,13 @@ select:focus {
   margin-bottom: 1rem;
   overflow: hidden;
 }
+/* background/box-shadow/animation fully converted to Tailwind (docs/
+   component-tailwind-conversion-roadmap.md, post-project audit follow-up
+   — this cluster was never in the original inventory at all). */
 .progress-fill {
   height: 100%;
-  background: var(--accent);
   border-radius: 3px;
   transition: width 0.4s ease;
-}
-body[data-theme] .progress-fill {
-  background: var(--progress-fill-bg);
-  box-shadow:
-    0 0 8px var(--accent),
-    0 0 16px rgba(var(--accent-rgb), 0.5);
-}
-body[data-theme] .progress-fill {
-  animation: saberPulse 2.5s ease-in-out infinite;
 }
 
 /* Card */
@@ -628,19 +639,18 @@ body[data-theme] .progress-fill {
   gap: 8px;
   margin-bottom: 3px;
 }
+/* color/text-shadow fully converted to Tailwind (docs/component-
+   tailwind-conversion-roadmap.md, post-project audit follow-up) — the
+   is-known override (js/features/card/card-front-text.tsx's WordText)
+   already wins over this base glow via the `!` modifier, unchanged. */
 .word-text {
   font-family: 'DM Serif Display', serif;
   font-size: 1.8rem;
-  color: var(--text);
   line-height: 1.1;
   overflow-wrap: break-word;
   word-break: normal;
   -webkit-hyphens: none;
   hyphens: none;
-}
-body[data-theme] .word-text {
-  color: var(--word-text-color);
-  text-shadow: 0 0 20px rgba(var(--accent-rgb), 0.1);
 }
 .speak-btn {
   background: none;
@@ -1265,6 +1275,9 @@ body.dark {
   --known-face-border: var(--card-face-border);
   --known-face-bg: var(--card-face-bg-image) var(--card);
   --known-face-shadow: var(--card-face-shadow);
+  --progress-fill-bg: var(--accent);
+  --word-text-color: var(--text);
+  --quiz-panel-bg: var(--card);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -2025,25 +2038,18 @@ body:not(.dark):not([data-theme]) .family-chip {
    opacity moved to plain Tailwind classes (font-semibold/opacity-70)
    directly in tempo.tsx alongside the theme-driven ones — they were
    never theme-touched, just co-located in the same bare rule. */
-/* .pairs-panel shares this exact fandom override (same AUX11 value in
-   scripts/theme-template.css) — one combined rule covers both. */
-body[data-theme] .quiz-panel,
-body[data-theme] .pairs-panel {
-  background: var(--quiz-panel-bg);
-  border: 1px solid rgba(var(--accent-rgb), 0.2);
-  box-shadow:
-    0 0 40px rgba(var(--accent-rgb), 0.15),
-    0 20px 60px rgba(0, 0, 0, 0.8);
-}
+/* background/border/box-shadow fully converted to Tailwind (docs/
+   component-tailwind-conversion-roadmap.md, post-project audit follow-
+   up) — .pairs-panel shares the exact same tokens (same AUX11 value in
+   scripts/theme-template.css, same base literal), applied separately in
+   each of its own render sites below. */
 .quiz-panel {
-  background: var(--card);
   border-radius: 20px;
   width: 100%;
   max-width: 560px;
   /* Fixed height = viewport minus padding — no outer scroll */
   height: min(680px, calc(100dvh - 16px));
   padding: 18px 18px 16px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
   margin: auto;
   overflow: hidden;
   position: relative;
@@ -2354,20 +2360,14 @@ body.dark {
 }
 
 /* ── Combo toast ── */
-body[data-theme] .combo-toast {
-  background: var(--combo-toast-bg);
-  border: 1px solid rgba(var(--accent-rgb), 0.4);
-  color: var(--accent);
-  text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
-  box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.2);
-}
+/* background/border/color/text-shadow/box-shadow fully converted to
+   Tailwind (docs/component-tailwind-conversion-roadmap.md, post-project
+   audit follow-up). */
 .combo-toast {
   position: fixed;
   top: 42%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.5);
-  background: #e67e22;
-  color: #fff;
   font-size: 1.5rem;
   font-weight: 800;
   padding: 12px 26px;
@@ -2379,7 +2379,6 @@ body[data-theme] .combo-toast {
     opacity 0.15s,
     transform 0.15s;
   white-space: nowrap;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 .combo-toast.show {
   opacity: 1;
@@ -2531,12 +2530,10 @@ body.dark {
    bindOverlayOpenClose). */
 /* ── Pairs mode ── */
 .pairs-panel {
-  background: var(--card);
   border-radius: 20px;
   width: 100%;
   max-width: 480px;
   padding: 20px 16px 22px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
   margin: auto;
   max-height: calc(100vh - 32px);
   overflow-y: auto;

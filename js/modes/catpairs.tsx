@@ -373,7 +373,9 @@ export function CatPairsPage(): ReactElement | null {
       className="fixed inset-0 z-[9100] flex items-center justify-center bg-black/55 px-3 py-4"
       style={{ display: isOpen ? 'flex' : 'none' }}
     >
-      <div className="pairs-panel">{isOpen && renderContent()}</div>
+      <div className="pairs-panel bg-[var(--quiz-panel-bg)] [border:var(--quiz-panel-border)] shadow-[var(--quiz-panel-shadow)]">
+        {isOpen && renderContent()}
+      </div>
     </div>,
     document.body,
   );

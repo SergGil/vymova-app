@@ -163,6 +163,24 @@ body[data-theme="dw"] {
      --card-face-border above. */
   --card-tag-bg: rgba(var(--accent-rgb), 0.12);
   --card-tag-border: 1px solid rgba(var(--accent-rgb), 0.3);
+  /* Post-project audit follow-up clusters — accent-derived formulas, same
+     shape as --card-face-* above. --progress-fill-bg/--word-text-color/
+     --quiz-panel-bg already existed as per-theme AUX placeholders further
+     down (theme-extraction phase, pre-dates this migration entirely) —
+     only the NEW formula-only tokens are added here. */
+  --progress-fill-shadow:
+    0 0 8px var(--accent),
+    0 0 16px rgba(var(--accent-rgb), 0.5);
+  --progress-fill-anim: saberPulse 2.5s ease-in-out infinite;
+  --word-text-glow-shadow: 0 0 20px rgba(var(--accent-rgb), 0.1);
+  --quiz-panel-border: 1px solid rgba(var(--accent-rgb), 0.2);
+  --quiz-panel-shadow:
+    0 0 40px rgba(var(--accent-rgb), 0.15),
+    0 20px 60px rgba(0, 0, 0, 0.8);
+  --combo-toast-border: 1px solid rgba(var(--accent-rgb), 0.4);
+  --combo-toast-color: var(--accent);
+  --combo-toast-text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
+  --combo-toast-shadow: 0 0 20px rgba(var(--accent-rgb), 0.2);
   /* .btn-know/.hard/.dontknow/.easy (Batch 6) — fixed neon colors,
      identical across all 14 themes (never derived from --accent), same
      as the pre-existing css/styles.css comment on this cluster said

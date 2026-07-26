@@ -40,7 +40,12 @@ describe('combo-toast.tsx', () => {
     const { container } = mount();
     const el = container.querySelector('#combo-toast') as HTMLElement;
     expect(el.textContent).toBe('');
-    expect(el.className).toBe('combo-toast');
+    // docs/component-tailwind-conversion-roadmap.md post-project audit
+    // follow-up added theme-driven Tailwind classes alongside the base
+    // "combo-toast"/"show" ones this test cares about — checked via
+    // classList rather than an exact className string match.
+    expect(el.classList.contains('combo-toast')).toBe(true);
+    expect(el.classList.contains('show')).toBe(false);
   });
 
   it('shows the toast text when showComboToast is called', async () => {
@@ -51,7 +56,8 @@ describe('combo-toast.tsx', () => {
     });
     const el = container.querySelector('#combo-toast') as HTMLElement;
     expect(el.textContent).toBe('×2 COMBO!');
-    expect(el.className).toBe('combo-toast show');
+    expect(el.classList.contains('combo-toast')).toBe(true);
+    expect(el.classList.contains('show')).toBe(true);
   });
 
   it('hides the toast after 1700ms', async () => {
@@ -60,14 +66,15 @@ describe('combo-toast.tsx', () => {
       showComboToast('×3 MEGA!');
       await rafTick();
     });
-    expect((container.querySelector('#combo-toast') as HTMLElement).className).toBe(
-      'combo-toast show',
-    );
+    const shownEl = container.querySelector('#combo-toast') as HTMLElement;
+    expect(shownEl.classList.contains('show')).toBe(true);
 
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 1700));
     });
-    expect((container.querySelector('#combo-toast') as HTMLElement).className).toBe('combo-toast');
+    const hiddenEl = container.querySelector('#combo-toast') as HTMLElement;
+    expect(hiddenEl.classList.contains('combo-toast')).toBe(true);
+    expect(hiddenEl.classList.contains('show')).toBe(false);
   }, 10000);
 
   it('does not throw when showComboToast is called after unmount', () => {

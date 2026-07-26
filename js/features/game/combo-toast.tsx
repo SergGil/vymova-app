@@ -37,7 +37,13 @@ export function ComboToast(): ReactElement {
   }, []);
 
   return (
-    <div id="combo-toast" className={`combo-toast${show ? ' show' : ''}`}>
+    <div
+      id="combo-toast"
+      className={
+        `combo-toast [background:var(--combo-toast-bg)] [border:var(--combo-toast-border)] text-[var(--combo-toast-color)] [text-shadow:var(--combo-toast-text-shadow)] shadow-[var(--combo-toast-shadow)]` +
+        (show ? ' show' : '')
+      }
+    >
       {text}
     </div>
   );
