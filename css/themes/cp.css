@@ -231,5 +231,11 @@ body[data-theme="cp"] {
   --gb-label-color: #5fa8c8;
   --gb-label-transform: uppercase;
   --gb-label-size: 0.7rem;
+  --gb-streak-block-border: rgba(var(--accent-rgb), 0.3);
+  /* .gb-streak-num's color has a real fandom-specific value (var(--accent)),
+     but its text-shadow doesn't — same "no distinct fandom rule" shape as
+     .gb-label, needs the SW value restated here too. */
+  --gb-streak-num-color: var(--accent);
+  --gb-streak-num-shadow: 0 0 8px rgba(255, 159, 67, 0.6);
 }
 

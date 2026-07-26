@@ -15,7 +15,7 @@ import { WordOfDay } from '../word-data/word-of-day.tsx';
 export function GameBar(): ReactElement {
   return (
     <div className="game-bar-3 mb-2.5 flex gap-2" id="game-bar">
-      <div className="gb-block gb-streak-block [background:var(--gb-block-bg)] border-[var(--gb-block-border)]">
+      <div className="gb-block gb-streak-block [background:var(--gb-block-bg)] border-[var(--gb-streak-block-border)]">
         <GameBarStreak />
         <ComboBox />
       </div>

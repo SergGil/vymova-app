@@ -16,7 +16,7 @@ export function GameBarStreak(): ReactElement {
   const shLabel = t(n > 1 ? 'gamebar.shields' : 'gamebar.shield');
   return (
     <>
-      <div className="gb-streak-num">
+      <div className="gb-streak-num text-[var(--gb-streak-num-color)] [text-shadow:var(--gb-streak-num-shadow)]">
         🔥 <span id="streak-num">{d.streak || 0}</span>
       </div>
       <div className="gb-streak-label">{t('cards.streakLabel')}</div>

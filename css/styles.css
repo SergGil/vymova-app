@@ -190,6 +190,12 @@
   --gb-label-color: var(--text3);
   --gb-label-transform: none;
   --gb-label-size: 0.72rem;
+  /* No light-reversion exists for .gb-streak-block's border-color, so the
+     "always active" SW value is also the true light-default (only 2 real
+     states: fandom vs everything else). */
+  --gb-streak-block-border: rgba(230, 126, 34, 0.35);
+  --gb-streak-num-color: #e67e22;
+  --gb-streak-num-shadow: none;
 }
 
 /* Wrapped in its own layer, registered here before css/tailwind.css
@@ -1020,6 +1026,8 @@ body.dark {
   --gb-label-color: #5fa8c8;
   --gb-label-transform: uppercase;
   --gb-label-size: 0.7rem;
+  --gb-streak-num-color: #ff9f43;
+  --gb-streak-num-shadow: 0 0 8px rgba(255, 159, 67, 0.6);
 }
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
@@ -2949,25 +2957,14 @@ body.dark .btn-modes-open:hover {
   align-items: center;
   justify-content: center;
 }
-/* Beats the unconditional "always active" SW-cockpit border/box-shadow
-   further down this file purely on specificity (0,2,1 attribute-scoped vs
-   0,1,0 plain class) — same as it already did as 14 near-identical
-   `body[data-theme="x"]` blocks before this consolidation, unchanged. */
-body[data-theme] .gb-streak-block {
-  border-color: rgba(var(--accent-rgb), 0.3);
-}
+/* border-color fully converted to Tailwind (docs/component-tailwind-
+   conversion-roadmap.md, game-bar atomic pass) — no light-reversion ever
+   existed for this property, so only 2 real states (fandom vs the SW
+   "always active" value, which is also the plain light-default). */
 .gb-streak-num {
   font-size: 1.2rem;
   font-weight: 800;
-  color: #e67e22;
   line-height: 1;
-}
-/* Replaces a 14x-repeated scripts/theme-template.css block: one
-   attribute-exists selector matches whichever fandom theme is active and
-   reads its own --accent, instead of 14 identical `body[data-theme="x"]`
-   rules (docs/theme-css-migration-roadmap.md Фаза 2). */
-body[data-theme] .gb-streak-num {
-  color: var(--accent);
 }
 .gb-streak-label {
   font-size: 0.65rem;
@@ -3194,16 +3191,14 @@ body[data-theme] .gb-level-fill {
   pointer-events: none;
 }
 
-/* Streak block: orange/fire theme */
+/* Streak block: orange/fire theme — border-color moved to
+   --gb-streak-block-border, .gb-streak-num's color/text-shadow moved to
+   --gb-streak-num-color/-shadow (docs/component-tailwind-conversion-
+   roadmap.md). box-shadow stays bare (out of this pass's scope). */
 .gb-streak-block {
-  border-color: rgba(230, 126, 34, 0.35);
   box-shadow:
     0 0 12px rgba(230, 126, 34, 0.1),
     inset 0 0 20px rgba(0, 0, 0, 0.3);
-}
-.gb-streak-block .gb-streak-num {
-  color: #ff9f43;
-  text-shadow: 0 0 8px rgba(255, 159, 67, 0.6);
 }
 
 /* Goal block: teal/rebel accent */
@@ -3292,12 +3287,6 @@ body[data-theme] .gb-level-fill {
 body:not(.dark):not([data-theme])
   .gb-block::after {
   display: none;
-}
-body:not(.dark):not([data-theme])
-  .gb-streak-block
-  .gb-streak-num {
-  color: #e67e22;
-  text-shadow: none;
 }
 body:not(.dark):not([data-theme])
   .goal-done-badge {
