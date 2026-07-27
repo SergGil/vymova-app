@@ -375,7 +375,7 @@ export function ProfileSwitcher(): ReactElement {
       <div className="sb-profile-row mb-1 flex items-center gap-1.5">
         <button
           id="sb-profile-btn"
-          className="sidebar-profile-btn border-[var(--sidebar-profile-btn-border)]"
+          className="flex flex-1 items-center gap-2 w-full py-[9px] px-[11px] border-[1.5px] rounded-xl bg-[var(--bg)] text-[var(--text)] [font-family:inherit] text-[0.82rem] font-semibold cursor-pointer text-left transition-all duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)] border-[var(--sidebar-profile-btn-border)]"
           onClick={toggleDropdown}
         >
           <span id="sb-profile-av" className="sb-av inline-flex text-[1.2rem] leading-none">

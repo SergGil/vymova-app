@@ -3220,49 +3220,13 @@ body[data-theme="hp"] .sidebar-logo {
   border-color: rgba(245, 225, 180, 0.07);
 }
 
-.sidebar-logo-text {
-  font-family: 'Orbitron', monospace;
-  font-size: 1rem;
-  font-weight: 900;
-  color: var(--accent);
-  letter-spacing: 0.1em;
-}
-
-/* Profile button in sidebar */
-.sidebar-profile-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 9px 11px;
-  border-width: 1.5px;
-  border-style: solid;
-  border-radius: 12px;
-  background: var(--bg);
-  color: var(--text);
-  font-family: inherit;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.15s;
-}
-.sidebar-profile-btn:hover {
-  border-color: var(--accent);
-  background: var(--card);
-}
+/* .sidebar-logo-text/.sidebar-profile-btn(+:hover)/.sidebar-nav moved to
+   Tailwind utility classes in sidebar-nav.tsx/profile-switcher.tsx/
+   index.html (docs/full-css-tailwind-migration-roadmap.md Batch 3) — no
+   fandom-theme or body.dark overrides existed for any of them. */
 /* .sb-av/.sb-name/.sb-arrow/.sb-dd-av/.prf-char-preview/.prf-char-hint
    moved to Tailwind utility classes in profile-switcher.tsx (no
    fandom-theme or body.dark overrides existed for any of them). */
-
-/* Nav buttons */
-.sidebar-nav {
-  flex: 1;
-  padding: 10px 10px 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
 
 /* background/color (base AND :hover) fully converted to Tailwind
    (docs/component-tailwind-conversion-roadmap.md, Batch 4) — the base
@@ -3271,58 +3235,33 @@ body[data-theme="hp"] .sidebar-logo {
    on it), so leaving it bare would have masked the new hover: Tailwind
    variant completely (found by a dedicated audit after the .btn-
    achievements masking bug, not caught by the original conversion). */
-.sb-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 10px 12px;
-  border: none;
-  border-radius: 10px;
-  font-family: inherit;
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  text-align: left;
-  text-decoration: none;
-  transition: all 0.15s;
-}
-.sb-btn.sb-active {
-  background: rgba(var(--accent-rgb), 0.12);
-  color: var(--accent);
-  font-weight: 600;
-}
+/* .sb-btn's own properties and .sb-group/.sb-group-trigger's own
+   properties moved to Tailwind utility classes in sidebar-nav.tsx
+   (docs/full-css-tailwind-migration-roadmap.md Batch 3) — the bare class
+   names stay in every className (sidebar-nav-flyout.tsx's
+   document.querySelectorAll/closest() calls depend on them independent
+   of React). .sb-btn.sb-active (React-driven, never queried by class)
+   fully replaced by conditional Tailwind classes instead. */
 /* .sb-icon/.sb-label moved to Tailwind utility classes in
    sidebar-nav.tsx/fandom-theme-rows.tsx/index.html's #set-theme row (no
    fandom-theme or body.dark overrides existed for either). */
 
 /* Nav groups with hover flyout submenus */
-.sb-group {
-  position: relative;
-}
-.sb-group-trigger {
-  width: 100%;
-}
 .sb-caret {
   font-size: 0.75rem;
   color: var(--text3);
   flex-shrink: 0;
 }
 
-/* background/border-color fully converted to Tailwind (docs/component-
-   tailwind-conversion-roadmap.md, Batch 4). */
+/* background/border-color, and every property besides display, fully
+   converted to Tailwind (docs/component-tailwind-conversion-roadmap.md
+   Batch 4; docs/full-css-tailwind-migration-roadmap.md Batch 3). display
+   stays bare: sidebar-nav-flyout.tsx toggles visibility via plain
+   classList.add/remove/toggle('open', ...) outside React entirely, so
+   there's no JSX-side state to drive a conditional Tailwind class with —
+   the imperative "open" class name is the only signal. */
 .sb-flyout {
-  position: fixed;
-  min-width: 210px;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 10px;
-  padding: 6px;
   display: none;
-  flex-direction: column;
-  gap: 3px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
-  z-index: 700;
 }
 .sb-flyout.open {
   display: flex;
@@ -3561,11 +3500,9 @@ body[data-theme="hp"] .sb-profile-section {
    nested .prf-av-btn override all moved to Tailwind utility classes in
    profile-switcher.tsx (no fandom-theme or body.dark overrides existed
    for any of them). .sidebar-profile-btn's {flex:1} context override
-   stays: the base rule elsewhere in this file has a live theme override,
-   so this whole selector name stays bare CSS. */
-.sidebar-profile-btn {
-  flex: 1;
-}
+   (a second, separate declaration for the same class, missed in Batch
+   3's first pass — docs/full-css-tailwind-migration-roadmap.md) also
+   moved there, alongside the base rule's own properties. */
 
 /* ══ Sidebar Themes section ═════════════════════════════════════ */
 /* .sb-toggle-row/:hover and .theme-rows-toggle-btn/:hover moved to

@@ -21,7 +21,7 @@ import { flagUrl } from '../../js/core/flags.ts';
 // index.html's raw source.
 const ORIGINAL_LOGO_HTML = `
   <div class="sidebar-logo" id="sb-home" title="На головну — картки" style="cursor: pointer">
-    <span class="sidebar-logo-text">Vymova</span>
+    <span class="font-['Orbitron',monospace] text-base font-black text-[var(--accent)] tracking-[0.1em]">Vymova</span>
   </div>
 `;
 
@@ -31,7 +31,7 @@ const ORIGINAL_LOGO_HTML = `
 // real conditional render, so they're covered by a separate, explicit
 // AI_TUTOR_ENABLED=true test below instead of this base parity fixture.
 const ORIGINAL_NAV_HTML = `
-  <a class="sb-btn sb-active" id="sb-cards" href="/"
+  <a class="sb-btn" id="sb-cards" href="/"
     ><span class="sb-icon w-[22px] shrink-0 text-center text-base">🃏</span
     ><span class="sb-label flex-1" data-i18n="nav.cards">Картки</span></a
   >
@@ -63,7 +63,7 @@ const ORIGINAL_NAV_HTML = `
     ><span class="sb-icon w-[22px] shrink-0 text-center text-base">📜</span
     ><span class="sb-label flex-1" data-i18n="nav.langHistory">Історія мови</span></a
   >
-  <div class="sb-group" id="sb-group-video">
+  <div class="sb-group relative" id="sb-group-video">
     <button type="button" class="sb-btn sb-group-trigger" id="sb-group-video-trigger">
       <span class="sb-icon w-[22px] shrink-0 text-center text-base">🎬</span
       ><span class="sb-label flex-1" data-i18n="nav.videoGroup">Відео навчання</span
@@ -130,9 +130,29 @@ describe('<SidebarNav/>', () => {
     // issue #1): .sb-btn's own unconditional bare background/color rule
     // was masking the hover: variant even during an actual hover, so the
     // base state had to move to Tailwind too, not just :hover.
+    // docs/full-css-tailwind-migration-roadmap.md Batch 3 moved .sb-btn's/
+    // .sb-flyout's own (non-theme) bare CSS properties to Tailwind too —
+    // same stripping approach, one more layer on top of Batch 4's. .sb-btn's
+    // active-state background/color/font-weight (previously the plain
+    // .sb-active token, never queried by JS unlike .sb-btn/.sb-group/
+    // .sb-flyout) also moved to conditional Tailwind classes, stripped here
+    // the same way; verified separately below by the two "marks ... active"
+    // tests instead of this structural fixture.
     const actualNavHtml = document
       .getElementById('sidebar-nav-mount')!
-      .innerHTML.replace(/ bg-transparent text-\[var\(--text2\)\]/g, '')
+      .innerHTML.replace(
+        / flex items-center gap-2\.5 w-full py-2\.5 px-3 border-0 rounded-\[10px\] \[font-family:inherit\] text-\[0\.85rem\] font-medium cursor-pointer text-left no-underline transition-all duration-150/g,
+        '',
+      )
+      .replace(
+        / bg-\[rgba\(var\(--accent-rgb\),0\.12\)\] text-\[var\(--accent\)\] font-semibold/g,
+        '',
+      )
+      .replace(
+        / fixed min-w-\[210px\] border rounded-\[10px\] p-1\.5 flex-col gap-\[3px\] shadow-\[0_10px_30px_rgba\(0,0,0,0\.28\)\] z-\[700\]/g,
+        '',
+      )
+      .replace(/ bg-transparent text-\[var\(--text2\)\]/g, '')
       .replace(
         / (?:hover:bg|hover:text|bg|border)-\[var\(--sb-(?:btn-hover|flyout)-[a-z-]*\)\]/g,
         '',
@@ -158,8 +178,8 @@ describe('<SidebarNav/>', () => {
 
   it('marks "sb-cards" active when no page is open', () => {
     render(<SidebarNav />);
-    expect(document.getElementById('sb-cards')!.classList.contains('sb-active')).toBe(true);
-    expect(document.getElementById('sb-stats')!.classList.contains('sb-active')).toBe(false);
+    expect(document.getElementById('sb-cards')!.classList.contains('font-semibold')).toBe(true);
+    expect(document.getElementById('sb-stats')!.classList.contains('font-semibold')).toBe(false);
   });
 
   it('marks the matching link active and "sb-cards" inactive once a page opens', () => {
@@ -167,8 +187,8 @@ describe('<SidebarNav/>', () => {
     act(() => {
       dispatchOpenPage('stats');
     });
-    expect(document.getElementById('sb-stats')!.classList.contains('sb-active')).toBe(true);
-    expect(document.getElementById('sb-cards')!.classList.contains('sb-active')).toBe(false);
+    expect(document.getElementById('sb-stats')!.classList.contains('font-semibold')).toBe(true);
+    expect(document.getElementById('sb-cards')!.classList.contains('font-semibold')).toBe(false);
   });
 
   it('clicking a nav link opens the corresponding page', () => {

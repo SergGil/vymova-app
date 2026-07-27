@@ -157,10 +157,7 @@ function NavLink({
   const isActive = activePage === item.page;
   return (
     <a
-      className={
-        (isActive ? 'sb-btn sb-active' : 'sb-btn') +
-        ' bg-transparent text-[var(--text2)] hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]'
-      }
+      className={SB_BTN_BASE + (isActive ? SB_ACTIVE : '')}
       id={item.id}
       href={BASE + item.route}
       onClick={navClick(() => openPage(item.page))}
@@ -191,10 +188,10 @@ function NavGroup({
   activePage: string | null;
 }): ReactElement {
   return (
-    <div className="sb-group" id={groupId}>
+    <div className="sb-group relative" id={groupId}>
       <button
         type="button"
-        className="sb-btn sb-group-trigger bg-transparent text-[var(--text2)] hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]"
+        className={SB_BTN_BASE + ' sb-group-trigger'}
         id={triggerId}
       >
         <span className="sb-icon w-[22px] shrink-0 text-center text-base">{icon}</span>
@@ -204,7 +201,7 @@ function NavGroup({
         <span className="sb-caret">›</span>
       </button>
       <div
-        className="sb-flyout bg-[var(--sb-flyout-bg)] border-[var(--sb-flyout-border)]"
+        className="sb-flyout fixed min-w-[210px] border rounded-[10px] p-1.5 flex-col gap-[3px] shadow-[0_10px_30px_rgba(0,0,0,0.28)] z-[700] bg-[var(--sb-flyout-bg)] border-[var(--sb-flyout-border)]"
         id={flyoutId}
       >
         {items.map((item) => (
@@ -214,6 +211,17 @@ function NavGroup({
     </div>
   );
 }
+
+// .sb-btn/.sb-group/.sb-group-trigger/.sb-flyout class-name tokens are kept
+// literally in every className below alongside their new Tailwind utilities
+// — sidebar-nav-flyout.tsx's document.querySelectorAll/closest() calls
+// depend on these exact class names to find and reparent flyout panels,
+// independent of React (docs/full-css-tailwind-migration-roadmap.md
+// Batch 3). .sb-active is NOT queried anywhere, so it's fully replaced by
+// conditional Tailwind classes below instead.
+const SB_BTN_BASE =
+  'sb-btn flex items-center gap-2.5 w-full py-2.5 px-3 border-0 rounded-[10px] [font-family:inherit] text-[0.85rem] font-medium cursor-pointer text-left no-underline transition-all duration-150 bg-transparent text-[var(--text2)] hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]';
+const SB_ACTIVE = ' bg-[rgba(var(--accent-rgb),0.12)] text-[var(--accent)] font-semibold';
 
 const LANG_OPTS: { code: string; flag: string; title: string }[] = [
   { code: 'ua', flag: 'ua', title: 'Українська' },
@@ -240,15 +248,14 @@ export function SidebarNav(): ReactElement {
           style={{ cursor: 'pointer' }}
           onClick={goHome}
         >
-          <span className="sidebar-logo-text">Vymova</span>
+          <span className="font-['Orbitron',monospace] text-base font-black text-[var(--accent)] tracking-[0.1em]">
+            Vymova
+          </span>
         </div>
       </Portal>
       <Portal id="sidebar-nav-mount">
         <a
-          className={
-            (cardsActive ? 'sb-btn sb-active' : 'sb-btn') +
-            ' bg-transparent text-[var(--text2)] hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]'
-          }
+          className={SB_BTN_BASE + (cardsActive ? SB_ACTIVE : '')}
           id="sb-cards"
           href={BASE + '/'}
           onClick={navClick(goHome)}
