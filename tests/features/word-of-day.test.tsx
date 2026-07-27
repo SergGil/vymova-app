@@ -56,7 +56,7 @@ describe('word-of-day.tsx WordOfDay', () => {
 
   it('shows a placeholder (no-img class) when the image fails to load', () => {
     const { container } = mount();
-    expect(container.querySelector('.wotd-img-wrap')!.className).toContain('wotd-no-img');
+    expect(container.querySelector('.wotd-img-wrap')!.classList.contains('hidden')).toBe(true);
     expect(container.querySelector('img')).toBeNull();
   });
 
@@ -68,7 +68,7 @@ describe('word-of-day.tsx WordOfDay', () => {
     const img = container.querySelector('img') as HTMLImageElement;
     expect(img).not.toBeNull();
     expect(img.src).toBe('https://example.com/img.jpg');
-    expect(container.querySelector('.wotd-img-wrap')!.className).not.toContain('wotd-no-img');
+    expect(container.querySelector('.wotd-img-wrap')!.classList.contains('hidden')).toBe(false);
   });
 
   it('falls back to the no-img placeholder if the image element errors', () => {
@@ -80,7 +80,7 @@ describe('word-of-day.tsx WordOfDay', () => {
     act(() => {
       img.dispatchEvent(new Event('error'));
     });
-    expect(container.querySelector('.wotd-img-wrap')!.className).toContain('wotd-no-img');
+    expect(container.querySelector('.wotd-img-wrap')!.classList.contains('hidden')).toBe(true);
   });
 
   it('navigates to the word, closes the sidebar and re-renders when clicked', () => {

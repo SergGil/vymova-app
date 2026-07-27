@@ -96,17 +96,24 @@ export function WordOfDay(): ReactElement {
 
   return (
     <div
-      className="wotd-box header-wotd bg-[var(--wotd-box-bg)] border-[var(--wotd-box-border)]"
+      className="wotd-box header-wotd flex items-center gap-2.5 border rounded-[10px] py-2 px-3.5 mb-2 cursor-pointer transition-[border-color] duration-150 hover:border-[var(--accent)] bg-[var(--wotd-box-bg)] border-[var(--wotd-box-border)]"
       title={t('cards.wotdTitle')}
       onClick={() => goToWord(word)}
     >
-      <span className="wotd-lbl">{t('cards.wotdLabel')}</span>
-      <div className="wotd-body">
-        <div className={`wotd-img-wrap${imgFailed ? ' wotd-no-img' : ''}`}>
+      <span className="wotd-lbl text-[0.62rem] font-bold tracking-[0.08em] uppercase text-[var(--text3)] whitespace-nowrap shrink-0">
+        {t('cards.wotdLabel')}
+      </span>
+      <div className="wotd-body flex items-center gap-[9px] min-w-0 w-full">
+        <div
+          className={
+            'wotd-img-wrap w-[28px] h-[28px] shrink-0 rounded-[7px] overflow-hidden bg-[var(--border)] flex items-center justify-center' +
+            (imgFailed ? ' hidden' : '')
+          }
+        >
           {imgUrl && <img src={imgUrl} alt={word[0]} onError={() => setImgFailed(true)} />}
         </div>
-        <div className="wotd-text">
-          <span className="wotd-word text-[var(--wotd-word-color)] [text-shadow:var(--wotd-word-shadow)]">
+        <div className="flex flex-col gap-0.5 min-w-0 flex-1 overflow-hidden">
+          <span className="wotd-word font-['DM_Serif_Display',serif] text-[1.05rem] text-[var(--wotd-word-color)] [text-shadow:var(--wotd-word-shadow)]">
             {front}
           </span>
         </div>

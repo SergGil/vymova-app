@@ -2044,40 +2044,12 @@ body.dark {
 
 /* ── Word of the day ── background/border-color/color/text-shadow fully
    converted to Tailwind (docs/component-tailwind-conversion-roadmap.md
-   Batch 2). */
-.wotd-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 10px;
-  padding: 8px 14px;
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: border-color 0.15s;
-}
-.wotd-box:hover {
-  border-color: var(--accent);
-}
-.wotd-lbl {
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text3);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.wotd-word {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.05rem;
-}
-.wotd-tr {
-  font-size: 0.78rem;
-  color: var(--text2);
-  margin-left: auto;
-}
+   Batch 2). .wotd-box/.wotd-lbl/.wotd-word's own remaining properties
+   moved to Tailwind too, in word-of-day.tsx/daily-mission-card.tsx
+   (docs/full-css-tailwind-migration-roadmap.md Batch 6) — their bare
+   class names stay: .gb-wotd-block .wotd-box.header-wotd/.wotd-lbl/
+   .wotd-word and .header-wotd .wotd-lbl/.wotd-word (further down) still
+   need them to match. .wotd-tr had no such dependency, fully replaced. */
 
 /* ── Milestone toast ── */
 .milestone-toast {
@@ -3413,40 +3385,18 @@ body[data-theme="hp"] .sb-profile-section {
   text-transform: uppercase;
 }
 
-.wotd-body {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  min-width: 0;
-  width: 100%;
-}
-.wotd-img-wrap {
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  border-radius: 7px;
-  overflow: hidden;
-  background: var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+/* .wotd-body/.wotd-img-wrap's own properties moved to Tailwind utility
+   classes in word-of-day.tsx (docs/full-css-tailwind-migration-roadmap.md
+   Batch 6) — bare class names stay: .gb-wotd-block .wotd-body/.wotd-img-
+   wrap above still need them. .wotd-img-wrap.wotd-no-img's display:none
+   was React-state-driven (imgFailed), replaced by a conditional `hidden`
+   Tailwind class instead. .wotd-text had no such dependency, fully
+   replaced (dropped from the DOM entirely). */
 .wotd-img-wrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 7px;
-}
-.wotd-img-wrap.wotd-no-img {
-  display: none;
-}
-.wotd-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-  flex: 1;
-  overflow: hidden;
 }
 .header-wotd .wotd-word {
   font-size: 0.85rem;
