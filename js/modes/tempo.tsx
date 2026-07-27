@@ -364,7 +364,13 @@ export function TempoPage(): ReactElement {
             {[30, 60, 90].map((sec) => (
               <button
                 key={sec}
-                className={'tempo-time-btn' + (selectedSec === sec ? ' active' : '')}
+                id={`tempo-time-${sec}`}
+                className={
+                  "py-2 px-[18px] rounded-[20px] border-2 font-semibold cursor-pointer text-[0.88rem] [font-family:'DM_Sans',sans-serif] transition-all duration-150 " +
+                  (selectedSec === sec
+                    ? 'tempo-time-active border-[var(--accent)] text-[var(--accent)] bg-[rgba(155,89,182,0.1)]'
+                    : 'border-[var(--border)] text-[var(--text2)] bg-transparent')
+                }
                 onClick={() => setSelectedSec(sec)}
                 data-i18n={`tempo.sec${sec}`}
               >

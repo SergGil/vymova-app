@@ -81,19 +81,21 @@ describe('tempo.tsx (TempoPage)', () => {
       openTempo();
     });
     expect(overlay.classList.contains('open')).toBe(true);
-    expect(container.querySelectorAll('.tempo-time-btn')).toHaveLength(3);
-    expect(container.querySelector('.tempo-time-btn.active')).not.toBeNull();
+    expect(
+      container.querySelectorAll('#tempo-time-30, #tempo-time-60, #tempo-time-90'),
+    ).toHaveLength(3);
+    expect(container.querySelector('.tempo-time-active')).not.toBeNull();
   });
 
   it('picking a duration marks it active', () => {
     act(() => {
       openTempo();
     });
-    const sixtyBtn = Array.from(container.querySelectorAll<HTMLButtonElement>('.tempo-time-btn'))[1];
+    const sixtyBtn = container.querySelector('#tempo-time-60') as HTMLButtonElement;
     act(() => {
       sixtyBtn.click();
     });
-    expect(sixtyBtn.className).toContain('active');
+    expect(sixtyBtn.classList.contains('tempo-time-active')).toBe(true);
   });
 
   it('starting the round shows a question with 4 options and a countdown', () => {
@@ -190,7 +192,9 @@ describe('tempo.tsx (TempoPage)', () => {
     act(() => {
       againBtn.click();
     });
-    expect(container.querySelectorAll('.tempo-time-btn')).toHaveLength(3);
+    expect(
+      container.querySelectorAll('#tempo-time-30, #tempo-time-60, #tempo-time-90'),
+    ).toHaveLength(3);
     vi.useRealTimers();
   });
 

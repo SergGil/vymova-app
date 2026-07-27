@@ -371,7 +371,11 @@ export function ReadingPage(): ReactElement {
               </button>
             </>
           )}
-          <button className="page-close-btn" onClick={closeReading} aria-label={t('common.close')}>
+          <button
+            className="page-close-btn bg-transparent border-0 text-[1.2rem] cursor-pointer text-[var(--text3)] py-1 px-2 rounded-lg transition-all duration-[120ms] hover:bg-[var(--bg)] hover:text-[var(--text)]"
+            onClick={closeReading}
+            aria-label={t('common.close')}
+          >
             ✕
           </button>
         </div>

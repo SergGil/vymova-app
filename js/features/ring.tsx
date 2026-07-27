@@ -15,12 +15,20 @@ export function LevelRing(): ReactElement {
   const lvEmoji = lv.name.split(' ')[0] || '⭐';
 
   return (
-    <div className="ring-wrap" title="Прогрес рівня">
-      <div className="ring-container">
+    <div className="flex flex-col items-center gap-[3px] shrink-0" title="Прогрес рівня">
+      <div className="relative w-[52px] h-[52px]">
         <svg width="52" height="52" viewBox="0 0 52 52">
-          <circle className="ring-bg" cx="26" cy="26" r="22" />
           <circle
-            className={'ring-fill [filter:var(--ring-glow)]' + (pct >= 1 ? ' done' : '')}
+            className="fill-none stroke-[var(--border)] [stroke-width:4]"
+            cx="26"
+            cy="26"
+            r="22"
+          />
+          <circle
+            className={
+              'fill-none [stroke-width:4] [stroke-linecap:round] transition-[stroke-dashoffset] duration-500 ease-in-out [filter:var(--ring-glow)]' +
+              (pct >= 1 ? ' done' : '')
+            }
             id="ring-fill"
             cx="26"
             cy="26"
@@ -31,7 +39,10 @@ export function LevelRing(): ReactElement {
             transform="rotate(-90 26 26)"
           />
         </svg>
-        <div className="ring-center" id="ring-center">
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[0.72rem] font-bold text-[var(--text)] text-center leading-none pointer-events-none"
+          id="ring-center"
+        >
           {lvEmoji}
           <br />
           <span style={{ fontSize: '.5rem', fontWeight: 400, color: 'var(--text3)' }}>

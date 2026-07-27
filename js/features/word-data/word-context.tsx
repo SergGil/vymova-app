@@ -93,13 +93,14 @@ export function CollocationsSection(): ReactElement | null {
       </div>
       <div
         id="cb-collocation-list"
+        className="!flex !flex-row flex-wrap"
         style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
       >
         {colls.slice(0, 10).map((c, i) => {
           const parts = c.phrase.split(re);
           return (
             <span
-              className="colloc-pill inline-flex cursor-default items-center gap-1.5 rounded-[20px] border-[1.5px] border-[rgba(52,152,219,.25)] bg-[rgba(52,152,219,.08)] px-[11px] py-1 text-[.75rem] text-[var(--text2)] whitespace-nowrap transition-[background] duration-[120ms] max-[480px]:px-[9px] max-[480px]:py-[3px] max-[480px]:text-[.7rem]"
+              className="colloc-pill inline-flex cursor-default items-center gap-1.5 rounded-[20px] border-[1.5px] border-[rgba(52,152,219,.25)] bg-[rgba(52,152,219,.08)] px-[11px] py-1 text-[.75rem] text-[var(--text2)] whitespace-nowrap transition-[background] duration-[120ms] hover:bg-[rgba(52,152,219,0.14)] max-[480px]:px-[9px] max-[480px]:py-[3px] max-[480px]:text-[.7rem]"
               key={i}
             >
               {parts.map((part, j) =>

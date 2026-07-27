@@ -102,7 +102,7 @@ export function PairsMode(): ReactElement | null {
     function makeBtn(item: { text: string; id: number }, side: string): HTMLButtonElement {
       const btn = document.createElement('button');
       btn.className =
-        'pair-btn border-2 border-[var(--border)] bg-[var(--card)] text-[var(--text)] hover:border-[var(--pair-btn-hover-border)] hover:bg-[var(--pair-btn-hover-bg)]';
+        "pair-btn [font-family:'DM_Sans',sans-serif] text-[0.85rem] leading-[1.3] py-2.5 px-2 min-h-[52px] rounded-xl cursor-pointer flex items-center justify-center text-center [word-break:break-word] transition-[border-color,background] duration-[120ms] border-2 border-[var(--border)] bg-[var(--card)] text-[var(--text)] hover:border-[var(--pair-btn-hover-border)] hover:bg-[var(--pair-btn-hover-bg)]";
       btn.textContent = item.text;
       btn.dataset.id = String(item.id);
       btn.dataset.side = side;
@@ -120,7 +120,6 @@ export function PairsMode(): ReactElement | null {
       ];
       const MATCHED_CLASSES = [
         'matched',
-        'cursor-default',
         '!border-[var(--pair-matched-border)]',
         '!bg-[var(--pair-matched-bg)]',
         '!text-[var(--pair-matched-color)]',

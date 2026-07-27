@@ -1241,20 +1241,11 @@ body.dark {
    goal-modal.tsx) already set background via an inline style prop, which
    always wins over any class-based rule — this never applied. */
 
-/* ── Кнопка теми ── */
-#btn-theme {
-  background: none;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  padding: 5px 9px;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 1;
-  transition: border-color 0.2s;
-}
-#btn-theme:hover {
-  border-color: var(--accent);
-}
+/* #btn-theme(+:hover) removed as dead code: the button itself is
+   permanently style={{display:'none'}} in theme.tsx with nothing else
+   ever changing that — it exists purely as a hidden click target
+   (sidebar.tsx programmatically calls its .click() to reuse the toggle
+   logic), so none of its own visual CSS ever renders. */
 
 /* ── Пошук ──
    .search-wrap/.search-icon/.search-results' layout+chrome/.search-result-
@@ -1610,54 +1601,22 @@ body.dark {
    body.dark .card.is-known/body[data-theme] .card.is-known (Batch 6) —
    no bare CSS left here at all. */
 
-/* ── Прогрес-кільце ── */
-.ring-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  flex-shrink: 0;
-}
-.ring-bg {
-  fill: none;
-  stroke: var(--border);
-  stroke-width: 4;
-}
-.ring-fill {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 4;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 0.5s ease;
-}
-.ring-fill.done {
-  stroke: #e67e22;
-}
-.ring-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--text);
-  text-align: center;
-  line-height: 1;
-  pointer-events: none;
-}
-.ring-container {
-  position: relative;
-  width: 52px;
-  height: 52px;
-}
+/* ── Прогрес-кільце ──
+   Moved to Tailwind utility classes in ring.tsx (docs/full-css-tailwind-
+   migration-roadmap.md Batch 6) — no fandom-theme or body.dark overrides
+   existed for any of them. .ring-fill/.ring-fill.done's own `stroke`
+   values were confirmed dead first: an unconditional inline
+   style={{stroke: lv.color || 'var(--accent)'}} on the same element
+   always wins over any non-!important class rule, verified live via
+   Playwright — so neither value was carried into Tailwind. The "done"
+   class itself stays as a semantic-only marker (ring.tsx still appends
+   it conditionally, tests assert its presence/absence) even though it no
+   longer drives any visible style. */
 
-/* ── Конфеті ── */
-#confetti-canvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-}
+/* #confetti-canvas removed as dead code: confetti.tsx sets the exact same
+   (and one different — z-index 99990 vs this rule's 9999) properties via
+   an unconditional inline style on the same element, which always wins
+   over this non-!important bare CSS regardless, confirmed live. */
 
 /* ── Схожі слова ── */
 /* ── Card extra sections (families, collocations, similar) ──
@@ -1724,16 +1683,16 @@ body.dark {
   opacity: 0.7;
 }
 
-/* ── Collocations — horizontal scrollable pills ── */
-#cb-collocation-list {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-.colloc-pill:hover {
-  background: rgba(52, 152, 219, 0.14);
-}
+/* ── Collocations — horizontal scrollable pills ──
+   #cb-collocation-list's display/flex-direction (both needed
+   !important to override its own inline style={{display:'flex',
+   flexDirection:'column'}}) and flex-wrap moved to Tailwind utility
+   classes in word-context.tsx (docs/full-css-tailwind-migration-
+   roadmap.md Batch 6) — its `gap: 5px` was dropped, not converted:
+   confirmed dead live (no !important, so the same element's inline
+   gap:'4px' always won regardless). .colloc-pill:hover's background
+   moved too, added directly alongside its already-Tailwind base
+   classes. */
 
 /* The former light-only reversion rules here (`body:not(.dark):
    not([data-theme]) .selector` — already the correct, fixed form by the
@@ -1852,23 +1811,16 @@ body.dark {
   height: 100%;
   border: none;
 }
-.tempo-time-btn {
-  padding: 8px 18px;
-  border-radius: 20px;
-  border: 2px solid var(--border);
-  background: none;
-  color: var(--text2);
-  font-size: 0.88rem;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  transition: all 0.15s;
-}
-.tempo-time-btn.active {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: rgba(155, 89, 182, 0.1);
-}
+/* .tempo-time-btn(+.active) moved to Tailwind utility classes in
+   tempo.tsx (docs/full-css-tailwind-migration-roadmap.md Batch 6) — no
+   fandom-theme or body.dark overrides existed for either. Structured as
+   two mutually-exclusive conditional class sets (not a base class plus a
+   competing .active override) so there's never two Tailwind utilities
+   targeting the same property (border-color/color/background) on the
+   element at once. Added id="tempo-time-<sec>" per button and a
+   semantic-only .tempo-time-active marker (no styling of its own) so
+   tempo.test.tsx can still select "the 60s button" / "is it active"
+   without a CSS class to hook into. */
 /* .tempo-opt's own base box/typography + :disabled moved to Tailwind
    utility classes in tempo.tsx (no fandom-theme or body.dark overrides
    existed for either). .correct/.wrong/.reveal's border-color/background/
@@ -2043,53 +1995,27 @@ body.dark {
    className is never applied in JSX anymore — mode-card-grid.tsx renders
    this button via mode-card/mc-<id> classes, only id="btn-fib" survives
    (used solely by fib.tsx's bindOverlayOpenClose getElementById call). */
-.fib-sentence {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--text);
-  text-align: center;
-}
-.fib-blank {
-  display: inline-block;
-  min-width: 70px;
-  border-bottom: 2.5px solid var(--accent);
-  font-weight: 700;
-  color: var(--accent);
-  padding: 0 4px;
-  letter-spacing: 0.05em;
-  text-align: center;
-}
+/* .fib-sentence/.fib-blank moved to Tailwind utility classes in fib.tsx
+   (docs/full-css-tailwind-migration-roadmap.md Batch 6). .fib-blank is
+   rendered via raw HTML strings (dangerouslySetInnerHTML), not JSX
+   className — its "fib-blank" token stays there purely so renderSentence()'s
+   own regex (matching the placeholder span to swap in the answer) keeps
+   working; the regex itself was loosened from an exact `class="fib-blank"`
+   match to `class="fib-blank[^"]*"` to tolerate the added Tailwind
+   classes. */
 
-/* ── Listening mode ── */
-.btn-listen {
-  border-color: #1abc9c;
-  color: #1abc9c;
-}
-.btn-listen:hover {
-  background: #e8faf5;
-}
-/* body.dark .btn-listen deleted as dead code: values identical to the
-   light-mode base rule above. */
-.listen-play-btn {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  border: 3px solid var(--accent);
-  background: var(--bg);
-  font-size: 2.2rem;
-  cursor: pointer;
-  margin: 0 auto 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition:
-    transform 0.15s,
-    background 0.15s;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-}
-.listen-play-btn:hover {
-  background: var(--accent);
-}
+/* ── Listening mode ──
+   .btn-listen(+:hover) removed as dead code: zero consumers anywhere in
+   js/ or index.html — the mode-card button this looked like it should
+   style actually renders class="mode-card mc-listen" id="btn-listen"
+   (an id, not this class). .listen-play-btn's own base/:hover properties
+   moved to Tailwind utility classes in listening.tsx (docs/full-css-
+   tailwind-migration-roadmap.md Batch 6) — the bare class name and "on"
+   token stay: pronunciation.ts/speech.ts/voice.tsx's shared speak-button
+   pulse helpers imperatively classList.add('on') on whatever button
+   element they're given (the same mechanism .speak-btn.on/.accent-btn.on
+   already relied on), and .listen-play-btn.on's animation reference
+   can't become a Tailwind utility anyway. */
 .listen-play-btn.on {
   animation: listenPulse 0.7s ease-in-out infinite alternate;
 }
@@ -2104,26 +2030,14 @@ body.dark {
   }
 }
 
-/* ── Category matching ── */
-/* background (base AND :hover) fully converted to Tailwind — the base
+/* ── Category matching ──
+   background (base AND :hover) fully converted to Tailwind — the base
    value had to move too, not just :hover's, for the same reason
-   documented at .sb-btn above (audit issue #2). */
-.cat-select-btn {
-  padding: 10px 8px;
-  border-radius: 12px;
-  border: 1.5px solid var(--border);
-  color: var(--text);
-  font-size: 0.82rem;
-  cursor: pointer;
-  text-align: center;
-  line-height: 1.4;
-  transition:
-    border-color 0.12s,
-    background 0.12s;
-}
-.cat-select-btn:hover {
-  border-color: var(--accent);
-}
+   documented at .sb-btn above (audit issue #2). Every other own property
+   (padding/border/color/font/cursor/transition) moved too, in
+   catpairs.tsx (docs/full-css-tailwind-migration-roadmap.md Batch 6) —
+   the bare class name stays: .cat-select-btn .cat-count below still
+   needs it. */
 .cat-select-btn .cat-count {
   font-size: 0.68rem;
   color: var(--text3);
@@ -2131,30 +2045,16 @@ body.dark {
   margin-top: 2px;
 }
 
-/* ── Combo toast ── */
-/* background/border/color/text-shadow/box-shadow fully converted to
+/* ── Combo toast ──
+   background/border/color/text-shadow/box-shadow fully converted to
    Tailwind (docs/component-tailwind-conversion-roadmap.md, post-project
-   audit follow-up). */
-.combo-toast {
-  position: fixed;
-  top: 42%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.5);
-  font-size: 1.5rem;
-  font-weight: 800;
-  padding: 12px 26px;
-  border-radius: 16px;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0;
-  transition:
-    opacity 0.15s,
-    transform 0.15s;
-  white-space: nowrap;
-}
+   audit follow-up). Every other own property (position/typography/
+   padding/opacity/transform/transition) moved too, in combo-toast.tsx
+   (docs/full-css-tailwind-migration-roadmap.md Batch 6) — "show" stays
+   as a literal token (React-state-driven), since .show's animation
+   below still references the @keyframes cToastOut, which can't become a
+   Tailwind utility. */
 .combo-toast.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
   animation: cToastOut 0.3s ease 1.3s forwards;
 }
 @keyframes cToastOut {
@@ -2234,20 +2134,11 @@ body.dark {
   animation: flashFail 0.5s ease !important;
 }
 
-/* ── Combo box у game-bar ── */
-.combo-box {
-  display: none;
-  align-items: center;
-  gap: 3px;
-  font-size: 0.88rem;
-  font-weight: 800;
-  color: #e67e22;
-  white-space: nowrap;
-}
-.combo-x {
-  color: #e74c3c;
-  font-size: 0.78rem;
-}
+/* .combo-box/.combo-x moved to Tailwind utility classes in
+   game-bar-streak.tsx (docs/full-css-tailwind-migration-roadmap.md
+   Batch 6) — display:none was already dead: both JSX branches set an
+   explicit inline style.display value unconditionally, so the bare CSS
+   default never had anything to contribute. */
 
 /* .lesson-phase-tag moved to Tailwind utility classes in lesson.tsx —
    background reads a custom property the body.dark override sets
@@ -2322,24 +2213,15 @@ body.dark {
    .matched/.wrong stay bare CSS (`!important`-heavy, Batch 6 territory);
    their !important already outranks the new hover/selected Tailwind
    classes correctly regardless of source order. */
-.pair-btn {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.85rem;
-  line-height: 1.3;
-  padding: 10px 8px;
-  min-height: 52px;
-  border-radius: 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  word-break: break-word;
-  transition:
-    border-color 0.12s,
-    background 0.12s;
-}
-/* .matched's border-color/background/color and .wrong's border-color
+/* .pair-btn's own base properties (font/layout/cursor/transition) moved
+   to Tailwind utility classes in pairs.tsx/catpairs.tsx (docs/full-css-
+   tailwind-migration-roadmap.md Batch 6). The bare cursor:pointer here
+   was unlayered and always won over MATCHED_CLASSES's `cursor-default`
+   regardless of matched state (confirmed live before converting) —
+   cursor-default was already dead, so it was dropped from both files
+   instead of carried forward as a second, now-competing Tailwind
+   cursor-* utility. .matched's border-color/background/color and
+   .wrong's border-color
    fully converted to Tailwind via the `!` modifier (docs/component-
    tailwind-conversion-roadmap.md Batch 6) — .pair-btn's own base border/
    background/color are already Tailwind classes (Batch 4), so a plain
@@ -3227,20 +3109,13 @@ body[data-theme="hp"] .sidebar-logo {
   font-size: 1.1rem;
   font-weight: 700;
 }
-.page-close-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: var(--text3);
-  padding: 4px 8px;
-  border-radius: 8px;
-  transition: all 0.12s;
-}
-.page-close-btn:hover {
-  background: var(--bg);
-  color: var(--text);
-}
+/* .page-close-btn(+:hover) moved to Tailwind utility classes in its 5
+   consuming files (reading.tsx, story.tsx, daily-challenge.tsx,
+   note-modal.tsx, page-header.tsx — docs/full-css-tailwind-migration-
+   roadmap.md Batch 6). The bare class name stays in all 5: it's not
+   needed for any CSS/JS selector, but page-header.test.tsx already
+   queries it via `.page-close-btn`, so keeping it avoided touching an
+   otherwise-unrelated test. */
 
 /* ══ Sidebar Profile Dropdown ═══════════════════════════════════ */
 /* border-bottom-color (light+dark only) fully converted to Tailwind

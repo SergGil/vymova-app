@@ -49,7 +49,10 @@ function makeBlank(w: WordEntry, learnLang: string = 'en'): BlankItem | null {
   const m = sentence.match(/<b>(.*?)<\/b>/i);
   if (!m) return null;
   return {
-    sentence: sentence.replace(/<b>.*?<\/b>/i, '<span class="fib-blank">___</span>'),
+    sentence: sentence.replace(
+      /<b>.*?<\/b>/i,
+      '<span class="fib-blank inline-block min-w-[70px] border-b-[2.5px] border-b-[var(--accent)] font-bold text-[var(--accent)] px-1 tracking-[0.05em] text-center">___</span>',
+    ),
     answer: m[1],
     base: w[0],
   };
@@ -75,8 +78,8 @@ function renderSentence(item: FibEntry, correct: boolean | null): string {
     ? 'background:color-mix(in srgb, var(--success) 15%, transparent);border-color:var(--success);color:var(--success)'
     : 'background:color-mix(in srgb, var(--danger) 12%, transparent);border-color:var(--danger);color:var(--danger)';
   return item.blank.sentence.replace(
-    /<span class="fib-blank">.*?<\/span>/,
-    `<span class="fib-blank" style="${hlStyle};border-radius:4px;padding:0 4px;">${item.blank.answer}</span>`,
+    /<span class="fib-blank[^"]*">.*?<\/span>/,
+    `<span class="fib-blank inline-block min-w-[70px] border-b-[2.5px] border-b-[var(--accent)] font-bold text-[var(--accent)] px-1 tracking-[0.05em] text-center" style="${hlStyle};border-radius:4px;padding:0 4px;">${item.blank.answer}</span>`,
   );
 }
 
@@ -326,7 +329,7 @@ export function FibPage(): ReactElement {
               Вставте пропущене слово
             </div>
             <div
-              className="fib-sentence"
+              className="text-base leading-[1.7] text-[var(--text)] text-center"
               dangerouslySetInnerHTML={{ __html: renderSentence(item, result) }}
             />
             {hint && (

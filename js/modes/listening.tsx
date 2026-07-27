@@ -250,7 +250,11 @@ export function ListeningPage(): ReactElement {
           </div>
 
           <div style={{ textAlign: 'center', marginBottom: 16 }}>
-            <button ref={playBtnRef} className="listen-play-btn" onClick={playWord}>
+            <button
+              ref={playBtnRef}
+              className="listen-play-btn w-[90px] h-[90px] rounded-full border-[3px] border-[var(--accent)] bg-[var(--bg)] text-[2.2rem] cursor-pointer mx-auto mb-3 flex items-center justify-center transition-[transform,background] duration-150 shadow-[0_2px_12px_rgba(0,0,0,0.1)] hover:bg-[var(--accent)]"
+              onClick={playWord}
+            >
               🔊
             </button>
             <div style={{ fontSize: '.78rem', color: 'var(--text3)' }} data-i18n="listen.playHint">

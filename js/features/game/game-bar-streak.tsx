@@ -36,12 +36,23 @@ export function GameBarStreak(): ReactElement {
 export function ComboBox(): ReactElement {
   useGameBarVersion();
   const combo = _getSessionCombo();
-  if (combo < 2) return <div className="combo-box" id="combo-box" style={{ display: 'none' }} />;
+  if (combo < 2)
+    return (
+      <div
+        className="items-center gap-[3px] text-[0.88rem] font-extrabold text-[#e67e22] whitespace-nowrap"
+        id="combo-box"
+        style={{ display: 'none' }}
+      />
+    );
   const m = getComboMult();
   return (
-    <div className="combo-box" id="combo-box" style={{ display: 'flex', marginTop: 4 }}>
+    <div
+      className="items-center gap-[3px] text-[0.88rem] font-extrabold text-[#e67e22] whitespace-nowrap"
+      id="combo-box"
+      style={{ display: 'flex', marginTop: 4 }}
+    >
       🔥<span id="combo-num">{combo}</span>
-      <span className="combo-x" id="combo-x">
+      <span className="text-[#e74c3c] text-[0.78rem]" id="combo-x">
         {m > 1 ? ` ×${m}` : ''}
       </span>
     </div>
