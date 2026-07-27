@@ -19,7 +19,9 @@ export function GameBarStreak(): ReactElement {
       <div className="gb-streak-num text-[var(--gb-streak-num-color)] [text-shadow:var(--gb-streak-num-shadow)]">
         🔥 <span id="streak-num">{d.streak || 0}</span>
       </div>
-      <div className="gb-streak-label">{t('cards.streakLabel')}</div>
+      <div id="streak-label" className="text-[0.65rem] text-[var(--text3)] mt-0.5 whitespace-nowrap">
+        {t('cards.streakLabel')}
+      </div>
       <div
         id="shields-row"
         className="text-[0.7rem] text-[var(--text3)] [&:not(:empty)]:mt-0.5 [&:not(:empty)]:min-h-[14px]"

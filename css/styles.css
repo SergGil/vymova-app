@@ -2778,12 +2778,9 @@ body[data-theme] * {
   font-weight: 800;
   line-height: 1;
 }
-.gb-streak-label {
-  font-size: 0.65rem;
-  color: var(--text3);
-  margin-top: 2px;
-  white-space: nowrap;
-}
+/* .gb-streak-label's own properties moved to Tailwind utility classes in
+   game-bar-streak.tsx (docs/full-css-tailwind-migration-roadmap.md
+   Batch 6). */
 /* Block 2: Daily Goal — border-color fully converted to Tailwind
    (docs/component-tailwind-conversion-roadmap.md, game-bar atomic pass). */
 .gb-goal-block {
@@ -2853,15 +2850,14 @@ body[data-theme] * {
   letter-spacing: 0.05em;
 }
 /* color fully converted to Tailwind (docs/component-tailwind-conversion-
-   roadmap.md game-bar-safe list) — this base rule's font-size/margin are
-   dead code today (the element is always inside .gb-goal-ring-text,
-   whose higher-specificity compound rule wins those two properties too),
-   kept as-is since that's a pre-existing, unrelated fact not touched by
-   this migration. */
-.gb-goal-sep {
-  font-size: 0.9rem;
-  margin: 0 1px;
-}
+   roadmap.md game-bar-safe list). This base rule's font-size/margin
+   (docs/full-css-tailwind-migration-roadmap.md Batch 6) were confirmed
+   dead via a live Playwright getComputedStyle nested probe — the element
+   is always inside .gb-goal-ring-text, whose higher-specificity compound
+   rule permanently wins both properties — so the whole rule was deleted
+   outright instead of "converted." The bare .gb-goal-sep class name
+   stays on the element in game-bar-streak.tsx: that compound selector
+   (`.gb-goal-ring-text .gb-goal-sep` below) still needs it to match. */
 /* Block 3: Level XP
    This cluster has several classes with 2-4 overlapping unconditional
    rule blocks below (an "always active" SW-styled section, a light-theme

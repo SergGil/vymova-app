@@ -36,7 +36,7 @@ describe('game-bar-streak.tsx', () => {
       saveGameData({ ...getGameData(), streak: 7, shields: 0, streakDate: today });
       const { container } = mount(GameBarStreak);
       expect(container.querySelector('#streak-num')!.textContent).toBe('7');
-      expect(container.querySelector('.gb-streak-label')!.textContent).toBe('днів підряд');
+      expect(container.querySelector('#streak-label')!.textContent).toBe('днів підряд');
     });
 
     it('shows nothing in the shields row when there are no shields', () => {
