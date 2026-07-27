@@ -953,18 +953,6 @@ body.dark .card.is-known {
 }
 
 /* ── Геймфікація ── */
-.goal-set {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.75rem;
-  color: var(--text3);
-  cursor: pointer;
-  white-space: nowrap;
-}
-.goal-set:hover {
-  color: var(--accent);
-}
 /* background/color fully converted to Tailwind (docs/component-tailwind-
    conversion-roadmap.md, game-bar atomic pass) — font-size/font-weight
    turned out not theme-dependent (see the :root token comment), stay
@@ -2886,15 +2874,6 @@ body[data-theme] * {
   margin-top: 2px;
   white-space: nowrap;
 }
-.gb-shields-row {
-  font-size: 0.7rem;
-  color: var(--text3);
-}
-.gb-shields-row:not(:empty) {
-  margin-top: 2px;
-  min-height: 14px;
-}
-
 /* Block 2: Daily Goal — border-color fully converted to Tailwind
    (docs/component-tailwind-conversion-roadmap.md, game-bar atomic pass). */
 .gb-goal-block {
@@ -2954,12 +2933,6 @@ body[data-theme] * {
   }
 }
 
-.gb-goal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2px;
-}
 /* font-size/color/text-transform fully converted to Tailwind
    (docs/component-tailwind-conversion-roadmap.md, game-bar atomic pass).
    letter-spacing stays bare — untouched by any theme layer, and the
@@ -2968,16 +2941,6 @@ body[data-theme] * {
    changes). */
 .gb-label {
   letter-spacing: 0.05em;
-}
-.goal-set {
-  font-size: 0.85rem;
-  cursor: pointer;
-  color: var(--text3);
-  line-height: 1;
-  transition: color 0.15s;
-}
-.goal-set:hover {
-  color: var(--text);
 }
 /* color fully converted to Tailwind (docs/component-tailwind-conversion-
    roadmap.md game-bar-safe list) — this base rule's font-size/margin are
@@ -2989,12 +2952,6 @@ body[data-theme] * {
   font-size: 0.9rem;
   margin: 0 1px;
 }
-.gb-goal-footer {
-  text-align: center;
-  min-height: 18px;
-  margin-top: 2px;
-}
-
 /* Block 3: Level XP
    This cluster has several classes with 2-4 overlapping unconditional
    rule blocks below (an "always active" SW-styled section, a light-theme
@@ -5128,29 +5085,11 @@ body[data-theme="hp"] {
 }
 
 /* ── E: Goal progress ring ── */
-.gb-goal-ring-wrap {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-.gb-goal-ring {
-  display: block;
-  overflow: visible;
-}
-.gb-goal-ring-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--text);
-  white-space: nowrap;
-  pointer-events: none;
-}
+/* .gb-goal-ring-text's own base properties moved to Tailwind utility
+   classes in game-bar-streak.tsx (docs/full-css-tailwind-migration-
+   roadmap.md Batch 2) — the bare class name stays in the DOM (still in
+   the className list alongside the new utilities) purely so the
+   compound descendant selector right below still matches. */
 /* color removed: this compound selector is the element's ONLY consumer
    (game-bar-streak.tsx always nests .gb-goal-sep inside .gb-goal-ring-
    text), so its color competed directly with the plain .gb-goal-sep/

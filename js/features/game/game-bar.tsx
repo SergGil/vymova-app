@@ -40,7 +40,7 @@ export function GameBar(): ReactElement {
           GB_BLOCK_AFTER
         }
       >
-        <div className="gb-goal-header">
+        <div className="flex justify-between items-center mb-0.5">
           <span
             className="gb-label text-[var(--gb-label-color)] [text-transform:var(--gb-label-transform)] text-[length:var(--gb-label-size)]"
             data-i18n="cards.dailyGoal"
@@ -48,7 +48,7 @@ export function GameBar(): ReactElement {
             {t('cards.dailyGoal')}
           </span>
           <span
-            className="goal-set"
+            className="flex items-center gap-1 whitespace-nowrap cursor-pointer text-[0.85rem] text-[var(--text3)] leading-none transition-colors duration-150 hover:text-[var(--text)]"
             id="goal-set-btn"
             title={t('cards.dailyGoalEditTitle')}
             data-i18n-title="cards.dailyGoalEditTitle"

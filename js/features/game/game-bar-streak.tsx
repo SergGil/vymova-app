@@ -22,7 +22,7 @@ export function GameBarStreak(): ReactElement {
       <div className="gb-streak-label">{t('cards.streakLabel')}</div>
       <div
         id="shields-row"
-        className="gb-shields-row"
+        className="text-[0.7rem] text-[var(--text3)] [&:not(:empty)]:mt-0.5 [&:not(:empty)]:min-h-[14px]"
         title={n > 0 ? `${n} ${shLabel}: ${t('gamebar.shield.desc')}` : t('gamebar.shield.none')}
       >
         {n > 0 ? '🛡️'.repeat(n) + ' ' + shLabel : ''}
@@ -59,11 +59,11 @@ export function GameBarGoal(): ReactElement {
   const offset = RING_C * (1 - pct / 100);
   const ringColor = done ? 'var(--accent2)' : 'var(--success)';
   return (
-    <div className="gb-goal-ring-wrap">
+    <div className="relative flex flex-col items-center gap-0.5">
       <svg
         width="54"
         height="54"
-        className="gb-goal-ring"
+        className="block overflow-visible"
         style={{ transform: 'rotate(-90deg)' }}
         aria-hidden="true"
       >
@@ -84,7 +84,7 @@ export function GameBarGoal(): ReactElement {
           style={{ transition: 'stroke-dashoffset 0.4s ease, stroke 0.3s ease' }}
         />
       </svg>
-      <div className="gb-goal-ring-text">
+      <div className="gb-goal-ring-text absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[0.72rem] font-bold text-[var(--text)] whitespace-nowrap pointer-events-none">
         <span id="goal-cur">{d.goalCur || 0}</span>
         <span className="gb-goal-sep text-[var(--gb-goal-sep-color)]">/</span>
         <span id="goal-max">{d.goalMax}</span>
