@@ -80,6 +80,18 @@ function AutoButtonLabel(): ReactElement {
 const BTN_BASE =
   'bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)]';
 
+// Shared layout for the 4 rating CTA buttons (.btn-easy/.btn-know/.btn-hard/
+// .btn-dontknow), docs/full-css-tailwind-migration-roadmap.md Tier 2a.
+// font-weight/border-width/border-radius/transition need the `!` modifier
+// because .btn's own bare rule sets all four unconditionally too, and a
+// plain Tailwind utility would stay masked by that bare CSS (see the CSS
+// comment above these selectors' now-mostly-deleted rule). The :active
+// rule (translateY(0) scale(0.97) + box-shadow:none) is deliberately not
+// reproduced here — verified live that it's fully redundant/already
+// masked, see the same CSS comment.
+const BTN_CTA_BASE =
+  'inline-flex items-center justify-center !font-semibold !border-[1.5px] !rounded-[12px] ![transition:all_0.15s,transform_0.15s_ease,box-shadow_0.15s_ease] hover:-translate-y-0.5';
+
 export function CardShell(): ReactElement {
   const isKnown = useIsCardKnown();
   const speakBtnKnownCls = isKnown ? ' !text-[var(--known-c3)]' : '';
@@ -328,7 +340,9 @@ export function CardShell(): ReactElement {
           className={
             'btn btn-easy ' +
             BTN_BASE +
-            ' !border-[var(--btn-easy-border)] !text-[var(--btn-easy-color)] !bg-[var(--btn-easy-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-easy-hover-color)] hover:!bg-[var(--btn-easy-hover-bg)] hover:!shadow-[var(--btn-easy-hover-shadow)]'
+            ' !border-[var(--btn-easy-border)] !text-[var(--btn-easy-color)] !bg-[var(--btn-easy-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-easy-hover-color)] hover:!bg-[var(--btn-easy-hover-bg)] hover:!shadow-[var(--btn-easy-hover-shadow)] ' +
+            BTN_CTA_BASE +
+            ' gap-[3px]'
           }
           id="btn-easy"
           title="Миттєво, дуже легко — слово вважається вивченим"
@@ -350,7 +364,9 @@ export function CardShell(): ReactElement {
           className={
             'btn btn-know ' +
             BTN_BASE +
-            ' !border-[var(--btn-know-border)] !text-[var(--btn-know-color)] !bg-[var(--btn-know-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-know-hover-color)] hover:!bg-[var(--btn-know-hover-bg)] hover:!shadow-[var(--btn-know-hover-shadow)]'
+            ' !border-[var(--btn-know-border)] !text-[var(--btn-know-color)] !bg-[var(--btn-know-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-know-hover-color)] hover:!bg-[var(--btn-know-hover-bg)] hover:!shadow-[var(--btn-know-hover-shadow)] ' +
+            BTN_CTA_BASE +
+            ' gap-1.5'
           }
           id="btn-know"
           style={{
@@ -367,7 +383,9 @@ export function CardShell(): ReactElement {
           className={
             'btn btn-hard ' +
             BTN_BASE +
-            ' !border-[var(--btn-hard-border)] !text-[var(--btn-hard-color)] !bg-[var(--btn-hard-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-hard-hover-color)] hover:!bg-[var(--btn-hard-hover-bg)] hover:!shadow-[var(--btn-hard-hover-shadow)]'
+            ' !border-[var(--btn-hard-border)] !text-[var(--btn-hard-color)] !bg-[var(--btn-hard-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-hard-hover-color)] hover:!bg-[var(--btn-hard-hover-bg)] hover:!shadow-[var(--btn-hard-hover-shadow)] ' +
+            BTN_CTA_BASE +
+            ' gap-[3px]'
           }
           id="btn-hard"
           title="Згадав(-ла) з труднощами"
@@ -389,7 +407,9 @@ export function CardShell(): ReactElement {
           className={
             'btn btn-dontknow ' +
             BTN_BASE +
-            ' !border-[var(--btn-dontknow-border)] !text-[var(--btn-dontknow-color)] !bg-[var(--btn-dontknow-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-dontknow-hover-color)] hover:!bg-[var(--btn-dontknow-hover-bg)] hover:!shadow-[var(--btn-dontknow-hover-shadow)]'
+            ' !border-[var(--btn-dontknow-border)] !text-[var(--btn-dontknow-color)] !bg-[var(--btn-dontknow-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-dontknow-hover-color)] hover:!bg-[var(--btn-dontknow-hover-bg)] hover:!shadow-[var(--btn-dontknow-hover-shadow)] ' +
+            BTN_CTA_BASE +
+            ' gap-[3px]'
           }
           id="btn-dontknow"
           style={{

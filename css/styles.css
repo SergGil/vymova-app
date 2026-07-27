@@ -863,38 +863,31 @@ select:focus {
    Batch 6) — same .btn-masking reasoning as .btn-auto/.btn-modes-open
    above (base+fandom .btn rules both set border/background/color
    unconditionally). box-shadow doesn't need `!`: .btn itself never
-   touches it. */
-.btn-easy,
-.btn-know,
-.btn-hard,
-.btn-dontknow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-weight: 600;
-  border-width: 1.5px;
-  border-radius: 12px;
-  transition: all 0.15s, transform 0.15s ease, box-shadow 0.15s ease;
-}
-.btn-easy,
-.btn-hard,
-.btn-dontknow {
-  gap: 3px;
-}
-.btn-easy:hover,
-.btn-know:hover,
-.btn-hard:hover,
-.btn-dontknow:hover {
-  transform: translateY(-2px);
-}
-.btn-easy:active,
-.btn-know:active,
-.btn-hard:active,
-.btn-dontknow:active {
-  transform: translateY(0) scale(0.97);
-  box-shadow: none;
-}
+   touches it.
+   display/align-items/justify-content/gap/hover's transform fully
+   converted to Tailwind too (Tier 2a, docs/full-css-tailwind-migration-
+   roadmap.md) — plain utilities, since .btn itself never touches those
+   properties. font-weight/border-width/border-radius/transition DO need
+   the `!` modifier despite not being theme-touched: .btn's own bare rule
+   above sets all four unconditionally, and since bare CSS always beats a
+   plain (non-`!`) Tailwind utility regardless of which is more specific
+   or comes later, a plain class here would silently stay masked by
+   .btn's values (500/1px/10px/var(--btn-transition)) — same masking
+   shape as .btn-auto/.btn-achievements above.
+   The :active rule (transform: translateY(0) scale(0.97); box-shadow:
+   none) is INTENTIONALLY left off this conversion, verified live via
+   Playwright rather than assumed: .btn:active's own bare rule
+   (transform: scale(0.97)) already produces an identical transform once
+   this group's rule is gone (translateY(0) is the identity transform, so
+   scale(0.97) alone renders the same), and the box-shadow: none never
+   actually took effect anyway even before this change — the sibling
+   :hover rule's box-shadow was already converted to a Tailwind `!`
+   utility (hover:!shadow-[...]) in an earlier project, and `!important`
+   always outranks a plain bare-CSS declaration regardless of layer, so
+   while hovering the hover shadow already won over this :active reset.
+   Removing the now-redundant rule changes nothing observable in either
+   the hover+active or keyboard/touch-only-active case (confirmed via a
+   live mouse-down snapshot on all 4 buttons before deleting). */
 /* border-color/color fully converted to Tailwind, applied via the `!`
    modifier (docs/component-tailwind-conversion-roadmap.md Batch 4) — .btn
    shares the same properties in its own unconditional bare rule, which
