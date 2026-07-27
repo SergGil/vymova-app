@@ -57,17 +57,25 @@ export function SwUpdateBanner(): ReactElement | null {
   };
 
   return (
-    <div id="sw-update-banner">
-      <div className="sw-update-icon">🔄</div>
-      <div className="sw-update-text">
+    <div
+      id="sw-update-banner"
+      className="fixed top-0 left-0 right-0 bg-[#1a1a2e] text-white py-3.5 px-4 z-[3000] flex items-center gap-3 shadow-[0_4px_20px_rgba(0,0,0,0.2)]"
+    >
+      <div className="text-[1.6rem] shrink-0">🔄</div>
+      <div className="sw-update-text flex-1 text-[0.83rem] leading-[1.4]">
         <strong>{t('sw.updateTitle')}</strong>
         <span>{t('sw.updateDesc')}</span>
       </div>
-      <button className="sw-update-btn" onClick={() => void onReload()}>
+      <button
+        id="sw-update-reload"
+        className="bg-[#4ecca3] text-[#1a1a2e] border-0 rounded-lg py-2 px-3.5 font-bold text-[0.83rem] cursor-pointer whitespace-nowrap"
+        onClick={() => void onReload()}
+      >
         {t('sw.reloadBtn')}
       </button>
       <button
-        className="sw-update-close"
+        id="sw-update-close"
+        className="bg-transparent border-0 text-[#888] text-[1.2rem] cursor-pointer p-1 shrink-0"
         onClick={() => setVisible(false)}
         aria-label={t('common.close')}
       >

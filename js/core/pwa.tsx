@@ -19,6 +19,9 @@ window.addEventListener('appinstalled', () => {
   _deferredPrompt = null;
 });
 
+const PWA_BANNER_BASE =
+  'fixed bottom-0 left-0 right-0 bg-[#1a1a2e] text-white py-3.5 px-4 z-[3000] gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.2)]';
+
 const _isIOS = (): boolean => /iphone|ipad|ipod/i.test(navigator.userAgent);
 const _isStandalone = (): boolean =>
   (navigator as any).standalone === true ||
@@ -90,19 +93,22 @@ export function PwaBanner(): ReactElement {
   }, []);
 
   return (
-    <div id="pwa-banner" className={visible ? 'show' : ''}>
-      <div className="pwa-icon">📚</div>
+    <div id="pwa-banner" className={PWA_BANNER_BASE + (visible ? ' flex items-center' : ' hidden')}>
+      <div className="text-[2rem] shrink-0">📚</div>
       {iosHint ? (
-        <div className="pwa-text" dangerouslySetInnerHTML={{ __html: t('pwa.iosInstallHint') }} />
+        <div
+          className="pwa-text flex-1 text-[0.83rem] leading-[1.4]"
+          dangerouslySetInnerHTML={{ __html: t('pwa.iosInstallHint') }}
+        />
       ) : (
-        <div className="pwa-text">
+        <div className="pwa-text flex-1 text-[0.83rem] leading-[1.4]">
           <strong>{t('pwa.installTitle')}</strong>
           <span>{t('pwa.installDesc')}</span>
         </div>
       )}
       {!iosHint && (
         <button
-          className="pwa-btn"
+          className="bg-[#4ecca3] text-[#1a1a2e] border-0 rounded-lg py-2 px-3.5 font-bold text-[0.83rem] cursor-pointer whitespace-nowrap"
           id="pwa-install"
           onClick={() => {
             setVisible(false);
@@ -113,7 +119,7 @@ export function PwaBanner(): ReactElement {
         </button>
       )}
       <button
-        className="pwa-close"
+        className="bg-transparent border-0 text-[#888] text-[1.2rem] cursor-pointer p-1 shrink-0"
         id="pwa-close"
         onClick={() => {
           setVisible(false);

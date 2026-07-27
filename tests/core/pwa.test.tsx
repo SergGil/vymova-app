@@ -38,7 +38,7 @@ describe('pwa.tsx PwaBanner', () => {
   it('is hidden initially', () => {
     const { container, root } = mount();
     roots.push(root);
-    expect(container.querySelector('#pwa-banner')!.className).toBe('');
+    expect(container.querySelector('#pwa-banner')!.classList.contains('hidden')).toBe(true);
   });
 
   it('shows the install banner after beforeinstallprompt fires (and not dismissed)', () => {
@@ -57,7 +57,8 @@ describe('pwa.tsx PwaBanner', () => {
       vi.advanceTimersByTime(2000);
     });
 
-    expect(container.querySelector('#pwa-banner')!.className).toBe('show');
+    expect(container.querySelector('#pwa-banner')!.classList.contains('flex')).toBe(true);
+    expect(container.querySelector('#pwa-banner')!.classList.contains('hidden')).toBe(false);
     expect(container.querySelector('strong')!.textContent).toBe('Встанови як додаток');
   });
 
@@ -78,7 +79,7 @@ describe('pwa.tsx PwaBanner', () => {
       vi.advanceTimersByTime(2000);
     });
 
-    expect(container.querySelector('#pwa-banner')!.className).toBe('');
+    expect(container.querySelector('#pwa-banner')!.classList.contains('hidden')).toBe(true);
   });
 
   it('clicking the install button calls prompt() and hides the banner', () => {
@@ -102,7 +103,7 @@ describe('pwa.tsx PwaBanner', () => {
     act(() => {
       installBtn.click();
     });
-    expect(container.querySelector('#pwa-banner')!.className).toBe('');
+    expect(container.querySelector('#pwa-banner')!.classList.contains('hidden')).toBe(true);
     expect(evt.prompt).toHaveBeenCalled();
   });
 
@@ -126,7 +127,7 @@ describe('pwa.tsx PwaBanner', () => {
     act(() => {
       closeBtn.click();
     });
-    expect(container.querySelector('#pwa-banner')!.className).toBe('');
+    expect(container.querySelector('#pwa-banner')!.classList.contains('hidden')).toBe(true);
     expect(localStorage.getItem('ew_pwa_dismissed')).toBe('1');
   });
 
@@ -143,7 +144,8 @@ describe('pwa.tsx PwaBanner', () => {
       vi.advanceTimersByTime(2000);
     });
 
-    expect(container.querySelector('#pwa-banner')!.className).toBe('show');
+    expect(container.querySelector('#pwa-banner')!.classList.contains('flex')).toBe(true);
+    expect(container.querySelector('#pwa-banner')!.classList.contains('hidden')).toBe(false);
     expect(container.querySelector('.pwa-text')!.innerHTML).toContain('Додай на головний екран');
     expect(container.querySelector('#pwa-install')).toBeNull();
   });

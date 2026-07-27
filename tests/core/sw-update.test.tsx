@@ -66,7 +66,7 @@ describe('sw-update.tsx SwUpdateBanner', () => {
       window.dispatchEvent(new Event('ew-sw-update-available'));
     });
 
-    const closeBtn = container.querySelector('.sw-update-close') as HTMLButtonElement;
+    const closeBtn = container.querySelector('#sw-update-close') as HTMLButtonElement;
     act(() => {
       closeBtn.click();
     });
@@ -110,7 +110,7 @@ describe('sw-update.tsx SwUpdateBanner', () => {
       window.dispatchEvent(new Event('ew-sw-update-available'));
     });
 
-    const reloadBtn = container.querySelector('.sw-update-btn') as HTMLButtonElement;
+    const reloadBtn = container.querySelector('#sw-update-reload') as HTMLButtonElement;
     await act(async () => {
       reloadBtn.click();
       await new Promise((r) => setTimeout(r, 0));
@@ -144,7 +144,7 @@ describe('sw-update.tsx SwUpdateBanner', () => {
       window.dispatchEvent(new Event('ew-sw-update-available'));
     });
 
-    const reloadBtn = container.querySelector('.sw-update-btn') as HTMLButtonElement;
+    const reloadBtn = container.querySelector('#sw-update-reload') as HTMLButtonElement;
     await act(async () => {
       reloadBtn.click();
       await new Promise((r) => setTimeout(r, 0));

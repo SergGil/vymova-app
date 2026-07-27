@@ -1446,108 +1446,30 @@ body.dark {
   opacity: 1;
 }
 
-/* ── PWA install banner ── */
-#pwa-banner {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #1a1a2e;
-  color: #fff;
-  padding: 14px 16px;
-  z-index: 3000;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
-}
-#pwa-banner.show {
-  display: flex;
-}
-.pwa-icon {
-  font-size: 2rem;
-  flex-shrink: 0;
-}
-.pwa-text {
-  flex: 1;
-  font-size: 0.83rem;
-  line-height: 1.4;
-}
+/* ── PWA install banner ──
+   Own layout/typography/color moved to Tailwind utility classes in
+   pwa.tsx (docs/full-css-tailwind-migration-roadmap.md Batch 6) —
+   display:none/flex was a React-state `visible` toggle (className={visible
+   ? 'show' : ''}), replaced by a conditional `hidden`/`flex` pair instead.
+   .pwa-text's own class name stays: .pwa-text strong below still needs it. */
 .pwa-text strong {
   display: block;
   font-size: 0.9rem;
   margin-bottom: 2px;
 }
-.pwa-btn {
-  background: #4ecca3;
-  color: #1a1a2e;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-weight: 700;
-  font-size: 0.83rem;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.pwa-close {
-  background: none;
-  border: none;
-  color: #888;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 4px;
-  flex-shrink: 0;
-}
 
 /* ── SW update banner (top, unlike the PWA install banner at the bottom,
-   so the two never overlap if both happen to be relevant at once) ── */
-#sw-update-banner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: #1a1a2e;
-  color: #fff;
-  padding: 14px 16px;
-  z-index: 3000;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-}
-.sw-update-icon {
-  font-size: 1.6rem;
-  flex-shrink: 0;
-}
-.sw-update-text {
-  flex: 1;
-  font-size: 0.83rem;
-  line-height: 1.4;
-}
+   so the two never overlap if both happen to be relevant at once) ──
+   Own layout/typography/color moved to Tailwind utility classes in
+   sw-update.tsx (docs/full-css-tailwind-migration-roadmap.md Batch 6) —
+   display:flex was unconditional bare CSS, but the component itself only
+   ever mounts the element when it should be visible (`if (!visible) return
+   null`), so it was already dead/unreachable as a *toggle* (confirmed:
+   no code path ever needed to hide an already-mounted instance). */
 .sw-update-text strong {
   display: block;
   font-size: 0.9rem;
   margin-bottom: 2px;
-}
-.sw-update-btn {
-  background: #4ecca3;
-  color: #1a1a2e;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-weight: 700;
-  font-size: 0.83rem;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.sw-update-close {
-  background: none;
-  border: none;
-  color: #888;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 4px;
-  flex-shrink: 0;
 }
 
 /* .ach-category/.ach-cat-title/.ach-grid-inner/.ach-card (plus unlocked/
