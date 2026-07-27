@@ -1384,51 +1384,13 @@ body.dark {
   opacity: 0;
 }
 
-/* ── Іконки свайпу ── */
-.swipe-hint-right,
-.swipe-hint-left,
-.swipe-hint-up {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  font-size: 2rem;
-  font-weight: 800;
-  transition: opacity 0.15s;
-  z-index: 10;
-  border-radius: 50px;
-  padding: 6px 16px;
-}
-.swipe-hint-right {
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(39, 174, 96, 0.15);
-  color: #27ae60;
-}
-.swipe-hint-left {
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(231, 76, 60, 0.1);
-  color: #c0392b;
-}
-.swipe-hint-up {
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(52, 152, 219, 0.12);
-  color: #2980b9;
-  font-size: 1.2rem;
-}
-.swipe-hint-right.show {
-  opacity: 1;
-}
-.swipe-hint-left.show {
-  opacity: 1;
-}
-.swipe-hint-up.show {
-  opacity: 1;
-}
+/* ── Іконки свайпу ──
+   Fully converted to Tailwind (docs/full-css-tailwind-migration-roadmap.md
+   Tier 2a) — js/core/swipe.tsx's SWIPE_HINT_*_CLASS/_SHOW_CLASS constants,
+   used both by card-shell.tsx's initial render and swipe.tsx's own repeated
+   `className =` reassignments (a full replace, not classList.add/remove).
+   The bare .show class is gone too — opacity is baked directly into each
+   pair of constants instead. */
 
 /* ── PWA install banner ──
    Own layout/typography/color moved to Tailwind utility classes in
@@ -3495,18 +3457,12 @@ body.dark {
    language example) — the list itself now renders as soon as the card
    shows (card-meta.tsx's per-sense CEFR badges need the same data at the
    same time), so these three are masked with opacity like .transl/.ex-ua
-   instead of the whole section waiting for a flip. */
-.sense-translation,
-.sense-gloss,
-.sense-example .know {
-  opacity: 0;
-  transition: opacity 0.25s;
-}
-.sense-translation.show,
-.sense-gloss.show,
-.sense-example .know.show {
-  opacity: 1;
-}
+   instead of the whole section waiting for a flip. Fully converted to
+   Tailwind's conditional opacity-0/opacity-100 (docs/full-css-tailwind-
+   migration-roadmap.md Tier 2a, same pattern as .transl/.ex-ua from
+   Batch 1) — the class tokens themselves stay in the DOM (queried by
+   tests/features/card-front-text.test.tsx), just without a bare-CSS
+   `.show` variant anymore. */
 
 /* ── Note modal ──
    .note-header/.note-title and .note-panel's/.note-textarea's own
@@ -3577,14 +3533,14 @@ body.dark {
    youtube-player.tsx (no fandom-theme or body.dark overrides existed for
    any of them). .rd-unknown/.rd-known's background+border-bottom-color
    fully converted too (docs/component-tailwind-conversion-roadmap.md
-   Batch 2) — border-bottom-width/style stay bare (theme-independent).
+   Batch 2). border-bottom-width/style (docs/full-css-tailwind-migration-
+   roadmap.md Tier 2a) now `border-b-2` at each of the 4 call sites
+   (reading.tsx x2, video-player.tsx, youtube-player.tsx) — border-style
+   stays implicit (Tailwind preflight's `border: 0 solid` reset already
+   makes `solid` the default with nothing else competing for it, same as
+   every other border-width-only utility already in this codebase).
    .rd-popup-word's font-size/font-weight moved to Tailwind; color stays
    (already directly var(--accent), no separate override needed). */
-.rd-unknown,
-.rd-known {
-  border-bottom-width: 2px;
-  border-bottom-style: solid;
-}
 .rd-popup-word {
   color: var(--accent);
 }
@@ -3681,13 +3637,6 @@ body.dark {
 }
 
 /* (mc-daily / mc-reading --mi defined in main modes block above) */
-
-/* dc/reading overlay above modes panel */
-#dc-overlay,
-#reading-overlay,
-#duel-overlay {
-  z-index: 650 !important;
-}
 
 /* ══════════════════════════════════════════
    GRAMMAR PAGE

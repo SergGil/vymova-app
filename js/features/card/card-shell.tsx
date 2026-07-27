@@ -57,6 +57,11 @@ import { FontSizeControl } from '../font-size-control.tsx';
 import { AchievementToast } from '../achievements/achievement-toast.tsx';
 import { GoalModal } from '../goal-modal.tsx';
 import { useIsCardKnown } from './card-known-visuals.tsx';
+import {
+  SWIPE_HINT_RIGHT_CLASS,
+  SWIPE_HINT_LEFT_CLASS,
+  SWIPE_HINT_UP_CLASS,
+} from '../../core/swipe.tsx';
 
 // #btn-auto's label — reactive to card-anim-store's `autoRunning` (dispatched
 // by card-engine.ts's startAuto()/stopAuto()) instead of the two direct
@@ -98,13 +103,13 @@ export function CardShell(): ReactElement {
   return (
     <div className="[perspective:900px] mb-3.5">
       <div className="card" id="card">
-        <span className="swipe-hint-right" id="sh-right" data-i18n="cards.know">
+        <span className={SWIPE_HINT_RIGHT_CLASS} id="sh-right" data-i18n="cards.know">
           ✓ Знаю
         </span>
-        <span className="swipe-hint-left" id="sh-left" data-i18n="cards.next">
+        <span className={SWIPE_HINT_LEFT_CLASS} id="sh-left" data-i18n="cards.next">
           Далі →
         </span>
-        <span className="swipe-hint-up" id="sh-up" data-i18n="cards.translation">
+        <span className={SWIPE_HINT_UP_CLASS} id="sh-up" data-i18n="cards.translation">
           👁 Переклад
         </span>
         <div

@@ -76,9 +76,9 @@ const { CardShell } = await import('../../js/features/card/card-shell.tsx');
 // difference a user would see.
 const ORIGINAL_CARD_SCENE_HTML = `
   <div class="card" id="card">
-    <span class="swipe-hint-right" id="sh-right" data-i18n="cards.know">✓ Знаю</span>
-    <span class="swipe-hint-left" id="sh-left" data-i18n="cards.next">Далі →</span>
-    <span class="swipe-hint-up" id="sh-up" data-i18n="cards.translation">👁 Переклад</span>
+    <span class="absolute opacity-0 pointer-events-none text-[2rem] font-extrabold transition-opacity duration-150 z-10 rounded-[50px] py-1.5 px-4 right-4 top-1/2 -translate-y-1/2 bg-[rgba(39,174,96,0.15)] text-[#27ae60]" id="sh-right" data-i18n="cards.know">✓ Знаю</span>
+    <span class="absolute opacity-0 pointer-events-none text-[2rem] font-extrabold transition-opacity duration-150 z-10 rounded-[50px] py-1.5 px-4 left-4 top-1/2 -translate-y-1/2 bg-[rgba(231,76,60,0.1)] text-[#c0392b]" id="sh-left" data-i18n="cards.next">Далі →</span>
+    <span class="absolute opacity-0 pointer-events-none text-[1.2rem] font-extrabold transition-opacity duration-150 z-10 rounded-[50px] py-1.5 px-4 left-1/2 top-3 -translate-x-1/2 bg-[rgba(52,152,219,0.12)] text-[#2980b9]" id="sh-up" data-i18n="cards.translation">👁 Переклад</span>
     <div
       class="card-face [animation-duration:.22s] [animation-timing-function:cubic-bezier(.25,.46,.45,.94)] [animation-fill-mode:both]"
       id="card-front"

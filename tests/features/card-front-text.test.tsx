@@ -375,20 +375,20 @@ describe('card-front-text.tsx', () => {
       // pos + example (the front-language content) render unconditionally...
       expect(items[0].querySelector('.sense-example')!.textContent).toContain('turn on the light');
       // ...but the translation/gloss/known-example ("answer") stay in the DOM
-      // without the 'show' class, matching #wtransl's own .transl/.show gate.
-      expect(items[0].querySelector('.sense-translation')!.className).not.toContain('show');
-      expect(items[0].querySelector('.sense-gloss')!.className).not.toContain('show');
-      expect(items[0].querySelector('.sense-example .know')!.className).not.toContain('show');
+      // masked via opacity-0, matching #wtransl's own .transl gate.
+      expect(items[0].querySelector('.sense-translation')!.classList.contains('opacity-0')).toBe(true);
+      expect(items[0].querySelector('.sense-gloss')!.classList.contains('opacity-0')).toBe(true);
+      expect(items[0].querySelector('.sense-example .know')!.classList.contains('opacity-0')).toBe(true);
     });
 
-    it('adds the "show" class to translation/gloss/known-example once flipped', () => {
+    it('switches translation/gloss/known-example to opacity-100 once flipped', () => {
       setFlippedState(true);
       setCwState(['light', 'світло', '', '', '', 'n'] as unknown as WordEntry);
       const { container } = mount(OtherMeanings);
       const first = container.querySelectorAll('#cb-senses-list li')[0];
-      expect(first.querySelector('.sense-translation')!.className).toContain('show');
-      expect(first.querySelector('.sense-gloss')!.className).toContain('show');
-      expect(first.querySelector('.sense-example .know')!.className).toContain('show');
+      expect(first.querySelector('.sense-translation')!.classList.contains('opacity-100')).toBe(true);
+      expect(first.querySelector('.sense-gloss')!.classList.contains('opacity-100')).toBe(true);
+      expect(first.querySelector('.sense-example .know')!.classList.contains('opacity-100')).toBe(true);
     });
 
     it('renders the English gloss when the sense entry has one', () => {

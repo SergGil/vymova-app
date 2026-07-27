@@ -14,6 +14,26 @@ import { useEffect } from 'react';
 import { getFlippedSnapshot } from '../../src/deck-store.ts';
 import { setFlipped } from './card-engine.ts';
 
+// .swipe-hint-right/-left/-up's own bare CSS moved to Tailwind utility
+// classes (docs/full-css-tailwind-migration-roadmap.md Tier 2a) — exported
+// so card-shell.tsx's initial render and this file's repeated `className =`
+// reassignments below (a full replace, not classList.add/remove, so any
+// Tailwind classes not baked into these constants would be wiped out on the
+// very first touchmove) stay byte-identical, same reasoning as
+// milestones.ts's MILESTONE_TOAST_*_CLASS pair.
+export const SWIPE_HINT_RIGHT_CLASS =
+  'absolute opacity-0 pointer-events-none text-[2rem] font-extrabold transition-opacity duration-150 z-10 rounded-[50px] py-1.5 px-4 right-4 top-1/2 -translate-y-1/2 bg-[rgba(39,174,96,0.15)] text-[#27ae60]';
+export const SWIPE_HINT_RIGHT_SHOW_CLASS =
+  'absolute opacity-100 pointer-events-none text-[2rem] font-extrabold transition-opacity duration-150 z-10 rounded-[50px] py-1.5 px-4 right-4 top-1/2 -translate-y-1/2 bg-[rgba(39,174,96,0.15)] text-[#27ae60]';
+export const SWIPE_HINT_LEFT_CLASS =
+  'absolute opacity-0 pointer-events-none text-[2rem] font-extrabold transition-opacity duration-150 z-10 rounded-[50px] py-1.5 px-4 left-4 top-1/2 -translate-y-1/2 bg-[rgba(231,76,60,0.1)] text-[#c0392b]';
+export const SWIPE_HINT_LEFT_SHOW_CLASS =
+  'absolute opacity-100 pointer-events-none text-[2rem] font-extrabold transition-opacity duration-150 z-10 rounded-[50px] py-1.5 px-4 left-4 top-1/2 -translate-y-1/2 bg-[rgba(231,76,60,0.1)] text-[#c0392b]';
+export const SWIPE_HINT_UP_CLASS =
+  'absolute opacity-0 pointer-events-none text-[1.2rem] font-extrabold transition-opacity duration-150 z-10 rounded-[50px] py-1.5 px-4 left-1/2 top-3 -translate-x-1/2 bg-[rgba(52,152,219,0.12)] text-[#2980b9]';
+export const SWIPE_HINT_UP_SHOW_CLASS =
+  'absolute opacity-100 pointer-events-none text-[1.2rem] font-extrabold transition-opacity duration-150 z-10 rounded-[50px] py-1.5 px-4 left-1/2 top-3 -translate-x-1/2 bg-[rgba(52,152,219,0.12)] text-[#2980b9]';
+
 export function CardSwipe(): null {
   useEffect(() => {
     const card = document.getElementById('card');
@@ -47,15 +67,15 @@ export function CardSwipe(): null {
       const absDy = Math.abs(dy);
 
       if (absDx > 20 && absDx > absDy) {
-        shRight!.className = 'swipe-hint-right' + (dx > 0 ? ' show' : '');
-        shLeft!.className = 'swipe-hint-left' + (dx < 0 ? ' show' : '');
-        shUp!.className = 'swipe-hint-up';
+        shRight!.className = dx > 0 ? SWIPE_HINT_RIGHT_SHOW_CLASS : SWIPE_HINT_RIGHT_CLASS;
+        shLeft!.className = dx < 0 ? SWIPE_HINT_LEFT_SHOW_CLASS : SWIPE_HINT_LEFT_CLASS;
+        shUp!.className = SWIPE_HINT_UP_CLASS;
         card!.style.transition = 'none';
         card!.style.transform = 'translateX(' + dx * 0.25 + 'px) rotate(' + dx * 0.02 + 'deg)';
       } else if (absDy > 20 && absDy > absDx && dy < 0) {
-        shUp!.className = 'swipe-hint-up show';
-        shRight!.className = 'swipe-hint-right';
-        shLeft!.className = 'swipe-hint-left';
+        shUp!.className = SWIPE_HINT_UP_SHOW_CLASS;
+        shRight!.className = SWIPE_HINT_RIGHT_CLASS;
+        shLeft!.className = SWIPE_HINT_LEFT_CLASS;
         card!.style.transition = 'none';
         card!.style.transform = 'translateY(' + dy * 0.2 + 'px)';
       }
@@ -65,9 +85,9 @@ export function CardSwipe(): null {
       if (!isDragging) return;
       isDragging = false;
 
-      shRight!.className = 'swipe-hint-right';
-      shLeft!.className = 'swipe-hint-left';
-      shUp!.className = 'swipe-hint-up';
+      shRight!.className = SWIPE_HINT_RIGHT_CLASS;
+      shLeft!.className = SWIPE_HINT_LEFT_CLASS;
+      shUp!.className = SWIPE_HINT_UP_CLASS;
 
       const t = e.changedTouches[0];
       const dx = t.clientX - startX;

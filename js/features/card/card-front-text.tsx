@@ -499,15 +499,20 @@ export function OtherMeanings() {
                 popping in once senses finish loading. */}
             <span
               className={
-                'sense-translation font-bold ' +
-                (isKnown ? 'text-[var(--known-c1)]' : 'text-[var(--text)]') +
-                (flipped ? ' show' : '')
+                'sense-translation font-bold transition-opacity duration-[250ms] ' +
+                (flipped ? 'opacity-100' : 'opacity-0') +
+                (isKnown ? ' text-[var(--known-c1)]' : ' text-[var(--text)]')
               }
             >
               {s.translation}
             </span>
             {s.gloss && (
-              <div className={'sense-gloss mt-px text-[.74rem] leading-[1.4] text-[var(--text2)]' + (flipped ? ' show' : '')}>
+              <div
+                className={
+                  'sense-gloss mt-px text-[.74rem] leading-[1.4] text-[var(--text2)] transition-opacity duration-[250ms] ' +
+                  (flipped ? 'opacity-100' : 'opacity-0')
+                }
+              >
                 {s.gloss}
               </div>
             )}
@@ -544,7 +549,14 @@ export function OtherMeanings() {
                 🔊
               </button>{' '}
               {s.exKnow ? (
-                <i className={'italic know' + (flipped ? ' show' : '')}>— {s.exKnow}</i>
+                <i
+                  className={
+                    'italic know transition-opacity duration-[250ms] ' +
+                    (flipped ? 'opacity-100' : 'opacity-0')
+                  }
+                >
+                  — {s.exKnow}
+                </i>
               ) : null}
             </div>
           </li>

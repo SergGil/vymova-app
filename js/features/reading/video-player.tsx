@@ -40,8 +40,8 @@ function renderCueHtml(text: string): string {
       if (!w) return safe;
       const isKnown = getKnownSnapshot('en').has(w[0]);
       const stateCls = isKnown
-        ? 'rd-known bg-[var(--rd-known-bg)] border-b-[var(--rd-known-border)]'
-        : 'rd-unknown bg-[var(--rd-unknown-bg)] border-b-[var(--rd-unknown-border)]';
+        ? 'rd-known bg-[var(--rd-known-bg)] border-b-2 border-b-[var(--rd-known-border)]'
+        : 'rd-unknown bg-[var(--rd-unknown-bg)] border-b-2 border-b-[var(--rd-unknown-border)]';
       return `<span class="rd-word ${stateCls}" data-word="${_esc(w[0])}">${safe}</span>`;
     })
     .join('');

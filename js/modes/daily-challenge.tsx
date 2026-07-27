@@ -309,7 +309,10 @@ export function DailyChallenge(): ReactElement | null {
   return createPortal(
     <div
       id="dc-overlay"
-      className="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-bg [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]"
+      // z-[650], not the other page-overlays' z-[600]: sits above the
+      // modes panel (docs/full-css-tailwind-migration-roadmap.md Tier 2a
+      // — same for #reading-overlay/#duel-overlay in index.html).
+      className="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[650] overflow-x-hidden overflow-y-auto overscroll-contain bg-bg [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]"
     >
       <div className="page-inner border-l-[var(--page-inner-border)] mx-auto max-w-[520px] px-6 pt-5 pb-8">
         <div className="mb-3 flex items-center justify-between">

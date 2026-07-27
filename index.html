@@ -229,14 +229,17 @@
            its own #dc-overlay directly, see that file's Phase 2 comment) ══ -->
 
       <!-- ══ READING OVERLAY ══ -->
-      <div id="reading-overlay" class="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-[var(--stats-panel-bg)] bg-[image:var(--page-overlay-bg-image)] [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]">
+      <!-- z-[650], not the other page-overlays' z-[600]: sits above the
+           modes panel (docs/full-css-tailwind-migration-roadmap.md Tier 2a
+           — same for #dc-overlay in daily-challenge.tsx/#duel-overlay below). -->
+      <div id="reading-overlay" class="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[650] overflow-x-hidden overflow-y-auto overscroll-contain bg-[var(--stats-panel-bg)] bg-[image:var(--page-overlay-bg-image)] [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]">
         <div class="page-inner border-l-[var(--page-inner-border)] mx-auto max-w-[760px] px-6 pt-5 pb-8">
           <div id="reading-page-mount"></div>
         </div>
       </div>
 
       <!-- ══ DUEL OVERLAY ══ -->
-      <div id="duel-overlay" class="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[600] overflow-x-hidden overflow-y-auto overscroll-contain bg-[var(--stats-panel-bg)] bg-[image:var(--page-overlay-bg-image)] [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]">
+      <div id="duel-overlay" class="page-overlay hidden fixed left-[var(--sb-width)] right-0 top-0 bottom-0 z-[650] overflow-x-hidden overflow-y-auto overscroll-contain bg-[var(--stats-panel-bg)] bg-[image:var(--page-overlay-bg-image)] [&.open]:block max-[900px]:left-0 max-[900px]:h-[100dvh]">
         <div class="page-inner border-l-[var(--page-inner-border)] mx-auto max-w-[760px] px-6 pt-5 pb-8" style="max-width: 560px">
           <div id="duel-page-header-mount"></div>
 
