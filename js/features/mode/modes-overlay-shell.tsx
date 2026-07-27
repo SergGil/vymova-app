@@ -67,7 +67,7 @@ export function ModesOverlayShell(): ReactElement | null {
             ✕
           </button>
         </div>
-        <div className="modes-grid">
+        <div className="flex flex-col pt-1 px-3.5 pb-[18px]">
           <ModeCardGrid />
         </div>
       </div>

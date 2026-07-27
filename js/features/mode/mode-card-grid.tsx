@@ -194,7 +194,11 @@ function ModeCardButton({ card }: { card: ModeCard }): ReactElement {
       <span className="mode-name" data-i18n={card.nameKey}>
         {t(card.nameKey)}
       </span>
-      <span className="mode-desc" id={card.descId} data-i18n={card.descKey}>
+      <span
+        className="text-[0.66rem] text-[var(--text3)] leading-[1.2]"
+        id={card.descId}
+        data-i18n={card.descKey}
+      >
         {t(card.descKey)}
       </span>
     </button>
@@ -206,7 +210,10 @@ export function ModeCardGrid(): ReactElement {
     <>
       {GROUPS.map((group) => (
         <Fragment key={group.labelKey}>
-          <div className="modes-section-label" data-i18n={group.labelKey}>
+          <div
+            className="text-[0.68rem] font-bold uppercase tracking-[0.07em] text-[var(--text3)] pt-3.5 px-0.5 pb-[7px]"
+            data-i18n={group.labelKey}
+          >
             {t(group.labelKey)}
           </div>
           <div className="modes-section-grid">

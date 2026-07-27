@@ -2690,20 +2690,13 @@ body[data-theme] * {
   color: var(--text);
 }
 
-/* ── Mode cards grid ── */
-.modes-grid {
-  display: flex;
-  flex-direction: column;
-  padding: 4px 14px 18px;
-}
-.modes-section-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--text3);
-  padding: 14px 2px 7px;
-}
+/* ── Mode cards grid ──
+   .modes-grid/.modes-section-label/.mode-desc moved to Tailwind utility
+   classes in modes-overlay-shell.tsx/mode-card-grid.tsx (docs/full-css-
+   tailwind-migration-roadmap.md Batch 5) — no fandom-theme or body.dark
+   overrides existed for any of them, and none had an @media touch-point
+   (unlike .modes-section-grid/.mode-name right below, which stay bare —
+   Tier 2c). */
 .modes-section-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2763,11 +2756,6 @@ body[data-theme] * {
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--text);
-  line-height: 1.2;
-}
-.mode-desc {
-  font-size: 0.66rem;
-  color: var(--text3);
   line-height: 1.2;
 }
 

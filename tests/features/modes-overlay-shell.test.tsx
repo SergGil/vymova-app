@@ -20,7 +20,7 @@ describe('<ModesOverlayShell/>', () => {
     expect(overlay.querySelector('.modes-panel')).not.toBeNull();
     expect(overlay.querySelector('.modes-panel-handle')).not.toBeNull();
     expect(overlay.querySelector('.modes-header')).not.toBeNull();
-    expect(overlay.querySelectorAll('.modes-grid .mode-card')).toHaveLength(27);
+    expect(overlay.querySelectorAll('.mode-card')).toHaveLength(27);
   });
 
   it('clicking the close button calls closePage() (nav-store clears)', () => {
