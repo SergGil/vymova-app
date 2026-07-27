@@ -36,7 +36,16 @@ import { FandomThemeRowsController } from '../fandom-theme-rows.tsx';
 const descCls = 'settings-desc text-[.8rem] leading-[1.5] text-[var(--text2)]';
 const toggleRowStyle = { display: 'flex', alignItems: 'center', gap: 10, marginTop: 10 } as const;
 const sectionCls = 'settings-section bg-[var(--settings-section-bg)] border-[var(--settings-section-border)]';
-const sectionTitleCls = 'settings-section-title text-[var(--section-title-color,var(--text))]';
+// A per-instance swap of sectionCls's own bg-.../border-... tokens (not an
+// extra .settings-section-danger class layered on top) — two Tailwind
+// utility classes both setting border-color on the same element race on
+// Tailwind's internal generation order, not source order, so the danger
+// section needs its own dedicated pair instead of trying to override
+// sectionCls's (docs/full-css-tailwind-migration-roadmap.md Batch 4; same
+// masking risk the game-bar per-instance border-color swaps document).
+const sectionDangerCls =
+  'settings-section bg-[rgba(231,76,60,0.04)] border-[rgba(231,76,60,0.3)]';
+const sectionTitleCls = 'text-[0.9rem] font-bold mb-1.5 text-[var(--section-title-color,var(--text))]';
 
 export function SettingsPage(): ReactElement {
   return (
@@ -211,7 +220,7 @@ export function SettingsPage(): ReactElement {
         <BugReportForm />
       </div>
 
-      <div className={`${sectionCls} settings-section-danger`}>
+      <div className={sectionDangerCls}>
         <div className={sectionTitleCls} data-i18n="settings.dangerTitle">
           {t('settings.dangerTitle')}
         </div>
@@ -228,7 +237,7 @@ export function SettingsPage(): ReactElement {
       </div>
 
       <div className="settings-footer mt-1 mb-2 text-center text-[.72rem] text-[var(--text3)]">
-        © 2026 Vymova · v1.401.67 ·{' '}
+        © 2026 Vymova · v1.401.68 ·{' '}
         <a
           href="./privacy.html"
           target="_blank"

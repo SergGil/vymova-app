@@ -2881,7 +2881,7 @@ export function VoiceSectionHeader(): ReactElement {
       style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}
     >
       <div
-        className="settings-section-title text-[var(--section-title-color,var(--text))]"
+        className="text-[0.9rem] font-bold mb-1.5 text-[var(--section-title-color,var(--text))]"
         style={{ marginBottom: 0 }}
         data-i18n="settings.voiceTitle"
       >

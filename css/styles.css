@@ -3680,20 +3680,16 @@ body[data-theme="hp"] .sb-profile-section {
   padding: 18px 20px;
   margin-bottom: 14px;
 }
-.settings-section-title {
-  font-size: 0.9rem;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
 /* .settings-desc/.settings-reset-btn/:hover/.settings-footer moved to
    Tailwind utility classes directly in index.html (no fandom-theme or
-   body.dark overrides existed for any of them). .settings-section-danger
-   turned out to be dead code, both occurrences (docs/theme-css-migration-
-   roadmap.md Фаза 2) — removed, not migrated. */
-.settings-section-danger {
-  border-color: rgba(231, 76, 60, 0.3);
-  background: rgba(231, 76, 60, 0.04);
-}
+   body.dark overrides existed for any of them). .settings-section-title
+   and .settings-section-danger's own properties moved to Tailwind utility
+   classes in settings-page.tsx/voice.tsx (docs/full-css-tailwind-
+   migration-roadmap.md Batch 4) — despite this comment's earlier claim,
+   .settings-section-danger was NOT dead (confirmed live via Playwright
+   getComputedStyle before converting); that claim referred to two other,
+   already-removed occurrences from the theme migration project, not this
+   one. */
 /* .bug-form and its children (.bug-select/.bug-textarea/.bug-row/
    .bug-send-btn/.bug-sent-note) moved to Tailwind utility classes in
    bug-report.tsx (no fandom-theme or body.dark overrides existed for any
