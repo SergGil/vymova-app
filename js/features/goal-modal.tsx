@@ -49,7 +49,7 @@ export function GoalModal(): ReactElement | null {
 
   return (
     <div
-      className="modal-overlay"
+      className="fixed inset-0 bg-black/50 z-[9500] flex items-center justify-center"
       onClick={(e) => {
         if (e.target === e.currentTarget) setOpen(false);
       }}

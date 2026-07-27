@@ -1744,24 +1744,28 @@ body.dark {
    to var(--card) in body.dark/fandom (docs/component-tailwind-
    conversion-roadmap.md, post-project audit follow-up). */
 
-/* ── Тест (Quiz) ── */
+/* ── Тест (Quiz) ──
+   #quiz-overlay's own properties (all but display) moved to Tailwind
+   utility classes in quiz.tsx (docs/full-css-tailwind-migration-
+   roadmap.md Batch 6) — display stays bare: the "open" class is React-
+   state-driven (isOpen), kept as the toggle marker anyway since
+   #quiz-overlay.open .quiz-panel (further down) needs it for its
+   slide-up animation, so there was no reason to also duplicate the
+   display logic into a conditional Tailwind class. */
 #quiz-overlay {
   display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 9000;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  overflow: hidden;
 }
 #quiz-overlay.open {
   display: flex;
 }
+/* #aq-overlay stays entirely bare, unconverted — deliberately, not an
+   oversight: it's the one entry in quiz-overlay-shell.tsx's 19-overlay
+   data-driven render that opts out of the shared Tailwind className via
+   `bare: true` (see that file's own comment for why), and its
+   padding/overflow don't match the other 18 entries' shared classes, so
+   converting it would mean adding one-off per-entry style overrides to
+   that shared component — a bigger, riskier change than this migration's
+   scope (moving CSS to Tailwind, not restructuring shared components). */
 #aq-overlay {
   display: none;
   position: fixed;
@@ -1779,51 +1783,31 @@ body.dark {
 #aq-overlay.open {
   display: flex;
 }
-/* ── Story mode ── */
+/* ── Story mode ──
+   #story-mode-overlay's own properties (all but display) and
+   .story-mode-panel moved to Tailwind utility classes in index.html
+   (docs/full-css-tailwind-migration-roadmap.md Batch 6) — display stays
+   bare: sidebar.tsx toggles it via plain classList (CLASS_TOGGLED_MODE_
+   OVERLAY_IDS), outside React entirely. */
 #story-mode-overlay {
   display: none;
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  z-index: 9200;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 8px;
-  overflow-y: auto;
 }
 #story-mode-overlay.open {
   display: flex;
 }
-.story-mode-panel {
-  max-width: 640px;
-  max-height: calc(100vh - 16px);
-  overflow-y: auto;
-  position: relative;
-}
-/* ── Tempo ── */
+/* ── Tempo ──
+   #tempo-overlay's own properties (all but display) and .tempo-panel
+   moved to Tailwind utility classes in index.html (docs/full-css-
+   tailwind-migration-roadmap.md Batch 6) — display stays bare, same
+   imperative-classList reasoning as #story-mode-overlay above.
+   .tempo-panel's class token is fully dropped (not needed elsewhere) —
+   #tempo-overlay.open #tempo-panel below matches via the element's
+   `id="tempo-panel"`, unaffected by removing the class. */
 #tempo-overlay {
   display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 9100;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 12px;
 }
 #tempo-overlay.open {
   display: flex;
-}
-.tempo-panel {
-  background: var(--card);
-  border-radius: 20px;
-  width: 100%;
-  max-width: 480px;
-  max-height: calc(100vh - 32px);
-  padding: 24px 20px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
-  overflow-y: auto;
-  position: relative;
 }
 /* .ai-tutor-* moved to Tailwind utility classes in ai-tutor.tsx (no
    fandom-theme or body.dark overrides existed for any of them). */
@@ -1922,13 +1906,6 @@ body.dark {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
-}
-/* Options, result and next button are fixed at bottom */
-#quiz-options {
-  flex-shrink: 0;
-}
-#quiz-result-msg {
-  flex-shrink: 0;
 }
 /* Reduce question padding on small screens to save space */
 @media (max-height: 600px) {
@@ -2031,10 +2008,6 @@ body.dark {
    roadmap.md Batch 6) — same reasoning as .tempo-opt above. font-weight/
    opacity moved to plain Tailwind classes in each of the 11 consuming
    files, alongside the theme-driven ones. */
-#quiz-next:hover {
-  opacity: 0.85;
-}
-
 /* .hm-week/.hm-day/.hm-l0..hm-l4 (GitHub-style heatmap, reused by the
    monthly calendar day cells too) moved to Tailwind utility classes —
    the level→color mapping now lives as a small HM_LEVEL_BG lookup array in
@@ -2439,24 +2412,6 @@ body[data-theme] ::-webkit-scrollbar-thumb:hover {
 }
 body[data-theme] * {
   scrollbar-color: var(--scrollbar-color);
-}
-
-/* ── Кнопка SW Mode ── */
-#btn-sw {
-  background: none;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  padding: 5px 9px;
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1;
-  transition: all 0.2s;
-  color: var(--text2);
-}
-#btn-sw:hover {
-  border-color: #00c8ff;
-  color: #00c8ff;
-  box-shadow: 0 0 10px rgba(0, 200, 255, 0.2);
 }
 
 /* ── Pulse animation для active lightsaber elements ── */
@@ -3153,15 +3108,11 @@ body[data-theme="hp"] .sidebar-logo {
    z-index/padding variant of this same page-overlay shape) — intentionally
    untouched; they don't use the .page-overlay/.page-inner classes at all. */
 
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 9500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+/* .modal-overlay's own properties moved to Tailwind utility classes in
+   card-legend.tsx/goal-modal.tsx (docs/full-css-tailwind-migration-
+   roadmap.md Batch 6) — reset-confirm-dialog.tsx's own wrapper uses
+   id="modal-overlay" instead of this class, so it was never styled by
+   this rule and is unaffected. */
 
 /* Stats overlay acts as page when open */
 #stats-overlay.as-page {

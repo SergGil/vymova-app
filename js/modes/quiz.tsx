@@ -564,7 +564,13 @@ export function QuizPage(): ReactElement | null {
 
   if (typeof document === 'undefined') return null;
   return createPortal(
-    <div id="quiz-overlay" className={isOpen ? 'open' : undefined}>
+    <div
+      id="quiz-overlay"
+      className={
+        'fixed inset-0 bg-black/55 z-[9000] items-center justify-center p-2 overflow-hidden' +
+        (isOpen ? ' open' : '')
+      }
+    >
       <div
         className="quiz-panel bg-[var(--quiz-panel-bg)] [border:var(--quiz-panel-border)] shadow-[var(--quiz-panel-shadow)]"
         id="quiz-panel"
