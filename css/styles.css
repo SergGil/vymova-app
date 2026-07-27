@@ -2024,32 +2024,18 @@ body.dark {
    .wotd-word and .header-wotd .wotd-lbl/.wotd-word (further down) still
    need them to match. .wotd-tr had no such dependency, fully replaced. */
 
-/* ── Milestone toast ── */
-.milestone-toast {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.92);
-  background: var(--card);
-  border: 1.5px solid var(--accent);
-  border-radius: 12px;
-  padding: 14px 22px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text);
-  z-index: 9998;
-  opacity: 0;
-  pointer-events: none;
-  white-space: nowrap;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
-  transition:
-    opacity 0.3s,
-    transform 0.3s;
-}
-.milestone-toast.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
+/* ── Milestone toast ──
+   Moved to Tailwind utility classes directly, in index.html and (for the
+   imperative show/hide reflow trick) js/features/milestones.ts's exported
+   MILESTONE_TOAST_HIDDEN_CLASS/MILESTONE_TOAST_SHOW_CLASS constants
+   (docs/full-css-tailwind-migration-roadmap.md Batch 6) — the toast's
+   visibility is driven by three call sites doing a direct
+   `el.className = ...; void el.offsetWidth; el.className = ...;` reflow
+   trick outside React entirely (milestones.ts, deck-mode.tsx,
+   deck-filter.tsx), which needs each state's FULL class string, not a
+   toggled marker class — hence exporting the two literal strings instead
+   of leaving each call site to hand-duplicate a long Tailwind string
+   that only needed to drift once to silently break the animation. */
 
 /* ── Fill in blank ── */
 /* .btn-fib (base/:hover/body.dark) removed as dead code (docs/component-

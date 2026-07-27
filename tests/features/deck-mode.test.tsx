@@ -111,7 +111,7 @@ describe('deck-mode.tsx DeckModeInit', () => {
     expect(getModeStateSnapshot().mode).toBe('en');
     const toast = document.getElementById('milestone-toast') as HTMLElement;
     expect(toast.textContent).toContain('Французьких перекладів');
-    expect(toast.className).toContain('show');
+    expect(toast.classList.contains('opacity-100')).toBe(true);
   });
 
   it('filters the special deck by the active tag set when present', async () => {

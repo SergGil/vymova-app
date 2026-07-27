@@ -17,6 +17,7 @@ import { getHardWords } from '../game/game.ts';
 import { getBookmarks } from '../bookmarks.ts';
 import { getCefrLevel } from '../../../data/cefr.ts';
 import { render, setDeck, setIdx, stopAuto } from '../../core/card-engine.ts';
+import { MILESTONE_TOAST_HIDDEN_CLASS, MILESTONE_TOAST_SHOW_CLASS } from '../milestones.ts';
 import type { WordEntry } from '../../../src/types.js';
 
 // Returns the filtered word list for the currently active language pair, or
@@ -70,11 +71,11 @@ function _showToast(msg: string): void {
   const el = document.getElementById('milestone-toast');
   if (!el) return;
   el.textContent = msg;
-  el.className = 'milestone-toast';
+  el.className = MILESTONE_TOAST_HIDDEN_CLASS;
   void el.offsetWidth;
-  el.className = 'milestone-toast show';
+  el.className = MILESTONE_TOAST_SHOW_CLASS;
   setTimeout(() => {
-    el.className = 'milestone-toast';
+    el.className = MILESTONE_TOAST_HIDDEN_CLASS;
   }, 3500);
 }
 

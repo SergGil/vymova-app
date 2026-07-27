@@ -10,6 +10,7 @@ import { getMode, getRawMode, getWordsForMode, isSpecialMode, noTranslationsKey 
 import { t } from '../i18n.ts';
 import { render, setDeck, setIdx, stopAuto } from '../../core/card-engine.ts';
 import { shuffle } from '../../core/srs.ts';
+import { MILESTONE_TOAST_HIDDEN_CLASS, MILESTONE_TOAST_SHOW_CLASS } from '../milestones.ts';
 import type { WordEntry } from '../../../src/types.js';
 
 let _preSpecialDeck: WordEntry[] | null = null;
@@ -71,11 +72,11 @@ export function DeckModeInit(): ReactElement | null {
           const _mt = document.getElementById('milestone-toast');
           if (_mt) {
             _mt.textContent = t(noTranslationsKey(m, W as unknown as WordEntry[]));
-            _mt.className = 'milestone-toast';
+            _mt.className = MILESTONE_TOAST_HIDDEN_CLASS;
             void _mt.offsetWidth;
-            _mt.className = 'milestone-toast show';
+            _mt.className = MILESTONE_TOAST_SHOW_CLASS;
             setTimeout(() => {
-              _mt.className = 'milestone-toast';
+              _mt.className = MILESTONE_TOAST_HIDDEN_CLASS;
             }, 3500);
           }
           setMode('en');

@@ -6,6 +6,19 @@ import { t } from './i18n.ts';
 import { _jsonLoad, _jsonSave } from '../core/storage.ts';
 import { getKnownInLang } from './mode/mode-utils.ts';
 
+// #milestone-toast's own bare CSS class moved to Tailwind utility classes
+// (docs/full-css-tailwind-migration-roadmap.md Batch 6) — exported so
+// deck-mode.tsx/deck-filter.tsx's own inline copies of this same show/hide
+// reflow trick (`className = hidden; void offsetWidth; className = show`,
+// the standard way to force a CSS transition to restart even mid-flight)
+// stay byte-identical instead of hand-duplicating a long Tailwind string
+// three times, which only needed to drift out of sync once to silently
+// break the toast's animation.
+export const MILESTONE_TOAST_HIDDEN_CLASS =
+  'fixed left-1/2 top-1/2 z-[9998] -translate-x-1/2 -translate-y-1/2 bg-[var(--card)] border-[1.5px] border-[var(--accent)] rounded-xl py-3.5 px-[22px] text-[0.9rem] font-semibold text-[var(--text)] pointer-events-none whitespace-nowrap shadow-[0_8px_28px_rgba(0,0,0,0.35)] transition-[transform,opacity] duration-300 scale-[0.92] opacity-0';
+export const MILESTONE_TOAST_SHOW_CLASS =
+  'fixed left-1/2 top-1/2 z-[9998] -translate-x-1/2 -translate-y-1/2 bg-[var(--card)] border-[1.5px] border-[var(--accent)] rounded-xl py-3.5 px-[22px] text-[0.9rem] font-semibold text-[var(--text)] pointer-events-none whitespace-nowrap shadow-[0_8px_28px_rgba(0,0,0,0.35)] transition-[transform,opacity] duration-300 scale-100 opacity-100';
+
 // Per-learn-language, same pattern as game.ts's _achKey() — 'ew_milestones'
 // for the base en/ua pair, 'ew_milestones_<lang>' for every target language.
 // Without this, once someone crossed e.g. 100 known words in one language,
@@ -60,11 +73,11 @@ export function showMilestone(text: string): void {
   const el = document.getElementById('milestone-toast');
   if (!el) return;
   el.textContent = text;
-  el.className = 'milestone-toast';
+  el.className = MILESTONE_TOAST_HIDDEN_CLASS;
   void el.offsetWidth;
-  el.className = 'milestone-toast show';
+  el.className = MILESTONE_TOAST_SHOW_CLASS;
   setTimeout(() => {
-    el.className = 'milestone-toast';
+    el.className = MILESTONE_TOAST_HIDDEN_CLASS;
   }, 3500);
 }
 

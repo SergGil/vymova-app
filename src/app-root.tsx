@@ -58,7 +58,6 @@ import { AnalyticsConsentBanner } from '../js/features/analytics-consent-banner.
 import { SwUpdateBanner } from '../js/core/sw-update.tsx';
 import { KeyboardShortcuts } from '../js/core/keyboard.tsx';
 import { KeysOverlay } from '../js/features/keyboard.tsx';
-import { QuizSwipe } from '../js/features/swipe.tsx';
 import { CardSwipe } from '../js/core/swipe.tsx';
 import { SettingsInit } from '../js/features/settings/settings.tsx';
 import { SettingsPage } from '../js/features/settings/settings-page.tsx';
@@ -313,7 +312,6 @@ function AppRoot(): ReactElement {
       <Portal id="keys-overlay-mount">
         <KeysOverlay />
       </Portal>
-      <QuizSwipe />
       <CardSwipe />
       <FrontSpeakBtnsToggle />
       <SettingsInit />

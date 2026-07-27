@@ -14,6 +14,7 @@ import {
   checkMilestones,
   showMilestone,
   invalidateMilestonesCache,
+  MILESTONE_TOAST_SHOW_CLASS,
 } from '../../js/features/milestones.ts';
 
 describe('checkMilestones', () => {
@@ -98,6 +99,6 @@ describe('showMilestone', () => {
     showMilestone('🎉 100 words!');
     const el = document.getElementById('milestone-toast')!;
     expect(el.textContent).toBe('🎉 100 words!');
-    expect(el.className).toBe('milestone-toast show');
+    expect(el.className).toBe(MILESTONE_TOAST_SHOW_CLASS);
   });
 });
