@@ -59,9 +59,9 @@ test.describe('Profile switcher', () => {
     // New profile was appended (and is now active) — the original is row 0,
     // targeted by position rather than its default localized name.
     await rows.nth(0).locator('.prf-dd-del').click();
-    const deletePanel = page.locator('.prf-delete-panel');
+    const deletePanel = page.locator('#prf-delete-panel');
     await expect(deletePanel).toBeVisible();
-    await deletePanel.locator('.prf-delete-btn-confirm').click();
+    await deletePanel.locator('#prf-delete-confirm').click();
     await expect(deletePanel).toBeHidden();
 
     await expect(dropdown.locator('.sb-dd-row')).toHaveCount(1);

@@ -525,7 +525,7 @@ export function ProfileSwitcher(): ReactElement {
         </div>
         <button
           id="sb-new-confirm"
-          className="prf-add-confirm [background:var(--confirm-btn-bg,var(--accent))]"
+          className="w-full p-2.5 border-0 rounded-[10px] text-white [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-opacity duration-150 hover:opacity-[0.88] [background:var(--confirm-btn-bg,var(--accent))]"
           style={{ marginTop: 8 }}
           onClick={confirmAdd}
         >
@@ -680,13 +680,16 @@ export function ProfileSwitcher(): ReactElement {
               padding: 16,
             }}
           >
-            <div className="prf-delete-panel bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--prf-delete-panel-shadow)]">
-              <div className="prf-delete-icon">🗑️</div>
-              <div className="prf-delete-title text-[var(--prf-delete-title-color)]">
+            <div
+              id="prf-delete-panel"
+              className="rounded-[20px] pt-8 px-7 pb-6 max-w-[340px] w-full text-center [animation-name:slideUpPanel] [animation-duration:.22s] [animation-timing-function:cubic-bezier(.175,.885,.32,1.275)] bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--prf-delete-panel-shadow)]"
+            >
+              <div className="text-[2.4rem] mb-3">🗑️</div>
+              <div className="text-[1.1rem] font-bold mb-1.5 text-[var(--prf-delete-title-color)]">
                 Видалити профіль?
               </div>
               <div
-                className="prf-delete-name text-[var(--prf-delete-name-color)]"
+                className="text-base font-bold mb-2.5 text-[var(--prf-delete-name-color)]"
                 id="prf-delete-name"
               >
                 <CharacterAvatar
@@ -697,18 +700,20 @@ export function ProfileSwitcher(): ReactElement {
                 />{' '}
                 {deleteTarget.name}
               </div>
-              <div className="prf-delete-warn text-[var(--prf-delete-warn-color)]">
+              <div className="text-[0.82rem] mb-6 leading-[1.4] text-[var(--prf-delete-warn-color)]">
                 Весь прогрес буде видалено безповоротно.
               </div>
-              <div className="prf-delete-btns">
+              <div className="flex gap-2.5">
                 <button
-                  className="prf-delete-btn prf-delete-btn-cancel"
+                  id="prf-delete-cancel"
+                  className="flex-1 p-[11px] rounded-xl [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-[1.5px] border-[var(--border)] bg-[var(--bg)] text-[var(--text2)] hover:border-[var(--text2)] hover:text-[var(--text)]"
                   onClick={() => setDeleteTarget(null)}
                 >
                   {t('modal.cancelAlt')}
                 </button>
                 <button
-                  className="prf-delete-btn prf-delete-btn-confirm bg-[var(--prf-delete-btn-confirm-bg)]"
+                  id="prf-delete-confirm"
+                  className="flex-1 p-[11px] rounded-xl [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-0 text-white hover:bg-[#c0392b] bg-[var(--prf-delete-btn-confirm-bg)]"
                   onClick={confirmDelete}
                 >
                   Видалити

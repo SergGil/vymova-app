@@ -122,7 +122,7 @@ describe('profile-page.tsx ProfilePage', () => {
     act(() => { nextBtn.click(); });
     expect(firstRow.querySelector('.profile-picker-val')!.textContent).not.toBe(valBefore);
     expect(JSON.parse(localStorage.getItem('ew_profiles')!)[0].appearance).toBeUndefined();
-    act(() => { (container.querySelector('.profile-save-btn') as HTMLButtonElement).click(); });
+    act(() => { (container.querySelector('#profile-save-btn') as HTMLButtonElement).click(); });
     const profiles = JSON.parse(localStorage.getItem('ew_profiles')!);
     expect(profiles[0].appearance).toBeDefined();
     expect(profiles[0].avatarMode).toBe('character');
@@ -131,7 +131,7 @@ describe('profile-page.tsx ProfilePage', () => {
   it('disables Save Changes again once a cycled option is reverted', () => {
     const { container } = mount();
     openCustomize(container);
-    const saveBtn = container.querySelector('.profile-save-btn') as HTMLButtonElement;
+    const saveBtn = container.querySelector('#profile-save-btn') as HTMLButtonElement;
     expect(saveBtn.disabled).toBe(true);
     const firstRow = container.querySelectorAll('.profile-picker-row')[0];
     const nextBtn = firstRow.querySelectorAll('.profile-picker-arrow')[1] as HTMLButtonElement;

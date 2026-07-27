@@ -312,11 +312,11 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
       delBtn.click();
     });
 
-    let panel = document.querySelector('.prf-delete-panel') as HTMLElement;
+    let panel = document.getElementById('prf-delete-panel') as HTMLElement;
     expect(panel).not.toBeNull();
     expect(panel.querySelector('#prf-delete-name')!.textContent).toContain('Bob');
 
-    const confirmBtn = panel.querySelector('.prf-delete-btn-confirm') as HTMLButtonElement;
+    const confirmBtn = panel.querySelector('#prf-delete-confirm') as HTMLButtonElement;
     act(() => {
       confirmBtn.click();
     });
@@ -324,7 +324,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     const profiles = JSON.parse(localStorage.getItem(LIST_KEY)!);
     expect(profiles).toHaveLength(1);
     expect(profiles[0].id).toBe('p1');
-    panel = document.querySelector('.prf-delete-panel') as HTMLElement;
+    panel = document.getElementById('prf-delete-panel') as HTMLElement;
     expect(panel).toBeNull();
     expect(reloadSpy).not.toHaveBeenCalled();
   });
@@ -340,13 +340,13 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
       delBtn.click();
     });
 
-    const panel = document.querySelector('.prf-delete-panel') as HTMLElement;
-    const cancelBtn = panel.querySelector('.prf-delete-btn-cancel') as HTMLButtonElement;
+    const panel = document.getElementById('prf-delete-panel') as HTMLElement;
+    const cancelBtn = panel.querySelector('#prf-delete-cancel') as HTMLButtonElement;
     act(() => {
       cancelBtn.click();
     });
 
-    expect(document.querySelector('.prf-delete-panel')).toBeNull();
+    expect(document.getElementById('prf-delete-panel')).toBeNull();
     const profiles = JSON.parse(localStorage.getItem(LIST_KEY)!);
     expect(profiles).toHaveLength(2);
   });
@@ -362,8 +362,8 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
       delBtn.click();
     });
 
-    const panel = document.querySelector('.prf-delete-panel') as HTMLElement;
-    const confirmBtn = panel.querySelector('.prf-delete-btn-confirm') as HTMLButtonElement;
+    const panel = document.getElementById('prf-delete-panel') as HTMLElement;
+    const confirmBtn = panel.querySelector('#prf-delete-confirm') as HTMLButtonElement;
     act(() => {
       confirmBtn.click();
     });

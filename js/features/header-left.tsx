@@ -51,7 +51,7 @@ export function HeaderLeft(): ReactElement {
       </div>
       <button
         id="profile-btn"
-        className="profile-btn border-[var(--profile-btn-border-color)] text-[var(--profile-base-color)] hover:text-[var(--profile-hover-color)]"
+        className="inline-flex items-center gap-1 mt-[5px] py-[3px] pr-2.5 pl-[7px] border-[1.5px] rounded-[20px] bg-[var(--card)] [font-family:inherit] text-[0.72rem] font-semibold cursor-pointer transition-all duration-150 shadow-[var(--shadow)] border-[var(--profile-btn-border-color)] text-[var(--profile-base-color)] hover:border-[var(--accent)] hover:text-[var(--profile-hover-color)]"
         style={{ display: 'none' }}
       >
         🧑 <span>Гравець 1</span> ▾

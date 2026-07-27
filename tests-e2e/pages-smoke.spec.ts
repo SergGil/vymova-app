@@ -228,7 +228,7 @@ test.describe('Sidebar pages — one step deeper', () => {
     await expect(overlay).toBeVisible();
 
     await overlay.locator('.profile-customize-toggle').click();
-    const saveBtn = overlay.locator('.profile-save-btn');
+    const saveBtn = overlay.locator('#profile-save-btn');
     await expect(saveBtn).toBeDisabled();
 
     await overlay.locator('.profile-picker-arrow').first().click();

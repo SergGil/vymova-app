@@ -3037,29 +3037,9 @@ body[data-theme] * {
 }
 
 /* ══ Profile System ══════════════════════════════════════════════ */
-/* .profile-btn's border-color fully converted to Tailwind (docs/component-
-   tailwind-conversion-roadmap.md, newly-found 15th cluster) —
-   --profile-btn-border-color. */
-.profile-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 5px;
-  padding: 3px 10px 3px 7px;
-  border-width: 1.5px;
-  border-style: solid;
-  border-radius: 20px;
-  background: var(--card);
-  font-family: inherit;
-  font-size: 0.72rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s;
-  box-shadow: var(--shadow);
-}
-.profile-btn:hover {
-  border-color: var(--accent);
-}
+/* .profile-btn's own properties (border-color already converted) moved to
+   Tailwind utility classes in header-left.tsx (docs/full-css-tailwind-
+   migration-roadmap.md Batch 6). */
 
 /* .prf-av-picker/.prf-av-btn/:hover moved to Tailwind utility classes in
    profile-switcher.tsx (no fandom-theme or body.dark overrides existed
@@ -3070,22 +3050,11 @@ body[data-theme] * {
   background: var(--card);
 }
 
-.prf-add-confirm {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  color: #fff;
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.15s;
-  margin-top: 2px;
-}
-.prf-add-confirm:hover {
-  opacity: 0.88;
-}
+/* .prf-add-confirm's own properties moved to Tailwind utility classes in
+   profile-switcher.tsx (docs/full-css-tailwind-migration-roadmap.md
+   Batch 6) — margin-top wasn't migrated (dropped, not carried over): it
+   was already dead there, permanently overridden by an inline
+   style={{marginTop:8}} on the same element. */
 
 /* ══ Sidebar Layout ═════════════════════════════════════════════ */
 /* :root { --sb-width } and the .sidebar/.hamburger/.sidebar-overlay/.app
@@ -3294,26 +3263,8 @@ body[data-theme="hp"] .sidebar-logo {
    in js/ or src/. background fully converted to Tailwind (docs/component-
    tailwind-conversion-roadmap.md Batch 2) — reads --confirm-btn-bg with a
    var(--accent) fallback, same token .prf-add-confirm/.dc-pbar-fill share. */
-.profile-save-btn {
-  width: 100%;
-  padding: 10px;
-  margin-top: 14px;
-  border: none;
-  border-radius: 10px;
-  color: #fff;
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-.profile-save-btn:hover {
-  opacity: 0.88;
-}
-.profile-save-btn:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
+/* .profile-save-btn's own properties moved to Tailwind utility classes in
+   profile-page.tsx (docs/full-css-tailwind-migration-roadmap.md Batch 6). */
 /* Idle character animation: gentle breathing bob + periodic blink. */
 @keyframes char-breathe {
   0%,
@@ -3390,13 +3341,14 @@ body[data-theme="hp"] .sidebar-logo {
 /* border-bottom-color (light+dark only) fully converted to Tailwind
    (docs/component-tailwind-conversion-roadmap.md Batch 4) via
    --sb-profile-section-border — same reasoning as .sidebar-logo above
-   (narrow sw/hp overrides stay bare CSS, unlayered still wins). */
-.sb-profile-section {
-  padding: 10px 12px 4px;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  margin-bottom: 4px;
-}
+   (narrow sw/hp overrides stay bare CSS, unlayered still wins). Own
+   padding/border-bottom-width/margin-bottom also moved to Tailwind, in
+   index.html directly (docs/full-css-tailwind-migration-roadmap.md
+   Batch 6) — the bare class name itself stays in that element's class
+   list alongside the new utilities, since the sw/hp descendant-selector
+   overrides right below still need `.sb-profile-section` to exist in the
+   DOM to keep matching (same reasoning as .gb-goal-ring-text/.sb-group
+   in earlier batches). */
 /* Same overlapping-rule fix as .sidebar-logo above — see that comment. */
 body[data-theme="sw"] .sb-profile-section {
   border-color: rgba(255, 255, 255, 0.07);
@@ -3512,69 +3464,19 @@ body[data-theme="hp"] .sb-profile-section {
   line-height: 1.25;
 }
 
-/* ── Profile delete modal ── */
-/* .prf-delete-panel/.import-panel's background/border/box-shadow fully
+/* ── Profile delete modal ──
+   .prf-delete-panel/.import-panel's background/border/box-shadow fully
    converted to Tailwind (docs/component-tailwind-conversion-roadmap.md,
    Batch 7 cluster 7) — --delete-panel-bg/-border/--prf-delete-panel-shadow/
    --import-panel-shadow. .note-panel reads the same --delete-panel-bg/
-   -border pair too (Batch 7 cluster 13, see the note-modal section below). */
-.prf-delete-panel {
-  border-radius: 20px;
-  padding: 32px 28px 24px;
-  max-width: 340px;
-  width: 100%;
-  text-align: center;
-  animation: slideUpPanel 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.prf-delete-icon {
-  font-size: 2.4rem;
-  margin-bottom: 12px;
-}
-.prf-delete-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-.prf-delete-name {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-.prf-delete-warn {
-  font-size: 0.82rem;
-  margin-bottom: 24px;
-  line-height: 1.4;
-}
-.prf-delete-btns {
-  display: flex;
-  gap: 10px;
-}
-.prf-delete-btn {
-  flex: 1;
-  padding: 11px;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.prf-delete-btn-cancel {
-  border: 1.5px solid var(--border);
-  background: var(--bg);
-  color: var(--text2);
-}
-.prf-delete-btn-cancel:hover {
-  border-color: var(--text2);
-  color: var(--text);
-}
-.prf-delete-btn-confirm {
-  border: none;
-  color: #fff;
-}
-.prf-delete-btn-confirm:hover {
-  background: #c0392b;
-}
+   -border pair too (Batch 7 cluster 13, see the note-modal section below).
+   Every other own property (shared by profile-switcher.tsx's delete
+   dialog, reset-confirm-dialog.tsx, img-clear-confirm.tsx, and — just the
+   two button classes — note-modal.tsx) moved to Tailwind utility classes
+   in those 4 files (docs/full-css-tailwind-migration-roadmap.md Batch 6).
+   The animation-name/-duration/-timing-function stay as Tailwind
+   arbitrary properties referencing the same @keyframes slideUpPanel,
+   which itself can't become a Tailwind utility. */
 
 /* ══ Settings Page ══════════════════════════════════════════════
    .settings-section's background/border-color and .settings-section-

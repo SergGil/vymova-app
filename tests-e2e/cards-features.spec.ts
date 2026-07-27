@@ -21,7 +21,7 @@ test.describe('Note modal', () => {
     await overlay.locator('.note-textarea').fill('remember: sounds like "banana"');
     // Save/close — note-modal.tsx's close() always saves first, then
     // unmounts (word -> null), taking #note-overlay with it.
-    await overlay.locator('.prf-delete-btn-confirm').click();
+    await overlay.locator('#note-save-btn').click();
     await expect(overlay).toBeHidden();
 
     // save() -> refreshCard() dynamic-imports card-engine.ts before

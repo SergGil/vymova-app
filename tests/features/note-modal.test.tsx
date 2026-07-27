@@ -77,7 +77,7 @@ describe('note-modal.tsx NoteModal', () => {
       setTextareaValue(textarea, 'кіт = cat');
     });
 
-    const saveBtn = document.querySelector('.prf-delete-btn-confirm') as HTMLButtonElement;
+    const saveBtn = document.getElementById('note-save-btn') as HTMLButtonElement;
     act(() => {
       saveBtn.click();
     });
@@ -93,7 +93,7 @@ describe('note-modal.tsx NoteModal', () => {
       openNoteModal('dog');
     });
 
-    const delBtn = document.querySelector('.prf-delete-btn-cancel') as HTMLButtonElement;
+    const delBtn = document.getElementById('note-delete-btn') as HTMLButtonElement;
     act(() => {
       delBtn.click();
     });

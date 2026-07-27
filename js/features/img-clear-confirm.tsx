@@ -46,21 +46,25 @@ export function ImgClearConfirmDialog(): ReactElement | null {
         if (e.target === e.currentTarget) close();
       }}
     >
-      <div className="prf-delete-panel bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--prf-delete-panel-shadow)]">
-        <div className="prf-delete-icon">🗑️</div>
-        <div className="prf-delete-title text-[var(--prf-delete-title-color)]">
+      <div className="rounded-[20px] pt-8 px-7 pb-6 max-w-[340px] w-full text-center [animation-name:slideUpPanel] [animation-duration:.22s] [animation-timing-function:cubic-bezier(.175,.885,.32,1.275)] bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--prf-delete-panel-shadow)]">
+        <div className="text-[2.4rem] mb-3">🗑️</div>
+        <div className="text-[1.1rem] font-bold mb-1.5 text-[var(--prf-delete-title-color)]">
           {t('modal.imgClearTitle')}
         </div>
-        <div className="prf-delete-warn text-[var(--prf-delete-warn-color)]">
+        <div className="text-[0.82rem] mb-6 leading-[1.4] text-[var(--prf-delete-warn-color)]">
           {t('modal.imgClearWarn')}
         </div>
-        <div className="prf-delete-btns">
-          <button id="img-clear-cancel" className="prf-delete-btn prf-delete-btn-cancel" onClick={close}>
+        <div className="flex gap-2.5">
+          <button
+            id="img-clear-cancel"
+            className="flex-1 p-[11px] rounded-xl [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-[1.5px] border-[var(--border)] bg-[var(--bg)] text-[var(--text2)] hover:border-[var(--text2)] hover:text-[var(--text)]"
+            onClick={close}
+          >
             {t('modal.cancelAlt')}
           </button>
           <button
             id="img-clear-confirm"
-            className="prf-delete-btn prf-delete-btn-confirm bg-[var(--prf-delete-btn-confirm-bg)]"
+            className="flex-1 p-[11px] rounded-xl [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-0 text-white hover:bg-[#c0392b] bg-[var(--prf-delete-btn-confirm-bg)]"
             onClick={() => {
               onConfirm();
               close();
