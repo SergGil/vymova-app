@@ -109,7 +109,7 @@ export function Transcription() {
     return <div className="transcription" id="wtrans" style={{ display: 'none' }} />;
   const legend = TRANSCRIPTION_LEGEND[FRONT_LANG];
   return (
-    <div className="transcription-wrap">
+    <div>
       <div
         className="transcription"
         id="wtrans"
@@ -128,7 +128,9 @@ export function Transcription() {
             if (isCanon === undefined) return null;
             return (
               <span
-                className={`canon-badge ${isCanon ? 'canon-badge-attested' : 'canon-badge-neo'}`}
+                className={
+                  'text-[0.85rem] cursor-help leading-none' + (isCanon ? '' : ' opacity-75')
+                }
                 title={isCanon ? t('cards.canonAttested') : t('cards.canonNeo')}
               >
                 {isCanon ? '📜' : '🔧'}
@@ -273,7 +275,11 @@ export function PosTag() {
         .join('/')
     : '';
   return (
-    <div className="pos-tag" id="wpos" style={{ display: posCode ? 'block' : 'none' }}>
+    <div
+      className="text-[0.72rem] italic text-[var(--text2)] mb-1"
+      id="wpos"
+      style={{ display: posCode ? 'block' : 'none' }}
+    >
       {posText}
     </div>
   );
@@ -340,7 +346,11 @@ export function Translation() {
   const back = parsePair(getResolvedMode()).back;
   return (
     <div
-      className={'transl' + (flipped ? ' show' : '') + (isKnown ? ' !text-[var(--known-c1)]' : '')}
+      className={
+        'text-[0.9rem] text-[var(--text2)] min-h-[1.3em] transition-opacity duration-[250ms] ' +
+        (flipped ? 'opacity-100' : 'opacity-0') +
+        (isKnown ? ' !text-[var(--known-c1)]' : '')
+      }
       id="wtransl"
       dir={backRtl ? 'rtl' : undefined}
     >
@@ -384,7 +394,11 @@ export function ExUa() {
   return (
     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 5 }}>
       <div
-        className={'ex-ua' + (flipped ? ' show' : '') + (isKnown ? ' !text-[var(--known-c2)]' : '')}
+        className={
+          'text-[11.5px] text-[var(--text2)] leading-[1.5] mt-0.5 italic transition-opacity duration-[250ms] ' +
+          (flipped ? 'opacity-100' : 'opacity-0') +
+          (isKnown ? ' !text-[var(--known-c2)]' : '')
+        }
         id="exua"
         dir={backRtl ? 'rtl' : undefined}
         dangerouslySetInnerHTML={{ __html: exuaHtml }}
@@ -421,7 +435,9 @@ export function FrontSpeakBtnsToggle() {
 export function CardHint() {
   const { flipped } = useDeckState();
   if (flipped) return null;
-  return <p className="hint">{t('cards.hint')}</p>;
+  return (
+    <p className="text-center text-[11px] text-[var(--text3)] mt-2 mb-2.5">{t('cards.hint')}</p>
+  );
 }
 
 export function OtherMeanings() {

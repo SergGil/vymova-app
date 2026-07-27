@@ -86,15 +86,21 @@ export function CardMeta() {
   const cats = getCategoriesForWord(cw[0]);
 
   return (
-    <div className="card-meta">
-      <span className={'card-num' + (isKnown ? ' !text-[var(--known-c3)]' : '')} id="wnum">
+    <div className="flex flex-wrap justify-between items-center gap-y-1 mb-3.5">
+      <span
+        className={
+          'text-[11px] text-[var(--text3)] tracking-[0.05em]' +
+          (isKnown ? ' !text-[var(--known-c3)]' : '')
+        }
+        id="wnum"
+      >
         {'#' + num}
       </span>
       {isKnown && (
         <span className="known-badge ml-1.5 text-[11px] font-semibold tracking-[0.03em] text-[var(--known-c4)]">
           <span>{t('cards.know')}</span>{' '}
           <button
-            className="unmark-btn"
+            className="bg-transparent border-0 cursor-pointer text-[0.72rem] text-[var(--text3)] px-1 py-px rounded leading-none align-middle hover:text-[#e74c3c] hover:bg-[rgba(231,76,60,0.1)]"
             id="btn-unmark"
             title={t('cards.removeKnown')}
             aria-label={t('cards.removeKnown')}
@@ -134,7 +140,11 @@ export function CardMeta() {
           frontLang
         )}
       </span>
-      <button className="card-legend-btn" id="btn-card-legend" title={t('cardLegend.btnTitle')}>
+      <button
+        className="w-[18px] h-[18px] shrink-0 rounded-full border-[1.5px] border-[var(--border)] bg-transparent text-[var(--text3)] text-[10px] font-bold leading-none cursor-pointer inline-flex items-center justify-center transition-all duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+        id="btn-card-legend"
+        title={t('cardLegend.btnTitle')}
+      >
         ?
       </button>
     </div>

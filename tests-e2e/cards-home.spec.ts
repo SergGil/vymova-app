@@ -23,20 +23,20 @@ test.describe('Flashcard home (Картки)', () => {
     const errors = captureErrors(page);
     await openApp(page);
 
-    const hint = page.locator('#card-hint-mount .hint');
+    const hint = page.locator('#card-hint-mount p');
     const translation = page.locator('#wtransl');
     await expect(hint).toBeVisible();
-    await expect(translation).not.toHaveClass(/show/);
+    await expect(translation).not.toHaveClass(/opacity-100/);
 
     await page.click('#card');
 
-    await expect(translation).toHaveClass(/show/);
+    await expect(translation).toHaveClass(/opacity-100/);
     await expect(hint).toBeHidden();
 
     // A second click while already flipped is a no-op (onCardClick only acts
     // when !flipped) — translation stays visible, no error either way.
     await page.click('#card');
-    await expect(translation).toHaveClass(/show/);
+    await expect(translation).toHaveClass(/opacity-100/);
 
     expect(errors).toEqual([]);
   });
@@ -69,7 +69,7 @@ test.describe('Flashcard home (Картки)', () => {
       expect(await cardPos(page)).toBe(start + 1);
 
       // Grading a card always lands on a fresh, unflipped one.
-      await expect(page.locator('#wtransl')).not.toHaveClass(/show/);
+      await expect(page.locator('#wtransl')).not.toHaveClass(/opacity-100/);
 
       expect(errors).toEqual([]);
     });
@@ -117,13 +117,13 @@ test.describe('Flashcard home (Картки)', () => {
 
     // Space: first press flips (unflipped -> translation shown)...
     await page.keyboard.press('Space');
-    await expect(translation).toHaveClass(/show/);
+    await expect(translation).toHaveClass(/opacity-100/);
     expect(await cardPos(page)).toBe(start);
 
     // ...second press (now flipped) clicks #btn-next instead.
     await page.keyboard.press('Space');
     expect(await cardPos(page)).toBe(start + 1);
-    await expect(translation).not.toHaveClass(/show/);
+    await expect(translation).not.toHaveClass(/opacity-100/);
 
     await page.keyboard.press('ArrowRight');
     expect(await cardPos(page)).toBe(start + 2);
@@ -132,7 +132,7 @@ test.describe('Flashcard home (Картки)', () => {
     expect(await cardPos(page)).toBe(start + 1);
 
     await page.keyboard.press('KeyF');
-    await expect(translation).toHaveClass(/show/);
+    await expect(translation).toHaveClass(/opacity-100/);
     expect(await cardPos(page)).toBe(start + 1);
 
     expect(errors).toEqual([]);

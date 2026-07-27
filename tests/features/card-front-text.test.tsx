@@ -320,16 +320,19 @@ describe('card-front-text.tsx', () => {
     expect(el.textContent).toBe('🆕 Нове');
   });
 
-  it('Translation toggles the "show" class based on flipped state', () => {
+  it('Translation toggles opacity based on flipped state', () => {
     const { container } = mount(Translation);
     const el = container.querySelector('#wtransl') as HTMLElement;
     expect(el.textContent).toBe('покинути');
-    expect(el.className).toBe('transl');
+    expect(el.classList.contains('opacity-0')).toBe(true);
+    expect(el.classList.contains('opacity-100')).toBe(false);
 
     act(() => {
       setFlippedState(true);
     });
-    expect(container.querySelector('#wtransl')!.className).toBe('transl show');
+    const flippedEl = container.querySelector('#wtransl')!;
+    expect(flippedEl.classList.contains('opacity-100')).toBe(true);
+    expect(flippedEl.classList.contains('opacity-0')).toBe(false);
   });
 
   it('ExEn renders the bolded English example HTML', () => {
@@ -338,16 +341,19 @@ describe('card-front-text.tsx', () => {
     expect(el.innerHTML).toContain('<b>abandon</b>');
   });
 
-  it('ExUa renders the bolded Ukrainian example and toggles "show" with flipped', () => {
+  it('ExUa renders the bolded Ukrainian example and toggles opacity with flipped', () => {
     const { container } = mount(ExUa);
     const el = container.querySelector('#exua') as HTMLElement;
     expect(el.innerHTML).toContain('<b>покине</b>');
-    expect(el.className).toBe('ex-ua');
+    expect(el.classList.contains('opacity-0')).toBe(true);
+    expect(el.classList.contains('opacity-100')).toBe(false);
 
     act(() => {
       setFlippedState(true);
     });
-    expect(container.querySelector('#exua')!.className).toBe('ex-ua show');
+    const flippedEl = container.querySelector('#exua')!;
+    expect(flippedEl.classList.contains('opacity-100')).toBe(true);
+    expect(flippedEl.classList.contains('opacity-0')).toBe(false);
   });
 
   describe('OtherMeanings', () => {

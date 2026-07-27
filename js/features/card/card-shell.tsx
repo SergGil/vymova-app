@@ -84,7 +84,7 @@ export function CardShell(): ReactElement {
   const isKnown = useIsCardKnown();
   const speakBtnKnownCls = isKnown ? ' !text-[var(--known-c3)]' : '';
   return (
-    <div className="card-scene">
+    <div className="[perspective:900px] mb-3.5">
       <div className="card" id="card">
         <span className="swipe-hint-right" id="sh-right" data-i18n="cards.know">
           ✓ Знаю
@@ -102,12 +102,12 @@ export function CardShell(): ReactElement {
           <div id="card-meta-mount">
             <CardMeta />
           </div>
-          <div className="card-body">
+          <div className="flex gap-3.5 items-start">
             <div id="illus-mount">
               <CardImage />
             </div>
-            <div className="word-side">
-              <div className="word-row">
+            <div className="flex-1 min-w-0">
+              <div className="flex flex-nowrap items-center gap-2 mb-[3px] max-[480px]:flex-wrap max-[480px]:gap-1">
                 <span id="wword-mount">
                   <WordText />
                 </span>
@@ -170,15 +170,18 @@ export function CardShell(): ReactElement {
               <div id="wtransl-mount">
                 <Translation />
               </div>
-              <div className="divider"></div>
+              <div className="border-0 border-t border-t-[var(--border)] my-2.5"></div>
               <div
-                className={'ex-label' + (isKnown ? ' !text-[#2e7a4a]' : '')}
+                className={
+                  'text-[9px] font-semibold tracking-[0.1em] uppercase text-[var(--text3)] mb-[5px]' +
+                  (isKnown ? ' !text-[#2e7a4a]' : '')
+                }
                 data-i18n="cards.example"
               >
                 Приклад
               </div>
-              <div className="ex-row">
-                <div className="ex-texts">
+              <div>
+                <div>
                   <span id="exen-mount">
                     <ExEn />
                   </span>

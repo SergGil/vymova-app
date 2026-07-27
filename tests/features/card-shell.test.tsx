@@ -60,6 +60,13 @@ const { CardShell } = await import('../../js/features/card/card-shell.tsx');
 // "Приклад", but users read the single canonical example first, so it was
 // moved below it. Intentional reorder, not a regression.
 //
+// .card-scene/.card-body/.word-side/.word-row/.divider/.ex-label's bare CSS
+// classes, and .ex-row/.ex-texts's classless (their only rule was a no-op
+// `display: block` on a <div>, already the browser default), were converted
+// to Tailwind utility classes (docs/full-css-tailwind-migration-roadmap.md
+// Batch 1) — fixture updated to the new intentional class values, same
+// treatment as the deliberate-exception paragraphs below.
+//
 // The buttons' `flex: 1`/`padding: 14px 0` shorthands are written
 // here in their happy-dom-canonicalized longhand form (flex-grow/-shrink/
 // -basis, `0px` not `0`) — React assigns style via the CSSOM (element.style.X
@@ -77,10 +84,10 @@ const ORIGINAL_CARD_SCENE_HTML = `
       id="card-front"
     >
       <div id="card-meta-mount"></div>
-      <div class="card-body">
+      <div class="flex gap-3.5 items-start">
         <div id="illus-mount"></div>
-        <div class="word-side">
-          <div class="word-row">
+        <div class="flex-1 min-w-0">
+          <div class="flex flex-nowrap items-center gap-2 mb-[3px] max-[480px]:flex-wrap max-[480px]:gap-1">
             <span id="wword-mount"></span>
             <div class="word-actions">
               <button class="speak-btn" id="speak-word" title="Вимовити слово" data-i18n-title="cards.pronounce">🔊</button>
@@ -95,10 +102,10 @@ const ORIGINAL_CARD_SCENE_HTML = `
           <div id="usage-note-mount"></div>
           <div id="srs-next-mount"></div>
           <div id="wtransl-mount"></div>
-          <div class="divider"></div>
-          <div class="ex-label" data-i18n="cards.example">Приклад</div>
-          <div class="ex-row">
-            <div class="ex-texts">
+          <div class="border-0 border-t border-t-[var(--border)] my-2.5"></div>
+          <div class="font-semibold mb-[5px] text-[9px] text-[var(--text3)] tracking-[0.1em] uppercase" data-i18n="cards.example">Приклад</div>
+          <div>
+            <div>
               <span id="exen-mount"></span>
               <button class="speak-btn speak-ex-btn" id="speak-ex" title="Вимовити приклад">🔊</button>
               <div id="exua-mount"></div>
@@ -209,6 +216,9 @@ describe('<CardShell/>', () => {
       .replace(/ !border-\[var\(--known-face-border\)\]/g, '')
       .replace(/ !\[background:var\(--known-face-bg\)\]/g, '')
       .replace(/ !shadow-\[var\(--known-face-shadow\)\]/g, '');
-    expectStructuralParity(actualHtml, `<div class="card-scene">${ORIGINAL_CARD_SCENE_HTML}</div>`);
+    expectStructuralParity(
+      actualHtml,
+      `<div class="[perspective:900px] mb-3.5">${ORIGINAL_CARD_SCENE_HTML}</div>`,
+    );
   });
 });
