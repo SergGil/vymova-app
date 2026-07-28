@@ -3592,7 +3592,23 @@ body.dark {
    overrides existed for the box/typography rules. .grammar-inner class
    name stays as a marker: the compound selector right below needs it to
    keep customizing the SHARED PageHeader primitive (used by 13 pages) —
-   can't be expressed by touching that component's own JSX. */
+   can't be expressed by touching that component's own JSX.
+   .grammar-inner's max-480px border-radius:0 override (used to live in
+   the same responsive block as the .stats-panel cluster) was confirmed
+   dead code and dropped without conversion: no rule anywhere ever gave
+   .page-inner/.grammar-inner a non-zero border-radius at ANY viewport
+   (checked every .page-inner-wrapper div in index.html — none carry a
+   rounded-* Tailwind class, and no bare CSS declares border-radius for
+   .page-inner either), so "reset to 0" here was always a no-op.
+   .grammar-nav's own max-480px max-height:140px override was real (it
+   narrows the existing max-[640px]:max-h-[160px] Tailwind class for the
+   ≤480px sub-range) — converted to
+   [@media(max-width:480px)]:!max-h-[140px] in grammar-page.tsx, `!`
+   because it's a second non-`!important` Tailwind class touching the
+   same max-height property as the existing max-[640px]:max-h-[160px]
+   class on the same element (same masking-order risk documented
+   throughout this tier). Verified live at 375px/600px/1000px — values
+   unchanged (140px/160px/none). */
 .grammar-inner .page-header {
   padding: 16px 20px 12px;
   flex-shrink: 0;
@@ -3817,14 +3833,6 @@ body.dark {
   }
   .ach-name {
     font-size: 0.68rem;
-  }
-
-  /* Grammar page: already handled above, enhance */
-  .grammar-inner {
-    border-radius: 0;
-  }
-  .grammar-nav {
-    max-height: 140px;
   }
 
   /* Heatmap: ensure scroll */
