@@ -663,16 +663,33 @@ select:focus {
 /* color/text-shadow fully converted to Tailwind (docs/component-
    tailwind-conversion-roadmap.md, post-project audit follow-up) — the
    is-known override (js/features/card/card-front-text.tsx's WordText)
-   already wins over this base glow via the `!` modifier, unchanged. */
-.word-text {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.8rem;
-  line-height: 1.1;
-  overflow-wrap: break-word;
-  word-break: normal;
-  -webkit-hyphens: none;
-  hyphens: none;
-}
+   already wins over this base glow via the `!` modifier, unchanged.
+   font-family/font-size/line-height/overflow-wrap/word-break/hyphens,
+   plus all 3 font-size breakpoint overrides, fully converted too now
+   (docs/full-css-tailwind-migration-roadmap.md Tier 2c). Reconciliation:
+   .word-text had 3 separate physical base-rule locations in this file.
+   The 2nd (a "Safari/iOS fix" comment further down) turned out to be a
+   byte-identical restatement of this rule's own overflow-wrap/word-break/
+   hyphens properties — dropped as a duplicate. The 3rd (`flex: 0 1 auto;
+   min-width: 0`, plus a 480px override to `flex: 1 1 60%`) was confirmed
+   dead via a live check: .word-text itself renders `display: inline` —
+   it's nested one level too deep inside the unstyled `#wword-mount`
+   <span> card-shell.tsx wraps it in, which is the element that actually
+   participates as the flex item in the row above it. `flex`/`min-width`
+   don't apply to non-replaced inline elements per spec, and the computed
+   layout confirmed no visual effect either way — dropped rather than
+   converted, likely orphaned by an earlier React-conversion phase that
+   added the #wword-mount wrapper without anyone noticing this rule
+   stopped doing anything.
+   The 3 REAL font-size overrides (361-480px:1.5rem, ≤360px:1.3rem, both
+   `!important`; landscape max-height:500-and-max-width:900:1.4rem, not
+   `!important`) needed the same mutually-exclusive-range treatment as
+   .illus-box: the first two are written as non-overlapping ranges
+   instead of two `!important` rules racing on Tailwind's generation
+   order, and both still carry `!` to reliably beat the landscape tier
+   whenever it also applies (verified live: `!important` always won that
+   overlap in the original bare CSS too, regardless of which rule came
+   later in the file). */
 .speak-btn {
   background: none;
   border: none;
@@ -3923,10 +3940,6 @@ body.dark {
      [@media(max-height:500px)_and_(max-width:900px)]:p-[12px_14px] on
      the component. Confirmed live at 3 viewports (normal, both
      conditions met, only one condition met) before removing this. */
-  .word-text {
-    font-size: 1.4rem;
-  }
-
   /* Action bar: compact */
   .actions-bar-center .btn {
     padding: 7px 10px;
@@ -3974,21 +3987,7 @@ body.dark {
   }
 }
 
-/* ── Word card text — Safari/iOS fix ────────────────────────── */
-/* Prevent syllable-break on all platforms */
-.word-text {
-  -webkit-hyphens: none;
-  hyphens: none;
-  overflow-wrap: break-word; /* only break if truly no room */
-  word-break: normal; /* replaces the non-standard break-word */
-}
-
 @media (max-width: 480px) {
-  /* Shrink word text so it fits next to image on narrow phones */
-  .word-text {
-    font-size: 1.5rem !important;
-  }
-
   /* If still not fitting, shrink image further (.illus-box's own
      width/height are gone from here — fully converted to Tailwind, see
      the base-rule comment above). */
@@ -4004,9 +4003,6 @@ body.dark {
 
 @media (max-width: 360px) {
   /* Very small phones (older iPhones, small Androids) */
-  .word-text {
-    font-size: 1.3rem !important;
-  }
   .illus-box svg,
   .illus-box img {
     width: 60px !important;
@@ -4014,11 +4010,9 @@ body.dark {
   }
 }
 
-/* word-text hugs its content so action buttons sit right next to the word */
-.word-text {
-  flex: 0 1 auto;
-  min-width: 0;
-}
+/* .word-text's own `flex`/`min-width` here were confirmed dead (see the
+   base-rule comment above) — .word-actions's flex-shrink is real and
+   stays. */
 .word-actions {
   flex-shrink: 0;
 }
@@ -4034,10 +4028,8 @@ body.dark {
     min-width: 28px;
     min-height: 28px;
   }
-  /* If word + icons still too wide, wrap icons below */
-  .word-text {
-    flex: 1 1 60%;
-  }
+  /* If word + icons still too wide, wrap icons below (.word-text's own
+     flex override here was confirmed dead too, see above) */
   .word-actions {
     flex: 0 0 auto;
   }

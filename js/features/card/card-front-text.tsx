@@ -77,7 +77,7 @@ export function WordText() {
   return (
     <span
       className={
-        'word-text [text-shadow:var(--word-text-glow-shadow)]' +
+        "word-text [text-shadow:var(--word-text-glow-shadow)] font-['DM_Serif_Display',serif] text-[1.8rem] leading-[1.1] [overflow-wrap:break-word] [word-break:normal] [-webkit-hyphens:none] [hyphens:none] [@media(min-width:361px)_and_(max-width:480px)]:!text-[1.5rem] [@media(max-width:360px)]:!text-[1.3rem] [@media(max-height:500px)_and_(max-width:900px)]:text-[1.4rem]" +
         (isKnown ? ' !text-[var(--known-c1)]' : ' text-[var(--word-text-color)]')
       }
       id="wword"
