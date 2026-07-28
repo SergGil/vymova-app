@@ -506,7 +506,7 @@ export function TempoPage(): ReactElement {
               {question.word}
               {question.word && (
                 <button
-                className="mode-speak ml-2 inline-flex h-[30px] w-[30px] shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150"
+                className="mode-speak ml-2 inline-flex h-[30px] w-[30px] shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150 hover:bg-white/15 hover:text-[var(--accent)] [&.on]:!bg-[rgba(78,204,163,0.15)] [&.on]:text-[var(--accent)] max-[480px]:p-[5px_8px] max-[480px]:text-[16px] max-[480px]:min-h-[36px]"
                 title={t('common.listen')}
                 onClick={speakWord}
               >

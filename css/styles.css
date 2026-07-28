@@ -1200,21 +1200,18 @@ body.dark {
    results moved to Tailwind utility classes in search-inline.tsx (no
    fandom-theme or body.dark overrides existed for any of them — the
    .search-results.open toggle became a plain block/hidden class swap).
-   #search-input's background/border-color and #search-input:focus's
-   box-shadow fully converted too (docs/component-tailwind-conversion-
-   roadmap.md Batch 2) — border-width/style stay bare (theme-independent).
+   #search-input's background/border-color/:focus's box-shadow, and now
+   (docs/full-css-tailwind-migration-roadmap.md Tier 2c) border-width/
+   -style/color/:focus's border-color plus the 640px mobile override
+   (font-size/padding/min-height) all fully converted too — no `!` needed
+   despite the original using `!important` on the media override: that
+   was only there to beat this same element's own unlayered bare-CSS
+   base rule, which is gone now that both live on the same component.
    .search-results' z-index (unconditional !important override below) and
    its mobile max-height, .search-result-item's mobile padding/gap/etc,
    .sr-word/.sr-transl's mobile-only font-size, and .sr-known's theme/dark
-   background all stay bare too. */
-#search-input {
-  border-width: 1.5px;
-  border-style: solid;
-  color: var(--text);
-}
-#search-input:focus {
-  border-color: var(--accent);
-}
+   background all stay bare — a deliberate, narrower scope than the
+   #search-input piece, not an oversight. */
 /* background fully converted to Tailwind (docs/component-tailwind-
    conversion-roadmap.md Batch 4) — light+dark literals centralized into
    --sr-known-bg alongside the fandom side that already read it, so one
@@ -1222,22 +1219,10 @@ body.dark {
    with no bare CSS left at all (the textbook dual-system case named in
    this roadmap's own plan). */
 
-/* ── Підказка клавіш ── */
-.kbd-hint {
-  text-align: center;
-  font-size: 10px;
-  color: var(--text3);
-  margin-top: 6px;
-  letter-spacing: 0.03em;
-}
-.kbd-hint kbd {
-  background: var(--border);
-  border-radius: 4px;
-  padding: 1px 5px;
-  font-family: inherit;
-  font-size: 10px;
-  color: var(--text2);
-}
+/* ── Підказка клавіш ──
+   .kbd-hint/.kbd-hint kbd (base + 480px hide) fully converted to Tailwind
+   (docs/full-css-tailwind-migration-roadmap.md Tier 2c) — KBD_CLASS
+   constant in card-shell.tsx, shared across all 7 <kbd> tags. */
 
 /* ── Статистика ── */
 #stats-overlay {
@@ -1819,32 +1804,41 @@ body.dark {
    (#f39c12/rgba(243,156,18,.12) both sides), a dead no-op rule, not a
    real dark-mode difference. */
 
-/* .mode-speak's own base box/typography moved to Tailwind utility classes
-   in its 14 consuming files + the js/core/ui-helpers.ts factory (no
-   fandom-theme or body.dark overrides existed for it). :hover/.on and the
-   480px-compact override further down this file stay here. */
-.mode-speak:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: var(--accent);
-}
-.mode-speak.on {
-  color: var(--accent);
-  background: rgba(78, 204, 163, 0.15);
-}
+/* .mode-speak fully converted to Tailwind, base+:hover+.on+480px-compact
+   all together (docs/full-css-tailwind-migration-roadmap.md Tier 2c) —
+   same shared literal string across all 14 consuming files + the
+   js/core/ui-helpers.ts factory. `.on` is toggled imperatively via
+   classList.add/remove('on') from voice/speech.ts's shared speak()
+   helper (same mechanism as .speak-btn.on/.accent-btn.on), so its
+   Tailwind classes use the self-referencing `[&.on]:` arbitrary variant
+   instead of a React conditional. `.on`'s background needed `!`:
+   .on (2 classes) and :hover (1 class + 1 pseudo-class) have EQUAL CSS
+   specificity, and the original bare CSS's source order made `.on`
+   always win when both applied simultaneously (hovering a
+   currently-speaking button) — two plain Tailwind variant classes for
+   the same property don't reproduce that deterministically (Tailwind's
+   own generation order, not source order, decides), so `.on`'s
+   background is marked important to guarantee it keeps winning. */
 
 /* ── Quiz: кнопки варіантів ── */
-/* .quiz-option's own base box/typography + :disabled moved to Tailwind
-   utility classes in the 11 consuming files (no fandom-theme or body.dark
-   overrides existed for either). :hover and .correct/.wrong/.reveal (all
+/* .quiz-option's own base box/typography + :disabled + the 480px padding/
+   font-size override all fully converted to Tailwind now (docs/full-css-
+   tailwind-migration-roadmap.md Tier 2c) — no fandom-theme or body.dark
+   overrides existed for either. :hover and .correct/.wrong/.reveal (all
    with live body.dark variants, several !important-heavy hardcoded
-   colors) stay here. */
+   colors) stay here.
+   :disabled's own bare `cursor: default` turned out to already be fully
+   redundant before this change too: every one of the 10 consuming files
+   already carried a `disabled:cursor-default` Tailwind class (from an
+   earlier project) that this bare CSS was silently masking (unlayered
+   always wins) — same value either way, so removing this bare rule and
+   letting the pre-existing Tailwind class take over changes nothing
+   visually, confirmed by inspection rather than a live check (identical
+   literal value on both sides leaves no room for a different outcome). */
 /* :hover:not(:disabled) fully converted to Tailwind (docs/component-
    tailwind-conversion-roadmap.md Batch 4) — .quiz-option's own base box
    properties are already Tailwind classes (layered), so no masking risk
    from an unlayered base rule here, unlike the .sb-btn-style cases. */
-.quiz-option:disabled {
-  cursor: default;
-}
 /* .correct/.wrong/.reveal's border-color/background/color fully converted
    to Tailwind via the `!` modifier (docs/component-tailwind-conversion-
    roadmap.md Batch 6) — same reasoning as .tempo-opt above. font-weight/
@@ -2187,35 +2181,24 @@ body[data-theme] * {
    🎮  REDESIGNED ACTIONS BAR + MODES MODAL
    ═══════════════════════════════════════════════════ */
 
-/* ── Actions bar: 3 groups ── */
-.actions-bar {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-  margin-bottom: 6px;
-}
-.actions-bar .btn {
-  flex-shrink: 0;
-}
-.actions-bar-mission {
-  grid-column: 3;
-  justify-self: end;
-  min-width: 0;
-}
-.actions-bar-mission .wotd-box {
-  margin-bottom: 0;
-  padding: 6px 10px;
-}
-.actions-bar-center {
-  grid-column: 2;
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
-}
+/* ── Actions bar: 3 groups ──
+   .actions-bar/.actions-bar-mission/.actions-bar-mission .wotd-box/
+   .actions-bar-center (base + their 480px overrides) fully converted to
+   Tailwind (docs/full-css-tailwind-migration-roadmap.md Tier 2c) — the
+   480px .actions-bar-center gap:5px override was real, but its
+   flex-wrap:wrap/justify-content:center siblings in that same block were
+   byte-identical no-op duplicates of the base value, dropped rather than
+   converted. .wotd-box's own descendant-selector override uses the
+   `[.actions-bar-mission_&]:` arbitrary variant in daily-mission-card.tsx
+   instead of a prop, since it's the only consumer and always nested
+   there.
+   .actions-bar .btn/.actions-bar-center .btn stay bare — both are
+   compound selectors reaching into .btn's own big, still-unconverted
+   base rule (shared by every .btn everywhere, already flagged elsewhere
+   in this file as prone to a masking bug once touched), so converting
+   them here would mean scattering `!`-important fixes across 9 button
+   render sites for a rule that really belongs with .btn's own future
+   conversion (already touched by 3 separate breakpoints on its own). */
 
 /* border-color/color (base) and background (:hover) fully converted to
    Tailwind via the `!` modifier (docs/component-tailwind-conversion-
@@ -3715,12 +3698,6 @@ body.dark {
     height: 28px;
     font-size: 14px;
   }
-  .mode-speak {
-    padding: 5px 8px;
-    font-size: 16px;
-    min-height: 36px;
-  }
-
   /* Card illustration: slightly smaller */
   .illus-box {
     width: 80px;
@@ -3743,29 +3720,11 @@ body.dark {
     font-size: 1.5rem;
   }
 
-  /* Action bar: column on very narrow */
-  .actions-bar {
-    display: flex;
-    flex-direction: column;
-  }
-  .actions-bar-mission {
-    justify-self: center;
-    align-self: center;
-  }
-  .actions-bar-center {
-    gap: 5px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+  /* .actions-bar-center .btn stays bare, see the base rule's comment. */
   .actions-bar-center .btn {
     min-height: 40px;
     padding: 8px 10px;
     font-size: 11px;
-  }
-
-  /* Keyboard hint: hide on mobile */
-  .kbd-hint {
-    display: none;
   }
 
   /* Font size row: smaller */
@@ -3791,12 +3750,6 @@ body.dark {
   }
   .pairs-panel {
     padding: 14px 12px;
-  }
-
-  /* Quiz options: compact */
-  .quiz-option {
-    padding: 9px 12px;
-    font-size: 0.82rem;
   }
 
   /* Stats panel */
@@ -3981,9 +3934,13 @@ body.dark {
   }
 
   /* Card: compress */
-  .card-face {
-    padding: 12px 14px;
-  }
+  /* .card-face's landscape-short padding fully converted to Tailwind
+     (docs/full-css-tailwind-migration-roadmap.md Tier 2c) — the base
+     rule was already 100% Tailwind (Tier 2b), so this only needed one
+     arbitrary compound-media-query variant:
+     [@media(max-height:500px)_and_(max-width:900px)]:p-[12px_14px] on
+     the component. Confirmed live at 3 viewports (normal, both
+     conditions met, only one condition met) before removing this. */
   .illus-box {
     width: 60px;
     height: 60px;
@@ -4195,13 +4152,6 @@ body.dark {
   /* Max height clipped to not go off screen with keyboard up */
   .search-results {
     max-height: 160px !important;
-  }
-
-  /* Input: larger on mobile */
-  #search-input {
-    font-size: 0.9rem !important;
-    padding: 10px 14px 10px 34px !important;
-    min-height: 42px;
   }
 }
 

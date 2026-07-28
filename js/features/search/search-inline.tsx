@@ -118,7 +118,7 @@ export function SearchInline(): ReactElement {
         ref={inputRef}
         type="text"
         id="search-input"
-        className="w-full rounded-[10px] py-2 pr-3 pl-8 text-[.85rem] font-[inherit] outline-none transition-[border-color] duration-200 bg-[var(--search-input-bg)] border-[var(--search-input-border)] focus:shadow-[var(--search-input-focus-shadow)]"
+        className="w-full rounded-[10px] py-2 pr-3 pl-8 text-[.85rem] font-[inherit] outline-none transition-[border-color] duration-200 border-[1.5px] text-[var(--text)] bg-[var(--search-input-bg)] border-[var(--search-input-border)] focus:border-[var(--accent)] focus:shadow-[var(--search-input-focus-shadow)] max-[640px]:text-[0.9rem] max-[640px]:py-[10px] max-[640px]:pr-[14px] max-[640px]:pl-[34px] max-[640px]:min-h-[42px]"
         placeholder={t('cards.searchPlaceholder')}
         autoComplete="off"
         spellCheck={false}

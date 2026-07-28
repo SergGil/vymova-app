@@ -83,7 +83,7 @@ const ORIGINAL_CARD_SCENE_HTML = `
     <span class="absolute opacity-0 pointer-events-none text-[2rem] font-extrabold transition-opacity duration-150 z-10 rounded-[50px] py-1.5 px-4 left-4 top-1/2 -translate-y-1/2 bg-[rgba(231,76,60,0.1)] text-[#c0392b]" id="sh-left" data-i18n="cards.next">Далі →</span>
     <span class="absolute opacity-0 pointer-events-none text-[1.2rem] font-extrabold transition-opacity duration-150 z-10 rounded-[50px] py-1.5 px-4 left-1/2 top-3 -translate-x-1/2 bg-[rgba(52,152,219,0.12)] text-[#2980b9]" id="sh-up" data-i18n="cards.translation">👁 Переклад</span>
     <div
-      class="card-face relative rounded-[16px] p-[18px] min-h-[200px] select-text [animation-duration:.22s] [animation-timing-function:cubic-bezier(.25,.46,.45,.94)] [animation-fill-mode:both]"
+      class="card-face relative rounded-[16px] p-[18px] min-h-[200px] select-text [@media(max-height:500px)_and_(max-width:900px)]:p-[12px_14px] [animation-duration:.22s] [animation-timing-function:cubic-bezier(.25,.46,.45,.94)] [animation-fill-mode:both]"
       id="card-front"
     >
       <div id="card-meta-mount"></div>
@@ -128,8 +128,8 @@ const ORIGINAL_CARD_SCENE_HTML = `
 
   <span id="card-hint-mount"></span>
 
-  <div class="actions-bar">
-    <div class="actions-bar-center">
+  <div class="actions-bar grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-2.5 mb-1.5 max-[480px]:flex max-[480px]:flex-col">
+    <div class="actions-bar-center col-start-2 flex gap-1.5 items-center flex-wrap justify-center max-[480px]:gap-[5px]">
       <button class="btn" id="btn-prev" title="Попередня картка" data-i18n-title="cards.prevTitle">
         <span data-i18n="cards.back">← Назад</span>
       </button>
@@ -144,7 +144,10 @@ const ORIGINAL_CARD_SCENE_HTML = `
         <span data-i18n="cards.forward">→ Далі</span>
       </button>
     </div>
-    <div id="daily-mission-mount" class="actions-bar-mission"></div>
+    <div
+      id="daily-mission-mount"
+      class="actions-bar-mission col-start-3 justify-self-end min-w-0 max-[480px]:justify-self-center max-[480px]:self-center"
+    ></div>
   </div>
   <div style="margin-top: 8px; text-align: center; display: flex; gap: 8px; justify-content: center; max-width: 360px; margin-left: auto; margin-right: auto;">
     <button class="btn btn-easy inline-flex items-center justify-center !font-semibold !border-[1.5px] !rounded-[12px] ![transition:all_0.15s,transform_0.15s_ease,box-shadow_0.15s_ease] hover:-translate-y-0.5 gap-[3px]" id="btn-easy" title="Миттєво, дуже легко — слово вважається вивченим" data-i18n-title="cards.easyTitle" style="flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-size: 1.05rem; padding: 14px 0px; letter-spacing: 0.03em; white-space: nowrap;">
@@ -166,12 +169,12 @@ const ORIGINAL_CARD_SCENE_HTML = `
 
   <div id="font-size-control" style="display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-bottom: 4px;"></div>
 
-  <div class="kbd-hint">
-    <kbd data-i18n="kbd.space">Пробіл</kbd> <span data-i18n="kbd.next">далі</span> &nbsp;
-    <kbd>Enter</kbd> <span data-i18n="kbd.know">знаю</span> &nbsp; <kbd>←</kbd><kbd>→</kbd>
-    <span data-i18n="kbd.navigation">навігація</span> &nbsp; <kbd>F</kbd>
-    <span data-i18n="kbd.translation">переклад</span> &nbsp; <kbd>Ctrl+F</kbd>
-    <span data-i18n="kbd.search">пошук</span> &nbsp; <kbd>?</kbd>
+  <div class="kbd-hint text-center text-[10px] text-[var(--text3)] mt-1.5 tracking-[0.03em] max-[480px]:hidden">
+    <kbd class="bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]" data-i18n="kbd.space">Пробіл</kbd> <span data-i18n="kbd.next">далі</span> &nbsp;
+    <kbd class="bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]">Enter</kbd> <span data-i18n="kbd.know">знаю</span> &nbsp; <kbd class="bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]">←</kbd><kbd class="bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]">→</kbd>
+    <span data-i18n="kbd.navigation">навігація</span> &nbsp; <kbd class="bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]">F</kbd>
+    <span data-i18n="kbd.translation">переклад</span> &nbsp; <kbd class="bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]">Ctrl+F</kbd>
+    <span data-i18n="kbd.search">пошук</span> &nbsp; <kbd class="bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]">?</kbd>
     <span style="cursor: pointer" id="btn-keys" data-i18n-title="kbd.allKeysTitle" data-i18n="kbd.allKeys" title="Всі клавіші">всі клавіші</span>
   </div>
 

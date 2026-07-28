@@ -97,6 +97,10 @@ const BTN_BASE =
 const BTN_CTA_BASE =
   'inline-flex items-center justify-center !font-semibold !border-[1.5px] !rounded-[12px] ![transition:all_0.15s,transform_0.15s_ease,box-shadow_0.15s_ease] hover:-translate-y-0.5';
 
+// .kbd-hint kbd's own box/typography (docs/full-css-tailwind-migration-
+// roadmap.md Tier 2c) — shared across all 7 <kbd> tags below.
+const KBD_CLASS = 'bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]';
+
 export function CardShell(): ReactElement {
   const isKnown = useIsCardKnown();
   const speakBtnKnownCls = isKnown ? ' !text-[var(--known-c3)]' : '';
@@ -116,7 +120,7 @@ export function CardShell(): ReactElement {
           👁 Переклад
         </span>
         <div
-          className="card-face relative rounded-[16px] p-[18px] min-h-[200px] select-text !border-solid !border-[length:var(--known-face-border-width)] !border-[var(--known-face-border)] ![background:var(--known-face-bg)] !shadow-[var(--known-face-shadow)] before:content-[var(--card-face-corner-content)] before:absolute before:left-2 before:top-2 before:z-[3] before:h-[18px] before:w-[18px] before:border-solid before:border-[rgba(var(--accent-rgb),0.6)] before:[border-width:2px_0_0_2px] before:[border-radius:2px_0_0_0] before:pointer-events-none after:content-[var(--card-face-corner-content)] after:absolute after:bottom-2 after:right-2 after:z-[3] after:h-[18px] after:w-[18px] after:border-solid after:border-[rgba(var(--accent-rgb),0.6)] after:[border-width:0_2px_2px_0] after:[border-radius:0_0_2px_0] after:pointer-events-none [animation-duration:.22s] [animation-timing-function:cubic-bezier(.25,.46,.45,.94)] [animation-fill-mode:both]"
+          className="card-face relative rounded-[16px] p-[18px] min-h-[200px] select-text [@media(max-height:500px)_and_(max-width:900px)]:p-[12px_14px] !border-solid !border-[length:var(--known-face-border-width)] !border-[var(--known-face-border)] ![background:var(--known-face-bg)] !shadow-[var(--known-face-shadow)] before:content-[var(--card-face-corner-content)] before:absolute before:left-2 before:top-2 before:z-[3] before:h-[18px] before:w-[18px] before:border-solid before:border-[rgba(var(--accent-rgb),0.6)] before:[border-width:2px_0_0_2px] before:[border-radius:2px_0_0_0] before:pointer-events-none after:content-[var(--card-face-corner-content)] after:absolute after:bottom-2 after:right-2 after:z-[3] after:h-[18px] after:w-[18px] after:border-solid after:border-[rgba(var(--accent-rgb),0.6)] after:[border-width:0_2px_2px_0] after:[border-radius:0_0_2px_0] after:pointer-events-none [animation-duration:.22s] [animation-timing-function:cubic-bezier(.25,.46,.45,.94)] [animation-fill-mode:both]"
           id="card-front"
         >
           <div id="card-meta-mount">
@@ -247,8 +251,8 @@ export function CardShell(): ReactElement {
         <CardHint />
       </span>
 
-      <div className="actions-bar">
-        <div className="actions-bar-center">
+      <div className="actions-bar grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-2.5 mb-1.5 max-[480px]:flex max-[480px]:flex-col">
+        <div className="actions-bar-center col-start-2 flex gap-1.5 items-center flex-wrap justify-center max-[480px]:gap-[5px]">
           <button
             className={'btn ' + BTN_BASE}
             id="btn-prev"
@@ -328,7 +332,10 @@ export function CardShell(): ReactElement {
             <span data-i18n="cards.forward">→ Далі</span>
           </button>
         </div>
-        <div id="daily-mission-mount" className="actions-bar-mission">
+        <div
+          id="daily-mission-mount"
+          className="actions-bar-mission col-start-3 justify-self-end min-w-0 max-[480px]:justify-self-center max-[480px]:self-center"
+        >
           <DailyMissionCard />
         </div>
       </div>
@@ -448,12 +455,18 @@ export function CardShell(): ReactElement {
         <FontSizeControl />
       </div>
 
-      <div className="kbd-hint">
-        <kbd data-i18n="kbd.space">Пробіл</kbd> <span data-i18n="kbd.next">далі</span> &nbsp;
-        <kbd>Enter</kbd> <span data-i18n="kbd.know">знаю</span> &nbsp; <kbd>←</kbd>
-        <kbd>→</kbd> <span data-i18n="kbd.navigation">навігація</span> &nbsp; <kbd>F</kbd>{' '}
-        <span data-i18n="kbd.translation">переклад</span> &nbsp; <kbd>Ctrl+F</kbd>{' '}
-        <span data-i18n="kbd.search">пошук</span> &nbsp; <kbd>?</kbd>{' '}
+      <div className="kbd-hint text-center text-[10px] text-[var(--text3)] mt-1.5 tracking-[0.03em] max-[480px]:hidden">
+        <kbd className={KBD_CLASS} data-i18n="kbd.space">
+          Пробіл
+        </kbd>{' '}
+        <span data-i18n="kbd.next">далі</span> &nbsp;
+        <kbd className={KBD_CLASS}>Enter</kbd> <span data-i18n="kbd.know">знаю</span> &nbsp;{' '}
+        <kbd className={KBD_CLASS}>←</kbd>
+        <kbd className={KBD_CLASS}>→</kbd> <span data-i18n="kbd.navigation">навігація</span> &nbsp;{' '}
+        <kbd className={KBD_CLASS}>F</kbd>{' '}
+        <span data-i18n="kbd.translation">переклад</span> &nbsp;{' '}
+        <kbd className={KBD_CLASS}>Ctrl+F</kbd>{' '}
+        <span data-i18n="kbd.search">пошук</span> &nbsp; <kbd className={KBD_CLASS}>?</kbd>{' '}
         <span
           style={{ cursor: 'pointer' }}
           id="btn-keys"
