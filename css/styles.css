@@ -2298,14 +2298,12 @@ body[data-theme] * {
    .modes-grid/.modes-section-label/.mode-desc moved to Tailwind utility
    classes in modes-overlay-shell.tsx/mode-card-grid.tsx (docs/full-css-
    tailwind-migration-roadmap.md Batch 5) — no fandom-theme or body.dark
-   overrides existed for any of them, and none had an @media touch-point
-   (unlike .modes-section-grid/.mode-name right below, which stay bare —
-   Tier 2c). */
-.modes-section-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
+   overrides existed for any of them, and none had an @media touch-point.
+   .modes-section-grid/.mode-name (base + 480px overrides) fully
+   converted too now (Tier 2c) — two OTHER breakpoints (481-640px,
+   641-900px) also declared .modes-section-grid's grid-template-columns,
+   both byte-identical to the unconditional base value (repeat(3,1fr)),
+   confirmed dead and dropped instead of converted. */
 /* background/border-color (+:hover's border-color/background/box-shadow)
    fully converted to Tailwind (docs/component-tailwind-conversion-
    roadmap.md Batch 2) — fandom replaces the whole :hover formula with a
@@ -2316,8 +2314,9 @@ body[data-theme] * {
    display/flex-direction/align-items/gap/font-family and :hover/:active's
    transform, plus .mode-icon's own box/typography (incl. its base-state
    color-mix() formula — Tailwind arbitrary values pass raw CSS through,
-   confirmed no config change needed) fully converted too (docs/full-css-
-   tailwind-migration-roadmap.md Tier 2b) in mode-card-grid.tsx.
+   confirmed no config change needed) and the 480px padding override
+   fully converted too (docs/full-css-tailwind-migration-roadmap.md Tier
+   2b/2c) in mode-card-grid.tsx.
    `.mode-card--active`/`.mode-card--active .mode-icon` are gone rather
    than converted — confirmed dead, not just by a stale comment (mode-
    card-grid.tsx's own header comment still described the old imperative
@@ -2327,12 +2326,6 @@ body[data-theme] * {
    this class was unreachable, and modes-modal.tsx has since been
    simplified to no longer touch it at all — verified by grepping for
    any remaining reference, found none outside of comments. */
-.mode-name {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.2;
-}
 
 /* Mode card accent colors */
 .mc-quiz {
@@ -3780,17 +3773,6 @@ body.dark {
     font-size: 1.3rem;
   }
 
-  /* Modes grid: 2 columns on small mobile */
-  .modes-section-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .mode-card {
-    padding: 14px 8px;
-  }
-  .mode-name {
-    font-size: 0.76rem;
-  }
-
   /* Page inner: compact */
   .page-inner {
     padding: 14px 14px;
@@ -3886,11 +3868,6 @@ body.dark {
     min-height: 32px;
   }
 
-  /* Modes: 3 columns */
-  .modes-section-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
 }
 
 /* ── Tablet 641–900px ───────────────────────────────────────── */
@@ -3914,11 +3891,6 @@ body.dark {
   .page-inner {
     padding: 20px 18px;
     max-width: 600px;
-  }
-
-  /* Modes: 3 columns */
-  .modes-section-grid {
-    grid-template-columns: repeat(3, 1fr);
   }
 
   /* Stats panel narrower */

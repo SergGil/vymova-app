@@ -187,13 +187,16 @@ const GROUPS: ModeCardGroup[] = [
 function ModeCardButton({ card }: { card: ModeCard }): ReactElement {
   return (
     <button
-      className={`mode-card mc-${card.cls ?? card.id} border-[1.5px] rounded-[14px] pt-[14px] px-[6px] pb-[12px] cursor-pointer text-center flex flex-col items-center gap-[5px] font-['DM_Sans',sans-serif] [transition:border-color_0.16s,background_0.16s,box-shadow_0.16s,transform_0.12s] hover:-translate-y-0.5 active:translate-none active:scale-[0.96] bg-[var(--mode-card-bg)] border-[var(--mode-card-border)] hover:border-[var(--mode-card-hover-border)] hover:bg-[var(--mode-card-hover-bg)] hover:shadow-[var(--mode-card-hover-shadow)]`}
+      className={`mode-card mc-${card.cls ?? card.id} border-[1.5px] rounded-[14px] pt-[14px] px-[6px] pb-[12px] cursor-pointer text-center flex flex-col items-center gap-[5px] font-['DM_Sans',sans-serif] [transition:border-color_0.16s,background_0.16s,box-shadow_0.16s,transform_0.12s] hover:-translate-y-0.5 active:translate-none active:scale-[0.96] bg-[var(--mode-card-bg)] border-[var(--mode-card-border)] hover:border-[var(--mode-card-hover-border)] hover:bg-[var(--mode-card-hover-bg)] hover:shadow-[var(--mode-card-hover-shadow)] [@media(max-width:480px)]:pt-[14px] [@media(max-width:480px)]:px-[8px] [@media(max-width:480px)]:pb-[12px]`}
       id={`btn-${card.id}`}
     >
       <span className="mode-icon w-[46px] h-[46px] rounded-full flex items-center justify-center text-2xl leading-none shrink-0 bg-[color-mix(in_srgb,var(--mi,var(--accent))_13%,transparent)]">
         {card.icon}
       </span>
-      <span className="mode-name" data-i18n={card.nameKey}>
+      <span
+        className="mode-name text-[0.78rem] font-bold text-[var(--text)] leading-[1.2] [@media(max-width:480px)]:text-[0.76rem]"
+        data-i18n={card.nameKey}
+      >
         {t(card.nameKey)}
       </span>
       <span
@@ -218,7 +221,7 @@ export function ModeCardGrid(): ReactElement {
           >
             {t(group.labelKey)}
           </div>
-          <div className="modes-section-grid">
+          <div className="modes-section-grid grid grid-cols-3 gap-2 [@media(max-width:480px)]:grid-cols-2">
             {group.cards.map((card) => (
               <ModeCardButton key={card.id} card={card} />
             ))}

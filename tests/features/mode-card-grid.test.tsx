@@ -128,23 +128,28 @@ describe('<ModeCardGrid/>', () => {
     // comparing so the test keeps checking what it was built for (ids/
     // data-i18n/text/nesting/the original mc-*/mode-card classes), not
     // fighting a legitimate subsequent addition. docs/full-css-tailwind-
-    // migration-roadmap.md Tier 2b added .mode-card/.mode-icon's own
-    // (non-theme-driven) layout/typography classes the same way — literal,
-    // identical on all 27 cards, stripped the same way via plain string
-    // split/join (safer than a regex here: the class list itself contains
-    // brackets/commas/colons that would need escaping).
+    // migration-roadmap.md Tier 2b/2c added .mode-card/.mode-icon/
+    // .mode-name/.modes-section-grid's own (non-theme-driven) layout/
+    // typography classes the same way — literal, identical on all 27
+    // cards, stripped the same way via plain string split/join (safer
+    // than a regex here: the class list itself contains brackets/commas/
+    // colons that would need escaping).
     const actualHtml = container.innerHTML
       .replace(
         / (?:bg|border|hover:bg|hover:border|hover:shadow)-\[var\(--mode-card[a-z-]*\)\]/g,
         '',
       )
       .split(
-        " border-[1.5px] rounded-[14px] pt-[14px] px-[6px] pb-[12px] cursor-pointer text-center flex flex-col items-center gap-[5px] font-['DM_Sans',sans-serif] [transition:border-color_0.16s,background_0.16s,box-shadow_0.16s,transform_0.12s] hover:-translate-y-0.5 active:translate-none active:scale-[0.96]",
+        " border-[1.5px] rounded-[14px] pt-[14px] px-[6px] pb-[12px] cursor-pointer text-center flex flex-col items-center gap-[5px] font-['DM_Sans',sans-serif] [transition:border-color_0.16s,background_0.16s,box-shadow_0.16s,transform_0.12s] hover:-translate-y-0.5 active:translate-none active:scale-[0.96] [@media(max-width:480px)]:pt-[14px] [@media(max-width:480px)]:px-[8px] [@media(max-width:480px)]:pb-[12px]",
       )
       .join('')
       .split(
         ' w-[46px] h-[46px] rounded-full flex items-center justify-center text-2xl leading-none shrink-0 bg-[color-mix(in_srgb,var(--mi,var(--accent))_13%,transparent)]',
       )
+      .join('')
+      .split(' text-[0.78rem] font-bold text-[var(--text)] leading-[1.2] [@media(max-width:480px)]:text-[0.76rem]')
+      .join('')
+      .split(' grid grid-cols-3 gap-2 [@media(max-width:480px)]:grid-cols-2')
       .join('');
     expectStructuralParity(actualHtml, ORIGINAL_GRID_HTML);
   });
