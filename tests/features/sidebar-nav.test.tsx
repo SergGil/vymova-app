@@ -115,10 +115,14 @@ describe('<SidebarNav/>', () => {
   it('renders the logo and nav links structurally identical to the original static markup (AI-tutor gated items excluded)', () => {
     render(<SidebarNav />);
     // Batch 4 also added .sidebar-logo's border-b-[var(--sidebar-logo-border)]
-    // — same stripping approach as sidebar-nav-mount below.
+    // — same stripping approach as sidebar-nav-mount below. Tier 2c added
+    // padding/display/align-items/gap + the max-900px padding-left override
+    // (docs/full-css-tailwind-migration-roadmap.md), stripped the same way.
     const actualLogoHtml = document
       .getElementById('sidebar-logo-mount')!
-      .innerHTML.replace(/ border-b-\[var\(--sidebar-logo-border\)\]/g, '');
+      .innerHTML.replace(/ border-b-\[var\(--sidebar-logo-border\)\]/g, '')
+      .replace(/ flex items-center gap-2\.5 px-\[18px\] pt-5 pb-4/g, '')
+      .replace(/ \[@media\(max-width:900px\)\]:!pl-\[60px\]/g, '');
     expectStructuralParity(actualLogoHtml, ORIGINAL_LOGO_HTML);
     // docs/component-tailwind-conversion-roadmap.md Batch 4 added theme-
     // driven Tailwind classes (.sb-btn's base bg-transparent/text-.../
@@ -155,6 +159,17 @@ describe('<SidebarNav/>', () => {
       .replace(/ bg-transparent text-\[var\(--text2\)\]/g, '')
       .replace(
         / (?:hover:bg|hover:text|bg|border)-\[var\(--sb-(?:btn-hover|flyout)-[a-z-]*\)\]/g,
+        '',
+      )
+      // Tier 2c added .sb-caret's own text-xs/text-text3/shrink-0 plus its
+      // max-900px transition + ancestor-scoped (.sb-group.open) rotate
+      // (docs/full-css-tailwind-migration-roadmap.md), stripped the same
+      // way. `&` reads back as `&amp;` via .innerHTML (HTML entity-
+      // escaping on serialization, not a real DOM/CSS difference — the
+      // element's actual class attribute value/classList still holds a
+      // literal `&`, so Tailwind's own selector matching is unaffected).
+      .replace(
+        / text-xs text-text3 shrink-0 \[@media\(max-width:900px\)\]:\[transition:transform_0\.15s\] \[\.sb-group\.open_&amp;\]:\[@media\(max-width:900px\)\]:rotate-90/g,
         '',
       );
     expectStructuralParity(actualNavHtml, ORIGINAL_NAV_HTML);

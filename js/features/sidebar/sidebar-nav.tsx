@@ -198,7 +198,9 @@ function NavGroup({
         <span className="sb-label flex-1" data-i18n={labelKey}>
           {t(labelKey)}
         </span>
-        <span className="sb-caret">›</span>
+        <span className="sb-caret text-xs text-text3 shrink-0 [@media(max-width:900px)]:[transition:transform_0.15s] [.sb-group.open_&]:[@media(max-width:900px)]:rotate-90">
+          ›
+        </span>
       </button>
       <div
         className="sb-flyout fixed min-w-[210px] border rounded-[10px] p-1.5 flex-col gap-[3px] shadow-[0_10px_30px_rgba(0,0,0,0.28)] z-[700] bg-[var(--sb-flyout-bg)] border-[var(--sb-flyout-border)]"
@@ -242,7 +244,7 @@ export function SidebarNav(): ReactElement {
     <>
       <Portal id="sidebar-logo-mount">
         <div
-          className="sidebar-logo border-b-[var(--sidebar-logo-border)]"
+          className="sidebar-logo border-b-[var(--sidebar-logo-border)] flex items-center gap-2.5 px-[18px] pt-5 pb-4 [@media(max-width:900px)]:!pl-[60px]"
           id="sb-home"
           title="На головну — картки"
           style={{ cursor: 'pointer' }}

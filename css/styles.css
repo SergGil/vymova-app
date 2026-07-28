@@ -2758,15 +2758,23 @@ body[data-theme] * {
    unconverted on purpose: narrow, 2-of-14-themes-only values (not part
    of the general AUX token system used by the other clusters), and
    unlayered bare CSS keeps winning over the new Tailwind class exactly
-   as it did over the old bare base rule, so no behavior changes. */
-.sidebar-logo {
-  padding: 20px 18px 16px;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+   as it did over the old bare base rule, so no behavior changes.
+   padding/display/align-items/gap and the max-900px padding-left override
+   (below, was its own separate rule) also moved to Tailwind utility
+   classes in sidebar-nav.tsx (docs/full-css-tailwind-migration-roadmap.md
+   Tier 2c) — the "not-yet-migrated component, sidebar-logo lives outside
+   Phase 1's scope" reasoning this used to justify staying bare was stale:
+   .sidebar-logo has been real JSX (rendered into #sidebar-logo-mount via
+   Portal) since a later phase, this just hadn't been revisited since.
+   border-bottom-width/style aren't reproduced explicitly: Tailwind's
+   border-b utility already sets border-bottom-width:1px, and Tailwind's
+   preflight reset already sets border-style:solid globally, so both were
+   already implied by the border-b-[var(--sidebar-logo-border)] class this
+   element already had. The max-900px padding-left override needs `!`:
+   it's a media-scoped override competing with the unconditional
+   px-[18px] base class on the same padding-left property, and non-
+   `!important` Tailwind classes on the same property don't reliably
+   resolve by source order (confirmed empirically earlier in this tier). */
 /* Was two overlapping rules that both included `body.dark` in their
    selector group — for plain dark mode (no fandom theme), the second
    rule's value always won by source order (equal specificity), making
@@ -2809,11 +2817,6 @@ body[data-theme="hp"] .sidebar-logo {
    fandom-theme or body.dark overrides existed for either). */
 
 /* Nav groups with hover flyout submenus */
-.sb-caret {
-  font-size: 0.75rem;
-  color: var(--text3);
-  flex-shrink: 0;
-}
 
 /* background/border-color, and every property besides display, fully
    converted to Tailwind (docs/component-tailwind-conversion-roadmap.md
@@ -2829,30 +2832,35 @@ body[data-theme="hp"] .sidebar-logo {
   display: flex;
 }
 
-@media (max-width: 900px) {
-  .sb-caret {
-    transition: transform 0.15s;
-  }
-  .sb-group.open .sb-caret {
-    transform: rotate(90deg);
-  }
-}
+/* .sb-caret's own font-size/color/flex-shrink and its max-900px
+   transition/.sb-group.open-driven rotate moved to Tailwind utility
+   classes in sidebar-nav.tsx (docs/full-css-tailwind-migration-roadmap.md
+   Tier 2c). The rotate reuses the same ancestor-scoped arbitrary variant
+   ([.sb-group.open_&]:) established for .wotd-box earlier in this
+   migration — .sb-caret is always a descendant of .sb-group (never reused
+   outside it), and .sb-group's "open" class is still toggled imperatively
+   by sidebar-nav-flyout.tsx (the same reason .sb-flyout's display stays
+   bare above), so the ancestor variant just reads the same DOM class
+   React never drives directly.
+
+   Variant ORDER bug found while converting this: stacking the media
+   variant BEFORE the ancestor variant
+   ([@media(max-width:900px)]:[.sb-group.open_&]:rotate-90) silently
+   generated a rule with NO @media wrapper at all — Tailwind emitted
+   `.sb-group.open .[the-whole-escaped-string]{rotate:90deg}` as an
+   unconditional top-level rule (checked the compiled output directly).
+   Swapping the order — ancestor variant first, media variant last, right
+   next to the utility ([.sb-group.open_&]:[@media(max-width:900px)]:
+   rotate-90) — generates the correct
+   `@media(max-width:900px){.sb-group.open .[...]{rotate:90deg}}`.
+   Confirmed live on all 4 combinations (closed/open × ≤900px/>900px).
+   Lesson: when stacking an arbitrary at-rule variant with another
+   arbitrary variant, put the at-rule variant LAST (closest to the
+   utility), not first. */
 
 /* .app/.hamburger/.sidebar-overlay layout rules (and their max-900px
    mobile-collapse variants) moved to Tailwind utility classes in
-   index.html — see the note above .sidebar-logo. The mobile
-   .sidebar-logo{padding-left:60px} rule stays: it's the one exception
-   still owned by a not-yet-migrated component (sidebar-logo lives outside
-   Phase 1's scope), so it's still declared here, independently of the
-   hamburger/overlay it makes room for. */
-@media (max-width: 900px) {
-  /* The hamburger sits fixed top-left above the sidebar (so it stays
-     clickable to close), which otherwise overlaps the logo text in the
-     same corner once the sidebar is open. */
-  .sidebar-logo {
-    padding-left: 60px;
-  }
-}
+   index.html — see the note above .sidebar-logo. */
 
 /* ══ Page Overlay System ════════════════════════════════════════ */
 /* .page-overlay/.page-overlay.open (+ its max-900px left/height override)
