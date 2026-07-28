@@ -3834,12 +3834,6 @@ body.dark {
   .ach-name {
     font-size: 0.68rem;
   }
-
-  /* Heatmap: ensure scroll */
-  #heatmap-wrap {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
 }
 
 /* ── Large phone 481–640px ──────────────────────────────────── */
@@ -4431,14 +4425,17 @@ body[data-theme="hp"] {
    dead — no element ever carried that class, only the #id counterpart —
    and #mode-accuracy-list's own font-size was itself inert: every
    descendant that renders text sets its own inline fontSize, so nothing
-   ever inherited the container's value. #heatmap-wrap stays bare (appears
-   in 2+ physical locations in this file, needs its own reconciliation). */
-@media (max-width: 480px) {
-  #heatmap-wrap {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
+   ever inherited the container's value. #heatmap-wrap (this block used to
+   end with a copy of it) was a byte-identical duplicate of the OTHER
+   #heatmap-wrap 480px rule earlier in this file (both
+   overflow-x:auto;-webkit-overflow-scrolling:touch) — #heatmap-wrap only
+   renders once in the whole codebase (stats-page.tsx), so this was
+   genuinely two copies of the same rule, not two different elements.
+   Converted to a single Tailwind arbitrary-property class
+   ([@media(max-width:480px)]:[-webkit-overflow-scrolling:touch]) on that
+   element; overflow-x:auto was already redundant with the element's own
+   pre-existing unconditional inline style={{overflowX:'auto'}}, so it
+   didn't need reproducing at all. */
 
 /* ── E: Dark mode — mode-complete-toast ── */
 /* .mode-complete-toast's box-shadow and .mct-streak's color now read

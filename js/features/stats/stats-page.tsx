@@ -659,7 +659,11 @@ export function StatsPage(): ReactElement {
         >
           {t('stats.yearActivityDesc')}
         </div>
-        <div id="heatmap-wrap" style={{ overflowX: 'auto', paddingBottom: 4 }}>
+        <div
+          id="heatmap-wrap"
+          className="[@media(max-width:480px)]:[-webkit-overflow-scrolling:touch]"
+          style={{ overflowX: 'auto', paddingBottom: 4 }}
+        >
           <div id="heatmap" style={{ display: 'flex', gap: 2, minWidth: 'max-content' }}>
             {heatmap.map((wk, wi) => (
               <div className="hm-week flex flex-col gap-0.5" key={wi}>
