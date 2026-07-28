@@ -251,8 +251,8 @@ export function CardShell(): ReactElement {
         <CardHint />
       </span>
 
-      <div className="actions-bar grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-2.5 mb-1.5 max-[480px]:flex max-[480px]:flex-col">
-        <div className="actions-bar-center col-start-2 flex gap-1.5 items-center flex-wrap justify-center max-[480px]:gap-[5px]">
+      <div className="actions-bar grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-2.5 mb-1.5 [@media(max-width:480px)]:flex [@media(max-width:480px)]:flex-col">
+        <div className="actions-bar-center col-start-2 flex gap-1.5 items-center flex-wrap justify-center [@media(max-width:480px)]:gap-[5px]">
           <button
             className={'btn ' + BTN_BASE}
             id="btn-prev"
@@ -334,7 +334,7 @@ export function CardShell(): ReactElement {
         </div>
         <div
           id="daily-mission-mount"
-          className="actions-bar-mission col-start-3 justify-self-end min-w-0 max-[480px]:justify-self-center max-[480px]:self-center"
+          className="actions-bar-mission col-start-3 justify-self-end min-w-0 [@media(max-width:480px)]:justify-self-center [@media(max-width:480px)]:self-center"
         >
           <DailyMissionCard />
         </div>
@@ -455,7 +455,7 @@ export function CardShell(): ReactElement {
         <FontSizeControl />
       </div>
 
-      <div className="kbd-hint text-center text-[10px] text-[var(--text3)] mt-1.5 tracking-[0.03em] max-[480px]:hidden">
+      <div className="kbd-hint text-center text-[10px] text-[var(--text3)] mt-1.5 tracking-[0.03em] [@media(max-width:480px)]:hidden">
         <kbd className={KBD_CLASS} data-i18n="kbd.space">
           Пробіл
         </kbd>{' '}

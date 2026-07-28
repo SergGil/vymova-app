@@ -866,7 +866,7 @@ export function _getQuestionData(): QuestionData {
     hintNote: q.hintNote,
     options: q.choiceOptions.map((opt, i) => {
       let cls =
-        "quiz-option group relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 not-disabled:hover:border-[var(--quiz-option-hover-border)] not-disabled:hover:bg-[var(--quiz-option-hover-bg)] disabled:cursor-default max-[480px]:py-[9px] max-[480px]:px-[12px] max-[480px]:text-[0.82rem]";
+        "quiz-option group relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 not-disabled:hover:border-[var(--quiz-option-hover-border)] not-disabled:hover:bg-[var(--quiz-option-hover-bg)] disabled:cursor-default [@media(max-width:480px)]:py-[9px] [@media(max-width:480px)]:px-[12px] [@media(max-width:480px)]:text-[0.82rem]";
       if (room.answered) {
         if (opt === q.chosenOption)
           cls += q.chosenOption === q.choiceAnswer ? ' correct !border-[var(--quiz-correct-border)] !bg-[var(--quiz-correct-bg)] !text-[var(--quiz-correct-color)] font-semibold' : ' wrong !border-[var(--quiz-wrong-border)] !bg-[var(--quiz-wrong-bg)] !text-[var(--quiz-wrong-color)]';

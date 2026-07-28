@@ -128,8 +128,8 @@ const ORIGINAL_CARD_SCENE_HTML = `
 
   <span id="card-hint-mount"></span>
 
-  <div class="actions-bar grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-2.5 mb-1.5 max-[480px]:flex max-[480px]:flex-col">
-    <div class="actions-bar-center col-start-2 flex gap-1.5 items-center flex-wrap justify-center max-[480px]:gap-[5px]">
+  <div class="actions-bar grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-2.5 mb-1.5 [@media(max-width:480px)]:flex [@media(max-width:480px)]:flex-col">
+    <div class="actions-bar-center col-start-2 flex gap-1.5 items-center flex-wrap justify-center [@media(max-width:480px)]:gap-[5px]">
       <button class="btn" id="btn-prev" title="Попередня картка" data-i18n-title="cards.prevTitle">
         <span data-i18n="cards.back">← Назад</span>
       </button>
@@ -146,7 +146,7 @@ const ORIGINAL_CARD_SCENE_HTML = `
     </div>
     <div
       id="daily-mission-mount"
-      class="actions-bar-mission col-start-3 justify-self-end min-w-0 max-[480px]:justify-self-center max-[480px]:self-center"
+      class="actions-bar-mission col-start-3 justify-self-end min-w-0 [@media(max-width:480px)]:justify-self-center [@media(max-width:480px)]:self-center"
     ></div>
   </div>
   <div style="margin-top: 8px; text-align: center; display: flex; gap: 8px; justify-content: center; max-width: 360px; margin-left: auto; margin-right: auto;">
@@ -169,7 +169,7 @@ const ORIGINAL_CARD_SCENE_HTML = `
 
   <div id="font-size-control" style="display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-bottom: 4px;"></div>
 
-  <div class="kbd-hint text-center text-[10px] text-[var(--text3)] mt-1.5 tracking-[0.03em] max-[480px]:hidden">
+  <div class="kbd-hint text-center text-[10px] text-[var(--text3)] mt-1.5 tracking-[0.03em] [@media(max-width:480px)]:hidden">
     <kbd class="bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]" data-i18n="kbd.space">Пробіл</kbd> <span data-i18n="kbd.next">далі</span> &nbsp;
     <kbd class="bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]">Enter</kbd> <span data-i18n="kbd.know">знаю</span> &nbsp; <kbd class="bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]">←</kbd><kbd class="bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]">→</kbd>
     <span data-i18n="kbd.navigation">навігація</span> &nbsp; <kbd class="bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]">F</kbd>

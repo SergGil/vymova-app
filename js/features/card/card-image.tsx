@@ -14,6 +14,19 @@ const _IMG_STYLE: CSSProperties = {
   borderRadius: 8,
 };
 
+// .illus-box's own box (docs/full-css-tailwind-migration-roadmap.md
+// Tier 2c) — shared between both return branches below. The ≤480px and
+// ≤360px tiers are written as mutually EXCLUSIVE ranges (361-480 vs.
+// ≤360), not two overlapping `!important` rules racing on Tailwind's
+// generation order for unrelated custom variants (verified live: two
+// custom `[@media(...)]:` variants do NOT reliably order narrower-wins
+// the way the built-in max-[Npx]: scale does) — only the 361-480 tier
+// still needs `!` at all, to beat the landscape tier below when both
+// apply; ≤360px never visibly conflicts with the landscape tier since
+// both resolve to the same 60px.
+const _ILLUS_BOX_CLASS =
+  'illus-box shrink-0 w-[100px] h-[100px] rounded-[12px] overflow-hidden bg-[var(--bg)] flex items-center justify-center [@media(min-width:361px)_and_(max-width:480px)]:!w-[72px] [@media(min-width:361px)_and_(max-width:480px)]:!h-[72px] [@media(max-width:360px)]:w-[60px] [@media(max-width:360px)]:h-[60px] [@media(max-height:500px)_and_(max-width:900px)]:w-[60px] [@media(max-height:500px)_and_(max-width:900px)]:h-[60px]';
+
 // 'retry': the first paint of a cached URL — on failure, clear the cache
 // entry and fall back to local/offline art while re-fetching via
 // loadWikiImage(). 'hide-only': the re-fetched image from that retry — on
@@ -119,12 +132,16 @@ export function CardImage() {
   // original innerHTML= behavior, with no extra wrapper element.
   if (state.kind === 'html') {
     return (
-      <div className="illus-box" id="illus" dangerouslySetInnerHTML={{ __html: state.html }} />
+      <div className={_ILLUS_BOX_CLASS} id="illus" dangerouslySetInnerHTML={{ __html: state.html }} />
     );
   }
 
   return (
-    <div className="illus-box" id="illus" style={state.kind === 'none' ? { display: 'none' } : undefined}>
+    <div
+      className={_ILLUS_BOX_CLASS}
+      id="illus"
+      style={state.kind === 'none' ? { display: 'none' } : undefined}
+    >
       {state.kind === 'img' && (
         <img
           alt=""

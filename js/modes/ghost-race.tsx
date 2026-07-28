@@ -387,7 +387,7 @@ export function GhostRacePage(): ReactElement {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
             {q.options.map((opt, i) => {
               let cls =
-                "quiz-option group relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 not-disabled:hover:border-[var(--quiz-option-hover-border)] not-disabled:hover:bg-[var(--quiz-option-hover-bg)] disabled:cursor-default max-[480px]:py-[9px] max-[480px]:px-[12px] max-[480px]:text-[0.82rem]";
+                "quiz-option group relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 not-disabled:hover:border-[var(--quiz-option-hover-border)] not-disabled:hover:bg-[var(--quiz-option-hover-bg)] disabled:cursor-default [@media(max-width:480px)]:py-[9px] [@media(max-width:480px)]:px-[12px] [@media(max-width:480px)]:text-[0.82rem]";
               if (selected) {
                 if (opt === selected) cls += opt === q.correct ? ' correct !border-[var(--quiz-correct-border)] !bg-[var(--quiz-correct-bg)] !text-[var(--quiz-correct-color)] font-semibold' : ' wrong !border-[var(--quiz-wrong-border)] !bg-[var(--quiz-wrong-bg)] !text-[var(--quiz-wrong-color)]';
                 else if (opt === q.correct) cls += ' reveal !border-[var(--quiz-reveal-border)] !bg-[var(--quiz-reveal-bg)] !text-[var(--quiz-reveal-color)] opacity-70';
