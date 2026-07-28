@@ -3731,14 +3731,19 @@ body.dark {
     padding: 7px 8px;
     min-height: 40px;
   }
-  .lang-pair-row {
-    width: 100%;
-    flex-wrap: wrap;
-    margin-right: 0 !important;
-  }
-  .lang-pair-row select {
-    flex: 1 1 calc(50% - 4px);
-  }
+  /* .lang-pair-row (width/flex-wrap/margin-right) and its max-640px twin
+     below moved to Tailwind utility classes in lang-pair-select.tsx
+     (docs/full-css-tailwind-migration-roadmap.md Tier 2c) — both physical
+     copies had byte-identical values across the two non-overlapping
+     ≤480px/481-640px ranges, so they collapsed into one ≤640px Tailwind
+     breakpoint instead of two. margin-right needed `!` to keep beating
+     the element's own inline style={{marginRight:'4px'}}, same as the
+     original bare CSS's own `!important` did. `.lang-pair-row select`
+     (flex-basis override) was confirmed fully dead: FlagDropdown (the
+     only thing .lang-pair-row ever renders) replaced the native <select>
+     with its own button+listbox markup, so no <select> descendant has
+     existed inside .lang-pair-row since that port — dropped without
+     conversion. */
   #sel-range {
     flex-basis: 100%;
   }
@@ -3847,14 +3852,9 @@ body.dark {
     min-height: 38px;
     font-size: 12px;
   }
-  .lang-pair-row {
-    width: 100%;
-    flex-wrap: wrap;
-    margin-right: 0 !important;
-  }
-  .lang-pair-row select {
-    flex: 1 1 calc(50% - 4px);
-  }
+  /* .lang-pair-row/.lang-pair-row select — see the ≤480px block above for
+     the full note; this was its byte-identical twin, now covered by the
+     same ≤640px Tailwind classes. */
   #sel-range {
     flex-basis: 100%;
   }

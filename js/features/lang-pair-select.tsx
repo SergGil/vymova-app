@@ -612,7 +612,10 @@ export function LangPairSelect(): ReactElement {
   }
 
   return (
-    <div className="lang-pair-row" style={{ display: 'flex', gap: '8px', marginRight: '4px' }}>
+    <div
+      className="lang-pair-row [@media(max-width:640px)]:w-full [@media(max-width:640px)]:flex-wrap [@media(max-width:640px)]:!mr-0"
+      style={{ display: 'flex', gap: '8px', marginRight: '4px' }}
+    >
       <FlagDropdown
         value={knowLang}
         options={sortByLabel(ALL_LANGS)}
