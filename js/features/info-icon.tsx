@@ -16,7 +16,10 @@ export function InfoIcon({
   return (
     <button
       type="button"
-      className={'info-icon-btn' + (open ? ' active' : '')}
+      className={
+        'info-icon-btn inline-flex items-center relative top-0.5 cursor-pointer text-xs leading-none py-0 px-0.5 transition-[opacity,transform] duration-150 hover:opacity-100 ' +
+        (open ? 'active opacity-100 scale-110' : 'opacity-55')
+      }
       aria-label={label}
       aria-expanded={open}
       title={label}
@@ -32,7 +35,10 @@ export function InfoIcon({
 
 export function InfoNote({ children }: { children: ReactNode }) {
   return (
-    <div className="info-note" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="info-note mt-1.5 mb-1 py-2 px-2.5 bg-[var(--card)] border border-[var(--border)] rounded-[10px] shadow-[var(--shadow)] text-[0.76rem] leading-[1.45] text-[var(--text2)] [animation:slideUpPanel_0.15s_ease]"
+      onClick={(e) => e.stopPropagation()}
+    >
       {children}
     </div>
   );

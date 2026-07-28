@@ -7,14 +7,14 @@
 // NOT touch:
 // - `useModeSession`'s internal `style.display`/class visibility toggle, or
 //   the module-level `_open`/`_close` refs each mode file still owns.
-// - `modes-modal.tsx`'s own imperative `mode-card--active` classList
-//   add/remove when the "choose a mode" modal opens (reads `#sel-mode`,
-//   toggles the class on whichever `#btn-<key>` matches) — this component's
-//   render output never changes after mount (no props/state), so React
-//   never re-diffs this subtree and that external class mutation persists
-//   untouched, the same reasoning i18n.ts's textContent override already
-//   relies on elsewhere in this codebase.
 // - `#modes-overlay`/`.modes-header`/`.modes-panel` themselves (Phase 5b).
+//
+// (Stale note removed: this comment used to describe modes-modal.tsx's
+// imperative `mode-card--active` classList toggle as a second live writer
+// of this subtree — modes-overlay-shell.tsx's own header comment documents
+// that the whole controller it belonged to was actually unreachable dead
+// code, since fixed. See docs/full-css-tailwind-migration-roadmap.md Tier
+// 2b for where that class's CSS was removed too.)
 //
 // The outer static/mode-grid wrapper (`.modes-grid`) stays in index.html;
 // this renders only the 4 section-label + section-grid pairs as its
@@ -187,10 +187,12 @@ const GROUPS: ModeCardGroup[] = [
 function ModeCardButton({ card }: { card: ModeCard }): ReactElement {
   return (
     <button
-      className={`mode-card mc-${card.cls ?? card.id} bg-[var(--mode-card-bg)] border-[var(--mode-card-border)] hover:border-[var(--mode-card-hover-border)] hover:bg-[var(--mode-card-hover-bg)] hover:shadow-[var(--mode-card-hover-shadow)]`}
+      className={`mode-card mc-${card.cls ?? card.id} border-[1.5px] rounded-[14px] pt-[14px] px-[6px] pb-[12px] cursor-pointer text-center flex flex-col items-center gap-[5px] font-['DM_Sans',sans-serif] [transition:border-color_0.16s,background_0.16s,box-shadow_0.16s,transform_0.12s] hover:-translate-y-0.5 active:translate-none active:scale-[0.96] bg-[var(--mode-card-bg)] border-[var(--mode-card-border)] hover:border-[var(--mode-card-hover-border)] hover:bg-[var(--mode-card-hover-bg)] hover:shadow-[var(--mode-card-hover-shadow)]`}
       id={`btn-${card.id}`}
     >
-      <span className="mode-icon">{card.icon}</span>
+      <span className="mode-icon w-[46px] h-[46px] rounded-full flex items-center justify-center text-2xl leading-none shrink-0 bg-[color-mix(in_srgb,var(--mi,var(--accent))_13%,transparent)]">
+        {card.icon}
+      </span>
       <span className="mode-name" data-i18n={card.nameKey}>
         {t(card.nameKey)}
       </span>

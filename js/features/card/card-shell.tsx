@@ -102,7 +102,10 @@ export function CardShell(): ReactElement {
   const speakBtnKnownCls = isKnown ? ' !text-[var(--known-c3)]' : '';
   return (
     <div className="[perspective:900px] mb-3.5">
-      <div className="card" id="card">
+      <div
+        className="card relative cursor-pointer select-none [transition:transform_0.45s_cubic-bezier(0.4,0,0.2,1),box-shadow_0.15s]"
+        id="card"
+      >
         <span className={SWIPE_HINT_RIGHT_CLASS} id="sh-right" data-i18n="cards.know">
           ✓ Знаю
         </span>
@@ -113,7 +116,7 @@ export function CardShell(): ReactElement {
           👁 Переклад
         </span>
         <div
-          className="card-face !border-solid !border-[length:var(--known-face-border-width)] !border-[var(--known-face-border)] ![background:var(--known-face-bg)] !shadow-[var(--known-face-shadow)] before:content-[var(--card-face-corner-content)] before:absolute before:left-2 before:top-2 before:z-[3] before:h-[18px] before:w-[18px] before:border-solid before:border-[rgba(var(--accent-rgb),0.6)] before:[border-width:2px_0_0_2px] before:[border-radius:2px_0_0_0] before:pointer-events-none after:content-[var(--card-face-corner-content)] after:absolute after:bottom-2 after:right-2 after:z-[3] after:h-[18px] after:w-[18px] after:border-solid after:border-[rgba(var(--accent-rgb),0.6)] after:[border-width:0_2px_2px_0] after:[border-radius:0_0_2px_0] after:pointer-events-none [animation-duration:.22s] [animation-timing-function:cubic-bezier(.25,.46,.45,.94)] [animation-fill-mode:both]"
+          className="card-face relative rounded-[16px] p-[18px] min-h-[200px] select-text !border-solid !border-[length:var(--known-face-border-width)] !border-[var(--known-face-border)] ![background:var(--known-face-bg)] !shadow-[var(--known-face-shadow)] before:content-[var(--card-face-corner-content)] before:absolute before:left-2 before:top-2 before:z-[3] before:h-[18px] before:w-[18px] before:border-solid before:border-[rgba(var(--accent-rgb),0.6)] before:[border-width:2px_0_0_2px] before:[border-radius:2px_0_0_0] before:pointer-events-none after:content-[var(--card-face-corner-content)] after:absolute after:bottom-2 after:right-2 after:z-[3] after:h-[18px] after:w-[18px] after:border-solid after:border-[rgba(var(--accent-rgb),0.6)] after:[border-width:0_2px_2px_0] after:[border-radius:0_0_2px_0] after:pointer-events-none [animation-duration:.22s] [animation-timing-function:cubic-bezier(.25,.46,.45,.94)] [animation-fill-mode:both]"
           id="card-front"
         >
           <div id="card-meta-mount">

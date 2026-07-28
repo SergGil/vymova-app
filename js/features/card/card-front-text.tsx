@@ -233,11 +233,14 @@ export function Transcription() {
       </div>
       {legend && legendOpen && (
         <InfoNote>
-          <div className="info-note-title">{t('cards.transcriptionInfo')}</div>
-          <ul className="info-note-list">
+          <div className="info-note-title font-bold text-[var(--text)] mb-1">
+            {t('cards.transcriptionInfo')}
+          </div>
+          <ul className="info-note-list m-0 pl-[1.1em]">
             {legend.map((row, i) => (
-              <li key={i}>
-                <b>{row.symbol}</b> — {row.desc}
+              <li key={i} className="my-0.5">
+                <b className="text-[var(--accent)] font-['DM_Sans',sans-serif]">{row.symbol}</b> —{' '}
+                {row.desc}
               </li>
             ))}
           </ul>
