@@ -30,9 +30,9 @@ const _p2 = (n: number): string => (n < 10 ? '0' + n : '' + n);
 
 const statsSectionCls = 'stats-section mb-[22px] [border-bottom:var(--stats-section-border)]';
 const statsSectionTitleCls =
-  'stats-section-title mb-2.5 text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))]';
+  'stats-section-title mb-2.5 text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] [@media(max-width:480px)]:!text-[0.82rem]';
 const statsSectionTitleClsNoMb =
-  'stats-section-title text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))]';
+  'stats-section-title text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] [@media(max-width:480px)]:!text-[0.82rem]';
 
 function getBlockColor(pct: number): string {
   if (pct >= 80) return 'var(--success)';
@@ -476,7 +476,7 @@ export function StatsPage(): ReactElement {
 
   return (
     <div
-      className="stats-panel m-auto max-h-[calc(100vh-32px)] w-full max-w-[560px] overflow-y-auto overflow-x-hidden rounded-[16px] bg-[var(--stats-panel-bg)] px-5 pb-6 pt-[22px] shadow-[var(--stats-panel-shadow)] [border:var(--stats-panel-border)]"
+      className="stats-panel m-auto max-h-[calc(100vh-32px)] w-full max-w-[560px] overflow-y-auto overflow-x-hidden rounded-[16px] bg-[var(--stats-panel-bg)] px-5 pb-6 pt-[22px] shadow-[var(--stats-panel-shadow)] [border:var(--stats-panel-border)] [@media(max-width:480px)]:![padding:16px_14px]"
       ref={panelRef}
     >
       {pulling && (
@@ -486,7 +486,7 @@ export function StatsPage(): ReactElement {
       )}
       <div className="stats-header mb-[18px] flex items-center justify-between">
         <div
-          className="stats-title text-[1.05rem] font-semibold text-[var(--stats-title-color)] [font-family:var(--stats-title-font)]"
+          className="stats-title text-[1.05rem] font-semibold text-[var(--stats-title-color)] [font-family:var(--stats-title-font)] [@media(max-width:480px)]:!text-[1rem]"
           data-i18n="stats.title"
         >
           {t('stats.title')}
@@ -508,31 +508,31 @@ export function StatsPage(): ReactElement {
         >
           {t('stats.overallProgress')}
         </div>
-        <div className="stats-summary grid grid-cols-4 gap-2.5">
-          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center">
+        <div className="stats-summary grid grid-cols-4 gap-2.5 [@media(max-width:480px)]:!grid-cols-2 [@media(max-width:480px)]:!gap-2">
+          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px]">
             <span className="stat-card-icon ic-accent mb-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--accent)_15%,transparent)] text-[0.86rem]">
               📖
             </span>
-            <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)]" id="st-known">
+            <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]" id="st-known">
               {knownCount}
             </div>
             <div className="sl mt-0.5 text-[0.7rem] text-text2" data-i18n="stats.wordsLearned">
               {t('stats.wordsLearned')}
             </div>
           </div>
-          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center">
+          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px]">
             <span className="stat-card-icon ic-success mb-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--success)_15%,transparent)] text-[0.86rem]">
               🎯
             </span>
-            <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)]" id="st-pct">
+            <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]" id="st-pct">
               {pctKnown}%
             </div>
             <div className="sl mt-0.5 text-[0.7rem] text-text2" data-i18n="stats.ofAllWords">
               {t('stats.ofAllWords')}
             </div>
           </div>
-          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center">
-            <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)]" id="st-streak">
+          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px]">
+            <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]" id="st-streak">
               {gd.streak || 0}
             </div>
             <div className="sl mt-0.5 text-[0.7rem] text-text2" data-i18n="stats.daysStreak">
@@ -544,8 +544,8 @@ export function StatsPage(): ReactElement {
               </div>
             )}
           </div>
-          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center">
-            <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)]" id="st-week">
+          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px]">
+            <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]" id="st-week">
               {weeklyTotal}
             </div>
             <div className="sl mt-0.5 text-[0.7rem] text-text2" data-i18n="stats.weekWordsLabel">

@@ -373,7 +373,7 @@ export function AchievementsPage(): ReactElement {
     <>
       <div style={{ marginBottom: 24 }}>
         <div
-          className="stats-section-title text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))]"
+          className="stats-section-title text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] [@media(max-width:480px)]:!text-[0.82rem]"
           style={{ marginBottom: 12 }}
           data-i18n="ach.roadmapTitle"
         >
@@ -383,7 +383,7 @@ export function AchievementsPage(): ReactElement {
       </div>
 
       <div
-        className="stats-section-title text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))]"
+        className="stats-section-title text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] [@media(max-width:480px)]:!text-[0.82rem]"
         style={{ marginBottom: 12 }}
         data-i18n="ach.awardsTitle"
       >

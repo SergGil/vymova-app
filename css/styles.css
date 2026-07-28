@@ -1284,16 +1284,19 @@ body.dark {
    .stats-section-title/.stats-summary/.stat-card (+ its icon/sv/sl
    children)/.chart-*, .blocks-list/.block-* moved to Tailwind utility
    classes in js/features/stats-page.tsx
-   (tailwind-shadcn-migration-roadmap.md Phase 2). Class names stay: all 14
-   fandom themes override .stats-panel/.stats-title/.stats-section-title/
-   .stats-section/.stat-card, and being unlayered legacy CSS they keep
-   winning over the new Tailwind utilities regardless of source order —
-   same guarantee used throughout this migration. The responsive
-   (max-width:480px / 641-900px) overrides and the slide-up/stat-card-enter
-   animations further down this file are untouched on purpose — they still
-   target these same kept class names, so they keep applying correctly on
-   top of the new base Tailwind classes without needing to be reproduced as
-   Tailwind breakpoint variants.
+   (tailwind-shadcn-migration-roadmap.md Phase 2). Class names stay only
+   as DOM hooks for compound selectors elsewhere (#stats-overlay.as-page
+   .stats-panel, .stats-panel.slide-up) — the "all 14 fandom themes
+   override these with unlayered bare CSS" claim this comment used to make
+   was checked exhaustively (all 14 theme files + scripts/theme-template.css)
+   and found stale: every theme "override" is a CSS custom-property token
+   (--stats-panel-bg etc.), never a literal bare-selector rule, so there was
+   never any masking risk here. The responsive (max-width:480px / 641-900px)
+   overrides and the slide-up/stat-card-enter animations further down this
+   file: the 480px ones are now converted to Tailwind too
+   (docs/full-css-tailwind-migration-roadmap.md Tier 2c, see the block's own
+   comment); the slide-up/stat-card-enter animation-shorthand rules are
+   deliberately deferred (Tier 2d).
 
    Found but not silently fixed: the chart period button background used
    to read var(--card-bg), a CSS custom property that is never defined
@@ -3773,24 +3776,6 @@ body.dark {
     padding: 14px 12px;
   }
 
-  /* Stats panel */
-  .stats-panel {
-    padding: 16px 14px;
-  }
-  .stats-title {
-    font-size: 1rem;
-  }
-  .stats-summary {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-  .stat-card {
-    padding: 10px 8px;
-  }
-  .sv {
-    font-size: 1.3rem;
-  }
-
   /* Page inner: compact */
   .page-inner {
     padding: 14px 14px;
@@ -4419,27 +4404,23 @@ body[data-theme="hp"] {
   }
 }
 
-/* ── C: Stats page mobile responsive ── */
+/* ── C: Stats page mobile responsive ──
+   .stats-summary/:last-child:nth-child(odd)/.stat-card .sv/
+   .stats-section-title/.mode-accuracy-list moved to Tailwind utility
+   classes (docs/full-css-tailwind-migration-roadmap.md Tier 2c).
+   :last-child:nth-child(odd) was confirmed dead: stats-page.tsx always
+   renders exactly 4 fixed .stat-card elements (no conditional add/remove),
+   so the 4th (last) is always even-numbered — the odd-count grid-column
+   span never had a reachable case. .mode-accuracy-list (no #) was also
+   dead — no element ever carried that class, only the #id counterpart —
+   and #mode-accuracy-list's own font-size was itself inert: every
+   descendant that renders text sets its own inline fontSize, so nothing
+   ever inherited the container's value. #heatmap-wrap stays bare (appears
+   in 2+ physical locations in this file, needs its own reconciliation). */
 @media (max-width: 480px) {
-  .stats-summary {
-    grid-template-columns: 1fr 1fr;
-  }
-  .stats-summary .stat-card:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-  }
-  .stat-card .sv {
-    font-size: 1.4rem;
-  }
   #heatmap-wrap {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-  }
-  .stats-section-title {
-    font-size: 0.82rem;
-  }
-  .mode-accuracy-list,
-  #mode-accuracy-list {
-    font-size: 0.8rem;
   }
 }
 
