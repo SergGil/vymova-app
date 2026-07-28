@@ -830,20 +830,27 @@ select:focus {
    :hover's box-shadow fully converted to Tailwind (docs/component-
    tailwind-conversion-roadmap.md, newly-found 14th cluster) —
    --btn-bg/-border-color/-color/-transition/-hover-bg/-hover-color/
-   -hover-shadow, plus the already-existing --btn-hover-border-fallback. */
-.btn {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 8px 16px;
-  border-radius: 10px;
-  border-width: 1px;
-  border-style: solid;
-  cursor: pointer;
-}
-.btn:active {
-  transform: scale(0.97);
-}
+   -hover-shadow, plus the already-existing --btn-hover-border-fallback.
+   font-family/font-size/font-weight/padding/border-radius/border-width/
+   border-style/cursor/:active's scale, plus all 3 touch-target
+   min-height breakpoints (≤480px/481-640px/641-900px, genuinely
+   non-overlapping so no important-vs-important race like .illus-box
+   needed), fully converted too now (docs/full-css-tailwind-migration-
+   roadmap.md Tier 2c) — same shared literal string appended in all 6
+   consuming files (card-shell.tsx/lesson.tsx's BTN_BASE constant,
+   font-size-control.tsx/quick-quiz.tsx/srs-cap-control.tsx/
+   stats-page.tsx's inline duplicates).
+   Converting :active's `transform: scale(0.97)` surfaced a real,
+   previously undetected regression in the 4 CTA buttons
+   (.btn-easy/.btn-know/.btn-hard/.btn-dontknow, Tier 2a): their own
+   hover:-translate-y-0.5 (Tailwind) writes to the standalone `translate`
+   property, which persists through :active and composes with this
+   rule's `transform:scale()` unless reset — the original bare CSS had
+   a single `transform` property where :active's rule (same specificity,
+   later in source) fully replaced :hover's value instead. Fixed by
+   adding `active:translate-none` to BTN_CTA_BASE (card-shell.tsx),
+   confirmed live: translate resets to none, transform settles to pure
+   scale(0.97), byte-identical to the original. */
 /* border-color/color/background (base+:hover) and :hover's box-shadow
    for .btn-know/.hard/.dontknow/.easy all fully converted to Tailwind via
    the `!` modifier (docs/component-tailwind-conversion-roadmap.md
@@ -2225,13 +2232,27 @@ body[data-theme] * {
    `[.actions-bar-mission_&]:` arbitrary variant in daily-mission-card.tsx
    instead of a prop, since it's the only consumer and always nested
    there.
-   .actions-bar .btn/.actions-bar-center .btn stay bare — both are
-   compound selectors reaching into .btn's own big, still-unconverted
-   base rule (shared by every .btn everywhere, already flagged elsewhere
-   in this file as prone to a masking bug once touched), so converting
-   them here would mean scattering `!`-important fixes across 9 button
-   render sites for a rule that really belongs with .btn's own future
-   conversion (already touched by 3 separate breakpoints on its own). */
+   .actions-bar .btn/.actions-bar-center .btn now fully converted too
+   (once .btn's own conversion landed, ACTIONS_BAR_BTN_ADD in
+   card-shell.tsx, applied to all 9 buttons living inside
+   .actions-bar-center including quick-quiz.tsx's). Converting this
+   uncovered a real regression from THIS SAME batch's earlier work:
+   .actions-bar .btn's flex-shrink:0 had been deleted with no Tailwind
+   replacement ever added, silently missing since v1.401.81 — fixed now
+   via shrink-0. The two breakpoint overrides (480px width vs. the
+   landscape max-height:500-and-max-width:900 combo) both needed `!` to
+   beat .btn's own (also Tailwind) values, and are written as mutually
+   exclusive via a min-height:501px qualifier on the 480px padding tier
+   rather than trusting !important-vs-!important precedence between two
+   unrelated custom variants (confirmed unreliable, same lesson as
+   .illus-box). One accepted narrow behavior change: btn-shuf/btn-search/
+   the quick-quiz button's own inline font-size was never actually
+   overridden by the original non-`!important` bare CSS at ≤480px (inline
+   style beats any non-important external rule) — marking it `!` here
+   (unavoidable, confirmed live that non-`!` identical-breakpoint
+   Tailwind classes don't reliably resolve by source order) makes it
+   live for the first time, a barely-visible 14px→11px change for
+   single-emoji buttons at one breakpoint. */
 
 /* border-color/color (base) and background (:hover) fully converted to
    Tailwind via the `!` modifier (docs/component-tailwind-conversion-
@@ -3700,19 +3721,6 @@ body.dark {
     max-width: 100%;
   }
 
-  /* Touch targets: minimum 44px */
-  .btn {
-    min-height: 44px;
-    padding: 10px 12px;
-    font-size: 12px;
-  }
-  .btn-know,
-  .btn-hard,
-  .btn-dontknow,
-  .btn-easy {
-    min-height: 48px !important;
-    font-size: 0.95rem !important;
-  }
   .speak-btn {
     padding: 6px 8px;
     font-size: 16px;
@@ -3738,13 +3746,6 @@ body.dark {
   }
   .gb-streak-num {
     font-size: 1.5rem;
-  }
-
-  /* .actions-bar-center .btn stays bare, see the base rule's comment. */
-  .actions-bar-center .btn {
-    min-height: 40px;
-    padding: 8px 10px;
-    font-size: 11px;
   }
 
   /* Font size row: smaller */
@@ -3876,10 +3877,6 @@ body.dark {
     font-size: 1.6rem;
   }
 
-  /* Touch targets */
-  .btn {
-    min-height: 40px;
-  }
   .speak-btn {
     min-width: 32px;
     min-height: 32px;
@@ -3889,11 +3886,6 @@ body.dark {
 
 /* ── Tablet 641–900px ───────────────────────────────────────── */
 @media (min-width: 641px) and (max-width: 900px) {
-  /* Slightly larger touch targets */
-  .btn {
-    min-height: 38px;
-  }
-
   /* Modal width consistency */
   .import-panel {
     max-width: 420px;
@@ -3941,9 +3933,6 @@ body.dark {
      the component. Confirmed live at 3 viewports (normal, both
      conditions met, only one condition met) before removing this. */
   /* Action bar: compact */
-  .actions-bar-center .btn {
-    padding: 7px 10px;
-  }
   .btn-know,
   .btn-hard,
   .btn-dontknow,
@@ -3964,6 +3953,19 @@ body.dark {
   }
 
   /* Remove hover states (they get stuck on touch) */
+  /* .btn:hover deliberately stays bare (docs/full-css-tailwind-migration-
+     roadmap.md Tier 2c) — unlike .btn's own base conversion, this one
+     can't use a single shared `!`-important reset class: different .btn
+     variants have inconsistent importance on their own hover background/
+     border-color already (plain .btn's hover is a non-important Tailwind
+     class from BTN_BASE, but .btn-modes-open/CTA buttons already mark
+     their OWN hover overrides `!important` for the same properties) — a
+     uniform reset would reliably beat some variants and unreliably race
+     others (same class of problem this whole tier avoids elsewhere).
+     Low practical impact (only visible on touch devices where :hover
+     gets stuck after a tap, a Safari/mobile quirk that's also hard to
+     simulate faithfully in headless Playwright), same reasoning as the
+     adjacent .gr-nav-btn:hover's permanent exclusion. */
   .btn:hover {
     background: initial;
     border-color: initial;

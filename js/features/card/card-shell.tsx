@@ -83,7 +83,7 @@ function AutoButtonLabel(): ReactElement {
 // all), so they rely on these plain ones for the rest, same as before this
 // conversion when they relied on .btn's bare CSS for the same properties.
 const BTN_BASE =
-  'bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)]';
+  "bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)] font-['DM_Sans',sans-serif] text-[13px] font-medium py-2 px-4 rounded-[10px] border cursor-pointer active:scale-[0.97] [@media(max-width:480px)]:min-h-[44px] [@media(max-width:480px)]:py-[10px] [@media(max-width:480px)]:px-[12px] [@media(max-width:480px)]:text-[12px] [@media(min-width:481px)_and_(max-width:640px)]:min-h-[40px] [@media(min-width:641px)_and_(max-width:900px)]:min-h-[38px]";
 
 // Shared layout for the 4 rating CTA buttons (.btn-easy/.btn-know/.btn-hard/
 // .btn-dontknow), docs/full-css-tailwind-migration-roadmap.md Tier 2a.
@@ -91,15 +91,56 @@ const BTN_BASE =
 // because .btn's own bare rule sets all four unconditionally too, and a
 // plain Tailwind utility would stay masked by that bare CSS (see the CSS
 // comment above these selectors' now-mostly-deleted rule). The :active
-// rule (translateY(0) scale(0.97) + box-shadow:none) is deliberately not
-// reproduced here — verified live that it's fully redundant/already
-// masked, see the same CSS comment.
+// rule's own scale(0.97) is deliberately not reproduced here — verified
+// live that .btn:active's own bare/Tailwind rule already gives the exact
+// same scale (docs/full-css-tailwind-migration-roadmap.md Tier 2c).
+// active:translate-none IS needed, though (fixed in Tier 2c, Batch "Tier
+// 2c to completion" — a real regression this Tier 2a conversion
+// introduced without catching it at the time): hover:-translate-y-0.5
+// writes to the standalone `translate` property, which persists through
+// :active and composes with .btn:active's `transform:scale()` unless
+// explicitly reset, whereas the original single-`transform`-property
+// bare CSS had :active fully replace :hover's value (same specificity,
+// later in source). Same fix shape as mode-card-grid.tsx's identical bug.
+// The 480px min-height/font-size need `!` too (Tier 2c) — beats both
+// .btn's own (now Tailwind) 480px override AND these buttons' own
+// inline `style={{fontSize:'1.05rem',...}}` (an external `!important`
+// rule always wins over inline style, same reasoning as .illus-box's
+// img — this is the one case in this project where that actually
+// matters for the rendered result, not just a benign no-op).
 const BTN_CTA_BASE =
-  'inline-flex items-center justify-center !font-semibold !border-[1.5px] !rounded-[12px] ![transition:all_0.15s,transform_0.15s_ease,box-shadow_0.15s_ease] hover:-translate-y-0.5';
+  'inline-flex items-center justify-center !font-semibold !border-[1.5px] !rounded-[12px] ![transition:all_0.15s,transform_0.15s_ease,box-shadow_0.15s_ease] hover:-translate-y-0.5 active:translate-none [@media(max-width:480px)]:!min-h-[48px] [@media(max-width:480px)]:!text-[0.95rem]';
 
 // .kbd-hint kbd's own box/typography (docs/full-css-tailwind-migration-
 // roadmap.md Tier 2c) — shared across all 7 <kbd> tags below.
 const KBD_CLASS = 'bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit] text-[10px] text-[var(--text2)]';
+
+// .actions-bar .btn (flex-shrink:0) + .actions-bar-center .btn's two
+// still-bare breakpoint overrides, applied to the 9 .btn-family buttons
+// inside .actions-bar-center (docs/full-css-tailwind-migration-roadmap.md
+// Tier 2c). shrink-0 fixes a real regression from the earlier .actions-bar
+// batch: that batch deleted .actions-bar .btn's bare CSS but never added
+// a replacement class, silently dropping flex-shrink:0 from all 9 buttons
+// since v1.401.81 — caught only now while finishing .btn's own conversion.
+// min-height/font-size need `!` to beat .btn's own (also Tailwind) 480px
+// classes on the same element — confirmed live that two non-`!` Tailwind
+// classes for the identical arbitrary breakpoint do NOT reliably resolve
+// by source order (tested both orderings, same winner both times), only
+// generation order, which this project treats as unreliable throughout.
+// The two padding tiers (480px vs. the landscape max-height:500-and-
+// max-width:900 breakpoint) are written as mutually exclusved via a
+// `min-height:501px` qualifier on the 480px one, rather than trusting
+// !important-vs-!important precedence between them — same shape as
+// .illus-box's 480px/360px split. One accepted, narrow behavior change:
+// btn-shuf/btn-search's own inline `style={{fontSize:'14px'}}` was never
+// actually overridden by the original (non-`!important`) bare CSS at
+// ≤480px, since inline style beats any non-important external rule
+// regardless of layer — marking font-size `!` here (unavoidable per the
+// race confirmed above) means those two buttons now show 11px instead of
+// 14px at that one breakpoint, a barely-visible difference for
+// single-emoji buttons.
+const ACTIONS_BAR_BTN_ADD =
+  'shrink-0 [@media(max-width:480px)]:!min-h-[40px] [@media(max-width:480px)]:!text-[11px] [@media(max-width:480px)_and_(min-height:501px)]:!py-[8px] [@media(max-width:480px)_and_(min-height:501px)]:!px-[10px] [@media(max-height:500px)_and_(max-width:900px)]:!py-[7px] [@media(max-height:500px)_and_(max-width:900px)]:!px-[10px]';
 
 export function CardShell(): ReactElement {
   const isKnown = useIsCardKnown();
@@ -254,7 +295,7 @@ export function CardShell(): ReactElement {
       <div className="actions-bar grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-2.5 mb-1.5 [@media(max-width:480px)]:flex [@media(max-width:480px)]:flex-col">
         <div className="actions-bar-center col-start-2 flex gap-1.5 items-center flex-wrap justify-center [@media(max-width:480px)]:gap-[5px]">
           <button
-            className={'btn ' + BTN_BASE}
+            className={'btn ' + BTN_BASE + ' ' + ACTIONS_BAR_BTN_ADD}
             id="btn-prev"
             title="Попередня картка"
             data-i18n-title="cards.prevTitle"
@@ -265,7 +306,8 @@ export function CardShell(): ReactElement {
             className={
               'btn btn-auto ' +
               BTN_BASE +
-              ' !border-[var(--btn-auto-color)] !text-[var(--btn-auto-color)] hover:!text-[var(--btn-auto-hover-color)] hover:!border-[var(--btn-hover-border-fallback)]'
+              ' !border-[var(--btn-auto-color)] !text-[var(--btn-auto-color)] hover:!text-[var(--btn-auto-hover-color)] hover:!border-[var(--btn-hover-border-fallback)] ' +
+              ACTIONS_BAR_BTN_ADD
             }
             id="btn-auto"
             title="Авто-режим"
@@ -274,7 +316,7 @@ export function CardShell(): ReactElement {
             <AutoButtonLabel />
           </button>
           <button
-            className={'btn ' + BTN_BASE}
+            className={'btn ' + BTN_BASE + ' ' + ACTIONS_BAR_BTN_ADD}
             id="btn-shuf"
             title="Перемішати"
             data-i18n-title="cards.shuffleTitle"
@@ -283,7 +325,7 @@ export function CardShell(): ReactElement {
             🔀
           </button>
           <button
-            className={'btn ' + BTN_BASE}
+            className={'btn ' + BTN_BASE + ' ' + ACTIONS_BAR_BTN_ADD}
             id="btn-search"
             title="Пошук по словнику (Ctrl+F)"
             data-i18n-title="cards.searchTitle"
@@ -292,7 +334,7 @@ export function CardShell(): ReactElement {
             🔍
           </button>
           <button
-            className={'btn ' + BTN_BASE}
+            className={'btn ' + BTN_BASE + ' ' + ACTIONS_BAR_BTN_ADD}
             id="btn-stats"
             title="Статистика"
             data-i18n-title="cards.statsTitle"
@@ -302,7 +344,8 @@ export function CardShell(): ReactElement {
             className={
               'btn btn-achievements ' +
               BTN_BASE +
-              ' !text-[var(--btn-achievements-color)] !border-[var(--btn-achievements-color)] shadow-[var(--btn-achievements-shadow)] hover:!text-[var(--btn-achievements-hover-color)] hover:!border-[var(--btn-hover-border-fallback)]'
+              ' !text-[var(--btn-achievements-color)] !border-[var(--btn-achievements-color)] shadow-[var(--btn-achievements-shadow)] hover:!text-[var(--btn-achievements-hover-color)] hover:!border-[var(--btn-hover-border-fallback)] ' +
+              ACTIONS_BAR_BTN_ADD
             }
             id="btn-achievements"
             title="Досягнення"
@@ -313,7 +356,8 @@ export function CardShell(): ReactElement {
             className={
               'btn btn-modes-open ' +
               BTN_BASE +
-              ' !border-[var(--btn-modes-open-color)] !text-[var(--btn-modes-open-color)] hover:!bg-[var(--btn-modes-open-hover-bg)] hover:!text-[var(--btn-modes-open-hover-color)] hover:!border-[var(--btn-hover-border-fallback)]'
+              ' !border-[var(--btn-modes-open-color)] !text-[var(--btn-modes-open-color)] hover:!bg-[var(--btn-modes-open-hover-bg)] hover:!text-[var(--btn-modes-open-hover-color)] hover:!border-[var(--btn-hover-border-fallback)] ' +
+              ACTIONS_BAR_BTN_ADD
             }
             id="btn-modes-open"
             title="Режими навчання"
@@ -324,7 +368,7 @@ export function CardShell(): ReactElement {
             <QuickQuizButton />
           </div>
           <button
-            className={'btn ' + BTN_BASE}
+            className={'btn ' + BTN_BASE + ' ' + ACTIONS_BAR_BTN_ADD}
             id="btn-next"
             title="Наступна картка"
             data-i18n-title="cards.nextTitle"
