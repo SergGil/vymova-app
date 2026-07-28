@@ -1860,18 +1860,14 @@ body.dark {
 
 /* .opt-num's own box/typography moved to Tailwind utility classes in the
    11 consuming files (no fandom-theme or body.dark overrides existed for
-   it). This compound parent-state selector stays as CSS — it hides the
-   badge only when the option is showing a correct/wrong/reveal state,
-   awkward to express any other way without threading a new prop through
-   11 files just for this. */
-.quiz-option.correct .opt-num,
-.quiz-option.wrong .opt-num,
-.quiz-option.reveal .opt-num,
-.tempo-opt.correct .opt-num,
-.tempo-opt.wrong .opt-num,
-.tempo-opt.reveal .opt-num {
-  display: none;
-}
+   it). The 6-way compound parent-state selector that used to hide the
+   badge on correct/wrong/reveal is gone too (docs/full-css-tailwind-
+   migration-roadmap.md Tier 2a, final item) — the parent .quiz-option/
+   .tempo-opt buttons already carry a literal `correct`/`wrong`/`reveal`
+   token alongside their `!`-important Tailwind overrides, so adding
+   `group` to the parent and `group-[.correct]:hidden group-[.wrong]:
+   hidden group-[.reveal]:hidden` to .opt-num reproduces the exact same
+   behavior without threading a new prop through all 11 files. */
 
 /* .srs-next base layout + its new/ok/soon/today/over color/background
    variants moved to Tailwind utility classes baked directly into the

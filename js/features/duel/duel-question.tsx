@@ -181,7 +181,7 @@ export function DuelQuestion(): ReactElement {
               disabled={d.answered}
               onClick={() => _onOptionClick(opt.text)}
             >
-              <span className="opt-num inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)]">{opt.num}</span> {opt.text}
+              <span className="opt-num inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.wrong]:hidden group-[.reveal]:hidden">{opt.num}</span> {opt.text}
             </button>
           ))}
         </div>

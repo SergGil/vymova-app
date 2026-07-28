@@ -521,7 +521,7 @@ export function TempoPage(): ReactElement {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
             {question.options.map((opt, i) => {
               let cls =
-                "tempo-opt w-full cursor-pointer rounded-[12px] border-2 border-[var(--border)] bg-[var(--card)] px-4 py-[13px] text-left font-['DM_Sans',sans-serif] text-[.92rem] font-medium text-[var(--text)] transition-[border-color,background] duration-[120ms] disabled:cursor-default";
+                "tempo-opt group w-full cursor-pointer rounded-[12px] border-2 border-[var(--border)] bg-[var(--card)] px-4 py-[13px] text-left font-['DM_Sans',sans-serif] text-[.92rem] font-medium text-[var(--text)] transition-[border-color,background] duration-[120ms] disabled:cursor-default";
               if (question.selected) {
                 if (opt === question.selected) {
                   cls +=
@@ -540,7 +540,7 @@ export function TempoPage(): ReactElement {
                   disabled={!!question.selected}
                   onClick={() => selectOption(opt)}
                 >
-                  <span className="opt-num inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)]">{i + 1}</span> {opt}
+                  <span className="opt-num inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.wrong]:hidden group-[.reveal]:hidden">{i + 1}</span> {opt}
                 </button>
               );
             })}

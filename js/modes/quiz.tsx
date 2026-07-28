@@ -429,7 +429,7 @@ export function QuizPage(): ReactElement | null {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 7, flexShrink: 0 }}>
             {qData.opts.map((opt, i) => {
               let cls =
-                "quiz-option relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 not-disabled:hover:border-[var(--quiz-option-hover-border)] not-disabled:hover:bg-[var(--quiz-option-hover-bg)] disabled:cursor-default";
+                "quiz-option group relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 not-disabled:hover:border-[var(--quiz-option-hover-border)] not-disabled:hover:bg-[var(--quiz-option-hover-bg)] disabled:cursor-default";
               if (answered) {
                 if (opt === chosen && opt === qData.answer) cls += ' correct !border-[var(--quiz-correct-border)] !bg-[var(--quiz-correct-bg)] !text-[var(--quiz-correct-color)] font-semibold';
                 else if (opt === chosen) cls += ' wrong !border-[var(--quiz-wrong-border)] !bg-[var(--quiz-wrong-bg)] !text-[var(--quiz-wrong-color)]';
@@ -442,7 +442,7 @@ export function QuizPage(): ReactElement | null {
                   disabled={answered}
                   onClick={() => checkAnswer(opt)}
                 >
-                  <span className="opt-num inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)]">{i + 1}</span>{' '}
+                  <span className="opt-num inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.wrong]:hidden group-[.reveal]:hidden">{i + 1}</span>{' '}
                   {answered && opt === chosen ? (opt === qData.answer ? '✓ ' : '✗ ') : ''}
                   {opt}
                 </button>
