@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Validate rules JSON
         run: node -e "JSON.parse(require('fs').readFileSync('database.rules.json', 'utf8'))"
