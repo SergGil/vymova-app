@@ -287,7 +287,9 @@ export function CatPairsPage(): ReactElement | null {
                       (isSelected(item.id, 'en')
                         ? ' selected border-[var(--pair-btn-selected-border)] bg-[var(--pair-btn-selected-bg)]'
                         : '') +
-                      (isWrong(item.id, 'en') ? ' wrong !border-[var(--pair-wrong-border)]' : '') +
+                      (isWrong(item.id, 'en')
+                        ? ' wrong !border-[var(--pair-wrong-border)] animate-[pairShake_0.38s_ease]'
+                        : '') +
                       (!matched.has(item.id) && !isWrong(item.id, 'en')
                         ? ' hover:border-[var(--pair-btn-hover-border)] hover:bg-[var(--pair-btn-hover-bg)]'
                         : '')
@@ -310,7 +312,9 @@ export function CatPairsPage(): ReactElement | null {
                       (isSelected(item.id, 'ua')
                         ? ' selected border-[var(--pair-btn-selected-border)] bg-[var(--pair-btn-selected-bg)]'
                         : '') +
-                      (isWrong(item.id, 'ua') ? ' wrong !border-[var(--pair-wrong-border)]' : '') +
+                      (isWrong(item.id, 'ua')
+                        ? ' wrong !border-[var(--pair-wrong-border)] animate-[pairShake_0.38s_ease]'
+                        : '') +
                       (!matched.has(item.id) && !isWrong(item.id, 'ua')
                         ? ' hover:border-[var(--pair-btn-hover-border)] hover:bg-[var(--pair-btn-hover-bg)]'
                         : '')

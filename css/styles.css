@@ -708,9 +708,20 @@ select:focus {
   color: var(--accent);
   background: #ebf3ee;
 }
+/* color stays bare CSS (compound .speak-btn.on selector, ~10 render sites
+   across 6 files — out of proportion to convert just for one color
+   property). animation shorthand moved to Tailwind: the shared imperative
+   'on'-toggle helpers (pronunciation.ts/speech.ts/voice.tsx) now add/remove
+   a PULSE_ON_CLASSES pair (['on', 'animate-[...]']) instead of just 'on'
+   (docs/full-css-tailwind-migration-roadmap.md Tier 2d) — safe to split
+   from color since nothing else touches `animation` on .speak-btn, so
+   there's no masking risk between the bare and Tailwind halves of this
+   rule. Same animation value/@keyframes as .accent-btn.on below (both
+   0.7s ease-in-out infinite alternate pulse-flash), so one shared class
+   pair works for either base class regardless of which button the
+   imperative helper was given. */
 .speak-btn.on {
   color: var(--accent);
-  animation: pulse-flash 0.7s ease-in-out infinite alternate;
 }
 /* Set by speakForCode() when no native voice exists and it falls back to
    reading a Latin-script transliteration via an English voice, so learners
@@ -720,10 +731,13 @@ select:focus {
   text-underline-offset: 3px;
 }
 
-.shake {
-  animation: shakeX 0.38s ease;
-  border-color: #e74c3c !important;
-}
+/* .shake moved to Tailwind utility classes in goal-modal.tsx
+   (docs/full-css-tailwind-migration-roadmap.md Tier 2d — the @keyframes
+   itself stays CSS, only the animation shorthand + border-color move).
+   border-color needed `!` there too, same as here: the input's own
+   inline style={{border:'1.5px solid var(--border)'}} would otherwise
+   keep winning (external !important beats inline style; non-important
+   external CSS/Tailwind does not). */
 @keyframes shakeX {
   0%,
   100% {
@@ -775,11 +789,13 @@ select:focus {
   background: rgba(var(--accent-rgb, 45, 90, 61), 0.22);
   border-color: var(--accent);
 }
+/* background/color/border-color stay bare CSS, same "wide blast radius,
+   not worth it for a couple properties" reasoning as .speak-btn.on above.
+   animation shorthand moved to the same shared PULSE_ON_CLASSES pair. */
 .accent-btn.on {
   background: var(--accent);
   color: #fff;
   border-color: var(--accent);
-  animation: pulse-flash 0.7s ease-in-out infinite alternate;
 }
 /* .info-icon-btn (base+:hover+.active) and .info-note/.info-note-title/
    .info-note-list/li/b fully converted to Tailwind (docs/full-css-
@@ -1699,12 +1715,14 @@ body.dark {
 /* .roleplay-* (and the shared .ai-tutor-* classes reused here) moved to
    Tailwind utility classes in voice-roleplay.tsx (no fandom-theme or
    body.dark overrides existed for any of them). .roleplay-mic-btn.listening
-   stays: it drives the @keyframes pulse-flash animation, which can't become
-   a Tailwind utility. */
-.roleplay-mic-btn.listening {
-  background: #e74c3c;
-  animation: pulse-flash 1.2s infinite;
-}
+   fully converted too (docs/full-css-tailwind-migration-roadmap.md Tier
+   2d) — single render site, so background moved alongside the animation
+   shorthand (unlike .speak-btn.on/.accent-btn.on above, where the same
+   split was judged not worth it given ~10 render sites each). Different
+   animation value than .speak-btn.on/.accent-btn.on's shared pulse-flash
+   (1.2s, no ease-in-out/alternate, single infinite loop) — its own
+   dedicated animate-[] class in voice-roleplay.tsx's listening-state
+   className, not the shared PULSE_ON_CLASSES pair. */
 /* Shared by .speak-btn.on/.accent-btn.on/.roleplay-mic-btn.listening above.
    Named pulse-flash (not the generic "pulse") because a second, differently-
    timed @keyframes pulse used to exist earlier in this file (opacity 0.5->1
@@ -1941,11 +1959,12 @@ body.dark {
    token stay: pronunciation.ts/speech.ts/voice.tsx's shared speak-button
    pulse helpers imperatively classList.add('on') on whatever button
    element they're given (the same mechanism .speak-btn.on/.accent-btn.on
-   already relied on), and .listen-play-btn.on's animation reference
-   can't become a Tailwind utility anyway. */
-.listen-play-btn.on {
-  animation: listenPulse 0.7s ease-in-out infinite alternate;
-}
+   already relied on). .listen-play-btn.on's animation shorthand now moved
+   to Tailwind too (docs/full-css-tailwind-migration-roadmap.md Tier 2d) —
+   the shared helpers now branch on btn.classList.contains('listen-play-btn')
+   to pick listenPulse vs pulse-flash, since the two share the same 'on'
+   toggle mechanism but need different animations (the same compound-
+   selector indirection the original bare CSS handled implicitly). */
 @keyframes listenPulse {
   from {
     transform: scale(1);
@@ -2153,11 +2172,11 @@ body.dark {
    tailwind-conversion-roadmap.md Batch 6) — .pair-btn's own base border/
    background/color are already Tailwind classes (Batch 4), so a plain
    override isn't guaranteed to win regardless of class generation order.
-   cursor/animation aren't theme-touched, moved to plain Tailwind classes
-   alongside the new ones. */
-.pair-btn.wrong {
-  animation: pairShake 0.38s ease;
-}
+   .wrong's animation shorthand moved to Tailwind too, alongside its
+   border-color (docs/full-css-tailwind-migration-roadmap.md Tier 2d) —
+   the @keyframes itself stays CSS. WRONG_CLASSES (pairs.tsx's imperative
+   classList array) and catpairs.tsx's two conditional className strings
+   both updated the same way. */
 @keyframes pairShake {
   0%,
   100% {

@@ -473,7 +473,7 @@ export function VoiceRoleplayPage(): ReactElement | null {
                 className={
                   'roleplay-mic-btn cursor-pointer rounded-[24px] border-none px-7 py-3 font-[\'DM_Sans\',sans-serif] text-[.92rem] font-bold text-white' +
                   (listening
-                    ? ' listening'
+                    ? ' listening bg-[#e74c3c] animate-[pulse-flash_1.2s_infinite]'
                     : ' bg-[var(--accent)]')
                 }
                 onClick={listening ? stopListening : startListening}

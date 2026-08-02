@@ -12,6 +12,28 @@ const SR: SpeechRecognitionCtor | null = _w.SpeechRecognition ?? _w.webkitSpeech
 let _rec: SpeechRecognition | null = null;
 let _isListening = false;
 
+// .speak-btn.on/.accent-btn.on/.listen-play-btn.on all toggle the same bare
+// 'on' token through this shared helper (whatever button element they're
+// given), but .listen-play-btn.on's @keyframes (listenPulse) differs from
+// the other two's shared pulse-flash — branch on the button's own
+// pre-existing base class, the same way the original compound CSS selectors
+// did implicitly (docs/full-css-tailwind-migration-roadmap.md Tier 2d).
+function addPulseOn(btn: HTMLElement): void {
+  btn.classList.add(
+    'on',
+    btn.classList.contains('listen-play-btn')
+      ? 'animate-[listenPulse_0.7s_ease-in-out_infinite_alternate]'
+      : 'animate-[pulse-flash_0.7s_ease-in-out_infinite_alternate]',
+  );
+}
+function removePulseOn(btn: HTMLElement): void {
+  btn.classList.remove(
+    'on',
+    'animate-[pulse-flash_0.7s_ease-in-out_infinite_alternate]',
+    'animate-[listenPulse_0.7s_ease-in-out_infinite_alternate]',
+  );
+}
+
 export function isPronuncSupported(): boolean {
   return !!SR;
 }
@@ -44,7 +66,7 @@ function _similarity(a: string, b: string): number {
 function _stop(btn: HTMLElement | null): void {
   _isListening = false;
   if (btn) {
-    btn.classList.remove('on');
+    removePulseOn(btn);
     btn.textContent = '🎤';
   }
   if (_rec) {
@@ -74,7 +96,7 @@ export function startPronunciationCheck(
   _rec.interimResults = false;
   _rec.maxAlternatives = 3;
   if (btn) {
-    btn.classList.add('on');
+    addPulseOn(btn);
     btn.textContent = '🔴';
   }
   _isListening = true;

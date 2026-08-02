@@ -101,7 +101,9 @@ describe('goal-modal.tsx GoalModal', () => {
       saveBtn.click();
     });
 
-    expect((container.querySelector('input') as HTMLInputElement).className).toBe('shake');
+    expect((container.querySelector('input') as HTMLInputElement).className).toBe(
+      'shake animate-[shakeX_0.38s_ease] !border-[#e74c3c]',
+    );
     expect(container.querySelector('input')).not.toBeNull();
     expect(renderGameBar).not.toHaveBeenCalled();
   });

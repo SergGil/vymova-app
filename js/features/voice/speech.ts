@@ -3,6 +3,28 @@
 import { synth, hasSpeech } from '../../core/srs.ts';
 import { getSelectedUkVoice, getSelectedEsVoice, speakPreferredEnVoice } from './voice.tsx';
 
+// .speak-btn.on/.accent-btn.on/.listen-play-btn.on all toggle the same bare
+// 'on' token through this shared helper (whatever button element they're
+// given), but .listen-play-btn.on's @keyframes (listenPulse) differs from
+// the other two's shared pulse-flash — branch on the button's own
+// pre-existing base class, the same way the original compound CSS selectors
+// did implicitly (docs/full-css-tailwind-migration-roadmap.md Tier 2d).
+function addPulseOn(btn: HTMLElement): void {
+  btn.classList.add(
+    'on',
+    btn.classList.contains('listen-play-btn')
+      ? 'animate-[listenPulse_0.7s_ease-in-out_infinite_alternate]'
+      : 'animate-[pulse-flash_0.7s_ease-in-out_infinite_alternate]',
+  );
+}
+function removePulseOn(btn: HTMLElement): void {
+  btn.classList.remove(
+    'on',
+    'animate-[pulse-flash_0.7s_ease-in-out_infinite_alternate]',
+    'animate-[listenPulse_0.7s_ease-in-out_infinite_alternate]',
+  );
+}
+
 function getVoice(): SpeechSynthesisVoice | null {
   const v = synth.getVoices();
   return (
@@ -45,9 +67,9 @@ export function _speakWithLang(text: string, lang: string, btn: HTMLElement | nu
   }
   if (match) u.voice = match;
   if (btn) {
-    btn.classList.add('on');
-    u.onend = () => btn.classList.remove('on');
-    u.onerror = () => btn.classList.remove('on');
+    addPulseOn(btn);
+    u.onend = () => removePulseOn(btn);
+    u.onerror = () => removePulseOn(btn);
   }
   synth.speak(u);
 }

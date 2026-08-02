@@ -100,7 +100,7 @@ export function GoalModal(): ReactElement | null {
             if (e.key === 'Enter') save();
             if (e.key === 'Escape') setOpen(false);
           }}
-          className={shake ? 'shake' : ''}
+          className={shake ? 'shake animate-[shakeX_0.38s_ease] !border-[#e74c3c]' : ''}
           style={{
             width: '100%',
             padding: 10,

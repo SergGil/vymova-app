@@ -124,7 +124,11 @@ export function PairsMode(): ReactElement | null {
         '!bg-[var(--pair-matched-bg)]',
         '!text-[var(--pair-matched-color)]',
       ];
-      const WRONG_CLASSES = ['wrong', '!border-[var(--pair-wrong-border)]'];
+      const WRONG_CLASSES = [
+        'wrong',
+        '!border-[var(--pair-wrong-border)]',
+        'animate-[pairShake_0.38s_ease]',
+      ];
       if (!pSel) {
         pSel = { el: btn, id: item.id, side };
         btn.classList.add(...SELECTED_CLASSES);
