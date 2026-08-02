@@ -50,7 +50,7 @@ export function GameBar(): ReactElement {
       <div
         className={
           GB_BLOCK_BASE +
-          ' gb-goal-block [background:var(--gb-block-bg)] border-[var(--gb-goal-block-border)] shadow-[var(--gb-block-shadow)]' +
+          ' gb-goal-block [background:var(--gb-block-bg)] border-[var(--gb-goal-block-border)] flex-[1.3] text-center shadow-[0_0_12px_rgba(0,200,255,0.06),inset_0_0_20px_rgba(0,0,0,0.3)]' +
           GB_BLOCK_AFTER
         }
       >
