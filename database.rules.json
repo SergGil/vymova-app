@@ -1,17 +1,15 @@
 {
   "rules": {
     "sync": {
-      ".read": true,
-      ".write": true,
       "$syncKey": {
+        ".read": true,
+        ".write": true,
         "$field": {
           ".validate": "newData.isString() && newData.val().length <= 800000"
         }
       }
     },
     "duel_rooms": {
-      ".read": true,
-      ".write": true,
       "$roomId": {
         ".read": true,
         ".write": true,
@@ -86,25 +84,34 @@
             "freeze": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 1) && (!data.exists() || newData.val() <= data.val())" }
           },
           "lastSeen": { ".validate": "newData.isNumber()" }
-        }
+        },
+
+        "spectators": {
+          "$specId": {
+            "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40" },
+            "avatar": { ".validate": "newData.isString() && newData.val().length <= 20" },
+            "$other": { ".validate": false }
+          }
+        },
+
+        "$other": { ".validate": false }
       }
     },
     "leaderboard": {
       ".read": true,
-      ".write": true,
       ".indexOn": ["xp"],
       "$uid": {
-        "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40" },
-        "avatar": { ".validate": "newData.isString() && newData.val().length <= 20" },
+        ".write": true,
+        "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40 && (!data.exists() || newData.val() == data.val())" },
+        "avatar": { ".validate": "newData.isString() && newData.val().length <= 20 && (!data.exists() || newData.val() == data.val())" },
         "known": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 20000" },
         "streak": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 3650" },
         "xp": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 2000000" },
-        "updatedAt": { ".validate": "newData.isNumber() && newData.val() <= now + 60000" }
+        "updatedAt": { ".validate": "newData.isNumber() && newData.val() <= now + 60000" },
+        "$other": { ".validate": false }
       }
     },
     "tournaments": {
-      ".read": true,
-      ".write": true,
       "$tournamentId": {
         ".read": true,
         ".write": true,
@@ -156,12 +163,12 @@
               "roomId": { ".validate": "newData.isString() && newData.val().length <= 20" }
             }
           }
-        }
+        },
+
+        "$other": { ".validate": false }
       }
     },
     "duel_async": {
-      ".read": true,
-      ".write": true,
       "$code": {
         ".read": true,
         ".write": true,
@@ -189,7 +196,9 @@
         "opponent": {
           "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40 && (!data.exists() || newData.val() == data.val())" },
           "avatar": { ".validate": "newData.isString() && newData.val().length <= 20 && (!data.exists() || newData.val() == data.val())" }
-        }
+        },
+
+        "$other": { ".validate": false }
       }
     }
   }

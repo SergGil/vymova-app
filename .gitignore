@@ -4,6 +4,8 @@ dist/
 coverage/
 .DS_Store
 *.local
+.env
+.env.*
 W_backup.json
 *.backup.*
 data/wordlist.txt
