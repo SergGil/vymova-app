@@ -1,0 +1,46 @@
+name: E2E WebKit Smoke
+
+# Cross-browser spot-check: pages-smoke.spec.ts only (breadth over every
+# sidebar page), on WebKit instead of e2e.yml's Chromium. Weekly, not on
+# every push — this is a compatibility check for Safari users, not a merge
+# gate, so it doesn't need the full duel/tournament/realtime suite or
+# push-triggered latency.
+on:
+  schedule:
+    - cron: '0 6 * * 1' # every Monday, 06:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-webkit-smoke
+  cancel-in-progress: true
+
+jobs:
+  webkit-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright WebKit
+        run: npx playwright install --with-deps webkit
+
+      - name: Run pages-smoke on WebKit
+        run: npx playwright test --project=webkit-smoke --reporter=list
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-webkit
+          path: playwright-report/
+          retention-days: 7

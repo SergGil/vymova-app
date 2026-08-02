@@ -18,6 +18,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck worker
+        run: npx tsc --noEmit -p worker/tsconfig.json
+
+      - name: Lint worker
+        run: npx eslint worker/src
+
+      - name: Run worker tests
+        run: npx vitest run tests/worker
+
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:

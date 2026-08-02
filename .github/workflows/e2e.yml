@@ -70,7 +70,7 @@ jobs:
         # timeouts that don't reproduce when each spec runs alone. Serial is
         # slower but reliable; these are heavy integration tests, not fast
         # unit tests, so that trade is the right one here.
-        run: npx playwright test --reporter=list,html --workers=1
+        run: npx playwright test --project=chromium --reporter=list,html --workers=1
 
       - name: Upload Playwright report
         if: always()

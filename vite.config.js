@@ -244,6 +244,20 @@ export default defineConfig(({ command }) => ({
       reporter: ['text', 'html'],
       include: ['js/core/**', 'js/features/**', 'js/modes/**', 'src/**', 'data/**', 'worker/src/**'],
       exclude: ['src/global.d.ts', 'src/main.ts', 'src/types.ts'],
+      // Repo-wide floor, not a per-file gate (per-file would fail loudly on
+      // any new thin file rather than the actual regression this guards
+      // against — a real drop in aggregate coverage). Set a few points below
+      // the actual baseline at introduction (statements 66.71%, branches
+      // 59.22%, functions 62.03%, lines 70%, all measured on this same
+      // `include` scope) so normal fluctuation doesn't flip CI red, while
+      // still catching a genuine regression. `npm run test:coverage` isn't
+      // wired into any CI workflow yet — this only takes effect once it is.
+      thresholds: {
+        statements: 64,
+        branches: 57,
+        functions: 60,
+        lines: 68,
+      },
     },
   },
 }));

@@ -483,6 +483,7 @@ async function handleChat(
 }
 
 let _warnedMissingOrigin = false;
+let _warnedMissingApiKey = false;
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -500,6 +501,23 @@ export default {
         console.error(
           '[vymova-ai-proxy] ALLOWED_ORIGIN is not configured — refusing all requests. ' +
             'Set it in wrangler.toml (see worker/README.md step 2).',
+        );
+      }
+      return new Response('Service misconfigured', { status: 500 });
+    }
+    // Same fail-closed reasoning as ALLOWED_ORIGIN above. Without this check,
+    // a missing GEMINI_API_KEY secret (e.g. `wrangler secret put` never run —
+    // see worker/README.md step 1) wasn't caught here at all: every /chat
+    // request would still pass full validation and rate-limit checks, then
+    // make a real network round-trip to Gemini with `key=` empty in the URL,
+    // which Gemini rejects — surfacing to the caller as an ambiguous 502
+    // upstream_error instead of a clear "this deploy isn't configured yet".
+    if (!env.GEMINI_API_KEY) {
+      if (!_warnedMissingApiKey) {
+        _warnedMissingApiKey = true;
+        console.error(
+          '[vymova-ai-proxy] GEMINI_API_KEY is not configured — refusing all requests. ' +
+            'Set it via `wrangler secret put GEMINI_API_KEY` (see worker/README.md step 1).',
         );
       }
       return new Response('Service misconfigured', { status: 500 });

@@ -37,6 +37,23 @@ jobs:
       - name: Validate rules JSON
         run: node -e "JSON.parse(require('fs').readFileSync('database.rules.json', 'utf8'))"
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Rules regression tests
+        # JSON.parse above only catches syntax errors — this catches the
+        # actual regression class this workflow used to allow through
+        # unguarded: a collection-root ".write": true that lets anyone wipe
+        # or bulk-overwrite an entire collection (see tests/build/
+        # database-rules.test.ts and docs/legacy-modernization-roadmap.md §5a).
+        run: npx vitest run tests/build/database-rules.test.ts
+
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:

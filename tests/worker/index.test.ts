@@ -260,6 +260,20 @@ describe('default export fetch()', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
+  it('fails closed (500) when GEMINI_API_KEY is not configured, without calling Gemini', async () => {
+    const noKeyEnv = { GEMINI_API_KEY: '', ALLOWED_ORIGIN: ORIGIN } as Env;
+    const res = await worker.fetch(
+      chatRequest({
+        mode: 'tutor',
+        lang: { know: 'ua', learn: 'es' },
+        messages: [{ role: 'user', text: 'hi' }],
+      }),
+      noKeyEnv,
+    );
+    expect(res.status).toBe(500);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it('answers OPTIONS with CORS headers and no body', async () => {
     const res = await worker.fetch(
       new Request('https://worker.test/chat', { method: 'OPTIONS' }),

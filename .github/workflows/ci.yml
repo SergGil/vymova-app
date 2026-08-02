@@ -1,0 +1,58 @@
+name: CI
+
+# Gates pull requests before merge — deploy.yml runs the same typecheck/
+# lint/test/build steps too, but only *after* a push lands on main, so a
+# broken PR could merge and only fail loudly post-merge. This is the
+# pre-merge counterpart; it never deploys anything.
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Typecheck worker
+        run: npx tsc --noEmit -p worker/tsconfig.json
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Run tests with coverage
+        # Unlike deploy.yml's plain `vitest run` (post-merge, just needs
+        # tests to pass), this is the actual enforcement point for
+        # vite.config.js's coverage.thresholds — a PR that drops aggregate
+        # coverage below the floor fails here, before it can merge.
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: npx vitest run --coverage --maxWorkers=2
+
+      - name: Build
+        env:
+          VITE_AI_PROXY_URL: ${{ vars.VITE_AI_PROXY_URL }}
+          VITE_FIREBASE_CONFIG: ${{ vars.VITE_FIREBASE_CONFIG }}
+          VITE_FIREBASE_APPCHECK_SITE_KEY: ${{ vars.VITE_FIREBASE_APPCHECK_SITE_KEY }}
+        run: npm run build

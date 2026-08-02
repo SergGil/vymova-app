@@ -8,6 +8,20 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:5183',
   },
+  projects: [
+    // Default: everything runs on Chromium, same as before `projects` was
+    // introduced here — e2e.yml's `--workers=1` full run stays on this one.
+    { name: 'chromium', use: { browserName: 'chromium' } },
+    // A thin cross-browser smoke check, WebKit-only, scoped to the one spec
+    // that already covers breadth (every sidebar page) rather than depth —
+    // run on a schedule (.github/workflows/e2e-webkit-smoke.yml), not on
+    // every push, since it's a compatibility spot-check, not a merge gate.
+    {
+      name: 'webkit-smoke',
+      use: { browserName: 'webkit' },
+      testMatch: /pages-smoke\.spec\.ts/,
+    },
+  ],
   webServer: [
     {
       command: 'npx vite --port 5183 --strictPort',
