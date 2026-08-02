@@ -68,7 +68,7 @@ export function SwUpdateBanner(): ReactElement | null {
       </div>
       <button
         id="sw-update-reload"
-        className="bg-[#4ecca3] text-[#1a1a2e] border-0 rounded-lg py-2 px-3.5 font-bold text-[0.83rem] cursor-pointer whitespace-nowrap"
+        className="bg-[#4ecca3] text-[#1a1a2e] border-0 rounded-md py-2 px-3.5 font-bold text-[0.83rem] cursor-pointer whitespace-nowrap"
         onClick={() => void onReload()}
       >
         {t('sw.reloadBtn')}

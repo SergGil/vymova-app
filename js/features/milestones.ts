@@ -15,9 +15,9 @@ import { getKnownInLang } from './mode/mode-utils.ts';
 // three times, which only needed to drift out of sync once to silently
 // break the toast's animation.
 export const MILESTONE_TOAST_HIDDEN_CLASS =
-  'fixed left-1/2 top-1/2 z-[9998] -translate-x-1/2 -translate-y-1/2 bg-[var(--card)] border-[1.5px] border-[var(--accent)] rounded-xl py-3.5 px-[22px] text-[0.9rem] font-semibold text-[var(--text)] pointer-events-none whitespace-nowrap shadow-[0_8px_28px_rgba(0,0,0,0.35)] transition-[transform,opacity] duration-300 scale-[0.92] opacity-0';
+  'fixed left-1/2 top-1/2 z-[9998] -translate-x-1/2 -translate-y-1/2 bg-[var(--card)] border-[1.5px] border-[var(--accent)] rounded-[12px] py-3.5 px-[22px] text-[0.9rem] font-semibold text-[var(--text)] pointer-events-none whitespace-nowrap shadow-[0_8px_28px_rgba(0,0,0,0.35)] transition-[transform,opacity] duration-300 scale-[0.92] opacity-0';
 export const MILESTONE_TOAST_SHOW_CLASS =
-  'fixed left-1/2 top-1/2 z-[9998] -translate-x-1/2 -translate-y-1/2 bg-[var(--card)] border-[1.5px] border-[var(--accent)] rounded-xl py-3.5 px-[22px] text-[0.9rem] font-semibold text-[var(--text)] pointer-events-none whitespace-nowrap shadow-[0_8px_28px_rgba(0,0,0,0.35)] transition-[transform,opacity] duration-300 scale-100 opacity-100';
+  'fixed left-1/2 top-1/2 z-[9998] -translate-x-1/2 -translate-y-1/2 bg-[var(--card)] border-[1.5px] border-[var(--accent)] rounded-[12px] py-3.5 px-[22px] text-[0.9rem] font-semibold text-[var(--text)] pointer-events-none whitespace-nowrap shadow-[0_8px_28px_rgba(0,0,0,0.35)] transition-[transform,opacity] duration-300 scale-100 opacity-100';
 
 // Per-learn-language, same pattern as game.ts's _achKey() — 'ew_milestones'
 // for the base en/ua pair, 'ew_milestones_<lang>' for every target language.

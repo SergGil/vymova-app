@@ -248,7 +248,7 @@ export function CatPairsPage(): ReactElement | null {
               return (
                 <button
                   key={cat}
-                  className="cat-select-btn py-2.5 px-2 rounded-xl border-[1.5px] border-[var(--border)] text-[var(--text)] text-[0.82rem] cursor-pointer text-center leading-[1.4] transition-[border-color,background] duration-[120ms] hover:border-[var(--accent)] bg-[var(--card)] hover:bg-[var(--cat-select-hover-bg)]"
+                  className="cat-select-btn py-2.5 px-2 rounded-[12px] border-[1.5px] border-[var(--border)] text-[var(--text)] text-[0.82rem] cursor-pointer text-center leading-[1.4] transition-[border-color,background] duration-[120ms] hover:border-[var(--accent)] bg-[var(--card)] hover:bg-[var(--cat-select-hover-bg)]"
                   disabled={disabled}
                   style={disabled ? { opacity: 0.4 } : undefined}
                   onClick={() => {
@@ -261,7 +261,7 @@ export function CatPairsPage(): ReactElement | null {
               );
             })}
             <button
-              className="cat-select-btn py-2.5 px-2 rounded-xl border-[1.5px] border-[var(--border)] text-[var(--text)] text-[0.82rem] cursor-pointer text-center leading-[1.4] transition-[border-color,background] duration-[120ms] hover:border-[var(--accent)] bg-[var(--card)] hover:bg-[var(--cat-select-hover-bg)]"
+              className="cat-select-btn py-2.5 px-2 rounded-[12px] border-[1.5px] border-[var(--border)] text-[var(--text)] text-[0.82rem] cursor-pointer text-center leading-[1.4] transition-[border-color,background] duration-[120ms] hover:border-[var(--accent)] bg-[var(--card)] hover:bg-[var(--cat-select-hover-bg)]"
               onClick={() => startGame(RANDOM_KEY, getRandomWords())}
               dangerouslySetInnerHTML={{
                 __html: `${t('catpairs.random')}<span class="cat-count">${t('catpairs.randomDesc')}</span>`,
@@ -280,7 +280,7 @@ export function CatPairsPage(): ReactElement | null {
                   <button
                     key={'en' + item.id}
                     className={
-                      "pair-btn [font-family:'DM_Sans',sans-serif] text-[0.85rem] leading-[1.3] py-2.5 px-2 min-h-[52px] rounded-xl cursor-pointer flex items-center justify-center text-center [word-break:break-word] transition-[border-color,background] duration-[120ms] border-2 border-[var(--border)] bg-[var(--card)] text-[var(--text)]" +
+                      "pair-btn [font-family:'DM_Sans',sans-serif] text-[0.85rem] leading-[1.3] py-2.5 px-2 min-h-[52px] rounded-[12px] cursor-pointer flex items-center justify-center text-center [word-break:break-word] transition-[border-color,background] duration-[120ms] border-2 border-[var(--border)] bg-[var(--card)] text-[var(--text)]" +
                       (matched.has(item.id)
                         ? ' matched !border-[var(--pair-matched-border)] !bg-[var(--pair-matched-bg)] !text-[var(--pair-matched-color)]'
                         : '') +
@@ -305,7 +305,7 @@ export function CatPairsPage(): ReactElement | null {
                   <button
                     key={'ua' + item.id}
                     className={
-                      "pair-btn [font-family:'DM_Sans',sans-serif] text-[0.85rem] leading-[1.3] py-2.5 px-2 min-h-[52px] rounded-xl cursor-pointer flex items-center justify-center text-center [word-break:break-word] transition-[border-color,background] duration-[120ms] border-2 border-[var(--border)] bg-[var(--card)] text-[var(--text)]" +
+                      "pair-btn [font-family:'DM_Sans',sans-serif] text-[0.85rem] leading-[1.3] py-2.5 px-2 min-h-[52px] rounded-[12px] cursor-pointer flex items-center justify-center text-center [word-break:break-word] transition-[border-color,background] duration-[120ms] border-2 border-[var(--border)] bg-[var(--card)] text-[var(--text)]" +
                       (matched.has(item.id)
                         ? ' matched !border-[var(--pair-matched-border)] !bg-[var(--pair-matched-bg)] !text-[var(--pair-matched-color)]'
                         : '') +

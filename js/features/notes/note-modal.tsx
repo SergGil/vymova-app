@@ -71,7 +71,7 @@ export function NoteModal(): ReactElement | null {
             {t('note.title')}: {word}
           </div>
           <button
-            className="page-close-btn bg-transparent border-0 text-[1.2rem] cursor-pointer text-[var(--text3)] py-1 px-2 rounded-lg transition-all duration-[120ms] hover:bg-[var(--bg)] hover:text-[var(--text)]"
+            className="page-close-btn bg-transparent border-0 text-[1.2rem] cursor-pointer text-[var(--text3)] py-1 px-2 rounded-md transition-all duration-[120ms] hover:bg-[var(--bg)] hover:text-[var(--text)]"
             onClick={close}
             aria-label={t('common.close')}
           >
@@ -95,7 +95,7 @@ export function NoteModal(): ReactElement | null {
         <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
           <button
             id="note-delete-btn"
-            className="flex-1 p-[11px] rounded-xl [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-[1.5px] border-[var(--border)] bg-[var(--bg)] text-[var(--text2)] hover:border-[var(--text2)] hover:text-[var(--text)]"
+            className="flex-1 p-[11px] rounded-[12px] [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-[1.5px] border-[var(--border)] bg-[var(--bg)] text-[var(--text2)] hover:border-[var(--text2)] hover:text-[var(--text)]"
             style={{ flex: '0 0 auto' }}
             onClick={del}
           >
@@ -103,7 +103,7 @@ export function NoteModal(): ReactElement | null {
           </button>
           <button
             id="note-save-btn"
-            className="flex-1 p-[11px] rounded-xl [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-0 text-white hover:bg-[#c0392b]"
+            className="flex-1 p-[11px] rounded-[12px] [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-0 text-white hover:bg-[#c0392b]"
             style={{ background: 'var(--accent)' }}
             onClick={close}
           >

@@ -71,7 +71,7 @@ export function SettingsPage(): ReactElement {
               {t('settings.darkTheme')}
             </span>
             <span
-              className="sb-toggle-pill relative h-[18px] w-[34px] shrink-0 rounded-xl bg-[var(--border)] [transition:background_0.2s] after:absolute after:left-0.5 after:top-0.5 after:h-[14px] after:w-[14px] after:rounded-full after:bg-white after:shadow-[0_1px_3px_rgba(0,0,0,0.2)] after:content-[''] after:[transition:translate_0.2s] [&.on]:bg-[var(--accent)] [&.on]:after:translate-x-4"
+              className="sb-toggle-pill relative h-[18px] w-[34px] shrink-0 rounded-[12px] bg-[var(--border)] [transition:background_0.2s] after:absolute after:left-0.5 after:top-0.5 after:h-[14px] after:w-[14px] after:rounded-full after:bg-white after:shadow-[0_1px_3px_rgba(0,0,0,0.2)] after:content-[''] after:[transition:translate_0.2s] [&.on]:bg-[var(--accent)] [&.on]:after:translate-x-4"
               id="set-theme-pill"
             />
           </div>
@@ -240,7 +240,7 @@ export function SettingsPage(): ReactElement {
       </div>
 
       <div className="settings-footer mt-1 mb-2 text-center text-[.72rem] text-[var(--text3)]">
-        © 2026 Vymova · v1.401.102 ·{' '}
+        © 2026 Vymova · v1.401.103 ·{' '}
         <a
           href="./privacy.html"
           target="_blank"

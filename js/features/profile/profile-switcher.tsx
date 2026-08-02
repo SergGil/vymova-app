@@ -375,7 +375,7 @@ export function ProfileSwitcher(): ReactElement {
       <div className="sb-profile-row mb-1 flex items-center gap-1.5">
         <button
           id="sb-profile-btn"
-          className="flex flex-1 items-center gap-2 w-full py-[9px] px-[11px] border-[1.5px] rounded-xl bg-[var(--bg)] text-[var(--text)] [font-family:inherit] text-[0.82rem] font-semibold cursor-pointer text-left transition-all duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)] border-[var(--sidebar-profile-btn-border)]"
+          className="flex flex-1 items-center gap-2 w-full py-[9px] px-[11px] border-[1.5px] rounded-[12px] bg-[var(--bg)] text-[var(--text)] [font-family:inherit] text-[0.82rem] font-semibold cursor-pointer text-left transition-all duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)] border-[var(--sidebar-profile-btn-border)]"
           onClick={toggleDropdown}
         >
           <span id="sb-profile-av" className="sb-av inline-flex text-[1.2rem] leading-none">
@@ -706,14 +706,14 @@ export function ProfileSwitcher(): ReactElement {
               <div className="flex gap-2.5">
                 <button
                   id="prf-delete-cancel"
-                  className="flex-1 p-[11px] rounded-xl [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-[1.5px] border-[var(--border)] bg-[var(--bg)] text-[var(--text2)] hover:border-[var(--text2)] hover:text-[var(--text)]"
+                  className="flex-1 p-[11px] rounded-[12px] [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-[1.5px] border-[var(--border)] bg-[var(--bg)] text-[var(--text2)] hover:border-[var(--text2)] hover:text-[var(--text)]"
                   onClick={() => setDeleteTarget(null)}
                 >
                   {t('modal.cancelAlt')}
                 </button>
                 <button
                   id="prf-delete-confirm"
-                  className="flex-1 p-[11px] rounded-xl [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-0 text-white hover:bg-[#c0392b] bg-[var(--prf-delete-btn-confirm-bg)]"
+                  className="flex-1 p-[11px] rounded-[12px] [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-0 text-white hover:bg-[#c0392b] bg-[var(--prf-delete-btn-confirm-bg)]"
                   onClick={confirmDelete}
                 >
                   Видалити
