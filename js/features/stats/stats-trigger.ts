@@ -57,9 +57,17 @@ export function openStats(): void {
     overlay.style.display = 'flex';
     const panel = overlay.querySelector<HTMLElement>('.stats-panel');
     if (panel) {
-      panel.classList.remove('slide-up');
+      // .stats-panel.slide-up's animation shorthand moved to Tailwind
+      // (docs/full-css-tailwind-migration-roadmap.md Tier 2d); @keyframes
+      // slideUpPanel stays CSS. No `!` needed — nothing else sets
+      // `animation` on .stats-panel.
+      const SLIDE_UP_CLASSES = [
+        'slide-up',
+        'animate-[slideUpPanel_0.32s_cubic-bezier(0.34,1.26,0.64,1)_both]',
+      ];
+      panel.classList.remove(...SLIDE_UP_CLASSES);
       void panel.offsetWidth;
-      panel.classList.add('slide-up');
+      panel.classList.add(...SLIDE_UP_CLASSES);
     }
   }
 }

@@ -572,7 +572,10 @@ export function QuizPage(): ReactElement | null {
       }
     >
       <div
-        className="quiz-panel bg-[var(--quiz-panel-bg)] [border:var(--quiz-panel-border)] shadow-[var(--quiz-panel-shadow)]"
+        className={
+          'quiz-panel bg-[var(--quiz-panel-bg)] [border:var(--quiz-panel-border)] shadow-[var(--quiz-panel-shadow)]' +
+          (isOpen ? ' animate-[slideUpPanel_0.3s_cubic-bezier(0.34,1.26,0.64,1)_both]' : '')
+        }
         id="quiz-panel"
       >
         {isOpen && renderContent()}

@@ -49,7 +49,7 @@ const sectionTitleCls = 'text-[0.9rem] font-bold mb-1.5 text-[var(--section-titl
 
 export function SettingsPage(): ReactElement {
   return (
-    <div className="page-inner border-l-[var(--page-inner-border)] mx-auto max-w-[760px] px-6 pt-5 pb-8">
+    <div className="page-inner border-l-[var(--page-inner-border)] mx-auto max-w-[760px] px-6 pt-5 pb-8 [.page-overlay.open_&]:animate-[slideUpPanel_0.28s_cubic-bezier(0.34,1.26,0.64,1)_backwards]">
       <PageHeader titleKey="settings.pageTitle" />
 
       {/* Теми / зовнішній вигляд */}
@@ -237,7 +237,7 @@ export function SettingsPage(): ReactElement {
       </div>
 
       <div className="settings-footer mt-1 mb-2 text-center text-[.72rem] text-[var(--text3)]">
-        © 2026 Vymova · v1.401.92 ·{' '}
+        © 2026 Vymova · v1.401.93 ·{' '}
         <a
           href="./privacy.html"
           target="_blank"

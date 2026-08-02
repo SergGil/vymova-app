@@ -53,7 +53,7 @@ export function ModesOverlayShell(): ReactElement | null {
   if (typeof document === 'undefined') return null;
   return createPortal(
     <div id="modes-overlay" className="modes-overlay" onClick={onBackdropClick}>
-      <div className="modes-panel bg-[var(--modes-panel-bg)] shadow-[var(--modes-panel-shadow)] [border:var(--modes-panel-border)]">
+      <div className="modes-panel bg-[var(--modes-panel-bg)] shadow-[var(--modes-panel-shadow)] [border:var(--modes-panel-border)] [.modes-overlay.open_&]:animate-[slideUpSheet_0.32s_cubic-bezier(0.34,1.26,0.64,1)_both]">
         <div className="modes-panel-handle" />
         <div className="modes-header">
           <span data-i18n="modesPg.header">{t('modesPg.header')}</span>

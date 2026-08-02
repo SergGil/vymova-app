@@ -65,7 +65,7 @@ export function NoteModal(): ReactElement | null {
         if (e.target === e.currentTarget) close();
       }}
     >
-      <div className="note-panel w-full max-w-[460px] rounded-2xl px-5 py-6 shadow-[0_12px_48px_rgba(0,0,0,.3)] bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)]">
+      <div className="note-panel w-full max-w-[460px] rounded-2xl px-5 py-6 shadow-[0_12px_48px_rgba(0,0,0,.3)] bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] animate-[slideUpPanel_0.2s_cubic-bezier(0.175,0.885,0.32,1.275)]">
         <div className="note-header mb-2.5 flex items-center justify-between">
           <div className="note-title text-[.95rem] font-bold text-[var(--text)]" id="note-word-title">
             {t('note.title')}: {word}

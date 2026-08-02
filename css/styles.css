@@ -2301,6 +2301,15 @@ body[data-theme] * {
 /* ── Modes panel (bottom sheet style) ── background/border/box-shadow
    fully converted to Tailwind (docs/component-tailwind-conversion-
    roadmap.md Batch 2). */
+/* .modes-panel's own animation (0.25s cubic-bezier(0.175,0.885,0.32,
+   1.275)) confirmed dead code and dropped (docs/full-css-tailwind-
+   migration-roadmap.md Tier 2d): .modes-overlay starts display:none, so
+   .modes-panel is only ever visible when .modes-overlay.open — and
+   .modes-overlay.open .modes-panel (specificity 0-2-0) always beats the
+   plain .modes-panel rule (0-1-0) whenever both could apply. Confirmed
+   live: toggling .open and reading getComputedStyle(.modes-panel)
+   .animationName always showed "slideUpSheet" (the .open variant's
+   keyframe), never "slideUpPanel". */
 .modes-panel {
   border-radius: 20px 20px 16px 16px;
   width: 100%;
@@ -2308,7 +2317,6 @@ body[data-theme] * {
   max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  animation: slideUpPanel 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex;
   flex-direction: column;
 }
@@ -3430,11 +3438,15 @@ body.dark {
    .note-textarea's border fully converted (docs/component-tailwind-
    conversion-roadmap.md). .note-panel's background/border fully converted
    (Batch 7 cluster 13, final) — reuses --delete-panel-bg/-border, the
-   same AUX25 pair as .prf-delete-panel/.import-panel. animation stays bare
-   (keyframes can't become a Tailwind utility). */
-.note-panel {
-  animation: slideUpPanel 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
+   same AUX25 pair as .prf-delete-panel/.import-panel. animation shorthand
+   moved to Tailwind too (docs/full-css-tailwind-migration-roadmap.md
+   Tier 2d) — unconditional class, no ancestor/state indirection needed:
+   .note-panel's whole modal is conditionally MOUNTED in React (word ===
+   null returns null), not toggled via a class on an always-present
+   element, so the animation just runs fresh on every real mount. Not
+   part of the prefers-reduced-motion reset group elsewhere in this file
+   (.note-panel was never included in it, even before this conversion).
+   @keyframes slideUpPanel stays CSS. */
 /* .srs-forecast/.srs-fc-bars/.srs-fc-col/.srs-fc-bar-wrap/.srs-fc-cnt/
    .srs-fc-lbl moved to Tailwind utility classes in stats-page.tsx
    (tailwind-shadcn-migration-roadmap.md Phase 2). The srs-fc-bar and
@@ -4327,27 +4339,36 @@ body[data-theme="hp"] {
     transform: translateY(0);
   }
 }
-#quiz-overlay.open .quiz-panel,
-#aq-overlay.open .quiz-panel,
-#tempo-overlay.open #tempo-panel {
-  animation: slideUpPanel 0.3s cubic-bezier(0.34, 1.26, 0.64, 1) both;
-}
-.modes-overlay.open .modes-panel {
-  animation: slideUpSheet 0.32s cubic-bezier(0.34, 1.26, 0.64, 1) both;
-}
-.stats-panel.slide-up {
-  animation: slideUpPanel 0.32s cubic-bezier(0.34, 1.26, 0.64, 1) both;
-}
-.page-overlay.open .page-inner {
-  /* backwards (not both/forwards): the "to" keyframe (translateY(0) scale(1))
-     is visually identical to no transform at all, but a lingering non-none
-     transform after the animation ends turns .page-inner into a containing
-     block for position:fixed descendants (e.g. .duel-chat-panel's fixed
-     right-side layout at >=1400px) — anchoring them to this 560px dialog
-     instead of the viewport. Dropping forwards lets transform revert to
-     none once the animation completes. */
-  animation: slideUpPanel 0.28s cubic-bezier(0.34, 1.26, 0.64, 1) backwards;
-}
+/* #quiz-overlay.open .quiz-panel/#aq-overlay.open .quiz-panel/
+   #tempo-overlay.open #tempo-panel and .modes-overlay.open .modes-panel's
+   animation shorthands moved to Tailwind (docs/full-css-tailwind-
+   migration-roadmap.md Tier 2d): quiz.tsx's own .quiz-panel uses a direct
+   isOpen conditional (React state already available there);
+   quiz-overlay-shell.tsx's SHARED .quiz-panel template (used by all 19+
+   entries, only #aq-overlay of which gets this animation per the
+   original selector) and index.html's static #tempo-panel both use the
+   ancestor-scoped arbitrary variant ([#id.open_&]:) established earlier
+   in this migration for class-based ancestors ([.sb-group.open_&]: etc.)
+   — same mechanism, ID selector instead of a class. @keyframes
+   slideUpPanel/slideUpSheet stay CSS; the reduced-motion reset below
+   still matches all of these by their unchanged id/class tokens. */
+/* .stats-panel.slide-up's animation shorthand moved to Tailwind, toggled
+   imperatively in stats-trigger.ts (docs/full-css-tailwind-migration-
+   roadmap.md Tier 2d); @keyframes slideUpPanel stays CSS. */
+/* .page-overlay.open .page-inner's animation shorthand moved to Tailwind
+   (docs/full-css-tailwind-migration-roadmap.md Tier 2d) — the same
+   ancestor-scoped arbitrary variant ([.page-overlay.open_&]:) added to
+   all 15 .page-inner render sites (13 static divs in index.html + the 2
+   React ones, daily-challenge.tsx/settings-page.tsx). @keyframes
+   slideUpPanel stays CSS.
+
+   backwards (not both/forwards) preserved exactly: the "to" keyframe
+   (translateY(0) scale(1)) is visually identical to no transform at all,
+   but a lingering non-none transform after the animation ends turns
+   .page-inner into a containing block for position:fixed descendants
+   (e.g. .duel-chat-panel's fixed right-side layout at >=1400px) —
+   anchoring them to this 560px dialog instead of the viewport. Dropping
+   forwards lets transform revert to none once the animation completes. */
 @media (prefers-reduced-motion: reduce) {
   #quiz-overlay.open .quiz-panel,
   #aq-overlay.open .quiz-panel,
