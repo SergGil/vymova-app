@@ -86,7 +86,7 @@ export function GameBar(): ReactElement {
       <div
         className={
           GB_BLOCK_BASE +
-          ' gb-level-block [background:var(--gb-block-bg)] border-[var(--gb-level-block-border)] shadow-[var(--gb-level-block-shadow)]' +
+          ' gb-level-block [background:var(--gb-block-bg)] border-[var(--gb-level-block-border)] shadow-[var(--gb-level-block-shadow)] flex-[1.5] flex flex-col justify-center' +
           GB_BLOCK_AFTER
         }
         id="level-box"

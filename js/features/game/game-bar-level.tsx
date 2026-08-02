@@ -54,19 +54,28 @@ export function GameBarLevel(): ReactElement {
         >
           {t('levels.mobileLabel')}
         </span>
-        <span className="gb-level-arrow text-[var(--gb-level-arrow-color)]">→</span>
-        <span className="gb-level-next text-[var(--gb-level-next-color)]">{nextText}</span>
-        <span className="gb-level-num" style={{ color: lv.color }}>
+        <span className="gb-level-arrow text-[var(--gb-level-arrow-color)] text-[0.62rem] shrink-0 [@media(max-width:480px)]:!hidden">
+          →
+        </span>
+        <span className="gb-level-next text-[var(--gb-level-next-color)] text-[0.7rem] whitespace-nowrap overflow-hidden text-ellipsis flex-1 min-w-0 [@media(max-width:480px)]:!hidden">
+          {nextText}
+        </span>
+        <span
+          className="gb-level-num inline-flex items-center justify-center w-5 h-5 rounded-full border-2 border-current text-[0.65rem] font-extrabold shrink-0 opacity-70 ml-auto leading-none [@media(max-width:480px)]:!hidden"
+          style={{ color: lv.color }}
+        >
           {lvIdx}
         </span>
       </div>
-      <div className="gb-level-track overflow-hidden rounded-sm bg-[var(--gb-level-track-bg)]">
+      <div className="gb-level-track overflow-hidden rounded-sm bg-[var(--gb-level-track-bg)] h-[6px] [@media(max-width:480px)]:!h-[5px] [@media(max-width:480px)]:!my-1">
         <div
           className="gb-level-fill h-full rounded-sm [background:var(--fill-glow-bg,linear-gradient(90deg,#5dade2,#27ae60))] shadow-[var(--gb-level-fill-shadow)] [transition:width_.5s_ease]"
           style={{ width: fillPct + '%', background: fillBg }}
         />
       </div>
-      <div className="gb-level-xp text-[var(--gb-level-xp-color)]">{xpText}</div>
+      <div className="gb-level-xp text-[var(--gb-level-xp-color)] text-[0.62rem] font-['DM_Sans',sans-serif] text-right mt-0.5 [@media(max-width:480px)]:!text-[0.68rem] [@media(max-width:480px)]:!text-[var(--text2)] [@media(max-width:480px)]:!text-left [@media(max-width:480px)]:mt-[3px]">
+        {xpText}
+      </div>
     </div>
   );
 }
