@@ -1997,12 +1997,9 @@ body.dark {
    audit follow-up). Every other own property (position/typography/
    padding/opacity/transform/transition) moved too, in combo-toast.tsx
    (docs/full-css-tailwind-migration-roadmap.md Batch 6) — "show" stays
-   as a literal token (React-state-driven), since .show's animation
-   below still references the @keyframes cToastOut, which can't become a
-   Tailwind utility. */
-.combo-toast.show {
-  animation: cToastOut 0.3s ease 1.3s forwards;
-}
+   as a literal token (React-state-driven). Its animation shorthand now
+   moved to Tailwind too (docs/full-css-tailwind-migration-roadmap.md
+   Tier 2d); @keyframes cToastOut itself stays CSS. */
 @keyframes cToastOut {
   to {
     opacity: 0;
@@ -2012,13 +2009,11 @@ body.dark {
 
 /* ── Mode complete toast ── */
 /* .mode-complete-toast's box/typography, and .mct-icon/.mct-today's, moved
-   to Tailwind utility classes in mode-complete-toast.tsx. .show's slide-out
-   still needs @keyframes (can't be a utility), so the class stays for just
-   that; the slide-in (bottom + transition) is expressed as a Tailwind
-   conditional className instead. */
-.mode-complete-toast.show {
-  animation: mctOut 0.4s ease 2.2s forwards;
-}
+   to Tailwind utility classes in mode-complete-toast.tsx; the slide-in
+   (bottom + transition) is expressed as a Tailwind conditional className.
+   .show's slide-out animation shorthand also moved to Tailwind
+   (docs/full-css-tailwind-migration-roadmap.md Tier 2d); @keyframes
+   mctOut itself stays CSS. */
 @keyframes mctOut {
   to {
     bottom: -80px;
@@ -2073,12 +2068,11 @@ body.dark {
     box-shadow: var(--shadow);
   }
 }
-.flash-ok {
-  animation: flashOk 0.5s ease !important;
-}
-.flash-fail {
-  animation: flashFail 0.5s ease !important;
-}
+/* .flash-ok/.flash-fail's animation shorthand moved to Tailwind
+   (docs/full-css-tailwind-migration-roadmap.md Tier 2d) — combo.ts's
+   flashCard() now classList.add/remove's a token+!animate-[] pair for
+   each, same `!important` requirement as here (see that file's comment
+   for why). @keyframes flashOk/flashFail stay CSS. */
 
 /* .combo-box/.combo-x moved to Tailwind utility classes in
    game-bar-streak.tsx (docs/full-css-tailwind-migration-roadmap.md
@@ -2971,7 +2965,16 @@ body[data-theme="hp"] .sidebar-logo {
    var(--accent) fallback, same token .prf-add-confirm/.dc-pbar-fill share. */
 /* .profile-save-btn's own properties moved to Tailwind utility classes in
    profile-page.tsx (docs/full-css-tailwind-migration-roadmap.md Batch 6). */
-/* Idle character animation: gentle breathing bob + periodic blink. */
+/* Idle character animation: gentle breathing bob + periodic blink.
+   .char-breathe/.char-blink's animation shorthand moved to Tailwind in
+   character-avatar.tsx (docs/full-css-tailwind-migration-roadmap.md Tier
+   2d); @keyframes stay CSS. Both bare class-name tokens stay too (out of
+   scope by explicit user instruction, not just convenience): the
+   prefers-reduced-motion reset just below still matches them by exact
+   selector, same as .gr-nav-btn:hover's reasoning elsewhere in this
+   file — and relies on unlayered bare CSS's guaranteed win over the new
+   non-important Tailwind animate-[] classes, the same guarantee used
+   throughout this migration. */
 @keyframes char-breathe {
   0%,
   100% {
@@ -2981,10 +2984,6 @@ body[data-theme="hp"] .sidebar-logo {
     transform: translateY(-3px);
   }
 }
-.char-breathe {
-  animation: char-breathe 3.4s ease-in-out infinite;
-}
-
 @keyframes char-blink {
   0%,
   90%,
@@ -2994,9 +2993,6 @@ body[data-theme="hp"] .sidebar-logo {
   95% {
     transform: scaleY(0.06);
   }
-}
-.char-blink {
-  animation: char-blink 4.8s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

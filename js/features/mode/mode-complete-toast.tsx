@@ -80,7 +80,9 @@ export function ModeCompleteToast(): ReactElement {
   if (!data) return <div className={`${boxClass} bottom-[-80px]`} />;
 
   return (
-    <div className={`${boxClass} ${show ? 'bottom-[28px] show' : 'bottom-[-80px]'}`}>
+    <div
+      className={`${boxClass} ${show ? 'bottom-[28px] show animate-[mctOut_0.4s_ease_2.2s_forwards]' : 'bottom-[-80px]'}`}
+    >
       <span className="mct-icon text-[1.3rem]">{data.icon}</span>
       <span className="mct-today font-medium text-[var(--text2,#555)]">
         {t('modeComplete.today', { cur: data.goalCur, max: data.goalMax })}

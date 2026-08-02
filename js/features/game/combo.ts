@@ -65,11 +65,22 @@ export function awardXP(base: number): number {
 function _renderCombo(): void {
   notifyGameBarChange();
 }
+// flashOk/flashFail need `!` on the full animation shorthand: #card-front
+// (.card-face) already carries unconditional non-important
+// animation-duration/-timing-function/-fill-mode Tailwind classes plus a
+// conditional non-important animation-name from .anim-next/-prev/-fade
+// (card-shell.tsx) — `!important` is required to fully override all of
+// that for this animation's own brief window, same as the original bare
+// CSS's `!important` shorthand did (docs/full-css-tailwind-migration-
+// roadmap.md Tier 2d).
+const FLASH_OK_CLASSES = ['flash-ok', '!animate-[flashOk_0.5s_ease]'];
+const FLASH_FAIL_CLASSES = ['flash-fail', '!animate-[flashFail_0.5s_ease]'];
+
 export function flashCard(ok: boolean): void {
   const face = document.getElementById('card-front') as HTMLElement | null;
   if (!face) return;
-  face.classList.remove('flash-ok', 'flash-fail');
+  face.classList.remove(...FLASH_OK_CLASSES, ...FLASH_FAIL_CLASSES);
   void face.offsetWidth;
-  face.classList.add(ok ? 'flash-ok' : 'flash-fail');
-  setTimeout(() => face.classList.remove('flash-ok', 'flash-fail'), 550);
+  face.classList.add(...(ok ? FLASH_OK_CLASSES : FLASH_FAIL_CLASSES));
+  setTimeout(() => face.classList.remove(...FLASH_OK_CLASSES, ...FLASH_FAIL_CLASSES), 550);
 }

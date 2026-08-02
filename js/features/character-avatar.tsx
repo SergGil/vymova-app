@@ -360,8 +360,8 @@ export function CharacterAvatar({
   };
   const viewBox = variant === 'head' ? '34 8 132 130' : '0 0 200 320';
   const [, , vbW, vbH] = viewBox.split(' ').map(Number);
-  const breathe = animated ? 'char-breathe' : '';
-  const blink = animated ? 'char-blink' : '';
+  const breathe = animated ? 'char-breathe animate-[char-breathe_3.4s_ease-in-out_infinite]' : '';
+  const blink = animated ? 'char-blink animate-[char-blink_4.8s_ease-in-out_infinite]' : '';
 
   const skinGradId = `skinGrad-${uid}`;
   const outfitGradId = `outfitGrad-${uid}`;
