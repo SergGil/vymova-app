@@ -2458,14 +2458,13 @@ body[data-theme] * {
    conversion on the shared element (unlayered bare CSS always beats a
    layered Tailwind class regardless of specificity), the same masking
    .gb-streak-block/.gb-goal-block/.gb-level-block's border-color already
-   needed a per-instance class swap for. */
-.gb-block {
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 12px;
-  padding: 10px 14px;
-  min-width: 0;
-}
+   needed a per-instance class swap for.
+   border-width/style/radius/padding/min-width (and both responsive
+   padding overrides, and the "always active" position/overflow below)
+   fully converted to Tailwind too (docs/full-css-tailwind-migration-
+   roadmap.md Tier 3, GB_BLOCK_BASE in game-bar.tsx) — border-style isn't
+   reproduced explicitly, already covered by Tailwind's border utility
+   (width:1px) + preflight's global border-style:solid reset. */
 
 /* Block 1: Streak */
 .gb-streak-block {
@@ -2550,13 +2549,12 @@ body[data-theme] * {
 
 /* font-size/color/text-transform fully converted to Tailwind
    (docs/component-tailwind-conversion-roadmap.md, game-bar atomic pass).
-   letter-spacing stays bare — untouched by any theme layer, and the
-   "always active" SW rule below already permanently wins it by source
-   order regardless (a pre-existing fact, not something this migration
-   changes). */
-.gb-label {
-  letter-spacing: 0.05em;
-}
+   letter-spacing (this rule's own 0.05em, and the "always active" SW
+   rule below's 0.04em that always won over it by source order) also
+   fully converted now, to a single unconditional tracking-[0.04em]
+   Tailwind class on the live value — 0.05em here was confirmed dead,
+   never worth reproducing (docs/full-css-tailwind-migration-roadmap.md
+   Tier 3). */
 /* color fully converted to Tailwind (docs/component-tailwind-conversion-
    roadmap.md game-bar-safe list). This base rule's font-size/margin
    (docs/full-css-tailwind-migration-roadmap.md Batch 6) were confirmed
@@ -2643,11 +2641,8 @@ body[data-theme] * {
    ═══════════════════════════════════════════ */
 
 /* Base: always dark cockpit aesthetic — background/border-color moved to
-   --gb-block-bg/-border (docs/component-tailwind-conversion-roadmap.md). */
-.gb-block {
-  position: relative;
-  overflow: hidden;
-}
+   --gb-block-bg/-border (docs/component-tailwind-conversion-roadmap.md).
+   position/overflow moved to Tailwind too (Tier 3, GB_BLOCK_BASE). */
 
 /* Streak block: orange/fire theme — border-color moved to
    --gb-streak-block-border, .gb-streak-num's color/text-shadow moved to
@@ -2667,10 +2662,9 @@ body[data-theme] * {
     inset 0 0 20px rgba(0, 0, 0, 0.3);
 }
 /* color/font-size/text-transform moved to --gb-label-color/-size/
-   -transform (docs/component-tailwind-conversion-roadmap.md). */
-.gb-label {
-  letter-spacing: 0.04em;
-}
+   -transform (docs/component-tailwind-conversion-roadmap.md).
+   letter-spacing (the real, live 0.04em) moved to Tailwind too — see the
+   note above the other, dead .gb-label{letter-spacing} declaration. */
 
 /* Goal done badge: rebel victory — background/color/border/box-shadow
    moved to Tailwind (docs/component-tailwind-conversion-roadmap.md).
@@ -3772,12 +3766,6 @@ body.dark {
   }
 
   /* Game bar: looser spacing */
-  .gb-block {
-    padding: 10px 10px;
-  }
-  .gb-label {
-    font-size: 0.72rem;
-  }
   .gb-streak-block {
     min-width: 76px;
     padding: 10px 10px;
@@ -3871,9 +3859,6 @@ body.dark {
   }
 
   /* Slightly compact game bar */
-  .gb-label {
-    font-size: 0.72rem;
-  }
   .gb-streak-num {
     font-size: 1.6rem;
   }
@@ -3914,12 +3899,6 @@ body.dark {
   /* Game bar: very compact */
   .game-bar-3 {
     padding: 6px 10px;
-  }
-  .gb-block {
-    padding: 6px 10px;
-  }
-  .gb-label {
-    display: none;
   }
   .gb-streak-num {
     font-size: 1.2rem;

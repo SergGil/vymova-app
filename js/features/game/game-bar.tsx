@@ -21,12 +21,25 @@ import { WordOfDay } from '../word-data/word-of-day.tsx';
 const GB_BLOCK_AFTER =
   " after:content-[var(--gb-block-after-content)] after:absolute after:inset-0 after:pointer-events-none after:[background:repeating-linear-gradient(0deg,transparent_0px,transparent_3px,rgba(0,180,255,.025)_3px,rgba(0,180,255,.025)_4px)]";
 
+// .gb-block's own box/layout properties (docs/full-css-tailwind-migration-
+// roadmap.md Tier 3) — border-style isn't reproduced explicitly: Tailwind's
+// `border` utility already sets border-width:1px, and preflight's global
+// reset already sets border-style:solid, both already implied. The two
+// responsive padding overrides can overlap (a viewport can be both
+// ≤480px wide AND landscape-short) — restructured as mutually exclusive
+// ranges (min-height:501px qualifier), the same technique used for
+// .actions-bar-center .btn in Tier 2c, instead of relying on
+// `!important`-vs-`!important` order between them.
+const GB_BLOCK_BASE =
+  'gb-block relative overflow-hidden rounded-[12px] border min-w-0 px-[14px] py-[10px] [@media(max-width:480px)_and_(min-height:501px)]:!p-[10px] [@media(max-height:500px)_and_(max-width:900px)]:!p-[6px_10px]';
+
 export function GameBar(): ReactElement {
   return (
     <div className="game-bar-3 mb-2.5 flex gap-2" id="game-bar">
       <div
         className={
-          'gb-block gb-streak-block [background:var(--gb-block-bg)] border-[var(--gb-streak-block-border)] shadow-[var(--gb-block-shadow)]' +
+          GB_BLOCK_BASE +
+          ' gb-streak-block [background:var(--gb-block-bg)] border-[var(--gb-streak-block-border)] shadow-[var(--gb-block-shadow)]' +
           GB_BLOCK_AFTER
         }
       >
@@ -36,13 +49,14 @@ export function GameBar(): ReactElement {
 
       <div
         className={
-          'gb-block gb-goal-block [background:var(--gb-block-bg)] border-[var(--gb-goal-block-border)] shadow-[var(--gb-block-shadow)]' +
+          GB_BLOCK_BASE +
+          ' gb-goal-block [background:var(--gb-block-bg)] border-[var(--gb-goal-block-border)] shadow-[var(--gb-block-shadow)]' +
           GB_BLOCK_AFTER
         }
       >
         <div className="flex justify-between items-center mb-0.5">
           <span
-            className="gb-label text-[var(--gb-label-color)] [text-transform:var(--gb-label-transform)] text-[length:var(--gb-label-size)]"
+            className="gb-label text-[var(--gb-label-color)] [text-transform:var(--gb-label-transform)] text-[length:var(--gb-label-size)] tracking-[0.04em] [@media(max-width:640px)]:!text-[0.72rem] [@media(max-height:500px)_and_(max-width:900px)]:hidden"
             data-i18n="cards.dailyGoal"
           >
             {t('cards.dailyGoal')}
@@ -61,7 +75,8 @@ export function GameBar(): ReactElement {
 
       <div
         className={
-          'gb-block gb-wotd-block [background:var(--gb-block-bg)] border-[var(--gb-block-border)] shadow-[var(--gb-block-shadow)]' +
+          GB_BLOCK_BASE +
+          ' gb-wotd-block [background:var(--gb-block-bg)] border-[var(--gb-block-border)] shadow-[var(--gb-block-shadow)]' +
           GB_BLOCK_AFTER
         }
       >
@@ -70,7 +85,8 @@ export function GameBar(): ReactElement {
 
       <div
         className={
-          'gb-block gb-level-block [background:var(--gb-block-bg)] border-[var(--gb-level-block-border)] shadow-[var(--gb-level-block-shadow)]' +
+          GB_BLOCK_BASE +
+          ' gb-level-block [background:var(--gb-block-bg)] border-[var(--gb-level-block-border)] shadow-[var(--gb-level-block-shadow)]' +
           GB_BLOCK_AFTER
         }
         id="level-box"
