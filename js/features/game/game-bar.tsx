@@ -39,7 +39,7 @@ export function GameBar(): ReactElement {
       <div
         className={
           GB_BLOCK_BASE +
-          ' gb-streak-block [background:var(--gb-block-bg)] border-[var(--gb-streak-block-border)] shadow-[var(--gb-block-shadow)]' +
+          ' gb-streak-block [background:var(--gb-block-bg)] border-[var(--gb-streak-block-border)] flex-none min-w-[90px] text-center flex flex-col items-center justify-center shadow-[0_0_12px_rgba(230,126,34,0.1),inset_0_0_20px_rgba(0,0,0,0.3)] [@media(max-width:480px)]:!min-w-[76px]' +
           GB_BLOCK_AFTER
         }
       >

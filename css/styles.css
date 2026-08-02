@@ -2466,25 +2466,23 @@ body[data-theme] * {
    reproduced explicitly, already covered by Tailwind's border utility
    (width:1px) + preflight's global border-style:solid reset. */
 
-/* Block 1: Streak */
-.gb-streak-block {
-  flex: 0 0 auto;
-  min-width: 90px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+/* Block 1: Streak — .gb-streak-block's own flex/min-width/text-align/
+   display/box-shadow (docs/full-css-tailwind-migration-roadmap.md Tier
+   3) fully converted, alongside .gb-streak-num's font-size/weight/
+   line-height below. The "always active" box-shadow (further down this
+   file) was a per-instance bare-CSS override that always masked the
+   generic --gb-block-shadow-based Tailwind class on this specific
+   element (confirmed live: computed box-shadow showed the fixed
+   orange-glow value, never the generic token's) — same masking
+   .gb-streak-block/.gb-goal-block/.gb-level-block's border-color already
+   needed a per-instance class swap for, so the swap now covers
+   box-shadow too: shadow-[var(--gb-block-shadow)] replaced with the
+   literal fixed value directly on this element (game-bar.tsx), not
+   ADDED alongside it. */
 /* border-color fully converted to Tailwind (docs/component-tailwind-
    conversion-roadmap.md, game-bar atomic pass) — no light-reversion ever
    existed for this property, so only 2 real states (fandom vs the SW
    "always active" value, which is also the plain light-default). */
-.gb-streak-num {
-  font-size: 1.2rem;
-  font-weight: 800;
-  line-height: 1;
-}
 /* .gb-streak-label's own properties moved to Tailwind utility classes in
    game-bar-streak.tsx (docs/full-css-tailwind-migration-roadmap.md
    Batch 6). */
@@ -2624,12 +2622,13 @@ body[data-theme] * {
 
 /* SW theme enhancements */
 
-/* Responsive: на малих екранах block 1 компактніший */
+/* Responsive: на малих екранах block 1 компактніший.
+   .gb-streak-block's own min-width/padding here confirmed dead
+   (docs/game-bar-class-reconciliation.md pre-flight audit — a LATER
+   ≤480px block further down this file with min-width:76px/padding:
+   10px 10px always wins by source order) and dropped without
+   conversion (docs/full-css-tailwind-migration-roadmap.md Tier 3). */
 @media (max-width: 480px) {
-  .gb-streak-block {
-    min-width: 72px;
-    padding: 8px 8px;
-  }
   .gb-level-next {
     display: none;
   }
@@ -2647,12 +2646,12 @@ body[data-theme] * {
 /* Streak block: orange/fire theme — border-color moved to
    --gb-streak-block-border, .gb-streak-num's color/text-shadow moved to
    --gb-streak-num-color/-shadow (docs/component-tailwind-conversion-
-   roadmap.md). box-shadow stays bare (out of this pass's scope). */
-.gb-streak-block {
-  box-shadow:
-    0 0 12px rgba(230, 126, 34, 0.1),
-    inset 0 0 20px rgba(0, 0, 0, 0.3);
-}
+   roadmap.md). box-shadow ("out of this pass's scope" — a stale note
+   from that earlier, theme-touched-only migration; this fixed,
+   non-theme-conditional value fits squarely in this migration's own
+   scope) moved to Tailwind too, as a per-instance literal value
+   directly on the element (see the note above .gb-streak-block's other
+   properties, Tier 3). */
 
 /* Goal block: teal/rebel accent — border-color moved to
    --gb-goal-block-border (docs/component-tailwind-conversion-roadmap.md). */
@@ -3765,15 +3764,6 @@ body.dark {
     font-size: 14px;
   }
 
-  /* Game bar: looser spacing */
-  .gb-streak-block {
-    min-width: 76px;
-    padding: 10px 10px;
-  }
-  .gb-streak-num {
-    font-size: 1.5rem;
-  }
-
   /* Font size row: smaller */
   #btn-font-down,
   #btn-font-up {
@@ -3858,11 +3848,6 @@ body.dark {
     max-width: 100%;
   }
 
-  /* Slightly compact game bar */
-  .gb-streak-num {
-    font-size: 1.6rem;
-  }
-
   .speak-btn {
     min-width: 32px;
     min-height: 32px;
@@ -3900,9 +3885,13 @@ body.dark {
   .game-bar-3 {
     padding: 6px 10px;
   }
-  .gb-streak-num {
-    font-size: 1.2rem;
-  }
+  /* .gb-streak-num's landscape-short 1.2rem reset (equal to its own base
+     value) needed no Tailwind class at all: the ≤480px/481-640px
+     overrides were rewritten as mutually exclusive ranges (excluding
+     landscape-short via a min-height:501px qualifier, Tier 3), so in
+     landscape-short neither of those matches and the element simply
+     falls through to its unconditional base text-[1.2rem] — same
+     result, no explicit reset needed. */
 
   /* Card: compress */
   /* .card-face's landscape-short padding fully converted to Tailwind
