@@ -1,8 +1,11 @@
-// Vymova — js/features/duel/duel-session-store.ts
+// Vymova — js/features/duel/duel-session-persistence.ts
 // Session persistence (localStorage) for resuming an in-progress duel —
 // pure read/write over room/chat store snapshots, no dependency on the
 // game-runtime logic in duel.ts (which imports these, not the other way
 // around — keeps this a one-directional leaf like duel-history-log.ts).
+// NOT a createDomainStore instance despite the neighboring *-store.ts names
+// in this directory (duel-room-store.ts, duel-lobby-store.ts, ...) — no
+// reactive subscription, just plain localStorage read/write functions.
 import { getDuelRoomSnapshot } from '../../../src/duel-room-store.ts';
 import { getDuelChatSnapshot } from '../../../src/duel-async-store.ts';
 import type { DuelMode, Difficulty, BestOf, PowerupType } from './duel-types.ts';

@@ -34,7 +34,7 @@ import {
   _saveSession,
   _clearSession,
   type DuelSession,
-} from './duel-session-store.ts';
+} from './duel-session-persistence.ts';
 import { _getDuelScreen, _showLobby, _showCountdown, _showResult } from './duel-screen.ts';
 import { DB_URL, _fbGet, _fbPatch, _fbSet } from './duel-firebase.ts';
 import { _getMyName, _getMyAvatar } from './duel-profile-snap.ts';
@@ -123,9 +123,6 @@ async function _closePage(): Promise<void> {
 // (оголошений нижче в цьому файлі) встигне ініціалізуватись.
 async function _cancelTournament(): Promise<void> {
   (await import('./duel-tournament-logic.ts'))._cancelTournament();
-}
-async function _clearTournamentState(): Promise<void> {
-  (await import('./duel-tournament-logic.ts'))._clearTournamentState();
 }
 
 // Registration-hook indirection (mirrors _registerMatchFinishHook below):

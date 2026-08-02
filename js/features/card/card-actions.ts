@@ -184,16 +184,16 @@ export function CardActionsInit(): ReactElement | null {
     // advances to the next card in place.
     function _afterGrade(rebuildUnlearned: boolean): void {
       saveSRS(getSrsDataSnapshot());
-      _safe(() => updateSrsUI(getBaseWordsSnapshot() as unknown as WordEntry[]));
+      _safe(() => updateSrsUI(getBaseWordsSnapshot()));
       const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
       if (rangeVal === 'srs') {
-        setDeck(buildSRSDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));
+        setDeck(buildSRSDeck(getBaseWordsSnapshot()));
         setIdx(0);
         render();
         return;
       }
       if (rangeVal === 'unlearned' && rebuildUnlearned) {
-        const newDeck = buildUnlearnedDeck(getBaseWordsSnapshot() as unknown as WordEntry[]);
+        const newDeck = buildUnlearnedDeck(getBaseWordsSnapshot());
         setDeck(newDeck);
         const dl = getDeckSnapshot().length;
         if (!dl) {
@@ -373,12 +373,12 @@ export function CardActionsInit(): ReactElement | null {
       if (cw) {
         sm2Update(cw[0], 1);
         saveSRS(getSrsDataSnapshot());
-        _safe(() => updateSrsUI(getBaseWordsSnapshot() as unknown as WordEntry[]));
+        _safe(() => updateSrsUI(getBaseWordsSnapshot()));
         _safe(() => playSound('next'));
         _safe(() => breakCombo());
         const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
         if (rangeVal === 'srs') {
-          setDeck(buildSRSDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));
+          setDeck(buildSRSDeck(getBaseWordsSnapshot()));
           setIdx(0);
           render();
           return;
@@ -441,9 +441,9 @@ export function CardActionsInit(): ReactElement | null {
       if (cardEl2) cardEl2.classList.remove('is-known');
       const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
       if (rangeVal === 'srs') {
-        setDeck(buildSRSDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));
+        setDeck(buildSRSDeck(getBaseWordsSnapshot()));
       } else if (rangeVal === 'unlearned') {
-        setDeck(buildUnlearnedDeck(getBaseWordsSnapshot() as unknown as WordEntry[]));
+        setDeck(buildUnlearnedDeck(getBaseWordsSnapshot()));
       }
       _safe(() => renderGameBar());
       _safe(() => refreshGameBarLevel());

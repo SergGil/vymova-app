@@ -36,7 +36,7 @@ interface FandomThemeState {
 }
 type FandomThemeAction = { type: 'SET'; key: FandomThemeKey | null };
 
-function reducer(state: FandomThemeState, action: FandomThemeAction): FandomThemeState {
+function reducer(_state: FandomThemeState, action: FandomThemeAction): FandomThemeState {
   switch (action.type) {
     case 'SET':
       return { active: action.key };

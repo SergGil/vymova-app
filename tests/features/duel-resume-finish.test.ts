@@ -5,7 +5,7 @@ import {
   _getHistory,
   _getRating,
 } from '../../js/features/duel/duel.ts';
-import { _saveSessions, _loadSessions } from '../../js/features/duel/duel-session-store.ts';
+import { _saveSessions, _loadSessions } from '../../js/features/duel/duel-session-persistence.ts';
 import { DB_URL } from '../../js/features/duel/duel-firebase.ts';
 
 // Regression test: _tryResumeSession() used to silently delete the local

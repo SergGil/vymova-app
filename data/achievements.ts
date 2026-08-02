@@ -218,10 +218,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '3 дні підряд',
     cat: '📅 Серія',
     hint: 'Займайся 3 дні поспіль — звичка починається!',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.streak || 0, 3), max: 3 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.streak || 0) >= 3;
     },
   },
@@ -231,10 +231,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Тиждень Джедая',
     cat: '📅 Серія',
     hint: '7 днів підряд — справжній Джедай не здається!',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.streak || 0, 7), max: 7 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.streak || 0) >= 7;
     },
   },
@@ -244,10 +244,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Два тижні',
     cat: '📅 Серія',
     hint: '14 днів — ти вже тренуєшся як у Храмі Джедаїв!',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.streak || 0, 14), max: 14 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.streak || 0) >= 14;
     },
   },
@@ -257,10 +257,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Місяць Сили',
     cat: '📅 Серія',
     hint: '30 днів — ти зробив це. Рада Джедаїв аплодує!',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.streak || 0, 30), max: 30 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.streak || 0) >= 30;
     },
   },
@@ -270,10 +270,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '100 днів',
     cat: '📅 Серія',
     hint: '100 днів підряд. Сила стала частиною тебе.',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.streak || 0, 100), max: 100 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.streak || 0) >= 100;
     },
   },
@@ -285,10 +285,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перша ціль',
     cat: '🎯 Цілі',
     hint: 'Виконай денну ціль — вивчи задану кількість слів за день',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.goalCur || 0, g.goalMax || 20), max: g.goalMax || 20 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.goalCur || 0) >= (g.goalMax || 20);
     },
   },
@@ -298,10 +298,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Тиждень цілей',
     cat: '🎯 Цілі',
     hint: 'Виконай денну ціль 7 разів (не обовʼязково підряд)',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.goalDays || 0, 7), max: 7 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.goalDays || 0) >= 7;
     },
   },
@@ -311,10 +311,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: '30 цілей',
     cat: '🎯 Цілі',
     hint: '30 виконаних денних цілей. Дисципліна Джедая!',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.goalDays || 0, 30), max: 30 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.goalDays || 0) >= 30;
     },
   },
@@ -326,10 +326,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Спринт',
     cat: '⚡ Швидкість',
     hint: 'Вивчи 20 слів за одну сесію',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.sessionWords || 0, 20), max: 20 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.sessionWords || 0) >= 20;
     },
   },
@@ -339,10 +339,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Гіперстрибок',
     cat: '⚡ Швидкість',
     hint: '50 слів за одну сесію — як гіперстрибок!',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.sessionWords || 0, 50), max: 50 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.sessionWords || 0) >= 50;
     },
   },
@@ -352,10 +352,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Сокіл Тисячоліть',
     cat: '⚡ Швидкість',
     hint: '100 слів за одну сесію. 12 парсеків!',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.sessionWords || 0, 100), max: 100 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.sessionWords || 0) >= 100;
     },
   },
@@ -367,10 +367,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перший Тест',
     cat: '🎮 Режими',
     hint: 'Пройди перший Тест з 4 варіантами відповідей',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.quiz || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.quiz || 0) >= 1;
     },
   },
@@ -380,10 +380,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Тест ×10',
     cat: '🎮 Режими',
     hint: '10 завершених квізів — справжній знавець!',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.quiz || 0, 10), max: 10 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.quiz || 0) >= 10;
     },
   },
@@ -393,10 +393,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Тест ×50',
     cat: '🎮 Режими',
     hint: '50 квізів. Розум гострий як меч Джедая!',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.quiz || 0, 50), max: 50 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.quiz || 0) >= 50;
     },
   },
@@ -406,10 +406,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перший Темп',
     cat: '🎮 Режими',
     hint: 'Заверши першу гру на час',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.tempo || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.tempo || 0) >= 1;
     },
   },
@@ -419,10 +419,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Темп ×10',
     cat: '🎮 Режими',
     hint: '10 ігор на час. Швидкість — твоя зброя!',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.tempo || 0, 10), max: 10 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.tempo || 0) >= 10;
     },
   },
@@ -432,10 +432,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перші Пари',
     cat: '🎮 Режими',
     hint: 'Заверши перший режим Пари',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.pairs || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.pairs || 0) >= 1;
     },
   },
@@ -445,10 +445,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перше Письмо',
     cat: '🎮 Режими',
     hint: 'Напиши перше слово вручну. Писемність Падавана!',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.write || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.write || 0) >= 1;
     },
   },
@@ -458,10 +458,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Письмо ×20',
     cat: '🎮 Режими',
     hint: '20 сесій письма. Рука памʼятає!',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.write || 0, 20), max: 20 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.write || 0) >= 20;
     },
   },
@@ -471,10 +471,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перше Прослуховування',
     cat: '🎮 Режими',
     hint: 'Заверши перший режим Слухай',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.listen || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.listen || 0) >= 1;
     },
   },
@@ -484,10 +484,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перший Урок',
     cat: '🎮 Режими',
     hint: 'Пройди перший 5×3 урок',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.lesson || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.lesson || 0) >= 1;
     },
   },
@@ -497,10 +497,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перший Пропуск',
     cat: '🎮 Режими',
     hint: 'Заверши перший режим Пропуск — встав слово в речення',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.fib || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.fib || 0) >= 1;
     },
   },
@@ -510,10 +510,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перше Читання+',
     cat: '🎮 Режими',
     hint: 'Заверши першу історію в режимі Читання+',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.story || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.story || 0) >= 1;
     },
   },
@@ -523,10 +523,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перша Місія дня',
     cat: '🎮 Режими',
     hint: 'Виконай першу щоденну місію — 10 слів на час!',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.daily || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.daily || 0) >= 1;
     },
   },
@@ -536,10 +536,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перший Spelling Bee',
     cat: '🎮 Режими',
     hint: 'Заверши перший раунд Spelling Bee — почуй і напиши слово',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.spelling || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.spelling || 0) >= 1;
     },
   },
@@ -551,10 +551,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Серія ×5',
     cat: '🔥 Комбо',
     hint: 'Відповідай правильно 5 разів підряд без помилок',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.maxCombo || 0, 5), max: 5 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.maxCombo || 0) >= 5;
     },
   },
@@ -564,10 +564,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Серія ×10',
     cat: '🔥 Комбо',
     hint: '10 правильних відповідей підряд — Джедай-рефлекси!',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.maxCombo || 0, 10), max: 10 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.maxCombo || 0) >= 10;
     },
   },
@@ -577,10 +577,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Джедайський потік',
     cat: '🔥 Комбо',
     hint: '25 підряд. Сила веде тебе через кожне слово',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.maxCombo || 0, 25), max: 25 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.maxCombo || 0) >= 25;
     },
   },
@@ -712,10 +712,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перший Контекст',
     cat: '🎮 Режими',
     hint: 'Заверши перший раунд режиму Контекст — вгадай слово з речення',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.context || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.context || 0) >= 1;
     },
   },
@@ -725,10 +725,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перша Анаграма',
     cat: '🎮 Режими',
     hint: 'Збери перше слово з розкиданих букв у режимі Анаграма',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.scramble || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.scramble || 0) >= 1;
     },
   },
@@ -738,10 +738,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перші Букви',
     cat: '🎮 Режими',
     hint: 'Заверши перший раунд режиму Букви — знайди слова',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.letters || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.letters || 0) >= 1;
     },
   },
@@ -751,10 +751,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перший Адаптивний тест',
     cat: '🎮 Режими',
     hint: 'Заверши перший раунд Адаптивного тесту — складність підлаштовується під тебе',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.['adaptive-quiz'] || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.['adaptive-quiz'] || 0) >= 1;
     },
   },
@@ -764,10 +764,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Адаптивний ×10',
     cat: '🎮 Режими',
     hint: '10 адаптивних тестів. Дроїд-аналітик вже добре тебе знає!',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.['adaptive-quiz'] || 0, 10), max: 10 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.['adaptive-quiz'] || 0) >= 10;
     },
   },
@@ -777,10 +777,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перше Зайве слово',
     cat: '🎮 Режими',
     hint: 'Заверши перший раунд режиму Зайве слово — знайди слово з іншої категорії',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.oddone || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.oddone || 0) >= 1;
     },
   },
@@ -790,10 +790,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перша Побудова речення',
     cat: '🎮 Режими',
     hint: 'Склади своє перше речення з тайлів у режимі Побудова речення',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.sentbuild || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.sentbuild || 0) >= 1;
     },
   },
@@ -803,10 +803,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перший Мисливець',
     cat: '🎮 Режими',
     hint: 'Знайди підмінене слово в реченні в режимі Мисливець на помилку',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.errorhunt || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.errorhunt || 0) >= 1;
     },
   },
@@ -816,10 +816,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перший Ланцюжок',
     cat: '🎮 Режими',
     hint: 'Заверши перший ланцюжок синонімів у режимі Асоціації',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.assoc || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.assoc || 0) >= 1;
     },
   },
@@ -829,10 +829,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перша Підказка',
     cat: '🎮 Режими',
     hint: 'Вгадай своє перше слово в режимі Прогресивні підказки',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.wordhint || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.wordhint || 0) >= 1;
     },
   },
@@ -842,10 +842,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перший Диктант',
     cat: '🎮 Режими',
     hint: 'Заверши перший раунд режиму Диктант-переклад — почуй і повтори вголос',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.shadow || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.shadow || 0) >= 1;
     },
   },
@@ -855,10 +855,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Перша Гонка',
     cat: '🎮 Режими',
     hint: 'Заверши свою першу Гонку з привидом',
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       return { cur: Math.min(m?.ghost || 0, 1), max: 1 };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return (m?.ghost || 0) >= 1;
     },
   },
@@ -868,11 +868,11 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Універсальний боєць',
     cat: '🎮 Режими',
     hint: `Заверши хоча б раз кожен з ${ALL_MODE_KEYS.length} режимів гри`,
-    progress: function (k: number, g: GameData, m?: ModeStats) {
+    progress: function (_k: number, _g: GameData, m?: ModeStats) {
       const done = ALL_MODE_KEYS.filter((key) => (m?.[key] || 0) >= 1).length;
       return { cur: done, max: ALL_MODE_KEYS.length };
     },
-    check: function (k: number, g: GameData, m?: ModeStats) {
+    check: function (_k: number, _g: GameData, m?: ModeStats) {
       return ALL_MODE_KEYS.every((key) => (m?.[key] || 0) >= 1);
     },
   },
@@ -884,10 +884,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Ремонт дроїда',
     cat: '🛠️ Помилки',
     hint: 'Виправ 10 складних слів у розділі «Розбір помилок»',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.mistakesFixed || 0, 10), max: 10 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.mistakesFixed || 0) >= 10;
     },
   },
@@ -897,10 +897,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Майстер ремонту',
     cat: '🛠️ Помилки',
     hint: '50 виправлених помилок. Жоден баг не встоїть проти тебе!',
-    progress: function (k: number, g: GameData) {
+    progress: function (_k: number, g: GameData) {
       return { cur: Math.min(g.mistakesFixed || 0, 50), max: 50 };
     },
-    check: function (k: number, g: GameData) {
+    check: function (_k: number, g: GameData) {
       return (g.mistakesFixed || 0) >= 50;
     },
   },

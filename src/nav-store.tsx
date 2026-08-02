@@ -10,7 +10,7 @@ interface NavState {
 
 type NavAction = { type: 'OPEN_PAGE'; page: string } | { type: 'CLOSE_PAGE' };
 
-function navReducer(state: NavState, action: NavAction): NavState {
+function navReducer(_state: NavState, action: NavAction): NavState {
   switch (action.type) {
     case 'OPEN_PAGE':
       return { activePage: action.page };
