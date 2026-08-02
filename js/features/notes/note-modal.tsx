@@ -5,6 +5,7 @@ import { useEffect, useState, type ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 import { t } from '../i18n.ts';
 import { getNoteForWord, setNoteForWord } from './notes.ts';
+import { Button } from '../../../src/components/ui/button.tsx';
 
 type Listener = (word: string) => void;
 const listeners = new Set<Listener>();
@@ -93,14 +94,15 @@ export function NoteModal(): ReactElement | null {
           }}
         />
         <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-          <button
+          <Button
             id="note-delete-btn"
-            className="flex-1 p-[11px] rounded-[12px] [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-[1.5px] border-[var(--border)] bg-[var(--bg)] text-[var(--text2)] hover:border-[var(--text2)] hover:text-[var(--text)]"
+            variant="outline"
+            className="h-auto rounded-[12px] p-[11px] text-[0.9rem] font-semibold"
             style={{ flex: '0 0 auto' }}
             onClick={del}
           >
             {t('note.delete')}
-          </button>
+          </Button>
           <button
             id="note-save-btn"
             className="flex-1 p-[11px] rounded-[12px] [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-0 text-white hover:bg-[#c0392b]"

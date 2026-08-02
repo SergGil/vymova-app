@@ -940,7 +940,17 @@ select:focus {
   --known-face-border: #6dbf8a;
   --known-face-bg: linear-gradient(135deg, #f0faf4 0%, #e8f5ed 100%);
 }
-body.dark .card.is-known {
+/* body[data-theme] (any of the 14 fandom skins) reported here alongside
+   body.dark: every fandom --card is a dark navy/maroon/etc. (#0c..-#30..
+   range, verified across all 14 theme files) but a fandom theme doesn't
+   imply the separate light/dark toggle is also on — without this, a
+   fandom-only user (body.dark absent) fell through to the *light*-mode
+   --known-c1..4 above (#133524 etc., near-black green meant for a white
+   card), reading as near-invisible dark-on-dark text against the theme's
+   own dark --known-face-bg override below (Batch 6 fixed that background/
+   border for fandom mode but missed the text colors — user-reported). */
+body.dark .card.is-known,
+body[data-theme] .card.is-known {
   --known-c1: #b8f0cc;
   --known-c2: #8fd4a8;
   --known-c3: #4ecca3;

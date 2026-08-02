@@ -3,6 +3,7 @@
 import { useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { useLangVersion } from '../../src/store.ts';
+import { Button } from '../../src/components/ui/button.tsx';
 
 const RECIPIENT = 'beizmans@gmail.com';
 
@@ -74,13 +75,13 @@ export function BugReportForm(): ReactElement {
         }}
       />
       <div className="bug-row flex flex-wrap items-center gap-3">
-        <button
+        <Button
           id="bug-send-btn"
-          className="bug-send-btn cursor-pointer rounded-[10px] border-[1.5px] border-[var(--accent)] bg-[var(--accent)] px-[22px] py-2.5 font-[inherit] text-[.88rem] font-semibold text-white transition-opacity duration-150 hover:opacity-85"
+          className="h-auto cursor-pointer rounded-[10px] px-[22px] py-2.5 text-[.88rem] font-semibold"
           onClick={send}
         >
           {t('settings.bugSendBtn')}
-        </button>
+        </Button>
         <span
           id="bug-sent-note"
           className="bug-sent-note text-[.8rem] text-[var(--text2)]"

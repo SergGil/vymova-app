@@ -51,6 +51,10 @@
   --color-input: var(--border);
   --color-ring: var(--accent);
   --color-destructive: var(--danger);
+  /* Added when dialog.tsx (npx shadcn add dialog) turned out to need it —
+     see decision 3 above: wired just-in-time, not pre-provisioned. */
+  --color-popover: var(--modal-bg);
+  --color-popover-foreground: var(--text);
 
   --radius: 0.625rem;
   --radius-sm: calc(var(--radius) * 0.6);
