@@ -3073,35 +3073,37 @@ body[data-theme="hp"] .sb-profile-section {
 /* .sb-toggle-row/:hover and .theme-rows-toggle-btn/:hover moved to
    Tailwind utility classes in fandom-theme-rows.tsx/index.html's
    #set-theme row (no fandom-theme or body.dark overrides existed for
-   either). .sb-toggle-pill stays: it has a live theme override on its
-   .on state (scripts/theme-template.css). */
-.sb-toggle-pill {
-  width: 34px;
-  height: 18px;
-  border-radius: 12px;
-  background: var(--border);
-  position: relative;
-  flex-shrink: 0;
-  transition: background 0.2s;
-}
-.sb-toggle-pill::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #fff;
-  transition: transform 0.2s;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-.sb-toggle-pill.on {
-  background: var(--accent);
-}
-.sb-toggle-pill.on::after {
-  transform: translateX(16px);
-}
+   either). .sb-toggle-pill's own "live theme override" claim here was
+   stale — checked scripts/theme-template.css exhaustively, no literal
+   .sb-toggle-pill selector exists anywhere; it only reads var(--accent)/
+   var(--border) like virtually every other class in this file, which
+   was never a conversion blocker elsewhere in this migration. Fully
+   converted to Tailwind (docs/full-css-tailwind-migration-roadmap.md
+   Tier 3) — the before:/after: pseudo-element pattern already proven on
+   .card-face, plus the self-referencing [&.on]: variant (same "on"
+   token, class-based, established earlier in this migration) for the
+   .on/.on::after state. sidebar.tsx's imperative
+   classList.toggle('on', isDark) on #set-theme-pill needed no changes:
+   it only ever adds/removes the bare 'on' token, which the new
+   self-referencing variant still reads the same way a bare CSS compound
+   selector did.
+
+   New pitfall found here (distinct from the earlier translate/transform
+   COMPOSITION bug on CTA buttons): Tailwind v4's translate-x-4 writes to
+   the standalone `translate` property, but the original bare CSS's
+   `transition: transform 0.2s` only names `transform` — CSS
+   transition-property is an exact property-name match, it does NOT
+   implicitly cover the separate translate/scale/rotate properties.
+   Copying `[transition:transform_0.2s]` verbatim would have made the
+   pill's dot SNAP instantly instead of sliding (caught live: `after:
+   transitionProperty` computed to "transform", not "translate", before
+   the fix). Fixed by transitioning `translate` instead
+   (`[transition:translate_0.2s]`) — same visual result, since nothing
+   else on this element ever sets the legacy `transform` property.
+   Lesson for the rest of this migration: whenever converting a
+   `transition: transform ...` rule alongside a new `translate-x-*`/
+   `scale-*`/`rotate-*` utility, the transition-property must name
+   `translate`/`scale`/`rotate` specifically, not `transform`. */
 
 /* ── Word of the day in header ── */
 .header-wotd {
