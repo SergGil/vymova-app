@@ -76,7 +76,7 @@ export function GameBar(): ReactElement {
       <div
         className={
           GB_BLOCK_BASE +
-          ' gb-wotd-block [background:var(--gb-block-bg)] border-[var(--gb-block-border)] shadow-[var(--gb-block-shadow)]' +
+          ' gb-wotd-block [background:var(--gb-block-bg)] border-[var(--gb-block-border)] shadow-[var(--gb-block-shadow)] flex-[1.3] min-w-0 cursor-pointer flex flex-col [@media(max-width:480px)]:!hidden' +
           GB_BLOCK_AFTER
         }
       >

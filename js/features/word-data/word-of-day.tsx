@@ -96,24 +96,31 @@ export function WordOfDay(): ReactElement {
 
   return (
     <div
-      className="wotd-box header-wotd flex items-center gap-2.5 border rounded-[10px] py-2 px-3.5 mb-2 cursor-pointer transition-[border-color] duration-150 hover:border-[var(--accent)] bg-[var(--wotd-box-bg)] border-[var(--wotd-box-border)]"
+      className="wotd-box header-wotd flex items-center gap-2.5 border rounded-[10px] py-[6px] px-3 m-0 cursor-pointer transition-[border-color] duration-150 hover:border-[var(--accent)] bg-[var(--wotd-box-bg)] border-[var(--wotd-box-border)] flex-row shrink-0 max-w-[240px] overflow-hidden [.gb-wotd-block_&]:!flex-col [.gb-wotd-block_&]:!flex-1 [.gb-wotd-block_&]:min-h-0 [.gb-wotd-block_&]:!bg-transparent [.gb-wotd-block_&]:!border-none [.gb-wotd-block_&]:!shadow-none [.gb-wotd-block_&]:!p-0 [.gb-wotd-block_&]:!m-0 [.gb-wotd-block_&]:!max-w-none [.gb-wotd-block_&]:!w-full"
       title={t('cards.wotdTitle')}
       onClick={() => goToWord(word)}
     >
-      <span className="wotd-lbl text-[0.62rem] font-bold tracking-[0.08em] uppercase text-[var(--text3)] whitespace-nowrap shrink-0">
+      <span className="wotd-lbl text-[0.6rem] font-bold tracking-[0.05em] uppercase text-[var(--text3)] whitespace-nowrap shrink-0 [.gb-wotd-block_&]:block [.gb-wotd-block_&]:text-center [.gb-wotd-block_&]:mb-1 [.gb-wotd-block_&]:flex-none">
         {t('cards.wotdLabel')}
       </span>
-      <div className="wotd-body flex items-center gap-[9px] min-w-0 w-full">
+      <div className="wotd-body flex items-center gap-[9px] min-w-0 w-full [.gb-wotd-block_&]:flex-1 [.gb-wotd-block_&]:min-h-0 [.gb-wotd-block_&]:justify-center [.gb-wotd-block_&]:!gap-2.5">
         <div
           className={
-            'wotd-img-wrap w-[28px] h-[28px] shrink-0 rounded-[7px] overflow-hidden bg-[var(--border)] flex items-center justify-center' +
+            'wotd-img-wrap w-[28px] h-[28px] shrink-0 rounded-[7px] overflow-hidden bg-[var(--border)] flex items-center justify-center [.gb-wotd-block_&]:!w-auto [.gb-wotd-block_&]:!h-full [.gb-wotd-block_&]:aspect-square [.gb-wotd-block_&]:max-h-16 [.gb-wotd-block_&]:!rounded-[10px]' +
             (imgFailed ? ' hidden' : '')
           }
         >
-          {imgUrl && <img src={imgUrl} alt={word[0]} onError={() => setImgFailed(true)} />}
+          {imgUrl && (
+            <img
+              src={imgUrl}
+              alt={word[0]}
+              onError={() => setImgFailed(true)}
+              className="w-full h-full object-cover rounded-[7px]"
+            />
+          )}
         </div>
         <div className="flex flex-col gap-0.5 min-w-0 flex-1 overflow-hidden">
-          <span className="wotd-word font-['DM_Serif_Display',serif] text-[1.05rem] text-[var(--wotd-word-color)] [text-shadow:var(--wotd-word-shadow)]">
+          <span className="wotd-word font-['DM_Serif_Display',serif] text-[0.85rem] font-bold text-[var(--accent)] max-w-full block whitespace-nowrap overflow-hidden text-ellipsis leading-tight [text-shadow:var(--wotd-word-shadow)] [.gb-wotd-block_&]:!text-[1.05rem]">
             {front}
           </span>
         </div>

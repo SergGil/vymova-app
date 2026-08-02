@@ -2490,57 +2490,25 @@ body[data-theme] * {
    (docs/component-tailwind-conversion-roadmap.md, game-bar atomic pass).
    flex/text-align moved to Tailwind too (Tier 3). */
 
-/* Block 2.5: Word of the day — reuses .header-wotd markup, but strips its
-   own card chrome (the surrounding .gb-block already provides that) and
-   stretches the thumbnail + word to fill the block's full height instead
-   of floating as a small cramped pill. */
-.gb-wotd-block {
-  flex: 1.3;
-  min-width: 0;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-}
-.gb-wotd-block .wotd-box.header-wotd {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 0;
-  background: none;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  margin: 0;
-  max-width: none;
-  width: 100%;
-}
-.gb-wotd-block .wotd-lbl {
-  display: block;
-  text-align: center;
-  margin-bottom: 4px;
-  flex: 0 0 auto;
-}
-.gb-wotd-block .wotd-body {
-  flex: 1;
-  min-height: 0;
-  justify-content: center;
-  gap: 10px;
-}
-.gb-wotd-block .wotd-img-wrap {
-  width: auto;
-  height: 100%;
-  aspect-ratio: 1;
-  max-height: 64px;
-  border-radius: 10px;
-}
-.gb-wotd-block .wotd-box .wotd-word {
-  font-size: 1.05rem;
-}
-@media (max-width: 480px) {
-  .gb-wotd-block {
-    display: none;
-  }
-}
+/* Block 2.5: Word of the day — historically reused ".header-wotd" markup
+   from a separate page-header consumer, but <WordOfDay/> (word-of-
+   day.tsx) turned out to be its ONLY current render site — mounted
+   exactly once, always inside .gb-wotd-block (confirmed via a
+   project-wide grep; the old #wotd-mount id this section's comments used
+   to reference doesn't exist in the DOM anymore either). Fully converted
+   to Tailwind (docs/full-css-tailwind-migration-roadmap.md Tier 3):
+   .gb-wotd-block's own properties directly on the element (game-bar.tsx);
+   the compound descendant overrides (.wotd-box.header-wotd/.wotd-lbl/
+   .wotd-body/.wotd-img-wrap) as ancestor-scoped [.gb-wotd-block_&]:
+   variants on word-of-day.tsx's elements — kept ancestor-scoped rather
+   than flattened to unconditional classes, in case this component is
+   ever reused in a non-game-bar context later, even though that never
+   currently happens. See the "Word of the day in header" section further
+   down for .header-wotd's own always-active base, which turned out to be
+   silently masking several of word-of-day.tsx's Tailwind classes this
+   whole time — including the .gb-wotd-block .wotd-box .wotd-word
+   font-size override, initially (and incorrectly) judged a no-op here
+   before that masking was found. */
 
 /* font-size/color/text-transform fully converted to Tailwind
    (docs/component-tailwind-conversion-roadmap.md, game-bar atomic pass).
@@ -3092,47 +3060,37 @@ body[data-theme="hp"] .sb-profile-section {
    `scale-*`/`rotate-*` utility, the transition-property must name
    `translate`/`scale`/`rotate` specifically, not `transform`. */
 
-/* ── Word of the day in header ── */
-.header-wotd {
-  margin: 0;
-  padding: 6px 12px;
-  flex-direction: row;
-  flex-shrink: 0;
-  max-width: 240px;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-.header-wotd .wotd-lbl {
-  font-size: 0.6rem;
-  color: var(--text3);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
+/* ── Word of the day in header ──
+   Fully converted to Tailwind (docs/full-css-tailwind-migration-roadmap.md
+   Tier 3). Found while converting the .gb-wotd-block-scoped overrides:
+   .header-wotd is a plain, UNCONDITIONAL bare rule (not gated by any
+   ancestor), always active on the same element (<WordOfDay/>'s root div
+   carries both "wotd-box" and "header-wotd" unconditionally) — being
+   unlayered, it had ALWAYS been winning over several base Tailwind
+   classes word-of-day.tsx already had (py-2/px-3.5/mb-2 on the box;
+   text-[0.62rem]/tracking-[0.08em] on .wotd-lbl; text-[1.05rem]/
+   text-[var(--wotd-word-color)] on .wotd-word — all silently dead,
+   masked by this and the two compound rules below), regardless of
+   .gb-wotd-block. Moved directly onto each element's own className as
+   the new unconditional base, using the REAL always-winning values, not
+   the previously-dead Tailwind ones. --wotd-word-color (theme-aware)
+   turned out to have been fully inert this whole time too — .wotd-word's
+   real color has always been the hardcoded var(--accent) from this rule.
+   box-sizing:border-box wasn't reproduced: already covered by Tailwind's
+   preflight global border-box reset, a pure no-op.
 
-/* .wotd-body/.wotd-img-wrap's own properties moved to Tailwind utility
-   classes in word-of-day.tsx (docs/full-css-tailwind-migration-roadmap.md
-   Batch 6) — bare class names stay: .gb-wotd-block .wotd-body/.wotd-img-
-   wrap above still need them. .wotd-img-wrap.wotd-no-img's display:none
-   was React-state-driven (imgFailed), replaced by a conditional `hidden`
-   Tailwind class instead. .wotd-text had no such dependency, fully
-   replaced (dropped from the DOM entirely). */
-.wotd-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 7px;
-}
-.header-wotd .wotd-word {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--accent);
-  max-width: 100%;
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.25;
-}
+   .gb-wotd-block .wotd-box .wotd-word{font-size:1.05rem} (compound,
+   higher specificity than either .header-wotd .wotd-word or the base
+   Tailwind class) was the ACTUAL override making the word larger inside
+   the game bar — initially misread as a no-op (assuming the base was
+   already 1.05rem) and dropped by mistake; restored as
+   [.gb-wotd-block_&]:!text-[1.05rem] directly on .wotd-word once this
+   masking chain was found live (computed font-size showed 13.6px/
+   0.85rem instead of the expected 16.8px/1.05rem inside the game bar).
+   Same for .wotd-box's flex-direction/flex-shrink: the compound rule's
+   higher specificity had been doing real work overriding .header-wotd's
+   row/shrink:0 that a same-named but non-important, unlayered-losing
+   Tailwind class can't replicate without `!`. */
 
 /* ── Profile delete modal ──
    .prf-delete-panel/.import-panel's background/border/box-shadow fully
@@ -3740,11 +3698,15 @@ body.dark {
   #sel-range {
     flex-basis: 100%;
   }
-  #wotd-mount,
-  .header-wotd {
-    flex-basis: 100%;
-    max-width: 100%;
-  }
+  /* #wotd-mount/.header-wotd's ≤640px flex-basis/max-width override
+     confirmed dead and dropped without conversion
+     (docs/full-css-tailwind-migration-roadmap.md Tier 3): #wotd-mount
+     doesn't exist in the DOM (see the "Block 2.5" note above), and
+     .header-wotd's version was always beaten by the higher-specificity
+     .gb-wotd-block .wotd-box.header-wotd compound rule's own flex:1/
+     max-width:none (0-3-0 vs this rule's 0-1-0) whenever .gb-wotd-block
+     wraps it — which, per that same note, is 100% of current real
+     usage. */
 
   .speak-btn {
     padding: 6px 8px;
@@ -3836,11 +3798,8 @@ body.dark {
   #sel-range {
     flex-basis: 100%;
   }
-  #wotd-mount,
-  .header-wotd {
-    flex-basis: 100%;
-    max-width: 100%;
-  }
+  /* #wotd-mount/.header-wotd — byte-identical twin of the ≤480px block
+     above; same dead-code reasoning, dropped without conversion. */
 
   .speak-btn {
     min-width: 32px;
