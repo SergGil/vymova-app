@@ -33,15 +33,16 @@ function SettingsToggle({
 }): ReactElement {
   return (
     <>
-      <label className="notif-toggle-wrap">
+      <label className="notif-toggle-wrap relative inline-block h-[22px] w-10">
         <input
           type="checkbox"
           id={id}
           checked={checked}
           disabled={disabled}
           onChange={(e) => onChange(e.target.checked)}
+          className="peer h-0 w-0 opacity-0"
         />
-        <span className="notif-toggle-pill-ui" />
+        <span className="notif-toggle-pill-ui absolute inset-0 cursor-pointer rounded-[22px] bg-[var(--border)] [transition:0.2s] before:absolute before:left-[3px] before:top-[3px] before:h-4 before:w-4 before:rounded-full before:bg-white before:shadow-[0_1px_3px_rgba(0,0,0,0.2)] before:content-[''] before:[transition:0.2s] peer-checked:!bg-[var(--accent)] peer-checked:before:!translate-x-[18px] peer-disabled:!cursor-not-allowed peer-disabled:!opacity-40" />
       </label>
       <span style={{ fontSize: '.85rem', color: 'var(--text2)' }}>
         {checked ? onLabel : offLabel}

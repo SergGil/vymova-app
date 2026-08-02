@@ -3529,48 +3529,25 @@ body.dark {
   background: var(--card);
 }
 
-/* ── Notifications toggle ── */
-.notif-toggle-wrap {
-  position: relative;
-  display: inline-block;
-  width: 40px;
-  height: 22px;
-}
-.notif-toggle-wrap input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-.notif-toggle-pill-ui {
-  position: absolute;
-  inset: 0;
-  background: var(--border);
-  border-radius: 22px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.notif-toggle-pill-ui::before {
-  content: '';
-  position: absolute;
-  left: 3px;
-  top: 3px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #fff;
-  transition: 0.2s;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-.notif-toggle-wrap input:checked + .notif-toggle-pill-ui {
-  background: var(--accent);
-}
-.notif-toggle-wrap input:checked + .notif-toggle-pill-ui::before {
-  transform: translateX(18px);
-}
-.notif-toggle-wrap input:disabled + .notif-toggle-pill-ui {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
+/* ── Notifications toggle ──
+   Checkbox-hack toggle switch, fully converted to Tailwind
+   (docs/full-css-tailwind-migration-roadmap.md Tier 3 pilot) — the first
+   use of Tailwind's `peer`/`peer-checked:`/`peer-disabled:` mechanism in
+   this codebase, replacing the `input:checked + .notif-toggle-pill-ui`/
+   `input:disabled + .notif-toggle-pill-ui` adjacent-sibling selectors.
+   `peer` added to the (hidden) <input>, `peer-checked:`/`peer-disabled:`
+   variants on the sibling .notif-toggle-pill-ui — works regardless of
+   whether :checked/:disabled is React-controlled (settings-toggles.tsx)
+   or set imperatively via plain DOM (notifications.tsx's #notif-toggle),
+   since the variants read the native pseudo-classes either way. Two
+   render sites, identical markup in both.
+
+   No transition-property pitfall here (unlike .sb-toggle-pill's, found
+   just before this cluster): the original `transition: 0.2s` on both
+   .notif-toggle-pill-ui and its ::before never names a property, so it
+   defaults to `all` — already covers the standalone `translate` that
+   `peer-checked:before:translate-x-[18px]` writes to, same as the CTA
+   buttons' `transition:all_...` catch-all. */
 
 /* Time picker for daily reminder — border-color fully converted to
    Tailwind (docs/component-tailwind-conversion-roadmap.md Batch 2). */
