@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { act } from 'react';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { openResetConfirm, ResetConfirmDialog } from '../../js/features/reset-confirm-dialog.tsx';
 
 describe('<ResetConfirmDialog/>', () => {
@@ -61,6 +62,28 @@ describe('<ResetConfirmDialog/>', () => {
     });
     expect(cb1).not.toHaveBeenCalled();
     expect(cb2).toHaveBeenCalledTimes(1);
+  });
+
+  it('clicking the backdrop does not close it — unlike img-clear-confirm.tsx, this dialog only closes via its own buttons', async () => {
+    render(<ResetConfirmDialog />);
+    const cb = vi.fn();
+    act(() => {
+      openResetConfirm(cb);
+    });
+    await userEvent.click(document.getElementById('modal-overlay')!);
+    expect(cb).not.toHaveBeenCalled();
+    expect(document.getElementById('modal-overlay')).not.toBeNull();
+  });
+
+  it('pressing Escape does not close it — matches the original static overlay, which had no keydown listener', async () => {
+    render(<ResetConfirmDialog />);
+    const cb = vi.fn();
+    act(() => {
+      openResetConfirm(cb);
+    });
+    await userEvent.keyboard('{Escape}');
+    expect(cb).not.toHaveBeenCalled();
+    expect(document.getElementById('modal-overlay')).not.toBeNull();
   });
 
   it('does nothing when unmounted (no dangling _open reference)', () => {

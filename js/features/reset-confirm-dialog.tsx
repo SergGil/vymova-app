@@ -9,6 +9,7 @@
 // open — the id is kept on the rendered backdrop for that reason.
 import { useEffect, useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
+import { Dialog, DialogOverlay, DialogPopup, DialogPortal } from '../../src/components/ui/dialog.tsx';
 
 let _open: ((cb: () => void) => void) | null = null;
 
@@ -29,59 +30,65 @@ export function ResetConfirmDialog(): ReactElement | null {
 
   if (!onConfirm) return null;
 
-  // No backdrop-click-to-close — matches the original static
-  // #modal-overlay, which never had a click listener attached; only the
-  // Cancel/Reset buttons closed it.
+  // No backdrop-click-to-close, no Escape-to-close — matches the original
+  // static #modal-overlay, which never had a click/keydown listener
+  // attached; only the Cancel/Reset buttons closed it. disablePointerDismissal
+  // blocks outside-press; base-ui has no equivalent prop for the Escape key,
+  // so that one's blocked by canceling the 'escape-key' reason directly in
+  // onOpenChange (eventDetails.cancel() stops base-ui's own internal close
+  // handling too, not just this component's local close()).
   return (
-    <div
-      id="modal-overlay"
-      style={{
-        display: 'flex',
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(0,0,0,.55)',
-        zIndex: 99999,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 16,
+    <Dialog
+      open
+      disablePointerDismissal
+      onOpenChange={(nextOpen, eventDetails) => {
+        if (nextOpen) return;
+        if (eventDetails.reason === 'escape-key') {
+          eventDetails.cancel();
+          return;
+        }
+        setOnConfirm(null);
       }}
     >
-      <div className="rounded-[20px] pt-8 px-7 pb-6 max-w-[340px] w-full text-center [animation-name:slideUpPanel] [animation-duration:.22s] [animation-timing-function:cubic-bezier(.175,.885,.32,1.275)] bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--prf-delete-panel-shadow)]">
-        <div className="text-[2.4rem] mb-3">⚠️</div>
-        <div
-          className="text-[1.1rem] font-bold mb-1.5 text-[var(--prf-delete-title-color)]"
-          data-i18n="modal.resetTitle"
-        >
-          {t('modal.resetTitle')}
-        </div>
-        <div
-          className="text-[0.82rem] mb-6 leading-[1.4] text-[var(--prf-delete-warn-color)]"
-          data-i18n="modal.resetWarn"
-        >
-          {t('modal.resetWarn')}
-        </div>
-        <div className="flex gap-2.5">
-          <button
-            id="modal-cancel"
-            className="flex-1 p-[11px] rounded-[12px] [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-[1.5px] border-[var(--border)] bg-[var(--bg)] text-[var(--text2)] hover:border-[var(--text2)] hover:text-[var(--text)]"
-            data-i18n="modal.cancel"
-            onClick={() => setOnConfirm(null)}
+      <DialogPortal>
+        <DialogOverlay id="modal-overlay" className="bg-black/55 p-4" />
+        <DialogPopup className="rounded-[20px] pt-8 px-7 pb-6 max-w-[340px] w-full text-center [animation-name:slideUpPanel] [animation-duration:.22s] [animation-timing-function:cubic-bezier(.175,.885,.32,1.275)] bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--prf-delete-panel-shadow)]">
+          <div className="text-[2.4rem] mb-3">⚠️</div>
+          <div
+            className="text-[1.1rem] font-bold mb-1.5 text-[var(--prf-delete-title-color)]"
+            data-i18n="modal.resetTitle"
           >
-            {t('modal.cancel')}
-          </button>
-          <button
-            id="modal-confirm"
-            className="flex-1 p-[11px] rounded-[12px] [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-0 text-white hover:bg-[#c0392b] bg-[var(--prf-delete-btn-confirm-bg)]"
-            data-i18n="modal.reset"
-            onClick={() => {
-              onConfirm();
-              setOnConfirm(null);
-            }}
+            {t('modal.resetTitle')}
+          </div>
+          <div
+            className="text-[0.82rem] mb-6 leading-[1.4] text-[var(--prf-delete-warn-color)]"
+            data-i18n="modal.resetWarn"
           >
-            {t('modal.reset')}
-          </button>
-        </div>
-      </div>
-    </div>
+            {t('modal.resetWarn')}
+          </div>
+          <div className="flex gap-2.5">
+            <button
+              id="modal-cancel"
+              className="flex-1 p-[11px] rounded-[12px] [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-[1.5px] border-[var(--border)] bg-[var(--bg)] text-[var(--text2)] hover:border-[var(--text2)] hover:text-[var(--text)]"
+              data-i18n="modal.cancel"
+              onClick={() => setOnConfirm(null)}
+            >
+              {t('modal.cancel')}
+            </button>
+            <button
+              id="modal-confirm"
+              className="flex-1 p-[11px] rounded-[12px] [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-all duration-150 border-0 text-white hover:bg-[#c0392b] bg-[var(--prf-delete-btn-confirm-bg)]"
+              data-i18n="modal.reset"
+              onClick={() => {
+                onConfirm();
+                setOnConfirm(null);
+              }}
+            >
+              {t('modal.reset')}
+            </button>
+          </div>
+        </DialogPopup>
+      </DialogPortal>
+    </Dialog>
   );
 }
