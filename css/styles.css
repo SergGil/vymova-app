@@ -957,17 +957,14 @@ body.dark .card.is-known {
 
 /* ── Геймфікація ── */
 /* background/color fully converted to Tailwind (docs/component-tailwind-
-   conversion-roadmap.md, game-bar atomic pass) — font-size/font-weight
-   turned out not theme-dependent (see the :root token comment), stay
-   bare. display:none is dead code (React conditionally renders this
-   element instead), not touched. */
-.goal-done-badge {
-  display: none;
-  font-size: 0.75rem;
-  padding: 2px 8px;
-  border-radius: 20px;
-  font-weight: 600;
-}
+   conversion-roadmap.md, game-bar atomic pass). font-size/font-weight/
+   padding/border-radius (this rule's own values all confirmed dead —
+   see the other two .goal-done-badge rules further down, and the :root
+   token comment) fully converted too now (docs/full-css-tailwind-
+   migration-roadmap.md Tier 3), using the real final winning values
+   directly on the element in game-bar-streak.tsx. display:none stays
+   unconverted, confirmed dead: React conditionally renders this element
+   instead. */
 
 /* ── Темна тема ── */
 /* ── Accessibility: reduced motion (explicit toggle) ──────────────
@@ -2613,14 +2610,11 @@ body[data-theme] * {
    moved to Tailwind (docs/component-tailwind-conversion-roadmap.md).
    color here (#7dffb0) is confirmed dead code (the separate "goal
    progress ring" section's #f39c12 wins the source-order tie), not
-   migrated. padding/font-size/font-weight aren't theme-dependent (no
-   light-reversion ever touches them), stay bare. */
-.goal-done-badge {
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 0.72rem;
-  font-weight: 700;
-}
+   migrated. padding/border-radius (this rule's real, final values —
+   never overridden by the third .goal-done-badge rule further down) and
+   font-size/font-weight (this rule's own values confirmed dead, the
+   third rule's 0.65rem/700 win the tie) all fully converted to Tailwind
+   too now (Tier 3). */
 
 /* Level block: gold/force theme — border-color/box-shadow moved to
    --gb-level-block-border/-shadow (docs/component-tailwind-conversion-
@@ -4245,14 +4239,11 @@ body[data-theme="hp"] {
    was needed — just text-[0.6rem] mx-px directly on the element. */
 /* color moved to --goal-done-badge-color (this was the actual live
    winner over the "always active" SW rule's #7dffb0, dead code — see
-   the :root token comment). font-size/font-weight aren't theme-
-   dependent, stay bare. */
-.goal-done-badge {
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-align: center;
-  white-space: nowrap;
-}
+   the :root token comment). font-size/font-weight (the real, final
+   winning values across all 3 physical .goal-done-badge locations) and
+   text-align/white-space (unique to this rule) all fully converted to
+   Tailwind too now (docs/full-css-tailwind-migration-roadmap.md
+   Tier 3). */
 
 /* ── B: Pull-to-refresh indicator ── */
 /* The own declarations of .stats-pull-indicator moved to Tailwind utility

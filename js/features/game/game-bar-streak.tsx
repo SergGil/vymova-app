@@ -104,7 +104,7 @@ export function GameBarGoal(): ReactElement {
       </div>
       {done && (
         <div
-          className="goal-done-badge text-[var(--goal-done-badge-color)] shadow-[var(--goal-done-badge-shadow)] [background:var(--goal-done-badge-bg)] [border:var(--goal-done-badge-border)]"
+          className="goal-done-badge text-[var(--goal-done-badge-color)] shadow-[var(--goal-done-badge-shadow)] [background:var(--goal-done-badge-bg)] [border:var(--goal-done-badge-border)] px-[10px] py-[3px] rounded-[20px] text-[0.65rem] font-bold text-center whitespace-nowrap"
           id="goal-done"
         >
           {t('cards.goalDone')}
