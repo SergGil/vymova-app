@@ -509,7 +509,7 @@ export function StatsPage(): ReactElement {
           {t('stats.overallProgress')}
         </div>
         <div className="stats-summary grid grid-cols-4 gap-2.5 [@media(max-width:480px)]:!grid-cols-2 [@media(max-width:480px)]:!gap-2">
-          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px]">
+          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px] animate-[statCardEnter_0.32s_ease_both]">
             <span className="stat-card-icon ic-accent mb-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--accent)_15%,transparent)] text-[0.86rem]">
               📖
             </span>
@@ -520,7 +520,7 @@ export function StatsPage(): ReactElement {
               {t('stats.wordsLearned')}
             </div>
           </div>
-          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px]">
+          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px] animate-[statCardEnter_0.32s_ease_both] [animation-delay:0.07s]">
             <span className="stat-card-icon ic-success mb-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--success)_15%,transparent)] text-[0.86rem]">
               🎯
             </span>
@@ -531,7 +531,7 @@ export function StatsPage(): ReactElement {
               {t('stats.ofAllWords')}
             </div>
           </div>
-          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px]">
+          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px] animate-[statCardEnter_0.32s_ease_both] [animation-delay:0.14s]">
             <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]" id="st-streak">
               {gd.streak || 0}
             </div>
@@ -544,7 +544,7 @@ export function StatsPage(): ReactElement {
               </div>
             )}
           </div>
-          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px]">
+          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px] animate-[statCardEnter_0.32s_ease_both]">
             <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]" id="st-week">
               {weeklyTotal}
             </div>

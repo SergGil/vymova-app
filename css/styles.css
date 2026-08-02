@@ -4424,7 +4424,16 @@ body[data-theme="hp"] {
   }
 }
 
-/* ── D: Stat-card entrance animation ── */
+/* ── D: Stat-card entrance animation ──
+   .stats-summary .stat-card's animation shorthand + the 2nd/3rd card's
+   animation-delay moved to Tailwind directly on each of the 4 fixed
+   .stat-card divs in stats-page.tsx (docs/full-css-tailwind-migration-
+   roadmap.md Tier 2d) — no :nth-child()/ancestor indirection needed since
+   each card is already its own distinct JSX element (unlike the
+   :last-child:nth-child(odd) case from the Tier 2c stats batch, this
+   :nth-child(2)/:nth-child(3) pair was real, not dead: 1st/4th cards get
+   no delay, 2nd/3rd get 0.07s/0.14s respectively, matching DOM order).
+   @keyframes statCardEnter stays CSS. */
 @keyframes statCardEnter {
   from {
     opacity: 0;
@@ -4434,15 +4443,6 @@ body[data-theme="hp"] {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-}
-.stats-summary .stat-card {
-  animation: statCardEnter 0.32s ease both;
-}
-.stats-summary .stat-card:nth-child(2) {
-  animation-delay: 0.07s;
-}
-.stats-summary .stat-card:nth-child(3) {
-  animation-delay: 0.14s;
 }
 @media (prefers-reduced-motion: reduce) {
   .stats-summary .stat-card {
