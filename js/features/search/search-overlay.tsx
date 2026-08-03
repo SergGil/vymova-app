@@ -12,6 +12,12 @@ import { render, setIdx } from '../../core/card-engine.ts';
 import { getLearnLang, getKnowLang } from '../lang-pair-select.tsx';
 import { headwordFor, langConfig, isTargetLang, type Code } from '../mode/mode-utils.ts';
 import type { WordEntry } from '../../../src/types.js';
+import { Dialog, DialogOverlay, DialogPortal } from '../../../src/components/ui/dialog.tsx';
+// Raw Popup, not the shared DialogPopup — top-aligned (48px from viewport
+// top), not centered, and DialogPopup's base centering classes can't be
+// overridden via className the same way word-detail.tsx's bottom-sheet
+// can't (see that file's comment on the same issue).
+import { Dialog as DialogPrimitive } from '@base-ui/react/dialog';
 
 const MAX_RESULTS = 40;
 
@@ -129,7 +135,7 @@ export function SearchOverlay(): ReactElement | null {
           e.preventDefault();
         }
       }
-      if (e.key === 'Escape' && open) close();
+      // Escape is handled globally by Dialog now.
     }
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
@@ -160,31 +166,26 @@ export function SearchOverlay(): ReactElement | null {
   if (!open) return null;
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(0,0,0,.6)',
-        zIndex: 19000,
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        padding: '48px 16px 16px',
-      }}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) close();
+    <Dialog
+      open
+      onOpenChange={(nextOpen) => {
+        if (!nextOpen) close();
       }}
     >
-      <div
-        style={{
-          background: 'var(--bg)',
-          borderRadius: 18,
-          width: '100%',
-          maxWidth: 520,
-          boxShadow: '0 8px 40px rgba(0,0,0,.35)',
-          overflow: 'hidden',
-        }}
-      >
+      <DialogPortal>
+        <DialogOverlay
+          id="search-overlay-backdrop"
+          className="z-[19000] flex items-start justify-center bg-black/60 p-4 pt-12"
+        />
+        <DialogPrimitive.Popup
+          className="fixed top-12 left-1/2 z-[19000] w-[calc(100%-2rem)] max-w-[520px] -translate-x-1/2 outline-none"
+          style={{
+            background: 'var(--bg)',
+            borderRadius: 18,
+            boxShadow: '0 8px 40px rgba(0,0,0,.35)',
+            overflow: 'hidden',
+          }}
+        >
         <div
           style={{
             display: 'flex',
@@ -204,7 +205,7 @@ export function SearchOverlay(): ReactElement | null {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Escape') close();
+              // Escape is handled globally by Dialog now.
               if (e.key === 'ArrowDown') {
                 e.preventDefault();
                 resultsRef.current?.querySelector<HTMLElement>('.search-row')?.focus();
@@ -242,7 +243,7 @@ export function SearchOverlay(): ReactElement | null {
           ref={resultsRef}
           style={{ maxHeight: '60vh', overflowY: 'auto', padding: '6px 0' }}
           onKeyDown={(e) => {
-            if (e.key === 'Escape') close();
+            // Escape is handled globally by Dialog now.
             const rows = [
               ...(resultsRef.current?.querySelectorAll<HTMLElement>('.search-row') ?? []),
             ];
@@ -359,7 +360,8 @@ export function SearchOverlay(): ReactElement | null {
             Нічого не знайдено
           </div>
         )}
-      </div>
-    </div>
+        </DialogPrimitive.Popup>
+      </DialogPortal>
+    </Dialog>
   );
 }

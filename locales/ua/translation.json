@@ -2069,6 +2069,7 @@
   "csv.colStatus": "Статус",
   "csv.statusKnown": "Знаю",
   "csv.statusUnknown": "Не знаю",
+  "csv.exported": "✅ Експортовано {{n}} слів",
   "profile.editTitle": "✏️ Редагувати профіль",
   "profile.editTooltip": "Редагувати",
   "profile.deleteTooltip": "Видалити",

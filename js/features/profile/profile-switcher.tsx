@@ -1,11 +1,11 @@
 // Vymova — js/features/profile/profile-switcher.tsx
 // Multi-profile: sidebar dropdown + inline add form + edit/delete modals
-import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { t } from '../i18n.ts';
 import { CharacterAvatar, DEFAULT_APPEARANCE } from '../character-avatar.tsx';
 import { appearanceOf, _flushPendingWrites } from '../../core/storage.ts';
 import type { CharacterAppearance } from '../../../src/types.js';
+import { Dialog, DialogOverlay, DialogPopup, DialogPortal } from '../../../src/components/ui/dialog.tsx';
 
 const LIST_KEY = 'ew_profiles';
 const ACTIVE_KEY = 'ew_active_profile';
@@ -533,25 +533,17 @@ export function ProfileSwitcher(): ReactElement {
         </button>
       </div>
 
-      {editTarget &&
-        createPortal(
-          <div
-            id="prf-edit-overlay"
-            style={{
-              position: 'fixed',
-              inset: 0,
-              background: 'rgba(0,0,0,.55)',
-              zIndex: 99999,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 16,
-            }}
-            onClick={(e) => {
-              if (e.target === e.currentTarget) setEditTarget(null);
-            }}
-          >
-            <div
+      {editTarget && (
+        <Dialog
+          open
+          onOpenChange={(nextOpen) => {
+            if (!nextOpen) setEditTarget(null);
+          }}
+        >
+          <DialogPortal>
+            <DialogOverlay id="prf-edit-overlay" className="bg-black/55 p-4" />
+            <DialogPopup
+              id="prf-edit-panel"
               style={{
                 background: 'var(--modal-bg, #fff)',
                 borderRadius: 18,
@@ -657,30 +649,31 @@ export function ProfileSwitcher(): ReactElement {
                   {t('profile.save')}
                 </button>
               </div>
-            </div>
-          </div>,
-          document.body,
-        )}
+            </DialogPopup>
+          </DialogPortal>
+        </Dialog>
+      )}
 
-      {deleteTarget &&
-        createPortal(
-          // No backdrop-click-to-close (unlike the edit modal above) —
-          // matches the original static #prf-delete-overlay, which never
-          // had a click listener attached; only the Cancel/Delete buttons
-          // closed it.
-          <div
-            style={{
-              position: 'fixed',
-              inset: 0,
-              background: 'rgba(0,0,0,.65)',
-              zIndex: 99999,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 16,
-            }}
-          >
-            <div
+      {deleteTarget && (
+        <Dialog
+          open
+          disablePointerDismissal
+          onOpenChange={(nextOpen, eventDetails) => {
+            if (nextOpen) return;
+            // No backdrop-click-to-close, no Escape-to-close (unlike the
+            // edit modal above) — matches the original static
+            // #prf-delete-overlay, which never had a click/keydown listener
+            // attached; only the Cancel/Delete buttons closed it.
+            if (eventDetails.reason === 'escape-key') {
+              eventDetails.cancel();
+              return;
+            }
+            setDeleteTarget(null);
+          }}
+        >
+          <DialogPortal>
+            <DialogOverlay className="bg-black/65 p-4" />
+            <DialogPopup
               id="prf-delete-panel"
               className="rounded-[20px] pt-8 px-7 pb-6 max-w-[340px] w-full text-center [animation-name:slideUpPanel] [animation-duration:.22s] [animation-timing-function:cubic-bezier(.175,.885,.32,1.275)] bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--prf-delete-panel-shadow)]"
             >
@@ -719,10 +712,10 @@ export function ProfileSwitcher(): ReactElement {
                   Видалити
                 </button>
               </div>
-            </div>
-          </div>,
-          document.body,
-        )}
+            </DialogPopup>
+          </DialogPortal>
+        </Dialog>
+      )}
     </div>
   );
 }

@@ -30,6 +30,15 @@ import { render, setIdx, onWordLearned as _onWordLearned } from '../../core/card
 import { checkMilestones } from '../milestones.ts';
 import type { WordEntry } from '../../../src/types.js';
 import { openWordDetail, closeWordDetail, useWordDetailTarget } from './word-detail-trigger.ts';
+import { Dialog, DialogOverlay, DialogPortal } from '../../../src/components/ui/dialog.tsx';
+// Raw DialogPrimitive.Popup, not the shared DialogPopup — this is a
+// bottom-sheet (anchored to the bottom edge, full width), not a centered
+// box, and DialogPopup's base classes (top-1/2 left-1/2 -translate-x/y-1/2)
+// can't be overridden via className: tailwind-merge doesn't treat `top-*`/
+// `-translate-y-*` as conflicting with `bottom-0`/`translate-y-0` (both are
+// independently valid, e.g. for an element stretched top-to-bottom), so
+// they'd just stack instead of the bottom values winning.
+import { Dialog as DialogPrimitive } from '@base-ui/react/dialog';
 
 export { openWordDetail };
 
@@ -67,9 +76,6 @@ export function WordDetailPage(): ReactElement | null {
     { due?: string; ef?: number; reps?: number } | undefined
   >(undefined);
   const panelRef = useRef<HTMLDivElement>(null);
-  // #wd-overlay is rendered by this component itself (both branches below),
-  // not a static index.html element — a ref instead of getElementById.
-  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!cw) return;
@@ -84,31 +90,14 @@ export function WordDetailPage(): ReactElement | null {
   }, [cw]);
 
   useEffect(() => {
-    if (cw) {
-      if (panelRef.current) panelRef.current.scrollTop = 0;
-      requestAnimationFrame(() => {
-        if (overlayRef.current) overlayRef.current.style.opacity = '1';
-      });
-    }
-  }, [cw]);
-
-  useEffect(() => {
-    if (!cw) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+    if (cw && panelRef.current) panelRef.current.scrollTop = 0;
   }, [cw]);
 
   function close(): void {
-    if (overlayRef.current) overlayRef.current.style.opacity = '0';
     closeWordDetail();
   }
 
-  if (!cw) {
-    return <div id="wd-overlay" ref={overlayRef} style={{ display: 'none' }} />;
-  }
+  if (!cw) return null;
 
   const w = cw;
   const enEx = w[2] ?? '';
@@ -224,38 +213,34 @@ export function WordDetailPage(): ReactElement | null {
     );
 
   return (
-    <div
-      id="wd-overlay"
-      ref={overlayRef}
-      style={{
-        display: 'flex',
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(0,0,0,.6)',
-        zIndex: 20000,
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-        padding: 0,
-      }}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) close();
+    <Dialog
+      open
+      onOpenChange={(nextOpen) => {
+        if (!nextOpen) close();
       }}
     >
-      <div
-        ref={panelRef}
-        id="wd-panel"
-        style={{
-          background: 'var(--card)',
-          borderRadius: '24px 24px 0 0',
-          width: '100%',
-          maxWidth: 560,
-          maxHeight: '90vh',
-          overflowY: 'auto',
-          padding: '20px 20px 32px',
-          boxShadow: '0 -8px 40px rgba(0,0,0,.35)',
-          position: 'relative',
-        }}
-      >
+      <DialogPortal>
+        <DialogOverlay
+          id="wd-overlay"
+          className="z-[20000] flex items-end justify-center bg-black/60 p-0"
+        />
+        <DialogPrimitive.Popup
+          ref={panelRef}
+          id="wd-panel"
+          className="fixed inset-x-0 bottom-0 z-[20000] outline-none"
+          style={{
+            background: 'var(--card)',
+            borderRadius: '24px 24px 0 0',
+            width: '100%',
+            maxWidth: 560,
+            maxHeight: '90vh',
+            overflowY: 'auto',
+            padding: '20px 20px 32px',
+            boxShadow: '0 -8px 40px rgba(0,0,0,.35)',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+        >
         {/* Drag handle */}
         <div
           style={{
@@ -492,7 +477,8 @@ export function WordDetailPage(): ReactElement | null {
             <span>{t('cards.gotoCard')}</span>
           </button>
         </div>
-      </div>
-    </div>
+        </DialogPrimitive.Popup>
+      </DialogPortal>
+    </Dialog>
   );
 }

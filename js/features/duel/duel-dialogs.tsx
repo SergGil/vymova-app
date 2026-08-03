@@ -6,6 +6,7 @@
 // reply-to-challenge, spectate) don't need to know or care that it's React.
 import { useEffect, useRef, useState, type ReactElement, type KeyboardEvent } from 'react';
 import { t } from '../i18n.ts';
+import { Dialog, DialogOverlay, DialogPopup, DialogPortal } from '../../../src/components/ui/dialog.tsx';
 
 type DialogRequest = { title: string; desc: string };
 
@@ -75,28 +76,34 @@ export function CodeInputDialog(): ReactElement | null {
   if (!req) return null;
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(0,0,0,.6)',
-        zIndex: 30000,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 16,
+    <Dialog
+      open
+      disablePointerDismissal
+      onOpenChange={(nextOpen, eventDetails) => {
+        if (nextOpen) return;
+        // No backdrop-click-to-close, no global Escape-to-close — matches
+        // the original, which had no backdrop click handler at all and only
+        // closed on Escape via the input's own onKeyDown (still wired below,
+        // unaffected by this since it calls close() directly, not through
+        // Dialog's open state).
+        if (eventDetails.reason === 'escape-key') {
+          eventDetails.cancel();
+        }
       }}
     >
-      <div
-        style={{
-          background: 'var(--modal-bg, var(--card))',
-          borderRadius: 18,
-          padding: '24px 22px',
-          maxWidth: 360,
-          width: '100%',
-          boxShadow: '0 12px 40px rgba(0,0,0,.35)',
-        }}
-      >
+      <DialogPortal>
+        <DialogOverlay className="z-[30000] bg-black/60 p-4" />
+        <DialogPopup
+          className="z-[30000]"
+          style={{
+            background: 'var(--modal-bg, var(--card))',
+            borderRadius: 18,
+            padding: '24px 22px',
+            maxWidth: 360,
+            width: '100%',
+            boxShadow: '0 12px 40px rgba(0,0,0,.35)',
+          }}
+        >
         <div
           id="code-input-title"
           style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}
@@ -173,7 +180,8 @@ export function CodeInputDialog(): ReactElement | null {
             OK
           </button>
         </div>
-      </div>
-    </div>
+        </DialogPopup>
+      </DialogPortal>
+    </Dialog>
   );
 }

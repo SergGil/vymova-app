@@ -1,6 +1,7 @@
 // Vymova — js/features/csv-export-button.tsx
 // "Google Sheets CSV" export button (settings → backup section).
 import { type ReactElement } from 'react';
+import { toast } from 'sonner';
 import { W } from '../../data/words-data/words.js';
 import { t } from './i18n.ts';
 import { useLangVersion } from '../../src/store.ts';
@@ -60,6 +61,9 @@ function exportCsv(): void {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  // Sonner pilot (shadcn add sonner) — this button previously gave zero
+  // feedback on click, silent success or failure alike.
+  toast.success(t('csv.exported', { n: src.length }));
 }
 
 export function CsvExportButton(): ReactElement {

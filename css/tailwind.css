@@ -44,6 +44,16 @@
   --color-foreground: var(--text);
   --color-primary: var(--accent);
   --color-primary-foreground: #fff; /* app convention: white text on --accent backgrounds, see .accent-btn.on in styles.css */
+  /* Added when select.tsx (npx shadcn add select) turned out to need it —
+     SelectItem's focus:bg-accent focus:text-accent-foreground pair was
+     otherwise half-mapped: --color-accent already existed above (the app's
+     OWN pre-shadcn token, reused for shadcn's "accent" slot too — same
+     var(--accent) value backs both --color-primary and --color-accent),
+     but nothing defined its foreground counterpart, leaving
+     text-accent-foreground resolve to an undefined custom property. Same
+     white-on-accent convention as --color-primary-foreground above, since
+     they share the same underlying color. */
+  --color-accent-foreground: #fff;
   --color-secondary: var(--bg2);
   --color-secondary-foreground: var(--text);
   --color-muted: var(--bg2);

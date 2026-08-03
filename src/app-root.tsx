@@ -85,6 +85,7 @@ import { NoteModal } from '../js/features/notes/note-modal.tsx';
 import { CardLegendModal } from '../js/features/card/card-legend.tsx';
 import { PronunciationToast } from '../js/features/voice/pronunciation-toast.tsx';
 import { ConfettiCanvas } from '../js/core/confetti.tsx';
+import { Toaster } from './components/ui/sonner.tsx';
 import { CardActionsInit } from '../js/features/card/card-actions.ts';
 import { StatsInit } from '../js/features/stats/stats.ts';
 import { OfflineInit } from '../js/features/offline.ts';
@@ -488,6 +489,15 @@ function AppRoot(): ReactElement {
       <NoteModal />
       <CardLegendModal />
       <PronunciationToast />
+      {/* Toaster doesn't self-portal — unlike NoteModal/PronunciationToast
+          (both call createPortal(..., document.body) themselves), or the
+          Dialog-based components (base-ui's own Portal does it). Rendered
+          here in place, it inherits #app-root's display:none (this root has
+          no visible box of its own — every other child either portals out
+          via the Portal wrapper above or self-portals), so every toast
+          would exist in the DOM with real computed styles but a 0×0
+          rendered rect, never actually visible. */}
+      {createPortal(<Toaster />, document.body)}
       <Portal id="confetti-canvas-mount">
         <ConfettiCanvas />
       </Portal>

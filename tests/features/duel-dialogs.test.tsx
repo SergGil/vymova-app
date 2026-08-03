@@ -66,8 +66,8 @@ describe('_askCode() / <CodeInputDialog/>', () => {
 
   it('shows the title and description once _askCode() is called', () => {
     void askCode('the-title', 'the-desc');
-    expect(container.textContent).toContain('the-title');
-    expect(container.textContent).toContain('the-desc');
+    expect(document.body.textContent).toContain('the-title');
+    expect(document.body.textContent).toContain('the-desc');
   });
 
   it('resolves null when cancel is clicked', async () => {
@@ -109,8 +109,8 @@ describe('_askCode() / <CodeInputDialog/>', () => {
     const second = askCode('second-title', 'second-desc');
 
     // The shared dialog now reflects only the second call.
-    expect(container.textContent).toContain('second-title');
-    expect(container.textContent).not.toContain('first-title');
+    expect(document.body.textContent).toContain('second-title');
+    expect(document.body.textContent).not.toContain('first-title');
 
     setInputValue('xyz-789');
     clickOk();

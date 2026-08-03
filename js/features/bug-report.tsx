@@ -4,6 +4,13 @@ import { useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { useLangVersion } from '../../src/store.ts';
 import { Button } from '../../src/components/ui/button.tsx';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../src/components/ui/select.tsx';
 
 const RECIPIENT = 'beizmans@gmail.com';
 
@@ -51,18 +58,25 @@ export function BugReportForm(): ReactElement {
 
   return (
     <div className="bug-form mt-3 flex flex-col gap-2.5" id="bug-form">
-      <select
-        id="bug-subject"
-        className={`bug-select ${inputCls}`}
-        value={subject}
-        onChange={(e) => setSubject(e.target.value)}
-      >
-        {SUBJECT_KEYS.map((key) => (
-          <option key={key} value={key === 'settings.bugSubjectDefault' ? '' : t(key)}>
-            {t(key)}
-          </option>
-        ))}
-      </select>
+      <Select value={subject} onValueChange={(v) => setSubject(v as string)}>
+        <SelectTrigger id="bug-subject" className={`bug-select h-auto w-full ${inputCls}`}>
+          {/* Select.Value has no built-in way to look up an item's label from
+              its value (it's not derived from the SelectItem children) — the
+              docs' own example is exactly this children-as-function form. */}
+          <SelectValue>
+            {(value: string) =>
+              value ? value : t('settings.bugSubjectDefault')
+            }
+          </SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          {SUBJECT_KEYS.map((key) => (
+            <SelectItem key={key} value={key === 'settings.bugSubjectDefault' ? '' : t(key)}>
+              {t(key)}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
       <textarea
         id="bug-message"
         className={`bug-textarea ${inputCls} min-h-[90px] resize-y leading-[1.5]${error ? ' bug-error border-[#e74c3c]' : ''}`}

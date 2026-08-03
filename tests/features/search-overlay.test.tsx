@@ -49,23 +49,23 @@ describe('search-overlay.tsx SearchOverlay', () => {
   });
 
   it('opens when #btn-search is clicked', () => {
-    const { container } = mount();
+    mount();
     act(() => {
       document
         .getElementById('btn-search')!
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect(container.querySelector('input')).not.toBeNull();
+    expect(document.querySelector('input')).not.toBeNull();
   });
 
   it('opens on Ctrl+F when not focused in an input', () => {
-    const { container } = mount();
+    mount();
     act(() => {
       document.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'f', ctrlKey: true, bubbles: true, cancelable: true }),
       );
     });
-    expect(container.querySelector('input')).not.toBeNull();
+    expect(document.querySelector('input')).not.toBeNull();
   });
 
   it('closes on Escape', () => {
@@ -75,7 +75,7 @@ describe('search-overlay.tsx SearchOverlay', () => {
         .getElementById('btn-search')!
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect(container.querySelector('input')).not.toBeNull();
+    expect(document.querySelector('input')).not.toBeNull();
 
     act(() => {
       document.dispatchEvent(
@@ -87,14 +87,14 @@ describe('search-overlay.tsx SearchOverlay', () => {
 
   it('shows search results matching the query after debounce', async () => {
     const target = (W as unknown as WordEntry[])[0];
-    const { container } = mount();
+    mount();
     act(() => {
       document
         .getElementById('btn-search')!
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
-    const input = container.querySelector('input') as HTMLInputElement;
+    const input = document.querySelector('input') as HTMLInputElement;
     const nativeValueSetter = Object.getOwnPropertyDescriptor(
       HTMLInputElement.prototype,
       'value',
@@ -105,18 +105,18 @@ describe('search-overlay.tsx SearchOverlay', () => {
     });
 
     await wait();
-    expect(container.querySelectorAll('.search-row').length).toBeGreaterThan(0);
+    expect(document.querySelectorAll('.search-row').length).toBeGreaterThan(0);
   });
 
   it('shows "no results" for an unmatched query', async () => {
-    const { container } = mount();
+    mount();
     act(() => {
       document
         .getElementById('btn-search')!
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
-    const input = container.querySelector('input') as HTMLInputElement;
+    const input = document.querySelector('input') as HTMLInputElement;
     const nativeValueSetter = Object.getOwnPropertyDescriptor(
       HTMLInputElement.prototype,
       'value',
@@ -127,7 +127,7 @@ describe('search-overlay.tsx SearchOverlay', () => {
     });
 
     await wait();
-    expect(container.textContent).toContain('Нічого не знайдено');
+    expect(document.body.textContent).toContain('Нічого не знайдено');
   });
 
   it('opens the word detail when a result row is clicked', async () => {
@@ -139,7 +139,7 @@ describe('search-overlay.tsx SearchOverlay', () => {
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
-    const input = container.querySelector('input') as HTMLInputElement;
+    const input = document.querySelector('input') as HTMLInputElement;
     const nativeValueSetter = Object.getOwnPropertyDescriptor(
       HTMLInputElement.prototype,
       'value',
@@ -150,7 +150,7 @@ describe('search-overlay.tsx SearchOverlay', () => {
     });
     await wait();
 
-    const row = container.querySelector('.search-row') as HTMLElement;
+    const row = document.querySelector('.search-row') as HTMLElement;
     act(() => {
       row.click();
     });
@@ -169,7 +169,7 @@ describe('search-overlay.tsx SearchOverlay', () => {
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
-    const input = container.querySelector('input') as HTMLInputElement;
+    const input = document.querySelector('input') as HTMLInputElement;
     const nativeValueSetter = Object.getOwnPropertyDescriptor(
       HTMLInputElement.prototype,
       'value',
@@ -180,7 +180,7 @@ describe('search-overlay.tsx SearchOverlay', () => {
     });
     await wait();
 
-    const badge = container.querySelector('.sr-goto-badge') as HTMLElement;
+    const badge = document.querySelector('.sr-goto-badge') as HTMLElement;
     expect(badge.textContent).toContain('у колоді');
     act(() => {
       badge.click();
@@ -194,14 +194,14 @@ describe('search-overlay.tsx SearchOverlay', () => {
   it('searches and displays results in the current learn language, not just EN/UA', async () => {
     localStorage.setItem('ew_learn_lang', 'es');
     await ensureLangTableLoaded('es');
-    const { container } = mount();
+    mount();
     act(() => {
       document
         .getElementById('btn-search')!
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
-    const input = container.querySelector('input') as HTMLInputElement;
+    const input = document.querySelector('input') as HTMLInputElement;
     const nativeValueSetter = Object.getOwnPropertyDescriptor(
       HTMLInputElement.prototype,
       'value',
@@ -212,7 +212,7 @@ describe('search-overlay.tsx SearchOverlay', () => {
     });
 
     await wait();
-    const row = container.querySelector('.search-row') as HTMLElement;
+    const row = document.querySelector('.search-row') as HTMLElement;
     expect(row).not.toBeNull();
     expect(row.textContent).toContain('abandonar');
     localStorage.removeItem('ew_learn_lang');
@@ -226,7 +226,7 @@ describe('search-overlay.tsx SearchOverlay', () => {
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
-    const backdrop = container.firstElementChild as HTMLElement;
+    const backdrop = document.getElementById('search-overlay-backdrop') as HTMLElement;
     act(() => {
       backdrop.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });

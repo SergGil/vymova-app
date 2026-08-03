@@ -229,35 +229,45 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
 
     const overlay = document.getElementById('prf-edit-overlay') as HTMLElement;
     expect(overlay).not.toBeNull();
-    const nameInput = overlay.querySelector('input') as HTMLInputElement;
+    // The modal's content (DialogPopup, id="prf-edit-panel") is a sibling of
+    // the backdrop (DialogOverlay), not a descendant of it — query from
+    // there, not `document` (which also has the always-mounted #sb-new-name
+    // add-profile input, making an unscoped `document.querySelector('input')`
+    // ambiguous).
     const nativeValueSetter = Object.getOwnPropertyDescriptor(
       HTMLInputElement.prototype,
       'value',
     )!.set!;
+    const getPanel = () => document.getElementById('prf-edit-panel') as HTMLElement;
+    const getNameInput = () => getPanel().querySelector('input') as HTMLInputElement;
+    const getSaveBtn = () =>
+      Array.from(getPanel().querySelectorAll('button')).find(
+        (b) => b.textContent === 'Зберегти',
+      ) as HTMLButtonElement;
 
     act(() => {
-      nativeValueSetter.call(nameInput, '');
-      nameInput.dispatchEvent(new Event('input', { bubbles: true }));
+      nativeValueSetter.call(getNameInput(), '');
+      getNameInput().dispatchEvent(new Event('input', { bubbles: true }));
     });
-    const saveBtn = Array.from(overlay.querySelectorAll('button')).find(
-      (b) => b.textContent === 'Зберегти',
-    ) as HTMLButtonElement;
     act(() => {
-      saveBtn.click();
+      getSaveBtn().click();
     });
-    expect(nameInput.style.borderColor).toBe('var(--danger)');
+    expect(getNameInput().style.borderColor).toBe('var(--danger)');
     expect(document.getElementById('prf-edit-overlay')).not.toBeNull();
 
     act(() => {
-      nativeValueSetter.call(nameInput, 'Alice2');
-      nameInput.dispatchEvent(new Event('input', { bubbles: true }));
+      nativeValueSetter.call(getNameInput(), 'Alice2');
+      getNameInput().dispatchEvent(new Event('input', { bubbles: true }));
     });
-    const avatarBtn = overlay.querySelectorAll('.prf-av-btn')[2] as HTMLButtonElement;
+    // .prf-av-btn is also used by the always-mounted (if hidden) add-profile
+    // form's avatar picker — scope to the edit panel to avoid picking one of
+    // those instead.
+    const avatarBtn = getPanel().querySelectorAll('.prf-av-btn')[2] as HTMLButtonElement;
     act(() => {
       avatarBtn.click();
     });
     await act(async () => {
-      saveBtn.click();
+      getSaveBtn().click();
       await new Promise((r) => setTimeout(r, 0));
     });
 
@@ -278,8 +288,9 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
       editBtn.click();
     });
 
-    const overlay = document.getElementById('prf-edit-overlay') as HTMLElement;
-    const cancelBtn = Array.from(overlay.querySelectorAll('button')).find(
+    expect(document.getElementById('prf-edit-overlay')).not.toBeNull();
+    const panel = document.getElementById('prf-edit-panel') as HTMLElement;
+    const cancelBtn = Array.from(panel.querySelectorAll('button')).find(
       (b) => b.textContent === 'Скасувати',
     ) as HTMLButtonElement;
     act(() => {

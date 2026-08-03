@@ -1879,6 +1879,7 @@
   "csv.colStatus": "Statut",
   "csv.statusKnown": "Su",
   "csv.statusUnknown": "Non su",
+  "csv.exported": "✅ {{n}} mots exportés",
   "profile.editTitle": "✏️ Modifier le profil",
   "profile.editTooltip": "Modifier",
   "profile.deleteTooltip": "Supprimer",
