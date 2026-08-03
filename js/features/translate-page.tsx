@@ -14,6 +14,7 @@ import { flagUrl } from '../core/flags.ts';
 import { LANG_META } from './profile/profile-page.tsx';
 import { speakForCode } from './voice/speak-lang.ts';
 import type { Code } from '../../src/types.js';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../src/components/ui/select.tsx';
 
 const META: Record<string, { name: string; country: string }> = {
   ...LANG_META,
@@ -103,18 +104,21 @@ export function TranslatePage(): ReactElement | null {
         >
           {t('translate.targetLabel')}
         </label>
-        <select
-          id="translate-target-select"
-          className="translate-select box-border min-w-[140px] flex-1 rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3 py-2.5 font-[inherit] text-[.85rem] text-[var(--text)]"
-          value={targetLang}
-          onChange={(e) => onTargetLangChange(e.target.value)}
-        >
-          {TARGET_LANGS.map((code) => (
-            <option key={code} value={code}>
-              {META[code]?.name ?? code}
-            </option>
-          ))}
-        </select>
+        <Select value={targetLang} onValueChange={(v) => onTargetLangChange(v as string)}>
+          <SelectTrigger
+            id="translate-target-select"
+            className="translate-select h-auto min-w-[140px] flex-1 rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3 py-2.5 font-[inherit] text-[.85rem] text-[var(--text)]"
+          >
+            <SelectValue>{(v: string) => META[v]?.name ?? v}</SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            {TARGET_LANGS.map((code) => (
+              <SelectItem key={code} value={code}>
+                {META[code]?.name ?? code}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <button
           type="button"
           className="translate-send cursor-pointer rounded-[10px] border-none bg-[var(--accent)] px-[18px] py-2.5 font-['DM_Sans',sans-serif] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"

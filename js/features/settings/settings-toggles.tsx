@@ -15,6 +15,7 @@
 import { useEffect, useState, type ReactElement } from 'react';
 import { isSrsPriorityEnabled } from '../../core/srs.ts';
 import { t } from '../i18n.ts';
+import { Switch } from '../../../src/components/ui/switch.tsx';
 
 function SettingsToggle({
   id,
@@ -33,17 +34,7 @@ function SettingsToggle({
 }): ReactElement {
   return (
     <>
-      <label className="notif-toggle-wrap relative inline-block h-[22px] w-10">
-        <input
-          type="checkbox"
-          id={id}
-          checked={checked}
-          disabled={disabled}
-          onChange={(e) => onChange(e.target.checked)}
-          className="peer h-0 w-0 opacity-0"
-        />
-        <span className="notif-toggle-pill-ui absolute inset-0 cursor-pointer rounded-[22px] bg-[var(--border)] [transition:0.2s] before:absolute before:left-[3px] before:top-[3px] before:h-4 before:w-4 before:rounded-full before:bg-white before:shadow-[0_1px_3px_rgba(0,0,0,0.2)] before:content-[''] before:[transition:0.2s] peer-checked:!bg-[var(--accent)] peer-checked:before:!translate-x-[18px] peer-disabled:!cursor-not-allowed peer-disabled:!opacity-40" />
-      </label>
+      <Switch id={id} checked={checked} onCheckedChange={onChange} disabled={disabled} />
       <span style={{ fontSize: '.85rem', color: 'var(--text2)' }}>
         {checked ? onLabel : offLabel}
       </span>
@@ -71,12 +62,24 @@ function hapticEnabledDefault(): boolean {
   return localStorage.getItem('ew_haptic') !== '0';
 }
 
+// iOS has no Vibration API — settings.tsx's own effect still hides this
+// whole section on non-touch devices (a structural DOM concern, left there),
+// but "disabled" itself has to be real React state: base-ui's Switch reads
+// its `disabled` prop at click time, not the hidden mirror <input>'s own
+// .disabled DOM property, so the old `getElementById('haptic-toggle')
+// .disabled = true` trick that worked on a plain native checkbox silently
+// stopped blocking clicks once this became a Switch.
+function hapticUnsupported(): boolean {
+  return navigator.maxTouchPoints > 0 && !('vibrate' in navigator);
+}
+
 export function HapticToggle(): ReactElement {
   const [checked, setChecked] = useState(hapticEnabledDefault);
   return (
     <SettingsToggle
       id="haptic-toggle"
       checked={checked}
+      disabled={hapticUnsupported()}
       onChange={(v) => {
         localStorage.setItem('ew_haptic', v ? '1' : '0');
         setChecked(v);

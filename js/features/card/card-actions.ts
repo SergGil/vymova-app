@@ -6,6 +6,7 @@ import { saveKnown, saveSRS } from '../../core/storage.ts';
 import { getGameData, saveGameData, resetAllLangProgress, recordMistake } from '../game/game.ts';
 import { getSrsDataSnapshot, clearSrsData } from '../../../src/srs-store.ts';
 import { getBaseWordsSnapshot } from '../../../src/deck-filter-store.ts';
+import { getRangeSnapshot } from '../../../src/range-store.ts';
 import { today } from '../../core/today.ts';
 import { addCombo, breakCombo, flashCard } from '../game/combo.ts';
 import { openNoteModal } from '../notes/note-modal.tsx';
@@ -185,7 +186,7 @@ export function CardActionsInit(): ReactElement | null {
     function _afterGrade(rebuildUnlearned: boolean): void {
       saveSRS(getSrsDataSnapshot());
       _safe(() => updateSrsUI(getBaseWordsSnapshot()));
-      const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
+      const rangeVal = getRangeSnapshot();
       if (rangeVal === 'srs') {
         setDeck(buildSRSDeck(getBaseWordsSnapshot()));
         setIdx(0);
@@ -376,7 +377,7 @@ export function CardActionsInit(): ReactElement | null {
         _safe(() => updateSrsUI(getBaseWordsSnapshot()));
         _safe(() => playSound('next'));
         _safe(() => breakCombo());
-        const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
+        const rangeVal = getRangeSnapshot();
         if (rangeVal === 'srs') {
           setDeck(buildSRSDeck(getBaseWordsSnapshot()));
           setIdx(0);
@@ -439,7 +440,7 @@ export function CardActionsInit(): ReactElement | null {
       // the old state.
       const cardEl2 = document.getElementById('card');
       if (cardEl2) cardEl2.classList.remove('is-known');
-      const rangeVal = (document.getElementById('sel-range') as HTMLSelectElement)!.value;
+      const rangeVal = getRangeSnapshot();
       if (rangeVal === 'srs') {
         setDeck(buildSRSDeck(getBaseWordsSnapshot()));
       } else if (rangeVal === 'unlearned') {

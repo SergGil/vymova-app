@@ -102,7 +102,7 @@ describe('settings.tsx SettingsInit', () => {
     expect(vibrate).not.toHaveBeenCalled();
   });
 
-  it('disables the haptic checkbox and shows the iOS note on a touch device without the Vibration API', () => {
+  it('shows the iOS note (section stays visible) on a touch device without the Vibration API', () => {
     Object.defineProperty(navigator, 'maxTouchPoints', { value: 1, configurable: true });
     const originalVibrate = Object.getOwnPropertyDescriptor(navigator, 'vibrate');
     // 'vibrate' in navigator must read false — deleting the property (rather
@@ -115,7 +115,9 @@ describe('settings.tsx SettingsInit', () => {
     const toggle = document.getElementById('haptic-toggle') as HTMLInputElement;
     const section = toggle.closest('.settings-section') as HTMLElement;
     const iosNote = document.getElementById('haptic-ios-note') as HTMLElement;
-    expect(toggle.disabled).toBe(true);
+    // Actually disabling the toggle on iOS is <HapticToggle/>'s own concern
+    // now (settings-toggles.test.tsx) — SettingsInit only owns this section's
+    // visibility and the iOS explanatory note.
     expect(section.style.display).not.toBe('none');
     expect(iosNote.style.display).toBe('');
 

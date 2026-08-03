@@ -8,6 +8,13 @@ import { DYNAMIC_KEY_PREFIXES } from './profile/profile-switcher.tsx';
 import { _lzSave, _lzLoad } from '../core/storage.ts';
 import { getAppCheckHeaders } from '../core/app-check.ts';
 import type { SRSData } from '../../src/types.js';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../src/components/ui/select.tsx';
 
 // Every value under /sync/<key> is a JSON-stringified string (saveToCloud()
 // writes `String(Date.now())`/JSON.stringify(...) for every key, never a
@@ -554,29 +561,34 @@ export function CloudSyncSection(): ReactElement {
       <div style={{ ..._dividerStyle, margin: '8px 0' }}>
         <div style={_sectionLabelStyle}>{t('settings.cloudAutoLabel')}</div>
         <div style={_rowStyle}>
-          <select
-            id="cs-interval"
-            value={interval_}
-            onChange={(e) => onIntervalChange(parseInt(e.target.value))}
-            style={{
-              flex: 1,
-              padding: '9px 10px',
-              borderRadius: 10,
-              border: '1.5px solid var(--border)',
-              background: 'var(--bg)',
-              color: 'var(--text)',
-              fontFamily: 'inherit',
-              fontSize: '0.85rem',
-              cursor: 'pointer',
-              outline: 'none',
-            }}
+          <Select
+            value={String(interval_)}
+            onValueChange={(v) => onIntervalChange(parseInt(v as string))}
           >
-            <option value={0}>{t('settings.intervalOff')}</option>
-            <option value={30}>{t('settings.interval30')}</option>
-            <option value={60}>{t('settings.interval60')}</option>
-            <option value={360}>{t('settings.interval360')}</option>
-            <option value={1440}>{t('settings.intervalDaily')}</option>
-          </select>
+            <SelectTrigger
+              id="cs-interval"
+              className="h-auto flex-1 rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-[10px] py-[9px] font-[inherit] text-[.85rem] text-[var(--text)]"
+            >
+              <SelectValue>
+                {(v: string) =>
+                  ({
+                    '0': t('settings.intervalOff'),
+                    '30': t('settings.interval30'),
+                    '60': t('settings.interval60'),
+                    '360': t('settings.interval360'),
+                    '1440': t('settings.intervalDaily'),
+                  })[v] ?? v
+                }
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="0">{t('settings.intervalOff')}</SelectItem>
+              <SelectItem value="30">{t('settings.interval30')}</SelectItem>
+              <SelectItem value="60">{t('settings.interval60')}</SelectItem>
+              <SelectItem value="360">{t('settings.interval360')}</SelectItem>
+              <SelectItem value="1440">{t('settings.intervalDaily')}</SelectItem>
+            </SelectContent>
+          </Select>
           <span id="cs-last" style={{ fontSize: '0.7rem', color: 'var(--text3)', whiteSpace: 'nowrap' }}>
             {_lastAutoSaveError
               ? t('settings.cloudSyncError')

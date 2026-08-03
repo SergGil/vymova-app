@@ -278,7 +278,9 @@ describe('progress-io.tsx ProgressIO', () => {
       await Promise.resolve();
     });
 
-    const backdrop = getExportTextarea().closest('.import-panel')!.parentElement!;
+    // The panel (DialogPopup) is a sibling of the backdrop (DialogOverlay),
+    // not a descendant of it — can't reach it via .closest().parentElement.
+    const backdrop = document.getElementById('export-overlay')!;
     act(() => {
       fireEvent.click(backdrop);
     });
@@ -301,7 +303,7 @@ describe('progress-io.tsx ProgressIO', () => {
     act(() => {
       fireEvent.click(screen.getByText('📥 Імпорт'));
     });
-    const backdrop = getImportTextarea().closest('.import-panel')!.parentElement!;
+    const backdrop = document.getElementById('import-overlay')!;
     act(() => {
       fireEvent.click(backdrop);
     });

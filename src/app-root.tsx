@@ -13,6 +13,7 @@ import { NavProvider, getActivePage } from './nav-store.tsx';
 import { KnownWordsProvider } from './known-words-store.ts';
 import { SrsProvider } from './srs-store.ts';
 import { DeckFilterProvider } from './deck-filter-store.ts';
+import { RangeProvider } from './range-store.ts';
 import { ModeProvider } from './mode-store.ts';
 import { notifySettingsChange } from './store.ts';
 import { FandomThemeProvider } from './fandom-theme-store.ts';
@@ -522,6 +523,7 @@ export function mountAppRoot(): void {
         <KnownWordsProvider>
           <SrsProvider>
             <DeckFilterProvider>
+              <RangeProvider>
               <ModeProvider>
                 <FandomThemeProvider>
                   <DeckProvider>
@@ -547,6 +549,7 @@ export function mountAppRoot(): void {
                   </DeckProvider>
                 </FandomThemeProvider>
               </ModeProvider>
+              </RangeProvider>
             </DeckFilterProvider>
           </SrsProvider>
         </KnownWordsProvider>

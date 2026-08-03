@@ -9,11 +9,19 @@ import type { WordEntry } from './types.ts';
 interface DeckFilterState {
   baseWords: WordEntry[];
   activeTagSet: Set<string> | null;
+  // The raw category string TagFilterSelect's control shows/holds — '' for
+  // "all topics" — distinct from activeTagSet (the *derived* word-Set that
+  // string maps to). Added when tag-filter-select.tsx became a controlled
+  // shadcn Select: deck-filter.tsx needs to reset the *visible* selection
+  // (e.g. when switching to a range mode that doesn't support tag
+  // filtering) without a real <select> DOM node to write `.value = ''` on.
+  activeTagValue: string;
 }
 
 type DeckFilterAction =
   | { type: 'SET_BASE_WORDS'; words: WordEntry[] }
   | { type: 'SET_TAG_SET'; tagSet: Set<string> | null }
+  | { type: 'SET_TAG_VALUE'; value: string }
   | { type: 'SET_FILTER'; words: WordEntry[]; tagSet: Set<string> | null };
 
 function deckFilterReducer(state: DeckFilterState, action: DeckFilterAction): DeckFilterState {
@@ -22,8 +30,10 @@ function deckFilterReducer(state: DeckFilterState, action: DeckFilterAction): De
       return { ...state, baseWords: action.words };
     case 'SET_TAG_SET':
       return { ...state, activeTagSet: action.tagSet };
+    case 'SET_TAG_VALUE':
+      return { ...state, activeTagValue: action.value };
     case 'SET_FILTER':
-      return { baseWords: action.words, activeTagSet: action.tagSet };
+      return { ...state, baseWords: action.words, activeTagSet: action.tagSet };
   }
 }
 
@@ -32,6 +42,7 @@ const deckFilterStore = createDomainStore<DeckFilterState, DeckFilterAction>(
   {
     baseWords: [],
     activeTagSet: null,
+    activeTagValue: '',
   },
   'deck-filter',
 );
@@ -52,6 +63,18 @@ export function setBaseWords(words: WordEntry[]): void {
 
 export function setActiveTagSet(tagSet: Set<string> | null): void {
   deckFilterStore.dispatch({ type: 'SET_TAG_SET', tagSet });
+}
+
+export function getActiveTagValueSnapshot(): string {
+  return deckFilterStore.getSnapshot().activeTagValue;
+}
+
+export function setActiveTagValue(value: string): void {
+  deckFilterStore.dispatch({ type: 'SET_TAG_VALUE', value });
+}
+
+export function useActiveTagValue(): string {
+  return deckFilterStore.useSelector((s) => s.activeTagValue);
 }
 
 export function setDeckFilter(words: WordEntry[], tagSet: Set<string> | null): void {

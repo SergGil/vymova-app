@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { W } from '../../data/words-data/words.js';
+import { setRange } from '../../src/range-store.ts';
 
 const FLAG_KEY = 'ew_onboarding_needed';
 
@@ -92,11 +93,7 @@ function finish(selectedRange: string, overlayEl: HTMLDivElement | null): void {
     return;
   }
 
-  const selRange = document.getElementById('sel-range') as HTMLSelectElement | null;
-  if (selRange) {
-    selRange.value = selectedRange;
-    selRange.dispatchEvent(new Event('change'));
-  }
+  setRange(selectedRange);
 }
 
 function Onboarding({ onClose }: { onClose: () => void }): ReactElement {

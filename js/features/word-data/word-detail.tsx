@@ -2,6 +2,7 @@
 // Word Detail bottom-sheet modal: full word profile
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { getDeckSnapshot } from '../../../src/deck-store.ts';
+import { getRangeSnapshot, setRange } from '../../../src/range-store.ts';
 import { getSrsDataSnapshot, deleteSrsEntry } from '../../../src/srs-store.ts';
 import { decodeIpa } from '../../core/ui-helpers.ts';
 import { speakForCode } from '../voice/speak-lang.ts';
@@ -164,14 +165,12 @@ export function WordDetailPage(): ReactElement | null {
   function onGoto(): void {
     const word = w[0];
     close();
-    const sel = document.getElementById('sel-range') as HTMLSelectElement | null;
     const di = getDeckSnapshot().findIndex((d) => d[0] === word);
     if (di !== -1) {
       setIdx(di);
       render();
-    } else if (sel && sel.value !== '0') {
-      sel.value = '0';
-      sel.dispatchEvent(new Event('change'));
+    } else if (getRangeSnapshot() !== '0') {
+      setRange('0');
       setTimeout(() => {
         const di2 = getDeckSnapshot().findIndex((d) => d[0] === word);
         if (di2 !== -1) {

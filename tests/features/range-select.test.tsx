@@ -1,9 +1,13 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { notifyLangChange } from '../../src/store.ts';
 import { W } from '../../data/words-data/words.js';
 import { RangeSelect } from '../../js/features/range-select.tsx';
+import { setRange, setSrsLabel } from '../../src/range-store.ts';
+import { t } from '../../js/features/i18n.ts';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -12,14 +16,23 @@ const { getWordsForPair } = vi.hoisted(() => ({
 }));
 vi.mock('../../js/features/mode/mode-utils.ts', () => ({ getWordsForPair }));
 
-function mount(): { selRange: HTMLSelectElement; root: Root } {
-  document.body.innerHTML = '<div id="sel-range-mount"></div>';
-  const root = createRoot(document.getElementById('sel-range-mount')!);
+let roots: Root[] = [];
+
+function mount(): { trigger: HTMLElement; root: Root } {
+  const container = document.createElement('div');
+  document.body.appendChild(container);
+  const root = createRoot(container);
   act(() => {
     root.render(<RangeSelect />);
   });
-  const selRange = document.getElementById('sel-range') as HTMLSelectElement;
-  return { selRange, root };
+  roots.push(root);
+  return { trigger: document.getElementById('sel-range')!, root };
+}
+
+async function openTrigger(trigger: HTMLElement): Promise<void> {
+  await act(async () => {
+    await userEvent.click(trigger);
+  });
 }
 
 describe('range-select.tsx RangeSelect', () => {
@@ -27,69 +40,73 @@ describe('range-select.tsx RangeSelect', () => {
     document.body.innerHTML = '';
     getWordsForPair.mockClear();
     getWordsForPair.mockImplementation((words: unknown[]) => words);
+    setRange('0');
+    setSrsLabel(null);
+    roots = [];
   });
 
-  it('renders every flat option and both optgroups', () => {
-    const { selRange } = mount();
-    const values = Array.from(selRange.querySelectorAll('option')).map((o) => o.value);
-    expect(values).toEqual([
-      '0',
-      'unlearned',
-      'srs',
-      'bookmarks',
-      'weak',
-      'hard',
-      'leech',
-      'cefr-A1',
-      'cefr-A2',
-      'cefr-B1',
-      'cefr-B2',
-      'cefr-C1',
-      'cefr-C2',
-      'pos-n',
-      'pos-v',
-      'pos-adj',
-      'pos-adv',
-      'pos-phrase',
-      'pos-other',
-      'stale7',
-      'stale30',
+  afterEach(() => {
+    roots.forEach((r) => act(() => r.unmount()));
+  });
+
+  it('renders every flat option and both option groups', async () => {
+    const { trigger } = mount();
+    await openTrigger(trigger);
+    const options = screen.getAllByRole('option').map((o) => o.textContent);
+    expect(options).toEqual([
+      `${t('cards.allWords')} (${W.length})`,
+      t('range.unlearned'),
+      t('range.srs'),
+      t('range.bookmarks'),
+      t('range.weak'),
+      t('range.hard'),
+      t('range.leech'),
+      t('range.cefrA1'),
+      t('range.cefrA2'),
+      t('range.cefrB1'),
+      t('range.cefrB2'),
+      t('range.cefrC1'),
+      t('range.cefrC2'),
+      t('range.posNoun'),
+      t('range.posVerb'),
+      t('range.posAdj'),
+      t('range.posAdv'),
+      t('range.posPhrase'),
+      t('range.posOther'),
+      t('range.stale7'),
+      t('range.stale30'),
     ]);
-    expect(selRange.querySelectorAll('optgroup').length).toBe(2);
+    expect(screen.getByText(t('range.cefrGroup'))).toBeInTheDocument();
+    expect(screen.getByText(t('range.posGroup'))).toBeInTheDocument();
   });
 
-  it('renders a "bookmarks" option right after "srs"', () => {
-    const { selRange } = mount();
-    const values = Array.from(selRange.querySelectorAll('option')).map((o) => o.value);
-    expect(values.indexOf('bookmarks')).toBe(values.indexOf('srs') + 1);
-    expect(
-      (selRange.querySelector('option[value="bookmarks"]') as HTMLOptionElement).textContent,
-    ).toBeTruthy();
+  it('renders a "bookmarks" option right after "srs"', async () => {
+    const { trigger } = mount();
+    await openTrigger(trigger);
+    const options = screen.getAllByRole('option').map((o) => o.textContent);
+    expect(options.indexOf(t('range.bookmarks'))).toBe(options.indexOf(t('range.srs')) + 1);
   });
 
   it('labels the "0" option with the total word count', () => {
-    const { selRange } = mount();
-    const allOpt = selRange.querySelector('option[value="0"]') as HTMLOptionElement;
-    expect(allOpt.textContent).toContain(String(W.length));
+    const { trigger } = mount();
+    expect(trigger.textContent).toContain(String(W.length));
   });
 
   it('re-derives the "0" label when the language pair changes', () => {
-    const { selRange } = mount();
+    const { trigger } = mount();
     getWordsForPair.mockImplementation((words: unknown[]) => words.slice(0, 3));
     act(() => {
       notifyLangChange();
     });
-    const allOpt = selRange.querySelector('option[value="0"]') as HTMLOptionElement;
-    expect(allOpt.textContent).toContain('3');
+    expect(trigger.textContent).toContain('3');
   });
 
-  it("keeps the 'srs' option's DOM node identity stable across a re-render", () => {
-    const { selRange } = mount();
-    const srsOptBefore = selRange.querySelector('option[value="srs"]');
+  it("reflects the SRS store's dynamic label once the 'srs' range is active", async () => {
+    const { trigger } = mount();
     act(() => {
-      notifyLangChange();
+      setRange('srs');
+      setSrsLabel(t('srs.optionDue', { n: 5 }));
     });
-    const srsOptAfter = selRange.querySelector('option[value="srs"]');
-    expect(srsOptAfter).toBe(srsOptBefore);
+    expect(trigger.textContent).toContain(t('srs.optionDue', { n: 5 }));
   });
 });

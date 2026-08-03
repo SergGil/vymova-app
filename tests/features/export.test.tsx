@@ -10,7 +10,7 @@ vi.mock('../../js/core/word-index.ts', () => ({
   getWordIndex: () => _mockWordIdx,
 }));
 
-const { ExportInit } = await import('../../js/features/export.tsx');
+const { ExportInit, setExportFilter } = await import('../../js/features/export.tsx');
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -29,13 +29,13 @@ describe('export.tsx ExportInit', () => {
 
   beforeEach(() => {
     document.body.innerHTML = `
-      <select id="export-filter"><option value="known">known</option><option value="all">all</option><option value="unknown">unknown</option></select>
       <button id="btn-anki-export"></button>
       <button id="btn-pdf-export"></button>
       <button id="btn-share"></button>
     `;
     setDeckState([]);
     setKnownWords('en', new Set());
+    setExportFilter('known');
     _mockWordIdx = new Map();
     localStorage.clear();
     roots = [];
@@ -104,7 +104,7 @@ describe('export.tsx ExportInit', () => {
     setKnownWords('en', new Set());
     const { root } = mount();
     roots.push(root);
-    (document.getElementById('export-filter') as HTMLSelectElement).value = 'known';
+    setExportFilter('known');
     const alertSpy = vi.fn();
     vi.stubGlobal('alert', alertSpy);
 
@@ -118,14 +118,12 @@ describe('export.tsx ExportInit', () => {
     vi.unstubAllGlobals();
   });
 
-  it('picks up a filter change made after mount (via the change event, not a stale read)', () => {
+  it('picks up a filter change made after mount (not a stale read)', () => {
     setKnownWords('en', new Set());
     const { root } = mount();
     roots.push(root);
-    const sel = document.getElementById('export-filter') as HTMLSelectElement;
     act(() => {
-      sel.value = 'all';
-      sel.dispatchEvent(new Event('change', { bubbles: true }));
+      setExportFilter('all');
     });
     const alertSpy = vi.fn();
     vi.stubGlobal('alert', alertSpy);

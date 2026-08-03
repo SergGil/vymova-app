@@ -5,6 +5,7 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setCwState, setFlippedState, setModeState, setDeckState } from '../../src/deck-store.ts';
 import { clearSrsData } from '../../src/srs-store.ts';
+import { setRange } from '../../src/range-store.ts';
 import type { WordEntry } from '../../src/types.ts';
 import {
   WordText,
@@ -199,6 +200,7 @@ describe('card-front-text.tsx', () => {
     setCwState(cw);
     setFlippedState(false);
     clearSrsData();
+    setRange('0');
     speakEnAccent.mockClear();
     speak.mockClear();
   });
@@ -302,17 +304,13 @@ describe('card-front-text.tsx', () => {
   });
 
   it('SrsBadge renders a hidden placeholder when there is nothing to show', () => {
-    document.body.innerHTML =
-      '<select id="sel-range"><option value="all" selected>all</option></select>';
     const { container } = mount(SrsBadge);
     const el = container.querySelector('#srs-next') as HTMLElement;
     expect(el.style.display).toBe('none');
   });
 
   it('SrsBadge shows a "new" badge when the SRS range is selected and the word is unscheduled', () => {
-    document.body.innerHTML =
-      '<select id="sel-range"><option value="srs" selected>srs</option></select>';
-    (document.getElementById('sel-range') as HTMLSelectElement).value = 'srs';
+    setRange('srs');
     const { container } = mount(SrsBadge);
     const el = container.querySelector('#srs-next') as HTMLElement;
     expect(el.classList.contains('srs-next')).toBe(true);

@@ -4,6 +4,7 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { W } from '../../data/words-data/words.js';
 import { OnboardingPage } from '../../js/features/onboarding.tsx';
+import { getRangeSnapshot, setRange } from '../../src/range-store.ts';
 
 const FLAG_KEY = 'ew_onboarding_needed';
 
@@ -14,9 +15,9 @@ async function wait(ms: number): Promise<void> {
 }
 
 beforeEach(() => {
-  document.body.innerHTML =
-    '<select id="sel-range"><option value="0">All</option><option value="srs">SRS</option><option value="unlearned">Unlearned</option></select><button id="btn-daily-challenge"></button>';
+  document.body.innerHTML = '<button id="btn-daily-challenge"></button>';
   localStorage.clear();
+  setRange('0');
 });
 
 describe('onboarding.tsx OnboardingPage', () => {
@@ -106,16 +107,9 @@ describe('onboarding.tsx OnboardingPage', () => {
 
     await user.click(screen.getByRole('button', { name: /Тільки невивчені/ }));
 
-    const selRange = document.getElementById('sel-range') as HTMLSelectElement;
-    let changeFired = false;
-    selRange.addEventListener('change', () => {
-      changeFired = true;
-    });
-
     await user.click(screen.getByRole('button', { name: '🚀 Почати навчання!' }));
 
-    expect(selRange.value).toBe('unlearned');
-    expect(changeFired).toBe(true);
+    expect(getRangeSnapshot()).toBe('unlearned');
 
     await wait(250);
     expect(screen.queryByText('Ласкаво просимо!')).toBeNull();
@@ -152,16 +146,9 @@ describe('onboarding.tsx OnboardingPage', () => {
     const user = userEvent.setup();
     const skipBtn = screen.getByRole('button', { name: 'Пропустити' });
 
-    const selRange = document.getElementById('sel-range') as HTMLSelectElement;
-    let changeFired = false;
-    selRange.addEventListener('change', () => {
-      changeFired = true;
-    });
-
     await user.click(skipBtn);
 
-    expect(selRange.value).toBe('srs');
-    expect(changeFired).toBe(true);
+    expect(getRangeSnapshot()).toBe('srs');
 
     await wait(250);
     expect(screen.queryByText('Ласкаво просимо!')).toBeNull();

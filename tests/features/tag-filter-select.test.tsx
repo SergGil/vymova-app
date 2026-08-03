@@ -1,8 +1,15 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { setActiveTagSet, getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import {
+  setActiveTagSet,
+  setActiveTagValue,
+  getActiveTagSetSnapshot,
+} from '../../src/deck-filter-store.ts';
 import { CATEGORY_LIST, WORD_CATEGORIES } from '../../data/categories.js';
+import { categoryName, t } from '../../js/features/i18n.ts';
 import { TagFilterSelect } from '../../js/features/tag-filter-select.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -20,87 +27,94 @@ const { _rebuildEsDeck, _isSpecialMode } = vi.hoisted(() => ({
 }));
 vi.mock('../../js/features/deck/deck-mode.tsx', () => ({ _rebuildEsDeck, _isSpecialMode }));
 
-function mount(): { selTag: HTMLSelectElement; root: Root } {
-  document.body.innerHTML =
-    '<div id="sel-tag-mount"></div><select id="sel-range"><option value="all">all</option></select>';
-  const root = createRoot(document.getElementById('sel-tag-mount')!);
+const { rebuildDeckForCurrentRange } = vi.hoisted(() => ({
+  rebuildDeckForCurrentRange: vi.fn(),
+}));
+vi.mock('../../js/features/deck/deck-filter.tsx', () => ({ rebuildDeckForCurrentRange }));
+
+let roots: Root[] = [];
+
+function mount(): { trigger: HTMLElement; root: Root } {
+  const container = document.createElement('div');
+  document.body.appendChild(container);
+  const root = createRoot(container);
   act(() => {
     root.render(<TagFilterSelect />);
   });
-  const selTag = document.getElementById('sel-tag') as HTMLSelectElement;
-  return { selTag, root };
+  roots.push(root);
+  return { trigger: document.getElementById('sel-tag')!, root };
+}
+
+async function openTrigger(trigger: HTMLElement): Promise<void> {
+  await act(async () => {
+    await userEvent.click(trigger);
+  });
 }
 
 describe('tag-filter-select.tsx TagFilterSelect', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
     setActiveTagSet(null);
+    setActiveTagValue('');
     _mockWordIdx = new Map();
     _rebuildEsDeck.mockClear();
     _isSpecialMode.mockClear();
     _isSpecialMode.mockReturnValue(false);
+    rebuildDeckForCurrentRange.mockClear();
+    roots = [];
   });
 
-  it('renders the "all topics" option plus one option per category', () => {
-    const { selTag } = mount();
-    const options = Array.from(selTag.options);
-    expect(options[0].value).toBe('');
-    expect(options.length).toBe(CATEGORY_LIST.length + 1);
-    expect(options[1].value).toBe(CATEGORY_LIST[0]);
+  afterEach(() => {
+    roots.forEach((r) => act(() => r.unmount()));
   });
 
-  it('sets selTag width via fitSelTag on mount', () => {
-    const { selTag } = mount();
-    expect(selTag.style.width).not.toBe('');
+  it('renders the "all topics" option plus one option per category', async () => {
+    const { trigger } = mount();
+    await openTrigger(trigger);
+    const options = screen.getAllByRole('option').map((o) => o.textContent);
+    expect(options).toEqual([t('cards.allTopics'), ...CATEGORY_LIST.map((c) => categoryName(c))]);
   });
 
-  it('selecting a category sets state._activeTagSet and dispatches change on #sel-range', () => {
-    const { selTag } = mount();
+  it('selecting a category sets activeTagSet and rebuilds the deck', async () => {
+    const { trigger } = mount();
     const cat = CATEGORY_LIST[0];
     const word = (WORD_CATEGORIES[cat] ?? [])[0];
     _mockWordIdx = new Map([[word.toLowerCase(), 0]]);
 
-    selTag.value = cat;
-    let changeFired = false;
-    document.getElementById('sel-range')!.addEventListener('change', () => {
-      changeFired = true;
-    });
-
-    act(() => {
-      selTag.dispatchEvent(new Event('change'));
+    await openTrigger(trigger);
+    await act(async () => {
+      await userEvent.click(screen.getByRole('option', { name: categoryName(cat) }));
     });
 
     expect(getActiveTagSetSnapshot()).toEqual(new Set([word.toLowerCase()]));
-    expect(changeFired).toBe(true);
+    expect(rebuildDeckForCurrentRange).toHaveBeenCalled();
     expect(_rebuildEsDeck).not.toHaveBeenCalled();
   });
 
-  it('selecting the empty option clears state._activeTagSet', () => {
-    const { selTag } = mount();
+  it('selecting the "all topics" option clears activeTagSet', async () => {
     setActiveTagSet(new Set(['abandon']));
-    selTag.value = '';
-    act(() => {
-      selTag.dispatchEvent(new Event('change'));
+    setActiveTagValue(CATEGORY_LIST[0]);
+    const { trigger } = mount();
+
+    await openTrigger(trigger);
+    await act(async () => {
+      await userEvent.click(screen.getByRole('option', { name: t('cards.allTopics') }));
     });
+
     expect(getActiveTagSetSnapshot()).toBeNull();
   });
 
-  it('calls _rebuildEsDeck instead of dispatching change when in a special mode', () => {
+  it('calls _rebuildEsDeck instead of rebuilding via range-store when in a special mode', async () => {
     _isSpecialMode.mockReturnValue(true);
-    const { selTag } = mount();
+    const { trigger } = mount();
     const cat = CATEGORY_LIST[0];
-    selTag.value = cat;
 
-    let changeFired = false;
-    document.getElementById('sel-range')!.addEventListener('change', () => {
-      changeFired = true;
-    });
-
-    act(() => {
-      selTag.dispatchEvent(new Event('change'));
+    await openTrigger(trigger);
+    await act(async () => {
+      await userEvent.click(screen.getByRole('option', { name: categoryName(cat) }));
     });
 
     expect(_rebuildEsDeck).toHaveBeenCalled();
-    expect(changeFired).toBe(false);
+    expect(rebuildDeckForCurrentRange).not.toHaveBeenCalled();
   });
 });

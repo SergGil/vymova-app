@@ -104,10 +104,13 @@ describe('<CloudSyncSection/>', () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     mockFetch();
     render(<CloudSyncSection />);
-    const select = document.getElementById('cs-interval') as HTMLSelectElement;
+    const trigger = document.getElementById('cs-interval') as HTMLElement;
 
     await act(async () => {
-      await userEvent.selectOptions(select, '60');
+      await userEvent.click(trigger);
+    });
+    await act(async () => {
+      await userEvent.click(screen.getByRole('option', { name: '1 год' }));
     });
     expect(localStorage.getItem('ew_sync_interval')).toBe('60');
     expect(screen.getByText('Авто-збереження увімкнено')).toBeInTheDocument();

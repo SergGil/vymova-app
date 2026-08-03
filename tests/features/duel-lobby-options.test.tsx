@@ -1,7 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { CATEGORY_LIST } from '../../data/categories.js';
+import { categoryName, t } from '../../js/features/i18n.ts';
 import {
   DuelModePicker,
   DuelCategoryPicker,
@@ -143,21 +146,27 @@ describe('duel-lobby-options.tsx DuelCategoryPicker', () => {
     });
   });
 
-  it('renders an "all words" option plus every category', () => {
+  it('renders an "all words" option plus every category', async () => {
     const { container, root } = mount(<DuelCategoryPicker />);
     roots.push(root);
-    const select = container.querySelector('select') as HTMLSelectElement;
-    expect(select.options.length).toBe(CATEGORY_LIST.length + 1);
-    expect(select.options[0].textContent).toContain('Всі слова');
+    const trigger = container.querySelector('[role="combobox"]') as HTMLElement;
+    await act(async () => {
+      await userEvent.click(trigger);
+    });
+    const options = screen.getAllByRole('option');
+    expect(options.length).toBe(CATEGORY_LIST.length + 1);
+    expect(options[0].textContent).toContain('Всі слова');
   });
 
-  it('changing the category calls _setSelCategory', () => {
+  it('changing the category calls _setSelCategory', async () => {
     const { container, root } = mount(<DuelCategoryPicker />);
     roots.push(root);
-    const select = container.querySelector('select') as HTMLSelectElement;
-    act(() => {
-      select.value = CATEGORY_LIST[0];
-      select.dispatchEvent(new Event('change', { bubbles: true }));
+    const trigger = container.querySelector('[role="combobox"]') as HTMLElement;
+    await act(async () => {
+      await userEvent.click(trigger);
+    });
+    await act(async () => {
+      await userEvent.click(screen.getByRole('option', { name: categoryName(CATEGORY_LIST[0]) }));
     });
     expect(setSelCategory).toHaveBeenCalledWith(CATEGORY_LIST[0]);
   });
@@ -207,30 +216,37 @@ describe('duel-lobby-options.tsx DuelOptionsRow', () => {
     expect(setSelDifficulty).toHaveBeenCalledWith('A1');
   });
 
-  it('changing best-of and max-hints selects calls their setters', () => {
+  it('changing best-of and max-hints selects calls their setters', async () => {
     const { container, root } = mount(<DuelOptionsRow />);
     roots.push(root);
-    const selects = container.querySelectorAll('select');
-    act(() => {
-      selects[0].value = '3';
-      selects[0].dispatchEvent(new Event('change', { bubbles: true }));
+    const [bestOfTrigger, maxHintsTrigger] = Array.from(
+      container.querySelectorAll('[role="combobox"]'),
+    ) as HTMLElement[];
+
+    await act(async () => {
+      await userEvent.click(bestOfTrigger);
+    });
+    await act(async () => {
+      await userEvent.click(screen.getByRole('option', { name: t('duel.bestOf3') }));
     });
     expect(setSelBestOf).toHaveBeenCalledWith(3);
 
-    act(() => {
-      selects[1].value = '1';
-      selects[1].dispatchEvent(new Event('change', { bubbles: true }));
+    await act(async () => {
+      await userEvent.click(maxHintsTrigger);
+    });
+    await act(async () => {
+      await userEvent.click(screen.getByRole('option', { name: t('duel.hints1') }));
     });
     expect(setSelMaxHints).toHaveBeenCalledWith(1);
   });
 
-  it('toggling the power-ups checkbox calls _setSelPowerups', () => {
+  it('toggling the power-ups switch calls _setSelPowerups', async () => {
     const { container, root } = mount(<DuelOptionsRow />);
     roots.push(root);
-    const checkbox = container.querySelector('input[type="checkbox"]') as HTMLInputElement;
-    expect(checkbox.checked).toBe(true);
-    act(() => {
-      checkbox.click();
+    const powerupsSwitch = container.querySelector('[role="switch"]') as HTMLElement;
+    expect(powerupsSwitch.getAttribute('aria-checked')).toBe('true');
+    await act(async () => {
+      await userEvent.click(powerupsSwitch);
     });
     expect(setSelPowerups).toHaveBeenCalledWith(false);
   });

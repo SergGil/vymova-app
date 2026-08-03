@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../../data/words-data/words.js';
 import { useLangVersion } from '../../../src/store.ts';
 import { getDeckSnapshot } from '../../../src/deck-store.ts';
+import { setRangeWithoutRebuild } from '../../../src/range-store.ts';
 import { getWordIndex } from '../../core/word-index.ts';
 import { shuffle } from '../../core/srs.ts';
 import {
@@ -37,7 +38,7 @@ function goToWord(word: string, after: () => void): void {
     shuffle(newDeck);
     setDeck(newDeck);
     di = (newDeck as WordEntry[]).findIndex((w) => w[0].toLowerCase() === wLow);
-    (document.getElementById('sel-range') as HTMLSelectElement).value = '0';
+    setRangeWithoutRebuild('0');
   }
   setIdx(di);
   stopAuto();

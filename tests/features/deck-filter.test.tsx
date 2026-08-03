@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { setActiveTagSet } from '../../src/deck-filter-store.ts';
+import { setActiveTagSet, setActiveTagValue } from '../../src/deck-filter-store.ts';
+import { getRangeSnapshot, setRange } from '../../src/range-store.ts';
 import { clearSrsData, setSrsEntry } from '../../src/srs-store.ts';
 import { setKnownWords } from '../../src/known-words-store.ts';
 import { W } from '../../data/words-data/words.js';
@@ -38,44 +39,31 @@ vi.mock('../../js/core/srs.ts', () => ({ shuffle, _shuf, buildSRSDeck, buildUnle
 vi.mock('../../js/features/game/game.ts', () => ({ getHardWords }));
 vi.mock('../../js/features/bookmarks.ts', () => ({ getBookmarks }));
 
-function mount(): { container: HTMLElement; root: Root } {
+let roots: Root[] = [];
+
+function mount(): { root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
   act(() => {
     root.render(<DeckFilterInit />);
   });
-  return { container, root };
+  roots.push(root);
+  return { root };
 }
 
 function change(value: string): void {
-  const sel = document.getElementById('sel-range') as HTMLSelectElement;
-  sel.value = value;
   act(() => {
-    sel.dispatchEvent(new Event('change'));
+    setRange(value);
   });
 }
 
 describe('deck-filter.tsx DeckFilterInit', () => {
   beforeEach(() => {
-    document.body.innerHTML = `
-      <select id="sel-range">
-        <option value="0">All (0)</option>
-        <option value="srs">SRS</option>
-        <option value="unlearned">Unlearned</option>
-        <option value="weak">Weak</option>
-        <option value="hard">Hard</option>
-        <option value="leech">Leech</option>
-        <option value="bookmarks">Bookmarks</option>
-        <option value="cefr-A1">A1</option>
-        <option value="pos-n">Nouns</option>
-        <option value="pos-other">Other POS</option>
-        <option value="stale7">Stale</option>
-      </select>
-      <select id="sel-tag"><option value="">All tags</option></select>
-      <div id="milestone-toast"></div>
-    `;
+    document.body.innerHTML = '<div id="milestone-toast"></div>';
     setActiveTagSet(null);
+    setActiveTagValue('');
+    setRange('0');
     clearSrsData();
     setKnownWords('en', new Set());
     render.mockClear();
@@ -87,6 +75,11 @@ describe('deck-filter.tsx DeckFilterInit', () => {
     buildUnlearnedDeck.mockClear().mockImplementation((words: unknown[]) => words);
     getHardWords.mockClear().mockReturnValue([]);
     getBookmarks.mockClear().mockReturnValue(new Set());
+    roots = [];
+  });
+
+  afterEach(() => {
+    roots.forEach((r) => act(() => r.unmount()));
   });
 
   it('builds the SRS deck on "srs" selection', () => {
@@ -117,13 +110,9 @@ describe('deck-filter.tsx DeckFilterInit', () => {
   });
 
   it('falls back to a shuffled full deck when no bookmarks exist', () => {
-    const sel = document.getElementById('sel-range') as HTMLSelectElement;
-    sel.value = 'bookmarks';
     mount();
-    act(() => {
-      sel.dispatchEvent(new Event('change'));
-    });
-    expect(sel.value).toBe('0');
+    change('bookmarks');
+    expect(getRangeSnapshot()).toBe('0');
     const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
     expect(deck.length).toBe(W.length);
   });
@@ -187,15 +176,8 @@ describe('deck-filter.tsx DeckFilterInit', () => {
   });
 
   it('falls back to a shuffled full deck when no words match the POS filter', () => {
-    const sel = document.getElementById('sel-range') as HTMLSelectElement;
-    const opt = document.createElement('option');
-    opt.value = 'pos-zzz';
-    sel.appendChild(opt);
     mount();
-    sel.value = 'pos-zzz';
-    act(() => {
-      sel.dispatchEvent(new Event('change'));
-    });
+    change('pos-zzz');
     const deck = setDeck.mock.calls.at(-1)![0] as WordEntry[];
     expect(deck.length).toBe(W.length);
   });
@@ -253,16 +235,12 @@ describe('deck-filter.tsx DeckFilterInit', () => {
     expect(deck.length).toBe(W.length);
   });
 
-  it('cleans up the change listener on unmount', () => {
+  it('cleans up the range-store subscription on unmount', () => {
     const { root } = mount();
     act(() => {
       root.unmount();
     });
-    const sel = document.getElementById('sel-range') as HTMLSelectElement;
-    sel.value = 'srs';
-    act(() => {
-      sel.dispatchEvent(new Event('change'));
-    });
+    change('srs');
     expect(buildSRSDeck).not.toHaveBeenCalled();
   });
 });

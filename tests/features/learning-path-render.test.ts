@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, beforeAll } from 'vitest';
 import { setKnownWords } from '../../src/known-words-store.ts';
+import { getRangeSnapshot } from '../../src/range-store.ts';
 import { W } from '../../data/words-data/words.js';
 import { today as localToday } from '../../js/core/today.ts';
 import { ensureGrammarLoaded } from '../../js/features/word-data/grammar-loader.ts';
@@ -69,23 +70,15 @@ describe('learning-path.ts renderLearningPath/openLearningPath', () => {
   });
 
   it('clicking a [data-lp-level] button navigates to that CEFR level', () => {
-    document.body.innerHTML =
-      '<div id="lp-content"></div><select id="sel-range"><option value="all">all</option><option value="cefr-A1">A1</option><option value="cefr-A2">A2</option></select>';
+    document.body.innerHTML = '<div id="lp-content"></div>';
     renderLearningPath();
     const el = document.getElementById('lp-content')!;
     const btn = el.querySelector('[data-lp-level]') as HTMLButtonElement;
     expect(btn).not.toBeNull();
 
-    const sel = document.getElementById('sel-range') as HTMLSelectElement;
-    let changeFired = false;
-    sel.addEventListener('change', () => {
-      changeFired = true;
-    });
-
     btn.click();
 
-    expect(sel.value).toBe(`cefr-${btn.dataset.lpLevel}`);
-    expect(changeFired).toBe(true);
+    expect(getRangeSnapshot()).toBe(`cefr-${btn.dataset.lpLevel}`);
     expect(openPage).toHaveBeenCalledWith('cards');
     expect(closePage).toHaveBeenCalled();
   });

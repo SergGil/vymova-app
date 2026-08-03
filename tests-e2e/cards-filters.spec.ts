@@ -24,6 +24,19 @@ async function pickFlagOption(page: Page, index: 0 | 1 | 2, value: string): Prom
   await dd.locator(`.flagdd-item[data-value="${value}"]`).click();
 }
 
+// #sel-tag/#sel-range are shadcn Select triggers (src/components/ui/select.tsx,
+// built on @base-ui/react/select) rather than native <select>s — the item
+// list only exists in the DOM while open, so .selectOption() no longer
+// applies; open the trigger, then click the matching role="option".
+async function pickSelectOption(
+  page: Page,
+  triggerId: string,
+  optionName: string | RegExp,
+): Promise<void> {
+  await page.locator(`#${triggerId}`).click();
+  await page.getByRole('option', { name: optionName }).click();
+}
+
 // #cidx renders "<pos>/<deckLen>" (card-progress.tsx's CardIdx).
 async function deckTotal(page: Page): Promise<number> {
   const text = (await page.locator('#cidx').innerText()).trim();
@@ -101,15 +114,17 @@ test.describe('Card filters — topic & range', () => {
 
     const total = await deckTotal(page);
 
-    // index 0 is "All topics" (value="") — index 1 is the first real
-    // category, always a proper subset of the full dictionary.
-    await page.locator('#sel-tag').selectOption({ index: 1 });
+    // "All topics" (value="") is always the first option — the first real
+    // category comes right after it, always a proper subset of the full
+    // dictionary.
+    await page.locator('#sel-tag').click();
+    await page.getByRole('option').nth(1).click();
     await expect(page.locator('#cidx')).not.toHaveText(`1/${total}`);
     const narrowed = await deckTotal(page);
     expect(narrowed).toBeLessThan(total);
     expect(narrowed).toBeGreaterThan(0);
 
-    await page.locator('#sel-tag').selectOption({ value: '' });
+    await pickSelectOption(page, 'sel-tag', /Всі теми/);
     expect(await deckTotal(page)).toBe(total);
 
     expect(errors).toEqual([]);
@@ -124,13 +139,13 @@ test.describe('Card filters — topic & range', () => {
     // CEFR tagging is static per-word metadata, unlike "unlearned"/"srs"
     // (which fall back to the full pool on a fresh profile with nothing
     // learned/due yet) — a reliable, profile-independent narrowing.
-    await page.locator('#sel-range').selectOption('cefr-A1');
+    await pickSelectOption(page, 'sel-range', /A1/);
     await expect(page.locator('#cidx')).not.toHaveText(`1/${total}`);
     const narrowed = await deckTotal(page);
     expect(narrowed).toBeLessThan(total);
     expect(narrowed).toBeGreaterThan(0);
 
-    await page.locator('#sel-range').selectOption('0');
+    await pickSelectOption(page, 'sel-range', /Всі слова/);
     expect(await deckTotal(page)).toBe(total);
 
     expect(errors).toEqual([]);

@@ -20,20 +20,20 @@ beforeEach(() => {
 describe('<SrsPriorityToggle/>', () => {
   it('defaults to checked (on) when localStorage is unset', () => {
     render(<SrsPriorityToggle />);
-    expect(screen.getByRole('checkbox')).toBeChecked();
+    expect(screen.getByRole('switch')).toBeChecked();
   });
 
   it('reads an explicit "off" from localStorage on mount', () => {
     localStorage.setItem('ew_srs_priority', '0');
     render(<SrsPriorityToggle />);
-    expect(screen.getByRole('checkbox')).not.toBeChecked();
+    expect(screen.getByRole('switch')).not.toBeChecked();
   });
 
   it('persists the choice to localStorage when toggled', async () => {
     render(<SrsPriorityToggle />);
-    await userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('switch'));
     expect(localStorage.getItem('ew_srs_priority')).toBe('0');
-    await userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('switch'));
     expect(localStorage.getItem('ew_srs_priority')).toBe('1');
   });
 });
@@ -41,39 +41,58 @@ describe('<SrsPriorityToggle/>', () => {
 describe('<HapticToggle/>', () => {
   it('defaults to checked (on) when localStorage is unset', () => {
     render(<HapticToggle />);
-    expect(screen.getByRole('checkbox')).toBeChecked();
+    expect(screen.getByRole('switch')).toBeChecked();
   });
 
   it('reads an explicit "off" from localStorage on mount', () => {
     localStorage.setItem('ew_haptic', '0');
     render(<HapticToggle />);
-    expect(screen.getByRole('checkbox')).not.toBeChecked();
+    expect(screen.getByRole('switch')).not.toBeChecked();
   });
 
   it('persists the choice to localStorage when toggled', async () => {
     render(<HapticToggle />);
-    await userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('switch'));
     expect(localStorage.getItem('ew_haptic')).toBe('0');
+  });
+
+  // Regression: settings.tsx used to imperatively set
+  // getElementById('haptic-toggle').disabled = true for this case — that
+  // trick relied on a plain native checkbox and stopped working once this
+  // became a base-ui Switch (its onClick reads a React `disabled` prop, not
+  // the hidden mirror <input>'s own .disabled). Disabling now has to be real
+  // state inside this component (hapticUnsupported()).
+  it('is disabled on a touch device without the Vibration API', () => {
+    Object.defineProperty(navigator, 'maxTouchPoints', { value: 1, configurable: true });
+    const originalVibrate = Object.getOwnPropertyDescriptor(navigator, 'vibrate');
+    // @ts-expect-error -- test-only removal to simulate iOS's missing API
+    delete navigator.vibrate;
+
+    render(<HapticToggle />);
+    expect(screen.getByRole('switch')).toHaveAttribute('data-disabled');
+
+    Object.defineProperty(navigator, 'maxTouchPoints', { value: 0, configurable: true });
+    if (originalVibrate) Object.defineProperty(navigator, 'vibrate', originalVibrate);
   });
 });
 
 describe('<ReducedMotionToggle/>', () => {
   it('defaults to off and does not apply the body class when unset', () => {
     render(<ReducedMotionToggle />);
-    expect(screen.getByRole('checkbox')).not.toBeChecked();
+    expect(screen.getByRole('switch')).not.toBeChecked();
     expect(document.body.classList.contains('reduced-motion')).toBe(false);
   });
 
   it('restores an explicit "on" from localStorage and applies the body class on mount', () => {
     localStorage.setItem('ew_reduced_motion', '1');
     render(<ReducedMotionToggle />);
-    expect(screen.getByRole('checkbox')).toBeChecked();
+    expect(screen.getByRole('switch')).toBeChecked();
     expect(document.body.classList.contains('reduced-motion')).toBe(true);
   });
 
   it('toggling persists to localStorage and flips the body class both ways', async () => {
     render(<ReducedMotionToggle />);
-    const toggle = screen.getByRole('checkbox');
+    const toggle = screen.getByRole('switch');
 
     await userEvent.click(toggle);
     expect(localStorage.getItem('ew_reduced_motion')).toBe('1');
@@ -88,20 +107,20 @@ describe('<ReducedMotionToggle/>', () => {
 describe('<HighContrastToggle/>', () => {
   it('defaults to off and does not apply the body class when unset', () => {
     render(<HighContrastToggle />);
-    expect(screen.getByRole('checkbox')).not.toBeChecked();
+    expect(screen.getByRole('switch')).not.toBeChecked();
     expect(document.body.classList.contains('high-contrast')).toBe(false);
   });
 
   it('restores "on" from localStorage and applies the body class on mount', () => {
     localStorage.setItem('ew_high_contrast', '1');
     render(<HighContrastToggle />);
-    expect(screen.getByRole('checkbox')).toBeChecked();
+    expect(screen.getByRole('switch')).toBeChecked();
     expect(document.body.classList.contains('high-contrast')).toBe(true);
   });
 
   it('toggling persists to localStorage and flips the body class both ways', async () => {
     render(<HighContrastToggle />);
-    const toggle = screen.getByRole('checkbox');
+    const toggle = screen.getByRole('switch');
 
     await userEvent.click(toggle);
     expect(localStorage.getItem('ew_high_contrast')).toBe('1');

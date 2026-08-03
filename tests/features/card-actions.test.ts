@@ -5,6 +5,7 @@ import { setDeckState, setIdxState, setFlippedState, setCwState } from '../../sr
 import { setKnownWords, getKnownSnapshot, markKnown } from '../../src/known-words-store.ts';
 import { clearSrsData, getSrsDataSnapshot, setSrsEntry } from '../../src/srs-store.ts';
 import { setBaseWords, setActiveTagSet } from '../../src/deck-filter-store.ts';
+import { setRange as setRangeStore } from '../../src/range-store.ts';
 import { setMode as dispatchModeStore } from '../../src/mode-store.ts';
 import { loadKnown, loadSRS, _flushPendingWrites } from '../../js/core/storage.ts';
 import type { WordEntry } from '../../src/types.js';
@@ -146,13 +147,9 @@ beforeAll(async () => {
     <button id="btn-auto"></button>
     <button id="btn-shuf"></button>
     <button id="btn-reset"></button>
-    <select id="sel-range">
-      <option value="all">all</option>
-      <option value="srs" selected>srs</option>
-      <option value="unlearned">unlearned</option>
-    </select>
   `;
   dispatchModeStore('en');
+  setRangeStore('srs');
 
   (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -165,7 +162,7 @@ beforeAll(async () => {
 }, 300000);
 
 function setRange(v: string): void {
-  (document.getElementById('sel-range') as HTMLSelectElement).value = v;
+  setRangeStore(v);
 }
 
 function setMode(v: string): void {

@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { render } from '@testing-library/react';
+import { act } from 'react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { BackupExportSection } from '../../js/features/export.tsx';
 
 // full-react-migration-roadmap.md Phase 6: the "Збереження прогресу"
@@ -7,14 +9,22 @@ import { BackupExportSection } from '../../js/features/export.tsx';
 // CsvExportButton are inlined directly (their separate <Portal> wrappers
 // in app-root.tsx are gone — nothing else referenced those wrapper ids).
 describe('<BackupExportSection/>', () => {
-  it('renders the anki/share/pdf export buttons and the export-filter select with all 3 options', () => {
+  it('renders the anki/share/pdf export buttons and the export-filter select with all 3 options', async () => {
     const { container } = render(<BackupExportSection />);
     expect(document.getElementById('btn-anki-export')).not.toBeNull();
     expect(document.getElementById('btn-share')).not.toBeNull();
     expect(document.getElementById('btn-pdf-export')).not.toBeNull();
-    const select = document.getElementById('export-filter') as HTMLSelectElement;
-    expect(select).not.toBeNull();
-    expect(Array.from(select.options).map((o) => o.value)).toEqual(['known', 'unknown', 'all']);
+    const trigger = document.getElementById('export-filter') as HTMLElement;
+    expect(trigger).not.toBeNull();
+
+    await act(async () => {
+      await userEvent.click(trigger);
+    });
+    expect(screen.getAllByRole('option').map((o) => o.textContent)).toEqual([
+      '✓ Тільки вивчені',
+      '🔴 Тільки невивчені',
+      '📚 Всі слова',
+    ]);
     expect(container.querySelectorAll('.backup-row')).toHaveLength(3);
   });
 });

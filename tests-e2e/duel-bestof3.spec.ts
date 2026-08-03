@@ -23,7 +23,10 @@ test.describe('Duel best-of-3 series continuation (RTDB emulator)', () => {
     try {
       await openEmuApp(page1);
       await page1.click('#sb-duel');
-      await page1.locator('#duel-options-row select').first().selectOption('3');
+      // duel-lobby-options.tsx's best-of <SelectContent> order is
+      // [oneRound, bestOf3] — index 1 picks "best of 3".
+      await page1.locator('#duel-options-row [role="combobox"]').first().click();
+      await page1.getByRole('option').nth(1).click();
       await page1.click('#duel-create-btn');
       await expect(page1.locator('#duel-waiting')).toBeVisible();
       let roomCode = (await page1.locator('#duel-room-code').textContent())!.trim();

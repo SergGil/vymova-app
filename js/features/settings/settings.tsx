@@ -50,14 +50,14 @@ export function SettingsInit(): ReactElement | null {
     btnDontKnow?.addEventListener('click', onDontKnow, true);
 
     // ── Haptic section visibility (touch-only; iOS shows disabled) ──
-    // Checked-state, status label, and persisting the choice are now owned
-    // by <HapticToggle/> (settings-toggles.tsx, mounted via Portal in
-    // app-root.tsx) — this block only handles the surrounding section's
-    // touch-device visibility, which is independent of the toggle's state.
-    // SRS-priority/reduced-motion/high-contrast toggles have likewise moved
-    // there in full (including reduced-motion's OS-preference listener and
-    // both toggles' body-class application).
-    const hapticToggle = document.getElementById('haptic-toggle') as HTMLInputElement | null;
+    // Checked-state, status label, persisting the choice, and the "disabled
+    // on iOS" state are all owned by <HapticToggle/> (settings-toggles.tsx,
+    // mounted via Portal in app-root.tsx) — this block only handles the
+    // surrounding section's touch-device visibility, which is independent of
+    // the toggle's own state. SRS-priority/reduced-motion/high-contrast
+    // toggles have likewise moved there in full (including reduced-motion's
+    // OS-preference listener and both toggles' body-class application).
+    const hapticToggle = document.getElementById('haptic-toggle');
     const hapticSection = hapticToggle?.closest('.settings-section') as HTMLElement | null;
     const isTouchDevice = navigator.maxTouchPoints > 0;
     const hasVibrationApi = 'vibrate' in navigator;
@@ -66,7 +66,6 @@ export function SettingsInit(): ReactElement | null {
         hapticSection.style.display = 'none';
       } else if (!hasVibrationApi) {
         // iOS: show section but disabled with explanation
-        if (hapticToggle) hapticToggle.disabled = true;
         const iosNote = document.getElementById('haptic-ios-note');
         if (iosNote) iosNote.style.display = '';
       }

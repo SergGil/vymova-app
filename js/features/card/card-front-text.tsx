@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react';
 import { useDeckState } from '../../../src/deck-store.ts';
 import { useSrsData } from '../../../src/srs-store.ts';
+import { getRangeSnapshot } from '../../../src/range-store.ts';
 import { today } from '../../core/today.ts';
 import { decodeIpa } from '../../core/ui-helpers.ts';
 import { t, tLang, type Lang } from '../i18n.ts';
@@ -42,7 +43,7 @@ function posLangForFront(front: string): Lang {
 }
 
 function getRangeVal(): string {
-  return (document.getElementById('sel-range') as HTMLSelectElement | null)?.value ?? '';
+  return getRangeSnapshot();
 }
 
 // Accent-toggle button content: a flag icon when we have one locally,

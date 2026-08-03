@@ -6,37 +6,60 @@ test.describe('Duel lobby options', () => {
     await openApp(page);
     await page.click('#sb-duel');
 
-    const select = page.locator('#duel-cat-picker select');
-    await select.selectOption({ index: 1 });
-    const chosen = await select.inputValue();
-    expect(chosen).not.toBe('');
+    const trigger = page.locator('#duel-cat-picker [role="combobox"]');
+    const before = (await trigger.textContent())!.trim();
+    await trigger.click();
+    // Option 0 is "all words" (the trigger's initial/default state) — pick
+    // the first real category right after it, always a different label.
+    const option = page.getByRole('option').nth(1);
+    const chosen = (await option.textContent())!.trim();
+    await option.click();
+    await expect(trigger).toContainText(chosen);
+    expect(chosen).not.toBe(before);
 
     // Close and reopen the lobby
     await page.click('#sb-duel');
     await page.click('#sb-duel');
 
-    await expect(page.locator('#duel-cat-picker select')).toHaveValue(chosen);
+    await expect(page.locator('#duel-cat-picker [role="combobox"]')).toContainText(chosen);
   });
 
   test('best-of, hints and power-ups persist across reopen', async ({ page }) => {
     await openApp(page);
     await page.click('#sb-duel');
 
-    const bestOf = page.locator('#duel-options-row select').first();
-    const hints = page.locator('#duel-options-row select').nth(1);
-    const powerups = page.locator('#duel-options-row input[type="checkbox"]');
+    const bestOfTrigger = page.locator('#duel-options-row [role="combobox"]').first();
+    const hintsTrigger = page.locator('#duel-options-row [role="combobox"]').nth(1);
+    const powerups = page.locator('#duel-options-row [role="switch"]');
 
-    await bestOf.selectOption('3');
-    await hints.selectOption('1');
+    // duel-lobby-options.tsx's <SelectContent> order: best-of is
+    // [oneRound, bestOf3] — index 1 picks "best of 3" (not the default).
+    await bestOfTrigger.click();
+    const bestOfOption = page.getByRole('option').nth(1);
+    const bestOfLabel = (await bestOfOption.textContent())!.trim();
+    await bestOfOption.click();
+    await expect(bestOfTrigger).toContainText(bestOfLabel);
+
+    // Hints order: [unlimited, 3, 1] — index 2 picks "1 hint" (not the default).
+    await hintsTrigger.click();
+    const hintsOption = page.getByRole('option').nth(2);
+    const hintsLabel = (await hintsOption.textContent())!.trim();
+    await hintsOption.click();
+    await expect(hintsTrigger).toContainText(hintsLabel);
+
     const powerupsBefore = await powerups.isChecked();
     await powerups.click();
 
     await page.click('#sb-duel');
     await page.click('#sb-duel');
 
-    await expect(page.locator('#duel-options-row select').first()).toHaveValue('3');
-    await expect(page.locator('#duel-options-row select').nth(1)).toHaveValue('1');
-    await expect(page.locator('#duel-options-row input[type="checkbox"]')).toBeChecked({
+    await expect(page.locator('#duel-options-row [role="combobox"]').first()).toContainText(
+      bestOfLabel,
+    );
+    await expect(page.locator('#duel-options-row [role="combobox"]').nth(1)).toContainText(
+      hintsLabel,
+    );
+    await expect(page.locator('#duel-options-row [role="switch"]')).toBeChecked({
       checked: !powerupsBefore,
     });
   });

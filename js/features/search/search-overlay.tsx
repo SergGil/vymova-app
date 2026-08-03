@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { W } from '../../../data/words-data/words.js';
 import { useLangVersion } from '../../../src/store.ts';
 import { getDeckSnapshot } from '../../../src/deck-store.ts';
+import { getRangeSnapshot, setRange } from '../../../src/range-store.ts';
 import { decodeIpa } from '../../core/ui-helpers.ts';
 import { openWordDetail } from '../word-data/word-detail-trigger.ts';
 import { t } from '../i18n.ts';
@@ -78,10 +79,8 @@ function jumpTo(w: WordEntry, close: () => void): void {
     return;
   }
   // Word not in deck — switch to all-words range, find it there
-  const selRange = document.getElementById('sel-range') as HTMLSelectElement | null;
-  if (selRange && selRange.value !== '0') {
-    selRange.value = '0';
-    selRange.dispatchEvent(new Event('change'));
+  if (getRangeSnapshot() !== '0') {
+    setRange('0');
     setTimeout(() => {
       const di2 = getDeckSnapshot().findIndex((d) => d[0] === w[0]);
       if (di2 !== -1) {

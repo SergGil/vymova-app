@@ -10,6 +10,7 @@ import {
   markSrsStatsClean,
 } from '../../src/srs-store.ts';
 import { getActiveTagSetSnapshot } from '../../src/deck-filter-store.ts';
+import { setSrsLabel } from '../../src/range-store.ts';
 import { today, localDateStr } from './today.ts';
 import { t } from '../features/i18n.ts';
 import { getSrsNewRemaining, recordSrsNewCard } from '../features/game/game.ts';
@@ -108,7 +109,6 @@ export function sm2Update(word: string, quality: number): void {
 }
 
 // ── SRS stats cache ───────────────────────────────────────────
-let _srsLabelOpt: HTMLOptionElement | null = null;
 let _srsDueEl: HTMLElement | null = null;
 let _srsNewEl: HTMLElement | null = null;
 let _srsStatsEl: HTMLElement | null = null;
@@ -139,12 +139,9 @@ export function updateSrsUI(W: readonly WordEntry[]): void {
 }
 
 function _renderSrsUI({ due, newCards, total }: typeof _srsStatsCache): void {
-  if (!_srsLabelOpt) _srsLabelOpt = document.querySelector('#sel-range option[value="srs"]');
-  if (_srsLabelOpt) {
-    if (total === 0) _srsLabelOpt.textContent = t('range.srs');
-    else if (due > 0) _srsLabelOpt.textContent = t('srs.optionDue', { n: due });
-    else _srsLabelOpt.textContent = t('srs.optionAllDone');
-  }
+  if (total === 0) setSrsLabel(null);
+  else if (due > 0) setSrsLabel(t('srs.optionDue', { n: due }));
+  else setSrsLabel(t('srs.optionAllDone'));
   if (!_srsStatsEl) _srsStatsEl = document.getElementById('srs-stats');
   if (!_srsDueEl) _srsDueEl = document.getElementById('srs-stat-due');
   if (!_srsNewEl) _srsNewEl = document.getElementById('srs-stat-new');

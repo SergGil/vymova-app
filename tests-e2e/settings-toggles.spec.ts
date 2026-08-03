@@ -33,26 +33,25 @@ test.describe('Settings — simple toggles', () => {
       const overlay = page.locator('#settings-overlay');
       await expect(overlay).toBeVisible();
 
+      // settings-toggles.tsx's SettingsToggle now renders a shadcn Switch
+      // (src/components/ui/switch.tsx, base-ui): the id lands on base-ui's
+      // hidden mirror <input> (visually hidden, form semantics only), and
+      // the actually-clickable control is its immediately-preceding sibling
+      // `<span role="switch">` — click that, read checked-state off the
+      // hidden input (base-ui keeps them in sync).
       const checkbox = overlay.locator(`#${id}`);
-      // settings-toggles.tsx's SettingsToggle renders the real <input> inside
-      // a <label class="notif-toggle-wrap"> with the CSS toggle-pill visual
-      // (.notif-toggle-pill-ui) as its only visible content — the input
-      // itself is visually hidden (standard styled-checkbox pattern), so
-      // Playwright's actionability check on the input directly never
-      // resolves. Click the label (which forwards to the input, same as a
-      // real click on the visible pill) instead.
-      const label = checkbox.locator('xpath=..');
+      const toggleSwitch = checkbox.locator('xpath=preceding-sibling::*[@role="switch"][1]');
       const body = page.locator('body');
       const wasChecked = await checkbox.isChecked();
 
-      await label.click();
+      await toggleSwitch.click();
       expect(await checkbox.isChecked()).toBe(!wasChecked);
       if (bodyClass) {
         if (!wasChecked) await expect(body).toHaveClass(new RegExp(bodyClass));
         else await expect(body).not.toHaveClass(new RegExp(bodyClass));
       }
 
-      await label.click();
+      await toggleSwitch.click();
       expect(await checkbox.isChecked()).toBe(wasChecked);
       if (bodyClass) {
         if (!wasChecked) await expect(body).not.toHaveClass(new RegExp(bodyClass));

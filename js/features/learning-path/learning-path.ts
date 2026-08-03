@@ -1,6 +1,7 @@
 // Vymova — js/features/learning-path/learning-path.ts
 // 🎯 Learning Path: structured CEFR-based curriculum with daily goals
 import { getKnownSnapshot } from '../../../src/known-words-store.ts';
+import { setRange } from '../../../src/range-store.ts';
 import { CEFR_META } from '../../../data/cefr.ts';
 import type { CefrLevel } from '../../../data/cefr.ts';
 import { W } from '../../../data/words-data/words.js';
@@ -889,11 +890,7 @@ function _grammarRuleExists(gid: string, lang: string): boolean {
 // ── Navigate to CEFR level ────────────────────────────────────
 
 function _navigateToLevel(level: CefrLevel): void {
-  const sel = document.getElementById('sel-range') as HTMLSelectElement | null;
-  if (sel) {
-    sel.value = `cefr-${level}`;
-    sel.dispatchEvent(new Event('change'));
-  }
+  setRange(`cefr-${level}`);
   openPage('cards' as Parameters<typeof openPage>[0]);
   closePage();
 }

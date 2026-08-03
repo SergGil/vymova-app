@@ -1,7 +1,6 @@
 // Vymova — js/features/progress-io.tsx
 // Export / import progress + modal event listeners
 import { useRef, useState, type ReactElement } from 'react';
-import { createPortal } from 'react-dom';
 import { _lzSave, _lzLoad, saveKnown, saveKnownLang } from '../core/storage.ts';
 import { updateSrsUI } from '../core/srs.ts';
 import { getSrsDataSnapshot, loadSrsData } from '../../src/srs-store.ts';
@@ -16,6 +15,7 @@ import { refreshGameBarLevel } from './game/game-bar-level.tsx';
 import { render } from '../core/card-engine.ts';
 import { openStats, closeStats } from './stats/stats-trigger.ts';
 import { getKnownSnapshot, setKnownWords, type KnownLang } from '../../src/known-words-store.ts';
+import { Dialog, DialogOverlay, DialogPopup, DialogPortal } from '../../src/components/ui/dialog.tsx';
 
 const ALL_KNOWN_LANGS: KnownLang[] = ['en', ...ALL_TARGET_LANGS];
 
@@ -167,17 +167,6 @@ function importProgress(code: string): boolean {
   }
 }
 
-const _backdropStyle = {
-  position: 'fixed',
-  inset: 0,
-  background: 'rgba(0, 0, 0, 0.55)',
-  zIndex: 99999,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: 20,
-} as const;
-
 export function ProgressIO(): ReactElement {
   const [exportOpen, setExportOpen] = useState(false);
   const [exportCode, setExportCode] = useState('');
@@ -286,15 +275,16 @@ export function ProgressIO(): ReactElement {
         {importedLabel ? t('modal.importedExcl') : t('settings.import')}
       </button>
 
-      {exportOpen &&
-        createPortal(
-          <div
-            style={_backdropStyle}
-            onClick={(e) => {
-              if (e.target === e.currentTarget) closeExportModal();
-            }}
-          >
-            <div className="import-panel bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--import-panel-shadow)]">
+      {exportOpen && (
+        <Dialog
+          open
+          onOpenChange={(nextOpen) => {
+            if (!nextOpen) closeExportModal();
+          }}
+        >
+          <DialogPortal>
+            <DialogOverlay id="export-overlay" className="bg-black/55 p-5" />
+            <DialogPopup className="import-panel bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--import-panel-shadow)]">
               <div className="import-title">{t('modal.exportTitle')}</div>
               <div className="import-sub">{t('modal.exportSub')}</div>
               <textarea
@@ -325,20 +315,21 @@ export function ProgressIO(): ReactElement {
                   {t('modal.done')}
                 </button>
               </div>
-            </div>
-          </div>,
-          document.body,
-        )}
+            </DialogPopup>
+          </DialogPortal>
+        </Dialog>
+      )}
 
-      {importOpen &&
-        createPortal(
-          <div
-            style={_backdropStyle}
-            onClick={(e) => {
-              if (e.target === e.currentTarget) setImportOpen(false);
-            }}
-          >
-            <div className="import-panel bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--import-panel-shadow)]">
+      {importOpen && (
+        <Dialog
+          open
+          onOpenChange={(nextOpen) => {
+            if (!nextOpen) setImportOpen(false);
+          }}
+        >
+          <DialogPortal>
+            <DialogOverlay id="import-overlay" className="bg-black/55 p-5" />
+            <DialogPopup className="import-panel bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--import-panel-shadow)]">
               <div className="import-title">{t('modal.importTitle')}</div>
               <div className="import-sub">{t('modal.importSub')}</div>
               <textarea
@@ -358,10 +349,10 @@ export function ProgressIO(): ReactElement {
                   {t('modal.import')}
                 </button>
               </div>
-            </div>
-          </div>,
-          document.body,
-        )}
+            </DialogPopup>
+          </DialogPortal>
+        </Dialog>
+      )}
     </>
   );
 }

@@ -11,6 +11,14 @@ import { ALL_TARGET_LANGS, type Code } from '../../../src/types.js';
 import { FLAG_CODE } from '../../core/flag-codes.ts';
 import { FlagDropdown } from '../../core/flag-dropdown.tsx';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../../src/components/ui/select.tsx';
+import { Switch } from '../../../src/components/ui/switch.tsx';
+import {
   _showInfoTooltip,
   _getSelMode,
   _setSelMode,
@@ -182,31 +190,29 @@ export function DuelModePicker() {
 export function DuelCategoryPicker() {
   const [selCategory, setSelCategory] = useState(_getSelCategory());
   const cats = ['', ...CATEGORY_LIST];
+  const labelFor = (c: string): string => (c ? categoryName(c) : t('duel.allWords'));
   return (
-    <select
+    <Select
       value={selCategory}
-      onChange={(e) => {
-        _setSelCategory(e.target.value);
-        setSelCategory(e.target.value);
-      }}
-      style={{
-        width: '100%',
-        padding: '8px 12px',
-        border: '1.5px solid var(--border)',
-        borderRadius: 10,
-        background: 'var(--bg)',
-        color: 'var(--text)',
-        fontFamily: 'inherit',
-        fontSize: '.83rem',
-        outline: 'none',
+      onValueChange={(v) => {
+        const c = v as string;
+        _setSelCategory(c);
+        setSelCategory(c);
       }}
     >
-      {cats.map((c) => (
-        <option key={c} value={c}>
-          {c ? categoryName(c) : t('duel.allWords')}
-        </option>
-      ))}
-    </select>
+      <SelectTrigger
+        className="h-auto w-full justify-between rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3 py-2 font-[inherit] text-[.83rem] text-[var(--text)]"
+      >
+        <SelectValue>{(v: string) => labelFor(v)}</SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {cats.map((c) => (
+          <SelectItem key={c} value={c}>
+            {labelFor(c)}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
 
@@ -266,27 +272,27 @@ export function DuelOptionsRow() {
       >
         <label style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           {t('duel.format')}
-          <select
-            value={selBestOf}
-            onChange={(e) => {
-              const v = parseInt(e.target.value) as BestOf;
-              _setSelBestOf(v);
-              setSelBestOf(v);
-            }}
-            style={{
-              padding: '4px 8px',
-              border: '1.5px solid var(--border)',
-              borderRadius: 8,
-              background: 'var(--bg)',
-              color: 'var(--text)',
-              fontSize: '.8rem',
-              fontFamily: 'inherit',
-              outline: 'none',
+          <Select
+            value={String(selBestOf)}
+            onValueChange={(v) => {
+              const bestOf = parseInt(v as string) as BestOf;
+              _setSelBestOf(bestOf);
+              setSelBestOf(bestOf);
             }}
           >
-            <option value={1}>{t('duel.oneRound')}</option>
-            <option value={3}>{t('duel.bestOf3')}</option>
-          </select>
+            <SelectTrigger
+              size="sm"
+              className="h-auto rounded-[8px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-2 py-1 font-[inherit] text-[.8rem] text-[var(--text)]"
+            >
+              <SelectValue>
+                {(v: string) => (v === '1' ? t('duel.oneRound') : t('duel.bestOf3'))}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="1">{t('duel.oneRound')}</SelectItem>
+              <SelectItem value="3">{t('duel.bestOf3')}</SelectItem>
+            </SelectContent>
+          </Select>
         </label>
         <label style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           {t('duel.hints')}
@@ -310,38 +316,43 @@ export function DuelOptionsRow() {
             ℹ️
           </button>
           :
-          <select
-            value={selMaxHints}
-            onChange={(e) => {
-              const v = parseInt(e.target.value);
-              _setSelMaxHints(v);
-              setSelMaxHints(v);
-            }}
-            style={{
-              padding: '4px 8px',
-              border: '1.5px solid var(--border)',
-              borderRadius: 8,
-              background: 'var(--bg)',
-              color: 'var(--text)',
-              fontSize: '.8rem',
-              fontFamily: 'inherit',
-              outline: 'none',
+          <Select
+            value={String(selMaxHints)}
+            onValueChange={(v) => {
+              const hints = parseInt(v as string);
+              _setSelMaxHints(hints);
+              setSelMaxHints(hints);
             }}
           >
-            <option value={0}>{t('duel.hintsUnlimited')}</option>
-            <option value={3}>{t('duel.hints3')}</option>
-            <option value={1}>{t('duel.hints1')}</option>
-          </select>
+            <SelectTrigger
+              size="sm"
+              className="h-auto rounded-[8px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-2 py-1 font-[inherit] text-[.8rem] text-[var(--text)]"
+            >
+              <SelectValue>
+                {(v: string) =>
+                  v === '0'
+                    ? t('duel.hintsUnlimited')
+                    : v === '3'
+                      ? t('duel.hints3')
+                      : t('duel.hints1')
+                }
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="0">{t('duel.hintsUnlimited')}</SelectItem>
+              <SelectItem value="3">{t('duel.hints3')}</SelectItem>
+              <SelectItem value="1">{t('duel.hints1')}</SelectItem>
+            </SelectContent>
+          </Select>
         </label>
         <label style={{ display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer' }}>
-          <input
-            type="checkbox"
+          <Switch
+            size="sm"
             checked={selPowerups}
-            onChange={(e) => {
-              _setSelPowerups(e.target.checked);
-              setSelPowerups(e.target.checked);
+            onCheckedChange={(v) => {
+              _setSelPowerups(v);
+              setSelPowerups(v);
             }}
-            style={{ cursor: 'pointer' }}
           />
           <span>🎯 Power-ups</span>
           <button

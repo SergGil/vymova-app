@@ -1,12 +1,13 @@
 // Vymova — js/features/export.tsx
 // 🃏 ANKI/PDF EXPORT + SHARE
-import { useEffect, useRef, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import { getWordIndex } from '../core/word-index.ts';
 import { W } from '../../data/words-data/words.js';
 import { t } from './i18n.ts';
 import { getKnownSnapshot } from '../../src/known-words-store.ts';
 import { ProgressIO } from './progress-io.tsx';
 import { CsvExportButton } from './csv-export-button.tsx';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../src/components/ui/select.tsx';
 
 type WordIdx = Map<string, number>;
 
@@ -14,23 +15,26 @@ function _wi(): WordIdx | undefined {
   return getWordIndex();
 }
 
+// ExportInit (mounted once, permanently, in app-root.tsx) and
+// BackupExportSection (mounted/unmounted as settings-page shows) are separate
+// component instances that only used to agree on "which export filter is
+// selected" via the #export-filter DOM node's .value — the same
+// DOM-node-as-source-of-truth pattern the sel-tag/sel-range refactor
+// eliminated elsewhere. This tiny module-level pair replaces that coupling
+// so BackupExportSection's <select> can be a real controlled shadcn Select.
+let _exportFilter = 'known';
+export function getExportFilter(): string {
+  return _exportFilter;
+}
+export function setExportFilter(value: string): void {
+  _exportFilter = value;
+}
+
 export function ExportInit(): ReactElement | null {
-  // The static #export-filter <select> is the sole owner of "which filter is
-  // selected" (nothing else reads or renders it) — tracked via a ref updated
-  // on 'change' instead of re-querying the DOM at each export-button click.
-  const filterRef = useRef('known');
-
   useEffect(() => {
-    const filterSel = document.getElementById('export-filter') as HTMLSelectElement | null;
-    if (filterSel) filterRef.current = filterSel.value || 'known';
-    const onFilterChange = () => {
-      filterRef.current = filterSel!.value || 'known';
-    };
-    filterSel?.addEventListener('change', onFilterChange);
-
     // ── Export helpers ─────────────────────────────────────────────
     function _exportSrc(): (typeof W)[number][] {
-      const filter = filterRef.current;
+      const filter = getExportFilter();
       const wi = _wi();
       if (filter === 'known')
         return [...getKnownSnapshot('en')]
@@ -95,7 +99,7 @@ export function ExportInit(): ReactElement | null {
         </tr>`;
         })
         .join('');
-      const filter = filterRef.current;
+      const filter = getExportFilter();
       const filterLabel: Record<string, string> = {
         known: t('export.filter.known'),
         unknown: t('export.filter.unknown'),
@@ -140,7 +144,6 @@ export function ExportInit(): ReactElement | null {
     btnShare?.addEventListener('click', onShare);
 
     return () => {
-      filterSel?.removeEventListener('change', onFilterChange);
       btnAnkiExport?.removeEventListener('click', onAnkiExport);
       btnPdfExport?.removeEventListener('click', onPdfExport);
       btnShare?.removeEventListener('click', onShare);
@@ -160,6 +163,12 @@ export function ExportInit(): ReactElement | null {
 // directly as children here instead (same simplification as HeaderLeft's
 // CardIdx/CardKnownCount in Phase 3).
 export function BackupExportSection(): ReactElement {
+  const [filter, setFilter] = useState(getExportFilter);
+  const onFilterChange = (value: string): void => {
+    setFilter(value);
+    setExportFilter(value);
+  };
+
   return (
     <>
       <div className="backup-row" style={{ marginTop: 10 }}>
@@ -183,28 +192,27 @@ export function BackupExportSection(): ReactElement {
         <label htmlFor="export-filter" style={{ marginRight: 6 }} data-i18n="settings.exportLabel">
           {t('settings.exportLabel')}
         </label>
-        <select
-          id="export-filter"
-          style={{
-            padding: '3px 8px',
-            border: '1px solid var(--border)',
-            borderRadius: 6,
-            background: 'var(--bg)',
-            color: 'var(--text)',
-            fontSize: '0.72rem',
-            fontFamily: 'inherit',
-          }}
-        >
-          <option value="known" data-i18n="settings.exportKnown">
-            {t('settings.exportKnown')}
-          </option>
-          <option value="unknown" data-i18n="settings.exportUnknown">
-            {t('settings.exportUnknown')}
-          </option>
-          <option value="all" data-i18n="settings.exportAll">
-            {t('settings.exportAll')}
-          </option>
-        </select>
+        <Select value={filter} onValueChange={(v) => onFilterChange(v as string)}>
+          <SelectTrigger
+            id="export-filter"
+            className="h-auto rounded-[6px] border border-[var(--border)] bg-[var(--bg)] px-2 py-[3px] font-[inherit] text-[.72rem] text-[var(--text)]"
+          >
+            <SelectValue>
+              {(v: string) =>
+                ({
+                  known: t('settings.exportKnown'),
+                  unknown: t('settings.exportUnknown'),
+                  all: t('settings.exportAll'),
+                })[v] ?? v
+              }
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="known">{t('settings.exportKnown')}</SelectItem>
+            <SelectItem value="unknown">{t('settings.exportUnknown')}</SelectItem>
+            <SelectItem value="all">{t('settings.exportAll')}</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
     </>
   );

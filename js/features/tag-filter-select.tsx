@@ -1,32 +1,27 @@
 // Vymova — js/features/tag-filter-select.tsx
-// Topic/category filter dropdown (#sel-tag). Renders the <select> itself
-// (docs/card-shell-migration-roadmap.md Phase 3 — previously portaled
-// <option>s into a pre-existing static <select>); selection handling stays
-// imperative since #sel-tag is read/written directly by deck-filter.ts and
-// deck-mode.ts.
-import { useEffect, type ReactElement } from 'react';
+// Topic/category filter dropdown (#sel-tag). Controlled shadcn Select backed
+// by src/deck-filter-store.ts's activeTagValue — deck-filter.tsx can reset
+// the visible selection (setActiveTagValue('')) from outside this
+// component's tree, since there's no real <select> DOM node to write
+// .value = '' on anymore.
+import { type ReactElement } from 'react';
 import { useLangVersion } from '../../src/store.ts';
-import { setActiveTagSet } from '../../src/deck-filter-store.ts';
+import { setActiveTagSet, setActiveTagValue, useActiveTagValue } from '../../src/deck-filter-store.ts';
 import { getWordIndex } from '../core/word-index.ts';
 import { WORD_CATEGORIES, CATEGORY_LIST } from '../../data/categories.js';
 import { categoryName, t } from './i18n.ts';
 import { getRawMode } from './mode/mode-utils.ts';
 import { _rebuildEsDeck, _isSpecialMode } from './deck/deck-mode.tsx';
+import { rebuildDeckForCurrentRange } from './deck/deck-filter.tsx';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../src/components/ui/select.tsx';
 
-function fitSelTag(selTag: HTMLSelectElement): void {
-  const tmp = document.createElement('select');
-  tmp.style.cssText =
-    'visibility:hidden;position:absolute;font:inherit;font-size:12px;padding:6px 24px 6px 10px;';
-  const opt = document.createElement('option');
-  opt.textContent = selTag.options[selTag.selectedIndex]?.textContent ?? '';
-  tmp.appendChild(opt);
-  document.body.appendChild(tmp);
-  selTag.style.width = tmp.offsetWidth + 'px';
-  document.body.removeChild(tmp);
-}
-
-function applyTagFilter(selTag: HTMLSelectElement): void {
-  const tag = selTag.value;
+function applyTagFilter(tag: string): void {
   if (!tag) {
     setActiveTagSet(null);
   } else {
@@ -39,38 +34,36 @@ function applyTagFilter(selTag: HTMLSelectElement): void {
   if (_isSpecialMode(getRawMode())) {
     _rebuildEsDeck();
   } else {
-    document.getElementById('sel-range')?.dispatchEvent(new Event('change'));
+    rebuildDeckForCurrentRange();
   }
 }
 
 export function TagFilterSelect(): ReactElement {
   useLangVersion();
+  const value = useActiveTagValue();
 
-  useEffect(() => {
-    const selTag = document.getElementById('sel-tag') as HTMLSelectElement | null;
-    if (!selTag) return;
-    fitSelTag(selTag);
-    function onChange(): void {
-      applyTagFilter(selTag!);
-      fitSelTag(selTag!);
-    }
-    selTag.addEventListener('change', onChange);
-    return () => selTag.removeEventListener('change', onChange);
-  }, []);
-
-  useEffect(() => {
-    const selTag = document.getElementById('sel-tag') as HTMLSelectElement | null;
-    if (selTag) fitSelTag(selTag);
-  });
+  const onValueChange = (tag: string): void => {
+    setActiveTagValue(tag);
+    applyTagFilter(tag);
+  };
 
   return (
-    <select id="sel-tag" title="Фільтр по темі" data-i18n-title="cards.tagFilterTitle">
-      <option value="">{t('cards.allTopics')}</option>
-      {CATEGORY_LIST.map((cat) => (
-        <option key={cat} value={cat}>
-          {categoryName(cat)}
-        </option>
-      ))}
-    </select>
+    <Select value={value} onValueChange={(v) => onValueChange(v as string)}>
+      <SelectTrigger
+        id="sel-tag"
+        title={t('cards.tagFilterTitle')}
+        data-i18n-title="cards.tagFilterTitle"
+      >
+        <SelectValue>{(v: string) => (v ? categoryName(v) : t('cards.allTopics'))}</SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="">{t('cards.allTopics')}</SelectItem>
+        {CATEGORY_LIST.map((cat) => (
+          <SelectItem key={cat} value={cat}>
+            {categoryName(cat)}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
