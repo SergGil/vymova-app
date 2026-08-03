@@ -3444,26 +3444,6 @@ body.dark {
   background: var(--card);
 }
 
-/* ── Notifications toggle ──
-   Checkbox-hack toggle switch, fully converted to Tailwind
-   (docs/full-css-tailwind-migration-roadmap.md Tier 3 pilot) — the first
-   use of Tailwind's `peer`/`peer-checked:`/`peer-disabled:` mechanism in
-   this codebase, replacing the `input:checked + .notif-toggle-pill-ui`/
-   `input:disabled + .notif-toggle-pill-ui` adjacent-sibling selectors.
-   `peer` added to the (hidden) <input>, `peer-checked:`/`peer-disabled:`
-   variants on the sibling .notif-toggle-pill-ui — works regardless of
-   whether :checked/:disabled is React-controlled (settings-toggles.tsx)
-   or set imperatively via plain DOM (notifications.tsx's #notif-toggle),
-   since the variants read the native pseudo-classes either way. Two
-   render sites, identical markup in both.
-
-   No transition-property pitfall here (unlike .sb-toggle-pill's, found
-   just before this cluster): the original `transition: 0.2s` on both
-   .notif-toggle-pill-ui and its ::before never names a property, so it
-   defaults to `all` — already covers the standalone `translate` that
-   `peer-checked:before:translate-x-[18px]` writes to, same as the CTA
-   buttons' `transition:all_...` catch-all. */
-
 /* Time picker for daily reminder — border-color fully converted to
    Tailwind (docs/component-tailwind-conversion-roadmap.md Batch 2). */
 .time-picker {
@@ -3492,10 +3472,6 @@ body.dark {
   padding: 2px 4px;
   border-radius: 6px;
   transition: background 0.15s;
-}
-.time-select option {
-  background: var(--card);
-  color: var(--text);
 }
 .time-sep {
   color: var(--text2);

@@ -1,9 +1,17 @@
 // Vymova — js/features/notifications.tsx
-import { useEffect, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import { t, pluralLabel } from './i18n.ts';
 import { today as localToday, yesterday as localYesterday } from '../core/today.ts';
 import { getDailyStats, getGameData, registerDailyStatsChanged } from './game/game.ts';
 import { loadSRS } from '../core/storage.ts';
+import { Switch } from '../../src/components/ui/switch.tsx';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../src/components/ui/select.tsx';
 
 const KEY_ENABLED = 'ew_notif_enabled';
 const KEY_TIME = 'ew_notif_time'; // "HH:MM"
@@ -103,53 +111,18 @@ const setTime = (val: string): void => {
   localStorage.setItem(KEY_TIME, val);
 };
 
+// Registration-hook so app-root.tsx's settings onActivate and i18n.ts's
+// language-switch handler can force a re-render — NotificationsSection is
+// always mounted (Portal into a static node), so opening the settings
+// overlay only toggles CSS visibility, not mount/unmount; without this,
+// Notification.permission changing outside the app (browser settings) or
+// the UI language changing would never show up until some unrelated state
+// update happened to re-render the component. Same pattern as
+// cloud-sync.tsx's _bumpLastLabel/_refreshCloudSyncUI.
+let _bumpNotifUI: (() => void) | null = null;
+
 export function _updateUI(): void {
-  const tog = document.getElementById('notif-toggle') as HTMLInputElement | null;
-  const status = document.getElementById('notif-status') as HTMLElement | null;
-  const permBtn = document.getElementById('notif-allow-btn') as HTMLButtonElement | null;
-  const timeRow = document.getElementById('notif-time-row') as HTMLElement | null;
-  const timeH = document.getElementById('notif-time-h') as HTMLSelectElement | null;
-  const timeM = document.getElementById('notif-time-m') as HTMLSelectElement | null;
-
-  const granted = typeof Notification !== 'undefined' && Notification.permission === 'granted';
-  const denied = typeof Notification !== 'undefined' && Notification.permission === 'denied';
-  const on = isEnabled() && granted;
-
-  if (tog) {
-    tog.checked = on;
-    tog.disabled = !('Notification' in window);
-  }
-  if (timeRow) timeRow.style.display = on ? 'flex' : 'none';
-  const [hh, mm] = getTime().split(':');
-  if (timeH) timeH.value = hh;
-  if (timeM) timeM.value = mm;
-
-  if (permBtn) {
-    if (granted) {
-      permBtn.style.display = 'none';
-    } else if (denied) {
-      permBtn.textContent = t('settings.notifBlockedShort');
-      permBtn.disabled = true;
-      permBtn.style.opacity = '.5';
-    } else {
-      permBtn.style.display = '';
-      permBtn.textContent = t('settings.notifAllow');
-      permBtn.disabled = false;
-      permBtn.style.opacity = '';
-    }
-  }
-  if (!status) return;
-  if (!('Notification' in window)) {
-    status.textContent = t('settings.notifNotSupported');
-  } else if (denied) {
-    status.textContent = t('settings.notifBlocked');
-  } else if (on) {
-    status.textContent = `${t('settings.notifReminderAt')} ${getTime()}`;
-  } else if (granted) {
-    status.textContent = t('settings.notifGrantedOff');
-  } else {
-    status.textContent = t('settings.notifPromptToEnable');
-  }
+  _bumpNotifUI?.();
 }
 
 function requestNotifPermission(): void {
@@ -248,38 +221,6 @@ export function NotificationsInit(): ReactElement | null {
     // Also schedule a check every 15 min while app is open
     const interval = setInterval(_checkAndNotify, 15 * 60 * 1000);
 
-    // UI bindings
-    const toggle = document.getElementById('notif-toggle') as HTMLInputElement | null;
-    const onToggleChange = () => {
-      if (toggle!.checked) requestNotifPermission();
-      else setEnabled(false);
-    };
-    if (toggle) toggle.addEventListener('change', onToggleChange);
-
-    const timeH = document.getElementById('notif-time-h') as HTMLSelectElement | null;
-    const timeM = document.getElementById('notif-time-m') as HTMLSelectElement | null;
-    let onTimeChange: (() => void) | null = null;
-    if (timeH && timeM) {
-      for (let h = 0; h < 24; h++) {
-        const opt = document.createElement('option');
-        opt.value = opt.textContent = String(h).padStart(2, '0');
-        timeH.appendChild(opt);
-      }
-      for (let m = 0; m < 60; m++) {
-        const opt = document.createElement('option');
-        opt.value = opt.textContent = String(m).padStart(2, '0');
-        timeM.appendChild(opt);
-      }
-      onTimeChange = (): void => {
-        setTime(`${timeH.value}:${timeM.value}`);
-        _updateUI();
-        void _syncNotifSnapshot();
-      };
-      timeH.addEventListener('change', onTimeChange);
-      timeM.addEventListener('change', onTimeChange);
-    }
-
-    _updateUI();
     void _syncNotifSnapshot();
     if (
       isEnabled() &&
@@ -292,71 +233,141 @@ export function NotificationsInit(): ReactElement | null {
     return () => {
       clearTimeout(startupTimer);
       clearInterval(interval);
-      if (toggle) toggle.removeEventListener('change', onToggleChange);
-      if (timeH && timeM && onTimeChange) {
-        timeH.removeEventListener('change', onTimeChange);
-        timeM.removeEventListener('change', onTimeChange);
-      }
     };
   }, []);
 
   return null;
 }
 
+const HOURS = Array.from({ length: 24 }, (_, h) => String(h).padStart(2, '0'));
+const MINUTES = Array.from({ length: 60 }, (_, m) => String(m).padStart(2, '0'));
+
 // full-react-migration-roadmap.md Phase 6: the settings-page notifications
-// block's static markup — previously in index.html, all ids/logic above
-// unchanged (NotificationsInit still owns #notif-toggle/#notif-time-h/
-// #notif-time-m imperatively — kept uncontrolled on purpose, same as
-// tag-filter-select.tsx's documented reasoning). One real fix along the
-// way: the permission button used to be `id`-less with an inline
-// `onclick="window.requestNotifPermission && ..."` — but nothing in the
-// codebase ever assigned `window.requestNotifPermission`, so clicking it
-// was a silent no-op. Now `id="notif-allow-btn"` + a real onClick calling
-// the same requestNotifPermission() already defined above (also updated
-// _updateUI()'s lookup from a `[onclick*=...]` selector to this id).
+// block's static markup — previously in index.html. #notif-toggle/
+// #notif-time-h/#notif-time-m are now a real controlled Switch/Select pair
+// (this used to be documented as "kept uncontrolled on purpose, same as
+// tag-filter-select.tsx" — that reasoning no longer applies now that
+// tag-filter-select.tsx itself moved off the DOM-node-as-source-of-truth
+// pattern; NotificationsSection owning real state here closes the same gap).
+// One real fix from an earlier pass, still true: the permission button used
+// to be `id`-less with an inline
+// `onclick="window.requestNotifPermission && ..."`, but nothing in the
+// codebase ever assigned `window.requestNotifPermission` — clicking it was a
+// silent no-op. `id="notif-allow-btn"` + a real onClick fixed that.
 export function NotificationsSection(): ReactElement {
+  const [, bump] = useState(0);
+
+  useEffect(() => {
+    _bumpNotifUI = () => bump((n) => n + 1);
+    return () => {
+      _bumpNotifUI = null;
+    };
+  }, []);
+
+  const supported = typeof Notification !== 'undefined';
+  const granted = supported && Notification.permission === 'granted';
+  const denied = supported && Notification.permission === 'denied';
+  const on = isEnabled() && granted;
+  const [hh, mm] = getTime().split(':');
+
+  const statusText = !supported
+    ? t('settings.notifNotSupported')
+    : denied
+      ? t('settings.notifBlocked')
+      : on
+        ? `${t('settings.notifReminderAt')} ${getTime()}`
+        : granted
+          ? t('settings.notifGrantedOff')
+          : t('settings.notifPromptToEnable');
+
+  const handleToggleChange = (checked: boolean): void => {
+    if (checked) requestNotifPermission();
+    else setEnabled(false);
+  };
+
+  const handleHourChange = (h: string): void => {
+    setTime(`${h}:${mm}`);
+    _updateUI();
+    void _syncNotifSnapshot();
+  };
+  const handleMinuteChange = (m: string): void => {
+    setTime(`${hh}:${m}`);
+    _updateUI();
+    void _syncNotifSnapshot();
+  };
+
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 10 }}>
-        <label className="notif-toggle-wrap relative inline-block h-[22px] w-10">
-          <input type="checkbox" id="notif-toggle" className="peer h-0 w-0 opacity-0" />
-          <span className="notif-toggle-pill-ui absolute inset-0 cursor-pointer rounded-[22px] bg-[var(--border)] [transition:0.2s] before:absolute before:left-[3px] before:top-[3px] before:h-4 before:w-4 before:rounded-full before:bg-white before:shadow-[0_1px_3px_rgba(0,0,0,0.2)] before:content-[''] before:[transition:0.2s] peer-checked:!bg-[var(--accent)] peer-checked:before:!translate-x-[18px] peer-disabled:!cursor-not-allowed peer-disabled:!opacity-40" />
-        </label>
+        <Switch id="notif-toggle" checked={on} onCheckedChange={handleToggleChange} disabled={!supported} />
         <span id="notif-status" style={{ fontSize: '0.78rem', color: 'var(--text2)' }}>
-          Вимкнено
+          {statusText}
         </span>
-        <button
-          id="notif-allow-btn"
-          className="backup-btn"
-          style={{ padding: '5px 12px', fontSize: '0.75rem', marginLeft: 'auto' }}
-          data-i18n="settings.notifAllow"
-          onClick={requestNotifPermission}
+        {!granted && (
+          <button
+            id="notif-allow-btn"
+            className="backup-btn"
+            style={{
+              padding: '5px 12px',
+              fontSize: '0.75rem',
+              marginLeft: 'auto',
+              opacity: denied ? 0.5 : undefined,
+            }}
+            disabled={denied}
+            onClick={requestNotifPermission}
+          >
+            {denied ? t('settings.notifBlockedShort') : t('settings.notifAllow')}
+          </button>
+        )}
+      </div>
+      {on && (
+        <div
+          id="notif-time-row"
+          style={{ display: 'flex', marginTop: 10, alignItems: 'center', gap: 10, flexWrap: 'wrap' }}
         >
-          {t('settings.notifAllow')}
-        </button>
-      </div>
-      <div
-        id="notif-time-row"
-        style={{ display: 'none', marginTop: 10, alignItems: 'center', gap: 10, flexWrap: 'wrap' }}
-      >
-        <span style={{ fontSize: '0.8rem', color: 'var(--text2)' }} data-i18n="settings.notifTimeLabel">
-          {t('settings.notifTimeLabel')}
-        </span>
-        <div className="time-picker border-[var(--time-picker-border)]">
-          <select
-            id="notif-time-h"
-            className="time-select bg-transparent hover:bg-[var(--time-select-hover-bg)] focus:bg-[var(--time-select-hover-bg)]"
-          />
-          <span className="time-sep">:</span>
-          <select
-            id="notif-time-m"
-            className="time-select bg-transparent hover:bg-[var(--time-select-hover-bg)] focus:bg-[var(--time-select-hover-bg)]"
-          />
+          <span style={{ fontSize: '0.8rem', color: 'var(--text2)' }}>
+            {t('settings.notifTimeLabel')}
+          </span>
+          <div className="time-picker border-[var(--time-picker-border)]">
+            <Select value={hh} onValueChange={(v) => handleHourChange(v as string)}>
+              <SelectTrigger
+                id="notif-time-h"
+                size="sm"
+                className="time-select h-auto border-none bg-transparent hover:bg-[var(--time-select-hover-bg)] focus:bg-[var(--time-select-hover-bg)]"
+              >
+                <SelectValue>{(v: string) => v}</SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {HOURS.map((h) => (
+                  <SelectItem key={h} value={h}>
+                    {h}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <span className="time-sep">:</span>
+            <Select value={mm} onValueChange={(v) => handleMinuteChange(v as string)}>
+              <SelectTrigger
+                id="notif-time-m"
+                size="sm"
+                className="time-select h-auto border-none bg-transparent hover:bg-[var(--time-select-hover-bg)] focus:bg-[var(--time-select-hover-bg)]"
+              >
+                <SelectValue>{(v: string) => v}</SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {MINUTES.map((m) => (
+                  <SelectItem key={m} value={m}>
+                    {m}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text3)' }}>
+            {t('settings.notifTimeSuffix')}
+          </span>
         </div>
-        <span style={{ fontSize: '0.75rem', color: 'var(--text3)' }} data-i18n="settings.notifTimeSuffix">
-          {t('settings.notifTimeSuffix')}
-        </span>
-      </div>
+      )}
     </>
   );
 }
