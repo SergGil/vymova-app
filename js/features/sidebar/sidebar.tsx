@@ -167,21 +167,6 @@ function _closePage(nextRoute?: string): void {
   }
 }
 
-// Fandom-theme rows (set-<key>/set-<key>-pill for the 14 skins) are wired by
-// <FandomThemeRowsController/> (fandom-theme-rows.tsx) against the shared
-// fandom-theme-store.ts — this function only handles the dark-mode pill,
-// which is a separate, independent toggle (js/core/theme.tsx's ThemeToggle).
-function _updateDarkPill(): void {
-  // Dark theme pill reflects user preference (ew_theme), not a fandom-induced
-  // body.dark — but when there's no explicit preference yet, settings.tsx's
-  // system-color-scheme auto-detection may already have applied body.dark,
-  // and the pill should show that actual state rather than defaulting to
-  // "off" and contradicting what the user is currently looking at.
-  const savedTheme = localStorage.getItem('ew_theme');
-  const isDark = savedTheme ? savedTheme === 'dark' : document.body.classList.contains('dark');
-  document.getElementById('set-theme-pill')?.classList.toggle('on', isDark);
-}
-
 export function SidebarInit(): ReactElement | null {
   const activePage = useActivePage();
   useEffect(() => {
@@ -229,17 +214,9 @@ export function SidebarInit(): ReactElement | null {
     // Nav-group hover flyouts moved to <NavFlyoutController/>
     // (sidebar-nav-flyout.tsx, mounted directly in app-root.tsx).
 
-    // ── Dark-mode pill (fandom-theme rows/pills are now
-    // <FandomThemeRowsController/>, see fandom-theme-rows.tsx) ─────
-    const setTheme = document.getElementById('set-theme');
-    const onSetThemeClick = () => {
-      document.getElementById('btn-theme')?.click();
-      setTimeout(_updateDarkPill, 50);
-    };
-    setTheme?.addEventListener('click', onSetThemeClick);
-    _updateDarkPill();
-    const mo = new MutationObserver(_updateDarkPill);
-    mo.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    // Dark-mode toggle and fandom-theme rows are both fully React-owned now
+    // (js/core/theme.tsx's <ThemeToggle/>, fandom-theme-rows.tsx's
+    // <FandomThemeRowsController/>) — no more imperative DOM wiring here.
 
     // ── Restore last open page after a reload ───────────────────
     // Deferred via setTimeout: at module-eval time some page renderers
@@ -279,8 +256,6 @@ export function SidebarInit(): ReactElement | null {
       sbOvl?.removeEventListener('click', closeSidebar);
       statsClose?.removeEventListener('click', closePage);
       document.removeEventListener('keydown', onEscapeClosePage);
-      setTheme?.removeEventListener('click', onSetThemeClick);
-      mo.disconnect();
       if (t1) clearTimeout(t1);
       if (t2) clearTimeout(t2);
     };

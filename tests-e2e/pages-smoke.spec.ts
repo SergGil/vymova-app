@@ -247,7 +247,10 @@ test.describe('Sidebar pages — one step deeper', () => {
     const body = page.locator('body');
     const wasDark = await body.evaluate((el) => el.classList.contains('dark'));
 
-    await overlay.locator('#set-theme').click();
+    // #set-theme is the row wrapper — the actual interactive control is the
+    // shadcn Switch inside it (its own id lands on a visually-hidden mirror
+    // <input>, not the visible role="switch" element).
+    await overlay.locator('#set-theme [role="switch"]').click();
 
     if (wasDark) {
       await expect(body).not.toHaveClass(/dark/);

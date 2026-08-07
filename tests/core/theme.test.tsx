@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
+import userEvent from '@testing-library/user-event';
 import { ThemeToggle } from '../../js/core/theme.tsx';
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -13,6 +14,21 @@ function mount(): { container: HTMLElement; root: Root } {
     root.render(<ThemeToggle />);
   });
   return { container, root };
+}
+
+function getSwitch(container: HTMLElement): HTMLElement {
+  return container.querySelector('[role="switch"]') as HTMLElement;
+}
+
+// The Switch's onCheckedChange only mutates document.body.classList — it
+// doesn't call any local setState directly. useIsDarkMode() only learns
+// about that mutation via its MutationObserver callback, which fires as a
+// microtask, not synchronously inside the click handler — so every click
+// needs an actual act(async...) + microtask flush, not a bare act(() => {}).
+async function clickAndFlush(el: HTMLElement): Promise<void> {
+  await act(async () => {
+    await userEvent.click(el);
+  });
 }
 
 describe('theme.tsx ThemeToggle', () => {
@@ -33,59 +49,69 @@ describe('theme.tsx ThemeToggle', () => {
     });
   });
 
-  it('renders the moon icon when no theme is saved', () => {
+  it('renders unchecked when no theme is saved', () => {
     const { container, root } = mount();
     roots.push(root);
-    const btn = container.querySelector('#btn-theme') as HTMLButtonElement;
-    expect(btn.textContent).toBe('🌙');
+    expect(getSwitch(container).getAttribute('aria-checked')).toBe('false');
     expect(document.body.classList.contains('dark')).toBe(false);
   });
 
-  it('applies the dark theme on mount when saved as dark', () => {
+  it('renders checked on mount when saved as dark', () => {
     localStorage.setItem('ew_theme', 'dark');
     const { container, root } = mount();
     roots.push(root);
-    const btn = container.querySelector('#btn-theme') as HTMLButtonElement;
-    expect(btn.textContent).toBe('☀️');
-    expect(document.body.classList.contains('dark')).toBe(true);
+    expect(getSwitch(container).getAttribute('aria-checked')).toBe('true');
   });
 
-  it('toggles the theme on click and persists to localStorage', () => {
+  it('toggles the theme on click and persists to localStorage', async () => {
     const { container, root } = mount();
     roots.push(root);
-    const btn = container.querySelector('#btn-theme') as HTMLButtonElement;
+    const sw = getSwitch(container);
 
-    act(() => {
-      btn.click();
-    });
-    expect(btn.textContent).toBe('☀️');
+    await clickAndFlush(sw);
+    expect(sw.getAttribute('aria-checked')).toBe('true');
     expect(document.body.classList.contains('dark')).toBe(true);
     expect(localStorage.getItem('ew_theme')).toBe('dark');
 
-    act(() => {
-      btn.click();
-    });
-    expect(btn.textContent).toBe('🌙');
+    await clickAndFlush(sw);
+    expect(sw.getAttribute('aria-checked')).toBe('false');
     expect(document.body.classList.contains('dark')).toBe(false);
     expect(localStorage.getItem('ew_theme')).toBe('light');
   });
 
-  it('matches the sun icon and toggles off on the first click when body.dark was applied by system auto-detection (no saved preference)', () => {
+  it('renders checked and toggles off on the first click when body.dark was applied by system auto-detection (no saved preference)', async () => {
     // settings.tsx adds body.dark from prefers-color-scheme before ew_theme
-    // is ever set. Without reading that, the toggle showed the "currently
-    // light" moon icon while the app was actually dark, and the first click
-    // would set ew_theme='dark' instead of actually turning it off.
+    // is ever set. Without reading that, the toggle showed "currently light"
+    // while the app was actually dark, and the first click would set
+    // ew_theme='dark' instead of actually turning it off.
     document.body.classList.add('dark');
     const { container, root } = mount();
     roots.push(root);
-    const btn = container.querySelector('#btn-theme') as HTMLButtonElement;
-    expect(btn.textContent).toBe('☀️');
+    const sw = getSwitch(container);
+    expect(sw.getAttribute('aria-checked')).toBe('true');
 
-    act(() => {
-      btn.click();
-    });
-    expect(btn.textContent).toBe('🌙');
+    await clickAndFlush(sw);
+    expect(sw.getAttribute('aria-checked')).toBe('false');
     expect(document.body.classList.contains('dark')).toBe(false);
     expect(localStorage.getItem('ew_theme')).toBe('light');
+  });
+
+  it("reactively reflects body.dark changing from outside this component (e.g. settings.tsx's system-theme listener)", async () => {
+    const { container, root } = mount();
+    roots.push(root);
+    const sw = getSwitch(container);
+    expect(sw.getAttribute('aria-checked')).toBe('false');
+
+    await act(async () => {
+      document.body.classList.add('dark');
+      await Promise.resolve();
+    });
+    expect(sw.getAttribute('aria-checked')).toBe('true');
+
+    await act(async () => {
+      document.body.classList.remove('dark');
+      await Promise.resolve();
+    });
+    expect(sw.getAttribute('aria-checked')).toBe('false');
   });
 });

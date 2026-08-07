@@ -53,9 +53,6 @@ describe('sidebar.tsx', () => {
       <div id="write-mode-desc"></div>
       <button id="btn-stats"></button>
       <button id="stats-close"></button>
-      <button id="set-theme"></button>
-      <button id="btn-theme"></button>
-      <span id="set-theme-pill"></span>
     `;
     document.body.classList.remove('dark', 'sw');
     dispatchClosePage();
@@ -253,38 +250,10 @@ describe('sidebar.tsx', () => {
   // <SidebarNav/> — see sidebar-nav.test.tsx's "opens the corresponding
   // page on click" coverage.
 
-  it('toggles the theme pill when the theme toggle is clicked', async () => {
-    const { root } = mount();
-    roots.push(root);
-    let themeClicked = false;
-    document.getElementById('btn-theme')!.addEventListener('click', () => {
-      themeClicked = true;
-      localStorage.setItem('ew_theme', 'dark');
-    });
-
-    act(() => {
-      document
-        .getElementById('set-theme')!
-        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    });
-    expect(themeClicked).toBe(true);
-
-    await wait(60);
-    expect(document.getElementById('set-theme-pill')!.classList.contains('on')).toBe(true);
-  });
-
-  it('shows the theme pill as on when body.dark is set without an explicit ew_theme preference', async () => {
-    // settings.tsx applies body.dark from prefers-color-scheme before the
-    // user ever sets ew_theme explicitly — the pill should reflect that
-    // actual state instead of defaulting to "off" and contradicting what's
-    // on screen.
-    document.body.classList.add('dark');
-    const { root } = mount();
-    roots.push(root);
-
-    await wait(10);
-    expect(document.getElementById('set-theme-pill')!.classList.contains('on')).toBe(true);
-  });
+  // Dark-mode toggle is now fully owned by js/core/theme.tsx's
+  // <ThemeToggle/> (a real Switch, reactive via MutationObserver) — its own
+  // coverage lives in tests/core/theme.test.tsx. sidebar.tsx no longer has
+  // any imperative wiring for it.
 
   it('restores the last open page from localStorage on mount', async () => {
     localStorage.setItem('ew_active_page', 'stats');

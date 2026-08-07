@@ -53,7 +53,6 @@ import { ProgressBar } from '../js/features/card/card-progress.tsx';
 import { HeaderLeft } from '../js/features/header-left.tsx';
 import { ModeHints } from '../js/features/mode/mode-hints.tsx';
 import { LevelRing } from '../js/features/ring.tsx';
-import { ThemeToggle } from '../js/core/theme.tsx';
 import { PwaBanner } from '../js/core/pwa.tsx';
 import { AnalyticsConsentBanner } from '../js/features/analytics-consent-banner.tsx';
 import { SwUpdateBanner } from '../js/core/sw-update.tsx';
@@ -299,9 +298,6 @@ function AppRoot(): ReactElement {
       <ModeHints />
       <Portal id="level-ring-mount">
         <LevelRing />
-      </Portal>
-      <Portal id="theme-toggle-mount">
-        <ThemeToggle />
       </Portal>
       <Portal id="pwa-banner-mount">
         <PwaBanner />

@@ -5,9 +5,8 @@
 // doesn't re-verify each widget's own behavior (that's each widget's own
 // test file's job) — it guards the composition: everything mounts together
 // without throwing, and the handful of ids other modules reach into by
-// getElementById (sidebar.tsx's dark-theme pill, card-actions.ts's reset
-// button, voice.tsx's imperative voice-picker target) still exist with the
-// same ids in the same DOM shape.
+// getElementById (card-actions.ts's reset button, voice.tsx's imperative
+// voice-picker target) still exist with the same ids in the same DOM shape.
 import { describe, it, expect, afterEach } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -43,10 +42,14 @@ describe('<SettingsPage/>', () => {
   it('preserves the ids external modules reach into by getElementById', () => {
     const { container } = render(<SettingsPage />);
     expect(container.querySelector('#set-theme')).toBeTruthy();
-    expect(container.querySelector('#set-theme-pill')).toBeTruthy();
     expect(container.querySelector('#fy-voices-list')).toBeTruthy();
     expect(container.querySelector('#btn-reset')).toBeTruthy();
     expect(container.querySelector('#haptic-ios-note')).toBeTruthy();
+  });
+
+  it('renders the dark-theme toggle as a real Switch inside #set-theme', () => {
+    const { container } = render(<SettingsPage />);
+    expect(container.querySelector('#set-theme [role="switch"]')).toBeTruthy();
   });
 
   it('renders the fandom theme rows inline (no separate mount point needed anymore)', () => {
