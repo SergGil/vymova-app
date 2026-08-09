@@ -102,14 +102,14 @@ describe('fandom-theme-rows.tsx (FandomThemeRowsController)', () => {
 
   it('the extra-themes row stays collapsed by default when no extra theme is active', () => {
     mount();
-    expect(document.getElementById('theme-rows-extra')!.style.display).toBe('none');
+    expect(document.getElementById('theme-rows-extra')!.hidden).toBe(true);
     expect(document.getElementById('theme-rows-toggle')!.textContent).toBe('Показати більше тем ▾');
   });
 
   it('starts expanded when an "extra" theme (e.g. cp) is already active on mount', () => {
     toggleFandomTheme('cp');
     mount();
-    expect(document.getElementById('theme-rows-extra')!.style.display).toBe('flex');
+    expect(document.getElementById('theme-rows-extra')!.hidden).toBe(false);
     expect(document.getElementById('theme-rows-toggle')!.textContent).toBe('Згорнути ▴');
   });
 
@@ -119,13 +119,13 @@ describe('fandom-theme-rows.tsx (FandomThemeRowsController)', () => {
     act(() => {
       btn.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect(document.getElementById('theme-rows-extra')!.style.display).toBe('flex');
+    expect(document.getElementById('theme-rows-extra')!.hidden).toBe(false);
     expect(btn.textContent).toBe('Згорнути ▴');
 
     act(() => {
       btn.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect(document.getElementById('theme-rows-extra')!.style.display).toBe('none');
+    expect(document.getElementById('theme-rows-extra')!.hidden).toBe(true);
     expect(btn.textContent).toBe('Показати більше тем ▾');
   });
 

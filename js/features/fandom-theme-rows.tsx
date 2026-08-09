@@ -24,6 +24,7 @@ import {
   type FandomThemeKey,
 } from '../../src/fandom-theme-store.ts';
 import { t } from './i18n.ts';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../src/components/ui/collapsible.tsx';
 
 // Only the base 2 rows (SW/HP) show by default; the rest sit behind a
 // "show more" toggle — unless one of them is already the active theme, in
@@ -118,27 +119,36 @@ export function FandomThemeRowsController(): ReactElement {
   );
 
   return (
-    <>
+    // className="contents" keeps the Root invisible in layout — its parent
+    // (settings-page.tsx's "Теми" section) lays out this component's own
+    // top-level children directly via flex-column+gap, same reasoning as
+    // duel-lobby-options.tsx's DuelModePicker.
+    <Collapsible open={expanded} onOpenChange={setExpanded} className="contents">
       {BASE_THEME_KEYS.map((key) => (
         <ThemeRow key={key} themeKey={key} active={active} />
       ))}
-      <div
+      <CollapsibleContent
         id="theme-rows-extra"
-        style={{ display: expanded ? 'flex' : 'none', flexDirection: 'column', gap: 2 }}
+        keepMounted
+        // The native `hidden` attribute base-ui sets while closed only wins
+        // against a *conditional* display — an unconditional `display:
+        // 'flex'` here (author-origin) would always beat the UA's
+        // `[hidden]{display:none}` regardless of layers/specificity, since
+        // origin is resolved before either. Only apply `flex` while open;
+        // when closed there's nothing to fight `hidden` with.
+        style={expanded ? { display: 'flex', flexDirection: 'column', gap: 2 } : undefined}
       >
         {EXTRA_THEME_KEYS.map((key) => (
           <ThemeRow key={key} themeKey={key} active={active} />
         ))}
-      </div>
-      <button
-        type="button"
+      </CollapsibleContent>
+      <CollapsibleTrigger
         id="theme-rows-toggle"
         className="theme-rows-toggle-btn mt-1 cursor-pointer rounded-[10px] border border-dashed border-[var(--border)] bg-transparent px-3 py-[7px] text-center text-[.78rem] font-semibold text-[var(--text3)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)]"
         data-i18n={expanded ? 'settings.showLessThemes' : 'settings.showMoreThemes'}
-        onClick={() => setExpanded((e) => !e)}
       >
         {t(expanded ? 'settings.showLessThemes' : 'settings.showMoreThemes')}
-      </button>
-    </>
+      </CollapsibleTrigger>
+    </Collapsible>
   );
 }

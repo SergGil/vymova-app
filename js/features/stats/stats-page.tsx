@@ -20,6 +20,7 @@ import { notifyAchievementsChange } from '../../../src/store.ts';
 import { getKnownInLang, getActiveKnownByLang, getWordsForLang } from '../mode/mode-utils.ts';
 import type { WordEntry } from '../../../src/types.js';
 import { InfoIcon, InfoNote } from '../info-icon.tsx';
+import { ToggleGroup, ToggleGroupItem } from '../../../src/components/ui/toggle-group.tsx';
 import { MistakeReview } from '../mistake-review.tsx';
 import { renderWeakWords } from '../../modes/catpairs.tsx';
 import { setStatsBumpTick, refreshStatsPage, openStats, closeStats } from './stats-trigger.ts';
@@ -567,21 +568,30 @@ export function StatsPage(): ReactElement {
             {t('stats.perDayCount', { n: chartDays, unit: pluralLabel('common_day', chartDays) })}
           </span>
         </div>
-        <div className="chart-period-btns mb-2.5 mt-2 flex w-full gap-1.5" id="chart-period-btns">
+        <ToggleGroup
+          className="chart-period-btns mb-2.5 mt-2 w-full rounded-none"
+          style={{ display: 'flex', gap: 6 }}
+          id="chart-period-btns"
+          value={[String(chartDays)]}
+          onValueChange={(vals) => {
+            const next = vals[0];
+            if (next) setChartDays(Number(next));
+          }}
+        >
           {[14, 30, 90].map((d) => (
-            <button
+            <ToggleGroupItem
               key={d}
+              value={String(d)}
               className={
-                'chart-period-btn flex-1 cursor-pointer rounded-[10px] border border-border bg-[var(--card-bg)] px-2 py-1.5 text-[0.8rem] text-text2 transition-[background,color] duration-150' +
+                'chart-period-btn h-auto flex-1 cursor-pointer rounded-[10px] border border-border bg-[var(--card-bg)] px-2 py-1.5 text-[0.8rem] text-text2 transition-[background,color] duration-150' +
                 (chartDays === d ? ' active border-accent bg-accent text-white' : '')
               }
               data-days={d}
-              onClick={() => setChartDays(d)}
             >
               {d}
-            </button>
+            </ToggleGroupItem>
           ))}
-        </div>
+        </ToggleGroup>
         <div className="chart-wrap rounded-[10px] bg-bg px-2.5 pb-2 pt-3.5">
           <div
             className="chart-bars flex h-20 items-end justify-stretch gap-1"

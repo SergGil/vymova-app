@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from '../../../src/components/ui/select.tsx';
 import { Switch } from '../../../src/components/ui/switch.tsx';
+import { ToggleGroup, ToggleGroupItem } from '../../../src/components/ui/toggle-group.tsx';
 import {
   _showInfoTooltip,
   _getSelMode,
@@ -147,18 +148,27 @@ export function DuelModePicker() {
   const selLang = _getSelLang();
   const selKnowLang = _getSelKnowLang();
   return (
-    <>
+    // className="contents" keeps this invisible in layout — the parent
+    // #duel-mode-picker div (duel-lobby.tsx) already owns the flex-wrap
+    // layout the buttons need; ToggleGroup's own default flex/gap classes
+    // would otherwise nest an extra layout container inside it.
+    <ToggleGroup
+      className="contents"
+      value={selMode ? [selMode] : []}
+      onValueChange={(vals) => {
+        const next = vals[0];
+        if (!next) return;
+        _setSelMode(next as DuelMode);
+        setSelMode(next as DuelMode);
+      }}
+    >
       {DUEL_MODES.map((m) => {
         const active = m.id === selMode;
         return (
-          <button
+          <ToggleGroupItem
             key={m.id}
-            type="button"
-            className={'duel-mode-btn' + (active ? ' duel-mode-sel' : '')}
-            onClick={() => {
-              _setSelMode(m.id);
-              setSelMode(m.id);
-            }}
+            value={m.id}
+            className={'duel-mode-btn h-auto rounded-none bg-transparent' + (active ? ' duel-mode-sel' : '')}
             style={{
               flex: 1,
               minWidth: 90,
@@ -180,10 +190,10 @@ export function DuelModePicker() {
             <div style={{ fontSize: '.62rem', color: 'var(--text3)' }}>
               {_modeDesc(m.id, selLang, selKnowLang)}
             </div>
-          </button>
+          </ToggleGroupItem>
         );
       })}
-    </>
+    </ToggleGroup>
   );
 }
 
@@ -228,19 +238,25 @@ export function DuelOptionsRow() {
         <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginBottom: 5 }}>
           {t('duel.difficulty')}
         </div>
-        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+        <ToggleGroup
+          className="w-full rounded-none"
+          value={[selDifficulty]}
+          onValueChange={(vals) => {
+            const next = vals[0];
+            if (!next) return;
+            _setSelDifficulty(next as Difficulty);
+            setSelDifficulty(next as Difficulty);
+          }}
+          style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}
+        >
           {DIFFICULTIES.map((d) => {
             const active = d.id === selDifficulty;
             return (
-              <button
+              <ToggleGroupItem
                 key={d.id}
-                type="button"
-                className={'duel-cefr-btn' + (active ? ' duel-cefr-active' : '')}
+                value={d.id}
                 title={t('duel.diff.' + d.id + '.desc')}
-                onClick={() => {
-                  _setSelDifficulty(d.id);
-                  setSelDifficulty(d.id);
-                }}
+                className={'duel-cefr-btn h-auto rounded-none bg-transparent' + (active ? ' duel-cefr-active' : '')}
                 style={{
                   padding: '5px 9px',
                   borderRadius: 8,
@@ -255,10 +271,10 @@ export function DuelOptionsRow() {
                 }}
               >
                 {d.id === 'mixed' ? t('duel.diff.mixed') : d.label}
-              </button>
+              </ToggleGroupItem>
             );
           })}
-        </div>
+        </ToggleGroup>
       </div>
       <div
         style={{
