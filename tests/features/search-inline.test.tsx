@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { setDeckState } from '../../src/deck-store.ts';
@@ -17,6 +17,12 @@ const { render, setDeck, setIdx, stopAuto } = vi.hoisted(() => ({
 }));
 vi.mock('../../js/core/card-engine.ts', () => ({ render, setDeck, setIdx, stopAuto }));
 
+let roots: Root[] = [];
+
+// Combobox's results popup is Portal'd to document.body (base-ui's Portal/
+// Positioner/Popup pattern, same as this session's Select/Dialog
+// conversions) — it's no longer a plain sibling div inside `container`, so
+// every query below is scoped to `document`, not `container`.
 function mount(): { container: HTMLElement; root: Root } {
   const container = document.createElement('div');
   document.body.appendChild(container);
@@ -24,6 +30,7 @@ function mount(): { container: HTMLElement; root: Root } {
   act(() => {
     root.render(<SearchInline />);
   });
+  roots.push(root);
   return { container, root };
 }
 
@@ -36,16 +43,33 @@ function setInputValue(input: HTMLInputElement, value: string): void {
   input.dispatchEvent(new Event('input', { bubbles: true }));
 }
 
+async function typeAndWaitForResults(input: HTMLInputElement, value: string): Promise<void> {
+  act(() => {
+    setInputValue(input, value);
+  });
+  await act(async () => {
+    await new Promise((r) => setTimeout(r, 220));
+  });
+}
+
 describe('search-inline.tsx SearchInline', () => {
   beforeEach(() => {
-    document.body.innerHTML =
-      '<select id="sel-range"><option value="0">All</option></select>';
+    document.body.innerHTML = '<select id="sel-range"><option value="0">All</option></select>';
     setDeckState((W as unknown as WordEntry[]).slice(0, 5));
     setKnownWords('en', new Set());
     render.mockClear();
     setDeck.mockClear();
     setIdx.mockClear();
     stopAuto.mockClear();
+    roots = [];
+  });
+
+  afterEach(() => {
+    roots.forEach((r) => {
+      act(() => {
+        r.unmount();
+      });
+    });
   });
 
   it('renders an input with the search placeholder', () => {
@@ -59,32 +83,25 @@ describe('search-inline.tsx SearchInline', () => {
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
     const target = (W as unknown as WordEntry[])[0][0];
-    act(() => {
-      setInputValue(input, target.slice(0, 3));
-    });
+    await typeAndWaitForResults(input, target.slice(0, 3));
 
-    await act(async () => {
-      await new Promise((r) => setTimeout(r, 220));
-    });
-
-    const results = container.querySelector('#search-results') as HTMLElement;
-    expect(results.classList.contains('block')).toBe(true);
-    expect(results.querySelectorAll('.search-result-item').length).toBeGreaterThan(0);
+    const results = document.getElementById('search-results');
+    expect(results).not.toBeNull();
+    expect(document.querySelectorAll('.search-result-item').length).toBeGreaterThan(0);
   });
 
   it('shows a "no results" message for an unmatched query', async () => {
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
-    act(() => {
-      setInputValue(input, 'zzzzzzzzzzzz');
-    });
+    await typeAndWaitForResults(input, 'zzzzzzzzzzzz');
 
-    await act(async () => {
-      await new Promise((r) => setTimeout(r, 220));
-    });
-
-    expect(container.querySelector('.search-no-results')).not.toBeNull();
-    expect(container.querySelector('.search-no-results')!.textContent).toBe('Нічого не знайдено');
+    expect(document.querySelector('.search-no-results')).not.toBeNull();
+    // toContain, not toBe: base-ui's aria-live status region appends a
+    // zero-width joiner to force screen readers to re-announce identical
+    // text on repeat renders.
+    expect(document.querySelector('.search-no-results')!.textContent).toContain(
+      'Нічого не знайдено',
+    );
   });
 
   it('marks already-known words with the known badge', async () => {
@@ -92,15 +109,9 @@ describe('search-inline.tsx SearchInline', () => {
     setKnownWords('en', new Set([target[0]]));
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
-    act(() => {
-      setInputValue(input, target[0]);
-    });
+    await typeAndWaitForResults(input, target[0]);
 
-    await act(async () => {
-      await new Promise((r) => setTimeout(r, 220));
-    });
-
-    const item = container.querySelector('.search-result-item') as HTMLElement;
+    const item = document.querySelector('.search-result-item') as HTMLElement;
     expect(item.className).toContain('sr-known');
     expect(item.querySelector('.sr-known-badge')).not.toBeNull();
   });
@@ -110,17 +121,16 @@ describe('search-inline.tsx SearchInline', () => {
     setDeckState([target]);
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
-    act(() => {
-      setInputValue(input, target[0]);
-    });
+    await typeAndWaitForResults(input, target[0]);
 
-    await act(async () => {
-      await new Promise((r) => setTimeout(r, 220));
-    });
-
-    const item = container.querySelector('.search-result-item') as HTMLElement;
+    const item = document.querySelector('.search-result-item') as HTMLElement;
     act(() => {
       item.click();
+    });
+    // reset()'s query clear is deferred a tick past Combobox's own
+    // post-selection input-sync effect (see search-inline.tsx's comment).
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 0));
     });
 
     expect(setIdx).toHaveBeenCalledWith(0);
@@ -134,20 +144,14 @@ describe('search-inline.tsx SearchInline', () => {
     setDeckState([target]);
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
-    act(() => {
-      setInputValue(input, target[0]);
-    });
-
-    await act(async () => {
-      await new Promise((r) => setTimeout(r, 220));
-    });
+    await typeAndWaitForResults(input, target[0]);
 
     act(() => {
       input.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }),
       );
     });
-    const active = container.querySelector('.search-result-item.active');
+    const active = document.querySelector('.search-result-item[data-highlighted]');
     expect(active).not.toBeNull();
 
     act(() => {
@@ -162,45 +166,31 @@ describe('search-inline.tsx SearchInline', () => {
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
     const target = (W as unknown as WordEntry[])[0];
-    act(() => {
-      setInputValue(input, target[0]);
-    });
-    await act(async () => {
-      await new Promise((r) => setTimeout(r, 220));
-    });
+    await typeAndWaitForResults(input, target[0]);
 
-    expect(
-      (container.querySelector('#search-results') as HTMLElement).classList.contains('block'),
-    ).toBe(true);
+    expect(document.getElementById('search-results')).not.toBeNull();
     act(() => {
       input.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
       );
     });
-    expect(
-      (container.querySelector('#search-results') as HTMLElement).classList.contains('hidden'),
-    ).toBe(true);
+    expect(document.getElementById('search-results')).toBeNull();
   });
 
   it('closes the results dropdown when clicking outside', async () => {
     const { container } = mount();
     const input = container.querySelector('#search-input') as HTMLInputElement;
     const target = (W as unknown as WordEntry[])[0];
-    act(() => {
-      setInputValue(input, target[0]);
-    });
-    await act(async () => {
-      await new Promise((r) => setTimeout(r, 220));
-    });
+    await typeAndWaitForResults(input, target[0]);
 
-    expect(
-      (container.querySelector('#search-results') as HTMLElement).classList.contains('block'),
-    ).toBe(true);
+    expect(document.getElementById('search-results')).not.toBeNull();
+    // Combobox dismisses on outside *pointerdown* (floating-ui's "sloppy"
+    // mouse mode), not on 'click' — the original hand-rolled listener used
+    // 'click', but that's no longer what's actually being listened for.
     act(() => {
+      document.body.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
       document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect(
-      (container.querySelector('#search-results') as HTMLElement).classList.contains('hidden'),
-    ).toBe(true);
+    expect(document.getElementById('search-results')).toBeNull();
   });
 });

@@ -1,6 +1,8 @@
 // Vymova — js/features/search/search-inline.tsx
 // Inline search box (header) with debounce + keyboard navigation.
 import { useEffect, useRef, useState, type ReactElement } from 'react';
+import { Combobox as ComboboxPrimitive } from '@base-ui/react';
+import { ComboboxContent, ComboboxList, ComboboxItem, ComboboxEmpty } from '../../../src/components/ui/combobox.tsx';
 import { W } from '../../../data/words-data/words.js';
 import { useLangVersion } from '../../../src/store.ts';
 import { getDeckSnapshot } from '../../../src/deck-store.ts';
@@ -57,18 +59,20 @@ export function SearchInline(): ReactElement {
   useKnownWords(getActiveTargetLang(getMode()) ?? 'en');
   const [query, setQuery] = useState('');
   const [hits, setHits] = useState<Hit[]>([]);
-  const [activeIdx, setActiveIdx] = useState(-1);
   const [isOpen, setIsOpen] = useState(false);
-  const wrapRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function reset(): void {
-    setQuery('');
     setHits([]);
-    setActiveIdx(-1);
     setIsOpen(false);
     inputRef.current?.blur();
+    // Deferred: Combobox's own post-selection effect re-syncs the input's
+    // text to the just-selected item's stringified label (no public prop
+    // disables this) — that effect runs after this handler, so a
+    // synchronous setQuery('') here gets silently overwritten. A
+    // zero-delay timeout runs after that effect's commit instead.
+    setTimeout(() => setQuery(''), 0);
   }
 
   useEffect(() => {
@@ -94,7 +98,6 @@ export function SearchInline(): ReactElement {
         }
       }
       setHits(h);
-      setActiveIdx(-1);
       setIsOpen(true);
     }, 180);
     return () => {
@@ -102,89 +105,68 @@ export function SearchInline(): ReactElement {
     };
   }, [query]);
 
-  useEffect(() => {
-    function onDocClick(e: MouseEvent): void {
-      if (!wrapRef.current?.contains(e.target as Node)) setIsOpen(false);
-    }
-    document.addEventListener('click', onDocClick);
-    return () => document.removeEventListener('click', onDocClick);
-  }, []);
-
   return (
-    <div ref={wrapRef} className="search-wrap-inner" style={{ display: 'contents' }}>
-      <span className="search-icon absolute top-1/2 left-2.5 -translate-y-1/2 text-[13px] text-[var(--text3)] pointer-events-none">
-        🔍
-      </span>
-      <input
-        ref={inputRef}
-        type="text"
-        id="search-input"
-        className="w-full rounded-[10px] py-2 pr-3 pl-8 text-[.85rem] font-[inherit] outline-none transition-[border-color] duration-200 border-[1.5px] text-[var(--text)] bg-[var(--search-input-bg)] border-[var(--search-input-border)] focus:border-[var(--accent)] focus:shadow-[var(--search-input-focus-shadow)] [@media(max-width:640px)]:text-[0.9rem] [@media(max-width:640px)]:py-[10px] [@media(max-width:640px)]:pr-[14px] [@media(max-width:640px)]:pl-[34px] [@media(max-width:640px)]:min-h-[42px]"
-        placeholder={t('cards.searchPlaceholder')}
-        autoComplete="off"
-        spellCheck={false}
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            setActiveIdx((i) => (i === -1 ? 0 : i < hits.length - 1 ? i + 1 : -1));
-          } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            setActiveIdx((i) => (i === -1 ? hits.length - 1 : i > 0 ? i - 1 : -1));
-          } else if (e.key === 'Enter' && activeIdx !== -1 && hits[activeIdx]) {
-            e.preventDefault();
-            goToWord(hits[activeIdx].key, reset);
-          } else if (e.key === 'Escape') {
-            setIsOpen(false);
-            inputRef.current?.blur();
-          }
-        }}
-      />
-      <div
-        className={
-          'search-results absolute top-[calc(100%+4px)] right-0 left-0 max-h-[220px] overflow-y-auto rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--card)] shadow-[0_4px_16px_rgba(0,0,0,.1)] ' +
-          (isOpen ? 'block' : 'hidden')
-        }
-        id="search-results"
-      >
-        {hits.length === 0 ? (
-          query.trim() ? (
-            <div className="search-no-results px-3 py-2.5 text-center text-[.83rem] text-[var(--text3)]">
-              {t('search.noResults')}
-            </div>
-          ) : null
-        ) : (
-          hits.map((h, i) => {
-            const isKnown = activeKnown().has(h.key);
-            return (
-              <div
-                key={h.key}
-                className={
-                  'search-result-item flex cursor-pointer justify-between gap-2 px-3 py-2 text-[.85rem] hover:bg-[var(--search-result-hover-bg)]' +
-                  (isKnown ? ' sr-known bg-[var(--sr-known-bg)]' : '') +
-                  (i === activeIdx ? ' active' : '')
-                }
-                onClick={() => goToWord(h.key, reset)}
-                onTouchEnd={() => goToWord(h.key, reset)}
-              >
-                <span
-                  className="sr-word font-semibold text-[var(--text)]"
-                  dir={h.frontRtl ? 'rtl' : undefined}
+    <ComboboxPrimitive.Root<Hit>
+      items={hits}
+      inputValue={query}
+      onInputValueChange={(val) => setQuery(val)}
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      filter={null}
+      itemToStringLabel={(hit) => hit.front}
+      onValueChange={(hit) => {
+        if (hit) goToWord(hit.key, reset);
+      }}
+    >
+      <div className="search-wrap-inner" style={{ display: 'contents' }}>
+        <span className="search-icon absolute top-1/2 left-2.5 -translate-y-1/2 text-[13px] text-[var(--text3)] pointer-events-none">
+          🔍
+        </span>
+        <ComboboxPrimitive.Input
+          ref={inputRef}
+          id="search-input"
+          className="w-full rounded-[10px] py-2 pr-3 pl-8 text-[.85rem] font-[inherit] outline-none transition-[border-color] duration-200 border-[1.5px] text-[var(--text)] bg-[var(--search-input-bg)] border-[var(--search-input-border)] focus:border-[var(--accent)] focus:shadow-[var(--search-input-focus-shadow)] [@media(max-width:640px)]:text-[0.9rem] [@media(max-width:640px)]:py-[10px] [@media(max-width:640px)]:pr-[14px] [@media(max-width:640px)]:pl-[34px] [@media(max-width:640px)]:min-h-[42px]"
+          placeholder={t('cards.searchPlaceholder')}
+          autoComplete="off"
+          spellCheck={false}
+        />
+        <ComboboxContent
+          id="search-results"
+          className="search-results z-[99999] rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--card)] shadow-[0_4px_16px_rgba(0,0,0,.1)]"
+        >
+          <ComboboxList>
+            {(h: Hit) => {
+              const isKnown = activeKnown().has(h.key);
+              return (
+                <ComboboxItem
+                  key={h.key}
+                  value={h}
+                  className={
+                    'search-result-item flex cursor-default justify-between gap-2 rounded-none px-3 py-2 text-[.85rem] hover:bg-[var(--search-result-hover-bg)] data-highlighted:bg-[var(--search-result-hover-bg)]' +
+                    (isKnown ? ' sr-known bg-[var(--sr-known-bg)]' : '')
+                  }
                 >
-                  {h.front}
-                </span>
-                <span className="sr-transl flex-1 text-[var(--text2)]">{h.back}</span>
-                {isKnown && (
-                  <span className="sr-known-badge shrink-0 text-[.72rem] font-bold text-[#27ae60]">
-                    ✓
+                  <span
+                    className="sr-word font-semibold text-[var(--text)]"
+                    dir={h.frontRtl ? 'rtl' : undefined}
+                  >
+                    {h.front}
                   </span>
-                )}
-              </div>
-            );
-          })
-        )}
+                  <span className="sr-transl flex-1 text-[var(--text2)]">{h.back}</span>
+                  {isKnown && (
+                    <span className="sr-known-badge shrink-0 text-[.72rem] font-bold text-[#27ae60]">
+                      ✓
+                    </span>
+                  )}
+                </ComboboxItem>
+              );
+            }}
+          </ComboboxList>
+          <ComboboxEmpty className="search-no-results block px-3 py-2.5 text-center text-[.83rem] text-[var(--text3)]">
+            {t('search.noResults')}
+          </ComboboxEmpty>
+        </ComboboxContent>
       </div>
-    </div>
+    </ComboboxPrimitive.Root>
   );
 }

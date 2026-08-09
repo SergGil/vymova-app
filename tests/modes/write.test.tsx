@@ -153,7 +153,9 @@ describe('write.tsx (WritePage)', () => {
       typeInto(input, 'appl');
     });
     await flush(150);
-    expect(container.querySelectorAll('.wac-item').length).toBeGreaterThan(0);
+    // Portal'd to document.body (Combobox's own popup mechanism), not a
+    // plain child of `container` anymore.
+    expect(document.querySelectorAll('.wac-item').length).toBeGreaterThan(0);
   });
 
   it('advancing through all 10 words shows the final screen', () => {

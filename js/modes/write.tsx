@@ -17,6 +17,8 @@ import { useModeSession } from '../features/mode/use-mode-session.ts';
 import type { WordEntry } from '../../src/types.js';
 import { Progress as ProgressPrimitive } from '@base-ui/react/progress';
 import { ProgressTrack, ProgressIndicator } from '../../src/components/ui/progress.tsx';
+import { Combobox as ComboboxPrimitive } from '@base-ui/react';
+import { ComboboxContent, ComboboxList, ComboboxItem } from '../../src/components/ui/combobox.tsx';
 
 const SIZE = 10;
 
@@ -92,13 +94,18 @@ export function WritePage(): ReactElement {
   const [result, setResult] = useState<{ text: string; color: string } | null>(null);
   const [hint, setHint] = useState('');
   const [acItems, setAcItems] = useState<WordEntry[]>([]);
-  const [acIdx, setAcIdx] = useState(-1);
   const [micActive, setMicActive] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   const acTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recogRef = useRef<SpeechRecognitionInstance | null>(null);
+  // Tracks whether an autocomplete item is currently keyboard/pointer-
+  // highlighted, so the Input's own onKeyDown can tell "Enter confirms the
+  // highlighted suggestion" (handled by Combobox's own onValueChange)
+  // apart from "Enter submits the answer" (nothing highlighted — this
+  // component's own concern, not Combobox's).
+  const highlightedRef = useRef<WordEntry | null>(null);
 
   const w: WordEntry | null = deck[idx] ?? null;
   const knowLang = getKnowLang();
@@ -112,7 +119,7 @@ export function WritePage(): ReactElement {
 
   const acHide = (): void => {
     setAcItems([]);
-    setAcIdx(-1);
+    highlightedRef.current = null;
   };
 
   const resetQ = (): void => {
@@ -230,35 +237,30 @@ export function WritePage(): ReactElement {
       } else {
         setAcItems([]);
       }
-      setAcIdx(-1);
+      highlightedRef.current = null;
     }, 120);
   };
 
-  const pickAc = (i: number): void => {
-    if (acItems[i]) {
-      setInput(acItems[i][0]);
-      acHide();
-      try {
-        inputRef.current?.focus();
-      } catch (e) {}
-    }
+  // Fires when a suggestion is confirmed (click or Enter-while-highlighted,
+  // both funnel through Combobox's onValueChange) — mirrors the old
+  // pickAc(i)'s effect exactly: fill the input, close the list, refocus.
+  const pickAc = (item: WordEntry | null): void => {
+    if (!item) return;
+    setInput(item[0]);
+    acHide();
+    try {
+      inputRef.current?.focus();
+    } catch (e) {}
   };
 
+  // Only "Enter with nothing highlighted" is this component's own concern
+  // now — Combobox's Input handles ArrowUp/Down navigation, Escape (closing
+  // just the list, via `open`/`onOpenChange` below), and Enter-while-
+  // highlighted (via onValueChange -> pickAc) internally.
   const onInputKeydown = (e: KeyboardEvent | { key: string; preventDefault: () => void }): void => {
     const ev = e as KeyboardEvent;
-    if (acItems.length && (ev.key === 'ArrowDown' || ev.key === 'ArrowUp')) {
-      ev.preventDefault();
-      const next =
-        ev.key === 'ArrowDown' ? Math.min(acIdx + 1, acItems.length - 1) : Math.max(acIdx - 1, -1);
-      setAcIdx(next);
-      if (next >= 0) setInput(acItems[next][0]);
-    } else if (ev.key === 'Escape') {
-      acHide();
-    } else if (ev.key === 'Enter') {
-      if (acIdx >= 0 && acItems[acIdx]) {
-        setInput(acItems[acIdx][0]);
-        acHide();
-      } else if (!answered) {
+    if (ev.key === 'Enter' && !highlightedRef.current) {
+      if (!answered) {
         acHide();
         submit();
       } else {
@@ -462,58 +464,72 @@ export function WritePage(): ReactElement {
           </div>
 
           <div style={{ position: 'relative', marginBottom: 10 }}>
-            <input
-              ref={inputRef}
-              type="text"
-              autoComplete="off"
-              spellCheck={false}
-              placeholder={
-                backLang === 'en'
-                  ? t('write.placeholder')
-                  : t('write.placeholder')
-                      .replace(/англійськ\S+/gi, t(`lang.${backLang}` as any))
-                      .replace(/english\S*/gi, t(`lang.${backLang}` as any))
-              }
-              value={input}
-              onChange={(e) => onInputChange(e.target.value)}
-              onKeyDown={onInputKeydown}
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                border: `2px solid ${borderColor}`,
-                borderRadius: 12,
-                fontSize: '1rem',
-                fontFamily: "'DM Sans',sans-serif",
-                background: 'var(--bg)',
-                color: 'var(--text)',
-                outline: 'none',
-                boxSizing: 'border-box',
-                transition: 'border-color .2s',
+            <ComboboxPrimitive.Root<WordEntry>
+              items={acItems}
+              filter={null}
+              itemToStringLabel={(w) => w[0]}
+              inputValue={input}
+              onInputValueChange={(val) => onInputChange(val)}
+              open={acItems.length > 0}
+              onOpenChange={(v) => {
+                if (!v) acHide();
               }}
-            />
-            {acItems.length > 0 && (
-              <div
-                className="write-ac absolute top-[calc(100%-4px)] right-0 left-0 z-20 max-h-[220px] overflow-x-hidden overflow-y-auto rounded-b-[12px] border-[1.5px] border-t-0 border-[var(--accent)] bg-[var(--card)] shadow-[0_8px_20px_rgba(0,0,0,.15)]"
-                style={{ display: 'block' }}
+              onItemHighlighted={(item, details) => {
+                highlightedRef.current = item ?? null;
+                // Only keyboard arrow-navigation previews into the input —
+                // mouse hover must not (matches the old acIdx-driven
+                // behavior, which only ever ran from onInputKeydown).
+                if (item && details.reason === 'keyboard') setInput(item[0]);
+              }}
+              onValueChange={(item) => pickAc(item)}
+            >
+              <ComboboxPrimitive.Input
+                ref={inputRef}
+                type="text"
+                autoComplete="off"
+                spellCheck={false}
+                placeholder={
+                  backLang === 'en'
+                    ? t('write.placeholder')
+                    : t('write.placeholder')
+                        .replace(/англійськ\S+/gi, t(`lang.${backLang}` as any))
+                        .replace(/english\S*/gi, t(`lang.${backLang}` as any))
+                }
+                onKeyDown={onInputKeydown}
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  border: `2px solid ${borderColor}`,
+                  borderRadius: 12,
+                  fontSize: '1rem',
+                  fontFamily: "'DM Sans',sans-serif",
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                  transition: 'border-color .2s',
+                }}
+              />
+              <ComboboxContent
+                className="write-ac z-[99999] rounded-b-[12px] rounded-t-none border-[1.5px] border-t-0 border-[var(--accent)] bg-[var(--card)] shadow-[0_8px_20px_rgba(0,0,0,.15)]"
               >
-                {acItems.map((aw, i) => (
-                  <div
-                    key={aw[0]}
-                    className={
-                      'wac-item flex cursor-pointer items-center justify-between gap-2 border-b border-b-[var(--border)] px-4 py-2 text-[.88rem] transition-[background] duration-100 last:border-b-0 hover:bg-[var(--wac-hover-bg)] [&.wac-sel]:bg-[var(--wac-hover-bg)]' +
-                      (i === acIdx ? ' wac-sel' : '')
-                    }
-                    onClick={() => pickAc(i)}
-                  >
-                    <span className="wac-word font-semibold text-[var(--text)]">{aw[0]}</span>
-                    <span className="wac-ua text-[.78rem] text-[var(--text2)]">{aw[1]}</span>
-                    <span className="wac-n shrink-0 rounded-[4px] bg-[var(--border)] px-[5px] py-px text-[.65rem] text-[var(--text3)]">
-                      {i + 1}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
+                <ComboboxList>
+                  {(aw: WordEntry, i: number) => (
+                    <ComboboxItem
+                      key={aw[0]}
+                      value={aw}
+                      className="wac-item flex cursor-default items-center justify-between gap-2 rounded-none border-b border-b-[var(--border)] px-4 py-2 text-[.88rem] transition-[background] duration-100 last:border-b-0 hover:bg-[var(--wac-hover-bg)] data-highlighted:bg-[var(--wac-hover-bg)]"
+                    >
+                      <span className="wac-word font-semibold text-[var(--text)]">{aw[0]}</span>
+                      <span className="wac-ua text-[.78rem] text-[var(--text2)]">{aw[1]}</span>
+                      <span className="wac-n shrink-0 rounded-[4px] bg-[var(--border)] px-[5px] py-px text-[.65rem] text-[var(--text3)]">
+                        {i + 1}
+                      </span>
+                    </ComboboxItem>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            </ComboboxPrimitive.Root>
           </div>
 
           <div

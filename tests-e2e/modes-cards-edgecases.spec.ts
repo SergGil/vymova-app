@@ -190,12 +190,16 @@ test.describe('Cards modes — write autocomplete', () => {
     return overlay;
   }
 
+  // .wac-item/.write-ac are Portal'd to document.body by Combobox's own
+  // popup mechanism (base-ui, same as this session's Select/Dialog/
+  // search-inline conversions) — no longer inside #write-overlay, so these
+  // are page-level locators, not overlay-scoped ones.
   test('suggests dictionary matches for the input prefix', async ({ page }) => {
     const errors = captureErrors(page);
     const overlay = await openWrite(page);
 
     await overlay.locator('input[type="text"]').fill('an');
-    const items = overlay.locator('.wac-item');
+    const items = page.locator('.wac-item');
     await expect(items.first()).toBeVisible();
     const word = (await items.first().locator('.wac-word').innerText()).toLowerCase();
     expect(word.startsWith('a')).toBe(true);
@@ -208,10 +212,10 @@ test.describe('Cards modes — write autocomplete', () => {
     const overlay = await openWrite(page);
 
     await overlay.locator('input[type="text"]').fill('an');
-    await expect(overlay.locator('.wac-item').first()).toBeVisible();
+    await expect(page.locator('.wac-item').first()).toBeVisible();
 
     await page.keyboard.press('Escape');
-    await expect(overlay.locator('.write-ac')).toBeHidden();
+    await expect(page.locator('.write-ac')).toBeHidden();
 
     expect(errors).toEqual([]);
   });
@@ -222,14 +226,14 @@ test.describe('Cards modes — write autocomplete', () => {
 
     const input = overlay.locator('input[type="text"]');
     await input.fill('an');
-    const first = overlay.locator('.wac-item').first();
+    const first = page.locator('.wac-item').first();
     await first.waitFor({ state: 'visible' });
     const word = await first.locator('.wac-word').innerText();
 
     await first.click();
 
     await expect(input).toHaveValue(word);
-    await expect(overlay.locator('.write-ac')).toBeHidden();
+    await expect(page.locator('.write-ac')).toBeHidden();
 
     expect(errors).toEqual([]);
   });
