@@ -15,6 +15,8 @@ import { speakForCode } from '../features/voice/speak-lang.ts';
 import { ModeFinalScreen } from '../features/mode/mode-final-screen.tsx';
 import { useModeSession } from '../features/mode/use-mode-session.ts';
 import type { WordEntry } from '../../src/types.js';
+import { Progress as ProgressPrimitive } from '@base-ui/react/progress';
+import { ProgressTrack, ProgressIndicator } from '../../src/components/ui/progress.tsx';
 
 const SIZE = 10;
 
@@ -371,25 +373,16 @@ export function WritePage(): ReactElement {
         </button>
       </div>
 
-      <div
-        style={{
-          height: 4,
-          background: 'var(--border)',
-          borderRadius: 4,
-          marginBottom: 18,
-          overflow: 'hidden',
-        }}
+      <ProgressPrimitive.Root
+        value={showFinal ? 100 : deck.length ? (idx / deck.length) * 100 : 0}
+        style={{ marginBottom: 18 }}
       >
-        <div
-          style={{
-            height: '100%',
-            background: 'var(--accent)',
-            borderRadius: 4,
-            width: showFinal ? '100%' : `${deck.length ? (idx / deck.length) * 100 : 0}%`,
-            transition: 'width .4s',
-          }}
-        />
-      </div>
+        <ProgressTrack style={{ height: 4, background: 'var(--border)', borderRadius: 4 }}>
+          <ProgressIndicator
+            style={{ background: 'var(--accent)', borderRadius: 4, transition: 'width .4s' }}
+          />
+        </ProgressTrack>
+      </ProgressPrimitive.Root>
 
       {!showFinal && w && (
         <>

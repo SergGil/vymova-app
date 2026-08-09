@@ -8,6 +8,8 @@ import { t, levelName, wordsLabel } from '../i18n.ts';
 import { notifyGameBarChange, useGameBarVersion, useLangVersion } from '../../../src/store.ts';
 import { getKnownInLang } from '../mode/mode-utils.ts';
 import { openPage } from '../sidebar/sidebar.tsx';
+import { Progress as ProgressPrimitive } from '@base-ui/react/progress';
+import { ProgressTrack, ProgressIndicator } from '../../../src/components/ui/progress.tsx';
 
 export function GameBarLevel(): ReactElement {
   useGameBarVersion();
@@ -67,12 +69,14 @@ export function GameBarLevel(): ReactElement {
           {lvIdx}
         </span>
       </div>
-      <div className="gb-level-track overflow-hidden rounded-sm bg-[var(--gb-level-track-bg)] h-[6px] [@media(max-width:480px)]:!h-[5px] [@media(max-width:480px)]:!my-1">
-        <div
-          className="gb-level-fill h-full rounded-sm [background:var(--fill-glow-bg,linear-gradient(90deg,#5dade2,#27ae60))] shadow-[var(--gb-level-fill-shadow)] [transition:width_.5s_ease]"
-          style={{ width: fillPct + '%', background: fillBg }}
-        />
-      </div>
+      <ProgressPrimitive.Root value={fillPct} className="block">
+        <ProgressTrack className="gb-level-track h-[6px] overflow-hidden rounded-sm bg-[var(--gb-level-track-bg)] [@media(max-width:480px)]:!h-[5px] [@media(max-width:480px)]:!my-1">
+          <ProgressIndicator
+            className="gb-level-fill h-full rounded-sm [background:var(--fill-glow-bg,linear-gradient(90deg,#5dade2,#27ae60))] shadow-[var(--gb-level-fill-shadow)] [transition:width_.5s_ease]"
+            style={{ background: fillBg }}
+          />
+        </ProgressTrack>
+      </ProgressPrimitive.Root>
       <div className="gb-level-xp text-[var(--gb-level-xp-color)] text-[0.62rem] font-['DM_Sans',sans-serif] text-right mt-0.5 [@media(max-width:480px)]:!text-[0.68rem] [@media(max-width:480px)]:!text-[var(--text2)] [@media(max-width:480px)]:!text-left [@media(max-width:480px)]:mt-[3px]">
         {xpText}
       </div>

@@ -7,6 +7,7 @@ import { getGameData } from './game.ts';
 import { _getSessionCombo, getComboMult } from './combo.ts';
 import { t } from '../i18n.ts';
 import { notifyGameBarChange, useGameBarVersion, useLangVersion } from '../../../src/store.ts';
+import { Meter } from '../../../src/components/ui/meter.tsx';
 
 export function GameBarStreak(): ReactElement {
   useGameBarVersion();
@@ -72,7 +73,12 @@ export function GameBarGoal(): ReactElement {
   const offset = RING_C * (1 - pct / 100);
   const ringColor = done ? 'var(--accent2)' : 'var(--success)';
   return (
-    <div className="relative flex flex-col items-center gap-0.5">
+    <Meter
+      value={d.goalCur}
+      max={d.goalMax}
+      getAriaValueText={() => `${d.goalCur || 0} / ${d.goalMax}`}
+      className="relative flex flex-col items-center gap-0.5"
+    >
       <svg
         width="54"
         height="54"
@@ -110,7 +116,7 @@ export function GameBarGoal(): ReactElement {
           {t('cards.goalDone')}
         </div>
       )}
-    </div>
+    </Meter>
   );
 }
 
