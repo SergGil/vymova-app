@@ -3,6 +3,7 @@
 import { useState, useEffect, type ReactElement } from 'react';
 import { t } from './i18n.ts';
 import { useLangVersion } from '../../src/store.ts';
+import { Kbd } from '../../src/components/ui/kbd.tsx';
 
 export function KeysOverlay(): ReactElement {
   // Only t() calls in this whole panel need reactivity — the global bus
@@ -86,40 +87,40 @@ export function KeysOverlay(): ReactElement {
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.nextCard')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>{t('keys.space')}</kbd>
-              <kbd>→</kbd>
+              <Kbd>{t('keys.space')}</Kbd>
+              <Kbd>→</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.markKnown')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>Enter</kbd>
+              <Kbd>Enter</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.navigation')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>←</kbd>
-              <kbd>→</kbd>
+              <Kbd>←</Kbd>
+              <Kbd>→</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.showTranslation')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>F</kbd>
+              <Kbd>F</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.search')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>Ctrl</kbd>
-              <kbd>K</kbd>
+              <Kbd>Ctrl</Kbd>
+              <Kbd>K</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.theseHints')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>?</kbd>
+              <Kbd>?</Kbd>
             </div>
           </div>
         </div>
@@ -130,29 +131,29 @@ export function KeysOverlay(): ReactElement {
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.selectOption')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>1</kbd>
-              <kbd>2</kbd>
-              <kbd>3</kbd>
-              <kbd>4</kbd>
+              <Kbd>1</Kbd>
+              <Kbd>2</Kbd>
+              <Kbd>3</Kbd>
+              <Kbd>4</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.nextAfterAnswer')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>→</kbd>
-              <kbd>{t('keys.space')}</kbd>
+              <Kbd>→</Kbd>
+              <Kbd>{t('keys.space')}</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.repeatSound')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>{t('keys.space')}</kbd>
+              <Kbd>{t('keys.space')}</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.close')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>Esc</kbd>
+              <Kbd>Esc</Kbd>
             </div>
           </div>
         </div>
@@ -163,33 +164,33 @@ export function KeysOverlay(): ReactElement {
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.checkAnswer')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>Enter</kbd>
+              <Kbd>Enter</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.nextAfterCheck')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>Enter</kbd>
-              <kbd>→</kbd>
+              <Kbd>Enter</Kbd>
+              <Kbd>→</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.hint')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>{t('keys.hintBtnKbd')}</kbd>
+              <Kbd>{t('keys.hintBtnKbd')}</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.autocomplete')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>↑</kbd>
-              <kbd>↓</kbd>
+              <Kbd>↑</Kbd>
+              <Kbd>↓</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.close')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>Esc</kbd>
+              <Kbd>Esc</Kbd>
             </div>
           </div>
         </div>
@@ -200,16 +201,16 @@ export function KeysOverlay(): ReactElement {
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.repeatWord')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>{t('keys.space')}</kbd>
+              <Kbd>{t('keys.space')}</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.selectOption')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>1</kbd>
-              <kbd>2</kbd>
-              <kbd>3</kbd>
-              <kbd>4</kbd>
+              <Kbd>1</Kbd>
+              <Kbd>2</Kbd>
+              <Kbd>3</Kbd>
+              <Kbd>4</Kbd>
             </div>
           </div>
         </div>
@@ -220,15 +221,15 @@ export function KeysOverlay(): ReactElement {
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.closeAnyModal')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>Esc</kbd>
+              <Kbd>Esc</Kbd>
             </div>
           </div>
           <div className="keys-row flex items-center justify-between border-b border-b-[var(--border)] py-[5px] text-[.85rem] text-[var(--text)] last:border-b-0">
             <span>{t('keys.searchInList')}</span>
             <div className="keys-kbds ml-3 flex shrink-0 gap-1">
-              <kbd>↑</kbd>
-              <kbd>↓</kbd>
-              <kbd>Enter</kbd>
+              <Kbd>↑</Kbd>
+              <Kbd>↓</Kbd>
+              <Kbd>Enter</Kbd>
             </div>
           </div>
         </div>

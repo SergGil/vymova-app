@@ -14,6 +14,7 @@ import { entryFor } from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { ModeFinalScreen } from '../features/mode/mode-final-screen.tsx';
 import { useModeSession } from '../features/mode/use-mode-session.ts';
+import { Kbd } from '../../src/components/ui/kbd.tsx';
 
 const SIZE = 10;
 
@@ -261,17 +262,12 @@ export function ListeningPage(): ReactElement {
               {t('listen.playHint')}
             </div>
             <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginTop: 3 }}>
-              <kbd
-                style={{
-                  background: 'var(--border)',
-                  borderRadius: 4,
-                  padding: '1px 5px',
-                  fontSize: '.68rem',
-                }}
+              <Kbd
+                className="h-auto min-w-0 gap-0 px-[5px] py-px text-[0.68rem]"
                 data-i18n="kbd.space"
               >
                 {t('kbd.space')}
-              </kbd>{' '}
+              </Kbd>{' '}
               <span data-i18n="listen.repeatHint">{t('listen.repeatHint')}</span>
             </div>
           </div>
