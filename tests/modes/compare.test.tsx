@@ -43,24 +43,22 @@ async function waitForTablesReady(container: HTMLElement): Promise<HTMLInputElem
   }
 }
 
-async function selectApple(container: HTMLElement, input: HTMLInputElement): Promise<void> {
+// The suggestion list is Portal'd to document.body by Combobox (base-ui,
+// same as this session's write.tsx/search-inline.tsx conversions) — no
+// longer a descendant of `container`, so it's queried from the document via
+// its own .cmp-suggestion-item class hook instead of the old container-
+// scoped structural (child-count/tag) match.
+async function selectApple(_container: HTMLElement, input: HTMLInputElement): Promise<void> {
   act(() => {
     typeInto(input, 'apple');
   });
   await flush(250);
-  // Match the suggestion row itself (exactly two <span> children: headword,
-  // translation) rather than the dropdown wrapper, whose aggregated
-  // textContent would also happen to contain both strings.
-  const suggestion = Array.from(container.querySelectorAll('div')).find(
-    (d) =>
-      d.children.length === 2 &&
-      d.children[0].tagName === 'SPAN' &&
-      d.children[0].textContent === 'apple' &&
-      d.children[1].textContent === 'яблуко',
-  ) as HTMLElement;
+  const suggestion = Array.from(document.querySelectorAll<HTMLElement>('.cmp-suggestion-item')).find(
+    (el) => el.textContent?.includes('apple') && el.textContent?.includes('яблуко'),
+  );
   expect(suggestion).toBeTruthy();
   act(() => {
-    suggestion.click();
+    suggestion!.click();
   });
 }
 

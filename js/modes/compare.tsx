@@ -8,6 +8,8 @@
 // loaded extras lazily on demand, this just applies the same discipline to
 // the starting set.
 import { useEffect, useMemo, useRef, useState, type ReactElement } from 'react';
+import { Combobox as ComboboxPrimitive } from '@base-ui/react';
+import { ComboboxContent, ComboboxList, ComboboxItem } from '../../src/components/ui/combobox.tsx';
 import { W } from '../../data/words-data/words.js';
 import type { WordEntry } from '../../src/types.js';
 import {
@@ -114,6 +116,14 @@ function SpeakBtn({ text, code, fallback }: { text: string; code: Code; fallback
 export function ComparePage(): ReactElement {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<WordEntry[]>([]);
+  const [suggestOpen, setSuggestOpen] = useState(false);
+  // Combobox's Input handles ArrowUp/Down highlight navigation internally —
+  // this only needs to know "was anything highlighted" so Enter can fall
+  // back to picking the first suggestion outright, matching the original
+  // plain <input>'s onKeyDown (which always picked suggestions[0] on Enter,
+  // with no concept of arrow-key highlighting at all). Same pattern as
+  // write.tsx's onInputKeydown/highlightedRef.
+  const highlightedRef = useRef<WordEntry | null>(null);
   const [selected, setSelected] = useState<WordEntry | null>(null);
   const [defaultLangs, setDefaultLangs] = useState<TargetLang[]>([]);
   const [extraLangs, setExtraLangs] = useState<TargetLang[]>([]);
@@ -137,6 +147,7 @@ export function ComparePage(): ReactElement {
     onOpen: () => {
       setQuery('');
       setSuggestions([]);
+      setSuggestOpen(false);
       setSelected(null);
       setExtraLangs([]);
       setPickerOpen(false);
@@ -163,12 +174,17 @@ export function ComparePage(): ReactElement {
       if (!isOpen) return;
       if (e.key === 'Escape') {
         if (pickerOpen) setPickerOpen(false);
+        // Combobox's own Input already closes the suggestion popup itself
+        // on Escape (its own internal dismiss, not this listener) — skip
+        // sessionClose() here too, or the whole Compare overlay would close
+        // in the same keypress right along with the popup.
+        else if (suggestOpen) return;
         else sessionClose();
       }
     }
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
-  }, [isOpen, pickerOpen, sessionClose]);
+  }, [isOpen, pickerOpen, suggestOpen, sessionClose]);
 
   useEffect(() => {
     function onDocClick(e: MouseEvent): void {
@@ -186,9 +202,13 @@ export function ComparePage(): ReactElement {
     const q = query.trim();
     if (!q) {
       setSuggestions([]);
+      setSuggestOpen(false);
       return;
     }
-    timerRef.current = setTimeout(() => setSuggestions(searchEntries(q, searchCodes)), 120);
+    timerRef.current = setTimeout(() => {
+      setSuggestions(searchEntries(q, searchCodes));
+      setSuggestOpen(true);
+    }, 120);
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
@@ -198,6 +218,7 @@ export function ComparePage(): ReactElement {
     setSelected(w);
     setQuery('');
     setSuggestions([]);
+    setSuggestOpen(false);
   }
 
   function clearSelection(): void {
@@ -285,71 +306,69 @@ export function ComparePage(): ReactElement {
             </button>
           </div>
         ) : (
-          <input
-            ref={inputRef}
-            type="text"
-            autoComplete="off"
-            spellCheck={false}
-            placeholder={tablesReady ? t('compare.placeholder') : '…'}
-            disabled={!tablesReady}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && suggestions.length) pick(suggestions[0]);
+          <ComboboxPrimitive.Root<WordEntry>
+            items={suggestions}
+            inputValue={query}
+            onInputValueChange={setQuery}
+            open={suggestOpen}
+            onOpenChange={setSuggestOpen}
+            filter={null}
+            itemToStringLabel={(w) => w[0]}
+            onItemHighlighted={(w) => {
+              highlightedRef.current = w ?? null;
             }}
-            style={{
-              width: '100%',
-              boxSizing: 'border-box',
-              padding: '10px 12px',
-              borderRadius: 10,
-              border: '1.5px solid var(--border)',
-              background: 'var(--bg)',
-              color: 'var(--text)',
-              fontSize: '.92rem',
-              fontFamily: 'inherit',
-              outline: 'none',
-            }}
-          />
-        )}
-        {!selected && suggestions.length > 0 && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '100%',
-              left: 0,
-              right: 0,
-              marginTop: 4,
-              background: 'var(--card)',
-              border: '1.5px solid var(--border)',
-              borderRadius: 10,
-              boxShadow: '0 8px 24px rgba(0,0,0,.2)',
-              maxHeight: 220,
-              overflowY: 'auto',
-              zIndex: 10,
+            onValueChange={(w) => {
+              if (w) pick(w);
             }}
           >
-            {suggestions.map((w) => (
-              <div
-                key={w[0]}
-                onClick={() => pick(w)}
-                style={{
-                  padding: '8px 12px',
-                  cursor: 'pointer',
-                  borderBottom: '1px solid var(--border)',
-                  fontSize: '.88rem',
-                }}
-                onMouseOver={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'var(--bg2)';
-                }}
-                onMouseOut={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = '';
-                }}
-              >
-                <span style={{ fontWeight: 600, color: 'var(--text)' }}>{w[0]}</span>
-                <span style={{ color: 'var(--text3)', marginLeft: 8 }}>{w[1]}</span>
-              </div>
-            ))}
-          </div>
+            <ComboboxPrimitive.Input
+              ref={inputRef}
+              type="text"
+              autoComplete="off"
+              spellCheck={false}
+              placeholder={tablesReady ? t('compare.placeholder') : '…'}
+              disabled={!tablesReady}
+              onKeyDown={(e) => {
+                // Combobox's Input handles ArrowUp/Down and Enter-while-
+                // highlighted internally — this only covers "Enter with
+                // nothing highlighted", matching the original plain
+                // <input>'s onKeyDown (always picked suggestions[0], no
+                // concept of arrow-key highlighting at all).
+                if (e.key === 'Enter' && !highlightedRef.current && suggestions.length) {
+                  pick(suggestions[0]);
+                }
+              }}
+              style={{
+                width: '100%',
+                boxSizing: 'border-box',
+                padding: '10px 12px',
+                borderRadius: 10,
+                border: '1.5px solid var(--border)',
+                background: 'var(--bg)',
+                color: 'var(--text)',
+                fontSize: '.92rem',
+                fontFamily: 'inherit',
+                outline: 'none',
+              }}
+            />
+            <ComboboxContent
+              className="z-[99999] rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--card)] shadow-[0_8px_24px_rgba(0,0,0,.2)]"
+              side="bottom"
+            >
+              <ComboboxList>
+                {(w: WordEntry) => (
+                  <ComboboxItem
+                    key={w[0]}
+                    value={w}
+                    className="cmp-suggestion-item cursor-default rounded-none px-3 py-2 text-[.88rem] hover:bg-[var(--bg2)] data-highlighted:bg-[var(--bg2)]"
+                  >
+                    <span style={{ fontWeight: 600, color: 'var(--text)' }}>{w[0]}</span>
+                    <span style={{ color: 'var(--text3)', marginLeft: 8 }}>{w[1]}</span>
+                  </ComboboxItem>
+                )}
+              </ComboboxList>
+            </ComboboxContent>
+          </ComboboxPrimitive.Root>
         )}
       </div>
 
