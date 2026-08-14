@@ -1426,9 +1426,12 @@ body.dark {
 /* .ach-category/.ach-cat-title/.ach-grid-inner/.ach-card (plus unlocked/
    locked/hover/checkmark states)/.ach-progress-*, .ach-almost-badge/
    .ach-new-badge/.ach-cat-count/.ach-empty-state/.ach-summary-*,
-   .ach-filter-tab/#ach-popup-overlay/.ach-popup (plus its sub-parts) moved
-   to Tailwind utility classes in achievements-page.tsx and index.html
-   (tailwind-shadcn-migration-roadmap.md Phase 2). Class names stay: all 14
+   .ach-filter-tab/.ach-popup (plus its sub-parts) moved to Tailwind utility
+   classes in achievements-page.tsx (tailwind-shadcn-migration-roadmap.md
+   Phase 2; the popup's own #ach-popup-overlay backdrop div — formerly
+   static markup in index.html — was later replaced outright by a Dialog
+   conversion, see achievements-page.tsx's AchievementPopup). Class names
+   stay: all 14
    fandom themes override .ach-card (plus its unlocked state and its icon
    child)/.ach-progress-fill/.ach-popup (plus its icon/name/progress-fill
    children), and being unlayered legacy CSS they keep winning over the new

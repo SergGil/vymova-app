@@ -1,7 +1,6 @@
 // Vymova — js/features/achievements/achievements-page.tsx
 // Achievements page: levels roadmap, achievements grid, achievement detail popup.
 // Re-rendered on demand via refreshAchievementsPage() / notifyAchievementsChange().
-import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import {
   notifyAchievementsChange,
@@ -23,6 +22,7 @@ import { Badge } from '../../../src/components/ui/badge.tsx';
 import { ToggleGroup, ToggleGroupItem } from '../../../src/components/ui/toggle-group.tsx';
 import { Progress as ProgressPrimitive } from '@base-ui/react/progress';
 import { ProgressTrack, ProgressIndicator } from '../../../src/components/ui/progress.tsx';
+import { Dialog, DialogOverlay, DialogPopup, DialogPortal } from '../../../src/components/ui/dialog.tsx';
 
 function LevelsRoadmap(): ReactElement {
   const ref = useRef<HTMLDivElement>(null);
@@ -301,26 +301,7 @@ function AchievementPopup({
   ach: Achievement | null;
   onClose: () => void;
 }): ReactElement | null {
-  const target = document.getElementById('ach-popup-overlay');
-
-  useEffect(() => {
-    if (!target) return;
-    target.classList.toggle('open', !!ach);
-    function onOverlayClick(e: MouseEvent) {
-      if (e.target === target) onClose();
-    }
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose();
-    }
-    target.addEventListener('click', onOverlayClick);
-    if (ach) document.addEventListener('keydown', onKeyDown);
-    return () => {
-      target.removeEventListener('click', onOverlayClick);
-      document.removeEventListener('keydown', onKeyDown);
-    };
-  }, [ach, target, onClose]);
-
-  if (!target || !ach) return null;
+  if (!ach) return null;
 
   const unlocked = new Set(loadUnlocked());
   const isUnlocked = unlocked.has(ach.id);
@@ -331,53 +312,62 @@ function AchievementPopup({
   const pct = Math.min(Math.round((prog.cur / prog.max) * 100), 100);
   const fillPct = isUnlocked ? pct : Math.max(pct, MIN_PROG_FILL_PCT);
 
-  return createPortal(
-    <div className="ach-popup relative w-full max-w-[320px] rounded-[20px] bg-[var(--ach-popup-bg)] px-6 pt-7 pb-7 text-center shadow-[var(--ach-popup-shadow)] [border:var(--ach-popup-border)]">
-      <span className="ach-popup-icon mb-2 block text-5xl [text-shadow:var(--ach-popup-icon-shadow)]">
-        {ach.icon}
-      </span>
-      <div className="ach-popup-name mb-1 text-[1.15rem] font-bold text-[var(--ach-popup-name-color)]">
-        {achName(ach)}
-      </div>
-      <div className="ach-popup-cat mb-3 text-[0.72rem] text-text3">{achCatName(ach.cat)}</div>
-      <div className="ach-popup-hint mb-[14px] rounded-[10px] bg-[var(--ach-popup-hint-bg)] px-[14px] py-3 text-[0.85rem] leading-[1.5] text-text2">
-        {achHint(ach)}
-      </div>
-      <div className="ach-popup-progress mb-4">
-        <div className="ach-popup-prog-row mb-[5px] flex justify-between text-[0.75rem] text-text2">
-          <span>{t('ach.progress')}</span>
-          <span>
-            {prog.cur} / {prog.max}
+  return (
+    <Dialog
+      open
+      onOpenChange={(nextOpen) => {
+        if (!nextOpen) onClose();
+      }}
+    >
+      <DialogPortal>
+        <DialogOverlay className="bg-black/50 p-5" />
+        <DialogPopup className="ach-popup relative w-full max-w-[320px] rounded-[20px] bg-[var(--ach-popup-bg)] px-6 pt-7 pb-7 text-center shadow-[var(--ach-popup-shadow)] [border:var(--ach-popup-border)]">
+          <span className="ach-popup-icon mb-2 block text-5xl [text-shadow:var(--ach-popup-icon-shadow)]">
+            {ach.icon}
           </span>
-        </div>
-        <ProgressPrimitive.Root value={fillPct} className="block" aria-label={t('ach.progress')}>
-          <ProgressTrack className="ach-popup-prog-track h-2 overflow-hidden rounded-[8px] bg-border">
-            <ProgressIndicator
-              className="ach-popup-prog-fill h-full rounded-[8px] shadow-[var(--ach-popup-prog-fill-shadow)] transition-[width] duration-500 ease-in-out [background:var(--ach-popup-prog-fill-bg)]"
-              style={{ background: isUnlocked ? 'var(--success)' : undefined }}
-            />
-          </ProgressTrack>
-        </ProgressPrimitive.Root>
-      </div>
-      <div
-        className={
-          'ach-popup-status mb-4 inline-block rounded-[20px] px-4 py-[5px] text-[0.8rem] font-semibold ' +
-          (isUnlocked
-            ? 'done bg-[rgba(39,174,96,0.15)] text-[#27ae60]'
-            : 'todo bg-[rgba(189,195,199,0.15)] text-text2')
-        }
-      >
-        {isUnlocked ? t('ach.unlocked') : t('ach.notYet')}
-      </div>
-      <br />
-      <button
-        className="ach-popup-close w-full cursor-pointer rounded-[10px] border-[1.5px] border-border bg-transparent p-2.5 text-[0.9rem] text-text hover:bg-border"
-        onClick={onClose}
-      >
-        {t('ach.close')}
-      </button>
-    </div>,
-    target,
+          <div className="ach-popup-name mb-1 text-[1.15rem] font-bold text-[var(--ach-popup-name-color)]">
+            {achName(ach)}
+          </div>
+          <div className="ach-popup-cat mb-3 text-[0.72rem] text-text3">{achCatName(ach.cat)}</div>
+          <div className="ach-popup-hint mb-[14px] rounded-[10px] bg-[var(--ach-popup-hint-bg)] px-[14px] py-3 text-[0.85rem] leading-[1.5] text-text2">
+            {achHint(ach)}
+          </div>
+          <div className="ach-popup-progress mb-4">
+            <div className="ach-popup-prog-row mb-[5px] flex justify-between text-[0.75rem] text-text2">
+              <span>{t('ach.progress')}</span>
+              <span>
+                {prog.cur} / {prog.max}
+              </span>
+            </div>
+            <ProgressPrimitive.Root value={fillPct} className="block" aria-label={t('ach.progress')}>
+              <ProgressTrack className="ach-popup-prog-track h-2 overflow-hidden rounded-[8px] bg-border">
+                <ProgressIndicator
+                  className="ach-popup-prog-fill h-full rounded-[8px] shadow-[var(--ach-popup-prog-fill-shadow)] transition-[width] duration-500 ease-in-out [background:var(--ach-popup-prog-fill-bg)]"
+                  style={{ background: isUnlocked ? 'var(--success)' : undefined }}
+                />
+              </ProgressTrack>
+            </ProgressPrimitive.Root>
+          </div>
+          <div
+            className={
+              'ach-popup-status mb-4 inline-block rounded-[20px] px-4 py-[5px] text-[0.8rem] font-semibold ' +
+              (isUnlocked
+                ? 'done bg-[rgba(39,174,96,0.15)] text-[#27ae60]'
+                : 'todo bg-[rgba(189,195,199,0.15)] text-text2')
+            }
+          >
+            {isUnlocked ? t('ach.unlocked') : t('ach.notYet')}
+          </div>
+          <br />
+          <button
+            className="ach-popup-close w-full cursor-pointer rounded-[10px] border-[1.5px] border-border bg-transparent p-2.5 text-[0.9rem] text-text hover:bg-border"
+            onClick={onClose}
+          >
+            {t('ach.close')}
+          </button>
+        </DialogPopup>
+      </DialogPortal>
+    </Dialog>
   );
 }
 

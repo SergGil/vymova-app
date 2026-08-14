@@ -74,18 +74,15 @@ test.describe('Achievement popup', () => {
     await firstCard.waitFor({ state: 'visible' });
     await firstCard.click();
 
-    // #ach-popup-overlay's own class ATTRIBUTE always contains the literal
-    // substring "open" (Tailwind's `[&.open]:flex` arbitrary-variant token),
-    // regardless of whether the real 'open' class is toggled on — a regex
-    // match against the whole attribute (toHaveClass(/\bopen\b/)) is a false
-    // positive either way. `.open` as a CSS class selector correctly checks
-    // the space-separated class list instead.
-    const openPopup = page.locator('#ach-popup-overlay.open');
-    await expect(openPopup).toBeVisible();
-    await expect(openPopup.locator('.ach-popup-name')).not.toHaveText('');
+    // The popup is Dialog-based (base-ui) — Portal'd to document.body, no
+    // longer a descendant of #ach-overlay, so it's a page-level locator
+    // rather than overlay-scoped.
+    const popup = page.locator('.ach-popup');
+    await expect(popup).toBeVisible();
+    await expect(popup.locator('.ach-popup-name')).not.toHaveText('');
 
-    await openPopup.locator('.ach-popup-close').click();
-    await expect(openPopup).toHaveCount(0);
+    await popup.locator('.ach-popup-close').click();
+    await expect(popup).toHaveCount(0);
 
     expect(errors).toEqual([]);
   });

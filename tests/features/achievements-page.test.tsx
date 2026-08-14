@@ -40,15 +40,7 @@ function mount(): { container: HTMLElement; root: Root } {
 
 describe('achievements-page.tsx AchievementsPage', () => {
   beforeEach(() => {
-    // ach-popup-overlay carries static Tailwind classes in real index.html
-    // (fixed/inset-0/bg-black/50/...); the fixture includes a stand-in
-    // static class here to guard against a regression back to the old
-    // `target.className = ach ? 'open' : ''` mechanism, which would wipe
-    // any static classes on every open/close instead of just toggling
-    // "open" alongside them.
-    document.body.innerHTML = `
-      <div id="ach-popup-overlay" class="static-overlay-class"></div>
-    `;
+    document.body.innerHTML = '';
     setKnownWords('en', new Set());
     getGameData.mockClear().mockReturnValue({ streak: 0, xp: 0 });
     getModeStats.mockClear().mockReturnValue({});
@@ -128,6 +120,11 @@ describe('achievements-page.tsx AchievementsPage', () => {
     expect(rows[0].className).toContain('level-done');
   });
 
+  // The popup is Dialog-based (base-ui, same as this session's other Dialog
+  // conversions) — Portal'd to document.body and only mounted while open,
+  // rather than a permanently-present static #ach-popup-overlay div whose
+  // "open" class got toggled. Presence in the document is itself the
+  // "is it open" signal now.
   it('opens the achievement popup when a card is clicked and closes it', () => {
     const { container } = mount();
     const card = container.querySelectorAll('.ach-card')[0] as HTMLElement;
@@ -135,17 +132,13 @@ describe('achievements-page.tsx AchievementsPage', () => {
       card.click();
     });
 
-    const overlay = document.getElementById('ach-popup-overlay') as HTMLElement;
-    expect(overlay.classList.contains('open')).toBe(true);
-    expect(overlay.classList.contains('static-overlay-class')).toBe(true);
-    expect(overlay.querySelector('.ach-popup-name')!.textContent).toBe(ACHIEVEMENTS[0].name);
+    expect(document.querySelector('.ach-popup-name')!.textContent).toBe(ACHIEVEMENTS[0].name);
 
-    const closeBtn = overlay.querySelector('.ach-popup-close') as HTMLButtonElement;
+    const closeBtn = document.querySelector('.ach-popup-close') as HTMLButtonElement;
     act(() => {
       closeBtn.click();
     });
-    expect(overlay.classList.contains('open')).toBe(false);
-    expect(overlay.classList.contains('static-overlay-class')).toBe(true);
+    expect(document.querySelector('.ach-popup-name')).toBeNull();
   });
 
   it('closes the popup when clicking the overlay backdrop', () => {
@@ -155,13 +148,12 @@ describe('achievements-page.tsx AchievementsPage', () => {
       card.click();
     });
 
-    const overlay = document.getElementById('ach-popup-overlay') as HTMLElement;
-    expect(overlay.classList.contains('open')).toBe(true);
+    const overlay = document.querySelector('[data-slot="dialog-overlay"]') as HTMLElement;
+    expect(overlay).not.toBeNull();
     act(() => {
       overlay.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect(overlay.classList.contains('open')).toBe(false);
-    expect(overlay.classList.contains('static-overlay-class')).toBe(true);
+    expect(document.querySelector('.ach-popup-name')).toBeNull();
   });
 
   it('does not throw when refreshAchievementsPage is called', () => {
