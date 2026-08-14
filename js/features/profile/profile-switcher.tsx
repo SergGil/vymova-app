@@ -6,6 +6,7 @@ import { CharacterAvatar, DEFAULT_APPEARANCE } from '../character-avatar.tsx';
 import { appearanceOf, _flushPendingWrites } from '../../core/storage.ts';
 import type { CharacterAppearance } from '../../../src/types.js';
 import { Dialog, DialogOverlay, DialogPopup, DialogPortal } from '../../../src/components/ui/dialog.tsx';
+import { Menu as MenuPrimitive } from '@base-ui/react/menu';
 
 const LIST_KEY = 'ew_profiles';
 const ACTIVE_KEY = 'ew_active_profile';
@@ -236,11 +237,13 @@ export function ProfileSwitcher(): ReactElement {
     hBtn.appendChild(document.createTextNode(' ▾'));
   }, [active]);
 
-  // Close dropdown/add-form on outside click.
+  // Close the (non-portaled) add-form on outside click. The profile dropdown
+  // itself no longer needs this — it's Menu (base-ui) now, which owns its
+  // own outside-dismiss + Escape handling via the controlled open/
+  // onOpenChange below.
   useEffect(() => {
     function onClick(e: MouseEvent): void {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
-        setDropOpen(false);
         setAddOpen(false);
       }
     }
@@ -248,10 +251,6 @@ export function ProfileSwitcher(): ReactElement {
     return () => document.removeEventListener('click', onClick);
   }, []);
 
-  function toggleDropdown(): void {
-    setAddOpen(false);
-    setDropOpen((o) => !o);
-  }
   function toggleAddForm(): void {
     setDropOpen(false);
     setAddOpen((o) => {
@@ -372,90 +371,111 @@ export function ProfileSwitcher(): ReactElement {
 
   return (
     <div ref={rootRef}>
-      <div className="sb-profile-row mb-1 flex items-center gap-1.5">
-        <button
-          id="sb-profile-btn"
-          className="flex flex-1 items-center gap-2 w-full py-[9px] px-[11px] border-[1.5px] rounded-[12px] bg-[var(--bg)] text-[var(--text)] [font-family:inherit] text-[0.82rem] font-semibold cursor-pointer text-left transition-all duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)] border-[var(--sidebar-profile-btn-border)]"
-          onClick={toggleDropdown}
-        >
-          <span id="sb-profile-av" className="sb-av inline-flex text-[1.2rem] leading-none">
-            <ProfileAvatarView profile={active} size={26} />
-          </span>
-          <span id="sb-profile-name" className="sb-name flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
-            {active.name}
-          </span>
-          <span id="sb-profile-arrow" className="sb-arrow text-[.7rem] text-[var(--text3)]">
-            {dropOpen ? '▴' : '▾'}
-          </span>
-        </button>
-        <button
-          id="sb-add-btn"
-          className="sb-add-btn flex h-[28px] w-[28px] shrink-0 cursor-pointer items-center justify-center rounded-md border-[1.5px] border-[var(--sb-add-btn-border)] bg-[var(--bg)] text-[1.1rem] leading-none font-bold text-[var(--accent)] transition-colors duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)]"
-          title="Новий профіль"
-          onClick={toggleAddForm}
-        >
-          +
-        </button>
-      </div>
-
-      <div
-        id="sb-dropdown"
-        className={
-          'sb-dropdown mb-1.5 flex-col gap-[3px] overflow-hidden rounded-[12px] border-[1.5px] border-[var(--border)] bg-[var(--card)] shadow-[0_4px_16px_rgba(0,0,0,.1)] ' +
-          (dropOpen ? 'open flex' : 'hidden')
-        }
+      <MenuPrimitive.Root
+        open={dropOpen}
+        onOpenChange={(nextOpen) => {
+          setDropOpen(nextOpen);
+          if (nextOpen) setAddOpen(false);
+        }}
       >
-        {profiles.map((p) => (
-          <div
-            className="sb-dd-row"
-            style={{ display: 'flex', alignItems: 'center', gap: 4, width: '100%' }}
-            key={p.id}
-          >
-            <button
-              className={
-                'sb-dd-item flex w-full cursor-pointer items-center gap-2 border-none bg-transparent px-3 py-[9px] text-left font-[inherit] text-[.82rem] text-[var(--text2)] transition-colors duration-[120ms] hover:bg-[var(--bg)] hover:text-[var(--text)]' +
-                (p.id === activeId
-                  ? ' sb-dd-active bg-[var(--bg)] font-bold text-[var(--accent)]'
-                  : '')
-              }
-              style={{ flex: 1, minWidth: 0 }}
-              onClick={() => switchProfile(p.id)}
-            >
-              <span className="sb-dd-av inline-flex align-middle">
-                <ProfileAvatarView profile={p} size={22} />
-              </span>{' '}
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {p.name}
-              </span>
-              {p.id === activeId && (
-                <span className="sb-dd-check ml-auto text-[.7rem] text-[var(--accent)]">✓</span>
-              )}
-            </button>
-            <button
-              className="prf-dd-edit cursor-pointer shrink-0 rounded-sm border-none bg-transparent px-1 py-0.5 text-[.85rem] opacity-50 hover:opacity-100"
-              title={t('profile.editTooltip')}
-              onClick={(e) => {
-                e.stopPropagation();
-                openEdit(p);
-              }}
-            >
-              ✏️
-            </button>
-            {profiles.length > 1 && (
+        <div className="sb-profile-row mb-1 flex items-center gap-1.5">
+          <MenuPrimitive.Trigger
+            render={
               <button
-                className="prf-dd-del cursor-pointer shrink-0 rounded-sm border-none bg-transparent px-[5px] py-0.5 text-base text-inherit opacity-35 hover:text-[#e74c3c] hover:opacity-100"
-                title={t('profile.deleteTooltip')}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setDeleteTarget(p);
-                }}
-              >
-                ×
-              </button>
-            )}
-          </div>
-        ))}
-      </div>
+                id="sb-profile-btn"
+                className="flex flex-1 items-center gap-2 w-full py-[9px] px-[11px] border-[1.5px] rounded-[12px] bg-[var(--bg)] text-[var(--text)] [font-family:inherit] text-[0.82rem] font-semibold cursor-pointer text-left transition-all duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)] border-[var(--sidebar-profile-btn-border)]"
+              />
+            }
+          >
+            <span id="sb-profile-av" className="sb-av inline-flex text-[1.2rem] leading-none">
+              <ProfileAvatarView profile={active} size={26} />
+            </span>
+            <span id="sb-profile-name" className="sb-name flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+              {active.name}
+            </span>
+            <span id="sb-profile-arrow" className="sb-arrow text-[.7rem] text-[var(--text3)]">
+              {dropOpen ? '▴' : '▾'}
+            </span>
+          </MenuPrimitive.Trigger>
+          <button
+            id="sb-add-btn"
+            className="sb-add-btn flex h-[28px] w-[28px] shrink-0 cursor-pointer items-center justify-center rounded-md border-[1.5px] border-[var(--sb-add-btn-border)] bg-[var(--bg)] text-[1.1rem] leading-none font-bold text-[var(--accent)] transition-colors duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)]"
+            title="Новий профіль"
+            onClick={toggleAddForm}
+          >
+            +
+          </button>
+        </div>
+
+        <MenuPrimitive.Portal>
+          <MenuPrimitive.Positioner side="bottom" align="start" sideOffset={4} className="isolate z-[99999]">
+            <MenuPrimitive.Popup
+              id="sb-dropdown"
+              className="sb-dropdown flex w-max min-w-(--anchor-width) max-w-(--available-width) flex-col gap-[3px] overflow-hidden rounded-[12px] border-[1.5px] border-[var(--border)] bg-[var(--card)] shadow-[0_4px_16px_rgba(0,0,0,.1)] outline-none"
+            >
+              {profiles.map((p) => (
+                <div
+                  className="sb-dd-row"
+                  style={{ display: 'flex', alignItems: 'center', gap: 4, width: '100%' }}
+                  key={p.id}
+                >
+                  <MenuPrimitive.Item
+                    render={<button type="button" style={{ flex: 1, minWidth: 0 }} />}
+                    nativeButton
+                    className={
+                      'sb-dd-item flex w-full cursor-pointer items-center gap-2 border-none bg-transparent px-3 py-[9px] text-left font-[inherit] text-[.82rem] text-[var(--text2)] transition-colors duration-[120ms] hover:bg-[var(--bg)] hover:text-[var(--text)]' +
+                      (p.id === activeId
+                        ? ' sb-dd-active bg-[var(--bg)] font-bold text-[var(--accent)]'
+                        : '')
+                    }
+                    onClick={() => switchProfile(p.id)}
+                  >
+                    <span className="sb-dd-av inline-flex align-middle">
+                      <ProfileAvatarView profile={p} size={22} />
+                    </span>{' '}
+                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {p.name}
+                    </span>
+                    {p.id === activeId && (
+                      <span className="sb-dd-check ml-auto text-[.7rem] text-[var(--accent)]">✓</span>
+                    )}
+                  </MenuPrimitive.Item>
+                  <MenuPrimitive.Item
+                    render={<button type="button" title={t('profile.editTooltip')} />}
+                    nativeButton
+                    className="prf-dd-edit cursor-pointer shrink-0 rounded-sm border-none bg-transparent px-1 py-0.5 text-[.85rem] opacity-50 hover:opacity-100"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openEdit(p);
+                    }}
+                  >
+                    ✏️
+                  </MenuPrimitive.Item>
+                  {profiles.length > 1 && (
+                    <MenuPrimitive.Item
+                      render={<button type="button" title={t('profile.deleteTooltip')} />}
+                      nativeButton
+                      className="prf-dd-del cursor-pointer shrink-0 rounded-sm border-none bg-transparent px-[5px] py-0.5 text-base text-inherit opacity-35 hover:text-[#e74c3c] hover:opacity-100"
+                      // Unlike the other two items, delete deliberately does
+                      // NOT close the menu on click — matches the original
+                      // manual implementation, where the dropdown stayed
+                      // open (just visually obscured by the confirmation
+                      // dialog's backdrop) until Cancel/Delete resolved it.
+                      closeOnClick={false}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDeleteTarget(p);
+                      }}
+                    >
+                      ×
+                    </MenuPrimitive.Item>
+                  )}
+                </div>
+              ))}
+            </MenuPrimitive.Popup>
+          </MenuPrimitive.Positioner>
+        </MenuPrimitive.Portal>
+      </MenuPrimitive.Root>
 
       <div
         id="sb-add-form"

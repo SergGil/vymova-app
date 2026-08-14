@@ -89,8 +89,13 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
       (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
     });
 
-    const dropdown = container.querySelector('#sb-dropdown')!;
-    expect(dropdown.className).toContain('open');
+    // #sb-dropdown is Portal'd to document.body by Menu (base-ui, same as
+    // this session's Select/Combobox/Popover conversions) — no longer a
+    // descendant of container, and only mounted while open (no more
+    // permanent-in-DOM-with-.open-class toggling), so its presence in the
+    // document is itself the "is it open" signal.
+    const dropdown = document.getElementById('sb-dropdown')!;
+    expect(dropdown).not.toBeNull();
     const items = dropdown.querySelectorAll('.sb-dd-item');
     expect(items.length).toBe(2);
     expect(items[0].querySelector('.sb-dd-check')).not.toBeNull();
@@ -103,12 +108,12 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     act(() => {
       (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
     });
-    const items = container.querySelectorAll('.sb-dd-item');
+    const items = document.querySelectorAll('.sb-dd-item');
     act(() => {
       (items[0] as HTMLButtonElement).click();
     });
 
-    expect(container.querySelector('#sb-dropdown')!.className).not.toContain('open');
+    expect(document.getElementById('sb-dropdown')).toBeNull();
     expect(reloadSpy).not.toHaveBeenCalled();
   });
 
@@ -119,7 +124,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     act(() => {
       (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
     });
-    const items = container.querySelectorAll('.sb-dd-item');
+    const items = document.querySelectorAll('.sb-dd-item');
     act(() => {
       (items[1] as HTMLButtonElement).click();
     });
@@ -142,7 +147,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     act(() => {
       (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
     });
-    const items = container.querySelectorAll('.sb-dd-item');
+    const items = document.querySelectorAll('.sb-dd-item');
     act(() => {
       (items[1] as HTMLButtonElement).click();
     });
@@ -163,7 +168,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     act(() => {
       (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
     });
-    const items = container.querySelectorAll('.sb-dd-item');
+    const items = document.querySelectorAll('.sb-dd-item');
     act(() => {
       (items[1] as HTMLButtonElement).click();
     });
@@ -222,7 +227,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     act(() => {
       (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
     });
-    const editBtn = container.querySelectorAll('.prf-dd-edit')[0] as HTMLButtonElement;
+    const editBtn = document.querySelectorAll('.prf-dd-edit')[0] as HTMLButtonElement;
     act(() => {
       editBtn.click();
     });
@@ -283,7 +288,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     act(() => {
       (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
     });
-    const editBtn = container.querySelectorAll('.prf-dd-edit')[0] as HTMLButtonElement;
+    const editBtn = document.querySelectorAll('.prf-dd-edit')[0] as HTMLButtonElement;
     act(() => {
       editBtn.click();
     });
@@ -309,7 +314,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     act(() => {
       (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
     });
-    expect(container.querySelectorAll('.prf-dd-del').length).toBe(0);
+    expect(document.querySelectorAll('.prf-dd-del').length).toBe(0);
   });
 
   it('deletes a non-active profile from the dropdown', () => {
@@ -318,7 +323,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     act(() => {
       (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
     });
-    const delBtn = container.querySelectorAll('.prf-dd-del')[1] as HTMLButtonElement;
+    const delBtn = document.querySelectorAll('.prf-dd-del')[1] as HTMLButtonElement;
     act(() => {
       delBtn.click();
     });
@@ -346,7 +351,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     act(() => {
       (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
     });
-    const delBtn = container.querySelectorAll('.prf-dd-del')[1] as HTMLButtonElement;
+    const delBtn = document.querySelectorAll('.prf-dd-del')[1] as HTMLButtonElement;
     act(() => {
       delBtn.click();
     });
@@ -368,7 +373,7 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     act(() => {
       (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
     });
-    const delBtn = container.querySelectorAll('.prf-dd-del')[0] as HTMLButtonElement;
+    const delBtn = document.querySelectorAll('.prf-dd-del')[0] as HTMLButtonElement;
     act(() => {
       delBtn.click();
     });
@@ -392,11 +397,16 @@ describe('profile-switcher.tsx ProfileSwitcher', () => {
     act(() => {
       (container.querySelector('#sb-profile-btn') as HTMLButtonElement).click();
     });
-    expect(container.querySelector('#sb-dropdown')!.className).toContain('open');
+    expect(document.getElementById('sb-dropdown')).not.toBeNull();
 
+    // Menu's (base-ui) default outside-dismiss fires on the initial press
+    // (mousedown/pointerdown), not on 'click' itself — a real user's click
+    // naturally fires that sequence, but a synthetic dispatch here has to
+    // do it explicitly.
     act(() => {
+      document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
       document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect(container.querySelector('#sb-dropdown')!.className).not.toContain('open');
+    expect(document.getElementById('sb-dropdown')).toBeNull();
   });
 });

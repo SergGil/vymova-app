@@ -64,7 +64,14 @@ test.describe('Profile switcher', () => {
     await deletePanel.locator('#prf-delete-confirm').click();
     await expect(deletePanel).toBeHidden();
 
-    await expect(dropdown.locator('.sb-dd-row')).toHaveCount(1);
+    // Confirming delete removes the very row that opened the dialog, which
+    // also closes the (base-ui) Menu itself — its focus-return-to-trigger
+    // logic finds nothing to return focus to once that row is gone, and a
+    // focus landing entirely outside the floating tree is Menu's own signal
+    // to dismiss. Reopen to check what's left, rather than assuming the
+    // dropdown outlives its own now-deleted trigger row.
+    await page.click('#sb-profile-btn');
+    await expect(page.locator('#sb-dropdown .sb-dd-row')).toHaveCount(1);
     await expect(page.locator('#sb-profile-name')).toHaveText('TestProfile2');
 
     expect(errors).toEqual([]);
