@@ -5,6 +5,11 @@ import { createPortal } from 'react-dom';
 import { synth } from '../../core/srs.ts';
 import { t, getLang } from '../i18n.ts';
 import { flagUrl } from '../../core/flags.ts';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '../../../src/components/ui/collapsible.tsx';
 
 let _enURI = localStorage.getItem('ew_ws_voice') ?? '';
 
@@ -2823,28 +2828,40 @@ function VoiceSectionsList({ sorted }: { sorted: LangSection[] }): ReactElement 
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <>
+    // className="contents" keeps the Root invisible in layout — its parent
+    // (#fy-voices-list, settings-page.tsx) already lays out this component's
+    // top-level children via flex-column+gap, same reasoning as
+    // fandom-theme-rows.tsx's FandomThemeRowsController (this section's own
+    // twin — same show-more/less shape, same toggle-button class).
+    <Collapsible open={expanded} onOpenChange={setExpanded} className="contents">
       {visible.map((section) => (
         <VoiceSectionView key={section.id} section={section} onSelect={onVoiceCardSelect} />
       ))}
       {hidden.length > 0 && (
         <>
-          <div id="voice-sections-extra" style={{ display: expanded ? 'block' : 'none' }}>
+          <CollapsibleContent
+            id="voice-sections-extra"
+            keepMounted
+            // Only apply an unconditional display while open — see
+            // fandom-theme-rows.tsx's identical comment: an always-on
+            // display would beat base-ui's [hidden]{display:none} UA rule
+            // regardless of layers/specificity, since origin is resolved
+            // first.
+            style={expanded ? { display: 'block' } : undefined}
+          >
             {hidden.map((section) => (
               <VoiceSectionView key={section.id} section={section} onSelect={onVoiceCardSelect} />
             ))}
-          </div>
-          <button
-            type="button"
+          </CollapsibleContent>
+          <CollapsibleTrigger
             id="voice-sections-toggle"
             className="theme-rows-toggle-btn mt-1 cursor-pointer rounded-[10px] border border-dashed border-[var(--border)] bg-transparent px-3 py-[7px] text-center text-[.78rem] font-semibold text-[var(--text3)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)]"
-            onClick={() => setExpanded((e) => !e)}
           >
             {t(expanded ? 'settings.showLessVoices' : 'settings.showMoreVoices')}
-          </button>
+          </CollapsibleTrigger>
         </>
       )}
-    </>
+    </Collapsible>
   );
 }
 
@@ -2903,7 +2920,7 @@ export function VoiceSectionHeader(): ReactElement {
       style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}
     >
       <div
-        className="text-[0.9rem] font-bold mb-1.5 text-[var(--section-title-color,var(--text))]"
+        className="mb-1.5 text-[0.9rem] font-bold text-[var(--section-title-color,var(--text))]"
         style={{ marginBottom: 0 }}
         data-i18n="settings.voiceTitle"
       >

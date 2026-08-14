@@ -9,7 +9,7 @@
 // open — the id is kept on the rendered backdrop for that reason.
 import { useEffect, useState, type ReactElement } from 'react';
 import { t } from './i18n.ts';
-import { Dialog, DialogOverlay, DialogPopup, DialogPortal } from '../../src/components/ui/dialog.tsx';
+import { AlertDialog as AlertDialogPrimitive } from '@base-ui/react/alert-dialog';
 
 let _open: ((cb: () => void) => void) | null = null;
 
@@ -32,15 +32,16 @@ export function ResetConfirmDialog(): ReactElement | null {
 
   // No backdrop-click-to-close, no Escape-to-close — matches the original
   // static #modal-overlay, which never had a click/keydown listener
-  // attached; only the Cancel/Reset buttons closed it. disablePointerDismissal
-  // blocks outside-press; base-ui has no equivalent prop for the Escape key,
-  // so that one's blocked by canceling the 'escape-key' reason directly in
-  // onOpenChange (eventDetails.cancel() stops base-ui's own internal close
-  // handling too, not just this component's local close()).
+  // attached; only the Cancel/Reset buttons closed it. AlertDialog (unlike
+  // plain Dialog) disables outside-press dismissal unconditionally — no
+  // disablePointerDismissal prop needed, it's not even in its prop type.
+  // Escape still needs the manual cancel: base-ui has no prop for it, so
+  // that reason is blocked directly in onOpenChange (eventDetails.cancel()
+  // stops base-ui's own internal close handling too, not just this
+  // component's local close()).
   return (
-    <Dialog
+    <AlertDialogPrimitive.Root
       open
-      disablePointerDismissal
       onOpenChange={(nextOpen, eventDetails) => {
         if (nextOpen) return;
         if (eventDetails.reason === 'escape-key') {
@@ -50,9 +51,9 @@ export function ResetConfirmDialog(): ReactElement | null {
         setOnConfirm(null);
       }}
     >
-      <DialogPortal>
-        <DialogOverlay id="modal-overlay" className="bg-black/55 p-4" />
-        <DialogPopup className="rounded-[20px] pt-8 px-7 pb-6 max-w-[340px] w-full text-center [animation-name:slideUpPanel] [animation-duration:.22s] [animation-timing-function:cubic-bezier(.175,.885,.32,1.275)] bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--prf-delete-panel-shadow)]">
+      <AlertDialogPrimitive.Portal>
+        <AlertDialogPrimitive.Backdrop id="modal-overlay" className="bg-black/55 p-4" />
+        <AlertDialogPrimitive.Popup className="rounded-[20px] pt-8 px-7 pb-6 max-w-[340px] w-full text-center [animation-name:slideUpPanel] [animation-duration:.22s] [animation-timing-function:cubic-bezier(.175,.885,.32,1.275)] bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--prf-delete-panel-shadow)]">
           <div className="text-[2.4rem] mb-3">⚠️</div>
           <div
             className="text-[1.1rem] font-bold mb-1.5 text-[var(--prf-delete-title-color)]"
@@ -87,8 +88,8 @@ export function ResetConfirmDialog(): ReactElement | null {
               {t('modal.reset')}
             </button>
           </div>
-        </DialogPopup>
-      </DialogPortal>
-    </Dialog>
+        </AlertDialogPrimitive.Popup>
+      </AlertDialogPrimitive.Portal>
+    </AlertDialogPrimitive.Root>
   );
 }

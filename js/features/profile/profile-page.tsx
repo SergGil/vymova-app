@@ -23,6 +23,13 @@ import { useAllKnownWords, type KnownLang } from '../../../src/known-words-store
 import { ALL_TARGET_LANGS } from '../../../src/types.ts';
 import { flagUrl } from '../../core/flags.ts';
 import { getLevelInfo, LEVEL_XP, LEVEL_MILESTONES } from '../../core/level-system.ts';
+import { Separator } from '../../../src/components/ui/separator.tsx';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '../../../src/components/ui/collapsible.tsx';
+import { Popover as PopoverPrimitive } from '@base-ui/react/popover';
 
 type PickerKey = keyof CharacterAppearance;
 
@@ -59,128 +66,128 @@ export const LANG_META: Record<string, { name: string; country: string }> = {
   tr: { name: 'Türkçe', country: 'tr' },
   nl: { name: 'Nederlands', country: 'nl' },
   vi: { name: 'Tiếng Việt', country: 'vn' },
-  hi: { name: "हिन्दी", country: 'in' },
-  bn: { name: "বাংলা", country: 'bd' },
-  id: { name: "Bahasa Indonesia", country: 'id' },
-  pcm: { name: "Naijá", country: 'ng' },
-  ko: { name: "한국어", country: 'kr' },
-  fa: { name: "فارسی", country: 'ir' },
-  sw: { name: "Kiswahili", country: 'tz' },
-  ms: { name: "Bahasa Melayu", country: 'my' },
-  th: { name: "ภาษาไทย", country: 'th' },
-  az: { name: "Azərbaycanca", country: 'az' },
-  ro: { name: "Română", country: 'ro' },
-  hu: { name: "Magyar", country: 'hu' },
-  cs: { name: "Čeština", country: 'cz' },
-  kk: { name: "Қазақша", country: 'kz' },
-  sv: { name: "Svenska", country: 'se' },
-  ka: { name: "ქართული", country: 'ge' },
-  hr: { name: "Hrvatski", country: 'hr' },
-  sr: { name: "Српски", country: 'rs' },
-  bs: { name: "Bosanski", country: 'ba' },
-  bg: { name: "Български", country: 'bg' },
-  sk: { name: "Slovenčina", country: 'sk' },
-  hy: { name: "Հայերեն", country: 'am' },
-  da: { name: "Dansk", country: 'dk' },
-  fi: { name: "Suomi", country: 'fi' },
-  no: { name: "Norsk", country: 'no' },
-  la: { name: "Latina", country: 'spqr' },
-  lt: { name: "Lietuvių", country: 'lt' },
-  lv: { name: "Latviešu", country: 'lv' },
-  et: { name: "Eesti", country: 'ee' },
-  sl: { name: "Slovenščina", country: 'si' },
-  mk: { name: "Македонски", country: 'mk' },
-  sq: { name: "Shqip", country: 'al' },
-  is: { name: "Íslenska", country: 'is' },
-  cy: { name: "Cymraeg", country: 'wls' },
-  ga: { name: "Gaeilge", country: 'ie' },
-  tl: { name: "Filipino", country: 'ph' },
-  mn: { name: "Монгол", country: 'mn' },
-  uz: { name: "Oʻzbekcha", country: 'uz' },
-  am: { name: "አማርኛ", country: 'et' },
-  eo: { name: "Esperanto", country: 'eo' },
-  ta: { name: "தமிழ்", country: 'in' },
-  pa: { name: "ਪੰਜਾਬੀ", country: 'in' },
-  zu: { name: "isiZulu", country: 'za' },
-  af: { name: "Afrikaans", country: 'za' },
-  ky: { name: "Кыргызча", country: 'kg' },
-  tg: { name: "Тоҷикӣ", country: 'tj' },
-  tk: { name: "Türkmençe", country: 'tm' },
-  ug: { name: "ئۇيغۇرچە", country: 'cn' },
-  eu: { name: "Euskara", country: 'eu' },
-  ca: { name: "Català", country: 'cat' },
-  gl: { name: "Galego", country: 'gal' },
-  mt: { name: "Malti", country: 'mt' },
-  lb: { name: "Lëtzebuergesch", country: 'lu' },
-  ht: { name: "Kreyòl Ayisyen", country: 'ht' },
-  bo: { name: "བོད་སྐད་", country: 'cn' },
-  my: { name: "မြန်မာဘာသာ", country: 'mm' },
-  km: { name: "ខ្មែរ", country: 'kh' },
-  lo: { name: "ລາວ", country: 'la' },
-  ne: { name: "नेपाली", country: 'np' },
-  si: { name: "සිංහල", country: 'lk' },
-  ur: { name: "اردو", country: 'pk' },
-  te: { name: "తెలుగు", country: 'in' },
-  ml: { name: "മലയാളം", country: 'in' },
-  kn: { name: "ಕನ್ನಡ", country: 'in' },
-  mr: { name: "मराठी", country: 'in' },
-  gu: { name: "ગુજરાતી", country: 'in' },
-  or: { name: "ଓଡ଼ିଆ", country: 'in' },
-  as: { name: "অসমীয়া", country: 'in' },
-  sd: { name: "سنڌي", country: 'pk' },
-  ps: { name: "پښتو", country: 'af' },
-  so: { name: "Soomaali", country: 'so' },
-  ha: { name: "Hausa", country: 'ng' },
-  yo: { name: "Yorùbá", country: 'ng' },
-  ig: { name: "Igbo", country: 'ng' },
-  ti: { name: "ትግርኛ", country: 'er' },
-  wo: { name: "Wolof", country: 'sn' },
-  mg: { name: "Malagasy", country: 'mg' },
-  xh: { name: "isiXhosa", country: 'za' },
-  sn: { name: "chiShona", country: 'zw' },
-  ny: { name: "Chichewa", country: 'mw' },
-  fj: { name: "Na Vosa Vakaviti", country: 'fj' },
-  sm: { name: "Gagana Sāmoa", country: 'ws' },
-  to: { name: "Lea Faka-Tonga", country: 'to' },
-  mi: { name: "Te Reo Māori", country: 'nz' },
-  haw: { name: "ʻŌlelo Hawaiʻi", country: 'us' },
-  jv: { name: "Basa Jawa", country: 'id' },
-  su: { name: "Basa Sunda", country: 'id' },
-  gd: { name: "Gàidhlig", country: 'sct' },
-  br: { name: "Brezhoneg", country: 'fr' },
-  kw: { name: "Kernewek", country: 'corn' },
-  gv: { name: "Gaelg", country: 'gb' },
-  fo: { name: "Føroyskt", country: 'fo' },
-  oc: { name: "Occitan", country: 'fr' },
-  co: { name: "Corsu", country: 'fr' },
-  sc: { name: "Sardu", country: 'it' },
-  fy: { name: "Frysk", country: 'nl' },
-  yi: { name: "ייִדיש", country: 'il' },
-  lad: { name: "Judeoespañol", country: 'es' },
-  qu: { name: "Runasimi", country: 'pe' },
-  gn: { name: "Avañeʼẽ", country: 'py' },
-  ay: { name: "Aymar aru", country: 'bo' },
-  dz: { name: "རྫོང་ཁ", country: 'bt' },
-  dv: { name: "ދިވެހި", country: 'mv' },
-  tet: { name: "Tetun", country: 'tl' },
-  be: { name: "Беларуская", country: 'by' },
-  qya: { name: "Quenya", country: 'qya' },
-  sjn: { name: "Sindarin", country: 'sjn' },
-  ku: { name: "Kurdî", country: 'ku' },
-  om: { name: "Oromoo", country: 'et' },
-  ln: { name: "Lingála", country: 'cd' },
-  bho: { name: "भोजपुरी", country: 'in' },
-  ceb: { name: "Bisaya", country: 'ph' },
-  rm: { name: "Rumantsch", country: 'ch' },
-  ty: { name: "Reo Tahiti", country: 'pf' },
-  ch: { name: "Chamoru", country: 'gu' },
-  mh: { name: "Kajin M̧ajeļ", country: 'mh' },
-  pau: { name: "Tekoi er a Belau", country: 'pw' },
-  nah: { name: "Nāhuatl", country: 'mx' },
-  nv: { name: "Diné bizaad", country: 'us' },
-  tlh: { name: "tlhIngan Hol", country: 'tlh' },
-  val: { name: "Valyrio", country: 'val' },
-  dth: { name: "Lekh Dothraki", country: 'dth' },
+  hi: { name: 'हिन्दी', country: 'in' },
+  bn: { name: 'বাংলা', country: 'bd' },
+  id: { name: 'Bahasa Indonesia', country: 'id' },
+  pcm: { name: 'Naijá', country: 'ng' },
+  ko: { name: '한국어', country: 'kr' },
+  fa: { name: 'فارسی', country: 'ir' },
+  sw: { name: 'Kiswahili', country: 'tz' },
+  ms: { name: 'Bahasa Melayu', country: 'my' },
+  th: { name: 'ภาษาไทย', country: 'th' },
+  az: { name: 'Azərbaycanca', country: 'az' },
+  ro: { name: 'Română', country: 'ro' },
+  hu: { name: 'Magyar', country: 'hu' },
+  cs: { name: 'Čeština', country: 'cz' },
+  kk: { name: 'Қазақша', country: 'kz' },
+  sv: { name: 'Svenska', country: 'se' },
+  ka: { name: 'ქართული', country: 'ge' },
+  hr: { name: 'Hrvatski', country: 'hr' },
+  sr: { name: 'Српски', country: 'rs' },
+  bs: { name: 'Bosanski', country: 'ba' },
+  bg: { name: 'Български', country: 'bg' },
+  sk: { name: 'Slovenčina', country: 'sk' },
+  hy: { name: 'Հայերեն', country: 'am' },
+  da: { name: 'Dansk', country: 'dk' },
+  fi: { name: 'Suomi', country: 'fi' },
+  no: { name: 'Norsk', country: 'no' },
+  la: { name: 'Latina', country: 'spqr' },
+  lt: { name: 'Lietuvių', country: 'lt' },
+  lv: { name: 'Latviešu', country: 'lv' },
+  et: { name: 'Eesti', country: 'ee' },
+  sl: { name: 'Slovenščina', country: 'si' },
+  mk: { name: 'Македонски', country: 'mk' },
+  sq: { name: 'Shqip', country: 'al' },
+  is: { name: 'Íslenska', country: 'is' },
+  cy: { name: 'Cymraeg', country: 'wls' },
+  ga: { name: 'Gaeilge', country: 'ie' },
+  tl: { name: 'Filipino', country: 'ph' },
+  mn: { name: 'Монгол', country: 'mn' },
+  uz: { name: 'Oʻzbekcha', country: 'uz' },
+  am: { name: 'አማርኛ', country: 'et' },
+  eo: { name: 'Esperanto', country: 'eo' },
+  ta: { name: 'தமிழ்', country: 'in' },
+  pa: { name: 'ਪੰਜਾਬੀ', country: 'in' },
+  zu: { name: 'isiZulu', country: 'za' },
+  af: { name: 'Afrikaans', country: 'za' },
+  ky: { name: 'Кыргызча', country: 'kg' },
+  tg: { name: 'Тоҷикӣ', country: 'tj' },
+  tk: { name: 'Türkmençe', country: 'tm' },
+  ug: { name: 'ئۇيغۇرچە', country: 'cn' },
+  eu: { name: 'Euskara', country: 'eu' },
+  ca: { name: 'Català', country: 'cat' },
+  gl: { name: 'Galego', country: 'gal' },
+  mt: { name: 'Malti', country: 'mt' },
+  lb: { name: 'Lëtzebuergesch', country: 'lu' },
+  ht: { name: 'Kreyòl Ayisyen', country: 'ht' },
+  bo: { name: 'བོད་སྐད་', country: 'cn' },
+  my: { name: 'မြန်မာဘာသာ', country: 'mm' },
+  km: { name: 'ខ្មែរ', country: 'kh' },
+  lo: { name: 'ລາວ', country: 'la' },
+  ne: { name: 'नेपाली', country: 'np' },
+  si: { name: 'සිංහල', country: 'lk' },
+  ur: { name: 'اردو', country: 'pk' },
+  te: { name: 'తెలుగు', country: 'in' },
+  ml: { name: 'മലയാളം', country: 'in' },
+  kn: { name: 'ಕನ್ನಡ', country: 'in' },
+  mr: { name: 'मराठी', country: 'in' },
+  gu: { name: 'ગુજરાતી', country: 'in' },
+  or: { name: 'ଓଡ଼ିଆ', country: 'in' },
+  as: { name: 'অসমীয়া', country: 'in' },
+  sd: { name: 'سنڌي', country: 'pk' },
+  ps: { name: 'پښتو', country: 'af' },
+  so: { name: 'Soomaali', country: 'so' },
+  ha: { name: 'Hausa', country: 'ng' },
+  yo: { name: 'Yorùbá', country: 'ng' },
+  ig: { name: 'Igbo', country: 'ng' },
+  ti: { name: 'ትግርኛ', country: 'er' },
+  wo: { name: 'Wolof', country: 'sn' },
+  mg: { name: 'Malagasy', country: 'mg' },
+  xh: { name: 'isiXhosa', country: 'za' },
+  sn: { name: 'chiShona', country: 'zw' },
+  ny: { name: 'Chichewa', country: 'mw' },
+  fj: { name: 'Na Vosa Vakaviti', country: 'fj' },
+  sm: { name: 'Gagana Sāmoa', country: 'ws' },
+  to: { name: 'Lea Faka-Tonga', country: 'to' },
+  mi: { name: 'Te Reo Māori', country: 'nz' },
+  haw: { name: 'ʻŌlelo Hawaiʻi', country: 'us' },
+  jv: { name: 'Basa Jawa', country: 'id' },
+  su: { name: 'Basa Sunda', country: 'id' },
+  gd: { name: 'Gàidhlig', country: 'sct' },
+  br: { name: 'Brezhoneg', country: 'fr' },
+  kw: { name: 'Kernewek', country: 'corn' },
+  gv: { name: 'Gaelg', country: 'gb' },
+  fo: { name: 'Føroyskt', country: 'fo' },
+  oc: { name: 'Occitan', country: 'fr' },
+  co: { name: 'Corsu', country: 'fr' },
+  sc: { name: 'Sardu', country: 'it' },
+  fy: { name: 'Frysk', country: 'nl' },
+  yi: { name: 'ייִדיש', country: 'il' },
+  lad: { name: 'Judeoespañol', country: 'es' },
+  qu: { name: 'Runasimi', country: 'pe' },
+  gn: { name: 'Avañeʼẽ', country: 'py' },
+  ay: { name: 'Aymar aru', country: 'bo' },
+  dz: { name: 'རྫོང་ཁ', country: 'bt' },
+  dv: { name: 'ދިވެހި', country: 'mv' },
+  tet: { name: 'Tetun', country: 'tl' },
+  be: { name: 'Беларуская', country: 'by' },
+  qya: { name: 'Quenya', country: 'qya' },
+  sjn: { name: 'Sindarin', country: 'sjn' },
+  ku: { name: 'Kurdî', country: 'ku' },
+  om: { name: 'Oromoo', country: 'et' },
+  ln: { name: 'Lingála', country: 'cd' },
+  bho: { name: 'भोजपुरी', country: 'in' },
+  ceb: { name: 'Bisaya', country: 'ph' },
+  rm: { name: 'Rumantsch', country: 'ch' },
+  ty: { name: 'Reo Tahiti', country: 'pf' },
+  ch: { name: 'Chamoru', country: 'gu' },
+  mh: { name: 'Kajin M̧ajeļ', country: 'mh' },
+  pau: { name: 'Tekoi er a Belau', country: 'pw' },
+  nah: { name: 'Nāhuatl', country: 'mx' },
+  nv: { name: 'Diné bizaad', country: 'us' },
+  tlh: { name: 'tlhIngan Hol', country: 'tlh' },
+  val: { name: 'Valyrio', country: 'val' },
+  dth: { name: 'Lekh Dothraki', country: 'dth' },
 };
 
 function FlagCircle({
@@ -220,7 +227,10 @@ function FlagCircle({
 
 function getProfileName(): string {
   try {
-    const profiles = JSON.parse(localStorage.getItem('ew_profiles') ?? '[]') as { id: string; name?: string }[];
+    const profiles = JSON.parse(localStorage.getItem('ew_profiles') ?? '[]') as {
+      id: string;
+      name?: string;
+    }[];
     const activeId = localStorage.getItem('ew_active_profile') ?? '';
     return profiles.find((p) => p.id === activeId)?.name ?? '';
   } catch {
@@ -279,7 +289,6 @@ export function ProfilePage(): ReactElement | null {
 
   return createPortal(
     <div className="profile-panel flex flex-col items-center gap-[18px]">
-
       {/* ── Hero card ─────────────────────────────────────────────── */}
       <div className="profile-hero w-full max-w-[420px] overflow-visible rounded-[18px] border border-[var(--border)] bg-[var(--card)]">
         <div className="profile-hero-banner h-[80px] rounded-t-[18px] bg-[linear-gradient(135deg,var(--accent)_0%,color-mix(in_srgb,var(--accent)_55%,#7c3aed_45%)_100%)]" />
@@ -294,10 +303,11 @@ export function ProfilePage(): ReactElement | null {
           )}
           <div className="profile-hero-level-row flex w-full flex-nowrap items-center gap-2">
             <span
-              className="profile-hero-lvl-badge shrink-0 whitespace-nowrap rounded-[20px] bg-[linear-gradient(135deg,var(--accent),color-mix(in_srgb,var(--accent)_60%,#7c3aed))] px-2.5 py-[3px] text-[.72rem] font-bold text-white"
+              className="profile-hero-lvl-badge shrink-0 rounded-[20px] bg-[linear-gradient(135deg,var(--accent),color-mix(in_srgb,var(--accent)_60%,#7c3aed))] px-2.5 py-[3px] text-[.72rem] font-bold whitespace-nowrap text-white"
               aria-label={`${t('profile.level')} ${levelInfo.level}`}
             >
-              {t('profile.level')} {levelInfo.level}{levelInfo.isMax ? ' 🏅' : ''}
+              {t('profile.level')} {levelInfo.level}
+              {levelInfo.isMax ? ' 🏅' : ''}
             </span>
             {!levelInfo.isMax && (
               <div className="profile-hero-bar-wrap h-[5px] min-w-[30px] flex-1 overflow-hidden rounded-full bg-[var(--bg)]">
@@ -307,60 +317,73 @@ export function ProfilePage(): ReactElement | null {
                 />
               </div>
             )}
-            <span className="profile-hero-xp-text shrink-0 whitespace-nowrap text-[.68rem] text-[var(--text3)]">
+            <span className="profile-hero-xp-text shrink-0 text-[.68rem] whitespace-nowrap text-[var(--text3)]">
               {levelInfo.isMax
                 ? t('profile.levelMax')
                 : `${totalXp.toLocaleString()} / ${(xpNext ?? 0).toLocaleString()} XP`}
             </span>
             {/* Info popup — click to toggle */}
-            <details className="level-info-wrap relative shrink-0 [&_summary]:list-none [&_summary::-webkit-details-marker]:hidden">
-              <summary
-                className="level-info-btn flex h-[26px] w-[26px] cursor-pointer items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg)] text-[.78rem] text-[var(--text3)] select-none transition-colors duration-150 hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
-                title={t('profile.xpInfo')}
-              >
-                ⓘ
-              </summary>
-              <div className="level-info-popup absolute top-[calc(100%+8px)] right-0 z-[200] w-[270px] rounded-[14px] border border-[var(--border)] bg-[var(--card)] px-4 py-3.5 shadow-[0_8px_28px_rgba(0,0,0,.35)]">
-                <div className="level-info-title mb-2 text-[.8rem] font-bold text-[var(--text)]">
-                  {t('profile.xpInfo')}
-                </div>
-                <div className="level-info-rule mb-1 text-[.75rem] leading-[1.4] text-[var(--text2)]">
-                  {t('profile.xpWordRule')}
-                </div>
-                <div className="level-info-rule mb-1 text-[.75rem] leading-[1.4] text-[var(--text2)]">
-                  {t('profile.xpGameRule')}
-                </div>
-                <div className="level-info-rule mb-1 text-[.75rem] leading-[1.4] text-[var(--text2)]">
-                  {t('profile.xpComboRule')}
-                </div>
-                <div className="level-info-divider my-2.5 border-0 border-t border-[var(--border)]" />
-                <div className="level-info-table-title mb-1.5 text-[.72rem] font-bold uppercase tracking-[0.06em] text-[var(--text3)]">
-                  {t('profile.xpLevelTable')}
-                </div>
-                {LEVEL_MILESTONES.map(([lv, xp]) => (
-                  <div
-                    key={lv}
-                    className="level-info-row flex justify-between py-0.5 text-[.75rem] text-[var(--text2)]"
+            <PopoverPrimitive.Root>
+              <div className="level-info-wrap relative shrink-0">
+                <PopoverPrimitive.Trigger
+                  className="level-info-btn flex h-[26px] w-[26px] cursor-pointer items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg)] text-[.78rem] text-[var(--text3)] transition-colors duration-150 select-none hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
+                  title={t('profile.xpInfo')}
+                >
+                  ⓘ
+                </PopoverPrimitive.Trigger>
+                <PopoverPrimitive.Portal>
+                  <PopoverPrimitive.Positioner
+                    side="bottom"
+                    align="end"
+                    sideOffset={8}
+                    className="isolate z-[99999]"
                   >
-                    <span>{t('profile.level')} {lv}</span>
-                    <span className="font-semibold text-[var(--accent)]">
-                      {xp.toLocaleString()} XP
-                    </span>
-                  </div>
-                ))}
+                    <PopoverPrimitive.Popup className="level-info-popup w-[270px] rounded-[14px] border border-[var(--border)] bg-[var(--card)] px-4 py-3.5 shadow-[0_8px_28px_rgba(0,0,0,.35)] outline-none">
+                      <div className="level-info-title mb-2 text-[.8rem] font-bold text-[var(--text)]">
+                        {t('profile.xpInfo')}
+                      </div>
+                      <div className="level-info-rule mb-1 text-[.75rem] leading-[1.4] text-[var(--text2)]">
+                        {t('profile.xpWordRule')}
+                      </div>
+                      <div className="level-info-rule mb-1 text-[.75rem] leading-[1.4] text-[var(--text2)]">
+                        {t('profile.xpGameRule')}
+                      </div>
+                      <div className="level-info-rule mb-1 text-[.75rem] leading-[1.4] text-[var(--text2)]">
+                        {t('profile.xpComboRule')}
+                      </div>
+                      <Separator className="level-info-divider my-2.5" />
+                      <div className="level-info-table-title mb-1.5 text-[.72rem] font-bold tracking-[0.06em] text-[var(--text3)] uppercase">
+                        {t('profile.xpLevelTable')}
+                      </div>
+                      {LEVEL_MILESTONES.map(([lv, xp]) => (
+                        <div
+                          key={lv}
+                          className="level-info-row flex justify-between py-0.5 text-[.75rem] text-[var(--text2)]"
+                        >
+                          <span>
+                            {t('profile.level')} {lv}
+                          </span>
+                          <span className="font-semibold text-[var(--accent)]">
+                            {xp.toLocaleString()} XP
+                          </span>
+                        </div>
+                      ))}
+                    </PopoverPrimitive.Popup>
+                  </PopoverPrimitive.Positioner>
+                </PopoverPrimitive.Portal>
               </div>
-            </details>
+            </PopoverPrimitive.Root>
           </div>
         </div>
       </div>
 
       {/* ── Customize dropdown ───────────────────────────────────── */}
-      <div className="profile-customize w-full max-w-[420px] overflow-hidden rounded-[14px] border border-[var(--border)] bg-[var(--card)]">
-        <button
-          className="profile-customize-toggle flex w-full cursor-pointer items-center justify-between gap-2 bg-transparent px-4 py-[13px] text-left font-[inherit] text-[.88rem] font-semibold text-[var(--text)] hover:bg-[var(--hover,rgba(255,255,255,.04))]"
-          onClick={() => setCustomizeOpen((o) => !o)}
-          aria-expanded={customizeOpen}
-        >
+      <Collapsible
+        open={customizeOpen}
+        onOpenChange={setCustomizeOpen}
+        className="profile-customize w-full max-w-[420px] overflow-hidden rounded-[14px] border border-[var(--border)] bg-[var(--card)]"
+      >
+        <CollapsibleTrigger className="profile-customize-toggle flex w-full cursor-pointer items-center justify-between gap-2 bg-transparent px-4 py-[13px] text-left font-[inherit] text-[.88rem] font-semibold text-[var(--text)] hover:bg-[var(--hover,rgba(255,255,255,.04))]">
           <span>{t('profile.customizeTitle')}</span>
           <span
             className={
@@ -370,59 +393,61 @@ export function ProfilePage(): ReactElement | null {
           >
             ▼
           </span>
-        </button>
-        {customizeOpen && (
-          <div className="profile-customize-body border-t border-[var(--border)] px-4 pb-3.5">
-            {PICKERS.map((p) => (
-              <div
-                className="profile-picker-row flex items-center justify-between border-b border-[var(--border)] py-2 last:border-b-0"
-                key={p.key}
-              >
-                <span className="profile-picker-label text-[.82rem] text-[var(--text2)]">
-                  {t(p.labelKey)}
-                </span>
-                <div className="profile-picker-controls flex items-center gap-2.5">
-                  <button
-                    className="profile-picker-arrow h-[28px] w-[28px] cursor-pointer rounded-md border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white"
-                    onClick={() => cycle(p.key, p.len, -1)}
-                  >
-                    ◀
-                  </button>
-                  <span className="profile-picker-val min-w-[38px] text-center text-[.78rem] text-[var(--text3)]">
-                    {p.names
-                      ? p.names()[appearance[p.key] ?? 0]
-                      : `${(appearance[p.key] ?? 0) + 1} / ${p.len}`}
-                  </span>
-                  <button
-                    className="profile-picker-arrow h-[28px] w-[28px] cursor-pointer rounded-md border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white"
-                    onClick={() => cycle(p.key, p.len, 1)}
-                  >
-                    ▶
-                  </button>
-                </div>
-              </div>
-            ))}
-            <button
-              id="profile-save-btn"
-              className="w-full p-2.5 mt-3.5 border-0 rounded-[10px] text-white [font-family:inherit] text-[0.9rem] font-semibold cursor-pointer transition-opacity duration-150 hover:opacity-[0.88] disabled:opacity-40 disabled:cursor-default [background:var(--confirm-btn-bg,var(--accent))]"
-              disabled={!dirty}
-              onClick={saveChanges}
+        </CollapsibleTrigger>
+        {/* No keepMounted — unlike fandom-theme-rows.tsx/voice.tsx's
+            show-more/less, this content already fully unmounts while
+            closed in the original (a plain {customizeOpen && (...)}), so
+            Collapsible's own default (unmount-on-close) already matches;
+            no display-vs-[hidden] cascade fight to work around here. */}
+        <CollapsibleContent className="profile-customize-body border-t border-[var(--border)] px-4 pb-3.5">
+          {PICKERS.map((p) => (
+            <div
+              className="profile-picker-row flex items-center justify-between border-b border-[var(--border)] py-2 last:border-b-0"
+              key={p.key}
             >
-              {t('profile.saveChanges')}
-            </button>
-          </div>
-        )}
-      </div>
+              <span className="profile-picker-label text-[.82rem] text-[var(--text2)]">
+                {t(p.labelKey)}
+              </span>
+              <div className="profile-picker-controls flex items-center gap-2.5">
+                <button
+                  className="profile-picker-arrow h-[28px] w-[28px] cursor-pointer rounded-md border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white"
+                  onClick={() => cycle(p.key, p.len, -1)}
+                >
+                  ◀
+                </button>
+                <span className="profile-picker-val min-w-[38px] text-center text-[.78rem] text-[var(--text3)]">
+                  {p.names
+                    ? p.names()[appearance[p.key] ?? 0]
+                    : `${(appearance[p.key] ?? 0) + 1} / ${p.len}`}
+                </span>
+                <button
+                  className="profile-picker-arrow h-[28px] w-[28px] cursor-pointer rounded-md border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white"
+                  onClick={() => cycle(p.key, p.len, 1)}
+                >
+                  ▶
+                </button>
+              </div>
+            </div>
+          ))}
+          <button
+            id="profile-save-btn"
+            className="mt-3.5 w-full cursor-pointer rounded-[10px] border-0 p-2.5 [font-family:inherit] text-[0.9rem] font-semibold text-white transition-opacity duration-150 [background:var(--confirm-btn-bg,var(--accent))] hover:opacity-[0.88] disabled:cursor-default disabled:opacity-40"
+            disabled={!dirty}
+            onClick={saveChanges}
+          >
+            {t('profile.saveChanges')}
+          </button>
+        </CollapsibleContent>
+      </Collapsible>
 
       {/* ── Language stats ───────────────────────────────────────── */}
       <div className="profile-lang-stats w-full max-w-[420px]">
-        <div className="profile-lang-stats-title mb-2.5 text-[.78rem] font-bold uppercase tracking-[0.07em] text-[var(--text3)]">
+        <div className="profile-lang-stats-title mb-2.5 text-[.78rem] font-bold tracking-[0.07em] text-[var(--text3)] uppercase">
           {t('profile.langStatsTitle')}
         </div>
         <div className="profile-lang-grid flex flex-col gap-2">
-
           {/* Primary card — current learn language */}
-          <div className="profile-lang-card profile-lang-card--primary flex items-center gap-3 rounded-xl border border-[color-mix(in_srgb,var(--accent)_40%,transparent)] bg-[color-mix(in_srgb,var(--accent)_8%,transparent)] px-[18px] py-3.5 [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)]">
+          <div className="profile-lang-card profile-lang-card--primary flex items-center gap-3 rounded-xl border border-[color-mix(in_srgb,var(--accent)_40%,transparent)] bg-[color-mix(in_srgb,var(--accent)_8%,transparent)] px-[18px] py-3.5 [backdrop-filter:blur(8px)] [-webkit-backdrop-filter:blur(8px)]">
             <FlagCircle lang={learnLang} size={48} primary />
             <div className="profile-lang-info flex min-w-0 flex-1 flex-col gap-0.5">
               <span className="profile-lang-name mb-1 text-base font-bold text-[var(--text)]">
@@ -430,7 +455,7 @@ export function ProfilePage(): ReactElement | null {
               </span>
               <div className="profile-stat-row mt-[5px] flex flex-wrap gap-x-3.5 gap-y-1.5">
                 <span className="profile-stat-item flex items-baseline gap-[3px]">
-                  <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                  <span className="profile-stat-val text-[.88rem] leading-none font-bold text-[var(--text)]">
                     {getLangStreak(learnLang)}
                   </span>
                   <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">
@@ -439,7 +464,7 @@ export function ProfilePage(): ReactElement | null {
                 </span>
                 <span className="profile-stat-item flex items-baseline gap-[3px]">
                   <span className="profile-stat-icon text-[.8rem] leading-none">📖</span>
-                  <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                  <span className="profile-stat-val text-[.88rem] leading-none font-bold text-[var(--text)]">
                     {knownCount}
                   </span>
                   <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">
@@ -448,14 +473,14 @@ export function ProfilePage(): ReactElement | null {
                 </span>
                 <span className="profile-stat-item flex items-baseline gap-[3px]">
                   <span className="profile-stat-icon text-[.8rem] leading-none">⭐</span>
-                  <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                  <span className="profile-stat-val text-[.88rem] leading-none font-bold text-[var(--text)]">
                     {(getLangXp(learnLang) + allKnownWords[learnLang].size * 5).toLocaleString()}
                   </span>
                   <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">XP</span>
                 </span>
                 <span className="profile-stat-item flex items-baseline gap-[3px]">
                   <span className="profile-stat-icon text-[.8rem] leading-none">🏆</span>
-                  <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                  <span className="profile-stat-val text-[.88rem] leading-none font-bold text-[var(--text)]">
                     {achCount}/{ACHIEVEMENTS.length}
                   </span>
                   <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">
@@ -470,7 +495,7 @@ export function ProfilePage(): ReactElement | null {
           {otherLangs.map(({ code, count }) => (
             <div
               key={code}
-              className="profile-lang-card flex items-center gap-3 rounded-[14px] border border-[rgba(255,255,255,.07)] bg-[rgba(255,255,255,.04)] px-4 py-3 [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)]"
+              className="profile-lang-card flex items-center gap-3 rounded-[14px] border border-[rgba(255,255,255,.07)] bg-[rgba(255,255,255,.04)] px-4 py-3 [backdrop-filter:blur(8px)] [-webkit-backdrop-filter:blur(8px)]"
             >
               <FlagCircle lang={code} size={38} />
               <div className="profile-lang-info flex min-w-0 flex-1 flex-col gap-0.5">
@@ -479,7 +504,7 @@ export function ProfilePage(): ReactElement | null {
                 </span>
                 <div className="profile-stat-row mt-[5px] flex flex-wrap gap-x-3.5 gap-y-1.5">
                   <span className="profile-stat-item flex items-baseline gap-[3px]">
-                    <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                    <span className="profile-stat-val text-[.88rem] leading-none font-bold text-[var(--text)]">
                       {getLangStreak(code)}
                     </span>
                     <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">
@@ -488,7 +513,7 @@ export function ProfilePage(): ReactElement | null {
                   </span>
                   <span className="profile-stat-item flex items-baseline gap-[3px]">
                     <span className="profile-stat-icon text-[.8rem] leading-none">📖</span>
-                    <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                    <span className="profile-stat-val text-[.88rem] leading-none font-bold text-[var(--text)]">
                       {count}
                     </span>
                     <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">
@@ -497,14 +522,14 @@ export function ProfilePage(): ReactElement | null {
                   </span>
                   <span className="profile-stat-item flex items-baseline gap-[3px]">
                     <span className="profile-stat-icon text-[.8rem] leading-none">⭐</span>
-                    <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                    <span className="profile-stat-val text-[.88rem] leading-none font-bold text-[var(--text)]">
                       {(getLangXp(code) + count * 5).toLocaleString()}
                     </span>
                     <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">XP</span>
                   </span>
                   <span className="profile-stat-item flex items-baseline gap-[3px]">
                     <span className="profile-stat-icon text-[.8rem] leading-none">🏆</span>
-                    <span className="profile-stat-val text-[.88rem] font-bold leading-none text-[var(--text)]">
+                    <span className="profile-stat-val text-[.88rem] leading-none font-bold text-[var(--text)]">
                       {getLangAchCount(code)}/{ACHIEVEMENTS.length}
                     </span>
                     <span className="profile-stat-lbl text-[.68rem] text-[var(--text3)]">
@@ -515,7 +540,6 @@ export function ProfilePage(): ReactElement | null {
               </div>
             </div>
           ))}
-
         </div>
       </div>
     </div>,
