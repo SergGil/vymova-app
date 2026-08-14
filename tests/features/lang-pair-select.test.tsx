@@ -176,6 +176,28 @@ function dropdowns(): HTMLDivElement[] {
   return Array.from(document.querySelectorAll('#lang-pair-select .flagdd')) as HTMLDivElement[];
 }
 
+// FlagDropdown's popup list is Portal'd to document.body by Popover (base-ui,
+// same as this session's Select/Combobox conversions) — once open it's no
+// longer a descendant of its .flagdd trigger wrapper, so it's queried from
+// the document, not the trigger's own container.
+function openList(index: number): HTMLElement {
+  const dd = dropdowns()[index];
+  act(() => {
+    (dd.querySelector('.flagdd-btn') as HTMLButtonElement).click();
+  });
+  return document.querySelector('.flagdd-list') as HTMLElement;
+}
+
+// Clicking the trigger again toggles the popup closed (and, since it isn't
+// keepMounted, unmounts the list) — used between openList() calls so only
+// one dropdown's items are ever in the document at once.
+function closeList(index: number): void {
+  const dd = dropdowns()[index];
+  act(() => {
+    (dd.querySelector('.flagdd-btn') as HTMLButtonElement).click();
+  });
+}
+
 // Opens a dropdown (by its position: 0=know, 1=learn, 2=direction) and clicks the option with the given value.
 function selectOption(index: number, value: string): void {
   const dd = dropdowns()[index];
@@ -183,7 +205,7 @@ function selectOption(index: number, value: string): void {
     (dd.querySelector('.flagdd-btn') as HTMLButtonElement).click();
   });
   act(() => {
-    (dd.querySelector(`.flagdd-item[data-value="${value}"]`) as HTMLButtonElement).click();
+    (document.querySelector(`.flagdd-item[data-value="${value}"]`) as HTMLButtonElement).click();
   });
 }
 
@@ -210,20 +232,17 @@ describe('lang-pair-select', () => {
     const dds = dropdowns();
     expect(dds.length).toBe(3);
 
-    act(() => {
-      (dds[0].querySelector('.flagdd-btn') as HTMLButtonElement).click();
-    });
-    expect(dds[0].querySelectorAll('.flagdd-item').length).toBe(138); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 122 new langs
+    let list = openList(0);
+    expect(list.querySelectorAll('.flagdd-item').length).toBe(138); // know: ua/en/es/fr/it/pt/de/he/ar/pl/zh/el/ja/tr/nl/vi + 122 new langs
+    closeList(0);
 
-    act(() => {
-      (dds[1].querySelector('.flagdd-btn') as HTMLButtonElement).click();
-    });
-    expect(dds[1].querySelectorAll('.flagdd-item').length).toBe(137); // learn options for know=ua
+    list = openList(1);
+    expect(list.querySelectorAll('.flagdd-item').length).toBe(137); // learn options for know=ua
+    closeList(1);
 
-    act(() => {
-      (dds[2].querySelector('.flagdd-btn') as HTMLButtonElement).click();
-    });
-    expect(dds[2].querySelectorAll('.flagdd-item').length).toBe(3); // direction: fwd/rev/mix
+    list = openList(2);
+    expect(list.querySelectorAll('.flagdd-item').length).toBe(3); // direction: fwd/rev/mix
+    closeList(2);
   });
 
   it('restores pair from localStorage', () => {
@@ -269,6 +288,6 @@ describe('lang-pair-select', () => {
       mountLangPairSelect();
     });
     selectOption(1, 'fr');
-    expect(dropdowns()[1].querySelector('.flagdd-list')).toBeNull();
+    expect(document.querySelector('.flagdd-list')).toBeNull();
   });
 });

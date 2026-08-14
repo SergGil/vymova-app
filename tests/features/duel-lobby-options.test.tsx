@@ -288,7 +288,10 @@ describe('duel-lobby-options.tsx DuelKnowLangPicker / DuelLangPicker', () => {
     const btn = container.querySelector('.flagdd-btn') as HTMLButtonElement;
     expect(btn).toBeTruthy();
     expect(btn.getAttribute('data-value')).toBe('ua');
-    expect(container.querySelector('.flagdd-list')).toBeNull();
+    // FlagDropdown's popup list is Portal'd to document.body by Popover
+    // (base-ui) — not a descendant of container, so queried from the
+    // document (same pattern as this session's Select/Combobox conversions).
+    expect(document.querySelector('.flagdd-list')).toBeNull();
   });
 
   it('opens the list on click, excluding the currently-selected learn language', () => {
@@ -298,9 +301,9 @@ describe('duel-lobby-options.tsx DuelKnowLangPicker / DuelLangPicker', () => {
     act(() => {
       btn.click();
     });
-    const list = container.querySelector('.flagdd-list');
+    const list = document.querySelector('.flagdd-list');
     expect(list).toBeTruthy();
-    const items = Array.from(container.querySelectorAll('.flagdd-item'));
+    const items = Array.from(document.querySelectorAll('.flagdd-item'));
     expect(items.some((el) => el.getAttribute('data-value') === 'en')).toBe(false);
     expect(items.some((el) => el.getAttribute('data-value') === 'es')).toBe(true);
   });
@@ -312,12 +315,12 @@ describe('duel-lobby-options.tsx DuelKnowLangPicker / DuelLangPicker', () => {
     act(() => {
       btn.click();
     });
-    const item = container.querySelector('.flagdd-item[data-value="es"]') as HTMLButtonElement;
+    const item = document.querySelector('.flagdd-item[data-value="es"]') as HTMLButtonElement;
     act(() => {
       item.click();
     });
     expect(setSelKnowLang).toHaveBeenCalledWith('es');
-    expect(container.querySelector('.flagdd-list')).toBeNull();
+    expect(document.querySelector('.flagdd-list')).toBeNull();
   });
 
   it('DuelLangPicker excludes the currently-selected know language and calls _setSelLang', () => {
@@ -328,9 +331,9 @@ describe('duel-lobby-options.tsx DuelKnowLangPicker / DuelLangPicker', () => {
     act(() => {
       btn.click();
     });
-    const items = Array.from(container.querySelectorAll('.flagdd-item'));
+    const items = Array.from(document.querySelectorAll('.flagdd-item'));
     expect(items.some((el) => el.getAttribute('data-value') === 'ua')).toBe(false);
-    const item = container.querySelector('.flagdd-item[data-value="es"]') as HTMLButtonElement;
+    const item = document.querySelector('.flagdd-item[data-value="es"]') as HTMLButtonElement;
     act(() => {
       item.click();
     });

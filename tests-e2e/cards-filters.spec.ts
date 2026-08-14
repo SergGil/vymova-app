@@ -21,7 +21,10 @@ function langPairDropdown(page: Page, index: 0 | 1 | 2) {
 async function pickFlagOption(page: Page, index: 0 | 1 | 2, value: string): Promise<void> {
   const dd = langPairDropdown(page, index);
   await dd.locator('.flagdd-btn').click();
-  await dd.locator(`.flagdd-item[data-value="${value}"]`).click();
+  // .flagdd-item is Portal'd to document.body by Popover (base-ui, same as
+  // this session's Select/Combobox conversions) — no longer a descendant of
+  // dd, so it's a page-level locator rather than dd-scoped.
+  await page.locator(`.flagdd-item[data-value="${value}"]`).click();
 }
 
 // #sel-tag/#sel-range are shadcn Select triggers (src/components/ui/select.tsx,
@@ -82,7 +85,7 @@ test.describe('Card filters — language pair & direction', () => {
 
     const learnDd = langPairDropdown(page, 1);
     await learnDd.locator('.flagdd-btn').click();
-    await expect(learnDd.locator('.flagdd-item[data-value="es"]')).toHaveCount(0);
+    await expect(page.locator('.flagdd-item[data-value="es"]')).toHaveCount(0);
 
     expect(errors).toEqual([]);
   });
