@@ -54,29 +54,34 @@ describe('goal-modal.tsx GoalModal', () => {
     vi.useRealTimers();
   });
 
+  // GoalModal's Popup is Portal'd to document.body by Dialog (base-ui, same
+  // as every other Dialog-based conversion this session) — not a descendant
+  // of `container`, so it's queried from the document; "closed" now means
+  // "not in the document" rather than "container is empty" (container was
+  // never where the portal content lived in the first place).
   it('renders nothing until #goal-set-btn is clicked', () => {
-    const { container } = mount();
-    expect(container.innerHTML).toBe('');
+    mount();
+    expect(document.querySelector('input')).toBeNull();
   });
 
   it('opens with the current goalMax pre-filled', async () => {
     saveGameData({ ...getGameData(), goalMax: 35 });
-    const { container } = mount();
+    mount();
     openModal();
-    const input = container.querySelector('input') as HTMLInputElement;
+    const input = document.querySelector('input') as HTMLInputElement;
     expect(input).not.toBeNull();
     expect(input.value).toBe('35');
   });
 
   it('saves a valid goal, calls renderGameBar, and closes', () => {
-    const { container } = mount();
+    mount();
     openModal();
-    const input = container.querySelector('input') as HTMLInputElement;
+    const input = document.querySelector('input') as HTMLInputElement;
     act(() => {
       setInputValue(input, '50');
     });
 
-    const buttons = container.querySelectorAll('button');
+    const buttons = document.querySelectorAll('button');
     const saveBtn = Array.from(buttons).find((b) => b.textContent === 'Зберегти')!;
     act(() => {
       saveBtn.click();
@@ -84,48 +89,52 @@ describe('goal-modal.tsx GoalModal', () => {
 
     expect(getGameData().goalMax).toBe(50);
     expect(renderGameBar).toHaveBeenCalled();
-    expect(container.innerHTML).toBe('');
+    expect(document.querySelector('input')).toBeNull();
   });
 
   it('shakes and stays open for an out-of-range value', () => {
-    const { container } = mount();
+    mount();
     openModal();
-    const input = container.querySelector('input') as HTMLInputElement;
+    const input = document.querySelector('input') as HTMLInputElement;
     act(() => {
       setInputValue(input, '0');
     });
 
-    const buttons = container.querySelectorAll('button');
+    const buttons = document.querySelectorAll('button');
     const saveBtn = Array.from(buttons).find((b) => b.textContent === 'Зберегти')!;
     act(() => {
       saveBtn.click();
     });
 
-    expect((container.querySelector('input') as HTMLInputElement).className).toBe(
+    expect((document.querySelector('input') as HTMLInputElement).className).toBe(
       'shake animate-[shakeX_0.38s_ease] !border-[#e74c3c]',
     );
-    expect(container.querySelector('input')).not.toBeNull();
+    expect(document.querySelector('input')).not.toBeNull();
     expect(renderGameBar).not.toHaveBeenCalled();
   });
 
   it('closes via the cancel button', () => {
-    const { container } = mount();
+    mount();
     openModal();
-    const buttons = container.querySelectorAll('button');
+    const buttons = document.querySelectorAll('button');
     const cancelBtn = Array.from(buttons).find((b) => b.textContent === 'Відміна')!;
     act(() => {
       cancelBtn.click();
     });
-    expect(container.innerHTML).toBe('');
+    expect(document.querySelector('input')).toBeNull();
   });
 
-  it('closes on Escape key', () => {
-    const { container } = mount();
+  // Regression test for the real bug this Dialog conversion fixes: Escape
+  // used to only close the modal via a keydown handler on the <input>
+  // itself, so it silently did nothing once focus moved anywhere else (e.g.
+  // after clicking a button). Dialog's own Escape dismissal is a document-
+  // level listener, so it now works regardless of what has focus.
+  it('closes on Escape key regardless of what has focus', () => {
+    mount();
     openModal();
-    const input = container.querySelector('input') as HTMLInputElement;
     act(() => {
-      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+      document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     });
-    expect(container.innerHTML).toBe('');
+    expect(document.querySelector('input')).toBeNull();
   });
 });

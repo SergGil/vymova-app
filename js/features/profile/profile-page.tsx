@@ -30,6 +30,8 @@ import {
   CollapsibleTrigger,
 } from '../../../src/components/ui/collapsible.tsx';
 import { Popover as PopoverPrimitive } from '@base-ui/react/popover';
+import { Progress as ProgressPrimitive } from '@base-ui/react/progress';
+import { ProgressTrack, ProgressIndicator } from '../../../src/components/ui/progress.tsx';
 
 type PickerKey = keyof CharacterAppearance;
 
@@ -310,12 +312,15 @@ export function ProfilePage(): ReactElement | null {
               {levelInfo.isMax ? ' 🏅' : ''}
             </span>
             {!levelInfo.isMax && (
-              <div className="profile-hero-bar-wrap h-[5px] min-w-[30px] flex-1 overflow-hidden rounded-full bg-[var(--bg)]">
-                <div
-                  className="profile-hero-bar h-full min-w-[5px] rounded-full bg-[linear-gradient(90deg,var(--accent),color-mix(in_srgb,var(--accent)_60%,#fff_40%))] transition-[width] duration-500 ease-in-out"
-                  style={{ width: `${Math.round(levelInfo.progress * 100)}%` }}
-                />
-              </div>
+              <ProgressPrimitive.Root
+                value={Math.round(levelInfo.progress * 100)}
+                className="block min-w-[30px] flex-1"
+                aria-label={`${t('profile.level')} ${levelInfo.level}`}
+              >
+                <ProgressTrack className="profile-hero-bar-wrap h-[5px] overflow-hidden rounded-full bg-[var(--bg)]">
+                  <ProgressIndicator className="profile-hero-bar h-full min-w-[5px] rounded-full bg-[linear-gradient(90deg,var(--accent),color-mix(in_srgb,var(--accent)_60%,#fff_40%))] transition-[width] duration-500 ease-in-out" />
+                </ProgressTrack>
+              </ProgressPrimitive.Root>
             )}
             <span className="profile-hero-xp-text shrink-0 text-[.68rem] whitespace-nowrap text-[var(--text3)]">
               {levelInfo.isMax

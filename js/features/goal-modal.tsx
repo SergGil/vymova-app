@@ -4,6 +4,12 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { getGameData, saveGameData } from './game/game.ts';
 import { t } from './i18n.ts';
 import { renderGameBar } from './game/render-game-bar.ts';
+import {
+  Dialog,
+  DialogOverlay,
+  DialogPopup,
+  DialogPortal,
+} from '../../src/components/ui/dialog.tsx';
 
 export function GoalModal(): ReactElement | null {
   const [open, setOpen] = useState(false);
@@ -48,110 +54,106 @@ export function GoalModal(): ReactElement | null {
   }
 
   return (
-    <div
-      className="fixed inset-0 bg-black/50 z-[9500] flex items-center justify-center"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) setOpen(false);
-      }}
-    >
-      <div
-        className="modal-inner"
-        style={{
-          background: 'var(--modal-bg,var(--card))',
-          borderRadius: 16,
-          padding: '24px 20px',
-          maxWidth: 300,
-          width: '90%',
-          textAlign: 'center',
-          boxShadow: '0 8px 32px rgba(0,0,0,.2)',
-        }}
-      >
-        <div
+    <Dialog open onOpenChange={(nextOpen) => setOpen(nextOpen)}>
+      <DialogPortal>
+        <DialogOverlay className="bg-black/50" />
+        <DialogPopup
           style={{
-            fontSize: '1rem',
-            fontWeight: 600,
-            marginBottom: 6,
-            color: 'var(--text)',
+            background: 'var(--modal-bg,var(--card))',
+            borderRadius: 16,
+            padding: '24px 20px',
+            maxWidth: 300,
+            width: '90%',
             textAlign: 'center',
+            boxShadow: '0 8px 32px rgba(0,0,0,.2)',
           }}
         >
-          {t('goal.modal.title')}
-        </div>
-        <div
-          style={{
-            fontSize: '.83rem',
-            color: 'var(--text2)',
-            marginBottom: 14,
-            textAlign: 'center',
-          }}
-        >
-          {t('goal.modal.desc')}
-        </div>
-        <input
-          ref={inputRef}
-          type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          min={1}
-          max={500}
-          value={value}
-          onChange={(e) => setValue(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') save();
-            if (e.key === 'Escape') setOpen(false);
-          }}
-          className={shake ? 'shake animate-[shakeX_0.38s_ease] !border-[#e74c3c]' : ''}
-          style={{
-            width: '100%',
-            padding: 10,
-            border: '1.5px solid var(--border)',
-            borderRadius: 10,
-            fontSize: '1.1rem',
-            textAlign: 'center',
-            fontFamily: 'inherit',
-            background: 'var(--bg)',
-            color: 'var(--text)',
-            outline: 'none',
-            boxSizing: 'border-box',
-            marginBottom: 14,
-          }}
-        />
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button
-            onClick={() => setOpen(false)}
+          <div
             style={{
-              flex: 1,
-              padding: 9,
-              border: '1.5px solid var(--border)',
-              borderRadius: 8,
-              background: 'var(--bg)',
-              color: 'var(--text2)',
-              fontSize: '.9rem',
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-            }}
-          >
-            {t('goal.modal.cancel')}
-          </button>
-          <button
-            onClick={save}
-            style={{
-              flex: 1,
-              padding: 9,
-              border: 'none',
-              borderRadius: 8,
-              background: 'var(--accent)',
-              color: '#fff',
-              fontSize: '.9rem',
+              fontSize: '1rem',
               fontWeight: 600,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
+              marginBottom: 6,
+              color: 'var(--text)',
+              textAlign: 'center',
             }}
           >
-            {t('goal.modal.save')}
-          </button>
-        </div>
-      </div>
-    </div>
+            {t('goal.modal.title')}
+          </div>
+          <div
+            style={{
+              fontSize: '.83rem',
+              color: 'var(--text2)',
+              marginBottom: 14,
+              textAlign: 'center',
+            }}
+          >
+            {t('goal.modal.desc')}
+          </div>
+          <input
+            ref={inputRef}
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            min={1}
+            max={500}
+            value={value}
+            onChange={(e) => setValue(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') save();
+            }}
+            className={shake ? 'shake animate-[shakeX_0.38s_ease] !border-[#e74c3c]' : ''}
+            style={{
+              width: '100%',
+              padding: 10,
+              border: '1.5px solid var(--border)',
+              borderRadius: 10,
+              fontSize: '1.1rem',
+              textAlign: 'center',
+              fontFamily: 'inherit',
+              background: 'var(--bg)',
+              color: 'var(--text)',
+              outline: 'none',
+              boxSizing: 'border-box',
+              marginBottom: 14,
+            }}
+          />
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button
+              onClick={() => setOpen(false)}
+              style={{
+                flex: 1,
+                padding: 9,
+                border: '1.5px solid var(--border)',
+                borderRadius: 8,
+                background: 'var(--bg)',
+                color: 'var(--text2)',
+                fontSize: '.9rem',
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+              }}
+            >
+              {t('goal.modal.cancel')}
+            </button>
+            <button
+              onClick={save}
+              style={{
+                flex: 1,
+                padding: 9,
+                border: 'none',
+                borderRadius: 8,
+                background: 'var(--accent)',
+                color: '#fff',
+                fontSize: '.9rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+              }}
+            >
+              {t('goal.modal.save')}
+            </button>
+          </div>
+        </DialogPopup>
+      </DialogPortal>
+    </Dialog>
   );
 }

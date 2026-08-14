@@ -7,6 +7,8 @@ import { t, wordsLabel } from './i18n.ts';
 import { showImgClearConfirm } from './img-clear-confirm.tsx';
 import { useSettingsVersion, notifySettingsChange } from '../../src/store.ts';
 import type { WordEntry } from '../../src/types.js';
+import { Progress as ProgressPrimitive } from '@base-ui/react/progress';
+import { ProgressTrack, ProgressIndicator } from '../../src/components/ui/progress.tsx';
 
 export function ImagePrefetchSettings(): ReactElement {
   useSettingsVersion();
@@ -149,25 +151,17 @@ export function ImagePrefetchSettings(): ReactElement {
         >
           {t('settings.prefetchDesc')}
         </div>
-        <div
-          style={{
-            height: '5px',
-            background: 'var(--border)',
-            borderRadius: '4px',
-            marginBottom: '8px',
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            style={{
-              height: '100%',
-              background: 'var(--accent)',
-              borderRadius: '4px',
-              transition: 'width .5s',
-              width: pct + '%',
-            }}
-          />
-        </div>
+        <ProgressPrimitive.Root value={pct} className="block" style={{ marginBottom: '8px' }}>
+          <ProgressTrack
+            style={{ height: '5px', background: 'var(--border)', borderRadius: '4px' }}
+            className="overflow-hidden"
+          >
+            <ProgressIndicator
+              style={{ background: 'var(--accent)', borderRadius: '4px', transition: 'width .5s' }}
+              className="h-full"
+            />
+          </ProgressTrack>
+        </ProgressPrimitive.Root>
         <div
           style={{
             display: 'flex',

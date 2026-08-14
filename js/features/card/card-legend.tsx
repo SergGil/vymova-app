@@ -2,8 +2,13 @@
 // "?" help modal explaining every icon/section on the flashcard
 // (badges, action buttons, similar/family words, etymology, collocations...).
 import { useEffect, useState, type ReactElement } from 'react';
-import { createPortal } from 'react-dom';
 import { t } from '../i18n.ts';
+import {
+  Dialog,
+  DialogOverlay,
+  DialogPopup,
+  DialogPortal,
+} from '../../../src/components/ui/dialog.tsx';
 
 const ITEMS: { icon: string; key: string }[] = [
   { icon: '#123', key: 'num' },
@@ -46,75 +51,71 @@ export function CardLegendModal(): ReactElement | null {
 
   if (!open) return null;
 
-  return createPortal(
-    <div
-      className="fixed inset-0 bg-black/50 z-[9500] flex items-center justify-center"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) setOpen(false);
-      }}
-    >
-      <div
-        className="modal-inner"
-        style={{
-          background: 'var(--modal-bg,var(--card))',
-          borderRadius: 16,
-          padding: '22px 20px',
-          maxWidth: 380,
-          width: '90%',
-          maxHeight: '80vh',
-          overflowY: 'auto',
-          boxShadow: '0 8px 32px rgba(0,0,0,.2)',
-        }}
-      >
-        <div
-          style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: 4, color: 'var(--text)' }}
-        >
-          {t('cardLegend.title')}
-        </div>
-        <div style={{ fontSize: '.8rem', color: 'var(--text2)', marginBottom: 14 }}>
-          {t('cardLegend.desc')}
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {ITEMS.map(({ icon, key }) => (
-            <div key={key} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-              <span
-                style={{
-                  fontSize: '.85rem',
-                  fontWeight: 700,
-                  color: 'var(--accent)',
-                  minWidth: 28,
-                  textAlign: 'center',
-                  flexShrink: 0,
-                }}
-              >
-                {icon}
-              </span>
-              <span style={{ fontSize: '.83rem', color: 'var(--text)', lineHeight: 1.35 }}>
-                {t(`cardLegend.items.${key}`)}
-              </span>
-            </div>
-          ))}
-        </div>
-        <button
-          onClick={() => setOpen(false)}
+  return (
+    <Dialog open onOpenChange={(nextOpen) => setOpen(nextOpen)}>
+      <DialogPortal>
+        <DialogOverlay className="bg-black/50" />
+        <DialogPopup
           style={{
-            marginTop: 18,
-            width: '100%',
-            padding: 9,
-            border: 'none',
-            borderRadius: 8,
-            background: 'var(--accent)',
-            color: '#fff',
-            fontSize: '.9rem',
-            fontWeight: 600,
-            cursor: 'pointer',
-            fontFamily: 'inherit',
+            background: 'var(--modal-bg,var(--card))',
+            borderRadius: 16,
+            padding: '22px 20px',
+            maxWidth: 380,
+            width: '90%',
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            boxShadow: '0 8px 32px rgba(0,0,0,.2)',
           }}
         >
-          {t('common.close')}
-        </button>
-      </div>
-    </div>,
-    document.body,
+          <div
+            style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: 4, color: 'var(--text)' }}
+          >
+            {t('cardLegend.title')}
+          </div>
+          <div style={{ fontSize: '.8rem', color: 'var(--text2)', marginBottom: 14 }}>
+            {t('cardLegend.desc')}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {ITEMS.map(({ icon, key }) => (
+              <div key={key} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                <span
+                  style={{
+                    fontSize: '.85rem',
+                    fontWeight: 700,
+                    color: 'var(--accent)',
+                    minWidth: 28,
+                    textAlign: 'center',
+                    flexShrink: 0,
+                  }}
+                >
+                  {icon}
+                </span>
+                <span style={{ fontSize: '.83rem', color: 'var(--text)', lineHeight: 1.35 }}>
+                  {t(`cardLegend.items.${key}`)}
+                </span>
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={() => setOpen(false)}
+            style={{
+              marginTop: 18,
+              width: '100%',
+              padding: 9,
+              border: 'none',
+              borderRadius: 8,
+              background: 'var(--accent)',
+              color: '#fff',
+              fontSize: '.9rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+            }}
+          >
+            {t('common.close')}
+          </button>
+        </DialogPopup>
+      </DialogPortal>
+    </Dialog>
   );
 }

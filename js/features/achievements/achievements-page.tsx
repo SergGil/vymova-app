@@ -20,6 +20,9 @@ import { t, achName, achHint, achCatName, levelName, wordsLabel } from '../i18n.
 import { getKnownInLang } from '../mode/mode-utils.ts';
 import type { Achievement } from '../../../src/types.js';
 import { Badge } from '../../../src/components/ui/badge.tsx';
+import { ToggleGroup, ToggleGroupItem } from '../../../src/components/ui/toggle-group.tsx';
+import { Progress as ProgressPrimitive } from '@base-ui/react/progress';
+import { ProgressTrack, ProgressIndicator } from '../../../src/components/ui/progress.tsx';
 
 function LevelsRoadmap(): ReactElement {
   const ref = useRef<HTMLDivElement>(null);
@@ -48,15 +51,19 @@ function LevelsRoadmap(): ReactElement {
           <div
             key={lv.name}
             className={
-              'level-row bg-[var(--level-row-bg)] border-[var(--level-row-border-color)]' +
+              'level-row border-[var(--level-row-border-color)] bg-[var(--level-row-bg)]' +
               (isCurrent ? ' level-current' : '') +
               (isDone && !isCurrent ? ' level-done' : '')
             }
           >
-            <div
-              className="level-row-fill"
-              style={{ width: fillPct + '%', background: lv.color }}
-            />
+            {/* No Track — .level-row-fill is a full-bleed absolutely-positioned
+                background wash (position/inset/opacity all from CSS, sized
+                purely by width%), not a thin track+bar; the row itself
+                (.level-row, position:relative) is already the positioning
+                context, so Progress.Indicator can carry the class directly. */}
+            <ProgressPrimitive.Root value={fillPct} aria-label={levelName(lv.name)}>
+              <ProgressIndicator className="level-row-fill" style={{ background: lv.color }} />
+            </ProgressPrimitive.Root>
             <div
               className="level-row-icon"
               style={{
@@ -135,23 +142,29 @@ function AchievementsSummaryBar({
       <div className="ach-summary-count text-[0.85rem] font-bold text-text2">
         {t('ach.summary', { unlocked: unlockedCount, total })}
       </div>
-      <div className="ach-summary-tabs flex gap-1.5">
+      <ToggleGroup
+        className="ach-summary-tabs flex gap-1.5"
+        value={[filter]}
+        onValueChange={(vals) => {
+          const next = vals[0] as AchFilter | undefined;
+          if (next) onFilterChange(next);
+        }}
+      >
         {tabs.map((tb) => (
-          <button
+          <ToggleGroupItem
             key={tb.id}
-            type="button"
+            value={tb.id}
             className={
-              'ach-filter-tab cursor-pointer rounded-[20px] border-[1.5px] border-border bg-transparent px-3 py-[5px] text-[0.75rem] font-semibold text-text2 transition-all duration-150 hover:border-accent' +
+              'ach-filter-tab h-auto cursor-pointer rounded-[20px] border-[1.5px] border-border bg-transparent px-3 py-[5px] text-[0.75rem] font-semibold text-text2 transition-all duration-150 hover:border-accent' +
               (filter === tb.id
                 ? ' active border-accent bg-[color-mix(in_srgb,var(--accent)_14%,transparent)] text-accent'
                 : '')
             }
-            onClick={() => onFilterChange(tb.id)}
           >
             {tb.label}
-          </button>
+          </ToggleGroupItem>
         ))}
-      </div>
+      </ToggleGroup>
     </div>
   );
 }
@@ -210,7 +223,7 @@ function AchievementsGrid({
     <>
       {Object.keys(cats).map((cat) => (
         <div className="ach-category mb-[18px]" key={cat}>
-          <div className="ach-cat-title mb-2 pl-0.5 text-[0.68rem] font-bold uppercase tracking-[0.08em] text-text3">
+          <div className="ach-cat-title mb-2 pl-0.5 text-[0.68rem] font-bold tracking-[0.08em] text-text3 uppercase">
             {achCatName(cat)}
             <span className="ach-cat-count font-normal text-text3">
               {' '}
@@ -229,9 +242,9 @@ function AchievementsGrid({
                 <div
                   key={a.id}
                   className={
-                    'ach-card relative cursor-pointer overflow-hidden rounded-[12px] border-[1.5px] bg-[var(--ach-card-bg)] pb-2.5 pl-2.5 pr-2.5 pt-3 text-center transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] ' +
+                    'ach-card relative cursor-pointer overflow-hidden rounded-[12px] border-[1.5px] bg-[var(--ach-card-bg)] pt-3 pr-2.5 pb-2.5 pl-2.5 text-center transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] ' +
                     (isUnlocked
-                      ? "unlocked border-[var(--ach-card-unlocked-border)] shadow-[var(--ach-card-unlocked-shadow)] after:absolute after:right-[7px] after:top-[5px] after:text-[0.62rem] after:font-bold after:text-accent after:content-['✓']"
+                      ? "unlocked border-[var(--ach-card-unlocked-border)] shadow-[var(--ach-card-unlocked-shadow)] after:absolute after:top-[5px] after:right-[7px] after:text-[0.62rem] after:font-bold after:text-accent after:content-['✓']"
                       : 'locked border-[var(--ach-card-border)] opacity-50 grayscale-[50%]')
                   }
                   onClick={(e) => {
@@ -240,12 +253,12 @@ function AchievementsGrid({
                   }}
                 >
                   {almostThere && (
-                    <Badge className="ach-almost-badge absolute left-[7px] top-[5px] h-auto w-fit rounded-[20px] bg-[color-mix(in_srgb,var(--accent2,var(--accent))_14%,transparent)] px-1.5 py-px text-[0.56rem] font-bold text-[var(--accent2,var(--accent))]">
+                    <Badge className="ach-almost-badge absolute top-[5px] left-[7px] h-auto w-fit rounded-[20px] bg-[color-mix(in_srgb,var(--accent2,var(--accent))_14%,transparent)] px-1.5 py-px text-[0.56rem] font-bold text-[var(--accent2,var(--accent))]">
                       {t('ach.almostThere')}
                     </Badge>
                   )}
                   {isNew && (
-                    <Badge className="ach-new-badge absolute left-[7px] top-[5px] h-auto w-fit rounded-[20px] bg-[color-mix(in_srgb,var(--success)_14%,transparent)] px-1.5 py-px text-[0.56rem] font-bold text-success">
+                    <Badge className="ach-new-badge absolute top-[5px] left-[7px] h-auto w-fit rounded-[20px] bg-[color-mix(in_srgb,var(--success)_14%,transparent)] px-1.5 py-px text-[0.56rem] font-bold text-success">
                       {t('ach.new')}
                     </Badge>
                   )}
@@ -260,12 +273,14 @@ function AchievementsGrid({
                   <div className="ach-name mb-0.5 text-[0.75rem] font-bold text-text">
                     {achName(a)}
                   </div>
-                  <div className="ach-progress-track mt-[7px] h-1 overflow-hidden rounded-[4px] bg-border">
-                    <div
-                      className="ach-progress-fill h-full rounded-[4px] [background:var(--ach-progress-fill-bg)] transition-[width] duration-[400ms]"
-                      style={{ width: fillPct + '%', background: isUnlocked ? 'var(--success)' : undefined }}
-                    />
-                  </div>
+                  <ProgressPrimitive.Root value={fillPct} className="block" aria-label={achName(a)}>
+                    <ProgressTrack className="ach-progress-track mt-[7px] h-1 overflow-hidden rounded-[4px] bg-border">
+                      <ProgressIndicator
+                        className="ach-progress-fill h-full rounded-[4px] transition-[width] duration-[400ms] [background:var(--ach-progress-fill-bg)]"
+                        style={{ background: isUnlocked ? 'var(--success)' : undefined }}
+                      />
+                    </ProgressTrack>
+                  </ProgressPrimitive.Root>
                   <div className="ach-progress-label mt-[3px] text-[0.6rem] text-text3">
                     {isUnlocked ? t('ach.done') : `${prog.cur} / ${prog.max}`}
                   </div>
@@ -317,7 +332,7 @@ function AchievementPopup({
   const fillPct = isUnlocked ? pct : Math.max(pct, MIN_PROG_FILL_PCT);
 
   return createPortal(
-    <div className="ach-popup relative w-full max-w-[320px] rounded-[20px] bg-[var(--ach-popup-bg)] px-6 pb-7 pt-7 text-center shadow-[var(--ach-popup-shadow)] [border:var(--ach-popup-border)]">
+    <div className="ach-popup relative w-full max-w-[320px] rounded-[20px] bg-[var(--ach-popup-bg)] px-6 pt-7 pb-7 text-center shadow-[var(--ach-popup-shadow)] [border:var(--ach-popup-border)]">
       <span className="ach-popup-icon mb-2 block text-5xl [text-shadow:var(--ach-popup-icon-shadow)]">
         {ach.icon}
       </span>
@@ -335,12 +350,14 @@ function AchievementPopup({
             {prog.cur} / {prog.max}
           </span>
         </div>
-        <div className="ach-popup-prog-track h-2 overflow-hidden rounded-[8px] bg-border">
-          <div
-            className="ach-popup-prog-fill h-full rounded-[8px] [background:var(--ach-popup-prog-fill-bg)] shadow-[var(--ach-popup-prog-fill-shadow)] transition-[width] duration-500 ease-in-out"
-            style={{ width: fillPct + '%', background: isUnlocked ? 'var(--success)' : undefined }}
-          />
-        </div>
+        <ProgressPrimitive.Root value={fillPct} className="block" aria-label={t('ach.progress')}>
+          <ProgressTrack className="ach-popup-prog-track h-2 overflow-hidden rounded-[8px] bg-border">
+            <ProgressIndicator
+              className="ach-popup-prog-fill h-full rounded-[8px] shadow-[var(--ach-popup-prog-fill-shadow)] transition-[width] duration-500 ease-in-out [background:var(--ach-popup-prog-fill-bg)]"
+              style={{ background: isUnlocked ? 'var(--success)' : undefined }}
+            />
+          </ProgressTrack>
+        </ProgressPrimitive.Root>
       </div>
       <div
         className={
@@ -374,7 +391,7 @@ export function AchievementsPage(): ReactElement {
     <>
       <div style={{ marginBottom: 24 }}>
         <div
-          className="stats-section-title text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] [@media(max-width:480px)]:!text-[0.82rem]"
+          className="stats-section-title text-[0.72rem] font-semibold [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] uppercase [@media(max-width:480px)]:!text-[0.82rem]"
           style={{ marginBottom: 12 }}
           data-i18n="ach.roadmapTitle"
         >
@@ -384,7 +401,7 @@ export function AchievementsPage(): ReactElement {
       </div>
 
       <div
-        className="stats-section-title text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] [@media(max-width:480px)]:!text-[0.82rem]"
+        className="stats-section-title text-[0.72rem] font-semibold [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] uppercase [@media(max-width:480px)]:!text-[0.82rem]"
         style={{ marginBottom: 12 }}
         data-i18n="ach.awardsTitle"
       >

@@ -12,6 +12,8 @@ import type { WordEntry } from '../../src/types.js';
 import { entryFor } from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { useModeSession } from '../features/mode/use-mode-session.ts';
+import { Progress as ProgressPrimitive } from '@base-ui/react/progress';
+import { ProgressTrack, ProgressIndicator } from '../../src/components/ui/progress.tsx';
 
 const N = 10;
 const NUM_OPTS = 4;
@@ -319,25 +321,26 @@ export function GhostRacePage(): ReactElement {
                 {checkpoints.length}/{deck.length}
               </span>
             </div>
-            <div
-              style={{
-                height: 8,
-                background: 'var(--border)',
-                borderRadius: 4,
-                overflow: 'hidden',
-                marginBottom: 8,
-              }}
+            <ProgressPrimitive.Root
+              value={youFraction * 100}
+              className="block"
+              style={{ marginBottom: 8 }}
+              aria-label={t('ghost.youLabel')}
             >
-              <div
+              <ProgressTrack
                 style={{
-                  height: '100%',
-                  background: 'var(--accent)',
+                  height: 8,
+                  background: 'var(--border)',
                   borderRadius: 4,
-                  width: `${youFraction * 100}%`,
-                  transition: 'width .3s',
+                  overflow: 'hidden',
                 }}
-              />
-            </div>
+              >
+                <ProgressIndicator
+                  className="h-full"
+                  style={{ background: 'var(--accent)', borderRadius: 4, transition: 'width .3s' }}
+                />
+              </ProgressTrack>
+            </ProgressPrimitive.Root>
             <div
               style={{
                 display: 'flex',
@@ -350,24 +353,29 @@ export function GhostRacePage(): ReactElement {
               <span>👻 {t('ghost.ghostLabel')}</span>
               <span>{fmt(elapsedMs)}</span>
             </div>
-            <div
-              style={{
-                height: 8,
-                background: 'var(--border)',
-                borderRadius: 4,
-                overflow: 'hidden',
-              }}
+            <ProgressPrimitive.Root
+              value={ghostFrac * 100}
+              className="block"
+              aria-label={t('ghost.ghostLabel')}
             >
-              <div
+              <ProgressTrack
                 style={{
-                  height: '100%',
-                  background: 'var(--text3)',
+                  height: 8,
+                  background: 'var(--border)',
                   borderRadius: 4,
-                  width: `${ghostFrac * 100}%`,
-                  transition: 'width .1s linear',
+                  overflow: 'hidden',
                 }}
-              />
-            </div>
+              >
+                <ProgressIndicator
+                  className="h-full"
+                  style={{
+                    background: 'var(--text3)',
+                    borderRadius: 4,
+                    transition: 'width .1s linear',
+                  }}
+                />
+              </ProgressTrack>
+            </ProgressPrimitive.Root>
           </div>
 
           <div
@@ -389,12 +397,21 @@ export function GhostRacePage(): ReactElement {
               let cls =
                 "quiz-option group relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 not-disabled:hover:border-[var(--quiz-option-hover-border)] not-disabled:hover:bg-[var(--quiz-option-hover-bg)] disabled:cursor-default [@media(max-width:480px)]:py-[9px] [@media(max-width:480px)]:px-[12px] [@media(max-width:480px)]:text-[0.82rem]";
               if (selected) {
-                if (opt === selected) cls += opt === q.correct ? ' correct !border-[var(--quiz-correct-border)] !bg-[var(--quiz-correct-bg)] !text-[var(--quiz-correct-color)] font-semibold' : ' wrong !border-[var(--quiz-wrong-border)] !bg-[var(--quiz-wrong-bg)] !text-[var(--quiz-wrong-color)]';
-                else if (opt === q.correct) cls += ' reveal !border-[var(--quiz-reveal-border)] !bg-[var(--quiz-reveal-bg)] !text-[var(--quiz-reveal-color)] opacity-70';
+                if (opt === selected)
+                  cls +=
+                    opt === q.correct
+                      ? ' correct !border-[var(--quiz-correct-border)] !bg-[var(--quiz-correct-bg)] !text-[var(--quiz-correct-color)] font-semibold'
+                      : ' wrong !border-[var(--quiz-wrong-border)] !bg-[var(--quiz-wrong-bg)] !text-[var(--quiz-wrong-color)]';
+                else if (opt === q.correct)
+                  cls +=
+                    ' reveal !border-[var(--quiz-reveal-border)] !bg-[var(--quiz-reveal-bg)] !text-[var(--quiz-reveal-color)] opacity-70';
               }
               return (
                 <button key={opt} className={cls} disabled={!!selected} onClick={() => choose(opt)}>
-                  <span className="opt-num inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.wrong]:hidden group-[.reveal]:hidden">{i + 1}</span> {opt}
+                  <span className="opt-num mr-1.5 inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.reveal]:hidden group-[.wrong]:hidden">
+                    {i + 1}
+                  </span>{' '}
+                  {opt}
                 </button>
               );
             })}

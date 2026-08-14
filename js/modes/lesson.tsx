@@ -16,6 +16,8 @@ import { entryFor } from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { useModeSession } from '../features/mode/use-mode-session.ts';
 import { Badge } from '../../src/components/ui/badge.tsx';
+import { Progress as ProgressPrimitive } from '@base-ui/react/progress';
+import { ProgressTrack, ProgressIndicator } from '../../src/components/ui/progress.tsx';
 
 // .btn's own base/:hover styling (docs/component-tailwind-conversion-
 // roadmap.md, newly-found 14th cluster) — see card-shell.tsx's BTN_BASE
@@ -369,25 +371,17 @@ export function LessonPage(): ReactElement {
         </div>
       </div>
 
-      <div
-        style={{
-          height: 6,
-          background: 'var(--border)',
-          borderRadius: 4,
-          marginBottom: 20,
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            height: '100%',
-            background: 'var(--accent)',
-            borderRadius: 4,
-            transition: 'width .35s ease',
-            width: `${mbarPct}%`,
-          }}
-        />
-      </div>
+      <ProgressPrimitive.Root value={mbarPct} className="block" style={{ marginBottom: 20 }}>
+        <ProgressTrack
+          style={{ height: 6, background: 'var(--border)', borderRadius: 4 }}
+          className="overflow-hidden"
+        >
+          <ProgressIndicator
+            style={{ background: 'var(--accent)', borderRadius: 4, transition: 'width .35s ease' }}
+            className="h-full"
+          />
+        </ProgressTrack>
+      </ProgressPrimitive.Root>
 
       {!showFinal && w && (
         <>
@@ -424,7 +418,7 @@ export function LessonPage(): ReactElement {
               {phase === 0 ? entryFor(learnLang, w).word : entryFor(knowLang, w).word}
               {phase === 0 && learnLang === 'en' && (
                 <button
-                  className="mode-speak ml-2 inline-flex h-[30px] w-[30px] shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150 hover:bg-white/15 hover:text-[var(--accent)] [&.on]:!bg-[rgba(78,204,163,0.15)] [&.on]:text-[var(--accent)] [@media(max-width:480px)]:p-[5px_8px] [@media(max-width:480px)]:text-[16px] [@media(max-width:480px)]:min-h-[36px]"
+                  className="mode-speak ml-2 inline-flex h-[30px] w-[30px] shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150 hover:bg-white/15 hover:text-[var(--accent)] [&.on]:!bg-[rgba(78,204,163,0.15)] [&.on]:text-[var(--accent)] [@media(max-width:480px)]:min-h-[36px] [@media(max-width:480px)]:p-[5px_8px] [@media(max-width:480px)]:text-[16px]"
                   title={t('common.listen')}
                   onClick={(e) => {
                     e.stopPropagation();
@@ -475,8 +469,14 @@ export function LessonPage(): ReactElement {
                 let cls =
                   "quiz-option group relative w-full cursor-pointer rounded-[11px] border-[1.5px] border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-left font-['DM_Sans',sans-serif] text-[.88rem] leading-[1.3] text-[var(--text)] transition-[border-color,background,transform] duration-150 not-disabled:hover:border-[var(--quiz-option-hover-border)] not-disabled:hover:bg-[var(--quiz-option-hover-bg)] disabled:cursor-default [@media(max-width:480px)]:py-[9px] [@media(max-width:480px)]:px-[12px] [@media(max-width:480px)]:text-[0.82rem]";
                 if (selected) {
-                  if (opt === selected) cls += opt === correctOpt ? ' correct !border-[var(--quiz-correct-border)] !bg-[var(--quiz-correct-bg)] !text-[var(--quiz-correct-color)] font-semibold' : ' wrong !border-[var(--quiz-wrong-border)] !bg-[var(--quiz-wrong-bg)] !text-[var(--quiz-wrong-color)]';
-                  else if (opt === correctOpt) cls += ' reveal !border-[var(--quiz-reveal-border)] !bg-[var(--quiz-reveal-bg)] !text-[var(--quiz-reveal-color)] opacity-70';
+                  if (opt === selected)
+                    cls +=
+                      opt === correctOpt
+                        ? ' correct !border-[var(--quiz-correct-border)] !bg-[var(--quiz-correct-bg)] !text-[var(--quiz-correct-color)] font-semibold'
+                        : ' wrong !border-[var(--quiz-wrong-border)] !bg-[var(--quiz-wrong-bg)] !text-[var(--quiz-wrong-color)]';
+                  else if (opt === correctOpt)
+                    cls +=
+                      ' reveal !border-[var(--quiz-reveal-border)] !bg-[var(--quiz-reveal-bg)] !text-[var(--quiz-reveal-color)] opacity-70';
                 }
                 return (
                   <button
@@ -485,7 +485,10 @@ export function LessonPage(): ReactElement {
                     disabled={answered}
                     onClick={() => chooseOption(opt)}
                   >
-                    <span className="opt-num inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.wrong]:hidden group-[.reveal]:hidden">{i + 1}</span> {opt}
+                    <span className="opt-num mr-1.5 inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.reveal]:hidden group-[.wrong]:hidden">
+                      {i + 1}
+                    </span>{' '}
+                    {opt}
                   </button>
                 );
               })}

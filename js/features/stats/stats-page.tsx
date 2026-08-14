@@ -21,6 +21,7 @@ import { getKnownInLang, getActiveKnownByLang, getWordsForLang } from '../mode/m
 import type { WordEntry } from '../../../src/types.js';
 import { InfoIcon, InfoNote } from '../info-icon.tsx';
 import { ToggleGroup, ToggleGroupItem } from '../../../src/components/ui/toggle-group.tsx';
+import { Meter } from '../../../src/components/ui/meter.tsx';
 import { MistakeReview } from '../mistake-review.tsx';
 import { renderWeakWords } from '../../modes/catpairs.tsx';
 import { setStatsBumpTick, refreshStatsPage, openStats, closeStats } from './stats-trigger.ts';
@@ -477,7 +478,7 @@ export function StatsPage(): ReactElement {
 
   return (
     <div
-      className="stats-panel m-auto max-h-[calc(100vh-32px)] w-full max-w-[560px] overflow-y-auto overflow-x-hidden rounded-[16px] bg-[var(--stats-panel-bg)] px-5 pb-6 pt-[22px] shadow-[var(--stats-panel-shadow)] [border:var(--stats-panel-border)] [@media(max-width:480px)]:![padding:16px_14px]"
+      className="stats-panel m-auto max-h-[calc(100vh-32px)] w-full max-w-[560px] overflow-x-hidden overflow-y-auto rounded-[16px] bg-[var(--stats-panel-bg)] px-5 pt-[22px] pb-6 shadow-[var(--stats-panel-shadow)] [border:var(--stats-panel-border)] [@media(max-width:480px)]:![padding:16px_14px]"
       ref={panelRef}
     >
       {pulling && (
@@ -487,7 +488,7 @@ export function StatsPage(): ReactElement {
       )}
       <div className="stats-header mb-[18px] flex items-center justify-between">
         <div
-          className="stats-title text-[1.05rem] font-semibold text-[var(--stats-title-color)] [font-family:var(--stats-title-font)] [@media(max-width:480px)]:!text-[1rem]"
+          className="stats-title [font-family:var(--stats-title-font)] text-[1.05rem] font-semibold text-[var(--stats-title-color)] [@media(max-width:480px)]:!text-[1rem]"
           data-i18n="stats.title"
         >
           {t('stats.title')}
@@ -503,37 +504,43 @@ export function StatsPage(): ReactElement {
       </div>
 
       <div className={statsSectionCls}>
-        <div
-          className={statsSectionTitleCls}
-          data-i18n="stats.overallProgress"
-        >
+        <div className={statsSectionTitleCls} data-i18n="stats.overallProgress">
           {t('stats.overallProgress')}
         </div>
         <div className="stats-summary grid grid-cols-4 gap-2.5 [@media(max-width:480px)]:!grid-cols-2 [@media(max-width:480px)]:!gap-2">
-          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px] animate-[statCardEnter_0.32s_ease_both]">
+          <div className="stat-card flex animate-[statCardEnter_0.32s_ease_both] flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pt-3.5 pb-3 text-center [@media(max-width:480px)]:![padding:10px_8px]">
             <span className="stat-card-icon ic-accent mb-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--accent)_15%,transparent)] text-[0.86rem]">
               📖
             </span>
-            <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]" id="st-known">
+            <div
+              className="sv text-2xl leading-[1.15] font-bold text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]"
+              id="st-known"
+            >
               {knownCount}
             </div>
             <div className="sl mt-0.5 text-[0.7rem] text-text2" data-i18n="stats.wordsLearned">
               {t('stats.wordsLearned')}
             </div>
           </div>
-          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px] animate-[statCardEnter_0.32s_ease_both] [animation-delay:0.07s]">
+          <div className="stat-card flex animate-[statCardEnter_0.32s_ease_both] flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pt-3.5 pb-3 text-center [animation-delay:0.07s] [@media(max-width:480px)]:![padding:10px_8px]">
             <span className="stat-card-icon ic-success mb-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--success)_15%,transparent)] text-[0.86rem]">
               🎯
             </span>
-            <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]" id="st-pct">
+            <div
+              className="sv text-2xl leading-[1.15] font-bold text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]"
+              id="st-pct"
+            >
               {pctKnown}%
             </div>
             <div className="sl mt-0.5 text-[0.7rem] text-text2" data-i18n="stats.ofAllWords">
               {t('stats.ofAllWords')}
             </div>
           </div>
-          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px] animate-[statCardEnter_0.32s_ease_both] [animation-delay:0.14s]">
-            <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]" id="st-streak">
+          <div className="stat-card flex animate-[statCardEnter_0.32s_ease_both] flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pt-3.5 pb-3 text-center [animation-delay:0.14s] [@media(max-width:480px)]:![padding:10px_8px]">
+            <div
+              className="sv text-2xl leading-[1.15] font-bold text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]"
+              id="st-streak"
+            >
               {gd.streak || 0}
             </div>
             <div className="sl mt-0.5 text-[0.7rem] text-text2" data-i18n="stats.daysStreak">
@@ -545,8 +552,11 @@ export function StatsPage(): ReactElement {
               </div>
             )}
           </div>
-          <div className="stat-card flex flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pb-3 pt-3.5 text-center [@media(max-width:480px)]:![padding:10px_8px] animate-[statCardEnter_0.32s_ease_both]">
-            <div className="sv text-2xl font-bold leading-[1.15] text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]" id="st-week">
+          <div className="stat-card flex animate-[statCardEnter_0.32s_ease_both] flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pt-3.5 pb-3 text-center [@media(max-width:480px)]:![padding:10px_8px]">
+            <div
+              className="sv text-2xl leading-[1.15] font-bold text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]"
+              id="st-week"
+            >
               {weeklyTotal}
             </div>
             <div className="sl mt-0.5 text-[0.7rem] text-text2" data-i18n="stats.weekWordsLabel">
@@ -569,7 +579,7 @@ export function StatsPage(): ReactElement {
           </span>
         </div>
         <ToggleGroup
-          className="chart-period-btns mb-2.5 mt-2 w-full rounded-none"
+          className="chart-period-btns mt-2 mb-2.5 w-full rounded-none"
           style={{ display: 'flex', gap: 6 }}
           id="chart-period-btns"
           value={[String(chartDays)]}
@@ -592,11 +602,8 @@ export function StatsPage(): ReactElement {
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
-        <div className="chart-wrap rounded-[10px] bg-bg px-2.5 pb-2 pt-3.5">
-          <div
-            className="chart-bars flex h-20 items-end justify-stretch gap-1"
-            id="chart-bars"
-          >
+        <div className="chart-wrap rounded-[10px] bg-bg px-2.5 pt-3.5 pb-2">
+          <div className="chart-bars flex h-20 items-end justify-stretch gap-1" id="chart-bars">
             {!hasChartData ? (
               <div
                 className="chart-empty w-full self-center px-0 py-5 text-center text-[0.82rem] text-text3"
@@ -645,7 +652,11 @@ export function StatsPage(): ReactElement {
                         style={{ height: h }}
                       />
                     </div>
-                    <div className={'chart-label whitespace-nowrap text-center text-text3 ' + smallText}>
+                    <div
+                      className={
+                        'chart-label text-center whitespace-nowrap text-text3 ' + smallText
+                      }
+                    >
                       {d.isToday && !sm ? t('stats.today') : showLabel ? d.label : ''}
                     </div>
                   </div>
@@ -657,10 +668,7 @@ export function StatsPage(): ReactElement {
       </div>
 
       <div className={statsSectionCls}>
-        <div
-          className={statsSectionTitleCls}
-          data-i18n="stats.yearActivity"
-        >
+        <div className={statsSectionTitleCls} data-i18n="stats.yearActivity">
           {t('stats.yearActivity')}
         </div>
         <div
@@ -709,7 +717,7 @@ export function StatsPage(): ReactElement {
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <button
               id="cal-prev"
-              className="btn bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)] font-['DM_Sans',sans-serif] text-[13px] font-medium py-2 px-4 rounded-[10px] border cursor-pointer active:scale-[0.97] [@media(max-width:480px)]:min-h-[44px] [@media(max-width:480px)]:py-[10px] [@media(max-width:480px)]:px-[12px] [@media(max-width:480px)]:text-[12px] [@media(min-width:481px)_and_(max-width:640px)]:min-h-[40px] [@media(min-width:641px)_and_(max-width:900px)]:min-h-[38px]"
+              className="btn cursor-pointer rounded-[10px] border border-[var(--btn-border-color)] bg-[var(--btn-bg)] px-4 py-2 font-['DM_Sans',sans-serif] text-[13px] font-medium text-[var(--btn-color)] [transition:var(--btn-transition)] hover:border-[var(--btn-hover-border-fallback)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:shadow-[var(--btn-hover-shadow)] active:scale-[0.97] [@media(max-width:480px)]:min-h-[44px] [@media(max-width:480px)]:px-[12px] [@media(max-width:480px)]:py-[10px] [@media(max-width:480px)]:text-[12px] [@media(min-width:481px)_and_(max-width:640px)]:min-h-[40px] [@media(min-width:641px)_and_(max-width:900px)]:min-h-[38px]"
               style={{ padding: '3px 10px', fontSize: 13 }}
               onClick={() => changeMonth(-1)}
             >
@@ -729,7 +737,7 @@ export function StatsPage(): ReactElement {
             </span>
             <button
               id="cal-next"
-              className="btn bg-[var(--btn-bg)] border-[var(--btn-border-color)] text-[var(--btn-color)] [transition:var(--btn-transition)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:border-[var(--btn-hover-border-fallback)] hover:shadow-[var(--btn-hover-shadow)] font-['DM_Sans',sans-serif] text-[13px] font-medium py-2 px-4 rounded-[10px] border cursor-pointer active:scale-[0.97] [@media(max-width:480px)]:min-h-[44px] [@media(max-width:480px)]:py-[10px] [@media(max-width:480px)]:px-[12px] [@media(max-width:480px)]:text-[12px] [@media(min-width:481px)_and_(max-width:640px)]:min-h-[40px] [@media(min-width:641px)_and_(max-width:900px)]:min-h-[38px]"
+              className="btn cursor-pointer rounded-[10px] border border-[var(--btn-border-color)] bg-[var(--btn-bg)] px-4 py-2 font-['DM_Sans',sans-serif] text-[13px] font-medium text-[var(--btn-color)] [transition:var(--btn-transition)] hover:border-[var(--btn-hover-border-fallback)] hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-color)] hover:shadow-[var(--btn-hover-shadow)] active:scale-[0.97] [@media(max-width:480px)]:min-h-[44px] [@media(max-width:480px)]:px-[12px] [@media(max-width:480px)]:py-[10px] [@media(max-width:480px)]:text-[12px] [@media(min-width:481px)_and_(max-width:640px)]:min-h-[40px] [@media(min-width:641px)_and_(max-width:900px)]:min-h-[38px]"
               style={{ padding: '3px 10px', fontSize: 13 }}
               onClick={() => changeMonth(1)}
             >
@@ -757,16 +765,16 @@ export function StatsPage(): ReactElement {
           {calData.cells.map((c, i) =>
             c === null ? (
               <div
-                className="cal-day cal-empty invisible relative flex aspect-square max-h-12 max-w-12 flex-col items-center justify-center pointer-events-none rounded-[6px] text-[0.7rem]"
+                className="cal-day cal-empty pointer-events-none invisible relative flex aspect-square max-h-12 max-w-12 flex-col items-center justify-center rounded-[6px] text-[0.7rem]"
                 key={i}
               />
             ) : (
               <div
-                className={`cal-day hm-l${c.lvl}${c.isToday ? ' cal-today !shadow-[0_0_0_2px_var(--accent)]' : ''} relative flex aspect-square max-h-12 max-w-12 cursor-default flex-col items-center justify-center rounded-[6px] text-[0.7rem] transition-transform duration-100 hover:z-[1] hover:scale-[1.15] ${HM_LEVEL_BG[c.lvl]}`}
+                className={`cal-day hm-l${c.lvl}${c.isToday ? 'cal-today !shadow-[0_0_0_2px_var(--accent)]' : ''} relative flex aspect-square max-h-12 max-w-12 cursor-default flex-col items-center justify-center rounded-[6px] text-[0.7rem] transition-transform duration-100 hover:z-[1] hover:scale-[1.15] ${HM_LEVEL_BG[c.lvl]}`}
                 title={`${c.ds}: ${c.n} ${wordsLabel(c.n)}`}
                 key={i}
               >
-                <span className="cal-day-num font-semibold leading-none">{c.d}</span>
+                <span className="cal-day-num leading-none font-semibold">{c.d}</span>
                 {c.n > 0 && (
                   <span className="cal-day-cnt mt-px text-[0.52rem] leading-none opacity-85">
                     {c.n}
@@ -785,10 +793,7 @@ export function StatsPage(): ReactElement {
       </div>
 
       <div className={statsSectionCls}>
-        <div
-          className={statsSectionTitleCls}
-          data-i18n="stats.bestTimeTitle"
-        >
+        <div className={statsSectionTitleCls} data-i18n="stats.bestTimeTitle">
           {t('stats.bestTimeTitle')}
         </div>
         <div
@@ -815,22 +820,24 @@ export function StatsPage(): ReactElement {
       </div>
 
       <div className={statsSectionCls}>
-        <div
-          className={statsSectionTitleCls}
-          data-i18n="stats.blockProgress"
-        >
+        <div className={statsSectionTitleCls} data-i18n="stats.blockProgress">
           {t('stats.blockProgress')}
         </div>
         <div className="blocks-list flex flex-col gap-[7px]" id="blocks-list">
           {blocks.map((b) => (
             <div className="block-row flex items-center gap-2" key={b.label}>
               <div className="block-label w-20 shrink-0 text-[0.75rem] text-text2">{b.label}</div>
-              <div className="block-track h-2 flex-1 overflow-hidden rounded-[10px] bg-border">
+              <Meter
+                value={b.pct}
+                aria-label={b.label}
+                getAriaValueText={() => `${b.pct}%`}
+                className="block-track h-2 flex-1 overflow-hidden rounded-[10px] bg-border"
+              >
                 <div
                   className="block-fill h-full rounded-[10px] transition-[width] duration-[400ms]"
                   style={{ width: `${b.pct}%`, background: b.color }}
                 />
-              </div>
+              </Meter>
               <div
                 className="block-pct w-9 shrink-0 text-right text-[0.72rem] font-semibold text-text2"
                 style={{ color: b.color }}
@@ -843,10 +850,7 @@ export function StatsPage(): ReactElement {
       </div>
 
       <div className={statsSectionCls}>
-        <div
-          className={statsSectionTitleCls}
-          data-i18n="stats.srsForecastTitle"
-        >
+        <div className={statsSectionTitleCls} data-i18n="stats.srsForecastTitle">
           {t('stats.srsForecastTitle')}
         </div>
         <div id="srs-forecast" className="srs-forecast mt-1.5">
@@ -870,7 +874,7 @@ export function StatsPage(): ReactElement {
                 <div className="srs-fc-cnt mt-0.5 min-h-[10px] text-[0.6rem] text-text3">
                   {c.cnt || ''}
                 </div>
-                <div className="srs-fc-lbl mt-px max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-center text-[0.55rem] text-text3">
+                <div className="srs-fc-lbl mt-px max-w-full overflow-hidden text-center text-[0.55rem] text-ellipsis whitespace-nowrap text-text3">
                   {c.label}
                 </div>
               </div>
@@ -922,10 +926,7 @@ export function StatsPage(): ReactElement {
       </div>
 
       <div className={statsSectionCls}>
-        <div
-          className={statsSectionTitleCls}
-          data-i18n="stats.modeAccuracyTitle"
-        >
+        <div className={statsSectionTitleCls} data-i18n="stats.modeAccuracyTitle">
           {t('stats.modeAccuracyTitle')}
         </div>
         <div id="mode-accuracy-list">
@@ -970,8 +971,12 @@ export function StatsPage(): ReactElement {
                     {m.pct !== null ? `${m.pct}%` : '—'}
                   </span>
                 </div>
-                <div
+                <Meter
+                  value={m.pct ?? 0}
+                  aria-label={m.label}
+                  getAriaValueText={() => (m.pct !== null ? `${m.pct}%` : '—')}
                   style={{
+                    display: 'block',
                     height: 6,
                     background: 'var(--border)',
                     borderRadius: 3,
@@ -987,7 +992,7 @@ export function StatsPage(): ReactElement {
                       transition: 'width .4s',
                     }}
                   />
-                </div>
+                </Meter>
               </div>
             ))
           )}
@@ -995,10 +1000,7 @@ export function StatsPage(): ReactElement {
       </div>
 
       <div className={statsSectionCls}>
-        <div
-          className={statsSectionTitleCls}
-          data-i18n="stats.cefrProgressTitle"
-        >
+        <div className={statsSectionTitleCls} data-i18n="stats.cefrProgressTitle">
           {t('stats.cefrProgressTitle')}
         </div>
         <div id="cefr-stats-list">
@@ -1032,8 +1034,12 @@ export function StatsPage(): ReactElement {
                   {r.known} / {r.total} ({r.pct}%)
                 </span>
               </div>
-              <div
+              <Meter
+                value={r.pct}
+                aria-label={r.level}
+                getAriaValueText={() => `${r.known} / ${r.total} (${r.pct}%)`}
                 style={{
+                  display: 'block',
                   height: 5,
                   background: 'var(--border)',
                   borderRadius: 3,
@@ -1049,7 +1055,7 @@ export function StatsPage(): ReactElement {
                     transition: 'width .5s',
                   }}
                 />
-              </div>
+              </Meter>
             </div>
           ))}
         </div>

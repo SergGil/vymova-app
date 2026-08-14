@@ -15,6 +15,7 @@ import { getDeckSnapshot } from '../../src/deck-store.ts';
 import type { WordEntry } from '../../src/types.js';
 import { scoreEmoji } from '../features/mode/mode-final-screen.tsx';
 import { useModeSession } from '../features/mode/use-mode-session.ts';
+import { ToggleGroup, ToggleGroupItem } from '../../src/components/ui/toggle-group.tsx';
 
 type Question = {
   dir: string;
@@ -360,24 +361,31 @@ export function TempoPage(): ReactElement {
               {t('tempo.subtitle')}
             </div>
           </div>
-          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 22 }}>
+          <ToggleGroup
+            style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 22 }}
+            value={[String(selectedSec)]}
+            onValueChange={(vals) => {
+              const next = vals[0];
+              if (next) setSelectedSec(Number(next));
+            }}
+          >
             {[30, 60, 90].map((sec) => (
-              <button
+              <ToggleGroupItem
                 key={sec}
+                value={String(sec)}
                 id={`tempo-time-${sec}`}
                 className={
-                  "py-2 px-[18px] rounded-[20px] border-2 font-semibold cursor-pointer text-[0.88rem] [font-family:'DM_Sans',sans-serif] transition-all duration-150 " +
+                  "h-auto cursor-pointer rounded-[20px] border-2 px-[18px] py-2 [font-family:'DM_Sans',sans-serif] text-[0.88rem] font-semibold transition-all duration-150 " +
                   (selectedSec === sec
-                    ? 'tempo-time-active border-[var(--accent)] text-[var(--accent)] bg-[rgba(155,89,182,0.1)]'
-                    : 'border-[var(--border)] text-[var(--text2)] bg-transparent')
+                    ? 'tempo-time-active border-[var(--accent)] bg-[rgba(155,89,182,0.1)] text-[var(--accent)]'
+                    : 'border-[var(--border)] bg-transparent text-[var(--text2)]')
                 }
-                onClick={() => setSelectedSec(sec)}
                 data-i18n={`tempo.sec${sec}`}
               >
                 {t(`tempo.sec${sec}`)}
-              </button>
+              </ToggleGroupItem>
             ))}
-          </div>
+          </ToggleGroup>
           <div
             style={{
               textAlign: 'center',
@@ -506,10 +514,10 @@ export function TempoPage(): ReactElement {
               {question.word}
               {question.word && (
                 <button
-                className="mode-speak ml-2 inline-flex h-[30px] w-[30px] shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150 hover:bg-white/15 hover:text-[var(--accent)] [&.on]:!bg-[rgba(78,204,163,0.15)] [&.on]:text-[var(--accent)] [@media(max-width:480px)]:p-[5px_8px] [@media(max-width:480px)]:text-[16px] [@media(max-width:480px)]:min-h-[36px]"
-                title={t('common.listen')}
-                onClick={speakWord}
-              >
+                  className="mode-speak ml-2 inline-flex h-[30px] w-[30px] shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150 hover:bg-white/15 hover:text-[var(--accent)] [&.on]:!bg-[rgba(78,204,163,0.15)] [&.on]:text-[var(--accent)] [@media(max-width:480px)]:min-h-[36px] [@media(max-width:480px)]:p-[5px_8px] [@media(max-width:480px)]:text-[16px]"
+                  title={t('common.listen')}
+                  onClick={speakWord}
+                >
                   🔊
                 </button>
               )}
@@ -540,7 +548,10 @@ export function TempoPage(): ReactElement {
                   disabled={!!question.selected}
                   onClick={() => selectOption(opt)}
                 >
-                  <span className="opt-num inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.wrong]:hidden group-[.reveal]:hidden">{i + 1}</span> {opt}
+                  <span className="opt-num mr-1.5 inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.reveal]:hidden group-[.wrong]:hidden">
+                    {i + 1}
+                  </span>{' '}
+                  {opt}
                 </button>
               );
             })}
