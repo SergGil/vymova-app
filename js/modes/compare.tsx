@@ -131,7 +131,12 @@ export function ComparePage(): ReactElement {
   const [pickerQuery, setPickerQuery] = useState('');
   const [tablesReady, setTablesReady] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const pickerRef = useRef<HTMLDivElement>(null);
+  // The picker's own Combobox anchors to this toggle button (via
+  // ComboboxContent's `anchor` prop below) rather than to its own Input —
+  // the filter input lives inside the popup itself, not in the button's
+  // place, unlike the word-search Combobox above where the Input *is* the
+  // anchor.
+  const pickerBtnRef = useRef<HTMLButtonElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const searchCodes = useMemo<Code[]>(
@@ -173,11 +178,13 @@ export function ComparePage(): ReactElement {
     function onKeydown(e: KeyboardEvent): void {
       if (!isOpen) return;
       if (e.key === 'Escape') {
-        if (pickerOpen) setPickerOpen(false);
-        // Combobox's own Input already closes the suggestion popup itself
-        // on Escape (its own internal dismiss, not this listener) — skip
-        // sessionClose() here too, or the whole Compare overlay would close
-        // in the same keypress right along with the popup.
+        // Both Combobox instances (the language picker below, the word-
+        // search box above) already close their own popup on Escape via
+        // their own internal dismiss — deferring here (not calling
+        // sessionClose()) avoids double-firing in the same keypress, same
+        // "close the local popup before the parent" precedence as before,
+        // just handled by the primitive now instead of by hand.
+        if (pickerOpen) return;
         else if (suggestOpen) return;
         else sessionClose();
       }
@@ -185,16 +192,6 @@ export function ComparePage(): ReactElement {
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
   }, [isOpen, pickerOpen, suggestOpen, sessionClose]);
-
-  useEffect(() => {
-    function onDocClick(e: MouseEvent): void {
-      if (pickerOpen && pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
-        setPickerOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', onDocClick);
-    return () => document.removeEventListener('mousedown', onDocClick);
-  }, [pickerOpen]);
 
   useEffect(() => {
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -459,8 +456,9 @@ export function ComparePage(): ReactElement {
               );
             })}
 
-            <div ref={pickerRef} style={{ position: 'relative', marginTop: 4 }}>
+            <div style={{ position: 'relative', marginTop: 4 }}>
               <button
+                ref={pickerBtnRef}
                 onClick={() => setPickerOpen((o) => !o)}
                 style={{
                   width: '100%',
@@ -478,72 +476,65 @@ export function ComparePage(): ReactElement {
                 {t('compare.addLanguage')}
               </button>
               {pickerOpen && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '100%',
-                    left: 0,
-                    right: 0,
-                    marginBottom: 4,
-                    background: 'var(--card)',
-                    border: '1.5px solid var(--border)',
-                    borderRadius: 10,
-                    boxShadow: '0 8px 24px rgba(0,0,0,.2)',
-                    maxHeight: 260,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    zIndex: 10,
+                <ComboboxPrimitive.Root<TargetLang>
+                  items={pickerOptions}
+                  inputValue={pickerQuery}
+                  onInputValueChange={setPickerQuery}
+                  open
+                  onOpenChange={(nextOpen) => {
+                    if (!nextOpen) {
+                      setPickerOpen(false);
+                      setPickerQuery('');
+                    }
+                  }}
+                  filter={null}
+                  itemToStringLabel={(l) => t(`lang.${l}`)}
+                  onValueChange={(l) => {
+                    if (l) addLang(l);
                   }}
                 >
-                  <input
-                    autoFocus
-                    type="text"
-                    autoComplete="off"
-                    spellCheck={false}
-                    placeholder={t('compare.pickerPlaceholder')}
-                    value={pickerQuery}
-                    onChange={(e) => setPickerQuery(e.target.value)}
-                    style={{
-                      padding: '9px 10px',
-                      border: 'none',
-                      borderBottom: '1.5px solid var(--border)',
-                      background: 'transparent',
-                      color: 'var(--text)',
-                      fontFamily: 'inherit',
-                      fontSize: '.85rem',
-                      outline: 'none',
-                    }}
-                  />
-                  <div style={{ overflowY: 'auto' }}>
-                    {pickerOptions.map((l) => (
-                      <div
-                        key={l}
-                        onClick={() => addLang(l)}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 8,
-                          padding: '7px 10px',
-                          cursor: 'pointer',
-                          fontSize: '.85rem',
-                        }}
-                        onMouseOver={(e) => {
-                          (e.currentTarget as HTMLElement).style.background = 'var(--bg2)';
-                        }}
-                        onMouseOut={(e) => {
-                          (e.currentTarget as HTMLElement).style.background = '';
-                        }}
-                      >
-                        {flagUrl(FLAG_CODE[l]) ? (
-                          <img src={flagUrl(FLAG_CODE[l])!} alt="" width={16} height={16} />
-                        ) : (
-                          <span style={{ fontSize: '.65rem', width: 16 }}>{l.toUpperCase()}</span>
-                        )}
-                        <span style={{ color: 'var(--text)' }}>{t(`lang.${l}`)}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                  <ComboboxContent
+                    anchor={pickerBtnRef}
+                    side="top"
+                    align="start"
+                    sideOffset={4}
+                    className="flex max-h-[260px] flex-col rounded-[10px] border-[1.5px] border-[var(--border)] bg-[var(--card)] shadow-[0_8px_24px_rgba(0,0,0,.2)]"
+                  >
+                    <ComboboxPrimitive.Input
+                      autoFocus
+                      type="text"
+                      autoComplete="off"
+                      spellCheck={false}
+                      placeholder={t('compare.pickerPlaceholder')}
+                      style={{
+                        padding: '9px 10px',
+                        border: 'none',
+                        borderBottom: '1.5px solid var(--border)',
+                        background: 'transparent',
+                        color: 'var(--text)',
+                        fontFamily: 'inherit',
+                        fontSize: '.85rem',
+                        outline: 'none',
+                      }}
+                    />
+                    <ComboboxList>
+                      {(l: TargetLang) => (
+                        <ComboboxItem
+                          key={l}
+                          value={l}
+                          className="cmp-picker-item flex cursor-default items-center gap-2 rounded-none px-[10px] py-[7px] text-[.85rem] hover:bg-[var(--bg2)] data-highlighted:bg-[var(--bg2)]"
+                        >
+                          {flagUrl(FLAG_CODE[l]) ? (
+                            <img src={flagUrl(FLAG_CODE[l])!} alt="" width={16} height={16} />
+                          ) : (
+                            <span style={{ fontSize: '.65rem', width: 16 }}>{l.toUpperCase()}</span>
+                          )}
+                          <span style={{ color: 'var(--text)' }}>{t(`lang.${l}`)}</span>
+                        </ComboboxItem>
+                      )}
+                    </ComboboxList>
+                  </ComboboxContent>
+                </ComboboxPrimitive.Root>
               )}
             </div>
           </div>

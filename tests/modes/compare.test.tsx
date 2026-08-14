@@ -149,16 +149,17 @@ describe('compare.tsx (ComparePage)', () => {
     });
 
     // The picker opens with its own search input and a list of clickable
-    // language rows (styled with cursor:pointer), none of which duplicate
-    // the first 15 defaults already shown.
-    expect(container.querySelectorAll('input').length).toBeGreaterThanOrEqual(1);
-    const pickerRows = Array.from(container.querySelectorAll('div')).filter(
-      (d) => (d.style as CSSStyleDeclaration).cursor === 'pointer' && d.querySelector('span'),
-    );
+    // language rows, none of which duplicate the first 15 defaults already
+    // shown. Both are Portal'd to document.body by Combobox (base-ui, same
+    // as this session's other Combobox conversions) — no longer descendants
+    // of `container`, so queried from the document via the .cmp-picker-item
+    // class hook instead of the old container-scoped inline-style match.
+    expect(document.querySelectorAll('input').length).toBeGreaterThanOrEqual(1);
+    const pickerRows = Array.from(document.querySelectorAll<HTMLElement>('.cmp-picker-item'));
     expect(pickerRows.length).toBeGreaterThan(0);
 
     act(() => {
-      (pickerRows[0] as HTMLElement).click();
+      pickerRows[0].click();
     });
 
     // Adding a language renders one more row with its own remove ("✕")
