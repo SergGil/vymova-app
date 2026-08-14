@@ -19,6 +19,7 @@ import {
 import { t, achName, achHint, achCatName, levelName, wordsLabel } from '../i18n.ts';
 import { getKnownInLang } from '../mode/mode-utils.ts';
 import type { Achievement } from '../../../src/types.js';
+import { Badge } from '../../../src/components/ui/badge.tsx';
 
 function LevelsRoadmap(): ReactElement {
   const ref = useRef<HTMLDivElement>(null);
@@ -239,14 +240,14 @@ function AchievementsGrid({
                   }}
                 >
                   {almostThere && (
-                    <span className="ach-almost-badge absolute left-[7px] top-[5px] rounded-[20px] bg-[color-mix(in_srgb,var(--accent2,var(--accent))_14%,transparent)] px-1.5 py-px text-[0.56rem] font-bold text-[var(--accent2,var(--accent))]">
+                    <Badge className="ach-almost-badge absolute left-[7px] top-[5px] h-auto w-fit rounded-[20px] bg-[color-mix(in_srgb,var(--accent2,var(--accent))_14%,transparent)] px-1.5 py-px text-[0.56rem] font-bold text-[var(--accent2,var(--accent))]">
                       {t('ach.almostThere')}
-                    </span>
+                    </Badge>
                   )}
                   {isNew && (
-                    <span className="ach-new-badge absolute left-[7px] top-[5px] rounded-[20px] bg-[color-mix(in_srgb,var(--success)_14%,transparent)] px-1.5 py-px text-[0.56rem] font-bold text-success">
+                    <Badge className="ach-new-badge absolute left-[7px] top-[5px] h-auto w-fit rounded-[20px] bg-[color-mix(in_srgb,var(--success)_14%,transparent)] px-1.5 py-px text-[0.56rem] font-bold text-success">
                       {t('ach.new')}
-                    </span>
+                    </Badge>
                   )}
                   <span
                     className={

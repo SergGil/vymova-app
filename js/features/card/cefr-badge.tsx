@@ -2,6 +2,7 @@
 // Shared CEFR level badge styling — used by card-meta.tsx's #wcefr row and
 // card-front-text.tsx's per-sense badges in "Other meanings".
 import type { CefrLevel } from '../../../data/cefr.ts';
+import { Badge } from '../../../src/components/ui/badge.tsx';
 
 export const CEFR_ORDER: CefrLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
@@ -31,9 +32,9 @@ export function CefrBadge({
     ? 'px-[5px] py-px text-[.6rem]'
     : 'px-[7px] py-0.5 text-[.68rem] max-[480px]:px-[5px] max-[480px]:py-px max-[480px]:text-[.62rem]';
   return (
-    <span
+    <Badge
       className={
-        'cefr-badge inline-flex shrink-0 items-center rounded-sm border-[1.5px] font-extrabold tracking-[0.04em] cefr-' +
+        'cefr-badge h-auto w-fit rounded-sm border-[1.5px] font-extrabold tracking-[0.04em] cefr-' +
         level +
         ' ' +
         sizing +
@@ -43,6 +44,6 @@ export function CefrBadge({
       id={id}
     >
       {level}
-    </span>
+    </Badge>
   );
 }

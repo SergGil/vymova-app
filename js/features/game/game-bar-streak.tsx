@@ -8,6 +8,7 @@ import { _getSessionCombo, getComboMult } from './combo.ts';
 import { t } from '../i18n.ts';
 import { notifyGameBarChange, useGameBarVersion, useLangVersion } from '../../../src/store.ts';
 import { Meter } from '../../../src/components/ui/meter.tsx';
+import { Badge } from '../../../src/components/ui/badge.tsx';
 
 export function GameBarStreak(): ReactElement {
   useGameBarVersion();
@@ -109,12 +110,12 @@ export function GameBarGoal(): ReactElement {
         <span id="goal-max">{d.goalMax}</span>
       </div>
       {done && (
-        <div
-          className="goal-done-badge text-[var(--goal-done-badge-color)] shadow-[var(--goal-done-badge-shadow)] [background:var(--goal-done-badge-bg)] [border:var(--goal-done-badge-border)] px-[10px] py-[3px] rounded-[20px] text-[0.65rem] font-bold text-center whitespace-nowrap"
+        <Badge
+          className="goal-done-badge h-auto w-fit text-[var(--goal-done-badge-color)] shadow-[var(--goal-done-badge-shadow)] [background:var(--goal-done-badge-bg)] [border:var(--goal-done-badge-border)] px-[10px] py-[3px] rounded-[20px] text-[0.65rem] font-bold text-center whitespace-nowrap"
           id="goal-done"
         >
           {t('cards.goalDone')}
-        </div>
+        </Badge>
       )}
     </Meter>
   );

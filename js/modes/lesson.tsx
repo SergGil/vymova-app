@@ -15,6 +15,7 @@ import type { WordEntry, Code } from '../../src/types.js';
 import { entryFor } from '../features/mode/mode-utils.ts';
 import { getKnowLang, getLearnLang } from '../features/lang-pair-select.tsx';
 import { useModeSession } from '../features/mode/use-mode-session.ts';
+import { Badge } from '../../src/components/ui/badge.tsx';
 
 // .btn's own base/:hover styling (docs/component-tailwind-conversion-
 // roadmap.md, newly-found 14th cluster) — see card-shell.tsx's BTN_BASE
@@ -348,9 +349,9 @@ export function LessonPage(): ReactElement {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           {!showFinal && (
-            <span className="lesson-phase-tag rounded-[20px] bg-[var(--lesson-tag-bg)] px-[9px] py-[3px] text-[.68rem] font-bold tracking-[.07em] text-[var(--accent)]">
+            <Badge className="lesson-phase-tag h-auto w-fit rounded-[20px] bg-[var(--lesson-tag-bg)] px-[9px] py-[3px] text-[.68rem] font-bold tracking-[.07em] text-[var(--accent)]">
               {phaseTag}
-            </span>
+            </Badge>
           )}
           <button
             onClick={closeLesson}
