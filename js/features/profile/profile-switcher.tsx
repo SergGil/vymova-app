@@ -490,6 +490,7 @@ export function ProfileSwitcher(): ReactElement {
           placeholder={t('profile.newNamePlaceholder')}
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
+          aria-invalid={newNameError}
           style={{
             width: '100%',
             padding: '7px 10px',
@@ -589,6 +590,7 @@ export function ProfileSwitcher(): ReactElement {
                 placeholder={t('profile.namePlaceholder')}
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
+                aria-invalid={editNameError}
                 style={{
                   width: '100%',
                   padding: '8px 12px',

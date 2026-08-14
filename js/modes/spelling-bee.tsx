@@ -358,6 +358,7 @@ export function SpellingBeePage(): ReactElement {
             spellCheck={false}
             value={input}
             disabled={!!result}
+            aria-invalid={emptyWarn}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {

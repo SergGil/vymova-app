@@ -87,6 +87,7 @@ export function BugReportForm(): ReactElement {
           setMessage(e.target.value);
           setError(false);
         }}
+        aria-invalid={error}
       />
       <div className="bug-row flex flex-wrap items-center gap-3">
         <Button
