@@ -204,7 +204,7 @@ export function WordFamiliesChips(): ReactElement | null {
             <div
               key={w}
               className={
-                'sim-chip family-chip flex min-w-14 flex-col items-center gap-px rounded-[12px] border-[1.5px] border-[rgba(var(--accent-rgb,45,90,61),.25)] !bg-[var(--family-chip-bg)] px-2.5 py-1 text-[.75rem] transition-[background] duration-150 max-[480px]:min-w-12 max-[480px]:px-2 max-[480px]:py-[3px] max-[480px]:text-[.7rem]' +
+                'sim-chip family-chip flex min-w-14 flex-col items-center gap-px rounded-[12px] border-[1.5px] border-[rgba(var(--accent-rgb,45,90,61),.25)] bg-[var(--family-chip-bg)]! px-2.5 py-1 text-[.75rem] transition-[background] duration-150 max-[480px]:min-w-12 max-[480px]:px-2 max-[480px]:py-[3px] max-[480px]:text-[.7rem]' +
                 (clickable ? ' cursor-pointer' : ' cursor-default') +
                 (isKnown ? ' known-chip' : '')
               }

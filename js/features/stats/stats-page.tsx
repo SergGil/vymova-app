@@ -32,9 +32,9 @@ const _p2 = (n: number): string => (n < 10 ? '0' + n : '' + n);
 
 const statsSectionCls = 'stats-section mb-[22px] [border-bottom:var(--stats-section-border)]';
 const statsSectionTitleCls =
-  'stats-section-title mb-2.5 text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] [@media(max-width:480px)]:!text-[0.82rem]';
+  'stats-section-title mb-2.5 text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] [@media(max-width:480px)]:text-[0.82rem]!';
 const statsSectionTitleClsNoMb =
-  'stats-section-title text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] [@media(max-width:480px)]:!text-[0.82rem]';
+  'stats-section-title text-[0.72rem] font-semibold uppercase [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] [@media(max-width:480px)]:text-[0.82rem]!';
 
 function getBlockColor(pct: number): string {
   if (pct >= 80) return 'var(--success)';
@@ -865,7 +865,7 @@ export function StatsPage(): ReactElement {
                     className={
                       'srs-fc-bar min-h-[2px] w-full rounded-t-[3px] bg-[var(--srs-fc-bar-bg)] transition-[height] duration-[400ms]' +
                       (c.isToday
-                        ? ' srs-fc-today !bg-accent shadow-[var(--srs-fc-today-shadow)]'
+                        ? ' srs-fc-today bg-accent! shadow-[var(--srs-fc-today-shadow)]'
                         : '')
                     }
                     style={{ height: `${c.pct}%` }}

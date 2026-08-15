@@ -106,7 +106,7 @@ export function WordOfDay(): ReactElement {
       <div className="wotd-body flex items-center gap-[9px] min-w-0 w-full [.gb-wotd-block_&]:flex-1 [.gb-wotd-block_&]:min-h-0 [.gb-wotd-block_&]:justify-center [.gb-wotd-block_&]:gap-2.5!">
         <div
           className={
-            'wotd-img-wrap w-[28px] h-[28px] shrink-0 rounded-[7px] overflow-hidden bg-[var(--border)] flex items-center justify-center [.gb-wotd-block_&]:!w-auto [.gb-wotd-block_&]:!h-full [.gb-wotd-block_&]:aspect-square [.gb-wotd-block_&]:max-h-16 [.gb-wotd-block_&]:!rounded-[10px]' +
+            'wotd-img-wrap shrink-0 rounded-[7px] overflow-hidden bg-[var(--border)] flex items-center justify-center [.gb-wotd-block_&]:w-auto! [.gb-wotd-block_&]:h-full! [.gb-wotd-block_&]:aspect-square [.gb-wotd-block_&]:max-h-16 [.gb-wotd-block_&]:rounded-[10px]! size-[28px]' +
             (imgFailed ? ' hidden' : '')
           }
         >

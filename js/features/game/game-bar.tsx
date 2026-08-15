@@ -31,7 +31,7 @@ const GB_BLOCK_AFTER =
 // .actions-bar-center .btn in Tier 2c, instead of relying on
 // `!important`-vs-`!important` order between them.
 const GB_BLOCK_BASE =
-  'gb-block relative overflow-hidden rounded-[12px] border min-w-0 px-[14px] py-[10px] [@media(max-width:480px)_and_(min-height:501px)]:!p-[10px] [@media(max-height:500px)_and_(max-width:900px)]:!p-[6px_10px]';
+  'gb-block relative overflow-hidden rounded-[12px] border min-w-0 px-[14px] py-[10px] [@media(max-width:480px)_and_(min-height:501px)]:p-[10px]! [@media(max-height:500px)_and_(max-width:900px)]:p-[6px_10px]!';
 
 export function GameBar(): ReactElement {
   return (
@@ -39,7 +39,7 @@ export function GameBar(): ReactElement {
       <div
         className={
           GB_BLOCK_BASE +
-          ' gb-streak-block [background:var(--gb-block-bg)] border-[var(--gb-streak-block-border)] flex-none min-w-[90px] text-center flex flex-col items-center justify-center shadow-[0_0_12px_rgba(230,126,34,0.1),inset_0_0_20px_rgba(0,0,0,0.3)] [@media(max-width:480px)]:!min-w-[76px]' +
+          ' gb-streak-block [background:var(--gb-block-bg)] border-[var(--gb-streak-block-border)] flex-none min-w-[90px] text-center flex flex-col items-center justify-center shadow-[0_0_12px_rgba(230,126,34,0.1),inset_0_0_20px_rgba(0,0,0,0.3)] [@media(max-width:480px)]:min-w-[76px]!' +
           GB_BLOCK_AFTER
         }
       >
@@ -76,7 +76,7 @@ export function GameBar(): ReactElement {
       <div
         className={
           GB_BLOCK_BASE +
-          ' gb-wotd-block [background:var(--gb-block-bg)] border-[var(--gb-block-border)] shadow-[var(--gb-block-shadow)] flex-[1.3] min-w-0 cursor-pointer flex flex-col [@media(max-width:480px)]:!hidden' +
+          ' gb-wotd-block [background:var(--gb-block-bg)] border-[var(--gb-block-border)] shadow-[var(--gb-block-shadow)] flex-[1.3] min-w-0 cursor-pointer flex flex-col [@media(max-width:480px)]:hidden!' +
           GB_BLOCK_AFTER
         }
       >

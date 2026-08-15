@@ -282,13 +282,13 @@ export function CatPairsPage(): ReactElement | null {
                     className={
                       "pair-btn [font-family:'DM_Sans',sans-serif] text-[0.85rem] leading-[1.3] py-2.5 px-2 min-h-[52px] rounded-[12px] cursor-pointer flex items-center justify-center text-center [word-break:break-word] transition-[border-color,background] duration-[120ms] border-2 border-[var(--border)] bg-[var(--card)] text-[var(--text)]" +
                       (matched.has(item.id)
-                        ? ' matched !border-[var(--pair-matched-border)] !bg-[var(--pair-matched-bg)] !text-[var(--pair-matched-color)]'
+                        ? ' matched border-[var(--pair-matched-border)]! bg-[var(--pair-matched-bg)]! text-[var(--pair-matched-color)]!'
                         : '') +
                       (isSelected(item.id, 'en')
                         ? ' selected border-[var(--pair-btn-selected-border)] bg-[var(--pair-btn-selected-bg)]'
                         : '') +
                       (isWrong(item.id, 'en')
-                        ? ' wrong !border-[var(--pair-wrong-border)] animate-[pairShake_0.38s_ease]'
+                        ? ' wrong border-[var(--pair-wrong-border)]! animate-[pairShake_0.38s_ease]'
                         : '') +
                       (!matched.has(item.id) && !isWrong(item.id, 'en')
                         ? ' hover:border-[var(--pair-btn-hover-border)] hover:bg-[var(--pair-btn-hover-bg)]'
@@ -307,13 +307,13 @@ export function CatPairsPage(): ReactElement | null {
                     className={
                       "pair-btn [font-family:'DM_Sans',sans-serif] text-[0.85rem] leading-[1.3] py-2.5 px-2 min-h-[52px] rounded-[12px] cursor-pointer flex items-center justify-center text-center [word-break:break-word] transition-[border-color,background] duration-[120ms] border-2 border-[var(--border)] bg-[var(--card)] text-[var(--text)]" +
                       (matched.has(item.id)
-                        ? ' matched !border-[var(--pair-matched-border)] !bg-[var(--pair-matched-bg)] !text-[var(--pair-matched-color)]'
+                        ? ' matched border-[var(--pair-matched-border)]! bg-[var(--pair-matched-bg)]! text-[var(--pair-matched-color)]!'
                         : '') +
                       (isSelected(item.id, 'ua')
                         ? ' selected border-[var(--pair-btn-selected-border)] bg-[var(--pair-btn-selected-bg)]'
                         : '') +
                       (isWrong(item.id, 'ua')
-                        ? ' wrong !border-[var(--pair-wrong-border)] animate-[pairShake_0.38s_ease]'
+                        ? ' wrong border-[var(--pair-wrong-border)]! animate-[pairShake_0.38s_ease]'
                         : '') +
                       (!matched.has(item.id) && !isWrong(item.id, 'ua')
                         ? ' hover:border-[var(--pair-btn-hover-border)] hover:bg-[var(--pair-btn-hover-bg)]'

@@ -25,7 +25,7 @@ const _IMG_STYLE: CSSProperties = {
 // apply; ≤360px never visibly conflicts with the landscape tier since
 // both resolve to the same 60px.
 const _ILLUS_BOX_CLASS =
-  'illus-box shrink-0 w-[100px] h-[100px] rounded-[12px] overflow-hidden bg-[var(--bg)] flex items-center justify-center [@media(min-width:361px)_and_(max-width:480px)]:!w-[72px] [@media(min-width:361px)_and_(max-width:480px)]:!h-[72px] [@media(max-width:360px)]:w-[60px] [@media(max-width:360px)]:h-[60px] [@media(max-height:500px)_and_(max-width:900px)]:w-[60px] [@media(max-height:500px)_and_(max-width:900px)]:h-[60px]';
+  'illus-box shrink-0 rounded-[12px] overflow-hidden bg-[var(--bg)] flex items-center justify-center [@media(min-width:361px)_and_(max-width:480px)]:size-[72px]! [@media(max-width:360px)]:size-[60px] [@media(max-height:500px)_and_(max-width:900px)]:size-[60px] size-[100px]';
 
 // 'retry': the first paint of a cached URL — on failure, clear the cache
 // entry and fall back to local/offline art while re-fetching via

@@ -91,7 +91,7 @@ export function CardMeta() {
       <span
         className={
           'text-[11px] text-[var(--text3)] tracking-[0.05em]' +
-          (isKnown ? ' !text-[var(--known-c3)]' : '')
+          (isKnown ? ' text-[var(--known-c3)]!' : '')
         }
         id="wnum"
       >

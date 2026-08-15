@@ -534,11 +534,11 @@ export function TempoPage(): ReactElement {
                 if (opt === question.selected) {
                   cls +=
                     opt === question.answer
-                      ? ' correct !border-[var(--tempo-correct-border)] !bg-[var(--tempo-correct-bg)] !text-[var(--tempo-correct-color)] font-semibold'
-                      : ' wrong !border-[var(--tempo-wrong-border)] !bg-[var(--tempo-wrong-bg)] !text-[var(--tempo-wrong-color)]';
+                      ? ' correct border-[var(--tempo-correct-border)]! bg-[var(--tempo-correct-bg)]! text-[var(--tempo-correct-color)]! font-semibold'
+                      : ' wrong border-[var(--tempo-wrong-border)]! bg-[var(--tempo-wrong-bg)]! text-[var(--tempo-wrong-color)]!';
                 } else if (opt === question.answer) {
                   cls +=
-                    ' reveal !border-[var(--tempo-reveal-border)] !bg-[var(--tempo-reveal-bg)] opacity-70';
+                    ' reveal border-[var(--tempo-reveal-border)]! bg-[var(--tempo-reveal-bg)]! opacity-70';
                 }
               }
               return (

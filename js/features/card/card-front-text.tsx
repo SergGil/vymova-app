@@ -78,8 +78,8 @@ export function WordText() {
   return (
     <span
       className={
-        "word-text [text-shadow:var(--word-text-glow-shadow)] font-['DM_Serif_Display',serif] text-[1.8rem] leading-[1.1] [overflow-wrap:break-word] [word-break:normal] [-webkit-hyphens:none] [hyphens:none] [@media(min-width:361px)_and_(max-width:480px)]:!text-[1.5rem] [@media(max-width:360px)]:!text-[1.3rem] [@media(max-height:500px)_and_(max-width:900px)]:text-[1.4rem]" +
-        (isKnown ? ' !text-[var(--known-c1)]' : ' text-[var(--word-text-color)]')
+        "word-text [text-shadow:var(--word-text-glow-shadow)] font-['DM_Serif_Display',serif] text-[1.8rem] leading-[1.1] [overflow-wrap:break-word] [word-break:normal] [-webkit-hyphens:none] [hyphens:none] [@media(min-width:361px)_and_(max-width:480px)]:text-[1.5rem]! [@media(max-width:360px)]:text-[1.3rem]! [@media(max-height:500px)_and_(max-width:900px)]:text-[1.4rem]" +
+        (isKnown ? ' text-[var(--known-c1)]!' : ' text-[var(--word-text-color)]')
       }
       id="wword"
       dir={frontRtl ? 'rtl' : undefined}
@@ -353,7 +353,7 @@ export function Translation() {
       className={
         'text-[0.9rem] text-[var(--text2)] min-h-[1.3em] transition-opacity duration-[250ms] ' +
         (flipped ? 'opacity-100' : 'opacity-0') +
-        (isKnown ? ' !text-[var(--known-c1)]' : '')
+        (isKnown ? ' text-[var(--known-c1)]!' : '')
       }
       id="wtransl"
       dir={backRtl ? 'rtl' : undefined}
@@ -365,7 +365,7 @@ export function Translation() {
           text={backWord}
           fallbackEnText={cw[0]}
           translit={entryFor(back, cw).translit}
-          className={'speak-btn' + (isKnown ? ' !text-[var(--known-c3)]' : '')}
+          className={'speak-btn' + (isKnown ? ' text-[var(--known-c3)]!' : '')}
           style={{ marginLeft: 6, width: 20, height: 20, fontSize: 11, verticalAlign: 'middle' }}
         />
       )}
@@ -380,7 +380,7 @@ export function ExEn() {
   const { exenHtml, frontRtl } = computeCardView(cw, getResolvedMode());
   return (
     <span
-      className={'ex-en' + (isKnown ? ' !text-[var(--known-c2)]' : '')}
+      className={'ex-en' + (isKnown ? ' text-[var(--known-c2)]!' : '')}
       id="exen"
       dir={frontRtl ? 'rtl' : undefined}
       dangerouslySetInnerHTML={{ __html: exenHtml }}
@@ -401,7 +401,7 @@ export function ExUa() {
         className={
           'text-[11.5px] text-[var(--text2)] leading-[1.5] mt-0.5 italic transition-opacity duration-[250ms] ' +
           (flipped ? 'opacity-100' : 'opacity-0') +
-          (isKnown ? ' !text-[var(--known-c2)]' : '')
+          (isKnown ? ' text-[var(--known-c2)]!' : '')
         }
         id="exua"
         dir={backRtl ? 'rtl' : undefined}
@@ -412,7 +412,7 @@ export function ExUa() {
           code={back}
           text={backExText}
           fallbackEnText={cw[2] || ''}
-          className={'speak-btn speak-ex-btn' + (isKnown ? ' !text-[var(--known-c3)]' : '')}
+          className={'speak-btn speak-ex-btn' + (isKnown ? ' text-[var(--known-c3)]!' : '')}
           style={{ marginTop: 2, flexShrink: 0 }}
         />
       )}
@@ -530,8 +530,8 @@ export function OtherMeanings() {
               <button
                 type="button"
                 className={
-                  'speak-btn sense-speak-btn !px-[3px] !py-px !text-[12px] align-middle' +
-                  (isKnown ? ' !text-[var(--known-c3)]' : '')
+                  'speak-btn sense-speak-btn px-[3px]! py-px! text-[12px]! align-middle' +
+                  (isKnown ? ' text-[var(--known-c3)]!' : '')
                 }
                 title="Вимовити приклад"
                 // onClickCapture, not onClick: #card's own click-to-flip

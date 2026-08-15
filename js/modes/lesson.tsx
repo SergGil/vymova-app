@@ -472,11 +472,11 @@ export function LessonPage(): ReactElement {
                   if (opt === selected)
                     cls +=
                       opt === correctOpt
-                        ? ' correct !border-[var(--quiz-correct-border)] !bg-[var(--quiz-correct-bg)] !text-[var(--quiz-correct-color)] font-semibold'
-                        : ' wrong !border-[var(--quiz-wrong-border)] !bg-[var(--quiz-wrong-bg)] !text-[var(--quiz-wrong-color)]';
+                        ? ' correct border-[var(--quiz-correct-border)]! bg-[var(--quiz-correct-bg)]! text-[var(--quiz-correct-color)]! font-semibold'
+                        : ' wrong border-[var(--quiz-wrong-border)]! bg-[var(--quiz-wrong-bg)]! text-[var(--quiz-wrong-color)]!';
                   else if (opt === correctOpt)
                     cls +=
-                      ' reveal !border-[var(--quiz-reveal-border)] !bg-[var(--quiz-reveal-bg)] !text-[var(--quiz-reveal-color)] opacity-70';
+                      ' reveal border-[var(--quiz-reveal-border)]! bg-[var(--quiz-reveal-bg)]! text-[var(--quiz-reveal-color)]! opacity-70';
                 }
                 return (
                   <button
