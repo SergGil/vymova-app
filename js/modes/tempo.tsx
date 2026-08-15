@@ -97,7 +97,7 @@ function buildQuestion(deck: WordEntry[], idx: number): Question {
     wrongs.push(opt);
   }
   return {
-    dir: `${t(`lang.${frontLang}` as any)} → ${t(`lang.${backLang}` as any)}`,
+    dir: `${t(`lang.${frontLang}`)} → ${t(`lang.${backLang}`)}`,
     word: frontWord,
     ipa: frontLang === 'en' ? decodeIpa(w[4] ?? '') : '',
     frontLang,

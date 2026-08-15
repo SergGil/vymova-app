@@ -379,8 +379,8 @@ export function QuizPage(): ReactElement | null {
                 marginBottom: 6,
               }}
             >
-              {t(`lang.${qData.frontLang.toLowerCase()}` as any)} →{' '}
-              {t(`lang.${qData.backLang.toLowerCase()}` as any)}
+              {t(`lang.${qData.frontLang.toLowerCase()}`)} →{' '}
+              {t(`lang.${qData.backLang.toLowerCase()}`)}
             </div>
             <div
               style={{

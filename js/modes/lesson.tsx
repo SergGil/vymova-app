@@ -307,7 +307,7 @@ export function LessonPage(): ReactElement {
   const knowLang = getKnowLang();
   const learnLang = getLearnLang();
   const dirLabel = (from: string, to: string): string =>
-    `${t(`lang.${from}` as any)} → ${t(`lang.${to}` as any)}`;
+    `${t(`lang.${from}`)} → ${t(`lang.${to}`)}`;
 
   const total = phase * N + step;
   const mbarPct = showFinal ? 100 : (total / (PHASE_COUNT * N)) * 100;

@@ -15,7 +15,13 @@ const LIST_KEY = 'ew_profiles',
   ACTIVE_KEY = 'ew_active_profile';
 const SNAP_KEYS = ['ew_known', 'ew_known_lz', 'ew_game', 'ew_daily', 'ew_ach'];
 
-export function _getProfiles() {
+// Minimal shape of what this module actually reads off a stored profile —
+// deliberately not the full Profile type from profile-switcher.tsx (see the
+// file header: importing it would create the dependency cycle this module
+// exists to avoid).
+type ProfileSnapEntry = { id: string; name?: string; avatar?: string };
+
+export function _getProfiles(): ProfileSnapEntry[] {
   try {
     return JSON.parse(localStorage.getItem(LIST_KEY) || '[]');
   } catch (e) {
@@ -29,7 +35,7 @@ export function _getMyName(): string {
   try {
     const prfs = _getProfiles();
     const id = _getActiveId();
-    return prfs.find((x: any) => x.id === id)?.name || t('duel.player');
+    return prfs.find((x) => x.id === id)?.name || t('duel.player');
   } catch (e) {
     return t('duel.player');
   }
@@ -38,7 +44,7 @@ export function _getMyAvatar(): string {
   try {
     const prfs = _getProfiles();
     const id = _getActiveId();
-    return prfs.find((x: any) => x.id === id)?.avatar || '🧑';
+    return prfs.find((x) => x.id === id)?.avatar || '🧑';
   } catch (e) {
     return '🧑';
   }

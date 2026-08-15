@@ -219,7 +219,7 @@ function computeSrsForecast(): { totalDue: number; bars: SrsBar[] } {
     const d = new Date(today);
     d.setDate(d.getDate() + i);
     const dateStr = localDateStr(d);
-    const cnt = Object.values(srsData).filter((s: any) => s.due === dateStr).length;
+    const cnt = Object.values(srsData).filter((s) => s.due === dateStr).length;
     counts.push({
       date: dateStr,
       cnt,

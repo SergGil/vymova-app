@@ -60,7 +60,7 @@ function buildStaleDeck(
   const cutoff = localDateStr(d);
   const srsData = getSrsDataSnapshot();
   const result = base.filter(function (w) {
-    const srs = (srsData as any)[w[0]];
+    const srs = srsData[w[0]];
     if (!srs || !srs.due) return true;
     // Parse srs.due from local components — `new Date(srs.due)` would parse
     // the bare YYYY-MM-DD as UTC midnight, then mixing that with the local

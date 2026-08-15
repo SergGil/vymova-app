@@ -42,7 +42,9 @@ export default tseslint.config(
           caughtErrors: 'none',
         },
       ],
-      '@typescript-eslint/no-explicit-any': 'off',
+      // Enforced in application code (see the tests/tests-e2e override below,
+      // which turns it back off) — js/**, src/** are now genuinely any-free.
+      '@typescript-eslint/no-explicit-any': 'error',
       'no-empty': ['error', { allowEmptyCatch: true }],
       // Pre-existing pattern across regex character classes (e.g. /[;,\/]/) —
       // cosmetically redundant escaping, not a bug. Downgraded so the rule
@@ -53,6 +55,16 @@ export default tseslint.config(
   {
     files: ['*.config.{js,ts}', 'playwright.config.ts', 'scripts/**/*.{js,cjs}'],
     languageOptions: { globals: globals.node },
+  },
+  {
+    // Mocking external APIs (Firebase, SpeechSynthesis, ServiceWorker, ...)
+    // legitimately needs loose typing far more often than application code
+    // does — enforcing no-explicit-any here would mostly fight test setup,
+    // not catch real bugs.
+    files: ['tests/**/*.{ts,tsx}', 'tests-e2e/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
   },
   prettierConfig,
 );

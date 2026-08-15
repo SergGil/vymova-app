@@ -72,17 +72,28 @@ registerDailyStatsChanged(() => {
   void _syncNotifSnapshot();
 });
 
+// Periodic Background Sync — Chromium-only, not in lib.dom.d.ts.
+interface PeriodicSyncManager {
+  register(tag: string, options?: { minInterval: number }): Promise<void>;
+  unregister(tag: string): Promise<void>;
+}
+interface RegistrationWithPeriodicSync extends ServiceWorkerRegistration {
+  periodicSync: PeriodicSyncManager;
+}
+
 async function _registerPeriodicSync(): Promise<void> {
   try {
     if (!('serviceWorker' in navigator)) return;
     const reg = await navigator.serviceWorker.ready;
     if (!('periodicSync' in reg)) return;
-    const perms = (navigator as any).permissions;
+    const perms = navigator.permissions;
     if (perms?.query) {
-      const status = await perms.query({ name: 'periodic-background-sync' }).catch(() => null);
+      const status = await perms
+        .query({ name: 'periodic-background-sync' } as unknown as PermissionDescriptor)
+        .catch(() => null);
       if (status && status.state !== 'granted') return;
     }
-    await (reg as any).periodicSync.register('ew-daily-reminder', {
+    await (reg as RegistrationWithPeriodicSync).periodicSync.register('ew-daily-reminder', {
       minInterval: 12 * 60 * 60 * 1000,
     });
   } catch (e) {}
@@ -93,7 +104,7 @@ async function _unregisterPeriodicSync(): Promise<void> {
     if (!('serviceWorker' in navigator)) return;
     const reg = await navigator.serviceWorker.ready;
     if (!('periodicSync' in reg)) return;
-    await (reg as any).periodicSync.unregister('ew-daily-reminder');
+    await (reg as RegistrationWithPeriodicSync).periodicSync.unregister('ew-daily-reminder');
   } catch (e) {}
 }
 

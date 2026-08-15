@@ -4,16 +4,24 @@ import { useState, useEffect, type ReactElement } from 'react';
 import { useLangVersion } from '../../src/store.ts';
 import { t } from '../features/i18n.ts';
 
+// Not in lib.dom.d.ts — beforeinstallprompt is Chromium-only, no standard type.
+interface BeforeInstallPromptEvent extends Event {
+  prompt(): void;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
+
 // Module-level so the Settings page can trigger install independently of
 // whether the auto-shown banner is currently visible (or was dismissed —
 // dismissing the banner shouldn't permanently hide the *option* to install).
 // beforeinstallprompt can fire before this module even loads, so a tiny
 // inline script in index.html's <head> captures it into a global first —
 // pick that up here too, not just future fires.
-let _deferredPrompt: any = (window as any).__pwaDeferredPrompt ?? null;
+let _deferredPrompt: BeforeInstallPromptEvent | null =
+  (window as unknown as { __pwaDeferredPrompt?: BeforeInstallPromptEvent }).__pwaDeferredPrompt ??
+  null;
 window.addEventListener('beforeinstallprompt', (e: Event) => {
   e.preventDefault();
-  _deferredPrompt = e;
+  _deferredPrompt = e as BeforeInstallPromptEvent;
 });
 window.addEventListener('appinstalled', () => {
   _deferredPrompt = null;
@@ -24,7 +32,7 @@ const PWA_BANNER_BASE =
 
 const _isIOS = (): boolean => /iphone|ipad|ipod/i.test(navigator.userAgent);
 const _isStandalone = (): boolean =>
-  (navigator as any).standalone === true ||
+  (navigator as Navigator & { standalone?: boolean }).standalone === true ||
   window.matchMedia?.('(display-mode: standalone)').matches;
 // Chrome only fires beforeinstallprompt to a page once per cooldown period —
 // once it's been dismissed/missed, it won't refire on demand for a while,
@@ -77,7 +85,7 @@ export function PwaBanner(): ReactElement {
     window.addEventListener('beforeinstallprompt', onBeforeInstall);
 
     const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    const isInStandalone = (navigator as any).standalone === true;
+    const isInStandalone = (navigator as Navigator & { standalone?: boolean }).standalone === true;
     if (isIOS && !isInStandalone) {
       timers.push(
         setTimeout(() => {

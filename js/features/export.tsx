@@ -38,11 +38,11 @@ export function ExportInit(): ReactElement | null {
       const wi = _wi();
       if (filter === 'known')
         return [...getKnownSnapshot('en')]
-          .map((k) => (wi ? (W as any)[wi.get(k)!] : null))
-          .filter(Boolean);
+          .map((k) => (wi ? W[wi.get(k)!] : null))
+          .filter((w): w is (typeof W)[number] => w !== null);
       if (filter === 'unknown')
-        return (W as any[]).filter((w: string[]) => !getKnownSnapshot('en').has(w[0]));
-      return (W as any[]).slice(); // all
+        return W.filter((w) => !getKnownSnapshot('en').has(w[0]));
+      return W.slice(); // all
     }
 
     // ── Anki Export (improved: IPA + both examples) ────────────────

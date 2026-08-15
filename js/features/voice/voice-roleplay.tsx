@@ -402,7 +402,7 @@ export function VoiceRoleplayPage(): ReactElement | null {
                     {s.emoji}
                   </span>
                   <span className="roleplay-scenario-label flex-auto">
-                    {t(s.labelKey as any)}
+                    {t(s.labelKey)}
                   </span>
                 </button>
               </li>
@@ -414,7 +414,7 @@ export function VoiceRoleplayPage(): ReactElement | null {
           <div className="roleplay-header mb-2 flex items-center justify-between text-[.9rem] font-semibold">
             <span>
               {SCENARIOS.find((s) => s.id === scenario)?.emoji}{' '}
-              {t(SCENARIOS.find((s) => s.id === scenario)!.labelKey as any)}
+              {t(SCENARIOS.find((s) => s.id === scenario)!.labelKey)}
             </span>
             <button
               className="roleplay-change-btn cursor-pointer border-none bg-transparent font-['DM_Sans',sans-serif] text-[.8rem] text-[var(--accent)]"

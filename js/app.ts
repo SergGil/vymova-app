@@ -19,7 +19,8 @@ const savedKnown = _lzLoad('ew_known', []);
 const _loadedSrs = loadSRS();
 // Міграція: старий формат (числа) → видаляємо
 Object.keys(_loadedSrs).forEach(function (k: string) {
-  if (typeof (_loadedSrs as any)[k] === 'number') delete (_loadedSrs as any)[k];
+  const raw = _loadedSrs as Record<string, unknown>;
+  if (typeof raw[k] === 'number') delete raw[k];
 });
 loadSrsData(_loadedSrs);
 // Перезавантажуємо SRS при зміні мови вчення (mid-session)

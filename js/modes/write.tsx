@@ -416,7 +416,7 @@ export function WritePage(): ReactElement {
                 marginBottom: 8,
               }}
             >
-              {t(`lang.${frontLang}` as any)} → {t(`lang.${backLang}` as any)}
+              {t(`lang.${frontLang}`)} → {t(`lang.${backLang}`)}
             </div>
             <div
               style={{
@@ -492,8 +492,8 @@ export function WritePage(): ReactElement {
                   backLang === 'en'
                     ? t('write.placeholder')
                     : t('write.placeholder')
-                        .replace(/англійськ\S+/gi, t(`lang.${backLang}` as any))
-                        .replace(/english\S*/gi, t(`lang.${backLang}` as any))
+                        .replace(/англійськ\S+/gi, t(`lang.${backLang}`))
+                        .replace(/english\S*/gi, t(`lang.${backLang}`))
                 }
                 onKeyDown={onInputKeydown}
                 style={{
