@@ -8,7 +8,8 @@
 // move here as real props/derived state; sidebar.tsx keeps everything that
 // isn't nav-link markup (hamburger, escape, theme-pill, page restore).
 import { createPortal } from 'react-dom';
-import type { MouseEvent, ReactElement, ReactNode } from 'react';
+import { useEffect, useState, type MouseEvent, type ReactElement, type ReactNode } from 'react';
+import { Menu as MenuPrimitive } from '@base-ui/react/menu';
 import { AI_TUTOR_ENABLED } from '../../config.ts';
 import { useActivePage } from '../../../src/nav-store.tsx';
 import { useLangVersion } from '../../../src/store.ts';
@@ -136,16 +137,30 @@ const NAV_PAGES = new Set([
   ...TAIL_ITEMS.map((i) => i.page),
 ]);
 
-// sidebar-nav-flyout.tsx reparents .sb-flyout panels to <body> to escape
-// .sidebar's stacking context, which detaches them from the React root's DOM
-// subtree — React's synthetic onClick (delegated at the root container)
-// never fires for clicks inside a detached flyout, so that controller falls
-// back to native <a> navigation and needs this id→page map to call
-// openPage() itself instead of following href (which would full-reload the
-// app). Exported so that map can't drift from the real nav item list.
-export const FLYOUT_ID_TO_PAGE: Record<string, string> = Object.fromEntries(
-  [...AI_GROUP_ITEMS, ...VIDEO_GROUP_ITEMS].map((item) => [item.id, item.page]),
-);
+// Nav-group flyouts (hover- or click-revealed submenus, e.g. "🎬 Відео
+// навчання") are Menu (base-ui). Menu.Portal renders into document.body via
+// a real React portal — unlike the old sidebar-nav-flyout.tsx, which used a
+// raw document.body.appendChild() to reparent the already-mounted flyout
+// DOM node itself, detaching it from the React root's own subtree and
+// breaking the anchors' synthetic onClick (React delegates at the root
+// container) along the way. A React portal keeps portaled children fully
+// part of the same component tree/event system no matter where in the DOM
+// they render, so every link below just uses its own normal onClick like
+// every other nav link — no FLYOUT_ID_TO_PAGE lookup or manual click
+// interception needed anymore.
+const NARROW_SIDEBAR_PX = 900;
+
+function useIsNarrowSidebar(): boolean {
+  const [narrow, setNarrow] = useState(() => window.innerWidth <= NARROW_SIDEBAR_PX);
+  useEffect(() => {
+    function onResize(): void {
+      setNarrow(window.innerWidth <= NARROW_SIDEBAR_PX);
+    }
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  return narrow;
+}
 
 function NavLink({
   item,
@@ -178,6 +193,8 @@ function NavGroup({
   labelKey,
   items,
   activePage,
+  open,
+  onOpenChange,
 }: {
   groupId: string;
   triggerId: string;
@@ -186,41 +203,77 @@ function NavGroup({
   labelKey: string;
   items: NavItem[];
   activePage: string | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }): ReactElement {
+  const narrow = useIsNarrowSidebar();
   return (
-    <div className="sb-group relative" id={groupId}>
-      <button
-        type="button"
-        className={SB_BTN_BASE + ' sb-group-trigger'}
-        id={triggerId}
-      >
-        <span className="sb-icon w-[22px] shrink-0 text-center text-base">{icon}</span>
-        <span className="sb-label flex-1" data-i18n={labelKey}>
-          {t(labelKey)}
-        </span>
-        <span className="sb-caret text-xs text-text3 shrink-0 [@media(max-width:900px)]:[transition:transform_0.15s] [.sb-group.open_&]:[@media(max-width:900px)]:rotate-90">
-          ›
-        </span>
-      </button>
-      <div
-        className="sb-flyout fixed min-w-[210px] border rounded-[10px] p-1.5 flex-col gap-[3px] shadow-[0_10px_30px_rgba(0,0,0,0.28)] z-[700] bg-[var(--sb-flyout-bg)] border-[var(--sb-flyout-border)]"
-        id={flyoutId}
-      >
-        {items.map((item) => (
-          <NavLink key={item.id} item={item} activePage={activePage} />
-        ))}
+    <MenuPrimitive.Root open={open} onOpenChange={onOpenChange}>
+      {/* .open stays a real class (not just Menu's own internal state) — the
+          CSS ancestor variant driving .sb-caret's rotate ([.sb-group.open_&])
+          still reads it directly, same as every fandom theme's own .sb-group
+          overrides. React now drives it instead of the deleted
+          sidebar-nav-flyout.tsx's classList.toggle(). */}
+      <div className={'sb-group relative' + (open ? ' open' : '')} id={groupId}>
+        <MenuPrimitive.Trigger
+          className={SB_BTN_BASE + ' sb-group-trigger'}
+          id={triggerId}
+          openOnHover={!narrow}
+          delay={0}
+          closeDelay={150}
+        >
+          <span className="sb-icon w-[22px] shrink-0 text-center text-base">{icon}</span>
+          <span className="sb-label flex-1" data-i18n={labelKey}>
+            {t(labelKey)}
+          </span>
+          <span className="sb-caret text-xs text-text3 shrink-0 [@media(max-width:900px)]:[transition:transform_0.15s] [.sb-group.open_&]:[@media(max-width:900px)]:rotate-90">
+            ›
+          </span>
+        </MenuPrimitive.Trigger>
+        <MenuPrimitive.Portal>
+          <MenuPrimitive.Positioner
+            side={narrow ? 'bottom' : 'right'}
+            align="start"
+            sideOffset={narrow ? 2 : 4}
+            className={'isolate z-[700]' + (narrow ? ' w-(--anchor-width)' : '')}
+          >
+            <MenuPrimitive.Popup
+              className="sb-flyout flex min-w-[210px] flex-col gap-[3px] rounded-[10px] border bg-[var(--sb-flyout-bg)] border-[var(--sb-flyout-border)] p-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.28)] outline-none"
+              id={flyoutId}
+            >
+              {items.map((item) => {
+                const isActive = activePage === item.page;
+                return (
+                  <MenuPrimitive.Item
+                    key={item.id}
+                    render={<a id={item.id} href={BASE + item.route} />}
+                    className={SB_BTN_BASE + (isActive ? SB_ACTIVE : '')}
+                    onClick={navClick(() => openPage(item.page))}
+                  >
+                    <span className="sb-icon w-[22px] shrink-0 text-center text-base">
+                      {item.icon}
+                    </span>
+                    <span className="sb-label flex-1" data-i18n={item.labelKey}>
+                      {t(item.labelKey)}
+                    </span>
+                  </MenuPrimitive.Item>
+                );
+              })}
+            </MenuPrimitive.Popup>
+          </MenuPrimitive.Positioner>
+        </MenuPrimitive.Portal>
       </div>
-    </div>
+    </MenuPrimitive.Root>
   );
 }
 
 // .sb-btn/.sb-group/.sb-group-trigger/.sb-flyout class-name tokens are kept
 // literally in every className below alongside their new Tailwind utilities
-// — sidebar-nav-flyout.tsx's document.querySelectorAll/closest() calls
-// depend on these exact class names to find and reparent flyout panels,
-// independent of React (docs/full-css-tailwind-migration-roadmap.md
-// Batch 3). .sb-active is NOT queried anywhere, so it's fully replaced by
-// conditional Tailwind classes below instead.
+// — every fandom theme's own CSS still targets them directly (see
+// css/styles.css's comment above .sb-flyout), independent of which
+// primitive renders the underlying element. .sb-active is NOT queried
+// anywhere, so it's fully replaced by conditional Tailwind classes below
+// instead.
 const SB_BTN_BASE =
   'sb-btn flex items-center gap-2.5 w-full py-2.5 px-3 border-0 rounded-[10px] [font-family:inherit] text-[0.85rem] font-medium cursor-pointer text-left no-underline transition-all duration-150 bg-transparent text-[var(--text2)] hover:bg-[var(--sb-btn-hover-bg)] hover:text-[var(--sb-btn-hover-color)]';
 const SB_ACTIVE = ' bg-[rgba(var(--accent-rgb),0.12)] text-[var(--accent)] font-semibold';
@@ -239,6 +292,10 @@ export function SidebarNav(): ReactElement {
   const activePage = useActivePage();
   useLangVersion();
   const cardsActive = activePage === null || !NAV_PAGES.has(activePage);
+  // Lifted above both NavGroups (rather than each owning its own open
+  // state) so opening one can close the other — matches the deleted
+  // sidebar-nav-flyout.tsx's closeOtherFlyouts().
+  const [openGroupId, setOpenGroupId] = useState<string | null>(null);
 
   return (
     <>
@@ -279,6 +336,8 @@ export function SidebarNav(): ReactElement {
             labelKey="nav.aiGroup"
             items={AI_GROUP_ITEMS}
             activePage={activePage}
+            open={openGroupId === 'sb-group-ai'}
+            onOpenChange={(o) => setOpenGroupId(o ? 'sb-group-ai' : null)}
           />
         )}
         <NavGroup
@@ -289,6 +348,8 @@ export function SidebarNav(): ReactElement {
           labelKey="nav.videoGroup"
           items={VIDEO_GROUP_ITEMS}
           activePage={activePage}
+          open={openGroupId === 'sb-group-video'}
+          onOpenChange={(o) => setOpenGroupId(o ? 'sb-group-video' : null)}
         />
         {TAIL_ITEMS.map((item) => (
           <NavLink key={item.id} item={item} activePage={activePage} />

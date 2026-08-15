@@ -2780,19 +2780,14 @@ body[data-theme="hp"] .sidebar-logo {
 
 /* Nav groups with hover flyout submenus */
 
-/* background/border-color, and every property besides display, fully
-   converted to Tailwind (docs/component-tailwind-conversion-roadmap.md
-   Batch 4; docs/full-css-tailwind-migration-roadmap.md Batch 3). display
-   stays bare: sidebar-nav-flyout.tsx toggles visibility via plain
-   classList.add/remove/toggle('open', ...) outside React entirely, so
-   there's no JSX-side state to drive a conditional Tailwind class with —
-   the imperative "open" class name is the only signal. */
-.sb-flyout {
-  display: none;
-}
-.sb-flyout.open {
-  display: flex;
-}
+/* background/border-color/display all fully converted to Tailwind
+   (docs/component-tailwind-conversion-roadmap.md Batch 4; docs/full-css-
+   tailwind-migration-roadmap.md Batch 3). Was bare display:none/
+   .open{display:flex} while sidebar-nav-flyout.tsx toggled visibility via
+   plain classList outside React — moot since that controller was replaced
+   by Menu (base-ui): the popup only ever mounts while open, so a plain
+   unconditional `flex` on the element itself (sidebar-nav.tsx) is enough,
+   no closed state to represent. */
 
 /* .sb-caret's own font-size/color/flex-shrink and its max-900px
    transition/.sb-group.open-driven rotate moved to Tailwind utility
@@ -2800,10 +2795,10 @@ body[data-theme="hp"] .sidebar-logo {
    Tier 2c). The rotate reuses the same ancestor-scoped arbitrary variant
    ([.sb-group.open_&]:) established for .wotd-box earlier in this
    migration — .sb-caret is always a descendant of .sb-group (never reused
-   outside it), and .sb-group's "open" class is still toggled imperatively
-   by sidebar-nav-flyout.tsx (the same reason .sb-flyout's display stays
-   bare above), so the ancestor variant just reads the same DOM class
-   React never drives directly.
+   outside it), and .sb-group's "open" class is still a real DOM class
+   (React-driven now, conditionally applied by sidebar-nav.tsx's NavGroup
+   instead of the deleted sidebar-nav-flyout.tsx's classList.toggle()), so
+   the ancestor variant just reads the same class either way.
 
    Variant ORDER bug found while converting this: stacking the media
    variant BEFORE the ancestor variant

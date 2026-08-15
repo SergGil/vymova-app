@@ -211,8 +211,8 @@ export function SidebarInit(): ReactElement | null {
     // NAV_LINKS pages) moved to <SidebarNav/> (sidebar-nav.tsx) — it renders
     // the links itself now, so there's no static markup left to reach into.
 
-    // Nav-group hover flyouts moved to <NavFlyoutController/>
-    // (sidebar-nav-flyout.tsx, mounted directly in app-root.tsx).
+    // Nav-group hover flyouts are Menu (base-ui), owned directly by
+    // <SidebarNav/>'s NavGroup (sidebar-nav.tsx) — no separate controller.
 
     // Dark-mode toggle and fandom-theme rows are both fully React-owned now
     // (js/core/theme.tsx's <ThemeToggle/>, fandom-theme-rows.tsx's

@@ -40,7 +40,6 @@ import { ModesOverlayShell } from '../js/features/mode/modes-overlay-shell.tsx';
 import { QuizOverlayShell } from '../js/features/mode/quiz-overlay-shell.tsx';
 import { ImgClearConfirmDialog } from '../js/features/img-clear-confirm.tsx';
 import { ResetConfirmDialog } from '../js/features/reset-confirm-dialog.tsx';
-import { NavFlyoutController } from '../js/features/sidebar/sidebar-nav-flyout.tsx';
 import { PageOverlayVisibility } from '../js/features/page-overlay-visibility.tsx';
 import { PageHeader } from '../js/features/page-header.tsx';
 import { GameBar } from '../js/features/game/game-bar.tsx';
@@ -322,7 +321,6 @@ function AppRoot(): ReactElement {
       <VoiceInit />
       <SidebarInit />
       <SidebarNav />
-      <NavFlyoutController />
       <Portal id="ach-page-header-mount">
         <PageHeader titleKey="ach.pageTitle" />
       </Portal>

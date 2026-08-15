@@ -64,21 +64,18 @@ const ORIGINAL_NAV_HTML = `
     ><span class="sb-label flex-1" data-i18n="nav.langHistory">Історія мови</span></a
   >
   <div class="sb-group relative" id="sb-group-video">
-    <button type="button" class="sb-btn sb-group-trigger" id="sb-group-video-trigger">
+    <button
+      type="button"
+      aria-expanded="false"
+      aria-haspopup="menu"
+      tabindex="0"
+      class="sb-btn sb-group-trigger"
+      id="sb-group-video-trigger"
+    >
       <span class="sb-icon w-[22px] shrink-0 text-center text-base">🎬</span
       ><span class="sb-label flex-1" data-i18n="nav.videoGroup">Відео навчання</span
       ><span class="sb-caret">›</span>
     </button>
-    <div class="sb-flyout" id="sb-group-video-flyout">
-      <a class="sb-btn" id="sb-youtube-player" href="/youtube"
-        ><span class="sb-icon w-[22px] shrink-0 text-center text-base">📺</span
-        ><span class="sb-label flex-1" data-i18n="nav.ytPlayer">YouTube</span></a
-      >
-      <a class="sb-btn" id="sb-video-player" href="/video-player"
-        ><span class="sb-icon w-[22px] shrink-0 text-center text-base">🎬</span
-        ><span class="sb-label flex-1" data-i18n="nav.videoPlayer">Відео</span></a
-      >
-    </div>
   </div>
   <a class="sb-btn" id="sb-duel" href="/duel"
     ><span class="sb-icon w-[22px] shrink-0 text-center text-base">⚔️</span
@@ -126,22 +123,25 @@ describe('<SidebarNav/>', () => {
     expectStructuralParity(actualLogoHtml, ORIGINAL_LOGO_HTML);
     // docs/component-tailwind-conversion-roadmap.md Batch 4 added theme-
     // driven Tailwind classes (.sb-btn's base bg-transparent/text-.../
-    // hover:.../.sb-flyout's bg-.../border-...) — a deliberate, later
-    // change unrelated to the original static-markup-to-JSX port this test
-    // guards. Stripped before comparing, same approach as
-    // mode-card-grid.test.tsx. The base bg-transparent/text-[var(--text2)]
-    // pair was added during the post-session masking-bug audit (audit
-    // issue #1): .sb-btn's own unconditional bare background/color rule
-    // was masking the hover: variant even during an actual hover, so the
-    // base state had to move to Tailwind too, not just :hover.
-    // docs/full-css-tailwind-migration-roadmap.md Batch 3 moved .sb-btn's/
-    // .sb-flyout's own (non-theme) bare CSS properties to Tailwind too —
-    // same stripping approach, one more layer on top of Batch 4's. .sb-btn's
-    // active-state background/color/font-weight (previously the plain
-    // .sb-active token, never queried by JS unlike .sb-btn/.sb-group/
-    // .sb-flyout) also moved to conditional Tailwind classes, stripped here
-    // the same way; verified separately below by the two "marks ... active"
-    // tests instead of this structural fixture.
+    // hover:...) — a deliberate, later change unrelated to the original
+    // static-markup-to-JSX port this test guards. Stripped before
+    // comparing, same approach as mode-card-grid.test.tsx. The base
+    // bg-transparent/text-[var(--text2)] pair was added during the
+    // post-session masking-bug audit (audit issue #1): .sb-btn's own
+    // unconditional bare background/color rule was masking the hover:
+    // variant even during an actual hover, so the base state had to move to
+    // Tailwind too, not just :hover.
+    // docs/full-css-tailwind-migration-roadmap.md Batch 3 moved .sb-btn's
+    // own (non-theme) bare CSS properties to Tailwind too — same stripping
+    // approach, one more layer on top of Batch 4's. .sb-btn's active-state
+    // background/color/font-weight (previously the plain .sb-active token,
+    // never queried by JS unlike .sb-btn/.sb-group/.sb-flyout) also moved
+    // to conditional Tailwind classes, stripped here the same way; verified
+    // separately below by the two "marks ... active" tests instead of this
+    // structural fixture. The flyout itself (.sb-flyout and its items) is
+    // no longer part of this comparison at all — Menu (base-ui) only
+    // mounts it while open, so the closed-state markup this fixture checks
+    // never contains it; see the dedicated flyout tests further down.
     const actualNavHtml = document
       .getElementById('sidebar-nav-mount')!
       .innerHTML.replace(
@@ -152,15 +152,8 @@ describe('<SidebarNav/>', () => {
         / bg-\[rgba\(var\(--accent-rgb\),0\.12\)\] text-\[var\(--accent\)\] font-semibold/g,
         '',
       )
-      .replace(
-        / fixed min-w-\[210px\] border rounded-\[10px\] p-1\.5 flex-col gap-\[3px\] shadow-\[0_10px_30px_rgba\(0,0,0,0\.28\)\] z-\[700\]/g,
-        '',
-      )
       .replace(/ bg-transparent text-\[var\(--text2\)\]/g, '')
-      .replace(
-        / (?:hover:bg|hover:text|bg|border)-\[var\(--sb-(?:btn-hover|flyout)-[a-z-]*\)\]/g,
-        '',
-      )
+      .replace(/ (?:hover:bg|hover:text)-\[var\(--sb-btn-hover-[a-z]*\)\]/g, '')
       // Tier 2c added .sb-caret's own text-xs/text-text3/shrink-0 plus its
       // max-900px transition + ancestor-scoped (.sb-group.open) rotate
       // (docs/full-css-tailwind-migration-roadmap.md), stripped the same
@@ -187,6 +180,12 @@ describe('<SidebarNav/>', () => {
     render(<SidebarNav />);
     expect(document.getElementById('sb-translate')).not.toBeNull();
     expect(document.getElementById('sb-group-ai')).not.toBeNull();
+    // The flyout's own items only exist in the document once the group's
+    // Menu (base-ui) is open — it's Portal'd and unmounted while closed,
+    // unlike the old always-present-but-display:none markup.
+    act(() => {
+      document.getElementById('sb-group-ai-trigger')!.click();
+    });
     expect(document.getElementById('sb-ai-tutor')).not.toBeNull();
     expect(document.getElementById('sb-voice-roleplay')).not.toBeNull();
   });
@@ -271,5 +270,99 @@ describe('<SidebarNav/>', () => {
     const img = btns[1].querySelector('img')!;
     expect(img.getAttribute('src')).toBe(flagUrl('gb'));
     expect(img.getAttribute('alt')).toBe('EN');
+  });
+});
+
+// NavGroup's flyout (the "🎬 Відео навчання" / "🤖 ШІ навчання" hover/click
+// submenus) — Menu (base-ui), replacing the deleted sidebar-nav-flyout.tsx's
+// raw document.body reparenting + hand-wired listeners. These tests cover
+// click-driven open/close/navigation/mutual-exclusion/outside-dismiss —
+// jsdom's synthetic events don't reliably exercise floating-ui's real
+// pointer-driven hover-intent timing (established repeatedly elsewhere this
+// session), so the hover-specific behavior (instant open on hover, 150ms
+// close-delay, moving into the flyout cancels a pending close) is verified
+// live via Playwright instead — see tests-e2e/pages-smoke.spec.ts's
+// "Video-group pages smoke test", which already hovers the real trigger.
+describe('<SidebarNav/> NavGroup flyout (Menu)', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    configMock.AI_TUTOR_ENABLED = true;
+    mountFixture();
+    dispatchClosePage();
+  });
+
+  it('clicking the trigger opens the flyout with its items, and toggles .sb-group\'s "open" class', () => {
+    render(<SidebarNav />);
+    const group = document.getElementById('sb-group-video')!;
+    expect(document.getElementById('sb-youtube-player')).toBeNull();
+
+    act(() => {
+      document.getElementById('sb-group-video-trigger')!.click();
+    });
+    expect(document.getElementById('sb-youtube-player')).not.toBeNull();
+    expect(document.getElementById('sb-video-player')).not.toBeNull();
+    expect(group.classList.contains('open')).toBe(true);
+
+    act(() => {
+      document.getElementById('sb-group-video-trigger')!.click();
+    });
+    expect(document.getElementById('sb-youtube-player')).toBeNull();
+    expect(group.classList.contains('open')).toBe(false);
+  });
+
+  it('opening one group closes the other that was open', () => {
+    render(<SidebarNav />);
+    act(() => {
+      document.getElementById('sb-group-ai-trigger')!.click();
+    });
+    expect(document.getElementById('sb-ai-tutor')).not.toBeNull();
+
+    act(() => {
+      document.getElementById('sb-group-video-trigger')!.click();
+    });
+    expect(document.getElementById('sb-youtube-player')).not.toBeNull();
+    expect(document.getElementById('sb-ai-tutor')).toBeNull();
+  });
+
+  it('clicking a flyout item navigates to its page and closes the flyout', () => {
+    render(<SidebarNav />);
+    act(() => {
+      document.getElementById('sb-group-video-trigger')!.click();
+    });
+    act(() => {
+      document
+        .getElementById('sb-youtube-player')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    });
+    expect(getActivePage()).toBe('youtube-player');
+    expect(document.getElementById('sb-youtube-player')).toBeNull();
+    expect(document.getElementById('sb-group-video')!.classList.contains('open')).toBe(false);
+  });
+
+  it('does not navigate on a modified click on a flyout item — lets it fall through', () => {
+    render(<SidebarNav />);
+    act(() => {
+      document.getElementById('sb-group-video-trigger')!.click();
+    });
+    const evt = new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true });
+    act(() => {
+      document.getElementById('sb-youtube-player')!.dispatchEvent(evt);
+    });
+    expect(getActivePage()).toBeNull();
+    expect(evt.defaultPrevented).toBe(false);
+  });
+
+  it('clicking outside the group closes the open flyout', () => {
+    render(<SidebarNav />);
+    act(() => {
+      document.getElementById('sb-group-video-trigger')!.click();
+    });
+    expect(document.getElementById('sb-youtube-player')).not.toBeNull();
+
+    act(() => {
+      document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+      document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+    expect(document.getElementById('sb-youtube-player')).toBeNull();
   });
 });
