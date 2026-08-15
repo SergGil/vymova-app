@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { ProfilePage } from '../../js/features/profile/profile-page.tsx';
@@ -48,11 +48,14 @@ vi.mock('../../js/core/flags.ts', () => ({
   flagUrl: (code: string) => `/flags/${code}.svg`,
 }));
 
+let activeRoot: Root | null = null;
+
 function mount(): { container: HTMLElement; root: Root } {
   document.body.innerHTML = '<div id="profile-content"></div>';
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
+  activeRoot = root;
   act(() => {
     root.render(<ProfilePage />);
   });
@@ -80,6 +83,16 @@ describe('profile-page.tsx ProfilePage', () => {
     getLangXp.mockClear().mockImplementation((_lang: string) => 0);
     getLangAchCount.mockClear().mockImplementation((_lang: string) => 0);
     for (const k of Object.keys(knownSnapshots)) delete knownSnapshots[k];
+  });
+
+  afterEach(() => {
+    if (activeRoot) {
+      act(() => {
+        activeRoot!.unmount();
+      });
+      activeRoot = null;
+    }
+    document.body.innerHTML = '';
   });
 
   // ── Customize toggle ──────────────────────────────────────────
