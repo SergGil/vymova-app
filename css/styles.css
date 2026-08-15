@@ -3127,11 +3127,13 @@ body[data-theme="hp"] .sb-profile-section {
 }
 
 /* .voice-section summary/:hover/::marker/[open] deleted rather than
-   migrated: fully dead code — the <summary> elements in voice.tsx already
-   set a permanent inline color (same var(--text3) value), which always
-   wins over any of these rules regardless of hover/open state, so none of
-   them have had any visual effect. user-select:none (the one live
-   property) moved to a Tailwind className on those elements directly. */
+   migrated: fully dead code — the <summary> elements voice.tsx used to
+   render (now an AccordionPrimitive.Trigger <button> per language section,
+   see voice.tsx's VoiceSectionView) already set a permanent inline color
+   (same var(--text3) value), which always won over any of these rules
+   regardless of hover/open state, so none of them ever had a visual effect.
+   user-select:none (the one live property) moved to a Tailwind className on
+   those elements directly. */
 
 /* ── Levels roadmap ── */
 .levels-roadmap {

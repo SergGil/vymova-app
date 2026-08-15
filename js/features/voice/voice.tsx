@@ -10,6 +10,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '../../../src/components/ui/collapsible.tsx';
+import { Accordion as AccordionPrimitive } from '@base-ui/react/accordion';
 
 let _enURI = localStorage.getItem('ew_ws_voice') ?? '';
 
@@ -2524,14 +2525,16 @@ function _sortVoices(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice[] {
   });
 }
 
-// Which per-language <details> section is expanded is no longer tracked
-// separately (used to be _openSectionIds, needed only because the old
-// implementation did container.innerHTML = '' and rebuilt every element
-// from scratch on every _renderVoices() call, which reset native
-// <details open> state along with everything else). With real React
-// reconciliation and a stable key={section.id} per <details>, the same DOM
-// node is reused across re-renders, so leaving `open` uncontrolled lets the
-// browser own it exactly like any other native disclosure widget.
+// Which per-language section is expanded is owned by AccordionPrimitive.Root
+// itself (uncontrolled — see VoicePickerList's defaultValue={[]}), not lifted
+// into React state here. This used to matter more delicately: the old
+// implementation did container.innerHTML = '' and rebuilt every element from
+// scratch on every _renderVoices() call, which reset native <details open>
+// state along with everything else. That's fixed at the reconciliation level
+// now — every section keeps a stable key={section.id}/value={section.id} — so
+// bump()-driven re-renders (voice.tsx:2946) never remount these items, and
+// Accordion's own internal open-state store persists across them exactly
+// like the native <details> it replaced.
 
 type VoiceDefaultSelect = 'google' | 'first' | null;
 
@@ -2663,10 +2666,74 @@ function VoiceSectionView({
     // simply never called addMissing() for it (nothing rendered).
     if (!section.noTitleKey || !section.descKey) return null;
     return (
-      <details className="voice-section" style={{ width: '100%', margin: '6px 0' }}>
-        <summary
+      <AccordionPrimitive.Item
+        value={section.id}
+        className="voice-section"
+        style={{ width: '100%', margin: '6px 0' }}
+      >
+        <AccordionPrimitive.Header style={{ margin: 0 }}>
+          <AccordionPrimitive.Trigger
+            className="select-none"
+            style={{
+              display: 'block',
+              width: '100%',
+              border: 'none',
+              background: 'none',
+              font: 'inherit',
+              textAlign: 'left',
+              fontSize: '.7rem',
+              fontWeight: 700,
+              color: 'var(--text3)',
+              letterSpacing: '.05em',
+              textTransform: 'uppercase',
+              padding: '6px 0',
+              cursor: 'pointer',
+            }}
+          >
+            <VoiceFlagImg flagCode={section.flagCode} />
+            {t(section.noTitleKey)}
+          </AccordionPrimitive.Trigger>
+        </AccordionPrimitive.Header>
+        {/* keepMounted: matches native <details>, whose content stays in
+            the DOM (just hidden) while collapsed — voice.test.tsx's
+            .voice-card queries rely on this without ever expanding a
+            section. */}
+        <AccordionPrimitive.Panel keepMounted>
+          <div
+            style={{
+              marginTop: 6,
+              padding: '12px 14px',
+              border: '1.5px dashed rgba(255,255,255,.12)',
+              borderRadius: 12,
+              fontSize: '.78rem',
+              color: 'var(--text2)',
+              lineHeight: 1.6,
+            }}
+            dangerouslySetInnerHTML={{ __html: t(section.descKey) }}
+          />
+        </AccordionPrimitive.Panel>
+      </AccordionPrimitive.Item>
+    );
+  }
+
+  const activeURI = section.getURI();
+  const activeVoice = voices.find((v) => v.voiceURI === activeURI);
+  return (
+    <AccordionPrimitive.Item
+      value={section.id}
+      className="voice-section"
+      style={{ width: '100%', margin: '6px 0' }}
+    >
+      <AccordionPrimitive.Header style={{ margin: 0 }}>
+        <AccordionPrimitive.Trigger
           className="select-none"
           style={{
+            display: 'block',
+            width: '100%',
+            border: 'none',
+            background: 'none',
+            font: 'inherit',
+            textAlign: 'left',
             fontSize: '.7rem',
             fontWeight: 700,
             color: 'var(--text3)',
@@ -2677,63 +2744,31 @@ function VoiceSectionView({
           }}
         >
           <VoiceFlagImg flagCode={section.flagCode} />
-          {t(section.noTitleKey)}
-        </summary>
+          {t(section.titleKey)} ({voices.length})
+          {activeVoice ? ` — ${_getLabel(activeVoice).label}` : ''}
+        </AccordionPrimitive.Trigger>
+      </AccordionPrimitive.Header>
+      <AccordionPrimitive.Panel keepMounted>
         <div
           style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr))',
+            gap: 6,
+            width: '100%',
             marginTop: 6,
-            padding: '12px 14px',
-            border: '1.5px dashed rgba(255,255,255,.12)',
-            borderRadius: 12,
-            fontSize: '.78rem',
-            color: 'var(--text2)',
-            lineHeight: 1.6,
           }}
-          dangerouslySetInnerHTML={{ __html: t(section.descKey) }}
-        />
-      </details>
-    );
-  }
-
-  const activeURI = section.getURI();
-  const activeVoice = voices.find((v) => v.voiceURI === activeURI);
-  return (
-    <details className="voice-section" style={{ width: '100%', margin: '6px 0' }}>
-      <summary
-        className="select-none"
-        style={{
-          fontSize: '.7rem',
-          fontWeight: 700,
-          color: 'var(--text3)',
-          letterSpacing: '.05em',
-          textTransform: 'uppercase',
-          padding: '6px 0',
-          cursor: 'pointer',
-        }}
-      >
-        <VoiceFlagImg flagCode={section.flagCode} />
-        {t(section.titleKey)} ({voices.length})
-        {activeVoice ? ` — ${_getLabel(activeVoice).label}` : ''}
-      </summary>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr))',
-          gap: 6,
-          width: '100%',
-          marginTop: 6,
-        }}
-      >
-        {voices.map((v) => (
-          <VoiceCard
-            key={v.voiceURI}
-            voice={v}
-            active={v.voiceURI === activeURI}
-            onSelect={() => onSelect(section, v)}
-          />
-        ))}
-      </div>
-    </details>
+        >
+          {voices.map((v) => (
+            <VoiceCard
+              key={v.voiceURI}
+              voice={v}
+              active={v.voiceURI === activeURI}
+              onSelect={() => onSelect(section, v)}
+            />
+          ))}
+        </div>
+      </AccordionPrimitive.Panel>
+    </AccordionPrimitive.Item>
   );
 }
 
@@ -2834,11 +2869,15 @@ function VoiceSectionsList({ sorted }: { sorted: LangSection[] }): ReactElement 
     // fandom-theme-rows.tsx's FandomThemeRowsController (this section's own
     // twin — same show-more/less shape, same toggle-button class).
     <Collapsible open={expanded} onOpenChange={setExpanded} className="contents">
-      {visible.map((section) => (
-        <VoiceSectionView key={section.id} section={section} onSelect={onVoiceCardSelect} />
-      ))}
-      {hidden.length > 0 && (
-        <>
+      {/* multiple + defaultValue={[]}: every section opens/closes
+          independently (not single-open, matching the original <details>
+          list), and the open-id set lives uncontrolled inside the Root
+          itself — see the comment above VoiceSectionView. */}
+      <AccordionPrimitive.Root multiple defaultValue={[]} className="contents">
+        {visible.map((section) => (
+          <VoiceSectionView key={section.id} section={section} onSelect={onVoiceCardSelect} />
+        ))}
+        {hidden.length > 0 && (
           <CollapsibleContent
             id="voice-sections-extra"
             keepMounted
@@ -2853,13 +2892,15 @@ function VoiceSectionsList({ sorted }: { sorted: LangSection[] }): ReactElement 
               <VoiceSectionView key={section.id} section={section} onSelect={onVoiceCardSelect} />
             ))}
           </CollapsibleContent>
-          <CollapsibleTrigger
-            id="voice-sections-toggle"
-            className="theme-rows-toggle-btn mt-1 cursor-pointer rounded-[10px] border border-dashed border-[var(--border)] bg-transparent px-3 py-[7px] text-center text-[.78rem] font-semibold text-[var(--text3)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)]"
-          >
-            {t(expanded ? 'settings.showLessVoices' : 'settings.showMoreVoices')}
-          </CollapsibleTrigger>
-        </>
+        )}
+      </AccordionPrimitive.Root>
+      {hidden.length > 0 && (
+        <CollapsibleTrigger
+          id="voice-sections-toggle"
+          className="theme-rows-toggle-btn mt-1 cursor-pointer rounded-[10px] border border-dashed border-[var(--border)] bg-transparent px-3 py-[7px] text-center text-[.78rem] font-semibold text-[var(--text3)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+        >
+          {t(expanded ? 'settings.showLessVoices' : 'settings.showMoreVoices')}
+        </CollapsibleTrigger>
       )}
     </Collapsible>
   );
