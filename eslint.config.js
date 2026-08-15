@@ -2,6 +2,7 @@ import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
+import tailwindcss from 'eslint-plugin-tailwindcss';
 import prettierConfig from 'eslint-config-prettier';
 import globals from 'globals';
 
@@ -55,6 +56,36 @@ export default tseslint.config(
   {
     files: ['*.config.{js,ts}', 'playwright.config.ts', 'scripts/**/*.{js,cjs}'],
     languageOptions: { globals: globals.node },
+  },
+  {
+    ...tailwindcss.configs.recommended,
+    settings: {
+      tailwindcss: {
+        cssConfigPath: './css/tailwind.css',
+      },
+    },
+    rules: {
+      ...tailwindcss.configs.recommended.rules,
+      // Off: this codebase deliberately keeps bare, semantic class names
+      // (e.g. "duel-mode-btn") alongside Tailwind utilities as test/CSS
+      // selector hooks — an established, pervasive convention (see
+      // docs/CHANGELOG.md), not stray legacy classes. 825 findings, all
+      // intentional.
+      'tailwindcss/no-custom-classname': 'off',
+      // Off: this app's whole theming model is runtime CSS custom
+      // properties (var(--card), var(--border), ...) read via Tailwind
+      // arbitrary values — that's not "unnecessary", it's the mechanism.
+      // The suggested named-utility replacements (bg-bg, border-border)
+      // happen to resolve to the same value today only because of how
+      // css/tailwind.css maps @theme tokens onto those same variables;
+      // rewriting ~721 call sites on that assumption is a separate,
+      // large, purely-cosmetic project, not in scope here.
+      'tailwindcss/no-unnecessary-arbitrary-value': 'off',
+      // Off: prettier-plugin-tailwindcss (see .prettierrc) already sorts
+      // classes on every format — this rule would just duplicate that,
+      // noisily, for anyone who hasn't run `npm run format` yet.
+      'tailwindcss/classnames-order': 'off',
+    },
   },
   {
     // Mocking external APIs (Firebase, SpeechSynthesis, ServiceWorker, ...)

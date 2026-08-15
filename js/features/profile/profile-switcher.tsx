@@ -390,7 +390,7 @@ export function ProfileSwitcher(): ReactElement {
             <span id="sb-profile-av" className="sb-av inline-flex text-[1.2rem] leading-none">
               <ProfileAvatarView profile={active} size={26} />
             </span>
-            <span id="sb-profile-name" className="sb-name flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+            <span id="sb-profile-name" className="sb-name flex-1 truncate">
               {active.name}
             </span>
             <span id="sb-profile-arrow" className="sb-arrow text-[.7rem] text-[var(--text3)]">
@@ -399,7 +399,7 @@ export function ProfileSwitcher(): ReactElement {
           </MenuPrimitive.Trigger>
           <button
             id="sb-add-btn"
-            className="sb-add-btn flex h-[28px] w-[28px] shrink-0 cursor-pointer items-center justify-center rounded-md border-[1.5px] border-[var(--sb-add-btn-border)] bg-[var(--bg)] text-[1.1rem] leading-none font-bold text-[var(--accent)] transition-colors duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)]"
+            className="sb-add-btn flex shrink-0 cursor-pointer items-center justify-center rounded-md border-[1.5px] border-[var(--sb-add-btn-border)] bg-[var(--bg)] text-[1.1rem] leading-none font-bold text-[var(--accent)] transition-colors duration-150 hover:border-[var(--accent)] hover:bg-[var(--card)] size-[28px]"
             title="Новий профіль"
             onClick={toggleAddForm}
           >

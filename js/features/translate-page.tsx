@@ -135,7 +135,7 @@ export function TranslatePage(): ReactElement | null {
         <div className="translate-result flex items-start gap-2.5 rounded-[12px] border-[1.5px] border-[var(--border)] bg-[var(--bg)] px-3.5 py-3">
           {flagUrl(META[targetLang]?.country ?? '') && (
             <img
-              className="translate-result-flag mt-0.5 h-5 w-5 shrink-0 rounded-full"
+              className="translate-result-flag mt-0.5 shrink-0 rounded-full size-5"
               src={flagUrl(META[targetLang]?.country ?? '') ?? undefined}
               alt=""
             />

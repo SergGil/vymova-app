@@ -93,7 +93,7 @@ export function CollocationsSection(): ReactElement | null {
       </div>
       <div
         id="cb-collocation-list"
-        className="!flex !flex-row flex-wrap"
+        className="flex! flex-row! flex-wrap"
         style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
       >
         {colls.slice(0, 10).map((c, i) => {

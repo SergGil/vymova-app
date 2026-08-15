@@ -56,7 +56,7 @@ export function GameBar(): ReactElement {
       >
         <div className="flex justify-between items-center mb-0.5">
           <span
-            className="gb-label text-[var(--gb-label-color)] [text-transform:var(--gb-label-transform)] text-[length:var(--gb-label-size)] tracking-[0.04em] [@media(max-width:640px)]:!text-[0.72rem] [@media(max-height:500px)_and_(max-width:900px)]:hidden"
+            className="gb-label text-[var(--gb-label-color)] [text-transform:var(--gb-label-transform)] text-[length:var(--gb-label-size)] tracking-[0.04em] [@media(max-width:640px)]:text-[0.72rem]! [@media(max-height:500px)_and_(max-width:900px)]:hidden"
             data-i18n="cards.dailyGoal"
           >
             {t('cards.dailyGoal')}

@@ -109,7 +109,7 @@ const BTN_BASE =
 // img — this is the one case in this project where that actually
 // matters for the rendered result, not just a benign no-op).
 const BTN_CTA_BASE =
-  'inline-flex items-center justify-center !font-semibold !border-[1.5px] !rounded-[12px] ![transition:all_0.15s,transform_0.15s_ease,box-shadow_0.15s_ease] hover:-translate-y-0.5 active:translate-none [@media(max-width:480px)]:!min-h-[48px] [@media(max-width:480px)]:!text-[0.95rem]';
+  'inline-flex items-center justify-center font-semibold! border-[1.5px]! rounded-[12px]! [transition:all_0.15s,transform_0.15s_ease,box-shadow_0.15s_ease]! hover:-translate-y-0.5 active:translate-none [@media(max-width:480px)]:min-h-[48px]! [@media(max-width:480px)]:text-[0.95rem]!';
 
 // .kbd-hint kbd's own box/typography (docs/full-css-tailwind-migration-
 // roadmap.md Tier 2c) — shared across all 7 <kbd> tags below.
@@ -140,11 +140,11 @@ const KBD_CLASS = 'bg-[var(--border)] rounded-[4px] py-px px-[5px] font-[inherit
 // 14px at that one breakpoint, a barely-visible difference for
 // single-emoji buttons.
 const ACTIONS_BAR_BTN_ADD =
-  'shrink-0 [@media(max-width:480px)]:!min-h-[40px] [@media(max-width:480px)]:!text-[11px] [@media(max-width:480px)_and_(min-height:501px)]:!py-[8px] [@media(max-width:480px)_and_(min-height:501px)]:!px-[10px] [@media(max-height:500px)_and_(max-width:900px)]:!py-[7px] [@media(max-height:500px)_and_(max-width:900px)]:!px-[10px]';
+  'shrink-0 [@media(max-width:480px)]:min-h-[40px]! [@media(max-width:480px)]:text-[11px]! [@media(max-width:480px)_and_(min-height:501px)]:py-[8px]! [@media(max-width:480px)_and_(min-height:501px)]:px-[10px]! [@media(max-height:500px)_and_(max-width:900px)]:py-[7px]! [@media(max-height:500px)_and_(max-width:900px)]:px-[10px]!';
 
 export function CardShell(): ReactElement {
   const isKnown = useIsCardKnown();
-  const speakBtnKnownCls = isKnown ? ' !text-[var(--known-c3)]' : '';
+  const speakBtnKnownCls = isKnown ? ' text-[var(--known-c3)]!' : '';
   return (
     <div className="[perspective:900px] mb-3.5">
       <div
@@ -161,7 +161,7 @@ export function CardShell(): ReactElement {
           👁 Переклад
         </span>
         <div
-          className="card-face relative rounded-[16px] p-[18px] min-h-[200px] select-text [@media(max-height:500px)_and_(max-width:900px)]:p-[12px_14px] !border-solid !border-[length:var(--known-face-border-width)] !border-[var(--known-face-border)] ![background:var(--known-face-bg)] !shadow-[var(--known-face-shadow)] before:content-[var(--card-face-corner-content)] before:absolute before:left-2 before:top-2 before:z-[3] before:h-[18px] before:w-[18px] before:border-solid before:border-[rgba(var(--accent-rgb),0.6)] before:[border-width:2px_0_0_2px] before:[border-radius:2px_0_0_0] before:pointer-events-none after:content-[var(--card-face-corner-content)] after:absolute after:bottom-2 after:right-2 after:z-[3] after:h-[18px] after:w-[18px] after:border-solid after:border-[rgba(var(--accent-rgb),0.6)] after:[border-width:0_2px_2px_0] after:[border-radius:0_0_2px_0] after:pointer-events-none [animation-duration:.22s] [animation-timing-function:cubic-bezier(.25,.46,.45,.94)] [animation-fill-mode:both]"
+          className="card-face relative rounded-[16px] p-[18px] min-h-[200px] select-text [@media(max-height:500px)_and_(max-width:900px)]:p-[12px_14px] border-solid! border-[length:var(--known-face-border-width)]! border-[var(--known-face-border)]! [background:var(--known-face-bg)]! shadow-[var(--known-face-shadow)]! before:content-[var(--card-face-corner-content)] before:absolute before:left-2 before:top-2 before:z-[3] before:border-solid before:border-[rgba(var(--accent-rgb),0.6)] before:[border-width:2px_0_0_2px] before:[border-radius:2px_0_0_0] before:pointer-events-none after:content-[var(--card-face-corner-content)] after:absolute after:bottom-2 after:right-2 after:z-[3] after:border-solid after:border-[rgba(var(--accent-rgb),0.6)] after:[border-width:0_2px_2px_0] after:[border-radius:0_0_2px_0] after:pointer-events-none [animation-duration:.22s] [animation-timing-function:cubic-bezier(.25,.46,.45,.94)] [animation-fill-mode:both] before:size-[18px] after:size-[18px]"
           id="card-front"
         >
           <div id="card-meta-mount">
@@ -195,7 +195,7 @@ export function CardShell(): ReactElement {
                   </button>
                   <button
                     className={
-                      'speak-btn card-note-btn !text-[13px] !transition-[opacity,color] !duration-150 opacity-55 hover:opacity-100' +
+                      'speak-btn card-note-btn text-[13px]! transition-[opacity,color]! duration-150! opacity-55 hover:opacity-100' +
                       speakBtnKnownCls
                     }
                     id="btn-note"
@@ -206,7 +206,7 @@ export function CardShell(): ReactElement {
                   </button>
                   <button
                     className={
-                      'speak-btn card-bookmark-btn !text-[13px] !transition-[opacity,color] !duration-150 opacity-55 hover:opacity-100' +
+                      'speak-btn card-bookmark-btn text-[13px]! transition-[opacity,color]! duration-150! opacity-55 hover:opacity-100' +
                       speakBtnKnownCls
                     }
                     id="btn-bookmark"
@@ -239,7 +239,7 @@ export function CardShell(): ReactElement {
               <div
                 className={
                   'text-[9px] font-semibold tracking-[0.1em] uppercase text-[var(--text3)] mb-[5px]' +
-                  (isKnown ? ' !text-[#2e7a4a]' : '')
+                  (isKnown ? ' text-[#2e7a4a]!' : '')
                 }
                 data-i18n="cards.example"
               >
@@ -306,7 +306,7 @@ export function CardShell(): ReactElement {
             className={
               'btn btn-auto ' +
               BTN_BASE +
-              ' !border-[var(--btn-auto-color)] !text-[var(--btn-auto-color)] hover:!text-[var(--btn-auto-hover-color)] hover:!border-[var(--btn-hover-border-fallback)] ' +
+              ' border-[var(--btn-auto-color)]! text-[var(--btn-auto-color)]! hover:text-[var(--btn-auto-hover-color)]! hover:border-[var(--btn-hover-border-fallback)]! ' +
               ACTIONS_BAR_BTN_ADD
             }
             id="btn-auto"
@@ -344,7 +344,7 @@ export function CardShell(): ReactElement {
             className={
               'btn btn-achievements ' +
               BTN_BASE +
-              ' !text-[var(--btn-achievements-color)] !border-[var(--btn-achievements-color)] shadow-[var(--btn-achievements-shadow)] hover:!text-[var(--btn-achievements-hover-color)] hover:!border-[var(--btn-hover-border-fallback)] ' +
+              ' text-[var(--btn-achievements-color)]! border-[var(--btn-achievements-color)]! shadow-[var(--btn-achievements-shadow)] hover:text-[var(--btn-achievements-hover-color)]! hover:border-[var(--btn-hover-border-fallback)]! ' +
               ACTIONS_BAR_BTN_ADD
             }
             id="btn-achievements"
@@ -356,7 +356,7 @@ export function CardShell(): ReactElement {
             className={
               'btn btn-modes-open ' +
               BTN_BASE +
-              ' !border-[var(--btn-modes-open-color)] !text-[var(--btn-modes-open-color)] hover:!bg-[var(--btn-modes-open-hover-bg)] hover:!text-[var(--btn-modes-open-hover-color)] hover:!border-[var(--btn-hover-border-fallback)] ' +
+              ' border-[var(--btn-modes-open-color)]! text-[var(--btn-modes-open-color)]! hover:bg-[var(--btn-modes-open-hover-bg)]! hover:text-[var(--btn-modes-open-hover-color)]! hover:border-[var(--btn-hover-border-fallback)]! ' +
               ACTIONS_BAR_BTN_ADD
             }
             id="btn-modes-open"
@@ -399,7 +399,7 @@ export function CardShell(): ReactElement {
           className={
             'btn btn-easy ' +
             BTN_BASE +
-            ' !border-[var(--btn-easy-border)] !text-[var(--btn-easy-color)] !bg-[var(--btn-easy-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-easy-hover-color)] hover:!bg-[var(--btn-easy-hover-bg)] hover:!shadow-[var(--btn-easy-hover-shadow)] ' +
+            ' border-[var(--btn-easy-border)]! text-[var(--btn-easy-color)]! bg-[var(--btn-easy-bg)]! hover:border-[var(--btn-hover-border-fallback)]! hover:text-[var(--btn-easy-hover-color)]! hover:bg-[var(--btn-easy-hover-bg)]! hover:shadow-[var(--btn-easy-hover-shadow)]! ' +
             BTN_CTA_BASE +
             ' gap-[3px]'
           }
@@ -423,7 +423,7 @@ export function CardShell(): ReactElement {
           className={
             'btn btn-know ' +
             BTN_BASE +
-            ' !border-[var(--btn-know-border)] !text-[var(--btn-know-color)] !bg-[var(--btn-know-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-know-hover-color)] hover:!bg-[var(--btn-know-hover-bg)] hover:!shadow-[var(--btn-know-hover-shadow)] ' +
+            ' border-[var(--btn-know-border)]! text-[var(--btn-know-color)]! bg-[var(--btn-know-bg)]! hover:border-[var(--btn-hover-border-fallback)]! hover:text-[var(--btn-know-hover-color)]! hover:bg-[var(--btn-know-hover-bg)]! hover:shadow-[var(--btn-know-hover-shadow)]! ' +
             BTN_CTA_BASE +
             ' gap-1.5'
           }
@@ -442,7 +442,7 @@ export function CardShell(): ReactElement {
           className={
             'btn btn-hard ' +
             BTN_BASE +
-            ' !border-[var(--btn-hard-border)] !text-[var(--btn-hard-color)] !bg-[var(--btn-hard-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-hard-hover-color)] hover:!bg-[var(--btn-hard-hover-bg)] hover:!shadow-[var(--btn-hard-hover-shadow)] ' +
+            ' border-[var(--btn-hard-border)]! text-[var(--btn-hard-color)]! bg-[var(--btn-hard-bg)]! hover:border-[var(--btn-hover-border-fallback)]! hover:text-[var(--btn-hard-hover-color)]! hover:bg-[var(--btn-hard-hover-bg)]! hover:shadow-[var(--btn-hard-hover-shadow)]! ' +
             BTN_CTA_BASE +
             ' gap-[3px]'
           }
@@ -466,7 +466,7 @@ export function CardShell(): ReactElement {
           className={
             'btn btn-dontknow ' +
             BTN_BASE +
-            ' !border-[var(--btn-dontknow-border)] !text-[var(--btn-dontknow-color)] !bg-[var(--btn-dontknow-bg)] hover:!border-[var(--btn-hover-border-fallback)] hover:!text-[var(--btn-dontknow-hover-color)] hover:!bg-[var(--btn-dontknow-hover-bg)] hover:!shadow-[var(--btn-dontknow-hover-shadow)] ' +
+            ' border-[var(--btn-dontknow-border)]! text-[var(--btn-dontknow-color)]! bg-[var(--btn-dontknow-bg)]! hover:border-[var(--btn-hover-border-fallback)]! hover:text-[var(--btn-dontknow-hover-color)]! hover:bg-[var(--btn-dontknow-hover-bg)]! hover:shadow-[var(--btn-dontknow-hover-shadow)]! ' +
             BTN_CTA_BASE +
             ' gap-[3px]'
           }

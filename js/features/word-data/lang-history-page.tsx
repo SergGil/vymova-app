@@ -45,7 +45,7 @@ export function LangHistoryPage(): ReactElement | null {
   return createPortal(
     <div className="langhist-panel flex flex-col gap-3.5">
       <div className="langhist-header flex items-center gap-2.5">
-        {flag && <img className="langhist-flag h-8 w-8 rounded-full" src={flag} alt="" />}
+        {flag && <img className="langhist-flag rounded-full size-8" src={flag} alt="" />}
         <div className="langhist-name text-[1.1rem] font-bold text-[var(--text)]">
           {meta?.name ?? lang}
         </div>

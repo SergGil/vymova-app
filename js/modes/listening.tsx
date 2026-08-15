@@ -253,7 +253,7 @@ export function ListeningPage(): ReactElement {
           <div style={{ textAlign: 'center', marginBottom: 16 }}>
             <button
               ref={playBtnRef}
-              className="listen-play-btn w-[90px] h-[90px] rounded-full border-[3px] border-[var(--accent)] bg-[var(--bg)] text-[2.2rem] cursor-pointer mx-auto mb-3 flex items-center justify-center transition-[transform,background] duration-150 shadow-[0_2px_12px_rgba(0,0,0,0.1)] hover:bg-[var(--accent)]"
+              className="listen-play-btn rounded-full border-[3px] border-[var(--accent)] bg-[var(--bg)] text-[2.2rem] cursor-pointer mx-auto mb-3 flex items-center justify-center transition-[transform,background] duration-150 shadow-[0_2px_12px_rgba(0,0,0,0.1)] hover:bg-[var(--accent)] size-[90px]"
               onClick={playWord}
             >
               🔊
@@ -287,7 +287,7 @@ export function ListeningPage(): ReactElement {
                   disabled={!!result}
                   onClick={() => selectOption(opt)}
                 >
-                  <span className="opt-num inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.wrong]:hidden group-[.reveal]:hidden">{i + 1}</span> {opt}
+                  <span className="opt-num inline-flex shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.wrong]:hidden group-[.reveal]:hidden size-[18px]">{i + 1}</span> {opt}
                 </button>
               );
             })}

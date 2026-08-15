@@ -298,7 +298,7 @@ const ALL_LANGS: LangCode[] = [
 function LangFlag({ lang }: { lang: LangCode }): ReactElement {
   const url = flagUrl(FLAG_CODE[lang]);
   return url ? (
-    <img src={url} alt="" width={16} height={16} className="h-4 w-4 shrink-0 rounded-full" />
+    <img src={url} alt="" width={16} height={16} className="shrink-0 rounded-full size-4" />
   ) : (
     <span>{lang.toUpperCase()}</span>
   );
@@ -613,7 +613,7 @@ export function LangPairSelect(): ReactElement {
 
   return (
     <div
-      className="lang-pair-row [@media(max-width:640px)]:w-full [@media(max-width:640px)]:flex-wrap [@media(max-width:640px)]:!mr-0"
+      className="lang-pair-row [@media(max-width:640px)]:w-full [@media(max-width:640px)]:flex-wrap [@media(max-width:640px)]:mr-0!"
       style={{ display: 'flex', gap: '8px', marginRight: '4px' }}
     >
       <FlagDropdown

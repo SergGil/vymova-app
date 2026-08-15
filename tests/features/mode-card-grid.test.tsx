@@ -144,7 +144,7 @@ describe('<ModeCardGrid/>', () => {
       )
       .join('')
       .split(
-        ' w-[46px] h-[46px] rounded-full flex items-center justify-center text-2xl leading-none shrink-0 bg-[color-mix(in_srgb,var(--mi,var(--accent))_13%,transparent)]',
+        ' rounded-full flex items-center justify-center text-2xl leading-none shrink-0 bg-[color-mix(in_srgb,var(--mi,var(--accent))_13%,transparent)] size-[46px]',
       )
       .join('')
       .split(' text-[0.78rem] font-bold text-[var(--text)] leading-[1.2] [@media(max-width:480px)]:text-[0.76rem]')

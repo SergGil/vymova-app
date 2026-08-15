@@ -18,7 +18,7 @@ export function GameBarStreak(): ReactElement {
   const shLabel = t(n > 1 ? 'gamebar.shields' : 'gamebar.shield');
   return (
     <>
-      <div className="gb-streak-num text-[var(--gb-streak-num-color)] [text-shadow:var(--gb-streak-num-shadow)] text-[1.2rem] font-extrabold leading-none [@media(max-width:480px)_and_(min-height:501px)]:!text-[1.5rem] [@media(min-width:481px)_and_(max-width:640px)_and_(min-height:501px)]:!text-[1.6rem]">
+      <div className="gb-streak-num text-[var(--gb-streak-num-color)] [text-shadow:var(--gb-streak-num-shadow)] text-[1.2rem] font-extrabold leading-none [@media(max-width:480px)_and_(min-height:501px)]:text-[1.5rem]! [@media(min-width:481px)_and_(max-width:640px)_and_(min-height:501px)]:text-[1.6rem]!">
         🔥 <span id="streak-num">{d.streak || 0}</span>
       </div>
       <div id="streak-label" className="text-[0.65rem] text-[var(--text3)] mt-0.5 whitespace-nowrap">
@@ -104,7 +104,7 @@ export function GameBarGoal(): ReactElement {
           style={{ transition: 'stroke-dashoffset 0.4s ease, stroke 0.3s ease' }}
         />
       </svg>
-      <div className="gb-goal-ring-text absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[0.72rem] font-bold text-[var(--text)] whitespace-nowrap pointer-events-none">
+      <div className="gb-goal-ring-text absolute top-1/2 left-1/2 text-center text-[0.72rem] font-bold text-[var(--text)] whitespace-nowrap pointer-events-none -translate-1/2">
         <span id="goal-cur">{d.goalCur || 0}</span>
         <span className="gb-goal-sep text-[var(--gb-goal-sep-color)] text-[0.6rem] mx-px">/</span>
         <span id="goal-max">{d.goalMax}</span>

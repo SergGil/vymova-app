@@ -16,7 +16,7 @@ export function LevelRing(): ReactElement {
 
   return (
     <div className="flex flex-col items-center gap-[3px] shrink-0" title="Прогрес рівня">
-      <div className="relative w-[52px] h-[52px]">
+      <div className="relative size-[52px]">
         <svg width="52" height="52" viewBox="0 0 52 52">
           <circle
             className="fill-none stroke-[var(--border)] [stroke-width:4]"
@@ -40,7 +40,7 @@ export function LevelRing(): ReactElement {
           />
         </svg>
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[0.72rem] font-bold text-[var(--text)] text-center leading-none pointer-events-none"
+          className="absolute top-1/2 left-1/2 text-[0.72rem] font-bold text-[var(--text)] text-center leading-none pointer-events-none -translate-1/2"
           id="ring-center"
         >
           {lvEmoji}

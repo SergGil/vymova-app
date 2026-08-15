@@ -408,7 +408,7 @@ export function GhostRacePage(): ReactElement {
               }
               return (
                 <button key={opt} className={cls} disabled={!!selected} onClick={() => choose(opt)}>
-                  <span className="opt-num mr-1.5 inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.reveal]:hidden group-[.wrong]:hidden">
+                  <span className="opt-num mr-1.5 inline-flex shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.reveal]:hidden group-[.wrong]:hidden size-[18px]">
                     {i + 1}
                   </span>{' '}
                   {opt}

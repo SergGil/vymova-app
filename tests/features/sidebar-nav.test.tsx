@@ -119,7 +119,7 @@ describe('<SidebarNav/>', () => {
       .getElementById('sidebar-logo-mount')!
       .innerHTML.replace(/ border-b-\[var\(--sidebar-logo-border\)\]/g, '')
       .replace(/ flex items-center gap-2\.5 px-\[18px\] pt-5 pb-4/g, '')
-      .replace(/ \[@media\(max-width:900px\)\]:!pl-\[60px\]/g, '');
+      .replace(/ \[@media\(max-width:900px\)\]:pl-\[60px\]!/g, '');
     expectStructuralParity(actualLogoHtml, ORIGINAL_LOGO_HTML);
     // docs/component-tailwind-conversion-roadmap.md Batch 4 added theme-
     // driven Tailwind classes (.sb-btn's base bg-transparent/text-.../

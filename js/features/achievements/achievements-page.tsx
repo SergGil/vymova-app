@@ -321,7 +321,7 @@ function AchievementPopup({
     >
       <DialogPortal>
         <DialogOverlay className="bg-black/50 p-5" />
-        <DialogPopup className="ach-popup relative w-full max-w-[320px] rounded-[20px] bg-[var(--ach-popup-bg)] px-6 pt-7 pb-7 text-center shadow-[var(--ach-popup-shadow)] [border:var(--ach-popup-border)]">
+        <DialogPopup className="ach-popup relative w-full max-w-[320px] rounded-[20px] bg-[var(--ach-popup-bg)] px-6 text-center shadow-[var(--ach-popup-shadow)] [border:var(--ach-popup-border)] py-7">
           <span className="ach-popup-icon mb-2 block text-5xl [text-shadow:var(--ach-popup-icon-shadow)]">
             {ach.icon}
           </span>
@@ -381,7 +381,7 @@ export function AchievementsPage(): ReactElement {
     <>
       <div style={{ marginBottom: 24 }}>
         <div
-          className="stats-section-title text-[0.72rem] font-semibold [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] uppercase [@media(max-width:480px)]:!text-[0.82rem]"
+          className="stats-section-title text-[0.72rem] font-semibold [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] uppercase [@media(max-width:480px)]:text-[0.82rem]!"
           style={{ marginBottom: 12 }}
           data-i18n="ach.roadmapTitle"
         >
@@ -391,7 +391,7 @@ export function AchievementsPage(): ReactElement {
       </div>
 
       <div
-        className="stats-section-title text-[0.72rem] font-semibold [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] uppercase [@media(max-width:480px)]:!text-[0.82rem]"
+        className="stats-section-title text-[0.72rem] font-semibold [letter-spacing:var(--stats-section-title-tracking)] text-[var(--section-title-color,var(--text3))] uppercase [@media(max-width:480px)]:text-[0.82rem]!"
         style={{ marginBottom: 12 }}
         data-i18n="ach.awardsTitle"
       >

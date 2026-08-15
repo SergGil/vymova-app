@@ -478,7 +478,7 @@ export function StatsPage(): ReactElement {
 
   return (
     <div
-      className="stats-panel m-auto max-h-[calc(100vh-32px)] w-full max-w-[560px] overflow-x-hidden overflow-y-auto rounded-[16px] bg-[var(--stats-panel-bg)] px-5 pt-[22px] pb-6 shadow-[var(--stats-panel-shadow)] [border:var(--stats-panel-border)] [@media(max-width:480px)]:![padding:16px_14px]"
+      className="stats-panel m-auto max-h-[calc(100vh-32px)] w-full max-w-[560px] overflow-x-hidden overflow-y-auto rounded-[16px] bg-[var(--stats-panel-bg)] px-5 pt-[22px] pb-6 shadow-[var(--stats-panel-shadow)] [border:var(--stats-panel-border)] [@media(max-width:480px)]:[padding:16px_14px]!"
       ref={panelRef}
     >
       {pulling && (
@@ -488,7 +488,7 @@ export function StatsPage(): ReactElement {
       )}
       <div className="stats-header mb-[18px] flex items-center justify-between">
         <div
-          className="stats-title [font-family:var(--stats-title-font)] text-[1.05rem] font-semibold text-[var(--stats-title-color)] [@media(max-width:480px)]:!text-[1rem]"
+          className="stats-title [font-family:var(--stats-title-font)] text-[1.05rem] font-semibold text-[var(--stats-title-color)] [@media(max-width:480px)]:text-[1rem]!"
           data-i18n="stats.title"
         >
           {t('stats.title')}
@@ -507,13 +507,13 @@ export function StatsPage(): ReactElement {
         <div className={statsSectionTitleCls} data-i18n="stats.overallProgress">
           {t('stats.overallProgress')}
         </div>
-        <div className="stats-summary grid grid-cols-4 gap-2.5 [@media(max-width:480px)]:!grid-cols-2 [@media(max-width:480px)]:!gap-2">
-          <div className="stat-card flex animate-[statCardEnter_0.32s_ease_both] flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pt-3.5 pb-3 text-center [@media(max-width:480px)]:![padding:10px_8px]">
-            <span className="stat-card-icon ic-accent mb-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--accent)_15%,transparent)] text-[0.86rem]">
+        <div className="stats-summary grid grid-cols-4 gap-2.5 [@media(max-width:480px)]:grid-cols-2! [@media(max-width:480px)]:gap-2!">
+          <div className="stat-card flex animate-[statCardEnter_0.32s_ease_both] flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pt-3.5 pb-3 text-center [@media(max-width:480px)]:[padding:10px_8px]!">
+            <span className="stat-card-icon ic-accent mb-1.5 flex items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--accent)_15%,transparent)] text-[0.86rem] size-7">
               📖
             </span>
             <div
-              className="sv text-2xl leading-[1.15] font-bold text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]"
+              className="sv text-2xl leading-[1.15] font-bold text-[var(--sv-color)] [@media(max-width:480px)]:text-[1.4rem]!"
               id="st-known"
             >
               {knownCount}
@@ -522,12 +522,12 @@ export function StatsPage(): ReactElement {
               {t('stats.wordsLearned')}
             </div>
           </div>
-          <div className="stat-card flex animate-[statCardEnter_0.32s_ease_both] flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pt-3.5 pb-3 text-center [animation-delay:0.07s] [@media(max-width:480px)]:![padding:10px_8px]">
-            <span className="stat-card-icon ic-success mb-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--success)_15%,transparent)] text-[0.86rem]">
+          <div className="stat-card flex animate-[statCardEnter_0.32s_ease_both] flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pt-3.5 pb-3 text-center [animation-delay:0.07s] [@media(max-width:480px)]:[padding:10px_8px]!">
+            <span className="stat-card-icon ic-success mb-1.5 flex items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--success)_15%,transparent)] text-[0.86rem] size-7">
               🎯
             </span>
             <div
-              className="sv text-2xl leading-[1.15] font-bold text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]"
+              className="sv text-2xl leading-[1.15] font-bold text-[var(--sv-color)] [@media(max-width:480px)]:text-[1.4rem]!"
               id="st-pct"
             >
               {pctKnown}%
@@ -536,9 +536,9 @@ export function StatsPage(): ReactElement {
               {t('stats.ofAllWords')}
             </div>
           </div>
-          <div className="stat-card flex animate-[statCardEnter_0.32s_ease_both] flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pt-3.5 pb-3 text-center [animation-delay:0.14s] [@media(max-width:480px)]:![padding:10px_8px]">
+          <div className="stat-card flex animate-[statCardEnter_0.32s_ease_both] flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pt-3.5 pb-3 text-center [animation-delay:0.14s] [@media(max-width:480px)]:[padding:10px_8px]!">
             <div
-              className="sv text-2xl leading-[1.15] font-bold text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]"
+              className="sv text-2xl leading-[1.15] font-bold text-[var(--sv-color)] [@media(max-width:480px)]:text-[1.4rem]!"
               id="st-streak"
             >
               {gd.streak || 0}
@@ -552,9 +552,9 @@ export function StatsPage(): ReactElement {
               </div>
             )}
           </div>
-          <div className="stat-card flex animate-[statCardEnter_0.32s_ease_both] flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pt-3.5 pb-3 text-center [@media(max-width:480px)]:![padding:10px_8px]">
+          <div className="stat-card flex animate-[statCardEnter_0.32s_ease_both] flex-col items-center justify-center rounded-[var(--stat-card-radius)] border border-[var(--stat-card-border)] bg-[var(--stat-card-bg)] px-2.5 pt-3.5 pb-3 text-center [@media(max-width:480px)]:[padding:10px_8px]!">
             <div
-              className="sv text-2xl leading-[1.15] font-bold text-[var(--sv-color)] [@media(max-width:480px)]:!text-[1.4rem]"
+              className="sv text-2xl leading-[1.15] font-bold text-[var(--sv-color)] [@media(max-width:480px)]:text-[1.4rem]!"
               id="st-week"
             >
               {weeklyTotal}
@@ -688,7 +688,7 @@ export function StatsPage(): ReactElement {
                 {wk.map((day, di) => (
                   <div
                     key={di}
-                    className={`hm-day hm-l${day.lvl} h-[11px] w-[11px] cursor-default rounded-[2px] hover:opacity-70 ${HM_LEVEL_BG[day.lvl]}`}
+                    className={`hm-day hm-l${day.lvl} cursor-default rounded-[2px] hover:opacity-70 size-[11px] ${HM_LEVEL_BG[day.lvl]}`}
                     title={`${day.ds}: ${day.n} ${wordsLabel(day.n)}`}
                   />
                 ))}
@@ -770,7 +770,7 @@ export function StatsPage(): ReactElement {
               />
             ) : (
               <div
-                className={`cal-day hm-l${c.lvl}${c.isToday ? 'cal-today !shadow-[0_0_0_2px_var(--accent)]' : ''} relative flex aspect-square max-h-12 max-w-12 cursor-default flex-col items-center justify-center rounded-[6px] text-[0.7rem] transition-transform duration-100 hover:z-[1] hover:scale-[1.15] ${HM_LEVEL_BG[c.lvl]}`}
+                className={`cal-day hm-l${c.lvl}${c.isToday ? 'cal-today shadow-[0_0_0_2px_var(--accent)]!' : ''} relative flex aspect-square max-h-12 max-w-12 cursor-default flex-col items-center justify-center rounded-[6px] text-[0.7rem] transition-transform duration-100 hover:z-[1] hover:scale-[1.15] ${HM_LEVEL_BG[c.lvl]}`}
                 title={`${c.ds}: ${c.n} ${wordsLabel(c.n)}`}
                 key={i}
               >
@@ -874,7 +874,7 @@ export function StatsPage(): ReactElement {
                 <div className="srs-fc-cnt mt-0.5 min-h-[10px] text-[0.6rem] text-text3">
                   {c.cnt || ''}
                 </div>
-                <div className="srs-fc-lbl mt-px max-w-full overflow-hidden text-center text-[0.55rem] text-ellipsis whitespace-nowrap text-text3">
+                <div className="srs-fc-lbl mt-px max-w-full text-center text-[0.55rem] text-text3 truncate">
                   {c.label}
                 </div>
               </div>

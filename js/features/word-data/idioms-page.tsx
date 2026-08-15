@@ -467,7 +467,7 @@ function IdiomsPage(): ReactElement {
                   alt=""
                   width={14}
                   height={14}
-                  className="h-[14px] w-[14px] shrink-0 rounded-full"
+                  className="shrink-0 rounded-full size-[14px]"
                 />
               )}
               <span data-i18n={TAB_I18N_KEY[tb]}>{t(TAB_I18N_KEY[tb])}</span>

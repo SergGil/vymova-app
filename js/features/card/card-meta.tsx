@@ -120,7 +120,7 @@ export function CardMeta() {
       ))}
       {cats.map((cat, i) => (
         <Badge
-          className="category-badge h-auto w-auto whitespace-nowrap rounded-sm border-[1.5px] border-[var(--border,rgba(127,127,127,.3))] bg-[rgba(127,127,127,.1)] px-2 py-0.5 text-[.68rem] font-bold text-[var(--text2,inherit)] max-[480px]:max-w-full max-[480px]:overflow-hidden max-[480px]:px-[5px] max-[480px]:py-px max-[480px]:text-[.62rem] max-[480px]:text-ellipsis"
+          className="category-badge whitespace-nowrap rounded-sm border-[1.5px] border-[var(--border,rgba(127,127,127,.3))] bg-[rgba(127,127,127,.1)] px-2 py-0.5 text-[.68rem] font-bold text-[var(--text2,inherit)] max-[480px]:max-w-full max-[480px]:overflow-hidden max-[480px]:px-[5px] max-[480px]:py-px max-[480px]:text-[.62rem] max-[480px]:text-ellipsis size-auto"
           id={i === 0 ? 'wcategory' : undefined}
           key={cat}
           title={categoryName(cat)}
@@ -142,7 +142,7 @@ export function CardMeta() {
         )}
       </span>
       <button
-        className="w-[18px] h-[18px] shrink-0 rounded-full border-[1.5px] border-[var(--border)] bg-transparent text-[var(--text3)] text-[10px] font-bold leading-none cursor-pointer inline-flex items-center justify-center transition-all duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+        className="shrink-0 rounded-full border-[1.5px] border-[var(--border)] bg-transparent text-[var(--text3)] text-[10px] font-bold leading-none cursor-pointer inline-flex items-center justify-center transition-all duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)] size-[18px]"
         id="btn-card-legend"
         title={t('cardLegend.btnTitle')}
       >

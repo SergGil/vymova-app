@@ -59,7 +59,7 @@ export function SwUpdateBanner(): ReactElement | null {
   return (
     <div
       id="sw-update-banner"
-      className="fixed top-0 left-0 right-0 bg-[#1a1a2e] text-white py-3.5 px-4 z-[3000] flex items-center gap-3 shadow-[0_4px_20px_rgba(0,0,0,0.2)]"
+      className="fixed top-0 bg-[#1a1a2e] text-white py-3.5 px-4 z-[3000] flex items-center gap-3 shadow-[0_4px_20px_rgba(0,0,0,0.2)] inset-x-0"
     >
       <div className="text-[1.6rem] shrink-0">🔄</div>
       <div className="sw-update-text flex-1 text-[0.83rem] leading-[1.4]">

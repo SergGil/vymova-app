@@ -216,7 +216,7 @@ function FlagCircle({
         <img
           src={src}
           alt={meta?.name ?? lang}
-          className="profile-flag-circle-img h-full w-full object-cover"
+          className="profile-flag-circle-img object-cover size-full"
         />
       ) : (
         <span className="profile-flag-circle-fb text-[.58rem] font-bold tracking-[0.04em] text-white">
@@ -295,7 +295,7 @@ export function ProfilePage(): ReactElement | null {
       <div className="profile-hero w-full max-w-[420px] overflow-visible rounded-[18px] border border-[var(--border)] bg-[var(--card)]">
         <div className="profile-hero-banner h-[80px] rounded-t-[18px] bg-[linear-gradient(135deg,var(--accent)_0%,color-mix(in_srgb,var(--accent)_55%,#7c3aed_45%)_100%)]" />
         <div className="profile-hero-body flex flex-col items-center gap-1.5 px-5 pb-[18px]">
-          <div className="profile-hero-avatar-ring -mt-[45px] flex h-[90px] w-[90px] shrink-0 items-start justify-center overflow-hidden rounded-2xl border-[3px] border-[var(--card)] bg-[var(--bg)] shadow-[0_0_0_2px_var(--accent),0_6px_20px_rgba(0,0,0,.35)]">
+          <div className="profile-hero-avatar-ring -mt-[45px] flex shrink-0 items-start justify-center overflow-hidden rounded-2xl border-[3px] border-[var(--card)] bg-[var(--bg)] shadow-[0_0_0_2px_var(--accent),0_6px_20px_rgba(0,0,0,.35)] size-[90px]">
             <CharacterAvatar appearance={appearance} size={90} />
           </div>
           {profileName && (
@@ -331,7 +331,7 @@ export function ProfilePage(): ReactElement | null {
             <PopoverPrimitive.Root>
               <div className="level-info-wrap relative shrink-0">
                 <PopoverPrimitive.Trigger
-                  className="level-info-btn flex h-[26px] w-[26px] cursor-pointer items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg)] text-[.78rem] text-[var(--text3)] transition-colors duration-150 select-none hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
+                  className="level-info-btn flex cursor-pointer items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg)] text-[.78rem] text-[var(--text3)] transition-colors duration-150 select-none hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-white size-[26px]"
                   title={t('profile.xpInfo')}
                 >
                   ⓘ
@@ -415,7 +415,7 @@ export function ProfilePage(): ReactElement | null {
               </span>
               <div className="profile-picker-controls flex items-center gap-2.5">
                 <button
-                  className="profile-picker-arrow h-[28px] w-[28px] cursor-pointer rounded-md border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white"
+                  className="profile-picker-arrow cursor-pointer rounded-md border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white size-[28px]"
                   onClick={() => cycle(p.key, p.len, -1)}
                 >
                   ◀
@@ -426,7 +426,7 @@ export function ProfilePage(): ReactElement | null {
                     : `${(appearance[p.key] ?? 0) + 1} / ${p.len}`}
                 </span>
                 <button
-                  className="profile-picker-arrow h-[28px] w-[28px] cursor-pointer rounded-md border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white"
+                  className="profile-picker-arrow cursor-pointer rounded-md border border-[var(--border)] bg-[var(--bg)] text-[.8rem] leading-none text-[var(--text)] hover:bg-[var(--accent)] hover:text-white size-[28px]"
                   onClick={() => cycle(p.key, p.len, 1)}
                 >
                   ▶

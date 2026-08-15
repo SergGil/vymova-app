@@ -361,7 +361,7 @@ export function YoutubePlayerPage(): ReactElement | null {
             <div className="yt-player-frame-wrap relative w-full overflow-hidden rounded-[12px] bg-black pt-[56.25%]">
               <div
                 ref={playerDivRef}
-                className="yt-player-frame absolute inset-0 h-full w-full border-none"
+                className="yt-player-frame absolute inset-0 border-none size-full"
               />
             </div>
           </div>

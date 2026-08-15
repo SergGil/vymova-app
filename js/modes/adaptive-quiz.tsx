@@ -94,7 +94,7 @@ function buildQuestion(w: WordEntry, difficulty: number): QData {
 function SpeakBtn({ text, lang = 'en-US' }: { text: string; lang?: string }): ReactElement {
   return (
     <button
-      className="mode-speak ml-2 inline-flex h-[30px] w-[30px] shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150 hover:bg-white/15 hover:text-[var(--accent)] [&.on]:!bg-[rgba(78,204,163,0.15)] [&.on]:text-[var(--accent)] [@media(max-width:480px)]:p-[5px_8px] [@media(max-width:480px)]:text-[16px] [@media(max-width:480px)]:min-h-[36px]"
+      className="mode-speak ml-2 inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-white/7 align-middle text-[.9rem] text-[var(--text3)] transition-all duration-150 hover:bg-white/15 hover:text-[var(--accent)] [&.on]:bg-[rgba(78,204,163,0.15)]! [&.on]:text-[var(--accent)] [@media(max-width:480px)]:p-[5px_8px] [@media(max-width:480px)]:text-[16px] [@media(max-width:480px)]:min-h-[36px] size-[30px]"
       title={t('common.listen')}
       onClick={(e) => {
         e.stopPropagation();
@@ -378,7 +378,7 @@ export function AdaptiveQuizPage(): ReactElement {
                   disabled={answered}
                   onClick={() => checkAnswer(opt)}
                 >
-                  <span className="opt-num inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.wrong]:hidden group-[.reveal]:hidden">{i + 1}</span>{' '}
+                  <span className="opt-num inline-flex shrink-0 items-center justify-center rounded-[5px] bg-[var(--border)] mr-1.5 align-middle text-[.68rem] font-bold text-[var(--text2)] group-[.correct]:hidden group-[.wrong]:hidden group-[.reveal]:hidden size-[18px]">{i + 1}</span>{' '}
                   {answered && opt === chosen ? (opt === qData.answer ? '✓ ' : '✗ ') : ''}
                   {opt}
                 </button>

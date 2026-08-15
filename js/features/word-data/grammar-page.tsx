@@ -213,7 +213,7 @@ export function GrammarPage(): ReactElement {
     <>
       <div
         id="grammar-nav"
-        className="grammar-nav w-[210px] shrink-0 overflow-y-auto border-r-[1.5px] border-[var(--border)] bg-[var(--bg)] px-2 py-3 max-[640px]:w-full max-[640px]:max-h-[160px] max-[640px]:border-r-0 max-[640px]:border-b-[1.5px] max-[640px]:px-2 max-[640px]:py-2 [@media(max-width:480px)]:!max-h-[140px]"
+        className="grammar-nav w-[210px] shrink-0 overflow-y-auto border-r-[1.5px] border-[var(--border)] bg-[var(--bg)] px-2 py-3 max-[640px]:w-full max-[640px]:max-h-[160px] max-[640px]:border-r-0 max-[640px]:border-b-[1.5px] [@media(max-width:480px)]:max-h-[140px]! max-[640px]:p-2"
       >
         {grammar.map((cat) => {
           const sorted = [...cat.rules].sort((a, b) => _levelOrder(a.title) - _levelOrder(b.title));

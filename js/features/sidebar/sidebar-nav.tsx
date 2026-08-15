@@ -301,7 +301,7 @@ export function SidebarNav(): ReactElement {
     <>
       <Portal id="sidebar-logo-mount">
         <div
-          className="sidebar-logo border-b-[var(--sidebar-logo-border)] flex items-center gap-2.5 px-[18px] pt-5 pb-4 [@media(max-width:900px)]:!pl-[60px]"
+          className="sidebar-logo border-b-[var(--sidebar-logo-border)] flex items-center gap-2.5 px-[18px] pt-5 pb-4 [@media(max-width:900px)]:pl-[60px]!"
           id="sb-home"
           title="На головну — картки"
           style={{ cursor: 'pointer' }}
@@ -378,7 +378,7 @@ export function SidebarNav(): ReactElement {
                 alt={opt.code.toUpperCase()}
                 width={13}
                 height={13}
-                className="h-[13px] w-[13px] shrink-0 rounded-full"
+                className="shrink-0 rounded-full size-[13px]"
               />
             </button>
           ))}
