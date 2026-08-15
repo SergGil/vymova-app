@@ -189,7 +189,7 @@ export function WordLettersPage(): ReactElement {
       const tmr = setTimeout(advance, 1200);
       return () => clearTimeout(tmr);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- t is a stable module-level import (i18n.ts), not a per-render closure; advance is a plain closure excluded so it doesn't force a re-run on its own reference change — every value it actually reads is already listed above
   }, [timeLeft, isOpen, showFinal, r, done]);
 
   useEffect(() => {

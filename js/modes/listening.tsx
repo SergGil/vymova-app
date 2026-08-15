@@ -126,7 +126,7 @@ export function ListeningPage(): ReactElement {
     setResult(null);
     const tmr = setTimeout(playWord, 400);
     return () => clearTimeout(tmr);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- word (`deck[idx] ?? null`) isn't listed since it's a pure function of idx/deck, both already below; playWord is a plain closure, re-created fresh each time this effect runs anyway
   }, [isOpen, idx, deck]);
 
   // Keyboard shortcuts
@@ -154,7 +154,7 @@ export function ListeningPage(): ReactElement {
     }
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- onKeydown reads answered/options/idx/deck off stateRef.current (not closure), specifically so the listener never needs rebinding when those change; isOpen is the only value that actually needs the listener re-attached
   }, [isOpen]);
 
   const selectOption = (opt: string): void => {

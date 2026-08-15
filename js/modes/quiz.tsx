@@ -241,7 +241,7 @@ export function QuizPage(): ReactElement | null {
     }
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- advance()/checkAnswer()/closeQuiz() aren't listed (plain closures, recreated every render); the effect depends directly on the state those functions read instead, so the listener rebinds exactly when it matters without churning on every unrelated render
   }, [answered, qData, idx, deck]);
 
   function renderContent(): ReactElement {

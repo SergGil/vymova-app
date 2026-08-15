@@ -223,7 +223,7 @@ export function AdaptiveQuizPage(): ReactElement {
       });
     }, 1000);
     return stopTimer;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- answered/difficulty/checkAnswer excluded on purpose: checkAnswer() already calls stopTimer() synchronously itself whenever the user answers (manually or via this timer's own tl<=1 branch), so this effect doesn't need to react to `answered` flipping; `difficulty` only ever changes together with the next qData (see checkAnswer's setDifficulty calls, always followed eventually by a new qData at the next question), so qData alone is a sufficient restart trigger
   }, [qData, isOpen, showFinal]);
 
   const advance = (): void => {

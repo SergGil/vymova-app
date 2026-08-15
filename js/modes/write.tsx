@@ -330,7 +330,7 @@ export function WritePage(): ReactElement {
     }
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- acHide()/closeWrite()/advanceQ() aren't listed (plain closures, recreated every render); the effect depends directly on the state those functions read (answered/acItems) instead, so the listener rebinds exactly when it matters
   }, [answered, acItems]);
 
   if (!isOpen) return <></>;

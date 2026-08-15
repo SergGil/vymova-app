@@ -145,7 +145,7 @@ export function LessonPage(): ReactElement {
     } else {
       setOptions([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- w (`words[step] ?? null`) isn't listed since it's a pure function of `step`, already in the deps below — no separate trigger needed
   }, [isOpen, phase, step]);
 
   // Award XP once when the final screen is shown (completion itself is
@@ -160,7 +160,7 @@ export function LessonPage(): ReactElement {
       } catch (e) {}
     setEarnedMult(getComboMult());
     setEarnedXP(awardXP(total * 5));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- scores deliberately excluded: this must fire exactly once when showFinal flips true (see comment above), reading whatever scores holds at that moment — listing it would re-run (and double-award XP) if scores ever changed while showFinal stayed true
   }, [showFinal]);
 
   const speak = (word: string): void => {
@@ -299,7 +299,7 @@ export function LessonPage(): ReactElement {
     }
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- sessionClose is a stable ref (useModeSession), safe to list; advance() is a plain closure recreated every render, omitted so the listener isn't rebound on every render — the effect already reruns (and gets a fresh advance() closure) whenever the state above changes
   }, [isOpen, answered, phase, step, sessionClose]);
 
   if (!isOpen) return <></>;

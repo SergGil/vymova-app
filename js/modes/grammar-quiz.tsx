@@ -227,7 +227,7 @@ export function GrammarQuizPage(): ReactElement {
     }
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- onKeydown closes over next()/checkAnswer(), recreated every render without memoization; listing them would rebind the listener every render for no benefit, since the closure is already fresh whenever question/selected (the actual state it reads) changes
   }, [question, selected]);
 
   return (

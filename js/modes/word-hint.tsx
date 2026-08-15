@@ -117,7 +117,7 @@ export function WordHintPage(): ReactElement {
     if (round && !answered && revealed >= round.totalLetters) {
       finishRound(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- finishRound is a plain closure (not memoized); every other value it reads (round/answered) is already listed below, so including the function itself would only add re-run churn from its own reference changing every render, not a real missing trigger
   }, [round, answered, revealed]);
 
   const finishRound = (success: boolean): void => {

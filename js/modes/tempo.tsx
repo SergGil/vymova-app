@@ -336,7 +336,7 @@ export function TempoPage(): ReactElement {
     }
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- selectOption() is a plain closure recreated every render, omitted so the listener only rebinds on question/isOpen (the state it actually reads); run.current.isRunning is read off a ref so it never needs to be a dep; session.close is a stable ref (useModeSession)
   }, [question, isOpen, session.close]);
 
   const best = getBest(selectedSec);
