@@ -20,5 +20,4 @@ playwright-report/
 .agents/
 skills-lock.json
 .claude/
-scripts/
 docs/

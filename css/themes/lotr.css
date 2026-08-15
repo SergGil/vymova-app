@@ -45,11 +45,14 @@ body[data-theme="lotr"] {
      `..., monospace`), matching what each one used before this became a
      real property. */
   --theme-font: 'Cinzel Decorative';
-  /* Фаза 3: named custom properties for the AUX (composite,
-     non-derivable-from-accent) tokens, so the single
+  /* Фаза 3: named custom properties for the composite,
+     non-derivable-from-accent tokens, so the single
      `body[data-theme] .selector {...}` pattern from Фаза 2 extends to
      these too. Shared names where multiple selectors use the exact same
-     AUX token in this template (documented per name below). */
+     token in this template (documented per name below). Renamed
+     2026-08-15 from opaque AUX1..31 numbering (scripts/theme-tokens.json,
+     one per theme) to the same semantic names used here — see
+     docs/CHANGELOG.md. */
   --progress-fill-bg: linear-gradient(90deg, #00ff65, #00ff65);
   --fill-glow-bg: linear-gradient(90deg, #00ff65, #7dffb1); /* .ach-progress-fill, .ach-popup-prog-fill */
   --ach-progress-fill-bg: var(--fill-glow-bg);
@@ -76,7 +79,7 @@ body[data-theme="lotr"] {
   --level-row-bg: rgba(0, 25, 10, 0.6);
   --level-row-border-color: rgba(var(--accent-rgb), 0.1);
   --gb-goal-sep-color: rgba(200, 255, 222, 0.4); /* .gb-goal-sep, .gb-level-arrow */
-  /* Фаза 4: AUX tokens for selectors also touched by body.dark (a real
+  /* Фаза 4: tokens for selectors also touched by body.dark (a real
      body.dark override stays a separate literal rule — it's just one
      value, not 14, so it doesn't need this indirection itself). */
   --sr-known-bg: #10301d;
@@ -281,7 +284,7 @@ body[data-theme="lotr"] {
     0 0 60px rgba(var(--accent-rgb), 0.08);
   --srs-stats-bar-bg: var(--panel-glow-bg);
   --srs-stats-bar-border: rgba(var(--accent-rgb), 0.15);
-  /* Reuses --sidebar-bg (AUX16), already shared with .sidebar/.sb-flyout —
+  /* Reuses --sidebar-bg, already shared with .sidebar/.sb-flyout —
      same background per the pre-existing "body.dark .ach-popup deleted as
      dead code" comment in css/styles.css. */
   --ach-popup-bg: var(--sidebar-bg);
@@ -289,7 +292,7 @@ body[data-theme="lotr"] {
   --ach-popup-shadow: 0 0 50px rgba(var(--accent-rgb), 0.15);
   --dc-word-color: var(--accent);
   --scr-tile-placed-color: #000;
-  /* --mode-card-bg/--modes-panel-bg already exist above (AUX13/AUX12) —
+  /* --mode-card-bg/--modes-panel-bg already exist above —
      the css/styles.css :root/body.dark defaults just supply the missing
      non-fandom fallback for those two, no redeclaration needed here. */
   --mode-card-border: rgba(var(--accent-rgb), 0.15);
@@ -314,7 +317,7 @@ body[data-theme="lotr"] {
   --title-transform: uppercase;
   --title-color: var(--accent);
   --title-shadow: 0 0 12px rgba(var(--accent-rgb), 0.5);
-  /* Reuses --panel-glow-bg (AUX9), already shared with .btn/.gb-block. */
+  /* Reuses --panel-glow-bg, already shared with .btn/.gb-block. */
   --wotd-box-bg: var(--panel-glow-bg);
   --wotd-box-border: rgba(var(--accent-rgb), 0.2);
   --wotd-word-color: var(--accent);
@@ -367,8 +370,8 @@ body[data-theme="lotr"] {
   --btn-achievements-color: #ffd700;
   --btn-achievements-shadow: 0 0 8px rgba(255, 215, 0, 0.25);
   --sb-btn-hover-bg: rgba(var(--accent-rgb), 0.08);
-  --sb-btn-hover-color: var(--profile-name-color); /* same AUX14 value as .profile-btn */
-  --sb-flyout-bg: var(--sidebar-bg); /* same AUX16 value as .sidebar/.ach-popup */
+  --sb-btn-hover-color: var(--profile-name-color); /* same value as .profile-btn */
+  --sb-flyout-bg: var(--sidebar-bg); /* same value as .sidebar/.ach-popup */
   --sb-flyout-border: rgba(var(--accent-rgb), 0.14);
 }
 

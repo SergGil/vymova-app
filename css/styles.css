@@ -69,10 +69,10 @@
   --prf-delete-warn-color: var(--text3);
   --prf-delete-btn-confirm-bg: #e74c3c;
   /* Settings-area single/multi-property fandom clusters (Batch 2).
-     --settings-section-bg reuses the AUX24 name an earlier phase already
+     --settings-section-bg reuses the name an earlier phase already
      gave the fandom side — no :root/body.dark entry existed since the
      base rule used to be a separate literal, not this token.
-     --section-title-color (AUX22) deliberately has NO :root/body.dark
+     --section-title-color deliberately has NO :root/body.dark
      entry here: it's shared by .settings-section-title (base var(--text))
      AND .stats-section-title (base var(--text3)) with different base
      colors, so each consumer reads it with its own CSS fallback
@@ -93,7 +93,7 @@
   --srs-fc-today-shadow: none;
   /* .stats-panel/.stat-card/.page-overlay/.stats-section/.stats-title/
      .sv/.ach-* (Batch 2) — --stats-panel-bg/--stats-panel-shadow/
-     --page-overlay-bg-image/--stat-card-bg reuse existing AUX19/21/20 +
+     --page-overlay-bg-image/--stat-card-bg reuse existing +
      stat-card fandom-only names (already in scripts/theme-template.css's
      root block from an earlier phase); defaults here match each
      component's current base value exactly. --stats-panel-border is new
@@ -133,7 +133,7 @@
      light/dark mode (bg-[#1a1a2e]/text-white container, a fixed "trophy
      popup" identity, not a light/dark bug) — literal default matches that
      fixed look exactly, not var(--text2). .toast-name's fandom color
-     reuses --delete-title-color (AUX26, shared with .prf-delete-title per
+     reuses --delete-title-color (shared with .prf-delete-title per
      scripts/theme-template.css's own comment) via a per-consumer fallback
      instead of a new token, same reasoning as --confirm-btn-bg. */
   --achievement-toast-title-color: #a0a0b0;
@@ -246,7 +246,7 @@
   --goal-done-badge-bg: #27ae60;
   --goal-done-badge-border: none;
   --goal-done-badge-shadow: none;
-  /* Batch 4 (dual-system clusters). --ach-card-bg (AUX29) already existed
+  /* Batch 4 (dual-system clusters). --ach-card-bg already existed
      fandom-side only — adding the missing light/dark defaults here rather
      than a new token name. Its border-color rule applied to EVERY
      .ach-card (locked and unlocked alike), including in fandom mode,
@@ -456,7 +456,7 @@
      body.dark comment). border/shadow default to none/their own pre-
      existing literal (no var() ref, safe as :root-only) since fandom is the
      only state that ever added a glow. .note-panel also reads these same
-     two tokens (AUX25 in scripts/theme-template.css) — Batch 7 cluster 13. */
+     two tokens (in scripts/theme-template.css) — Batch 7 cluster 13. */
   --delete-panel-bg: var(--card);
   --delete-panel-border: none;
   --prf-delete-panel-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
@@ -1859,7 +1859,7 @@ body[data-theme] {
    never theme-touched, just co-located in the same bare rule. */
 /* background/border/box-shadow fully converted to Tailwind (docs/
    component-tailwind-conversion-roadmap.md, post-project audit follow-
-   up) — .pairs-panel shares the exact same tokens (same AUX11 value in
+   up) — .pairs-panel shares the exact same tokens (same value in
    scripts/theme-template.css, same base literal), applied separately in
    each of its own render sites below. */
 .quiz-panel {
@@ -3332,7 +3332,7 @@ body[data-theme]::after {
 /* .ach-progress-fill/.ach-popup-prog-fill's background/box-shadow fully
    converted to Tailwind (docs/component-tailwind-conversion-roadmap.md,
    Batch 7 clusters 10-11) — --ach-progress-fill-bg/--ach-popup-prog-fill-bg
-   (both gradients in fandom — AUX8 — so consumed via [background:var(...)]
+   (both gradients in fandom — so consumed via [background:var(...)]
    shorthand, not bg-[var(...)], to avoid the known bg-[var(x)]-compiles-to-
    background-color-and-drops-the-gradient bug)/-shadow. */
 /* .sidebar's background/border-color fully converted to Tailwind
@@ -3430,7 +3430,7 @@ body.dark {
    .note-textarea's border fully converted (docs/component-tailwind-
    conversion-roadmap.md). .note-panel's background/border fully converted
    (Batch 7 cluster 13, final) — reuses --delete-panel-bg/-border, the
-   same AUX25 pair as .prf-delete-panel/.import-panel. animation shorthand
+   same pair as .prf-delete-panel/.import-panel. animation shorthand
    moved to Tailwind too (docs/full-css-tailwind-migration-roadmap.md
    Tier 2d) — unconditional class, no ancestor/state indirection needed:
    .note-panel's whole modal is conditionally MOUNTED in React (word ===
