@@ -96,6 +96,17 @@ export default defineConfig(({ command }) => ({
   build: {
     outDir: 'dist',
     target: 'esnext',
+    // Silences the generic ">500kB chunk" warning for the two chunk
+    // families that already legitimately exceed it: words-base (~2.5MB,
+    // the eager canonical EN/UA dictionary — architecture-assessment.md
+    // explicitly evaluated and kept this un-split, see the manualChunks
+    // comment below) and the per-language words_<lang>.js chunks
+    // (~1-1.3MB each, but lazy — mode-utils.ts's LANG_LOADERS means a
+    // given visitor only ever downloads their own learn-language's
+    // chunk, never all of them at once). Set just above the current
+    // largest (words-base) so a genuinely new oversized chunk still
+    // warns.
+    chunkSizeWarningLimit: 2600,
     rollupOptions: {
       // Fails the build instead of just warning on Rollup's CIRCULAR_CHUNK —
       // exactly the warning code behind the real "Circular chunk:
