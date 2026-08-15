@@ -835,13 +835,6 @@ select:focus {
   color: var(--accent2);
   font-weight: 600;
 }
-/* Actions */
-.actions {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
 /* .btn's background/border-color/color/transition (base+:hover) and
    :hover's box-shadow fully converted to Tailwind (docs/component-
    tailwind-conversion-roadmap.md, newly-found 14th cluster) —
@@ -1411,12 +1404,6 @@ body[data-theme] {
    converted to Tailwind (docs/component-tailwind-conversion-roadmap.md
    Batch 2). */
 /* ── Рівень у game-bar ── */
-.level-box {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-}
 .level-badge {
   font-size: 0.75rem;
   font-weight: 700;
@@ -1876,21 +1863,10 @@ body[data-theme] {
   display: flex;
   flex-direction: column;
 }
-/* Question block (word + ipa + examples) scrolls internally if needed */
-#quiz-question-wrap {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-}
 /* Reduce question padding on small screens to save space */
 @media (max-height: 600px) {
   .quiz-panel {
     padding: 12px 14px 10px;
-  }
-  #quiz-question-wrap {
-    padding: 12px 12px !important;
   }
 }
 
@@ -3028,8 +3004,15 @@ body[data-theme="hp"] .sidebar-logo {
    JSX (harmless, and tests/features/duel-chat-log.test.tsx and
    duel-chat-panel.test.tsx select by them), they just carry no CSS of
    their own anymore. */
-/* .page-header/.page-inner/.page-title/.title fully converted to Tailwind
-   (docs/component-tailwind-conversion-roadmap.md Batch 2). */
+/* .page-header/.page-title — only their theme-touched properties (border-
+   color, text color/font-family/letter-spacing, all read from CSS custom
+   properties via Tailwind arbitrary values in page-header.tsx) were
+   converted (docs/component-tailwind-conversion-roadmap.md Batch 2); the
+   plain layout/typography below (flex/margins/font-size/font-weight —
+   theme-agnostic, same in every theme) was never a candidate for that
+   batch and stays bare CSS. Corrected 2026-08-15: this comment used to
+   claim "fully converted," which would have wrongly suggested these two
+   rules were dead weight safe to delete. */
 .page-header {
   display: flex;
   justify-content: space-between;
