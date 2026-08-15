@@ -168,7 +168,10 @@ export function DuelModePicker() {
           <ToggleGroupItem
             key={m.id}
             value={m.id}
-            className={'duel-mode-btn h-auto rounded-none bg-transparent' + (active ? ' duel-mode-sel' : '')}
+            className={
+              'duel-mode-btn h-auto flex-col rounded-none bg-transparent' +
+              (active ? ' duel-mode-sel' : '')
+            }
             style={{
               flex: 1,
               minWidth: 90,

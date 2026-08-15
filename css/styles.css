@@ -3950,10 +3950,13 @@ body.dark {
 }
 
 /* ── Inline search — mobile improvements ────────────────────── */
-/* Higher z-index so results appear above other content on mobile */
-.search-results {
-  z-index: 500 !important; /* was 100, needs to be above cards/game-bar */
-}
+/* The pre-Combobox-conversion z-index:500!important rule that used to live
+   here (search-inline.tsx used to be static, non-portaled HTML) is dead —
+   ComboboxContent's own Positioner already sets z-[99999] (Tailwind,
+   layered) on the real portaled ancestor, and this bare/unlayered/
+   !important rule on the shared .search-results class was silently
+   clamping it back down to 500 regardless. Confirmed via computed style
+   (getComputedStyle) before removal: z-index was 500, not 99999. */
 
 @media (max-width: 640px) {
   /* Touch-friendly result items: taller tap targets */
