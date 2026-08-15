@@ -1235,6 +1235,81 @@ body.dark {
   --sim-chip-hover-bg: rgba(0, 200, 100, 0.06);
   --family-chip-bg: var(--card);
 }
+/* Found 2026-08-15: ~55 custom properties below had a body.dark override
+   (above) but were NEVER given a fandom-theme equivalent — neither in
+   css/themes/*.css nor via a body[data-theme=] block here. Under any
+   active fandom theme WITHOUT body.dark also toggled, every one of them
+   silently fell back to its light :root default (wrong "Know" button
+   tint, wrong quiz/tempo/pairs correct/wrong/reveal feedback colors,
+   wrong SRS-badge colors, wrong known-word text color, etc.) — this is
+   the same class of bug as the 13-rule vacuous-body:not(.sw)... fix
+   documented in docs/CHANGELOG.md, just never swept for exhaustively.
+   Reusing the exact body.dark value here (not inventing bespoke
+   per-theme colors) — correct-but-generic beats wrong-and-light; a
+   bespoke per-theme palette for these is a separate, future design
+   task, not a bug fix. See docs/CHANGELOG.md 2026-08-15 for the
+   detection method (script cross-checking every var(--x) used in
+   js/+src/ against all 14 css/themes/*.css files). */
+body[data-theme] {
+  --ach-popup-hint-bg: rgba(255, 255, 255, 0.05);
+  --bg2: #1e2340;
+  --btn-auto-color: #9b59b6;
+  --btn-dontknow-bg: rgba(231, 76, 60, 0.1);
+  --btn-easy-bg: rgba(90, 169, 230, 0.1);
+  --btn-hard-bg: rgba(224, 167, 46, 0.1);
+  --btn-hover-bg: var(--border);
+  --btn-know-bg: rgba(78, 204, 163, 0.1);
+  --btn-modes-open-color: #9b59b6;
+  --btn-modes-open-hover-bg: rgba(155, 89, 182, 0.1);
+  --cat-select-hover-bg: var(--border);
+  --danger: #e74c3c;
+  --etymology-note-bg: rgba(255, 255, 255, 0.04);
+  --gr-chip-bg: rgba(78, 204, 163, 0.12);
+  --gr-minus-bg: rgba(231, 76, 60, 0.1);
+  --gr-note-bg: rgba(231, 76, 60, 0.1);
+  --gr-plus-bg: rgba(39, 174, 96, 0.1);
+  --gr-ques-bg: rgba(52, 152, 219, 0.1);
+  --gr-tip-bg: rgba(243, 156, 18, 0.1);
+  --known-c1: #b8f0cc;
+  --known-c2: #8fd4a8;
+  --known-c3: #4ecca3;
+  --known-c4: #4ecca3;
+  --known-face-border-width: 1.5px;
+  --lesson-tag-bg: rgba(78, 204, 163, 0.15);
+  --mct-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --mct-streak-color: #f39c12;
+  --mistake-panel-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+  --note-display-bg: rgba(255, 255, 255, 0.04);
+  --pair-btn-hover-bg: rgba(155, 89, 182, 0.1);
+  --pair-btn-hover-border: #9b59b6;
+  --pair-btn-selected-bg: rgba(52, 152, 219, 0.12);
+  --pair-btn-selected-border: #5dade2;
+  --pair-matched-bg: rgba(39, 174, 96, 0.15);
+  --pair-matched-color: #4ecca3;
+  --quiz-correct-bg: rgba(39, 174, 96, 0.15);
+  --quiz-correct-color: #4ecca3;
+  --quiz-option-hover-bg: rgba(155, 89, 182, 0.1);
+  --quiz-option-hover-border: #9b59b6;
+  --quiz-reveal-bg: rgba(39, 174, 96, 0.08);
+  --quiz-reveal-color: #4ecca3;
+  --quiz-wrong-bg: rgba(231, 76, 60, 0.12);
+  --quiz-wrong-color: #e74c3c;
+  --search-result-hover-bg: var(--border);
+  --sidebar-logo-border: rgba(245, 225, 180, 0.07);
+  --srs-next-new-bg: rgba(93, 173, 226, 0.1);
+  --srs-next-new-color: #5dade2;
+  --srs-next-ok-bg: rgba(78, 204, 163, 0.1);
+  --srs-next-ok-color: #4ecca3;
+  --srs-next-over-bg: rgba(231, 76, 60, 0.12);
+  --srs-next-soon-bg: rgba(240, 165, 0, 0.1);
+  --srs-next-soon-color: #f0a500;
+  --success: #2ecc71;
+  --tempo-correct-bg: rgba(39, 174, 96, 0.15);
+  --tempo-correct-color: #4ecca3;
+  --tempo-wrong-bg: rgba(231, 76, 60, 0.12);
+  --tempo-wrong-color: #e74c3c;
+  --wac-hover-bg: rgba(255, 255, 255, 0.06);
+}
 /* body.dark .game-bar/select/.btn (background/color/border-color
    re-asserting the exact var(--card)/var(--text)/var(--border) the base
    rules already resolve to in dark mode) deleted as dead code — confirmed
@@ -4064,9 +4139,13 @@ body.dark {
   --cefr-c1-bg: rgba(231, 76, 60, 0.1);
   --cefr-c2-bg: rgba(142, 68, 173, 0.1);
 }
+/* Widened 2026-08-15 from body.dark+sw+hp only (the original pilot's 2 test
+   themes) to all 14 fandom themes — the narrower scope was never a
+   deliberate per-theme design choice, just the pilot's test surface; the
+   other 12 themes fell back to the light default the same way the ~55
+   tokens above this file's CEFR section did (see that block's comment). */
 body.dark,
-body[data-theme="sw"],
-body[data-theme="hp"] {
+body[data-theme] {
   --cefr-a1-bg: rgba(39, 174, 96, 0.18);
   --cefr-a2-bg: rgba(46, 204, 113, 0.15);
   --cefr-b1-bg: rgba(241, 196, 15, 0.18);
