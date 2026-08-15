@@ -1,6 +1,6 @@
 {
   "name": "vymova",
-  "version": "1.401.142",
+  "version": "1.401.143",
   "type": "module",
   "main": "public/sw.js",
   "engines": {
@@ -74,7 +74,8 @@
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.6.0",
     "three": "^0.185.1",
-    "zod": "^4.4.3"
+    "zod": "^4.4.3",
+    "zustand": "^5.0.15"
   },
   "allowScripts": {
     "@firebase/util@1.15.2": true,
