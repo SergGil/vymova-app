@@ -11,9 +11,13 @@ concurrency:
   group: deploy-worker
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4

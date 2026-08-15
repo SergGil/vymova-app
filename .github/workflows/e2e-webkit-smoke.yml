@@ -31,8 +31,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages['node_modules/@playwright/test'].version)")" >> "$GITHUB_ENV"
+
+      - name: Cache Playwright browser binaries
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-webkit-${{ env.PLAYWRIGHT_VERSION }}
+
       - name: Install Playwright WebKit
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps webkit
+
+      - name: Install Playwright OS dependencies only
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps webkit
 
       - name: Run pages-smoke on WebKit
         run: npx playwright test --project=webkit-smoke --reporter=list
